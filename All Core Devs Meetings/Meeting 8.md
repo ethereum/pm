@@ -28,7 +28,7 @@ It was discussed whether a 5x increase in cost was enough. Benchmarks indicated 
 ### Replay attack protection
 Three proposals discussed:
    1. EIP 134 (include a blockhash in an RLP field of each tx)
-   2. EIP 155 (inlude a `CHAIN_ID` as a factor in the `v` value of the EDCSA signature scheme and in the tx hash)
+   2. EIP 155 (include a `CHAIN_ID` as a factor in the `v` value of the EDCSA signature scheme and in the tx hash)
    3. EIP 166 (include a `CHAIN_ID` in the high-order bits of the tx nonce)
    
 In deciding which replay protection scheme to adopt, the trade-offs between these three proposals were discussed. EIP 134 was rejected because it adds 32 bytes of data to each transaction. Both EIP 150 and EIP 166 were agreed to be equally simple in their implementation complexity, but EIP 166 (which was already provisionally [implemented in geth](https://github.com/ethereum/go-ethereum/pull/3179/commits/53510dd70af80dc9d14cd219ddcdd559f8bf7f10)) requires an additional byte of data for each transaction, whereas EIP155 does not add any data to transactions. On the other hand, EIP155 modifies ECDSA signature inputs, and one concern with modifying signature inputs is that when Hardware Security Modules (HSMs) are used for signing transactions, HSM firmware may need to be updated for those transactions to be replay protected. Since EIP 166 does not modify signature inputs, it can be argued that EIP 166 is a "cleaner" separation of concerns. And while the increased data usage of EIP 166 could be remedied with a compression scheme, in the interest of practicality, minimal data usage, and avoiding further postponement of replay protection, core developers' indicated there was a preference for adopting EIP 155 in the upcoming hard fork.
