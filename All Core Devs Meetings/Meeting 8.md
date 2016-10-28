@@ -27,7 +27,7 @@ EIP 158 and 161 are now equivalent, after changes were made to 158. 161 will be 
 It was discussed whether a 5x increase in cost was enough. Benchmarks indicated that EXP is 4-8 times underpriced. It was decided that a 5x increase is sufficient for now and it may be increased in the Metropolis hard fork after more analysis. There are ongoing efforts to work on better benchmarking tools which will help determine future OPCODE pricing changes.
 ### Replay attack protection
 Three proposals discussed:
-   1. EIP 134 (includ a blockhash in an RLP field of each tx)
+   1. EIP 134 (include a blockhash in an RLP field of each tx)
    2. EIP 155 (inlude a `CHAIN_ID` as a factor in the `v` value of the EDCSA signature scheme and in the tx hash)
    3. EIP 166 (include a `CHAIN_ID` in the high-order bits of the tx nonce)
    
