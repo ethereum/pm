@@ -38,7 +38,7 @@ Block number for hard fork will be decided on Monday.
 
 ## 2. EIP/ERC GitHub Organization
 ###Improvement Discussion
-Hudson will clean up the EIPs and continue dialog about what to change in the repo.
+Hudson and other editors will clean up the EIPs and continue dialog about what to change in the repo.
 
 ## Non-agenda
 Future meetings will start being held twice monthly in order to process EIPs more quickly. We will likely have a set time/date (such as every other Monday) to prevent the added complexity of using Doodle's to ask a bunch of people what time works best for them.
