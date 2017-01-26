@@ -33,7 +33,7 @@ This EIP has been discussed in previous meetings and received general consensus.
 
 ## 2. EIP 196: Precompiles for elliptic curve point addition, elliptic curve scalar multiplication and pairing
 
-Christian: I propose adding pre-compiles to enable zk-SNARKS on Ethereum. Although the research team tried to keep the precompiles flexible and have the ability to enable other curves, generally there are no generic ways to do that. I propose to implement precompiles for elliptic curve for ZCash. In particular, elliptic curve point addition, elliptic curve scalar multiplication, and a pairing function precompiles. Pairing function is complicated that takes 2 points on 2 different elliptic curves and maps them onto a finite field. We could run into representative problems. There is not a unique way to run into elements of these sets. Instead of implementing the pairing function, we can implement a pairing checker which will return true/false depending on if the result is the identity or not in the target group. This will greatly reduce complexity. Todo: Decide on an encoding for points for these 2 elliptic curves and assign gas costs.
+Christian: I propose adding pre-compiles to enable zk-SNARKS on Ethereum. Although the research team tried to keep the precompiles flexible and have the ability to enable other curves, generally there are no generic ways to do that. I propose to implement precompiles for elliptic curve for ZCash. In particular, elliptic curve point addition, elliptic curve scalar multiplication, and a pairing function precompiles. Pairing function is complicated that takes 2 points on 2 different elliptic curves and maps them onto a finite field. We could run into representation problems. There is not a unique way to represent elements of these sets. Instead of implementing the pairing function, we can implement a pairing checker which will return true/false depending on if the result is the identity or not in the target group. This will greatly reduce complexity. Todo: Decide on an encoding for points for these 2 elliptic curves and assign gas costs.
 Vitalik: If we want to make the sum of the precompiles slighty more generic, we can make the addition and multiplication support any curves that have have any b param. So the b param will be 0, but the b can be anything. This is also is nice because it also covers the curve we use already for ECC recover. It might even be 0 complexity.
 Christian: So you're saying you can make the elliptic curve operations more generic, but not the pairings?
 Vitalik: I'll need to check. One thing worth adding is that you can view the implementation in Rust.
@@ -100,7 +100,7 @@ Support for this, let's move forward. Jeff has some suggestions and will comment
 New opcodes similar to CALL but with restrictions.
 - no state modifications (static call)
 - no state reads either (pure call)
-  (Vitalik: prefer CALLBALACKBOX)
+  (Vitalik: prefer CALLBLACKBOX)
 - other kinds of restrictions?  need to explore possible combinations
 
 Alternative to an additional opcode(s), consolidate *CALL into [INTERRUPT](https://github.com/ethereum/EIPs/wiki/EIP-%3F%3F%3F:-merge-opcodes-CALL-CALLCODE-DELEGATECALL-and-rename-to-INT), taking flags as arguments to change behavior.However, behavior changing flags make static analysis more difficult.
