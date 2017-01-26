@@ -126,4 +126,4 @@ Full details at https://github.com/ethereum/EIPs/pull/183.
 
 ## Attendance
 
-Alex Beregszaszi (Solidity), Arkadiy Paronyan (Parity), Alex Van de Sande (Mist/Ethereum Wallet), Anton Nashatyrev (ethereumJ), Casey Detrio (Volunteer), Christian Reitwiessner (cpp-ethereum), Dimitry Khokhlov (cpp-ethereum), Greg Colvin (EVM), Hudson Jameson (Ethereum Foundation), Jan Xie (ruby-ethereum & pyethereum), Jeffrey Wilcke (geth), Kumavis (MetaMask), Roman Mandeleil (ethereumJ), Martin Becze (Research/EthereumJS), Martin Holst Swende (security), Nick Johnson (geth/SWARM), Vitalik Buterin (Research & pyethereum), Yoichi Hirai (EVM)
+Alex Beregszaszi (EWASM), Arkadiy Paronyan (Parity), Alex Van de Sande (Mist/Ethereum Wallet), Anton Nashatyrev (ethereumJ), Casey Detrio (Volunteer), Christian Reitwiessner (cpp-ethereum/Solidity), Dimitry Khokhlov (cpp-ethereum), Greg Colvin (EVM), Hudson Jameson (Ethereum Foundation), Jan Xie (ruby-ethereum & pyethereum), Jeffrey Wilcke (geth), Kumavis (MetaMask), Roman Mandeleil (ethereumJ), Martin Becze (EWASM/EthereumJS), Martin Holst Swende (security), Nick Johnson (geth/SWARM), Vitalik Buterin (Research & pyethereum), Yoichi Hirai (EVM)
