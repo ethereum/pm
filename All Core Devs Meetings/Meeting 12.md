@@ -36,7 +36,7 @@ Peter: At some point, there was a bug in both parity/go clients that caused a mi
 Yoichi: YP currently has an exception for pre-compiles that even when an OOG call happens they are touched and the state is created.
 Martin: How can this be a problem on private networks?
 Yoichi: This is only a problem if they create private networks with homestead rules. People can start networks with pre-Spurious Dragon rules with empty accounts. That is the only case.
-Vitalik: Imo over time we should be supporting old features for people making private networks for people with pre-Spurious Dragon rules.
+Vitalik: Imo over time we should deprecate features for people making private networks for people with pre-Spurious Dragon rules.
 Martin: Should it be assumed that hard forks are dependent on each other?
 Peter: There have been discussions on this and the potential for people to be able to jump around various soft forks to implement certain features from different forks, but this could cause major complications and unforeseen dependencies between hard forks.
 Christian: Yeah, cpp-ethereum is designed with the assumption of strictly ascending hard forks.
