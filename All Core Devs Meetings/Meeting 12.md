@@ -3,11 +3,11 @@
 ## [Audio/Video of Meeting](https://youtu.be/g2gsYRlThD4)
 
 ### Agenda:
-1. EIP signaling and voting system update [Facilitator: Hudson]
-2. https://github.com/ethereum/EIPs/issues/225: Clique PoA protocol & Rinkeby PoA testnet [Facilitator: Peter]
-3. https://github.com/ethereum/EIPs/pull/214#issuecomment-279423401: In STATICCALL Opcode should state-changing operations should actually throw, or just be reverted after the call returns? [Facilitator: Nick and/or Martin]
-4. [EIP 161](https://github.com/ethereum/EIPs/issues/161) Clarification and Proposal to update the YP to say that built-in accounts (pre-compiles) are never empty and update implementations based on that. [Facilitator: Arkadiy and Yoichi]
-5. Metropolis updates and finding a central location to document which EIPs are going into Metro.
+1. [[3:59](https://youtu.be/g2gsYRlThD4?t=239)] EIP signaling and voting system update [Facilitator: Hudson]
+2. [[6:02](https://youtu.be/g2gsYRlThD4?t=362)] https://github.com/ethereum/EIPs/issues/225: Clique PoA protocol & Rinkeby PoA testnet [Facilitator: Peter]
+  3. [[12:25](https://youtu.be/g2gsYRlThD4?t=745)] https://github.com/ethereum/EIPs/pull/214#issuecomment-279423401: In STATICCALL Opcode should state-changing operations should actually throw, or just be reverted after the call returns? [Facilitator: Nick and/or Martin]
+4. [[29:19](https://youtu.be/g2gsYRlThD4?t=1759)] [EIP 161](https://github.com/ethereum/EIPs/issues/161) Clarification and Proposal to update the YP to say that built-in accounts (pre-compiles) are never empty and update implementations based on that. [Facilitator: Arkadiy and Yoichi]
+5.  [[43:13](https://youtu.be/g2gsYRlThD4?t=2593)] Metropolis updates and finding a central location to document which EIPs are going into Metro.
 
 # Notes
 ## 1. EIP Signaling/Voting System [Hudson]
