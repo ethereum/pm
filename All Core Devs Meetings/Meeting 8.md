@@ -22,7 +22,7 @@
 # Notes
 ## 1. Upcoming HF to clear out state + potentially other changes.
 ### Clearing out state
-EIP 158 and 161 are now equivalent, after changes were made to 158. 161 will be implemented. Test cases are located here (feel free to add more)(https://etherpad.net/p/EIP158). Currently we have the state bloat because there are many empty accounts. The hard fork will change the database encoding of empty accounts so that they are not present at all anymore, but the encoding only affects accounts that are "touched" by transactions. After the hard fork the Ethereum Foundation will fund the transaction(s) neccessary to clear the empty accounts.
+EIP 158 and 161 are now equivalent, after changes were made to 158. 161 will be implemented. Test cases are located here [feel free to add more](https://etherpad.net/p/EIP158). Currently we have the state bloat because there are many empty accounts. The hard fork will change the database encoding of empty accounts so that they are not present at all anymore, but the encoding only affects accounts that are "touched" by transactions. After the hard fork the Ethereum Foundation will fund the transaction(s) neccessary to clear the empty accounts.
 ### EXP Cost Increase
 It was discussed whether a 5x increase in cost was enough. Benchmarks indicated that EXP is 4-8 times underpriced. It was decided that a 5x increase is sufficient for now and it may be increased in the Metropolis hard fork after more analysis. There are ongoing efforts to work on better benchmarking tools which will help determine future OPCODE pricing changes.
 ### Replay attack protection
