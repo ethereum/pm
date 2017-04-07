@@ -8,14 +8,14 @@
 2. Come to final agreement on [EIP 196](https://github.com/ethereum/EIPs/issues/196): EC addition and scalar multiplication on the elliptic curve `alt_bn128`, to be used in zk-SNARK verification. [Facilitator: Christian]
 3. Update on [EIP 197](https://github.com/ethereum/EIPs/issues/197) for EC pairing precompile [Facilitator: Christian]
 4. Metropolis and associated EIPs. [Facilitator: Vitalik/Christian]
-* [EIP 5/8](https://github.com/ethereum/EIPs/issues/8): Gas costs for return values [Facilitator: Christian]
-* [EIP 86](https://github.com/ethereum/EIPs/issues/86): Proposed initial abstraction changes for Metropolis  [Facilitator: Vitalik]
-* [EIP 96: putting block hashes and state roots into the state](https://github.com/ethereum/EIPs/issues/98)  [Facilitator: Vitalik]
-* [EIP 100: uncle mining incentive fix](https://github.com/ethereum/EIPs/issues/100)  [Facilitator: Vitalik]  
-* EIPs [196](https://github.com/ethereum/EIPs/issues/196) & [197](https://github.com/ethereum/EIPs/issues/197): pairings [Facilitator: Christian/Vitalik]
-* [EIP 198: bigint arithmetic](https://github.com/ethereum/EIPs/pull/198)  [Facilitator: Vitalik]
-* ethereum/EIPs#206: Revert OPCODE and  ethereum/EIPs#207: Encoding of revert OPCODE [Facilitator: Vitalik]
-5. STATIC_CALL: ethereum/EIPs#116 follow-up. [Facilitator: Christian]
+   * [EIP 5/8](https://github.com/ethereum/EIPs/issues/8): Gas costs for return values [Facilitator: Christian]
+   * [EIP 86](https://github.com/ethereum/EIPs/issues/86): Proposed initial abstraction changes for Metropolis  [Facilitator: Vitalik]
+   * [EIP 96](https://github.com/ethereum/EIPs/issues/98): putting block hashes and state roots into the state  [Facilitator: Vitalik]
+   * [EIP 100](https://github.com/ethereum/EIPs/issues/100): uncle mining incentive fix  [Facilitator: Vitalik]  
+   * EIPs [196](https://github.com/ethereum/EIPs/issues/196) & [197](https://github.com/ethereum/EIPs/issues/197): pairings [Facilitator: Christian/Vitalik]
+   * [EIP 198](https://github.com/ethereum/EIPs/pull/198): bigint arithmetic  [Facilitator: Vitalik]
+   * [EIP 206](https://github.com/ethereum/EIPs/pull/206): Revert OPCODE and [EIP207](https://github.com/ethereum/EIPs/pull/207): Encoding of revert OPCODE [Facilitator: Vitalik]
+5. [EIP 116](https://github.com/ethereum/EIPs/issues/116): New opcode `STATIC_CALL` follow-up. [Facilitator: Christian]
 
 # Notes
 
