@@ -12,7 +12,7 @@
    * [EIP 86](https://github.com/ethereum/EIPs/issues/86): Proposed initial abstraction changes for Metropolis  [Facilitator: Vitalik]
    * [EIP 96](https://github.com/ethereum/EIPs/issues/98): putting block hashes and state roots into the state  [Facilitator: Vitalik]
    * [EIP 100](https://github.com/ethereum/EIPs/issues/100): uncle mining incentive fix  [Facilitator: Vitalik]  
-   * EIPs [196](https://github.com/ethereum/EIPs/issues/196) & [197](https://github.com/ethereum/EIPs/issues/197): pairings [Facilitator: Christian/Vitalik]
+   * [EIP 196](https://github.com/ethereum/EIPs/issues/196) & [EIP 197](https://github.com/ethereum/EIPs/issues/197): pairings [Facilitator: Christian/Vitalik]
    * [EIP 198](https://github.com/ethereum/EIPs/pull/198): bigint arithmetic  [Facilitator: Vitalik]
    * [EIP 206](https://github.com/ethereum/EIPs/pull/206): Revert OPCODE and [EIP207](https://github.com/ethereum/EIPs/pull/207): Encoding of revert OPCODE [Facilitator: Vitalik]
 5. [EIP 116](https://github.com/ethereum/EIPs/issues/116): New opcode `STATIC_CALL` follow-up. [Facilitator: Christian]
@@ -48,14 +48,14 @@ that can access return data even if return area size was specified as zero
 - Decided to try and resolve offline rather than on-call.
 
 ### EIP 86: account abstraction:
-- Allow new type of transaction with signature is 000, taken to be valid, sender address assumed to be 0xff..f
-- Type of transaction where instead of the account, there's a destination, which is a forwarding contract. The forwarding contract then checks the transaction data for a signature, and if valid, passes the transaction along to the next place..
+- Allow a new type of transaction with signature 000000, sender address assumed to be 0xff..f
+- Type of transaction where instead of the account, there's a destination, which is assumed to be a forwarding contract. The forwarding contract checks the transaction data for a signature, and if this signature is valid (according to rules defined in the forwarding contract), the transaction is passed along to its intended destination.
    - abstract away account security
    - abstract away nonces
    - allows contracts to pay for gas
 
 Things to be done:
-- Items 2 & 3 in EIP86 (get rid of things based on sender and nonce, and instead based on code and sender)
+- Items 2 & 3 in EIP86 (get rid of things based on sender and nonce, and instead base on code and sender)
 - Implement new opcode
 - extra protocol things:
    - logic in miner and logic in transaction propagating nodes
