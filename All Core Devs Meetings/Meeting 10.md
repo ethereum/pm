@@ -1,6 +1,6 @@
 # All Core Devs: Meeting 10
 ## Time: 2/10/2017 14:00PM UTC (Date shifted due to EdCon)
-##[Audio of Meeting](https://youtu.be/huYl7eOlKJE)
+## [Audio of Meeting](https://youtu.be/huYl7eOlKJE)
 
 ### Agenda:
 1. New EIP GitHub process and cleanup. [Facilitator: Hudson]
