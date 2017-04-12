@@ -14,16 +14,15 @@
 
 ## 1. Resolution for STATICCALL, PURECALL, REVERT Opcode, & Dynamic Return Discussion [Core Devs]
 
-Related EIPS: (https://github.com/ethereum/EIPs/pull/214, https://github.com/ethereum/EIPs/pull/195, https://github.com/ethereum/EIPs/pull/207, https://github.com/ethereum/EIPs/pull/211)
+Related EIPS: (https://github.com/ethereum/EIPs/pull/214, https://github.com/ethereum/EIPs/pull/195, https://github.com/ethereum/EIPs/pull/206, https://github.com/ethereum/EIPs/pull/211)
 
 The parties interested in coming to a resolution on what EIPs from the list above to include were added to a Skype discussion and have come to the following conclusions:
 
 - Withdraw [EIP 5: Gas Usage for RETURN and CALL*](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-5.md) in favor of [EIP 211](https://github.com/ethereum/EIPs/pull/211).
 - Withdraw [EIP 195: PURE_CALL](https://github.com/ethereum/EIPs/pull/195) in favor of other EIPs.
-- Include [EIP 214: STATIC_CALL](https://github.com/ethereum/EIPs/pull/214)
+- Include [EIP 206: REVERT](https://github.com/ethereum/EIPs/pull/206)
 - Include [EIP 211: RETURNDATACOPY and RETURNDATASIZE](https://github.com/ethereum/EIPs/pull/211)
-https://github.com/ethereum/EIPs/pull/211
-- Include [EIP 207: REVERT](https://github.com/ethereum/EIPs/pull/207)
+- Include [EIP 214: STATIC_CALL](https://github.com/ethereum/EIPs/pull/214)
 
 Christian R.: 
 It was suggested that we clear the RETURNDATA buffer on the first memory resize ([raised by Gavin in the EIP 211](https://github.com/ethereum/EIPs/pull/211)).
