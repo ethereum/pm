@@ -4,14 +4,14 @@
 
 ### Agenda:
 
-1. [[0:12](https://youtu.be/PGi0vBxDPHY?t=12)] [EIP 186: Reduce ETH issuance before proof-of-stake](https://github.com/ethereum/EIPs/issues/186). ([Carbonvote link](http://www.carbonvote.com/?p1=1), [Reddit thread #1](https://www.reddit.com/r/ethereum/comments/5lb684/eip186_to_decrease_eth_issuance_by_3x/), [Reddit thread #2](https://www.reddit.com/r/ethereum/comments/60c2my/carbonvote_set_up_for_eip186/)).
+1. [[0:12](https://youtu.be/PGi0vBxDPHY?t=12)] [EIP 186: Reduce ETH issuance before proof-of-stake](https://github.com/ethereum/EIPs/issues/186). ([Carbonvote link](http://www.carbonvote.com/?p1=1), [Reddit thread #1](https://www.reddit.com/r/ethereum/comments/5lb684/eip186_to_decrease_eth_issuance_by_3x/), [Reddit thread #2](https://www.reddit.com/r/ethereum/comments/60c2my/carbonvote_set_up_for_eip186/)) [Core Devs]
 
-2. [[5:14](https://youtu.be/PGi0vBxDPHY?t=314)] About [EIP 86 (a.k.a EIP-208)](https://github.com/ethereum/EIPs/pull/208), there is a difference between the EIP pull-request and the implementations. Which should be fixed? Also, some EIPS (212, 213, and 96) are not specific enough to form specs yet. Who can update those?
+2. [[5:14](https://youtu.be/PGi0vBxDPHY?t=314)] About [EIP 86 (a.k.a EIP-208)](https://github.com/ethereum/EIPs/pull/208), there is a difference between the EIP pull-request and the implementations. Which should be fixed? Also, some EIPS (212, 213, and 96) are not specific enough to form specs yet. Who can update those? [Yoichi]
 3. [[20:56](https://youtu.be/PGi0vBxDPHY)] [EIP 98: removing medstate from receipts](https://github.com/ethereum/EIPs/pull/98) - go & cpp implemented option 2, Parity seems to have went with option 1 [Andrei]
 
 4. [[25:35](https://youtu.be/PGi0vBxDPHY?t=1535)] Metropolis updates - specifically an update on where each client is at in implementation and an update on the tests. Some accepted EIPs are not yet specific enough to form a protocol consensus. What is the next action by whom?
 
-5. [[38:52](https://youtu.be/PGi0vBxDPHY?t=2331)] [EIP 599: 'Valid until block' field for transactions](https://github.com/ethereum/EIPs/pull/599)
+5. [[38:52](https://youtu.be/PGi0vBxDPHY?t=2331)] [EIP 599: 'Valid until block' field for transactions](https://github.com/ethereum/EIPs/pull/599) [Nick]
 
 # Notes
 ### Thank you to http://www.etherworld.co/ for the detailed transcript.
@@ -37,7 +37,7 @@ Martin: I am just saying, keep the uncontroversial hardfork as uncontroversial a
 Hudson: Yeah, I would tend to agree with that. Next agenda item is one Yoichi brought up - EIP 86; which is talking about the instructions. He was saying that there are discrepancies between the EIP poll request as written and the implementation across clients. Yoichi, do you want to expand on that a little bit?
 
 
-## 2. About EIP86 (a.k.a EIP-208), there is a difference between the EIP pull-request and the implementations. Which should be fixed?
+## 2. About EIP86 (a.k.a EIP-208), there is a difference between the EIP pull-request and the implementations. Which should be fixed? [Yoichi]
 
 Yoichi: Yes, this EIP is about account abstraction and as part of that specification point 3 talks about changing the way it calculates the address of new contracts. The interesting thing is it only talks about create, transactions but not create instructions. So, when the EVM hits the create instructions, it creates something but it’s not the create instruction. So, there is some ambiguity if this EIP changes both create transaction and the create instruction or it does just change the create transaction and we keep the create instruction as it is? Literally the EIP text looks like it changes only the create transactions not instructions but other implementations I saw, I kind of agreed on changing both, specially the create instructions. So, I need some clarification, which way we are following?
 
@@ -197,7 +197,7 @@ Hudson: Sounds good to me.
 
 Vitalik: Just from ice age standpoint, difficulty continues to go up that continues to make a later launch of Metropolis more tolerable by at least a couple of weeks. If we get out the fork by June 25, 2017 and hash power stays as it is now then block time will not go above 19s.
 
-## 5. [EIP 599: 'Valid until block' field for transactions](https://github.com/ethereum/EIPs/pull/599)
+## 5. [EIP 599: 'Valid until block' field for transactions](https://github.com/ethereum/EIPs/pull/599) [Nick]
 
 Hudson: Nick, you want to talk about EIP 599?
 
