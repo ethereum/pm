@@ -10,7 +10,7 @@
 
 1. Metropolis updates/EIPs.
   **a. Any "subtleties" or questions we need to work out.**
-          - [EIP #603: Add ECADD and ECMUL precompiles for secp256k1](https://github.com/ethereum/EIPs/issues/603). See [this comment](https://github.com/ethereum/pm/issues/22#issuecomment-326927267) for details and request to add to Constantinople. [Matthew D.]
+      - [EIP #603: Add ECADD and ECMUL precompiles for secp256k1](https://github.com/ethereum/EIPs/issues/603). See [this comment](https://github.com/ethereum/pm/issues/22#issuecomment-326927267) for details and request to add to Constantinople. [Matthew D.]
   **b. Updates to testing.**
         1.  status/statusCode in receipts (eth rpc) [Arkidiy/Martin H.S]
         2. Hive tests update.
