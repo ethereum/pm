@@ -2,7 +2,8 @@
 ### Meeting Date/Time: Friday 6/16/17 at 14:00 UTC
 ### Meeting Duration 1.5 hours
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=8jWhPylWros)
-# Agenda
+### [Reddit thread](https://www.reddit.com/r/ethereum/comments/6hkpl9/live_stream_in_8_hours_ethereum_core_developers/)
+# [Agenda](https://github.com/ethereum/pm/issues/16)
 
 
 #### Metropolis updates/EIPs.
