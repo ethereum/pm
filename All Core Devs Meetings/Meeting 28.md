@@ -17,10 +17,10 @@
 # Notes (Hudson)
 Video starts at [7:42](https://youtu.be/8S-MEGYq_CI?t=462)
 
-## [8:35](https://youtu.be/8S-MEGYq_CI?t=515) 1. Testing
+## [[8:35](https://youtu.be/8S-MEGYq_CI?t=515)] 1. Testing
 Some test cases in the Google spreadsheet were not updated with the ones in the repository so that has started to be corrected.
 
-## [9:44](https://youtu.be/8S-MEGYq_CI?t=584) 2. Byzantium Fork Review
+## [[9:44](https://youtu.be/8S-MEGYq_CI?t=584)] 2. Byzantium Fork Review
 
 ### a. Group to write EIP for future HF guidelines (Discussion from Devcon)
 
@@ -29,11 +29,11 @@ Meeting was held during Devcon3 where we talked about the Byzantium release, iss
 ### b. Move EIPs activated Byzantium to Finalized
 We are still working on this
 
-## [24:43](https://youtu.be/8S-MEGYq_CI?t=1483) 3. POA Testnet Unification
+## [[24:43](https://youtu.be/8S-MEGYq_CI?t=1483)] 3. POA Testnet Unification
 
 Piper wants to form a small group of core devs (from Parity, Go, and Casper research team at minimum) to discuss a cross-client POA testnet. We discussed the current POA testnets (Kovan for Parity and Rinkeby for geth). An idea was floated to maybe have the next cross-platform testnet to be based on Casper to help test it.
 
-## [39:49](https://youtu.be/8S-MEGYq_CI?t=2389) 4. Core team updates.
+## [[39:49](https://youtu.be/8S-MEGYq_CI?t=2389)] 4. Core team updates.
 
 - geth - Felix is finalizing an EIP for the new discovery protocol which will help clients find each other (not necessarily go only, but an interesting development)
 - cpp-ethereum - No updates.
@@ -44,7 +44,7 @@ Piper wants to form a small group of core devs (from Parity, Go, and Casper rese
 - pyethapp - Python3 compatibility.
 - KEVM specification - Yoichi is working on this as well as a Casper accountability safety proof.
 
-## [46:38](https://youtu.be/8S-MEGYq_CI?t=2798) 5. High-level overview of what's planned for Constantinople.
+## [[46:38](https://youtu.be/8S-MEGYq_CI?t=2798)] 5. High-level overview of what's planned for Constantinople.
 EIPs that would enable state size control measures such as dust account clearing are being considered. We need to perform some analysis on what the effects of this would be for the state size. This may be a good time to reduce gas cost for pre-compiles using an EIP. Account abstraction is still tentatively on the roadmap.
 Two biggest questions around this are:
 1. Do we need to change the nonce scheme in transactions?
@@ -52,7 +52,7 @@ Two biggest questions around this are:
 Much of the potential changes to transaction formats need to have multiple parties involved including software and hardware wallets.
 Technical details on the above can be viewed in the video.
 
-## [58:25](https://youtu.be/8S-MEGYq_CI?t=3505) Other Stuff
+## [[58:25](https://youtu.be/8S-MEGYq_CI?t=3505)] Other Stuff
 
 ### Ether recovery/rescue options
 Currently Parity is taking point on formalizing and will release public proposals, like in the form of EIPs, to attempt to resolve the locked funds issue. Until that happens it will likely not be discussed in a core dev meeting.
