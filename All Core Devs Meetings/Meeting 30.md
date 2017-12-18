@@ -1,4 +1,4 @@
-# Ethereum Core Devs Meeting 30 Agenda
+# Ethereum Core Devs Meeting 30 Notes
 ### Meeting Date/Time: Friday 12/15/17 at 14:00 UTC
 ### Meeting Duration: 1 hour
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/28)
