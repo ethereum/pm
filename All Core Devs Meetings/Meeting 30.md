@@ -24,7 +24,7 @@
 Please provide comments to add or correct agenda topics.
 
 # Notes
-Video starts at [[]()].
+Video starts at [[00:03](https://youtu.be/naPA7tjrgsk?t=3)].
 
 ## [[00:33](https://youtu.be/naPA7tjrgsk?t=33)] & [[22:37](https://youtu.be/naPA7tjrgsk?t=1357)] 1. Testing Updates
 Yoichi is doing some clean-up of Byzantium test cases. Dimitry is currently working on changing the test source format into YAML. Final tests will still be JSON, this only affects the test source. Those who write tests can use YAML and use multi-line contract source code and write comments.
@@ -34,7 +34,7 @@ Yoichi is doing some clean-up of Byzantium test cases. Dimitry is currently work
 ### [[1:22](https://youtu.be/naPA7tjrgsk?t=82)] a. Why did this happen and what solutions are available to prevent future network congestion? See comments below for some ideas.
 The gas limit was 6.7 million and crypto kitties used 1-2 million gas per block worth of demand. Usage pushed the transaction fees higher due to demand. Miners upped the gas limit a bit, but usage has grown even more and we are now at an 8 million gas limit and blocks are basically full.
 
-### [[2:20](https://youtu.be/naPA7tjrgsk?t=140)]b. [Stateless Clients proposal](https://github.com/ethereum/pm/issues/28#issuecomment-349676284).
+### [[2:20](https://youtu.be/naPA7tjrgsk?t=140)] b. [Stateless Clients proposal](https://github.com/ethereum/pm/issues/28#issuecomment-349676284).
 [Alexey Akhunov](https://github.com/AlexeyAkhunov) [described a stateless protocol design](https://medium.com/@akhounov/how-to-speed-up-ethereum-in-the-face-of-crypto-kitties-7a9c901d98e9). Vitalik has [been pushing the stateless protocol paradigm](https://medium.com/@VitalikButerin/regarding-bandwidth-requirements-for-stateless-clients-i-can-give-some-precise-numbers-be357fb69b6d) a lot because it is the direction they are looking at for sharding research. Stateless clients means that instead of the client storing the entire state the client would just store the state root and it would be the responsibility of the miners or transaction senders to package up with the block or the transaction the witness blocks. Witness blocks contain merkle branches that prove that all of the parts of the state required for processing all transactions in that block, and computing the next state root. Although this is theoretically viable, it would require a lot of substantial changes to gas costs and other factors [described here](https://medium.com/@VitalikButerin/regarding-bandwidth-requirements-for-stateless-clients-i-can-give-some-precise-numbers-be357fb69b6d). Other optimizations include the making it so we can access Patricia tree nodes in parallel and bumping cache sizes.
 Low effort scaling solutions could potentially be included in Constantinople.
 
@@ -90,4 +90,4 @@ No updates.
 
 ## Attendance
 
-Afri Schoedon (Parity), Alex Beregszaszi (EWASM/Solidity), Alex Van de Sande (Mist/Ethereum Wallet), Andrei Maiboroda (cpp-ethereum), Anton Nashatyrev (ethereumJ), Ben Edgington (Consensys/Pegasys), Casey Detrio (Volunteer), Christian Reitwiessner (cpp-ethereum/Solidity), Daejun Park (KEVM), Daniel Ellison (Consensys/LLL), Dimitry Khokhlov (cpp-ethereum), Everett Hildenbrandt (), Hudson Jameson (Ethereum Foundation), Jared Wasinger (ethereumJS and Testing), Jutta S (), Lefteris Karapetsas (Raiden), Marek Kotewicz (Parity), Martin Holst Swende (geth/security), Mikhail Kalinin (Harmony), Nick Johnson (geth), Paweł Bylica (cpp-ethereum), Péter Szilágyi (geth), Philip Daian (), Piper Merriam (pyEVM),  Vitalik Buterin (Research), Yoichi Hirai (EVM)
+Afri Schoedon (Parity), Alex Beregszaszi (EWASM/Solidity), Alex Van de Sande (Mist/Ethereum Wallet), Andrei Maiboroda (cpp-ethereum), Anton Nashatyrev (ethereumJ), Ben Edgington (Consensys/Pegasys), Casey Detrio (Volunteer), Christian Reitwiessner (cpp-ethereum/Solidity), Daejun Park (KEVM), Daniel Ellison (Consensys/LLL), Dimitry Khokhlov (cpp-ethereum), Everett Hildenbrandt (KEVM), Hudson Jameson (Ethereum Foundation), Jared Wasinger (ethereumJS/Testing), Jutta Steiner (Parity), Lefteris Karapetsas (Raiden), Marek Kotewicz (Parity), Martin Holst Swende (geth/security), Mikhail Kalinin (Harmony), Nick Johnson (geth), Paweł Bylica (cpp-ethereum), Péter Szilágyi (geth), Philip Daian (Runtime Verification/IC3), Piper Merriam (pyEVM), Vitalik Buterin (Research), Yoichi Hirai (EVM)
