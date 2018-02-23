@@ -2,7 +2,7 @@
 ### Meeting Date/Time: Fri, February 23, 2018 14:00 UTC
 ### Meeting Duration: 1.5 hours
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/32)
-### Audio/Video of the meeting (WIP)
+### [Audio/Video of the meeting](https://www.youtube.com/watch?v=GhUtruRZOlo)
 
 # Agenda
 1. EIP process improvements
@@ -13,7 +13,11 @@
 1. Client/research updates
 1. Timing of next call
 
-## EIP process improvements
+# Notes
+
+Video starts at [[2:57](https://youtu.be/GhUtruRZOlo?t=2m57s)].
+
+## EIP process improvements [[3:59](https://youtu.be/GhUtruRZOlo?t=3m59s)]
 - Want a channel where it's easy for people to communicate about what changes they want to happen
 - There is a group called Fellowship of Ethereum Magicians (Hudson to post link), self-organizing group to maximize technical opportunities
   - Like IETF for Ethereum, self-organized group of engineers, scientists, technologists who "keep things running" - make sure all of our equipment speaks the same protocol, etc.
@@ -58,10 +62,10 @@
   - Vitalik: Agree that having these calls is good, giving relative indications about status of various EIPs, etc., but then just because everyone on the call agrees an EIP is good it should not 100% necessarily be approved
 - Avsa: Someone opened an EIP, was probably a joke, can you have one standard negating another? Both can be drafts!
 
-## Constantinople
+## Constantinople [[32:15](https://youtu.be/GhUtruRZOlo?t=32m15s)]
 - On last call, we decided that some EIPs could definitely go in
   - [EIP 145: Bitwise shifting instructions in EVM](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-145.md): pretty well-formed, but not 100% implemented or tested
-  - [EIP 210: Blockhash refactoring](https://github.com/ethereum/EIPs/pull/210)
+  - [EIP 210: Blockhash refactoring](https://github.com/ethereum/EIPs/pull/210) [[32:40](https://youtu.be/GhUtruRZOlo?t=32m40s)]
     - Replace BLOCKHASH opcode, but also has the feature that you can invoke the contract directly to gain access to > last 6 blockhashes
     - Can access any previous block from the current block in the maximum of three merkle hops
     - Difficulty to implement? Vitalik: There is already an implementation in at least a couple of clients, just need to write a bunch of tests for it.
@@ -70,7 +74,7 @@
     - Hudson: Vitalik please make final changes to the EIP and merge it
     - Vitalik: Please look through it again and make sure there are no issues. I'd like someone independent to write some tests for it. Prefer not to merge until the EVM code as written is very very close to final.
     - Paweł: There is at least one bug in the contract. Would be easier if the code is merged so I can send PR rather than just discuss in the comments.
-  - [EIP168](https://github.com/ethereum/EIPs/issues/168), [169](https://github.com/ethereum/EIPs/issues/169) - Killing dust accounts, replay protection for this
+  - [EIP168](https://github.com/ethereum/EIPs/issues/168), [169](https://github.com/ethereum/EIPs/issues/169) - Killing dust accounts, replay protection for this [[42:20](https://youtu.be/GhUtruRZOlo?t=42m20s)]
     - [Andrei's graph](https://github.com/ethereum/EIPs/issues/168#issuecomment-364066940)
     - [Alexey Akhunov data](https://medium.com/@akhounov/more-data-for-eip-168-kill-dust-accounts-83e8dd0938d3)
     - Alexey did some tests, ~1M accounts, roughly less than half the accounts in the state are zero balance
@@ -98,7 +102,7 @@
     - Avsa: people who have moved ETH to WETH would not be affected by this as there is no dust cleaning for tokens
       - Martin: don't think people would mind if dust is cleaned, most of it is probably from people who tried to move all ETH out of an account but didn't use Javascript bigints and didn't get the math exactly right
     - Hudson: no clear agreement on this so let's move on
-  - [EIP859: account abstraction](https://github.com/ethereum/EIPs/issues/859)
+  - [EIP859: account abstraction](https://github.com/ethereum/EIPs/issues/859) [[58:42](https://youtu.be/GhUtruRZOlo?t=58m42s)]
     - Last time we agreed to table this and focus on things like Casper
     - Vitalik: This will happen anyway inside sharding, it will exist in some clients in some form; at some point the code will be mostly written but that's still some time away
       - It's a fairly substantial undertaking, esp. because of things like miner strategies
@@ -106,7 +110,7 @@
       - Personally I would therefore lean towards not putting this into Constantinople
       - Main reason to do this would be some urgency for some particular applications that could take advantage of abstraction, but there may also be simpler kludges to provide it with off-chain protocols
     - Hudson: as discussed last time, too much work for Constantinople but should be reassessed after Constantinople esp. depending where sharding is at that point
-  - [EIP232: New tx formats](https://github.com/ethereum/EIPs/issues/232)
+  - [EIP232: New tx formats](https://github.com/ethereum/EIPs/issues/232) [[1:02:18](https://youtu.be/GhUtruRZOlo?t=1h2m18s)]
     - Creates two new types of transactions
     - Vitalik: overview
       - Superset of earlier abstraction proposal
@@ -117,7 +121,7 @@
       - Benefit: way more forward compatible
       - Would be convenient to do at the same time as account abstraction, if not adding any new tx types then we're not getting much benefit, whereas if done at the same time, it makes sense because there is an some actual, new tx format
     - Hudson: okay, so this doesn't need to go into Constantinople either
-  - Timing
+  - Timing [[1:05:44](https://youtu.be/GhUtruRZOlo?t=1h5m44s)]
     - [EIP 145: Bitwise shifting instructions in EVM](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-145.md) - agreed upon
     - [EIP 210: Blockhash refactoring](https://github.com/ethereum/EIPs/pull/210) - need to work on some more, but going in direction of being approved for the next hard fork
     - Are there other things we want to add? Or should we just continue to focus on casper and sharding?
@@ -134,12 +138,12 @@
       - Also tied to first Casper implementation
       - Would be good for clients to add this to their roadmaps
       
-# Test RPC protocol discussion
+# Test RPC protocol discussion [[1:11:48](https://youtu.be/GhUtruRZOlo?t=1h11m48s)]
   - https://github.com/ethereum/retesteth/issues/4
   - Dimitry: I started to work on this new approach which would allow us to generate consensus test from any client which implements new testrpc method
   - Clients can use this to generate new tests
 
-# EIP648: Easy parallelizability
+# EIP648: Easy parallelizability [[1:13:29](https://youtu.be/GhUtruRZOlo?t=1h13m29s)]
   - https://github.com/ethereum/EIPs/issues/648
   - Tim: Wondering if you guys think it's important enough to start considering
   - Similar to introducing a new tx type for [EIP232: New transaction formats](https://github.com/ethereum/EIPs/issues/232)? Not quite
@@ -162,13 +166,13 @@
     - TurboGeth disk I/O optimizations are therefore the most important things to work on prior to this EIP
   - Hudson: Not going into Constantinople
 
-# BLOCKHASH opcode refactoring (EIP96/EIP210)
+# BLOCKHASH opcode refactoring (EIP96/EIP210) [[1:20:26](https://youtu.be/GhUtruRZOlo?t=1h20m26s)]
   - https://github.com/ethereum/EIPs/issues/96
   - https://github.com/ethereum/EIPs/pull/210
   - Paweł: already discussed on this call
   - note: 96 was abandoned and replaced by 210, we can close out the old one
 
-# Client/research updates
+# Client/research updates [[1:21:39](https://youtu.be/GhUtruRZOlo?t=1h21m39s)]
   - Parity (Afri)
     - no update
   - Geth (Péter)
@@ -202,12 +206,12 @@
     - We're adding tons of breaking changes
     - I'm confident we're making great progress in last few weeks
 
-# Timing of next call
+# Timing of next call [[1:30:38](https://youtu.be/GhUtruRZOlo?t=1h30m38s)]
   - Skipping meeting in two weeks due to EthCC (many participants will be there)
   - nothing especially urgent such that one week would make a difference, next call in a month, i.e. March 23
 
 ## Attendees
-- Afri (Parity)
+- Afri Schoedon (Parity)
 - Alex Van de Sande (Mist/Ethereum Wallet)
 - Casey Detrio (Volunteer/EthereumJS/ewasm)
 - Christian Reitweissner (cpp-ethereum/Solidity)
