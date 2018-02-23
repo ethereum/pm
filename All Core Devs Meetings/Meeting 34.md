@@ -3,6 +3,7 @@
 ### Meeting Duration: 1.5 hours
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/32)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=GhUtruRZOlo)
+### [Reddit thread](https://www.reddit.com/r/ethereum/comments/7zpxe3/notes_from_ethereum_core_devs_meeting_34_22318/)
 
 # Agenda
 1. EIP process improvements
