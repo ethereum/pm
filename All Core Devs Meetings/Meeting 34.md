@@ -103,7 +103,7 @@ Video starts at [[2:57](https://youtu.be/GhUtruRZOlo?t=2m57s)].
     - Avsa: people who have moved ETH to WETH would not be affected by this as there is no dust cleaning for tokens
       - Martin: don't think people would mind if dust is cleaned, most of it is probably from people who tried to move all ETH out of an account but didn't use Javascript bigints and didn't get the math exactly right
     - Hudson: no clear agreement on this so let's move on
-  - [EIP859: account abstraction](https://github.com/ethereum/EIPs/issues/859) [[58:42](https://youtu.be/GhUtruRZOlo?t=58m42s)]
+  - <a id="eip859"/>[EIP859: account abstraction](https://github.com/ethereum/EIPs/issues/859) [[58:42](https://youtu.be/GhUtruRZOlo?t=58m42s)]
     - Last time we agreed to table this and focus on things like Casper
     - Vitalik: This will happen anyway inside sharding, it will exist in some clients in some form; at some point the code will be mostly written but that's still some time away
       - It's a fairly substantial undertaking, esp. because of things like miner strategies
