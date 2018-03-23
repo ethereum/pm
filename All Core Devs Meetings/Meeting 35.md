@@ -328,14 +328,14 @@ Note: Will improve formatting and add timed links to Youtube video ASAP.
 - Jon Choi (EF: Research)
 - Ben Edgington (ConsenSys)
 - Karl Floersch (EF: Research)
-- Hudson Jameson (Ethereum Foundation)
+- Hudson Jameson (EF)
 - Nick Johnson (EF: geth)
 - Raul Jordan (Prysmatic Labs)
 - Lefteris Karapetsas (Brainbot)
 - Dimitry Khokhlov (EF: cpp-ethereum, testing)
 - Ligi (EF: geth)
 - Andrei Maiboroda (EF: cpp-ethereum)
+- Lane Rettig
 - Afri Schoedon (Parity)
 - Martin Holst Swende (EF: geth/security)
 - Péter Szilágyi (EF: geth)
-- Lane Rettig
