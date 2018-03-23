@@ -16,23 +16,6 @@ Note: Will improve formatting and add timed links to Youtube video ASAP.
 
 # Notes
 
-* Attendees
-    * Hudson
-    * Martin Host Swende
-    * Afri
-    * Jason Carver
-    * Lefteris
-    * Ben Edgington (ConsenSys)
-    * Vitalik
-    * Karl
-    * Jon
-    * Peter
-    * Andrei Maiboroda
-    * Dimitry
-    * Pawel
-    * Raul Jordan (Prysmatic lab)
-    * Ligi
-    * Nick Johnson
 * Testing
     * Dimitry: still working on RPC methods
         * Discovered that some of the state tests are wrong
@@ -337,3 +320,22 @@ Note: Will improve formatting and add timed links to Youtube video ASAP.
         * Half a dozen EIPs referenced from EIP1 that also aren’t merged, would be good to go over them and help merge them
         * Come to EIPs channel on Gitter
         * I’m planning on writing up a meta-EIP with some proposed changes to EIP process
+
+## Attendees
+- Vitalik Buterin (EF: Research)
+- Paweł Bylica (EF: cpp-ethereum/ewasm)
+- Jason Carver (EF: python)
+- Jon Choi (EF: Research)
+- Ben Edgington (ConsenSys)
+- Karl Floersch (EF: Research)
+- Hudson Jameson (Ethereum Foundation)
+- Nick Johnson (EF: geth)
+- Raul Jordan (Prysmatic Labs)
+- Lefteris Karapetsas (Brainbot)
+- Dimitry Khokhlov (EF: cpp-ethereum, testing)
+- Ligi (EF: geth)
+- Andrei Maiboroda (EF: cpp-ethereum)
+- Afri Schoedon (Parity)
+- Martin Holst Swende (EF: geth/security)
+- Péter Szilágyi (EF: geth)
+- Lane Rettig
