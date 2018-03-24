@@ -7,8 +7,8 @@
 # Agenda
 1. Testing
 1. EIP712: Add eth_signTypedData as a standard for machine-verifiable and human-readable typed data signing with Ethereum keys
-1. Governance and EIP1
-1. Casper and sharding - update from Taipei retreat
+1. EIP process updates, Fellowship of Ethereum Magicians
+1. Casper and sharding - research update from Taipei retreat
 1. On Constantinople - timing, what to include
 1. Client/research updates
 
@@ -49,7 +49,8 @@ Video starts at [[5:11](https://youtu.be/HHK6xhuSyUU?t=5m11s)].
     * Let’s continue this conversation elsewhere
     * D: My primary objective is to get all existing tests working again
     * P: If we’re going in this direction let’s spec it out and make it useful for everyone so we don’t have to create more test RPC endpoints in the future
-## EIP712: Add eth_signTypedData as a standard for machine-verifiable and human-readable typed data signing with Ethereum keys
+    
+## EIP712: Add eth_signTypedData as a standard for machine-verifiable and human-readable typed data signing with Ethereum keys [[18:30](https://youtu.be/HHK6xhuSyUU?t=18m30s)]
 * Lefteris: summary
     * Propose addition of an RPC method to sign arrays of any kind of arbitrary data so the signer’s UI can show them what they’re signing
     * Right now they just see a hash but don’t know what it is
@@ -68,31 +69,34 @@ Video starts at [[5:11](https://youtu.be/HHK6xhuSyUU?t=5m11s)].
     * M: EIP191 also suffers from some of the problems that current signed data has e.g. doesn’t say how large the total message envelope is so there’s some malleability in that
         * X19 ETH signed message then length then message but we don’t have the total message length which is a big blunder
     * H: candidate for potentially being accepted at some point, we should at least make it a draft
-* Hudson: on governance and EIP1
-    * Spearheaded by Nick Johnson
-    * Making a really cool Jekel-Based interface where as EIPs are submitted they are collected to a website where they’re easier to read and collect the data
-    * Lots of PRs going into this, editing EIPs to make their headers compatible with this
-    * After this is done we’re going to look into redoing parts of EIP1 to make it clearer, e.g. separation of standard track vs. EIPs and some of the other things we discussed at previous core devs meetings
-## Fellowship of Ethereum Magicians
-* More info here: https://ethereum-magicians.org/
-* First meeting in Paris during EthCC
-* Full notes here: https://docs.google.com/document/d/1rgQnZKpNc71XUotSTVmHt9La8y3_yKi8te1bH396AWA/edit
-* Initiative by Greg Colvin and Jamie Pitts
-* Full room, many groups represented
-* A lot of meta-discussion
-  * Greg shared stories of participating in consensus-based decision making
-  * High level stuff like discussion of how EIP editors are chosen, EIP review process
-  * Discuss the status quo e.g. the current hard fork process and how we can do better
-  * Review of how things work in other groups e.g. IETF, holocracy, humming and tension
-  * What’s the role of this group? Do we need a separate body for the political side?
-  * How to get more voices involved?
-* Agreement that meeting in person is important for trust and having healthy conversation
-* Next meeting in July, likely in Berlin, how do we fund it?
-## Raul: introducing Prysmatic Labs
+
+## Hudson: EIP process updates, Fellowship of Ethereum Magicians [[24:45](https://youtu.be/HHK6xhuSyUU?t=24m45s)]
+* Spearheaded by Nick Johnson
+* Making a really cool Jekel-Based interface where as EIPs are submitted they are collected to a website where they’re easier to read and collect the data
+* Lots of PRs going into this, editing EIPs to make their headers compatible with this
+* After this is done we’re going to look into redoing parts of EIP1 to make it clearer, e.g. separation of standard track vs. EIPs and some of the other things we discussed at previous core devs meetings    
+* Fellowship of Ethereum Magicians (Lane's update) [[26:10](https://youtu.be/HHK6xhuSyUU?t=26m10s)]
+  * More info here: https://ethereum-magicians.org/
+  * First meeting in Paris during EthCC
+  * Full notes here: https://docs.google.com/document/d/1rgQnZKpNc71XUotSTVmHt9La8y3_yKi8te1bH396AWA/edit
+  * Initiative by Greg Colvin and Jamie Pitts
+  * Full room, many groups represented
+  * A lot of meta-discussion
+    * Greg shared stories of participating in consensus-based decision making
+    * High level stuff like discussion of how EIP editors are chosen, EIP review process
+    * Discuss the status quo e.g. the current hard fork process and how we can do better
+    * Review of how things work in other groups e.g. IETF, holocracy, humming and tension
+    * What’s the role of this group? Do we need a separate body for the political side?
+    * How to get more voices involved?
+  * Agreement that meeting in person is important for trust and having healthy conversation
+  * Next meeting in July, likely in Berlin, how do we fund it?
+
+## Raul: introducing Prysmatic Labs [[29:45](https://youtu.be/HHK6xhuSyUU?t=29m45s)]
 * Working on geth implementation of sharding
 * We’re holding a meeting tomorrow
 * Putting out a comprehensive roadmap of our sprint to get an e2e example of getting phase one working
-## Back to EIP712
+
+## Back to EIP712 [[31:30](https://youtu.be/HHK6xhuSyUU?t=31m30s)]
 * Ligi: I like the idea but we need an upgrade path
     * Plan not to replace it but to make sure we have an upgrade path
     * There are some things in this EIP that would extend the scope too much
@@ -134,7 +138,8 @@ Video starts at [[5:11](https://youtu.be/HHK6xhuSyUU?t=5m11s)].
     * So it’s not impossible at this point to get broad consensus
     * If there’s consensus among most of them that’s good enough to get the EIP approved, changes in clients put in release notes
 * Hudson: I added this to agenda for next meeting so we can discuss again in two weeks and get it moving
-## Casper and sharding - Taipei retreat
+
+## Casper and sharding - Taipei retreat [[39:08](https://youtu.be/HHK6xhuSyUU?t=39m8s)]
 * Vitalik update
   * Focused 90% on sharding
   * There was a bit of a Casper section because Vitalik, Vlad, Nate, etc. all there
@@ -239,48 +244,51 @@ Video starts at [[5:11](https://youtu.be/HHK6xhuSyUU?t=5m11s)].
   * I feel like the research community feels that something like this is important
   * http://ethresear.ch forum best place to get involved
 * Hudson: let’s save discussion of timelines for the next meeting
-* Constantinople
-    * EIP???
-    * EIP210: Blockhash refactoring likely to happen
-    * Something that reduces gas cost
-    * We were initially going to finalize things over the next month or so, from community perspective everyone wants to get a hard fork out and get things done, but there aren’t many radical things going into Constantinople without Casper or Sharding so from my perspective we shouldn’t rush to pick a date
-    * Vitalik: I think we should try to move away from the idea that hard forks are the only thing to get excited about
-        * Community is excited about the big things
-        * As far as making people feel that there’s continued real progress
-        * Light client optimization, making clients work better, this will probably improve UI more in the short term than base protocol changes
-    * Peter: AFAIK the only thing fixed that would be nice to ship in next hard fork is bitshifting ops
-    * Vitalik: One other thing to consider, I know that in geth the elliptic curve operation became faster by about 10x, if Parity and maybe Harmony can speed theirs up as well then we can cut the gas cost of this by 3-5x or so, that would go a long way towards making ring signatures easier
-    * Peter on geth
-        * Addition, multiplication, pairing
-        * Switched out our library for these
-        * Addition was cheap, got a 2x improvement
-        * Multiplication got 20-25x improvement
-        * Pairing about 4x improvement
-        * Problem is that these are raw benchmarks. This is important from a DoS perspective but we need some meaningful contracts that we can run as tests, use these and don’t just call the operations a gazillion times.
-        * One i found is Christian’s zcash Ropsten verification contract, I turned this into a hive test, it performs really well, full zcash verification on current Ethereum takes ~25ms on my laptop
-        * That contract is around 3x faster in geth than in parity, so I’m sure the same operations can go into parity to get them on par with these speedups
-        * It’s still not “spectacularly fast”
-        * I realized now while doing this optimized version that to verify that a point is on the official curve and respects all requirements it takes one less multiplication, just parsing a binary blob into a curve point on our curve is a lot more expensive than on the official curve - but nothing we can do about it
-        * Should be benchmarked: our precompiles on elliptic curve, when I parse the pairing points, every time I need to revalidate that they are valid curve points. If we could split validation and operation itself it could make it a bit cheaper gas-wise. But maybe that’s dangerous.
-    * On when to do the next hard fork
-        * Hudson: Let’s continue this discussion at the next meeting and discuss Casper and Sharding
-        * Martin: Do we want more, smaller forks or save up for one large hard fork?
-        * Peter: We should wait until we have enough content for it to make sense, and we don’t have enough yet
-        * Hudson: If we did one tomorrow we’d only have two EIPs, and one more that isn’t fully spec’ed out yet, EIP210 Blockhash refactoring.
-        * Martin: personally I’d rather have more frequent hard forks with less in each one.
-        * Hudson: that would help people get used to hard forks.
-        * Peter: but don’t forget that hard forks are a huge strain on Dimitry and Yoichi.
-        * If we decided to do a hard fork with two EIPs would that interrupt progress on Dimitry’s new test framework?
-        * Hudson: If we did one tomorrow we’d only have two EIPs, and one more that isn’t fully spec’ed out yet, EIP210 Blockhash refactoring.
-        * Martin: personally I’d rather have more frequent hard forks with less in each one.
-        * Hudson: that would help people get used to hard forks.
-        * Peter: but don’t forget that hard forks are a huge strain on Dimitry and Yoichi.
-        * If we decided to do a hard fork with two EIPs would that interrupt progress on Dimitry’s new test framework?
-            * Dimitry: I prefer to restore existing test functionality with existing client and new testing tool
-            * But if necessary we can continue to use old testing tools
-            * Bitwise shifting hard fork tests are already on the way, some of these tests already added to test pool
-        * Hudson: We don’t have consensus on this. Should we do smaller or larger hard forks?
-## Client and research updates
+
+## On Constantinople - timing, what to include [[1:00:10](https://youtu.be/HHK6xhuSyUU?t=1h10s)]
+* We agreed on a couple of EIPs to include in Constantinople:
+    * [EIP145: Bitwise shifting instructions in EVM](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-145.md)
+    * [EIP210: Blockhash refactoring](https://github.com/ethereum/EIPs/pull/210) likely to go in
+    * Looking at a couple of others, including something that reduces gas cost [Editor's note: I'm not sure which EIP this refers to]
+* We were initially going to finalize things over the next month or so, from community perspective everyone wants to get a hard fork out and get things done, but there aren’t many radical things going into Constantinople without Casper or Sharding so from my perspective we shouldn’t rush to pick a date
+* Vitalik: I think we should try to move away from the idea that hard forks are the only thing to get excited about
+    * Community is excited about the big things
+    * As far as making people feel that there’s continued real progress
+    * Light client optimization, making clients work better, this will probably improve UI more in the short term than base protocol changes
+* Peter: AFAIK the only thing fixed that would be nice to ship in next hard fork is bitshifting ops
+* Vitalik: One other thing to consider, I know that in geth the elliptic curve operation became faster by about 10x, if Parity and maybe Harmony can speed theirs up as well then we can cut the gas cost of this by 3-5x or so, that would go a long way towards making ring signatures easier
+* Peter on geth
+    * Addition, multiplication, pairing
+    * Switched out our library for these
+    * Addition was cheap, got a 2x improvement
+    * Multiplication got 20-25x improvement
+    * Pairing about 4x improvement
+    * Problem is that these are raw benchmarks. This is important from a DoS perspective but we need some meaningful contracts that we can run as tests, use these and don’t just call the operations a gazillion times.
+    * One i found is Christian’s zcash Ropsten verification contract, I turned this into a hive test, it performs really well, full zcash verification on current Ethereum takes ~25ms on my laptop
+    * That contract is around 3x faster in geth than in parity, so I’m sure the same operations can go into parity to get them on par with these speedups
+    * It’s still not “spectacularly fast”
+    * I realized now while doing this optimized version that to verify that a point is on the official curve and respects all requirements it takes one less multiplication, just parsing a binary blob into a curve point on our curve is a lot more expensive than on the official curve - but nothing we can do about it
+    * Should be benchmarked: our precompiles on elliptic curve, when I parse the pairing points, every time I need to revalidate that they are valid curve points. If we could split validation and operation itself it could make it a bit cheaper gas-wise. But maybe that’s dangerous.
+* On when to do the next hard fork
+    * Hudson: Let’s continue this discussion at the next meeting and discuss Casper and Sharding
+    * Martin: Do we want more, smaller forks or save up for one large hard fork?
+    * Peter: We should wait until we have enough content for it to make sense, and we don’t have enough yet
+    * Hudson: If we did one tomorrow we’d only have two EIPs, and one more that isn’t fully spec’ed out yet, EIP210 Blockhash refactoring.
+    * Martin: personally I’d rather have more frequent hard forks with less in each one.
+    * Hudson: that would help people get used to hard forks.
+    * Peter: but don’t forget that hard forks are a huge strain on Dimitry and Yoichi.
+       * If we decided to do a hard fork with two EIPs would that interrupt progress on Dimitry’s new test framework?
+    * Hudson: If we did one tomorrow we’d only have two EIPs, and one more that isn’t fully spec’ed out yet, EIP210 Blockhash refactoring.
+    * Martin: personally I’d rather have more frequent hard forks with less in each one.
+    * Hudson: that would help people get used to hard forks.
+    * Peter: but don’t forget that hard forks are a huge strain on Dimitry and Yoichi.
+    * If we decided to do a hard fork with two EIPs would that interrupt progress on Dimitry’s new test framework?
+        * Dimitry: I prefer to restore existing test functionality with existing client and new testing tool
+        * But if necessary we can continue to use old testing tools
+        * Bitwise shifting hard fork tests are already on the way, some of these tests already added to test pool
+    * Hudson: We don’t have consensus on this. Should we do smaller or larger hard forks?
+
+## Client and research updates [[1:11:42](https://youtu.be/HHK6xhuSyUU?t=1h11m42s)]
 * Parity (Afri)
   * Update in Github issue
   * Just had a major release
