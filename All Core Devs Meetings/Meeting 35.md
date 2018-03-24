@@ -4,8 +4,6 @@
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/33)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=HHK6xhuSyUU)
 
-Note: Will improve formatting and add timed links to Youtube video ASAP.
-
 # Agenda
 1. Testing
 1. EIP712: Add eth_signTypedData as a standard for machine-verifiable and human-readable typed data signing with Ethereum keys
@@ -18,9 +16,19 @@ Note: Will improve formatting and add timed links to Youtube video ASAP.
 
 Video starts at [[5:11](https://youtu.be/HHK6xhuSyUU?t=5m11s)].
 
-## Testing
-* Dimitry: still working on RPC methods
-    * Discovered that some of the state tests are wrong
+## Testing [[6:04](https://youtu.be/HHK6xhuSyUU?t=6m4s)]
+* Dimitry: continue developing RPC methods
+    * Upgrading cpp-ethereum client
+    * Discovered that some of the state tests are wrong, investigating the issue, refilling the broken tests
+    * [PR#437 to testing repo](https://github.com/ethereum/tests/pull/437)
+    * I'd like client developers to try out the updated tests, maybe I'm wrong or maybe my changes to cpp-ethereum are wrong, but I think those tests were incorrect
+    * Martin: Have they been active on hive? How are the clients reacting on hive?
+    * D: Some of the tests may not have made it to the hive, in some cases tx not constructed by testeth, I fixed that issue
+    * M: If you fixed and pushed to master we should be able to see it no?
+    * D: Won't push to hive anytime soon, I'm using this retest tool now, tests generated via RPC, and there are other issues when you execute a tx on client using RPC, sometimes post-state is different
+    * I use mine block method now, coinbase account touched, appears in final state, so minor issues like this
+    * M: Tests previously invalid and now fixed, could you post a list of these to AllCoreDevs channel?
+    * D: I'm committing a list of these in PR #437 (linked above)
 * Peter
     * We had a long chat at Taipei meetup with Piper and Frederick
     * py-evm team is using geth and parity nodes in background to test correctness of py-evm
