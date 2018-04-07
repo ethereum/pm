@@ -334,4 +334,4 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 - Tobias Oberstein
 - Remco
 - Hudson Jameson (EF)
-- Lane Rettig
+- Lane Rettig (ewasm)
