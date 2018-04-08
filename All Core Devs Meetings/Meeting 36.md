@@ -319,7 +319,7 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 - Chris
 - Daniel Nagy (Swarm)
 - Daniel Ellison (Consensys/LLL)
-- Danny (Research)
+- Danny Ryan (EF: Research)
 - Paweł Bylica (EF: cpp-ethereum/ewasm)
 - Martin Holst Swende (EF: geth/security)
 - Nick Johnson (EF: geth)
