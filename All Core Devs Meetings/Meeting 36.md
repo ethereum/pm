@@ -324,7 +324,7 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 - Martin Holst Swende (EF: geth/security)
 - Nick Johnson (EF: geth)
 - Thibaut (Parity)
-- Mkalanin (Harmony)
+- Mikhail Kalanin (Harmony/EthereumJ)
 - Fredrik Harryson (Parity)
 - Vitalik Buterin (EF: Research)
 - Chih-Cheng Liang (EF: Research)
