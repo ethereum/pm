@@ -2,6 +2,7 @@
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+ 36 | Fri, April 6, 2018 14:00 UTC     | [agenda](https://github.com/ethereum/pm/issues/36) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2036.md | [video](https://www.youtube.com/oPfoNpqG0k) |
  35 | Fri, March 23, 2018 14:00 UTC    | [agenda](https://github.com/ethereum/pm/issues/33) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2035.md) | [video](https://youtu.be/HHK6xhuSyUU) |
  34 | Fri, February 23, 2018 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/32) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2034.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/7zpxe3/notes_from_ethereum_core_devs_meeting_34_22318/) | [video](https://youtu.be/GhUtruRZOlo) |
  33 | Fri, February 9, 2018 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/31) | [video](https://youtu.be/wPBzs2NBnsA) |
