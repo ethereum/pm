@@ -8,7 +8,7 @@
 1. Testing
 2. [EIP 712: Add eth_signTypedData as a standard for machine-verifiable and human-readable typed data signing with Ethereum keys](https://github.com/ethereum/pm/issues/33#issuecomment-374174501).
 3. [EIP 665: Add precompiled contract for Ed25519 signature verification](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-665.md).
-4. [EIP 958: Modify block mining to be ASIC resistant](https://github.com/ethereum/EIPs/issues/958).
+4. [EIP 969: Modify block mining to be ASIC resistant](http://eips.ethereum.org/EIPS/eip-969).
 5. [EIP 960: Cap total ether supply at ~120 million](https://github.com/ethereum/EIPs/issues/960).
 6. [EIP process updates](http://eips.ethereum.org/).
 7. Research Updates.
