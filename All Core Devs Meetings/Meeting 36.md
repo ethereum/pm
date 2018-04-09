@@ -323,7 +323,7 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 - Paweł Bylica (EF: cpp-ethereum/ewasm)
 - Martin Holst Swende (EF: geth/security)
 - Nick Johnson (EF: geth)
-- Thibaut (Parity)
+- Thibaut Sardan (Parity)
 - Mikhail Kalanin (Harmony/EthereumJ)
 - Fredrik Harryson (Parity)
 - Vitalik Buterin (EF: Research)
@@ -331,7 +331,7 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 - Hsiao-Wei Wang (EF: Research)
 - Karl Floersch (EF: Research)
 - Piper Merriam (EF: Python/py-evm/Harmony)
-- Tobias Oberstein
+- Tobias Oberstein (Crossbar.io/XBR)
 - Remco
 - Hudson Jameson (EF)
 - Lane Rettig (ewasm)
