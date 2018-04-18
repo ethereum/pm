@@ -316,7 +316,7 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 
 ## Attendees
 - Afri Schoedon (Parity)
-- Chris
+- Christian Reitwiessener (EF: cpp-ethereum/Solidity)
 - Daniel Nagy (Swarm)
 - Daniel Ellison (Consensys/LLL)
 - Danny Ryan (EF: Research)
@@ -332,6 +332,6 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 - Karl Floersch (EF: Research)
 - Piper Merriam (EF: Python/py-evm/Harmony)
 - Tobias Oberstein (Crossbar.io/XBR)
-- Remco
+- Remco Bloemen
 - Hudson Jameson (EF)
 - Lane Rettig (ewasm)
