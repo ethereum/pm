@@ -1,5 +1,7 @@
 ## All Core Devs Meetings
 
+Core Devs meetings discuss proposed changes to the core Ethereum protocol in the form of Standards Track, Core EIPs, as well as work that is being done by Core Devs. They evaluate such EIPs e.g. on the basis of whether they complicate the protocol unduly without adding sufficient benefit compared to the time and cost of developing the EIP, and whether an EIP needs to be more fully developed and formalized with a sound motivation, specification and rationale before being accepted. The below table provides records of previous meetings, while the agenda for the next meeting will be an [open issue](https://github.com/ethereum/pm/issues).
+
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
  36 | Fri, April 6, 2018 14:00 UTC     | [agenda](https://github.com/ethereum/pm/issues/36) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2036.md) | [video](https://www.youtube.com/watch?v=SoPfoNpqG0k) |
