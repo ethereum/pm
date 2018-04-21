@@ -320,6 +320,7 @@ Video starts at [[6:20](https://youtu.be/SoPfoNpqG0k?t=6m20s)].
 - Daniel Nagy (Swarm)
 - Daniel Ellison (Consensys/LLL)
 - Danny Ryan (EF: Research)
+- Dimitry Khokhlov (EF: cpp-ethereum, testing)
 - Paweł Bylica (EF: cpp-ethereum/ewasm)
 - Martin Holst Swende (EF: geth/security)
 - Nick Johnson (EF: geth)
