@@ -211,25 +211,158 @@ Video starts at [[6:11](https://youtu.be/vKumx5CIA-k?t=6m11s)].
     * Hope is that as we get more clarity it will become less contentious, but this is uncertain
     * Other option is to embrace the contentious hard fork
     * Hope people figure out which side they want to be on and could pick a side by implementation
-* Jutta: But putting it into implementation state doesn't automatically lead to a hard fork
+* Jutta: But putting it into implementation state doesn't automatically lead to a hard fork, not saying we're going to turn this on in our next release
+* Nick: If this leads to a split, then any benefits far outweighed by costs to ecosystem as a whole, and this seems like a reasonable probability at the moment
+* Vlad: But implementing it without releasing it doesn't mean we'll have a contentious hard fork
+* Peter: If we do implementations in all the clients, it means we are willing to fork
+* Vlad: Willing to make the option available, so maybe that's a per-implementation question for now, the purpose of this call is to determine if it's consensus critical
+* Vitalik: Don't want to speed implementation unless it has a very high e.g. > 75% chance of being implemented, otherwise we're wasting development time
+    * More conclusive community discussion is the only way I could see something like this getting to that point
+* Martin: Development effort is pretty low
+* Vitalik: We also have testing and "contentiousness handling" so I'd say this is nontrivial
+* Peter: When we did the DAO hard fork there was a ton of extra networking code and mumbo-jumbo needed to make sure both forks could survive, if we hadn't done this, ETH classic wouldn't exist
+    * So if we really want to give the community a choice, it's not so non-trivial
+    * So may be better to wait for community consensus
+* Nick: It's a bit easier now that we have chain IDs with replay protection but yes still more work than non-contentious hard fork
+* Peter: But we don't have ETH protocol separation at the networking level, so without extra header rules clients will always try to synchronize to the heaviest chain which could be on the wrong side of the fork, we need to figure out how to split the chains
+* Vlad: Imagine we never get social consensus on this, do we table it indefinitely?
+* Peter: If no consensus then we'd have two Ethereums, do we want that?
+* Vlad: If this were about Casper then yes, but basically the answer is always no, but who is to judge?
+* Peter: You could have a Casper and a non-Casper Ethereum but the networks are different with different guarantees. In this case the networks are otherwise identical.
+* Vlad: If we're never going to reach this consensus then I feel a contentious fork is preferable to tabling indefinitely
+* Alex: What if e.g. geth doesn't implement this, would parity still implement and deploy this and make it available?
+* Jutta: We haven't decided yet. While there is still a lot of contentious discussion, I'm not convinced it's as contentious as it sometimes seems in social media.
+    * This point is important
+    * Often conclusions are drawn based on social media but this is not all that matters
+* Piper: There seems to be a pretty vocal "no" consensus on the FEM forum, even after removing unknown people, that's one metric
+* Vlad: It's hard to measure the community in its entirety
+* Danny: This has only been published for five days, it's too soon to start implementation
+* Vitalik: I agree that the social consensus does not depend on the implementation details, the idea has been debated for months
+* Lane: There was a [Coinvote poll](https://www.etherchain.org/coinvote/poll/35) about this
+* Alex: It has swung back and forth several times
+* Vitalik: It's at 350,000 ETH, but also uses signing rather than transactions which makes it harder for contracts to vote, and many people with hardware wallets may not be able to sign easily, so makes the poll difficult to participate in
+    * I don't believe that something that passes a Coinvote should be considered as community consensus by itself, it's one factor
+* Alex: There's a big power law distribution (some votes backed by enormous numbers of ETH)
+* Peter: Parity team probably controls a lot of ETH and therefore may have large sway in this vote, so I don't consider this a fair vote
+* Alex: But someone developing Ethereum for a long time should maybe have more sway, and we don't have any fair way to measure
+* Peter: Depending whether you joined in August 2014 or April 2015 that's two zeroes in your ETH holdings, both people on the team for a while, but a coin vote assumes a guy who joined a few months earlier has all the weight
+* Vlad: Agree the polls aren't fair, but at least non-technical people can also vote, if we had opinions of all the coin holders -- but it's not everyone
+* Nick: Ideally a voting system will tell you whether there will be a split and what value/use would accrue to each side of the split
+* Vlad: If we know this will never be settled with social consensus, then what? Is a contentious hard fork worth it?
+* Nick: If it's contentious then I don't think it's worth the cost, but if people do, then they can push forward
+* Vlad: This is a deep governance question, this is something we need to think about here
+* Lane: Let's continue discussion in FEM forum and in the EIP
 
-Left off at [[1:01:50](https://youtu.be/vKumx5CIA-k?t=1h1m50s)].
+## EIP 908: Reward for clients and full nodes validating transactions [[1:21:24](https://youtu.be/vKumx5CIA-k?t=1h21m24s)]
+* Bringing this topic up again since it's James's proposal and he just joined the call
+* James: advantage of having this in protocol is it would avoid tragegy of the commons, misalignment of incentive for providing a resource i.e. maintaining whole state/verifying transactions
+* Vitalik: I thought funding would go to author of user agent, what does this have to do with state storage?
+* James: There are two proposed way to do this, Micah made a [proposal in Ethresear.ch](https://ethresear.ch/t/incentivizing-full-state-nodes/1640) to incentivize full nodes, he didn't go into much detail yet
+    * How to do this is open for debate
+    * I think it's important to incentivize different resource providers for the protocol
+* Vitalik: What's the concrete proposal that incentivizes state storage?
+    * Cf. https://ethresear.ch/t/incentivizing-full-state-nodes/1640
+    * This is just one proposed solution
+* Danny: This one should be more formalized before further discussion
 
-## Client/team updates [[]()]
+## Research updates [[1:26:44](https://youtu.be/vKumx5CIA-k?t=1h26m44s)]
+* Danny's update on [EIP-1011: Hybrid Casper FFG](http://eips.ethereum.org/EIPS/eip-1011)
+    * Just published this morning, ready for review and discussion
+    * Spec generally ready for clients to implement
+    * There might be minor tweaks, I'll make this clear on the appropriate channels
+    * Not locking in bytecode until we've finished formal verification
+    * Ready to go into full swing client implementation
+    * Gathering in https://gitter.im/ethereum/casper to coordinate client development and testnet
+* Dmitrii: Michael from our team made update which runs private Casper network, so you can test it with Harmony, will add Python Casper client later when it's available
+* Danny: I'll keep doing updates here as implementation and formal verification are nearing completion, so I'll signal when it's time to start talking about fork block numbers, etc.
+    * Let's leave EIP up for discussion a bit longer before we start writing tests for this
+
+## Hard fork timing [[1:30:02](https://youtu.be/vKumx5CIA-k?t=1h30m2s)]
+* Is there a meta EIP for Constantinople?
+    * Yes: [EIP-1013: Hardfork Meta: Constantinople](http://eips.ethereum.org/EIPS/eip-1013)
+* Question about Parity failing tests on Hivetests has been sorted
+* This hardfork meta currently contains:
+    * [EIP-145: Bitwise shifting instructions in EVM](http://eips.ethereum.org/EIPS/eip-145)
+    * [EIP-210: Blockhash refactoring](http://eips.ethereum.org/EIPS/eip-210)
+* 145 is implemented in cpp and geth, 210 implemented in cpp but not in geth, neither in Parity yet
+* 210 not marked as "accepted" yet
+    * Vitalik: I'm in favor of this being released if we do a hard fork before Hybrid Casper so we can have a dry run of code manipulation
+    * What remains between where we are now and implementation?
+    * I'm okay with this being a finalized EIP
+    * We wanted this to have more testing, not sure if anyone has written more test suites yet, that could be done in parallel with finalization
+    * The only thing I expect that testing could reveal is an issue in the serpent code
+    * It's assembly-style serpent, could be written in LLL or vyper assembly instead
+* Vitalik: Could consider CREATE2, part of account abstraction where you can create a contract at an address where address dependent upon a salt and init code of contract
+    * Pre-init addresses with a particular piece of code
+    * Useful for state channels, lets you make counterfactual transactions going to counterfactual addresses, with certainty you'll be able to instantitate it later
+    * Being sure about the code at that address
+    * And having multiple objects in the queue, of which you could instantiate any one you want to
+    * Martin: it's based on init code, how can you be sure of the contents?
+    * Vitalik: Don't mean sure of in the strict sense, but if you trust the init code and you've seen it then you'll know the contract will have code produced by a particular piece of init code
+    * Peter: When you create a contract you have a context with blocks and sender, the init code could react to the context
+    * Vitalik: Important that address has to be hash of init code not of final contract code since at instantiation time we don't know the contract code
+        * Includes sender, salt, and init code
+    * Two-step create thing is an abstraction for account abstraction
+    * This is more limited but will make it easier to do state channels and other stuff
+* There is no EIP for this yet, let's create one and discuss for the next hard fork
+
+## Client/team updates [[1:40:29](https://youtu.be/vKumx5CIA-k?t=1h40m29s)]
 * geth (Peter)
+    * At beginning of the week we released geth 1.8.4, 40% speed increase on mainnet
+    * Reduced block processing time from 200ms to 100ms on mainnet
+    * We merged in Martin's work with the standalone signer, not ready for production use but we want to get it to a place where other clients can depend on it
+    * Want to have a standalone signer that can handle all the nasty stuff with hardware wallets
+    * Maybe of interest to new client developers that don't want to roll their own
 * Parity (Afri)
     * MyCrypto integration with mobile signer
 * cpp-ethereum (Pawel)
-* Harmony (mkalanin)
-* ewasm (Lane)
+    * No updates
+* Harmony (Dmitrii)
+    * Changing DB and cache settings, found that we can get improvements of 5x on block time, when we finish we expect we'll see something close to parity
+    * Big memory leaks
+    * We'll have a release in a few weeks and fix these memory issues
+* ewasm (Jared)
+    * Spent last two weeks moving from Travis to Circle-CI, fighting the CI a lot and fixing things
 * Turbo geth (Alexey Akhunov, [posted in agenda](https://github.com/ethereum/pm/issues/37#issuecomment-383053302))
     * still working on reorg functionality, more detailed report will be delivered at Edcon
 * Pegasys (Ben)
+    * Processing all frontier blocks
+    * P2P discovery working well
+    * Pluggable key-value storage
+    * Would like some advice from seasoned developers, come to us or we may come to you with questions
 * Trinity (Piper)
+    * Mainnet full sync is very close
+    * Spent last 1.5-2 weeks chasing performance optimiziations to get block processing times down
+    * We're always a few weeks away from an initial release, we still are a few weeks away
 * Nimbus (Jacek Sieka)
     * a new Ethereum client called Nimbus (https://github.com/status-im/nimbus) from Status.im team that will hopefully see the light of day in a few months
     * we recently completed the basic P2P and crypto parts and connected successfully to a couple of testnet nodes - any malformed, weird or suspicious activity might be us
+    * Status wants to bring Ethereum to the masses
+    * Focusing on resource-restricted devices e.g. mobile phones, we optimize for these
+    * Finished crypto and P2P parts
+    * Now working on various RLPs
+    * Expect a lot of breakage on the testnets
+    * Once we reach 1.0 our focus will be on light client technologies, since we cannot sync full chain most of the time
+    * We're keen on research in this area such as sharding, stateless clients
+    * Aiming for full web3 stack with whisper and swarm as well
+    * Our licensing is permissive on purpose to help with adoption
+    * Hope to be more active in EIP process and community in future
+    * We very much welcome reviews and ideas in these early stages
 * Drops of Diamond (James Ray)
+    * Sharding implementation in Rust
+    * Started a month or two ago
+    * Put together a basic CLI with notary functionality based on now-retired phase I sharding spec
+    * Updated to match latest spec with minimal sharding protocol
+    * Working on:
+        * block serialization/deserialization
+        * Sharding P2P networks
+        * Storing data on each shard
+    * See list of issues on Github, team of three at the moment, unlicensed at the moment
+    * If folks want to learn rust and contribute, they're welcome to do so
+
+## Timing of next call [[1:52:49](https://youtu.be/vKumx5CIA-k?t=1h52m49s)]
+* EdCon happening in two weeks so next call will be in four weeks, May 18
+* See https://github.com/ethereum/pm/issues/40
 
 ## Attendees
 - Vitalik Buterin (EF: Research)
