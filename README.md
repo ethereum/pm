@@ -8,7 +8,7 @@
  34 | Fri, February 23, 2018 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/32) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2034.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/7zpxe3/notes_from_ethereum_core_devs_meeting_34_22318/) | [video](https://youtu.be/GhUtruRZOlo) |
  33 | Fri, February 9, 2018 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/31) | [video](https://youtu.be/wPBzs2NBnsA) |
  32 | Fri, January 26, 2018 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/30) | [video](https://youtu.be/ZtPy9r0jthI) |
- 31 | Fri, December 1, 2018 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/29) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2031.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/7pu8hr/live_1400_utc_ethereum_core_devs_meeting_31_011218/) | [video](https://youtu.be/biNCOCQdjQ0) |
+ 31 | Fri, January 12, 2018 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/29) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2031.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/7pu8hr/live_1400_utc_ethereum_core_devs_meeting_31_011218/) | [video](https://youtu.be/biNCOCQdjQ0) |
  30 | Fri, December 15, 2017 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/28) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2030.md) | [video](https://youtu.be/naPA7tjrgsk) |
  29 | Fri, December 1, 2017 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/27) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2029.md) | [video](https://youtu.be/1GulA7iA-O0) |
  28 | Fri, November 17, 2017 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/26) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2028.md) | [video](https://youtu.be/8S-MEGYq_CI) |
