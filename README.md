@@ -32,7 +32,19 @@
  10 | Fri, February 10, 2017 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/5) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2010.md) | [video](https://youtu.be/huYl7eOlKJE) |
   9 | Wed, January 25, 2017 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/3) \| [notes](All%20Core%20Devs%20Meetings/Meeting%208.md) | [video](https://youtu.be/ex51Gb3SVqo) |
   8 | Fri, October 28, 2016 13:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/1) \| [notes](All%20Core%20Devs%20Meetings/Meeting%209.md) | not recorded |
+  
+  ### Purpose
+The all core devs meeting is a technical meeting intended to bring together various Ethererum teams who play major roles in determining the direction of the protocol. Ethereum client and research teams provide updates to their projects, discuss various [EIPs](https://eips.ethereum.org/) to improve the protocol, and support each other as we buidl Web 3.0.
 
+### Who Can Attend
+Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to Hudson Jameson at hudson@ethereum.org.
 
+### Agenda Items
+Agenda's are posted to https://github.com/ethereum/pm/issues. Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
+- The topic is technical in nature.
+- The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
+- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
 
-
+### Who Manages the Meetings
+In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings.
+The meetings are independent of any organization. However, Hudson Jameson is a contractor for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings.
