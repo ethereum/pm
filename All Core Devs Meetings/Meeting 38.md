@@ -49,7 +49,7 @@ Video starts at [[]()].
     * Txs on mainnet including spam tx went up, tracking down issues, esp. around memory usage
     * Want to work on resource accounting which will help with decentralizing full nodes
     * Separate light client resource counting and monetary layer so anyone can monetize their node however they like, geth will just count it and make sure you adhere to your own quotas
-    * Don't have numbers yet but hope that by next call I can give you guys some hard numbers on whether [performance optimizations?] seems worth it or not
+    * Don't have numbers yet but hope that by next call I can give you guys some hard numbers on whether the new fast-sync protocol seems worth it or not, i.e. let's POC before we EIP (per @holiman's clarification)
 * cpp-ethereum (Pawel)
     * Sent binaries to Github releases, now have a development snapshot and we'll make a stable release soon
     * Some RPC improvements and fixes
@@ -322,28 +322,29 @@ Video starts at [[]()].
 * Hudson did a write up about this in PMs repo and will elaborate in blog posts about some of the changes that are coming, in particular how they'l be more technical in nature and less philosophical, to save time, and to make sure core devs aren't deciding everything. Our focus here should be low level protocol issues not high level issues and contentious debate.
 
 ## Attendees
-* Hudson
-* Lane
+* Alex (last name unclear)
+* Dmitrii (EthereumJ)
+* Paweł Bylica (EF: cpp-ethereum/ewasm)
 * Greg Colvin
-* Phil
-* Paul Dworzanski
-* Avsa
-* Dimitry
-* Pawel
-* Peter
-* Piper
-* Nick Johnson
-* James Ray
+* Casey Detrio (ewasm)
+* Paul Dworzanski (ewasm)
+* Daniel Ellison (Consensys/LLL)
+* Frederik Harrysson (Parity)
 * Geoff Hayes
-* Greg
-* Dmitrii
-* Mr. Else
-* Ms. If
-* Mr. Def
-* Alex
-* Daniel Ellison
-* Martin Holst Swende
-* Danny
-* Frederik Harrysson
-* Casey
+* Greg (last name unclear)
+* Hudson Jameson (EF)
+* Nick Johnson (EF/ENS)
+* Dimitry Khokhlov (EF: cpp-ethereum, testing)
+* Piper Merriam (EF/trinity)
+* James Ray (Drops of Diamond)
+* Lane Rettig (ewasm)
+* Danny Ryan (EF: Research)
+* Martin Holst Swende (EF: geth/security)
 * Tim Siwula
+* Péter Szilágyi (EF: geth)
+* Phil (last name unclear)
+* Alex Van de Sande
+* Guests (presenting on new PoW idea)
+    * Ms. If
+    * Mr. Def
+    * Mr. Else
