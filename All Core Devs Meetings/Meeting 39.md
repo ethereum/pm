@@ -190,7 +190,7 @@ Video starts at [[]()].
     * Hasn't come up since then
 * Timing
     * Martin: Would like to see a hardfork this year
-    * Not sure
+    * Danny: We don't know yet when we'll need a Casper FFG fork, let's consider that separately.
 
 ## Testnet rent
 * https://github.com/ethereum/pm/issues/43#issuecomment-390959920
