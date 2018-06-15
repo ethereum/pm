@@ -16,7 +16,7 @@
 
 # Notes
 
-Video starts at [[]()].
+Video starts at [[22:46](https://youtu.be/7FNRWEQ_H7w?t=22m46s)].
 
 ## Testing
 * EIP 1085
@@ -215,16 +215,16 @@ Video starts at [[]()].
 * Everett: my goal would be to evolve the EVM over time and the only way to do that would be to forget old parts of the blockchain
 
 ## Attendees
-* Alex Beregszaszi
-* Paul Dworzanski
-* Everett Hildenbrandt
-* Zixuan Zhang
-* Lane Rettig
-* Mikhail Kalanin
-* Martin Holst Swende
-* Greg Colvin
-* Fredrik Harrysson
-* Daniel Ellison
-* Jacek Sieka
-* Danny Ryan
-* Casey Detrio
+* Alex Beregszaszi (ewasm)
+* Greg Colvin (EVM)
+* Casey Detrio (ewasm)
+* Paul Dworzanski (ewasm)
+* Daniel Ellison (Consensys/LLL)
+* Fredrik Harrysson (Parity)
+* Everett Hildenbrandt (ewasm)
+* Mikhail Kalanin (Harmony/EthereumJ)
+* Lane Rettig (ewasm)
+* Danny Ryan (EF research)
+* Jacek Sieka (Status/Nimbus)
+* Martin Holst Swende (EF: geth/security)
+* Zixuan Zhang (ewasm)
