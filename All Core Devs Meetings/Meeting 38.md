@@ -24,7 +24,7 @@
 
 # Notes
 
-Video starts at [[]()].
+Video starts at [[10:23](https://youtu.be/1WBuF8cMKUk?t=10m23s)].
 
 ## Testing
 * Dimitry: common `genesis.json` format
