@@ -72,8 +72,8 @@ Video starts at [[]()].
     * Database size ~210gb, I'll be able to get this down even more
     * I'm not satisfied with the performance but I'm going to stop here and prepare for the release
     * Currently working on ethtester
-    * For older clients, there are no direct tests, clients tested indirectly via Hive/cpp-ethereum
-    * Tool that can communicate with node via P2P protocol, feed whatever blocks it wants, hopefully I'll be able to get some state tests there as well
+    * Only cpp-ethereum is directly tested by state tests, for other clients there are no direct tests, clients tested indirectly via Hive/cpp-ethereum
+    * Tool that can communicate with node via P2P protocol, feed whatever blocks it wants, generate arbitrary chain re-orgs. Hopefully I'll be able to get some state tests there as well
     * If I succeed I'll clean up some RPC implementation and do the first release
     * Difference with testeth/retesteth? RPC method which requires implementation in every client, whereas what I'm doing doesn't require any client changes
     * Running on Google cloud, Spec is 4 CPUs, 26GB memory, 500gb SSD or HDD, and I compare with each other
@@ -81,7 +81,7 @@ Video starts at [[]()].
         * Uses memmap files so OS probably uses more but heap doesn't go above
         * HDD falls behind but not too much, can see graph in my blog post
         * When they both sync to the end I'll publish another updated comparison
-        * Also published disk breakdown because the DB I'm using makes it easy to breakdown what's consuming the 210gb (account, contract, preimages, receipts, etc.)
+        * Also published disk breakdown because the DB I'm using (boltDB) makes it easy to breakdown what's consuming the 210gb (account, contract, preimages, receipts, etc.)
 * Prysmatic sharding client on geth (Raul)
     * Finished minimal sharding
     * Proposers and notaries interacting with shard manager contract
