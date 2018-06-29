@@ -24,7 +24,7 @@
 
 # Notes
 
-Video starts at [[]()].
+Video starts at [[5:32](https://youtu.be/8-AZys80RrU?t=5m32s)].
 
 ## Testing
 * Dimitry update
@@ -355,24 +355,24 @@ Video starts at [[]()].
 * Hudson: we'll continue conversation about Constantinople hard fork on next call in two weeks.
 
 ## Attendees
-* Hudson
-* Lane
-* Mikhail
-* Peter Szilagyi
-* Alexey
-* Jake Lang
-* Daniel Ellison
-* Frederik Harryson
-* Justin Drake
-* Guillaume
-* Danny
-* Casey Detrio
-* Raul Jordan
-* Vitalik
-* Dimitry
-* Paul D.
-* Everett
-* Lefteris
-* Nick Johnson
+* Hudson Jameson (EF)
+* Lane Rettig (ewasm)
+* Mikhail Kalanin (Harmony/EthereumJ)
+* Peter Szilagyi (EF/geth)
+* Alexey Akhunov (turbogeth)
+* Jake Lang (ewasm)
+* Daniel Ellison (Consensys/LLL)
+* Frederik Harryson (Parity)
+* Justin Drake (EF/research)
+* Guillaume Ballet (EF)
+* Danny Ryan (EF/research)
+* Casey Detrio (ewasm)
+* Raul Jordan (Prysmatic)
+* Vitalik Buterin (EF/research)
+* Dimitry Khokhlov (EF: cpp-ethereum, testing)
+* Paul Dworzanski (ewasm)
+* Everett Hildenbrandt (ewasm)
+* Lefteris Karapetsas (Raiden)
+* Nick Johnson (EF/ENS)
 * Tope Alabi
-* Avsa
+* Alex Van de Sande (EF/Mist/Ethereum Wallet)
