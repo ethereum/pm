@@ -21,7 +21,7 @@
 
 # Notes
 
-Video starts at [].
+Video starts at [[5:46](https://youtu.be/TWL6QaCsl1I?t=5m46s)].
 
 ## Should ewasm go to mainnet?
 * Axic update
@@ -48,7 +48,7 @@ Video starts at [].
 * Trinity (Piper)
     * Working on next major release
     * Arch. for plugins to host third-party functionality
-    * Fees, [MISSED]
+    * Working on syncing logic, core functionality
 * Pantheon/PegaSys (Shahan, Ben Edgington, Matt Halpern)
     * Planning to release Pantheon client at DevCon IV
     * Will meet requirements of well-behaved peer
@@ -70,13 +70,25 @@ Video starts at [].
         * C, Rust, AssemblyScript, one handwritten WAST
 * pyethapp
     * Martin: becoming officially deprecated very soon
+* Mist (Peter)
+    * Did a release a while ago, now connects to Infura at startup then switches over when done syncing
 
 ## Research update
 * Vitalik update
-    * [MISSED BEGINNING]
-    * Problem with old fork choice rule is that it was very proposer-centric
-    * Could move partially to something like GHOST
-    * If proposers stop showing up on Chain A, you have dangling attestations, can we make them keep contributing to the head fork?
+    * Vlad, Nate, and Vitalik arguing about beacon fork choice rules
+    * Every random beacon scheme has its flaws
+        * Randao: more explotability
+        * Threshold VRFs: hard threshold online requirement
+        * VDF: have to worry about ASICs, high chance of being monopolized
+    * Can we make the beacon chain algo. more resistant to a higher level of manipulation of proposal selection
+    * Because attester sets very large, it's statistically infeasible to really manipulate even one attester set, but no. of proposers is 100 per epoch which is totally manipulable if you can perfectly manipulate randomness
+    * So can we modify the algo. to be more robust against proposers being really unreliable?
+    * Worst case imagine in one epoch only 1-2 proposers are honest
+    * We think we can but it requires some fork choice rule modifications
+    * Problem with old fork choice rule is that it was very proposer-centric in that it counted by heights
+    * Proposers have power to cause heights not to increment
+    * Could move partially to something GHOST-like
+    * If proposers stop showing up on Chain A, you have dangling attestations, can we make them keep contributing to the head score?
     * Trying to see how that fits into the finality gadget, justification
     * Making progress but still things to think about
     * Exploring design space between FFG and CBC algorithms
@@ -145,8 +157,14 @@ Video starts at [].
     * Definitely going in
 * EIP-1052: EXTCODEHASH
     * Not sure
-[MISSED A BIT]
-* EIP-1087
+    * Alexey: appeared recently
+    * Danny: simple and useful
+    * Hudson: straightforward, seems like people want it, let's put this in unless someone comes up with objections
+* EIP-1087: Net gas metering for SSTORE operations
+    * Martin: EIP says client implementation must maintain dirty map, what was touched during current tx
+        * Don't think this is efficient
+        * [bad audio]
+        * There may be hidden complexities here
     * V: need to maintain a journal for the dirty map, what happens if stuff gets reverted?
         * We had to fight with these issues a bunch two years ago
         * Might reintroduce a lot of trouble if we're not careful
@@ -179,7 +197,7 @@ Video starts at [].
         * V: we fleshed out these edge cases already a couple of years ago
     * Peter: geth already has a clause for this use case
     * V: there are also test cases.
-* Delay ice age?
+* delaying the difficulty bomb and/or reducing the block reward
     * V: Going by etherscan data on block time previously, if we say it starts when block time reaches 16s, would be ~ block 6.7m, would become noticable, in ~ 6 mos, after that it would take ~ 8 mos until it becomes really serious
 * Timeline
     * Hudson: a proposed, very optimistic timeline
@@ -217,11 +235,16 @@ Video starts at [].
                 * We decided a couple of calls ago to add genesis information
             * Alexey: Are we writing contracts in EVM bytecode or in HLL?
                 * V: Published EVM and LLL for it, LLL is the appropriate level, doesn't introduce compiler risk, still readable
-        * Pawel: Thinking about using lower level implementation, LLL or solc assembly, close to EVM opcodes
+        * Pawel
+            * Current code in serpent
+            * I reported some issues
+            * Every time I propose a change it waits forever, not able to queue them up
+            * One or two PRs
+            * Thinking about using lower level implementation, LLL or solc assembly, close to EVM opcodes
         * V: Do we have test cases for this?
         * Pawel: I wrote some unit tests but may not be included in EIP, should be in a PR
         * Martin: If you try to enable it at block zero it will wind up in a recursive loop storing block hashes, hinders it from being used
-* Lowering cost for EC stuff?
+* Lowering gas cost for new EC precompiles
     * V: Is it just geth that added optimized libraries?
     * Peter: Trivial to inject into hive and run against all clients
     * V: We did the analysis for Byzantium, set 80k gas cost since we wanted to target 20M gas per second
@@ -229,13 +252,16 @@ Video starts at [].
         * How much effort should we put into this? How badly do we want this in Constantinople?
         * Doing it the way Peter suggested makes it easier to automate for all clients that are hive-compatible
         * Don't need things to be clearer, I can do it, just need to know how badly we want it
+    * Peter: zk snarks are part of [unclear], hard to measure weight
 * Hudson: timeline for release will probably be post-DevCon
     * Should delay Ice Age since we'll start seeing some effects in 2019
     * Alexey: Perhaps we shouldn't bundle everything into Constantinople but just release things as they are ready
     * Peter: Huge coordination problem, making sure everyone updates -- exchanges, etc.
     * V: If we want to guarantee a hardfork before DevCon then I'd recommend kicking out 210 (Blockhash refactoring) and 1087 (Net gas metering for SSTORE operations) (Bitwise shift, EXTCODEHASH which seem fairly simple)
     * Hudson: This could be a little hard fork
-    * Peter: Everyone who proposes an EIP should ... [MISSED]
+    * Peter: Everyone who proposes an EIP should at least have a reference implementation so it's easy to argue about
+        * Could we ask Nick to implement it?
+        * Hudson: might be a good future requirement
     * Pawel: I'm okay moving 210 (Blockhash refactoring) to end of queue, don't see any pressure to implement it
         * V: Use case: enabling light clients to sync without seeing every block header - would be nice to allow a light client to sync trustlessly in log time
         * Achieving it might not be worth it, can rely on existing approach until we have PoS light client functionality
@@ -268,20 +294,20 @@ Video starts at [].
 
 ## Attendees
 
-* Hudson Jameson
-* Afri Schoeden
-* Lane Rettig
-* Martin Holst Swende
-* Danny Ryan
-* Jason Carver
-* Alex Beregszaszi
+* Alexey Akhunov (TurboGeth)
+* Alex Beregszaszi (EF/Ewasm)
+* Pawel Bylica (EF/cpp-ethereum)
+* Jason Carver (EF/Trinity)
+* Ben Edgington (Consensys/Pegasys)
+* Daniel Ellison (Consensys/LLL)
+* Matt Halpern (Pantheon/PegaSys)
+* Hudson Jameson (EF)
+* Mikhail Kalanin (Harmony/EthereumJ)
+* Shahan Khatchadourian (Pantheon/PegaSys)
+* Piper Merriam (EF/Trinity)
 * Rachel Rose OLeary
-* Matt Halpern
-* Shahan Khatchadourian
-* Peter Szilagi
-* Alexey Akhunov
-* Daniel Ellison
-* Mikhail Kalanin
-* Ben Edgington
-* Pawel Bylica
-* Piper Merriam
+* Lane Rettig (Ewasm)
+* Danny Ryan (EF/research)
+* Afri Schoeden (Parity)
+* Martin Holst Swende (EF/geth/security)
+* Peter Szilagyi (EF/geth)
