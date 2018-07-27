@@ -47,6 +47,17 @@ Call starts at [[5:37](https://youtu.be/6I7SRa58-9M?t=5m37s)]
     * Guido started to fuzz ethereumj
 
 # Client updates
+* List of clients (from Afri)
+	* https://github.com/ethereum/go-ethereum (golang)
+	* https://github.com/paritytech/parity-ethereum (rust)
+	* https://github.com/ether-camp/ethereum-harmony (java)
+	* https://github.com/ethereum/cpp-ethereum (c++, mainly testing)
+	* https://github.com/ethereum/pyethapp (python, deprecated)
+	* https://github.com/ethereum/trinity (python, wip)
+	* https://github.com/ethereumjs/ethereumjs-client (js, wip)
+	* https://github.com/poanetwork/mana (formerly exthereum, elixir, wip)
+	* https://github.com/tkstanczak/nethermind (c#, wip)
+	* (pegasys client to be announced, java, wip)
 * Parity (Afri)
     * Released parity ethereum 2.0, finally concludes what we've been working on for a while, to have a pure blockchain client for EVM and Wasm
     * Stripped out UI, wallet, etc.
@@ -119,7 +130,7 @@ Call starts at [[5:37](https://youtu.be/6I7SRa58-9M?t=5m37s)]
 	* Testing of precompile implementations is ongoing
 	* Discussing a couple of design issues in depth
 * EthereumJS (Holger posted comment)
-    * https://github.com/ethereum/pm/issues/51#issuecomment-408140132
+    	* https://github.com/ethereum/pm/issues/51#issuecomment-408140132
 	* We have now a first release series v2.4.x out where we introduced partial support for Constantinople (bitwise shifting instructions, EIP 145), see the according announcement post on Reddit.
 	* Work on other EIPs hasn't started yet though. I will make a follow-up Reddit call for participation tomorrow, since we currently don't have the people power to implement all ourself.
 	* If anyone is interested in helping head over to our VM repository. I'll also write up issues tomorrow on the Constantinople EIPs with some instructions on where to start.
@@ -127,10 +138,11 @@ Call starts at [[5:37](https://youtu.be/6I7SRa58-9M?t=5m37s)]
 
 # Research updates
 * Shasper v 2.1 (Danny)
+    * updated casper+sharding v2.1 https://notes.ethereum.org/SCIg8AH5SA-O4C1G1LYZHQ#
     * Working spec getting close to complete
     * Combines crosslinks and attestations
     * Introduces new fork choice rule
-    * Vitalik posted proposed epoch-less Casper on forum, pending more peer review
+    * Vitalik posted proposed epoch-less Casper on forum, pending more peer review (https://ethresear.ch/t/epoch-less-casper-ffg-liveness-safety-argument/2702)
     * First sharding implementers call soon
     * Some security params (how much advantage an attacker can gain with dedicated hardware) - getting some real world info from HW manufacturer
 * Vitalik
@@ -319,7 +331,7 @@ Call starts at [[5:37](https://youtu.be/6I7SRa58-9M?t=5m37s)]
         * With assumption we gain security from PoS overlay
         * So they need to be talked about at the same time
         * If there are a lot of ASICs and you decrease block reward, it might increase proportion of ASIC mining
-        * https://gist.github.com/djrtwo/bc864c0d0a275170183803814b207b9a
+        * reward reduction analysis in relation to eip 1011: https://gist.github.com/djrtwo/bc864c0d0a275170183803814b207b9a
     * Lane: Since these issues are in fact both economic, maybe the two should not be decoupled
     * Afri
         * Attempted proposal based on 649 which we used for Byzantium fork, same mechanics
