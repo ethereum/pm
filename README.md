@@ -7,6 +7,10 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+ 46 | Fri, September 14, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/56) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2046.md) | [video](https://www.youtube.com/watch?v=TafZui-DnV0) |
+ ** | Fri, August 31, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/55) | [video](https://www.youtube.com/watch?v=mAs3JZHroKM) |
+ 45 | Fri, August 24, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/54) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2045.md) | [video](https://www.youtube.com/watch?v=6CZ1uO_WxVk) |
+ 44 | Fri, August 10, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/52) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2044.md) | [video](https://youtu.be/0Lyn5OryooA) |
  43 | Fri, July 27, 2018 14:00 UTC     | [agenda](https://github.com/ethereum/pm/issues/51) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2043.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/929wgu/live_ethereum_core_devs_meeting_43_072718_starts/) | [video](https://www.youtube.com/watch?v=6I7SRa58-9M) |
  42 | Fri, July 13, 2018 14:00 UTC     | [agenda](https://github.com/ethereum/pm/issues/50) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2042.md) | [video](https://www.youtube.com/watch?v=TWL6QaCsl1I) |
  41 | Fri, June 29, 2018 14:00 UTC     | [agenda](https://github.com/ethereum/pm/issues/46) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2041.md) | [video](https://www.youtube.com/watch?v=HpCMguxraBA) |
