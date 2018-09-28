@@ -13,7 +13,7 @@
 5. [EIP 1108: Reduce alt_bn128 precompile gas costs](https://eips.ethereum.org/EIPS/eip-1108)
 6. ProgPoW
 
-Call starts at []
+Call starts at [[6:17](https://youtu.be/z2mefVnZHpw?t=6m17s)]
 
 # Testing update
 * Martin update
