@@ -287,20 +287,20 @@ Call starts at [[8:04](https://youtu.be/0Lyn5OryooA?t=8m4s)]
         * Tried to draw lines saying we're only handling technical controversy
 
 # Attendees
-* Hudson Jameson (EF)
-* Lane Rettig (Ewasm)
-* Jamie Pitts (EF/Fellowship of Ethereum Magicians)
-* Boris Mann (Fellowship of Ethereum Magicians)
-* Matt Halpern
-* Jacek Sieka (Status/Nimbus)
-* Greg Colvin (Fellowship of Ethereum Magicians)
-* Tope Alabi
-* Jordi Baylina
-* Fredrik Harryson (Parity)
 * Alexey Akhunov (TurboGeth)
+* Tope Alabi
+* Jordi Baylina (Giveth/Dappnode/WHG)
+* Paweł Bylica (EF/aleth/Ewasm)
+* Greg Colvin (Fellowship of Ethereum Magicians)
+* Daniel Ellison (ConsenSys/LLL)
+* Matt Halpern (Pantheon/PegaSys)
+* Fredrik Harryson (Parity)
+* Hudson Jameson (EF)
 * Mikhail Kalanin (EthereumJ)
-* Martin Holst Swende
-* Pawel Bylica (EF/aleth/Ewasm)
-* Daniel Ellison
-* Wei Tang (Parity)
+* Boris Mann (Fellowship of Ethereum Magicians)
+* Jamie Pitts (EF/Fellowship of Ethereum Magicians)
+* Lane Rettig (Ewasm)
+* Jacek Sieka (Status/Nimbus)
 * Tim Siwula
+* Martin Holst Swende (EF/geth/security)
+* Wei Tang (Parity)
