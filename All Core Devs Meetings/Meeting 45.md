@@ -389,34 +389,35 @@ Call starts at []
         * More community content on reddit, twitter, FEM forum about the EIPs and these perspectives
 
 # Attendees
-* Hudson Jameson (EF)
-* Lane Rettig (Ewasm)
-* Andrea Lanfranchi
-* Greg
-* Brian Venturo
-* Piper Merriam
-* Fredrik Harryson
-* Zsolt Felfoldi
-* Matt Halpern
-* Dmitrii (Harmony)
-* Nick Johnson
-* Jason Carver
-* Jean M. Cyr
-* Antoine
-* Peter
-* Martin Holst Swende
-* Eric Conner
-* Xin Xu
-* Tim Coulter
-* Danny Ryan
-* Carl Larson (/r/ethtrader subreddit moderator, EIP-858 author)
-* Marius Van Der Wijden
-* Jacek Sieka
-* Alex Beregszaszi
-* Afri
-* Pawel
 * Igor Barinov (PoA/Mana client)
-* hacktar
-* Bob Summerwill
-* Jason Temple (observer)
-* Alex van de Sande
+* Alex Beregszaszi (EF/ewasm/solidity)
+* Paweł Bylica (EF/aleth)
+* Jason Carver (EF/trinity)
+* Greg Colvin (Fellowship of Ethereum Magicians)
+* Tim Coulter (Metamask)
+* Dmitrii (Harmony)
+* Zsolt Felföldi (EF/geth)
+* Matt Halpern (ConsenSys/PegaSys)
+* Fredrik Harryson (Parity)
+* Hudson Jameson (EF)
+* Nick Johnson (EF/ENS)
+* Piper Merriam (EF/trinity)
+* Lane Rettig (Ewasm)
+* Danny Ryan (EF/research)
+* Afri Schoeden (Parity)
+* Jacek Sieka (Status/Nimbus)
+* Martin Holst Swende (EF/geth/security)
+* Péter Szilágyi (EF/geth)
+* Alex van de Sande (EF/mist)
+* Invited guests
+    * Antoine
+    * Eric Conner
+    * Jean M. Cyr
+    * hacktar
+    * Andrea Lanfranchi
+    * Carl Larson (/r/ethtrader subreddit moderator, EIP-858 author)
+    * Jason Temple (observer)
+    * Bob Summerwill
+    * Marius Van Der Wijden
+    * Brian Venturo
+    * Xin Xu (Ethfans)
