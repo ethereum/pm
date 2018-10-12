@@ -207,19 +207,19 @@ Call starts at [[1:36](https://youtu.be/TafZui-DnV0?t=1m36s)]
     * Will discuss post-Constantinople, we'll have more context then
 
 # Attendees
-* Hudson Jameson (EF)
-* Lane Rettig (Ewasm)
-* Piper Merriam (EF/Python)
-* Alex Beregszaszi (EF/Ewasm)
-* Afri Schoeden (Parity)
-* Mamy (Status/Nimbus)
-* Jason Carver (EF/Python)
-* Mikhail Kalinin
 * Alexey Akhunov (TurboGeth)
-* Danny Ryan (EF/Research)
-* Andrei Maiboroda (EF)
-* Martin Holst Swende (EF/Security/Geth)
-* Vitalik
-* Daniel Ellison
+* Alex Beregszaszi (EF/Ewasm)
+* Vitalik Buterin (EF/research)
+* Jason Carver (EF/Python)
 * Dmitrii (Harmony)
-* Dimitry (EF/Testing)
+* Daniel Ellison (ConsenSys/LLL)
+* Hudson Jameson (EF)
+* Mikhail Kalinin (EF/EthereumJ)
+* Dimitry Khokhlov (EF/Testing)
+* Andrei Maiboroda (EF)
+* Mamy (Status/Nimbus)
+* Piper Merriam (EF/Python)
+* Lane Rettig (Ewasm)
+* Danny Ryan (EF/Research)
+* Afri Schoeden (Parity)
+* Martin Holst Swende (EF/Security/Geth)
