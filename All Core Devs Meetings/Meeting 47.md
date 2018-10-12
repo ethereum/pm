@@ -320,20 +320,20 @@ Call starts at [[6:17](https://youtu.be/z2mefVnZHpw?t=6m17s)]
     * I could disable check for YAML for now, could merge tests if necessary in near future, but you could just pull from PR and see how Hive is working
 
 # Attendees
-* Hudson Jameson (EF)
-* Lane Rettig (Ewasm)
-* Martin Holst Swende (EF/Security/Geth)
-* Dmitrii (Harmony)
 * Alexey Akhunov (TurboGeth)
-* Pawel Bylica (EF/aleth/ewasm)
-* Jacek Sieka (Status/Nimbus)
-* Daniel Ellison (Consensys/LLL)
-* Danny Ryan (EF/research)
-* Eric Kellstrand (PegaSys)
 * Meredith Baxter (PegaSys)
-* Matthew English (PegaSys)
-* Greg Colvin
+* Paweł Bylica (EF/aleth/ewasm)
 * Vitalik Buterin (EF/research)
+* Greg Colvin (Fellowship of Ethereum Magicians)
+* Dmitrii (Harmony)
+* Daniel Ellison (ConsenSys/LLL)
+* Matthew English (PegaSys)
+* Hudson Jameson (EF)
+* Eric Kellstrand (PegaSys)
+* Lane Rettig (Ewasm)
+* Danny Ryan (EF/research)
+* Jacek Sieka (Status/Nimbus)
+* Martin Holst Swende (EF/Security/Geth)
 * Special guests
     * Miss If (If-Def-Else/ProgPoW)
     * Mr. Def (If-Def-Else/ProgPoW)
