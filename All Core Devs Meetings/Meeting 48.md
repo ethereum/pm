@@ -154,7 +154,7 @@ Call starts at [[5:33](https://youtu.be/lz5CcpnQ1_s?t=333)]
 * Andrew Gross (Mana)
 * Fredrik Harrysson (Parity)
 * Hudson Jameson (EF)
-* Mikhail Kalanin (EthereumJ)
+* Mikhail Kalinin (EF/EthereumJ)
 * Eric Kellstrand (ConsenSys/PegaSys)
 * Dimitry Khokhlov (EF/testing)
 * Piper Merriam (EF/python/trinity)
