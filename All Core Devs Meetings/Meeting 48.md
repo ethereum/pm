@@ -149,13 +149,13 @@ Call starts at [[5:33](https://youtu.be/lz5CcpnQ1_s?t=333)]
 * Paweł Bylica (EF/aleth)
 * Jason Carver (EF/python/trinity)
 * Dmitry (Harmony)
-* Daniel Ellison (Consensys/LLL)
-* Matthew English
+* Daniel Ellison (ConsenSys/LLL)
+* Matthew English (ConsenSys/PegaSys)
 * Andrew Gross (Mana)
 * Fredrik Harrysson (Parity)
 * Hudson Jameson (EF)
 * Mikhail Kalanin (EthereumJ)
-* Eric Kellstrand
+* Eric Kellstrand (ConsenSys/PegaSys)
 * Dimitry Khokhlov (EF/testing)
 * Piper Merriam (EF/python/trinity)
 * Lane Rettig (Ewasm)
