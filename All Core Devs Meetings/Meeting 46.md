@@ -217,7 +217,7 @@ Call starts at [[1:36](https://youtu.be/TafZui-DnV0?t=1m36s)]
 * Mikhail Kalinin (EF/EthereumJ)
 * Dimitry Khokhlov (EF/Testing)
 * Andrei Maiboroda (EF)
-* Mamy (Status/Nimbus)
+* Mamy Ratsimbazafy (Status/Nimbus)
 * Piper Merriam (EF/Python)
 * Lane Rettig (Ewasm)
 * Danny Ryan (EF/Research)
