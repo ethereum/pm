@@ -7,11 +7,11 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
- ** | Fri, October 19, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/61) | [video](https://www.youtube.com/watch?v=5Q67tmkZ5So) |
+ C2 | Fri, October 19, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/61) | [video](https://www.youtube.com/watch?v=5Q67tmkZ5So) |
  48 | Fri, October 12, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/59) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2048.md) | [video](https://www.youtube.com/watch?v=lz5CcpnQ1_s) |
  47 | Fri, September 28, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/58) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2047.md) | [video](https://www.youtube.com/watch?v=z2mefVnZHpw) |
  46 | Fri, September 14, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/56) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2046.md) | [video](https://www.youtube.com/watch?v=TafZui-DnV0) |
- ** | Fri, August 31, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/55) | [video](https://www.youtube.com/watch?v=mAs3JZHroKM) |
+ C1 | Fri, August 31, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/55) | [video](https://www.youtube.com/watch?v=mAs3JZHroKM) |
  45 | Fri, August 24, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/54) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2045.md) | [video](https://www.youtube.com/watch?v=6CZ1uO_WxVk) |
  44 | Fri, August 10, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/52) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2044.md) | [video](https://youtu.be/0Lyn5OryooA) |
  43 | Fri, July 27, 2018 14:00 UTC     | [agenda](https://github.com/ethereum/pm/issues/51) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2043.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/929wgu/live_ethereum_core_devs_meeting_43_072718_starts/) | [video](https://www.youtube.com/watch?v=6I7SRa58-9M) |
