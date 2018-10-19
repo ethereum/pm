@@ -3,8 +3,9 @@
 ### Meeting Duration 1 hour
 ### [YouTube Live Stream Link](https://www.youtube.com/watch?v=5Q67tmkZ5So)
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/61)
-
 ### [Constantinople Progress](https://github.com/ethereum/pm/issues/53)
+
+Video starts at [2:52](https://youtu.be/5Q67tmkZ5So?t=172).
 
 # Agenda
 1. Ropsten issues
