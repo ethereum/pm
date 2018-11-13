@@ -52,7 +52,7 @@ Call starts at [[9:08](https://youtu.be/DUUOCDxvKbw?t=548)]
     - Just catching up on DevCon stuff
 - TurboGeth
     - Fixing bug discovered on Ropsten HF, to do with rewinding
-    - Working on [?] database announced at DevCon
+    - Working on "Morus" database announced at DevCon
     - Trying to extract some datasets, using efficiency of TurboGeth in extracting different sets of data from DB, looking pretty good
 - Pantheon (Danno)
     - Had offsite all week in Prague
