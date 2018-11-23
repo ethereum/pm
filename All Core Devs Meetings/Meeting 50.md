@@ -6,9 +6,10 @@
 
 # Agenda
 
-1. Testing
-1. Client Updates
-1. Research Updates
+1. Discussion about openness and roadmap discussions in Prague
+1. Testing update
+1. Client updates
+1. Research updates
 1. Constantinople, testnet hard forks
 1. Goerli update
 1. ProgPoW update
