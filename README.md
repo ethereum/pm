@@ -7,6 +7,8 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+ 50 | Fri, November 23, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/62) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2050.md) | [video](https://www.youtube.com/watch?v=wfxvCEhglTM) |
+ 49 | Fri, November 9, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/60) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2049.md) | [video](https://www.youtube.com/watch?v=DUUOCDxvKbw) |
  C2 | Fri, October 19, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/61) \| [notes](All%20Core%20Devs%20Meetings/Constantinople%20Meeting%202.md) | [video](https://www.youtube.com/watch?v=5Q67tmkZ5So) |
  48 | Fri, October 12, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/59) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2048.md) | [video](https://www.youtube.com/watch?v=lz5CcpnQ1_s) |
  47 | Fri, September 28, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/58) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2047.md) | [video](https://www.youtube.com/watch?v=z2mefVnZHpw) |
