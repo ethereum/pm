@@ -1,0 +1,701 @@
+# Eth 1.x Proposal Sync 1 Notes
+### Meeting Date/Time: Fri, November 30, 2018 14:00 UTC
+### Meeting Duration: 2.5 hours
+### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/65)
+### No audio/video recording
+
+# Agenda
+
+1. Transparency, note taking, Chatham House rules
+1. Recap of Nov. 2 discussion
+1. Simulation working group [proposal and discussion](https://ethereum-magicians.org/t/simulation-working-group-proposal-for-eth-1-x/2068)
+1. State rent working group [proposal and discussion](https://ethereum-magicians.org/t/ethereum-state-rent-for-eth-1-x-pre-eip-document/2018)
+1. Ewasm working group [proposal and discussion](https://ethereum-magicians.org/t/ewasm-working-group-proposal-for-eth-1-x/2033)
+1. January workshop update
+1. Continuation of transparency discussion
+1. Chain pruning [proposal and discussion](https://ethereum-magicians.org/t/ethereum-chain-pruning-for-long-term-1-0-scalability-and-viability/2074)
+
+# Intro
+- Series of meetings in Prague
+- During those meetings we decided to have more meetings after Prague that would be more closed than usual
+- In order to be more candid about pre-planning for topics that could be controversial
+- It's looking like there won't be so much controversy since working groups are now public so maybe we miscalculated
+- Anyway, WG are public, fact that this meeting is happening is public, notes will be taken and released but unattributed
+- Intro to Chatham House Rules
+
+# Recap of Prague meeting
+- Discussed Eth 2.0 roadmap and what could happen in parallel
+- Some people in the room shared some interesting ideas, we settled on four main areas
+- Three formalized into working groups
+    - Data collection & simulation, how changes affect network, Shahan
+    - Rent, bounding state size, Alexey
+    - Ewasm, Casey
+    - Archiving blogs and logs, pruning state size, Peter
+- How do we understand what to do to improve the current state of the network without disadvantaging users too much? To extend current life of the network and give 2.0 team they need to give us the best network possible
+
+# Simulation working group
+- [proposal and discussion](https://ethereum-magicians.org/t/simulation-working-group-proposal-for-eth-1-x/2068)
+- Intro
+    - Working group is making progress
+    - Hoping that by today we'd have some definite parameters for simulation
+    - Making headway but haven't finalized parameters
+    - When WG started, view was that uncle rates could be one parameter to investigate in order to determine whether network is functioning well
+    - PR went into Parity to introduce block propagation optimisation, unclear whether this has been verified
+    - Next steps: continue to work towards params, one of which is potentially uncle rate
+    - Alexey put another proposal in to get logs from the different clients, doing that interactively by setting client on flag, these are great ideas but need to be discussed
+    - Whiteblock has done previous emulation for gas limits and uncle rates
+    - Goal is to produce open source framework to be able to do emulations
+- Whiteblock
+    - Started working on developing this framework, still specing out what it will look like
+    - Depending on how much time we have can present several options
+    - Ideally will allow us to run same tests we run with SaaS app.
+    - Allows us to provision nodes running whichever clients, and ability to functionally emulate network links between nodes with packet loss, latency, implement forking conditions, observe network response
+    - Latency has direct effect on uncle rate, as observed in previous tests
+    - Variety of scenarios we can implement and observe, collect data
+    - Probably more identifying particular data points that we want to observe is most important
+    - Already have libraries developed, we'll open source those as well
+    - Creating permissioned test network for everyone - not public quite yet
+        - Can get that going
+        - Anybody can join
+        - We provision nodes so there's a minimum
+        - Automate transactions, etc. so network is populated, controlled, active in a way that's not achievable with current public testnets
+        - We can implement conditions together
+        - Based on consensus among participants, run bunch of tests and see what happens
+    - Q: Is that a testnet or an emulation framework?
+    - A: It's both
+        - Simulation is a mathematical representation or a model of system function
+        - Emulation actually functionally replaces it
+        - Within our testnet and framework, the nodes are live and the tx are real, network latency accurate to the nanosecond
+        - We can create a reproduction of a global network at scale that performs as it would in real world
+        - Allows us to play out a lot of these scenarios practically, functionally, so we can predict how protocols and apps respond to particular conditions
+        - Framework emulates, creates functional rep. of whatever we want, we can see it happen at scale in a way that works better than anything else we've seen so far
+- Getting simulations, emulations figured out - we are in process of collecting datasets
+- So one suggestion is to figure out how we can extract logs from clients
+- Nicola, who writes simulator we're working on at PegaSys, one question that came up is whether the miners are connected in order to determine latency between them
+- There are a couple of questions in the doc
+- Encourage folks to take a look, comment, and share datasets and how things are working on mainnet
+- Let's go to questions
+    - Q: This sim. framework is called Whiteblock?
+    - A: There are two groups that have made/are making/software available
+        - Nicola Liochon (?) - [Wittgenstein](https://github.com/ConsenSys/wittgenstein) - simulator for a couple of network protocols. This team believes things like uncle rates and gas limits can be simulated for our purposes as well. That's where question of how nodes are connected came up.
+        - Whiteblock - offers a SaaS product - in the document there's a report that Whiteblock released that has done uncle rate and gas limit emulations, called Ubiq. Have a SaaS product, they are developing an open source framework.
+            - (We already have this framework, it's a commercial SaaS product, we will develop and release an OSS alternative.)
+    - Q: I sent you some feedback on the proposal. Important thing to do in order to be able to simulate/predict uncle rate, we need to measure the network, need to know block propagation times between nodes on the network. What's our best data on that?
+    - A: Our framework measures all of that within our testnet.
+        - We're cloud based, so we'd provision our nodes within the testnet and anyone can add a node.
+        - You can join by indicating that network ID and peering with the nodes.
+        - We have a netstats/explorer that provides all that relevant data: uncle rate, block propagation time, tx throughput, other relevant data points pertaining to nodes and testnet performance
+        - While we're finishing the OSS framework, we still have this commercial SaaS product that we can use, provision, and manage, you can join and do tests - we can set this up today but it needs to be provisioned
+        - When framework is available you can take part in emulation and parameters
+    - Q: Network latencies we see on testnet won't be same as we see on mainnet. We need to launch a testnet as big as/with as many nodes as the mainnet. Alternatively we can measure latencies we see on mainnet.
+    - A: May not be as important to emulate those latencies exactly. You want to implement certain scenarios, account for worst condition, not average - outlier conditions we can't really product. Correlation between net latency, uncle rate, block prop. time - direct impacts on security, ability to launch 51% attack, etc. - we can all observe, report on, account for together within design process
+    - Q: Where are you getting numbers on worst cases?
+    - A: We can implement an absurdly high amount of latency and see what happens.
+    - A suggestion: What I've seen people do in the past, Phil Daian's talk at DCIV, people deploy 10-16 nodes in mainnet, look at how tx going around them
+        - Slightly modified just to observe traffic going around them
+        - Try to estimate these params e.g. worst latency
+        - Also, when BCH did stress test recently, they asked people to upload debug logs to a guy who collects them and tries to figure out params of network
+            - But this might not work on the mainnet since topology of network to be completely revealed
+            - Maybe the first approach would work
+        - Latency within ETH network similar to latency within real-world WAN, just TCP/IP
+        - But there's distinct clustering within ETH
+        - Some folks intending to deploy software across Infura nodes to measure latency across the world
+        - Was that data gathered?
+        - Yes, will share this.
+        - I'd be interested in seeing that, I've been discussing over past few days about a project to deploy some nodes and measure the WAN latency on mainnet, measure block prop. times on mainnet
+        - Would've been nice to do this even before the Parity fix was pushed so we'd have block prop. times before and after the fix
+        - But if most parity nodes upgrade before we have the chance to do that then oh well
+        - This was done by some researchers on the BTC network back in 2013, not super easy project, it's a whole research paper if done right, but it's something that we're interested in doing, to collect these measurements and feed back into a sim. framework
+    - We want to develop an oracle service that will provide that mainnet data
+        - We work with Infura a lot, talked about developing an integration, import data into framework, recreate those scenarios based on preconfig. files
+    - If you guys are working on/collecting that data, if Infura has that data, we'd love to see it so we're not trying to do the same thing
+    - We want to see how it operates in high latency but we need a model of how the actual network runs
+    - We can get started on that right away
+    - FYI, [Wittgenstein repo](https://github.com/ConsenSys/wittgenstein) (sim. framework done by Nicolas and Vanessa) has stats for latency on WAN with graphs, take a look at this repo
+        - So far stats for uncle rates, gas limits are coming from etherscan or alethio
+        - When I asked Infura about uncle rates, they didn't have those stats but perhaps they have network stats
+    - Amberdata has good data sets as well
+    - Great, will chat with them
+    - More broadly how this simulation WG fits into the overall 1.x roadmap, I think even after we have these network measurements and a good model of uncle rates and how that relates to block prop. times, there's still the question of what is the bottleneck on 1.0 and what optimizations can fix them? To scale throughput on 1.0
+        - Before DevCon, before Alexey said current bottleneck is slow block prop. caused by Parity’s suboptimal behaviour, we only had idea that bottleneck seems to be disk/state IO, that bottleneck was optimized in recent geth release
+    - We noticed for Ubiq tests was correlation between block size and gas limits
+        - Practically observed in research project
+        - Found that block time is one of the more practical data points that affects uncle rate
+        - The lower the block time, the higher the uncle rate
+        - Also directly affected by gas limit
+    - Uncle rate inversely prop. to block time - known for a while
+        - Block times hover between 14-15 sec so does it matter for ETH?
+    - Changed algo. to enforce 80 sec. block time
+        - Default gas limit 8M, wanted to see how high they could raise that without affecting performance, we tested up to 40M
+        - As block time rose, as gas limit rose, throughput increased and uncle rate lowered
+        - When uncle rate rises, throughput decreases, security implications, not putting to use entire network hashrate
+    - Are you saying that Ubiq has an algo. where if uncle rate goes up then block time adjusts?
+    - No, not specific to uncle rate.
+        - That was my hypothesis, we just happened to have an engagement that let me test that hypothesis out
+        - Next hypothesis was that as uncle rate rises, requirements for 51% attack lowers, we got down to about 46%, able to implement attack
+        - Just trying to observe effects of all these within network within our framework
+    - I did some math analysis on this a while back
+        - One result I remember seeing is that components to uncle rate which is proportional to inverse of block time, and the component that's proportional to capacity e.g. gas per second, are additive
+        - In ETH the component attributable to inverse block time is about 6%, that's what we had when chain was empty
+        - If we increased block time to infinity but keep capacity constant, best we could do is drop from 12 to 6
+    - Not suggesting we increase block time
+        - I don't know best solution
+        - Just that we can observe these effects in controlled environment so we can come to these conclusions
+        - Derive a conclusive data set, rest is up to you guys
+    - Do you have any doc on existing simulation results?
+    - Yes, on medium and on our website, we have raw data sets, can generate them, and implement scenarios very quickly
+        - We can provision nodes, configure network, create nodes, fund it, generate genesis block, generate DAG and we're good to go
+        - Can play them out in ~10 mins
+    - If you set up network so block time is 14sec and gas limit is 8M and blocks are full, ie mainnet conditions, what do you get?
+    - Uncle rate depends on tx activity, volume, no. of nodes
+        - We should put together what we want to see so we have accurate data for those particular instances
+        - A control group
+        - We test 100 nodes, here are comp. resources
+        - Run all tests in perfect env., no latency
+        - Then start to inject variables: latency, less comp. resources, tx activity, etc.
+        - Create control, then introduce one variable to each test group, we automate this process and output data
+        - Add one by one, one test case where we make everything go wrong and see what that looks like to compare
+        - Data sets are objective, deterministic
+- We can discuss more in January, let's move on
+- Testing is important to demonstrate to community why we need these other proposals, let's share the data with the community
+- Some groups have their own simulations or testnets
+    - If you need anything from this working group, let us know
+    - Doc is there, please take a look and comment
+
+# State rent working group
+- [proposal and discussion](https://ethereum-magicians.org/t/ethereum-state-rent-for-eth-1-x-pre-eip-document/2018)
+- Intro
+    - Not going to go through the content of the document, you can read it for yourself
+    - I must note that I still believe a lot of people didn't read it to the end
+    - But I'm going to go through some feedback I got so far
+    - Will include response in next rev. of doc.
+    - First of all, "Apart from token DoS griefing attack, also allowance grieving attack" - you have an ERC-20 token, in order to call method approve, you do not even need to have token
+    - You don't need to have any tokens to increase the allowance which means you can grow storage
+    - Second point: There was counterargument that it could be solved by introducing min. transfer size
+        - Simple analysis, which I'll include in next rev., griefing factor, which is damage you cause divided by cost you incur, this griefing factor grows over time even if you introduce min. size
+        - Might be able to control by increasing min. size but would make token less practical
+    - Proposal to require signed ack. for transfer
+        - Must include in transfer to give consent
+        - Prevents airdrops but does nothing to fix grieving attack
+        - If not tied to paying rent, people will give consent whenever they need to
+        - So only solves airdrop problem
+    - In critique of proposed linear cross-contract storage, why can't contracts collect rent fees themselves?
+        - One proposed solution: issue new tokens in exchange for rent payments
+        - Would work for some limited set of contracts, but: how will a contract know how much token to give?
+        - Only works for fungible tokens, need a price oracle
+        - Don't know how to offer extra cryptokitties in exchange for rent
+        - Will contract have to confiscate tokens if rent not paid?
+        - Extra storage required to keep track of who paid and who didn't
+        - Overall more complex but will look more into it
+    - Stateless contract - instead of bothering with state rent - make it stateless
+        - Explored in doc, it basically describes two main problems, one partially solved one more complex
+        - Proof contention: can see in doc, picture of people trying to change color from blue to orange, blue to red
+            - Can be alleviated by bucketing state of contract
+            - Need balance between storage size and worse UX
+            - More buckets you have, more storage; less buckets, more contention and UX issues
+                - People have to recreate tx all the time when trying to write to same bucket
+            - Need subprotocol for delivering offchin contract data
+                - If you weren't watching stateless contract and want to join then you need to purchase data somehow
+            - If you want to solve proof contention completely, you need cooperation of miners since they can adjust proofs but that requires large changes in consensus protocol
+    - Priority queue critique, delegate eviction to miners by creating special tx
+        - Design principle: don't give miners any more power
+        - Power of state pruning, a headache to have in the future
+        - If can do without this, probably good
+        - PoC should clarify whether these issues are real or not
+    - Looked at work of Sergio Lerner from RSK, he's been thinking about this for quite a while
+        - Gone through multiple iterations
+        - Didn't manage to talk to him
+        - Hopefully we'll talk
+        - Have looked at his code in proposals
+        - Solution they settled on is that cost of access in storage keeps increasing as storage gets older
+        - If you keep poking the storage often then it's cheaper to access
+        - If you stop touching then it becomes more expensive
+        - Entire contract is one entity, if everyone keeps poking it, then it's cheaper to access
+        - My critique: still doesn't solve griefing problems
+        - Unless you account specific storage items
+        - But if you do that, you probably create extra tx churn bc people try to keep their assets "hot" by issuing lots of extra tx
+    - Next version: more accurately classify storage by what belongs to tokens and what not
+        - Only looked at initial set of 42% of contracts by storage
+        - Will start PoC, invite others to work with me, will try to start this anyway
+    - Other tech issue: how to do merkle trees over this linear cross-contract storage
+        - Left undecided in doc
+        - Not obvious to me at the moment
+- Q&A
+    - Q: Conflicts an issue if two people edit same storage key at same time
+        - Some stuff about this on ethresear.ch forum
+        - If miner gets there first you already know miner can adjust proof in real time
+    - Yes, I just mentioned, one way to solve problem is to involve the miners and get them to adjust the proofs although it requires larger changes in consensus, will mention this in next version
+    - Have you thought about moving this up one layer and creating overlay layer to do processing? History of claims, you just need data integrity. Involve IPFS, have overlay network
+        - Made proposal, still internal, called TokenTree
+        - Involves a couple of frameworks, side tree proposal
+        - Some ideas from Bitcoin times, open tx protocol, currently being implemented in rune wallet
+        - Layer two to do most of processing off-chain, you just keep very minimal info. on chain, just history of root hashes that point to IPFS
+    - Yes, this is what I called stateless contracts
+        - Two problems need to be resolved
+            - Overlay network is one, required to deliver data, has to watch all contract changes, otherwise cannot get proofs to data
+            - Proof contention: complete solution to that requires changes to consensus, non-complete is bucketing with UX implications
+        - Would rather not concentrate on that in research, no problem if someone wants to do that kind of proposal, can compare them
+        - But cannot expect me to go on all different branches and explore everything
+    - There's a way if you work with receipts how to get around that, happy to share
+    - A week ago we discussed that really low-hanging fruit would be to implement some form of dust account clearing
+        - One of potential dangerous things about introducing dust clearing as first step - if we first introduce it just for accounts not for contract storage, then people can just switched to wrapped ETH contract, in which case it wouldn't work
+    - Thought about this from start, considered including it
+        - I would expect people to escape rent by going into contracts
+        - If, however, rent is small enough, some ppl wouldn't bother, would make a small dent on account, e.g. 0.001 ETH per year - then it would be more expensive to deploy a contract
+        - At the same time, if this roadmap is presented as the solution, rather than step two and later more, there would be some abuse of privileges
+        - But if credible that this will happen then they'd get in trouble at a later step
+    - Way back at DevCon, I was opposed to the idea of leaving root hashes in account trie
+        - E.g. suppose we wipe out gastoken contract if people don't pay their rent
+        - Felt strongly that we should have a cleanup mechanism that wipes everything
+        - Will go into more detail later but I realized that the state itself is not _that_ huge just yet
+        - If we were to replace big offenders with just account chunks, what would that net us?
+        - V always said, immutability always a problem, and if we completely wipe someone out that violates promise of blockchain
+        - But if we replace with roothash it works but doesn't solve data scalability
+        - What number would that get us to?
+    - Easy to do now
+        - E.g. 140M storage items in contract
+        - Also ~7M contracts
+        - Apocalyptic scenario, all contracts die, don't pay rent: in this case, 7M root stamps still hanging, equiv. to about 14M storage items, would reduce storage by factor of 10
+        - Only contract thing
+        - If you consider accounts, that would significantly reduce the space, by a factor of 8 or so
+    - One experiment I don't think we did, essential here, would be to see if we create an account trie with plain accounts, keep generating random accounts, give one way to random numbers
+        - See how much the whole thing grows
+        - How does disk access evolve? Writing, reading it
+        - Feel that we are a bit in the dark here
+        - Currently has maybe 1M accounts (random no.), but what if we have 10, 100, 1000x more
+        - Would be helpful to know that with 1B accounts, account trie would be this big, this deep, read/write would take this long
+        - Would help evaluate ideas
+    - One thorny issue here: this approach to building hash trie by randomizing keys by applying SHA3
+        - Only partially solves problem
+        - Because someone with ASIC could attack it and make state trie bigger than it should be
+        - Doesn't affect turbogeth which doesn't use trie but affects all other clients
+        - Can produce adversarial scenarios where someone tries to max. harm
+    - I know it can be attacked, but for starters, nice to put naive number on it.
+        - Ideally let's say long-term goal is to give eth 1.x 10x tx increase
+        - Then we could say that accounts get created at 10x current frequency - let's suppose
+        - We can handle 10B accounts, then with 10x increase, 10B accounts before breaking - then we'd have e.g. three years, five years left
+        - If we have that number then maybe we can reevaulate whether doing pruning while leaving chunks in there is viable or whether we need to be more aggressive
+    - I don't worry too much about whether to prune completely (step six in document), complete elimination
+        - Then two ways of bringing back
+        - My opinion is that nobody will try to resurrect contracts
+        - But tools should still be there
+        - Step six is optional
+        - If we see that we get nice improvement after step four, which is where contracts start shrinking into hash stumps and empty accounts disappear - if this gets us where we want to be, we prepare step six but might not want to push it in
+    - There is no need for steps to be in this order
+        - As step three, as I see it, is a very big, deep change to how the clients are implemented, technically very difficult, uncharted territory
+        - So I'd prefer to swap the order of 4-5: state rent implemented before adding new kind of storage
+    - I will take this off the call, thank you
+
+# Ewasm working group
+- [proposal and discussion](https://ethereum-magicians.org/t/ewasm-working-group-proposal-for-eth-1-x/2033)
+- I'll mention only a couple of things; the proposal isn't as extensive as the rent discussion
+    - Quick intro: Ewasm proposes to introduce Wasm-based execution engine next to EVM
+        - EVM contracts coexist with Wasm contracts, these two can interact
+    - Ewasm is a subset of Wasm: Wasm has a couple of features which are nondeterministic, we need to eliminate this
+        - At time of deployment, there is a validation step of deployed contract
+        - If contract uses any non-deterministic features, it's rejected
+    - For first step in this Eth 1.x roadmap, given tight deadlines, we've decided to introduce an even smaller subset of Ewasm: only allowing precompiles to be written as Ewasm
+        - We mean that there won't be any way for users to deploy contracts
+        - Rather, Ewasm contracts can be written and deployed as part of a hard fork
+        - Behave like precompiles, introduced as part of HF
+        - Possibility to audit them, limited scope
+        - Main reason they can be useful in eth 1.x is that a lot of voices in past 2-3 years have looked for features on mainnet which cannot be introduced through EVM contracts so proposed to be introduced as precompiles
+        - Main problem with precompiles is that every client needs to implement them
+        - Second problem: determining gas cost of precompiles
+            - In many cases gas cost depends on input size
+            - But rules cannot be too complex
+            - In past, introduced MODEXP with fairly complex rules
+            - It caused some delays, trying to get complex rules correct
+    - A lot of people look to introduce new features through precompiles, but they're hard
+        - Having a subset of Ewasm for precompiles makes this process much simpler
+    - We don't introduce entire surface area of Ewasm
+        - More certain that this subset won't break anything in Ethereum
+    - We propose to deliver a couple of parts
+        - Finalize the spec., makes sense to have them as EIPs
+        - Provide new spec. for metering, new type of metering likely to be different to metering we're doing now on the testnet
+        - We want upper bound metering which works for precompiles
+        - Main benefit is calc. upper bound of cost based on params
+        - So precompiles themselves can be written natively
+        - Clients thus have two choices:
+            - Can use ewasm bytecode as-is
+            - Or can write a more optimal version natively
+    - We need more input on this: we have a list of commonly-requested precompiles that we intend to implement
+        - COntains Blake2, ed25519, bls12, ecn/ecmul, sha1, secp256k1 ecadd/ecmul
+- Questions?
+    - Q: I like the idea of introducing Ewasm via precompiles
+        - Nice idea that we can run Ewasm code but we know what the code will be and how it will behave
+        - Most of our precompiles are cryptographic primitives, optimized, geth's bn256 is assembly optimized
+        - Many crypto libs that we import are assembly optimized
+        - You listed quite a few nice to haves, but realistically what's their performance using Wasm?
+        - If using Wasm they turn out to be extremely slow, then even though they might be faster than EVM, they still might end up being unusably slow or costing too much gas
+        - Not sure if you tried to implement one of them, nice to have one implemented as Ewasm contract to see what the numbers are - on parity's interpreter, wagon, C ones, etc.
+    - You wouldn't want to run it in the interpreter
+        - You'd have to compile using AOT or JIT that would work in production
+        - I have same concern: even if you optimize Wasm and choose best compiler I don't think you'll get close to e.g. cloudflare library for crypto stuff
+    - Not necessarily a problem, as long as they perform okay-ish
+        - As long as they are decent I think that's fine
+        - I'm curious whether it's feasible
+    - We actually have most of them implemented as contracts
+        - Most written in Rust
+        - Some would make sense to be written in other languages such as C, compiler could produce better output
+        - But this part is yet to be benchmarked - C vs. Rust output, any significant difference
+        - On performance:
+            - We did look at this
+            - Have an EVM implementation that uses a couple of different Wasm VMs, interpreters, JIT engine
+            - This is one of the main tasks we have to do in the next two months: benchmark properly on different interpreters, intend to start with only interpreters
+            - Very likely not all precompilers will end up with exec. time via interpreter suitable for consensus node, but some will end up within time limits a node would have
+            - That being said, one really big benefit we hope to achieve: to have a more deterministic way to calculate the cost of these precompiles
+            - Assuming the generated code is representative of what would happen on host computer, and Wasm IS closely resembles how hardware works, whatever cost we end up with will be close to cost on actual computer
+            - However running on interp. adds a lot of overhead
+            - Could compile to native code on client
+            - Metering still reflective of actual cost
+        - Two problems today with precompiles:
+            - Need to implement on all clients
+            - Hard to determine cost
+        - If we eliminate one that leaves just one problem
+        - Can be introduced purely in Wasm but further optimized in native code
+    - One important thing I found about Ewasm is that it creates positive feedback loop which will motivate people to develop better interpreters and compilers with guarantees on compilation and execution time
+        - If with your optimizations you can adjust real stuff on Eth - will give motivation to people to do this kind of stuff
+    - Not just for precompiles but in general, Wasm code is generally a blueprint and clients decide whether to compile to native code so no need to run an interpreter every time contract is called, but this is for the future
+
+# January workshop update
+- Intro
+    - I didn't propose this, it came out organically from discussions in Prague
+        - People wanted to be able to really discuss some of the hard proposals like storage rent
+        - So the goal of this in person workshop is that there could be several ways for doing storage rent, different people may disagree how to do it, so it's to try to come together, in person component is to be able to hash it out and debate technical merits in a safe environment
+    - ECDC in Berlin had very good feedback but some people felt left out of the process
+        - People that were there were happy
+        - People not there were not
+    - To mitigate that, I propose that we keep this as open as we can to core devs
+        - A max of 43 people in here at one time today
+        - Shouldn't be more than 60 core devs total
+        - With amount of people all over the world, not every dev from every team will attend in person
+        - For those who can't, we can have a livestream call for people who want to participate
+        - We have the tech to do that, could have a camera crew, etc. to make it as inclusive as possible
+- ECDC was great but lacked closer interactions because it was mostly presentations and open discussion
+    - You don't hash out any details that way, just talk about stuff you've done before
+    - Same feeling about other events like Eth 2.0 workshop in Prague
+    - More people than I expected, people spend a lot of time just to sync, by the time you've done it not much time left to hash things out
+    - If it's semi-conference I don't think it will be very productive for me
+    - I'd rather have many one-to-one style conversations, not sure we need a specific event organized for that
+    - I'd rather not have another conference
+    - Close proximity makes it better
+    - Not sure if it's very useful to announce workshop, we end up having presentations, nothing really moves forward, maybe i'm just skeptical
+- Would need to define what meeting is about
+- Rebooting web of trust workshops - they typically are very good, very limited number of presentations, self-select into WG around topics, your task over 1-2 days is to come up with a working paper that can be developed further around these topics
+    - Have to report what you did at the end, and next steps, and who has committed to do what
+    - I found those workshops to be productive and to move the needle forward
+- People had to self-select to have ideas before they got to the workshop
+    - A lot of groups that initiated group at workshop, that work didn't really carry forward
+    - Our approach is a bit different but I can see some advantages of that mechanism
+- Everyone who went to Prague workshop was supposed to have done their homework, come up with alternative proposals before workshop
+    - Then it's really about having in person tough discussions to achieve consensus
+    - Value is about achieving consensus
+    - Technical discussion should happen offline
+- Expectation that research basically completed by that point
+    - Here's the data
+    - Experiments we ran
+    - Here are our conclusions
+    - Now do we actually want to implement this?
+    - Purpose of meetings to come to consensus
+    - But what happens if the meeting is far and people can't or don't want to attend?
+    - Do we want to do this in the first place or will people feel left out?
+- Goal is to come to consensus on what should be done but also to commit to a realistic timeline on when to do it
+    - Getting people into one place to commit to a timeline seems effective
+    - No specific view on how to make sure we get tech setup to do this
+    - No doubt that we can have tech setup that works for everyone
+- This workshop is not intended to be the community discussion on storage rent
+    - After workshop, there will definitely be a lot of discussions from whole community
+    - First step, group of ppl come up with a really vetted proposal that they think is good for community to start engaging with
+- Details
+    - Jan. 26-28
+    - Around Stanford blockchain conference which starts on Jan. 30
+    - I know that some people in this call are making plans for that conference already
+- State cleanup: I don't think this group requires hard forks so doesn't require in person meeting to discuss
+- Maybe we should frame this less as something that will definitely produce final decisions and rather as something optional to frame discussion for people who can attend
+    - Those who attend have finalized or almost finalized research, discuss what we need to finalize soon
+    - Recommendations, not decisions
+- We definitely have not decided that we are going to do rent on any specific time frame
+    - So it's important not to think we have consensus before we actually do
+    - I personally think this is a serious enough change to fundamental guarantees that I'd oppose it without a carbon vote
+    - Argument may well be that it's something that needs to be done but also important to respect the community and not think that this is something that can and should be solved technocratically by 30 people who can physically attend a meeting
+    - This is what segwit 2x tried to do and it failed and broke terribly
+    - Coming to consensus is great but we also need to make sure we don't presuppose that consensus exists
+- Argument against this: one issue with bringing storage rent up for carbon vote or anything similar is that ethereum ecosystem is huge and storage growth does not affect almost anyone in the ecosystem
+    - People constantly bitch that sync is slow and clients are slow
+    - Client devs actually stay up to midnight figuring something out
+    - Carbon vote problematic because very few people who understand and feel the pain day to day
+    - Hard to explain to some outsider that the pain they are going to feel in three years will be very bad, but by the time they feel it, it's too late to do anything about it
+    - Are we sure that if we put this up to vote, people can make an informed decision?
+    - Maybe correct approach is to post result of simulations
+    - It's a really technical decision, not sure ecosystem can decide
+- Sounds scarily like what happened with BTC and choice not to do a hard fork
+    - I feel against any form of closed governance even at high technical cost
+- My reason to talk to other people is not to make a decision or even get consensus but to make sure we understand each other
+    - I saw this in discussions of storage rent proposal
+    - Most people commenting haven't read to end, just ask question in the middle
+    - Very few people completely understand what is proposed
+    - May understand part of it
+    - What I'd like to do is to have convo. with people who went deep enough, make sure they actually understand what we're talking about, that can only be achieved in conversation
+- We're at the stage of data gathering, performing simulations, coming to conclusion about current state of affairs on technical level, not saying what we need to do
+    - Important to keep community together
+    - Want to avoid weird technocratic situation where we're forcing decisions on people without their giving their opinion even if they think they don't want to
+    - Latest step is January meeting
+    - Coindesk, others saying June 2019 was the date we were planning for
+    - That was suggested by 1-2 people at meetings in Prague, not sure how important this date is - if it helps proposal to have a timeframe, we can aim for that, if we make a decision and get community support early enough we can think about timelines, but maybe dangerous to think about timelines this early on, maybe we need to make it clear to community that we don't have a hard time frame
+- Is this necessarily a monolithic proposal?
+- I strongly suggesting unbundling all the things and calling it 1.x
+    - Very confusing
+    - Ties into June date
+- It's good to have an umbrella name
+    - Vision to make mainnet sustainable longer-term
+- With a hard deadline, expect retribution if people expect us to ship by a certain point in time and we don't
+    - Need to correct this narrative
+    - May ship in different hard forks
+    - "After June 2019, everything will be good in Ethereum"
+- Rent proposal is split up into six stages
+    - They have interdependencies
+    - Other proposals should be done in a similar way
+    - Parallel streams happening at the same time
+- Would be nice if we had something telling story at a higher level
+- I think it will come with time
+- We need to be better storytellers
+- June target came up in Prague as informal deadline for first step
+    - If there isn't progress along a timeline that we can get people to rally around, things might take longer than we want
+    - Is there agreement that there is some sense of urgency? What does it mean to people?
+- There is but don't know if proposals are sufficiently consolidated
+    - Maybe after Jan we can commit to a first date
+    - But I don't think we can before
+- Not even required that we all completely agree on anything
+    - This group is big enough for us to disagree and that's okay
+    - But we should go forward with experiments and PoC even though some disagree with my proposal
+    - To best of my abilities I will work on PoC and try to figure it out
+    - Not going to wait for everyone to agree with me, that would be impossible
+- Is there enough data to suggest that storage rent is needed?
+    - Do we need more collab. between storage rent and sim. group?
+- Yes, it is needed, if we still agree on everything we said before. Still that in order to prevent fizzling out we need to start making PoC rather than waiting for everyone to offer opinion and agree.
+    - Don't wait for argument to finish
+    - I think it's required, it's a very important problem to solve
+    - Have a chance to be in a leadership position in whole blockchain space
+    - Everyone is talking about it, whoever does it first gets the prize
+- People mostly okay with Jan. meeting
+    - Option for remote viewing
+    - Organized by Joseph and Dan (tech stuff)
+- Around sixty people?
+    - More than likely will be less, this is absolute max
+    - We can gauge attendance
+    - I expect closer to 30 but who knows
+- Please send me your email if I don't already have it, so we can start email threads about high-level January planning
+
+# Transparency question
+- What are people's opinions on doing things using Chatham House rules like today?
+    - This was a test
+    - Who feels more comfortable in this format?
+        - I don't care about Chatham house rules but it was nice to not have to livestream
+        - Seconded, I don't care about non-attribution but good to have unrecorded conversation
+        - I'd say the same but when not recorded and not live streamed, we can say, "I think Eth will go down in six months and we can't do anything about it" or whatever without that getting published somewhere
+            - Chatham house rules doesn't help with that
+            - To me it's not about attribution
+            - Even in this call I would probably not say that
+            - Might help a little
+        - It's important that we gauge the community sentiment
+            - This is the first time this is happening
+            - Need to see how community feels in next week or two
+            - See what Coindesk decides to do about it
+    - I'm not at all proposing that we close all core devs meeting
+        - Important for updates, discussions
+        - Some have complained about openness or closedness of it
+        - Some meetings that have more controversial topics that might merit not being live streamed
+- We'll continue conversation about WG proposals on Eth Magicians forum, and live chat on AllCoreDevs channel
+
+# State reduction/chain pruning working group
+- [proposal and discussion](https://ethereum-magicians.org/t/ethereum-chain-pruning-for-long-term-1-0-scalability-and-viability/2074)
+- Intro
+  - Way back, at DevCon, we discussed, chain is getting big, can we do something about it, shove it somewhere?
+    - Didn't have hard numbers
+    - Beginning of proposal was mostly exploring numbers to see if there's an issue, how significant it is
+    - Whether doing anything about it would net us any advantage
+    - Looked at five components, each indiv. full node currently tries to maintain
+        - Chain of headers, skeleton of blockchain
+        - Chain of block bodies
+        - Chain of receipts, results of tx
+        - Account and storage tries
+        - Fifth, surprising, don't always talk about, index of transactions
+            - Every full node, can feed tx hash and it spits out block or data
+            - I always assumed this is some tiny index that no one cares about
+            - In geth it consumes 20+ gb of database space, compressed
+    - Tried to map out data storage using individual data types consumed
+        - Headers are pretty boring, constant size, growth rate of 1.1gb/yr, consistent over past 3+ years, deterministic and noninteresting
+        - Block bodies, tx receipts: consume about 40gb
+            - Interpolate growth over past couple of months: every year block bodies grow at about 36gb, receipts around 4gb, extremely rough numbers
+        - Headers, bodies, receipts: grow at ~70gb/yr
+    - I did a fast sync with geth, state sync disabled, surprised to see that geth has 26gb account data storage
+        - Besides raw chains and storage, we have a huge amount of space wasted on indexing stuff
+        - Being able to say that this particular tx hash has this particular data or result
+        - Interesting to realize that has huge impact on storage space
+        - Eth mainnet has almost 300M tx, multiply this by 64 bytes and you already have numbers cross-verified
+        - This is also a huge contributor to chain growth
+    - If eth grows at current rate we are adding 91gb per year to storage
+    - The question here is, are we satisfied with this?
+        - Maybe. If Eth 2.0 will be shipped, production ready, within five years, then we're around 0.6tb of data storage. That's an insane amount of data but manageable.
+        - But makes assumption that we keep gas limit around 8M
+        - Community wants more
+        - After each geth, parity release community asks if we can bump up gas limit
+        - Five years is a long time, and over this time people would move to another chain with more practical limits, and people care more about usability than about security
+        - If Eth 1.x gets to 10x capacity bump then we are not talking about 0.6tb within five years, we are talking about 5-6tb, not mentioning state/storage tries at all. These figures are not realistic. No one in this world would run a system with this much storage.
+        - EF, Archive.org, and ConsenSys could but no one else could - Eth would no longer be decentralized
+        - Choices
+            - A. Keep 8M gas limit, pray that people don't abandon platform in meantime
+            - B. Try to do something about it and reduce storage
+    - Theoretical solution: 91gb per year (not state, historical data only)
+        - Need to ask question: does anyone here care about their balance four years ago? What tx were there years ago? Event contract raised
+        - Answer: 99.9% of network does not care about these things
+        - So, we are crippling the entire promise of Ethereum because 0.01% of users want access to some data
+        - If such a small proportion want it, we can think of an alternative solution at a higher cost - not just monetary but latency, bandwidth, time wise
+        - In exchange slim down network for everyone else? This is a huge win
+        - At 8M gas limit, 90gb/year - that means to retain one year worth of historical data then we would not add 90gb per year, we could hard cap it at 90gb
+        - So we could keep ethereum alive indefinitely
+        - Could start playing around with this number
+        - Does it make sense to keep data around for one year? Probably too long. I'd aim for 1-3mo
+    - Three components to data
+        - Look up past tx
+            - Care about something 3M ago? Probably not
+            - Contract log 3M ago? Ideally your dapp is running on your machine day to day so you can filter and react to logs
+            - Problem is that some dapps rely on storage, killing network
+            - Dapp should be written to react to events - you have 3 mo to react to an event, after which you can still dig it up if you really want to but it won't be available on your consumer machine
+            - 3 mo is ample time - even if you go on holiday
+    - If we play around with these numbers
+        - Currently geth consumes around 115gb of storage for raw tx
+        - If we only retain one month worth of data then we could in theory bump tx throughput by almost 15x
+        - This is why I think this proposal could be really powerful
+        - If we can put hard number on amt of storage we use, we can increase tx throughput, that's meaningful for people
+        - Whenever you introduce something controversial, you want to offer a carrot in return
+            - Take away availability of historical data
+            - But in exchange we can give a 10x throughput increase
+        - I don't think anyone in the community wouldn't want this tradeoff
+    - What are steps/requirements to do this?
+    - I have four, maybe there are more
+        - If we decide that we want to delete hist. data, essential all clients agree on how much data we retain
+            - YP doesn't specify anything, according to it we could delete everything, all logs, all blocks, no consensus
+            - But if we start deleting stuff the network falls apart, no way to sync
+            - So everyone must agree on data retention policy
+            - Nobody cares if three people in network discard all data, but we need most nodes to be uniform
+            - Delete historical chain segments e.g. first year of ethereum
+            - Not acceptable for this data to be lost
+            - Need to find a way to guarantee availability of this data
+            - So someone can do a full non-warp sync, need to satisfy that
+            - And forever prove that current chain actually happened
+            - It's an implementation detail but important to retain cryptographic proof of history in network
+            - Can shove blocks into some internet archive but if we just delete completely, full node has no idea where stuff comes from, then network loses ability to prove it
+            - If we can retain it, cryptographically prove that if someone brings state back, this is state, this was tx
+    - If we start to delete hist. data, not enough to make it available centralized, we must be able to host it in a decentralized way so e.g. if I run a test network or whatever then it keeps working
+        - My proposal is that we need to retain the chain
+        - Two approaches
+            - Dream up some crypto primitive, merkle tree or zk-snark, IMHO that doesn't work, it breaks light clients, syncs, makes everything harder
+            - Always retain headers, never prune
+                - Grows indefinitely but we can handle 1gb growth per year
+                - Current data use is enough for 100 years to cover headers
+    - How do nodes then join network?
+        - Light client needs no modifications
+        - Fast sync - current impl. in geth, downloads headers, block bodies, receipts - need to tweak to download only headers first, then block bodies and receipts still available in network - works, need minor tweaks
+        - Warp sync - currently downloads snapshot and backfills data - rather than backfilling all data back to genesis, you backfill headers to genesis but only more receipt bodies and receipts
+        - Full sync - this is problematic.
+            - Headers are still in network
+            - Can reach out to any external source to fetch data and reprocess it
+            - Complexity boils down to how do I get this stuff out of archive?
+            - Full nodes almost fully compatible with this proposal
+            - Only change, full sync, older stuff gets garbage collected, also any indexes that belong to that block, has certain implications on RPC API
+            - If tx hash not found, currently means it never executed, new meaning, might just be old
+    - Complex part is how we archive past blocks, tx receipts
+        - Option one: dumb way: shove data into an FTP server
+            - Every client can download from EF
+            - Won't work for testnet
+        - Option two: somehow extend protocol so data still accessible
+            - Four proposals
+                - Swarm
+                - IPFS
+                - BitTorrent
+                - Light client
+            - BitTorrent is not Ethereum protocol? We can define an extension to the protocol for data gathering
+            - With Swarm, not production ready yet, don't know when it will be. Nice dream but not realistic. Not practical path. All implemented in go, impossible to port to other languages.
+                - Would need a separate process beside node
+            - IPFS: Production ready, limited to a handful of languages, at least accessible by cloud service CloudFlare gateway in meaningful way, can always pull data directly.
+                - A bit ugly, not best
+            - My personal favorite is BitTorrent, proven P2P protocol, can host and download large files, distribute quickly
+                - Second powerful benefit of BT, if I am an archive, I can join network, if I run full node I can join, otherwise I do not
+                - Already figured out data discoverability issues, how to find and get data in a scalable way
+                - Significant flaw: based on SHA-1, if Eth only has chain of headers, then how do we map header of genesis block into something that BT can retrieve? Not trivial issue
+            - Light client protocol
+                - Not ready
+                - Devp2p not meant to be asymmetric protocol, everyone should be equal with same data
+                - Opening huge can of worms, connect to someone who has a class of data, you've introduced discoverability problem
+                - Hard to find LES node
+                - Have to find server with correct data available
+                - Solvable but won't solve it in time
+            - So, IPFS and BT big contenders from my perspective
+                - Neither ideal, don't see exactly how they would work
+    - Messy part is that it breaks a few invariants
+        - Certain dapps e.g. Akasha, Augur expect that logs will be retained in network forever
+            - They use logs as cheap storage
+            - Just shove it out to desk, screw the nodes, let them handle it
+            - This is one reason we have such huge chain growth
+            - Yes, this is problematic, but point of logs is for processes to watch events, not meant as storage
+            - Suck it up, enforce that logs are events not storage, if you dapp is going to break, tough luck
+            - Don't want to take such a strong approach and kill a few dapps
+            - Alternative to figure out a way to allow them to host logs themselves and verify
+        - Have potentially missing information e.g. don't know if tx was executed or nonexistent
+        - Currently protocol is self-contained, just speaking eth protocol you can obtain any data, but with this proposal some data unavailable
+            - Even at this point it takes a week to do a full sync, could be months if we get to 10x throughput increase
+    - Two big benefits
+        - Relieve pressure from client devs, we don't know what to optimize anymore
+            - Everything is slow, syncing is slow
+            - Problem is data storage
+        - Relieve pressure from network
+        - Bump up tx throughput if other components are also prepared properly e.g. contract storage
+    - Decision to make as a community: do we want Eth 1 to be here in ten years, independent of when Eth 2 gets done? And how fast ppl switch over?
+        - Or do we plan for Eth 1 to barely survive?
+        - My opinion as someone working on Eth 1 for past four years, let's not design system to die a horrible death, let's do what we practically need to keep it running smoothly
+    - Benefit of all of this is that none of it requires a hard fork
+
+# Attendees
+
+- Alexey Akhunov
+- Guillaume Ballet
+- Meredith Baxter
+- Olivier Begassat (PegaSys)
+- Tim Beiko (Pantheon)
+- Alex Beregszaszi
+- Dan Burnett
+- Vitalik Buterin
+- Pawel Bylica
+- Joseph Chow
+- David (Parity)
+- Casey Detrio
+- Paul Dworzanski
+- Ben Edgington
+- Danno Ferrin
+- Andreas Freund
+- Fredrik Harryson
+- Daniel Heyman
+- Hudson Jameson
+- Mikhail Kalinin
+- Shahan Khatchadourian
+- Jake Lang
+- Joseph Lubin
+- Dino Mark
+- Will Meister
+- Ino Murko
+- Anton Nashatyrev
+- Lane Rettig
+- Danny Ryan
+- Tomasz S
+- Afri Schoeden
+- Jacek Sieka
+- Martin Holst Swende
+- Peter Szilagyi
+- Wei Tang (Parity)
+- Antoine Toulme
+- Hsiao-Wei Wang
+- Jared Wasinger
+- Brooklyn Zelenka
+- Zak (Whiteblock)
