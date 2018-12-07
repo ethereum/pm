@@ -164,6 +164,9 @@
     - A: depends how you define it, it's different, but Felix wants this ENR work to become new discovery v5
     - Problem is that it was hacked into protocol but not scalable
     - ENR approach is clear, there are a few EIPs open, quite a lot of published material
+        - https://eips.ethereum.org/EIPS/eip-778
+        - https://eips.ethereum.org/EIPS/eip-868
+        - https://eips.ethereum.org/EIPS/eip-1459
     - Danny: We are discussing using mature version of Dv5 for advertising which shards you're participating in
     - Peter: Considering putting historical state on top of that mechanism
     - Can't yet see single proposal that will work
