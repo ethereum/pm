@@ -169,10 +169,10 @@ Hudson:So one potential concern is that according to a Web site and I guess back
 * Karalabe: We don't have so in Geth we kind of have two versions one of them are stable releases which are kind of release every two weeks and the other one is likely to say unstable but that is pretty much stable to but both of them are and have been on the Constantinople now for a very long time 
  
   
-**Action Item 1**: Hudson to resume publishing Hard Forks announcements on Ethereum.org
-**Action Item 2**: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
-**Action Item 3**: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
-**Action Item 4**: HF Roadmap
+* **Action Item 1**: Hudson to resume publishing Hard Forks announcements on Ethereum.org
+* **Action Item 2**: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
+* **Action Item 3**: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
+* **Action Item 4**: HF Roadmap
 
 Martin: [00:44:03] I don't know. When if I mentioned, forkmon.eth.ops.io (verify link) 
 
