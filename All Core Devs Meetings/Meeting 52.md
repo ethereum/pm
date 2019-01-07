@@ -436,7 +436,7 @@ _______________________________________
 * **Action Item 2**: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
 * **Action Item 3**: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
 * **Action Item 4**: Afri to work on HF Roadmap
-* **Action Item 5**  Dany Need spec peer review and to provide feedback in the next 2-3 weeks. Spec is [here](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md)
+* **Action Item 5**  Dany Need spec peer review and to provide feedback in the next 2-3 weeks. Spec is [here](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md) and This is the BLS signature [spec] (https://github.com/ethereum/eth2.0-specs/blob/master/specs/bls_signature.md)
 ----------------------------------------
 * **Decision 1**: Timeline for ProgPOW
 
