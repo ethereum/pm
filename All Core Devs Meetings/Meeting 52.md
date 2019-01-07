@@ -9,48 +9,48 @@
 2. Client Updates
   * Geth
   * Parity Ethereum
-  5. Aleth/eth
-  6. Trinity/PyEVM
-  7. EthereumJS
-  8. EthereumJ/Harmony
-  9. Pantheon
-  10. Turbo Geth
-  11.  Nimbus
-  12 Mana/Exthereum
-13. Research Updates
-14. Working Group Updates
-15. State Rent
-16. EWasm
-17. Pruning/Sync
-18. Simulation
-19. Constantinople HF Evaluation
-20. Roadmap
-21. ProgPoW HF Decision(s)
-22. Istanbul HF Roadmap
+  * Aleth/eth
+  * Trinity/PyEVM
+  * EthereumJS
+  * EthereumJ/Harmony
+  * Pantheon
+  * Turbo Geth
+  *  Nimbus
+  * Mana/Exthereum
+3. Research Updates
+4. Working Group Updates
+* State Rent
+* EWasm
+* Pruning/Sync
+* Simulation
+5. Constantinople HF Evaluation
+6. Roadmap
+7. ProgPoW HF Decision(s)
+8. Istanbul HF Roadmap
 
 Attendees:
 * Anna Vladi
-Hudson Jameson
-Pawel Bylica
-Adam Schmideg
-Afri 5chdn
-Alex Beregszaszi
-Alexey Akhinov
-Andrea Lanfranchi
-Daniel Ellison
-Danno Ferrin
-Danny
-Dimitry Khoklov
-Dimitri Harmany
-Greg Colvin
-Jacek Sieka
-Kalarabe
-Lane Rettig
-Martin Swende
-Meredith Baxter
-Miss If
-Mr Else
-Murat
+* Hudson Jameson
+* Pawel Bylica
+* Adam Schmideg
+* Afri 5chdn
+* Alex Beregszaszi
+* Alexey Akhinov
+* Andrea Lanfranchi
+* Daniel Ellison
+* Danno Ferrin
+* Danny
+* Dimitry Khoklov
+* Dimitri Harmany
+* Greg Colvin
+* Jacek Sieka
+* Kalarabe
+* Lane Rettig
+* Martin Swende
+* Meredith Baxter
+* Miss If
+* Mr Else
+* Murat
 
 Hudson: [00:13:57] Hello everyone and welcome to episode fifty-two of the core developer meetings. I'm Hudson and let's get to the agenda first. We're gonna have a quick announcement about note taking and to get in bounty associated with it so I'll have lane go over that. 
 
