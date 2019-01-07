@@ -169,10 +169,7 @@ Hudson:So one potential concern is that according to a Web site and I guess back
 * Karalabe: We don't have so in Geth we kind of have two versions one of them are stable releases which are kind of release every two weeks and the other one is likely to say unstable but that is pretty much stable to but both of them are and have been on the Constantinople now for a very long time 
  
   
-* **Action Item 1**: Hudson to resume publishing Hard Forks announcements on Ethereum.org
-* **Action Item 2**: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
-* **Action Item 3**: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
-* **Action Item 4**: HF Roadmap
+
 
 Martin: [00:44:03] I don't know. When if I mentioned, forkmon.eth.ops.io (verify link) 
 
@@ -435,4 +432,9 @@ Karalabe: [01:39:46] Why ask. I don't think it's a it's an issue to have unique 
 Afri: [01:40:01] Yeah. So what happened as Constantinople took like one point five years. I don't have exact figures now but having like a strictly defined schedule for hot folks tries to achieve this goal to have these grades deployed regularity to remain that it does not oppose having hard forks like ProgPOW. It makes sense you know. 
 
 Hudson: [01:40:40] Any other comments I think we're actually over time. So any last comment. All right. Thanks so much for putting that together offer me. Sounds like we're making good progress there and we're looking forward to what we talk about more in the next meeting. Thanks everybody for attending. Made some great progress today and I'll try to post the next agenda soon so we can add items to it and I'll be posting that in the core dev gitter chat again send me an email if you're interested in the Jan in person meeting in San Francisco and everybody have a great day or night. 
+
+* **Action Item 1**: Hudson to resume publishing Hard Forks announcements on Ethereum.org
+* **Action Item 2**: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
+* **Action Item 3**: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
+* **Action Item 4**: Afri to work on HF Roadmap
 
