@@ -74,7 +74,10 @@ Dimitriy Khoklov: [00:19:12]
 * we need at least two clients work working on those tests so it could compare results to make sure that every issue you see in the hive is not a major issue. working on this next week
 
 **Client Updates**
+
 **Geth** 
+Karalabe: [00:38:22] 
+* half a year ago we were working on pruning and we found errors which  now we confirmed was not our fault, so we have fresh anergy to work on prunning
 
 Martin: [00:20:22] I was actually open. Peter would be on I will ping him to see . 
 
@@ -147,14 +150,15 @@ Alexey: [00:32:22]
 * split the spec into much smaller pieces which I probably would call cards. 
 * working on Alternative proposals to stem the steady growth. stem the state growth while increasing the block size limit. Post is [here](https://ethereum-magicians.org/t/on-raising-block-gas-limit-and-state-rent/2249) 
 * also wrote up the [proposal](https://ethereum-magicians.org/t/backwards-forwards-sync-of-ethereum-clients/2258) for the backwards forwards sync  
+* Found a person to help me with my work, who is joining me end of January
 
-Hudson: [00:36:16] Great. And you mentioned the meeting later this month. There is an off very optional in-person meeting January 26 to 28 in the San Francisco Bay Area of the United States was discussed on a previous call and also some people are on a an email list for that. If you're not on the email list reach out to me on Twitter and give me your email and I will agree to the list if you're interested in possibly attending. We're also going to try to have remote options for parts of it or not as much of it as we can. I'm not primarily in charge of that. That's pretty much something that consensus has graciously volunteered to kind of take on. And this stemmed from the ad hoc meetings at DEVCON. I believe so. Again, just reach out to me and we don't have a specific venue yet. As far as I can tell but that'll be coming up pretty soon we'll have information on that and send me your email if you're interested it looks like a Peter. Or actually was there any questions about that before I start or get to just throw it to Peter. 
+Hudson: [00:36:16] 
+* There is an off very optional in-person meeting January 26 to 28 in the San Francisco Bay Area, contact me if you want to be part of it
 
-Alexey: [00:37:36] Oh actually can I just add very quick. Another update I forgot to say. I have found another person to help me with this kind of tasks. And so he's going to join me at the end of January and he's also going to be coming to that to that meeting as well to to get introduced to other people. So I've been working with this person for a long time since in my three previous jobs. So I'm pretty kind of sort of relieved that there will be somebody helping me with that. 
-
+ 
 Martin: [00:38:16] Awesome. Peter do I give an update on Geth. 
 
-Karalabe: [00:38:22] Yes. My vacation was great. So not really. I mean I don't have any particular updates regarding forks or whatnot. One nice update is that about half a year ago we were working on pruning and we found we lost some fault and it took us an eternity to find it and it turned out that it simply was not our fault. And it was everything is actually working. So now we have a fresh energy to actually do pruning properly again. So that's it. That's good news but that's about it. 
+
 
 Hudson: [00:39:06] And good we're on track here. Let's go ahead and go to the Constantinople hard fork that is currently in the works. Afri do you have the latest figures on when that's supposed to happen. I know you've been keeping up with that yes. 
 
