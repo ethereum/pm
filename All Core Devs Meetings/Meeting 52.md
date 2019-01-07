@@ -1,7 +1,7 @@
 
 **Ethereum Core Devs Meeting 52**
-* Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC*
-* [Recording](https://youtu.be/iSc3TbjZu1k)
+Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC*
+[Recording](https://youtu.be/iSc3TbjZu1k)
 
 **Agenda**
 
