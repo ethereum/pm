@@ -76,10 +76,9 @@ Dimitriy Khoklov: [00:19:12]
 **Client Updates**
 
 **Geth** 
+
 Karalabe: [00:38:22] 
 * half a year ago we were working on pruning and we found errors which  now we confirmed was not our fault, so we have fresh anergy to work on prunning
-
-Martin: [00:20:22] I was actually open. Peter would be on I will ping him to see . 
 
 **Parity**
 
@@ -155,80 +154,56 @@ Alexey: [00:32:22]
 Hudson: [00:36:16] 
 * There is an off very optional in-person meeting January 26 to 28 in the San Francisco Bay Area, contact me if you want to be part of it
 
+
+**Constantinople hard fork**
+
+Afri: [00:39:24] 
+* we are off by 10 minutes and seconds after 12:00p.m. UPC on Wednesday the 16th. We are very close to where we want to go. 
+
+
+**Issue**
+Hudson:So one potential concern is that according to a Web site and I guess back in script running that Peter Pratcher setup from one of the major mining pools only around 11 percent of the nodes are on the latest versions of Geth or Parity that are compatible with Constantinople. 
+* Afri: Many nodes are not being updates, do not consider this a concern
+* Alexey:  Parity for example supports usually a kind of two versions one of the stable ones and another one and both of them are now Constantinople ready as far as I understand. But as with the other clients I guess as far as I understand it only has one version which sort of supports the Constantinople. I wonder if this is a might be the reason why you could see that a slower adoption rate.
+* Karalabe: We don't have so in Geth we kind of have two versions one of them are stable releases which are kind of release every two weeks and the other one is likely to say unstable but that is pretty much stable to but both of them are and have been on the Constantinople now for a very long time 
  
-Martin: [00:38:16] Awesome. Peter do I give an update on Geth. 
-
-
-
-Hudson: [00:39:06] And good we're on track here. Let's go ahead and go to the Constantinople hard fork that is currently in the works. Afri do you have the latest figures on when that's supposed to happen. I know you've been keeping up with that yes. 
-
-Afri: [00:39:24] So let me check. I have a small script calculating the average time on remaining blocks and we are off by 10 minutes and trudges with seconds after 12:00p.m. UPC on Wednesday the 16th . We are very close to where we want to go. 
-
-Hudson: [00:39:51] So one potential concern is that according to a Web site and I guess back in script running that Peter Pratcher setup from one of the major mining pools only around 11 percent of the nodes are on the latest versions of Geth or Parity that are compatible with Constantinople. Is that a concern?. And is that something that we should be proactive about as far as trying to get the messaging further. Does anyone have technical reasoning behind that I'm not smart enough. 
-
-Afri: [00:40:29] I have two comments regarding the first one is a little bit out of scope for this call but we usually used to have blog posts on Ethereum.org Announcing hard forks and maybe we should consider this. I don't know anyone on this information professional to step up. 
-
-Hudson: [00:40:47] Oh yeah. I usually do that and I forgot I do that. So I'll do that. 
-
-Afri: [00:40:52] Yeah maybe this will have this like spreading the word. And the other thing we already discussed was. I think there are a lot of clients tracked by this fork are not on Ethereum because a lot of old nodes are not even updated And I expect them not to run on this main net. So I personally don't think this is a major issue but they are spreading about what something we should do with next two weeks. 
-
-Hudson: [00:41:24] Or any other comments. 
-
-Alexey: [00:41:26] So I thought of something else. Is that so. I know that Parity for example supports usually a kind of two versions one of the stable ones and another one and both of them are now Constantinople ready as far as I understand. But as with the other clients I guess as far as I understand it only has one version which sort of supports the Constantinople. I wonder if this is a might be the reason why you could see that a slower adoption rate slower upgrade rate for Geth because people are usually very sort of reluctant to go to straight away. So I just thought that was my thought when I looked at the stats. 
-
-Karalabe: [00:42:11] We don't have so in Geth we kind of have two versions one of them are stable releases which are kind of release every two weeks and the other one is likely to say unstable but that is pretty much stable to but both of them are and have been on the Constantinople now for a very long time OK. 
-
-Hudson: [00:42:38] OK. Any other comments.? OK. And the next item are actually I don't I don't think there's any other stuff on Constantinople we may have. Oh the next meeting we're gonna have it's gonna be post Constantinople so we'll just go to what we usually do and talk in the core devs chat if there's gonna be any problems or anything we need to do. 
-
-Alexey: [00:43:09] Oh actually Hudson maybe it makes sense to have some kind of. Around the fork time maybe it makes sense to gather some like look like exceptional meeting or something were completely optional but just to. Talk through the what's going on if we if people want to do it assume sort of to monitor the transition. I don't know if it's helpful because that did actually kind of reaction time might be I don't know it doesn't make sense to anybody. 
-
-Hudson: [00:43:40] Yeah. And this makes sense. I can set up the call and have people who want to join who are up at that time can definitely join. And it'll be a party. 
-
-Lane: [00:43:55] That's why I was gonna say basically the best case scenario is no news and then we just celebrate. 
-
-Hudson: [00:44:00] Yep totally. Yeah I'm up here. 
+Hudson:  
+Action Item: Hudson to resume publishing Hard Forks announcements on Ethereum.org
+Action Item: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
+Action Item: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
+Action Item: HF Roadmap
 
 Martin: [00:44:03] I don't know. When if I mentioned, forkmon.eth.ops.io (verify link) 
 
-Alexey: [00:44:10] Well we can watch the fork happen. l I think it would be also it would also be useful for people who run some important services to just get some real-time updates with some interpretation rather than just sitting and watching the like a fork monitor or something like this because people have a different sources of information. So if we can just throw it in and sort of explain everything as it happens. 
+**Istambul Hard Fork**
 
-Hudson: [00:44:43] I can see if Infura or mycrypto and others want to join the people who run a lot of nodes. Be cool. And if you have ideas for other groups. Alexey just let me know who I can reach out to them. 
+Afri: [00:45:48] 
+* We wanted to have a fixed HF schedule. Protocol upgrades deployed on Main on a fixed schedule like every nine months 
+* If we agree on this we would have the next main net HF in October so it would be nine months. 
+* should have the deadline to accept proposals that go into this hard fought around mid-May. So we have around five months to properly implement and test or the protocol upgrades. 
+* proposal on how to manage protocol upgrades on the main net
 
-Karalabe: [00:45:03] By the way Martin regarding the fork monitor. Could you also add a pre Constantinople node to It would be nice to see what happens 
+**ProgPOW**
 
-Hudson: [00:45:22] Let's see. What is next. I think we're going to just have a overview from offering on the Istanbul hard fork. That's going to be coming up after Constantinople including a rough proposed road map and just some other things about that so offer if you want to go over that yeah sure. 
 
-Afri: [00:45:48] I was thinking about the stuff we had in mind for quite a while now. We wanted to have a fixed HF schedule. Protocol upgrades deployed on Main on a fixed schedule like every nine months or something like that. And I was running some numbers and proposing something I would just go through now. If we agree on this we would have the next main net HF in October so it would be nine months. I already saw there was some discussion to have a shorter maybe eight months or six months or someone proposed three months’ cycle. I don't think it should be too short but yeah, we should discuss what a reasonable cycle would be. I was running numbers against a nine-month cycle and this would mean we have the next hot fork I call it Istanbul. Next up on 16th of October 2019 its a Wednesday this means we should have a test net hard fork on Ropsten nor any other suitable test not around mid-August. If you want to follow this I put the dates on the agenda and you may comment. And most importantly we should have the deadline to accept proposals that go into this hard fought around mid-May. So we have around five months to properly implement and test or the protocol upgrades. That's a road map action item so we should decide how do we want this? We should decide what's a reasonable timeline. I personally have people having nine months and yes, any comments would be good. 
+Mr Else: [00:51:03] 
+* The changes that we published in early December there were two small changes one late November and one early December to try to. The first one made it a little bit harder for specialized days like a six to be made. 
+* The second one stabilized hash rates. Those are the only two small changes we've had. We don't see any changes going forward from there. 
 
-Hudson: [00:48:06] Yeah. That timeline was for the whole. The amount of length between today and the next HF right. ? 
+**Gangnam test**  
+-Gangnam test net is a test step running client implementations of ProgPOW and then switched to ProgPOW after 3000 blocks
 
-Afri: [00:48:13] Exactly except this time from Constantinople to Istanbul. Exactly nine months. 
+Martin: [00:52:13] 
+* had some problems during the first epoch transition where one of the miners fell off I'm not sure about the specifics of whatever it was. It's been fixed I've heard. Does anyone know more details about.? 
 
-Greg Colvin: [00:48:17] Didn't We want to get ProgPOW in before that if possible.? 
+Mr Else: [00:52:39] 
+* The original miner had a bug that when you transitioned to epochs it would crash. It was just a cute programming bug that's been fixed and so we're up to 150 thousand blocks now. So, I've done multiple epoch transitions with no problems 
 
-Martin: [00:48:29] So yeah, I guess we haven't really decided about ProgPOW and that's so I mean I tentatively I kind of agree that it's sensible to go to work every nine months. But yeah, I'm also I also believe that we should roll out ProgPOW and I kind of feel that that's We should have a discussion about that. 
+Martin: [00:53:03] 
+* the main test is ycan we switch to a new DAG at a certain epoch. Does it work or not.? of course you know if clients can verify it but they're pretty straightforward tests and that's what I believe. There's no real point in bundling it with EVM updates. 
 
-Hudson: [00:48:56] Yeah. I'm seeing things. Yeah. That was actually the next item but we can kind of start talking about that a little bit. And I'm kind of hearing two sides one of them is that we should have the ProgPOW fork if we're going to have that at all before nine months maybe sometime in between there. The other point of view is that we should have it at nine months and bundle it with a bunch of other updates. So I'm starting to read your notes on the agenda Afri was that was the ProgPOW mentioned on there. If we were to do it or is that just kind of being discussed now. 
-
-Afri: [00:49:42] That's what I'm doing is proposing how to manage protocol upgrades on the main net. I'm not suggesting that we force also to fix a schedule. I mean I would recommend that we stick to a plan in general about the group whatever decides. We want to have an additional hard fork in between then Why not. But that's not relevant for my agenda item right now. So if we want to move to ProgPOW first let's just talk about no. 
-
-Hudson: [00:50:12] Yeah let's do ProgPOW first and then we'll go back to the proposed rough timeline for Istanbul and some of the other EIPs and stuff we've been working on for this formal process for hard fork. So we have Mr If Mr. Ellis from the ProgPOW team. Thanks for coming back. You all and they can. Along with Martin and a few others probably give some updates on ProgPOW. Do You do you'll have any particular updates for the specification that hasn't already been covered by any of the devs here. 
-
-Mr Else: [00:51:03] Sorry about that. Yeah. The changes that we published in early December there were two small changes one late November and one early December to try to. The first one made it a little bit harder for specialized days like a six to be made. The second one stabilized hash rates. Those are the only two small changes we've had. We don't see any changes going forward from there. 
-
-Hudson: [00:51:35] OK now let's talk about implementation of the Gangnam test that first just a quick overview. As my understanding correct that the Gangnam test net is just a test step running client implementations of ProgPOW? 
-
-Martin: [00:51:56] It started off with a fashion then switched to ProgPOW after 3000 blocks. 
-
-Hudson: [00:52:03] Cool. And how's that going. I think Martin you posted something about it the other day in chat. What's what's the latest on all that.? 
-
-Martin: [00:52:13] Yeah it's. Actually, I haven't kept track of it but it had some problems during the first epoch transition where one of the miners fell off I'm not sure about the specifics of whatever it was. It's been fixed I've heard. Does anyone know more details about.? 
-
-Mr Else: [00:52:39] The original miner from the original do you miner had a bug that when you transitioned to epochs it would crash. It was just a cute programming bug that's been fixed and so we're up to 150 thousand blocks now. So, I've done multiple epoch transitions with no problems 
-
-Martin: [00:53:03] The folks and we kind of from the from the outset we knew that the things that we need to do tests are basically the epoch transitions because those are the parts where you can trip fall and from my perspective yeah that's basically the big thing that needs to be testing. And regarding this should be bundled with other updates. That's my take is that the transition from Hashimoto to ProgPOW does not involve the EVM or state transition mechanics at all. It's only the envelope of the blocks and the current test. The extensive tests that we need to write for hard Folks we don't have to do those tests. There are other kinds of tests and they mainly the main thing to test is you know can we switch to a new DAG at a certain epoch. Does it work or not.? of course you know if clients can verify it but they're pretty straightforward tests and that's what I believe. There's no real point in bundling it with EVM updates. 
-
-Hudson: [00:54:29] So I guess what we wanted to decide today is not necessarily when it would happen but if it would happen and then we can start to kind of formulate what that entails if we decide it's going to happen. I haven't heard much dissent as far as people saying they don't want it to happen. Very few. Just a couple of people. So, what are some opinions on whether or not this should go forward. Is there anyone who doesn't want this to go forward or. 
+Hudson: 
+* Decision: when ProgPOW would happen and then we can start to formulate what that entails if we decide it's going to happen. I haven't heard much dissent as far as people saying they don't want it to happen. Very few. Just a couple of people. So, what are some opinions on whether or not this should go forward. Is there anyone who doesn't want this to go forward or. 
 
 Martin: [00:55:06] No I just thought that some well opinions and facts about why I want it. So We know for a fact that there exists ASIC miners. So, it's obviously profitable to manufacture or buy and use ASIC miners. There is some the E3 7 that started as first generation ASIC miners but they're also second generation classic miners one from Bitmine which I'm not sure if it's even publicly released. And there's also some other companies that produce some ASIC miner for Ethereum. There is also a fact that there are FPGA based accelerators I mean my Minority sells them which evidently you can make a profit if you put them on your GPU and You can accelerate and we believe that ProgPOW is more ASIC resistance and also more resistant to those kinds of accelerators for the GPUs And yeah there is grounds to believe that switching to ProgPOW would postpone the ASIC level of ASICs in our network for at least a year probably been a lot more than that So we know today Ether hash hashimoto has flaws which are actively being targeted. That's why I would like to switch as soon as possible to give us more time to move to prove of stake 
 
