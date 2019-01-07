@@ -95,9 +95,6 @@ Afri: [00:20:40]
 
 Jacek: [00:22:10] Well holiday so not much progress to report 
 
-Hudson: [00:22:22] Thanks great. Alef. 
-
-[00:22:28] I don't have any update related to Constantinople. So yeah nothing to report. 
 
 **Pantheon** 
 
@@ -108,7 +105,7 @@ Meredith: no update
 
 **TurboGeth**
 
-Alexey: [00:23:01] Hello. 
+Alexey: [00:23:01]  
 * working on reverse disk for the the history it's going to be quite important for the two TurboGeth to support light clients and snapshots. It will be part of ether mint.
 
 **Swarm** 
@@ -173,7 +170,7 @@ Hudson:So one potential concern is that according to a Web site and I guess back
   
 
 
-Martin: [00:44:03] I don't know. When if I mentioned, forkmon.eth.ops.io (verify link) 
+Martin: [00:44:03] I don't know. When if I mentioned, site to watch the fork is [here](http://forkmon.ethdevops.io/)
 
 **Istambul Hard Fork**
 
