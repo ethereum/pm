@@ -4,55 +4,57 @@
 Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC*
 
 [Recording](https://youtu.be/iSc3TbjZu1k)
+[GitHub agenda page](https://github.com/ethereum/pm/issues/66)
 _____________________________________________________
 **Agenda**
 
 1. Testing Updates
 2. Client Updates
-  * Geth
-  * Parity Ethereum
-  * Aleth/eth
-  * Trinity/PyEVM
-  * EthereumJS
-  * EthereumJ/Harmony
-  * Pantheon
-  * Turbo Geth
-  *  Nimbus
-  * Mana/Exthereum
+    * Geth
+    * Parity Ethereum
+    * Aleth/eth
+    * Trinity/PyEVM
+    * EthereumJS
+    * EthereumJ/Harmony
+    * Pantheon
+    * Turbo Geth
+    * Nimbus
+    * Mana/Exthereum
 3. Research Updates
 4. Working Group Updates
-* State Rent
-* EWasm
-* Pruning/Sync
-* Simulation
+    * State Rent
+    * Ewasm
+    * Pruning/Sync
+    * Simulation
 5. Constantinople HF Evaluation
 6. Roadmap
 7. ProgPoW HF Decision(s)
 8. Istanbul HF Roadmap
 ________________________________________________
 **Attendees**
-* Anna Vladi
-* Hudson Jameson
-* Pawel Bylica
+* Hudson Jameson (EF)
+* Paweł Bylica (EF/Ewasm)
 * Adam Schmideg
-* Afri 5chdn
-* Alex Beregszaszi
-* Alexey Akhinov
+* Afri Schoeden (Parity)
+* Alex Beregszaszi (EF/Ewasm)
+* Alexey Akhunov (TurboGeth)
 * Andrea Lanfranchi
-* Daniel Ellison
-* Danno Ferrin
-* Danny
-* Dimitry Khoklov
-* Dimitri Harmany
-* Greg Colvin
-* Jacek Sieka
-* Kalarabe
-* Lane Rettig
-* Martin Swende
-* Meredith Baxter
-* Miss If
-* Mr Else
-* Murat
+* Daniel Ellison (PegaSys/Pantheon)
+* Danno Ferrin (PegaSys/Pantheon)
+* Danny Ryan (EF/Research)
+* Dimitry Khokhlov (EF)
+* Dmitrii (Harmony)
+* Greg Colvin (FEM)
+* Jacek Sieka (Nimbus)
+* Péter Szilágyi (EF/geth)
+* Lane Rettig (Ewasm)
+* Martin Swende (EF)
+* Meredith Baxter (PegaSys/Pantheon)
+* Invited guests
+  * Anna Vladi (PM)
+  * Miss If (ProgPow)
+  * Mr Else (ProgPow)
+  * Murat (PM)
 _________________________________________________
 Hudson: [00:13:57] Hello everyone and welcome to episode fifty-two of the core developer meetings. I'm Hudson and let's get to the agenda first. We're gonna have a quick announcement about note taking and to get in bounty associated with it so I'll have lane go over that. 
 
