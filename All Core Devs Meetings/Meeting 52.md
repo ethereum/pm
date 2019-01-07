@@ -434,9 +434,9 @@ Afri: [01:40:01] Yeah. So what happened as Constantinople took like one point fi
 
 Hudson: [01:40:40] Any other comments I think we're actually over time. So any last comment. All right. Thanks so much for putting that together offer me. Sounds like we're making good progress there and we're looking forward to what we talk about more in the next meeting. Thanks everybody for attending. Made some great progress today and I'll try to post the next agenda soon so we can add items to it and I'll be posting that in the core dev gitter chat again send me an email if you're interested in the Jan in person meeting in San Francisco and everybody have a great day or night. 
 _______________________________________
-* **Action Item 1**: Hudson to resume publishing Hard Forks announcements on Ethereum.org
-* **Action Item 2**: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
-* **Action Item 3**: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
+* **Action Item 1**: Hudson+ PM team to resume publishing Hard Forks announcements on Ethereum.org
+* **Action Item 2**: Hudson+ PM Team to set up exception meeting for Constantinople Hard Fork to monitor the transition
+* **Action Item 3**: Hudson+ PM Team to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
 * **Action Item 4**: Afri to work on HF Roadmap
 * **Action Item 5**  Dany Need spec peer review and to provide feedback in the next 2-3 weeks. Spec is [here](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md) and This is the BLS signature [spec] (https://github.com/ethereum/eth2.0-specs/blob/master/specs/bls_signature.md)
 ----------------------------------------
