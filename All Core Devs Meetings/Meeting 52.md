@@ -82,7 +82,7 @@ Dimitriy Khoklov: [00:19:12]
 **Geth** 
 
 Karalabe: [00:38:22] 
-* half a year ago we were working on pruning and we found errors which  now we confirmed was not our fault, so we have fresh anergy to work on prunning
+* half a year ago we were working on pruning and we found errors which  now we confirmed was not our fault, so we have fresh energy to work on prunning
 
 **Parity**
 
@@ -123,8 +123,8 @@ Alex Beregszaszi: [00:24:44]
 **Ethereum J**
 
 Dmitrii (Harmony): [00:28:15] 
-* working on pass all github tests that were added by Dmitri and other contributors for Constantinople
-* found 1 bug with the compiler Maddox all others were related to empty storage account 
+* working on passing all github tests that were added by Dmitri and other contributors for Constantinople
+* found 1 bug with the compiler Maddox all others were related to an empty storage account 
 * we are ready for the fork  
 * we are not running on a hive, we had issues with it, not fixed yet 
 
@@ -142,7 +142,7 @@ Danny: [00:30:21]
 * focusing on refining this stage zero spec for a Serenity where Phase Zero is the core prove of stake chain. 
 * We are moving into a relatively stable place. 
 * We're still refining optimizations. 
-* Need spec peer review and to provide feedback in the next 2-3 weeks
+* Need spec peer review and to provide feedback in the next 2-3 weeks. Spec is [here](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md)
 
 **Working Groups**
 
@@ -438,4 +438,5 @@ Hudson: [01:40:40] Any other comments I think we're actually over time. So any l
 * **Action Item 2**: Hudson to set up exception meeting for Constantinople Hard Fork to monitor the transition
 * **Action Item 3**: Hudson to contact Infura, Mycrypto and other organizations/groups affected by the fork, please provide suggestions to Hudson
 * **Action Item 4**: Afri to work on HF Roadmap
+* **Action Item 5**  Dany Need spec peer review and to provide feedback in the next 2-3 weeks. Spec is [here](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md)
 
