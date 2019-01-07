@@ -1,12 +1,12 @@
 
 **Ethereum Core Devs Meeting 52**
-Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC
+*Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC*
 [Recording](https://youtu.be/iSc3TbjZu1k)
 
 **Agenda**
 
-*Testing Updates
-*Client Updates
+1. Testing Updates
+2. Client Updates
 a) Geth
 b) Parity Ethereum
 c) Aleth/eth
