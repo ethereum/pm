@@ -63,43 +63,49 @@ Lane: [00:14:24] Welcome everybody happy new year super excited to kick off this
 Hudson: [00:15:28] Yep. Exactly. And we also have Murat in here. He is also part of the group of people who are kind of right now called like a project management group for the core devs which is a group of about. How many people something around seven or eight people who want to kind of learn how to navigate around either the EIPs or the core dev meetings or note take or help out in some way or another may maybe hard for coordination stuff like that. And Afri is he is going to be leading the hard for coordination path between now and the next part or after Constantinople. But also I guess leading up to Constantinople usually that role was taken by either no one. Or kind of taken by me for previous hard forks but he's stepped up to take that. So thank you so much Afri. And during calls for a hard fork related stuff I'll probably have Afri cover a lot of that. So just a heads up to everybody. I think that's about it on that topic. Let's go ahead and start with the testing updates. Is Dimitiri here. Yeah Dimitri's in here. Let me meet my phone. Dimitri if you want to go ahead take it away. 
 
 Dimitriy Khoklov: [00:16:53] 
-* Go client is working on a hive being on the main net. 
-* Go client fails on the 90 tests out of all of our test pool looks to b econfiguration errors or maybe high script errors?  
-* Parity still being integrated into the hive. 
+* Go client is working on a hive on the main net. 
+* Go client fails on the 90 tests out of all of our test pool looks to be configuration errors or maybe high script errors
+* Parity is still being integrated into the hive. 
 
-Martin: [00:18:37] Yeah. So I fix the parity errors last night though now so if you look at the stuff I was duing this morning or afternoon the latest results pop up for the it's a twenty three. 
+Martin: [00:18:37] 
+* 23 tests are failing on Parity now out of 21000
 
-Dimitriy Khoklov: [00:18:52] So 23 tests are failing on Parity 
+Dimitriy Khoklov: [00:19:12] 
+* we need at least two clients work working on those tests so it could compare results to make sure that every issue you see in the hive is not a major issue. working on this next week
 
-Martin: [00:18:55] Yeah. Out of 21000 at least a couple of weeks ago it was due to a crash in a theoretical case which cannot happen on main net buy believe Parity guys that fixed it. But I'm not sure if it's been merged . 
-
-Dimitriy Khoklov: [00:19:12] So basically we need at least two clients work working on those tests so it could compare results on the same test net What an additional clients. And if you have no issues no serious issues I think they're OK. Because they will be passing the test. So yes that this is what we are going to work on next week making sure that every issue you see in the hive is not a major issue. It is a test. But rather than just configuration scripts for some other test parsing issue. 
-
-Hudson: [00:19:57] OK. any other testing updates from anybody. OK we can move on to client updates. Let's start with Geth. I think Peter's off right now so maybe maybe Martin or someone else on the geth team. 
+**Client Updates**
+**Geth** 
 
 Martin: [00:20:22] I was actually open. Peter would be on I will ping him to see . 
 
-Hudson: [00:20:34] No problem Parity I think we have Afri now . 
+**Parity**
 
-Afri: [00:20:40] Yeah. Just me today. So I was just back from vacation so I'm not entirely sure if I'm up to date everything but I can summarize some things we are working on right now. Of course. Yeah we are working on ProgPOW. I think we are up to date with the current spec and we are ready for ProgPOW on test net. We all started booking in addition PWASM on EWAS The goal was eventually to join. EWASM test net. Yeah, we all stopped working on implementing fast synchronization. We discussed this on previous meetings so we want to have something like hybrid of past what synchronization and future and implementing fast sync is one of the first steps process and finally we started looking into removing accounts from parity in general account management and transaction signing should not be part of it. So we'll play off supporting multiple implementation and yes something we're trying to figure out how to transition best to because that's that's it so far. 
+Afri: [00:20:40] 
+* working on ProgPOW. I think we are up to date with the current spec and we are ready for ProgPOW on test net. 
+* started looking in addition PWASM on EWAS The goal was eventually to join. EWASM test net.
+* we stopped working on implementing fast synchronization. we want to have a hybrid of past what synchronization and future and implementing fast sync is one of the first steps process 
+* started looking into removing accounts from parity in general account management and transaction signing should not be part of it. 
+* we're trying to figure out how to transition  
 
-Hudson: [00:22:01] Thank you Nimbus. 
+**Nimbus**
 
-Jacek: [00:22:10] Well holiday so not much progress to report especially not on this one. Some good progress on these too. There's a blog post for those that are interested. Yeah that's it. 
+Jacek: [00:22:10] Well holiday so not much progress to report 
 
 Hudson: [00:22:22] Thanks great. Alef. 
 
 [00:22:28] I don't have any update related to Constantinople. So yeah nothing to report. 
 
-Hudson: [00:22:36] Ok pantheon. I think that the Diana or Meredith. 
+**Pantheon** 
 
-Meredith: [00:22:42] Yeah. Not much to update here as people have been out for the holidays. 
+Meredith: no update
 
-Hudson: [00:22:47] OK. Is Manna here OK. 
+**Mana**
+* no update
 
-Hudson: [00:22:56] What about out turbo geth. 
+**TurboGeth**
 
-Alexey: [00:23:01] Hello. So I was mostly working in the last for last couple of weeks and was mostly working on these. The database that I mentioned in the difficult for which I called Maurice which actually is a Latin name for Mulberry. I didn't explain it very well. But essentially, I've been working on the most complex part of my proof of concept which is the. Reverse. Kind of reverse disk for the the history and I sort of made it work so far. So the reason why I'm doing this now is because it's going to be quite important for the two TurboGeth to support things like light clients and snapshot things. And it's also gonna be part of things like ether mint and things like this. And yeah. So that was my main focus for last week's. 
+Alexey: [00:23:01] Hello. 
+* working on reverse disk for the the history it's going to be quite important for the two TurboGeth to support light clients and snapshots. It will be part of ether mint.
 
 Hudson: [00:23:57] Swarm with Adam. 
 
