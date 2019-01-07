@@ -7,8 +7,8 @@
 
 1. Testing Updates
 2. Client Updates
-  3. Geth
-  4. Parity Ethereum
+  * Geth
+  * Parity Ethereum
   5. Aleth/eth
   6. Trinity/PyEVM
   7. EthereumJS
