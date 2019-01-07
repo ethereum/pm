@@ -145,8 +145,8 @@ Danny: [00:30:21]
 
 Alexey: [00:32:22] 
 * split the spec into much smaller pieces which I probably would call cards. 
-* working on Alternative proposals to stem the steady growth. stem the state growth while increasing the block size limit.Post [here](https://ethereum-magicians.org/t/on-raising-block-gas-limit-and-state-rent/2249) 
-* also wrote up the [proposal] (https://ethereum-magicians.org/t/backwards-forwards-sync-of-ethereum-clients/2258) for the backwards forwards sync  
+* working on Alternative proposals to stem the steady growth. stem the state growth while increasing the block size limit. Post is [here](https://ethereum-magicians.org/t/on-raising-block-gas-limit-and-state-rent/2249) 
+* also wrote up the [proposal](https://ethereum-magicians.org/t/backwards-forwards-sync-of-ethereum-clients/2258) for the backwards forwards sync  
 
 Hudson: [00:36:16] Great. And you mentioned the meeting later this month. There is an off very optional in-person meeting January 26 to 28 in the San Francisco Bay Area of the United States was discussed on a previous call and also some people are on a an email list for that. If you're not on the email list reach out to me on Twitter and give me your email and I will agree to the list if you're interested in possibly attending. We're also going to try to have remote options for parts of it or not as much of it as we can. I'm not primarily in charge of that. That's pretty much something that consensus has graciously volunteered to kind of take on. And this stemmed from the ad hoc meetings at DEVCON. I believe so. Again, just reach out to me and we don't have a specific venue yet. As far as I can tell but that'll be coming up pretty soon we'll have information on that and send me your email if you're interested it looks like a Peter. Or actually was there any questions about that before I start or get to just throw it to Peter. 
 
