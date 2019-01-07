@@ -3,6 +3,31 @@
 Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC
 [Recording](https://youtu.be/iSc3TbjZu1k)
 
+**Agenda**
+
+*Testing Updates
+*Client Updates
+a) Geth
+b) Parity Ethereum
+c) Aleth/eth
+d) Trinity/PyEVM
+e) EthereumJS
+f) EthereumJ/Harmony
+g) Pantheon
+h) Turbo Geth
+i) Nimbus
+j) Mana/Exthereum
+Research Updates
+Working Group Updates
+a) State Rent
+b) EWasm
+c) Pruning/Sync
+d) Simulation
+Constantinople HF Evaluation
+Roadmap
+a) ProgPoW HF Decision(s)
+b) Istanbul HF Roadmap
+
 Attendees:
 Anna Vladi
 Hudson Jameson
