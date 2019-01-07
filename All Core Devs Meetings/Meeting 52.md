@@ -148,7 +148,8 @@ Danny: [00:30:21]
 Alexey: [00:32:22] 
 * split the spec into much smaller pieces which I probably would call cards. 
 * working on Alternative proposals to stem the steady growth. stem the state growth while increasing the block size limit. Post is [here](https://ethereum-magicians.org/t/on-raising-block-gas-limit-and-state-rent/2249) 
-* also wrote up the [proposal](https://ethereum-magicians.org/t/backwards-forwards-sync-of-ethereum-clients/2258) for the backwards forwards sync  
+* also wrote up the [proposal](https://ethereum-magicians.org/t/backwards-forwards-sync-of-ethereum-clients/2258) for the backwards forwards sync 
+* Vitalik's post on Uncle Rate & Transaction Fee analysis is [here](https://blog.ethereum.org/2016/10/31/uncle-rate-transaction-fee-analysis/)
 * Found a person to help me with my work, who is joining me end of January
 
 Hudson: [00:36:16] 
