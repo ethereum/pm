@@ -202,6 +202,7 @@ Martin: [00:53:03]
 Hudson: 
 * Decision: when ProgPOW would happen and then we can start to formulate what that entails if we decide it's going to happen. I haven't heard much dissent as far as people saying they don't want it to happen. Very few. Just a couple of people. So, what are some opinions on whether or not this should go forward. Is there anyone who doesn't want this to go forward or. 
 
+**Discussion**
 Martin: [00:55:06] No I just thought that some well opinions and facts about why I want it. So We know for a fact that there exists ASIC miners. So, it's obviously profitable to manufacture or buy and use ASIC miners. There is some the E3 7 that started as first generation ASIC miners but they're also second generation classic miners one from Bitmine which I'm not sure if it's even publicly released. And there's also some other companies that produce some ASIC miner for Ethereum. There is also a fact that there are FPGA based accelerators I mean my Minority sells them which evidently you can make a profit if you put them on your GPU and You can accelerate and we believe that ProgPOW is more ASIC resistance and also more resistant to those kinds of accelerators for the GPUs And yeah there is grounds to believe that switching to ProgPOW would postpone the ASIC level of ASICs in our network for at least a year probably been a lot more than that So we know today Ether hash hashimoto has flaws which are actively being targeted. That's why I would like to switch as soon as possible to give us more time to move to prove of stake 
 
 Hudson: [00:57:01] OK. Do we have other opinions? 
@@ -439,4 +440,7 @@ _______________________________________
 * **Action Item 5**  Dany Need spec peer review and to provide feedback in the next 2-3 weeks. Spec is [here](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md) and This is the BLS signature [spec] (https://github.com/ethereum/eth2.0-specs/blob/master/specs/bls_signature.md)
 ----------------------------------------
 * **Decision 1**: Timeline for ProgPOW
+
+______________________________________
+* **Agenda Item 1**: Whether we want to do this rigid corporate thing of Rigid scheduling. or do the continuous integrations of when we get a decent set of features strictly to get out when we get them out. - Greg Colvin
 
