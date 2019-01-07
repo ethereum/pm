@@ -442,5 +442,6 @@ _______________________________________
 * **Decision 1**: Timeline for ProgPOW
 
 ______________________________________
+**Agenda Items to discuss at next meeting**
 * **Agenda Item 1**: Whether we want to do this rigid corporate thing of Rigid scheduling. or do the continuous integrations of when we get a decent set of features strictly to get out when we get them out. - Greg Colvin
 
