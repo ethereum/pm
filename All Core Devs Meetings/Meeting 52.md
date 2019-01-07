@@ -64,6 +64,8 @@ Lane: [00:14:24] Welcome everybody happy new year super excited to kick off this
 
 Hudson: [00:15:28] Yep. Exactly. And we also have Murat in here. He is also part of the group of people who are kind of right now called like a project management group for the core devs which is a group of about. How many people something around seven or eight people who want to kind of learn how to navigate around either the EIPs or the core dev meetings or note take or help out in some way or another may maybe hard for coordination stuff like that. And Afri is he is going to be leading the hard for coordination path between now and the next part or after Constantinople. But also I guess leading up to Constantinople usually that role was taken by either no one. Or kind of taken by me for previous hard forks but he's stepped up to take that. So thank you so much Afri. And during calls for a hard fork related stuff I'll probably have Afri cover a lot of that. So just a heads up to everybody. I think that's about it on that topic. Let's go ahead and start with the testing updates. Is Dimitiri here. Yeah Dimitri's in here. Let me meet my phone. Dimitri if you want to go ahead take it away. 
 
+**Testing Updates**
+
 Dimitriy Khoklov: [00:16:53] 
 * Go client is working on a hive on the main net. 
 * Go client fails on the 90 tests out of all of our test pool looks to be configuration errors or maybe high script errors
