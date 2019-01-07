@@ -7,16 +7,16 @@
 
 1. Testing Updates
 2. Client Updates
-a) Geth
-b) Parity Ethereum
-c) Aleth/eth
-d) Trinity/PyEVM
-e) EthereumJS
-f) EthereumJ/Harmony
-g) Pantheon
-h) Turbo Geth
-i) Nimbus
-j) Mana/Exthereum
+  2.1. Geth
+  4. Parity Ethereum
+  5. Aleth/eth
+  6. Trinity/PyEVM
+  7. EthereumJS
+  8. EthereumJ/Harmony
+  9. Pantheon
+  10. Turbo Geth
+  11.  Nimbus
+  j) Mana/Exthereum
 Research Updates
 Working Group Updates
 a) State Rent
