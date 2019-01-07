@@ -167,12 +167,12 @@ Afri: [00:39:24]
 Hudson:So one potential concern is that according to a Web site and I guess back in script running that Peter Pratcher setup from one of the major mining pools only around 11 percent of the nodes are on the latest versions of Geth or Parity that are compatible with Constantinople. 
 * Afri: Many nodes are not being updates, do not consider this a concern
 * Alexey:  Parity for example supports usually a kind of two versions one of the stable ones and another one and both of them are now Constantinople ready as far as I understand. But as with the other clients I guess as far as I understand it only has one version which sort of supports the Constantinople. I wonder if this is a might be the reason why you could see that a slower adoption rate.
-* Karalabe: We don't have so in Geth we kind of have two versions one of them are stable releases which are kind of release every two weeks and the other one is likely to say unstable but that is pretty much stable to but both of them are and have been on the Constantinople now for a very long time 
+* Karalabe: We don't have, so in Geth we kind of have two versions one of them are stable releases which are releases every two weeks and the other one - unstable but that is pretty much stable too, but both of them are and have been on the Constantinople now for a very long time 
  
   
 
 
-Martin: [00:44:03] I don't know. When if I mentioned, site to watch the fork is [here](http://forkmon.ethdevops.io/)
+Martin: [00:44:03]  site to watch the fork is [here](http://forkmon.ethdevops.io/)
 
 **Istambul Hard Fork**
 
