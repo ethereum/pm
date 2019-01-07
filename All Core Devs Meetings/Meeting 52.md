@@ -4,7 +4,7 @@
 Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC*
 
 [Recording](https://youtu.be/iSc3TbjZu1k)
-
+_____________________________________________________
 **Agenda**
 
 1. Testing Updates
@@ -29,8 +29,8 @@ Meeting Date/Time: Friday 4 January 2019 at 14:00 UTC*
 6. Roadmap
 7. ProgPoW HF Decision(s)
 8. Istanbul HF Roadmap
-
-Attendees:
+________________________________________________
+**Attendees**
 * Anna Vladi
 * Hudson Jameson
 * Pawel Bylica
@@ -53,7 +53,7 @@ Attendees:
 * Miss If
 * Mr Else
 * Murat
-
+_________________________________________________
 Hudson: [00:13:57] Hello everyone and welcome to episode fifty-two of the core developer meetings. I'm Hudson and let's get to the agenda first. We're gonna have a quick announcement about note taking and to get in bounty associated with it so I'll have lane go over that. 
 
 Lane: [00:14:19] Awesome thank you Hudson can you hear me clearly. 
@@ -63,7 +63,7 @@ Hudson: [00:14:21] Yes cool.
 Lane: [00:14:24] Welcome everybody happy new year super excited to kick off this year in fine health. So I'd like to introduce everyone to Anna who's on the call. Hudson mentioned I think our last meeting about a month ago that we were kicking off an initiative to help to have some to bring in some sort of external project management talent to help us just sort of run these meetings and just coordinate hard forks and things. Afri also kindly volunteered to help out with that process. And one of the things as you guys know I've been taking notes for these calls for most of 2018. So we're going to. So we're going to sort of experiment a bit going forward with that. So Anna has kindly offered to take notes for the meeting today. And the other piece of this is that we also set up a Gitcoin fund some massive thank you to Gitcoin for helping us out with this and for funding the first bounty. And so there's actually gonna be a bounty for note taking this is something that we hope to keep doing for all of these calls basically. So we may have some other fresh faces joining us to take notes going forward. Thank you. 
 
 Hudson: [00:15:28] Yep. Exactly. And we also have Murat in here. He is also part of the group of people who are kind of right now called like a project management group for the core devs which is a group of about. How many people something around seven or eight people who want to kind of learn how to navigate around either the EIPs or the core dev meetings or note take or help out in some way or another may maybe hard for coordination stuff like that. And Afri is he is going to be leading the hard for coordination path between now and the next part or after Constantinople. But also I guess leading up to Constantinople usually that role was taken by either no one. Or kind of taken by me for previous hard forks but he's stepped up to take that. So thank you so much Afri. And during calls for a hard fork related stuff I'll probably have Afri cover a lot of that. So just a heads up to everybody. I think that's about it on that topic. Let's go ahead and start with the testing updates. Is Dimitiri here. Yeah Dimitri's in here. Let me meet my phone. Dimitri if you want to go ahead take it away. 
-
+______________________________________________
 **Testing Updates**
 
 Dimitriy Khoklov: [00:16:53] 
@@ -76,7 +76,7 @@ Martin: [00:18:37]
 
 Dimitriy Khoklov: [00:19:12] 
 * we need at least two clients work working on those tests so it could compare results to make sure that every issue you see in the hive is not a major issue. working on this next week
-
+___________________________________________
 **Client Updates**
 
 **Geth** 
