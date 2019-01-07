@@ -7,7 +7,7 @@
 
 1. Testing Updates
 2. Client Updates
-  2.1. Geth
+  3. Geth
   4. Parity Ethereum
   5. Aleth/eth
   6. Trinity/PyEVM
@@ -16,20 +16,20 @@
   9. Pantheon
   10. Turbo Geth
   11.  Nimbus
-  j) Mana/Exthereum
-Research Updates
-Working Group Updates
-a) State Rent
-b) EWasm
-c) Pruning/Sync
-d) Simulation
-Constantinople HF Evaluation
-Roadmap
-a) ProgPoW HF Decision(s)
-b) Istanbul HF Roadmap
+  12 Mana/Exthereum
+13. Research Updates
+14. Working Group Updates
+15. State Rent
+16. EWasm
+17. Pruning/Sync
+18. Simulation
+19. Constantinople HF Evaluation
+20. Roadmap
+21. ProgPoW HF Decision(s)
+22. Istanbul HF Roadmap
 
 Attendees:
-Anna Vladi
+* Anna Vladi
 Hudson Jameson
 Pawel Bylica
 Adam Schmideg
