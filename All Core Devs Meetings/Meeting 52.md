@@ -440,3 +440,5 @@ Hudson: [01:40:40] Any other comments I think we're actually over time. So any l
 * **Action Item 4**: Afri to work on HF Roadmap
 * **Action Item 5**  Dany Need spec peer review and to provide feedback in the next 2-3 weeks. Spec is [here](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md)
 
+* **Decision 1**: Timeline for ProgPOW
+
