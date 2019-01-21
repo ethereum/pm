@@ -1,6 +1,6 @@
 # Ethereum Core Devs Meeting 53 Notes
 
-## Meeting Date/Time: Fri, November 23, 2018 14:00 UTC
+## Meeting Date/Time: Fri, January 18, 2018 14:00 UTC
 ## Meeting Duration: 98 minutes
 
 ## [GitHub Agenda Page](https://github.com/ethereum/pm/issues/70)
@@ -10,8 +10,8 @@
 
 - Constantinople postponement
 - Difficulty bomb update
-- how to mitigate the SSTORE net gas metering security issue
-- how and when to redo the hard fork
+- How to mitigate the SSTORE net gas metering security issue
+- How and when to redo the hard fork
 - Post-mortem: how did this happen? how do we prevent it from happening again?
 
 Roadmap
