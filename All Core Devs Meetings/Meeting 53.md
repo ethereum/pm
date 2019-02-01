@@ -1,6 +1,6 @@
 # Ethereum Core Devs Meeting 53 Notes
 
-## Meeting Date/Time: Fri, January 18, 2018 14:00 UTC
+## Meeting Date/Time: Friday, January 18, 2018 14:00 UTC
 ## Meeting Duration: 98 minutes
 
 ## [GitHub Agenda Page](https://github.com/ethereum/pm/issues/70)
@@ -13,6 +13,23 @@
 - How to mitigate the SSTORE net gas metering security issue
 - How and when to redo the hard fork
 - Post-mortem: how did this happen? how do we prevent it from happening again?
+
+## Meeting Summary (Key Points and Decisions)
+  - Hard Fork Update: The first hard fork will be the original “Constantinople” which will include all planned EIPs.
+The second fork will be to disable EIP-1283. This was decided because the full Constantinople upgrade including EIP-1283 is running on testnets. This way testnets can just do the second fork and then continue to operate.
+Both forks will be triggered on the same block on the Ethereum mainnet (block 7.28 million) which should occur on February 27th.
+- [Post Mortem of Constantinople Postponement](https://medium.com/ethereum-cat-herders/a-post-mortem-report-the-constantinople-ethereum-hard-fork-postponement-dd780d7ae63d)
+- ProgPow 
+  - There has been a lot of community feedback and a lot more testing. The Gangnam testnet has quite a few clients on it now thats getting some good hash rates.
+  - Discovered an AMD compiler bug, so every once and a while when we generate these random programs, the AMD compiler just completely miscompiles it. Trying to find the root cause of this and trying and mitigate this issue and go ahead. 
+  - Other feedback is that there are a number of parameters that tune ProgPow how much compute, how much memory it uses and the tuning that we set turn out to be too harsh for AMD, a little too compute heavy for some AMD hardware. Recommended to tune it down by 10 % of the compute workload. This doesn’t effect  any AMD hardware, same with the Nvidia hardware we’ve tested it on. It does help some of the AMD hardware out there in the ecosystem to keep the playing field fairly leveled. 
+- PoS finality gadget 
+  - The protocol is being designed so that the beacon chain will be as useable as a finality gadget for the PoW if people want to. This would basically give the same security that the original kind of pre beacon chain hybrid Casper FFG was going to give.
+  - Don't expect this within 6 months. Adding the finality gadget from the beacon chain won't happen in the initial launch. We  would want to see stability on the beach chain first and then an increased security over there before.
+  - Food for thought: if Ethereum would ever switch over to some ASIC friendly PoW algorithm. 
+  - Hardware choice discussion and issues with distribution and economies of scale. 
+- Ideas for improving the decision making process 
+  - Cat Herders looking into and evaluating to see if there is a better forum and decision process for that.
 
 Roadmap
 - - a) Constantinople - what next?
@@ -84,8 +101,6 @@ Participants:
 The beginning of the meeting: 
 
 ## Constantinople Postponement
-
-The beginning of the meeting: 
 
 Hudson - Hello everyone and welcome to episode 53 of the Core Devs Sauga. I’m feeling tired today. 
 
@@ -446,21 +461,21 @@ MR. Def - I’d like to also jump in and back that point up. In principle, I als
 Hudson - With regards to that, the next thing, if we have time to discuss, was going to be the PoS finality gadget on the PoW chain. Danny or Vitalik, do ya’ll have any word on how fast things are coming alone or timelines?
 
 
-Vitalik - One thing that is relevant is that we are designing the protocol so that the beacon chain will be as useable as a finality gadget for the PoW if people want to. This would basically give the same security is that the original kind of pre beacon chain hybrid Casper FFG was going to give. That’s something that’ll be out and not focusing on timelines before sharing and before state executions. So that would basically mean that if that happens everyone is listening to the PoS system pro finality and if enough people are participating that its actually secure then a 51% attack on the proof of work will basicsally be able to censor but it will not be able to revert anything finalized. 
+Vitalik - One thing that is relevant is that we are designing the protocol so that the beacon chain will be as useable as a finality gadget for the PoW if people want to. This would basically give the same security is that the original kind of pre beacon chain hybrid Casper FFG was going to give. That’s something that’ll be out and not focusing on timelines before sharing and before state executions. So that would basically mean that if that happens everyone is listening to the PoS system pro finality and if enough people are participating that its actually secure then a 51% attack on the proof of work will basically be able to censor but it will not be able to revert anything finalized. 
 
 Peter - Are we not talking about the 6-month timeline? 
 
-Vitalik - Yeah, no realistically we don't expect this within 6 months 
-Danny - Adding the finality gadget from the beacon chain won't happen in the initial lauch. We would want to see stability on the beach chain first and then an increased security over there before.
+Vitalik - Yeah, no realistically we don't expect this within 6 months
+ 
+Danny - Adding the finality gadget from the beacon chain won't happen in the initial launch. We would want to see stability on the beach chain first and then an increased security over there before.
 
-Vitalik - Part of the beacon chain code immediately its just no one would immediately listen to it immediately. 
+Vitalik - Part of the beacon chain code immediately its just no one would immediately listen to it. 
 
-Danny - Correct but the follow distance that the begining would also be very long so we would also want to reduce the follow distance. 
+Danny - Correct but the follow distance that the beginning would also be very long so we would also want to reduce the follow distance. 
 
 Vitalik - Yeah, that’s true 
 
-
-Mr. Def - Vitalik, Id like to ask your in terms of the sensor and not the reversal comment. If you have persistant censorship for some percent of the blocks being senored, censoring a certain type of operation would the chain have to basically be less effective at that point and cause a crisis anyway if there is censorship.
+Mr. Def - Vitalik, Id like to ask your in terms of the sensor and not the reversal comment. If you have persistent censorship for some percent of the blocks being censored, censoring a certain type of operation would the chain have to basically be less effective at that point and cause a crisis anyway if there is censorship.
 
 Vitalik - If there is a censorship 51% attack and if the attacker is persistent, so the attacker doesn’t just go away on their own after the attack after one or two days or whatever then basically if we can only do (if we know they have ASICs) we could change the algorithm to cancel their ASICs but if it is a 51% attack that is run based on GPU hardware then we would really have no choice but to scramble as quickly as possible to some kind of Pos. 
 
@@ -470,17 +485,17 @@ Alexey - there is another avenue, I’ve been about it and researching the ways 
 
 Vitalik - That works okay if the goal is to prevent short term 51% attacks but if you try and turn banning censorship into a fork choice rule components then thats starts to become scary because an attacker network splitting attacks where they can censor just enough so that half the network thinks its not fine and at that point the attacker can start reeking a large amount of havoc. So I would recommend not trying to go in that direction. The only version of that situation that I would find secure is probably something based combining the 99% fault tolerance consensus approach which requires telling clients and all the nodes in the network to be online with PoW in some way. This could be possible but properly researching it and spec’ing it would take a large amount of time 
 
-Mr. Def - I want to jump back to an earlier point about GPU vs. ASIC 51% attack. Ethereum is currently resistant by the virtue of it being the biggest coin/consumer on the GPU type of ASIC and in any case or any sort of hardware specific algo or an algo that can be made optimized for a specific type of hardware. Only the biggest work consumer that consumes the most of that hardware is ever protected. So by chaning that algo to another algo, whatever hardware affinity it has, the algo selection would only be protected by a 51% attack if the algo selected was the biggest work consumer on that new type of hardware and if you forked to a new algo that requires a new hardware to be made, first of all, that algo would most likely be mined on something programmable. Perhaps FPJs, so if it was orginally attackable it would still be attackable on programmable hardware. If it was forking to some sort of optimzied ASIC algo, then you immediately run into a distribution problem where the first to produce gains economies of scale and leverage and also limits the ability to scale hardware. Distributing hardware means shipping it somewhere, so this is a narrowing path that can become dangerous. 
+Mr. Def - I want to jump back to an earlier point about GPU vs. ASIC 51% attack. Ethereum is currently resistant by the virtue of it being the biggest coin/consumer on the GPU type of ASIC and in any case or any sort of hardware specific algo or an algo that can be made optimized for a specific type of hardware. Only the biggest work consumer that consumes the most of that hardware is ever protected. So by changing that algo to another algo, whatever hardware affinity it has, the algo selection would only be protected by a 51% attack if the algo selected was the biggest work consumer on that new type of hardware and if you forked to a new algo that requires a new hardware to be made, first of all, that algo would most likely be mined on something programmable. Perhaps FPJs, so if it was originally attackable it would still be attackable on programmable hardware. If it was forking to some sort of optimized ASIC algo, then you immediately run into a distribution problem where the first to produce gains economies of scale and leverage and also limits the ability to scale hardware. Distributing hardware means shipping it somewhere, so this is a narrowing path that can become dangerous. 
 
 Vitalik - Sure, yeah.
 
 Peter - So that’s food for thought. If Ethereum would ever switch over to some ASIC friendly PoW algo, for example, an elegant solution would be to announce “Hey, one year from now or two years from now we are going to use this ASIC friendly algo” This gives everyone time to sort these problems out. 
 
-Mr. DEF - Yeah, I’d like to speak about that a little bit. I think another person in the community has talked about economies of scale and it's an important point that we all understand. The same person referred to the manipulation in terms of partnerships in hardware manufacturing in China and both of these problems are very, very real.  So economies of scale obviously, means first in you have the advantage to leverage additional profits from the initial sale. So whoever is most efficient, basically has a pricing advantage and a manufacturing advantage for whatever initial partnerships they have started. We are all familiar with the first-mover advantage. In terms of production in Asia ecosystem, once you have established money making path these relationships become very well cemented.  So even if they have equal technology or equal efficient ASIC, the natural evolution of the production economy is you have a dominant producer, a second competitor, and all the others fall terribly far behind. This goes for any product out there. The consolidation occurs very early on and especially for narrow demand and very specific purpose demand. You end up with a very tight alignment of economic incentives to preserve one particular path. Furthermore, you have manufacturers that always end up with a technological advantage either in the ability to opitmize for complexity or in being able to drive to a lower process node faster or economies of scale advantage. Its always going to be the case. In a hardware ecosystem, you cant pick your poison, all of t the choices are poison. 
+Mr. DEF - Yeah, I’d like to speak about that a little bit. I think another person in the community has talked about economies of scale and it's an important point that we all understand. The same person referred to the manipulation in terms of partnerships in hardware manufacturing in China and both of these problems are very, very real.  So economies of scale obviously, means first in you have the advantage to leverage additional profits from the initial sale. So whoever is most efficient, basically has a pricing advantage and a manufacturing advantage for whatever initial partnerships they have started. We are all familiar with the first-mover advantage. In terms of production in Asia ecosystem, once you have established money making path these relationships become very well cemented.  So even if they have equal technology or equal efficient ASIC, the natural evolution of the production economy is you have a dominant producer, a second competitor, and all the others fall terribly far behind. This goes for any product out there. The consolidation occurs very early on and especially for narrow demand and very specific purpose demand. You end up with a very tight alignment of economic incentives to preserve one particular path. Furthermore, you have manufacturers that always end up with a technological advantage either in the ability to optimize for complexity or in being able to drive to a lower process node faster or economies of scale advantage. Its always going to be the case. In a hardware ecosystem, you cant pick your poison, all of t the choices are poison. 
 
 Hudson - Okay, so we have to wrap up this call in a minute or two. But feel free to wrap up your final thought right there. 
 
-Mr. DEF - Okay so, Im pushing for the status quo. If you have an ecosystem that you already know is distributed it is the enemy you know. Its already stabalized and dealing with all these damages and difficulties of a hardware ecosystem and ameliorating that because those incentives arent aligned to trying to manipulate the Ethereum chain. They are trying to win a different market. 
+Mr. DEF - Okay so, Im pushing for the status quo. If you have an ecosystem that you already know is distributed it is the enemy you know. Its already stabilized and dealing with all these damages and difficulties of a hardware ecosystem and ameliorating that because those incentives arent aligned to trying to manipulate the Ethereum chain. They are trying to win a different market. 
 
 ---
 ### Ideas for improving the decision making process 
