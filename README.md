@@ -11,6 +11,7 @@ The all core devs meeting is a technical meeting intended to bring together vari
  53 | Fri, January 18, 2019 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/70) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2053.md) | [video](https://www.youtube.com/watch?v=45mrrVrw4x8) |
  52 | Fri, January 4, 2019 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/66) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2052.md) | [video](https://youtu.be/iSc3TbjZu1k) |
  51 | Fri, December 7, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/64) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2051.md) | [video](https://www.youtube.com/watch?v=V4sAl-B8yZU) |
+ 1X | Fri, November 30, 2018 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/65) \| [notes](All%20Core%20Devs%20Meetings/Eth1x%20Sync%201.md) | not recorded |
  50 | Fri, November 23, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/62) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2050.md) | [video](https://www.youtube.com/watch?v=wfxvCEhglTM) |
  49 | Fri, November 9, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/60) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2049.md) | [video](https://www.youtube.com/watch?v=DUUOCDxvKbw) |
  C2 | Fri, October 19, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/61) \| [notes](All%20Core%20Devs%20Meetings/Constantinople%20Meeting%202.md) | [video](https://www.youtube.com/watch?v=5Q67tmkZ5So) |
