@@ -56,6 +56,12 @@ The all core devs meeting is a technical meeting intended to bring together vari
  10 | Fri, February 10, 2017 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/5) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2010.md) | [video](https://youtu.be/huYl7eOlKJE) |
   9 | Wed, January 25, 2017 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/3) \| [notes](All%20Core%20Devs%20Meetings/Meeting%209.md) | [video](https://youtu.be/ex51Gb3SVqo) |
   8 | Fri, October 28, 2016 13:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/1) \| [notes](All%20Core%20Devs%20Meetings/Meeting%208.md) | not recorded |
+  7 | Fri, September 2, 2016           | [notes](Archive/EIPs%20Wiki/Notes%20for%20Core%20Dev%20Meeting%209%202.md) | not recorded |
+  ? | Mon, May 2, 2016                 | [notes](Archive/EIPs%20Wiki/Meeting%202016%2005%202.md) | not recorded |
+  2 | Fri, January 1, 2016             | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
+  1 | Mon, November 30, 2015           | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
+  0 | ??                               | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
+
 
 ### Who Can Attend
 Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to Hudson Jameson at hudson@ethereum.org.
