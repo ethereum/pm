@@ -11,6 +11,7 @@ The all core devs meeting is a technical meeting intended to bring together vari
  53 | Fri, January 18, 2019 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/70) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2053.md) | [video](https://www.youtube.com/watch?v=45mrrVrw4x8) |
  52 | Fri, January 4, 2019 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/66) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2052.md) | [video](https://youtu.be/iSc3TbjZu1k) |
  51 | Fri, December 7, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/64) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2051.md) | [video](https://www.youtube.com/watch?v=V4sAl-B8yZU) |
+ 1X | Fri, November 30, 2018 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/65) \| [notes](All%20Core%20Devs%20Meetings/Eth1x%20Sync%201.md) | not recorded |
  50 | Fri, November 23, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/62) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2050.md) | [video](https://www.youtube.com/watch?v=wfxvCEhglTM) |
  49 | Fri, November 9, 2018 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/60) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2049.md) | [video](https://www.youtube.com/watch?v=DUUOCDxvKbw) |
  C2 | Fri, October 19, 2018 14:00 UTC   | [agenda](https://github.com/ethereum/pm/issues/61) \| [notes](All%20Core%20Devs%20Meetings/Constantinople%20Meeting%202.md) | [video](https://www.youtube.com/watch?v=5Q67tmkZ5So) |
@@ -54,8 +55,14 @@ The all core devs meeting is a technical meeting intended to bring together vari
  12 | Fri, March 17, 2017 14:00 UTC    | [agenda](https://github.com/ethereum/pm/issues/7) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2012.md) | [video](https://youtu.be/g2gsYRlThD4) |
  11 | Fri, March 3, 2017 14:00 UTC     | [agenda](https://github.com/ethereum/pm/issues/6) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2011.md) | [video](https://youtu.be/EiXwg9vjGdY) |
  10 | Fri, February 10, 2017 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/5) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2010.md) | [video](https://youtu.be/huYl7eOlKJE) |
-  9 | Wed, January 25, 2017 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/3) \| [notes](All%20Core%20Devs%20Meetings/Meeting%208.md) | [video](https://youtu.be/ex51Gb3SVqo) |
-  8 | Fri, October 28, 2016 13:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/1) \| [notes](All%20Core%20Devs%20Meetings/Meeting%209.md) | not recorded |
+  9 | Wed, January 25, 2017 14:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/3) \| [notes](All%20Core%20Devs%20Meetings/Meeting%209.md) | [video](https://youtu.be/ex51Gb3SVqo) |
+  8 | Fri, October 28, 2016 13:00 UTC  | [agenda](https://github.com/ethereum/pm/issues/1) \| [notes](All%20Core%20Devs%20Meetings/Meeting%208.md) | not recorded |
+  7 | Fri, September 2, 2016           | [notes](Archive/EIPs%20Wiki/Notes%20for%20Core%20Dev%20Meeting%209%202.md) | not recorded |
+  ? | Mon, May 2, 2016                 | [notes](Archive/EIPs%20Wiki/Meeting%202016%2005%202.md) | not recorded |
+  2 | Fri, January 1, 2016             | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
+  1 | Mon, November 30, 2015           | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
+  0 | ??                               | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
+
 
 ### Who Can Attend
 Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to Hudson Jameson at hudson@ethereum.org.
