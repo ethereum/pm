@@ -582,13 +582,13 @@ March 29, 2019
 * Daniel Ellison (ConsenSys)
 * Dankrad Feist
 * Danno Ferrin
-* Danny
+* Danny Ryan
 * Dimitry Khoklov
 * Eric Kellstrand 
-* Fjl
+* Felix Lange
 * Fredrik Harrysson
 * Greg Colvin
-* Guillaume
+* Guillaume Ballet
 * Hudson Jameson
 * Ivaylo (Web3Labs)
 * Jacek Sieka
@@ -600,5 +600,5 @@ March 29, 2019
 * Peter Szilagyi
 * Pooja Ranjan
 * Tim Beiko
-* Trentonvanepps
+* Trenton Van Epps
 * Vitalik Buterin
