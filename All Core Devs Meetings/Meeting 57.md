@@ -341,98 +341,97 @@ I hope to include this into the next version of State Fee proposal
 
 ## 3.2 Ewasm or Simulation
 
-**Hudson**: Is there anyone here who  wants to talk about Ewasm or simulation ?
+**Hudson**: Is there anyone here who wants to talk about Ewasm or simulation?
 
 **Guillaume**: Actually I was just looking for that. There has been some conversations and some work on the benchmarks. I am told that they should be right around next week. When it comes to Eth 1.x, I've got the prototypes that runs ahead of time compilation so we take wasm file to compile x86. And we just run it's like we just want to the conference this way so that's what's up and coming but it needs to be stabilized. It was the Ewasm update as I have it.
 
 **Hudson**: Awesome, thank you.
 
+## 3.3 State Pruning/Sync (ETH V64 Call for Proposals & Stopgaps for cleaning up discovery peers pre-Discovery v5)
 
-## 3.3 Pruning/Sync (ETH V64 Call for Proposals & Stopgaps for cleaning up discovery peers pre-Discovery v5)
+**Hudson**: The other piece we have for the working group updates ETH V64 call for proposals and stopgaps, that was Matthew Halpern and Jason Carver. So if you could explain what that is and they updates on that?
 
-**Hudson**:The other piece we have for the working group updates ETH  V64 call for proposals and stop caps, that was Matthew Halpern and Jason Carver.  So if you could explain what that is and they updates on that?
+**Matthew**: Yeah absolutely so I think the motivation is that there hasn't been any sort of upgrade to Eth wire protocols for some time. I think even so far back as 2015 so the idea was just to open a ring on [Eth magicians](https://ethereum-magicians.org/t/forming-a-ring-eth-v64-wire-protocol-ring/2857) to see your what ideas were out there what were people thinking. That's where thing and I'll post the link in Zoom, but there's actually been a lot of good discussion going on there. We have good proposals spanning multiple client implementers, the changes have ranged from simple thing to more complex things like supporting client-side full control. At this stage I think I'll leave the call open for another week but then starting to get a key stakeholders are people that are interested in moving forward with there proposals and getting them into EIPs and starting to the client developers who would actually be interested in supporting that and then of course getting reference.
 
-**Matthew**: Yeah absolutely so I think the motivation is that there hasn't been any sort of upgrade to Eth line of some protocols for sometime. I think even so far back as 2015 so the idea was just to open a ring on [Eth magicians](https://ethereum-magicians.org/t/forming-a-ring-eth-v64-wire-protocol-ring/2857) to see your what ideas were out there what were people thinking. That's where thing and I'll post the link in Zoom, but I actually been a lot of good discussion going on there. We have good proposals spanning multiple client implementers, the changes have  ranged from simple thing to more complex things like supporting client-side, client-side full control. At this stage I think I'll leave the call open for another week but then starting to get a key stakeholders are people that are interested in moving forward with there proposals and getting them into EIPs and starting to the client developers who would actually be interested in supporting that and then of course getting reference.
+**Fredrik**: I would want to say that what you are talking about is something broader but when it comes to syncing algorithms both Geth and Parity are working on one and both have POC ad implementation. We focus on those and try to say this is not good about this algorithm and this is good about it. There are literally thousands of proposals and we don't have to go through them.
 
-**Fredrik**: I would want to say that what you are talking about is something broader but when it comes to sinking algorithms both Geth and Parity are working on one and both have POc ad implementation. We focus on those and try to say this is not good about this algorithm and this is good about it. There are literally thousands of proposals and we don't have to go through them
+**Matthew**: Yeah, I don't think we have to go through the formalities too much especially for your fasting syncing and things like that. I assume that everyone working on this Jason, Alexey and you are all talking and agreeing on what primitives need to be there. I don't imagine that too many external parties we trying to interfere with what you have in mind in there specially if you have something working. I would let Jason also speak on that.
 
-**Matthew**: Yeah, I don't think we have to go through the formalities too much especially for your fasting syncing and things like that. I assume that everyone working on this Jason, Alexey and you are all talking and agreeing on what premitives need to be there. I don't imagine that too many external parties we trying to interfere with what you have in mind in there specially if you have something working. I would let Jason also speak on that. 
+**Jason**: Yes I guess that's a good segue in addition to the prototypes from the Geth and Parity teams, there are some other team that I have been talking to TurboGeth, Swarm about some of the things they might be able to support here. From Trinity perspective,  I've been trying to write up the draft proposal for tries to incorporate. Some of them are still early on so or anyone else wants to get involved it is a great time to do that.
 
-**Jason**: Yes I guess that's a good segue in addition to the prototypes from the Geth and Parity teams, there are some other team that I have been talking to TurboGeth, Swarm about some of the things they might be able to support here. From Trinity perspective,  I've been trying to write up the draft proposal for tries to incorporate. Some of them are still early on so or anyone else wants to get involved. It is a great time to do that.
-
-There's still more to do on a syncing up with Parity. Feel free to reach out if you're another client's or have other ideas about where fast syncing should go.
+There's still more to do on a syncing up with Parity. Feel free to reach out if you're another client or have other ideas about where fast syncing should go.
 
 **Fredrik**: When it comes to thinking specifically there is also a gitter channel that you could join.
 
 **Jason**: Reach out to me at gitter. And we will sync up with the group.
 
-**Matthew**: Just for my understanding how this joints are the efforts for the next fasting proposed? Are there multiple independent groups working on this or is everyone collaborating together
+**Matthew**: Just for my understanding how this joints are the efforts for the next fast sync proposed? Are there multiple independent groups working on this or is everyone collaborating together?
 
-**Jason**: There's conversation but there's still a fairly desperate ideas right now about how it should go.  So yeah, it hasn't called us yet.
+**Jason**: There's conversation but there's still a fairly disparate ideas right now about how it should go. So yeah, it hasn't called us yet.
 
-**Fredrik**: We are in byte sharing territory here, where we just will never reach any consensus because everyone is married to their particular solution.
+**Fredrik**: We are in bike shedding territory here, where we just will never reach any consensus because everyone is married to their particular solution.
 
-**Tim**: I would say for sure implementations win over ideas right. That's that's like a quick way to whittle down from ideas to final solution. I do think it is important to talk to different groups and figure out solution for implementation. We should iterate on the ideas for implementation for sure. 
+**Tim**: I would say for sure implementations win over ideas right. That's that's like a quick way to whittle down from ideas to final solution. I do think it is important to talk to different groups and figure out solution for implementation. We should iterate on the ideas for implementation for sure.
 
-**Alexey**: I wanted to add to this, the reason why there is no convergence of fire in these ideas is because as far as I know that most of the groups are trying to actually make some kind of implementation or modeling. Because the subject itself is not so simple as that you can just figure it out in your head. You actually have to do some Code, modeling and stuff like that. So once we've done going to get further in that we can actually see the other ideas converge, that's what I would expect. It's a bit early so  I was going to suggest that, in this situation where there's a lot of activities on some topic; you should not try to constrain yourself with some sort of deadlines - like okay, by May we have to do everything because that kind of makes us cut corners. We only need to have a deadlines when we actually when there's not much activity going on. If people are genuinely  writing code and  trying to make things work, then I think we will have to give them the the runway.
+**Alexey**: I wanted to add to this, the reason why there is no convergence of fire in these ideas is because as far as I know that most of the groups are trying to actually make some kind of implementation or modeling. Because the subject itself is not so simple as that you can just figure it out in your head. You actually have to do some code, modeling and stuff like that. So once we've done going to get further in that we can actually see the other ideas converge, that's what I would expect. It's a bit early so I was going to suggest that, in this situation where there's a lot of activities on some topic; you should not try to constrain yourself with some sort of deadlines - like okay, by May we have to do everything because that kind of makes us cut corners. We only need to have a deadlines when we actually when there's not much activity going on. If people are genuinely writing code and trying to make things work, then I think we will have to give them the the runway.
 
-**Matthew**: Sure, so we can see if there are any  v64 enhancements that can be separated and don't interfere with this is perfectly fine.  
+**Matthew**: Sure, so we can see if there are any v64 enhancements that can be separated and don't interfere with this is perfectly fine.  
 
-**Hudson**: Okay cool, that all sound good. 
-
+**Hudson**: Okay cool, that all sounds good.
 
 ## 3.5 [Istanbul & ETH1x Roadmap Planning Meeting - April 17th & 18th in Berlin](https://ethereum-magicians.org/t/istanbul-eth1x-roadmap-planning-meeting-april-17th-18th-in-berlin/2899)
 
 **Hudson**: So the next thing, Boris has organized Istanbul and Eth1.x roadmap planning meeting in Berlin April 17-18. Boris if you want to go over that quickly?
 
-**Boris**:  Sure once again apologies that it's somewhat tight timing. I decided to go ahead and plan it. Alexi is available and is going to be there and we've got a number of other people who committed to being there. Basically the point is to sit down and actually look ahead of both Istanbul, review the EIPs, have anybody who's proposing EIPs go over those. Essentially very similar to the Stanford meeting and ideally we can get some more work done in person around looking out further ahead.  I think Alexi has done a great job of having areas or related EIPs in  multi hard fork planning. So the goal is just to go over that and in general see where Eth 1.X is heading and work together with implementation teams and get feedback on that and really just get our act together for for this hard Fork. Roughly, it's almost exactly a month before the hard deadline to accept proposals. Ideally we then know exactly which EIPs are most likely to be proposed incline teams can make plans and or give feedback on what resources they have available to actually get this done. Eth magicians has a post with all of the details and piece to get in [here](https://ethereum-magicians.org/t/istanbul-eth1x-roadmap-planning-meeting-april-17th-18th-in-berlin/2899). If you can, let us know. If you are coming there's a link in there just do a little [Google form](https://goo.gl/forms/AZv018Cgd2B3YzuZ2) or just contact me directly and I will be working on agenda and presenters and another thing like that. I likely at full node in Berlin because I know some people have started asking me where they should book hotels and so just the Gnosis team volunteered full node, so likely that end of the city.
+**Boris**: Sure once again apologies that it's somewhat tight timing. I decided to go ahead and plan it. Alexey is available and is going to be there and we've got a number of other people who committed to being there. Basically the point is to sit down and actually look ahead at Istanbul, review the EIPs, have anybody who's proposing EIPs go over those. Essentially very similar to the Stanford meeting and ideally we can get some more work done in person around looking out further ahead. I think Alexey has done a great job of having areas or related EIPs in multi hard fork planning. So the goal is just to go over that and in general see where Eth 1.x is heading and work together with implementation teams and get feedback on that and really just get our act together for for this hard fork. Roughly, it's almost exactly a month before the hard deadline to accept proposals. Ideally we then know exactly which EIPs are most likely to be proposed, inclined teams can make plans and/or give feedback on what resources they have available to actually get this done. Eth magicians has a post with all of the details and piece to get in [here](https://ethereum-magicians.org/t/istanbul-eth1x-roadmap-planning-meeting-april-17th-18th-in-berlin/2899). If you can, let us know. If you are coming there's a link in there just do a little [Google form](https://goo.gl/forms/AZv018Cgd2B3YzuZ2) or just contact me directly and I will be working on agenda and presenters and another thing like that. It will likely be at full node in Berlin because I know some people have started asking me where they should book hotels and so just the Gnosis team volunteered full node, so likely that end of the city.
 
 **VB**: I probably won't be able to show up but and I know that there is interest in EIP 1559 which is the Fee Market change. So if people want to discuss that would there be room if you remotely.
 
-**Boris**:  Absolutely. Ideally, lots of value to meet in person and doing whiteboards but we absolutely want to support the dial in  especially for proposers. 
+**Boris**: Absolutely. Ideally, lots of value to meet in person and doing whiteboards but we absolutely want to support the dial in especially for proposers.
 
-**VB**: In person ther are a lot of EDCON and Hackathon that are happening around, it won't cover everyone but is a great place to finally chat with a lot of people.
+**VB**: In person there are a lot of EDCON and Hackathon that are happening around, it won't cover everyone but is a great place to finally chat with a lot of people.
 
 **Hudson**: Yeah that sounds good. I won't be able to make it either because I'm going to a giant Star Wars event. But yeah I'm looking forward to the remote connection so I can tune in. Was that it Boris?
 
-**Boris**: Yeah links are in the chat here and I'll tweet about it again so it's on top of everyone's feeds**. 
+**Boris**: Yeah links are in the chat here and I'll tweet about it again so it's on top of everyone's feeds.
 
 **Hudson**: Okay thanks. Okay we're making good time actually.  
 
 
 # 4. Testing Updates 
 
-**Hudson**: Let's go to testing updates with Dimitri.
+**Hudson**: Let's go to testing updates with Dimitry.
 
-**Dimitry**: Okay hello. The main agenda for me right now is to make all of the state test to make RPC protocol. Some Titan team also working on the same kind of thing. We think to develop generic Genesis file format mandatory for every client to implement. Actually suggest to open an EIP for every client to implement this protocol for genesis file. Overall, I think we still need to support EIP in CPP client because its stable and it works. 
+**Dimitry**: Okay hello. The main agenda for me right now is to make all of the state test to make RPC protocol. Some Titan team also working on the same kind of thing. We think to develop generic genesis file format mandatory for every client to implement. Actually suggest to open an EIP for every client to implement this protocol for genesis file. Overall, I think we still need to support EIP in CPP client because its stable and it works. 
 How you think about this genesis format for every client? Any comments from client developers? 
 
-**FJL**:  I think it would be really great. We wanted this for long time 
+**FJL**: I think it would be really great. We wanted this for long time.
 
-**Dimitry**: One year already.  What does a proper way to open an EIP for that?
+**Dimitry**: One year already. What does a proper way to open an EIP for that?
 
-**FJL**: The usual way will be you write a draft ,  you just copy one of the existing EIP and fill out the sections and then bring it up here. Is that the current process just bring it up on this forum?
-**Hudson**: For calling on,  it be a good idea to make an Ethereum magicians form post and then link that in the EIP as there's a section called discussion side and you can put the theory of magicians link in there. Yeah let's bring it up, let's do a follow-up on this call to see after people look at the EIP , what their thoughts are on it? 
+**FJL**: The usual way will be you write a draft,  you just copy one of the existing EIP and fill out the sections and then bring it up here. Is that the current process just bring it up on this forum?
+
+**Hudson**: For calling on, it be a good idea to make an Ethereum magicians form post and then link that in the EIP as there's a section called discussion side and you can put the theory of magicians link in there. Yeah let's bring it up, let's do a follow-up on this call to see after people look at the EIP, what their thoughts are on it?
 
 **Dimitry**: Let me prepare this EIP. In the next developer call we could discuss it. I will send you the link.
 
 **Hudson**: Thank you very much. Any other testing updates fussing or otherwise?
 
-**Martin**: So we are progressing on the fussing regarding we are adding some new tests and doing some general changes to the framework sometime betweeen now and for the next hard fork. So it's going through some changes.
+**Martin**: So we are progressing on the fuzzing regarding we are adding some new tests and doing some general changes to the framework sometime betweeen now and for the next hard fork. So it's going through some changes.
 
 **Hudson**: Great.
 
 # 5. Client Updates 
 
+**Hudson**: Let's run through client updates real quick.
+
 ## 5.1 Geth
 
-**Hudson**: Let's run through client updates real quick. 
-
-**Peter**:  As for the client update one interesting thing that we have been working on for about 1 month or levelDB optimization. Actually over the past month he kind of manage to speed up levelDB (for huge databases meaning archive notes the big scary one) by about the factor of seven. Which means that we haven't really run too conclusive tests but it kind of seems that with compared to our current stable release which does an archive syncing in many weeks, 6 weeks? I haven't actually ever did one of those but based on our latest benchmark let's do that in 7 to 10 days currently with the latest Geth code.  I am a really really happy about that and apart from that, currently working a lot on the slimming down Geth memory consumption wise. Some kind of works around the data storage. So perhaps we can move more data. Thats about it.
+**Peter**: As for the client update one interesting thing that we have been working on for about 1 month is levelDB optimization. Actually over the past month we kind of managed to speed up levelDB (for huge databases meaning archive nodes, the big scary one) by about a factor of seven. Which means that we haven't really run too conclusive tests but it kind of seems that with compared to our current stable release which does an archive syncing in many weeks, 6 weeks? I haven't actually ever did one of those but based on our latest benchmark let's do that in 7 to 10 days currently with the latest Geth code. I am really really happy about that and apart from that, currently working a lot on the slimming down Geth memory consumption wise. Some kind of works around the data storage. So perhaps we can move more data. Thats about it.
 
 **Hudson**: Wow so that's 8 weeks to 7-10 days you said?
 
-**Peter**: I think  6 weeks to 7-10 days. Yes.  
+**Peter**: I think 6 weeks to 7-10 days. Yes. 
 
 **Danno**: It fast sync and all?
 
@@ -440,7 +439,7 @@ How you think about this genesis format for every client? Any comments from clie
 
 **Martin**: I probably improves passing quite a bit as well.
 
-**Hudson**: Cool. 
+**Hudson**: Cool.
 
 
 ## 5.2 Parity Ethereum
@@ -458,7 +457,7 @@ How you think about this genesis format for every client? Any comments from clie
 
 **Hudson**: okay Trinity? 
 
-**Jason**: I don't think anyone's here last time we had an alpha  released before the last all core dev call with Constantinople support as well as performance stability. Masters continuing to improve pretty quickly so look out for her next update about a week. 
+**Jason**: I don't think anyone's here last time we had an alpha released before the last all core dev call with Constantinople support as well as performance stability. Masters continuing to improve pretty quickly so look out for her next update about a week.
 
 
 ## 5.5 EthereumJS
@@ -468,14 +467,14 @@ How you think about this genesis format for every client? Any comments from clie
 
 ## 5.6 EthereumJ/Harmony
 
-**Hudson**: So Harmony couldn't make it but they said that demonstrated 1.5 months worth of stable run time with no consensus breaks memory leaks to space issues are performance segregation detected during that period. The version they have right now looks pretty reliable. That's exciting.
+**Hudson**: So Harmony couldn't make it but they said that demonstrated 1.5 months worth of stable run time with no consensus breaks, memory leaks, space issues or performance segregation detected during that period. The version they have right now looks pretty reliable. That's exciting.
 
 
 ## 5.7 Pantheon
 
-**Hudson**: Pantheon ??
+**Hudson**: Pantheon?
 
-**Tim**: No major on our end.
+**Tim**: No major updates on our end.
 
 
 ## 5.8 Turbo Geth
@@ -487,7 +486,6 @@ How you think about this genesis format for every client? Any comments from clie
 
 ## 5.9 Nimbus
 
-
 **Hudson**: Okay, Nimbus?
 
 **Jacek**: It is running a full sync all the way through. We're going to take a moment and celebrate that by doing some refactoring on some of the issues that we were working so far.
@@ -497,15 +495,14 @@ How you think about this genesis format for every client? Any comments from clie
 
 ## 5.10 Web3j
 
-**Hudson**: Web3J ?
+**Hudson**: Web3J?
 
-**Ivaylo**: We drafted the release of 4.2 this morning. I think the most interesting thing is that we have ERC 20 interface baked in. It allow you to write your ERC 20 tokens in Java using Solidity. I'm off to this 4.2 release is finalized and basicaaly unless people's computers blow up, Web3J will be back burner for us. Our focus right now is JVM instrumentation. 
-
+**Ivaylo**: We drafted the release of 4.2 this morning. I think the most interesting thing is that we have ERC 20 interface baked in. It allow you to write your ERC 20 tokens in Java using Solidity. I'm off to this 4.2 release is finalized and basically unless people's computers blow up, Web3J will be back burner for us. Our focus right now is JVM instrumentation.
 
 
 ## 5.11 Mana/Exthereum
 
-**Hudson**: Mana??
+**Hudson**: Mana?
 
 
 ## 5.12 Mantis
@@ -513,23 +510,22 @@ How you think about this genesis format for every client? Any comments from clie
 
 ## 5.13 Nethereum
 
-**Hudson**: Nethereum ??? Is there any other clients that I missed ?
+**Hudson**: Nethereum? Is there any other clients that I missed?
 
 
 # 6. EWASM & Research Updates 
 
-**Hudson**: Research updates Daniel and Vitalik ?
+**Hudson**: Research updates, Danny and Vitalik?
 
-**Danny**:  We just released the [05](https://github.com/ethereum/eth2.0-specs/releases/tag/v0.5.0). Primarily the phase 0 becon chain protocol and some stuff from phase 1. The major thing here is that we made the entire spec executable and have a series of State tests which is a big win. In Sydney we're going to be doing some sort of like 2.0 Workshop before EDCON  and we're looking into setting up remote participation. So I'll be sharing information on that if you're not going to be there. 
-Vitalik,  anything else? 
+**Danny**: We just released the spec [v0.5.0](https://github.com/ethereum/eth2.0-specs/releases/tag/v0.5.0). Primarily the phase 0 beacon chain protocol and some stuff from phase 1. The major thing here is that we made the entire spec executable and have a series of State tests which is a big win. In Sydney we're going to be doing some sort of like 2.0 Workshop before EDCON  and we're looking into setting up remote participation. So I'll be sharing information on that if you're not going to be there. Vitalik, anything else? 
 
 **VB**: I mentioned in the call yesterday that we get and I made a lot of progress on the [Light client protocol](https://ethereum-magicians.org/t/eth2-in-eth1-light-clients/2880). We are looking at how it makes sense to start implementing. Aside from that I would guess the main thing is probably busy roll, stabilizing and the phase 1 game of custody improving quite a bit. Also want to repate that we want the feedback on the phase 2 in general.
 
-**Danny**: I think there's a magician's link recently read kind of dumped the things. I remember you have already checked this out at least some of the networking people. But there is a basic networking protocol up for review in the beacon chain , [ETH 2.0 spec repo](https://github.com/ethereum/eth2.0-specs/pull/763).  So if you haven't taken a look and you have some interest in digging into the networking protocol and help me out there please do. 
+**Danny**: I think there's a magician's link recently read kind of dumped the things. I remember you have already checked this out at least some of the networking people. But there is a basic networking protocol up for review in the beacon chain , [ETH 2.0 spec repo](https://github.com/ethereum/eth2.0-specs/pull/763). So if you haven't taken a look and you have some interest in digging into the networking protocol and help me out there please do.
 
 **Hudson**: Any other researchers have any updates, I think that there's a few others in here if you have anything. 
 
-**Danny**: Oh I don't think there's any EIP written yet, but something that we want to write up soon and push forward in the next hardfork is a BLS 12381 precompile in the EVM  that would open up possibilities of utilizing the 2.0 things from 2.0 inside the context. Vitalik you want to add anything?
+**Danny**: Oh I don't think there's any EIP written yet, but something that we want to write up soon and push forward in the next hardfork is a BLS 12381 precompile in the EVM that would open up possibilities of utilizing the 2.0 things from 2.0 inside the context. Vitalik you want to add anything?
 
 **VB**: I opened up a [magicians thread](https://ethereum-magicians.org/t/things-to-decide-for-phase-2-copy-from-eth2-0-specs-github-issues/2895) about the light client materials. The Eth2 light client inside eth 1 would require precompile and it would very significantly benefit from all data gas cost reduction. And that's probably also something that would give us a one-liner that seems to be in line. 
 
@@ -537,32 +533,31 @@ Vitalik,  anything else?
 
 **VB**: And I also saw the generic elliptic curve precompile idea which is interesting the one thing to point out is. That's not a replacement for a BLS 381 precompile because you cann't do pairings over a generic elliptical curve precomplie and we are doing for BLS 381 generic support.
 
-**Boris**:  yeah I think all of these obviously we don't want to do any infinite  pre compiles but get help from Ramco and yourself another cryptographers and see what are The Logical ones to get into the ETH 1.x line 
+**Boris**: Yeah I think all of these obviously we don't want to do any infinite pre compiles but get help from Remco and yourself another cryptographers and see what are the logical ones to get into the ETH 1.x line.
 
-**VB**: Agreed, and it's also not just a question of cryptography is also a question of what our priorities are.  For example BLS 381 is nice because that improves interoperability with the zcash and other blockchain. But additionally does this like extra big thing of making it viable to have it use to light clients. Whereas for other hash function might have like different Value in is not a kind of cryptographic liability as it is about what concrete  things do we go through in and want to achieve. 
+**VB**: Agreed, and it's also not just a question of cryptography is also a question of what our priorities are. For example BLS 381 is nice because that improves interoperability with zcash and other blockchains. But additionally does this like extra big thing of making it viable to have it use to light clients. Whereas for other hash function might have like different value in is not a kind of cryptographic liability as it is about what concrete things do we go through in and want to achieve.
 
-**Alexey**: yeah I definitely agree that today that the link between 1.x and 2.0 should be one of the the priority because eventually we want to do this finality Gadget at some point. 
+**Alexey**: Yeah I definitely agree that today that the link between 1.x and 2.0 should be one of the the priority because eventually we want to do this finality gadget at some point.
 
-**Hudson**: Anything else ?? Awesome!
-We have one minute left and I think we'll wrap it up. We didn't come back to ProgPOW so I guess want to do that next week. Boris do we have a discussion on magicians about ProgPOW that is like a central one?
+**Hudson**: Anything else? Awesome! We have one minute left and I think we'll wrap it up. We didn't come back to ProgPOW so I guess want to do that next week. Boris do we have a discussion on magicians about ProgPOW that is like a central one?
 
-**Boris**: Lane cross posted that, yes. Action items and I think Tim's on the call taking notes as well, is mainly just point of contact and audit details. I don't think we need to discuss it again like if we want to have a call right now,  is there anyone who's saying,  you know progpower Over My Dead Body,  otherwise it's over to audit and we only need to bring it up again if there's an update from essentially the audit working group. Does that make sense?
+**Boris**: Lane cross posted that, yes. Action items and I think Tim's on the call taking notes as well, is mainly just point of contact and audit details. I don't think we need to discuss it again like if we want to have a call right now, is there anyone who's saying, you know progpow Over My Dead Body, otherwise it's over to audit and we only need to bring it up again if there's an update from essentially the audit working group. Does that make sense?
 
-**Hudson**: That sounds good to me. Thanks so much Boris, you've close the issue. 
+**Hudson**: That sounds good to me. Thanks so much Boris, you've close the issue.
 
-**Tim**: One thing we started talking about but didn't quite wrap up with the idea of smaller hard Forks versus larger hard Forks? I'm not sure if we want to do that or bring it up on the next call? what's think about it and bring it up on the next call? 
+**Tim**: One thing we started talking about but didn't quite wrap up with the idea of smaller hard forks versus larger hard forks? I'm not sure if we want to do that or bring it up on the next call? What's think about it and bring it up on the next call? 
 
-**Danno**: Do we put time box of some of these request to the next Call to?
+**Danno**: Do we put time box of some of these request to the next call to?
 
 **Hudson**: Just like things on the agenda in general?
 
-**Danno**:  Yeah, timeboxing because apart from ProgPOW there are some of the other issues they've been spoken for the next meeting also could turn into alcohol consumed discussions.
+**Danno**: Yeah, timeboxing because apart from ProgPOW there are some of the other issues they've been spoken for the next meeting also could turn into alcohol consumed discussions.
 
 **Hudson**: Okay, good idea. I'll try to estimate how much time you should get I guess or people can give suggestions.
 
-**Danno**: yeah we can hash it out in the thread.
+**Danno**: Yeah we can hash it out in the thread.
 
-**Hudson**: Alright, sounds great. Alright, thanks everybody have a great day !!
+**Hudson**: Alright, sounds great. Alright, thanks everybody have a great day!
 
 # Date for next meeting
 March 29, 2019
