@@ -4,57 +4,57 @@
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/83)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=GQ0kbH0iSfI)
 
+**Hudson**: Welcome everyone! Let's start with Istanbul Hardfork Roadmap.
 
-
-**Hudson**: Welcome everyone!
-             Let's start with Istanbul Hardfork Roadmap.
 # 1. Roadmap
 
 ## 1.1 Istanbul Hardfork Roadmap
 
-**Hudson**: When Afri was release manager, he came up with a  roadmap , that had a cut off date in May and sometime around October is the actual HF date. People are liking that model so far. I don't know if it meant completely agreed upon but it sounded more like it has consensus around it. I don't see why we we shouldn't. go with that.
+**Hudson**: When Afri was release manager, he came up with a roadmap that had a cut off date in May and sometime around October is the actual HF date. People are liking that model so far. I don't know if it meant completely agreed upon but it sounded more like it has consensus around it. I don't see why we we shouldn't go with that.
 
 ## 1.2 Release manager
 
-**Hudson**: What we are doing is getting a group of release manager. Borris, you have been taking some steps to put release manager organizational stuff together. 
+**Hudson**: What we are doing is getting a group of release managers. Boris, you have been taking some steps to put release manager organizational stuff together.
 
-**Borris**: Yeah, I considered that Afri's plans are good one, starting to communicate that and to ask questions about what need to be done for that. 
-Joseph Delong working with Cat Herders has stuck up his hand and offered to help from ECH perspective. He can be the POC for whatever need to be doing. We are using Ethereum Wiki to flush things out and have a spot for things to work on. 
+**Boris**: Yeah, I considered that Afri's plans are good one, starting to communicate that and to ask questions about what need to be done for that.
 
-I also volunteer here to work with Alex on updating EIP 233 so that we can keep the EIPs proposed in the EIP repo up to date.
+Joseph Delong working with Cat Herders has stuck up his hand and offered to help from ECH perspective. He can be the POC for whatever need to be doing. We are using [Ethereum Wiki](https://en.ethereum.wiki/) to flush things out and have a spot for things to work on.
+
+I also volunteer here to work with Alex on updating [EIP 233](https://eips.ethereum.org/EIPS/eip-233) so that we can keep the EIPs proposed in the EIP repo up to date.
 
 **Hudson**: Great, which Alex?
 
-**Borris**:  Axic
+**Boris**:  Axic (Alex Beregszaszi)
 
-**Hudson**: Okay, sounds good. What I will do, I will get chat room get ready for release manager stuff for Joseph and others. 
+**Hudson**: Okay, sounds good. What I will do, I will get chat room get ready for release manager stuff for Joseph and others.
 
-**Borris**: Cat Herders have the chat room set up already. It's private for now. I will check for your access. 
+**Boris**: Cat Herders have the chat room set up already. It's private for now. I will check for your access.
 
-**Hudson**: Cool, are you in it? 
+**Hudson**: Cool, are you in it?
 
-**Borris**:  I am.
+**Boris**: I am.
 
 **Hudson**: Perfect, I will look at that.
 
-**Hudson**: That's the latest on the roadmap. All that being said, lets start getting some EIPs together to propose through May. We only have about a month and a half to get down on the proposal period. Lets start making decisions on which EIPs are billing in. So, anyone who has EIP that really wanted to go in the last fork, this is the good opportunity to get them into the next fork.
+**Hudson**: That's the latest on the roadmap. All that being said, lets start getting some EIPs together to propose through May. We only have about a month and a half to get down on the proposal period. Lets start making decisions on which EIPs are going in. So, anyone who has EIP that really wanted to go in the last fork, this is the good opportunity to get them into the next fork.
+
 The way to start discussing those is to put them in core dev meeting agendas and then I will add them in the agenda and bring them up during the meetings.  
 
-**Martin**: Will some one keep a track of EIPs that are suggested for the HF where we can pull up and know the status?
+**Martin**: Will someone keep track of EIPs that are suggested for the HF where we can pull up and know the status?
 
 **Hudson**: Yes, I am going to put them together. 
 
 **Martin**: These are to discuss, these are decided and that kind of. 
 
-**Borris**:  This is already on [Ethereum Wiki](https://en.ethereum.wiki/roadmap/istanbul/tracker) and the change that Alex and I have suggested is that we actually make them as pull requests into the Hardfork meta [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679). This is just following the suggestion in process that Afri has started with a tweak that let's use PR so that we can actively track things. And Hudson and others don't have to manually maintain things in a doc. 
+**Boris**: This is already on [Ethereum Wiki](https://en.ethereum.wiki/roadmap/istanbul/tracker) and the change that Alex and I have suggested is that we actually make them as pull requests into the Hardfork meta [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679). This is just following the suggestion in process that Afri has started with a tweak that let's use PR so that we can actively track things. And Hudson and others don't have to manually maintain things in a doc. 
 
 **Martin**: Okay, so you will create a new meta EIP and the process to get something discussed, you just make a PR to that meta EIP.
 
-**Borris**:  Exactly, just in a proposed section and then it can move through, still suggested for core dev calls for discussions. In terms of tracking [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679) is the existing Istanbul HF meta.
+**Boris**: Exactly, just in a proposed section and then it can move through, still suggested for core dev calls for discussions. In terms of tracking [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679) is the existing Istanbul HF meta.
 
-**Fredrik**: The EIPs people propose should be HF related EIPs because the majority of them are not. As far as I know, they are not for the HF, then they really don't need to be in the roadmap. 
+**Fredrik**: The EIPs people propose should be HF related EIPs because the majority of them are not. As far as I know, they are not for the HF, then they really don't need to be in the roadmap.
 
-**Borris**:  That is it the exact thing that we need to do with the formailty of the actually adding it to 1679. Obviously the Wiki is editable right now. 1679 I am proposing should be canonical. If it's not on there its not going to be considered and I will track down. I think, the author of 778 might be on the call today.
+**Boris**: That is it the exact thing that we need to do with the formailty of the actually adding it to 1679. Obviously the Wiki is editable right now. 1679 I am proposing should be canonical. If it's not on there its not going to be considered and I will track down. I think, the author of 778 might be on the call today.
 
 **Hudson**: Yeah, is that Felix? He is here. Cool,  will talk about that more then. Good point Fred, we will watch on for only those are required for the HF. 
 
@@ -147,16 +147,16 @@ I think ProgPOW is going to be historically simplest things to be pulled out of 
 
 **Greg**: Yes.
 
-**Borris**:  Hudson, I think, what I have seen it from what Tim said,  this is all of the pain and suffering from the mining side. There has been three audits. Whats the point of them? Why do we need to get it done? I don't think that we are testing whether or not an ASIC might be created. Thats up to the market and we can't know that ahead of time. Can we meet reasonable security guarantees ahead of time, is I believe the point of it. And if this isn't written down, lets just table this and say where is the single written down things and what are the purpose of the audit is?
+**Boris**:  Hudson, I think, what I have seen it from what Tim said,  this is all of the pain and suffering from the mining side. There has been three audits. Whats the point of them? Why do we need to get it done? I don't think that we are testing whether or not an ASIC might be created. Thats up to the market and we can't know that ahead of time. Can we meet reasonable security guarantees ahead of time, is I believe the point of it. And if this isn't written down, lets just table this and say where is the single written down things and what are the purpose of the audit is?
 
 
 **Hudson**:  Okay, I think its fair and we should get that organized.
 
-**Borris**: Are you the point person on this, Hudson?
+**Boris**: Are you the point person on this, Hudson?
 
 **Hudson**:  I think the ECH are, and within the group of five persons are in the chat room who are organizing this.
 
-**Borris**: Let me be very direct and I've said this before to the CH already, regardless of decentralized, from a responsibility and planning perspective, there needs to be at least one human whose responsibility it is. That is the other action as well to figure out who that is?
+**Boris**: Let me be very direct and I've said this before to the CH already, regardless of decentralized, from a responsibility and planning perspective, there needs to be at least one human whose responsibility it is. That is the other action as well to figure out who that is?
 
 **Hudson**:  I agree, I think that is a good step forward and I will see who can take that up and announce it. I think the magician forum would be the best to clear out both issues that you brought up - Point person who can make the announcement and what the audit is actually covering?
 
@@ -169,11 +169,11 @@ I think ProgPOW is going to be historically simplest things to be pulled out of 
 **Hudson**:  My understanding of the goal was to discover that to discourage or entirely prevent ASICs from entering the network and kick off the current ASICS on the network, in order to prevent network centralization risk.
 This is something like super official but in my mind it was to appease the miners who said that they want it. 
 
-**Alexy**: Well, this is very loose description of it, if you start working from this then I wouldn't be surprised what you expect from audit will also be vague and loose. Basically reminding that the audit should deliver very factual results.  It is unfair because before you can do that you also have to define the goal of the actual changes. If you want to have the numbers on one side you have to put numbers on the other. That is what Borris and Tim said. 
+**Alexy**: Well, this is very loose description of it, if you start working from this then I wouldn't be surprised what you expect from audit will also be vague and loose. Basically reminding that the audit should deliver very factual results.  It is unfair because before you can do that you also have to define the goal of the actual changes. If you want to have the numbers on one side you have to put numbers on the other. That is what Boris and Tim said. 
 
 **Martin**: I would say, people are currently against ProgPOW are the ones that should define what questions do we want to answer.
 
-**Borris**: I think what you are trying to say is basically this is going in unless there is security issue, or number x or number y and frame it in such a way that the audit must prove those things. Is that the direct way of saying it?
+**Boris**: I think what you are trying to say is basically this is going in unless there is security issue, or number x or number y and frame it in such a way that the audit must prove those things. Is that the direct way of saying it?
 
 **Danno**: May be those don't want it, the burden of proff is on them.
 
@@ -261,11 +261,11 @@ I will be happy to discuss any idea about future of networking in that repo.
 
 **Hudson**:  Sounds great, any one opposed to this? Otherwise we can go forward. 
 
-**Borris**:  From the process perspectives and may be this also solves the problem if people not looking at it, is there something that we do about last call - signaling. 
+**Boris**:  From the process perspectives and may be this also solves the problem if people not looking at it, is there something that we do about last call - signaling. 
 
 **Hudson**:  I think that is a separate conversation following EIP 1.
 
-**Borris**:  I will take it there when we do some work with 1233 as well.
+**Boris**:  I will take it there when we do some work with 1233 as well.
 
 **Hudson**: Okay.
 
@@ -286,7 +286,7 @@ What I would like to request is that IP allowed to replace the spec on the Wiki 
 
 **Alexey**: I think this is a great idea. To improve the specification, we need this.
 
-**Borris**:  The same thing happened in Jason RPC spec got merged into an EIP. Bunch of interested people have tunneled into a repo. I think this nicely falls out on working groups of certain areas of the stack. Essentially having an EIP and knowing who is responsible - super useful.
+**Boris**:  The same thing happened in Jason RPC spec got merged into an EIP. Bunch of interested people have tunneled into a repo. I think this nicely falls out on working groups of certain areas of the stack. Essentially having an EIP and knowing who is responsible - super useful.
 
 **FJL**: I agree. other thing that we've done is that we moved the light clients specification there, so it is just along side the EIP specification. It is similarly good and might be interesting for people because most people actually have hard time finding the specification for light client because it is on someone's private Wiki page. 
 
@@ -304,7 +304,7 @@ There is now official page. I had discussion with Afri about copying Parity spec
 
 **FJL**: The original plan was to submit it as two different EIPs  but it's kind of weird. Actually, now it turns out to be weird to actually have this like super large EIPs specifying the entire protocol because there are just too many things there that you know we need to come so I think the the process for old discovery protocol has been so far that we've just committed a  draft to the repo now. So there is a draft now for the wire protocol. But the way we want to move ahead with this is we're just going to keep editing that draft until it's fine and if anyone wants to participate in a development process you are free to come over to the repo and add your suggestions, open issues, whatever.  I think at some point we're going to do is maybe we're just going to write an EIP  that says this is a new protocol here's the link and do we want to schedule it for because it doesn't really make sense to copy the entire spec into a EIP it's just too big and adding rational content for every single thing. It's better to do that way.
 
-**Borris**: Pointers that's the thing. Describe it briefly and then a pointer to where the spec is maintained. Maybe an additional thing again in the who are the humans wear if the EIP can get updated for who's the point of contact that would be really useful.
+**Boris**: Pointers that's the thing. Describe it briefly and then a pointer to where the spec is maintained. Maybe an additional thing again in the who are the humans wear if the EIP can get updated for who's the point of contact that would be really useful.
 
 **FJL**: Its too early for the EIP now because we haven't actually fully finished. I mean there are so many interested parties in discovery revive; I mean we're also discussing it separately in the Ethereum 2 discussions and  with IPFS people who are also like sort of interested in it. So it's just that there are too many of people interested in it right now to just  make the EIP now and sort of finalize it, we just have to finish it first.
 
@@ -393,17 +393,17 @@ There's still more to do on a syncing up with Parity. Feel free to reach out if 
 
 **Hudson**: So the next thing, Boris has organized Istanbul and Eth1.x roadmap planning meeting in Berlin April 17-18. Boris if you want to go over that quickly?
 
-**Borris**:  Sure once again apologies that it's somewhat tight timing. I decided to go ahead and plan it. Alexi is available and is going to be there and we've got a number of other people who committed to being there. Basically the point is to sit down and actually look ahead of both Istanbul, review the EIPs, have anybody who's proposing EIPs go over those. Essentially very similar to the Stanford meeting and ideally we can get some more work done in person around looking out further ahead.  I think Alexi has done a great job of having areas or related EIPs in  multi hard fork planning. So the goal is just to go over that and in general see where Eth 1.X is heading and work together with implementation teams and get feedback on that and really just get our act together for for this hard Fork. Roughly, it's almost exactly a month before the hard deadline to accept proposals. Ideally we then know exactly which EIPs are most likely to be proposed incline teams can make plans and or give feedback on what resources they have available to actually get this done. Eth magicians has a post with all of the details and piece to get in [here](https://ethereum-magicians.org/t/istanbul-eth1x-roadmap-planning-meeting-april-17th-18th-in-berlin/2899). If you can, let us know. If you are coming there's a link in there just do a little [Google form](https://goo.gl/forms/AZv018Cgd2B3YzuZ2) or just contact me directly and I will be working on agenda and presenters and another thing like that. I likely at full node in Berlin because I know some people have started asking me where they should book hotels and so just the Gnosis team volunteered full node, so likely that end of the city.
+**Boris**:  Sure once again apologies that it's somewhat tight timing. I decided to go ahead and plan it. Alexi is available and is going to be there and we've got a number of other people who committed to being there. Basically the point is to sit down and actually look ahead of both Istanbul, review the EIPs, have anybody who's proposing EIPs go over those. Essentially very similar to the Stanford meeting and ideally we can get some more work done in person around looking out further ahead.  I think Alexi has done a great job of having areas or related EIPs in  multi hard fork planning. So the goal is just to go over that and in general see where Eth 1.X is heading and work together with implementation teams and get feedback on that and really just get our act together for for this hard Fork. Roughly, it's almost exactly a month before the hard deadline to accept proposals. Ideally we then know exactly which EIPs are most likely to be proposed incline teams can make plans and or give feedback on what resources they have available to actually get this done. Eth magicians has a post with all of the details and piece to get in [here](https://ethereum-magicians.org/t/istanbul-eth1x-roadmap-planning-meeting-april-17th-18th-in-berlin/2899). If you can, let us know. If you are coming there's a link in there just do a little [Google form](https://goo.gl/forms/AZv018Cgd2B3YzuZ2) or just contact me directly and I will be working on agenda and presenters and another thing like that. I likely at full node in Berlin because I know some people have started asking me where they should book hotels and so just the Gnosis team volunteered full node, so likely that end of the city.
 
 **VB**: I probably won't be able to show up but and I know that there is interest in EIP 1559 which is the Fee Market change. So if people want to discuss that would there be room if you remotely.
 
-**Borris**:  Absolutely. Ideally, lots of value to meet in person and doing whiteboards but we absolutely want to support the dial in  especially for proposers. 
+**Boris**:  Absolutely. Ideally, lots of value to meet in person and doing whiteboards but we absolutely want to support the dial in  especially for proposers. 
 
 **VB**: In person ther are a lot of EDCON and Hackathon that are happening around, it won't cover everyone but is a great place to finally chat with a lot of people.
 
 **Hudson**: Yeah that sounds good. I won't be able to make it either because I'm going to a giant Star Wars event. But yeah I'm looking forward to the remote connection so I can tune in. Was that it Boris?
 
-**Borris**: Yeah links are in the chat here and I'll tweet about it again so it's on top of everyone's feeds**. 
+**Boris**: Yeah links are in the chat here and I'll tweet about it again so it's on top of everyone's feeds**. 
 
 **Hudson**: Okay thanks. Okay we're making good time actually.  
 
@@ -541,11 +541,11 @@ Vitalik,  anything else?
 
 **VB**: I opened up a [magicians thread](https://ethereum-magicians.org/t/things-to-decide-for-phase-2-copy-from-eth2-0-specs-github-issues/2895) about the light client materials. The Eth2 light client inside eth 1 would require precompile and it would very significantly benefit from all data gas cost reduction. And that's probably also something that would give us a one-liner that seems to be in line. 
 
-**Borris**:  I think one thing to bring up on the topic of precompile so there's another precompile proposal by Remco would like to see it in Istanbul. So I suggest one of the things to go over in person is if there's an opportunity to work together on precompiles rather than be every client implements their own. so not for discussion just right now but just bringing it up and to put it in people's minds.
+**Boris**:  I think one thing to bring up on the topic of precompile so there's another precompile proposal by Remco would like to see it in Istanbul. So I suggest one of the things to go over in person is if there's an opportunity to work together on precompiles rather than be every client implements their own. so not for discussion just right now but just bringing it up and to put it in people's minds.
 
 **VB**: And I also saw the generic elliptic curve precompile idea which is interesting the one thing to point out is. That's not a replacement for a BLS 381 precompile because you cann't do pairings over a generic elliptical curve precomplie and we are doing for BLS 381 generic support.
 
-**Borris**:  yeah I think all of these obviously we don't want to do any infinite  pre compiles but get help from Ramco and yourself another cryptographers and see what are The Logical ones to get into the ETH 1.x line 
+**Boris**:  yeah I think all of these obviously we don't want to do any infinite  pre compiles but get help from Ramco and yourself another cryptographers and see what are The Logical ones to get into the ETH 1.x line 
 
 **VB**: Agreed, and it's also not just a question of cryptography is also a question of what our priorities are.  For example BLS 381 is nice because that improves interoperability with the zcash and other blockchain. But additionally does this like extra big thing of making it viable to have it use to light clients. Whereas for other hash function might have like different Value in is not a kind of cryptographic liability as it is about what concrete  things do we go through in and want to achieve. 
 
@@ -554,7 +554,7 @@ Vitalik,  anything else?
 **Hudson**: Anything else ?? Awesome!
 We have one minute left and I think we'll wrap it up. We didn't come back to ProgPOW so I guess want to do that next week. Boris do we have a discussion on magicians about ProgPOW that is like a central one?
 
-**Borris**:  Lane cross posted that, yes. Action items and I think Tim's on the call taking notes as well, is mainly just point of contact and audit details. I don't think we need to discuss it again like if we want to have a call right now,  is there anyone who's saying,  you know progpower Over My Dead Body,  otherwise it's over to audit and we only need to bring it up again if there's an update from essentially the audit working group. Does that make sense?
+**Boris**: Lane cross posted that, yes. Action items and I think Tim's on the call taking notes as well, is mainly just point of contact and audit details. I don't think we need to discuss it again like if we want to have a call right now,  is there anyone who's saying,  you know progpower Over My Dead Body,  otherwise it's over to audit and we only need to bring it up again if there's an update from essentially the audit working group. Does that make sense?
 
 **Hudson**: That sounds good to me. Thanks so much Boris, you've close the issue. 
 
@@ -577,7 +577,7 @@ March 29, 2019
 
 # Attendees
 * Alexey Akhunov
-* Borris Mann
+* Boris Mann
 * Brett Robertson
 * Daniel Ellison (ConsenSys)
 * Dankrad Feist
