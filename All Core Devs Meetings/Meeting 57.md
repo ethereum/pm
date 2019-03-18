@@ -4,13 +4,11 @@
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/83)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=GQ0kbH0iSfI)
 
-**Hudson**: Welcome everyone! Let's start with Istanbul Hardfork Roadmap.
-
 # 1. Roadmap
 
 ## 1.1 Istanbul Hardfork Roadmap
 
-**Hudson**: When Afri was release manager, he came up with a roadmap that had a cut off date in May and sometime around October is the actual HF date. People are liking that model so far. I don't know if it meant completely agreed upon but it sounded more like it has consensus around it. I don't see why we we shouldn't go with that.
+**Hudson**: Welcome everyone! Let's start with Istanbul Hardfork Roadmap. When Afri was release manager, he came up with a roadmap that had a cut off date in May and sometime around October is the actual HF date. People are liking that model so far. I don't know if it meant completely agreed upon but it sounded more like it has consensus around it. I don't see why we we shouldn't go with that.
 
 ## 1.2 Release manager
 
