@@ -315,44 +315,37 @@ There is now an official page. I had discussion with Afri about copying Parity s
 
 **Hudson**: All right, thanks so much for all that Felix I think it's going to be very helpful.
 
-# 3. Working Group Updates
+# 3. Eth1x Working Group Updates
 
-So, next up we have the working group updates.
+So, next up we have the Eth1x working group updates.
 
-**Hudson**: So let's start with the Alexey. What's the latest on the State Fees?
-
-
+**Hudson**: So let's start with Alexey. What's the latest on the State Fees?
 
 ## 3.1 State Fees
 
-**Alexey**: Yes we still call it State Fees. It now maybe moving in the hybrid territory between State Fees and something Stateless. Last meeting I mentioned to do data analysis on the viability of Stateless clients. So what I did since then I have a coded up at the port side which is essentially producing the block proof in some serialize format and also in the other side if it is actually part of the block proofs then tries to execute. the blocks using those block proofs verifying all the hashes. That way , I am sure that the number I am getting is pretty accurate, how many bites do I need. So far I've been able to run this through to the block about 4 million and there are some issues on the way but I solved them but then there's still more. I give you some preliminary data but it doesn't mean a lot because the interesting things are actually starting after the block for 4 million.  So let's give you a quick overview of what I found. So essentially first of all the Block proofs in this Stateless client idea comprised of several things.
+**Alexey**: Yes we still call it State Fees. It now may be moving in the hybrid territory between State Fees and something Stateless. Last meeting I mentioned to do data analysis on the viability of Stateless clients. So what I did since then I have a coded up at the port side which is essentially producing the block proof in some serialized format and also in the other side if it is actually part of the block proofs then tries to execute the blocks using those block proofs verifying all the hashes. That way I am sure that the number I am getting is pretty accurate, how many bytes do I need. So far I've been able to run this through to about block 4 million and there are some issues on the way but I solved them but then there's still more. I give you some preliminary data but it doesn't mean a lot because the interesting things are actually starting after the block for 4 million. So let's give you a quick overview of what I found. So essentially first of all the block proofs in this Stateless client idea comprised of several things.
 
 The first of all it's the hashes which are basically the components of the proofs of the Merkle proofs. Then there are the keys and values and so essentially these are the leaps of the state trie. So the keys are essentially like a hash of the accounts and bodies are the serialization of the account. These needs to be present for the cases where for example the transaction reads out the account.
 
-Then there is the code of the contract. So if the transaction access certain contract I need to run something, these block proof has to provide the code of the contract, otherwise there is no way to execute it.
+Then there is the code of the contract. So if the transaction accesses certain contract I need to run something, these block proof has to provide the code of the contract, otherwise there is no way to execute it.
 
-Finally there's also something I called masks in this way. Essentially, this is the way to describe the structure of the proof. Because the proof is essentially kind of the is the portion of the tree starting from the root and you have to describe the structure some how to be able to reconstitute this little stop tree from all the hashes and short keys and values. 
+Finally there's also something I called masks in this way. Essentially, this is the way to describe the structure of the proof. Because the proof is essentially kind of the portion of the tree starting from the root and you have to describe the structure somehow to be able to reconstitute this little stop tree from all the hashes and short keys and values. 
 
-I also split the analysis in two parts. I do separate analysis for the main trie  which contains all the accounts and separate analysis for the contracts. The reason why I do it just because you weren't you to evaluate whether we wants to do stateless client for everything or we just want to do stateless clients for a contract storage and do the state fees for everything else for date for the actual account. So far up to the block of 4000 the rough numbers are - so let's say that first for the hashes. So the masks that describe the structure of the insignificant to the structure,lets say for about block 4 million the size of the hash no proof or about 130 kb per block but I but I expect this number to rise. This is only for the non contract storage or it's just going for the account.
+I also split the analysis in two parts. I do separate analysis for the main trie which contains all the accounts and separate analysis for the contracts. The reason why I do it just because you weren't you to evaluate whether we wants to do stateless client for everything or we just want to do stateless clients for a contract storage and do the state fees for everything else for date for the actual account. So far up to the block of 4000 the rough numbers are - so let's say that first for the hashes. So the masks that describe the structure of the insignificant to the structure, let's say for about block 4 million the size of the hash no proof or about 130 kb per block but I but I expect this number to rise. This is only for the non contract storage or it's just going for the account.
 
-For the contract storage the number is about 60 kb. So, in total it is going to be 200 kb. These are only for hash that constitute the proofs. As I said, structure is insignificant. For keys and values, which are not in contract, they are about 12kb per block and the contract keys and values 4-5 kb per blocks. Then the codes of the contracts are about the 50-60 kkb per block. As you could see the biggest part of the whole thing is so far is the proofs and hashes. As I said, the activity of the contract will increase and we will probably see the big explosion of this. I will keep running the analysis and I hope for as soon as I get some interesting numbers for block 5 million , 6 million then publish in a blog post. Thats the update.
+For the contract storage the number is about 60 kb. So, in total it is going to be 200 kb. These are only for hash that constitute the proofs. As I said, structure is insignificant. For keys and values, which are not in contract, they are about 12kb per block and the contract keys and values 4-5 kb per blocks. Then the codes of the contracts are about the 50-60 kb per block. As you could see the biggest part of the whole thing is so far is the proofs and hashes. As I said, the activity of the contract will increase and we will probably see the big explosion of this. I will keep running the analysis and I hope for as soon as I get some interesting numbers for block 5 million, 6 million then publish in a blog post. Thats the update.
 
 I hope to include this into the next version of State Fee proposal 
 
 **Hudson**: Okay, sounds good. Thanks for the update.
 
-
-
 ## 3.2 Ewasm or Simulation
 
 **Hudson**: Is there anyone here who  wants to talk about Ewasm or simulation ?
 
-**Guillaume**: Actually I was just looking for that. There has been some conversations and some work on the benchmarks. I am told that they should be right around next week. When it comes to Eth 1.x, I've got the prototypes that runs ahead of time compilation so we take wasm file to compile x86. And we just run it's like we just want to the conference this way so that's what's up and coming but it needs to be stabilized. It was the Ewasm updated as I have it.
+**Guillaume**: Actually I was just looking for that. There has been some conversations and some work on the benchmarks. I am told that they should be right around next week. When it comes to Eth 1.x, I've got the prototypes that runs ahead of time compilation so we take wasm file to compile x86. And we just run it's like we just want to the conference this way so that's what's up and coming but it needs to be stabilized. It was the Ewasm update as I have it.
 
 **Hudson**: Awesome, thank you.
-
-
-
 
 
 ## 3.3 Pruning/Sync (ETH V64 Call for Proposals & Stopgaps for cleaning up discovery peers pre-Discovery v5)
