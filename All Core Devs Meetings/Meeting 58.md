@@ -1,6 +1,6 @@
 # Ethereum Core Devs Meeting 58 Notes
 ### Meeting Date/Time: Friday, March 29, 2019 14:00 UTC
-### Meeting Duration:  1 hours 45 minutes
+### Meeting Duration:  ~1 hour
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/89)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=v8Psbo8zY4Y)
 ### Moderator: Hudson Jameson
@@ -9,19 +9,19 @@
 
 ### DECISIONS MADE
 
-**DECISION 58.1** The [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) signal will be shutting down in 13 days from today. Everyone that wishes to vote will need to do so before this date and ensure they leave their ETH in the address they voted from until after the specified block number.
+**DECISION 58.1** The [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) signal will be shutting down in 13 days from today. Everyone that wishes to vote will need to do so before this date and ensure they leave their ETH in the address they voted from until after block number 7504000, as per [Lane's tweet](https://twitter.com/lrettig/status/1111652965331415040).
 
-**DECISION 58.2** Going forward clients can provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
+**DECISION 58.2** Going forward Clients will not provide generic verbal updates in the meeting but should provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
 
-**DECISION 58.3** Going forward Reseach can provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
+**DECISION 58.3** Going forward Reseach will not provide generic verbal updates but should provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
 
 ### ACTIONS REQUIRED
 
-**ACTION 58.1** Cat Herders to look at updating EIP1.
+**ACTION 58.1** Cat Herders to look at updating EIP1, see [here](ethereum-cat-herders/PM#19).
 
 **ACTION 58.2** Review the proposed solutions for Roadmaps in the [Ethereum Magicians](https://ethereum-magicians.org/t/more-frequent-smaller-hardforks-vs-less-frequent-larger-ones/2929) forum to decide if going forward the Core Devs adopts smaller hardforks rather than larger hardforks.
 
-**ACTION 58.3** Vitalik to format the currently proposed EIP-1559 so that it is correctly presented.
+**ACTION 58.3** Vitalik to format the currently proposed [EIP-1559](ethereum/EIPs#1559) so that it is correctly presented.
 
 **ACTION 58.4** Lane to provide a block number for when the [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) will be shutdown.
 
@@ -31,7 +31,7 @@
 
 **ACTION 58.7** Research should provide updates for future Core Dev Calls in the comments of the agenda and request an update to the agenda if they wish to discuss anything specific. 
 
-**ACTION 58.8** Alexey to create a Beacon Chain Finality Gadget initiative working group and find someone to lead it.
+**ACTION 58.8** Alexey to create a Beacon Chain Finality Gadget initiative working group and find someone to lead it, for context please see discussion in [Ethereum Magicians](https://ethereum-magicians.org/t/eth2-in-eth1-light-clients/2880).
 
 
 # 1. [Roadmap](https://en.ethereum.wiki/roadmap/istanbul)
@@ -69,7 +69,7 @@
 **Boris:** Tim has spoken about this and so yes it is happening.
 
 ** **
-**ACTION 58.1** Cat Herders to look at updating EIP1.
+**ACTION 58.1** Cat Herders to look at updating EIP1, see [here](ethereum-cat-herders/PM#19).
 ** **
 
 
@@ -101,7 +101,7 @@
 
 
 ** **
-**ACTION 58.3** Vitalik to format the currently proposed EIP-1559 so that it is correctly presented.
+**ACTION 58.3** Vitalik to format the currently proposed [EIP-1559](ethereum/EIPs#1559) so that it is correctly presented.
 ** **
 
 
@@ -171,7 +171,7 @@ From section 6 in my update, I am looking to do some more work on linear storage
 ** **
 
 ** **
-**DECISION 58.1** The [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) signal will be shutting down in 13 days from today. Everyone that wishes to vote will need to do so before this date and ensure they leave their ETH in the address they voted from until after the specified block number.
+**DECISION 58.1** The [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) signal will be shutting down in 13 days from today. Everyone that wishes to vote will need to do so before this date and ensure they leave their ETH in the address they voted from until after block number 7504000, as per [Lane's tweet](https://twitter.com/lrettig/status/1111652965331415040).
 ** **
 
 
@@ -212,7 +212,7 @@ Also, I have been thinking, similar to us using fixed EIP numbers, we could use 
 
 
 ** **
-**DECISION 58.2** Going forward clients can provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
+**DECISION 58.2** Going forward Clients will not provide generic verbal updates in the meeting but should provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
 ** **
 
 ** **
@@ -231,7 +231,7 @@ Also, I have been thinking, similar to us using fixed EIP numbers, we could use 
 
 
 ** **
-**DECISION 58.3** Going forward Reseach can provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
+**DECISION 58.2** Going forward Researchers will not provide generic verbal updates in the meeting but should provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
 ** **
 
 ** **
@@ -245,7 +245,7 @@ Danny: I would be keen to be part of it, this is a key initiative and appears to
 
 
 ** **
-**ACTION 58.8** Create a Beacon Chain Finality Gadget initiative working group and find someone to lead it.
+**ACTION 58.8** Alexey to create a Beacon Chain Finality Gadget initiative working group and find someone to lead it, for context please see discussion in [Ethereum Magicians](https://ethereum-magicians.org/t/eth2-in-eth1-light-clients/2880).
 ** **
 
 
