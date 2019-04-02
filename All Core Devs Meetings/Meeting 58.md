@@ -17,11 +17,11 @@
 
 ### ACTIONS REQUIRED
 
-**ACTION 58.1** Cat Herders to look at updating EIP1, see [here](ethereum-cat-herders/PM#19).
+**ACTION 58.1** Cat Herders to look at updating EIP1, see [here](https://github.com/ethereum-cat-herders/PM/issues/19).
 
 **ACTION 58.2** Review the proposed solutions for Roadmaps in the [Ethereum Magicians](https://ethereum-magicians.org/t/more-frequent-smaller-hardforks-vs-less-frequent-larger-ones/2929) forum to decide if going forward the Core Devs adopts smaller hardforks rather than larger hardforks.
 
-**ACTION 58.3** Vitalik to format the currently proposed [EIP-1559](ethereum/EIPs#1559) so that it is correctly presented.
+**ACTION 58.3** Vitalik to format the currently proposed EIP-1559 so that it is correctly presented.
 
 **ACTION 58.4** Lane to provide a block number for when the [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) will be shutdown.
 
@@ -69,7 +69,7 @@
 **Boris:** Tim has spoken about this and so yes it is happening.
 
 ** **
-**ACTION 58.1** Cat Herders to look at updating EIP1, see [here](ethereum-cat-herders/PM#19).
+**ACTION 58.1** Cat Herders to look at updating EIP1, see [here](https://github.com/ethereum-cat-herders/PM/issues/19).
 ** **
 
 
@@ -101,7 +101,7 @@
 
 
 ** **
-**ACTION 58.3** Vitalik to format the currently proposed [EIP-1559](ethereum/EIPs#1559) so that it is correctly presented.
+**ACTION 58.3** Vitalik to format the currently proposed EIP-1559 so that it is correctly presented.
 ** **
 
 
