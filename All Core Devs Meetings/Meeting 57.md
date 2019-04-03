@@ -4,39 +4,6 @@
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/83)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=GQ0kbH0iSfI)
 
-# Summary
-
-After the most recent Ethereum Cat Herders Call - some of us agreed on summarising the core dev meetings and post here and on Reddit for better accessibility and to expand the audience following core dev meetings by creating easy to read summaries.
-
-Brett summarised this time. Thank you!
-
-## DECISIONS MADE
-
-DECISION 58.1 The [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) signal will be shutting down in 13 days from today. Everyone that wishes to vote will need to do so before this date and ensure they leave their ETH in the address they voted from until after block number 7504000, as per [Lane's tweet](https://twitter.com/lrettig/status/1111652965331415040).
-
-DECISION 58.2  Going forward Clients will not provide generic verbal updates in the meeting but should provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
-
-DECISION 58.3  Going forward Research will not provide generic verbal updates but should provide an update in the comments in the agenda. If there are any questions or anything specific to discuss a space will be left to do so.
-
-
-## ACTIONS REQUIRED
-
-ACTION 58.1  Cat Herders to look at updating EIP1, see [here](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/ethereum-cat-herders/PM#19).
-
-ACTION 58.2  Review the proposed solutions for Roadmaps in the [Ethereum Magicians](https://ethereum-magicians.org/t/more-frequent-smaller-hardforks-vs-less-frequent-larger-ones/2929) forum to decide if going forward the Core Devs adopts smaller hardforks rather than larger hardforks.
-
-ACTION 58.3 Vitalik to format the currently proposed [EIP-1559](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/ethereum/EIPs#1559) so that it is correctly presented.
-
-ACTION 58.4  Lane to provide a block number for when the [ProgPoW Carbon Vote](http://www.progpowcarbonvote.com/) will be shutdown.
-
-ACTION 58.5  Discuss if ProgPoW should continue to be implemented if the Technical Audit is not funded in [Ethereum Magicians](https://ethereum-magicians.org/tags/progpow) or [here](https://ethereum-magicians.org/t/what-has-to-be-done-to-get-progpow-on-ethereum/1361) or [here](https://ethereum-magicians.org/t/motion-to-not-include-progpow-without-audit/3027).
-
-ACTION 58.6  Clients should provide updates for future Core Dev Calls in the comments of the agenda and request an update to the agenda if they wish to discuss anything specific.
-
-ACTION 58.7  Research should provide updates for future Core Dev Calls in the comments of the agenda and request an update to the agenda if they wish to discuss anything specific.
-
-ACTION 58.8  Alexey to create a Beacon Chain Finality Gadget initiative working group and find someone to lead it, for context please see discussion in [Ethereum Magicians](https://ethereum-magicians.org/t/eth2-in-eth1-light-clients/2880).
-
 # Transcript
 
 **Hudson**: Welcome everyone!
