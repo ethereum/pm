@@ -27,7 +27,7 @@
 
 **ACTION 58.1** Cat Herders to look at updating EIP1.
 
-**Tim**: I know there's been some stuff happening I've personally spent a lot of time there trying to describe the process and sort of gather all the various conversations that have happened around this. I don't know if anyone has anything to add. 
+**Tim**: I know there's been some stuff happening I've personally spent a lot of time there trying to describe the process and sort of gather all the various conversations that have happened around this. I don't know if anyone has anything to add. The associated GH issue is [ethereum-cat-herders/PM#19](https://github.com/ethereum-cat-herders/PM/issues/19)
 
 **Status**: WIP
 
@@ -158,7 +158,7 @@ Alternatively, Istanbul EIPs at [ECH GitHub](https://github.com/ethereum-cat-her
 
 **Tim**: Talking about EIPs there were two posted in the comments of this call. But I know there's also a whole lot that's just mentioned. So perhaps we have Bryant and Pooja who proposed the comments on the call. So maybe it makes sense for them to talk about it. Bryant that he actually was first in the comments so if you want to go ahead and talk about [EIP 1344](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1344.md).
 
-**Bryant**: Sure thing. I am not the author of this one but about like a week and a half ago I was playing around with some 712 stuff and I was like why isn't there a chain ID opcode and so I went to go look and there was a proposal for one. So I've been helping kind of format in a nicer way and get it accepted and kind of gather feedback. Its pretty simple for the most. There have been a little bit of a discussion around like what kind of data types do we represent. I want to gather more feedback, that what else we need to add this to Istanbul?
+**Bryant**: Sure thing. I am not the author of this one but about like a week and a half ago I was playing around with some 712 stuff and I was like why isn't there a chain ID opcode and so I went to go look and there was a proposal for one. So I've been helping kind of format in a nicer way and get it accepted and kind of gather feedback. Its pretty simple for the most. There have been a little bit of a discussion around like what kind of data types do we represent. I want to gather more feedback, that what else do we need to add this to Istanbul?
 
 **Alex**: I have a question. For the last two weeks I haven't really kept a good eye on everything but we discuss the option that hardfork meta EIP should have a proposed list. And I think Bryant has proposed to EIP for the hardfork meta. Is there any consensus yet, at what point whether we go for draft to merge PR to include this as a proposed EIP? 
 
@@ -381,7 +381,7 @@ No update.
 
 ## 7b) Parity Ethereum
 **phillux**: [update](https://github.com/ethereum/pm/issues/93)
-Just wanted to add Parity Ethereum recently added quick consensus. SO full support for Gorli testnet is in. That is in 2.5 beta.
+Just wanted to add Parity Ethereum recently added Clique consensus. SO full support for Gorli testnet is in. That is in 2.5 beta.
 
 ## 7c) Aleth/eth
 **chfast**: [update](https://github.com/ethereum/pm/issues/93#issuecomment-482564541)
@@ -433,7 +433,7 @@ April 26, 2019 at 14:00 UTC
 * Alex B.
 * Borris Mann (Fellowship of Ethereum Magicians)
 * Brooklyn Zelenka (SPADE)
-* Danno Ferrin
+* Danno Ferrin (PegaSys)
 * Fredrik Harrysson (Parity)
 * Greg Colvin (Fellowship of Ethereum Magicians)
 * Jacek Sieka (Nimbus)
@@ -447,5 +447,5 @@ April 26, 2019 at 14:00 UTC
 * Peter (Geth)
 * Phil
 * Pooja Ranjan (Ethereum Cat Herders)
-* Tim Beiko (Pantheon)
+* Tim Beiko (PegaSys)
 
