@@ -3,8 +3,65 @@
 ### Meeting Duration: 1 hours 30 minutes
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/93)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=gfC92gQKKnI)
+### Moderator: Tim Beiko
 
-**Tim**: I welcome everyone on Core Dev Meeting # 59 I'm Tim not Hudsun and I will be facilitating.
+# Summary
+
+### DECISIONS MADE
+
+**DECISION 58.1**: Stop ProgPoW Carbon Vote.
+Status: ProgPoW Carbon voting is closed.
+
+**DECISION 58.2**: Clients status update will be provided as comments in the agenda.
+**Status**: Done
+
+**DECISION 58.3**: Reseach will be updated in the comments in the agenda.
+**Status**: Done
+
+### ACTIONS REQUIRED
+
+**ACTION 58.1**: Cat Herders to look at updating EIP1.
+Status: WIP
+
+**ACTION 58.2** Smaller hardfork vs. larger hardforks
+To be discussed in the Berlin next week in the Istanbul meetings.
+Status: WIP
+
+**ACTION 58.3**: Vitalik to format the currently proposed EIP-1559
+Status: WIP
+
+**ACTION 58.5**: Discuss if ProgPoW should continue to be implemented if the Technical Audit is not funded in Ethereum Magicians or here or here.
+The action item was to continue discussions on ProgPOW and whether or not we want to go forward if the technical audit is not funded. ProgPOW will also be talked in the Berlin meeting.
+Status: WIP
+
+### Roadmap
+For now we can keep this EIP list as a reference for Istanbul. We will discuss this after a month or so.
+
+### EIPs
+
+- Item 3a. Refer to Roadmap link for list
+Alternatively, Istanbul EIPs at ECH GitHub
+
+- Item 3b. Please add more EIPs to the agenda
+EIP 1344 - call for feedback
+Discussion hardfork meta EIP - WIP 
+ISTANBUL EIP LAST CALL -  May 17th
+Client implementation deadline right now is the 19th of July.
+
+- Item 4. Working Group Updates
+
+- Item 4a. State Fees
+Updates
+
+- Item 7b. Parity Ethereum
+update Just wanted to add Parity Ethereum recently added quick consensus. SO full support for Gorli testnet is in. That is in 2.5 beta.
+
+- Item 7h. Turbo Geth
+No updates on Turbo-Geth.
+
+# Notes
+
+**Tim**: I welcome everyone on Core Dev Meeting # 59 I'm Tim not Hudson and I will be facilitating.
 # 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/issues/93)
 **Tim**: Let's go through previous decisions and action items. Going through agenda.
 
@@ -53,7 +110,7 @@
 
 **Martin**: The idea is not to schedule hardfork every 3 months but to speed to finish. If there are access test cases in clients then we can't pretty soon. 
 
-**Joesph**: Let me try to ask the question of who is having more information of Alexy's idea. Is it the possibility of windows open for hardfork every 3 months?
+**Joseph**: Let me try to ask the question of who is having more information of Alexy's idea. Is it the possibility of windows open for hardfork every 3 months?
 
 **Boris**: It was me who was putting words in Alexey's mouth. The context was he was having this multi hardfork plan and he is going to be anxious thinking about certain features are waiting for 6-9 months for implementation. I wanted to just jump in Joseph story for stepping  because there has been a suggestion to what you're saying "hardfork window". I think other people are saying including Martin is let's ship stuff when it's ready. So I'm not saying things need to be every 3 months but more frequent and it sounds like 3 months is like lower end of event that people say that's really tight and then 6 months. I have to look up but discussion around this where somewhere between 3-6 months shipping smaller features on a regular basis and coordinating among client. So that they shooting their process to support that is okay as long as it doesn't impact client maintenance.
 
