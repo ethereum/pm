@@ -1,6 +1,6 @@
 # Ethereum Core Devs Meeting 60 Notes
 ### Meeting Date/Time: Friday, April 26, 2019 14:00 UTC
-### Meeting Duration:  ~1 hour
+### Meeting Duration: ~1.5 hrs
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/95)
 ### [Audio/Video of the meeting](https://youtu.be/O_DE4NwOz9A)
 ### Moderator: Hudson Jameson 
@@ -32,7 +32,7 @@
 
 **ACTION 60.6** Martin Holste Swende and Alex Beregszaszi to confirm whether [EIP 689](https://eips.ethereum.org/EIPS/eip-689) needs to be implemented. 
 
-** ACTION 60.7:** Parity to comment on Libraries for Precompiles (https://github.com/ethereum/pm/issues/95#issuecomment-486879991)
+**ACTION 60.7:** Parity to comment on Libraries for Precompiles (https://github.com/ethereum/pm/issues/95#issuecomment-486879991)
 
 
 # 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2059.md#summary) 
@@ -102,7 +102,7 @@ Berlin discussed a proposal for 6 month and 4 month hardforks. Most suppoered 6 
 
 **Martin:** Spoke about this 2 weeks ago. This EIP specification as it is written is not ready.
 
-** Alexey:** Spoke with Alex and suggested he create a working group for this to push it forward.
+**Alexey:** Spoke with Alex and suggested he create a working group for this to push it forward.
 
 **Boris:** Question from Vitalik: does the precompile for generic EC support 512 bit moduli? or just 256? If 256 that makes it less interesting because it can't support bls 12 381 and hence eth2 light clients
 
