@@ -28,7 +28,7 @@
 
 **ACTION 60.4:** Danno Ferrin to add list of conditions for implementation and Push Request [EIP 1057](https://eips.ethereum.org/EIPS/eip-1057) into the Hardfork Meta [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679).
 
-**ACTION 60.5:** Martin Holste Swende to confirm that [EIP 1884](https://eips.ethereum.org/EIPS/eip-1844) has merged into the Hardfork Meta [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679).
+**ACTION 60.5:** Martin Holste Swende to confirm that [EIP 1884](https://eips.ethereum.org/EIPS/eip-1884) has merged into the Hardfork Meta [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679).
 
 **ACTION 60.6** Martin Holste Swende and Alex Beregszaszi to confirm whether [EIP 689](https://eips.ethereum.org/EIPS/eip-689) needs to be implemented. 
 
