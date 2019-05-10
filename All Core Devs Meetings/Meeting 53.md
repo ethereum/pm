@@ -76,7 +76,7 @@ Participants:
 - Evan Sultanik (Trail of bits) 
 - FJL (felix) 
 - Fredrik Harrysson 
-- Guillaume 
+- Guillaume Ballet
 - Hacktar 
 - Hubert (Chainsecurity) 
 - Jay Welsh 

@@ -346,6 +346,7 @@ Alexey: Created a topic in [Eth Magicians](https://ethereum-magicians.org/t/hard
 May 10, 2019 at 14:00 UTC
 
 # Attendees
+* Alex Beregszaszi
 * Alexey Akhunov
 * Brett Robertson
 * Brooklyn Zelenka

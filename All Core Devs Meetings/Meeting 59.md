@@ -487,7 +487,7 @@ April 26, 2019 at 14:00 UTC
 
 # Attendees
 
-* Alex B.
+* Alex Beregszaszi
 * Borris Mann (Fellowship of Ethereum Magicians)
 * Brooklyn Zelenka (SPADE)
 * Danno Ferrin (PegaSys)
@@ -501,7 +501,7 @@ April 26, 2019 at 14:00 UTC
 * Matthew Halpern
 * Mikhail Kalinin (EthereumJ/Harmony)
 * Pawel Bylica
-* Peter (Geth)
+* Peter Szilagyi (Geth)
 * Phil
 * Pooja Ranjan (Ethereum Cat Herders)
 * Tim Beiko (PegaSys)
