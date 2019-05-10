@@ -208,4 +208,4 @@ ACTION 6: Hudson will invite IOHK Ethereum Client Mantis written in Haskel to th
 - Lane Rettig
 - David Murdoch
 - Alex Beregszaszi
-- Guillaume 
+- Guillaume Ballet

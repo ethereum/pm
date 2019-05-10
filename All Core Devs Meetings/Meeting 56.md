@@ -525,7 +525,7 @@ March 15, 2019
 * Charles St Louis
 * Daniel Ellison (ConsenSys)
 * Danno Ferrin
-* Danny
+* Danny Ryan
 * David Murdoch
 * Eric Kellstrand 
 * Greg Colvin
