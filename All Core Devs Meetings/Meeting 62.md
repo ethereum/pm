@@ -9,12 +9,7 @@
 
 ### DECISIONS MADE
 
-**DECISION 62.1:** EIP-663 was rejected as it needs further discussion on how it can be improved.
-
-**DECISION 62.2:** 
-
-**DECISION 62.3:** 
-
+None
 
 ### ACTIONS REQUIRED
 
@@ -50,9 +45,7 @@
 # 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2059.md#summary) 
 [Timestamp: 1:47](https://youtu.be/lF_XxqxgVuA?t=107)
 
-**Hudson:** No decisions from Meeting 59. We will skip decisions from Meeting 58. 
-
-Actions: 
+## Actions: 
 
 **ACTION 61.1**: [Ganache/spec compliance issue at go-ethereum](https://github.com/ethereum/pm/issues/97#issuecomment-489660359)
 **Status**: Will look at this in the [next meeting]https://github.com/ethereum/pm/issues/102).
