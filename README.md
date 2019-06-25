@@ -83,4 +83,4 @@ Agenda's are posted to https://github.com/ethereum/pm/issues. Anyone is welcome 
 
 ### Who Manages the Meetings
 In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings.
-The meetings are independent of any organization. However, Hudson Jameson is a contractor for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings.
+The meetings are independent of any organization. However, Hudson Jameson is a contractor for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
