@@ -7,6 +7,8 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+ 65 | Friday, July 18, 2019 22:00 UTC | [agenda](https://github.com/ethereum/pm/issues/111) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2065.md) | [video](https://www.youtube.com/watch?v=41kiRf1E-jI) |
+ 64 | Friday, July 5, 2019 06:00 UTC | [agenda](https://github.com/ethereum/pm/issues/107) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2064.md) | [video](https://www.youtube.com/watch?v=2D_DqJ8jL9Y) |
  63 | Friday, June 21, 2019 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/102) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2063.md) | [video](https://www.youtube.com/watch?v=Cl5zGk-3Ej4) |
  62 | Fri, May 24, 2019 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/99) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2062.md) | [video](https://youtu.be/lF_XxqxgVuA) |
  61 | Fri, May 10, 2019 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/97) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2061.md) | [video](https://www.youtube.com/watch?v=CNcBuJ6wivE) |
