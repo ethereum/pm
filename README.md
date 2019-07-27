@@ -75,7 +75,7 @@ The all core devs meeting is a technical meeting intended to bring together vari
   0 | ??                               | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
 
 
-### Who Can Attend
+### Who Can Attend?
 Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to Hudson Jameson at hudson@ethereum.org.
 
 ### Agenda Items
@@ -84,7 +84,7 @@ Agenda's are posted to https://github.com/ethereum/pm/issues. Anyone is welcome 
 - The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
 - The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
 
-### Who Manages the Meetings
+### Who Manages the Meetings?
 In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 [Hudson Jameson](https://github.com/souptacular) has facilitated and recorded the meetings. In early 2018 [Lane Rettig](https://github.com/lrettig) began helping facilitate meetings, handle recordings, and publish notes from the meetings. In 2019, [Tim Beiko](https://github.com/timbeiko) and the Ethereum Cat Herders began to help with these tasks as well.
 
 The meetings are independent of and open to participants from any organization. However, Hudson Jameson is a contractor for the Ethereum Foundation, the Ethereum Foundation pays for the videoconference software used in the meetings, and meeting recordings are posted on the Ethereum Foundation [YouTube Channel](https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g). Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
