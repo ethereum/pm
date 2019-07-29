@@ -20,7 +20,7 @@
 
 **DECISION 66.4** : Take the list of what we currently have and make it into two hardforks. Concurrently we start planning for the next public fork to get extra EIPs in.  
 
-**DECISION 66.5** : Istanbul fork on Ropstan on September 4th, 2019. 
+**DECISION 66.5** : Istanbul fork on Ropsten on September 4th, 2019. 
 **Accepted EIPs** are 
 * 1108 (Reprice alt_bn128)
 * 2024 (Blake2b) / 152 
@@ -395,7 +395,7 @@ The advantage of fixing the dates is that we can do the more regularly, we can d
 
 **Tim**: Because there's clearly a lot of discussion to be have and that we had another call next week and that's a lot of people are not on this call. they might be worth punting the discussion around the schedule to the next call but perhaps just agreeing to move the testnet date  for Istanbul because no matter what, we will have to do that. So would anyone disagree with just moving the testnet date of Istanbul to September 4th  and then having your follow-up conversation around the hardfork schedule we want, past that?
 
-**Peter**: If we just say that lets discuss it next week then we're going to be in the exact same position next week. In my opinion, the hardfork in the testnet in two weeeks is not going to happen, so we need to push that. What we could do is to say that, we will **fork Istanbul on Ropstan on 4th September**. For this fork we surely know that we have the list of EIPs which we should list now so that developers know that we want this in. Let's try to target that fork today already. So that client developers know what's happening and they can seriously consider including whole thing. After this we can also say that besides these five EIPs that are surely going in, heres 3 more that you should start working on seriously. and then next week  we can discuss where people are at?
+**Peter**: If we just say that lets discuss it next week then we're going to be in the exact same position next week. In my opinion, the hardfork in the testnet in two weeeks is not going to happen, so we need to push that. What we could do is to say that, we will **fork Istanbul on Ropsten on 4th September**. For this fork we surely know that we have the list of EIPs which we should list now so that developers know that we want this in. Let's try to target that fork today already. So that client developers know what's happening and they can seriously consider including whole thing. After this we can also say that besides these five EIPs that are surely going in, heres 3 more that you should start working on seriously. and then next week  we can discuss where people are at?
 
 **Danno**: I like it.
 
