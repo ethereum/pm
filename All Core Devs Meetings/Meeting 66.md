@@ -141,7 +141,7 @@ My question is maybe to Peter and the others on the call. I do like the semi sta
 
 **Peter**: Well, this discussion that you refer to says that the EIP 1706 discussion. I have no idea what EIP 1706 is?
 
-**Alex**: I see where you're confused. so yeah it's on the EIP. Pawel's comment is the alternative solution and you don't need to know what 1706 does. Because you can just handle the idea, it's wrong. 
+**Alex**: I see where you're confused. so yeah it's on the EIP. Pawel's comment is the alternative solution and you don't need to know what 1706 does. Because you can just handle the idea, on it's own. 
 
 **Danno**: So 1706, I was just the part where they charge tried to 2300 check and filling out that store.  2200 include that entirely.
 
