@@ -17,10 +17,6 @@
 
 **DECISION 70.2**: The fork of the Ropsten Testnet is set for the 2nd October 2019 and block that corresponds closest to that date will be selected.
 
-**DECISION 70.3**: 
-
-**DECISION 70.4**: 
-
 ## ACTION ITEMS
 
 **ACTION 70.1**:  Alex Beregszaszi and EIP-152 Champions to discuss the Alex’s concerns around Blake2b after the Core Dev Call.
