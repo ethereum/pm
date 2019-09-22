@@ -18,9 +18,6 @@ Revised at the end of the call -- Update the EIP to reflect the precompile addre
 
 **DECISION 70.2**: The fork of the Ropsten Testnet is set for the 2nd October 2019 and block that corresponds closest to that date will be selected.
 
-**DECISION 70.3**:
-
-**DECISION 70.4**:
 
 ## ACTION ITEMS
 
@@ -176,14 +173,6 @@ No one available to speak on Aleth.
 ** **
 
 **Tomasz**: I would like everyone to properly review the proposed change to fix EIP-1884. If every reviews it and they agree that they will still want to go ahead with EIP-1884 then I am happy to go with the consensus.
-
-
-
-
-
-
-
-
 
 
 
