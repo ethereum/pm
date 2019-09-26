@@ -7,7 +7,7 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
- 71 | Friday, September 6, 2019 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/125) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2071.md) | [video](https://www.youtube.com/watch?v=OjJd2G0pmeM) |
+ 71 | Friday, September 20, 2019 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/125) \| [notes](All%20Core%20Devs%20Meetings/Meeting%2071.md) | [video](https://www.youtube.com/watch?v=OjJd2G0pmeM) |
  70 | Friday, September 6, 2019 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/123) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2070.md) | [video](https://www.youtube.com/watch?v=6m0So81_j2Q) |
  69 | Friday, August 23, 2019 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/121) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2069.md) | [video](https://www.youtube.com/watch?v=yO0WdT-J64w) |
  68 | Thursday, August 15, 2019 22:00 UTC | [agenda](https://github.com/ethereum/pm/issues/119) \| [notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2068.md) | [video](https://www.youtube.com/watch?v=08eaI8JjSbw) |
