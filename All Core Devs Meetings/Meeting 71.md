@@ -10,8 +10,7 @@
 
 # Previous Decisions
 
-**DECISION 70.1**: ~~Leave Blake 2 as Blake2b, keeping it fixed to 12 rounds.~~
-Revised at the end of the call -- Update the EIP to reflect the precompile addressing a superset of BLAKE2b, leave the `rounds` parameter as-is in the EIP, further discuss the inclusion of an `m_len` parameter with client implementers on Gitter.
+**DECISION 70.1**: Leave Blake 2 as Blake2b, keeping it fixed to 12 rounds.
 
 **DECISION 70.2**: The fork of the Ropsten Testnet is set for the 2nd October 2019 and block that corresponds closest to that date will be selected.
 
@@ -169,7 +168,7 @@ Both ProgPoW audits were released right after the last CoreDev meeting. There is
 
 ## 6. Review previous decisions made and action items
 
-**DECISION 70.1**: ~~Leave Blake 2 as Blake2b, keeping it fixed to 12 rounds.~~ Alex was going to talk to the EIP 152 champions to discuss the concerns, so Hudson thought some of this might have changed, but it was left as is.
+**DECISION 70.1**: Leave Blake 2 as Blake2b, keeping it fixed to 12 rounds. Alex was going to talk to the EIP 152 champions to discuss the concerns, so Hudson thought some of this might have changed, but it was left as is.
 
 **DECISION 70.2**: The fork of the Ropsten Testnet is set for the 2nd October 2019 and block that corresponds closest to that date will be selected. This has happened.
 
