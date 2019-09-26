@@ -218,7 +218,7 @@ Until we re-approach the entire issue, that probably can't be answered because i
 ProgPoW 0.9.2. has already been merged into Parity and will be merged into Geth.   
 
 **Trent**
-It's a broader issue than the technical implementation. It's a more nuanced conversation about the transition fro Eth1 to Eth2 and how ProgPoW could be a dissuasion to interrupt the deposit contract, keeping it in our back pocket to be used later if necessary. It's already being intergrated into clients, but the alternative is to keep it integrated but not activated until such a time as its very much needed.
+It's a broader issue than the technical implementation. It's a more nuanced conversation about the transition from Eth1 to Eth2 and how ProgPoW could be a dissuasion to interrupt the deposit contract, keeping it in our back pocket to be used later if necessary. It's already being integrated into clients, but the alternative is to keep it integrated but not activated until such a time as it's very much needed.
 
 **Hudson**
 It's too early for the alternative, and the previous screaming about it has died down. We're now collecting sentiment about it.
@@ -231,7 +231,7 @@ The problem is if we keep ProgPoW in our back pocket and something happens where
 
 And once the decision has been made to do that, all the existing miners will know they're going to be kicked out, and they're going to do whatever they want with the chain, because their investment is going to be worthless. They can do the continual rollout of new chains during the two weeks while the switch is being made, and the actual value of Ether is going to plummet during those attacks.
 
-Eventually, if we manage to do the switch to ProgPoW, we may discover that there is no mining forum that is able and ready to pick up and switch over to actually mine Ether at full scale. They're doing other things. They've moved on. The only ones willing to mine Ether if the value plummets will be pump and dump gangs, and shenanigans will happen. So keeping it in our back pocket is not something that is going to play out well.
+Eventually, if we manage to do the switch to ProgPoW, we may discover that there is no mining forum that is able and ready to pick up and switch over to actually mine Ether at full scale. They're doing other things. They've moved on. The only ones willing to mine Ether if the value plummets will be pump and dump gangs, and shenanigans will happen. So keeping it in our back pocket is not something that is going to play out well. Don't want to have this discussion on this call.
 
 **Danno**
 Some of the political discussion has been attacks on the AllCoreDevs, who are not burying their heads in the sand, but they are not engaging in the political process because they don't see the constructive nature of what's been going on.
@@ -243,10 +243,10 @@ This question does a disservice to the Cat Herders who, nine months ago, did muc
 Wanted to give a bit of context as to why people were bringing this up again and have their voices heard. Just trying to bridge the different parties into understanding a little bit better.
 
 **Hudson**
-There is new political drama. He will do the new sentiment collection. Please keep it civil. If people are loud and angry, it will be hard to take them seriously.
+There is new political drama. Hudson will do the new sentiment collection. Please keep it civil. If people are loud and angry, it will be hard to take them seriously.
 
 **Trent**
-In the side chat, Bob and Matt have both said that ProgPoW being introduced would be likely to cause a chain split. No idea how serious this is, but he's heard it enough times that it's worth mentioning.
+In the side chat, Bob and Matt have both said that ProgPoW being introduced would be likely to cause a chain split. No idea how serious this is, but Trent's heard it enough times that it's worth mentioning.
 
 **Danno**
 That's an argument that the numbers didn't support when we did a miner poll. With 70% participation, they were 100% in support of it. Not a single miner took the time to do a negative vote. If there were a single miner that took the time to put a negative vote in, he would put more weight on that argument.
@@ -258,7 +258,7 @@ Checked yesterday, and there's still a decent amount of miners signaling yes on 
 The controversy is not necessarily on the mining side but on the user side. If there was a chain split, it would be an ETC-style one of user rebellion and then mining building up to support that.
 
 **Danno**
-Earlier this year, that was almost a user rebellion in favor of ProgPoW.
+Earlier this year, there was a rebellion threatening a chain-split if we don't do ProgPoW.
 
 **Hudson**
 Yes, that almost happened, and that one actually had code behind it. Hudson will mention it in his sentiment collection if he sees any brew attempts or plans or preparations for a chain split. Forking is one of the great things about blockchain, because if you don't agree with something, you can leave.
