@@ -15,7 +15,7 @@
 
 **DECISIONS 72.1**: Ice Age EIP will not be included in Istanbul. It seems like there's no major reason to do it now. Based on James calculations, it should give us well enough time to plan for another fork and not delay Istanbul.
 
-**DECISIONS 72.2**: Bring your objections to AllCoreDevs in 2 weeks if anyone have anything opposing to Geth team defining Eth 64 as Fork ID thing and rolling it out.
+**DECISIONS 72.2**: Bring your objections to AllCoreDevs in 2 weeks if anyone have anything opposing to Geth team defining Eth 64 as Fork ID thing and rolling it out. Ref [EIP 2124](https://eips.ethereum.org/EIPS/eip-2124).
 
 
 
@@ -131,7 +131,7 @@ So, when two peers do a handshake with each other currently, they exchange the g
 
 My proposal would be to publish a new version of the Eth protocol so essentially bump the Eth protocol to Eth 64 and the only change would be to replace this Genesis hash in the handshake to this fork ID and what it would allow us to do is when  two peers connect then even if they have the same Genesis block they will immediately know  whether they are compatible or incompatible with each other fork wise. If this would have been implemented on Ropsten currently then the two networks, the ones who didn't fork into the Istanbul and the one who forked into the Istanbul, they would have separated really cleanly at the networking level and then all of this messy synchronization log processing problems would have been solved.
 
-I think it's really an elegant solution. If anyone wants to take a look, please take a look. I linked the [EIP 2125](https://github.com/ethereum/EIPs/issues/2125). The  proposal is just replacing a single field in a handshake. The question is - does anyone have any objection publishing an Eth 64 version well, since Eth name space is the officially theorem protocol. We just don't want the Geth to publish the version unilaterally and say that this is the verion 64. But we would really like to do so and it's really a more or less trivial change. That's why we're kind of optimist that **the effort to implement it is really tiny and the benefits will be huge, specially for testnets**. Of courseeven if we do implement it that would definitely keep speaking the old protocol side by side. So, it's not that we want to roll out something incompatible rather, it would be just an updated version. 
+I think it's really an elegant solution. If anyone wants to take a look, please take a look. I linked the [EIP 2124](https://eips.ethereum.org/EIPS/eip-2124). The  proposal is just replacing a single field in a handshake. The question is - does anyone have any objection publishing an Eth 64 version well, since Eth name space is the officially theorem protocol. We just don't want the Geth to publish the version unilaterally and say that this is the verion 64. But we would really like to do so and it's really a more or less trivial change. That's why we're kind of optimist that **the effort to implement it is really tiny and the benefits will be huge, specially for testnets**. Of courseeven if we do implement it that would definitely keep speaking the old protocol side by side. So, it's not that we want to roll out something incompatible rather, it would be just an updated version. 
 
 So, action item does anyone have anything opposing to us defining Eth 64 as this Fork ID thing and rolling it out?
 
