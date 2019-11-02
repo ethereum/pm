@@ -16,7 +16,7 @@
 
 **DECISION 72.3**: CatHerders are going to reach out to the Gorley team to make sure that there is clear communication about node upgrades for Istanbul.
 
-**DECISION 72.4**: David Palm will talk to Wei to see if 2200 should be self-contained.
+**DECISION 72.4**: Wei has confirmed to David and other core developers that 2200 is self-contained.
 
 ## ACTION ITEMS
 
