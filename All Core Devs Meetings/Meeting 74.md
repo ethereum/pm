@@ -53,9 +53,9 @@
 Miscellaneous:
 - Further discussion on EIPs discussed should be postponed until an implementation is brought forward
 - `Blessed` status changed to `Eligible for Inclusion`.
-- Create dedicated list/directory for `Provisionally Accepted` EIPs, in addition to listing EIPs undergoing the new EIP process
+- Create dedicated list/directory for `Eligible for Inclusion` EIPs, in addition to listing EIPs undergoing the new EIP process
 - Create a new Information EIP covering these new stages, possibly under EIP-1
-- A section for EIP decisions should be included in meeting notes for quick access to address outstanding PRs by EIP editors. 
+- A section for EIP decisions should be included in meeting notes for quick access to address outstanding PRs by EIP editors.
 
 # Notes
 
