@@ -261,17 +261,13 @@ Discussion occured around setting timeframes keeping in mind the hard fork. In a
 
 One needs to have the update for the Ice Age. All other EIPs, we don't want to decide a date. By keeping inclusions once a month, we can decide whether to postpone an EIP for it to go with another which goes together. We want to avoid one fork per EIP, as well as waiting significant time to include several EIPs, as both limit implementations, testing, etc.
 
-**Hudson Jameson:** We're not picking a date. We're being pragmatic in some of the possible dates, considering the overhead.
-
 **Piper Merriam:** I would propose the soonest, as we are just starting this new process.
 
-**James Hancock:** Yes. What date is the soonest? March?
+**James Hancock:** March?
 
 **Piper Merriam:** That is reasonable.
 
-**Hudson Jameson:** Agreed. Realistically, for most EIPs, we can decide, implement, and do tests for an EIP within a 3-4 week period.
-
-We also decided the champion of an EIP will be the coordinator for testing, right?
+**Hudson Jameson:** For most EIPs, we can decide, implement, and do tests for an EIP within a 3-4 week period. We also decided the champion of an EIP will be the coordinator for testing, right?
 
 **James Hancock:** Yes.
 
