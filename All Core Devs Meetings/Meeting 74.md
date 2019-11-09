@@ -42,7 +42,7 @@
 | EIP-2028 | `Accepted & Final` |
 | EIP-2200 | `Accepted & Final` |
 | EIP-1702 | `Eligible for Inclusion` Pending Champion. Not accepted into Berlin |
-| EIP-663 | `Eligible for Inclusion`Currently depends on EIP-1702 |
+| EIP-663 | May not be ready. Currently depends on EIP-1702 |
 | EIP-1962 | Requires more Specification. Contact Champion |
 | EIP-1380 | `Eligible for Inclusion` |
 | EIP-1985 | Decision required around needing a Hard Fork |
@@ -148,29 +148,10 @@ Video: [[44:51]](https://youtu.be/aZ0S_oLSwhE?t=2691)
 
 - [Ethereum Magicians Thread](https://ethereum-magicians.org/t/eip-663-unlimited-swap-and-dup-instructions/3346)
 
-**Alex Beregszaszi:** My understaning of the Blessed status: it's a green-lighting of the idea in general. It doesn't mean anything more. Under that definition, 663 I say is Blessed.
-
-There were some options, and the resolution of that discussion was that it depends on account versioning.
-
-**Greg:** Has it made it through last call on Magicians? I don't see that it's our concern until it has completed that process.
-
-**Alex Beregszaszi:** My understanding is the Champions and contributors are approved to begin work.
-
-**Piper Merriam:** Blessed would mean there is no Veto from the Core Devs.
-
-**Hudson Jameson:** Blessed is the first gate.
-
-**Greg:** Core Devs can do that in the last call process, removing it from the workload of our calls.
-
-**James Hancock:** From the community, there are questions in EIPs on their worth to begin work on. Blessing can be just an approval for the community to begin work on an EIP.
-
-**Greg:** If you care about something, you'll put the work in it. If you need to push it to our level, fine, but in most cases I don't think we need to.
-
-**Hudson Jameson:** If someone proposes a core EIP to delete all ERC20 tokens, we want to prevent that.
 
 **Greg:** I don't think SWAP DUP should be here without basic decisions on the Spec. I don't consider it blessed, but there's not large mountain of work needed.
 
-**Alex Beregszaszi:** Blessed means no objection from Core Devs for the idea. Blessed doesn't mean Client developers must work on it. But the proposers of the idea must work on it for it to continue. I don't believe any of the Core Devs objected on the idea.
+**Alex Beregszaszi:** Blessed means no objection from Core Devs for the idea. I don't believe any of the Core Devs objected on the idea.
 
 **Greg:** Ok. I still don't think an EIP should come to us without consensus in other discussion that it is a design which will work. It looked to me that it wasn't ready, and there was disagreement among the community, including some Core Devs.
 
@@ -188,23 +169,17 @@ Video: [[56:00]](https://youtu.be/aZ0S_oLSwhE?t=3358)
 
 Video: [[34:57]](https://youtu.be/aZ0S_oLSwhE?t=2097)
 
-**James Hancock:** There were several EIPs gated by account versioning.
+**James Hancock:** Several EIPs are gated by account versioning.
 
-**Hudson Jameson:** OK. Let's map out the prerequisite EIPs and talk to those Champions. To let them know what Champion now means, and that other EIPs extend this one.
-
-**Wie Tang:** With Account Versioning, I have a specification that addresses pervious concerns from previous conversations. The resistance was around the need to introduce account versioning every 6 months.
-
-If someone reviews the new model, I recommend doing the account versioning in a separate hard fork, having a hard fork just for account versioning.
+**Wie Tang:** New specification for account versioning made. 
 
 - https://that.world/~essay/nevm/
 
-**Hudson Jameson:** Once we have a new Champion for that EIP, I recommend passing the specification to them.
+**Hudson Jameson:** Pass new specification to new Champion, once one is found.
 
-**Danno Ferrin:** We would benefit from a validation step of what's covered in that specification. Coordination must be done with the Solidity community. I don't think completing the required tasks of Account Versioning within the Berlin timeline is reasonable.
+**Danno Ferrin:** Finishing account versioning for Berlin is unreasonable.
 
-**Wie Tang:** Agreed. A separate hardfork for account versioning may be better.
-
-**Tim Beiko:** Should we record an action for 1702?
+**Wie Tang:** A separate hardfork may be better.
 
 **Hudson Jameson:** Scrap it for Berlin.
 
@@ -215,23 +190,15 @@ If someone reviews the new model, I recommend doing the account versioning in a 
 
 Video: [[54:11]](https://youtu.be/aZ0S_oLSwhE?t=3251)
 
-**Hudson Jameson:** Isn't there an EIP entering Istanbul doing the same?
 
-**Danno Ferrin:** No. That was just gas changes on 128. This one, I know Earnst and Young (EY) wants it for their nightfall.
-
-A concern is it isn't well spec'ed and depends on one single implementation. It may be good, but requires more specification. Needs work from the Champions.
+**Danno Ferrin:** Earnst and Young (EY) want this EIP for their nightfall. It is good, but requires more specification, and depends on a single implementation. 
 
 #### 2.2.5 EIP-1985
 [**Sane limits for certain EVM parameters**](https://eips.ethereum.org/EIPS/eip-1985)
 
-**Alex Beregszaszi:** The hope is retroactive application, without needing a hard fork. The discussion is on the Ethereum Magicians discussion. Shouldn't be part of the hard fork.
+**Alex Beregszaszi:** May not need a hard fork. 
 
-**Hudson Jameson:** So shouldn't be blessed, as still being discussed, and may be unnecessary.
-
-**Alex Beregszaszi:** The only decision needed is if it needs a hard fork. Join the discussion on Ethereum Magicians.
-
-**Danno Ferrin:** If something is violated, what's the behavior? I'll continue discussion in Ethereum Magicians.
-
+[Join the discussion on Ethereum Magicians.](https://ethereum-magicians.org/t/eip-1985-sane-limits-for-certain-evm-parameters/3224)
 
 
 #### 2.2.6 EIP-2045
@@ -293,6 +260,13 @@ Video: [[1:09:01]](https://youtu.be/aZ0S_oLSwhE?t=4141)
 Video: [[16:01]](https://youtu.be/aZ0S_oLSwhE?t=961)
 
 Links: [EIP Centric fork](https://notes.ethereum.org/@holiman/S1ELAYY7S?type=view)
+
+
+Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicates no Core Devs has rejected an EIP as an idea, serving as a first pass before reassesment after an implementation has been prototyped before final inclusion. `Blessed` indicted an idea has been greenlit for continued work. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually, suggesting a solution possibly including delegation may be required.
+
+**Greg:** If you care about something, you'll put the work in it. If you need to push it to our level, fine, but in most cases I don't think we need to.
+
+
 
 **James Hancock:** Going until July I think is going to be too much.  As far as windows for when Berlin would work, we use the third week of the third Wednesday of the month.  We could do April, May, or June.
 
