@@ -254,11 +254,6 @@ Video: [[7:55]](https://youtu.be/aZ0S_oLSwhE)
 
 Video: [[16:01]](https://youtu.be/aZ0S_oLSwhE?t=961)
 
-Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicted an idea has been greenlit for continued work, before the final reassesment for inclusion. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually.
-
-**Greg:** If you need to push it to our level, fine, but in most cases I don't think we need to.
-
----
 
 Discussion occured around setting timeframes keeping in mind the hard fork. In an EIP-centric model, the proposal was not to set times in advance. However, considering the incoming Ice Age, deadlines for EIP completion before inclusion in the Hard Fork may have use. The third Wednesday of March was chosen for Istanbul.
 
@@ -292,6 +287,14 @@ Video: [[38:49]](https://youtu.be/aZ0S_oLSwhE?t=2329)
 
 
 EIPs are no longer categorized by forks. Discussion was around having an EIP status on each EIP website, or keeping a list of `Blessed` EIPs, for organizaion. 
+
+---
+
+Video: [[44:51]](https://youtu.be/aZ0S_oLSwhE?t=2691)
+
+Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicated an idea has been greenlit for continued work, before the final reassesment for inclusion. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually.
+
+**Greg:** If you need to push it to our level, fine, but in most cases I don't think we need to.
 
 ---
 
