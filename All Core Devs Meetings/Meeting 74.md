@@ -32,7 +32,7 @@
 | Topic | Decision |
 |-------|----------|
 | Istanbul Block Number | 9,069,000 |
-| Berlin Timeline | 3rd Wednesday of March |
+| Istanbul EIP Deadline | 3rd Wednesday of March |
 | EIP-1679 | `Accepted & Final` |
 | EIP-1679 | `Accepted & Final` |
 | EIP-152 | `Accepted & Final` |
@@ -254,13 +254,13 @@ Video: [[7:55]](https://youtu.be/aZ0S_oLSwhE)
 
 Video: [[16:01]](https://youtu.be/aZ0S_oLSwhE?t=961)
 
-Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicates no Core Devs has rejected an EIP as an idea, serving as a first pass before reassesment after an implementation has been prototyped before final inclusion. `Blessed` indicted an idea has been greenlit for continued work. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually.
+Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicted an idea has been greenlit for continued work, before the final reassesment for inclusion. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually.
 
-**Greg:** If you care about something, you'll put the work in it. If you need to push it to our level, fine, but in most cases I don't think we need to.
+**Greg:** If you need to push it to our level, fine, but in most cases I don't think we need to.
 
 ---
 
-Discussion occured around setting timeframes keeping in mind the hard fork. In an EIP-centric model, the proposal was not to set times in advance. However, considering the incoming Ice Age, deadlines for EIP completion before inclusion in the Hard Fork may have use. 
+Discussion occured around setting timeframes keeping in mind the hard fork. In an EIP-centric model, the proposal was not to set times in advance. However, considering the incoming Ice Age, deadlines for EIP completion before inclusion in the Hard Fork may have use. The third Wednesday of March was chosen for Istanbul.
 
 **James Hancock:** Two conversations are happening. Among Core Devs: When are we going to fork. Core Devs to the Community: There's a realistic deadline of June where completion is required. Then there's a preparation period of 3 months needed for testnets to be live. With those two dates, April, May, and June is available for Istanbul. Keeping forks to a third Wednesday of the month, there are 3 third Wednesdays to select from.
 
@@ -291,35 +291,9 @@ We also decided the champion of an EIP will be the coordinator for testing, righ
 Video: [[38:49]](https://youtu.be/aZ0S_oLSwhE?t=2329)
 
 
-**Danno Ferrin:** Are we tracking EIPs categorized by forks? Or are they in their own grouping separate from forks?
+EIPs are no longer categorized by forks. Discussion was around having an EIP status on each EIP website, or keeping a list of `Blessed` EIPs, for organizaion. 
 
-**Hudson Jameson:** Not scraping it completely, it's taking it off the meta. Not tentatively accepted anymore, and that's an official decision.
-
-**Danno Ferrin:** Do we need a separate tracking process for EIPs, independent of the fork?
-
-**Tim Beiko:** We could have a blessed section in the meta, in addition to tentatively accepted.
-
-**James Hancock:** A way to reconcile may be not to have a fork meta list, but a list of blessed EIPs.
-
-**Tim Beiko:** An EIP status on their website?
-
-**James Hancock:** I don't know if its better for it to be a status, or to have a new list similar to the Hard Fork list, but as a Blessed list, which updates.
-
-**Hudson Jameson:** I that idea. In EIP 1, there's a status and a category of EIP that it fits (informational and active).
-
-**Greg:** I thought tentatively accepted is the same as blessed.
-
-**James Hancock:** It is. What's missing is a list for the community to look at for what is a Blessed EIP.
-
-**Hudson Jameson:** Blessed EIPs no longer mean an attachment to a fork with the new process.
-
-**Greg:** I thought Tentatively Accepted list were those intended to go into a future fork when ready. I don't see a need for another category.
-
-**Tim Beiko:** No, it's a renaming.
-
-ç Tentatively accepted is vague without a fork attached.
-
-**Tim Beiko:** We just came with the term this summer.
+---
 
 Video: [[1:10:53]](https://youtu.be/aZ0S_oLSwhE?t=4253)
 
@@ -333,19 +307,7 @@ Video: [[1:10:53]](https://youtu.be/aZ0S_oLSwhE?t=4253)
 
 **Danno Ferrin:** Can we take a more neutral name for blessed (ie. preliminary approval)?
 
-**James Hancock:** We can do greenlight.
-
-**Jason Carver:** Greenlit sounds too affirmative, implying it's finalized.
-
-**Tim Beiko:** Controversial, but how about Tentatively Accepted?
-
 **Danno Ferrin:** Provisionally Accepted?
-
-**Tim Beiko:** Bitcoin has Concept Acknowledged.
-
-**Hudson Jameson:** Provisionally Accepted is good. If there's a question, someone will write up the explanation.
-
-**Alex Beregszaszi:** In addition to Provisionally Accepted the name change, we decided on forming a list?
 
 **Danno Ferrin:** In addition to Provisionally Accepted, we should list new EIPs live on the new EIP process. When a Champion has a prototype ready, they should upload it there. In addition to security reviews. Also, an informational EIP covering this new model.
 
@@ -369,13 +331,9 @@ Video: [[1:10:53]](https://youtu.be/aZ0S_oLSwhE?t=4253)
 
 **Danno Ferrin:** Eligible may communicate the intent better.
 
-**Hudson Jameson:** Let's include that.
-
 **Pooja Ranjan:** The Ethereum Cat Herders can help maintain the list of the `Eligible for Inclusion` list.
 
 **Hudson Jameson:** Let's hold discussion to where the list is listed in another call.
-
-**James Hancock:** I'm also unsure if it could fit in the PM repo.
 
 **Pooja Ranjan:** We should start the list, and then think about where to put it.
 
