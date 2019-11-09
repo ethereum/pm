@@ -306,39 +306,15 @@ Video: [[1:10:53]](https://youtu.be/aZ0S_oLSwhE?t=4253)
 
 **Tim Beiko:** That would make things easier.
 
-**James Hancock:** Should the blessed state be done in the All Core Devs call, and be linked in the notes?
-
 **Danno Ferrin:** Can we take a more neutral name for blessed (ie. preliminary approval)?
-
-**Danno Ferrin:** Provisionally Accepted?
-
-**Danno Ferrin:** In addition to Provisionally Accepted, we should list new EIPs live on the new EIP process. When a Champion has a prototype ready, they should upload it there. In addition to security reviews. Also, an informational EIP covering this new model.
-
-**Hudson Jameson:** Yes, possibly under EIP-1. ERC content will remain the same until updated.
-
-**Alex Beregszaszi:** Is the decision to create a new EIP with the status of `Active`, which lists `Provisionally Accepted` EIPs?
-
-**Tim Beiko:** The Champion of each EIP should be making PRs to update that list.
-
-**Danno Ferrin:** I wonder how many of these should be within this new EIP, having it be one giant collection of EIPs.
-
-**Tim Beiko:** For visibility, it may be good to have a master list. There is value without it being cluttered. At most 5-6 bullet points per EIP.
-
-**Danno Ferrin:** Sounds reasonable.
-
-**James Hancock:** Some have requested EIPs be sorted by most ready.
-
-**Alex Beregszaszi:** I would be OK it being in the PM repo as well.
 
 **Hudson Jameson:** Jason Carver suggested  `Eligible for Inclusion` instead of Blessed.  
 
-**Danno Ferrin:** Eligible may communicate the intent better.
+**Danno Ferrin:** In addition to `Eligible for Inclusion` list, we should list new EIPs live on the new EIP process. When a Champion has a prototype ready, they should upload it there. In addition to security reviews. Also, an informational EIP covering this new model.
 
-**Pooja Ranjan:** The Ethereum Cat Herders can help maintain the list of the `Eligible for Inclusion` list.
+**Hudson Jameson:** Let's hold discussion to where the `Eligible for Inclusion` list is listed in another call.
 
-**Hudson Jameson:** Let's hold discussion to where the list is listed in another call.
-
-**Pooja Ranjan:** We should start the list, and then think about where to put it.
+**Pooja Ranjan:** The Ethereum Cat Herders can start the list, then we can decide where to put it.
 
 **Hudson Jameson:** That sounds good.
 
