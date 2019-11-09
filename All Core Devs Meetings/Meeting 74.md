@@ -178,6 +178,8 @@ Video: [[54:11]](https://youtu.be/aZ0S_oLSwhE?t=3251)
 #### 2.2.5 EIP-1985
 [**Sane limits for certain EVM parameters**](https://eips.ethereum.org/EIPS/eip-1985)
 
+Video: [[57:46]](https://youtu.be/aZ0S_oLSwhE?t=3466)
+
 **Alex Beregszaszi:** May not need a hard fork. 
 
 [Join the discussion on Ethereum Magicians.](https://ethereum-magicians.org/t/eip-1985-sane-limits-for-certain-evm-parameters/3224)
@@ -244,69 +246,29 @@ Links: [EIP Centric fork](https://notes.ethereum.org/@holiman/S1ELAYY7S?type=vie
 
 Video: [[7:55]](https://youtu.be/aZ0S_oLSwhE)
 
-**Alex Beregszaszi:** I just wanted to ask that for every EIP change it would be nice to record a decision in the meeting notes so EIP editors can simply execute on the meeting notes. This can help for outstanding PRs without seeking again for confirmation.
+**Alex Beregszaszi:** For every EIP change, record a decision in the meeting notes so EIP editors can execute on the meeting notes, for outstanding PRs.
 
-**Hudson Jameson:** Excellent. Yes, let's do that for the Berlin and others we talk about today if in final state.
+**Hudson Jameson:** Yes, let's do that.
+
+---
 
 Video: [[16:01]](https://youtu.be/aZ0S_oLSwhE?t=961)
 
-
-Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicates no Core Devs has rejected an EIP as an idea, serving as a first pass before reassesment after an implementation has been prototyped before final inclusion. `Blessed` indicted an idea has been greenlit for continued work. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually, suggesting a solution possibly including delegation may be required.
+Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicates no Core Devs has rejected an EIP as an idea, serving as a first pass before reassesment after an implementation has been prototyped before final inclusion. `Blessed` indicted an idea has been greenlit for continued work. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually.
 
 **Greg:** If you care about something, you'll put the work in it. If you need to push it to our level, fine, but in most cases I don't think we need to.
 
+---
 
-
-**James Hancock:** Going until July I think is going to be too much.  As far as windows for when Berlin would work, we use the third week of the third Wednesday of the month.  We could do April, May, or June.
-
-
-**Hudson Jameson:** Do we want to discuss timelines today?
-
-**Tim Beiko:** We probably should. Then decide when EIPs need to be ready based on that date.  
-
-**Piper Merriam:** Can I pause this for a second? In our last core devs meeting, I remember us at least talking about doing the EIP centric process.  I was under the impression that in the EIP centric process we don't select EIPs.
-
-**James Hancock:** That was also kind of one of the points that I was bringing back to around available time slots, deciding completion deadlines. The Ethereum Core Devs community can decide which EIP is integrated by which EIPs are completed in time.
-
-Yes this is an EIP centric model, but we do know within March to June, we're gonna have some fork to have an update for the Ice Age. We can work backwards in deciding steps from a deadline.
-
-**Piper Merriam:** An alternate option. Clients complete for the current pending hard fork, then signal support for the Ice Age Delay EIP. By setting a date that far, it feels like we're still using the old model. Under the EIP centric model, it looks like we don't set set fork dates, but wait for client signaling before setting dates. Am I misunderstanding?
-
-**James Hancock:** That's fair. We have an upper bound, but no lower bound on how soon we can fork again. Testnets need to be launched, then time needs to allotted for clients to update. Then keeping it the same for implementors, to no to do many or too little.
-
-**Tim Beiko:** One objection to the pure EIP centric model is one upgrade per EIP. There's some fixed overhead and coordination for having an upgrade (node upgrades, testnet updates, etc.).  A middle ground approach could be: We want to set a date for an upgrade, but not move that date based on single EIPs not being ready. The community can then see the deadline as a signal to prepare their EIP.
-
-**Alex Beregszaszi:** Piper, what did you mean by clients signaling for the Ice Age EIP?
-
-**Piper Merriam:** I was pulling that from memory, not currently at my computer.
-
-**Hudson Jameson:** What I remember, we decide it how we normally decide on an EIP, with the addition of full spec, full conversation, and implementation began.
-
-**Alex Beregszaszi:** My understanding is similar. The All Core devs would give an opinion on new EIPs. Then give approval that they are good to work on. Then, those who propose them must complete them. Then is perhaps the signaling from clients is their implementation.
-
-**James Hancock:** Yes, the step of the client having and accepting PRs. Then the Core Devs approve to go into the fork.
-
-**Hudson Jameson:** Perhaps this hybrid process from the last meeting would be to reconcile that there is an Ice Age, and setting timelines for when the Ice Age hard fork happens. For other EIPs, this may be less important. We also are considering the overhead of implementation, testing, and deployment by major providers.
-
-We may to better specify the process.
-
-**Piper Merriam:** The suggestion of the EIP centric model is:
-
-1. Blessing
-2. Implementation
-3. EIP compatible clients for a given block
-4. All Core Devs finalization. Implementation is done, testing is done, a block number for the fork can be chosen.
-
-
-The block number contains one or many EIPs. But dates aren't set until implementations are ready. That's my understanding. It seems picking a date is the same process we've used before.
+Discussion occured around setting timeframes keeping in mind the hard fork. In an EIP-centric model, the proposal was not to set times in advance. However, considering the incoming Ice Age, deadlines for EIP completion before inclusion in the Hard Fork may have use. 
 
 **James Hancock:** Two conversations are happening. Among Core Devs: When are we going to fork. Core Devs to the Community: There's a realistic deadline of June where completion is required. Then there's a preparation period of 3 months needed for testnets to be live. With those two dates, April, May, and June is available for Istanbul. Keeping forks to a third Wednesday of the month, there are 3 third Wednesdays to select from.
 
-One of them needs to have the update for the Ice Age. All other EIPs, we don't want to decide a date. By keeping inclusions once a month, we can decide whether to postpone an EIP for it to go with another which goes together. We want to avoid one fork per EIP, as well as waiting significant time to include several EIPs, as both limit implementations, testing, etc.
+One needs to have the update for the Ice Age. All other EIPs, we don't want to decide a date. By keeping inclusions once a month, we can decide whether to postpone an EIP for it to go with another which goes together. We want to avoid one fork per EIP, as well as waiting significant time to include several EIPs, as both limit implementations, testing, etc.
 
-**Hudson Jameson:** We're not picking a date. We're being pragmatic in some of the possible dates, considering the overgead.
+**Hudson Jameson:** We're not picking a date. We're being pragmatic in some of the possible dates, considering the overhead.
 
-**Piper Merriam:** That works with me. I would propose the soonest, as we are just starting this new process.
+**Piper Merriam:** I would propose the soonest, as we are just starting this new process.
 
 **James Hancock:** Yes. What date is the soonest? March?
 
@@ -318,12 +280,13 @@ We also decided the champion of an EIP will be the coordinator for testing, righ
 
 **James Hancock:** Yes.
 
-**Hudson Jameson:** Wei said they wanted to remove their name from some they have been championing. Did you have someone in mind to take over the EIPs you were championing? The account versioning EIP is a prerequisite to other EIPs others were talking about, correct?
+**Hudson Jameson:** Wei said they wanted to remove their name from some they have been championing. 
 
-**Wie Tang:** I won't be able to champion as I won't have enough time to do all the coordination, and would be too political for me. I don't have a replacement Champion. It would be better to ask All Core Devs and look for a champion, or alternatively remove them from the Berlin Hard Fork.
+**Wie Tang:** I won't be able to champion as I won't have enough time to do all the coordination. I don't have a replacement Champion. 
 
 **Hudson Jameson:** For the next two weeks, I propose we keep them to see if there are replacement Champions.
 
+---
 
 Video: [[38:49]](https://youtu.be/aZ0S_oLSwhE?t=2329)
 
