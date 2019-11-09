@@ -71,7 +71,7 @@ Links: [Istanbul Meta EIP](https://eips.ethereum.org/EIPS/eip-1679) | [Istanbul 
 Video: [[5:32]](https://youtu.be/aZ0S_oLSwhE?t=332)
 
 
-**Hudson Jameson:** We did pick a block number for Istanbul. Coindesk corrected their article on that.
+**Hudson Jameson:** A block number for Istanbul was chosen. Coindesk corrected their article.
 
 - **Istanbul Block Number:** 9,069,000
 
@@ -79,25 +79,41 @@ When are clients releasing an update with the [Istanbul] block number attached?
 
 **Tim Beiko:** For phase 2, within the next two weeks, mid-November.
 
-**Danno Ferrin:** We'll have it out next week. The PR is in, so clients can run the dev code, but that's not something we want exchanges to do.
+**Danno Ferrin:** We'll have it out next week. 
 
 **Hudson Jameson:** The Ethereum Foundation and/or Ethereum Cat Herders are publishing a blog on the block number and what software to upgrade around when most clients update their download links.
 
 
+Video: [[10:24]](https://youtu.be/aZ0S_oLSwhE?t=624)
+
+**Danno Ferrin:** Should we formally make 1671 accepted?
+
+- [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679 )
+
+**Hudson Jameson:** That sounds good.
+
+**James Hancock:** EIPs are to be moved to accepted and final for integration in Istanbul which has begun for the client. The included EIPs:
+- EIP 152
+- EIP 1108
+- EIP 1344
+- EIP 1884
+- EIP 2028
+- EIP 2200
+
+
+**Hudson Jameson:** I second that. We should probably have motions.
+
+**Danno Ferrin:** Agreed.
+
+
 ## 2. Berlin
 
-
 Links: [Berlin Meta EIP](https://eips.ethereum.org/EIPS/eip-2070)
-
 
 
 ### 2.1 Ice Age
 
 Video: [[7:55]](https://youtu.be/aZ0S_oLSwhE)
-
-**Alex Beregszaszi:** I just wanted to ask that for every EIP change it would be nice to record a decision in the meeting notes so EIP editors can simply execute on the meeting notes. This can help for outstanding PRs without seeking again for confirmation.
-
-**Hudson Jameson:** Excellent. Yes, let's do that for the Berlin and others we talk about today if in final state.
 
 **Tim Beiko:** A couple calls ago we said that the Ice Age would start kicking in next summer, please correct me if I'm wrong. We probably want an EIP in Berlin that kicks back the Ice Age.
 
@@ -108,36 +124,6 @@ Video: [[7:55]](https://youtu.be/aZ0S_oLSwhE)
 
 ### 2.2 Tentatively Accepted EIPs
 
-Video: [[10:24]](https://youtu.be/aZ0S_oLSwhE?t=624)
-
-
-**James Hancock:** We should go through the accepted ones, formally have them done on the call.
-
-**Hudson Jameson:** That sounds good. Do you have that list?
-
-**Alex Beregszaszi:** The tentatively accepted lines were copied over from the Istanbul EIP. Whatever was part of Istanbul Part 2 has been just moved over. But there was no further discussion.
-
-**Danno Ferrin:** When I did the PR for the meta EIP, I made sure to cross reference call 68 to make sure those were the EIPs we agreed on. I did cut the rest off because I saw that they weren't Berlin. I didn't update draft to accepted. Should we formally make 1671 accepted, which is the assemble meta EIP?
-
-- [EIP 1679](https://eips.ethereum.org/EIPS/eip-1679 )
-
-**Hudson Jameson:** That sounds good.
-
-**James Hancock:** I have the accepted list. So the this is the EIPs from from the Istanbul hard fork, EIP 1679 the source of truth from that.  The included EIPs:
-- EIP 152
-- EIP 1108
-- EIP 1344
-- EIP 1884
-- EIP 2028
-- EIP 2200
-
-EIPs are to be moved to accepted and final for integration in Istanbul which has begun for the client.
-
-**Hudson Jameson:** I second that. We should probably have motions.
-
-**Danno Ferrin:** Agreed.
-
-**Hudson Jameson:** The Berlin the hard fork meta has links to all of the tentatively accepted EIPs.  None of them are final as far. We ll just go in order by number.
 
 #### 2.2.1 EIP-663
 [**Unlimited SWAP and DUP instructions**](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-663.md )
@@ -160,9 +146,7 @@ Video: [[44:51]](https://youtu.be/aZ0S_oLSwhE?t=2691)
 
 Video: [[56:00]](https://youtu.be/aZ0S_oLSwhE?t=3358)
 
-**Danno Ferrin:** Requires benchmarking against one of the clients.
-
-**Alex Beregszaszi:** Gave an update on Gitter. For this and EIP-2046, benchmarks show some numbers needs adjustment. Benchmarks show some reduction can be made, but not to the degree of the original proposal. Benchmarks listed in the Ethereum Magicians discussions for those EIPs.  
+**Alex Beregszaszi:** Benchmarks show some reduction can be made, but not to the degree of the original proposal. 
 
 #### 2.2.3 EIP-1702
 [**Generalized account versioning scheme**](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1702.md)
@@ -182,8 +166,6 @@ Video: [[34:57]](https://youtu.be/aZ0S_oLSwhE?t=2097)
 **Wie Tang:** A separate hardfork may be better.
 
 **Hudson Jameson:** Scrap it for Berlin.
-
-
 
 #### 2.2.4 EIP-1962
 [**EC arithmetic and pairings with runtime definitions replaces EIP-1829**](https://eips.ethereum.org/EIPS/eip-1962)
@@ -215,27 +197,27 @@ Video: [[1:00:26]](https://youtu.be/aZ0S_oLSwhE?t=3626)
 
 Video: [[1:00:56]](https://youtu.be/aZ0S_oLSwhE?t=3655)
 
-**Hudson Jameson:** There has been some community sentiment that they don't want it in. It's hard to tell if it's a few loud voices, or a community majority. This is already in blessed state in my opinion.
+**Hudson Jameson:** Hard to tell community push-back is a few loud voices, or a community majority. Already in  `Blessed`  state in my opinion.
 
-**Tim Beiko:** I'm curious on perspectives on:
+**Tim Beiko:** 
 - Is this something we want the community to signal through their nodes whether or not they want it?
 - Do we do a single ProgPoW hard fork?
 If it raises risk of the network splitting, do we value keeping the network together?
 - Do we not give it special treatment and group it with the other EIPs hoping nodes commit a full upgrade?
 
-**Hudson Jameson:** I say we don't change it, unless high probability of a controversial hard fork where people choose. That's my opinion though.
+**Hudson Jameson:** I say we don't change it, unless high probability of a controversial hard fork where people choose. 
 
-**James Hancock:** My opinion is to not treat it differently than any other EIP.
+**James Hancock:** Don't treat it differently than any other EIP.
 
-**Piper Merriam:** I'm torn down on this topic. I'm willing to implement this in our client, if that's what everyone else wants. Otherwise, I have no desire to put energy towards it. Other things are higher priority.
+**Piper Merriam:** I'm willing to implement this in our client, if others want. Otherwise, other tasks are higher priority.
 
-If miners really want this, for shifting a portion of miner rewards towards core protocol development. Something also controversial.
+If miners really want this, I suggest for shifting a portion of miner rewards towards core protocol development. Something also controversial.
 
 **Greg:** We looked and haven't found technical problems.  We've said yes more than once.
 
-**Hudson Jameson:** This one has blessing for sure.
+**Hudson Jameson:** Has blessing for sure.
 
-**Tim Beiko:** We can leave it blessed. But there is some distance to go live, as most concerns are not technical.
+**Tim Beiko:** We can leave it blessed. But there is some distance to go live, as most concerns are non-technical.
 
 
 #### 2.2.9 EIP-1559
@@ -257,9 +239,16 @@ Video: [[1:09:01]](https://youtu.be/aZ0S_oLSwhE?t=4141)
 
 ### 2.3 Process & Scheduling Discussion
 
-Video: [[16:01]](https://youtu.be/aZ0S_oLSwhE?t=961)
 
 Links: [EIP Centric fork](https://notes.ethereum.org/@holiman/S1ELAYY7S?type=view)
+
+Video: [[7:55]](https://youtu.be/aZ0S_oLSwhE)
+
+**Alex Beregszaszi:** I just wanted to ask that for every EIP change it would be nice to record a decision in the meeting notes so EIP editors can simply execute on the meeting notes. This can help for outstanding PRs without seeking again for confirmation.
+
+**Hudson Jameson:** Excellent. Yes, let's do that for the Berlin and others we talk about today if in final state.
+
+Video: [[16:01]](https://youtu.be/aZ0S_oLSwhE?t=961)
 
 
 Some discussion occurred on what constituted `Blessed` status. Conclusion was, `Blessed` indicates no Core Devs has rejected an EIP as an idea, serving as a first pass before reassesment after an implementation has been prototyped before final inclusion. `Blessed` indicted an idea has been greenlit for continued work. Furthermore, concern was brought forward for Core Devs reviewing each EIP individually, suggesting a solution possibly including delegation may be required.
