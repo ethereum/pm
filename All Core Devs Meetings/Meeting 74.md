@@ -32,7 +32,7 @@
 | Topic | Decision |
 |-------|----------|
 | Istanbul Block Number | 9,069,000 |
-| Istanbul EIP Deadline | 3rd Wednesday of March |
+| Berlin EIP Deadline | 3rd Wednesday of March |
 | EIP-1679 | `Accepted & Final` |
 | EIP-1679 | `Accepted & Final` |
 | EIP-152 | `Accepted & Final` |
