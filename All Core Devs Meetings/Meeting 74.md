@@ -155,7 +155,7 @@ Video: [[34:57]](https://youtu.be/aZ0S_oLSwhE?t=2097)
 
 **James Hancock:** Several EIPs are gated by account versioning.
 
-**Wie Tang:** New specification for account versioning made. 
+**Wei Tang:** New specification for account versioning made. 
 
 - https://that.world/~essay/nevm/
 
@@ -163,7 +163,7 @@ Video: [[34:57]](https://youtu.be/aZ0S_oLSwhE?t=2097)
 
 **Danno Ferrin:** Finishing account versioning for Berlin is unreasonable.
 
-**Wie Tang:** A separate hardfork may be better.
+**Wei Tang:** A separate hardfork may be better.
 
 **Hudson Jameson:** Scrap it for Berlin.
 
@@ -273,7 +273,7 @@ One needs to have the update for the Ice Age. All other EIPs, we don't want to d
 
 **Hudson Jameson:** Wei said they wanted to remove their name from some they have been championing. 
 
-**Wie Tang:** I won't be able to champion as I won't have enough time to do all the coordination. I don't have a replacement Champion. 
+**Wei Tang:** I won't be able to champion as I won't have enough time to do all the coordination. I don't have a replacement Champion. 
 
 **Hudson Jameson:** For the next two weeks, I propose we keep them to see if there are replacement Champions.
 
