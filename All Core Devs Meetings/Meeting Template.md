@@ -5,6 +5,8 @@
 ### [Reddit thread]()
 # Agenda
 
+# Decisions
+
 # Notes
 TODO
 
