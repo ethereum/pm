@@ -1,5 +1,5 @@
 # Ethereum Core Devs Meeting 76 Notes
-### Meeting Date/Time: Friday 20 September 2019 at 14:00 UTC
+### Meeting Date/Time: Friday 29 September 2019 at 14:00 UTC
 ### Meeting Duration: 1.5 hrs scheduled, 1 hour actual
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/140)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=BMMkxeH72U0&feature=youtu.be)
