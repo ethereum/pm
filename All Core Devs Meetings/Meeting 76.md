@@ -1,12 +1,40 @@
 # Ethereum Core Devs Meeting 76 Notes
-### Meeting Date/Time: Friday 29 September 2019 at 14:00 UTC
+### Meeting Date/Time: Friday 29 November 2019 at 14:00 UTC
 ### Meeting Duration: 1.5 hrs scheduled, 1 hour actual
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/140)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=BMMkxeH72U0&feature=youtu.be)
 ### Moderator: Hudson Jameson
 ### Notes: Jim Bennett
 
------
+## EIP Status
+| EIP | Status |
+|-------|----------|
+| EIP-1679 | `Accepted & Final` |
+| EIP-152  | `Accepted & Final` |
+| EIP-1108 | `Accepted & Final` |
+| EIP-1344 | `Accepted & Final` |
+| EIP-1803 | `Accepted & Final` |
+| EIP-1884 | `Accepted & Final` |
+| EIP-2028 | `Accepted & Final` |
+| EIP-2200 | `Accepted & Final` |
+| EIP-2348 | `Accepted & Final` |
+| EIP-2387 | `Last Call`
+| EIP-1702 | `Eligible for Inclusion` Pending Champion. Not accepted into Berlin |
+| EIP-663 | May not be ready. Currently depends on EIP-1702 |
+| EIP-1962 | Requires more Specification. Contact Champion |
+| EIP-1380 | `Eligible for Inclusion` |
+| EIP-1985 | Decision required around needing a Hard Fork |
+| EIP-2046 | `Eligible for Inclusion` |
+| EIP-1985 | `Eligible for Inclusion` |
+| EIP-1559 | `Eligible for Inclusion` |
+
+
+## Decisions
+| EIP | Status |
+|-------|----------|
+| EIP-2348 | `Accepted & Final` |
+| EIP-2387 | `Last Call`
+
 ## AGENDA
 
 ## 1. [Istanbul HF Community Call Next Wednesday :)](https://ethereum-magicians.org/t/istanbul-hard-fork-community-call/3816)
