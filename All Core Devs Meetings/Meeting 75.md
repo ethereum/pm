@@ -1,6 +1,6 @@
 # Ethereum All Core Devs Call 75 Notes
 	
-### Meeting Date/Time: Thursday October 24, 2019 at [14:00 GMT](http://www.timebie.com/std/gmt.php?q=14)
+### Meeting Date/Time: Friday November 15, 2019 at [14:00 GMT](http://www.timebie.com/std/gmt.php?q=14)
 ### Meeting Duration: 1:30 min
 ### [GitHub Agenda Page](https://github.com/ethereum/pm/issues/138)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=3qZFiETlDtk)
