@@ -25,7 +25,6 @@
 | EIP-1380 | `Eligible for Inclusion` |
 | EIP-1985 | Decision required around needing a Hard Fork |
 | EIP-2046 | `Eligible for Inclusion` |
-| EIP-1985 | `Eligible for Inclusion` |
 | EIP-1559 | `Eligible for Inclusion` |
 
 
