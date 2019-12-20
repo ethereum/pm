@@ -5,7 +5,7 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
 ### Previous Meetings
 
- №  | Date                             | Adgenda        |Notes          | Recording            |
+ №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
  76 | Friday, November 29, 2019 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/140) | [notes](All%20Core%20Devs%20Meetings/Meeting%2076.md) | [video](https://www.youtube.com/watch?v=BMMkxeH72U0) |
  75 | Friday, November 15, 2019 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/138) | [notes](All%20Core%20Devs%20Meetings/Meeting%2075.md) | [video](https://www.youtube.com/watch?v=3qZFiETlDtk) |
