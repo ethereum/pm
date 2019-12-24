@@ -17,7 +17,7 @@
 | EIP-1884 | `Accepted & Final` |
 | EIP-2028 | `Accepted & Final` |
 | EIP-2200 | `Accepted & Final` |
-| EIP-2348 | `Accepted & Final` |
+| EIP-2384 | `Accepted & Final` |
 | EIP-2387 | `Last Call`
 | EIP-1702 | `Eligible for Inclusion` Pending Champion. Not accepted into Berlin |
 | EIP-663 | May not be ready. Currently depends on EIP-1702 |
@@ -25,14 +25,13 @@
 | EIP-1380 | `Eligible for Inclusion` |
 | EIP-1985 | Decision required around needing a Hard Fork |
 | EIP-2046 | `Eligible for Inclusion` |
-| EIP-1985 | `Eligible for Inclusion` |
 | EIP-1559 | `Eligible for Inclusion` |
 
 
 ## Decisions
 | EIP | Status |
 |-------|----------|
-| EIP-2348 | `Accepted & Final` |
+| EIP-2384 | `Accepted & Final` |
 | EIP-2387 | `Last Call`
 
 ## AGENDA
