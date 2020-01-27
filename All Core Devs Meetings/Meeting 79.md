@@ -1,6 +1,6 @@
 ---
 date: 2020-01-24 14:00:00 UTC
-duration: 1:25:00
+duration: 1h 25m
 ---
 
 # All Core Devs Meeting 79
@@ -58,18 +58,16 @@ Action Item | Description
 3. [EIP Improvement Process Meeting](#3-eip-improvement-process-meeting) 
 4. [RPC Spec](#4-rpc-spec) 
 5. [Review Previous Decisions](#5-review-previous-decisions) 
-6. [Closing Remarks](#6-closing-remarks) 
-
 
 ---
 
 # 1. EIP Review
 
-**`video`** [**`7:25`**](https://youtu.be/0-Vld7GTRhQ?t=445)
+`video` [**`7:25`**](https://youtu.be/0-Vld7GTRhQ?t=445)
 
 ## 1.1 UNGAS
 
-**`video`** [**`7:25`**](https://youtu.be/0-Vld7GTRhQ?t=445)
+`video` [**`7:25`**](https://youtu.be/0-Vld7GTRhQ?t=445)
 
 UNGAS was introduced by Wei Tang, to be combined with Account Versioning and Reprising. UNGAS was introduced to make stateless Ethereum gas reprising easier. The proposal is to remove smart contracts, and any EVM code, to observe gas. We know this is currently possible through 3 mechanisms—with opcode GAS, in CALL-like instructions, and when hitting the "out of gas" exception.
 
@@ -96,7 +94,7 @@ UNGAS is currently unspecified under an EIP.
 
 ## 1.2 EIP-2464 (eth/65)
 
-**`video`** [**`33:51`**](https://youtu.be/0-Vld7GTRhQ?t=2032)
+`video` [**`33:51`**](https://youtu.be/0-Vld7GTRhQ?t=2032)
 
 EIP-2464 addresses making transaction propagation more optimally in the network. When blocks propagate, 25-50 peers connect, depending on the client. When a new block is found, that entire block is sent a few peers and announced to the rest. For the peers receiving the announcement, they recreate the block after a short wait. 
 
@@ -112,7 +110,7 @@ EIP motioned to be merged as a draft, and moved to `Last Call`.
 
 ## 1.3 EIP-2348 (Validated EVM contracts)
 
-**`video`** [**`44:37`**](https://youtu.be/0-Vld7GTRhQ?t=2676)
+`video` [**`44:37`**](https://youtu.be/0-Vld7GTRhQ?t=2676)
 
 A few changes have been added to EIP-2348 addressing concerns brought up. A rule was added to validation, limiting the size of a code segment to the contract size stored on-chain. The second change is in regards to the header. 
 
@@ -129,7 +127,7 @@ EIP-2348 is `Eligible for Inclusion` and awaiting implementation and reference t
 
 ## 1.4 EIP-2456 (Time Based Upgrade Transitions)
 
-**`video`** [**`1:02:25`**](https://youtu.be/0-Vld7GTRhQ?t=3745)
+`video` [**`1:02:25`**](https://youtu.be/0-Vld7GTRhQ?t=3745)
 
 This EIP is to use a timestamp and block number, instead of only a block number, for upgrades. A counter EIP, made by Jason, does exist but hasn't been formally made. The counter EIP is simpler and easier to implement. Instead of looking back on blocks to confirm activation, that time is used as confirmation. 
 
@@ -139,7 +137,7 @@ Future discussions tabled to Ethereum Magicians.
 
 ## 1.5 EIP-1962 (EC arithmetic and pairings with runtime definitions)
 
-**`video`** [**`1:10:32`**](https://youtu.be/0-Vld7GTRhQ?t=4232)
+`video` [**`1:10:32`**](https://youtu.be/0-Vld7GTRhQ?t=4232)
 
 All progress, updates, and optimizations posted to Github. A concern was brought up regarding assembly, in that assembly would be difficult to review. The part that is assembly is simple arithmetic, and the rest is code that can be reviewed. No external audit had been planned. 
 
@@ -147,7 +145,7 @@ All progress, updates, and optimizations posted to Github. A concern was brought
 
 ## 1.6 EIP-1559 (Fee market change for ETH 1.0 chain)
 
-**`video`** [**`1:16:53`**](https://youtu.be/0-Vld7GTRhQ?t=4613)
+`video` [**`1:16:53`**](https://youtu.be/0-Vld7GTRhQ?t=4613)
 
 A concern for deployment is minor collusion, and manipulating the fee in some way. James proposes to deploy ProgPoW first, then deploy EIP-1559 after. 
 
@@ -168,13 +166,13 @@ A concern for deployment is minor collusion, and manipulating the fee in some wa
 
 # 2. Testing Updates
 
-**`video`** [**`1:20:47`**](https://youtu.be/0-Vld7GTRhQ?t=4847)
+`video` [**`1:20:47`**](https://youtu.be/0-Vld7GTRhQ?t=4847)
 
 No testing updates.
 
 # 3. EIP Improvement Process Meeting
 
-**`video`** [**`1:21:09`**](https://youtu.be/0-Vld7GTRhQ?t=4869)
+`video` [**`1:21:09`**](https://youtu.be/0-Vld7GTRhQ?t=4869)
 
 Next meeting scheduled for January 29. EIP-IP meetings are documented in an Ethereum Cat Herders Github repo. 
 
@@ -182,7 +180,7 @@ Next meeting scheduled for January 29. EIP-IP meetings are documented in an Ethe
 
 # 4. RPC Spec
 
-**`video`** [**`1:23:23`**](https://youtu.be/0-Vld7GTRhQ?t=5000)
+`video` [**`1:23:23`**](https://youtu.be/0-Vld7GTRhQ?t=5000)
 
 When a block is retrieved on the RPC, if the block is pending the result is null. For the miner, it makes sense to be null, as for the hash. However, if there is a parent block, we will know what the block number will be, and transactions executing within do have access to that block number. The change is adding to spec to respond with a block number for pending blocks instead of returning null.
 
@@ -194,7 +192,7 @@ There were no objections to the change.
 
 # 5. Review Previous Decisions
 
-**`video`** [**`1:30:00`**](https://youtu.be/0-Vld7GTRhQ?t=5400)
+`video` [**`1:30:00`**](https://youtu.be/0-Vld7GTRhQ?t=5400)
 
 It may be good to discuss how early or late are the proposals for Berlin and London.
 
