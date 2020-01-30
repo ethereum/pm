@@ -29,7 +29,7 @@ EIP-663, EIP-2348, UNGAS | Depends on EIP-1702
 EIP-1962, EIP-1559 | Discussed under `EFI`. Discussion to be continued in EthMagician thread | 
 EIP-1985 | Discussed under `EFI`. Decision required around needing a Hard Fork 
 
-**Note: Removed EIP accepted in Istanbul.**
+*Note: Removed EIPs accepted in Istanbul.*
 
 
 ## Decisions Made
