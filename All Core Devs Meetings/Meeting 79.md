@@ -20,9 +20,16 @@ duration: 1:25:00
 
 EIP | Status
 ---|---
+EIP-1057, EIP-1803 | `Accepted & Final`
+EIP-2384, EIP-2387 |  Push it to `Final` when EIP reflects the additional text "that the block rewards are unchanged" |
 EIP-2464 | `Last Call`
-EIP-2348 | `Eligible for Inclusion`, not for Berlin
-UNGAS | `Eligible for Inclusion` after formal specification is made, not for Berlin
+EIP-1380, EIP-2046 | `Eligible for Inclusion` 
+EIP-1702 | `Eligible for Inclusion` Pending Champion. Not scheduled for Berlin 
+EIP-663, EIP-2348, UNGAS | Depends on EIP-1702 
+EIP-1962, EIP-1559 | Discussed under `EFI`. Discussion to be continued in EthMagician thread | 
+EIP-1985 | Discussed under `EFI`. Decision required around needing a Hard Fork 
+
+**Note: Removed EIP accepted in Istanbul.**
 
 
 ## Decisions Made
