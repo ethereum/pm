@@ -183,7 +183,7 @@ No testing updates.
 
 Next meeting scheduled for January 29. EIP-IP meetings are documented in an Ethereum Cat Herders Github repo. 
 
-- [EIPIP Repo](https://docs.google.com/document/d/1KzEMD21Joqn7IWk4WnocwraRuo66y7r2w8R9Wml4BN0)
+- [EIPIP Repo](https://github.com/ethereum-cat-herders/EIPIP)
 
 # 4. RPC Spec
 
