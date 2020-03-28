@@ -13,10 +13,9 @@
 ## EIP Status 
 | Status | EIP |
 |-------|----------|
-| Discussed under EFI. Discussion to be continued in EthMagician thread | EIP- 2537|
+| Discussed under EFI. Discussion to be continued in EthMagician thread | EIP- 2537, EIP-1962|
 | Under review for EFI. Decision required around needing a Hard Fork | EIP-2315, 2515 |
 | Eligible for Inclusion Pending. | EIP-2456 |
-|Not included | EIP-1962|
 
 
 ## Decision Items
