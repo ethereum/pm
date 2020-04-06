@@ -38,10 +38,10 @@ Yes.
 **Martin:**
 I would like to hear the suggestions of people with more experience in ethereum and cryptography.
 
-**Vub:**
+**Vitalik Buterin:**
 People are really interested in these curves, because so that they can efficiently prove over snarks. And this is useful for bunch of applications as if you want to use zero-knowledge proofs for both privacy and scalability, then your setup will need one layer of recursive snarking.
 
-* TLDR (19:00 - 24:40); Vub, Alex Vlasov, Kobi explains the need for these curves.
+* TLDR (19:00 - 24:40); Vitalik Buterin, Alex Vlasov, Kobi explains the need for these curves.
 * It won't be fatal for the ethereum network in the long term, also it will be very helpful to the developers.
 
 **Martin:**
@@ -65,7 +65,7 @@ We have a kind of deadline for BLS12-381, as far as I can understand, the other 
 **Alex Vlasov:**
 Is there any formal deadline? Because the implementation is not very different and I can wrap this up within a week.
 
-**Vub:**
+**Vitalik Buterin:**
 Meanwhile, I have another question on BLS12-381, so if we want to make a Eth2 light client inside Eth 1, the thing you mentioned which is not there is point to map construction?
 
 **James Hancock:**
@@ -730,6 +730,6 @@ Okay, let's wrap it up. It's already over. Gonna apologize for the time going ov
 * Stefan George
 * Snakethe4xor
 * Tim Beiko
-* vub
+* Vitalik Buterin
 
 # Date for Next Meeting: 20 March 2020 at 1400 UTC.
