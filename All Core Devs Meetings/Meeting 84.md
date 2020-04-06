@@ -17,12 +17,13 @@ EIP | Status
 ---|---
 EIP-1057, EIP-1803 | `Accepted & Final`
 EIP-2537, EIP-2315 | `Accepted` Targetting Berlin
+EIP-1559 | `Accepted`
 EIP-2464 | `Last Call`
-EIP-1380, EIP-2046,  EIP-2456 | `Eligible for Inclusion`
+EIP-1380, EIP-2046,  EIP-2456, EIP-2315, EIP-2541, EIP-2539, EIP-1985, EIP-1702, EIP-1380, EIP-663 | `Eligible for Inclusion`
 EIP-1702 | `Eligible for Inclusion` Pending Champion. Not scheduled for Berlin
 EIP-663, EIP-2348, UNGAS | Depends on EIP-1702
-EIP-1962, EIP-1559, EIP 2456, EIP 2515 | Discussed under `EFI`. Discussion to be continued in EthMagician thread |
-EIP-1985, EIP-2315, 2515 | Discussed under `EFI`. Decision required around needing a Hard Fork
+EIP-1962,  EIP 2456, EIP 2515 | Discussed under `EFI`. Discussion to be continued in EthMagician thread |
+EIP-2515 | Discussed under `EFI`. Decision required around needing a Hard Fork
 
 *Note—Removed EIPs included in Muir Glacier.*
 
