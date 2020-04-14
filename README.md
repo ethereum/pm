@@ -7,6 +7,8 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
+84 | Friday 3 April 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/162) | [notes](All%20Core%20Devs%20Meetings/Meeting%2084.md) | [video](https://www.youtube.com/watch?v=JqxVvJBhTxo) |
+83 | Friday 20 March 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/159) | [notes](All%20Core%20Devs%20Meetings/Meeting%2083.md) | [video](https://www.youtube.com/watch?v=vDGj660uZE0) |
 82 | Friday 6 March 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/155) | [notes](All%20Core%20Devs%20Meetings/Meeting%2082.md) | [video](https://www.youtube.com/watch?v=kham8c0qhmw) |
 81 | Friday 21 February 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/152) | [notes](All%20Core%20Devs%20Meetings/Meeting%2081.md) | [video](https://www.youtube.com/watch?v=zSRzlC_dCx8&feature=youtu.be) |
 80 | Friday, January 24, 2020 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/150) | [notes]() | [video](https://www.youtube.com/watch?v=535tJTI0c58&feature=youtu.be) |
