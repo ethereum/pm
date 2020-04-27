@@ -19,7 +19,7 @@
 | Eligible for Inclusion Pending Champion. Not accepted into Berlin | EIP-1702 |
 |May not be ready. Currently depends on EIP-1702 | EIP-663	|
 | Eligible for Inclusion | EIP-1380, EIP-2046|
-| Accepted & Final | EIP-152, EIP-1057, EIP-1108, EIP-1344, EIP-1679, EIP-1803, EIP-1884, EIP-2028, EIP-2200|
+| Accepted | EIP-152, EIP-1057, EIP-1108, EIP-1344, EIP-1679, EIP-1803, EIP-1884, EIP-2028, EIP-2200|
 
 ## DECISIONS
 	
