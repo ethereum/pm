@@ -13,8 +13,8 @@
 ## EIP Status 
 EIP | Status
 ---|---
-EIP-1057, EIP-1803, EIP-2384, EIP-2387 | `Accepted & Final`
 EIP-2464 | `Last Call`
+EIP-1057, EIP-1803, EIP-2384, EIP-2387 | `Accepted`
 EIP-1380, EIP-2046, EIP-2315 | `Eligible for Inclusion` 
 EIP-1702 | `Eligible for Inclusion` Pending Champion. Not scheduled for Berlin 
 EIP-663, EIP-2348, UNGAS | Depends on EIP-1702 
