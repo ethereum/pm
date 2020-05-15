@@ -37,8 +37,9 @@ Action Item | Description
 ---|---
 **86.1** | Decision required on looking at the contract code for Simple Subroutines.
 **86.2** | James to reach out to Alexi for merkalization in Simple Subroutines.
-**86.3** | Update EIP bot with Withdrawn
-**86.4** | Move EIP-2583 to Withdrawn
+**86.3** | ProgPoW compromise proposal to be decided on (testnet then pocket).
+**86.4** | Update EIP bot with Withdrawn
+**86.5** | Move EIP-2583 to Withdrawn
 
 
 ---
@@ -150,6 +151,10 @@ Latest discussions on ProgPoW can be seen and can be joined in the IfDefElse rep
 - https://gitter.im/ethereum-cat-herders/ProgPoW-review
 - https://ethereum-magicians.org/t/a-progpow-compromise-pre-proposal/4057
 - https://github.com/ifdefelse/ProgPOW/pull/52
+
+## Actions
+
+- **86.3**—ProgPoW compromise proposal to be decided on (testnet then pocket).
 
 # 5. EIP-2565: Repricing of the EIP-198 ModExp precompile. Specifically the open-ethereum benchmarking results per this comment.
 
@@ -337,8 +342,8 @@ This EIP needs to be moved to Withdrawn.
 
 ## Actions
 
-- **86.3**—Update EIP bot with Withdrawn
-- **86.4**—Move EIP-2583 to Withdrawn
+- **86.4**—Update EIP bot with Withdrawn
+- **86.5**—Move EIP-2583 to Withdrawn
 
 
 # 11. Testing updates
