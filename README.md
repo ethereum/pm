@@ -7,6 +7,8 @@ The all core devs meeting is a technical meeting intended to bring together vari
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
+87 | Friday 15 May 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/169) | [notes](All%20Core%20Devs%20Meetings/Meeting%2087.md) | [video](https://www.youtube.com/watch?v=bGgzALuyY3w) |
+86| Friday 1 May 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/165) | [notes](All%20Core%20Devs%20Meetings/Meeting%2086.md) | [video](https://www.youtube.com/watch?v=MOZ7_0Tb95M) |
 85 | Friday 17 April 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/164) | [notes](https://github.com/poojaranjan/pm/blob/ee277386af75621c48923f9740e4913ee241cd05/All%20Core%20Devs%20Meetings/Meeting%2085.md) | [video](https://www.youtube.com/watch?v=KlzwFLOj6Bw&feature=youtu.be) |
 84 | Friday 3 April 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/162) | [notes](All%20Core%20Devs%20Meetings/Meeting%2084.md) | [video](https://www.youtube.com/watch?v=JqxVvJBhTxo) |
 83 | Friday 20 March 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/159) | [notes](All%20Core%20Devs%20Meetings/Meeting%2083.md) | [video](https://www.youtube.com/watch?v=vDGj660uZE0) |
