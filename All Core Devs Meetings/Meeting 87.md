@@ -13,14 +13,10 @@
 EIP | Status
 ---|---
 EIP-2315, EIP-2537 | `Accepted` Targetting Berlin
-EIP-1057, EIP-1803, EIP-1559 | `Accepted`
+EIP-2046, EIP-2565 | Proposed for Berlin
 EIP-2464 | `Last Call`
-EIP-1380, EIP-2046,  EIP-2456, EIP-2315, EIP-2541, EIP-2539, EIP-1985, EIP-1702, EIP-1380, EIP-663 | `Eligible for Inclusion`
-EIP-1702 | `Eligible for Inclusion` Pending Champion. Not scheduled for Berlin
-EIP-663, EIP-2348, UNGAS | Depends on EIP-1702
-EIP-1962,  EIP 2456, EIP 2515 | Discussed under `EFI`. Discussion to be continued in EthMagician thread
-EIP-2515 | Has been withdrown from Berlin.
-EIP-2481 | `Draft`  (No reason to have EFI, today)
+
+For more up to date EIP status see the [EFI tracker](https://github.com/ethereum/EIPs/pull/2378).
 
 
 ## Decisions Made:
@@ -54,7 +50,7 @@ Action Item | Description
 **Hudson Jameson**
 Hi, everyone. I didn't start the stream correctly. This is Ethereum Core Developer Meeting 87.
 
-#1 [Berlin EIPs](https://docs.google.com/spreadsheets/d/1BomvS0hjc88eTfx1b8Ufa6KYS3vMEb2c8TQ5HJWx2lc/edit?ts=5ebe9851&pli=1#gid=0)
+### Agenda #1: [Berlin EIPs](https://docs.google.com/spreadsheets/d/1BomvS0hjc88eTfx1b8Ufa6KYS3vMEb2c8TQ5HJWx2lc/edit?ts=5ebe9851&pli=1#gid=0)
 
 And we are going to Agenda Item Number One, which is the Berlin EIPs.
 
@@ -525,7 +521,7 @@ We've had issues when there's some big miner and then there's some asymmetry and
 **Hudson Jameson**
 That's a good idea.
 
-#w [Eligible for Inclusion (EFI) EIP Review](https://youtu.be/bGgzALuyY3w?t=2836)
+### Agenda #2 [Eligible for Inclusion (EFI) EIP Review](https://youtu.be/bGgzALuyY3w?t=2836)
 
 Okay, we're skipping EFI so we can go to some of the EIPs that people want to bring up for the first time. I think that's a good idea, at least. What do you think, James? We've kind of gone over some of these before.
 
@@ -534,7 +530,7 @@ Yep. Perfect.
 
 Okay.
 
-#3 [Berlin Timing](https://youtu.be/bGgzALuyY3w?t=2852)
+### Agenda #3 [Berlin Timing](https://youtu.be/bGgzALuyY3w?t=2852)
 
 Oh, Berlin timing. So we're almost off of Berlin. But now we've crossed out the mainnet date. The proposed testnet date, I think we could have  the Alpha Testnet YOLO sooner, right? We don't really need to schedule that because it's not on a block number and it's just going to happen when it happens. Yeah, that sounds fine.
 
@@ -559,7 +555,7 @@ I don't think we need to go more into the testing. It would be nice to get up th
 **Hudson Jameson**
 Great. Okay.
 
-#4 [EIP-2565: Repricing of the EIP-198 ModExp precompile](https://youtu.be/bGgzALuyY3w?t=2969)
+### Agenda #4 [EIP-2565: Repricing of the EIP-198 ModExp precompile](https://youtu.be/bGgzALuyY3w?t=2969)
 
 Next up, I just put this agenda item number four back in from the last meeting. I don't know if anyone's here to speak on it. It's 2565 repricing of the EIP-198 ModExp precompile.
 
@@ -654,7 +650,7 @@ Okay, great. Thanks, James. Yeah, so it sounds like the plan is we'll make this 
 **Hudson Jameson**
 All right. Thanks, Kelly.
 
-#5 [EIP-2481: Adding request IDs to ETH protocol request and response objects](https://youtu.be/bGgzALuyY3w?t=3574)
+### Agenda #5 [EIP-2481: Adding request IDs to ETH protocol request and response objects](https://youtu.be/bGgzALuyY3w?t=3574)
 
 All right. The next item on the agenda is [EIP-2481: Adding request IDs to the ETH protocol request and response objects.](https://github.com/ethereum/EIPs/pull/2481)
 
@@ -725,7 +721,8 @@ They're already included.
 
 **Hudson Jameson**
 Oh, perfect.
-#6 [evm384: an alternative route to precompiles for supporting BLS12-381 on EVM (@axic/Ewasm)](https://youtu.be/bGgzALuyY3w?t=4125)
+
+### Agenda #6 [evm384: an alternative route to precompiles for supporting BLS12-381 on EVM (@axic/Ewasm)](https://youtu.be/bGgzALuyY3w?t=4125)
 
 Next up, we have evm384: an alternative route to precompiles for supporting BLS12-381 on the EVM (@axic/Ewasm)
 
