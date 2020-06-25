@@ -7,7 +7,7 @@ The purpose of thess calls is for various teams/individuals working on aspects o
 
  №  | Meeting | Date                             | Agenda           | Notes                  | Recording          |
 --- | ------- |--------------------------------  | :--------------: | :--------------------: | :----------------: |
-003 | EIP 1559 Implementers' Call 3 | Jun 24th 2020 | [🔗](https://github.com/ethereum/pm/issues/184) | TBA | [📺](https://www.youtube.com/watch?v=NEwo0v0zCUA&feature=youtu.be) |
+003 | EIP 1559 Implementers' Call 3 | Jun 24th 2020 | [🔗](https://github.com/ethereum/pm/issues/184) | 🔗](https://notes.ethereum.org/@afhGjrKfTKmksTOtqhB9RQ/SkN2TbfC8) | [📺](https://www.youtube.com/watch?v=2qDfW83gnDA&feature=youtu.be) |
 002 | EIP 1559 Implementers' Call 2 | May 28th 2020 | [🔗](https://github.com/ethereum/pm/issues/174) | [🔗](https://notes.ethereum.org/@afhGjrKfTKmksTOtqhB9RQ/BkDkCBAoI) | N/A |
 001 | EIP 1559 Implementers' Call 1 | Apr 30th 2020 | [🔗](https://github.com/ethereum/pm/issues/167) | [🔗](https://notes.ethereum.org/@afhGjrKfTKmksTOtqhB9RQ/HJlq2GYFU) | N/A | 
  
