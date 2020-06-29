@@ -217,7 +217,7 @@ This is a small technical change, but a large political and philisophical one.
 
 **Peter Szilagyi**: I can see some voices raising concern that we may be trying to hide that a network upgrade is a hard-fork. In EIP-1, we can make it abundantly clear what a network upgrade means. We shouldn't hide that a network upgrade is a hard-fork.
 
-**Michael Carter**: Maybe a quick traceability/matrix document that can be posted somewhere 'official' that is written in English? Create a draft -> go through a review across ACD offline then post final. Rather simple language (agnostic to English rather)
+**Michael Carter**:Maybe a quick traceability/matrix document that can be posted somewhere 'official' that is written in English? Create a draft -> go through a review across ACD offline then post final.Rather simple language (agnostic to English rather)
 
 **Tim Beiko**: Would it make sense to add something in EIP-1, and also define that they won't necessarily result in a chain-split. And use network upgrade when we talk of the upgrade itself, like on Meta-EIPs.
 
