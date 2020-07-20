@@ -1,4 +1,4 @@
-# All Core Devs Meeting 86 Notes
+# All Core Devs Meeting 90 Notes
 ### Meeting Date/Time: Friday 26 June 2020, 14:00 UTC
 ### Meeting Duration: 1.5 hrs
 ### [Github Agenda](https://github.com/ethereum/pm/issues/189)
