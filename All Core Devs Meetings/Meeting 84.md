@@ -78,9 +78,9 @@ EIP-1962 and BLS-Signature working group updates has a good amount of comments [
 
 [EIP-1962](https://eips.ethereum.org/EIPS/eip-1962) is considered `EFI`, however inclusion is not considered anytime soon. What is considered in the short term is the narrowed down pre-compile version in [EIP-2537](https://github.com/ethereum/EIPs/pull/2537).
 
-EIP-2537 would work to create a proxy contract for the Eth2.0 deposit contract that verifies inputs to the deposit contract. From [Alex Stoke's Medium article](https://medium.com/@ralexstokes/what-eth2-needs-from-eth1-over-the-next-six-months-86b01863746 ): 
+EIP-2537 would work to create a proxy contract for the Eth2.0 deposit contract that verifies inputs to the deposit contract. From [Alex Stoke's Medium article](https://medium.com/@ralexstokes/what-eth2-needs-from-eth1-over-the-next-six-months-86b01863746): 
 
->  The initial way to become a validator of eth2’s beacon chain will be via the deposit of ETH on a smart contract on eth1 known as the “deposit contract”. To save on gas costs and minimize complexity, this smart contract does not do much more than cryptographically commit to a given deposit (in a Merkle tree) which then allows a proof to be consumed on the beacon chain. Importantly, the BLS signature required to validate a deposit is not verified on the eth1 chain. This fact has already resulted in loss of testnet ETH when a series of BLS signatures were incorrectly computed due to a bug. By enabling verification of BLS signatures on the eth1 chain (enabled by EIP-2537), we can write a “forwarding” smart contract that takes the deposit data, verifies the signature and only then sends the deposit data to the deposit contract. This capability is not required for the deposit contract to work in a secure fashion but does add some extra peace-of-mind for developers interfacing with the deposit contract.
+> The initial way to become a validator of eth2’s beacon chain will be via the deposit of ETH on a smart contract on eth1 known as the “deposit contract”. To save on gas costs and minimize complexity, this smart contract does not do much more than cryptographically commit to a given deposit (in a Merkle tree) which then allows a proof to be consumed on the beacon chain. Importantly, the BLS signature required to validate a deposit is not verified on the eth1 chain. This fact has already resulted in loss of testnet ETH when a series of BLS signatures were incorrectly computed due to a bug. By enabling verification of BLS signatures on the eth1 chain (enabled by EIP-2537), we can write a “forwarding” smart contract that takes the deposit data, verifies the signature and only then sends the deposit data to the deposit contract. This capability is not required for the deposit contract to work in a secure fashion but does add some extra peace-of-mind for developers interfacing with the deposit contract.
 
 
 The proxy contract for the deposit contract should go through auditing, as the deposit contract has. A proxy contract can be audited before EIP-1962 is implemented. 
@@ -123,7 +123,7 @@ The spec of `fork_id` can also be changed. `fork_id` should be resolved before i
 
 ## 1.5—EIP-2046
 
-[2046 update in the agenda](https://github.com/ethereum/pm/issues/162#issuecomment-607975445 )
+[2046 update in the agenda](https://github.com/ethereum/pm/issues/162#issuecomment-607975445)
 
 EIP-2046 if implemented would reduce the gas cost of using precompiled contracts.
 
@@ -139,7 +139,7 @@ Discussion on BLAKE2 can be continued on Gitter.
 
 ## 1.6—Other items
 
-- [ HF meta for Berlin needs update](https://eips.ethereum.org/EIPS/eip-2070)
+- [HF meta for Berlin needs update](https://eips.ethereum.org/EIPS/eip-2070)
 - [Account abstraction](https://ethereum-magicians.org/t/implementing-account-abstraction-as-part-of-eth1-x/4020)
 
 ## Decisions
@@ -211,11 +211,11 @@ Code that generates blockchain tests reworked. Now retesteth can generate all bl
 
 VM tests were added to blockchain tests, and can now be run on Hive. 
 
- [retesteth.ethdevops.io]( http://retesteth.ethdevops.io/) was launched with statistics. Displays tests executed on supported clients like Geth, Aleth, and Besu. Anyone can contact Dimitry to have their client added to that statistics site. 
+[retesteth.ethdevops.io](http://retesteth.ethdevops.io/) was launched with statistics. Displays tests executed on supported clients like Geth, Aleth, and Besu. Anyone can contact Dimitry to have their client added to that statistics site. 
 
 Nethermind is not happy with the testing protocol. Possibly organize a call among Core Developers to see how testing can be improved. 
 
-Here is the discussion link for the testing channel:  https://gitter.im/ethereum/tests. Dimitry can be found there, and coordination for the test call can be done there. 
+Here is the discussion link for the testing channel: https://gitter.im/ethereum/tests. Dimitry can be found there, and coordination for the test call can be done there. 
 
 ## Actions
 
@@ -278,12 +278,12 @@ EIP-2046. Alex stepped up and did benchmarking. Other clients also may be doing 
 ## Links Mentioned
 
 - [Proposed changes to EIP-2315](https://github.com/ethereum/EIPs/pull/2576) 
-- [Alex Stoke's Medium article on EIP-2537](https://medium.com/@ralexstokes/what-eth2-needs-from-eth1-over-the-next-six-months-86b01863746 )
-- [2046 update in the agenda](https://github.com/ethereum/pm/issues/162#issuecomment-607975445 )
-- [ HF meta for Berlin needs update](https://eips.ethereum.org/EIPS/eip-2070)
+- [Alex Stoke's Medium article on EIP-2537](https://medium.com/@ralexstokes/what-eth2-needs-from-eth1-over-the-next-six-months-86b01863746)
+- [2046 update in the agenda](https://github.com/ethereum/pm/issues/162#issuecomment-607975445)
+- [HF meta for Berlin needs update](https://eips.ethereum.org/EIPS/eip-2070)
 - [Account abstraction](https://ethereum-magicians.org/t/implementing-account-abstraction-as-part-of-eth1-x/4020)
 - https://gitter.im/ethereum/tests
--  [retesteth.ethdevops.io]( http://retesteth.ethdevops.io/)
+- [retesteth.ethdevops.io](http://retesteth.ethdevops.io/)
 - [Penalty for account trie misses](https://github.com/ethereum/EIPs/blob/db1e389aae4e05654703d24862b0db91040bf745/EIPS/eip-draft-trie-penalty.md)
 - [EIPIP Survey](https://docs.google.com/forms/d/e/1FAIpQLSeadXscoQgrKznUOAEB_jSzNNFKHWDEFJxKH1LpDsDsC6mXpw/viewform)
 
