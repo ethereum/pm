@@ -74,7 +74,7 @@ Video | [13:27](https://youtu.be/UJ1jK73rKdk?t=807)
 
 **Martin Holst Swende**: The original EIP 2315 has been modified. There is a PR submitted chanigng the gas prices. Feeling of general consensus. Has not heard form Open Ethereum, Besu has already integrated. The other question is whether or not to implement the subroutine restrictions suggested by Axic, which is still under discussion. Possible agreement of using non-restricted subroutines for the testnet. If given a go-ahead, will merge.
 
-**David Mechler (Open Ethereum)**: Will evaluate after call. PR already made reflecting some changes to EIP 2315, another will be needed.
+**(Open Ethereum)**: Will evaluate after call. PR already made reflecting some changes to EIP 2315, another will be needed.
 
 **James Hancock**: The state in which EIP 2315 goes in to the YOLO testnet does not reflect the state in which it may go into mainnet, but is rather a convenience in implementation that might help us better understand in which state it should go into mainnet, if at all.
 
