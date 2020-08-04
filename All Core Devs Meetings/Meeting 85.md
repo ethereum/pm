@@ -260,7 +260,7 @@ And I don't know the best way to answer that last question. But that's kind of t
 
 **Hudson**: Yeah , if someone wants to be a champion on this feel free. You would talk to James me and Danno about it or really either one of us three and we would connect you where you need to go to be the new champion on it. 
 
-**James**: EFI, but Request for Champion makes sense at least for a time. If a champion doesn’t show up then it should expire EFI. I’d propose. 
+**James**: EFI, but Request for Champion makes sense at least for a time. If a champion doesn’t show up then it should expire EFI. I’d propose.
 
 ### [EIP-2046: Reduced gas cost for static calls made to precompiles](https://ethereum-magicians.org/t/eip-2046-reduced-gas-cost-for-static-calls-made-to-precompiles/3291)
 
@@ -548,8 +548,8 @@ Couldn't be discussed.
 * Tim: https://github.com/MadeofTin/EIPs/blob/patch-16/EIPS/eip-2515.md
 * Tim: https://github.com/ethereum/rig/blob/master/eip1559/eip1559.ipynb
 * Tim: +1 on that. If someone champions it they can come back on the call once they’ve done some progress.
-* James: A point of process: We can move it off of the considered for Berlin List, and mark it as “Request for Champion But remain as EFI ? 
-* James: EFI, but Request for Champion makes sense at least for a time. If a champion doesn’t show up then it should expire EFI. I’d propose. 
-* Kelly: https://eips.ethereum.org/EIPS/eip-2565 
+* James: A point of process: We can move it off of the considered for Berlin List, and mark it as “Request for ChampionBut remain as EFI ?
+* James: EFI, but Request for Champion makes sense at least for a time. If a champion doesn’t show up then it should expire EFI. I’d propose.
+* Kelly: https://eips.ethereum.org/EIPS/eip-2565
 * Alex: https://ethresear.ch/t/you-can-kinda-abuse-ecrecover-to-do-ecmul-in-secp256k1-today/2384/17
 * https://github.com/ethereum/retesteth/issues/88
