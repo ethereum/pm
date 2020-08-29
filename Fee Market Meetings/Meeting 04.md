@@ -708,8 +708,9 @@ Okay then there's a pretty huge amount of work to get done in the next couple we
 * Tim Beiko
 * Trent Van Epps
 * Tomasz Stanczak
-* Vitalic Buterin 
-This lists people shown on the recording and zoom chat.
+* Vitalik Buterin 
+
+(People shown on the recording and zoom chat.)
 
 ## Next Meeting Date/Time
 
