@@ -18,8 +18,8 @@ EIP | Status
   
 Decision Item | Description
 --|--
-**94.1.1**: Discuss the possibility of launching a Prog POW on a test net next week in line with the Ben's compromise
-**94.1.2**: Move further discussion on precompile to ETH Magicians forum [here](https://ethereum-magicians.org/t/evm384-feedback-and-discussion/4533)
+**94.1.1** | Discuss the possibility of launching a Prog POW on a test net next week in line with the Ben's compromise
+**94.1.2** | Move further discussion on precompile to ETH Magicians forum [here](https://ethereum-magicians.org/t/evm384-feedback-and-discussion/4533)
   
   
   
@@ -27,9 +27,9 @@ Decision Item | Description
   
 Action Item | Description
 --|--
-**94.2.1**: Decide, by next meeting, whether to go with Axic's and update the sources that say we're going with EIP 2537
-**93.2.2**: Vitalik to start coordinating a writeup on the impact of the gas limit increase (what will it break)
-**93.2.3**: revisit the discussion on EIP 384
+**94.2.1** | Decide, by next meeting, whether to go with Axic's and update the sources that say we're going with EIP 2537
+**93.2.2** | Vitalik to start coordinating a writeup on the impact of the gas limit increase (what will it break)
+**93.2.3** | revisit the discussion on EIP 384
   
   
 ## Helpful Links
@@ -60,11 +60,11 @@ Link | Description
   
 Video | [3:56](https://youtu.be/q6bIeSu7r9o?t=236)
   
-**Hudson** - Hello and welcome to a theorem poor developer meeting No. 94, I'm your host, Hudson, and we're going to go to the first item on the agenda. Greg wants to give an update on the progress of EIP 10 57. So, Greg, if you want to admit and go through that real quick, that'd be great.
+**Hudson** - Hello and welcome to a theorem poor developer meeting No. 94, I'm your host, Hudson, and we're going to go to the first item on the agenda. Greg wants to give an update on the progress of EIP 1057. So, Greg, if go through that real quick, that'd be great.
   
 **Greg** - Yeah, we've been reviewing it. Oh, gosh. Since about April. We had a small suggestion from. Beast authority on the light evaluation attack and kick found a and exploit in.. there's actually a bug in its hash that crockpot W made just barely maybe exploitable in some future time. But within a few days we had a fix and by about May the fix was pretty well reviewed and tweaked so that it didn't have a performance impact. And soon enough I'll be pointing to a better reference implementation of the the latest for for the WIPA. And it's it's very readable right now. There's some stuff to do, maybe patching up links and things like that, so at the next meeting, I want to actually take that up way back. In meeting EIGHTY-ONE, we published a decision to move forward with it, in 82 we backed off and it was unclear, but the overall consensus was to go with with bans, compromise of just getting it up on tests, nets and keeping it ready, but not making an immediate decision on whether to deploy it. Just keep on it, keep an eye on the state of the network. So two weeks from now is when I want to discuss that. And by the end of the weekend, I'll put up some links to two places to do that.
   
-**Hudson** - great. I do want to ask I'm not seeing in the decisions made section in the notes anything about us definitely spinning up testnets for prog pow or spinning up Ropstein or anything specific like that. Did we in your recollection, was there like a specific tests that we talked about spinning up for it, or was it Ropstein or what?
+**Hudson** - great. I do want to ask, I'm not seeing in the decisions made section of the notes anything about us definitely spinning up testnets for prog pow or spinning up Ropstein or anything specific like that. Did we in your recollection, was there like a specific test that we talked about spinning up for it, or was it Ropstein or what?
   
 **Greg** - No doubt in two weeks, those are the sorts of details we can discuss if we decide to move forward.
   
@@ -80,7 +80,7 @@ Video | [3:56](https://youtu.be/q6bIeSu7r9o?t=236)
   
 **Martin** - Yeah, before we go into that, yeah, I just want to answer Hudson's question. So the funny thing is, if we are to if we were to actually do a profile on Ropstein, is that I don't think it would cause any problems because I know first cinching would start with a Herbertson and would immediately see like what strange difficulties is this and it'll get rejected. So it's a lot easier than, for example, if we did the hard fork with an evm change, that's not immediately noticeable when you first think. So there's a difference there.
   
-**Hudson** - Ok, cool, and then, James, you were asking everybody about rebooting Robstein or not rebooting Robstein but retiring Robstein, I guess you would say. Right?
+**Hudson** - Ok, cool and then, James, you were asking everybody about rebooting Ropstein or not rebooting Ropstein but retiring Ropstein, I guess you would say. Is that right?
   
 **James** - I just I remember conversations that it might be time to add Robson is is. It's time to do a different one. But I want to make sure I remember that correctly or if that was actually a sentiment from the group. Like, separate the UAW stuff, just is that something that we're considering?
   
@@ -208,11 +208,11 @@ Video | [33:38](https://youtu.be/q6bIeSu7r9o?t=2018)
   
 **Vitalik** - I mean, I'd definitely be happy to like I would personally definitely be OK with that and then well, the thing that we want to keep in mind also in the long run is that in the long run, we would probably wants to move toward a regime where contract contract code has either a much larger limit or no limit because we have code virtualization and we will be charging for a chunk. So and and in that context, like basically having your code be in one contract versus having your code being split among a bunch of a bunch of different addresses would be it would be almost equivalent potentially. But I would definitely see in terms a personal with a slight increase in the max contract size, especially if it helps alleviate the effects to developers.
   
-**Hudson** - Ok, Barton, did you have something? I think you're muted, Martin, if you're talking.
+**Hudson** - Ok, Martin, did you have something? I think you're muted, Martin, if you're talking.
   
 **Martin** - Oh, yeah, I didn't know it was my time, so I just I mean, this proposed change, I'm all for it and it's technically very simple. And I guess the big problem is that this is something the community knows. It is going to break stuff up. 1884 broke some stuff. Most of it could be fixed. If we bump it from 800 to 2000, some things will be irrevocably broken. Yes, it's kind of like we have to just decide, yes, this is worth it for the future of Ethereum. And I think. You know, um I just want to get your thoughts on that. I think it's worth it, but still, 
   
-**Vitalik** - In terms of the classes of things that would break like the mean, the biggest one is like twenty three hundred gas calls that are that do a storage look up, followed by a log, right. Do we know, like they also knew of a [?]?
+**Vitalik** - In terms of the classes of things that would break like the mean, the biggest one is like twenty three hundred gas calls that are that do a storage look up, followed by a log, right. Do we know, like they also knew of Martin?
   
 ***Martin** - I would say so, but one and also law at things which are linked to the security considerations for the it for 1884. Uh. Yeah, it's a little of storage fuck ups and then there's about twenty three hundred gas.
   
@@ -315,7 +315,7 @@ Video | [47:15](https://youtu.be/q6bIeSu7r9o?t=2835)
   
 **Axic** - So I'm actually quite optimistic on the speed, because I know that we we have done a really bad job at optimizing any of this, and we chose YUL as an implementation of language for implementation because it was the easiest to deal with. But it's just too high level to write this in an optimized or at least too high level today. And haff is haff has been used to for implementing XML on being one to eight with quite an amazing performance. And haff looks more like a mix between assembly and C++ templates. So I would say that is quite close to what people optimizing curve operations in C or go with assembly would do. So I don't think it would look so alien to to anyone who has done such optimization before. So I think it wouldn't take, you know, years to accomplish that. I cannot give, like, a hundred percent accurate idea how long this would take, but I think if there are at least two different teams working at two different aspects, then we can get.. the two different aspects would be One team or person implementing just repairing operation, for example, in haff, using these apps and other team, which likely could be the same team, is optimizing the OP code and EVM. I think this process shouldn't take longer than if they are the right people this shouldn't take any longer than one or two months and this should give us already a good hint where we can reach, you know, good performance. And, of course, you can spend infinite amount of time optimizing it. But I think just getting a first confirmation, if you have the right people, then it doesn't take that long. Implementing everything is on top of that. But just reaching the decision point, I don't think would take five, six months.
   
-**Hudson** - Ok, I'll go ahead, Aleksi, just to finish it up
+**Hudson** - Ok, I'll go ahead, Alexey, just to finish it up
   
 **Alexey** - so I just I just want to finish it up basically just know I'm not going to talk about technical details, but in general, I do understand the kind of frustration that it looks like there's a lot of work to be done. And so sort of keep hitting the wall on this stuff. And it is clearly that we are hitting the wall because. But it's not because there are basically like people on the other side who don't really want this to happen. But simply, I think it's because the we don't actually have so much this specific expertise in the in implementing teams yet. Maybe we will get that expertise. And that's why it takes such a long time to get everybody to sort of get comfortable with this because, you know, you don't really want to be running the code that you're you're not you're just you don't understand or you don't actually kind of sure that it works. So it does take time. but it gives us the good direction where if we want to do these things better and quicker, we do have to sort of bring this expertise into the teams. And hopefully, I mean, for example, one of the things that could come out of the proposed project is that somebody will have to reimplement again because, you know, we don't really have a lot of people who could actually implement the BLS three eight one. And I don't know how many people are actually comfortable with that stuff at all.
   
