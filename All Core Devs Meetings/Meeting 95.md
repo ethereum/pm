@@ -14,15 +14,13 @@
 
 EIP | Status
 --|--
-2315, 2537 | Accepted for Berlin and YOLO testnet|
-2565 | EFI, proposed for Berlin, currently not included in YOLO|
-2046 | Proposed for Berlin. Under Discussion to evaluate for adding to Yolo|
-EIP-2718 | EFI
-
+2718, 2929, 2935 | Going into YOLOv2
+2930, 2315 | Continue discussion for YOLOv2
 
 ## Decisions Made
 
 Decision Item | Decision
+-|-
 95.1 | Add [EIP 2718](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2718.md): Typed Transaction Envelope to YOLO v2.
 95.2 | Add [EIP-2929](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2929.md): Gas cost increases for state access opcodes to YOLO v2.
 95.3 | Continue to discuss [EIP-2930](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2930.md): Optional access lists.
@@ -108,17 +106,17 @@ Gas costs of average applications would only increase by 2%. Most applications a
 
 This EIP may supercede other EIPs people have been trying to push historically.
 
-**Alexy**: This EIP introduces a read list. Before we only had a write list. The correct solution I see is, yes increase the gas cost. But instead, introduce a specialized primitive so we can cache.
+**Alexey**: This EIP introduces a read list. Before we only had a write list. The correct solution I see is, yes increase the gas cost. But instead, introduce a specialized primitive so we can cache.
 
 **Vitalik**: I see it being less complicated. This uses transaction wide global variables, which are used in refunds, and self destruct. There is value having this out in the fairly short term.
 
-**Alexy**: First of all, is this really important? Do people really do that? If it is, we should introduce a mechanism for that.
+**Alexey**: First of all, is this really important? Do people really do that? If it is, we should introduce a mechanism for that.
 
 **Martin**: Solidity does it every time you make calls. We're not adding another cache layer. We're adding a boolean. Implementation wise, it's not too hard.
 
 **Vitalik**: If you want to get the benefit of not double charging ERC20 tokens, you have to redeploy every ERC20 token.
 
-**Alexy**: My main concern isn't performance. My main concern is complexity.
+**Alexey**: My main concern isn't performance. My main concern is complexity.
 
 **Vitalik**: These are things we've already done.
 
@@ -234,11 +232,13 @@ Going into YOLOv2:
 - 2718
 - 2929
 - 2935
-- 2711
 
 Continue discussion on:
 - 2930
 - 2315 (already on YOLOv1)
+
+Continue EFI Discussion
+- 2711
 
 2 left to talk about: 2565. 2565 is moving into final. The other is 2046. 2929 would supercede 2046. 2046 is pending until 2929 is decided on.
 

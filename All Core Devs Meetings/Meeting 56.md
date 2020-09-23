@@ -182,7 +182,7 @@ In general, a few people came to me and said that they want to help, so, I am go
 
 **Lane**: That was going to be my question. Do we see this something that falls under the purview of the cat herders?
 
-**Alexy**: It is still not clear and I hope it will get clear that what are the  decisions that these people are going to make. Because what we do want them to do is essentially is to aggregate some information, make a decision or we don't want them to make any decisions and they are going to be information aggregators? What is it?
+**Alexey**: It is still not clear and I hope it will get clear that what are the  decisions that these people are going to make. Because what we do want them to do is essentially is to aggregate some information, make a decision or we don't want them to make any decisions and they are going to be information aggregators? What is it?
 
 **Husdon**: We have a blog out, did we release yesterday? Pooja do you know about it?
 
@@ -299,7 +299,7 @@ The blog describes in detail what are these problems , how are we planning to ha
 
 **Hudson**: There was an Ewasm working group if it is still a working group or not. Lane do you have any updates or comments on that.
 
-**Lane**:  I think there is some confusion here. I think the Ewasm working group is like the Ewasm team and unfortunately neither Casey nor Alexy is on the call. Pawel, do you have anything to say? I don't know if I have anything to say on that.
+**Lane**:  I think there is some confusion here. I think the Ewasm working group is like the Ewasm team and unfortunately neither Casey nor Alexey is on the call. Pawel, do you have anything to say? I don't know if I have anything to say on that.
 
 **Pawel**: I don't have anything in particular. We are actually preparing for EthCC.
 

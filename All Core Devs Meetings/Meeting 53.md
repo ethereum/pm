@@ -262,10 +262,10 @@ Peter - I propose an alternative. This would change the hard fork because we rem
 
 Proposal→ instead of removing, we define a second hard fork that only removes this code. So even clients would have testnet capabilities. So leave it and then fork it and then have another hard fork that disables this code path. These two hard forks would trigger out the same block number. This allows for a clean upgrade and cleanly disables the EIP without rolling back. This will just take a couple of new tests.
 
-Alexy- I would add that later on when we reset all the testnests then we simply remove the code
+Alexey- I would add that later on when we reset all the testnests then we simply remove the code
 
 FJL- You would need to be able to reprocess the time between
-Alexy- It would only apply for testnets so if we reset all testnets because too big, we simply remove it.
+Alexey- It would only apply for testnets so if we reset all testnets because too big, we simply remove it.
 
 Peter- Need to reach out to the community to make sure no ones private network gets broken
 
@@ -281,7 +281,7 @@ Dimitry- What’s the difference? If they are happening on the same block
 
 Peter- We don’t want to kill all testnets that have already upgraded. With two hard forks, those who already upgraded can have a second hard fork in order downgrade
 
-Alexy- Saves time for fork prep and can get Ropsten alive quicker
+Alexey- Saves time for fork prep and can get Ropsten alive quicker
 
 Dimitry- Tests would look the same
 
