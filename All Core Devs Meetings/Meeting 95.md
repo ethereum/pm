@@ -240,7 +240,7 @@ Continue discussion on:
 Continue EFI Discussion
 - 2711
 
-2 left to talk about: 2565. 2565 is moving into final. The other is 2046. 2929 would supercede 2046. 2046 is pending until 2929 is decided on.
+2 left to talk about: 2565, 2046. 2565 is moving into final. The other is 2046. 2929 would supercede 2046. 2046 is pending until 2929 is decided on.
 
 
 ## 2.2 EIP-1559 Update
