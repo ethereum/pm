@@ -24,6 +24,8 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
     - Discussed in the [AllCoreDevs call #77](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2077.md#eip-1559) and [#97](https://github.com/ethereum/pm/pull/214/files?short_path=4d89329#diff-4d893291250cf226c77e67ad708be6f2) EIP-1559's elastic block size effectively doubles the potential effect of a DoS attack on mainnet. Solutions to this are outside the scope of this EIP and include things like [snapshot sync](https://blog.ethereum.org/2020/07/17/ask-about-geth-snapshot-acceleration/) and [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929). 
 - [ ] Transaction Encoding/Decoding
     - How 1559-style transactions are encoded and decoded is still an open question. [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718) would help here by providing a simple interface to add 1559-style transactions as a new type of transaction. 
+- [ ] Replace By Fee
+    - How EIP-1559 transactions are replaced by fee without creating DoS risks or requiring networking modifications is still being discussed. Several approaches have been proposed, and they need to be evaluated. 
 - [X] Transaction pool management 
     - Solved by a [recent change to the EIP](https://github.com/ethereum/EIPs/pull/2924) which removes the need for two transaction pools by interpreting legacy transactions as 1559-styles transactions where the `feecap` is set to the `gas price` and the `tip` is set to `feecap - base fee`. 
 - [X] Transition Period 
