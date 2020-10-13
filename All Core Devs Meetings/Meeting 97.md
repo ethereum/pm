@@ -30,7 +30,7 @@
 
 | Action Item | Description |
 | ----------- | ----------- |
-**97.2.1**: Ansger to bring back up CFI for EIP 2938 in two weeks
+|**97.2.1**| Ansger to bring back up CFI for EIP 2938 in two weeks |
 
 ## Helpful Links
 
