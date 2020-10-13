@@ -22,11 +22,11 @@
 | ------------- | ----------- |
 
 
-**97.1.1** | The expected EIPs in YOLO V2 are the two EIPs from YOLO V1 plus 2929
-**97.1.2** | Tomasz Stanczak to be the champion of EIP 2935
-**97.1.3** | Nothing else should go into V3 and potentially adopting Tomasz's idea -- to be fleshed out offline
-**97.1.4** | Don't include 2565 in YOLO V3 until the benchmarks are done and clients are more assured -- reassess if done within two weeks
-**97.1.5** | V1: 2315, 2537; V2: 2929; V3: 2718, 2930 -- 2935 (no YOLOs), 2565 -- determined next meeting if going into V3
+|**97.1.1** | The expected EIPs in YOLO V2 are the two EIPs from YOLO V1 plus 2929 |
+|**97.1.2** | Tomasz Stanczak to be the champion of EIP 2935 |
+|**97.1.3** | Nothing else should go into V3 and potentially adopting Tomasz's idea -- to be fleshed out offline|
+|**97.1.4** | Don't include 2565 in YOLO V3 until the benchmarks are done and clients are more assured -- reassess if done within two weeks|
+|**97.1.5** | V1: 2315, 2537; V2: 2929; V3: 2718, 2930 -- 2935 (no YOLOs), 2565 -- determined next meeting if going into V3|
 
 ## Actions Required
 
