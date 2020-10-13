@@ -67,6 +67,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 - [ ] Analysis of whether EIP-1559 is game-theoretically sound, and potential improvements
     - [Blockchain Resource Pricing by Vitalik Buterin](https://github.com/ethereum/research/blob/master/papers/pricing/ethpricing.pdf) 
     - [WIP by Tim Roughgarden](https://d24n.org/tim-roughgarden-will-work-on-eip-1559/)
+    - [EIP-1559 slides by Vitalik Buterin](https://vitalik.ca/files/misc_files/EIP_1559_Fee_Structure.pdf) 
 - [ ] Comparison of EIP-1559 with alternatives (e.g. [Escalator Fees](https://eips.ethereum.org/EIPS/eip-2593))
     - [WIP by Tim Roughgarden](https://d24n.org/tim-roughgarden-will-work-on-eip-1559/)
     - [Analysis by Deribit](https://insights.deribit.com/market-research/analysis-of-eip-2593-escalator/)
