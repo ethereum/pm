@@ -30,16 +30,13 @@
 
 | Action Item | Description |
 | ----------- | ----------- |
-
-
 **97.2.1**: Ansger to bring back up CFI for EIP 2938 in two weeks
 
 ## Helpful Links
 
 | Link Item | Link |
 | --------- | ---- |
-| **97.3.1**| [EIPs for ephemeral testnet and Berlin upgrade
-](https://docs.google.com/spreadsheets/d/1BomvS0hjc88eTfx1b8Ufa6KYS3vMEb2c8TQ5HJWx2lc/edit#gid=408811124) |
+| **97.3.1**| [EIPs for ephemeral testnet and Berlin upgrade](https://docs.google.com/spreadsheets/d/1BomvS0hjc88eTfx1b8Ufa6KYS3vMEb2c8TQ5HJWx2lc/edit#gid=408811124) |
 
 ---
 
