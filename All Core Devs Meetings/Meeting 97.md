@@ -38,8 +38,8 @@
 
 | Link Item | Link |
 | --------- | ---- |
-**97.3.1**| [EIPs for ephemeral testnet and Berlin upgrade
-](https://docs.google.com/spreadsheets/d/1BomvS0hjc88eTfx1b8Ufa6KYS3vMEb2c8TQ5HJWx2lc/edit#gid=408811124)
+| **97.3.1**| [EIPs for ephemeral testnet and Berlin upgrade
+](https://docs.google.com/spreadsheets/d/1BomvS0hjc88eTfx1b8Ufa6KYS3vMEb2c8TQ5HJWx2lc/edit#gid=408811124) |
 
 ---
 
