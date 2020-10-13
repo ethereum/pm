@@ -20,8 +20,6 @@
 
 | Decision Item | Description |
 | ------------- | ----------- |
-
-
 |**97.1.1** | The expected EIPs in YOLO V2 are the two EIPs from YOLO V1 plus 2929 |
 |**97.1.2** | Tomasz Stanczak to be the champion of EIP 2935 |
 |**97.1.3** | Nothing else should go into V3 and potentially adopting Tomasz's idea -- to be fleshed out offline|
@@ -40,8 +38,6 @@
 
 | Link Item | Link |
 | --------- | ---- |
-
-
 **97.3.1**| [EIPs for ephemeral testnet and Berlin upgrade
 ](https://docs.google.com/spreadsheets/d/1BomvS0hjc88eTfx1b8Ufa6KYS3vMEb2c8TQ5HJWx2lc/edit#gid=408811124)
 
