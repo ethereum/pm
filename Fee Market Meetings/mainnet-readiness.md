@@ -28,7 +28,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
     - How EIP-1559 transactions are replaced by fee without creating DoS risks or requiring networking modifications is still being discussed. Several approaches have been proposed, and they need to be evaluated. 
 - [ ] Transaction pool sorting
     - What is the best function to sort both local and remote transactions in clients' transaction pools? 
-- [X] Transaction pool management 
+- [X] Legacy transaction management in transaction pool 
     - Solved by a [recent change to the EIP](https://github.com/ethereum/EIPs/pull/2924) which removes the need for two transaction pools by interpreting legacy transactions as 1559-styles transactions where the `feecap` is set to the `gas price` and the `tip` is set to `feecap - base fee`. 
 - [X] Transition Period 
     - Solved by a [recent change to the EIP](https://github.com/ethereum/EIPs/pull/2924) which removes the need for a transition period by interpreting legacy transactions as 1559-styles transactions. This means legacy transactions will be supported until an explicit change to the protocol is made to deprecate them. 
