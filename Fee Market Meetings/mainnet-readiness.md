@@ -56,6 +56,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 - [ ] Single-client PoW testnet to ensure the spec works with PoW
     - Besu team to start 🔜 
 - [ ] Multi-client PoW testnet to ensure all code paths are tested; 
+- [ ] Large state testnet to analyze performance with ~100M accounts on chain. 
 
 ### Other Testing
 
@@ -73,13 +74,14 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 - [ ] Comparison of EIP-1559 with alternatives (e.g. [Escalator Fees](https://eips.ethereum.org/EIPS/eip-2593))
     - [WIP by Tim Roughgarden](https://d24n.org/tim-roughgarden-will-work-on-eip-1559/)
     - [Analysis by Deribit](https://insights.deribit.com/market-research/analysis-of-eip-2593-escalator/)
+    - ["Floating escalator" simulation](https://github.com/barnabemonnot/abm1559/blob/master/notebooks/floatingEscalator.ipynb) to model using the [escalator fees](https://eips.ethereum.org/EIPS/eip-2593) approach to the EIP-1559 tip parameter.
 
 ### Simulations
 
 - [X] [Stationary Users](https://nbviewer.jupyter.org/github/barnabemonnot/abm1559/blob/master/notebooks/stationary1559.ipynb)
 - [X] [Strategic Users](https://nbviewer.jupyter.org/github/barnabemonnot/abm1559/blob/master/notebooks/strategicUser.ipynb) 
+- [X] ["Floating escalator" simulation](https://github.com/barnabemonnot/abm1559/blob/master/notebooks/floatingEscalator.ipynb) to model using the [escalator fees](https://eips.ethereum.org/EIPS/eip-2593) approach to the EIP-1559 tip parameter
 - [ ] Legacy transaction simulations to model the transition period and the "tax" of interpreting legacy transactions as 1559-style transactions
-- [ ] "Floating escalator" simulation to model using the [escalator fees](https://eips.ethereum.org/EIPS/eip-2593) approach to the EIP-1559 tip parameter
 - [ ] "UX improvement" simulations to model what agents learn to do over time when submitting 1559-style transaction and what the impact is on them 
 - [ ] "Wallet defaults" simulations to model what defaults wallet should propose and when to shift them
 
