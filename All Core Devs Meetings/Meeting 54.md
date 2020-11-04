@@ -105,7 +105,7 @@ All videos for the Ethereum Stanford presentations can be found online:
 - [Ethereum 1.x Afternoon Day 3](https://www.youtube.com/watch?v=HAK3ijgLRoM)
    
 ## 2.2 State Fees
-- Alexy was hot available to provide update.
+- Alexey was hot available to provide update.
     
 ## 2.3 EWasm
 - Guillaume: Ewasm is independent of the rest of the Ethereum 1.x
@@ -117,7 +117,7 @@ All videos for the Ethereum Stanford presentations can be found online:
     
 ## 2.5 Simulation
 - Zak (Whiteblock): Vanessa presented on simulations on uncle rates using agredated data from the mainnet.
-    - We are working on a test plan on validating the hypothesis on sync failure and increasing state size. Working on generating 240 millions users. Generate this state probably by Wednesday. Save it and use it to run multiple tests using this state. Been documenting the process and will share it in due course. Working with Alexy and Andre. Suggest it is not just bandwidth.  
+    - We are working on a test plan on validating the hypothesis on sync failure and increasing state size. Working on generating 240 millions users. Generate this state probably by Wednesday. Save it and use it to run multiple tests using this state. Been documenting the process and will share it in due course. Working with Alexey and Andre. Suggest it is not just bandwidth.  
     - Martin: Keen to find out how the state was generated.
         - Zak: Shared how it was being done. And provided a twitter link: https://twitter.com/0xzak/status/1091019925970251778?s=20
 
@@ -152,7 +152,7 @@ All videos for the Ethereum Stanford presentations can be found online:
 It is the old standard but the new Ethereum 1.x is not yet ready.
     
 ## 4.8 Turbo Geth
--Alexy not available to provide update.
+-Alexey not available to provide update.
     
 ## 4.9 Nimbus
 -No one available to provide update.

@@ -400,7 +400,7 @@ There was [an AMA](https://ethereum-magicians.org/t/eip-1283-1706-ama/3467) with
 
 **Danno**: Another questions I asked on Eth Magician wasn't answer.As a developer I would have a nightmare trying to have to cram all of parameters in binary string. And I would like to hear what do you solidity invite things about the usability of the interface. Cryptography sounds great in everything, I have concerns about its usability as a developer.
 
-**Tim**: Just to be mindfulness of time again and based on what Alexy  and James had previously said, does it make sense to deal with those questions offline and come back to this EIP on the next call similarly to 1344?
+**Tim**: Just to be mindfulness of time again and based on what Alexey  and James had previously said, does it make sense to deal with those questions offline and come back to this EIP on the next call similarly to 1344?
 
 **Danno**: Yes, I asked my question 11 days ago. We can keep discussion on Eth Magician.
 

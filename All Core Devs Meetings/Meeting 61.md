@@ -121,7 +121,7 @@ Status: WIP
 
 **Alexey**: Well I understand this. The intention is clear to me, but I do not think that the EIP is the correct thing to be putting in. Because as far as I understand the EIP is the specification of the change. The specification of the change, from my point of view, cannot be produced in a high quality.
 
-**Boris**: Alexey, let me cut you off there. So, I understand that you have a particular hang up about not putting an EIP until its perfect. In part this is signaling to understand and plan. I personally, if you put an EIP up,  it says ALexey will fill it later with high-quality but I intend to get in the Istanbul, that would be awesome from a signaling perspective. Is that ideal, that like 30 different people; all put in things that basically said the same thing  - not useful. But what we have got today, I think that if you want to bring it an EIP past the deadline it will be considered because that's what ACD can do but in the meantime we'd like to push anyone else not named Alexy get there EIP set. Is that a fair thing that?
+**Boris**: Alexey, let me cut you off there. So, I understand that you have a particular hang up about not putting an EIP until its perfect. In part this is signaling to understand and plan. I personally, if you put an EIP up,  it says ALexey will fill it later with high-quality but I intend to get in the Istanbul, that would be awesome from a signaling perspective. Is that ideal, that like 30 different people; all put in things that basically said the same thing  - not useful. But what we have got today, I think that if you want to bring it an EIP past the deadline it will be considered because that's what ACD can do but in the meantime we'd like to push anyone else not named Alexey get there EIP set. Is that a fair thing that?
 
 **Alexey**: Well, yes! Maybe I'm just too hung up on this. we probably need to redifine, we need an EIP or just like a couple of lines saying that this is what I think should be happening.
 
@@ -146,7 +146,7 @@ c. intention to get your change into the next hardfork
 
 **Alexey**: Yes, so I can do that. I can describe what I would like to get there but I can't write EIP because from what I understand EIP, it has to be formal specification. So if we were agree that the EIP is basically not formal specification I'm going to do this. Or tell me what are the things I need to produce ?
 
-**Boris**: You and I dis updates to EIP 233. What if we say EIP XXX Alexy TBD but here is the name of it. Then at least we have a record in the same spot , in 1679.  We would actually have that listed.
+**Boris**: You and I dis updates to EIP 233. What if we say EIP XXX Alexey TBD but here is the name of it. Then at least we have a record in the same spot , in 1679.  We would actually have that listed.
 
 **Alex**: My **understanding of the EIP process** was that, that the first deadline lists EIPs which are in draft mode and we don't really have a concrete specification of what draft mode means, even for core EIPs. But I would assume the draft signals that it may not be fully specified, it has a general idea and it is likely to improve for the process. Probably the draft mode doesn't mean that it is fully formally specified.  It has an intention that it will be and where the first deadline my assumption was that whatever is proposed by the first deadline is the list of EIPs which are going to be deliberated on and it's very few exceptions new EIPs should not be possible to be proposed because that may just lengthen the process.
 
@@ -177,7 +177,7 @@ c. intention to get your change into the next hardfork
 3. And furthermore that as of this particular deadline 7 days from today, these EIPs today may still be in draft form they're not expected necessarily to be thorough and complete. And of course not expected to have implementations ready because there's two months following that, until July, I believe, for that to happen.
 Anyone opposed to those that summary otherwise we can keep moving.
 
-**Greg**: I'd like to volunteer but I'm too busy as an EIP editor Alex is an EIP editor.  Can someone volunteered just help very busy Alexy with the mechanics of what an EIP is very well defined and someone just said,  get them going get an abstract get them in, so we have numbers to refers to what Alexey wants to do. It so important that it gets done. It helps a lot to have numbers to point at and say these things.
+**Greg**: I'd like to volunteer but I'm too busy as an EIP editor Alex is an EIP editor.  Can someone volunteered just help very busy Alexey with the mechanics of what an EIP is very well defined and someone just said,  get them going get an abstract get them in, so we have numbers to refers to what Alexey wants to do. It so important that it gets done. It helps a lot to have numbers to point at and say these things.
 
 **Boris**: I'm fine to help you with the mechanics of it, but the other side, we need people in ACD that you can merge them.
 

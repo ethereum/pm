@@ -110,7 +110,7 @@ No updates on Turbo-Geth.
 
 **Martin**: The idea is not to schedule hardfork every 3 months but to speed to finish. If there are access test cases in clients then we can't pretty soon. 
 
-**Joseph**: Let me try to ask the question of who is having more information of Alexy's idea. Is it the possibility of windows open for hardfork every 3 months?
+**Joseph**: Let me try to ask the question of who is having more information of Alexey's idea. Is it the possibility of windows open for hardfork every 3 months?
 
 **Boris**: It was me who was putting words in Alexey's mouth. The context was he was having this multi hardfork plan and he is going to be anxious thinking about certain features are waiting for 6-9 months for implementation. I wanted to just jump in Joseph story for stepping  because there has been a suggestion to what you're saying "hardfork window". I think other people are saying including Martin is let's ship stuff when it's ready. So I'm not saying things need to be every 3 months but more frequent and it sounds like 3 months is like lower end of event that people say that's really tight and then 6 months. I have to look up but discussion around this where somewhere between 3-6 months shipping smaller features on a regular basis and coordinating among client. So that they shooting their process to support that is okay as long as it doesn't impact client maintenance.
 

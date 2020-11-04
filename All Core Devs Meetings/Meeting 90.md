@@ -192,7 +192,7 @@ Video | [1:24:33](https://youtu.be/IZEcukn9J0Y?t=5073)
 
 - Alex (axic)
 - Alex Vlasov
-- Alexy Akhunov
+- Alexey Akhunov
 - Artem Vorotnikov
 - Edson Ayllon
 - Greg Colvin
