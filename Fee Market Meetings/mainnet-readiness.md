@@ -69,7 +69,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 ### Other Testing
 
 - [x] Nethermind is using EIP-1559 as part of a client's network
-- [x] [Filecoin](https://filecoin.io/blog/roadmap-update-august-2020/) and [Celo](https://docs.celo.org/celo-codebase/protocol/transactions/gas-pricing) have implementations of EIP-1559 in their networks 
+- [x] [Filecoin](https://filecoin.io/blog/roadmap-update-august-2020/), [Celo](https://docs.celo.org/celo-codebase/protocol/transactions/gas-pricing) and [NEAR](https://insights.deribit.com/market-research/transaction-fee-economics-in-near/) have implementations of EIP-1559 in their networks 
 
 ## R&D 
 
