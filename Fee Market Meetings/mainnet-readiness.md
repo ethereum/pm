@@ -23,11 +23,9 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 - [ ] DoS risk on the Ethereum mainnet
     - Discussed in the [AllCoreDevs call #77](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2077.md#eip-1559) and [#97](https://github.com/ethereum/pm/pull/214/files?short_path=4d89329#diff-4d893291250cf226c77e67ad708be6f2) EIP-1559's elastic block size effectively doubles the potential effect of a DoS attack on mainnet. Solutions to this are outside the scope of this EIP and include things like [snapshot sync](https://blog.ethereum.org/2020/07/17/ask-about-geth-snapshot-acceleration/) and [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929). 
 - [ ] Transaction Encoding/Decoding
-    - How 1559-style transactions are encoded and decoded is still an open question. [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718) would help here by providing a simple interface to add 1559-style transactions as a new type of transaction. 
-- [ ] Replace By Fee
-    - How EIP-1559 transactions are replaced by fee without creating DoS risks or requiring networking modifications is still being discussed. Several approaches have been proposed, and they need to be evaluated. 
-- [ ] Transaction pool sorting
-    - What is the best function to sort both local and remote transactions in clients' transaction pools? 
+    - EIP-1559 transactions will be encoded using [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718), by adding 1559-style transactions as a new type of transaction. 
+- [ ] Transaction Pool Management
+    - How transactions are replaced, evicted sorted and gossiped under 1559 still needs to be formalized. A document will be created to capture current possibilities. 
 - [X] Legacy transaction management in transaction pool 
     - Solved by a [recent change to the EIP](https://github.com/ethereum/EIPs/pull/2924) which removes the need for two transaction pools by interpreting legacy transactions as 1559-styles transactions where the `feecap` is set to the `gas price` and the `tip` is set to `feecap - base fee`. 
 - [X] Transition Period 
@@ -35,16 +33,26 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 
 ### Testing 
 
-#### EIP Tests 
+#### EIPs & Reference Tests 
 
 - [ ] Reference / Consensus Tests 
   - While the EIP isn't ready for a full suite of reference tests yet, some parts of it are well defined enough to begin testing (e.g. the base fee calculation
 )
+- [ ] EIPs that return block or transaction data need to be updated to support EIP-1559 style transactions, specifically: 
+    - [ ] `eth_getTransactionByBlockNumberAndIndex`
+    - [ ] `eth_getTransactionByBlockHashAndIndex`
+    - [ ] `eth_getTransactionByHash`
+    - [ ] `eth_getTransactionReceipt`
+    - [ ] `eth_getUncleByBlockNumberAndIndex`
+    - [x] `eth_getBlockByHash` ([EIP-3041](https://eips.ethereum.org/EIPS/eip-3041))
+    - [x] `eth_getBlockByNumber` ([EIP-3044](https://eips.ethereum.org/EIPS/eip-3044))
+    - [x] `eth_getUncleByBlockHashAndIndex` ([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
+    - [x] `eth_getUncleByBlockNumberAndIndex` ([EIP-3046](https://eips.ethereum.org/EIPS/eip-3046))
 
 #### Community testing
 
 - [ ] JSON-RPC or equivalent commands that applications and tooling can use to interact with EIP-1559 
-  - EIPs need to be done to update `eth_getTransactionByHash`, `eth_getBlockByHash`, `eth_getBlockByNumber` and `eth_sendTransaction` to support EIP-1559-style transactions. 
+    - [x] [EIP-1559 Toolbox](http://eip1559-tx.ops.pegasys.tech/)
 - [ ] Public testnet that applications and tooling can use to test EIP-1559. 
 
 ### Testnets 
@@ -53,8 +61,8 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
     - [WIP by the Besu team](https://github.com/PegaSysEng/eip1559-tx-sender/) 
 - [x] Multi-client PoA testnet to ensure spec can be implemented;
     - WIP between Geth, Besu & Nethermind teams. 
-- [ ] Single-client PoW testnet to ensure the spec works with PoW
-    - Besu team to start 🔜 
+- [X] Single-client PoW testnet to ensure the spec works with PoW
+    - Done by Besu team.
 - [ ] Multi-client PoW testnet to ensure all code paths are tested; 
 - [ ] Large state testnet to analyze performance with ~100M accounts on chain. 
 
