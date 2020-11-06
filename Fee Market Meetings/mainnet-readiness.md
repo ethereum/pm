@@ -11,7 +11,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
     - [WIP implementation led by Vulcanize](https://github.com/vulcanize/go-ethereum-EIP1559/tree/eip1559_rebase)
 - [ ] **Besu**
     - [WIP implementation](https://github.com/hyperledger/besu/labels/EIP-1559)
-- [ ] **Nethermind** :star2: [**Hiring an implementer**](https://justjoin.it/offers/nethermind-ethereum-engineer) :star2:
+- [ ] **Nethermind** 
     - [WIP implementation](https://github.com/NethermindEth/nethermind/pull/2341)
 - [ ] **Open Ethereum**
     - N/A
