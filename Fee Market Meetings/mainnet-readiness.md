@@ -25,7 +25,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 - [ ] Transaction Encoding/Decoding
     - EIP-1559 transactions will be encoded using [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718), by adding 1559-style transactions as a new type of transaction. 
 - [ ] Transaction Pool Management
-    - How transactions are replaced, evicted, sorted and gossiped under 1559 still needs to be formalized. A document will be created to capture current possibilities. 
+    - How transactions are replaced, evicted, sorted and gossiped under 1559 still needs to be formalized. [This document](https://hackmd.io/unbJUt-HQgStvwmpLPsXsQ) highlights various possible approaches.
 - [X] Legacy transaction management in transaction pool 
     - Solved by a [recent change to the EIP](https://github.com/ethereum/EIPs/pull/2924) which removes the need for two transaction pools by interpreting legacy transactions as 1559-styles transactions where the `feecap` is set to the `gas price` and the `tip` is set to `feecap - base fee`. 
 - [X] Transition Period 
