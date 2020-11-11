@@ -1,14 +1,39 @@
-# All Core Devs Meeting 99 Notes
-### Meeting Date/Time: Friday 30 Oct 2020, 14:00 UTC
-### Meeting Duration: 1.5 hrs
-### [Github Agenda](https://github.com/ethereum/pm/issues/219)
+# All Core Devs Meeting 99 Notes <!-- omit in toc -->
+### Meeting Date/Time: Friday 30 Oct 2020, 14:00 UTC <!-- omit in toc -->
+### Meeting Duration: 1.5 hrs <!-- omit in toc -->
+### [Github Agenda](https://github.com/ethereum/pm/issues/219) <!-- omit in toc -->
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=GOWSrHtNZOQ)
-### Moderator: Hudson Jameson
-### Notes: Edson Ayllon
+### Moderator: Hudson Jameson <!-- omit in toc -->
+### Notes: Edson Ayllon <!-- omit in toc -->
+
+
 
 ---
 
-# Summary
+# Contents <!-- omit in toc -->
+
+- [Summary](#summary)
+  - [Decisions Made](#decisions-made)
+- [1. YOLOv3 & Berlin discussion](#1-yolov3--berlin-discussion)
+  - [1.1 YOLOv3 spec](#11-yolov3-spec)
+    - [Besu](#besu)
+    - [Geth](#geth)
+    - [Nethermind](#nethermind)
+    - [Open Ethereum](#open-ethereum)
+  - [1.2 Discord conversation](#12-discord-conversation)
+    - [Decisions](#decisions)
+  - [1.3 EIP-2537 fuzzing update](#13-eip-2537-fuzzing-update)
+- [2. Other updates / discussion](#2-other-updates--discussion)
+  - [2.1 EIP-2938 (Account Abstraction)](#21-eip-2938-account-abstraction)
+  - [2.2 Ropsten issues](#22-ropsten-issues)
+  - [2.3 EIP-2666](#23-eip-2666)
+- [Annex](#annex)
+  - [Attendance](#attendance)
+  - [Next Meeting Date/Time](#next-meeting-datetime)
+
+---
+
+# Summary 
 
 <!--
 ## EIP Status
@@ -26,10 +51,6 @@ Decision Item | Decision
 **99.1** | For now, 2537 is out of YOLOv3, and delayed until after the next hardfork.
 
 
----
-
-# Contents
- 
 ---
 
 # 1. YOLOv3 & Berlin discussion

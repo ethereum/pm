@@ -719,255 +719,255 @@ In a month.
 ## Zoom chat
 
 From Tim Beiko to Everyone: (11:02 AM)
- https://github.com/ethereum/pm/issues/197
+https://github.com/ethereum/pm/issues/197
  
 From Trent Van Epps to Everyone: (11:10 AM)
- Decentralization Foundation https://d24n.org/blog/ 
+Decentralization Foundationhttps://d24n.org/blog/
 
 From Micah to Everyone: (11:12 AM)
- If base_fee goes to 0, it can never go above 0.  :) 
+If base_fee goes to 0, it can never go above 0.  :)
 
 From Abdelhamid Bakhta to Everyone: (11:13 AM)
- Yeah totally thanks 
+Yeah totallythanks
 
 From Micah to Everyone: (11:14 AM)
- How many blocks between 1 nanoeth to 0 assuming 100% empty blocks? That is a much smaller number than I expected.  I was expecting millions. I'm 👍 of minimum increment/decrement of 1. We also need to start getting tooling to implement, which is more likely once it hits Kovan/Ropsten/Rinkeby.
+How many blocks between 1 nanoeth to 0 assuming 100% empty blocks?That is a much smaller number than I expected.  I was expecting millions.I'm 👍 of minimum increment/decrement of 1.We also need to start getting tooling to implement, which is more likely once it hits Kovan/Ropsten/Rinkeby.
 
 From Tomasz Stanczak to Everyone: (11:19 AM)
- sorry I will not be able to answer questions for a while - it is noisy here 
+sorry I will not be able to answer questions for a while - it is noisy here
 
 From Micah to Everyone: (11:20 AM)
- The problem with Kovan/Ropsten/Rinkeby is that they have a *lot* of empty blocks I believe (there is not congestion like mainnet). 
+The problem with Kovan/Ropsten/Rinkeby is that they have a *lot* of empty blocks I believe (there is not congestion like mainnet).
 
 From Trent Van Epps to Everyone: (11:20 AM)
- just a heads up James - your audio is cutting in and out/ might be an aggressive noise gate on your mic 
+just a heads up James - your audio is cutting in and out/ might be an aggressive noise gate on your mic
 
 From James Hancock to Everyone: (11:20 AM)
- I think it is my computer is chugging after being on too long 
+I think it is my computer is chugging after being on too long
 
 From James Hancock to Everyone: (11:20 AM)
- thanks for the heads up. I'll go slower 
+thanks for the heads up. I'll go slower
 
 From Georgios Konstantopoulos to Everyone: (11:26 AM)
- EIP2718 seems too generalized to me. Do we really wantHow important do people think it’s to bundle the tx envelope with 1559? You could add an optional version field, if present and set to v2 (or smith) it tries to decode it as eip1559 txs, otherwise defaults to current format (Ugh, omit the “do we really want” part)
+EIP2718 seems too generalized to me. Do we really wantHow important do people think it’s to bundle the tx envelope with 1559? You could add an optional version field, if present and set to v2 (or smith) it tries to decode it as eip1559 txs, otherwise defaults to current format(Ugh, omit the “do we really want” part)
  
 From Micah to Everyone: (11:27 AM)
- 1559 is one of new transaction types that are desired and have been desired in the past. 
+1559 is one of new transaction types that are desired and have been desired in the past.
 
 From Georgios Konstantopoulos to Everyone: (11:27 AM)
- Yeah, but do we need a generalized tx versioning scheme? 
+Yeah, but do we need a generalized tx versioning scheme?
 
 From Micah to Everyone: (11:27 AM)
- 2718 isn't *just* add 1559 transactions, it is to add that plus a bunch of other future transaction types in open EIPs. 
+2718 isn't *just* add 1559 transactions, it is to add that plus a bunch of other future transaction types in open EIPs.
 
 From James Hancock to Everyone: (11:27 AM)
- There are others that people are proposing 
+There are others that people are proposing
 
 From Georgios Konstantopoulos to Everyone: (11:29 AM)
- Can you link some? Didn’t see any in the agenda / in the PRs
+Can you link some? Didn’t see any in the agenda / in the PRs
  
 From Micah to Everyone: (11:30 AM)
- https://eips.ethereum.org/EIPS/eip-2711 is the one I care about.  There is also the possibility of 2803 being a typed transaction instead of a precompile, though I am currently preferring precompile. THere was another one that is open... but I'm blanking on it at the moment. https://eips.ethereum.org/EIPS/eip-2733 (though overlaps with 2711) 
+https://eips.ethereum.org/EIPS/eip-2711 is the one I care about.  There is also the possibility of 2803 being a typed transaction instead of a precompile, though I am currently preferring precompile.THere was another one that is open... but I'm blanking on it at the moment.https://eips.ethereum.org/EIPS/eip-2733 (though overlaps with 2711)
 
 From Abdelhamid Bakhta to Everyone: (11:32 AM)
- @Vitalik you mentioned implementation of EIP-1559 for Eth 2.0, am I right ? I am curious, what group / people are working on that ? Could we try to leverage efforts 
+@Vitalik you mentioned implementation of EIP-1559 for Eth 2.0, am I right ? I am curious, what group / people are working on that ? Could we try to leverage efforts
 
 From lightclient to Everyone: (11:34 AM)
- @rick, what aspect of 2718 do you find underspecified? 
+@rick, what aspect of 2718 do you find underspecified?
 
 From Micah to Everyone: (11:34 AM)
- I think he was referring to 1559 being underspecified. 
+I think he was referring to 1559 being underspecified.
 
 From Micah to Everyone: (11:34 AM)
- I have heard him complain about that in the past.  :)
+I have heard him complain about that in the past.  :)
  
 From lightclient to Everyone: (11:34 AM)
- ah okay, i heard it as "2718 should be completed before we consider depending on it" 
+ah okay, i heard it as "2718 should be completed before we consider depending on it"
 
 From Micah to Everyone: (11:35 AM)
- I have an open PR to clean up 1559, but struggling to get agreement on it.  :) 
+I have an open PR to clean up 1559, but struggling to get agreement on it.  :)
 
 From Rick Dudley to Everyone: (11:35 AM)
- I think they are both underspecified. 
+I think they are both underspecified.
 
 From Micah to Everyone: (11:35 AM)
- Alexey, I think the issue is that tool developers don't have the same incentive as users.  We need MetaMask, Tether, etc. to update since their users can't update without them (effectively). And MetaMask isn't suffering directly when their user's suffer. 
+Alexey, I think the issue is that tool developers don't have the same incentive as users.  We need MetaMask, Tether, etc. to update since their users can't update without them (effectively).And MetaMask isn't suffering directly when their user's suffer.
 
 From Ian Norden to Everyone: (11:36 AM)
- Yes if people could please provide feedback here, that would be great https://github.com/ethereum/EIPs/pull/2859 I don’t want to approve it on my own accord, particularly when I don’t completely agree :D
+Yes if people could please provide feedback here, that would be great https://github.com/ethereum/EIPs/pull/2859 I don’t want to approve it on my own accord, particularly when I don’t completely agree :D
  
 From Micah to Everyone: (11:37 AM)
- @Rick I would love your feedback on 2718 (after meeting perhaps) on how we can improve it. 
+@Rick I would love your feedback on 2718 (after meeting perhaps) on how we can improve it.
 
 From lightclient to Everyone: (11:38 AM)
- also curious ^ 
+also curious ^
 
 From Micah to Everyone: (11:39 AM)
- We don't *want* miners increasing the block size right now is the problem. 
+We don't *want* miners increasing the block size right now is the problem.
 
 From Georgios Konstantopoulos to Everyone: (11:43 AM)
- Sorry why are we talking about blocksize 
+Sorry why are we talking about blocksize
 
 From Micah to Everyone: (11:43 AM)
- If 40% of users only can send legacy, 40% can only send 1559, and 20% can do either, that 20% will ensure that both pools are always full and you won't be able to tell which pool is *actually* in higher demand (what those percentages are).
+If 40% of users only can send legacy, 40% can only send 1559, and 20% can do either, that 20% will ensure that both pools are always full and you won't be able to tell which pool is *actually* in higher demand (what those percentages are).
  
 From Georgios Konstantopoulos to Everyone: (11:43 AM)
- lol 
+lol
 
 From James Hancock to Everyone: (11:44 AM)
- > Sorry why are we talking about blocksize
-Increasing blocksize (increasing the gas limit) isn't something we want to do in the short term 
+> Sorry why are we talking about blocksize
+Increasing blocksize (increasing the gas limit) isn't something we want to do in the short term
 
 From Georgios Konstantopoulos to Everyone: (11:45 AM)
- Adjusting block size is a 100% separate discussion which we shouldn’t be allocating bandwidth in this call :P EIP1559 long term block size is same as today’s 
+Adjusting block size is a 100% separate discussion which we shouldn’t be allocating bandwidth in this call :P EIP1559 long term block size is same as today’s
 
 From James Hancock to Everyone: (11:45 AM)
- IF we only allow block increases to the 1559 pool then that is no longer true 
+IF we only allow block increases to the 1559 pool then that is no longer true
 
 From Georgios Konstantopoulos to Everyone: (11:46 AM)
- Why would we? Do 1 thing and do it well instead of doing 10 
+Why would we? Do 1 thing and do it well instead of doing 10
 
 From Rick Dudley to Everyone: (11:47 AM)
- The incentives don't allow for that.
+The incentives don't allow for that.
  
  From Micah to Everyone: (11:51 AM)
- Basically, no one pays attention to client development until hard fork lands on mainnet.  :) 
+Basically, no one pays attention to client development until hard fork lands on mainnet.  :)
  
  From Georgios Konstantopoulos to Everyone: (11:52 AM)
- BaseFee on file coin for anybody that didn’t see it yet https://filfox.info/en/stats/gas 
+BaseFee on file coin for anybody that didn’t see it yet https://filfox.info/en/stats/gas
 
 From Barnabé Monnot to Everyone: (11:52 AM)
- 👍 
+👍
 
 From Georgios Konstantopoulos to Everyone: (11:52 AM)
- Mostly at 0, which makes sense since the chain is empty (duh) Switch to 7 day 
+Mostly at 0, which makes sense since the chain is empty (duh)Switch to 7 day
 
 From Barnabé Monnot to Everyone: (11:53 AM)
- Much higher than last time I checked still, it increased in the last hour?
+Much higher than last time I checked still, it increased in the last hour?
 
 From Micah to Everyone: (11:54 AM)
- I think there is almost 0% chance that we don't see both pools always 100% full. 
+I think there is almost 0% chance that we don't see both pools always 100% full.
 
 From Georgios Konstantopoulos to Everyone: (11:55 AM)
- Mapping this to prior events, this is like segwit and introduction of P2WSH. What about not enforcing a transition time to the new format? 
+Mapping this to prior events, this is like segwit and introduction of P2WSH. What about not enforcing a transition time to the new format?
 
 From Micah to Everyone: (11:55 AM)
- And let miners decide by vote or something? 
+And let miners decide by vote or something?
 
 From Georgios Konstantopoulos to Everyone: (11:56 AM)
- Potentially, or just leave it unspecified, whatever the miner decides
+Potentially, or just leave it unspecified, whatever the miner decides
  
  From Micah to Everyone: (11:57 AM)
- Uniswap is something like 90% bots. Uniswap *UI* is actually not that much gas usage total. 
+Uniswap is something like 90% bots.Uniswap *UI* is actually not that much gas usage total.
 
 From danny to Everyone: (11:58 AM)
- gotta run! thanks everyone 
+gotta run! thanks everyone
 
 From James Hancock to Everyone: (11:58 AM)
- thanks danny 
+thanks danny
 
 From Georgios Konstantopoulos to Everyone: (11:58 AM)
- @Micah false :p
+@Micah false :p
  
 From Micah to Everyone: (11:59 AM)
- I don't remember the exact number, but a while back Hayden indicated that a very disproportionate percentage of Uniswap usage is bots (it was well over 50%, I think it was like 75%+).
+I don't remember the exact number, but a while back Hayden indicated that a very disproportionate percentage of Uniswap usage is bots (it was well over 50%, I think it was like 75%+).
  
 From Micah to Everyone: (11:59 AM)
- IIUC, the currest proposal Alexey is making is to just fix it to 50:50 indefinitely. 
+IIUC, the currest proposal Alexey is making is to just fix it to 50:50 indefinitely.
 
 From Georgios Konstantopoulos to Everyone: (11:59 AM)
- 50% is probably right About uniswap volume form bots Just checked with the team 
+50% is probably rightAbout uniswap volume form botsJust checked with the team
 
 From Micah to Everyone: (12:00 PM)
- Current proposal starts at 50:50. Sort of... 
+Current proposal starts at 50:50.Sort of...
 
 From Georgios Konstantopoulos to Everyone: (12:00 PM)
- Gotta run too, ty all. 
+Gotta run too, ty all.
 
 From Micah to Everyone: (12:01 PM)
- At fork time, legacy transactions have 50% of space.  1559 *target* is 50% of space (but it is 2x ellastic). 
+At fork time, legacy transactions have 50% of space.  1559 *target* is 50% of space (but it is 2x ellastic).
  
  From Micah to Everyone: (12:02 PM)
- My objection to Alexey's proposal is that I don't think we'll get any *usable* data from that change.  I don't see any scenario where we don't see both buckets full other than Ethereum usage going to 0.
+My objection to Alexey's proposal is that I don't think we'll get any *usable* data from that change.  I don't see any scenario where we don't see both buckets full other than Ethereum usage going to 0.
  
  From Micah to Everyone: (12:04 PM)
- What is the objection to just being willing to hard fork away if we see people not adopting? 
+What is the objection to just being willing to hard fork away if we see people not adopting?
  IIUC, the debate is basically "we have to hardfork to stop it" vs "we have to hardfork to keep going".
  
  From Micah to Everyone: (12:13 PM)
- Do we have contact info for the centralized stuff?  I know how to contact the decentralized stuff (Uniswap, MetaMask, MEW, etc.) but not any of the centralized providers. 
+Do we have contact info for the centralized stuff?  I know how to contact the decentralized stuff (Uniswap, MetaMask, MEW, etc.) but not any of the centralized providers.
  
  From Micah to Everyone: (12:20 PM)
- I think Peter (of Geth team) was against 2718 without having a new transaction type included as part of it.  e.g., 2718 + 2711 or 2718 + 1559. 
+I think Peter (of Geth team) was against 2718 without having a new transaction type included as part of it.  e.g., 2718 + 2711 or 2718 + 1559.
  
  From Micah to Everyone: (12:22 PM)
- You *can* have 2718 without a second transaction type, Peter just doesn't like the idea of having 2718 with only legacy type.
+You *can* have 2718 without a second transaction type, Peter just doesn't like the idea of having 2718 with only legacy type.
  
  From Abdelhamid Bakhta to Everyone: (12:29 PM)
- I have to drop, thanks, bye 
+I have to drop, thanks, bye
 
 From Micah to Everyone: (12:31 PM)
- I'm here, still chat only though.  :P 
+I'm here, still chat only though.  :P
 
 From Tomasz Stanczak to Everyone: (12:31 PM)
- :) 
+:)
 
 From Me to Everyone: (12:33 PM)
- Cat Herders will help with communications as much as possible 
+Cat Herders will help with communications as much as possible
 
 From Micah to Everyone: (12:33 PM)
- 100 hours of engineering is easier than 3 meetings with sales reps.  😛 
+100 hours of engineering is easier than 3 meetings with sales reps.  😛
 
 From James Hancock to Everyone: (12:33 PM)
- lol
+lol
  
  From Tomasz Stanczak to Everyone: (12:36 PM)
- can vulcanize implement it in Nethermind too? :) 
+can vulcanize implement it in Nethermind too? :)
 
 From Micah to Everyone: (12:36 PM)
- Don't forget about the unemployed strangers on the internet that are too stupid to ask for money for their work.  😉 
+Don't forget about the unemployed strangers on the internet that are too stupid to ask for money for their work.  😉
  
  From Micah to Everyone: (12:43 PM)
- I don't get the *impression* that 1559 is a particularly hard engineering problem.  Of course depends heavily on how your code is structured, and I wish we had someone still on the call who had already implemented it in a real client.  😢 
+I don't get the *impression* that 1559 is a particularly hard engineering problem.  Of course depends heavily on how your code is structured, and I wish we had someone still on the call who had already implemented it in a real client.  😢
 
 From James Hancock to Everyone: (12:43 PM)
- yeah 
+yeah
 
 From Micah to Everyone: (12:43 PM)
- We could probably use some of that grant to fund development in additional clients and it won't be *too* expensive.
+We could probably use some of that grant to fund development in additional clients and it won't be *too* expensive.
  
  From Justin Leroux to Everyone: (12:46 PM)
- I think if the precise funding needs for fast-tracking this are outlined, it seems likely the community will quickly meet goals in the range being discussed by Alexey. It's easier to rally companies and individuals when the funding target and goals are more clearly defined. 
+I think if the precise funding needs for fast-tracking this are outlined, it seems likely the community will quickly meet goals in the range being discussed by Alexey. It's easier to rally companies and individuals when the funding target and goals are more clearly defined.
 
 From Tomasz Stanczak to Everyone: (12:47 PM)
- would be nice to be able to bid for delivery
+would be nice to be able to bid for delivery
  
  From Tomasz Stanczak to Everyone: (12:47 PM)
- because if Nethermind prices delivery at $20k and other project at $100k then maybe we can have more economic allocations :) 
+because if Nethermind prices delivery at $20k and other project at $100k then maybe we can have more economic allocations :)
 
 From Justin Leroux to Everyone: (12:47 PM)
- I mean, within the constraints Alexey outlined - you can't expedite observing a testnet.  :) 
+I mean, within the constraints Alexey outlined - you can't expedite observing a testnet.  :)
  
  From Micah to Everyone: (12:48 PM)
- $10k per team for implementation $20k for operational work $470,000 for talking to to CoinBase + Tether + MetaMask + MyEtherWallet + MyCrypto. 
+$10k per team for implementation$20k for operational work$470,000 for talking to to CoinBase + Tether + MetaMask + MyEtherWallet + MyCrypto.
  
  @Tomasz, curious how much you would consider a reasonable amount to prioritize this over other things on your plate?
  
  From Micah to Everyone: (12:48 PM)
- $10k per team for implementation $20k for operational work $470,000 for talking to to CoinBase + Tether + MetaMask + MyEtherWallet + MyCrypto. @Tomasz, curious how much you would consider a reasonable amount to prioritize this over other things on your plate? 
+$10k per team for implementation$20k for operational work$470,000 for talking to to CoinBase + Tether + MetaMask + MyEtherWallet + MyCrypto.@Tomasz, curious how much you would consider a reasonable amount to prioritize this over other things on your plate?
 
 From Micah to Everyone: (12:51 PM)
- Feel free to leave out my troll comments from the permanent record.  😉 
+Feel free to leave out my troll comments from the permanent record.  😉
 
 From Me to Everyone: (12:52 PM)
- https://docs.google.com/spreadsheets/d/1toow2aa-94n76dQ1VL_jlwGJmN14mjtpnFxYwemaBnE/edit#gid=0 
+https://docs.google.com/spreadsheets/d/1toow2aa-94n76dQ1VL_jlwGJmN14mjtpnFxYwemaBnE/edit#gid=0
 
 From Tomasz Stanczak to Everyone: (12:52 PM)
- g2g thanks everyone! 
+g2gthanks everyone!
 
 From James Hancock to Everyone: (12:52 PM)
- thanks tomasz 
+thanks tomasz
 
 From Micah to Everyone: (12:52 PM)
- 👋 
+👋
  
