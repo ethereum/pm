@@ -22,10 +22,10 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 
 - [ ] DoS risk on the Ethereum mainnet
     - Discussed in the [AllCoreDevs call #77](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2077.md#eip-1559) and [#97](https://github.com/ethereum/pm/pull/214/files?short_path=4d89329#diff-4d893291250cf226c77e67ad708be6f2) EIP-1559's elastic block size effectively doubles the potential effect of a DoS attack on mainnet. Solutions to this are outside the scope of this EIP and include things like [snapshot sync](https://blog.ethereum.org/2020/07/17/ask-about-geth-snapshot-acceleration/) and [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929). 
-- [ ] Transaction Encoding/Decoding
-    - EIP-1559 transactions will be encoded using [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718), by adding 1559-style transactions as a new type of transaction. 
 - [ ] Transaction Pool Management
     - How transactions are replaced, evicted, sorted and gossiped under 1559 still needs to be formalized. [This document](https://hackmd.io/unbJUt-HQgStvwmpLPsXsQ) highlights various possible approaches.
+- [x] Transaction Encoding/Decoding
+    - EIP-1559 transactions will be encoded using [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718), by adding 1559-style transactions as a new type of transaction. 
 - [X] Legacy transaction management in transaction pool 
     - Solved by a [recent change to the EIP](https://github.com/ethereum/EIPs/pull/2924) which removes the need for two transaction pools by interpreting legacy transactions as 1559-styles transactions where the `feecap` is set to the `gas price` and the `tip` is set to `feecap - base fee`. 
 - [X] Transition Period 
