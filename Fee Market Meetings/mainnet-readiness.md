@@ -8,7 +8,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 
 ### Client Implementation Status 
 - [ ] **Geth**
-    - [WIP implementation led by Vulcanize](https://github.com/vulcanize/go-ethereum-EIP1559/tree/eip1559_rebase)
+    - [WIP implementation led by Vulcanize](https://github.com/vulcanize/go-ethereum/tree/1559_test)
 - [ ] **Besu**
     - [WIP implementation](https://github.com/hyperledger/besu/labels/EIP-1559)
 - [ ] **Nethermind** 
