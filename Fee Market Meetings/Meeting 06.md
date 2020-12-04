@@ -6,7 +6,7 @@
 
 ### [GitHub Agenda](https://github.com/ethereum/pm/issues/215) <!-- omit in toc -->
 
-### [Audio/Video of the meeting](https://www.youtube.com/watch?v=LgvUnCdMXQg) <!-- omit in toc -->
+### Audio/Video of the meeting: [Part 1](https://www.youtube.com/watch?v=LgvUnCdMXQg), [Part 2](https://www.youtube.com/watch?v=oa4r8m-a2yM) <!-- omit in toc -->
 
 ### Moderator: Tim Beiko <!-- omit in toc -->
 
