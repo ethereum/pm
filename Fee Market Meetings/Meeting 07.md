@@ -721,4 +721,4 @@ Okay. I'll think I'll take this as a yes. Thanks a lot everybody this this was g
 
 ### Next Meeting
 
-TBD
+December 17, 16:00 UTC ([Agenda](https://github.com/ethereum/pm/issues/229))
