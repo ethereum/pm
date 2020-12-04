@@ -10,6 +10,8 @@
 
 ### [All Meetings](https://github.com/ethereum/pm/tree/master/Fee%20Market%20Meetings)
 
+### [Next Meeting](https://github.com/ethereum/pm/issues/229)
+
 ### Moderator: Tim Beiko
 
 ### Notes: Griffin Ichiba Hotchkiss
@@ -18,7 +20,7 @@
 
 # Summary
 
-Generally this call reviewed several pieces of research relating to proofing 1559, specifically an economic analysis written, simulations about how mixed legacy/1559 transactions would behave in the same pool, and testing the changes against a network with accounts and state comparable to mainnet. Generally the feeling is that there is enough robust analysis and research with this improvement to begin discussing the next steps in the process, i.e. how to move forward introducing to allcoredevs and Ethereum mainnet. Exciting! 
+Generally this call reviewed several pieces of research relating to proofing 1559, specifically an economic analysis written, simulations about how mixed legacy/1559 transactions would behave in the same pool, and testing the changes against a network with accounts and state comparable to mainnet. Generally the feeling is that there is enough robust analysis and research with this improvement to begin discussing the next steps in the process, i.e. how to move forward introducing to allcoredevs and Ethereum mainnet. Exciting!
 
 ### Agenda
 
@@ -30,6 +32,7 @@ Generally this call reviewed several pieces of research relating to proofing 155
 * EIP-2718 transaction type for EIP-1559 (1:24:00 - 1:27:00)
   * **Action Item**: Wait until 1559 is included into the geth codebase before reformatting 1559 txs as 2718-compatible (which will go into Berlin)
 * Mainnet readiness checklist review
+
 
 
 # Call Transcript
