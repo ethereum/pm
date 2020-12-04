@@ -49,11 +49,9 @@
 Action Item | Decision
 -|-
 **6.1** | Finish POA testnet
-**6.2** | Release report on POA testnet
-**6.3** | Create a testnet from a fork of mainnet
-**6.4** | Add 2718 after mainnet large state fork.
-**6.5** | Have every client what they do for replace by fee, for eviction, for accepting gossip of transaction, and transaction sorting.
-
+**6.2** | Create a testnet from a fork of mainnet
+**6.3** | Add 2718 after mainnet large state fork.
+**6.4** | Have every client what they do for replace by fee, for eviction, for accepting gossip of transaction, and transaction sorting.
 ---
 
 
