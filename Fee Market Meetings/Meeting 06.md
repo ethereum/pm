@@ -158,8 +158,7 @@ First item - Should we also implement 2718?
 ### Actions
 
 - **6.1**—Finish POA testnet
-- **6.2**—Release report on POA testnet
-- **6.3**—Create a testnet from a fork of mainnet
+- **6.2**—Create a testnet from a fork of mainnet
 
 
 ## 1.2 Demo - 1559 Toolbox
