@@ -89,7 +89,7 @@ Video | [0:00](https://youtu.be/LgvUnCdMXQg)
 Video | [18:29](https://youtu.be/LgvUnCdMXQg?t=1109)
 -|-
 
-Questions to consider. How much more time should we spend on POA testnet? And should we look into proof of stake in parallel? What's the next step?
+Questions to consider. How much more time should we spend on POA testnet? And should we look into proof of work in parallel? What's the next step?
 
 First item - Should we also implement 2718? 
 
