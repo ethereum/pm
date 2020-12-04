@@ -7,6 +7,7 @@ The purpose of thess calls is for various teams/individuals working on aspects o
 
  №  | Meeting | Date                             | Agenda           | Notes                  | Recording          |
 --- | ------- |--------------------------------  | :--------------: | :--------------------: | :----------------: |
+007 | EIP 1559 Implementers' Call 7 | Dec 3rd 2020 | [🔗](https://github.com/ethereum/pm/issues/226) | [🔗](https://github.com/ethereum/pm/blob/master/Fee%20Market%20Meetings/Meeting%2007.md) | [📺](https://www.youtube.com/watch?v=dopljpI59Rw&feature=youtu.be) |
 006 | EIP 1559 Implementers' Call 6 | Nov 5th 2020 | [🔗](https://github.com/ethereum/pm/issues/215) | [🔗](/Fee%20Market%20Meetings/Meeting%2005.md) | [📺](https://www.youtube.com/watch?v=LgvUnCdMXQg), [📺](https://www.youtube.com/watch?v=oa4r8m-a2yM) |
 005 | EIP 1559 Implementers' Call 5 | Aug 28th 2020 | [🔗](https://github.com/ethereum/pm/issues/209) | [🔗](https://github.com/ethereum/pm/blob/master/Fee%20Market%20Meetings/Meeting%2005.md) | [📺](https://youtu.be/SHVfypwL5W8) |
 004 | EIP 1559 Implementers' Call 4 | Aug 28th 2020 | [🔗](https://github.com/ethereum/pm/issues/197) | [🔗](https://github.com/ethereum/pm/blob/master/Fee%20Market%20Meetings/Meeting%2004.md) | [📺](https://www.youtube.com/watch?v=fI2IhcvuJA0) |
