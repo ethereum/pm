@@ -29,7 +29,7 @@ Action Item | Decision
 -|-
 **8.1** | Getting Besu, Nethermind and Geth onto our large state testnet, and scheduling a “transaction spamming” session and gather metrics from all three clients.
 **8.2** | Adding EIP-2718 support to EIP-1559 once Berlin is complete
-**8.3** | .Updating the transaction pool behavior.
+**8.3** | Updating the transaction pool behavior
 
 ---
 
