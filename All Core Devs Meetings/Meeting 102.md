@@ -18,14 +18,14 @@
 
 | Decision Item | Description |
 | ------------- | ----------- |
-| **102.1.1**   | Serialize the type transaction by wrapping RLP bytes in byte array string |                                                                                                                               |
-| **100.1.2**   | cancel dev stuff during week of 21st-25th because of holidays, potentially new years week; planning to continue work on implementations during the break and then have it mostly done by january 8th or so |                                                                                                                                        |
+| **102.1.1**   | Serialize the type transaction by wrapping RLP bytes in byte array string |                                                                       
+| **102.1.2** | Cancel dev stuff during the week of 21st-25th because of holidays, potentially new years week; planning to continue work on implementations during the break and then have it mostly done by January 8th or so |
 
 ## Actions Required
 
 | Action Item | Description                                                                                             |
 | ----------- | ------------------------------------------------------------------------------------------------------- |
-| **102.2.1** |  James to check in with clients next week and the 28th about implementation progress                           |
+| **102.2.1** |  James to check in with clients next week and the 28th about implementation progress                    |
 
 ---
 
