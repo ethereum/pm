@@ -26,7 +26,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
     - How transactions are replaced, evicted, sorted and gossiped under 1559 still needs to be formalized. [This document](https://hackmd.io/unbJUt-HQgStvwmpLPsXsQ) highlights various possible approaches.
 - [ ] (Nice to have) Base Fee Update Rule optimizations 
     - As per Tim Roughgarden's [analysis of 1559](http://timroughgarden.org/papers/eip1559.pdf) (Section 1.2, bullet 9), the base fee update rule is somewhat arbitrary and would gain from a more formal evaluation by an expert with a background in control theory. 
-- [ ] (Nice to have) Base Fee Opcode
+- [X] (Nice to have) Base Fee Opcode - [EIP-3198](https://github.com/ethereum/EIPs/pull/3198)
     - It would be nice to have a new opcode that would return a block's `BASE FEE` when EIP-1559 is deployed on mainnet. 
 - [x] Transaction Encoding/Decoding
     - EIP-1559 transactions will be encoded using [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718), by adding 1559-style transactions as a new type of transaction. 
