@@ -2,7 +2,7 @@
 
 This document is meant to capture various tasks that need to be completed before EIP-1559 is ready to be considered for mainnet deployement. This list is a work in progress and tries to aggregate known requirements. More things may be added in the future and checking every box is not a guarantee of mainnet deployement. 
 
-Tasks that are normally part of the "AllCoreDevs process" are not listed. In other words, this list is what should ideally be done _before_ moving EIP-1559 through the regular network upgrade process. 
+Tasks that are normally part of the "AllCoreDevs process" are not listed. In other words, this list is what should ideally be done _before_ moving EIP-1559 through the regular network upgrade process. This list is not exhaustive. A full list of 1559 resources is available [here](https://hackmd.io/@timbeiko/1559-resources). 
 
 ## Implementation
 
@@ -97,10 +97,9 @@ An Economic Analysis of EIP-1559" by Tim Roughgarden](http://timroughgarden.org/
 - [X] [Strategic Users](https://nbviewer.jupyter.org/github/barnabemonnot/abm1559/blob/master/notebooks/strategicUser.ipynb) 
 - [X] ["Floating escalator" simulation](https://github.com/barnabemonnot/abm1559/blob/master/notebooks/floatingEscalator.ipynb) to model using the [escalator fees](https://eips.ethereum.org/EIPS/eip-2593) approach to the EIP-1559 tip parameter
 - [X] [Legacy transaction simulations](https://github.com/NethermindEth/research/blob/main/legacyTransactions.ipynb)
-- [ ] "UX improvement" simulations to model what agents learn to do over time when submitting 1559-style transaction and what the impact is on them 
-- [ ] "Wallet defaults" simulations to model what defaults wallet should propose and when to shift them
 
 ## Community Outreach
 
+- [ ] Outreach to miners to better understand their objections to 1559, and stance if it is to be deployed on mainnet. 
 - [X] Community outreach to projects to gather feedback on EIP-1559 
     - [Initial report published by the Ethereum Cat Herders](https://medium.com/ethereum-cat-herders/eip-1559-community-outreach-report-aa18be0666b5). Feedback still can be shared [here](https://forms.gle/bsdgBtG8g7KYnQL48). More wallet and exchange feedback is still needed. An update to the report may be published once more feedback has been gathered.  
