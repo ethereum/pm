@@ -93,10 +93,9 @@ An Economic Analysis of EIP-1559" by Tim Roughgarden](http://timroughgarden.org/
 
 ### Simulations
 
-- [X] [Stationary Users](https://nbviewer.jupyter.org/github/barnabemonnot/abm1559/blob/master/notebooks/stationary1559.ipynb)
-- [X] [Strategic Users](https://nbviewer.jupyter.org/github/barnabemonnot/abm1559/blob/master/notebooks/strategicUser.ipynb) 
-- [X] ["Floating escalator" simulation](https://github.com/barnabemonnot/abm1559/blob/master/notebooks/floatingEscalator.ipynb) to model using the [escalator fees](https://eips.ethereum.org/EIPS/eip-2593) approach to the EIP-1559 tip parameter
-- [X] [Legacy transaction simulations](https://github.com/NethermindEth/research/blob/main/legacyTransactions.ipynb)
+- [X] [Agent-Based Simulations of EIP-1559](https://github.com/barnabemonnot/abm1559#abm1559)
+- [X] [Legacy vs EIP 1559 users in post EIP 1559 world](https://github.com/NethermindEth/research/blob/main/legacyTransactions.ipynb)
+- [X] [Manipulation of the basefee in the context of EIP-1559](https://medium.com/nethermind-eth/the-manipulation-of-the-basefee-in-the-context-of-eip-1559-4b082898271c)
 
 ## Community Outreach
 
