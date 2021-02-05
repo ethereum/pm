@@ -43,16 +43,16 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 - [ ] Reference / Consensus Tests 
   - While the EIP isn't ready for a full suite of reference tests yet, some parts of it are well defined enough to begin testing (e.g. the base fee calculation
 )
-- [ ] EIPs that return block or transaction data need to be updated to support EIP-1559 style transactions, specifically: 
+- [ ] EIPs that return block or transaction data need to be updated to support EIP-1559/2718 style transactions, specifically: 
     - [ ] `eth_getTransactionByBlockNumberAndIndex`
     - [ ] `eth_getTransactionByBlockHashAndIndex`
     - [ ] `eth_getTransactionByHash`
     - [ ] `eth_getTransactionReceipt`
     - [ ] `eth_getUncleByBlockNumberAndIndex`
-    - [x] `eth_getBlockByHash` ([EIP-3041](https://eips.ethereum.org/EIPS/eip-3041))
-    - [x] `eth_getBlockByNumber` ([EIP-3044](https://eips.ethereum.org/EIPS/eip-3044))
-    - [x] `eth_getUncleByBlockHashAndIndex` ([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
-    - [x] `eth_getUncleByBlockNumberAndIndex` ([EIP-3046](https://eips.ethereum.org/EIPS/eip-3046))
+    - [ ] `eth_getBlockByHash` ([EIP-3041](https://eips.ethereum.org/EIPS/eip-3041))
+    - [ ] `eth_getBlockByNumber` ([EIP-3044](https://eips.ethereum.org/EIPS/eip-3044))
+    - [ ] `eth_getUncleByBlockHashAndIndex` ([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
+    - [ ] `eth_getUncleByBlockNumberAndIndex` ([EIP-3046](https://eips.ethereum.org/EIPS/eip-3046))
 
 #### Community testing
 
