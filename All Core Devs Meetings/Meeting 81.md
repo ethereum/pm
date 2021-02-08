@@ -698,7 +698,7 @@ See you all in 2 weeks. Thank you so much. Bye everybody!
 
 **Tim**: https://ethereum-magicians.org/t/eip-2515-replace-the-difficulty-bomb-with-a-difficulty-freeze/3995
 
-**Tim**: @Zachary, how much time do you think you would need? I think we can maybe block off that amount at the end? 
+**Tim**: @Zachary, how much time do you think you would need? I think we can maybe block off that amount at the end?
 
 Trenton: https://www.etherchain.org/tools/difficultyBomb
 
@@ -708,7 +708,7 @@ Trenton: https://www.etherchain.org/tools/difficultyBomb
 
 **Hudson**: I say we just do it after the EFI section. So roughly middle of the call.
 
-**Duncan**: Youssef sent his colleagues +1 from EY to that!
+**Duncan**: Youssef sent his colleagues+1 from EY to that!
 
 **James**: https://hackmd.io/@ralexstokes/rJegpNo7I
 
@@ -723,13 +723,13 @@ want to hear more opinions if this solves anything :)
 
 **James**: +1
 
-**Zane**: example of ethereum spec https://playground.open-rpc.org/?schemaUrl=https://services.jade.builders/multi-geth/ethereum/1.9.9 
+**Zane**: example of ethereum spec https://playground.open-rpc.org/?schemaUrl=https://services.jade.builders/multi-geth/ethereum/1.9.9
 general specification docs: https://open-rpc.org/getting-started
 ethereum open-rpc spec: https://github.com/etclabscore/ethereum-json-rpc-specification
 
 **Andrea**: Sorry my mic doesnt work. A new testnet is already launched and running and free to join. On spec 0.9.3. Geth has implemented it in Holiman's branch while Parity is already merged
 
-**Trenton**: well that’s the definition of a network split, no? Martin is not Gnosis tho martin doesn’t make the entire organisation is what I meant. I agree with MHS
+**Trenton**: well that’s the definition of a network split, no?Martin is not Gnosis thomartin doesn’t make the entire organisation is what I meant. I agree with MHS
 
 **Andrea**: What about Kialo ?
 
