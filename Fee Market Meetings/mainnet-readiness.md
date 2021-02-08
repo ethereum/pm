@@ -71,8 +71,10 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
     - WIP between Geth, Besu & Nethermind teams. 
 - [X] Single-client PoW testnet to ensure the spec works with PoW
     - Done by Besu team.
-- [ ] Multi-client PoW testnet to ensure all code paths are tested; 
-- [ ] Large state testnet to analyze performance with ~100M accounts on chain. 
+- [X] Multi-client PoW testnet to ensure all code paths are tested; 
+    - The Rhoades testnet is a multi-client PoW testnet ([link](https://hackmd.io/@timbeiko/1559-prelim-perf))
+- [X] Large state testnet to analyze performance with ~100M accounts on chain. 
+    - The Rhoades testnet has 100m accounts and contract storage slots ([link](https://hackmd.io/@timbeiko/1559-prelim-perf))
 
 ### Other Testing
 
