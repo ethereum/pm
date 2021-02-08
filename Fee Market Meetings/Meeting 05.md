@@ -1,4 +1,4 @@
-# EIP-1559 Implementers' Call 5 Notes
+# EIP-1559 Implemnters Call 5 Notes
 
 ### Meeting Date/Time: Thursday, Oct 8th, 14:00 UTC
 
