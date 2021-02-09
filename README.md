@@ -1,7 +1,96 @@
+# Ethereum Project Management Repository
+
+This repository is used for project management for various initiatives affecting the Ethereum protocol, such as the All Core Devs calls, Ethereum 1.x calls and more.
+
 ## All Core Devs Meetings
 
 ### Purpose
-The all core devs meeting is a technical meeting intended to bring together various Ethereum teams who play major roles in determining the direction of the protocol. Ethereum client and research teams provide updates to their projects, discuss various [EIPs](https://eips.ethereum.org/) to improve the protocol, and support each other as we **buidl** Web 3.0.
+The All Core Devs meeting is a technical call intended to bring together various Ethereum teams who play major roles in determining the direction of the protocol. Ethereum client and research teams provide updates on their projects, discuss various [EIPs](https://eips.ethereum.org/) to improve the protocol, and support each other as we **buidl** Web 3.0.
+
+### Agendas
+
+Below are the agendas for the upcomming All Core Devs calls. To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss, when you would like to discuss this on All Core Devs, the amount of time you think you will need and links any relevant materials (EIPs, prototypes, etc.).
+
+Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
+- The topic is technical in nature.
+- The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
+- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
+
+<details>
+  <summary>February 19, 2021</summary>
+
+  #### Meeting Info
+  * [February 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/feb-19-2021/2pm)
+  * Duration: 90 minutes
+  * Youtube Stream: TBA
+
+  #### Agenda
+  1. [YOLOv3](https://github.com/ethereum/eth1.0-specs/blob/master/client-integration-testnets/YOLOv3.md) and [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
+  2. Other EIPs or discussion items.
+</details>
+
+<details>
+  <summary>March 5, 2021</summary>
+
+  #### Meeting Info
+  * [March 5, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-5-2021/2pm)
+  * Duration: 90 minutes
+  * Youtube Stream: TBA
+
+  #### Agenda
+  1. [YOLOv3](https://github.com/ethereum/eth1.0-specs/blob/master/client-integration-testnets/YOLOv3.md) and [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
+  2. Other EIPs or discussion items.
+</details>
+
+
+<details>
+  <summary>March 19, 2021</summary>
+
+  #### Meeting Info
+  * [March 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-19-2021/2pm)
+  * Duration: 90 minutes
+  * Youtube Stream: TBA
+
+  #### Agenda
+  1. [YOLOv3](https://github.com/ethereum/eth1.0-specs/blob/master/client-integration-testnets/YOLOv3.md) and [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
+  2. Other EIPs or discussion items.
+</details>
+
+<details>
+  <summary>April 2, 2021</summary>
+
+  #### Meeting Info
+  * [April 2, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-2-2021/2pm)
+  * Duration: 90 minutes
+  * Youtube Stream: TBA
+
+  #### Agenda
+  1. TBA
+</details>
+
+<details>
+  <summary>April 16, 2021</summary>
+
+  #### Meeting Info
+  * [April 16, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-16-2021/2pm)
+  * Duration: 90 minutes
+  * Youtube Stream: TBA
+
+  #### Agenda
+  1. TBA
+</details>
+
+<details>
+  <summary>April 30, 2021</summary>
+
+  #### Meeting Info
+  * [April 30, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-30-2021/2pm)
+  * Duration: 90 minutes
+  * Youtube Stream: TBA
+
+  #### Agenda
+  1. TBA
+</details>
 
 ### Previous Meetings
 
@@ -108,16 +197,10 @@ The all core devs meeting is a technical meeting intended to bring together vari
   1 | Mon, November 30, 2015           | None | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
   0 | ??                               | None | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
 
-
 ### Who Can Attend
 Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to Hudson Jameson at hudson@ethereum.org.
 
-### Agenda Items
-Agenda's are posted to https://github.com/ethereum/pm/issues. Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
-- The topic is technical in nature.
-- The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
-- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
-
 ### Who Manages the Meetings
-In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings.
-The meetings are independent of any organization. However, Hudson Jameson is a contractor for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
+In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings. Since 2018, the Ethereum Cat Herders have been in charge of note taking for the meetings. Starting March 2021, Tim Beiko will be facilitating the meetings.
+
+The meetings are independent of any organization. However, Hudson Jameson and Tim Beiko are contractors for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
