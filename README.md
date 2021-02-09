@@ -17,12 +17,12 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 - The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
 
 <details>
-  <summary>February 19, 2021</summary>
+  <summary>ACD 106: February 19, 2021</summary>
 
   #### Meeting Info
   * [February 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/feb-19-2021/2pm)
   * Duration: 90 minutes
-  * Youtube Stream: TBA
+  * Youtube Stream: https://youtu.be/anrbnroO3dc
 
   #### Agenda
   1. [YOLOv3](https://github.com/ethereum/eth1.0-specs/blob/master/client-integration-testnets/YOLOv3.md) and [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
@@ -30,7 +30,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 </details>
 
 <details>
-  <summary>March 5, 2021</summary>
+  <summary>ACD 107: March 5, 2021</summary>
 
   #### Meeting Info
   * [March 5, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-5-2021/2pm)
@@ -44,7 +44,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
 
 <details>
-  <summary>March 19, 2021</summary>
+  <summary>ACD 108: March 19, 2021</summary>
 
   #### Meeting Info
   * [March 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-19-2021/2pm)
@@ -57,7 +57,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 </details>
 
 <details>
-  <summary>April 2, 2021</summary>
+  <summary>ACD 109: April 2, 2021</summary>
 
   #### Meeting Info
   * [April 2, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-2-2021/2pm)
@@ -69,7 +69,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 </details>
 
 <details>
-  <summary>April 16, 2021</summary>
+  <summary>ACD 110: April 16, 2021</summary>
 
   #### Meeting Info
   * [April 16, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-16-2021/2pm)
@@ -81,7 +81,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 </details>
 
 <details>
-  <summary>April 30, 2021</summary>
+  <summary>ACD 111: April 30, 2021</summary>
 
   #### Meeting Info
   * [April 30, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-30-2021/2pm)
