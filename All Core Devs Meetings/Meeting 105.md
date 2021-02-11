@@ -1,242 +1,166 @@
-Hello, everyone, and welcome to a theory and core developer, meaning No one of five, I'm your host, Hudson, and today we're going to start off with YOLO, the three Anberlin client updates. So I think he'll of three launch. But let's get the latest from James.
+# 1. YOLO V3 & Berlin Client Updates
 
-It did launch. I saw messages from Vassa and.
+Video | [3:38](https://www.youtube.com/watch?v=ju92hAKzKcg&t=218s)
 
-Death bobbing around was everyone. Any updates on that or on status for singing for the clients?
+**Hudson** - Hello, everyone, and welcome to a theory and core developer, meaning No one of five, I'm your host, Hudson, and today we're going to start off with YOLO V three Anberlin client updates. So I think he'll of three launch. But let's get the latest from James.
 
-So we just started sinking at the end in mind, we went to the some of the first Bloxwich transactions in town, fixing some of the decoders, have it sinking very soon because all the IPPs out there and it's just the serialisation things for the network.
+**James** - It did launch. I saw messages from Vesu and geth bobbing around was everyone. Any updates on that or on status for singing for the clients?
 
-We start from the beginning. Yeah, seems fine, and that's open etherial.
+**Tomasz** - So we just started syncing at the end in mind, we went to the some of the first Bloxwich transactions in town, fixing some of the decoders, have it syncing very soon because all the IPPs out there and it's just the serialisation things for the network.
 
-Yeah. Mm hmm. And then Casey's bases in sync.
+**Dragan** - We start from the beginning. Yeah, seems fine.
 
-That's great. So that went up last Friday. And so now we're all that steam sinking. Mike asked a question, is spacesuit production ready?
+**James** - and that's open etherial? 
 
-I just like to make a note, though. Oh, yeah, yeah, I mean, there's been some transactions in the beginning, but I'm not sure if there's actually been any. Yeah, any transaction allowed to speak of. So it's really nice that the clients are thinking.
+**Rai** - Yeah. Mm hmm. And then Besu's in sync.
 
-But I suspect that if we don't really have a lot of coverage from it. Right. From the basic kind of basic coverage.
+**James** - That's great. So that went up last Friday. And so now while that's syncing. Micah asked a question, is besu production ready?
 
-And then is that at a point the first testing work can kind of start?
+**Martin** - I just like to make a note, though. Oh, yeah, yeah, I mean, there's been some transactions in the beginning, but I'm not sure if there's actually been any. Yeah, any transaction allowed to speak of. So it's really nice that the clients are syncing. But I suspect that if we don't really have a lot of coverage from it. Right. From the basic kind of basic coverage.
 
-Yes, it's at that point, but it hasn't really started OK?
+**James** - And then is that at a point the first testing work can kind of start?
 
-I mean, that's good for updates from yellow. That's good. So upcoming art is doing actually using it for testing and then also doing testing for testing. The clients are all thinking.
+**Martin** - Yes, it's at that point, but it hasn't really started OK?
 
-We talked a little bit in our Chordettes this morning for those who aren't there about the possibility of timing for what's next.
+**James** - I mean, that's good four updates from YOLO. That's good. So upcoming art is doing actually using it for testing and then also doing fuzz testing for testing. The clients are all syncing. We talked a little bit in all core devs this morning for those who aren't there about the possibility of timing for what's next. Meaning scheduling testnet fork blocks and main net fork blocks. And I don't want to, like, really rush into it, but I wanted to open up the conversation so we could start getting an idea of getting some of these things out and about for the for the network.
 
-Meaning scheduling just four blocks and main net four blocks.
+**Hudson** - While that's happening, we can continue with the conversation. So basically, yeah, we're going to just discuss some of the timing for the fork blocks on testnet and may not. It looks like this morning a few clients chimed in and specifically we were looking like. Test at four blocks, potentially first week of March and the main net last week of March as something we threw out there, do people have any initial thoughts on that? And I can just repeat what Martin said and chat that if the last week of March was the aim for main net, that I'd rather do the test that's even earlier. I'd rather Rush and bork test net than have to sort of test that time and Bork main net. Good point.
 
-And I don't want to, like, really rush into it, but I wanted to open up the conversation so we could start getting an idea of getting some of these things out and about for the for the network.
+**Micah** - What's different between YOLO V3 and roland test net?
 
-I just opened up something that's set me. I can still hear you. Is that what you're asking? I need to rejoin really quickly. OK, sounds good.
+**Martin** - Only the transaction I mean, the lope. did I understand the question? 
 
-While that's happening, we can continue with the conversation. So basically, yeah, we're going to just discuss some of the timing for the four blocks on Chestnut and may not. It looks like this morning a few clients chimed in and specifically we were looking like. Test at four blocks, potentially first week of March and the main net last week of March as something we threw out there, do people have any initial thoughts on that? And I can just repeat what Martin said and chat that if the last week of March was the same for Maine, that I'd rather do the test that's even earlier.
+**Micah** - I think that that answers it. Yeah, we don't have any intention of changing anything or adding anything or moving anything, right? [no]
 
-I'd rather Rush and Borca test net than have to sort of test that time and Borkman that. Good point.
+**Hudson** - Yeah, that's that's for sure. OK, let's see how James back there.
 
-What's different between your little three and Roland not?
+**James** - I'm back. But you asked what I was going to ask so that we can just keep going.
 
-Only the unfactual I mean, the. Over, did I understand the question? I think that that was a.
+**Hudson** - Cool. And you got some blocks for the midweek first week of March. But if we were to do it earlier, that would be, what, last week of February then?
 
-Yeah, we don't have any intention of changing anything or adding anything or moving anything, right?
+**Tim** - I guess maybe it makes more sense to go the opposite approach, like how much time do people think we need to just send out a release for test net that I'm just concerned like if we say it's like the last week of February, you know, like, is that enough? Because we still need to every client. We need to ship a release with the blocks sending them, and then every user needs to adopt those. So I I don't know what's like the right kind of amount of time we need for that first step and then however much time we want to see to see it on testnet's before it goes on not. Yeah. So I'm curious that people's thoughts are on that.
 
-No, no.
+**Martin** - Peter, didn't you once publish the suggestion on the rough times for the networks. 
 
-Yeah, that's that's for sure. OK, let's see how James back there.
+**Peter** - what did I publish?
 
-I'm back. But you asked what I was going to ask so that we can just keep going.
+**Martin** - like the stepping stone towards rolling out the network and like hardfork specification, this is how we should do it.
 
-Cool. And you got some blocks for the midweek first week of March. But if we were to do it earlier, that would be, what, last week of February then?
+**Peter** - Yeah, but we never actually follow that. My only suggestion was that's that's different from from the current approach was that we could. As an initial step, we could shadowfax crops then or something, essentially just to create a private network that is attached to Robstein and then just place all the network and I mean all the transactions from Robstein, just minding its own site chain side fork. And then the idea would be that that way, at least we would have some transaction throughput and some actual use case and actual test load be for actually working up some potentially. But that was my most of my view on how to do things.
 
-I guess maybe it makes more sense to go the opposite approach, like how much time do people think we need to just send out over these protests that I'm just concerned? Like if we say it's like the last week of February, you know, like, is that enough? Because we still need to every client. We need to ship a release with the blocks sending them, and then every user needs to adopt those.
+**Tim** - It feels like we might get we might already be doing some of that with the YOLO networks, right? It's not exactly the same thing, but it's..
 
-So I I don't know what's like the right kind of amount of time we need for that first step and then however much time we want to see to see it on Chestnut's before it goes on not. Yeah. So I'm sure that people's thoughts are on that.
+**Peter** - So essentially what you're doing is just mining empty blocks. So it's not really testing anything currently.
 
-Peter Silverglade didn't want to publish the suggestion on the. Rough times for the networks. Why didn't Ginger published at some point, like the stepping stone towards rolling out the artwork and like a double notification? This is how we should do it.
+**Tim** - Oh, yeah. Yeah. But I mean, the previous versions where we did we did some transactions on them right away, but those aren't real life transactions.
 
-Yeah, but we never actually follow the. Yeah, oh, yeah, my only suggestion was that's that's different from from the current approach was that we could. As an initial step, we could shadowfax crops then or something, essentially just to create a private network that is attached to Robstown and then just place all the network and I mean all the transactions from Robstown, just minding its own site chain side for. And then the idea would be that that way, at least we would have some transaction throughput and some actual use case and actual the test would be for actually working up some potentially. But that was my most of my view on how to do things.
+**Peter** - That's the problem is that these are kind of some synthetic transactions that somebody dreamed up, but they aren't really stress testing. Maybe just running some. Yeah, so essentially it's just some synthetic thing, the only true test comes when when you start running large transactions and at that point if you for crops then and then realize that there's something wrong, then that means Robstein needs to be rewound or something or uncorked. Versus if you are to create one of these shadow shadowcorx, at least if it goes to be Robstein but it doesn't damage to them. But we don't really have the infrastructure ready to to bridge the two networks and just the transitions and transactions across them, so. I don't think it would be too hard to pull off, but. So it won't be it probably requires some minimal effort that somebody would have to do that.
 
-Hmm.
+**James** - Would that be something other than you guys can do?
 
-It feels like we might get we might already be doing some of that with the yellow networks, right?
+**Peter** - I mean, probably any client do they just you just need to make a custom client that works on these networks.
 
-It's not exactly the same thing, but it's one of we're missing out the transactions.
+**James** - Yeah. Which is we're already doing that for Robstein.
 
-So essentially what you're doing is just mining empty blocks. So it's not really testing anything currently.
+**Micah** - I think this is similar to what we talked to previously about having a fork testnet that we're going to be testing against real state load and you basically need to just fork off, may not have an EIP or something like git on the fourth block decreases difficulty by, you know, many orders of magnitude and maybe change the chain. And if I can just get on with it, I don't think you want change chain id you want to continue to be the same. So that way you replay transactions from Main net on this shadow network so you can or perhaps or whatever you're forking so you can get real transactions like the main net transactions would be playing on this shadow chain, which is just running a slightly different set of rules that in this case.
 
-Oh, yeah. Yeah. But I mean, the previous versions where we did we did some transactions on them right away, but those aren't real life transactions.
+**Peter** - So come to think of it, probably what you could do is essentially just launch a private network with a different network id that should be so essentially just Robstein Genesis with a network. So that would ensure that clients who want to join in on this hacking network, they are separated off from from the Life Network. And at the networking layer, because that's kind of important, so that we don't start screwing with each other synchronization. And if you can get that done, then what you only need is one single node that is relaying transactions and. Yeah, I mean, we could probably hack that together just to have had a node running on ROPS and then just somehow stream it across to another node, not running across. Maybe just for every transaction that happens on Robstein, just call some transaction Robstein other side. So. That's probably fairly easily hackable together, if you want to do that.
 
-So. OK, got it. Yeah.
+**Micah** - And that can be done by someone other than a client dev. Sorry, I mean, the 4D node transaction, so you wouldn't change chain ID you can only change the network ID and so the network ID would be different on different networks, but the chain ID would be the same so that way all the transaction can be replayed. 
 
-That's the problem is that these are kind of some synthetic transactions that somebody dreamed up, but they aren't really stress testing.
+**Danno** - But clients are set up to reject transactions that don't match the chain ID.
 
-And I see maybe just.
+**Micah** - That's right, and so the chain chain I.D. match for Robstein and Shadow Robstein but Network I.D. do not match for Robstein and shadow Robstein.
 
-We're running some.
+**James** - In general, that sounds like a better direction to go to. Is that something we could do in the next in the next two weeks is how could that be done? And then look at forking Robstein the week after that.
 
-Yeah, so essentially it's just some synthetic thing, the only true test comes when when you start running large transactions and at that point if you for crops then and then realize that there's something wrong, then that means dropsondes to be rewound or something or uncorked. Versus if you are to create Vontez, shadow shadowfax, at least if it goes to be sustained. Robstown didn't say it doesn't damage to them.
+**Martin** - So I think I think doing doing this might work pretty well, but it will be kind of like a. Since since probably some transactions would fail, that's 16 or Robstein. Which will affect the state and the state changes will. Kind of snowball and eventually nothing would work.
 
-But we don't really have the infrastructure ready to to bridge the two networks and just the transitions and transactions across them, so.
+**Tim** - Is there a way we could test something like this, even if it was not for Berlin like. As kind of the equivalent of the YOLO networks on and on the next time around, so instead of launching empty networks, we basically launch Shadow forks. Because it just feels like it might work in two weeks if, like, everything goes right the first time, but given we've never done this, I can see it pretty likely scenario where it just doesn't work like we expect it and it ends up taking much longer. And I'm wondering if instead of maybe doing these YOLO networks next time around, something like this might be more helpful.
 
-I don't think it would be too hard to pull off, but. So it won't be it probably requires some minimal effort that somebody would have to do that.
+**Peter** - Well, I guess the thing is that Martin also mentioned that probably the networks would eventually diverge simply because you have a different miner on some transactions to get included in front order. And that means that we create one of these shadow forks then fairly quick. So I don't know how how fast, but eventually the networks will be so much diverged that the shadow fork could just be reverting transactions because. It would have just a different state than all the transactions would be doing stupid things.
 
-Would that be something other than you guys can do?
+**Micah** - That's my hunch, but I do. And I think the hunch is correct. I don't know. I also don't know on the how long that will take, but I think if we can make the process of creating a shadowfax easy enough, then we just run it for two weeks or a week or however long it takes to kind of diverge sufficiently and just reset. So we reset to the head of then redo the whole thing and we're back on track. And you're back to synced basically.
 
-I mean, probably any client do they just you just need to make a customer claim that the best way to do that works.
+**Peter** - That could be done. The only annoying part is doing the initial sync, so synchronising Robstein or. Even girlie starts to have weight, so. If you have to reset every two weeks, it gets annoying.
 
-Yeah. Which is we're already doing that for Obst and.
+**Micah** - And so definitely much easier for people or teams who already have, like Robstein running because you can just copy old folder basically or your whole database and then just change that. We're ready and move on. It's much harder if you're not syncing Robstein already for any reason.
 
-I think this is similar to what we talked to previously about having a fork test that we're going to be testing against real estate and you basically need to just fork off, may not have an IP or something like that on the fourth block decreases difficulty by, you know, many orders of magnitude and maybe change the chain. And if I can just get on with it, I don't think you want change to an idea that you want to continue to be the same. So that way you replay transactions from Minett on the network so you can or perhaps or whatever you're talking so you can get real transactions like the real Internet transactions would be playing on this shadow chain, which is just running a slightly different set of rules that in this case.
+**James** - It would be nice if we could if the next YOLO could be. So is the problem that currently YOLO is great for testing clients, but it isn't great for testing what's actually happens with data? So the shadow forking Robstein is would be able to test like real live data. Is there something we can do to Yolo that would also have that thinking and thinking forward? Is there something we could do to YOLO would have that same property? [no] So I would need to be either one of those to, like, not doing you a little.. you were goin to say something, keep going
 
-So come to think of it, probably what you could do is essentially just launch a private network with a different network idea that should be so essentially just Robstown Genesis with a network.
+**Peter** - The issue here is that you need. That's all the all the networks, even the test network, it's constantly evolving and the transactions are constantly changing. And even if we somehow try to build some. Some pool of transactions to test things with, probably it will get outdated fairly quickly. So that's why I was saying that usually just latching onto a live network is always getting the juiciest stuff. So we've I think there was a time when I'm not entirely sure which hard fork, but there was a hard fork where everything went perfectly for Robstein when we forked mainnet it blew up. And I don't remember which one. Or maybe maybe we realized that it could blow up and it never did blow up, but there was some issue that even in the past where some fork wasn't properly tested by not even Robstein. So that's why we're kind of reluctant at YOLO is it's kind of cute just to test out the synthetic tests, for example, tests that are included with EIPs just to make sure everybody seems to handle the forks OK? But the real test starts the with the test nets. Which we previously broke. We can try not to break.
 
-So that would ensure that clients who want to join in on this hacking network, they are separated off from from the Life Network. And at the networking layer, because that's kind of important, so that we don't start screwing with each other synchronization.
+**James** - So doing the Shadow fork could make it less likely that we break Robstein.
 
-And if you can get that done, then what you only need is one single node that is relaying transactions and.
+**Peter** - well, I think will be one more data point that things seem OK.
 
-Yeah, I mean, we could probably hack that together just to have had a node running on ROPS and then just somehow stream it across to another note, not running out of. Maybe just for every transaction that happens, rather than just call some transaction on the other side.
+**James** - Yeah, yeah, it wouldn't be conclusive. So is it worth trying to hack together the Shadow fork thing this time or just moving forward with doing a block on Robstein and saying, OK, let's fork.
 
-So. That's probably fairly easily hackable together, if you want to do that.
+**Micah** - if the client teams think they have the bandwidth for it, I would say it is worth it to do it sooner rather than later, because I think the same technique can be applied to shadow forking mainnet, and being able to test real main net that state real main net transactions, even if it gets out of sync in a week that is hugely valuable for reducing risk for final launch. So I think this general avenue of testing gives us a massive gains, in my opinion, in terms of real world testing that we're never going to get from Robstein or Cofan or Garley or any Yolo network, like we're not going to achieve that. And so I think this is a path that we should try to do. And the sooner we can do that, the better, because risk mitigation is good. But that being said, I'm not a clint dev and I don't know if you guys have the bandwidth actually do that in parallel with the current plan.
 
-And that can be done by someone other than a client of.
+**Martin** - Yeah, I mean, I, I agree with. With the assessment that we have bandwidth, uh, it would definitely would be preferable, um, but then I also think that maybe we should just. Yeah, yeah, I'm usually not very careful about the testnet, and I think we should use them for testing, um, and if they bork, so be it. And so I would prefer we just go ahead with it, but that's just I can see that other people may think otherwise.
 
-Davenport, Lambert.
+**Peter** - Well, just to give you an example of why I think it's problematic is because, for example, currently I'm not entirely sure whether the project is still or not, but reddit was doing a pilot project of this community tokin or whatever they called it, on top of rikavik, and essentially this means that reddit was actually running production systems, even if just by the production pilot project on Winkerbean. Which I think is somewhat forcing or pushing the limits of winkerbean, I kind of think it's somewhat still within the realm of acceptable use.
 
-I mean, I mean, I used to signatures. So, I mean, the 14 tragic, so you wouldn't change between I'd want you to network and so the network, it would be different on different networks, but the idea of the same. So that way all the transaction can be replayed. But clients are set up to reject transactions that don't match the unity. But that's right, and so the chain chain I.D. match for UPS and Shadow Robstown Network I.D. do not match for UPS and Rutzen.
+**Hudson** - Even if it wasn't if they were using test nets more than test nets, we can't really stop people from doing that if They're going to do it.
 
-In general, that sounds like a better direction to go to. Is that something we could do in the next block in the next two weeks is how could that be done? And then look at forking Robstown that week after that.
+**Peter** - Of course, if somebody is running some full production thing and we have to break it, then I won't have sleepless nights. But that doesn't mean we shouldn't read carefully so that we don't. Break it to two easily.
 
-So I think I think doing doing this might work pretty well, but it will be kind of like a. Since since probably some transactions would fail, that's 16 or Robstown. Which will affect the state and the state changes will.
+**Hudson** - Yeah, I think that it would be good if we try the new Shadow fork approach and then push the test net for block one week out from the last week of February date. So it's the first week of March for the first week of March for test net for Shadow fork one to two weeks before that. When it gets done is how I think it would be pretty cool unless what would we be able to get that done and the next Two weeks.
 
-Kind of snowballed and eventually nothing was the kind of work.
+Decision 1 | Video | [~24:57](https://youtu.be/ju92hAKzKcg?t=1497)
 
-Is there a way we could test something like this, even if it was not for Berlind like. As kind of the equivalent of the yellow networks on and on the next time around, so instead of launching empty networks, we basically launch Shadow Shadowfax. Because it just feels like it might work in two weeks if, like, everything goes right the first time, but given we've never done this, I can see it pretty likely scenario where it just doesn't work like we expect it and it ends up taking much longer. And I'm wondering if instead of maybe doing these yellow networks next time around, something like this might be more helpful.
+    Don't do shadow fork approach, make note to revist next fork as it's a better testing method but would require too much time right now and that time is better spent elsewhere
 
-Well, I guess the thing is that McMartin also mentioned that probably the networks would eventually diverge simply because you have a different line on some transactions to get included in front order.
+**James** - If it's something we had bad moment for for doing by the next call, then I'm like, okay, it might be a good idea, otherwise, I'd say it's worth doing it for the next, like realizing that this is a model we should implement for the next fork.And I built that into that process.
 
-And that means that we create one of these shadow forms then fairly quick. So I don't know how how fast, but eventually the networks will be so much diaper's that the Shadowfax could just be reverting transactions because. It would have just a different state than all the transactions would be doing stupid things.
+**Peter** - My guess is that we could have something together here. The catch is that you want the Shadow fork, Robstein or Main net, then we need a special fork flag to be able to nuke the difficulty out, obviously, because if we shadow fork main net, we don't want to have a mining boom behind it. So that's that's an extra feature, so besides changing that work on somebody implementing the breach, we also need all kinds to support this new kind of the difficulty. And if you want to show for the Winkerbean for Girdling, then again, we need a special flag in the clients to forcefully replace the authorized signers.
 
-That's my hunch, but I do. And I think the hunch is correct. I don't know. I also don't know on the how long that will take, but I think if we can make the process of creating a shadowfax easy enough, then we just run it for two weeks or a week or however long it takes to kind of diverge sufficiently and just reset. So we reset to the head of then redo the whole thing and we're back on track. And you're back to it's basically.
+**Tim** - Which I feel like that will take much more than two weeks, like it'll take, you know, maybe it's easy to implement, but we need to test that the different clients do it right together.
 
-That could be done. The only annoying part is doing the initial thing, so synchronising Robstown or. Even girlie starts to have weight, so.
+**Peter** - Yeah, so so Robstein and main net. It's probably easier because changing the essentially it's just an extra fork rule which just drops the difficulty. The rinkiby and girly nets might be a bit interesting because you have voting because they have some problem with the votes across this vote threshhold.
 
-If you have to establish two weeks, it gets like.
+**James** - Would it would it be OK if I'm like I'm envisioning the coordination of getting all the clients on to this would kind of be hard, but if we had just even one client or so go through the process so that we could set up the process for all the clients to join next time. Is that's still valuable.
 
-And so definitely much easier for people or teams who already have, like Robstown running because you can just copy old folder basically or your whole database and then just change that. We're ready and move on. It's much harder if you're not thinking of it already for any reason.
+**Micah** - I think so, was about to say the exact same thing There is any of the clients feel like they have lots of breathing room compared to the others. Maybe is the real question. Is anyone out there like, man, I really wish I had more work to do, or maybe it's it would that be?
 
-It would be nice if we could if the next YOLO could her. So is the problem that currently YOLO is great for testing clients, but it isn't great for testing what's actually happens with data? So the shadow for him, Robstown, is would be able to test like real live data. Is there something we can do to Yelo that would then also have that thinking and thinking forward? Is there something we could do that would have that same property?
+**James** - So if like the geth team would want to do that with someone else, want to join them on that, or would it be OK if 
 
-No, no. So I would need to be either one of those to, like, not doing you a little or something else or and keep going, you're going to say something.
+**Martin** - I guess for me personally, I would rather spend the next couple of weeks on the whole thing and then setting up to actually..
 
-And also, the issue here is that you need. That's all the all the networks, even the best network, but the special mean that it's constantly evolving and the transactions are constantly changing. And even if we somehow try to build some. Some pool of transactions to test things with, probably it will get outdated fairly quickly. So that's why I think that usually just latching onto a life network is always people always getting the juiciest stuff.
+**Hudson** - Yeah, and I'm not hearing a lot of other clients talk about their love for the idea, I guess. 
 
-So we've I think there was a time when I'm not entirely sure which heart for it, but there was a hard fought where everything went perfectly for us to London when we fought may not adequately.
+**James** - So if someone wants to do it, then they should speak about this and speak up now. Otherwise, I'd say we should move forward with the fork Robstein and then realize that this is the better thing we should do next time.
 
-And I don't remember which one. Or maybe maybe we realized that it could blow up and it never did blow up, but there was some issue that even in the past where some form wasn't properly tested by not even Rostom. So that's why we're kind of reluctant at YOLO is it's kind of cute just to test out the synthetic tests, for example, tests that are included at the beach just to make sure everybody seems to handle the folks, OK?
+**Dragan** - Then I'll be quiet, if you could, the idea is good, but we don't know by how much time we will need to properly do it. There is a lot unknowns this plan and bring this subject to. Maybe it's better to leave shadow fork for the next hard fork that comes.
 
-Not the real test starts the with the test, that's. Which we previously broke. We can try not to break.
+**Hudson** - Ok, I mean, that sounds good to me personally.
 
-They're doing the Shadowfax could make it less likely that we break Robstown.
+Decision 2 | Video | [~29:38](https://youtu.be/ju92hAKzKcg?t=1778)
 
-Well, I think we'll be one more data point that things seem OK.
+    All clients should be ready for testing by the goal date of February 24th
 
-Yeah, yeah, it would be conclusive.
+**Tim** - So I guess then we're back to the original question, like, what's the timeline we want? What's the delay? We want to give people to have a block on testnet's, you know, what's like an acceptable delay. And this is what I guess first week of March is what was originally proposed, and I thought like four weeks gives all of the client teams one or two weeks to ship a release which has a block, and then it gets, you know, two to three weeks for everybody to upgrade. Do people feel like we should do quicker or slower than that, or is that generally fine and then we can. I think it's fine that we can set the main block. Know if we want to have four weeks or six weeks of testing that we can just set the main net block farther in the future. And it's not like we're going to be blocked by working, but of working on anything else in the meantime. Right. Like the testnet that there's just going to go along. We'll see it happen. Those issues will fix them. But I think I'm just a bit cautious of like us also breaking the test. If we set a block that's like in two weeks and then half the people haven't upgraded.
 
-So is it worth trying to Hagg together, the Shadowfax thing this time or just moving forward with doing a block on Robstown and saying, OK, let's go.
+**Tomasz** - From our perspective, it's fine to rush it a with more.
 
-I think that if go ahead, Michael.
+**James** - Rather rush, so would it would rushing mean that we do the testing..
 
-I think say if the client teams think they have the bandwidth for it, I would say it is worth it to do it sooner rather than later, because I think the same technique can be applied to shadowtv working men and being able to test real men that state real men transactions, even if it gets out of sync in a week that is hugely valuable for reducing risk for final launch. So I think this general avenue of testing gives us a massive gains, in my opinion, in terms of real world testing that we're never going to get from Robstown or Cofan or Garley or any Yodo network, like we're not going to achieve that. And so I think this is a path that we should try to do. And the sooner we can do that, the better, because risk mitigation is good. But that being said, I'm going to find that I don't know if you guys have the bandwidth actually do that in parallel with the current plan. We're not.
+**Tomasz** - Yes, doing Robstein testing but not mainnet. So if you if you want to push for February, then we are totally fine with the.
 
-I think, Martin, you had a comment.
+**Hudson** - Yeah, I'm feeling like there's more value in having more testing time rather than waiting while worrying about the risk of a Borked test that. Or that people don't get on fast enough because. Yeah, I think there's more value in more testing time, but I'm feeling like.
 
-Yeah, I mean, I, I agree with. With the assessment that we have found with, uh, it was definitely would be preferable, um, but then I also think that maybe we should just. Yeah, yeah, I'm usually not very careful about the tests, and I think we should use them for testing, um, and if they balk, so be it. And so I would prefer we just go ahead with it, but that's just I can see that other people may think otherwise.
+**James** - So could the could all the clients be ready to fork Robstein and all the other ones in two weeks, so like next all core devs call, we have all the releases ready. So then we could have it be the middle of the week after that. [agreement]
 
-Well, just to give you an example of why I think it's problematic is because, for example, currently I'm not entirely sure whether the project is still or not, but it was doing a pilot project of this.
+**Tim** - So we're aiming for like the 24th. That would be like to say it's like midweek, it would be February 24th is when we'd want to target the fork block for the various testnets. [agreement] And I guess we can hash out the specific blocks, I think, on the chart, find some nice blocks on every network. [agreement] And do we want to so I guess do we want the release to also have the main locks, the main blocks in it? And if so, it would be helpful to just have like a tentative date for which we can also find a block.
 
-Community talk and whatever they call it, on top of recovery, and essentially this means that it was actually running production systems, even if just by the production pilot project on Winkerbean. Which I think is somewhat forcing or pushing the limits suffering can be, I kind of think it's somewhat still within the realm of acceptable use.
+**James** - The block. Twelve hundred and twenty one and what number is that, 12 million? One hundred and eleven thousand is Wednesday, March twenty fourth.
 
-Even if it wasn't if they were using test nets more than test nets, we can't really stop people from doing that. They're going to do it.
+**Tim** - So that would give us a month, a full month, literally day for day of testnet being live.
 
-Of course, if somebody is running some full production thing and we have to break it, then I won't have sleepless nights.
+/////////// 33:25
 
-But that doesn't mean we shouldn't read carefully so that we don't. Break it to two easily.
-
-Yeah, I think that it would be good if we try the new Shadowfax approach and then push the test net for block one week out from the last week of February date. So it's the first week of March for the first week of March for test net for Shadowfax one to two weeks before that. When it gets done is how I think it would be pretty cool unless what would we be able to get that done and the next. Two weeks.
-
-If it's something we had bad moment for for doing by the next call, then.
-
-I'm like, oh, it might be a good idea, otherwise, I'd say it's worth doing it for the next, like realizing that this is a model we should implement for the next four.
-
-And I built that into that process.
-
-My guess is that we could have something together here.
-
-The catch is that you want the Shadowfax, Robstown or Meinhardt, then we need a special Falke flag to be able to nuke the difficulty out, obviously, because if we Shadowfax may not, we don't want to have a mining boom behind it. So that's that's an extra feature, so besides changing that work on somebody implementing the breach, we also need all kinds to support this new kind of the difficulty. And if you want to show for the Winkerbean for GIRDLING, then again, we need a special flag in the clients to forcefully replace the authorized seiners.
-
-Which I feel like that will take much more than two weeks, like it'll take, you know, maybe it's easy to implement, but we need to test that the different clients do it right together.
-
-Yeah, so so Robstown may not. It's probably easier because changing the essentials is just an extra for cool with just drops the difficulty about the girl.
-
-The ring commander might be a bit interesting because you have voting.
-
-So for the background, they have some problem with the boats across this stretch.
-
-Would it would it be OK if I'm like I'm envisioning the coordination of getting all the clients on to this would kind of be hard, but if we had just even one client or so go through the process so that we could set up the process for all the clients to join next time.
-
-That's still valuable.
-
-Thanks as well to say the exact same thing.
-
-There is any of the clients feel like they have lots of breathing room compared to the others. Maybe is the real question.
-
-It is out there like, man, I really wish I had more work to do, or maybe it's it would that be?
-
-So it's like the guest team would want to do that with someone else, want to join them on that, or would it be OK if I guess for me personally, I would rather spend the next couple of weeks on the whole thing and then setting up to actually.
-
-Yeah, and I'm not hearing a lot of other clients talk about their love for the idea, I guess the.
-
-So if someone wants to do it, then they should speak about this and speak up now. Otherwise, I'd say we should move forward with the four Robstown and then realize that this is the better thing we should do next time.
-
-Then be quiet, if you could, the idea is good, but we don't know by how much time we will need to properly do it. There is a lot to announce this plan and bring this subject to. Maybe it's better to leave Shadowfax for the next part from the games comes.
-
-Ok, I mean, that sounds good to me personally.
-
-So I guess then we're back to the original question, like, what's the timeline we want? What's the delay? We want to give people to have a block on chestnut's, you know, what's like an acceptable delay. And this is what I guess first week of March is what was originally proposed, and I thought like four weeks gives all of the client teams one or two weeks to ship a release which has a block, and then it gets, you know, two to three weeks for everybody to upgrade.
-
-The people feel like we should do quicker or slower than that, or is that generally fine and then we can. I think it's fine. This is the main block. Know if we want to have four weeks or six weeks of testing that we can just set the mainland block farther in the future. And it's not like we're going to be blocked by working, but of working on anything else in the meantime. Right. Like the test that there's just going to go along. We'll see it happen. Those issues will fix them. But I think I'm just a bit cautious of like us also breaking the test. If we set a block that's like in two weeks and then half the people haven't upgraded.
-
-Yeah.
-
-From our perspective, it's fine to rush it a with more. So.
-
-Rather rush, so would it would rushing mean that we do the testing, but not peanuts?
-
-So if you if you want to push for February, then we are totally fine with the.
-
-Yeah, I'm feeling like there's more value in having more testing time rather than waiting while worrying about the risk of a Borked test that. Or that people don't get on fast enough because. Yeah, I think there's more value in more testing time, but I'm feeling like.
-
-So could the could all the clients be ready to fork Robstown and all the other ones in two weeks, so like next quarter of calls, we have all the releases ready.
-
-So then we could have it be the middle of the week after that.
-
-Now, shapefile. Yeah, so we're aiming for like one fourth.
-
-That would be like to say it's like midweek, it would be February 24th is when we'd want to target the clock for the various test. That's right.
-
-That sounds good to me.
-
-And I guess we can hash out the specific blocks, I think, on the chart, find some nice blocks on every network.
-
-Yes, that sounds good. Yeah.
-
-And do we want to so I guess do we want the release to also have the main locks, the main blocks in it? And if so, it would be helpful to just have like a tentative date for which we can also find a block.
-
-The block. Twelve hundred and twenty one and what number is that, 12 million? One hundred and eleven thousand is Wednesday, March twenty fourth.
-
-So that would give us a month, a full month, literally day for day of testing that we might.
-
-Yes. The question, the book, the test, that's how the client users want to go to the older version. It would be more safe to to have two versions of the clients wanted the blocks be tested, not the one Whitlock's feet Meinhardt. I'm not sure how he's coming to pasta dishes done, but.
+**Dragan** - One question, the block, the test, that's how the client users want to go to the older version. It would be more safe to to have two versions of the clients wanted the blocks be tested, not the one Whitlock's feet Meinhardt. I'm not sure how he's coming to pasta dishes done, but.
 
 I agree. Because if she said yes.
 
@@ -250,7 +174,7 @@ Yeah, we can we can wait on the line, but if we do the for the 20, what was the 
 
 But that as like a target makes sense.
 
-So that's I guess it's it's then a question like how how early in advance do you want to have the releases out with the block? Because I know, you know, there's a lot of folks we talked to that would rather not, like, upgrade their main net for client a week before to Fort. So that's just kind of the only thing to consider, because there's not only just the consensus changes that go into the client list, all the other updates. And so having a version that they're somewhat. That they've run for a few weeks to know that there's not like another issue is important. So, you know, it's not like the end of the world, but I think we we it's a bit unrealistic to say we fought the chestnuts on the twenty fourth of February, then on the next call two weeks later or whatever, we decide the main nut block and then we expect everybody to be ready for a big network two weeks after that.
+So that's I guess it's it's then a question like how how early in advance do you want to have the releases out with the block? Because I know, you know, there's a lot of folks we talked to that would rather not, like, upgrade their main net for client a week before to Fort. So that's just kind of the only thing to consider, because there's not only just the consensus changes that go into the client list, all the other updates. And so having a version that they're somewhat. That they've run for a few weeks to know that there's not like another issue is important. So, you know, it's not like the end of the world, but I think we we it's a bit unrealistic to say we fought the testnets on the twenty fourth of February, then on the next call two weeks later or whatever, we decide the main nut block and then we expect everybody to be ready for a big network two weeks after that.
 
 If we did the main network in two weeks, is that still?
 
