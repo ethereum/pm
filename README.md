@@ -26,7 +26,8 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
   #### Agenda
   1. [YOLOv3](https://github.com/ethereum/eth1.0-specs/blob/master/client-integration-testnets/YOLOv3.md) and [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
-  2. Other EIPs or discussion items.
+  2. Eth1 -> Eth2 Merge Requirements Overview [Details TBA]
+  3. London Timing [#245](https://github.com/ethereum/pm/issues/245)
 </details>
 
 <details>
