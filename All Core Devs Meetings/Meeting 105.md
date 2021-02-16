@@ -138,7 +138,7 @@ Decision 1 | Video | [~24:57](https://youtu.be/ju92hAKzKcg?t=1497)
 
 Decision 2 | Video | [~29:38](https://youtu.be/ju92hAKzKcg?t=1778)
 
-    All clients should be ready for testing by the goal date of February 24th
+    All clients should be ready for testing by the goal date of February 24th; clients ready next ACD for fork of test nets; choose block 24th and clients can choose accordingly how to handle that
 
 **Tim** - So I guess then we're back to the original question, like, what's the timeline we want? What's the delay? We want to give people to have a block on testnet's, you know, what's like an acceptable delay. And this is what I guess first week of March is what was originally proposed, and I thought like four weeks gives all of the client teams one or two weeks to ship a release which has a block, and then it gets, you know, two to three weeks for everybody to upgrade. Do people feel like we should do quicker or slower than that, or is that generally fine and then we can. I think it's fine that we can set the main block. Know if we want to have four weeks or six weeks of testing that we can just set the main net block farther in the future. And it's not like we're going to be blocked by working, but of working on anything else in the meantime. Right. Like the testnet that there's just going to go along. We'll see it happen. Those issues will fix them. But I think I'm just a bit cautious of like us also breaking the test. If we set a block that's like in two weeks and then half the people haven't upgraded.
 
@@ -160,171 +160,142 @@ Decision 2 | Video | [~29:38](https://youtu.be/ju92hAKzKcg?t=1778)
 
 /////////// 33:25
 
-**Dragan** - One question, the block, the test, that's how the client users want to go to the older version. It would be more safe to to have two versions of the clients wanted the blocks be tested, not the one Whitlock's feet Meinhardt. I'm not sure how he's coming to pasta dishes done, but.
+**Dragan** - One question, the block, the test, that's how the client users want to go to the older version. It would be more safe to to have two versions of the clients wanted the blocks be tested, not the one Whitlock's feet Meinhardt. I'm not sure how he's coming to pasta dishes done, but. If you have problem with testnet then it'll probably propogate to mainnet.
 
-I agree. Because if she said yes.
+**Hudson** - And someone else had something, was that was it, Micah, or are you 
 
-Sorry, go ahead, Drogon.
+**Micah** - I was just saying that this is a decision each client make individually and we have a tentative date for May not a client can decide whether to release that in their production and clients or not. It sounds that people don't want to, but we don't need consensus.
 
-Just the same, if you happen to be tested, propagate to. Just so.
+**James** - Yeah, we can we can wait on the line, but if we do the for the 20, what was the date we just said the 24th, the twenty fourth then last week of March is pretty realistic. We don't need to really set up for block date now. But that as like a target makes sense.
 
-And someone else had something, was that was it, Mike, or are you saying that this is a decision each client make individually and we have a tentative date for May not a client can decide whether to release that in their production and clients or not. It sounds that people don't want to, but we don't need consensus.
+**Tim** - So that's I guess it's it's then a question like how how early in advance do you want to have the releases out with the block? Because I know, you know, there's a lot of folks we talked to that would rather not, like, upgrade their mainnet for client a week before to Fort. So that's just kind of the only thing to consider, because there's not only just the consensus changes that go into the client list, all the other updates. And so having a version that they're somewhat. That they've run for a few weeks to know that there's not like another issue is important. So, you know, it's not like the end of the world, but I think we we it's a bit unrealistic to say we fork the testnets on the twenty fourth of February, then on the next call two weeks later or whatever, we decide the main net block and then we expect everybody to be ready for a main net fork two weeks after that.
 
-Yeah, we can we can wait on the line, but if we do the for the 20, what was the date we just said the 24th, the twenty fourth then last week of March is pretty realistic. We don't need to really set up for block date now.
+**James** - If we did the main network in two weeks, is that still?
 
-But that as like a target makes sense.
+**Tim** - Yeah, I think that's definitely better. Yeah, and it's fine then if it's two different versions of the clients or one, like Michael said, you know, different teams can make the trade off there. But yeah, if I think two weeks from now is fine, but like four weeks from now is probably cutting it very close if we want to to have a release and have people have enough time to actually update.
 
-So that's I guess it's it's then a question like how how early in advance do you want to have the releases out with the block? Because I know, you know, there's a lot of folks we talked to that would rather not, like, upgrade their main net for client a week before to Fort. So that's just kind of the only thing to consider, because there's not only just the consensus changes that go into the client list, all the other updates. And so having a version that they're somewhat. That they've run for a few weeks to know that there's not like another issue is important. So, you know, it's not like the end of the world, but I think we we it's a bit unrealistic to say we fought the testnets on the twenty fourth of February, then on the next call two weeks later or whatever, we decide the main nut block and then we expect everybody to be ready for a big network two weeks after that.
+**James** - So then that would that just summarizing for no take her and the rest of the call on the we would have clients be clients, be ready next. Operatives call for a fork of the tests and then the twenty fourth we would choose a block for the twenty fourth and we'd also choose a that block that day. And then clients could decide accordingly how they handled it.
 
-If we did the main network in two weeks, is that still?
+**Hudson** - That sounds good to me. 
 
-Yeah, I think that's definitely better. Yeah, and it's fine then if it's two different versions of the clients or one, like Michael said, you know, different teams can make the trade off there. But yeah, if I think two weeks from now is fine, but like four weeks from now is probably cutting it very close if we want to to have a release and have people have enough time to actually update.
+**Tim** - Yeah, so we should choose the that blocks before the next call, though, right? Like we know it's four and we can choose the blocks, you know, basically today on the job. But then on the next call, we can choose the main block.
 
-So then that would that just summarizing for no take her and the rest of the call on the we would have clients be clients, be ready next. Operatives call for a fork of the tests and then the twenty fourth we would choose a block for the twenty fourth and we'd also choose a that block that day. And then clients could decide accordingly how they handled it.
+**Hudson** - Unless clients want to bundle both into one release. But does anyone want to do that or like I should put it this way. And does anyone need the block number before the dates we just proposed? Yeah, I didn't I didn't think so, I was just going to check.
 
-That sounds good to me. Yeah, so we should choose the that blocks before the next call, though, right? Like we know it's four and we can choose the blocks, you know, basically today on the job. But then on the next call, we can choose the main block.
+**James** - Then I'd say that's good for now on that. And we can move on to the other things, unless someone has less thoughts on it or wants to share, let's say we've taken a good amount of time today.
 
-Yes. Unless clients want to bundle both into one release. But does anyone want to do that or like I should put it this way. And does anyone need the block number before the dates we just proposed?
+# 2. Finalize ETH/66 Specification
+Video | [37:44](https://youtu.be/ju92hAKzKcg?t=2264)
 
-Yeah, I didn't I didn't think so, I was just going to check.
+**Hudoson** - OK, thanks so much. All right, finalizing the ethe sixty six network specification that was discussed a little bit in chat and it looks like some clients had opinions on. When to when to finalize it, I think I was getting at or can someone summarize the discussion?
 
-Then I'd say that's good for now on that.
+**Martin** - So you six or six request like these two messages need to apply, not all of them, because there are also things like announcements which are not requested, but all the things which are on the form request reply. And of those messages, all of them except one, are currently you make a request and the response is a list of things, but one is a bit special and it's to get block headers, which is a request which has a four or five parameters, um, and the current specification and wrapping thing, so that all the new messages are already being coded as requested and then a wrapping of the previous format. And the observation was made by Peter that we don't actually have I mean, for the things which are just the list, we we do have to kind of do this wrapping. But for this block headers, it would be nice to just add the request id alongside or before the other existing fields. Um, yeah, because the reasoning being that it was lower on network traffic and a bit smaller and and that's kind of the discussion. 
 
-And we can move on to the other things, unless someone has less thoughts on it or wants to share, let's say we've taken a good amount of time today.
+**Danno** - So my concern is I think we're overfitting for a little bit of network traffic overhead, the pattern of the with the IP came in initially was you take it 65 packet and you wrap it in a list, which is being done with all the other lists. And for that one packet there, it's an overhead of like one or two by one or three bytes at most. The impact comes into the clean implementations. If you're streaming from the ERP data, you'll be fine because you just read if you're in 66, just read the header and then read the rest. But I see that there's other clients that do an index based read of that particular packet and they're going to have to write significant fork code for that to read the packet twice or two different ways. So from a from a design perspective, keeping it consistent is good. And it's also going to have more of it, less of an impact on the client code if we keep it as specified so that the author has a preference for this. I have a preference for this. It's not a whole I'm going to die on, but I really don't see the need to to make a special case for one packet.
 
-Back to you. OK, thanks so much. All right, finalizing the ethe sixty six network specification that was discussed a little bit in chat and it looks like some clients had opinions on.
+**Martin** - Right. Let me just add to that, actually, so people go there and we don't have the streaming of the original implementation of the spec was slightly cleaner and the implementation where we have to marshal it so marshal it differently is actually slightly uglier because we have to create a new type of message and marshland and stuff. Um, so, I mean, we didn't go this, uh, we didn't don't prefer the smaller network because it's particularly nice for our client. But we and yeah, it was worth it anyway. But I think, Peter, you're the you're the main proponent for the. Do you want to speak on it.
 
-When to when to finalize it, I think I was getting at or can someone summarize the discussion?
+**Peter** - So my main issue is that it seems we're kind of designing the spec backwards. So we just look at how clients implement certain things and then we make a network protocol that tries to adhere to the existing code as much as possible. And my biggest problem is that that is a very slippery slope on the long term, because then it means that instead of having clean network protocols are not what protocols will be full of interesting quirks just because at some point or another there was one client that implemented it this way or that way. So from that perspective, we want to add that. So currently the eth packet. I mean, we have a bunch of requests. And for example, there was a time when we wanted to add a new fields to the eth handshake. That was the fork id and that was just simply added as an extra field. And so my question is that if we just added it as an extra field there and now we want to add the request id, I mean, why is the request id more special and why should all of a sudden we add extra wrapping just because. So if the for id didn't require wrapping, then adding the request id seems. I mean, it just seems that we're not catering preimplantation instead of.
 
-Yes.
+**Artem** - Actually, it is much cleaner, cold to add, requested as like a separate field and like the rest of the contents of the packet as a separate list, because, like, I'm just imagining this in glass terms, it is much, much easier to guess much, much easier to implement because I can make like a wrapper structure with two fields with, like request ID and some generic request, basically. So this just does separate separating request IDs out of the general list. It is. It leads to a much cleaner implementation. And I think that that should be the way forward.
 
-So you six or six request like these two messages need to apply, not all of them, because there are also things like announcements which are not requested, but all the things which are on the form request reply.
+**Peter** - But why would you want to separate them implantation away from everything else?
 
-And of those messages, all of them except one, are currently you make a request and the response is a list of things, but one is a bit special and it's to get blockaders, which is a request which has a four or five parameters, um, and the current specification and Iraq thing, so that all the new messages are already being coded as requested and then a wrapping of the previous format. And the observation was made by Peter that we don't actually have I mean, for the things which are just the list, we we do have to kind of do this wrapping. But for this blockaders, it would be nice to just add the idea alongside or before the other existing fields. Um, yeah, because the reasoning being that it was lower on network traffic and a bit smaller and and that's kind of the discussion.
+**Artem** - Like I said, because it is simply a much cleaner code, 
 
-So my concern is I think we're overfitting for a little bit of network traffic overhead, the pattern of the with the IP came in initially was you take it 65 packet and you wrap it in a list, which is being done with all the other lists. And for that one packet there, it's an overhead of like one or two by one or three bytes at most. The impact comes into the clean implementations. If you're streaming from the ERP data, you'll be fine because you just read if you're in 50 60, just read the header and then read the rest. But I see that there's other clients that do an index based read of that particular packet and they're going to have to write significant Fourche code for that to read the packet twice or two different ways. So from a from a design perspective, keeping it consistent is good. And it's also going to have more of it, less of an impact on the client code if we keep it as specified so that the author has a preference for this. I have a preference for this. It's not a whole I'm going to die on, but I really don't see the need to to make a special case for one packet.
+**Peter** - but if the code, that process of the request we are required to request, by the way, then what did you say? By adding an extra wrapper in its envelope?
 
-Right. Let me just add to that, actually, so people go there and we don't have the streaming of the original implementation of the spec was slightly cleaner and the implementation where we have to marshal it so it differently is actually slightly uglier because we have to create a new type of message and marshland and stuff.
+**Danno** - separation of concerns when you're matching up packets that separate code from processing the specific package. So if we unwrap the envelope and we have the list of whatever we don't care about in the request, that we match it up with existing and coming up and packet, that has nothing to do with whether requesting hashad I.D. ranges on transactions, the process that matched that up at that further down and we isolate it. This is the sort of envelope and that's in another protocols. The concern of what the other custardy matching up or not is, is disconnected from what the actual content of the packet is now about. For Guidewire, different Forcades was put at the end of the list, not at the beginning of the list. So the request was the end of the list. There would be less resistance from me. But putting at the beginning of the list doesn't match existing pattern when we provide what our packets look like.
 
-Um, so, I mean, we didn't go this, uh, we didn't don't prefer the smaller network because it's particularly nice for our client. But we and yeah, it was worth it anyway.
+**Peter** - So, yeah, my only difference I can say is that the peer to peer and we do not have a notion of headers or or non-headers that would, for example, that they should be brought all the other protocols, explicitly layouts that you have, the metadata fields in the headers and then you have the content. There's no such notion of that. And essentially this debate is introducing it. But we are not really naming header, but kind of treating it as a header, so it just seems we're making a design decision and being unaware of it 
 
-But I think, Peter, you're the you're the main proponent for the. Do you want to speak on it.
+**Dragan** - It's easier to separate its request I.D. and rest of package, because we want to check device ID, you would check it in the first layer of your application and just sent rest of your package. It'd be easier, we wouldn't say I'd  model my code to handle both cases, but to wrap up everything.
 
-So my main issue is that it seems we're kind of designing the spec backwards. So we just look at how clients implement certain things and then we make a network protocol that tries to adhere to the existing code as much as possible. And my biggest problem is that that is a very slippery slope on the long term, because then it means that instead of having clean network protocols are not what protocols will be full of interesting quirks just because at some point or another there was one client that implemented it this way or that way.
+**Peter** - All right, so I just wanted to add this, that this is exactly my problem, that none of us are approaching this, that what does it make sense? How does it make sense for this stuff to look like? What we're approaching it from the direction of, hey, I have I will implement it like this to let's make the network Beckert. Easiest tool in the process to consume with the code I would write it with, and that's not necessarily a bad idea to keep that in mind. But I'm not a fan of designing with a foundation in mind for. But maybe I'm wrong here, so.
 
-So from that perspective, we want to add that. So consider ethe packet. I mean, we have a bunch of requests. And for example, there was a time when we wanted to add a new fields to the handshake. That was the first idea and that was just simply added as an extra field. And so my question is that if we just added it as an extra field there and now we want to add the request, I mean, why is the request any more special and why should all of a sudden we add extra rewrapping just because. So if the idea didn't require wrapping, then adding the request seems. I mean, it just seems that we're not catering preimplantation instead of.
+**Micah** - So so I started out on the side of most of you guys here, and I was convinced by one particular argument that I think Peter or Martin made, which is that by the time you get down to the request I.D., you've already narrowed what you're going to handle and to exactly one packet. That is to say the actual header is higher up the stack. Like You get you get in a payload off the wire and you find out what the message type is. And but once you read that message, then you know, the exact thing you're going to do here is that there is no more like like these are not actually like packets to go together like that are coming in through like one funnel. These are already dispatched, like you've already dispatched them to their final destination. There's no more like, OK, I've got four different packets coming in through a channel that's, you know, I know to dispatch. You've already dispatched them by the time you receive it, by the time you get that request. And so that was the convincing thing, is that it's just the key there is that you've already dispatched this down to a single handler. Like you do not have multiple handlers at this point anymore. And if the request ID you higher up the stack like before that message type, then I would agree with everybody else here that we should be, you know, having an envelope type thing where you have the request ID and then some arbitrary payload. But we have to have a message type and an arbitrary payload message type to our payload is a one to one mapping. There is it's not a one to minute.
 
-Actually, it is much cleaner, cold to add, requested as like a separate field and like the rest of the contents of the packet as a separate list, because, like, I'm just imagining this in glass terms, it is much, much easier to guess much, much easier to implement because I can make like a rubber structure with two fields with, like request ID and some generic request, basically. So this just does separate separating request IDs out of the general list. It is. It leads to a much cleaner implementation. And I think that that should be the way forward.
+**Martin** - I think that's a pretty good observation, and I think we've heard from all the client devs with the exception of nethermind, do you guys have any thoughts or opinion?
 
-But why would you want to separate them implantation away from everything else?
+**Tomasz** - I'm quite and I was looking at the request of these approaches, changes, various changes. Everything seems to be all right. And I'm OK for you to design this one.
 
-Like I said, because it is simply a much cleaner code, but if the code, that process of the request we are required to request, by the way, then what did you say? By adding an extra wrapper in its envelope?
+**Hudson** - What other opinions are there on this, because I'm I guess I'm I think are there are two concerns right now. I'm a little lost.
 
-Again, separation of concerns when you're matching up packets that separate code from processing the specific package. So if we unwrap the envelope and we have the list of whatever we don't care about in the request, that we match it up with existing and coming up and packet, that has nothing to do with whether requesting hashad I.D. ranges on transactions, the process that matched that up at that further down and we isolate it. This is the sort of envelope and that's in another protocols. The concern of what the other custardy matching up or not is, is disconnected from what the actual content of the packet is now about. For Guidewire, different Forcades was put at the end of the list, not at the beginning of the list. So the request was the end of the list. There would be less resistance for me to put. Putting at the beginning of the list doesn't match existing pattern when we provide what our packets look like.
+**Martin** - I mean, you know. Well, I mean, it's just the decision that needs to be made. I think no one is ready to buy on any deal. Um, I guess geth, we're ready for one approach. It sounds like nethermind is ready for etiher. I think that that sums it up.
 
-So, yeah, my only difference I can say is that the peer to peer and we do not have a notion of headers or or non Hadfield's that would, for example, that they should be brought all the other protocols, explicitly layouts that you have, the metadata fields in the headers and then you have the content. There's no such notion of that. And essentially this debate is introducing it.
+**Hudson** - Yeah, does anyone disagree with that one. Or with Martin's assessment? All right, this is when we pull out our coin and flip it. No, I'm just kidding. We're not going to flip a coin to decide this.
 
-But we are not really naming there, but kind of treating it as a head there, so it just seems we're making a design decision and being unaware of it the to separate its request I.D. and rescue package, because we want to check we checked it in the first layer of your application and just sent your package to get much easier. This is the dataset. It's not. It's fine. We wouldn't say I'm busy to model my my quote to handle both cases, but to wrap up everything.
+**James** - Is there someone from network design philosophy we could ask or like reach out to.
 
-And I started at.
+**Martin** - No, I was just trying to decide something here and now so we can just skip it.
 
-Go ahead out.
+**Hudson** - Yeah, it's an implementation issue more than any kind of network design issue, right. Or like per per client implementation, how they've handled it in the past, 
 
-All right, so I just wanted to add this, that this is exactly my problem, that none of us are approaching this, that what does it make sense? How does it make sense for this stuff to look like? What we're approaching it from the direction of, hey, I have I will implement it like this to let's make the network Beckert.
+**Micah** - I think I think that's exactly the debate. Is this an application question or is this a design question?
 
-Easiest tool in the process to consume with the code I would write it with, and that's not necessarily a bad idea to keep that in mind.
+**Peter** - But and that's a problem because a network design question at the foundation of it.
 
-But I'm not a fan of designing with a foundation in mind for. But maybe I'm wrong here, so.
+**Hudson** - I guess I meant because of how people have designed it and their client implementations before it's turned into that, is that not true?
 
-So so I started out on the side of most of you guys here, and I was convinced by one particular argument that I think Peter or Martin made, which is that by the time you get down to the request I.D., you've already narrowed what you're going to handle and to exactly one packet. That is to say the actual header is higher up the stack. Thank you. You get you get in a payload off the wire and you find out what the message type is. And but once you read that message, then you know, the exact thing you're going to do here is that there is no more like like these are not actually like packets to go together like that are coming in through like one funnel. These are already dispatched, like you've already dispatched them to their final destination. There's no more like, OK, I've got four different packets coming in through a channel that's, you know, I know to dispatch. You've already dispatched them by the time you receive it, by the time you get that request. And so that was the convincing thing, is that it's just the key there is that you've already dispatched this down to a single handler. Like you do not have multiple handlers at this point anymore. And if they requested you higher up the stack like before that message type, then I would agree with everybody else here that we should be, you know, having an envelope type thing where you have the best idea and then some arbitrary payload. But we have to have a message type and an arbitrary payload message type to our payload is a one to one mapping. There is it's not a one to minute.
+**Micah** - I think it's more how people have designed it in their heads, sort of, oh, OK, what do the people who has a mental model that has X and so people has a mental model that is Y, and those two mental models have different desires because in order to change sides, you have to change your mental model to match the other side and set requirements, of course, much harder to do. So neither side, of course, wants to change about the model because now thinking becomes harder.
 
-I think that's a pretty good observation, and I think we've heard from all the clients that the exception of the mine, do you guys have any thoughts or opinion?
+**James** - And your reference, Micha, was the other one, like if you were to have one, I just read that light-client said he preferred Peter's proposal.
 
-I'm quite and I was looking at the request of these approaches, changes, various changes. Everything seems to be all right. And I'm OK for you to design this one.
+**Micah** - I originally was against Peter. And then I was convinced by the equal one to one mapping that occurs higher up the stack. So this is not one of many mapping which like the current way, the EIP as written, makes it look like it's the sort of situation or one of the many mapping. But in reality, if you look at the broader protocol, it's not actually. And so, again, that was what convinced me.
 
-What other opinions are there on this, because I'm I guess I'm I think are there are two concerns right now. I'm a little lost.
+**Danno** - Then are we putting this in the wrong place with the payload, should it be up with the message?
 
-I mean, you know. Well, I mean, it's just the decision that needs to be made. I think no one is bothered by on any deal. Um, I guess we're for one approach. It sounds like open Thurmon pizza for another another mine. Uh, what seems OK with either, um.
+**Micah** - So we talked about this. The feeling I got from the conversation was that everybody kind of wishes that it was more like that. But it's a much bigger change. 
 
-I think that that sums it up.
+**Peter** - But if we're arguing correctness, that's the correct answer. I mentioned we had this discussion on all core devs channel two that you cannot really moving higher up the stack because so the the naive idea or I wouldn't call it naive because that was also my first impression. And the first impression idea would be that, hey, we can just move it up into a stack and then problem solved. The request that these are handled at the higher level or deeper level already preferred by the peer 2 peer itself. The problem is that then you end up with a really, really bad can of worms because on one side request, that is one for request packets, but because network packets which do not follow the request reply packets, for example, transaction propagations, those are just not directional packets. So you don't have the request ids. And the other thing is that if you essentially the whole point of request I.D. is that you make a request and then when a reply comes, you can funnel it back to the original piece of code that made that request. But that also means that you need this multiplex at the multiplex to constantly track all the currently active requests. Now, if you move this request tracking up into the p2p, it means that you have some B player tracking mechanism which needs to be aware that, hey, this sub, this program module is waiting for a reply. But what happens if the reply never arrives? Then all of a sudden it needs to start caring about cancellations and timeouts and whatnot. And that's why I'm saying that that is a huge can of worms to dump onto the devs.
 
-Yeah, Ziyuan disagree with that one. Or with Martin's assessment?
+**Danno** - So we're back to having implementation without the actual details.
 
-All right, this is when we pull out our coin and flip it. No, I'm just kidding. We're not going to flip a coin to decide this.
+Decision 3 | Video | [55:12](https://youtu.be/ju92hAKzKcg?t=3312)
 
-There's someone from network design. Philosophy we could ask or like reach out to.
+    Keep EIP 2481 as it is on EIPs Ethereum org -- not accepting Peter's proposed changes
 
-No, I was just trying to decide something here and now so we can just skip it.
+**Martin** - Yeah, in that case, unless anyone has changed their mind, I would consider this being I mean, that we let the specific case as it is and not change the thing that we agreed upon back in the day. How does that sound to you, Peter?
 
-Yeah, it's an implementation issue more than any kind of network design issue, right. Or like per per client implementation, how they've handled it in the past, I think I think that's exactly the debate.
+**Peter** - Yeah, I can always make my eth/66. 
 
-Is this an application question or is this a design question?
+[Alex Vlasov speaks russian, lol]
 
-But and that's a problem because a network design question at the foundation of.
+**Hudson** - OK, so what is the other clients think about Martin's proposal. Is that something people can live with, is that something that people want to try to find other ways to come to a conclusion or Vito?
 
-I guess I meant because of how people have designed it and their client implementations before it's turned into that, is that not true?
+**Artem Vorotsinkov** - So the proposal is EIP 2481 as it is on EIPs Ethereum org (repo) right now.
 
-And I think it's more how people have designed it in their heads, sort of, oh, OK, what do the people who has a mental model that has X and so people has a mental model that is Y, and those two mental models have different desires because in order to change sides, you have to change your mental model to match the other side and set requirements, of course, much harder to do. So neither side, of course, wants to change about the model because now thinking becomes harder.
+**Martin** - Yeah, well, I'm saying is that we propose to make a change and we're getting some pushback and I guess we'll consider the proposal to change it and not accept and yeah, so.
 
-Yeah, and your reference, Michael, was the other one, like if you were to have one, I just read that like Client said he preferred the proposal.
+**Artem Vorotsinkov** - The current the current EIP looks good to me, I say we should take it and implement it.
 
-Pieter's specifically, as I originally originally was against Peter. And then I was convinced by the equal one to one mapping that occurs higher up the stack. So this is not one of many mapping which like the current way, the idea as written, makes it look like it's the sort of situation or one of the many mapping. But in reality, if you look at the broader protocol, it's not actually.
+**Danno** - Agreed. I could take it any way as long as there's a firm decision on it.
 
-And so, again, that was what convinced me. And one of the.
+**James** - so that's not do not accepting Peter's proposed changes.
 
-Then are we putting this in the wrong place with the payload, should it be up with the message?
+**Peter** - Yeah, I can live with. no, so actually, so what I was saying is that essentially this whole these protocols are not set in stone. And if we want to involve them in the future, if it turns out that this was a bad decision, we can always go back and just do it another way.
 
-I didn't, so we talked about this at the concert.
+**Hudson** - Oh, that's nice, then. Cool. All right, I think we've come to a decision on that for the note taker, let me say the decision and then someone correct me when I'm wrong. We are going with up to four eight one as it is written today without any modifications to the PR.
 
-The feeling I got from the conversation was that everybody kind of wishes that it was more like that. But it's a much bigger change. And that but correctness, that's the correct answer.
+**Peter** - I have one slight request for a modification; the EIP mentions that this particular spec is consistent with the request of pairs in LES and that statement is not entirely true because LES has some different methods. And my suggestion would be not to refer to at least one thing. I mean, in the discussion and the rationale session. Sure. But once that's specking it out, the spec should not refer to other specs because then the whole thing is clear. So let's just drop that single line.
 
-Larry St. Peter.
+Action 1 | Video | [58:15](https://youtu.be/ju92hAKzKcg?t=3495)
 
-So I mentioned we had this discussion on Channel two that you cannot really moving higher up the stack because so the the naive idea or I wouldn't call it naive because that was also my first impression. And the first impression idea would be that, hey, we can just move it up into a stack and then problem solved. The request that these are handled at the higher level or deeper level already preferred by the people itself. The problem is that then you end up with a really, really bad kind of forms because on one side request, that is one for request from factors, but because network packets which do not follow the quest, for example, transaction propagations, those are just not directional packets. So you don't have the best ideas. And the other thing is that if you essentially the whole point of request I.D. is that you make a request and then when a reply comes, you can funnel it back to the original piece of code that made that request. But that also means that you need this multiplex at the multiplex to constantly track all the currently active requests. Now, if you move this request cranking up into the 15 here, it means that you have some B player tracking mechanism which needs to be aware that, hey, this sub, this program module is waiting for a reply. But what happens if the reply never arrives? Then all of a sudden it needs to start caring about cancellations and timeouts and whatnot. And that's why I'm saying that that is a huge can of worms to dump onto the.
+    Martin to drop comparison with LES in EIP 2481
 
-So we're back to having implementation, the actual details.
+**Martin** - Yeah, I also I mean, I have an open door to modify the spec and I'll change that before so it doesn't change the specs. But just as a test case for the publication.
 
-Yeah, in that case, unless anyone has changed their mind, I would consider this being I mean, that we let the specific case is and not change the thing that we agreed upon back in the day.
+**Hudson** - Does that sound good to everyone? Is there anyone opposed to dropping that line and maybe Martin cleaning it up a bit but having the same content?
 
-How does that sound to you, Peter?
+**Artem Vorotnikov** - I don't think it needs to be discussed, really, let's just move on.
 
-Yeah, I can always make my this. Look, I should tell you that I love your speaking Russian on the. Oh, I think I think he's made it now. This is strange. I cavils everything you that maybe. Sorry.
+# 3.1 EVM 384 Update
 
-No problem. OK, so what is the other clients think about Martin's proposal.
+Video | [58:34](https://youtu.be/ju92hAKzKcg?t=3517)
 
-Is that something people can live with, is that something that people want to try to find other ways to come to a conclusion or Vito?
+**Hudson** - Sounds good. All right. What we got next is EVM 384 update. That'd be Axic, I'm guessing.
 
-No, so so the proposal is twenty four, eighty one as it is on IPPs Ethereum right now. Yes.
-
-Yeah, well, I'm saying is that we propose to make a change and we're getting some pushback and I guess we'll consider the proposal to change it and not accept and yeah, so.
-
-Ok. And that goes the current the current EP looks good to me, I say we should take it and implement it.
-
-Agreed. I could take it away as long as there's a firm decision on it.
-
-Ok, and Peter, we're going to tell you something, Peter saying, so that's not do not accepting Peter's proposed changes.
-
-Yeah, I can live with.
-
-Ok, now, so actually, so what I was saying is that essentially this whole these protocols are not set in stone. And if we want to involve them in the future, if it turns out that this was a bad decision, we can always go back and just look them out. So.
-
-Oh, that's nice, then. Cool. All right, I think we've come to a decision on that for the note taker, let me say the decision and then someone correct me when I'm wrong. We are going with up to four eight one as it is written today without any modifications. To the PR.
-
-I have one slight request for a modification that IP mentions that this particular spec is consistent with the request of my parents in the US and that statement is not entirely true because Élysées has some different methods. And all my suggestion would be not to refer to at least one thing. I mean, in the discussion and the rationale session. Sure. But once that's specking it out, the spec should not refer to other specs because then the whole thing is clear.
-
-So let's just drop that single line.
-
-Yeah, I also I mean, I have an open door to modify the spec and I'll change that before so it doesn't change the specs. But just as a test case for the publication.
-
-Does that sound good to everyone? Is there anyone opposed to dropping that line and maybe Martin cleaning it up a bit but having the same content?
-
-I don't think it needs to be discussed, really, let's just move on.
-
-Sounds good. All right.
-
-What we got next is EVM three eighty four. Update that BP exec, I'm guessing.
-
-Can maybe do a better job than me, I put the post up, so maybe I was prepared to give up, so maybe I should, but it's exec wants to give it. He can get it, either one. I will give it the I'm giving an even three to four updates. I will talk about our gas cost documents and then an up research post. That I'm trying to bring attention to a recall ABM Treaty for proposes three new codes which cover bottlenecks of a large class of crypto. And it will allow user deployed fast crypto systems, the word fest means if we remove the overhead of the system, namely the interpreter loop and things like this. We would approach speed records and limitations, but we do have some overhead in the system and things like that, so we're doing the best fast. I mean, we're doing the best we can given the system and there are ways to improve the system itself. So there's potential. So first I will talk about.
+**Paul** - Axic can maybe do a better job than me, I put the post up, so maybe I was prepared to give up, so maybe I should, but it's exec wants to give it. He can get it, either one. I will give it the I'm giving an even three to four updates. I will talk about our gas cost documents and then an up research post. That I'm trying to bring attention to a recall ABM Treaty for proposes three new codes which cover bottlenecks of a large class of crypto. And it will allow user deployed fast crypto systems, the word fest means if we remove the overhead of the system, namely the interpreter loop and things like this. We would approach speed records and limitations, but we do have some overhead in the system and things like that, so we're doing the best fast. I mean, we're doing the best we can given the system and there are ways to improve the system itself. So there's potential. So first I will talk about.
 
 The gas cost update's jointly authored by Povo exec Casey Jordan de. In case you haven't read it, I'll just read the main points. I won't go into too much detail. By the way, the links are in the issues for this meeting. So we give a background guess. Yes. Has some inherent limitations. Gas's attackable. So these sort of play into our design decisions, for example, that we want simple consequence, gas costs. We propose to guest cost models, oh, by the way, the gas cost model is a systemic way to assign gas costs to an upgrade. There's a model which has some machinery, maybe includes some heuristics, security analysis. And in the end, there are some maybe systematic way to to drive the gas cost for giving up growth and our proposed costs for even three to four upwards, which are EDMAR three to four. So much for more than three to four hour. We have to muddle the aggressive model costs are one one three, respectively, and the conservative model gives cost two to six respectively for those three outcomes. So based on these these proposed costs, based on these models, we do that experiments just to see what they mean in practice. So we apply these gas costs to metering heavy cryptography, but they are a baseline implementation by baseline, I mean not optimized. And the design decision is if if this optimization brings too much complexity, don't do it. So we noticed bottlenecks in our experiments.
 
