@@ -29,6 +29,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   1. London Timing [#245](https://github.com/ethereum/pm/issues/245)
   1. Eth1 -> Eth2 Merge Requirements Overview [#247](https://github.com/ethereum/pm/issues/247)
   1. Removing EVM Features [#250](https://github.com/ethereum/pm/issues/250)
+  1. (Announcement) 1559 Community Call [#251](https://github.com/ethereum/pm/issues/251) 
 
 <details>
   <summary>ACD 107: March 5, 2021</summary>
