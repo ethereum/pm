@@ -16,8 +16,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 - The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
 - The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
 
-<details>
-  <summary>ACD 106: February 19, 2021</summary>
+#### ACD 106: February 19, 2021
 
   #### Meeting Info
   * [February 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/feb-19-2021/2pm)
@@ -29,7 +28,6 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Timing [#248](https://github.com/ethereum/pm/issues/248)
   2. Eth1 -> Eth2 Merge Requirements Overview [#247](https://github.com/ethereum/pm/issues/247)
   3. London Timing [#245](https://github.com/ethereum/pm/issues/245)
-</details>
 
 <details>
   <summary>ACD 107: March 5, 2021</summary>
