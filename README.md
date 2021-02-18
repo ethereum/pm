@@ -26,8 +26,9 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   #### Agenda
   1. [YOLOv3](https://github.com/ethereum/eth1.0-specs/blob/master/client-integration-testnets/YOLOv3.md) status
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Timing [#248](https://github.com/ethereum/pm/issues/248)
-  2. Eth1 -> Eth2 Merge Requirements Overview [#247](https://github.com/ethereum/pm/issues/247)
-  3. London Timing [#245](https://github.com/ethereum/pm/issues/245)
+  1. London Timing [#245](https://github.com/ethereum/pm/issues/245)
+  1. Eth1 -> Eth2 Merge Requirements Overview [#247](https://github.com/ethereum/pm/issues/247)
+  1. Removing EVM Features [#250](https://github.com/ethereum/pm/issues/250)
 
 <details>
   <summary>ACD 107: March 5, 2021</summary>
