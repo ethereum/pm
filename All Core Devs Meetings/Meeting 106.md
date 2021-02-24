@@ -1,7 +1,7 @@
 # All Core Devs Meeting 106
 ### Meeting Date/Time: Friday, Feb 19th, 2021 14:00 UTC
 ### Meeting Duration: 1 hour 30 min
-### [GitHub Agenda](https://github.com/ethereum/pm#meeting-info-5)
+### [Agenda](https://github.com/ethereum/pm/#acd-106-meeting-info)
 ### [Video of the meeting](https://www.youtube.com/watch?v=anrbnroO3dc)
 ### Moderator: Hudson Jameson
 ### Notes: Avishek Kumar
@@ -14,7 +14,7 @@
 | **3**   | Start discussing London EIP soon and get a consensus in the next 2-3 meetings. Pooja to share the list of EIPs for consideration in ACD Discord. EIP authors may create an issue at pm repo to add it to the next ACD meeting. |  
 | **4**   | Eth1-Eth2 Merge team will produce more document for Eth1 client reference to describe what to be expected post merge |
 | **5** | Difficulty bomb will be part of every upgrade till the Eth1-Eth2 merge. |
-| **6** | Removing ‘refund’ can be tartetted to London. Vitalik, Martin and whoever available may help create the EIP. |
+| **6** | Removing ‘refund’ can be targetted to London. Vitalik, Martin and whoever available may help create the EIP. |
 
 ---
 
