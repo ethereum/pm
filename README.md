@@ -90,7 +90,14 @@ The meetings are independent of any organization. However, Hudson Jameson and Ti
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
+106 | Friday 05 feb 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/#acd-106-meeting-info) | [notes](All%20Core%20Devs%20Meetings/Meeting%20106.md) | [video](https://www.youtube.com/watch?v=anrbnroO3dc) |
+105 | Friday 05 feb 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/241) | [notes](All%20Core%20Devs%20Meetings/Meeting%20105.md) | [video](https://youtu.be/ju92hAKzKcg) |
+104 | Friday 22 Jan 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/237) | [notes](All%20Core%20Devs%20Meetings/Meeting%20104.md) | [video](https://youtu.be/3xNfGNnQ5Vs) |
 103 | Friday 8 Jan 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/232) | [notes](All%20Core%20Devs%20Meetings/Meeting%20103.md) | [video](https://www.youtube.com/watch?v=ITVMTHzAcg0) |
+102 | Friday 11 Dec 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/228) | [notes](All%20Core%20Devs%20Meetings/Meeting%20102.md) | [video](https://youtu.be/EPbZ4tU4P5A) |
+101 | Friday 13 Nov 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/224) | [notes](All%20Core%20Devs%20Meetings/Meeting%20101.md) | [video](https://youtu.be/UGyqRoLwq1o) |
+100 | Friday 13 Nov 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/221) | [notes](All%20Core%20Devs%20Meetings/Meeting%20100.md) | [video](https://youtu.be/5-614J9qNvY) |
+99 | Friday 30 Oct 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/219) | [notes](All%20Core%20Devs%20Meetings/Meeting%2099.md) | [video](https://www.youtube.com/watch?v=GOWSrHtNZOQ) |
 98 | Friday 16 Oct 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/217) | [notes](All%20Core%20Devs%20Meetings/Meeting%2098.md) | [video](https://www.youtube.com/watch?v=LDSTqo0LKUM) |
 97 | Friday 02 Oct 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/211) | [notes](All%20Core%20Devs%20Meetings/Meeting%2097.md) | [video](https://youtu.be/v5Q5WPdN1jk) |
 96 | Friday 18 Sep 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/206) | [notes](All%20Core%20Devs%20Meetings/Meeting%2096.md) | [video](https://youtu.be/HUUxwyoxU7k) |
@@ -99,7 +106,7 @@ The meetings are independent of any organization. However, Hudson Jameson and Ti
 93 | Friday 07 Aug 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/196) | [notes](All%20Core%20Devs%20Meetings/Meeting%2093.md) | [video](https://youtu.be/Riu-PqrJVH4) |
 92 | Friday 24 July 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/195) | [notes](All%20Core%20Devs%20Meetings/Meeting%2092.md) | [video](https://youtu.be/RWX9vkY7Oas) |
 91 | Friday 10 July 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/192) | [notes](All%20Core%20Devs%20Meetings/Meeting%2091.md) | [video](https://youtu.be/RUZ3eJ81c0k) |
-90 | Friday 12 June 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/189) | [notes](All%20Core%20Devs%20Meetings/Meeting%2089.md) | [video](https://youtu.be/IZEcukn9J0Y) |
+90 | Friday 12 June 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/189) | [notes](All%20Core%20Devs%20Meetings/Meeting%2090.md) | [video](https://youtu.be/IZEcukn9J0Y) |
 89 | Friday 12 June 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/180) | [notes](All%20Core%20Devs%20Meetings/Meeting%2089.md) | [video](https://youtu.be/c_JmTqeQkU4) |
 88 | Friday 29 May 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/172) | [notes](All%20Core%20Devs%20Meetings/Meeting%2088.md) | [video](https://youtu.be/UJ1jK73rKdk) |
 87 | Friday 15 May 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/169) | [notes](All%20Core%20Devs%20Meetings/Meeting%2087.md) | [video](https://www.youtube.com/watch?v=bGgzALuyY3w) |
