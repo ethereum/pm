@@ -24,9 +24,10 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
     - Discussed in the [AllCoreDevs call #77](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2077.md#eip-1559) and [#97](https://github.com/ethereum/pm/pull/214/files?short_path=4d89329#diff-4d893291250cf226c77e67ad708be6f2) EIP-1559's elastic block size effectively doubles the potential effect of a DoS attack on mainnet. Solutions to this are outside the scope of this EIP and include things like [snapshot sync](https://blog.ethereum.org/2020/07/17/ask-about-geth-snapshot-acceleration/) and [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929). 
     - [Write up](https://notes.ethereum.org/@vbuterin/eip_1559_spikes) by Vitalik about why this is perhaps solved once EIP-2929 is live. 
     - Because EIP-1559's `BASE FEE` rises based on block gas utilisation, a DoS on the network would either have an exponentially increasing cost (assuming no collaboration from miners and other transactions are allowed to go through), compared to a constant cost today, or it would be costly to miners (who would need to pay the `BASE FEE` or censor the chain long enough to drop it to 0), compared to effectively free today. 
-- [ ] Performance overhead for clients 
+- [X] Performance overhead for clients 
     - It is unclear that Ethereum clients can handle "200% full" blocks for a modest amount of time without their performance being significantly affected. To test this, we are running simulations on testnets with a similar state size to the Ethereum mainnet. 
     - [Preliminary testing results](https://hackmd.io/@timbeiko/1559-prelim-perf)
+    - [Large State Performance Testing](https://hackmd.io/@timbeiko/1559-perf-test)
 - [X] Transaction Pool Management
     - Good approaches to transaction pool management have been put forward. [First write up](https://hackmd.io/@adietrichs/1559-transaction-sorting), [Second write up](https://hackmd.io/@adietrichs/1559-transaction-sorting-part2). 
 - [x] Transaction Encoding/Decoding
