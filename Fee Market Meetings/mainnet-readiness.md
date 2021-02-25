@@ -106,8 +106,9 @@ An Economic Analysis of EIP-1559" by Tim Roughgarden](http://timroughgarden.org/
 
 ## Community Outreach
 
+- [X] Community outreach to projects to gather feedback on EIP-1559 
+    - [Initial report published by the Ethereum Cat Herders](https://medium.com/ethereum-cat-herders/eip-1559-community-outreach-report-aa18be0666b5). Feedback still can be shared [here](https://forms.gle/bsdgBtG8g7KYnQL48). More wallet and exchange feedback is still needed. An update to the report may be published once more feedback has been gathered.  
+    - [Second outreach round, where projects can now signal their support](https://github.com/ethereum-cat-herders/1559-outreach)
 - [X] Outreach to miners to better understand their objections to 1559, and stance if it is to be deployed on mainnet. 
     - A discord channel has been created for miners to voice their concerns about EIP-1559
     - A community call has been organized for miners and other stakeholders to discuss EIP-1559's impact 
-- [X] Community outreach to projects to gather feedback on EIP-1559 
-    - [Initial report published by the Ethereum Cat Herders](https://medium.com/ethereum-cat-herders/eip-1559-community-outreach-report-aa18be0666b5). Feedback still can be shared [here](https://forms.gle/bsdgBtG8g7KYnQL48). More wallet and exchange feedback is still needed. An update to the report may be published once more feedback has been gathered.  
