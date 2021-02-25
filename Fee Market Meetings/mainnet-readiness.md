@@ -74,9 +74,9 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 - [X] Single-client PoW testnet to ensure the spec works with PoW
     - Done by Besu team.
 - [X] Multi-client PoW testnet to ensure all code paths are tested; 
-    - The Rhoades testnet is a multi-client PoW testnet ([link](https://hackmd.io/@timbeiko/1559-prelim-perf))
+    - The Rhoades testnet is a multi-client PoW testnet ([link](https://hackmd.io/@timbeiko/1559-perf-test))
 - [X] Large state testnet to analyze performance with ~100M accounts on chain. 
-    - The Rhoades testnet has 100m accounts and contract storage slots ([link](https://hackmd.io/@timbeiko/1559-prelim-perf))
+    - The Rhoades testnet has 100m accounts and contract storage slots ([link](https://hackmd.io/@timbeiko/1559-perf-test))
 
 ### Other Testing
 
@@ -106,7 +106,7 @@ An Economic Analysis of EIP-1559" by Tim Roughgarden](http://timroughgarden.org/
 
 ## Community Outreach
 
-- [ ] Outreach to miners to better understand their objections to 1559, and stance if it is to be deployed on mainnet. 
+- [X] Outreach to miners to better understand their objections to 1559, and stance if it is to be deployed on mainnet. 
     - A discord channel has been created for miners to voice their concerns about EIP-1559
     - A community call has been organized for miners and other stakeholders to discuss EIP-1559's impact 
 - [X] Community outreach to projects to gather feedback on EIP-1559 
