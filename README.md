@@ -25,7 +25,8 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
   #### Agenda
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
-  1. Potential London EIPs 
+     1. Client releases that support Berlin
+  3. Potential London EIPs 
      1. EIP-1559 [#254](https://github.com/ethereum/pm/issues/254)
 
 
