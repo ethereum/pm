@@ -28,6 +28,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
      1. Client releases that support Berlin
   3. Potential London EIPs 
      1. EIP-1559 [#254](https://github.com/ethereum/pm/issues/254)
+     2. EIP-3298 [#255](https://github.com/ethereum/pm/issues/255)
 
 
 <details>
