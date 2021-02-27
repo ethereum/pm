@@ -27,8 +27,9 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
      1. Client releases that support Berlin
   3. Potential London EIPs 
-     1. EIP-1559 [#254](https://github.com/ethereum/pm/issues/254)
-     2. EIP-3298 [#255](https://github.com/ethereum/pm/issues/255)
+     1. EIP-1559 - Fee Market Change [#254](https://github.com/ethereum/pm/issues/254)
+     2. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255)
+     3. EIP-3238 - Difficulty Bomb Delay [#256](https://github.com/ethereum/pm/issues/256)
 
 
 <details>
