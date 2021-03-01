@@ -21,7 +21,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   #### Meeting Info
   * [March 5, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-5-2021/2pm)
   * Duration: 90 minutes
-  * Youtube Stream: TBA
+  * Youtube Stream: https://youtu.be/xWfR-WxjmYg
 
   #### Agenda
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
