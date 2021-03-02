@@ -46,8 +46,7 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 #### EIPs & Reference Tests 
 
 - [ ] Reference / Consensus Tests 
-  - While the EIP isn't ready for a full suite of reference tests yet, some parts of it are well defined enough to begin testing (e.g. the base fee calculation
-)
+  - See https://github.com/ethereum/tests/issues/789
 - [ ] EIPs that return block or transaction data need to be updated to support EIP-1559/2718 style transactions, specifically: 
     - [ ] `eth_getTransactionByBlockNumberAndIndex`
     - [ ] `eth_getTransactionByBlockHashAndIndex`
