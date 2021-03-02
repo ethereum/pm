@@ -26,11 +26,13 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   #### Agenda
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
      1. Client releases that support Berlin
-  3. Potential London EIPs 
+  1. Potential London EIPs 
      1. EIP-1559 - Fee Market Change [#254](https://github.com/ethereum/pm/issues/254)
-     2. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255)
-     3. EIP-3238 - Difficulty Bomb Delay [#256](https://github.com/ethereum/pm/issues/256)
-
+     1. EIP-3238 - Difficulty Bomb Delay [#256](https://github.com/ethereum/pm/issues/256)
+     1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) & EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258)
+     1. EIP-3074 - Sponsored Transaction Precompile [#260](https://github.com/ethereum/pm/issues/260)
+     1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
+     1. Other CFI EIPs [#259](https://github.com/ethereum/pm/issues/259)
 
 <details>
   <summary>ACD 108: March 19, 2021</summary>
@@ -83,7 +85,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
 
 ### Who Can Attend
-Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to Hudson Jameson at hudson@ethereum.org.
+Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
 
 ### Who Manages the Meetings
 In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings. Since 2018, the Ethereum Cat Herders have been in charge of note taking for the meetings. Starting March 2021, Tim Beiko will be facilitating the meetings.
