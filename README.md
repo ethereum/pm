@@ -31,7 +31,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   1. Potential London EIPs 
      1. EIP-1559 - Fee Market Change [#254](https://github.com/ethereum/pm/issues/254)
      1. EIP-3238 - Difficulty Bomb Delay [#256](https://github.com/ethereum/pm/issues/256)
-     1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) & EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258)
+     1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) vs. EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) vs. EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
      1. EIP-3074 - Sponsored Transaction Precompile [#260](https://github.com/ethereum/pm/issues/260)
      1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
      1. Other CFI EIPs [#259](https://github.com/ethereum/pm/issues/259)
