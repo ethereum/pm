@@ -21,12 +21,12 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   #### Meeting Info
   * [March 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-19-2021/2pm)
   * Duration: 90 minutes
-  * Youtube Stream: TBA
+  * Youtube Stream: https://youtu.be/AclPXsRlgSc
 
   #### Agenda
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
       - Ropsten & Goerli fork update [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
-  1. London timing/scope [#245](https://github.com/ethereum/pm/issues/245)& Shanghai timing [#267](https://github.com/ethereum/pm/issues/267)
+  1. London timing/scope [#245](https://github.com/ethereum/pm/issues/245) & Shanghai timing [#267](https://github.com/ethereum/pm/issues/267)
   1. EIPs Proposals 
      1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) vs. EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) vs. EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
      1. BLS Support [#269](https://github.com/ethereum/pm/issues/269) 
