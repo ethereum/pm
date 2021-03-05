@@ -16,28 +16,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 - The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
 - The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
 
-#### ACD 107: March 5, 2021
-
-  #### Meeting Info
-  * [March 5, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-5-2021/2pm)
-  * Duration: 90 minutes
-  * Youtube Stream: https://youtu.be/xWfR-WxjmYg
-
-  #### Agenda
-  1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
-     1. EIP-2315 [#263](https://github.com/ethereum/pm/issues/263)
-     1. Berlin timing [#248](https://github.com/ethereum/pm/issues/248#issuecomment-782106181)
-     3. Client releases that support Berlin ETA + Berlin announcement 
-  1. Potential London EIPs 
-     1. EIP-1559 - Fee Market Change [#254](https://github.com/ethereum/pm/issues/254)
-     1. EIP-3238 - Difficulty Bomb Delay [#256](https://github.com/ethereum/pm/issues/256)
-     1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) vs. EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) vs. EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
-     1. EIP-3074 - Sponsored Transaction Precompile [#260](https://github.com/ethereum/pm/issues/260)
-     1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
-     1. Other CFI EIPs [#259](https://github.com/ethereum/pm/issues/259)
-
-<details>
-  <summary>ACD 108: March 19, 2021</summary>
+#### ACD 108: March 19, 2021
 
   #### Meeting Info
   * [March 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-19-2021/2pm)
@@ -45,9 +24,15 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   * Youtube Stream: TBA
 
   #### Agenda
-  1. [YOLOv3](https://github.com/ethereum/eth1.0-specs/blob/master/client-integration-testnets/YOLOv3.md) and [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
-  2. Other EIPs or discussion items.
-</details>
+  1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
+      - Ropsten & Goerli fork update [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
+  1. London timing/scope [#245](https://github.com/ethereum/pm/issues/245)& Shanghai timing [#267](https://github.com/ethereum/pm/issues/267)
+  1. EIPs Proposals 
+     1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) vs. EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) vs. EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
+     1. BLS Support [#269](https://github.com/ethereum/pm/issues/269) 
+     1. EIP-3074 - Sponsored Transaction Precompile [#260](https://github.com/ethereum/pm/issues/260)
+     1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
+     1. Other CFI EIPs [#259](https://github.com/ethereum/pm/issues/259)
 
 <details>
   <summary>ACD 109: April 2, 2021</summary>
@@ -210,6 +195,30 @@ The meetings are independent of any organization. However, Hudson Jameson and Ti
 
 <details> 
 
+  <summary>  ACD 107: March 5, 2021 </summary> 
+
+  #### Meeting Info
+  * [March 5, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-5-2021/2pm)
+  * Duration: 90 minutes
+  * Youtube Stream: https://youtu.be/xWfR-WxjmYg
+
+  #### Agenda
+  1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
+     1. EIP-2315 [#263](https://github.com/ethereum/pm/issues/263)
+     1. Berlin timing [#248](https://github.com/ethereum/pm/issues/248#issuecomment-782106181)
+     3. Client releases that support Berlin ETA + Berlin announcement 
+  1. Potential London EIPs 
+     1. EIP-1559 - Fee Market Change [#254](https://github.com/ethereum/pm/issues/254)
+     1. EIP-3238 - Difficulty Bomb Delay [#256](https://github.com/ethereum/pm/issues/256)
+     1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) vs. EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) vs. EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
+     1. [Not covered] EIP-3074 - Sponsored Transaction Precompile [#260](https://github.com/ethereum/pm/issues/260)
+     1. [Not covered] EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
+     1. [Not covered] Other CFI EIPs [#259](https://github.com/ethereum/pm/issues/259)
+     
+</details>
+
+<details> 
+
   <summary>  ACD 106: February 19, 2021 </summary>
 
   #### ACD 106 Meeting Info
@@ -226,3 +235,4 @@ The meetings are independent of any organization. However, Hudson Jameson and Ti
   1. (Announcement) 1559 Community Call [#251](https://github.com/ethereum/pm/issues/251) 
 
 </details>
+
