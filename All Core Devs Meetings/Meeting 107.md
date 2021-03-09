@@ -464,7 +464,7 @@ No objections.
 
 **Peter**
 
-* Alexi should be brought into that discussion.
+* Alexey should be brought into that discussion.
 
 # Gas refund EIPs
 
@@ -506,7 +506,6 @@ No objections.
 ---------------------------------------
 ## Next Meeting
 March 19th, 2021 @ 1400 UTC
-
 
 
 
