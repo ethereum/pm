@@ -481,7 +481,7 @@ No objections.
 
 * No time for rebuttals on this - post rebuttals in the [agenda topic](https://github.com/ethereum/pm/issues/258) for EIP-3300.
 * William is on Eth R&D Discord for questions/rebuttals.
-* Goodbye all, thanks for all the fish.
+* Goodbye all, thanks for having me do this last few years. Let's all get excited for Tim taking this over. He is going to do a great job. Thank you all, we've another meeting in two weeks on March 19th at 1400 UTC.```
 
 -------------------------------------------
 ## Attendees
@@ -506,7 +506,6 @@ No objections.
 ---------------------------------------
 ## Next Meeting
 March 19th, 2021 @ 1400 UTC
-
 
 
 
