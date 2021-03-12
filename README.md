@@ -18,6 +18,8 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
 #### ACD 108: March 19, 2021
 
+**Note, with DST ending, the meeting time may be different in your region. Please double-check the meeting time in the section below. UTC time does not "move".**
+
   #### Meeting Info
   * [March 19, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/mar-19-2021/2pm)
   * Duration: 90 minutes
