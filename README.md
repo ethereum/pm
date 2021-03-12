@@ -32,6 +32,8 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
      1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) vs. EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) vs. EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
      1. EIP-3368 -  Increase block rewards to 3 ETH, with 2 Year Decay to 1 ETH Scheduled [#273](https://github.com/ethereum/pm/issues/273)
      1. EIP-3198 - `BASE FEE` Opcode [#270](https://github.com/ethereum/pm/issues/270)
+     1. [Already Included] EIP-3238 - Difficulty Bomb [#256](https://github.com/ethereum/pm/issues/256)
+         - Need to agree on pushback period 
   1. London timing/scope [#245](https://github.com/ethereum/pm/issues/245) & Shanghai timing [#267](https://github.com/ethereum/pm/issues/267)
   1. Other EIPs Proposals 
      1. BLS Support [#269](https://github.com/ethereum/pm/issues/269) 
