@@ -35,11 +35,12 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
      1. [Already Included] EIP-3238 - Difficulty Bomb [#256](https://github.com/ethereum/pm/issues/256)
          - Need to agree on pushback period 
   1. London timing/scope [#245](https://github.com/ethereum/pm/issues/245) & Shanghai timing [#267](https://github.com/ethereum/pm/issues/267)
-  1. Other EIPs Proposals 
+  1. [If time permits] Other EIPs Proposals 
      1. BLS Support [#269](https://github.com/ethereum/pm/issues/269) 
      1. EIP-3074 - Sponsored Transaction Precompile [#260](https://github.com/ethereum/pm/issues/260)
      1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
      1. EIP-2677 - Limit size of `initcode` [#271](https://github.com/ethereum/pm/issues/271)
+     1. EIP-2315 - Simple Subroutines [#274](https://github.com/ethereum/pm/issues/274) 
      3. Other CFI EIPs [#259](https://github.com/ethereum/pm/issues/259)
 
 <details>
