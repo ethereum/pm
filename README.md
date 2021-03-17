@@ -38,7 +38,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   1. [If time permits] Other EIPs Proposals 
      1. EIP-2315 - Simple Subroutines [#274](https://github.com/ethereum/pm/issues/274) 
      1. BLS Support [#269](https://github.com/ethereum/pm/issues/269) 
-     1. EIP-3074 - Sponsored Transaction Precompile [#260](https://github.com/ethereum/pm/issues/260)
+     1. EIP-3074 - `AUTH` and `AUTHCALL` opcodes [#260](https://github.com/ethereum/pm/issues/260)
      1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
      1. EIP-2677 - Limit size of `initcode` [#271](https://github.com/ethereum/pm/issues/271)
      3. Other CFI EIPs [#259](https://github.com/ethereum/pm/issues/259)
