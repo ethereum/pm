@@ -29,12 +29,16 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
   1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
       - Ropsten & Goerli fork updates [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
   1. EIPs Proposals related to [Included London EIPs](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/london.md#included-eips)
-     1. EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) vs. EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) vs. EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
+     1. Gas Refunds Alternatives:
+        1.  EIP-3298 - Disabling Gas Refunds [#255](https://github.com/ethereum/pm/issues/255) 
+        2.  EIP-3300 - Phase Out Refunds [#258](https://github.com/ethereum/pm/issues/258) 
+        3.  EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
+        4.  EIP-3403 - Partial Removal of Refunds [#277](https://github.com/ethereum/pm/issues/277) 
      1. EIP-3198 - `BASE FEE` Opcode [#270](https://github.com/ethereum/pm/issues/270)
      1. EIP-3368 -  Increase block rewards to 3 ETH, with 2 Year Decay to 1 ETH Scheduled [#273](https://github.com/ethereum/pm/issues/273)
      1. [Already Included] EIP-3238 - Difficulty Bomb [#256](https://github.com/ethereum/pm/issues/256)
          - Need to agree on pushback period 
-  1. London timing/scope [#245](https://github.com/ethereum/pm/issues/245) & Shanghai timing [#267](https://github.com/ethereum/pm/issues/267)
+  1. London timing/scope [#245](https://github.com/ethereum/pm/issues/245) & Shanghai timing/scope [#267](https://github.com/ethereum/pm/issues/267)
   1. [If time permits] Other EIPs Proposals 
      1. EIP-2315 - Simple Subroutines [#274](https://github.com/ethereum/pm/issues/274) 
      1. BLS Support [#269](https://github.com/ethereum/pm/issues/269) 
