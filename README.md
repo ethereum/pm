@@ -38,7 +38,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
      1. EIP-3368 -  Increase block rewards to 3 ETH, with 2 Year Decay to 1 ETH Scheduled [#273](https://github.com/ethereum/pm/issues/273)
   1. Network Upgrade Timing & Scope
      1. London [#245](https://github.com/ethereum/pm/issues/245)
-        - Should we include beyond the current list? 
+        - Should we include anything beyond the current list? 
      1. Shanghai: Shortly after London ([#267](https://github.com/ethereum/pm/issues/267)), or focus on The Merge ([#278](https://github.com/ethereum/pm/issues/278))
      1. EIP-3238 - Difficulty Bomb [#256](https://github.com/ethereum/pm/issues/256)
          - Need to agree on pushback period 
