@@ -7,6 +7,7 @@ The purpose of thess calls is for various teams/individuals working on aspects o
 
  №  | Meeting | Date                             | Agenda           | Notes                  | Recording          |
 --- | ------- |--------------------------------  | :--------------: | :--------------------: | :----------------: |
+XXX | EIP 1559 Community Call | Feb 26th 2021 | [🔗](https://medium.com/ethereum-cat-herders/ethereum-1559-community-call-d43d5f0bf909) | [🔗](Fee%20Market%20Meetings/1559%20community%20call.md) | [📺](https://www.youtube.com/watch?v=EdXhL6VR0mU&t=219s&ab_channel=EthereumCatHerders) |
 009 | EIP 1559 Implementers' Call 9 | Jan 14th 2021 | [🔗](https://github.com/ethereum/pm/issues/234) | [🔗](https://github.com/ethereum/pm/blob/master/Fee%20Market%20Meetings/Meeting%2009.md) | [📺](https://www.youtube.com/watch?v=KllIW2hqw2I) |
 008 | EIP 1559 Implementers' Call 8 | Dec 17th 2020 | [🔗](https://github.com/ethereum/pm/issues/229) | [🔗](https://github.com/ethereum/pm/blob/master/Fee%20Market%20Meetings/Meeting%2008.md) | [📺](https://www.youtube.com/watch?v=mCOfz50Wcmo&feature=youtu.be) |
 007 | EIP 1559 Implementers' Call 7 | Dec 3rd 2020 | [🔗](https://github.com/ethereum/pm/issues/226) | [🔗](https://github.com/ethereum/pm/blob/master/Fee%20Market%20Meetings/Meeting%2007.md) | [📺](https://www.youtube.com/watch?v=dopljpI59Rw&feature=youtu.be) |
