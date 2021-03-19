@@ -20,30 +20,31 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
 **Note, with DST ending, the meeting time may be different in your region. Please double-check the meeting time in the section below. UTC time does not "move".**
 
-  #### Meeting Info
-  * [April 2, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-2-2021/2pm)
-  * Duration: 90 minutes
-  * Youtube Stream: TBA
+#### Meeting Info
 
-  #### Agenda
-  1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
-      - Rinkeby fork updates [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
-  1. Shanghai & The Merge Proposals:
-      - Shanghai in October (no merge) [#267](https://github.com/ethereum/pm/issues/267)
-      - Shanghai delayed with focus on merge [#278](https://github.com/ethereum/pm/issues/278)
-  1. EIP Discussions
-    1. Gas Refund Alternatives:
-        - EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
-        - EIP-3403 - Partial Removal of Refunds [#277](https://github.com/ethereum/pm/issues/277)
-    1. `BASE FEE` Opcode [#270](https://github.com/ethereum/pm/issues/270)
-    1. EIP-3074 - `AUTH` and `AUTHCALL` opcodes [#260](https://github.com/ethereum/pm/issues/260)
-    1. BLS Support [#269](https://github.com/ethereum/pm/issues/269)
-    1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
-    1. EIP-2677 - Limit size of `initcode` [#271](https://github.com/ethereum/pm/issues/271)
-    1. EIP-2935 - Save historical block hashes in state [#279](https://github.com/ethereum/pm/issues/279)
-    1. EIP-2315 - Simple Subroutines [#274](https://github.com/ethereum/pm/issues/274)
-    1. [Aleady in London] EIP-3238 - Difficulty Bomb [#256](https://github.com/ethereum/pm/issues/256)
-        - Need to agree on pushback period
+* [April 2, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-2-2021/2pm)
+* Duration: 90 minutes
+* Youtube Stream: TBA
+
+#### Agenda
+1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
+    - Rinkeby fork updates [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
+1. Shanghai & The Merge Proposals:
+    - Shanghai in October (no merge) [#267](https://github.com/ethereum/pm/issues/267)
+    - Shanghai delayed with focus on merge [#278](https://github.com/ethereum/pm/issues/278)
+1. EIP Discussions
+  1. Gas Refund Alternatives:
+      - EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
+      - EIP-3403 - Partial Removal of Refunds [#277](https://github.com/ethereum/pm/issues/277)
+  1. `BASE FEE` Opcode [#270](https://github.com/ethereum/pm/issues/270)
+  1. EIP-3074 - `AUTH` and `AUTHCALL` opcodes [#260](https://github.com/ethereum/pm/issues/260)
+  1. BLS Support [#269](https://github.com/ethereum/pm/issues/269)
+  1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
+  1. EIP-2677 - Limit size of `initcode` [#271](https://github.com/ethereum/pm/issues/271)
+  1. EIP-2935 - Save historical block hashes in state [#279](https://github.com/ethereum/pm/issues/279)
+  1. EIP-2315 - Simple Subroutines [#274](https://github.com/ethereum/pm/issues/274)
+  1. [Aleady in London] EIP-3238 - Difficulty Bomb [#256](https://github.com/ethereum/pm/issues/256)
+      - Need to agree on pushback period
 
 <details>
   <summary>ACD 110: April 16, 2021</summary>
