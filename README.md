@@ -38,7 +38,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
           - EIP-3403 - Partial Removal of Refunds [#277](https://github.com/ethereum/pm/issues/277)
       1. `BASE FEE` Opcode [#270](https://github.com/ethereum/pm/issues/270)
       1. EIP-3074 - `AUTH` and `AUTHCALL` opcodes [#260](https://github.com/ethereum/pm/issues/260)
-      1. BLS Support [#269](https://github.com/ethereum/pm/issues/269)
+      1. EIP-2537 - Precompile for BLS12-381 curve operations [#269](https://github.com/ethereum/pm/issues/269)
       1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
       1. EIP-2677 - Limit size of `initcode` [#271](https://github.com/ethereum/pm/issues/271)
       1. EIP-2935 - Save historical block hashes in state [#279](https://github.com/ethereum/pm/issues/279)
