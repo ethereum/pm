@@ -29,7 +29,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 #### Agenda
 1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
     - Rinkeby fork updates [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
-1. London (https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/london.md) Updates 
+1. [London](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/london.md) Updates 
     -  Client implementation updates 
 3. Shanghai & The Merge Proposals:
     - Shanghai delayed with focus on merge [#278](https://github.com/ethereum/pm/issues/278)
