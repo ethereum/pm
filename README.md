@@ -29,10 +29,13 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 #### Agenda
 1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
     - Rinkeby fork updates [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
-1. Shanghai & The Merge Proposals:
-    - Shanghai in October (no merge) [#267](https://github.com/ethereum/pm/issues/267)
+1. London (https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/london.md) Updates 
+    -  Client implementation updates 
+3. Shanghai & The Merge Proposals:
     - Shanghai delayed with focus on merge [#278](https://github.com/ethereum/pm/issues/278)
-1. EIP Discussions
+        - "Merge sprint" from mid-April to mid-May 
+    - Shanghai in October (no merge) [#267](https://github.com/ethereum/pm/issues/267)
+4. EIP Discussions
       1. Gas Refund Alternatives:
           - EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
           - EIP-3403 - Partial Removal of Refunds [#277](https://github.com/ethereum/pm/issues/277)
