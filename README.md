@@ -1,6 +1,6 @@
 # Ethereum Project Management Repository
 
-This repository is used for project management for various initiatives affecting the Ethereum protocol, such as the All Core Devs calls, Ethereum 1.x calls and more.
+This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the All Core Devs meeting, but it is also used for [Ethereum 1.x](/ETH-1X) and [Fee Market](/Fee-Market) meetings. 
 
 ## All Core Devs Meetings
 
@@ -9,7 +9,7 @@ The All Core Devs meeting is a technical call intended to bring together various
 
 ### Agendas
 
-Below are the agendas for the upcomming All Core Devs calls. To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss, when you would like to discuss this on All Core Devs, the amount of time you think you will need and links any relevant materials (EIPs, prototypes, etc.).
+Below are the agendas for the upcomming All Core Devs calls. To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss and links any relevant materials (EIPs, prototypes, etc.).
 
 Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
 - The topic is technical in nature.
@@ -75,12 +75,12 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
 
 ### Who Can Attend
-Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
+Protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
 
 ### Who Manages the Meetings
-In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings. Since 2018, the Ethereum Cat Herders have been in charge of note taking for the meetings. Starting March 2021, Tim Beiko will be facilitating the meetings.
+In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings. Starting March 2021, Tim Beiko has been facilitating and streaming the meetings. Since 2018, the Ethereum Cat Herders have been in charge of note taking for the meetings.
 
-The meetings are independent of any organization. However, Hudson Jameson and Tim Beiko are contractors for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
+The meetings are independent of any organization. However, Tim Beiko is a contractor for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit). 
 
 ### Previous Meetings
 
