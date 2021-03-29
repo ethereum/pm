@@ -1,4 +1,4 @@
-# Fee Market Changes Meeting
+# Fee Market Changes Meetings
 
 ## Purpose
 The purpose of thess calls is for various teams/individuals working on aspects of [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559) and other fee market change proposals (i.e. [EIP-2593](https://github.com/ethereum/EIPs/pull/2593)) to discuss the implementation plan and next steps to move the work forward. 
