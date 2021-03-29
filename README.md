@@ -9,45 +9,12 @@ The All Core Devs meeting is a technical call intended to bring together various
 
 ### Agendas
 
-Below are the agendas for the upcomming All Core Devs calls. To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss and links any relevant materials (EIPs, prototypes, etc.).
+The agendas for the calls are tracked in the Issues tab of this repository, under the "agenda" label ([link](https://github.com/ethereum/pm/issues?q=is%3Aissue+label%3Aagenda+)). To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss and links any relevant materials (EIPs, prototypes, etc.). Then, add the ["topic"](https://github.com/ethereum/pm/labels/topic) label to your issue, and leave a comment in the agenda where you would like this to be discussed. Here is an example: https://github.com/ethereum/pm/issues/289#issuecomment-809501046.
 
 Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
 - The topic is technical in nature.
 - The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
 - The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
-
-#### ACD 109: April 2, 2021
-
-**Note, with DST ending, the meeting time may be different in your region. Please double-check the meeting time in the section below. UTC time does not "move".**
-
-#### Meeting Info
-
-* [April 2, 2021, 14:00 UTC](https://savvytime.com/converter/utc-to-germany-berlin-united-kingdom-london-ny-new-york-city-ca-san-francisco-china-shanghai-japan-tokyo-australia-sydney/apr-2-2021/2pm)
-* Duration: 90 minutes
-* Youtube Stream: https://youtu.be/V-Qz4UN6Z88
-
-#### Agenda
-1. [Berlin](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/berlin.md) Updates
-    - Rinkeby fork updates [#248](https://github.com/ethereum/pm/issues/248#issuecomment-791499728)
-1. [London](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/london.md) Updates 
-    -  Client implementation updates 
-3. Shanghai & The Merge Proposals:
-    - Shanghai delayed with focus on merge [#278](https://github.com/ethereum/pm/issues/278)
-        - "Merge sprint" from mid-April to mid-May 
-    - Shanghai in October (no merge) [#267](https://github.com/ethereum/pm/issues/267)
-4. EIP Discussions
-      1. Gas Refund Alternatives:
-          - EIP-3322 - Efficient Gas Storage [#266](https://github.com/ethereum/pm/issues/266)
-          - EIP-3403 - Partial Removal of Refunds [#277](https://github.com/ethereum/pm/issues/277)
-      1. `BASE FEE` Opcode [#270](https://github.com/ethereum/pm/issues/270)
-      1. EIP-3074 - `AUTH` and `AUTHCALL` opcodes [#260](https://github.com/ethereum/pm/issues/260)
-      1. EIP-2537 - Precompile for BLS12-381 curve operations [#269](https://github.com/ethereum/pm/issues/269)
-      1. EIP-2327 - BEGINDATA [#262](https://github.com/ethereum/pm/issues/262)
-      1. EIP-2677 - Limit size of `initcode` [#271](https://github.com/ethereum/pm/issues/271)
-      1. EIP-2935 - Save historical block hashes in state [#279](https://github.com/ethereum/pm/issues/279)
-      1. EIP-2315 - Simple Subroutines [#274](https://github.com/ethereum/pm/issues/274)
-      1. [Aleady in London] EIP-3238 - Difficulty Bomb [#256](https://github.com/ethereum/pm/issues/256)
-          - Need to agree on pushback period
 
 ### Who Can Attend
 Protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
