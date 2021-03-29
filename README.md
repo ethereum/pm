@@ -1,6 +1,6 @@
 # Ethereum Project Management Repository
 
-This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the All Core Devs meeting, but it is also used for [Ethereum 1.x](/ETH-1X) and [Fee Market](/Fee-Market) meetings. 
+This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the All Core Devs meeting, but it is also used for [Ethereum 1.x](/ETH-1X), [Merge](/Merge) and [Fee Market](/Fee-Market) meetings. 
 
 ## All Core Devs Meetings
 
