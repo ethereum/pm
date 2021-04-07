@@ -7,22 +7,22 @@
 ### Notes: Pooja Ranjan
 
 ----
-	
+
 # Summary
-    
+
 ## EIP Status 
 | Status | EIP |
 |-------|----------|
-| Push it to final when EIP reflects the additional text "that the block rewards are unchanged"       | EIP-2384, EIP-2387 | 
+| Push it to final when EIP reflects the additional text "that the block rewards are unchanged"       | EIP-2384, EIP-2387 |
 | Discussed under EFI. Discussion to be continued in EthMagician thread | EIP-1962, EIP-1559 |
 | Discussed under EFI. Decision required around needing a Hard Fork | EIP-1985 |
 | Eligible for Inclusion Pending Champion. Not accepted into Berlin | EIP-1702 |
 |May not be ready. Currently depends on EIP-1702 | EIP-663	|
 | Eligible for Inclusion | EIP-1380, EIP-2046|
-| Accepted & Final | EIP-152, EIP-1057, EIP-1108, EIP-1344, EIP-1679, EIP-1803, EIP-1884, EIP-2028, EIP-2200|
+| Accepted | EIP-152, EIP-1057, EIP-1108, EIP-1344, EIP-1679, EIP-1803, EIP-1884, EIP-2028, EIP-2200|
 
 ## DECISIONS
-	
+
 **DECISIONS 77.1**: The difficulty bomb will be addressed at some point post Muir Glacier upgrade for push of #blocks.
 
 **DECISIONS 77.2**: EIP 1559 - Discussion to be continued in EthMagician thread.

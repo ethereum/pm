@@ -7,9 +7,9 @@
 ### Notes: Pooja Ranjan
 
 ----
-	
+
 # Summary
-    
+
 ## EIP Status 
 EIP | Status
 ---|---
@@ -25,7 +25,7 @@ EIP-1985 | Discussed under `EFI`. Decision required around needing a Hard Fork
 
 
 ## DECISIONS
-	
+
 **DECISIONS 81.1**: EIP 2315 is moving to EFI.
 
 **DECISIONS 81.2**: Revisit EIP 2456 as EFI. 
@@ -34,18 +34,17 @@ EIP-1985 | Discussed under `EFI`. Decision required around needing a Hard Fork
 
 **DECISIONS 81.4**: There is no way can to confirm the EIP 1962 is going in, clients have serious concerns implementing. They may coordinate something in ETH Paris. 
 
-**DECISIONS 81.5**: Berlin would happen when the BLS pre-compile is ready, ProgPOW would happen the next third Wednesday after that.
-
 
 ## ACTION ITEMS
 
-**ACTION 81.1**: Ethereum blog to announce officially that ProgPOW is being adopted because of the decision of all core devs.
+**ACTION 81.1**: Zach will share better communication methods to interact with the Open RPC team. 
 
-**ACTION 81.2**: Zach will share better communication methods to interact with the Open RPC team. 
+**ACTION 81.2**: Hudson will merge PR to change the state to Accepted for EIP 778 and EIP 868. 
 
-**ACTION 81.3**: Hudson will merge PR to change the state to Accepted for EIP 778 and EIP 868. 
+## PROPOSALS
 
-
+**PROPOSAL 81.1**: Berlin would happen when the BLS pre-compile is ready, ProgPOW would happen the next third Wednesday after that.
+**PROPOSAL 81.2**: An informational post on Ethereum blog about ProgPOW. 
 
 -----
 
