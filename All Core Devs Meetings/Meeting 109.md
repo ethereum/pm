@@ -172,7 +172,7 @@ Video | [25:06](https://youtu.be/V-Qz4UN6Z88?t=1506)
 
 **James** - Yeah, I was going to say the first question we could triage is would would this fit in like the next step and scope of work? Just like to get a flavor for how simple it is.
 
-## 3403
+## EIP-3403
 
 **Tim** - Yeah, yeah, I think that's probably simplest. So the first one is 3403, so this is the partial removal of refunds, the kind of updated EIP by Vitalik. I see. William, you have your hand up. Yes.
 
