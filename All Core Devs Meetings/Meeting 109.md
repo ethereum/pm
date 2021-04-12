@@ -1,4 +1,40 @@
-https://github.com/ethereum/pm/issues/289
+
+# All Core Devs Meeting 109
+
+### Meeting Date/Time: Friday, April 2nd, 2021 14:00 UTC
+
+### Meeting Duration: 1 hour 45 min
+
+### [GitHub Agenda](https://github.com/ethereum/pm/issues/289)
+
+### [Video of the meeting](https://youtu.be/V-Qz4UN6Z88)
+
+### Moderator: Tim Beico
+
+### Notes: Alita Moore
+
+### Summary
+
+## Decisions Made
+
+| Decision Item | Description |
+| ------------- | ----------- |
+| **1**   | Use geological faults for testnet names |      
+| **2** | Postpone EIP 3074 and prioritize client dev security investigation from a user perspective; generally, there's contention among the core developers regarding security concerns of EIP 3074 because it introduces a whole new security paradigm; the core developers want more time to take the necessary due diligence in understanding the security implications and to begin client developer outreach for similar reasons. Alexey, Martin, and Tomasz expressed their concerns. |
+| **3**   | Although consensus is not perfectly clear, it appears that the core devs agree that both the BLS precompile and EVM384 (EIP to enable BLS cryptography on the EVM via arithmetic optimizations) should be done. BLS precompile is to be included as soon as possible (not in Berlin but potentially Shanghai merge) and EVM384 is to be done at a later date; according to Micah, the primary motivator for this is because the pre-compile is easier to manage versus its EVM based counterpart due to a lack of knowledge cryptographers in the core developers. |  
+| **4**   | Include 1559 and Basefee only in the first dev net | 
+| **5** | Delay discussion on the second dev net until next meeting |
+
+## Actions Required
+
+| Action Item | Description                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------- |
+| **1** |  Update your node before next meeting (google for ethereum foundation blog post) |
+| **2** |  Tim to upload spec on eth1 specs repo regarding 1559 breaking changes  |
+| **3** | Danny will reach back out to EIP 3074 team about user-side security audit |
+| **4** | Thomasz will review and implement EIP 3074 more deeply to provide his perspective |
+
+---
 
 # 1. Berlin Updates
 Video | [11:51](https://youtu.be/V-Qz4UN6Z88?t=711)
@@ -364,3 +400,39 @@ Decision 5 | [1:42:00](https://youtu.be/V-Qz4UN6Z88?t=6120)
 
 **Tim** - OK, I see your comment. OK, so let's yeah, let's maybe wait another two weeks anyways, there's still some work to do on 1559 to resolve this se[c]. So it's not like we're setting up the devnet tomorrow, but I'll put this up, put a specification for the devnet up probably early next week, but just at a high level we'll include 1559 and the basefee code in this first version and we'll use, I forget what the name was but the name that I like kind of proposed earlier on in the call. And that was it. Any final comments, thoughts?
 
+## Attendees
+
+- Tomasz Stanczak
+- Tim Beiko
+- James Prestwich
+- Rai @ consensys
+- William Morriss
+- Martin Holst Swende
+- Lightclient
+- Pooja Ranjan
+- Vitalik Buterin
+- Trent Van Epps
+- Greg Colvin
+- Kelly
+- Mikhail Kalinin
+- Abdelhamid Bakhta
+- Marcelo Ruiz de Olano
+- Danny
+- Ansgar Dietrichs
+- Paul D.
+- James Hancock
+- John
+- Karim T.
+- Afri
+- Gary Schulte
+- Sam Wilson
+- Dankrad Feist
+- Micah Zoltu
+- SasaWebUp
+- Marek Moroczynski
+- Pawel Bylica
+- Marcin Sobczak
+
+## Next Meeting
+
+April 16th, 2021 @ 1400 UTC
