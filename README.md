@@ -1,14 +1,44 @@
+# Ethereum Project Management Repository
+
+This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the All Core Devs meeting, but it is also used for [Ethereum 1.x](/ETH-1X), [Merge](/Merge) and [Fee Market](/Fee-Market) meetings. 
+
 ## All Core Devs Meetings
 
 ### Purpose
-The all core devs meeting is a technical meeting intended to bring together various Ethereum teams who play major roles in determining the direction of the protocol. Ethereum client and research teams provide updates to their projects, discuss various [EIPs](https://eips.ethereum.org/) to improve the protocol, and support each other as we **buidl** Web 3.0.
+The All Core Devs meeting is a technical call intended to bring together various Ethereum teams who play major roles in determining the direction of the protocol. Ethereum client and research teams provide updates on their projects, discuss various [EIPs](https://eips.ethereum.org/) to improve the protocol, and support each other as we **buidl** Web 3.0.
+
+### Agendas
+
+The agendas for the calls are tracked in the Issues tab of this repository, under the "agenda" label ([link](https://github.com/ethereum/pm/issues?q=is%3Aissue+label%3Aagenda+)). To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss and links any relevant materials (EIPs, prototypes, etc.). Then, add the ["topic"](https://github.com/ethereum/pm/labels/topic) label to your issue, and leave a comment in the agenda where you would like this to be discussed. You can see an example [here](https://github.com/ethereum/pm/issues/289#issuecomment-809501046).
+
+Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
+- The topic is technical in nature.
+- The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
+- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
+
+### Who Can Attend
+Protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
+
+### Who Manages the Meetings
+In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings. Starting March 2021, Tim Beiko has been facilitating and streaming the meetings. Since 2018, the Ethereum Cat Herders have been in charge of note taking for the meetings.
+
+The meetings are independent of any organization. However, Tim Beiko is a contractor for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit). 
 
 ### Previous Meetings
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
 109 | Friday 02 Apr 2021, 14:00UTC | [agenda](https://github.com/ethereum/pm/issues/289) | [notes](All%20Core%20Devs%20Meetings/Meeting%20109.md) | [video](https://youtu.be/V-Qz4UN6Z88) |
-103 | Friday 8 Jan 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/232) | [notes](All%20Core%20Devs%20Meetings/Meeting%20103.md) | [video](https://www.youtube.com/watch?v=ITVMTHzAcg0) |
+108 | Friday 19 Mar 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/288) | [notes](All%20Core%20Devs%20Meetings/Meeting%20108.md) | [video](https://youtu.be/AclPXsRlgSc) |
+107 | Friday 05 Mar 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/287) | [notes](All%20Core%20Devs%20Meetings/Meeting%20107.md) | [video](https://youtu.be/xWfR-WxjmYg) | 
+106 | Friday 16 Feb 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/286) | [notes](All%20Core%20Devs%20Meetings/Meeting%20106.md) | [video](https://www.youtube.com/watch?v=anrbnroO3dc) |
+105 | Friday 05 Feb 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/241) | [notes](All%20Core%20Devs%20Meetings/Meeting%20105.md) | [video](https://youtu.be/ju92hAKzKcg) |
+104 | Friday 22 Jan 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/237) | [notes](All%20Core%20Devs%20Meetings/Meeting%20104.md) | [video](https://youtu.be/3xNfGNnQ5Vs) |
+103 | Friday 8 Jan 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/232) | [notes](All%20Core%20Devs%20Meetings/Meeting%20103.md) | [video](https://www.youtube.com/watch?v=ITVMTHzAcg0) |
+102 | Friday 11 Dec 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/228) | [notes](All%20Core%20Devs%20Meetings/Meeting%20102.md) | [video](https://youtu.be/EPbZ4tU4P5A) |
+101 | Friday 27 Nov 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/224) | [notes](All%20Core%20Devs%20Meetings/Meeting%20101.md) | [video](https://youtu.be/UGyqRoLwq1o) |
+100 | Friday 13 Nov 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/221) | [notes](All%20Core%20Devs%20Meetings/Meeting%20100.md) | [video](https://youtu.be/5-614J9qNvY) |
+99 | Friday 30 Oct 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/219) | [notes](All%20Core%20Devs%20Meetings/Meeting%2099.md) | [video](https://www.youtube.com/watch?v=GOWSrHtNZOQ) |
 98 | Friday 16 Oct 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/217) | [notes](All%20Core%20Devs%20Meetings/Meeting%2098.md) | [video](https://www.youtube.com/watch?v=LDSTqo0LKUM) |
 97 | Friday 02 Oct 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/211) | [notes](All%20Core%20Devs%20Meetings/Meeting%2097.md) | [video](https://youtu.be/v5Q5WPdN1jk) |
 96 | Friday 18 Sep 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/206) | [notes](All%20Core%20Devs%20Meetings/Meeting%2096.md) | [video](https://youtu.be/HUUxwyoxU7k) |
@@ -17,7 +47,7 @@ The all core devs meeting is a technical meeting intended to bring together vari
 93 | Friday 07 Aug 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/196) | [notes](All%20Core%20Devs%20Meetings/Meeting%2093.md) | [video](https://youtu.be/Riu-PqrJVH4) |
 92 | Friday 24 July 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/195) | [notes](All%20Core%20Devs%20Meetings/Meeting%2092.md) | [video](https://youtu.be/RWX9vkY7Oas) |
 91 | Friday 10 July 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/192) | [notes](All%20Core%20Devs%20Meetings/Meeting%2091.md) | [video](https://youtu.be/RUZ3eJ81c0k) |
-90 | Friday 12 June 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/189) | [notes](All%20Core%20Devs%20Meetings/Meeting%2089.md) | [video](https://youtu.be/IZEcukn9J0Y) |
+90 | Friday 26 June 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/189) | [notes](All%20Core%20Devs%20Meetings/Meeting%2090.md) | [video](https://youtu.be/IZEcukn9J0Y) |
 89 | Friday 12 June 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/180) | [notes](All%20Core%20Devs%20Meetings/Meeting%2089.md) | [video](https://youtu.be/c_JmTqeQkU4) |
 88 | Friday 29 May 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/172) | [notes](All%20Core%20Devs%20Meetings/Meeting%2088.md) | [video](https://youtu.be/UJ1jK73rKdk) |
 87 | Friday 15 May 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/169) | [notes](All%20Core%20Devs%20Meetings/Meeting%2087.md) | [video](https://www.youtube.com/watch?v=bGgzALuyY3w) |
@@ -27,7 +57,7 @@ The all core devs meeting is a technical meeting intended to bring together vari
 83 | Friday 20 March 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/159) | [notes](All%20Core%20Devs%20Meetings/Meeting%2083.md) | [video](https://www.youtube.com/watch?v=vDGj660uZE0) |
 82 | Friday 6 March 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/155) | [notes](All%20Core%20Devs%20Meetings/Meeting%2082.md) | [video](https://www.youtube.com/watch?v=kham8c0qhmw) |
 81 | Friday 21 February 2020, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/152) | [notes](All%20Core%20Devs%20Meetings/Meeting%2081.md) | [video](https://www.youtube.com/watch?v=zSRzlC_dCx8&feature=youtu.be) |
-80 | Friday, January 24, 2020 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/150) | [notes](All%20Core%20Devs%20Meetings/Meeting%2080.md) | [video](https://www.youtube.com/watch?v=535tJTI0c58&feature=youtu.be) |
+80 | Friday, February 7, 2020 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/150) | [notes](All%20Core%20Devs%20Meetings/Meeting%2080.md) | [video](https://www.youtube.com/watch?v=535tJTI0c58&feature=youtu.be) |
 79 | Friday, January 24, 2020 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/148) | [notes](All%20Core%20Devs%20Meetings/Meeting%2079.md) | [video](https://www.youtube.com/watch?v=0-Vld7GTRhQ) |
 78 | Friday, January  10, 2020 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/147) | [notes](All%20Core%20Devs%20Meetings/Meeting%2078.md) | [video](https://www.youtube.com/watch?v=snEdgekxJto) |
 77 | Friday, December 13, 2019, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/142) | [notes](All%20Core%20Devs%20Meetings/Meeting%2077.md) | [video](https://www.youtube.com/watch?v=HpoBvMylPfk) |
@@ -108,17 +138,3 @@ The all core devs meeting is a technical meeting intended to bring together vari
   2 | Fri, January 1, 2016             | None | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
   1 | Mon, November 30, 2015           | None | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
   0 | ??                               | None | [notes](Archive/EIPs%20Wiki/Notes.md) | not recorded |
-
-
-### Who Can Attend
-Low-level protocol developers, client developers, and core Ethereum researchers are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of Layer 1 research/scaling teams. Sometimes a non-core developer with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to Hudson Jameson at hudson@ethereum.org.
-
-### Agenda Items
-Agenda's are posted to https://github.com/ethereum/pm/issues. Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
-- The topic is technical in nature.
-- The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
-- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
-
-### Who Manages the Meetings
-In the beginning (2015-fall 2016) George Hallam facilitated the meetings. Since the fall of 2016 Hudson Jameson has facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings.
-The meetings are independent of any organization. However, Hudson Jameson is a contractor for the Ethereum Foundation and the Ethereum Foundation pays for the videoconference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
