@@ -32,7 +32,7 @@
 | **1** |  Update your node before next meeting (google for ethereum foundation blog post) |
 | **2** |  Tim to upload spec on eth1 specs repo regarding 1559 breaking changes  |
 | **3** | Danny will reach back out to EIP 3074 team about user-side security audit |
-| **4** | Thomasz will review and implement EIP 3074 more deeply to provide his perspective |
+| **4** | Tomasz will review and implement EIP 3074 more deeply to provide his perspective |
 
 ---
 
