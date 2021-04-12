@@ -9,7 +9,7 @@
 
 ### [Video of the meeting](https://youtu.be/V-Qz4UN6Z88)
 
-### Moderator: Tim Beico
+### Moderator: Tim Beiko
 
 ### Notes: Alita Moore
 
