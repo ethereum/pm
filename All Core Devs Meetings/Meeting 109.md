@@ -368,7 +368,7 @@ Decision 3 | [1:27:38](https://youtu.be/V-Qz4UN6Z88?t=5248)
 
 **Martin** - I wasn't really referring to attacks using large initcodes. I think we I mean, I know the worst case, the notorious case for geth and I think client developers [would be aware of] what is the notorious case for their client. I was more thinking of their existing contract, large contracts where the initcode is more than 48K, because the incode employs not only one, but one, you know, two or three contracts at the same time. And we would just destroy them for this kind of change. That's what I mean. Not that we haven't really investiate. And I think it would be prudent to do that. 
 
-## EIP 2935 Save historical block hashes in state
+## EIP-2935: Save historical block hashes in state
 
 **Tim** - OK, I just we only have a minute. I guess we're going to go over by a few minutes, that's not too bad. Tomasz, I ask about 2935 in the chat. I don't think we can get in depth into it now, but do you have any quick comments you want to make or things that people should look at they're considering.
 
