@@ -9,7 +9,7 @@ The All Core Devs meeting is a technical call intended to bring together various
 
 ### Agendas
 
-The agendas for the calls are tracked in the Issues tab of this repository, under the "agenda" label ([link](https://github.com/ethereum/pm/issues?q=is%3Aissue+label%3Aagenda+)). To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss and links any relevant materials (EIPs, prototypes, etc.). Then, add the ["topic"](https://github.com/ethereum/pm/labels/topic) label to your issue, and leave a comment in the agenda where you would like this to be discussed. You can see an example [here](https://github.com/ethereum/pm/issues/289#issuecomment-809501046).
+The agendas for the calls are tracked in the Issues tab of this repository, under the "agenda" label ([link](https://github.com/ethereum/pm/issues?q=is%3Aissue+label%3Aagenda+)). To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss and links any relevant materials (EIPs, prototypes, etc.). Then, leave a comment in the agenda where you would like this to be discussed. You can see an example [here](https://github.com/ethereum/pm/issues/289#issuecomment-809501046).
 
 Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
 - The topic is technical in nature.
