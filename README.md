@@ -28,6 +28,7 @@ The meetings are independent of any organization. However, Tim Beiko is a contra
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
+109 | Friday 02 Apr 2021, 14:00UTC | [agenda](https://github.com/ethereum/pm/issues/289) | [notes](All%20Core%20Devs%20Meetings/Meeting%20109.md) | [video](https://youtu.be/V-Qz4UN6Z88) |
 108 | Friday 19 Mar 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/288) | [notes](All%20Core%20Devs%20Meetings/Meeting%20108.md) | [video](https://youtu.be/AclPXsRlgSc) |
 107 | Friday 05 Mar 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/287) | [notes](All%20Core%20Devs%20Meetings/Meeting%20107.md) | [video](https://youtu.be/xWfR-WxjmYg) | 
 106 | Friday 16 Feb 2021, 14:00 UTC| [agenda](https://github.com/ethereum/pm/issues/286) | [notes](All%20Core%20Devs%20Meetings/Meeting%20106.md) | [video](https://www.youtube.com/watch?v=anrbnroO3dc) |
