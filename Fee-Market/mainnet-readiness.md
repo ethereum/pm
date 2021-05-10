@@ -1,27 +1,17 @@
 # EIP-1559 Mainnet Readiness Checklist
 
-This document is meant to capture various tasks that need to be completed before EIP-1559 is ready to be considered for mainnet deployement. This list is a work in progress and tries to aggregate known requirements. More things may be added in the future and checking every box is not a guarantee of mainnet deployement. 
-
-Tasks that are normally part of the "AllCoreDevs process" are not listed. In other words, this list is what should ideally be done _before_ moving EIP-1559 through the regular network upgrade process. This list is not exhaustive. A full list of 1559 resources is available [here](https://hackmd.io/@timbeiko/1559-resources). 
+This document was originally meant to capture various tasks that need to be completed before EIP-1559 is ready to be considered for mainnet deployement. EIP-1559 is now included in the London upgrade, so this document should serve as a historical reference. Sections may be updated if they are still the main source of truth for the efforts. 
 
 ## Implementation
 
 ### Client Implementation Status 
-- [ ] **Geth**
-    - [WIP implementation led by Vulcanize](https://github.com/vulcanize/go-ethereum/tree/1559_test)
-- [ ] **Besu**
-    - [WIP implementation](https://github.com/hyperledger/besu/labels/EIP-1559)
-- [ ] **Nethermind** 
-    - [WIP implementation](https://github.com/NethermindEth/nethermind/pull/2341)
-- [ ] **Open Ethereum** 
-    - ⭐️ [Hiring an implementer](https://boards.greenhouse.io/gnosis/jobs/4978262002?t=addc4e802) ⭐️
-- [ ] **TurboGeth**
-    - N/A 
+
+- See the [London specification](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/mainnet-upgrades/london.md#client-readiness-checklist).
 
 ### Client-level Open Issues
 
-- [ ] DoS risk on the Ethereum mainnet
-    - Discussed in the [AllCoreDevs call #77](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2077.md#eip-1559) and [#97](https://github.com/ethereum/pm/pull/214/files?short_path=4d89329#diff-4d893291250cf226c77e67ad708be6f2) EIP-1559's elastic block size effectively doubles the potential effect of a DoS attack on mainnet. Solutions to this are outside the scope of this EIP and include things like [snapshot sync](https://blog.ethereum.org/2020/07/17/ask-about-geth-snapshot-acceleration/) and [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929). 
+- [x] DoS risk on the Ethereum mainnet
+    - Discussed in the [AllCoreDevs call #77](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2077.md#eip-1559) and [#97](https://github.com/ethereum/pm/pull/214/files?short_path=4d89329#diff-4d893291250cf226c77e67ad708be6f2) EIP-1559's elastic block size effectively doubles the potential effect of a DoS attack on mainnet. Solutions to this are outside the scope of this EIP and include things like [snapshot sync](https://blog.ethereum.org/2020/07/17/ask-about-geth-snapshot-acceleration/) and [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929), which was deployed in Berlin. 
     - [Write up](https://notes.ethereum.org/@vbuterin/eip_1559_spikes) by Vitalik about why this is perhaps solved once EIP-2929 is live. 
     - Because EIP-1559's `BASE FEE` rises based on block gas utilisation, a DoS on the network would either have an exponentially increasing cost (assuming no collaboration from miners and other transactions are allowed to go through), compared to a constant cost today, or it would be costly to miners (who would need to pay the `BASE FEE` or censor the chain long enough to drop it to 0), compared to effectively free today. 
 - [X] Performance overhead for clients 
@@ -45,24 +35,28 @@ Tasks that are normally part of the "AllCoreDevs process" are not listed. In oth
 
 #### EIPs & Reference Tests 
 
-- [ ] Reference / Consensus Tests 
-  - See https://github.com/ethereum/tests/issues/789
+- [x] Reference / Consensus Tests 
+  - In progress, see https://github.com/ethereum/tests/issues/789
 - [ ] EIPs that return block or transaction data need to be updated to support EIP-1559/2718 style transactions, specifically: 
-    - [ ] `eth_getTransactionByBlockNumberAndIndex`
-    - [ ] `eth_getTransactionByBlockHashAndIndex`
-    - [ ] `eth_getTransactionByHash`
-    - [ ] `eth_getTransactionReceipt`
-    - [ ] `eth_getUncleByBlockNumberAndIndex`
+    - [ ] `eth_signTransaction`
+    - [ ] `eth_sendTransaction`
+    - [ ] `eth_call`
+    - [ ] `eth_estimateGas`
     - [ ] `eth_getBlockByHash` ([EIP-3041](https://eips.ethereum.org/EIPS/eip-3041))
-    - [ ] `eth_getBlockByNumber` ([EIP-3044](https://eips.ethereum.org/EIPS/eip-3044))
-    - [ ] `eth_getUncleByBlockHashAndIndex` ([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
+    - [ ] `eth_getBlockByNumber`  ([EIP-3044](https://eips.ethereum.org/EIPS/eip-3044))
+    - [ ] `eth_getTransactionByHash`
+    - [ ] `eth_getTransactionByBlockHashAndIndex`
+    - [ ] `eth_getTransactionByBlockNumberAndIndex`
+    - [ ] `eth_getTransactionReceipt`
+    - [ ] `eth_getUncleByBlockHashAndIndex`([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
     - [ ] `eth_getUncleByBlockNumberAndIndex` ([EIP-3046](https://eips.ethereum.org/EIPS/eip-3046))
 
 #### Community testing
 
-- [ ] JSON-RPC or equivalent commands that applications and tooling can use to interact with EIP-1559 
+- [x] JSON-RPC or equivalent commands that applications and tooling can use to interact with EIP-1559 
     - [x] [EIP-1559 Toolbox](http://eip1559-tx.ops.pegasys.tech/)
-- [ ] Public testnet that applications and tooling can use to test EIP-1559. 
+- [x] Public testnet that applications and tooling can use to test EIP-1559. 
+    - [x] See the [Baikal devnet](https://github.com/ethereum/eth1.0-specs/blob/master/network-upgrades/client-integration-testnets/baikal.md) 
 
 ### Testnets 
 
