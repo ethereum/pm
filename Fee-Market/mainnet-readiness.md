@@ -33,10 +33,13 @@ This document was originally meant to capture various tasks that need to be comp
 
 ### Testing 
 
-#### EIPs & Reference Tests 
+#### Reference Tests 
 
 - [x] Reference / Consensus Tests 
   - In progress, see https://github.com/ethereum/tests/issues/789
+
+#### JSON RPC Support 
+
 - [ ] EIPs that return block or transaction data need to be updated to support EIP-1559/2718 style transactions, specifically: 
     - [ ] `eth_signTransaction`
     - [ ] `eth_sendTransaction`
@@ -50,6 +53,8 @@ This document was originally meant to capture various tasks that need to be comp
     - [ ] `eth_getTransactionReceipt`
     - [ ] `eth_getUncleByBlockHashAndIndex`([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
     - [ ] `eth_getUncleByBlockNumberAndIndex` ([EIP-3046](https://eips.ethereum.org/EIPS/eip-3046))
+
+**The base fee should be exposed as `baseFeePerGas` in the JSON RPC API, and the fee cap & priority fee should respectively be exposed as `feeCapPerGas` and `priorityFeePerGas`.**  
 
 #### Community testing
 
