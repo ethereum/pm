@@ -54,8 +54,6 @@ This document was originally meant to capture various tasks that need to be comp
     - [ ] `eth_getUncleByBlockHashAndIndex`([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
     - [ ] `eth_getUncleByBlockNumberAndIndex` ([EIP-3046](https://eips.ethereum.org/EIPS/eip-3046))
 
-**The base fee should be exposed as `baseFeePerGas` in the JSON RPC API, and the fee cap & priority fee should respectively be exposed as `feeCapPerGas` and `priorityFeePerGas`.**  
-
 #### Community testing
 
 - [x] JSON-RPC or equivalent commands that applications and tooling can use to interact with EIP-1559 
