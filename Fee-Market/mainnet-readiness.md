@@ -40,19 +40,7 @@ This document was originally meant to capture various tasks that need to be comp
 
 #### JSON RPC Support 
 
-- [ ] EIPs that return block or transaction data need to be updated to support EIP-1559/2718 style transactions, specifically: 
-    - [ ] `eth_signTransaction`
-    - [ ] `eth_sendTransaction`
-    - [ ] `eth_call`
-    - [ ] `eth_estimateGas`
-    - [ ] `eth_getBlockByHash` ([EIP-3041](https://eips.ethereum.org/EIPS/eip-3041))
-    - [ ] `eth_getBlockByNumber`  ([EIP-3044](https://eips.ethereum.org/EIPS/eip-3044))
-    - [ ] `eth_getTransactionByHash`
-    - [ ] `eth_getTransactionByBlockHashAndIndex`
-    - [ ] `eth_getTransactionByBlockNumberAndIndex`
-    - [ ] `eth_getTransactionReceipt`
-    - [ ] `eth_getUncleByBlockHashAndIndex`([EIP-3045](https://eips.ethereum.org/EIPS/eip-3045))
-    - [ ] `eth_getUncleByBlockNumberAndIndex` ([EIP-3046](https://eips.ethereum.org/EIPS/eip-3046))
+- [x] EIPs that return block or transaction data need to be updated to support EIP-1559/2718 style transactions. Updates are being made to the JSON RPC specification [here](https://github.com/ethereum/eth1.0-specs/pull/47). 
 
 #### Community testing
 
