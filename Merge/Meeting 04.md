@@ -1,5 +1,5 @@
 
-# Meeting name (Merge Implementers' Call 4)# Notes
+# Merge Implementers' Call #4 Notes
 
 ### Meeting Date/Time: Thursday, May 13th, 2021 at 13:00 UTC
 ### Meeting Duration: 60 minutes
