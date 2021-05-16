@@ -493,68 +493,37 @@ I don't think there's anything to discuss here, but just in case, does anyone wa
 ---------------------------------------
 ## Zoom Chat:
 
-Chat 
-09:00:18 From  Mikhail Kalinin  to  Everyone:
-	starting in 3 minutes
-09:06:20 From  Mikhail Kalinin  to  Everyone:
-	https://github.com/protolambda/nocturne
-09:11:11 From  Tim Beiko  to  Everyone:
-	Yeah, this was great!
-09:11:15 From  Micah Zoltu  to  Everyone:
-	Which client is missing?
-09:11:19 From  Tim Beiko  to  Everyone:
-	OE
-09:11:24 From  Micah Zoltu  to  Everyone:
-	👍
-09:11:36 From  Micah Zoltu  to  Everyone:
-	Do we believe that OE will be able to make The Merge, or is there worry that they may not make it?
-09:11:58 From  Tim Beiko  to  Everyone:
-	We can let them answer that.
-09:15:41 From  Dmitry Shmatko  to  Everyone:
-	https://hackmd.io/@zilm/withdrawal-spec
-09:16:14 From  Dmitry Shmatko  to  Everyone:
-	rewards withdrawals are here https://hackmd.io/@zilm/withdrawal-spec#Partial-withdrawals-
-09:17:12 From  Micah Zoltu  to  Everyone:
-	It is already decided that execution engine is "server" and consensus engine is the "client" and there are no requests that flow the other direction?
-09:18:15 From  danny  to  Everyone:
-	that is the current design, and a design goal unless we hit an unexpected snag
-09:18:21 From  Micah Zoltu  to  Everyone:
-	👍
-09:20:16 From  danny  to  Everyone:
-	https://github.com/ethereum/eth2.0-specs/issues/1012#issuecomment-489660765
-09:23:24 From  Micah Zoltu  to  Everyone:
-	I'll back down on WS if the throughput is low.
-09:27:04 From  Micah Zoltu  to  Everyone:
-	My very weak and meaningless vote is REST over HTTP at this point I think.
-09:35:27 From  Lukasz Rozmej  to  Everyone:
-	https://github.com/ethereum/eth2.0-specs/issues/1012#issuecomment-489660765
-	
-	Read through it. I agree on everything. The only thing this is relevant to public current JSON RPC API. I don't  see anything that would be related to the merge communication.
-	
-	So if we would be moving to all REST API - then I am all in. Just for Merge - I don't see the point.
-09:36:47 From  Lukasz Rozmej  to  Everyone:
-	unless we want to pick this as a starting point for migration of other API's
-09:48:10 From  Micah Zoltu  to  Everyone:
-	I still like REST over HTTP, even after that conversation.
-09:49:29 From  Lukasz Rozmej  to  Everyone:
-	Micah I like it too, it just doesn't bring any benefit to the merge itself
-09:50:13 From  Micah Zoltu  to  Everyone:
-	If we need them to stay in sync (bi-directional), then I'll probably switch my non-vote to WS with *something* (maybe JSON) for payloads.
-09:50:24 From  Micah Zoltu  to  Everyone:
-	👍
-09:52:03 From  Micah Zoltu  to  Everyone:
-	I like proto's argument.  I'm a fan of making it hard to add a bug to a client on accident.
-09:53:33 From  Mikhail Kalinin  to  Everyone:
-	👍
-10:04:55 From  Tim Beiko  to  Everyone:
-	If it helps with timezones, let’s do it :-)
-10:05:45 From  Micah Zoltu  to  Everyone:
-	Do what I do, don't get any human socialization other than meetings, then meetings become the highlight of your week.
-10:05:52 From  danny  to  Everyone:
-	lol
-10:06:02 From  Mikhail Kalinin  to  Everyone:
-	ahaha
-10:06:31 From  Tim Beiko  to  Everyone:
-	+1 to 3 weeks
+09:00:18 From  Mikhail Kalinin  to  Everyone: starting in 3 minutes
+09:06:20 From  Mikhail Kalinin  to  Everyone: https://github.com/protolambda/nocturne
+09:11:11 From  Tim Beiko  to  Everyone: Yeah, this was great!
+09:11:15 From  Micah Zoltu  to  Everyone: Which client is missing?
+09:11:19 From  Tim Beiko  to  Everyone: OE
+09:11:24 From  Micah Zoltu  to  Everyone: 👍
+09:11:36 From  Micah Zoltu  to  Everyone: Do we believe that OE will be able to make The Merge, or is there worry that they may not make it?
+09:11:58 From  Tim Beiko  to  Everyone: We can let them answer that.
+09:15:41 From  Dmitry Shmatko  to  Everyone: https://hackmd.io/@zilm/withdrawal-spec
+09:16:14 From  Dmitry Shmatko  to  Everyone: rewards withdrawals are here https://hackmd.io/@zilm/withdrawal-spec#Partial-withdrawals-
+09:17:12 From  Micah Zoltu  to  Everyone: It is already decided that execution engine is "server" and consensus engine is the "client" and there are no requests that flow the other direction?
+09:18:15 From  danny  to  Everyone: that is the current design, and a design goal unless we hit an unexpected snag
+09:18:21 From  Micah Zoltu  to  Everyone: 👍
+09:20:16 From  danny  to  Everyone: https://github.com/ethereum/eth2.0-specs/issues/1012#issuecomment-489660765
+09:23:24 From  Micah Zoltu  to  Everyone: I'll back down on WS if the throughput is low.
+09:27:04 From  Micah Zoltu  to  Everyone: My very weak and meaningless vote is REST over HTTP at this point I think.
+09:35:27 From  Lukasz Rozmej  to  Everyone: https://github.com/ethereum/eth2.0-specs/issues/1012#issuecomment-489660765
+Read through it. I agree on everything. The only thing this is relevant to public current JSON RPC API. I don't  see anything that would be related to the merge communication.
+So if we would be moving to all REST API - then I am all in. Just for Merge - I don't see the point.
+
+09:36:47 From  Lukasz Rozmej  to  Everyone: unless we want to pick this as a starting point for migration of other API's
+09:48:10 From  Micah Zoltu  to  Everyone: I still like REST over HTTP, even after that conversation.
+09:49:29 From  Lukasz Rozmej  to  Everyone: Micah I like it too, it just doesn't bring any benefit to the merge itself
+09:50:13 From  Micah Zoltu  to  Everyone: If we need them to stay in sync (bi-directional), then I'll probably switch my non-vote to WS with *something* (maybe JSON) for payloads.
+09:50:24 From  Micah Zoltu  to  Everyone: 👍
+09:52:03 From  Micah Zoltu  to  Everyone:I like proto's argument.  I'm a fan of making it hard to add a bug to a client on accident.
+09:53:33 From  Mikhail Kalinin  to  Everyone: 👍
+10:04:55 From  Tim Beiko  to  Everyone:If it helps with timezones, let’s do it :-)
+10:05:45 From  Micah Zoltu  to  Everyone: Do what I do, don't get any human socialization other than meetings, then meetings become the highlight of your week.
+10:05:52 From  danny  to  Everyone: lol
+10:06:02 From  Mikhail Kalinin  to  Everyone: ahaha
+10:06:31 From  Tim Beiko  to  Everyone: +1 to 3 weeks
 
 ---------------------------------------
