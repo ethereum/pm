@@ -8,7 +8,7 @@
 ### Moderator: Mikhail Kalinin
 ### Notes: Santhosh(Alen)
 
-#Agenda
+# Agenda
 - Rayonism updates ☀️
   - Nocturne devnet
   - Wrapping up Rayonism discussion
@@ -22,7 +22,6 @@
   - Consensus  
  - Open discussions
    - Proposal to move the call to an hour before Eth2 Implementers call
-  
    
 # Intro
 **Mikhail Kalinin**
@@ -52,12 +51,12 @@ Welcome to the Merge Implementers' Call #4
 *  so here's the layout for Neptune all right proto, do you want to add something about Nocturne.
 
 **Proto**
-* Well, about Rainism in general maybe I think yeah that's like the next step. Let's start talking about this (https://youtu.be/uzjhLPtvTMQ?t=222)
+* Well, about Rayonism in general maybe I think yeah that's like the next step. Let's [start talking about this](https://youtu.be/uzjhLPtvTMQ?t=222)
 * So with reyanism, I think we should basically wrap up the hackathon kind of things and think of the merge more as this thing that we are going to work towards with production, and this basically means that we want to do the rebasewhich i'd like to call it if you're playing with git terminology we have altair and london first this is this missing functionality which has been developed in parallel,  but now it's time to try and like layer the merge work on top of these updates and then implement the new api
 
 **Proto**
-* That sounds like the rough plan, so the rough plan is to wrap up ryanism and then concentrate on Altair and London while client implementers are focusing on Altair and London.
-* We will continue to do some spec and research work, such as determining the transition phase. We'll do some proof of concept research on top of the infrastructure we get from ryanism.
+* That sounds like the rough plan, so the rough plan is to wrap up Rayonism and then concentrate on Altair and London while client implementers are focusing on Altair and London.
+* We will continue to do some spec and research work, such as determining the transition phase. We'll do some proof of concept research on top of the infrastructure we get from Rayonism.
 * Thanks a lot to Proto for doing trmendous amount work on it.
 * We'll be back after Alair, and London is almost finished.
 * We like spawn another merge testnet. Hopefully with the state sync with the new consensus API which is going to be discussed as well and specked out during this period of time a month or two, thats my understanding. I think this kind of plan makes a lot of sense.
@@ -121,7 +120,7 @@ Will do
 * Anything else before we move on?
 * Let us now move on to the spec discussion 
 
-# Spec Discussion (https://www.youtube.com/watch?v=uzjhLPtvTMQ&t=796s) 
+# [Spec Discussion](https://www.youtube.com/watch?v=uzjhLPtvTMQ&t=796s)
 **Mikhail**
 * The first item is the consensus api standard, and I think it's a good time to open this can of worms and start the conversation. Well, I'd just like to share my opinion off the top of my head.
 * On that, we'd like to have a json rpc discussion about how the consensus api will be supported by execution engines, and which underlying protocol will be used. We will use for that, and once we have decided on this protocol, we will be free to design the specific endpoints and move forward, so far we have the json rpc api, which I believe most people here are familiar with, and the eth2 api. The beacon node api so json rpc is based on the https as well but yeah it's the rest api and in general I'm leaning towards the rest api it's like convenient it has a lot of tools it can be secured and so forth but the argument for using the json is that it's already implemented in all of the ethon clients and we would only need to reuse the code but one thing that w Because of the close relationship between the consensus layer and the execution layer, I believe that implementing this from the ground up with a rest approach makes sense from this perspective as well to avoid bugs and in the re-implementation that will relate that will abuse the, it will like damage the security, anyhow, so yep, let's just discuss it and any opinions that we should use json rpc for this consensus api.
@@ -393,7 +392,7 @@ No, we didn't take this out, but we did cut out the vlog gossip.
 **Mikhail**
 * Yes, just reject the block.
 
-*Rai*
+**Rai**
 * So, at the very least, we need to read Martin's right away to see if it affects us because we don't know what the conduct is right now. It's on my to-do list.
 
 **Danny**
@@ -432,7 +431,7 @@ No, we didn't take this out, but we did cut out the vlog gossip.
 **Mikhail**
 * Well, so is there anything else that implementers would like to inquire or mention on the execution side?
 
-# Consensus discussions (1:00:26) (https://www.youtube.com/watch?v=uzjhLPtvTMQ&t=3626s)
+# Consensus discussions [1:00:26](https://www.youtube.com/watch?v=uzjhLPtvTMQ&t=3626s)
 
 **Mikhail**
 * Okay, so the next step is consensus discussions.
@@ -452,7 +451,7 @@ I don't think there's anything to discuss here, but just in case, does anyone wa
 *  Any objections to trying it out and seeing how it goes? Well, so we have a youtube letters target next week, so I think we'll try the new time for the vertical three weeks after today, right?
 
 **Danny**
-* I think that's a good idea, a little extra time now that rainism has subsided and there's a lot of work on Altair in London that'll happen, that's a good break.
+* I think that's a good idea, a little extra time now that Rayonism has subsided and there's a lot of work on Altair in London that'll happen, that's a good break.
 
 **Paul Hauner**
 * Yes, thank you all for your thoughtful consideration; it means a lot more than you would think.
@@ -492,7 +491,7 @@ I don't think there's anything to discuss here, but just in case, does anyone wa
 ## Next Meeting - June 03, 2021 at 1300 UTC
 
 ---------------------------------------
-Zoom Chat:
+## Zoom Chat:
 
 Chat 
 09:00:18 From  Mikhail Kalinin  to  Everyone:
