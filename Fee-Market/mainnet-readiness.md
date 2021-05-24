@@ -20,6 +20,7 @@ This document was originally meant to capture various tasks that need to be comp
     - [Large State Performance Testing](https://hackmd.io/@timbeiko/1559-perf-test)
 - [X] Transaction Pool Management
     - Good approaches to transaction pool management have been put forward. [First write up](https://hackmd.io/@adietrichs/1559-transaction-sorting), [Second write up](https://hackmd.io/@adietrichs/1559-transaction-sorting-part2). 
+    - [Alternative approach suggested by @zsfelfoldi](https://gist.github.com/zsfelfoldi/9607ad248707a925b701f49787904fd6)
 - [x] Transaction Encoding/Decoding
     - EIP-1559 transactions will be encoded using [EIP-2718](https://eips.ethereum.org/EIPS/eip-2718), by adding 1559-style transactions as a new type of transaction. 
 - [X] Legacy transaction management in transaction pool 
