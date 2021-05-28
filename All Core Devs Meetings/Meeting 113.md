@@ -23,7 +23,7 @@
   - v [Block Numbers](#block-number-discussion--3100)
 - 2.[Other Discussion Items](#2-other-discussion-items)
   - vi [Merge/Rayonism updates](#merge-and-rayonism-update-5326)
-  - iiv [1559 UI Call Announcement](iiv-1559-ui-call-announcement)
+  - vii [1559 UI Call Announcement](#1559-ui-call-announcement--5732)
 
   - [Next Meeting Date/Time](next-meeting-datetime)
   - [Attendees](attendees)
