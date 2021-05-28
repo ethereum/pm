@@ -17,7 +17,7 @@
 
 - 1.[London Updates](#1-london-updates)
   - i [Baikal Status & Next steps](#baikal-status--next-steps-840)
-  - ii [EIP-3541](ii-eip-3541)
+  - ii [EIP-3541](#eip-3541--1310)
   - iii [EIP-3554 (EIP-3238 alternative)](iii-eip-3554)
   - iv [JSON RPC Spec Naming](iv-json-rpc-spec-naming) 
   - v [Block Numbers](v-block-numbers)
@@ -920,6 +920,5 @@
  -  https://github.com/ethereum/pm/issues/245#issuecomment-832122309
  -  https://github.com/ethereum/pm/issues/245#issuecomment-832122309
  -  https://blog.ethereum.org/2021/05/13/core-dev-apprenticeship/
-
 
 
