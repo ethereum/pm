@@ -18,7 +18,7 @@
 - 1.[London Updates](#1-london-updates)
   - i [Baikal Status & Next steps](#baikal-status--next-steps-840)
   - ii [EIP-3541](#eip-3541--1310)
-  - iii [EIP-3554 (EIP-3238 alternative)](iii-eip-3554)
+  - iii [EIP-3554 (EIP-3238 alternative)](#eip-3554-difficulty-bomb--1408)
   - iv [JSON RPC Spec Naming](#json-rpc-naming-convention--1752) 
   - v [Block Numbers](#block-number-discussion--3100)
 - 2.[Other Discussion Items](#2-other-discussion-items)
