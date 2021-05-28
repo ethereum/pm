@@ -22,7 +22,7 @@
   - iv [JSON RPC Spec Naming](#json-rpc-naming-convention--1752) 
   - v [Block Numbers](#block-number-discussion--3100)
 - 2.[Other Discussion Items](#2-other-discussion-items)
-  - iv [Merge/Rayonism updates](iv-merge-rayonsim-updates)
+  - vi [Merge/Rayonism updates](#merge-and-rayonism-update-5326)
   - iiv [1559 UI Call Announcement](iiv-1559-ui-call-announcement)
 
   - [Next Meeting Date/Time](next-meeting-datetime)
