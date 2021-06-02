@@ -6,8 +6,8 @@
 ### Moderator: Tim Beiko
 ### Notes: David Schirmer
 
-## Decisions Items
-| Decision Item | Description | Video ref |
+## Agenda Items
+| Agenda Item | Description | Video ref |
 | ------------- | ----------- | --------- |
 | **1**   | Malicious bloated 1559 transactions ethereum/go-ethereum#22963 | [9:14](https://youtu.be/7MSYLbn-Xro?t=554) |     
 | **2**   | Baikal status & next steps |  [41:55](https://youtu.be/7MSYLbn-Xro?t=2515) |  
@@ -18,29 +18,15 @@
 | **7**   | Gas API Call |  [1:02:11](https://youtu.be/7MSYLbn-Xro?t=3731) | 
 
 ## Decisions Made
-114.1 - Clients agreed adding consensus rules:
-* [1] maxFeePerGas < 2²⁵⁶
-* [2] maxPriorityFeePerGas < 2²⁵⁶
-* [3] maxFeePerGas >= maxPriorityFeePerGas
-* [4] sender.balance >= gasLimit * maxFeePerGas (Cap on consensu level and mempool level)
-
-114.2 
-* Calaveras, a new devnet will be spun to test new changes.
-
-114.3
-* Assuming the testnet forks smoothly, then a fork block for mainnet will be purposed.
-
-114.4
-* Once the the fork on the testnet is complete, stress testing will continue.
-
-114.5
-* Alexey's proposal to seperate the transaction pool for the clients to diffuse execution bombs. Promising area of research. Moved to Eth R&D to discuss further.
-
-114.6
-* Addition of access lists to blocks may complicate things. Continued discussion on Eth R&D channel.
-
-114.7
-* Call scheduled for June 5, 14:00 UTC to discuss the impact on gas price oracles.
+| Decision Item | Decision Made |
+| ------------- | ------------|
+| **1**   | Clients agreed adding consensus rules:maxFeePerGas < 2²⁵⁶,maxPriorityFeePerGas < 2²⁵⁶,maxFeePerGas >= maxPriorityFeePerGas,sender.balance >= gasLimit * maxFeePerGas (Cap on consensu level and mempool level)  |     
+| **2**   | Calaveras, a new devnet will be spun to test new changes. |  
+| **3**   | Assuming the testnet forks smoothly, then a fork block for mainnet will be purposed. |  
+| **4**   | Once the the fork on the testnet is complete, stress testing will continue. |  
+| **5**   | Alexey's proposal to seperate the transaction pool for the clients to diffuse execution bombs. Promising area of research. Moved to Eth R&D to discuss further. | 
+| **6**   | Addition of access lists to blocks may complicate things. Continued discussion on Eth R&D channel. | 
+| **7**   | Call scheduled for June 5, 14:00 UTC to discuss the impact on gas price oracles.  | 
 
 ###  Malicious bloated 1559 transactions
 Tim Beiko:
