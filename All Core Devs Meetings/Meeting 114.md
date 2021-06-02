@@ -28,7 +28,7 @@
 * Calaveras, a new devnet will be spun to test new changes.
 
 114.3
-* Assuming the testnet forks smoothly, then a dork block for mainnet will be purposed.
+* Assuming the testnet forks smoothly, then a fork block for mainnet will be purposed.
 
 114.4
 * Once the the fork on the testnet is complete, stress testing will continue.
