@@ -6,7 +6,7 @@
 ### Moderator: Tim Beiko
 ### Notes: David Schirmer
 
-## Decisions Made
+## Decisions Items
 | Decision Item | Description | Video ref |
 | ------------- | ----------- | --------- |
 | **1**   | Malicious bloated 1559 transactions ethereum/go-ethereum#22963 | [9:14](https://youtu.be/7MSYLbn-Xro?t=554) |     
@@ -16,6 +16,31 @@
 | **5**   | Gas: DoS protection & decoupling worst/average performance |  [1:03:45](https://youtu.be/7MSYLbn-Xro?t=3821) |  
 | **6**   | EIP-3584 |  [1:19:00](https://youtu.be/7MSYLbn-Xro?t=4741) | 
 | **7**   | Gas API Call |  [1:02:11](https://youtu.be/7MSYLbn-Xro?t=3731) | 
+
+## Decisions Made
+114.1 - Clients agreed adding consensus rules:
+* [1] maxFeePerGas < 2²⁵⁶
+* [2] maxPriorityFeePerGas < 2²⁵⁶
+* [3] maxFeePerGas >= maxPriorityFeePerGas
+* [4] sender.balance >= gasLimit * maxFeePerGas (Cap on consensu level and mempool level)
+
+114.2 
+* Calaveras, a new devnet will be spun to test new changes.
+
+114.3
+* Assuming the testnet forks smoothly, then a dork block for mainnet will be purposed.
+
+114.4
+* Once the the fork on the testnet is complete, stress testing will continue.
+
+114.5
+* Alexey's proposal to seperate the transaction pool for the clients to diffuse execution bombs. Promising area of research. Moved to Eth R&D to discuss further.
+
+114.6
+* Addition of access lists to blocks may complicate things. Continued discussion on Eth R&D channel.
+
+114.7
+* Call scheduled for June 5, 14:00 UTC to discuss the impact on gas price oracles.
 
 ###  Malicious bloated 1559 transactions
 Tim Beiko:
