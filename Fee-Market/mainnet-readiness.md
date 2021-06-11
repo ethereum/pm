@@ -29,15 +29,16 @@ This document was originally meant to capture various tasks that need to be comp
     - Solved by a [recent change to the EIP](https://github.com/ethereum/EIPs/pull/2924) which removes the need for a transition period by interpreting legacy transactions as 1559-styles transactions. This means legacy transactions will be supported until an explicit change to the protocol is made to deprecate them. 
 - [X] `BASE FEE` Opcode - [EIP-3198](https://github.com/ethereum/EIPs/pull/3198)
     - A `BASE FEE` opcode will allow smart contracts to retrieve it directly.
-- [ ] (Nice to have) Base Fee Update Rule optimizations 
-    - As per Tim Roughgarden's [analysis of 1559](http://timroughgarden.org/papers/eip1559.pdf) (Section 1.2, bullet 9), the base fee update rule is somewhat arbitrary and would gain from a more formal evaluation by an expert with a background in control theory. 
 
 ### Testing 
 
 #### Reference Tests 
 
 - [x] Reference / Consensus Tests 
-  - In progress, see https://github.com/ethereum/tests/issues/789
+  - https://github.com/ethereum/tests/tree/develop/BlockchainTests/ValidBlocks/bcEIP1559
+  - https://github.com/ethereum/tests/tree/develop/BlockchainTests/InvalidBlocks/bcEIP1559
+  - https://github.com/ethereum/tests/tree/develop/BlockchainTests/GeneralStateTests/stEIP1559
+  - (Nethereum) https://gist.github.com/juanfranblanco/4cc998247aecd822d6088e382d94a6f1
 
 #### JSON RPC Support 
 
