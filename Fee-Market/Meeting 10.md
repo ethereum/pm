@@ -18,7 +18,15 @@
 
 ⭐ [Cheatsheet: 1559 for Wallets and Users](https://hackmd.io/4YVYKxxvRZGDto7aq7rVkg?view)⭐
 
-# Intro
+ # **Summary**:
+   ## **DECISIONS & ACTION ITEMS**
+  | Decision Item | Description | Video ref |
+  | ---------------  | ------------- | ---------- |
+  | **10.1**   | **Micah** I think is critical for getting the most useful data and with that data should be able to build most of the types of oracles | [61:03](https://www.youtube.com/watch?v=SpU6WACP2cM&t=3660s) |
+  | **10.2**   | **Micah** Lot of volatility and block fullness and change in strategy| [61:36](https://www.youtube.com/watch?v=SpU6WACP2cM&t=3694s) 
+  | **10.3**   | **Speaker 3** Figuring out what the actual data we want expose | [62:15](https://www.youtube.com/watch?v=SpU6WACP2cM&t=3753s) 
+  
+
 **Speaker 01**
 * Yes, we're recording, and thanks for joining us. This is a call to discuss the gas API and how 1559 affects it, and if we have time, we can go over any other questions or concerns that people here have. 
 * So Trenton already shared the agenda in the chat here,  basically the main I think topic or yeah the main topic of discussion today is you know what do we do to return the priority fee in the json rpc api there was already some discussion about that on the issue and um before that though, I think Trenton put the presentation by gas api providers in the agenda.
