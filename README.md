@@ -28,7 +28,7 @@ The meetings are independent of any organization. However, Tim Beiko is a contra
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
-115 | Friday 11 June at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/330) | notes \| [Twitter](https://twitter.com/TimBeiko/status/1403390897614561282) | [video](https://www.youtube.com/watch?v=XYhN26UrJ5o) |
+115 | Friday 11 June at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/330) | [notes](All%20Core%20Devs%20Meetings/Meeting%20115.md) \| [Twitter](https://twitter.com/TimBeiko/status/1403390897614561282) | [video](https://www.youtube.com/watch?v=XYhN26UrJ5o) |
 114 | Friday 28 May at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/321) | [notes](All%20Core%20Devs%20Meetings/Meeting%20114.md) \| [Twitter](https://twitter.com/TimBeiko/status/1398329483434741762) | [video](https://www.youtube.com/watch?v=7MSYLbn-Xro&ab_channel=EthereumFoundation) |
 113 | Thursday 14 May at 13:00 UTC | [agenda](https://github.com/ethereum/pm/issues/309) | [notes](All%20Core%20Devs%20Meetings/Meeting%20113.md) \| [Twitter](https://twitter.com/TimBeiko/status/1393230961890906115) | [video](https://youtu.be/ODcNpWiLASk) |
 112 | Thursday 30 April 2021, 13:00UTC | [agenda](https://github.com/ethereum/pm/issues/316) | [notes](All%20Core%20Devs%20Meetings/Meeting%20112.md) \| [Twitter](https://twitter.com/TimBeiko/status/1388194718199128064) | [video](https://youtu.be/uzjhLPtvTMQ) |
