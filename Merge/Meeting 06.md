@@ -16,6 +16,13 @@
   - Location of execution-layer specs
 - Open discussions
 
+# **Summary**:
+   ## **DECISIONS & ACTION ITEMS**
+  | Decision Item | Description | Video ref |
+  | ---------------  | ------------- | ---------- |
+  | **6.1**   | **Danny** Another big item is definitely um testing and how test generation looks in this unified front and if everything is sort of divided into these layers um for more unit testing and then what things like hive and other integration type tests look like, but let's not solve that today. | [28.14](https://youtu.be/b5gh0Mw2oPU&t=1694s) |
+  | **6.2**   | **Protolambda** we have Altair coming up, and I'd just like to highlight that we will need to rebase upon out there at some point. This will effect people who are implementing the, such we should attempt to time it so that we can move in sync. | [30.10](https://youtu.be/b5gh0Mw2oPU&t=1810s) |
+
 # Intro
 **Mikhail Kalinin**
 * Let's just get started yeah welcome to the Merge Implementers' Call #6 today is going to be pretty straightforward I guess so we'll start from implementation updates as usual there is yeah there is update from my side i'm working on the transition process implementation attacker because the pr has been merged into the into this big repo so I feel like i'll finish this implementation like t the end of this week or early next week and we'll try to.
