@@ -19,7 +19,7 @@
 # Intro
 **Mikhail Kalinin**
 * Let's just get started yeah welcome to the Merge Implementers' Call #6 today is going to be pretty straightforward I guess so we'll start from implementation updates as usual there is yeah there is update from my side i'm working on the transition process implementation attacker because the pr has been merged into the into this big repo so I feel like i'll finish this implementation like t the end of this week or early next week and we'll try to.
-* Yeah, the next challenge will be to set up the proofwork chain locally around the beacon chain, do all the steps that we did on the mainnet already, and finish it with the merge transition process, so probably I'll just you yeah yeah likely reuse the scripts that we have from after rayonism, which is great, and yeah we'll use the Gary PR, which already contains everything.
+* Yeah, the next challenge will be to set up the proof of work chain locally around the beacon chain, do all the steps that we did on the mainnet already, and finish it with the merge transition process, so probably I'll just you yeah yeah likely reuse the scripts that we have from after rayonism, which is great, and yeah we'll use the Gary PR, which already contains everything.
 * The transition logic and in gaf so we'll see this is my update does anyone else have an implementation update yep I believe it makes sense everyone is working on the corresponding hard forks so okay cool any questions here.
 * Okay, let's go on to the research updates. We have a couple of things to highlight and possibly discuss, and we have Justin on the line I guess 
 
