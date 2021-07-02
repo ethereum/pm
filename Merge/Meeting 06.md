@@ -49,7 +49,7 @@
 * Well, that will have to be adjusted again. It could be something like if post-merge difficulty equals one um or if post-merge difficulty equals this value that has been passed on.
 
 **Micah Zoltu**
-* Would appreciate hearing from Tommaso or Ryan.
+* Would appreciate hearing from Tomasz or Ryan.
 
 **Rai**
 * Because we're already changing, I think it's fine to do it at the same time.
