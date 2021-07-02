@@ -214,7 +214,7 @@
 * You know, both for us, I think first and foremost, but also for the community, there's value in seeing like, oh, the consensus changes are done but sync is broken or json rpc is broken or whatever right yeah, I definitely would not put dates on that docent and kind of use it as a shield against having to provide dates.
 
 **Mikhail Kalinin**
-* okay see yeah okay as for the eiep process, I don't think it makes much sense to put every different part of the execution client change into a separate dip probably we can use the approach that was taken in the click eip which just describes everything in one docent what do you think I mean once we figure out the synth process once we figure out yeah seeing process definitely will be.
+* okay see yeah okay as for the eip process, I don't think it makes much sense to put every different part of the execution client change into a separate dip probably we can use the approach that was taken in the click eip which just describes everything in one docent what do you think I mean once we figure out the synth process once we figure out yeah seeing process definitely will be.
 
 **Tim Beiko**
 * As we have, but as all the courses alter, perhaps one yep yeah.
