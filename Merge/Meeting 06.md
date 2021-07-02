@@ -320,5 +320,5 @@
 **Mamy**  
 **Tomasz Stanczak**  
 **Ansgar Dietrichs**  
-
+## Next Call - July 01, 2021 at 1300 UTC
 ---------------------------------------
