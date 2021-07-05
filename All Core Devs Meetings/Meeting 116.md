@@ -1,9 +1,3 @@
-    * Ethereum [All Core Dev meeting](https://github.com/ethereum/pm/pulls)   
-
-
-
-----------------------
-
 
 # Ethereum Core Devs Meeting 116 Notes
 
@@ -370,6 +364,9 @@ Ethereum Core Devs Meeting #117, July 9th, 2021 @ 1400 UTC
 
 ## Links discussed in the call (zoom chat)
 https://github.com/ethereum/eth1.0-specs/pull/219
+
 https://github.com/ethereum/eth1.0-specs/pull/220
+
 https://ethereum-magicians.org/t/we-should-be-moving-beyond-eoas-not-enshrining-them-even-further-eip-3074-related/6538
+
 https://ethereum-magicians.org/t/a-case-for-a-simpler-alternative-to-eip-3074/6493
