@@ -339,7 +339,7 @@ that to be future compatible with that world
 Ethereum Core Devs Meeting #117, July 9th, 2021 @ 1400 UTC
 
 
-## Tim Beiko
+## Attendees
 - Dankrad Feist
 - Tim Beiko
 - Alex B. (axic)
