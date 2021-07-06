@@ -7,7 +7,12 @@
 ### Notes: Jared Doro
 
 -----------------------------
-
+# Summary
+- Merge call will be ending soon, discussing the merge will happen during the all core devs and the proof of stake consensus call depending on the part that is going to be discussed.
+- Discussed limitations of current JSON RPC consensus API and it's future which brought up questions like HTTP vs WebSockets and The need or lack there of for bidirectional communication
+- We are expecting London in a month and we are expecting Alitar in a couple of months. 
+- A very high-level checklist will be added to the pm repo soon
+-----------------------------
 **Mikhail Kalinin**
 
 Welcome everyone to the merge Implementers call number 7.
@@ -102,7 +107,7 @@ So, let me give you a bit of context on that we have the consensus json rpc impl
 And it worked well for the purpose of rayonism, and it would probably work well in production.
 But some of us are suspicious about it being production ready here is a few arguments contributing to this.
 
-The main question here is if we go with teh json rpc biased consensus api 
+The main question here is if we go with the json rpc biased consensus api 
 which has some restrictions and which lays some restrictions on the use cases
 we might want to replace it at some point in the future.
 So, the main question I would ask and the main question that the document states is that wether we are ready to develop and new communication protocol right now before the merge or should we take an easy spot right now and think about it and do it later.
@@ -295,7 +300,7 @@ Yeah No I don't think so, so maybe thats not a design use case but is Garry’s 
 
 Yeah, but potentially other cases that we might have not identified so far. 
 Yup asynchronous communitarian would be implemented with these bidirectional communication channels as well.
-I do not speak about this today but if we will be loosing into redesigning the protocol  we might want to also look into encoding the json. It’s probably better to use some binary encoding and then we can ask whether to use ssc or rlp or whatever else
+I do not speak about this today but if we will be looking into redesigning the protocol  we might want to also look into encoding the json. It’s probably better to use some binary encoding and then we can ask whether to use ssc or rlp or whatever else
     
 **Jacek Sieka**
 
