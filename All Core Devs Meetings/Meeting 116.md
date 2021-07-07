@@ -100,7 +100,7 @@ Yeah, what I mean is that if you report the base fee per block and as the second
 **Yuga Cohler**
 * One question I had was, are the clients planning on doing one more release before mainnet fork?
 
-** Tim Beiko**
+**Tim Beiko**
 * They have to, but I guess is your question more about features?
 
 **Yuga Cohler**
