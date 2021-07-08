@@ -4,6 +4,28 @@ This document outlines various tasks to work through to make the Merge ready for
 
 *Note*: The set of items is not final and will be aligned with ongoing R&D and implementation work.
 
+## Table of contents
+
+<!-- TOC -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Specification](#specification)
+  - [Consensus layer](#consensus-layer)
+  - [Execution layer](#execution-layer)
+  - [Consensus API](#consensus-api)
+  - [Public facing documents](#public-facing-documents)
+- [Testing](#testing)
+  - [Unit tests](#unit-tests)
+  - [Integration tests](#integration-tests)
+  - [Stress tests](#stress-tests)
+  - [Fuzzing](#fuzzing)
+- [Testnets](#testnets)
+- [R&D](#rd)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- /TOC -->
+
 ## Specification
 
 ### Consensus layer
