@@ -15,13 +15,11 @@
 # **Summary:**
 
 - London fork is on Goerli 
-
-- client teams describe how they handle transaction pool sorting and price bump for transaction removal 
-
+- London Block on Mainnet is 12965000
+- Client teams describe how they handle transaction pool sorting and price bump for transaction removal 
 - [Merge Checklist is out](https://github.com/ethereum/pm/blob/master/Merge/mainnet-readiness.md)
-
+- Shanghai will happen sometime in november to push back the difficulty bomb but discussion is needed on what IF anything else will be added with it
 - More discussion is needed on the topic of fork scheduling.
-
 - More discussion is needed on the topic of post-merge update scheduling and coordination.
 
 -----------------------------
