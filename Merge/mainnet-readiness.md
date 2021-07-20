@@ -35,6 +35,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Ensure structural conformance with existing specs [#2472](https://github.com/ethereum/eth2.0-specs/pull/2472) 
 * [ ] Rebase with Altair
 * [ ] Rebase with London (update `ExecutionPayload`)
+* [ ] Consider weak subjectivity period implications
 * [ ] P2P spec (primarily just version bumping topics for new types)
 * [ ] Upgrade [`eth2.0-apis`](https://github.com/ethereum/eth2.0-apis) to handle new types
 * [ ] [BONUS] Annotated specs
