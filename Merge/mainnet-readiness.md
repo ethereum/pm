@@ -47,7 +47,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] EIPs
     * [ ] EVM `DIFFICULTY` -> `RANDOM`
     * [ ] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP]
-    * [ ] Transition process
+    * [ ] [IN PROGRESS] Transition process (Draft EIP -- [#3675](https://github.com/ethereum/EIPs/pull/3675))
 * [ ] Network -- devp2p
     * [ ] Block gossip deprecation
     * [ ] State sync post-merge
