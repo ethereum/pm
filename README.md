@@ -28,6 +28,8 @@ The meetings are independent of any organization. However, Tim Beiko is a contra
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
+
+118 | Friday 23 July at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/354) | [notes](All%20Core%20Devs%20Meetings/Meeting%20118.md) \| [Twitter](https://twitter.com/TimBeiko/status/1418618923172261892?s=20) | [video](https://youtu.be/tjvviOLy0hw) |
 117 | Friday 09 July at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/340) | [notes](All%20Core%20Devs%20Meetings/Meeting%20116.md) \| [Twitter]() | [video](https://youtu.be/b5gh0Mw2oPU) |
 116 | Friday 25 June at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/337) | [notes](All%20Core%20Devs%20Meetings/Meeting%20116.md) \| [Twitter](https://twitter.com/TimBeiko/status/1408459851349467136) | [video](https://www.youtube.com/watch?v=uhvhfxiC-NA) |
 115 | Friday 11 June at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/330) | [notes](All%20Core%20Devs%20Meetings/Meeting%20115.md) \| [Twitter](https://twitter.com/TimBeiko/status/1403390897614561282) | [video](https://www.youtube.com/watch?v=XYhN26UrJ5o) |
