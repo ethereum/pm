@@ -119,6 +119,7 @@ Most research has been completed. Only listing things still left to dig deeper i
 * [ ] Transition process analysis
     * [ ] Simulate PoW network partitioning
     * [ ] Evaluate precision of TD computation on historic data
+    * [ ] Consider miners have a cheap way to produce terminal PoW blocks, see [discussion](https://github.com/ethereum/EIPs/pull/3675#discussion_r679207367)
 * [ ] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
     * [ ] Historic state sync
