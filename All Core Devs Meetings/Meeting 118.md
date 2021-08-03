@@ -543,3 +543,6 @@ For example, there's a couple other things that are not known until afterwards A
 * Encryption wizard
 * Artem Vorotnikov
 ---------------------------------------
+
+## Next meeting on: August 6, 2021, 14:00 UTC
+
