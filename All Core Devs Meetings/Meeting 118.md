@@ -398,7 +398,7 @@ For example, there's a couple other things that are not known until afterwards A
 * So, the didn't we didn't kind of decide to use the dev com sites as the name for hard works just so we wouldn't have to be by shutting about names, so much in the future. I'm crazy. Why we should deviate from that on that? 
 
 **Pooja | ECH**
-* That was the first time when we decided that we will be following that Devcon names. And right after Istanbul, we did Muir Glacier because that was just the one Fork to push the difficulty Bob and I feel that it makes sense. If it is only for difficulty bomb, we should have something like that was proposed, like, our Arctic Glacier just to be in sync that. Okay, fine. It is just for difficulty bomb. And for all other feature folks that are very important for people to upgrade their nodes especially like with the latest of client it makes sense. I mean that's just my thought and it's not like very, very hard 
+* Istanbul was the first time when we decided that we will be following that Devcon names. And right after Istanbul, we did Muir Glacier because that was just one proposal to push the difficulty bomb and I feel that it makes sense. If it is only for difficulty bomb, we should have something like that was proposed, like, our Arctic Glacier just to be in sync that okay, fine. It is just for the difficulty bomb. And for all other feature forks that are very important for people to upgrade their nodes especially like with the latest clients, it makes sense. I mean that's just my thought and it's not like very, very strong suggestion.
 
 **Martin**
 * And Yeah it's not a hill., whatever. 
