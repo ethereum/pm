@@ -305,7 +305,7 @@ For example, there's a couple other things that are not known until afterwards A
 * Got it. Rai you any thoughts? 
 
 **Rai**
-* Sorry, I was distracted by something was the question.
+* Sorry, I was distracted by something, what was the question?
 
 **Tim**
 * Any thoughts on basically Shanghai versus the merge versus Muir Glacier part 2? 
