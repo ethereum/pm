@@ -9,7 +9,7 @@
 ## Decisions Made / Action items
 | Decision Item | Description | Video ref |
 | ------------- | ----------- | --------- |
-|118.1 | Tim to update the blog -  So just for this to be clear. If you are a validator on Gordy using Geth version is one that 1.10.6 if you're using Aragon, I'm not sure there's any of them but still 2021.0 7.04 - Alpha and if you're using nether mind, the 1.10.79. All of these are linked in the post-mortem obviously and I'll make sure to have an update in the London announcement blog. Post on blog | [20.45](https://youtu.be/tjvviOLy0hw?t=1245)|
+|118.1 | Tim to update the blog -  So just for this to be clear. If you are a validator on Gorli using Geth version is one that 1.10.6 if you're using Erigon, I'm not sure there's any of them but still 2021.0 7.04 - Alpha and if you're using Nethermind, the 1.10.79. All of these are linked in the post-mortem obviously and I'll make sure to have an update in the London announcement blog. Post on blog | [20.45](https://youtu.be/tjvviOLy0hw?t=1245)|
 |118.2 | Setting up an end of life policy such as first release after Shanghai will remove the gas price field | [31.56](https://youtu.be/tjvviOLy0hw?t=1916) |
 |118.3 | Micah proposed we speak to app developers about end of life for this gas price field on 1559 transactions and to see if any one has a  strong opinions and discussion about the timeline |[34.39](https://youtu.be/tjvviOLy0hw?t=2079) |
 |118.4 | Tim on if we want to Target difficulty bomb only fork in December, maybe we don't call that Shanghai. And we call it some like to word name, like we did for Muir. Glacier his proposal, I think was Arctic Glacier or something like that. | [1.03.56](https://youtu.be/tjvviOLy0hw?t=3836) |
