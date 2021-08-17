@@ -9,7 +9,8 @@
 ## Decisions Made / Action items
 | Decision Item | Description | Video ref |
 | ------------- | ----------- | --------- |
-|118.1 | London Updates | [3:13](https://youtu.be/jNxAB3WpAD0?t=193)|
+|119.1 | London Updates - Need to test other transactions | [3:13](https://youtu.be/jNxAB3WpAD0?t=193)|
+
 |118.2 | Other Discussion Items | [15:20](https://youtu.be/jNxAB3WpAD0?t=918) |
 
 
