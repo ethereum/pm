@@ -181,7 +181,8 @@ Cool, anything else? Okay, thanks everyone. Once again great job and I’m happy
 * Micah Zoltu
 * Danny
 * Trenton Van Epps
-*Marek Moraczynski
+* Marek Moraczynski
+
 * Lukasz
 * Dankrad Feist
 * Martin Swende
