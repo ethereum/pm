@@ -119,6 +119,7 @@ Most research has been completed. Only listing things still left to dig deeper i
 * [ ] Transition process analysis
     * [ ] Simulate PoW network partitioning
     * [ ] Evaluate precision of TD computation on historic data
+      * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
 * [ ] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
     * [ ] Historic state sync
