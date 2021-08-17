@@ -134,7 +134,8 @@ Oh yeah, it was fun to get a temperature check assuming that we would like to ma
 As for me, I would prefer to not do a feature fork it's up to the change if it's the right time to change.
 
 **Lukasz**
-Nethermine is okay with something very small and that's about it.
+Nethermind is okay with something very small and that's about it.
+
 
 **Tim**
 I guess what you're saying you say we found it like you had the base fee is moving too fast and it would be quicker it would be better to adopted that like yeah update slower or quicker than this is just a constant that was changing but it's not something like actually changing how 1559 works right?
