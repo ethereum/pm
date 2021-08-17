@@ -187,7 +187,8 @@ Cool, anything else? Okay, thanks everyone. Once again great job and I’m happy
 * Martin Swende
 * Artem Vorotnikov
 * YDXTY Thi
-*sam
+* Sam Wilson
+
 *Vitalik
 *Ansgar Dietrichs
 * Gary Schultz
