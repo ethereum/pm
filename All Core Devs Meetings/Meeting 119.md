@@ -162,6 +162,7 @@ Just excited
 Anything else anybody wanted to discuss?
 
 
+# 2. Post London EIP-1559 Assessment (Breakout #12) #369
 **Trenton**
  oh yeah, I guess it's related to the call next week but do we know when Geth will have the 1.7 release I don't know how crucial that is for APIs but I think it's related to fee history unless I'm mistaken.
 
