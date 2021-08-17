@@ -189,7 +189,8 @@ Cool, anything else? Okay, thanks everyone. Once again great job and I’m happy
 * YDXTY Thi
 * Sam Wilson
 
-*Vitalik
+* Vitalik Buterin
+
 *Ansgar Dietrichs
 * Gary Schultz
 *Sridarian Sharingan
