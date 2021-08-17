@@ -16,7 +16,8 @@
 
 
 
-**Tim Beiko**(London Updates-3:13)
+**Tim Beiko**
+
 Okay hi everyone welcome to all core devs 119 we don't have a ton on the agenda today basically going over the London fork yeah which happened yesterday in case anybody missed it seems to have generally gone well there were no consensus issues most nodes even upgraded there was some small issue where some of the miners were still targeted at 50 million gas limit because I was kind of the default but then by reaching out to them I think it's been mostly fixed we're now with roughly at 30 million gas blocks I think there are one or two small mining pools still targeting the old ones but they're not significant enough to drag everybody down yeah that's basically what I saw in my end I don't know if anyone else has anything they wanted to share about just the fork or what they've seen that happen?
 
 **Danny**
