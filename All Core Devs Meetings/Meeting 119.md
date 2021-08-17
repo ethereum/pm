@@ -127,7 +127,8 @@ yeah I can be Altair London you know if it touches both layers you can have two 
 Oh yeah, it was fun to get a temperature check assuming that we would like to make just a single parameter change to 1559 so like after we used to research we have some data or any of the client’s teams opposed to including that with the iceage push back let’s just assume it’s like a one-character change 1 divided by  8 2 divided by 10 is that acceptable and reasonable and not interrupt people too much?
 
 **Artem**
- well, Aregon is still looking for a real feature fork for what it's worth.
+ well, Erigon is still looking for a real feature fork for what it's worth.
+
 
 **Martin**
 As for me, I would prefer to not do a feature fork it's up to the change if it's the right time to change.
