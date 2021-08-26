@@ -31,13 +31,13 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Consensus layer
 
 * [x] Specs feature complete
-* [x] Transition process specified [#2462](https://github.com/ethereum/eth2.0-specs/pull/2462)
-* [x] Ensure structural conformance with existing specs [#2472](https://github.com/ethereum/eth2.0-specs/pull/2472) 
+* [x] Transition process specified [#2462](https://github.com/ethereum/consensus-specs/pull/2462)
+* [x] Ensure structural conformance with existing specs [#2472](https://github.com/ethereum/consensus-specs/pull/2472) 
 * [x] Rebase with Altair [#2530](https://github.com/ethereum/eth2.0-specs/pull/2530)
-* [x] Rebase with London (update `ExecutionPayload`) [#2533](https://github.com/ethereum/eth2.0-specs/pull/2533)
+* [x] Rebase with London (update `ExecutionPayload`) [#2533](https://github.com/ethereum/consensus-specs/pull/2533)
 * [ ] Consider weak subjectivity period implications
-* [ ] P2P spec (primarily just version bumping topics for new types)
-* [ ] Upgrade [`eth2.0-apis`](https://github.com/ethereum/eth2.0-apis) to handle new types
+* [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
+* [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
 * [ ] [BONUS] Annotated specs
 
 ### Execution layer
@@ -47,33 +47,33 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] EIPs
     * [ ] EVM `DIFFICULTY` -> `RANDOM`
     * [ ] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP]
-    * [ ] [IN PROGRESS] Transition process (Draft EIP -- [#3675](https://github.com/ethereum/EIPs/pull/3675))
+    * [x] Transition process [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
 * [ ] Network -- devp2p
     * [ ] Block gossip deprecation
     * [ ] State sync post-merge
     * [ ] Block sync post-merge
     * [ ] Discovery
-* [ ] Upgrade JSON-RPC ([`eth1.0-apis`](https://github.com/ethereum/eth1.0-apis)) with new methods and deprecations
-* [ ] [BONUS] Executable [`eth1.0-specs`](https://github.com/ethereum/eth1.0-specs/pull/219) and testing through the Merge
+* [ ] Upgrade JSON-RPC ([`execution-apis`](https://github.com/ethereum/execution-apis)) with new methods and deprecations
+* [ ] [BONUS] Executable [`execution-specs`](https://github.com/ethereum/execution-specs/pull/219) and testing through the Merge
 
-### Consensus API
+### Engine API
 
 * [x] Basic JSON-RPC extension, [link](https://github.com/ethereum/rayonism/blob/master/specs/merge.md#consensus-json-rpc) (used in rayonism)
-* [ ] Production refinements
+* [ ] [IN PROGRESS] Production refinements, [WIP doc](https://hackmd.io/@n0ble/consensus_api_design_space)
     * [ ] Support execution-layer state sync
     * [ ] Support async block insert
     * [ ] Consider support for `Consensus <-> Execution` consistency (e.g. recover from crash or bad insert on execution layer)
     * [ ] Consider bi-directional communication
     * [ ] ...
 * [ ] Discuss JSON-RPC vs websockets vs restful http
-* [ ] Migrate to [eth1.0-specs](https://github.com/ethereum/eth1.0-specs) or other permanent home
-* [ ] Test vectors?
+* [ ] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home
+* [ ] [BONUS] Test vectors
 
 ### Public facing documents
 
 * [ ] Merge architecture design document
 * [ ] Infrastructure provider guide
-* [ ] Rename eth1/eth2 to execution/consensus across repos and documentation
+* [x] Rename eth1/eth2 to execution/consensus across repos and documentation -- [The Great Renaming](https://notes.ethereum.org/@timbeiko/great-renaming)
 * [ ] [BONUS] Consider relationship between execution and consensus spec/API repos and build processes
 
 ## Testing
@@ -119,7 +119,7 @@ Most research has been completed. Only listing things still left to dig deeper i
 * [ ] Transition process analysis
     * [ ] Simulate PoW network partitioning
     * [ ] Evaluate precision of TD computation on historic data
-      * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
+        * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
 * [ ] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
     * [ ] Historic state sync
