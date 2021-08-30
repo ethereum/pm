@@ -28,6 +28,7 @@ The meetings are independent of any organization. However, Tim Beiko is a contra
 
  №  | Date                             | Agenda        |Notes          | Recording            |
 --- | -------------------------------- | -------------- |-------------- | -------------------- |
+120 | Friday 20 August at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/370) | [notes](All%20Core%20Devs%20Meetings/Meeting%20120.md) \| [Twitter](https://mobile.twitter.com/TimBeiko/status/1428757825048784899) | [video](https://youtu.be/rlIgpf2V4ks) |
 119 | Friday 6 August at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/365) | [notes](All%20Core%20Devs%20Meetings/Meeting%20119.md) \| [Twitter](https://twitter.com/TimBeiko/status/1418618923172261892?s=20) | [video](https://www.youtube.com/watch?v=jNxAB3WpAD0&ab_channel=EthereumFoundation) |
 118 | Friday 23 July at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/354) | [notes](All%20Core%20Devs%20Meetings/Meeting%20118.md) \| [Twitter](https://twitter.com/TimBeiko/status/1418618923172261892?s=20) | [video](https://youtu.be/tjvviOLy0hw) |
 117 | Friday 09 July at 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/340) | [notes](All%20Core%20Devs%20Meetings/Meeting%20116.md) \| [Twitter]() | [video](https://youtu.be/b5gh0Mw2oPU) |
