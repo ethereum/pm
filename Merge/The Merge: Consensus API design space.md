@@ -10,9 +10,9 @@
 | Decision Item | Description | Video ref |
 | ------------- | ----------- | --------- |
 |8.1 |Discussion about the 'coinbase might be overridden by the execution client or not' to be taken up in the Discord for further discussion | [36.13](https://youtu.be/il0nha1HSiE?t=2173)|
-|1.1 |Usage of the safehead, we need to decide is that the unsafe head is at the safe head or is that finalized safe head? I think is the best option here because it's very close to the tip, but it's also very safe. And where is finalized is potentially pretty old and we don't want to give user block. That's, you know, several minutes old and unsafe is unnecessarily risky to the user. | [50.04](https://youtu.be/il0nha1HSiE?t=3004)|
-|1.2 |Mikhail proposed to reach out the Geth team in this Discord to talk about this singe find requirements of the same process and on the API sync.. | [51.43](https://youtu.be/il0nha1HSiE?t=3083)|
-|1.3 |Tim proposed to use Coredev next week to discuss about the merge | [53.05](https://youtu.be/il0nha1HSiE?t=3182)|
+|8.2 |Usage of the safehead, we need to decide is that the unsafe head is at the safe head or is that finalized safe head? I think is the best option here because it's very close to the tip, but it's also very safe. And where is finalized is potentially pretty old and we don't want to give user block. That's, you know, several minutes old and unsafe is unnecessarily risky to the user. | [50.04](https://youtu.be/il0nha1HSiE?t=3004)|
+|8.3 |Mikhail proposed to reach out the Geth team in this Discord to talk about this singe find requirements of the same process and on the API sync.. | [51.43](https://youtu.be/il0nha1HSiE?t=3083)|
+|8.4 |Tim proposed to use Coredev next week to discuss about the merge | [53.05](https://youtu.be/il0nha1HSiE?t=3182)|
 
 
 
