@@ -396,21 +396,7 @@ Yes. block arrives, the execution process and and consensus client starts to val
 09:01:37 From  Mikhail Kalinin  to  Everyone:
   oops, it’s being recorded already :))  
 09:05:16 From  Pooja | ECH  to  Everyone:
-  my mic is not working it seems.  
-09:07:17 From  Pooja | ECH  to  Micah Zoltu(Direct Message):
-  it wasn't inappropriate and should have been fine Micah  
-09:08:14 From  Micah Zoltu  to  Pooja | ECH(Direct Message):
-  Oh, why did you cut it then?  I assumed because it was determined to be "too inappropriate" for a public call?  
-09:08:17 From  Pooja | ECH  to  Micah Zoltu(Direct Message):
-  I just removed so people don't start leaving useless comments failing to understand the humor we were having.  
-09:08:42 From  Micah Zoltu  to  Pooja | ECH(Direct Message):
-  Ah, I see.  
-09:08:58 From  Pooja | ECH  to  Micah Zoltu(Direct Message):
-  I guess, I shouldn't have removed that.  
-09:09:05 From  Pooja | ECH  to  Micah Zoltu(Direct Message):
-  would have been fine....  
-09:09:43 From  Pooja | ECH  to  Micah Zoltu(Direct Message):
-  generally we don't receive any thing for good we discuss, just people love to point what went wrong.  
+  my mic is not working it seems.   
 09:09:49 From  Mamy Ratsimbazafy  to  Everyone:
   https://hackmd.io/@n0ble/consensus_api_design_space  
 09:11:47 From  Trenton Van Epps  to  Everyone:
