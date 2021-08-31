@@ -350,33 +350,33 @@ Yes. block arrives, the execution process and and consensus client starts to val
 
 -------------------------------------------
 ## Attendees
-**Mikhail Kalinin**  
-**Lukasz Rozmej**  
-**Pooja | ECH**  
-**Gary Schulte**  
-**Micah Zoltu**  
-**Dustin Brody**  
-**Terence**  
-**Danny**  
-**Jacek Sieka**  
-**Paul Hauner**  
-**Alex stokes**  
-**Vitalik**  
-**Dankrad Feist Kevaundray Wedderburn**  
-**DCinvestor**  
-**Ben Edgington**  
-**Protolambda**  
-**Sajida Zouarhi**  
-**Hsiao-Wei Wang**  
-**Karim T**  
-**Kristof Gazso**  
-**Adrian Sutton**  
-**Bhargavasomu**  
-**Tim Beiko**  
-**Trenton Van Epps**  
-**Mamy**  
-**Tomasz Stanczak**  
-**Ansgar Dietrichs** 
+* Mikhail Kalinin
+* Lukasz Rozmej  
+* Pooja | ECH
+* Gary Schulte
+* Micah Zoltu  
+* Dustin Brody
+* Terence
+* Danny
+* Jacek Sieka
+* Paul Hauner
+* Alex stokes  
+* Vitalik
+* Dankrad Feist Kevaundray Wedderburn
+* DCinvestor
+* Ben Edgington 
+* Protolambda 
+* Sajida Zouarhi 
+* Hsiao-Wei Wang
+* Karim T
+* Kristof Gazso 
+* Adrian Sutton 
+* Bhargavasomu 
+* Tim Beiko 
+* Trenton Van Epps  
+* Mamy  
+* Tomasz Stanczak 
+* Ansgar Dietrichs
 -------------------------------------------
 
 
