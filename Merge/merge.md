@@ -14,6 +14,7 @@ The purpose of thess calls is for various teams/individuals working on aspects o
 005 | Merge Implementers' Call 5| Jun 03 2021 | [🔗](https://github.com/ethereum/pm/issues/290) | TBA | [Youtube](https://www.youtube.com/watch?v=j61FqoQwEHo) |
 006 | Merge Implementers' Call 6| Jun 17 2021 | [🔗](https://github.com/ethereum/pm/issues/340) | TBA | [Youtube](https://youtu.be/b5gh0Mw2oPU) |
 007 | Merge Implementers' Call 7| JUl 01 2021 | [🔗](https://github.com/ethereum/pm/issues/345) | TBA | [Youtube](https://www.youtube.com/watch?v=6d944TCNpqc&t=523s) |
+008 | Merge Implementers' Call 8| Aug 26 2021 | [🔗](https://github.com/ethereum/pm/issues/378) | TBA | [Youtube](https://youtu.be/il0nha1HSiE) |
 
 ### Who Can Attend
 The meeting is open to all client developers and community members researching or implementing the merge. The meeting notes are made available to the public, and meeting are recorded and uploaded to the [Ethereum Foundation Youtube Channel](https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g).
