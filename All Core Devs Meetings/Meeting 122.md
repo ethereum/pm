@@ -22,6 +22,8 @@
 | 122.4         | Not include EIP-3756: Gas Limit Cap in any upgrade but spec out what the transition mechanism would look to adjust downwards and have this incase we need it in November or around the merge. | [1.00.15](https://youtu.be/NorHRk5fFZU?t=3613) |
 | 122.5         | Decision to include EIP-3860 in Shanghai upgrade or not to be made on the next all core devs call.                                                                                            | [1.26.51](https://youtu.be/NorHRk5fFZU?t=5208) |
 
+_**Note:** The first 30 seconds of the call are missing as the stream was accidently still muted._
+
 # [Update Nethermind nodes to v1.11.2](https://youtu.be/NorHRk5fFZU?t=525)
 
 **Marek Moraczyński**
@@ -40,7 +42,7 @@ So what's the version that people should upgrade to?
 
 Yeah, okay, 1.11.2. Okay, awesome. Yeah, thanks for the update. So people, please upgrade. If you're running Nethermind. And in the next call, or the one after, we'll probably go into more details about the actual vulnerability itself.
 
-# [Merge Interop Updates EIP-3675: Upgrade consensus to Proof-of-Stake #361](https://youtu.be/NorHRk5fFZU?t=590)
+# [Merge Interop Updates EIP-3675: Upgrade consensus to Proof-of-Stake](https://youtu.be/NorHRk5fFZU?t=590)
 
 ## [Engine API](https://youtu.be/NorHRk5fFZU?t=590)
 
