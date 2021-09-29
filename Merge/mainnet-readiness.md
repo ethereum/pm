@@ -13,7 +13,7 @@ This document outlines various tasks to work through to make the Merge ready for
 - [Specification](#specification)
   - [Consensus layer](#consensus-layer)
   - [Execution layer](#execution-layer)
-  - [Consensus API](#consensus-api)
+  - [Engine API](#engine-api)
   - [Public facing documents](#public-facing-documents)
 - [Testing](#testing)
   - [Unit tests](#unit-tests)
@@ -59,14 +59,14 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Engine API
 
 * [x] Basic JSON-RPC extension, [link](https://github.com/ethereum/rayonism/blob/master/specs/merge.md#consensus-json-rpc) (used in rayonism)
-* [ ] [IN PROGRESS] Production refinements, [WIP doc](https://hackmd.io/@n0ble/consensus_api_design_space)
+* [ ] [IN PROGRESS] Production refinements, [WIP doc](https://hackmd.io/@n0ble/consensus_api_design_space), [Interop Edition](https://github.com/ethereum/execution-apis/blob/main/src/engine/interop/specification.md)
     * [ ] Support execution-layer state sync
     * [ ] Support async block insert
     * [ ] Consider support for `Consensus <-> Execution` consistency (e.g. recover from crash or bad insert on execution layer)
     * [ ] Consider bi-directional communication
     * [ ] ...
 * [ ] Discuss JSON-RPC vs websockets vs restful http
-* [ ] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home
+* [x] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home, [link](https://github.com/ethereum/execution-apis/tree/main/src/engine)
 * [ ] [BONUS] Test vectors
 
 ### Public facing documents
