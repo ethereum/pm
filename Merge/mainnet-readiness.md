@@ -13,7 +13,7 @@ This document outlines various tasks to work through to make the Merge ready for
 - [Specification](#specification)
   - [Consensus layer](#consensus-layer)
   - [Execution layer](#execution-layer)
-  - [Consensus API](#consensus-api)
+  - [Engine API](#engine-api)
   - [Public facing documents](#public-facing-documents)
 - [Testing](#testing)
   - [Unit tests](#unit-tests)
@@ -59,14 +59,14 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Engine API
 
 * [x] Basic JSON-RPC extension, [link](https://github.com/ethereum/rayonism/blob/master/specs/merge.md#consensus-json-rpc) (used in rayonism)
-* [ ] [IN PROGRESS] Production refinements, [WIP doc](https://hackmd.io/@n0ble/consensus_api_design_space)
+* [ ] [IN PROGRESS] Production refinements, [WIP doc](https://hackmd.io/@n0ble/consensus_api_design_space), [Interop Edition](https://github.com/ethereum/execution-apis/blob/main/src/engine/interop/specification.md)
     * [ ] Support execution-layer state sync
     * [ ] Support async block insert
     * [ ] Consider support for `Consensus <-> Execution` consistency (e.g. recover from crash or bad insert on execution layer)
     * [ ] Consider bi-directional communication
     * [ ] ...
 * [ ] Discuss JSON-RPC vs websockets vs restful http
-* [ ] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home
+* [x] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home, [link](https://github.com/ethereum/execution-apis/tree/main/src/engine)
 * [ ] [BONUS] Test vectors
 
 ### Public facing documents
@@ -83,7 +83,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Consensus
     * [x] Inherit all prior unit tests and generators
     * [ ] [IN [PROGRESS](https://github.com/ethereum/eth2.0-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge)] Merge specific tests with mocked execution-layer
-    * [ ] Fork and fork-choice tests across merge boundary
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge/fork_choice)] Fork and fork-choice tests across merge boundary
 * [ ] Execution
     * [ ] Reuse existing framework for most prior EVM unit tests
     * [ ] New `DIFFICULTY` opcode tests
@@ -91,9 +91,11 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Integration tests
 
 * [ ] Transition process tests with fully enabled consensus and execution layer
-* [ ] Consensus-layer vectors with fully enabled execution-layer
+    * [ ] Hive: scenario with PoW network partitioning
+    * [ ] Hive: happy case and various edge case scenarios, e.g. re-org beyond transition block, etc
 * [ ] Hive with all client combos
-* [ ] Hive or something else for suite of consensus+execution integration tests
+* [ ] Hive: consensus+execution integration tests
+* [ ] Hive: Engine API tests
 
 ### Stress tests
 
@@ -117,7 +119,6 @@ This document outlines various tasks to work through to make the Merge ready for
 Most research has been completed. Only listing things still left to dig deeper into
 
 * [ ] Transition process analysis
-    * [ ] Simulate PoW network partitioning
     * [ ] Evaluate precision of TD computation on historic data
         * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
 * [ ] Execution-layer sync
