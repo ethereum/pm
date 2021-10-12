@@ -12,7 +12,8 @@
 | Decision Item | Description | Video ref |
 | ------------- | ----------- | --------- |
 |123.1 | Tim would add a Difficulty bomb proposal for the December upgrade. The upgrade will be named "Arrow Glacier" as proposed by Axic | [16.00](https://youtu.be/-8TSQCwITA0?t=991)|
-
+|123.2 | Move EIP-3436 to Last Call | [25:30](https://youtu.be/-8TSQCwITA0?t=1530) |
+|123.3 | Move EIP-2976 to Final on Oct 06 | [36:10](https://youtu.be/-8TSQCwITA0?t=2170) |
 
 
 **Tim Beiko**
