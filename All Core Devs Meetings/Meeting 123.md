@@ -103,7 +103,7 @@
 **Martin Holst Swende**
 * So I think I Remember now that the catch was that there is no four choice rules per consensus, and then it's, there's some global pork choice rule, but with the changes that Gary made for, for the new consensus engines for the merge, I think it reflected it. So we have, you know, a pluggable consensus engine with that with its own portray through. right. So, and with that, it was a much easier to that. You're also cool. 
 
-**Daniel**
+**Danno**
 * Good to hear. So unless I'm hearing objections, I'll clean up my patch on base suit and try and get it in for the next major release. So, because another thing about this is this it's compatible with people without it, it's just, we don't get the real value until the majority of the validators implement these four choice rules. 
 
 **Tim Beiko** 
