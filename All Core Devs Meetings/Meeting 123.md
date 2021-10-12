@@ -138,7 +138,7 @@
 * No. I don't, let me look it up. 
 
 **Tim Beiko** 
-* Okay. but I guess regardless of the actual stat, category, I think it makes sense to move it to fi to last call now. and then move it. The final ones clients have implemented it. Does anyone object to that? Okay. Yeah. 
+* Okay. but I guess regardless of the actual stat, category, I think it makes sense to move it to the last call now. and then move it to the final when clients have implemented it. Does anyone object to that? Okay. Yeah. 
 
 **Danno Ferrin**
 * Yeah. 225 is the click EIP and that is core. 
