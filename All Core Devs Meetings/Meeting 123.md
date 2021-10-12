@@ -97,7 +97,7 @@
 **Martin Holst Swende**
 * Yeah. sorry. My mind hates it about this. I recall starting to implement this bomb point and there was some snag about it, which I don't recall it right now. Do you know, directly what, like, what are the hidden, if there is an, a hidden pitfall or snag, in this proposal. 
 
-**Daniel**
+**Danno**
 * So when you decide which in your fourth choice detection, logic,  to have the status of the current, click epoch, of who the validators are and what their slot assignments are basically, with that, the clip, you know, the mod of the validators of the current block. So when you do that choice, you're going to need a pthat information through. And that's probably where the hard part is. That's where the hardest part of basically this is ping, that logic into the fork detection, logic. And, because basically does auditoria to, we just have multiple subclasses. So we need to switch out for plain on proof of work, because keep the proof of work one, and then we can put the fancy click for choice rules in. So if you're, if you don't have a plugable architecture there, you're gonna need to have some flags to say, well, this is a pouch. I don't do these checks. So those are only real s are gonna be. 
 
 **Martin Holst Swende**
