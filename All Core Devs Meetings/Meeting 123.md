@@ -238,7 +238,7 @@
 
  **Pooja | ECH**
 * Yeah. I just wanted to mention about one of the, actually two of the proposals that we discussed in the previous call that I, I suppose, that was, that, networking proposals. the  is, 2364 and 2464. these were in draft now has been moved to a stagnant by the EIP partner. Now, actually we are working towards cleanup of the repositories and a lot of proposals, which were not active for over six months period of time. They have been moved to stab in status by the bot. So I just wanted to let, all the EIP authors know that if your proposal has been moved to stagnant and you still want to pursue that, you might have to create a poll request again, but for these two particular proposals, we need to get this to move, to review status so we can move it forward. And I know this is not active right now, but that is required for proposal 2481, which is like Eth 66 and we can not make it, final it unless we move the proposals, which needs to be final before that. 
-* So, if, if I met, it was the author, 
+* So, if I may ask the author, to create respective pull requests?
 
 **Tim Beiko**
 * Those are the two proposals that are like stagnant, basically it's Eth 64 and Eth 65. Yeah. So what needs to be done? 
