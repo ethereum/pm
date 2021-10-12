@@ -147,7 +147,7 @@
 * We can discuss this offline if people feel very strongly about it, but it seems like intuitively the extension, the clique should also be core if the actual clique EIP is core. but I'm not willing to die on that hell. And if people are that we should just discuss this on the discord. 
 
 **Pooja | ECH**
-* I just to get some more context, it was discussed in the last EIP meeting. So maybe that recording of that might help. we were discussing about networking proposals with Felix, Micah, and then generally it was decided that it should not be a part of networking EIP and should be moved to core EIP. So this is a recent change and we can follow the discussion there. 
+* Just to provide some more context, it was discussed in the last EIPIP meeting. So maybe that recording of that might help. we were discussing networking proposals with Felix, Micah, and then generally it was decided that it should not be a part of networking EIP and should be moved to core EIP. So this is a recent change and we can follow the discussion there. 
 
 ## EIP 2976 updates [29.08](https://youtu.be/-8TSQCwITA0?t=1738)
 
