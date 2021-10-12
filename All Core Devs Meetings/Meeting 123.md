@@ -152,7 +152,7 @@
 ## EIP 2976 updates [29.08](https://youtu.be/-8TSQCwITA0?t=1738)
 
 **Tim Beiko** 
-* Okay. thank you, Daniel. We have another one. Micah is not on the call and I think this was his, but it was around the EIP 2976, the type transactions over gossip. I dunno if anyone else had context here, otherwise we can, we can talk about it another time. 
+* Okay. thank you, Danno. We have another one. Micah is not on the call and I think this was his, but it was around the EIP 2976, the type transactions over gossip. I dunno if anyone else had context here, otherwise we can, we can talk about it another time. 
 
 **Pooja | ECH**
 * Yeah. that is another networking proposal because in the last meeting we were discussing about cleanup, so this was a moved to last call and the last call period is ending on October 6. So if people have any questions, common concerns, this is the time before it gets moved to the final status. We just wanted to let everyone know about it. This is networking proposal is going to be final soon. 
