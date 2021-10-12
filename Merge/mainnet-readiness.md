@@ -38,7 +38,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Consider weak subjectivity period implications
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
 * [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
-* [ ] [BONUS] Annotated specs
+* [x] [BONUS] Annotated specs
 
 ### Execution layer
 
