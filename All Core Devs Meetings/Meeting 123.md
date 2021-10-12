@@ -155,7 +155,7 @@
 * Okay. thank you, Daniel. We have another one. Micah is not on the call and I think this was his, but it was around the EIP 2976, the type transactions over gossip. I dunno if anyone else had context here, otherwise we can, we can talk about it another time. 
 
 **Pooja | ECH**
-* Yeah. that is another networking proposal because in the last meeting we were discussing about cleanup, so this was a moved to last call and the last point period is ending on October 6. So if people have any questions, common concern, this is the time before it gets moved to the final status. We just wanted to let everyone know about it. This is networking proposal is going to be final soon. 
+* Yeah. that is another networking proposal because in the last meeting we were discussing about cleanup, so this was a moved to last call and the last call period is ending on October 6. So if people have any questions, common concerns, this is the time before it gets moved to the final status. We just wanted to let everyone know about it. This is networking proposal is going to be final soon. 
 
 **Tim Beiko** 
 * Okay. so yes, please review that. yeah. so it's about sending type transactions over to gossip back to work. Okay, great. And then, oh Andrew, sorry. 
