@@ -135,7 +135,7 @@
 * Okay. yeah, there's a question about, like, not sure if this should be a core EIP, Danno, do you know off the top of your head if the clique EIP itself is Core EIP? 
 
 **Danno**
-* I know. I don't want to look it up. 
+* No. I don't, let me look it up. 
 
 **Tim Beiko** 
 * Okay. but I guess regardless of the actual stat, category, I think it makes sense to move it to fi to last call now. and then move it. The final ones clients have implemented it. Does anyone object to that? Okay. Yeah. 
