@@ -11,7 +11,7 @@
 ## Decisions Made / Action items
 | Decision Item | Description | Video ref |
 | ------------- | ----------- | --------- |
-|123.1 | To provide clarity to people would be to create, an upgrade, for December and name it, as Yanxi had proposed Aero glacier as a name | [16.00](https://youtu.be/-8TSQCwITA0?t=991)|
+|123.1 | Tim would add a Difficulty bomb proposal for the December upgrade. The upgrade will be named "Arrow Glacier" as proposed by Axic | [16.00](https://youtu.be/-8TSQCwITA0?t=991)|
 
 
 
