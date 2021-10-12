@@ -43,7 +43,7 @@
 * Cool and I think, did I see Andrew? Yeah. Andrew, has there been any update on the Aragon? 
 
  **Andrew**
-* Sorry, what it about the merge? yeah, no, sorry, not date now. I still, we still have to, to start working on it in the, you know, 
+* Sorry, what is it about, the merge? sorry, we still have to start working on it in the, you know, 
 
 **Tim Beiko**
 * Got it. and I see Peter just joined, Peter, right before you joined Meritus was, or, sorry. was saying, there might've been some progress on the sink for the merge. I don't know if you had any updates you wanted to share it there. Yes, 
