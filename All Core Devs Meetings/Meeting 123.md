@@ -132,7 +132,7 @@
 * Sounds good. 
 
 **Tim Beiko** 
-* Okay. yeah, there's a question about, like, not sure if this should be a core EIP, Daniel, do you know off the top of your head, if the clique EIP itself is Core EIP? 
+* Okay. yeah, there's a question about, like, not sure if this should be a core EIP, Danno, do you know off the top of your head if the clique EIP itself is Core EIP? 
 
 **Daniel**
 * I know. I don't want to look it up. 
