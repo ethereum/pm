@@ -216,7 +216,7 @@
 * Yeah, I believe it's also implemented in other minds already. 
 
 **Tim Beiko** 
-* Great. how about Besu, Aragon? 
+* Great. how about Besu, Erigon? 
 
 **Andrew Ashikhmin**
 * In that Erigon, it's not yet implemented, but we can implement it. 
