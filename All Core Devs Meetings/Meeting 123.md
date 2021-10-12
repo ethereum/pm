@@ -219,7 +219,7 @@
 * Great. how about Besu, Aragon? 
 
 **Andrew Ashikhmin**
-* In that Aragon, it's not yet implemented, but we can implement it. 
+* In that Erigon, it's not yet implemented, but we can implement it. 
 
 **Tim Beiko** 
 * It's not a problem. And Besu you.
