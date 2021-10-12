@@ -22,7 +22,7 @@
 * Okay. Hey, this is Justin Florentine from Besu team. We are currently in testing on that. that's one of the things that's going on for our onsite folks. I believe we've had, success, interacting with Geth and Besu basically as far as tech is concerned. 
 
 **Tim Beiko**
-* So sorry. So Teko, who has interrupt with Geth and Besu basically that's yeah. 
+* So sorry. So Teku, who has interoperated with Geth and Besu, basically that's yeah. 
 
 **Justin Florentine**
 * That's yes. That's a better way to phrase that. Thanks.. 
