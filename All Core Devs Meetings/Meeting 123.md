@@ -109,7 +109,7 @@
 **Tim Beiko** 
 * Cool. So I guess there's, it makes sense. does it make sense? It seems like I don't get, can implement this. you can implant it in base soon that nethermind is thinking about doing it. So, it seems like people want to implement this. I'm not sure how this gets like accepted into the clique spec because clique itself is another EIP. so I guess I'm not sure what's like the process to make this like part of the spec and, and also the type of delay around that, given that like, people could just implement it when they want, so, yeah, I know. Do you have a feeling for what you would want the next, like official step to be here? 
 
-**Daniel**
+**Danno**
 * It's hard to say because, you know, Mike is not big on amending previous EIPs, so we could put a reference in EIPs of clicks saying, for, please use this for the four choice role, but not actually merge it into the clicky EIP. I think the people who really care about the EIP process, aren't on a call quite right now, but I think probably the thing to do is to move it into like, the final call and leave it there until we have everyone's implementations and then close it off. 
 
 **Tim Beiko** 
