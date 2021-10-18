@@ -123,18 +123,18 @@ This document outlines various tasks to work through to make the Merge ready for
 
 ## R&D
 
-Most research has been completed. Only listing things still left to dig deeper into
+Most research related to the merge has been completed. This section lists topics which are either tangentially related, or nice-to-haves, and still require R&D work.
 
 * [ ] Transition process analysis
     * [ ] Evaluate precision of TD computation on historic data
         * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
 * [ ] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
-    * [ ] Historic state sync
-    * [ ] Sync during transition period
+    * [x] Historic state sync (optimistic beacon block transition provides head data for EL sync)
+    * [x] Sync during transition period (forward sync to PoW TTD, reverse sync past TTD)
 * [ ] Discovery [is there actually anything to do here?]
 * [ ] Execution-layer proof of custody
-* [ ] Disaster recovery if invalid chain finalized 
+* [ ] Disaster recovery if invalid chain finalized
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority))
 * [ ] Further threat analysis
     * [ ] Miner attacks
