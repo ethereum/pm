@@ -92,7 +92,11 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [ ] Transition process tests with fully enabled consensus and execution layer
     * [ ] Hive: scenario with PoW network partitioning
-    * [ ] Hive: happy case and various edge case scenarios, e.g. re-org beyond transition block, etc
+    * [ ] Hive: happy case and various edge case scenarios, e.g:
+      * [ ] Re-org beyond transition block
+      * [ ] EL/CL client offline or not upgraded before/during/after transition
+      * [ ] PoW block propagation before/during/after transition
+      * [ ] Burst of EL blocks on different forks & optimistic sync interactions
 * [ ] Hive with all client combos
 * [ ] Hive: consensus+execution integration tests
 * [ ] Hive: Engine API tests
@@ -100,7 +104,10 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Stress tests
 
 * [ ] Single client load/metrics
-* [ ] Network load testing
+* [ ] Network load testing 
+  * [ ] Larger blocks
+  * [ ] Shorter slot times
+  * [ ] Large execution state. 
 
 ### Fuzzing
 
@@ -116,17 +123,20 @@ This document outlines various tasks to work through to make the Merge ready for
 
 ## R&D
 
-Most research has been completed. Only listing things still left to dig deeper into
+Most research related to the merge has been completed. This section lists topics which are either tangentially related, or nice-to-haves, and still require R&D work.
 
 * [ ] Transition process analysis
     * [ ] Evaluate precision of TD computation on historic data
         * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
 * [ ] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
-    * [ ] Historic state sync
-    * [ ] Sync during transition period
+    * [x] Historic state sync (optimistic beacon block transition provides head data for EL sync)
+    * [x] Sync during transition period (forward sync to PoW TTD, reverse sync past TTD)
 * [ ] Discovery [is there actually anything to do here?]
 * [ ] Execution-layer proof of custody
+* [ ] Disaster recovery if invalid chain finalized
+  * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
 * [ ] Further threat analysis
     * [ ] Miner attacks
     * [ ] Resource exhaustion post-merge
+* [ ] Fee Market behavior changes (missed slots impact)
