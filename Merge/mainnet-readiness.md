@@ -92,7 +92,11 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [ ] Transition process tests with fully enabled consensus and execution layer
     * [ ] Hive: scenario with PoW network partitioning
-    * [ ] Hive: happy case and various edge case scenarios, e.g. re-org beyond transition block, etc
+    * [ ] Hive: happy case and various edge case scenarios, e.g:
+      * [ ] Re-org beyond transition block;
+      * [ ] EL/CL client offline or not upgraded before/during/after transition;
+      * [ ] PoW block propagation before/during/after transition; 
+      * [ ] Burst of EL blocks on different forks & optimistic sync interactions. 
 * [ ] Hive with all client combos
 * [ ] Hive: consensus+execution integration tests
 * [ ] Hive: Engine API tests
@@ -100,7 +104,10 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Stress tests
 
 * [ ] Single client load/metrics
-* [ ] Network load testing
+* [ ] Network load testing 
+  * [ ] Larger blocks;
+  * [ ] Shorter slot times;
+  * [ ] Large execution state. 
 
 ### Fuzzing
 
@@ -127,6 +134,9 @@ Most research has been completed. Only listing things still left to dig deeper i
     * [ ] Sync during transition period
 * [ ] Discovery [is there actually anything to do here?]
 * [ ] Execution-layer proof of custody
+* [ ] Disaster recovery if invalid chain finalized 
+  * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority))
 * [ ] Further threat analysis
     * [ ] Miner attacks
     * [ ] Resource exhaustion post-merge
+* [ ] Fee Market behavior changes (missed slots impact)
