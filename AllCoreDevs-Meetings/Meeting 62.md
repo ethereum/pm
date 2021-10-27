@@ -39,7 +39,7 @@ None
 **ACTION 58.1**: Cat Herders to look at updating EIP1. 
 **Status**: [PR-1991](https://github.com/ethereum/EIPs/pull/1991) to be merged.
 
-# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2061.md#summary) 
+# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2061.md#summary) 
 [Timestamp: 1:47](https://youtu.be/lF_XxqxgVuA?t=107)
 
 ## Actions: 
@@ -48,7 +48,7 @@ None
 **Status**: Will look at this in the [next meeting](https://github.com/ethereum/pm/issues/102).
 
 **ACTION 60.1**: Review timeframe for hardforks in June to refresh memories.
-**Status**: Completed as per Roadmap [below](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2062.md#2-roadmap).
+**Status**: Completed as per Roadmap [below](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2062.md#2-roadmap).
 
 **ACTION 60.2**: Danno Ferrin to add 9 month out Hardfork kickoff to [timeframes](https://ethereum-magicians.org/t/more-frequent-smaller-hardforks-vs-less-frequent-larger-ones/2929/28).
 **Status**: Completed

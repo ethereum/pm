@@ -35,7 +35,7 @@
 **ACTION 60.7:** Parity to comment on Libraries for Precompiles (https://github.com/ethereum/pm/issues/95#issuecomment-486879991)
 
 
-# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2059.md#summary) 
+# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2059.md#summary) 
 [Timestamp: 3:06](https://youtu.be/O_DE4NwOz9A?t=186)
 
 **Hudson:** No decisions from Meeting 59. We will skip decisions from Meeting 58. 
