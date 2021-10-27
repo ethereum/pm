@@ -432,11 +432,11 @@ Tim: It is EFI: https://eips.ethereum.org/EIPS/eip-2378
 
 Hudson: Can someone (maybe a cat herder on the call) look up the notes for 1962 in the PM repo and see when it went into EFI? I can't find it: https://github.com/ethereum/pm/search?p=1&q=1962&unscoped_q=1962
 
-James H. https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2074.md should be this call
+James H. https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2074.md should be this call
 
-Tim: It was “tentatively accepted” last summer and got moved to EFI with all the others when we moved them all across https://github.com/ethereum/pm/blob/d7295a2ef399b28334ea73a3912bb6f220fcf6fd/All%20Core%20Devs%20Meetings/Meeting%2066.md
+Tim: It was “tentatively accepted” last summer and got moved to EFI with all the others when we moved them all across https://github.com/ethereum/pm/blob/d7295a2ef399b28334ea73a3912bb6f220fcf6fd/AllCoreDevs-Meetings/Meeting%2066.md
 
-Pooja R. Entered EFI in Meetin #78 https://github.com/ethereum/pm/blob/650d4dd250fe60319f6a7ec7969e503cf55a6dd8/All%20Core%20Devs%20Meetings/Meeting%2078.md
+Pooja R. Entered EFI in Meetin #78 https://github.com/ethereum/pm/blob/650d4dd250fe60319f6a7ec7969e503cf55a6dd8/AllCoreDevs-Meetings/Meeting%2078.md
 
 Trent: Sharing the ETHGlobal Ethereum Developer Survey >> https://ethglobal.typeform.com/to/RxHlK8
 Please share your perspectives if you have a few minutes, will be very helpful 

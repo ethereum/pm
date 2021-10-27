@@ -542,8 +542,8 @@ A note about next Friday's call it'll be 10 p.m. UTC
 # 3. Conformance Testing
 # 4. [Testnet Upgrade Block Number](https://eth.wiki/en/roadmap/istanbul)
 # 5. Review previous decisions made and action items
-* [Call 64](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2064.md#new-actions)
-* [Call 65](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2064.md#new-actions)
+* [Call 64](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2064.md#new-actions)
+* [Call 65](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2064.md#new-actions)
 # 6. Next Network Upgrade
 # 7. [Working Group Updates](https://en.ethereum.wiki/eth1)
 # 8. Testing Updates

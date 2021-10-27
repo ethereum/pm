@@ -185,7 +185,7 @@ but I like it and probably bring it up next week.
 Anything else anyone wanted to bring up?
 
 # 5. Review previous decisions made and action items
-* [Call 71](https://github.com/ethereum/pm/blob/1d012e2942234d6c035a95f8cd68b7f450b97de8/All%20Core%20Devs%20Meetings/Meeting%2071.md)
+* [Call 71](https://github.com/ethereum/pm/blob/1d012e2942234d6c035a95f8cd68b7f450b97de8/AllCoreDevs-Meetings/Meeting%2071.md)
 
 **Tim**: I would be going over the action items.
 

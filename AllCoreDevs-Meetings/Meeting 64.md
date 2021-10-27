@@ -22,7 +22,7 @@
 
 **ACTION 64.1:** Wei and Alexey to discuss retestETH options and how it could be implemented into Parity.
 
-# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2063.md#summary)
+# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2063.md#summary)
 [Timestamp: 3:15 ](https://youtu.be/2D_DqJ8jL9Y?t=195)
 
 ## Actions

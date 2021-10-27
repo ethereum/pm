@@ -317,7 +317,7 @@ I think these are the three things that I took from today.
 ### Decision Items
 -**91.3**- Discuss strategies on the adoption of client diversity. Discussion to be continued in the next meeting. 
 
-# 3. [Review Previous Decisions and Action Items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2090.md)
+# 3. [Review Previous Decisions and Action Items](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2090.md)
 (No discussion)
 
 # Annex

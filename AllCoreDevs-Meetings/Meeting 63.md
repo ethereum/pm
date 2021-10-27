@@ -39,7 +39,7 @@ implementation difficulties.
 
 **ACTION 58.1**: Cat Herders to look at updating EIP1. 
 
-# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2062.md#summary)
+# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2062.md#summary)
 [Timestamp: 3:37](https://youtu.be/Cl5zGk-3Ej4?t=217)
 
 ## Actions: 
