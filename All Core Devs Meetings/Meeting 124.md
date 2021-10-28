@@ -444,190 +444,283 @@ Yeah, I wouldn't be surprised if somebody just made the PR to open Ethereum. But
 
 15:00:31 From Tim Beiko to Everyone:
 Going to give people another couple minutes to roll in
+
 15:03:05 From Micah Zoltu to Everyone:
 Those conversations were more productive than some ACD discussions in the past...
+
 15:03:10 From Tim Beiko to Everyone:
 https://github.com/ethereum/pm/issues/396
+
 15:03:13 From lightclient to Everyone:
 pew pew
+
 15:03:21 From Micah Zoltu to Everyone:
 🔫
+
 15:08:56 From MariusVanDerWijden to Everyone:
 https://github.com/MariusVanDerWijden/merge-fuzz
+
 15:11:48 From Trenton Van Epps to Everyone:
 https://blog.ethereum.org/2021/10/15/amphora-merge-milestone/
+
 15:12:24 From Tim Beiko to Everyone:
 https://github.com/ethereum/pm/issues/397
+
 15:13:25 From Micah Zoltu to Everyone:
 My vote: Target difficulty bomb at April 1st. 😬
+
 15:14:00 From Ansgar Dietrichs to Everyone:
 I‘d prefer 10.5
+
 15:14:46 From MariusVanDerWijden to Everyone:
 I think it would not be good to push it back twice
+
 15:14:58 From MariusVanDerWijden to Everyone:
 So I would rather go for a later date
+
 15:15:50 From Micah Zoltu to Everyone:
 I am compelled by a "summer" argument.
+
 15:18:56 From MariusVanDerWijden to Everyone:
 I don't think mid may would make the bomb meaningless
+
 15:19:06 From lightclient to Everyone:
 +1
+
 15:22:13 From Łukasz Rozmej to Everyone:
 Why do we have to pick a block number now?
+
 15:22:24 From lightclient to Everyone:
 because difficulty bomb
+
 15:23:07 From Micah Zoltu to Everyone:
 I find peter's point quite compelling. I feel like we should have like 2 months between mainnet block chosen and The Merge.
+
 15:23:11 From Ansgar Dietrichs to Everyone:
 I think regarding learning to use the clients it is very much a "whatever timeline we pick, people will start looking into it a few weeks before" kind of situation
+
 15:23:18 From MariusVanDerWijden to Everyone:
 November is 2 weeks from now :O
+
 15:23:24 From lightclient to Everyone:
 :o
+
 15:23:26 From Łukasz Rozmej to Everyone:
 Push it back far, merge will be more eventfull than how much we postpone difficulty bomb, one the other hand who wants to fork will fork
+
 15:24:43 From Yuga (Coinbase) to Everyone:
 Is the current thinking that Consensus and Execution clients will remain separate, and therefore everyone who relies on e.g. Geth will have to spin up new Execution clients? Or is there any possibility of Execution clients acting as proxies/pass-throughs to Consensus clients?
+
 15:25:10 From Yuga (Coinbase) to Everyone:
 *new Consensus
+
 15:29:09 From MariusVanDerWijden to Everyone:
 Yes all node operators will need to spin up cl clients
+
 15:29:11 From Łukasz Rozmej to Everyone:
 I though chaos was part of the plan ;)
+
 15:29:22 From lightclient to Everyone:
 *always has been*
+
 15:29:24 From Micah Zoltu to Everyone:
 😆
+
 15:30:05 From MariusVanDerWijden to Everyone:
 There might be a way to run a full el node with a cl light client though
+
 15:30:27 From Yuga (Coinbase) to Everyone:
 Cool got it, ty
+
 15:30:39 From Micah Zoltu to Everyone:
 My gut says "code complete" is end of May.
+
 15:30:58 From Ansgar Dietrichs to Everyone:
 4 months indeed seems generous, and not sure if generous is the correct approach for our target of a "minimum viable merge"
+
 15:31:09 From Micah Zoltu to Everyone:
 Which puts me soundly in the "summer ice age" camp.
+
 15:31:25 From Łukasz Rozmej to Everyone:
 so basically "when its done"
+
 15:32:02 From MariusVanDerWijden to Everyone:
 @ansgar I disagree, we should have as much testing as possible, even for the "minimum" merge
+
 15:32:13 From MariusVanDerWijden to Everyone:
 *time for testing
+
 15:32:27 From Micah Zoltu to Everyone:
 As much as possible == infinite. We have to constrain it to some extent.
+
 15:32:40 From Ansgar Dietrichs to Everyone:
 I am just worried we are risking community alienation. Like, even with a smaller delay, we can always extend it later
+
 15:33:34 From Justin Florentine (besu) to Everyone:
 I can’t decide if I think community alienation is soothed more by multiple pushbacks or 1 longer one
+
 15:33:36 From MariusVanDerWijden to Everyone:
 I think that would alienate the community even more than moving the bomb a bit later and merging earlier
+
 15:35:14 From Ansgar Dietrichs to Everyone:
 I just don’t think code complete by end of January and mainnet fork by mid April is completely unrealistic, and the slow bomb rampup would already give us another month of buffer with that
+
 15:35:54 From danny to Everyone:
 are we live?
+
 15:36:02 From Gary Schulte to Everyone:
 yes
+
 15:36:04 From danny to Everyone:
 lol
+
 15:36:09 From danny to Everyone:
 I didn’t know
+
 15:36:22 From Ansgar Dietrichs to Everyone:
 haha
+
 15:36:26 From danny to Everyone:
 ah shit. I”m 30 minutes late
+
 15:36:33 From lightclient to Everyone:
 lol
+
 15:36:34 From danny to Everyone:
 I thought it was on the half hour....
+
 15:36:36 From danny to Everyone:
 wtf
+
 15:36:41 From Trenton Van Epps to Everyone:
 I've done that too
+
 15:36:41 From lightclient to Everyone:
 gm
+
 15:37:46 From Ansgar Dietrichs to Everyone:
 Wait, weren’t we deciding between April and May? Why June now?
+
 15:37:59 From lightclient to Everyone:
 because we didn't realize we need ~4 months pre fork
+
 15:38:18 From Ansgar Dietrichs to Everyone:
 But we really don’t
+
 15:38:37 From lightclient to Everyone:
 we just discussed that we do?
+
 15:38:59 From Ansgar Dietrichs to Everyone:
 No, you were saying that would be a generous choice
+
 15:39:29 From lightclient to Everyone:
 i think 3.5 months is probably the lower bound
+
 15:40:22 From MariusVanDerWijden to Everyone:
 It also depends on when we start counting, do we start from geth having the code in or all el clients or all cl and el clients
+
 15:40:34 From lightclient to Everyone:
 probably all el and cl
+
 15:40:57 From MariusVanDerWijden to Everyone:
 I think 2 months of final releases + 2 months for testnets would be good
+
 15:42:25 From Micah Zoltu to Everyone:
 I think the reason we want a long upgrade is because people won't upgrade until they see the testnets all succeed.
+
 15:46:17 From Tomasz Stańczak to Everyone:
 I am favour of the end of March bomb
+
 15:47:12 From MariusVanDerWijden to Everyone:
 I am in favor of Mid-May
+
 15:48:27 From Ansgar Dietrichs to Everyone:
 I actually think a longer time between code complete and merge increases the risk for adversarial conditions, as it gives adversaries more time to coordinate
+
 15:48:36 From Ansgar Dietrichs to Everyone:
 Mid-May sounds reasonable though
+
 15:49:25 From danny to Everyone:
 dead at the foot of the hill
+
 15:49:31 From Micah Zoltu to Everyone:
 Already dead?
+
 15:49:35 From danny to Everyone:
 might me
+
 15:49:37 From Łukasz Rozmej to Everyone:
 we can propose anything, reality will verify it
+
 15:49:47 From MariusVanDerWijden to Everyone:
 10.7 SGTM
+
 15:49:53 From 0xnako to Everyone:
 early to mid may!
+
 15:50:27 From danny to Everyone:
 5 times\* or something like that
+
 15:51:17 From MariusVanDerWijden to Everyone:
 I think we'll probably spend one ACD max on it
+
 15:51:25 From lightclient to Everyone:
 makes sense
+
 15:51:38 From Tim Beiko to Everyone:
 I’m happy to also have as many of these convos off the call as possible and summarize here again
+
 15:52:30 From lightclient to Everyone:
 i feel more comfortable with 10.8 and set an agressive code complete date of feb 1
+
 15:52:52 From danny to Everyone:
 what does 10.7 and 10.8 map to in our best guess?
+
 15:52:59 From danny to Everyone:
 is 0.1 a month?
+
 15:53:04 From lightclient to Everyone:
 10.8 to me is beginning of june
+
 15:53:06 From Micah Zoltu to Everyone:
 0.1 ~= 2 weeks
+
 15:54:26 From lightclient to Everyone:
 i'm also be happy with 11m but continue with the agressive timeline to try and merge before june
+
 15:54:30 From Micah Zoltu to Everyone:
 The difficulty is continuous, it is always happening.
+
 15:54:43 From lightclient to Everyone:
 10.7-10.8 == not much room for error
+
 15:56:23 From Ansgar Dietrichs to Everyone:
 10.7, but okay with pushing back further seems okay
+
 15:58:21 From Micah Zoltu to Everyone:
 13,773,000
+
 15:58:31 From Tim Beiko to Everyone:
 https://etherscan.io/block/countdown/13773000
+
 15:58:46 From Ansgar Dietrichs to Everyone:
 Sorry about raised hand, different zoom client
+
 15:58:47 From lightclient to Everyone:
 13,337,000?
+
 15:58:54 From lightclient to Everyone:
 haha
+
 15:59:27 From Micah Zoltu to Everyone:
 The trick is to wear everyone down with the harder conversation first, so the rest go quickly. :P
+
 15:59:51 From lightclient to Everyone:
 should use this tactic more
+
 16:00:06 From lightclient to Everyone:
 can we discuss 3074 now?
+
 16:00:34 From Micah Zoltu to Everyone:
 😆
 
