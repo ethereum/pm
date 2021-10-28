@@ -308,7 +308,7 @@ It's obviously the priority to have done when the test the Istanbul tests are do
 # 5. Review previous decisions made and action items
 
 
-* [Call 68](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2068.md)
+* [Call 68](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2068.md)
 
 **Hudson**: The last thing we  need to do is go over some of the action items. All the decisions from last meeting are very straightforward so I'm not going to go over them. 
 

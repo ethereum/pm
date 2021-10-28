@@ -495,7 +495,7 @@ Okay, we have about a minute left I think that gives us enough time for Dimitry 
 
 **Hudson**: We’re out of time. Do the EIPIP survey please, if you’ve not done so. We really want a good amount of core developers and EIP editors to do it. Also anybody who has ever looked into EIP can do it. I am posting that in Gitter and YouTube chat and probably post it to twitter once again. So, please participate in that if you’ve not already and we will see you in two weeks. 
 
-# 10. [Review previous decisions made and action items (if notes available)](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2084.md)
+# 10. [Review previous decisions made and action items (if notes available)](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2084.md)
 
 Couldn't be discussed.
 

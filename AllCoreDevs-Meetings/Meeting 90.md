@@ -320,7 +320,7 @@ From Vitalik Buterin to Everyone: (11:22 AM)
 another benefit of 2718 is it would also remove that work from account abstractionOK you have the list 🤣
 
 From Pooja Ranjan to Everyone: (11:24 AM)
-https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2089.md
+https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2089.md
 
 From Alex V to Everyone: (11:30 AM)
 I’ll re-share from telegramfor modexp benchmarking vectors

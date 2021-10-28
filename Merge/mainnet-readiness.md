@@ -116,8 +116,8 @@ This document outlines various tasks to work through to make the Merge ready for
 
 ## Testnets
 
-* [ ] Short-lived devnets without transition process
-* [ ] Short-lived devnets *with* transition process
+* [X] Short-lived devnets without transition process
+* [X] Short-lived devnets *with* transition process
 * [ ] Long-lived devnets
 * [ ] Fork public testnets
 

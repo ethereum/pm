@@ -354,7 +354,7 @@ Second best alternative is, just add Yolo1, so we can have a status, but the net
 
 **Hudson**: Anybody else?
 
-# 9. [Review Previous Decisions and Action Items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2088.md)
+# 9. [Review Previous Decisions and Action Items](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2088.md)
 Video | [44:52](https://youtu.be/c_JmTqeQkU4?t=2682)
 -|-
 

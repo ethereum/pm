@@ -21,7 +21,7 @@
   - [EIP 1803: Rename opcodes for clarity](https://eips.ethereum.org/EIPS/eip-1803)
 - 6 EIPIP (EIP Improvement Proposal) Meeting
 - 7 Review previous decisions made and action items
-  - [Call 74](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2074.md)
+  - [Call 74](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2074.md)
 - 8 Client Updates
   - b Parity Ethereum
   - c Aleth/eth
@@ -217,7 +217,7 @@ I may create a Gitter or Telegram group.
 **Hudson:** This is a new meeting to improve the EIP process.
  
 ## 7. Review previous decisions made and action items
-- [Call 74](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2074.md)
+- [Call 74](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2074.md)
 Video: [56:44](https://youtu.be/3qZFiETlDtk?t=3404)
 
 No further review required.
