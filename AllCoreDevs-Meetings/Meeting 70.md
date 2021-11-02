@@ -317,7 +317,7 @@ No one available to speak on Aleth.
 - Specialised hardware of the future is hard to predict but there are certain signs and incentives that we should be aware of and how they could potentially impact on ProgPoW in the future.
 
 ## 5. Review previous decisions made and action items
-•	[Call 69](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2069.md)
+•	[Call 69](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2069.md)
 
 # 6. Client Updates
 

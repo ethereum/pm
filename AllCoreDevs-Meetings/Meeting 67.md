@@ -414,11 +414,11 @@ I think it might just be worth noting that it would be good on the next call to 
 
 **Tim**: yeah and the next agenda item was reviewing the previous decisions and  action items from the last calls but I just wanted to leave the space if anyone has anything else they want to discuss?
 
-* [Call 65](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2064.md#new-actions)
+* [Call 65](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2064.md#new-actions)
 
 **Tim**: Okay . So the previous call, basically we had a lot of both accepted and tentatively accepted I won't go over the entire list because we hashed it already. We didn't have any outstanding action items. 
 
-* [Call 66](https://github.com/ethereum/pm/blob/463126de2b9289b54d3d042f3171a189f928eee4/All%20Core%20Devs%20Meetings/Meeting%2066.md)
+* [Call 66](https://github.com/ethereum/pm/blob/463126de2b9289b54d3d042f3171a189f928eee4/AllCoreDevs-Meetings/Meeting%2066.md)
 
 **Tim**: Then the call before that because we didn't get to reviewing stuff on the previous call.  we had a lot of EIPs accepted in terms of the decision so no need to go back over these. The actions required were reviewing 1283, 1706 this seems to be happening and we touched on the earlier around the 2200 discussion. Some notes were about the next core dev calls which were having a right now. 1344 which we've accepted and then continue discussing 1962, so we definetly done that. 
 

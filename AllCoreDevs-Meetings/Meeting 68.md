@@ -252,7 +252,7 @@ From the [note](https://github.com/ethereum/pm/issues/119#issuecomment-520232072
 **DECISION 68.5:** Approve Alex’s proposal to name the all hardforks going forward according to the devcon cities starting with calling the next hardfork after Istanbul which will be called Berlin from DevCon0 rather than Istanbul 2.
 
 # 6. Review previous decisions made and action items
-## [Call 67](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2067.md#decisions-made)
+## [Call 67](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2067.md#decisions-made)
 
 Decisions from Meeting 67 reviewed.
 

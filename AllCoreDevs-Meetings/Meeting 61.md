@@ -50,9 +50,9 @@ c. intention to get your change into the next hardfork
 
 
 
-# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2060.md#summary)
+# 1. [Review previous decisions made and action items](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2060.md#summary)
 
-**Lane** : Reviewing [Meeting 60 notes](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2060.md#summary). 
+**Lane** : Reviewing [Meeting 60 notes](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2060.md#summary). 
 
 **ACTION 58.1**: Cat Herders to look at updating EIP1. 
 Status: Work in Progress
@@ -353,9 +353,9 @@ Two leading places are Seattle and somewhere in Canada.
 
 From [comments](https://github.com/ethereum/pm/issues/97#issuecomment-491333940) - regarding the JSON-RPC spec there seems to be on already: https://eips.ethereum.org/EIPS/eip-1474. 
 
-# 8. [EIP 615](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2060.md#eip-615-status-draft) (from last meeting)
+# 8. [EIP 615](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2060.md#eip-615-status-draft) (from last meeting)
 
-**Lane**: Discussed [in last meeting](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2060.md#eip-615-status-draft) and also in Berlin. Some concerns were raised about complexity.
+**Lane**: Discussed [in last meeting](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2060.md#eip-615-status-draft) and also in Berlin. Some concerns were raised about complexity.
 
 **Brooklyn**: I think the author are happy with how it is done right now. We are looking to push it towards Istanbul. 
 
