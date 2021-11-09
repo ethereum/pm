@@ -21,7 +21,7 @@
 
 ## Merge Updates
 
-**???**
+**Marius (Geth)**
 
 * i can start so we're currently looking into merging all the code from amphora from from the interop. until now nothing major came up.
 * i've also started setting up a server for merge fuzz and m fuzzing gas right now but i'll add some other other execution layer clients to it for those who don't know, merge first is a differential fuzzer that basically just calls the engine api of two different clients and sees if they do exactly the same thing. so that's that's our update.
