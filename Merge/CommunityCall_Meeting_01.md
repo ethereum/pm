@@ -4,7 +4,7 @@
 ### Meeting Duration: 1 hour
 ### [Agenda](https://github.com/ethereum/pm/issues/402)
 ### [Video of the meeting](https://www.youtube.com/watch?v=_kfS9jAUY6g)
-### Moderator: T
+### Moderator: Trent
 ### Notes: Stefan Wüst
 
 -----------------------------
