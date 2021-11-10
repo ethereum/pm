@@ -38,18 +38,18 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Consider weak subjectivity period implications
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
 * [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
-* [x] [BONUS] Annotated specs
+* [x] [BONUS] Annotated specs [link](https://github.com/ethereum/annotated-spec/tree/master/merge)
 
 ### Execution layer
 
 * [x] High level [design doc](https://hackmd.io/@n0ble/ethereum_consensus_upgrade_mainnet_perspective)
 * [x] [Rayonism spec](https://github.com/ethereum/rayonism/blob/master/specs/merge.md)
 * [ ] EIPs
-    * [ ] EVM `DIFFICULTY` -> `RANDOM`
-    * [ ] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP]
+    * [x] EVM `DIFFICULTY` -> `RANDOM` [EIP-4399](https://eips.ethereum.org/EIPS/eip-4399)
+    * [x] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP] [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
     * [x] Transition process [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
 * [ ] Network -- devp2p
-    * [ ] Block gossip deprecation
+    * [x] Block gossip deprecation [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
     * [ ] State sync post-merge
     * [ ] Block sync post-merge
     * [ ] Discovery
@@ -59,13 +59,13 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Engine API
 
 * [x] Basic JSON-RPC extension, [link](https://github.com/ethereum/rayonism/blob/master/specs/merge.md#consensus-json-rpc) (used in rayonism)
-* [ ] [IN PROGRESS] Production refinements, [WIP doc](https://hackmd.io/@n0ble/consensus_api_design_space), [Interop Edition](https://github.com/ethereum/execution-apis/blob/main/src/engine/interop/specification.md)
-    * [ ] Support execution-layer state sync
-    * [ ] Support async block insert
-    * [ ] Consider support for `Consensus <-> Execution` consistency (e.g. recover from crash or bad insert on execution layer)
-    * [ ] Consider bi-directional communication
-    * [ ] ...
-* [ ] Discuss JSON-RPC vs websockets vs restful http
+* [x] Production refinements [Engine API](https://github.com/ethereum/execution-apis/blob/main/src/engine/specification.md). Previous docs: [WIP doc](https://hackmd.io/@n0ble/consensus_api_design_space), [Interop Edition](https://github.com/ethereum/execution-apis/blob/main/src/engine/interop/specification.md)
+    * Support execution-layer state sync
+    * Support async block insert
+    * Consider support for `Consensus <-> Execution` consistency (e.g. recover from crash or bad insert on execution layer)
+    * Consider bi-directional communication
+    * ...
+* [x] Discuss JSON-RPC vs websockets vs restful http
 * [x] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home, [link](https://github.com/ethereum/execution-apis/tree/main/src/engine)
 * [ ] [BONUS] Test vectors
 
@@ -126,7 +126,7 @@ This document outlines various tasks to work through to make the Merge ready for
 Most research related to the merge has been completed. This section lists topics which are either tangentially related, or nice-to-haves, and still require R&D work.
 
 * [ ] Transition process analysis
-    * [ ] Evaluate precision of TD computation on historic data
+    * [x] Evaluate precision of TD computation on historic data
         * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
 * [ ] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
