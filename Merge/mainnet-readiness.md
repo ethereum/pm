@@ -36,6 +36,8 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Rebase with Altair [#2530](https://github.com/ethereum/eth2.0-specs/pull/2530)
 * [x] Rebase with London (update `ExecutionPayload`) [#2533](https://github.com/ethereum/consensus-specs/pull/2533)
 * [ ] Consider weak subjectivity period implications
+  * [ ] Generate accurate weak subjectivity period calculations
+  * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
 * [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
 * [x] [BONUS] Annotated specs
@@ -84,6 +86,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * [x] Inherit all prior unit tests and generators
     * [ ] [IN [PROGRESS](https://github.com/ethereum/eth2.0-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge)] Merge specific tests with mocked execution-layer
     * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge/fork_choice)] Fork and fork-choice tests across merge boundary
+    * [ ] Weak subjectivity checkpoint sync readiness
 * [ ] Execution
     * [ ] Reuse existing framework for most prior EVM unit tests
     * [ ] New `DIFFICULTY` opcode tests
