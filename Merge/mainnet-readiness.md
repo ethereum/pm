@@ -128,7 +128,7 @@ Most research related to the merge has been completed. This section lists topics
 * [ ] Transition process analysis
     * [x] Evaluate precision of TD computation on historic data
         * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
-* [ ] Execution-layer sync
+* [x] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
     * [x] Historic state sync (optimistic beacon block transition provides head data for EL sync)
     * [x] Sync during transition period (forward sync to PoW TTD, reverse sync past TTD)
