@@ -6,7 +6,7 @@ This repository is used for project management for various initiatives affecting
 
 ### Purpose
 
-The All Core Devs meeting is a technical call intended to bring together various Ethereum teams who play major roles in determining the direction of the protocol. Ethereum client and research teams provide updates on their projects, discuss various [EIPs](https://eips.ethereum.org/) to improve the protocol, and support each other as we **buidl** Web 3.0.
+The All Core Devs meeting is a technical call intended to bring together various Ethereum teams who play major roles in determining the direction of the protocol. Ethereum client and research teams provide updates on their projects, discuss various [EIPs](https://eips.ethereum.org/) to improve the protocol, and support each other as we **build** Web 3.0.
 
 ### Agendas
 
