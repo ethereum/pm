@@ -3,7 +3,7 @@
 
 # Ethereum 2.0 Implementers Call 58 Notes <!-- omit in toc --> 
 
-### Meeting Date/Time: Thursday 20212/02/25 at 14:00 UTC <!-- omit in toc --> 
+### Meeting Date/Time: Thursday 2021/02/25 at 14:00 UTC <!-- omit in toc --> 
 ### Meeting Duration:  30 mins  <!-- omit in toc --> 
 ### [GitHub Agenda](https://github.com/ethereum/eth2.0-pm/issues/206) <!-- omit in toc --> 
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=yrDVhoTg5XU) <!-- omit in toc --> 
