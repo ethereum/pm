@@ -19,7 +19,7 @@ The purpose of thess calls is for various teams/individuals working on aspects o
  №  | Meeting | Date                             | Agenda           | Notes                  | Recording          |
 --- | ------- |--------------------------------  | :--------------: | :--------------------: | :----------------: |
 001 | Merge Community Call 1| Nov 05 2021 | [🔗](https://github.com/ethereum/pm/issues/402) | [Notes](/Merge/CommunityCall_Meeting_01.md) | [Youtube](https://www.youtube.com/watch?v=_kfS9jAUY6g) |
-002 | Merge Community Call 2| Dex 03 2021 | [🔗](https://github.com/ethereum/pm/issues/419) | [Notes](/Merge/CommunityCall_Meeting_02.md) | [Youtube](https://youtu.be/iPw7ixSgA_w) |
+002 | Merge Community Call 2| Dec 03 2021 | [🔗](https://github.com/ethereum/pm/issues/419) | [Notes](/Merge/CommunityCall_Meeting_02.md) | [Youtube](https://youtu.be/iPw7ixSgA_w) |
 
 
 ### Who Can Attend
