@@ -10,6 +10,7 @@ This repo hosts a collection of [standards](./interop) to aid in client interope
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+77|Thu, Dec 2, 2021 1400UTC|[agenda](https://github.com/ethereum/pm/issues/429) \| [notes](https://github.com/geovgy/pm-1/blob/patch-2/Consensus-Layer-Meetings/call_077.md) \| reddit | [video](https://youtu.be/1fIg_t6hZ8U)
 76|Thu, Nov 18, 2021 1400UTC|[agenda](https://github.com/ethereum/pm/issues/418) \| [notes](https://github.com/Avishek041180/pm/blob/master/Consensus-Layer-Meetings/call_076.md) \| reddit | [video](https://www.youtube.com/watch?v=31Jxh9_xXvY)
 75|Thu, Nov 4, 2021 1400UTC|[agenda](https://github.com/ethereum/pm/issues/412) \| [notes](https://github.com/Avishek041180/pm/blob/master/Consensus-Layer-Meetings/call_075.md) \| reddit | [video](https://youtu.be/9U_xj_zCMYg)
 74|Thu, Oct 21, 2021 1400UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/239) \| [notes](https://github.com/Avishek041180/pm/blob/master/Consensus-Layer-Meetings/Call_074.md) \| reddit | [video](https://www.youtube.com/watch?v=5vGxLoTUqaQ)
