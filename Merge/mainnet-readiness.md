@@ -39,6 +39,7 @@ This document outlines various tasks to work through to make the Merge ready for
   * [ ] Generate accurate weak subjectivity period calculations
   * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
+* [ ] Optimistic sync spec 
 * [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
 * [x] [BONUS] Annotated specs [link](https://github.com/ethereum/annotated-spec/tree/master/merge)
 
@@ -46,7 +47,7 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [x] High level [design doc](https://hackmd.io/@n0ble/ethereum_consensus_upgrade_mainnet_perspective)
 * [x] [Rayonism spec](https://github.com/ethereum/rayonism/blob/master/specs/merge.md)
-* [ ] EIPs
+* [x] EIPs
     * [x] EVM `DIFFICULTY` -> `RANDOM` [EIP-4399](https://eips.ethereum.org/EIPS/eip-4399)
     * [x] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP] [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
     * [x] Transition process [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
@@ -73,8 +74,11 @@ This document outlines various tasks to work through to make the Merge ready for
 
 ### Public facing documents
 
-* [ ] Merge architecture design document
+* [x] Merge architecture design document
+    * [Historical changes](https://tim.mirror.xyz/CHQtTJb1NDxCK41JpULL-zAJe7YOtw-m4UDw6KDju6c), [Architecture](https://tim.mirror.xyz/sR23jU02we6zXRgsF_oTUkttL83S3vyn05vJWnnp-Lc)
 * [ ] Infrastructure provider guide
+* [x] Application Layer Impacts 
+    * [Blog post](https://blog.ethereum.org/2021/11/29/how-the-merge-impacts-app-layer/) 
 * [x] Rename eth1/eth2 to execution/consensus across repos and documentation -- [The Great Renaming](https://notes.ethereum.org/@timbeiko/great-renaming)
 * [ ] [BONUS] Consider relationship between execution and consensus spec/API repos and build processes
 
