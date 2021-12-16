@@ -1,7 +1,7 @@
 # Ethereum Core Devs Meeting #25
 ### Meeting Date/Time: Friday 9/22/17 at 14:00 UTC
 ### Meeting Duration 1.5 hours
-### [Audio/Video of the meeting](https://www.youtube.com/watch?v=wLaI7680I4w)
+### [Audio/Video of the meeting](https://youtu.be/gxtftZB7_jA)
 ### [Reddit thread](https://www.reddit.com/r/ethereum/comments/72p924/notes_from_ethereum_core_devs_meeting_25_92217/)
 
 # [Agenda](https://github.com/ethereum/pm/issues/23)
