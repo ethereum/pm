@@ -50,11 +50,11 @@ This document outlines various tasks to work through to make the Merge ready for
     * [x] EVM `DIFFICULTY` -> `RANDOM` [EIP-4399](https://eips.ethereum.org/EIPS/eip-4399)
     * [x] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP] [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
     * [x] Transition process [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
-* [ ] Network -- devp2p
+* [x] Network -- devp2p
     * [x] Block gossip deprecation [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
-    * [ ] State sync post-merge
-    * [ ] Block sync post-merge
-    * [ ] Discovery
+    * [x] State sync post-merge
+    * [x] Block sync post-merge
+    * [x] Discovery
 * [ ] Upgrade JSON-RPC ([`execution-apis`](https://github.com/ethereum/execution-apis)) with new methods and deprecations
 * [ ] [BONUS] Executable [`execution-specs`](https://github.com/ethereum/execution-specs/pull/219) and testing through the Merge
 
@@ -128,14 +128,14 @@ This document outlines various tasks to work through to make the Merge ready for
 
 Most research related to the merge has been completed. This section lists topics which are either tangentially related, or nice-to-haves, and still require R&D work.
 
-* [ ] Transition process analysis
+* [x] Transition process analysis
     * [x] Evaluate precision of TD computation on historic data
         * https://ethresear.ch/t/using-total-difficulty-threshold-for-hardfork-anchor-what-could-go-wrong/10357
 * [x] Execution-layer sync
     * [x] Historic block sync (reverse header then forward body)
     * [x] Historic state sync (optimistic beacon block transition provides head data for EL sync)
     * [x] Sync during transition period (forward sync to PoW TTD, reverse sync past TTD)
-* [ ] Discovery [is there actually anything to do here?]
+* [x] Discovery [is there actually anything to do here?]
 * [ ] Execution-layer proof of custody
 * [ ] Disaster recovery if invalid chain finalized
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
