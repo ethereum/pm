@@ -160,3 +160,8 @@ The meetings are independent of any organization. However, Tim Beiko is a contra
 | 2   | Fri, January 1, 2016                 | None                                                | [notes](Archive/EIPs-Wiki/Notes.md)                                                                                                                                    | not recorded                                                                       |
 | 1   | Mon, November 30, 2015               | None                                                | [notes](Archive/EIPs-Wiki/Notes.md)                                                                                                                                    | not recorded                                                                       |
 | 0   | ??                                   | None                                                | [notes](Archive/EIPs-Wiki/Notes.md)                                                                                                                                    | not recorded                                                                       |
+
+
+### Perma-archived Meetings
+
+The audio files of the Previous Meetings are stored permanently on [Permacast](./AllCoreDevs-Meetings/perma-archive.md).
