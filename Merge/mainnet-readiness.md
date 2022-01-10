@@ -39,7 +39,7 @@ This document outlines various tasks to work through to make the Merge ready for
   * [ ] Generate accurate weak subjectivity period calculations
   * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
-* [ ] Optimistic sync spec 
+* [ ] [IN PROGRESS](https://github.com/ethereum/consensus-specs/pull/2770) Optimistic sync spec 
 * [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
 * [x] [BONUS] Annotated specs [link](https://github.com/ethereum/annotated-spec/tree/master/merge)
 
@@ -125,7 +125,7 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [X] Short-lived devnets without transition process
 * [X] Short-lived devnets *with* transition process
-* [ ] Long-lived devnets
+* [x] Long-lived devnets [link](https://blog.ethereum.org/2021/12/20/kintsugi-merge-testnet/)
 * [ ] Fork public testnets
 
 ## R&D
@@ -146,4 +146,5 @@ Most research related to the merge has been completed. This section lists topics
 * [ ] Further threat analysis
     * [ ] Miner attacks
     * [ ] Resource exhaustion post-merge
-* [ ] Fee Market behavior changes (missed slots impact)
+* [x] Fee Market behavior changes (missed slots impact)
+    * [EIP-4396](https://eips.ethereum.org/EIPS/eip-4396) proposed 
