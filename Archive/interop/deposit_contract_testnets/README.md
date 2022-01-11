@@ -8,7 +8,7 @@ An Eth2 testnet can be identified by an address of a deployed validator deposit 
 
 To facilitate discovering and connecting to existing testnets, all client teams are encouraged to publish metadata files for their active testnets in the following repository:
 
-https://github.com/eth2-clients/eth2-testnets
+https://github.com/eth-clients/eth2-testnets
 
 Please create a sub-folder for your team, where each active testnet will be stored as a nested sub-folder with a descriptive name. For example: 
 
@@ -64,5 +64,5 @@ To facilitate the reuse of GöETH, the client teams may choose to modify the dep
 
 After significant progress is reached in client-operated testnets, the EF will deploy an official multi-client testnet. Metadata files will be published in the following folder:
 
-https://github.com/eth2-clients/eth2-testnets/serenity-phase0
+https://github.com/eth-clients/eth2-testnets/serenity-phase0
 
