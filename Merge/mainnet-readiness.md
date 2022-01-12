@@ -92,8 +92,8 @@ This document outlines various tasks to work through to make the Merge ready for
     * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge/fork_choice)] Fork and fork-choice tests across merge boundary
     * [ ] Weak subjectivity checkpoint sync readiness
 * [ ] Execution
-    * [ ] Reuse existing framework for most prior EVM unit tests
-    * [ ] New `DIFFICULTY` opcode tests
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/retesteth/pull/160)] Reuse existing framework for most prior EVM unit tests
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/tests/pull/1008)] New `DIFFICULTY` opcode tests
 
 ### Integration tests
 
@@ -106,7 +106,7 @@ This document outlines various tasks to work through to make the Merge ready for
       * [ ] Burst of EL blocks on different forks & optimistic sync interactions
 * [ ] Hive with all client combos
 * [ ] Hive: consensus+execution integration tests
-* [ ] Hive: Engine API tests
+* [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/496)] Hive: Engine API tests
 
 ### Stress tests
 
