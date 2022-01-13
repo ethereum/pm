@@ -88,8 +88,8 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [ ] Consensus
     * [x] Inherit all prior unit tests and generators
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/eth2.0-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge)] Merge specific tests with mocked execution-layer
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge/fork_choice)] Fork and fork-choice tests across merge boundary
+    * [x] Merge specific tests with mocked execution-layer
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/bellatrix/fork_choice)] Fork and fork-choice tests across merge boundary
     * [ ] Weak subjectivity checkpoint sync readiness
 * [ ] Execution
     * [ ] [IN [PROGRESS](https://github.com/ethereum/retesteth/pull/160)] Reuse existing framework for most prior EVM unit tests
@@ -97,16 +97,12 @@ This document outlines various tasks to work through to make the Merge ready for
 
 ### Integration tests
 
-* [ ] Transition process tests with fully enabled consensus and execution layer
-    * [ ] Hive: scenario with PoW network partitioning
-    * [ ] Hive: happy case and various edge case scenarios, e.g:
-      * [ ] Re-org beyond transition block
-      * [ ] EL/CL client offline or not upgraded before/during/after transition
-      * [ ] PoW block propagation before/during/after transition
-      * [ ] Burst of EL blocks on different forks & optimistic sync interactions
-* [ ] Hive with all client combos
-* [ ] Hive: consensus+execution integration tests
-* [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/496)] Hive: Engine API tests
+* [x] Testnet [chaos messages](https://github.com/MariusVanDerWijden/go-ethereum/tree/merge-bad-block-creator)
+* [ ] Hive
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/496)] Mocked CL for EL engine API unit testing
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/495)] CL+EL integration ests with all client combos
+* [ ] Shadow fork Goerli on a daily or weekly basis to continuously test live transition and TX replays 
+* [ ] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
 
 ### Stress tests
 
@@ -114,10 +110,11 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Network load testing 
   * [ ] Larger blocks
   * [ ] Shorter slot times
-  * [ ] Large execution state. 
+  * [ ] Large execution state (shadow-forking mainnet)
 
 ### Fuzzing
 
+* [x] [Fuzz engine API](https://github.com/MariusVanDerWijden/merge-fuzz)
 * [ ] Beacon-fuzz applied to merge ready consensus clients
 * [ ] Existing EVM fuzzing infra applied to merge ready execution engines
 
@@ -142,6 +139,7 @@ Most research related to the merge has been completed. This section lists topics
 * [x] Discovery [is there actually anything to do here?]
 * [ ] Execution-layer proof of custody
 * [ ] Disaster recovery if invalid chain finalized
+  * [x] EL will perform re-orgs beyond finality but at a potential high sync cost
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
 * [ ] Further threat analysis
     * [ ] Miner attacks
