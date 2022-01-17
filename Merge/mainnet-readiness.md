@@ -137,7 +137,7 @@ Most research related to the merge has been completed. This section lists topics
     * [x] Historic state sync (optimistic beacon block transition provides head data for EL sync)
     * [x] Sync during transition period (forward sync to PoW TTD, reverse sync past TTD)
 * [x] Discovery [is there actually anything to do here?]
-* [ ] Execution-layer proof of custody
+* [x] [In research, not to be included merge] Execution-layer proof of custody
 * [ ] Disaster recovery if invalid chain finalized
   * [x] EL will perform re-orgs beyond finality but at a potential high sync cost
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
