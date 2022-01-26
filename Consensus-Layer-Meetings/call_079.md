@@ -222,13 +222,25 @@ https://ethresear.ch/t/whisk-a-practical-shuffle-based-ssle-protocol-for-ethereu
 - Saulius Grigaitis
 - Tim Beiko
 - Marius Van Der Wijden
-- ?
 - Ben Edgington
 - carlbeek
 - terence(prysmaticlabs)
 - Mikhail Kalinin
-- ?
 - Marek Moraczynski
-- ?
 - Cayman Nava
 - Rafael (skylenet)
+- protolambda
+- Adrian Sutton
+- James H
+- Hsiao-Wei Wang
+- stokes
+- Lion dapplion
+- Péter Szilágyi
+- Dankrad Feist
+- pari
+- Jose 's iPhone
+- Raul Jordan Prysmatic
+- Leonardo Bautista
+- zahary
+- Nishant
+- arnetheduck
