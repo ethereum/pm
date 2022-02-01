@@ -28,6 +28,12 @@ This document outlines various tasks to work through to make the Merge ready for
 
 ## Specification
 
+### Meta Specs
+
+* [x] [Rayonism](https://github.com/ethereum/rayonism/blob/master/specs/merge.md)
+* [x] [Kintsugi](https://hackmd.io/@n0ble/kintsugi-spec)
+* [x] [Kiln](https://hackmd.io/@n0ble/kiln-spec)
+
 ### Consensus layer
 
 * [x] Specs feature complete
@@ -39,14 +45,13 @@ This document outlines various tasks to work through to make the Merge ready for
   * [ ] Generate accurate weak subjectivity period calculations
   * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
-* [ ] [IN PROGRESS](https://github.com/ethereum/consensus-specs/pull/2770) Optimistic sync spec 
+* [x] [Optimistic sync spec](https://github.com/ethereum/consensus-specs/blob/dev/sync/optimistic.md) 
 * [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
 * [x] [BONUS] Annotated specs [link](https://github.com/ethereum/annotated-spec/tree/master/merge)
 
 ### Execution layer
 
 * [x] High level [design doc](https://hackmd.io/@n0ble/ethereum_consensus_upgrade_mainnet_perspective)
-* [x] [Rayonism spec](https://github.com/ethereum/rayonism/blob/master/specs/merge.md)
 * [x] EIPs
     * [x] EVM `DIFFICULTY` -> `RANDOM` [EIP-4399](https://eips.ethereum.org/EIPS/eip-4399)
     * [x] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP] [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
@@ -80,7 +85,6 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Application Layer Impacts 
     * [Blog post](https://blog.ethereum.org/2021/11/29/how-the-merge-impacts-app-layer/) 
 * [x] Rename eth1/eth2 to execution/consensus across repos and documentation -- [The Great Renaming](https://notes.ethereum.org/@timbeiko/great-renaming)
-* [ ] [BONUS] Consider relationship between execution and consensus spec/API repos and build processes
 
 ## Testing
 
@@ -102,7 +106,8 @@ This document outlines various tasks to work through to make the Merge ready for
     * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/496)] Mocked CL for EL engine API unit testing
     * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/495)] CL+EL integration ests with all client combos
 * [ ] Shadow fork Goerli on a daily or weekly basis to continuously test live transition and TX replays 
-* [ ] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
+* [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
+    * [x] [Kurtosis Merge Module](https://github.com/kurtosis-tech/eth2-merge-kurtosis-module)
 
 ### Stress tests
 
