@@ -28,6 +28,12 @@ This document outlines various tasks to work through to make the Merge ready for
 
 ## Specification
 
+### Meta Specs
+
+* [x] [Rayonism](https://github.com/ethereum/rayonism/blob/master/specs/merge.md)
+* [x] [Kintsugi](https://hackmd.io/@n0ble/kintsugi-spec)
+* [x] [Kiln](https://hackmd.io/@n0ble/kiln-spec)
+
 ### Consensus layer
 
 * [x] Specs feature complete
@@ -39,14 +45,13 @@ This document outlines various tasks to work through to make the Merge ready for
   * [ ] Generate accurate weak subjectivity period calculations
   * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
-* [ ] Optimistic sync spec 
+* [x] [Optimistic sync spec](https://github.com/ethereum/consensus-specs/blob/dev/sync/optimistic.md) 
 * [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
 * [x] [BONUS] Annotated specs [link](https://github.com/ethereum/annotated-spec/tree/master/merge)
 
 ### Execution layer
 
 * [x] High level [design doc](https://hackmd.io/@n0ble/ethereum_consensus_upgrade_mainnet_perspective)
-* [x] [Rayonism spec](https://github.com/ethereum/rayonism/blob/master/specs/merge.md)
 * [x] EIPs
     * [x] EVM `DIFFICULTY` -> `RANDOM` [EIP-4399](https://eips.ethereum.org/EIPS/eip-4399)
     * [x] EVM `BLOCKHASH` [unchanged but weaker randomness documented in PoW -> PoS transition EIP] [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675)
@@ -80,7 +85,6 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Application Layer Impacts 
     * [Blog post](https://blog.ethereum.org/2021/11/29/how-the-merge-impacts-app-layer/) 
 * [x] Rename eth1/eth2 to execution/consensus across repos and documentation -- [The Great Renaming](https://notes.ethereum.org/@timbeiko/great-renaming)
-* [ ] [BONUS] Consider relationship between execution and consensus spec/API repos and build processes
 
 ## Testing
 
@@ -88,25 +92,22 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [ ] Consensus
     * [x] Inherit all prior unit tests and generators
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/eth2.0-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge)] Merge specific tests with mocked execution-layer
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/merge/fork_choice)] Fork and fork-choice tests across merge boundary
+    * [x] Merge specific tests with mocked execution-layer
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/bellatrix/fork_choice)] Fork and fork-choice tests across merge boundary
     * [ ] Weak subjectivity checkpoint sync readiness
 * [ ] Execution
-    * [ ] Reuse existing framework for most prior EVM unit tests
-    * [ ] New `DIFFICULTY` opcode tests
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/retesteth/pull/160)] Reuse existing framework for most prior EVM unit tests
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/tests/pull/1008)] New `DIFFICULTY` opcode tests
 
 ### Integration tests
 
-* [ ] Transition process tests with fully enabled consensus and execution layer
-    * [ ] Hive: scenario with PoW network partitioning
-    * [ ] Hive: happy case and various edge case scenarios, e.g:
-      * [ ] Re-org beyond transition block
-      * [ ] EL/CL client offline or not upgraded before/during/after transition
-      * [ ] PoW block propagation before/during/after transition
-      * [ ] Burst of EL blocks on different forks & optimistic sync interactions
-* [ ] Hive with all client combos
-* [ ] Hive: consensus+execution integration tests
-* [ ] Hive: Engine API tests
+* [x] Testnet [chaos messages](https://github.com/MariusVanDerWijden/go-ethereum/tree/merge-bad-block-creator)
+* [ ] Hive
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/496)] Mocked CL for EL engine API unit testing
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/495)] CL+EL integration ests with all client combos
+* [ ] Shadow fork Goerli on a daily or weekly basis to continuously test live transition and TX replays 
+* [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
+    * [x] [Kurtosis Merge Module](https://github.com/kurtosis-tech/eth2-merge-kurtosis-module)
 
 ### Stress tests
 
@@ -114,10 +115,11 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Network load testing 
   * [ ] Larger blocks
   * [ ] Shorter slot times
-  * [ ] Large execution state. 
+  * [ ] Large execution state (shadow-forking mainnet)
 
 ### Fuzzing
 
+* [x] [Fuzz engine API](https://github.com/MariusVanDerWijden/merge-fuzz)
 * [ ] Beacon-fuzz applied to merge ready consensus clients
 * [ ] Existing EVM fuzzing infra applied to merge ready execution engines
 
@@ -125,7 +127,7 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [X] Short-lived devnets without transition process
 * [X] Short-lived devnets *with* transition process
-* [ ] Long-lived devnets
+* [x] Long-lived devnets [link](https://blog.ethereum.org/2021/12/20/kintsugi-merge-testnet/)
 * [ ] Fork public testnets
 
 ## R&D
@@ -140,10 +142,12 @@ Most research related to the merge has been completed. This section lists topics
     * [x] Historic state sync (optimistic beacon block transition provides head data for EL sync)
     * [x] Sync during transition period (forward sync to PoW TTD, reverse sync past TTD)
 * [x] Discovery [is there actually anything to do here?]
-* [ ] Execution-layer proof of custody
+* [x] [In research, not to be included merge] Execution-layer proof of custody
 * [ ] Disaster recovery if invalid chain finalized
+  * [x] EL will perform re-orgs beyond finality but at a potential high sync cost
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
 * [ ] Further threat analysis
     * [ ] Miner attacks
     * [ ] Resource exhaustion post-merge
-* [ ] Fee Market behavior changes (missed slots impact)
+* [x] Fee Market behavior changes (missed slots impact)
+    * [EIP-4396](https://eips.ethereum.org/EIPS/eip-4396) proposed 
