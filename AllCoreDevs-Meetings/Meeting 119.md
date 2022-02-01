@@ -10,7 +10,6 @@
 | Decision Item | Description | Video ref |
 | ------------- | ----------- | --------- |
 |119.1 | London Updates - Need to test other transactions | [3:13](https://youtu.be/jNxAB3WpAD0?t=193)|
-
 |119.2 | Upcoming upgrade names - leave a comment on [FEM discussion link](https://ethereum-magicians.org/t/ethereum-roadmapping-improvements/6653/18) | [15:20](https://youtu.be/jNxAB3WpAD0?t=918) |
 
 
