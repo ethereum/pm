@@ -31,6 +31,7 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Meta Specs
 
 * [x] [Rayonism](https://github.com/ethereum/rayonism/blob/master/specs/merge.md)
+* [x] [Amphora](https://hackmd.io/@n0ble/merge-interop-spec)
 * [x] [Kintsugi](https://hackmd.io/@n0ble/kintsugi-spec)
 * [x] [Kiln](https://hackmd.io/@n0ble/kiln-spec)
 
