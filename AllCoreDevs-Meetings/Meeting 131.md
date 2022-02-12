@@ -5,6 +5,11 @@
 ### [Agenda](https://github.com/ethereum/pm/issues/459)
 ### Moderator: Tim Beiko
 ### Notes: Stefan Wüst
+## Decisions Made
+| Decision Item | Description                                                              | Video ref |
+| ------------- | ------------------------------------------------------------------------ | ------------- |
+| 131.1 | Devnet V2 is launched next week so it can be used by everyone who is ready | [19:22](https://youtu.be/_kt-r4J8PJc&t=19m22s) |
+| 131.2 | Further prioritisation | [1:16:44](https://youtu.be/_kt-r4J8PJc&t=1h16m44s) |
 
 **Tim Beiko:**
 Good morning everyone, afternoon if you're in europe. Welcome to All Dev 131. Pretty packed agenda today, a ton of upgrades around the merge so some Kintsugi stuff then Kiln, the new metaspec, leading to a testnet and then lots of shanghai discussions as well. There were a lot of people with EIP proposals and I think before that we probably want to have a higher level discussion about generally how we want to shape shanghai and the various potential things we could do in them and then a couple announcements at the end.
@@ -327,7 +332,7 @@ but that's cute like that can't be done by an independent by a completely separa
 yeah yeah absolutely absolutely i just don't want us to go down this path without acknowledging that that needs to be possible oh yep
 
 **Tim Beiko:**
-and so yeah another big bucket denkarad i know you've been working a lot on on stateless and there's a couple EIPs that would help lay the the the the path for it do you wanna do you wanna walk through those quickly as well
+and so yeah another big bucket Dankrad i know you've been working a lot on on stateless and there's a couple EIPs that would help lay the the the the path for it do you wanna do you wanna walk through those quickly as well
 
 **Dankrad Feist:**
 sure yeah so so i i added some EIPs that that we roughly started discussing earlier when i introduced the statelessness roadmap where the general idea was we have some gas cost changes that we need to make for statelessness and we want to get those in as early as possible which is to get applications developers yeah work in the correct model rather than continuing to deploy contracts that will be inefficient in the in the future model and then introduce the market partition sorry freeze the market producer tree and replace it with and add a verkle tree commitment and then as the third step to to replace the frozen root with the verkle tree roots so that we can have full statelessness with witnesses for everything and so the EIPs i introduced for that are 305 8 3060 and 3062. 3058 is about the activating self-destruct that's for me the the highest priority overall like self-destruct it has been discussed many times deactivating it there are many good reasons for it but particularly in the context of statelessness where we where we will have the account storage separated from the from the root of the account so they aren't like there isn't really an easy way to to change to access all that anymore self-destruct would become really complex to implement so we really want to get rid of that 3058 is the simple version which simply says replace self-destruct with send all and it simply sends all the funds to the caller but does nothing else. so there has been an analysis there's basically one major known contract that uses this and there is an alternative way for them to to be upgraded and to implement this so that would be one thing i would suggest for shanghai
@@ -554,3 +559,6 @@ Okay thanks on everybody this was this was really really good appreciate everybo
 - Marius
 - James He
 - Ansgar Dietrichs
+
+## Next meeting on: February 18, 2022, 14:00 UTC
+[Agenda](https://github.com/ethereum/pm/issues/472)
