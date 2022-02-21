@@ -76,6 +76,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * ...
 * [x] Discuss JSON-RPC vs websockets vs restful http
 * [x] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home, [link](https://github.com/ethereum/execution-apis/tree/main/src/engine)
+* [ ] Remove unauthenticated port from specification
 * [ ] [BONUS] Test vectors
 
 ### Public facing documents
