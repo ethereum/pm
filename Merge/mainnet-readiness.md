@@ -105,7 +105,7 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [x] Testnet [chaos messages](https://github.com/MariusVanDerWijden/go-ethereum/tree/merge-bad-block-creator)
 * [ ] Hive
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/496)] Mocked CL for EL engine API unit testing
+    * [X] Mocked CL for EL [engine API](https://github.com/ethereum/hive/tree/master/simulators/ethereum/engine) unit testing
     * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/495)] CL+EL integration ests with all client combos
 * [ ] Shadow fork Goerli on a daily or weekly basis to continuously test live transition and TX replays 
 * [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
