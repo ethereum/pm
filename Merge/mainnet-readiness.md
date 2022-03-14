@@ -111,25 +111,20 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
     * [x] [Kurtosis Merge Module](https://github.com/kurtosis-tech/eth2-merge-kurtosis-module)
 
-### Stress tests
-
-* [ ] Single client load/metrics
-* [ ] Network load testing 
-  * [ ] Larger blocks
-  * [ ] Shorter slot times
-  * [ ] Large execution state (shadow-forking mainnet)
-
 ### Fuzzing
 
 * [x] [Fuzz engine API](https://github.com/MariusVanDerWijden/merge-fuzz)
+* [x] [Existing EVM fuzzing](https://github.com/MariusVanDerWijden/FuzzyVM) infra applied to merge ready execution engines
 * [ ] Beacon-fuzz applied to merge ready consensus clients
-* [ ] Existing EVM fuzzing infra applied to merge ready execution engines
+
 
 ## Testnets
 
 * [X] Short-lived devnets without transition process
 * [X] Short-lived devnets *with* transition process
-* [x] Long-lived devnets [link](https://blog.ethereum.org/2021/12/20/kintsugi-merge-testnet/)
+* [x] Long-lived devnets 
+  * [x] [Kintsugi](https://blog.ethereum.org/2021/12/20/kintsugi-merge-testnet/)
+  * [ ] Kiln 
 * [ ] Fork public testnets
 
 ## R&D
@@ -148,6 +143,12 @@ Most research related to the merge has been completed. This section lists topics
 * [ ] Disaster recovery if invalid chain finalized
   * [x] EL will perform re-orgs beyond finality but at a potential high sync cost
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
+* [ ] Stress tests
+  * [ ] Single client load/metrics
+  * [ ] Network load testing 
+    * [ ] Larger blocks
+    * [ ] Shorter slot times
+    * [ ] Large execution state (shadow-forking mainnet)
 * [ ] Further threat analysis
     * [ ] Miner attacks
     * [ ] Resource exhaustion post-merge
