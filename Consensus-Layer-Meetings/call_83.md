@@ -4,7 +4,7 @@
 ### [GitHub Agenda](https://github.com/ethereum/pm/issues/489) 
 ### [Audio/Video of the meeting](https://youtu.be/SEVY6-Zr2OM)
 ### Moderator:  Danny Ryan
-### Notes: Alen(Santhosh)
+### Notes: Alen(Santhosh) (Special thanks to Ben, as some of the notes were inspired by his.)
 
 
 **Danny**
@@ -129,6 +129,7 @@
 * Any updates on algorithm for calculating safe head? [Dankrad] There are some issues with the LMD part of GHOST that are making things harder than previously thought. Continuing to work on this. [Danny] Suggest continuing to stub “head” for “safe” until this is resolved and not exposing this to users via the Eth1 API. Could use “finalized” instead, but best approach is not to allow the execution layer to expose this information until it is sorted out.
 * There is a call tomorrow to discuss the Eth1 fork naming for the fork previously known as Shanghai (tomorrow 1400 UTC).
 * Note that daylight saving is starting in the USA, so meetings will move around - they are anchored to UTC!
+
 
 ----------------------------------------------------------------
 ## Attendance
