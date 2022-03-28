@@ -9,16 +9,16 @@
 ## Decisions Made
 |Action/ Decision Item | Description |
 | ------------- | ----------- |
-| **1**   | Need more testing infrastructure and things like running a shadow forks of gorli and running through the transition. |      
-| **2**   | Mikhail will submit a PR or update the existing one for safe head |
-| **3** | EIP-4895 move to CFI  |
+| **134.1**   | Need more testing infrastructure and things like running a shadow forks of gorli and running through the transition. |      
+| **134.2**   | Mikhail will submit a PR or update the existing one for safe head |
+| **134.3** | EIP-4895 move to CFI  |
 ---
  
-# Merge Updates
+# Merge Updates [0:01](https://youtu.be/Lbsjw-lzMIw?t=01)
 
 **Tim Beiko**: Good Morning Everyone welcome to our core dev's number 134. I have a couple of things on the agenda today, I think, by far the biggest one is Kiln and kind of going through what happened and making sure we figure out next steps from here, and then we have some updates on some Shanghai proposals. So Alex has some updates on beacon chain withdrawals. There's also someone else. I'm sorry I'm blanking on their name who left a comment and wanted to discuss something about partial withdrawals and then their protocol had a bunch of updates about the EIP 4844 and then, if we still have time at the end. I had a proposal about how we can harmonise the query EIP process and the executable specs that are being worked on and so to kick us off. Yeah Pari I will put you, but maybe somebody else is in a better position but someone kind of wants to walk through high level.What happened through the kiln merge, and then we can probably hear from a few different client teams kind of specifically about  what's not on their side.
 
-## [Kiln Updates](https://hackmd.io/@n0ble/kiln-spec) 🔥🧱 
+## [Kiln Updates](https://hackmd.io/@n0ble/kiln-spec) 🔥🧱 [1:31](https://youtu.be/Lbsjw-lzMIw?t=91)
 
 
 **Pari**: Sure, I can give a high level overview, so we had to kiln test net-launched last the proof of work portion of it launched last week on Wednesday and we had the proof of stake beacon chain launched last week on Friday, the match itself happened on Tuesday, a bit earlier than expected. We had to delay the merge once by using the terminal override. terminal total difficulty overnight flag and that was unexpected, but that exercise  seemed to have worked perfectly. All the clients respected it and we noticed no weird behaviour from anyone.However, once the merge transition actually happens, a few clients have issues with block proposals and or syncing.I let the individual client teams go into detail later on, substandard networks him stable, I think there are still one or two clients that have some issues, but they they all seem to be minor and should be fixed relatively soon.
@@ -89,7 +89,7 @@
 
 **Tim Beiko**: Yeah thanks for sharing with others. I don't find teams, I think those were all the ones that kind of had issues on kiln specifically but did I miss anyone. Okay, I guess, not. So I guess so in terms of next steps from here, obviously I think it's clear to everyone that we need more testing infrastructure and things like running a shadow forks of gorli and running through the transition. A couple more times and I think in terms of like you know rushing to merge or not, the timelines and we probably have another month or so before we need to make a call about whether we want to move the test nets or whether  we're not ready for it up, and so I feel like that the next step is probably to spend obviously, the next two weeks, and then possibly next four weeks and improving the testing infrastructure, finding these issues and you know growing confidence in our  implementations and then we can probably make a call about you know, do we feel comfortable moving this through the test nets or not and if not, then I think at that point it's like we we might have to discuss potentially pushing back difficulty bomb and  I do think we probably still have like one month basically until we have to make that call and a high level, I think that the bomb is going to start begin.
 
- You know, early June around mid June June and July, we would probably have like 14-15 second block times, which is high, but not manageable and late July early August, assuming like things are the same, you probably are lucky he had like 17 or more and that's supposed to be. You know much greater delays and just considering the time it takes to generally go from the Test net  to the main net.. Yeah I think we basically have like about a month, where we can kind of grow our confidence in these implementations and then have to make a call and yeah I think you know, the more iteration cycles, we get a test of Shadow forking in that period the better.
+ You know, early June around mid June June and July, we would probably have like 14-15 second block times, which is high, but not unmanageable and late July early August, assuming like things are the same, you probably are lucky he had like 17 or more and that's supposed to be. You know much greater delays and just considering the time it takes to generally go from the Test net  to the main net.. Yeah I think we basically have like about a month, where we can kind of grow our confidence in these implementations and then have to make a call and yeah I think you know, the more iteration cycles, we get a test of Shadow forking in that period the better.
 
 **Marius Van Der Wijden (M)**: So one like one thing that I'm thinking about is like I don't think we like, I think we uncover a lot of facts. But we don't like that we don't really notice them. We don't really recognize them so like there was this sync aggregate attestation thingy whatever were like that was like at like 60% or something and then after two weeks  someone decided to look into it and it turned out that nethermind was. Prysm was just not sending something and I think that is like that is a bigger issue like I think with what we do trigger a lot of bugs and I'm pretty sure that we trigger the prysm. The prysm base fee is encoding back at least five times already, but we work, but we never recognized it as such, so I think we should spend more time building infrastructure to recognize these bugs and I would really urge all the client teams that if they see something funny on or something interesting on all of the on a test net or whatever, then they should reach out to the clients that they think are affected and then really look into it, instead of just saying Okay, there was there was pretty funny but if I restart my client and it's a way so it's like a non issue, and I think we do that way too often.
 
@@ -225,7 +225,7 @@ Mikhail Kalinin: So okay let's have this all also like a minor question is **wha
 
 # [Shanghai Planning #450](https://github.com/ethereum/pm/issues/450)
 
-## [Beacon Chain Withdrawals for Shanghai #495](https://github.com/ethereum/pm/issues/495)
+## [Beacon Chain Withdrawals for Shanghai #495](https://github.com/ethereum/pm/issues/495)  [45:44](https://youtu.be/Lbsjw-lzMIw?t=2744)
 
 
 **Tim Beiko**: Okay, next up I guess yeah before we move to the next thing anything else on the merge itself or kiln or testing. Okay, next up Alex has an update about a big beacon chain withdrawals, and we also have someone else. I'm sorry I'm searching on the zoom screens but there's really too many people. We had someone from the ladle team who had a proposal for partial withdrawals as well, so maybe Alex if you want to go first kind of give an update on what you've been working on and then we can have the partial withdrawal. oh yeah, sorry about that yeah you want to give a quick update and literature.
@@ -362,7 +362,7 @@ So I essentially want input on this call. Does anyone have any preferences on ei
 
 **Danny**: Yeah I mean with a beginner's code. All of that becomes possible. It's a matter of what exists.
 
-## EIP-4844 updates
+## EIP-4844 updates [1:05:29](https://youtu.be/Lbsjw-lzMIw?t=3929)
 
 
 **Tim Beiko**: Okay yeah just give a lot, because you only have 20 minutes, and at least one big topic last. Proto you had an update on EIP 4844 never pronounced that right forget for the shard Blob transactions.
@@ -411,7 +411,8 @@ So I essentially want input on this call. Does anyone have any preferences on ei
 
 
 **Danny**: I do think that benchmarks from a number of stress tests from a number of different places are probably pretty important. You know just the consensus layer disrupting one to two megabyte blocks, you know and then passing the execution layer that there's just.  You go from 20 kilobyte blocks 90 as we are with the merge. I don't expect things to be diverse, but I do, I do think that it's not unlikely that once you get to him at one megabyte, like little things we didn't expect start to operate in different ways that we expected that was I don't think anyone is going to be intractable solvable but um I think that it's good investments on.
-# Core EIPs & executable specs (link)
+
+# Core EIPs & executable specs (link) [1:16:03](https://youtu.be/Lbsjw-lzMIw?t=4563)
 
 
 **Tim Beiko**: sweet anything else. Okay, last on the agenda  I had something so we discussed this, I think, on the last call it's not done with this course for the after and basically. The core EIP  process is kind of reaching its limits, with the merge, where we have a completely different process on the beacon chain and then on the main net.
