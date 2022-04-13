@@ -124,7 +124,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [X] Short-lived devnets *with* transition process
 * [x] Long-lived devnets 
   * [x] [Kintsugi](https://blog.ethereum.org/2021/12/20/kintsugi-merge-testnet/)
-  * [ ] Kiln 
+  * [x] [Kiln](https://blog.ethereum.org/2022/03/14/kiln-merge-testnet/) 
 * [ ] Fork public testnets
 
 ## R&D
@@ -148,7 +148,7 @@ Most research related to the merge has been completed. This section lists topics
   * [ ] Network load testing 
     * [ ] Larger blocks
     * [ ] Shorter slot times
-    * [ ] Large execution state (shadow-forking mainnet)
+    * [x] Large execution state (shadow-forking mainnet)
 * [ ] Further threat analysis
     * [ ] Miner attacks
     * [ ] Resource exhaustion post-merge
