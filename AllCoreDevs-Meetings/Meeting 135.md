@@ -7,13 +7,13 @@
 ### Notes: Shubhangi Gokhale
 
 ## Decisions Made / Action items
-| Decision Item | Description | 
-| ------------- | ----------- | 
-|135.1 | Coredevs will discuss issues related to storage of invalid blocks in the interops channel and maybe have something to discuss at next cl meeting.
-|135.2 | Tim Beiko will research scheduling time between testnets and discuss it at next meeting.
-|135.3 | Discuss Shanghai cfi at a higher level at the next ACD meeting.
-|135.4 | Discuss issues related to increasing supply of Görli eth asyncronously and maybe discuss earlier at next ACD meeting.
-|135.5 | Local devnet for testing may be available for coredevs by next ACD meeting. Related discussions will be continued in relevant discords.
+| Decision Item | Description | Timestamp
+| ------------- | ----------- | ---------
+|135.1 | Coredevs will discuss issues related to storage of invalid blocks in the interops channel and maybe have something to discuss at next cl meeting | 44:37
+|135.2 | Tim Beiko will research scheduling time between testnets and discuss it at next meeting. | 56:56
+|135.3 | Discuss Shanghai cfi at a higher level at the next ACD meeting. | 1:28:05
+|135.4 | Discuss issues related to increasing supply of Görli eth asyncronously and maybe discuss earlier at next ACD meeting. | 1:35:13
+|135.5 | Local devnet for testing may be available for coredevs by next ACD meeting. Related discussions will be continued in relevant discords. | 1:37:32
 
 
 ## Merge Updates
@@ -167,7 +167,7 @@ Yes.
 **Mikhail**
 Okay, thanks. I suggest we continue this conversation in discord. 
 
-## LatestValidHash EL implementations ([context](https://discord.com/channels/595666850260713488/892088344438255616/957969488307953666), [summary](https://hackmd.io/GDc0maGsQeKfP8o2C7L52w)
+## LatestValidHash EL implementations ([context](https://discord.com/channels/595666850260713488/892088344438255616/957969488307953666), [summary](https://hackmd.io/GDc0maGsQeKfP8o2C7L52w))
 
 **Tim**
 Yeah, I think that makes sense. We can use the interop channel to do that, yeah, anything else on timeout? Okay, next up, Mikhail you had…basically there was a conversation on discord this week around the latest valid hash I shared the discord link in the agenda and you put together kind of a summary explaining your thoughts about it you want to maybe just take a minute or two and share your thoughts and you can share your screen also if you want with the document.
@@ -639,35 +639,35 @@ People bid farewell. Meeting ends.
 
 ## Attendees (29) 
 
-Tim Beiko (host)
-Trenton Van Epps
-Afr Schoe
-Alex B. 
-Alex Stokes
-Pari
-Tukasz Rozmej
-Andrew Ashikhmin
-Ben Edgington
-Daniel Lerhner
-Danny
-Micah Zoltu
-Marius VanDerWijden
-Pooja Ranjan
-Marek Moraczynski
-Rai
-Greg Colvin
-Lightclient
-Justin Florentine
-Danno Ferrin
-Marcin Sobczak
-Mikhail Kalinin
-Karim T.
-Martin Holst Swende
-Fabio de Fabio
-Pawel Bylica
-Sam Wilson
-Jamie Lokier
-Dankrad Feist
+- Tim Beiko (host)
+- Trenton Van Epps
+- Afr Schoe
+- Alex B. 
+- Alex Stokes
+- Pari
+- Tukasz Rozmej
+- Andrew Ashikhmin
+- Ben Edgington
+- Daniel Lerhner
+- Danny
+- Micah Zoltu
+- Marius VanDerWijden
+- Pooja Ranjan
+- Marek Moraczynski
+- Rai
+- Greg Colvin
+- Lightclient
+- Justin Florentine
+- Danno Ferrin
+- Marcin Sobczak
+- Mikhail Kalinin
+- Karim T.
+- Martin Holst Swende
+- Fabio de Fabio
+- Pawel Bylica
+- Sam Wilson
+- Jamie Lokier
+- Dankrad Feist
 
 
 
