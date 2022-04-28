@@ -42,12 +42,9 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Ensure structural conformance with existing specs [#2472](https://github.com/ethereum/consensus-specs/pull/2472) 
 * [x] Rebase with Altair [#2530](https://github.com/ethereum/eth2.0-specs/pull/2530)
 * [x] Rebase with London (update `ExecutionPayload`) [#2533](https://github.com/ethereum/consensus-specs/pull/2533)
-* [ ] Consider weak subjectivity period implications
-  * [ ] Generate accurate weak subjectivity period calculations
-  * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] P2P spec (primarily just version bumping topics for new types) [#2531](https://github.com/ethereum/consensus-specs/pull/2531)
 * [x] [Optimistic sync spec](https://github.com/ethereum/consensus-specs/blob/dev/sync/optimistic.md) 
-* [ ] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
+* [x] Upgrade [`beacon-APIs`](https://github.com/ethereum/beacon-apis) to handle new types
 * [x] [BONUS] Annotated specs [link](https://github.com/ethereum/annotated-spec/tree/master/merge)
 
 ### Execution layer
@@ -62,7 +59,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * [x] State sync post-merge
     * [x] Block sync post-merge
     * [x] Discovery
-* [ ] Upgrade JSON-RPC ([`execution-apis`](https://github.com/ethereum/execution-apis)) with new methods and deprecations
+* [ ] [[IN PROGRESS](https://github.com/ethereum/execution-apis/pull/200)] Upgrade JSON-RPC ([`execution-apis`](https://github.com/ethereum/execution-apis)) with new methods and deprecations
 * [ ] [BONUS] Executable [`execution-specs`](https://github.com/ethereum/execution-specs/pull/219) and testing through the Merge
 
 ### Engine API
@@ -77,36 +74,36 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Discuss JSON-RPC vs websockets vs restful http
 * [x] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home, [link](https://github.com/ethereum/execution-apis/tree/main/src/engine)
 * [ ] Remove unauthenticated port from specification
-* [ ] [BONUS] Test vectors
 
 ### Public facing documents
 
 * [x] Merge architecture design document
     * [Historical changes](https://tim.mirror.xyz/CHQtTJb1NDxCK41JpULL-zAJe7YOtw-m4UDw6KDju6c), [Architecture](https://tim.mirror.xyz/sR23jU02we6zXRgsF_oTUkttL83S3vyn05vJWnnp-Lc)
-* [ ] Infrastructure provider guide
 * [x] Application Layer Impacts 
     * [Blog post](https://blog.ethereum.org/2021/11/29/how-the-merge-impacts-app-layer/) 
 * [x] Rename eth1/eth2 to execution/consensus across repos and documentation -- [The Great Renaming](https://notes.ethereum.org/@timbeiko/great-renaming)
+* [ ] Infrastructure provider guide
+
 
 ## Testing
 
 ### Unit tests
 
-* [ ] Consensus
+* [x] Consensus
     * [x] Inherit all prior unit tests and generators
     * [x] Merge specific tests with mocked execution-layer
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/bellatrix/fork_choice)] Fork and fork-choice tests across merge boundary
-    * [ ] Weak subjectivity checkpoint sync readiness
+    * [x] Fork and fork-choice tests across merge boundary
 * [ ] Execution
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/retesteth/pull/160)] Reuse existing framework for most prior EVM unit tests
+    * [x] Reuse existing framework for most prior EVM unit tests
     * [ ] [IN [PROGRESS](https://github.com/ethereum/tests/pull/1008)] New `DIFFICULTY` opcode tests
+    * [ ] EIP-3675 
 
 ### Integration tests
 
 * [x] Testnet [chaos messages](https://github.com/MariusVanDerWijden/go-ethereum/tree/merge-bad-block-creator)
 * [ ] Hive
     * [X] Mocked CL for EL [engine API](https://github.com/ethereum/hive/tree/master/simulators/ethereum/engine) unit testing
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/hive/pull/495)] CL+EL integration ests with all client combos
+    * [x] CL+EL integration ests with all client combos
 * [ ] Shadow fork Goerli on a daily or weekly basis to continuously test live transition and TX replays 
 * [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
     * [x] [Kurtosis Merge Module](https://github.com/kurtosis-tech/eth2-merge-kurtosis-module)
@@ -115,7 +112,7 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [x] [Fuzz engine API](https://github.com/MariusVanDerWijden/merge-fuzz)
 * [x] [Existing EVM fuzzing](https://github.com/MariusVanDerWijden/FuzzyVM) infra applied to merge ready execution engines
-* [ ] Beacon-fuzz applied to merge ready consensus clients
+* [ ] [IN PROGRESS] Beacon-fuzz applied to merge ready consensus clients
 
 
 ## Testnets
@@ -124,7 +121,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [X] Short-lived devnets *with* transition process
 * [x] Long-lived devnets 
   * [x] [Kintsugi](https://blog.ethereum.org/2021/12/20/kintsugi-merge-testnet/)
-  * [ ] Kiln 
+  * [x] [Kiln](https://blog.ethereum.org/2022/03/14/kiln-merge-testnet/)
 * [ ] Fork public testnets
 
 ## R&D
@@ -140,7 +137,10 @@ Most research related to the merge has been completed. This section lists topics
     * [x] Sync during transition period (forward sync to PoW TTD, reverse sync past TTD)
 * [x] Discovery [is there actually anything to do here?]
 * [x] [In research, not to be included merge] Execution-layer proof of custody
-* [ ] Disaster recovery if invalid chain finalized
+* [ ] Consider weak subjectivity period implications
+  * [ ] Generate accurate weak subjectivity period calculations
+  * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
+* [x] Disaster recovery if invalid chain finalized
   * [x] EL will perform re-orgs beyond finality but at a potential high sync cost
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
 * [ ] Stress tests
@@ -148,9 +148,9 @@ Most research related to the merge has been completed. This section lists topics
   * [ ] Network load testing 
     * [ ] Larger blocks
     * [ ] Shorter slot times
-    * [ ] Large execution state (shadow-forking mainnet)
+    * [x] Large execution state (shadow-forking mainnet)
 * [ ] Further threat analysis
-    * [ ] Miner attacks
+    * [x] Miner attacks
     * [ ] Resource exhaustion post-merge
 * [x] Fee Market behavior changes (missed slots impact)
     * [EIP-4396](https://eips.ethereum.org/EIPS/eip-4396) proposed 
