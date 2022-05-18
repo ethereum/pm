@@ -82,8 +82,8 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Application Layer Impacts 
     * [Blog post](https://blog.ethereum.org/2021/11/29/how-the-merge-impacts-app-layer/) 
 * [x] Rename eth1/eth2 to execution/consensus across repos and documentation -- [The Great Renaming](https://notes.ethereum.org/@timbeiko/great-renaming)
+* [x] [Mega Merge Resource List](https://notes.ethereum.org/Moiv99h9QTmI-imPL8pvQg?view)
 * [ ] Infrastructure provider guide
-
 
 ## Testing
 
