@@ -59,7 +59,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * [x] State sync post-merge
     * [x] Block sync post-merge
     * [x] Discovery
-* [ ] [[IN PROGRESS](https://github.com/ethereum/execution-apis/pull/200)] Upgrade JSON-RPC ([`execution-apis`](https://github.com/ethereum/execution-apis)) with new methods and deprecations
+* [x] Upgrade JSON-RPC ([`execution-apis`](https://github.com/ethereum/execution-apis)) with new methods and deprecations [#200](https://github.com/ethereum/execution-apis/pull/200)
 * [ ] [BONUS] Executable [`execution-specs`](https://github.com/ethereum/execution-specs/pull/219) and testing through the Merge
 
 ### Engine API
@@ -73,7 +73,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * ...
 * [x] Discuss JSON-RPC vs websockets vs restful http
 * [x] Migrate to [execution-APIs](https://github.com/ethereum/execution-APIs) or other permanent home, [link](https://github.com/ethereum/execution-apis/tree/main/src/engine)
-* [ ] Remove unauthenticated port from specification
+* [x] Remove unauthenticated port from specification [#219](https://github.com/ethereum/execution-apis/pull/219)
 
 ### Public facing documents
 
@@ -104,6 +104,8 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Hive
     * [X] Mocked CL for EL [engine API](https://github.com/ethereum/hive/tree/master/simulators/ethereum/engine) unit testing
     * [x] CL+EL integration ests with all client combos
+    * [ ] [IN [PROGRESS](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/engine-api.md)] Engine API tests
+    * [ ] [IN [PROGRESS](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/transition.md)] Merge transition tests
 * [ ] Shadow fork Goerli on a daily or weekly basis to continuously test live transition and TX replays 
 * [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
     * [x] [Kurtosis Merge Module](https://github.com/kurtosis-tech/eth2-merge-kurtosis-module)
