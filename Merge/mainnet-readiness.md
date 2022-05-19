@@ -96,7 +96,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Execution
     * [x] Reuse existing framework for most prior EVM unit tests
     * [ ] [IN [PROGRESS](https://github.com/ethereum/tests/pull/1008)] New `DIFFICULTY` opcode tests
-    * [ ] EIP-3675 
+    * [ ] [IN [PROGRESS](https://github.com/ethereum/tests/pull/1030)]EIP-3675 
 
 ### Integration tests
 
