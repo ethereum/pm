@@ -1,6 +1,6 @@
 # AllCoreDevs Meeting 138
 
-### Meeting Date/Time: May 123, 2022, 14:00 UTC
+### Meeting Date/Time: May 13, 2022, 14:00 UTC
 ### Duration: 1:38:56
 ### [Video Recording](https://www.youtube.com/watch?v=BFxkGdPv4F8)
 ### [Agenda](https://github.com/ethereum/pm/issues/518)
