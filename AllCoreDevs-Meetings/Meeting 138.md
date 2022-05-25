@@ -73,6 +73,8 @@ But that would discourage client diversity.
 **Danny** ([9:20](https://youtu.be/BFxkGdPv4F8?t=560))
 Yeah, I don't mean it's a good thing, I just mean that it's not that bad.
 
+#### [RFC: Engine API response status when merge transition block is INVALID execution-apis#212](https://github.com/ethereum/execution-apis/issues/212)
+
 **Tim** ([9:34](https://youtu.be/BFxkGdPv4F8?t=574))
 Anything else? Okay next up on the last call, Mikhail, you had a request for comment about like an engine api status response when the merge transition block is invalid so I believe we just went with like the third option you proposed. You want to just give a quick update there?
 
@@ -127,11 +129,15 @@ Similarly we'll cut a release candidate this coming week in the consensus specs 
 **Mikhail** ([15:59](https://youtu.be/BFxkGdPv4F8?t=959))
 Yeah, the EIP is a pretty stable yeah.
 
+#### [JSON-RPC: Add finalized and safe blocks execution-apis#200](https://github.com/ethereum/execution-apis/pull/200)
+
 **Tim** ([16:07](https://youtu.be/BFxkGdPv4F8?t=967))
 Okay, anything else on the engine api? Okay, the other thing that we did finalize was this discussion over the json rpc, finalized in safe tags. Mikhail, do you want also give a quick update on that?
 
 **Mikhail** ([16:28](https://youtu.be/BFxkGdPv4F8?t=988))
 Sure. So there are two new blog tags that we have added to the eth namespace so we have like we had the earliest, latest, and pending right, and now we have all this and also finalized and saved in addition to the previous ones. There was a discussion to have unsafe and as an a and the alias latest unsafe so yeah we decided not to introduce unsafe at all so it's now latest will always point to the head of the chain as it's been previously all the way and yeah one thing here is that execution layer clients should respond with error and this error is specified in this change, in this pr, the EL client should respond with error if the safe or finalized blocks acquire it before the transition gets finalized. That's one thing that's worth mentioning. 
+
+#### [Sepolia beacon chain #526](https://github.com/ethereum/pm/issues/526)[Ropsten beacon chain #525](https://github.com/ethereum/pm/issues/525)
 
 **Tim** ([17:56](https://youtu.be/BFxkGdPv4F8?t=1077))
 Any thoughts, comments on that? Okay, next up, so yeah, we are kind of getting close to test nets and then one thing  to note there is that while Goerli has an existing beacon chain associated with it, Prater, Sepolia and Ropsten do not and there's been some discussions over the past couple weeks about like how do we structure those chains. Danny and Pari, I know you've thought a lot about this, this week, do you want to give kind of a quick update of where, what you're thinking for both Ropsten and Sepolia at this point?
@@ -161,7 +167,7 @@ Yeah to answer your question…, I mean I think most client types can handle tho
 Yeah definitely it wouldn't be that different from what we have from prater today.
 
 **Tim** ([23:38](https://youtu.be/BFxkGdPv4F8?t=1418))
-Given we have Afri on the call and you came on Afr a few weeks ago to talk about the issues around Goerli ether, do you have any thoughts, about like if we should keep prater / Goerli as the large beacon chain, if that negatively like affects Goerli in other ways, yeah.
+Given we have Afr on the call and you came on Afr a few weeks ago to talk about the issues around Goerli ether, do you have any thoughts, about like if we should keep prater / Goerli as the large beacon chain, if that negatively like affects Goerli in other ways, yeah.
 
 **Afr** ([24:06](https://youtu.be/BFxkGdPv4F8?t=1446))
 Yeah, sure. I mean Goerli and Prater are already fairly big, it has a lot of users and it has a lot of validators. Sepolia is kind of still very unknown, so there we don't have a beacon chain yet and we don't have many users building on Sepolia yet, naturally. We have to keep in mind that we are deprecating a lot of
@@ -571,7 +577,11 @@ So the only reason I would push back on that a little bit and this is pretty wea
 Yeah, we are not going to do anything except for setting this number.
 
 **Tim** ([1:08:16](https://youtu.be/BFxkGdPv4F8?t=4096))
-Yeah, I would not write extra custom code that we're testing super late in the process on like zero of the shadow fork, like the minority of the shadow forks. That seems like the most error-prone thing. Okay so any other strong opinions against doing nothing on Ropsten for now and seeing how it goes? Okay sold, so no fork next value on Ropsten, and then back to the TTD discussion, so if we say we want the releases for Ropsten two weeks from now, so that's like the week of May 23rd that means we and then we give people kind of two weeks to upgrade their nodes, so that means we want to like have the fork happen on Ropsten, the week of June 6th. We had someone on our team, Mario, not Mario Vega, Mario ? have kind of tried to estimate TTD's on mainnet and Ropsten for a while now. He tried a bunch of different models and this is just like a simple polynomial regression, and that seems to work the best, and it seems to work relatively well up to like a month, a month out, so I would just suggest that we go to like the June 8 value, which is roughly in the middle of that week, and this gives us this TTD value, which I’ll paste here. Anyone have an issue with that? We can make it look like a palindrome if people really want that, but otherwise also happy to just go with this estimate. I’ll also share the GitHub repo in the chat here, in case people want to have a look more. Oh yeah, good question, TTD is terminal total difficulty, it's the total difficulty value on the proof of work chain at which we trigger the transition to proof-of-stake, and so the one I posted in the chat here is the one that would happen on June 8, which is basically yeah, 4 weeks from now, and so it gives us two weeks for the client releases, and then two weeks for people to upgrade their nodes to a release that contains this value.
+Yeah, I would not write extra custom code that we're testing super late in the process on like zero of the shadow fork, like the minority of the shadow forks. That seems like the most error-prone thing. Okay so any other strong opinions against doing nothing on Ropsten for now and seeing how it goes? Okay sold, so no fork next value on Ropsten, and then back to the TTD discussion...
+
+#### [Difficulty Bomb Tracking](https://ethresear.ch/t/blocks-per-week-as-an-indicator-of-the-difficulty-bomb/12120)
+
+...so if we say we want the releases for Ropsten two weeks from now, so that's like the week of May 23rd that means we and then we give people kind of two weeks to upgrade their nodes, so that means we want to like have the fork happen on Ropsten, the week of June 6th. We had someone on our team, Mario, not Mario Vega, Mario ? have kind of tried to estimate TTD's on mainnet and Ropsten for a while now. He tried a bunch of different models and this is just like a simple polynomial regression, and that seems to work the best, and it seems to work relatively well up to like a month, a month out, so I would just suggest that we go to like the June 8 value, which is roughly in the middle of that week, and this gives us this TTD value, which I’ll paste here. Anyone have an issue with that? We can make it look like a palindrome if people really want that, but otherwise also happy to just go with this estimate. I’ll also share the GitHub repo in the chat here, in case people want to have a look more. Oh yeah, good question, TTD is terminal total difficulty, it's the total difficulty value on the proof of work chain at which we trigger the transition to proof-of-stake, and so the one I posted in the chat here is the one that would happen on June 8, which is basically yeah, 4 weeks from now, and so it gives us two weeks for the client releases, and then two weeks for people to upgrade their nodes to a release that contains this value.
 
 **Micah** ([1:11:12](https://youtu.be/BFxkGdPv4F8?t=4272))
 So as was brought up earlier, scheduling the Ropsten fork far in advance risks someone trolling us and hitting it you know next week or tomorrow. 
@@ -678,8 +688,12 @@ Okay. Marek? Lukasz? Okay. And so, thank you Afr for the palindrome, , which I w
 **Marius**
 Yes.
 
+### EIP Discussions
+
+#### [EIP-4938](https://eips.ethereum.org/EIPS/eip-4938)
+
 **Tim** ([1:20:29](https://youtu.be/BFxkGdPv4F8?t=4829))
-Okay thank you Marius. Okay. So there's three people who wanted to discuss EIPs that are on the call. I doubt we can get through all of them, but if we stay on an additional five minutes, we can give them each five minutes, yeah so first up, Felix, you had EIP 44938. 
+Okay thank you Marius. Okay. So there's three people who wanted to discuss EIPs that are on the call. I doubt we can get through all of them, but if we stay on an additional five minutes, we can give them each five minutes, yeah so first up, Felix, you had EIP 4938. 
 
 **Felix**([1:21:03](https://youtu.be/BFxkGdPv4F8?t=4863))
 Yes. So and this can be really quick, so this is pre-agreed. I just wanted to let you guys know that for formal reasons, we are pursuing this EIP, the EIP 4938 is about removing the GetNodeData message from the eth wire protocol, and we have discussed this extensively with all client teams that we are aware of, that we want to make this change in Geth, and we have been wanting to make this change in Geth for a very long time, and I can only really repeat what is in the EIP. We are set on making this change, because it will allow us to for example restructure our database to not store all of the tri nodes, for example by their hashes and we do provide an alternative to this protocol message in the snap protocol, and all of the existing users of Geth node data can be replaced by the messages in the snap protocol, so it is not but so can we just very quickly, can I just very quickly get from the client implementer some signal that this is okay.
@@ -733,13 +747,17 @@ I guess can we just discuss that offline for the
 Well, yeah but okay. 
 
 **Tim** ([1:26:47](https://youtu.be/BFxkGdPv4F8?t=5207))
-Okay, no objections to the new protocol,l we're not deprecating eth 66 now, yeah. 
+Okay, no objections to the new protocol, we're not deprecating eth 66 now, yeah. 
 
 **Justin** ([1:27:04](https://youtu.be/BFxkGdPv4F8?t=5207))
 Hey yeah, this is basically just to clarify what Gary was saying. We're fine with the new protocol version, it's the deprecating of the old one that gives us a little bit of pause. 
 
+#### [Proposal to add EIP-5022 to Shanghai #519](https://github.com/ethereum/pm/issues/519)
+
 **Tim** ([1:27:04](https://youtu.be/BFxkGdPv4F8?t=5224))
 And we can discuss that well after the merge. Okay and we can yeah we can discuss that well after merge yep. Okay moving on, sorry just to make sure we at least give other folks the opportunity to speak green lucid was the GitHub handle. I’m not sure who that maps to on the call, but wanted to discuss, get feedback on EIP 5022, which increases the cost for s-store when you go from a zero to non-zero value. Are you on the call? Greenlucid? Once, twice. Okay, I will post their issue in the chat here if people want to chime in eth magicians. One thing I did mention so that the issues phased for like shanghai inclusion, I reiterated that we've kind of paused this decisions there but then they said they would just like to get technical feedback on the EIP, so yeah folks who are interested can have a look there, and then last up, we had, I can't even pronounce this this handle belnv, hopefully I got it. Right, oh well, perfect. Walk us through your presentation. We can't hear you yeah yeah.
+
+#### [EIP-5081: Expirable Transaction](https://github.com/ethereum/EIPs/pull/5081)
 
 **Xinbelv** ([1:28:29](https://youtu.be/BFxkGdPv4F8?t=5309))
 Yeah. Hi my name is Zainan Joe or Victor and then a quick presentation for the question, early feedback wanted for the team, so basically the proposal is to get an expiration in the payload and one question one valuable feedback I got from Mikhail is the potential denier of service attack if exposed to basic someone is possible to throw a very quick soon-to-expire transaction and get it propagate over the network and cause a denial of service attack. Now my question for the group, I know they're very…
@@ -790,13 +808,3 @@ Yeah that actually answered a good question of mine which is whether we need a n
 Yeah and yeah I would recommend Micah if you want to share your EIP number yours was basically that if I remember correctly it was like a new transaction type with an expiring transaction so that might be helpful to look at as well. 
 
 We're already over time, so yeah I guess we'll wrap this up yeah thank you for the presentation as well this is the higher budget quality EIP presentations that we had, and yeah thanks everyone, yeah thanks everyone for joining. I’ve posted the TTD value in the all core devs chat so we can use that for releases on Ropsten and I guess we'll expect to put a blog post together sometime in the next two weeks and yeah and then we'll figure out all the stuff about the beacon chains for testnets on the consensus layer calls, if it's not already done before then. Yeah thanks everyone.
-
-
-
-
-
-
-
-
-
-
