@@ -10,6 +10,7 @@ This repo hosts a collection of [standards](./interop) to aid in client interope
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+87|Thu, May 19, 2022 1400UTC |[agenda](https://github.com/ethereum/pm/issues/527) \| [notes](https://github.com/darkfire-rain/pm/blob/master/Consensus-Layer-Meetings/call_088.md) \| no reddit | [video](https://www.youtube.com/watch?v=4oI48BEijVw)
 87|Thu, May 19, 2022 1400UTC |[agenda](https://github.com/ethereum/pm/issues/527) \| [notes](https://github.com/geovgy/pm-1/blob/patch-14/Consensus-Layer-Meetings/Call_087.md) \| no reddit | [video](https://youtu.be/-6dZVes6aWc)
 85|Thu, April 4, 2022 1400UTC |[agenda](https://github.com/ethereum/pm/issues/510) \| [notes](https://github.com/ShubhangiSG/pm-1/blob/master/Consensus-Layer-Meetings/085.md) \| no reddit | [video](https://www.youtube.com/watch?v=rYWF7N8tS0g&t=3830s)
 83|Thu, March 10, 2022 1400UTC|[agenda](https://github.com/ethereum/pm/issues/489) \| [notes](https://github.com/geovgy/pm-1/blob/patch-2/Consensus-Layer-Meetings/call_083.md) \| reddit | [video](https://youtu.be/SEVY6-Zr2OM)
