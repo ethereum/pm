@@ -1,4 +1,4 @@
-Merge community Call #4 Notes
+Merge Community Call #4 Notes
 
 Meeting Date/Time: Friday 2022/06/03 at 14:00 UTC (10:00 ET)
 
@@ -11,6 +11,7 @@ Meeting Duration: 1 hour
 Moderator: Trenton Van Epps
 
 Notes: Rory Arredondo
+
 —----------------------------
 
 Tim Beiko (00:00): Okay, let's try this again.
