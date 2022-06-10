@@ -1,9 +1,15 @@
 Merge community Call #4 Notes
+
 Meeting Date/Time: Friday 2022/06/03 at 14:00 UTC (10:00 ET)
+
 Meeting Duration: 1 hour
+
 [GitHub Agenda](https://github.com/ethereum/pm/issues/532)
+
 [Audio/Video of the meeting](https://www.youtube.com/watch?v=qG-A5i6x6N8)
+
 Moderator: Trenton Van Epps
+
 Notes: Rory Arredondo
 —----------------------------
 
