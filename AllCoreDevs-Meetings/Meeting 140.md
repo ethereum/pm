@@ -6,12 +6,15 @@
 ### Moderator: Tim Bieko
 ### Notes: Viktor Shepelin (@modernman.eth)
 
-### Summary
-## Decisions Made
-|Action/ Decision Item | Description | Video Reference |
+## Decisions/Action Items
+|Item# | Description | Reference |
 | ------------- | ----------- |----------- |
-| **140.1**   | 
-| **140.2**   | 
+| **140.1**   | Nethermind to address concurrency issue exposed during Ropsten merge; expected week of Jun 13 | [Discussion](#b-concurrency-issue)
+| **140.2**   | Nimbus should implement handling of scenarios where insufficient time has passed between prepare and get requests. | [Discussion](#g-insufficient-time-between-prepare-and-get-block-requests-from-cls)
+| **140.3**   | Nethermind and Geth should revert tactical workarounds for handling of scenarios where insufficient time has passed between prepare and get requests. | [Discussion](#g-insufficient-time-between-prepare-and-get-block-requests-from-cls). | [Discussion](#g-insufficient-time-between-prepare-and-get-block-requests-from-cls)
+| **140.4**   | Gas Limit will not be added as a payload attribute in V1. It will be further discussed as a change in V2 post merge | [Discussion](#h-adding-gas-limit-to-payload-attributes)
+| **140.5**   | Sepolia to be the next testnet to undergo merge. No specific issues must be fixed prior to Sepolia merge. Will target mainnet code readiness for Göerli testnet merge  | [Discussion](#k-sequencing-of-future-testnet-merges)
+| **140.6**   | Difficulty time bomb will be delayed until late August. Specific block number to be determined offline and to be circulated by Wednesday, Jun 15. Client releases to be provided at the same time with mainnet fork planned for Jun 30.  | [Discussion](#l-delaying-difficulty-bomb)
 
 # Contents <!-- omit in toc -->
 
@@ -34,32 +37,33 @@
 ---
 # 1. Merge Updates
 
-# a. Intro and Ropsten
+## a. Intro and Ropsten
 Video | [7:50](https://youtu.be/dByC5Bw8DvU?t=471)
 -|-
 
-**Tim Beiko**: Good morning, afternoon everyone. This is All Core Devs 140. We have a bunch of things on the agenda today. First going through, obviously, the merge that happened on Ropsten, talking through kind of any issues there and next steps. And there were also a couple different little merger related items. So there was one issue we discussed on the Discord this week about the responsiveness of EL clients when getting payload requests from CL teams. Then there was something in the engine API to allow builders to set the gas limit or to allow sorry validators to keep control over gas limit. And then talk about the next two testnets, Sepolia and Göerli. How do we go through those. And continuing the conversation on the difficulty bomb – there’s been EIP that's been proposed for that. And then, there were two more EIPs on which we had updates – 4444 and 5027. So hopefully we get through all that. But I guess to start does anyone want to walk through what happened on Ropsten?
+**Tim Beiko**: Good morning, afternoon everyone. This is All Core Devs 140. We have a bunch of things on the agenda today. First going through, obviously, the merge that happened on Ropsten, talking through kind of any issues there and next steps. And there were also a couple different little merge related items. So there was one issue we discussed on the Discord this week about the responsiveness of EL clients when getting payload requests from CL teams. Then there was something in the engine API to allow builders to set the gas limit or to allow validators to keep control over gas limit. And then talk about the next two testnets, Sepolia and Göerli. How do we go through those? And continuing the conversation on the difficulty bomb – there’s been EIP that's been proposed for that. And then, there were two more EIPs on which we had updates – 4444 and 5027. So hopefully we get through all that. But I guess to start does anyone want to walk through what happened on Ropsten?
 
-**danny**: I synced with Pari before. He is not I believe he's not in this call, so I can share his notes. With Ropsten, pre merge, some of the consensus layer teams were having deposit tracking issues. Essentially validators couldn’t come to consensus on the state of the proof of work execution layer to import new deposits. This was due to some engineering assumptions about block times which were not holding in Ropsten and it has been patched by all teams. It's not something expected to be seen on Mainnet. Then we move toward TDD. Post TDD we had about a 14% participation drop. 9% of this was from the Nimbus team nodes which were configured improperly with the jwtsecret. About 1.8% was from another mind concurrency bug required reboot. And then about 2.5 to 3% was from Nimbus-Besu nodes that were attempting to use web sockets which surfaced a bug in the web sockets implementation. They changed their configuration to use http so all that came back online. And we see 99.5% participation right now. The mind concurrency bug is still being looked at a bit more. If it occurs during the transition, a restart fixes it. The zero transaction blocks caused by timeouts have largely been fixed by Aragon. They can expand a bit more. About two to 3% of blocks are being proposed with zero transactions. But we're still going. Pari has not yet isolated the combination and is going to be looking into it. Looks like Nimbus-Besu who might be one of the affected combos. And Marius’ transaction buzzer has been started on the network to a very healthy transaction load - more full blocks and fewer zero transaction ones. Let's see. Zero transactions have largely been handled. Obviously, we should dig in a bit more here if we can. So the shift is now into sync tests and dapp testing. ETH stakers been running some sync tests. And Sam from E F is also going to launch a number of sync tests on Ropsten as well and we'll have data on these next week. So like turning EL off, turning CL and more exotic scenarios. That is the TL;DR from Pari.
+**danny**: I synced with Pari before. I believe he's not in this call, so I can share his notes. With Ropsten, pre merge, some of the consensus layer teams were having deposit tracking issues. Essentially validators couldn’t come to consensus on the state of the proof of work execution layer to import new deposits. This was due to some engineering assumptions about block times which were not holding in Ropsten and it has been patched by all teams. It's not something expected to be seen on Mainnet. Then we move toward TDD. Post TDD we had about a 14% participation drop. 9% of this was from the Nimbus team nodes which were configured improperly with the jwtsecret. About 1.8% was from another mind concurrency bug required reboot. And then about 2.5 to 3% was from Nimbus-Besu nodes that were attempting to use web sockets which surfaced a bug in the web sockets implementation. They changed their configuration to use http so all that came back online. And we see 99.5% participation right now. The mind concurrency bug is still being looked at a bit more. If it occurs during the transition, a restart fixes it. The zero transaction blocks caused by timeouts have largely been fixed by Aragon. They can expand a bit more. About two to 3% of blocks are being proposed with zero transactions. But we're still going. Pari has not yet isolated the combination and is going to be looking into it. Looks like Nimbus-Besu who might be one of the affected combos. And Marius’ transaction buzzer has been started on the network to a very healthy transaction load - more full blocks and fewer zero transaction ones. Let's see. Zero transactions have largely been handled. Obviously, we should dig in a bit more here if we can. So the shift is now into sync tests and dapp testing. ETH stakers been running some sync tests. And Sam from E F is also going to launch a number of sync tests on Ropsten as well and we'll have data on these next week. So like turning EL off, turning CL and more exotic scenarios. That is the TL;DR from Pari.
 
-# b. Concurrency Issue
+## b. Concurrency Issue
 Video | [12:00](https://youtu.be/dByC5Bw8DvU?t=721)
 -|-
 
-**Tim Beiko**: Thank you um. Yeah there's a couple of things I guess to begin there, and so the Nimbus was just a config on the jwt. Do you want to walk through kind of the issue, sorry the issue that you're having and what the status is there.
+**Tim Beiko**: Thank you. Yeah there's a couple of things I guess to begin there, and so the Nimbus issue was just a config on the jwt. Do you want to walk through kind of the issue, sorry the issue that you're having and what the status is there.
 
-**Marek Moraczyński**: So we had one but that occurred on transition and it affected only a few nodes. And it is connected with concurrency - how we are processing block. We found this bug our card. But it hasn't been fixed yet, but we should resolve it soon. That is all I think.
+**Marek Moraczyński**: So we had one but that occurred on transition and it affected only a few nodes. And it is connected with concurrency - how we are processing blocks. We found this bug our card. But it hasn't been fixed yet, but we should resolve it soon. That is all I think.
 
 **Łukasz Rozmej**: If I can give more details. We have a problem when we got a block from the network and from the CL client at the same time during the transition. And so we wanted to process them both at the same time. When we cannot do that with our block processor, we should schedule them one by one and that's really it.
 
 **Tim Beiko**: And when you say processing it's like you receive a new block from the network and you get like a block from the CL at the same time, so it's like an external and internal ping to the execution layer?
 
-**Łukasz Rozmej**: Yes, yes, yes, yes. That was the problem and the problem was on the on the Ropsten because there was a lot of blocks of the same height going on the same time and that’s why because. Some percent of the, some small percentage of the nodes got that, at the same time and that's why they failed. And to fix it will just add the correct scheduling of this and that's pretty much that. It's a fixed that we will do next week.
+**Łukasz Rozmej**: Yes. That was the problem and the problem was on the on the Ropsten because there was a lot of blocks of the same height going on the same time and that’s why because. Some percent of the, some small percentage of the nodes got that, at the same time and that's why they failed. And to fix it will just add the correct scheduling of this and that's pretty much that. It's a fix that we will do next week.
 
-**Tim Beiko**: And when you say there were many blocks that's, I guess, because on Ropsten when we were we were mining, we were creating a bunch of oncalls just because I was a bit of a sketchy situation to get all the hash rate at the same time. Is that right? Like just because yeah when you say all these blocks. 
-Łukasz Rozmej: Yeah I asked about it and there was mining, Geth was mining on two cores cars and it I think it was overwhelmed and it didn't process the block and it made the second one, or third one, sometimes with the same block number before it managed to process the previous one, so that's why that was, I think the case, but I got from someone as an explanation and yeah that's actually great that happened because it showed our bug.
+**Tim Beiko**: And when you say there were many blocks that's, I guess, because on Ropsten when we were we were mining, we were creating a bunch of oncalls just because it was a bit of a sketchy situation to get all the hash rate at the same time. Is that right? Like just because yeah when you say all these blocks. 
 
-# c. Web Sockets Issue
+**Łukasz Rozmej**: Yeah I asked about it and there was mining, Geth was mining on two cores cards and it I think it was overwhelmed and it didn't process the block and it made the second one, or third one, sometimes with the same block number before it managed to process the previous one, so that's why that was, I think the case, but I got from someone as an explanation and yeah that's actually great that happened because it showed our bug.
+
+## c. Web Sockets Issue
 Video | [14:55](https://youtu.be/dByC5Bw8DvU?t=900)
 -|-
 
@@ -71,9 +75,9 @@ Gary Schulte: Specifically, we have eth subscribe and eth unsubscribe are not ge
 
 Tim Beiko: Got it. Is the is the issue with the jwt kind of independent of that or is it like.
 
-Gary Schulte: yeah we only see that problem when we're using the force polling features, I think I suspect any way that the force polling work around and Nimbus is not sending a token we haven't we haven't investigated that whether it's actually in the header or whether it's just expired, or something to that effect, but for that particular workaround to work, we had to disable child authentication.
+Gary Schulte: yeah we only see that problem when we're using the force polling features. I suspect any way that the force polling work around and Nimbus is not sending a token. We haven't investigated  whether it's actually in the header or whether it's just expired, or something to that effect, but for that particular workaround to work, we had to disable child authentication.
 
-# d. Block Gossip
+## d. Block Gossip
 Video | [17:20](https://youtu.be/dByC5Bw8DvU?t=1040)
 -|-
 
@@ -81,7 +85,7 @@ Video | [17:20](https://youtu.be/dByC5Bw8DvU?t=1040)
 
 **Mikhail Kalinin**: I was just going to say that disabling gossip should not like affect shadow forks from what I understand. If there is another requirement in this EIP to disconnect peers that send you block gossip after transition gets finalized, and this, what can break.
 
-# e. Zero Transaction Blocks
+## e. Zero Transaction Blocks
 Video | [18:35](https://youtu.be/dByC5Bw8DvU?t=1115)
 -|-
 
@@ -89,21 +93,21 @@ Video | [18:35](https://youtu.be/dByC5Bw8DvU?t=1115)
 
 **Andrew Ashikhmin**: Yeah sure. So our mining has been experimental because we don't support the gpu mining so, but after the merge we're going to support proof of stake mining. Still, the code is kind of it's not as mature as we would like it to be. So we made some quick fixes, but we still need time to make the  mining or proof of stake block building code more robust yes. 
 
-**Tim Beiko**: Yeah that makes sense. Okay um. And then yeah one last thing I guess on Ropsten, so now that we have Marius’ transaction buzzer running it means basically every block should have transactions in it, correct? Because it was mentioned is like 2-3% of blocks without transactions, I suspect that's something we would see on Ropsten like under normal operations. But given that the transaction buzzer is running we probably don't want to see that. And the empty blocks we're seeing are results of an issue. Is that is that right?
+**Tim Beiko**: Yeah that makes sense. Okay. And then yeah one last thing I guess on Ropsten, so now that we have Marius’ transaction buzzer running it means basically every block should have transactions in it, correct? Because it was mentioned is like 2-3% of blocks without transactions, I suspect that's something we would see on Ropsten like under normal operations. But given that the transaction buzzer is running we probably don't want to see that. And the empty blocks we're seeing are results of an issue. Is that is that right?
 
 **danny**: I mean it depends on the how dynamic the gas is set on that transaction buzzer, because you could imagine the base fee going up above what it is willing to pay and then having some zero blocks, but I would at this point be monitoring if there a particular client pairs that are consistently are having zero transaction blocks. And Marius can comment on the dynamic nature basically and his transaction buzzer.
 
 **Tim Beiko**: Marius is not with us.
 
-# f. Infrastructure Provider Testing
+## f. Infrastructure Provider Testing
 Video | [21:20](https://youtu.be/dByC5Bw8DvU?t=1280)
 -|-
 
-**danny**: About just you know I think we pulled more infrastructure providers through this transition than we had in previous testnets. Is there any update on how that went?
+**danny**: I think we pulled more infrastructure providers through this transition than we had in previous testnets. Is there any update on how that went?
 
-**Tim Beiko**: So. I didn't hear from anyone that things were breaking I actually well I didn't confirm and I didn't get confirmation that anything broke so. At first it was some people thought that some smart contracts had issues but it turned out there was just a user spamming weird transactions to it and that's like coincided with the Ropsten merge. And the other thing is, it seemed for a while, like the rate of failed transactions was higher but I don't think that's that's quite the case. I’m talking with the etherscan people to get some better data on that. The challenge with getting data around the Ropsten merge is because there were so many oncalls and empty blocks around the merge, and the mining was like so weird that even etherscan had a harder time like getting a nice data dump than they usually to do. But it doesn't seem, at least like very high level, that like there's an increase in like the error rate the smart contract transactions on the network, which is, which is good. But yeah I’ll look into that some more um. But yeah aside from like this, this stuff no one, no one has at least complained loud enough that that their product is broken so that's that's pretty good. Good. um. Anything else anyone wanted to mention about the Ropsten transition?
+**Tim Beiko**: So. I didn't hear from anyone that things were breaking I actually well I didn't confirm and I didn't get confirmation that anything broke so. At first it was some people thought that some smart contracts had issues but it turned out there was just a user spamming weird transactions to it and that's like coincided with the Ropsten merge. And the other thing is, it seemed for a while, like the rate of failed transactions was higher but I don't think that's that's quite the case. I’m talking with the etherscan people to get some better data on that. The challenge with getting data around the Ropsten merge is because there were so many oncalls and empty blocks around the merge, and the mining was like so weird that even etherscan had a harder time like getting a nice data dump than they usually to do. But it doesn't seem, at least like very high level, that like there's an increase in like the error rate the smart contract transactions on the network, which is, which is good. But yeah I’ll look into that some more. But yeah aside from like this, this stuff no one, no one has at least complained loud enough that that their product is broken so that's that's pretty good. Good. Anything else anyone wanted to mention about the Ropsten transition?
 
-# g. Insufficient time between prepare and get block requests from CLs
+## g. Insufficient time between prepare and get block requests from CLs
 Video | [21:20](https://youtu.be/dByC5Bw8DvU?t=1400)
 -|-
 
@@ -127,7 +131,7 @@ Video | [21:20](https://youtu.be/dByC5Bw8DvU?t=1400)
 
 **danny**: You can send the get later.
 
-**Andrew Ashikhmin**: um so yeah about Erigon’s implementation. Right now it's really simplistic and doesn't have any hacks. So when we receive requests for to build a new payload we start building it on the side and we when we receive our getPayload, if that building process is finished then return the built block. Otherwise we return a pre-populated empty block. But that's probably too simplistic and what I’m currently thinking about doing is that when we receive getPayload, and we still haven't finished building the block, what I want to do is to stop adding more transactions into the block. But then we will need some time to actually finish sealing the block, calculating this stage root and like finalizing the block. So, to my mind, there won't be any artificial waiting period, but it won't be like super instantaneous it won't be a microsecond. It will be I don't know, maybe, 10s of milliseconds in some cases, to finalize the block. That's my current thinking.
+**Andrew Ashikhmin**: So yeah about Erigon’s implementation. Right now it's really simplistic and doesn't have any hacks. So when we receive requests for to build a new payload we start building it on the side and we when we receive our getPayload, if that building process is finished then return the built block. Otherwise we return a pre-populated empty block. But that's probably too simplistic and what I’m currently thinking about doing is that when we receive getPayload, and we still haven't finished building the block, what I want to do is to stop adding more transactions into the block. But then we will need some time to actually finish sealing the block, calculating this stage root and like finalizing the block. So, to my mind, there won't be any artificial waiting period, but it won't be like super instantaneous it won't be a microsecond. It will be I don't know, maybe, 10s of milliseconds in some cases, to finalize the block. That's my current thinking.
 
 **Micah Zoltu**: My gut. Personally, is that if you've got a block and you're kind of iterating through the transactions and you get getPayload and you need to cut off iterating transactions and you just start your sealing process, and then you send. To me that feels like it fits the bill of as soon as possible. I don't know how other feel but I don't personally have a problem with the strategies described.
 
@@ -153,7 +157,7 @@ Video | [21:20](https://youtu.be/dByC5Bw8DvU?t=1400)
 
 **Tim Beiko**: Okay. So we'll follow up on this offline. Okay yeah so moving on from this, just to summarize -  It seems like most CLs already have it fixed, Nimbus needs to fix it and Nethermind and Geth have workarounds that they need to basically revert. Nethermind will do that and we need to talk with Geth offline.
 
-# h. Adding gas limit to payload attributes
+## h. Adding gas limit to payload attributes
 Video | [36:20](https://youtu.be/dByC5Bw8DvU?t=2180)
 -|-
 
@@ -238,7 +242,7 @@ stokes: Right.
 
 **Tim Beiko**: Awesome. But yeah not changing the V1 and we'll see what comes through. 
 
-# i. Launching Sepolia Beacon Chain
+## i. Launching Sepolia Beacon Chain
 Video | [49:00](https://youtu.be/dByC5Bw8DvU?t=2940)
 -|-
 
@@ -252,7 +256,7 @@ Video | [49:00](https://youtu.be/dByC5Bw8DvU?t=2940)
 
 **Tim Beiko**: Okay. Thanks. Any questions or comments on the launch of the beacon chain there? 
 
-# j. Client teams readiness and plan for future testnet merges
+## j. Client teams readiness and plan for future testnet merges
 Video | [51:40](https://youtu.be/dByC5Bw8DvU?t=3100)
 -|-
 
@@ -398,7 +402,7 @@ Video | [51:40](https://youtu.be/dByC5Bw8DvU?t=3100)
 
 **danny**: I meant that it’s an attack vector from protocol construction. I just mean as an additional piece of software and a very complicated upgrade.
 
-# k. Sequencing of future testnet merges
+## k. Sequencing of future testnet merges
 Video | [1:18:14](https://youtu.be/dByC5Bw8DvU?t=4694)
 -|-
 
@@ -424,7 +428,7 @@ Video | [1:18:14](https://youtu.be/dByC5Bw8DvU?t=4694)
 
 **Łukasz Rozmej**: So I would like to have a bit of time to progress with the all the things we mentioned. You know it all depends on the details of the timeline really so maybe let's discuss propositions on that.
 
-# l. Delaying difficulty bomb 
+## l. Delaying difficulty bomb 
 Video | [1:23:45](https://youtu.be/dByC5Bw8DvU?t=5025)
 -|-
 
@@ -474,7 +478,7 @@ Video | [1:23:45](https://youtu.be/dByC5Bw8DvU?t=5025)
 
 **Tim Beiko**: I think that's that's helpful. Does Besu and Erigon generally agree with that? I just thought I'd make sure that.
 
-**Andrew Ashikhmin**: Yes, I think we should delay the bone and I think something in a hard fork something through three weeks would be good. And that we can discuss the exact block number offline. But I do think that we should we should decide to delay it now.
+**Andrew Ashikhmin**: Yes, I think we should delay the bomb and I think something in a hard fork something through three weeks would be good. And that we can discuss the exact block number offline. But I do think that we should we should decide to delay it now.
 
 **Tim Beiko**: Okay. And Besu?
 
@@ -514,10 +518,285 @@ Video | [1:23:45](https://youtu.be/dByC5Bw8DvU?t=5025)
 ------------------------------------------
 ## Attendees
 * Tim Beiko
-
+* Łukasz Rozmej
+* Tomasz Stanczak
+* Bordel
+* Greg Colvin
+* Vadim Arasev
+* jgold
+* Marek Moraczyński
+* Protolambda
+* Trenton Van Epps
+* Andrew Ashikhmin
+* Mikhail Kalinin
+* danny
+* Ben Edgington
+* Pooja Ranjan
+* terence(prysmaticlabs)
+* Justin Florentine
+* Daniel Lehrner
+* Gary Schulte
+* Justin Drake
+* Matt Nelson
+* Ansgar Dietrichs
+* stokes
+* Adrian Sutton
+* Qi Zhou
+* Marcin Sobczak
+* Sean Anderson
+* Karim T.
+* Viktor Shepelin
+* Fabio Di Fabio
+* Jamie Lokier
+* Vitalik
+* Sam Wilson
+* Tom
+* Henri DF
+* Helen George
+* Thomas Jay Rush
+* Micah Zoltu
+* Marcus Wentz
+* SasaWebUp
 
 ---------------------------------------
 ## Next Meeting
-June 10, 2022, 14:00 UTC
+June 24, 2022, 14:00 UTC
 
-## Zoom Chat 
+## Zoom Chat (timestamps are ~11:06 mm:ss ahead of YouTube recording)
+00:11:48	Zuerlein:	gm
+00:16:20	Tim Beiko:	https://github.com/ethereum/pm/issues/538
+00:16:56	Gary Schulte:	lightclient on the bordel zoom!
+00:17:57	protolambda:	moonbase :O
+00:17:59	Trenton Van Epps:	bordel is a hackerspace in prague
+00:18:17	Pooja Ranjan:	Ah, that make sense!
+00:18:31	Gary Schulte:	Ah ok.  I heard there is a funny translation of bordel from Czech
+00:18:48	Trenton Van Epps:	it's a funny translation in every language lol
+00:25:12	Micah Zoltu:	Damn it, I was banking on my requested topic not being the first on the agenda so I went over in my previous meeting.  😬
+00:25:40	Micah Zoltu:	Oh, maybe this isn't my topic.  🤔
+00:25:59	danny:	this is nethermind concurrency bug that affected a small subset of nodes and required a reboot on ropsten
+00:26:00	Justin Florentine:	still Ropsten Recap™
+00:26:02	danny:	after the transitiojn
+00:26:18	Micah Zoltu:	Ah, not discussion about prepareBlock vs getBlock being too close together?
+00:26:38	protolambda:	eip-3675 specs to disable devp2p block gossip, is this a pre-transition block, or does nethermind not follow the EIP?
+00:29:49	Marek Moraczyński:	proto it was about terminal blocks
+00:29:52	protolambda:	yes
+00:30:40	Marek Moraczyński:	so we shouldn't disable terminal blocks from gossip, but we need one more fix in gossip too
+00:31:32	protolambda:	makes sense now, fun edge case
+00:31:47	Łukasz Rozmej:	yes there were multiple terminal blocks
+00:31:48	Mikhail Kalinin:	gossip of terminal blocks is important for transition, for the case when we have more than one terminal block and proposer may switch from one to another -- we must be sure that all of them are disseminated
+00:32:15	Justin Florentine:	thats why we don't halt propagation till 2nd finalized, right?
+00:32:24	Łukasz Rozmej:	yes
+00:32:26	Marek Moraczyński:	yeees :) tbh we reviewed code just before ropsten merge and we found it before we hit TTD
+00:32:50	Łukasz Rozmej:	like 20 min before :D
+00:33:02	Justin Drake:	Is it a concern that various Ropsten blocks have fee recipient set to 0x00?
+00:33:21	danny:	that' a default on some nodes if they dont have the config set
+00:33:34	danny:	so it'd be best if that was set, but not a crtiical failure. maybe a sign about UX and education
+00:33:41	Justin Drake:	right
+00:34:01	danny:	I think we should definitely be on an information campaign for validators and that be an important point
+00:37:36	Mikhail Kalinin:	What Micah has just said is also stated by Engine API spec
+00:38:30	danny:	do we know which CL clients still have this issue?
+00:38:38	terence(prysmaticlabs):	Re: fee recipient not set. There’s also a bug on beaconcha.in, it doesn’t work with fee recipient. It’s always 0x0 even if it’s set
+00:38:48	Marek Moraczyński:	I think only nimbus now
+00:39:27	Łukasz Rozmej:	This was eliminated from multiple CL clients through last few months
+00:40:24	danny:	to micah's point -- CL can send prepare and wait 500ms to do the get in the event that it learned of the block really late
+00:40:42	Adrian Sutton:	Yeah we could request the block later and that may be something we should recommend somewhere.  Currently the CL has no way of knowing that the EL needs more time to prepare the block.
+00:40:56	danny:	other than 0 TXs
+00:40:57	Adrian Sutton:	If we just wait 500ms between calls the EL may have only needed 100ms
+00:41:02	danny:	but that probably aborts the build process
+00:45:10	danny:	from nimbus: this issue is one of the last items on their merge readiness checklist. they have someone prioritizing it
+00:46:28	Justin Florentine:	i love that they're making this Lightclients problem
+00:46:29	Bordel:	no sorry
+00:46:37	Bordel:	marius isn't here\
+00:47:37	Tim Beiko:	https://github.com/ethereum/builder-specs/issues/29
+00:48:05	Bordel:	i think it is called hazing
+00:51:42	Ansgar Dietrichs:	communication is cl <-> builder network directly, no local el in between
+00:55:02	Bordel:	i think we already agreed on this
+00:55:04	Bordel:	a few calls ago
+00:56:01	Micah Zoltu:	I think I may be lagging.
+00:56:16	Micah Zoltu:	We can punish validators after the fact, we cannot punish builders after the fact.
+00:56:30	danny:	right
+00:56:41	Bordel:	is there any desire to do this with payloadattributesv1 or no
+00:56:46	protolambda:	If there will be V2, there is a compatible extension to the payload attributes that would also be really useful for L2 and testing. Simply a "transactions" list payload attribute to always process in the block (drop any invalid transactions).
+00:56:49	Bordel:	i assume no<
+00:56:49	stokes:	too late to be changing things imo
+00:56:55	danny:	no v1 change
+00:56:59	Bordel:	sounds good
+00:57:20	danny:	would like to add fee_recipient_diff to getV2
+00:57:29	danny:	but can have that convo somewhere else..
+00:57:57	Micah Zoltu:	We don't need to deliver a v2 protocol change to all clients at the same time, right?
+00:58:12	Micah Zoltu:	We can just spec it out and have clients implement it as they go.
+00:58:46	danny:	having a point of *deprecation* is necessary to get full benefits. I would not require it rolled out simultaneously
+00:58:47	Adrian Sutton:	CL would have to try using V2 and fallback to V1 if it gets an unknown method response.
+00:58:55	Łukasz Rozmej:	If its optional we can add it to V1
+00:58:58	Bordel:	just a bump that it will be really nice to add a value field for payload v2 so that we can come the value of local payloads vs external
+00:59:14	stokes:	proto bordel can yall add your asks to that issue?
+00:59:18	danny:	get, fee_recipient_diff for getV2 is valuable
+00:59:18	stokes:	i can track but may lose in this chat
+00:59:49	Łukasz Rozmej:	It would be simpler to add it to V1 and EL can ignore that if its not updated
+00:59:58	Tim Beiko:	https://github.com/ethereum/builder-specs/issues/29
+00:59:59	Łukasz Rozmej:	not implemented yet
+01:00:10	Mikhail Kalinin:	A related topic is Engine API versioning to make this kind of upgrades go smooth
+01:00:11	Łukasz Rozmej:	would be easier for CL
+01:00:26	Ansgar Dietrichs:	I think the gas limit is less of a governance and more of an oracle mechanism. the job of the entities in control should only "inform the network about the current gas limit desired by the protocol”, nothing more. so I am not convinced validators are the best entities to perform this oracle service
+01:00:28	stokes:	they are versioned tho mikhail
+01:00:36	stokes:	do you mean simultaneous rollout/deployment?
+01:00:39	Adrian Sutton:	Yeah if all ELs ignore unknown fields just adding as an optional field to V1 would definitely be easier.
+01:00:55	stokes:	if you want a V1 you can chime into that issue
+01:01:07	stokes:	i think its best to not touch any existing merge code if we want the merge to happen sooner rather than later
+01:01:12	Mikhail Kalinin:	Right, but it’s not defined how CL will use this versions. Like will CL switch to V2 only if? How would CL know that V2 is supported by EL?
+01:01:41	Adrian Sutton:	I think the fallback should be fairly simple - send a V2 and if it's not recognised fallback to V1 and remember for future requests.
+01:01:48	stokes:	support both? send a "not supported” message if you cant respond
+01:01:51	Tim Beiko:	https://github.com/ethereum/pm/issues/526
+01:01:53	Adrian Sutton:	We've done that with some of the validator REST APIs already.
+01:02:03	stokes:	yeah what adrian said
+01:02:38	Adrian Sutton:	But I'd still tend to hold off moving to V2 in Teku until most ELs support V2 so we generally won't have to fall bakc.
+01:03:22	danny:	CL call all support sepolia first
+01:03:31	Mikhail Kalinin:	What if we have two new methods in the future that are related to each other and CL behaviour depends on whether they are supported or not. It would probably be valuable to request the version of ENgine API that is supported by EL and then make a decision, though and Unexpected method error may also work
+01:03:58	Adrian Sutton:	Yeah I could see an API to list the supported APIs would be useful. Then we'd be more explicit rather than "try it and see"
+01:04:22	Mikhail Kalinin:	yeah, this is my direction of thoughts
+01:04:27	Tomasz Stańczak:	1. fix to the concurrency thing released
+2. Hive tests passing
+01:04:28	stokes:	fwiw libp2p does have protocol negotiation
+01:04:35	stokes:	as does devp2p
+01:10:19	Adrian Sutton:	Part of that confusion is that the CL is syncing from genesis which takes time just because there aren't good sources for checkpoint sync states currently.
+01:11:10	Karim T.:	+1
+01:11:23	danny:	from CL perspective, heads are given to EL. and EL can do whatever they want to sync from there
+01:13:14	Justin Florentine:	this ACD brought to you by Blue Microphones
+01:13:24	Micah Zoltu:	So Peter is now speaking through someone else's mic and he still sounds like he is in an echoing background.... I'm starting to think that is just the sound of Peter's voice.
+01:13:41	Mikhail Kalinin:	😂
+01:13:44	Micah Zoltu:	*echoing bathroom
+01:14:34	Bordel:	mic dao still  hasn't come thru
+01:16:40	Gary Schulte:	whoa
+01:16:55	Micah Zoltu:	Getting some feedback in the Bordel room.
+01:17:04	Micah Zoltu:	Not terrible, but a bit.
+01:17:11	Micah Zoltu:	Like someone has a speaker feeding back slightly into the mic.
+01:18:16	Micah Zoltu:	Still echoing (audible, not worth stopping over).
+01:18:51	Bordel:	yeah sorry we have speakers playing outloud
+01:19:24	Mikhail Kalinin:	#interop is good
+01:19:59	Łukasz Rozmej:	👍
+01:20:57	danny:	sepolia first!
+01:22:07	Tim Beiko:	marius!
+01:22:34	Micah Zoltu:	Only the top of his head though.  We don't get the whole Marius today.
+01:23:13	Mikhail Kalinin:	I would take the Hive test discussion to the testing call
+01:25:01	Łukasz Rozmej:	what about not waiting for block production?
+01:25:06	danny:	I do think it reasonable to quantify if/how a test case can happen and if engineering burden is undue wrt likelihood and damage to network as a whole, to deprioritize for the next few months
+01:25:06	Łukasz Rozmej:	in getpayload?
+01:27:59	Thomas Jay Rush:	We should save time for a discussion of difficulty bomb.
+01:28:09	Mikhail Kalinin:	fwiw, TBH on EL side = TTD + whitelisting a chain given a block hash. The former is a TTD machinery as we know it, the latter I guess is also supported by all EL clients
+01:28:10	Micah Zoltu:	👍
+01:32:33	Gary Schulte:	momentum 👍
+01:33:14	Tim Beiko:	Mateusz, is your hand still up from last time?
+01:33:56	Bordel:	I agree, we should merge goerli with (almost) the mainnet version(marius)
+01:34:00	Micah Zoltu:	Bordel hand is still up too.
+01:35:09	Bordel:	One thing for the previous discussion, Geth will drop support for the unauthenticated engine API so make sure CLs can speak JWT properly :P
+01:35:16	Tim Beiko:	Apologies to EIP champions, but I don't think we'll have to cover them today
+01:37:26	Bordel:	Bordel says no
+01:37:34	Micah Zoltu:	To all 3?
+01:38:07	Ansgar Dietrichs:	wasn't soft consensus last time a 2 month delay?
+01:38:13	Ben Edgington:	No
+01:38:14	Tomasz Stańczak:	https://eips.ethereum.org/EIPS/eip-5133
+01:38:19	danny:	I don't think so
+01:38:20	Trenton Van Epps:	shouldn't we talk about Tomasz + co EIP?
+01:38:20	Micah Zoltu:	Depends on who you ask Ansgar.  :D
+01:38:25	Justin Florentine:	i'd love to see the miner perspective on these options. which ones cause hashpower/security to drop and when/why
+01:38:26	Mikhail Kalinin:	do nothing does also make us work hard and deliver sooner which is positive
+01:38:26	Bordel:	to remove
+01:38:37	Bordel:	remove 0 *bad, bad, bad<9
+01:39:07	Danno Ferrin:	Keeping the difficulty bomb is responsibly decommissioning the PoW chain.
+01:39:39	Bordel:	ack ack
+01:40:13	Micah Zoltu:	https://eips.ethereum.org/EIPS/eip-5133
+01:42:11	Ansgar Dietrichs:	I think the main issue here is what “when the bomb hits" means - 0.6s delay in November for me means that with 5133 the bomb would really only "hit" in November or after, which would be too much of a delay for my taste - then we can also just completely remove it
+01:42:32	Tomasz Stańczak:	Ansgar - I already hear community complaining about the results of slower blocks
+01:42:53	Ansgar Dietrichs:	yes, so ideally we should be in the same situation as today in August again
+01:43:13	Tomasz Stańczak:	maybe you are not affected by 14 seconds blocks but mining pools see rewards falling and it is seen by them and others, also basefee will probably be going up causing more cost to the users
+01:43:14	Ansgar Dietrichs:	(late August, maybe early September)
+01:43:50	Łukasz Rozmej:	On related topic of forking next testnet from our side it would be optimal to do next testnet fork in ~5 weeks, but ~4 weeks is also acceptable
+01:43:59	Micah Zoltu:	CO2 is what plants crave.
+01:44:18	Tim Beiko:	@Lukasz, is that when you want the tesntet to fork, or Nethermind to have a release out
+01:44:28	Łukasz Rozmej:	~3 weeks or less and we are still testing very beta code
+01:44:46	danny:	agreed with ben
+01:44:47	Łukasz Rozmej:	testnet fork, we can get a release 1 week earlier
+01:45:18	Bordel:	is there anything that we really need to decide to today
+01:45:23	Bordel:	we are approaching time
+01:45:39	Micah Zoltu:	Yes, whether to delay the bomb or not.
+01:45:57	Justin Florentine:	nbd
+01:46:01	Micah Zoltu:	If we are going to delay, we really need to start prepping builds/releases and scheduling the delay fork.
+01:46:16	Ansgar Dietrichs:	what’s the fastest timeline from decision to actual mainnet bomb defusal fork?
+01:46:25	Ansgar Dietrichs:	(defusal / delay)
+01:46:28	Gary Schulte:	the bomb is effectively a soft target for merge.  agreed on the prep readiness too.  the bomb coordination will take weeks at best.
+01:46:43	Justin Florentine:	about a month, adding in big infra providers needing to test/deploy the hardfork build
+01:46:58	Łukasz Rozmej:	if next testnet hardfork is 6-7 weeks from now then we will be close to production code by then
+01:47:09	Tim Beiko:	Yeah I think 1 month is a reasonable timeline
+01:47:14	Ansgar Dietrichs:	well then we should really make a decision now, on this call
+01:47:25	Mikhail Kalinin:	IMO, we should fork Sepolia as soon as client devs fix encountered during merge on Ropsten. And after that fork Goerly with the same client versions that are going to make it into the Mainnet fork with having enough time before the Mainnet fork to assess the results we will get from Goerly
+01:47:33	Ansgar Dietrichs:	agree with Bordel, 2-3 months seems reasonable
+01:47:49	Micah Zoltu:	Isn't EIP-5133 a 2 month delay?  Or are you suggesting the same thing as Ansgar that 2 months until 14 seconds?
+01:48:04	Tomasz Stańczak:	6500 blocks per day gives 185000 blocks per month -> 500k blocks is ~2.5 months
+01:48:11	Ansgar Dietrichs:	well but do we have time to just wait 2 more weeks?
+01:48:20	Adrian Sutton:	Yep got to keep rolling on merging testnets as that's a long pole for getting mainnet to merge. And merging testnets keeps pushing the community/users to be ready which is a really key part.
+01:48:26	Bordel:	acd on skip week<<1
+01:48:27	Bordel:	woo
+01:49:06	Ansgar Dietrichs:	I think a decision like “we will delay & have the defusal fork at block height X, but we will pick an exact number of blocks offline over the next few days” would be ideal
+01:49:19	Micah Zoltu:	I would support that.
+01:49:49	Adrian Sutton:	Also +1 to pushing the bomb back on the basis that we have to choose a TTD to time the merge which is much harder while the bomb is going off.
+01:50:01	Tim Beiko:	That's not actually true, @Adrian
+01:50:13	Tim Beiko:	with the bomb, D per block goes up more
+01:50:19	Tim Beiko:	but time per block also goes up more
+01:50:32	Tim Beiko:	so D per time goes up at the same right (though in bigger "chunks"
+01:50:34	Tim Beiko:	)
+01:50:53	danny:	if bomb is pushed back, it should start going off in august
+01:51:16	Bordel:	its closer to 3 months
+01:51:22	Łukasz Rozmej:	November gives us confidence that even if  we don't hit goals then we don't do another bomb delay
+01:51:23	Bordel:	81 days
+01:51:52	Gary Schulte:	+1 for choosing block height today, with block delay to be confirmed
+01:51:59	Micah Zoltu:	Team Micah thinks we should decide to delay the bomb now and pick a fork date, and we can decide the delay amount over the next 7 days.
+01:52:06	Ansgar Dietrichs:	the numbers don't seem to be consistent, if we will only have 0.6s block delays in November with a 2.5 month delay, that would mean we would only get to 0.6s delay in mid August without
+01:52:29	Tomasz Stańczak:	let us please confirm implementation of the EIP today with details to be filled in
+01:52:58	danny:	have to run. if bomb is delayed, it should start going off in August. putting it in september jeapordizes its effect on preventing a pow fork. additioanlly, I agree with Ben -- we need to keep moving
+01:53:14	Tomasz Stańczak:	it is 2.5 months not from today but from 2 or 3 weeks ago
+01:53:22	Gary Schulte:	ok fair - block number can be chosen based on date
+01:53:53	Tomasz Stańczak:	Geth, Besu, Nethermind agree to implement EIP-5133 but without exact number of blocks
+01:54:03	Bordel:	zes
+01:54:07	Thomas Jay Rush:	At 14 second blocks, 100,000 blocks takes about two weeks. So if it's set back 500,000 blocks, we would be about the same place as we are today in 2.5 months (Mid-August). It doesn't matter when it's set back. The same will be true. That's not how it works.
+01:54:09	Tomasz Stańczak:	*Erigon not BeSu
+01:54:13	Matt Nelson:	and Besu
+01:54:14	Tomasz Stańczak:	but BeSu now confirms, it seems
+01:54:36	Micah Zoltu:	All EL clients agree to delaying, everyone OK with the hard fork being in about 3 weeks from today?
+01:54:44	Tomasz Stańczak:	yes
+01:54:48	Tomasz Stańczak:	3 weeks from now
+01:54:50	Andrew Ashikhmin:	yes
+01:54:53	Thomas Jay Rush:	The only thing that matter as far as when is how painful it gets before.
+01:55:01	Tomasz Stańczak:	19th of June
+01:55:07	Micah Zoltu:	Around July 1st give or take.
+01:55:15	Tomasz Stańczak:	*29th
+01:55:21	Tomasz Stańczak:	Wednesday
+01:55:24	Ansgar Dietrichs:	do we have a name for the delay fork? 😜
+01:55:30	Micah Zoltu:	I'm fine with 29th ish.
+01:55:35	Bordel:	ask axic
+01:55:37	Justin Florentine:	besu already has a release scheduled for 15th
+01:55:42	Zuerlein:	does this have any practical effect on merge progress? it seems totally fine to fork in 3 weeks imo
+01:56:16	Łukasz Rozmej:	and ForkId!
+01:57:00	Micah Zoltu:	I guess we can't run this fork through Ropsten.  😬
+01:57:17	Tomasz Stańczak:	agreed
+01:57:27	Łukasz Rozmej:	difficulty bomb is chain specific
+01:57:29	Bordel:	no impact on merge
+01:57:35	Tomasz Stańczak:	public confirmation next ACD as a strengthening sign for everyone after announcements in other channels
+01:57:42	Zuerlein:	Merge Glacier
+01:57:53	Matt Nelson:	Panda Glacier
+01:57:56	Zuerlein:	^^^^
+01:57:57	Micah Zoltu:	Name Suggestion: "Not The Merge"
+01:58:03	Tomasz Stańczak:	Columbia Icefield
+01:58:07	Łukasz Rozmej:	Almost Merge
+01:58:14	Micah Zoltu:	"So close"
+01:58:22	Tomasz Stańczak:	Columbia Icefield to refer to DevCon and to names of Glaciers like last bomb delays
+02:00:00	Mikhail Kalinin:	In spite of the bomb pushback I still think that we should fork Sepolia asap
+02:00:15	Adrian Sutton:	+1 got to keep the testnets rolling (er, merging)
+02:00:15	Micah Zoltu:	Agreed on Sepolia.
+02:00:40	Łukasz Rozmej:	but why? It would be same'ich code than ropsten
+02:00:51	Łukasz Rozmej:	let us  get closer to final code
+02:01:01	Adrian Sutton:	Because we need to get the community ready too. Merging testnets gets more of the community ready.
+02:01:02	Marek Moraczyński:	we should continue shadowforks, imo
+02:01:08	Łukasz Rozmej:	ok what is asap?
+02:01:54	Mikhail Kalinin:	as soon as devs have fixes they want into sepolia and releases are ready, not rushing it. just want no unneeded delay
+02:02:12	Qi Zhou:	Thank you
+
