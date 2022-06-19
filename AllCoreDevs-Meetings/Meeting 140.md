@@ -4,7 +4,7 @@
 ### [GitHub Agenda](https://github.com/ethereum/pm/issues/538)
 ### [Video of the meeting](https://youtu.be/dByC5Bw8DvU?t=467)
 ### Moderator: Tim Bieko
-### Notes: Viktor Shepelin (@amodernman.eth)
+### Notes: Viktor Shepelin (@modernman.eth)
 
 ### Summary
 ## Decisions Made
@@ -16,41 +16,49 @@
 # Contents <!-- omit in toc -->
 
 - [1. Merge Updates](#1-merge-updates)
+- [a. Intro and Ropsten](#a-intro-and-ropsten)
+- [b. Concurrency Issue](#b-concurrency-issue)
+- [c. Web Sockets Issue](#c-web-sockets-issue)
+- [d. Block Gossip](#d-block-gossip)
+- [e. Zero Transaction Blocks](#e-zero-transaction-blocks)
+- [f. Infrastructure Provider Testing](#f-infrastructure-provider-testing)
+- [g. Insufficient time between prepare and get block requests from CLs](#g-insufficient-time-between-prepare-and-get-block-requests-from-cls)
+- [d. Ropsten](#a-ropsten)
 - [2. EIP Discussions](#2-eip-discussions)
 
 ---
 # 1. Merge Updates
 
-Video | [0:05](https://youtu.be/kTKknkUTmTw?t=5)
-
-
-# 2. EIP Discussions
-
-Video | [3:50](https://youtu.be/kTKknkUTmTw?t=230)
+# a. Intro and Ropsten
+Video | [7:50](https://youtu.be/dByC5Bw8DvU?t=471)
 -|-
 
-Tim Beiko: Good morning, afternoon everyone. This is All Core Devs 140. We have a bunch of things on the agenda today. First going through, obviously, the merge that happened on Ropsten, talking through kind of any issues there and next steps. And there were also a couple different little merger related items. So there was one issue we discussed on the Discord this week about the responsiveness of EL clients when getting payload requests from CL teams. Then there was something in the engine API to allow builders to set the gas limit or to allow sorry validators to keep control over gas limit. And then talk about the next two testnets, Sepolia and Gorli. How do we go through those. And continuing the conversation on the difficulty bomb – there’s been EIP that's been proposed for that. And then, there were two more EIPs on which we had updates – 4444 and 5027. So hopefully we get through all that. But I guess to start does anyone want to walk through what happened on Ropsten?
-9:20
+**Tim Beiko**: Good morning, afternoon everyone. This is All Core Devs 140. We have a bunch of things on the agenda today. First going through, obviously, the merge that happened on Ropsten, talking through kind of any issues there and next steps. And there were also a couple different little merger related items. So there was one issue we discussed on the Discord this week about the responsiveness of EL clients when getting payload requests from CL teams. Then there was something in the engine API to allow builders to set the gas limit or to allow sorry validators to keep control over gas limit. And then talk about the next two testnets, Sepolia and Gorli. How do we go through those. And continuing the conversation on the difficulty bomb – there’s been EIP that's been proposed for that. And then, there were two more EIPs on which we had updates – 4444 and 5027. So hopefully we get through all that. But I guess to start does anyone want to walk through what happened on Ropsten?
 
-danny: I synced with Perry before. He is not I believe he's not in this call, so I can share his notes. With Ropsten, pre merge, some of the consensus layer teams were having deposit tracking issues. Essentially validators couldn’t come to consensus on the state of the proof of work execution layer to import new deposits. This was due to some engineering assumptions about block times which were not holding in Ropsten and it has been patched by all teams. It's not something expected to be seen on Mainnet. Then we move toward TDD. Post TDD we had about a 14% participation drop. 9% of this was from the Nimbus team nodes which were configured improperly with the jwtsecret. About 1.8% was from another mind concurrency bug required reboot. And then about 2.5 to 3% was from Nimbus-Besu nodes that were attempting to use web sockets which surfaced a bug in the web sockets implementation. They changed their configuration to use http so all that came back online. And we see 99.5% participation right now. The mind concurrency bug is still being looked at a bit more. If it occurs during the transition, a restart fixes it. The zero transaction blocks caused by timeouts have largely been fixed by Aragon. They can expand a bit more. About two to 3% of blocks are being proposed with zero transactions. But we're still going. Perry has not yet isolated the combination and is going to be looking into it. Looks like Nimbus-Besu who might be one of the affected combos. And Marius’ transaction buzzer has been started on the network to a very healthy transaction load - more full blocks and fewer zero transaction ones. Let's see. Zero transactions have largely been handled. Obviously, we should dig in a bit more here if we can. So the shift is now into sync tests and dapp testing. ETH stakers been running some sync tests. And Sam from E F is also going to launch a number of sync tests on Ropsten as well and we'll have data on these next week. So like turning EL off, turning CL and more exotic scenarios. That is the TL;DR from Perry.
+**danny**: I synced with Perry before. He is not I believe he's not in this call, so I can share his notes. With Ropsten, pre merge, some of the consensus layer teams were having deposit tracking issues. Essentially validators couldn’t come to consensus on the state of the proof of work execution layer to import new deposits. This was due to some engineering assumptions about block times which were not holding in Ropsten and it has been patched by all teams. It's not something expected to be seen on Mainnet. Then we move toward TDD. Post TDD we had about a 14% participation drop. 9% of this was from the Nimbus team nodes which were configured improperly with the jwtsecret. About 1.8% was from another mind concurrency bug required reboot. And then about 2.5 to 3% was from Nimbus-Besu nodes that were attempting to use web sockets which surfaced a bug in the web sockets implementation. They changed their configuration to use http so all that came back online. And we see 99.5% participation right now. The mind concurrency bug is still being looked at a bit more. If it occurs during the transition, a restart fixes it. The zero transaction blocks caused by timeouts have largely been fixed by Aragon. They can expand a bit more. About two to 3% of blocks are being proposed with zero transactions. But we're still going. Perry has not yet isolated the combination and is going to be looking into it. Looks like Nimbus-Besu who might be one of the affected combos. And Marius’ transaction buzzer has been started on the network to a very healthy transaction load - more full blocks and fewer zero transaction ones. Let's see. Zero transactions have largely been handled. Obviously, we should dig in a bit more here if we can. So the shift is now into sync tests and dapp testing. ETH stakers been running some sync tests. And Sam from E F is also going to launch a number of sync tests on Ropsten as well and we'll have data on these next week. So like turning EL off, turning CL and more exotic scenarios. That is the TL;DR from Perry.
 
-12:00
+# b. Concurrency Issue
+Video | [12:00](https://youtu.be/dByC5Bw8DvU?t=721)
+-|-
 
-Tim Beiko: Thank you um. Yeah there's a couple of things I guess to begin there, and so the Nimbus was just a config on the jwt. Do you want to walk through kind of the issue, sorry the issue that you're having and what the status is there.
+**Tim Beiko**: Thank you um. Yeah there's a couple of things I guess to begin there, and so the Nimbus was just a config on the jwt. Do you want to walk through kind of the issue, sorry the issue that you're having and what the status is there.
 
-Marek Moraczyński: So we had one but that occurred on transition and it affected only a few nodes. And it is connected with concurrency - how we are processing block. We found this bug our card. But it hasn't been fixed yet, but we should resolve it soon. That is all I think.
+**Marek Moraczyński**: So we had one but that occurred on transition and it affected only a few nodes. And it is connected with concurrency - how we are processing block. We found this bug our card. But it hasn't been fixed yet, but we should resolve it soon. That is all I think.
 
-Łukasz Rozmej: If I can give more details. We have a problem when we got a block from the network and from the CL client at the same time during the transition. And so we wanted to process them both at the same time. When we cannot do that with our block processor, we should schedule them one by one and that's really it.
+**Łukasz Rozmej**: If I can give more details. We have a problem when we got a block from the network and from the CL client at the same time during the transition. And so we wanted to process them both at the same time. When we cannot do that with our block processor, we should schedule them one by one and that's really it.
 
-Tim Beiko: And when you say processing it's like you receive a new block from the network and you get like a block from the CL at the same time, so it's like an external and internal ping to the execution layer?
+**Tim Beiko**: And when you say processing it's like you receive a new block from the network and you get like a block from the CL at the same time, so it's like an external and internal ping to the execution layer?
 
-Łukasz Rozmej: Yes, yes, yes, yes. That was the problem and the problem was on the on the Ropsten because there was a lot of blocks of the same height going on the same time and that’s why because. Some percent of the, some small percentage of the nodes got that, at the same time and that's why they failed. And to fix it will just add the correct scheduling of this and that's pretty much that. It's a fixed that we will do next week.
+**Łukasz Rozmej**: Yes, yes, yes, yes. That was the problem and the problem was on the on the Ropsten because there was a lot of blocks of the same height going on the same time and that’s why because. Some percent of the, some small percentage of the nodes got that, at the same time and that's why they failed. And to fix it will just add the correct scheduling of this and that's pretty much that. It's a fixed that we will do next week.
 
-Tim Beiko: And when you say there were many blocks that's, I guess, because on Ropsten when we were we were mining, we were creating a bunch of oncalls just because I was a bit of a sketchy situation to get all the hash rate at the same time. Is that right? Like just because yeah when you say all these blocks. 
+**Tim Beiko**: And when you say there were many blocks that's, I guess, because on Ropsten when we were we were mining, we were creating a bunch of oncalls just because I was a bit of a sketchy situation to get all the hash rate at the same time. Is that right? Like just because yeah when you say all these blocks. 
 Łukasz Rozmej: Yeah I asked about it and there was mining, Geth was mining on two cores cars and it I think it was overwhelmed and it didn't process the block and it made the second one, or third one, sometimes with the same block number before it managed to process the previous one, so that's why that was, I think the case, but I got from someone as an explanation and yeah that's actually great that happened because it showed our bug.
 
-14:55
-Tim Beiko: Yeah, good yeah. Very cool thanks for sharing. And then the Nimbus web sockets. Does anyone want to just give a quick update there? Something from the Besu or Nimbus side.
+# c. Web Sockets Issue
+Video | [14:55](https://youtu.be/dByC5Bw8DvU?t=900)
+-|-
+
+**Tim Beiko**: Yeah, good yeah. Very cool thanks for sharing. And then the Nimbus web sockets. Does anyone want to just give a quick update there? Something from the Besu or Nimbus side.
 
 Fabio Di Fabio: Yeah sure. Okay, so what we saw is that, using web socket, Nimbus was not able to fetch the data that it needs. After checking with the Nimbus team, they sent us option to make things work, but then we had another problem and we had to disable also jwt authentication. So now the setup that is working, at least for us, for our 2% of Besu validators that are configured with Nimbus is to have web socket with a special flag and jwt authentication disabled.
 
@@ -60,153 +68,170 @@ Tim Beiko: Got it. Is the is the issue with the jwt kind of independent of that 
 
 Gary Schulte: yeah we only see that problem when we're using the force polling features, I think I suspect any way that the force polling work around and Nimbus is not sending a token we haven't we haven't investigated that whether it's actually in the header or whether it's just expired, or something to that effect, but for that particular workaround to work, we had to disable child authentication.
 
-17:20
-Tim Beiko: Got it. And there's a question in the chat about EIP-3675 trigger merge and like disabling the block gossip and we discussed this on like one of the testing calls I think last week. It seems that, if we did this basically we couldn't do shadow forks and I believe that there weren't any clients that disabled block gossip after the merger. I don't know if anyone who is on the testing call wants to give more complex on this. Mikhail I saw you come off mute.
+# d. Block Gossip
+Video | [17:20](https://youtu.be/dByC5Bw8DvU?t=1040)
+-|-
 
-Mikhail Kalinin: I was just going to say that disabling gossip should not like affect shadow forks from what I understand. If there is another requirement in this EIP to disconnect peers that send you block gossip after transition gets finalized, and this, what can break.
+**Tim Beiko**: Got it. And there's a question in the chat about EIP-3675 trigger merge and like disabling the block gossip and we discussed this on like one of the testing calls I think last week. It seems that, if we did this basically we couldn't do shadow forks and I believe that there weren't any clients that disabled block gossip after the merger. I don't know if anyone who is on the testing call wants to give more complex on this. Mikhail I saw you come off mute.
 
-18:35
-Tim Beiko: Right does that answer your question proto? Okay, it was about terminal blocks. Okay yeah, cool. Okay, so yeah that was a Besu, Nethermind. Erigon, do you want to chat about the zero transaction blocks a bit.
+**Mikhail Kalinin**: I was just going to say that disabling gossip should not like affect shadow forks from what I understand. If there is another requirement in this EIP to disconnect peers that send you block gossip after transition gets finalized, and this, what can break.
 
-Andrew Ashikhmin: Yeah sure. So our mining has been experimental because we don't support the gpu mining so, but after the merge we're going to support proof of stake mining. Still, the code is kind of it's not as mature as we would like it to be. So we made some quick fixes, but we still need time to make the  mining or proof of stake block building code more robust yes. 
+# e. Zero Transaction Blocks
+Video | [18:35](https://youtu.be/dByC5Bw8DvU?t=1115)
+-|-
 
-Tim Beiko: Yeah that makes sense. Okay um. And then yeah one last thing I guess on Ropsten, so now that we have Marius’ transaction buzzer running it means basically every block should have transactions in it, correct? Because it was mentioned is like 2-3% of blocks without transactions, I suspect that's something we would see on Ropsten like under normal operations. But given that the transaction buzzer is running we probably don't want to see that. And the empty blocks we're seeing are results of an issue. Is that is that right?
+**Tim Beiko**: Right does that answer your question proto? Okay, it was about terminal blocks. Okay yeah, cool. Okay, so yeah that was a Besu, Nethermind. Erigon, do you want to chat about the zero transaction blocks a bit.
 
-danny: I mean it depends on the how dynamic the gas is set on that transaction buzzer, because you could imagine the base fee going up above what it is willing to pay and then having some zero blocks, but I would at this point be monitoring if there a particular client pairs that are consistently are having zero transaction blocks. And Marius can comment on the dynamic nature basically and his transaction buzzer.
+**Andrew Ashikhmin**: Yeah sure. So our mining has been experimental because we don't support the gpu mining so, but after the merge we're going to support proof of stake mining. Still, the code is kind of it's not as mature as we would like it to be. So we made some quick fixes, but we still need time to make the  mining or proof of stake block building code more robust yes. 
 
-Tim Beiko: Marius is not with us.
+**Tim Beiko**: Yeah that makes sense. Okay um. And then yeah one last thing I guess on Ropsten, so now that we have Marius’ transaction buzzer running it means basically every block should have transactions in it, correct? Because it was mentioned is like 2-3% of blocks without transactions, I suspect that's something we would see on Ropsten like under normal operations. But given that the transaction buzzer is running we probably don't want to see that. And the empty blocks we're seeing are results of an issue. Is that is that right?
 
-21:20
-danny: About just you know I think we pulled more infrastructure providers through this transition than we had in previous testnets. Is there any update on how that went?
+**danny**: I mean it depends on the how dynamic the gas is set on that transaction buzzer, because you could imagine the base fee going up above what it is willing to pay and then having some zero blocks, but I would at this point be monitoring if there a particular client pairs that are consistently are having zero transaction blocks. And Marius can comment on the dynamic nature basically and his transaction buzzer.
 
-Tim Beiko: So. I didn't hear from anyone that things were breaking I actually well I didn't confirm and I didn't get confirmation that anything broke so. At first it was some people thought that some smart contracts had issues but it turned out there was just a user spamming weird transactions to it and that's like coincided with the Ropsten merge. And the other thing is, it seemed for a while, like the rate of failed transactions was higher but I don't think that's that's quite the case. I’m talking with the etherscan people to get some better data on that. The challenge with getting data around the Ropsten merge is because there were so many oncalls and empty blocks around the merge, and the mining was like so weird that even etherscan had a harder time like getting a nice data dump than they usually to do. But it doesn't seem, at least like very high level, that like there's an increase in like the error rate the smart contract transactions on the network, which is, which is good. But yeah I’ll look into that some more um. But yeah aside from like this, this stuff no one, no one has at least complained loud enough that that their product is broken so that's that's pretty good. Good. um. Anything else anyone wanted to mention about the Ropsten transition?
+**Tim Beiko**: Marius is not with us.
 
-23:20
-Okay um so there's two other merge related issues that we wanted to discuss. I think it makes sense to go over those before we start talking about testnets like more of like coordination. Because it will obviously influence when and how we're ready. But the first was this idea of like the EL responsiveness to CL sending you getPayload requests. I know earlier this week, I believe we talked about that a Discord where some CLs were sending like too many requests to ELs and Els are kind of working around that. But there are still CLs sending requests for blocks too quickly for Els to property respond and I know there were some fixes on the EL side to better accommodate that, but there was still sort of an issue on the CL itself itself. I don't know if anyone has an update about that?
+# f. Infrastructure Provider Testing
+Video | [21:20](https://youtu.be/dByC5Bw8DvU?t=1280)
+-|-
 
-Micah Zoltu: So, just to clarify a little bit, I think the EL should, I think, in general, this is like a broad, broadly speaking. If there's bugs in the consensus layer clients, the execution layer clients should not be writing code that covers up those bugs we should get them fixed in the consensus client and so in this case the bug is that. when the consensus layer client sends a request for getPayload, I think it's called getPayload. So if the execution layer receives it a getPayload request it needs to send a block as soon as it can. It should not wait, or should not delay if it has no blockers, just send empty blocks. It should not stop and go fetch things like it should have a block by now. If the CL is sending you that, and you don't have enough time to actually prepare a block, then that is CL bug and you should not cover it up by then, you know saying, oh I'm gonna take my time and actually do the thing that CL wants and you really need to be sending block right away. On the CL side, if the CLs are sending you a prepare, followed by a get let's like 10 milliseconds apart, that is a bug in the CL or it does happen in the real world, sometimes but it's very rare and it shouldn't happen often. And again, you should send immediately whatever block you've got. If you don't have a block, send an empty block. Like send something as fast as possible, there should be no delay in this response.
+**danny**: About just you know I think we pulled more infrastructure providers through this transition than we had in previous testnets. Is there any update on how that went?
 
-danny: Right. I generally agree with this and just for some additional context - in 99.99% of scenarios, with lead times of seconds, you can send a prepare and almost certainly when it's actually time to get that prepare will be correct. You could potentially have some sort of reorg that might cause you to do a different prepare or which the other one should be aborted and maybe there'd be insufficient time at that point to do the get with a non zero transactions, but I think we should be generally not masking that bug and providing you know, having CL provide the adequate time in 99.99% of these scenarios.
+**Tim Beiko**: So. I didn't hear from anyone that things were breaking I actually well I didn't confirm and I didn't get confirmation that anything broke so. At first it was some people thought that some smart contracts had issues but it turned out there was just a user spamming weird transactions to it and that's like coincided with the Ropsten merge. And the other thing is, it seemed for a while, like the rate of failed transactions was higher but I don't think that's that's quite the case. I’m talking with the etherscan people to get some better data on that. The challenge with getting data around the Ropsten merge is because there were so many oncalls and empty blocks around the merge, and the mining was like so weird that even etherscan had a harder time like getting a nice data dump than they usually to do. But it doesn't seem, at least like very high level, that like there's an increase in like the error rate the smart contract transactions on the network, which is, which is good. But yeah I’ll look into that some more um. But yeah aside from like this, this stuff no one, no one has at least complained loud enough that that their product is broken so that's that's pretty good. Good. um. Anything else anyone wanted to mention about the Ropsten transition?
 
-Tim Beiko: Lucas and Adrian both have their hand up I don't know who was first.
+# g. Insufficient time between prepare and get block requests from CLs
+Video | [21:20](https://youtu.be/dByC5Bw8DvU?t=1400)
+-|-
 
-Łukasz Rozmej: Okay, let me go first. So we implemented this workaround this was partly because we wanted to track our block production better and partly because this bug is very long standing, I think we were trying to make a look at it for a few months now, so we wanted to have some code differently. We will revert that but it also gives us some good information on Ropsten. We made it I think more or less same as Geth, so we are waiting potentially up to 500 milliseconds right now. But I agree that it's something contrary to the spec and we will drop it.
+**Tim Beiko**: Okay um so there's two other merge related issues that we wanted to discuss. I think it makes sense to go over those before we start talking about testnets like more of like coordination. Because it will obviously influence when and how we're ready. But the first was this idea of like the EL responsiveness to CL sending you getPayload requests. I know earlier this week, I believe we talked about that a Discord where some CLs were sending like too many requests to ELs and Els are kind of working around that. But there are still CLs sending requests for blocks too quickly for ELs to property respond and I know there were some fixes on the EL side to better accommodate that, but there was still sort of an issue on the CL itself itself. I don't know if anyone has an update about that?
 
-Tim Beiko: Thanks. Adrian?
+**Micah Zoltu**: So, just to clarify a little bit, I think the EL should, I think, in general, this is like a broad, broadly speaking. If there's bugs in the consensus layer clients, the execution layer clients should not be writing code that covers up those bugs we should get them fixed in the consensus client and so in this case the bug is that. when the consensus layer client sends a request for getPayload, I think it's called getPayload. So if the execution layer receives it a getPayload request it needs to send a block as soon as it can. It should not wait, or should not delay if it has no blockers, just send empty blocks. It should not stop and go fetch things like it should have a block by now. If the CL is sending you that, and you don't have enough time to actually prepare a block, then that is CL bug and you should not cover it up by then, you know saying, oh I'm gonna take my time and actually do the thing that CL wants and you really need to be sending block right away. On the CL side, if the CLs are sending you a prepare, followed by a get let's like 10 milliseconds apart, that is a bug in the CL or it does happen in the real world, sometimes but it's very rare and it shouldn't happen often. And again, you should send immediately whatever block you've got. If you don't have a block, send an empty block. Like send something as fast as possible, there should be no delay in this response.
 
-Adrian Sutton: So I think there's a couple of things here is it's worth being clear that this shouldn't be all well this definitely isn't all CL clients. Yeah I think it's only nimbus now. So we should be pretty clear that most of the time, this should be working and if we're seeing it seeing those really short time periods with other CLs, then we've got more of a design problem we're seeing late blocks coming up. I'm also not as sure it's entirely clear cut that we shouldn't add a delay, maybe we should add it on the CL side, because it tries to wait 500 mil if it knows it's been a long time, and those kind of things. But right now, if we get a late block, we will, you know, a block right at the end of one slot will give you no time at all when actually we've got you know a total of four seconds to play with. We could actually spare 500 milliseconds to create a block with transactions. But there's no way to communicate that kind of trade off to EL currently we're just trying to get a block right at the start of the slot every time.
+**danny**: Right. I generally agree with this and just for some additional context - in 99.99% of scenarios, with lead times of seconds, you can send a prepare and almost certainly when it's actually time to get that prepare will be correct. You could potentially have some sort of reorg that might cause you to do a different prepare or which the other one should be aborted and maybe there'd be insufficient time at that point to do the get with a non zero transactions, but I think we should be generally not masking that bug and providing you know, having CL provide the adequate time in 99.99% of these scenarios.
 
-Micah Zoltu: The CL should make that decision and just send.
+**Tim Beiko**: Lucas and Adrian both have their hand up I don't know who was first.
 
-Tim Beiko: Yeah finish up Micah, and then Andrew.
+**Łukasz Rozmej**: Okay, let me go first. So we implemented this workaround this was partly because we wanted to track our block production better and partly because this bug is very long standing, I think we were trying to make a look at it for a few months now, so we wanted to have some code differently. We will revert that but it also gives us some good information on Ropsten. We made it I think more or less same as Geth, so we are waiting potentially up to 500 milliseconds right now. But I agree that it's something contrary to the spec and we will drop it.
 
-danny: You can send the get later.
+**Tim Beiko**: Thanks. Adrian?
 
-Andrew Ashikhmin: um so yeah about Erigon’s implementation. Right now it's really simplistic and doesn't have any hacks. So when we receive requests for to build a new payload we start building it on the side and we when we receive our getPayload, if that building process is finished then return the built block. Otherwise we return a pre-populated empty block. But that's probably too simplistic and what I’m currently thinking about doing is that when we receive getPayload, and we still haven't finished building the block, what I want to do is to stop adding more transactions into the block. But then we will need some time to actually finish sealing the block, calculating this stage root and like finalizing the block. So, to my mind, there won't be any artificial waiting period, but it won't be like super instantaneous it won't be a microsecond. It will be I don't know, maybe, 10s of milliseconds in some cases, to finalize the block. That's my current thinking.
+**Adrian Sutton**: So I think there's a couple of things here is it's worth being clear that this shouldn't be all well this definitely isn't all CL clients. Yeah I think it's only nimbus now. So we should be pretty clear that most of the time, this should be working and if we're seeing it seeing those really short time periods with other CLs, then we've got more of a design problem we're seeing late blocks coming up. I'm also not as sure it's entirely clear cut that we shouldn't add a delay, maybe we should add it on the CL side, because it tries to wait 500 mil if it knows it's been a long time, and those kind of things. But right now, if we get a late block, we will, you know, a block right at the end of one slot will give you no time at all when actually we've got you know a total of four seconds to play with. We could actually spare 500 milliseconds to create a block with transactions. But there's no way to communicate that kind of trade off to EL currently we're just trying to get a block right at the start of the slot every time.
 
-Micah Zoltu: My gut. Personally, is that if you've got a block and you're kind of iterating through the transactions and you get getPayload and you need to cut off iterating transactions and you just start your sealing process, and then you send. To me that feels like it fits the bill of as soon as possible. I don't know how other feel but I don't personally have a problem with the strategies described.
+**Micah Zoltu**: The CL should make that decision and just send.
 
-Tim Beiko: Yeah I would agree anyone else anyone have an objection to that to that?
+**Tim Beiko**: Yeah finish up Micah, and then Andrew.
 
-Adrian Sutton: On the CL side we've got to build a block anyway, so there is always going to be a bit of time and we were probably calling, hopefully calling getPayload right at the start of our block build process so tapping into in parallel degree. It's not hundreds of milliseconds to create a block but it's not free, either on our side, so it kind of balances out pretty well. 
+**danny**: You can send the get later.
 
-Micah Zoltu: Yeah, I think the main thing here is you shouldn't be like going and requesting a block from a remote server or a builder or you shouldn't be like starting to collect your transactions and execute them when you get the getPayload. If you haven't executed transactions by now it's too late. Whereas if you need to do like little bit of cleanup or finalization or whatever it is, you know internal stuff I think that that's okay. To adrian's point - you bring up a good point Adrian I think that the EL knows about how long is the it needs to build a block and that information may differ between execution layer clients right, so Nethermind may build a block faster or slower than Geth, which may go faster or slower than Erigon. And so, how much time you need to give them in those situations where you've got a prepare and it's going to be followed very closely by it gets, I appreciate the point you're making where it's not obvious like you want to get as soon as possible, and you don't know how long the EL needs between a getting and prepare to reasonably prepare a block. Does anyone have any ideas on, you know how we can resolve that like?
+**Andrew Ashikhmin**: um so yeah about Erigon’s implementation. Right now it's really simplistic and doesn't have any hacks. So when we receive requests for to build a new payload we start building it on the side and we when we receive our getPayload, if that building process is finished then return the built block. Otherwise we return a pre-populated empty block. But that's probably too simplistic and what I’m currently thinking about doing is that when we receive getPayload, and we still haven't finished building the block, what I want to do is to stop adding more transactions into the block. But then we will need some time to actually finish sealing the block, calculating this stage root and like finalizing the block. So, to my mind, there won't be any artificial waiting period, but it won't be like super instantaneous it won't be a microsecond. It will be I don't know, maybe, 10s of milliseconds in some cases, to finalize the block. That's my current thinking.
 
-Adrian Sutton: So, to my mind, I think the current process is fine and the vast majority of the time it should work out where the EL has many seconds to work. So I don't think we need to do anything quickly. And you can kind of see how it plays out when we go through the merge on mainnet. It'd be fine under current design. But if we were to optimize it my suggestion would be that the CL can simply provide a kind of maximum time frame to the EL when it sends it getPayload request, so it can say yeah I’m running behind I need it just now I’ll give you zero or you can have a second. It may be as simple as saying you can take a small amount of time or not, and maybe that’s specified milliseconds or we do specify milliseconds and CLs to kind of try and be smart. But I think it is something like that, if the CL can just signal to the EL - I’m right at the start of the slot I’m on track, I have some milliseconds to spare or I don't and I’m already on the cusp of my block being late.
+**Micah Zoltu**: My gut. Personally, is that if you've got a block and you're kind of iterating through the transactions and you get getPayload and you need to cut off iterating transactions and you just start your sealing process, and then you send. To me that feels like it fits the bill of as soon as possible. I don't know how other feel but I don't personally have a problem with the strategies described.
 
-Micah Zoltu: yeah I wish we had versioning in the engine API so it didn't hurt me so much until after the merge.
+**Tim Beiko**: Yeah I would agree anyone else anyone have an objection to that to that?
 
-Adrian Sutton: We do.
+**Adrian Sutton**: On the CL side we've got to build a block anyway, so there is always going to be a bit of time and we were probably calling, hopefully calling getPayload right at the start of our block build process so tapping into in parallel degree. It's not hundreds of milliseconds to create a block but it's not free, either on our side, so it kind of balances out pretty well. 
 
-Tim Beiko: Yeah and we'll need to make changes to the engine API after the merge, so this is not the only time we will have to think through this. Just because we're already like a third of the call through it seems like we're roughly in agreement here like Nimbus seems to be the main CL which has an issue where we need to address this. And Dan just posted in the chat that they are working on it and prioritizing it. But beyond that, basically, assuming Nimbus fixes this that we can probably just leave things as is.
+**Micah Zoltu**: Yeah, I think the main thing here is you shouldn't be like going and requesting a block from a remote server or a builder or you shouldn't be like starting to collect your transactions and execute them when you get the getPayload. If you haven't executed transactions by now it's too late. Whereas if you need to do like little bit of cleanup or finalization or whatever it is, you know internal stuff I think that that's okay. To adrian's point - you bring up a good point Adrian I think that the EL knows about how long is the it needs to build a block and that information may differ between execution layer clients right, so Nethermind may build a block faster or slower than Geth, which may go faster or slower than Erigon. And so, how much time you need to give them in those situations where you've got a prepare and it's going to be followed very closely by it gets, I appreciate the point you're making where it's not obvious like you want to get as soon as possible, and you don't know how long the EL needs between a getting and prepare to reasonably prepare a block. Does anyone have any ideas on, you know how we can resolve that like?
 
-Micah Zoltu: The reason I want to bring this up on AllCoreDevs instead of the CL call is because we do need Geth to fix their cover up. So Geth currently delays 500 milliseconds. So they can go the long block and they need to stop doing that. Like Nethermind copied that behavior and that's bad behavior that we need to get fixed.
+**Adrian Sutton**: So, to my mind, I think the current process is fine and the vast majority of the time it should work out where the EL has many seconds to work. So I don't think we need to do anything quickly. And you can kind of see how it plays out when we go through the merge on mainnet. It'd be fine under current design. But if we were to optimize it my suggestion would be that the CL can simply provide a kind of maximum time frame to the EL when it sends it getPayload request, so it can say yeah I’m running behind I need it just now I’ll give you zero or you can have a second. It may be as simple as saying you can take a small amount of time or not, and maybe that’s specified milliseconds or we do specify milliseconds and CLs to kind of try and be smart. But I think it is something like that, if the CL can just signal to the EL - I’m right at the start of the slot I’m on track, I have some milliseconds to spare or I don't and I’m already on the cusp of my block being late.
 
-Tim Beiko: Right. Anyone from the Geth team want to chime in? We can see that there's like five of you on camera so. There's like 10 of them, and none of us like you know what I bet I bet the one person on the MIC is the one person that has like a broken leg.
+**Micah Zoltu**: yeah I wish we had versioning in the engine API so it didn't hurt me so much until after the merge.
 
-danny: It might have like a 10 second delay because they're on the moon.
+**Adrian Sutton**: We do.
 
-Tim Beiko: Okay. So we'll follow up on this offline. Okay yeah so moving on from this, just to summarize -  It seems like most CLs already have it fixed, Nimbus needs to fix it and Nethermind and Geth have workarounds that they need to basically revert. Nethermind will do that and we need to talk with Geth offline.
+**Tim Beiko**: Yeah and we'll need to make changes to the engine API after the merge, so this is not the only time we will have to think through this. Just because we're already like a third of the call through it seems like we're roughly in agreement here like Nimbus seems to be the main CL which has an issue where we need to address this. And Dan just posted in the chat that they are working on it and prioritizing it. But beyond that, basically, assuming Nimbus fixes this that we can probably just leave things as is.
 
-36:20
-The next thing we had was by Alex Stokes. I don't know if he's on the call. And Mikhail you had some input after this. oh yes Alex is here. Alex do you want to give us some background on the builder spec?
+**Micah Zoltu**: The reason I want to bring this up on AllCoreDevs instead of the CL call is because we do need Geth to fix their cover up. So Geth currently delays 500 milliseconds. So they can go the long block and they need to stop doing that. Like Nethermind copied that behavior and that's bad behavior that we need to get fixed.
 
-stokes: Yeah, so essentially, so yeah Tim dropped this issue in the chat and basically it suggests that we add the gas limit as a parameter to the payload attributes. So right now, it is not. And the reason we want it to be is because it gives proposers more [autonomy] over setting the gas limit during the build process. And I think this pilots like adding a V2 message. But if we do this, and the EL clients support it, then it means that you can use off the shelf software for external builders much more easily. Danny.
+**Tim Beiko**: Right. Anyone from the Geth team want to chime in? We can see that there's like five of you on camera so. There's like 10 of them, and none of us like you know what I bet I bet the one person on the MIC is the one person that has like a broken leg.
 
-danny: Okay, I think your last point was the at least the the rebuttal to what I’m about to say, which I think Micah said in the chat and that validators presumably control their execution layer and so can set their config there. 
+**danny**: It might have like a 10 second delay because they're on the moon.
 
-stokes: Well, right, so they do for the local clients, but this is if you're using the builder network. Then you might not be able to know, like a builder wouldn’t necessarily know for this proposer
+**Tim Beiko**: Okay. So we'll follow up on this offline. Okay yeah so moving on from this, just to summarize -  It seems like most CLs already have it fixed, Nimbus needs to fix it and Nethermind and Geth have workarounds that they need to basically revert. Nethermind will do that and we need to talk with Geth offline.
 
-danny: Builder would have to like dynamically adjust some config or see.
+# h. Adding gas limit to payload attributes
+Video | [36:20](https://youtu.be/dByC5Bw8DvU?t=2180)
+-|-
+
+**Tim Beiko**: The next thing we had was by Alex Stokes. I don't know if he's on the call. And Mikhail you had some input after this. oh yes Alex is here. Alex do you want to give us some background on the builder spec?
+
+**stokes**: Yeah, so essentially, so yeah Tim dropped this issue in the chat and basically it suggests that we add the gas limit as a parameter to the payload attributes. So right now, it is not. And the reason we want it to be is because it gives proposers more [autonomy] over setting the gas limit during the build process. And I think this pilots like adding a V2 message. But if we do this, and the EL clients support it, then it means that you can use off the shelf software for external builders much more easily. Danny.
+
+**danny**: Okay, I think your last point was the at least the the rebuttal to what I’m about to say, which I think Micah said in the chat and that validators presumably control their execution layer and so can set their config there. 
+
+**stokes**: Well, right, so they do for the local clients, but this is if you're using the builder network. Then you might not be able to know, like a builder wouldn’t necessarily know for this proposer
+
+**danny**: Builder would have to like dynamically adjust some config or see.
 stokes: Right.
 
-Micah Zoltu: What is this scenario where the… I thought, even with the builder network, you still had an execution client that was under your control and you received a block from builder network, which you then validated and executed with your execution plan is that not correct?
+**Micah Zoltu**: What is this scenario where the… I thought, even with the builder network, you still had an execution client that was under your control and you received a block from builder network, which you then validated and executed with your execution plan is that not correct?
 
-stokes: Right but, so this is just a way to signal… So let's say I’m using like stopped Geth to help build there's no way to tell Geth right now, like hey for this next slot you should use this limit versus that one.
+**stokes**: Right but, so this is just a way to signal… So let's say I’m using like stopped Geth to help build there's no way to tell Geth right now, like hey for this next slot you should use this limit versus that one.
 
-danny: This is for the builder who's servicing many validators who might have different configuration values.
+**danny**: This is for the builder who's servicing many validators who might have different configuration values.
 
-Micah Zoltu: We want to make it so users only have to configure one of their two clients like so they don't have to configure Geth at all, they can just double click it, so to speak or am I missing something?
+**Micah Zoltu**: We want to make it so users only have to configure one of their two clients like so they don't have to configure Geth at all, they can just double click it, so to speak or am I missing something?
 
-danny: No, this is not a UX thing. This is to help facilitate a builder who's a separate entity in the network, who services probably many different validators who have potentially many different gas limits. And so, if they would be able to reuse this engine API to service others more easily if they could dynamically specify that gas limit. Otherwise they're going to have to modify the Geth software. Again this is for builders.
+**danny**: No, this is not a UX thing. This is to help facilitate a builder who's a separate entity in the network, who services probably many different validators who have potentially many different gas limits. And so, if they would be able to reuse this engine API to service others more easily if they could dynamically specify that gas limit. Otherwise they're going to have to modify the Geth software. Again this is for builders.
 
-Micah Zoltu: Perhaps I’m missing something. I apologize if I am. I thought the design was a given validator would have a execution client and a consensus client that's under their control. The consensus client would send some stuff to the execution client saying, hey prepare a block for me, the execution client would then send that details about that off to the builder network to say, hey I need a block from somebody, and then those people will then send it back. I didn't think the builders were talking directly to some validator’s consensus client.
+**Micah Zoltu**: Perhaps I’m missing something. I apologize if I am. I thought the design was a given validator would have a execution client and a consensus client that's under their control. The consensus client would send some stuff to the execution client saying, hey prepare a block for me, the execution client would then send that details about that off to the builder network to say, hey I need a block from somebody, and then those people will then send it back. I didn't think the builders were talking directly to some validator’s consensus client.
 
-danny: The builders talk to relays who talk to consensus clients. Consensus clients can either get a block locally or from this network. When getting it from the network, there are a couple of parameters that might be specific to a certain validator, gas limit that they want being one. And so, for the job of these external builders, to be able to reuse EL software and this API to service many validators, they want to be able to set some of these parameters, gas limit being that one parameter right now.
+**danny**: The builders talk to relays who talk to consensus clients. Consensus clients can either get a block locally or from this network. When getting it from the network, there are a couple of parameters that might be specific to a certain validator, gas limit that they want being one. And so, for the job of these external builders, to be able to reuse EL software and this API to service many validators, they want to be able to set some of these parameters, gas limit being that one parameter right now.
 
-Micah Zoltu: Gotcha Okay, so I think the piece that I was missing, just to make sure that it was, is that the builder network talks to the consensus layer and does not talk to the execution layer. And then, when the consensus layer gets a block from the builder network it then asks its own execution layer client, hey can you verify this is good for me. But this whole process happens between consensus client and builder network, execution clients are not involved in that communication protocol at all, correct? 
+**Micah Zoltu**: Gotcha Okay, so I think the piece that I was missing, just to make sure that it was, is that the builder network talks to the consensus layer and does not talk to the execution layer. And then, when the consensus layer gets a block from the builder network it then asks its own execution layer client, hey can you verify this is good for me. But this whole process happens between consensus client and builder network, execution clients are not involved in that communication protocol at all, correct? 
 
-danny: Yes. The validator can get a block locally or maybe externally and then it always asked locally to import and make sure things are good. 
+**danny**: Yes. The validator can get a block locally or maybe externally and then it always asked locally to import and make sure things are good. 
 
-Micah Zoltu: In that case, I'm on board.
+**Micah Zoltu**: In that case, I'm on board.
 
-Tim Beiko: Well I guess the trade off is we are changing the semantics of the engine API really late. Is that correct?
+**Tim Beiko**: Well I guess the trade off is we are changing the semantics of the engine API really late. Is that correct?
 
-stokes: Well, I think I think this is why we make it V2 rather than a V1. If everyone is on board, we can change the V1, but I think it's a bit too late for that yeah.
+**stokes**: Well, I think I think this is why we make it V2 rather than a V1. If everyone is on board, we can change the V1, but I think it's a bit too late for that yeah.
 
-Tim Beiko: But I guess the question I would have is, is there like a security thing here where like builders have control over the gas limit.
+**Tim Beiko**: But I guess the question I would have is, is there like a security thing here where like builders have control over the gas limit.
 
-stokes: What we want to make it so that they don't.
+**stokes**: What we want to make it so that they don't.
 
-Tim Beiko: Right. But currently using the payload V1, so say the gas at this 30 million, if we're using the current API and the builder sends me a block that like raises it as much as possible, but the validator…
+**Tim Beiko**: Right. But currently using the payload V1, so say the gas at this 30 million, if we're using the current API and the builder sends me a block that like raises it as much as possible, but the validator…
 
-stokes: Builder software could still respect the validator’s preferences, it's just having this makes it easier to reuse a bunch of software, so it lowers the barrier to entry.
+**stokes**: Builder software could still respect the validator’s preferences, it's just having this makes it easier to reuse a bunch of software, so it lowers the barrier to entry.
 
-danny: So for now, builders will have to modify the software. If we add to V2, the builders could go back to using much more less modified solver.
+**danny**: So for now, builders will have to modify the software. If we add to V2, the builders could go back to using much more less modified solver.
 
-Bordel: Is this the only thing that's stopping us from having software that works for external builder ELs, or are there other rough edges in the API?
+**Bordel**: Is this the only thing that's stopping us from having software that works for external builder ELs, or are there other rough edges in the API?
 
-stokes: I think you're asking if there's other rough edges to the engineer API for this use case. I haven't found any. Another parameter that might be worth thinking about is the extra data and the EL block. It would kind of be the same deal with the gas limit, but I think that one's less critical. 
+**stokes**: I think you're asking if there's other rough edges to the engineer API for this use case. I haven't found any. Another parameter that might be worth thinking about is the extra data and the EL block. It would kind of be the same deal with the gas limit, but I think that one's less critical. 
 
-Bordel: These are strictly improvements for the relationship between the EL and an external builder, this is not needed for the relationship between the local El and local CL.
+**Bordel**: These are strictly improvements for the relationship between the EL and an external builder, this is not needed for the relationship between the local El and local CL.
 
-stokes: Great well. I mean, assuming that you can set your local El to have the gas limit all of your validators want. But that's probably fine.
+**stokes**: Great well. I mean, assuming that you can set your local El to have the gas limit all of your validators want. But that's probably fine.
 
-Tim Beiko: Ansgar, you have your hand up.
+**Tim Beiko**: Ansgar, you have your hand up.
 
-Ansgar Dietrichs: Yeah, I just wanted to briefly asked if we all agree in the first place, that it is desirable for validators using an external network to basically have the gas limit set by the validator. Because I mean the gas limit is this somewhat weird parameter, where I think we kind of agree that it is theoretically under consensus control. We just for now put it under miner / validator control to be able to react quicker not just with hard folks. So just if really the only reason is to react quick in case something goes wrong, it might actually be desirable to have fewer parties to adjust the parameter. And, in case anyone misbehaves and you know increases the gas limits too much, this is already, in a sense, a network attacks that we would have to manually intervene for. So I’m just wondering like probably, the answer is, we want validators to control this but I’m not sure that this is like an obvious thing.
+**Ansgar Dietrichs**: Yeah, I just wanted to briefly asked if we all agree in the first place, that it is desirable for validators using an external network to basically have the gas limit set by the validator. Because I mean the gas limit is this somewhat weird parameter, where I think we kind of agree that it is theoretically under consensus control. We just for now put it under miner / validator control to be able to react quicker not just with hard folks. So just if really the only reason is to react quick in case something goes wrong, it might actually be desirable to have fewer parties to adjust the parameter. And, in case anyone misbehaves and you know increases the gas limits too much, this is already, in a sense, a network attacks that we would have to manually intervene for. So I’m just wondering like probably, the answer is, we want validators to control this but I’m not sure that this is like an obvious thing.
 
-stokes: I think, the danger of having just a few builders have control over it is greater than you know any risk we would incur by needing to suddenly change it, and not being able to.
+**stokes**: I think, the danger of having just a few builders have control over it is greater than you know any risk we would incur by needing to suddenly change it, and not being able to.
 
-danny: I agree. We also did talk about this a few weeks ago and generally agree that, although validators’ / miners’ interests aren't always necessarily totally aligned with users’ interests, the short term, the shorter term profit interests of builders are likely less aligned than validators and miners would be, and thus we decided that it makes sense for validators akin to miners to retain control for this. There are probably notes and stuff in the previous call we talked with them. It's also more attributable in the sense that we can react in all sorts of social ways if there's an attacker.
+**danny**: I agree. We also did talk about this a few weeks ago and generally agree that, although validators’ / miners’ interests aren't always necessarily totally aligned with users’ interests, the short term, the shorter term profit interests of builders are likely less aligned than validators and miners would be, and thus we decided that it makes sense for validators akin to miners to retain control for this. There are probably notes and stuff in the previous call we talked with them. It's also more attributable in the sense that we can react in all sorts of social ways if there's an attacker.
 
-Ansgar Dietrichs: That makes sense, thanks.
+**Ansgar Dietrichs**: That makes sense, thanks.
 
-Tim Beiko: Okay, just to summarize. I don't think anyone is advocating to have this part like to have this override the current view on endpoints and if that's the case this is your chance. Okay. If not, does anyone disagree with making that like a V2 or, I guess, maybe another way to frame this is like Alex for this to be useful, I suspect this V2 endpoint would need to go live before the mainnet merge.
-stokes: So here's the thing I mean like this, like builders will still exist and they will do the job as the spec dictates. It's just this would make it a lot easier for like other builders to come online so. You know, we definitely shouldn't block the merge for this it's not like critical or urgent in that sense, but you know, the sooner the better.
+**Tim Beiko**: Okay, just to summarize. I don't think anyone is advocating to have this part like to have this override the current view on endpoints and if that's the case this is your chance. Okay. If not, does anyone disagree with making that like a V2 or, I guess, maybe another way to frame this is like Alex for this to be useful, I suspect this V2 endpoint would need to go live before the mainnet merge.
 
-Tim Beiko: And is this something all clients need to add support for, at the same time, I guess, obviously, like if you added first more builders might use you, but like is there a…. I don't think there's a hard requirement that it gets activated at the same time, is that correct.
-stokes: I mean like theoretically no, but I think there's network effects if everyone does it, we can kind of just be like okay, this is what we use now.
+**stokes**: So here's the thing I mean like this, like builders will still exist and they will do the job as the spec dictates. It's just this would make it a lot easier for like other builders to come online so. You know, we definitely shouldn't block the merge for this it's not like critical or urgent in that sense, but you know, the sooner the better.
 
-Tim Beiko: Mikhail, you have your hand up.
+**Tim Beiko**: And is this something all clients need to add support for, at the same time, I guess, obviously, like if you added first more builders might use you, but like is there a…. I don't think there's a hard requirement that it gets activated at the same time, is that correct.
 
-Mikhail Kalinin: Yeah I just would like to add that if we have a V2 with this field, I would like, I think that we should make it optional for those cases where home stakers or other stakers that just don't want to mess with the configuration and probably don't understand the gas limit implications. Like the implications of changing gas limits on the network. They all just not do this and use like default values that we have currently in EL clients, in the binary distributions of EL clients. That's just like to add on this topic. So, if the value of this field is not provided or zero whatever the default will be, then EL should just set its own.
+**stokes**: I mean like theoretically no, but I think there's network effects if everyone does it, we can kind of just be like okay, this is what we use now.
 
-Tim Beiko: It seems like there's like some agreement to do this but some details to figure out. Is it fine to just continue this conversation over the next couple weeks?
+**Tim Beiko**: Mikhail, you have your hand up.
 
-stokes: Yeah can start some PRs.
+**Mikhail Kalinin**: Yeah I just would like to add that if we have a V2 with this field, I would like, I think that we should make it optional for those cases where home stakers or other stakers that just don't want to mess with the configuration and probably don't understand the gas limit implications. Like the implications of changing gas limits on the network. They all just not do this and use like default values that we have currently in EL clients, in the binary distributions of EL clients. That's just like to add on this topic. So, if the value of this field is not provided or zero whatever the default will be, then EL should just set its own.
 
-Tim Beiko: Awesome. But yeah not changing the V1 and we'll see what comes through. 
+**Tim Beiko**: It seems like there's like some agreement to do this but some details to figure out. Is it fine to just continue this conversation over the next couple weeks?
+
+**stokes**: Yeah can start some PRs.
+
+**Tim Beiko**: Awesome. But yeah not changing the V1 and we'll see what comes through. 
 
 49:00
 I think actually there's one more like pretty independent topic, and then it all gets pretty intertwined. The next thing I just wanted to chat about is the Sepolia Beacon Chain. I know we've mentioned like we wanted to launch it as soon as possible, I think there's been some progress around like selecting the validator sets and unfortunately I know Perry is not here, but does anyone have an update on the launch of the Sepolia Beacon Chain?
