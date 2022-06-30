@@ -26,7 +26,7 @@
 
 **pari:** [We](https://www.youtube.com/watch?v=qu5idP-JLyQ&t=416) did get me and. So we just did a small slab update we just added static fields and that pretty much all the issue.
 
-**Time beiko:** [Right]](https://www.youtube.com/watch?v=qu5idP-JLyQ&t=421) did like for future shadow forks. Is it like straightforward to just we could literally peer all the shadow 4k nodes together right like that we run.
+**Time beiko:** [Right](https://www.youtube.com/watch?v=qu5idP-JLyQ&t=421) did like for future shadow forks. Is it like straightforward to just we could literally peer all the shadow 4k nodes together right like that we run.
 
 
 **pari:** yeah, I think, from next time on what I just use static fields that might just be easier.
