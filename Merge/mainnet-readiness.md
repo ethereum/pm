@@ -126,8 +126,9 @@ This document outlines various tasks to work through to make the Merge ready for
   * [x] [Kiln](https://blog.ethereum.org/2022/03/14/kiln-merge-testnet/)
 * [ ] Fork public testnets
   * [x] Ropsten (deprecated after merge)
+  * [x] Sepolia
   * [ ] Goerli
-  * [ ] Sepolia
+  
 
 ## R&D
 
