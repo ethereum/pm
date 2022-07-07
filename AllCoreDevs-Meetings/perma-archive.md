@@ -1,9 +1,9 @@
 ## Synopsis
-The "All Core Devs Meetings" repository on [Permacast](https://permacast.net/#/podcasts/Dx0lrz1eCh00Xbfqsfx3IHUU7wmBqI4GiwKthEFBS7k) is a repo that archive permanently the audio recordings of [AllCoreDevs-Meetings](https://github.com/ethereum/pm/tree/master/AllCoreDevs-Meetings). 
+The "All Core Devs Meetings" repository on [Permacast](https://permacast.dev/#/podcasts/Dx0lrz1eCh00Xbfqsfx3IHUU7wmBqI4GiwKthEFBS7k) is a repo that archive permanently the audio recordings of [AllCoreDevs-Meetings](https://github.com/ethereum/pm/tree/master/AllCoreDevs-Meetings). 
 The purpose of this is to preserve the historical and valuable core developers discussions and save it from getting vanished (probably) from the web2 hoting services. The audio files are stored on the Arweave network.
 
 ## Links
-- [Archiving Repository](https://permacast.net/#/podcasts/Dx0lrz1eCh00Xbfqsfx3IHUU7wmBqI4GiwKthEFBS7k). Status: ongoing
+- [Archiving Repository](https://permacast.dev/#/podcasts/Dx0lrz1eCh00Xbfqsfx3IHUU7wmBqI4GiwKthEFBS7k). Status: ongoing
 - Data uploader(s) / Repo Maintainer(s): [AeK_9yb3f3HEK1Gzwky6tIx8ujW9Pxr_FkhCkWftFtw](https://viewblock.io/arweave/address/AeK_9yb3f3HEK1Gzwky6tIx8ujW9Pxr_FkhCkWftFtw)
 - Arweave mentions by ethereum.org. [link](https://ethereum.org/en/developers/docs/storage/)
 
@@ -19,10 +19,10 @@ This section is only for the podcast maintainers (that have the JWK) to enlight 
 The methods are stated below assuming you have the `AeK...Ftw` wallet's JWK
 
 #### Method 1
-This is the simple non-technical method to upload a new episode via [permacast.net](https://permacast.net) frontend
+This is the simple non-technical method to upload a new episode via [permacast.dev](https://permacast.dev) frontend
 
 Steps:
-- Navitgate to the [podcast's page](https://permacast.net/#/podcasts/Dx0lrz1eCh00Xbfqsfx3IHUU7wmBqI4GiwKthEFBS7k) & click `add new episode`
+- Navitgate to the [podcast's page](https://permacast.dev/#/podcasts/Dx0lrz1eCh00Xbfqsfx3IHUU7wmBqI4GiwKthEFBS7k) & click `add new episode`
 - add the episode's name & description, then upload the audio file
 - click `Upload` are you are done! 
 
@@ -38,11 +38,11 @@ Steps:
 - Open your terminal and run the following command
 
 ```
-smartweave write 8upJILbuOURWTDkNtTZRoqmF32J2zjsw4PGj3SNWZ40 --key-file PATH-TO-THE-JWK-FILE --input "{'function': 'addEpisode', 'index': 1, 'name': 'EP NAME', 'desc': 'EP-DESC', 'audio': 'AUDIO-FILE-TXID'}"
+smartweave write aW4pbR02td6e4j456a62GeWIisQe-a8IQb0zrpG4tWk --key-file PATH-TO-THE-JWK-FILE --input "{'function': 'addEpisode', 'pid': 'Dx0lrz1eCh00Xbfqsfx3IHUU7wmBqI4GiwKthEFBS7k', 'name': 'EP NAME', 'desc': true, 'content': 'AUDIO-FILE-TXID'}"
 ```
 
 ## Get the podcast's state:
 Anyone can read the podcast (smart contract) state. The contract's state is permanent as same the audio files, thus, incase Permacast's frontend went down or get censored, a new FE can be built on top of the protocol.
 ```
-smartweave read 8upJILbuOURWTDkNtTZRoqmF32J2zjsw4PGj3SNWZ40 --prettify
+smartweave read aW4pbR02td6e4j456a62GeWIisQe-a8IQb0zrpG4tWk --prettify
 ```
