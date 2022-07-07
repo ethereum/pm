@@ -21,7 +21,7 @@ The purpose of thess calls is for various teams/individuals working on aspects o
 001 | Merge Community Call 1| Nov 05 2021 | [🔗](https://github.com/ethereum/pm/issues/402) | [Notes](/Merge/CommunityCall_Meeting_01.md) | [Youtube](https://www.youtube.com/watch?v=_kfS9jAUY6g) |
 002 | Merge Community Call 2| Dec 03 2021 | [🔗](https://github.com/ethereum/pm/issues/419) | [Notes](/Merge/CommunityCall_Meeting_02.md) | [Youtube](https://youtu.be/iPw7ixSgA_w) |
 003 | Merge Community Call 3| February 11 2022 | [🔗](https://github.com/ethereum/pm/issues/465) | [Notes](/Merge/CommunityCall_Meeting_03.md) | [Youtube](https://www.youtube.com/watch?v=65Pt6oS3kDM) |
-004 | Merge Community Call 4| June 3 2022 | [🔗](https://github.com/ethereum/pm/issues/532) | [Notes](/Merge/CommunityCall_Meeting_04.md) | [Youtube](https://www.youtube.com/watch?v=qG-A5i6x6N8) |
+004 | Merge Community Call 4| June 3 2022 | [🔗](https://github.com/ethereum/pm/issues/532) | [Notes](https://github.com/ethereum/pm/blob/69e4db23a9e25f8c710b642073dbb2545bc88c31/Merge/CommunityCall_Meeting_04.md) | [Youtube](https://www.youtube.com/watch?v=qG-A5i6x6N8) |
 
 ### Who Can Attend
 The meeting is open to all client developers and community members researching or implementing the merge. The meeting notes are made available to the public, and meeting are recorded and uploaded to the [Ethereum Foundation Youtube Channel](https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g).
