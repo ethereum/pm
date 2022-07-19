@@ -6,9 +6,6 @@
 ## Note taker: darkfire-rain 
 ## Meeting administrator: Trent
 
-## Action items
-
-
 
 # Testnet 
 
@@ -90,10 +87,10 @@
 
 
 ## Next meeting
-
+Aug 12 at 1400 UTC
 
 ## Attendees list
-* Dani
+* Danny
 * Trent
 * Remy
 * Tim
