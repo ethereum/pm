@@ -60,7 +60,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * [x] Block sync post-merge
     * [x] Discovery
 * [x] Upgrade JSON-RPC ([`execution-apis`](https://github.com/ethereum/execution-apis)) with new methods and deprecations [#200](https://github.com/ethereum/execution-apis/pull/200)
-* [ ] [BONUS] Executable [`execution-specs`](https://github.com/ethereum/execution-specs/pull/219) and testing through the Merge
+* [x] [BONUS] Executable [`execution-specs`](https://github.com/ethereum/execution-specs/pull/219) and testing through the Merge
 
 ### Engine API
 
@@ -84,6 +84,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Rename eth1/eth2 to execution/consensus across repos and documentation -- [The Great Renaming](https://notes.ethereum.org/@timbeiko/great-renaming)
 * [x] [Mega Merge Resource List](https://notes.ethereum.org/Moiv99h9QTmI-imPL8pvQg?view)
 * [ ] Infrastructure provider guide
+    * [x] https://launchpad.ethereum.org/en/merge-readiness/ 
 
 ## Testing
 
@@ -96,7 +97,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Execution
     * [x] Reuse existing framework for most prior EVM unit tests
     * [ ] [IN [PROGRESS](https://github.com/ethereum/tests/pull/1008)] New `DIFFICULTY` opcode tests
-    * [ ] [IN [PROGRESS](https://github.com/ethereum/tests/pull/1030)]EIP-3675 
+    * [x] [EIP-3675](https://github.com/ethereum/tests/pull/1030) 
 
 ### Integration tests
 
@@ -106,7 +107,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * [x] CL+EL integration ests with all client combos
     * [ ] [IN [PROGRESS](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/engine-api.md)] Engine API tests
     * [ ] [IN [PROGRESS](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/transition.md)] Merge transition tests
-* [ ] Shadow fork Goerli on a daily or weekly basis to continuously test live transition and TX replays 
+* [x] [Shadow forks](https://github.com/eth-clients/merge-testnets) on a weekly basis to continuously test live transition and TX replays 
 * [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
     * [x] [Kurtosis Merge Module](https://github.com/kurtosis-tech/eth2-merge-kurtosis-module)
 
