@@ -95,7 +95,7 @@ This document outlines various tasks to work through to make the Merge ready for
     * [x] Inherit all prior unit tests and generators
     * [x] Merge specific tests with mocked execution-layer
     * [x] Fork and fork-choice tests across merge boundary
-* [ ] Execution
+* [x] Execution
     * [x] Reuse existing framework for most prior EVM unit tests
     * [x] New [`DIFFICULTY` / `PREVRANDAO` opcode tests](https://github.com/ethereum/tests/pull/1019)
     * [x] [EIP-3675](https://github.com/ethereum/tests/pull/1030) 
