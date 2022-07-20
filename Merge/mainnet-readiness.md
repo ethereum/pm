@@ -105,7 +105,7 @@ This document outlines various tasks to work through to make the Merge ready for
 * [ ] Hive
     * [X] Mocked CL for EL [engine API](https://github.com/ethereum/hive/tree/master/simulators/ethereum/engine) unit testing
     * [x] CL+EL integration ests with all client combos
-    * [ ] [IN [PROGRESS](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/engine-api.md)] Engine API tests
+    * [x] [Engine API tests](https://github.com/ethereum/hive/pull/613)
     * [ ] [IN [PROGRESS](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/transition.md)] Merge transition tests
 * [x] [Shadow forks](https://github.com/eth-clients/merge-testnets) on a weekly basis to continuously test live transition and TX replays 
 * [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
