@@ -116,7 +116,7 @@ This document outlines various tasks to work through to make the Merge ready for
 
 * [x] [Fuzz engine API](https://github.com/MariusVanDerWijden/merge-fuzz)
 * [x] [Existing EVM fuzzing](https://github.com/MariusVanDerWijden/FuzzyVM) infra applied to merge ready execution engines
-* [ ] [IN PROGRESS] Beacon-fuzz applied to merge ready consensus clients
+* [x] Beacon-fuzz applied to merge ready consensus clients
 
 
 ## Testnets
@@ -146,7 +146,7 @@ Most research related to the merge has been completed. This section lists topics
 * [x] Discovery [is there actually anything to do here?]
 * [x] [In research, not to be included merge] Execution-layer proof of custody
 * [ ] Consider weak subjectivity period implications
-  * [ ] Generate accurate weak subjectivity period calculations
+  * [x] Generate accurate weak subjectivity period calculations
   * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] Disaster recovery if invalid chain finalized
   * [x] EL will perform re-orgs beyond finality but at a potential high sync cost
