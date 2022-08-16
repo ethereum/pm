@@ -207,7 +207,7 @@ Actually yeah there's oh yes so we said we wanted to do after bellatrix and befo
 * Parithosh
 * Danny
 
-## Next Meeting Date/Time : TBD
+## Next Meeting Date/Time : Sept 9 at 14:00 UTC (10:00 ET)
 
 - 00:03:27	Wolf Prv BTC to ETH Maxi:	I can't hear anybody
 - 00:03:48	Pooja Ranjan:	we can hear
