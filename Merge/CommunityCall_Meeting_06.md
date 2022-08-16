@@ -16,7 +16,7 @@
 
 ## Summary 
 
--  Plan to have another validator prep workshop  maybe next week or in two weeks as per Remy Roy 
+-  Plan to have another merge community call in September 
 
 —----------------------------
 
