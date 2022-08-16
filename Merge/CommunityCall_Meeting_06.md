@@ -18,7 +18,7 @@
 
 -  Plan to have another merge community call in September 
 
-—----------------------------
+---
 
 **Trent** [00:12](https://www.youtube.com/watch?v=AZq1acbjaz4&t=12s): welcome everybody to the sixth merged community call. We are very happy to have you here. We are going to go over general updates about where the merge is at any announcements related to mainnet timing if you haven't seen them and there will be time for questions as always and yeah we can get started. I am just going to do a quick survey through the members just to see what client devs or researchers are here. Tim do you want to kick it off with?
 
