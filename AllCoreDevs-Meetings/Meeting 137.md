@@ -18,7 +18,7 @@
 
 ## Merge Updates
 
-Tim Beiko: Hey everyone. Sorry, I joined at such last minute. Let's set us up. And okay. Let me share the agenda in the chat room here. Wow bad morning from Micah. Good.
+**Tim Beiko**: Hey everyone. Sorry, I joined at such last minute. Let's set us up. And okay. Let me share the agenda in the chat room here. Wow bad morning from Micah. Good.
 
 Micah Zoltu: morning works too.
 
