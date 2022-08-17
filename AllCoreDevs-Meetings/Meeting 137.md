@@ -841,6 +841,7 @@ Micah Zoltu: It was promised a long meeting.
 ## Chat Highlights
 
 00:06:13	danny:	prater to subsume goerli
+
 00:06:13	danny:	https://prater.beaconcha.in/
 00:07:06	Tim Beiko:	https://github.com/ethereum/pm/issues/514
 00:11:32	Micah Zoltu:	Core Dev Call 137 Fun Fact: 137 is a prime number.
