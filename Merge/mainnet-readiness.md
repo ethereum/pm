@@ -103,11 +103,11 @@ This document outlines various tasks to work through to make the Merge ready for
 ### Integration tests
 
 * [x] Testnet [chaos messages](https://github.com/MariusVanDerWijden/go-ethereum/tree/merge-bad-block-creator)
-* [ ] Hive
+* [x] Hive
     * [X] Mocked CL for EL [engine API](https://github.com/ethereum/hive/tree/master/simulators/ethereum/engine) unit testing
     * [x] CL+EL integration ests with all client combos
-    * [x] [Engine API tests](https://github.com/ethereum/hive/pull/613)
-    * [ ] [IN [PROGRESS](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/transition.md)] Merge transition tests
+    * [x] [Engine API tests](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/engine-api.md)
+    * [x] [Merge transition tests](https://github.com/txrx-research/TestingTheMerge/blob/main/tests/transition.md)
 * [x] [Shadow forks](https://github.com/eth-clients/merge-testnets) on a weekly basis to continuously test live transition and TX replays 
 * [x] [BONUS] Additional simulation testing -- e.g. kurtosis, antithesis, etc
     * [x] [Kurtosis Merge Module](https://github.com/kurtosis-tech/eth2-merge-kurtosis-module)
@@ -126,10 +126,10 @@ This document outlines various tasks to work through to make the Merge ready for
 * [x] Long-lived devnets 
   * [x] [Kintsugi](https://blog.ethereum.org/2021/12/20/kintsugi-merge-testnet/)
   * [x] [Kiln](https://blog.ethereum.org/2022/03/14/kiln-merge-testnet/)
-* [ ] Fork public testnets
+* [x] Fork public testnets
   * [x] Ropsten (deprecated after merge)
   * [x] Sepolia
-  * [ ] Goerli
+  * [x] Goerli
   
 
 ## R&D
@@ -147,7 +147,7 @@ Most research related to the merge has been completed. This section lists topics
 * [x] [In research, not to be included merge] Execution-layer proof of custody
 * [ ] Consider weak subjectivity period implications
   * [x] Generate accurate weak subjectivity period calculations
-  * [ ] Specify standard data format & methods for weak subjectivity checkpoint distribution
+  * [ ] [[IN PROGRESS](https://github.com/ethereum/beacon-APIs/pull/226)] Specify standard data format & methods for weak subjectivity checkpoint distribution
 * [x] Disaster recovery if invalid chain finalized
   * [x] EL will perform re-orgs beyond finality but at a potential high sync cost
   * [x] [WIP] Client multiplexers ([link](https://github.com/karalabe/minority), note: doesn't help with DR, but can potentially prevent invalid chains being finalized)
