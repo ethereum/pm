@@ -1,6 +1,6 @@
 # Cl Layer call 96
 ### Meeting Date/Time: September 22, 2022, 14:00 UTC
-### Meeting Duration: 650 minutes
+### Meeting Duration: 60 minutes
 ### [Github Agenda](https://github.com/ethereum/pm/issues/629)
 ### [Video of the meeting](https://www.youtube.com/watch?v=_yogw67HxZY)
 ### Moderator: Danny
