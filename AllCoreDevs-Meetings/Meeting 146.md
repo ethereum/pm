@@ -36,7 +36,7 @@
 * Right. Thanks for that as well. I assume we'll see a few of these kinds of small, last upgrades. So in general, if you're listening to this and even if your client will have mentioned to you, do pay attention, they can always be kind of last minute releases. okay. And, yes. 
 
 **Lukaz Rozmej**
-* So, well, Nether mind doesn't have any bugs. We will probably also minor releases.
+* So, well, Nethermind doesn't have any bugs. We will probably also minor releases.
 
 **Ansgar Dietrichs**
 * Sounds good and schedule have any expectation already when, when the profit will be. 
