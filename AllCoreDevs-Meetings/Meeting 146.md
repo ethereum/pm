@@ -15,7 +15,7 @@
 * Hey, this is Justin. I was talking to Pari about it. He did use the phrase 'a perfect merge'. So things went extremely well. We actually had an increase in proposals, after it due to some, some, I believe it was the Nimbus client that was actually behaving a little bit better post-merger than it was prior to merge. so super happy with that mainnet shawdow fork work. 12 was pretty happy and, the word perfection was in fact used and I know Pari and he does not throw that out lightly. 
 
 **Ansgar Dietrichs**
-* Right. Yeah. I heard that as well. that, I mean, could, could not come at a better time, physically that we have, our second to last, shadow fork be the first one that's like absolutely. Perfect. great. So, yeah, with that, do, do, do we have, any, any specific updates, any client teams? Is there anything, for this call? 
+* Right. Yeah. I heard that as well. that, I mean, could, could not come at a better time, physically that we have, our second to last, shadow fork be the first one that's like absolutely. Perfect. great. So, yeah, with that, do we have, any, any specific updates, any client teams? Is there anything, for this call? 
 
 **Andrew**
 * Andrew, see, I end up, yeah, I'd like to say that, we recently, there was another issue that recently surfaced in Aragon that we don't filter out, transactions with, invalid, signature in our transaction for, so we need to make another release to ensure that, we don't produce invalid blocks. That's what separate, like they fixed a separate issue ever produced producing by the blogs, but unfortunately there is another one, whereas with a relaxed, not stringent enough checks on transactions. 
