@@ -93,7 +93,7 @@
 * Does that 50% to 53% of staker or 53% of users are not operators. 
 
 **Ahmad Bitar**
-* I'm getting my data from ethn.org, not entirely sure. I'm pretty sure it's just node operators. 
+* I'm getting my data from ethernode.org, not entirely sure. I'm pretty sure it's just node operators. 
 
 **Ansgar Dietrichs**
 * Okay. Yeah. That's, that's useful context, of course. for non-statin auto operators, there's always less incentive to make sure that they're fully, fully set up. So we, so we might expect that this will not quite reach a hundred percent before the merger, but if you are not a blatant, you want to continue following the chain. then, you of course, have dropped bit. So please do that. Any other much updates? I mean, it sounds like we're just not right on track. quite exciting. well then, let's just briefly go to the other general point, just other, do we, do we have anything, anything non-matriculated, we can become discuss, right now. Okay. Sounds like everyone is focused on the image as it should be. great. So then with that, this might be one of the shortest allcore dev calls in history. happy coincidence because, you know, I couldn't couldn't really break anything. It's a great like idea of anything in the, And they'll talk about it. 
