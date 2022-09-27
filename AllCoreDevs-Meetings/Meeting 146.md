@@ -18,7 +18,7 @@
 * Right. Yeah. I heard that as well. that, I mean, could, could not come at a better time, physically that we have, our second to last, shadow fork be the first one that's like absolutely. Perfect. great. So, yeah, with that, do we have, any, any specific updates, any client teams? Is there anything, for this call? 
 
 **Andrew**
-* Andrew, see, I end up, yeah, I'd like to say that, we recently, there was another issue that recently surfaced in Aragon that we don't filter out, transactions with, invalid, signature in our transaction for, so we need to make another release to ensure that, we don't produce invalid blocks. That's what separate, like they fixed a separate issue ever produced producing by the blogs, but unfortunately there is another one, whereas with a relaxed, not stringent enough checks on transactions. 
+* Andrew, see, I end up, yeah, I'd like to say that, we recently, there was another issue that recently surfaced in Erigon that we don't filter out, transactions with, invalid, signature in our transaction for, so we need to make another release to ensure that, we don't produce invalid blocks. That's what separate, like they fixed a separate issue ever produced producing by the blogs, but unfortunately there is another one, whereas with a relaxed, not stringent enough checks on transactions. 
 
 **Ansgar Dietrichs**
 * Okay. That's that's good to know. So for anyone listening, basically, be prepared to, to upgrade your nodes, and just to be explicit, like, because we have the Bellatrix folk coming up, but this, this basically the time he would be, you could do that at any point before the actual merchant said, right. 
