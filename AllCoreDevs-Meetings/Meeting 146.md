@@ -21,7 +21,7 @@
 * Andrew, see, I end up, yeah, I'd like to say that, we recently, there was another issue that recently surfaced in Erigon that we don't filter out, transactions with, invalid, signature in our transaction for, so we need to make another release to ensure that, we don't produce invalid blocks. That's what separate, like they fixed a separate issue ever produced producing by the blogs, but unfortunately there is another one, whereas with a relaxed, not stringent enough checks on transactions. 
 
 **Ansgar Dietrichs**
-* Okay. That's that's good to know. So for anyone listening, basically, be prepared to, to upgrade your nodes, and just to be explicit, like, because we have the Bellatrix folk coming up, but this, this basically the time he would be, you could do that at any point before the actual merchant said, right. 
+* Okay. That's that's good to know. So for anyone listening, basically, be prepared to upgrade your nodes, and just to be explicit, like, because we have the Bellatrix folk coming up, but this, this basically the time he would be, you could do that at any point before the actual merchant said, right. 
 
 **Andrew**
 * So it's yeah. the, the time is before the merge on the execution layer of for Aragon updates. So if it's, it's kind of, because it's only the Barca and, affects, both production and, we don't have any, pow, mining on Aragon, so it will be only relevant for, building proof of stake blocks. 
