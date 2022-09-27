@@ -75,7 +75,7 @@
 * Okay. I think that's very helpful context specifically just for, for people who are not super familiar with all the technical details and who are just physically following along. Okay. Casually, I think it's a little confusing too, to physically have these different estimates out there, but I think, that's really helpful context. I mean, of course, you know, there's a state slightly like a somewhat statistical process. So we, we don't, we can't predict the precise moment of the merchant till we are closer. but, you know, I think all of these give a good kind of bend, for, for, for when, when the merge roughly happened. And also of course, that might drop back down a little bit before the much, so close like a day or so, like  as well. So I, anything in that range, for anyone listening, you should be prepared, for, for the merge to happen. But I think, Thursday, two weeks is still kind of, the most likely date. okay. with that, I think that's for much updates that we do with any, any, remaining, major updates, otherwise there's the, the other, point as well. 
 
 **Trent**
-* We will be having the final, merged community call on the 9th Sept. So, obviously you want to prepare for Bellatrix before that, but, there will be one more session. 
+* We will be having the final, merge community call on the 9th Sept. So, obviously you want to prepare for Bellatrix before that, but, there will be one more session. 
 
 **Ansgar Dietrichs**
 * That's good to hear. Do we, someone just, remind the listeners when exactly Bellatrix is expected to happen. 
