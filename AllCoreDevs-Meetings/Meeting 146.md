@@ -27,7 +27,7 @@
 * So it's yeah. the, the time is before the merge on the execution layer for Erigon updates. So if it's, it's kind of, because it's only the Barca and, affects, both production and, we don't have any, pow, mining on Erigon, so it will be only relevant for, building proof of stake blocks. 
 
 **Ansgar Dietrichs**
-* Okay. Yeah. That's that's good context. Okay. Thanks. Ben, I see you also can handup
+* Okay. Yeah. That's good context. Okay. Thanks. Ben, I see you also can handup
 
 **Ben**
 * Sounds good. yeah, for those who are using teku as a consensus client, we put out a slightly broken release yesterday. we have today about two hours ago, made a new release 22.9.0, and we would strongly recommend anyone using teku to upgrade to 22.9.0 at your earliest convenience.  
