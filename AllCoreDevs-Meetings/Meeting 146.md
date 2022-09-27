@@ -9,7 +9,7 @@
 
 ## Intro [0.52](https://youtu.be/GizYbtINRUs?t=52)
 **Ansgar Dietrichs**
-* Okay. Hello, everyone. Welcome to the which number is it to the 146? All core dev. I'll I'm filling in for Tim and just for this call. it's hopefully going to be a rather short one. yeah, so we don't really have much on the agenda for today. the first and main item is just general merge updates. I heard that we had a very successful shadow folk. recently, do we maybe have anyone on the call that I think Perry unfortunately was not able to make it, anyone on the call that can give a brief update on this? 
+* Okay. Hello, everyone. Welcome to the which number is it to the 146? All core dev. I'm filling in for Tim, just for this call. it's hopefully going to be a rather short one. yeah, so we don't really have much on the agenda for today. the first and main item is just general merge updates. I heard that we had a very successful shadow folk. recently, do we maybe have anyone on the call that I think Pari unfortunately was not able to make it, anyone on the call that can give a brief update on this? 
 
 **Justin Florentine**
 * Hey, this is Justin. I was talking to Perry about it. He did use the phrase a perfect merge. So things went extremely well. We actually had an increase in proposals, after it due to some, some, I believe it was the Nimbus client that was actually behaving a little bit better post-merger than it was prior to merge. so super happy with that mainnet shawdow fork work. 12 was pretty happy and, the word perfection was in fact used and I know Perry and he does not throw that out lightly. 
