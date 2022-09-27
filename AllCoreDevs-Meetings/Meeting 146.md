@@ -24,7 +24,7 @@
 * Okay. That's that's good to know. So for anyone listening, basically, be prepared to upgrade your nodes, and just to be explicit, like, because we have the Bellatrix folk coming up, but this, this basically the time he would be, you could do that at any point before the actual merchant said, right. 
 
 **Andrew**
-* So it's yeah. the, the time is before the merge on the execution layer of for Aragon updates. So if it's, it's kind of, because it's only the Barca and, affects, both production and, we don't have any, pow, mining on Aragon, so it will be only relevant for, building proof of stake blocks. 
+* So it's yeah. the, the time is before the merge on the execution layer for Erigon updates. So if it's, it's kind of, because it's only the Barca and, affects, both production and, we don't have any, pow, mining on Erigon, so it will be only relevant for, building proof of stake blocks. 
 
 **Ansgar Dietrichs**
 * Okay. Yeah. That's that's good context. Okay. Thanks. Ben, I see you also can handup
