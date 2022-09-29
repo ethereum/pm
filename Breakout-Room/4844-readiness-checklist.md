@@ -40,7 +40,7 @@ This document is meant to capture various tasks that need to be completed before
     - WIP: [BLST](https://github.com/supranational/blst) support for this (@asn-d6 tracking)
     - WIP: [c-kzg](https://github.com/dankrad/c-kzg/tree/lagrange_form), an implementation in C based on BLST (@dankrad leading)
 - [ ] Sync Strategy
-    - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view)    
+    - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view)
 - [ ] Networking Overhead Analysis
     - As per the current spec, blobs can be up to 2MB in size. This adds to the bandwidth requirements of the CL gossip network. Analysis about whether this value acceptable given current bandwidth and hardware constraints is missing. 
 
