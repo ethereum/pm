@@ -18,8 +18,8 @@ This document is meant to capture various tasks that need to be completed before
 | ------ | ------ | ---- | 
 | go-ethereum | WIP Prototype | [Link](https://github.com/mdehoog/go-ethereum/tree/eip-4844) | 
 | Nethermind | Issue Opened | [Link](https://github.com/NethermindEth/nethermind/issues/4558) | 
-| Erigon | Not Started | 
-| Besu | Not Started | 
+| Erigon | N/A | 
+| Besu | N/A | 
 
 #### Consensus Layer 
 
@@ -36,30 +36,31 @@ This document is meant to capture various tasks that need to be completed before
 
 ### Spec-level Open Issues 
 
-- [ ] WIP: Fee Market design (@adietrichs) 
-    - The current fee market for blob tracks the long-run average of blobs, which is different from EIP-1559 that tracks the short-term gas usage. This has implications on the most optimal way for blobs to be sent, i.e. whether there are many short bursts of blobs or a constant "stream" of them. See [here](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606) for more context. 
-    - WIP: [PR: changes to fee market to address the above and other issues](https://github.com/ethereum/EIPs/pull/5707)
-- [ ] WIP: KZG Ceremony (@tvanepps & @CarlBeek)
+- [ ] Fee Market design ([@adietrichs](https://github.com/adietrichs)) 
+    - [ ] The current fee market for blob tracks the long-run average of blobs, which is different from EIP-1559 that tracks the short-term gas usage. This has implications on the most optimal way for blobs to be sent, i.e. whether there are many short bursts of blobs or a constant "stream" of them. See [here](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606) for more context. 
+       - **WIP**: [PR: changes to fee market to address the above and other issues](https://github.com/ethereum/EIPs/pull/5707)
+    - [ ] The current fee market uses slots as a proxy for time. Precision can be increased by using time directly, as proposed for the general fee market in [EIP-4396](https://eips.ethereum.org/EIPS/eip-4396)
+- [ ] **WIP**: KZG Ceremony ([@tvanepps](https://github.com/tvanepps) & [@CarlBeek](https://github.com/CarlBeek))
     - EIP-4844 requires a Powers of Tau ceremony to provide its cryptographic foundation. Resources relevant to the ceremony are available [here](https://github.com/ethereum/KZG-Ceremony) 
 
 ### Client-level Open Issues
 
 - [ ] KZG support in Library
     - No efficient library supports the cryptographic operations required to verify and interact with blobs. 
-    - WIP: [BLST](https://github.com/supranational/blst) support for this (@asn-d6)
-    - WIP: [c-kzg](https://github.com/dankrad/c-kzg/tree/lagrange_form), an implementation in C based on BLST (@dankrad)
-- [ ] Sync Strategy (@djrtwo, @terencechain) 
+    - **WIP**: [BLST](https://github.com/supranational/blst) support for this ([@asn-d6](https://github.com/asn-d6))
+    - **WIP**: [c-kzg](https://github.com/dankrad/c-kzg/tree/lagrange_form), an implementation in C based on BLST ([@dankrad](https://github.com/dankrad))
+- [ ] Sync Strategy ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
     - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view)
 - [ ] Networking Overhead Analysis
     - As per the current spec, blobs can be up to 2MB in size. This adds to the bandwidth requirements of the CL gossip network. Analysis about whether this value acceptable given current bandwidth and hardware constraints is missing. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
 
 ### APIs
-- [ ] WIP: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/16) (@protolambda)
+- [ ] WIP: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/16) ([@protolambda](https://github.com/protolambda))
 
 ## Testing 
 
 - [ ] Simple JSON test vectors (example from [early merge devnets](https://notes.ethereum.org/@MariusVanDerWijden/rkwW3ceVY))
-- [ ] Node performance monitoring (owner: @booklearner) 
+- [ ] Node performance monitoring ([@booklearner](https://github.com/booklearner)) 
 
 #### Consensus Layer 
 - [ ] [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
@@ -74,7 +75,7 @@ This document is meant to capture various tasks that need to be completed before
 
 #### Tooling 
 
-- [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) (@0xGabi)
+- [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) ([@0xGabi](https://github.com/0xGabi))
 - [x] [`blob-utils`](https://github.com/Inphi/blob-utils) 
 - [ ] Explorer to visualize blobs ([details here](https://hackmd.io/@protolambda/eip4844-meta#Ideas))
 
