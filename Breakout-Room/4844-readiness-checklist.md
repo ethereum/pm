@@ -1,6 +1,6 @@
 # EIP-4844 Readiness Checklist
 
-This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. 
+This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. Several [breakout rooms](https://github.com/ethereum/pm/issues?q=is%3Aissue+%22breakout+room%22+4844) have taken place to discuss the EIP. Notes from these sessions are available [here](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.c0273egri56a). 
 
 ## Implementation
 
@@ -24,6 +24,9 @@ This document is meant to capture various tasks that need to be completed before
 | Lighthouse | N/A | N/A 
 | Lodestar | N/A | N/A 
 | Nimbus | N/A | N/A 
+
+#### Resources 
+ - [CL Implementation Considerations](https://hackmd.io/@terencechain/ByH4cbMfi) 
 
 ### Spec-level Open Issues 
 
