@@ -1,6 +1,12 @@
 # EIP-4844 Readiness Checklist
 
-This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. Several [breakout rooms](https://github.com/ethereum/pm/issues?q=is%3Aissue+%22breakout+room%22+4844) have taken place to discuss the EIP. Notes from these sessions are available [here](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.c0273egri56a). 
+This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. Several [breakout rooms](https://github.com/ethereum/pm/issues?q=is%3Aissue+%22breakout+room%22+4844) have taken place to discuss the EIP. Notes from these sessions are available [here](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.c0273egri56a). Github handles for owners of various tasks are indicated between parentheses beside the task. If are working on something not listed here, please open a PR against this file to indicate it. 
+
+## Specs
+
+- [Meta Spec & Resources](https://hackmd.io/@protolambda/eip4844-meta)
+- [EL: EIP-4844](https://eips.ethereum.org/EIPS/eip-4844)
+- [CL: consensus-specs](https://github.com/ethereum/consensus-specs/tree/dev/specs/eip4844)
 
 ## Implementation
 
@@ -21,58 +27,61 @@ This document is meant to capture various tasks that need to be completed before
 | ------ | ------ | ---- | 
 | Prysm | WIP prototype | [Link](https://github.com/Inphi/prysm/tree/eip-4844) |
 | Teku | Issue Opened | [Link](https://github.com/ConsenSys/teku/issues/5681) 
-| Lighthouse | N/A | N/A 
-| Lodestar | N/A | N/A 
-| Nimbus | N/A | N/A 
+| Lighthouse | WIP prototype | [Link](https://github.com/dknopik/lighthouse/tree/eip4844)  
+| Lodestar | N/A |  
+| Nimbus | N/A |  
 
 #### Resources 
  - [CL Implementation Considerations](https://hackmd.io/@terencechain/ByH4cbMfi) 
 
 ### Spec-level Open Issues 
 
-- [ ] Fee Market design 
+- [ ] WIP: Fee Market design (@adietrichs) 
     - The current fee market for blob tracks the long-run average of blobs, which is different from EIP-1559 that tracks the short-term gas usage. This has implications on the most optimal way for blobs to be sent, i.e. whether there are many short bursts of blobs or a constant "stream" of them. See [here](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606) for more context. 
     - WIP: [PR: changes to fee market to address the above and other issues](https://github.com/ethereum/EIPs/pull/5707)
-- [ ] WIP: KZG Ceremony (@tvanepps & @CarlBeek leading)
+- [ ] WIP: KZG Ceremony (@tvanepps & @CarlBeek)
     - EIP-4844 requires a Powers of Tau ceremony to provide its cryptographic foundation. Resources relevant to the ceremony are available [here](https://github.com/ethereum/KZG-Ceremony) 
 
 ### Client-level Open Issues
 
 - [ ] KZG support in Library
     - No efficient library supports the cryptographic operations required to verify and interact with blobs. 
-    - WIP: [BLST](https://github.com/supranational/blst) support for this (@asn-d6 tracking)
-    - WIP: [c-kzg](https://github.com/dankrad/c-kzg/tree/lagrange_form), an implementation in C based on BLST (@dankrad leading)
-- [ ] Sync Strategy
+    - WIP: [BLST](https://github.com/supranational/blst) support for this (@asn-d6)
+    - WIP: [c-kzg](https://github.com/dankrad/c-kzg/tree/lagrange_form), an implementation in C based on BLST (@dankrad)
+- [ ] Sync Strategy (@djrtwo, @terencechain) 
     - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view)
 - [ ] Networking Overhead Analysis
-    - As per the current spec, blobs can be up to 2MB in size. This adds to the bandwidth requirements of the CL gossip network. Analysis about whether this value acceptable given current bandwidth and hardware constraints is missing. 
+    - As per the current spec, blobs can be up to 2MB in size. This adds to the bandwidth requirements of the CL gossip network. Analysis about whether this value acceptable given current bandwidth and hardware constraints is missing. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
 
 ### APIs
-
-- [ ] WIP: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/16)
-
+- [ ] WIP: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/16) (@protolambda)
 
 ## Testing 
 
+- [ ] Simple JSON test vectors (example from [early merge devnets](https://notes.ethereum.org/@MariusVanDerWijden/rkwW3ceVY))
+- [ ] Node performance monitoring (owner: @booklearner) 
+
 #### Consensus Layer 
-- [ ] WIP: [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
+- [ ] [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
     - See the [`eip4844`](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/eip4844) folder
 
 #### Execution Layer
 - [ ] [State/blockchain](https://github.com/ethereum/tests) tests 
 - [ ] [Hive](https://github.com/ethereum/hive) tests
 
+#### Other
+- [ ] [Network impact of large blobs](https://notes.ethereum.org/@djrtwo/rkgZs-YVMi) (Prysm looking into it, but other NOs welcome to join) 
+
 #### Tooling 
 
-- [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) (owner: @0xGabi)
+- [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) (@0xGabi)
 - [x] [`blob-utils`](https://github.com/Inphi/blob-utils) 
+- [ ] Explorer to visualize blobs ([details here](https://hackmd.io/@protolambda/eip4844-meta#Ideas))
 
 ### Devnets 
 
 - [x] [Devnet v1](https://hackmd.io/@inphi/SJMXL1P6c)
 - [ ] Devnet v2 
-    - TODO: 
-        - [ ] Fee Market changes merged  
 
 
   
