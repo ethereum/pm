@@ -53,6 +53,7 @@ This document is meant to capture various tasks that need to be completed before
     - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view)
 - [ ] Networking Overhead Analysis
     - As per the current spec, blobs can be up to 2MB in size. This adds to the bandwidth requirements of the CL gossip network. Analysis about whether this value acceptable given current bandwidth and hardware constraints is missing. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
+    - [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
 
 ### APIs
 - [ ] WIP: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/16) ([@protolambda](https://github.com/protolambda))
