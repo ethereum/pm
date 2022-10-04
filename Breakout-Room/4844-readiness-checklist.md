@@ -25,7 +25,7 @@ This document is meant to capture various tasks that need to be completed before
 
 | Client | Status | Link | 
 | ------ | ------ | ---- | 
-| Prysm | WIP prototype | [Link1](https://github.com/Inphi/prysm/tree/eip-4844) [Link2](https://github.com/terencechain/prysm/tree/eip4844) |
+| Prysm | WIP prototype & production implementations | [devnet prototype](https://github.com/Inphi/prysm/tree/eip-4844), [prysm production](https://github.com/terencechain/prysm/tree/eip4844) |
 | Teku | Issue Opened | [Link](https://github.com/ConsenSys/teku/issues/5681) 
 | Lighthouse | WIP prototype | [Link](https://github.com/dknopik/lighthouse/tree/eip4844)  
 | Lodestar | N/A |  
