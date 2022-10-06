@@ -1,5 +1,7 @@
 # Ethereum Project Management Repository
 
+[![gitpoap badge](https://public-api.gitpoap.io/v1/repo/ethereum/pm/badge)](https://www.gitpoap.io/gh/ethereum/pm)
+
 This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the All Core Devs meeting, but it is also used for [Ethereum 1.x](/Archive/ETH-1X), [Merge](/Merge) and [Fee Market](/Archive/Fee-Market) meetings.
 
 ## All Core Devs Meetings
