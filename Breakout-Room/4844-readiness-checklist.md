@@ -1,6 +1,6 @@
 # EIP-4844 Readiness Checklist
 
-This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. Several [breakout rooms](https://github.com/ethereum/pm/issues?q=is%3Aissue+%22breakout+room%22+4844) have taken place to discuss the EIP. Notes from these sessions are available [here](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.c0273egri56a). Github handles for owners of various tasks are indicated between parentheses beside the task. If are working on something not listed here, please open a PR against this file to indicate it. 
+This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. Github handles for owners of various tasks are indicated between parentheses beside the task. If are working on something not listed here, please open a PR against this file to indicate it. 
 
 ## Specs
 
@@ -27,7 +27,7 @@ This document is meant to capture various tasks that need to be completed before
 | ------ | ------ | ---- | 
 | Prysm | WIP prototype & production implementations | [devnet prototype](https://github.com/Inphi/prysm/tree/eip-4844), [prysm production](https://github.com/terencechain/prysm/tree/eip4844) |
 | Teku | Issue Opened | [Link](https://github.com/ConsenSys/teku/issues/5681) 
-| Lighthouse | WIP prototype | [Link](https://github.com/dknopik/lighthouse/tree/eip4844)  
+| Lighthouse | WIP implementation | [Link](https://github.com/sigp/lighthouse/tree/eip4844)  
 | Lodestar | N/A |  
 | Nimbus | N/A |  
 
@@ -42,26 +42,34 @@ This document is meant to capture various tasks that need to be completed before
     - [ ] The current fee market uses slots as a proxy for time. Precision can be increased by using time directly, as proposed for the general fee market in [EIP-4396](https://eips.ethereum.org/EIPS/eip-4396)
 - [ ] **WIP**: KZG Ceremony ([@tvanepps](https://github.com/tvanepps) & [@CarlBeek](https://github.com/CarlBeek))
     - EIP-4844 requires a Powers of Tau ceremony to provide its cryptographic foundation. Resources relevant to the ceremony are available [here](https://github.com/ethereum/KZG-Ceremony) 
+- [ ] Blob Retention Period
+    - The longer blobs are stored, the higher the storage cost imposed on network nodes. The retention period needs to be set taking into account blob size [blocker], node sync time, and optimistic rollup fraud proof windows. 
 
 ### Client-level Open Issues
 
 - [ ] KZG support in Library
-    - No efficient library supports the cryptographic operations required to verify and interact with blobs. 
-    - **WIP**: [BLST](https://github.com/supranational/blst) support for this ([@asn-d6](https://github.com/asn-d6))
+    - Need efficient library support for the cryptographic operations required to verify and interact with blobs, compatible with all clients' programming language. 
     - **WIP**: [c-kzg](https://github.com/dankrad/c-kzg/tree/lagrange_form), an implementation in C based on BLST ([@dankrad](https://github.com/dankrad))
-- [ ] Sync Strategy ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
-    - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view)
+    - **WIP**: [BLST](https://github.com/supranational/blst) support for this ([@asn-d6](https://github.com/asn-d6))
 - [ ] Networking Overhead Analysis
     - As per the current spec, blobs can be up to 2MB in size. This adds to the bandwidth requirements of the CL gossip network. Analysis about whether this value acceptable given current bandwidth and hardware constraints is missing. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
-    - [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
+    - **WIP** [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
+    - Results from this can inform both the blob size and blob retention period. 
+- [ ] **WIP:** Gossiping of blob transactions ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
+    - Large blob transactions are expensive to gossip over the network. Solution: enable node to announce & request specific transactions rather than gossip them by default, see [eth/68 PR](https://github.com/ethereum/EIPs/pull/5793/files)  
+- [x] Sync Strategy ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
+    - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view). 
+    - **For gossip, block and blobs will be coupled. For historical sync, they will be decoupled.** 
 
 ### APIs
-- [ ] WIP: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/16) ([@protolambda](https://github.com/protolambda))
+- [ ] **WIP**: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/21) ([@mdehoog](https://github.com/mdehoog))
 
 ## Testing 
 
 - [ ] Simple JSON test vectors (example from [early merge devnets](https://notes.ethereum.org/@MariusVanDerWijden/rkwW3ceVY))
 - [ ] Node performance monitoring ([@booklearner](https://github.com/booklearner)) 
+- [ ] [Transaction fuzzing](https://github.com/MariusVanDerWijden/tx-fuzz) ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
+- [ ] Differential fuzzing 
 
 #### Consensus Layer 
 - [ ] [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
@@ -69,7 +77,18 @@ This document is meant to capture various tasks that need to be completed before
 
 #### Execution Layer
 - [ ] [State/blockchain](https://github.com/ethereum/tests) tests 
+    - [ ] Block Header changes
+    - [ ] Transaction format 
+    - [ ] `DATAHASH` opcode
+    - [ ] Point evaluation precompile
 - [ ] [Hive](https://github.com/ethereum/hive) tests
+    - [ ] Docker resource constraints
+    - [ ] CL mocker update 
+- [ ] Transaction Pool
+    - [ ] Spam transactions
+    - [ ] Invalid transactions
+    - [ ] Fee market 
+
 
 #### Other
 - [ ] [Network impact of large blobs](https://notes.ethereum.org/@djrtwo/rkgZs-YVMi) (Prysm looking into it, but other NOs welcome to join) 
@@ -78,12 +97,12 @@ This document is meant to capture various tasks that need to be completed before
 
 - [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) ([@0xGabi](https://github.com/0xGabi))
 - [x] [`blob-utils`](https://github.com/Inphi/blob-utils) 
-- [ ] Explorer to visualize blobs ([details here](https://hackmd.io/@protolambda/eip4844-meta#Ideas))
+- [x] **WIP** [Explorer to visualize blobs](https://github.com/blossomlabs/blobscan) ([@0xGabi](https://github.com/0xGabi))
 
 ### Devnets 
 
 - [x] [Devnet v1](https://hackmd.io/@inphi/SJMXL1P6c)
-- [ ] Devnet v2 
+- [x] [Devnet v2](https://hackmd.io/@inphi/SJKLtgJXs) 
 
 
   
