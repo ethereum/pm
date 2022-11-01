@@ -37,13 +37,15 @@ This document is meant to capture various tasks that need to be completed before
 ### Spec-level Open Issues 
 
 - [ ] Fee Market design ([@adietrichs](https://github.com/adietrichs)) 
-    - [ ] The current fee market for blob tracks the long-run average of blobs, which is different from EIP-1559 that tracks the short-term gas usage. This has implications on the most optimal way for blobs to be sent, i.e. whether there are many short bursts of blobs or a constant "stream" of them. See [here](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606) for more context. 
-       - **WIP**: [PR: changes to fee market to address the above and other issues](https://github.com/ethereum/EIPs/pull/5707)
-    - [ ] The current fee market uses slots as a proxy for time. Precision can be increased by using time directly, as proposed for the general fee market in [EIP-4396](https://eips.ethereum.org/EIPS/eip-4396)
+    - [x] **[Fixed in [PR#5707](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606)]** The current fee market for blob tracks the long-run average of blobs, which is different from EIP-1559 that tracks the short-term gas usage. This has implications on the most optimal way for blobs to be sent, i.e. whether there are many short bursts of blobs or a constant "stream" of them. See [here](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606) for more context. 
+    - [ ] A minimum gas price for blobs needs to be determined, see [PR#5862](https://github.com/ethereum/EIPs/pull/5862)
+- [ ] **WIP**: Exposing the Modulus in precompile
+    - See [this comment](https://github.com/ethereum/EIPs/pull/5864#issuecomment-1298528724)
 - [ ] **WIP**: KZG Ceremony ([@tvanepps](https://github.com/tvanepps) & [@CarlBeek](https://github.com/CarlBeek))
     - EIP-4844 requires a Powers of Tau ceremony to provide its cryptographic foundation. Resources relevant to the ceremony are available [here](https://github.com/ethereum/KZG-Ceremony) 
-- [ ] Blob Retention Period
-    - The longer blobs are stored, the higher the storage cost imposed on network nodes. The retention period needs to be set taking into account blob size [blocker], node sync time, and optimistic rollup fraud proof windows. 
+- [x] Blob Retention Period
+    - **[Resolved by [PR#3047](https://github.com/ethereum/consensus-specs/pull/3047)]** The longer blobs are stored, the higher the storage cost imposed on network nodes. The retention period needs to be set taking into account blob size [blocker], node sync time, and optimistic rollup fraud proof windows.
+
 
 ### Client-level Open Issues
 
@@ -55,14 +57,14 @@ This document is meant to capture various tasks that need to be completed before
     - As per the current spec, blobs can be up to 2MB in size. This adds to the bandwidth requirements of the CL gossip network. Analysis about whether this value acceptable given current bandwidth and hardware constraints is missing. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
     - **WIP** [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
     - Results from this can inform both the blob size and blob retention period. 
-- [ ] **WIP:** Gossiping of blob transactions ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
-    - Large blob transactions are expensive to gossip over the network. Solution: enable node to announce & request specific transactions rather than gossip them by default, see [eth/68 PR](https://github.com/ethereum/EIPs/pull/5793/files)  
+- [x] Gossiping of blob transactions ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
+    - **[Resolved by introducing [`eth/68`](https://github.com/ethereum/EIPs/pull/5793)]** Large blob transactions are expensive to gossip over the network. Solution: enable node to announce & request specific transactions rather than gossip them by default.
 - [x] Sync Strategy ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
-    - Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view). 
-    - **For gossip, block and blobs will be coupled. For historical sync, they will be decoupled.** 
+    - **[Resolved with [PR#3046](https://github.com/ethereum/consensus-specs/pull/3046)]** Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view). **For gossip, block and blobs will be coupled. For historical sync, they will be decoupled.** 
 
 ### APIs
 - [ ] **WIP**: [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/21) ([@mdehoog](https://github.com/mdehoog))
+- [ ] **WIP**: [Engine API support](https://github.com/ethereum/execution-apis/pull/197)
 
 ## Testing 
 
