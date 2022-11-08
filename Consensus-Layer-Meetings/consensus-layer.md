@@ -10,6 +10,8 @@ This repo hosts a collection of [standards](./interop) to aid in client interope
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+97| Thursday 2022/11/3 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/630) \| [notes](https://github.com/ethereum/pm/blob/be4586919d2963c8e57a304fdab70f6d675573c7/Consensus-Layer-Meetings/Call_097.md) \| no reddit | [video](https://youtu.be/GWkhFCvwOT4)
+96| Thursday 2022/9/22 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/629) \| [notes](https://github.com/darkfire-rain/pm/blob/bc8e7a476b04abad170944ec4148b907c641b5a4/Consensus-Layer-Meetings/Meeting%20096.md) \| no reddit | [video](https://www.youtube.com/watch?v=_yogw67HxZY)
 95| Thursday 2022/9/8 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/618) \| [notes](https://github.com/ethereum/pm/blob/master/Consensus-Layer-Meetings/Call_095.md) \| no reddit | [video](https://youtu.be/ir-gnBm2GZ4)
 94| Thursday 2022/8/25 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/598) \| [notes](https://github.com/ethereum/pm/blob/master/Consensus-Layer-Meetings/Call_094.md) \| no reddit | [video](https://youtu.be/tjmpu8O-xsA)
 93| Thursday 2022/8/11 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/594) \| [notes](https://github.com/ethereum/pm/blob/master/Consensus-Layer-Meetings/Call-093.md) \| no reddit | [video](https://www.youtube.com/watch?v=CIAGQMUKEZ4)
