@@ -16,9 +16,9 @@ This document is meant to capture various tasks that need to be completed before
 
 | Client | Status | Link | 
 | ------ | ------ | ---- | 
-| go-ethereum | WIP Prototype | [Link](https://github.com/mdehoog/go-ethereum/tree/eip-4844) | 
+| go-ethereum | WIP Implementation | [Link](https://github.com/mdehoog/go-ethereum/tree/eip-4844) | 
 | Nethermind | Issue Opened | [Link](https://github.com/NethermindEth/nethermind/issues/4558) | 
-| Erigon | N/A | 
+| Erigon | WIP implementation | [Link](https://github.com/bobanetwork/v3-erigon/pull/17/files) |
 | Besu | N/A | 
 
 #### Consensus Layer 
@@ -26,9 +26,9 @@ This document is meant to capture various tasks that need to be completed before
 | Client | Status | Link | 
 | ------ | ------ | ---- | 
 | Prysm | WIP prototype & production implementations | [devnet prototype](https://github.com/Inphi/prysm/tree/eip-4844), [prysm production](https://github.com/terencechain/prysm/tree/eip4844) |
-| Teku | Issue Opened | [Link](https://github.com/ConsenSys/teku/issues/5681) 
-| Lighthouse | WIP implementation | [Link](https://github.com/sigp/lighthouse/tree/eip4844)  
-| Lodestar | N/A |  
+| Teku | Issue Opened | [Link](https://github.com/ConsenSys/teku/issues/5681) |
+| Lighthouse | WIP implementation | [Link](https://github.com/sigp/lighthouse/tree/eip4844)  |
+| Lodestar | WIP implementation | [Link](https://github.com/dgcoffman/lodestar/pull/1) | 
 | Nimbus | N/A |  
 
 #### Resources 
