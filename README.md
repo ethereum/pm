@@ -2,6 +2,8 @@
 
 This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the All Core Devs meeting, but it is also used for [Ethereum 1.x](/Archive/ETH-1X), [Merge](/Merge) and [Fee Market](/Archive/Fee-Market) meetings.
 
+The Google Calendar linked [here](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) tracks upcoming protocol meetings across the Ethereum organizaton.
+
 ## All Core Devs Meetings
 
 ### Purpose
