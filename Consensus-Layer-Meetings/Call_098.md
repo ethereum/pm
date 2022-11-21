@@ -7,7 +7,20 @@
 ### Moderator: Danny Ryan
 ### Notes: Rory Arredondo
 
+--------- 
 
+## Action Items and Decision notes from [Ben Edgington](https://hackmd.io/@benjaminion/rJBcqhXIo)
+
+Capella - Alex to keep working on the [PR](https://github.com/ethereum/consensus-specs/pull/3095).
+
+BlobSideCar mutability issue - We will go ahead with full blob verification for now on the testnets and make sure there is no problem in practice. Implementing this is not a blocker for standing up testnets.
+
+Discuss the following on the [issue](https://github.com/ethereum/execution-apis/issues/321):
+
+ - getCapabilities API vs error codes
+ - Structure of documentation.
+
+This is not particularly blocking for Shanghai. Comments in the next week for discussion either at ACD next week, or here in two weeks.
 
 ## Intro
 
