@@ -7,9 +7,17 @@
 ### Notes: Avishek Kumar
 
 ## Decisions Made / Action items
-| Decision Item | Description | Timestamp
-| ------------- | ----------- | ---------
-|148.1 | 
+| Decision Item | Description |
+| ------------- | ----------- |
+|148.1 | With regards to the Shanghai implementations, we agreed to include the following EIPs in Shanghai and launch a devnet with them ASAP:
+||EIP-3651: Warm COINBASE
+||EIP-3855: PUSH0 instruction
+||EIP-3860: Limit and meter initcode
+||EIP-4895: Beacon chain push withdrawals as operations
+|148.2 | We also agreed to keep working on EOF and 4844-specific devnets in parallel, and have them build on top of this "Shanghai Core" devnet, to mirror how the CL teams are having 4844 rebased on top of Capella (which is mostly withdrawals).
+|148.3 | We also discussed potentially including EIP-4758, which deactivates SELF DESTRUCT, but agreed there needs to be more analysis done here.
+|148.4 | Next Tuesday 15:00 UTC there will be a community call about outstanding Goerli supply issues: [eth-clients/goerli#129](https://github.com/eth-clients/goerli/issues/129)
+
 —----------------------------------------------------------------
 
 ## [Shanghai Planning #450 (comment)](https://github.com/ethereum/pm/issues/450#issuecomment-1242103736)
