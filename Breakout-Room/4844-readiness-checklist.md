@@ -29,7 +29,7 @@ This document is meant to capture various tasks that need to be completed before
 | Teku | Issue Opened | [Link](https://github.com/ConsenSys/teku/issues/5681) | [Link](https://github.com/ConsenSys/teku/issues/5681) |
 | Lighthouse | WIP implementation | [Link](https://github.com/sigp/lighthouse/issues/3625) | [Link](https://github.com/sigp/lighthouse/tree/eip4844)  |
 | Lodestar | WIP implementation | [Link](https://github.com/ChainSafe/lodestar/issues/4632) | [ChainSafe/lodestar#4774](https://github.com/ChainSafe/lodestar/pull/4774) | 
-| Nimbus | Not started |  N/A | N/A
+| Nimbus | Implementation in progress |  N/A | [Link](https://github.com/status-im/nimbus-eth2/tree/unstable) |
 
 #### Resources 
  - [CL Implementation Considerations](https://hackmd.io/@terencechain/ByH4cbMfi) 
