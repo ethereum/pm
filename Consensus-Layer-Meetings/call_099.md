@@ -546,3 +546,69 @@ Okay. Well, a you have another one?
 **Danny**
 * Got it. Okay. Anything else for today? 
 * Thank you everyone. Oh, and we will meet two weeks from today and then we will, take off right around New Year for this call. So, talk to you all in two weeks. Thank you. Bye-bye bye. Thanks everyone. Thanks. Bye. 
+
+---- 
+
+
+### Attendees
+* Danny
+* Tim
+* Arnetheduck
+* Marek
+* Lance
+* Micah
+* Paul Hauner
+* Ben Edgington
+* Loin Dapplion
+* Terence
+* Enrico Del Fante
+* Pooja Ranjan
+* Hsiao-Wei Wang
+* Saulius Grigaitis 
+* Roberto B
+* Olegjakushkin
+* Chris Hager
+* Stokes
+* Dankrad Feist
+* Caspar Schwarz
+* Seananderson
+* Andrew
+* Crypdough.eth
+* Zahary
+* Matt Nelson
+* George Avsetsin
+* James HE
+* Marius
+* Ansgar Dietrichs
+* Lightclient
+* Stefan Bratanov
+* Afri 
+* Ahmad Bitar
+* Lightclient
+* Nishant
+* Gabi
+* Pari
+* Jimmy Chen
+* Gajinder
+* Ruben
+* Mikhail
+* Zahary
+* Daniel Lehrner
+* Andrew
+* Daniel Lehrner
+* Fredrik
+* Kasey Kirkham
+* Protolambda
+* Cayman Nava
+* Stefan Bratanov
+* Ziad Ghali
+* Barnabas Busa
+* Potuz
+* Trent
+* Jesse Pollak
+* Carlbeek
+
+
+
+## Next meeting on
+Dec 15, 2022, at 15:00 UTC
