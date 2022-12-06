@@ -47,8 +47,8 @@ This document is meant to capture various tasks that need to be completed before
 ### Client-level Open Issues
 
 - [ ] KZG support in Library
-    - Need efficient library support for the cryptographic operations required to verify and interact with blobs, compatible with all clients' programming language. 
-    - **WIP**: [c-kzg](https://github.com/dankrad/c-kzg/tree/4844), an implementation in C based on BLST ([@dankrad](https://github.com/dankrad))
+    - Need efficient library support for the cryptographic [operations](https://github.com/ethereum/consensus-specs/blob/dev/specs/eip4844/polynomial-commitments.md) required to verify and interact with blobs, compatible with all clients' programming language. 
+    - **WIP**: [c-kzg](https://github.com/ethereum/c-kzg-4844/), an implementation in C based on BLST. Includes bindings for multiple languages.
 - [ ] Networking Overhead Analysis
     - Blobs add to the bandwidth requirements of the CL gossip network. Analysis on how many blobs should be included per block to maintain acceptable bandwidth and hardware constraints is required. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
     - **WIP** [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
