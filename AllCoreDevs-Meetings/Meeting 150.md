@@ -144,7 +144,7 @@ Afri: Thank you.
 **Tim Beiko:** 
 * Okay, just to make sure we can move forward. I don't think I've heard anyone say this should not be CFIed, and we can  it. Yeah and we can discuss like the specifics of EOF later. But I does anyone disagree with moving to 3 other EIPs which we've already started prototyping in our in both nets to CFIed along with the other ones. It's not a commitment for Shanghai specifically. Last chance. Okay. so let's do that. Let's move at those 3, the CFI 
 
-# 3. Agenda Item3 EIP-4844
+##  EIP-4844
 [25:03](https://youtu.be/HX_Zr_gVeOE?t=1501)
 **Tim Beiko:** 
 * The next one that's in a similar spot where we've started prototyping it on Dev net already. there's a bunch of client teams that are working on. It is 4844, and I think this is also very much one where you know some people really want to see it in Shanghai. Some people. I don't but leaving like, which fork aside, and whether it makes sense to couple it with withdrawals. does anyone disagree that like this should be Cified. Okay, this one was much easier. so let's move forward forward to Cfi, and we can discuss it in more detail a a after I think. Okay, I'll push back on your comment. There is, I think this is like a perception that if you attend all of these calls and have, like a very good context of like all this stuff that's being considered. Then maybe it's obvious with like Cfi or not. But in the past couple of weeks, like a bunch of people outside of these calls have mentioned to me. It's it's not so like having this signal to like people who don't attend these calls that these are the main things being considered and debated.  It's almost more useful for them than for us. And this is Why, I think it's worth insisting on having like the clear distinction.
