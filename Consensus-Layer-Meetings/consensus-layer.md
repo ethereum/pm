@@ -10,7 +10,8 @@ This repo hosts a collection of [standards](./interop) to aid in client interope
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
-98| Thursday 2022/11/17 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/660) \| [notes](https://github.com/ethereum/pm/blob/940f2130fa96e59abad32e8fc378caeada997d16/Consensus-Layer-Meetings/Call_098.md) \| no reddit | [video](https://www.youtube.com/watch?v=IK1jNCQz5yk&ab_channel=EthereumFoundation)
+99| Thursday 2022/12/1 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/667) \| [notes](call_099.md) \| no reddit | [video](https://youtu.be/KFc1sWYlVZ4)
+98| Thursday 2022/11/17 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/660) \| [notes](Call_098.md) \| no reddit | [video](https://www.youtube.com/watch?v=IK1jNCQz5yk)
 97| Thursday 2022/11/3 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/630) \| [notes](Call_097.md) \| no reddit | [video](https://youtu.be/GWkhFCvwOT4)
 96| Thursday 2022/9/22 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/629) \| [notes](call_096.md) \| no reddit | [video](https://www.youtube.com/watch?v=_yogw67HxZY)
 95| Thursday 2022/9/8 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/618) \| [notes](Call_095.md) \| no reddit | [video](https://youtu.be/ir-gnBm2GZ4)
