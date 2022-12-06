@@ -12,7 +12,7 @@
 - After that, we discussed what should be the scope of Shanghai and when it should happen. Hardest part to summarize given the diverging views, but there is strong (unanimous?) consensus that withdrawals should happen ASAP, and if we add anything alongside them in the fork, the delays to Shanghai should be minimal. Teams felt like a March fork with withdrawals should be possible. 
 - On next week's CL call, we'll discuss more how CL teams feel 4844 might affect withdrawal timelines 
 - On the next ACD (which will be the last one of 2022!), we'd like to get a final list of EIPs we can include alongside withdrawals. 
-- And, lastly, we have a withdrawal devnet live! We'll make sure to cover the status of withdrawals in more depth on the next call.
+- A withdrawal devnet is live! The status of withdrawals will be covered in more depth on the next call.
 
 
 Moderator: 
