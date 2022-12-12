@@ -15,7 +15,6 @@
 - A withdrawal devnet is live! The status of withdrawals will be covered in more depth on the next call.
 
 
-Moderator: 
 
 [1:03](https://youtu.be/HX_Zr_gVeOE?t=84)
 **Tim Beiko:**
