@@ -36,23 +36,19 @@ This document is meant to capture various tasks that need to be completed before
 
 ### Spec-level Open Issues 
 
-- [ ] **WIP**: Returning the modulus as an output for the precompile ([@adietrichs](https://github.com/adietrichs)) , see [#PR5864](https://github.com/ethereum/EIPs/pull/5864)
+- [x] Returning the modulus as an output for the precompile ([@adietrichs](https://github.com/adietrichs)) , see [#PR5864](https://github.com/ethereum/EIPs/pull/5864)
 - [x] Fee Market design ([@adietrichs](https://github.com/adietrichs)) 
     - [x] **[Solved by [PR#5707](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606)]** The current fee market for blob tracks the long-run average of blobs, which is different from EIP-1559 that tracks the short-term gas usage. This has implications on the most optimal way for blobs to be sent, i.e. whether there are many short bursts of blobs or a constant "stream" of them. See [here](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606) for more context. 
 - [x] Blob Retention Period
     - **[Solved by [PR#3047](https://github.com/ethereum/consensus-specs/pull/3047)]** The longer blobs are stored, the higher the storage cost imposed on network nodes. The retention period needs to be set taking into account blob size [blocker], node sync time, and optimistic rollup fraud proof windows.
-- [ ] **Optional** Setting the minimum gas price for blobs >1 wei, see [PR#5862](https://github.com/ethereum/EIPs/pull/5862)
+- [x] **Optional** Setting the minimum gas price for blobs >1 wei, see [PR#5862](https://github.com/ethereum/EIPs/pull/5862)
+    - Decided against this in [Implementers' Call 5](https://github.com/ethereum/pm/issues/670)  
 
 
 ### Client-level Open Issues
 
-- [ ] KZG support in Library
+- [x] KZG support in Library
     - Need efficient library support for the cryptographic [operations](https://github.com/ethereum/consensus-specs/blob/dev/specs/eip4844/polynomial-commitments.md) required to verify and interact with blobs, compatible with all clients' programming language. 
-    - **WIP**: [c-kzg](https://github.com/ethereum/c-kzg-4844/), an implementation in C based on BLST. Includes bindings for multiple languages.
-- [ ] Networking Overhead Analysis
-    - Blobs add to the bandwidth requirements of the CL gossip network. Analysis on how many blobs should be included per block to maintain acceptable bandwidth and hardware constraints is required. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
-    - **WIP** [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
-    - [x] [PR#](https://github.com/ethereum/EIPs/pull/5863) reduced the number of targetted blobs to 2, for a target of 0.25mb per block. 
 - [x] Gossiping of blob transactions ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
     - **[Resolved by introducing [`eth/68`](https://github.com/ethereum/EIPs/pull/5793)]** Large blob transactions are expensive to gossip over the network. Solution: enable node to announce & request specific transactions rather than gossip them by default.
     - [PR#5930](https://github.com/ethereum/EIPs/pull/5930)m makes `eth/68` a dependency of EIP-4844. 
@@ -76,6 +72,10 @@ This document is meant to capture various tasks that need to be completed before
 #### Consensus Layer 
 - [ ] [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
     - See the [`eip4844`](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/eip4844) folder
+- [ ] Networking Overhead Analysis
+    - Blobs add to the bandwidth requirements of the CL gossip network. Analysis on how many blobs should be included per block to maintain acceptable bandwidth and hardware constraints is required. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
+    - **WIP** [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
+    - [x] [PR#](https://github.com/ethereum/EIPs/pull/5863) reduced the number of targetted blobs to 2, for a target of 0.25mb per block. 
 
 #### Execution Layer
 - [ ] [State/blockchain](https://github.com/ethereum/tests) tests 
@@ -91,10 +91,6 @@ This document is meant to capture various tasks that need to be completed before
     - [ ] Invalid transactions
     - [ ] Fee market 
 
-
-#### Other
-- [ ] [Network impact of large blobs](https://notes.ethereum.org/@djrtwo/rkgZs-YVMi) (Prysm looking into it, but other NOs welcome to join) 
-
 #### Tooling 
 
 - [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) ([@0xGabi](https://github.com/0xGabi))
@@ -105,7 +101,7 @@ This document is meant to capture various tasks that need to be completed before
 
 - [x] [Devnet v1](https://hackmd.io/@inphi/SJMXL1P6c)
 - [x] [Devnet v2](https://hackmd.io/@inphi/SJKLtgJXs) 
-- [ ] **WIP**: [Devnet v3](https://notes.ethereum.org/@timbeiko/4844-devnet-3) 
+- [x] [Devnet v3](https://notes.ethereum.org/@timbeiko/4844-devnet-3) 
 
 
   
