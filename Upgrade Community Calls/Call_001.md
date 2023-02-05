@@ -90,7 +90,7 @@ Yeah, let's do that.
 * Someone says we should call it limbo when you're exited waiting  to be withdrawn. 
 
 **Ben Edgington**
-* Yeah, it's not, it's not very long limbo. Right? I mean, even if every, even if every validate has 0 0 1 credentials, which they don't, at the moment only about, 40% due,  it's will still take I think four days to complete a whole sweep through the entire validator set. 
+* Yeah, it's not, it's not very long limbo. Right? I mean, even if every, even if every validate has 0x01 credentials, which they don't, at the moment only about, 40% due, it will still take I think four days to complete a whole sweep through the entire validator set. 
 * Yeah. So once you are exited, you've got a maximum of four days and probably much less, to wait until your funds appear right, A maximum of five days because of the men validator withdrawal ability delay, which is 27 hours. That that only applies if you've only just deposited. Right. once you've been running for 127 hours, that that no longer applies. If I remember correctly. 
 
 **Danny**
