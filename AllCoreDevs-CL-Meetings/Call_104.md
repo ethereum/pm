@@ -17,7 +17,7 @@ Summary | Description
 104.3 | Sean may further discussion in spec repo on this topic. 
 104.4 | The [SSZ meta document](https://hackmd.io/y1MCA5Q-R4eMVyOBHiRH7Q) should be reviewed for discussion next week. 
 104.5 | If interested, please review and comment on the pr re [parent slots in attestations](https://github.com/ethereum/consensus-specs/pull/3249)
-104.6 | 
+104.6 | The Verge spec is based on Bellatrix at the moment. Rebasing it on Deneb at an appropriate time might be the way forward. 
 
 ## Intro
 
