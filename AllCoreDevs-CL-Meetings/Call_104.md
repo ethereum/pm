@@ -7,14 +7,24 @@
 ### Moderator: Danny Ryan
 ### Notes: Metago
 
-### For quick summary: [Ben Edgington](https://hackmd.io/@benjaminion/BkIOGvPy2)
+### For quick summary please see: [Ben Edgington](https://hackmd.io/@benjaminion/BkIOGvPy2)
+
+## Summary <!-- omit in toc -->
+Summary | Description
+-|-
+104.1 | Ethereum Foundation has released a [blogpost](https://blog.ethereum.org/2023/03/08/goerli-shapella-announcement) on the Capella / Shapella upgrade. Nimbus will publish its client release re Capella soon. Eth Stakers will start a livestream of Goerli's upgrade on Tuesday, March 13, 10:25 pm UTC. 
+104.2 | There is interest in having a single request to sign blocks and blobs. Nodes with limited bandwidth may not be able to participate in blob signing but can use remote blob servers to continue staking. Its preferable to minimize impact of bandwidth to allow home stakers to participate in gossip without resorting to external services. 
+104.3 | Sean may further discussion in spec repo on this topic. 
+104.4 | The [SSZ meta document](https://hackmd.io/y1MCA5Q-R4eMVyOBHiRH7Q) should be reviewed for discussion next week. 
+104.5 | If interested, please review and comment on the pr re [parent slots in attestations](https://github.com/ethereum/consensus-specs/pull/3249)
+104.6 | 
 
 ## Intro
 
 ### Capella
 
 **Danny**
-Hello, welcome to ACDC 104. This is issue 738 in the PM repo. Looks like a relatively light schedule, at least as planned, Capella, some spec discussions around the merge, and any sort of closing remarks, and a quick SSC shout out. Okay, cool. So start with Capella. I believe Goerli is imminent. Is it Tuesday? So call it five days, any announcements or discussion points around Capella? Tim? 
+Hello, welcome to ACDC 104. This is issue 738 in the PM repo. Looks like a relatively light schedule, at least as planned, Capella, some spec discussions around the merge, and any sort of closing remarks, and a quick SSZ shout out. Okay, cool. So start with Capella. I believe Goerli is imminent. Is it Tuesday? So call it five days, any announcements or discussion points around Capella? Tim? 
 
 **Tim**
 So we have the blog post out, which has all the client releases except Nimbus, I believe. So expect an update to the blogpost Nimbus, and if they have it released out, maybe they can give it a shout. And then on Monday at 15:30 UTC, we're going to have another community call to answer people's questions about Capella, Shanghai, if a couple folks on the client's or research slash spec team want to show up, that's always great. People usually have clients related or spec related questions. Yeah, it's pretty much it. Oh, sorry. Yeah, it's stakers doing a live stream. This is in the blog post as well, but so it's at 10:25 PM UTC on Tuesday, its stakers going to start a live stream at 10 PM UTC for anyone who wants to watch the actual upgrade on Goerli. 
@@ -235,18 +245,18 @@ If there's like a clear no right now and then I'm just going to close that PR an
 **Danny**
 Yeah, I'd love some engineering input here or on that PR to know that if others see similar issues and similar gains here. It's 3249 on consensus specs. I certainly understand the motivation. But you all would know better. The pain. Okay, if you haven't taken a look at that and have an opinion, please do and leave a comment. Okay, other than that, discussion points.
 
-I believe Guilm has joined us. There is the verge. Verkle stateless spec graphed up in the consensus specs as a PR spin up. A little bit more than a month. Just been a little bit of review but you know once he goes a quick walk here to let us know what's on this feature. 
+I believe Guillaume has joined us. There is the verge. Verkle stateless spec graphed up in the consensus specs as a PR spin up. A little bit more than a month. Just been a little bit of review but you know once he goes a quick walk here to let us know what's on this feature. 
 
 **Etan**
 You're muted. 
 
-**Gballet**
+**Guillaume**
 Okay. Yeah, so just one identity to make a very quick introduction. So there's that PR that's called this number. Yeah, 3230. And the idea is very simple. You just add to the execution payload you add a field execution witness. And this is a structure that is described further down the documents. So we don't have to go through every single field. But basically, yeah, well, one of them, one of the points of bringing that up today was to get your attention on this. But also, there's a couple of questions I wanted to raise. And one of them was that both the execution payload and the execution payload header have the entire structure. And this structure can be fairly big. So I wanted to figure out what the opinion was should the header contain the entire witness or not. If not, I suppose with the witness would be transferred a different way through a different type of message. 
 
 **Danny**
 And how big?
 
-**Gballet**
+**Guillaume**
  Well, I mean, it's in JSON, it's like an array of values, of three values. I didn't get exact numbers. So we just, by the way, I wanted to say we just relaunch Calstinem with this format today. Like a couple, a couple of hours ago. So I didn't, I didn't get exact numbers. I can, I can share that a bit after the call. But we're talking about an array with a thousand entries. 
 
 **Danny**
@@ -258,13 +268,13 @@ We do? I'm talking about the JSON itself. I don't know. Yeah.
 **Dankrad**
 Wait, why is this in JSON? 
 
-**Gballet**
+**Guillaume**
 Because it's for the source. I mean, that's true. There's, it's also passed over the network, but this, this field is provided by the execution engine, the execution layer. So it also has to go over the JSON RPC. 
 
 **Dankrad**
 But like as binary, we know it's like probably like hundred kilobytes for typical block and up to two megabytes for in the worst case is that our estimate?
 
-**Gballet**
+**Guillaume**
  Yeah. Yeah. 
 
 **Dankrad**
@@ -274,25 +284,25 @@ And yeah, with JSON, like probably a factor of like a bit more than two on that.
 Yeah, my question would be, do you need the execution payload header? Like are there things you can do with the execution payload header where you need the entire execution witness. Or is it if you had the execution payload header and maybe you're doing like lightclient things, you just need a portion of the witness or not of the witness. And otherwise you get the whole block. 
 So if you're a state full clients, you don't, you don't need really the. 
 
-**Gballet**
+**Guillaume**
 Well, actually, I mean, you could, you don't need that data. You can get it from your own state. And if you're a stateless client, yes, you will need the entire payload. 
 
 **Danny**
 But you also get the entire block, right? You wouldn't just get the header. 
 
-**Gballet**
+**Guillaume**
 Right. That's true. Yeah. Ok.
 
 **Danny**
 I guess I'm curious if there are use cases where you'd want the header, but the whole witness. 
 
-**Gballet**
+**Guillaume**
 Yeah. 
 
 **Danny**
 And that would, that would help me understand if you'd want to ship this with the header, because my gut is to do the root unless there are some sort of use case here. 
 
-**Gballet**
+**Guillaume**
 Yeah. 
 
 **Dankrad**
@@ -307,7 +317,7 @@ Yeah. But most of the time, I think if you want a witness, you also want to fill
 **Danny**
 Right. Okay. 
 
-**Gballet**
+**Guillaume**
 Okay. So yeah, I think, I mean, I can modify this to be just a root in the header. And if indeed there's a need, we can change it again. But yeah, I don't see any immediate need for that in the, like for the whole witness in the header. 
 
 **Danny**
@@ -319,88 +329,88 @@ So there's a second point I wanted to address or atleast raise. This is the tran
 **Danny**
 Yeah, it's unclear to me how we would do a different case here. So, it's intrucible, but if there's a different option, I'd love to hear it. 
 
-**Gballet**
+**Guillaume**
 No, I don't, I mean, at least I'm not aware of any other option, but yeah, if someone, if someone is, I'd love to, I'd love to hear from them. 
 
 **Danny**
 Yeah, like you don't really have the option even do a pre compute because that's that block came out of lie and you don't have a lot to get so. 
 
-**Gballet**
+**Guillaume**
 Well, I mean, in theory, everybody would have a, like a very already representation of the state, long before the transition. So you could still provide a proof with respect to this state that is not officially enshrined in the blockchain. Yeah, you could, like in practice, everybody will have this, this verkle state. But in theory, you could do the transition at the last moment in theory, never going to have work for real, but. But yeah, no, I think I think this is still the most, yeah, sensical approach. 
 
 **Danny**
 I'm taking a look at it all think about if that like, messes of any proof stuff that I would just probably with it. 
 
-**Gballet**
+**Guillaume**
 Yeah, okay, great, thanks. And there was the last thing. It's more like a nitpick by a deplion. Where is it like he was saying yes, so you have those two fields CL and CR. Oh, he actually answered since. But yeah, this represents some symbols that are in the paper, the IP, IP, paper, paper. So it has to be read like your lab tech. Feel like C underscore or subscript L and C subscript R. But apparently in the specs things tend to be lower case. So I was just wanted to ask if lower case C underscore L and lower key lower case C underscore lower case R was the sufficient or not. 
 
 **Kevaundray**
 I think that uppercase was basically used to show that the CL and CR are just commitments. So it might be fine to have the lower case, but according to this book. 
 
-**Gballet**
+**Guillaume**
 Okay. Well, if there's no other, if there's no dissenting opinion, I'll change that to be like this. 
 
 **Danny**
 Some live code review, I think you mean colon instead of equal sign here. 
 
-**Gballet**
+**Guillaume**
 Possibly. Yeah, I don't know that much Python, but okay. Good, thank you for putting that out. And with that, I think yeah, that's that's pretty much all I wanted to discuss today. 
 
 **Danny**
 Is this built upon Bellatrix or Capella? 
 
-**Gballet**
-Right, yeah, it's so it's built upon Bellatrix at the moment. Yeah, it doesn't have a Capella like he's not rebays on top of Capella. The code. So I mean, the goal is to have it on top of deneb, obviously, but currently it's Bellatrix. 
+**Guillaume**
+Right, yeah, it's so it's built upon Bellatrix at the moment. Yeah, it doesn't have a Capella like he's not rebays on top of Capella. The code. So I mean, the goal is to have it on top of Deneb, obviously, but currently it's Bellatrix. 
 
 **Danny**
-Yeah, okay. Cool. I guess keeping in Bellatrix for initial review seems fine and maybe letting deneb. So going to be able to stabilize and then re-basing on that instead of doing three bases. 
+Yeah, okay. Cool. I guess keeping in Bellatrix for initial review seems fine and maybe letting Deneb. So going to be able to stabilize and then re-basing on that instead of doing three bases. 
 
-**Gballet**
+**Guillaume**
 Yeah
 
 **Danny**
 Great. Great. Are there any other like gotchas in here or is this primarily data structures on the consensus side? 
 
-**Gballet**
-It's, yeah, exactly. It's primary data structures. There's a gotcha indeed. It's where is it? So there's something. There's a bit of a twist for Calstinen. I'm looking for the structure. Exactly. I'm looking for the structure. So there are two values in this truck while three fields in the structure current value, new value and suffix. So we don't have new value. So ultimately, you should have the pre state and the post state, but for Calstinen, we just put the pre state. 
+**Guillaume**
+It's, yeah, exactly. It's primary data structures. There's a gotcha indeed. It's where is it? So there's something. There's a bit of a twist for kaustinen. I'm looking for the structure. Exactly. I'm looking for the structure. So there are two values in this truck while three fields in the structure current value, new value and suffix. So we don't have new value. So ultimately, you should have the pre state and the post state, but for kaustinen, we just put the pre state. 
 
 **Marius**
 Why? 
 
-**Gballet**
+**Guillaume**
 It's just like it's just more maintainable at this point when more people join when codebase stabilizes. It will be easy enough to add. 
 
 **Marius**
 So you can already compute the codebase. 
 
-**Gballet**
+**Guillaume**
 Yes. 
 
 **Danny**
-Okay. Thank you Guilm. Yeah. Any other questions for Guilm? 
+Okay. Thank you Guillaume. Yeah. Any other questions for Guillaume? 
 
 **Etan**
 This is optional is this an SSZ? Do you need SSC unions or just optionals?
 
-**Gballet**
+**Guillaume**
 So used to be unions, but Mikhail said that now optional was added to the to the spec. So yeah, it's an SSZ optional. 
 
 **Etan**
 It's still a proposal like a draft, but if you don't need the union, then I guess writing it like this is the cleanest. 
 
-**Gballet**
+**Guillaume**
 Yeah. So it is currently at least in the code it's implemented as a union. Yes. 
 
 **Danny**
 Okay. And then yes. 
 
-**Gballet**
+**Guillaume**
 Actually, there are no more questions. I had a I had one. So Deneb is the name for fork 4 and  ? and… back in in Australia suggested Electra. So do I have the permission to start referring to this as electra? 
 
 **Danny**
 In terms of the name of the fork. Yeah. I guess as long as it stays in this underscore features directory, I would give it like a feature name because the fork ultimately might be this combined with some other features. And, you know, there is a modicum of a pocess for deciding fork names. So maybe we should respect that. But again, like having something in underscore features as like a star name, would I think be confusing and this should hang out and underscore features until closer to ? fork so we can kick that can down the road. 
 
-**Gballet**
+**Guillaume**
 No problem.
 
 **Hsiao**
@@ -409,8 +419,7 @@ I have a question. So how ready is this pr right now, like this is a still a dra
 **Danny**
 Right. 
 
-**Gballet**
-**Gballet**
+**Guillaume**
 Well, there's so we have a running testnet at the moment. So I'd say it's pretty ready. But yeah, before we enshrine it this way, I assume other clients should implement it. I know Nethermind like Tanishk has also an implementation of verkle trees. I don't know how far along he is from implementing this specific spec, but I would say I would wait for tanish. Well, Nethermind, at least to catch up to this spec before we before we merge it. 
 
 **Danny**
@@ -428,7 +437,7 @@ Thank you. Thanks everyone. Bye. Thank you. Thanks. Bye. Thank you. Thank you. T
 * Etan
 * Dankrad
 * Terence
-* Gballet
+* Guillaume 
 * Pari
 * Hsiao
 * ethDreamer
