@@ -530,7 +530,44 @@ Okay. Anything else?
 
 Okay, then yeah, let's wrap up. Yeah, thanks everyone. Congrats again on Shapella and talk to you all in the EL call next week. Thank you. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye. Bye.
 
-
+### Attendees
+* Tim Beiko
+* Danny Ryan
+* Pooja Ranjan
+* Mikhail Kalinin
+* Alex Stokes
+* lightclient
+* Justin Traglia
+* Ignacio Hagopian
+* Marius
+* Joshua Rudolph
+* Mario Vega
+* pari
+* Marek Moraczynski
+* Roberto B
+* Ben Edgington
+* Moody
+* Mike Kim
+*Trenton
+* Crypdough.eth
+* Gajinder
+* Marcin
+* Guillame
+* Danno Ferrin
+* Andrew 
+* Saulius
+* terence
+* Fabio Di Fabio
+* Potuz
+* Alex
+* Lukasz
+* Alexey Osipov
+* Oleg Jakushkin
+* Ayman
+* Spencer
+* Jamie Lokier
+* James He
+* Phil No
 
 
 
