@@ -8,10 +8,13 @@
 
 | Decision Item | Description                                                              | 
 | ------------- | ------------------------------------------------------------------------ | 
-| 159.1 |
+| 159.1 | Tim Bieko, Chris Hager and terence will contribute to releasing information on the Prism / MEV boost situation related to Shapella in a more permanent fashion. 
+| 159.2 | [ACDE 160](https://github.com/ethereum/pm/issues/759) will focus on [Cancun CFI considerations](https://ethereum-magicians.org/t/cancun-network-upgrade-meta-thread/12060).
+| 159.3 | Pari will reach out to client teams regarding support for testnets that start from Capella Genesis, instead of Bellatrix Genesis. This is already possible for Lodestar. 
+| 159.4 | All the EIPs for Shanghai are final now that they're on mainnet. So EIP authors of the Shanghai EIPs, please open a PR just to move it to final, if possible.
+| 159.4 | [State that payloadId should be unique for each PayloadAttributes instance execution-apis#401](https://github.com/ethereum/execution-apis/pull/401) will be merged in the following days after feedback from various sources, at the latest by the next CL meeting. 
 
-
-## Shanghai Recaps
+## Shanghai Recaps [02:22](https://www.youtube.com/live/u8Nm8AGyCQM?feature=share&t=142) 
 
 **Tim**
 Okay. We are live, ACDE 159, I posted the agenda in the chat. Obviously, the chat about this Shanghai, Shapella, then some Cancun topics, and then a payload ID conversation that's already happened quite a lot in the agenda itself. Yeah, and anything else that comes up, but I guess to start. Yeah, great work, everyone. 
@@ -19,7 +22,7 @@ Okay. We are live, ACDE 159, I posted the agenda in the chat. Obviously, the cha
 On Shapella, it worked. The network transitioned successfully. There were a couple issues, like minor issues that we saw. We can talk about them, but overall, yeah, this was very smooth. Yeah, great work, great work, everyone. Does anyone want to give a recap? Danny, I see you have three comments in the row in the chat. So, share your perspective. 
 
 **Danny**
-Those were troll comments. Yeah, I mean, it went really well. I think one of the most interesting things that I observed is a number of validators were attesting, but not proposing. And that's always kind of an interesting thing because it means their nodes are up and they're following the chain and they're kind of voting on things, but then this other component, the block proposal is forked. Sometimes that can be an issue with your local EL, but given that we have the map boost dependency, that's kind of also one of the potential targets there. And the person guys can talk a bit more about that, but it was a, a map boost issue. One that I think we would hope to see covered in…I think we might have seen a list of the options in the chat as well as in high tests, so we're kind of circling back to figure out. 
+Those were troll comments. Yeah, I mean, it went really well. I think one of the most interesting things that I observed is a number of validators were attesting, but not proposing. And that's always kind of an interesting thing because it means their nodes are up and they're following the chain and they're kind of voting on things, but then this other component, the block proposal is forked. Sometimes that can be an issue with your local EL, but given that we have the MEV boost dependency, that's kind of also one of the potential targets there. And the person guys can talk a bit more about that, but it was a, a MEV boost issue. One that I think we would hope to see covered in…I think we might have seen a list of the options in the chat as well as in hive tests, so we're kind of circling back to figure out. 
 
 That additionally Lighthouse had some CPU. High CPU usage and that was resolved with a hot fix. I believe not yet on their stable branch. Other than that. I believe and maybe somebody can tell me if this is exactly what happened. We had a higher number of missed slots right at the fork. We saw something like 40,000 BLS change operations broadcast because there's more broadcast prior to the fork boundary and saw high CPU loads. 
 
@@ -31,7 +34,8 @@ I can add some color to the Prism issue. So this is so this was a Prism block th
 And what went well is that the circuit breaker actually ended up saving us because of Prism configured to be met missing five slots per epoch. So if we see more than five slots per epoch that's missed, we were defaultable. But we didn't. That ended up saving us that believe it wasn't for that will probably see a lot more missed block over epoch. And yeah, thank you for Chris and other really and for coming together and helping last minute. So they ended up banning Prism validators by use by forcing them to use local builders. If it wasn't for that, we'll probably also see more missed block along the way. So yeah, we're working on postmortem and then we will release that for later. 
 
 **Tim**
-And just one question I just make sure I understand. So when you say they're working on the banned Prism validators are you saying the flash spots relay basically refused to accept…like Prism validators connected to it? Is that right? 
+And just one question I just make sure I understand. So when you say they're working on the banned Prism validators are you saying the flashbots relay basically refused to accept like Prism validators connected to it? Is that right? 
+
 **Terence**
 Right, right, right. So they so they're able to see through the user agent stream like who is requesting the header to sign and then you can see there was a Prism validator, the relayer will reject that validator’s request. And I believe all the relayers ended up doing this except for one of the relayer. 
 
@@ -61,7 +65,7 @@ Also, they're to run this out like either we can contribute our data and time st
 Awesome. Thanks. Yeah, we can chat online about where to add the info, but yeah, they should end up somewhere. Anyone else have just thoughts or comments about the Prism / MEV boost situation specifically?
 
 **Mario**
-Yeah, I can add for the hive test here. So basically the problem with hive was that it's using the ? layer. So this ? layer’s the only purpose is just to generate invalid payloads and check that they are well caught by the consensus client. But the problem was that for the happy pad, it was not very fine the signatures. So that's why it was missed. I think this company is a fixed in an upcoming new test for hive and we can catch this issue in future. 
+Yeah, I can add for the Hive test here. So basically the problem with Hive was that it's using the ? layer. So this ? layer’s the only purpose is just to generate invalid payloads and check that they are well caught by the consensus client. But the problem was that for the happy pad, it was not very fine the signatures. So that's why it was missed. I think this company is a fixed in an upcoming new test for hive and we can catch this issue in future. 
 
 **Tim**
 Thanks. Thanks. 
@@ -121,6 +125,10 @@ We are investigating haven't found the root cause yet. And it seems to be gettin
 **Tim**
 Awesome, thank you. Any other clients? Anything to share? Okay. I guess anything else on Shapella that last chance to bring it up as we move on? Okay, well, once again, great work everyone like I think, you know, overall this went pretty well and the network is stable and which roles are happening. Yeah, very cool to see this finally live.
 
+## [Cancun Updates](https://ethereum-magicians.org/t/cancun-network-upgrade-meta-thread/12060) [20:37](https://www.youtube.com/live/u8Nm8AGyCQM?feature=share&t=1237)
+
+### [Update EIP-4788: Move to Draft EIPs#6859](https://github.com/ethereum/EIPs/pull/6859) 
+
 And I guess on to the next thing. Cancun. Yeah, Alex, you had posted an update to EIP 4788. Do you want to chat about basically the changes you've made? And then you also mentioned you wanted to have this considered for CFI. So maybe we can chat about that and just see if I find stuff in general afterwards. 
 
 **Alex**
@@ -130,7 +138,7 @@ So 4788, the idea is to get some sort of a computer graphics accumulator from th
 
 So that's the general idea is to have some way to access the consensus state in a trust randomized fashion. And the way this EIP originally worked was using the state route for the beacon chain. I changed it to use each beacon block route instead of the state route. The reason why is because the way the beacon chain works is every state has a unique state route. But not well, there can be the same block route if there's a missed slot. 
 
-Let me refer to that. So basically if there is a missed slot and that's why the concern here, if there is a missed slot, then the block routes don't change because that's why it's missed slot. There's no block. But the state does change. And so what it means is if there was a room with slots, then there would essentially with state routes be this like linear amount of work, whereas now it's like constant time or constant amount of work. 
+Let me rephrase that. So basically if there is a missed slot and that's why the concern here, if there is a missed slot, then the block routes don't change because that's why it's missed slot. There's no block. But the state does change. And so what it means is if there was a room with slots, then there would essentially with state routes be this like linear amount of work, whereas now it's like constant time or constant amount of work. 
 
 So we moved to block routes. The original EIP keyed in by block number like EL block number. And I've now changed that to key it by slot. And I think there's a comment from the original EIP PR. Vitalik went into reasons of why we want to use slots, which I think I agree with at this point. So, you know, insures better UX. We keep by slot. We also, so I changed this to use a ring buffer rather than just like writing them all to state forever. 
 
@@ -282,7 +290,7 @@ So was that the argument for putting in the state or that this is the argument f
 **Alex** 
 Well, right. So we're just talking about. And the so well, there's a number of decisions here because it could also not be an op code, but basically this is just the idea of having the route to be exposed in the EVM. So like that's what the EIP sets out to do. That's the important bit. I don't think we should get tied up and like, is the slot exposed like what does that look like, all of that stuff. 
 
-**Tim*
+**Tim**
 And sorry, just to make sure I understand why, like what's the value that you get from having this slot number if it's not exposed in the EVM itself?
 
 **Alex**
@@ -384,15 +392,15 @@ We can do this one. I think. Yeah, we have a low agenda next week. So we can spe
 I just say obviously I think that this EIP is pretty important and that we need to come up with a way of getting the beacon block root into the EVM. I just want to come up with the best design. 
 
 **Tim**
-Yeah. And I guess yeah, in terms of like this CFI conversation, I feel like now that Shane guy is completely out of the way does it make sense to have the next EL call focused on just generally what are the things we might want to verify for Cancun and so that we're not like just making this one like one off decision now, but like we can also have like two weeks for teams to just look at the set of things that are being proposed and try to think about like what's like a coherent set of things we want to do. And even if we don't agree to like everything we want to do in the next week, like maybe we can like flesh out the one or two most important things on the next call alongside for it for 4844. 
+Yeah. And I guess yeah, in terms of like this CFI conversation, I feel like now that Shapella is completely out of the way does it make sense to have the next EL call focused on just generally what are the things we might want to verify for Cancun and so that we're not like just making this one like one off decision now, but like we can also have like two weeks for teams to just look at the set of things that are being proposed and try to think about like what's like a coherent set of things we want to do. And even if we don't agree to like everything we want to do in the next week, like maybe we can like flesh out the one or two most important things on the next call alongside for it for 4844. 
 
 Yeah, just I don't know. So kind of we don't just like add things CFI one by one and then realize we have like five EIPs we've created to without having like a higher level view. And I mean, I don't know if anyone strongly wants to like CFI this now we can have that conversation as well. I think otherwise having like a higher level conversation in two weeks probably makes sense. 
 
 Last call for objections. Okay, yeah, so let's do that. And I guess over the next two weeks as well. We have this Eth magicians thread. I believe all of the EIPs that have been proposed are either linked in that thread or there's also a tag Cancun candidate on Eth magicians. So I'll make sure to update the main like the first post on that thread with everything that I'm aware about that has been proposed so people can look at that. If there's anything missing there, feel free to ping me either on Discord Twitter, Eth magicians. So I'll make sure to keep that up to date before the next call. And then yeah, if client teams and just folks generally want to like think through the various options what we should prioritize. I think that would be valuable. Yeah, does that make sense? 
 
-## Capella Genesis
+## Capella Genesis [46:04](https://www.youtube.com/live/u8Nm8AGyCQM?feature=share&t=2764)
 
-Okay, next up then I believe it was Pari, you put this on the agenda, the idea of starting devnets with copilot genesis. You want to take a chance about that? 
+Okay, next up then I believe it was Pari, you put this on the agenda, the idea of starting devnets with Capella Genesis. You want to take a chance about that? 
 
 **Pari**
 Sure. Yeah, I just wanted to bring it up to see if any client teams have already tested support. And if not, if we could start testing support. So we can start testnets from Capella instead of Bellatrix genesis states. And also asking that in the context which that supported in all the feature branches for the different. So I know for example, we can't start from Capella genesis and work it yet, but if it does work on EOF as well as 4844. 
@@ -407,7 +415,7 @@ Any other clients?
 Cool, I can also reach out to the teams separately for that. Thanks. One other time we had the ? testnet that's currently live that was meant to be public and test withdrawals. We'd like to officially announce its deprecation and we hope to take it down next week Wednesday. So if anyone’s using it for something active. Please let us know. Otherwise it will be deprecated by then. 
 
 **Tim**
-Got it. And I know in the 4844 calls, like two weeks ago, we were talking about setting up a longer lived 4844 devnet in the next few weeks or so as a spec, yeah, once we have that up, we can point people in that direction is like the main thing to go if you want to test the cleaning edge features before they go on public test. Okay, anything else on Cancun?
+Got it. And I know in the 4844 calls, like two weeks ago, we were talking about setting up a longer lived 4844 devnet in the next few weeks or so as a spec, yeah, once we have that up, we can point people in that direction is like the main thing to go if you want to test the cutting edge features before they go on public test. Okay, anything else on Cancun?
 
 **Danny**
 Just real quick, the way that we do releases on the consensus specs is they don’t release candidates until the rules are actually on mainnet, the rules and logic is now on mainnet so the next couple days will be releasing a consensus specs non RC release. This will also include the transaction type change to 0x3 on 4844. So I believe that will kind of give us a good target for testnets. 
@@ -454,10 +462,10 @@ Yeah. And then you build process should be started to, you know, to factor in th
 Yeah, but the proposal will still fail because withdrawals shouldn't be any different right. So if it's giving different withdrawals, then probably it has calculated the withdrawals incorrectly and the proposal will eventually fail. 
 
 **Tim**
-Yeah, Mikhail?**
+Yeah, Mikhail?
 
 **Mikhail**
-Yeah, yeah, yeah, yeah, just. Yeah, there was a. Yeah, the failure is because the withdrawals were sent had different values. So yeah, that's the failure. So it's basically not because of the Azure only. In this case, because of the bug on CL side and this behavior on the outside as well, so which didn't match up with the new withdrawals information. Sort of makes. So, but yeah, we'd like to, you know, to. Yeah, I think it makes sense makes a lot of sense to have this in its back and. Of course…test this as well. 
+Yeah, yeah, yeah, yeah, just. Yeah, there was a. Yeah, the failure is because the withdrawals were sent had different values. So yeah, that's the failure. So it's basically not because of the Azure only. In this case, because of the bug on CL side and this behavior on the outside as well, so which didn't match up with the new withdrawals information. Sort of makes. So, but yeah, we'd like to, you know, to. Yeah, I think it makes sense makes a lot of sense to have this in its back and enforce it by hive test this as well. 
 
 **Tim**
 Okay. I guess in terms of next steps here. Should we just go ahead and merge this change? Yeah, I think ? had a comment as well which I don't have time to read, but should we maybe leave it open? A couple more days just to make sure we address all the issues or like the comments on it then. Yeah, close it then?
@@ -474,10 +482,10 @@ Yeah, yeah, yeah…
 **Tim**
 Yeah, yeah, do it before. Yeah, okay. Sweet. Anything else anyone wanted to cover? 
 
-Okay, and Merrill saying in the comments, we can add a high test for this case as well. Okay, I don't want to be like we can yeah, we can. 
+Okay, and Merrill saying in the comments, we can add a hive test for this case as well. Okay, I don't want to be like we can yeah, we can. 
 
 **Mikhail**
-Yeah, we can basically work on high test and parallel. So it's still makes sense. Not wait for it. 
+Yeah, we can basically work on hive test in parallel. So it's still makes sense. Not wait for it. 
 
 **Alex**
 If there's anything else I have one thing to bring up around MEV boost. 
@@ -548,7 +556,7 @@ Okay, then yeah, let's wrap up. Yeah, thanks everyone. Congrats again on Shapell
 * Ben Edgington
 * Moody
 * Mike Kim
-*Trenton
+*Trent
 * Crypdough.eth
 * Gajinder
 * Marcin
@@ -559,7 +567,7 @@ Okay, then yeah, let's wrap up. Yeah, thanks everyone. Congrats again on Shapell
 * terence
 * Fabio Di Fabio
 * Potuz
-* Alex
+* Alex Beregszazi
 * Lukasz
 * Alexey Osipov
 * Oleg Jakushkin
@@ -568,6 +576,29 @@ Okay, then yeah, let's wrap up. Yeah, thanks everyone. Congrats again on Shapell
 * Jamie Lokier
 * James He
 * Phil No
+* Chris Hager
+* Ayman
+* Ahmed Bitar
+* Andrew Ashikhmin
+* Danno Ferrin
+* Andriidsky
+* Ruben
+* Fredrick
+* Ignacio Hagopian
+* Ben Adams
+* Hero Gamer
+* mrabino1
+* Nelson
+* Mehdi Aouadi
+* Saulius Grigaitis
+* Daniel Lerhner
+* Sasa Webup
+* Stefan Bratanov
+* Gary Schulte
+* Tomasz Stanczak
+
+
+
 
 
 
