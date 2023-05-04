@@ -3,7 +3,7 @@
 ### Meeting Duration: 1hour 30 minutes
 ### [GitHub Agenda](https://github.com/ethereum/pm/issues/729)
 ### [Video of the meeting](https://youtu.be/GNhrb5txJ4M)
-### Moderator: Tim Bieko
+### Moderator: Tim Beiko
 ### Notes: Alen (Santhosh)
 
 | Decision Item | Description                                                              | 
