@@ -1,12 +1,11 @@
 # EIP-4844 Readiness Checklist
 
-This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. Github handles for owners of various tasks are indicated between parentheses beside the task. If are working on something not listed here, please open a PR against this file to indicate it. 
+This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. 
 
 ## Specs
 
-- [Meta Spec & Resources](https://hackmd.io/@protolambda/eip4844-meta)
-- [EL: EIP-4844](https://eips.ethereum.org/EIPS/eip-4844)
-- [CL: consensus-specs](https://github.com/ethereum/consensus-specs/tree/dev/specs/eip4844)
+- [Execution Layer: EIP-4844](https://eips.ethereum.org/EIPS/eip-4844)
+- [Consensus Layer: consensus-specs `deneb` folder](https://github.com/ethereum/consensus-specs/tree/dev/specs/deneb)
 
 ## Implementation
 
@@ -16,20 +15,20 @@ This document is meant to capture various tasks that need to be completed before
 
 | Client | Status | Tracker | Implementation Link | 
 | ------ | ------ | ---- | ----- | 
-| go-ethereum | WIP implementation | N/A | [Link](https://github.com/mdehoog/go-ethereum/tree/eip-4844) | 
-| Nethermind | WIP implementation | [Link](https://github.com/NethermindEth/nethermind/issues/4558) | [Link](https://github.com/NethermindEth/nethermind/pull/4858) | 
-| Erigon | WIP implementation | N/A | [Link](https://github.com/roberto-bayardo/erigon/pull/1) |
-| Besu | Issue Opened | [Link](https://github.com/hyperledger/besu/issues/4631) | N/A | 
+| go-ethereum | WIP main branch, fork on devnets | [Link](https://github.com/ethereum/go-ethereum/issues/27047) | [Link](https://github.com/mdehoog/go-ethereum/tree/eip-4844) | 
+| Nethermind | Branch on devnets | [Link](https://github.com/NethermindEth/nethermind/issues/4558) | [Link](https://github.com/NethermindEth/nethermind/pull/4858) | 
+| Erigon | WIP main branch, fork on devnet | [Link](https://github.com/ledgerwatch/erigon/pulls?q=is%3Apr+label%3Adencun+) | [Link](https://github.com/roberto-bayardo/erigon/pull/1) |
+| Besu | Branch on devnets | [Link](https://github.com/hyperledger/besu/issues/4631) | [Link](https://github.com/hyperledger/besu/commits/eip-4844-interop) | 
 
 #### Consensus Layer 
 
 | Client | Status | Tracker | Implementation Link | 
 | ------ | ------ | ---- | ----- | 
-| Prysm | WIP prototype & production implementations | [Link](https://github.com/prysmaticlabs/prysm/issues/11579) | [devnet prototype](https://github.com/Inphi/prysm/tree/eip-4844), [prysm production](https://github.com/terencechain/prysm/tree/eip4844) |
-| Teku | Issue Opened | [Link](https://github.com/ConsenSys/teku/issues/5681) | [Link](https://github.com/ConsenSys/teku/issues/5681) |
-| Lighthouse | WIP implementation | [Link](https://github.com/sigp/lighthouse/issues/3625) | [Link](https://github.com/sigp/lighthouse/tree/eip4844)  |
-| Lodestar | WIP implementation | [Link](https://github.com/ChainSafe/lodestar/issues/4632) | [ChainSafe/lodestar#4774](https://github.com/ChainSafe/lodestar/pull/4774) | 
-| Nimbus | Implementation in progress |  [Link](https://github.com/status-im/nimbus-eth2/issues/4395) | [Link](https://github.com/status-im/nimbus-eth2/tree/unstable) |
+| Prysm | Branch on devnets | [Link](https://github.com/prysmaticlabs/prysm/issues/11823)| [Link](https://github.com/prysmaticlabs/prysm/tree/eip4844) |
+| Teku | WIP main branch, other branch on devnet | [Link](https://github.com/ConsenSys/teku/issues/5681) | [Link](https://github.com/ConsenSys/teku/tree/4844-interop) |
+| Lighthouse | Branch on devnet | [Link](https://github.com/sigp/lighthouse/issues?q=is%3Aissue+is%3Aopen+label%3Adeneb) | [Link](https://github.com/sigp/lighthouse/tree/deneb-free-blobs)  |
+| Lodestar | Branch on devnet | [Link](https://github.com/ChainSafe/lodestar/issues/5279) | [Link](https://github.com/ChainSafe/lodestar/tree/g11tech/free-the-blobs) | 
+| Nimbus | Branch on devnet |  [Link](https://github.com/status-im/nimbus-eth2/issues/4395) | [Link](https://github.com/status-im/nimbus-eth2/tree/unstable) |
 
 #### Resources 
  - [CL Implementation Considerations](https://hackmd.io/@terencechain/ByH4cbMfi) 
