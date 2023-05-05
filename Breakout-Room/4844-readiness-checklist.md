@@ -90,9 +90,9 @@ This document is meant to capture various tasks that need to be completed before
     - [ ] [Point Evaluation Precompile](https://github.com/ethereum/execution-spec-tests/pull/104/files)
 - [ ] [Hive](https://github.com/ethereum/hive) tests
     - [ ] Docker resource constraints
-    - [ ] [Engine API Tests](https://github.com/ethereum/hive/pull/759)
-        - [ ] `engine_getPayloadV3`
-        - [ ] `engine_newPayloadV3`
+    - [x] [Engine API Tests](https://github.com/ethereum/hive/pull/759)
+        - [x] `engine_getPayloadV3`
+        - [x] `engine_newPayloadV3`
         - [ ] Transaction Pool
             - [ ] Spam transactions
             - [ ] Invalid transactions
