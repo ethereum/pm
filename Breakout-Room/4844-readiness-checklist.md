@@ -81,10 +81,28 @@ This document is meant to capture various tasks that need to be completed before
     - [x] [PR#5863](https://github.com/ethereum/EIPs/pull/5863) reduced the number of targetted blobs to 2, for a target of 0.25mb per block. 
 
 #### Execution Layer
-- [ ] WIP [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases)
+- [ ] [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases)
+    - [ ] Blob Transaction
+    - [x] [ExcessDataGas Header Field/Gas Accounting](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/eips/eip4844/excess_data_gas.py)
+    - [x] [DATAHASH Opcode](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/eips/eip4844/datahash_opcode.py)
+    - [ ] [Point Evaluation Precompile](https://github.com/ethereum/execution-spec-tests/pull/104/files)
 - [ ] [Hive](https://github.com/ethereum/hive) tests
     - [ ] Docker resource constraints
-    - [ ] CL mocker update 
+    - [ ] Execution Layer
+        - [ ] [Engine API Tests](https://github.com/ethereum/hive/pull/759)
+            - [ ] `engine_getPayloadV3`
+            - [ ] `engine_newPayloadV3`
+            - [ ] Blob Transaction Mempool Tests
+            - [ ] Blob Transaction P2P Tests
+        - [ ] [Pyspec Update](https://github.com/ethereum/hive/pull/765)
+    - [ ] Consensus Layer
+        - [ ] Beacon API Simulator
+    - [ ] E2E Execution-Consensus
+        - [ ] Cancun Fork Simulator
+        - [ ] Blob Expiry Tests
+    - [ ] Builder API
+        - [ ] Builder-Relayer Mock Tests
+        - [ ] Real MEV-Boost Simulator
 - [ ] Transaction Pool
     - [ ] Spam transactions
     - [ ] Invalid transactions
