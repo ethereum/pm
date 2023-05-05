@@ -68,27 +68,20 @@ This document is meant to capture various tasks that need to be completed before
 - [x] [Blob Sidecar Beacon API](https://github.com/Inphi/prysm/pull/21) ([@mdehoog](https://github.com/mdehoog))
 - [x] [Engine API support](https://github.com/ethereum/execution-apis/pull/197)
 
-## Testing (stale, last update January 2023)
+## Testing 
 
-- [ ] Simple JSON test vectors (example from [early merge devnets](https://notes.ethereum.org/@MariusVanDerWijden/rkwW3ceVY))
-- [ ] Node performance monitoring ([@booklearner](https://github.com/booklearner)) 
-- [ ] [Transaction fuzzing](https://github.com/MariusVanDerWijden/tx-fuzz) ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
-- [ ] Differential fuzzing 
+#### Fuzzing 
+- [ ] [Transaction fuzzing](https://github.com/MariusVanDerWijden/tx-fuzz)
 
 #### Consensus Layer 
-- [ ] [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
-    - See the [`eip4844`](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/eip4844) folder
-- [ ] Networking Overhead Analysis
-    - Blobs add to the bandwidth requirements of the CL gossip network. Analysis on how many blobs should be included per block to maintain acceptable bandwidth and hardware constraints is required. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). 
-    - **WIP** [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
-    - [x] [PR#](https://github.com/ethereum/EIPs/pull/5863) reduced the number of targetted blobs to 2, for a target of 0.25mb per block. 
+- [x] [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
+    - See the [`deneb`](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/deneb) folder
+- [x] Networking Overhead Analysis
+    - Blobs add to the bandwidth requirements of the CL gossip network. Analysis on how many blobs should be included per block to maintain acceptable bandwidth and hardware constraints is required. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
+    - [x] [PR#5863](https://github.com/ethereum/EIPs/pull/5863) reduced the number of targetted blobs to 2, for a target of 0.25mb per block. 
 
 #### Execution Layer
-- [ ] [State/blockchain](https://github.com/ethereum/tests) tests 
-    - [ ] Block Header changes
-    - [ ] Transaction format 
-    - [ ] `DATAHASH` opcode
-    - [ ] Point evaluation precompile
+- [ ] WIP [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases)
 - [ ] [Hive](https://github.com/ethereum/hive) tests
     - [ ] Docker resource constraints
     - [ ] CL mocker update 
@@ -110,6 +103,3 @@ This document is meant to capture various tasks that need to be completed before
 - [x] [Devnet v3](https://notes.ethereum.org/@timbeiko/4844-devnet-3) 
 - [x] [Devnet v4](https://notes.ethereum.org/@timbeiko/4844-devnet-4)
 - [x] [Devnet v5](https://4844-devnet-5.ethpandaops.io/)
-
-
-  
