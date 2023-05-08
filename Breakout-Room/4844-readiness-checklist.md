@@ -108,7 +108,7 @@ This document is meant to capture various tasks that need to be completed before
         - [ ] Builder-Relayer Mock Tests
         - [ ] Real MEV-Boost Simulator
 - [ ] [Sync tests](https://github.com/samcm/ethereum-sync-testing)
-- [ ] [ Shadow forks ]
+- [ ] Shadow forks 
     - [ ] Sepolia shadowfork
     - [ ] Goerli shadowfork
     - [ ] Mainnet shadowfork
