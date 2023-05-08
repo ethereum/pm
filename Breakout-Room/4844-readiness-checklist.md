@@ -79,17 +79,34 @@ This document is meant to capture various tasks that need to be completed before
 - [x] Networking Overhead Analysis
     - Blobs add to the bandwidth requirements of the CL gossip network. Analysis on how many blobs should be included per block to maintain acceptable bandwidth and hardware constraints is required. Discussed in [Breakout Room #4](https://docs.google.com/document/d/1KgKZnb5P07rdLBb_nRCaXhzG_4PBoZXtFQNzKO2mrvc/edit#heading=h.t7yop7yz4l6m). [Proposed experiment](https://notes.ethereum.org/lQ_75o64R9q8ddt3M9M3tg?view) ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
     - [x] [PR#5863](https://github.com/ethereum/EIPs/pull/5863) reduced the number of targetted blobs to 2, for a target of 0.25mb per block. 
+- [ ] [Hive](https://github.com/ethereum/hive) tests
+    - [ ] Beacon API Simulator
 
 #### Execution Layer
-- [ ] WIP [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases)
+- [ ] [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases)
+    - [ ] Blob Transaction
+    - [x] [ExcessDataGas Header Field/Gas Accounting](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/eips/eip4844/excess_data_gas.py)
+    - [x] [DATAHASH Opcode](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/eips/eip4844/datahash_opcode.py)
+    - [ ] [Point Evaluation Precompile](https://github.com/ethereum/execution-spec-tests/pull/104/files)
 - [ ] [Hive](https://github.com/ethereum/hive) tests
     - [ ] Docker resource constraints
-    - [ ] CL mocker update 
-- [ ] Transaction Pool
-    - [ ] Spam transactions
-    - [ ] Invalid transactions
-    - [ ] Fee market 
+    - [x] [Engine API Tests](https://github.com/ethereum/hive/pull/759)
+        - [x] `engine_getPayloadV3`
+        - [x] `engine_newPayloadV3`
+        - [ ] Transaction Pool
+            - [ ] Spam transactions
+            - [ ] Invalid transactions
+            - [ ] Fee market 
+    - [ ] [Pyspec Update](https://github.com/ethereum/hive/pull/765)
 
+
+#### End-to-End
+- [ ] [Hive](https://github.com/ethereum/hive) tests
+    - [ ] Cancun Fork Simulator
+    - [ ] Blob Expiry Tests
+    - [ ] Builder API
+        - [ ] Builder-Relayer Mock Tests
+        - [ ] Real MEV-Boost Simulator
 #### Tooling 
 
 - [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) ([@0xGabi](https://github.com/0xGabi))
