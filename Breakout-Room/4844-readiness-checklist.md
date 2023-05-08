@@ -107,6 +107,15 @@ This document is meant to capture various tasks that need to be completed before
     - [ ] Builder API
         - [ ] Builder-Relayer Mock Tests
         - [ ] Real MEV-Boost Simulator
+- [ ] [Sync tests](https://github.com/samcm/ethereum-sync-testing)
+- [ ] Shadow forks 
+    - [ ] Sepolia shadowfork
+    - [ ] Goerli shadowfork
+    - [ ] Mainnet shadowfork
+    - [ ] Shadowfork with mock builder/relays
+    - [ ] Shadowfork with public builders/relays
+    - [ ] Non-finality tests
+    
 #### Tooling 
 
 - [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) ([@0xGabi](https://github.com/0xGabi))
