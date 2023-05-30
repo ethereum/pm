@@ -6,6 +6,7 @@ This document is meant to capture various tasks that need to be completed before
 
 - [Execution Layer: EIP-4844](https://eips.ethereum.org/EIPS/eip-4844)
 - [Consensus Layer: consensus-specs `deneb` folder](https://github.com/ethereum/consensus-specs/tree/dev/specs/deneb)
+- [Engine API: `blob-extension.md`](https://github.com/ethereum/execution-apis/blob/main/src/engine/experimental/blob-extension.md)
 
 ## Implementation
 
@@ -35,8 +36,10 @@ This document is meant to capture various tasks that need to be completed before
 
 ### Spec-level Open Issues 
 
-- [ ] SSZ vs. RLP encoding of transactions
-    - The current 4844 specs use SSZ to encode blob transactions. That said, it's unclear if the current SSZ scheme provides sufficient benefits to justify partial SSZ adoption on the execution layer. More context [here](https://hackmd.io/nz-IqXLPQ-yahFPFlPl62A). On the other hand, moving to RLP would introduce this dependency on the [consensus layer](https://github.com/ethereum/consensus-specs/pull/3345/files)
+- [x] SSZ vs. RLP encoding of transactions
+    - EIP-4844 transactions will maintain RLP encoding, see: https://github.com/ethereum/EIPs/pull/6985
+- [ ] Big vs. Little endian precompile inputs
+    - See https://github.com/ethereum/EIPs/pull/7020
 - [x] Returning the modulus as an output for the precompile, see [#PR5864](https://github.com/ethereum/EIPs/pull/5864)
 - [x] Fee Market design
     - [x] **[Solved by [PR#5707](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606)]** The current fee market for blob tracks the long-run average of blobs, which is different from EIP-1559 that tracks the short-term gas usage. This has implications on the most optimal way for blobs to be sent, i.e. whether there are many short bursts of blobs or a constant "stream" of them. See [here](https://github.com/ethereum/EIPs/pull/5353#issuecomment-1199277606) for more context. 
@@ -44,7 +47,6 @@ This document is meant to capture various tasks that need to be completed before
     - **[Solved by [PR#3047](https://github.com/ethereum/consensus-specs/pull/3047)]** The longer blobs are stored, the higher the storage cost imposed on network nodes. The retention period needs to be set taking into account blob size [blocker], node sync time, and optimistic rollup fraud proof windows.
 - [x] **Optional** Setting the minimum gas price for blobs >1 wei, see [PR#5862](https://github.com/ethereum/EIPs/pull/5862)
     - Decided against this in [Implementers' Call 5](https://github.com/ethereum/pm/issues/670)  
-
 
 ### Client-level Open Issues
 
@@ -83,8 +85,8 @@ This document is meant to capture various tasks that need to be completed before
     - [ ] Beacon API Simulator
 
 #### Execution Layer
-- [ ] [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases)
-    - [ ] Blob Transaction
+- [ ] [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases), [tracker](https://github.com/ethereum/execution-spec-tests/issues/130)
+    - [ ] RLP Blob Transactions
     - [x] [ExcessDataGas Header Field/Gas Accounting](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/eips/eip4844/excess_data_gas.py)
     - [x] [DATAHASH Opcode](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/eips/eip4844/datahash_opcode.py)
     - [ ] [Point Evaluation Precompile](https://github.com/ethereum/execution-spec-tests/pull/104/files)
@@ -129,3 +131,4 @@ This document is meant to capture various tasks that need to be completed before
 - [x] [Devnet v3](https://notes.ethereum.org/@timbeiko/4844-devnet-3) 
 - [x] [Devnet v4](https://notes.ethereum.org/@timbeiko/4844-devnet-4)
 - [x] [Devnet v5](https://4844-devnet-5.ethpandaops.io/)
+- [ ] [Devnet v6](https://notes.ethereum.org/@bbusa/dencun-devnet-6)
