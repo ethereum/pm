@@ -213,8 +213,9 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
-108| Thursday 2023/5/4 at 14:00 UTC |[agenda]((https://github.com/ethereum/pm/issues/771) \| [notes](AllCoreDevs-CL-Meetings/Call_108.md) \| no reddit | [video](https://www.youtube.com/watch?v=RZnf3K1i3NM)
-107|
+109| Thursday 2023/5/18 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/783) \| [notes](AllCoreDevs-CL-Meetings/Call_109.md) \| no reddit | [video](https://github.com/ethereum/pm/issues/783)
+108| Thursday 2023/5/4 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/771) \| [notes](AllCoreDevs-CL-Meetings/Call_108.md) \| no reddit | [video](https://www.youtube.com/watch?v=RZnf3K1i3NM)
+107| Thursday 2023/4/20 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/756) \| [notes](AllCoreDevs-CL-Meetings/Call_107.md) \| no reddit | [video](https://youtu.be/Iy5zTJIXhQU)
 106| Thursday 2023/4/6 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/752) \| [notes](AllCoreDevs-CL-Meetings/Call_106.md) \| no reddit | [video](https://youtu.be/MrHh_jS4lZY)
 105| Thursday 2023/2/23 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/747) \| [notes](AllCoreDevs-CL-Meetings/Call_105.md) \| no reddit | [video](https://youtu.be/Xc6Ss-m_nlE)
 104| Thursday 2023/3/9 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/738) \| [notes](AllCoreDevs-CL-Meetings/Call_104.md) \| no reddit | [video](https://www.youtube.com/watch?v=C5SmmkriuwA)
