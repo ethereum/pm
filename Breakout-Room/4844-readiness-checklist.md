@@ -26,7 +26,7 @@ This document is meant to capture various tasks that need to be completed before
 | Client | Status | Tracker | Implementation Link | 
 | ------ | ------ | ---- | ----- | 
 | Prysm | Branch on devnets | [Link](https://github.com/prysmaticlabs/prysm/issues/11823)| [Link](https://github.com/prysmaticlabs/prysm/tree/eip4844) |
-| Teku | WIP main branch, other branch on devnet | [Link](https://github.com/ConsenSys/teku/issues/5681) | [Link](https://github.com/ConsenSys/teku/tree/4844-interop) |
+| Teku | main branch | [Link](https://github.com/ConsenSys/teku/issues/5681) | [Link](https://github.com/ConsenSys/teku/tree/master) |
 | Lighthouse | Branch on devnet | [Link](https://github.com/sigp/lighthouse/issues?q=is%3Aissue+is%3Aopen+label%3Adeneb) | [Link](https://github.com/sigp/lighthouse/tree/deneb-free-blobs)  |
 | Lodestar | Branch on devnet | [Link](https://github.com/ChainSafe/lodestar/issues/5279) | [Link](https://github.com/ChainSafe/lodestar/tree/g11tech/free-the-blobs) | 
 | Nimbus | Branch on devnet |  [Link](https://github.com/status-im/nimbus-eth2/issues/4395) | [Link](https://github.com/status-im/nimbus-eth2/tree/unstable) |
