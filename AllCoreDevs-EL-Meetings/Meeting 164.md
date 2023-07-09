@@ -1,10 +1,10 @@
  # Execution Layer Meeting 164 Notes <!-- omit in toc --> 
 
-### Meeting Date/Time: Thursday 2023/6/22 at 14:00 UTC <!-- omit in toc --> 
+### Meeting Date/Time: Thursday 22 June 2023 at 14:00 UTC <!-- omit in toc --> 
 ### Meeting Duration: 1.50 hours <!-- omit in toc --> 
 ### [GitHub Agenda](https://github.com/ethereum/pm/issues/808) <!-- omit in toc --> 
 ## [Audio  Video of the Meeting](https://www.youtube.com/watch?v=09Kzi2x06UM) <!-- omit in toc --> 
-### Moderator:: Tim Beiks <!-- omit in toc --> 
+### Moderator:: Tim Beiko <!-- omit in toc --> 
 ### Notes: Avishek Kumar <!-- omit in toc --> 
 
 —-------------------------------------------------------------------------
@@ -52,13 +52,13 @@
 
 **Tim Beiko** [18:53](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1133): Got it.
 
-**MariusVanDerWijden** [18:54](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1134): Yeah, I agree, but in general it it is very nice for everyone implemented this because then we could start implementing You test in a new EIP’s and other clients right now, it's  basically only really possible and guess and and maybe be so. to implement a new feature and fill these fixtures. So if the clients also implement the t8n tool it would be really nice too. So we can. So like, researchers control to type in their favourite language and don't  always need to rely on Consensus to do it.
+**Marius Van Der Wijden** [18:54](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1134): Yeah, I agree, but in general it it is very nice for everyone implemented this because then we could start implementing You test in a new EIP’s and other clients right now, it's  basically only really possible and guess and and maybe be so. to implement a new feature and fill these fixtures. So if the clients also implement the t8n tool it would be really nice too. So we can. So like, researchers control to type in their favourite language and don't  always need to rely on Consensus to do it.
 
 **Tim Beiko** [19:48](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1188): Okay, any other comments, questions about application tests.
 
 **Danny** [19:58](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1198): My phone crashed at 1 point. So maybe I missed it. But is there? the ability to fill with eels?
 
-**MariusVanDerWijden** [20:09](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1209): They're working on it, as far as I know. 
+**Marius Van Der Wijden** [20:09](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1209): They're working on it, as far as I know. 
 
 **Mario Vega** [20:16](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1216): Yeah, I think I think there's a gate and support. And as long as they have that we can, we can definitely use them too.
 
@@ -75,7 +75,7 @@
 **Tim Beiko** [22:36](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1356): Cool. Anything else. Okay, well, thanks a lot for the presentation guys. and yeah, people can reach you on the or any discord to provide feedback or ask questions. okay. 
 
 # Dencun Updates
-- [Update EIP-4844: Update precompile address for 4844 EIPs#7172](https://github.com/ethereum/EIPs/pull/7172)
+### [Update EIP-4844: Update precompile address for 4844 EIPs#7172](https://github.com/ethereum/EIPs/pull/7172)
 
 **Tim Beiko** [22:58](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1378): Next up we have a bunch of Dancun updates. so first just a small change to the 4844 precompile address. Alex, open the PR, I don't know if there is any context, you want to add, but it seems pretty straight.
 
@@ -83,7 +83,7 @@
 
 **Tim Beiko** [23:41](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1421): I guess. Does anyone disagree with that? Then, if not, we can have this for the next Devnet. Devnet7.
 
-**MariusVanDerWijden** [23:52](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1432):  just as a background. It was like, the gap is because of the Bls pre compiles, but I agree we should tightly pack them and the pos 3 compiles on and not going to be on may not. this, folks, looks good to me. 
+**Marius Van Der Wijden** [23:52](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1432):  just as a background. It was like, the gap is because of the Bls pre compiles, but I agree we should tightly pack them and the pos 3 compiles on and not going to be on may not. this, folks, looks good to me. 
 
 **Danny** [24:11](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1451):  So we probably should simultaneously adjust the DS precompile EIP, just so that we don't have conflict if there is testing on that.
 
@@ -97,7 +97,7 @@
 
 **Tim Beiko** [24:52](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1492):  Okay, so perfect, let's make the change on 4844 and then reflect it on 20. DS EIP as well to not yeah, to not have a conflict there.  and then, Alex, your second PR on 4788. You want to give some context on this one.
 
-- [Update EIP-4788: Bound precompile storage EIPs#7178](https://github.com/ethereum/EIPs/pull/7178)
+### [Update EIP-4788: Bound precompile storage EIPs#7178](https://github.com/ethereum/EIPs/pull/7178)
 
 **Stokes** [25:15](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1515):  Yeah, this one is much more involved than when we just discussed. So we had discussed 4788, as a very quick, brief reminder. This is taking the beacon block route, which is a cryptographic accumulator, so you can make proofs about it to the State taking this route and putting it into the evm. It unlocks a lot of cool applications. you can go to EIP to see a little bit more about that. and we've had a little back and forth on exactly how to implement this with the api looks like. alternatively, there's a pre compile that will expose these roots. And the one thing that was essentially like, yeah, what is the PR of how it look like just going off of, like the data the EL has, they have like a timestamp. And then, like the really handy. So the question becomes, okay. you know, do we keep the essentially Api to the reconciled by, like the timestamp by the routes? How does this work? And there's like some different options here. One option is just to write by a timestamp but there's not a nice way to basically then bound. How much storage this thing uses, which generally is nice. We don't want this unbounded thing growing forever so like 5 - 10 years from now, you know you look at this precompiled storage, and it's, you know. gigabytes something like that. So, anyway. point being I made a pass on changing how these things are stored so that the storage is founded. There's only a certain number that will ever be in the pre-compile storage.  And yeah, the only thing that's a little funny is. Basically, there's 2 ring buffers, simply because if we only had one ring buffer, so if we have a ring buffer. Then we can bound the storage, because basically, for every timestamp there's like one sort of slide goes into the issue. There is that if we have a missed slot on the CL. or just in the chain. Probably. Then, what's gonna happen is you basically have like a prior rights that would then basically correspond to a later timestamp. And this could theoretically be used to like, you know, attack some gap. Let's say, that's like using this. So that's no good. And the way you get around this is just basically record both the timestamp and the route and one more caveat from there, just because you know the storage size of these things is only 32 Byte, and the roots are 32 Byte I can like tightly pack them into one storage slot in the in the state. And so now there's like 2 ring buffers. So if you look at this, there's quite some change. But it's mainly just this complexity around doubling these 2 ring buffers into the evm storage. But otherwise it should be pretty clear. And yeah, I think at this point, I mean, I'm happy to answer any questions if something wasn't clear. But yeah, please take a look. I think this is essentially the best option just based on all the constraints that people invoice. And yeah, I. This looks good. We'll merge it. And this EIP will pretty much resolve for cancun. Okay? Good.
 
@@ -105,10 +105,10 @@
 
 **Tim Beiko** [29:09](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1749):  Any other Questions? Comments?  Okay, so yeah, folks want to review that. And then assuming there's no issues we could get merged in the next couple of days. 
 
-- [Add MCOPY tests tests#1229](https://github.com/ethereum/tests/pull/1229)
+### [Add MCOPY tests tests#1229](https://github.com/ethereum/tests/pull/1229)
 
 **Tim Beiko** [29:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1773): Okay, next up Powell just wanted to share. I don't think he's on the call. I think he could make it. But there's the M copy tests that have been merged. So I'll put the PR. Here. But if clients I want to test against that and I see already base you in it. Theorem. JSON, say that they pass the test there. I don't know if anyone else had thoughts, comments on that. 
-- [Engine API: Cancun specification  execution-apis#420](https://github.com/ethereum/execution-apis/pull/420)
+### [Engine API: Cancun specification  execution-apis#420](https://github.com/ethereum/execution-apis/pull/420)
 [https://hackmd.io/@n0ble/deprecate-exchgTC](https://hackmd.io/@n0ble/deprecate-exchgTC)
 
 **Tim Beiko** [29:59](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1799): Okay. And then, if not, Mikhail, you had a PRpr for the Cancun engine Api Spec. You want to give some quick contacts on that.
@@ -121,11 +121,11 @@
 
 **Danny** [31:39](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1899):  All right. Good
 
-**MariusVanDerWijden** [31:45](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1905):  It might be a stupid question. But how do we get this timestamp for the parent beacon block? Can we just take the parent execution. 
+**Marius Van Der Wijden** [31:45](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1905):  It might be a stupid question. But how do we get this timestamp for the parent beacon block? Can we just take the parent execution. 
 
 **Stokes** [31:59](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1919):  This is for the 4788 question?
 
-**MariusVanDerWijden** [32:01](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1921):  Yes.
+**Marius Van Der Wijden** [32:01](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1921):  Yes.
 
 **Stokes** [32:04](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1924):  Well, so you don't like you just have the header that, or has the timestamp, and there's a route, that's all you need to know.
 
@@ -133,7 +133,7 @@
 
 **Danny** [32:15](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1935):  So it's the current time that the caller needs to map those things together.
 
-**MariusVanDerWijden** [32:21](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1941):  I see. Okay, perfect. Thank you.
+**Marius Van Der Wijden** [32:21](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1941):  I see. Okay, perfect. Thank you.
 
 **Mikhail Kalinin** [32:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=1953):  I don't know if it should be Dancun by the way, because we had Paris and Shanghai before. Yeah, but don't be open to rename it dancun, If People are okay with that.
 
@@ -145,19 +145,19 @@
 
 **Mikhail Kalinin** [33:37](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2017):  yeah, sure. So the to deprecate the exchange transition configuration gracefully, we should have a procedure of doing that because if we just drop yeah, because if we just drop the support of this methods in a coordinated fashion, then users might see regret messages and their logs that this added either not being called for some period of time, or it's not exist on the on the EL side when CL calls it. So yeah, I've made this document and the procedure looks really simple. So the first step would be for EL clients to stop walking an error message that if this matter hasn't been called for some period of time for any period of time. and then you all should cut all your clients to release on that. with this change in the release. After that, CL Clients remove this method or just stop calling it. or entirely removing it from the code base and making a release as well. And this release should be either deneb or or or earlier. and after that nothing happens. Yeah, EL clients are pretty to remove it as well. So why, why is this like. Why? Why is this so complicated? At the first round? It's not complicated. If you take a deeper look into that, this is because, just yeah, we should first break the dependence between CL and EL on making these calls, and then we can remove this method. So  this document, yeah, has, like the procedure description, and also has tables with the status of development. So this is how it can be done alternatively, we can do it in a highly coordinated fashion, and say that EL client removes this method, support, and CL client do the same. But these changes are all coming only into the deneb release so strictly into the last release before the fork which I don't think I don't see as a comfortable solution for everyone. But maybe people have different opinions on that. And yeah, whatever we choose, I think that's yeah. Would be great to discuss it here with CL client developers and have their agreement on doing this  deprecation and doing it in the exact way as we come to. So any questions or suggestions.
 
-**MariusVanDerWijden** [36:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2193):  Just a quick thing from us. We already removed this like a long time ago, and no one really complained.
+**Marius Van Der Wijden** [36:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2193):  Just a quick thing from us. We already removed this like a long time ago, and no one really complained.
 
 **Marekm** [36:43](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2203):  same plane.
 
 **Mikhail Kalinin** [36:44](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2204):  So the message you mean right?
 
-**MariusVanDerWijden** [36:45](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2205):  Yes. we only give a message. If we don't receive any updates from the Beacon client, like if the peaking client calls, it doesn't call any method.
+**Marius Van Der Wijden** [36:45](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2205):  Yes. we only give a message. If we don't receive any updates from the Beacon client, like if the peaking client calls, it doesn't call any method.
 
 **Marekm** [37:01](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2221):  And we are working exactly in the same way. If we don't get any fork choice and a new payload, we print a warning. 
 
 **Mikhail Kalinin** [37:14](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2234):  Cool and to clarify Marius you have removed the message right? But the method handler exists, and if CL Calls.
 
-**MariusVanDerWijden** [37:23](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2243):  Yeah exactly.
+**Marius Van Der Wijden** [37:23](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2243):  Yeah exactly.
 
 **Mikhail Kalinin** [37:25](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2245):  same for basin. Oh, that's great, basically can if there is no position. So I would say that this is the way we do it, like, remove it from your first. And can you can you guys, mark just make a green check box  on the clients that have already removed the error message I mean, like in these documents would be really useful. So any other EL client developers want to, I mean on that.
 
@@ -183,19 +183,19 @@
 
 **Parithosh** [39:46](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2386):  And maybe one of the client teams can talk about the issues we saw.
 
-**MariusVanDerWijden** [39:52](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2392):  So I can talk about the gas issues. Basically, there were a bunch of them. kind of completely rewrote a lot of the code. So yeah, basically, the devnet is kind of not really indicative of our current code anymore. But the current code should be way better. One thing that kind of led to problems was that we didn't really distinguish between the network or correctly distinguish between the network form and the normal transaction format. And so there were blocks, mind with the transaction in the network format in it. So basically like the block contained the blobs which is wrong.
+**Marius Van Der Wijden** [39:52](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2392):  So I can talk about the gas issues. Basically, there were a bunch of them. kind of completely rewrote a lot of the code. So yeah, basically, the devnet is kind of not really indicative of our current code anymore. But the current code should be way better. One thing that kind of led to problems was that we didn't really distinguish between the network or correctly distinguish between the network form and the normal transaction format. And so there were blocks, mind with the transaction in the network format in it. So basically like the block contained the blobs which is wrong.
 
 **Danny** [40:54](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2454):  Even though dev created to get to reject such blocks or acceptance.
 
-**MariusVanDerWijden** [41:00](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2460):  I'm not it. It was. It was kind of all over the place. I'm pretty sure some clients accepted them. so there was a lot of forking going on at some point.
+**Marius Van Der Wijden** [41:00](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2460):  I'm not it. It was. It was kind of all over the place. I'm pretty sure some clients accepted them. so there was a lot of forking going on at some point.
 
 **Danny** [41:17](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2477):  I see. Alright. I mean, when I hear this kind of stuff I like. can we catch it earlier in the pipeline? Obviously, block production is kind of a weird one. But the acceptance of those she certainly is. Our rejection of those should certainly be in.
 
-**MariusVanDerWijden** [41:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2493):  The problem was that a lot of clients didn't really work 100%. And so, like, there were a lot of things going on. And it wasn't like, okay, only the only guest notes forked off now, but it was more like the whole network was kind of destroyed. Now.
+**Marius Van Der Wijden** [41:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2493):  The problem was that a lot of clients didn't really work 100%. And so, like, there were a lot of things going on. And it wasn't like, okay, only the only guest notes forked off now, but it was more like the whole network was kind of destroyed. Now.
 
 **Paritosh** [41:57](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2517):  And we were kind of relying on Ethereum JS to be like the stable booknotes. But when we started the transaction, so we then had issues with the Ethereum JS as well. So they were kind of like, no stable notes on the network. Yeah. 
 
-**MariusVanDerWijden** [42:09](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2529):  So now, it's very clear. that this cannot happen anymore on gas. So, but yeah, it's something that I would really like to test out on the, on a, on another devnet and create tests for that. Yes, that's it from my side.
+**Marius Van Der Wijden** [42:09](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2529):  So now, it's very clear. that this cannot happen anymore on gas. So, but yeah, it's something that I would really like to test out on the, on a, on another devnet and create tests for that. Yes, that's it from my side.
 
 **Danny** [42:42](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2562):  So the question in the chat, I it. It seems very clear that devnet7 should be 4844 for all
 
@@ -207,11 +207,11 @@
 
 **Alexey (@flcl42)** [43:30](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2610):  So continue, please.
 
-**MariusVanDerWijden** [43:32](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2612):  Yes, this  can be tested by hive tests.
+**Marius Van Der Wijden** [43:32](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2612):  Yes, this  can be tested by hive tests.
 
 **Mario Vega** [43:37](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2617):  I mean the block with the network type prison section. Right?
 
-**MariusVanDerWijden** [43:42](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2622): Yes, definitely, definitely, we can. 
+**Marius Van Der Wijden** [43:42](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2622): Yes, definitely, definitely, we can. 
 
 **Mario Vega** [43:45](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2625):  I think we can have that index inspectors. And we can consider that. And we should be having a test for that before the next step
 
@@ -227,17 +227,17 @@
 
 **Tim Beiko** [46:29](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2789):  Oh, okay, yeah.
 
-**MariusVanDerWijden** [46:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2792):  Yeah, I'm quite sure that it was if but yeah, we just saw too much weirdness going on, for I think only guess to be the issue. So either other clients accepted those transactions. Or it was the other way around that they accepted the transactions without blobs. Like blob transactions without props or something. So yeah, I'm I'm I'm pretty sure we will. We will break another devnet 7. But  that's fine.
+**Marius Van Der Wijden** [46:33](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2792):  Yeah, I'm quite sure that it was if but yeah, we just saw too much weirdness going on, for I think only guess to be the issue. So either other clients accepted those transactions. Or it was the other way around that they accepted the transactions without blobs. Like blob transactions without props or something. So yeah, I'm I'm I'm pretty sure we will. We will break another devnet 7. But  that's fine.
 
 **Alexey (@flcl42)** [47:21](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2841):  Okay, but it sounds like this issue.
 
 **Tim Beiko** [47:39](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2859):  Okay? So yeah, I guess devnet 7. we want to restart as a 4844, only devnet and potentially just add this small change for the Precompiler? Or do we even not want to do that, and simply focus on restarting things as they are, and  dealing with the address change after.
 
-**MariusVanDerWijden** [48:06](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2886):  I think we should deal with the address change when we implement all of the cancun  pieces.
+**Marius Van Der Wijden** [48:06](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2886):  I think we should deal with the address change when we implement all of the cancun  pieces.
 
 **Tim Beiko** [48:11](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2891):  Okay, so basically keep this thing spec. As for Devnet6, just try to restart it and have it run cleanly.
 
-**MariusVanDerWijden** [48:21](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2901):  yeah. So what? What's really cool is that Mario created a hive test for 4844. So one thing that would be really nice is if everyone, every client could make sure that they are passing those 5 tests. We are missing one right now. That's the transaction propagation one so transaction propagation is still broken a bit. but yeah. So I would give the devnet another week or something for everyone to  double-check with high, if that they are ping everything that they do. That is like that. We don't see these issues on the Devnet for the first time.
+**Marius Van Der Wijden** [48:21](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2901):  yeah. So what? What's really cool is that Mario created a hive test for 4844. So one thing that would be really nice is if everyone, every client could make sure that they are passing those 5 tests. We are missing one right now. That's the transaction propagation one so transaction propagation is still broken a bit. but yeah. So I would give the devnet another week or something for everyone to  double-check with high, if that they are ping everything that they do. That is like that. We don't see these issues on the Devnet for the first time.
 
 **Mario Vega** [49:18](https://www.youtube.com/watch?v=09Kzi2x06UM&t=2958):  I add the do the link to the PR for this, if you need to help anyone get myself running, just let me know
 
@@ -273,7 +273,7 @@
 
 **Tim Beiko** [58:21](https://www.youtube.com/watch?v=09Kzi2x06UM&t=3501): Got it? So I guess. Yeah, I have you curious the first year, you know, from this time on teams does anyone post this? And I know there's some folks on the EIP editor side who have concerns. but maybe starting with client teams, and then we can go to yeah, EIP Editors who are here.
 
-**MariusVanDerWijden** [58:44](https://www.youtube.com/watch?v=09Kzi2x06UM&t=3524): I think I was my opinion on this a lot already. I think the EIP process should serve the core developers. And it's not right now. And one big issue with it is that we have an influx of so many ERC’s  that it's not really possible for someone to to stay informed of all the EIP’s that are coming up. and have meaningful reviews on them. So I'm very strongly in favor of splitting the 2 repositories.
+**Marius Van Der Wijden** [58:44](https://www.youtube.com/watch?v=09Kzi2x06UM&t=3524): I think I was my opinion on this a lot already. I think the EIP process should serve the core developers. And it's not right now. And one big issue with it is that we have an influx of so many ERC’s  that it's not really possible for someone to to stay informed of all the EIP’s that are coming up. and have meaningful reviews on them. So I'm very strongly in favor of splitting the 2 repositories.
 
 **Tim Beiko** [59:31](https://www.youtube.com/watch?v=09Kzi2x06UM&t=3571):  Got it anyone else?
 
@@ -305,7 +305,7 @@
 
 **Tim Beiko** [1:07:53](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4073):  I am pretty opposed to that. I think there's a pretty strong understanding in the community that EIP’s tend to refer to core protocol changes. If you look at. You know, people talk about like EIP #4844, EIP#1559. And obviously it's not like a perfect thing, whereas generally when we say EIP, people mean like people understand like consensus changes to the ethereum protocol, whereas an ERC’s has a submitter. I think the connotation that, like the broader community of being like an application layer, changes, like people know? ERC 20, or ERC1155 or whatnot So regardless of what happens on the Github repo level like you could. You know you can choose to move the repos already called the EIP. So that's why I probably make sense to keep that for the core consensus as stuff, but like I think I feel pretty strong. You, that whatever is called the EIP should refer to consensus changes to the protocol whatever it's called the ERC’s is application level standards. And then, you know, there's a couple of categories like interface and what not, that are. you sort of need to figure out. But at a high level, I think this is how the community understands it. And you. you want to maintain that to not confuse everybody about it.
 
-**MariusVanDerWijden** [1:09:17](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4157):  Yeah. So we are going to like this with the split, we are going to break some Urls. But I think maintaining the core your other way, more important than maintaining the ERC’s. anyway, 1 I wanted to respond to Greg. because I think 1 one thing that you would that you that you touched upon was that the EIP process has become too rigid and I kind of agree. And I kind of think that's big. really, the big pain point for a lot of core developers is that? It's rigid. There are a lot of routes, and a lot of those routes. I feel like we're introduced by mica at some point and the intention behind it was that it wasn't possible for him or for the EIP editors. But then it was. I think it was way smaller set than today.to really go through the go through the EIP’s go through the incoming PR’s and have a really like deep really go into depth and and understand the changes and verify the changes on on technical merit. And so they made up a lot of like rules, so that everything that likes it gets rid of a bunch of spam. And I think that one of the core problems is that you bunch in this very spammy side, the Yourc side, where basically everyone likes everyone that creates an application kind of thing. Okay, we. We have to do an Isc now and and open opens and a PR for the ERC and this, this, these call EIP’s, where you have people like we like, we want to discuss. We want to have the Dprs open as a discussion point so that we can. We can maintain this open discussion more like a request for commons. Instead of like a set standard. And yeah, it's just 2 different things and bunching them together was that decision? And so in order to make it easier for everyone, we should, we should undo this decision and also, I think. It seems like almost everyone is in favour of doing that. I agree that this PR that Matt opened might not be like the solution. but I think there's a very strong agreement. This change needs to happen. and if. In my personal opinion, if one of the EIP editors or some of the EIP editors are against this change, then it's fine, and we have discussions about it. but at some point in this these discussions have been going on for a really long time. And so I think at some point we just need to make the decision. to do this change, even if people object.
+**Marius Van Der Wijden** [1:09:17](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4157):  Yeah. So we are going to like this with the split, we are going to break some Urls. But I think maintaining the core your other way, more important than maintaining the ERC’s. anyway, 1 I wanted to respond to Greg. because I think 1 one thing that you would that you that you touched upon was that the EIP process has become too rigid and I kind of agree. And I kind of think that's big. really, the big pain point for a lot of core developers is that? It's rigid. There are a lot of routes, and a lot of those routes. I feel like we're introduced by mica at some point and the intention behind it was that it wasn't possible for him or for the EIP editors. But then it was. I think it was way smaller set than today.to really go through the go through the EIP’s go through the incoming PR’s and have a really like deep really go into depth and and understand the changes and verify the changes on on technical merit. And so they made up a lot of like rules, so that everything that likes it gets rid of a bunch of spam. And I think that one of the core problems is that you bunch in this very spammy side, the Yourc side, where basically everyone likes everyone that creates an application kind of thing. Okay, we. We have to do an Isc now and and open opens and a PR for the ERC and this, this, these call EIP’s, where you have people like we like, we want to discuss. We want to have the Dprs open as a discussion point so that we can. We can maintain this open discussion more like a request for commons. Instead of like a set standard. And yeah, it's just 2 different things and bunching them together was that decision? And so in order to make it easier for everyone, we should, we should undo this decision and also, I think. It seems like almost everyone is in favour of doing that. I agree that this PR that Matt opened might not be like the solution. but I think there's a very strong agreement. This change needs to happen. and if. In my personal opinion, if one of the EIP editors or some of the EIP editors are against this change, then it's fine, and we have discussions about it. but at some point in this these discussions have been going on for a really long time. And so I think at some point we just need to make the decision. to do this change, even if people object.
 
 **Tim Beiko** [1:13:06](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4386):  Justin?
 
@@ -315,7 +315,7 @@
 
 **Pooja Ranjan** [1:15:59](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4559): : Yeah, I'm sorry. I know I'm not an ERC or EIP editor, but I'm someone who has been involved with the EIP process. I'm helping out with improving the process, trying to identify the pain point. And as a part of item cat headers. We have been working in this direction for the past 3 years. So I would just like to make a few points. here, from the conversation. So far, the 2 biggest problems that we can hear out in support of the PR is the influx of Pr that comes to the repository, and that kind of creates noise for which many people who are interested in Core EIP cannot be able to follow. I don't know if I have a perfect solution. But I was just wondering if RSs, we can help with them. Right? We have ours, and we're for status change and everything. Can we have an Rss for core EIP’s only and suggest this just to maybe help out ERC proposals. What I have noticed in this period is ERC's proposals, in really bad shape a couple of years ago. Thanks to Manganet, who has actively supported the education of the process, and how to document it best. He had also contributed and did the EIP editors apprenticeship meeting for a very long time, I guess over a dozen of meetings we have organised, and it has supported a lot. We do have a dedicated Erc editor, as of now, but we do not have many out of the 6 or 7 EIP editors. Those are listed on EIP one. We do have only one ERC, a data that is fully dedicated for Erc purposes. I still see that there is a shortage of editors. And I feel like that if we just move ERC out of that for badly. That would be harmful for the team, for the ERC people. And the other biggest problem that I have identified during this conversation is about the external link which I believe Samerson has proposed. 5757, and one by one. We are trying to add permission to the external length. I do agree.  Maybe it's a point that there was a lot of strictness imposed by mica and other editors at the time to make the process streamline to make the process even better, and we are reaching in that direction. I'm really requesting people to consider ERC as a part of the ethereum ecosystem, and we can, if we can, extend our support to these people, we should let them be there as well. Had this been a proposal coming out of the ERC team saying that we don't want to be a part of Core EIP or the EIP system at all, because we feel we are different. I think. that would have been more, and I would have been more in favour of going to what they pull requests, having said that. Yeah. So it just
 
-**MariusVanDerWijden** [1:19:04](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4744):  Just to that point. why should why should the ERC community have the say like that a bunch of people like now discussing this point that like. If the ERC community wants to split out. Then it would be fine. Basically  the way I see it, the EIP  community is trying to split the ERC’s out and and so like. No, I think we should have the same say in this decision.
+**Marius Van Der Wijden** [1:19:04](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4744):  Just to that point. why should why should the ERC community have the say like that a bunch of people like now discussing this point that like. If the ERC community wants to split out. Then it would be fine. Basically  the way I see it, the EIP  community is trying to split the ERC’s out and and so like. No, I think we should have the same say in this decision.
 
 **Pooja Ranjan** [1:19:41](https://www.youtube.com/watch?v=09Kzi2x06UM&t=4781):  that is right. I do agree. I feel like they are intertwined, and they should be considered together. I have a very good example for 4337. That is an ERC. As of now, but we are working on some proposal that we can eventually in future may be able to have it supported by the Evm and by the main protocol. So I find it hard to actually separate both of them.and I feel like going side by side if they are not creating much trouble to the core EIP process. I do agree that there are certain road blockers for new authors who are trying to document processes, and I feel like working in solving their issues after identifying what are the main problems just like external link policy was one of those. I think we can come to a better place where we can live together.
 
@@ -368,7 +368,7 @@
 * Tim Beiko
 * Danno Ferrin
 * Spencers
-* MauriusVan Der
+* Maurius Van Der Wijden
 * Mikhail Kalinin
 * Mario Vega
 * Roberto Bayardo
@@ -403,5 +403,5 @@
 * Trent
 * Justin Florentine
 
-### Next Meeting Date/Time: Wednesday 28 June 2023
+### Next Meeting Date/Time: Thursday 6 July 2023
 
