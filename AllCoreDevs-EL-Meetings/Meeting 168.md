@@ -8,17 +8,14 @@
 
 ## Summary
 
-**168.1**:	Devnet 8 launched, with some infra support (https://dencun-devnet-8.ethpandaops.io/): bugs were found in a few clients but many have already been fixed + other fixes are on the way: network is finalizing.
-
-**168.2**:	EIP-4788: we agreed to use a regular transaction to deploy the contract - we may revisit this if we feel that it was a bad decision, but it was the quickest option for now and seems ~half of people were in favor of it.
-
-**168.3**:	Holesky: we agreed to launch the testnet with 1.6B ETH supply - ETA Sept 15!
-
-**168.4**:	EIP/ERC split: we're moving forward with the split, and EIP editors are formalizing their governance process going forward. Expect a proper doc soon! Will keep being discussed in EIPIP calls.
-
-**168.5**:	We agreed to renumber the EL fork spec files to prefix them with numbers to make the sequence clearer.
-
-**168.6**:	EIP-7212 was presented (secp256r1 precompile) - this may be an EIP that L2s adopt before L1!
+| Decision Item | Description |
+| ------------- | ----------- |
+|**168.1**| Devnet 8 launched, with some [infra support](https://dencun-devnet-8.ethpandaops.io/): bugs were found in a few clients but many have already been fixed + other fixes are on the way: network is finalizing.|
+|**168.2**|EIP-4788: we agreed to use a regular transaction to deploy the contract - we may revisit this if we feel that it was a bad decision, but it was the quickest option for now and seems ~half of people were in favor of it.|
+|**168.3**|Holesky: we agreed to launch the testnet with 1.6B ETH supply - ETA Sept 15!|
+|**168.4**|EIP/ERC split: we're moving forward with the split, and EIP editors are formalizing their governance process going forward. Expect a proper doc soon! Will keep being discussed in EIPIP calls.|
+|**168.5**|We agreed to renumber the EL fork spec files to prefix them with numbers to make the sequence clearer.|
+|**168.6**|EIP-7212 was presented (secp256r1 precompile) - this may be an EIP that L2s adopt before L1!|
 
 ## Agenda
           
@@ -55,7 +52,7 @@
 
 **Paritosh** [5:27](https://www.youtube.com/watch?v=DyAtbK2MQG4&t=327s): To give you guys an idea on how we use it we kind of once we had an EL ready, we just made a list of the CL set already and just did that combination. And then once the second EL was ready, we just separated that combination. So we knew that all the CL’s worked with one particular EL and then we just combine the EL networks together to get completely interrupted. And I've listened to the document there in case anyone wants to try it out.
  
-**Danny** [5:57](https://www.youtube.com/watch?v=DyAtbK2MQG4&t= 357s): And so this has been valuable just like literally just running local Nets, like you're not even doing or partitions or anything.
+**Danny** [5:57](https://www.youtube.com/watch?v=DyAtbK2MQG4&t=357s): And so this has been valuable just like literally just running local Nets, like you're not even doing or partitions or anything.
 
 **Paritosh** [6:04](https://www.youtube.com/watch?v=DyAtbK2MQG4&t=364s): Nothing at all we're kind of just running these tests and when we find something we can just send the Json config along with the command to the client team. And they're able to reproduce it almost immediately saving us a bunch of debug time there. And one thing I want to also mention in the end I'll be bringing up in the next call which is Mev related. But we also have the entire Mev workflow now. So we should be able to do a lot of Mev testing there as well.
  
