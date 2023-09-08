@@ -1,6 +1,6 @@
 # EIP-4844 Readiness Checklist
 
-This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. 
+This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. **Last updated Sept 8, 2023**. 
 
 ## Specs
 
@@ -14,31 +14,18 @@ This document is meant to capture various tasks that need to be completed before
 
 #### Execution Layer 
 
-| Client | Status | Tracker | Implementation Link | 
-| ------ | ------ | ---- | ----- | 
-| go-ethereum | WIP main branch, fork on devnets | [Link](https://github.com/ethereum/go-ethereum/issues/27047) | [Link](https://github.com/mdehoog/go-ethereum/tree/eip-4844) | 
-| Nethermind | Branch on devnets | [Link](https://github.com/NethermindEth/nethermind/issues/4558) | [Link](https://github.com/NethermindEth/nethermind/pull/4858) | 
-| Erigon | WIP main branch, fork on devnet | [Link](https://github.com/ledgerwatch/erigon/pulls?q=is%3Apr+label%3Adencun+) | [Link](https://github.com/roberto-bayardo/erigon/pull/1) |
-| Besu | Branch on devnets | [Link](https://github.com/hyperledger/besu/issues/4631) | [Link](https://github.com/hyperledger/besu/commits/eip-4844-interop) | 
+See the [Cancun specification](https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/cancun.md#implementation-progresss)
 
 #### Consensus Layer 
 
-| Client | Status | Tracker | Implementation Link | 
-| ------ | ------ | ---- | ----- | 
-| Prysm | Branch on devnets | [Link](https://github.com/prysmaticlabs/prysm/issues/11823)| [Link](https://github.com/prysmaticlabs/prysm/tree/eip4844) |
-| Teku | main branch | [Link](https://github.com/ConsenSys/teku/issues/5681) | [Link](https://github.com/ConsenSys/teku/tree/master) |
-| Lighthouse | Branch on devnet | [Link](https://github.com/sigp/lighthouse/issues?q=is%3Aissue+is%3Aopen+label%3Adeneb) | [Link](https://github.com/sigp/lighthouse/tree/deneb-free-blobs)  |
-| Lodestar | Branch on devnet | [Link](https://github.com/ChainSafe/lodestar/issues/5279) | [Link](https://github.com/ChainSafe/lodestar/tree/g11tech/free-the-blobs) | 
-| Nimbus | Branch on devnet |  [Link](https://github.com/status-im/nimbus-eth2/issues/4395) | [Link](https://github.com/status-im/nimbus-eth2/tree/unstable) |
+See the latest [devnet configs](https://github.com/ethpandaops/dencun-testnet/blob/master/ansible/inventories/devnet-8/group_vars/all/images.yaml#L2)
 
-#### Resources 
- - [CL Implementation Considerations](https://hackmd.io/@terencechain/ByH4cbMfi) 
 
 ### Spec-level Open Issues 
 
 - [x] SSZ vs. RLP encoding of transactions
     - EIP-4844 transactions will maintain RLP encoding, see: https://github.com/ethereum/EIPs/pull/6985
-- [ ] Big vs. Little endian precompile inputs
+- [x] Big vs. Little endian precompile inputs
     - See https://github.com/ethereum/EIPs/pull/7020
 - [x] Returning the modulus as an output for the precompile, see [#PR5864](https://github.com/ethereum/EIPs/pull/5864)
 - [x] Fee Market design
@@ -52,18 +39,19 @@ This document is meant to capture various tasks that need to be completed before
 
 - [ ] Re-orgs & Reintroduction of Externally Built Blob Transactions 
     - When a re-org happens, if a blob transaction was included via an externally built block, it currently is not possible to re-introduce it in the mempool for re-inclusion in a block. Either this is fine (and builders must manually re-submit such transactions), or CL clients must be modified to provide the blobs in the `newPayload` API calls
-- [ ] KZG support in Library
+    - June 23 update: https://hackmd.io/aVek93y-QmSv1mz2Agc9iQ#Client-Implementations 
+- [x] KZG support in Library
     - Need efficient library support for the cryptographic [operations](https://github.com/ethereum/consensus-specs/blob/dev/specs/eip4844/polynomial-commitments.md) required to verify and interact with blobs, compatible with all clients' programming language. 
-        - [ ] [Open issue in BLST](https://github.com/supranational/blst/issues/10)
+        - [x] [Open issue in BLST](https://github.com/supranational/blst/issues/10)
 - [x] Gossiping of blob transactions ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
     - **[Resolved by introducing [`eth/68`](https://github.com/ethereum/EIPs/pull/5793)]** Large blob transactions are expensive to gossip over the network. Solution: enable node to announce & request specific transactions rather than gossip them by default.
     - [PR#5930](https://github.com/ethereum/EIPs/pull/5930)m makes `eth/68` a dependency of EIP-4844. 
 - [x] Sync Strategy ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
     - **[Resolved with [PR#3046](https://github.com/ethereum/consensus-specs/pull/3046)]** Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view). **For gossip, block and blobs will be coupled. For historical sync, they will be decoupled.** 
 
-### KZG Ceremony ([@tvanepps](https://github.com/tvanepps) & [@CarlBeek](https://github.com/CarlBeek))
+### KZG Ceremony 
 - [x] EIP-4844 requires a Powers of Tau ceremony to provide its cryptographic foundation. Resources relevant to the ceremony are available [here](https://github.com/ethereum/KZG-Ceremony). 
-    - At this point, the ceremony has gathered more contributions than any other such ceremony in history. Users can still contribute to it at ceremony.ethereum.org. 
+    - The KZG ceremony is now complete. It gathered more than 100,000 contribution, making it the largest such ceremony to date. 
 
 ### APIs
 - [x] [Merge `getPayloadV3` and `getBlobsBundleV1`](https://github.com/ethereum/execution-apis/pull/402)
@@ -72,10 +60,9 @@ This document is meant to capture various tasks that need to be completed before
 
 ## Testing 
 
-#### Fuzzing 
-- [ ] [Transaction fuzzing](https://github.com/MariusVanDerWijden/tx-fuzz)
+**Note:** [this document](https://notes.ethereum.org/@ethpandaops/dencun-testing-overview) is currently being used to track testing efforts. The sections below may be out of date. 
 
-#### Consensus Layer 
+### Consensus Layer 
 - [x] [consensus-specs tests](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec)
     - See the [`deneb`](https://github.com/ethereum/consensus-specs/tree/dev/tests/core/pyspec/eth2spec/test/deneb) folder
 - [x] Networking Overhead Analysis
@@ -84,7 +71,7 @@ This document is meant to capture various tasks that need to be completed before
 - [ ] [Hive](https://github.com/ethereum/hive) tests
     - [ ] Beacon API Simulator
 
-#### Execution Layer
+### Execution Layer
 - [ ] [execution-spec-tests](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/eips/eip4844#-execution-specification-test-cases), [tracker](https://github.com/ethereum/execution-spec-tests/issues/130)
     - [ ] RLP Blob Transactions
     - [x] [ExcessDataGas Header Field/Gas Accounting](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/eips/eip4844/excess_data_gas.py)
@@ -102,7 +89,7 @@ This document is meant to capture various tasks that need to be completed before
     - [ ] [Pyspec Update](https://github.com/ethereum/hive/pull/765)
 
 
-#### End-to-End
+### End-to-End
 - [ ] [Hive](https://github.com/ethereum/hive) tests
     - [ ] Cancun Fork Simulator
     - [ ] Blob Expiry Tests
@@ -118,17 +105,21 @@ This document is meant to capture various tasks that need to be completed before
     - [ ] Shadowfork with public builders/relays
     - [ ] Non-finality tests
     
-#### Tooling 
+### Tooling 
 
 - [x] [Devnet Faucet](https://eip4844-faucet.vercel.app/) ([@0xGabi](https://github.com/0xGabi))
 - [x] [`blob-utils`](https://github.com/Inphi/blob-utils) 
 - [x] [Explorer to visualize blobs](https://github.com/blossomlabs/blobscan) ([@0xGabi](https://github.com/0xGabi))
 
-### Devnets 
+## Devnets 
 
 - [x] [Devnet v1](https://hackmd.io/@inphi/SJMXL1P6c)
 - [x] [Devnet v2](https://hackmd.io/@inphi/SJKLtgJXs) 
 - [x] [Devnet v3](https://notes.ethereum.org/@timbeiko/4844-devnet-3) 
 - [x] [Devnet v4](https://notes.ethereum.org/@timbeiko/4844-devnet-4)
 - [x] [Devnet v5](https://4844-devnet-5.ethpandaops.io/)
-- [ ] [Devnet v6](https://notes.ethereum.org/@bbusa/dencun-devnet-6)
+- [x] [Devnet v6](https://notes.ethereum.org/@bbusa/dencun-devnet-6)
+- [x] [Devnet v7](https://notes.ethereum.org/@parithosh/devnet-7-specs)
+- [x] [Devnet v8](https://notes.ethereum.org/@ethpandaops/dencun-devnet-8)
+- [ ] [Devnet v9](https://notes.ethereum.org/@ethpandaops/dencun-devnet-9)
+
