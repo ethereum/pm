@@ -1,6 +1,6 @@
 # EIP-4844 Readiness Checklist
 
-This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployement. **Last updated Sept 8, 2023**. 
+This document is meant to capture various tasks that need to be completed before EIP-4844 is ready to be scheduled for mainnet deployment. **Last updated Sept 8, 2023**. 
 
 ## Specs
 
@@ -51,7 +51,7 @@ See the latest [devnet configs](https://github.com/ethpandaops/dencun-testnet/bl
 
 ### KZG Ceremony 
 - [x] EIP-4844 requires a Powers of Tau ceremony to provide its cryptographic foundation. Resources relevant to the ceremony are available [here](https://github.com/ethereum/KZG-Ceremony). 
-    - The KZG ceremony is now complete. It gathered more than 100,000 contribution, making it the largest such ceremony to date. 
+    - The KZG ceremony is now complete. It gathered more than 100,000 contributions, making it the largest such ceremony to date. 
 
 ### APIs
 - [x] [Merge `getPayloadV3` and `getBlobsBundleV1`](https://github.com/ethereum/execution-apis/pull/402)
