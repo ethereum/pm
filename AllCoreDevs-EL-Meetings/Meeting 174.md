@@ -4,9 +4,8 @@
 ### Meeting Duration: 40 Mins
 ### Moderator: Tim Beiko
 ### [GitHub Agenda](https://github.com/ethereum/pm/issues/895)
-
 ### [Audio Video of the Meeting](https://www.youtube.com/watch?v=TQ2XEvMzvFg) 
-
+### Notes: Meenakshi Singh
 
 ### SUMMARY
 
