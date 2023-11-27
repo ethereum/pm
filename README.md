@@ -1,8 +1,6 @@
 # Ethereum Project Management Repository
 
-This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the Execution and Consensus Layer AllCoreDevs meetings. It is also used for [Breakout Rooms](/Breakout-Room) on various protocol-related topics, such as [Ethereum 1.x](/Archive/ETH-1X), [The Merge](/Archive/Merge) and [Fee Market changes](/Archive/Fee-Market).
-
-[This Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) tracks upcoming protocol meetings.
+This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the Execution and Consensus Layer AllCoreDevs meetings. It is also used for [Breakout Rooms](/Breakout-Room) on various protocol-related topics, whose agendas can be found under the [Issues](https://github.com/ethereum/pm/issues) page. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
 
 ## AllCoreDevs Meetings Overview
 
@@ -16,27 +14,27 @@ The calls are streamed and saved on the [@EthereumProtocol YouTube channel](http
 
 ### Agendas
 
-The agendas for calls are tracked in the Issues tab of this repository. To add an item to an agenda, please [open an issue in this repository](https://github.com/ethereum/pm/issues/new) which mentions the topic you want to discuss and links any relevant materials (EIPs, prototypes, etc.). Then, leave a comment in the agenda where you would like this to be discussed. You can see an example [here](https://github.com/ethereum/pm/issues/289#issuecomment-809501046).
+The agendas for calls are tracked in the Issues tab of this repository. To add an item to an agenda, simply add a comment to one of the agenda issues. 
 
 Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
 
 - The topic is technical in nature.
-- The topic involves the Ethereum protocol at a low-level. This means Dapps and ERCs are generally not allowed as topics.
-- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussion.
+- The topic involves the Ethereum protocol at a low-level. This means Ethereum applications and ERCs are generally not allowed as topics, unless their mention relates to protocol changes. 
+- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discuss [Ethereum Magicians forum](https://ethereum-magicians.org/) is a better venue for such discussions.    
 
 ### Who Can Attend
 
-Protocol developers, researchers and EIP authors are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of testing and security teams, and independent core contributors. Sometimes a non-core contributor with particular expertise on a topic is invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
+Protocol developers, researchers and EIP authors are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of testing and security teams, and independent core contributors. Sometimes non-core contributors with particular expertise on a topic are invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
 
-### Who Manages the Meetings
+### Who Facilitates the Meetings
 
-Early in Ethereum's history, (2015-fall 2016) George Hallam facilitated the AllCoreDevs meetings. Starting in fall 2016, Hudson Jameson facilitated and recorded the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes from the meetings. 
+Early in Ethereum's history, (2015-fall 2016) George Hallam facilitated the AllCoreDevs meetings. Starting in fall 2016, Hudson Jameson took over the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes. 
 
 Today, Tim Beiko and Danny Ryan respectively facilitate the execution and consensus layer AllCoreDevs meetings. Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts for AllCoreDevs meetings, as well as some Breakout Rooms. 
 
 The meetings are independent of any organization. However, Danny Ryan & Tim Beiko are contractors for the Ethereum Foundation and the Ethereum Foundation pays for the video-conference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
 
-## Previous Meetings
+## Previous AllCoreDevs Meetings
 
 ### Execution Layer 
 
