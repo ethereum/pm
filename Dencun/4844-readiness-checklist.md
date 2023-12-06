@@ -57,7 +57,7 @@ See the latest [devnet configs](https://github.com/ethpandaops/dencun-testnet/bl
     - **[Resolved by introducing [`eth/68`](https://github.com/ethereum/EIPs/pull/5793)]** Large blob transactions are expensive to gossip over the network. Solution: enable node to announce & request specific transactions rather than gossip them by default.
     - [PR#5930](https://github.com/ethereum/EIPs/pull/5930)m makes `eth/68` a dependency of EIP-4844. 
 - [x] Sync Strategy ([@djrtwo](https://github.com/djrtwo), [@terencechain](https://github.com/terencechain)) 
-    - **[Resolved with [PR#3046](https://github.com/ethereum/consensus-specs/pull/3046)]** Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view). **For gossip, block and blobs will be coupled. For historical sync, they will be decoupled.** 
+    - **[Resolved with [PR#3046](https://github.com/ethereum/consensus-specs/pull/3046)]** Blobs can either be synced coupled to CL blocks, or independently from them. The tradeoffs to each approach are explained [here](https://hackmd.io/_3lpo0FzRNa1l7XB0ELH7Q?view) and [here](https://notes.ethereum.org/RLOGb1hYQ0aWt3hcVgzhgQ?view). For both gossip and historical sync, blocks and blobs were decoupled.
 
 ### KZG Ceremony 
 - [x] EIP-4844 requires a Powers of Tau ceremony to provide its cryptographic foundation. Resources relevant to the ceremony are available [here](https://github.com/ethereum/KZG-Ceremony). 
