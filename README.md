@@ -223,7 +223,16 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+122| Thursday 2023/11/16 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/900) \| [notes](AllCoreDevs-CL-Meetings/call_122.md) \| no reddit | [video](https://youtu.be/wSE8e9MZz3k)
 121| Thursday 2023/11/02 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/898) \| [notes](AllCoreDevs-CL-Meetings/Call_121.md) \| no reddit | [video](https://www.youtube.com/watch?v=dAStyB2Vv4s)
+120| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_120.md) \| no reddit | [video]()
+119| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_119.md) \| no reddit | [video]()
+118| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_118.md) \| no reddit | [video]()
+117| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_117.md) \| no reddit | [video]()
+116| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_116.md) \| no reddit | [video]()
+115| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_115.md) \| no reddit | [video]()
+114| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_114.md) \| no reddit | [video]()
+113| Thursday 2023/6/29 at 14:00 UTC |[agenda]() \| [notes](AllCoreDevs-CL-Meetings/Call_113.md) \| no reddit | [video]()
 112| Thursday 2023/6/29 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/821) \| [notes](AllCoreDevs-CL-Meetings/Call_112.md) \| no reddit | [video](https://youtu.be/zdqtl9x_UjA)
 111| Thursday 2023/6/15 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/809) \| [notes](AllCoreDevs-CL-Meetings/Call_111.md) \| no reddit | [video](https://www.youtube.com/watch?v=ybgQuRcz9sg)
 109| Thursday 2023/5/18 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/783) \| [notes](AllCoreDevs-CL-Meetings/Call_109.md) \| no reddit | [video](https://github.com/ethereum/pm/issues/783)
