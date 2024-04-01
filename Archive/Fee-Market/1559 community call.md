@@ -227,7 +227,7 @@ Hudson - Georgios?
 
 Georgios -  Yeah I like to echo basically the problem comes from the fact that ordering and execution are kind of like both in the hands of the miners and if there was a way to separate that then sure, but doing this kind of separation is very hard and it would require us to use like fancy cryptography. We have no idea how to do that reliably today while also letting users express their fee preferences. So the answer is yes we can do it but nobody knows how to do it well yet so it's not something that we can answer fully today 
 
-Hudson - We have an extra couple minutes there's a really good question that Pooja put in chat from crackling ice in youtube. Have feeds been modelled based on how full the block is? What is the potential for reduction in fees? I think some of you have done done analysis and research on this. Does anyone have any comments? Okay Tomasz and then Barnabe if you want to chime in too, I know you had some extensive stuff on there.
+Hudson - We have an extra couple minutes there's a really good question that Pooja put in chat from crackling ice in youtube. Have feeds been modelled based on how full the block is? What is the potential for reduction in fees? I think some of you have done analysis and research on this. Does anyone have any comments? Okay Tomasz and then Barnabe if you want to chime in too, I know you had some extensive stuff on there.
 
 [1:16:37](https://youtu.be/EdXhL6VR0mU?t=4597)
 

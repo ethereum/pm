@@ -378,7 +378,7 @@ Just for clarity, do we want to say **1559 stays withdrawn** or rejected from Is
 
 **Rick**: Sounds like a good idea to me as well.
 
-**Tim**: Great, let's just make sure to communicate that clearly that EIP Champions / teams should should be looking at ReTestEth and trying to generate the reference test for their EIPs.
+**Tim**: Great, let's just make sure to communicate that clearly that EIP Champions / teams should be looking at ReTestEth and trying to generate the reference test for their EIPs.
 
 Does anyone else have anything else about testing they want to discuss ? 
 

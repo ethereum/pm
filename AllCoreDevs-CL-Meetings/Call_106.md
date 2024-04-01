@@ -73,7 +73,7 @@
 * Maybe it's merge these PRs shouting to the void and see if it's gonna cause a deeper issue than they expect rather than I think merging the PR is a stronger signal than trying to just knock on some doors and see what's up. Especially considering we still have some lead time on this. 
 
 **Marius**
-* Yeah I think the only thing about merging these tiers the question like what's the status of the test nodes is is it fine to just merge it right now or should should we wait for another round of like I dunno changes? 
+* Yeah I think the only thing about merging these tiers the question like what's the status of the test nodes is is it fine to just merge it right now or should we wait for another round of like I dunno changes? 
 
 **Danny**
 * Yeah I mean on cuz this later side we do we'd have to do a release  and pretty much the testnet we target either the current release which has GX five or than actually switch GX three as for the test net on the EIP, EL side you know I think it's more targeting to commit or targeting head so we just have to send a signal but it seems easy enough to change unless except for maybe Aragon or others that have other types of transactions that would conflict and we don't know the complexity there. 

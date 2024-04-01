@@ -45,7 +45,7 @@
 
 **Danny Ryan** (12:40) - You could presumably just ask for that block for a bunch of peers, but people can also just look at their code.
 
-**Łukasz Rozmej** (12:46) - Yes I think everyone should just should should create some unit tests.
+**Łukasz Rozmej** (12:46) - Yes I think everyone should just should create some unit tests.
 
 **Barnabas Busa** (12:54) - I can also just spin up a new network where we don't do any BLS changes, and then this would be a very small number. That we would be able to test this. 
 

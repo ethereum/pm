@@ -488,7 +488,7 @@ But it is like a very interesting like it alternative approach to think about be
 
 1:09:24
 Tim B:
-And so just so I understand it seems like the next step here on the eviction side is finding is there a good enough heuristic that we could use which might have some failure modes, but that should should work most of the times that right.
+And so just so I understand it seems like the next step here on the eviction side is finding is there a good enough heuristic that we could use which might have some failure modes, but that should work most of the times that right.
 
 Ansgar:
 Yeah that that's how I would at least see it.
