@@ -108,9 +108,9 @@ See the latest [devnet configs](https://github.com/ethpandaops/dencun-testnet/bl
         - [ ] Real MEV-Boost Simulator
 - [ ] [Sync tests](https://github.com/samcm/ethereum-sync-testing)
 - [ ] Shadow forks 
-    - [ ] Goerli shadowfork
-    - [ ] Sepolia shadowfork
-    - [ ] Holešky shadowfork
+    - [x] Goerli shadowfork
+    - [x] Sepolia shadowfork
+    - [x] Holešky shadowfork
     - [ ] Mainnet shadowfork
     - [ ] Shadowfork with mock builder/relays
     - [ ] Shadowfork with public builders/relays
