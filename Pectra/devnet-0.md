@@ -1,12 +1,11 @@
 # pectra-devnet-0 specs
 
-:::info
-:mega: Devnet-0 starts on TBD and it will be terminated at TBD.
-:::
+> [!NOTE]
+> 📣 Devnet-0 starts on TBD and it will be terminated at TBD.
 
-:::info
-This spec was originally published at https://notes.ethereum.org/@ethpandaops/pectra-devnet-0
-:::
+> [!NOTE]
+> This spec was originally published at https://notes.ethereum.org/@ethpandaops/pectra-devnet-0
+
 
 ## EIP List for pectra-devnet-0
 [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
