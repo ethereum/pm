@@ -8,9 +8,13 @@
 
 ## EIP List for pectra-devnet-0
 [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
+
 [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110)
+
 [EIP-7002: Execution layer triggerable exits](https://eips.ethereum.org/EIPS/eip-7002)
+
 [EIP-7251: Increase the MAX_EFFECTIVE_BALANCE](https://eips.ethereum.org/EIPS/eip-7251)
+
 [EIP-7549: Move committee index outside Attestation](https://eips.ethereum.org/EIPS/eip-7549)
 
 
@@ -35,11 +39,13 @@
 
 N/A
 
-### Spec changes for pectra-devnet-0
+## Spec changes for pectra-devnet-0
 
-**Consensus Spec** 
+### Consensus Spec
 
 [PR-3615 - Init Electra (EIP6110 + EIP7002)](https://github.com/ethereum/consensus-specs/pull/3615)- Open :exclamation:
+
+### EIPs
 
 #### EIP-6110
 [PR-3629 - EIP-6110: rename get_eth1_deposit_count function](https://github.com/ethereum/consensus-specs/pull/3629) - Open :exclamation: 
@@ -52,21 +58,22 @@ N/A
 
 [PR-3636 - EIP-7251: misc changes](https://github.com/ethereum/consensus-specs/pull/3636) - Open :exclamation: 
 
-**Execution EIPs**
+#### EIP-2537
 
 [PR-8310 - Update EIP-2537](https://github.com/ethereum/EIPs/pull/8310) - Open :exclamation:
 
-**Engine API**
+### Engine API
+
 [PR-528 - EIP-7002: Added engine_getPayloadV4 and engine_newPayloadV4 for Prague](https://github.com/ethereum/execution-apis/pull/528) - Open :exclamation:
 
 [PR-531 - Add EIP-6110 to Prague](https://github.com/ethereum/execution-apis/pull/531) - Merged :heavy_check_mark:
 
 [PR-532 - Add EIP-7251 to Prague](https://github.com/ethereum/execution-apis/pull/532) - Open :exclamation:
 
-**Beacon API** 
+### Beacon API
 
 N/A
 
-**Builder Spec**
+### Builder Spec
 
 N/A
