@@ -1,6 +1,6 @@
 # Ethereum Project Management Repository
 
-This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the Execution and Consensus Layer AllCoreDevs meetings. It is also used for [Breakout Rooms](/Breakout-Room) on various protocol-related topics, whose agendas can be found under the [Issues](https://github.com/ethereum/pm/issues) page. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
+This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the Execution and Consensus Layer AllCoreDevs meetings. It is also used for [Breakout Rooms](/Breakout-Room-Meetings) on various protocol-related topics, whose agendas can be found under the [Issues](https://github.com/ethereum/pm/issues) page. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
 
 ## AllCoreDevs Meetings Overview
 
@@ -20,7 +20,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
 - The topic is technical in nature.
 - The topic involves the Ethereum protocol at a low-level. This means Ethereum applications and ERCs are generally not allowed as topics, unless their mention relates to protocol changes. 
-- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discuss [Ethereum Magicians forum](https://ethereum-magicians.org/) is a better venue for such discussions.    
+- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussions. [Ethereum Magicians forum](https://ethereum-magicians.org/) is a better venue for such discussions.    
 
 ### Who Can Attend
 
