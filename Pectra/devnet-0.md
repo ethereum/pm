@@ -3,7 +3,7 @@
 > [!NOTE]
 > This spec was originally published at https://notes.ethereum.org/@ethpandaops/pectra-devnet-0
 
-> [!NOTE]
+> [!IMPORTANT]
 > 📣 Devnet-0 starts on TBD and it will be terminated at TBD.
 
 ## EIP List for pectra-devnet-0
