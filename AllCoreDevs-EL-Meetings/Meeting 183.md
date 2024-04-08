@@ -456,9 +456,3 @@ Sense.
 # Next meeting [ Thursday March 28, 2024, 14:00-15:30 UTC]
 
 ___
-
-
-
-
-
-
