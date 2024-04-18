@@ -13,11 +13,11 @@ The document outlines the specifications for Ethereum's Dencun devnet. The netwo
 |8|[dencun-devnet-8](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-8.md) |
 |7|[dencun-devnet-7](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-7.md) |
 |6|[dencun-devnet-6](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-6.md) |
-|5|[dencun-devnet-5] |
+|5|[dencun-devnet-5](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-5.md) |
 |4|[dencun-devnet-4](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-4.md) |
 |3|[dencun-devnet-3](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-3.md) |
-|2|[dencun-devnet-2]|
-|1|[dencun-devnet-1] |
+|2|[dencun-devnet-2 User Guide](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-2.md)|
+|1|[dencun-devnet-1 User Guide](https://github.com/ethereum/pm/blob/master/Archive/Dencun/devnet-1.md) |
 
 
 
