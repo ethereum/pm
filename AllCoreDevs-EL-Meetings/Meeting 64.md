@@ -109,8 +109,8 @@ Tabled until Bryant is on the call.
 * One of the reasons this has not been implemented by a Go Developer is because this is hard core cryptography and most developers are not cryptographers. 
 * Calling a C method from Go is 20x more expensive than calling a Go method however including C code in Go is doable. 
 * Including Rust code into Go is not possible. 
-* Alex noted that a precidence has been set previously in Gas metering which also has only one implementation.
-* Paweł confirmed that Alex has creaed an EVMC bindings for this EIP so that you can load it as an EVM that supports this single address.
+* Alex noted that a precedence has been set previously in Gas metering which also has only one implementation.
+* Paweł confirmed that Alex has created an EVMC bindings for this EIP so that you can load it as an EVM that supports this single address.
 * The full spec is not yet available but it will include a step by step guidance.
 
 
@@ -121,7 +121,7 @@ Tabled for discussion in the [Magician's forum](https://ethereum-magicians.org/t
 [Timestamp: 1:03:21](https://youtu.be/2D_DqJ8jL9Y?t=3801)
 
 - **Status:** Felix's last comment in the issue comments suggests that there needs to be a change in the spec to return the quantity as Geth does. 
-* Peter confirmed that if you interpret these as numbers then you are allowed to have 0 if you interpret them as binary then you want even number of hex characters. Ganache follows the Spec whilst Go Ethereum suggests that these were numbers orginally cryptographically speaking.
+* Peter confirmed that if you interpret these as numbers then you are allowed to have 0 if you interpret them as binary then you want even number of hex characters. Ganache follows the Spec whilst Go Ethereum suggests that these were numbers originally cryptographically speaking.
 
 ** **
 **Decision 64.2:** Felix to updated the Ganache/spec to resolve [compliance issue](https://github.com/ethereum/go-ethereum/issues/18152) so that it resolves as Go Ethereum does.
@@ -151,7 +151,7 @@ Tabled for discussion in the [Magician's forum](https://ethereum-magicians.org/t
 * The storage of a block is roughly 30% whilst the current data in the block represents roughly 3% so increasing it by 4 would only take half of the storage.
 * Peter then continues and notes the other important thing to consider is transaction propagation. Go Ethereum has a limit of 24kb in size for transactions with propagators 25. 
 * Louis notes this is not a consensus rule and we could push a patch to Go Ethereum.
-* Peter notes that whilst it is not a consensus rule unless all the clients have the sae limits when it reachs a client that does not have this same limit it will filter out these transactions which affects propagation.
+* Peter notes that whilst it is not a consensus rule unless all the clients have the sae limits when it reaches a client that does not have this same limit it will filter out these transactions which affects propagation.
 * Whilst limits can be raised we need to be aware of the possibility of a denial of service and from a network transaction bandwidth perspective, transaction propagation can take up a lot more bandwidth.
 * Louis agrees with this prognosis and confirms this is the reason for the simulations with whiteblock. 
 * Note also since the update of Parity there is now a very weak correlation between block size and uncle rate on existing blocks. 
@@ -225,7 +225,7 @@ No time for discussion.
 
 * Tomasz wanted to confirm if it is now unlikely to get Ethereum 1.x in 18 months or is it still on track for 18 months?
 * Alexey it all depends on how Ethereum 1.x evolves. 
-* If we go back to the orginal idea and reduce the changes to the minimalistic set then it is possible to achieve 18 months.
+* If we go back to the original idea and reduce the changes to the minimalistic set then it is possible to achieve 18 months.
 * It also depends on testing. 
 * At this stage we are still waiting to see what happens with Istanbul first before a timeframe can be determined.
 * Hudson confirmed that this has grown larger than previously envisaged. It includes process changes, what EIPs going in between now and Ethereum 2.0 and mitigation efforts.
@@ -273,7 +273,7 @@ Hudson apologised that it was not possible to review everything in the agenda.
 ### [EIP-2124: Fork identifier for chain compatibility checks](https://github.com/ethereum/pm/issues/107#issuecomment-508164964):
 
 * Hudson suggested people please review and comment on this EIP so that we can give a Yes or No next call.
-* Peter advised that this EIP does not touch concensus and does not even enable anything yet on the network. 
+* Peter advised that this EIP does not touch consensus and does not even enable anything yet on the network. 
 * If anyone sees any obvious issue with it please write it down. 
 
 # Date for Next Meeting:
