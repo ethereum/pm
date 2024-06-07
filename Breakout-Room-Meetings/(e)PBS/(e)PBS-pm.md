@@ -13,6 +13,7 @@ Useful Resources
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
+|2| June 07, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording] | [Notes] |
 |1| Feb 13, 2024 | [Agenda](https://github.com/ethereum/pm/issues/953) | [Recording](https://youtu.be/63juNVzd1P4) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2001.md) |
 
 
