@@ -1,0 +1,34 @@
+# EIP-4844 Implementers' Call #21 #760
+
+## Meeting Details
+### [Agenda](https://github.com/ethereum/pm/issues/760)
+### Date: May 1, 2023	
+### [Video Link](https://youtu.be/M2pYYEtM3Gw) 
+## Notes: Orignally Documented [here](https://docs.google.com/document/d/15EatedrJanNxBZGPVASvwq9xgbTs5UxjsDfjpM6ppSY/edit#heading=h.orhz57s01hb1)
+
+### Notes 
+
+Agenda: Spec stuff, devnet-5, tool for DATAHASH, conversations around libraries/tests for moving this to prod with all bases covered.
+* Spec updates:
+    * Merging getpayload/blobsbundlev1: Is there an execution api update for this?
+        * Yes: https://github.com/ethereum/execution-apis/pull/402.  And it’s part of devnet-5 spec & implementations.
+    * On last ACDE, we discussed EIP-6475 which introduces optionals EIP type, agreed to move it forward with a few small changes. https://ethereum-magicians.org/t/eip-6475-ssz-optional/12891/17?u=etan-status
+        * Lightclient: Do we even want ability to create contracts? If not we don’t even need optional field.  One might say create behavior we have isn’t ideal. (Could argue there should be a separate tx for contract creation.)  Stokes from chat: you could still use create op codes if you really needed to do this.  Lightclient: maybe time to show a bit of restraint and not have everything be fully compatible with previous txs types.  One argument against is Etan’s idea of having a normalized tx type in which case we need optionals anyway.  Idea here is you have one format that can represent all txs in the protocol.   Marginally prefer dropping optional.   Gajinder: more or less agree that when we implement normalized transactions we could enable it at that time. Lightclient: If we do have a normalized tx type we’d probably have a clear discriminator that this is not a blob tx, so the normalized type would unlikely build from blob txs.     Would be good to get Etan’s thoughts on this.  Matt/Etan probably have the strongest opinions on this.  Tim: We can chat async on the discord, try to get Etan’s thoughts in a day or two and try to get a decision by ACDE call this week.  Let’s assume that unless Etan has a strong opinion we will remove. Will not change on devnet 5 but as we get it ironed out we’ll have it finalized for next one.
+    * EIP-6943: Signature scheme for SSZ.   Lightclient: Why have fork id in the domain hash? In this case it looks like it only protects case where competing chain has same genesis and introduces same tx type.  Gajinder: In the CL when a new fork comes on, some messages become old and need to be expired & this is the mechanism to expire those.   Lightclient: Dont’ think we have that problem in the EL, and if it was wanted we should think about it a bit more.  There may be unintended side effects for txs to expire at fork boudnaries. Also enshrining checksum into the protocol is probably something we don’t want to do.     To be compatible with CL we could set fork hash to fixed value.  Roberto: Sounds like we should get rid of fork version, let’s continue discussion in eth magician’s here? https://ethereum-magicians.org/t/eip-6493-ssz-transaction-signature-scheme/13050/3?u=roberto-bayardo
+        * Lightclient: More broadly, does it make sense to bring CL mechanism in here into the EL?  Or make more sense to define a more EL aligned signature scheme. Imagine a world where we don’t add new tx types but we have this more specific type with a totally different format they have to learn.   Unlikely we’ll ever be able to move away entirely from old rlp signature hash.   There might be simpler things we can do:  imagine that you just compute the hash_tree_root of transaction & sign that w/ tx type added.  So there are simpler ways to achieve this.  Roberto: Etan’s concern was RLP-encoded tx of same type on different chains could lead to collisions.  This is what genesis hash solves.
+        * Roberto: Hate to suggest but why SSZ at all then and not RLP when it feels like we haven’t figured out the ultimate solution of how to move EL to SSZ?  Inphi from chat: One nice thing is ssz lets us access blob versioned hash without leaking the entire tx schema.
+        * Andrew Ashikmin:  Maybe we can add consistent serialization of chain id to prefix to avoid this collision issue. Can then exclude chainid from main serialization. Can make sure this prefix doesn’t coincide with any valid RLP serialization. (Thinking of a way to solve the more limited problem of solving clashes between different chains.)
+        * Lightclient: Most “correct” thing to do would be to compute the hash tree root of the SSZ, which is roughly what this EIP tries to do, but it brings in CL stuff we don’t really care about.  Best and simplest thing might be to compute keccak hash of some RLP serialization of the components. Against keccak hash of SSZ serialization because it is a part-way adoption of SSZ. Would prefer Etan’s proposal or failing back to whatever already exists which is an RLP list.
+        * Andrew: Agree w/ lightclient we either should revert back to RLP or figure out a proper path to SSZ everything and invest more time to make sure 6493 is a good way forward.
+        * Justin: Do want to point out that intent behind SSZ adoption EIPs is towards incremental adoption.  These half measures are by design.
+        * Lightclient: What SSZ helps most with is ability to create proofs over pieces of transaction in a contract. With RLP you need the entire transaction.   Would like a strong argument for the SSZ signature scheme otherwise probably doesn’t make a lot of sense & should stick with the formats that we already have.
+        * Tim: Make sense to pause this conversation here and continue discussion on the discord, aim to align overall approach for devnet-6.
+        * Roberto: Will try to lay out the options that have been discussed in the discord so we can try and hash this out for devnet-6.
+    * Quick updates on devnet-5?  It’s running. 
+    * Tool for blob-hash-getter: https://github.com/ethstorage/eip4844-blob-hash-getter
+    * Small library able to pull customized assembly code to get data hash and return to parent smart contract, to experiment in rollup contracts to experiment with these ideas.
+    * Peter raised concerns about the crypto library. 
+    * Tim: Should we have a tracker for these open issues?  (ssz, blobs & reorgs, crypto libs, + whatever else comes up) Roberto: think it would help us keep them top of mind to make consistent progress. E.g. think Kev is fixing the go crypto libs but not sure if anyone fixing c-kzg.
+    * Testing: Mario Vega: Have updates on testing vectors to share. We have a couple of test vectors update: https://github.com/ethereum/execution-spec-tests/releases/tag/v0.2.5 and https://github.com/ethereum/hive/pull/759 both for EL clients.  Can help you out run any of these vectors if you can provide a docker image if your client.
+
+githgith
