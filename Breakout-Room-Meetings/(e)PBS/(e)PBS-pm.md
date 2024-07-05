@@ -13,7 +13,9 @@ Useful Resources
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
-|2| June 07, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording] | [Notes] |
+|4| July 05, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1083) | [Recording](https://youtu.be/WC9XsungamU) | [Notes]|
+|3| June 21, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording](https://youtu.be/J1e5iUvcTDU) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2003.md) |
+|2| June 07, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording](https://youtu.be/w7Wa6oprEhQ) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2002.md) |
 |1| Feb 13, 2024 | [Agenda](https://github.com/ethereum/pm/issues/953) | [Recording](https://youtu.be/63juNVzd1P4) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2001.md) |
 
 
