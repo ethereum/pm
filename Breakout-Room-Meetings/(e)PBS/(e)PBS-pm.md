@@ -1,7 +1,10 @@
-# enshrined Proposer Builder Separation a.k.a (e)PBS 
+# enshrined Proposer Builder Separation a.k.a (e)PBS [EIP-7732](https://eips.ethereum.org/EIPS/eip-7732)
 
-In (e)PBS Breajout Room, client developers discuss ePBS, its essential components and possible inclusion in Ethereum Network Upgrade. 
-Useful Resources
+In EIP-7732 or (e)PBS Breakout Room, client developers discuss specs & implementation for ePBS and possible inclusion in Ethereum Network Upgrade. EIP-7732 fundamentally changes the way an Ethereum block is validated by decoupling the execution validation from the consensus validation both logically as well as temporally.
+
+**Useful Resources**
+- [EIP-7732: Enshrined Proposer-Builder Separation](https://eips.ethereum.org/EIPS/eip-7732)
+- [Discussion link](https://ethereum-magicians.org/t/eip-7732-enshrined-proposer-builder-separation-epbs/19634)
 - [Beacon chain spec](https://github.com/potuz/consensus-specs/blob/f31929acd92efea3d3ac92ce7a8c6ea05bb2472c/specs/_features/epbs/beacon-chain.md)
 - [Fork choice spec](https://github.com/potuz/consensus-specs/blob/f31929acd92efea3d3ac92ce7a8c6ea05bb2472c/specs/_features/epbs/fork-choice.md)
 - [General design notes](https://github.com/potuz/consensus-specs/blob/f31929acd92efea3d3ac92ce7a8c6ea05bb2472c/specs/_features/epbs/design.md)
@@ -13,7 +16,10 @@ Useful Resources
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
-|2| June 07, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording] | [Notes] |
+|5| July 19, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1095) | [Recording] | [Notes]|
+|4| July 05, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1083) | [Recording](https://youtu.be/WC9XsungamU) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2004.md)|
+|3| June 21, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording](https://youtu.be/J1e5iUvcTDU) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2003.md) |
+|2| June 07, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording](https://youtu.be/w7Wa6oprEhQ) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2002.md) |
 |1| Feb 13, 2024 | [Agenda](https://github.com/ethereum/pm/issues/953) | [Recording](https://youtu.be/63juNVzd1P4) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2001.md) |
 
 
