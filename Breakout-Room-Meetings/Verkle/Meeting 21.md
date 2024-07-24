@@ -1,3 +1,25 @@
+# Meeting Info
+July 15th, 15:00 UTC
+
+Meet link: shared in #verkle-trie-migration Eth R&D Discord right before the call
+
+Recording: https://youtu.be/8YosyUWzmz0
+
+Thread recap: https://twitter.com/rudolf6_/status/1813834750353981442
+
+## Agenda
+1. updates from client teams and testing
+
+2. testnet readiness (kaustinen 7 launch)
+
+3. witness size measurements
+
+4. fill costs
+
+5. EIP Updates
+
+6. code chunking / gas overhead summary doc
+
 # 1. Team updates
 @ignaciohagopian and @gballet for @go_ethereum: finishing up document on code chunking gas cost overhead in Verkle. Also working on more test vectors for the state conversion (converting state from Merkle to Verkle). And putting together first draft of the state conversion EIP, to help with coordination and act as the source of truth for test vectors. In addition, Guillaume has been collecting witness size data, preparing for the testnet relaunch, and busy merging more Verkle stuff into Geth so we can have a testnet on top of Dencun.
 
