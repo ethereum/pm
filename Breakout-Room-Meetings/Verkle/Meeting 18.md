@@ -21,7 +21,7 @@ Original notes, copied from here: https://x.com/rudolf6_/status/1798557660905902
 6. EIP-2935 updates post-Verkle
 7. Gas cost spec (EIP-4762) PR open questions
 
-1. Client team updates
+# 1. Client team updates
 
 @gballet
  for 
@@ -49,9 +49,8 @@ Somnath for
 @ErigonEth
 : was able to regenerate the preimage files using a slightly different approach, and the total size is now much smaller: 28gb instead of 40. Can see more info here: https://hackmd.io/@somnergy/rkeJgDO7A  (note: one of the big open questions with the conversion from Merkle to Verkle is where and how to get preimages for all the clients that don’t store them by default).
 
-====
 
-2. Testing updates
+# 2. Testing updates
 
 @elbuenmayini
  for the testing team: over past few weeks, a bunch of things have been fixed between the transition tool and the testing filling process, which is now fully working for Verkle. Also the hive instance for Verkle is now working. Another small update: we are preparing pre-releases on the execution spec tests repository. So now can tag releases with only Verkle changes. And all client teams working on a branch can go into the releases page and easily get the last Verkle release from the repo.
@@ -63,15 +62,11 @@ Lastly, can find latest work on test vectors from
 @ignaciohagopian
  here: https://github.com/spencer-tb/execution-spec-tests/pull/41
 
-====
-
-3. State root of parent block in the proof
+# 3. State root of parent block in the proof
 
 Quick tldr on this: making a small change to help with EthJS stateless implementation: basically we need the state root of the parent block inside the proof, otherwise stateless clients would also need to get the previous block. Updating the consensus spec repository to add this field to the execution witness. Should be included in the relaunch of testnet 7.
 
-====
-
-4. EIP-158 interaction with EIP-7702
+# 4. EIP-158 interaction with EIP-7702
 
 Next up, discussion of a potential issue caused by interaction of EIP-158 (removal of empty accounts from state) and EIP-7702. With 7702, an eoa could be empty (zero nonce/balance), but still have some storage. Pre-verkle, that can be destructed, but post-verkle it cannot.
 
@@ -89,9 +84,7 @@ Two potential solutions: Either completely disable storage in 7702, or possibly 
 
 Decided to continue the conversation separately and will come back to this in the near future.
 
-====
-
-5. Whether to warm system contracts
+# 5. Whether to warm system contracts
 
 Recommend watching the recording to get the full discussion here, but the short version is that Guillaume brought up how it would potentially be much simpler from implementation side to not warm anything.
 
@@ -100,7 +93,6 @@ Recommend watching the recording to get the full discussion here, but the short 
 
 Agreed to take some more time to think on this topic a bit, and will revisit in next 2 weeks.
 
-====
 
 6. Gas cost updates to EIP-4762
 
