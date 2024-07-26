@@ -1,4 +1,4 @@
-# Meeting 21
+# Verkle Meeting 21
 
 ### Meeting Info
 July 15th, 15:00 UTC
