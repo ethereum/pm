@@ -1,11 +1,13 @@
-# Meeting Info
+# Meeting 21
+
+### Meeting Info
 July 15th, 15:00 UTC
 
 Meet link: shared in #verkle-trie-migration Eth R&D Discord right before the call
 
 Recording: https://youtu.be/8YosyUWzmz0
 
-Thread recap: https://twitter.com/rudolf6_/status/1813834750353981442
+Original notes: https://twitter.com/rudolf6_/status/1813834750353981442
 
 ## Agenda
 1. updates from client teams and testing
