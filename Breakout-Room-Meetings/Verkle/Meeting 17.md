@@ -10,7 +10,7 @@ Meet link: shared in #verkle-trie-migration Eth R&D Discord right before the cal
 
 Recording: https://youtu.be/dbz6UPOT01U
 
-Thread recap: https://x.com/rudolf6_/status/1783449448590541016
+Original Notes here: https://x.com/rudolf6_/status/1783449448590541016
 
 ## Agenda
 
