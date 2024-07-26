@@ -1,4 +1,6 @@
-# Meeting Info
+# Verkle Meeting 18
+
+## Meeting Info
 June 3, 14:00 UTC
 
 Duration: 60 minutes
