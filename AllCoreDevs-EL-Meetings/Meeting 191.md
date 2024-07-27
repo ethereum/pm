@@ -13,7 +13,7 @@ ___
 
 | S No | Agenda | Summary |
 | -------- | -------- | -------- |
-| 191.1    | Pectra Update | Clients are progressing with devnet-1 implementations. |
+| 191.1    | Pectra Update | Clients are progressing with devnet-1 implementations. The launch is expected within the next week or two.|
 | | | The launch is expected within the next week or tw.|
 |191.2 | EIP -7702| Updates on EIP-7702 were provided, with plans to merge it into devnet-2 soon.|
 |191.3| EIP-7212|This proposal, which improves key/wallet management, was discussed. A decision on its inclusion in Pectra will be made in the next meeting.|
