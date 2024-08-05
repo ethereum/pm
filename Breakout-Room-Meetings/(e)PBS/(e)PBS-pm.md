@@ -16,6 +16,7 @@ In EIP-7732 or (e)PBS Breakout Room, client developers discuss specs & implement
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
+|6| August 02, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1120) | [Recording](https://www.youtube.com/watch?v=Otxw1uXxFCI) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2006.md)|
 |5| July 19, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1095) | [Recording](https://youtu.be/pFJMqk5zkPQ) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2005.md)|
 |4| July 05, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1083) | [Recording](https://youtu.be/WC9XsungamU) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2004.md)|
 |3| June 21, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1060) | [Recording](https://youtu.be/J1e5iUvcTDU) | [Notes](https://github.com/poojaranjan/pm/blob/master/Breakout-Room-Meetings/(e)PBS/Meeting%2003.md) |
