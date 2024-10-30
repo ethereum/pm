@@ -245,6 +245,8 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+143|   Thursday 2024/10/3 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1158) \| [notes](AllCoreDevs-CL-Meetings/Call_143.md) \| no reddit | [video](https://youtu.be/dplciLdQTM0)|
+142|  Thursday 2024/9/19 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1154) \| [notes](AllCoreDevs-CL-Meetings/Call_142.md) \| no reddit | [video](https://youtu.be/MRtJSnBU3Gk)|
 141|  Thursday 2024/9/5 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1140) \| [notes](AllCoreDevs-CL-Meetings/Call_141.md) \| no reddit | [video](https://youtu.be/XMPupRyEBk0)|
 140|  Thursday 2024/8/22 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1129) \| [notes](AllCoreDevs-CL-Meetings/Call_140.md) \| no reddit | [video](https://youtu.be/hSNJ6vURfmE)|
 139|  Thursday 2024/8/8 at 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1116) \| [notes](AllCoreDevs-CL-Meetings/Call_139.md) \| no reddit | [video](https://youtu.be/o8p47gIt7Bs)|
