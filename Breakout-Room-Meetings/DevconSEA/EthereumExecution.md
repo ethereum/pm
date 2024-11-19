@@ -10,6 +10,9 @@ A fishbowl-style discussion with core Ethereum contributors and community to pub
 ## Panelists: 
 lightclient, Alexi (Reth), Dan (EOF), Guillaume (Geth and stateless consensus), Jared (Geth), x
 
+## Notes by:
+June Manuel
+
 ## Devcon SEA - Nov 15, 2024
 
 lightclient: What is the endgame for execution in Ethereum? We often think incrementally fork to fork, but what could the world look like?
