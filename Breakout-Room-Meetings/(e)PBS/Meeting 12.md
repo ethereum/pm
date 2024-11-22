@@ -11,8 +11,7 @@ Note: This file is copied from [here](https://hackmd.io/@ttsao/epbs-breakout-12)
 **Recording**: https://youtu.be/fs6rNxHQ3f0
 
 Today, we were joined by Francesco, who shared the latest thinking on the [All-in-one fork choice design](https://hackmd.io/UX7Vhsv8RTy8I49Uxez3Ng?view). For a deep dive into the new design, please watch the recording, as it covers much more nuance than these notes.
-Comment
-Suggest edit
+
 
 ### Design Motivation
 - Payload and withheld boosts add complexity. Given the challenges with proposer boosts, it’s preferable to avoid them.
