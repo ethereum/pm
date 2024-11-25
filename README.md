@@ -30,7 +30,7 @@ Protocol developers, researchers and EIP authors are invited to attend the meeti
 
 Early in Ethereum's history, (2015-fall 2016) George Hallam facilitated the AllCoreDevs meetings. Starting in fall 2016, Hudson Jameson took over the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes. 
 
-Today, Tim Beiko and Danny Ryan respectively facilitate the execution and consensus layer AllCoreDevs meetings. Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts for AllCoreDevs meetings, as well as some Breakout Rooms. 
+Today, Tim Beiko and Alex Stokes respectively facilitate the execution and consensus layer AllCoreDevs meetings, with Alex Stokes having taken over from Danny Ryan in September 2024. Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts for AllCoreDevs meetings, as well as some Breakout Rooms. 
 
 The meetings are independent of any organization. However, Danny Ryan & Tim Beiko are contractors for the Ethereum Foundation and the Ethereum Foundation pays for the video-conference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
 
