@@ -8,7 +8,7 @@ UX has been at the forefront of Ethereum recently, as standards for Account and 
 ## Video: https://www.youtube.com/watch?v=63w7kHh737w
 
 ## Panelists: 
-Niha (Safe), Cody Crozier (Coinbase), Derek Chiang (ZeroDev), Mark Smargon (Fuse Network), Pedro Gomes (WalletConnect)
+Tom Teman (Ethereum Foundation), Niha (Safe), Cody Crozier (Coinbase), Derek Chiang (ZeroDev), Mark Smargon (Fuse Network), Pedro Gomes (WalletConnect)
 
 ## Notes by:
 June Manuel
