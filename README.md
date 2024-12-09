@@ -30,11 +30,13 @@ Protocol developers, researchers and EIP authors are invited to attend the meeti
 
 Early in Ethereum's history, (2015-fall 2016) George Hallam facilitated the AllCoreDevs meetings. Starting in fall 2016, Hudson Jameson took over the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes.
 
-Today, Tim Beiko and Alex Stokes respectively facilitate the execution and consensus layer AllCoreDevs meetings, with Alex Stokes having taken over from Danny Ryan in Sep 2024. Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts for AllCoreDevs meetings, as well as some Breakout Rooms.
+Today, Tim Beiko and Alex Stokes respectively facilitate the execution and consensus layer AllCoreDevs meetings, with Alex Stokes having taken over from Danny Ryan in Sep 2024. Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts (linked below) for AllCoreDevs meetings, as well as some Breakout Rooms.
 
 The meetings are independent of any organization. However, Tim Beiko and Alex Stokes are part of the Ethereum Foundation and the Ethereum Foundation pays for the video-conference software used in the meetings.
 
 ## Previous AllCoreDevs Meetings
+
+Call summaries have also recently started being posted on [Ethereum Magicians](https://ethereum-magicians.org/tag/acd).
 
 ### Execution Layer
 
@@ -244,8 +246,6 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 
 ### Consensus Layer
 
-**Note: given the recent transition from the [eth2.0-pm repository](https://github.com/ethereum/eth2.0-pm), some of the links below may be broken.**
-
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
 144| 17 Oct 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1178) \| [notes](AllCoreDevs-CL-Meetings/Call_144.md) | [video](https://youtu.be/p3FRr5umt4U)|
@@ -267,7 +267,7 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 127| 08 Feb 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/951) \| [notes](AllCoreDevs-CL-Meetings/call_127.md) | [video](https://youtu.be/FLB61CpMB70)|
 126| 25 Jan 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/938) \| [notes](AllCoreDevs-CL-Meetings/call_126.md) | [video](https://youtu.be/_pFRJ1it608)|
 125| 11 Jan 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/936) \| [notes](AllCoreDevs-CL-Meetings/Call_125.md) | [video](https://youtu.be/YkHtTudq3Xo)|
-124| 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/922) \| [notes](AllCoreDevs-CL-Meetings/call_124.md) | video|
+124| 14 Dec 2023, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/922) \| [notes](AllCoreDevs-CL-Meetings/call_124.md) | video|
 123| 30 Nov 2023, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/916) \| [notes](AllCoreDevs-CL-Meetings/Call_123.md) | [video](https://www.youtube.com/watch?v=s3jIn3ot57g&t=1s)|
 122| 16 Nov 2023, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/900) \| [notes](AllCoreDevs-CL-Meetings/call_122.md) | [video](https://youtu.be/wSE8e9MZz3k)
 121| 02 Nov 2023, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/898) \| [notes](AllCoreDevs-CL-Meetings/Call_121.md) | [video](https://www.youtube.com/watch?v=dAStyB2Vv4s)
