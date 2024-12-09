@@ -32,7 +32,7 @@ Early in Ethereum's history, (2015-fall 2016) George Hallam facilitated the AllC
 
 Today, Tim Beiko and Alex Stokes respectively facilitate the execution and consensus layer AllCoreDevs meetings, with Alex Stokes having taken over from Danny Ryan in Sep 2024. Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts for AllCoreDevs meetings, as well as some Breakout Rooms.
 
-The meetings are independent of any organization. However, Danny Ryan & Tim Beiko are contractors for the Ethereum Foundation and the Ethereum Foundation pays for the video-conference software used in the meetings. Livestreaming instruction for the meetings can be found [here](https://docs.google.com/document/d/1dF_Drs56ErV6wJgFmbzpdN-cINshKCsB61D92NS2JDg/edit).
+The meetings are independent of any organization. However, Tim Beiko and Alex Stokes are part of the Ethereum Foundation and the Ethereum Foundation pays for the video-conference software used in the meetings.
 
 ## Previous AllCoreDevs Meetings
 
@@ -41,7 +41,7 @@ The meetings are independent of any organization. However, Danny Ryan & Tim Beik
 | №   | Date                                 | Agenda                                              | Notes                                                                                                                                                                    | Recording                                                                          |
 | --- | ------------------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
 | 199 | 24 Oct 2024, 14:00-15:30 UTC      | [agenda](https://github.com/ethereum/pm/issues/1177) | [notes](AllCoreDevs-EL-Meetings/Meeting%20199.md)   \| [Twitter]()      |[Video](https://youtu.be/3Y8X9_W9ecg) |
-| 198 | 10 Oct 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1163) | [notes](AllCoreDevs-EL-Meetings/Meeting 198.md)\| [Twitter]()      |[Video](https://www.youtube.com/live/YQwdKE0d8LI?t=61s) |
+| 198 | 10 Oct 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1163) | [notes](AllCoreDevs-EL-Meetings/Meeting%20198.md)\| [Twitter]()      |[Video](https://www.youtube.com/live/YQwdKE0d8LI?t=61s) |
 | 197 | 26 Sep 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1153) | [notes](AllCoreDevs-EL-Meetings/Meeting%20197.md)   \| [Twitter]()      |[Video](https://youtube.com/live/PWhn8KdgCl8) |
 | 196 | 12 Sep 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1143) | [notes](AllCoreDevs-EL-Meetings/Meeting%20196.md)   \| [Twitter](https://x.com/TimBeiko/status/1834268802348917208)      |[Video](https://youtu.be/A_DuQRICW70) |
 | 195 | 29 Aug 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1142) | [notes](AllCoreDevs-EL-Meetings/Meeting%20195.md)   \| [Twitter](https://x.com/TimBeiko/status/1829192432745062768)      |[Video](https://youtube.com/live/HJ9WxAOwTTA) |
@@ -249,25 +249,25 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
 144| 17 Oct 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1178) \| [notes](AllCoreDevs-CL-Meetings/Call_144.md) | [video](https://youtu.be/p3FRr5umt4U)|
-143| 03 Oct 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1158) \| [notes](AllCoreDevs-CL-Meetings/Call_143.md) | [video](https://youtu.be/dplciLdQTM0)|
+143| 03 Oct 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1158) \| [notes](AllCoreDevs-CL-Meetings/call_143.md) | [video](https://youtu.be/dplciLdQTM0)|
 142| 19 Sep 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1154) \| [notes](AllCoreDevs-CL-Meetings/Call_142.md) | [video](https://youtu.be/MRtJSnBU3Gk)|
-141| 05 Sep 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1140) \| [notes](AllCoreDevs-CL-Meetings/Call_141.md) | [video](https://youtu.be/XMPupRyEBk0)|
-140| 22 Aug 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1129) \| [notes](AllCoreDevs-CL-Meetings/Call_140.md) | [video](https://youtu.be/hSNJ6vURfmE)|
-139| 08 Aug 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1116) \| [notes](AllCoreDevs-CL-Meetings/Call_139.md) | [video](https://youtu.be/o8p47gIt7Bs)|
+141| 05 Sep 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1140) \| [notes](AllCoreDevs-CL-Meetings/call_141.md) | [video](https://youtu.be/XMPupRyEBk0)|
+140| 22 Aug 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1129) \| [notes](AllCoreDevs-CL-Meetings/call_140.md) | [video](https://youtu.be/hSNJ6vURfmE)|
+139| 08 Aug 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1116) \| [notes](AllCoreDevs-CL-Meetings/call_139.md) | [video](https://youtu.be/o8p47gIt7Bs)|
 138| 25 Jul 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1100) \| [notes](AllCoreDevs-CL-Meetings/Call_138.md) | [video](https://youtu.be/lmzAUqsIbIE)|
-137| 11 Jul 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1096) \| [notes](AllCoreDevs-CL-Meetings/Call_137.md) | [video](https://youtu.be/IXgfhk_bFwA)|
+137| 11 Jul 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1096) \| [notes](AllCoreDevs-CL-Meetings/call_137.md) | [video](https://youtu.be/IXgfhk_bFwA)|
 136| 27 Jun 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1084) \| [notes](AllCoreDevs-CL-Meetings/Call_136.md) | [video](https://youtu.be/T-w5dzte36c)|
-135| 13 Jun 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1069) \| [notes](AllCoreDevs-CL-Meetings/Call_135.md) | [video](https://youtu.be/LpY1JQHl9EY)|
+135| 13 Jun 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1069) \| [notes](AllCoreDevs-CL-Meetings/call_135.md) | [video](https://youtu.be/LpY1JQHl9EY)|
 134| 30 May 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1050) \| [notes](AllCoreDevs-CL-Meetings/Call_134.md) | [video](https://youtu.be/Lrk99mKiWaU)|
 133| 02 May 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1031) \| [notes](AllCoreDevs-CL-Meetings/Call_133.md) | [video](https://youtu.be/LazOhUu1Tew)|
-132| 18 Apr 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1010) \| [notes](AllCoreDevs-CL-Meetings/Call_132.md) | [video](https://www.youtube.com/watch?v=srOu8TqFYYM)|
+132| 18 Apr 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1010) \| [notes](AllCoreDevs-CL-Meetings/call_132.md) | [video](https://www.youtube.com/watch?v=srOu8TqFYYM)|
 131| 04 Apr 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1003) \| [notes](AllCoreDevs-CL-Meetings/Call_131.md) | [video](https://youtu.be/ZqxDq1aJxHc)|
 130| 21 Mar 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/987) \| [notes](AllCoreDevs-CL-Meetings/Call_130.md) | [video](https://youtu.be/3rRJ1H0MJDY)|
 128| 22 Feb 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/966) \| [notes](AllCoreDevs-CL-Meetings/Call_128.md) | [video](https://youtu.be/FgOuUEgguN0)|
-127| 08 Feb 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/951) \| [notes](AllCoreDevs-CL-Meetings/Call_127.md) | [video](https://youtu.be/FLB61CpMB70)|
-126| 25 Jan 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/938) \| [notes](AllCoreDevs-CL-Meetings/Call_126.md) | [video](https://youtu.be/_pFRJ1it608)|
+127| 08 Feb 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/951) \| [notes](AllCoreDevs-CL-Meetings/call_127.md) | [video](https://youtu.be/FLB61CpMB70)|
+126| 25 Jan 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/938) \| [notes](AllCoreDevs-CL-Meetings/call_126.md) | [video](https://youtu.be/_pFRJ1it608)|
 125| 11 Jan 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/936) \| [notes](AllCoreDevs-CL-Meetings/Call_125.md) | [video](https://youtu.be/YkHtTudq3Xo)|
-124| 14:00 UTC |agenda \| notes \ | video|
+124| 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/922) \| [notes](AllCoreDevs-CL-Meetings/call_124.md) | video|
 123| 30 Nov 2023, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/916) \| [notes](AllCoreDevs-CL-Meetings/Call_123.md) | [video](https://www.youtube.com/watch?v=s3jIn3ot57g&t=1s)|
 122| 16 Nov 2023, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/900) \| [notes](AllCoreDevs-CL-Meetings/call_122.md) | [video](https://youtu.be/wSE8e9MZz3k)
 121| 02 Nov 2023, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/898) \| [notes](AllCoreDevs-CL-Meetings/Call_121.md) | [video](https://www.youtube.com/watch?v=dAStyB2Vv4s)
@@ -293,19 +293,19 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 101| 15 Dec 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/702) \| [notes](AllCoreDevs-CL-Meetings/Call_101.md) | [video](https://youtu.be/Z-0z5-7hGvo)
 100| 15 Dec 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/688) \| [notes](AllCoreDevs-CL-Meetings/Call_100.md) | [video](https://youtu.be/UazJO0fQ3Ho)
 99| 01 Dec 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/667) \| [notes](AllCoreDevs-CL-Meetings/call_099.md) | [video](https://youtu.be/KFc1sWYlVZ4)
-98| 17 Nov 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/660) \| [notes](AllCoreDevs-CL-Meetings/call_098.md) | [video](https://www.youtube.com/watch?v=IK1jNCQz5yk)
-97| 03 Nov 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/630) \| [notes](AllCoreDevs-CL-Meetings/call_097.md) | [video](https://youtu.be/GWkhFCvwOT4)
+98| 17 Nov 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/660) \| [notes](AllCoreDevs-CL-Meetings/Call_098.md) | [video](https://www.youtube.com/watch?v=IK1jNCQz5yk)
+97| 03 Nov 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/630) \| [notes](AllCoreDevs-CL-Meetings/Call_097.md) | [video](https://youtu.be/GWkhFCvwOT4)
 96| 22 Sep 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/629) \| [notes](AllCoreDevs-CL-Meetings/call_096.md) | [video](https://www.youtube.com/watch?v=_yogw67HxZY)
-95| 08 Sep 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/618) \| [notes](AllCoreDevs-CL-Meetings/call_095.md) | [video](https://youtu.be/ir-gnBm2GZ4)
-94| 25 Aug 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/598) \| [notes](AllCoreDevs-CL-Meetings/call_094.md) | [video](https://youtu.be/tjmpu8O-xsA)
+95| 08 Sep 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/618) \| [notes](AllCoreDevs-CL-Meetings/Call_095.md) | [video](https://youtu.be/ir-gnBm2GZ4)
+94| 25 Aug 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/598) \| [notes](AllCoreDevs-CL-Meetings/Call_094.md) | [video](https://youtu.be/tjmpu8O-xsA)
 93| 11 Aug 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/594) \| [notes](AllCoreDevs-CL-Meetings/Call_093.md) | [video](https://www.youtube.com/watch?v=CIAGQMUKEZ4)
-92| 28 Jul 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/574) \| [notes](AllCoreDevs-CL-Meetings/call_092.md) | [video](https://www.youtube.com/watch?v=XDfNg8mdC10&ab_channel=EthereumFoundation)
-91| 14 Jul 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/566) \| [notes](AllCoreDevs-CL-Meetings/call_91.md) | [video](https://youtu.be/yBEPzzeo1a4)
-90| 30 Jun 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/555) \| [notes](AllCoreDevs-CL-Meetings/call_90.md) | [video](https://youtu.be/Fid8hTxkRHM)
+92| 28 Jul 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/574) \| [notes](AllCoreDevs-CL-Meetings/Call_092.md) | [video](https://www.youtube.com/watch?v=XDfNg8mdC10&ab_channel=EthereumFoundation)
+91| 14 Jul 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/566) \| [notes](AllCoreDevs-CL-Meetings/Call_91.md) | [video](https://youtu.be/yBEPzzeo1a4)
+90| 30 Jun 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/555) \| [notes](AllCoreDevs-CL-Meetings/Call_90.md) | [video](https://youtu.be/Fid8hTxkRHM)
 89| 16 Jun 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/549) \| [notes](AllCoreDevs-CL-Meetings/call_089) | [video](https://youtu.be/WHOZ_2tlTqk)
 88| 19 May 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/527) \| [notes](AllCoreDevs-CL-Meetings/call_088.md) | [video](https://www.youtube.com/watch?v=4oI48BEijVw)
-87| 19 May 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/527) \| [notes](AllCoreDevs-CL-Meetings/call_087.md) | [video](https://youtu.be/-6dZVes6aWc)
-86| 05 May 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/521) \| [notes](AllCoreDevs-CL-Meetings/call_086.md) | [video](https://youtu.be/nnjeqZK7jgU)
+87| 19 May 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/527) \| [notes](AllCoreDevs-CL-Meetings/Call_087.md) | [video](https://youtu.be/-6dZVes6aWc)
+86| 05 May 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/521) \| [notes](AllCoreDevs-CL-Meetings/Call_086.md) | [video](https://youtu.be/nnjeqZK7jgU)
 85| 04 Apr 2022, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/510) \| [notes](AllCoreDevs-CL-Meetings/call_085.md) | [video](https://www.youtube.com/watch?v=rYWF7N8tS0g&t=3830s)
 84| 24 Mar 2022, 14:00 UTC|[agenda](https://github.com/ethereum/pm/issues/501) \| [notes](AllCoreDevs-CL-Meetings/call_084.md) | [video](https://youtu.be/ThoT6-eLTN0)
 83| 10 Mar 2022, 14:00 UTC|[agenda](https://github.com/ethereum/pm/issues/489) \| [notes](AllCoreDevs-CL-Meetings/call_83.md) | [video](https://youtu.be/SEVY6-Zr2OM)
@@ -315,28 +315,28 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 78| 16 Dec 2021, 14:00 UTC|[agenda](https://github.com/ethereum/pm/issues/439) \| [notes](https://hackmd.io/@benjaminion/HyxWQTdqY) | No recording
 77| 02 Dec 2021, 14:00 UTC|[agenda](https://github.com/ethereum/pm/issues/429) \| [notes](AllCoreDevs-CL-Meetings/call_077.md) | [video](https://youtu.be/1fIg_t6hZ8U)
 76| 18 Nov 2021, 14:00 UTC|[agenda](https://github.com/ethereum/pm/issues/418) \| [notes](AllCoreDevs-CL-Meetings/call_076.md) | [video](https://www.youtube.com/watch?v=31Jxh9_xXvY)
-75| 04 Nov 2021, 14:00 UTC|[agenda](https://github.com/ethereum/pm/issues/412) \| [notes](AllCoreDevs-CL-Meetings/call_075.md)  \ | [video](https://youtu.be/9U_xj_zCMYg)
-74| 21 Oct 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/239) \| [notes](AllCoreDevs-CL-Meetings/call_074.md) | [video](https://www.youtube.com/watch?v=5vGxLoTUqaQ)
+75| 04 Nov 2021, 14:00 UTC|[agenda](https://github.com/ethereum/pm/issues/412) \| [notes](AllCoreDevs-CL-Meetings/call_075.md) | [video](https://youtu.be/9U_xj_zCMYg)
+74| 21 Oct 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/239) \| [notes](AllCoreDevs-CL-Meetings/Call_074.md) | [video](https://www.youtube.com/watch?v=5vGxLoTUqaQ)
 73| 23 Sep 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/237) \| [notes](AllCoreDevs-CL-Meetings/call_073.md) | [video](https://youtu.be/Pes_OaMJeDc)
 72| 09 Sep 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/235) \| [notes](AllCoreDevs-CL-Meetings/call_072.md) | [video](https://www.youtube.com/watch?v=k3heiZA5j5s)
 71| 26 Aug 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/233) \| [notes](AllCoreDevs-CL-Meetings/call_071.md) | [video](https://youtu.be/DZiy3RhUgNY)
-70| 12 Aug 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/232) \| [notes](AllCoreDevs-CL-Meetings/call_070.md) | [video](https://youtu.be/24MRTRDJ-iw)
-69| 29 Jul 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/229) \| [notes](AllCoreDevs-CL-Meetings/call_069.md) | [video](https://www.youtube.com/watch?v=NJWYZ0gABfg)
-68| 15 Jul 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/226) \| [notes](AllCoreDevs-CL-Meetings/call_068.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/oksqn4/live_ethereum_20_call_68_20210715_1400_gmt/) | [video](https://www.youtube.com/watch?v=-Bzq4s8Lr5E)
+70| 12 Aug 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/232) \| [notes](AllCoreDevs-CL-Meetings/Call_070.md) | [video](https://youtu.be/24MRTRDJ-iw)
+69| 29 Jul 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/229) \| [notes](AllCoreDevs-CL-Meetings/Call_069.md) | [video](https://www.youtube.com/watch?v=NJWYZ0gABfg)
+68| 15 Jul 2021, 14:00 UTC|[agenda](https://github.com/ethereum/eth2.0-pm/issues/226) \| [notes](AllCoreDevs-CL-Meetings/Call_068.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/oksqn4/live_ethereum_20_call_68_20210715_1400_gmt/) | [video](https://www.youtube.com/watch?v=-Bzq4s8Lr5E)
 67| 01 Jul 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/224) \| [notes](AllCoreDevs-CL-Meetings/call_067.md) | [video](https://youtu.be/FNXk4ScqHn0) |
 66| 17 Jun 2020, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/222) \| [notes](AllCoreDevs-CL-Meetings/call_066.md) | [video](https://www.youtube.com/watch?v=ZSMrxG1LAck&ab_channel=EthereumFoundation) |
 65| 03 Jun 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/220) \| [notes](AllCoreDevs-CL-Meetings/call_065.md) | [video](https://www.youtube.com/watch?v=cgH8OsCg9tY)
 64| 20 May 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/218) \| [notes](AllCoreDevs-CL-Meetings/call_064.md) | [video](https://youtu.be/A1L7wLYAqnM)
-63| 06 May 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/217) \| [notes](AllCoreDevs-CL-Meetings/call_063.md) | [video](https://youtu.be/qhcMxBh0GEc)
-62| 22 Apr 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/214) \| [notes](AllCoreDevs-CL-Meetings/call_062.md) | [video](https://youtu.be/D9Aqr8thF9c)
+63| 06 May 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/217) \| [notes](AllCoreDevs-CL-Meetings/Call_063.md) | [video](https://youtu.be/qhcMxBh0GEc)
+62| 22 Apr 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/214) \| [notes](AllCoreDevs-CL-Meetings/Call_062.md) | [video](https://youtu.be/D9Aqr8thF9c)
 61| 08 Apr 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/212) \| [notes](AllCoreDevs-CL-Meetings/call_061.md) | [video](https://www.youtube.com/watch?v=XLB5HEWdZUE&list=PLaM7G4Llrb7wv3Z4XD82Skm78DaMrJEBA&index=2)
 60| 25 Mar 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/210) \| [notes](AllCoreDevs-CL-Meetings/call_060.md) | [video](https://youtu.be/Q0EbnFViJFk)
 59| 11 Mar 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/208) \| [notes](AllCoreDevs-CL-Meetings/call_059.md) | [video](https://youtu.be/s017DQlsCCw)
-58| 25 Feb 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/206) \| [notes](AllCoreDevs-CL-Meetings/call_058.md) | [video](https://youtu.be/yrDVhoTg5XU)
+58| 25 Feb 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/206) \| [notes](AllCoreDevs-CL-Meetings/Call_058.md) | [video](https://youtu.be/yrDVhoTg5XU)
 57| 11 Feb 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/203) \| [notes](AllCoreDevs-CL-Meetings/call_057.md) | [video](https://youtu.be/z3Gj6TXgcb0)
 56| 28 Jan 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/200) \| [notes](AllCoreDevs-CL-Meetings/call_056.md) | [video](https://youtu.be/_WK3k_k-4w8)
 55| 14 Jan 2021, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/198) \| [notes](AllCoreDevs-CL-Meetings/call_055.md) | [video](https://youtu.be/xNt6MmEV3JI)
-54| 17 Dec 2020, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/196) \| [notes](AllCoreDevs-CL-Meetings/call_054.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/kexbpb/live_ethereum_20_call_54_20201217_1400_gmt/) | [video](https://youtu.be/Eo7H8fZA23E)
+54| 17 Dec 2020, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/196) \| [notes](AllCoreDevs-CL-Meetings/Call_054.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/kexbpb/live_ethereum_20_call_54_20201217_1400_gmt/) | [video](https://youtu.be/Eo7H8fZA23E)
 53| 02 Dec 2020, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/193) \| [notes](AllCoreDevs-CL-Meetings/call_053.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/k5seju/live_ethereum_20_call_53_2020123_1400_gmt/) | [video](https://youtu.be/8mE--yxMZtk)
 52| 12 Nov 2020, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/191) \| [notes](AllCoreDevs-CL-Meetings/call_052.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/jstrw1/live_ethereum_20_call_52_20201112_1400_gmt/) | [video](https://youtu.be/yFjs_tB6I-Y)
 51| 29 Oct 2020, 14:00 UTC  | [agenda](https://github.com/ethereum/eth2.0-pm/issues/189) \| [notes](AllCoreDevs-CL-Meetings/call_051.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/jk6riu/live_ethereum_20_call_51_20201029_1400_gmt/) | [video](https://youtu.be/_4Ry2AEzXGU)
