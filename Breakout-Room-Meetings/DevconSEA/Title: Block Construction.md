@@ -1,4 +1,4 @@
-Title: Block Construction
+# Block Construction
 Ethereum Magicians Infinite Endgames Sessions 3
 Summary: Once again, Devcon will host Ethereum Magicians gatherings for the community to come together and discuss the most important topics in Ethereum’s roadmap. Join us here to discuss the “infinite endgame” for block construction. We'll cover PBS, MEV, role of validators vs. builders, centralization risks, and more!
 Video: https://www.youtube.com/watch?v=Ycf0Vwz7aFE
