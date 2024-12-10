@@ -12,7 +12,7 @@
 - [Light client concept overview (25min video)](https://www.youtube.com/watch?v=ZHNrAXf3RDE)
 - [EIP list](https://fusaka-light.box) (no detailed prior knowledge needed)
 
-**Slides:** https://fusaka-light.box/slides.pdf
+**Slides:** https://purified-web3.box/slides.pdf
 
 ## Agenda 
 
