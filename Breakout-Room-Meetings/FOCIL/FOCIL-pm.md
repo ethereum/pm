@@ -8,4 +8,4 @@ FOCIL implements a robust mechanism to preserve Ethereum’s censorship resistan
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
-|1| December 13, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1210) | [Recording] | [Notes]|
+|1| December 13, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1210) | [Recording](https://youtu.be/SOt-rNDlsRU) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/FOCIL/Meeting%2001.md)|
