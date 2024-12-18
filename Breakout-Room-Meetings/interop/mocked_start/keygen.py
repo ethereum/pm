@@ -21,9 +21,9 @@ def sha256(x):
     return _sha256(x).digest()
 
 
-def generate_validator_keypairs(N: int) -> List[Dict]:
+def generate_validator_keypairs(num_keys: int) -> List[Dict]:
     keypairs = []
-    for index in range(N):
+    for index in range(num_keys):
         privkey = int.from_bytes(
             sha256(index.to_bytes(length=32, byteorder='little')),
             byteorder='little',
@@ -33,6 +33,7 @@ def generate_validator_keypairs(N: int) -> List[Dict]:
             'pubkey': encode_hex(privtopub(privkey)),
         })
     return keypairs
+
 
 
 if __name__ == '__main__':
