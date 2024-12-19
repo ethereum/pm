@@ -1,7 +1,7 @@
 # Ethereum 2.0 call 70 notes
 ### Meeting Date/Time: Thursday 2021/08/12 at 14:00 GMT
 ### Meeting duration 1.5 hours
-### [Github Agenda](https://github.com/ethereum/eth2.0-pm/Issues/232)
+### [Github Agenda](https://github.com/ethereum/eth2.0-pm/issues/232)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=24MRTRDJ-Iw)
 
 ## Agenda
