@@ -18,7 +18,7 @@
 	- [More signature aggregation](https://ethresear.ch/t/signature-merging-for-large-scale-consensus/17386)
 	- [Path to SSF](https://notes.ethereum.org/@vbuterin/single_slot_finality)
 
-**Slides:** [here](https://docs.google.com/document/d/1pynCM25Lf6tAf-6HZX-Lri28Wgac-K3vGyukn18FAzM/edit?usp=drivesdk)
+**Slides:** [here](https://docs.google.com/presentation/d/1-fTMPXtbCgwYJ-K2CW93GGZrzRRrtPnpE8O3Zv81gyA/edit?usp=sharing)
 ## Agenda 
 
 ### 15-25 mins: overview of state of research on paths to SSF
@@ -54,46 +54,6 @@ Possible goals:
 [Slides](https://docs.google.com/presentation/d/1-fTMPXtbCgwYJ-K2CW93GGZrzRRrtPnpE8O3Zv81gyA/edit?usp=sharing)
 
 ### Part 2: Questions
-
-* Do we still have accountable safety?  
-  * Yes, minor changes to the slashing conditions but all good.  
-* Does 3SF give us faster slot times?  
-  * Not inherently, even today we could shave off time from parts of the slot e.g., make aggregation phase 2 seconds.  
-* Does 3SF affect the mev supply chain?  
-  * Not inherently, similar properties as today when it comes to reorgs/missed slots/timing games.  
-* What happens if no one consolidates?  
-  * In Orbit, there are incentives to consolidate.  
-* Expected committee size discussion  
-  * Stable committee size, but what is the distribution of the committee size given the distribution of stake across validators?  
-* Amount of economic finality based on the stake among committee members  
-* Question on incentives to consolidate in Orbit  
-  * Explicit incentives or implied ones?  
-  * Two forms:  
-    * Collective incentives: everyone hurts more when people consolidate less  
-    * Individual incentives: if there isn’t high consolidation, you get more rewards if you are consolidate  
-  * Is there a centralisation risk if we give more power to consolidated validators?  
-    * For LMD-GHOST, not really, random sampling  
-    * For finality, more influence of consolidated validators, but the argument for why it’s ok is that today we have 5-10% solo stakers, they are valuable for CR but not so valuable for finality, they are not a blocking minority, they cannot force finality, so their influence on finality today is also small, but it is true that it changes the influence of solo stakers in that section. Also ties with rainbow staking, recognise that their influence is small, and separate them more fully from attestation services.  
-* Networking complexity of 1-slot SSF  
-  * Each voting phase looks like today’s voting phase, so same same  
-* Committee size and min balance: can we do 1 ETH validators  
-  * Francesco bearish on 1 ETH, \[redacted\] wants the beacon state in memory, not on disk  
-* Implementation question: when we process a block, all the fork choice information is available quickly. In the happy case of 3SF, things are still fine, but with the multiple source-target possibilities, do we need to cache things longer?  
-  * It’s high bar to become a source that one cares about, needs to be justified, so not expected to blow up memory  
-* How big is the slashing rule change? Do we need to reimplement stuff from scratch?  
-  * Francesco thinks that it’s pretty similar  
-* Are specs and implementations really blocked by the lack of a decision on validator set size management?  
-  * Maybe we would want to do committee-based finality if we were forced to live with a very large validator set.
-
-# SSF session notes
-
-[Session doc](https://hackmd.io/@fradamt/devcon-ssf-session)
-
-## Part 1: Presentation
-
-[Slides](https://docs.google.com/document/d/1pynCM25Lf6tAf-6HZX-Lri28Wgac-K3vGyukn18FAzM/edit?usp=drivesdk)
-
-## Part 2: Questions
 
 * Do we still have accountable safety?  
   * Yes, minor changes to the slashing conditions but all good.  
