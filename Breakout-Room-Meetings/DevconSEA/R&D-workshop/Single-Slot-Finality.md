@@ -18,7 +18,7 @@
 	- [More signature aggregation](https://ethresear.ch/t/signature-merging-for-large-scale-consensus/17386)
 	- [Path to SSF](https://notes.ethereum.org/@vbuterin/single_slot_finality)
 
-**Slides:** [here](https://docs.google.com/document/d/1pynCM25Lf6tAf-6HZX-Lri28Wgac-K3vGyukn18FAzM/edit?usp=drivesdk)
+**Slides:** [here](https://docs.google.com/presentation/d/1-fTMPXtbCgwYJ-K2CW93GGZrzRRrtPnpE8O3Zv81gyA/edit?usp=sharing)
 ## Agenda 
 
 ### 15-25 mins: overview of state of research on paths to SSF
