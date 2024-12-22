@@ -4,7 +4,7 @@ Note: this file is copied from [here](https://github.com/ethereum/pm/issues/1205
 
 ## Meeting info
 
-Date: 2024.09.17
+Date: 2024.12.17
 
 Agenda: https://github.com/ethereum/pm/issues/1205 
 
