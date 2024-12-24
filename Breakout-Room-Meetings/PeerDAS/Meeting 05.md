@@ -1,7 +1,3 @@
----
-title: Meeting 05
-
----
 
 # PeerDAS Breakout Room #5
 
