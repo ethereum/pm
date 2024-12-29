@@ -1,8 +1,3 @@
----
-title: Untitled
-
----
-
 # EOF implementers call 57
 
 Note: this file is copied from [here](https://github.com/ethereum/pm/issues/1138#issuecomment-2329428927) 
