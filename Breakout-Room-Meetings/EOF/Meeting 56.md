@@ -1,9 +1,4 @@
----
-title: Meeting 03
-
----
-
-# EOF Implimenters call 56
+# EOF Implementers call 56
 Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1128#issuecomment-2302428979)
 ## Meeting info
 
