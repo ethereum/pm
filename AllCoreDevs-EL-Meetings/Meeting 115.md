@@ -534,7 +534,7 @@ okay so that's what you mean that it might have been planned like a launch long-
 
 **Martin**
 
-* so ropston and gurley are both multi-client testnets and currently are there any other clients can get that does ranking 
+* so ropston and goerli are both multi-client testnets and currently are there any other clients can get that does ranking 
 
 **Tomasz** 
 

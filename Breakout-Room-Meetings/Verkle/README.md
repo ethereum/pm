@@ -7,6 +7,8 @@ Find more info [here](https://ethereum.org/en/roadmap/verkle-trees/)
 
 | # | Meeting | Date | Agenda | Notes | Recording |
 | -- | --| -- | -- | -- | -- |
+24 | Verkle Call 24 | September 9, 2024 | [🔗](https://github.com/ethereum/pm/issues/1149) | [🔗](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/Verkle/Meeting%2024.md) | [📺](http://www.youtube.com/watch?v=TTqikpo4R7g) | 
+23 | Verkle Call 23 | August 26, 2024 | [🔗](https://github.com/ethereum/pm/issues/1121) | [🔗](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/Verkle/Meeting%2023.md) | [📺](https://www.youtube.com/watch?v=VD0P3RkhIjY) | 
 22 | Verkle Call 22 | July 29, 2024 | [🔗](https://github.com/ethereum/pm/issues/1119) | [🔗](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/Verkle/Meeting%2022.md) | [📺](https://www.youtube.com/watch?v=W1SLIEQ3a5o&feature=youtu.be) | 
 21 | Verkle Call 21 | July 15, 2024 | [🔗](https://github.com/ethereum/pm/issues/1092) | [🔗](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/Verkle/Meeting%2021.md) | [📺](https://youtu.be/8YosyUWzmz0) | 
 20 | Verkle Call 20 | July 1, 2024 | [🔗](https://github.com/ethereum/pm/issues/1089) | [🔗](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/Verkle/Meeting%2020.md) | [📺](https://youtu.be/L873Z5K6XZQ) | 

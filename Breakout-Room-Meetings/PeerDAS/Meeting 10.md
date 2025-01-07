@@ -1,7 +1,3 @@
----
-title: Meeting 10
-
----
 
 # PeerDAS Breakout Room #10
 Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrCe28kTt1BnIsjtMlKHq2MHgaja24LhFXSvqfJQ/edit#heading=h.tubwqb51zcjq)

@@ -42,8 +42,10 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | №   | Date                                 | Agenda                                              | Notes                                                                                                                                                                    | Recording                                                                          |
 | --- | ------------------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| 200 | Nov 7, 2024, 14:00-15:30 UTC      | [agenda](https://github.com/ethereum/pm/issues/1190) | [notes](AllCoreDevs-EL-Meetings/Meeting%20200.md)   \| [Twitter]()      |[video](https://youtu.be/DqdmqDtm2wM) |
-| 199 | 24 Oct 2024, 14:00-15:30 UTC      | [agenda](https://github.com/ethereum/pm/issues/1177) | [notes](AllCoreDevs-EL-Meetings/Meeting%20199.md)   \| [Twitter]()      |[video](https://youtu.be/3Y8X9_W9ecg) |
+| 202 | 19 Dec 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1209) | [notes](AllCoreDevs-EL-Meetings/Meeting%20202.md)   \| [Twitter]()      |[video](https://youtu.be/XtdJ2G8yST4) |
+| 201 | 05 Dec 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1197) | [notes](AllCoreDevs-EL-Meetings/Meeting%20201.md)   \| [Twitter]()      |[video](https://youtube.com/live/Umh7ZKukmtY) |
+| 200 | 07 Nov 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1190) | [notes](AllCoreDevs-EL-Meetings/Meeting%20200.md)   \| [Twitter]()      |[video](https://youtu.be/DqdmqDtm2wM) |
+| 199 | 24 Oct 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1177) | [notes](AllCoreDevs-EL-Meetings/Meeting%20199.md)   \| [Twitter]()      |[video](https://youtu.be/3Y8X9_W9ecg) |
 | 198 | 10 Oct 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1163) | [notes](AllCoreDevs-EL-Meetings/Meeting%20198.md)   \| [Twitter]()      |[video](https://www.youtube.com/live/YQwdKE0d8LI?t=61s) |
 | 197 | 26 Sep 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1153) | [notes](AllCoreDevs-EL-Meetings/Meeting%20197.md)   \| [Twitter]()      |[video](https://youtube.com/live/PWhn8KdgCl8) |
 | 196 | 12 Sep 2024, 14:00-15:30 UTC       | [agenda](https://github.com/ethereum/pm/issues/1143) | [notes](AllCoreDevs-EL-Meetings/Meeting%20196.md)   \| [Twitter](https://x.com/TimBeiko/status/1834268802348917208)      |[video](https://youtu.be/A_DuQRICW70) |
@@ -249,6 +251,9 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
+147| 12 Dec 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1211) \| [notes](AllCoreDevs-CL-Meetings/Call_147.md) | [video](https://youtu.be/VpYzaCzEVe8)|
+146| 28 Nov 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1200) \| [notes](AllCoreDevs-CL-Meetings/Call_146.md) | [video](https://youtu.be/HcjuY3WDa9A)|
+145| 31 Oct 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1185) \| [notes](AllCoreDevs-CL-Meetings/Call_145.md) | [video](https://youtu.be/KMLqv60xg9w)|
 144| 17 Oct 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1178) \| [notes](AllCoreDevs-CL-Meetings/Call_144.md) | [video](https://youtu.be/p3FRr5umt4U)|
 143| 03 Oct 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1158) \| [notes](AllCoreDevs-CL-Meetings/call_143.md) | [video](https://youtu.be/dplciLdQTM0)|
 142| 19 Sep 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1154) \| [notes](AllCoreDevs-CL-Meetings/Call_142.md) | [video](https://youtu.be/MRtJSnBU3Gk)|

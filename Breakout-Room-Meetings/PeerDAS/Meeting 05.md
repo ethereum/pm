@@ -1,7 +1,3 @@
----
-title: Meeting 05
-
----
 
 # PeerDAS Breakout Room #5
 
@@ -10,7 +6,9 @@ Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrC
 ## Meeting info
 
 Date: 2024.08.06
+
 Agenda: https://github.com/ethereum/pm/issues/1114
+
 YouTube Video: ​​https://www.youtube.com/watch?v=scOJSLiMFy4
 
 ## Notes
