@@ -1,8 +1,3 @@
----
-title: Meeting 08
-
----
-
 # PeerDAS Breakout Room #8
 
 Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrCe28kTt1BnIsjtMlKHq2MHgaja24LhFXSvqfJQ/edit#heading=h.tubwqb51zcjq)
@@ -10,7 +5,9 @@ Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrC
 
 ## Meeting info
 Date: 2024.09.17
+
 Agenda: https://github.com/ethereum/pm/issues/1145 
+
 YouTube video: https://youtu.be/UYUJCbDf6po
 
 ### Client updates

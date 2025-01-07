@@ -2,7 +2,7 @@
 
 **Disclaimer: This network will soon be shut down in favor of [Calaveras](/network-upgrades/client-integration-testnets/calaveras.md).**
 
-The specification for the Baikal Client Integration Tesnet. Clients who wish to sync need to implement the following features into their client. It is for testing basic infrastructure and will be deprecated.
+The specification for the Baikal Client Integration Testnet. Clients who wish to sync need to implement the following features into their client. It is for testing basic infrastructure and will be deprecated.
 
 ## Specification
 
