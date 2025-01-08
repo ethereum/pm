@@ -480,7 +480,7 @@ yeah as long as you as these checkpoints are burned into  the client and we assu
 
 kind of the same thing so if the checkpoint you have is within the week subjectivity period then yes you could verify fully from their that ultimately want the state from this you can actually verify the block transitions for it
                
-the checkpoint state starting from is the checkpoint like it is the the one known state you're being told this is on the chain 
+the checkpoint state starting from is the checkpoint like it is the one known state you're being told this is on the chain 
                
 you can't easily trust stuff before that  because it  you might've had violators that have exited and withdrawn all of their funds and then sign a completely valid looking thing so there is a number of heuristics you can do to start detecting that and so on but ultimately your key thing is that you want to start for a state that's known to be valid within the week subject period and you can do that either with the state or with a root hash and what is kind of the big question I think in all of this 
                
@@ -600,7 +600,7 @@ So basically the block signs the signature
 
 **paul**
 
-Yesik the proposals to add an extra fields the beacon state to include the the block signatures  as well in that so you could just go backwards that by referring signatures, but it didn't make  into Altair but maybe we will include it one day  
+Yesik the proposals to add an extra fields the beacon state to include the block signatures  as well in that so you could just go backwards that by referring signatures, but it didn't make  into Altair but maybe we will include it one day  
                
 I think it's probably still out on the eth specs repo as a pr if anyone's interested 
                
@@ -718,7 +718,7 @@ so that way when you're seeing a block number it's always a big number but it al
 
 I think the prefixes or some magic with numbers may be affect the current execution layer 
                
-we do we do there are some contract that are using what numbers the or maybe indirectly are you in that but the the the only one way that they just came to mind and I don't know is not nice but maybe it will contribute to the discussion maybe we could during the merge we just roll the
+we do we do there are some contract that are using what numbers the or maybe indirectly are you in that but the only one way that they just came to mind and I don't know is not nice but maybe it will contribute to the discussion maybe we could during the merge we just roll the
 
 beacon chain slot number to the future which is aligned to the last proof of work block and I believe that maybe in future absolutely we will just forget that the beacon chain for the merge I personally don't see much value for our 
                
@@ -826,7 +826,7 @@ we may show it somewhere in the explorers or something like that but the actual 
                
 just as it is now in the proof of work so there would not be any gaps I mean for for the for the execution layer 
 
-there won't be any gaps  it'll just proceed but the at some point during the merge there will be a two numbers one number will be the exclusion layer that is additionally but where number one will be a so so there will be purists that at the time  and  the number is the slot number of consensus 
+there won't be any gaps  it'll just proceed but the at some point during the merge there will be a two numbers one number will be the exclusion layer that is additionally but where number one will be a so so there will be periods that at the time  and  the number is the slot number of consensus 
 
 **Adrian**
 

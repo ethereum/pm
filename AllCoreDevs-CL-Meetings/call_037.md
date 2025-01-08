@@ -86,7 +86,7 @@ I would expect that we'll finally have a bare-bones something that we can know t
 * Upgrading to Rust peer management system,  I think we've been working on for a while and 
 * we're looking at testing some of the snappy compression stuff that we've done in Gossip sub 
 * there are stuff we’re going to try with Rumour
-* but would be curous to have a look at the gossip sub as well.
+* but would be curious to have a look at the gossip sub as well.
 
 That’s pretty much from us. 
 
@@ -143,7 +143,7 @@ That’s it from us.
 
 **Danny**: Musab from Runtime Verification, do you want to go for any update?
 
-**Musab**: Nothing much in particular, we're still working on the modles, the Coq model showing essentially the theorem bound, what is slashable and with dynamic validator sets. And the K-model giving the  abstraction of the state transition function of the beacon chain and linking these two. The work is ongoing and we hope to be able to share this work with everyone within the coming few weeks. 
+**Musab**: Nothing much in particular, we're still working on the models, the Coq model showing essentially the theorem bound, what is slashable and with dynamic validator sets. And the K-model giving the  abstraction of the state transition function of the beacon chain and linking these two. The work is ongoing and we hope to be able to share this work with everyone within the coming few weeks. 
 
 **Danny**: Great, thank you, Musab! I think I got everyone there.
 
@@ -201,7 +201,7 @@ other than that we’ve merged the Go implementation into Ethereum master branch
 
 **Danny**: Cool, thanks Felix.  
 
-**Justin**: One update from me is something I floated it a few months ago but basically **Supranational** which is the the main team working on that the VDF project. They are very much into the performance computing and basically, they proactively started implementing BLS12-321 library which is performance oriented. The key goal is to be friendly to the formal verification. And it looks like we will have a  basically another three-way collaboration to develop this library between Supranational, Ethereum Foundation and Protocol Labs. 
+**Justin**: One update from me is something I floated it a few months ago but basically **Supranational** which is the main team working on that the VDF project. They are very much into the performance computing and basically, they proactively started implementing BLS12-321 library which is performance oriented. The key goal is to be friendly to the formal verification. And it looks like we will have a  basically another three-way collaboration to develop this library between Supranational, Ethereum Foundation and Protocol Labs. 
 In terms of the performance, for what they have implemented so far. They are **faster than Herumi on every single operation** like small performance game, maybe 10-20% faster but kind of the more exciting thing is that there has been kind of new ideas in terms of batch operations.
 It seems that the Herumi is mostly interested in performance when you do operations  one by one. That if you do operations in the batch, which is better then for Eth2, then you can get even more performance.
 In the absolute best case, I think **potentially this [library](https://github.com/status-im/nim-blscurve/blob/master/blscurve/bls_signature_scheme.nim#L205-L248) can be 2X faster than Herumi**. 

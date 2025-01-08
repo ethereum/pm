@@ -46,7 +46,7 @@ Right now it's difficult for us to write tests because there's a lot of moving p
 
 * as for the Topaz net there's a bug deployed so you know we're also figuring things, how to restart fork etc
 
-**Question**: we think we're gonna run topaz least for fern for now to consist out some of these issues. We have memory usage and kind of profiling with a lot of activity on v0.11 and we know already that that we have to restart for v0.12 right now because there's like a BLS change, so yeah, that would be our plan tp restart for topaz with this bug fix and in terms of interrupts, we can do some smaller like local test nets or a little coordinated test nets with other clients and then we can maintain a brand
+**Question**: we think we're gonna run topaz least for firm for now to consist out some of these issues. We have memory usage and kind of profiling with a lot of activity on v0.11 and we know already that that we have to restart for v0.12 right now because there's like a BLS change, so yeah, that would be our plan tp restart for topaz with this bug fix and in terms of interrupts, we can do some smaller like local test nets or a little coordinated test nets with other clients and then we can maintain a brand
 
 **Danny**: You're right, it is useful to have a bunch of people on there for memory issues. 
 
@@ -56,7 +56,7 @@ So that's the general very long-winded update on releases and testing. Proto, an
 
 **Proto**: I just wanted to note that although it's a critical book, it doesn't really affects users directly. i mean so what's happening here is that if in the attestation belt you can get slightly three different words. right now there's this mistake where monthly faults gets the context of another type of faults and so unless we starts look really deep into the finishing this. We should fix this and it's better to have this fixed and run on the test nets.
 
-**Danny**: Yeah, it's not critical in the context of a single client. It's critical if there are multiple clients. Okay but again, given all of the bugs that we can devote in canada last year, not teribbly surprising and this is something that i think we really need to harden against if there's a lot of moving parts in there and getting any balance wrong is gonna cause troubles.
+**Danny**: Yeah, it's not critical in the context of a single client. It's critical if there are multiple clients. Okay but again, given all of the bugs that we can devote in canada last year, not terribly surprising and this is something that i think we really need to harden against if there's a lot of moving parts in there and getting any balance wrong is gonna cause troubles.
 
 **unknown1**: just to know, the high spec is correct for the i think serenity PI spec lighthouse and do test against nimbus, all of those are the same.
 
@@ -156,7 +156,7 @@ on the p2p side the peroblem has do with simultaneous handshakes and basically l
 
 There is a lot of internal changes going on with the client right now as this whichever judgement concurrency framework and python but still some progress towards testnets, 
 
-* internal changes to the the forkchoice. 
+* internal changes to the forkchoice. 
 
 * Some Ops work we've been doing on our team for running Trinity testnets.And we also got an updated BLS (binding)  with Milagro BLS.
 
