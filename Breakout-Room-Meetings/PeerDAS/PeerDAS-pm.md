@@ -1,17 +1,13 @@
----
-title: PeerDAS-pm
-
----
-
 # PeerDAS
 
 ## Overview
 PeerDAS (Peer Data Availability Sampling) is a networking protocol that allows beacon nodes to perform data availability sampling (DAS) to ensure that blob data has been made available while downloading only a subset of the data. PeerDAS utilizes gossip for distribution, discovery for finding peers of particular data custody, and peer requests for sampling.
+
 ## Breakout room meetings
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
-|14| November 26, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1236) | [Recording](https://youtu.be/0QfCxSbhRk8) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2014.md)|
+|14| January 07, 2025 | [Agenda](https://github.com/ethereum/pm/issues/1236) | [Recording](https://youtu.be/0QfCxSbhRk8) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2014.md)|
 |13| December 10, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1202) | [Recording](https://youtu.be/Wj8OywbCMtk) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2013.md)|
 |12| November 26, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1193) | [Recording](https://youtu.be/vVACJNHA3tY) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2012.md)|
 |11| October 29, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1183) | [Recording](https://youtu.be/QBNPQhDYgcY) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2011.md)|
