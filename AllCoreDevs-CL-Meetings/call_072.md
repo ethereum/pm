@@ -267,7 +267,7 @@ RANDAO mix for the previous slots instead of a RANDAO mix of the current slot as
 **Danny**
 
 right another point so I at least put something of an argument against it I think I've softened up and and now in favor the PR and another
-points in favor of the PR is an earlier design goal which was to be able to rip the execution layer out into an independent shard if if we wanted to and the the lagging of the randomness that's embedded in their would also help enable local
+points in favor of the PR is an earlier design goal which was to be able to rip the execution layer out into an independent shard if if we wanted to and the lagging of the randomness that's embedded in their would also help enable local
 
 **Mikhail**
 
@@ -276,7 +276,7 @@ without making it too complicated to and for builders and proposers that to to b
 
 **Danny** 
 
-I'll catch up on the the thread I just know this is a bunch of comments and try to get that through soon
+I'll catch up on the thread I just know this is a bunch of comments and try to get that through soon
 thank you Mikhail any other merger related discussions for today
 great
 
