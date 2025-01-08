@@ -3,6 +3,13 @@
 ## Overview
 PeerDAS (Peer Data Availability Sampling) is a networking protocol that allows beacon nodes to perform data availability sampling (DAS) to ensure that blob data has been made available while downloading only a subset of the data. PeerDAS utilizes gossip for distribution, discovery for finding peers of particular data custody, and peer requests for sampling.
 
+## PeerDAS Interop Milestones
+- [PeerDAS Devnet 4](https://notes.ethereum.org/@ethpandaops/peerdas-devnet-4)
+- [PeerDAS Devnet 3](https://notes.ethereum.org/@ethpandaops/peerdas-devnet-3)
+- [PeerDAS Devnet 2](https://notes.ethereum.org/@ethpandaops/peerdas-devnet-2)
+- [PeerDAS Devnet 1](https://notes.ethereum.org/@ethpandaops/peerdas-devnet-1)
+- [PeerDAS Devnet 0](https://notes.ethereum.org/@ethpandaops/peerdas-devnet-0)
+
 ## Breakout room meetings
 
 | # | Date | Agenda | Recording | Notes |
