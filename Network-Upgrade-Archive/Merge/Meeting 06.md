@@ -246,7 +246,7 @@
 * Yeah and figuring out where to draw the line is definitely an art um just a caution i've seen a lot of people try to build monolithic eips and I don't think i've ever seen it go well.
 
 **Danny**
-* We'll call on the the artist of micah to give us a hand.
+* We'll call on the artist of micah to give us a hand.
 
 **Micah Zoltu**
 * starters like we'll be like make this shorter.
