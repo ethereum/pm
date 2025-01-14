@@ -9,6 +9,6 @@
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
-|2| January 02, 2025 | [Agenda](https://github.com/ethereum/pm/issues/1208) | [Recording] | [Notes]|
+|2| January 30, 2025 | [Agenda](https://github.com/ethereum/pm/issues/1208) | [Recording] | [Notes]|
 |1| December 05, 2024 | [Agenda](https://github.com/ethereum/pm/issues/1204) | [Recording](https://youtu.be/2ExBjJ0eySo) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/EVMMAX/Meeting%2001.md)|
 

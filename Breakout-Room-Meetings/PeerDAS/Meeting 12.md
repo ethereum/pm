@@ -2,9 +2,9 @@
 Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrCe28kTt1BnIsjtMlKHq2MHgaja24LhFXSvqfJQ/edit#heading=h.tubwqb51zcjq)
 
 ## Meeting info
-Date: 2024.11.26
-Agenda: https://github.com/ethereum/pm/issues/1193
-YouTube video: https://youtu.be/vVACJNHA3tY
+- Date: 2024.11.26
+- Agenda: https://github.com/ethereum/pm/issues/1193
+- YouTube video: https://youtu.be/vVACJNHA3tY
 
 ## Notes
 
@@ -61,10 +61,7 @@ Latest proposal to be discussed on Thurday ACD: https://github.com/ethereum/EIPs
 
 ## Zoom chat links
 
-https://docs.google.com/document/d/1Ng2IrCe28kTt1BnIsjtMlKHq2MHgaja24LhFXSvqfJQ/edit?tab=t.0
-
-https://github.com/ethereum/consensus-specs/pull/3832
-
-https://github.com/ethereum/consensus-specs/pull/3871
-
-https://github.com/ethereum/consensus-specs/pull/3871
+- https://docs.google.com/document/d/1Ng2IrCe28kTt1BnIsjtMlKHq2MHgaja24LhFXSvqfJQ/edit?tab=t.0
+- https://github.com/ethereum/consensus-specs/pull/3832
+- https://github.com/ethereum/consensus-specs/pull/3871
+  
