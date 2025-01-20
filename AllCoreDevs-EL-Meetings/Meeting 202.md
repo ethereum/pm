@@ -5,7 +5,7 @@
 ### [Video of the meeting](https://youtu.be/XtdJ2G8yST4)
 ### Moderator: Tim, Alex
 ### Notes: Alen (Santhosh)
- 
+
 | Decision Item | Description                                                              | 
 | ------------- | ------------------------------------------------------------------------ | 
 | 202.1 | **Pectra Testnet and Devnets** EF Developer Operations Engineer Parithosh Jayanthi said Mekong is still up and running. Mekong is the public Pectra testnet based on Pectra Devnet 4 specifications that was launched last month in November. Client teams are making headway in their implementations for Pectra Devnet 5. Jayanthi said that Besu and Teku are the farthest along in terms of testing, with Lodestar not far behind. Once Pectra Devnet 5 specifications are finalized and more client implementations pass local testing, Jayanthi said developers can then launch Pectra Devnet 5. There is no specific date for the devnet launch yet, though developers are aiming for some time in late December or early January.
@@ -29,7 +29,7 @@
 # Intro
 **Tim**
 * Thank you. Welcome, everyone to ACDE number 202. We have a pretty packed agenda today, as you've hopefully all seen. and also a quick heads up. I'll have to jump out at the hour, and Alex will take over for the last 30 minutes. assuming we go for more than 60 minutes, with the current agenda, which I believe we likely will. so, we'll talk about how things are going with tech implementations.
-* Ideally, get to a spot where we finalize the spec. I've tried to list all of the outstanding issues, at least the ones I could find. if we get through that, I think that'll be good. And then a bunch of other things to cover. So stick around 4444s, gas pricing and, transaction or payload sizes, a bunch of other EIPs and then a few announcements at the end. I guess to kick us off, do we have Parithosh or Barnabus to give a quick update on Devnets. Yes. 
+* Ideally, get to a spot where we finalize the spec. I've tried to list all of the outstanding issues, at least the ones I could find. if we get through that, I think that'll be good. And then a bunch of other things to cover. So stick around 4444s, gas pricing and, transaction or payload sizes, a bunch of other EIPs and then a few announcements at the end. I guess to kick us off, do we have Parithosh or Barnabas to give a quick update on Devnets. Yes. 
 
 **Parithosh**
 * Yeah. So we have Mekong still live and what people are actually using to test on. that's still based on Pectra nets for specs. And client teams are slowly making headway into implementing. Devnet specs. There's been a consensus specs release already. And on the interop channel. On the Eth R&D chat, I have linked a kurtosis config for Besu as well as Teku. they're able to, produce blocks for Pectra with the net five specs, including over six blobs as the max.
@@ -135,7 +135,7 @@ Okay. If not, then I guess we should get this merge and add this to the specific
 * And also add tests just to make sure that the precompiles aren't there after it as well. 
 
 **Tim**
-* Yes. We've had many devnet and mainnet issues due to adding and removing DLS precompiles, so definitely we want to test both that the ones we expect to be there, are there and working, and that the ones we previously removed are not there. yeah. But in general, I guess this is the right time if we are going to do such a change. yeah. Just to make sure that, we have Devnet 5 running with the final set of Precompiles with the final set of gas prices. So even though it's a non-trivial spec change, it does still want, like, one that's worth, yeah, including in the next devnet and even having a small delay in terms of, like, getting the test out if, yeah, if that's the version we're going to ship. 
+* Yes. We've had many devnet and Mainnet issues due to adding and removing DLS precompiles, so definitely we want to test both that the ones we expect to be there, are there and working, and that the ones we previously removed are not there. yeah. But in general, I guess this is the right time if we are going to do such a change. yeah. Just to make sure that, we have Devnet 5 running with the final set of Precompiles with the final set of gas prices. So even though it's a non-trivial spec change, it does still want, like, one that's worth, yeah, including in the next devnet and even having a small delay in terms of, like, getting the test out if, yeah, if that's the version we're going to ship. 
 
 **Roman**
 * I think we have historically tried not to overload. Precompiles like this. I think the obvious caveat with this being just the number of precompiles in 2537. So if people like this change, let's go ahead and move forward with it. Okay? 
@@ -181,7 +181,7 @@ Okay. If not, then I guess we should get this merge and add this to the specific
 * Okay. Okay, then. Yeah, let's do that. Let's try to get it merged by the end of the week, and then also include it for five. Anything else on 29? 35. Okay. If not, that was the last texture spec, update on the agenda. Anything else with regards to the texture specs that people wanted to discuss? Otherwise, then. Yeah, I think we're starting to look good. Perry has a question around the builder API. I don't know if anyone has updates on this. 
 
 **Stokes**
-* Yeah, I think I can speak to this. I think the main thing was just the SSZ standardisation as a transport. there's a PR and yeah, I think it's pretty close to merging. but that being said, it can kind of happen in parallel with all of this. I don't think we need to lock on a particular devnet
+* Yeah, I think I can speak to this. I think the main thing was just the SSZ standardization as a transport. there's a PR and yeah, I think it's pretty close to merging. but that being said, it can kind of happen in parallel with all of this. I don't think we need to lock on a particular devnet
 
 **Tim**
 * Okay. Anything else about the Pectra spec? Okay. Nice. Well, yeah. Well done everyone. Hopefully this is, the beginning of the end of polishing the specs. yeah. Last call on Pectra before we move on. If not, Piper posted an update on EIP 4444. Piper, do you want to give some context on this? 
@@ -197,13 +197,13 @@ Okay. If not, then I guess we should get this merge and add this to the specific
 * Thank you. Roman. 
 
 **Roman**
-* Do you have any coordinated testing process rather than doing it on mainnet? Something like Devnet equivalent for the for the networking protocol change? 
+* Do you have any coordinated testing process rather than doing it on Mainnet? Something like Devnet equivalent for the for the networking protocol change? 
 
 **Piper Merriam**
 * I don't have anything specific to share on that at the at this time. I will get with teams and see what kind of testing people want to make sure that they're doing. 
 
 **Tim**
-* I assume we should at least run this on the test nets before, um. And I'm pretty sure like we had sepolia at the merge, I think Hoskey launched post merge, if I recall correctly. yeah. 
+* I assume we should at least run this on the test nets before, um. And I'm pretty sure like we had Sepolia at the merge, I think Holesky launched post merge, if I recall correctly. yeah. 
 
 **Piper Merriam**
 * I don't have a strong opinion on this. The protocol version bump is a, it doesn't actually change anything in any of the message payloads. So we're not actually talking about any kind of change in sort in terms of, payloads going between clients. That doesn't suggest that we still shouldn't test this. but it is technically a very minor change. 
@@ -451,7 +451,7 @@ Okay. If not, then I guess we should get this merge and add this to the specific
 * Oh yeah. Go ahead. It was a bit late. 
 
 **Felix**
-* So notably I mean this is an EIP, which is basically it's it says it's in a review stage, but in practice it's like in the final stage. But since it is sort of final, if we want to make an update, we can just make another Eth that like further restricted or changes it or whatever. But I would say that, you know, like it doesn't feel so productive to resurrect these like super old eaps and try to change the status when literally they are in the past and like have been dealt with. 
+* So notably I mean this is an EIP, which is basically it's it says it's in a review stage, but in practice it's like in the final stage. But since it is sort of final, if we want to make an update, we can just make another Eth that like further restricted or changes it or whatever. But I would say that, you know, like it doesn't feel so productive to resurrect these like super old EIPs and try to change the status when literally they are in the past and like have been dealt with. 
 
 **Stokes**
 * So you're saying we should just ignore the EIP? 
@@ -530,6 +530,7 @@ Okay. If not, then I guess we should get this merge and add this to the specific
 
 -------------------------------------
 ### Attendees
+[//] # cSpell:disable
 * Tim
 * Stokes
 * Mikhail Kalinin
@@ -628,8 +629,13 @@ Okay. If not, then I guess we should get this merge and add this to the specific
 * Matt Nelson
 * Gary Schulte
 * Rory Arredondo
+[//] # cSpell:enable
 
 -------------------------------------
 
 ## Next Meeting
 [Jan 16, 2025, 14:00-15:30 UTC](https://github.com/ethereum/pm/issues/1227)
+
+[//] # cSpell:words Alen Ansgar Arnetheduck Ashikhmin Beekhuizen Beiko ethcatherders Moraczyński Crapis Danno Davide Dietrichs Gajinder Guillaume 
+[//] # cSpell:words Jayanthi Jezek Kevaundray Lange lightclient lightclients Marek Parithosh Pavel Pooja Potuz Protolambda pushback Ranjan Santhosh
+[//] # cSpell:words 0xwormhole
