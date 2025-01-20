@@ -1,7 +1,7 @@
 # Ethereum Project Management Repository
 
 This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the Execution and Consensus Layer AllCoreDevs meetings. It is also used for [Breakout Rooms](/Breakout-Room-Meetings) on various protocol-related topics, whose agendas can be found under the [Issues](https://github.com/ethereum/pm/issues) page. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
- 
+
 ## AllCoreDevs Meetings Overview
 
 ### Purpose
@@ -397,3 +397,5 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 2| 30 Aug 2018, 14:00 UTC      | [agenda](https://github.com/ethresearch/eth2.0-pm/issues/3)  \| [notes](AllCoreDevs-CL-Meetings/call_002.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/9bjk2u/video_eth20_implementers_call_2/)           | [video](https://www.youtube.com/watch?v=66SFMJC0RQo)
 1| 16 Aug 2018, 14:00 UTC      | [agenda](https://github.com/ethresearch/eth2.0-pm/issues/2)  \| [notes](AllCoreDevs-CL-Meetings/call_001.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/97siac/live_eth20_implementers_call_1/)            | [video](https://www.youtube.com/watch?v=8F9NPGIv9vI)
 0| 02 Aug 2018, 14:00 UTC       | [agenda](https://github.com/ethereum/beacon_chain/issues/44) \| [notes](AllCoreDevs-CL-Meetings/call_000.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/949eo6/ethereum_sharding_implementers_call_0/)     | [video](https://www.youtube.com/watch?v=Ynqrka5DQOI)
+
+[//]: # cSpell:words reddit Beiko Hallam Rettig Perma Permacast
