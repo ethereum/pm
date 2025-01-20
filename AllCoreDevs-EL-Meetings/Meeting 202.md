@@ -5,7 +5,7 @@
 ### [Video of the meeting](https://youtu.be/XtdJ2G8yST4)
 ### Moderator: Tim, Alex
 ### Notes: Alen (Santhosh)
-
+ 
 | Decision Item | Description                                                              | 
 | ------------- | ------------------------------------------------------------------------ | 
 | 202.1 | **Pectra Testnet and Devnets** EF Developer Operations Engineer Parithosh Jayanthi said Mekong is still up and running. Mekong is the public Pectra testnet based on Pectra Devnet 4 specifications that was launched last month in November. Client teams are making headway in their implementations for Pectra Devnet 5. Jayanthi said that Besu and Teku are the farthest along in terms of testing, with Lodestar not far behind. Once Pectra Devnet 5 specifications are finalized and more client implementations pass local testing, Jayanthi said developers can then launch Pectra Devnet 5. There is no specific date for the devnet launch yet, though developers are aiming for some time in late December or early January.
