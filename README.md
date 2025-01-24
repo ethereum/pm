@@ -24,7 +24,7 @@ Anyone is welcome to add an item to the agenda as long as it follows these guide
 
 ### Who Can Attend
 
-Protocol developers, researchers and EIP authors are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of testing and security teams, and independent core contributors. Sometimes non-core contributors with particular expertise on a topic are invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
+Protocol developers, researchers and EIP authors are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of testing and security teams, and independent core contributors. Sometimes non-core contributors with particular expertise on a topic are invited to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
 
 ### Who Facilitates the Meetings
 
