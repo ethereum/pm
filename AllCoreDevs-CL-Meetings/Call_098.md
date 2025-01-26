@@ -57,7 +57,7 @@ This is not particularly blocking for Shanghai. Comments in the next week for di
 
 ## [Capella bounded withdrawals sweep](https://github.com/ethereum/consensus-specs/pull/3095)
 
-**Danny Ryan** (8:56) - Any other questions for Chris. Okay. Thank you Chris. Moving on, so I have Capella and then I actually have a point for issue. A Cappella element that we'll start with with Capella. Alex or anyone else can you give us the context on the bounded withdrawals sweep?
+**Danny Ryan** (8:56) - Any other questions for Chris. Okay. Thank you Chris. Moving on, so I have Capella and then I actually have a point for issue. A Capella element that we'll start with with Capella. Alex or anyone else can you give us the context on the bounded withdrawals sweep?
 
 **Stokes** (9:34) - Yeah. So we recently changed a little bit how we're doing withdrawals. So there's no sort of formal queue in the stage and instead, rather than process things at epoch boundaries, and you kind of do them every block, and right now the version of the spec says basically in the worst case, we have the entire validator sets. The, you know, obvious question then is if you want some bound on that sweep, and so there's a PR, let's go grab it, but there's a PR that basically introduces a sweep, and it's more just sort of like a RFQ at this or RFC at this point. But yeah, we should decide if we want this or not.
 
