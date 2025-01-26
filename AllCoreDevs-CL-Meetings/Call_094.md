@@ -30,7 +30,7 @@
 
 **Danny** [2:39](https://youtu.be/tjmpu8O-xsA&t=159): On the merge we do not have any particular agenda Items. Michael we started 10s when we got here. We do not know particular agenda items but open discussion as anybody wants to take the floor on the merge is anything we need to discuss today.
 
-**Parithosh Jayanthi** [3:01](https://youtu.be/tjmpu8O-xsA&t=159): I am just the updates from the Geth  shadow fork . We had a good one last time and on Monday we updated the notes with the latest get version and with the update. We did see some red dashes notes. We did see a new  issue in the releases that’s been patched already.So please have a look at the Geth released notes and to continue the shadow fork trend. We will be having a Geth shadow for 12 next week and currently I am using the latest version recommended on the blog.
+**Parithosh Jayanthi** [3:01](https://youtu.be/tjmpu8O-xsA&t=159): I am just the updates from the Geth  shadow fork . We had a good one last time and on Monday we updated the notes with the latest Geth version and with the update. We did see some red dashes notes. We did see a new  issue in the releases that’s been patched already.So please have a look at the Geth released notes and to continue the shadow fork trend. We will be having a Geth shadow for 12 next week and currently I am using the latest version recommended on the blog.
 
 **Danny** [3:39](https://youtu.be/tjmpu8O-xsA&t=219): Great.
 
