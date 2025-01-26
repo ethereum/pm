@@ -10,7 +10,7 @@
 -----------------------------
 
 # **Summary:**
-- Altiar devnet went well, but there is a few minor fixes
+- Altair devnet went well, but there is a few minor fixes
 - Rough consensus for forking Pyrmont in 3 weeks
 - EIP-3675 has been merged
 -----------------------------                                                                                                                                     
@@ -932,7 +932,7 @@ July 23, 2021, 14:00 UTC
 - Terence
 - Lion dappLion
 - Carl Beekhuizen
-- Caymen Nava
+- Cayman Nava
 - JosephC
 - Leo
 - Mamy Ratsimba

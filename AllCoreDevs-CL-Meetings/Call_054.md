@@ -29,7 +29,7 @@
 
 **Danny**: All right, here is the agenda. I do expect today to be short but I guess you never know. On testing releases there is some activity on the spec repo, there are some minor features that are being worked on that we expect  are going to be there I would say let's wait until January. We can spend some time making it kind of clear what the  intentions are and we can debate and go back and forth a little
 bit , I think the low-hanging fruit. Here is a little bit of accounting reform on how attestations and things are stored in state. Adding a sync committee or light client, sync committee which reuses some of the
-generally similar committee functionality both on the networking leveland in the in the spec to add a um
+generally similar committee functionality both on the networking level and in the in the spec to add a um
 white client first support and some other small stuff, but again I think our time will be better spent  formalizing some of that stuff writing it down. Getting people up to speed and then we can discuss it in January. Additionally there is ongoing work in the spec on him.
 
  **Vitalik**: I should  interrupt in just those specific issues like  there are github issues and pull

@@ -48,7 +48,7 @@ Notes: Darkfire-rain
 **Terence:** Hey guys, terence here, so the last two weeks we have been mostly working on optimizing altair, so mostly optimizing across the sync committee, receiver side of things, and we made decent progress on that. Unfortunately this morning with the launch of the devnet we had an issue where we were not able to propagate block to the peers, so it seems like something to do with the peering related thing, so we will give you an update once we figure it out.
 
 
-**Danny:** Quick question, are you receiving blocks, or are you following the caniocal chain you just can't get your own blocks out?
+**Danny:** Quick question, are you receiving blocks, or are you following the canonical chain you just can't get your own blocks out?
 
 **Terence** So what we suspect is that we had a bug in the sync validation pipeline in the pdp so we basically the sync committee which we should not be, because of that we started banning peers right away, so we don't have any new peers at the end other than that we are enhancing our slasher, other then that we are done with the eth 2.0 api implementation, so that is exciting as well, so that's pretty much it.
 
