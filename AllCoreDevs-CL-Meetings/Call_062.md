@@ -53,7 +53,7 @@ With release versions 1.2 and 1.2 1, they represent big  improvements in perform
 
 With the introduction of batched verification of incoming gossip  location of ink, we achieve roughly  between 30% and 50% reduction of CPU usage of the time. Right now  for example we can  process all the upstation from the bottom network on the nodes that are running 2010 validators without the maximum out the CPU.
 
- And other updates, new features, an implementation of the official REST API which is currently in beta.  Just like Teku we have implemented failover ETH 2 providers. anotherI like New “lazy” attestation packing algorithm, which has increased block rewards and discusses the major improvements for this week.
+ And other updates, new features, an implementation of the official REST API which is currently in beta.  Just like Teku we have implemented failover ETH 2 providers. Another like New “lazy” attestation packing algorithm, which has increased block rewards and discusses the major improvements for this week.
 
 **Danny**: And how is Altair Development?
 
