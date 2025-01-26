@@ -29,7 +29,7 @@
 
 **Danny Ryan** (8:46) - I'm sorry. We're kicking off the call. Can somebody give us an update as to the current Shapella testnets?
 
-**Barnabas Busa** (8:58) - Yes sure. So we just had two days ago Shadow fork on Zheijang testnet and we would like we had a great success. I feel like we managed to pull everything off. We didn't encounter any issues actually.
+**Barnabas Busa** (8:58) - Yes sure. So we just had two days ago Shadow fork on Zhejiang testnet and we would like we had a great success. I feel like we managed to pull everything off. We didn't encounter any issues actually.
 
 **Danny Ryan** (9:25) - Did we send bad blocks and things?
 
