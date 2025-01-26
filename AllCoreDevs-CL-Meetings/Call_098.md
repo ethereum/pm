@@ -39,7 +39,7 @@ This is not particularly blocking for Shanghai. Comments in the next week for di
 
 **Danny Ryan** (6:57) - Nice, thank you. I was just scanning through the execution API's do we is for anyone that's aware of it. Are we doing the the recipient diff is that in APR to be to come out maybe in the next upgrade a bit execution API's?
 
-**Milkhail Kalinin** (7:19) - We have actually had a raft consensus to not do it. But to do it in other way just computing just a sum of all transaction types. 
+**Mikhail Kalinin** (7:19) - We have actually had a raft consensus to not do it. But to do it in other way just computing just a sum of all transaction types. 
 
 **Danny Ryan** (7:37) - Okay. Got it.
 
