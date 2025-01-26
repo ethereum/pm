@@ -76,7 +76,7 @@ this is actually a gap in our implementation. We haven't implemented, the latest
 Okay, great. So, so Mario, yeah, given that the, this is not specified, you kind of will need to parameterize these tests on the expected slots per, I suppose, so you know, Nimbus I wouldn't say is failing Nimbus is doing as expected, whereas it looks like load star, you know, is, is not performing as expected. but this is awesome. Thank you Mario. Any other questions for Mario or Mario, did you have something? 
 
 **Mario**
-No, basically just what the test expects is just final session, which happens every time. I assume it's because even though we have missed slots, both clients are actually attesting to the available slots, so Right. We Are always getting final session. 
+No, basically just what the test expects is just final session, which happens every time. I assume it's because even though we have missed slots, both clients are actually attesting to the available slots, so Right. We are always getting final session. 
 
 **Danny**
 Okay. we might consider that being like a recovery of a percentage of slots rather than finalization. just I think that'd be a more valuable red or green, but we can talk outside this call. 
