@@ -13,6 +13,10 @@
 
 
 # Pectra Deployments
-- Sepolia: February 12, 2025 (estimate)
-- Holesky: February 19, 2025 (estimate)
-- Mainnet: not announced yet
+- Holeski: Mon, Feb 24 at 21:55:12 UTC (slot 3710976)
+- Sepolia: Wed, Mar 5 at 07:29:36 UTC (slot 7118848)
+- Mainnet: not announced yet, to be decided during March 6 ACD (+30 days mainnet slot)
+
+# Sources
+- https://github.com/ethereum/pm/issues/1265#issuecomment-2637778317
+- https://x.com/TimBeiko/status/1887506524756717747
