@@ -1,44 +1,62 @@
 # Ethereum Project Management Repository
 
-This repository is used for project management for various initiatives affecting the Ethereum protocol. The main use of this repository is for the Execution and Consensus Layer AllCoreDevs meetings. It is also used for [Breakout Rooms](/Breakout-Room-Meetings) on various protocol-related topics, whose agendas can be found under the [Issues](https://github.com/ethereum/pm/issues) page. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
+This repository is used for project management for various initiatives affecting the Ethereum protocol.
+This repository is for:
+- [Execution](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AExecution) and [Consensus](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AConsensus) Layer AllCoreDevs meetings
+- [Breakout Rooms](https://github.com/ethereum/pm/issues?q=(label%3ABreakout%20label%3AConsensus)%20OR%20(label%3ABreakout%20label%3AExecution)%20) on various L1-related topics
+- [L2 interop](/issues?q=is%3Aissue+label%3AL2)
+ breakout meetings
+
+Agendas for these meetings can be found on the [Issues](https://github.com/ethereum/pm/issues) tab. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
+
+Past meetings with call summaries, related links, and discussions can be found on [Ethereum Magicians](https://ethereum-magicians.org/c/protocol-calls/63).
 
 ## AllCoreDevs Meetings Overview
 
 ### Purpose
 
-AllCoreDevs is a weekly meeting held by the Ethereum development community to discuss technical issues and coordinate work on the Ethereum protocol. The meetings are attended by core contributors from various organizations. During the call, participants discuss potential protocol changes, testing and other related issues.
+AllCoreDevs is a weekly meeting held by the Ethereum development community to discuss technical issues and coordinate work on the Ethereum protocol. The meetings are attended by core contributors from various organizations. During the call, participants discuss potential protocol changes, testing, and other related issues.
 
 On one week, the focus of the call is on Ethereum's consensus layer (i.e. proof-of-stake, the Beacon Chain, etc.) and on alternate weeks, the focus of the call is on Ethereum's execution layer (i.e. the EVM, gas schedules, etc.).
 
-The calls are streamed and saved on the [@EthereumProtocol YouTube channel](https://www.youtube.com/@ethereumprotocol).
+The calls are livestreamed and saved on the [@EthereumProtocol YouTube channel](https://www.youtube.com/@ethereumprotocol).
 
 ### Agendas
 
-The agendas for calls are tracked in the Issues tab of this repository. To add an item to an agenda, simply add a comment to one of the agenda issues.
-
-Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
+To add an item to an [agenda](https://github.com/ethereum/pm/issues), simply add a comment to one of the agenda issues. Anyone is welcome to add an item to the agenda as long as it follows these guidelines:
 
 - The topic is technical in nature.
 - The topic involves the Ethereum protocol at a low-level. This means Ethereum applications and ERCs are generally not allowed as topics, unless their mention relates to protocol changes.
-- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussions. [Ethereum Magicians forum](https://ethereum-magicians.org/) is a better venue for such discussions.
+- The topic should not be philosophical. The core developer meetings are not meant to decide philosophical, contentious issues that should be decided by the community. There are exceptions to this, but generally these topics distract from more productive technical discussions. [Ethereum Magicians forum](https://ethereum-magicians.org/) is a better venue for such discussions.
 
 ### Who Can Attend
 
-Protocol developers, researchers and EIP authors are invited to attend the meetings. Generally every Ethereum client is represented as well as key members of testing and security teams, and independent core contributors. Sometimes non-core contributors with particular expertise on a topic are invited on to discuss a specific agenda item. If you feel you would contribute to the meetings by your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
+Protocol developers, researchers and EIP authors are invited to attend the meetings. Regular attendees include Ethereum client developers, testing and security teams, and independent contributors.
+
+Sometimes non-core contributors with particular expertise on a topic are invited on to discuss a specific agenda item. If you feel you would contribute to the meetings with your attendance please reach out to [Tim Beiko](mailto:tim@ethereum.org).
 
 ### Who Facilitates the Meetings
 
-Early in Ethereum's history, (2015-fall 2016) George Hallam facilitated the AllCoreDevs meetings. Starting in fall 2016, Hudson Jameson took over the meetings. In early 2018 Lane Rettig joined to help facilitate meetings, handle recordings, and publish notes.
+Current facilitators:
+- Execution: [Tim Beiko](https://github.com/timbeiko/) (Mar '21)
+- Consensus: [Alex Stokes](https://github.com/ralexstokes) (Sep '24)
 
-Today, Tim Beiko and Alex Stokes respectively facilitate the execution and consensus layer AllCoreDevs meetings, with Alex Stokes having taken over from Danny Ryan in Sep 2024. Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts (linked below) for AllCoreDevs meetings, as well as some Breakout Rooms.
+Past facilitators and support:
+- Danny Ryan
+- Hudson Jameson
+- Lane Rettig
+- George Hallam
 
-The meetings are independent of any organization. However, Tim Beiko and Alex Stokes are part of the Ethereum Foundation and the Ethereum Foundation pays for the video-conference software used in the meetings.
+Breakout Rooms are usually chaired by the expert/champion for the topic at hand. The Ethereum Cat Herders provide full transcripts (linked below) for AllCoreDevs meetings, as well as some Breakout Rooms.
+
+While the meetings are independent of any organization, the current facilitators are part of the Ethereum Foundation.
 
 ## Previous AllCoreDevs Meetings
 
 Call summaries have also recently started being posted on [Ethereum Magicians](https://ethereum-magicians.org/tag/acd).
 
-### Execution Layer
+<details>
+<summary> Execution Layer </summary>
 
 | №   | Date                                 | Agenda                                              | Notes                                                                                                                                                                    | Recording                                                                          |
 | --- | ------------------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
@@ -242,12 +260,9 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 | 1   | 30 Nov 2015               | None                                                | [notes](AllCoreDevs-EL-Meetings/Meeting%201&2.md)                                                                                                                                    | not recorded                                                                       |
 | 0   | ??                                   | None                                                | [notes](AllCoreDevs-EL-Meetings/Meeting%201&2.md)                                                                                                                                    | not recorded                                                                       |
 
+</details>
 
-#### Perma-archived Meetings
-
-The audio files of the Previous Meetings are stored permanently on [Permacast](./AllCoreDevs-EL-Meetings/perma-archive.md).
-
-### Consensus Layer
+<details> <summary> Consensus Layer </summary>
 
  №  | Date                             | Notes          | Recording            |
 --- | -------------------------------- | -------------- | -------------------- |
@@ -397,3 +412,9 @@ The audio files of the Previous Meetings are stored permanently on [Permacast](.
 2| 30 Aug 2018, 14:00 UTC      | [agenda](https://github.com/ethresearch/eth2.0-pm/issues/3)  \| [notes](AllCoreDevs-CL-Meetings/call_002.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/9bjk2u/video_eth20_implementers_call_2/)           | [video](https://www.youtube.com/watch?v=66SFMJC0RQo)
 1| 16 Aug 2018, 14:00 UTC      | [agenda](https://github.com/ethresearch/eth2.0-pm/issues/2)  \| [notes](AllCoreDevs-CL-Meetings/call_001.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/97siac/live_eth20_implementers_call_1/)            | [video](https://www.youtube.com/watch?v=8F9NPGIv9vI)
 0| 02 Aug 2018, 14:00 UTC       | [agenda](https://github.com/ethereum/beacon_chain/issues/44) \| [notes](AllCoreDevs-CL-Meetings/call_000.md) \| [reddit](https://www.reddit.com/r/ethereum/comments/949eo6/ethereum_sharding_implementers_call_0/)     | [video](https://www.youtube.com/watch?v=Ynqrka5DQOI)
+
+</details>
+
+#### Perma-archived Meetings
+
+The audio files of the Previous Meetings are stored permanently on [Permacast](./AllCoreDevs-EL-Meetings/perma-archive.md).
