@@ -4,7 +4,7 @@ This repository is used for project management for various initiatives affecting
 This repository is for:
 - [Execution](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AExecution) and [Consensus](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AConsensus) Layer AllCoreDevs meetings
 - [Breakout Rooms](https://github.com/ethereum/pm/issues?q=(label%3ABreakout%20label%3AConsensus)%20OR%20(label%3ABreakout%20label%3AExecution)%20) on various L1-related topics
-- [L2 interop](./issues?q=is%3Aissue+label%3AL2)
+- [L2 interop](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AL2%20)
  breakout meetings
 
 Agendas for these meetings can be found on the [Issues](https://github.com/ethereum/pm/issues) tab. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
