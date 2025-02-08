@@ -60,8 +60,8 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | № | Date | Agenda | Notes | Discussion | Recording |
 | --- | ------ | ----- | ----- | ----- | ----- |
-| 204 | 19 Dec 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-204-january-30-2025/22594) | [video](https://www.youtube.com/live/JW2IWwVKRec?t=192s) |
-| 203 | 19 Dec 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1227) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-203-january-16-2025/22346) | [video](https://www.youtube.com/live/uh1hZCE4k0w?t=232s) |
+| 204 | 30 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-204-january-30-2025/22594) | [video](https://www.youtube.com/live/JW2IWwVKRec) |
+| 203 | 16 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1227) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-203-january-16-2025/22346) | [video](https://www.youtube.com/live/uh1hZCE4k0w) |
 | 202 | 19 Dec 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1209) | [notes](AllCoreDevs-EL-Meetings/Meeting%20202.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-202-december-19-2024/21974/2) | [video](https://youtu.be/XtdJ2G8yST4) |
 | 201 | 05 Dec 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1197) | [notes](AllCoreDevs-EL-Meetings/Meeting%20201.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-201-december-5-2024/21760/3) | [video](https://youtube.com/live/Umh7ZKukmtY) |
 | 200 | 07 Nov 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1190) | [notes](AllCoreDevs-EL-Meetings/Meeting%20200.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-200-november-7-2024/21463/2) | [video](https://youtu.be/DqdmqDtm2wM) |
@@ -268,8 +268,8 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | № | Date | Agenda | Notes | Discussion | Recording |
 | --- | ------ | ----- | ----- | ----- | ----- |
-| 150| 06 Feb 2025, 14:00 UTC |[agenda](hhttps://github.com/ethereum/pm/issues/1265) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-150-february-6-2025/22703) | [video](https://www.youtube.com/live/JhDgD366DKg?t=184s)|
-| 149| 23 Jan 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1258) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-149-january-23-2025/22636) | [video](https://www.youtube.com/live/uIjPkGezPOg?t=188s)|
+| 150| 06 Feb 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1265) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-150-february-6-2025/22703) | [video](https://www.youtube.com/live/JhDgD366DKg)|
+| 149| 23 Jan 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1258) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-149-january-23-2025/22636) | [video](https://www.youtube.com/live/uIjPkGezPOg)|
 | 148| 09 Jan 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1218) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-148-january-9-2025/22206) | [video](https://www.youtube.com/watch?v=4LbNL_hp2Ho)|
 | 147| 12 Dec 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1211) | [notes](AllCoreDevs-CL-Meetings/Call_147.md)| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-147-december-12-2024/22161/2) | [video](https://youtu.be/VpYzaCzEVe8)|
 | 146| 28 Nov 2024, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1200) | [notes](AllCoreDevs-CL-Meetings/Call_146.md)| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-146-november-28-2024/21793/2) | [video](https://youtu.be/HcjuY3WDa9A)|
