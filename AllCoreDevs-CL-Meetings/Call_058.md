@@ -16,7 +16,7 @@
 # Contents <!-- omit in toc --> 
 
 - [1. Client Updates](#1-client-updates)
-- [2. Upgrate1](#2-client-updates)
+- [2. Upgrade1](#2-client-updates)
 - [3. Pyrmont load/new testnet?](#3-Pyrmont-load-/-new-testnet-?)
 - [4. Research Updates](#4-research-updates)
 - [5. Spec discussion](#5-spec-discussion)
