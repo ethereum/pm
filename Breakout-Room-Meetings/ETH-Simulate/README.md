@@ -11,7 +11,7 @@ This meeting is for the discussion of eth_simulateV1 implementation and potentia
 | 36 |February 03, 2025| [Agenda](https://github.com/ethereum/pm/issues/1273) | [Recording](https://youtu.be/i2JBDF_MBVU?si=zBjWUwY4F_WfLzrw) | [Notes]([./Meeting%2063.md](https://github.com/ethereum/pm/issues/1273#issuecomment-2631171565)) |
 | 35 |January 27, 2025| [Agenda](https://github.com/ethereum/pm/issues/1248) | N/A | [Notes]([./Meeting%2063.md](https://github.com/ethereum/pm/issues/1248#issuecomment-2615709046)) |
 | 34 |January 13, 2025| [Agenda](https://github.com/ethereum/pm/issues/1241) | [Recording](https://youtu.be/HKjT5O74lx4?si=j6qTuDzHlZxxVA9x) | [Notes]([./Meeting%2063.md](https://github.com/ethereum/pm/issues/1241#issuecomment-2590226750)) |
-| 33 |January 06, 2025| N/A | [Recording](https://youtu.be/OpybdKZ4Ft8?si=dCBReLxqE5n85C_j) | [Notes]((https://hackmd.io/QmTl38cVRteyG24a27VB8Q)](https://hackmd.io/QmTl38cVRteyG24a27VB8Q)) |
+| 33 |January 06, 2025| N/A | [Recording](https://youtu.be/OpybdKZ4Ft8?si=dCBReLxqE5n85C_j) | [Notes](https://hackmd.io/QmTl38cVRteyG24a27VB8Q) |
 | 32 |December 30, 2024| N/A | [Recording](https://youtu.be/-1GHixe7iLo?si=Ud7cf_qnWJDMQKIF) | N/A |
 | 31 |December 23, 2024| N/A | [Recording](https://youtu.be/u3XDtboT5HI?si=GQPtb37uAQB7FYxW) | N/A |
 | 30 |December 16, 2024| N/A | [Recording](https://youtu.be/jeJJkXEP0lI?si=lMiu_CiqFFLGfIMF) | N/A |
