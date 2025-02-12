@@ -1,6 +1,6 @@
 # Eth_Simulate Meeting Meeting 33
 
-Note: This file is copied from [here]([[./Meeting%2063.md](https://hackmd.io/QmTl38cVRteyG24a27VB8Q)](https://hackmd.io/QmTl38cVRteyG24a27VB8Q))
+Note: This file is copied from [here](https://hackmd.io/QmTl38cVRteyG24a27VB8Q)
 
 ### Meeting Info
 
