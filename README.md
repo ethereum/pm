@@ -60,8 +60,8 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | № | Date | Agenda | Notes | Discussion | Recording |
 | --- | ------ | ----- | ----- | ----- | ----- |
-| 204 | 30 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-204-january-30-2025/22594) | [video](https://www.youtube.com/live/JW2IWwVKRec) |
-| 203 | 16 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1227) | [notes](AllCoreDevs-EL-Meetings/Meeting%20203.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-203-january-16-2025/22346) | [video](https://www.youtube.com/live/uh1hZCE4k0w) |
+| 204 | 30 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | [notes](AllCoreDevs-EL-Meetings/Meeting%20204.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-204-january-30-2025/22594) | [video](https://youtu.be/JW2IWwVKRec) |
+| 203 | 16 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1227) | [notes](AllCoreDevs-EL-Meetings/Meeting%20203.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-203-january-16-2025/22346) | [video](https://youtu.be/uh1hZCE4k0w) |
 | 202 | 19 Dec 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1209) | [notes](AllCoreDevs-EL-Meetings/Meeting%20202.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-202-december-19-2024/21974/2) | [video](https://youtu.be/XtdJ2G8yST4) |
 | 201 | 05 Dec 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1197) | [notes](AllCoreDevs-EL-Meetings/Meeting%20201.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-201-december-5-2024/21760/3) | [video](https://youtube.com/live/Umh7ZKukmtY) |
 | 200 | 07 Nov 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1190) | [notes](AllCoreDevs-EL-Meetings/Meeting%20200.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-200-november-7-2024/21463/2) | [video](https://youtu.be/DqdmqDtm2wM) |
