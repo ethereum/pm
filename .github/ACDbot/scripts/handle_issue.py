@@ -11,7 +11,7 @@ from github import InputGitAuthor
 
 # Import your custom modules
 
-MAPPING_FILE = "meeting_topic_mapping.json"
+MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
 def load_meeting_topic_mapping():
     if os.path.exists(MAPPING_FILE):

@@ -28,7 +28,7 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 CLIENT_SECRETS_FILE = "client_secrets.json"
 
 # Add these functions at the top of the file
-MAPPING_FILE = "meeting_topic_mapping.json"
+MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
 def get_authenticated_service():
     # Initialize credentials from environment variables
