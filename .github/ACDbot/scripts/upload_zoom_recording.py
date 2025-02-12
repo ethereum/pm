@@ -82,16 +82,27 @@ def upload_recording(meeting_id):
     youtube = get_authenticated_service()
     mapping = load_meeting_topic_mapping()
     
-    # Use stored issue title from mapping
-    video_title = mapping.get(meeting_id, {}).get("issue_title", f"Meeting {meeting_id}")
+    if meeting_id not in mapping:
+        mapping[meeting_id] = {}
+    entry = mapping[meeting_id]
+    
+    # Check attempt counter
+    attempt_count = entry.get("upload_attempt_count", 0)
+    if attempt_count >= 10:
+        print(f"Skipping meeting {meeting_id} - max upload attempts reached")
+        return
+    entry["upload_attempt_count"] = attempt_count + 1
+    
+    # Only proceed if not already processed
+    if entry.get("Youtube_upload_processed"):
+        print(f"YouTube upload already processed for {meeting_id}")
+        return
+
+    video_title = entry.get("issue_title", f"Meeting {meeting_id}")
     video_description = (
         f"Recording of {video_title}\n\n"
         f"Original Zoom Meeting ID: {meeting_id}"
     )
-
-    if video_exists(youtube, meeting_id):
-        print(f"YouTube video already exists for meeting {meeting_id}")
-        return
 
     video_path = download_zoom_recording(meeting_id)
     if not video_path:
@@ -121,8 +132,8 @@ def upload_recording(meeting_id):
         ).execute()
 
         # Update mapping with YouTube video ID
-        mapping[meeting_id] = mapping.get(meeting_id, {})
-        mapping[meeting_id]["youtube_video_id"] = response['id']
+        entry["youtube_video_id"] = response['id']
+        entry["Youtube_upload_processed"] = True
         save_meeting_topic_mapping(mapping)
         commit_mapping_file()
         
@@ -130,7 +141,7 @@ def upload_recording(meeting_id):
         print(f"Uploaded YouTube video: {youtube_link}")
 
         # Post to Discourse (if applicable)
-        discourse_topic_id = mapping[meeting_id].get("discourse_topic_id")
+        discourse_topic_id = entry.get("discourse_topic_id")
         if discourse_topic_id:
             discourse.create_post(
                 topic_id=discourse_topic_id,

@@ -126,10 +126,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
     except Exception as e:
         issue.create_comment(f"Error posting Discourse topic: {e}")
     # 7. Update mapping
-    mapping[str(zoom_id)] = {
+    meeting_id = str(zoom_id)
+    mapping[meeting_id] = {
         "discourse_topic_id": topic_id,
         "issue_title": issue.title,
-        "youtube_video_id": None
+        "Youtube_upload_processed": False,
+        "transcript_processed": False,
+        "upload_attempt_count": 0,
+        "transcript_attempt_count": 0
     }
     save_meeting_topic_mapping(mapping)
     commit_mapping_file()

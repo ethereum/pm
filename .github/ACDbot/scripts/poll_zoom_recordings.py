@@ -136,22 +136,35 @@ def main():
 
     for meeting_id, topic in meetings_to_process:
         print(f"Processing meeting {meeting_id}: {topic}")
+        # Ensure there's a dictionary entry for the meeting
+        if meeting_id not in mapping or not isinstance(mapping[meeting_id], dict):
+            mapping[meeting_id] = {}
+        const_entry = mapping[meeting_id]  
+
+        # Skip if meeting already processed
+        if const_entry.get("transcript_processed"):
+            print(f"Meeting {meeting_id} is already processed.")
+            continue
+
+        # Skip if max upload attempts reached
+        if const_entry.get("upload_attempt_count", 0) >= 10:
+            print(f"Skipping meeting {meeting_id} - max upload attempts reached")
+            continue
+
         try:
-            # Get actual topic ID from successful transcript post
+            # Process transcript
             topic_id = transcript.post_zoom_transcript_to_discourse(meeting_id)
-            
-            # Update mapping with new format
-            mapping[meeting_id] = {
-                "discourse_topic_id": topic_id,
-                "issue_title": topic,
-                "youtube_video_id": None
-            }
+            const_entry["discourse_topic_id"] = topic_id
+            const_entry["transcript_processed"] = True
+
         except Exception as e:
+            # Increment upload attempt count on failure
+            const_entry["upload_attempt_count"] = const_entry.get("upload_attempt_count", 0) + 1
             print(f"Error processing meeting {meeting_id}: {e}")
 
-    # Save and commit the updated mapping file
-    save_meeting_topic_mapping(mapping)
-    commit_mapping_file()
+        finally:
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
 
 if __name__ == "__main__":
     main()

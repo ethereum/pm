@@ -22,22 +22,28 @@ def post_zoom_transcript_to_discourse(meeting_id: str):
     # Load the mapping to find the corresponding Discourse topic ID
     mapping = load_meeting_topic_mapping()
     entry = mapping.get(str(meeting_id))  # Ensure string key lookup
-    
-    # Handle both old and new format
-    if isinstance(entry, dict):
+    if entry is None:
+        raise ValueError(f"Meeting ID {meeting_id} not found in mapping for transcript processing")
+    if not isinstance(entry, dict):
+        # Convert legacy string format to dictionary for safe updates
+        entry = {"discourse_topic_id": entry}
+        mapping[str(meeting_id)] = entry
+        meeting_topic = f"Meeting {meeting_id}"
+    else:
         discourse_topic_id = entry.get("discourse_topic_id")
-        # Add fallback for legacy entries without issue_title
-        meeting_topic = entry.get("issue_title", f"Meeting {meeting_id}")  
-    else:  # Legacy string format
-        discourse_topic_id = entry
-        
-    if not discourse_topic_id:
+        meeting_topic = entry.get("issue_title", f"Meeting {meeting_id}")
+    if not entry.get("discourse_topic_id"):
         raise ValueError(f"No Discourse topic mapping found for meeting ID {meeting_id}")
+    discourse_topic_id = entry.get("discourse_topic_id")
 
     # Check existing posts
     if discourse.check_if_transcript_posted(discourse_topic_id, meeting_id):
         print(f"Transcript already posted for meeting {meeting_id}")
         return discourse_topic_id
+
+    # Preemptively mark transcript as processed to avoid race conditions
+    entry["transcript_processed"] = True
+    save_meeting_topic_mapping(mapping)
 
     # Get recording details
     recording_data = zoom.get_meeting_recording(meeting_id)
