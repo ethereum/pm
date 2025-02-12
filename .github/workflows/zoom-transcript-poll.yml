@@ -1,0 +1,50 @@
+name: "Zoom Transcript Poller"
+
+on:
+  # Allows manual triggering of the workflow.
+  workflow_dispatch:
+    inputs:
+      FORCE_MEETING_ID:
+        description: "Optional: Force processing of a specific Zoom meeting ID"
+        required: false
+
+  # Scheduled run every 4 hours.
+  schedule:
+    - cron: "0 */4 * * *"
+
+jobs:
+  poll-transcripts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -e ACDbot/
+          pip install pytz google-api-python-client
+
+      - name: Poll Zoom for recordings
+        run: |
+          python ACDbot/scripts/poll_zoom_recordings.py \
+            --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Zoom credentials
+          ZOOM_ACCOUNT_ID: ${{ secrets.ZOOM_ACCOUNT_ID }}
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          # Discourse credentials
+          DISCOURSE_API_KEY: ${{ secrets.DISCOURSE_API_KEY }}
+          DISCOURSE_API_USERNAME: ${{ secrets.DISCOURSE_API_USERNAME }}
+          DISCOURSE_BASE_URL: ${{ vars.DISCOURSE_BASE_URL }}
+          # Telegram credentials
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
