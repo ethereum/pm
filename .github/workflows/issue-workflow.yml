@@ -41,9 +41,9 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -e ACDbot/
+          pip install -e .github/ACDbot/
           pip install pytz google-api-python-client
-          pip install -r ACDbot/requirements.txt
+          pip install -r .github/ACDbot/requirements.txt
           
       - name: Verify Installed Packages
         run: |
@@ -51,7 +51,7 @@ jobs:
 
       - name: Handle issue
         run: |
-          python ACDbot/scripts/handle_issue.py \
+          python .github/ACDbot/scripts/handle_issue.py \
             --issue_number "${{ github.event.issue.number }}" \
             --repo "${{ github.repository }}"
         env:

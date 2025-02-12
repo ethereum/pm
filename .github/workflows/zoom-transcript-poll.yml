@@ -1,7 +1,6 @@
 name: "Zoom Transcript Poller"
 
 on:
-  # Allows manual triggering of the workflow.
   workflow_dispatch:
     inputs:
       FORCE_MEETING_ID:
@@ -28,12 +27,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -e ACDbot/
+          pip install -e .github/ACDbot/
           pip install pytz google-api-python-client
+          pip install -r .github/ACDbot/requirements.txt
 
       - name: Poll Zoom for recordings
         run: |
-          python ACDbot/scripts/poll_zoom_recordings.py \
+          python .github/ACDbot/scripts/poll_zoom_recordings.py \
             --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

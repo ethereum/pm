@@ -26,9 +26,9 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -e ACDbot/
+          pip install -e .github/ACDbot/
           pip install google-api-python-client google-auth-oauthlib google-auth httplib2
-          pip install -r ACDbot/requirements.txt
+          pip install -r .github/ACDbot/requirements.txt
 
       - name: Refresh YouTube Token
         id: refresh-token
@@ -37,7 +37,7 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: |
-            python ACDbot/scripts/refresh_youtube_token.py || echo "refresh_failed=true" >> $GITHUB_ENV
+            python .github/ACDbot/scripts/refresh_youtube_token.py || echo "refresh_failed=true" >> $GITHUB_ENV
 
       - name: Token Refresh Failure Log
         if: env.refresh_failed == 'true'
@@ -45,7 +45,7 @@ jobs:
 
       - name: Upload Zoom recording to YouTube
         run: |
-          python ACDbot/scripts/upload_zoom_recording.py \
+          python .github/ACDbot/scripts/upload_zoom_recording.py \
             --meeting_id "${{ github.event.inputs.MEETING_ID }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
