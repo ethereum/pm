@@ -175,12 +175,27 @@ def main():
     parser.add_argument("--meeting_id", required=False, help="Zoom meeting ID to process")
     args = parser.parse_args()
 
-    # Exit gracefully if meeting_id is not provided or is empty.
     if not args.meeting_id or not args.meeting_id.strip():
-        print("Empty meeting ID provided. Exiting without processing.")
-        import sys
-        sys.exit(0)
-    
+        print("No meeting ID provided - checking last 5 meetings from mapping")
+        mapping = load_meeting_topic_mapping()
+        
+        # Get last 5 meetings sorted by insertion order (Python 3.7+ preserves dict order)
+        recent_meetings = list(mapping.items())[-5:]
+        
+        for meeting_id, details in recent_meetings:
+            if not isinstance(details, dict):
+                continue  # Skip legacy format entries
+                
+            youtube_id = details.get("youtube_video_id")
+            # Only process if video hasn't been uploaded yet
+            if not youtube_id or youtube_id.lower() in ("none", "null", ""):
+                print(f"\nProcessing meeting from mapping: {meeting_id}")
+                try:
+                    upload_recording(meeting_id)
+                except Exception as e:
+                    print(f"Failed to process {meeting_id}: {e}")
+        return
+
     upload_recording(args.meeting_id)
 
 def load_meeting_topic_mapping():
