@@ -54,8 +54,12 @@ def video_exists(youtube, meeting_id):
 
 def download_zoom_recording(meeting_id):
     """Download Zoom recording MP4 file to temp location"""
-    recording_info = get_meeting_recording(meeting_id)
-    
+    try:
+        recording_info = get_meeting_recording(meeting_id)
+    except Exception as e:
+        print(f"Error fetching meeting recording for meeting {meeting_id}: {e}")
+        return None
+
     if not recording_info or 'recording_files' not in recording_info:
         return None
 
