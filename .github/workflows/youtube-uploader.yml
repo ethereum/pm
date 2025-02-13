@@ -1,0 +1,68 @@
+name: "YouTube Video Uploader"
+
+on:
+  workflow_dispatch:
+    inputs:
+      MEETING_ID:
+        description: "Zoom meeting ID to process"
+        required: true
+  schedule:
+    - cron: "0 */3 * * *"  # Run every 3 hours at minute 0
+
+jobs:
+  youtube-upload:
+    runs-on: ubuntu-latest
+    env:
+      refresh_failed: 'false'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -e .github/ACDbot/
+          pip install google-api-python-client google-auth-oauthlib google-auth httplib2
+          pip install -r .github/ACDbot/requirements.txt
+
+      - name: Refresh YouTube Token
+        id: refresh-token
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        run: |
+            python .github/ACDbot/scripts/refresh_youtube_token.py || echo "refresh_failed=true" >> $GITHUB_ENV
+
+      - name: Token Refresh Failure Log
+        if: env.refresh_failed == 'true'
+        run: echo "Refresh token update failed. Please refresh manually."
+
+      - name: Upload Zoom recording to YouTube
+        run: |
+          python .github/ACDbot/scripts/upload_zoom_recording.py \
+            --meeting_id "${{ github.event.inputs.MEETING_ID }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          ZOOM_ACCOUNT_ID: ${{ secrets.ZOOM_ACCOUNT_ID }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          DISCOURSE_API_KEY: ${{ secrets.DISCOURSE_API_KEY }}
+          DISCOURSE_API_USERNAME: ${{ secrets.DISCOURSE_API_USERNAME }}
+          DISCOURSE_BASE_URL: ${{ vars.DISCOURSE_BASE_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+
+permissions:
+  contents: write
+  issues: write
+
