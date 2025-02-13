@@ -172,8 +172,14 @@ def upload_recording(meeting_id):
 
 def main():
     parser = argparse.ArgumentParser(description="Upload Zoom recording to YouTube")
-    parser.add_argument("--meeting_id", required=True, help="Zoom meeting ID to process")
+    parser.add_argument("--meeting_id", required=False, help="Zoom meeting ID to process")
     args = parser.parse_args()
+
+    # Exit gracefully if meeting_id is not provided or is empty.
+    if not args.meeting_id or not args.meeting_id.strip():
+        print("Empty meeting ID provided. Exiting without processing.")
+        import sys
+        sys.exit(0)
     
     upload_recording(args.meeting_id)
 

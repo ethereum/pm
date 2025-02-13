@@ -106,19 +106,19 @@ def handle_github_issue(issue_number: int, repo_name: str):
     except Exception as e:
         issue.create_comment(f"Error creating Zoom meeting: {e}")
     # 5 Calendar event creation
-    try:
-        start_time, duration = parse_issue_for_time(issue_body)
-        calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
-        event_link = gcal.create_event(
-                summary=issue.title,
-                start_dt=start_time,
-                duration_minutes=duration,
-                calendar_id=calendar_id,
-                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
-            )
-        print(f"Created calendar event: {event_link}")
-    except Exception as e:
-        print(f"Error creating calendar event: {e}")
+    #try:
+    #    start_time, duration = parse_issue_for_time(issue_body)
+    #    calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
+    #    event_link = gcal.create_event(
+    #            summary=issue.title,
+    #            start_dt=start_time,
+    #            duration_minutes=duration,
+    #            calendar_id=calendar_id,
+    #            description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+    #        )
+    #    print(f"Created calendar event: {event_link}")
+    #except Exception as e:
+    #    print(f"Error creating calendar event: {e}")
     # 6. Post Discourse Topic Link as a Comment
     try:
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
@@ -301,6 +301,10 @@ def main():
     parser.add_argument("--issue_number", required=True, type=int, help="GitHub issue number")
     parser.add_argument("--repo", required=True, help="GitHub repository (e.g., 'org/repo')")
     args = parser.parse_args()
+
+    if not args.issue_number or not args.repo:
+        print("Empty issue number or repository provided. Exiting without processing.")
+        sys.exit(0)
 
     handle_github_issue(issue_number=args.issue_number, repo_name=args.repo)
 
