@@ -55,10 +55,10 @@ def commit_mapping_file():
 
 def is_meeting_eligible(meeting_end_time):
     """
-    Check if the meeting ended more than 5 minutes ago.
+    Check if the meeting ended more than 3 hours ago.
     """
     now_utc = datetime.utcnow().replace(tzinfo=pytz.utc)
-    return now_utc - meeting_end_time >= timedelta(minutes=5)
+    return now_utc - meeting_end_time >= timedelta(hours=3)
 
 def validate_meeting_id(meeting_id):
     return str(meeting_id).strip()
