@@ -114,11 +114,10 @@ def main():
         # Check if already processed (both formats)
         existing_entry = mapping.get(meeting_id)
         if existing_entry:
-            # Handle dictionary format
-            if isinstance(existing_entry, dict) and existing_entry.get("discourse_topic_id"):
+            # Only skip if transcript is marked as processed
+            if isinstance(existing_entry, dict) and existing_entry.get("discourse_topic_id") and existing_entry.get("transcript_processed"):
                 print(f"Meeting {meeting_id} has already been processed.")
                 continue
-            # Handle legacy string format
             elif isinstance(existing_entry, (int, str)):
                 print(f"Meeting {meeting_id} has already been processed.")
                 continue

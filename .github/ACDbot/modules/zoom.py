@@ -2,6 +2,7 @@ import requests
 import os
 from datetime import datetime, timedelta
 import json
+import urllib.parse
 
 account_id=os.environ["ZOOM_ACCOUNT_ID"]
 client_id=os.environ["ZOOM_CLIENT_ID"]
@@ -86,7 +87,9 @@ def get_meeting_recording(meeting_id):
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
-    url = f"{api_base_url}/meetings/{meeting_id}/recordings"
+    # URL-encode the meeting id to ensure a compliant endpoint URL.
+    meeting_id_encoded = urllib.parse.quote(str(meeting_id), safe='')
+    url = f"{api_base_url}/meetings/{meeting_id_encoded}/recordings"
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
