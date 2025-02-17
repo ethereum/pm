@@ -1,7 +1,7 @@
 ---
 name: Protocol dev call
 about: Issue for planning a dev call with bot complaint format 
-title: ''
+title: 'minimum 10 characters'
 labels: ''
 assignees: ''
 
