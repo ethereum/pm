@@ -1,4 +1,4 @@
-# Eth_Simulate Meeting Meeting 37
+## Eth_Simulate Meeting Meeting 37
 
 Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1278#issuecomment-2650875573)
 
@@ -8,7 +8,7 @@ Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1278
 - Date & Time: February 10, 2025, 12:00 UTC
 - Recording: [here](https://youtu.be/YgU7S01PUZc)
 ## Notes
-# Eth_Simulate Implementers Call Summary  
+## Eth_Simulate Implementers Call Summary  
 
 ## Main Outcome  
 The primary outcome of the meeting was the agreement to add support for type 4 transactions (EIP-7702) across various blockchain client methods. The team discussed and outlined a rough design for implementing this support, focusing on addressing the challenges related to transaction signature validation and authentication.  

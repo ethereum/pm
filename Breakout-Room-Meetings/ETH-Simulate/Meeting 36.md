@@ -1,4 +1,4 @@
-# Eth_Simulate Meeting Meeting 36
+## Eth_Simulate Meeting Meeting 36
 
 Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1273#issuecomment-2631171565)
 
@@ -9,7 +9,7 @@ Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1273
 - Recording: [here](https://youtu.be/i2JBDF_MBVU?si=zBjWUwY4F_WfLzrw)
 ## Notes
 ### Summary 
-# Intern Tracing Refactoring Project  
+## Intern Tracing Refactoring Project  
 
 - The tracing component is being prototyped by Nethermind with assistance from their intern.  
 - The task primarily involves refactoring to get tracers working.  

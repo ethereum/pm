@@ -1,4 +1,4 @@
-# Eth_Simulate Meeting Meeting 34
+## Eth_Simulate Meeting Meeting 34
 
 Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1241#issuecomment-2590226750)
 
@@ -9,7 +9,7 @@ Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1241
 - Recording: [here](https://youtu.be/HKjT5O74lx4?si=j6qTuDzHlZxxVA9x)
 ## Notes
 ### Summary 
-# Agreed Action Items and Implementation Decisions  
+## Agreed Action Items and Implementation Decisions  
 
 ## Tracing Enhancements  
 - Add new tracing methods and derive specifications from implementations.  

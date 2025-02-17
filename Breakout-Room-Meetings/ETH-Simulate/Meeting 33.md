@@ -1,4 +1,4 @@
-# Eth_Simulate Meeting Meeting 33
+## Eth_Simulate Meeting Meeting 33
 
 Note: This file is copied from [here](https://hackmd.io/QmTl38cVRteyG24a27VB8Q)
 
@@ -9,7 +9,7 @@ Note: This file is copied from [here](https://hackmd.io/QmTl38cVRteyG24a27VB8Q)
 - Recording: [here](https://youtu.be/OpybdKZ4Ft8?si=dCBReLxqE5n85C_j)
 ## Notes
 ### Summary 
-# Ideas for eth_simulateV2  
+## Ideas for eth_simulateV2  
 
 List of suggested ideas for the possible next version of `eth_simulate`:  
 
