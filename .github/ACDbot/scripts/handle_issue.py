@@ -79,6 +79,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 continue
 
     if topic_id:
+        is_update = True
         # Update the existing Discourse topic
         discourse_response = discourse.update_topic(
             topic_id=topic_id,
@@ -86,10 +87,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
             body=issue_body,
             category_id=63  
         )
-        # Create/update comment with both ID and URL
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        comment_body = f"**Discourse Topic Updated**\n\n- ID: `{topic_id}`\n- URL: {discourse_url}"
     else:
+        is_update = False
         # Create a new Discourse topic
         discourse_response = discourse.create_topic(
             title=issue_title,
@@ -97,8 +97,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             category_id=63  
         )
         topic_id = discourse_response.get("topic_id")
-        issue.create_comment(f"**Discourse Topic ID:** {topic_id}")
-    
+
     # Add Telegram notification here
     try:
         import modules.telegram as telegram
@@ -116,9 +115,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
             duration=duration
         )
         print(f"Created Zoom meeting: {join_url}")
-        
-        # Post success comment immediately
-        issue.create_comment(f"Zoom meeting created: {join_url}\nZoom Meeting ID: {zoom_id}")
     except ValueError:
         issue.create_comment(
             "Meeting couldn't be created due to format error. "
@@ -142,12 +138,24 @@ def handle_github_issue(issue_number: int, repo_name: str):
         print(f"Created calendar event: {event_link}")
     except Exception as e:
         print(f"Error creating calendar event: {e}")
-    # 6. Post Discourse Topic Link as a Comment
+    # 6. Generate Discourse Topic URL
     try:
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        issue.create_comment(f"Discourse topic created/updated: {discourse_url}")
     except Exception as e:
         issue.create_comment(f"Error posting Discourse topic: {e}")
+    
+    # Consolidated comment creation before updating mapping
+    if is_update:
+        issue.create_comment("**Discourse Topic ID:** {topic_id}\ndiscourse topic edited")
+    else:
+        consolidated_comment = (
+            f"Discourse Topic ID: {topic_id}\n"
+            f"Discourse topic created: {discourse_url}\n"
+            f"Zoom meeting created: {join_url}\n"
+            f"Zoom Meeting ID: {zoom_id}"
+        )
+        issue.create_comment(consolidated_comment)
+
     # 7. Update mapping
     meeting_id = str(zoom_id)
     mapping[meeting_id] = {
