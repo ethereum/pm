@@ -25,21 +25,45 @@ def save_meeting_topic_mapping(mapping):
 
 def handle_github_issue(issue_number: int, repo_name: str):
     """
-    Fetches the specified GitHub issue, extracts its title and body,
-    then creates or updates a Discourse topic using the issue title as the topic title
-    and its body as the topic content.
-
-    If the date/time or duration cannot be parsed from the issue body, 
-    a comment is posted indicating the format error, and no meeting is created.
+    Processes a GitHub issue for a meeting.
+    If the issue already has an associated Zoom meeting, it will not create a new one.
     """
-    # 1. Connect to GitHub API
+    # Load your persistent mapping (adjust this code to however your project stores meeting mappings)
+    mapping = load_meeting_topic_mapping()  # This returns a dict keyed by issue number or meeting id
+
+    # Check if this issue has already been processed (i.e. a Zoom meeting exists)
+    if str(issue_number) in mapping and mapping[str(issue_number)].get("zoom_meeting_id"):
+        print(f"Issue {issue_number} already has a Zoom meeting. Skipping meeting creation.")
+        return
+
+    # Consolidated retrieval: Connect to GitHub API and retrieve the issue details once
     gh = Github(os.environ["GITHUB_TOKEN"])
     repo = gh.get_repo(repo_name)
-
-    # 2. Retrieve the issue
     issue = repo.get_issue(number=issue_number)
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
+
+    try:
+        start_time, duration = parse_issue_for_time(issue_body)
+    except ValueError as ve:
+        print(f"Error parsing meeting information: {ve}")
+        return
+
+    try:
+        zoom_meeting_info = zoom.create_meeting(
+            f"ACD Meeting #{issue_number}",
+            start_time,
+            duration
+        )
+        zoom_meeting_id = zoom_meeting_info.get("id")
+        print(f"New Zoom meeting created: {zoom_meeting_id}")
+        mapping[str(issue_number)] = {
+            "zoom_meeting_id": zoom_meeting_id
+        }
+        save_meeting_topic_mapping(mapping)
+        commit_mapping_file()
+    except Exception as e:
+        print(f"Failed to create Zoom meeting: {e}")
 
     # Load existing mapping
     mapping = load_meeting_topic_mapping()
@@ -86,7 +110,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
     
     # 4. (Optional) Create Zoom Meeting
     try:
-        start_time, duration = parse_issue_for_time(issue_body)
         join_url, zoom_id = zoom.create_meeting(
             topic=f"Issue {issue.number}: {issue_title}",
             start_time=start_time,
