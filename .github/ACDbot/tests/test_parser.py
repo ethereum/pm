@@ -1,4 +1,20 @@
-import os
+from dotenv import load_dotenv
+from pathlib import Path
+import os  # Import os BEFORE assertions
+
+# Load .env from ACDbot directory
+env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(env_path)
+
+# Verify loading
+assert env_path.exists(), f"Missing .env at {env_path}"
+assert os.getenv("ZOOM_ACCOUNT_ID"), "ZOOM_ACCOUNT_ID not loaded"
+assert os.getenv("ZOOM_CLIENT_ID"), "ZOOM_CLIENT_ID not loaded"
+assert os.getenv("ZOOM_CLIENT_SECRET"), "ZOOM_CLIENT_SECRET not loaded"
+
+print(f"Loading env from: {env_path}")
+print(f"File exists: {env_path.exists()}")
+
 import sys
 import pathlib
 import unittest
@@ -15,20 +31,35 @@ class TestParseIssueForTime(unittest.TestCase):
     def test_parse_issue(self):
         test_cases = [
             {
-                "description": "Format with separate duration",
+                "description": "Pooja bug - eth_simulate Implementers' Meeting [Feb 24, 2025]",
                 "issue_body": """
-                # Rollcall ACDbot testing
+                # eth_simulate Implementers' Meeting [Feb 24, 2025]
 
-                - We will not have a meeting on [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)
-                - Duration in minutes
-                - 90
+                - Date and time in UTC [Feb 24, 2025, 12:00 UTC](https://savvytime.com/converter/utc/feb-24-2025/12pm)
+                - Duration in minutes: 60 minutes
+                - Recording: [eth_multicall Playlist](https://www.youtube.com/playlist?list=PLJqWcTqh_zKECphjT_m7LVH4tusTtvory)
+                [Zoom](https://us02web.zoom.us/j/83932094353?pwd=V2o4NG4yQy9MZFJGY2FKdGU1OFdaZz09)
 
-                # Agenda 
+                ### Resources
+                <details>
 
-                - Testing the discourse
-                - Testing the telegram bot
+                [Ideas for eth_simulateV2](https://hackmd.io/@xHso_0ENSqWWLKt_lOqVuA/S1KtbtYTA)
+                [PEEPanEIP#135: Eth Simulate with Oleg and Killari](https://youtu.be/4uZyQQ6qz4U)
+                https://eips.ethereum.org/EIPS/eip-4399
+                https://docs.login.xyz/general-information/siwe-overview
+                https://ethresear.ch/t/fork-choice-enforced-inclusion-lists-focil-a-simple-committee-based-inclusion-list-proposal/19870
 
-                Other comments and resources
+                </details>
+                # Agenda
+                - [Notes from the last meeting]
+                - Client Implementation update
+                - Test
+                - Discuss spec for [eth_simulateV2](https://hackmd.io/@xHso_0ENSqWWLKt_lOqVuA/S1KtbtYTA)
+
+                Add more discussion items or async updates. 
+
+                The next meeting is scheduled for March 3, 2025 at 12:00 UTC 
+
                 """
             },
             {
@@ -87,7 +118,7 @@ class TestParseIssueForTime(unittest.TestCase):
 
                 - We will not have a meeting on Jan 18, 2025 at 14:00 UTC
                 - Duration in minutes
-                - 60
+                - 60m
 
                 # Agenda 
 
@@ -121,7 +152,7 @@ class TestParseIssueForTime(unittest.TestCase):
 
                 - We will not have a meeting on [jan 19, 2025, 13:00 UTC](https://savvytime.com/converter/utc/jan-19-2025/2pm)
                 -   Duration    in    minutes
-                -    60
+                -    60min
 
                 # Agenda 
 
@@ -139,7 +170,7 @@ class TestParseIssueForTime(unittest.TestCase):
 
                 - We will not have a meeting on [Wed February 05, 2025, 14:00 UTC](https://savvytime.com/converter/utc/feb-05-2025/2pm)
                 - Duration in minutes
-                - 45
+                - 45 mins
 
                 # Agenda 
 
@@ -174,9 +205,9 @@ class TestParseIssueForTime(unittest.TestCase):
                     start_time, duration = parse_issue_for_time(case["issue_body"])
                     
                     # Define expected outputs based on description
-                    if case["description"] == "Format with separate duration":
-                        expected_start = "2025-01-16T14:00:00Z"
-                        expected_duration = 90
+                    if case["description"] == "Pooja bug - eth_simulate Implementers' Meeting [Feb 24, 2025]":
+                        expected_start = "2025-02-24T12:00:00Z"
+                        expected_duration = 60
                     elif case["description"] == "Format with start and end time":
                         expected_start = "2025-01-18T14:00:00Z"
                         expected_duration = 90  # 14:00 to 15:30 is 90 minutes
