@@ -21,7 +21,6 @@ def send_message(text: str):
     data = {
         "chat_id": chat_id,
         "text": text,
-       # "parse_mode": "MarkdownV2",
     }
 
     resp = requests.post(url, data=data)

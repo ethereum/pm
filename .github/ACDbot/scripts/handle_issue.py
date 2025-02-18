@@ -194,54 +194,36 @@ def parse_issue_for_time(issue_body: str):
     start_time_utc = start_dt.isoformat() + "Z"
 
     # -------------------------------------------------------------------------
-    # 2. Determine duration
+    # 2. Extract duration from issue body using a unified regex
     # -------------------------------------------------------------------------
-    duration_minutes = None
+    # This regex handles formats like:
+    #   "Duration in minutes: 60 minutes", "Duration in minutes: 60", "Duration in minutes: 60m",
+    #   "duration 60", "duration 60 min", "duration 60m"
+    duration_match = re.search(
+        r"(?i)duration(?:\s*(?:in)?\s*minutes)?[:\s-]*(\d+)\s*(?:minutes|min|m)?\b",
+        issue_body
+    )
+    if duration_match:
+        return start_time_utc, int(duration_match.group(1))
+
+    # -------------------------------------------------------------------------
+    # 3. If an end time is provided, compute duration from start and end times.
+    # -------------------------------------------------------------------------
     if end_hour and end_minute:
-        # Calculate duration from end time
-        end_month = month  # Assuming the end time is on the same month and year
-        end_day = day      # Assuming the end time is on the same day
-        end_datetime_str = f"{end_month} {end_day} {year} {end_hour}:{end_minute}"
+        end_time_str = f"{month} {day} {year} {end_hour}:{end_minute}"
         try:
-            end_dt = datetime.strptime(end_datetime_str, "%B %d %Y %H:%M")  # Full month name
+            end_dt = datetime.strptime(end_time_str, "%B %d %Y %H:%M")
         except ValueError:
-            try:
-                end_dt = datetime.strptime(end_datetime_str, "%b %d %Y %H:%M")  # Abbreviated month name
-            except ValueError as e:
-                raise ValueError(f"Unable to parse the end time: {e}")
+            end_dt = datetime.strptime(end_time_str, "%b %d %Y %H:%M")
 
         if end_dt <= start_dt:
             raise ValueError("End time must be after start time.")
 
         duration_minutes = int((end_dt - start_dt).total_seconds() // 60)
-    else:
-        # Extract duration from the line following the date/time
-        # Find the position after the date/time match
-        end_pos = date_match.end()
+        return start_time_utc, duration_minutes
 
-        # Extract the remaining text after date/time
-        remaining_text = issue_body[end_pos:]
-
-        # Regex to find a number (duration) in the lines after date/time
-        duration_pattern = re.compile(
-            r"""
-            ^[ \t\-]*                             # Optional spaces/dashes at the start
-            (?:Duration\s+in\s+minutes\s*)?      # Optional 'Duration in minutes'
-            [ \t\-]*                              # Optional spaces/dashes
-            (\d+)                                 # The duration number
-            """,
-            re.MULTILINE | re.IGNORECASE | re.VERBOSE
-        )
-
-        duration_match = duration_pattern.search(remaining_text)
-        if duration_match:
-            duration_minutes = int(duration_match.group(1))
-        else:
-            raise ValueError(
-                "Missing or invalid duration format. Provide duration in minutes after the date/time."
-            )
-
-    return start_time_utc, duration_minutes
+    # No valid duration found
+    raise ValueError("Missing or invalid duration format. Provide duration in minutes after the date/time.")
 
 def commit_mapping_file():
     file_path = MAPPING_FILE
