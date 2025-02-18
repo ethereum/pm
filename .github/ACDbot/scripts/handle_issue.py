@@ -99,13 +99,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
         topic_id = discourse_response.get("topic_id")
 
     # Add Telegram notification here
-    try:
-        import modules.telegram as telegram
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
-        telegram.send_message(telegram_message)
-    except Exception as e:
-        print(f"Telegram notification failed: {e}")
+    #try:
+    #    import modules.telegram as telegram
+    #    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+    #    telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
+    #    telegram.send_message(telegram_message)
+    #except Exception as e:
+    #    print(f"Telegram notification failed: {e}")
     
     # 4. (Optional) Create Zoom Meeting
     try:
