@@ -26,19 +26,13 @@ def save_meeting_topic_mapping(mapping):
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Processes a GitHub issue for a meeting.
-    If the issue already has an associated Zoom meeting, it will not create a new one.
+    If the issue already has an associated Zoom meeting (stored in your mapping),
+    it will update that meeting rather than creating a new one.
     """
-    # Load your persistent mapping (adjust this code to however your project stores meeting mappings)
-    mapping = load_meeting_topic_mapping()  # This returns a dict keyed by issue number or meeting id
+    # Load persistent mapping (e.g. JSON file mapping issue numbers to meeting details)
+    mapping = load_meeting_topic_mapping()  # Returns a dict keyed by issue number
 
-    # Determine if we need to update an existing Zoom meeting or create a new one
-    update_zoom = False
-    if str(issue_number) in mapping and mapping[str(issue_number)].get("zoom_meeting_id"):
-        zoom_meeting_id = mapping[str(issue_number)]["zoom_meeting_id"]
-        print(f"Issue {issue_number} already has a Zoom meeting {zoom_meeting_id}. Updating meeting instead of creating a new one.")
-        update_zoom = True
-
-    # Consolidated retrieval: Connect to GitHub API and retrieve the issue details once
+    # Connect to GitHub and retrieve the issue details
     gh = Github(os.environ["GITHUB_TOKEN"])
     repo = gh.get_repo(repo_name)
     issue = repo.get_issue(number=issue_number)
@@ -51,35 +45,54 @@ def handle_github_issue(issue_number: int, repo_name: str):
         print(f"Error parsing meeting information: {ve}")
         return
 
-    try:
-        if update_zoom:
-            # Update the existing meeting
-            zoom.update_meeting(
-                meeting_id=zoom_meeting_id,
+    # Check if a Zoom meeting already exists for this issue.
+    existing_meeting = mapping.get(str(issue_number), {}).get("zoom_meeting_id")
+    if existing_meeting:
+        # We are editing an existing meeting. Call the update method.
+        try:
+            # Update the meeting. (No new join_url is expected on update.)
+            # Note: If update_meeting returns a tuple, don't treat it like a dict.
+            _ = zoom.update_meeting(
+                meeting_id=existing_meeting,
                 topic=f"ACD Meeting #{issue_number}",
                 start_time=start_time,
                 duration=duration
             )
-            print(f"Updated Zoom meeting: {zoom_meeting_id}")
-            join_url = None  # PATCH does not return join_url
-        else:
-            # Create a new meeting
-            zoom_meeting_info = zoom.create_meeting(
-                f"ACD Meeting #{issue_number}",
-                start_time,
-                duration
-            )
+            print(f"Updated Zoom meeting: {existing_meeting}")
+        except Exception as e:
+            # Log failures if update fails.
+            print(f"Failed to update Zoom meeting: {e}")
+        # Since the meeting is updated, we exit without creating a new meeting.
+        return
+
+    # No existing meeting found, so create a new one.
+    try:
+        zoom_meeting_info = zoom.create_meeting(
+            f"ACD Meeting #{issue_number}",
+            start_time,
+            duration
+        )
+        # Handle response that might be a dict or a tuple.
+        if isinstance(zoom_meeting_info, dict):
             zoom_meeting_id = zoom_meeting_info.get("id")
             join_url = zoom_meeting_info.get("join_url", "")
-            print(f"New Zoom meeting created: {zoom_meeting_id}")
-            mapping[str(issue_number)] = {
-                "zoom_meeting_id": zoom_meeting_id
-            }
-            save_meeting_topic_mapping(mapping)
-            commit_mapping_file()
+        else:
+            # Assume tuple structure (join_url, zoom_meeting_id) or similar.
+            join_url, zoom_meeting_id = zoom_meeting_info
+
+        print(f"Created Zoom meeting: {join_url}")
+
+        # Save the new meeting ID to the mapping.
+        mapping[str(issue_number)] = {
+            "zoom_meeting_id": zoom_meeting_id
+        }
+        save_meeting_topic_mapping(mapping)
+        commit_mapping_file()
+
     except Exception as e:
-        print(f"Failed to create/update Zoom meeting: {e}")
-        issue.create_comment(f"Error creating/updating Zoom meeting: {e}")
+        print(f"Failed to create Zoom meeting: {e}")
+
+    # Continue with other processing (e.g. Discourse topic, calendar event) if needed.
 
     # Load existing mapping
     mapping = load_meeting_topic_mapping()
@@ -124,7 +137,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     #    print(f"Telegram notification failed: {e}")
     
     # 4. (Optional) Create Zoom Meeting
-    if not update_zoom:
+    if not existing_meeting:
         try:
             join_url, zoom_id = zoom.create_meeting(
                 topic=f"{issue_title}",
@@ -142,7 +155,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         except Exception as e:
             issue.create_comment(f"Error creating Zoom meeting: {e}")
     else:
-        zoom_id = zoom_meeting_id
+        zoom_id = existing_meeting
 
     #5 Calendar event creation
     #try:
