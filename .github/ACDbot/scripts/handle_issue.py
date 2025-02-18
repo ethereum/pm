@@ -31,10 +31,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Load your persistent mapping (adjust this code to however your project stores meeting mappings)
     mapping = load_meeting_topic_mapping()  # This returns a dict keyed by issue number or meeting id
 
-    # Check if this issue has already been processed (i.e. a Zoom meeting exists)
+    # Determine if we need to update an existing Zoom meeting or create a new one
+    update_zoom = False
     if str(issue_number) in mapping and mapping[str(issue_number)].get("zoom_meeting_id"):
-        print(f"Issue {issue_number} already has a Zoom meeting. Skipping meeting creation.")
-        return
+        zoom_meeting_id = mapping[str(issue_number)]["zoom_meeting_id"]
+        print(f"Issue {issue_number} already has a Zoom meeting {zoom_meeting_id}. Updating meeting instead of creating a new one.")
+        update_zoom = True
 
     # Consolidated retrieval: Connect to GitHub API and retrieve the issue details once
     gh = Github(os.environ["GITHUB_TOKEN"])
@@ -50,20 +52,34 @@ def handle_github_issue(issue_number: int, repo_name: str):
         return
 
     try:
-        zoom_meeting_info = zoom.create_meeting(
-            f"ACD Meeting #{issue_number}",
-            start_time,
-            duration
-        )
-        zoom_meeting_id = zoom_meeting_info.get("id")
-        print(f"New Zoom meeting created: {zoom_meeting_id}")
-        mapping[str(issue_number)] = {
-            "zoom_meeting_id": zoom_meeting_id
-        }
-        save_meeting_topic_mapping(mapping)
-        commit_mapping_file()
+        if update_zoom:
+            # Update the existing meeting
+            zoom.update_meeting(
+                meeting_id=zoom_meeting_id,
+                topic=f"ACD Meeting #{issue_number}",
+                start_time=start_time,
+                duration=duration
+            )
+            print(f"Updated Zoom meeting: {zoom_meeting_id}")
+            join_url = None  # PATCH does not return join_url
+        else:
+            # Create a new meeting
+            zoom_meeting_info = zoom.create_meeting(
+                f"ACD Meeting #{issue_number}",
+                start_time,
+                duration
+            )
+            zoom_meeting_id = zoom_meeting_info.get("id")
+            join_url = zoom_meeting_info.get("join_url", "")
+            print(f"New Zoom meeting created: {zoom_meeting_id}")
+            mapping[str(issue_number)] = {
+                "zoom_meeting_id": zoom_meeting_id
+            }
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
     except Exception as e:
-        print(f"Failed to create Zoom meeting: {e}")
+        print(f"Failed to create/update Zoom meeting: {e}")
+        issue.create_comment(f"Error creating/updating Zoom meeting: {e}")
 
     # Load existing mapping
     mapping = load_meeting_topic_mapping()
@@ -108,22 +124,26 @@ def handle_github_issue(issue_number: int, repo_name: str):
     #    print(f"Telegram notification failed: {e}")
     
     # 4. (Optional) Create Zoom Meeting
-    try:
-        join_url, zoom_id = zoom.create_meeting(
-            topic=f"Issue {issue.number}: {issue_title}",
-            start_time=start_time,
-            duration=duration
-        )
-        print(f"Created Zoom meeting: {join_url}")
-    except ValueError:
-        issue.create_comment(
-            "Meeting couldn't be created due to format error. "
-            "Couldn't extract date/time and duration. Expected date/time in UTC like:\n\n"
-            "  [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)\n\n"
-            "Please run the script manually to schedule the meeting."
-        )
-    except Exception as e:
-        issue.create_comment(f"Error creating Zoom meeting: {e}")
+    if not update_zoom:
+        try:
+            join_url, zoom_id = zoom.create_meeting(
+                topic=f"{issue_title}",
+                start_time=start_time,
+                duration=duration
+            )
+            print(f"Created Zoom meeting: {join_url}")
+        except ValueError:
+            issue.create_comment(
+                "Meeting couldn't be created due to format error. "
+                "Couldn't extract date/time and duration. Expected date/time in UTC like:\n\n"
+                "  [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)\n\n"
+                "Please run the script manually to schedule the meeting."
+            )
+        except Exception as e:
+            issue.create_comment(f"Error creating Zoom meeting: {e}")
+    else:
+        zoom_id = zoom_meeting_id
+
     #5 Calendar event creation
     #try:
     #    start_time, duration = parse_issue_for_time(issue_body)
@@ -149,7 +169,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         issue.create_comment("**Discourse Topic ID:** {topic_id}\ndiscourse topic edited")
     else:
         consolidated_comment = (
-            f"Discourse Topic ID: {topic_id}\n"
+            f"**Discourse Topic ID:** {topic_id}\n"
             f"Discourse topic created: {discourse_url}\n"
             f"Zoom meeting created: {join_url}\n"
             f"Zoom Meeting ID: {zoom_id}"
