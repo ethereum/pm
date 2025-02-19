@@ -81,24 +81,25 @@ def handle_github_issue(issue_number: int, repo_name: str):
     try:
         start_time, duration = parse_issue_for_time(issue_body)
         meeting_updated = False
-        zoom_id = None  # Initialize zoom_id
+        zoom_id = None  # Will hold the existing or new Zoom meeting ID
 
-        # Check for existing meeting via issue number
-        existing_entry = next((v for k,v in mapping.items() if v.get("issue_number") == issue_number), None)
-        existing_zoom_meeting_id = existing_entry.get("meeting_id") if existing_entry else None
+        # Find any existing meeting entry for this issue via mapping values
+        existing_entry = next(
+            (entry for entry in mapping.values() if entry.get("issue_number") == issue.number),
+            None
+        )
 
-        if existing_zoom_meeting_id:
-            # Check if time/duration changed
+        if existing_entry:
+            existing_zoom_meeting_id = existing_entry.get("meeting_id")
             stored_start = existing_entry.get("start_time")
             stored_duration = existing_entry.get("duration")
             
-            # Always update if missing stored values (legacy entries)
-            if not stored_start or not stored_duration:
-                meeting_updated = True
+            # Check if the start time and duration are both present and unchanged.
+            if stored_start and stored_duration and (start_time == stored_start) and (duration == stored_duration):
+                print("[DEBUG] No changes detected in meeting start time or duration. Skipping update.")
+                zoom_id = existing_zoom_meeting_id
             else:
-                meeting_updated = (start_time != stored_start) or (duration != stored_duration)
-            
-            if meeting_updated:
+                # Either missing stored values (legacy) or a change is detected => perform update
                 zoom_response = zoom.update_meeting(
                     meeting_id=existing_zoom_meeting_id,
                     topic=f"{issue_title}",
@@ -108,9 +109,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 comment_lines.append("\n**Zoom Meeting Updated**")
                 comment_lines.append(f"- Meeting URL: {zoom_response.get('join_url')}")
                 comment_lines.append(f"- Meeting ID: {existing_zoom_meeting_id}")
-            zoom_id = existing_zoom_meeting_id  # Use existing ID
+                print("[DEBUG] Zoom meeting updated.")
+                zoom_id = existing_zoom_meeting_id
+                meeting_updated = True
         else:
-            # Create new meeting
+            # Create a new meeting if none exists for this issue
             join_url, zoom_id = zoom.create_meeting(
                 topic=f"{issue_title}",
                 start_time=start_time,
@@ -119,26 +122,32 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append("\n**Zoom Meeting Created**")
             comment_lines.append(f"- Meeting URL: {join_url}")
             comment_lines.append(f"- Meeting ID: {zoom_id}")
+            print("[DEBUG] Zoom meeting created.")
             meeting_updated = True
-        
+
         # Now that we have zoom_id, set meeting_id
         meeting_id = str(zoom_id)
         
-        # Update mapping
-        mapping[meeting_id] = {
-            "discourse_topic_id": topic_id,
-            "issue_title": issue.title,
-            "start_time": start_time,
-            "duration": duration,
-            "issue_number": issue.number,
-            "Youtube_upload_processed": False,
-            "transcript_processed": False,
-            "upload_attempt_count": 0,
-            "transcript_attempt_count": 0
-        }
-        save_meeting_topic_mapping(mapping)
-        commit_mapping_file()
-        print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
+        # Update mapping only if a meeting update occurred or it's a new entry
+        if meeting_updated or not existing_entry:
+            mapping[meeting_id] = {
+                "discourse_topic_id": topic_id,
+                "issue_title": issue.title,
+                "start_time": start_time,
+                "duration": duration,
+                "issue_number": issue.number,
+                "meeting_id": meeting_id,  # Ensure we store the meeting_id inside the mapping entry
+                "Youtube_upload_processed": False,
+                "transcript_processed": False,
+                "upload_attempt_count": 0,
+                "transcript_attempt_count": 0
+            }
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
+            print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
+        else:
+            print("[DEBUG] No changes detected; mapping remains unchanged.")
+
         # Calendar handling using meeting_id
         existing_event_id = mapping[meeting_id].get("calendar_event_id")
         
