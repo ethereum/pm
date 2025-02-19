@@ -263,14 +263,7 @@ def parse_issue_for_time(issue_body: str):
             r"(?m)^\s*-\s*(\d+)\s*(?:minutes|min|m)?\b",
             issue_body
         )
-        issue_body
-    )
-    if not duration_match:
-        # Fallback: match a line starting with '-' followed by a number (e.g., '- 15 minutes')
-        duration_match = re.search(
-            r"(?m)^\s*-\s*(\d+)\s*(?:minutes|min|m)?\b",
-            issue_body
-        )
+    
     if duration_match:
         return start_time_utc, int(duration_match.group(1))
 
