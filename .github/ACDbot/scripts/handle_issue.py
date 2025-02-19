@@ -76,7 +76,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         comment_lines.append(f"- URL: {discourse_url}")
 
     # After loading mapping and getting existing_entry
-    existing_entry = mapping.get(str(issue_number))
+    existing_entry = mapping.get(str(meeting_id))
     existing_zoom_meeting_id = existing_entry.get("meeting_id") if existing_entry else None
     
     # Zoom meeting creation/update
@@ -98,7 +98,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             if meeting_updated:
                 zoom_response = zoom.update_meeting(
                     meeting_id=existing_zoom_meeting_id,
-                    topic=f"Issue {issue.number}: {issue_title}",
+                    topic=f"{issue_title}",
                     start_time=start_time,
                     duration=duration
                 )
@@ -119,8 +119,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
         
         # Update mapping if new or updated
         if meeting_updated:
-            mapping[str(issue_number)]["start_time"] = start_time
-            mapping[str(issue_number)]["duration"] = duration
+            mapping[str(meeting_id)]["start_time"] = start_time
+            mapping[str(meeting_id)]["duration"] = duration
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
             
@@ -134,28 +134,47 @@ def handle_github_issue(issue_number: int, repo_name: str):
         issue.create_comment("\n".join(comment_lines))
 
     # Add Telegram notification here
-    try:
-        import modules.telegram as telegram
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
-        telegram.send_message(telegram_message)
-    except Exception as e:
-        print(f"Telegram notification failed: {e}")
+    #try:
+    #    import modules.telegram as telegram
+    #    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+    #    telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
+    #    telegram.send_message(telegram_message)
+    #except Exception as e:
+    #    print(f"Telegram notification failed: {e}")
     
-    # 5. Calendar event creation
+    # 5. Calendar event creation/update
     try:
-        start_time, duration = parse_issue_for_time(issue_body)
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
-        event_link = gcal.create_event(
-            summary=issue.title,
-            start_dt=start_time,
-            duration_minutes=duration,
-            calendar_id=calendar_id,
-            description=f"Issue: {issue.html_url}\nZoom: {join_url}"
-        )
-        print(f"Created calendar event: {event_link}")
+        existing_event_id = mapping.get(str(zoom_id), {}).get("calendar_event_id")
+        
+        if existing_event_id:
+            # Update existing event
+            event_link = gcal.update_event(
+                event_id=existing_event_id,
+                summary=issue.title,
+                start_dt=start_time,
+                duration_minutes=duration,
+                calendar_id=calendar_id,
+                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+            )
+            print(f"Updated calendar event: {event_link}")
+        else:
+            # Create new event
+            event_link = gcal.create_event(
+                summary=issue.title,
+                start_dt=start_time,
+                duration_minutes=duration,
+                calendar_id=calendar_id,
+                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+            )
+            print(f"Created calendar event: {event_link}")
+            # Store new event ID in mapping
+            mapping[str(zoom_id)]["calendar_event_id"] = event_link.split('eid=')[-1]
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
+            
     except Exception as e:
-        print(f"Error creating calendar event: {e}")
+        print(f"Error handling calendar event: {e}")
 
     # 6. Update mapping
     meeting_id = str(zoom_id)

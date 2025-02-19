@@ -45,3 +45,38 @@ def create_event(summary: str, start_dt, duration_minutes: int, calendar_id: str
     event = service.events().insert(calendarId=calendar_id, body=event_body).execute()
 
     return event.get('htmlLink')
+
+def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, calendar_id: str, description=""):
+    """Update an existing Google Calendar event"""
+    
+    # Same datetime handling as create_event
+    if isinstance(start_dt, str):
+        start_dt = datetime.fromisoformat(start_dt.replace('Z', '+00:00'))
+    elif not isinstance(start_dt, datetime):
+        raise TypeError("start_dt must be a datetime object or ISO format string")
+    end_dt = start_dt + timedelta(minutes=duration_minutes)
+
+    # Ensure timezone awareness
+    if not start_dt.tzinfo:
+        start_dt = start_dt.replace(tzinfo=pytz.utc)
+    
+    event_body = {
+        'summary': summary,
+        'description': description,
+        'start': {'dateTime': start_dt.isoformat()},
+        'end': {'dateTime': end_dt.isoformat()},
+    }
+
+    service_account_info = json.loads(os.environ['GCAL_SERVICE_ACCOUNT_KEY'])
+    credentials = service_account.Credentials.from_service_account_info(
+        service_account_info, scopes=SCOPES)
+
+    service = build('calendar', 'v3', credentials=credentials)
+    
+    event = service.events().update(
+        calendarId=calendar_id,
+        eventId=event_id,
+        body=event_body
+    ).execute()
+
+    return event.get('htmlLink')
