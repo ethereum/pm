@@ -188,7 +188,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     if comment_lines:
         issue.create_comment("\n".join(comment_lines))
 
-     Add Telegram notification here
+    # Add Telegram notification here
     try:
         import modules.telegram as telegram
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
