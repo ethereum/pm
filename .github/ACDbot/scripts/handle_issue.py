@@ -83,23 +83,23 @@ def handle_github_issue(issue_number: int, repo_name: str):
         meeting_updated = False
         zoom_id = None  # Will hold the existing or new Zoom meeting ID
 
-        # Find any existing meeting entry for this issue via mapping values
-        existing_entry = next(
-            (entry for entry in mapping.values() if entry.get("issue_number") == issue.number),
+        # Find an existing mapping item by iterating over (meeting_id, entry) pairs.
+        existing_item = next(
+            ((meeting_id, entry) for meeting_id, entry in mapping.items() if entry.get("issue_number") == issue.number),
             None
         )
-
-        if existing_entry:
-            existing_zoom_meeting_id = existing_entry.get("meeting_id")
+        
+        if existing_item:
+            existing_zoom_meeting_id, existing_entry = existing_item
             stored_start = existing_entry.get("start_time")
             stored_duration = existing_entry.get("duration")
             
-            # Check if the start time and duration are both present and unchanged.
+            # Check if both start_time and duration are present and have not changed.
             if stored_start and stored_duration and (start_time == stored_start) and (duration == stored_duration):
                 print("[DEBUG] No changes detected in meeting start time or duration. Skipping update.")
                 zoom_id = existing_zoom_meeting_id
             else:
-                # Either missing stored values (legacy) or a change is detected => perform update
+                # Either legacy entry with missing stored values or changes detected => update Zoom meeting.
                 zoom_response = zoom.update_meeting(
                     meeting_id=existing_zoom_meeting_id,
                     topic=f"{issue_title}",
@@ -113,7 +113,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 zoom_id = existing_zoom_meeting_id
                 meeting_updated = True
         else:
-            # Create a new meeting if none exists for this issue
+            # No existing meeting found for this issue; create a new Zoom meeting.
             join_url, zoom_id = zoom.create_meeting(
                 topic=f"{issue_title}",
                 start_time=start_time,
@@ -125,18 +125,19 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print("[DEBUG] Zoom meeting created.")
             meeting_updated = True
 
-        # Now that we have zoom_id, set meeting_id
+        # Use zoom_id as the meeting_id (which is the mapping key)
         meeting_id = str(zoom_id)
-        
-        # Update mapping only if a meeting update occurred or it's a new entry
-        if meeting_updated or not existing_entry:
+
+        # Update mapping if this entry is new or if the meeting was updated.
+        # (In the mapping, we use the meeting ID as the key.)
+        if meeting_updated or (existing_item is None):
             mapping[meeting_id] = {
                 "discourse_topic_id": topic_id,
                 "issue_title": issue.title,
                 "start_time": start_time,
                 "duration": duration,
                 "issue_number": issue.number,
-                "meeting_id": meeting_id,  # Ensure we store the meeting_id inside the mapping entry
+                "meeting_id": meeting_id,  # Store meeting_id in case we later want it in the value.
                 "Youtube_upload_processed": False,
                 "transcript_processed": False,
                 "upload_attempt_count": 0,
