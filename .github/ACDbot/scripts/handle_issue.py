@@ -173,7 +173,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     
     # Comment creation before updating mapping
     if is_update:
-        issue.create_comment("**Discourse Topic ID:** {topic_id}\ndiscourse topic edited")
+        issue.create_comment(f"**Discourse Topic ID:** {topic_id}\nDiscourse topic edited")
     else:
         consolidated_comment = (
             f"**Discourse Topic ID:** {topic_id}\n"
