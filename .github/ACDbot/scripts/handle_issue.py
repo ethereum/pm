@@ -56,6 +56,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # 3. Discourse handling
     if topic_id:
+        discourse_response = discourse.update_topic(
+            topic_id=topic_id,
+            title=issue_title,
+            body=issue_body,
+            category_id=63  
+        )
         action = "updated"
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
         comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
