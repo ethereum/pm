@@ -188,14 +188,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
     if comment_lines:
         issue.create_comment("\n".join(comment_lines))
 
-    # Add Telegram notification here
-    #try:
-    #    import modules.telegram as telegram
-    #    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-    #    telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
-    #    telegram.send_message(telegram_message)
-    #except Exception as e:
-    #    print(f"Telegram notification failed: {e}")
+     Add Telegram notification here
+    try:
+        import modules.telegram as telegram
+        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+        telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
+        telegram.send_message(telegram_message)
+    except Exception as e:
+        print(f"Telegram notification failed: {e}")
 
     # Remove any null mappings or failed entries
     mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}
