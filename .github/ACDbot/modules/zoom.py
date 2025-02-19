@@ -1,6 +1,6 @@
 import requests
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
 import urllib.parse
 
@@ -204,4 +204,34 @@ def get_meeting_summary(meeting_uuid: str) -> dict:
     except Exception as e:
         print(f"General error: {str(e)}")
         return {}
+
+def update_meeting(meeting_id, topic, start_time, duration):
+    """
+    Updates an existing Zoom meeting using the PATCH method.
+    See Zoom API documentation: https://developers.zoom.us/docs/api/meetings/#tag/meetings/PATCH/meetings/{meetingId}
+    
+    :param meeting_id: Zoom meeting ID to update.
+    :param topic: Updated meeting topic/title.
+    :param start_time: Updated start time in ISO 8601 format (e.g., "2025-01-18T14:00:00Z").
+    :param duration: Updated duration in minutes.
+    :return: A dict confirming the update.
+    """
+    access_token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "topic": topic,
+        "start_time": start_time,
+        "duration": duration
+    }
+    update_url = f"{api_base_url}/meetings/{meeting_id}"
+    resp = requests.patch(update_url, headers=headers, json=payload)
+    
+    if resp.status_code != 204:  # Zoom returns 204 No Content on a successful update.
+        print(f"Error updating meeting {meeting_id}: {resp.status_code} {resp.text}")
+        resp.raise_for_status()
+    
+    return {"id": meeting_id, "message": "Meeting updated successfully"}
 

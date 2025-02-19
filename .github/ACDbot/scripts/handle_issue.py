@@ -32,17 +32,17 @@ def handle_github_issue(issue_number: int, repo_name: str):
     If the date/time or duration cannot be parsed from the issue body, 
     a comment is posted indicating the format error, and no meeting is created.
     """
+    comment_lines = []
+    
+    # Load existing mapping
+    mapping = load_meeting_topic_mapping()
+
     # 1. Connect to GitHub API
     gh = Github(os.environ["GITHUB_TOKEN"])
     repo = gh.get_repo(repo_name)
-
-    # 2. Retrieve the issue
     issue = repo.get_issue(number=issue_number)
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
-
-    # Load existing mapping
-    mapping = load_meeting_topic_mapping()
 
     # 3. Check for existing topic_id in issue comments
     topic_id = None
@@ -54,27 +54,85 @@ def handle_github_issue(issue_number: int, repo_name: str):
             except ValueError:
                 continue
 
+    # 3. Discourse handling
     if topic_id:
-        # Update the existing Discourse topic
-        discourse_response = discourse.update_topic(
-            topic_id=topic_id,
-            title=issue_title,
-            body=issue_body,
-            category_id=63  
-        )
-        # Create/update comment with both ID and URL
+        action = "updated"
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        comment_body = f"**Discourse Topic Updated**\n\n- ID: `{topic_id}`\n- URL: {discourse_url}"
+        comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+        comment_lines.append(f"- Action: {action.capitalize()}")
+        comment_lines.append(f"- URL: {discourse_url}")
     else:
-        # Create a new Discourse topic
+        # Create new topic
         discourse_response = discourse.create_topic(
             title=issue_title,
             body=issue_body,
             category_id=63  
         )
         topic_id = discourse_response.get("topic_id")
-        issue.create_comment(f"**Discourse Topic ID:** {topic_id}")
+        action = "created"
+        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+        comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+        comment_lines.append(f"- Action: {action.capitalize()}")
+        comment_lines.append(f"- URL: {discourse_url}")
+
+    # After loading mapping and getting existing_entry
+    existing_entry = mapping.get(str(issue_number))
+    existing_zoom_meeting_id = existing_entry.get("meeting_id") if existing_entry else None
     
+    # Zoom meeting creation/update
+    try:
+        start_time, duration = parse_issue_for_time(issue_body)
+        meeting_updated = False
+        
+        if existing_zoom_meeting_id:
+            # Check if time/duration changed
+            stored_start = existing_entry.get("start_time")
+            stored_duration = existing_entry.get("duration")
+            
+            # Always update if missing stored values (legacy entries)
+            if not stored_start or not stored_duration:
+                meeting_updated = True
+            else:
+                meeting_updated = (start_time != stored_start) or (duration != stored_duration)
+            
+            if meeting_updated:
+                zoom_response = zoom.update_meeting(
+                    meeting_id=existing_zoom_meeting_id,
+                    topic=f"Issue {issue.number}: {issue_title}",
+                    start_time=start_time,
+                    duration=duration
+                )
+                comment_lines.append("\n**Zoom Meeting Updated**")
+                comment_lines.append(f"- Meeting URL: {zoom_response.get('join_url')}")
+                comment_lines.append(f"- Meeting ID: {existing_zoom_meeting_id}")
+        else:
+            # Create new meeting
+            join_url, zoom_id = zoom.create_meeting(
+                topic=f"{issue_title}",
+                start_time=start_time,
+                duration=duration
+            )
+            comment_lines.append("\n**Zoom Meeting Created**")
+            comment_lines.append(f"- Meeting URL: {join_url}")
+            comment_lines.append(f"- Meeting ID: {zoom_id}")
+            meeting_updated = True
+        
+        # Update mapping if new or updated
+        if meeting_updated:
+            mapping[str(issue_number)]["start_time"] = start_time
+            mapping[str(issue_number)]["duration"] = duration
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
+            
+    except ValueError as e:
+        print(f"[DEBUG] Meeting update failed: {str(e)}")
+    except Exception as e:
+        print(f"[DEBUG] Zoom meeting error: {str(e)}")
+
+    # 5. Post consolidated comment
+    if comment_lines:
+        issue.create_comment("\n".join(comment_lines))
+
     # Add Telegram notification here
     try:
         import modules.telegram as telegram
@@ -84,28 +142,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     except Exception as e:
         print(f"Telegram notification failed: {e}")
     
-    # 4. (Optional) Create Zoom Meeting
-    try:
-        start_time, duration = parse_issue_for_time(issue_body)
-        join_url, zoom_id = zoom.create_meeting(
-            topic=f"Issue {issue.number}: {issue_title}",
-            start_time=start_time,
-            duration=duration
-        )
-        print(f"Created Zoom meeting: {join_url}")
-        
-        # Post success comment immediately
-        issue.create_comment(f"Zoom meeting created: {join_url}\nZoom Meeting ID: {zoom_id}")
-    except ValueError:
-        issue.create_comment(
-            "Meeting couldn't be created due to format error. "
-            "Couldn't extract date/time and duration. Expected date/time in UTC like:\n\n"
-            "  [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)\n\n"
-            "Please run the script manually to schedule the meeting."
-        )
-    except Exception as e:
-        issue.create_comment(f"Error creating Zoom meeting: {e}")
-    #5 Calendar event creation
+    # 5. Calendar event creation
     try:
         start_time, duration = parse_issue_for_time(issue_body)
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
@@ -119,17 +156,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
         print(f"Created calendar event: {event_link}")
     except Exception as e:
         print(f"Error creating calendar event: {e}")
-    # 6. Post Discourse Topic Link as a Comment
-    try:
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        issue.create_comment(f"Discourse topic created/updated: {discourse_url}")
-    except Exception as e:
-        issue.create_comment(f"Error posting Discourse topic: {e}")
-    # 7. Update mapping
+
+    # 6. Update mapping
     meeting_id = str(zoom_id)
     mapping[meeting_id] = {
         "discourse_topic_id": topic_id,
         "issue_title": issue.title,
+        "start_time": start_time,
+        "duration": duration,
+        "issue_number": issue.number,
         "Youtube_upload_processed": False,
         "transcript_processed": False,
         "upload_attempt_count": 0,
@@ -196,13 +231,16 @@ def parse_issue_for_time(issue_body: str):
     # -------------------------------------------------------------------------
     # 2. Extract duration from issue body using a unified regex
     # -------------------------------------------------------------------------
-    # This regex handles formats like:
-    #   "Duration in minutes: 60 minutes", "Duration in minutes: 60", "Duration in minutes: 60m",
-    #   "duration 60", "duration 60 min", "duration 60m"
     duration_match = re.search(
         r"(?i)duration(?:\s*(?:in)?\s*minutes)?[:\s-]*(\d+)\s*(?:minutes|min|m)?\b",
         issue_body
     )
+    if not duration_match:
+        # Fallback: match a line starting with '-' followed by a number (e.g., '- 15 minutes')
+        duration_match = re.search(
+            r"(?m)^\s*-\s*(\d+)\s*(?:minutes|min|m)?\b",
+            issue_body
+        )
     if duration_match:
         return start_time_utc, int(duration_match.group(1))
 
