@@ -75,13 +75,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
         topic_id = discourse_response.get("topic_id")
 
     # Add Telegram notification here
-    #try:
-    #    import modules.telegram as telegram
-    #    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-    #    telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
-    #    telegram.send_message(telegram_message)
-    #except Exception as e:
-    #    print(f"Telegram notification failed: {e}")
+    try:
+        import modules.telegram as telegram
+        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+        telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
+        telegram.send_message(telegram_message)
+    except Exception as e:
+        print(f"Telegram notification failed: {e}")
     
     # 4. Create/Update Zoom Meeting
     meeting_updated = False
@@ -151,19 +151,19 @@ def handle_github_issue(issue_number: int, repo_name: str):
             return
 
     #5 Calendar event creation
-    #try:
-    #    start_time, duration = parse_issue_for_time(issue_body)
-    #    calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
-    #    event_link = gcal.create_event(
-    #        summary=issue.title,
-    #        start_dt=start_time,
-    #        duration_minutes=duration,
-    #        calendar_id=calendar_id,
-    #        description=f"Issue: {issue.html_url}\nZoom: {join_url}"
-    #    )
-    #    print(f"Created calendar event: {event_link}")
-    #except Exception as e:
-    #    print(f"Error creating calendar event: {e}")
+    try:
+        start_time, duration = parse_issue_for_time(issue_body)
+        calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
+        event_link = gcal.create_event(
+            summary=issue.title,
+            start_dt=start_time,
+            duration_minutes=duration,
+            calendar_id=calendar_id,
+            description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+        )
+        print(f"Created calendar event: {event_link}")
+    except Exception as e:
+        print(f"Error creating calendar event: {e}")
     
     # 6. Generate Discourse Topic URL
     try:
@@ -199,15 +199,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
     commit_mapping_file()
     zoom_meeting_id = mapping[issue_key].get("zoom_meeting_id", "N/A")
     print(f"Mapping updated: Zoom Meeting ID {zoom_meeting_id} -> Discourse Topic ID {topic_id}")
-
-    # 8. Add Telegram notification mirroring the Discourse topic details:
-    #try:
-    #    import modules.telegram as telegram
-    #    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-    #    telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
-    #    telegram.send_message(telegram_message)
-    #except Exception as e:
-    #    print(f"Telegram notification failed: {e}")
 
     # Remove any null mappings or failed entries
     mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}
