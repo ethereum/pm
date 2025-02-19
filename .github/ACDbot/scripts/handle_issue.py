@@ -26,17 +26,13 @@ def save_meeting_topic_mapping(mapping):
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Processes a GitHub issue for a meeting.
-    If the issue already has an associated Zoom meeting, it will not create a new one.
+    If the issue already has an associated Zoom meeting (stored in your mapping),
+    it will update that meeting rather than creating a new one.
     """
-    # Load your persistent mapping (adjust this code to however your project stores meeting mappings)
-    mapping = load_meeting_topic_mapping()  # This returns a dict keyed by issue number or meeting id
+    # Load persistent mapping (e.g. JSON file mapping issue numbers to meeting details)
+    mapping = load_meeting_topic_mapping()  # Returns a dict keyed by issue number
 
-    # Check if this issue has already been processed (i.e. a Zoom meeting exists)
-    if str(issue_number) in mapping and mapping[str(issue_number)].get("zoom_meeting_id"):
-        print(f"Issue {issue_number} already has a Zoom meeting. Skipping meeting creation.")
-        return
-
-    # Consolidated retrieval: Connect to GitHub API and retrieve the issue details once
+    # Connect to GitHub and retrieve the issue details
     gh = Github(os.environ["GITHUB_TOKEN"])
     repo = gh.get_repo(repo_name)
     issue = repo.get_issue(number=issue_number)
@@ -49,34 +45,16 @@ def handle_github_issue(issue_number: int, repo_name: str):
         print(f"Error parsing meeting information: {ve}")
         return
 
-    try:
-        zoom_meeting_info = zoom.create_meeting(
-            f"ACD Meeting #{issue_number}",
-            start_time,
-            duration
-        )
-        zoom_meeting_id = zoom_meeting_info.get("id")
-        print(f"New Zoom meeting created: {zoom_meeting_id}")
-        mapping[str(issue_number)] = {
-            "zoom_meeting_id": zoom_meeting_id
-        }
-        save_meeting_topic_mapping(mapping)
-        commit_mapping_file()
-    except Exception as e:
-        print(f"Failed to create Zoom meeting: {e}")
-
     # Load existing mapping
     mapping = load_meeting_topic_mapping()
 
-    # 3. Check for existing topic_id in issue comments
-    topic_id = None
-    for comment in issue.get_comments():
-        if comment.body.startswith("**Discourse Topic ID:**"):
-            try:
-                topic_id = int(comment.body.split("**Discourse Topic ID:**")[1].strip())
-                break
-            except ValueError:
-                continue
+    # 3. Check for existing Discourse topic_id using the mapping
+    issue_key = str(issue_number)
+    topic_id = mapping.get(issue_key, {}).get("discourse_topic_id")
+    if topic_id:
+        is_update = True
+    else:
+        is_update = False
 
     if topic_id:
         # Update the existing Discourse topic
@@ -86,9 +64,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             body=issue_body,
             category_id=63  
         )
-        # Create/update comment with both ID and URL
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        comment_body = f"**Discourse Topic Updated**\n\n- ID: `{topic_id}`\n- URL: {discourse_url}"
     else:
         # Create a new Discourse topic
         discourse_response = discourse.create_topic(
@@ -97,8 +73,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             category_id=63  
         )
         topic_id = discourse_response.get("topic_id")
-        issue.create_comment(f"**Discourse Topic ID:** {topic_id}")
-    
+
     # Add Telegram notification here
     try:
         import modules.telegram as telegram
@@ -108,26 +83,73 @@ def handle_github_issue(issue_number: int, repo_name: str):
     except Exception as e:
         print(f"Telegram notification failed: {e}")
     
-    # 4. (Optional) Create Zoom Meeting
-    try:
-        join_url, zoom_id = zoom.create_meeting(
-            topic=f"Issue {issue.number}: {issue_title}",
-            start_time=start_time,
-            duration=duration
-        )
-        print(f"Created Zoom meeting: {join_url}")
-        
-        # Post success comment immediately
-        issue.create_comment(f"Zoom meeting created: {join_url}\nZoom Meeting ID: {zoom_id}")
-    except ValueError:
-        issue.create_comment(
-            "Meeting couldn't be created due to format error. "
-            "Couldn't extract date/time and duration. Expected date/time in UTC like:\n\n"
-            "  [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)\n\n"
-            "Please run the script manually to schedule the meeting."
-        )
-    except Exception as e:
-        issue.create_comment(f"Error creating Zoom meeting: {e}")
+    # 4. Create/Update Zoom Meeting
+    meeting_updated = False
+    existing_entry = mapping.get(str(issue_number), {})
+    existing_zoom_meeting_id = existing_entry.get("zoom_meeting_id")
+    if existing_zoom_meeting_id:
+        if "start_time" in existing_entry and "duration" in existing_entry:
+            stored_start = existing_entry["start_time"]
+            stored_duration = existing_entry["duration"]
+            if stored_start != start_time or stored_duration != duration:
+                try:
+                    _ = zoom.update_meeting(
+                        meeting_id=existing_zoom_meeting_id,
+                        topic=f"{issue_title}",
+                        start_time=start_time,
+                        duration=duration
+                    )
+                    print(f"Updated Zoom meeting: {existing_zoom_meeting_id}")
+                    existing_entry["start_time"] = start_time
+                    existing_entry["duration"] = duration
+                    mapping[str(issue_number)] = existing_entry
+                    save_meeting_topic_mapping(mapping)
+                    commit_mapping_file()
+                    meeting_updated = True
+                    zoom_id = existing_zoom_meeting_id
+                except Exception as e:
+                    print(f"Failed to update Zoom meeting: {e}. Proceeding to create a new meeting.")
+            else:
+                print("No changes to start time or duration; skipping Zoom meeting update.")
+                meeting_updated = True
+                zoom_id = existing_zoom_meeting_id
+        else:
+            print(f"No existing zoom meeting found for {issue_title}. Proceeding to create a new meeting.")
+    if not meeting_updated:
+        try:
+            join_url, zoom_id = zoom.create_meeting(
+                topic=f"{issue_title}",
+                start_time=start_time,
+                duration=duration
+            )
+            print(f"Created Zoom meeting: {join_url}")
+            issue_key = str(issue_number)
+            mapping[issue_key] = {
+                "zoom_meeting_id": zoom_id,
+                "start_time": start_time,
+                "duration": duration,
+                "discourse_topic_id": None,
+                "issue_title": issue.title,
+                "Youtube_upload_processed": False,
+                "transcript_processed": False,
+                "upload_attempt_count": 0,
+                "transcript_attempt_count": 0
+            }
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
+            print(f"Mapping created: Zoom Meeting ID {zoom_id} (topic: '{issue_title}')")
+        except ValueError:
+            issue.create_comment(
+                "Meeting couldn't be created due to format error. "
+                "Couldn't extract date/time and duration. Expected date/time in UTC like:\n\n"
+                "  [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)\n\n"
+                "Please run the script manually to schedule the meeting."
+            )
+            return
+        except Exception as e:
+            issue.create_comment(f"Error creating Zoom meeting: {e}")
+            return
+
     #5 Calendar event creation
     try:
         start_time, duration = parse_issue_for_time(issue_body)
@@ -142,29 +164,44 @@ def handle_github_issue(issue_number: int, repo_name: str):
         print(f"Created calendar event: {event_link}")
     except Exception as e:
         print(f"Error creating calendar event: {e}")
-    # 6. Post Discourse Topic Link as a Comment
+    
+    # 6. Generate Discourse Topic URL
     try:
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        issue.create_comment(f"Discourse topic created/updated: {discourse_url}")
     except Exception as e:
         issue.create_comment(f"Error posting Discourse topic: {e}")
-    # 7. Update mapping
-    meeting_id = str(zoom_id)
-    mapping[meeting_id] = {
+    
+    # Comment creation before updating mapping
+    if is_update:
+        issue.create_comment("**Discourse Topic ID:** {topic_id}\ndiscourse topic edited")
+    else:
+        consolidated_comment = (
+            f"**Discourse Topic ID:** {topic_id}\n"
+            f"Discourse topic created: {discourse_url}\n"
+            f"Zoom meeting created: {join_url}\n"
+            f"Zoom Meeting ID: {zoom_id}"
+        )
+        issue.create_comment(consolidated_comment)
+
+    # 7. Update mapping with the Discourse topic (this block replaces prior mapping updates)
+    issue_key = str(issue_number)
+    if issue_key not in mapping:
+        mapping[issue_key] = {}
+    mapping[issue_key].update({
         "discourse_topic_id": topic_id,
         "issue_title": issue.title,
         "Youtube_upload_processed": False,
         "transcript_processed": False,
         "upload_attempt_count": 0,
         "transcript_attempt_count": 0
-    }
+    })
     save_meeting_topic_mapping(mapping)
     commit_mapping_file()
-    print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
-    
+    zoom_meeting_id = mapping[issue_key].get("zoom_meeting_id", "N/A")
+    print(f"Mapping updated: Zoom Meeting ID {zoom_meeting_id} -> Discourse Topic ID {topic_id}")
 
     # Remove any null mappings or failed entries
-    mapping = {str(k): v for k, v in mapping.items() if v["discourse_topic_id"] is not None}
+    mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}
 
 def parse_issue_for_time(issue_body: str):
     """
@@ -219,13 +256,16 @@ def parse_issue_for_time(issue_body: str):
     # -------------------------------------------------------------------------
     # 2. Extract duration from issue body using a unified regex
     # -------------------------------------------------------------------------
-    # This regex handles formats like:
-    #   "Duration in minutes: 60 minutes", "Duration in minutes: 60", "Duration in minutes: 60m",
-    #   "duration 60", "duration 60 min", "duration 60m"
     duration_match = re.search(
         r"(?i)duration(?:\s*(?:in)?\s*minutes)?[:\s-]*(\d+)\s*(?:minutes|min|m)?\b",
         issue_body
     )
+    if not duration_match:
+        # Fallback: match a line starting with '-' followed by a number (e.g., '- 15 minutes')
+        duration_match = re.search(
+            r"(?m)^\s*-\s*(\d+)\s*(?:minutes|min|m)?\b",
+            issue_body
+        )
     if duration_match:
         return start_time_utc, int(duration_match.group(1))
 
