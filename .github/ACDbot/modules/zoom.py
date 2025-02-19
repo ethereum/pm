@@ -68,9 +68,9 @@ def create_meeting(topic, start_time, duration):
 
 def get_access_token():
     data = {
-    "grant_type": "account_credentials",
-    "account_id": account_id,
-    "client_secret": client_secret
+        "grant_type": "account_credentials",
+        "account_id": account_id,
+        "client_secret": client_secret
     }
     response = requests.post(auth_token_url, 
                                 auth=(client_id, client_secret), 

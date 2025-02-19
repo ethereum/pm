@@ -198,7 +198,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     #    print(f"Telegram notification failed: {e}")
 
     # Remove any null mappings or failed entries
-    mapping = {str(k): v for k, v in mapping.items() if v["discourse_topic_id"] is not None}
+    mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}
 
 def parse_issue_for_time(issue_body: str):
     """
@@ -255,6 +255,14 @@ def parse_issue_for_time(issue_body: str):
     # -------------------------------------------------------------------------
     duration_match = re.search(
         r"(?i)duration(?:\s*(?:in)?\s*minutes)?[:\s-]*(\d+)\s*(?:minutes|min|m)?\b",
+        issue_body
+    )
+    if not duration_match:
+        # Fallback: match a line starting with '-' followed by a number (e.g., '- 15 minutes')
+        duration_match = re.search(
+            r"(?m)^\s*-\s*(\d+)\s*(?:minutes|min|m)?\b",
+            issue_body
+        )
         issue_body
     )
     if not duration_match:
