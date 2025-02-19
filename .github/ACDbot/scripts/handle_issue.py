@@ -81,15 +81,16 @@ def handle_github_issue(issue_number: int, repo_name: str):
         comment_lines.append(f"- Action: {action.capitalize()}")
         comment_lines.append(f"- URL: {discourse_url}")
 
-    # After loading mapping and getting existing_entry
-    existing_entry = mapping.get(str(meeting_id))
-    existing_zoom_meeting_id = existing_entry.get("meeting_id") if existing_entry else None
-    
     # Zoom meeting creation/update
     try:
         start_time, duration = parse_issue_for_time(issue_body)
         meeting_updated = False
-        
+        zoom_id = None  # Initialize zoom_id
+
+        # Check for existing meeting via issue number
+        existing_entry = next((v for k,v in mapping.items() if v.get("issue_number") == issue_number), None)
+        existing_zoom_meeting_id = existing_entry.get("meeting_id") if existing_entry else None
+
         if existing_zoom_meeting_id:
             # Check if time/duration changed
             stored_start = existing_entry.get("start_time")
@@ -111,6 +112,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 comment_lines.append("\n**Zoom Meeting Updated**")
                 comment_lines.append(f"- Meeting URL: {zoom_response.get('join_url')}")
                 comment_lines.append(f"- Meeting ID: {existing_zoom_meeting_id}")
+            zoom_id = existing_zoom_meeting_id  # Use existing ID
         else:
             # Create new meeting
             join_url, zoom_id = zoom.create_meeting(
@@ -123,13 +125,54 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append(f"- Meeting ID: {zoom_id}")
             meeting_updated = True
         
-        # Update mapping if new or updated
-        if meeting_updated:
-            mapping[str(meeting_id)]["start_time"] = start_time
-            mapping[str(meeting_id)]["duration"] = duration
+        # Now that we have zoom_id, set meeting_id
+        meeting_id = str(zoom_id)
+        
+        # Update mapping
+        mapping[meeting_id] = {
+            "discourse_topic_id": topic_id,
+            "issue_title": issue.title,
+            "start_time": start_time,
+            "duration": duration,
+            "issue_number": issue.number,
+            "Youtube_upload_processed": False,
+            "transcript_processed": False,
+            "upload_attempt_count": 0,
+            "transcript_attempt_count": 0
+        }
+        save_meeting_topic_mapping(mapping)
+        commit_mapping_file()
+        print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
+        # Calendar handling using meeting_id
+        existing_event_id = mapping[meeting_id].get("calendar_event_id")
+        
+        if existing_event_id:
+            # Update existing event
+            event_link = gcal.update_event(
+                event_id=existing_event_id,
+                summary=issue.title,
+                start_dt=start_time,
+                duration_minutes=duration,
+                calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
+                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+            )
+            print(f"Updated calendar event: {event_link}")
+        else:
+            # Create new event
+            event_link = gcal.create_event(
+                summary=issue.title,
+                start_dt=start_time,
+                duration_minutes=duration,
+                calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
+                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+            )
+            print(f"Created calendar event: {event_link}")
+            # Store new event ID in mapping
+            mapping[meeting_id]["calendar_event_id"] = event_link.split('eid=')[-1]
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
-            
+            print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> calendar event ID {mapping[meeting_id]['calendar_event_id']}")
+
     except ValueError as e:
         print(f"[DEBUG] Meeting update failed: {str(e)}")
     except Exception as e:
@@ -147,58 +190,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
     #    telegram.send_message(telegram_message)
     #except Exception as e:
     #    print(f"Telegram notification failed: {e}")
-    
-    # 5. Calendar event creation/update
-    try:
-        calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
-        existing_event_id = mapping.get(str(zoom_id), {}).get("calendar_event_id")
-        
-        if existing_event_id:
-            # Update existing event
-            event_link = gcal.update_event(
-                event_id=existing_event_id,
-                summary=issue.title,
-                start_dt=start_time,
-                duration_minutes=duration,
-                calendar_id=calendar_id,
-                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
-            )
-            print(f"Updated calendar event: {event_link}")
-        else:
-            # Create new event
-            event_link = gcal.create_event(
-                summary=issue.title,
-                start_dt=start_time,
-                duration_minutes=duration,
-                calendar_id=calendar_id,
-                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
-            )
-            print(f"Created calendar event: {event_link}")
-            # Store new event ID in mapping
-            mapping[str(zoom_id)]["calendar_event_id"] = event_link.split('eid=')[-1]
-            save_meeting_topic_mapping(mapping)
-            commit_mapping_file()
-            
-    except Exception as e:
-        print(f"Error handling calendar event: {e}")
-
-    # 6. Update mapping
-    meeting_id = str(zoom_id)
-    mapping[meeting_id] = {
-        "discourse_topic_id": topic_id,
-        "issue_title": issue.title,
-        "start_time": start_time,
-        "duration": duration,
-        "issue_number": issue.number,
-        "Youtube_upload_processed": False,
-        "transcript_processed": False,
-        "upload_attempt_count": 0,
-        "transcript_attempt_count": 0
-    }
-    save_meeting_topic_mapping(mapping)
-    commit_mapping_file()
-    print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
-    
 
     # Remove any null mappings or failed entries
     mapping = {str(k): v for k, v in mapping.items() if v["discourse_topic_id"] is not None}
