@@ -44,15 +44,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
 
-    # 3. Check for existing topic_id in issue comments
+    # 3. Check for existing topic_id using the mapping instead of comments
     topic_id = None
-    for comment in issue.get_comments():
-        if comment.body.startswith("**Discourse Topic ID:**"):
-            try:
-                topic_id = int(comment.body.split("**Discourse Topic ID:**")[1].strip())
-                break
-            except ValueError:
-                continue
+    existing_entry = next((entry for entry in mapping.values() if entry.get("issue_number") == issue_number), None)
+    if existing_entry:
+        topic_id = existing_entry.get("discourse_topic_id")
 
     # 3. Discourse handling
     if topic_id:
