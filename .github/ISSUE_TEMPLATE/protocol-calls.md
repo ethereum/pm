@@ -1,7 +1,7 @@
 ---
 name: Protocol call - (with Youtube upload)
 about: Issue for planning a dev call with bot complaint format 
-title: 'minimum 10 characters'
+title: 'call name | call # | call date eg. All Core Devs - Execution (ACDE) #206, February 27, 2025'
 labels: ''
 assignees: ''
 
