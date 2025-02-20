@@ -27,7 +27,7 @@ Summary | Description
 Hello, welcome to ACDC 104. This is issue 738 in the PM repo. Looks like a relatively light schedule, at least as planned, Capella, some spec discussions around the merge, and any sort of closing remarks, and a quick SSZ shout out. Okay, cool. So start with Capella. I believe Goerli is imminent. Is it Tuesday? So call it five days, any announcements or discussion points around Capella? Tim? 
 
 **Tim**
-So we have the blog post out, which has all the client releases except Nimbus, I believe. So expect an update to the blogpost Nimbus, and if they have it released out, maybe they can give it a shout. And then on Monday at 15:30 UTC, we're going to have another community call to answer people's questions about Capella, Shanghai, if a couple folks on the client's or research slash spec team want to show up, that's always great. People usually have clients related or spec related questions. Yeah, it's pretty much it. Oh, sorry. Yeah, it's stakers doing a live stream. This is in the blog post as well, but so it's at 10:25 PM UTC on Tuesday, its stakers going to start a live stream at 10 PM UTC for anyone who wants to watch the actual upgrade on Goerli. 
+So we have the blog post out, which has all the client releases except Nimbus, I believe. So expect an update to the blog post Nimbus, and if they have it released out, maybe they can give it a shout. And then on Monday at 15:30 UTC, we're going to have another community call to answer people's questions about Capella, Shanghai, if a couple folks on the client's or research slash spec team want to show up, that's always great. People usually have clients related or spec related questions. Yeah, it's pretty much it. Oh, sorry. Yeah, it's stakers doing a live stream. This is in the blog post as well, but so it's at 10:25 PM UTC on Tuesday, its stakers going to start a live stream at 10 PM UTC for anyone who wants to watch the actual upgrade on Goerli. 
 
 **Zahary**
 And the Nimbus release is being prepared as we speak. It's likely to be out today. 
@@ -94,7 +94,7 @@ So I think both for production and for just following the chain.
 Okay, but that should be relatively independent of this PRA. 
 
 **Sean**
-Well the. An idea was brought up that maybe blob provisioning like or providing blogss shouldn't be a beacon node responsibility. Maybe it should be like a separately defined API that a beacon node could implement. That was the question. 
+Well the. An idea was brought up that maybe blob provisioning like or providing blobs shouldn't be a beacon node responsibility. Maybe it should be like a separately defined API that a beacon node could implement. That was the question. 
 
 **Danny**
 I guess to keep the devnets moving. I'd love to get the first and shift that to an issue. It seems like a deeper discussion point than just the base signing here. 
