@@ -1,0 +1,79 @@
+name: "Automate Zoom & Discourse from Issues"
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  handle_new_issue:
+    runs-on: ubuntu-latest
+    if: >
+      github.event.issue.user.login == 'poojaranjan' ||
+      github.event.issue.user.login == 'adietrichs' ||
+      github.event.issue.user.login == 'CarlBeek' ||
+      github.event.issue.user.login == 'timbeiko' ||
+      github.event.issue.user.login == 'nconsigny' ||
+      github.event.issue.user.login == 'nconsigny' ||
+      github.event.issue.user.login == 'hwwhww' ||
+      github.event.issue.user.login == 'mathhhewkeil' ||
+      github.event.issue.user.login == 'jrudolf' ||
+      github.event.issue.user.login == 'soispoke' ||
+      github.event.issue.user.login == 'pipermerriam' ||
+      github.event.issue.user.login == 'potuz' ||
+      github.event.issue.user.login == 'ralexstokes'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      
+      - name: Upgrade pip, setuptools, and wheel
+        run: |
+          pip install --upgrade pip setuptools wheel
+
+      - name: Install PyGithub Explicitly
+        run: |
+          pip install PyGithub>=1.55.1
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -e .github/ACDbot/
+          pip install pytz google-api-python-client
+          pip install -r .github/ACDbot/requirements.txt
+          
+      - name: Verify Installed Packages
+        run: |
+          pip list
+
+      - name: Handle issue
+        run: |
+          python .github/ACDbot/scripts/handle_issue.py \
+            --issue_number "${{ github.event.issue.number }}" \
+            --repo "${{ github.repository }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          ZOOM_ACCOUNT_ID: ${{ secrets.ZOOM_ACCOUNT_ID }}
+          ZOOM_ALTERNATIVE_HOSTS: ${{ secrets.ZOOM_ALTERNATIVE_HOSTS }}
+          DISCOURSE_API_KEY: ${{ secrets.DISCOURSE_API_KEY }}
+          DISCOURSE_API_USERNAME: ${{ secrets.DISCOURSE_API_USERNAME }}
+          DISCOURSE_BASE_URL: ${{ vars.DISCOURSE_BASE_URL }}
+          GCAL_SERVICE_ACCOUNT_KEY: ${{ secrets.GCAL_SERVICE_ACCOUNT_KEY }}
+          #YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          #GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          #SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          #SENDER_EMAIL_PASSWORD: ${{ secrets.SENDER_EMAIL_PASSWORD }}
+          #SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }} 
+
+permissions:
+  contents: write 
+  issues: write  
+
+
