@@ -1,5 +1,5 @@
 ---
-name: Protocol dev call
+name: Protocol call - (with Youtube upload)
 about: Issue for planning a dev call with bot complaint format 
 title: 'minimum 10 characters'
 labels: ''
