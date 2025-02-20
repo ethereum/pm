@@ -50,12 +50,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
     if existing_entry:
         topic_id = existing_entry.get("discourse_topic_id")
 
+    issue_link = f"[GitHub Issue]({issue.html_url})"
+    updated_body = f"{issue_body}\n\n{issue_link}"
     # 3. Discourse handling
     if topic_id:
         discourse_response = discourse.update_topic(
             topic_id=topic_id,
             title=issue_title,
-            body=issue_body,
+            body=updated_body,
             category_id=63  
         )
         action = "updated"
@@ -67,7 +69,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Create new topic
         discourse_response = discourse.create_topic(
             title=issue_title,
-            body=issue_body,
+            body=updated_body,
             category_id=63  
         )
         topic_id = discourse_response.get("topic_id")
