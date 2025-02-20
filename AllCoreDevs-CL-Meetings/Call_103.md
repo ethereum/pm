@@ -19,7 +19,7 @@ Summary | Description
 ## Intro
 **Danny**
 * Okay, welcome to Consensus Layer Meeting 103. This is issue 731. In the PM repo. We'll go over Capella 4844, which maybe should be renamed Deneb on the agenda. 
-* Then general open discussion if anybody has any, any points from there on Capella, DevOps folks or otherwise. Do we have any test net updates to share? 
+* Then general open discussion if anybody has any, any points from there on Capella, DevOps folks or otherwise. Do we have any testnet updates to share? 
 
 **Barnabas Busa**
 Sure. I can start with saying that we have shut down seven this morning. we did this as, the last, big, updates. everything seemed quite alright. We managed to get 359,000, yes, changes through, so everything was good. my only concern was that we were not running the final client versions yet, 
@@ -38,10 +38,10 @@ Cool. So before the fork, those were kind of preloaded into the pools, and then,
 * The next step is to have it running with the edge cases  on withdrawal mainnet, shadow Fork two and main Shadow Fork two was launched yesterday, but we haven't set the Capella Fork yet. We're mainly waiting for more relays to come online so that we can test circuit breaker conditions as well as some failovers, etc. But we'd pro most likely be doing this over the next week. We're still waiting for some days to come online. 
 
 **Danny**
-Fantastic. Thank you. And, we'll get into me Boost update shortly. anything else on test net before we move into, some of the hive testing progress? Okay. and there, the Tim, on the Sepolia testnet, net fork announcement went out, right? 
+Fantastic. Thank you. And, we'll get into MEV-Boost update shortly. anything else on testnet before we move into, some of the hive testing progress? Okay. and there, the Tim, on the Sepolia testnet, net fork announcement went out, right? 
 
 **Tim**
-* Correct. And, two updates to the blog post that should be merged in the next few minutes. Our, geh has put out a new recommended release, so V1 point 11.2, the one in the blog post now is still fine, but they recommend switching to the new one if you can. 
+* Correct. And, two updates to the blog post that should be merged in the next few minutes. Our, Geth has put out a new recommended release, so V1 point 11.2, the one in the blog post now is still fine, but they recommend switching to the new one if you can. 
 * And, lighthouse, had not, put out a release when we published a blog post, but  it's been put out yesterday. So, V3.5 0.0 for Lighthouse, is the right version there. and yeah, the blog post should reflect that in the next hour or so. 
 
 **Danny**
@@ -85,7 +85,7 @@ Okay. we might consider that being like a recovery of a percentage of slots rath
 Of course. Thanks. 
 
 **Danny**
-Okay. Anything else on test nets or testing for Capella? There was a new release, primarily this deals with  for Dan Kun, but there was an additional test, for an Edge case found by Paul. I believe most of y'all have, integrated those tests in our passing. but just that's relevant here. Okay, great. Chris I believe has joined us from, flash bots to talk about mabu updates in relation to Capella. 
+Okay. Anything else on testnet or testing for Capella? There was a new release, primarily this deals with  for Dan Kun, but there was an additional test, for an Edge case found by Paul. I believe most of y'all have, integrated those tests in our passing. but just that's relevant here. Okay, great. Chris I believe has joined us from, flash bots to talk about mabu updates in relation to Capella. 
 
 ## mev-boost update and SSE subscriptions [23.30](https://youtu.be/io7ALEfxJsE?t=1410)
 **Danny**
