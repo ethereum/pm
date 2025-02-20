@@ -27,7 +27,7 @@ Summary | Description
 ## Capella [8.20](https://youtu.be/Xc6Ss-m_nlE?t=509)
 **Alex Stokes**
 * Great. Hey everyone. I'll be taking over for day today. This is consensus layer call 105. the agenda doesn't look too packed, which is good. let's see. There's one in the chats for people on the call. It's issue 747 on the PM repo. So let's see here. What have we got today? I think I'll go a little out of order here. and first let's talk about client releases. the first thing is that we have, consensus specs release, the latest one here is version one 1.3.0-rc5. 
-* And I think the thing this does is we set the actual Capella for epoch that, we've agreed to for main net and there was some stuff for and we'll get that in a bit. yeah, do any of the client teams wanna go around and just, speak to their readiness? I think some people have releases. Maybe everyone has releases out now. 
+* And I think the thing this does is we set the actual Capella for epoch that, we've agreed to for mainnet and there was some stuff for and we'll get that in a bit. yeah, do any of the client teams wanna go around and just, speak to their readiness? I think some people have releases. Maybe everyone has releases out now. 
 
 **Terence**
 * Prism will release early next week. That's the plan. 
@@ -55,7 +55,7 @@ Summary | Description
 * Is there anything else anyone wants to discuss about Capella at the moment? then we'll move on to 4844 up stuff. 
 
 **Pari**
-* Just one thing, we started syncing some mainnet nodes and once all the releases are done, we'd have a main net shadow fog and I guess that would be the last, attempt of the transition publicly before we hit it on main net. 
+* Just one thing, we started syncing some mainnet nodes and once all the releases are done, we'd have a mainnet shadow fog and I guess that would be the last, attempt of the transition publicly before we hit it on mainnet. 
 
 **Alex Stokes**
 * Okay, great. Thanks Perry. so one more mainnet shadow fork, with the final releases. That'll be nice just to, you know, give us one more go at things, not expecting any issues, but that'll be good to confirm. And yeah, any other Capella things while we're here? 
@@ -92,7 +92,7 @@ Summary | Description
 * Okay, do you wanna give us a little summary about this? So it looks like we want to at least it suggests adding proofs, to the Skip blobs engine api. 
 
 **Gajinder**
-* Right. So, we basically, bobs now decoupled, the network wrapper, for the blob transaction for EL has, will now also include blobs and there is a, PR for that, on EIP-6610. so now since the EL has the proofs, it can just, pass on the proofs to the CL using get blocks bundle. And, CL just needs to verify to batch verify whether that case is GS blobs and proofs, they all match. And basically then the block production can follow the normal part. 
+* Right. So, we basically, blobs now decoupled, the network wrapper, for the blob transaction for EL has, will now also include blobs and there is a, PR for that, on EIP-6610. so now since the EL has the proofs, it can just, pass on the proofs to the CL using get blocks bundle. And, CL just needs to verify to batch verify whether that case is GS blobs and proofs, they all match. And basically then the block production can follow the normal part. 
 
 **Alex Stokes**
 * Okay. So this is just saying because we now have the proofs, you know, available with the EL, we can just pass 'em along to the engine API to the CL and do the verification there, at a high level. That sounds reasonable. has anyone had else had a chance to look at this PR. I haven't been able to look at depth yet. 
