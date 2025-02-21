@@ -54,3 +54,45 @@ def update_message(message_id: int, text: str):
         if e.response.status_code == 400 and "message to edit not found" in e.response.text.lower():
             return False
         raise
+
+def send_private_message(username: str, text: str):
+    """
+    Sends a private message to a Telegram user using their username.
+    First gets the chat_id for the user, then sends the message.
+    Returns True if successful, False otherwise.
+    """
+    token = os.environ["TELEGRAM_BOT_TOKEN"]
+
+    # First, try to get user info
+    url = f"https://api.telegram.org/bot{token}/getChat"
+    data = {
+        "chat_id": f"@{username.lstrip('@')}"
+    }
+
+    try:
+        # Get chat info
+        resp = requests.post(url, data=data)
+        resp.raise_for_status()
+        chat_data = resp.json()
+        
+        if not chat_data.get("ok"):
+            print(f"Failed to get chat info for user @{username}: {chat_data.get('description')}")
+            return False
+
+        chat_id = chat_data["result"]["id"]
+
+        # Now send the message
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        data = {
+            "chat_id": chat_id,
+            "text": text,
+            "parse_mode": "MarkdownV2"  # Use MarkdownV2 for private messages
+        }
+
+        resp = requests.post(url, data=data)
+        resp.raise_for_status()
+        return True
+
+    except Exception as e:
+        print(f"Failed to send private message to @{username}: {str(e)}")
+        return False

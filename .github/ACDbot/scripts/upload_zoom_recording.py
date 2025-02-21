@@ -11,7 +11,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from modules import zoom, transcript, discourse
+from modules import zoom, transcript, discourse, tg
 from github import Github
 from google.auth.transport.requests import Request
 import json
@@ -154,13 +154,12 @@ def upload_recording(meeting_id):
 
         # Send Telegram notification similar to handle_issue
         try:
-            import modules.telegram as telegram
             telegram_message = (
                 f"YouTube Upload Successful!\n\n"
                 f"Title: {video_title}\n"
                 f"URL: {youtube_link}"
             )
-            telegram.send_message(telegram_message)
+            tg.send_message(telegram_message)
             print("Telegram notification sent for YouTube upload.")
         except Exception as e:
             print(f"Error sending Telegram message for YouTube upload: {e}")
