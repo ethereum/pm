@@ -143,6 +143,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Use zoom_id as the meeting_id (which is the mapping key)
         meeting_id = str(zoom_id)
 
+        # Get the meeting join URL - needed for notifications
+        if zoom_response:
+            join_url = zoom_response.get('join_url')
+        elif not join_url:  # If not a new meeting and no zoom_response, fetch the meeting details
+            meeting_details = zoom.get_meeting(zoom_id)
+            join_url = meeting_details.get('join_url')
+
         # Extract facilitator information
         facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
 
@@ -154,7 +161,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 email_body = f"""
                 <h2>{'Updated ' if existing_item else ''}Zoom Meeting Details</h2>
                 <p>For meeting: {issue_title}</p>
-                <p><strong>Join URL:</strong> {zoom_response.get('join_url') if zoom_response else join_url}</p>
+                <p><strong>Join URL:</strong> {join_url}</p>
                 <p><strong>Meeting ID:</strong> {zoom_id}</p>
                 <p><a href="{issue.html_url}">View GitHub Issue</a></p>
                 """
@@ -165,14 +172,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 comment_lines.append("- ⚠️ Failed to send email with Zoom details")
 
         # Send Telegram DM if handle is provided
-        if facilitator_telegram:
+        if facilitator_telegram and join_url:  # Only proceed if we have a join URL
             try:
                 # Remove @ if present in telegram handle
                 telegram_handle = facilitator_telegram.lstrip('@')
                 
                 # Escape special characters for MarkdownV2
                 safe_title = issue_title.replace('.', '\\.').replace('-', '\\-').replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace(']', '\\]').replace('(', '\\(').replace(')', '\\)').replace('~', '\\~').replace('`', '\\`').replace('>', '\\>').replace('#', '\\#').replace('+', '\\+').replace('-', '\\-').replace('=', '\\=').replace('|', '\\|').replace('{', '\\{').replace('}', '\\}').replace('!', '\\!')
-                safe_url = (zoom_response.get('join_url') if zoom_response else join_url).replace('.', '\\.').replace('-', '\\-').replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace(']', '\\]').replace('(', '\\(').replace(')', '\\)').replace('~', '\\~').replace('`', '\\`').replace('>', '\\>').replace('#', '\\#').replace('+', '\\+').replace('-', '\\-').replace('=', '\\=').replace('|', '\\|').replace('{', '\\{').replace('}', '\\}').replace('!', '\\!')
+                safe_url = join_url.replace('.', '\\.').replace('-', '\\-').replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace(']', '\\]').replace('(', '\\(').replace(')', '\\)').replace('~', '\\~').replace('`', '\\`').replace('>', '\\>').replace('#', '\\#').replace('+', '\\+').replace('-', '\\-').replace('=', '\\=').replace('|', '\\|').replace('{', '\\{').replace('}', '\\}').replace('!', '\\!')
                 safe_issue_url = issue.html_url.replace('.', '\\.').replace('-', '\\-').replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace(']', '\\]').replace('(', '\\(').replace(')', '\\)').replace('~', '\\~').replace('`', '\\`').replace('>', '\\>').replace('#', '\\#').replace('+', '\\+').replace('-', '\\-').replace('=', '\\=').replace('|', '\\|').replace('{', '\\{').replace('}', '\\}').replace('!', '\\!')
                 
                 # Format message for Telegram using MarkdownV2
@@ -219,11 +226,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
         # Calendar handling using meeting_id
         existing_event_id = mapping[meeting_id].get("calendar_event_id")
+        print(f"[DEBUG] Checking for existing calendar event ID: {existing_event_id}")
         
         if existing_event_id:
+            print(f"[DEBUG] Found existing calendar event ID in mapping: {existing_event_id}")
             try:
-                # Clean up the event ID by removing the calendar part
-                clean_event_id = existing_event_id.split(' ')[0]
+                # Clean up the event ID - remove everything after the first space or @ symbol
+                clean_event_id = existing_event_id.split(' ')[0].split('@')[0]
+                print(f"[DEBUG] Cleaned calendar event ID: {clean_event_id}")
+                
                 # Update existing event
                 event_link = gcal.update_event(
                     event_id=clean_event_id,
@@ -236,21 +247,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 print(f"Updated calendar event: {event_link}")
             except Exception as e:
                 print(f"[DEBUG] Failed to update calendar event: {str(e)}")
-                # If update fails, try to create a new event
-                event_link = gcal.create_event(
-                    summary=issue.title,
-                    start_dt=start_time,
-                    duration_minutes=duration,
-                    calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
-                    description=f"Issue: {issue.html_url}"
-                )
-                print(f"Created new calendar event after update failure: {event_link}")
-                # Store only the event ID part, not the full URL
-                new_event_id = event_link.split('eid=')[1].split(' ')[0]
-                mapping[meeting_id]["calendar_event_id"] = new_event_id
-                save_meeting_topic_mapping(mapping)
-                commit_mapping_file()
+                print(f"[DEBUG] Exception type: {type(e)}")
+                print(f"[DEBUG] Will attempt to create new event") 
         else:
+            print("[DEBUG] No existing calendar event ID found in mapping")
             # Create new event
             event_link = gcal.create_event(
                 summary=issue.title,
@@ -260,12 +260,16 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 description=f"Issue: {issue.html_url}"
             )
             print(f"Created calendar event: {event_link}")
-            # Store only the event ID part, not the full URL
-            new_event_id = event_link.split('eid=')[1].split(' ')[0]
+            # Store only the clean event ID
+            new_event_id = event_link.split('eid=')[1].split(' ')[0].split('@')[0]
             mapping[meeting_id]["calendar_event_id"] = new_event_id
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
             print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> calendar event ID {new_event_id}")
+
+        # Debug print the final mapping state for this meeting
+        print(f"[DEBUG] Final mapping state for meeting {meeting_id}:")
+        print(json.dumps(mapping[meeting_id], indent=2))
 
     except ValueError as e:
         print(f"[DEBUG] Meeting update failed: {str(e)}")
@@ -291,10 +295,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Check if we already have a telegram message ID for this meeting
         if meeting_id in mapping:
             if "telegram_message_id" in mapping[meeting_id]:
-                message_id = mapping[meeting_id]["telegram_message_id"]
-                if tg.update_message(message_id, telegram_message):
-                    print(f"Updated Telegram message {message_id}")
-                else:
+                message_id = int(mapping[meeting_id]["telegram_message_id"])  # Ensure message_id is an integer
+                try:
+                    if tg.update_message(message_id, telegram_message):
+                        print(f"Updated Telegram message {message_id}")
+                    else:
+                        raise Exception("Failed to update message")
+                except Exception as e:
+                    print(f"Failed to update Telegram message: {e}")
                     # If update fails, send new message
                     message_id = tg.send_message(telegram_message)
                     mapping[meeting_id]["telegram_message_id"] = message_id
