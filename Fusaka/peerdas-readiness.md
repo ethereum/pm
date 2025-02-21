@@ -54,6 +54,8 @@ This document outlines various tasks to work through to make PeerDAS ready for M
 
 * [ ] Tooling updates
   * [ ] `spamoor` needs updating to use the new tx format, potentially we need a way to make sure clients are indeed adhering this change
+* [ ] [EELS](https://github.com/ethereum/execution-specs) Implementation
+* [ ] [EEST](https://github.com/ethereum/execution-spec-tests) Tests
 * [ ] Hive
 * [ ] Run network limit devnets (https://notes.ethereum.org/@ethpandaops/network-limit-devnets)
 
