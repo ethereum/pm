@@ -86,7 +86,6 @@ def send_private_message(username: str, text: str):
         data = {
             "chat_id": chat_id,
             "text": text,
-            "parse_mode": "MarkdownV2"  # Use MarkdownV2 for private messages
         }
 
         resp = requests.post(url, data=data)

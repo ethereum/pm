@@ -157,6 +157,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Send email notification
         if facilitator_email:
             try:
+                # Get the join URL - either from new meeting or updated meeting response
+                join_url = zoom_response.get('join_url') if zoom_response else None
+                if not join_url and existing_zoom_meeting_id:
+                    # If no join URL yet, fetch meeting details
+                    meeting_details = zoom.get_meeting(existing_zoom_meeting_id)
+                    join_url = meeting_details.get('join_url')
+
                 email_subject = f"{'Updated ' if existing_item else ''}Zoom Details - {issue_title}"
                 email_body = f"""
                 <h2>{'Updated ' if existing_item else ''}Zoom Meeting Details</h2>
@@ -176,27 +183,22 @@ def handle_github_issue(issue_number: int, repo_name: str):
             try:
                 # Remove @ if present in telegram handle
                 telegram_handle = facilitator_telegram.lstrip('@')
-                
-                # Escape special characters for MarkdownV2
-                safe_title = issue_title.replace('.', '\\.').replace('-', '\\-').replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace(']', '\\]').replace('(', '\\(').replace(')', '\\)').replace('~', '\\~').replace('`', '\\`').replace('>', '\\>').replace('#', '\\#').replace('+', '\\+').replace('-', '\\-').replace('=', '\\=').replace('|', '\\|').replace('{', '\\{').replace('}', '\\}').replace('!', '\\!')
-                safe_url = join_url.replace('.', '\\.').replace('-', '\\-').replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace(']', '\\]').replace('(', '\\(').replace(')', '\\)').replace('~', '\\~').replace('`', '\\`').replace('>', '\\>').replace('#', '\\#').replace('+', '\\+').replace('-', '\\-').replace('=', '\\=').replace('|', '\\|').replace('{', '\\{').replace('}', '\\}').replace('!', '\\!')
-                safe_issue_url = issue.html_url.replace('.', '\\.').replace('-', '\\-').replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace(']', '\\]').replace('(', '\\(').replace(')', '\\)').replace('~', '\\~').replace('`', '\\`').replace('>', '\\>').replace('#', '\\#').replace('+', '\\+').replace('-', '\\-').replace('=', '\\=').replace('|', '\\|').replace('{', '\\{').replace('}', '\\}').replace('!', '\\!')  
-                # Format message for Telegram using MarkdownV2
                 telegram_message = f"""
-🎯 *Meeting Details*
+                🎯 *Meeting Details*
 
-*Title*: {safe_title}
+                    *Title*: {safe_title}
 
-*Join URL*: {safe_url}
-*Meeting ID*: {zoom_id}
+                    *Join URL*: {safe_url}
+                    *Meeting ID*: {zoom_id}
 
-*GitHub Issue*: {safe_issue_url}
-"""
+                    *GitHub Issue*: {safe_issue_url}
+                    """
                 # Send private message to facilitator
                 if tg.send_private_message(telegram_handle, telegram_message):
                     comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
                 else:
                     comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
+                    
             except Exception as e:
                 print(f"Failed to send Telegram message: {e}")
                 import traceback
@@ -247,24 +249,58 @@ def handle_github_issue(issue_number: int, repo_name: str):
         if existing_event_id:
             print(f"[DEBUG] Found existing calendar event ID in mapping: {existing_event_id}")
             try:
-                # Clean up the event ID - remove everything after the first space or @ symbol
-                clean_event_id = existing_event_id.split(' ')[0].split('@')[0]
+                # Get the clean event ID - take only the part before any @ or space
+                clean_event_id = existing_event_id.split(' ')[0].split('@')[0].split('eid=')[-1]
                 print(f"[DEBUG] Cleaned calendar event ID: {clean_event_id}")
                 
-                # Update existing event
-                event_link = gcal.update_event(
-                    event_id=clean_event_id,
-                    summary=issue.title,
-                    start_dt=start_time,
-                    duration_minutes=duration,
-                    calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
-                    description=f"Issue: {issue.html_url}"
-                )
-                print(f"Updated calendar event: {event_link}")
+                # First retrieve the event from the API
+                calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
+                event = gcal.service.events().get(
+                    calendarId=calendar_id, 
+                    eventId=clean_event_id
+                ).execute()
+                
+                # Update the event properties
+                event['summary'] = issue.title
+                event['description'] = f"Issue: {issue.html_url}"
+                
+                # Update start time
+                event['start'] = {'dateTime': start_time, 'timeZone': 'UTC'}
+                # Calculate end time from duration
+                from datetime import datetime, timedelta
+                start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                end_time = (start_dt + timedelta(minutes=duration)).isoformat() + 'Z'
+                event['end'] = {'dateTime': end_time, 'timeZone': 'UTC'}
+
+                # Update the event
+                updated_event = gcal.service.events().update(
+                    calendarId=calendar_id,
+                    eventId=clean_event_id,
+                    body=event
+                ).execute()
+                
+                print(f"Updated calendar event: {updated_event['htmlLink']}")
+                
             except Exception as e:
                 print(f"[DEBUG] Failed to update calendar event: {str(e)}")
                 print(f"[DEBUG] Exception type: {type(e)}")
-                print(f"[DEBUG] Will attempt to create new event") 
+                print(f"[DEBUG] Creating new event instead") 
+                
+                # Create new event if update fails
+                event_link = gcal.create_event(
+                    summary=issue.title,
+                    start_dt=start_time,
+                    duration_minutes=duration,
+                    calendar_id=calendar_id,
+                    description=f"Issue: {issue.html_url}"
+                )
+                print(f"Created new calendar event: {event_link}")
+                
+                # Extract and store the clean event ID
+                new_event_id = event_link.split('eid=')[1].split(' ')[0].split('@')[0]
+                mapping[meeting_id]["calendar_event_id"] = new_event_id
+                save_meeting_topic_mapping(mapping)
+                commit_mapping_file()
         else:
             print("[DEBUG] No existing calendar event ID found in mapping")
             # Create new event
@@ -276,12 +312,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 description=f"Issue: {issue.html_url}"
             )
             print(f"Created calendar event: {event_link}")
-            # Store only the clean event ID
+            
+            # Extract and store the clean event ID
             new_event_id = event_link.split('eid=')[1].split(' ')[0].split('@')[0]
             mapping[meeting_id]["calendar_event_id"] = new_event_id
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
-            print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> calendar event ID {new_event_id}")
+            print(f"Stored new calendar event ID: {new_event_id}")
 
         # Debug print the final mapping state for this meeting
         print(f"[DEBUG] Final mapping state for meeting {meeting_id}:")
