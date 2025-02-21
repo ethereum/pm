@@ -22,6 +22,22 @@ def save_meeting_topic_mapping(mapping):
     with open(MAPPING_FILE, "w") as f:
         json.dump(mapping, f, indent=2)
 
+def extract_facilitator_info(issue_body):
+    """
+    Extracts facilitator contact information from the issue body.
+    Returns a tuple of (email, telegram handle).
+    """
+    email_pattern = r"Facilitator email:\s*([^\n\s]+)"
+    telegram_pattern = r"Facilitator telegram:\s*([^\n\s]+)"
+    
+    email_match = re.search(email_pattern, issue_body)
+    telegram_match = re.search(telegram_pattern, issue_body)
+    
+    facilitator_email = email_match.group(1) if email_match else None
+    facilitator_telegram = telegram_match.group(1) if telegram_match else None
+    
+    return facilitator_email, facilitator_telegram
+
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Fetches the specified GitHub issue, extracts its title and body,
@@ -83,6 +99,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
         start_time, duration = parse_issue_for_time(issue_body)
         meeting_updated = False
         zoom_id = None  # Will hold the existing or new Zoom meeting ID
+        join_url = None  # Will hold the join URL for new meetings
+        zoom_response = None  # Will hold the zoom response for updated meetings
 
         # Find an existing mapping item by iterating over (meeting_id, entry) pairs.
         existing_item = next(
@@ -124,6 +142,54 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
         # Use zoom_id as the meeting_id (which is the mapping key)
         meeting_id = str(zoom_id)
+
+        # Extract facilitator information
+        facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
+
+        # Send notifications based on whether it's a new meeting or an update
+        if meeting_updated:
+            comment_lines.append("- Meeting details have been sent to the facilitator")
+            
+            # Send email notification
+            if facilitator_email:
+                try:
+                    email_subject = f"{'Updated ' if existing_item else ''}Zoom Details - {issue_title}"
+                    email_body = f"""
+                    <h2>{'Updated ' if existing_item else ''}Zoom Meeting Details</h2>
+                    <p>For meeting: {issue_title}</p>
+                    <p><strong>Join URL:</strong> {zoom_response.get('join_url') if zoom_response else join_url}</p>
+                    <p><strong>Meeting ID:</strong> {zoom_id}</p>
+                    <p><a href="{issue.html_url}">View GitHub Issue</a></p>
+                    """
+                    email_utils.send_email(facilitator_email, email_subject, email_body)
+                    comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
+                except Exception as e:
+                    print(f"Failed to send email: {e}")
+                    comment_lines.append("- ⚠️ Failed to send email with Zoom details")
+
+            # Send Telegram DM if handle is provided
+            if facilitator_telegram:
+                try:
+                    # Remove @ if present in telegram handle
+                    telegram_handle = facilitator_telegram.lstrip('@')
+                    
+                    # Format message for Telegram
+                    telegram_message = f"""
+                    🎯 *Zoom Meeting Details*
+                    *Meeting*: {issue_title}
+
+                    *Join URL*: {zoom_response.get('join_url') if zoom_response else join_url}
+                    *Meeting ID*: {zoom_id}
+
+                    *GitHub Issue*: {issue.html_url}
+                    """
+                    # Send private message to facilitator
+                    if telegram.send_private_message(telegram_handle, telegram_message):
+                        comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
+                    else:
+                        comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
+                except Exception as e:
+                    print(f"Failed to send Telegram message: {e}")
 
         # Update mapping if this entry is new or if the meeting was updated.
         # (In the mapping, we use the meeting ID as the key.)
@@ -175,90 +241,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
             print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> calendar event ID {mapping[meeting_id]['calendar_event_id']}")
-
-        # Add this function to extract facilitator contact info
-        def extract_facilitator_info(issue_body):
-            email_pattern = r"Facilitator email:\s*([^\n\s]+)"
-            telegram_pattern = r"Facilitator telegram:\s*([^\n\s]+)"
-            
-            email_match = re.search(email_pattern, issue_body)
-            telegram_match = re.search(telegram_pattern, issue_body)
-            
-            facilitator_email = email_match.group(1) if email_match else None
-            facilitator_telegram = telegram_match.group(1) if telegram_match else None
-            
-            return facilitator_email, facilitator_telegram
-
-        # In your main code, after Zoom meeting creation/update:
-        if existing_zoom_meeting_id:
-            if meeting_updated:
-                # Public comment lines (without sensitive info)
-                comment_lines.append("\n**Zoom Meeting Updated**")
-                comment_lines.append("- Meeting details have been sent to the facilitator")
-                
-                # Send private details via email
-                facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
-                if facilitator_email:
-                    try:
-                        email_subject = f"Updated Zoom Details - {issue_title}"
-                        email_body = f"""
-                        <h2>Updated Zoom Meeting Details</h2>
-                        <p>For meeting: {issue_title}</p>
-                        <p><strong>Join URL:</strong> {zoom_response.get('join_url')}</p>
-                        <p><strong>Meeting ID:</strong> {existing_zoom_meeting_id}</p>
-                        <p><a href="{issue.html_url}">View GitHub Issue</a></p>
-                        """
-                        email_utils.send_email(facilitator_email, email_subject, email_body)
-                        comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
-                    except Exception as e:
-                        print(f"Failed to send email: {e}")
-                        comment_lines.append("- ⚠️ Failed to send email with Zoom details")
-        else:
-            # Public comment lines (without sensitive info)
-            comment_lines.append("\n**Zoom Meeting Created**")
-            comment_lines.append("- Meeting details have been sent to the facilitator")
-            
-            # Send private details via email
-            facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
-            if facilitator_email:
-                try:
-                    email_subject = f"Zoom Details - {issue_title}"
-                    email_body = f"""
-                    <h2>Zoom Meeting Details</h2>
-                    <p>For meeting: {issue_title}</p>
-                    <p><strong>Join URL:</strong> {join_url}</p>
-                    <p><strong>Meeting ID:</strong> {zoom_id}</p>
-                    <p><a href="{issue.html_url}">View GitHub Issue</a></p>
-                    """
-                    email_utils.send_email(facilitator_email, email_subject, email_body)
-                    comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
-                except Exception as e:
-                    print(f"Failed to send email: {e}")
-                    comment_lines.append("- ⚠️ Failed to send email with Zoom details")
-
-            if facilitator_telegram:
-                try:
-                    # Remove @ if present in telegram handle
-                    telegram_handle = facilitator_telegram.lstrip('@')
-                    
-                    # Format message for Telegram
-                    telegram_message = f"""
-                        🎯 *Zoom Meeting Details*
-                        *Meeting*: {issue_title}
-
-                        *Join URL*: {join_url if not existing_zoom_meeting_id else zoom_response.get('join_url')}
-                        *Meeting ID*: {zoom_id if not existing_zoom_meeting_id else existing_zoom_meeting_id}
-
-                        *GitHub Issue*: {issue.html_url}
-                    """
-                    # Send private message to facilitator
-                    if telegram.send_private_message(telegram_handle, telegram_message):
-                        comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
-                    else:
-                        comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
-                    
-                except Exception as e:
-                    print(f"Failed to send Telegram message: {e}")
 
     except ValueError as e:
         print(f"[DEBUG] Meeting update failed: {str(e)}")
