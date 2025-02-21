@@ -1,7 +1,7 @@
 import os
 import sys
 import argparse
-from modules import discourse, zoom, gcal
+from modules import discourse, zoom, gcal, email_utils, telegram
 from github import Github
 import re
 from datetime import datetime
@@ -9,7 +9,6 @@ import json
 import requests
 from github import InputGitAuthor
 
-# Import your custom modules
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
@@ -109,8 +108,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     duration=duration
                 )
                 comment_lines.append("\n**Zoom Meeting Updated**")
-                comment_lines.append(f"- Meeting URL: {zoom_response.get('join_url')}")
-                comment_lines.append(f"- Meeting ID: {existing_zoom_meeting_id}")
                 print("[DEBUG] Zoom meeting updated.")
                 zoom_id = existing_zoom_meeting_id
                 meeting_updated = True
@@ -122,8 +119,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 duration=duration
             )
             comment_lines.append("\n**Zoom Meeting Created**")
-            comment_lines.append(f"- Meeting URL: {join_url}")
-            comment_lines.append(f"- Meeting ID: {zoom_id}")
             print("[DEBUG] Zoom meeting created.")
             meeting_updated = True
 
@@ -162,7 +157,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 start_dt=start_time,
                 duration_minutes=duration,
                 calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
-                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+                description=f"Issue: {issue.html_url}"
             )
             print(f"Updated calendar event: {event_link}")
         else:
@@ -172,7 +167,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 start_dt=start_time,
                 duration_minutes=duration,
                 calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
-                description=f"Issue: {issue.html_url}\nZoom: {join_url}"
+                description=f"Issue: {issue.html_url}"
             )
             print(f"Created calendar event: {event_link}")
             # Store new event ID in mapping
@@ -180,6 +175,90 @@ def handle_github_issue(issue_number: int, repo_name: str):
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
             print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> calendar event ID {mapping[meeting_id]['calendar_event_id']}")
+
+        # Add this function to extract facilitator contact info
+        def extract_facilitator_info(issue_body):
+            email_pattern = r"Facilitator email:\s*([^\n\s]+)"
+            telegram_pattern = r"Facilitator telegram:\s*([^\n\s]+)"
+            
+            email_match = re.search(email_pattern, issue_body)
+            telegram_match = re.search(telegram_pattern, issue_body)
+            
+            facilitator_email = email_match.group(1) if email_match else None
+            facilitator_telegram = telegram_match.group(1) if telegram_match else None
+            
+            return facilitator_email, facilitator_telegram
+
+        # In your main code, after Zoom meeting creation/update:
+        if existing_zoom_meeting_id:
+            if meeting_updated:
+                # Public comment lines (without sensitive info)
+                comment_lines.append("\n**Zoom Meeting Updated**")
+                comment_lines.append("- Meeting details have been sent to the facilitator")
+                
+                # Send private details via email
+                facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
+                if facilitator_email:
+                    try:
+                        email_subject = f"Updated Zoom Details - {issue_title}"
+                        email_body = f"""
+                        <h2>Updated Zoom Meeting Details</h2>
+                        <p>For meeting: {issue_title}</p>
+                        <p><strong>Join URL:</strong> {zoom_response.get('join_url')}</p>
+                        <p><strong>Meeting ID:</strong> {existing_zoom_meeting_id}</p>
+                        <p><a href="{issue.html_url}">View GitHub Issue</a></p>
+                        """
+                        email_utils.send_email(facilitator_email, email_subject, email_body)
+                        comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
+                    except Exception as e:
+                        print(f"Failed to send email: {e}")
+                        comment_lines.append("- ⚠️ Failed to send email with Zoom details")
+        else:
+            # Public comment lines (without sensitive info)
+            comment_lines.append("\n**Zoom Meeting Created**")
+            comment_lines.append("- Meeting details have been sent to the facilitator")
+            
+            # Send private details via email
+            facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
+            if facilitator_email:
+                try:
+                    email_subject = f"Zoom Details - {issue_title}"
+                    email_body = f"""
+                    <h2>Zoom Meeting Details</h2>
+                    <p>For meeting: {issue_title}</p>
+                    <p><strong>Join URL:</strong> {join_url}</p>
+                    <p><strong>Meeting ID:</strong> {zoom_id}</p>
+                    <p><a href="{issue.html_url}">View GitHub Issue</a></p>
+                    """
+                    email_utils.send_email(facilitator_email, email_subject, email_body)
+                    comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
+                except Exception as e:
+                    print(f"Failed to send email: {e}")
+                    comment_lines.append("- ⚠️ Failed to send email with Zoom details")
+
+            if facilitator_telegram:
+                try:
+                    # Remove @ if present in telegram handle
+                    telegram_handle = facilitator_telegram.lstrip('@')
+                    
+                    # Format message for Telegram
+                    telegram_message = f"""
+                        🎯 *Zoom Meeting Details*
+                        *Meeting*: {issue_title}
+
+                        *Join URL*: {join_url if not existing_zoom_meeting_id else zoom_response.get('join_url')}
+                        *Meeting ID*: {zoom_id if not existing_zoom_meeting_id else existing_zoom_meeting_id}
+
+                        *GitHub Issue*: {issue.html_url}
+                    """
+                    # Send private message to facilitator
+                    if telegram.send_private_message(telegram_handle, telegram_message):
+                        comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
+                    else:
+                        comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
+                    
+                except Exception as e:
+                    print(f"Failed to send Telegram message: {e}")
 
     except ValueError as e:
         print(f"[DEBUG] Meeting update failed: {str(e)}")
@@ -194,10 +273,32 @@ def handle_github_issue(issue_number: int, repo_name: str):
     try:
         import modules.telegram as telegram
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        telegram_message = f"New Discourse Topic: {issue_title}\n\n{issue_body}\n{discourse_url}"
-        telegram.send_message(telegram_message)
+        # Format message with HTML tags for better formatting
+        telegram_message = (
+            f"<b>Discourse Topic</b>: {issue_title}\n\n"
+            f"{issue_body}\n\n"
+            f"<b>Links</b>:\n"
+            f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
+            f"• <a href='{issue.html_url}'>GitHub Issue</a>"
+        )
+        
+        # Check if we already have a telegram message ID for this meeting
+        if meeting_id in mapping and "telegram_message_id" in mapping[meeting_id]:
+            message_id = mapping[meeting_id]["telegram_message_id"]
+            if telegram.update_message(message_id, telegram_message):
+                print(f"Updated Telegram message {message_id}")
+        else:
+            # No existing message, send new one
+            message_id = telegram.send_message(telegram_message)
+            if meeting_id in mapping:
+                mapping[meeting_id]["telegram_message_id"] = message_id
+                save_meeting_topic_mapping(mapping)
+                print(f"Created new Telegram message {message_id}")
+                
     except Exception as e:
         print(f"Telegram notification failed: {e}")
+        import traceback
+        print(traceback.format_exc())
 
     # Remove any null mappings or failed entries
     mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}

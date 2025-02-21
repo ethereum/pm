@@ -8,19 +8,10 @@ jobs:
   handle_new_issue:
     runs-on: ubuntu-latest
     if: >
-      github.event.issue.user.login == 'poojaranjan' ||
-      github.event.issue.user.login == 'adietrichs' ||
-      github.event.issue.user.login == 'CarlBeek' ||
-      github.event.issue.user.login == 'timbeiko' ||
-      github.event.issue.user.login == 'nconsigny' ||
-      github.event.issue.user.login == 'nconsigny' ||
-      github.event.issue.user.login == 'hwwhww' ||
-      github.event.issue.user.login == 'mathhhewkeil' ||
-      github.event.issue.user.login == 'jrudolf' ||
-      github.event.issue.user.login == 'soispoke' ||
-      github.event.issue.user.login == 'pipermerriam' ||
-      github.event.issue.user.login == 'potuz' ||
-      github.event.issue.user.login == 'ralexstokes'
+      contains(
+        '["poojaranjan", "adietrichs", "CarlBeek", "timbeiko", "nconsigny", "JustinDrake","vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", "soispoke", "pipermerriam", "potuz", "ralexstokes"]',
+        github.actor
+      )
     steps:
       - name: Check out code
         uses: actions/checkout@v3
