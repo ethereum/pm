@@ -205,18 +205,35 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Update mapping if this entry is new or if the meeting was updated.
         # (In the mapping, we use the meeting ID as the key.)
         if meeting_updated or (existing_item is None):
-            mapping[meeting_id] = {
-                "discourse_topic_id": topic_id,
-                "issue_title": issue.title,
-                "start_time": start_time,
-                "duration": duration,
-                "issue_number": issue.number,
-                "meeting_id": meeting_id,  # Store meeting_id in case we later want it in the value.
-                "Youtube_upload_processed": False,
-                "transcript_processed": False,
-                "upload_attempt_count": 0,
-                "transcript_attempt_count": 0
-            }
+            # When updating the mapping, preserve existing values
+            if existing_entry:
+                # Create new mapping with existing values
+                updated_mapping = existing_entry.copy()
+                # Update only the fields that changed
+                updated_mapping.update({
+                    "discourse_topic_id": topic_id,
+                    "issue_title": issue.title,
+                    "start_time": start_time,
+                    "duration": duration,
+                    "issue_number": issue.number,
+                    "meeting_id": meeting_id
+                })
+                # Preserve all other fields from existing entry
+                mapping[meeting_id] = updated_mapping
+            else:
+                # Create new mapping entry with initial values
+                mapping[meeting_id] = {
+                    "discourse_topic_id": topic_id,
+                    "issue_title": issue.title,
+                    "start_time": start_time,
+                    "duration": duration,
+                    "issue_number": issue.number,
+                    "meeting_id": meeting_id,
+                    "Youtube_upload_processed": False,
+                    "transcript_processed": False,
+                    "upload_attempt_count": 0,
+                    "transcript_attempt_count": 0
+                }
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
             print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
