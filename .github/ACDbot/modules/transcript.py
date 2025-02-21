@@ -1,6 +1,6 @@
 import os
 import json
-from modules import zoom, discourse
+from modules import zoom, discourse, tg
 import requests
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
@@ -103,8 +103,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str):
 
     # Now, send the same content to Telegram
     try:
-        import modules.telegram as telegram  # Ensure telegram module is available
-        telegram.send_message(post_content)
+        tg.send_message(post_content)
         print("Message sent to Telegram successfully.")
     except Exception as e:
         print(f"Error sending message to Telegram: {e}")

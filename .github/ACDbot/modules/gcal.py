@@ -13,6 +13,7 @@ def create_event(summary: str, start_dt, duration_minutes: int, calendar_id: str
     Creates a Google Calendar event using the Google Calendar API.
     Handles both datetime objects and ISO format strings for start_dt.
     """
+    print(f"[DEBUG] Creating calendar event: {summary}")
 
     # Convert start_dt to datetime object if it's a string
     if isinstance(start_dt, str):
@@ -43,11 +44,13 @@ def create_event(summary: str, start_dt, duration_minutes: int, calendar_id: str
     service = build('calendar', 'v3', credentials=credentials)
 
     event = service.events().insert(calendarId=calendar_id, body=event_body).execute()
+    print(f"[DEBUG] Created calendar event with ID: {event.get('id')}")
 
     return event.get('htmlLink')
 
 def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, calendar_id: str, description=""):
     """Update an existing Google Calendar event"""
+    print(f"[DEBUG] Updating calendar event {event_id} with summary: {summary}")
     
     # Same datetime handling as create_event
     if isinstance(start_dt, str):
@@ -73,10 +76,22 @@ def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, c
 
     service = build('calendar', 'v3', credentials=credentials)
     
+    try:
+        # First try to get the event to verify it exists
+        existing_event = service.events().get(
+            calendarId=calendar_id,
+            eventId=event_id
+        ).execute()
+        print(f"[DEBUG] Found existing event with ID: {existing_event.get('id')}")
+    except Exception as e:
+        print(f"[DEBUG] Failed to find existing event: {str(e)}")
+        raise  # Re-raise the exception to be handled by the caller
+
     event = service.events().update(
         calendarId=calendar_id,
         eventId=event_id,
         body=event_body
     ).execute()
+    print(f"[DEBUG] Successfully updated event with ID: {event.get('id')}")
 
     return event.get('htmlLink')
