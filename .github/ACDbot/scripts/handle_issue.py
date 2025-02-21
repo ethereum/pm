@@ -146,50 +146,47 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Extract facilitator information
         facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
 
-        # Send notifications based on whether it's a new meeting or an update
-        if meeting_updated:
-            comment_lines.append("- Meeting details have been sent to the facilitator")
-            
-            # Send email notification
-            if facilitator_email:
-                try:
-                    email_subject = f"{'Updated ' if existing_item else ''}Zoom Details - {issue_title}"
-                    email_body = f"""
-                    <h2>{'Updated ' if existing_item else ''}Zoom Meeting Details</h2>
-                    <p>For meeting: {issue_title}</p>
-                    <p><strong>Join URL:</strong> {zoom_response.get('join_url') if zoom_response else join_url}</p>
-                    <p><strong>Meeting ID:</strong> {zoom_id}</p>
-                    <p><a href="{issue.html_url}">View GitHub Issue</a></p>
-                    """
-                    email_utils.send_email(facilitator_email, email_subject, email_body)
-                    comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
-                except Exception as e:
-                    print(f"Failed to send email: {e}")
-                    comment_lines.append("- ⚠️ Failed to send email with Zoom details")
+        # Send notifications regardless of whether the meeting was updated
+        # Send email notification
+        if facilitator_email:
+            try:
+                email_subject = f"{'Updated ' if existing_item else ''}Zoom Details - {issue_title}"
+                email_body = f"""
+                <h2>{'Updated ' if existing_item else ''}Zoom Meeting Details</h2>
+                <p>For meeting: {issue_title}</p>
+                <p><strong>Join URL:</strong> {zoom_response.get('join_url') if zoom_response else join_url}</p>
+                <p><strong>Meeting ID:</strong> {zoom_id}</p>
+                <p><a href="{issue.html_url}">View GitHub Issue</a></p>
+                """
+                email_utils.send_email(facilitator_email, email_subject, email_body)
+                comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
+            except Exception as e:
+                print(f"Failed to send email: {e}")
+                comment_lines.append("- ⚠️ Failed to send email with Zoom details")
 
-            # Send Telegram DM if handle is provided
-            if facilitator_telegram:
-                try:
-                    # Remove @ if present in telegram handle
-                    telegram_handle = facilitator_telegram.lstrip('@')
-                    
-                    # Format message for Telegram
-                    telegram_message = f"""
-                    🎯 *Zoom Meeting Details*
-                    *Meeting*: {issue_title}
+        # Send Telegram DM if handle is provided
+        if facilitator_telegram:
+            try:
+                # Remove @ if present in telegram handle
+                telegram_handle = facilitator_telegram.lstrip('@')
+                
+                # Format message for Telegram
+                telegram_message = f"""
+                🎯 *Zoom Meeting Details*
+                *Meeting*: {issue_title}
 
-                    *Join URL*: {zoom_response.get('join_url') if zoom_response else join_url}
-                    *Meeting ID*: {zoom_id}
+                *Join URL*: {zoom_response.get('join_url') if zoom_response else join_url}
+                *Meeting ID*: {zoom_id}
 
-                    *GitHub Issue*: {issue.html_url}
-                    """
-                    # Send private message to facilitator
-                    if telegram.send_private_message(telegram_handle, telegram_message):
-                        comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
-                    else:
-                        comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
-                except Exception as e:
-                    print(f"Failed to send Telegram message: {e}")
+                *GitHub Issue*: {issue.html_url}
+                """
+                # Send private message to facilitator
+                if telegram.send_private_message(telegram_handle, telegram_message):
+                    comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
+                else:
+                    comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
+            except Exception as e:
+                print(f"Failed to send Telegram message: {e}")
 
         # Update mapping if this entry is new or if the meeting was updated.
         # (In the mapping, we use the meeting ID as the key.)
@@ -216,16 +213,31 @@ def handle_github_issue(issue_number: int, repo_name: str):
         existing_event_id = mapping[meeting_id].get("calendar_event_id")
         
         if existing_event_id:
-            # Update existing event
-            event_link = gcal.update_event(
-                event_id=existing_event_id,
-                summary=issue.title,
-                start_dt=start_time,
-                duration_minutes=duration,
-                calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
-                description=f"Issue: {issue.html_url}"
-            )
-            print(f"Updated calendar event: {event_link}")
+            try:
+                # Update existing event
+                event_link = gcal.update_event(
+                    event_id=existing_event_id,
+                    summary=issue.title,
+                    start_dt=start_time,
+                    duration_minutes=duration,
+                    calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
+                    description=f"Issue: {issue.html_url}"
+                )
+                print(f"Updated calendar event: {event_link}")
+            except Exception as e:
+                print(f"[DEBUG] Failed to update calendar event: {str(e)}")
+                # If update fails, try to create a new event
+                event_link = gcal.create_event(
+                    summary=issue.title,
+                    start_dt=start_time,
+                    duration_minutes=duration,
+                    calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
+                    description=f"Issue: {issue.html_url}"
+                )
+                print(f"Created new calendar event after update failure: {event_link}")
+                mapping[meeting_id]["calendar_event_id"] = event_link.split('eid=')[-1]
+                save_meeting_topic_mapping(mapping)
+                commit_mapping_file()
         else:
             # Create new event
             event_link = gcal.create_event(
@@ -251,7 +263,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     if comment_lines:
         issue.create_comment("\n".join(comment_lines))
 
-    # Add Telegram notification here
+    # Add Telegram channel notification here
     try:
         import modules.telegram as telegram
         discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
@@ -265,14 +277,20 @@ def handle_github_issue(issue_number: int, repo_name: str):
         )
         
         # Check if we already have a telegram message ID for this meeting
-        if meeting_id in mapping and "telegram_message_id" in mapping[meeting_id]:
-            message_id = mapping[meeting_id]["telegram_message_id"]
-            if telegram.update_message(message_id, telegram_message):
-                print(f"Updated Telegram message {message_id}")
-        else:
-            # No existing message, send new one
-            message_id = telegram.send_message(telegram_message)
-            if meeting_id in mapping:
+        if meeting_id in mapping:
+            if "telegram_message_id" in mapping[meeting_id]:
+                message_id = mapping[meeting_id]["telegram_message_id"]
+                if telegram.update_message(message_id, telegram_message):
+                    print(f"Updated Telegram message {message_id}")
+                else:
+                    # If update fails, send new message
+                    message_id = telegram.send_message(telegram_message)
+                    mapping[meeting_id]["telegram_message_id"] = message_id
+                    save_meeting_topic_mapping(mapping)
+                    print(f"Created new Telegram message {message_id} (update failed)")
+            else:
+                # No message ID stored yet
+                message_id = telegram.send_message(telegram_message)
                 mapping[meeting_id]["telegram_message_id"] = message_id
                 save_meeting_topic_mapping(mapping)
                 print(f"Created new Telegram message {message_id}")
