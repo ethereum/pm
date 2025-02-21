@@ -1,6 +1,6 @@
 import os
 import requests
-from telegram import ParseMode
+from telegram.constants import ParseMode
 
 ZOOM_CLIENT_ID = os.environ.get("ZOOM_CLIENT_ID")
 ZOOM_CLIENT_SECRET = os.environ.get("ZOOM_CLIENT_SECRET")
