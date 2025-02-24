@@ -1,18 +1,12 @@
-# Champion an EIP
+# Championing an EIP
 
 ## Preamble
 
-When championing an [EIP](https://eips.ethereum.org/), you should expect to spend at least as much time building social consensus as writing or testing code. Network upgrades require broad agreement from stakeholders who care about and support the change before it can be deployed. Taking an EIP from rough draft to mainnet can be a multi-year process.
+This document is focused on the process for [Core EIPs](https://eips.ethereum.org/core), i.e., those that require a hard fork to be included in a network upgrade. Out-of-scope for this document are [ERC](https://eips.ethereum.org/erc)s and other non-Core EIPs (Networking, Interface, Meta, Informational) that do not require a hard fork.
 
-<details>
-<summary>What does not warrant an EIP?</summary>
+When championing a Core EIP, the amount of social consensus-building required is often proportional to the scale and impact of the change. Minor technical fixes with clear benefits may need little coordination, while proposals affecting core economic mechanisms — like staking rewards — may require extensive debate and advocacy. Taking an EIP from rough draft to mainnet requires broad stakeholder agreement and can be a multi-year process.
 
-- [ERCs](https://eips.ethereum.org/erc) (Ethereum Request for Comment) are not EIPs. They are application-layer or interop standards that may be adopted by the Ethereum community, but are not part of the Ethereum protocol and do not require a network upgrade.
-- TODO: other out-of-scope definitions
-
-</details>
-
-## Socialize your idea
+## Socialize Your Idea
 
 First, look for prior art. Are there related past EIPs? Does it make sense to extend or revive them?
 
@@ -33,15 +27,20 @@ Once you’re satisfied with the momentum your idea has generated, formally spec
 <details>   
 <summary>Reference examples</summary>
 
-TODO: ~3 well-written EIPs to reference
+Here are some strong reference examples, each with a note on what makes them well-written. Keep in mind that the EIP template has evolved over time, so while these were exemplary when published, some may not align with today's format.
+
+- [EIP-1153](https://eips.ethereum.org/EIPS/eip-1153) - a once-stagnant EIP that was revived and shipped to mainnet
+- [EIP-1884](https://eips.ethereum.org/EIPS/eip-1884) - great rationale
+- [EIP-3855](https://eips.ethereum.org/EIPS/eip-3855) - simple feature
+- [EIP-4399](https://eips.ethereum.org/EIPS/eip-4399) - great rationale
+- [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) - huge feature, cross-layer EIP
+- [EIP-6780](https://eips.ethereum.org/EIPS/eip-6780) - only deprecated feature in Ethereum's history, well spec'ed
 
 </details>
 
-## Implement the change in the spec and generate client tests
+## Implement Spec Changes & Generate Tests
 
-> **Note:** maintainers are available to help during this phase.
-
-Once the EIP is published, you can make it much easier for the community to evaluate your idea by writing a reference implementation and generating client tests.
+Once the EIP is published, you can make it much easier for the community to evaluate your idea by writing a reference implementation and generating client tests. Cross-layer EIPs will require both EL and CL implementations.
 
 <details>
 <summary>If your EIP impacts the Execution Layer (EL):</summary>
@@ -52,6 +51,7 @@ Once the EIP is published, you can make it much easier for the community to eval
 - Generate client tests via the [execution-specs-tests](https://github.com/ethereum/execution-specs-tests) (EEST)
   - This step is frequently performed or augmented by EEST maintainers, but EIP authors are encouraged to make an attempt.
   - Reference the [EEST docs](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
+- Reach out for help in the [ETH R&D Discord](https://discord.gg/EVTQ9crVgQ), `#el-testing` channel.
 
 </details>
 
@@ -59,15 +59,15 @@ Once the EIP is published, you can make it much easier for the community to eval
 <summary>If your EIP impacts the Consensus Layer (CL):</summary>
 
 - Implement the feature in the [consensus-specs](https://github.com/ethereum/consensus-specs) repo. Once a PR is created, repo maintainers will provide feedback and guide next steps.
-- Reference the feature addition [docs](https://github.com/ethereum/consensus-specs/blob/dev/docs/docs/new-feature.md).
 - Update [generators](https://github.com/ethereum/consensus-specs/tree/dev/tests/generators) and generate client tests.  
+- Reference the feature addition [docs](https://github.com/ethereum/consensus-specs/blob/dev/docs/docs/new-feature.md)
+- Reach out for help in the [ETH R&D Discord](https://discord.gg/EVTQ9crVgQ), `#cl-testing` channel.
+
 </details>
 
-## Local interop
+## Local Interop
 
-> **Note:** maintainers are available to help during this phase.
-
-Once at least one client team has implemented the change, network testing can begin. Depending on the nature of your change, several [ethPandaOps](https://ethpandaops.io/projects/) tools may be appropriate to leverage here. You will be guided by the testing teams and/or the ethPandaOps team on how to proceed.
+Once your EIP has been implemented in at least one client, network testing can begin. Depending on the nature of your change, several [ethPandaOps](https://ethpandaops.io/projects/) tools may be appropriate to leverage here. You will be guided by the testing teams and/or the ethPandaOps team on how to proceed.
 
 Your EIP may require testing with various tools, including but not limited to the following:
 
@@ -77,15 +77,15 @@ Your EIP may require testing with various tools, including but not limited to th
 
 ---
 
-# EIP maturity stages
+# EIP Status & Inclusion Stage
 
-As defined in [EIP-1](https://eips.ethereum.org/EIPS/eip-1), each EIP has a lifecycle that includes the following stages: `Draft`, `Review`, `Last Call`, `Final`, `Stagnant`, `Withdrawn`, and `Living`.
+As defined in [EIP-1](https://eips.ethereum.org/EIPS/eip-1), each EIP has a status that reflects the state of its specification: `Draft`, `Review`, `Last Call`, `Final`, `Stagnant`, `Withdrawn`, and `Living`.
 
-Separate from the EIP lifecycle stages, [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723) introduced a new status for each EIP: Network Upgrade Inclusion Stages. At any point, an EIP can be in one of the following stages: `Proposed for Inclusion`, `Considered for Inclusion`, `Declined for Inclusion`, `Scheduled for Inclusion`, or `Included` in a specific network upgrade.
+Separate from the EIP specification status, [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723) introduced network upgrade inclusion stages for each EIP. At any point, an EIP can be in one of the following stages: `Proposed for Inclusion`, `Considered for Inclusion`, `Declined for Inclusion`, `Scheduled for Inclusion`, or `Included` within a specific network upgrade. If not included in one network upgrade, an EIP can be proposed for inclusion again in subsequent upgrades.
 
 ## Proposed for Inclusion (PFI)
 
-Anyone can open a PR against the fork [Meta EIP](https://eips.ethereum.org/EIPS/eip-7600) to propose an EIP for inclusion in the next network upgrade. Client teams will review each.
+Anyone can open a PR against the fork [Meta EIP](https://eips.ethereum.org/EIPS/eip-7600) to propose an EIP for inclusion in the next network upgrade. Client teams will review each EIP.
 
 ## Considered for Inclusion (CFI)
 
@@ -95,12 +95,12 @@ If client teams support including the EIP in a network upgrade, it will be moved
 
 ## Declined for Inclusion (DFI)
 
-A proposed or considered EIP may be designated `Declined for Inclusion` if client or testing teams find good reason. This does not prohibit the EIP from being considered for inclusion in a future network upgrade.
+A proposed or considered EIP may be designated `Declined for Inclusion` if it is out of scope for the upgrade or if the EIP is not ready for inclusion. This does not prohibit the EIP from being proposed for inclusion again in a future network upgrade.
 
 ## Scheduled for Inclusion (SFI)
 
-When client and testing teams agree that the EIP is thoroughly tested and is a priority for the upcoming release, it earns the `Scheduled for Inclusion` designation.
+When client and testing teams agree that the EIP is thoroughly tested and is a priority for the upcoming release, it earns the `Scheduled for Inclusion` designation. By convention, proposals need to be at least in `Review` to be scheduled for inclusion.
 
 ## Included
 
-After the network upgrade goes live, the EIP is designated `Included`.
+After the network upgrade goes live on Ethereum mainnet, all EIPs included in it have their inclusion stage set to `Included` and their status moved to `Final`.
