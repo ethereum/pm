@@ -11,6 +11,8 @@ assignees: ''
 
 - Date and time in UTC in format `month, day, year, time` with link to savvytime.com or timeanddate.com. E.g. [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)
 - Duration in minutes : XXX
+- Recurring meeting : false (true will trigger reccuring meeting with youtube streams)
+- Occurrence rate : none # Options: none, weekly, bi-weekly, monthly
 - Other optional resources 
 
 # Agenda 

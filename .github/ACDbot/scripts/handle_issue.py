@@ -59,6 +59,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
 
+    # Extract recurring meeting info
+    is_recurring, occurrence_rate = extract_recurring_info(issue_body)
+
     # 3. Check for existing topic_id using the mapping instead of comments
     topic_id = None
     existing_entry = next((entry for entry in mapping.values() if entry.get("issue_number") == issue_number), None)
@@ -98,27 +101,28 @@ def handle_github_issue(issue_number: int, repo_name: str):
     try:
         start_time, duration = parse_issue_for_time(issue_body)
         meeting_updated = False
-        zoom_id = None  # Will hold the existing or new Zoom meeting ID
-        join_url = None  # Will hold the join URL for new meetings
-        zoom_response = None  # Will hold the zoom response for updated meetings
+        zoom_id = None
+        join_url = None
+        zoom_response = None
 
-        # Find an existing mapping item by iterating over (meeting_id, entry) pairs.
+        # Find existing meeting
         existing_item = next(
             ((meeting_id, entry) for meeting_id, entry in mapping.items() if entry.get("issue_number") == issue.number),
             None
         )
-        
+
         if existing_item:
             existing_zoom_meeting_id, existing_entry = existing_item
             stored_start = existing_entry.get("start_time")
             stored_duration = existing_entry.get("duration")
             
-            # Check if both start_time and duration are present and have not changed.
+            # Check if both start_time and duration are present and have not changed
             if stored_start and stored_duration and (start_time == stored_start) and (duration == stored_duration):
                 print("[DEBUG] No changes detected in meeting start time or duration. Skipping update.")
                 zoom_id = existing_zoom_meeting_id
+                join_url = existing_entry.get("zoom_link")
             else:
-                # Either legacy entry with missing stored values or changes detected => update Zoom meeting.
+                # Update the specific meeting instance
                 zoom_response = zoom.update_meeting(
                     meeting_id=existing_zoom_meeting_id,
                     topic=f"{issue_title}",
@@ -130,25 +134,119 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 zoom_id = existing_zoom_meeting_id
                 meeting_updated = True
         else:
-            # No existing meeting found for this issue; create a new Zoom meeting.
-            join_url, zoom_id = zoom.create_meeting(
-                topic=f"{issue_title}",
-                start_time=start_time,
-                duration=duration
-            )
-            comment_lines.append("\n**Zoom Meeting Created**")
+            # Create new meeting based on recurring status
+            if is_recurring and occurrence_rate != "none":
+                join_url, zoom_id = zoom.create_recurring_meeting(
+                    topic=f"{issue_title}",
+                    start_time=start_time,
+                    duration=duration,
+                    occurrence_rate=occurrence_rate
+                )
+                comment_lines.append("\n**Recurring Zoom Meeting Created**")
+            else:
+                join_url, zoom_id = zoom.create_meeting(
+                    topic=f"{issue_title}",
+                    start_time=start_time,
+                    duration=duration
+                )
+                comment_lines.append("\n**Zoom Meeting Created**")
+            
             print("[DEBUG] Zoom meeting created.")
             meeting_updated = True
 
-        # Use zoom_id as the meeting_id (which is the mapping key)
-        meeting_id = str(zoom_id)
-
-        # Get the meeting join URL - needed for notifications
+        # Get meeting URL if needed
         if zoom_response:
             join_url = zoom_response.get('join_url')
-        elif not join_url:  # If not a new meeting and no zoom_response, fetch the meeting details
+        elif not join_url:
             meeting_details = zoom.get_meeting(zoom_id)
             join_url = meeting_details.get('join_url')
+
+        # Create YouTube streams for recurring meetings
+        if is_recurring and occurrence_rate != "none":
+            streams = youtube_utils.create_recurring_streams(
+                title=issue_title,
+                description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
+                start_time=start_time,
+                occurrence_rate=occurrence_rate
+            )
+            
+            # Add stream URLs to comment and Discourse
+            comment_lines.append("\n**YouTube Stream Links:**")
+            stream_links = []
+            for i, stream in enumerate(streams, 1):
+                comment_lines.append(f"- Stream #{i}: {stream['stream_url']}")
+                stream_links.append(f"- Stream #{i}: {stream['stream_url']}")
+            
+            # Update Discourse post with stream links
+            discourse_content = f"{updated_body}\n\n**YouTube Stream Links:**\n" + "\n".join(stream_links)
+            discourse.update_topic(
+                topic_id=topic_id,
+                body=discourse_content
+            )
+
+        # Calendar handling
+        calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
+        calendar_description = f"Issue: {issue.html_url}"
+        
+        if existing_item:
+            # Update the specific calendar event instance
+            event_id = existing_entry.get("calendar_event_id")
+            if event_id:
+                try:
+                    event_link = gcal.update_event(
+                        event_id=event_id,
+                        summary=issue_title,
+                        start_dt=start_time,
+                        duration_minutes=duration,
+                        calendar_id=calendar_id,
+                        description=calendar_description
+                    )
+                    print(f"Updated calendar event: {event_link}")
+                except Exception as e:
+                    print(f"Failed to update calendar event: {e}")
+                    # Create new event if update fails
+                    event_link = create_calendar_event(
+                        is_recurring=is_recurring,
+                        occurrence_rate=occurrence_rate,
+                        summary=issue_title,
+                        start_dt=start_time,
+                        duration_minutes=duration,
+                        calendar_id=calendar_id,
+                        description=calendar_description
+                    )
+        else:
+            # Create new calendar event
+            event_link = create_calendar_event(
+                is_recurring=is_recurring,
+                occurrence_rate=occurrence_rate,
+                summary=issue_title,
+                start_dt=start_time,
+                duration_minutes=duration,
+                calendar_id=calendar_id,
+                description=calendar_description
+            )
+
+        # Update mapping
+        if zoom_id not in mapping:
+            mapping[zoom_id] = {}
+        
+        mapping[zoom_id].update({
+            "discourse_topic_id": topic_id,
+            "issue_title": issue.title,
+            "start_time": start_time,
+            "duration": duration,
+            "issue_number": issue.number,
+            "meeting_id": zoom_id,
+            "zoom_link": join_url,
+            "is_recurring": is_recurring,
+            "occurrence_rate": occurrence_rate if is_recurring else "none"
+        })
+
+        if is_recurring and 'streams' in locals():
+            mapping[zoom_id]["youtube_streams"] = streams
+
+        save_meeting_topic_mapping(mapping)
+        commit_mapping_file()
 
         # Extract facilitator information
         facilitator_email, facilitator_telegram = extract_facilitator_info(issue_body)
@@ -204,125 +302,47 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 import traceback
                 print(traceback.format_exc())
 
-        # Update mapping if this entry is new or if the meeting was updated.
-        # (In the mapping, we use the meeting ID as the key.)
-        if meeting_updated or (existing_item is None):
-            # When updating the mapping, preserve existing values
-            if existing_entry:
-                # Create new mapping with existing values
-                updated_mapping = existing_entry.copy()
-                # Update only the fields that changed
-                updated_mapping.update({
-                    "discourse_topic_id": topic_id,
-                    "issue_title": issue.title,
-                    "start_time": start_time,
-                    "duration": duration,
-                    "issue_number": issue.number,
-                    "meeting_id": meeting_id
-                })
-                # Preserve all other fields from existing entry
-                mapping[meeting_id] = updated_mapping
-            else:
-                # Create new mapping entry with initial values
-                mapping[meeting_id] = {
-                    "discourse_topic_id": topic_id,
-                    "issue_title": issue.title,
-                    "start_time": start_time,
-                    "duration": duration,
-                    "issue_number": issue.number,
-                    "meeting_id": meeting_id,
-                    "Youtube_upload_processed": False,
-                    "transcript_processed": False,
-                    "upload_attempt_count": 0,
-                    "transcript_attempt_count": 0
-                }
-            save_meeting_topic_mapping(mapping)
-            commit_mapping_file()
-            print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
-        else:
-            print("[DEBUG] No changes detected; mapping remains unchanged.")
-
-        # Calendar handling using meeting_id
-        existing_event_id = mapping[meeting_id].get("calendar_event_id")
-        print(f"[DEBUG] Checking for existing calendar event ID: {existing_event_id}")
-        
-        if existing_event_id:
-            print(f"[DEBUG] Found existing calendar event ID in mapping: {existing_event_id}")
-            try:
-                # Get the clean event ID - take only the part before any @ or space
-                clean_event_id = existing_event_id.split(' ')[0].split('@')[0].split('eid=')[-1]
-                print(f"[DEBUG] Cleaned calendar event ID: {clean_event_id}")
-                
-                # First retrieve the event from the API
-                calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
-                event = gcal.service.events().get(
-                    calendarId=calendar_id, 
-                    eventId=clean_event_id
-                ).execute()
-                
-                # Update the event properties
-                event['summary'] = issue.title
-                event['description'] = f"Issue: {issue.html_url}"
-                
-                # Update start time
-                event['start'] = {'dateTime': start_time, 'timeZone': 'UTC'}
-                # Calculate end time from duration
-                from datetime import datetime, timedelta
-                start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-                end_time = (start_dt + timedelta(minutes=duration)).isoformat() + 'Z'
-                event['end'] = {'dateTime': end_time, 'timeZone': 'UTC'}
-
-                # Update the event
-                updated_event = gcal.service.events().update(
-                    calendarId=calendar_id,
-                    eventId=clean_event_id,
-                    body=event
-                ).execute()
-                
-                print(f"Updated calendar event: {updated_event['htmlLink']}")
-                
-            except Exception as e:
-                print(f"[DEBUG] Failed to update calendar event: {str(e)}")
-                print(f"[DEBUG] Exception type: {type(e)}")
-                print(f"[DEBUG] Creating new event instead") 
-                
-                # Create new event if update fails
-                event_link = gcal.create_event(
-                    summary=issue.title,
-                    start_dt=start_time,
-                    duration_minutes=duration,
-                    calendar_id=calendar_id,
-                    description=f"Issue: {issue.html_url}"
-                )
-                print(f"Created new calendar event: {event_link}")
-                
-                # Extract and store the clean event ID
-                new_event_id = event_link.split('eid=')[1].split(' ')[0].split('@')[0]
-                mapping[meeting_id]["calendar_event_id"] = new_event_id
-                save_meeting_topic_mapping(mapping)
-                commit_mapping_file()
-        else:
-            print("[DEBUG] No existing calendar event ID found in mapping")
-            # Create new event
-            event_link = gcal.create_event(
-                summary=issue.title,
-                start_dt=start_time,
-                duration_minutes=duration,
-                calendar_id="c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com",
-                description=f"Issue: {issue.html_url}"
+        # Add Telegram channel notification here
+        try:
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+            # Format message with HTML tags for better formatting
+            telegram_message = (
+                f"<b>Discourse Topic</b>: {issue_title}\n\n"
+                f"{issue_body}\n\n"
+                f"<b>Links</b>:\n"
+                f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
+                f"• <a href='{issue.html_url}'>GitHub Issue</a>"
             )
-            print(f"Created calendar event: {event_link}")
             
-            # Extract and store the clean event ID
-            new_event_id = event_link.split('eid=')[1].split(' ')[0].split('@')[0]
-            mapping[meeting_id]["calendar_event_id"] = new_event_id
-            save_meeting_topic_mapping(mapping)
-            commit_mapping_file()
-            print(f"Stored new calendar event ID: {new_event_id}")
-
-        # Debug print the final mapping state for this meeting
-        print(f"[DEBUG] Final mapping state for meeting {meeting_id}:")
-        print(json.dumps(mapping[meeting_id], indent=2))
+            # Check if we already have a telegram message ID for this meeting
+            if zoom_id in mapping:
+                if "telegram_message_id" in mapping[zoom_id]:
+                    message_id = int(mapping[zoom_id]["telegram_message_id"])  # Ensure message_id is an integer
+                    try:
+                        if tg.update_message(message_id, telegram_message):
+                            print(f"Updated Telegram message {message_id}")
+                        else:
+                            raise Exception("Failed to update message")
+                    except Exception as e:
+                        print(f"Failed to update Telegram message: {e}")
+                        # If update fails, send new message
+                        message_id = tg.send_message(telegram_message)
+                        mapping[zoom_id]["telegram_message_id"] = message_id
+                        save_meeting_topic_mapping(mapping)
+                        commit_mapping_file()
+                        print(f"Created new Telegram message {message_id} (update failed)")
+                else:
+                    # No message ID stored yet
+                    message_id = tg.send_message(telegram_message)
+                    mapping[zoom_id]["telegram_message_id"] = message_id
+                    save_meeting_topic_mapping(mapping)
+                    commit_mapping_file()
+                    print(f"Created new Telegram message {message_id}")
+                
+        except Exception as e:
+            print(f"Telegram notification failed: {e}")
+            import traceback
+            print(traceback.format_exc())
 
     except ValueError as e:
         print(f"[DEBUG] Meeting update failed: {str(e)}")
@@ -356,48 +376,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
         else:
             issue.create_comment(comment_text)
             print("Created new comment")
-
-    # Add Telegram channel notification here
-    try:
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        # Format message with HTML tags for better formatting
-        telegram_message = (
-            f"<b>Discourse Topic</b>: {issue_title}\n\n"
-            f"{issue_body}\n\n"
-            f"<b>Links</b>:\n"
-            f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
-            f"• <a href='{issue.html_url}'>GitHub Issue</a>"
-        )
-        
-        # Check if we already have a telegram message ID for this meeting
-        if meeting_id in mapping:
-            if "telegram_message_id" in mapping[meeting_id]:
-                message_id = int(mapping[meeting_id]["telegram_message_id"])  # Ensure message_id is an integer
-                try:
-                    if tg.update_message(message_id, telegram_message):
-                        print(f"Updated Telegram message {message_id}")
-                    else:
-                        raise Exception("Failed to update message")
-                except Exception as e:
-                    print(f"Failed to update Telegram message: {e}")
-                    # If update fails, send new message
-                    message_id = tg.send_message(telegram_message)
-                    mapping[meeting_id]["telegram_message_id"] = message_id
-                    save_meeting_topic_mapping(mapping)
-                    commit_mapping_file()
-                    print(f"Created new Telegram message {message_id} (update failed)")
-            else:
-                # No message ID stored yet
-                message_id = tg.send_message(telegram_message)
-                mapping[meeting_id]["telegram_message_id"] = message_id
-                save_meeting_topic_mapping(mapping)
-                commit_mapping_file()
-                print(f"Created new Telegram message {message_id}")
-                
-    except Exception as e:
-        print(f"Telegram notification failed: {e}")
-        import traceback
-        print(traceback.format_exc())
 
     # Remove any null mappings or failed entries
     mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}
@@ -540,6 +518,13 @@ def commit_mapping_file():
         else:
             print(f"Failed to commit mapping file: {str(e)}")
             raise
+
+def create_calendar_event(is_recurring, occurrence_rate, **kwargs):
+    """Helper function to create the appropriate type of calendar event"""
+    if is_recurring and occurrence_rate != "none":
+        return gcal.create_recurring_event(occurrence_rate=occurrence_rate, **kwargs)
+    else:
+        return gcal.create_event(**kwargs)
 
 def main():
     parser = argparse.ArgumentParser(description="Handle GitHub issue and create/update Discourse topic.")
