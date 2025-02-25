@@ -112,7 +112,7 @@ def main():
         meeting_id = validate_meeting_id(args.force_meeting_id)
         if meeting_id:
             print(f"Force processing meeting {meeting_id}")
-                mapping = load_meeting_topic_mapping()
+            mapping = load_meeting_topic_mapping()
             process_meeting(meeting_id, mapping)
             return
         else:
@@ -130,7 +130,7 @@ def main():
             continue
             
         process_meeting(meeting_id, mapping)
-            processed_count += 1
+        processed_count += 1
 
     if processed_count == 0:
         print("No recent unprocessed meetings found")
@@ -146,7 +146,7 @@ def main():
             entry = mapping.get(meeting_id, {})
             if isinstance(entry, dict):
                 if entry.get("transcript_processed") and (entry.get("Youtube_upload_processed") or entry.get("is_recurring")):
-                continue
+                    continue
 
             process_meeting(meeting_id, mapping)
 
