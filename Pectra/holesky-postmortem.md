@@ -2,14 +2,15 @@
 
 Author: Tim Beiko 
 
-Date: Feb 26, 2025
+Date: Feb 26, 2025, 20:45 UTC
 
 ## Current Status and Next Steps
 
-* **We plan to save Holesky!** 
+* **We plan to save Holesky! The network is producing blocks and validators are getting back online.** 
 * See notes on [Ethereum Magicians](https://ethereum-magicians.org/t/holesky-incident-debrief-february-26-2025/22998?u=timbeiko) , discussion to continue on tomorrow's [ACDE](https://github.com/ethereum/pm/issues/1306)
 	* The Sepolia fork is likely to happen as scheduled
 	* A new devnet (and perhaps tesntet) will be launched to continue Pectra testing
+
 ### Client Releases and Resources
 
 **Execution Layer Released Fixes:**
@@ -159,7 +160,7 @@ _Note: I used an LLM to compile this based on the Discord chat transcript. I've 
 - 05:42: Nimbus team shares instructions for removing slashing protection:
   > "for nimbus-eth2, it's `<dataDir>/db/slashing_protection.sqlite3`. also restart the beacon node so that it forgets about the fake-valid engine response from the broken EL versions."
 
-#### 06:00-18:00 UTC: Strategy Refinement 
+#### 06:00-14:30 UTC: Strategy Refinement 
 - 07:46: Discussion about how to disable slashing protection for each client
 - 08:24: Grandine team shares instructions: "For Grandine you need to remove slashing protection DB by running `rm ~/.grandine/holesky/validator/slashing_protection*`"
 - 09:54: Confirmation that approximately 5-8 blocks per epoch are being produced (15-25% of target)
@@ -178,8 +179,11 @@ _Note: I used an LLM to compile this based on the Discord chat transcript. I've 
 - 12:52: Paul Harris reports: "We've at least got one of our teku / besu nodes up with 20k keys - all will surround so no attestations, but producing blocks."
 - 13:07: Kamil (Nethermind) reports: "Nethermind slashed 13337 validators so far based on Dora and seems like it is slowing down? Still 80-90% of ours slots are proposing blocks well"
 - 13:16: Grandine team reports successful recovery with Nethermind
-- 14:00: [Holesky Incident Debrief call takes place](https://ethereum-magicians.org/t/holesky-incident-debrief-february-26-2025/22998)
+- 14:00: [Holesky Incident Debrief call takes place](https://ethereum-magicians.org/t/holesky-incident-debrief-february-26-2025/22998
 - 14:29: Marek (Nethermind) creates Hackmd document to track validator status: [https://hackmd.io/zu-FVVBSQr-GPdfh4UUIdQ](https://hackmd.io/zu-FVVBSQr-GPdfh4UUIdQ)
+
+#### 14:30 UTC - cont'd: Network Health Improvement
 - 15:43: Terence reports significant improvement: "I'm actually syncing really smoothly on my local node now, everything from scratch (geth - prysm). Following blocks from 6 hours ago. Having Dora alive makes this really easy. I'm impressed how much more smoother everything is today comparing to yesterday"
 - 17:33: Discussion about long-term recovery plan, estimating 18 days until finalization
+- 19:09: Marius estimates Holesky is getting 10% attestations participation and 30-50% of scheduled block proposals. 
 
