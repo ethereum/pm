@@ -85,7 +85,7 @@ def process_meeting(meeting_id, mapping):
         if not entry.get("is_recurring"):
             # Process recording upload for non-recurring meetings
             if not entry.get("Youtube_upload_processed"):
-                from modules.upload_zoom_recording import upload_recording
+                from scripts.upload_zoom_recording import upload_recording
                 upload_recording(meeting_id)
 
         # Process transcript regardless of meeting type
