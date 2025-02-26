@@ -11,7 +11,7 @@ Date: Feb 26, 2025, 20:45 UTC
 * **We plan to save Holesky! The network is producing blocks and validators are getting back online.** 
 * See notes on [Ethereum Magicians](https://ethereum-magicians.org/t/holesky-incident-debrief-february-26-2025/22998?u=timbeiko) , discussion to continue on tomorrow's [ACDE](https://github.com/ethereum/pm/issues/1306)
 	* The Sepolia fork is likely to happen as scheduled
-	* A new devnet (and perhaps tesntet) will be launched to continue Pectra testing
+	* A new devnet (and perhaps testnet) will be launched to continue Pectra testing
 
 ### Client Releases and Resources
 
