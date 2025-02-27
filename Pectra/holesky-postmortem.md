@@ -189,3 +189,10 @@ _Note: I used an LLM to compile this based on the Discord chat transcript. I've 
 - 17:33: Discussion about long-term recovery plan, estimating 18 days until finalization
 - 19:09: Marius estimates Holesky is getting 10% attestations participation and 30-50% of scheduled block proposals. 
 
+## Action Items
+
+- [marius] Why is RAM usage so excessive on the nodes, should they be able to prune away un-needed states
+- [marius] Why are clients not able to keep in sync with the good head after update?
+- [marius] Should there be an exception to the rule of reach-around votes for long-ago attestations? 
+- [marius] Provide a way to checkpoint sync to non-finalized trusted head blocks
+
