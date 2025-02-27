@@ -6,14 +6,22 @@ Status: Active
 
 Date: Feb 26, 2025, 20:45 UTC
 
-## Current Status and Next Steps
+# Current Status and Next Steps
 
 * **We plan to save Holesky! The network is producing blocks and validators are getting back online.** 
 * See notes on [Ethereum Magicians](https://ethereum-magicians.org/t/holesky-incident-debrief-february-26-2025/22998?u=timbeiko) , discussion to continue on tomorrow's [ACDE](https://github.com/ethereum/pm/issues/1306)
 	* The Sepolia fork is likely to happen as scheduled
 	* A new devnet (and perhaps testnet) will be launched to continue Pectra testing
+## Holesky Coordinated Slashings
 
-### Client Releases and Resources
+// More info soon
+
+### Disabling Slashing Protection 
+
+Instructions for how to disable slashing protection per client. 
+
+
+## Client Releases and Resources
 
 **Execution Layer Released Fixes:**
 - Geth:  [v1.15.3](https://github.com/ethereum/go-ethereum/releases/tag/v1.15.3)
