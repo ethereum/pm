@@ -21,9 +21,9 @@ Date: Feb 26, 2025, 20:45 UTC
 Instructions for how to disable slashing protection per client. 
 
 **Lodestar**
-1. Stop VC
+1. Stop validator client
 2. `rm -r <dataDir>/validator-db`
-3. Start VC
+3. Start validator client
 
 ## Client Releases and Resources
 
