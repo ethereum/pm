@@ -31,6 +31,10 @@ Instructions for how to disable slashing protection per client.
 2. `rm -r <dataDir>/validator-db`
 3. Start validator client
 
+**Lighthouse**
+
+See https://github.com/sigp/lighthouse/issues/7040
+
 ## Client Releases and Resources
 
 Updates to releases listed in the original [Pectra testnet announcement](https://blog.ethereum.org/2025/02/14/pectra-testnet-announcement)
