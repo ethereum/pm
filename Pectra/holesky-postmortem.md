@@ -8,9 +8,11 @@ Date: Feb 27, 2025, 17:30 UTC
 
 # Current Status and Next Steps
 
+Client teams are still trying to recover the Holesky network. 
+
 ## Holesky Coordinated Slashings
 
-On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate slashings on Holesky around slot `3737760` (Feb 28, 15:12:00 UTC). Ideally, the nework would have enough validators online to finalize prior to this. By finalizing an epoch on the valid chain, even if it leads to slashing, clients will more easily be able to sync to the minority chain. The slashings and exits will still need to be processed, but this will provide clients more breathing room to do so. Hopefully, this allows the Holesky network to eventually stablize on the valid chain. 
+On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). Ideally, the nework would have enough validators online to finalize an epoch on the valid chain at the same time. If successful, this will help clients sync to the minority chain. While all slashings and exits will still need to be processed, and Holesky is expected to go through other longs period of non-finality, a finalized epoch will make it easier to peer with nodes on the valid chain. 
 
 Holesky operators should now:
 
