@@ -4,7 +4,7 @@ Author: Tim Beiko
 
 Status: Active
 
-Date: Feb 27, 2025, 17:30 UTC
+Date: Feb 27, 2025, 19:00 UTC
 
 # Current Status and Next Steps
 
@@ -67,9 +67,15 @@ Updates to releases listed in the original [Pectra testnet announcement](https:/
 
 **Consensus Layer Fixes:**
 
+Consensus layer teams have been putting out patches to improve peering and sync on branches and docker releases. The following information is accurate as of 19:00 UTC on Feb. 27. This [HackMD document](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx#CL-docker-tags) may have more recent information. 
+
+- Lighthouse branch: [`holesky-rescue`](https://github.com/sigp/lighthouse/tree/holesky-rescue)
 - Lodestar:
+    - Branch: [`holesky-rescue`](https://github.com/ChainSafe/lodestar/tree/holesky-rescue)
     - Docker image: `ethpandaops/lodestar:holesky-rescue-5cb590f`
-    - Branch: `holesky-rescue` 
+- Prysm branch: [`hackSync`](https://github.com/prysmaticlabs/prysm/tree/hackSync)
+- Nimbus branch: [`splitview`](https://github.com/status-im/nimbus-eth2/tree/feat/splitview) 
+- Grandine branch: [`holesky-recover`](https://github.com/grandinetech/grandine/tree/holesky-recover) 
 
 **Useful Resources:**
 - [ENR and enode list for correct chain](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx)
