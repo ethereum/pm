@@ -60,7 +60,7 @@ This document outlines various tasks to work through to make PeerDAS ready for M
 * [ ] Run network limit devnets (https://notes.ethereum.org/@ethpandaops/network-limit-devnets)
 * [ ] Effectiveness of distributed blob publishing
  * [ ] Gather `getBlobs` performance metrics across all ELs
- * [ ] Gather `getBlobs` hit rate and publish rate across all ELs
+ * [ ] Gather `getBlobs` hit rate and publish rate across all CLs
  * [ ] Run a devnet and disable proposer blob publishing, and use the block proposal success rate as a measure of effectiveness of distributed publishing.
 * [ ] High blob throughput testing (48/64 blobs) that we can do today (before [proof computation changes](https://github.com/ethereum/EIPs/pull/9378) is implemented)
  * [ ] Stub out proof computation in the KZG lib and test CL performance with high blob count (to simulate proof computation offloaded).
