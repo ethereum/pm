@@ -58,15 +58,19 @@ This document outlines various tasks to work through to make PeerDAS ready for M
 * [ ] [EEST](https://github.com/ethereum/execution-spec-tests) Tests
 * [ ] Hive
 * [ ] Run network limit devnets (https://notes.ethereum.org/@ethpandaops/network-limit-devnets)
-
+* [ ] Effectiveness of distributed blob publishing
+ * [ ] Gather `getBlobs` performance metrics across all ELs
+ * [ ] Gather `getBlobs` hit rate and publish rate across all ELs
+ * [ ] Run a devnet and disable proposer blob publishing, and use the block proposal success rate as a measure of effectiveness of distributed publishing.
+* [ ] High blob throughput testing (48/64 blobs) that we can do today (before [proof computation changes](https://github.com/ethereum/EIPs/pull/9378) is implemented)
+ * [ ] Stub out proof computation in the KZG lib and test CL performance with high blob count (to simulate proof computation offloaded).
+ * [ ] Stress test mempool to make sure the ELs can handle high blob count.
+* [ ] High blob throughput testing (48/64 blobs) on a large network that mirrors mainnet network typology (after [proof computation changes](https://github.com/ethereum/EIPs/pull/9378) implemented in at least 1 CL/EL client pair)
+ 
 ## R&D
 
-* [ ] Gather `getBlobs` performance metrics across all ELs
-* [ ] Measure effectiveness of Distributed Blob Publishing on CLs (metrics: hit rate and publish rate)
 * [ ] Anaylsis of new blob count impact on bandwidth, hardware requirements once clients are feature complete (`peerdas-devnet-6`)
 * [ ] Nice to have: [BPO only forks](https://ethereum-magicians.org/t/blob-parameter-only-bpo-forks/22623)
-
-## Other Tasks
-
 * [ ] EL: Potential optimisation of `getBlobs` endpoint?
 * [ ] Document impact to node operators (prior post with 16 blobs [here](https://blog.sigmaprime.io/peerdas-distributed-blob-building.html#impact-on-node-operators))
+* [ ] Research/estimate/measure sync speed on various custody column count.
