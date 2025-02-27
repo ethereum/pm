@@ -28,7 +28,7 @@ Instructions for how to disable slashing protection per client.
 
 **Grandine**
 
-TBA
+`rm ~/.grandine/holesky/validator/slashing_protection*`
 
 **Lodestar**
 1. Stop validator client
@@ -41,7 +41,10 @@ See https://github.com/sigp/lighthouse/issues/7040
 
 **Nimbus**
 
-TBA
+`rm ~/.cache/nimbus/validators/slashing_protection.sqlite3`
+
+Note that the exact path will be dependent on individual configurations. If the node has not cleanly shut down, users may also need to delete  sqlite WAL files such as `slashing_protection.sqlite3-wal` and `slashing_protection.sqlite3-shm`.
+
 
 **Prysm**
 
@@ -49,7 +52,7 @@ Add the following CLI argument to the validator client **and NOT to the beacon n
 
 **Teku** 
 
-TBA
+`rm <teku_data_directory>/validator/slashprotection/*`
 
 **Web3Signer**
 
