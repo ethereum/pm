@@ -50,9 +50,12 @@ Note that the exact path will be dependent on individual configurations. If the 
 
 Add the following CLI argument to the validator client **and NOT to the beacon node** and restart the validator client **and NOT the beacon node**: `--force-clear-db`
 
-**Teku** 
+**Teku**
 
-`rm <teku_data_directory>/validator/slashprotection/*`
+1. Ensure that your configuration is not using doppelganger protection (`--doppelganger-detection-enabled`)
+2. Stop teku
+3. remove slashing protection files. `rm <teku_data_directory>/validator/slashprotection/*`
+4. Start teku
 
 **Web3Signer**
 
