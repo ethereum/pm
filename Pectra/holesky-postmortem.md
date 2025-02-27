@@ -75,7 +75,10 @@ Consensus layer teams have been putting out patches to improve peering and sync 
     - Docker image: `ethpandaops/lodestar:holesky-rescue-5cb590f`
 - Prysm branch: [`hackSync`](https://github.com/prysmaticlabs/prysm/tree/hackSync)
 - Nimbus branch: [`splitview`](https://github.com/status-im/nimbus-eth2/tree/feat/splitview) 
-- Grandine branch: [`holesky-recover`](https://github.com/grandinetech/grandine/tree/holesky-recover) 
+- Grandine branch: [`holesky-recover`](https://github.com/grandinetech/grandine/tree/holesky-recover)
+- Teku:
+    - Branch: [`master`](https://github.com/Consensys/teku)
+    - Docker image: `develop`
 
 **Useful Resources:**
 - [ENR and enode list for correct chain](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx)
