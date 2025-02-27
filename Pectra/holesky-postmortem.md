@@ -26,6 +26,10 @@ Instructions to disable slashing protection for each client can be found below. 
 
 Instructions for how to disable slashing protection per client. 
 
+**Grandine**
+
+TBA
+
 **Lodestar**
 1. Stop validator client
 2. `rm -r <dataDir>/validator-db`
@@ -34,6 +38,22 @@ Instructions for how to disable slashing protection per client.
 **Lighthouse**
 
 See https://github.com/sigp/lighthouse/issues/7040
+
+**Nimbus**
+
+TBA
+
+**Prysm**
+
+TBA
+
+**Teku** 
+
+TBA
+
+**Web3Signer**
+
+See https://docs.web3signer.consensys.io/concepts/slashing-protection
 
 ## Client Releases and Resources
 
