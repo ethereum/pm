@@ -45,7 +45,7 @@ TBA
 
 **Prysm**
 
-TBA
+Add the following CLI argument to the validator client **and NOT to the beacon node** and restart the validator client **and NOT the beacon node**: `--force-clear-db`
 
 **Teku** 
 
