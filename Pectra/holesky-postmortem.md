@@ -65,11 +65,8 @@ Updates to releases listed in the original [Pectra testnet announcement](https:/
 - Besu: [25.2.1](https://github.com/hyperledger/besu/releases/tag/25.2.1)
 - Reth and Erigon: *No update needed (correctly handled the deposit contract)*
 
-**Consensus Layer Fixes:**
-
-- Lodestar:
-    - Docker image: `ethpandaops/lodestar:holesky-rescue-5cb590f`
-    - Branch: `holesky-rescue` 
+**Consensus Layer Released Fixes:**
+- see [most recent images](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx#CL-docker-tags)
 
 **Useful Resources:**
 - [ENR and enode list for correct chain](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx)
