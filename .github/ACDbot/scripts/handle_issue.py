@@ -331,7 +331,31 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # 5. Post consolidated comment
     if comment_lines:
-        issue.create_comment("\n".join(comment_lines))
+        # Get the current timestamp
+        now = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
+        
+        # Update the action line to include timestamp
+        for i, line in enumerate(comment_lines):
+            if line.startswith("- Action:"):
+                comment_lines[i] = f"- Action: {action.capitalize()} at {now}"
+        
+        # Check for existing comments by the bot
+        existing_comment = None
+        comments = issue.get_comments()
+        for comment in comments:
+            # Check if comment is from the bot
+            if comment.user.login == "github-actions[bot]":
+                existing_comment = comment
+                break
+        
+        # Update existing comment or create new one
+        comment_text = "\n".join(comment_lines)
+        if existing_comment:
+            existing_comment.edit(comment_text)
+            print(f"Updated existing comment {existing_comment.id}")
+        else:
+            issue.create_comment(comment_text)
+            print("Created new comment")
 
     # Add Telegram channel notification here
     try:
