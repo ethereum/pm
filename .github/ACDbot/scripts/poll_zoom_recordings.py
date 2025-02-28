@@ -3,7 +3,7 @@ import json
 import argparse
 from datetime import datetime, timedelta
 import pytz
-from modules import zoom, transcript, youtube_utils
+from modules import zoom, transcript, youtube_utils, rss_utils
 from github import Github, InputGitAuthor
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
@@ -95,6 +95,13 @@ def process_meeting(meeting_id, mapping):
             entry["transcript_processed"] = True
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
+            
+            # Update RSS feed with transcript info
+            try:
+                rss_utils.create_or_update_rss_feed(mapping)
+                print(f"Updated RSS feed with transcript info for meeting {meeting_id}")
+            except Exception as e:
+                print(f"Failed to update RSS feed: {e}")
 
     except Exception as e:
         # Increment attempt counter on failure

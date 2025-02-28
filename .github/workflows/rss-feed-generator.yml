@@ -1,0 +1,63 @@
+name: "RSS Feed Generator"
+
+on:
+  workflow_dispatch:
+    inputs:
+      UPDATE_ONLY:
+        description: "Only update the RSS feed without deploying"
+        type: boolean
+        default: false
+  
+  # Run after issue handling or transcript polling
+  workflow_run:
+    workflows: ["Handle GitHub Issue", "Zoom Transcript Poller", "YouTube Video Uploader"]
+    types:
+      - completed
+
+jobs:
+  generate-rss:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -e .github/ACDbot/
+          pip install pytz
+          pip install -r .github/ACDbot/requirements.txt
+
+      - name: Generate RSS feed
+        run: |
+          python .github/ACDbot/scripts/serve_rss.py --update-only
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISCOURSE_BASE_URL: ${{ vars.DISCOURSE_BASE_URL }}
+
+      - name: Commit and push RSS feed
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .github/ACDbot/rss/meetings.xml
+          git commit -m "Update RSS feed" || echo "No changes to commit"
+          git push
+
+      # Deploy to GitHub Pages if not update-only
+      - name: Deploy to GitHub Pages
+        if: ${{ !inputs.UPDATE_ONLY }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .github/ACDbot/rss
+          branch: gh-pages
+          target-folder: rss
+
+permissions:
+  contents: write
+  pages: write 

@@ -1,7 +1,7 @@
 import os
 import sys
 import argparse
-from modules import discourse, zoom, gcal, email_utils, tg
+from modules import discourse, zoom, gcal, email_utils, tg, rss_utils
 from github import Github
 import re
 from datetime import datetime as dt
@@ -306,6 +306,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
+            
+            # Generate RSS feed
+            try:
+                rss_file_path = rss_utils.create_or_update_rss_feed(mapping)
+                print(f"Updated RSS feed at {rss_file_path}")
+                comment_lines.append(f"\n**RSS Feed Updated**")
+            except Exception as e:
+                print(f"Failed to update RSS feed: {e}")
+            
             print(f"Mapping updated: Zoom Meeting ID {zoom_id} -> Discourse Topic ID {topic_id}")
         else:
             print("[DEBUG] No changes detected; mapping remains unchanged.")
