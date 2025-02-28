@@ -31,9 +31,10 @@ Instructions for how to disable slashing protection per client.
 `rm ~/.grandine/holesky/validator/slashing_protection*`
 
 **Lodestar**
-1. Stop validator client
-2. `rm -r <dataDir>/validator-db`
-3. Start validator client
+1. Ensure that your configuration is NOT using doppelganger protection
+2. Stop validator client
+3. Remove slashing protection database by running `rm -r <dataDir>/validator-db`
+4. Start validator client
 
 **Lighthouse**
 
