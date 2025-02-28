@@ -57,6 +57,10 @@ Add the following CLI argument to the validator client **and NOT to the beacon n
 3. remove slashing protection files. `rm <teku_data_directory>/validator/slashprotection/*`
 4. Start teku
 
+**Vouch/Dirk**
+
+See https://github.com/attestantio/vouch/issues/304
+
 **Web3Signer**
 
 See https://docs.web3signer.consensys.io/concepts/slashing-protection
