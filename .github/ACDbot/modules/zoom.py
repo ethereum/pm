@@ -31,12 +31,12 @@ def create_meeting(topic, start_time, duration):
         "settings": {
             "auto_start_meeting_summary": True,
             "auto_start_ai_companion_questions": True,
-            #"join_before_host": False,  
+            "join_before_host": True,  
             #"waiting_room": True,
             "meeting_authentication": False,
             "auto_recording": "cloud",  
             "approval_type": 2,  
-            #"alternative_hosts": alternative_hosts,  
+            "alternative_hosts": alternative_hosts,  
             "recording": {
                 "auto_recording": "cloud",
                 "cloud_recording_download": True,
@@ -304,14 +304,17 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         "settings": {
             "auto_start_meeting_summary": True,
             "auto_start_ai_companion_questions": True,
+            "join_before_host": True,  
+            #"waiting_room": True,
             "meeting_authentication": False,
-            "auto_recording": "cloud",
-            "approval_type": 2,
+            "auto_recording": "cloud",  
+            "approval_type": 2,  
+            "alternative_hosts": alternative_hosts,  
             "recording": {
                 "auto_recording": "cloud",
                 "cloud_recording_download": True,
                 "cloud_recording_thumbnails": True,
-                "recording_audio_transcript": True,
+                "recording_audio_transcript": True, 
             },
         }
     }
