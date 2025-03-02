@@ -96,6 +96,11 @@ def upload_recording(meeting_id):
         mapping[meeting_id] = {}
     entry = mapping[meeting_id]
     
+    # Check if this meeting should skip YouTube upload (recurring streamed meeting)
+    if entry.get("skip_youtube_upload", False):
+        print(f"Skipping meeting {meeting_id} - marked as skip_youtube_upload (recurring streamed meeting)")
+        return
+    
     # Check attempt counter
     attempt_count = entry.get("upload_attempt_count", 0)
     if attempt_count >= 10:

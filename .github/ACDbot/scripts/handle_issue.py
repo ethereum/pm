@@ -203,6 +203,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 topic_id=topic_id,
                 body=discourse_content
             )
+            
+            # Set flag to skip YouTube upload for recurring meetings with streams
+            if meeting_id in mapping:
+                mapping[meeting_id]["skip_youtube_upload"] = True
+                save_meeting_topic_mapping(mapping)
+                commit_mapping_file()
 
         # Calendar handling
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
