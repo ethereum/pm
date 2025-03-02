@@ -51,7 +51,7 @@ See the latest [devnet configs](https://github.com/ethpandaops/dencun-testnet/bl
     - When a re-org happens, if a blob transaction was included via an externally built block, it currently is not possible to re-introduce it in the mempool for re-inclusion in a block. Either this is fine (and builders must manually re-submit such transactions), or CL clients must be modified to provide the blobs in the `newPayload` API calls
     - June 23 update: https://hackmd.io/aVek93y-QmSv1mz2Agc9iQ#Client-Implementations 
 - [x] KZG support in Library
-    - Need efficient library support for the cryptographic [operations](https://github.com/ethereum/consensus-specs/blob/dev/specs/eip4844/polynomial-commitments.md) required to verify and interact with blobs, compatible with all clients' programming language. 
+    - Need efficient library support for the cryptographic [operations](https://github.com/ethereum/consensus-specs/blob/dev/specs/deneb/polynomial-commitments.md) required to verify and interact with blobs, compatible with all clients' programming language. 
         - [x] [Open issue in BLST](https://github.com/supranational/blst/issues/10)
 - [x] Gossiping of blob transactions ([@MariusVanDerWijden](https://github.com/MariusVanDerWijden))
     - **[Resolved by introducing [`eth/68`](https://github.com/ethereum/EIPs/pull/5793)]** Large blob transactions are expensive to gossip over the network. Solution: enable node to announce & request specific transactions rather than gossip them by default.
