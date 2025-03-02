@@ -426,6 +426,28 @@ def handle_github_issue(issue_number: int, repo_name: str):
             import traceback
             print(traceback.format_exc())
 
+        # Add notification to RSS feed
+        rss_utils.add_notification_to_meeting(
+            meeting_id,
+            "issue_created",
+            f"GitHub issue #{issue.number} created",
+            issue.html_url
+        )
+
+        rss_utils.add_notification_to_meeting(
+            meeting_id,
+            "discourse_post",
+            f"Discourse topic updated: {issue_title}",
+            discourse_url
+        )
+        # Add notification to RSS feed
+        rss_utils.add_notification_to_meeting(
+        meeting_id,
+        "summary_posted",
+        "Meeting summary posted to Discourse",
+        discourse_url
+    )
+
     except ValueError as e:
         print(f"[DEBUG] Meeting update failed: {str(e)}")
     except Exception as e:

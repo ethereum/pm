@@ -166,7 +166,12 @@ def upload_recording(meeting_id):
         # Update RSS feed with YouTube video
         if rss_utils:
             try:
-                rss_utils.create_or_update_rss_feed(mapping)
+                rss_utils.add_notification_to_meeting(
+                    meeting_id,
+                    "youtube_upload",
+                    f"Meeting recording uploaded: {video_title}",
+                    youtube_link
+                )
                 print(f"Updated RSS feed with YouTube video for meeting {meeting_id}")
             except Exception as e:
                 print(f"Failed to update RSS feed: {e}")

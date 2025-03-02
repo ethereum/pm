@@ -108,6 +108,31 @@ def create_or_update_rss_feed(mapping):
             youtube_url = f"https://youtu.be/{youtube_video_id}"
             desc_content += f"<p><strong>Recording:</strong> <a href='{youtube_url}'>{youtube_url}</a></p>"
         
+        # Add notifications section if available
+        notifications = entry.get('notifications', [])
+        if notifications:
+            desc_content += "<h3>Meeting Updates:</h3><ul>"
+            for notification in notifications:
+                timestamp = notification.get('timestamp')
+                n_type = notification.get('type')
+                n_content = notification.get('content')
+                n_url = notification.get('url', '')
+                
+                # Format timestamp
+                formatted_time = timestamp
+                try:
+                    dt = datetime.datetime.fromisoformat(timestamp)
+                    formatted_time = dt.strftime("%Y-%m-%d %H:%M UTC")
+                except:
+                    pass
+                
+                if n_url:
+                    desc_content += f"<li><strong>{formatted_time} - {n_type}:</strong> <a href='{n_url}'>{n_content}</a></li>"
+                else:
+                    desc_content += f"<li><strong>{formatted_time} - {n_type}:</strong> {n_content}</li>"
+            
+            desc_content += "</ul>"
+        
         desc_elem.text = desc_content
         
         # Publication date
@@ -192,6 +217,49 @@ def add_meeting_to_rss(meeting_id, entry):
     
     # Update mapping with new entry
     mapping[meeting_id] = entry
+    
+    # Update RSS feed
+    create_or_update_rss_feed(mapping)
+
+# New function to add notifications to existing meeting entries
+def add_notification_to_meeting(meeting_id, notification_type, content, url=None):
+    """
+    Adds a notification to an existing meeting in the RSS feed
+    
+    Args:
+        meeting_id: The meeting ID
+        notification_type: Type of notification (issue_created, discourse_post, youtube_upload, summary)
+        content: Notification content/description
+        url: Optional URL associated with the notification
+    """
+    # Load existing mapping
+    from .transcript import load_meeting_topic_mapping
+    mapping = load_meeting_topic_mapping()
+    
+    if meeting_id not in mapping:
+        print(f"Meeting {meeting_id} not found in mapping")
+        return
+    
+    # Get or create notifications list for this meeting
+    if "notifications" not in mapping[meeting_id]:
+        mapping[meeting_id]["notifications"] = []
+    
+    # Create notification entry with timestamp
+    notification = {
+        "type": notification_type,
+        "content": content,
+        "timestamp": datetime.datetime.now(pytz.UTC).isoformat(),
+    }
+    
+    if url:
+        notification["url"] = url
+    
+    # Add to notifications list
+    mapping[meeting_id]["notifications"].append(notification)
+    
+    # Save mapping
+    from .transcript import save_meeting_topic_mapping
+    save_meeting_topic_mapping(mapping)
     
     # Update RSS feed
     create_or_update_rss_feed(mapping) 
