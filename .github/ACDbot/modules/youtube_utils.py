@@ -109,10 +109,16 @@ def create_youtube_stream(title, description, start_time, privacy_status='public
         streamId=stream_id
     ).execute()
 
+    # Get the ingestion URL and stream name for RTMP streaming
+    ingestion_address = stream_insert_response.get("cdn", {}).get("ingestionInfo", {}).get("ingestionAddress", "")
+    stream_name = stream_insert_response.get("cdn", {}).get("ingestionInfo", {}).get("streamName", "")
+    rtmp_url = f"{ingestion_address}/{stream_name}" if ingestion_address and stream_name else ""
+
     return {
         "broadcast_id": broadcast_id,
         "stream_id": stream_id,
-        "stream_url": f"https://youtube.com/watch?v={broadcast_id}"
+        "stream_url": f"https://youtube.com/watch?v={broadcast_id}",
+        "rtmp_url": rtmp_url
     }
 
 def create_recurring_streams(title, description, start_time, occurrence_rate, num_events=4):
@@ -138,11 +144,37 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
             elif occurrence_rate == 'bi-weekly':
                 current_time += timedelta(days=14)
             elif occurrence_rate == 'monthly':
-                # Add roughly a month (considering variable month lengths)
-                if current_time.month == 12:
-                    current_time = current_time.replace(year=current_time.year + 1, month=1)
+                # Add a month while properly handling month transitions
+                # Get the current year and month
+                year = current_time.year
+                month = current_time.month
+                day = current_time.day
+                
+                # Calculate the next month and year
+                if month == 12:
+                    year += 1
+                    month = 1
                 else:
-                    current_time = current_time.replace(month=current_time.month + 1)
+                    month += 1
+                
+                # Handle cases where the day exceeds the number of days in the target month
+                # Get the last day of the target month
+                if month == 2:  # February
+                    if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):  # Leap year
+                        last_day = 29
+                    else:
+                        last_day = 28
+                elif month in [4, 6, 9, 11]:  # April, June, September, November
+                    last_day = 30
+                else:
+                    last_day = 31
+                
+                # Adjust the day if necessary
+                if day > last_day:
+                    day = last_day
+                
+                # Create the new datetime with the adjusted values
+                current_time = current_time.replace(year=year, month=month, day=day)
         
         event_title = f"{title} #{i+1}"
         stream_details = create_youtube_stream(

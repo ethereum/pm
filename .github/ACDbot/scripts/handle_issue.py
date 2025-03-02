@@ -603,9 +603,14 @@ def commit_mapping_file():
 
 def create_calendar_event(is_recurring, occurrence_rate, **kwargs):
     """Helper function to create the appropriate type of calendar event"""
+    print(f"[DEBUG] Creating calendar event: is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
     if is_recurring and occurrence_rate != "none":
+        # Make sure occurrence_rate is explicitly passed to create_recurring_event
+        print(f"[DEBUG] Creating recurring calendar event with occurrence_rate={occurrence_rate}")
         return gcal.create_recurring_event(occurrence_rate=occurrence_rate, **kwargs)
     else:
+        # For non-recurring events, use the standard create_event
+        print(f"[DEBUG] Creating standard (non-recurring) calendar event")
         return gcal.create_event(**kwargs)
 
 def main():
