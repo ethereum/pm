@@ -4,7 +4,7 @@ import argparse
 from modules import discourse, zoom, gcal, email_utils, tg
 from github import Github
 import re
-from datetime import datetime
+from datetime import datetime as dt
 import json
 import requests
 from github import InputGitAuthor
@@ -157,11 +157,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Send email notification
         if facilitator_email:
             try:
-                # Get the join URL - either from new meeting or updated meeting response
+                # Get the join URL directly from our known zoom_id which is always defined
                 join_url = zoom_response.get('join_url') if zoom_response else None
-                if not join_url and existing_zoom_meeting_id:
+                if not join_url and zoom_id:  # Use zoom_id instead of existing_zoom_meeting_id
                     # If no join URL yet, fetch meeting details
-                    meeting_details = zoom.get_meeting(existing_zoom_meeting_id)
+                    meeting_details = zoom.get_meeting(zoom_id)
                     join_url = meeting_details.get('join_url')
 
                 email_subject = f"{'Updated ' if existing_item else ''}Zoom Details - {issue_title}"
@@ -332,7 +332,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # 5. Post consolidated comment
     if comment_lines:
         # Get the current timestamp
-        now = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
+        now = dt.now().strftime("%Y-%m-%d %H:%M UTC")
         
         # Update the action line to include timestamp
         for i, line in enumerate(comment_lines):
