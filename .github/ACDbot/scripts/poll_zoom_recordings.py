@@ -79,14 +79,51 @@ def process_meeting(meeting_id, mapping):
     if entry.get("upload_attempt_count", 0) >= 10:
         print(f"Skipping meeting {meeting_id} - max upload attempts reached")
         return
+        
+    # Skip if meeting hasn't occurred yet
+    start_time = entry.get("start_time")
+    if start_time:
+        try:
+            from datetime import datetime
+            import pytz
+            meeting_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+            now = datetime.now(pytz.UTC)
+            
+            if meeting_time > now:
+                print(f"Skipping meeting {meeting_id} - scheduled for future ({start_time})")
+                return
+                
+            # Also skip if meeting ended less than 30 minutes ago
+            duration = entry.get("duration", 60)  # Default to 60 minutes if duration not specified
+            meeting_end_time = meeting_time + timedelta(minutes=duration)
+            
+            if now < meeting_end_time + timedelta(minutes=30):
+                print(f"Skipping meeting {meeting_id} - ended less than 30 minutes ago")
+                return
+                
+        except Exception as e:
+            print(f"Error parsing meeting time {start_time}: {e}")
+            # Continue processing if we can't parse the time
 
     try:
         # For recurring meetings, we don't need to upload to YouTube
-        if not entry.get("is_recurring"):
-            # Process recording upload for non-recurring meetings
-            if not entry.get("Youtube_upload_processed"):
-                from scripts.upload_zoom_recording import upload_recording
-                upload_recording(meeting_id)
+        is_recurring = entry.get("is_recurring", False)
+        if is_recurring:
+            print(f"Skipping YouTube upload for recurring meeting {meeting_id}")
+            # Mark as processed to avoid future attempts
+            entry["skip_youtube_upload"] = True
+            entry["Youtube_upload_processed"] = True
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
+        # Only attempt upload for non-recurring meetings that haven't been processed
+        elif not entry.get("Youtube_upload_processed") and not entry.get("skip_youtube_upload", False):
+            # Import directly from package path rather than relative path
+            import sys
+            import os
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            sys.path.append(os.path.dirname(script_dir))
+            from scripts.upload_zoom_recording import upload_recording
+            upload_recording(meeting_id)
 
         # Process transcript regardless of meeting type
         discourse_topic_id = entry.get("discourse_topic_id")
@@ -98,14 +135,19 @@ def process_meeting(meeting_id, mapping):
             
             # Update RSS feed with transcript info
             try:
-                rss_utils.create_or_update_rss_feed(mapping)
+                rss_utils.add_notification_to_meeting(
+                    meeting_id,
+                    "transcript_posted",
+                    "Meeting transcript posted to Discourse",
+                    f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
+                )
                 print(f"Updated RSS feed with transcript info for meeting {meeting_id}")
             except Exception as e:
                 print(f"Failed to update RSS feed: {e}")
 
     except Exception as e:
         # Increment attempt counter on failure
-        entry["upload_attempt_count"] = entry.get("upload_attempt_count", 0) + 1
+        entry["transcript_attempt_count"] = entry.get("transcript_attempt_count", 0) + 1
         save_meeting_topic_mapping(mapping)
         commit_mapping_file()
         print(f"Error processing meeting {meeting_id}: {e}")
