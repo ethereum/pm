@@ -31,12 +31,12 @@ def create_meeting(topic, start_time, duration):
         "settings": {
             "auto_start_meeting_summary": True,
             "auto_start_ai_companion_questions": True,
-            #"join_before_host": False,  
+            "join_before_host": True,  
             #"waiting_room": True,
             "meeting_authentication": False,
             "auto_recording": "cloud",  
             "approval_type": 2,  
-            #"alternative_hosts": alternative_hosts,  
+            "alternative_hosts": alternative_hosts,  
             "recording": {
                 "auto_recording": "cloud",
                 "cloud_recording_download": True,
@@ -204,6 +204,22 @@ def get_meeting_summary(meeting_uuid: str) -> dict:
     except Exception as e:
         print(f"General error: {str(e)}")
         return {}
+def get_meeting(meeting_id):
+    """
+    Retrieves details for a specific Zoom meeting.
+    Returns: dict with meeting details including 'join_url'
+    """
+    access_token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    
+    get_url = f"{api_base_url}/meetings/{meeting_id}"
+    response = requests.get(get_url, headers=headers)
+    response.raise_for_status()
+    
+    return response.json()
 
 def update_meeting(meeting_id, topic, start_time, duration):
     """
@@ -229,9 +245,90 @@ def update_meeting(meeting_id, topic, start_time, duration):
     update_url = f"{api_base_url}/meetings/{meeting_id}"
     resp = requests.patch(update_url, headers=headers, json=payload)
     
-    if resp.status_code != 204:  # Zoom returns 204 No Content on a successful update.
+    if resp.status_code != 204:
         print(f"Error updating meeting {meeting_id}: {resp.status_code} {resp.text}")
         resp.raise_for_status()
     
-    return {"id": meeting_id, "message": "Meeting updated successfully"}
+    # Get updated meeting details to retrieve join_url
+    meeting_details = get_meeting(meeting_id)
+    
+    return {
+        "id": meeting_id,
+        "join_url": meeting_details["join_url"],
+        "message": "Meeting updated successfully"
+    }
+
+def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
+    """
+    Creates a recurring Zoom meeting
+    Args:
+        topic: Meeting title
+        start_time: Start time in ISO format
+        duration: Duration in minutes
+        occurrence_rate: weekly, bi-weekly, or monthly
+    Returns:
+        Tuple of (join_url, meeting_id)
+    """
+    access_token = get_access_token()
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    
+    # Map occurrence rate to Zoom recurrence type
+    recurrence = {
+        "type": 1,  # 1 for daily, 2 for weekly, 3 for monthly
+        "repeat_interval": 1
+    }
+    
+    if occurrence_rate == "weekly":
+        recurrence["type"] = 2
+        recurrence["repeat_interval"] = 1
+    elif occurrence_rate == "bi-weekly":
+        recurrence["type"] = 2
+        recurrence["repeat_interval"] = 2
+    elif occurrence_rate == "monthly":
+        recurrence["type"] = 3
+        recurrence["repeat_interval"] = 1
+    
+    # Get alternative hosts from environment
+    alternative_hosts = os.environ.get("ZOOM_ALTERNATIVE_HOSTS", "")
+    
+    payload = {
+        "topic": topic,
+        "type": 8,  # 8 for recurring meeting with fixed time
+        "start_time": start_time,
+        "duration": duration,
+        "recurrence": recurrence,
+        "settings": {
+            "auto_start_meeting_summary": True,
+            "auto_start_ai_companion_questions": True,
+            "join_before_host": True,  
+            #"waiting_room": True,
+            "meeting_authentication": False,
+            "auto_recording": "cloud",  
+            "approval_type": 2,  
+            "alternative_hosts": alternative_hosts,  
+            "recording": {
+                "auto_recording": "cloud",
+                "cloud_recording_download": True,
+                "cloud_recording_thumbnails": True,
+                "recording_audio_transcript": True, 
+            },
+        }
+    }
+
+    resp = requests.post(
+        f"{api_base_url}/users/me/meetings",
+        headers=headers,
+        json=payload
+    )
+    
+    if resp.status_code != 201:
+        print("Unable to generate recurring meeting")
+        resp.raise_for_status()
+    
+    response_data = resp.json()
+    return response_data["join_url"], response_data["id"]
 

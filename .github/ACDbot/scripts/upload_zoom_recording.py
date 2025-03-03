@@ -23,6 +23,12 @@ from modules.zoom import (
 )
 from google.oauth2 import service_account
 
+# Import RSS utils
+try:
+    from modules import rss_utils
+except ImportError:
+    rss_utils = None
+
 # Reuse existing zoom module functions
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 CLIENT_SECRETS_FILE = "client_secrets.json"
@@ -90,6 +96,11 @@ def upload_recording(meeting_id):
         mapping[meeting_id] = {}
     entry = mapping[meeting_id]
     
+    # Check if this meeting should skip YouTube upload (recurring streamed meeting)
+    if entry.get("skip_youtube_upload", False):
+        print(f"Skipping meeting {meeting_id} - marked as skip_youtube_upload (recurring streamed meeting)")
+        return
+    
     # Check attempt counter
     attempt_count = entry.get("upload_attempt_count", 0)
     if attempt_count >= 10:
@@ -151,6 +162,19 @@ def upload_recording(meeting_id):
                 topic_id=discourse_topic_id,
                 body=f"YouTube recording available: {youtube_link}"
             )
+
+        # Update RSS feed with YouTube video
+        if rss_utils:
+            try:
+                rss_utils.add_notification_to_meeting(
+                    meeting_id,
+                    "youtube_upload",
+                    f"Meeting recording uploaded: {video_title}",
+                    youtube_link
+                )
+                print(f"Updated RSS feed with YouTube video for meeting {meeting_id}")
+            except Exception as e:
+                print(f"Failed to update RSS feed: {e}")
 
         # Send Telegram notification similar to handle_issue
         try:
