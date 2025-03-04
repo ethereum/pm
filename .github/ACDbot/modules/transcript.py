@@ -1,6 +1,6 @@
 import os
 import json
-from modules import zoom, discourse
+from modules import zoom, discourse, tg
 import requests
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
@@ -54,45 +54,69 @@ def post_zoom_transcript_to_discourse(meeting_id: str):
     print(f"Summary data for meeting {meeting_id}: {json.dumps(summary_data, indent=2)}")
     
     # Process summary data
+    summary_overview = ""
+    summary_details = ""
+    next_steps = ""
+    
     if summary_data:
-        # Extract detailed summaries
-        summary_content = ""
+        # Extract summary overview
+        summary_overview = summary_data.get("summary", "No summary overview available")
+        
+        # Extract detailed summaries in a collapsible section
         if summary_data.get("summary_details"):
-            summaries = [detail.get("summary", "") for detail in summary_data["summary_details"]]
-            summary_content = "\n\n".join(summaries)
+            details = []
+            for detail in summary_data.get("summary_details", []):
+                section_title = detail.get("section_title", "")
+                section_summary = detail.get("summary", "")
+                if section_title and section_summary:
+                    details.append(f"**{section_title}**\n{section_summary}")
+                elif section_summary:
+                    details.append(section_summary)
+            
+            if details:
+                summary_details = "<details>\n<summary>Click to expand detailed summary</summary>\n\n"
+                summary_details += "\n\n".join(details)
+                summary_details += "\n</details>"
         
         # Format next steps
-        next_steps = ""
         if summary_data.get("next_steps"):
             steps = [f"- {step}" for step in summary_data["next_steps"]]
-            next_steps = "\n\n**Next Steps:**\n" + "\n".join(steps)
-        
-        final_summary = f"{summary_content}{next_steps}"
+            next_steps = "### Next Steps:\n" + "\n".join(steps)
     else:
-        final_summary = "No summary available yet"
-    print(f"Final summary text: {final_summary}")
+        summary_overview = "No summary available yet"
     
     # Extract proper share URL and passcode (new format)
     share_url = recording_data.get('share_url', '')
     passcode = recording_data.get('password', '')
     
     # Get transcript download URL from recording files
-    transcript_url = next(
-        (f['download_url'] for f in recording_data.get('recording_files', [])
-         if f['file_type'] == 'TRANSCRIPT'),
-        None
-    )
+    transcript_url = None
+    chat_url = None
+    
+    for file in recording_data.get('recording_files', []):
+        if file.get('file_type') == 'TRANSCRIPT':
+            transcript_url = file.get('download_url')
+        elif file.get('file_type') == 'CHAT':
+            chat_url = file.get('download_url')
+    
+    # Build post content with the new format
+    post_content = f"""### Meeting Summary:
+{summary_overview}
 
-    # Build post content with actual summary text
-    post_content = f"""**Meeting Summary:**
-{final_summary}
+{summary_details}
 
-**Recording Access:**
+{next_steps}
+
+### Recording Access:
 - [Join Recording Session]({share_url}) (Passcode: `{passcode}`)"""
 
     # Add transcript link if available
     if transcript_url:
         post_content += f"\n- [Download Transcript]({transcript_url})"
+        
+    # Add chat file link if available
+    if chat_url:
+        post_content += f"\n- [Download Chat]({chat_url})"
 
     discourse.create_post(
         topic_id=discourse_topic_id,
@@ -103,8 +127,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str):
 
     # Now, send the same content to Telegram
     try:
-        import modules.telegram as telegram  # Ensure telegram module is available
-        telegram.send_message(post_content)
+        tg.send_message(post_content)
         print("Message sent to Telegram successfully.")
     except Exception as e:
         print(f"Error sending message to Telegram: {e}")

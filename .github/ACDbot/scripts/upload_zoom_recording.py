@@ -11,7 +11,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from modules import zoom, transcript, discourse
+from modules import zoom, transcript, discourse, tg
 from github import Github
 from google.auth.transport.requests import Request
 import json
@@ -22,6 +22,12 @@ from modules.zoom import (
     get_meeting_summary
 )
 from google.oauth2 import service_account
+
+# Import RSS utils
+try:
+    from modules import rss_utils
+except ImportError:
+    rss_utils = None
 
 # Reuse existing zoom module functions
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
@@ -90,6 +96,11 @@ def upload_recording(meeting_id):
         mapping[meeting_id] = {}
     entry = mapping[meeting_id]
     
+    # Check if this meeting should skip YouTube upload (recurring streamed meeting)
+    if entry.get("skip_youtube_upload", False):
+        print(f"Skipping meeting {meeting_id} - marked as skip_youtube_upload (recurring streamed meeting)")
+        return
+    
     # Check attempt counter
     attempt_count = entry.get("upload_attempt_count", 0)
     if attempt_count >= 10:
@@ -152,15 +163,27 @@ def upload_recording(meeting_id):
                 body=f"YouTube recording available: {youtube_link}"
             )
 
+        # Update RSS feed with YouTube video
+        if rss_utils:
+            try:
+                rss_utils.add_notification_to_meeting(
+                    meeting_id,
+                    "youtube_upload",
+                    f"Meeting recording uploaded: {video_title}",
+                    youtube_link
+                )
+                print(f"Updated RSS feed with YouTube video for meeting {meeting_id}")
+            except Exception as e:
+                print(f"Failed to update RSS feed: {e}")
+
         # Send Telegram notification similar to handle_issue
         try:
-            import modules.telegram as telegram
             telegram_message = (
                 f"YouTube Upload Successful!\n\n"
                 f"Title: {video_title}\n"
                 f"URL: {youtube_link}"
             )
-            telegram.send_message(telegram_message)
+            tg.send_message(telegram_message)
             print("Telegram notification sent for YouTube upload.")
         except Exception as e:
             print(f"Error sending Telegram message for YouTube upload: {e}")
