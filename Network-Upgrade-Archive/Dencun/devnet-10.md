@@ -25,7 +25,7 @@
 ## [Docker images](https://github.com/ethpandaops/dencun-testnet/blob/master/ansible/inventories/devnet-10/group_vars/all/images.yaml) for devnet 10
 
 ### Open issues
-[Prysm-13097](https://github.com/prysmaticlabs/prysm/issues/13097) - triggered by the accidential non finality event at epoch 32-35 - Closed
+[Prysm-13097](https://github.com/prysmaticlabs/prysm/issues/13097) - triggered by the accidental non finality event at epoch 32-35 - Closed
 [Teku-7626](https://github.com/Consensys/teku/issues/7626) - triggered by mass deposits - Closed
 MEV-Boost - timestamp too early issue (no open issue yet)
 MEV-Relay - Error: BLOCK_ERROR_INVALID_STATE_ROOT (no open issue yet)
