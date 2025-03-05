@@ -23,4 +23,4 @@ The document outlines the specifications for Ethereum's Dencun devnet. The netwo
 
 # 4844 Readinesss Checklist
 
-Early in Dencun devlopment, the [`4844-readiness-checklist`](4844-readiness-checklist.md) was created to track implementation progress & open issues. Once EIP-4844 was included in the Dencun network upgrade, it was replaced by the various dencun devnet spec documents. 
+Early in Dencun development, the [`4844-readiness-checklist`](4844-readiness-checklist.md) was created to track implementation progress & open issues. Once EIP-4844 was included in the Dencun network upgrade, it was replaced by the various dencun devnet spec documents. 
