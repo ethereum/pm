@@ -6,7 +6,7 @@
 ### Moderator: Mikhail Kalinin
 ### Notes: Shane Lightowler
 
-# Inmplementation updates
+# Implementation updates
 
 **Mikhail Kalinin**
 
