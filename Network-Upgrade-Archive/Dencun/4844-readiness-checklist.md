@@ -14,7 +14,7 @@ This document is meant to capture various tasks that need to be completed before
 
 #### Execution Layer 
 
-### Implementation Progresss
+### Implementation Progress
 
 Implementation status of Included EIPs across participating clients.
 
