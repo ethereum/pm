@@ -1,6 +1,6 @@
 # FOCIL Breakout Room #03
 
-Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1238#issuecomment-2590169551)
+Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1266)
 
 ### Meeting Info
 
