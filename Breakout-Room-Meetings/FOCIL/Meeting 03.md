@@ -11,7 +11,7 @@ Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1238
 **Recording**: [here](https://www.youtube.com/live/azvPMD2us0Y)
 
 ## Meeting notes:
-# Meeting Summary  
+## Meeting Summary  
 
 The meeting had no formal presentation but focused on updates and discussions related to the implementation and testing of features for clients.  
 
