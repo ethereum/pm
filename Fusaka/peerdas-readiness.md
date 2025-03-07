@@ -4,6 +4,10 @@ This document outlines various tasks to work through to make PeerDAS ready for M
 
 *Note*: The set of items is not final and will be aligned with ongoing R&D and implementation work.
 
+Task tracking board by Francis here: 
+
+https://docs.google.com/document/d/1MXf5zTU58mRj0Yq88EPBP1gCJzWTY9FRfUdpZjcfgqw/edit?tab=t.0#heading=h.fg53pp2wx7q9
+
 ## Table of contents
 
 <!-- TOC -->
@@ -25,8 +29,9 @@ This document outlines various tasks to work through to make PeerDAS ready for M
   * [x] Subnet Decoupling (introduce Custody Groups)
   * [x] Increase blob count (9/12)
 * [ ] `peerdas-devnet-5` (`peerdas-devnet-4` relaunch with new EL image)
-  * [ ] Sync testing: checkpoint and genesis sync
-  * [ ] Validator custody (optional)
+  * [ ] 🚧 Sync testing: checkpoint and genesis sync
+  * [ ] Validator custody
+    * 🚧 Client teams are currently implementing this
 * [ ] `peerdas-devnet-6` (**feature complete**)
   * [ ] Validator custody on all clients
   * [ ] Distributed blob ~~building~~ publishing
@@ -42,10 +47,13 @@ This document outlines various tasks to work through to make PeerDAS ready for M
 * [x] Validator Custody
 * [ ] Distributed Blob Publishing
   * [ ] `consensus-spec` to specify minimum requirements for data column publishing
+    * 🚧 [@jimmygchen](https://github.com/@jimmygchen) to draft a `consensus-spec` PR
 * [ ] Move proof computation to transaction sender
   * [ ] EIP: [Update EIP-7594: include cell proofs in network wrapper of blob txs #9378](https://github.com/ethereum/EIPs/pull/9378)
+    * 🚧 [@fradamt](https://github.com/fradamt) https://github.com/ethereum/EIPs/pull/9378
   * [ ] `execution-specs` update: does the mempool verification change need to be specified?
   * [ ] `execution-apis` update: `getPayloadV5` and `getBlobsV2` to replace blob KZG proofs with cell KZG proofs.
+    * 🚧 [@0x00101010](https://github.com/0x00101010) https://github.com/ethereum/execution-apis/pull/630
   * [ ] `consensus-specs` update: See [here](https://hackmd.io/@jimmygchen/HkUpFliYJx#CL-changes)
   * [ ] `beacon-API` update: `GetBlobSidecar` API may need a version bump as we replace blob KZG proofs with cell KZG proofs.
 * [ ] EIP to increase target / max blob count in Fusaka
@@ -60,12 +68,15 @@ This document outlines various tasks to work through to make PeerDAS ready for M
 * [ ] Run network limit devnets (https://notes.ethereum.org/@ethpandaops/network-limit-devnets)
 * [ ] Effectiveness of distributed blob publishing
  * [ ] Gather `getBlobs` performance metrics across all ELs
+   * Reth metric: https://github.com/paradigmxyz/reth/pull/14621
  * [ ] Gather `getBlobs` hit rate and publish rate across all CLs
  * [ ] Run a devnet and disable proposer blob publishing, and use the block proposal success rate as a measure of effectiveness of distributed publishing.
 * [ ] High blob throughput testing (48/64 blobs) that we can do today (before [proof computation changes](https://github.com/ethereum/EIPs/pull/9378) is implemented)
  * [ ] Stub out proof computation in the KZG lib and test CL performance with high blob count (to simulate proof computation offloaded).
  * [ ] Stress test mempool to make sure the ELs can handle high blob count.
 * [ ] High blob throughput testing (48/64 blobs) on a large network that mirrors mainnet network typology (after [proof computation changes](https://github.com/ethereum/EIPs/pull/9378) implemented in at least 1 CL/EL client pair)
+  * 🚧 Sunnyside Labs currently working on testing infra
+  * 🚧 [@0x00101010](https://github.com/0x00101010) working on implementing the EIP change on Prysm and Geth
  
 ## R&D
 
@@ -74,3 +85,5 @@ This document outlines various tasks to work through to make PeerDAS ready for M
 * [ ] EL: Potential optimisation of `getBlobs` endpoint?
 * [ ] Document impact to node operators (prior post with 16 blobs [here](https://blog.sigmaprime.io/peerdas-distributed-blob-building.html#impact-on-node-operators))
 * [ ] Research/estimate/measure sync speed on various custody column count.
+* [ ] [Gossipsub batch publishing](https://ethresear.ch/t/improving-das-performance-with-gossipsub-batch-publishing/21713)
+  * This is not a protocol change and coodination is not required between clients
