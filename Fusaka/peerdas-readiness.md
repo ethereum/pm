@@ -29,6 +29,7 @@ https://docs.google.com/document/d/1MXf5zTU58mRj0Yq88EPBP1gCJzWTY9FRfUdpZjcfgqw/
   * [x] Subnet Decoupling (introduce Custody Groups)
   * [x] Increase blob count (9/12)
 * [ ] `peerdas-devnet-5` (`peerdas-devnet-4` relaunch with new EL image)
+  * [ ] Sync testing: checkpoint and genesis sync
   * [ ] Validator custody (optional)
 * [ ] `peerdas-devnet-6` (**feature complete**)
   * [ ] Validator custody on all clients
