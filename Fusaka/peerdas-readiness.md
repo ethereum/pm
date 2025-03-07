@@ -2,9 +2,8 @@
 
 This document outlines various tasks to work through to make PeerDAS ready for Mainnet release.
 
-*Note*: The set of items is not final and will be aligned with ongoing R&D and implementation work.
-
-Task tracking board by Francis here: 
+*Note*: 
+This document has been replaced by the following Google Docs to serve as the single source of truth and allow for easier modification. **Ongoing R&D and implementation work will be updated and tracked in the document below:**
 
 https://docs.google.com/document/d/1MXf5zTU58mRj0Yq88EPBP1gCJzWTY9FRfUdpZjcfgqw/edit?tab=t.0#heading=h.fg53pp2wx7q9
 
