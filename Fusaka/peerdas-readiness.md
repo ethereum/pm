@@ -69,7 +69,7 @@ This document outlines various tasks to work through to make PeerDAS ready for M
  
 ## R&D
 
-* [ ] Anaylsis of new blob count impact on bandwidth, hardware requirements once clients are feature complete (`peerdas-devnet-6`)
+* [ ] Analysis of new blob count impact on bandwidth, hardware requirements once clients are feature complete (`peerdas-devnet-6`)
 * [ ] Nice to have: [BPO only forks](https://ethereum-magicians.org/t/blob-parameter-only-bpo-forks/22623)
 * [ ] EL: Potential optimisation of `getBlobs` endpoint?
 * [ ] Document impact to node operators (prior post with 16 blobs [here](https://blog.sigmaprime.io/peerdas-distributed-blob-building.html#impact-on-node-operators))
