@@ -2,7 +2,7 @@
 
 Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1291)
 
-### Meeting Info
+## Meeting Info
 
 **Agenda**: [ethereum#1291](https://github.com/ethereum/pm/issues/1291#issue-2844917923)
 
@@ -11,12 +11,12 @@ Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1291
 **Recording**: [here](https://www.youtube.com/live/2MkoP6BDNro)
 
 ## Meeting notes:
-## Research  
+### Research  
 
-## Privacy  
+#### Privacy  
 George, Benedict, and Thomas published **zkFOCIL**, which introduces an approach that allows includers to propose inclusion lists without revealing their identity. We really want to push this further and encourage anyone interested to reach out—either by applying to the academic grants round or implementing a prototype.  
 
-## Compatibilities with Other Proposals  
+#### Compatibilities with Other Proposals  
 
 ### FOCIL and Delayed Execution  
 Thomas reviewed how **FOCIL** can work with **Delayed Execution** by Toni and Francesco and identified potential inherent incompatibilities. In **Delayed Execution**, blocks are validated while transactions are executed asynchronously. However, in **FOCIL**, if any IL transaction is missing in a payload, attesters should execute the payload to determine whether the missing transaction is invalid.  
@@ -48,7 +48,7 @@ Further research is needed to analyze these trade-offs.
 ## FOCIL Progress Tracker  
 Jihoon and Thomas created a **progress tracker** for all clients, allowing everyone to check the current status. They will update it frequently, so reach out if you'd like your progress reflected.  
 
-## Implementation Updates  
+### Implementation Updates  
 - **Nethermind** is working on interop with **Prysm**.  
 - **Lodestar**:  
   - Finished basic implementation, reviewed code internally, and tried interop with **Geth**.  
@@ -70,10 +70,10 @@ Jihoon and Thomas created a **progress tracker** for all clients, allowing every
   - Still under development.  
   - After implementing **fork-choice** and **beacon APIs**, Teku is **ready for interop**.  
 
-## Issue with Dora  
+### Issue with Dora  
 **Dora** doesn't recognize **EIP-7805** blocks, so CLs had to hard-code the beacon block's version to **Electra**. This was due to miscommunication, but **Dora will alias EIP-7805 as Electra** moving forward.  
 
-## PEEPanEIP  
+### PEEPanEIP  
 **Thomas and Julian** had a podcast with **Pooja**. A recording should be published this week.  
 
 ## Questions  
