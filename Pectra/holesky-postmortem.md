@@ -8,7 +8,7 @@ Date: Feb 27, 2025, 19:00 UTC
 
 # Current Status and Next Steps
 
-Client teams are still working on recovering the Holešky network, trying to reach finality on March 12. Check instructions below for your validators to participate.
+Client teams are still working on recovering the Holešky network, trying to reach finality on March 12. The participation is getting close to finalization but still needs more active operators. Check instructions below for your validators to participate.
 
 If this finalization attempt doesn't work out, the [analysis](https://docs.google.com/spreadsheets/d/1nndNt-XC4JzqsjmCRuiXBGCGMFomCHx_e_DZzFqvhGM/edit?gid=373616122#gid=373616122) suggests that it will take till March 28 for innactivity leak to reach finalization. If that's the case, a shadow fork from the last finalized state will run as an alternative testnet until Holešky finalizes again, at least till March 31. 
 
@@ -26,7 +26,7 @@ If you are a Holešky operator, use following instructions to participate and co
 
 ## Previous ecovery efforts
 
-The initial strategy for recovery planned at [ACDE#206](https://github.com/ethereum/pm/issues/1306), described bellow, was not succesfull. The coordination of validators to follow the correct fork did not reach the necessary 66% and the network is in a prolong state of non-finalization. This is a scenario which consensus clients are not designed for and causes huge resources overhead. Client teams are implementing fixes and mitigations allowing to run clients more easily even through long periods of non-finalization. 
+The initial strategy for recovery planned at [ACDE#206](https://github.com/ethereum/pm/issues/1306), described bellow, was not succesfull. The outcome and new options were discussed at [ACDC#152](https://github.com/ethereum/pm/issues/1323). The coordination of validators to follow the correct fork did not reach the necessary 66% and the network is in a prolong state of non-finalization. This is a scenario which consensus clients are not designed for and causes huge resources overhead. Client teams are implementing fixes and mitigations allowing to run clients more easily even through long periods of non-finalization.
 
 ### Coordinated Slashings
 
