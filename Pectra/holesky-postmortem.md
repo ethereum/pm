@@ -8,19 +8,29 @@ Date: Feb 27, 2025, 19:00 UTC
 
 # Current Status and Next Steps
 
-Client teams are still trying to recover the Holesky network. 
+Client teams are still working on recovering the Holešky network, trying to reach finality on March 12. Check instructions below for your validators to participate.
 
-## Holesky Coordinated Slashings
+If this finalization attempt doesn't work out, the [analysis](https://docs.google.com/spreadsheets/d/1nndNt-XC4JzqsjmCRuiXBGCGMFomCHx_e_DZzFqvhGM/edit?gid=373616122#gid=373616122) suggests that it will take till March 28 for innactivity leak to reach finalization. If that's the case, a shadow fork from the last finalized state will run as an alternative testnet until Holešky finalizes again, at least till March 31. 
 
-On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). Ideally, the nework would have enough validators online to finalize an epoch on the valid chain at the same time. If successful, this will help clients sync to the minority chain. While all slashings and exits will still need to be processed, and Holesky is expected to go through other longs period of non-finality, a finalized epoch will make it easier to peer with nodes on the valid chain. 
+## Participate in the rescue
 
-Holesky operators should now:
+Another coordination effort to reach finality in the network is taking place until March 12. The goal is to connect as many validators as possible to the correct network, create a new finalized epoch which can be then used by clients to sync again.
 
-1. Update their clients to the versions listed below
-2. Sync their validators to the head of the chain
-3. Be ready to disable slashing protection by slot `3737760` (Feb 28, 15:12:00 UTC)
+If you are a Holešky operator, use following instructions to participate and contribute to the rescue: 
 
-Instructions to disable slashing protection for each client can be found below. A call will be hosted from 15:00-16:00 UTC for client teams and node operators to coordinate on this: https://github.com/ethereum/pm/issues/1337
+- Update your clients to a version containing the fix, [list of versions below](#client-releases-and-resources)
+- Disable slashing protection as [described below](#Disabling-Slashing-Protection)
+- Instead of your own Beacon Node, connect to [provided Beacon API](https://holesky-rescue.ethpandaops.io/) https://holesky-rescue.ethpandaops.io/
+    - In case you have trouble finding peers or need another endpoint, check here https://notes.ethereum.org/@ethpandaops/holesky-rescue-efforts-v2
+- Reach out to PandaOps or your client team in R&D Discord in case of any issues following the correct chain
+
+## Previous ecovery efforts
+
+The initial strategy for recovery planned at [ACDE#206](https://github.com/ethereum/pm/issues/1306), described bellow, was not succesfull. The coordination of validators to follow the correct fork did not reach the necessary 66% and the network is in a prolong state of non-finalization. This is a scenario which consensus clients are not designed for and causes huge resources overhead. Client teams are implementing fixes and mitigations allowing to run clients more easily even through long periods of non-finalization. 
+
+### Coordinated Slashings
+
+On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). Ideally, the nework would have enough validators online to finalize an epoch on the valid chain at the same time. If successful, this would help clients sync to the minority chain. While all slashings and exits will still need to be processed, and Holesky is expected to go through other longs period of non-finality, a finalized epoch will make it easier to peer with nodes on the valid chain. 
 
 ### Disabling Slashing Protection 
 
@@ -71,27 +81,34 @@ See https://docs.web3signer.consensys.io/concepts/slashing-protection
 Updates to releases listed in the original [Pectra testnet announcement](https://blog.ethereum.org/2025/02/14/pectra-testnet-announcement)
 
 **Execution Layer Released Fixes:**
-- Geth:  [v1.15.3](https://github.com/ethereum/go-ethereum/releases/tag/v1.15.3)
-- Nethermind: [v1.31.1](https://github.com/NethermindEth/nethermind/releases/tag/1.31.1)
-- Besu: [25.2.1](https://github.com/hyperledger/besu/releases/tag/25.2.1)
+- Geth:  [v1.15.3](https://github.com/ethereum/go-ethereum/releases/tag/v1.15.3) and subsequent 
+- Nethermind: [v1.31.1](https://github.com/NethermindEth/nethermind/releases/tag/1.31.1) and subsequent 
+- Besu: [25.2.1](https://github.com/hyperledger/besu/releases/tag/25.2.1) and subsequent 
 - Reth and Erigon: *No update needed (correctly handled the deposit contract)*
 
 **Consensus Layer Fixes:**
 
-Consensus layer teams have been putting out patches to improve peering and sync on branches and docker releases. The following information is accurate as of 19:00 UTC on Feb. 27. This [HackMD document](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx#CL-docker-tags) may have more recent information. 
+Consensus layer teams have been putting out patches to improve peering and sync on branches and docker releases. The following information is accurate as of 19:00 UTC on Mar. 10. This [HackMD document](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx#CL-docker-tags) may have more recent information. 
 
-- Lighthouse branch: [`holesky-rescue`](https://github.com/sigp/lighthouse/tree/holesky-rescue)
+- Lighthouse
+  - Branch: [`holesky-rescue`](https://github.com/sigp/lighthouse/tree/holesky-rescue)
+  - Release: [Frankenstein's Monster](https://github.com/sigp/lighthouse/releases/tag/v7.0.0-beta.2)
+  - Docker image: `sigmaprime/lighthouse:sigp-holesky-rescue-6399ad4`
 - Lodestar:
     - Branch: [`holesky-rescue`](https://github.com/ChainSafe/lodestar/tree/holesky-rescue)
-    - Docker image: `ethpandaops/lodestar:holesky-rescue-5cb590f`
+    - Release: [v1.27.1](https://github.com/ChainSafe/lodestar/releases/tag/v1.27.1)
+    - Docker image: `ethpandaops/lodestar:holesky-rescue-43b5b91` 
 - Prysm:
     - Branch: [`hackSync`](https://github.com/prysmaticlabs/prysm/tree/hackSync)
-    - Docker image: `ethpandaops/prysm-beacon-chain:hackSync-fd41691`
-- Nimbus branch: [`splitview`](https://github.com/status-im/nimbus-eth2/tree/feat/splitview) 
-- Grandine branch: [`holesky-recover`](https://github.com/grandinetech/grandine/tree/holesky-recover)
+    - Docker image: `ethpandaops/prysm-beacon-chain:hackSync-a9dc6a1` 
+- Nimbus
+    - Branch: [`splitview`](https://github.com/status-im/nimbus-eth2/tree/feat/splitview) 
+    - Docker image: `ethpandaops/nimbus-eth2/splitview-49a5263`
+- Grandine 
+     - Branch: [`holesky-recover`](https://github.com/grandinetech/grandine/tree/holesky-recover)
 - Teku:
     - Branch: [`master`](https://github.com/Consensys/teku)
-    - Docker image: `develop`
+    - Docker image: `consensys/teku:develop`
 
 **Useful Resources:**
 - [ENR and enode list for correct chain](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx)
@@ -118,6 +135,8 @@ When a block containing a deposit transaction was proposed at slot 3711006 (bloc
 
 The deposit transaction in question can be found at: [https://holesky.etherscan.io/tx/0x48d5201b36db1122ce4d67367d03ad97d7c2e5b497c324843496230859be1bc7/advanced#eventlog](https://holesky.etherscan.io/tx/0x48d5201b36db1122ce4d67367d03ad97d7c2e5b497c324843496230859be1bc7/advanced#eventlog)
 
+Previous Pectra activations on devnets and Ephemery have not triggered this issue because those networks operate with manually initialized genesis. 
+
 ## Consensus Layer Issue
 
 Once the network split occurred, a secondary issue emerged: consensus clients had difficulty syncing to the correct chain. This was due to:
@@ -138,7 +157,7 @@ _Note: this is a rough first draft, more to come later._
 
 ## User-specified Unfinalized Checkpoint Sync 
 
-Allow CL clients to pick an arbitrary block from which to inialize checkpoint sync, even if not finalized. This would allow users to socially coordinate around a specific chain, forcing the client to sync to it. To be discussed further on March 6's ACDC call. 
+Allow CL clients to pick an arbitrary block from which to inialize checkpoint sync, even if not finalized. This would allow users to socially coordinate around a specific chain, forcing the client to sync to it.
 
 ## Validate EL fork parameterization 
 
@@ -171,7 +190,6 @@ _Note: I used an LLM to compile this based on the Discord chat transcript. I've 
 - 23:23: Nethermind PR created: [NethermindEth/nethermind#8265](https://github.com/NethermindEth/nethermind/pull/8265)
 - 23:28: Besu PR opened: [hyperledger/besu#8346](https://github.com/hyperledger/besu/pull/8346)
 - 23:29: EthereumJS PR opened: [ethereumjs/ethereumjs-monorepo#3882](https://github.com/ethereumjs/ethereumjs-monorepo/pull/3882)
-- 23:38: Ryan Schneider notes: "Everyone check Sepolia while we're looking 🙂"
 
 ## February 25, 2025
 
