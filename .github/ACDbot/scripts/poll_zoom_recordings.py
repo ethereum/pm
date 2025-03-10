@@ -80,6 +80,11 @@ def process_meeting(meeting_id, mapping):
         print(f"Skipping meeting {meeting_id} - max upload attempts reached")
         return
         
+    # Skip if max transcript attempts reached
+    if entry.get("transcript_attempt_count", 0) >= 10:
+        print(f"Skipping meeting {meeting_id} - max transcript attempts reached")
+        return
+        
     # Skip if meeting hasn't occurred yet
     start_time = entry.get("start_time")
     if start_time:
@@ -148,6 +153,7 @@ def process_meeting(meeting_id, mapping):
     except Exception as e:
         # Increment attempt counter on failure
         entry["transcript_attempt_count"] = entry.get("transcript_attempt_count", 0) + 1
+        print(f"Transcript attempt {entry['transcript_attempt_count']} of 10 failed for meeting {meeting_id}")
         save_meeting_topic_mapping(mapping)
         commit_mapping_file()
         print(f"Error processing meeting {meeting_id}: {e}")
