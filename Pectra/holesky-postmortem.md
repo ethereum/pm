@@ -1,44 +1,44 @@
 # Holesky Pectra Incident Post-Mortem
 
-Author: Tim Beiko 
+Author: Tim Beiko, Mario Havel
 
 Status: Resolved
 
-Date: Feb 27, 2025, 19:00 UTC
+Date: Mar 10, 2025
 
 # Current Status 
 
-Holešky network has been succesfully recovered. After 2 weeks of running without finality, the chain finalized again on Mar 10 19:21 UTC at epoch `119090`.
+The Holešky network has been successfully recovered. After 2 weeks of running without finality, the chain finalized again on Mar 10 at 19:21 UTC at epoch `119090`.
 
-The recovery has been achieved by coordinating operators to follow the correct chain until participation reached enough validators for finality. Since then, the participation is still slowly rising and the network seems stable. Detailed efforts and original instructions for validators are described below. 
+The recovery was achieved by coordinating operators to follow the correct chain until participation reached enough validators for finality. Since then, participation has continued to slowly rise and the network appears stable. Detailed recovery efforts and original instructions for validators are described below.
 
-## Recovery efforts
+## Recovery Efforts
 
-The initial strategy to coordinate slashing with operators disabling shlashing protections, planned at [ACDE#206](https://github.com/ethereum/pm/issues/1306), was not succesfull. The outcome and new options were discussed at [ACDC#152](https://github.com/ethereum/pm/issues/1323). At that point, slashings and coordination of validators to follow the correct fork did not reach the necessary 66% and the network was in a prolong state of non-finalization. This is a scenario which consensus clients are not designed for and causes huge resources overhead. Client teams implemented fixes and mitigations allowing to run clients more easily even through long periods of non-finalization.
+The initial strategy to coordinate slashing with operators disabling slashing protections, planned at [ACDE#206](https://github.com/ethereum/pm/issues/1306), was not successful. The outcome and new options were discussed at [ACDC#152](https://github.com/ethereum/pm/issues/1323). At that point, slashings and coordination of validators to follow the correct fork did not reach the necessary 66% threshold, and the network remained in a prolonged state of non-finalization. This scenario is one which consensus clients are not designed for and causes significant resource overhead. Client teams implemented fixes and mitigations allowing clients to run more efficiently even through extended periods of non-finalization.
 
-After [ACDC#152](https://github.com/ethereum/pm/issues/1323), based on outlined strategies, PandaOps started another coordination effort to reach finality in the network, planned to take place until March 12. An [analysis](https://docs.google.com/spreadsheets/d/1nndNt-XC4JzqsjmCRuiXBGCGMFomCHx_e_DZzFqvhGM/edit?gid=373616122#gid=373616122) suggested that network would eventualy reach finality due to inactivity leak around March 28. But a lot of time to test Pectra would be lost so the strategy aimed to try it again before March 12 and as an alternative if it doesn't work out, a shadow fork of the last finalized state would be created as an alternative testing environment. 
+After [ACDC#152](https://github.com/ethereum/pm/issues/1323), based on outlined strategies, PandaOps initiated another coordination effort to reach finality in the network, planned to take place until March 12. An [analysis](https://docs.google.com/spreadsheets/d/1nndNt-XC4JzqsjmCRuiXBGCGMFomCHx_e_DZzFqvhGM/edit?gid=373616122#gid=373616122) suggested that the network would eventually reach finality due to inactivity leak around March 28. However, this would result in losing significant time for testing Pectra, so the strategy aimed to try again before March 12. As an alternative, if this approach didn't succeed, a shadow fork of the last finalized state would be created as an alternative testing environment.
 
-As participation was slowly rising, the goal was to again prompt as many validators as possible to connect to the correct network before Mar 12. This has been succesfully achieved on evening of March 10. A [new finalized epoch](https://light-holesky.beaconcha.in/epoch/119090) of the correct chain was created which can be then used by clients to sync normally again. 
+As participation slowly increased, the goal was to prompt as many validators as possible to connect to the correct network before Mar 12. This was successfully achieved on the evening of March 10. A [new finalized epoch](https://light-holesky.beaconcha.in/epoch/119090) of the correct chain was created, which could then be used by clients to sync normally again.
 
-### Validator instructions
+### Validator Instructions
 
-Instructions for Holešky validators to participate and contribute to the rescue: 
+Instructions for Holešky validators to participate and contribute to the recovery:
 
 - Update your clients to a version containing the fix, [list of versions below](#client-releases-and-resources)
 - Disable slashing protection as [described below](#Disabling-Slashing-Protection)
-- Instead of your own Beacon Node, connect to [provided Beacon API](https://holesky-rescue.ethpandaops.io/) https://holesky-rescue.ethpandaops.io/
-    - In case you have trouble finding peers or need another endpoint, check here https://notes.ethereum.org/@ethpandaops/holesky-rescue-efforts-v2
+- Instead of your own Beacon Node, connect to the [provided Beacon API](https://holesky-rescue.ethpandaops.io/) at https://holesky-rescue.ethpandaops.io/
+    - If you have trouble finding peers or need another endpoint, check https://notes.ethereum.org/@ethpandaops/holesky-rescue-efforts-v2
 - Reach out to PandaOps or your client team in R&D Discord in case of any issues following the correct chain
 
-EL clients need to use full sync instead of snap, this should be the default configuration in releases containing fixes. 
+EL clients need to use full sync instead of snap sync. This should be the default configuration in releases containing fixes.
 
 ### Coordinated Slashings
 
-On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). The goal was for the nework to achieve enough validators online to finalize an epoch on the valid chain at the same time. 
+On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). The goal was for the network to achieve enough validators online to finalize an epoch on the valid chain at the same time.
 
 ### Disabling Slashing Protection 
 
-Instructions for how to disable slashing protection per client. 
+Instructions for how to disable slashing protection per client:
 
 **Grandine**
 
@@ -58,8 +58,7 @@ See https://github.com/sigp/lighthouse/issues/7040
 
 `rm ~/.cache/nimbus/validators/slashing_protection.sqlite3`
 
-Note that the exact path will be dependent on individual configurations. If the node has not cleanly shut down, users may also need to delete  sqlite WAL files such as `slashing_protection.sqlite3-wal` and `slashing_protection.sqlite3-shm`.
-
+Note that the exact path will depend on individual configurations. If the node has not cleanly shut down, users may also need to delete SQLite WAL files such as `slashing_protection.sqlite3-wal` and `slashing_protection.sqlite3-shm`.
 
 **Prysm**
 
@@ -68,9 +67,9 @@ Add the following CLI argument to the validator client **and NOT to the beacon n
 **Teku**
 
 1. Ensure that your configuration is not using doppelganger protection (`--doppelganger-detection-enabled`)
-2. Stop teku
-3. remove slashing protection files. `rm <teku_data_directory>/validator/slashprotection/*`
-4. Start teku
+2. Stop Teku
+3. Remove slashing protection files: `rm <teku_data_directory>/validator/slashprotection/*`
+4. Start Teku
 
 **Vouch/Dirk**
 
@@ -85,14 +84,14 @@ See https://docs.web3signer.consensys.io/concepts/slashing-protection
 Updates to releases listed in the original [Pectra testnet announcement](https://blog.ethereum.org/2025/02/14/pectra-testnet-announcement)
 
 **Execution Layer Released Fixes:**
-- Geth:  [v1.15.3](https://github.com/ethereum/go-ethereum/releases/tag/v1.15.3) and subsequent 
-- Nethermind: [v1.31.1](https://github.com/NethermindEth/nethermind/releases/tag/1.31.1) and subsequent 
-- Besu: [25.2.1](https://github.com/hyperledger/besu/releases/tag/25.2.1) and subsequent 
+- Geth: [v1.15.3](https://github.com/ethereum/go-ethereum/releases/tag/v1.15.3) and subsequent releases
+- Nethermind: [v1.31.1](https://github.com/NethermindEth/nethermind/releases/tag/1.31.1) and subsequent releases
+- Besu: [25.2.1](https://github.com/hyperledger/besu/releases/tag/25.2.1) and subsequent releases
 - Reth and Erigon: *No update needed (correctly handled the deposit contract)*
 
 **Consensus Layer Fixes:**
 
-Consensus layer teams have been putting out patches to improve peering and sync on branches and docker releases. The following information is accurate as of 19:00 UTC on Mar. 10. This [HackMD document](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx#CL-docker-tags) may have more recent information. 
+Consensus layer teams have been releasing patches to improve peering and sync on branches and docker releases. The following information is accurate as of 19:00 UTC on Mar. 10. This [HackMD document](https://hackmd.io/@_iAz6KERTsWIHHNF-wMxAA/r1XlYyickx#CL-docker-tags) may have more recent information.
 
 - Lighthouse
   - Branch: [`holesky-rescue`](https://github.com/sigp/lighthouse/tree/holesky-rescue)
@@ -139,7 +138,7 @@ When a block containing a deposit transaction was proposed at slot 3711006 (bloc
 
 The deposit transaction in question can be found at: [https://holesky.etherscan.io/tx/0x48d5201b36db1122ce4d67367d03ad97d7c2e5b497c324843496230859be1bc7/advanced#eventlog](https://holesky.etherscan.io/tx/0x48d5201b36db1122ce4d67367d03ad97d7c2e5b497c324843496230859be1bc7/advanced#eventlog)
 
-Previous Pectra activations on devnets and Ephemery have not triggered this issue because those networks operate with manually initialized genesis. 
+Previous Pectra activations on devnets and Ephemery did not trigger this issue because those networks operate with manually initialized genesis.
 
 ## Consensus Layer Issue
 
@@ -153,19 +152,17 @@ Once the network split occurred, a secondary issue emerged: consensus clients ha
 
 The justification of the invalid chain created a particularly challenging situation. This justification meant that validators who had attested to the justified checkpoint on the invalid chain would face "surround" slashing conditions if they tried to attest to the correct chain.
 
-This created a negative feedback loop where the valid chain had few blocks and few peers, making it increasingly difficult for nodes to sync to it. The situation was made worse because consensus clients are designed to follow the chain with the most attestation weight, which in this case was the invalid chain.
+This created a negative feedback loop where the valid chain had few blocks and few peers, making it increasingly difficult for nodes to sync to it. The situation was exacerbated because consensus clients are designed to follow the chain with the most attestation weight, which in this case was the invalid chain.
 
 # Root Cause Remediations
 
-_Note: this is a rough first draft, more to come later._
-
 ## User-specified Unfinalized Checkpoint Sync 
 
-Allow CL clients to pick an arbitrary block from which to inialize checkpoint sync, even if not finalized. This would allow users to socially coordinate around a specific chain, forcing the client to sync to it.
+Allow CL clients to pick an arbitrary block from which to initialize checkpoint sync, even if not finalized. This would enable users to socially coordinate around a specific chain, forcing the client to sync to it.
 
-## Validate EL fork parameterization 
+## Validate EL Fork Parameterization 
 
-Implement a form of validation for EL parameters introduced or changed in a network upgrade, either statically or as part of the peer-to-peer protocol. A telegram group has been created to discuss the issue: https://t.me/+d8rLI1WcaY41MmY5 
+Implement a form of validation for EL parameters introduced or changed in a network upgrade, either statically or as part of the peer-to-peer protocol. A Telegram group has been created to discuss the issue: https://t.me/+d8rLI1WcaY41MmY5 
 
 # Timeline of Events
 
@@ -232,7 +229,7 @@ _Note: I used an LLM to compile this based on the Discord chat transcript. I've 
 - 10:40: Discussions about whether to proceed with Sepolia fork as scheduled
 - 11:16: Lodestar team releases `ethpandaops/lodestar:holesky-rescue-1f257bb`
 
-### 18:00-24:00 UTC:  Increased Validator Participation 
+### 18:00-24:00 UTC: Increased Validator Participation 
 - 18:03: Prysm validators begin producing blocks on the correct chain
 - 18:04: Dora block explorer updated to blacklist the bad chain:
   > "I've added a root blacklist to dora too, so the bad chain shouldn't be displayed as the canonical one anymore."
@@ -290,7 +287,7 @@ _Note: I used an LLM to compile this based on the Discord chat transcript. I've 
 - 14:29: Marek (Nethermind) creates Hackmd document to track validator status: [https://hackmd.io/zu-FVVBSQr-GPdfh4UUIdQ](https://hackmd.io/zu-FVVBSQr-GPdfh4UUIdQ)
 
 ### 14:30 UTC - cont'd: Network Health Improvement
-- 15:43: Terence reports significant improvement: "I'm actually syncing really smoothly on my local node now, everything from scratch (geth - prysm). Following blocks from 6 hours ago. Having Dora alive makes this really easy. I'm impressed how much more smoother everything is today comparing to yesterday"
+- 15:43: Terence reports significant improvement: "I'm actually syncing really smoothly on my local node now, everything from scratch (geth - prysm). Following blocks from 6 hours ago. Having Dora alive makes this really easy. I'm impressed how much smoother everything is today compared to yesterday"
 - 17:33: Discussion about long-term recovery plan, estimating 18 days until finalization
-- 19:09: Marius estimates Holesky is getting 10% attestations participation and 30-50% of scheduled block proposals. 
+- 19:09: Marius estimates Holesky is getting 10% attestation participation and 30-50% of scheduled block proposals.
 
