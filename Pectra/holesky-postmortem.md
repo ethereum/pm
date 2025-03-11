@@ -1,22 +1,28 @@
-# [Active] Holesky Pectra Incident Post-Mortem
+# Holesky Pectra Incident Post-Mortem
 
 Author: Tim Beiko 
 
-Status: Active
+Status: Resolved
 
 Date: Feb 27, 2025, 19:00 UTC
 
-# Current Status and Next Steps
+# Current Status 
 
-Client teams are still working on recovering the Holešky network, trying to reach finality on March 12. The participation is getting close to finalization but still needs more active operators. Check instructions below for your validators to participate.
+Holešky network has been succesfully recovered. After 2 weeks of running without finality, the chain finalized again on Mar 10 19:21 UTC at epoch `119090`.
 
-If this finalization attempt doesn't work out, the [analysis](https://docs.google.com/spreadsheets/d/1nndNt-XC4JzqsjmCRuiXBGCGMFomCHx_e_DZzFqvhGM/edit?gid=373616122#gid=373616122) suggests that it will take till March 28 for innactivity leak to reach finalization. If that's the case, a shadow fork from the last finalized state will run as an alternative testnet until Holešky finalizes again, at least till March 31. 
+The recovery has been achieved by coordinating operators to follow the correct chain until participation reached enough validators for finality. Since then, the participation is still slowly rising and the network seems stable. Detailed efforts and original instructions for validators are described below. 
 
-## Participate in the rescue
+## Recovery efforts
 
-Another coordination effort to reach finality in the network is taking place until March 12. The goal is to connect as many validators as possible to the correct network, create a new finalized epoch which can be then used by clients to sync again.
+The initial strategy to coordinate slashing with operators disabling shlashing protections, planned at [ACDE#206](https://github.com/ethereum/pm/issues/1306), was not succesfull. The outcome and new options were discussed at [ACDC#152](https://github.com/ethereum/pm/issues/1323). At that point, slashings and coordination of validators to follow the correct fork did not reach the necessary 66% and the network was in a prolong state of non-finalization. This is a scenario which consensus clients are not designed for and causes huge resources overhead. Client teams implemented fixes and mitigations allowing to run clients more easily even through long periods of non-finalization.
 
-If you are a Holešky operator, use following instructions to participate and contribute to the rescue: 
+After [ACDC#152](https://github.com/ethereum/pm/issues/1323), based on outlined strategies, PandaOps started another coordination effort to reach finality in the network, planned to take place until March 12. An [analysis](https://docs.google.com/spreadsheets/d/1nndNt-XC4JzqsjmCRuiXBGCGMFomCHx_e_DZzFqvhGM/edit?gid=373616122#gid=373616122) suggested that network would eventualy reach finality due to inactivity leak around March 28. But a lot of time to test Pectra would be lost so the strategy aimed to try it again before March 12 and as an alternative if it doesn't work out, a shadow fork of the last finalized state would be created as an alternative testing environment. 
+
+As participation was slowly rising, the goal was to again prompt as many validators as possible to connect to the correct network before Mar 12. This has been succesfully achieved on evening of March 10. A [new finalized epoch](https://light-holesky.beaconcha.in/epoch/119090) of the correct chain was created which can be then used by clients to sync normally again. 
+
+### Validator instructions
+
+Instructions for Holešky validators to participate and contribute to the rescue: 
 
 - Update your clients to a version containing the fix, [list of versions below](#client-releases-and-resources)
 - Disable slashing protection as [described below](#Disabling-Slashing-Protection)
@@ -24,13 +30,11 @@ If you are a Holešky operator, use following instructions to participate and co
     - In case you have trouble finding peers or need another endpoint, check here https://notes.ethereum.org/@ethpandaops/holesky-rescue-efforts-v2
 - Reach out to PandaOps or your client team in R&D Discord in case of any issues following the correct chain
 
-## Previous ecovery efforts
-
-The initial strategy for recovery planned at [ACDE#206](https://github.com/ethereum/pm/issues/1306), described bellow, was not succesfull. The outcome and new options were discussed at [ACDC#152](https://github.com/ethereum/pm/issues/1323). The coordination of validators to follow the correct fork did not reach the necessary 66% and the network is in a prolong state of non-finalization. This is a scenario which consensus clients are not designed for and causes huge resources overhead. Client teams are implementing fixes and mitigations allowing to run clients more easily even through long periods of non-finalization.
+EL clients need to use full sync instead of snap, this should be the default configuration in releases containing fixes. 
 
 ### Coordinated Slashings
 
-On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). Ideally, the nework would have enough validators online to finalize an epoch on the valid chain at the same time. If successful, this would help clients sync to the minority chain. While all slashings and exits will still need to be processed, and Holesky is expected to go through other longs period of non-finality, a finalized epoch will make it easier to peer with nodes on the valid chain. 
+On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). The goal was for the nework to achieve enough validators online to finalize an epoch on the valid chain at the same time. 
 
 ### Disabling Slashing Protection 
 
