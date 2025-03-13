@@ -37,7 +37,7 @@ Note: This file is copied from [here](https://gist.github.com/terencechain/1f883
 
 - With bids over p2p, it is mostly a protocol fallback. It’s expected builder to enshrine the relayer role and offer relayer features like cancellations
 
-- Then the rest of the meetings discussed how proposer can just bypass the system by selecting the 0 value bid header and handling payment out of band. Potuz argued this is not an issue. There seems to be agreement that there’s a profound difference here because to enter the market you dont need trust. The market can be more competitive but there’s a trade-off cost on whether it’s worth it. It’s noted client default is import there, ppl who want to maintain the same status will have to maintain a forked client
+- Then the rest of the meetings discussed how proposer can just bypass the system by selecting the 0 value bid header and handling payment out of band. Potuz argued this is not an issue. There seems to be agreement that there’s a profound difference here because to enter the market you dont need trust. The market can be more competitive but there’s a trade-off cost on whether it’s worth it. It’s noted client default is important there, people who want to maintain the same status will have to maintain a forked client
 
 #### Next step. 
 - Will have another ePBS break-out call to follow up on the splitting attack. But in this call, we established that:
