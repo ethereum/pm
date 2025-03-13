@@ -8,7 +8,7 @@
 - [devnet-1](https://notes.ethereum.org/@ethpandaops/pectra-devnet-1)
 - [devnet-0](https://notes.ethereum.org/@ethpandaops/pectra-devnet-0)
 
-### To come devnet: 
+### Upcoming devnet: 
 - [devnet-6](https://notes.ethereum.org/@ethpandaops/pectra-devnet-6) (not yet deployed)
 
 
