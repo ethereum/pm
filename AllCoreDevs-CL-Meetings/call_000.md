@@ -313,7 +313,7 @@
 * [Milagro crypto](https://github.com/milagro-crypto/milagro-crypto-c)
 * [VDF Construction by Benjamin Wesolowski](https://eprint.iacr.org/2018/623)
 * [Justin VDF presentation on gitcoin](https://twitter.com/drakefjustin/status/1025040874386939904)
-* [VDF Reading list](https://t.co/hDVSNImQ40)
+* [VDF Reading list](https://notes.ethereum.org/52JZtwErThe9KmN6TNd1lg)
 
 # Attendees
 * Justin Drake (EF/Research)
