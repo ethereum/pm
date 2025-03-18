@@ -8,7 +8,7 @@ When championing a Core EIP, the amount of social consensus-building required is
 
 ## Socialize Your Idea
 
-First, look for prior art. Are there related past EIPs? Does it make sense to extend or revive them?
+First, look for prior art. Are there related [past EIPs](https://eips.ethereum.org/core#draft)? Does it make sense to extend or revive them?
 
 If you're ready to move forward, consider the following channels when soliciting feedback on your idea:
 
@@ -22,7 +22,7 @@ If you're ready to move forward, consider the following channels when soliciting
 
 ## Write the EIP
 
-Once you’re satisfied with the momentum your idea has generated, formally specify the network changes within an EIP using the [template](https://github.com/ethereum/EIPs/blob/master/eip-template.md?plain=1).
+Once you’re satisfied with the momentum your idea has generated, formally specify the network changes within an EIP using the [template](https://github.com/ethereum/EIPs/blob/master/eip-template.md?plain=1). [EIP-1](https://eips.ethereum.org/EIPS/eip-1#eip-header-preamble) provides more context on the template and the EIP process more broadly.
 
 <details>   
 <summary>Reference examples</summary>
@@ -40,10 +40,10 @@ Here are some strong reference examples, each with a note on what makes them wel
 
 ## Implement Spec Changes & Generate Tests
 
-Once the EIP is published, you can make it much easier for the community to evaluate your idea by writing a reference implementation and generating client tests. Cross-layer EIPs will require both EL and CL implementations.
+Once the EIP is published, you can make it much easier for the community to evaluate your idea by writing a reference implementation and generating test cases. Cross-layer EIPs will require both Execution Layer (EL) and Consensus Layer (CL) implementations.
 
 <details>
-<summary>If your EIP impacts the Execution Layer (EL):</summary>
+<summary>If your EIP impacts the Execution Layer:</summary>
 
 - Implement your changes in the [execution-specs](https://github.com/ethereum/execution-specs) (EELS)
   - EIP authors are encouraged to attempt the implementation on their own. Once a PR is created, EELS maintainers regularly step in to provide feedback or polish the implementation.
@@ -56,7 +56,7 @@ Once the EIP is published, you can make it much easier for the community to eval
 </details>
 
 <details>
-<summary>If your EIP impacts the Consensus Layer (CL):</summary>
+<summary>If your EIP impacts the Consensus Layer:</summary>
 
 - Implement the feature in the [consensus-specs](https://github.com/ethereum/consensus-specs) repo. Once a PR is created, repo maintainers will provide feedback and guide next steps.
 - Update [generators](https://github.com/ethereum/consensus-specs/tree/dev/tests/generators) and generate client tests.  
@@ -67,7 +67,7 @@ Once the EIP is published, you can make it much easier for the community to eval
 
 ## Local Interop
 
-Once your EIP has been implemented in at least one client, network testing can begin. Depending on the nature of your change, several [ethPandaOps](https://ethpandaops.io/projects/) tools may be appropriate to leverage here. You will be guided by the testing teams and/or the ethPandaOps team on how to proceed.
+Once your EIP has been implemented in at least one production client, network testing can begin. Depending on the nature of your change, several [ethPandaOps](https://ethpandaops.io/projects/) tools may be appropriate to leverage here. You will be guided by the testing teams and/or the ethPandaOps team on how to proceed.
 
 Your EIP may require testing with various tools, including but not limited to the following:
 
@@ -85,7 +85,7 @@ Separate from the EIP specification status, [EIP-7723](https://eips.ethereum.org
 
 ## Proposed for Inclusion (PFI)
 
-Anyone can open a PR against the fork [Meta EIP](https://eips.ethereum.org/EIPS/eip-7600) to propose an EIP for inclusion in the next network upgrade. Client teams will review each EIP.
+Anyone can open a PR against a fork [Meta EIP](https://eips.ethereum.org/meta) to propose an EIP for inclusion in the next network upgrade. When doing so, please add a rationale for your proposal, such as in [this example](https://github.com/ethereum/EIPs/pull/9163). 
 
 ## Considered for Inclusion (CFI)
 
@@ -95,11 +95,11 @@ If client teams support including the EIP in a network upgrade, it will be moved
 
 ## Declined for Inclusion (DFI)
 
-A proposed or considered EIP may be designated `Declined for Inclusion` if it is out of scope for the upgrade or if the EIP is not ready for inclusion. This does not prohibit the EIP from being proposed for inclusion again in a future network upgrade.
+A PFI or CFI'd EIP may be designated `Declined for Inclusion` if it is out of scope for the upgrade or if the EIP is not ready for inclusion. This does not prohibit the EIP from being Proposed for Inclusion again in a future network upgrade.
 
 ## Scheduled for Inclusion (SFI)
 
-When client and testing teams agree that the EIP is thoroughly tested and is a priority for the upcoming release, it earns the `Scheduled for Inclusion` designation. By convention, proposals need to be at least in `Review` to be scheduled for inclusion.
+When client and testing teams agree that an EIP is thoroughly tested and is a priority for the upcoming release, it earns the `Scheduled for Inclusion` designation. By convention, EIPs need to be at least in `Review` to be SFI'd. When a network upgrade goes live on Ethereum testnets, all SFI'd EIPs will be moved to `Last Call`. 
 
 ## Included
 
