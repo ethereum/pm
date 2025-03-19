@@ -4,7 +4,7 @@ Bot for Ethereum protocol calls automation. Python scripts and github workflows 
 
 ## Features
 
-- Creates Zoom meeting and Google calendar event based on a [Github issue](/.github/ISSUE_TEMPLATE/protocol-calls.md) in [PM repo](github.com/ethereum/pm)
+- Creates Zoom meeting and Google calendar event based on GitHub issues using either the [Recurring Protocol Call](/.github/ISSUE_TEMPLATE/recurring-protocol-calls.md) or [One-Time Protocol Call](/.github/ISSUE_TEMPLATE/onetime-protocol-call.md) templates in [PM repo](github.com/ethereum/pm)
 - Posts the call agenda from GH issue to EthMagicians forum 
 - Uploads meeting recording to YouTube
 - Fetches transcript from the Zoom meeting when it's ready and posts it to the forum

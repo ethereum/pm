@@ -44,6 +44,7 @@ def extract_recurring_info(issue_body):
     """
     Extracts recurring meeting information from the issue body.
     Returns a tuple of (is_recurring, occurrence_rate).
+    For one-time calls, these fields might be missing - default to false/none.
     """
     recurring_pattern = r"Recurring meeting\s*:\s*(true|false)"
     occurrence_pattern = r"Occurrence rate\s*:\s*(none|weekly|bi-weekly|monthly)"
@@ -51,6 +52,7 @@ def extract_recurring_info(issue_body):
     recurring_match = re.search(recurring_pattern, issue_body, re.IGNORECASE)
     occurrence_match = re.search(occurrence_pattern, issue_body, re.IGNORECASE)
     
+    # Default to false and none if fields are missing (one-time meeting template)
     is_recurring = recurring_match and recurring_match.group(1).lower() == 'true'
     occurrence_rate = occurrence_match.group(1).lower() if occurrence_match else 'none'
     
@@ -77,7 +79,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
 
-    # Extract recurring meeting info
+    # Extract recurring meeting info from issue body - this is the source of truth
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
 
     # 3. Check for existing topic_id using the mapping instead of comments
@@ -218,9 +220,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
             meeting_details = zoom.get_meeting(zoom_id)
             join_url = meeting_details.get('join_url')
 
-        # Create YouTube streams for recurring meetings
+        # Create YouTube streams for recurring meetings only
         youtube_streams = None
+        # Use only the value from issue body for recurring meeting configuration
         if is_recurring and occurrence_rate != "none":
+            print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
             youtube_streams = youtube_utils.create_recurring_streams(
                 title=issue_title,
                 description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
@@ -247,17 +251,26 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 mapping[meeting_id]["skip_youtube_upload"] = True
                 save_meeting_topic_mapping(mapping)
                 commit_mapping_file()
+        else:
+            # This is a one-time meeting, we'll upload the recording to YouTube after the meeting
+            print(f"[DEBUG] One-time meeting detected, YouTube upload will be handled after the meeting")
+            if meeting_id in mapping:
+                mapping[meeting_id]["skip_youtube_upload"] = False
+                save_meeting_topic_mapping(mapping)
+                commit_mapping_file()
 
         # Calendar handling
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
         calendar_description = f"Issue: {issue.html_url}"
         event_link = None
         
+        # Use only the value from issue body for calendar events
         if existing_item:
             # Update the specific calendar event instance
             event_id = existing_entry.get("calendar_event_id")
             if event_id:
                 try:
+                    print(f"[DEBUG] Updating calendar event {event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
                     event_link = gcal.update_event(
                         event_id=event_id,
                         summary=issue_title,
@@ -288,6 +301,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             commit_mapping_file()
         else:
             # Create new calendar event
+            print(f"[DEBUG] Creating new calendar event, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
             event_link = create_calendar_event(
                 is_recurring=is_recurring,
                 occurrence_rate=occurrence_rate,
@@ -328,6 +342,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 mapping[meeting_id] = updated_mapping
             else:
                 # Create new mapping entry with initial values
+                # Use the values extracted from the issue body
                 mapping[meeting_id] = {
                     "discourse_topic_id": topic_id,
                     "issue_title": issue.title,
@@ -341,7 +356,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     "Youtube_upload_processed": False,
                     "transcript_processed": False,
                     "upload_attempt_count": 0,
-                    "transcript_attempt_count": 0
+                    "transcript_attempt_count": 0,
+                    "skip_youtube_upload": is_recurring and occurrence_rate != "none"  # Skip upload for recurring meetings with streams
                 }
             
             # Add YouTube streams if available
