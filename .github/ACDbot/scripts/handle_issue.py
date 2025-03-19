@@ -9,6 +9,8 @@ import json
 import requests
 from github import InputGitAuthor
 
+# Add youtube_utils import
+from modules import youtube_utils
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
@@ -100,18 +102,54 @@ def handle_github_issue(issue_number: int, repo_name: str):
         comment_lines.append(f"- Action: {action.capitalize()}")
         comment_lines.append(f"- URL: {discourse_url}")
     else:
-        # Create new topic
-        discourse_response = discourse.create_topic(
-            title=issue_title,
-            body=updated_body,
-            category_id=63  
-        )
-        topic_id = discourse_response.get("topic_id")
-        action = "created"
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
-        comment_lines.append(f"- Action: {action.capitalize()}")
-        comment_lines.append(f"- URL: {discourse_url}")
+        # Try to find existing topic with same title before creating a new one
+        try:
+            print(f"[DEBUG] Checking if topic with title '{issue_title}' already exists")
+            existing_topic = discourse.search_topic_by_title(issue_title)
+            if existing_topic:
+                topic_id = existing_topic.get("id")
+                print(f"[DEBUG] Found existing topic with ID {topic_id}")
+                
+                # Update the existing topic
+                discourse_response = discourse.update_topic(
+                    topic_id=topic_id,
+                    title=issue_title,
+                    body=updated_body,
+                    category_id=63
+                )
+                action = "updated"
+                discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+                comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+                comment_lines.append(f"- Action: {action.capitalize()}")
+                comment_lines.append(f"- URL: {discourse_url}")
+            else:
+                # Create new topic
+                print(f"[DEBUG] No existing topic found, creating a new one")
+                discourse_response = discourse.create_topic(
+                    title=issue_title,
+                    body=updated_body,
+                    category_id=63  
+                )
+                topic_id = discourse_response.get("topic_id")
+                action = "created"
+                discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+                comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+                comment_lines.append(f"- Action: {action.capitalize()}")
+                comment_lines.append(f"- URL: {discourse_url}")
+        except Exception as e:
+            print(f"[DEBUG] Error checking for existing topic: {str(e)}")
+            # Fallback to create new topic
+            discourse_response = discourse.create_topic(
+                title=issue_title,
+                body=updated_body,
+                category_id=63  
+            )
+            topic_id = discourse_response.get("topic_id")
+            action = "created"
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+            comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+            comment_lines.append(f"- Action: {action.capitalize()}")
+            comment_lines.append(f"- URL: {discourse_url}")
 
     # Zoom meeting creation/update
     try:
