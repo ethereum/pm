@@ -525,10 +525,10 @@ def parse_issue_for_time(issue_body: str):
     # Construct the datetime string
     datetime_str = f"{month} {day} {year} {hour}:{minute}"
     try:
-        start_dt = datetime.strptime(datetime_str, "%B %d %Y %H:%M")  # Full month name
+        start_dt = dt.strptime(datetime_str, "%B %d %Y %H:%M")  # Full month name
     except ValueError:
         try:
-            start_dt = datetime.strptime(datetime_str, "%b %d %Y %H:%M")  # Abbreviated month name
+            start_dt = dt.strptime(datetime_str, "%b %d %Y %H:%M")  # Abbreviated month name
         except ValueError as e:
             raise ValueError(f"Unable to parse the start time: {e}")
 
@@ -557,9 +557,9 @@ def parse_issue_for_time(issue_body: str):
     if end_hour and end_minute:
         end_time_str = f"{month} {day} {year} {end_hour}:{end_minute}"
         try:
-            end_dt = datetime.strptime(end_time_str, "%B %d %Y %H:%M")
+            end_dt = dt.strptime(end_time_str, "%B %d %Y %H:%M")
         except ValueError:
-            end_dt = datetime.strptime(end_time_str, "%b %d %Y %H:%M")
+            end_dt = dt.strptime(end_time_str, "%b %d %Y %H:%M")
 
         if end_dt <= start_dt:
             raise ValueError("End time must be after start time.")
