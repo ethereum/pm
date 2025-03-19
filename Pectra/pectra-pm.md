@@ -29,13 +29,13 @@
 - Sepolia: Wed, Mar 5 at 07:29:36 UTC (slot 7118848) 
   - [configuration](https://github.com/eth-clients/sepolia)
   - bug now fixed
-- Hoodie: Mar 17
+- Hoodi: Mar 17
   - [configuration](https://github.com/eth-clients/hoodi) 
 - Mainnet: not announced yet
   - [configuration](https://github.com/eth-clients/mainnet)
   - announce initially expected during [March 6 2025 ACDC](https://github.com/ethereum/pm/issues/1323)
-  - 30+ days after Hoodie fork
-    - latest plan pre Hoodie fork [Mar 13 2025 ACDE](https://ethereum-magicians.org/t/all-core-devs-execution-acde-207/23020)
+  - 30+ days after Hoodi fork
+    - latest plan pre Hoodi fork [Mar 13 2025 ACDE](https://ethereum-magicians.org/t/all-core-devs-execution-acde-207/23020)
 
 # [Pectra Retrospective](https://ethereum-magicians.org/t/pectra-retrospective/22637/)
 
