@@ -5,13 +5,66 @@ on:
     types: [opened, edited]
 
 jobs:
-  handle_new_issue:
+  check_membership:
     runs-on: ubuntu-latest
-    if: >
-      contains(
-        '["poojaranjan", "adietrichs", "CarlBeek", "timbeiko", "nconsigny", "JustinDrake","vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes"]',
-        github.actor
-      )
+    outputs:
+      is_member: ${{ steps.set_output.outputs.is_member }}
+    steps:
+      - name: Check Organization Membership
+        id: check_org_membership
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Check if the user is a member of ethereum or ethcatherders orgs
+            let is_member = false;
+            
+            try {
+              // First, try to check ethereum org membership
+              await github.rest.orgs.checkMembershipForUser({
+                org: 'ethereum',
+                username: context.actor
+              });
+              is_member = true;
+              console.log(`${context.actor} is a member of ethereum org`);
+            } catch (error) {
+              console.log(`${context.actor} is not a member of ethereum org`);
+              
+              try {
+                // If not in ethereum, check ethcatherders org
+                await github.rest.orgs.checkMembershipForUser({
+                  org: 'ethcatherders',
+                  username: context.actor
+                });
+                is_member = true;
+                console.log(`${context.actor} is a member of ethcatherders org`);
+              } catch (innerError) {
+                console.log(`${context.actor} is not a member of ethcatherders org`);
+                
+                // Fallback to a list of trusted contributors if not in either org
+                const trustedContributors = [
+                  "poojaranjan", "adietrichs", "CarlBeek", "timbeiko", "nconsigny", 
+                  "JustinDrake", "vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", 
+                  "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes", "SamWilsn"
+                ];
+                
+                if (trustedContributors.includes(context.actor)) {
+                  is_member = true;
+                  console.log(`${context.actor} is in the trusted contributors list`);
+                }
+              }
+            }
+            
+            return is_member;
+            
+      - name: Set output
+        id: set_output
+        run: echo "is_member=${{ steps.check_org_membership.outputs.result }}" >> $GITHUB_OUTPUT
+
+  handle_new_issue:
+    needs: check_membership
+    runs-on: ubuntu-latest
+    if: needs.check_membership.outputs.is_member == 'true'
     steps:
       - name: Check out code
         uses: actions/checkout@v3

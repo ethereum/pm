@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import urllib.parse
 
 
 def create_topic(title: str, body: str, category_id=63):
@@ -187,3 +188,41 @@ def upload_file(file_content: str, file_name: str):
         resp.raise_for_status()
     
     return resp.json()["url"]
+
+
+def search_topic_by_title(title: str):
+    """
+    Searches for a topic with the exact title.
+    Returns the topic object if found, None otherwise.
+    """
+    api_key = os.environ["DISCOURSE_API_KEY"]
+    api_user = os.environ["DISCOURSE_API_USERNAME"]
+    base_url = os.environ.get("DISCOURSE_BASE_URL", "https://ethereum-magicians.org")
+
+    # URL encode the title for the search query
+    encoded_title = urllib.parse.quote(f'"{title}"')
+    
+    # Search for the exact title
+    resp = requests.get(
+        f"{base_url}/search.json?q={encoded_title}",
+        headers={
+            "Api-Key": api_key,
+            "Api-Username": api_user,
+        },
+    )
+    
+    if not resp.ok:
+        print(f"[DEBUG] Search failed: {resp.text}")
+        resp.raise_for_status()
+    
+    search_results = resp.json()
+    topics = search_results.get("topics", [])
+    
+    # Look for an exact match by title
+    for topic in topics:
+        if topic.get("title") == title:
+            print(f"[DEBUG] Found matching topic: {topic.get('id')} - {topic.get('title')}")
+            return topic
+    
+    print(f"[DEBUG] No topic with exact title '{title}' found")
+    return None

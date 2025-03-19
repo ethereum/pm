@@ -55,11 +55,16 @@ def update_message(message_id: int, text: str):
             return False
         raise
 
-def send_private_message(username: str, text: str):
+def send_private_message(username: str, text: str, parse_mode=None):
     """
     Sends a private message to a Telegram user using their username.
     First gets the chat_id for the user, then sends the message.
     Returns True if successful, False otherwise.
+    
+    Parameters:
+    - username: Telegram username (with or without @)
+    - text: Message text to send
+    - parse_mode: Optional. Mode for parsing entities ('MarkdownV2', 'HTML', or 'Markdown')
     """
     token = os.environ["TELEGRAM_BOT_TOKEN"]
 
@@ -87,6 +92,10 @@ def send_private_message(username: str, text: str):
             "chat_id": chat_id,
             "text": text,
         }
+        
+        # Add parse_mode if specified
+        if parse_mode:
+            data["parse_mode"] = parse_mode
 
         resp = requests.post(url, data=data)
         resp.raise_for_status()
