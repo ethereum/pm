@@ -401,18 +401,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 safe_url = join_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                 safe_issue_url = issue.html_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                 
-                telegram_message = f"""
-                🎯 *Meeting Details*
+                # Fix the indentation in the message string - remove leading spaces
+                telegram_message = f"""🎯 *Meeting Details*
 
-                    *Title*: {safe_title}
+*Title*: {safe_title}
 
-                    *Join URL*: {safe_url}
-                    *Meeting ID*: {zoom_id}
+*Join URL*: {safe_url}
+*Meeting ID*: {zoom_id}
 
-                    *GitHub Issue*: {safe_issue_url}
-                    """
-                # Send private message to facilitator
-                if tg.send_private_message(telegram_handle, telegram_message):
+*GitHub Issue*: {safe_issue_url}"""
+
+                # Send private message to facilitator with explicit parse_mode
+                if tg.send_private_message(telegram_handle, telegram_message, parse_mode="MarkdownV2"):
                     comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
                 else:
                     comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
@@ -434,30 +434,34 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 f"• <a href='{issue.html_url}'>GitHub Issue</a>"
             )
             
+            print(f"[DEBUG] Checking for existing telegram_message_id in mapping[{meeting_id}]")
             # Check if we already have a telegram message ID for this meeting
-            if zoom_id in mapping:
-                if "telegram_message_id" in mapping[zoom_id]:
-                    message_id = int(mapping[zoom_id]["telegram_message_id"])  # Ensure message_id is an integer
-                    try:
-                        if tg.update_message(message_id, telegram_message):
-                            print(f"Updated Telegram message {message_id}")
-                        else:
-                            raise Exception("Failed to update message")
-                    except Exception as e:
-                        print(f"Failed to update Telegram message: {e}")
-                        # If update fails, send new message
-                        message_id = tg.send_message(telegram_message)
-                        mapping[zoom_id]["telegram_message_id"] = message_id
-                        save_meeting_topic_mapping(mapping)
-                        commit_mapping_file()
-                        print(f"Created new Telegram message {message_id} (update failed)")
-                else:
-                    # No message ID stored yet
+            if meeting_id in mapping and "telegram_message_id" in mapping[meeting_id]:
+                message_id = int(mapping[meeting_id]["telegram_message_id"])  # Ensure message_id is an integer
+                print(f"[DEBUG] Found existing telegram_message_id: {message_id}")
+                try:
+                    if tg.update_message(message_id, telegram_message):
+                        print(f"Updated Telegram message {message_id}")
+                    else:
+                        print(f"[DEBUG] tg.update_message returned False for message_id {message_id}")
+                        raise Exception("Failed to update message")
+                except Exception as e:
+                    print(f"Failed to update Telegram message: {e}")
+                    print(f"[DEBUG] Sending new message instead")
+                    # If update fails, send new message
                     message_id = tg.send_message(telegram_message)
-                    mapping[zoom_id]["telegram_message_id"] = message_id
+                    mapping[meeting_id]["telegram_message_id"] = message_id
                     save_meeting_topic_mapping(mapping)
                     commit_mapping_file()
-                    print(f"Created new Telegram message {message_id}")
+                    print(f"Created new Telegram message {message_id} (update failed)")
+            else:
+                # No message ID stored yet
+                print(f"[DEBUG] No existing telegram_message_id found, creating new message")
+                message_id = tg.send_message(telegram_message)
+                mapping[meeting_id]["telegram_message_id"] = message_id
+                save_meeting_topic_mapping(mapping)
+                commit_mapping_file()
+                print(f"Created new Telegram message {message_id}")
                 
         except Exception as e:
             print(f"Telegram notification failed: {e}")
