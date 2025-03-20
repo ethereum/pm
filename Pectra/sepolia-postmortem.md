@@ -59,13 +59,22 @@ An important obstacle of the fixing process was the ongoing attack triggering th
 
 ### Root Cause Remediations
 
-- Execution clients implemented a fix for parsing deposit contract logs but further discussion is needed to make it more robust, improve ABI decoding
+- Execution clients implemented a fix for parsing deposit contract logs, e.g. Geth [#31317](https://github.com/ethereum/go-ethereum/pull/31317)
 - EIP-6110 is updated to add events filtering
-- The testnet configuration needs to more closely mirror mainnet, reducing testnet specific edge cases
 - Blockchain tests are updated to cover related scenarios
 
+### Further Mitigations and Learnings
+
+The testnet configuration needs to more closely mirror mainnet, reducing testnet-specific edge cases. Custom deposit contract proved to be a bigger problem than expected.
+
+ABI decoding of contract events needs to be more resilient and fault tolerant. More discussion is happening on ABI decoding libraries. 
+
+Besu team used a plugin system that allows deploying quick temporary hot fix, excluding malicious transactions, without requiring a full release. They are also going to review usage of third-party libraries in critical consensus paths.
+
+Geth noticed that they did not have a override flag for Cancun yet, fixed in [#31341](https://github.com/ethereum/go-ethereum/pull/31341)
+
 ## More Resources:
-- [Initial EF blog post](https://blog.ethereum.org/2025/03/05/sepolia-pectra-incident)
+- [EF incident blog post](https://blog.ethereum.org/2025/03/05/sepolia-pectra-incident)
 - [Analysis by Marius from Geth](https://mariusvanderwijden.github.io/blog/2025/03/08/Sepolia/)
 
 ## Timeline of Events
