@@ -1,16 +1,18 @@
-# Holesky Pectra Incident Post-Mortem
+# Holešky Pectra Incident Post-Mortem
 
 Author: Tim Beiko, Mario Havel
 
 Status: Resolved
 
-Date: Mar 10, 2025
+Date: Mar 20, 2025
 
 # Current Status 
 
 The Holešky network has been successfully recovered. After 2 weeks of running without finality, the chain finalized again on Mar 10 at 19:21 UTC at epoch `119090`.
 
 The recovery was achieved by coordinating operators to follow the correct chain until participation reached enough validators for finality. Since then, participation has continued to slowly rise and the network appears stable. Detailed recovery efforts and original instructions for validators are described below.
+
+After reaching finality, the consensus started processing validator events and the exit queue became full for the next ~1.5 years. Because of this, full validator lifecycle tests and other Electra testing like consolidations are not possible. Holešky long term support window was shortened and to allow for immediate testing, the network is replaced by [Hoodi](https://github.com/eth-clients/hoodi).
 
 ## Recovery Efforts
 
@@ -20,9 +22,10 @@ After [ACDC#152](https://github.com/ethereum/pm/issues/1323), based on outlined 
 
 As participation slowly increased, the goal was to prompt as many validators as possible to connect to the correct network before Mar 12. This was successfully achieved on the evening of March 10. A [new finalized epoch](https://light-holesky.beaconcha.in/epoch/119090) of the correct chain was created, which could then be used by clients to sync normally again.
 
-### Validator Instructions
+<details>
+  <summary>Original Validator Instructions for recovery</summary>
 
-Instructions for Holešky validators to participate and contribute to the recovery:
+Original instructions for Holešky validators to participate and contribute to the recovery:
 
 - Update your clients to a version containing the fix, [list of versions below](#client-releases-and-resources)
 - Disable slashing protection as [described below](#Disabling-Slashing-Protection)
@@ -34,7 +37,7 @@ EL clients need to use full sync instead of snap sync. This should be the defaul
 
 ### Coordinated Slashings
 
-On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holesky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). The goal was for the network to achieve enough validators online to finalize an epoch on the valid chain at the same time.
+On [ACDE#206](https://github.com/ethereum/pm/issues/1306), client teams decided to try and coordinate mass Holešky slashings around slot `3737760` (Feb 28, 15:12:00 UTC). The goal was for the network to achieve enough validators online to finalize an epoch on the valid chain at the same time.
 
 ### Disabling Slashing Protection 
 
@@ -120,13 +123,21 @@ Consensus layer teams have been releasing patches to improve peering and sync on
 - [Holesky block explorer (correct chain)](https://dora-holesky.pk910.de/)
 - [Nethermind snapshot](https://nethermind.benaadams.vip/snapshot/nethermind_holesky_3420120_0x204dda_8f25ea_snapshot.tar.bz2)
 - [EthPandaOps snapshots](https://ethpandaops.io/data/snapshots/)
-- [Incident Debrief call notes](https://ethereum-magicians.org/t/holesky-incident-debrief-february-26-2025/22998)
+
+</details>
+
+## Postmortems from client teams
+  - [Lodestar Holesky Rescue Retrospective](https://hackmd.io/@philknows/ByxcAAWnye) 
+  - [Besu Deposit Contract Address Postmortem](https://hackmd.io/@siladu/H1qydmWhyx)
+  - [Prysm Postmortem](https://github.com/prysmaticlabs/documentation/pull/1028)
+  - [Who Moved My Testnet? - Reflection on testnet situation by Lucas Saldanha](https://hackmd.io/@lucassaldanha/rJd-9rAikg)
+  - [Original Incident Debrief call notes](https://ethereum-magicians.org/t/holesky-incident-debrief-february-26-2025/22998)
 
 # Root Cause Analysis
 
 ## Execution Layer Issue 
 
-The root cause of the initial problem was that several execution clients (Geth, Nethermind, and Besu) had incorrect deposit contract addresses configured for the Holesky testnet. Specifically:
+The root cause of the initial problem was that several execution clients (Geth, Nethermind, and Besu) had incorrect deposit contract addresses configured for the Holešky testnet. Specifically:
 
 - Holesky's deposit contract address should be `0x4242424242424242424242424242424242424242`
 - Some EL clients were using the mainnet deposit contract address or had no specific configuration for Holesky, leading them to use `0x0000...0000` 
@@ -156,13 +167,110 @@ This created a negative feedback loop where the valid chain had few blocks and f
 
 # Root Cause Remediations
 
+## Validating Configuration and Fork Parameterization 
+
+Better validation of config and fork paramaters is necessary, also genesis configuration is being standardized across clients. EL clients are implementing a new RPC method enabling to retrieve and validate the correct configuration. [eth_config](https://hackmd.io/@shemnon/eth_config). Incompatible configuration results in an early error. 
+
 ## User-specified Unfinalized Checkpoint Sync 
 
-Allow CL clients to pick an arbitrary block from which to initialize checkpoint sync, even if not finalized. This would enable users to socially coordinate around a specific chain, forcing the client to sync to it.
+Clients will enable custom checkpoint sync block and improve capabilities to sync even from an arbitrary non-finalized checkpoints. This would enable users to socially coordinate around a specific chain, forcing the client to sync to it.
+Further improvement could be a leader-based coordination systems for correct chain identification and fix invalid chain pruning capabilities. 
 
-## Validate EL Fork Parameterization 
+> e.g. Prysm added "sync from head" feature ([PR #15000](https://github.com/prysmaticlabs/prysm/pull/15000), more planned [#14988](https://github.com/prysmaticlabs/prysm/issues/14988)), geth is working on similar featre [#31375](https://github.com/ethereum/go-ethereum/issues/31375), Teku consideres it but it's codebase heavily relies on a finalized source to start the sync
 
-Implement a form of validation for EL parameters introduced or changed in a network upgrade, either statically or as part of the peer-to-peer protocol. A Telegram group has been created to discuss the issue: https://t.me/+d8rLI1WcaY41MmY5 
+## Further issues and mitigations
+
+Apart from the original root issue, the incident uncovered a number of other problems caused by the extreme case of a long non-finality, especially for CL clients. Clients implemented more fixes and improvements.
+
+### Issues across consensus clients
+
+#### High resource usage 
+
+Most clients ended up with excessive memory usage and performance degradation as non-finality duration extended (for example Prysm/Geth machine with 300GB+ RAM usage). Without finalized checkpoint to write to the database, clients had to store a lot of data in memory.
+
+#### Fork Choice issues
+
+An incorrect chain with an invalid block being justified caused issues for fork choice. Clients had to handle many competing forks with correct one being a minority without justification.
+
+#### Peer discovery and connection issues
+
+All clients struggled to find peers on the correct chain, even with manual ENR sharing and coordination. Peer scoring and many concurrent forks made it difficult to find a good peer.
+
+#### Slashing protection issues
+
+Every client team needed custom procedures for managing slashing protection. Surround slashing conditions were a problem for validators that attested to the invalid chain.
+
+### Client specific improvements
+
+  - Lighthouse
+    - Developing "hot tree-states" feature to store data in hot DB more efficiently during non-finality. Allows to store data in the hot DB in a disk similarly to the cold DB, without consuming an inordinate amount of disk space.
+    - Added `lighthouse/add_peer` endpoint to help nodes find canonical chain peers, especially useful with `--disable-discovery`
+    - Optimized `BlocksByRange` to load from fork choice when possible
+    - Added `--invalid-block-roots` flag to automatically invalidate problematic blocks (like 2db899...)
+    - Improved cache management and other optimizations
+  - Prysm
+    - Added a new flag to allow syncing from a custom checkpoint, [sync from head](https://github.com/prysmaticlabs/prysm/pull/15000)
+    - Fixed bugs with attestation aggregation and attester slashing bug introduced in Electra [#15027](https://github.com/prysmaticlabs/prysm/pull/15027), [#15028](https://github.com/prysmaticlabs/prysm/pull/15028)
+    - Fixed REST API performance issues with `GetDuties` endpoint [#14990](https://github.com/prysmaticlabs/prysm/pull/14990)
+    - Plans more features for custom sync: [marking invalid blocks](https://github.com/prysmaticlabs/prysm/issues/14989), [optimistic sync option](https://github.com/prysmaticlabs/prysm/issues/14987), [adding blocks manually](https://github.com/prysmaticlabs/prysm/issues/14986), [follow chain by leader's ENR](https://github.com/prysmaticlabs/prysm/issues/14994)
+
+  - Lodestar
+    - Added feature to [check for blacklisted blocks](https://github.com/ChainSafe/lodestar/pull/7498) and introduced a [new endpoint](https://github.com/ChainSafe/lodestar/pull/7580) to return them
+    - Fixed checkpoint state pruning to prevent OOM crashes [#7497](https://github.com/ChainSafe/lodestar/pull/7497), [#7505](https://github.com/ChainSafe/lodestar/pull/7505)
+    - Added pruning of persisted checkpoint states [#7510](https://github.com/ChainSafe/lodestar/pull/7510), [#7495](https://github.com/ChainSafe/lodestar/issues/7495)
+    - Added feature to use local state source as checkpoint [#7509](https://github.com/ChainSafe/lodestar/pull/7509)
+    - Addded new endpoint `eth/v1/lodestar/persisted_checkpoint_state` to return a state based on an optional `rootHex:epoch` parameter [#7541](https://github.com/ChainSafe/lodestar/pull/7541)
+    - Improved peer management during sync stalls, adding check whether peer is `starved` [#7508](https://github.com/ChainSafe/lodestar/pull/7508)
+    - Fixed bug in attestationgossip validation introduced in Electra [#7543](https://github.com/ChainSafe/lodestar/pull/7543)
+    - Considered adding pessimistic sync but might cause problems with snap synced EL and doesn't seem that useful [#7511](https://github.com/ChainSafe/lodestar/pull/7511)
+    - Added state persistence for invalid blocks to allow their analysis [#7482](https://github.com/ChainSafe/lodestar/pull/7482)
+    - Exploring binary diff states and era files to import state [#7535](https://github.com/ChainSafe/lodestar/pull/7535), [#7048](https://github.com/ChainSafe/lodestar/issues/7048)
+
+  - Teku
+    - Fixed fork choice bug related to equivocating votes [#9234](https://github.com/Consensys/teku/pull/9234)
+    - Fixed sync issues during long non-finality, sync process to restarting from an old block because `protoArray` initialised with 0 weights and canonical head became a random chain tip in the past
+    - Fixed node restarting sync from last finalized state
+    - Fixed slow block production due to too many single attestations 
+    - Added sorting for better attestation selection during aggregation
+    - Identified and working on various smaller issues https://github.com/Consensys/teku/issues?q=%5BHOLESKY%20PECTRA%5D
+    - To deal with huge performance overhead, team created a "superbeacon" node on a new machine with substantial CPU/RAM resources to handle the load
+
+  - Nimbus
+    - Didn't experience major issues with performance
+    - Created branch `feat/splitview branch that keeps better track of forks
+    - Even when block was was `INVALID`, it was added to fork choice and justified, creating a hard situation to recover from, due to the fundamentally optimistic nature of how the engine API works
+    - While the `feat/splitview` branch was able to effectively find/explore lots of forks on from different nodes, it was unable to get ELs to often respond with anything but `SYNCING`, so couldn't rule out actually-`INVALID` forks
+    - After the networking finalized, Nimbus took a while to finish some on-finalization processing it did and disrupted slot and block processing for a while. Once it got past that, it was fine, and `feat/splitview` wasn't necessary anymore
+
+  - Grandine
+    - Fixed increased memory usage that led to OOM errors
+
+  - Besu
+    - Fixed deposit contract address misconfiguration [#8346](https://github.com/hyperledger/besu/pull/8346)
+    - Besu is using a 3rd party web3 library to process the deposit contract, team will review usage of external libraries in critical consensus paths [#8391](https://github.com/hyperledger/besu/issues/8391)
+    - Fixed snap sync stalling [#8393](https://github.com/hyperledger/besu/issues/8393)
+  
+  - Geth
+    - Fixed deposit contract address configuration [#31247](https://github.com/ethereum/go-ethereum/pull/31247)
+    - Working on `--synctarget` flag to force client follow a specific chain [#31375](https://github.com/ethereum/go-ethereum/issues/31375)
+    - Identified crashes when trying to add invalid block after syncing good branch [#31320](https://github.com/ethereum/go-ethereum/issues/31320)
+
+### Testing and process improvements
+
+#### More non-finality testing
+Clients have not been tested under such long non-finality conditions before. Some period of non-finality should become a standard testing procedure.
+
+#### Testnet and fork management**
+
+Testnets and hardforks require more careful handling, Holesky/Sepolia/Hoodi should be considered a proper staging environments. Testnets setup should be close to mainnet as possible and hardfork activation should be handled similarly to mainnet with proper procedures. Some more insights on this topic can be found here: https://hackmd.io/@lucassaldanha/rJd-9rAikg
+
+#### Incident response coordination
+
+The process for incident response needs to be clear and executed across client teams. Especially during hardforks, whether testnet or mainnet,developers and devops need be on-call and actively monitoring the situation. Communication needs to be clear between clients, without teams working in isolation. A proper standard procedure for incident response needs to be established with clear guidelines and responsibilities.
+
+#### Validator client separation
+
+Modularity by using separate validator clients proved valuable, allowing teams to connect their validators to connect to healthy beacon nodes providers. Moving validator keys between clients can be challenging and time-consuming.
 
 # Timeline of Events
 
@@ -171,7 +279,7 @@ _Note: I used an LLM to compile this based on the Discord chat transcript. I've 
 ## February 24, 2025
 
 ### 22:04-23:00 UTC: Network Split Identified 
-- 22:04: Multiple users report invalid block issues on the Holesky network after the Pectra upgrade
+- 22:04: Multiple users report invalid block issues on the Holešky network after the Pectra upgrade
 - 22:05: First reports of validation errors in Lighthouse:
   > "Invalid execution payload... validation_error: mismatched block requests hash: got 0x12e7307cb8a29c779310bea59482500fb917e433f6849de7394f9e2f5c34bf31, expected 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 - 22:07: Confirmation that Erigon is also seeing invalid blocks: "we have bad blocks on erigon too"
