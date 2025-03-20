@@ -127,7 +127,7 @@ Consensus layer teams have been releasing patches to improve peering and sync on
 </details>
 
 ## Postmortems from client teams
-  - [Lodestar Holesky Rescue Retrospective](https://hackmd.io/@philknows/ByxcAAWnye) 
+  - [Lodestar Holesky Rescue Retrospective](https://blog.chainsafe.io/lodestar-holesky-rescue-retrospective) 
   - [Besu Deposit Contract Address Postmortem](https://hackmd.io/@siladu/H1qydmWhyx)
   - [Prysm Postmortem](https://github.com/prysmaticlabs/documentation/pull/1028)
   - [Who Moved My Testnet? - Reflection on testnet situation by Lucas Saldanha](https://hackmd.io/@lucassaldanha/rJd-9rAikg)
