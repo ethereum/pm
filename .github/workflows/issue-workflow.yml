@@ -18,41 +18,70 @@ jobs:
           script: |
             // Check if the user is a member of ethereum or ethcatherders orgs
             let is_member = false;
+            const username = context.actor;
             
             try {
-              // First, try to check ethereum org membership
-              await github.rest.orgs.checkMembershipForUser({
-                org: 'ethereum',
-                username: context.actor
-              });
-              is_member = true;
-              console.log(`${context.actor} is a member of ethereum org`);
-            } catch (error) {
-              console.log(`${context.actor} is not a member of ethereum org`);
+              // Use a more reliable way to check membership
+              // First, try checking ethereum org members
+              const etherParams = {org: 'ethereum', per_page: 100};
+              let ethMembers = [];
               
               try {
-                // If not in ethereum, check ethcatherders org
-                await github.rest.orgs.checkMembershipForUser({
-                  org: 'ethcatherders',
-                  username: context.actor
-                });
-                is_member = true;
-                console.log(`${context.actor} is a member of ethcatherders org`);
-              } catch (innerError) {
-                console.log(`${context.actor} is not a member of ethcatherders org`);
+                for await (const response of github.paginate.iterator(github.rest.orgs.listMembers, etherParams)) {
+                  ethMembers = ethMembers.concat(response.data.map(member => member.login.toLowerCase()));
+                }
+                console.log(`Checked ${ethMembers.length} ethereum org members`);
                 
-                // Fallback to a list of trusted contributors if not in either org
-                const trustedContributors = [
-                  "poojaranjan", "adietrichs", "CarlBeek", "timbeiko", "nconsigny", 
-                  "JustinDrake", "vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", 
-                  "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes", "SamWilsn"
-                ];
-                
-                if (trustedContributors.includes(context.actor)) {
+                if (ethMembers.includes(username.toLowerCase())) {
                   is_member = true;
-                  console.log(`${context.actor} is in the trusted contributors list`);
+                  console.log(`${username} is a member of ethereum org`);
+                } else {
+                  console.log(`${username} is not a member of ethereum org`);
+                }
+              } catch (error) {
+                console.log(`Error checking ethereum org: ${error.message}`);
+              }
+              
+              // If not in ethereum, check ethcatherders org
+              if (!is_member) {
+                const catParams = {org: 'ethcatherders', per_page: 100};
+                let catMembers = [];
+                
+                try {
+                  for await (const response of github.paginate.iterator(github.rest.orgs.listMembers, catParams)) {
+                    catMembers = catMembers.concat(response.data.map(member => member.login.toLowerCase()));
+                  }
+                  console.log(`Checked ${catMembers.length} ethcatherders org members`);
+                  
+                  if (catMembers.includes(username.toLowerCase())) {
+                    is_member = true;
+                    console.log(`${username} is a member of ethcatherders org`);
+                  } else {
+                    console.log(`${username} is not a member of ethcatherders org`);
+                  }
+                } catch (error) {
+                  console.log(`Error checking ethcatherders org: ${error.message}`);
                 }
               }
+              
+              // Fallback to a list of trusted contributors if not in either org
+              if (!is_member) {
+                const trustedContributors = [
+                  "poojaranjan", "adietrichs", "carlbeek", "timbeiko", "nconsigny", 
+                  "justindrake", "vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", 
+                  "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes", 
+                  "samwilsn", "shemnon"
+                ];
+                
+                if (trustedContributors.includes(username.toLowerCase())) {
+                  is_member = true;
+                  console.log(`${username} is in the trusted contributors list`);
+                } else {
+                  console.log(`${username} is not in the trusted contributors list`);
+                }
+              }
+            } catch (error) {
+              console.log(`Error in membership check: ${error.message}`);
             }
             
             return is_member;
