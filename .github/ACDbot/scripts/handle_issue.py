@@ -9,6 +9,8 @@ import json
 import requests
 from github import InputGitAuthor
 
+# Add youtube_utils import
+from modules import youtube_utils
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
@@ -42,6 +44,7 @@ def extract_recurring_info(issue_body):
     """
     Extracts recurring meeting information from the issue body.
     Returns a tuple of (is_recurring, occurrence_rate).
+    For one-time calls, these fields might be missing - default to false/none.
     """
     recurring_pattern = r"Recurring meeting\s*:\s*(true|false)"
     occurrence_pattern = r"Occurrence rate\s*:\s*(none|weekly|bi-weekly|monthly)"
@@ -49,6 +52,7 @@ def extract_recurring_info(issue_body):
     recurring_match = re.search(recurring_pattern, issue_body, re.IGNORECASE)
     occurrence_match = re.search(occurrence_pattern, issue_body, re.IGNORECASE)
     
+    # Default to false and none if fields are missing (one-time meeting template)
     is_recurring = recurring_match and recurring_match.group(1).lower() == 'true'
     occurrence_rate = occurrence_match.group(1).lower() if occurrence_match else 'none'
     
@@ -75,7 +79,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
 
-    # Extract recurring meeting info
+    # Extract recurring meeting info from issue body - this is the source of truth
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
 
     # 3. Check for existing topic_id using the mapping instead of comments
@@ -100,18 +104,54 @@ def handle_github_issue(issue_number: int, repo_name: str):
         comment_lines.append(f"- Action: {action.capitalize()}")
         comment_lines.append(f"- URL: {discourse_url}")
     else:
-        # Create new topic
-        discourse_response = discourse.create_topic(
-            title=issue_title,
-            body=updated_body,
-            category_id=63  
-        )
-        topic_id = discourse_response.get("topic_id")
-        action = "created"
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
-        comment_lines.append(f"- Action: {action.capitalize()}")
-        comment_lines.append(f"- URL: {discourse_url}")
+        # Try to find existing topic with same title before creating a new one
+        try:
+            print(f"[DEBUG] Checking if topic with title '{issue_title}' already exists")
+            existing_topic = discourse.search_topic_by_title(issue_title)
+            if existing_topic:
+                topic_id = existing_topic.get("id")
+                print(f"[DEBUG] Found existing topic with ID {topic_id}")
+                
+                # Update the existing topic
+                discourse_response = discourse.update_topic(
+                    topic_id=topic_id,
+                    title=issue_title,
+                    body=updated_body,
+                    category_id=63
+                )
+                action = "updated"
+                discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+                comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+                comment_lines.append(f"- Action: {action.capitalize()}")
+                comment_lines.append(f"- URL: {discourse_url}")
+            else:
+                # Create new topic
+                print(f"[DEBUG] No existing topic found, creating a new one")
+                discourse_response = discourse.create_topic(
+                    title=issue_title,
+                    body=updated_body,
+                    category_id=63  
+                )
+                topic_id = discourse_response.get("topic_id")
+                action = "created"
+                discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+                comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+                comment_lines.append(f"- Action: {action.capitalize()}")
+                comment_lines.append(f"- URL: {discourse_url}")
+        except Exception as e:
+            print(f"[DEBUG] Error checking for existing topic: {str(e)}")
+            # Fallback to create new topic
+            discourse_response = discourse.create_topic(
+                title=issue_title,
+                body=updated_body,
+                category_id=63  
+            )
+            topic_id = discourse_response.get("topic_id")
+            action = "created"
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+            comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+            comment_lines.append(f"- Action: {action.capitalize()}")
+            comment_lines.append(f"- URL: {discourse_url}")
 
     # Zoom meeting creation/update
     try:
@@ -180,9 +220,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
             meeting_details = zoom.get_meeting(zoom_id)
             join_url = meeting_details.get('join_url')
 
-        # Create YouTube streams for recurring meetings
+        # Create YouTube streams for recurring meetings only
         youtube_streams = None
+        # Use only the value from issue body for recurring meeting configuration
         if is_recurring and occurrence_rate != "none":
+            print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
             youtube_streams = youtube_utils.create_recurring_streams(
                 title=issue_title,
                 description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
@@ -209,17 +251,26 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 mapping[meeting_id]["skip_youtube_upload"] = True
                 save_meeting_topic_mapping(mapping)
                 commit_mapping_file()
+        else:
+            # This is a one-time meeting, we'll upload the recording to YouTube after the meeting
+            print(f"[DEBUG] One-time meeting detected, YouTube upload will be handled after the meeting")
+            if meeting_id in mapping:
+                mapping[meeting_id]["skip_youtube_upload"] = False
+                save_meeting_topic_mapping(mapping)
+                commit_mapping_file()
 
         # Calendar handling
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
         calendar_description = f"Issue: {issue.html_url}"
         event_link = None
         
+        # Use only the value from issue body for calendar events
         if existing_item:
             # Update the specific calendar event instance
             event_id = existing_entry.get("calendar_event_id")
             if event_id:
                 try:
+                    print(f"[DEBUG] Updating calendar event {event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
                     event_link = gcal.update_event(
                         event_id=event_id,
                         summary=issue_title,
@@ -250,6 +301,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             commit_mapping_file()
         else:
             # Create new calendar event
+            print(f"[DEBUG] Creating new calendar event, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
             event_link = create_calendar_event(
                 is_recurring=is_recurring,
                 occurrence_rate=occurrence_rate,
@@ -290,6 +342,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 mapping[meeting_id] = updated_mapping
             else:
                 # Create new mapping entry with initial values
+                # Use the values extracted from the issue body
                 mapping[meeting_id] = {
                     "discourse_topic_id": topic_id,
                     "issue_title": issue.title,
@@ -303,7 +356,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     "Youtube_upload_processed": False,
                     "transcript_processed": False,
                     "upload_attempt_count": 0,
-                    "transcript_attempt_count": 0
+                    "transcript_attempt_count": 0,
+                    "skip_youtube_upload": is_recurring and occurrence_rate != "none"  # Skip upload for recurring meetings with streams
                 }
             
             # Add YouTube streams if available
@@ -363,18 +417,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 safe_url = join_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                 safe_issue_url = issue.html_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                 
-                telegram_message = f"""
-                🎯 *Meeting Details*
+                # Fix the indentation in the message string - remove leading spaces
+                telegram_message = f"""🎯 *Meeting Details*
 
-                    *Title*: {safe_title}
+*Title*: {safe_title}
 
-                    *Join URL*: {safe_url}
-                    *Meeting ID*: {zoom_id}
+*Join URL*: {safe_url}
+*Meeting ID*: {zoom_id}
 
-                    *GitHub Issue*: {safe_issue_url}
-                    """
-                # Send private message to facilitator
-                if tg.send_private_message(telegram_handle, telegram_message):
+*GitHub Issue*: {safe_issue_url}"""
+
+                # Send private message to facilitator with explicit parse_mode
+                if tg.send_private_message(telegram_handle, telegram_message, parse_mode="MarkdownV2"):
                     comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
                 else:
                     comment_lines.append("- ⚠️ Failed to send Telegram message with Zoom details")
@@ -396,30 +450,34 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 f"• <a href='{issue.html_url}'>GitHub Issue</a>"
             )
             
+            print(f"[DEBUG] Checking for existing telegram_message_id in mapping[{meeting_id}]")
             # Check if we already have a telegram message ID for this meeting
-            if zoom_id in mapping:
-                if "telegram_message_id" in mapping[zoom_id]:
-                    message_id = int(mapping[zoom_id]["telegram_message_id"])  # Ensure message_id is an integer
-                    try:
-                        if tg.update_message(message_id, telegram_message):
-                            print(f"Updated Telegram message {message_id}")
-                        else:
-                            raise Exception("Failed to update message")
-                    except Exception as e:
-                        print(f"Failed to update Telegram message: {e}")
-                        # If update fails, send new message
-                        message_id = tg.send_message(telegram_message)
-                        mapping[zoom_id]["telegram_message_id"] = message_id
-                        save_meeting_topic_mapping(mapping)
-                        commit_mapping_file()
-                        print(f"Created new Telegram message {message_id} (update failed)")
-                else:
-                    # No message ID stored yet
+            if meeting_id in mapping and "telegram_message_id" in mapping[meeting_id]:
+                message_id = int(mapping[meeting_id]["telegram_message_id"])  # Ensure message_id is an integer
+                print(f"[DEBUG] Found existing telegram_message_id: {message_id}")
+                try:
+                    if tg.update_message(message_id, telegram_message):
+                        print(f"Updated Telegram message {message_id}")
+                    else:
+                        print(f"[DEBUG] tg.update_message returned False for message_id {message_id}")
+                        raise Exception("Failed to update message")
+                except Exception as e:
+                    print(f"Failed to update Telegram message: {e}")
+                    print(f"[DEBUG] Sending new message instead")
+                    # If update fails, send new message
                     message_id = tg.send_message(telegram_message)
-                    mapping[zoom_id]["telegram_message_id"] = message_id
+                    mapping[meeting_id]["telegram_message_id"] = message_id
                     save_meeting_topic_mapping(mapping)
                     commit_mapping_file()
-                    print(f"Created new Telegram message {message_id}")
+                    print(f"Created new Telegram message {message_id} (update failed)")
+            else:
+                # No message ID stored yet
+                print(f"[DEBUG] No existing telegram_message_id found, creating new message")
+                message_id = tg.send_message(telegram_message)
+                mapping[meeting_id]["telegram_message_id"] = message_id
+                save_meeting_topic_mapping(mapping)
+                commit_mapping_file()
+                print(f"Created new Telegram message {message_id}")
                 
         except Exception as e:
             print(f"Telegram notification failed: {e}")
@@ -525,10 +583,10 @@ def parse_issue_for_time(issue_body: str):
     # Construct the datetime string
     datetime_str = f"{month} {day} {year} {hour}:{minute}"
     try:
-        start_dt = datetime.strptime(datetime_str, "%B %d %Y %H:%M")  # Full month name
+        start_dt = dt.strptime(datetime_str, "%B %d %Y %H:%M")  # Full month name
     except ValueError:
         try:
-            start_dt = datetime.strptime(datetime_str, "%b %d %Y %H:%M")  # Abbreviated month name
+            start_dt = dt.strptime(datetime_str, "%b %d %Y %H:%M")  # Abbreviated month name
         except ValueError as e:
             raise ValueError(f"Unable to parse the start time: {e}")
 
@@ -557,9 +615,9 @@ def parse_issue_for_time(issue_body: str):
     if end_hour and end_minute:
         end_time_str = f"{month} {day} {year} {end_hour}:{end_minute}"
         try:
-            end_dt = datetime.strptime(end_time_str, "%B %d %Y %H:%M")
+            end_dt = dt.strptime(end_time_str, "%B %d %Y %H:%M")
         except ValueError:
-            end_dt = datetime.strptime(end_time_str, "%b %d %Y %H:%M")
+            end_dt = dt.strptime(end_time_str, "%b %d %Y %H:%M")
 
         if end_dt <= start_dt:
             raise ValueError("End time must be after start time.")

@@ -5,13 +5,95 @@ on:
     types: [opened, edited]
 
 jobs:
-  handle_new_issue:
+  check_membership:
     runs-on: ubuntu-latest
-    if: >
-      contains(
-        '["poojaranjan", "adietrichs", "CarlBeek", "timbeiko", "nconsigny", "JustinDrake","vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes"]',
-        github.actor
-      )
+    outputs:
+      is_member: ${{ steps.set_output.outputs.is_member }}
+    steps:
+      - name: Check Organization Membership
+        id: check_org_membership
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Check if the user is a member of ethereum or ethcatherders orgs
+            let is_member = false;
+            const username = context.actor;
+            
+            try {
+              // Use a more reliable way to check membership
+              // First, try checking ethereum org members
+              const etherParams = {org: 'ethereum', per_page: 100};
+              let ethMembers = [];
+              
+              try {
+                for await (const response of github.paginate.iterator(github.rest.orgs.listMembers, etherParams)) {
+                  ethMembers = ethMembers.concat(response.data.map(member => member.login.toLowerCase()));
+                }
+                console.log(`Checked ${ethMembers.length} ethereum org members`);
+                
+                if (ethMembers.includes(username.toLowerCase())) {
+                  is_member = true;
+                  console.log(`${username} is a member of ethereum org`);
+                } else {
+                  console.log(`${username} is not a member of ethereum org`);
+                }
+              } catch (error) {
+                console.log(`Error checking ethereum org: ${error.message}`);
+              }
+              
+              // If not in ethereum, check ethcatherders org
+              if (!is_member) {
+                const catParams = {org: 'ethcatherders', per_page: 100};
+                let catMembers = [];
+                
+                try {
+                  for await (const response of github.paginate.iterator(github.rest.orgs.listMembers, catParams)) {
+                    catMembers = catMembers.concat(response.data.map(member => member.login.toLowerCase()));
+                  }
+                  console.log(`Checked ${catMembers.length} ethcatherders org members`);
+                  
+                  if (catMembers.includes(username.toLowerCase())) {
+                    is_member = true;
+                    console.log(`${username} is a member of ethcatherders org`);
+                  } else {
+                    console.log(`${username} is not a member of ethcatherders org`);
+                  }
+                } catch (error) {
+                  console.log(`Error checking ethcatherders org: ${error.message}`);
+                }
+              }
+              
+              // Fallback to a list of trusted contributors if not in either org
+              if (!is_member) {
+                const trustedContributors = [
+                  "poojaranjan", "adietrichs", "carlbeek", "timbeiko", "nconsigny", 
+                  "justindrake", "vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", 
+                  "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes", 
+                  "samwilsn", "shemnon"
+                ];
+                
+                if (trustedContributors.includes(username.toLowerCase())) {
+                  is_member = true;
+                  console.log(`${username} is in the trusted contributors list`);
+                } else {
+                  console.log(`${username} is not in the trusted contributors list`);
+                }
+              }
+            } catch (error) {
+              console.log(`Error in membership check: ${error.message}`);
+            }
+            
+            return is_member;
+            
+      - name: Set output
+        id: set_output
+        run: echo "is_member=${{ steps.check_org_membership.outputs.result }}" >> $GITHUB_OUTPUT
+
+  handle_new_issue:
+    needs: check_membership
+    runs-on: ubuntu-latest
+    if: needs.check_membership.outputs.is_member == 'true'
     steps:
       - name: Check out code
         uses: actions/checkout@v3
