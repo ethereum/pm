@@ -3,7 +3,7 @@ Note: This file is copied from [here](https://github.com/ethereum/pm/issues/1302
 
 ### Meeting Info
 
-- Agenda: [ethereum#1293](https://github.com/ethereum/pm/issues/1302#issue-2859240773)
+- Agenda: [ethereum#1302](https://github.com/ethereum/pm/issues/1302#issue-2859240773)
 - Date & Time: February 24, 2025, 12:00 UTC
 - Recording: [here](https://youtu.be/4hvX2CyQW8g)
 ## Notes
