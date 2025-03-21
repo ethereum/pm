@@ -7,6 +7,10 @@ This meeting is for the discussion of eth_simulateV1 implementation and potentia
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
+| 42 |March 17, 2025| [Agenda](https://github.com/ethereum/pm/issues/1387#issue-2925132165) | [Recording](https://youtu.be/Lcd7_CDKV7w) | [Notes](https://github.com/ethereum/pm/issues/1387#issuecomment-2736180915) |
+| 41 |March 10, 2025| [Agenda](https://github.com/ethereum/pm/issues/1352#issue-2898141594) | [Recording](https://youtu.be/aTvdYmrZwi0) | [Notes](https://github.com/ethereum/pm/issues/1352#issuecomment-2715742739) |
+| 40 |March 03, 2025| [Agenda](https://github.com/ethereum/pm/issues/1330#issue-2882886091) | [Recording](https://youtu.be/uQeN-oem-r0) | [Notes](https://github.com/ethereum/pm/issues/1330#issuecomment-2694856028) |
+| 39 |February 24, 2025| [Agenda](https://github.com/ethereum/pm/issues/1302#issue-2859240773) | [Recording](https://youtu.be/4hvX2CyQW8g) | [Notes](https://github.com/ethereum/pm/issues/1302#issuecomment-2683358508) |
 | 38 |February 17, 2025| [Agenda](https://github.com/ethereum/pm/issues/1293) | [Recording](https://www.youtube.com/watch?v=Yer5Rue4M5s) | [Notes](https://github.com/ethereum/pm/issues/1293#issuecomment-2664759485) |
 | 37 |February 10, 2025| [Agenda](https://github.com/ethereum/pm/issues/1278) | [Recording](https://youtu.be/YgU7S01PUZc?si=_Vj0Aa8YKnYXJq1C) | [Notes]([./Meeting%2063.md](https://github.com/ethereum/pm/issues/1278#issuecomment-2650875573)) |
 | 36 |February 03, 2025| [Agenda](https://github.com/ethereum/pm/issues/1273) | [Recording](https://youtu.be/i2JBDF_MBVU?si=zBjWUwY4F_WfLzrw) | [Notes]([./Meeting%2063.md](https://github.com/ethereum/pm/issues/1273#issuecomment-2631171565)) |
