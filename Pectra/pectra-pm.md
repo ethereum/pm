@@ -29,7 +29,7 @@
 - Sepolia: Wed, Mar 5 at 07:29:36 UTC (slot 7118848) 
   - [configuration](https://github.com/eth-clients/sepolia)
   - bug now fixed
-- Hoodi: Mar 17
+- Hoodi: Wed. March 26, 2025 14:37:12 UTC
   - [configuration](https://github.com/eth-clients/hoodi) 
 - Mainnet: not announced yet
   - [configuration](https://github.com/eth-clients/mainnet)
@@ -44,3 +44,4 @@
 - [writeup - Mar 6 2025 - ACDC](https://www.galaxy.com/insights/research/ethereum-all-core-developers-consensus-call-152/)
 - [pectra devnets](https://github.com/ethpandaops/pectra-devnets/tree/master?tab=readme-ov-file#networks)
 - [eth clients](https://github.com/eth-clients/)
+- [Holesky and Hoodi Testnet Updates](https://blog.ethereum.org/2025/03/18/hoodi-holesky)
