@@ -20,68 +20,130 @@ jobs:
             let is_member = false;
             const username = context.actor;
             
+            // Define trusted contributors list once at the beginning
+            const trustedContributors = [
+              "poojaranjan", "adietrichs", "carlbeek", "timbeiko", "nconsigny", 
+              "justindrake", "vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", 
+              "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes", 
+              "samwilsn", "shemnon"
+            ];
+            
+            console.log(`Checking membership for user: ${username}`);
+            
             try {
-              // Use a more reliable way to check membership
-              // First, try checking ethereum org members
-              const etherParams = {org: 'ethereum', per_page: 100};
-              let ethMembers = [];
+              // Try multiple methods to check membership to be thorough
               
-              try {
-                for await (const response of github.paginate.iterator(github.rest.orgs.listMembers, etherParams)) {
-                  ethMembers = ethMembers.concat(response.data.map(member => member.login.toLowerCase()));
+              // First, try direct membership check - this only works for public members or if token has sufficient permissions
+              async function checkDirectMembership(org, user) {
+                try {
+                  await github.rest.orgs.checkMembershipForUser({
+                    org: org,
+                    username: user
+                  });
+                  return true;
+                } catch (error) {
+                  console.log(`Direct membership check for ${user} in ${org} failed: ${error.message}`);
+                  return false;
                 }
-                console.log(`Checked ${ethMembers.length} ethereum org members`);
+              }
+              
+              // Next, try to get both public and private members
+              async function getAllOrgMembers(org) {
+                const members = new Set();
+                const perPage = 100; // Maximum allowed
                 
-                if (ethMembers.includes(username.toLowerCase())) {
-                  is_member = true;
-                  console.log(`${username} is a member of ethereum org`);
-                } else {
-                  console.log(`${username} is not a member of ethereum org`);
+                // Get public members
+                try {
+                  console.log(`Fetching public members for ${org}...`);
+                  for await (const response of github.paginate.iterator(
+                    github.rest.orgs.listPublicMembers,
+                    { org, per_page: perPage }
+                  )) {
+                    for (const member of response.data) {
+                      members.add(member.login.toLowerCase());
+                    }
+                  }
+                  console.log(`Found ${members.size} public members in ${org}`);
+                } catch (error) {
+                  console.log(`Error fetching public members for ${org}: ${error.message}`);
                 }
-              } catch (error) {
-                console.log(`Error checking ethereum org: ${error.message}`);
+                
+                // Get all members (includes private, if token has permissions)
+                try {
+                  console.log(`Fetching all members for ${org}...`);
+                  for await (const response of github.paginate.iterator(
+                    github.rest.orgs.listMembers,
+                    { org, per_page: perPage }
+                  )) {
+                    for (const member of response.data) {
+                      members.add(member.login.toLowerCase());
+                    }
+                  }
+                  console.log(`Found total of ${members.size} members in ${org} (public + private that token can see)`);
+                } catch (error) {
+                  console.log(`Error fetching all members for ${org}: ${error.message}`);
+                }
+                
+                return Array.from(members);
+              }
+              
+              // Check Ethereum org
+              console.log('Checking ethereum organization membership...');
+              if (await checkDirectMembership('ethereum', username)) {
+                console.log(`✅ ${username} is confirmed as a member of ethereum org via direct API check`);
+                is_member = true;
+              } else {
+                const ethereumMembers = await getAllOrgMembers('ethereum');
+                console.log(`Collected ${ethereumMembers.length} ethereum members to check against`);
+                
+                if (ethereumMembers.includes(username.toLowerCase())) {
+                  console.log(`✅ ${username} is a member of ethereum org`);
+                  is_member = true;
+                } else {
+                  console.log(`❌ ${username} is not found in ethereum org member list`);
+                }
               }
               
               // If not in ethereum, check ethcatherders org
               if (!is_member) {
-                const catParams = {org: 'ethcatherders', per_page: 100};
-                let catMembers = [];
-                
-                try {
-                  for await (const response of github.paginate.iterator(github.rest.orgs.listMembers, catParams)) {
-                    catMembers = catMembers.concat(response.data.map(member => member.login.toLowerCase()));
-                  }
-                  console.log(`Checked ${catMembers.length} ethcatherders org members`);
+                console.log('Checking ethcatherders organization membership...');
+                if (await checkDirectMembership('ethcatherders', username)) {
+                  console.log(`✅ ${username} is confirmed as a member of ethcatherders org via direct API check`);
+                  is_member = true;
+                } else {
+                  const catMembers = await getAllOrgMembers('ethcatherders');
+                  console.log(`Collected ${catMembers.length} ethcatherders members to check against`);
                   
                   if (catMembers.includes(username.toLowerCase())) {
+                    console.log(`✅ ${username} is a member of ethcatherders org`);
                     is_member = true;
-                    console.log(`${username} is a member of ethcatherders org`);
                   } else {
-                    console.log(`${username} is not a member of ethcatherders org`);
+                    console.log(`❌ ${username} is not found in ethcatherders org member list`);
                   }
-                } catch (error) {
-                  console.log(`Error checking ethcatherders org: ${error.message}`);
                 }
               }
               
               // Fallback to a list of trusted contributors if not in either org
               if (!is_member) {
-                const trustedContributors = [
-                  "poojaranjan", "adietrichs", "carlbeek", "timbeiko", "nconsigny", 
-                  "justindrake", "vbuterin", "hwwhww", "mathhhewkeil", "jrudolf", 
-                  "soispoke", "pipermerriam", "potuz", "will-corcoran", "ralexstokes", 
-                  "samwilsn", "shemnon"
-                ];
-                
                 if (trustedContributors.includes(username.toLowerCase())) {
+                  console.log(`✅ ${username} is in the trusted contributors list`);
                   is_member = true;
-                  console.log(`${username} is in the trusted contributors list`);
                 } else {
-                  console.log(`${username} is not in the trusted contributors list`);
+                  console.log(`❌ ${username} is not in the trusted contributors list`);
                 }
               }
+              
+              console.log(`Final membership determination for ${username}: ${is_member ? 'Approved ✅' : 'Not approved ❌'}`);
             } catch (error) {
               console.log(`Error in membership check: ${error.message}`);
+              console.log(`Stack trace: ${error.stack}`);
+              
+              // If we're here, something went wrong with the API checks
+              // Check if user is in trusted list as a fallback
+              if (trustedContributors.includes(username.toLowerCase())) {
+                console.log(`✅ FALLBACK: ${username} is in the trusted contributors list`);
+                is_member = true;
+              }
             }
             
             return is_member;
