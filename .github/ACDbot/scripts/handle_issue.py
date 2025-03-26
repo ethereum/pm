@@ -58,6 +58,18 @@ def extract_recurring_info(issue_body):
     
     return is_recurring, occurrence_rate
 
+def extract_already_on_calendar(issue_body):
+    """
+    Extracts information about whether a meeting is already on the Ethereum Calendar.
+    Returns a boolean indicating if the meeting is already on the calendar.
+    """
+    calendar_pattern = r"Already on Ethereum Calendar\s*:\s*(true|false)"
+    
+    calendar_match = re.search(calendar_pattern, issue_body, re.IGNORECASE)
+    already_on_calendar = calendar_match and calendar_match.group(1).lower() == 'true'
+    
+    return already_on_calendar
+
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Fetches the specified GitHub issue, extracts its title and body,
@@ -81,6 +93,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Extract recurring meeting info from issue body - this is the source of truth
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
+    
+    # Extract whether the meeting is already on the Ethereum Calendar
+    already_on_calendar = extract_already_on_calendar(issue_body)
 
     # 3. Check for existing topic_id using the mapping instead of comments
     topic_id = None
@@ -295,30 +310,55 @@ def handle_github_issue(issue_number: int, repo_name: str):
             calendar_description = f"Issue: {issue.html_url}"
             event_link = None
             
-            # Use only the value from issue body for calendar events
-            if existing_item:
-                # Update the specific calendar event instance
-                event_id = existing_entry.get("calendar_event_id")
-                if event_id:
-                    try:
-                        print(f"[DEBUG] Updating calendar event {event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
-                        event_link = gcal.update_event(
-                            event_id=event_id,
-                            summary=issue_title,
-                            start_dt=start_time,
-                            duration_minutes=duration,
-                            calendar_id=calendar_id,
-                            description=calendar_description
-                        )
-                        print(f"Updated calendar event: {event_link}")
-                        # Store the calendar event ID to ensure we update the same event next time
-                        if meeting_id in mapping:
-                            mapping[meeting_id]["calendar_event_id"] = event_id
-                            save_meeting_topic_mapping(mapping)
-                            commit_mapping_file()
-                    except Exception as e:
-                        print(f"Failed to update calendar event: {e}")
-                        # Create new event if update fails
+            # Check if meeting is already on the Ethereum Calendar
+            if already_on_calendar:
+                # Will add the comment at the end of this section
+                print(f"[DEBUG] Meeting is already on Ethereum Calendar, skipping calendar creation")
+            else:
+                # Use only the value from issue body for calendar events
+                if existing_item:
+                    # Update the specific calendar event instance
+                    event_id = existing_entry.get("calendar_event_id")
+                    if event_id:
+                        try:
+                            print(f"[DEBUG] Updating calendar event {event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
+                            event_link = gcal.update_event(
+                                event_id=event_id,
+                                summary=issue_title,
+                                start_dt=start_time,
+                                duration_minutes=duration,
+                                calendar_id=calendar_id,
+                                description=calendar_description
+                            )
+                            print(f"Updated calendar event: {event_link}")
+                            # Store the calendar event ID to ensure we update the same event next time
+                            if meeting_id in mapping:
+                                mapping[meeting_id]["calendar_event_id"] = event_id
+                                save_meeting_topic_mapping(mapping)
+                                commit_mapping_file()
+                        except Exception as e:
+                            print(f"Failed to update calendar event: {e}")
+                            # Create new event if update fails
+                            event_link = create_calendar_event(
+                                is_recurring=is_recurring,
+                                occurrence_rate=occurrence_rate,
+                                summary=issue_title,
+                                start_dt=start_time,
+                                duration_minutes=duration,
+                                calendar_id=calendar_id,
+                                description=calendar_description
+                            )
+                            # Extract and store the clean event ID
+                            if event_link:
+                                # Get the event ID from the URL more reliably
+                                new_event_id = extract_event_id_from_link(event_link)
+                                if meeting_id in mapping:
+                                    mapping[meeting_id]["calendar_event_id"] = new_event_id
+                                    save_meeting_topic_mapping(mapping)
+                                    commit_mapping_file()
+                    else:
+                        # No event ID stored, create a new one
+                        print(f"[DEBUG] No event ID stored, creating a new calendar event")
                         event_link = create_calendar_event(
                             is_recurring=is_recurring,
                             occurrence_rate=occurrence_rate,
@@ -328,17 +368,16 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             calendar_id=calendar_id,
                             description=calendar_description
                         )
-                        # Extract and store the clean event ID
+                        # Extract and store the event ID
                         if event_link:
-                            # Get the event ID from the URL more reliably
                             new_event_id = extract_event_id_from_link(event_link)
                             if meeting_id in mapping:
                                 mapping[meeting_id]["calendar_event_id"] = new_event_id
                                 save_meeting_topic_mapping(mapping)
                                 commit_mapping_file()
                 else:
-                    # No event ID stored, create a new one
-                    print(f"[DEBUG] No event ID stored, creating a new calendar event")
+                    # Create new calendar event
+                    print(f"[DEBUG] Creating new calendar event, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
                     event_link = create_calendar_event(
                         is_recurring=is_recurring,
                         occurrence_rate=occurrence_rate,
@@ -348,32 +387,21 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         calendar_id=calendar_id,
                         description=calendar_description
                     )
-                    # Extract and store the event ID
+                    # Extract and store the clean event ID
                     if event_link:
                         new_event_id = extract_event_id_from_link(event_link)
                         if meeting_id in mapping:
                             mapping[meeting_id]["calendar_event_id"] = new_event_id
                             save_meeting_topic_mapping(mapping)
                             commit_mapping_file()
-            else:
-                # Create new calendar event
-                print(f"[DEBUG] Creating new calendar event, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
-                event_link = create_calendar_event(
-                    is_recurring=is_recurring,
-                    occurrence_rate=occurrence_rate,
-                    summary=issue_title,
-                    start_dt=start_time,
-                    duration_minutes=duration,
-                    calendar_id=calendar_id,
-                    description=calendar_description
-                )
-                # Extract and store the clean event ID
-                if event_link:
-                    new_event_id = extract_event_id_from_link(event_link)
-                    if meeting_id in mapping:
-                        mapping[meeting_id]["calendar_event_id"] = new_event_id
-                        save_meeting_topic_mapping(mapping)
-                        commit_mapping_file()
+
+            # Add comment about the calendar event
+            if already_on_calendar:
+                comment_lines.append("\n**Calendar Event**")
+                comment_lines.append("- Meeting already on Ethereum Calendar")
+            elif event_link:
+                comment_lines.append("\n**Calendar Event**")
+                comment_lines.append(f"- [Google Calendar]({event_link})")
 
             # Update mapping if this entry is new or if the meeting was updated.
             # (In the mapping, we use the meeting ID as the key.)
