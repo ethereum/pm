@@ -7,7 +7,7 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 flow = InstalledAppFlow.from_client_secrets_file(
     "client_secrets.json",  # Download from Google Cloud Console
     scopes=SCOPES,
-    redirect_uri="http://localhost:8080"  # Use localhost instead of OOB
+    redirect_uri="http://localhost:8080/"  # Use localhost instead of OOB
 )
 
 # Generate authorization URL
