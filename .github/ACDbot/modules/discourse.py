@@ -66,14 +66,14 @@ def create_topic(title: str, body: str, category_id=63):
                             body=body,
                             category_id=category_id
                         )
-                        return {"topic_id": topic_id, "title": title}
+                        return {"topic_id": topic_id, "title": title, "action": "updated"}
             
             # If not a title already exists error or couldn't handle it properly
             resp.raise_for_status()
         
         response_data = resp.json()
         topic_id = response_data.get("topic_id")
-        return {"topic_id": topic_id, "title": title}
+        return {"topic_id": topic_id, "title": title, "action": "created"}
     
     except Exception as e:
         print(f"[DEBUG] Error in create_topic: {str(e)}")

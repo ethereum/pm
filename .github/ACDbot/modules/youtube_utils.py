@@ -3,27 +3,51 @@ import os
 from datetime import datetime, timedelta
 import pytz
 import sys
-
-YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
+from google.auth.exceptions import RefreshError
 
 def get_youtube_service():
     """
-    Gets an authenticated YouTube service with error handling for API key issues
+    Gets an authenticated YouTube service using OAuth2 credentials
     """
     try:
-        # Check if YOUTUBE_API_KEY exists in environment
-        if not YOUTUBE_API_KEY:
-            error_msg = "Error: YOUTUBE_API_KEY environment variable not found or empty"
+        # Check for required OAuth2 environment variables
+        required_vars = ["YOUTUBE_REFRESH_TOKEN", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
+        missing_vars = [var for var in required_vars if not os.environ.get(var)]
+        
+        if missing_vars:
+            error_msg = f"Error: Missing required environment variables: {', '.join(missing_vars)}"
             print(f"::error::{error_msg}")
-            print("Context access might be invalid: GOOGLE_APPLICATION_CREDENTIALS")
             raise ValueError(error_msg)
-            
-        # Create the service
-        return build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
+        
+        # Create credentials using refresh token
+        creds = Credentials(
+            token=None,
+            refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
+            client_id=os.environ["GOOGLE_CLIENT_ID"],
+            client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
+            token_uri="https://oauth2.googleapis.com/token",
+            scopes=["https://www.googleapis.com/auth/youtube", 
+                   "https://www.googleapis.com/auth/youtube.force-ssl"]
+        )
+        
+        # Refresh the access token
+        request = Request()
+        creds.refresh(request)
+        print("[DEBUG] Successfully refreshed YouTube OAuth2 token")
+        
+        # Create the YouTube service with the credentials
+        return build('youtube', 'v3', credentials=creds)
+    
+    except RefreshError as e:
+        error_msg = f"Error: Failed to refresh YouTube OAuth2 token: {str(e)}"
+        print(f"::error::{error_msg}")
+        print("Manual reauthorization required - run get_refresh_token.py to generate a new refresh token")
+        raise ValueError(error_msg)
     except Exception as e:
         error_msg = f"Error: Failed to authenticate with YouTube API: {str(e)}"
         print(f"::error::{error_msg}")
-        print("Context access might be invalid: GOOGLE_APPLICATION_CREDENTIALS")
         raise ValueError(error_msg)
 
 def get_channel_id_by_custom_url(custom_url):
