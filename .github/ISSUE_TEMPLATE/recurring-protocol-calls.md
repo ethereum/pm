@@ -14,6 +14,7 @@ assignees: ''
 - Recurring meeting : true
 - Call series : (e.g ACDC ; ACDE; testing call)
 - Occurrence rate : weekly # Options: weekly, bi-weekly, monthly
+- Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar
 - Other optional resources 
 
 # Agenda 
