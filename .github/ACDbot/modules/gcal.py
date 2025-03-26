@@ -62,8 +62,14 @@ def create_event(summary: str, start_dt, duration_minutes: int, calendar_id: str
     event_body = {
         'summary': summary,
         'description': description,
-        'start': {'dateTime': start_dt.isoformat()},
-        'end': {'dateTime': end_dt.isoformat()},
+        'start': {
+            'dateTime': start_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
+        'end': {
+            'dateTime': end_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
     }
 
     try:
@@ -94,8 +100,14 @@ def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, c
     event_body = {
         'summary': summary,
         'description': description,
-        'start': {'dateTime': start_dt.isoformat()},
-        'end': {'dateTime': end_dt.isoformat()},
+        'start': {
+            'dateTime': start_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
+        'end': {
+            'dateTime': end_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
     }
 
     try:
@@ -166,8 +178,14 @@ def create_recurring_event(summary: str, start_dt, duration_minutes: int, calend
     event_body = {
         'summary': summary,
         'description': description,
-        'start': {'dateTime': start_dt.isoformat()},
-        'end': {'dateTime': end_dt.isoformat()},
+        'start': {
+            'dateTime': start_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
+        'end': {
+            'dateTime': end_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
         'recurrence': recurrence,
     }
 
