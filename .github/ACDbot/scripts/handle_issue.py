@@ -306,7 +306,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     if event_id:
                         try:
                             print(f"[DEBUG] Updating calendar event {event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
-                            event_link = gcal.update_event(
+                            event_result = gcal.update_event(
                                 event_id=event_id,
                                 summary=issue_title,
                                 start_dt=start_time,
@@ -314,15 +314,17 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                 calendar_id=calendar_id,
                                 description=calendar_description
                             )
-                            print(f"Updated calendar event: {event_link}")
+                            event_link = event_result['htmlLink']
+                            event_id = event_result['id']
+                            print(f"Updated calendar event: {event_link} with ID: {event_id}")
                             # Store the calendar event ID to ensure we update the same event next time
                             if meeting_id in mapping:
                                 mapping[meeting_id]["calendar_event_id"] = event_id
                                 mapping_updated = True
-                        except Exception as e:
-                            print(f"Failed to update calendar event: {e}")
-                            # Create new event if update fails
-                            event_link = create_calendar_event(
+                        except ValueError as e:
+                            print(f"[DEBUG] Event ID {event_id} not found, creating a new calendar event")
+                            # Create new event if update fails due to event not found
+                            event_result = create_calendar_event(
                                 is_recurring=is_recurring,
                                 occurrence_rate=occurrence_rate,
                                 summary=issue_title,
@@ -332,16 +334,37 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                 description=calendar_description
                             )
                             # Extract and store the clean event ID
-                            if event_link:
-                                # Get the event ID from the URL more reliably
-                                new_event_id = extract_event_id_from_link(event_link)
+                            if event_result:
+                                event_link = event_result['htmlLink']
+                                new_event_id = event_result['id']
+                                print(f"[DEBUG] Created new calendar event with ID: {new_event_id}")
+                                if meeting_id in mapping:
+                                    mapping[meeting_id]["calendar_event_id"] = new_event_id
+                                    mapping_updated = True
+                        except Exception as e:
+                            print(f"[DEBUG] Failed to update calendar event: {str(e)}")
+                            # Create new event if update fails for any other reason
+                            event_result = create_calendar_event(
+                                is_recurring=is_recurring,
+                                occurrence_rate=occurrence_rate,
+                                summary=issue_title,
+                                start_dt=start_time,
+                                duration_minutes=duration,
+                                calendar_id=calendar_id,
+                                description=calendar_description
+                            )
+                            # Extract and store the clean event ID
+                            if event_result:
+                                event_link = event_result['htmlLink']
+                                new_event_id = event_result['id']
+                                print(f"[DEBUG] Created new calendar event with ID: {new_event_id}")
                                 if meeting_id in mapping:
                                     mapping[meeting_id]["calendar_event_id"] = new_event_id
                                     mapping_updated = True
                     else:
                         # No event ID stored, create a new one
                         print(f"[DEBUG] No event ID stored, creating a new calendar event")
-                        event_link = create_calendar_event(
+                        event_result = create_calendar_event(
                             is_recurring=is_recurring,
                             occurrence_rate=occurrence_rate,
                             summary=issue_title,
@@ -351,15 +374,16 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             description=calendar_description
                         )
                         # Extract and store the event ID
-                        if event_link:
-                            new_event_id = extract_event_id_from_link(event_link)
+                        if event_result:
+                            event_link = event_result['htmlLink']
+                            new_event_id = event_result['id']
                             if meeting_id in mapping:
                                 mapping[meeting_id]["calendar_event_id"] = new_event_id
                                 mapping_updated = True
                 else:
                     # Create new calendar event
                     print(f"[DEBUG] Creating new calendar event, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
-                    event_link = create_calendar_event(
+                    event_result = create_calendar_event(
                         is_recurring=is_recurring,
                         occurrence_rate=occurrence_rate,
                         summary=issue_title,
@@ -369,8 +393,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         description=calendar_description
                     )
                     # Extract and store the clean event ID
-                    if event_link:
-                        new_event_id = extract_event_id_from_link(event_link)
+                    if event_result:
+                        event_link = event_result['htmlLink']
+                        new_event_id = event_result['id']
                         if meeting_id in mapping:
                             mapping[meeting_id]["calendar_event_id"] = new_event_id
                             mapping_updated = True
@@ -379,7 +404,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
             if already_on_calendar:
                 comment_lines.append("\n**Calendar Event**")
                 comment_lines.append("- Meeting already on Ethereum Calendar")
-            elif event_link:
+            elif event_result:
+                event_link = event_result['htmlLink']
                 comment_lines.append("\n**Calendar Event**")
                 comment_lines.append(f"- [Google Calendar]({event_link})")
 
@@ -774,12 +800,14 @@ def commit_mapping_file():
 def create_calendar_event(is_recurring, occurrence_rate, **kwargs):
     """Helper function to create the appropriate type of calendar event"""
     print(f"[DEBUG] Creating calendar event: is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
+    
     if is_recurring and occurrence_rate != "none":
-        # Make sure occurrence_rate is explicitly passed to create_recurring_event
         print(f"[DEBUG] Creating recurring calendar event with occurrence_rate={occurrence_rate}")
-        return gcal.create_recurring_event(occurrence_rate=occurrence_rate, **kwargs)
+        return gcal.create_recurring_event(
+            occurrence_rate=occurrence_rate,
+            **kwargs
+        )
     else:
-        # For non-recurring events, use the standard create_event
         print(f"[DEBUG] Creating standard (non-recurring) calendar event")
         return gcal.create_event(**kwargs)
 
@@ -806,12 +834,24 @@ def extract_event_id_from_link(event_link):
             # Clean up any URL encoding
             eid = urllib.parse.unquote(eid)
             # Remove any trailing parameters or @ sections
-            eid = eid.split(' ')[0].split('@')[0]
+            if ' ' in eid:
+                eid = eid.split(' ')[0]
+            if '@' in eid:
+                eid = eid.split('@')[0]
+                
+            # Google Calendar event IDs may contain underscores followed by date info
+            # We need to keep the entire ID intact for API calls
+            print(f"[DEBUG] Extracted event ID: {eid}")
             return eid
             
         # Fallback: Just strip anything after a space or @
         if 'eid=' in event_link:
-            eid = event_link.split('eid=')[1].split(' ')[0].split('@')[0]
+            eid = event_link.split('eid=')[1]
+            if ' ' in eid:
+                eid = eid.split(' ')[0]
+            if '@' in eid:
+                eid = eid.split('@')[0]
+            print(f"[DEBUG] Extracted event ID (fallback): {eid}")
             return eid
     except Exception as e:
         print(f"Error extracting event ID from link: {e}")
