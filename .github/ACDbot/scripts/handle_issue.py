@@ -168,8 +168,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 stored_start = existing_entry.get("start_time")
                 stored_duration = existing_entry.get("duration")
                 
+                # Skip update if this is a placeholder ID
+                if str(existing_zoom_meeting_id).startswith("placeholder-"):
+                    print(f"[DEBUG] Skipping Zoom update for placeholder ID: {existing_zoom_meeting_id}")
+                    zoom_id = existing_zoom_meeting_id
+                    join_url = existing_entry.get("zoom_link", "https://zoom.us (placeholder)")
                 # Check if both start_time and duration are present and have not changed.
-                if stored_start and stored_duration and (start_time == stored_start) and (duration == stored_duration):
+                elif stored_start and stored_duration and (start_time == stored_start) and (duration == stored_duration):
                     print("[DEBUG] No changes detected in meeting start time or duration. Skipping update.")
                     zoom_id = existing_zoom_meeting_id
                     join_url = existing_entry.get("zoom_link")
@@ -305,9 +310,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     event_id = existing_entry.get("calendar_event_id")
                     if event_id:
                         try:
-                            print(f"[DEBUG] Updating calendar event {event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
+                            # For recurring events, the stored ID might include the instance suffix
+                            # Extract just the base event ID for more reliable operations
+                            base_event_id = extract_event_id_from_link(f"?eid={event_id}")
+                            print(f"[DEBUG] Updating calendar event {base_event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
+                            
                             event_result = gcal.update_event(
-                                event_id=event_id,
+                                event_id=base_event_id,  # Use base_event_id for API operations
                                 summary=issue_title,
                                 start_dt=start_time,
                                 duration_minutes=duration,
@@ -814,10 +823,10 @@ def create_calendar_event(is_recurring, occurrence_rate, **kwargs):
 def extract_event_id_from_link(event_link):
     """
     Extract the Google Calendar event ID from the event link.
-    The event link typically has the format:
-    https://www.google.com/calendar/event?eid=ABC123_20250402T140000Z someone@example.com
+    For recurring events, Google Calendar uses a format like:
+    base_event_id_20250326T030000Z
     
-    Returns the clean event ID that can be used for future API calls.
+    We need to extract just the base event ID for updates to work properly.
     """
     if not event_link:
         return None
@@ -838,9 +847,16 @@ def extract_event_id_from_link(event_link):
                 eid = eid.split(' ')[0]
             if '@' in eid:
                 eid = eid.split('@')[0]
+            
+            # For recurring events, Google Calendar adds a date suffix
+            # Example: base_id_20250326T030000Z
+            # We need just the base event ID for API operations
+            base_id_match = re.match(r'([^_]+)(?:_\d{8}T\d{6}Z)?', eid)
+            if base_id_match:
+                base_id = base_id_match.group(1)
+                print(f"[DEBUG] Extracted base event ID: {base_id} from full ID: {eid}")
+                return base_id
                 
-            # Google Calendar event IDs may contain underscores followed by date info
-            # We need to keep the entire ID intact for API calls
             print(f"[DEBUG] Extracted event ID: {eid}")
             return eid
             
@@ -851,6 +867,14 @@ def extract_event_id_from_link(event_link):
                 eid = eid.split(' ')[0]
             if '@' in eid:
                 eid = eid.split('@')[0]
+                
+            # For recurring events, extract the base ID
+            base_id_match = re.match(r'([^_]+)(?:_\d{8}T\d{6}Z)?', eid)
+            if base_id_match:
+                base_id = base_id_match.group(1)
+                print(f"[DEBUG] Extracted base event ID (fallback): {base_id} from full ID: {eid}")
+                return base_id
+                
             print(f"[DEBUG] Extracted event ID (fallback): {eid}")
             return eid
     except Exception as e:
