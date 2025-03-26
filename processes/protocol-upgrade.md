@@ -10,11 +10,11 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 
 ### General
 - Upgrades must not be scheduled for major holidays or events.
-- Scheduling multiple upgrades in advance should not be done, and bundling mainnet upgrade with other upgrades must not be done.
+- Scheduling multiple upgrades in advance should not be done, and bundling the mainnet upgrade with other upgrades must not be done.
     - If multiple upgrades are scheduled in advance, each testnet upgrade but must be at least 14 days apart.
     - In the event that multiple testnet upgrades are scheduled, and the first a testnet upgrade is not deemed a success, the next testnet upgrade is automatically cancelled. The next testnet must not be scheduled until the first incident has been resolved, at which point the earliest point in time is 14 days from the ACD call it was agreed to proceed.
 - Upgrades must not take place until at least clients representing 90% of the active weight pass all [consensus](https://github.com/ethereum/consensus-specs/) and [exeution](https://github.com/ethereum/execution-spec-tests) tests, and are stable.
-- An assessment must be done in ACD if infrastructure external to the protocol is required for the upgrade to move forward.
+- An assessment must be done in All Core Devs (ACD) to assess if infrastructure external to the protocol is required to be upgraded for the upgrade to move forward.
 - In the event that the upgrade fails, an incident retrospective must take place to understand what went wrong and how it can be proved or strongly infered that it won't happen on the next testnet.
 - ACD can if needed override parts of this document as needed, for example in the event of a contentious fork where a client with more than 10% of mainnet validators could otherwise hold up the process.
 
@@ -31,7 +31,6 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 - There must be a 30 day period between client releases being ready, and the first testnet going live.
     - This is to provide time for internal security reviews, inclusion of upgrade specific code in the bug bounty program, and potential external security reviews.
 
-
 ### Mainnet
 - Mainnet must not have a upgrade date set until all testnets have been upgraded.
 - The upgrade must have gone through at least two testnets.
@@ -42,7 +41,7 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 ### Internal Reviews
 - A channel on the Eth R&D Discord must be setup for each EIP in the upgrade, to ensure coordination between client devs, test engineers and security researchers working on each EIP.
 - Each EIP that has been assigned CFI should be considered to have one or more core developer per team assigned.
-- Each EIP that has been assigned SFI must have one or more core developer per team assigned who is not also the person implementing the EIP.
+- Each EIP that has been assigned SFI should have one or more core developer per team assigned.
     - Test objectives:
         - Verify that the EIP is implemented according to specifications and pass tests.
     - Security objectives:
@@ -100,6 +99,7 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 - Who holds these roles for the specific upgrade should be decided on ACD, and each role must have a dedicated person assigned to it, including a backup which must take over if necessary.
     - An assessment must be done around the most suitable backup. This could for example be having a backup in a different time zone, or a backup in a separate organization or team.
 - These roles are not expected to do everything on their own, but are responsible to ensure the responsibilities are being done during an incident, or to transfer responsibilities to someone else if they can no longer fulfil their duties.
+- The roles should share their phone numbers through the Incident Response team group on Signal.
 - The roles must be on-call for 48 hours after after the activation of the upgrade, in the event that the upgrade fails after being initially classifed as a success.
 - If there is an incident, it is the responsibility of the Incident Response team to ensure that the incident is resolved as soon as possible and that their responsibilities are successfully executed.
 
@@ -116,6 +116,7 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 - Ensures testing efforts are taking place if issues are found during the upgrade.
 
 ### Communication Coordinator
+- Creates a `$fork-$network-incident_response_team` group on Signal.
 - Ensuress updates are posted on the `status website` as the upgrade happens (activation, finalization, any issues).
 - Ensures distribution of emergency updates or patches are done if needed.
 - Ensures an emergency core devs meeting is called if necessary.
@@ -128,7 +129,7 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 - Ensures a severity of the incident is defined.
 
 ### Escalation Procedures
-- Utilize the ```#$fork-upgrade``` Eth R&D channel on Discord (default communication channel).
+- Utilize the ```#$fork-$network-upgrade``` Eth R&D channel on Discord (default communication channel).
     - This channel has permissions so anyone can read, but only core devs can write.
 - In the event there is a necessity for sensitive information sharing, a member of the Incident Response team should facilitate setting up a secure comminication channel.
 
