@@ -128,6 +128,21 @@ def create_youtube_stream(title, description, start_time, privacy_status='public
         
         print(f"[DEBUG] Creating YouTube stream: {title}")
         
+        # Ensure start_time is in correct ISO 8601 format
+        # YouTube requires the format: YYYY-MM-DDThh:mm:ss.sZ
+        if start_time.endswith('Z'):
+            # Convert to standard format expected by YouTube
+            from datetime import datetime
+            try:
+                dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                # Format to YouTube's expected format with milliseconds
+                start_time = dt.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            except ValueError:
+                # If parsing fails, leave as is
+                pass
+                
+        print(f"[DEBUG] Using formatted start time: {start_time}")
+        
         # Create the broadcast
         broadcast_insert_response = youtube.liveBroadcasts().insert(
             part="snippet,status",
@@ -205,8 +220,16 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
     """
     try:
         streams = []
-        current_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
         
+        # Ensure start_time is parsed correctly
+        if isinstance(start_time, str):
+            # Handle different ISO formats
+            if start_time.endswith('Z'):
+                start_time = start_time.replace('Z', '+00:00')
+            current_time = datetime.fromisoformat(start_time)
+        else:
+            current_time = start_time
+            
         print(f"[DEBUG] Creating {num_events} recurring streams for '{title}' starting at {current_time}")
         
         for i in range(num_events):
@@ -252,10 +275,14 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
             event_title = f"{title} #{i+1}"
             print(f"[DEBUG] Creating stream {i+1}/{num_events}: {event_title}")
             
+            # Format in the standard YouTube API expects: YYYY-MM-DDThh:mm:ss.sZ
+            # YouTube's API is specific about the format - needs milliseconds
+            formatted_start_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            
             stream_details = create_youtube_stream(
                 event_title,
                 description,
-                current_time.isoformat() + 'Z'
+                formatted_start_time
             )
             streams.append(stream_details)
         

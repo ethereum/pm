@@ -297,6 +297,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     # Get alternative hosts from environment
     alternative_hosts = os.environ.get("ZOOM_ALTERNATIVE_HOSTS", "")
     
+    # First attempt with all settings
     payload = {
         "topic": topic,
         "type": 8,  # 8 for recurring meeting with fixed time
@@ -329,6 +330,23 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
             json=payload
         )
         
+        # Check for specific alternative host error (code 1114)
+        if resp.status_code == 400:
+            error_data = resp.json()
+            if error_data.get("code") == 1114 and "alternative host" in error_data.get("message", "").lower():
+                print(f"[DEBUG] Alternative host error detected, retrying without alternative hosts")
+                
+                # Remove alternative hosts and try again
+                payload["settings"].pop("alternative_hosts", None)
+                
+                print(f"[DEBUG] Retrying with modified payload: {json.dumps(payload, indent=2)}")
+                
+                resp = requests.post(
+                    f"{api_base_url}/users/me/meetings",
+                    headers=headers,
+                    json=payload
+                )
+        
         if resp.status_code != 201:
             print(f"[DEBUG] Zoom API Error Response: {resp.status_code} {resp.text}")
             print(f"[DEBUG] Request payload: {json.dumps(payload, indent=2)}")
@@ -341,7 +359,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         
     except requests.exceptions.RequestException as e:
         print(f"[DEBUG] Error creating recurring meeting: {str(e)}")
-        if hasattr(e.response, 'text'):
+        if hasattr(e, 'response') and e.response:
             print(f"[DEBUG] Error response: {e.response.text}")
         raise
 
