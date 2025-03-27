@@ -28,7 +28,11 @@ def get_youtube_service():
             client_id=os.environ["GOOGLE_CLIENT_ID"],
             client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
             token_uri="https://oauth2.googleapis.com/token",
-            scopes=["https://www.googleapis.com/auth/youtube.upload"]
+            scopes=[
+                "https://www.googleapis.com/auth/youtube.upload",
+                "https://www.googleapis.com/auth/youtube.force-ssl",
+                "https://www.googleapis.com/auth/youtube"
+            ]
         )
         
         # Refresh the access token

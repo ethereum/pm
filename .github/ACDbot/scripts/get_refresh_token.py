@@ -2,7 +2,11 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from urllib.parse import urlparse, parse_qs
 
 # Same scopes as your production code
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.force-ssl",
+    "https://www.googleapis.com/auth/youtube"
+]
 
 flow = InstalledAppFlow.from_client_secrets_file(
     "client_secrets.json",  # Download from Google Cloud Console

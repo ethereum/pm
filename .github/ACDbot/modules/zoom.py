@@ -278,8 +278,10 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     
     # Map occurrence rate to Zoom recurrence type
     recurrence = {
-        "type": 1,  # 1 for daily, 2 for weekly, 3 for monthly
-        "repeat_interval": 1
+        "type": 2,  # Default to weekly
+        "repeat_interval": 1,
+        "weekly_days": "1",  # Default to Monday
+        "end_times": 1  # Number of occurrences
     }
     
     if occurrence_rate == "weekly":
@@ -305,7 +307,6 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
             "auto_start_meeting_summary": True,
             "auto_start_ai_companion_questions": True,
             "join_before_host": True,  
-            #"waiting_room": True,
             "meeting_authentication": False,
             "auto_recording": "cloud",  
             "approval_type": 2,  
@@ -319,16 +320,28 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         }
     }
 
-    resp = requests.post(
-        f"{api_base_url}/users/me/meetings",
-        headers=headers,
-        json=payload
-    )
-    
-    if resp.status_code != 201:
-        print("Unable to generate recurring meeting")
-        resp.raise_for_status()
-    
-    response_data = resp.json()
-    return response_data["join_url"], response_data["id"]
+    print(f"[DEBUG] Creating recurring Zoom meeting with payload: {json.dumps(payload, indent=2)}")
+
+    try:
+        resp = requests.post(
+            f"{api_base_url}/users/me/meetings",
+            headers=headers,
+            json=payload
+        )
+        
+        if resp.status_code != 201:
+            print(f"[DEBUG] Zoom API Error Response: {resp.status_code} {resp.text}")
+            print(f"[DEBUG] Request payload: {json.dumps(payload, indent=2)}")
+            print(f"[DEBUG] Request headers: {headers}")
+            resp.raise_for_status()
+        
+        response_data = resp.json()
+        print(f"[DEBUG] Successfully created recurring meeting: {json.dumps(response_data, indent=2)}")
+        return response_data["join_url"], response_data["id"]
+        
+    except requests.exceptions.RequestException as e:
+        print(f"[DEBUG] Error creating recurring meeting: {str(e)}")
+        if hasattr(e.response, 'text'):
+            print(f"[DEBUG] Error response: {e.response.text}")
+        raise
 
