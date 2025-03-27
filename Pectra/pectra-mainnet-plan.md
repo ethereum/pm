@@ -2,7 +2,7 @@
 
 ## Upgrade Information
 
-***Tentative, to be confirmed on [ACDC#154](https://github.com/ethereum/pm/issues/1399)***
+***Tentative, to be confirmed on [ACDC#154](https://github.com/ethereum/pm/issues/1399), see [EIPs PR#9560](https://github.com/ethereum/EIPs/pull/9560)***
 
 | Epoch | Start Slot | UTC (+00:00) | Moscow (+03:00) | Los Angeles (-07:00) | New York (-04:00) | Brisbane (+10:00) 
  | -- | -- | -- | -- | -- | -- | -- 
