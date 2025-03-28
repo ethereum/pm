@@ -4,9 +4,10 @@ from datetime import datetime, timedelta, timezone
 import json
 import urllib.parse
 
-account_id=os.environ["ZOOM_ACCOUNT_ID"]
+account_id=os.environ.get("ZOOM_ACCOUNT_ID", "")
 client_id=os.environ["ZOOM_CLIENT_ID"]
 client_secret=os.environ["ZOOM_CLIENT_SECRET"]
+refresh_token=os.environ.get("ZOOM_REFRESH_TOKEN", "")
 
 auth_token_url = "https://zoom.us/oauth/token"
 api_base_url = "https://api.zoom.us/v2"
@@ -67,20 +68,36 @@ def create_meeting(topic, start_time, duration):
     return response_data["join_url"], response_data["id"]
 
 def get_access_token():
+    """
+    Get an access token using the refresh token (OAuth 2.0) for a General (User Managed) app
+    instead of account_credentials used for Server-to-Server apps.
+    """
+    if not refresh_token:
+        raise ValueError("ZOOM_REFRESH_TOKEN environment variable is required for User Managed apps")
+        
     data = {
-        "grant_type": "account_credentials",
-        "account_id": account_id,
-        "client_secret": client_secret
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token
     }
-    response = requests.post(auth_token_url, 
-                                auth=(client_id, client_secret), 
-                                data=data)
     
-    if response.status_code!=200:
+    response = requests.post(auth_token_url, 
+                             auth=(client_id, client_secret), 
+                             data=data)
+    
+    if response.status_code != 200:
         print("Unable to get access token")
         response.raise_for_status()
     else:
         response_data = response.json()
+        
+        # If the response includes a new refresh token, we should store it
+        # For simplicity in this implementation, we'll just print it out
+        # In a production app, you would save this to a secure storage
+        if "refresh_token" in response_data:
+            new_refresh_token = response_data["refresh_token"]
+            print(f"Received new refresh token: {new_refresh_token}")
+            print("IMPORTANT: Update your ZOOM_REFRESH_TOKEN environment variable with this new value")
+            
         return response_data["access_token"]
 
 def get_meeting_recording(meeting_id):
