@@ -24,6 +24,5 @@ assignees: ''
 
 Other comments and resources
 
-The zoom link will be sent to the facilitator (please fill in the email and telegram)
-Facilitator email: XXXXX
-Facilitator telegram: XXXXX 
+The zoom link will be sent to the facilitator via email
+Facilitator email: XXXXX 

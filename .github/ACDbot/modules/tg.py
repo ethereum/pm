@@ -66,27 +66,68 @@ def send_private_message(username: str, text: str, parse_mode=None):
     - text: Message text to send
     - parse_mode: Optional. Mode for parsing entities ('MarkdownV2', 'HTML', or 'Markdown')
     """
-    token = os.environ["TELEGRAM_BOT_TOKEN"]
-
-    # First, try to get user info
-    url = f"https://api.telegram.org/bot{token}/getChat"
-    data = {
-        "chat_id": f"@{username.lstrip('@')}"
-    }
-
     try:
-        # Get chat info
-        resp = requests.post(url, data=data)
-        resp.raise_for_status()
-        chat_data = resp.json()
-        
-        if not chat_data.get("ok"):
-            print(f"Failed to get chat info for user @{username}: {chat_data.get('description')}")
+        token = os.environ["TELEGRAM_BOT_TOKEN"]
+        if not token:
+            print(f"[ERROR] TELEGRAM_BOT_TOKEN environment variable is not set")
             return False
-
-        chat_id = chat_data["result"]["id"]
-
-        # Now send the message
+            
+        # Clean username by removing @ prefix if present
+        clean_username = username.lstrip('@')
+        print(f"[DEBUG] Attempting to send message to Telegram user: @{clean_username}")
+        
+        # First try to get user chat ID via API
+        # This requires the bot to have been started by the user already
+        chat_id = None
+        
+        # First try getChat API method
+        try:
+            url = f"https://api.telegram.org/bot{token}/getChat"
+            data = {"chat_id": f"@{clean_username}"}
+            print(f"[DEBUG] Attempting to get chat info for @{clean_username}")
+            
+            resp = requests.post(url, data=data)
+            if resp.status_code == 200 and resp.json().get("ok"):
+                chat_data = resp.json()
+                chat_id = chat_data["result"]["id"]
+                print(f"[DEBUG] Successfully got chat_id ({chat_id}) for @{clean_username}")
+            else:
+                error_msg = resp.json().get("description", "Unknown error")
+                print(f"[DEBUG] Failed to get chat info via getChat: {error_msg}")
+        except Exception as e:
+            print(f"[DEBUG] Error using getChat method: {str(e)}")
+            
+        # If getChat failed, try alternate method
+        if not chat_id:
+            try:
+                # Try sending a direct message with username
+                url = f"https://api.telegram.org/bot{token}/sendMessage"
+                data = {
+                    "chat_id": f"@{clean_username}",
+                    "text": "Preparing to send you meeting details...",
+                }
+                
+                print(f"[DEBUG] Attempting direct message to @{clean_username}")
+                resp = requests.post(url, data=data)
+                
+                if resp.status_code == 200 and resp.json().get("ok"):
+                    # If this works, get the chat_id from the response
+                    result = resp.json().get("result", {})
+                    chat_id = result.get("chat", {}).get("id")
+                    print(f"[DEBUG] Direct message worked, got chat_id: {chat_id}")
+                else:
+                    error_msg = resp.json().get("description", "Unknown error")
+                    print(f"[DEBUG] Failed to send direct message: {error_msg}")
+            except Exception as e:
+                print(f"[DEBUG] Error sending initial message: {str(e)}")
+        
+        # If we still don't have chat_id, we can't send messages
+        if not chat_id:
+            print(f"[ERROR] Failed to get chat_id for @{clean_username}. The user may need to start a chat with the bot first.")
+            print(f"[INFO] Please ask the facilitator to message @{bot_username(token)} on Telegram first.")
+            return False
+            
+        # Now send the actual message
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         data = {
             "chat_id": chat_id,
@@ -96,11 +137,32 @@ def send_private_message(username: str, text: str, parse_mode=None):
         # Add parse_mode if specified
         if parse_mode:
             data["parse_mode"] = parse_mode
-
+            print(f"[DEBUG] Using parse_mode: {parse_mode}")
+            
+        print(f"[DEBUG] Sending actual message to chat_id: {chat_id}")
         resp = requests.post(url, data=data)
-        resp.raise_for_status()
+        
+        if resp.status_code != 200 or not resp.json().get("ok"):
+            error_msg = resp.json().get("description", f"Status code: {resp.status_code}")
+            print(f"[ERROR] Failed to send message: {error_msg}")
+            return False
+            
+        print(f"[DEBUG] Successfully sent message to @{clean_username}")
         return True
 
     except Exception as e:
-        print(f"Failed to send private message to @{username}: {str(e)}")
+        print(f"[ERROR] Failed to send Telegram message to @{username}: {str(e)}")
+        import traceback
+        print(traceback.format_exc())
         return False
+
+def bot_username(token):
+    """Get the bot's username to provide better instructions"""
+    try:
+        url = f"https://api.telegram.org/bot{token}/getMe"
+        resp = requests.get(url)
+        if resp.status_code == 200 and resp.json().get("ok"):
+            return resp.json()["result"]["username"]
+        return "your_bot"
+    except:
+        return "your_bot"

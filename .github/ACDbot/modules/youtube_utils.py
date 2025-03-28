@@ -3,27 +3,54 @@ import os
 from datetime import datetime, timedelta
 import pytz
 import sys
-
-YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
+from google.auth.exceptions import RefreshError
 
 def get_youtube_service():
     """
-    Gets an authenticated YouTube service with error handling for API key issues
+    Gets an authenticated YouTube service using OAuth2 credentials
     """
     try:
-        # Check if YOUTUBE_API_KEY exists in environment
-        if not YOUTUBE_API_KEY:
-            error_msg = "Error: YOUTUBE_API_KEY environment variable not found or empty"
+        # Check for required OAuth2 environment variables
+        required_vars = ["YOUTUBE_REFRESH_TOKEN", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
+        missing_vars = [var for var in required_vars if not os.environ.get(var)]
+        
+        if missing_vars:
+            error_msg = f"Error: Missing required environment variables: {', '.join(missing_vars)}"
             print(f"::error::{error_msg}")
-            print("Context access might be invalid: GOOGLE_APPLICATION_CREDENTIALS")
             raise ValueError(error_msg)
-            
-        # Create the service
-        return build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
+        
+        # Create credentials using refresh token
+        creds = Credentials(
+            token=None,
+            refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
+            client_id=os.environ["GOOGLE_CLIENT_ID"],
+            client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
+            token_uri="https://oauth2.googleapis.com/token",
+            scopes=[
+                "https://www.googleapis.com/auth/youtube.upload",
+                "https://www.googleapis.com/auth/youtube.force-ssl",
+                "https://www.googleapis.com/auth/youtube"
+            ]
+        )
+        
+        # Refresh the access token
+        request = Request()
+        creds.refresh(request)
+        print("[DEBUG] Successfully refreshed YouTube OAuth2 token")
+        
+        # Create the YouTube service with the credentials
+        return build('youtube', 'v3', credentials=creds)
+    
+    except RefreshError as e:
+        error_msg = f"Error: Failed to refresh YouTube OAuth2 token: {str(e)}"
+        print(f"::error::{error_msg}")
+        print("Manual reauthorization required - run get_refresh_token.py to generate a new refresh token")
+        raise ValueError(error_msg)
     except Exception as e:
         error_msg = f"Error: Failed to authenticate with YouTube API: {str(e)}"
         print(f"::error::{error_msg}")
-        print("Context access might be invalid: GOOGLE_APPLICATION_CREDENTIALS")
         raise ValueError(error_msg)
 
 def get_channel_id_by_custom_url(custom_url):
@@ -100,6 +127,21 @@ def create_youtube_stream(title, description, start_time, privacy_status='public
         youtube = get_youtube_service()
         
         print(f"[DEBUG] Creating YouTube stream: {title}")
+        
+        # Ensure start_time is in correct ISO 8601 format
+        # YouTube requires the format: YYYY-MM-DDThh:mm:ss.sZ
+        if start_time.endswith('Z'):
+            # Convert to standard format expected by YouTube
+            from datetime import datetime
+            try:
+                dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                # Format to YouTube's expected format with milliseconds
+                start_time = dt.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            except ValueError:
+                # If parsing fails, leave as is
+                pass
+                
+        print(f"[DEBUG] Using formatted start time: {start_time}")
         
         # Create the broadcast
         broadcast_insert_response = youtube.liveBroadcasts().insert(
@@ -178,8 +220,16 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
     """
     try:
         streams = []
-        current_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
         
+        # Ensure start_time is parsed correctly
+        if isinstance(start_time, str):
+            # Handle different ISO formats
+            if start_time.endswith('Z'):
+                start_time = start_time.replace('Z', '+00:00')
+            current_time = datetime.fromisoformat(start_time)
+        else:
+            current_time = start_time
+            
         print(f"[DEBUG] Creating {num_events} recurring streams for '{title}' starting at {current_time}")
         
         for i in range(num_events):
@@ -222,14 +272,22 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
                     # Create the new datetime with the adjusted values
                     current_time = current_time.replace(year=year, month=month, day=day)
             
-            event_title = f"{title} #{i+1}"
+            # Format in the standard YouTube API expects: YYYY-MM-DDThh:mm:ss.sZ
+            # YouTube's API is specific about the format - needs milliseconds
+            formatted_start_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            
+            event_title = f"{title} {i+1}"
             print(f"[DEBUG] Creating stream {i+1}/{num_events}: {event_title}")
             
             stream_details = create_youtube_stream(
                 event_title,
                 description,
-                current_time.isoformat() + 'Z'
+                formatted_start_time
             )
+            
+            # Store the scheduled time in the stream details for later use
+            stream_details['scheduled_time'] = formatted_start_time
+            
             streams.append(stream_details)
         
         return streams

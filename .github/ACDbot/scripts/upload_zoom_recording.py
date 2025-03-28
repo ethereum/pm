@@ -30,7 +30,11 @@ except ImportError:
     rss_utils = None
 
 # Reuse existing zoom module functions
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.force-ssl",
+    "https://www.googleapis.com/auth/youtube"
+]
 CLIENT_SECRETS_FILE = "client_secrets.json"
 
 # Add these functions at the top of the file
@@ -44,7 +48,7 @@ def get_authenticated_service():
         client_id=os.environ["GOOGLE_CLIENT_ID"],
         client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
         token_uri="https://oauth2.googleapis.com/token",
-        scopes=["https://www.googleapis.com/auth/youtube.upload"]
+        scopes=SCOPES
     )
     
     # Token already refreshed at workflow start

@@ -11,6 +11,7 @@ def create_topic(title: str, body: str, category_id=63):
       - DISCOURSE_API_KEY
       - DISCOURSE_API_USERNAME
       - DISCOURSE_BASE_URL (defaults to https://ethereum-magicians.org)
+    If a topic with the same title already exists, returns the existing topic ID.
     """
     api_key = os.environ["DISCOURSE_API_KEY"]
     api_user = os.environ["DISCOURSE_API_USERNAME"]
@@ -23,20 +24,60 @@ def create_topic(title: str, body: str, category_id=63):
         "archetype": "regular"
     }
 
-    resp = requests.post(
-        f"{base_url}/posts.json",
-        headers={
-            "Api-Key": api_key,
-            "Api-Username": api_user,
-            "Content-Type": "application/json",
-        },
-        data=json.dumps(payload),
-    )
-    if not resp.ok:
-        print(resp.text)  # Log the response content for debugging
-        resp.raise_for_status()
-
-    return resp.json()
+    try:
+        resp = requests.post(
+            f"{base_url}/posts.json",
+            headers={
+                "Api-Key": api_key,
+                "Api-Username": api_user,
+                "Content-Type": "application/json",
+            },
+            data=json.dumps(payload),
+        )
+        if not resp.ok:
+            # Check if error is due to title already existing
+            error_text = resp.text
+            print(f"[DEBUG] Create topic response: {error_text}")
+            
+            if "Title has already been used" in error_text and "slug" in error_text:
+                # Extract slug from error message
+                import re
+                slug_match = re.search(r"slug: [\"']([^\"\'']+)[\"']", error_text)
+                if slug_match:
+                    slug = slug_match.group(1)
+                    print(f"[DEBUG] Found existing topic with slug: {slug}")
+                    
+                    # Get the topic by slug
+                    topic_resp = requests.get(
+                        f"{base_url}/t/{slug}.json",
+                        headers={
+                            "Api-Key": api_key,
+                            "Api-Username": api_user,
+                        },
+                    )
+                    if topic_resp.ok:
+                        topic_data = topic_resp.json()
+                        topic_id = topic_data.get("id")
+                        print(f"[DEBUG] Found existing topic with ID: {topic_id}")
+                        
+                        # Update the existing topic with new body
+                        update_result = update_topic(
+                            topic_id=topic_id,
+                            body=body,
+                            category_id=category_id
+                        )
+                        return {"topic_id": topic_id, "title": title, "action": "updated"}
+            
+            # If not a title already exists error or couldn't handle it properly
+            resp.raise_for_status()
+        
+        response_data = resp.json()
+        topic_id = response_data.get("topic_id")
+        return {"topic_id": topic_id, "title": title, "action": "created"}
+    
+    except Exception as e:
+        print(f"[DEBUG] Error in create_topic: {str(e)}")
+        raise
 
 
 def update_topic(topic_id: int, title: str = None, body: str = None, category_id: int = None):

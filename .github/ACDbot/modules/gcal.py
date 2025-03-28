@@ -62,15 +62,26 @@ def create_event(summary: str, start_dt, duration_minutes: int, calendar_id: str
     event_body = {
         'summary': summary,
         'description': description,
-        'start': {'dateTime': start_dt.isoformat()},
-        'end': {'dateTime': end_dt.isoformat()},
+        'start': {
+            'dateTime': start_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
+        'end': {
+            'dateTime': end_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
     }
 
     try:
         service = get_calendar_service()
         event = service.events().insert(calendarId=calendar_id, body=event_body).execute()
-        print(f"[DEBUG] Created calendar event with ID: {event.get('id')}")
-        return event.get('htmlLink')
+        event_id = event.get('id')
+        html_link = event.get('htmlLink')
+        print(f"[DEBUG] Created calendar event with ID: {event_id}")
+        return {
+            'htmlLink': html_link,
+            'id': event_id
+        }
     except Exception as e:
         error_msg = f"Error creating calendar event: {str(e)}"
         print(f"::error::{error_msg}")
@@ -78,7 +89,10 @@ def create_event(summary: str, start_dt, duration_minutes: int, calendar_id: str
 
 def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, calendar_id: str, description=""):
     """Update an existing Google Calendar event"""
-    print(f"[DEBUG] Updating calendar event {event_id} with summary: {summary}")
+    print(f"[DEBUG] Attempting to update calendar event {event_id} with summary: {summary}")
+    
+    if not event_id:
+        raise ValueError("No event_id provided for update")
     
     # Same datetime handling as create_event
     if isinstance(start_dt, str):
@@ -94,8 +108,14 @@ def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, c
     event_body = {
         'summary': summary,
         'description': description,
-        'start': {'dateTime': start_dt.isoformat()},
-        'end': {'dateTime': end_dt.isoformat()},
+        'start': {
+            'dateTime': start_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
+        'end': {
+            'dateTime': end_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
     }
 
     try:
@@ -111,17 +131,127 @@ def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, c
         except Exception as e:
             error_msg = f"Failed to find existing event: {str(e)}"
             print(f"[DEBUG] {error_msg}")
+            
+            # Instead of raising an error, let the caller know that this event doesn't exist
+            # so they can create a new one
+            print(f"[DEBUG] Event not found, suggest creating a new one")
             raise ValueError(error_msg)
 
+        # If we're here, the event exists, so update it
         event = service.events().update(
             calendarId=calendar_id,
             eventId=event_id,
             body=event_body
         ).execute()
-        print(f"[DEBUG] Successfully updated event with ID: {event.get('id')}")
-        return event.get('htmlLink')
+        event_id = event.get('id')
+        html_link = event.get('htmlLink')
+        print(f"[DEBUG] Successfully updated event with ID: {event_id}")
+        return {
+            'htmlLink': html_link,
+            'id': event_id
+        }
+    except ValueError:
+        # Re-raise ValueError to let caller know this needs a new event
+        raise
     except Exception as e:
         error_msg = f"Error updating calendar event: {str(e)}"
+        print(f"::error::{error_msg}")
+        raise
+
+def update_recurring_event(event_id: str, summary: str, start_dt, duration_minutes: int, calendar_id: str, occurrence_rate: str, description=""):
+    """
+    Update an existing recurring Google Calendar event, preserving recurrence settings
+    Args:
+        event_id: ID of the existing event to update
+        summary: Event title
+        start_dt: Start datetime (string or datetime)
+        duration_minutes: Duration in minutes
+        calendar_id: Google Calendar ID
+        occurrence_rate: weekly, bi-weekly, or monthly
+        description: Optional event description
+    Returns:
+        Dict with htmlLink and id
+    """
+    print(f"[DEBUG] Attempting to update recurring calendar event {event_id} with summary: {summary}")
+    
+    if not event_id:
+        raise ValueError("No event_id provided for update")
+    
+    # Same datetime handling as create_event
+    if isinstance(start_dt, str):
+        start_dt = datetime.fromisoformat(start_dt.replace('Z', '+00:00'))
+    elif not isinstance(start_dt, datetime):
+        raise TypeError("start_dt must be a datetime object or ISO format string")
+    
+    # Ensure timezone awareness
+    if not start_dt.tzinfo:
+        start_dt = start_dt.replace(tzinfo=pytz.utc)
+    
+    # Calculate end time
+    end_dt = start_dt + timedelta(minutes=duration_minutes)
+    
+    # Set up recurrence rule
+    if occurrence_rate == "weekly":
+        recurrence = ['RRULE:FREQ=WEEKLY']
+    elif occurrence_rate == "bi-weekly":
+        recurrence = ['RRULE:FREQ=WEEKLY;INTERVAL=2']
+    elif occurrence_rate == "monthly":
+        recurrence = ['RRULE:FREQ=MONTHLY']
+    else:
+        raise ValueError(f"Unsupported occurrence rate: {occurrence_rate}")
+
+    try:
+        service = get_calendar_service()
+        
+        try:
+            # First try to get the event to verify it exists
+            existing_event = service.events().get(
+                calendarId=calendar_id,
+                eventId=event_id
+            ).execute()
+            print(f"[DEBUG] Found existing recurring event with ID: {existing_event.get('id')}")
+        except Exception as e:
+            error_msg = f"Failed to find existing recurring event: {str(e)}"
+            print(f"[DEBUG] {error_msg}")
+            
+            # Instead of raising an error, let the caller know that this event doesn't exist
+            # so they can create a new one
+            print(f"[DEBUG] Event not found, suggest creating a new recurring event")
+            raise ValueError(error_msg)
+
+        # Build event body with recurrence information
+        event_body = {
+            'summary': summary,
+            'description': description,
+            'start': {
+                'dateTime': start_dt.isoformat(),
+                'timeZone': 'UTC'
+            },
+            'end': {
+                'dateTime': end_dt.isoformat(),
+                'timeZone': 'UTC'
+            },
+            'recurrence': recurrence,
+        }
+
+        # If we're here, the event exists, so update it while preserving recurrence
+        event = service.events().update(
+            calendarId=calendar_id,
+            eventId=event_id,
+            body=event_body
+        ).execute()
+        event_id = event.get('id')
+        html_link = event.get('htmlLink')
+        print(f"[DEBUG] Successfully updated recurring event with ID: {event_id}")
+        return {
+            'htmlLink': html_link,
+            'id': event_id
+        }
+    except ValueError:
+        # Re-raise ValueError to let caller know this needs a new event
+        raise
+    except Exception as e:
+        error_msg = f"Error updating recurring calendar event: {str(e)}"
         print(f"::error::{error_msg}")
         raise
 
@@ -136,7 +266,7 @@ def create_recurring_event(summary: str, start_dt, duration_minutes: int, calend
         occurrence_rate: weekly, bi-weekly, or monthly
         description: Optional event description
     Returns:
-        Event HTML link
+        Dict with htmlLink and id
     """
     print(f"[DEBUG] Creating recurring calendar event: {summary}")
 
@@ -166,16 +296,27 @@ def create_recurring_event(summary: str, start_dt, duration_minutes: int, calend
     event_body = {
         'summary': summary,
         'description': description,
-        'start': {'dateTime': start_dt.isoformat()},
-        'end': {'dateTime': end_dt.isoformat()},
+        'start': {
+            'dateTime': start_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
+        'end': {
+            'dateTime': end_dt.isoformat(),
+            'timeZone': 'UTC'
+        },
         'recurrence': recurrence,
     }
 
     try:
         service = get_calendar_service()
         event = service.events().insert(calendarId=calendar_id, body=event_body).execute()
-        print(f"[DEBUG] Created recurring calendar event with ID: {event.get('id')}")
-        return event.get('htmlLink')
+        event_id = event.get('id')
+        html_link = event.get('htmlLink')
+        print(f"[DEBUG] Created recurring calendar event with ID: {event_id}")
+        return {
+            'htmlLink': html_link,
+            'id': event_id
+        }
     except Exception as e:
         error_msg = f"Error creating recurring calendar event: {str(e)}"
         print(f"::error::{error_msg}")
