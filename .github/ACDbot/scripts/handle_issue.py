@@ -32,11 +32,16 @@ def extract_facilitator_info(issue_body):
     email_pattern = r"Facilitator email:\s*([^\n\s]+)"
     telegram_pattern = r"Facilitator telegram:\s*([^\n\s]+)"
     
+    print(f"[DEBUG] Extracting facilitator info from issue body")
+    
     email_match = re.search(email_pattern, issue_body)
     telegram_match = re.search(telegram_pattern, issue_body)
     
     facilitator_email = email_match.group(1) if email_match else None
     facilitator_telegram = telegram_match.group(1) if telegram_match else None
+    
+    print(f"[DEBUG] Extracted facilitator email: {facilitator_email}")
+    print(f"[DEBUG] Extracted facilitator telegram: {facilitator_telegram}")
     
     return facilitator_email, facilitator_telegram
 
@@ -513,33 +518,49 @@ def handle_github_issue(issue_number: int, repo_name: str):
             else:
                 if facilitator_email and join_url:
                     try:
+                        print(f"[DEBUG] Sending email to facilitator: {facilitator_email}")
                         email_subject = f"{'Updated ' if existing_item else ''}Zoom Details - {issue_title}"
-                        email_body = f"""
-                        <h2>{'Updated ' if existing_item else ''}Zoom Meeting Details</h2>
-                        <p>For meeting: {issue_title}</p>
-                        <p><strong>Join URL:</strong> {join_url}</p>
-                        <p><strong>Meeting ID:</strong> {zoom_id}</p>
-                        <p><a href="{issue.html_url}">View GitHub Issue</a></p>
-                        """
-                        email_utils.send_email(facilitator_email, email_subject, email_body)
-                        email_sent = True
-                        comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
-                    except Exception as e:
-                        print(f"Failed to send email: {e}")
-                        comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}: {str(e)}")
-
-                # Send Telegram DM if handle is provided
-                if facilitator_telegram and join_url:  # Only proceed if we have a join URL
-                    try:
-                        # Remove @ if present in telegram handle
-                        telegram_handle = facilitator_telegram.lstrip('@')
-                        # Escape special characters for Telegram markdown
-                        safe_title = issue_title.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
-                        safe_url = join_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
-                        safe_issue_url = issue.html_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                         
-                        # Fix the indentation in the message string - remove leading spaces
-                        telegram_message = f"""🎯 *Meeting Details*
+                        # Create clean HTML email body without indentation problems
+                        email_body = f"""
+<h2>{'Updated ' if existing_item else ''}Zoom Meeting Details</h2>
+<p>For meeting: {issue_title}</p>
+<p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
+<p><strong>Meeting ID:</strong> {zoom_id}</p>
+<p><a href="{issue.html_url}">View GitHub Issue</a></p>
+
+<p>---<br>
+This email was sent automatically by the Ethereum Protocol Call Bot.</p>
+"""
+                        # Try to send email and handle success/failure
+                        if email_utils.send_email(facilitator_email, email_subject, email_body):
+                            email_sent = True
+                            comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
+                            print(f"[DEBUG] Successfully sent email to: {facilitator_email}")
+                        else:
+                            comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}")
+                            print(f"[DEBUG] Failed to send email to: {facilitator_email}")
+                    except Exception as e:
+                        print(f"[DEBUG] Exception when sending email: {str(e)}")
+                        comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}: {str(e)}")
+                else:
+                    if not facilitator_email:
+                        print(f"[DEBUG] No facilitator email provided in the issue")
+                    if not join_url:
+                        print(f"[DEBUG] No join URL available for the meeting")
+
+            # Send Telegram DM if handle is provided
+            if facilitator_telegram and join_url:  # Only proceed if we have a join URL
+                try:
+                    # Remove @ if present in telegram handle
+                    telegram_handle = facilitator_telegram.lstrip('@')
+                    # Escape special characters for Telegram markdown
+                    safe_title = issue_title.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
+                    safe_url = join_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
+                    safe_issue_url = issue.html_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
+                    
+                    # Fix the indentation in the message string - remove leading spaces
+                    telegram_message = f"""🎯 *Meeting Details*
 
 *Title*: {safe_title}
 
@@ -548,18 +569,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
 *GitHub Issue*: {safe_issue_url}"""
 
-                        # Send private message to facilitator with explicit parse_mode
-                        if tg.send_private_message(telegram_handle, telegram_message, parse_mode="MarkdownV2"):
-                            telegram_sent = True
-                            comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
-                        else:
-                            comment_lines.append(f"- ⚠️ Failed to send Telegram message with Zoom details to @{telegram_handle}")
-                        
-                    except Exception as e:
-                        print(f"Failed to send Telegram message: {e}")
-                        comment_lines.append(f"- ⚠️ Failed to send Telegram message with Zoom details to @{facilitator_telegram}: {str(e)}")
-                        import traceback
-                        print(traceback.format_exc())
+                    # Send private message to facilitator with explicit parse_mode
+                    if tg.send_private_message(telegram_handle, telegram_message, parse_mode="MarkdownV2"):
+                        telegram_sent = True
+                        comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
+                    else:
+                        comment_lines.append(f"- ⚠️ Failed to send Telegram message with Zoom details to @{telegram_handle}")
+                    
+                except Exception as e:
+                    print(f"Failed to send Telegram message: {e}")
+                    comment_lines.append(f"- ⚠️ Failed to send Telegram message with Zoom details to @{facilitator_telegram}: {str(e)}")
+                    import traceback
+                    print(traceback.format_exc())
 
             # Send Telegram notification if enabled
             telegram_handle = os.environ.get("TELEGRAM_CHAT_ID")
