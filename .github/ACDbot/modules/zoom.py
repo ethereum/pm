@@ -308,24 +308,42 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         "Content-Type": "application/json"
     }
     
-    # Parse the start_time to get the day of week (1-7, where 1 is Monday)
+    # Parse the start_time to get the day of week and ensure it's correctly formatted
     try:
         # Convert ISO 8601 string to datetime object
-        from datetime import datetime
+        from datetime import datetime, timedelta
         start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
         # Get day of week (in datetime, Monday is 0, Sunday is 6)
         # Convert to Zoom format (Monday is 1, Sunday is 7)
         day_of_week = start_dt.weekday() + 1
-        print(f"[DEBUG] Calculated day of week for {start_time}: {day_of_week} (Zoom format)")
+        
+        print(f"[DEBUG] Original start_time: {start_time}")
+        print(f"[DEBUG] Parsed date: {start_dt.strftime('%Y-%m-%d %H:%M:%S %Z')}")
+        print(f"[DEBUG] Calculated day of week: {day_of_week} (Zoom format, 1=Monday, 7=Sunday)")
+        print(f"[DEBUG] Weekday name: {start_dt.strftime('%A')}")
+        
+        # WORKAROUND: For bi-weekly meetings, Zoom may schedule the first occurrence on the next
+        # occurrence of the specified day of week, rather than using the exact date requested.
+        # To fix this, adjust the start_time to ensure the first occurrence happens on the right date.
+        adjusted_start_dt = adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week)
+        
+        if adjusted_start_dt != start_dt:
+            print(f"[DEBUG] Adjusted start date for Zoom API: {adjusted_start_dt.strftime('%Y-%m-%d')}")
+            formatted_start_time = adjusted_start_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+        else:
+            formatted_start_time = start_time
+            
     except Exception as e:
         print(f"[DEBUG] Error calculating day of week: {str(e)}, defaulting to 1 (Monday)")
         day_of_week = 1
+        formatted_start_time = start_time
     
     # Map occurrence rate to Zoom recurrence type
     recurrence = {
         "type": 2,  # Default to weekly
         "repeat_interval": 1,
-        "weekly_days": str(day_of_week),  # Use the actual day from start_time
+        # Use the actual day from start_time
+        "weekly_days": str(day_of_week),
         "end_times": 1  # Number of occurrences
     }
     
@@ -346,7 +364,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     payload = {
         "topic": topic,
         "type": 8,  # 8 for recurring meeting with fixed time
-        "start_time": start_time,
+        "start_time": formatted_start_time,
         "duration": duration,
         "recurrence": recurrence,
         "settings": {
@@ -367,44 +385,143 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     }
 
     print(f"[DEBUG] Creating recurring Zoom meeting with payload: {json.dumps(payload, indent=2)}")
-
+    
     try:
-        resp = requests.post(
-            f"{api_base_url}/users/me/meetings",
-            headers=headers,
-            json=payload
-        )
+        resp = requests.post(f"{api_base_url}/users/me/meetings", 
+                            headers=headers, 
+                            json=payload)
         
-        # Check for specific alternative host error (code 1114)
-        if resp.status_code == 400:
-            error_data = resp.json()
-            if error_data.get("code") == 1114 and "alternative host" in error_data.get("message", "").lower():
+        # Check response
+        if resp.status_code == 201:
+            response_data = resp.json()
+            print(f"[DEBUG] Successfully created recurring meeting: {json.dumps(response_data, indent=2)}")
+            
+            # Check if the first occurrence matches our intended start date
+            if 'occurrences' in response_data and response_data['occurrences']:
+                first_occurrence = response_data['occurrences'][0]
+                first_occurrence_time = first_occurrence.get('start_time')
+                if first_occurrence_time:
+                    print(f"[DEBUG] First occurrence scheduled for: {first_occurrence_time}")
+                    first_occurrence_dt = datetime.fromisoformat(first_occurrence_time.replace('Z', '+00:00'))
+                    
+                    # Compare with original start_time
+                    original_dt = start_dt
+                    print(f"[DEBUG] Original start date: {original_dt.strftime('%Y-%m-%d')}")
+                    print(f"[DEBUG] First occurrence date: {first_occurrence_dt.strftime('%Y-%m-%d')}")
+                    
+                    # If dates don't match, log a warning
+                    if original_dt.date() != first_occurrence_dt.date():
+                        print(f"[WARNING] First occurrence date ({first_occurrence_dt.strftime('%Y-%m-%d')}) " 
+                              f"does not match requested date ({original_dt.strftime('%Y-%m-%d')})")
+                        print(f"[WARNING] This is a Zoom API behavior - please check the meeting details in Zoom")
+            
+            content = {
+                "meeting_url": response_data["join_url"], 
+                "password": response_data.get("password", ""),
+                "meetingTime": response_data["start_time"],
+                "purpose": response_data["topic"],
+                "duration": response_data["duration"],
+                "message": "Success",
+                "status":1
+            }
+            print(content)
+            return response_data["join_url"], response_data["id"]
+            
+        else:
+            # For alternative host errors, try again without that field
+            if resp.status_code == 400 and "Invalid email alternative_host" in resp.text:
                 print(f"[DEBUG] Alternative host error detected, retrying without alternative hosts")
-                
-                # Remove alternative hosts and try again
-                payload["settings"].pop("alternative_hosts", None)
+                # Remove alternative_hosts from settings
+                if "alternative_hosts" in payload["settings"]:
+                    del payload["settings"]["alternative_hosts"]
                 
                 print(f"[DEBUG] Retrying with modified payload: {json.dumps(payload, indent=2)}")
                 
-                resp = requests.post(
-                    f"{api_base_url}/users/me/meetings",
-                    headers=headers,
-                    json=payload
-                )
-        
-        if resp.status_code != 201:
-            print(f"[DEBUG] Zoom API Error Response: {resp.status_code} {resp.text}")
-            print(f"[DEBUG] Request payload: {json.dumps(payload, indent=2)}")
-            print(f"[DEBUG] Request headers: {headers}")
-            resp.raise_for_status()
-        
-        response_data = resp.json()
-        print(f"[DEBUG] Successfully created recurring meeting: {json.dumps(response_data, indent=2)}")
-        return response_data["join_url"], response_data["id"]
-        
-    except requests.exceptions.RequestException as e:
-        print(f"[DEBUG] Error creating recurring meeting: {str(e)}")
-        if hasattr(e, 'response') and e.response:
-            print(f"[DEBUG] Error response: {e.response.text}")
+                # Try again
+                resp = requests.post(f"{api_base_url}/users/me/meetings", 
+                                    headers=headers, 
+                                    json=payload)
+                                    
+                if resp.status_code == 201:
+                    response_data = resp.json()
+                    print(f"[DEBUG] Successfully created recurring meeting: {json.dumps(response_data, indent=2)}")
+                    
+                    # Check if the first occurrence matches our intended start date
+                    if 'occurrences' in response_data and response_data['occurrences']:
+                        first_occurrence = response_data['occurrences'][0]
+                        first_occurrence_time = first_occurrence.get('start_time')
+                        if first_occurrence_time:
+                            print(f"[DEBUG] First occurrence scheduled for: {first_occurrence_time}")
+                            first_occurrence_dt = datetime.fromisoformat(first_occurrence_time.replace('Z', '+00:00'))
+                            
+                            # Compare with original start_time
+                            original_dt = start_dt
+                            print(f"[DEBUG] Original start date: {original_dt.strftime('%Y-%m-%d')}")
+                            print(f"[DEBUG] First occurrence date: {first_occurrence_dt.strftime('%Y-%m-%d')}")
+                            
+                            # If dates don't match, log a warning
+                            if original_dt.date() != first_occurrence_dt.date():
+                                print(f"[WARNING] First occurrence date ({first_occurrence_dt.strftime('%Y-%m-%d')}) " 
+                                      f"does not match requested date ({original_dt.strftime('%Y-%m-%d')})")
+                                print(f"[WARNING] This is a Zoom API behavior - please check the meeting details in Zoom")
+                    
+                    content = {
+                        "meeting_url": response_data["join_url"], 
+                        "password": response_data.get("password", ""),
+                        "meetingTime": response_data["start_time"],
+                        "purpose": response_data["topic"],
+                        "duration": response_data["duration"],
+                        "message": "Success",
+                        "status":1
+                    }
+                    print(content)
+                    return response_data["join_url"], response_data["id"]
+                else:
+                    print(f"Unable to generate meeting link even without alternative hosts: {resp.text}")
+                    resp.raise_for_status()
+            else:
+                print(f"Unable to generate meeting link: {resp.text}")
+                resp.raise_for_status()
+                
+    except Exception as e:
+        print(f"Error creating recurring Zoom meeting: {str(e)}")
         raise
+
+def adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week):
+    """
+    Adjusts the start date if needed to ensure Zoom uses the correct date for the first occurrence.
+    
+    For bi-weekly meetings, Zoom sometimes schedules the first occurrence on the next occurrence
+    of the specified day of week, rather than using the exact date requested. This function
+    adjusts the date to work around this behavior.
+    
+    Args:
+        start_dt: The original start datetime
+        occurrence_rate: weekly, bi-weekly, or monthly
+        day_of_week: Day of week in Zoom format (1=Monday, 7=Sunday)
+        
+    Returns:
+        Adjusted datetime or original if no adjustment needed
+    """
+    from datetime import datetime, timedelta
+    
+    # Only applies to bi-weekly meetings
+    if occurrence_rate != "bi-weekly":
+        return start_dt
+        
+    # STRATEGY: For bi-weekly meetings, we need to adjust the start date
+    # In the logs we can see Zoom is not using the actual date we specify
+    # Instead it's using the date of the next occurrence of that day of week
+    # So we'll adjust by moving the date back 1 week from the intended date
+    
+    # Subtract 1 week from the start date for bi-weekly meetings
+    # This works around Zoom's behavior of scheduling the first occurrence
+    # on the next occurrence of the specified weekday
+    adjusted_dt = start_dt - timedelta(days=7)
+    
+    print(f"[DEBUG] Bi-weekly meeting detected, applying date adjustment")
+    print(f"[DEBUG] Original date: {start_dt.strftime('%Y-%m-%d')}")
+    print(f"[DEBUG] Adjusted date: {adjusted_dt.strftime('%Y-%m-%d')}")
+    
+    return adjusted_dt
 
