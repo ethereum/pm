@@ -44,8 +44,8 @@ def send_email(recipient_email, subject, body):
         
         try:
             server = smtplib.SMTP(smtp_server, smtp_port)
-            # Enable debug output for troubleshooting
-            server.set_debuglevel(1)
+            # Disable debug output
+            server.set_debuglevel(0)
             
             # Start TLS for security
             server.starttls()

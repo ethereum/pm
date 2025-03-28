@@ -99,7 +99,7 @@ def get_access_token():
             refresh_token = new_refresh_token
             # Update the environment variable for other processes to use
             os.environ["ZOOM_REFRESH_TOKEN"] = new_refresh_token
-            print(f"Received new refresh token: {new_refresh_token}")
+            print("Received new refresh token - token hidden for security")
             print("IMPORTANT: Updated ZOOM_REFRESH_TOKEN variable with the new value")
             
             # Save to a temporary file in a shared location that can be read by other workflow steps
