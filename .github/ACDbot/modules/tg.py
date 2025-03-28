@@ -124,6 +124,7 @@ def send_private_message(username: str, text: str, parse_mode=None):
         # If we still don't have chat_id, we can't send messages
         if not chat_id:
             print(f"[ERROR] Failed to get chat_id for @{clean_username}. The user may need to start a chat with the bot first.")
+            print(f"[INFO] Please ask the facilitator to message @{bot_username(token)} on Telegram first.")
             return False
             
         # Now send the actual message
@@ -154,3 +155,14 @@ def send_private_message(username: str, text: str, parse_mode=None):
         import traceback
         print(traceback.format_exc())
         return False
+
+def bot_username(token):
+    """Get the bot's username to provide better instructions"""
+    try:
+        url = f"https://api.telegram.org/bot{token}/getMe"
+        resp = requests.get(url)
+        if resp.status_code == 200 and resp.json().get("ok"):
+            return resp.json()["result"]["username"]
+        return "your_bot"
+    except:
+        return "your_bot"

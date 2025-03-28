@@ -18,7 +18,7 @@ def send_email(recipient_email, subject, body):
     sender_email = os.environ.get("SENDER_EMAIL")
     sender_password = os.environ.get("SENDER_EMAIL_PASSWORD")
     smtp_server = os.environ.get("SMTP_SERVER")
-    smtp_port = os.environ.get("SMTP_PORT", 587)
+    smtp_port = int(os.environ.get("SMTP_PORT", 587))
 
     if not all([sender_email, sender_password, smtp_server]):
         print(f"[ERROR] Email server credentials are not fully configured.")
@@ -26,7 +26,7 @@ def send_email(recipient_email, subject, body):
         print(f"SENDER_EMAIL_PASSWORD: {'Set' if sender_password else 'Missing'}")
         print(f"SMTP_SERVER: {'Set' if smtp_server else 'Missing'}")
         print(f"SMTP_PORT: {smtp_port}")
-        raise Exception("Email server credentials are not fully configured.")
+        return False
 
     # Clean up body text by removing leading spaces
     cleaned_body = "\n".join([line.strip() for line in body.split('\n')])
@@ -40,14 +40,45 @@ def send_email(recipient_email, subject, body):
 
     try:
         print(f"[DEBUG] Attempting to send email to {recipient_email} via {smtp_server}:{smtp_port}")
-        with smtplib.SMTP(smtp_server, int(smtp_port)) as server:
+        server = None
+        
+        try:
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            # Enable debug output for troubleshooting
+            server.set_debuglevel(1)
+            
+            # Start TLS for security
             server.starttls()
             print(f"[DEBUG] STARTTLS established, attempting login for {sender_email}")
+            
+            # Authentication
             server.login(sender_email, sender_password)
             print(f"[DEBUG] Login successful, sending message")
+            
+            # Send email
             server.send_message(msg)
             print(f"[DEBUG] Email sent successfully to {recipient_email}")
+            
             return True
+        finally:
+            # Make sure to quit the server even if an error occurs
+            if server:
+                server.quit()
+                print("[DEBUG] SMTP connection closed")
+    except smtplib.SMTPAuthenticationError as e:
+        print(f"[ERROR] SMTP Authentication Error - Check your email credentials: {str(e)}")
+        return False
+    except smtplib.SMTPConnectError as e:
+        print(f"[ERROR] SMTP Connection Error - Could not connect to SMTP server: {str(e)}")
+        return False
+    except smtplib.SMTPServerDisconnected as e:
+        print(f"[ERROR] SMTP Server Disconnected: {str(e)}")
+        return False
+    except smtplib.SMTPException as e:
+        print(f"[ERROR] SMTP Error: {str(e)}")
+        return False
     except Exception as e:
         print(f"[ERROR] Failed to send email to {recipient_email}: {str(e)}")
+        import traceback
+        print(traceback.format_exc())
         return False 

@@ -243,7 +243,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             # Get the meeting join URL - needed for notifications
             if zoom_response:
                 join_url = zoom_response.get('join_url')
-            elif not join_url and not zoom_id.startswith("placeholder-"):
+            elif not join_url and not str(zoom_id).startswith("placeholder-"):
                 try:
                     # If not a new meeting and no zoom_response, fetch the meeting details
                     meeting_details = zoom.get_meeting(zoom_id)
@@ -510,7 +510,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             telegram_sent = False
             
             # Only send notifications if we have a valid zoom_id (not a placeholder)
-            if not zoom_id or zoom_id.startswith("placeholder-"):
+            if not zoom_id or (isinstance(zoom_id, str) and zoom_id.startswith("placeholder-")) or str(zoom_id).startswith("placeholder-"):
                 print(f"[DEBUG] Skipping notifications - Zoom meeting creation failed or invalid zoom_id: {zoom_id}")
                 comment_lines.append("\n**⚠️ Zoom Meeting Creation Failed**")
                 comment_lines.append("- Notifications suppressed due to Zoom meeting creation failure")
@@ -527,7 +527,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
 <p>For meeting: {issue_title}</p>
 <p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
 <p><strong>Meeting ID:</strong> {zoom_id}</p>
-<p><a href="{issue.html_url}">View GitHub Issue</a></p>
+<p><strong>Links:</strong><br>
+<a href="{issue.html_url}">View GitHub Issue</a><br>
+<a href="{discourse_url}">View Discourse Topic</a></p>
 
 <p>---<br>
 This email was sent automatically by the Ethereum Protocol Call Bot.</p>
@@ -538,11 +540,25 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                             comment_lines.append(f"- Zoom details sent to: {facilitator_email}")
                             print(f"[DEBUG] Successfully sent email to: {facilitator_email}")
                         else:
+                            # Check if environment variables are set
+                            sender_email = os.environ.get("SENDER_EMAIL")
+                            smtp_server = os.environ.get("SMTP_SERVER")
+                            
                             comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}")
+                            
+                            # Add more specific troubleshooting info to GitHub comment
+                            if not sender_email or not smtp_server:
+                                comment_lines.append(f"  - *Note*: Email service is not fully configured. Contact the repository administrator.")
+                            else:
+                                comment_lines.append(f"  - Please check the GitHub Actions logs for more details")
+                                
                             print(f"[DEBUG] Failed to send email to: {facilitator_email}")
                     except Exception as e:
                         print(f"[DEBUG] Exception when sending email: {str(e)}")
-                        comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}: {str(e)}")
+                        comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}")
+                        comment_lines.append(f"  - Error: {str(e)}")
+                        import traceback
+                        print(traceback.format_exc())
                 else:
                     if not facilitator_email:
                         print(f"[DEBUG] No facilitator email provided in the issue")
@@ -554,10 +570,13 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                 try:
                     # Remove @ if present in telegram handle
                     telegram_handle = facilitator_telegram.lstrip('@')
+                    print(f"[DEBUG] Attempting to send private Telegram message to @{telegram_handle}")
+                    
                     # Escape special characters for Telegram markdown
                     safe_title = issue_title.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                     safe_url = join_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                     safe_issue_url = issue.html_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
+                    safe_discourse_url = discourse_url.replace("*", "\\*").replace("_", "\\_").replace("`", "\\`").replace("[", "\\[")
                     
                     # Fix the indentation in the message string - remove leading spaces
                     telegram_message = f"""🎯 *Meeting Details*
@@ -567,18 +586,32 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
 *Join URL*: {safe_url}
 *Meeting ID*: {zoom_id}
 
-*GitHub Issue*: {safe_issue_url}"""
+*Links*:
+• [GitHub Issue]({safe_issue_url})
+• [Discourse Topic]({safe_discourse_url})"""
 
                     # Send private message to facilitator with explicit parse_mode
                     if tg.send_private_message(telegram_handle, telegram_message, parse_mode="MarkdownV2"):
                         telegram_sent = True
                         comment_lines.append(f"- Zoom details sent via Telegram to: @{telegram_handle}")
+                        print(f"[DEBUG] Successfully sent Telegram message to @{telegram_handle}")
                     else:
-                        comment_lines.append(f"- ⚠️ Failed to send Telegram message with Zoom details to @{telegram_handle}")
+                        # Get bot username for instructions
+                        bot_username = "the meeting bot"
+                        try:
+                            token = os.environ.get("TELEGRAM_BOT_TOKEN")
+                            if token:
+                                bot_username = tg.bot_username(token) or bot_username
+                        except:
+                            pass
+                            
+                        comment_lines.append(f"- ⚠️ Failed to send Telegram message to @{telegram_handle}")
+                        comment_lines.append(f"  - *Note*: The facilitator needs to start a conversation with @{bot_username} on Telegram first")
+                        print(f"[DEBUG] Failed to send Telegram message to @{telegram_handle}")
                     
                 except Exception as e:
-                    print(f"Failed to send Telegram message: {e}")
-                    comment_lines.append(f"- ⚠️ Failed to send Telegram message with Zoom details to @{facilitator_telegram}: {str(e)}")
+                    print(f"[ERROR] Failed to send Telegram message: {e}")
+                    comment_lines.append(f"- ⚠️ Failed to send Telegram message to @{facilitator_telegram}: {str(e)}")
                     import traceback
                     print(traceback.format_exc())
 
@@ -590,12 +623,15 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                     
                     # Format message with HTML tags for better formatting
                     telegram_message = (
-                        f"<b>Discourse Topic</b>: {issue_title}\n\n"
+                        f"<b>{issue_title}</b>\n\n"
                         f"{issue_body}\n\n"
+                        f"<b>Links:</b>\n"
+                        f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
+                        f"• <a href='{issue.html_url}'>GitHub Issue</a>\n"
                     )
                     
-                    if zoom_id and not zoom_id.startswith("placeholder-"):
-                        telegram_message += f"<b>Zoom Meeting</b>: {join_url}"
+                    if zoom_id and not (isinstance(zoom_id, str) and zoom_id.startswith("placeholder-")) and not str(zoom_id).startswith("placeholder-"):
+                        telegram_message += f"\n<b>Zoom Meeting:</b> <a href='{join_url}'>Join Link</a>"
                     
                     # Check for existing Telegram message ID (for updates)
                     print(f"[DEBUG] Checking for existing telegram_message_id in mapping[{meeting_id}]")
@@ -629,7 +665,6 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                             telegram_channel_success = True
                             mapping[meeting_id]["telegram_message_id"] = message_id
                             mapping_updated = True
-                            print(f"Created new Telegram message {message_id}")
                     
                     if telegram_channel_success:
                         comment_lines.append("\n**Telegram Notification**")
