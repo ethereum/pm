@@ -22,6 +22,8 @@ import json
 import os
 import sys
 from urllib.parse import urlparse, parse_qs
+import subprocess
+import time
 
 # Default port for the local server
 DEFAULT_PORT = 8000
@@ -39,10 +41,23 @@ class OAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
         parsed_path = urlparse(self.path)
         query_params = parse_qs(parsed_path.query)
         
-        # Check if the path is the redirect URI path
-        if parsed_path.path == urllib.parse.urlparse(self.redirect_uri).path:
+        # Test endpoint to verify the server is accessible
+        if parsed_path.path == '/test':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(f"Server is running and accessible at {self.redirect_uri}".encode())
+            return
+        
+        # Extract the callback path from the redirect URI for comparison
+        redirect_path = urllib.parse.urlparse(self.redirect_uri).path
+        
+        # Check if the path matches our redirect URI path
+        if parsed_path.path == redirect_path:
+            print(f"Received callback request to: {parsed_path.path}")
             if 'code' in query_params:
                 self.authorization_code = query_params['code'][0]
+                print(f"Authorization code received: {self.authorization_code[:5]}...")
                 
                 # Exchange the code for tokens
                 token_response = self.exchange_code_for_tokens(self.authorization_code)
@@ -58,6 +73,7 @@ class OAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
                     <body>
                         <h1>Error</h1>
                         <p>{token_response.get('error_description', 'Unknown error')}</p>
+                        <p>Error code: {token_response.get('error')}</p>
                     </body>
                     </html>
                     """
@@ -82,11 +98,17 @@ class OAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
                 
-                error_html = """
+                error = "No authorization code was received"
+                if 'error' in query_params:
+                    error = f"Error: {query_params['error'][0]}"
+                    if 'error_description' in query_params:
+                        error += f" - {query_params['error_description'][0]}"
+                
+                error_html = f"""
                 <html>
                 <body>
                     <h1>Authorization Failed</h1>
-                    <p>No authorization code was received from Zoom.</p>
+                    <p>{error}</p>
                 </body>
                 </html>
                 """
@@ -94,7 +116,9 @@ class OAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
         else:
             # Respond to any other requests
             self.send_response(404)
+            self.send_header('Content-type', 'text/plain')
             self.end_headers()
+            self.wfile.write(f"404 Not Found. Expected path: {redirect_path}, got: {parsed_path.path}".encode())
     
     def exchange_code_for_tokens(self, code):
         """Exchange the authorization code for access and refresh tokens"""
@@ -108,9 +132,33 @@ class OAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
         }
         
         try:
+            print(f"\nExchanging authorization code for tokens...")
+            print(f"POST {token_url}")
+            print(f"Headers: Authorization: Basic <credentials>")
+            print(f"Data: {data}")
+            
             response = requests.post(token_url, auth=auth, data=data)
-            return response.json()
+            result = response.json()
+            
+            print(f"Response status: {response.status_code}")
+            if response.status_code != 200:
+                print(f"Error response: {result}")
+                
+                # Special handling for error 4700
+                if result.get('error') == '4700' or '4700' in str(result):
+                    print("\n[TROUBLESHOOTING HELP]")
+                    print("Error 4700 typically indicates an issue with the OAuth redirect URL.")
+                    print("Possible solutions:")
+                    print("1. Verify the redirect URL in your Zoom app settings EXACTLY matches what's used here")
+                    print(f"   - App redirect URL: The URL you added in the Zoom App Marketplace")
+                    print(f"   - Used redirect URL: {self.redirect_uri}")
+                    print("2. Make sure your ngrok tunnel is stable and accessible")
+                    print("3. Try adding both HTTP and HTTPS versions of your redirect URL in the Zoom App settings")
+                    print("4. Check if you're using a paid or free ngrok account - free accounts have limitations")
+            
+            return result
         except Exception as e:
+            print(f"Exception during token exchange: {str(e)}")
             return {'error': 'request_failed', 'error_description': str(e)}
     
     def log_message(self, format, *args):
@@ -124,18 +172,126 @@ def create_oauth_handler(client_id, client_secret, redirect_uri):
                                  redirect_uri=redirect_uri, **kwargs)
     return handler_factory
 
+def setup_ngrok(port):
+    """Set up ngrok to create a secure tunnel to the local server"""
+    try:
+        # Check if ngrok is installed
+        try:
+            subprocess.run(["ngrok", "--version"], check=True, capture_output=True)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("ngrok not found. Please install ngrok first:")
+            print("Visit https://ngrok.com/download or run:")
+            print("  curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo \"deb https://ngrok-agent.s3.amazonaws.com buster main\" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok")
+            return None
+            
+        # Start ngrok in a separate process
+        ngrok_process = subprocess.Popen(
+            ["ngrok", "http", str(port), "--log=stdout"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        
+        # Wait for ngrok to start and extract the public URL
+        print("Starting ngrok tunnel... (this may take a few seconds)")
+        start_time = time.time()
+        ngrok_url = None
+        
+        # Check the ngrok API to get the URL
+        while time.time() - start_time < 10:  # Try for 10 seconds
+            try:
+                response = requests.get("http://localhost:4040/api/tunnels")
+                if response.status_code == 200:
+                    data = response.json()
+                    tunnels = data.get("tunnels", [])
+                    if tunnels:
+                        for tunnel in tunnels:
+                            if tunnel.get("proto") == "https":
+                                ngrok_url = tunnel.get("public_url")
+                                break
+                if ngrok_url:
+                    break
+            except Exception:
+                pass
+            time.sleep(0.5)
+            
+        if not ngrok_url:
+            print("Failed to get ngrok URL. Make sure ngrok is running correctly.")
+            ngrok_process.terminate()
+            return None
+            
+        print(f"ngrok tunnel established: {ngrok_url}")
+        
+        # Test if the ngrok URL is publicly accessible
+        try:
+            test_url = f"{ngrok_url}/test"
+            print(f"Testing if ngrok URL is accessible: {test_url}")
+            test_response = requests.get(test_url, timeout=5)
+            if test_response.status_code == 200:
+                print(f"✅ ngrok URL is accessible! Server response: {test_response.text}")
+            else:
+                print(f"⚠️ Warning: ngrok URL returned status code {test_response.status_code}")
+        except Exception as e:
+            print(f"⚠️ Warning: Could not verify ngrok URL accessibility: {str(e)}")
+        
+        return ngrok_url
+        
+    except Exception as e:
+        print(f"Error setting up ngrok: {e}")
+        return None
+
 def main():
     parser = argparse.ArgumentParser(description="Get Zoom OAuth tokens")
     parser.add_argument("--client-id", required=True, help="Zoom OAuth Client ID")
     parser.add_argument("--client-secret", required=True, help="Zoom OAuth Client Secret")
-    parser.add_argument("--redirect-uri", required=True, 
-                        help="Redirect URI (must match one configured in your Zoom app)")
+    parser.add_argument("--redirect-uri", help="Redirect URI (must match one configured in your Zoom app)")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT,
                         help=f"Local server port (default: {DEFAULT_PORT})")
     parser.add_argument("--scopes", default="meeting:write meeting:read:admin recording:read:admin", 
                         help="Space-separated list of scopes")
+    parser.add_argument("--use-ngrok", action="store_true", 
+                        help="Use ngrok to create a secure HTTPS tunnel (recommended for production apps)")
+    parser.add_argument("--ngrok-url", help="Use an existing ngrok URL instead of creating a new one")
     
     args = parser.parse_args()
+    
+    # Determine if we should use ngrok
+    if args.ngrok_url:
+        # Use the provided ngrok URL
+        print(f"Using provided ngrok URL: {args.ngrok_url}")
+        if not args.ngrok_url.endswith('/callback'):
+            args.redirect_uri = f"{args.ngrok_url}/callback"
+        else:
+            args.redirect_uri = args.ngrok_url
+        print(f"Redirect URI set to: {args.redirect_uri}")
+        
+        # Test if the ngrok URL is accessible
+        try:
+            test_url = f"{args.ngrok_url.rstrip('/callback')}/test"
+            print(f"Testing if ngrok URL is accessible: {test_url}")
+            test_response = requests.get(test_url, timeout=5)
+            if test_response.status_code == 200:
+                print(f"✅ ngrok URL is accessible! Response: {test_response.text}")
+            else:
+                print(f"⚠️ Warning: ngrok URL returned status code {test_response.status_code}")
+        except Exception as e:
+            print(f"⚠️ Warning: Could not verify ngrok URL accessibility: {str(e)}")
+            
+    elif args.use_ngrok:
+        print("Setting up ngrok tunnel for HTTPS redirect...")
+        ngrok_url = setup_ngrok(args.port)
+        if not ngrok_url:
+            print("Failed to establish ngrok tunnel. Exiting.")
+            sys.exit(1)
+        
+        args.redirect_uri = f"{ngrok_url}/callback"
+        print(f"Using ngrok URL as redirect URI: {args.redirect_uri}")
+    elif not args.redirect_uri:
+        # If not using ngrok and no redirect URI provided, use localhost
+        args.redirect_uri = f"http://localhost:{args.port}/callback"
+        print(f"Using default redirect URI: {args.redirect_uri}")
+        print("NOTE: If you're using a production Zoom app, you may need to use HTTPS URLs.")
+        print("      Consider using --use-ngrok if you get redirect errors.")
     
     # Validate redirect URI
     try:

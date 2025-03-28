@@ -790,7 +790,13 @@ def parse_issue_for_time(issue_body: str):
         except ValueError as e:
             raise ValueError(f"Unable to parse the start time: {e}")
 
+    # Convert to UTC ISO format with Z suffix for Zoom API
     start_time_utc = start_dt.isoformat() + "Z"
+    
+    # For debugging timezone issues
+    print(f"[DEBUG] Parsed date: {month} {day}, {year} at {hour}:{minute} UTC")
+    print(f"[DEBUG] Formatted as ISO 8601 for API: {start_time_utc}")
+    print(f"[DEBUG] Day of week: {start_dt.strftime('%A')}")
 
     # -------------------------------------------------------------------------
     # 2. Extract duration from issue body using a unified regex

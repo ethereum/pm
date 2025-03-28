@@ -72,6 +72,8 @@ def get_access_token():
     Get an access token using the refresh token (OAuth 2.0) for a General (User Managed) app
     instead of account_credentials used for Server-to-Server apps.
     """
+    global refresh_token
+    
     if not refresh_token:
         raise ValueError("ZOOM_REFRESH_TOKEN environment variable is required for User Managed apps")
         
@@ -90,13 +92,26 @@ def get_access_token():
     else:
         response_data = response.json()
         
-        # If the response includes a new refresh token, we should store it
-        # For simplicity in this implementation, we'll just print it out
-        # In a production app, you would save this to a secure storage
+        # If the response includes a new refresh token, update it in memory
         if "refresh_token" in response_data:
             new_refresh_token = response_data["refresh_token"]
+            # Update the global refresh_token variable
+            refresh_token = new_refresh_token
+            # Update the environment variable for other processes to use
+            os.environ["ZOOM_REFRESH_TOKEN"] = new_refresh_token
             print(f"Received new refresh token: {new_refresh_token}")
-            print("IMPORTANT: Update your ZOOM_REFRESH_TOKEN environment variable with this new value")
+            print("IMPORTANT: Updated ZOOM_REFRESH_TOKEN variable with the new value")
+            
+            # Save to a temporary file in a shared location that can be read by other workflow steps
+            try:
+                token_dir = os.path.join(os.getcwd(), ".github", "ACDbot", "tokens")
+                os.makedirs(token_dir, exist_ok=True)
+                token_file = os.path.join(token_dir, "zoom_new_refresh_token.txt")
+                with open(token_file, "w") as f:
+                    f.write(new_refresh_token)
+                print(f"New refresh token saved to {token_file} for GitHub Actions update")
+            except Exception as e:
+                print(f"Warning: Failed to save new refresh token to file: {str(e)}")
             
         return response_data["access_token"]
 
@@ -293,11 +308,24 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         "Content-Type": "application/json"
     }
     
+    # Parse the start_time to get the day of week (1-7, where 1 is Monday)
+    try:
+        # Convert ISO 8601 string to datetime object
+        from datetime import datetime
+        start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+        # Get day of week (in datetime, Monday is 0, Sunday is 6)
+        # Convert to Zoom format (Monday is 1, Sunday is 7)
+        day_of_week = start_dt.weekday() + 1
+        print(f"[DEBUG] Calculated day of week for {start_time}: {day_of_week} (Zoom format)")
+    except Exception as e:
+        print(f"[DEBUG] Error calculating day of week: {str(e)}, defaulting to 1 (Monday)")
+        day_of_week = 1
+    
     # Map occurrence rate to Zoom recurrence type
     recurrence = {
         "type": 2,  # Default to weekly
         "repeat_interval": 1,
-        "weekly_days": "1",  # Default to Monday
+        "weekly_days": str(day_of_week),  # Use the actual day from start_time
         "end_times": 1  # Number of occurrences
     }
     
