@@ -339,14 +339,29 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             base_event_id = extract_event_id_from_link(f"?eid={event_id}")
                             print(f"[DEBUG] Updating calendar event {base_event_id}, is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
                             
-                            event_result = gcal.update_event(
-                                event_id=base_event_id,  # Use base_event_id for API operations
-                                summary=issue_title,
-                                start_dt=start_time,
-                                duration_minutes=duration,
-                                calendar_id=calendar_id,
-                                description=calendar_description
-                            )
+                            # Use the appropriate update function based on whether this is a recurring event
+                            if is_recurring and occurrence_rate != "none":
+                                print(f"[DEBUG] Using update_recurring_event for recurring meeting with occurrence_rate={occurrence_rate}")
+                                event_result = gcal.update_recurring_event(
+                                    event_id=base_event_id,
+                                    summary=issue_title,
+                                    start_dt=start_time,
+                                    duration_minutes=duration,
+                                    calendar_id=calendar_id,
+                                    occurrence_rate=occurrence_rate,
+                                    description=calendar_description
+                                )
+                            else:
+                                print(f"[DEBUG] Using update_event for standard meeting")
+                                event_result = gcal.update_event(
+                                    event_id=base_event_id,
+                                    summary=issue_title,
+                                    start_dt=start_time,
+                                    duration_minutes=duration,
+                                    calendar_id=calendar_id,
+                                    description=calendar_description
+                                )
+                            
                             event_link = event_result['htmlLink']
                             event_id = event_result['id']
                             print(f"Updated calendar event: {event_link} with ID: {event_id}")
@@ -656,7 +671,6 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                                 telegram_channel_success = True
                                 mapping[meeting_id]["telegram_message_id"] = message_id
                                 mapping_updated = True
-                                print(f"Created new Telegram message {message_id}")
                     else:
                         # No message ID stored yet
                         print(f"[DEBUG] No existing telegram_message_id found, creating new message")
