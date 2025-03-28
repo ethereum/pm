@@ -284,6 +284,10 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
                 description,
                 formatted_start_time
             )
+            
+            # Store the scheduled time in the stream details for later use
+            stream_details['scheduled_time'] = formatted_start_time
+            
             streams.append(stream_details)
         
         return streams

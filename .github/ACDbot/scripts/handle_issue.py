@@ -265,8 +265,27 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         comment_lines.append("\n**YouTube Stream Links:**")
                         stream_links = []
                         for i, stream in enumerate(youtube_streams, 1):
-                            comment_lines.append(f"- Stream {i}: {stream['stream_url']}")
-                            stream_links.append(f"- Stream {i}: {stream['stream_url']}")
+                            # Extract date from stream details if available
+                            stream_date = ""
+                            if 'scheduled_time' in stream:
+                                try:
+                                    # Import datetime in this scope
+                                    from datetime import datetime
+                                    # Parse the scheduled_time string to a datetime object
+                                    scheduled_time = stream['scheduled_time']
+                                    if scheduled_time.endswith('Z'):
+                                        scheduled_time = scheduled_time.replace('Z', '+00:00')
+                                    date_obj = datetime.fromisoformat(scheduled_time)
+                                    # Format as "Mon DD, YYYY"
+                                    stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                                except Exception as e:
+                                    print(f"[DEBUG] Error formatting stream date: {e}")
+                                    # If parsing fails, leave date empty
+                                    pass
+                            
+                            # Add date to stream links
+                            comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                            stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
                         
                         # Update Discourse post with stream links if we have a topic ID
                         if topic_id:
