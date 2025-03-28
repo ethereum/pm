@@ -265,8 +265,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         comment_lines.append("\n**YouTube Stream Links:**")
                         stream_links = []
                         for i, stream in enumerate(youtube_streams, 1):
-                            comment_lines.append(f"- Stream #{i}: {stream['stream_url']}")
-                            stream_links.append(f"- Stream #{i}: {stream['stream_url']}")
+                            comment_lines.append(f"- Stream {i}: {stream['stream_url']}")
+                            stream_links.append(f"- Stream {i}: {stream['stream_url']}")
                         
                         # Update Discourse post with stream links if we have a topic ID
                         if topic_id:

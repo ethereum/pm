@@ -272,12 +272,12 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
                     # Create the new datetime with the adjusted values
                     current_time = current_time.replace(year=year, month=month, day=day)
             
-            event_title = f"{title} #{i+1}"
-            print(f"[DEBUG] Creating stream {i+1}/{num_events}: {event_title}")
-            
             # Format in the standard YouTube API expects: YYYY-MM-DDThh:mm:ss.sZ
             # YouTube's API is specific about the format - needs milliseconds
             formatted_start_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            
+            event_title = f"{title} {i+1}"
+            print(f"[DEBUG] Creating stream {i+1}/{num_events}: {event_title}")
             
             stream_details = create_youtube_stream(
                 event_title,
