@@ -75,6 +75,14 @@ def extract_already_on_calendar(issue_body):
     
     return already_on_calendar
 
+def extract_call_series(issue_body):
+    """
+    Extracts and normalizes the 'Call series' field from the issue body.
+    """
+    call_series_pattern = r"Call series\s*:\s*([^\n]+)"
+    match = re.search(call_series_pattern, issue_body, re.IGNORECASE)
+    return match.group(1).strip().lower() if match else None
+
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Fetches the specified GitHub issue, extracts its title and body,
@@ -100,8 +108,16 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Extract recurring meeting info from issue body - this is the source of truth
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
     
+    # Extract call series
+    call_series = extract_call_series(issue_body)
+
     # Extract whether the meeting is already on the Ethereum Calendar
-    already_on_calendar = extract_already_on_calendar(issue_body)
+    existing_series_event = next((entry for entry in mapping.values() if entry.get("call_series") == call_series), None)
+    if existing_series_event:
+        already_on_calendar = True
+        comment_lines.append("\n**Note:** Meeting already exists for this call series. Skipping event creation.")
+    else:
+        already_on_calendar = extract_already_on_calendar(issue_body)
 
     # 2. Check for existing topic_id using the mapping instead of comments
     topic_id = None
@@ -474,7 +490,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         "meeting_id": meeting_id,
                         "zoom_link": join_url,
                         "is_recurring": is_recurring,
-                        "occurrence_rate": occurrence_rate if is_recurring else "none"
+                        "occurrence_rate": occurrence_rate if is_recurring else "none",
+                        "call_series": call_series
                     })
                     # Preserve all other fields from existing entry
                     mapping[meeting_id] = updated_mapping
@@ -491,6 +508,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         "zoom_link": join_url,
                         "is_recurring": is_recurring,
                         "occurrence_rate": occurrence_rate if is_recurring else "none",
+                        "call_series": call_series,
                         "Youtube_upload_processed": False,
                         "transcript_processed": False,
                         "upload_attempt_count": 0,
