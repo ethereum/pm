@@ -95,6 +95,28 @@ def extract_need_youtube_streams(issue_body):
     
     return need_youtube_streams
 
+def check_existing_youtube_streams(call_series, mapping):
+    """
+    Check if there are existing YouTube streams for a call series.
+    Returns a list of stream links previously created, if any.
+    """
+    if not call_series:
+        return None
+        
+    # Find all entries with the same call_series
+    existing_entries = [entry for entry in mapping.values() 
+                      if entry.get("call_series") == call_series 
+                      and "youtube_streams" in entry]
+    
+    # Sort by issue number if available (to get the most recent ones)
+    existing_entries.sort(key=lambda e: e.get("issue_number", 0), reverse=True)
+    
+    # Return the YouTube streams from the most recent entry
+    if existing_entries:
+        return existing_entries[0].get("youtube_streams")
+    
+    return None
+
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Fetches the specified GitHub issue, extracts its title and body,
@@ -126,6 +148,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Extract call series
     call_series = extract_call_series(issue_body)
 
+    # Check for existing YouTube streams for this call series
+    existing_youtube_streams = check_existing_youtube_streams(call_series, mapping)
+
     # Extract whether the meeting is already on the Ethereum Calendar
     existing_series_event = next((entry for entry in mapping.values() if entry.get("call_series") == call_series), None)
     if existing_series_event:
@@ -156,6 +181,44 @@ def handle_github_issue(issue_number: int, repo_name: str):
         comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
         comment_lines.append(f"- Action: {action.capitalize()}")
         comment_lines.append(f"- URL: {discourse_url}")
+        
+        # Add existing YouTube stream links to comments and discourse post if available
+        if existing_youtube_streams:
+            comment_lines.append("\n**Existing YouTube Stream Links:**")
+            stream_links = []
+            for i, stream in enumerate(existing_youtube_streams, 1):
+                # Extract date from stream details if available
+                stream_date = ""
+                if 'scheduled_time' in stream:
+                    try:
+                        # Import datetime in this scope
+                        from datetime import datetime
+                        # Parse the scheduled_time string to a datetime object
+                        scheduled_time = stream['scheduled_time']
+                        if scheduled_time.endswith('Z'):
+                            scheduled_time = scheduled_time.replace('Z', '+00:00')
+                        date_obj = datetime.fromisoformat(scheduled_time)
+                        # Format as "Mon DD, YYYY"
+                        stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                    except Exception as e:
+                        print(f"[DEBUG] Error formatting stream date: {e}")
+                        # If parsing fails, leave date empty
+                        pass
+                        
+                # Add date to stream links
+                comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                
+            # Update Discourse post with stream links if we have a topic ID
+            if topic_id:
+                try:
+                    discourse_content = f"{updated_body}\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
+                    discourse.update_topic(
+                        topic_id=topic_id,
+                        body=discourse_content
+                    )
+                except Exception as e:
+                    print(f"[DEBUG] Error updating Discourse topic with existing YouTube streams: {str(e)}")
     else:
         # Create a new topic - the updated create_topic function will handle duplicate titles
         try:
@@ -175,6 +238,44 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append(f"- URL: {discourse_url}")
             
             print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
+            
+            # Add existing YouTube stream links to comments and discourse post if available
+            if existing_youtube_streams:
+                comment_lines.append("\n**Existing YouTube Stream Links:**")
+                stream_links = []
+                for i, stream in enumerate(existing_youtube_streams, 1):
+                    # Extract date from stream details if available
+                    stream_date = ""
+                    if 'scheduled_time' in stream:
+                        try:
+                            # Import datetime in this scope
+                            from datetime import datetime
+                            # Parse the scheduled_time string to a datetime object
+                            scheduled_time = stream['scheduled_time']
+                            if scheduled_time.endswith('Z'):
+                                scheduled_time = scheduled_time.replace('Z', '+00:00')
+                            date_obj = datetime.fromisoformat(scheduled_time)
+                            # Format as "Mon DD, YYYY"
+                            stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                        except Exception as e:
+                            print(f"[DEBUG] Error formatting stream date: {e}")
+                            # If parsing fails, leave date empty
+                            pass
+                        
+                    # Add date to stream links
+                    comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                    stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                
+                # Update Discourse post with stream links if we have a topic ID
+                if topic_id:
+                    try:
+                        discourse_content = f"{updated_body}\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
+                        discourse.update_topic(
+                            topic_id=topic_id,
+                            body=discourse_content
+                        )
+                    except Exception as e:
+                        print(f"[DEBUG] Error updating Discourse topic with existing YouTube streams: {str(e)}")
         except Exception as e:
             print(f"[DEBUG] Error in Discourse topic handling: {str(e)}")
             comment_lines.append("\n**⚠️ Discourse Topic Error**")
@@ -287,61 +388,68 @@ def handle_github_issue(issue_number: int, repo_name: str):
             youtube_streams = None
             if is_recurring and occurrence_rate != "none":
                 if need_youtube_streams:
-                    try:
-                        print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
-                        youtube_streams = youtube_utils.create_recurring_streams(
-                            title=issue_title,
-                            description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
-                            start_time=start_time,
-                            occurrence_rate=occurrence_rate
-                        )
-                        
-                        # Add stream URLs to comment
-                        if youtube_streams:
-                            comment_lines.append("\n**YouTube Stream Links:**")
-                            stream_links = []
-                            for i, stream in enumerate(youtube_streams, 1):
-                                # Extract date from stream details if available
-                                stream_date = ""
-                                if 'scheduled_time' in stream:
-                                    try:
-                                        # Import datetime in this scope
-                                        from datetime import datetime
-                                        # Parse the scheduled_time string to a datetime object
-                                        scheduled_time = stream['scheduled_time']
-                                        if scheduled_time.endswith('Z'):
-                                            scheduled_time = scheduled_time.replace('Z', '+00:00')
-                                        date_obj = datetime.fromisoformat(scheduled_time)
-                                        # Format as "Mon DD, YYYY"
-                                        stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
-                                    except Exception as e:
-                                        print(f"[DEBUG] Error formatting stream date: {e}")
-                                        # If parsing fails, leave date empty
-                                        pass
+                    # If we already have streams for this call series, reuse them
+                    if existing_youtube_streams:
+                        print(f"[DEBUG] Reusing existing YouTube streams for call series: {call_series}")
+                        youtube_streams = existing_youtube_streams
+                        comment_lines.append("\n**Using Existing YouTube Stream Links**")
+                        # The streams are already added to the comment earlier
+                    else:
+                        try:
+                            print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
+                            youtube_streams = youtube_utils.create_recurring_streams(
+                                title=issue_title,
+                                description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
+                                start_time=start_time,
+                                occurrence_rate=occurrence_rate
+                            )
+                            
+                            # Add stream URLs to comment
+                            if youtube_streams:
+                                comment_lines.append("\n**YouTube Stream Links:**")
+                                stream_links = []
+                                for i, stream in enumerate(youtube_streams, 1):
+                                    # Extract date from stream details if available
+                                    stream_date = ""
+                                    if 'scheduled_time' in stream:
+                                        try:
+                                            # Import datetime in this scope
+                                            from datetime import datetime
+                                            # Parse the scheduled_time string to a datetime object
+                                            scheduled_time = stream['scheduled_time']
+                                            if scheduled_time.endswith('Z'):
+                                                scheduled_time = scheduled_time.replace('Z', '+00:00')
+                                            date_obj = datetime.fromisoformat(scheduled_time)
+                                            # Format as "Mon DD, YYYY"
+                                            stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                                        except Exception as e:
+                                            print(f"[DEBUG] Error formatting stream date: {e}")
+                                            # If parsing fails, leave date empty
+                                            pass
+                                    
+                                    # Add date to stream links
+                                    comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                                    stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
                                 
-                                # Add date to stream links
-                                comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                                stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                            
-                            # Update Discourse post with stream links if we have a topic ID
-                            if topic_id:
-                                try:
-                                    discourse_content = f"{updated_body}\n\n**YouTube Stream Links:**\n" + "\n".join(stream_links)
-                                    discourse.update_topic(
-                                        topic_id=topic_id,
-                                        body=discourse_content
-                                    )
-                                except Exception as e:
-                                    print(f"[DEBUG] Error updating Discourse topic with YouTube streams: {str(e)}")
-                            
-                            # Set flag to skip YouTube upload for recurring meetings with streams
-                            if meeting_id in mapping:
-                                mapping[meeting_id]["skip_youtube_upload"] = True
-                                mapping[meeting_id]["youtube_streams"] = youtube_streams
-                                mapping_updated = True
-                    except Exception as e:
-                        print(f"[DEBUG] Error creating YouTube streams: {str(e)}")
-                        comment_lines.append("\n**⚠️ Failed to create YouTube streams. Please check credentials.**")
+                                # Update Discourse post with stream links if we have a topic ID
+                                if topic_id:
+                                    try:
+                                        discourse_content = f"{updated_body}\n\n**YouTube Stream Links:**\n" + "\n".join(stream_links)
+                                        discourse.update_topic(
+                                            topic_id=topic_id,
+                                            body=discourse_content
+                                        )
+                                    except Exception as e:
+                                        print(f"[DEBUG] Error updating Discourse topic with YouTube streams: {str(e)}")
+                                
+                                # Set flag to skip YouTube upload for recurring meetings with streams
+                                if meeting_id in mapping:
+                                    mapping[meeting_id]["skip_youtube_upload"] = True
+                                    mapping[meeting_id]["youtube_streams"] = youtube_streams
+                                    mapping_updated = True
+                        except Exception as e:
+                            print(f"[DEBUG] Error creating YouTube streams: {str(e)}")
+                            comment_lines.append("\n**⚠️ Failed to create YouTube streams. Please check credentials.**")
                 else:
                     # This is a recurring meeting, but YouTube streams were not requested
                     print(f"[DEBUG] Recurring meeting detected, but YouTube streams were not requested")
