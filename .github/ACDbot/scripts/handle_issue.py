@@ -83,6 +83,18 @@ def extract_call_series(issue_body):
     match = re.search(call_series_pattern, issue_body, re.IGNORECASE)
     return match.group(1).strip().lower() if match else None
 
+def extract_need_youtube_streams(issue_body):
+    """
+    Extracts information about whether YouTube stream links are needed.
+    Returns a boolean indicating if stream links should be created.
+    """
+    youtube_pattern = r"Need YouTube stream links\s*:\s*(true|false)"
+    
+    youtube_match = re.search(youtube_pattern, issue_body, re.IGNORECASE)
+    need_youtube_streams = youtube_match and youtube_match.group(1).lower() == 'true'
+    
+    return need_youtube_streams
+
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Fetches the specified GitHub issue, extracts its title and body,
@@ -107,6 +119,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Extract recurring meeting info from issue body - this is the source of truth
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
+    
+    # Extract whether YouTube stream links are needed
+    need_youtube_streams = extract_need_youtube_streams(issue_body)
     
     # Extract call series
     call_series = extract_call_series(issue_body)
@@ -268,65 +283,71 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     print(f"[DEBUG] Error fetching Zoom meeting details: {str(e)}")
                     join_url = join_url or "https://zoom.us (API authentication failed)"
                     
-            # Create YouTube streams for recurring meetings only
+            # Create YouTube streams for recurring meetings only if needed
             youtube_streams = None
-            # Use only the value from issue body for recurring meeting configuration
             if is_recurring and occurrence_rate != "none":
-                try:
-                    print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
-                    youtube_streams = youtube_utils.create_recurring_streams(
-                        title=issue_title,
-                        description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
-                        start_time=start_time,
-                        occurrence_rate=occurrence_rate
-                    )
-                    
-                    # Add stream URLs to comment
-                    if youtube_streams:
-                        comment_lines.append("\n**YouTube Stream Links:**")
-                        stream_links = []
-                        for i, stream in enumerate(youtube_streams, 1):
-                            # Extract date from stream details if available
-                            stream_date = ""
-                            if 'scheduled_time' in stream:
-                                try:
-                                    # Import datetime in this scope
-                                    from datetime import datetime
-                                    # Parse the scheduled_time string to a datetime object
-                                    scheduled_time = stream['scheduled_time']
-                                    if scheduled_time.endswith('Z'):
-                                        scheduled_time = scheduled_time.replace('Z', '+00:00')
-                                    date_obj = datetime.fromisoformat(scheduled_time)
-                                    # Format as "Mon DD, YYYY"
-                                    stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
-                                except Exception as e:
-                                    print(f"[DEBUG] Error formatting stream date: {e}")
-                                    # If parsing fails, leave date empty
-                                    pass
+                if need_youtube_streams:
+                    try:
+                        print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
+                        youtube_streams = youtube_utils.create_recurring_streams(
+                            title=issue_title,
+                            description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
+                            start_time=start_time,
+                            occurrence_rate=occurrence_rate
+                        )
+                        
+                        # Add stream URLs to comment
+                        if youtube_streams:
+                            comment_lines.append("\n**YouTube Stream Links:**")
+                            stream_links = []
+                            for i, stream in enumerate(youtube_streams, 1):
+                                # Extract date from stream details if available
+                                stream_date = ""
+                                if 'scheduled_time' in stream:
+                                    try:
+                                        # Import datetime in this scope
+                                        from datetime import datetime
+                                        # Parse the scheduled_time string to a datetime object
+                                        scheduled_time = stream['scheduled_time']
+                                        if scheduled_time.endswith('Z'):
+                                            scheduled_time = scheduled_time.replace('Z', '+00:00')
+                                        date_obj = datetime.fromisoformat(scheduled_time)
+                                        # Format as "Mon DD, YYYY"
+                                        stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                                    except Exception as e:
+                                        print(f"[DEBUG] Error formatting stream date: {e}")
+                                        # If parsing fails, leave date empty
+                                        pass
+                                
+                                # Add date to stream links
+                                comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                                stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
                             
-                            # Add date to stream links
-                            comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                            stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                        
-                        # Update Discourse post with stream links if we have a topic ID
-                        if topic_id:
-                            try:
-                                discourse_content = f"{updated_body}\n\n**YouTube Stream Links:**\n" + "\n".join(stream_links)
-                                discourse.update_topic(
-                                    topic_id=topic_id,
-                                    body=discourse_content
-                                )
-                            except Exception as e:
-                                print(f"[DEBUG] Error updating Discourse topic with YouTube streams: {str(e)}")
-                        
-                        # Set flag to skip YouTube upload for recurring meetings with streams
-                        if meeting_id in mapping:
-                            mapping[meeting_id]["skip_youtube_upload"] = True
-                            mapping[meeting_id]["youtube_streams"] = youtube_streams
-                            mapping_updated = True
-                except Exception as e:
-                    print(f"[DEBUG] Error creating YouTube streams: {str(e)}")
-                    comment_lines.append("\n**⚠️ Failed to create YouTube streams. Please check credentials.**")
+                            # Update Discourse post with stream links if we have a topic ID
+                            if topic_id:
+                                try:
+                                    discourse_content = f"{updated_body}\n\n**YouTube Stream Links:**\n" + "\n".join(stream_links)
+                                    discourse.update_topic(
+                                        topic_id=topic_id,
+                                        body=discourse_content
+                                    )
+                                except Exception as e:
+                                    print(f"[DEBUG] Error updating Discourse topic with YouTube streams: {str(e)}")
+                            
+                            # Set flag to skip YouTube upload for recurring meetings with streams
+                            if meeting_id in mapping:
+                                mapping[meeting_id]["skip_youtube_upload"] = True
+                                mapping[meeting_id]["youtube_streams"] = youtube_streams
+                                mapping_updated = True
+                    except Exception as e:
+                        print(f"[DEBUG] Error creating YouTube streams: {str(e)}")
+                        comment_lines.append("\n**⚠️ Failed to create YouTube streams. Please check credentials.**")
+                else:
+                    # This is a recurring meeting, but YouTube streams were not requested
+                    print(f"[DEBUG] Recurring meeting detected, but YouTube streams were not requested")
+                    if meeting_id in mapping:
+                        mapping[meeting_id]["skip_youtube_upload"] = False
+                        mapping_updated = True
             else:
                 # This is a one-time meeting, we'll upload the recording to YouTube after the meeting
                 print(f"[DEBUG] One-time meeting detected, YouTube upload will be handled after the meeting")
@@ -513,7 +534,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         "transcript_processed": False,
                         "upload_attempt_count": 0,
                         "transcript_attempt_count": 0,
-                        "skip_youtube_upload": is_recurring and occurrence_rate != "none"  # Skip upload for recurring meetings with streams
+                        "skip_youtube_upload": is_recurring and occurrence_rate != "none" and need_youtube_streams  # Skip upload for recurring meetings with streams
                     }
                 
                 # Add YouTube streams if available
