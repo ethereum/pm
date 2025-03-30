@@ -14,7 +14,8 @@ assignees: ''
 - Recurring meeting : true
 - Call series : (e.g ACDC ; ACDE; testing call)
 - Occurrence rate : weekly # Options: weekly, bi-weekly, monthly
-- Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar
+- Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar (will not create zoom and calendar event)
+- Need YouTube stream links : true # Set to false if you don't want YouTube stream links created
 - Other optional resources 
 
 # Agenda 
