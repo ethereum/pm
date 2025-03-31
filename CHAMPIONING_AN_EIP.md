@@ -67,7 +67,9 @@ Once the EIP is published, you can make it much easier for the community to eval
 
 ## Local Interop
 
-Once your EIP has been implemented in at least one production client, network testing can begin. Depending on the nature of your change, several [ethPandaOps](https://ethpandaops.io/projects/) tools may be appropriate to leverage here. You will be guided by the testing teams and/or the ethPandaOps team on how to proceed.
+Once your EIP has been implemented in at least one production client, network testing can begin. Depending on the nature of your change, several [ethPandaOps](https://ethpandaops.io/projects/) tools may be appropriate to leverage here.
+
+You will be guided by the testing teams and/or the ethPandaOps team on how to proceed, but the general expectation is that your EIP will have reached the Considered for Inclusion (CFI) stage before the ethPandaOps team can commit resources to network testing.
 
 Your EIP may require testing with various tools, including but not limited to the following:
 
