@@ -1,0 +1,24 @@
+name: "Issue Labeler"
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run labeler
+        uses: github/issue-labeler@v3.4
+        with:
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          include-title: 1
+          include-body: 0
+          sync-labels: 1
