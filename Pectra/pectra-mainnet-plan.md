@@ -4,9 +4,9 @@
 
 ***Tentative, to be confirmed on [ACDC#154](https://github.com/ethereum/pm/issues/1399), see [EIPs PR#9560](https://github.com/ethereum/EIPs/pull/9560)***
 
-| Epoch | Start Slot | UTC (+00:00) | Moscow (+03:00) | Los Angeles (-07:00) | New York (-04:00) | Brisbane (+10:00) 
- | -- | -- | -- | -- | -- | -- | -- 
-| 362496 | 11599872 | 2025-04-30 14:14:47 | 2025-04-30 17:14:47 | 2025-04-30 07:14:47 | 2025-04-30 10:14:47 | 2025-05-01 00:14:47 
+| Epoch | Start Slot | Unix | UTC (+00:00) | Moscow (+03:00) | Los Angeles (-07:00) | New York (-04:00) | Brisbane (+10:00) 
+ | -- | -- | -- | -- | -- | -- | -- | -- 
+| 362496 | 11599872 | 1746022487 | 2025-04-30 14:14:47 | 2025-04-30 17:14:47 | 2025-04-30 07:14:47 | 2025-04-30 10:14:47 | 2025-05-01 00:14:47 
 
 ## Upgrade / Incident Response team
 
