@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timedelta, timezone
 import json
 import urllib.parse
+import calendar
 
 account_id=os.environ.get("ZOOM_ACCOUNT_ID", "")
 client_id=os.environ["ZOOM_CLIENT_ID"]
@@ -358,14 +359,30 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     elif occurrence_rate == "monthly":
         recurrence["type"] = 3
         recurrence["repeat_interval"] = 1
-        # For monthly meetings, we need to specify the day of the month to meet on
-        # Get the day of month from the start date
+        # For monthly meetings, we want to maintain the same day of week each month
+        # Calculate which week of the month this date falls on (1-4 or -1 for last)
         day_of_month = start_dt.day
-        recurrence["monthly_day"] = day_of_month
-        print(f"[DEBUG] Setting up monthly recurrence on day {day_of_month} of each month")
+        week_number = (day_of_month - 1) // 7 + 1  # 1-based week number (1st, 2nd, 3rd, 4th)
+        
+        # If it's the last occurrence of this weekday in the month
+        days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
+        if day_of_month + 7 > days_in_month:
+            # This is the last occurrence of this weekday in the month
+            week_number = -1
+            
+        print(f"[DEBUG] Setting up monthly recurrence on the {week_number}{'st' if week_number == 1 else 'nd' if week_number == 2 else 'rd' if week_number == 3 else 'th'} {start_dt.strftime('%A')} of each month")
+        
         # Remove weekly_days as it's not used for monthly meetings
         if "weekly_days" in recurrence:
             del recurrence["weekly_days"]
+            
+        # Set monthly_week_day instead of monthly_day
+        # Format: {week_number}:{day_of_week}
+        # Week number: 1-4 or -1 for last week
+        # Day of week: 1-7 (1=Sunday, 7=Saturday in monthly_week_day format)
+        # Convert from Zoom day format (1=Monday) to monthly_week_day format (1=Sunday)
+        monthly_week_day_format = day_of_week % 7 + 1  # Convert Monday=1 to Sunday=1 format
+        recurrence["monthly_week_day"] = f"{week_number}:{monthly_week_day_format}"
     
     # Get alternative hosts from environment
     alternative_hosts = os.environ.get("ZOOM_ALTERNATIVE_HOSTS", "")
@@ -419,25 +436,14 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                     print(f"[DEBUG] Original start date: {original_dt.strftime('%Y-%m-%d')}")
                     print(f"[DEBUG] First occurrence date: {first_occurrence_dt.strftime('%Y-%m-%d')}")
                     
-                    # If dates don't match, log a warning
+                    # If dates don't match, log a warning but continue
                     if original_dt.date() != first_occurrence_dt.date():
                         print(f"[WARNING] First occurrence date ({first_occurrence_dt.strftime('%Y-%m-%d')}) " 
                               f"does not match requested date ({original_dt.strftime('%Y-%m-%d')})")
                         print(f"[WARNING] This is a Zoom API behavior - please check the meeting details in Zoom")
                         
-                        # For monthly meetings, verify the occurrences are created correctly
-                        if occurrence_rate == "monthly":
-                            if len(response_data['occurrences']) < 2:
-                                print(f"[WARNING] Only {len(response_data['occurrences'])} occurrences created for monthly meeting")
-                                print(f"[WARNING] Zoom API may have configured the meeting incorrectly")
-                            else:
-                                # Check the dates of the first few occurrences
-                                print(f"[DEBUG] Checking dates of the first occurrences for monthly meeting")
-                                for i, occurrence in enumerate(response_data['occurrences'][:3], 1):
-                                    occurrence_time = occurrence.get('start_time')
-                                    if occurrence_time:
-                                        occurrence_dt = datetime.fromisoformat(occurrence_time.replace('Z', '+00:00'))
-                                        print(f"[DEBUG] Occurrence {i} date: {occurrence_dt.strftime('%Y-%m-%d')}")
+                        # Don't raise an error - the meeting was created successfully but on a different date
+                        # We'll let the caller decide what to do with this information
             
             content = {
                 "meeting_url": response_data["join_url"], 
@@ -483,25 +489,14 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                             print(f"[DEBUG] Original start date: {original_dt.strftime('%Y-%m-%d')}")
                             print(f"[DEBUG] First occurrence date: {first_occurrence_dt.strftime('%Y-%m-%d')}")
                             
-                            # If dates don't match, log a warning
+                            # If dates don't match, log a warning but continue
                             if original_dt.date() != first_occurrence_dt.date():
                                 print(f"[WARNING] First occurrence date ({first_occurrence_dt.strftime('%Y-%m-%d')}) " 
                                       f"does not match requested date ({original_dt.strftime('%Y-%m-%d')})")
                                 print(f"[WARNING] This is a Zoom API behavior - please check the meeting details in Zoom")
                                 
-                                # For monthly meetings, verify the occurrences are created correctly
-                                if occurrence_rate == "monthly":
-                                    if len(response_data['occurrences']) < 2:
-                                        print(f"[WARNING] Only {len(response_data['occurrences'])} occurrences created for monthly meeting")
-                                        print(f"[WARNING] Zoom API may have configured the meeting incorrectly")
-                                    else:
-                                        # Check the dates of the first few occurrences
-                                        print(f"[DEBUG] Checking dates of the first occurrences for monthly meeting")
-                                        for i, occurrence in enumerate(response_data['occurrences'][:3], 1):
-                                            occurrence_time = occurrence.get('start_time')
-                                            if occurrence_time:
-                                                occurrence_dt = datetime.fromisoformat(occurrence_time.replace('Z', '+00:00'))
-                                                print(f"[DEBUG] Occurrence {i} date: {occurrence_dt.strftime('%Y-%m-%d')}")
+                                # Don't raise an error - the meeting was created successfully but on a different date
+                                # We'll let the caller decide what to do with this information
                     
                     content = {
                         "meeting_url": response_data["join_url"], 
@@ -525,12 +520,65 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         error_message = str(e)
         print(f"Error creating recurring Zoom meeting: {error_message}")
         
-        if "start_time" in error_message.lower():
-            print(f"[DEBUG] Error creating Zoom meeting: {error_message}")
-            # Special handling for monthly meetings with start_time errors
-            if occurrence_rate == "monthly":
-                raise ValueError("Error creating recurring Zoom meeting: 'start_time'")
+        # Check if there's a response body with more details
+        if hasattr(e, 'response') and hasattr(e.response, 'text'):
+            print(f"[DEBUG] Zoom API error response: {e.response.text}")
         
+        if "start_time" in error_message.lower() or "recurrence" in error_message.lower():
+            print(f"[DEBUG] Error creating Zoom meeting: {error_message}")
+            # Special handling for monthly meetings with recurrence errors
+            if occurrence_rate == "monthly":
+                # Try a fallback to monthly_day if monthly_week_day didn't work
+                try:
+                    print(f"[DEBUG] Trying fallback to monthly_day for monthly meeting")
+                    # Update recurrence to use monthly_day
+                    if "monthly_week_day" in recurrence:
+                        del recurrence["monthly_week_day"]
+                    recurrence["monthly_day"] = start_dt.day
+                    
+                    # Update payload
+                    payload["recurrence"] = recurrence
+                    
+                    print(f"[DEBUG] Retrying with monthly_day={start_dt.day}")
+                    resp = requests.post(f"{api_base_url}/users/me/meetings", 
+                                       headers=headers, 
+                                       json=payload)
+                    
+                    if resp.status_code == 201:
+                        response_data = resp.json()
+                        print(f"[DEBUG] Successfully created recurring meeting with fallback method")
+                        content = {
+                            "meeting_url": response_data["join_url"], 
+                            "password": response_data.get("password", ""),
+                            "meetingTime": response_data["start_time"],
+                            "purpose": response_data["topic"],
+                            "duration": response_data["duration"],
+                            "message": "Success (fallback method)",
+                            "status": 1
+                        }
+                        print(content)
+                        return response_data["join_url"], response_data["id"]
+                except Exception as fallback_error:
+                    print(f"[DEBUG] Fallback also failed: {str(fallback_error)}")
+                
+                # Instead of raising an error, return the meeting ID if we have one
+                if resp is not None and resp.status_code == 201:
+                    response_data = resp.json()
+                    if 'id' in response_data and 'join_url' in response_data:
+                        print(f"[DEBUG] Despite errors, we have a valid meeting ID: {response_data['id']}")
+                        return response_data["join_url"], response_data["id"]
+                    
+        # Check if there's already a meeting ID we can use from a partially successful response
+        if 'resp' in locals() and resp is not None and resp.status_code == 201:
+            try:
+                response_data = resp.json()
+                if 'id' in response_data and 'join_url' in response_data:
+                    print(f"[DEBUG] Despite errors, we have a valid meeting ID: {response_data['id']}")
+                    return response_data["join_url"], response_data["id"]
+            except:
+                pass
+        
+        # If we still don't have a successful response, re-raise the error
         raise
 
 def adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week):
