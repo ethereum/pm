@@ -344,18 +344,28 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         "repeat_interval": 1,
         # Use the actual day from start_time
         "weekly_days": str(day_of_week),
-        "end_times": 1  # Number of occurrences
+        "end_times": 12  # Number of occurrences - default to 12 for about a year of monthly meetings
     }
     
     if occurrence_rate == "weekly":
         recurrence["type"] = 2
         recurrence["repeat_interval"] = 1
+        print(f"[DEBUG] Setting up weekly recurrence with day {day_of_week}")
     elif occurrence_rate == "bi-weekly":
         recurrence["type"] = 2
         recurrence["repeat_interval"] = 2
+        print(f"[DEBUG] Setting up bi-weekly recurrence with day {day_of_week}")
     elif occurrence_rate == "monthly":
         recurrence["type"] = 3
         recurrence["repeat_interval"] = 1
+        # For monthly meetings, we need to specify the day of the month to meet on
+        # Get the day of month from the start date
+        day_of_month = start_dt.day
+        recurrence["monthly_day"] = day_of_month
+        print(f"[DEBUG] Setting up monthly recurrence on day {day_of_month} of each month")
+        # Remove weekly_days as it's not used for monthly meetings
+        if "weekly_days" in recurrence:
+            del recurrence["weekly_days"]
     
     # Get alternative hosts from environment
     alternative_hosts = os.environ.get("ZOOM_ALTERNATIVE_HOSTS", "")
@@ -414,6 +424,20 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                         print(f"[WARNING] First occurrence date ({first_occurrence_dt.strftime('%Y-%m-%d')}) " 
                               f"does not match requested date ({original_dt.strftime('%Y-%m-%d')})")
                         print(f"[WARNING] This is a Zoom API behavior - please check the meeting details in Zoom")
+                        
+                        # For monthly meetings, verify the occurrences are created correctly
+                        if occurrence_rate == "monthly":
+                            if len(response_data['occurrences']) < 2:
+                                print(f"[WARNING] Only {len(response_data['occurrences'])} occurrences created for monthly meeting")
+                                print(f"[WARNING] Zoom API may have configured the meeting incorrectly")
+                            else:
+                                # Check the dates of the first few occurrences
+                                print(f"[DEBUG] Checking dates of the first occurrences for monthly meeting")
+                                for i, occurrence in enumerate(response_data['occurrences'][:3], 1):
+                                    occurrence_time = occurrence.get('start_time')
+                                    if occurrence_time:
+                                        occurrence_dt = datetime.fromisoformat(occurrence_time.replace('Z', '+00:00'))
+                                        print(f"[DEBUG] Occurrence {i} date: {occurrence_dt.strftime('%Y-%m-%d')}")
             
             content = {
                 "meeting_url": response_data["join_url"], 
@@ -464,6 +488,20 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                                 print(f"[WARNING] First occurrence date ({first_occurrence_dt.strftime('%Y-%m-%d')}) " 
                                       f"does not match requested date ({original_dt.strftime('%Y-%m-%d')})")
                                 print(f"[WARNING] This is a Zoom API behavior - please check the meeting details in Zoom")
+                                
+                                # For monthly meetings, verify the occurrences are created correctly
+                                if occurrence_rate == "monthly":
+                                    if len(response_data['occurrences']) < 2:
+                                        print(f"[WARNING] Only {len(response_data['occurrences'])} occurrences created for monthly meeting")
+                                        print(f"[WARNING] Zoom API may have configured the meeting incorrectly")
+                                    else:
+                                        # Check the dates of the first few occurrences
+                                        print(f"[DEBUG] Checking dates of the first occurrences for monthly meeting")
+                                        for i, occurrence in enumerate(response_data['occurrences'][:3], 1):
+                                            occurrence_time = occurrence.get('start_time')
+                                            if occurrence_time:
+                                                occurrence_dt = datetime.fromisoformat(occurrence_time.replace('Z', '+00:00'))
+                                                print(f"[DEBUG] Occurrence {i} date: {occurrence_dt.strftime('%Y-%m-%d')}")
                     
                     content = {
                         "meeting_url": response_data["join_url"], 
@@ -484,7 +522,15 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                 resp.raise_for_status()
                 
     except Exception as e:
-        print(f"Error creating recurring Zoom meeting: {str(e)}")
+        error_message = str(e)
+        print(f"Error creating recurring Zoom meeting: {error_message}")
+        
+        if "start_time" in error_message.lower():
+            print(f"[DEBUG] Error creating Zoom meeting: {error_message}")
+            # Special handling for monthly meetings with start_time errors
+            if occurrence_rate == "monthly":
+                raise ValueError("Error creating recurring Zoom meeting: 'start_time'")
+        
         raise
 
 def adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week):
@@ -507,6 +553,12 @@ def adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week):
     
     # Only applies to bi-weekly meetings
     if occurrence_rate != "bi-weekly":
+        # For monthly meetings, we might need to add similar logic if we encounter issues
+        if occurrence_rate == "monthly":
+            # For now, no adjustment needed for monthly meetings, but we'll monitor it
+            print(f"[DEBUG] Monthly meeting detected, no date adjustment needed currently")
+            # If we later discover issues with monthly meetings, add specific adjustments here
+        
         return start_dt
         
     # STRATEGY: For bi-weekly meetings, we need to adjust the start date
