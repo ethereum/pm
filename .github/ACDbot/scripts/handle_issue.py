@@ -355,6 +355,23 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     
                     print("[DEBUG] Zoom meeting created.")
                     meeting_updated = True
+                    
+                    # For monthly meetings, check and fix the recurrence pattern if needed
+                    if is_recurring and occurrence_rate == "monthly" and 'response_data' in locals() and response_data:
+                        try:
+                            print(f"[DEBUG] Checking and fixing recurrence pattern for meeting {zoom_id}")
+                            fixed_meeting_data = zoom.check_and_fix_recurrence_pattern(
+                                meeting_id=zoom_id,
+                                expected_pattern="monthly",
+                                response_data=response_data
+                            )
+                            
+                            # Update our response_data if the fix was successful
+                            if fixed_meeting_data:
+                                print(f"[DEBUG] Meeting {zoom_id} pattern was fixed, updating response_data")
+                                response_data = fixed_meeting_data
+                        except Exception as e:
+                            print(f"[DEBUG] Error checking/fixing meeting pattern: {str(e)}")
                 except Exception as e:
                     print(f"[DEBUG] Error creating Zoom meeting: {str(e)}")
                     comment_lines.append("\n**⚠️ Failed to create Zoom meeting. Please check credentials.**")
@@ -605,9 +622,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
             # Add a note about monthly meeting behavior if applicable
             if is_recurring and occurrence_rate == "monthly":
                 comment_lines.append("\n**📅 Monthly Meeting Information**")
-                comment_lines.append("- All systems (Zoom, Google Calendar, YouTube) will schedule meetings on the same weekday each month")
+                comment_lines.append("- This meeting is configured to occur monthly on the same weekday")
                 comment_lines.append("- For example, if your first meeting is on the 2nd Wednesday, future meetings will be on the 2nd Wednesday of each month")
-                comment_lines.append("- Please verify the meeting dates and times in your calendar")
                 
                 # If meeting was created successfully, analyze occurrences for monthly meetings
                 if 'response_data' in locals() and response_data:
@@ -615,19 +631,30 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         zoom_analysis = analyze_zoom_occurrences(response_data, start_time, occurrence_rate)
                         
                         if zoom_analysis["specific_dates"]:
-                            comment_lines.append("\n**📅 Meeting Schedule**")
-                            
-                            # Always show the weekday pattern now
-                            if zoom_analysis["specific_dates"]:
-                                weekday = zoom_analysis["specific_dates"][0]["weekday"]
-                                position = zoom_analysis["specific_dates"][0]["position"]
-                                position_str = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}.get(position, f"{position}th")
-                                comment_lines.append(f"- Your meetings are scheduled for the **{position_str} {weekday}** of each month")
-                            
-                            if zoom_analysis["specific_dates"]:
-                                comment_lines.append("- Upcoming meeting dates:")
-                                for i, date_info in enumerate(zoom_analysis["specific_dates"][:3]):
-                                    comment_lines.append(f"  - {date_info['date']} ({date_info['weekday']})")
+                            if zoom_analysis["day_pattern_type"] == "weekly":
+                                comment_lines.append("\n**⚠️ Zoom Meeting Pattern Issue**")
+                                comment_lines.append("- **WARNING**: Zoom has created **weekly** meetings instead of monthly ones")
+                                comment_lines.append("- Please check and manually adjust this in the Zoom portal")
+                                comment_lines.append("- If this is not corrected, your meeting will repeat weekly rather than monthly")
+                                
+                                if zoom_analysis["specific_dates"]:
+                                    comment_lines.append("- Current meeting schedule (showing first few dates):")
+                                    for i, date_info in enumerate(zoom_analysis["specific_dates"][:3]):
+                                        comment_lines.append(f"  - {date_info['date']} ({date_info['weekday']})")
+                            else:
+                                comment_lines.append("\n**📅 Meeting Schedule**")
+                                
+                                # Show the weekday pattern if available
+                                if zoom_analysis["specific_dates"]:
+                                    weekday = zoom_analysis["specific_dates"][0]["weekday"]
+                                    position = zoom_analysis["specific_dates"][0]["position"]
+                                    position_str = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}.get(position, f"{position}th")
+                                    comment_lines.append(f"- Your meetings are scheduled for the **{position_str} {weekday}** of each month")
+                                
+                                if zoom_analysis["specific_dates"]:
+                                    comment_lines.append("- Upcoming meeting dates:")
+                                    for i, date_info in enumerate(zoom_analysis["specific_dates"][:3]):
+                                        comment_lines.append(f"  - {date_info['date']} ({date_info['weekday']})")
                     except Exception as e:
                         print(f"[DEBUG] Error analyzing Zoom occurrences: {str(e)}")
 
@@ -1171,7 +1198,7 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
     results = {
         "has_mismatches": False,
         "first_occurrence_mismatch": False,
-        "day_pattern_type": None,  # "calendar_day" or "weekday"
+        "day_pattern_type": None,  # "calendar_day", "weekday", "weekly" or "mixed"
         "specific_dates": []
     }
     
@@ -1201,9 +1228,10 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
                 results["first_occurrence_mismatch"] = True
                 results["has_mismatches"] = True
     
-    # For monthly meetings, determine if it's following calendar day or weekday pattern
-    if occurrence_rate == "monthly" and len(occurrences) >= 2:
-        # Get day of month for all occurrences
+    # Analyze the pattern of occurrences
+    if len(occurrences) >= 2:
+        # Get dates and weekdays for all occurrences
+        dates = []
         days_of_month = []
         weekdays = []
         weekday_positions = []
@@ -1212,6 +1240,7 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
             occurrence_time = occurrence.get('start_time')
             if occurrence_time:
                 occurrence_dt = datetime.fromisoformat(occurrence_time.replace('Z', '+00:00'))
+                dates.append(occurrence_dt)
                 days_of_month.append(occurrence_dt.day)
                 weekdays.append(occurrence_dt.weekday())
                 
@@ -1226,12 +1255,44 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
                     "position": week_number
                 })
         
-        # Check if all days of month are the same
-        if len(set(days_of_month)) == 1:
-            results["day_pattern_type"] = "calendar_day"
-        # Check if all weekdays and positions are the same
-        elif len(set(weekdays)) == 1 and len(set(weekday_positions)) == 1:
-            results["day_pattern_type"] = "weekday"
+        # Determine what kind of recurrence pattern this is
+        
+        # Calculate intervals between consecutive dates
+        intervals = [(dates[i+1] - dates[i]).days for i in range(len(dates)-1)]
+        
+        # Check for consistent intervals
+        unique_intervals = set(intervals)
+        
+        # Weekly pattern: all intervals are 7 days
+        if unique_intervals == {7}:
+            results["day_pattern_type"] = "weekly"
+            # Check if this was supposed to be monthly
+            if occurrence_rate == "monthly":
+                results["has_mismatches"] = True
+        
+        # Bi-weekly pattern: all intervals are 14 days
+        elif unique_intervals == {14}:
+            results["day_pattern_type"] = "bi-weekly"
+            # Check if this was supposed to be monthly
+            if occurrence_rate == "monthly":
+                results["has_mismatches"] = True
+        
+        # Monthly by same day: all days of month are the same
+        elif len(set(days_of_month)) == 1:
+            results["day_pattern_type"] = "calendar_day" 
+        
+        # Monthly by same weekday: all weekdays are the same and positions follow a monthly pattern
+        elif len(set(weekdays)) == 1:
+            # Check for consistent monthly patterns - days should be approximately 28-31 days apart
+            monthly_intervals = [interval for interval in intervals if 27 <= interval <= 35]
+            if len(monthly_intervals) > 0:
+                results["day_pattern_type"] = "weekday"
+            else:
+                # If weekdays are consistent but not monthly, it might be weekly on same weekday
+                results["day_pattern_type"] = "weekly"
+                if occurrence_rate == "monthly":
+                    results["has_mismatches"] = True
+        
         # Mixed or unclear pattern
         else:
             results["day_pattern_type"] = "mixed"

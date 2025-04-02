@@ -358,10 +358,10 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         print(f"[DEBUG] Setting up bi-weekly recurrence with day {day_of_week}")
     elif occurrence_rate == "monthly":
         # According to Zoom API docs:
-        # For monthly by week:
-        # type=2 for meetings occurring on a specific day and week of the month
-        # For monthly by day: 
-        # type=3 for meetings occurring on a specific date of the month
+        # For monthly by week day (second Wednesday of each month):
+        # type=3 (Monthly)
+        # monthly_week: 1-4 or -1 for last week
+        # monthly_week_day: 1-7 where 1=Sunday, 7=Saturday
         
         # Calculate which week of the month this date falls on (1-4 or -1 for last)
         day_of_month = start_dt.day
@@ -380,18 +380,20 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
             del recurrence["weekly_days"]
         
         # Convert from Zoom day format (1=Monday) to monthly_week_day format (1=Sunday, 7=Saturday)
+        # In Zoom's API: 1=Sunday, 2=Monday, ..., 7=Saturday
         monthly_week_day_format = day_of_week % 7 + 1
         
         # Make sure week_number is within valid range (1-4, -1)
         if week_number > 4:
             week_number = 4
             
-        # Set the monthly_week and monthly_week_day parameters separately
-        recurrence["type"] = 2  # Use type 2 for monthly by week/day
+        # For monthly meetings by weekday, we need:
+        recurrence["type"] = 3  # Monthly
         recurrence["repeat_interval"] = 1
-        recurrence["monthly_week"] = week_number
-        recurrence["monthly_week_day"] = monthly_week_day_format
-        print(f"[DEBUG] Using type=2, repeat_interval=1, monthly_week={week_number}, monthly_week_day={monthly_week_day_format} for day-of-week pattern")
+        recurrence["monthly_week"] = week_number  # 1-4 or -1 for last week
+        recurrence["monthly_week_day"] = monthly_week_day_format  # 1-7 (1=Sunday)
+        
+        print(f"[DEBUG] Using type=3, repeat_interval=1, monthly_week={week_number}, monthly_week_day={monthly_week_day_format} for day-of-week pattern")
         
         # We'll implement a fallback mechanism in handle_issue.py to add calendar events
         # that follow the same-weekday-of-month pattern even if Zoom doesn't
@@ -597,4 +599,91 @@ def adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week):
     print(f"[DEBUG] Adjusted date: {adjusted_dt.strftime('%Y-%m-%d')}")
     
     return adjusted_dt
+
+def check_and_fix_recurrence_pattern(meeting_id, expected_pattern, response_data=None):
+    """
+    Checks and fixes the recurrence pattern of a Zoom meeting.
+    If the meeting has a weekly pattern but should be monthly, attempts to fix it.
+    
+    Args:
+        meeting_id: The Zoom meeting ID
+        expected_pattern: The expected recurrence pattern (e.g., "monthly")
+        response_data: Optional response data from meeting creation
+        
+    Returns:
+        Updated response data if a fix was applied, or None if no fix was needed or possible
+    """
+    try:
+        # If we don't have response data, fetch the meeting
+        if not response_data:
+            meeting_details = get_meeting(meeting_id)
+            response_data = meeting_details
+        
+        # Check if this is a recurring meeting
+        if response_data.get("type") != 8:  # 8 is recurring meeting with fixed time
+            print(f"[DEBUG] Meeting {meeting_id} is not a recurring meeting (type={response_data.get('type')}). No fix needed.")
+            return None
+            
+        # Check the recurrence pattern
+        recurrence = response_data.get("recurrence", {})
+        current_type = recurrence.get("type")
+        
+        # If weekly but should be monthly
+        if current_type == 2 and "weekly_days" in recurrence and expected_pattern == "monthly":
+            print(f"[DEBUG] Meeting {meeting_id} has incorrect pattern: weekly when it should be monthly")
+            
+            # Get access token for API calls
+            access_token = get_access_token()
+            headers = {
+                "Authorization": f"Bearer {access_token}",
+                "Content-Type": "application/json"
+            }
+            
+            # Get the first occurrence date
+            if "occurrences" in response_data and response_data["occurrences"]:
+                first_occurrence = response_data["occurrences"][0]
+                first_occurrence_time = first_occurrence.get("start_time")
+                if first_occurrence_time:
+                    # Parse the date to determine the weekday and week of month
+                    occurrence_dt = datetime.fromisoformat(first_occurrence_time.replace("Z", "+00:00"))
+                    day_of_week = occurrence_dt.weekday() + 1  # 1=Monday, 7=Sunday
+                    day_of_month = occurrence_dt.day
+                    week_number = (day_of_month - 1) // 7 + 1
+                    
+                    # Weekday in Zoom's format (1=Sunday, 7=Saturday)
+                    monthly_week_day_format = day_of_week % 7 + 1
+                    
+                    # Create the correct monthly recurrence
+                    corrected_recurrence = {
+                        "type": 3,  # Monthly 
+                        "repeat_interval": 1,
+                        "monthly_week": week_number,  # 1-4 or -1 for last week
+                        "monthly_week_day": monthly_week_day_format,  # 1-7 where 1=Sunday
+                        "end_times": recurrence.get("end_times", 12)
+                    }
+                    
+                    # Update the meeting
+                    update_url = f"{api_base_url}/meetings/{meeting_id}/recurrence"
+                    print(f"[DEBUG] Attempting to fix meeting {meeting_id} pattern to monthly with payload:")
+                    print(json.dumps(corrected_recurrence, indent=2))
+                    
+                    try:
+                        resp = requests.patch(update_url, headers=headers, json=corrected_recurrence)
+                        
+                        if resp.status_code == 204:
+                            print(f"[DEBUG] Successfully updated meeting {meeting_id} to monthly pattern")
+                            # Fetch the updated meeting details
+                            updated_meeting = get_meeting(meeting_id)
+                            return updated_meeting
+                        else:
+                            print(f"[DEBUG] Failed to update meeting pattern: {resp.status_code} {resp.text}")
+                    except Exception as e:
+                        print(f"[DEBUG] Error updating meeting pattern: {str(e)}")
+            
+            return None
+    except Exception as e:
+        print(f"[DEBUG] Error in check_and_fix_recurrence_pattern: {str(e)}")
+        return None
+    
+    return None
 
