@@ -357,9 +357,12 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         recurrence["repeat_interval"] = 2
         print(f"[DEBUG] Setting up bi-weekly recurrence with day {day_of_week}")
     elif occurrence_rate == "monthly":
-        recurrence["type"] = 3
-        recurrence["repeat_interval"] = 1
-        # For monthly meetings, we want to maintain the same day of week each month
+        # According to Zoom API docs:
+        # For monthly by week:
+        # type=2 for meetings occurring on a specific day and week of the month
+        # For monthly by day: 
+        # type=3 for meetings occurring on a specific date of the month
+        
         # Calculate which week of the month this date falls on (1-4 or -1 for last)
         day_of_month = start_dt.day
         week_number = (day_of_month - 1) // 7 + 1  # 1-based week number (1st, 2nd, 3rd, 4th)
@@ -375,14 +378,23 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         # Remove weekly_days as it's not used for monthly meetings
         if "weekly_days" in recurrence:
             del recurrence["weekly_days"]
+        
+        # Convert from Zoom day format (1=Monday) to monthly_week_day format (1=Sunday, 7=Saturday)
+        monthly_week_day_format = day_of_week % 7 + 1
+        
+        # Make sure week_number is within valid range (1-4, -1)
+        if week_number > 4:
+            week_number = 4
             
-        # Set monthly_week_day instead of monthly_day
-        # Format: {week_number}:{day_of_week}
-        # Week number: 1-4 or -1 for last week
-        # Day of week: 1-7 (1=Sunday, 7=Saturday in monthly_week_day format)
-        # Convert from Zoom day format (1=Monday) to monthly_week_day format (1=Sunday)
-        monthly_week_day_format = day_of_week % 7 + 1  # Convert Monday=1 to Sunday=1 format
-        recurrence["monthly_week_day"] = f"{week_number}:{monthly_week_day_format}"
+        # Set the monthly_week and monthly_week_day parameters separately
+        recurrence["type"] = 2  # Use type 2 for monthly by week/day
+        recurrence["repeat_interval"] = 1
+        recurrence["monthly_week"] = week_number
+        recurrence["monthly_week_day"] = monthly_week_day_format
+        print(f"[DEBUG] Using type=2, repeat_interval=1, monthly_week={week_number}, monthly_week_day={monthly_week_day_format} for day-of-week pattern")
+        
+        # We'll implement a fallback mechanism in handle_issue.py to add calendar events
+        # that follow the same-weekday-of-month pattern even if Zoom doesn't
     
     # Get alternative hosts from environment
     alternative_hosts = os.environ.get("ZOOM_ALTERNATIVE_HOSTS", "")
@@ -524,49 +536,10 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         if hasattr(e, 'response') and hasattr(e.response, 'text'):
             print(f"[DEBUG] Zoom API error response: {e.response.text}")
         
-        if "start_time" in error_message.lower() or "recurrence" in error_message.lower():
+        if "start_time" in error_message.lower() or "recurrence" in error_message.lower() or "body" in error_message.lower():
             print(f"[DEBUG] Error creating Zoom meeting: {error_message}")
-            # Special handling for monthly meetings with recurrence errors
-            if occurrence_rate == "monthly":
-                # Try a fallback to monthly_day if monthly_week_day didn't work
-                try:
-                    print(f"[DEBUG] Trying fallback to monthly_day for monthly meeting")
-                    # Update recurrence to use monthly_day
-                    if "monthly_week_day" in recurrence:
-                        del recurrence["monthly_week_day"]
-                    recurrence["monthly_day"] = start_dt.day
-                    
-                    # Update payload
-                    payload["recurrence"] = recurrence
-                    
-                    print(f"[DEBUG] Retrying with monthly_day={start_dt.day}")
-                    resp = requests.post(f"{api_base_url}/users/me/meetings", 
-                                       headers=headers, 
-                                       json=payload)
-                    
-                    if resp.status_code == 201:
-                        response_data = resp.json()
-                        print(f"[DEBUG] Successfully created recurring meeting with fallback method")
-                        content = {
-                            "meeting_url": response_data["join_url"], 
-                            "password": response_data.get("password", ""),
-                            "meetingTime": response_data["start_time"],
-                            "purpose": response_data["topic"],
-                            "duration": response_data["duration"],
-                            "message": "Success (fallback method)",
-                            "status": 1
-                        }
-                        print(content)
-                        return response_data["join_url"], response_data["id"]
-                except Exception as fallback_error:
-                    print(f"[DEBUG] Fallback also failed: {str(fallback_error)}")
-                
-                # Instead of raising an error, return the meeting ID if we have one
-                if resp is not None and resp.status_code == 201:
-                    response_data = resp.json()
-                    if 'id' in response_data and 'join_url' in response_data:
-                        print(f"[DEBUG] Despite errors, we have a valid meeting ID: {response_data['id']}")
-                        return response_data["join_url"], response_data["id"]
+            # No fallback - we only want meetings by day of week (type=2)
+            print(f"[DEBUG] Only supporting meetings by day of week, not attempting calendar day fallback")
                     
         # Check if there's already a meeting ID we can use from a partially successful response
         if 'resp' in locals() and resp is not None and resp.status_code == 201:
