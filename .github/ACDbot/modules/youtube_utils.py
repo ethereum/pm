@@ -6,6 +6,7 @@ import sys
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google.auth.exceptions import RefreshError
+import calendar
 
 def get_youtube_service():
     """
@@ -240,37 +241,106 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
                 elif occurrence_rate == 'bi-weekly':
                     current_time += timedelta(days=14)
                 elif occurrence_rate == 'monthly':
-                    # Add a month while properly handling month transitions
-                    # Get the current year and month
+                    # For monthly recurrence, we want to keep the same day of the week
+                    # E.g., the second Wednesday of each month
+                    
+                    # First, record the original weekday
+                    original_weekday = current_time.weekday()  # 0=Monday, 6=Sunday
+                    
+                    # Calculate the target month's date to preserve the same weekday position
+                    # Get current year and month
                     year = current_time.year
                     month = current_time.month
-                    day = current_time.day
                     
-                    # Calculate the next month and year
+                    # Move to the next month
                     if month == 12:
                         year += 1
                         month = 1
                     else:
                         month += 1
                     
-                    # Handle cases where the day exceeds the number of days in the target month
-                    # Get the last day of the target month
-                    if month == 2:  # February
-                        if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):  # Leap year
-                            last_day = 29
-                        else:
-                            last_day = 28
-                    elif month in [4, 6, 9, 11]:  # April, June, September, November
-                        last_day = 30
+                    # Determine which week of the month the current day falls on (1-based)
+                    # First, get the first day of the current month
+                    first_day_of_month = current_time.replace(day=1)
+                    
+                    # Calculate which occurrence of this weekday we're on
+                    week_of_month = (current_time.day - 1) // 7 + 1
+                    
+                    # If this is the last occurrence of this weekday in the month
+                    days_in_current_month = calendar.monthrange(current_time.year, current_time.month)[1]
+                    if current_time.day + 7 > days_in_current_month:
+                        # This is the last occurrence of this weekday in the month
+                        # We'll need to find the last occurrence in the target month
+                        last_occurrence = True
+                        print(f"[DEBUG] This is the last {calendar.day_name[original_weekday]} of the month")
                     else:
-                        last_day = 31
+                        last_occurrence = False
+                        print(f"[DEBUG] This is the {week_of_month}{'st' if week_of_month == 1 else 'nd' if week_of_month == 2 else 'rd' if week_of_month == 3 else 'th'} {calendar.day_name[original_weekday]} of the month")
                     
-                    # Adjust the day if necessary
-                    if day > last_day:
-                        day = last_day
+                    # Now calculate the equivalent day in the next month
+                    if last_occurrence:
+                        # Find the last day of the target month
+                        last_day_of_next_month = calendar.monthrange(year, month)[1]
+                        
+                        # Start from the last day and go backward to find the last occurrence of the weekday
+                        target_day = last_day_of_next_month
+                        target_date = datetime(year, month, target_day, 
+                                               hour=current_time.hour,
+                                               minute=current_time.minute,
+                                               second=current_time.second,
+                                               microsecond=current_time.microsecond,
+                                               tzinfo=current_time.tzinfo)
+                        
+                        # Go backward until we hit the right weekday
+                        while target_date.weekday() != original_weekday:
+                            target_day -= 1
+                            target_date = target_date.replace(day=target_day)
+                        
+                        print(f"[DEBUG] Last {calendar.day_name[original_weekday]} of next month ({year}-{month}) is day {target_day}")
+                    else:
+                        # Find the first occurrence of this weekday in the target month
+                        first_of_next_month = datetime(year, month, 1,
+                                                       hour=current_time.hour,
+                                                       minute=current_time.minute,
+                                                       second=current_time.second,
+                                                       microsecond=current_time.microsecond,
+                                                       tzinfo=current_time.tzinfo)
+                        
+                        # Calculate the first occurrence of the desired weekday
+                        days_until_first_occurrence = (original_weekday - first_of_next_month.weekday()) % 7
+                        first_occurrence_day = 1 + days_until_first_occurrence
+                        
+                        # Now find the nth occurrence where n is week_of_month
+                        target_day = first_occurrence_day + (week_of_month - 1) * 7
+                        
+                        # Check if this day exists in the target month
+                        days_in_next_month = calendar.monthrange(year, month)[1]
+                        if target_day > days_in_next_month:
+                            # The target week doesn't exist in this month (e.g., 5th Thursday)
+                            # Use the last occurrence instead
+                            print(f"[DEBUG] The {week_of_month}{'st' if week_of_month == 1 else 'nd' if week_of_month == 2 else 'rd' if week_of_month == 3 else 'th'} {calendar.day_name[original_weekday]} doesn't exist in {year}-{month}")
+                            
+                            # Find the last occurrence instead
+                            target_day = days_in_next_month
+                            target_date = datetime(year, month, target_day,
+                                                  hour=current_time.hour,
+                                                  minute=current_time.minute,
+                                                  second=current_time.second,
+                                                  microsecond=current_time.microsecond,
+                                                  tzinfo=current_time.tzinfo)
+                            
+                            # Go backward until we hit the right weekday
+                            while target_date.weekday() != original_weekday:
+                                target_day -= 1
+                                target_date = target_date.replace(day=target_day)
+                                
+                            print(f"[DEBUG] Using last {calendar.day_name[original_weekday]} of month instead: day {target_day}")
+                        else:
+                            print(f"[DEBUG] The {week_of_month}{'st' if week_of_month == 1 else 'nd' if week_of_month == 2 else 'rd' if week_of_month == 3 else 'th'} {calendar.day_name[original_weekday]} of {year}-{month} is day {target_day}")
                     
-                    # Create the new datetime with the adjusted values
-                    current_time = current_time.replace(year=year, month=month, day=day)
+                    # Update current_time with the new target date
+                    current_time = current_time.replace(year=year, month=month, day=target_day)
+                    print(f"[DEBUG] Next stream scheduled for: {current_time.strftime('%Y-%m-%d %H:%M:%S %Z')} ({calendar.day_name[current_time.weekday()]})")
             
             # Format in the standard YouTube API expects: YYYY-MM-DDThh:mm:ss.sZ
             # YouTube's API is specific about the format - needs milliseconds

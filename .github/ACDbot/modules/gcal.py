@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import base64
 import pytz
 import sys
+import calendar
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
@@ -196,7 +197,38 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
     elif occurrence_rate == "bi-weekly":
         recurrence = ['RRULE:FREQ=WEEKLY;INTERVAL=2']
     elif occurrence_rate == "monthly":
-        recurrence = ['RRULE:FREQ=MONTHLY']
+        # For monthly recurrence, we want to maintain the same day of the week
+        # (e.g., the second Wednesday of each month)
+        
+        # Get the day of the week (1=Monday, 7=Sunday in iCalendar format)
+        day_of_week = start_dt.isoweekday()
+        
+        # Calculate which week of the month this day falls on (1-based)
+        day_of_month = start_dt.day
+        week_of_month = (day_of_month - 1) // 7 + 1
+        
+        # Check if this is the last occurrence of this weekday in the month
+        days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
+        if day_of_month + 7 > days_in_month:
+            # This is the last occurrence of this weekday in the month
+            # Use -1 to indicate the last occurrence
+            week_of_month = -1
+            
+        # Format for iCalendar: 
+        # FREQ=MONTHLY;BYDAY={week_of_month}{day_of_week_shortname}
+        # Week of month is numeric (1, 2, 3, 4 or -1 for last)
+        # Day of week shortname is MO, TU, WE, TH, FR, SA, SU
+        
+        # Map day of week to shortname
+        day_map = {1: "MO", 2: "TU", 3: "WE", 4: "TH", 5: "FR", 6: "SA", 7: "SU"}
+        day_shortname = day_map[day_of_week]
+        
+        # Create the BYDAY value
+        byday = f"{week_of_month}{day_shortname}"
+        
+        recurrence = [f'RRULE:FREQ=MONTHLY;BYDAY={byday}']
+        
+        print(f"[DEBUG] Setting up monthly calendar recurrence on the {week_of_month if week_of_month != -1 else 'last'} {day_shortname} of each month")
     else:
         raise ValueError(f"Unsupported occurrence rate: {occurrence_rate}")
 
@@ -289,7 +321,38 @@ def create_recurring_event(summary: str, start_dt, duration_minutes: int, calend
     elif occurrence_rate == "bi-weekly":
         recurrence = ['RRULE:FREQ=WEEKLY;INTERVAL=2']
     elif occurrence_rate == "monthly":
-        recurrence = ['RRULE:FREQ=MONTHLY']
+        # For monthly recurrence, we want to maintain the same day of the week
+        # (e.g., the second Wednesday of each month)
+        
+        # Get the day of the week (1=Monday, 7=Sunday in iCalendar format)
+        day_of_week = start_dt.isoweekday()
+        
+        # Calculate which week of the month this day falls on (1-based)
+        day_of_month = start_dt.day
+        week_of_month = (day_of_month - 1) // 7 + 1
+        
+        # Check if this is the last occurrence of this weekday in the month
+        days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
+        if day_of_month + 7 > days_in_month:
+            # This is the last occurrence of this weekday in the month
+            # Use -1 to indicate the last occurrence
+            week_of_month = -1
+            
+        # Format for iCalendar: 
+        # FREQ=MONTHLY;BYDAY={week_of_month}{day_of_week_shortname}
+        # Week of month is numeric (1, 2, 3, 4 or -1 for last)
+        # Day of week shortname is MO, TU, WE, TH, FR, SA, SU
+        
+        # Map day of week to shortname
+        day_map = {1: "MO", 2: "TU", 3: "WE", 4: "TH", 5: "FR", 6: "SA", 7: "SU"}
+        day_shortname = day_map[day_of_week]
+        
+        # Create the BYDAY value
+        byday = f"{week_of_month}{day_shortname}"
+        
+        recurrence = [f'RRULE:FREQ=MONTHLY;BYDAY={byday}']
+        
+        print(f"[DEBUG] Setting up monthly calendar recurrence on the {week_of_month if week_of_month != -1 else 'last'} {day_shortname} of each month")
     else:
         raise ValueError(f"Unsupported occurrence rate: {occurrence_rate}")
 

@@ -355,6 +355,23 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     
                     print("[DEBUG] Zoom meeting created.")
                     meeting_updated = True
+                    
+                    # For monthly meetings, check and fix the recurrence pattern if needed
+                    if is_recurring and occurrence_rate == "monthly" and 'response_data' in locals() and response_data:
+                        try:
+                            print(f"[DEBUG] Checking and fixing recurrence pattern for meeting {zoom_id}")
+                            fixed_meeting_data = zoom.check_and_fix_recurrence_pattern(
+                                meeting_id=zoom_id,
+                                expected_pattern="monthly",
+                                response_data=response_data
+                            )
+                            
+                            # Update our response_data if the fix was successful
+                            if fixed_meeting_data:
+                                print(f"[DEBUG] Meeting {zoom_id} pattern was fixed, updating response_data")
+                                response_data = fixed_meeting_data
+                        except Exception as e:
+                            print(f"[DEBUG] Error checking/fixing meeting pattern: {str(e)}")
                 except Exception as e:
                     print(f"[DEBUG] Error creating Zoom meeting: {str(e)}")
                     comment_lines.append("\n**⚠️ Failed to create Zoom meeting. Please check credentials.**")
@@ -601,6 +618,45 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 event_link = event_result['htmlLink']
                 comment_lines.append("\n**Calendar Event**")
                 comment_lines.append(f"- [Google Calendar]({event_link})")
+
+            # Add a note about monthly meeting behavior if applicable
+            if is_recurring and occurrence_rate == "monthly":
+                comment_lines.append("\n**📅 Monthly Meeting Information**")
+                comment_lines.append("- This meeting is configured to occur monthly on the same weekday")
+                comment_lines.append("- For example, if your first meeting is on the 2nd Wednesday, future meetings will be on the 2nd Wednesday of each month")
+                
+                # If meeting was created successfully, analyze occurrences for monthly meetings
+                if 'response_data' in locals() and response_data:
+                    try:
+                        zoom_analysis = analyze_zoom_occurrences(response_data, start_time, occurrence_rate)
+                        
+                        if zoom_analysis["specific_dates"]:
+                            if zoom_analysis["day_pattern_type"] == "weekly":
+                                comment_lines.append("\n**⚠️ Zoom Meeting Pattern Issue**")
+                                comment_lines.append("- **WARNING**: Zoom has created **weekly** meetings instead of monthly ones")
+                                comment_lines.append("- Please check and manually adjust this in the Zoom portal")
+                                comment_lines.append("- If this is not corrected, your meeting will repeat weekly rather than monthly")
+                                
+                                if zoom_analysis["specific_dates"]:
+                                    comment_lines.append("- Current meeting schedule (showing first few dates):")
+                                    for i, date_info in enumerate(zoom_analysis["specific_dates"][:3]):
+                                        comment_lines.append(f"  - {date_info['date']} ({date_info['weekday']})")
+                            else:
+                                comment_lines.append("\n**📅 Meeting Schedule**")
+                                
+                                # Show the weekday pattern if available
+                                if zoom_analysis["specific_dates"]:
+                                    weekday = zoom_analysis["specific_dates"][0]["weekday"]
+                                    position = zoom_analysis["specific_dates"][0]["position"]
+                                    position_str = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}.get(position, f"{position}th")
+                                    comment_lines.append(f"- Your meetings are scheduled for the **{position_str} {weekday}** of each month")
+                                
+                                if zoom_analysis["specific_dates"]:
+                                    comment_lines.append("- Upcoming meeting dates:")
+                                    for i, date_info in enumerate(zoom_analysis["specific_dates"][:3]):
+                                        comment_lines.append(f"  - {date_info['date']} ({date_info['weekday']})")
+                    except Exception as e:
+                        print(f"[DEBUG] Error analyzing Zoom occurrences: {str(e)}")
 
             # Update mapping if this entry is new or if the meeting was updated.
             # (In the mapping, we use the meeting ID as the key.)
@@ -1125,6 +1181,124 @@ def extract_event_id_from_link(event_link):
         return event_link
         
     return None
+
+def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
+    """
+    Analyzes Zoom meeting occurrences to detect patterns and potential issues
+    Args:
+        response_data: Zoom API response containing occurrences
+        start_dt: Original requested start datetime
+        occurrence_rate: weekly, bi-weekly, or monthly
+    Returns:
+        Dictionary with analysis results
+    """
+    import calendar
+    from datetime import datetime
+    
+    results = {
+        "has_mismatches": False,
+        "first_occurrence_mismatch": False,
+        "day_pattern_type": None,  # "calendar_day", "weekday", "weekly" or "mixed"
+        "specific_dates": []
+    }
+    
+    # Only analyze if we have occurrences
+    if 'occurrences' not in response_data or not response_data['occurrences']:
+        return results
+        
+    occurrences = response_data['occurrences']
+    
+    # Check if the first occurrence matches our intended start date
+    if len(occurrences) > 0:
+        first_occurrence = occurrences[0]
+        first_occurrence_time = first_occurrence.get('start_time')
+        if first_occurrence_time:
+            first_occurrence_dt = datetime.fromisoformat(first_occurrence_time.replace('Z', '+00:00'))
+            
+            # Original date might be a string, convert if needed
+            if isinstance(start_dt, str):
+                if start_dt.endswith('Z'):
+                    start_dt = start_dt.replace('Z', '+00:00')
+                original_dt = datetime.fromisoformat(start_dt)
+            else:
+                original_dt = start_dt
+                
+            # Compare calendar days
+            if original_dt.date() != first_occurrence_dt.date():
+                results["first_occurrence_mismatch"] = True
+                results["has_mismatches"] = True
+    
+    # Analyze the pattern of occurrences
+    if len(occurrences) >= 2:
+        # Get dates and weekdays for all occurrences
+        dates = []
+        days_of_month = []
+        weekdays = []
+        weekday_positions = []
+        
+        for occurrence in occurrences:
+            occurrence_time = occurrence.get('start_time')
+            if occurrence_time:
+                occurrence_dt = datetime.fromisoformat(occurrence_time.replace('Z', '+00:00'))
+                dates.append(occurrence_dt)
+                days_of_month.append(occurrence_dt.day)
+                weekdays.append(occurrence_dt.weekday())
+                
+                # Calculate weekday position (1st, 2nd, 3rd, 4th, or 5th)
+                week_number = (occurrence_dt.day - 1) // 7 + 1
+                weekday_positions.append(week_number)
+                
+                # Add to specific dates
+                results["specific_dates"].append({
+                    "date": occurrence_dt.strftime("%Y-%m-%d"),
+                    "weekday": calendar.day_name[occurrence_dt.weekday()],
+                    "position": week_number
+                })
+        
+        # Determine what kind of recurrence pattern this is
+        
+        # Calculate intervals between consecutive dates
+        intervals = [(dates[i+1] - dates[i]).days for i in range(len(dates)-1)]
+        
+        # Check for consistent intervals
+        unique_intervals = set(intervals)
+        
+        # Weekly pattern: all intervals are 7 days
+        if unique_intervals == {7}:
+            results["day_pattern_type"] = "weekly"
+            # Check if this was supposed to be monthly
+            if occurrence_rate == "monthly":
+                results["has_mismatches"] = True
+        
+        # Bi-weekly pattern: all intervals are 14 days
+        elif unique_intervals == {14}:
+            results["day_pattern_type"] = "bi-weekly"
+            # Check if this was supposed to be monthly
+            if occurrence_rate == "monthly":
+                results["has_mismatches"] = True
+        
+        # Monthly by same day: all days of month are the same
+        elif len(set(days_of_month)) == 1:
+            results["day_pattern_type"] = "calendar_day" 
+        
+        # Monthly by same weekday: all weekdays are the same and positions follow a monthly pattern
+        elif len(set(weekdays)) == 1:
+            # Check for consistent monthly patterns - days should be approximately 28-31 days apart
+            monthly_intervals = [interval for interval in intervals if 27 <= interval <= 35]
+            if len(monthly_intervals) > 0:
+                results["day_pattern_type"] = "weekday"
+            else:
+                # If weekdays are consistent but not monthly, it might be weekly on same weekday
+                results["day_pattern_type"] = "weekly"
+                if occurrence_rate == "monthly":
+                    results["has_mismatches"] = True
+        
+        # Mixed or unclear pattern
+        else:
+            results["day_pattern_type"] = "mixed"
+            results["has_mismatches"] = True
+    
+    return results
 
 def main():
     parser = argparse.ArgumentParser(description="Handle GitHub issue and create/update Discourse topic.")
