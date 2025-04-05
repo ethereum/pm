@@ -3,12 +3,12 @@
 
 Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrCe28kTt1BnIsjtMlKHq2MHgaja24LhFXSvqfJQ/edit#heading=h.tubwqb51zcjq)
 
-## Meeting Info: 
+## Meeting Info:
 **Date**: 2024.06.25
 
 **Agenda**: https://github.com/ethereum/pm/issues/1070
 
-**YouTube Video**: https://www.youtube.com/watch?v=P86Dr9ABGeg
+**YouTube Video**: https://www.youtube.com/watch?v=5U79hZOH4Uw
 
 ## Notes
 ### Peerdas-devnet-1
@@ -19,7 +19,7 @@ Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrC
   - teku: nashatyrev-das
   - nimbus: wip-peerdas
   - grandine: das
-  - lodestar: peerDAS 
+  - lodestar: peerDAS
 
 ### Configuration
 DATA_COLUMN_SIDECAR_SUBNET_COUNT=64
@@ -47,7 +47,7 @@ TARGET_NUMBER_OF_PEERS=70
 - **Teku**
   - Comply with alpha.3 spec
   - Grandine, lodestar, and nimbus are not ready for devnet-1
-  - 
+  -
 ### spec discussion
 - Blob max limit
   - Solution 1: pass 'max_blobs_per_block'
