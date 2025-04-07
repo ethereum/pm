@@ -31,11 +31,13 @@
   - bug now fixed
 - Hoodi: Wed. March 26, 2025 14:37:12 UTC
   - [configuration](https://github.com/eth-clients/hoodi) 
-- Mainnet: not announced yet
+- Mainnet: Wed. May 7, 2025 10:05:11 UTC
   - [configuration](https://github.com/eth-clients/mainnet)
-  - announce initially expected during [March 6 2025 ACDC](https://github.com/ethereum/pm/issues/1323)
+  - announce initially expected during [March 6 2025 ACDC #152](https://github.com/ethereum/pm/issues/1323)
   - 30+ days after Hoodi fork
-    - latest plan pre Hoodi fork [Mar 13 2025 ACDE](https://ethereum-magicians.org/t/all-core-devs-execution-acde-207/23020)
+    - plan pre Hoodi fork [Mar 13 2025 ACDE #207](https://ethereum-magicians.org/t/all-core-devs-execution-acde-207/23020)
+    - confirmed plan during [Apr 3 2025 ACDC #154](https://github.com/ethereum/pm/issues/1399)
+    - [Mainnet Upgrade & Incident Response Team Plan](https://github.com/ethereum/pm/blob/master/Pectra/pectra-mainnet-plan.md)
 
 # [Pectra Retrospective](https://ethereum-magicians.org/t/pectra-retrospective/22637/)
 
