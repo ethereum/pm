@@ -5,14 +5,14 @@ Note: This file is copied from [here](https://docs.google.com/document/d/1Ng2IrC
 ## Meeting info
 **Date**: 2024.07.09
 **Agenda**: https://github.com/ethereum/pm/issues/1093
-**YouTube Video**: https://www.youtube.com/watch?v=P86Dr9ABGeg
+**YouTube Video**: https://www.youtube.com/watch?v=kr356fArKbI
 ## Notes
 ### Client updates
-- **Prysm:** 
+- **Prysm:**
   - testing with new KZG APIs
   - working on fixing bugs in devnet-1
 - **Lighthouse:**
-  - Mostly working on sync, fixed an issue with rpc limits, and able to serve by range requests 
+  - Mostly working on sync, fixed an issue with rpc limits, and able to serve by range requests
   - Got sync to work a branch, but there are still some open issues that cause it to be slow
   - Tested kev's rust kzg library and it works well. Potentially merge and switch to it soon.
   - Tried to revive devnet-1 with Michael's lcli http-sync tool but no luck with Lighthouse. Best to relaunch devnet.
@@ -45,7 +45,7 @@ Why did the LH supernode issue break the network?
   - Prysm: may require a bit of work, and would delay relaunch devnet-2
 MetaDataV3 is potentially in the next devnet after devnet-2 since it's nice to have for now.
 
-ACTION: Relaunch with the same specs with bug fixes by the end of this week 
+ACTION: Relaunch with the same specs with bug fixes by the end of this week
 
 ### Specs discussion
 
@@ -56,7 +56,7 @@ Decouple network subnet: https://github.com/ethereum/consensus-specs/pull/3832
 - ACTION: client teams to review and potentially target devnet-3
 
 Passing blob limit from CL: https://github.com/ethereum/consensus-specs/pull/3800
-- CL clients generally support it. 
+- CL clients generally support it.
 - Re: do we realistically see ourselves changing the blob target to anything other than MAX // 2? if we do, then we should also have the CL send target along with max values (with the resulting extension of the EL header to have both values)
   - **Barnabas**: more flexibility if we just always send both, even we don't need it in the foreseeable future. Francesco agrees.
   - **Pop**: Is there any reason why it's divided by 2?
@@ -70,8 +70,8 @@ Passing blob limit from CL: https://github.com/ethereum/consensus-specs/pull/380
 - Prysm and Lighthouse have most of the metrics
 - LH: We need a large-ish network to get realistic metrics, What about Grandine?
   - Grandine is currently experimenting PeerDAS development with EPF, unlikely to participate in the next devnet
-  
-**Kev**: Rust PeerDAS KZG library	
+
+**Kev**: Rust PeerDAS KZG library
   - Teku merged the PR, can we get some part of the network to run the Rust KZG library?
   - Lighthouse is likely going to switch to it soon, possibly in the next devnet.
 
@@ -82,7 +82,7 @@ Passing blob limit from CL: https://github.com/ethereum/consensus-specs/pull/380
 - execution-api spec: https://github.com/ethereum/execution-apis/pull/559
 
 **Saulius**: What are the KZG crypto bottleneck
-- Kev: the Rust PeerDAS KZG lib does not currently use GPU for "MSM" 
+- Kev: the Rust PeerDAS KZG lib does not currently use GPU for "MSM"
 - Saulius: NVIDIA GPU should be significantly faster than utilizing cpu fully
 - Kev: Be good to get some metrics once it's implemented in Grandine
 - Csaba: Having nodes do faster reconstructions in the network is helpful. With more blobs, it will be time-consuming.
@@ -105,9 +105,9 @@ https://discord.com/channels/595666850260713488/1252403418941624532/125608422792
 https://github.com/sigp/lighthouse/pull/5829
 
 https://github.com/michaelsproul/reth/pull/1
- 
+
 https://hackmd.io/@dapplion/blob_fetch
-	
+
 https://github.com/ethereum/execution-apis/pull/55
 
 https://github.com/grandinetech/rust-kzg?tab=readme-ov-file#blob-to-kzg-commitment-1
