@@ -12,7 +12,7 @@
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
 | Besu | [Name] | [Name] |
-| Erigon | [Name] | [Name] |
+| Erigon | Somnath Banerjee | Andrew Ashikhmin |
 | Geth | [Name] | [Name] |
 | Grandine | [Name] | [Name] |
 | Lighthouse | [Name] | [Name] |
