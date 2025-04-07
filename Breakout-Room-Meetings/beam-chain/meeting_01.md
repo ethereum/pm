@@ -1,18 +1,22 @@
-# Beam Call 01
+# beam call #1: beam client team introductions
 
-### **Prev Call:** Initial Call
+**Prev Call:** Initial Call
 
-### **Meeting Date/Time:** Friday 2025/2/14 at 15:00 UTC
+**Meeting Date/Time:** Friday 2025/2/14 at 15:00 UTC
 
-### **Meeting Duration:** 1.5 hours
+**Meeting Duration:** 1.5 hours
 
-### GitHub Agenda
+[GitHub Agenda](https://github.com/ethereum/pm/issues/1327)
 
-### [Audio/Video of the meeting](https://www.youtube.com/watch?v=sSx6juIu4AI)
+[Audio/Video of the meeting](https://www.youtube.com/watch?v=sSx6juIu4AI)
 
-### Moderator: Justin Drake
+Moderator: Justin Drake
 
-### Notes: Will Corcoran
+Facilitators: Ladislaus von Daniels & Will Corcoran
+- Facilitator emails: ladislaus@ethereum.org // will@ethereum.org
+- Facilitator telegrams: @ladislaus0x // @corcoranwill
+
+
 
 ## Summary
 

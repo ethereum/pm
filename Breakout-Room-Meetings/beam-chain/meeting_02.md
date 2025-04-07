@@ -1,20 +1,25 @@
-# Beam Call 02
+# beam call #3: research updates | post-quantum cryptography
 
-## Research Updates: Post-Quantum Cryptography
+**Prev:** [Call 01](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/beam-chain/meeting_01.md)
 
-### **Prev:** [Call 01](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/beam-chain/meeting_01.md)
+**Meeting Date/Time:** Friday 2025/2/28 at 14:00 UTC
 
-### **Meeting Date/Time:** Friday 2025/2/28 at 14:00 UTC
+**Meeting Duration:** 1.25 hours
 
-### **Meeting Duration:** 1.25 hours
+[GitHub Agenda](https://github.com/ethereum/pm/issues/1336)
 
-### [GitHub Agenda](https://github.com/ethereum/pm/issues/1336)
+[Audio/Video of the meeting](https://youtu.be/BtYb_guRq78?si=v3YQLvV6sjPcR8zW)
 
-### [Audio/Video of the meeting](https://youtu.be/BtYb_guRq78?si=v3YQLvV6sjPcR8zW)
+Moderator: Justin Drake
 
-### Moderator: Justin Drake
+Facilitators: Ladislaus von Daniels & Will Corcoran
+- Facilitator emails: ladislaus@ethereum.org // will@ethereum.org
+- Facilitator telegrams: @ladislaus0x // @corcoranwill
 
-### Notes: Will Corcoran
+
+
+
+
 
 ## Slides
 | # | Presentation Topic | Presenter | Link |
