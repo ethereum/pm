@@ -16,7 +16,7 @@
 | Geth | [Name] | [Name] |
 | Grandine | [Name] | [Name] |
 | Lighthouse | [Name] | [Name] |
-| Lodestar | [Name] | [Name] |
+| Lodestar | Phil Ngo | Nico Flaig |
 | Nimbus | [Name] | [Name] |
 | Nethermind | [Name] | [Name] |
 | Prysm | [Name] | [Name] |
