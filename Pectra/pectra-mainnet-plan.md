@@ -27,7 +27,7 @@
 | Role | Primary | Backup |
 |------|---------|----------------------------|
 | DevOps Coordinator | [Name] | [Name] |
-| Testing Coordinator | [Name] | [Name] |
+| Testing Coordinator | Mario Vega (@marioevz) | Dan (@danceratopz) |
 | Communication Coodinator | Tim Beiko | [Name] |
 | Security Coordinator | [Name] | [Name] |
 
