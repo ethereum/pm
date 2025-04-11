@@ -611,59 +611,209 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print(f"[DEBUG] Mapping entry for {meeting_id} remains unchanged.")
 
         # --- Notification Logic --- 
+        print("[DEBUG] Entering Notification Block")
         # Extract facilitator information
         facilitator_email = extract_facilitator_info(issue_body)
-
-        # Send notifications regardless of whether the meeting was updated
-        # Send email notification
+        
+        # Initialize flags
         email_sent = False
-        telegram_sent = False # Keep this maybe for channel posts?
-        
-        # Only send notifications if we have a valid zoom_id
-        if not zoom_id or (isinstance(zoom_id, str) and zoom_id.startswith("placeholder-")):
-            print("[DEBUG] Skipping notifications due to placeholder zoom_id")
-            pass # Add pass for the if block
-        else:
-            # --- Email sending logic --- 
-            if facilitator_email and join_url:
-                print("[DEBUG] (Placeholder) Would send email here")
-                pass # Add pass for the email sending block
-            else:
-                print("[DEBUG] (Placeholder) Email conditions not met")
-                pass # Add pass for the email else block
-            
-            # --- REMOVED Telegram DM logic --- 
+        telegram_channel_sent = False 
 
-            # --- Telegram Channel logic --- 
-            telegram_handle = os.environ.get("TELEGRAM_CHAT_ID")
-            if telegram_handle and tg:
-                print("[DEBUG] (Placeholder) Would send Telegram channel message here")
-                pass # Add pass for the Telegram channel block
-            
-            # --- RSS Notification logic --- 
-            print("[DEBUG] (Placeholder) Would add RSS notifications here")
-            # rss_utils.add_notification_to_meeting(
-            #     meeting_id,
-            #     # ... (RSS notification calls) ...
-            # )
-            pass # Add pass for the RSS block
-        
+        # Only send notifications if we have a valid zoom_id (not a placeholder)
+        if not zoom_id or (isinstance(zoom_id, str) and zoom_id.startswith("placeholder-")):
+            print(f"[DEBUG] Skipping notifications - Zoom meeting creation failed or invalid zoom_id: {zoom_id}")
+            comment_lines.append("\n**⚠️ Zoom Meeting Creation Failed or Skipped**")
+            comment_lines.append("- Notifications suppressed due to Zoom meeting issue.")
+        else:
+            # --- Email Sending --- 
+            if facilitator_email and join_url:
+                try:
+                    print(f"[DEBUG] Sending email to facilitator: {facilitator_email}")
+                    # Determine if it was an update based on meeting_updated flag (set during Zoom/GCal API calls)
+                    action_prefix = "Updated " if meeting_updated else ""
+                    email_subject = f"{action_prefix}Zoom Details - {issue_title}"
+                    
+                    email_body = f"""
+<h2>{action_prefix}Zoom Meeting Details</h2>
+<p>For meeting: {issue_title}</p>
+<p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
+<p><strong>Meeting ID:</strong> {zoom_id}</p>
+<p><strong>Links:</strong><br>
+<a href="{issue.html_url}">View GitHub Issue</a><br>
+<a href="{discourse_url}">View Discourse Topic</a></p>
+
+<p>---<br>
+This email was sent automatically by the Ethereum Protocol Call Bot.</p>
+"""
+                    if email_utils.send_email(facilitator_email, email_subject, email_body):
+                        email_sent = True
+                        comment_lines.append(f"- Zoom details sent via email to: {facilitator_email}")
+                        print(f"[DEBUG] Successfully sent email to: {facilitator_email}")
+                    else:
+                        sender_email = os.environ.get("SENDER_EMAIL")
+                        smtp_server = os.environ.get("SMTP_SERVER")
+                        comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}")
+                        if not sender_email or not smtp_server:
+                            comment_lines.append(f"  - *Note*: Email service is not fully configured. Contact the repository administrator.")
+                        else:
+                            comment_lines.append(f"  - Please check the GitHub Actions logs for more details")
+                        print(f"[DEBUG] Failed to send email to: {facilitator_email}")
+                except Exception as e:
+                    print(f"[DEBUG] Exception when sending email: {str(e)}")
+                    comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}")
+                    comment_lines.append(f"  - Error: {str(e)}")
+            else:
+                if not facilitator_email:
+                    print(f"[DEBUG] No facilitator email provided in the issue, skipping email notification.")
+                    comment_lines.append("- Facilitator email not found in issue, skipping email notification.")
+                if not join_url:
+                    print(f"[DEBUG] No join URL available for the meeting, skipping email notification.")
+                    comment_lines.append("- Zoom Join URL not available, skipping email notification.")
+
+            # --- Telegram Channel Posting --- 
+            telegram_channel_id = os.environ.get("TELEGRAM_CHAT_ID")
+            if telegram_channel_id and tg:
+                try:
+                    # Format message with HTML tags for better formatting
+                    telegram_message_body = (
+                        f"<b>{issue_title}</b>\n\n"
+                        # Include issue body details carefully, maybe just agenda?
+                        # For now, keep it simple to avoid formatting issues
+                        # f"{issue_body}\n\n"
+                        f"<b>Links:</b>\n"
+                        f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
+                        f"• <a href='{issue.html_url}'>GitHub Issue</a>\n"
+                    )
+                    if join_url and not str(zoom_id).startswith("placeholder-"):
+                         telegram_message_body += f"• <a href='{join_url}'>Zoom Link</a> (ID: {zoom_id})\n"
+                    if event_link: # Add GCal link if available
+                         telegram_message_body += f"• <a href='{event_link}'>Google Calendar</a>\n"
+                    
+                    # Check for existing Telegram message ID stored in mapping
+                    message_id = mapping.get(meeting_id, {}).get("telegram_message_id")
+                    
+                    if message_id:
+                        print(f"[DEBUG] Attempting to update Telegram message {message_id}")
+                        if tg.update_message(message_id, telegram_message_body):
+                            print(f"Updated Telegram message {message_id}")
+                            telegram_channel_sent = True
+                        else:
+                             print(f"[DEBUG] Failed to update Telegram message {message_id}, sending new one.")
+                             message_id = None # Reset to send new message
+                    
+                    if not message_id:
+                        print(f"[DEBUG] Sending new Telegram channel message.")
+                        message_id = tg.send_message(telegram_message_body)
+                        if message_id:
+                            telegram_channel_sent = True
+                            # Store the new message ID in the mapping for future updates
+                            if meeting_id not in mapping: mapping[meeting_id] = {}
+                            mapping[meeting_id]["telegram_message_id"] = message_id
+                            # Mark mapping as updated because we added the message_id
+                            mapping_updated = True 
+                            print(f"[DEBUG] Stored new telegram_message_id {message_id} in mapping.")
+                        
+                    if telegram_channel_sent:
+                        comment_lines.append("\n**Telegram Notification**")
+                        comment_lines.append("- Sent/Updated message in Ethereum Protocol Updates channel")
+                    else:
+                        comment_lines.append("\n**⚠️ Failed to update Telegram Channel**")
+                        print(f"[DEBUG] Failed to send/update Telegram channel message.")
+                
+                except Exception as e:
+                    print(f"[ERROR] Telegram channel notification failed: {e}")
+                    comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {str(e)}")
+            else:
+                 print("[DEBUG] Telegram channel ID not configured or tg module not available.")
+
+            # --- RSS Notification Adding --- 
+            try:
+                print("[DEBUG] Adding notifications to RSS feed data")
+                rss_utils.add_notification_to_meeting(
+                    meeting_id,
+                    "issue_processed",
+                    f"GitHub issue #{issue.number} processed ({action})",
+                    issue.html_url
+                )
+                rss_utils.add_notification_to_meeting(
+                    meeting_id,
+                    "discourse_post",
+                    f"Discourse topic {action}: {issue_title}",
+                    discourse_url
+                )
+                # Add more RSS notifications as needed (e.g., for GCal, Zoom)
+                mapping_updated = True # RSS utils likely modifies mapping indirectly
+            except Exception as e:
+                print(f"[ERROR] Failed to add RSS notifications: {e}")
+                comment_lines.append(f"\n**⚠️ Failed to update RSS data**: {str(e)}")
+
+    # --- End of Notification Block ---
     else:
         # zoom_id was not determined (likely due to errors)
         print("[ERROR] zoom_id could not be determined. Skipping downstream processing and mapping update.")
         comment_lines.append("\n**⚠️ Critical Error:** Could not determine Zoom Meeting ID. Processing halted.")
 
-    # --- Final Comment Posting & Mapping Commit --- 
-    # ... (rest of the script) ...
+    # --- Final Comment Posting & Mapping Commit Logic --- 
+    print("[DEBUG] Entering Final Comment Posting & Mapping Commit Logic")
+    # 1. Post consolidated comment to GitHub Issue
+    if comment_lines:
+        now = dt.now().strftime("%Y-%m-%d %H:%M UTC")
+        # Try to find the existing action line to update timestamp
+        action_line_index = -1
+        for i, line in enumerate(comment_lines):
+             if line.startswith("- Action:"):
+                  action_line_index = i
+                  break
+        if action_line_index != -1:
+            comment_lines[action_line_index] = f"- Action: {action.capitalize()} at {now}"
+        else: # Add action line if it wasn't present (e.g., only errors occurred)
+            comment_lines.insert(0, f"- Action: Bot processing finished at {now}") # Add at the beginning
+            
+        comment_text = "\n".join(comment_lines)
+        
+        # Check for existing comments by the bot to update instead of creating new
+        existing_comment = None
+        try:
+            comments = issue.get_comments()
+            for comment in comments:
+                if comment.user.login == "github-actions[bot]":
+                    existing_comment = comment
+                    print(f"[DEBUG] Found existing bot comment ID: {existing_comment.id}")
+                    break
+        except Exception as e:
+            print(f"::warning::Could not fetch existing comments: {e}")
+        
+        # Update or create comment
+        try:
+            if existing_comment:
+                print(f"[DEBUG] Attempting to update existing comment {existing_comment.id}")
+                existing_comment.edit(comment_text)
+                print(f"Successfully updated existing comment {existing_comment.id}")
+            else:
+                print("[DEBUG] Attempting to create new comment")
+                new_comment = issue.create_comment(comment_text)
+                print(f"Successfully created new comment ID: {new_comment.id}")
+        except Exception as e:
+            print(f"::error::Failed to create or update GitHub comment: {e}")
+            # Don't append to comment_lines here as we can't post it
 
-    # Remove any null mappings or failed entries
-    mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}
-
-    # Update the mapping file if any changes were made
+    # 2. Commit mapping file if it was updated
+    # Remove any null mappings or failed entries before saving
+    mapping = {str(k): v for k, v in mapping.items() if isinstance(v, dict) and v.get("discourse_topic_id") is not None}
+    
     if mapping_updated:
-        save_meeting_topic_mapping(mapping)
-        commit_mapping_file()
-        print(f"Mapping updated: Zoom Meeting ID {meeting_id} -> Discourse Topic ID {topic_id}")
+        print("[DEBUG] Mapping was updated, attempting to save and commit.")
+        try:
+            save_meeting_topic_mapping(mapping)
+            commit_mapping_file()
+            print(f"Successfully saved and committed mapping file.")
+            # Include meeting_id in final print statement if available
+            final_meeting_id_str = f" Zoom Meeting ID {meeting_id}" if 'meeting_id' in locals() else ""
+            print(f"Mapping final update complete.{final_meeting_id_str} -> Discourse Topic ID {topic_id}")
+        except Exception as e:
+            print(f"::error::Failed to save or commit mapping file: {e}")
+    else:
+         print("[DEBUG] No changes detected in mapping, skipping commit.")
 
 def parse_issue_for_time(issue_body: str):
     """
