@@ -7,6 +7,10 @@ from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google.auth.exceptions import RefreshError
 import calendar
+from googleapiclient.http import MediaFileUpload
+
+# Define the thumbnail path (adjust if necessary)
+THUMBNAIL_PATH = ".github/ACDbot/assets/Pectra YT.jpg"
 
 def get_youtube_service():
     """
@@ -115,15 +119,16 @@ def get_channel_videos(channel_id):
 
 def create_youtube_stream(title, description, start_time, privacy_status='public'):
     """
-    Creates a YouTube live stream event
+    Creates a YouTube live stream event and sets a custom thumbnail.
     Args:
         title: Stream title
         description: Stream description
         start_time: Start time in ISO format
         privacy_status: public, private, or unlisted
     Returns:
-        Dictionary containing stream_id and stream_url
+        Dictionary containing broadcast_id, stream_id, stream_url, rtmp_url
     """
+    broadcast_id = None # Initialize broadcast_id
     try:
         youtube = get_youtube_service()
         
@@ -146,7 +151,7 @@ def create_youtube_stream(title, description, start_time, privacy_status='public
         
         # Create the broadcast
         broadcast_insert_response = youtube.liveBroadcasts().insert(
-            part="snippet,status",
+            part="snippet,status,contentDetails", # Add contentDetails for thumbnail
             body={
                 "snippet": {
                     "title": title,
@@ -156,12 +161,32 @@ def create_youtube_stream(title, description, start_time, privacy_status='public
                 "status": {
                     "privacyStatus": privacy_status,
                     "selfDeclaredMadeForKids": False,
+                },
+                "contentDetails": {
+                    "enableAutoStart": True, # Example: Enable auto start
+                    "enableAutoStop": True   # Example: Enable auto stop
                 }
             }
         ).execute()
 
         broadcast_id = broadcast_insert_response["id"]
         print(f"[DEBUG] Created broadcast with ID: {broadcast_id}")
+        
+        # --- Add Thumbnail Setting Logic --- 
+        if os.path.exists(THUMBNAIL_PATH):
+            print(f"[DEBUG] Setting custom thumbnail for broadcast {broadcast_id} from {THUMBNAIL_PATH}")
+            try:
+                request = youtube.thumbnails().set(
+                    videoId=broadcast_id, # Use broadcast_id for thumbnail
+                    media_body=MediaFileUpload(THUMBNAIL_PATH)
+                )
+                response = request.execute()
+                print(f"[DEBUG] Successfully set custom thumbnail: {response['items'][0]['default']['url']}")
+            except Exception as thumb_error:
+                print(f"::warning::Failed to set custom thumbnail for broadcast {broadcast_id}: {thumb_error}")
+        else:
+            print(f"::warning::Thumbnail file not found at {THUMBNAIL_PATH}. Skipping custom thumbnail.")
+        # --- End Thumbnail Setting Logic --- 
 
         # Create the stream
         stream_insert_response = youtube.liveStreams().insert(
@@ -231,7 +256,7 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
         else:
             current_time = start_time
             
-        print(f"[DEBUG] Creating {num_events} recurring streams for '{title}' starting at {current_time}")
+        print(f"[DEBUG] Creating {num_events} recurring stream(s) for '{title}' starting at {current_time}")
         
         for i in range(num_events):
             # Calculate next event time based on occurrence rate
@@ -346,12 +371,13 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
             # YouTube's API is specific about the format - needs milliseconds
             formatted_start_time = current_time.strftime('%Y-%m-%dT%H:%M:%S.000Z')
             
-            event_title = f"{title} {i+1}"
+            # Use the original title, only add number if creating multiple streams
+            event_title = title if num_events == 1 else f"{title} {i+1}"
             print(f"[DEBUG] Creating stream {i+1}/{num_events}: {event_title}")
             
             stream_details = create_youtube_stream(
                 event_title,
-                description,
+                description, # Description uses the base title passed in
                 formatted_start_time
             )
             

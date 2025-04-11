@@ -26,24 +26,22 @@ def save_meeting_topic_mapping(mapping):
 
 def extract_facilitator_info(issue_body):
     """
-    Extracts facilitator contact information from the issue body.
-    Returns a tuple of (email, telegram handle).
+    Extracts facilitator email information from the issue body.
+    Returns the email address.
     """
     email_pattern = r"Facilitator email:\s*([^\n\s]+)"
-    telegram_pattern = r"Facilitator telegram:\s*([^\n\s]+)"
     
-    print(f"[DEBUG] Extracting facilitator info from issue body")
+    print(f"[DEBUG] Extracting facilitator email from issue body")
     
     email_match = re.search(email_pattern, issue_body)
-    telegram_match = re.search(telegram_pattern, issue_body)
+
     
     facilitator_email = email_match.group(1) if email_match else None
-    facilitator_telegram = telegram_match.group(1) if telegram_match else None
     
     print(f"[DEBUG] Extracted facilitator email: {facilitator_email}")
-    print(f"[DEBUG] Extracted facilitator telegram: {facilitator_telegram}")
     
-    return facilitator_email, facilitator_telegram
+    # Return email
+    return facilitator_email
 
 def extract_recurring_info(issue_body):
     """
@@ -150,7 +148,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Check for existing YouTube streams for this call series
     existing_youtube_streams = check_existing_youtube_streams(call_series, mapping)
-
+    
     # Extract whether the meeting is already on the Ethereum Calendar
     existing_series_event = next((entry for entry in mapping.values() if entry.get("call_series") == call_series), None)
     if existing_series_event:
@@ -330,9 +328,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print(f"[DEBUG] No existing meeting found for series '{call_series}' or not a recurring series call. Checking for meeting tied to issue #{issue_number}.")
             existing_item_for_issue = next(
                 ((m_id, entry) for m_id, entry in mapping.items() if entry.get("issue_number") == issue.number),
-                None
-            )
-
+            None
+        )
+        
             if existing_item_for_issue:
                 # Update existing meeting tied to this specific issue number
                 existing_zoom_meeting_id, existing_entry = existing_item_for_issue
@@ -402,29 +400,39 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # For now, set a placeholder to prevent downstream errors but allow mapping/commenting.
         zoom_id = f"placeholder-time-error-{issue.number}"
         join_url = "Invalid time/duration in issue"
-
     except Exception as e:
         # Catch other unexpected errors during Zoom processing
         print(f"[DEBUG] Unexpected error during Zoom processing: {str(e)}")
         comment_lines.append("\n**⚠️ Unexpected Zoom Processing Error.** Check logs.")
         zoom_id = f"placeholder-error-{issue.number}"
         join_url = "Error during Zoom processing"
-    
+
     # Use zoom_id as the meeting_id (which is the mapping key)
     if zoom_id:
         meeting_id = str(zoom_id) # Ensure it's a string for mapping key
 
-        # Check if YT streams were created/reused - this might set meeting_updated = True
-        # Ensure youtube_streams variable is correctly populated if reusing
+        # Check if YT streams were created/reused
         if reusing_series_meeting and existing_series_entry and "youtube_streams" in existing_series_entry:
              youtube_streams = existing_series_entry["youtube_streams"]
              # We might have already added the comment for existing streams earlier
              # Let the existing logic handle adding YT stream comments if needed
         else:
              # Calculate youtube_streams based on need_youtube_streams and create if necessary
-             # ... (existing logic) ...
-             pass # Placeholder for the existing complex YT stream logic block
-        
+             try:
+                print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
+                youtube_streams = youtube_utils.create_recurring_streams(
+                    title=issue_title, # CHANGE: Use issue_title instead of event_base_title
+                    description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}", # CHANGE: Use issue_title in description too
+                    start_time=start_time,
+                    occurrence_rate=occurrence_rate
+                )
+                
+                # Add stream URLs to comment
+                # ... (rest of the block)
+             except Exception as e:
+                print(f"[DEBUG] Error creating YouTube streams: {str(e)}")
+                youtube_streams = None
+
         # Calendar handling
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
         calendar_description = f"Issue: {issue.html_url}"
@@ -454,7 +462,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
             pass # Placeholder for the existing complex GCal logic block
 
         # --- Mapping Update Logic --- 
-        # Always update the mapping for the determined meeting_id with current issue details
         print(f"[DEBUG] Preparing to update mapping for meeting ID: {meeting_id}")
         
         # Get current mapping for this meeting_id, or initialize if new
@@ -462,15 +469,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
         
         # Create the updated entry data
         updated_mapping_data = {
-            "discourse_topic_id": topic_id,
-            "issue_title": issue.title, 
+                        "discourse_topic_id": topic_id,
+                        "issue_title": issue.title,
             "start_time": start_time if 'start_time' in locals() else current_mapping_entry.get("start_time"), # Use parsed time if available
             "duration": duration if 'duration' in locals() else current_mapping_entry.get("duration"), # Use parsed duration if available
-            "issue_number": issue.number,
-            "meeting_id": meeting_id,
+                        "issue_number": issue.number,
+                        "meeting_id": meeting_id,
             "zoom_link": join_url, # Use the determined join_url
-            "is_recurring": is_recurring,
-            "occurrence_rate": occurrence_rate if is_recurring else "none",
+                        "is_recurring": is_recurring,
+                        "occurrence_rate": occurrence_rate if is_recurring else "none",
             "call_series": call_series,
             # Preserve or update specific fields
             "Youtube_upload_processed": current_mapping_entry.get("Youtube_upload_processed", False),
@@ -482,11 +489,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
             # Add youtube_streams if they were generated or reused
             "youtube_streams": youtube_streams if 'youtube_streams' in locals() and youtube_streams else current_mapping_entry.get("youtube_streams"),
             # Add calendar event ID if it was determined
-            "calendar_event_id": event_id if 'event_id' in locals() and event_id else current_mapping_entry.get("calendar_event_id"),
+            "calendar_event_id": locals().get("event_id") or current_mapping_entry.get("calendar_event_id"),
             # Add telegram message ID if it was determined
-             "telegram_message_id": message_id if 'message_id' in locals() and message_id else current_mapping_entry.get("telegram_message_id"),
-             # Add the discourse post flag for YT streams if reusing
-             "youtube_streams_posted_to_discourse": current_mapping_entry.get("youtube_streams_posted_to_discourse", False)
+            "telegram_message_id": locals().get("message_id") or current_mapping_entry.get("telegram_message_id"),
+            # Add the discourse post flag for YT streams if reusing
+            "youtube_streams_posted_to_discourse": current_mapping_entry.get("youtube_streams_posted_to_discourse", False)
         }
 
         # Check if anything actually changed compared to the existing entry
@@ -498,17 +505,50 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print(f"[DEBUG] Mapping entry for {meeting_id} remains unchanged.")
 
         # --- Notification Logic --- 
-        # ... (existing notification logic remains the same, using determined zoom_id and join_url) ...
-        pass # Placeholder for existing notification block
+        # Extract facilitator information
+        facilitator_email = extract_facilitator_info(issue_body)
 
+        # Send notifications regardless of whether the meeting was updated
+        # Send email notification
+        email_sent = False
+        telegram_sent = False # Keep this maybe for channel posts?
+        
+        # Only send notifications if we have a valid zoom_id
+        if not zoom_id or (isinstance(zoom_id, str) and zoom_id.startswith("placeholder-")):
+            print("[DEBUG] Skipping notifications due to placeholder zoom_id")
+            pass # Add pass for the if block
+        else:
+            # --- Email sending logic --- 
+            if facilitator_email and join_url:
+                print("[DEBUG] (Placeholder) Would send email here")
+                pass # Add pass for the email sending block
+            else:
+                print("[DEBUG] (Placeholder) Email conditions not met")
+                pass # Add pass for the email else block
+            
+            # --- REMOVED Telegram DM logic --- 
+
+            # --- Telegram Channel logic --- 
+            telegram_handle = os.environ.get("TELEGRAM_CHAT_ID")
+            if telegram_handle and tg:
+                print("[DEBUG] (Placeholder) Would send Telegram channel message here")
+                pass # Add pass for the Telegram channel block
+            
+            # --- RSS Notification logic --- 
+            print("[DEBUG] (Placeholder) Would add RSS notifications here")
+            # rss_utils.add_notification_to_meeting(
+            #     meeting_id,
+            #     # ... (RSS notification calls) ...
+            # )
+            pass # Add pass for the RSS block
+        
     else:
         # zoom_id was not determined (likely due to errors)
         print("[ERROR] zoom_id could not be determined. Skipping downstream processing and mapping update.")
         comment_lines.append("\n**⚠️ Critical Error:** Could not determine Zoom Meeting ID. Processing halted.")
 
     # --- Final Comment Posting & Mapping Commit --- 
-    # ... (existing logic for posting comment and committing mapping if mapping_updated is True) ...
-    pass # Placeholder for final comment/commit block
+    # ... (rest of the script) ...
 
     # Remove any null mappings or failed entries
     mapping = {str(k): v for k, v in mapping.items() if v.get("discourse_topic_id") is not None}
