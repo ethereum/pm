@@ -3,7 +3,7 @@ import json
 import argparse
 from datetime import datetime, timedelta
 import pytz
-from modules import zoom, transcript, youtube_utils, rss_utils
+from modules import zoom, transcript, youtube_utils, rss_utils, discourse
 from github import Github, InputGitAuthor
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
@@ -149,6 +149,29 @@ def process_meeting(meeting_id, mapping):
                 print(f"Updated RSS feed with transcript info for meeting {meeting_id}")
             except Exception as e:
                 print(f"Failed to update RSS feed: {e}")
+
+            # Post YouTube stream links if they exist and haven't been posted by this script yet
+            if "youtube_streams" in entry and not entry.get("youtube_streams_posted_to_discourse"):
+                youtube_streams = entry["youtube_streams"]
+                if youtube_streams:
+                    print(f"Posting existing YouTube streams to Discourse topic {discourse_topic_id}")
+                    stream_links_text = "\n".join([
+                        f"- Stream {i+1}: {stream.get('stream_url', 'URL not found')}" 
+                        for i, stream in enumerate(youtube_streams)
+                    ])
+                    discourse_body = f"**Previously Generated YouTube Stream Links:**\n{stream_links_text}"
+                    try:
+                        discourse.create_post(
+                            topic_id=discourse_topic_id,
+                            body=discourse_body
+                        )
+                        entry["youtube_streams_posted_to_discourse"] = True
+                        print(f"Successfully posted YouTube streams to Discourse topic {discourse_topic_id}")
+                        # Save mapping after successful post
+                        save_meeting_topic_mapping(mapping)
+                        commit_mapping_file()
+                    except Exception as e:
+                        print(f"Error posting YouTube streams to Discourse topic {discourse_topic_id}: {e}")
 
     except Exception as e:
         # Increment attempt counter on failure

@@ -285,6 +285,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
             discourse_url = "https://ethereum-magicians.org (API error occurred)"
             action = "failed"
 
+    # Determine the base title for recurring events
+    event_base_title = issue_title # Default to issue title
+    if is_recurring and call_series:
+        # Use call_series, potentially capitalizing it for better presentation
+        event_base_title = call_series.strip().upper()
+        print(f"[DEBUG] Using call series '{event_base_title}' as base title for recurring Zoom/GCal/YouTube events.")
+
     # Zoom meeting creation/update
     try:
         start_time, duration = parse_issue_for_time(issue_body)
@@ -320,7 +327,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     try:
                         zoom_response = zoom.update_meeting(
                             meeting_id=existing_zoom_meeting_id,
-                            topic=f"{issue_title}",
+                            topic=event_base_title,
                             start_time=start_time,
                             duration=duration
                         )
@@ -339,7 +346,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 try:
                     if is_recurring and occurrence_rate != "none":
                         join_url, zoom_id = zoom.create_recurring_meeting(
-                            topic=f"{issue_title}",
+                            topic=event_base_title,
                             start_time=start_time,
                             duration=duration,
                             occurrence_rate=occurrence_rate
@@ -347,7 +354,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         comment_lines.append("\n**Recurring Zoom Meeting Created**")
                     else:
                         join_url, zoom_id = zoom.create_meeting(
-                            topic=f"{issue_title}",
+                            topic=event_base_title,
                             start_time=start_time,
                             duration=duration
                         )
@@ -415,8 +422,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         try:
                             print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
                             youtube_streams = youtube_utils.create_recurring_streams(
-                                title=issue_title,
-                                description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
+                                title=event_base_title,
+                                description=f"Recurring meeting: {event_base_title}\nGitHub Issue: {issue.html_url}",
                                 start_time=start_time,
                                 occurrence_rate=occurrence_rate
                             )
@@ -506,7 +513,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                 print(f"[DEBUG] Using update_recurring_event for recurring meeting with occurrence_rate={occurrence_rate}")
                                 event_result = gcal.update_recurring_event(
                                     event_id=base_event_id,
-                                    summary=issue_title,
+                                    summary=event_base_title,
                                     start_dt=start_time,
                                     duration_minutes=duration,
                                     calendar_id=calendar_id,
@@ -517,7 +524,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                 print(f"[DEBUG] Using update_event for standard meeting")
                                 event_result = gcal.update_event(
                                     event_id=base_event_id,
-                                    summary=issue_title,
+                                    summary=event_base_title,
                                     start_dt=start_time,
                                     duration_minutes=duration,
                                     calendar_id=calendar_id,
@@ -537,7 +544,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             event_result = create_calendar_event(
                                 is_recurring=is_recurring,
                                 occurrence_rate=occurrence_rate,
-                                summary=issue_title,
+                                summary=event_base_title,
                                 start_dt=start_time,
                                 duration_minutes=duration,
                                 calendar_id=calendar_id,
@@ -557,7 +564,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             event_result = create_calendar_event(
                                 is_recurring=is_recurring,
                                 occurrence_rate=occurrence_rate,
-                                summary=issue_title,
+                                summary=event_base_title,
                                 start_dt=start_time,
                                 duration_minutes=duration,
                                 calendar_id=calendar_id,
@@ -577,7 +584,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         event_result = create_calendar_event(
                             is_recurring=is_recurring,
                             occurrence_rate=occurrence_rate,
-                            summary=issue_title,
+                            summary=event_base_title,
                             start_dt=start_time,
                             duration_minutes=duration,
                             calendar_id=calendar_id,
@@ -596,7 +603,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     event_result = create_calendar_event(
                         is_recurring=is_recurring,
                         occurrence_rate=occurrence_rate,
-                        summary=issue_title,
+                        summary=event_base_title,
                         start_dt=start_time,
                         duration_minutes=duration,
                         calendar_id=calendar_id,

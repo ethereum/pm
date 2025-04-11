@@ -207,7 +207,7 @@ def create_youtube_stream(title, description, start_time, privacy_status='public
             print(f"[DEBUG] This may be a quota issue with the YouTube API")
         raise
 
-def create_recurring_streams(title, description, start_time, occurrence_rate, num_events=4):
+def create_recurring_streams(title, description, start_time, occurrence_rate, num_events=1):
     """
     Creates multiple YouTube live stream events for recurring meetings
     Args:
