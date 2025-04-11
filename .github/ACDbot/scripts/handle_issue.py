@@ -345,10 +345,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 # Reuse existing meeting ID and link from the series
                 zoom_id = existing_series_entry_for_zoom["meeting_id"]
                 join_url = existing_series_entry_for_zoom.get("zoom_link", "Link not found in mapping")
-                reusing_series_meeting = True # Mark that we reused
+                reusing_series_meeting = True
                 print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{call_series}'")
-                comment_lines.append(f"\n**Zoom Meeting:** Reusing existing meeting for series '{call_series.upper()}' ({zoom_id})")
-                comment_lines.append(f"- Join URL: {join_url}")
             else:
                 # Skipped via issue input, need placeholder
                 print("[DEBUG] Zoom creation skipped via issue input. Using placeholder Zoom ID.")
