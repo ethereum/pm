@@ -684,8 +684,6 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                         f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
                         f"• <a href='{issue.html_url}'>GitHub Issue</a>\n"
                     )
-                    if join_url and not str(zoom_id).startswith("placeholder-"):
-                         telegram_message_body += f"• <a href='{join_url}'>Zoom Link</a> (ID: {zoom_id})\n"
                     if event_link: # Add GCal link if available
                          telegram_message_body += f"• <a href='{event_link}'>Google Calendar</a>\n"
                     
