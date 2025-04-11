@@ -11,7 +11,8 @@ assignees: ''
 
 - Date and time in UTC in format `month, day, year, time` with link to savvytime.com or timeanddate.com. E.g. [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)
 - Duration in minutes : XXX
-- Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar
+- Already a Zoom meeting ID : false # Set to true if this meeting is already on the auto recording Ethereum zoom (will not create a zoom ID if true)
+- Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar (will not create calendar event)
 - Other optional resources 
 
 # Agenda 

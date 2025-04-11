@@ -115,6 +115,18 @@ def check_existing_youtube_streams(call_series, mapping):
     
     return None
 
+def extract_already_zoom_meeting(issue_body):
+    """
+    Extracts information about whether a Zoom meeting ID already exists.
+    Returns a boolean indicating if Zoom creation should be skipped.
+    """
+    zoom_pattern = r"Already a Zoom meeting ID\s*:\s*(true|false)"
+    
+    zoom_match = re.search(zoom_pattern, issue_body, re.IGNORECASE)
+    skip_zoom_creation = zoom_match and zoom_match.group(1).lower() == 'true'
+    
+    return skip_zoom_creation
+
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Fetches the specified GitHub issue, extracts its title and body,
@@ -149,13 +161,38 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Check for existing YouTube streams for this call series
     existing_youtube_streams = check_existing_youtube_streams(call_series, mapping)
     
-    # Extract whether the meeting is already on the Ethereum Calendar
-    existing_series_event = next((entry for entry in mapping.values() if entry.get("call_series") == call_series), None)
-    if existing_series_event:
-        already_on_calendar = True
-        comment_lines.append("\n**Note:** Meeting already exists for this call series. Skipping event creation.")
-    else:
-        already_on_calendar = extract_already_on_calendar(issue_body)
+    # --- Start Refactor: Separate Zoom and GCal skip logic --- 
+    # Extract whether to skip Zoom creation
+    skip_zoom_creation = extract_already_zoom_meeting(issue_body)
+    # Extract whether to skip Google Calendar creation
+    skip_gcal_creation = extract_already_on_calendar(issue_body)
+
+    # Automatic skip logic based on existing series (OVERRIDES issue input)
+    existing_series_entry_for_zoom = None # Keep track if we reuse for Zoom
+    if is_recurring and call_series:
+        # Find the most recent entry for this call series with a meeting_id
+        series_entries = [
+            entry for entry in mapping.values() 
+            if entry.get("call_series") == call_series and "meeting_id" in entry
+        ]
+        if series_entries:
+            series_entries.sort(key=lambda e: e.get("issue_number", 0), reverse=True)
+            existing_series_entry_for_zoom = series_entries[0]
+            if not skip_zoom_creation:
+                 print(f"[INFO] Overriding 'Already a Zoom meeting ID: false' because an existing meeting for series '{call_series}' was found in mapping.")
+            skip_zoom_creation = True # Force skip Zoom creation if series exists
+            # Also force skip GCal if reusing Zoom series (assume they go together)
+            if not skip_gcal_creation:
+                print(f"[INFO] Overriding 'Already on Ethereum Calendar: false' because an existing meeting for series '{call_series}' was found.")
+            skip_gcal_creation = True 
+    
+    # Add comments based on final skip decisions
+    if skip_zoom_creation and not existing_series_entry_for_zoom: # Skipped via issue input, not series reuse
+        comment_lines.append("\n**Note:** Zoom meeting creation skipped as requested in issue.")
+    if skip_gcal_creation and not existing_series_entry_for_zoom: # Skipped via issue input, not series reuse
+        comment_lines.append("\n**Note:** Google Calendar event creation skipped as requested in issue.")
+    # Note for series reuse is added within the Zoom processing block later
+    # --- End Refactor --- 
 
     # 2. Check for existing topic_id using the mapping instead of comments
     topic_id = None
@@ -301,36 +338,31 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # 1. Parse time and duration first
         start_time, duration = parse_issue_for_time(issue_body)
 
-        # 2. Check if it's a recurring series and if we already have a meeting ID for it
-        existing_series_entry = None
-        if is_recurring and call_series:
-            # Find the most recent entry for this call series
-            series_entries = [
-                entry for entry in mapping.values() 
-                if entry.get("call_series") == call_series and "meeting_id" in entry
-            ]
-            if series_entries:
-                # Sort by issue number descending to get the latest entry
-                series_entries.sort(key=lambda e: e.get("issue_number", 0), reverse=True)
-                existing_series_entry = series_entries[0]
-
-        if existing_series_entry:
-            # Reuse existing meeting ID and link from the series
-            zoom_id = existing_series_entry["meeting_id"]
-            join_url = existing_series_entry.get("zoom_link", "Link not found in mapping")
-            reusing_series_meeting = True
-            print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{call_series}'")
-            comment_lines.append(f"\n**Zoom Meeting:** Reusing existing meeting for series '{call_series.upper()}' ({zoom_id})")
-            comment_lines.append(f"- Join URL: {join_url}")
-            # We don't need to call Zoom API, meeting_updated remains False unless GCal/YT changes it
+        # 2. Check if we should skip Zoom API calls entirely
+        if skip_zoom_creation:
+            print("[DEBUG] Skipping Zoom meeting creation/update based on issue input or existing series.")
+            if existing_series_entry_for_zoom:
+                # Reuse existing meeting ID and link from the series
+                zoom_id = existing_series_entry_for_zoom["meeting_id"]
+                join_url = existing_series_entry_for_zoom.get("zoom_link", "Link not found in mapping")
+                reusing_series_meeting = True # Mark that we reused
+                print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{call_series}'")
+                comment_lines.append(f"\n**Zoom Meeting:** Reusing existing meeting for series '{call_series.upper()}' ({zoom_id})")
+                comment_lines.append(f"- Join URL: {join_url}")
+            else:
+                # Skipped via issue input, need placeholder
+                print("[DEBUG] Zoom creation skipped via issue input. Using placeholder Zoom ID.")
+                zoom_id = f"placeholder-skipped-{issue.number}"
+                join_url = "Zoom creation skipped via issue input"
         else:
-            # Not reusing, proceed with create/update logic based on issue number
-            print(f"[DEBUG] No existing meeting found for series '{call_series}' or not a recurring series call. Checking for meeting tied to issue #{issue_number}.")
+            # Proceed with Zoom creation/update logic (as skip_zoom_creation is False)
+            # No need to check for series again, just check for existing meeting tied to this issue
+            print(f"[DEBUG] Proceeding with Zoom creation/update for issue #{issue_number}.")
             existing_item_for_issue = next(
                 ((m_id, entry) for m_id, entry in mapping.items() if entry.get("issue_number") == issue.number),
-            None
-        )
-        
+                None
+            )
+            
             if existing_item_for_issue:
                 # Update existing meeting tied to this specific issue number
                 existing_zoom_meeting_id, existing_entry = existing_item_for_issue
@@ -412,8 +444,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
         meeting_id = str(zoom_id) # Ensure it's a string for mapping key
 
         # Check if YT streams were created/reused
-        if reusing_series_meeting and existing_series_entry and "youtube_streams" in existing_series_entry:
-             youtube_streams = existing_series_entry["youtube_streams"]
+        if reusing_series_meeting and existing_series_entry_for_zoom and "youtube_streams" in existing_series_entry_for_zoom:
+             youtube_streams = existing_series_entry_for_zoom["youtube_streams"]
              # We might have already added the comment for existing streams earlier
              # Let the existing logic handle adding YT stream comments if needed
         else:
@@ -509,29 +541,31 @@ def handle_github_issue(issue_number: int, repo_name: str):
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
         calendar_description = f"Issue: {issue.html_url}"
         event_link = None
-        event_result = None # Define event_result
+        event_id = None # Initialize event_id
+        event_result = None # Initialize event_result
 
-        if reusing_series_meeting:
-            print("[DEBUG] Reusing series meeting, skipping Google Calendar API calls.")
-            # Optionally try to find the GCal link from the series mapping entry
-            if existing_series_entry and existing_series_entry.get("calendar_event_id"):
-                 gcal_event_id = existing_series_entry.get("calendar_event_id")
-                 # Construct a potential link (may not be perfect)
-                 event_link = f"https://calendar.google.com/calendar/event?eid={gcal_event_id}" # Simplified link
-                 comment_lines.append("\n**Calendar Event:** Reusing existing event for series.")
-                 if event_link:
-                     comment_lines.append(f"- [Approximate Google Calendar Link]({event_link})")
-            else:
-                 comment_lines.append("\n**Calendar Event:** Reusing existing event for series (Link not found in mapping).")
-        elif already_on_calendar:
-            print(f"[DEBUG] Meeting is already on Ethereum Calendar (or duplicate series), skipping calendar creation")
-            comment_lines.append("\n**Calendar Event**")
-            comment_lines.append("- Meeting already on Ethereum Calendar or duplicate series.")
+        # Use the separate skip_gcal_creation flag
+        if skip_gcal_creation:
+            print("[DEBUG] Skipping Google Calendar event creation/update based on issue input or existing series.")
+            if reusing_series_meeting: # Check if we reused Zoom series
+                 if existing_series_entry_for_zoom and existing_series_entry_for_zoom.get("calendar_event_id"):
+                     gcal_event_id_from_series = existing_series_entry_for_zoom.get("calendar_event_id")
+                     # Construct a potential link (may not be perfect)
+                     event_link = f"https://calendar.google.com/calendar/event?eid={gcal_event_id_from_series}" # Simplified link
+                     comment_lines.append("\n**Calendar Event:** Reusing existing event for series.")
+                     if event_link:
+                         comment_lines.append(f"- [Approximate Google Calendar Link]({event_link})")
+                     # Store the reused event ID for mapping
+                     event_id = gcal_event_id_from_series 
+                 else:
+                     comment_lines.append("\n**Calendar Event:** Reusing existing event for series (Link/ID not found in mapping).")
+            # else: GCal skipped via issue input, no comment needed as it was added earlier
         else:
-            # Proceed with GCal creation/update logic ONLY if not reusing and not already marked as on calendar
-            # ... (insert existing GCal create/update logic here, ensuring it uses meeting_id) ...
-            # This logic might set meeting_updated = True
-            pass # Placeholder for the existing complex GCal logic block
+            # Proceed with GCal creation/update logic (skip_gcal_creation is False)
+            print(f"[DEBUG] Proceeding with Google Calendar creation/update for issue #{issue_number}.")
+            # ... (Insert existing GCal create/update logic HERE) ...
+            # This logic should set event_id, event_link, event_result, meeting_updated.
+            pass # Placeholder for the existing GCal logic block
 
         # --- Mapping Update Logic --- 
         print(f"[DEBUG] Preparing to update mapping for meeting ID: {meeting_id}")
@@ -561,7 +595,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             # Add youtube_streams if they were generated or reused
             "youtube_streams": youtube_streams if 'youtube_streams' in locals() and youtube_streams else current_mapping_entry.get("youtube_streams"),
             # Add calendar event ID if it was determined
-            "calendar_event_id": locals().get("event_id") or current_mapping_entry.get("calendar_event_id"),
+            "calendar_event_id": event_id,
             # Add telegram message ID if it was determined
             "telegram_message_id": locals().get("message_id") or current_mapping_entry.get("telegram_message_id"),
             # Add the discourse post flag for YT streams if reusing
