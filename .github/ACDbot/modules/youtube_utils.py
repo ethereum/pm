@@ -9,8 +9,8 @@ from google.auth.exceptions import RefreshError
 import calendar
 from googleapiclient.http import MediaFileUpload
 
-# Define the thumbnail path (adjust if necessary)
-THUMBNAIL_PATH = ".github/ACDbot/assets/Pectra YT.jpg"
+# Define the thumbnail path (corrected)
+THUMBNAIL_PATH = ".github/ACDbot/Pectra YT.jpg"
 
 def get_youtube_service():
     """
