@@ -573,15 +573,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
         
         # Create the updated entry data
         updated_mapping_data = {
-                        "discourse_topic_id": topic_id,
-                        "issue_title": issue.title,
-            "start_time": start_time if 'start_time' in locals() else current_mapping_entry.get("start_time"), # Use parsed time if available
-            "duration": duration if 'duration' in locals() else current_mapping_entry.get("duration"), # Use parsed duration if available
-                        "issue_number": issue.number,
-                        "meeting_id": meeting_id,
-            "zoom_link": join_url, # Use the determined join_url
-                        "is_recurring": is_recurring,
-                        "occurrence_rate": occurrence_rate if is_recurring else "none",
+            "discourse_topic_id": topic_id,
+            "issue_title": issue.title, 
+            "start_time": start_time if 'start_time' in locals() else current_mapping_entry.get("start_time"),
+            "duration": duration if 'duration' in locals() else current_mapping_entry.get("duration"),
+            "issue_number": issue.number,
+            "meeting_id": meeting_id,
+            "is_recurring": is_recurring,
+            "occurrence_rate": occurrence_rate if is_recurring else "none",
             "call_series": call_series,
             # Preserve or update specific fields
             "Youtube_upload_processed": current_mapping_entry.get("Youtube_upload_processed", False),
