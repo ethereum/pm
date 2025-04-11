@@ -29,7 +29,7 @@
 | DevOps Coordinator | [Name] | [Name] |
 | Testing Coordinator | Mario Vega (@marioevz) | Dan (@danceratopz) |
 | Communication Coodinator | Tim Beiko | [Name] |
-| Security Coordinator | [Name] | [Name] |
+| Security Coordinator | Fredrik Svantes | Justin Traglia |
 
 ## Communication Channels
 - **Primary Communication:** `#pectra-upgrade` (Eth R&D Discord)
