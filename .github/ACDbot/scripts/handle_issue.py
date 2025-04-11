@@ -418,8 +418,20 @@ def handle_github_issue(issue_number: int, repo_name: str):
              # Let the existing logic handle adding YT stream comments if needed
         else:
              # Calculate youtube_streams based on need_youtube_streams and create if necessary
-             # ... (existing logic) ...
-             pass # Placeholder for the existing complex YT stream logic block
+             try:
+                print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
+                youtube_streams = youtube_utils.create_recurring_streams(
+                    title=issue_title, # CHANGE: Use issue_title instead of event_base_title
+                    description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}", # CHANGE: Use issue_title in description too
+                    start_time=start_time,
+                    occurrence_rate=occurrence_rate
+                )
+                
+                # Add stream URLs to comment
+                # ... (rest of the block)
+             except Exception as e:
+                print(f"[DEBUG] Error creating YouTube streams: {str(e)}")
+                youtube_streams = None
 
         # Calendar handling
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
