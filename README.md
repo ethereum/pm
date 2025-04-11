@@ -423,4 +423,5 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 #### Perma-archived Meetings
 
-The audio files of the Previous Meetings are stored permanently on [Permacast](./AllCoreDevs-EL-Meetings/perma-archive.md).
+* The audio files of the Previous Meetings are stored permanently on [Permacast](./AllCoreDevs-EL-Meetings/perma-archive.md).
+* Perma-accessible `ethereum/pm` LLM.txt: [llmtxt.xyz/g/ethereum/pm/versions](https://www.llmtxt.xyz/g/ethereum/pm/versions)
