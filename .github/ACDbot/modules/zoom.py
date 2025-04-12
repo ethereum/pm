@@ -314,98 +314,98 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         # Convert ISO 8601 string to datetime object
         from datetime import datetime, timedelta
         start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-        # Get day of week (in datetime, Monday is 0, Sunday is 6)
-        # Convert to Zoom format (Monday is 1, Sunday is 7)
-        day_of_week = start_dt.weekday() + 1
         
+        # Calculate day_of_week for LOGGING/DEBUGGING (using Mon=1..Sun=7)
+        log_day_of_week = start_dt.weekday() + 1 
         print(f"[DEBUG] Original start_time: {start_time}")
         print(f"[DEBUG] Parsed date: {start_dt.strftime('%Y-%m-%d %H:%M:%S %Z')}")
-        print(f"[DEBUG] Calculated day of week: {day_of_week} (Zoom format, 1=Monday, 7=Sunday)")
+        print(f"[DEBUG] Calculated day of week for logging: {log_day_of_week} (Mon=1..Sun=7)")
         print(f"[DEBUG] Weekday name: {start_dt.strftime('%A')}")
         
-        # WORKAROUND: For bi-weekly meetings, Zoom may schedule the first occurrence on the next
-        # occurrence of the specified day of week, rather than using the exact date requested.
-        # To fix this, adjust the start_time to ensure the first occurrence happens on the right date.
-        adjusted_start_dt = adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week)
+        # Calculate day_of_week for Zoom API weekly_days (Sun=1..Sat=7)
+        zoom_api_weekly_day = (start_dt.weekday() + 1) % 7 + 1
+        print(f"[DEBUG] Calculated day of week for Zoom API: {zoom_api_weekly_day} (Sun=1..Sat=7)")
+
+        # Map occurrence rate to Zoom recurrence type
+        recurrence = {
+            "type": 2,  # Default to weekly
+            "repeat_interval": 1,
+            "weekly_days": str(zoom_api_weekly_day), # Use Zoom API format
+            "end_times": 12 # Default end time
+        }
         
-        if adjusted_start_dt != start_dt:
-            print(f"[DEBUG] Adjusted start date for Zoom API: {adjusted_start_dt.strftime('%Y-%m-%d')}")
-            formatted_start_time = adjusted_start_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
-        else:
-            formatted_start_time = start_time
+        if occurrence_rate == "weekly":
+            recurrence["type"] = 2
+            recurrence["repeat_interval"] = 1
+            recurrence["weekly_days"] = str(zoom_api_weekly_day) # Use Zoom API format
+            print(f"[DEBUG] Setting up weekly recurrence with day {zoom_api_weekly_day} (Sun=1..Sat=7)")
+        elif occurrence_rate == "bi-weekly":
+            recurrence["type"] = 2
+            recurrence["repeat_interval"] = 2 # Correct interval for bi-weekly
+            recurrence["weekly_days"] = str(zoom_api_weekly_day) # Use Zoom API format
+            print(f"[DEBUG] Setting up bi-weekly recurrence every 2 weeks on day {zoom_api_weekly_day} (Sun=1..Sat=7)")
+        elif occurrence_rate == "monthly":
+            # According to Zoom API docs:
+            # For monthly by week day (second Wednesday of each month):
+            # type=3 (Monthly)
+            # monthly_week: 1-4 or -1 for last week
+            # monthly_week_day: 1-7 where 1=Sunday, 7=Saturday
             
+            # Calculate which week of the month this date falls on (1-4 or -1 for last)
+            day_of_month = start_dt.day
+            week_number = (day_of_month - 1) // 7 + 1  # 1-based week number (1st, 2nd, 3rd, 4th)
+            
+            # If it's the last occurrence of this weekday in the month
+            days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
+            if day_of_month + 7 > days_in_month:
+                # This is the last occurrence of this weekday in the month
+                week_number = -1
+            
+            print(f"[DEBUG] Setting up monthly recurrence on the {week_number}{'st' if week_number == 1 else 'nd' if week_number == 2 else 'rd' if week_number == 3 else 'th'} {start_dt.strftime('%A')} of each month")
+            
+            # Remove weekly_days as it's not used for monthly meetings
+            if "weekly_days" in recurrence:
+                del recurrence["weekly_days"]
+            
+            # Convert from Zoom day format (1=Monday) to monthly_week_day format (1=Sunday, 7=Saturday)
+            # In Zoom's API: 1=Sunday, 2=Monday, ..., 7=Saturday
+            monthly_week_day_format = zoom_api_weekly_day # Use the correct Sun=1 mapping
+            
+            # Make sure week_number is within valid range (1-4, -1)
+            if week_number > 4:
+                week_number = 4
+            
+            # For monthly meetings by weekday, we need:
+            recurrence["type"] = 3  # Monthly
+            recurrence["repeat_interval"] = 1
+            recurrence["monthly_week"] = week_number  # 1-4 or -1 for last week
+            recurrence["monthly_week_day"] = monthly_week_day_format  # Ensure correct day format is used
+            
+            print(f"[DEBUG] Using type=3, repeat_interval=1, monthly_week={week_number}, monthly_week_day={monthly_week_day_format} (Sun=1..Sat=7) for day-of-week pattern")
+            
+            # We'll implement a fallback mechanism in handle_issue.py to add calendar events
+            # that follow the same-weekday-of-month pattern even if Zoom doesn't
+        
     except Exception as e:
-        print(f"[DEBUG] Error calculating day of week: {str(e)}, defaulting to 1 (Monday)")
-        day_of_week = 1
-        formatted_start_time = start_time
+        print(f"[DEBUG] Error calculating day of week details: {str(e)}")
+        # Default recurrence if calculation fails (might lead to incorrect day)
+        recurrence = {"type": 1, "repeat_interval": 1} # Default to Daily if error occurs
+        zoom_api_weekly_day = 1 # Default fallback for safety
     
-    # Map occurrence rate to Zoom recurrence type
-    recurrence = {
-        "type": 2,  # Default to weekly
-        "repeat_interval": 1,
-        # Use the actual day from start_time
-        "weekly_days": str(day_of_week),
-        "end_times": 12  # Number of occurrences - default to 12 for about a year of monthly meetings
-    }
-    
-    if occurrence_rate == "weekly":
-        recurrence["type"] = 2
-        recurrence["repeat_interval"] = 1
-        print(f"[DEBUG] Setting up weekly recurrence with day {day_of_week}")
-    elif occurrence_rate == "bi-weekly":
-        recurrence["type"] = 2
-        recurrence["repeat_interval"] = 2
-        print(f"[DEBUG] Setting up bi-weekly recurrence with day {day_of_week}")
-    elif occurrence_rate == "monthly":
-        # According to Zoom API docs:
-        # For monthly by week day (second Wednesday of each month):
-        # type=3 (Monthly)
-        # monthly_week: 1-4 or -1 for last week
-        # monthly_week_day: 1-7 where 1=Sunday, 7=Saturday
-        
-        # Calculate which week of the month this date falls on (1-4 or -1 for last)
-        day_of_month = start_dt.day
-        week_number = (day_of_month - 1) // 7 + 1  # 1-based week number (1st, 2nd, 3rd, 4th)
-        
-        # If it's the last occurrence of this weekday in the month
-        days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
-        if day_of_month + 7 > days_in_month:
-            # This is the last occurrence of this weekday in the month
-            week_number = -1
-            
-        print(f"[DEBUG] Setting up monthly recurrence on the {week_number}{'st' if week_number == 1 else 'nd' if week_number == 2 else 'rd' if week_number == 3 else 'th'} {start_dt.strftime('%A')} of each month")
-        
-        # Remove weekly_days as it's not used for monthly meetings
-        if "weekly_days" in recurrence:
-            del recurrence["weekly_days"]
-        
-        # Convert from Zoom day format (1=Monday) to monthly_week_day format (1=Sunday, 7=Saturday)
-        # In Zoom's API: 1=Sunday, 2=Monday, ..., 7=Saturday
-        monthly_week_day_format = day_of_week % 7 + 1
-        
-        # Make sure week_number is within valid range (1-4, -1)
-        if week_number > 4:
-            week_number = 4
-            
-        # For monthly meetings by weekday, we need:
-        recurrence["type"] = 3  # Monthly
-        recurrence["repeat_interval"] = 1
-        recurrence["monthly_week"] = week_number  # 1-4 or -1 for last week
-        recurrence["monthly_week_day"] = monthly_week_day_format  # 1-7 (1=Sunday)
-        
-        print(f"[DEBUG] Using type=3, repeat_interval=1, monthly_week={week_number}, monthly_week_day={monthly_week_day_format} for day-of-week pattern")
-        
-        # We'll implement a fallback mechanism in handle_issue.py to add calendar events
-        # that follow the same-weekday-of-month pattern even if Zoom doesn't
-    
+    # Remove the adjust_start_date_for_zoom function and its call
+    # The start_time adjustment seems to cause more issues than it solves
+    # formatted_start_time = adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week)
+    formatted_start_time = start_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+    print(f"[DEBUG] Using original start time for API call: {formatted_start_time}")
+
     # Get alternative hosts from environment
     alternative_hosts = os.environ.get("ZOOM_ALTERNATIVE_HOSTS", "")
     
-    # First attempt with all settings
+    # Construct payload with the recurrence settings
     payload = {
         "topic": topic,
-        "type": 8,  # 8 for recurring meeting with fixed time
-        "start_time": formatted_start_time,
+        "type": 8,  # Recurring meeting with fixed time
+        "start_time": formatted_start_time, # Use the formatted original start time
         "duration": duration,
         "recurrence": recurrence,
         "settings": {
@@ -555,50 +555,6 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         
         # If we still don't have a successful response, re-raise the error
         raise
-
-def adjust_start_date_for_zoom(start_dt, occurrence_rate, day_of_week):
-    """
-    Adjusts the start date if needed to ensure Zoom uses the correct date for the first occurrence.
-    
-    For bi-weekly meetings, Zoom sometimes schedules the first occurrence on the next occurrence
-    of the specified day of week, rather than using the exact date requested. This function
-    adjusts the date to work around this behavior.
-    
-    Args:
-        start_dt: The original start datetime
-        occurrence_rate: weekly, bi-weekly, or monthly
-        day_of_week: Day of week in Zoom format (1=Monday, 7=Sunday)
-        
-    Returns:
-        Adjusted datetime or original if no adjustment needed
-    """
-    from datetime import datetime, timedelta
-    
-    # Only applies to bi-weekly meetings
-    if occurrence_rate != "bi-weekly":
-        # For monthly meetings, we might need to add similar logic if we encounter issues
-        if occurrence_rate == "monthly":
-            # For now, no adjustment needed for monthly meetings, but we'll monitor it
-            print(f"[DEBUG] Monthly meeting detected, no date adjustment needed currently")
-            # If we later discover issues with monthly meetings, add specific adjustments here
-        
-        return start_dt
-        
-    # STRATEGY: For bi-weekly meetings, we need to adjust the start date
-    # In the logs we can see Zoom is not using the actual date we specify
-    # Instead it's using the date of the next occurrence of that day of week
-    # So we'll adjust by moving the date back 1 week from the intended date
-    
-    # Subtract 1 week from the start date for bi-weekly meetings
-    # This works around Zoom's behavior of scheduling the first occurrence
-    # on the next occurrence of the specified weekday
-    adjusted_dt = start_dt - timedelta(days=7)
-    
-    print(f"[DEBUG] Bi-weekly meeting detected, applying date adjustment")
-    print(f"[DEBUG] Original date: {start_dt.strftime('%Y-%m-%d')}")
-    print(f"[DEBUG] Adjusted date: {adjusted_dt.strftime('%Y-%m-%d')}")
-    
-    return adjusted_dt
 
 def check_and_fix_recurrence_pattern(meeting_id, expected_pattern, response_data=None):
     """
