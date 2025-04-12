@@ -761,6 +761,15 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                     if event_link: # Add GCal link if available
                          telegram_message_body += f"• <a href='{event_link}'>Google Calendar</a>\n"
                     
+                    # --- Add YouTube Stream Links --- 
+                    if 'youtube_streams' in locals() and youtube_streams:
+                        telegram_message_body += f"\n<b>YouTube Stream Links:</b>\n"
+                        for i, stream in enumerate(youtube_streams):
+                             stream_url = stream.get('stream_url')
+                             if stream_url:
+                                 telegram_message_body += f"• <a href='{stream_url}'>Stream {i+1}</a>\n"
+                    # --- End YouTube Stream Links --- 
+                    
                     # Check for existing Telegram message ID stored in mapping
                     message_id = mapping.get(meeting_id, {}).get("telegram_message_id")
                     
