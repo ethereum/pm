@@ -99,8 +99,6 @@ The workflows require the following secrets to be set in the `ethereum/pm` repos
 ### Core Files
 
 -   `.github/ACDbot/meeting_topic_mapping.json`: This JSON file acts as the central database, storing the state and linking IDs across different services (GitHub Issue -> Zoom Meeting ID -> Discourse Topic ID -> GCal Event ID -> YouTube Video/Stream ID -> Call Series). It's crucial for tracking meetings and preventing duplicates. It is automatically updated and committed by the workflows.
--   `.github/ACDbot/scripts/client_secrets.json`: Contains the Google Cloud OAuth client secrets (downloaded from Google Cloud Console). It's used alongside the refresh token for YouTube/GCal authentication. This file *should* be committed to the repository as it only contains client identifiers, not user credentials.
--   Token files (e.g., `zoom_refresh_token.txt`, `youtube_refresh_token.txt`): These store the active refresh tokens and are managed by the scripts/workflows.
 
 ## Key Scripts and Modules
 
@@ -128,4 +126,3 @@ The workflows require the following secrets to be set in the `ethereum/pm` repos
 -   **Mapping File Conflicts:** If multiple workflows try to write to `meeting_topic_mapping.json` simultaneously, merge conflicts might occur. Workflows generally run sequentially for a given issue, but concurrent runs on different issues could potentially conflict if git operations overlap heavily.
 -   **GitHub Actions Logs:** The primary source for debugging. Check the output of workflow runs for error messages and `[DEBUG]` statements printed by the scripts.
 -   **Rate Limits:** Frequent API calls might hit rate limits for Zoom, Google, or Discourse. The scripts generally don't include sophisticated rate limit handling.
-
