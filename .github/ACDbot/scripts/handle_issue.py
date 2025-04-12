@@ -542,7 +542,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         event_id = None # Initialize event_id
         event_result = None # Initialize event_result
 
-        # Use the separate skip_gcal_creation flag
+        # Check ONLY already_on_calendar flag for skipping GCal
         if skip_gcal_creation:
             print("[DEBUG] Skipping Google Calendar event creation/update based on issue input or existing series.")
             if reusing_series_meeting: # Check if we reused Zoom series
@@ -559,11 +559,88 @@ def handle_github_issue(issue_number: int, repo_name: str):
                      comment_lines.append("\n**Calendar Event:** Reusing existing event for series (Link/ID not found in mapping).")
             # else: GCal skipped via issue input, no comment needed as it was added earlier
         else:
-            # Proceed with GCal creation/update logic (skip_gcal_creation is False)
-            print(f"[DEBUG] Proceeding with Google Calendar creation/update for issue #{issue_number}.")
-            # ... (Insert existing GCal create/update logic HERE) ...
-            # This logic should set event_id, event_link, event_result, meeting_updated.
-            pass # Placeholder for the existing GCal logic block
+            # Proceed with GCal creation/update logic based on mapping entry for meeting_id
+            print(f"[DEBUG] Proceeding with Google Calendar check/update for meeting_id: {meeting_id}")
+            # Find GCal event ID associated with this meeting_id in mapping
+            gcal_event_id_from_mapping = mapping.get(meeting_id, {}).get("calendar_event_id")
+            
+            # --- Start of Restored GCal Logic ---
+            if gcal_event_id_from_mapping:
+                # Found existing event ID, try to update it
+                print(f"[DEBUG] Found existing calendar event ID: {gcal_event_id_from_mapping}. Attempting update.")
+                try:
+                    base_event_id = extract_event_id_from_link(f"?eid={gcal_event_id_from_mapping}")
+                    if is_recurring and occurrence_rate != "none":
+                        event_result = gcal.update_recurring_event(
+                            event_id=base_event_id,
+                            summary=event_base_title, # Use call series or issue title
+                            start_dt=start_time,
+                            duration_minutes=duration,
+                            calendar_id=calendar_id,
+                            occurrence_rate=occurrence_rate,
+                            description=calendar_description
+                        )
+                    else:
+                         event_result = gcal.update_event(
+                             event_id=base_event_id,
+                             summary=event_base_title, # Use call series or issue title
+                             start_dt=start_time,
+                             duration_minutes=duration,
+                             calendar_id=calendar_id,
+                             description=calendar_description
+                         )
+                    
+                    if event_result: # Check if update was successful
+                        event_link = event_result.get('htmlLink')
+                        event_id = event_result.get('id') # Assign event_id for mapping update
+                        print(f"Updated calendar event: {event_link} with ID: {event_id}")
+                        meeting_updated = True # Mark mapping for update
+                        comment_lines.append("\n**Calendar Event Updated**")
+                        if event_link: comment_lines.append(f"- [Google Calendar]({event_link})")
+                    else:
+                         # Handle case where update function might return None or empty dict on failure
+                         print(f"[DEBUG] gcal.update function returned no result for {base_event_id}. Assuming update failed.")
+                         gcal_event_id_from_mapping = None # Reset to trigger creation below
+
+                except ValueError as e: # Specific error if event ID not found by gcal functions
+                     print(f"[DEBUG] Calendar Event ID {gcal_event_id_from_mapping} not found, creating a new calendar event: {str(e)}")
+                     gcal_event_id_from_mapping = None # Reset to trigger creation below
+                except Exception as e:
+                    print(f"[DEBUG] Failed to update calendar event {gcal_event_id_from_mapping}, creating new one instead: {str(e)}")
+                    gcal_event_id_from_mapping = None # Reset to trigger creation below
+            
+            # Separate block for creation if no ID found OR update failed
+            if not gcal_event_id_from_mapping:
+                print(f"[DEBUG] No existing calendar event found or update failed. Creating new GCal event.")
+                if start_time and duration: # Ensure we have time/duration before creating
+                    try:
+                        event_result = create_calendar_event(
+                            is_recurring=is_recurring,
+                            occurrence_rate=occurrence_rate,
+                            summary=event_base_title, # Use call series or issue title
+                            start_dt=start_time,
+                            duration_minutes=duration,
+                            calendar_id=calendar_id,
+                            description=calendar_description
+                        )
+                        if event_result:
+                            event_link = event_result.get('htmlLink')
+                            event_id = event_result.get('id') # Assign event_id for mapping update
+                            print(f"[DEBUG] Created new calendar event with ID: {event_id}")
+                            meeting_updated = True # Mark mapping for update
+                            comment_lines.append("\n**Calendar Event Created**")
+                            if event_link: comment_lines.append(f"- [Google Calendar]({event_link})")
+                        else:
+                            # Handle case where create function might return None or empty dict on failure
+                            print(f"::warning::Failed to create Calendar Event - create_calendar_event returned no result.")
+                            comment_lines.append("\n**⚠️ Failed to create Calendar Event.** Check logs.")
+                    except Exception as e:
+                        print(f"::error::Error creating calendar event: {str(e)}")
+                        comment_lines.append("\n**⚠️ Failed to create Calendar Event.** Check logs.")
+                else:
+                    print("[DEBUG] Skipping GCal creation due to missing start_time/duration.")
+                    comment_lines.append("\n**Calendar Event:** Skipped creation due to missing time/duration in issue.")
+            # --- End of Restored GCal Logic ---
 
         # --- Mapping Update Logic --- 
         print(f"[DEBUG] Preparing to update mapping for meeting ID: {meeting_id}")
