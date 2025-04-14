@@ -21,7 +21,7 @@
 | Nethermind | [Name] | [Name] |
 | Prysm | [Name] | [Name] |
 | Reth | [Name] | [Name] |
-| Teku | [Name] | [Name] |
+| Teku | Enrico Del Fante | Paul Harris |
 
 ### Coordinators
 | Role | Primary | Backup |
