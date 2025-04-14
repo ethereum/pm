@@ -38,7 +38,7 @@ The primary workflow is triggered by GitHub issues:
         *   Checks if YouTube streams already exist for the `call_series`.
     *   **Discourse:** Creates a new Discourse topic or updates an existing one (if found via the mapping file) with the issue title, body, and a link back to the GitHub issue. Adds existing YouTube stream links if found.
     *   **Zoom:**
-        *   If `already_on_calendar` is false, creates a new Zoom meeting (one-time or recurring based on issue fields). Handles the bi-weekly scheduling quirk.
+        *   If `Already a Zoom meeting ID` is false, creates a new Zoom meeting (one-time or recurring based on issue fields). Handles the bi-weekly scheduling quirk.
         *   If a meeting exists in the mapping for this *specific issue*, updates it if the time/duration changed.
         *   Stores the Zoom `meeting_id` and `join_url`.
     *   **Google Calendar:**
