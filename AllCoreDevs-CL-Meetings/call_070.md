@@ -1,7 +1,7 @@
 # Ethereum 2.0 call 70 notes
 ### Meeting Date/Time: Thursday 2021/08/12 at 14:00 GMT
 ### Meeting duration 1.5 hours
-### [Github Agenda](https://github.com/ethereum/eth2.0-pm/Issues/232)
+### [Github Agenda](https://github.com/ethereum/eth2.0-pm/issues/232)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=24MRTRDJ-Iw)
 
 ## Agenda
@@ -28,7 +28,7 @@
 * Open discussion/closing remarks
 
 ## Altair devnet 3
-**Danny:** Okay I think the most topical thing that we can talk about immediately is Altair devnet 3, this was led by pari And has a different client ration that are even split on the past view to represent at least what we know of mainnet today and 70% of prysm. And last I saw there were a few things beIng worked out this morning, is there an update on that, I guess mainly because we're gonna talk about Piermont and I just want to make sure that we are still good to go. I imagine anything that has opened up on that we should be able to settle over the next few days, so I think paramount is still good, but where are we at?	
+**Danny:** Okay I think the most topical thing that we can talk about immediately is Altair devnet 3, this was led by pari And has a different client ration that are even split on the past view to represent at least what we know of mainnet today and 70% of prysm. And last I saw there were a few things beIng worked out this morning, is there an update on that, I guess mainly because we're gonna talk about Piermont and I just want to make sure that we are still good to go. I imagine anything that has opened up on that we should be able to settle over the next few days, so I think paramount is still good, but where are we at?
 
 **Paritosh:** Sure so I can start with a brief of where we are right now, we had a bit of config error In the beginning but everything’s outs later on but today morning we noticed that the lighthouse client seems to have lost a lot of peers and In general the performance doesn't seem to be what we’d expected to be. I think lodestar is doing a lot better now they said they were overloaded and besides that there was an Invalid signature that was noticed and yes some peer scoring related things for lighthouse.
 
@@ -77,7 +77,7 @@
 **Danny**: Gotcha, and grandine
 
 ### Grandine
-**Saulius**: Yes hi this is saulius from the grandine team we have been working on some fixes and optimizations and the focus is now on the mowgli runtime  support and this is  also a part of abdel tiara support so hopefully we’ll cow it working In a couple of weeks	
+**Saulius**: Yes hi this is saulius from the grandine team we have been working on some fixes and optimizations and the focus is now on the mowgli runtime  support and this is  also a part of abdel tiara support so hopefully we’ll cow it working In a couple of weeks
 
 **Danny**: Got it thank you. Teku
 
@@ -94,20 +94,20 @@
 
 ## Research updates
 
-**Proto**:  so we are open for sharding for separate builders and proposers this is based on like earlier post  from pathetic and others about data. And this should also help for example ease the burden Infidelity every single layer 2. 
+**Proto**:  so we are open for sharding for separate builders and proposers this is based on like earlier post  from pathetic and others about data. And this should also help for example ease the burden Infidelity every single layer 2.
 
 **Danny**: Any other research updates? Okay, moving on to the merge.
 
 ## Merge updates
 
-**Mikhail**:  This has been Introduced by beIjing with london and when I was doing this I was like thinking that you end 64 would be pretty much enough In general case because its very that we all see base fee per gas like lets say 30 eve which is a really crazy number but then proto pointed out that during the transition process If you might be valuable attack the ghost of the attack is related with is high but the depends on the different conditions so we don't need to perry about it. Were creating the technical depth that will need to be resolved at some point In the future by c2 is a viable option also as I understand it matters for charlene as well so proot might comment on that so it might also be valuable to Introduce you. 
+**Mikhail**:  This has been Introduced by beIjing with london and when I was doing this I was like thinking that you end 64 would be pretty much enough In general case because its very that we all see base fee per gas like lets say 30 eve which is a really crazy number but then proto pointed out that during the transition process If you might be valuable attack the ghost of the attack is related with is high but the depends on the different conditions so we don't need to perry about it. Were creating the technical depth that will need to be resolved at some point In the future by c2 is a viable option also as I understand it matters for charlene as well so proot might comment on that so it might also be valuable to Introduce you.
 
 ## Spec discussion.
 **Danny**: There are new BLS test vectors available. Now BLS libraries can be tested outside the Eth2 test suite, and the tests can be used by other projects.
 
 
 ## Open discussion
-None 
+None
 ## Attendees
 * Lion
 * Danny
