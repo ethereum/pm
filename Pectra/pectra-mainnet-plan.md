@@ -13,7 +13,7 @@
 |-------------|---------------------|--------------------|
 | Besu | [Name] | [Name] |
 | Erigon | Somnath Banerjee | Andrew Ashikhmin |
-| Geth | [Name] | [Name] |
+| Geth | Felix Lange | Marius van der Wijden |
 | Grandine | [Name] | [Name] |
 | Lighthouse | [Name] | [Name] |
 | Lodestar | Phil Ngo | Nico Flaig |
