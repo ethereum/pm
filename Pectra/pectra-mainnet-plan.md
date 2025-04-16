@@ -15,7 +15,7 @@
 | Erigon | Somnath Banerjee | Andrew Ashikhmin |
 | Geth | Felix Lange | Marius van der Wijden |
 | Grandine | [Name] | [Name] |
-| Lighthouse | [Name] | [Name] |
+| Lighthouse | Sean Anderson | Michael Sproul |
 | Lodestar | Phil Ngo | Nico Flaig |
 | Nimbus | Dustin | Advaita Saha |
 | Nethermind | [Name] | [Name] |
