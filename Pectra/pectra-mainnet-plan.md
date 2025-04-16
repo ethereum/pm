@@ -17,7 +17,7 @@
 | Grandine | [Name] | [Name] |
 | Lighthouse | [Name] | [Name] |
 | Lodestar | Phil Ngo | Nico Flaig |
-| Nimbus | [Name] | [Name] |
+| Nimbus | Dustin | Advaita Saha |
 | Nethermind | [Name] | [Name] |
 | Prysm | [Name] | [Name] |
 | Reth | Roman Krasiuk | Matthias Seitz |
