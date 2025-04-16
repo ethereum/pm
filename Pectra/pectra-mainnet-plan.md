@@ -20,7 +20,7 @@
 | Nimbus | [Name] | [Name] |
 | Nethermind | [Name] | [Name] |
 | Prysm | [Name] | [Name] |
-| Reth | [Name] | [Name] |
+| Reth | Roman Krasiuk | Matthias Seitz |
 | Teku | Enrico Del Fante | Paul Harris |
 
 ### Coordinators
