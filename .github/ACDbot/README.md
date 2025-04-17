@@ -70,7 +70,7 @@ The primary workflow is triggered by GitHub issues:
         *   If a transcript (`.vtt`) is found and not already processed (`transcript_processed` is false):
             *   Downloads the transcript.
             *   Posts the transcript content to the Discourse topic.
-            *   (Future enhancement: Could generate an LLM summary here).
+            *   Posts a sumarry of the transcript provided by Zoom llm feature (Future enhancement: Could generate a better LLM summary here).
             *   Updates the mapping file, setting `transcript_processed` to true.
             *   Updates the RSS feed.
             *   Commits the mapping file.
