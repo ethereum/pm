@@ -19,7 +19,7 @@
 | Lodestar | Phil Ngo | Nico Flaig |
 | Nimbus | Dustin | Advaita Saha |
 | Nethermind | [Name] | [Name] |
-| Prysm | [Name] | [Name] |
+| Prysm | Ping @prysmatic in the Eth R&D Discord | prysm@offchainlabs.com |
 | Reth | Roman Krasiuk | Matthias Seitz |
 | Teku | Enrico Del Fante | Paul Harris |
 
