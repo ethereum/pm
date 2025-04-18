@@ -19,7 +19,7 @@ assignees: ''
 Other comments and resources
 
 The zoom link will be sent to the facilitator via email
-Facilitator email: XXXXX 
+Facilitator emails (comma-separated): XXXXX, YYYYY
 
 <details> <summary>🤖 config</summary>
 

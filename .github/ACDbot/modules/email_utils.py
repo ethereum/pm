@@ -3,17 +3,17 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 
-def send_email(recipient_email, subject, body):
+def send_email(recipient_emails, subject, body):
     """
-    Send an email to the recipient with the given subject and body.
+    Send an email to the recipient(s) with the given subject and body.
     
     Args:
-        recipient_email: Email address of the recipient
+        recipient_emails: A list of email addresses for the recipients.
         subject: Email subject line
         body: HTML body content of the email
     
     Returns:
-        bool: True if email was sent successfully, False otherwise
+        bool: True if email was sent successfully to all recipients, False otherwise
     """
     sender_email = os.environ.get("SENDER_EMAIL")
     sender_password = os.environ.get("SENDER_EMAIL_PASSWORD")
@@ -28,18 +28,29 @@ def send_email(recipient_email, subject, body):
         print(f"SMTP_PORT: {smtp_port}")
         return False
 
+    # Ensure recipient_emails is a list
+    if isinstance(recipient_emails, str):
+        recipient_emails = [recipient_emails] # Convert single email string to list
+
+    if not recipient_emails:
+         print("[ERROR] No recipient emails provided.")
+         return False
+
     # Clean up body text by removing leading spaces
     cleaned_body = "\n".join([line.strip() for line in body.split('\n')])
 
     msg = MIMEMultipart()
     msg['From'] = sender_email
-    msg['To'] = recipient_email
+    # Join the list of emails into a comma-separated string for the 'To' header
+    msg['To'] = ", ".join(recipient_emails) 
     msg['Subject'] = subject
 
     msg.attach(MIMEText(cleaned_body, 'html'))
 
+    recipients_str = ", ".join(recipient_emails) # For logging
+
     try:
-        print(f"[DEBUG] Attempting to send email to {recipient_email} via {smtp_server}:{smtp_port}")
+        print(f"[DEBUG] Attempting to send email to {recipients_str} via {smtp_server}:{smtp_port}")
         server = None
         
         try:
@@ -55,9 +66,9 @@ def send_email(recipient_email, subject, body):
             server.login(sender_email, sender_password)
             print(f"[DEBUG] Login successful, sending message")
             
-            # Send email
-            server.send_message(msg)
-            print(f"[DEBUG] Email sent successfully to {recipient_email}")
+            # Send email to all recipients in the list
+            server.send_message(msg, sender_email, recipient_emails) 
+            print(f"[DEBUG] Email sent successfully to {recipients_str}")
             
             return True
         finally:
@@ -75,10 +86,11 @@ def send_email(recipient_email, subject, body):
         print(f"[ERROR] SMTP Server Disconnected: {str(e)}")
         return False
     except smtplib.SMTPException as e:
-        print(f"[ERROR] SMTP Error: {str(e)}")
+        # Includes potential smtplib.SMTPRecipientsRefused if the server rejects one or more recipients
+        print(f"[ERROR] SMTP Error sending to {recipients_str}: {str(e)}") 
         return False
     except Exception as e:
-        print(f"[ERROR] Failed to send email to {recipient_email}: {str(e)}")
+        print(f"[ERROR] Failed to send email to {recipients_str}: {str(e)}")
         import traceback
         print(traceback.format_exc())
         return False 
