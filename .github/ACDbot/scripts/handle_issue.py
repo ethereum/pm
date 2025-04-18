@@ -27,21 +27,24 @@ def save_meeting_topic_mapping(mapping):
 def extract_facilitator_info(issue_body):
     """
     Extracts facilitator email information from the issue body.
-    Returns the email address.
+    Returns a list of email addresses.
     """
-    email_pattern = r"Facilitator email:\s*([^\n\s]+)"
+    # Updated pattern to capture multiple emails separated by commas
+    email_pattern = r"Facilitator emails\\s*\\(comma-separated\\):\\s*([^\\n]+)"
     
-    print(f"[DEBUG] Extracting facilitator email from issue body")
+    print(f"[DEBUG] Extracting facilitator emails from issue body")
     
     email_match = re.search(email_pattern, issue_body)
 
-    
-    facilitator_email = email_match.group(1) if email_match else None
-    
-    print(f"[DEBUG] Extracted facilitator email: {facilitator_email}")
-    
-    # Return email
-    return facilitator_email
+    if email_match:
+        emails_str = email_match.group(1)
+        # Split by comma, strip whitespace from each email
+        facilitator_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
+        print(f"[DEBUG] Extracted facilitator emails: {facilitator_emails}")
+        return facilitator_emails
+    else:
+        print(f"[DEBUG] No facilitator emails found in the expected format.")
+        return [] # Return an empty list if no match
 
 def extract_recurring_info(issue_body):
     """
@@ -687,7 +690,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # --- Notification Logic --- 
         print("[DEBUG] Entering Notification Block")
         # Extract facilitator information
-        facilitator_email = extract_facilitator_info(issue_body)
+        facilitator_emails = extract_facilitator_info(issue_body)
         
         # Initialize flags
         email_sent = False
@@ -700,15 +703,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append("- Notifications suppressed due to Zoom meeting issue.")
         else:
             # --- Email Sending --- 
-            if facilitator_email and join_url:
-                try:
-                    print(f"[DEBUG] Sending email to facilitator: {facilitator_email}")
-                    # Determine if it was an update based on meeting_updated flag (set during Zoom/GCal API calls)
-                    action_prefix = "Updated " if meeting_updated else ""
-                    email_subject = f"{action_prefix}Zoom Details - {issue_title}"
-                    
-                    email_body = f"""
-<h2>{action_prefix}Zoom Meeting Details</h2>
+            emails_sent_count = 0
+            emails_failed = []
+
+            if facilitator_emails and join_url and not str(zoom_id).startswith("placeholder-"):
+                email_subject = f"Zoom Meeting Details for {issue_title}"
+                email_body = f"""
+<h2>Zoom Meeting Details</h2>
 <p>For meeting: {issue_title}</p>
 <p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
 <p><strong>Meeting ID:</strong> {zoom_id}</p>
@@ -719,27 +720,37 @@ def handle_github_issue(issue_number: int, repo_name: str):
 <p>---<br>
 This email was sent automatically by the Ethereum Protocol Call Bot.</p>
 """
-                    if email_utils.send_email(facilitator_email, email_subject, email_body):
-                        email_sent = True
-                        comment_lines.append(f"- Zoom details sent via email to: {facilitator_email}")
-                        print(f"[DEBUG] Successfully sent email to: {facilitator_email}")
-                    else:
-                        sender_email = os.environ.get("SENDER_EMAIL")
-                        smtp_server = os.environ.get("SMTP_SERVER")
-                        comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}")
-                        if not sender_email or not smtp_server:
-                            comment_lines.append(f"  - *Note*: Email service is not fully configured. Contact the repository administrator.")
+
+                for email in facilitator_emails:
+                    try:
+                        print(f"[DEBUG] Attempting to send Zoom details email to: {email}")
+                        if email_utils.send_email(email, email_subject, email_body):
+                            emails_sent_count += 1
+                            print(f"[DEBUG] Successfully sent email to: {email}")
                         else:
-                            comment_lines.append(f"  - Please check the GitHub Actions logs for more details")
-                        print(f"[DEBUG] Failed to send email to: {facilitator_email}")
-                except Exception as e:
-                    print(f"[DEBUG] Exception when sending email: {str(e)}")
-                    comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to {facilitator_email}")
-                    comment_lines.append(f"  - Error: {str(e)}")
+                            emails_failed.append(email)
+                            print(f"[DEBUG] Failed to send email to: {email}")
+                    except Exception as e:
+                        emails_failed.append(email)
+                        print(f"[DEBUG] Exception sending email to {email}: {str(e)}")
+                        comment_lines.append(f"- ⚠️ Exception sending email to {email}: {str(e)}")
+
+                # Update comment based on success/failure
+                if emails_sent_count > 0:
+                     sent_to_emails = [e for e in facilitator_emails if e not in emails_failed]
+                     comment_lines.append(f"- Zoom details sent via email to: {', '.join(sent_to_emails)}")
+                if emails_failed:
+                    sender_email = os.environ.get("SENDER_EMAIL")
+                    smtp_server = os.environ.get("SMTP_SERVER")
+                    comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to: {', '.join(emails_failed)}")
+                    if not sender_email or not smtp_server:
+                        comment_lines.append(f"  - *Note*: Email service is not fully configured. Contact the repository administrator.")
+                    else:
+                        comment_lines.append(f"  - Please check the GitHub Actions logs for more details")
             else:
-                if not facilitator_email:
-                    print(f"[DEBUG] No facilitator email provided in the issue, skipping email notification.")
-                    comment_lines.append("- Facilitator email not found in issue, skipping email notification.")
+                if not facilitator_emails:
+                    print(f"[DEBUG] No facilitator emails provided in the issue, skipping email notification.")
+                    comment_lines.append("- Facilitator emails not found in issue, skipping email notification.")
                 if not join_url:
                     print(f"[DEBUG] No join URL available for the meeting, skipping email notification.")
                     comment_lines.append("- Zoom Join URL not available, skipping email notification.")
