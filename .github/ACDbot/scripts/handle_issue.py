@@ -130,6 +130,18 @@ def extract_already_zoom_meeting(issue_body):
     
     return skip_zoom_creation
 
+def extract_display_zoom_link(issue_body):
+    """
+    Extracts the boolean flag indicating whether to display the Zoom link in the calendar invite.
+    Defaults to False if the line is not found or value is not 'true'.
+    """
+    display_pattern = r"display zoom link in invite\\s*:\\s*(true|false)"
+    match = re.search(display_pattern, issue_body, re.IGNORECASE)
+    
+    display_link = match and match.group(1).lower() == 'true'
+    print(f"[DEBUG] Extracted display_zoom_link_in_invite: {display_link}")
+    return display_link
+
 def handle_github_issue(issue_number: int, repo_name: str):
     """
     Fetches the specified GitHub issue, extracts its title and body,
@@ -152,14 +164,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
 
-    # Extract recurring meeting info from issue body - this is the source of truth
+    # Extract configuration from issue body
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
-    
-    # Extract whether YouTube stream links are needed
     need_youtube_streams = extract_need_youtube_streams(issue_body)
-    
-    # Extract call series
     call_series = extract_call_series(issue_body)
+    skip_zoom_creation = extract_already_zoom_meeting(issue_body)
+    skip_gcal_creation = extract_already_on_calendar(issue_body)
+    display_zoom_link_in_invite = extract_display_zoom_link(issue_body) # Extract the new flag
 
     # Check for existing YouTube streams for this call series
     existing_youtube_streams = check_existing_youtube_streams(call_series, mapping)
@@ -440,6 +451,20 @@ def handle_github_issue(issue_number: int, repo_name: str):
         zoom_id = f"placeholder-error-{issue.number}"
         join_url = "Error during Zoom processing"
 
+    # Add Zoom link details to GitHub comment based on the flag
+    if zoom_id and not str(zoom_id).startswith("placeholder-"):
+        if reusing_series_meeting:
+            comment_lines.append(f"\n**Zoom Meeting:** Reusing meeting {zoom_id} for series '{call_series}'.")
+        # Add the join URL to the comment if the flag is set and link is valid
+        if display_zoom_link_in_invite and join_url and not str(join_url).startswith("Zoom creation skipped"):
+             comment_lines.append(f"- Zoom Link: {join_url}")
+        # Add a note if the link is intentionally hidden
+        elif not display_zoom_link_in_invite and join_url and not str(join_url).startswith("Zoom creation skipped"):
+             comment_lines.append(f"- *Zoom link hidden from public view (check facilitator email)*")
+        # Handle cases where join_url might be invalid even if zoom_id isn't a placeholder
+        elif not join_url or str(join_url).startswith("Zoom creation skipped"):
+             comment_lines.append(f"- *Zoom link not available or creation skipped.*")
+
     # Use zoom_id as the meeting_id (which is the mapping key)
     if zoom_id:
         meeting_id = str(zoom_id) # Ensure it's a string for mapping key
@@ -540,7 +565,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
         # Calendar handling
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
+        # Base calendar description
         calendar_description = f"Issue: {issue.html_url}"
+        # Append Zoom link to description if requested and available
+        if display_zoom_link_in_invite and join_url and not str(join_url).startswith("Zoom creation skipped"):
+            print("[DEBUG] Adding Zoom link to calendar description.")
+            calendar_description += f"\n\nZoom Link: {join_url}"
+        else:
+            print("[DEBUG] Not adding Zoom link to calendar description (flag false or link unavailable).")
+            
         event_link = None
         event_id = None # Initialize event_id
         event_result = None # Initialize event_result
