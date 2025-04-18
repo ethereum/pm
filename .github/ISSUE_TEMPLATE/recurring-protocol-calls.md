@@ -30,6 +30,7 @@ Facilitator emails (comma-separated): XXXXX, YYYYY
 - Already a Zoom meeting ID : false # Set to true if this meeting is already on the auto recording Ethereum zoom (will not create a zoom ID if true)
 - Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar (will not create calendar event)
 - Need YouTube stream links : true # Set to false if you don't want YouTube stream links created
+- display zoom link in invite : false # Set to true to add the Zoom link to the Google Calendar invite description
 
 
 </details>
