@@ -273,6 +273,7 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | № | Date | Agenda | Notes | Discussion | Recording |
 | --- | ------ | ----- | ----- | ----- | ----- |
+| 155| 17 Apr 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1434) | tba| [EthMag](https://ethereum-magicians.org/t/23392) | [video](https://youtu.be/i_29BU3J97M)|
 | 154| 03 Apr 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1399) | tba| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-154/23340) | [video](https://youtu.be/RWBhHHrZ48w)|
 | 153| 20 Mar 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1356) | tba| [EthMag](https://ethereum-magicians.org/t/consensus-layer-call-153/23097) | [video](https://youtu.be/PDttc86jEkY)|
 | 152| 06 Mar 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1323) | tba| [EthMag](https://ethereum-magicians.org/t/consensus-layer-call-152/22959) | [video](https://youtu.be/iP3p33vFw2M)|
