@@ -764,19 +764,21 @@ def handle_github_issue(issue_number: int, repo_name: str):
         email_sent = False
         telegram_channel_sent = False 
 
-        # Only send notifications if we have a valid zoom_id (not a placeholder)
-        if not zoom_id or (isinstance(zoom_id, str) and zoom_id.startswith("placeholder-")):
-            print(f"[DEBUG] Skipping notifications - Zoom meeting creation failed or invalid zoom_id: {zoom_id}")
-            comment_lines.append("\n**⚠️ Zoom Meeting Creation Failed or Skipped**")
-            comment_lines.append("- Notifications suppressed due to Zoom meeting issue.")
-        else:
-            # --- Email Sending --- 
-            emails_sent_count = 0
-            emails_failed = []
+        # --- Email Sending --- 
+        # Send email ONLY if we have facilitator emails AND a valid join_url
+        emails_sent_count = 0
+        emails_failed = []
 
-            if facilitator_emails and join_url and not str(zoom_id).startswith("placeholder-"):
-                email_subject = f"Zoom Meeting Details for {issue_title}"
-                email_body = f"""
+        if not facilitator_emails:
+            print(f"[DEBUG] No facilitator emails provided, skipping email notification.")
+            comment_lines.append("- Facilitator emails not found in issue, skipping email notification.")
+        elif not join_url or str(join_url).startswith("https://zoom.us (API") or str(join_url).startswith("Zoom creation skipped") or str(join_url).startswith("Invalid time/duration"):
+            print(f"[DEBUG] No valid Zoom join URL ({join_url}), skipping email notification.")
+            comment_lines.append(f"- Zoom Join URL invalid or missing, skipping email notification.")
+        else:
+            # Proceed with sending email
+            email_subject = f"Zoom Meeting Details for {issue_title}"
+            email_body = f"""
 <h2>Zoom Meeting Details</h2>
 <p>For meeting: {issue_title}</p>
 <p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
@@ -789,119 +791,113 @@ def handle_github_issue(issue_number: int, repo_name: str):
 This email was sent automatically by the Ethereum Protocol Call Bot.</p>
 """
 
-                for email in facilitator_emails:
-                    try:
-                        print(f"[DEBUG] Attempting to send Zoom details email to: {email}")
-                        if email_utils.send_email(email, email_subject, email_body):
-                            emails_sent_count += 1
-                            print(f"[DEBUG] Successfully sent email to: {email}")
-                        else:
-                            emails_failed.append(email)
-                            print(f"[DEBUG] Failed to send email to: {email}")
-                    except Exception as e:
-                        emails_failed.append(email)
-                        print(f"[DEBUG] Exception sending email to {email}: {str(e)}")
-                        comment_lines.append(f"- ⚠️ Exception sending email to {email}: {str(e)}")
-
-                # Update comment based on success/failure
-                if emails_sent_count > 0:
-                     sent_to_emails = [e for e in facilitator_emails if e not in emails_failed]
-                     comment_lines.append(f"- Zoom details sent via email to: {', '.join(sent_to_emails)}")
-                if emails_failed:
-                    sender_email = os.environ.get("SENDER_EMAIL")
-                    smtp_server = os.environ.get("SMTP_SERVER")
-                    comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to: {', '.join(emails_failed)}")
-                    if not sender_email or not smtp_server:
-                        comment_lines.append(f"  - *Note*: Email service is not fully configured. Contact the repository administrator.")
-                    else:
-                        comment_lines.append(f"  - Please check the GitHub Actions logs for more details")
-            else:
-                if not facilitator_emails:
-                    print(f"[DEBUG] No facilitator emails provided in the issue, skipping email notification.")
-                    comment_lines.append("- Facilitator emails not found in issue, skipping email notification.")
-                if not join_url:
-                    print(f"[DEBUG] No join URL available for the meeting, skipping email notification.")
-                    comment_lines.append("- Zoom Join URL not available, skipping email notification.")
-
-            # --- Telegram Channel Posting --- 
-            telegram_channel_id = os.environ.get("TELEGRAM_CHAT_ID")
-            if telegram_channel_id and tg:
+            for email in facilitator_emails:
                 try:
-                    # Format message with HTML tags for better formatting
-                    telegram_message_body = (
-                        f"<b>{issue_title}</b>\n\n"
-                        # Include issue body details carefully, maybe just agenda?
-                        # For now, keep it simple to avoid formatting issues
-                        # f"{issue_body}\n\n"
-                        f"<b>Links:</b>\n"
-                        f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
-                        f"• <a href='{issue.html_url}'>GitHub Issue</a>\n"
-                    )
-                    if event_link: # Add GCal link if available
-                         telegram_message_body += f"• <a href='{event_link}'>Google Calendar</a>\n"
-                    
-                    # --- Add YouTube Stream Links (Use occurrence-specific streams) ---
-                    occurrence_streams = occurrence_data.get("youtube_streams") # Get streams generated for *this* occurrence
-                    if occurrence_streams:
-                        telegram_message_body += f"\n<b>YouTube Stream Links:</b>\n"
-                        for i, stream in enumerate(occurrence_streams):
-                             stream_url = stream.get('stream_url')
-                             if stream_url:
-                                 telegram_message_body += f"• <a href='{stream_url}'>Stream {i+1}</a>\n"
-                    
-                    # Check for existing Telegram message ID stored in mapping
-                    message_id = mapping.get(meeting_id, {}).get("telegram_message_id")
-                    
-                    if message_id:
-                        print(f"[DEBUG] Attempting to update Telegram message {message_id}")
-                        if tg.update_message(message_id, telegram_message_body):
-                            print(f"Updated Telegram message {message_id}")
-                            telegram_channel_sent = True
-                        else:
-                             print(f"[DEBUG] Failed to update Telegram message {message_id}, sending new one.")
-                             message_id = None # Reset to send new message
-                    
-                    if not message_id:
-                        # --- Start: Send message per occurrence --- 
+                    print(f"[DEBUG] Attempting to send Zoom details email to: {email}")
+                    if email_utils.send_email(email, email_subject, email_body):
+                        emails_sent_count += 1
+                        print(f"[DEBUG] Successfully sent email to: {email}")
+                    else:
+                        emails_failed.append(email)
+                        print(f"[DEBUG] Failed to send email to: {email}")
+                except Exception as e:
+                    emails_failed.append(email)
+                    print(f"[DEBUG] Exception sending email to {email}: {str(e)}")
+                    comment_lines.append(f"- ⚠️ Exception sending email to {email}: {str(e)}")
+
+            # Update comment based on success/failure
+            if emails_sent_count > 0:
+                 sent_to_emails = [e for e in facilitator_emails if e not in emails_failed]
+                 comment_lines.append(f"- Zoom details sent via email to: {', '.join(sent_to_emails)}")
+            if emails_failed:
+                sender_email = os.environ.get("SENDER_EMAIL")
+                smtp_server = os.environ.get("SMTP_SERVER")
+                comment_lines.append(f"- ⚠️ Failed to send email with Zoom details to: {', '.join(emails_failed)}")
+                if not sender_email or not smtp_server:
+                    comment_lines.append(f"  - *Note*: Email service is not fully configured. Contact the repository administrator.")
+                else:
+                    comment_lines.append(f"  - Please check the GitHub Actions logs for more details")
+
+        # --- Telegram Channel Posting --- 
+        # Send Telegram regardless of Zoom status, as long as basic info is available
+        # Ensure discourse_url is valid before proceeding
+        if not discourse_url or discourse_url == "https://ethereum-magicians.org (API error occurred)":
+             print("[DEBUG] Skipping Telegram notification - Discourse URL not available.")
+             comment_lines.append("\n**Telegram Notification**")
+             comment_lines.append("- Skipped: Discourse URL not available.")
+        else:
+            # Proceed with Telegram message generation
+            # Find the current occurrence data to get generated streams
+            current_occurrence = next((occ for occ in mapping_entry.get("occurrences", []) if occ.get("issue_number") == issue.number), None)
+            if not current_occurrence:
+                 print(f"[ERROR] Could not find current occurrence for issue {issue.number} to generate Telegram message.")
+                 comment_lines.append("\n**⚠️ Failed to send Telegram message: Could not find occurrence data.**")
+            else:
+                # Build the message
+                telegram_message_body = (
+                    f"<b>{issue_title}</b>\n\n"
+                    f"<b>Links:</b>\n"
+                    f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
+                    f"• <a href='{issue.html_url}'>GitHub Issue</a>\n"
+                )
+                if event_link:
+                    telegram_message_body += f"• <a href='{event_link}'>Google Calendar</a>\n"
+
+                # Add occurrence-specific YouTube streams if they exist
+                occurrence_streams = current_occurrence.get("youtube_streams")
+                if occurrence_streams:
+                    telegram_message_body += f"\n<b>YouTube Stream Links:</b>\n"
+                    for i, stream in enumerate(occurrence_streams):
+                        stream_url = stream.get('stream_url')
+                        if stream_url:
+                            telegram_message_body += f"• <a href='{stream_url}'>Stream {i+1}</a>\n"
+
+                # Send the message
+                telegram_channel_id = os.environ.get("TELEGRAM_CHAT_ID")
+                if telegram_channel_id and tg:
+                    try:
                         print(f"[DEBUG] Sending new Telegram channel message for occurrence (Issue #{issue.number}).")
                         message_id = tg.send_message(telegram_message_body)
                         if message_id:
                             telegram_channel_sent = True
                             # Store the message ID within the *current occurrence* object
-                            # Find the occurrence we just added/updated
                             current_occurrence_index = next((i for i, occ in enumerate(mapping_entry["occurrences"]) if occ.get("issue_number") == issue.number), -1)
                             if current_occurrence_index != -1:
                                 mapping_entry["occurrences"][current_occurrence_index]["telegram_message_id"] = message_id
-                                mapping_updated = True # Mark mapping for saving
+                                mapping_updated = True
                                 print(f"[DEBUG] Stored telegram_message_id {message_id} in occurrence data for issue #{issue.number}.")
                             else:
-                               print(f"[ERROR] Could not find occurrence for issue #{issue.number} to store telegram_message_id.")
-                        # --- End: Send message per occurrence ---
-
+                                print(f"[ERROR] Could not find occurrence for issue #{issue.number} to store telegram_message_id.")
+                        
                         if telegram_channel_sent:
                             comment_lines.append("\n**Telegram Notification**")
                             comment_lines.append("- Sent message for this occurrence to Ethereum Protocol Updates channel")
                         else:
                             comment_lines.append("\n**⚠️ Failed to send Telegram message for this occurrence**")
                             print(f"[DEBUG] Failed to send/update Telegram channel message.")
-                    
-                except Exception as e:
-                    print(f"[ERROR] Telegram channel notification failed: {e}")
-                    comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {str(e)}")
-            else:
-                 print("[DEBUG] Telegram channel ID not configured or tg module not available.")
 
-            # --- RSS Notification Adding --- 
+                    except Exception as e:
+                        print(f"[ERROR] Telegram channel notification failed: {e}")
+                        comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {str(e)}")
+                else:
+                    print("[DEBUG] Telegram channel ID not configured or tg module not available.")
+
+        # --- RSS Notification Adding --- 
+        # Ensure we have occurrence_issue_number before adding RSS
+        occurrence_issue_number_rss = occurrence_data.get("issue_number")
+        if occurrence_issue_number_rss:
             try:
                 print("[DEBUG] Adding notifications to RSS feed data")
                 rss_utils.add_notification_to_meeting(
                     meeting_id,
+                    occurrence_issue_number_rss, # Pass issue number to identify occurrence
                     "issue_processed",
-                    f"GitHub issue #{issue.number} processed ({action})",
+                    f"GitHub issue #{occurrence_issue_number_rss} processed ({action})",
                     issue.html_url
                 )
                 rss_utils.add_notification_to_meeting(
                     meeting_id,
+                    occurrence_issue_number_rss, # Pass issue number to identify occurrence
                     "discourse_post",
                     f"Discourse topic {action}: {issue_title}",
                     discourse_url
@@ -911,6 +907,8 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
             except Exception as e:
                 print(f"[ERROR] Failed to add RSS notifications: {e}")
                 comment_lines.append(f"\n**⚠️ Failed to update RSS data**: {str(e)}")
+        else:
+            print(f"[ERROR] Could not add RSS notification - occurrence issue number missing.")
 
     # --- End of Notification Block ---
     else:
