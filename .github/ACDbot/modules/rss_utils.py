@@ -3,6 +3,7 @@ import datetime
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import pytz
+import json
 
 RSS_FILE_PATH = ".github/ACDbot/rss/meetings.xml"
 
@@ -32,124 +33,207 @@ def create_or_update_rss_feed(mapping):
     now = datetime.datetime.now(pytz.UTC)
     last_build_date.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
     
-    # Get existing item GUIDs to avoid duplicates
-    existing_guids = set()
-    for item in channel.findall('item'):
-        guid = item.find('guid')
-        if guid is not None:
-            existing_guids.add(guid.text)
+    # Remove existing items first to rebuild based on current mapping state
+    existing_items = channel.findall('item')
+    for item in existing_items:
+        channel.remove(item)
     
-    # Add new meetings
+    # Add items based on occurrences
     for meeting_id, entry in mapping.items():
         if not isinstance(entry, dict):
             continue
             
-        # Skip if already in feed
-        if f"meeting-{meeting_id}" in existing_guids:
-            continue
-            
-        # Create new item
-        item = ET.SubElement(channel, 'item')
-        
-        # Title
-        title_elem = ET.SubElement(item, 'title')
-        title_elem.text = entry.get('issue_title', f"Meeting {meeting_id}")
-        
-        # Link (to Discourse topic)
-        link_elem = ET.SubElement(item, 'link')
-        discourse_topic_id = entry.get('discourse_topic_id')
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
-        link_elem.text = discourse_url
-        
-        # Description
-        desc_elem = ET.SubElement(item, 'description')
-        
-        # Build description content
-        desc_content = f"<p><strong>Meeting ID:</strong> {meeting_id}</p>"
-        
-        # Add Zoom link if available
-        zoom_link = entry.get('zoom_link')
-        if zoom_link:
-            desc_content += f"<p><strong>Zoom Link:</strong> <a href='{zoom_link}'>{zoom_link}</a></p>"
-        
-        # Add start time and duration
-        start_time = entry.get('start_time')
-        duration = entry.get('duration')
-        if start_time:
-            try:
-                dt = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-                formatted_time = dt.strftime("%Y-%m-%d %H:%M UTC")
-                desc_content += f"<p><strong>Start Time:</strong> {formatted_time}</p>"
-            except:
-                desc_content += f"<p><strong>Start Time:</strong> {start_time}</p>"
-        
-        if duration:
-            desc_content += f"<p><strong>Duration:</strong> {duration} minutes</p>"
-        
-        # Add recurring info if applicable
-        is_recurring = entry.get('is_recurring')
-        if is_recurring:
-            occurrence_rate = entry.get('occurrence_rate', 'none')
-            desc_content += f"<p><strong>Recurring Meeting:</strong> {occurrence_rate}</p>"
-            
-            # Add YouTube stream links if available
-            youtube_streams = entry.get('youtube_streams', [])
-            if youtube_streams:
-                desc_content += "<p><strong>YouTube Streams:</strong></p><ul>"
-                for i, stream in enumerate(youtube_streams, 1):
-                    stream_url = stream.get('stream_url')
-                    if stream_url:
-                        desc_content += f"<li><a href='{stream_url}'>Stream #{i}</a></li>"
-                desc_content += "</ul>"
-        
-        # Add YouTube video if available
-        youtube_video_id = entry.get('youtube_video_id')
-        if youtube_video_id:
-            youtube_url = f"https://youtu.be/{youtube_video_id}"
-            desc_content += f"<p><strong>Recording:</strong> <a href='{youtube_url}'>{youtube_url}</a></p>"
-        
-        # Add notifications section if available
-        notifications = entry.get('notifications', [])
-        if notifications:
-            desc_content += "<h3>Meeting Updates:</h3><ul>"
-            for notification in notifications:
-                timestamp = notification.get('timestamp')
-                n_type = notification.get('type')
-                n_content = notification.get('content')
-                n_url = notification.get('url', '')
+        if "occurrences" in entry and isinstance(entry["occurrences"], list):
+            # Recurring meeting: Create an item for each occurrence
+            for occurrence in entry["occurrences"]:
+                if not isinstance(occurrence, dict):
+                    continue
+
+                item = ET.SubElement(channel, 'item')
+                issue_number = occurrence.get('issue_number')
                 
-                # Format timestamp
-                formatted_time = timestamp
-                try:
-                    dt = datetime.datetime.fromisoformat(timestamp)
-                    formatted_time = dt.strftime("%Y-%m-%d %H:%M UTC")
-                except:
-                    pass
+                # Title (from occurrence)
+                title_elem = ET.SubElement(item, 'title')
+                title_elem.text = occurrence.get('issue_title', f"Meeting {meeting_id} - Occurrence {issue_number}")
                 
-                if n_url:
-                    desc_content += f"<li><strong>{formatted_time} - {n_type}:</strong> <a href='{n_url}'>{n_content}</a></li>"
+                # Link (to occurrence's Discourse topic)
+                link_elem = ET.SubElement(item, 'link')
+                discourse_topic_id = occurrence.get('discourse_topic_id')
+                if discourse_topic_id:
+                    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
+                    link_elem.text = discourse_url
                 else:
-                    desc_content += f"<li><strong>{formatted_time} - {n_type}:</strong> {n_content}</li>"
-            
-            desc_content += "</ul>"
-        
-        desc_elem.text = desc_content
-        
-        # Publication date
-        pub_date_elem = ET.SubElement(item, 'pubDate')
-        if start_time:
-            try:
-                dt = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-                pub_date_elem.text = dt.strftime("%a, %d %b %Y %H:%M:%S %z")
-            except:
-                pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
+                    link_elem.text = os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org') # Fallback link
+
+                # Description
+                desc_elem = ET.SubElement(item, 'description')
+                desc_content = f"<p><strong>Series Meeting ID:</strong> {meeting_id}</p>"
+                desc_content += f"<p><strong>Occurrence Issue:</strong> <a href='https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}'>#{issue_number}</a></p>"
+
+                # Add start time and duration from occurrence
+                start_time = occurrence.get('start_time')
+                duration = occurrence.get('duration')
+                if start_time:
+                    try:
+                        dt_occ = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                        formatted_time = dt_occ.strftime("%Y-%m-%d %H:%M UTC")
+                        desc_content += f"<p><strong>Start Time:</strong> {formatted_time}</p>"
+                    except Exception as e:
+                        print(f"[WARN] Error formatting occurrence start time {start_time}: {e}")
+                        desc_content += f"<p><strong>Start Time:</strong> {start_time}</p>"
+                
+                if duration:
+                    desc_content += f"<p><strong>Duration:</strong> {duration} minutes</p>"
+
+                # Add series recurring info
+                if entry.get('is_recurring'):
+                    occurrence_rate = entry.get('occurrence_rate', 'none')
+                    desc_content += f"<p><strong>Recurring Series:</strong> {occurrence_rate}</p>"
+
+                # Add YouTube stream links (from occurrence)
+                occurrence_youtube_streams = occurrence.get('youtube_streams', [])
+                if occurrence_youtube_streams:
+                    desc_content += "<p><strong>YouTube Streams (Occurrence):</strong></p><ul>"
+                    for i, stream in enumerate(occurrence_youtube_streams, 1):
+                        stream_url = stream.get('stream_url')
+                        if stream_url:
+                            desc_content += f"<li><a href='{stream_url}'>Stream #{i}</a></li>"
+                    desc_content += "</ul>"
+
+                # Add occurrence-specific YouTube video if available
+                youtube_video_id = occurrence.get('youtube_video_id')
+                if youtube_video_id:
+                    youtube_url = f"https://youtu.be/{youtube_video_id}"
+                    desc_content += f"<p><strong>Recording (This Occurrence):</strong> <a href='{youtube_url}'>{youtube_url}</a></p>"
+                
+                # Add occurrence-specific notifications
+                notifications = occurrence.get('notifications', [])
+                if notifications:
+                    desc_content += "<h3>Occurrence Updates:</h3><ul>"
+                    # Sort notifications by timestamp if possible
+                    try:
+                        notifications.sort(key=lambda x: datetime.datetime.fromisoformat(x.get('timestamp')), reverse=True)
+                    except:
+                        pass # Ignore sorting errors
+                    
+                    for notification in notifications:
+                        timestamp = notification.get('timestamp')
+                        n_type = notification.get('type')
+                        n_content = notification.get('content')
+                        n_url = notification.get('url', '')
+                        
+                        formatted_time_notif = timestamp
+                        try:
+                            dt_notif = datetime.datetime.fromisoformat(timestamp)
+                            formatted_time_notif = dt_notif.strftime("%Y-%m-%d %H:%M UTC")
+                        except:
+                            pass
+                        
+                        if n_url:
+                            desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> <a href='{n_url}'>{n_content}</a></li>"
+                        else:
+                            desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> {n_content}</li>"
+                    desc_content += "</ul>"
+
+                desc_elem.text = desc_content
+
+                # Publication date (use occurrence start time)
+                pub_date_elem = ET.SubElement(item, 'pubDate')
+                if start_time:
+                    try:
+                        dt_pub = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                        pub_date_elem.text = dt_pub.strftime("%a, %d %b %Y %H:%M:%S %z")
+                    except:
+                        pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
+                else:
+                    pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
+
+                # GUID (unique per occurrence)
+                guid_elem = ET.SubElement(item, 'guid')
+                guid_elem.set('isPermaLink', 'false')
+                guid_elem.text = f"meeting-{meeting_id}-occurrence-{issue_number}"
+                
         else:
-            pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
-        
-        # GUID
-        guid_elem = ET.SubElement(item, 'guid')
-        guid_elem.set('isPermaLink', 'false')
-        guid_elem.text = f"meeting-{meeting_id}"
+            # Non-recurring meeting or legacy format: Create a single item
+            item = ET.SubElement(channel, 'item')
+            
+            # Title
+            title_elem = ET.SubElement(item, 'title')
+            title_elem.text = entry.get('issue_title', f"Meeting {meeting_id}")
+            
+            # Link (to Discourse topic)
+            link_elem = ET.SubElement(item, 'link')
+            discourse_topic_id = entry.get('discourse_topic_id')
+            if discourse_topic_id:
+                 discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
+                 link_elem.text = discourse_url
+            else:
+                 link_elem.text = os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')
+            
+            # Description
+            desc_elem = ET.SubElement(item, 'description')
+            desc_content = f"<p><strong>Meeting ID:</strong> {meeting_id}</p>"
+            
+            start_time = entry.get('start_time')
+            duration = entry.get('duration')
+            if start_time:
+                 try:
+                     dt_legacy = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                     formatted_time = dt_legacy.strftime("%Y-%m-%d %H:%M UTC")
+                     desc_content += f"<p><strong>Start Time:</strong> {formatted_time}</p>"
+                 except:
+                     desc_content += f"<p><strong>Start Time:</strong> {start_time}</p>"
+            if duration:
+                 desc_content += f"<p><strong>Duration:</strong> {duration} minutes</p>"
+            
+            youtube_video_id = entry.get('youtube_video_id')
+            if youtube_video_id:
+                 youtube_url = f"https://youtu.be/{youtube_video_id}"
+                 desc_content += f"<p><strong>Recording:</strong> <a href='{youtube_url}'>{youtube_url}</a></p>"
+            
+            # Add legacy notifications if they exist
+            notifications = entry.get('notifications', [])
+            if notifications:
+                 desc_content += "<h3>Meeting Updates:</h3><ul>"
+                 # Sort notifications by timestamp if possible
+                 try:
+                     notifications.sort(key=lambda x: datetime.datetime.fromisoformat(x.get('timestamp')), reverse=True)
+                 except:
+                     pass 
+                 for notification in notifications:
+                     timestamp = notification.get('timestamp')
+                     n_type = notification.get('type')
+                     n_content = notification.get('content')
+                     n_url = notification.get('url', '')
+                     formatted_time_notif = timestamp
+                     try:
+                         dt_notif = datetime.datetime.fromisoformat(timestamp)
+                         formatted_time_notif = dt_notif.strftime("%Y-%m-%d %H:%M UTC")
+                     except:
+                         pass
+                     if n_url:
+                         desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> <a href='{n_url}'>{n_content}</a></li>"
+                     else:
+                         desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> {n_content}</li>"
+                 desc_content += "</ul>"
+            
+            desc_elem.text = desc_content
+            
+            # Publication date
+            pub_date_elem = ET.SubElement(item, 'pubDate')
+            if start_time:
+                 try:
+                     dt_pub = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                     pub_date_elem.text = dt_pub.strftime("%a, %d %b %Y %H:%M:%S %z")
+                 except:
+                     pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
+            else:
+                 pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
+            
+            # GUID
+            guid_elem = ET.SubElement(item, 'guid')
+            guid_elem.set('isPermaLink', 'false')
+            guid_elem.text = f"meeting-{meeting_id}"
     
     # Write updated RSS feed
     write_rss_feed(tree)
@@ -221,45 +305,84 @@ def add_meeting_to_rss(meeting_id, entry):
     # Update RSS feed
     create_or_update_rss_feed(mapping)
 
+# Helper to find occurrence by issue number (copied from upload_zoom_recording.py)
+def find_occurrence_by_issue_number(series_entry, issue_number):
+    """Helper function to find an occurrence by issue number."""
+    if not series_entry or "occurrences" not in series_entry:
+        return None, -1
+    for index, occ in enumerate(series_entry["occurrences"]):
+        # Ensure comparison is between same types if issue_number can be string/int
+        if str(occ.get("issue_number")) == str(issue_number):
+            return occ, index
+    return None, -1
+
 # New function to add notifications to existing meeting entries
-def add_notification_to_meeting(meeting_id, notification_type, content, url=None):
+def add_notification_to_meeting(meeting_id, occurrence_issue_number, notification_type, content, url=None):
     """
-    Adds a notification to an existing meeting in the RSS feed
-    
+    Adds a notification to a specific meeting occurrence in the mapping.
+
     Args:
         meeting_id: The meeting ID
+        occurrence_issue_number: The issue number identifying the specific occurrence.
         notification_type: Type of notification (issue_created, discourse_post, youtube_upload, summary)
         content: Notification content/description
         url: Optional URL associated with the notification
     """
     # Load existing mapping
-    from .transcript import load_meeting_topic_mapping
+    # Use absolute import if running as script, relative if part of package
+    try:
+        from .transcript import load_meeting_topic_mapping, save_meeting_topic_mapping # Relative import
+    except ImportError:
+        # Assume running as script, need a way to load/save mapping
+        # This might require moving load/save functions out or duplicating them
+        print("[WARN] Could not perform relative import for mapping functions in rss_utils.")
+        # Fallback: Define simple load/save here if needed, or rely on caller to save
+        def load_meeting_topic_mapping(): # Simple fallback
+             if os.path.exists(".github/ACDbot/meeting_topic_mapping.json"): # Adjust path if needed
+                 with open(".github/ACDbot/meeting_topic_mapping.json", "r") as f:
+                     return json.load(f)
+             return {}
+        def save_meeting_topic_mapping(m): # Simple fallback
+             with open(".github/ACDbot/meeting_topic_mapping.json", "w") as f:
+                 json.dump(m, f, indent=2)
+
     mapping = load_meeting_topic_mapping()
-    
-    if meeting_id not in mapping:
-        print(f"Meeting {meeting_id} not found in mapping")
+
+    series_entry = mapping.get(str(meeting_id))
+
+    if not series_entry:
+        print(f"[ERROR] Meeting series {meeting_id} not found in mapping for RSS notification.")
         return
-    
-    # Get or create notifications list for this meeting
-    if "notifications" not in mapping[meeting_id]:
-        mapping[meeting_id]["notifications"] = []
-    
+
+    # Find the specific occurrence
+    matched_occurrence, occurrence_index = find_occurrence_by_issue_number(series_entry, occurrence_issue_number)
+
+    if matched_occurrence is None:
+        print(f"[ERROR] Occurrence {occurrence_issue_number} not found in meeting {meeting_id} for RSS notification.")
+        return
+
+    # Get or create notifications list for this occurrence
+    if "notifications" not in matched_occurrence:
+        matched_occurrence["notifications"] = []
+
     # Create notification entry with timestamp
     notification = {
         "type": notification_type,
         "content": content,
         "timestamp": datetime.datetime.now(pytz.UTC).isoformat(),
     }
-    
+
     if url:
         notification["url"] = url
-    
-    # Add to notifications list
-    mapping[meeting_id]["notifications"].append(notification)
-    
+
+    # Add to notifications list within the occurrence
+    matched_occurrence["notifications"].append(notification)
+
+    # Update the occurrence in the main mapping structure
+    mapping[str(meeting_id)]["occurrences"][occurrence_index] = matched_occurrence
+
     # Save mapping
-    from .transcript import save_meeting_topic_mapping
     save_meeting_topic_mapping(mapping)
-    
+
     # Update RSS feed
     create_or_update_rss_feed(mapping) 

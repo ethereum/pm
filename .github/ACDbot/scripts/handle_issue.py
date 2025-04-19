@@ -347,6 +347,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     meeting_updated = False # Flag to track if mapping needs update due to new/updated Zoom/GCal info
     reusing_series_meeting = False
     zoom_response = None # Store response for potential later use
+    original_meeting_id_for_reuse = None # Store the original ID if reusing a series
 
     try:
         # 1. Parse time and duration first
@@ -359,6 +360,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 # Reuse existing meeting ID and link from the series
                 zoom_id = existing_series_entry_for_zoom["meeting_id"]
                 join_url = existing_series_entry_for_zoom.get("zoom_link", "Link not found in mapping")
+                original_meeting_id_for_reuse = zoom_id # Store the ID we are reusing
                 reusing_series_meeting = True
                 print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{call_series}'")
             else:
@@ -468,6 +470,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Use zoom_id as the meeting_id (which is the mapping key)
     if zoom_id:
         meeting_id = str(zoom_id) # Ensure it's a string for mapping key
+        if reusing_series_meeting and original_meeting_id_for_reuse:
+            meeting_id = str(original_meeting_id_for_reuse) # CRITICAL: Use the ORIGINAL ID for mapping key
+            print(f"[DEBUG] Reusing original meeting ID {meeting_id} for mapping key.")
 
         # Check if YT streams were created/reused
         if reusing_series_meeting and existing_series_entry_for_zoom and "youtube_streams" in existing_series_entry_for_zoom:
@@ -477,30 +482,30 @@ def handle_github_issue(issue_number: int, repo_name: str):
         else:
              # Calculate youtube_streams based on need_youtube_streams and create if necessary
              # Initialize youtube_streams to None here
-             youtube_streams = None 
+             occurrence_youtube_streams = None
              # Add the check for need_youtube_streams
              if is_recurring and occurrence_rate != "none" and need_youtube_streams:
                  # If we already have streams for this call series, reuse them
                  if existing_youtube_streams:
                      print(f"[DEBUG] Reusing existing YouTube streams for call series: {call_series}")
-                     youtube_streams = existing_youtube_streams
+                     occurrence_youtube_streams = existing_youtube_streams
                      comment_lines.append("\n**Using Existing YouTube Stream Links**")
                  else:
-                     # Only create new streams if needed and not reusing
+                     # Only create new streams if needed
                      try:
-                         print(f"[DEBUG] Creating YouTube streams for recurring meeting: {occurrence_rate}")
-                         youtube_streams = youtube_utils.create_recurring_streams(
-                             title=issue_title,
+                         print(f"[DEBUG] Creating YouTube streams for recurring meeting occurrence: {occurrence_rate}")
+                         occurrence_youtube_streams = youtube_utils.create_recurring_streams(
+                             title=issue_title, # Use the specific occurrence title
                              description=f"Recurring meeting: {issue_title}\nGitHub Issue: {issue.html_url}",
                              start_time=start_time,
-                             occurrence_rate=occurrence_rate
+                             occurrence_rate=occurrence_rate # Needs careful handling if only ONE stream is needed
                          )
                          
                          # Add stream URLs to comment
-                         if youtube_streams:
+                         if occurrence_youtube_streams:
                              comment_lines.append("\n**YouTube Stream Links:**")
                              stream_links = []
-                             for i, stream in enumerate(youtube_streams, 1):
+                             for i, stream in enumerate(occurrence_youtube_streams, 1):
                                  # Extract date from stream details if available
                                  stream_date = ""
                                  if 'scheduled_time' in stream:
@@ -524,7 +529,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                  stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
                              
                              # Update Discourse post with stream links if we have a topic ID
-                             if topic_id:
+                             if topic_id and not str(topic_id).startswith("placeholder-"):
                                  try:
                                      discourse_content = f"{updated_body}\n\n**YouTube Stream Links:**\n" + "\n".join(stream_links)
                                      discourse.update_topic(
@@ -534,34 +539,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                  except Exception as e:
                                      print(f"[DEBUG] Error updating Discourse topic with YouTube streams: {str(e)}")
                              
-                             # Set flag to skip YouTube upload for recurring meetings with streams
-                             if meeting_id in mapping:
-                                 # Check if mapping[meeting_id] exists before accessing
-                                 if meeting_id not in mapping:
-                                      mapping[meeting_id] = {}
-                                 mapping[meeting_id]["skip_youtube_upload"] = True
-                                 mapping[meeting_id]["youtube_streams"] = youtube_streams
-                                 mapping_updated = True
+                             # Flag that streams were generated (will be saved in occurrence data later)
+                             # mapping_updated = True # Handled later when saving occurrence
                      except Exception as e:
                          print(f"[DEBUG] Error creating YouTube streams: {str(e)}")
                          comment_lines.append("\n**⚠️ Failed to create YouTube streams. Please check credentials.**")
-                         # youtube_streams remains None if creation fails
+                         # occurrence_youtube_streams remains None if creation fails
              elif is_recurring:
                  # Recurring meeting, but streams not needed
                  print(f"[DEBUG] Recurring meeting detected, but YouTube streams were not requested")
-                 if meeting_id in mapping:
-                     if meeting_id not in mapping:
-                          mapping[meeting_id] = {}
-                     mapping[meeting_id]["skip_youtube_upload"] = False
-                     mapping_updated = True
              else:
                  # One-time meeting, upload handled later
                  print(f"[DEBUG] One-time meeting detected, YouTube upload will be handled after the meeting")
-                 if meeting_id in mapping:
-                     if meeting_id not in mapping:
-                          mapping[meeting_id] = {}
-                     mapping[meeting_id]["skip_youtube_upload"] = False
-                     mapping_updated = True
 
         # Calendar handling
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
@@ -678,49 +667,95 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     comment_lines.append("\n**Calendar Event:** Skipped creation due to missing time/duration in issue.")
             # --- End of Restored GCal Logic ---
 
-        # --- Mapping Update Logic --- 
+        # --- Mapping Update Logic ---
         print(f"[DEBUG] Preparing to update mapping for meeting ID: {meeting_id}")
-        
-        # Get current mapping for this meeting_id, or initialize if new
-        current_mapping_entry = mapping.get(meeting_id, {}).copy()
-        
-        # Create the updated entry data
-        updated_mapping_data = {
-            "discourse_topic_id": topic_id,
-            "issue_title": issue.title, 
-            "start_time": start_time if 'start_time' in locals() else current_mapping_entry.get("start_time"),
-            "duration": duration if 'duration' in locals() else current_mapping_entry.get("duration"),
+
+        # Get existing entry or initialize
+        mapping_entry = mapping.get(meeting_id, {}).copy()
+
+        # Ensure 'occurrences' list exists
+        if "occurrences" not in mapping_entry:
+            mapping_entry["occurrences"] = []
+
+        # Create data for the current occurrence
+        occurrence_data = {
+            "occurrence_number": len(mapping_entry["occurrences"]) + 1,
             "issue_number": issue.number,
-            "meeting_id": meeting_id,
-            "is_recurring": is_recurring,
-            "occurrence_rate": occurrence_rate if is_recurring else "none",
-            "call_series": call_series,
-            # Preserve or update specific fields
-            "Youtube_upload_processed": current_mapping_entry.get("Youtube_upload_processed", False),
-            "transcript_processed": current_mapping_entry.get("transcript_processed", False),
-            "upload_attempt_count": current_mapping_entry.get("upload_attempt_count", 0),
-            "transcript_attempt_count": current_mapping_entry.get("transcript_attempt_count", 0),
-            # Determine skip_youtube_upload based on current logic
-            "skip_youtube_upload": is_recurring and occurrence_rate != "none" and need_youtube_streams, 
-            # Add youtube_streams if they were generated or reused
-            "youtube_streams": youtube_streams if 'youtube_streams' in locals() and youtube_streams else current_mapping_entry.get("youtube_streams"),
-            # Add calendar event ID if it was determined
-            "calendar_event_id": event_id,
-            # Add telegram message ID if it was determined
-            "telegram_message_id": locals().get("message_id") or current_mapping_entry.get("telegram_message_id"),
-            # Add the discourse post flag for YT streams if reusing
-            "youtube_streams_posted_to_discourse": current_mapping_entry.get("youtube_streams_posted_to_discourse", False)
+            "issue_title": issue.title,
+            "discourse_topic_id": topic_id,
+            "start_time": start_time if 'start_time' in locals() else None,
+            "duration": duration if 'duration' in locals() else None,
+            # Calculate skip_youtube_upload based on current issue's flags
+            "skip_youtube_upload": need_youtube_streams and is_recurring and occurrence_rate != "none",
+            # Initialize processing flags for this new occurrence
+            "Youtube_upload_processed": False,
+            "transcript_processed": False,
+            "upload_attempt_count": 0,
+            "transcript_attempt_count": 0,
+            "telegram_message_id": None, # Placeholder for occurrence-specific message ID
+            "youtube_streams_posted_to_discourse": False,
+            # Add generated streams to the occurrence data
+            "youtube_streams": occurrence_youtube_streams if 'occurrence_youtube_streams' in locals() else None
         }
 
-        # Check if anything actually changed compared to the existing entry
-        if current_mapping_entry != updated_mapping_data:
-            mapping[meeting_id] = updated_mapping_data
+        # Append the new occurrence data
+        # Check if an occurrence with the same issue number already exists to prevent duplicates
+        existing_occurrence_index = next((i for i, occ in enumerate(mapping_entry["occurrences"]) if occ.get("issue_number") == issue.number), -1)
+        if existing_occurrence_index != -1:
+            print(f"[DEBUG] Updating existing occurrence for issue #{issue.number} in mapping.")
+            # Preserve existing processing flags if just updating metadata
+            existing_flags = {
+                "Youtube_upload_processed": mapping_entry["occurrences"][existing_occurrence_index].get("Youtube_upload_processed", False),
+                "transcript_processed": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_processed", False),
+                "upload_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("upload_attempt_count", 0),
+                "transcript_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_attempt_count", 0),
+                "youtube_streams_posted_to_discourse": mapping_entry["occurrences"][existing_occurrence_index].get("youtube_streams_posted_to_discourse", False)
+            }
+            occurrence_data.update(existing_flags) # Keep existing flags
+            # Update occurrence number just in case list order changed (though unlikely)
+            occurrence_data["occurrence_number"] = mapping_entry["occurrences"][existing_occurrence_index].get("occurrence_number", occurrence_data["occurrence_number"])
+            mapping_entry["occurrences"][existing_occurrence_index] = occurrence_data
+        else:
+            print(f"[DEBUG] Adding new occurrence for issue #{issue.number} to mapping.")
+            mapping_entry["occurrences"].append(occurrence_data)
+
+        # Update series-level info (only if missing/being set for the first time)
+        series_updated = False
+        if "meeting_id" not in mapping_entry:
+            mapping_entry["meeting_id"] = meeting_id; series_updated = True
+        if "is_recurring" not in mapping_entry:
+            mapping_entry["is_recurring"] = is_recurring; series_updated = True
+        if "occurrence_rate" not in mapping_entry or mapping_entry["occurrence_rate"] == "none":
+            mapping_entry["occurrence_rate"] = occurrence_rate if is_recurring else "none"; series_updated = True
+        if "call_series" not in mapping_entry and call_series:
+            mapping_entry["call_series"] = call_series; series_updated = True
+        if "zoom_link" not in mapping_entry and join_url and not str(join_url).startswith("https://zoom.us (API"):
+            mapping_entry["zoom_link"] = join_url; series_updated = True
+        if "calendar_event_id" not in mapping_entry and event_id:
+            mapping_entry["calendar_event_id"] = event_id; series_updated = True
+        # Store youtube_streams only if generated AND not already present at series level
+        if "youtube_streams" not in mapping_entry and 'youtube_streams' in locals() and occurrence_youtube_streams:
+            mapping_entry["youtube_streams"] = occurrence_youtube_streams; series_updated = True
+        # Store telegram_message_id only if generated AND not already present at series level
+        current_telegram_id = locals().get("message_id")
+        if "telegram_message_id" not in mapping_entry and current_telegram_id:
+            # Deprecated: telegram_message_id is now per-occurrence
+            # mapping_entry["telegram_message_id"] = current_telegram_id; series_updated = True
+            pass
+
+        # Always update the mapping with the potentially modified entry (contains new occurrence)
+        # Check if the overall entry has changed before marking for saving
+        original_entry_before_update = mapping.get(meeting_id, {}).copy()
+        if original_entry_before_update != mapping_entry:
+            mapping[meeting_id] = mapping_entry
             mapping_updated = True # Mark that the mapping file needs saving
-            print(f"Mapping updated for meeting ID {meeting_id} with details from issue #{issue_number}.")
+            print(f"Mapping updated for meeting ID {meeting_id} with occurrence details from issue #{issue_number}.")
+            if series_updated:
+                print(f"[DEBUG] Series-level information updated for {meeting_id}.")
         else:
             print(f"[DEBUG] Mapping entry for {meeting_id} remains unchanged.")
 
-        # --- Notification Logic --- 
+        # --- Notification Logic ---
         print("[DEBUG] Entering Notification Block")
         # Extract facilitator information
         facilitator_emails = extract_facilitator_info(issue_body)
@@ -805,14 +840,14 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                     if event_link: # Add GCal link if available
                          telegram_message_body += f"• <a href='{event_link}'>Google Calendar</a>\n"
                     
-                    # --- Add YouTube Stream Links --- 
-                    if 'youtube_streams' in locals() and youtube_streams:
+                    # --- Add YouTube Stream Links (Use occurrence-specific streams) ---
+                    occurrence_streams = occurrence_data.get("youtube_streams") # Get streams generated for *this* occurrence
+                    if occurrence_streams:
                         telegram_message_body += f"\n<b>YouTube Stream Links:</b>\n"
-                        for i, stream in enumerate(youtube_streams):
+                        for i, stream in enumerate(occurrence_streams):
                              stream_url = stream.get('stream_url')
                              if stream_url:
                                  telegram_message_body += f"• <a href='{stream_url}'>Stream {i+1}</a>\n"
-                    # --- End YouTube Stream Links --- 
                     
                     # Check for existing Telegram message ID stored in mapping
                     message_id = mapping.get(meeting_id, {}).get("telegram_message_id")
@@ -827,24 +862,29 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
                              message_id = None # Reset to send new message
                     
                     if not message_id:
-                        print(f"[DEBUG] Sending new Telegram channel message.")
+                        # --- Start: Send message per occurrence --- 
+                        print(f"[DEBUG] Sending new Telegram channel message for occurrence (Issue #{issue.number}).")
                         message_id = tg.send_message(telegram_message_body)
                         if message_id:
                             telegram_channel_sent = True
-                            # Store the new message ID in the mapping for future updates
-                            if meeting_id not in mapping: mapping[meeting_id] = {}
-                            mapping[meeting_id]["telegram_message_id"] = message_id
-                            # Mark mapping as updated because we added the message_id
-                            mapping_updated = True 
-                            print(f"[DEBUG] Stored new telegram_message_id {message_id} in mapping.")
-                        
-                    if telegram_channel_sent:
-                        comment_lines.append("\n**Telegram Notification**")
-                        comment_lines.append("- Sent/Updated message in Ethereum Protocol Updates channel")
-                    else:
-                        comment_lines.append("\n**⚠️ Failed to update Telegram Channel**")
-                        print(f"[DEBUG] Failed to send/update Telegram channel message.")
-                
+                            # Store the message ID within the *current occurrence* object
+                            # Find the occurrence we just added/updated
+                            current_occurrence_index = next((i for i, occ in enumerate(mapping_entry["occurrences"]) if occ.get("issue_number") == issue.number), -1)
+                            if current_occurrence_index != -1:
+                                mapping_entry["occurrences"][current_occurrence_index]["telegram_message_id"] = message_id
+                                mapping_updated = True # Mark mapping for saving
+                                print(f"[DEBUG] Stored telegram_message_id {message_id} in occurrence data for issue #{issue.number}.")
+                            else:
+                               print(f"[ERROR] Could not find occurrence for issue #{issue.number} to store telegram_message_id.")
+                        # --- End: Send message per occurrence ---
+
+                        if telegram_channel_sent:
+                            comment_lines.append("\n**Telegram Notification**")
+                            comment_lines.append("- Sent message for this occurrence to Ethereum Protocol Updates channel")
+                        else:
+                            comment_lines.append("\n**⚠️ Failed to send Telegram message for this occurrence**")
+                            print(f"[DEBUG] Failed to send/update Telegram channel message.")
+                    
                 except Exception as e:
                     print(f"[ERROR] Telegram channel notification failed: {e}")
                     comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {str(e)}")
@@ -886,9 +926,10 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
         # Try to find the existing action line to update timestamp
         action_line_index = -1
         for i, line in enumerate(comment_lines):
-             if line.startswith("- Action:"):
-                  action_line_index = i
-                  break
+            # Match lines like "- Action: Created" or "- Action: Updated"
+            if re.match(r"-\s+Action:\s+(Created|Updated|Failed)", line):
+                action_line_index = i
+                break
         if action_line_index != -1:
             comment_lines[action_line_index] = f"- Action: {action.capitalize()} at {now}"
         else: # Add action line if it wasn't present (e.g., only errors occurred)
@@ -924,8 +965,18 @@ This email was sent automatically by the Ethereum Protocol Call Bot.</p>
 
     # 2. Commit mapping file if it was updated
     # Remove any null mappings or failed entries before saving
-    mapping = {str(k): v for k, v in mapping.items() if isinstance(v, dict) and v.get("discourse_topic_id") is not None}
-    
+    # Filter based on existence of meeting_id and occurrences list having at least one entry with discourse_topic_id
+    mapping = {
+        str(k): v for k, v in mapping.items()
+        if isinstance(v, dict) and v.get("meeting_id") and
+        (
+            # For non-recurring, check top-level discourse ID
+            (not v.get("is_recurring") and v.get("discourse_topic_id")) or
+            # For recurring, check if occurrences list exists and has entries
+            (v.get("is_recurring") and isinstance(v.get("occurrences"), list) and len(v.get("occurrences")) > 0)
+        )
+    }
+
     if mapping_updated:
         print("[DEBUG] Mapping was updated, attempting to save and commit.")
         try:
