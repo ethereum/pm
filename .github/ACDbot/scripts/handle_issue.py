@@ -206,14 +206,25 @@ def handle_github_issue(issue_number: int, repo_name: str):
         ]
         if series_entries:
             series_entries.sort(key=lambda e: e.get("issue_number", 0), reverse=True)
-            existing_series_entry_for_zoom = series_entries[0]
-            if not skip_zoom_creation:
-                 print(f"[INFO] Overriding 'Already a Zoom meeting ID: false' because an existing meeting for series '{call_series}' was found in mapping.")
-            skip_zoom_creation = True # Force skip Zoom creation if series exists
-            # Also force skip GCal if reusing Zoom series (assume they go together)
-            if not skip_gcal_creation:
-                print(f"[INFO] Overriding 'Already on Ethereum Calendar: false' because an existing meeting for series '{call_series}' was found.")
-            skip_gcal_creation = True 
+            # Check the most recent entry for this series
+            potential_existing_series = series_entries[0]
+            existing_series_meeting_id = potential_existing_series.get("meeting_id")
+            is_placeholder_id = (str(existing_series_meeting_id) == "null" or 
+                                 str(existing_series_meeting_id).startswith("placeholder-"))
+
+            if existing_series_meeting_id and not is_placeholder_id:
+                # Found a valid, non-placeholder meeting ID - force reuse
+                existing_series_entry_for_zoom = potential_existing_series # Confirm this is the one we reuse
+                if not skip_zoom_creation:
+                    print(f"[INFO] Overriding 'Already a Zoom meeting ID: false' because a *valid* existing meeting ({existing_series_meeting_id}) for series '{call_series}' was found.")
+                skip_zoom_creation = True # Force skip Zoom creation
+            elif is_placeholder_id:
+                print(f"[INFO] Found existing series '{call_series}' but meeting ID is a placeholder ('{existing_series_meeting_id}'). Will not force reuse based on this placeholder.")
+                # Do NOT force skip_zoom_creation or skip_gcal_creation based on a placeholder.
+                # Let the script decide based on issue input later.
+                # Still set existing_series_entry_for_zoom in case other details (like GCal ID) are valid and reusable
+                existing_series_entry_for_zoom = potential_existing_series 
+            # Else: No meeting ID found in the most recent entry, do nothing here.
     
     # Add comments based on final skip decisions
     if skip_zoom_creation and not existing_series_entry_for_zoom: # Skipped via issue input, not series reuse
