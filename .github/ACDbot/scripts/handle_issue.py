@@ -44,14 +44,14 @@ def extract_facilitator_info(issue_body):
     facilitator_emails = []
     # Use finditer to handle the different capturing groups based on which pattern matched
     for match in re.finditer(email_pattern, issue_body):
-        if match.group(1): # Matched "Facilitator emails: comma_list..."
+        if match.group(1): # Matched "Facilitator emails: ..." (Group 1 has the list)
             emails_str = match.group(1)
             # Split by comma, strip whitespace from each email
             found_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
             facilitator_emails.extend(found_emails)
-        elif match.group(2): # Matched "- Facilitator email: [markdown_link_email]..."
+        elif match.group(2): # Matched "- Facilitator email: [email_link]..." (Group 2 has the email)
             facilitator_emails.append(match.group(2).strip())
-        elif match.group(3): # Matched "- Facilitator email: plain_text_email..."
+        elif match.group(3): # Matched "- Facilitator email: plain_email..." (Group 3 has the email)
             facilitator_emails.append(match.group(3).strip())
             
     if facilitator_emails:
