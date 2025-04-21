@@ -27,19 +27,34 @@ def save_meeting_topic_mapping(mapping):
 def extract_facilitator_info(issue_body):
     """
     Extracts facilitator email information from the issue body.
+    Handles:
+    - "Facilitator emails: email1, email2"
+    - "- Facilitator email: email3"
+    - "- Facilitator email: [email4](mailto:email4)"
     Returns a list of email addresses.
     """
-    # Updated pattern to capture multiple emails separated by commas
-    email_pattern = r"Facilitator emails\\s*\\(comma-separated\\):\\s*([^\\n]+)"
+    # Combined pattern to capture both formats
+    # Group 1: Comma-separated list from "Facilitator emails: ..."
+    # Group 2: Single email from markdown link in "- Facilitator email: [...]..."
+    # Group 3: Single plain email from "- Facilitator email: ..."
+    email_pattern = r"(?im)^(?:Facilitator emails:\s*(.+)|-\s*Facilitator email:\s*(?:\(\[([^\@\s\]]+@[^\s\)]+)\]\(mailto:[^\)]+\))|([^\@\s]+@[^\s\n]+)))"
     
     print(f"[DEBUG] Extracting facilitator emails from issue body")
     
-    email_match = re.search(email_pattern, issue_body)
-
-    if email_match:
-        emails_str = email_match.group(1)
-        # Split by comma, strip whitespace from each email
-        facilitator_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
+    facilitator_emails = []
+    # Use finditer to handle the different capturing groups based on which pattern matched
+    for match in re.finditer(email_pattern, issue_body):
+        if match.group(1): # Matched "Facilitator emails: ..."
+            emails_str = match.group(1)
+            # Split by comma, strip whitespace from each email
+            found_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
+            facilitator_emails.extend(found_emails)
+        elif match.group(2): # Matched "- Facilitator email: [markdown]..."
+            facilitator_emails.append(match.group(2).strip())
+        elif match.group(3): # Matched "- Facilitator email: plain..."
+            facilitator_emails.append(match.group(3).strip())
+            
+    if facilitator_emails:
         print(f"[DEBUG] Extracted facilitator emails: {facilitator_emails}")
         return facilitator_emails
     else:
@@ -217,6 +232,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
     issue_link = f"[GitHub Issue]({issue.html_url})"
     updated_body = f"{issue_body}\n\n{issue_link}"
 
+    # Initialize discourse_url to ensure it has a value
+    discourse_url = None
     # 3. Discourse handling
     if topic_id:
         print(f"[DEBUG] Creating new topic or finding existing: '{issue_title}'")
