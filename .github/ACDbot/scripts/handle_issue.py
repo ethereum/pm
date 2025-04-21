@@ -33,26 +33,29 @@ def extract_facilitator_info(issue_body):
     - "- Facilitator email: [email4](mailto:email4)"
     Returns a list of email addresses.
     """
-    # Combined pattern to capture both formats
-    # Group 1: Comma-separated list from "Facilitator emails: ..."
-    # Group 2: Email address from markdown link in "- Facilitator email: [email](...) ..."
-    # Group 3: Plain email address from "- Facilitator email: ...\"
-    email_pattern = r"(?im)^(?:Facilitator emails:\s*(.+)|-\s*Facilitator email:\s*(?:\[([^@\s\]]+@[^@\s\)]+)\]\(mailto:[^)]+\))|([^@\s]+@[^@\s\n]+)))"
+    pattern_list = r"(?im)^Facilitator emails:\s*(.+)"
+    pattern_markdown = r"(?im)^-\s*Facilitator email:\s*\[([^]]+)\]\(mailto:[^)]+\)"
+    pattern_plain = r"(?im)^-\s*Facilitator email:\s*([^@\s]+@[^@\s\n]+)"
     
     print(f"[DEBUG] Extracting facilitator emails from issue body")
     
     facilitator_emails = []
-    # Use finditer to handle the different capturing groups based on which pattern matched
-    for match in re.finditer(email_pattern, issue_body):
-        if match.group(1): # Matched "Facilitator emails: ..." (Group 1 has the list)
-            emails_str = match.group(1)
-            # Split by comma, strip whitespace from each email
-            found_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
-            facilitator_emails.extend(found_emails)
-        elif match.group(2): # Matched "- Facilitator email: [email_link]..." (Group 2 has the email)
-            facilitator_emails.append(match.group(2).strip())
-        elif match.group(3): # Matched "- Facilitator email: plain_email..." (Group 3 has the email)
-            facilitator_emails.append(match.group(3).strip())
+    
+    # Try matching the comma-separated list format first
+    match_list = re.search(pattern_list, issue_body)
+    if match_list:
+        emails_str = match_list.group(1)
+        found_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
+        facilitator_emails.extend(found_emails)
+    else:
+        # If list format not found, try the single email formats (markdown first, then plain)
+        match_markdown = re.search(pattern_markdown, issue_body)
+        if match_markdown:
+            facilitator_emails.append(match_markdown.group(1).strip())
+        else:
+            match_plain = re.search(pattern_plain, issue_body)
+            if match_plain:
+                facilitator_emails.append(match_plain.group(1).strip())
             
     if facilitator_emails:
         print(f"[DEBUG] Extracted facilitator emails: {facilitator_emails}")
