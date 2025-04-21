@@ -219,47 +219,44 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # 3. Discourse handling
     if topic_id:
-        discourse_response = discourse.update_topic(
-            topic_id=topic_id,
+        print(f"[DEBUG] Creating new topic or finding existing: '{issue_title}'")
+        # discourse.create_topic now handles duplicate titles internally
+        discourse_response = discourse.create_topic(
             title=issue_title,
             body=updated_body,
-            category_id=63  
+            category_id=63  # Example category ID
         )
-        action = "updated"
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
-        comment_lines.append(f"- Action: {action.capitalize()}")
-        comment_lines.append(f"- URL: {discourse_url}")
         
-        # Add existing YouTube stream links to comments and discourse post if available
-        if existing_youtube_streams:
-            comment_lines.append("\n**Existing YouTube Stream Links:**")
-            stream_links = []
-            for i, stream in enumerate(existing_youtube_streams, 1):
-                # Extract date from stream details if available
-                stream_date = ""
-                if 'scheduled_time' in stream:
-                    try:
-                        # Import datetime in this scope
-                        from datetime import datetime
-                        # Parse the scheduled_time string to a datetime object
-                        scheduled_time = stream['scheduled_time']
-                        if scheduled_time.endswith('Z'):
-                            scheduled_time = scheduled_time.replace('Z', '+00:00')
-                        date_obj = datetime.fromisoformat(scheduled_time)
-                        # Format as "Mon DD, YYYY"
-                        stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
-                    except Exception as e:
-                        print(f"[DEBUG] Error formatting stream date: {e}")
-                        # If parsing fails, leave date empty
-                        pass
-                        
-                # Add date to stream links
-                comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+        topic_id = discourse_response.get("topic_id")
+        action = discourse_response.get("action", "failed") # Default to failed if action not returned
+        
+        if topic_id:
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+            comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+            comment_lines.append(f"- Action: {action.capitalize()}")
+            comment_lines.append(f"- URL: {discourse_url}")
+            print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
+            
+            # Add existing YouTube stream links to comments and discourse post if available AND topic exists
+            if existing_youtube_streams:
+                comment_lines.append("\n**Existing YouTube Stream Links:**")
+                stream_links = []
+                for i, stream in enumerate(existing_youtube_streams, 1):
+                    stream_date = ""
+                    if 'scheduled_time' in stream:
+                        try:
+                            from datetime import datetime
+                            scheduled_time = stream['scheduled_time']
+                            if scheduled_time.endswith('Z'):
+                                scheduled_time = scheduled_time.replace('Z', '+00:00')
+                            date_obj = datetime.fromisoformat(scheduled_time)
+                            stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                        except Exception as e:
+                            print(f"[DEBUG] Error formatting stream date: {e}")
+                    comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                    stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
                 
-            # Update Discourse post with stream links if we have a topic ID
-            if topic_id:
+                # Update Discourse post with stream links
                 try:
                     discourse_content = f"{updated_body}\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
                     discourse.update_topic(
@@ -267,70 +264,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         body=discourse_content
                     )
                 except Exception as e:
-                    print(f"[DEBUG] Error updating Discourse topic with existing YouTube streams: {str(e)}")
-    else:
-        # Create a new topic - the updated create_topic function will handle duplicate titles
-        try:
-            print(f"[DEBUG] Creating new topic: '{issue_title}'")
-            discourse_response = discourse.create_topic(
-                title=issue_title,
-                body=updated_body,
-                category_id=63  
-            )
-            
-            topic_id = discourse_response.get("topic_id")
-            action = discourse_response.get("action", "created")  # Get action from response or default to "created"
-            
-            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-            comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
-            comment_lines.append(f"- Action: {action.capitalize()}")
-            comment_lines.append(f"- URL: {discourse_url}")
-            
-            print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
-            
-            # Add existing YouTube stream links to comments and discourse post if available
-            if existing_youtube_streams:
-                comment_lines.append("\n**Existing YouTube Stream Links:**")
-                stream_links = []
-                for i, stream in enumerate(existing_youtube_streams, 1):
-                    # Extract date from stream details if available
-                    stream_date = ""
-                    if 'scheduled_time' in stream:
-                        try:
-                            # Import datetime in this scope
-                            from datetime import datetime
-                            # Parse the scheduled_time string to a datetime object
-                            scheduled_time = stream['scheduled_time']
-                            if scheduled_time.endswith('Z'):
-                                scheduled_time = scheduled_time.replace('Z', '+00:00')
-                            date_obj = datetime.fromisoformat(scheduled_time)
-                            # Format as "Mon DD, YYYY"
-                            stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
-                        except Exception as e:
-                            print(f"[DEBUG] Error formatting stream date: {e}")
-                            # If parsing fails, leave date empty
-                            pass
-                        
-                    # Add date to stream links
-                    comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                    stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                
-                # Update Discourse post with stream links if we have a topic ID
-                if topic_id:
-                    try:
-                        discourse_content = f"{updated_body}\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
-                        discourse.update_topic(
-                            topic_id=topic_id,
-                            body=discourse_content
-                        )
-                    except Exception as e:
-                        print(f"[DEBUG] Error updating Discourse topic with existing YouTube streams: {str(e)}")
-        except Exception as e:
-            print(f"[DEBUG] Error in Discourse topic handling: {str(e)}")
+                    print(f"[DEBUG] Error updating Discourse topic {topic_id} with existing YouTube streams: {str(e)}")
+                    comment_lines.append(f"- ⚠️ Failed to add existing YouTube streams to Discourse topic {topic_id}")
+        else:
+            # Handle case where create_topic failed to return a topic_id (even after trying to find existing)
+            print(f"[ERROR] Failed to create or find Discourse topic for title: '{issue_title}'")
             comment_lines.append("\n**⚠️ Discourse Topic Error**")
-            comment_lines.append(f"- Failed to create/update Discourse topic: {str(e)}")
-            # Set a placeholder topic_id to allow the rest of the process to continue
-            topic_id = f"placeholder-{issue.number}"
+            comment_lines.append(f"- Failed to create/find Discourse topic. Check Discourse module logs.")
+            topic_id = f"placeholder-failed-{issue.number}" # Keep a placeholder for downstream logic
             discourse_url = "https://ethereum-magicians.org (API error occurred)"
             action = "failed"
 
@@ -995,11 +936,13 @@ def parse_issue_for_time(issue_body: str):
     
     - Date/time line followed by a duration line (with or without "Duration in minutes" preceding it)
     - Accepts both abbreviated and full month names
+    - Handles formats like "Apr 22 (Tues), 2025, 14:00 UTC"
     """
     
     # -------------------------------------------------------------------------
     # 1. Regex pattern to find the date/time in the issue body
     # -------------------------------------------------------------------------
+    # Original pattern
     date_pattern = re.compile(
         r"""
         \[?                                        # Optional opening bracket
@@ -1014,10 +957,38 @@ def parse_issue_for_time(issue_body: str):
         """,
         re.IGNORECASE | re.VERBOSE
     )
+    
+    # Alternative pattern for PeerDAS format: "Apr 22 (Tues), 2025, 14:00 UTC"
+    alt_date_pattern = re.compile(
+        r"""
+        (?P<month>[A-Za-z]{3,9})\s+                # Month name (abbreviated or full)
+        (?P<day>\d{1,2})                           # Day number
+        \s*(?:\([A-Za-z]{3,4}\))?,?\s*            # Optional day of week in parentheses, optional comma
+        (?P<year>\d{4}),?\s*                      # Year, optional comma
+        (?P<hour>\d{1,2}):(?P<minute>\d{2})        # Start time HH:MM
+        (?:\s*-\s*(?P<end_hour>\d{1,2}):(?P<end_minute>\d{2}))?  # Optional end time HH:MM
+        \s*UTC                                     # UTC timezone
+        """,
+        re.IGNORECASE | re.VERBOSE
+    )
 
+    # Try original pattern first
     date_match = date_pattern.search(issue_body)
     if not date_match:
-        raise ValueError("Missing or invalid date/time format.")
+        # Try alternative pattern
+        date_match = alt_date_pattern.search(issue_body)
+        
+    if not date_match:
+        # Try to find any date-like mentions in the issue
+        date_samples = re.findall(r'[A-Za-z]+\s+\d{1,2}(?:,?\s*\d{4})(?:,?\s*\d{1,2}:\d{2})?', issue_body)
+        time_samples = re.findall(r'\d{1,2}:\d{2}\s*(?:UTC|GMT|EST|PST|[+-]\d{2}:\d{2})?', issue_body)
+        error_msg = "Missing or invalid date/time format."
+        
+        if date_samples or time_samples:
+            error_msg += f" Found potential date/time fragments: {', '.join(date_samples[:2])} {', '.join(time_samples[:2])}"
+        
+        print(f"[DEBUG] Could not match date pattern. Issue body excerpt: '{issue_body[:200].replace(chr(10), ' ')}'")
+        raise ValueError(error_msg)
 
     month = date_match.group('month')
     day = date_match.group('day')
