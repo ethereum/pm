@@ -249,9 +249,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Initialize discourse_url to ensure it has a value
     discourse_url = None
     # 3. Discourse handling
-    if topic_id:
-        print(f"[DEBUG] Creating new topic or finding existing: '{issue_title}'")
-        # discourse.create_topic now handles duplicate titles internally
+    print(f"[DEBUG] Attempting to create/update Discourse topic: '{issue_title}'")
+    try:
+        # discourse.create_topic handles duplicate titles internally and returns existing/new topic_id
         discourse_response = discourse.create_topic(
             title=issue_title,
             body=updated_body,
@@ -260,51 +260,56 @@ def handle_github_issue(issue_number: int, repo_name: str):
         
         topic_id = discourse_response.get("topic_id")
         action = discourse_response.get("action", "failed") # Default to failed if action not returned
-        
-        if topic_id:
-            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-            comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
-            comment_lines.append(f"- Action: {action.capitalize()}")
-            comment_lines.append(f"- URL: {discourse_url}")
-            print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
+
+        if not topic_id:
+            # If create_topic failed to return an ID (even after checking existing)
+            raise ValueError(f"Discourse module failed to return a valid topic ID for title '{issue_title}'")
             
-            # Add existing YouTube stream links to comments and discourse post if available AND topic exists
-            if existing_youtube_streams:
-                comment_lines.append("\n**Existing YouTube Stream Links:**")
-                stream_links = []
-                for i, stream in enumerate(existing_youtube_streams, 1):
-                    stream_date = ""
-                    if 'scheduled_time' in stream:
-                        try:
-                            from datetime import datetime
-                            scheduled_time = stream['scheduled_time']
-                            if scheduled_time.endswith('Z'):
-                                scheduled_time = scheduled_time.replace('Z', '+00:00')
-                            date_obj = datetime.fromisoformat(scheduled_time)
-                            stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
-                        except Exception as e:
-                            print(f"[DEBUG] Error formatting stream date: {e}")
-                    comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                    stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                
-                # Update Discourse post with stream links
-                try:
-                    discourse_content = f"{updated_body}\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
-                    discourse.update_topic(
-                        topic_id=topic_id,
-                        body=discourse_content
-                    )
-                except Exception as e:
-                    print(f"[DEBUG] Error updating Discourse topic {topic_id} with existing YouTube streams: {str(e)}")
-                    comment_lines.append(f"- ⚠️ Failed to add existing YouTube streams to Discourse topic {topic_id}")
-        else:
-            # Handle case where create_topic failed to return a topic_id (even after trying to find existing)
-            print(f"[ERROR] Failed to create or find Discourse topic for title: '{issue_title}'")
-            comment_lines.append("\n**⚠️ Discourse Topic Error**")
-            comment_lines.append(f"- Failed to create/find Discourse topic. Check Discourse module logs.")
-            topic_id = f"placeholder-failed-{issue.number}" # Keep a placeholder for downstream logic
-            discourse_url = "https://ethereum-magicians.org (API error occurred)"
-            action = "failed"
+        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+        comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+        comment_lines.append(f"- Action: {action.capitalize()}")
+        comment_lines.append(f"- URL: {discourse_url}")
+        print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
+        
+        # Add existing YouTube stream links to comments and discourse post if available AND topic exists
+        if existing_youtube_streams:
+            comment_lines.append("\n**Existing YouTube Stream Links:**")
+            stream_links = []
+            for i, stream in enumerate(existing_youtube_streams, 1):
+                stream_date = ""
+                if 'scheduled_time' in stream:
+                    try:
+                        from datetime import datetime
+                        scheduled_time = stream['scheduled_time']
+                        if scheduled_time.endswith('Z'):
+                            scheduled_time = scheduled_time.replace('Z', '+00:00')
+                        date_obj = datetime.fromisoformat(scheduled_time)
+                        stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                    except Exception as e:
+                        print(f"[DEBUG] Error formatting stream date: {e}")
+                comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+            
+            # Update Discourse post with stream links
+            try:
+                discourse_content = f"{updated_body}\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
+                # Use update_topic to append, assuming create_topic handled initial creation/update
+                discourse.update_topic(
+                    topic_id=topic_id,
+                    body=discourse_content 
+                )
+            except Exception as e:
+                print(f"[DEBUG] Error updating Discourse topic {topic_id} with existing YouTube streams: {str(e)}")
+                comment_lines.append(f"- ⚠️ Failed to add existing YouTube streams to Discourse topic {topic_id}")
+
+    except Exception as e:
+        # Catch any error during the create_topic call or subsequent processing
+        print(f"[ERROR] Exception during Discourse handling: {str(e)}")
+        comment_lines.append("\n**⚠️ Discourse Topic Error**")
+        comment_lines.append(f"- Failed to create/update Discourse topic: {str(e)}")
+        topic_id = f"placeholder-error-{issue.number}" # Use a placeholder for downstream
+        discourse_url = "https://ethereum-magicians.org (API error occurred)"
+        action = "failed" # Ensure action is set to failed
 
     # Determine the base title for recurring events
     event_base_title = issue_title # Default to issue title
