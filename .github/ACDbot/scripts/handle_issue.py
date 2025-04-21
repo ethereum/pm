@@ -37,21 +37,21 @@ def extract_facilitator_info(issue_body):
     # Group 1: Comma-separated list from "Facilitator emails: ..."
     # Group 2: Email address from markdown link in "- Facilitator email: [email](...) ..."
     # Group 3: Plain email address from "- Facilitator email: ...\"
-    email_pattern = r"(?im)^(?:Facilitator emails:\s*(.+)|-\s*Facilitator email:\s*(?:\[([^\\@\\s\\]]+@[^\\s\\)]+)\]\(mailto:[^\\)]+\))|([^\@\s]+@[^\s\n]+)))"
+    email_pattern = r"(?im)^(?:Facilitator emails:\s*(.+)|-\s*Facilitator email:\s*(?:\[([^@\s\]]+@[^@\s\)]+)\]\(mailto:[^)]+\))|([^@\s]+@[^@\s\n]+)))"
     
     print(f"[DEBUG] Extracting facilitator emails from issue body")
     
     facilitator_emails = []
     # Use finditer to handle the different capturing groups based on which pattern matched
     for match in re.finditer(email_pattern, issue_body):
-        if match.group(1): # Matched "Facilitator emails: list..."
+        if match.group(1): # Matched "Facilitator emails: comma_list..."
             emails_str = match.group(1)
             # Split by comma, strip whitespace from each email
             found_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
             facilitator_emails.extend(found_emails)
-        elif match.group(2): # Matched "- Facilitator email: [markdown_email]..."
+        elif match.group(2): # Matched "- Facilitator email: [markdown_link_email]..."
             facilitator_emails.append(match.group(2).strip())
-        elif match.group(3): # Matched "- Facilitator email: plain_email..."
+        elif match.group(3): # Matched "- Facilitator email: plain_text_email..."
             facilitator_emails.append(match.group(3).strip())
             
     if facilitator_emails:
