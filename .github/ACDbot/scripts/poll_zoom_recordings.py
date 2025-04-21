@@ -55,14 +55,14 @@ def commit_mapping_file():
 
 def is_meeting_eligible(meeting_end_time):
     """
-    Check if the meeting ended more than 30 minutes ago.
+    Check if the meeting ended more than 15 minutes ago.
     Ensures both times are timezone-aware (UTC).
     """
     now_utc = datetime.now(timezone.utc)
     if meeting_end_time.tzinfo is None:
         # Assume UTC if timezone is missing (should not happen with Zoom data)
         meeting_end_time = meeting_end_time.replace(tzinfo=timezone.utc)
-    return now_utc - meeting_end_time >= timedelta(minutes=30)
+    return now_utc - meeting_end_time >= timedelta(minutes=15)
 
 def validate_meeting_id(meeting_id):
     return str(meeting_id).strip()

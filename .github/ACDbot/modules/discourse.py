@@ -60,9 +60,10 @@ def create_topic(title: str, body: str, category_id=63):
                         topic_id = topic_data.get("id")
                         print(f"[DEBUG] Found existing topic with ID: {topic_id}")
                         
-                        # Update the existing topic with new body
+                        # Update the existing topic with new title and body
                         update_result = update_topic(
                             topic_id=topic_id,
+                            title=title,
                             body=body,
                             category_id=category_id
                         )
