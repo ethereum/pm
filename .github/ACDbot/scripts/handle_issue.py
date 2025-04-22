@@ -2,6 +2,8 @@ import os
 import sys
 import argparse
 from modules import discourse, zoom, gcal, email_utils, tg, rss_utils
+# Import the custom exception again
+from modules.discourse import DiscourseDuplicateTitleError 
 from github import Github
 import re
 from datetime import datetime as dt
@@ -242,45 +244,53 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Note for series reuse is added within the Zoom processing block later
     # --- End Refactor --- 
 
-    # 2. Check for existing topic_id using the mapping instead of comments
+    # 2. Check for existing topic_id and previous details by searching mapping correctly
     topic_id = None
-    existing_entry_for_issue = next((entry for entry in mapping.values() if entry.get("issue_number") == issue_number), None)
-    if existing_entry_for_issue:
-        # Check if the stored ID is valid (not a placeholder)
-        potential_topic_id = existing_entry_for_issue.get("discourse_topic_id")
+    previous_zoom_id = None
+    previous_join_url = None
+    found_meeting_id_for_issue = None
+    existing_occurrence_data = None
+
+    print(f"[DEBUG] Searching mapping for existing data related to issue #{issue_number}")
+    # Iterate through top-level meeting entries
+    for m_id, entry_data in mapping.items():
+        # Check if issue number is directly under this meeting ID (for non-recurring/older format)
+        if entry_data.get("issue_number") == issue_number:
+            found_meeting_id_for_issue = m_id
+            existing_occurrence_data = entry_data # Treat top-level as the occurrence data
+            print(f"[DEBUG] Found issue #{issue_number} directly under meeting_id {m_id}.")
+            break # Found it
+        
+        # If not found directly, check inside occurrences list if it exists
+        elif "occurrences" in entry_data and isinstance(entry_data["occurrences"], list):
+            for occurrence in entry_data["occurrences"]:
+                if isinstance(occurrence, dict) and occurrence.get("issue_number") == issue_number:
+                    found_meeting_id_for_issue = m_id # The meeting ID this occurrence belongs to
+                    existing_occurrence_data = occurrence
+                    print(f"[DEBUG] Found issue #{issue_number} within occurrences of meeting_id {m_id}.")
+                    break # Found the occurrence
+            if found_meeting_id_for_issue: # Break outer loop if found in inner loop
+                break
+
+    # Now use the found data (if any) to set initial topic_id and previous Zoom details
+    if found_meeting_id_for_issue and existing_occurrence_data:
+        print(f"[DEBUG] Processing data found for issue #{issue_number} under meeting_id {found_meeting_id_for_issue}")
+        # Get potential topic ID from the occurrence data itself
+        potential_topic_id = existing_occurrence_data.get("discourse_topic_id")
         if potential_topic_id and not str(potential_topic_id).startswith("placeholder"):
             topic_id = potential_topic_id
             print(f"[DEBUG] Found valid existing topic_id {topic_id} in mapping for issue {issue_number}.")
         else:
-            print(f"[DEBUG] Found mapping entry for issue {issue_number}, but topic_id is missing or placeholder: {potential_topic_id}")
-
-    # Store previous Zoom details before potential changes
-    previous_zoom_id = None
-    previous_join_url = None
-    # Find the mapping entry linked by meeting_id IF the issue was already mapped
-    # Note: This assumes meeting_id doesn't change for a series.
-    # We need a reliable way to find the previous state *for this issue's context*.
-    # Re-using existing_entry_for_issue which is based on issue_number seems more direct.
-    if existing_entry_for_issue:
-         # What meeting_id was this issue previously associated with?
-         # This requires finding the key (meeting_id) for this entry value.
-         found_meeting_id = None
-         for m_id, entry_data in mapping.items():
-             if entry_data.get("issue_number") == issue_number:
-                 found_meeting_id = m_id
-                 break
-         
-         if found_meeting_id:
-             # Now get the data stored under that meeting_id
-             previous_mapping_data = mapping.get(found_meeting_id, {})
-             previous_zoom_id = previous_mapping_data.get("meeting_id") # which is the key itself
-             previous_join_url = previous_mapping_data.get("zoom_link")
-             print(f"[DEBUG] Found previous Zoom details for issue #{issue_number} (meeting_id {found_meeting_id}): ID={previous_zoom_id}, URL={previous_join_url}")
-         else:
-             # Issue existed in mapping somehow but couldn't find its key? Should not happen.
-             print(f"[WARN] Issue #{issue_number} found in mapping values, but couldn't find corresponding meeting_id key.")
+            print(f"[DEBUG] Found mapping entry for issue {issue_number}, but discourse_topic_id is missing or placeholder: {potential_topic_id}")
+        
+        # Get previous Zoom details from the TOP-LEVEL meeting entry associated with this issue
+        # This assumes the zoom_id/link is stored at the series level
+        series_data = mapping.get(found_meeting_id_for_issue, {}) # Get the main dict for the meeting_id
+        previous_zoom_id = series_data.get("meeting_id") # which is the key itself
+        previous_join_url = series_data.get("zoom_link")
+        print(f"[DEBUG] Found previous Zoom details associated with issue #{issue_number} (meeting_id {found_meeting_id_for_issue}): ID={previous_zoom_id}, URL={previous_join_url}")
     else:
-        print(f"[DEBUG] No previous mapping entry found for issue #{issue_number}. Assuming new meeting context.")
+        print(f"[DEBUG] No previous mapping entry found containing issue #{issue_number}. Assuming new meeting context.")
 
     issue_link = f"[GitHub Issue]({issue.html_url})"
     updated_body = f"{issue_body}\n\n{issue_link}"
@@ -289,11 +299,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
     discourse_url = None
     action = None # Initialize action
     # 3. Discourse handling
-    # First, check if we already have a valid topic_id from the mapping for this issue
-    if topic_id: # We already established this is a valid, non-placeholder ID
+    # First, check if we already have a valid topic_id from the mapping search above
+    if topic_id: # We already established this is a valid, non-placeholder ID from mapping
         print(f"[DEBUG] Updating existing Discourse topic {topic_id} based on mapping.")
         try:
-            discourse.update_topic(
+            update_response = discourse.update_topic(
                 topic_id=topic_id,
                 title=issue_title,
                 body=updated_body,
@@ -304,7 +314,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
             comment_lines.append(f"- Action: {action.capitalize()}")
             comment_lines.append(f"- URL: {discourse_url}")
-        except Exception as e:
+        except DiscourseDuplicateTitleError as e:
             print(f"[ERROR] Failed to update topic {topic_id} title due to duplicate: {e}")
             comment_lines.append("\n**⚠️ Discourse Topic Error**")
             comment_lines.append(f"- Failed to update topic {topic_id}: Title '{e.title}' already exists.")
@@ -320,8 +330,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
             discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}" # Keep original URL for comment if possible
 
     else:
-        # No valid topic_id found in mapping for this issue, attempt to create or find via mapping
-        print(f"[DEBUG] No valid topic_id in mapping for issue #{issue_number}. Attempting to create/find Discourse topic: '{issue_title}'")
+        # No valid topic_id found in mapping for this issue, attempt to create 
+        print(f"[DEBUG] No valid topic_id found in mapping for issue #{issue_number}. Attempting to create Discourse topic: '{issue_title}'")
         try:
             discourse_response = discourse.create_topic(
                 title=issue_title,
@@ -340,6 +350,70 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append(f"- Action: {action.capitalize()}")
             comment_lines.append(f"- URL: {discourse_url}")
             print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
+        
+        except DiscourseDuplicateTitleError as e:
+            print(f"[INFO] Discourse topic creation failed: Title '{e.title}' already exists. Searching mapping for existing topic.")
+            comment_lines.append("\n**Discourse Topic:** Title already exists.")
+            found_existing_in_mapping = False
+            # Try to find the topic_id from the mapping based on call_series for recurring meetings
+            if is_recurring and call_series:
+                print(f"[DEBUG] Searching mapping for call series: '{call_series}'")
+                # Find entries matching the call series with a valid topic ID, sort by issue number desc
+                series_entries = sorted(
+                    [entry for entry in mapping.values() 
+                     if entry.get("call_series") == call_series and 
+                        entry.get("discourse_topic_id") and # Check top-level first (older format?)
+                        not str(entry.get("discourse_topic_id")).startswith("placeholder")],
+                    key=lambda e: e.get("issue_number", 0), # May not have issue_number at top level
+                    reverse=True
+                )
+                # If not found at top level, check occurrences within matching series entries
+                if not series_entries:
+                    potential_series_matches = [
+                        (m_id, entry) for m_id, entry in mapping.items() 
+                        if entry.get("call_series") == call_series and "occurrences" in entry
+                    ]
+                    for m_id, entry in potential_series_matches:
+                         # Sort occurrences by issue number within the series
+                         sorted_occurrences = sorted(
+                             [occ for occ in entry.get("occurrences", []) 
+                              if isinstance(occ, dict) and occ.get("discourse_topic_id") and 
+                                 not str(occ.get("discourse_topic_id")).startswith("placeholder")],
+                             key=lambda o: o.get("issue_number", 0),
+                             reverse=True
+                         )
+                         if sorted_occurrences:
+                             # Found the most recent valid topic ID within this series' occurrences
+                             topic_id = sorted_occurrences[0]["discourse_topic_id"]
+                             series_entries = [entry] # Use the parent entry for logging context below
+                             print(f"[DEBUG] Found existing topic ID {topic_id} in occurrences for series '{call_series}'")
+                             break # Found it in this series, stop searching others
+
+                if series_entries: # If found either at top-level or in occurrences
+                    if not topic_id: # If found at top-level
+                         topic_id = series_entries[0]["discourse_topic_id"]
+                         print(f"[DEBUG] Found existing topic ID {topic_id} at top-level for series '{call_series}'")
+
+                    found_existing_in_mapping = True
+                    action = "found_duplicate_series"
+                    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+                    # Log the issue number where the ID was found if possible
+                    found_in_issue_num = series_entries[0].get('issue_number', 'N/A') 
+                    if sorted_occurrences: # If found in occurrences, get issue from there
+                         found_in_issue_num = sorted_occurrences[0].get('issue_number', 'N/A')
+                    print(f"[DEBUG] Using existing topic ID {topic_id} for series '{call_series}' (found via issue #{found_in_issue_num}).")
+                    comment_lines.append(f"- Using existing Topic ID found in mapping: {topic_id}")
+                    comment_lines.append(f"- URL: {discourse_url}")
+                else:
+                    print(f"[DEBUG] No existing valid topic ID found in mapping for series '{call_series}'.")
+            
+            # If not found via series (or not recurring), handle as failure to find existing
+            if not found_existing_in_mapping:
+                print(f"[ERROR] Duplicate title '{e.title}', but could not find existing topic ID in mapping.")
+                comment_lines.append("- ⚠️ Could not find existing topic ID in mapping for this duplicate title.")
+                topic_id = f"placeholder-duplicate-{issue.number}"
+                discourse_url = "https://ethereum-magicians.org (Duplicate title, ID not found)"
+                action = "failed_duplicate_title"
 
         except Exception as e:
             # Catch other errors during creation (e.g., network, other API errors)
@@ -352,6 +426,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Add existing YouTube stream links (only if action indicates success/found and streams exist)
     # Refine condition to check action status properly
+    # Make sure topic_id is valid before using it
     if action in ["created", "updated", "found_duplicate_series"] and topic_id and not str(topic_id).startswith("placeholder") and existing_youtube_streams:
         print(f"[DEBUG] Adding existing YouTube streams to Discourse topic {topic_id}")
         comment_lines.append("\n**Existing YouTube Stream Links:**")
@@ -434,17 +509,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 zoom_action = "skipped_issue"
         else:
             # Proceed with Zoom creation/update logic (as skip_zoom_creation is False)
-            # Check for existing meeting tied to this issue number
+            # Check for existing meeting tied to this issue number (using data found earlier)
             print(f"[DEBUG] Proceeding with Zoom creation/update for issue #{issue_number}.")
-            existing_zoom_id_for_issue = None
-            # Use the previously found meeting ID associated with this issue
-            for m_id, entry_data in mapping.items():
-                 if entry_data.get("issue_number") == issue.number:
-                     existing_zoom_id_for_issue = m_id
-                     break
+            # Use the meeting ID and occurrence data found during the initial mapping search
+            existing_zoom_id_for_issue = found_meeting_id_for_issue
 
             if existing_zoom_id_for_issue:
                 # Update existing meeting tied to this specific issue number
+                # Fetch start/duration from the specific OCCURRENCE data we found earlier
+                stored_start = existing_occurrence_data.get("start_time") if existing_occurrence_data else None
                 existing_entry_data = mapping.get(existing_zoom_id_for_issue, {})
                 stored_start = existing_entry_data.get("start_time") # TODO: This should check OCCURRENCE start time
                 stored_duration = existing_entry_data.get("duration") # TODO: This should check OCCURRENCE duration
