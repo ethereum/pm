@@ -248,68 +248,104 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Initialize discourse_url to ensure it has a value
     discourse_url = None
+    action = None # Initialize action
     # 3. Discourse handling
-    print(f"[DEBUG] Attempting to create/update Discourse topic: '{issue_title}'")
-    try:
-        # discourse.create_topic handles duplicate titles internally and returns existing/new topic_id
-        discourse_response = discourse.create_topic(
-            title=issue_title,
-            body=updated_body,
-            category_id=63  # Example category ID
-        )
-        
-        topic_id = discourse_response.get("topic_id")
-        action = discourse_response.get("action", "failed") # Default to failed if action not returned
+    # First, check if we already have a valid topic_id from the mapping for this issue
+    if topic_id and not str(topic_id).startswith("placeholder"):
+        print(f"[DEBUG] Found existing valid topic_id {topic_id} in mapping for issue {issue_number}. Updating topic.")
+        try:
+            discourse.update_topic(
+                topic_id=topic_id,
+                title=issue_title,
+                body=updated_body,
+                category_id=63
+            )
+            action = "updated" # Mark as updated
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+            comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+            comment_lines.append(f"- Action: {action.capitalize()}")
+            comment_lines.append(f"- URL: {discourse_url}")
 
-        if not topic_id:
-            # If create_topic failed to return an ID (even after checking existing)
-            raise ValueError(f"Discourse module failed to return a valid topic ID for title '{issue_title}'")
-            
-        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-        comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
-        comment_lines.append(f"- Action: {action.capitalize()}")
-        comment_lines.append(f"- URL: {discourse_url}")
-        print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
-        
-        # Add existing YouTube stream links to comments and discourse post if available AND topic exists
-        if existing_youtube_streams:
-            comment_lines.append("\n**Existing YouTube Stream Links:**")
-            stream_links = []
-            for i, stream in enumerate(existing_youtube_streams, 1):
-                stream_date = ""
-                if 'scheduled_time' in stream:
-                    try:
-                        from datetime import datetime
-                        scheduled_time = stream['scheduled_time']
-                        if scheduled_time.endswith('Z'):
-                            scheduled_time = scheduled_time.replace('Z', '+00:00')
-                        date_obj = datetime.fromisoformat(scheduled_time)
-                        stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
-                    except Exception as e:
-                        print(f"[DEBUG] Error formatting stream date: {e}")
-                comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-            
-            # Update Discourse post with stream links
-            try:
-                discourse_content = f"{updated_body}\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
-                # Use update_topic to append, assuming create_topic handled initial creation/update
-                discourse.update_topic(
-                    topic_id=topic_id,
-                    body=discourse_content 
-                )
-            except Exception as e:
-                print(f"[DEBUG] Error updating Discourse topic {topic_id} with existing YouTube streams: {str(e)}")
-                comment_lines.append(f"- ⚠️ Failed to add existing YouTube streams to Discourse topic {topic_id}")
+        except Exception as e:
+            print(f"[ERROR] Failed to update existing Discourse topic {topic_id}: {str(e)}")
+            comment_lines.append("\n**⚠️ Discourse Topic Error**")
+            comment_lines.append(f"- Failed to update existing topic {topic_id}: {str(e)}")
+            # Keep existing topic_id but mark action as failed for comment
+            action = "update_failed"
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}" # Keep original URL for comment if possible
 
-    except Exception as e:
-        # Catch any error during the create_topic call or subsequent processing
-        print(f"[ERROR] Exception during Discourse handling: {str(e)}")
-        comment_lines.append("\n**⚠️ Discourse Topic Error**")
-        comment_lines.append(f"- Failed to create/update Discourse topic: {str(e)}")
-        topic_id = f"placeholder-error-{issue.number}" # Use a placeholder for downstream
-        discourse_url = "https://ethereum-magicians.org (API error occurred)"
-        action = "failed" # Ensure action is set to failed
+    else:
+        # No valid topic_id found in mapping, attempt to create or find via discourse module
+        print(f"[DEBUG] No valid topic_id in mapping. Attempting to create/find Discourse topic: '{issue_title}'")
+        try:
+            discourse_response = discourse.create_topic(
+                title=issue_title,
+                body=updated_body,
+                category_id=63
+            )
+            topic_id = discourse_response.get("topic_id")
+            action = discourse_response.get("action", "failed")
+
+            if not topic_id:
+                raise ValueError(f"Discourse module failed to return a valid topic ID for title '{issue_title}'")
+
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+            comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
+            comment_lines.append(f"- Action: {action.capitalize()}")
+            comment_lines.append(f"- URL: {discourse_url}")
+            print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
+
+        except Exception as e:
+            print(f"[ERROR] Exception during Discourse create/find handling: {str(e)}")
+            comment_lines.append("\n**⚠️ Discourse Topic Error**")
+            comment_lines.append(f"- Failed to create/find Discourse topic: {str(e)}")
+            topic_id = f"placeholder-error-{issue.number}"
+            discourse_url = "https://ethereum-magicians.org (API error occurred)"
+            action = "failed"
+
+    # Add existing YouTube stream links (only if action was successful and streams exist)
+    if action in ["created", "updated"] and existing_youtube_streams:
+        print(f"[DEBUG] Adding existing YouTube streams to Discourse topic {topic_id}")
+        comment_lines.append("\n**Existing YouTube Stream Links:**")
+        stream_links = []
+        for i, stream in enumerate(existing_youtube_streams, 1):
+            stream_date = ""
+            if 'scheduled_time' in stream:
+                try:
+                    from datetime import datetime
+                    scheduled_time = stream['scheduled_time']
+                    if scheduled_time.endswith('Z'):
+                        scheduled_time = scheduled_time.replace('Z', '+00:00')
+                    date_obj = datetime.fromisoformat(scheduled_time)
+                    stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                except Exception as e:
+                    print(f"[DEBUG] Error formatting stream date: {e}")
+            comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+            stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+        
+        # Update Discourse post with stream links
+        try:
+            # Prepare the body content to append
+            youtube_links_body = f"\n\n**Existing YouTube Stream Links:**\n" + "\n".join(stream_links)
+            # Get the current content of the first post to append to it
+            posts = discourse.get_posts_in_topic(topic_id)
+            if posts:
+                 first_post_raw = posts[0].get("raw")
+                 # Check if links are already there to avoid duplicates
+                 if youtube_links_body not in first_post_raw:
+                     updated_discourse_body = first_post_raw + youtube_links_body
+                     discourse.update_topic(
+                         topic_id=topic_id,
+                         body=updated_discourse_body # Update the body with appended links
+                     )
+                     print(f"[DEBUG] Successfully appended YouTube links to topic {topic_id}")
+                 else:
+                     print(f"[DEBUG] YouTube links already present in topic {topic_id}, skipping append.")
+            else:
+                  print(f"[WARN] Could not get posts for topic {topic_id} to append YouTube links.")
+        except Exception as e:
+            print(f"[ERROR] Failed to add existing YouTube streams to Discourse topic {topic_id}: {str(e)}")
+            comment_lines.append(f"- ⚠️ Failed to add existing YouTube streams to Discourse topic {topic_id}")
 
     # Determine the base title for recurring events
     event_base_title = issue_title # Default to issue title
