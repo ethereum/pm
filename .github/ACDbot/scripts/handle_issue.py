@@ -17,7 +17,12 @@ MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 def load_meeting_topic_mapping():
     if os.path.exists(MAPPING_FILE):
         with open(MAPPING_FILE, "r") as f:
-            return json.load(f)
+            # Add error handling for invalid JSON
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                print(f"::error::Failed to decode JSON from {MAPPING_FILE}. Returning empty mapping.")
+                return {}
     return {}
 
 def save_meeting_topic_mapping(mapping):
@@ -239,9 +244,43 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # 2. Check for existing topic_id using the mapping instead of comments
     topic_id = None
-    existing_entry = next((entry for entry in mapping.values() if entry.get("issue_number") == issue_number), None)
-    if existing_entry:
-        topic_id = existing_entry.get("discourse_topic_id")
+    existing_entry_for_issue = next((entry for entry in mapping.values() if entry.get("issue_number") == issue_number), None)
+    if existing_entry_for_issue:
+        # Check if the stored ID is valid (not a placeholder)
+        potential_topic_id = existing_entry_for_issue.get("discourse_topic_id")
+        if potential_topic_id and not str(potential_topic_id).startswith("placeholder"):
+            topic_id = potential_topic_id
+            print(f"[DEBUG] Found valid existing topic_id {topic_id} in mapping for issue {issue_number}.")
+        else:
+            print(f"[DEBUG] Found mapping entry for issue {issue_number}, but topic_id is missing or placeholder: {potential_topic_id}")
+
+    # Store previous Zoom details before potential changes
+    previous_zoom_id = None
+    previous_join_url = None
+    # Find the mapping entry linked by meeting_id IF the issue was already mapped
+    # Note: This assumes meeting_id doesn't change for a series.
+    # We need a reliable way to find the previous state *for this issue's context*.
+    # Re-using existing_entry_for_issue which is based on issue_number seems more direct.
+    if existing_entry_for_issue:
+         # What meeting_id was this issue previously associated with?
+         # This requires finding the key (meeting_id) for this entry value.
+         found_meeting_id = None
+         for m_id, entry_data in mapping.items():
+             if entry_data.get("issue_number") == issue_number:
+                 found_meeting_id = m_id
+                 break
+         
+         if found_meeting_id:
+             # Now get the data stored under that meeting_id
+             previous_mapping_data = mapping.get(found_meeting_id, {})
+             previous_zoom_id = previous_mapping_data.get("meeting_id") # which is the key itself
+             previous_join_url = previous_mapping_data.get("zoom_link")
+             print(f"[DEBUG] Found previous Zoom details for issue #{issue_number} (meeting_id {found_meeting_id}): ID={previous_zoom_id}, URL={previous_join_url}")
+         else:
+             # Issue existed in mapping somehow but couldn't find its key? Should not happen.
+             print(f"[WARN] Issue #{issue_number} found in mapping values, but couldn't find corresponding meeting_id key.")
+    else:
+        print(f"[DEBUG] No previous mapping entry found for issue #{issue_number}. Assuming new meeting context.")
 
     issue_link = f"[GitHub Issue]({issue.html_url})"
     updated_body = f"{issue_body}\n\n{issue_link}"
@@ -251,8 +290,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
     action = None # Initialize action
     # 3. Discourse handling
     # First, check if we already have a valid topic_id from the mapping for this issue
-    if topic_id and not str(topic_id).startswith("placeholder"):
-        print(f"[DEBUG] Found existing valid topic_id {topic_id} in mapping for issue {issue_number}. Updating topic.")
+    if topic_id: # We already established this is a valid, non-placeholder ID
+        print(f"[DEBUG] Updating existing Discourse topic {topic_id} based on mapping.")
         try:
             discourse.update_topic(
                 topic_id=topic_id,
@@ -260,12 +299,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 body=updated_body,
                 category_id=63
             )
-            action = "updated" # Mark as updated
+            action = "updated"
             discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
             comment_lines.append(f"**Discourse Topic ID:** {topic_id}")
             comment_lines.append(f"- Action: {action.capitalize()}")
             comment_lines.append(f"- URL: {discourse_url}")
-
+        except Exception as e:
+            print(f"[ERROR] Failed to update topic {topic_id} title due to duplicate: {e}")
+            comment_lines.append("\n**⚠️ Discourse Topic Error**")
+            comment_lines.append(f"- Failed to update topic {topic_id}: Title '{e.title}' already exists.")
+            # Keep the existing valid topic_id and URL, but mark action as failed update
+            action = "update_failed_duplicate_title"
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}" 
         except Exception as e:
             print(f"[ERROR] Failed to update existing Discourse topic {topic_id}: {str(e)}")
             comment_lines.append("\n**⚠️ Discourse Topic Error**")
@@ -275,8 +320,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
             discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}" # Keep original URL for comment if possible
 
     else:
-        # No valid topic_id found in mapping, attempt to create or find via discourse module
-        print(f"[DEBUG] No valid topic_id in mapping. Attempting to create/find Discourse topic: '{issue_title}'")
+        # No valid topic_id found in mapping for this issue, attempt to create or find via mapping
+        print(f"[DEBUG] No valid topic_id in mapping for issue #{issue_number}. Attempting to create/find Discourse topic: '{issue_title}'")
         try:
             discourse_response = discourse.create_topic(
                 title=issue_title,
@@ -284,9 +329,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 category_id=63
             )
             topic_id = discourse_response.get("topic_id")
-            action = discourse_response.get("action", "failed")
+            action = discourse_response.get("action", "failed") # Should be 'created'
 
             if not topic_id:
+                # This case might be less likely now with specific exceptions, but keep as safeguard
                 raise ValueError(f"Discourse module failed to return a valid topic ID for title '{issue_title}'")
 
             discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
@@ -296,15 +342,17 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
 
         except Exception as e:
-            print(f"[ERROR] Exception during Discourse create/find handling: {str(e)}")
+            # Catch other errors during creation (e.g., network, other API errors)
+            print(f"[ERROR] Exception during Discourse create handling: {str(e)}")
             comment_lines.append("\n**⚠️ Discourse Topic Error**")
-            comment_lines.append(f"- Failed to create/find Discourse topic: {str(e)}")
+            comment_lines.append(f"- Failed to create Discourse topic: {str(e)}")
             topic_id = f"placeholder-error-{issue.number}"
             discourse_url = "https://ethereum-magicians.org (API error occurred)"
             action = "failed"
 
-    # Add existing YouTube stream links (only if action was successful and streams exist)
-    if action in ["created", "updated"] and existing_youtube_streams:
+    # Add existing YouTube stream links (only if action indicates success/found and streams exist)
+    # Refine condition to check action status properly
+    if action in ["created", "updated", "found_duplicate_series"] and topic_id and not str(topic_id).startswith("placeholder") and existing_youtube_streams:
         print(f"[DEBUG] Adding existing YouTube streams to Discourse topic {topic_id}")
         comment_lines.append("\n**Existing YouTube Stream Links:**")
         stream_links = []
@@ -361,6 +409,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     reusing_series_meeting = False
     zoom_response = None # Store response for potential later use
     original_meeting_id_for_reuse = None # Store the original ID if reusing a series
+    zoom_action = "skipped" # Track what happened with Zoom: skipped, created, updated, reused, failed
 
     try:
         # 1. Parse time and duration first
@@ -375,36 +424,44 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 join_url = existing_series_entry_for_zoom.get("zoom_link", "Link not found in mapping")
                 original_meeting_id_for_reuse = zoom_id # Store the ID we are reusing
                 reusing_series_meeting = True
+                zoom_action = "reused_series"
                 print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{call_series}'")
             else:
                 # Skipped via issue input, need placeholder
                 print("[DEBUG] Zoom creation skipped via issue input. Using placeholder Zoom ID.")
                 zoom_id = f"placeholder-skipped-{issue.number}"
                 join_url = "Zoom creation skipped via issue input"
+                zoom_action = "skipped_issue"
         else:
             # Proceed with Zoom creation/update logic (as skip_zoom_creation is False)
-            # No need to check for series again, just check for existing meeting tied to this issue
+            # Check for existing meeting tied to this issue number
             print(f"[DEBUG] Proceeding with Zoom creation/update for issue #{issue_number}.")
-            existing_item_for_issue = next(
-                ((m_id, entry) for m_id, entry in mapping.items() if entry.get("issue_number") == issue.number),
-                None
-            )
-            
-            if existing_item_for_issue:
+            existing_zoom_id_for_issue = None
+            # Use the previously found meeting ID associated with this issue
+            for m_id, entry_data in mapping.items():
+                 if entry_data.get("issue_number") == issue.number:
+                     existing_zoom_id_for_issue = m_id
+                     break
+
+            if existing_zoom_id_for_issue:
                 # Update existing meeting tied to this specific issue number
-                existing_zoom_meeting_id, existing_entry = existing_item_for_issue
-                stored_start = existing_entry.get("start_time")
-                stored_duration = existing_entry.get("duration")
-                zoom_id = existing_zoom_meeting_id # Use the found ID
-                join_url = existing_entry.get("zoom_link") # Use existing link initially
+                existing_entry_data = mapping.get(existing_zoom_id_for_issue, {})
+                stored_start = existing_entry_data.get("start_time") # TODO: This should check OCCURRENCE start time
+                stored_duration = existing_entry_data.get("duration") # TODO: This should check OCCURRENCE duration
+                zoom_id = existing_zoom_id_for_issue # Use the found ID
+                join_url = existing_entry_data.get("zoom_link") # Use existing link initially
 
                 if str(zoom_id).startswith("placeholder-"):
                     print(f"[DEBUG] Skipping Zoom update for placeholder ID: {zoom_id}")
                     join_url = join_url or "https://zoom.us (placeholder)"
-                elif stored_start and stored_duration and (start_time == stored_start) and (duration == stored_duration):
-                    print("[DEBUG] No changes detected in meeting start time or duration. Skipping Zoom update.")
+                    zoom_action = "skipped_placeholder"
+                # TODO: Need to compare with the specific occurrence's start/duration if available
+                # For simplicity now, assume any update attempt means potential change
+                # elif stored_start and stored_duration and (start_time == stored_start) and (duration == stored_duration):
+                #     print("[DEBUG] No changes detected in meeting start time or duration. Skipping Zoom update.")
+                #     zoom_action = "skipped_no_change"
                 else:
-                    print(f"[DEBUG] Updating Zoom meeting {zoom_id} based on changes in issue #{issue_number}.")
+                    print(f"[DEBUG] Updating Zoom meeting {zoom_id} based on issue #{issue_number}.")
                     try:
                         zoom_response = zoom.update_meeting(
                             meeting_id=zoom_id,
@@ -415,12 +472,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
                         comment_lines.append("\n**Zoom Meeting Updated**")
                         print("[DEBUG] Zoom meeting updated.")
                         meeting_updated = True
-                        # Update join_url if response has it
+                        zoom_action = "updated"
+                        # Update join_url if response has it (it usually doesn't for updates)
+                        # Keep the existing join_url unless the update explicitly returns a new one
                         if zoom_response and zoom_response.get('join_url'):
                             join_url = zoom_response.get('join_url')
                     except Exception as e:
                         print(f"[DEBUG] Error updating Zoom meeting {zoom_id}: {str(e)}")
                         comment_lines.append("\n**⚠️ Failed to update Zoom meeting. Please check credentials.**")
+                        zoom_action = "failed_update"
                         # Keep existing zoom_id and join_url
             else:
                 # No meeting tied to this issue number, and not reusing a series meeting -> Create new
@@ -444,27 +504,28 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     
                     print(f"[DEBUG] Zoom meeting created with ID: {zoom_id}")
                     meeting_updated = True
+                    zoom_action = "created"
                 except Exception as e:
                     print(f"[DEBUG] Error creating Zoom meeting: {str(e)}")
                     comment_lines.append("\n**⚠️ Failed to create Zoom meeting. Please check credentials.**")
                     zoom_id = f"placeholder-{issue.number}"
                     join_url = "https://zoom.us (API authentication failed)"
+                    zoom_action = "failed_create"
 
     except ValueError as e:
         # Error parsing time/duration
         print(f"[DEBUG] Error parsing time/duration: {str(e)}")
         comment_lines.append(f"\n**⚠️ Error:** {str(e)} Please correct the format in the issue body.")
-        # Can't proceed with Zoom/GCal/YT without time/duration
-        # Post comment and exit handling for this issue? Or let it continue partially?
-        # For now, set a placeholder to prevent downstream errors but allow mapping/commenting.
         zoom_id = f"placeholder-time-error-{issue.number}"
         join_url = "Invalid time/duration in issue"
+        zoom_action = "failed_time_parse"
     except Exception as e:
         # Catch other unexpected errors during Zoom processing
         print(f"[DEBUG] Unexpected error during Zoom processing: {str(e)}")
         comment_lines.append("\n**⚠️ Unexpected Zoom Processing Error.** Check logs.")
         zoom_id = f"placeholder-error-{issue.number}"
         join_url = "Error during Zoom processing"
+        zoom_action = "failed_unexpected"
 
     # Add Zoom link details to GitHub comment based on the flag
     if zoom_id and not str(zoom_id).startswith("placeholder-"):
@@ -759,6 +820,26 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Always update the mapping with the potentially modified entry (contains new occurrence)
         # Check if the overall entry has changed before marking for saving
         original_entry_before_update = mapping.get(meeting_id, {}).copy()
+        # Ensure the discourse_topic_id is not overwritten by a placeholder if a valid one exists
+        if str(mapping_entry.get("discourse_topic_id")).startswith("placeholder") and \
+           original_entry_before_update.get("discourse_topic_id") and \
+           not str(original_entry_before_update.get("discourse_topic_id")).startswith("placeholder"):
+            print(f"[DEBUG] Preserving existing valid discourse_topic_id '{original_entry_before_update.get('discourse_topic_id')}' over placeholder '{mapping_entry.get('discourse_topic_id')}'")
+            mapping_entry["discourse_topic_id"] = original_entry_before_update.get("discourse_topic_id")
+            
+        # Preserve valid topic ID in occurrence data as well
+        # Find the index again (safer than assuming it didn't change)
+        current_occurrence_index = next((i for i, occ in enumerate(mapping_entry.get("occurrences", [])) if occ.get("issue_number") == issue.number), -1)
+        if current_occurrence_index != -1: 
+            occurrence_data = mapping_entry["occurrences"][current_occurrence_index]
+            # Use the globally determined topic_id (which might be from mapping lookup or creation)
+            # only if it's not a placeholder
+            if topic_id and not str(topic_id).startswith("placeholder"):
+                occurrence_data["discourse_topic_id"] = topic_id
+            # Else: keep whatever placeholder might be there from error handling
+            # (or preserve an older valid one if the update logic allows)
+            mapping_entry["occurrences"][current_occurrence_index] = occurrence_data
+            
         if original_entry_before_update != mapping_entry:
             mapping[meeting_id] = mapping_entry
             mapping_updated = True # Mark that the mapping file needs saving
@@ -778,31 +859,65 @@ def handle_github_issue(issue_number: int, repo_name: str):
         telegram_channel_sent = False 
 
         # --- Email Sending --- 
-        # Send email ONLY if we have facilitator emails AND a valid join_url
+        # Determine if Zoom details actually changed or were newly created
+        # Check if final join_url is valid before considering sending
+        join_url_is_valid = (
+            join_url and 
+            not str(join_url).startswith("https://zoom.us (API") and 
+            not str(join_url).startswith("Zoom creation skipped") and 
+            not str(join_url).startswith("Invalid time/duration")
+        )
+        
+        # Check for changes. Consider it changed if:
+        # 1. A new meeting was created (zoom_action == "created")
+        # 2. The zoom_id changed from the previous one (and is valid)
+        # 3. The join_url changed from the previous one (and is valid)
+        zoom_details_changed = False
+        if zoom_action == "created" and zoom_id and not str(zoom_id).startswith("placeholder"):
+            zoom_details_changed = True
+            print("[DEBUG] Zoom details changed: New meeting created.")
+        elif previous_zoom_id != zoom_id and zoom_id and not str(zoom_id).startswith("placeholder"):
+             zoom_details_changed = True
+             print(f"[DEBUG] Zoom details changed: Zoom ID changed from {previous_zoom_id} to {zoom_id}.")
+        elif previous_join_url != join_url and join_url_is_valid:
+             zoom_details_changed = True
+             print(f"[DEBUG] Zoom details changed: Join URL changed from {previous_join_url} to {join_url}.")
+        elif not previous_zoom_id and zoom_id and not str(zoom_id).startswith("placeholder"):
+             # Case where there was no previous mapping, but a meeting exists now (e.g., reused)
+             zoom_details_changed = True
+             print(f"[DEBUG] Zoom details changed: Meeting added (ID: {zoom_id}).")
+
+        # Send email ONLY if facilitator emails exist, join_url is valid, AND details changed/created
         emails_sent_count = 0
         emails_failed = []
 
         if not facilitator_emails:
             print(f"[DEBUG] No facilitator emails provided, skipping email notification.")
             comment_lines.append("- Facilitator emails not found in issue, skipping email notification.")
-        elif not join_url or str(join_url).startswith("https://zoom.us (API") or str(join_url).startswith("Zoom creation skipped") or str(join_url).startswith("Invalid time/duration"):
+        elif not join_url_is_valid:
             print(f"[DEBUG] No valid Zoom join URL ({join_url}), skipping email notification.")
             comment_lines.append(f"- Zoom Join URL invalid or missing, skipping email notification.")
+        elif not zoom_details_changed:
+            print(f"[DEBUG] Zoom details did not change (Previous ID: {previous_zoom_id}, Current ID: {zoom_id}; Previous URL: {previous_join_url}, Current URL: {join_url}). Skipping email notification.")
+            comment_lines.append(f"- Zoom details unchanged, skipping email notification.")
         else:
             # Proceed with sending email
+            print("[DEBUG] Zoom details changed or newly created, proceeding with email notification.")
             email_subject = f"Zoom Meeting Details for {issue_title}"
-            email_body = f"""
+            # Use the final zoom_id and join_url for the email body
+            email_body = f'''
 <h2>Zoom Meeting Details</h2>
 <p>For meeting: {issue_title}</p>
 <p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
 <p><strong>Meeting ID:</strong> {zoom_id}</p>
 <p><strong>Links:</strong><br>
 <a href="{issue.html_url}">View GitHub Issue</a><br>
-<a href="{discourse_url}">View Discourse Topic</a></p>
+# Ensure discourse_url is defined before using it in the email body
+<a href="{discourse_url or 'Discourse link not available'}">View Discourse Topic</a></p>
 
 <p>---<br>
-This email was sent automatically by the Ethereum Protocol Call Bot.</p>
-"""
+This email was sent automatically by the Ethereum Protocol Call Bot because meeting details were created or updated.</p>
+'''
 
             for email in facilitator_emails:
                 try:
