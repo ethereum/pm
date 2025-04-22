@@ -37,39 +37,34 @@ def create_topic(title: str, body: str, category_id=63):
         if not resp.ok:
             # Check if error is due to title already existing
             error_text = resp.text
-            print(f"[DEBUG] Create topic response: {error_text}")
+            print(f"[DEBUG] Create topic failed. Response: {error_text}")
             
-            if "Title has already been used" in error_text and "slug" in error_text:
-                # Extract slug from error message
-                import re
-                slug_match = re.search(r"slug: [\"']([^\"\'']+)[\"']", error_text)
-                if slug_match:
-                    slug = slug_match.group(1)
-                    print(f"[DEBUG] Found existing topic with slug: {slug}")
-                    
-                    # Get the topic by slug
-                    topic_resp = requests.get(
-                        f"{base_url}/t/{slug}.json",
-                        headers={
-                            "Api-Key": api_key,
-                            "Api-Username": api_user,
-                        },
-                    )
-                    if topic_resp.ok:
-                        topic_data = topic_resp.json()
-                        topic_id = topic_data.get("id")
-                        print(f"[DEBUG] Found existing topic with ID: {topic_id}")
-                        
-                        # Update the existing topic with new title and body
-                        update_result = update_topic(
-                            topic_id=topic_id,
-                            title=title,
-                            body=body,
-                            category_id=category_id
-                        )
-                        return {"topic_id": topic_id, "title": title, "action": "updated"}
+            if "Title has already been used" in error_text:
+                # Try searching for the topic by title instead of parsing the error message
+                print(f"[INFO] 'Title has already been used' error received. Searching for existing topic: '{title}'")
+                existing_topic = search_topic_by_title(title)
+                if existing_topic:
+                    topic_id = existing_topic.get("id")
+                    if topic_id:
+                        print(f"[DEBUG] Found existing topic via search with ID: {topic_id}. Updating it.")
+                        # Update the existing topic with potentially new title and body
+                        try:
+                            update_result = update_topic(
+                                topic_id=topic_id,
+                                title=title,
+                                body=body,
+                                category_id=category_id
+                            )
+                            return {"topic_id": topic_id, "title": title, "action": "updated"}
+                        except Exception as update_e:
+                            print(f"[ERROR] Failed to update existing topic {topic_id} found by title: {update_e}")
+                            # Fall through to raise the original error if update fails
+                    else:
+                        print(f"[WARN] Search found a topic for title '{title}', but it has no ID. Results: {existing_topic}")
+                else:
+                    print(f"[WARN] Received 'Title already used' error, but search failed to find topic '{title}'.")
             
-            # If not a title already exists error or couldn't handle it properly
+            # If not a title already exists error, or search/update failed, raise the original error
             resp.raise_for_status()
         
         response_data = resp.json()
