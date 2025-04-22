@@ -18,7 +18,7 @@
 | Lighthouse | Sean Anderson | Michael Sproul |
 | Lodestar | Phil Ngo | Nico Flaig |
 | Nimbus | Dustin | Advaita Saha |
-| Nethermind | [Name] | [Name] |
+| Nethermind | Marek Moraczyński | Łukasz Rozmej <br> Kamil Chodoła <br> Ahmad Bitar |
 | Prysm | Ping @prysmatic in the Eth R&D Discord | prysm@offchainlabs.com |
 | Reth | Roman Krasiuk | Matthias Seitz |
 | Teku | Enrico Del Fante | Paul Harris |
