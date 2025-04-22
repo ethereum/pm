@@ -536,7 +536,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
              comment_lines.append(f"- Zoom Link: {join_url}")
         # Add a note if the link is intentionally hidden
         elif not display_zoom_link_in_invite and join_url and not str(join_url).startswith("Zoom creation skipped"):
-             comment_lines.append(f"- *Zoom link hidden from public view (check facilitator email)*")
+             comment_lines.append(f"- *Zoom link hidden (sent to facilitator email)*")
         # Handle cases where join_url might be invalid even if zoom_id isn't a placeholder
         elif not join_url or str(join_url).startswith("Zoom creation skipped"):
              comment_lines.append(f"- *Zoom link not available or creation skipped.*")
