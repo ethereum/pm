@@ -60,11 +60,12 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | № | Date | Agenda | Notes | Discussion | Recording |
 | --- | ------ | ----- | ----- | ----- | ----- |
-| 209 | 10 Apr 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | tba | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-209/23373) | [video](https://youtu.be/_j4XPNQxDPc) |
-| 208 | 27 Mar 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | tba | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-208/23140) | [video](https://youtu.be/0eVoE_isGBk) |
-| 207 | 13 Mar 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | tba | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-207/23020) | [video](https://youtu.be/byrC-fdTOvE) |
-| 206 | 27 Feb 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | tba | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-206-february-27-2025/22896) | [video](https://youtu.be/tlezpGztpi8) |
-| 205 | 13 Feb 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1271) | tba | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-205-february-13-2025/22828) | [video](https://youtu.be/N90-qDkUPAo) |
+| 210 | 24 Apr 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1462) | - | [EthMag](https://ethereum-magicians.org/t/23502) | [video](https://youtu.be/7BKH9C2afNc) |
+| 209 | 10 Apr 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-209/23373) | [video](https://youtu.be/_j4XPNQxDPc) |
+| 208 | 27 Mar 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-208/23140) | [video](https://youtu.be/0eVoE_isGBk) |
+| 207 | 13 Mar 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-207/23020) | [video](https://youtu.be/byrC-fdTOvE) |
+| 206 | 27 Feb 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-206-february-27-2025/22896) | [video](https://youtu.be/tlezpGztpi8) |
+| 205 | 13 Feb 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1271) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-205-february-13-2025/22828) | [video](https://youtu.be/N90-qDkUPAo) |
 | 204 | 30 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | [notes](AllCoreDevs-EL-Meetings/Meeting%20204.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-204-january-30-2025/22594) | [video](https://youtu.be/JW2IWwVKRec) |
 | 203 | 16 Jan 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1227) | [notes](AllCoreDevs-EL-Meetings/Meeting%20203.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-203-january-16-2025/22346) | [video](https://youtu.be/uh1hZCE4k0w) |
 | 202 | 19 Dec 2024, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1209) | [notes](AllCoreDevs-EL-Meetings/Meeting%20202.md) | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-202-december-19-2024/21974/2) | [video](https://youtu.be/XtdJ2G8yST4) |
