@@ -7,7 +7,7 @@ This meeting is for the discussion of eth_simulateV1 implementation and potentia
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
-| 46 |April 154, 2025| [Agenda](https://github.com/ethereum/pm/issues/1437#issue-2976941666) | [Recording](https://youtu.be/NP4DJISEs1Q) | [Notes](https://github.com/ethereum/pm/issues/1437#issuecomment-2801552155) |
+| 46 |April 14, 2025| [Agenda](https://github.com/ethereum/pm/issues/1437#issue-2976941666) | [Recording](https://youtu.be/NP4DJISEs1Q) | [Notes](https://github.com/ethereum/pm/issues/1437#issuecomment-2801552155) |
 | 45 |April 07, 2025| [Agenda](https://github.com/ethereum/pm/issues/1436#issue-2976941492) | [Recording](https://www.youtube.com/watch?v=ruOlBWpCxig) | [Notes](https://github.com/ethereum/pm/issues/1436#issuecomment-2783695954) |
 | 44 |March 31, 2025| [Agenda](https://github.com/ethereum/pm/issues/1405#issue-2943334088) | [Recording](https://youtu.be/O6fHpZlVLcs?si=ClH5Lq9tS6OqeJFD) | [Notes](https://github.com/ethereum/pm/issues/1405#issuecomment-2766121998) |
 | 43 |March 24, 2025| [Agenda](https://github.com/ethereum/pm/issues/1388#issue-2925145935) | [Recording](https://youtu.be/1I5962Rnp0g) | [Notes](https://github.com/ethereum/pm/issues/1388#issuecomment-2749107088) |
