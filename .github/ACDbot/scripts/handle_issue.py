@@ -635,15 +635,42 @@ def handle_github_issue(issue_number: int, repo_name: str):
              # Calculate youtube_streams based on need_youtube_streams and create if necessary
              # Initialize youtube_streams to None here
              occurrence_youtube_streams = None
+             should_create_streams = True # Flag to control stream creation
+
              # Add the check for need_youtube_streams
              if is_recurring and occurrence_rate != "none" and need_youtube_streams:
-                 # If we already have streams for this call series, reuse them
-                 if existing_youtube_streams:
-                     print(f"[DEBUG] Reusing existing YouTube streams for call series: {call_series}")
-                     occurrence_youtube_streams = existing_youtube_streams
-                     comment_lines.append("\n**Using Existing YouTube Stream Links**")
+                 # Check if we are reprocessing and streams already exist for this occurrence
+                 if not is_first_run_for_issue and existing_occurrence_data and existing_occurrence_data.get("youtube_streams"):
+                     print(f"[DEBUG] Reprocessing issue #{issue_number}. Reusing existing YouTube streams found in occurrence data.")
+                     occurrence_youtube_streams = existing_occurrence_data.get("youtube_streams")
+                     comment_lines.append("\n**Existing YouTube Stream Links (Reused):**")
+                     # Add stream links to comments again for clarity
+                     stream_links = []
+                     for i, stream in enumerate(occurrence_youtube_streams, 1):
+                          stream_date = ""
+                          if 'scheduled_time' in stream:
+                              try:
+                                  from datetime import datetime
+                                  scheduled_time = stream['scheduled_time']
+                                  if scheduled_time.endswith('Z'): scheduled_time = scheduled_time.replace('Z', '+00:00')
+                                  date_obj = datetime.fromisoformat(scheduled_time)
+                                  stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
+                              except Exception as e: print(f"[DEBUG] Error formatting stream date: {e}")
+                          comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+                          stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
+
+                     should_create_streams = False # Don't create new ones
+                 # TODO: Optional: Consider reusing series-level streams (`existing_youtube_streams`) if no occurrence-specific ones exist?
+                 # elif existing_youtube_streams:
+                 #     print(f"[DEBUG] No streams found for this specific occurrence, reusing existing series streams for call series: {call_series}")
+                 #     occurrence_youtube_streams = existing_youtube_streams
+                 #     comment_lines.append("\n**Existing YouTube Stream Links (Series - Reused):**")
+                 #     should_create_streams = False
                  else:
-                     # Only create new streams if needed
+                     # Proceed to create streams if needed
+                     should_create_streams = True
+
+                 if should_create_streams:
                      try:
                          print(f"[DEBUG] Creating YouTube streams for recurring meeting occurrence: {occurrence_rate}")
                          occurrence_youtube_streams = youtube_utils.create_recurring_streams(
@@ -861,7 +888,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 "transcript_processed": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_processed", False),
                 "upload_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("upload_attempt_count", 0),
                 "transcript_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_attempt_count", 0),
-                "youtube_streams_posted_to_discourse": mapping_entry["occurrences"][existing_occurrence_index].get("youtube_streams_posted_to_discourse", False)
+                "youtube_streams_posted_to_discourse": mapping_entry["occurrences"][existing_occurrence_index].get("youtube_streams_posted_to_discourse", False),
+                # --- FIX: Preserve existing telegram_message_id --- 
+                "telegram_message_id": mapping_entry["occurrences"][existing_occurrence_index].get("telegram_message_id") # Preserve existing ID
             }
             occurrence_data.update(existing_flags) # Keep existing flags
             # Update occurrence number just in case list order changed (though unlikely)
@@ -1073,13 +1102,16 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
 
                     except Exception as e:
                         print(f"[ERROR] Telegram channel notification failed: {e}")
-                        comment_lines.append(f"\\n**⚠️ Telegram Channel Notification Failed**: {str(e)}")
+                        comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {str(e)}") # Escape backslash for markdown
                 else:
                     print("[DEBUG] Telegram channel ID not configured or tg module not available.")
 
         # --- RSS Notification Adding --- 
         # Ensure we have occurrence_issue_number before adding RSS
-        occurrence_issue_number_rss = occurrence_data.get("issue_number")
+        # Get occurrence_data again safely before using it
+        current_occurrence_for_rss = next((occ for occ in mapping_entry.get("occurrences", []) if occ.get("issue_number") == issue.number), None)
+        occurrence_issue_number_rss = current_occurrence_for_rss.get("issue_number") if current_occurrence_for_rss else None
+
         if occurrence_issue_number_rss:
             try:
                 print("[DEBUG] Adding notifications to RSS feed data")
@@ -1101,7 +1133,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                 mapping_updated = True # RSS utils likely modifies mapping indirectly
             except Exception as e:
                 print(f"[ERROR] Failed to add RSS notifications: {e}")
-                comment_lines.append(f"\\n**⚠️ Failed to update RSS data**: {str(e)}")
+                comment_lines.append(f"\n**⚠️ Failed to update RSS data**: {str(e)}")
         else:
             print(f"[ERROR] Could not add RSS notification - occurrence issue number missing.")
 
