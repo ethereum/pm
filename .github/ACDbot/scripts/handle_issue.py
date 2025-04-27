@@ -250,6 +250,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     previous_join_url = None
     found_meeting_id_for_issue = None
     existing_occurrence_data = None
+    is_first_run_for_issue = True # Flag to track if this is the first time processing THIS issue
 
     print(f"[DEBUG] Searching mapping for existing data related to issue #{issue_number}")
     # Iterate through top-level meeting entries
@@ -275,6 +276,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Now use the found data (if any) to set initial topic_id and previous Zoom details
     if found_meeting_id_for_issue and existing_occurrence_data:
         print(f"[DEBUG] Processing data found for issue #{issue_number} under meeting_id {found_meeting_id_for_issue}")
+        is_first_run_for_issue = False # Found existing data for this issue, so not the first run
         # Get potential topic ID from the occurrence data itself
         potential_topic_id = existing_occurrence_data.get("discourse_topic_id")
         if potential_topic_id and not str(potential_topic_id).startswith("placeholder"):
@@ -496,7 +498,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
             if existing_series_entry_for_zoom:
                 # Reuse existing meeting ID and link from the series
                 zoom_id = existing_series_entry_for_zoom["meeting_id"]
-                join_url = existing_series_entry_for_zoom.get("zoom_link", "Link not found in mapping")
+                join_url = existing_series_entry_for_zoom.get("zoom_link") 
+                if not join_url:
+                     print(f"[WARN] Reusing series {zoom_id} but zoom_link is missing in mapping entry. Email/Calendar link may be absent.")
+                     join_url = "Zoom link missing in reused series data" # Use specific placeholder
                 original_meeting_id_for_reuse = zoom_id # Store the ID we are reusing
                 reusing_series_meeting = True
                 zoom_action = "reused_series"
@@ -916,7 +921,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         if original_entry_before_update != mapping_entry:
             mapping[meeting_id] = mapping_entry
             mapping_updated = True # Mark that the mapping file needs saving
-            print(f"Mapping updated for meeting ID {meeting_id} with occurrence details from issue #{issue_number}.")
+            print(f"Mapping updated for meeting ID {meeting_id} with occurrence details from issue #{issue.number}.")
             if series_updated:
                 print(f"[DEBUG] Series-level information updated for {meeting_id}.")
         else:
@@ -932,35 +937,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         telegram_channel_sent = False 
 
         # --- Email Sending --- 
-        # Determine if Zoom details actually changed or were newly created
-        # Check if final join_url is valid before considering sending
-        join_url_is_valid = (
-            join_url and 
-            not str(join_url).startswith("https://zoom.us (API") and 
-            not str(join_url).startswith("Zoom creation skipped") and 
-            not str(join_url).startswith("Invalid time/duration")
-        )
-        
-        # Check for changes. Consider it changed if:
-        # 1. A new meeting was created (zoom_action == "created")
-        # 2. The zoom_id changed from the previous one (and is valid)
-        # 3. The join_url changed from the previous one (and is valid)
-        zoom_details_changed = False
-        if zoom_action == "created" and zoom_id and not str(zoom_id).startswith("placeholder"):
-            zoom_details_changed = True
-            print("[DEBUG] Zoom details changed: New meeting created.")
-        elif previous_zoom_id != zoom_id and zoom_id and not str(zoom_id).startswith("placeholder"):
-             zoom_details_changed = True
-             print(f"[DEBUG] Zoom details changed: Zoom ID changed from {previous_zoom_id} to {zoom_id}.")
-        elif previous_join_url != join_url and join_url_is_valid:
-             zoom_details_changed = True
-             print(f"[DEBUG] Zoom details changed: Join URL changed from {previous_join_url} to {join_url}.")
-        elif not previous_zoom_id and zoom_id and not str(zoom_id).startswith("placeholder"):
-             # Case where there was no previous mapping, but a meeting exists now (e.g., reused)
-             zoom_details_changed = True
-             print(f"[DEBUG] Zoom details changed: Meeting added (ID: {zoom_id}).")
-
-        # Send email ONLY if facilitator emails exist, join_url is valid, AND details changed/created
+        # Send email ONLY if facilitator emails exist, join_url is valid, AND it's the first run for this issue
         emails_sent_count = 0
         emails_failed = []
 
@@ -970,12 +947,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
         elif not join_url_is_valid:
             print(f"[DEBUG] No valid Zoom join URL ({join_url}), skipping email notification.")
             comment_lines.append(f"- Zoom Join URL invalid or missing, skipping email notification.")
-        elif not zoom_details_changed:
-            print(f"[DEBUG] Zoom details did not change (Previous ID: {previous_zoom_id}, Current ID: {zoom_id}; Previous URL: {previous_join_url}, Current URL: {join_url}). Skipping email notification.")
-            comment_lines.append(f"- Zoom details unchanged, skipping email notification.")
+        elif not is_first_run_for_issue:
+            print(f"[DEBUG] Not the first run for issue #{issue.number}. Skipping email notification.")
+            comment_lines.append(f"- Skipping email notification (already processed issue #{issue.number} before).")
         else:
-            # Proceed with sending email
-            print("[DEBUG] Zoom details changed or newly created, proceeding with email notification.")
+            # Proceed with sending email (First run for this issue, emails exist, valid URL)
+            print(f"[DEBUG] First run for issue #{issue.number}. Proceeding with email notification.")
             email_subject = f"Zoom Meeting Details for {issue_title}"
             # Use the final zoom_id and join_url for the email body
             email_body = f'''
@@ -1051,35 +1028,52 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                     for i, stream in enumerate(occurrence_streams):
                         stream_url = stream.get('stream_url')
                         if stream_url:
-                            telegram_message_body += f"• <a href='{stream_url}'>Stream {i+1}</a>\n"
+                            telegram_message_body += f"• <a href='{stream_url}'>Stream {i+1}</a>\\n"
 
                 # Send the message
                 telegram_channel_id = os.environ.get("TELEGRAM_CHAT_ID")
+                existing_telegram_message_id = current_occurrence.get("telegram_message_id") # Get existing ID
+                telegram_channel_sent = False # Reset flag for this attempt
+                new_message_id = None # Store potential new ID
+
                 if telegram_channel_id and tg:
                     try:
-                        print(f"[DEBUG] Sending new Telegram channel message for occurrence (Issue #{issue.number}).")
-                        message_id = tg.send_message(telegram_message_body)
-                        if message_id:
-                            telegram_channel_sent = True
-                            # Store the message ID within the *current occurrence* object
-                            current_occurrence_index = next((i for i, occ in enumerate(mapping_entry["occurrences"]) if occ.get("issue_number") == issue.number), -1)
-                            if current_occurrence_index != -1:
-                                mapping_entry["occurrences"][current_occurrence_index]["telegram_message_id"] = message_id
-                                mapping_updated = True
-                                print(f"[DEBUG] Stored telegram_message_id {message_id} in occurrence data for issue #{issue.number}.")
+                        # --- Revised Logic: Update existing message or create ONLY if none exists ---
+                        if existing_telegram_message_id:
+                            print(f"[DEBUG] Attempting to update existing Telegram message ID: {existing_telegram_message_id}")
+                            update_successful = tg.update_message(existing_telegram_message_id, telegram_message_body)
+                            if update_successful:
+                                print(f"[DEBUG] Successfully updated Telegram message {existing_telegram_message_id}.")
+                                telegram_channel_sent = True  # Updated successfully
                             else:
-                                print(f"[ERROR] Could not find occurrence for issue #{issue.number} to store telegram_message_id.")
-                        
+                                error_msg = (f"Failed to update Telegram message ID {existing_telegram_message_id}. "
+                                             "Message might have been deleted or API call failed.")
+                                print(f"[ERROR] {error_msg}")
+                                comment_lines.append(f"\n**⚠️ Telegram Update Error:** {error_msg}")
+                                # DO NOT fall back to creating a new message – per requirements
+                        else:
+                            # No existing message ID – send a new one
+                            print(f"[DEBUG] No existing Telegram message ID, sending new message for issue #{issue.number}.")
+                            new_message_id = tg.send_message(telegram_message_body)
+                            if new_message_id:
+                                telegram_channel_sent = True
+                                current_occurrence["telegram_message_id"] = new_message_id
+                                mapping_updated = True
+                                print(f"[DEBUG] Stored new telegram_message_id {new_message_id} in occurrence data for issue #{issue.number}.")
+                            else:
+                                print(f"[ERROR] tg.send_message failed – no message ID returned.")
+                          
                         if telegram_channel_sent:
                             comment_lines.append("\n**Telegram Notification**")
-                            comment_lines.append("- Sent message for this occurrence to Ethereum Protocol Updates channel")
+                            action_word = "Updated" if existing_telegram_message_id else "Sent"
+                            comment_lines.append(f"- {action_word} message for this occurrence to Ethereum Protocol Updates channel")
                         else:
-                            comment_lines.append("\n**⚠️ Failed to send Telegram message for this occurrence**")
+                            comment_lines.append("\n**⚠️ Failed to send or update Telegram message for this occurrence**")
                             print(f"[DEBUG] Failed to send/update Telegram channel message.")
 
                     except Exception as e:
                         print(f"[ERROR] Telegram channel notification failed: {e}")
-                        comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {str(e)}")
+                        comment_lines.append(f"\\n**⚠️ Telegram Channel Notification Failed**: {str(e)}")
                 else:
                     print("[DEBUG] Telegram channel ID not configured or tg module not available.")
 
@@ -1107,7 +1101,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                 mapping_updated = True # RSS utils likely modifies mapping indirectly
             except Exception as e:
                 print(f"[ERROR] Failed to add RSS notifications: {e}")
-                comment_lines.append(f"\n**⚠️ Failed to update RSS data**: {str(e)}")
+                comment_lines.append(f"\\n**⚠️ Failed to update RSS data**: {str(e)}")
         else:
             print(f"[ERROR] Could not add RSS notification - occurrence issue number missing.")
 
