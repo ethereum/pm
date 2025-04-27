@@ -1100,9 +1100,20 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                             comment_lines.append("\n**⚠️ Failed to send or update Telegram message for this occurrence**")
                             print(f"[DEBUG] Failed to send/update Telegram channel message.")
 
+                    except requests.exceptions.HTTPError as http_err:
+                        # Log a controlled error message without the full URL/token
+                        status_code = http_err.response.status_code if http_err.response else "Unknown"
+                        error_reason = http_err.response.reason if http_err.response else "Unknown reason"
+                        error_msg = f"Telegram API HTTP Error {status_code} ({error_reason})."
+                        print(f"[ERROR] Telegram channel notification failed: {error_msg}")
+                        # Add a generic message to the comment, avoiding sensitive details
+                        comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: Could not communicate with Telegram API ({status_code}).")
                     except Exception as e:
-                        print(f"[ERROR] Telegram channel notification failed: {e}")
-                        comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {str(e)}") # Escape backslash for markdown
+                        # Catch other potential exceptions (network errors, etc.)
+                        error_msg = f"An unexpected error occurred: {type(e).__name__}"
+                        print(f"[ERROR] Telegram channel notification failed: {error_msg}")
+                        # Add a generic message to the comment
+                        comment_lines.append(f"\n**⚠️ Telegram Channel Notification Failed**: {error_msg}")
                 else:
                     print("[DEBUG] Telegram channel ID not configured or tg module not available.")
 
