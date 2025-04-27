@@ -38,11 +38,14 @@ def extract_facilitator_info(issue_body):
     - "Facilitator emails: email1, email2"
     - "- Facilitator email: email3"
     - "- Facilitator email: [email4](mailto:email4)"
+    - "Facilitator email: email5"
     Returns a list of email addresses.
     """
-    pattern_list = r"(?im)^Facilitator emails:\s*(.+)"
-    pattern_markdown = r"(?im)^-\s*Facilitator email:\s*\[([^]]+)\]\(mailto:[^)]+\)"
-    pattern_plain = r"(?im)^-\s*Facilitator email:\s*([^@\s]+@[^@\s\n]+)"
+    pattern_list = r"(?im)^Facilitator emails:\\s*(.+)"
+    pattern_markdown = r"(?im)^-\\s*Facilitator email:\\s*\\[([^]]+)\\]\\\\(mailto:[^)]+\\\\)"
+    pattern_plain = r"(?im)^-\\s*Facilitator email:\\s*([^@\\s]+@[^@\\s\\n]+)"
+    # Add pattern for singular, no-dash format
+    pattern_singular_no_dash = r"(?im)^Facilitator email:\\s*([^@\\s]+@[^@\\s\\n]+)"
     
     print(f"[DEBUG] Extracting facilitator emails from issue body")
     
@@ -55,15 +58,22 @@ def extract_facilitator_info(issue_body):
         found_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
         facilitator_emails.extend(found_emails)
     else:
-        # If list format not found, try the single email formats (markdown first, then plain)
-        match_markdown = re.search(pattern_markdown, issue_body)
-        if match_markdown:
-            facilitator_emails.append(match_markdown.group(1).strip())
+        # If list format not found, try the single email formats
+        # Try singular, no dash first
+        match_singular_no_dash = re.search(pattern_singular_no_dash, issue_body)
+        if match_singular_no_dash:
+            facilitator_emails.append(match_singular_no_dash.group(1).strip())
         else:
-            match_plain = re.search(pattern_plain, issue_body)
-            if match_plain:
-                facilitator_emails.append(match_plain.group(1).strip())
-            
+            # Then markdown link format
+            match_markdown = re.search(pattern_markdown, issue_body)
+            if match_markdown:
+                facilitator_emails.append(match_markdown.group(1).strip())
+            else:
+                # Finally plain email with dash format
+                match_plain = re.search(pattern_plain, issue_body)
+                if match_plain:
+                    facilitator_emails.append(match_plain.group(1).strip())
+
     if facilitator_emails:
         print(f"[DEBUG] Extracted facilitator emails: {facilitator_emails}")
         return facilitator_emails
