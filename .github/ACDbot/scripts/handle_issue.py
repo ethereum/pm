@@ -1057,7 +1057,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                     for i, stream in enumerate(occurrence_streams):
                         stream_url = stream.get('stream_url')
                         if stream_url:
-                            telegram_message_body += f"• <a href='{stream_url}'>Stream {i+1}</a>\\n"
+                            telegram_message_body += f"• <a href='{stream_url}'>Stream </a>"
 
                 # Send the message
                 telegram_channel_id = os.environ.get("TELEGRAM_CHAT_ID")

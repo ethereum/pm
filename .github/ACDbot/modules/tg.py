@@ -51,7 +51,15 @@ def update_message(message_id: int, text: str):
         resp.raise_for_status()
         return True
     except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 400 and "message to edit not found" in e.response.text.lower():
+        # Check for common errors indicating the message can't be edited (likely deleted or invalid ID)
+        response_text = e.response.text.lower()
+        if e.response.status_code == 400 and (
+            "message to edit not found" in response_text or 
+            "not found" in response_text or # Catch the generic 'Not Found' description seen in the log
+            "message_id_invalid" in response_text
+            # Add other relevant error substrings if needed
+        ):
+            print(f"[WARN] Failed to edit Telegram message {message_id} (Status {e.response.status_code}). It might have been deleted or the ID is invalid. Details: {response_text}")
             return False
         raise
 
