@@ -51,16 +51,20 @@ def update_message(message_id: int, text: str):
         resp.raise_for_status()
         return True
     except requests.exceptions.HTTPError as e:
-        # Check for common errors indicating the message can't be edited (likely deleted or invalid ID)
+        # Check for common errors indicating the message can't be edited
         response_text = e.response.text.lower()
         if e.response.status_code == 400 and (
             "message to edit not found" in response_text or 
             "not found" in response_text or # Catch the generic 'Not Found' description seen in the log
-            "message_id_invalid" in response_text
-            # Add other relevant error substrings if needed
+            "message_id_invalid" in response_text or
+            "message is not modified" in response_text # Add check for unmodified message
         ):
-            print(f"[WARN] Failed to edit Telegram message {message_id} (Status {e.response.status_code}). It might have been deleted or the ID is invalid. Details: {response_text}")
-            return False
+            if "message is not modified" in response_text:
+                 print(f"[INFO] Telegram message {message_id} already has the desired content. Skipping edit.")
+            else:
+                 print(f"[WARN] Failed to edit Telegram message {message_id} (Status {e.response.status_code}). It might have been deleted or the ID is invalid. Details: {response_text}")
+            return True # Treat unmodified or not found as non-fatal for the bot's logic
+        # Re-raise other HTTP errors
         raise
 
 def send_private_message(username: str, text: str, parse_mode=None):
