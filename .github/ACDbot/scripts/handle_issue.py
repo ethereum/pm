@@ -972,6 +972,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
         emails_sent_count = 0
         emails_failed = []
 
+        # Check if join_url is considered valid for sending emails
+        join_url_is_valid = bool(join_url and join_url.startswith("https://") and "(API authentication failed)" not in join_url and "(placeholder)" not in join_url and "skipped" not in join_url and "Invalid time/duration" not in join_url and "Error during Zoom processing" not in join_url and "missing in reused series data" not in join_url)
+        print(f"[DEBUG] Determined join_url_is_valid: {join_url_is_valid} based on join_url: '{join_url}'") # Add debug log
+
         if not facilitator_emails:
             print(f"[DEBUG] No facilitator emails provided, skipping email notification.")
             comment_lines.append("- Facilitator emails not found in issue, skipping email notification.")
