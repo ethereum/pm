@@ -28,7 +28,7 @@
 |------|---------|----------------------------|
 | DevOps Coordinator | Parithosh | Barnabas |
 | Testing Coordinator | Mario Vega (@marioevz) | Dan (@danceratopz) |
-| Communication Coordinator | Tim Beiko | [Name] |
+| Communication Coordinator | Tim Beiko | Alex Stokes |
 | Security Coordinator | Fredrik Svantes | Justin Traglia |
 
 ## Communication Channels
