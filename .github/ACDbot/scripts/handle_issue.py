@@ -43,8 +43,8 @@ def extract_facilitator_info(issue_body):
     """
     pattern_list = r"(?im)^Facilitator emails:\s*(.+)"
     pattern_markdown = r"(?im)^-\s*Facilitator email:\s*\[([^]]+)\]\(mailto:[^)]+\)"
-    pattern_plain = r"(?im)^-\s*Facilitator email:\s*([^@\s]+@[^@\s\n]+)"
-    pattern_singular_no_dash = r"(?im)^Facilitator email:\\s*([^@\\s]+@[^@\\s\\n]+)"
+    # Combined pattern for plain text email, dash optional
+    pattern_plain_combined = r"(?im)^(?:-\s*)?Facilitator email:\s*([^@\s]+@[^@\s\n]+)"
     print(f"[DEBUG] Extracting facilitator emails from issue body")
     
     facilitator_emails = []
@@ -56,18 +56,16 @@ def extract_facilitator_info(issue_body):
         found_emails = [email.strip() for email in emails_str.split(',') if email.strip()]
         facilitator_emails.extend(found_emails)
     else:
-        # If list format not found, try the single email formats (markdown first, then plain)
+        # If list format not found, try the single email formats
+        # Try markdown link first (as it's more specific with the dash)
         match_markdown = re.search(pattern_markdown, issue_body)
         if match_markdown:
             facilitator_emails.append(match_markdown.group(1).strip())
         else:
-            match_plain = re.search(pattern_plain, issue_body)
-            if match_plain:
-                facilitator_emails.append(match_plain.group(1).strip())
-            else:
-                match_singular_no_dash = re.search(pattern_singular_no_dash, issue_body)
-                if match_singular_no_dash:
-                    facilitator_emails.append(match_singular_no_dash.group(1).strip())
+            # Then try the combined plain text pattern (dash optional)
+            match_plain_combined = re.search(pattern_plain_combined, issue_body)
+            if match_plain_combined:
+                facilitator_emails.append(match_plain_combined.group(1).strip())
     if facilitator_emails:
         print(f"[DEBUG] Extracted facilitator emails: {facilitator_emails}")
         return facilitator_emails
