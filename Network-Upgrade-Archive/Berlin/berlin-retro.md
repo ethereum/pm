@@ -61,11 +61,11 @@ Berlin upgrade was following process described in [Shedding light on the Ethereu
 - June 10, 2020: [YOLO stopped](https://twitter.com/peter_szilagyi/status/1270824487886426113). It went out of disk.
 - June 11, 2020: YOLO is back as [YOLT (You only live twice)](https://twitter.com/peter_szilagyi/status/1270931154267504643)
 - June 12, 2020: Restarted at AWS cloud
-- June 12, 2020: Proposed EIPs for Yolo v2 in [ACD meeting 89](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2089.md#3-yolo-testnet-update)
+- June 12, 2020: Proposed EIPs for Yolo v2 in [ACD meeting 89](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%2089.md#3-yolo-testnet-update)
 - June 22: [yolov1 sealer/bootnode](https://gitter.im/ethereum/AllCoreDevs?at=5ef07f5cfa0c9221fc5288f9) is up with a new IP
-- September 18: yolov2 EIP selection in [ACD 96](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2096.md#decisions-made)
-- October 30, 2020: EIP-2537 is not considered for yolov3, and will be delayed until after the next hardfork, decided in [ACD 99](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%2099.md#decisions-made)
-- November 27, 2020: EIP-2930 & EIP-2718 added to Berlin EIPs, decided in [ACD 1010](https://github.com/ethereum/pm/blob/master/All%20Core%20Devs%20Meetings/Meeting%20101.md#summary)
+- September 18: yolov2 EIP selection in [ACD 96](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%2096.md#decisions-made)
+- October 30, 2020: EIP-2537 is not considered for yolov3, and will be delayed until after the next hardfork, decided in [ACD 99](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%2099.md#decisions-made)
+- November 27, 2020: EIP-2930 & EIP-2718 added to Berlin EIPs, decided in [ACD 1010](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%20101.md#summary)
 - March 08, 2021: Ethereum Berlin Upgrade [Announcement](https://blog.ethereum.org/2021/03/08/ethereum-berlin-upgrade-announcement/)
 - Mar 10, 2021: Ropsten at block #9 812 189
 - Mar 17, 2021: Goerli	at block #4 460 644
