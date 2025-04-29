@@ -11,7 +11,7 @@
 ### Client Team Coordinators
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
-| Besu | [Name] | [Name] |
+| Besu | Daniel Lehrner | Gabriel Trintinalia or Simon Dudley|
 | Erigon | Somnath Banerjee | Andrew Ashikhmin |
 | Geth | Felix Lange | Marius van der Wijden |
 | Grandine | [Name] | [Name] |
