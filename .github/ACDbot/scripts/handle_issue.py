@@ -191,6 +191,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
     issue_title = issue.title
     issue_body = issue.body or "(No issue body provided.)"
 
+    # Initialize potentially missing variables
+    start_time = None
+    duration = None
+
     # Extract configuration from issue body
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
     need_youtube_streams = extract_need_youtube_streams(issue_body)
@@ -875,8 +879,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
             "transcript_attempt_count": 0,
             "telegram_message_id": None, # Placeholder for occurrence-specific message ID
             "youtube_streams_posted_to_discourse": False,
-            # Add generated streams to the occurrence data
-            "youtube_streams": occurrence_youtube_streams if 'occurrence_youtube_streams' in locals() else None
+            # Add generated streams to the occurrence data, filtering keys
+            "youtube_streams": [
+                {
+                    "stream_url": stream.get("stream_url"),
+                    "scheduled_time": stream.get("scheduled_time")
+                }
+                for stream in occurrence_youtube_streams 
+                if isinstance(stream, dict) and stream.get("stream_url") # Ensure it's a dict with a URL
+            ] if 'occurrence_youtube_streams' in locals() and occurrence_youtube_streams else None
         }
 
         # Append the new occurrence data
