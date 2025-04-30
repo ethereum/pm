@@ -4,8 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       FORCE_MEETING_ID:
-        description: "Optional: Force processing of a specific Zoom meeting ID"
+        description: "Optional: Force processing of a specific Zoom meeting ID (requires FORCE_ISSUE_NUMBER)"
         required: false
+      FORCE_ISSUE_NUMBER:
+        description: "Optional: Force processing for a specific occurrence (requires FORCE_MEETING_ID)"
+        required: false
+        type: string # Use string type, the script handles parsing to int
 
   
   schedule:
@@ -34,7 +38,8 @@ jobs:
       - name: Poll Zoom for recordings
         run: |
           python .github/ACDbot/scripts/poll_zoom_recordings.py \
-            --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}"
+            --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}" \
+            --force_issue_number "${{ github.event.inputs.FORCE_ISSUE_NUMBER }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Zoom credentials
