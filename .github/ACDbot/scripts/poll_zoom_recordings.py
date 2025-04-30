@@ -212,8 +212,108 @@ def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_mi
     print(f"[WARN] No occurrence found matching recording start time {recording_start_time}")
     return None, -1
 
+def process_single_occurrence(recording, occurrence, occurrence_index, series_entry, mapping, force_process=False):
+    """Processes transcript and Discourse posts for a single matched recording and occurrence."""
+    mapping_updated = False
+    recording_meeting_id = str(series_entry.get("meeting_id")) # Should be the same as recording.get("id")
+    occurrence_issue_number = occurrence.get("issue_number")
+    print(f"Processing transcript for Meeting ID {recording_meeting_id}, Occurrence Issue #{occurrence_issue_number}")
+
+    # Check eligibility (meeting ended > 15 mins ago)
+    try:
+        rec_end_time = datetime.fromisoformat(recording.get("end_time", recording.get("start_time")).replace('Z', '+00:00'))
+        if not is_meeting_eligible(rec_end_time):
+            print(f"  -> Skipping: Meeting ended less than 15 minutes ago ({rec_end_time.isoformat()}).")
+            return False # No update occurred
+    except Exception as e:
+         print(f"[WARN] Could not parse recording end time, proceeding cautiously: {e}")
+
+    # --- Transcript Posting Logic ---
+    transcript_processed = occurrence.get("transcript_processed", False)
+    transcript_attempts = occurrence.get("transcript_attempt_count", 0)
+    discourse_topic_id = occurrence.get("discourse_topic_id")
+    # Allow forced processing even if attempts > 10
+    can_attempt_transcript = not transcript_processed and (force_process or transcript_attempts < 10) and discourse_topic_id
+
+    if can_attempt_transcript:
+        attempt_number = transcript_attempts + 1
+        print(f"  -> Attempting transcript posting (Attempt {attempt_number})...")
+        try:
+            # Pass meeting ID and occurrence details for context
+            transcript_success = transcript.post_zoom_transcript_to_discourse(recording_meeting_id, occurrence_details=occurrence)
+
+            if transcript_success:
+                mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_processed"] = True
+                # Reset attempt count on success
+                mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = 0
+                mapping_updated = True
+                print(f"  -> Transcript posted successfully for occurrence #{occurrence_issue_number} to topic {discourse_topic_id}.")
+
+                # Update RSS feed with transcript info
+                try:
+                    rss_utils.add_notification_to_meeting(
+                        recording_meeting_id,
+                        occurrence_issue_number, # Pass issue number to identify occurrence
+                        "transcript_posted",
+                        "Meeting transcript posted to Discourse",
+                        f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
+                    )
+                    print(f"  -> Updated RSS feed with transcript info.")
+                except Exception as e:
+                    print(f"[ERROR] Failed to update RSS feed for transcript: {e}")
+            else:
+                 # Increment attempt counter only if not forced
+                 if not force_process:
+                    mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = transcript_attempts + 1
+                 mapping_updated = True
+                 print(f"  -> Transcript posting failed.")
+
+        except Exception as e:
+            # Increment attempt counter only if not forced
+            if not force_process:
+                mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = transcript_attempts + 1
+            mapping_updated = True
+            print(f"[ERROR] Error posting transcript for occurrence #{occurrence_issue_number}: {e}")
+    elif transcript_processed:
+         print(f"  -> Transcript already posted.")
+    elif transcript_attempts >= 10 and not force_process:
+         print(f"  -> Skipping transcript posting: Max attempts reached.")
+    elif not discourse_topic_id:
+         print(f"  -> Skipping transcript posting: No Discourse topic ID found for occurrence.")
+
+
+    # --- Post YouTube stream links to Discourse (if needed) ---
+    # This logic remains as it posts *existing* links, not uploading videos.
+    streams_posted = occurrence.get("youtube_streams_posted_to_discourse", False)
+    occurrence_youtube_streams = occurrence.get("youtube_streams")
+    can_post_streams = discourse_topic_id and not streams_posted and occurrence_youtube_streams
+
+    if can_post_streams:
+         print(f"  -> Posting YouTube stream links to Discourse topic {discourse_topic_id}...")
+         stream_links_text = "\\n".join([
+             f"- Stream {i+1}: {stream.get('stream_url', 'URL not found')}"
+             for i, stream in enumerate(occurrence_youtube_streams)
+         ])
+         title = "**YouTube Stream Links:**" # Changed title slightly as context might be different
+         discourse_body = f"{title}\n{stream_links_text}"
+         try:
+             discourse.create_post(topic_id=discourse_topic_id, body=discourse_body)
+             mapping[recording_meeting_id]["occurrences"][occurrence_index]["youtube_streams_posted_to_discourse"] = True
+             mapping_updated = True
+             print(f"  -> Successfully posted YouTube streams to Discourse.")
+         except Exception as e:
+             print(f"[ERROR] Error posting YouTube streams to Discourse: {e}")
+    elif streams_posted:
+         print(f"  -> YouTube stream links already posted to Discourse.")
+    elif not occurrence_youtube_streams:
+         print(f"  -> No YouTube stream links found for this occurrence to post.")
+    elif not discourse_topic_id:
+         print(f"  -> Cannot post stream links: No Discourse topic ID.")
+
+    return mapping_updated
+
 def process_recordings(mapping):
-    """Fetch recent recordings and process them by matching to occurrences."""
+    """Fetch recent recordings, match to occurrences, and process transcripts/Discourse posts."""
     print("Fetching recent Zoom recordings...")
     recordings = zoom.get_recordings_list()
     if not recordings:
@@ -244,126 +344,19 @@ def process_recordings(mapping):
             print(f"[INFO] Could not match recording ({recording.get('topic', 'N/A')} at {recording_start_time_str}) to any occurrence for meeting ID {recording_meeting_id}.")
             continue
 
-        occurrence_issue_number = matched_occurrence.get("issue_number")
-        print(f"Processing recording for Meeting ID {recording_meeting_id}, Occurrence Issue #{occurrence_issue_number}")
+        # Call the refactored processing function
+        updated = process_single_occurrence(
+            recording=recording,
+            occurrence=matched_occurrence,
+            occurrence_index=occurrence_index,
+            series_entry=series_entry,
+            mapping=mapping,
+            force_process=False # Not forced in regular polling
+        )
+        if updated:
+            mapping_updated = True # Mark that some change occurred in the loop
 
-        # Check eligibility (meeting ended > 30 mins ago)
-        try:
-            rec_end_time = datetime.fromisoformat(recording.get("end_time", recording_start_time_str).replace('Z', '+00:00')) # Use end_time if available
-            if not is_meeting_eligible(rec_end_time):
-                print(f"  -> Skipping: Meeting ended less than 30 minutes ago ({rec_end_time.isoformat()}).")
-                continue
-        except Exception as e:
-             print(f"[WARN] Could not parse recording end time, proceeding cautiously: {e}")
-
-
-        # --- YouTube Upload Logic --- 
-        yt_processed = matched_occurrence.get("Youtube_upload_processed", False)
-        yt_skipped = matched_occurrence.get("skip_youtube_upload", False)
-        yt_upload_attempts = matched_occurrence.get("upload_attempt_count", 0)
-
-        if not yt_processed and not yt_skipped and yt_upload_attempts < 10:
-            print(f"  -> Attempting YouTube upload (Attempt {yt_upload_attempts + 1})...")
-            try:
-                # Import dynamically to avoid circular dependencies if necessary
-                import sys
-                import os
-                script_dir = os.path.dirname(os.path.abspath(__file__))
-                sys.path.append(os.path.dirname(script_dir))
-                from scripts.upload_zoom_recording import upload_recording
-                # Pass meeting_id and the identifying issue_number for the occurrence
-                upload_success = upload_recording(recording_meeting_id, occurrence_issue_number)
-                # upload_recording should update the flags internally now
-                if upload_success:
-                     print(f"  -> YouTube upload successful for occurrence #{occurrence_issue_number}.")
-                else:
-                     print(f"  -> YouTube upload failed for occurrence #{occurrence_issue_number}.")
-                # No need to update flags here, upload_recording handles it
-                mapping_updated = True # Assume upload_recording might have updated mapping
-
-            except ImportError as e:
-                print(f"[ERROR] Could not import upload_zoom_recording script: {e}")
-            except Exception as e:
-                print(f"[ERROR] Error during YouTube upload call for occurrence #{occurrence_issue_number}: {e}")
-                # Increment attempt count here ONLY if upload_recording didn't run/failed early
-                mapping[recording_meeting_id]["occurrences"][occurrence_index]["upload_attempt_count"] = yt_upload_attempts + 1
-                mapping_updated = True
-        elif yt_processed:
-            print(f"  -> YouTube upload already processed.")
-        elif yt_skipped:
-            print(f"  -> YouTube upload skipped for this occurrence.")
-        elif yt_upload_attempts >= 10:
-            print(f"  -> Skipping YouTube upload: Max attempts reached.")
-
-        # --- Transcript Posting Logic --- 
-        transcript_processed = matched_occurrence.get("transcript_processed", False)
-        transcript_attempts = matched_occurrence.get("transcript_attempt_count", 0)
-        discourse_topic_id = matched_occurrence.get("discourse_topic_id")
-
-        if not transcript_processed and transcript_attempts < 10 and discourse_topic_id:
-            print(f"  -> Attempting transcript posting (Attempt {transcript_attempts + 1})...")
-            try:
-                # Pass meeting ID and occurrence details (like topic ID) for context
-                transcript_success = transcript.post_zoom_transcript_to_discourse(recording_meeting_id, occurrence_details=matched_occurrence)
-                
-                if transcript_success:
-                    mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_processed"] = True
-                    print(f"  -> Transcript posted successfully for occurrence #{occurrence_issue_number} to topic {discourse_topic_id}.")
-
-                    # Update RSS feed with transcript info
-                    try:
-                        rss_utils.add_notification_to_meeting(
-                            recording_meeting_id,
-                            occurrence_issue_number, # Pass issue number to identify occurrence
-                            "transcript_posted",
-                            "Meeting transcript posted to Discourse",
-                            f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
-                        )
-                        print(f"  -> Updated RSS feed with transcript info.")
-                    except Exception as e:
-                        print(f"[ERROR] Failed to update RSS feed for transcript: {e}")
-                else:
-                     mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = transcript_attempts + 1
-                     print(f"  -> Transcript posting failed.")
-                mapping_updated = True
-
-            except Exception as e:
-                mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = transcript_attempts + 1
-                mapping_updated = True
-                print(f"[ERROR] Error posting transcript for occurrence #{occurrence_issue_number}: {e}")
-        elif transcript_processed:
-             print(f"  -> Transcript already posted.")
-        elif transcript_attempts >= 10:
-             print(f"  -> Skipping transcript posting: Max attempts reached.")
-        elif not discourse_topic_id:
-             print(f"  -> Skipping transcript posting: No Discourse topic ID found for occurrence.")
-
-
-        # --- Post YouTube stream links to Discourse (if needed) --- 
-        streams_posted = matched_occurrence.get("youtube_streams_posted_to_discourse", False)
-        # Get streams from the specific occurrence
-        occurrence_youtube_streams = matched_occurrence.get("youtube_streams")
- 
-        if discourse_topic_id and not streams_posted and occurrence_youtube_streams:
-             print(f"  -> Posting YouTube stream links to Discourse topic {discourse_topic_id}...")
-             stream_links_text = "\n".join([
-                 f"- Stream {i+1}: {stream.get('stream_url', 'URL not found')}" 
-                 for i, stream in enumerate(occurrence_youtube_streams)
-             ])
-             discourse_body = f"**YouTube Stream Links:**\n{stream_links_text}"
-             try:
-                 discourse.create_post(topic_id=discourse_topic_id, body=discourse_body)
-                 mapping[recording_meeting_id]["occurrences"][occurrence_index]["youtube_streams_posted_to_discourse"] = True
-                 mapping_updated = True
-                 print(f"  -> Successfully posted YouTube streams to Discourse.")
-             except Exception as e:
-                 print(f"[ERROR] Error posting YouTube streams to Discourse: {e}")
-        elif streams_posted:
-             print(f"  -> YouTube stream links already posted to Discourse.")
-        elif not occurrence_youtube_streams:
-             print(f"  -> No YouTube stream links found for this occurrence to post.")
-
-    # Save and commit mapping if any changes were made
+    # Save and commit mapping if any changes were made during the loop
     if mapping_updated:
         print("Saving updated mapping file...")
         save_meeting_topic_mapping(mapping)
@@ -375,7 +368,7 @@ def process_recordings(mapping):
         print("No mapping changes to commit.")
 
 def main():
-    parser = argparse.ArgumentParser(description="Poll Zoom for recordings and post transcripts.")
+    parser = argparse.ArgumentParser(description="Poll Zoom for recordings and post transcripts to Discourse.")
     parser.add_argument("--force_meeting_id", required=False, help="Force processing of a specific Zoom meeting ID")
     parser.add_argument("--force_issue_number", required=False, type=int, help="Force processing for a specific occurrence identified by issue number (requires --force_meeting_id)")
     args = parser.parse_args()
@@ -385,35 +378,104 @@ def main():
     if args.force_meeting_id:
         meeting_id = validate_meeting_id(args.force_meeting_id)
         if meeting_id:
-            print(f"Force processing meeting {meeting_id}")
+            print(f"Attempting forced processing for meeting {meeting_id}")
             series_entry = mapping.get(meeting_id)
             if not series_entry or "occurrences" not in series_entry:
-                print(f"Error: Meeting ID {meeting_id} not found in mapping or has no occurrences.")
+                print(f"::error::Meeting ID {meeting_id} not found in mapping or has no occurrences.")
                 return
 
             if args.force_issue_number:
-                # Find the specific occurrence by issue number
-                target_occurrence = next((occ for occ in series_entry["occurrences"] if occ.get("issue_number") == args.force_issue_number), None)
+                occurrence_issue_number = args.force_issue_number
+                print(f"Searching for occurrence with Issue Number: {occurrence_issue_number}")
+                # Find the specific occurrence and its index
+                target_occurrence = None
+                occurrence_index = -1
+                for idx, occ in enumerate(series_entry["occurrences"]):
+                    if occ.get("issue_number") == occurrence_issue_number:
+                        target_occurrence = occ
+                        occurrence_index = idx
+                        break
+
                 if not target_occurrence:
-                    print(f"Error: Issue number {args.force_issue_number} not found within occurrences for meeting ID {meeting_id}.")
+                    print(f"::error::Issue number {occurrence_issue_number} not found within occurrences for meeting ID {meeting_id}.")
                     return
-                # TODO: Implement forced processing logic for a SINGLE occurrence
-                # This might involve finding the corresponding Zoom recording by time
-                # and then running the upload/transcript logic similar to process_recordings
-                print(f"Forcing processing for Occurrence Issue #{args.force_issue_number}...")
-                # Placeholder: This needs specific implementation
-                print("[WARN] Forced processing for a single occurrence is not fully implemented yet.")
+
+                print(f"Found occurrence: {target_occurrence.get('issue_title', 'N/A')}")
+                occurrence_start_time_str = target_occurrence.get("start_time")
+                if not occurrence_start_time_str:
+                    print(f"::error::Target occurrence {occurrence_issue_number} is missing 'start_time'. Cannot match recording.")
+                    return
+
+                # Fetch recordings and find the matching one
+                print("Fetching Zoom recordings to find match...")
+                recordings = zoom.get_recordings_list() # Fetch recent recordings
+                if not recordings:
+                    print("::error::No recent recordings found on Zoom to match against.")
+                    return
+
+                matching_recording = None
+                try:
+                    # We need the target occurrence start time to find the recording
+                    target_start_time = datetime.fromisoformat(occurrence_start_time_str.replace('Z', '+00:00'))
+                    tolerance = timedelta(minutes=15) # Allow larger tolerance for matching
+
+                    for recording in recordings:
+                        # First check if the recording's meeting ID matches
+                        if str(recording.get("id")) != meeting_id:
+                            continue
+                        # Then check the start time
+                        rec_start_str = recording.get("start_time")
+                        if not rec_start_str:
+                            continue
+                        try:
+                            rec_start_time = datetime.fromisoformat(rec_start_str.replace('Z', '+00:00'))
+                            if abs(rec_start_time - target_start_time) <= tolerance:
+                                matching_recording = recording
+                                print(f"Found matching Zoom recording: Topic='{recording.get('topic', 'N/A')}', Start='{rec_start_str}'")
+                                break # Found the one we need
+                        except ValueError:
+                            print(f"[WARN] Invalid start_time format in recording: {rec_start_str}")
+                            continue
+
+                except ValueError:
+                    print(f"::error::Invalid start_time format in target occurrence: {occurrence_start_time_str}")
+                    return
+
+                if not matching_recording:
+                    print(f"::error::Could not find a matching Zoom recording for Meeting ID {meeting_id}, Occurrence Issue #{occurrence_issue_number} (start time: {occurrence_start_time_str}).")
+                    print("Check if the recording exists in Zoom and its start time matches the mapping.")
+                    return
+
+                # Now call the processing function with force=True
+                print(f"Forcing processing for Occurrence Issue #{occurrence_issue_number}...")
+                mapping_updated = process_single_occurrence(
+                    recording=matching_recording,
+                    occurrence=target_occurrence,
+                    occurrence_index=occurrence_index,
+                    series_entry=series_entry,
+                    mapping=mapping,
+                    force_process=True # Enable force mode
+                )
+
+                if mapping_updated:
+                    print("Saving updated mapping file after forced processing...")
+                    save_meeting_topic_mapping(mapping)
+                    try:
+                        commit_mapping_file()
+                    except Exception as e:
+                        print(f"::error::Failed to commit mapping file after forced run: {e}")
+                else:
+                    print("No mapping changes resulted from forced processing.")
+
             else:
-                # Force processing for ALL occurrences in the series? Or most recent?
-                # Current refactor focuses on polling, so forced full series processing is complex.
-                print("[WARN] Forced processing for an entire series without polling is not supported by the current logic. Use polling or specify --force_issue_number.")
-                # process_meeting(meeting_id, mapping) # Old function removed
+                # Keep the warning for forcing a whole series ID without issue number
+                print("[WARN] Forced processing for an entire series without polling is not supported. Specify --force_issue_number.")
             return # Exit after forced processing attempt
         else:
             print("Invalid force_meeting_id provided")
             return
 
-    # --- Regular Polling Logic --- 
+    # --- Regular Polling Logic ---
     process_recordings(mapping)
 
 if __name__ == "__main__":
