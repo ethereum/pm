@@ -47,3 +47,11 @@
     - [ ] Test Case 1
     - [ ] Test Case 2
     - [ ] ...
+
+## Disclaimer
+The individuals and organisations named in this document have been listed solely so that other community members know whom to contact for faster coordination and incident-response during the Pectra network upgrade.
+
+Their inclusion does not:
+- Create any fiduciary, contractual, or other legal duty towards any other party;
+- Constitute any representation, warranty, or guarantee of the performance, security, or outcome of the Pectra upgrade; or
+- Give rise to any liability, whether in negligence, tort, contract, or otherwise, for any direct, indirect, or consequential damages (including any loss of funds) arising out of or in connection with the Pectra upgrade or reliance on this document.
