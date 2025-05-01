@@ -611,19 +611,48 @@ def handle_github_issue(issue_number: int, repo_name: str):
         join_url = "Error during Zoom processing"
         zoom_action = "failed_unexpected"
 
+    # --- MODIFIED START: Fetch Join URL via API if needed ---
+    # If join_url wasn't set during create/update in *this run*, 
+    # or if we reused a series, fetch it now using the definitive meeting_id.
+    if not join_url and meeting_id and not str(meeting_id).startswith("placeholder-"):
+        print(f"[DEBUG] Fetching meeting details via API for meeting ID: {meeting_id} to get join_url.")
+        try:
+            meeting_details = zoom.get_meeting(meeting_id)
+            if meeting_details and meeting_details.get('join_url'):
+                join_url = meeting_details['join_url']
+                print(f"[DEBUG] Successfully fetched join_url: {join_url}")
+            else:
+                join_url = "Error fetching Zoom link (API returned incomplete data)"
+                print(f"[WARN] {join_url}")
+        except Exception as e:
+            join_url = f"Error fetching Zoom link ({type(e).__name__})"
+            print(f"::warning::{join_url}: {str(e)}")
+            # Fallback: If fetching fails, we might still have a placeholder 
+            # join_url from earlier logic (e.g., skip_zoom_creation). Keep that.
+            # The blocks below will handle non-URL values appropriately.
+    elif join_url:
+         print(f"[DEBUG] Using join_url obtained earlier in this run: {join_url}")
+    else:
+         print("[DEBUG] No valid meeting_id or join_url available.")
+         join_url = "Zoom link not available" # Ensure join_url has a non-None value
+    # --- MODIFIED END ---
+
     # Add Zoom link details to GitHub comment based on the flag
     if zoom_id and not str(zoom_id).startswith("placeholder-"):
         if reusing_series_meeting:
             comment_lines.append(f"\n**Zoom Meeting:** Reusing meeting {zoom_id} for series '{call_series}'.")
-        # Add the join URL to the comment if the flag is set and link is valid
-        if display_zoom_link_in_invite and join_url and not str(join_url).startswith("Zoom creation skipped"):
-             comment_lines.append(f"- Zoom Link: {join_url}")
-        # Add a note if the link is intentionally hidden
-        elif not display_zoom_link_in_invite and join_url and not str(join_url).startswith("Zoom creation skipped"):
-             comment_lines.append(f"- *Zoom link hidden (sent to facilitator email)*")
-        # Handle cases where join_url might be invalid even if zoom_id isn't a placeholder
-        elif not join_url or str(join_url).startswith("Zoom creation skipped"):
-             comment_lines.append(f"- *Zoom link not available or creation skipped.*")
+        
+        # --- MODIFIED: Use join_url directly, check validity and display flag ---
+        is_valid_join_url_for_display = bool(join_url and str(join_url).startswith("https://"))
+
+        if is_valid_join_url_for_display:
+             if display_zoom_link_in_invite:
+                 comment_lines.append(f"- Zoom Link: {join_url}")
+             else:
+                 comment_lines.append(f"- *Zoom link hidden (sent to facilitator email)*")
+        else: # Handle placeholders or error strings in join_url
+             comment_lines.append(f"- *Zoom link not available ({join_url}).*")
+        # --- END MODIFICATION ---
 
     # Use zoom_id as the meeting_id (which is the mapping key)
     if zoom_id:
@@ -741,12 +770,17 @@ def handle_github_issue(issue_number: int, repo_name: str):
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
         # Base calendar description
         calendar_description = f"Issue: {issue.html_url}"
-        # Append Zoom link to description if requested and available
-        if display_zoom_link_in_invite and join_url and not str(join_url).startswith("Zoom creation skipped"):
+
+        # --- MODIFIED: Use join_url directly for GCal --- 
+        is_valid_join_url_gcal = bool(join_url and str(join_url).startswith("https://"))
+
+        # Append Zoom link to description only if requested AND available (valid URL)
+        if display_zoom_link_in_invite and is_valid_join_url_gcal:
             print("[DEBUG] Adding Zoom link to calendar description.")
             calendar_description += f"\n\nZoom Link: {join_url}"
         else:
-            print("[DEBUG] Not adding Zoom link to calendar description (flag false or link unavailable).")
+            print(f"[DEBUG] Not adding Zoom link to calendar description (flag: {display_zoom_link_in_invite}, valid_url: {is_valid_join_url_gcal}).")
+        # --- END MODIFICATION ---
             
         event_link = None
         event_id = None # Initialize event_id
@@ -923,8 +957,6 @@ def handle_github_issue(issue_number: int, repo_name: str):
             mapping_entry["occurrence_rate"] = occurrence_rate if is_recurring else "none"; series_updated = True
         if "call_series" not in mapping_entry and call_series:
             mapping_entry["call_series"] = call_series; series_updated = True
-        if "zoom_link" not in mapping_entry and join_url and not str(join_url).startswith("https://zoom.us (API"):
-            mapping_entry["zoom_link"] = join_url; series_updated = True
         if "calendar_event_id" not in mapping_entry and event_id:
             mapping_entry["calendar_event_id"] = event_id; series_updated = True
         # Store youtube_streams only if generated AND not already present at series level
@@ -983,37 +1015,68 @@ def handle_github_issue(issue_number: int, repo_name: str):
         emails_sent_count = 0
         emails_failed = []
 
-        # Check if join_url is considered valid for sending emails
-        join_url_is_valid = bool(join_url and join_url.startswith("https://") and "(API authentication failed)" not in join_url and "(placeholder)" not in join_url and "skipped" not in join_url and "Invalid time/duration" not in join_url and "Error during Zoom processing" not in join_url and "missing in reused series data" not in join_url)
-        print(f"[DEBUG] Determined join_url_is_valid: {join_url_is_valid} based on join_url: '{join_url}'") # Add debug log
+        # --- MODIFIED: Check join_url status for email --- 
+        # Determine if we *should* send an email (requires facilitator emails and first run)
+        should_attempt_email = bool(facilitator_emails and is_first_run_for_issue)
 
-        if not facilitator_emails:
-            print(f"[DEBUG] No facilitator emails provided, skipping email notification.")
-            comment_lines.append("- Facilitator emails not found in issue, skipping email notification.")
-        elif not join_url_is_valid:
-            print(f"[DEBUG] No valid Zoom join URL ({join_url}), skipping email notification.")
-            comment_lines.append(f"- Zoom Join URL invalid or missing, skipping email notification.")
-        elif not is_first_run_for_issue:
-            print(f"[DEBUG] Not the first run for issue #{issue.number}. Skipping email notification.")
-            comment_lines.append(f"- Skipping email notification (already processed issue #{issue.number} before).")
+        # Determine if the link status allows sending useful info
+        # We can send even if hidden, just changing the body
+        is_valid_join_url_email = bool(join_url and str(join_url).startswith("https://"))
+        # We can send an email even if hidden, just need *some* info (zoom_id)
+        can_send_email_info = bool(zoom_id and not str(zoom_id).startswith("placeholder-"))
+
+        if not should_attempt_email:
+            if not facilitator_emails:
+                print(f"[DEBUG] No facilitator emails provided, skipping email notification.")
+                comment_lines.append("- Facilitator emails not found in issue, skipping email notification.")
+            elif not is_first_run_for_issue:
+                 print(f"[DEBUG] Not the first run for issue #{issue.number}. Skipping email notification.")
+                 comment_lines.append(f"- Skipping email notification (already processed issue #{issue.number} before).")
+        elif not can_send_email_info:
+            print(f"[DEBUG] No valid Zoom ID available ('{zoom_id}'), skipping email notification.")
+            comment_lines.append(f"- Zoom Meeting ID invalid or missing, skipping email notification.")
         else:
-            # Proceed with sending email (First run for this issue, emails exist, valid URL)
-            print(f"[DEBUG] First run for issue #{issue.number}. Proceeding with email notification.")
+            # Proceed with sending email (First run, emails exist, valid zoom_id)
+            print(f"[DEBUG] First run for issue #{issue.number}. Proceeding with email notification (Join URL Status: '{join_url}').")
             email_subject = f"Zoom Meeting Details for {issue_title}"
-            # Use the final zoom_id and join_url for the email body
+            
+            # --- MODIFIED: Adjust email body based on join_url validity and display flag --- 
+            email_body_content = ""
+            if is_valid_join_url_email:
+                 if display_zoom_link_in_invite:
+                     # Valid URL, display allowed
+                     email_body_content = f"""
+<p><strong>Join URL:</strong> <a href=\"{join_url}\">{join_url}</a></p>
+<p><strong>Meeting ID:</strong> {zoom_id}</p>
+"""
+                 else:
+                     # Valid URL, but hidden
+                     email_body_content = f"""
+<p>The Zoom meeting details for <strong>{issue_title}</strong> have been set up.</p>
+<p>As requested, the join link is not being displayed publicly. Please retain the link from this initial notification for joining the meeting.</p>
+<p><strong>Meeting ID:</strong> {zoom_id}</p>
+"""
+            else: 
+                 # join_url is not valid (placeholder/error)
+                 email_body_content = f"""
+<p>The Zoom meeting (ID: {zoom_id}) for <strong>{issue_title}</strong> has been processed.</p>
+<p>However, the join URL could not be retrieved or is invalid ({join_url}). Please check the meeting details in your Zoom account or contact the administrator.</p>
+"""
+                 print(f"[WARN] Email body content indicates join_url issue: {join_url}")
+
+            # Construct full email body
             email_body = f'''
 <h2>Zoom Meeting Details</h2>
 <p>For meeting: {issue_title}</p>
-<p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
-<p><strong>Meeting ID:</strong> {zoom_id}</p>
+{email_body_content}
 <p><strong>Links:</strong><br>
 <a href="{issue.html_url}">View GitHub Issue</a><br>
-# Ensure discourse_url is defined before using it in the email body
 <a href="{discourse_url or 'Discourse link not available'}">View Discourse Topic</a></p>
 
 <p>---<br>
 This email was sent automatically by the Ethereum Protocol Call Bot because meeting details were created or updated.</p>
 '''
+            # --- END Email Body Modification ---
 
             for email in facilitator_emails:
                 try:
