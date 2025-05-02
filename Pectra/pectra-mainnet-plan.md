@@ -14,7 +14,7 @@
 | Besu | Daniel Lehrner | Gabriel Trintinalia or Simon Dudley|
 | Erigon | Somnath Banerjee | Andrew Ashikhmin |
 | Geth | Felix Lange | Marius van der Wijden |
-| Grandine | [Name] | [Name] |
+| Grandine | Saulius Grigaitis | Povilas Liubauskas or Tumas |
 | Lighthouse | Sean Anderson | Michael Sproul |
 | Lodestar | Phil Ngo | Nico Flaig |
 | Nimbus | Dustin | Advaita Saha |
