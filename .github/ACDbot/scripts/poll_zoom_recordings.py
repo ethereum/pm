@@ -215,9 +215,9 @@ def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_mi
 def process_single_occurrence(recording, occurrence, occurrence_index, series_entry, mapping, force_process=False):
     """Processes transcript and Discourse posts for a single matched recording and occurrence."""
     mapping_updated = False
-    recording_meeting_id = str(series_entry.get("meeting_id")) # Should be the same as recording.get("id")
+    recording_meeting_id = str(recording.get("id"))
     occurrence_issue_number = occurrence.get("issue_number")
-    print(f"Processing transcript for Meeting ID {recording_meeting_id}, Occurrence Issue #{occurrence_issue_number}")
+    print(f"Processing transcript for Specific Recording of Meeting ID {recording_meeting_id}, Occurrence Issue #{occurrence_issue_number}")
 
     # Check eligibility (meeting ended > 15 mins ago)
     try:
@@ -239,8 +239,11 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
         attempt_number = transcript_attempts + 1
         print(f"  -> Attempting transcript posting (Attempt {attempt_number})...")
         try:
-            # Pass meeting ID and occurrence details for context
-            transcript_success = transcript.post_zoom_transcript_to_discourse(recording_meeting_id, occurrence_details=occurrence)
+            # Pass the specific recording data object instead of just the series ID
+            transcript_success = transcript.post_zoom_transcript_to_discourse(
+                recording_data=recording,
+                occurrence_details=occurrence
+            )
 
             if transcript_success:
                 mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_processed"] = True
