@@ -115,39 +115,38 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
         return False # Indicate skip due to missing summary
 
     # Process summary data
-    summary_overview = ""
+    # Initialize variables with defaults
+    summary_overview = "No summary overview available" 
     summary_details = ""
     next_steps = ""
     
-    if summary_data:
-        # Extract summary overview
-        summary_overview = summary_data.get("summary", "No summary overview available")
-        
-        # Extract detailed summaries in a collapsible section
-        if summary_data.get("summary_details"):
-            details = []
-            for detail in summary_data.get("summary_details", []):
-                section_title = detail.get("section_title", "")
-                section_summary = detail.get("summary", "")
-                if section_title and section_summary:
-                    details.append(f"**{section_title}**\n{section_summary}")
-                elif section_summary:
-                    details.append(section_summary)
-            
-            if details:
-                summary_details = "<details>\n<summary>Click to expand detailed summary</summary>\n\n"
-                summary_details += "\n\n".join(details)
-                summary_details += "\n</details>"
-        
-        # Format next steps
-        if summary_data.get("next_steps"):
-            steps = [f"- {step}" for step in summary_data["next_steps"]]
-            next_steps = "### Next Steps:\n" + "\n".join(steps)
-    else:
-        # This case should not be reachable now due to the check above, but keep for safety
-        summary_overview = "No summary available yet"
-        print(f"::warning::Proceeding for meeting {meeting_id} even though summary_data check was bypassed (should not happen).")
+    # Directly extract data from the validated summary_data object
+    summary_overview = summary_data.get("summary", summary_overview) # Use default if key missing
     
+    # Extract detailed summaries in a collapsible section
+    if summary_data.get("summary_details"):
+        details = []
+        for detail in summary_data.get("summary_details", []):
+            section_title = detail.get("section_title", "")
+            section_summary = detail.get("summary", "")
+            if section_title and section_summary:
+                details.append(f"**{section_title}**\n{section_summary}")
+            elif section_summary:
+                details.append(section_summary)
+        
+        if details:
+            summary_details = "<details>\n<summary>Click to expand detailed summary</summary>\n\n"
+            summary_details += "\n\n".join(details)
+            summary_details += "\n</details>"
+    
+    # Format next steps
+    if summary_data.get("next_steps"):
+        # Ensure next_steps is a list before iterating
+        next_steps_list = summary_data.get("next_steps", [])
+        if isinstance(next_steps_list, list) and next_steps_list:
+            steps = [f"- {step}" for step in next_steps_list]
+            next_steps = "### Next Steps:\n" + "\n".join(steps)
+
     # Extract proper share URL and passcode (new format)
     share_url = recording_data.get('share_url', '')
     passcode = recording_data.get('password', '') # Keep getting passcode for potential future use, but don't modify URL
