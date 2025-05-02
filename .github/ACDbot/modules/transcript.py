@@ -61,6 +61,12 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
         return False # Failed to get recording data
 
+    # Check if recording duration is sufficient
+    recording_duration = recording_data.get('duration', 0)
+    if recording_duration < 10:
+        print(f"Skipping meeting {meeting_id}: Recording duration ({recording_duration} min) is less than 10 minutes.")
+        return False # Indicate skip due to duration
+
     meeting_uuid = recording_data.get('uuid', '')
     if not meeting_uuid:
         print(f"::error::Meeting UUID not found in recording data for meeting {meeting_id}.")
@@ -80,6 +86,11 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     except Exception as e:
         print(f"::error::Error fetching or parsing summary for {meeting_uuid}: {e}")
         return False # Failed to get summary
+
+    # Check if summary data is available
+    if not summary_data:
+        print(f"Skipping meeting {meeting_id}: No summary data found or available yet.")
+        return False # Indicate skip due to missing summary
 
     # Process summary data
     summary_overview = ""
@@ -111,12 +122,23 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
             steps = [f"- {step}" for step in summary_data["next_steps"]]
             next_steps = "### Next Steps:\n" + "\n".join(steps)
     else:
+        # This case should not be reachable now due to the check above, but keep for safety
         summary_overview = "No summary available yet"
+        print(f"::warning::Proceeding for meeting {meeting_id} even though summary_data check was bypassed (should not happen).")
     
     # Extract proper share URL and passcode (new format)
     share_url = recording_data.get('share_url', '')
-    passcode = recording_data.get('password', '')
+    passcode = recording_data.get('password', '') # Keep getting passcode for potential future use, but don't modify URL
     
+    # Use the share_url directly from the API response
+    recording_access_line = "- Recording link not available"
+    if share_url:
+        recording_access_line = f"- [Join Recording Session]({share_url})"
+        # Add a debug log to see the raw share_url from the API
+        print(f"[DEBUG] Using share_url from Zoom API: {share_url}") 
+    else:
+        print(f"[WARN] Share URL not found in recording data for meeting {meeting_id}")
+
     # Get transcript download URL from recording files
     transcript_url = None
     chat_url = None
@@ -127,7 +149,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         elif file.get('file_type') == 'CHAT':
             chat_url = file.get('download_url')
     
-    # Build post content with the new format
+    # Build post content with the potentially modified recording access line
     post_content = f"""### Meeting Summary:
 {summary_overview}
 
@@ -136,7 +158,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
 {next_steps}
 
 ### Recording Access:
-- [Join Recording Session]({share_url}) (Passcode: `{passcode}`)"""
+{recording_access_line}""" # Use the constructed line here
 
     # Add transcript link if available
     if transcript_url:
