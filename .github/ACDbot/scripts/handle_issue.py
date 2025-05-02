@@ -1053,7 +1053,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                      # Valid URL, but hidden
                      email_body_content = f"""
 <p>The Zoom meeting details for <strong>{issue_title}</strong> have been set up.</p>
-<p>As requested, the join link is not being displayed publicly. Please retain the link from this initial notification for joining the meeting.</p>
+<p>As requested, the join link is not being displayed publicly on the calendar/Discourse.</p>
+<p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
 <p><strong>Meeting ID:</strong> {zoom_id}</p>
 """
             else: 
