@@ -185,25 +185,76 @@ def download_zoom_file(download_url, access_token):
         response.raise_for_status()
     return response.content.decode('utf-8')
 
-def get_recordings_list():
+def get_recordings_list(from_date=None, to_date=None):
     """
-    Retrieves a list of cloud recordings for the user.
+    Retrieves a list of cloud recordings for the user, handling pagination.
+    Args:
+        from_date (str, optional): Start date in YYYY-MM-DD format. Defaults to 7 days ago.
+        to_date (str, optional): End date in YYYY-MM-DD format. Defaults to today.
+    Returns:
+        list: A list of meeting recording objects.
     """
     access_token = get_access_token()
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
+    
+    # Set default date range if not provided
+    if from_date is None:
+        from_date = (datetime.utcnow() - timedelta(days=7)).strftime("%Y-%m-%d")
+    if to_date is None:
+        to_date = datetime.utcnow().strftime("%Y-%m-%d")
+        
+    print(f"[DEBUG] Fetching recordings from {from_date} to {to_date}")
+
     params = {
-        "page_size": 100,
-        "from": (datetime.utcnow() - timedelta(days=7)).strftime("%Y-%m-%d"),  # Adjust time range as needed
-        "to": datetime.utcnow().strftime("%Y-%m-%d")
+        "page_size": 300, # Max page size allowed by Zoom
+        "from": from_date,
+        "to": to_date,
+        "next_page_token": None # Start without a token
     }
-    response = requests.get(f"{api_base_url}/users/me/recordings", headers=headers, params=params)
-    if response.status_code != 200:
-        print(f"Error fetching recordings: {response.status_code} {response.text}")
-        response.raise_for_status()
-    data = response.json()
-    return data.get("meetings", [])
+    
+    all_recordings = []
+    page_number = 1
+    
+    while True:
+        if params["next_page_token"]:
+             print(f"[DEBUG] Fetching page {page_number} with next_page_token...")
+        else:
+             print(f"[DEBUG] Fetching page {page_number}...")
+             # Don't send None as a parameter value
+             current_params = {k: v for k, v in params.items() if k != "next_page_token" or v is not None}
+
+        try:
+            response = requests.get(f"{api_base_url}/users/me/recordings", headers=headers, params=current_params)
+            response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+            data = response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"::error::Error fetching recordings (Page {page_number}): {e}")
+            # Decide whether to break or continue; breaking is safer
+            break 
+        except json.JSONDecodeError as e:
+            print(f"::error::Error decoding JSON response (Page {page_number}): {e}")
+            break
+
+        page_recordings = data.get("meetings", [])
+        all_recordings.extend(page_recordings)
+        print(f"[DEBUG] Fetched {len(page_recordings)} recordings on page {page_number}. Total fetched: {len(all_recordings)}.")
+
+        next_page_token = data.get("next_page_token")
+        params["next_page_token"] = next_page_token
+        
+        # Exit loop if no next_page_token is provided or it's an empty string
+        if not next_page_token:
+            print("[DEBUG] No next_page_token found. Finished fetching recordings.")
+            break
+            
+        page_number += 1
+        # Add a small delay to avoid hitting rate limits, if necessary
+        # time.sleep(0.2) 
+
+    print(f"[DEBUG] Total recordings fetched across all pages: {len(all_recordings)}")
+    return all_recordings
 
 def get_meeting_summary(meeting_uuid: str) -> dict:
     """Temporary workaround for summary endpoint"""
