@@ -1,0 +1,22 @@
+name: Discord Meeting Notify
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install requests
+      - name: Run Discord notification script
+        env:
+          DISCORD_ACDC_WEBHOOK: ${{ secrets.DISCORD_ACDC_WEBHOOK }}
+          DISCORD_ROLLCALL_WEBHOOK: ${{ secrets.DISCORD_ROLLCALL_WEBHOOK }}
+        run: python .github/ACDbot/scripts/discord_notify.py 
