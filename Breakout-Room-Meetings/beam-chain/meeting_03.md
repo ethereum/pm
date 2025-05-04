@@ -6,7 +6,7 @@
 
 **Meeting Duration:** 1.75 hours
 
-[GitHub Agenda](https://github.com/ethereum/pm/issues/1389)
+[GitHub Agenda & Links to Presentations](https://github.com/ethereum/pm/issues/1389)
 
 [Audio/Video of the meeting](https://youtu.be/dJkuwuh2Nrs?feature=shared)
 
@@ -17,17 +17,17 @@ Facilitators: Ladislaus von Daniels & Will Corcoran
 - Facilitator telegrams: @ladislaus0x // @corcoranwill
 
 ## Agenda
-| Agenda Item | Topic | Link |
-| --- | --- | --- |
-| Intro | Social Layer Updates by @justindrake | [link](https://docs.google.com/presentation/d/1yavZUvmfnTYzsOuY086AaJgtTMEayANfNBVnmxL1_Kg/edit?usp=drive_link) |
-| Pres 01 | Hash-based SNARKs w/ Small Proofs by @TomWambsgans | [link](https://docs.google.com/presentation/d/10pRsghxatnjju_8oKAmrhas1t5P_jtiTxUme3w1U7CY/edit?usp=drive_link) |
-| Pres 02 | Permissionless Aggregation by @justindrake | [link](https://docs.google.com/presentation/d/11z8uO3rTHO2dxsNmRqWFqgJgMtRQAzYUq2nNT0UAPdY/edit?usp=drive_link) |
-| Pres 03 | Generalized Gossipsub by @AgeManning | [link](https://docs.google.com/presentation/d/1AtsSryG_xiiuhUBRbHjSWAu4YlBPq1x-lulyLhDnYVc/edit?usp=sharing) |
-| Pres 04 | Gossipsub V2 by @ppopth | [link](https://docs.google.com/presentation/d/1jDC5pV710PEz_-Flgdt4zGeo8zlzdAszWXaxjprRPiw/edit?usp=drive_link) |
-| Pres 05 | Grid Topology by @kamilsa | [link](https://hackmd.io/@kamilsa/rJ7SjSZaye#/) |
-| Pres 06 | Set Reconciliation by @yangl1996 | [link](https://docs.google.com/presentation/d/1zqBpF-o7qFFuYUPESgK0jIYvVbiD2dlu9X2dpaS1ySQ/edit?usp=drive_link) |
-| Pres 07 | libp2p in C by @uink45 | [link](https://docs.google.com/presentation/d/1nDm8wk2psmRIYbh0cb5ye11KmABu-D-kmVv3VuIdZoY/edit?usp=drive_link) |
-| Pres 08 | libp2p in Zig by @zen-eth | [link](https://docs.google.com/presentation/d/1WU0X-7sAKIoNy3gwA32PTtv5X6biRlLwXwsbVBXDUkQ/edit?usp=sharing) |
+| Agenda Item | Topic |
+| --- | --- |
+| Intro | Social Layer Updates by @justindrake |
+| Pres 01 | Hash-based SNARKs w/ Small Proofs by @TomWambsgans |
+| Pres 02 | Permissionless Aggregation by @justindrake |
+| Pres 03 | Generalized Gossipsub by @AgeManning |
+| Pres 04 | Gossipsub V2 by @ppopth |
+| Pres 05 | Grid Topology by @kamilsa |
+| Pres 06 | Set Reconciliation by @yangl1996 |
+| Pres 07 | libp2p in C by @uink45 |
+| Pres 08 | libp2p in Zig by @zen-eth |
 
 
 ## Intro: Social Updates by @justindrake
