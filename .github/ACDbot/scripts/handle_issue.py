@@ -898,16 +898,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
         # Create data for the current occurrence
         occurrence_data = {
-            "occurrence_number": len(mapping_entry["occurrences"]) + 1,
+            "occurrence_number": len(mapping_entry.get("occurrences", [])) + 1,
             "issue_number": issue.number,
             "issue_title": issue.title,
             "discourse_topic_id": topic_id,
             "start_time": start_time if 'start_time' in locals() else None,
             "duration": duration if 'duration' in locals() else None,
-            # Calculate skip_youtube_upload based on current issue's flags
-            "skip_youtube_upload": need_youtube_streams and is_recurring and occurrence_rate != "none",
+            # MODIFIED: Skip YT upload if external Zoom ID is used OR if recurring streams were created
+            "skip_youtube_upload": skip_zoom_creation or (need_youtube_streams and is_recurring and occurrence_rate != "none"),
+            # ADDED: Skip transcript processing if external Zoom ID is used
+            "skip_transcript_processing": skip_zoom_creation,
             # Initialize processing flags for this new occurrence
-            "Youtube_upload_processed": False,
+            "Youtube_upload_processed": False, # This will be effectively ignored if skip_youtube_upload is true
             "transcript_processed": False,
             "upload_attempt_count": 0,
             "transcript_attempt_count": 0,
@@ -933,6 +935,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
             existing_flags = {
                 "Youtube_upload_processed": mapping_entry["occurrences"][existing_occurrence_index].get("Youtube_upload_processed", False),
                 "transcript_processed": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_processed", False),
+                # ADDED: Preserve existing skip_transcript_processing flag if already set
+                "skip_transcript_processing": mapping_entry["occurrences"][existing_occurrence_index].get("skip_transcript_processing", False),
                 "upload_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("upload_attempt_count", 0),
                 "transcript_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_attempt_count", 0),
                 "youtube_streams_posted_to_discourse": mapping_entry["occurrences"][existing_occurrence_index].get("youtube_streams_posted_to_discourse", False),

@@ -232,8 +232,17 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
     transcript_processed = occurrence.get("transcript_processed", False)
     transcript_attempts = occurrence.get("transcript_attempt_count", 0)
     discourse_topic_id = occurrence.get("discourse_topic_id")
-    # Allow forced processing even if attempts > 10
-    can_attempt_transcript = not transcript_processed and (force_process or transcript_attempts < 10) and discourse_topic_id
+    # ADDED: Check if transcript processing should be skipped based on flag from handle_issue
+    should_skip_transcript = occurrence.get("skip_transcript_processing", False)
+    
+    # Allow forced processing even if attempts > 10 or skip flag is set
+    can_attempt_transcript = (not transcript_processed and 
+                           (force_process or (not should_skip_transcript and transcript_attempts < 10)) and 
+                           discourse_topic_id)
+    
+    # ADDED: Log reason if skipping due to the new flag
+    if should_skip_transcript and not force_process:
+        print(f"  -> Skipping transcript posting: External Zoom ID indicated (skip_transcript_processing=True).")
 
     if can_attempt_transcript:
         attempt_number = transcript_attempts + 1
