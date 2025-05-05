@@ -27,7 +27,7 @@ Facilitator emails: XXXXX, YYYYY
 - Recurring meeting : true
 - Call series : (e.g ACDC ; ACDE; testing call)
 - Occurrence rate : weekly # Options: weekly, bi-weekly, monthly
-- Already a Zoom meeting ID : false # Set to true if this meeting is already on the auto recording Ethereum zoom (will not create a zoom ID if true)
+- Already a Zoom meeting ID : false # Set to true if you bring your own link -- WARNING the bot will not create a zoom ID and a summary or a Youtube video -- (make sure your zoom link meeting is auto recording you'll have to handle this yourself)
 - Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar (will not create calendar event)
 - Need YouTube stream links : true # Set to false if you don't want YouTube stream links created
 - display zoom link in invite : false # Set to true to add the Zoom link to the Google Calendar invite description
