@@ -200,9 +200,18 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         # Post to Discourse (if applicable)
         discourse_topic_id = matched_occurrence.get("discourse_topic_id")
         if discourse_topic_id:
+            join_url = matched_occurrence.get("join_url")
+            password = matched_occurrence.get("password") # Assuming password is stored here by handle_issue.py
+
+            post_body = f"YouTube recording available: {youtube_link}"
+            if join_url:
+                post_body += f"\\n\\nOriginal Meeting Link: {join_url}" # Use \\n for Discourse newline
+                if password:
+                    post_body += f"\\nPassword: {password}"
+
             discourse.create_post(
                 topic_id=discourse_topic_id,
-                body=f"YouTube recording available: {youtube_link}"
+                body=post_body # Use the modified body
             )
 
         # --- Update RSS feed for this occurrence ---

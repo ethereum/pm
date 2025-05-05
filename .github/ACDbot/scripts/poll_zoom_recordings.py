@@ -307,9 +307,16 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
              for i, stream in enumerate(occurrence_youtube_streams)
          ])
          title = "**YouTube Stream Links:**" # Changed title slightly as context might be different
-         discourse_body = f"{title}\n{stream_links_text}"
+         join_url = occurrence.get("join_url") # Fetch from occurrence details
+         password = occurrence.get("password") # Fetch from occurrence details
+
+         discourse_body = f"{title}\\n{stream_links_text}" # Use \\n for Discourse newline
+         if join_url:
+             discourse_body += f"\\n\\nOriginal Meeting Link: {join_url}"
+             if password:
+                 discourse_body += f"\\nPassword: {password}"
          try:
-             discourse.create_post(topic_id=discourse_topic_id, body=discourse_body)
+             discourse.create_post(topic_id=discourse_topic_id, body=discourse_body) # Use modified body
              mapping[recording_meeting_id]["occurrences"][occurrence_index]["youtube_streams_posted_to_discourse"] = True
              mapping_updated = True
              print(f"  -> Successfully posted YouTube streams to Discourse.")
