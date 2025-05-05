@@ -147,18 +147,36 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
             steps = [f"- {step}" for step in next_steps_list]
             next_steps = "### Next Steps:\n" + "\n".join(steps)
 
-    # Extract proper share URL and passcode (new format)
+    # Extract recording URLs and passcode
+    play_url = recording_data.get('play_url')
     share_url = recording_data.get('share_url', '')
-    passcode = recording_data.get('password', '') # Keep getting passcode for potential future use, but don't modify URL
+    passcode = recording_data.get('password', '') 
     
-    # Use the share_url directly from the API response
-    recording_access_line = "- Recording link not available"
-    if share_url:
-        recording_access_line = f"- [Join Recording Session]({share_url})"
-        # Add a debug log to see the raw share_url from the API
-        print(f"[DEBUG] Using share_url from Zoom API: {share_url}") 
-    else:
-        print(f"[WARN] Share URL not found in recording data for meeting {meeting_id}")
+    # --- MODIFIED: Prioritize play_url AND include passcode separately if present --- 
+    link_lines = []
+    target_url = None
+    
+    if play_url:
+        link_lines.append(f"- [Play Recording]({play_url})")
+        target_url = play_url
+        print(f"[DEBUG] Using play_url from Zoom API: {play_url}") 
+    elif share_url: # Fallback to share_url if play_url is missing
+        link_lines.append(f"- [Recording Link]({share_url})")
+        target_url = share_url
+        print(f"[DEBUG] Using share_url (fallback) from Zoom API: {share_url}")
+    
+    # Add passcode if it exists AND a link was found
+    if passcode and target_url: # Only add passcode if a link exists
+        link_lines.append(f"- Passcode: `{passcode}`") # Format passcode as code
+        print(f"[DEBUG] Including passcode: {passcode}")
+        
+    if not target_url: # If neither URL was found
+        link_lines.append("- Recording link not available")
+        print(f"[WARN] Neither play_url nor share_url found in recording data for meeting {meeting_id}")
+
+    # Join the lines for the final output section
+    recording_access_section = "\n".join(link_lines)
+    # --- END MODIFICATION --- 
 
     # Get transcript download URL from recording files
     transcript_url = None
@@ -170,7 +188,7 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
         elif file.get('file_type') == 'CHAT':
             chat_url = file.get('download_url')
     
-    # Build post content with the potentially modified recording access line
+    # Build post content using the potentially multi-line recording access section
     post_content = f"""### Meeting Summary:
 {summary_overview}
 
@@ -179,7 +197,7 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
 {next_steps}
 
 ### Recording Access:
-{recording_access_line}""" # Use the constructed line here
+{recording_access_section}""" # Use the constructed section here
 
     # Add transcript link if available
     if transcript_url:
