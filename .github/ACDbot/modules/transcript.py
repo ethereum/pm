@@ -165,8 +165,8 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
         target_url = share_url
         print(f"[DEBUG] Using share_url (fallback) from Zoom API: {share_url}")
     
-    # Add passcode if it exists AND a link was found
-    if passcode and target_url: # Only add passcode if a link exists
+    # Add passcode if it exists
+    if passcode: # <-- REMOVED 'and target_url'
         link_lines.append(f"- Passcode: `{passcode}`") # Format passcode as code
         print(f"[DEBUG] Including passcode: {passcode}")
         
