@@ -182,14 +182,38 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
         # Provide a default message if summary couldn't be fetched
         summary_overview = "Meeting summary is not available yet."
 
-    # Extract share URL and passcode from recording_data (as per user snippet preference)
+    # --- Simplified Logic: Use share_url only, prioritize mapping for passcode --- 
     share_url = recording_data.get('share_url', '')
-    passcode = recording_data.get('password', '')
-    if not passcode:
-         print("[DEBUG] No passcode found in recording_data.")
-    else:
-         print("[DEBUG] Passcode found in recording_data.")
+    print(f"[DEBUG] share_url: {share_url}")
 
+    # Fetch passcode prioritizing mapping
+    passcode = None
+    if occurrence_details and isinstance(occurrence_details, dict):
+        passcode = occurrence_details.get("password")
+        if passcode: print(f"[DEBUG] Found passcode in occurrence_details.")
+
+    if not passcode and entry and isinstance(entry, dict):
+        passcode = entry.get("password")
+        if passcode: print(f"[DEBUG] Found passcode in top-level mapping entry.")
+
+    if not passcode:
+        # Fallback to recording data password ONLY if not found in mapping
+        passcode = recording_data.get('password') 
+        if passcode: print(f"[DEBUG] Found passcode in recording_data.get('password') (fallback).")
+
+    passcode = passcode or '' # Ensure passcode is a string, default to empty if None
+    if not passcode:
+         print("[DEBUG] No passcode found after checking mapping and recording_data.")
+
+    # Construct the recording access line using ONLY share_url and the fetched passcode
+    recording_access_line = ""
+    if share_url and passcode:
+        recording_access_line = f"- [Join Recording Session]({share_url}) (Passcode: `{passcode}`)"
+    elif share_url: # If only share_url is present
+        recording_access_line = f"- [Recording Link]({share_url})" # Fallback text if no passcode
+    else: # If share_url is also missing
+        recording_access_line = "- Recording link not available"
+    # --- END Simplified Logic ---
 
     # Get transcript download URL from recording files
     transcript_url = None
@@ -203,14 +227,6 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
 
     # Build post content using the format from the user snippet
     # Include passcode only if BOTH share_url AND passcode are present
-    recording_access_line = ""
-    if share_url and passcode:
-        recording_access_line = f"- [Join Recording Session]({share_url}) (Passcode: `{passcode}`)"
-    elif share_url: # If only URL is present
-        recording_access_line = f"- [Recording Link]({share_url})"
-    else: # If neither is present
-         recording_access_line = "- Recording link not available"
-
     post_content = f"""### Meeting Summary:
 {summary_overview}
 
