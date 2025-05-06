@@ -41,6 +41,7 @@ def create_meeting(topic, start_time, duration):
             "alternative_hosts": alternative_hosts,  
             "recording": {
                 "auto_recording": "cloud",
+                "record_gallery_view": True,
                 "cloud_recording_download": True,
                 "cloud_recording_thumbnails": True,
                 "recording_audio_transcript": True, 
@@ -442,6 +443,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
             "alternative_hosts": alternative_hosts,  
             "recording": {
                 "auto_recording": "cloud",
+                "record_gallery_view": True,
                 "cloud_recording_download": True,
                 "cloud_recording_thumbnails": True,
                 "recording_audio_transcript": True, 
