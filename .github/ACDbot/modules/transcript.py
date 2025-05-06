@@ -19,10 +19,11 @@ def save_meeting_topic_mapping(mapping):
     with open(MAPPING_FILE, "w") as f:
         json.dump(mapping, f, indent=2)
 
-def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None):
+def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None, recording_data: dict = None):
     """
     Posts the Zoom meeting recording link and summary to Discourse.
     Uses occurrence_details if provided to find the correct Discourse topic ID.
+    Accepts optional recording_data to avoid redundant API calls.
     """
     # Load the mapping
     mapping = load_meeting_topic_mapping()
@@ -55,13 +56,17 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         print(f"Transcript already posted for meeting {meeting_id} in topic {discourse_topic_id}.")
         return True
 
-    # Get recording details
-    recording_data = zoom.get_meeting_recording(meeting_id)
+    # Get recording details if not provided
     if not recording_data:
-        print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
-        return False # Failed to get recording data
+        print(f"[DEBUG] Recording data not provided for meeting {meeting_id}. Fetching via Zoom API.")
+        recording_data = zoom.get_meeting_recording(meeting_id)
+        if not recording_data:
+            print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
+            return False # Failed to get recording data
+    else:
+        print(f"[DEBUG] Using provided recording data for meeting {meeting_id}.")
 
-# Check if recording duration is sufficient
+    # Check if recording duration is sufficient
     recording_duration = recording_data.get('duration', 0)
     if recording_duration < 10:
         print(f"Skipping meeting {meeting_id}: Recording duration ({recording_duration} min) is less than 10 minutes.")
