@@ -253,6 +253,7 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
         try:
             # Pass the specific recording data object instead of just the series ID
             transcript_success = transcript.post_zoom_transcript_to_discourse(
+                meeting_id=recording_meeting_id,
                 recording_data=recording,
                 occurrence_details=occurrence
             )
