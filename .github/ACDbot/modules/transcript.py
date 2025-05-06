@@ -90,8 +90,13 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         print(f"::error::Meeting UUID not found in recording data for meeting {meeting_id}.")
         return False
 
+    # Log the available recording files for debugging
+    available_files = recording_data.get('recording_files', [])
+    print(f"[DEBUG] Available recording files for meeting {meeting_id}: {json.dumps(available_files, indent=2)}")
+
     # Get summary using properly encoded UUID
     # Summary generation might fail if the meeting wasn't eligible or processing hasn't finished.
+    summary_error_message = None # Variable to store specific error message
     try:
         summary_data = zoom.get_meeting_summary(meeting_uuid=meeting_uuid)
         print(f"Summary data for meeting {meeting_id}: {json.dumps(summary_data, indent=2)}")
@@ -100,6 +105,11 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         if e.response.status_code == 404:
             print(f"::warning::Meeting summary not found for {meeting_uuid} (Meeting ID: {meeting_id}). Might still be processing or unavailable. Status: {e.response.status_code}")
             summary_data = None # Proceed without summary
+            summary_error_message = "Summary not found (404). Might still be processing."
+        elif e.response.status_code == 403: # Handle the specific 403 error
+             print(f"::warning::Meeting summary access forbidden for {meeting_uuid} (Meeting ID: {meeting_id}). Status: {e.response.status_code} - {e.response.text}")
+             summary_data = None
+             summary_error_message = "Summary access forbidden (403). It might have been deleted."
         else:
             # Re-raise other HTTP errors
             print(f"::error::HTTP error fetching summary for {meeting_uuid}: {e}")
@@ -138,7 +148,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
             steps = [f"- {step}" for step in summary_data["next_steps"]]
             next_steps = "### Next Steps:\n" + "\n".join(steps)
     else:
-        summary_overview = "No summary available yet"
+        summary_overview = f"No summary available. {summary_error_message or 'Could not retrieve summary.'}" # Use error message if available
     
     # Extract proper share URL and passcode (new format)
     share_url = recording_data.get('share_url', '')
@@ -148,7 +158,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     transcript_url = None
     chat_url = None
     
-    for file in recording_data.get('recording_files', []):
+    for file in available_files: # Use the stored list
         if file.get('file_type') == 'TRANSCRIPT':
             transcript_url = file.get('download_url')
         elif file.get('file_type') == 'CHAT':
@@ -172,6 +182,12 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     # Add chat file link if available
     if chat_url:
         post_content += f"\n- [Download Chat]({chat_url})"
+
+    # Add notes if transcript or chat are missing
+    if not transcript_url:
+        post_content += "\n- *Transcript file not found in recording data.*"
+    if not chat_url:
+        post_content += "\n- *Chat file not found in recording data.*"
 
     try:
         discourse.create_post(
