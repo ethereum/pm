@@ -116,14 +116,38 @@ def get_access_token():
             
         return response_data["access_token"]
 
-def get_meeting_recording(meeting_id):
+def get_meeting_recording(meeting_identifier):
+    """Fetches recording details for a specific meeting instance using its ID or UUID.
+
+    Args:
+        meeting_identifier: The meeting ID (numeric) or the meeting instance UUID (string).
+                            Using the UUID is preferred to get a specific past instance.
+
+    Returns:
+        A dictionary containing recording details, or None if an error occurs.
+    """
     access_token = get_access_token()
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
+    
+    # Check if the identifier is a UUID that needs double encoding
+    identifier_str = str(meeting_identifier)
+    if "/" in identifier_str or "//" in identifier_str:
+        # Double encode if it contains / or // (typically UUIDs)
+        # First encode: replaces special chars like /
+        first_encode = urllib.parse.quote(identifier_str, safe='')
+        # Second encode: ensures % from first encode is also encoded
+        encoded_identifier = urllib.parse.quote(first_encode, safe='')
+        print(f"[DEBUG] Double-encoded meeting UUID: {identifier_str} -> {encoded_identifier}")
+    else:
+        # Single encode for numeric IDs or UUIDs without /
+        encoded_identifier = urllib.parse.quote(identifier_str, safe='')
+        print(f"[DEBUG] Single-encoded meeting identifier: {identifier_str} -> {encoded_identifier}")
+
     # URL-encode the meeting id to ensure a compliant endpoint URL.
-    meeting_id_encoded = urllib.parse.quote(str(meeting_id), safe='')
-    url = f"{api_base_url}/meetings/{meeting_id_encoded}/recordings"
+    url = f"{api_base_url}/meetings/{encoded_identifier}/recordings"
+    print(f"[DEBUG] Requesting recordings from URL: {url}")
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:

@@ -65,19 +65,27 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     # entry["transcript_processed"] = True
     # save_meeting_topic_mapping(mapping)
 
-    # Get recording details - TODO: This needs refinement for specific occurrences
-    # Currently gets *all* recordings for the meeting ID. We need to find the *correct* one.
-    # This requires matching based on the occurrence_details["start_time"].
-    # For now, we'll proceed assuming the first/most recent recording is the correct one,
-    # but this might be incorrect for back-to-back meetings in a series.
-    recording_data = zoom.get_meeting_recording(meeting_id)
+    # Get recording details using the specific meeting instance UUID
+    if not meeting_uuid_for_summary:
+        print(f"::error::Cannot fetch recording data for meeting {meeting_id}: Specific meeting instance UUID is missing.")
+        return False
+        
+    print(f"[DEBUG] Fetching recording data using UUID: {meeting_uuid_for_summary}")
+    recording_data = zoom.get_meeting_recording(meeting_uuid_for_summary)
     if not recording_data:
         print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
         return False # Failed to get recording data
 
+    # Check if recording duration is sufficient
+    recording_duration = recording_data.get('duration', 0) 
+    if recording_duration < 10:
+        print(f"::warning::Skipping transcript post for meeting {meeting_id} (UUID: {meeting_uuid_for_summary}): Recording duration ({recording_duration} min) is less than 10 minutes.")
+        # Return False as the transcript wasn't posted for this (presumably wrong) short recording
+        return False 
+
     # Log the available recording files for debugging
     available_files = recording_data.get('recording_files', [])
-    print(f"[DEBUG] Available recording files for meeting {meeting_id}: {json.dumps(available_files, indent=2)}")
+    print(f"[DEBUG] Available recording files for meeting {meeting_id} (UUID: {meeting_uuid_for_summary}): {json.dumps(available_files, indent=2)}")
 
     # Get summary using properly encoded UUID
     # Summary generation might fail if the meeting wasn't eligible or processing hasn't finished.
