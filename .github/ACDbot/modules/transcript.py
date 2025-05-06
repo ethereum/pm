@@ -8,6 +8,7 @@ MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 def load_meeting_topic_mapping():
     if os.path.exists(MAPPING_FILE):
         with open(MAPPING_FILE, "r") as f:
+            # Handle potential JSON errors
             try:
                 return json.load(f)
             except json.JSONDecodeError:
@@ -17,13 +18,12 @@ def load_meeting_topic_mapping():
 
 def save_meeting_topic_mapping(mapping):
     with open(MAPPING_FILE, "w") as f:
-        json.dump(mapping, f, indent=2)
+        json.dump(mapping, f, indent=2) # Added indent for readability
 
-def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None, recording_data: dict = None):
+def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None):
     """
     Posts the Zoom meeting recording link and summary to Discourse.
     Uses occurrence_details if provided to find the correct Discourse topic ID.
-    Accepts optional recording_data to avoid redundant API calls.
     """
     # Load the mapping
     mapping = load_meeting_topic_mapping()
@@ -33,6 +33,8 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
 
     if not entry or not isinstance(entry, dict):
         print(f"::error::Mapping entry for meeting ID {meeting_id} not found or invalid.")
+        # Indicate failure by returning None or raising an error?
+        # For now, return False to signal failure to the caller.
         return False
 
     # Find the correct Discourse topic ID
@@ -54,48 +56,58 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     # Check existing posts in Discourse
     if discourse.check_if_transcript_posted(discourse_topic_id, meeting_id):
         print(f"Transcript already posted for meeting {meeting_id} in topic {discourse_topic_id}.")
+        # Return True because the goal (transcript posted) is achieved.
         return True
 
-    # Get recording details if not provided
-    if not recording_data:
-        print(f"[DEBUG] Recording data not provided for meeting {meeting_id}. Fetching via Zoom API.")
-        recording_data = zoom.get_meeting_recording(meeting_id)
-        if not recording_data:
-            print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
-            return False # Failed to get recording data
-    else:
-        print(f"[DEBUG] Using provided recording data for meeting {meeting_id}.")
+    # --- NOTE: Preemptive marking of transcript_processed moved to caller (poll_zoom_recordings.py) --- 
+    # This avoids marking as processed if this function fails early.
+    # entry["transcript_processed"] = True
+    # save_meeting_topic_mapping(mapping)
 
-    # Check if recording duration is sufficient
-    recording_duration = recording_data.get('duration', 0)
-    if recording_duration < 10:
-        print(f"Skipping meeting {meeting_id}: Recording duration ({recording_duration} min) is less than 10 minutes.")
-        return False # Indicate skip due to duration
-    
+    # Get recording details - TODO: This needs refinement for specific occurrences
+    # Currently gets *all* recordings for the meeting ID. We need to find the *correct* one.
+    # This requires matching based on the occurrence_details["start_time"].
+    # For now, we'll proceed assuming the first/most recent recording is the correct one,
+    # but this might be incorrect for back-to-back meetings in a series.
+    recording_data = zoom.get_meeting_recording(meeting_id)
+    if not recording_data:
+        print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
+        return False # Failed to get recording data
+
+    # --- Placeholder for selecting correct recording based on occurrence_details["start_time"] --- 
+    # Example logic (needs implementation within get_meeting_recording or here):
+    # if occurrence_details and 'start_time' in occurrence_details:
+    #     target_start_time = datetime.fromisoformat(occurrence_details['start_time'].replace('Z', '+00:00'))
+    #     # Find recording in recording_data['recording_files'] or similar list that matches target_start_time
+    #     # This is complex as get_meeting_recording might return one meeting instance, 
+    #     # while get_recordings_list returns multiple. Need consistent approach.
+    #     print(f"[WARN] Occurrence time matching for recordings not fully implemented yet.")
+    # For now, assume the single result from get_meeting_recording is correct.
+    # ------
+
     meeting_uuid = recording_data.get('uuid', '')
     if not meeting_uuid:
         print(f"::error::Meeting UUID not found in recording data for meeting {meeting_id}.")
         return False
 
     # Get summary using properly encoded UUID
+    # Summary generation might fail if the meeting wasn't eligible or processing hasn't finished.
     try:
         summary_data = zoom.get_meeting_summary(meeting_uuid=meeting_uuid)
         print(f"Summary data for meeting {meeting_id}: {json.dumps(summary_data, indent=2)}")
     except requests.exceptions.HTTPError as e:
+        # Handle specific errors like 404 Not Found (summary not ready/available)
         if e.response.status_code == 404:
             print(f"::warning::Meeting summary not found for {meeting_uuid} (Meeting ID: {meeting_id}). Might still be processing or unavailable. Status: {e.response.status_code}")
             summary_data = None # Proceed without summary
         else:
+            # Re-raise other HTTP errors
             print(f"::error::HTTP error fetching summary for {meeting_uuid}: {e}")
             return False
     except Exception as e:
         print(f"::error::Error fetching or parsing summary for {meeting_uuid}: {e}")
         return False # Failed to get summary
-    
-    # Check if summary data is available
-    if not summary_data:
-        print(f"Skipping meeting {meeting_id}: No summary data found or available yet.")
-        return False # Indicate skip due to missing summary
+
     # Process summary data
     summary_overview = ""
     summary_details = ""
@@ -169,13 +181,16 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         print(f"Posted recording links for meeting {meeting_id} to topic {discourse_topic_id}")
     except Exception as e:
         print(f"::error::Failed to create Discourse post for topic {discourse_topic_id}: {e}")
+        # Failure to post to Discourse should be considered a failure of this function
         return False
 
     # Now, send the same content to Telegram
+    # Failure here is less critical than Discourse posting, so don't return False
     try:
         tg.send_message(post_content)
         print("Message sent to Telegram successfully.")
     except Exception as e:
         print(f"Error sending message to Telegram: {e}")
-    
+
+    # If we reached here, the core task (posting to Discourse) was successful.
     return True
