@@ -244,6 +244,9 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
     if should_skip_transcript and not force_process:
         print(f"  -> Skipping transcript posting: External Zoom ID indicated (skip_transcript_processing=True).")
 
+    # Allow forced processing even if attempts > 10
+    can_attempt_transcript = not transcript_processed and (force_process or transcript_attempts < 10) and discourse_topic_id
+
     if can_attempt_transcript:
         attempt_number = transcript_attempts + 1
         print(f"  -> Attempting transcript posting (Attempt {attempt_number})...")
@@ -307,16 +310,9 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
              for i, stream in enumerate(occurrence_youtube_streams)
          ])
          title = "**YouTube Stream Links:**" # Changed title slightly as context might be different
-         join_url = occurrence.get("join_url") # Fetch from occurrence details
-         password = occurrence.get("password") # Fetch from occurrence details
-
-         discourse_body = f"{title}\\n{stream_links_text}" # Use \\n for Discourse newline
-         if join_url:
-             discourse_body += f"\\n\\nOriginal Meeting Link: {join_url}"
-             if password:
-                 discourse_body += f"\\nPassword: {password}"
+         discourse_body = f"{title}\n{stream_links_text}"
          try:
-             discourse.create_post(topic_id=discourse_topic_id, body=discourse_body) # Use modified body
+             discourse.create_post(topic_id=discourse_topic_id, body=discourse_body)
              mapping[recording_meeting_id]["occurrences"][occurrence_index]["youtube_streams_posted_to_discourse"] = True
              mapping_updated = True
              print(f"  -> Successfully posted YouTube streams to Discourse.")
