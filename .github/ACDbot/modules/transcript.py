@@ -74,21 +74,18 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
         return False # Failed to get recording data
 
-    # --- Placeholder for selecting correct recording based on occurrence_details["start_time"] --- 
-    # Example logic (needs implementation within get_meeting_recording or here):
-    # if occurrence_details and 'start_time' in occurrence_details:
-    #     target_start_time = datetime.fromisoformat(occurrence_details['start_time'].replace('Z', '+00:00'))
-    #     # Find recording in recording_data['recording_files'] or similar list that matches target_start_time
-    #     # This is complex as get_meeting_recording might return one meeting instance, 
-    #     # while get_recordings_list returns multiple. Need consistent approach.
-    #     print(f"[WARN] Occurrence time matching for recordings not fully implemented yet.")
-    # For now, assume the single result from get_meeting_recording is correct.
-    # ------
-
-    meeting_uuid = recording_data.get('uuid', '')
-    if not meeting_uuid:
-        print(f"::error::Meeting UUID not found in recording data for meeting {meeting_id}.")
-        return False
+    # --- Fetch main meeting details to get the correct UUID ---
+    meeting_uuid_for_summary = None
+    try:
+        meeting_details = zoom.get_meeting(meeting_id)
+        meeting_uuid_for_summary = meeting_details.get('uuid')
+        if not meeting_uuid_for_summary:
+             print(f"::warning::Meeting UUID not found in main details for meeting {meeting_id}. Cannot fetch summary.")
+        else:
+             print(f"[DEBUG] Found meeting UUID for summary: {meeting_uuid_for_summary}")
+    except Exception as e:
+        print(f"::warning::Could not fetch main meeting details for {meeting_id} to get UUID. Cannot fetch summary. Error: {e}")
+    # --- End UUID fetching ---
 
     # Log the available recording files for debugging
     available_files = recording_data.get('recording_files', [])
@@ -96,27 +93,32 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
 
     # Get summary using properly encoded UUID
     # Summary generation might fail if the meeting wasn't eligible or processing hasn't finished.
-    summary_error_message = None # Variable to store specific error message
-    try:
-        summary_data = zoom.get_meeting_summary(meeting_uuid=meeting_uuid)
-        print(f"Summary data for meeting {meeting_id}: {json.dumps(summary_data, indent=2)}")
-    except requests.exceptions.HTTPError as e:
-        # Handle specific errors like 404 Not Found (summary not ready/available)
-        if e.response.status_code == 404:
-            print(f"::warning::Meeting summary not found for {meeting_uuid} (Meeting ID: {meeting_id}). Might still be processing or unavailable. Status: {e.response.status_code}")
-            summary_data = None # Proceed without summary
-            summary_error_message = "Summary not found (404). Might still be processing."
-        elif e.response.status_code == 403: # Handle the specific 403 error
-             print(f"::warning::Meeting summary access forbidden for {meeting_uuid} (Meeting ID: {meeting_id}). Status: {e.response.status_code} - {e.response.text}")
-             summary_data = None
-             summary_error_message = "Summary access forbidden (403). It might have been deleted."
-        else:
-            # Re-raise other HTTP errors
-            print(f"::error::HTTP error fetching summary for {meeting_uuid}: {e}")
-            return False
-    except Exception as e:
-        print(f"::error::Error fetching or parsing summary for {meeting_uuid}: {e}")
-        return False # Failed to get summary
+    summary_data = None
+    summary_error_message = None # Variable to store specific error message for summary
+    if meeting_uuid_for_summary: # Only attempt if we have the UUID
+        try:
+            print(f"[DEBUG] Attempting summary fetch with UUID: {meeting_uuid_for_summary}")
+            summary_data = zoom.get_meeting_summary(meeting_uuid=meeting_uuid_for_summary)
+            print(f"Summary data for meeting {meeting_id}: {json.dumps(summary_data, indent=2)}")
+        except requests.exceptions.HTTPError as e:
+            # Handle specific errors like 404 Not Found (summary not ready/available)
+            if e.response.status_code == 404:
+                print(f"::warning::Meeting summary not found for {meeting_uuid_for_summary} (Meeting ID: {meeting_id}). Might still be processing or unavailable. Status: {e.response.status_code}")
+                summary_error_message = "Summary not found (404). Might still be processing."
+            elif e.response.status_code == 403: # Handle the specific 403 error
+                 print(f"::warning::Meeting summary access forbidden for {meeting_uuid_for_summary} (Meeting ID: {meeting_id}). Status: {e.response.status_code} - {e.response.text}")
+                 summary_error_message = "Summary access forbidden (403). It might have been deleted."
+            else:
+                # Re-raise other HTTP errors
+                print(f"::error::HTTP error fetching summary for {meeting_uuid_for_summary}: {e}")
+                summary_error_message = f"HTTP error {e.response.status_code} fetching summary."
+                # Decide if you want to return False here or just proceed without summary
+        except Exception as e:
+            print(f"::error::Error fetching or parsing summary for {meeting_uuid_for_summary}: {e}")
+            summary_error_message = f"General error fetching summary: {e}"
+            # Decide if you want to return False here or just proceed without summary
+    else:
+        summary_error_message = "Could not attempt summary fetch because meeting UUID was not found."
 
     # Process summary data
     summary_overview = ""
