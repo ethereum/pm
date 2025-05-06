@@ -217,6 +217,14 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
     mapping_updated = False
     recording_meeting_id = str(series_entry.get("meeting_id")) # Should be the same as recording.get("id")
     occurrence_issue_number = occurrence.get("issue_number")
+    # Get the UUID of the specific meeting instance from the recording data
+    meeting_instance_uuid = recording.get("uuid")
+    if not meeting_instance_uuid:
+        print(f"[ERROR] Missing UUID in recording data for Meeting ID {recording_meeting_id}, Start Time {recording.get('start_time')}. Cannot process summary.")
+        # Decide how to handle: skip this recording? Mark an error?
+        # For now, we'll attempt to continue without the summary.
+        pass # Allow proceeding, summary fetch will be skipped later
+
     print(f"Processing transcript for Meeting ID {recording_meeting_id}, Occurrence Issue #{occurrence_issue_number}")
 
     # Check eligibility (meeting ended > 15 mins ago)
@@ -240,7 +248,11 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
         print(f"  -> Attempting transcript posting (Attempt {attempt_number})...")
         try:
             # Pass meeting ID and occurrence details for context
-            transcript_success = transcript.post_zoom_transcript_to_discourse(recording_meeting_id, occurrence_details=occurrence)
+            transcript_success = transcript.post_zoom_transcript_to_discourse(
+                meeting_id=recording_meeting_id,
+                occurrence_details=occurrence,
+                meeting_uuid_for_summary=meeting_instance_uuid # Pass the correct UUID
+            )
 
             if transcript_success:
                 mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_processed"] = True
@@ -326,9 +338,10 @@ def process_recordings(mapping):
     for recording in recordings:
         recording_meeting_id = str(recording.get("id"))
         recording_start_time_str = recording.get("start_time")
+        recording_uuid = recording.get("uuid") # Extract UUID here
 
-        if not recording_meeting_id or not recording_start_time_str:
-            print(f"[WARN] Skipping recording with missing ID or start_time: {recording.get('topic')}")
+        if not recording_meeting_id or not recording_start_time_str or not recording_uuid:
+            print(f"[WARN] Skipping recording with missing ID, start_time, or UUID: {recording.get('topic')}")
             continue
 
         # Get the series entry from mapping
@@ -351,7 +364,7 @@ def process_recordings(mapping):
             occurrence_index=occurrence_index,
             series_entry=series_entry,
             mapping=mapping,
-            force_process=False # Not forced in regular polling
+            force_process=False # Pass the specific instance UUID
         )
         if updated:
             mapping_updated = True # Mark that some change occurred in the loop
@@ -420,18 +433,19 @@ def main():
                     tolerance = timedelta(minutes=15) # Allow larger tolerance for matching
 
                     for recording in recordings:
+                        rec_uuid = recording.get("uuid") # Get UUID for logging/check
                         # First check if the recording's meeting ID matches
                         if str(recording.get("id")) != meeting_id:
                             continue
                         # Then check the start time
                         rec_start_str = recording.get("start_time")
-                        if not rec_start_str:
+                        if not rec_start_str or not rec_uuid: # Also ensure UUID exists
                             continue
                         try:
                             rec_start_time = datetime.fromisoformat(rec_start_str.replace('Z', '+00:00'))
                             if abs(rec_start_time - target_start_time) <= tolerance:
                                 matching_recording = recording
-                                print(f"Found matching Zoom recording: Topic='{recording.get('topic', 'N/A')}', Start='{rec_start_str}'")
+                                print(f"Found matching Zoom recording: Topic='{recording.get('topic', 'N/A')}', Start='{rec_start_str}', UUID='{rec_uuid}'")
                                 break # Found the one we need
                         except ValueError:
                             print(f"[WARN] Invalid start_time format in recording: {rec_start_str}")
@@ -454,7 +468,7 @@ def main():
                     occurrence_index=occurrence_index,
                     series_entry=series_entry,
                     mapping=mapping,
-                    force_process=True # Enable force mode
+                    force_process=True, # Enable force mode
                 )
 
                 if mapping_updated:

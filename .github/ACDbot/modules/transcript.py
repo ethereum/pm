@@ -20,10 +20,11 @@ def save_meeting_topic_mapping(mapping):
     with open(MAPPING_FILE, "w") as f:
         json.dump(mapping, f, indent=2) # Added indent for readability
 
-def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None):
+def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None, meeting_uuid_for_summary: str = None):
     """
     Posts the Zoom meeting recording link and summary to Discourse.
     Uses occurrence_details if provided to find the correct Discourse topic ID.
+    Uses meeting_uuid_for_summary if provided to fetch the AI summary.
     """
     # Load the mapping
     mapping = load_meeting_topic_mapping()
@@ -73,19 +74,6 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     if not recording_data:
         print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
         return False # Failed to get recording data
-
-    # --- Fetch main meeting details to get the correct UUID ---
-    meeting_uuid_for_summary = None
-    try:
-        meeting_details = zoom.get_meeting(meeting_id)
-        meeting_uuid_for_summary = meeting_details.get('uuid')
-        if not meeting_uuid_for_summary:
-             print(f"::warning::Meeting UUID not found in main details for meeting {meeting_id}. Cannot fetch summary.")
-        else:
-             print(f"[DEBUG] Found meeting UUID for summary: {meeting_uuid_for_summary}")
-    except Exception as e:
-        print(f"::warning::Could not fetch main meeting details for {meeting_id} to get UUID. Cannot fetch summary. Error: {e}")
-    # --- End UUID fetching ---
 
     # Log the available recording files for debugging
     available_files = recording_data.get('recording_files', [])
