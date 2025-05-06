@@ -336,6 +336,13 @@ def process_recordings(mapping):
     mapping_updated = False
 
     for recording in recordings:
+        # --- Check Recording Duration --- 
+        recording_duration = recording.get('duration', 0)
+        if recording_duration < 10:
+            print(f"[INFO] Skipping recording (Topic: {recording.get('topic', 'N/A')}, Start: {recording.get('start_time', 'N/A')}) - Duration ({recording_duration} min) is less than 10 minutes.")
+            continue # Move to the next recording in the list
+        # --- End Duration Check ---
+        
         recording_meeting_id = str(recording.get("id"))
         recording_start_time_str = recording.get("start_time")
         recording_uuid = recording.get("uuid") # Extract UUID here
