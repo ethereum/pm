@@ -150,33 +150,31 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
     # Extract recording URLs and passcode
     play_url = recording_data.get('play_url')
     share_url = recording_data.get('share_url', '')
-    passcode = recording_data.get('password', '') 
-    
-    # --- MODIFIED: Prioritize play_url AND include passcode separately if present --- 
-    link_lines = []
-    target_url = None
-    
-    if play_url:
-        link_lines.append(f"- [Play Recording]({play_url})")
-        target_url = play_url
-        print(f"[DEBUG] Using play_url from Zoom API: {play_url}") 
-    elif share_url: # Fallback to share_url if play_url is missing
-        link_lines.append(f"- [Recording Link]({share_url})")
-        target_url = share_url
-        print(f"[DEBUG] Using share_url (fallback) from Zoom API: {share_url}")
-    
-    # Add passcode if it exists
-    if passcode: # <-- REMOVED 'and target_url'
-        link_lines.append(f"- Passcode: `{passcode}`") # Format passcode as code
-        print(f"[DEBUG] Including passcode: {passcode}")
-        
-    if not target_url: # If neither URL was found
-        link_lines.append("- Recording link not available")
-        print(f"[WARN] Neither play_url nor share_url found in recording data for meeting {meeting_id}")
+    # --- START Reverted Passcode Fetching ---
+    # ALWAYS get passcode from Zoom recording data, never from mapping
+    passcode = recording_data.get('password', '') # Directly from recording_data
+    if passcode: 
+        print(f"[DEBUG] Found passcode in recording_data (exclusive source).")
+    else:
+        print(f"[DEBUG] No passcode found in recording_data.")
+    # --- END Reverted Passcode Fetching ---
 
-    # Join the lines for the final output section
-    recording_access_section = "\n".join(link_lines)
-    # --- END MODIFICATION --- 
+    # --- Use Restored Logic from #1516 ---
+    # Determine target URL, prioritizing play_url
+    target_url = play_url if play_url else share_url
+    print(f"[DEBUG] Target URL for link: {target_url}")
+
+    recording_access_section = ""
+    if target_url and passcode:
+        recording_access_section = f"- [Join Recording Session]({target_url}) (Passcode: `{passcode}`)"
+        print(f"[DEBUG] Including passcode: {passcode}")
+    elif target_url:
+        recording_access_section = f"- [Recording Link]({target_url})"
+        print("[DEBUG] Passcode not found or empty.")
+    else:
+        recording_access_section = "- Recording link not available"
+        print(f"[WARN] Neither play_url nor share_url found in recording data for meeting {meeting_id}")
+    # --- END RESTORED LOGIC ---
 
     # Get transcript download URL from recording files
     transcript_url = None
