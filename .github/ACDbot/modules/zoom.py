@@ -220,7 +220,7 @@ def get_recordings_list():
     }
     params = {
         "page_size": 100,
-        "from": (datetime.utcnow() - timedelta(days=7)).strftime("%Y-%m-%d"),  # Adjust time range as needed
+        "from": (datetime.utcnow() - timedelta(days=30)).strftime("%Y-%m-%d"),  # Extend from 7 to 30 days
         "to": datetime.utcnow().strftime("%Y-%m-%d")
     }
     response = requests.get(f"{api_base_url}/users/me/recordings", headers=headers, params=params)
