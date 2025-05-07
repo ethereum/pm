@@ -16,6 +16,14 @@ PeerDAS (Peer Data Availability Sampling) is a networking protocol that allows b
 
 | # | Date | Agenda | Recording | Notes |
 | -- | --| -- | -- | -- |
+| 32 | June 3, 2025 | Agenda | Recording | Notes |
+| 31 | May 27, 2025 | Agenda | Recording | Notes |
+| 30 | May 20, 2025 | Agenda | Recording | Notes |
+| 29 | May 13, 2025 | Agenda | Recording | Notes |
+| 28 | May 6, 2025 | Agenda | Recording | Notes |
+| 27 | April 29 2025 | [Agenda](https://github.com/ethereum/pm/issues/1505) | [Recording](https://youtu.be/KoTEe7i3LSo?feature=shared) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2027.md) |
+| 26 | April 22, 2025 | [Agenda](https://github.com/ethereum/pm/issues/1491) | [Recording](https://youtu.be/mbbCjiCIXuQ?feature=shared) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2026.md) |
+| 25 | April 15, 2025 | [Agenda](https://github.com/ethereum/pm/issues/1441) | [Recording](https://youtu.be/D0WRpEbqLVU?feature=shared) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2025.md) |
 | 24 | April 08, 2025| [Agenda](https://github.com/ethereum/pm/issues/1425) | [Recording](https://www.youtube.com/watch?v=ZzPAW-0xsa8) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2024.md) |
 | 23 | April 01, 2025| [Agenda](https://github.com/ethereum/pm/issues/1415) | [Recording](https://youtu.be/RdzhIoZprl0) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2023.md) |
 | 22 | March 25, 2025| [Agenda](https://github.com/ethereum/pm/issues/1401) | [Recording](https://youtu.be/HZVGsR2ZcvQ) | [Notes](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/PeerDAS/Meeting%2022.md) |
