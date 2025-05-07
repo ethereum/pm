@@ -27,7 +27,7 @@
 | Role | Primary | Backup |
 |------|---------|----------------------------|
 | DevOps Coordinator | Parithosh | Barnabas |
-| Testing Coordinator | Mario Vega (@marioevz) | Dan (@danceratopz) |
+| Testing Coordinator | Mario Vega (@marioevz) | Dan (@danceratopz) <br> Spencer (@spencer-tb) |
 | Communication Coordinator | Tim Beiko | Alex Stokes |
 | Security Coordinator | Fredrik Svantes | Justin Traglia |
 
