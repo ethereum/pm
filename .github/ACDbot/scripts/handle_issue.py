@@ -892,116 +892,138 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Get existing entry or initialize
         mapping_entry = mapping.get(meeting_id, {}).copy()
 
-        # Ensure 'occurrences' list exists
-        if "occurrences" not in mapping_entry:
+        # --- START REFACTOR: Consistent Occurrence Structure ---
+        # Ensure 'occurrences' list exists at the top level
+        if "occurrences" not in mapping_entry or not isinstance(mapping_entry["occurrences"], list):
             mapping_entry["occurrences"] = []
 
         # Create data for the current occurrence
+        # Initialize with potentially parsed time/duration or None
+        parsed_start_time = start_time if 'start_time' in locals() else None
+        parsed_duration = duration if 'duration' in locals() else None
+        # Determine skip flags based on logic above
+        skip_yt_upload = skip_zoom_creation or (need_youtube_streams and is_recurring and occurrence_rate != "none")
+        skip_transcript = skip_zoom_creation
+        # Get youtube streams created specifically for this occurrence
+        current_occurrence_streams = occurrence_youtube_streams if 'occurrence_youtube_streams' in locals() else None
+        
+        # Base data for the new/updated occurrence
         occurrence_data = {
-            "occurrence_number": len(mapping_entry.get("occurrences", [])) + 1,
             "issue_number": issue.number,
             "issue_title": issue.title,
-            "discourse_topic_id": topic_id,
-            "start_time": start_time if 'start_time' in locals() else None,
-            "duration": duration if 'duration' in locals() else None,
-            # MODIFIED: Skip YT upload if external Zoom ID is used OR if recurring streams were created
-            "skip_youtube_upload": skip_zoom_creation or (need_youtube_streams and is_recurring and occurrence_rate != "none"),
-            # ADDED: Skip transcript processing if external Zoom ID is used
-            "skip_transcript_processing": skip_zoom_creation,
-            # Initialize processing flags for this new occurrence
-            "Youtube_upload_processed": False, # This will be effectively ignored if skip_youtube_upload is true
+            "discourse_topic_id": topic_id, # Use the topic_id determined earlier
+            "start_time": parsed_start_time,
+            "duration": parsed_duration,
+            "skip_youtube_upload": skip_yt_upload,
+            "skip_transcript_processing": skip_transcript,
+            "Youtube_upload_processed": False, # Initialize processing flags
             "transcript_processed": False,
             "upload_attempt_count": 0,
             "transcript_attempt_count": 0,
-            "telegram_message_id": None, # Placeholder for occurrence-specific message ID
+            "telegram_message_id": None, # Placeholder, will be updated if msg sent
             "youtube_streams_posted_to_discourse": False,
-            # Add generated streams to the occurrence data, filtering keys
-            "youtube_streams": [
+            "youtube_streams": [ # Store created streams here
                 {
                     "stream_url": stream.get("stream_url"),
                     "scheduled_time": stream.get("scheduled_time")
                 }
-                for stream in occurrence_youtube_streams 
-                if isinstance(stream, dict) and stream.get("stream_url") # Ensure it's a dict with a URL
-            ] if 'occurrence_youtube_streams' in locals() and occurrence_youtube_streams else None
+                for stream in current_occurrence_streams 
+                if isinstance(stream, dict) and stream.get("stream_url")
+            ] if current_occurrence_streams else None
         }
 
-        # Append the new occurrence data
-        # Check if an occurrence with the same issue number already exists to prevent duplicates
+        # Find if an occurrence for this issue number already exists
         existing_occurrence_index = next((i for i, occ in enumerate(mapping_entry["occurrences"]) if occ.get("issue_number") == issue.number), -1)
+
         if existing_occurrence_index != -1:
-            print(f"[DEBUG] Updating existing occurrence for issue #{issue.number} in mapping.")
-            # Preserve existing processing flags if just updating metadata
-            existing_flags = {
-                "Youtube_upload_processed": mapping_entry["occurrences"][existing_occurrence_index].get("Youtube_upload_processed", False),
-                "transcript_processed": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_processed", False),
-                # ADDED: Preserve existing skip_transcript_processing flag if already set
-                "skip_transcript_processing": mapping_entry["occurrences"][existing_occurrence_index].get("skip_transcript_processing", False),
-                "upload_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("upload_attempt_count", 0),
-                "transcript_attempt_count": mapping_entry["occurrences"][existing_occurrence_index].get("transcript_attempt_count", 0),
-                "youtube_streams_posted_to_discourse": mapping_entry["occurrences"][existing_occurrence_index].get("youtube_streams_posted_to_discourse", False),
-                # --- FIX: Preserve existing telegram_message_id --- 
-                "telegram_message_id": mapping_entry["occurrences"][existing_occurrence_index].get("telegram_message_id") # Preserve existing ID
+            print(f"[DEBUG] Updating existing occurrence at index {existing_occurrence_index} for issue #{issue.number} in mapping.")
+            # Preserve existing processing flags and telegram ID when updating
+            existing_occurrence = mapping_entry["occurrences"][existing_occurrence_index]
+            preserve_flags = {
+                "occurrence_number": existing_occurrence.get("occurrence_number"), # Keep original number
+                "Youtube_upload_processed": existing_occurrence.get("Youtube_upload_processed", False),
+                "transcript_processed": existing_occurrence.get("transcript_processed", False),
+                "upload_attempt_count": existing_occurrence.get("upload_attempt_count", 0),
+                "transcript_attempt_count": existing_occurrence.get("transcript_attempt_count", 0),
+                "youtube_streams_posted_to_discourse": existing_occurrence.get("youtube_streams_posted_to_discourse", False),
+                "telegram_message_id": existing_occurrence.get("telegram_message_id"), # Preserve existing ID
+                # Preserve skip flags if they were already true
+                "skip_youtube_upload": existing_occurrence.get("skip_youtube_upload", False) or occurrence_data["skip_youtube_upload"],
+                "skip_transcript_processing": existing_occurrence.get("skip_transcript_processing", False) or occurrence_data["skip_transcript_processing"],
             }
-            occurrence_data.update(existing_flags) # Keep existing flags
-            # Update occurrence number just in case list order changed (though unlikely)
-            occurrence_data["occurrence_number"] = mapping_entry["occurrences"][existing_occurrence_index].get("occurrence_number", occurrence_data["occurrence_number"])
+            # Preserve valid discourse topic ID if current one is placeholder
+            if str(occurrence_data.get("discourse_topic_id")).startswith("placeholder") and \
+               existing_occurrence.get("discourse_topic_id") and \
+               not str(existing_occurrence.get("discourse_topic_id")).startswith("placeholder"):
+                print(f"[DEBUG] Preserving existing valid occurrence discourse_topic_id '{existing_occurrence.get('discourse_topic_id')}' over placeholder.")
+                occurrence_data["discourse_topic_id"] = existing_occurrence.get("discourse_topic_id")
+                
+            # Preserve existing YT streams if new ones weren't generated
+            if not occurrence_data["youtube_streams"] and existing_occurrence.get("youtube_streams"):
+                 print("[DEBUG] Preserving existing youtube_streams in occurrence.")
+                 occurrence_data["youtube_streams"] = existing_occurrence.get("youtube_streams")
+
+            occurrence_data.update(preserve_flags) # Apply preserved flags over defaults
             mapping_entry["occurrences"][existing_occurrence_index] = occurrence_data
         else:
             print(f"[DEBUG] Adding new occurrence for issue #{issue.number} to mapping.")
+            # Assign occurrence number based on current count
+            occurrence_data["occurrence_number"] = len(mapping_entry["occurrences"]) + 1
             mapping_entry["occurrences"].append(occurrence_data)
+            
+        # --- END REFACTOR ---
 
-        # Update series-level info (only if missing/being set for the first time)
+        # Update series-level info (applies to the meeting_id entry itself)
         series_updated = False
-        if "meeting_id" not in mapping_entry:
-            mapping_entry["meeting_id"] = meeting_id; series_updated = True
+        # Ensure series-level fields are only set if they don't exist or are being explicitly added
+        # Meeting ID is the key, so we don't store it inside
         if "is_recurring" not in mapping_entry:
             mapping_entry["is_recurring"] = is_recurring; series_updated = True
-        if "occurrence_rate" not in mapping_entry or mapping_entry["occurrence_rate"] == "none":
+        # Update occurrence rate only if not set or 'none'
+        if "occurrence_rate" not in mapping_entry or mapping_entry.get("occurrence_rate") == "none":
             mapping_entry["occurrence_rate"] = occurrence_rate if is_recurring else "none"; series_updated = True
         if "call_series" not in mapping_entry and call_series:
             mapping_entry["call_series"] = call_series; series_updated = True
+        if "zoom_link" not in mapping_entry and join_url and str(join_url).startswith("https://"): # Only store valid URLs
+            mapping_entry["zoom_link"] = join_url; series_updated = True
+        # Only update zoom_link if the new one is valid and different from existing
+        elif join_url and str(join_url).startswith("https://") and mapping_entry.get("zoom_link") != join_url:
+             mapping_entry["zoom_link"] = join_url; series_updated = True
         if "calendar_event_id" not in mapping_entry and event_id:
             mapping_entry["calendar_event_id"] = event_id; series_updated = True
-        # Store youtube_streams only if generated AND not already present at series level
-        if "youtube_streams" not in mapping_entry and 'youtube_streams' in locals() and occurrence_youtube_streams:
-            mapping_entry["youtube_streams"] = occurrence_youtube_streams; series_updated = True
-        # Store telegram_message_id only if generated AND not already present at series level
-        current_telegram_id = locals().get("message_id")
-        if "telegram_message_id" not in mapping_entry and current_telegram_id:
-            # Deprecated: telegram_message_id is now per-occurrence
-            # mapping_entry["telegram_message_id"] = current_telegram_id; series_updated = True
-            pass
+        # Update calendar_event_id if new one exists and is different
+        elif event_id and mapping_entry.get("calendar_event_id") != event_id:
+             mapping_entry["calendar_event_id"] = event_id; series_updated = True
 
-        # Always update the mapping with the potentially modified entry (contains new occurrence)
-        # Check if the overall entry has changed before marking for saving
+        # Deprecated: Do not store youtube_streams or telegram_message_id at the series level anymore
+        # if "youtube_streams" in mapping_entry: del mapping_entry["youtube_streams"]
+        # if "telegram_message_id" in mapping_entry: del mapping_entry["telegram_message_id"]
+        # Deprecated: Do not store issue_number, title, start_time, duration etc. at series level anymore
+        # Clean up old top-level fields if they exist
+        obsolete_keys = ["issue_number", "issue_title", "discourse_topic_id", "start_time", "duration", 
+                         "skip_youtube_upload", "skip_transcript_processing", 
+                         "Youtube_upload_processed", "transcript_processed", "upload_attempt_count", 
+                         "transcript_attempt_count", "telegram_message_id", "youtube_streams", 
+                         "youtube_streams_posted_to_discourse"]
+        for key in obsolete_keys:
+            if key in mapping_entry:
+                # Check if it might still be needed for a non-recurring meeting WITHOUT occurrences yet
+                if not (not mapping_entry.get("is_recurring") and not mapping_entry.get("occurrences")):
+                     print(f"[DEBUG] Removing obsolete top-level key: {key}")
+                     del mapping_entry[key]
+                     series_updated = True # Indicate a change happened
+
+        # Always update the mapping with the potentially modified entry
+        # Check if the overall entry (including occurrences) has changed
         original_entry_before_update = mapping.get(meeting_id, {}).copy()
-        # Ensure the discourse_topic_id is not overwritten by a placeholder if a valid one exists
-        if str(mapping_entry.get("discourse_topic_id")).startswith("placeholder") and \
-           original_entry_before_update.get("discourse_topic_id") and \
-           not str(original_entry_before_update.get("discourse_topic_id")).startswith("placeholder"):
-            print(f"[DEBUG] Preserving existing valid discourse_topic_id '{original_entry_before_update.get('discourse_topic_id')}' over placeholder '{mapping_entry.get('discourse_topic_id')}'")
-            mapping_entry["discourse_topic_id"] = original_entry_before_update.get("discourse_topic_id")
-            
-        # Preserve valid topic ID in occurrence data as well
-        # Find the index again (safer than assuming it didn't change)
-        current_occurrence_index = next((i for i, occ in enumerate(mapping_entry.get("occurrences", [])) if occ.get("issue_number") == issue.number), -1)
-        if current_occurrence_index != -1: 
-            occurrence_data = mapping_entry["occurrences"][current_occurrence_index]
-            # Use the globally determined topic_id (which might be from mapping lookup or creation)
-            # only if it's not a placeholder
-            if topic_id and not str(topic_id).startswith("placeholder"):
-                occurrence_data["discourse_topic_id"] = topic_id
-            # Else: keep whatever placeholder might be there from error handling
-            # (or preserve an older valid one if the update logic allows)
-            mapping_entry["occurrences"][current_occurrence_index] = occurrence_data
-            
+        
+        # Perform a deep comparison if necessary (simple check is usually sufficient here)
         if original_entry_before_update != mapping_entry:
             mapping[meeting_id] = mapping_entry
             mapping_updated = True # Mark that the mapping file needs saving
             print(f"Mapping updated for meeting ID {meeting_id} with occurrence details from issue #{issue.number}.")
             if series_updated:
-                print(f"[DEBUG] Series-level information updated for {meeting_id}.")
+                print(f"[DEBUG] Series-level information updated or cleaned for {meeting_id}.")
         else:
             print(f"[DEBUG] Mapping entry for {meeting_id} remains unchanged.")
 
@@ -1159,6 +1181,10 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                             if update_successful:
                                 print(f"[DEBUG] Successfully updated Telegram message {existing_telegram_message_id}.")
                                 telegram_channel_sent = True  # Updated successfully
+                                # Ensure the message ID is preserved in the current occurrence data upon successful update
+                                if current_occurrence:
+                                    current_occurrence["telegram_message_id"] = existing_telegram_message_id 
+                                    mapping_updated = True # Mark mapping for update as occurrence data changed
                             else:
                                 error_msg = (f"Failed to update Telegram message ID {existing_telegram_message_id}. "
                                              "Message might have been deleted or API call failed.")

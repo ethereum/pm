@@ -8,6 +8,7 @@ MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 def load_meeting_topic_mapping():
     if os.path.exists(MAPPING_FILE):
         with open(MAPPING_FILE, "r") as f:
+            # Handle potential JSON errors
             try:
                 return json.load(f)
             except json.JSONDecodeError:
@@ -17,178 +18,151 @@ def load_meeting_topic_mapping():
 
 def save_meeting_topic_mapping(mapping):
     with open(MAPPING_FILE, "w") as f:
-        json.dump(mapping, f, indent=2)
+        json.dump(mapping, f, indent=2) # Added indent for readability
 
-def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: dict = None):
+def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None, meeting_uuid_for_summary: str = None):
     """
     Posts the Zoom meeting recording link and summary to Discourse.
     Uses occurrence_details if provided to find the correct Discourse topic ID.
-    
-    Args:
-        recording_data (dict): The specific recording object from Zoom API.
-        occurrence_details (dict, optional): Details about the specific meeting occurrence.
+    Uses meeting_uuid_for_summary if provided to fetch the AI summary.
     """
-    # Extract meeting ID from the passed-in recording data
-    meeting_id = str(recording_data.get("id"))
-    if not meeting_id:
-        print(f"::error::Meeting ID not found in provided recording_data.")
-        return False
-
-    # Load the mapping - still needed to find the main mapping entry for context/fallbacks
+    # Load the mapping
     mapping = load_meeting_topic_mapping()
     discourse_topic_id = None
-    meeting_topic = recording_data.get("topic", f"Meeting {meeting_id}") # Use topic from recording data
-    # Find the main mapping entry using the meeting ID
-    entry = mapping.get(meeting_id) 
+    meeting_topic = f"Meeting {meeting_id}" # Default title
+    entry = mapping.get(str(meeting_id))
 
-    # This check might be less critical now but kept for safety
     if not entry or not isinstance(entry, dict):
-        print(f"::warning::Mapping entry for meeting ID {meeting_id} not found or invalid. Proceeding with occurrence details if available.")
-        # Don't return False here, rely on occurrence_details or defaults
-
-    # Find the correct Discourse topic ID (Priority: Occurrence -> Entry Fallback)
-    if occurrence_details and isinstance(occurrence_details, dict):
-        discourse_topic_id = occurrence_details.get("discourse_topic_id")
-        meeting_topic = occurrence_details.get("issue_title", meeting_topic) # Prefer issue title if available
-        print(f"[DEBUG] Using occurrence details. Topic ID: {discourse_topic_id}, Title: {meeting_topic}")
-    elif entry: # Fallback to top-level entry only if occurrence_details are missing/invalid
-        discourse_topic_id = entry.get("discourse_topic_id")
-        meeting_topic = entry.get("issue_title", meeting_topic)
-        print(f"[DEBUG] Using top-level entry details (fallback). Topic ID: {discourse_topic_id}, Title: {meeting_topic}")
-    else:
-         print(f"[DEBUG] No valid occurrence details or mapping entry found to determine Discourse topic ID.")
-
-    if not discourse_topic_id or str(discourse_topic_id).startswith("placeholder"):
-        occurrence_issue_num = occurrence_details.get('issue_number', 'N/A') if occurrence_details else 'N/A'
-        print(f"::error::No valid Discourse topic ID found for meeting ID {meeting_id} (occurrence: {occurrence_issue_num}). Provided ID: {discourse_topic_id}")
-        return False # Indicate failure
-
-    # Check existing posts in Discourse using the extracted meeting_id
-    if discourse.check_if_transcript_posted(discourse_topic_id, meeting_id):
-        print(f"Transcript already posted for meeting {meeting_id} in topic {discourse_topic_id}.")
-        return True
-
-    # Recording data is now passed in, no need to fetch it again.
-    # recording_data = zoom.get_meeting_recording(meeting_id)
-    # if not recording_data: # This check is now redundant
-    #     print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
-    #     return False # Failed to get recording data
-
-    # Check if recording duration is sufficient (using passed-in data)
-    recording_duration = recording_data.get('duration', 0)
-    if recording_duration < 10:
-        print(f"Skipping meeting {meeting_id}: Recording duration ({recording_duration} min) is less than 10 minutes.")
-        return False # Indicate skip due to duration
-
-    # Extract UUID from passed-in data
-    meeting_uuid = recording_data.get('uuid', '')
-    if not meeting_uuid:
-        # Use a more specific error message
-        print(f"::error::Meeting UUID not found in provided recording data for meeting {meeting_id}.")
+        print(f"::error::Mapping entry for meeting ID {meeting_id} not found or invalid.")
+        # Indicate failure by returning None or raising an error?
+        # For now, return False to signal failure to the caller.
         return False
 
+    # Find the correct Discourse topic ID
+    if occurrence_details and isinstance(occurrence_details, dict):
+        # If occurrence details are provided, use the topic ID from there
+        discourse_topic_id = occurrence_details.get("discourse_topic_id")
+        meeting_topic = occurrence_details.get("issue_title", meeting_topic)
+        print(f"[DEBUG] Using occurrence details. Topic ID: {discourse_topic_id}, Title: {meeting_topic}")
+    else:
+        # Fallback for non-recurring or older calls (legacy)
+        discourse_topic_id = entry.get("discourse_topic_id")
+        meeting_topic = entry.get("issue_title", meeting_topic)
+        print(f"[DEBUG] Using top-level entry details. Topic ID: {discourse_topic_id}, Title: {meeting_topic}")
+
+    if not discourse_topic_id or str(discourse_topic_id).startswith("placeholder"):
+        print(f"::error::No valid Discourse topic ID found for meeting ID {meeting_id} (occurrence: {occurrence_details.get('issue_number', 'N/A') if occurrence_details else 'N/A'}). Provided ID: {discourse_topic_id}")
+        return False # Indicate failure
+
+    # Check existing posts in Discourse
+    if discourse.check_if_transcript_posted(discourse_topic_id, meeting_id):
+        print(f"Transcript already posted for meeting {meeting_id} in topic {discourse_topic_id}.")
+        # Return True because the goal (transcript posted) is achieved.
+        return True
+
+    # --- NOTE: Preemptive marking of transcript_processed moved to caller (poll_zoom_recordings.py) --- 
+    # This avoids marking as processed if this function fails early.
+    # entry["transcript_processed"] = True
+    # save_meeting_topic_mapping(mapping)
+
+    # Get recording details using the specific meeting instance UUID
+    if not meeting_uuid_for_summary:
+        print(f"::error::Cannot fetch recording data for meeting {meeting_id}: Specific meeting instance UUID is missing.")
+        return False
+        
+    print(f"[DEBUG] Fetching recording data using UUID: {meeting_uuid_for_summary}")
+    recording_data = zoom.get_meeting_recording(meeting_uuid_for_summary)
+    if not recording_data:
+        print(f"::error::No recording data found for meeting ID {meeting_id} via Zoom API.")
+        return False # Failed to get recording data
+
+    # Check if recording duration is sufficient
+    recording_duration = recording_data.get('duration', 0) 
+    if recording_duration < 10:
+        print(f"::warning::Skipping transcript post for meeting {meeting_id} (UUID: {meeting_uuid_for_summary}): Recording duration ({recording_duration} min) is less than 10 minutes.")
+        # Return False as the transcript wasn't posted for this (presumably wrong) short recording
+        return False 
+
+    # Log the available recording files for debugging
+    available_files = recording_data.get('recording_files', [])
+    print(f"[DEBUG] Available recording files for meeting {meeting_id} (UUID: {meeting_uuid_for_summary}): {json.dumps(available_files, indent=2)}")
+
     # Get summary using properly encoded UUID
-    try:
-        print(f"[DEBUG] Attempting to fetch summary for meeting {meeting_id} using UUID: {meeting_uuid}") # Add log
-        summary_data = zoom.get_meeting_summary(meeting_uuid=meeting_uuid)
-        # Log summary success/failure based on content
-        if summary_data:
-             print(f"[DEBUG] Successfully fetched summary data for meeting {meeting_id} (UUID: {meeting_uuid}).")
-             # print(f"Summary data for meeting {meeting_id}: {json.dumps(summary_data, indent=2)}") # Optional: keep verbose log
-        else:
-             print(f"[DEBUG] zoom.get_meeting_summary returned empty data for meeting {meeting_id} (UUID: {meeting_uuid}).")
-
-    except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 404:
-            print(f"::warning::Meeting summary not found for {meeting_uuid} (Meeting ID: {meeting_id}). Might still be processing or unavailable. Status: {e.response.status_code}")
-            summary_data = None # Set to None explicitly
-        else:
-            print(f"::error::HTTP error fetching summary for {meeting_uuid} (Meeting ID: {meeting_id}): {e}")
-            return False
-    except Exception as e:
-        print(f"::error::Error fetching or parsing summary for {meeting_uuid} (Meeting ID: {meeting_id}): {e}")
-        return False # Failed to get summary
-
-    # Check if summary data is available *after* the fetch attempt
-    if not summary_data:
-        print(f"Skipping meeting {meeting_id} (UUID: {meeting_uuid}): No summary data found or available yet.")
-        return False # Indicate skip due to missing summary
+    # Summary generation might fail if the meeting wasn't eligible or processing hasn't finished.
+    summary_data = None
+    summary_error_message = None # Variable to store specific error message for summary
+    if meeting_uuid_for_summary: # Only attempt if we have the UUID
+        try:
+            print(f"[DEBUG] Attempting summary fetch with UUID: {meeting_uuid_for_summary}")
+            summary_data = zoom.get_meeting_summary(meeting_uuid=meeting_uuid_for_summary)
+            print(f"Summary data for meeting {meeting_id}: {json.dumps(summary_data, indent=2)}")
+        except requests.exceptions.HTTPError as e:
+            # Handle specific errors like 404 Not Found (summary not ready/available)
+            if e.response.status_code == 404:
+                print(f"::warning::Meeting summary not found for {meeting_uuid_for_summary} (Meeting ID: {meeting_id}). Might still be processing or unavailable. Status: {e.response.status_code}")
+                summary_error_message = "Summary not found (404). Might still be processing."
+            elif e.response.status_code == 403: # Handle the specific 403 error
+                 print(f"::warning::Meeting summary access forbidden for {meeting_uuid_for_summary} (Meeting ID: {meeting_id}). Status: {e.response.status_code} - {e.response.text}")
+                 summary_error_message = "Summary access forbidden (403). It might have been deleted."
+            else:
+                # Re-raise other HTTP errors
+                print(f"::error::HTTP error fetching summary for {meeting_uuid_for_summary}: {e}")
+                summary_error_message = f"HTTP error {e.response.status_code} fetching summary."
+                # Decide if you want to return False here or just proceed without summary
+        except Exception as e:
+            print(f"::error::Error fetching or parsing summary for {meeting_uuid_for_summary}: {e}")
+            summary_error_message = f"General error fetching summary: {e}"
+            # Decide if you want to return False here or just proceed without summary
+    else:
+        summary_error_message = "Could not attempt summary fetch because meeting UUID was not found."
 
     # Process summary data
-    # Initialize variables with defaults
-    summary_overview = "No summary overview available" 
+    summary_overview = ""
     summary_details = ""
     next_steps = ""
     
-    # Directly extract data from the validated summary_data object
-    summary_overview = summary_data.get("summary", summary_overview) # Use default if key missing
-    
-    # Extract detailed summaries in a collapsible section
-    if summary_data.get("summary_details"):
-        details = []
-        for detail in summary_data.get("summary_details", []):
-            section_title = detail.get("section_title", "")
-            section_summary = detail.get("summary", "")
-            if section_title and section_summary:
-                details.append(f"**{section_title}**\n{section_summary}")
-            elif section_summary:
-                details.append(section_summary)
+    if summary_data:
+        # Extract summary overview
+        summary_overview = summary_data.get("summary", "No summary overview available")
         
-        if details:
-            summary_details = "<details>\n<summary>Click to expand detailed summary</summary>\n\n"
-            summary_details += "\n\n".join(details)
-            summary_details += "\n</details>"
-    
-    # Format next steps
-    if summary_data.get("next_steps"):
-        # Ensure next_steps is a list before iterating
-        next_steps_list = summary_data.get("next_steps", [])
-        if isinstance(next_steps_list, list) and next_steps_list:
-            steps = [f"- {step}" for step in next_steps_list]
+        # Extract detailed summaries in a collapsible section
+        if summary_data.get("summary_details"):
+            details = []
+            for detail in summary_data.get("summary_details", []):
+                section_title = detail.get("section_title", "")
+                section_summary = detail.get("summary", "")
+                if section_title and section_summary:
+                    details.append(f"**{section_title}**\n{section_summary}")
+                elif section_summary:
+                    details.append(section_summary)
+            
+            if details:
+                summary_details = "<details>\n<summary>Click to expand detailed summary</summary>\n\n"
+                summary_details += "\n\n".join(details)
+                summary_details += "\n</details>"
+        
+        # Format next steps
+        if summary_data.get("next_steps"):
+            steps = [f"- {step}" for step in summary_data["next_steps"]]
             next_steps = "### Next Steps:\n" + "\n".join(steps)
-
-    # Extract recording URLs and passcode
-    play_url = recording_data.get('play_url')
+    else:
+        summary_overview = f"No summary available. {summary_error_message or 'Could not retrieve summary.'}" # Use error message if available
+    
+    # Extract proper share URL and passcode (new format)
     share_url = recording_data.get('share_url', '')
-    passcode = recording_data.get('password', '') 
+    passcode = recording_data.get('password', '')
     
-    # --- MODIFIED: Prioritize play_url AND include passcode separately if present --- 
-    link_lines = []
-    target_url = None
-    
-    if play_url:
-        link_lines.append(f"- [Play Recording]({play_url})")
-        target_url = play_url
-        print(f"[DEBUG] Using play_url from Zoom API: {play_url}") 
-    elif share_url: # Fallback to share_url if play_url is missing
-        link_lines.append(f"- [Recording Link]({share_url})")
-        target_url = share_url
-        print(f"[DEBUG] Using share_url (fallback) from Zoom API: {share_url}")
-    
-    # Add passcode if it exists AND a link was found
-    if passcode and target_url: # Only add passcode if a link exists
-        link_lines.append(f"- Passcode: `{passcode}`") # Format passcode as code
-        print(f"[DEBUG] Including passcode: {passcode}")
-        
-    if not target_url: # If neither URL was found
-        link_lines.append("- Recording link not available")
-        print(f"[WARN] Neither play_url nor share_url found in recording data for meeting {meeting_id}")
-
-    # Join the lines for the final output section
-    recording_access_section = "\n".join(link_lines)
-    # --- END MODIFICATION --- 
-
     # Get transcript download URL from recording files
     transcript_url = None
     chat_url = None
     
-    for file in recording_data.get('recording_files', []):
+    for file in available_files: # Use the stored list
         if file.get('file_type') == 'TRANSCRIPT':
             transcript_url = file.get('download_url')
         elif file.get('file_type') == 'CHAT':
             chat_url = file.get('download_url')
     
-    # Build post content using the potentially multi-line recording access section
+    # Build post content with the new format
     post_content = f"""### Meeting Summary:
 {summary_overview}
 
@@ -197,7 +171,7 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
 {next_steps}
 
 ### Recording Access:
-{recording_access_section}""" # Use the constructed section here
+- [Join Recording Session]({share_url}) (Passcode: `{passcode}`)"""
 
     # Add transcript link if available
     if transcript_url:
@@ -207,6 +181,12 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
     if chat_url:
         post_content += f"\n- [Download Chat]({chat_url})"
 
+    # Add notes if transcript or chat are missing
+    if not transcript_url:
+        post_content += "\n- *Transcript file not found in recording data.*"
+    if not chat_url:
+        post_content += "\n- *Chat file not found in recording data.*"
+
     try:
         discourse.create_post(
             topic_id=discourse_topic_id,
@@ -215,13 +195,16 @@ def post_zoom_transcript_to_discourse(recording_data: dict, occurrence_details: 
         print(f"Posted recording links for meeting {meeting_id} to topic {discourse_topic_id}")
     except Exception as e:
         print(f"::error::Failed to create Discourse post for topic {discourse_topic_id}: {e}")
+        # Failure to post to Discourse should be considered a failure of this function
         return False
 
     # Now, send the same content to Telegram
+    # Failure here is less critical than Discourse posting, so don't return False
     try:
         tg.send_message(post_content)
         print("Message sent to Telegram successfully.")
     except Exception as e:
         print(f"Error sending message to Telegram: {e}")
-    
+
+    # If we reached here, the core task (posting to Discourse) was successful.
     return True
