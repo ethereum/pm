@@ -1234,11 +1234,18 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
         current_occurrence_for_rss = next((occ for occ in mapping_entry.get("occurrences", []) if occ.get("issue_number") == issue.number), None)
         occurrence_issue_number_rss = current_occurrence_for_rss.get("issue_number") if current_occurrence_for_rss else None
 
+        # CRITICAL: Always update the mapping BEFORE trying RSS (which might fail)
+        # This ensures the mapping is stored even if RSS fails
+        if mapping_entry and meeting_id:
+            mapping[meeting_id] = mapping_entry
+            mapping_updated = True  # Mark for saving regardless of RSS outcome
+            print(f"[DEBUG] Core mapping for meeting ID {meeting_id} prepared for saving")
+
+        # RSS is NOT critical - completely isolate it
         if occurrence_issue_number_rss:
             try:
                 print("[DEBUG] Adding notifications to RSS feed data")
-                # Make sure mapping is updated with the latest entry BEFORE calling RSS
-                mapping[meeting_id] = mapping_entry  # ADD THIS LINE
+                # RSS operations are now non-critical
                 rss_utils.add_notification_to_meeting(
                     meeting_id,
                     occurrence_issue_number_rss,
@@ -1248,18 +1255,19 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                 )
                 rss_utils.add_notification_to_meeting(
                     meeting_id,
-                    occurrence_issue_number_rss, # Pass issue number to identify occurrence
+                    occurrence_issue_number_rss,
                     "discourse_post",
                     f"Discourse topic {action}: {issue_title}",
                     discourse_url
                 )
-                # Add more RSS notifications as needed (e.g., for GCal, Zoom)
-                mapping_updated = True # RSS utils likely modifies mapping indirectly
+                print("[DEBUG] RSS notifications added successfully")
             except Exception as e:
                 print(f"[ERROR] Failed to add RSS notifications: {e}")
                 comment_lines.append(f"\n**⚠️ Failed to update RSS data**: {str(e)}")
+                # CRITICAL: RSS failure should NOT affect core mapping save
+                print("[DEBUG] Continuing despite RSS error - meeting data will still be saved")
         else:
-            print(f"[ERROR] Could not add RSS notification - occurrence issue number missing.")
+            print(f"[DEBUG] Skipping RSS notification - occurrence issue number missing.")
 
     # --- End of Notification Block ---
     else:
