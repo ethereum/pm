@@ -1237,6 +1237,8 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
         # CRITICAL: Always update the mapping BEFORE trying RSS (which might fail)
         # This ensures the mapping is stored even if RSS fails
         if mapping_entry and meeting_id:
+            # Add the meeting_id to the entry itself to prevent filtering
+            mapping_entry["meeting_id"] = meeting_id  # ADD THIS LINE
             mapping[meeting_id] = mapping_entry
             mapping_updated = True  # Mark for saving regardless of RSS outcome
             print(f"[DEBUG] Core mapping for meeting ID {meeting_id} prepared for saving")
