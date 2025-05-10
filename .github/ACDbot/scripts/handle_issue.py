@@ -1237,9 +1237,11 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
         if occurrence_issue_number_rss:
             try:
                 print("[DEBUG] Adding notifications to RSS feed data")
+                # Make sure mapping is updated with the latest entry BEFORE calling RSS
+                mapping[meeting_id] = mapping_entry  # ADD THIS LINE
                 rss_utils.add_notification_to_meeting(
                     meeting_id,
-                    occurrence_issue_number_rss, # Pass issue number to identify occurrence
+                    occurrence_issue_number_rss,
                     "issue_processed",
                     f"GitHub issue #{occurrence_issue_number_rss} processed ({action})",
                     issue.html_url
