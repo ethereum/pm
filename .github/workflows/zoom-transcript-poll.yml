@@ -37,9 +37,16 @@ jobs:
 
       - name: Poll Zoom for recordings
         run: |
-          python .github/ACDbot/scripts/poll_zoom_recordings.py \
-            --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}" \
-            --force_issue_number "${{ github.event.inputs.FORCE_ISSUE_NUMBER }}"
+          if [ -n "${{ github.event.inputs.FORCE_MEETING_ID }}" ] && [ -n "${{ github.event.inputs.FORCE_ISSUE_NUMBER }}" ]; then
+            python .github/ACDbot/scripts/poll_zoom_recordings.py \
+              --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}" \
+              --force_issue_number "${{ github.event.inputs.FORCE_ISSUE_NUMBER }}"
+          elif [ -n "${{ github.event.inputs.FORCE_MEETING_ID }}" ]; then
+            python .github/ACDbot/scripts/poll_zoom_recordings.py \
+              --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}"
+          else
+            python .github/ACDbot/scripts/poll_zoom_recordings.py
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Zoom credentials

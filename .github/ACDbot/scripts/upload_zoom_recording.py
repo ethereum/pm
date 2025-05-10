@@ -200,9 +200,11 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         # Post to Discourse (if applicable)
         discourse_topic_id = matched_occurrence.get("discourse_topic_id")
         if discourse_topic_id:
+            post_body = f"YouTube recording available: {youtube_link}"
+
             discourse.create_post(
                 topic_id=discourse_topic_id,
-                body=f"YouTube recording available: {youtube_link}"
+                body=post_body # Use the simplified body
             )
 
         # --- Update RSS feed for this occurrence ---

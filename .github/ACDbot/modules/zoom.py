@@ -41,6 +41,7 @@ def create_meeting(topic, start_time, duration):
             "alternative_hosts": alternative_hosts,  
             "recording": {
                 "auto_recording": "cloud",
+                "record_gallery_view": True,
                 "cloud_recording_download": True,
                 "cloud_recording_thumbnails": True,
                 "recording_audio_transcript": True, 
@@ -116,14 +117,38 @@ def get_access_token():
             
         return response_data["access_token"]
 
-def get_meeting_recording(meeting_id):
+def get_meeting_recording(meeting_identifier):
+    """Fetches recording details for a specific meeting instance using its ID or UUID.
+
+    Args:
+        meeting_identifier: The meeting ID (numeric) or the meeting instance UUID (string).
+                            Using the UUID is preferred to get a specific past instance.
+
+    Returns:
+        A dictionary containing recording details, or None if an error occurs.
+    """
     access_token = get_access_token()
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
+    
+    # Check if the identifier is a UUID that needs double encoding
+    identifier_str = str(meeting_identifier)
+    if "/" in identifier_str or "//" in identifier_str:
+        # Double encode if it contains / or // (typically UUIDs)
+        # First encode: replaces special chars like /
+        first_encode = urllib.parse.quote(identifier_str, safe='')
+        # Second encode: ensures % from first encode is also encoded
+        encoded_identifier = urllib.parse.quote(first_encode, safe='')
+        print(f"[DEBUG] Double-encoded meeting UUID: {identifier_str} -> {encoded_identifier}")
+    else:
+        # Single encode for numeric IDs or UUIDs without /
+        encoded_identifier = urllib.parse.quote(identifier_str, safe='')
+        print(f"[DEBUG] Single-encoded meeting identifier: {identifier_str} -> {encoded_identifier}")
+
     # URL-encode the meeting id to ensure a compliant endpoint URL.
-    meeting_id_encoded = urllib.parse.quote(str(meeting_id), safe='')
-    url = f"{api_base_url}/meetings/{meeting_id_encoded}/recordings"
+    url = f"{api_base_url}/meetings/{encoded_identifier}/recordings"
+    print(f"[DEBUG] Requesting recordings from URL: {url}")
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -185,76 +210,25 @@ def download_zoom_file(download_url, access_token):
         response.raise_for_status()
     return response.content.decode('utf-8')
 
-def get_recordings_list(from_date=None, to_date=None):
+def get_recordings_list():
     """
-    Retrieves a list of cloud recordings for the user, handling pagination.
-    Args:
-        from_date (str, optional): Start date in YYYY-MM-DD format. Defaults to 7 days ago.
-        to_date (str, optional): End date in YYYY-MM-DD format. Defaults to today.
-    Returns:
-        list: A list of meeting recording objects.
+    Retrieves a list of cloud recordings for the user.
     """
     access_token = get_access_token()
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
-    
-    # Set default date range if not provided
-    if from_date is None:
-        from_date = (datetime.utcnow() - timedelta(days=7)).strftime("%Y-%m-%d")
-    if to_date is None:
-        to_date = datetime.utcnow().strftime("%Y-%m-%d")
-        
-    print(f"[DEBUG] Fetching recordings from {from_date} to {to_date}")
-
     params = {
-        "page_size": 300, # Max page size allowed by Zoom
-        "from": from_date,
-        "to": to_date,
-        "next_page_token": None # Start without a token
+        "page_size": 100,
+        "from": (datetime.utcnow() - timedelta(days=30)).strftime("%Y-%m-%d"),  # Extend from 7 to 30 days
+        "to": datetime.utcnow().strftime("%Y-%m-%d")
     }
-    
-    all_recordings = []
-    page_number = 1
-    
-    while True:
-        if params["next_page_token"]:
-             print(f"[DEBUG] Fetching page {page_number} with next_page_token...")
-        else:
-             print(f"[DEBUG] Fetching page {page_number}...")
-             # Don't send None as a parameter value
-             current_params = {k: v for k, v in params.items() if k != "next_page_token" or v is not None}
-
-        try:
-            response = requests.get(f"{api_base_url}/users/me/recordings", headers=headers, params=current_params)
-            response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
-            data = response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"::error::Error fetching recordings (Page {page_number}): {e}")
-            # Decide whether to break or continue; breaking is safer
-            break 
-        except json.JSONDecodeError as e:
-            print(f"::error::Error decoding JSON response (Page {page_number}): {e}")
-            break
-
-        page_recordings = data.get("meetings", [])
-        all_recordings.extend(page_recordings)
-        print(f"[DEBUG] Fetched {len(page_recordings)} recordings on page {page_number}. Total fetched: {len(all_recordings)}.")
-
-        next_page_token = data.get("next_page_token")
-        params["next_page_token"] = next_page_token
-        
-        # Exit loop if no next_page_token is provided or it's an empty string
-        if not next_page_token:
-            print("[DEBUG] No next_page_token found. Finished fetching recordings.")
-            break
-            
-        page_number += 1
-        # Add a small delay to avoid hitting rate limits, if necessary
-        # time.sleep(0.2) 
-
-    print(f"[DEBUG] Total recordings fetched across all pages: {len(all_recordings)}")
-    return all_recordings
+    response = requests.get(f"{api_base_url}/users/me/recordings", headers=headers, params=params)
+    if response.status_code != 200:
+        print(f"Error fetching recordings: {response.status_code} {response.text}")
+        response.raise_for_status()
+    data = response.json()
+    return data.get("meetings", [])
 
 def get_meeting_summary(meeting_uuid: str) -> dict:
     """Temporary workaround for summary endpoint"""
@@ -469,6 +443,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
             "alternative_hosts": alternative_hosts,  
             "recording": {
                 "auto_recording": "cloud",
+                "record_gallery_view": True,
                 "cloud_recording_download": True,
                 "cloud_recording_thumbnails": True,
                 "recording_audio_transcript": True, 
@@ -693,4 +668,3 @@ def check_and_fix_recurrence_pattern(meeting_id, expected_pattern, response_data
         return None
     
     return None
-
