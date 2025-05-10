@@ -162,7 +162,7 @@ def extract_display_zoom_link(issue_body):
     Extracts the boolean flag indicating whether to display the Zoom link in the calendar invite.
     Defaults to False if the line is not found or value is not 'true'.
     """
-    display_pattern = r"display zoom link in invite\\s*:\\s*(true|false)"
+    display_pattern = r"display zoom link in invite\s*:\s*(true|false)"
     match = re.search(display_pattern, issue_body, re.IGNORECASE)
     
     display_link = match and match.group(1).lower() == 'true'
