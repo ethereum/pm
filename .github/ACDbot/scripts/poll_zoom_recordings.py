@@ -183,7 +183,7 @@ def process_meeting(meeting_id, mapping):
         commit_mapping_file()
         print(f"Error processing meeting {meeting_id}: {e}")
 
-def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_minutes=5):
+def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_minutes=15):
     """Finds the occurrence matching the recording start time."""
     if not occurrences:
         return None, -1
