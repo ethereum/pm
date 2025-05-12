@@ -183,7 +183,7 @@ def process_meeting(meeting_id, mapping):
         commit_mapping_file()
         print(f"Error processing meeting {meeting_id}: {e}")
 
-def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_minutes=15):
+def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_minutes=30):
     """Finds the occurrence matching the recording start time."""
     if not occurrences:
         return None, -1
@@ -437,7 +437,7 @@ def main():
                 try:
                     # We need the target occurrence start time to find the recording
                     target_start_time = datetime.fromisoformat(occurrence_start_time_str.replace('Z', '+00:00'))
-                    tolerance = timedelta(minutes=15) # Allow larger tolerance for matching
+                    tolerance = timedelta(minutes=30) # Allow larger tolerance for matching
 
                     for recording in recordings:
                         rec_uuid = recording.get("uuid") # Get UUID for logging/check
