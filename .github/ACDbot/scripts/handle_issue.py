@@ -624,12 +624,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 print(f"[DEBUG] Successfully fetched join_url: {join_url}")
                 
                 # Store UUID if available (but not the join_url)
-                if meeting_details.get('uuid') and meeting_id:
-                    mapping_entry = mapping.get(meeting_id, {})
+                current_meeting_id = meeting_id if 'meeting_id' in locals() else zoom_id
+                if meeting_details.get('uuid') and current_meeting_id:
+                    mapping_entry = mapping.get(current_meeting_id, {})
                     # Store UUID in the mapping for this meeting
                     if "uuid" not in mapping_entry or mapping_entry.get("uuid") != meeting_details.get('uuid'):
                         mapping_entry["uuid"] = meeting_details.get('uuid')
-                        mapping[meeting_id] = mapping_entry
+                        mapping[current_meeting_id] = mapping_entry
                         mapping_updated = True
                         print(f"[DEBUG] Stored Zoom UUID in mapping: {meeting_details.get('uuid')}")
             else:
@@ -650,6 +651,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 
                 # Store UUID if available
                 if meeting_details.get('uuid'):
+                    # Since we're in the fallback case, we know meeting_id is defined
                     mapping_entry = mapping.get(meeting_id, {})
                     # Store UUID in the mapping for this meeting
                     if "uuid" not in mapping_entry or mapping_entry.get("uuid") != meeting_details.get('uuid'):
