@@ -292,11 +292,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print(f"[DEBUG] Found mapping entry for issue {issue_number}, but discourse_topic_id is missing or placeholder: {potential_topic_id}")
         
         # Get previous Zoom details from the TOP-LEVEL meeting entry associated with this issue
-        # This assumes the zoom_id/link is stored at the series level
+        # Only store the meeting ID, not the link (as per updated requirements)
         series_data = mapping.get(found_meeting_id_for_issue, {}) # Get the main dict for the meeting_id
         previous_zoom_id = series_data.get("meeting_id") # which is the key itself
-        previous_join_url = series_data.get("zoom_link")
-        print(f"[DEBUG] Found previous Zoom details associated with issue #{issue_number} (meeting_id {found_meeting_id_for_issue}): ID={previous_zoom_id}, URL={previous_join_url}")
+        print(f"[DEBUG] Found previous Zoom meeting ID associated with issue #{issue_number} (meeting_id {found_meeting_id_for_issue}): ID={previous_zoom_id}")
     else:
         print(f"[DEBUG] No previous mapping entry found containing issue #{issue_number}. Assuming new meeting context.")
 
@@ -502,12 +501,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
         if skip_zoom_creation:
             print("[DEBUG] Skipping Zoom meeting creation/update based on issue input or existing series.")
             if existing_series_entry_for_zoom:
-                # Reuse existing meeting ID and link from the series
-                zoom_id = existing_series_entry_for_zoom["meeting_id"]
-                join_url = existing_series_entry_for_zoom.get("zoom_link") 
-                if not join_url:
-                     print(f"[WARN] Reusing series {zoom_id} but zoom_link is missing in mapping entry. Email/Calendar link may be absent.")
-                     join_url = "Zoom link missing in reused series data" # Use specific placeholder
+                # Reuse existing meeting ID from the series
+                zoom_id = existing_series_entry_for_zoom["meeting_id"] 
+                # Don't set join_url yet - will be fetched directly via API call in the main fetch section
+                join_url = None
+                print(f"[DEBUG] Reusing meeting ID {zoom_id} from series. Will fetch current join URL via API.")
                 original_meeting_id_for_reuse = zoom_id # Store the ID we are reusing
                 reusing_series_meeting = True
                 zoom_action = "reused_series"
@@ -533,7 +531,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 stored_start = existing_entry_data.get("start_time") # TODO: This should check OCCURRENCE start time
                 stored_duration = existing_entry_data.get("duration") # TODO: This should check OCCURRENCE duration
                 zoom_id = existing_zoom_id_for_issue # Use the found ID
-                join_url = existing_entry_data.get("zoom_link") # Use existing link initially
+                join_url = None # Don't set join_url - will be fetched directly via API in main fetch section
+                print(f"[DEBUG] Using existing meeting ID {zoom_id}. Will fetch current join URL via API.")
 
                 if str(zoom_id).startswith("placeholder-"):
                     print(f"[DEBUG] Skipping Zoom update for placeholder ID: {zoom_id}")
@@ -611,30 +610,64 @@ def handle_github_issue(issue_number: int, repo_name: str):
         join_url = "Error during Zoom processing"
         zoom_action = "failed_unexpected"
 
-    # --- MODIFIED START: Fetch Join URL via API if needed ---
-    # If join_url wasn't set during create/update in *this run*, 
-    # or if we reused a series, fetch it now using the definitive meeting_id.
-    if not join_url and meeting_id and not str(meeting_id).startswith("placeholder-"):
-        print(f"[DEBUG] Fetching meeting details via API for meeting ID: {meeting_id} to get join_url.")
+    # --- MODIFIED START: Always fetch Join URL via API ---
+    # As per updated requirements, always fetch Zoom join URL from API
+    # Never rely on stored URLs in the mapping or previous data
+    
+    # First priority: Use zoom_id if available (and not a placeholder)
+    if zoom_id and not str(zoom_id).startswith("placeholder-"):
+        print(f"[DEBUG] Always fetching current join URL from API for meeting ID: {zoom_id}")
         try:
-            meeting_details = zoom.get_meeting(meeting_id)
+            meeting_details = zoom.get_meeting(zoom_id)
             if meeting_details and meeting_details.get('join_url'):
                 join_url = meeting_details['join_url']
                 print(f"[DEBUG] Successfully fetched join_url: {join_url}")
+                
+                # Store UUID if available (but not the join_url)
+                if meeting_details.get('uuid') and meeting_id:
+                    mapping_entry = mapping.get(meeting_id, {})
+                    # Store UUID in the mapping for this meeting
+                    if "uuid" not in mapping_entry or mapping_entry.get("uuid") != meeting_details.get('uuid'):
+                        mapping_entry["uuid"] = meeting_details.get('uuid')
+                        mapping[meeting_id] = mapping_entry
+                        mapping_updated = True
+                        print(f"[DEBUG] Stored Zoom UUID in mapping: {meeting_details.get('uuid')}")
             else:
                 join_url = "Error fetching Zoom link (API returned incomplete data)"
                 print(f"[WARN] {join_url}")
         except Exception as e:
             join_url = f"Error fetching Zoom link ({type(e).__name__})"
             print(f"::warning::{join_url}: {str(e)}")
-            # Fallback: If fetching fails, we might still have a placeholder 
-            # join_url from earlier logic (e.g., skip_zoom_creation). Keep that.
-            # The blocks below will handle non-URL values appropriately.
-    elif join_url:
-         print(f"[DEBUG] Using join_url obtained earlier in this run: {join_url}")
+    
+    # Second priority: Use meeting_id as fallback if zoom_id isn't available or failed (and not a placeholder)
+    elif meeting_id and not str(meeting_id).startswith("placeholder-"):
+        print(f"[DEBUG] Fetching meeting details via API for meeting ID: {meeting_id} to get join_url.")
+        try:
+            meeting_details = zoom.get_meeting(meeting_id)
+            if meeting_details and meeting_details.get('join_url'):
+                join_url = meeting_details['join_url']
+                print(f"[DEBUG] Successfully fetched join_url: {join_url}")
+                
+                # Store UUID if available
+                if meeting_details.get('uuid'):
+                    mapping_entry = mapping.get(meeting_id, {})
+                    # Store UUID in the mapping for this meeting
+                    if "uuid" not in mapping_entry or mapping_entry.get("uuid") != meeting_details.get('uuid'):
+                        mapping_entry["uuid"] = meeting_details.get('uuid')
+                        mapping[meeting_id] = mapping_entry
+                        mapping_updated = True
+                        print(f"[DEBUG] Stored Zoom UUID in mapping: {meeting_details.get('uuid')}")
+            else:
+                join_url = "Error fetching Zoom link (API returned incomplete data)"
+                print(f"[WARN] {join_url}")
+        except Exception as e:
+            join_url = f"Error fetching Zoom link ({type(e).__name__})"
+            print(f"::warning::{join_url}: {str(e)}")
+    
+    # Last resort: No valid ID available
     else:
-         print("[DEBUG] No valid meeting_id or join_url available.")
-         join_url = "Zoom link not available" # Ensure join_url has a non-None value
+        print("[DEBUG] No valid zoom_id or meeting_id available for API call.")
+        join_url = "Zoom link not available" # Ensure join_url has a non-None value
     # --- MODIFIED END ---
 
     # Add Zoom link details to GitHub comment based on the flag
@@ -984,11 +1017,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
             mapping_entry["occurrence_rate"] = occurrence_rate if is_recurring else "none"; series_updated = True
         if "call_series" not in mapping_entry and call_series:
             mapping_entry["call_series"] = call_series; series_updated = True
-        if "zoom_link" not in mapping_entry and join_url and str(join_url).startswith("https://"): # Only store valid URLs
-            mapping_entry["zoom_link"] = join_url; series_updated = True
-        # Only update zoom_link if the new one is valid and different from existing
-        elif join_url and str(join_url).startswith("https://") and mapping_entry.get("zoom_link") != join_url:
-             mapping_entry["zoom_link"] = join_url; series_updated = True
+        # No longer storing zoom_link in mapping - links are retrieved via API when needed
+        if "zoom_link" in mapping_entry:
+            del mapping_entry["zoom_link"]; series_updated = True
+            print(f"[DEBUG] Removed zoom_link from mapping entry as per updated requirements")
         if "calendar_event_id" not in mapping_entry and event_id:
             mapping_entry["calendar_event_id"] = event_id; series_updated = True
         # Update calendar_event_id if new one exists and is different
