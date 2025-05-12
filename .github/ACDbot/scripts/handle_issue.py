@@ -480,9 +480,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Determine the base title for recurring events
     event_base_title = issue_title # Default to issue title
     if is_recurring and call_series:
-        # Use call_series, potentially capitalizing it for better presentation
-        event_base_title = call_series.strip().upper()
-        print(f"[DEBUG] Using call series '{event_base_title}' as base title for recurring Zoom/GCal/YouTube events.")
+        # Use call_series in proper Title Case (not all uppercase)
+        event_base_title = ' '.join(word.capitalize() for word in call_series.strip().split())
+        print(f"[DEBUG] Using call series '{event_base_title}' (Title Case) as base title for recurring Zoom/GCal/YouTube events.")
 
     # Zoom meeting creation/update
     zoom_id = None
@@ -830,10 +830,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
                      # Construct a potential link (may not be perfect)
                      event_link = f"https://calendar.google.com/calendar/event?eid={gcal_event_id_from_series}" # Simplified link
                      comment_lines.append("\n**Calendar Event:** Reusing existing event for series.")
+                     print(f"[DEBUG] Reusing existing calendar event ID {gcal_event_id_from_series} from series '{call_series}'")
+                     print(f"[DEBUG] No changes made to the Google Calendar event series - maintaining consistency")
                      if event_link:
                          comment_lines.append(f"- [Approximate Google Calendar Link]({event_link})")
                      # Store the reused event ID for mapping
-                     event_id = gcal_event_id_from_series 
+                     event_id = gcal_event_id_from_series
                  else:
                      comment_lines.append("\n**Calendar Event:** Reusing existing event for series (Link/ID not found in mapping).")
             # else: GCal skipped via issue input, no comment needed as it was added earlier
@@ -850,6 +852,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 try:
                     base_event_id = extract_event_id_from_link(f"?eid={gcal_event_id_from_mapping}")
                     if is_recurring and occurrence_rate != "none":
+                        print(f"[DEBUG] Updating existing RECURRING calendar event with ID {base_event_id} for {event_base_title}")
+                        print(f"[DEBUG] This updates an EXISTING event series in calendar - not creating a new series")
                         event_result = gcal.update_recurring_event(
                             event_id=base_event_id,
                             summary=event_base_title, # Use call series or issue title
@@ -860,6 +864,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             description=calendar_description
                         )
                     else:
+                         print(f"[DEBUG] Updating existing ONE-TIME calendar event with ID {base_event_id}")
                          event_result = gcal.update_event(
                              event_id=base_event_id,
                              summary=event_base_title, # Use call series or issue title
@@ -893,6 +898,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 print(f"[DEBUG] No existing calendar event found or update failed. Creating new GCal event.")
                 if start_time and duration: # Ensure we have time/duration before creating
                     try:
+                        # If this is part of an existing recurring series but we're still creating a new event
+                        # log a warning since we should be updating an existing event
+                        if is_recurring and call_series:
+                            print(f"[WARNING] Creating a NEW calendar event for recurring series '{call_series}'")
+                            print(f"[WARNING] This may cause duplicate events in calendar - should update existing series instead")
+                        
                         event_result = create_calendar_event(
                             is_recurring=is_recurring,
                             occurrence_rate=occurrence_rate,
