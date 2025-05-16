@@ -60,6 +60,7 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | № | Date | Agenda | Notes | Discussion | Recording |
 | --- | ------ | ----- | ----- | ----- | ----- |
+| 211 | 08 May 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1500) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-211-may-8/23835) | [video](https://youtu.be/Y7j8FdRkSrA) |
 | 210 | 24 Apr 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1462) | - | [EthMag](https://ethereum-magicians.org/t/23502) | [video](https://youtu.be/7BKH9C2afNc) |
 | 209 | 10 Apr 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-209/23373) | [video](https://youtu.be/_j4XPNQxDPc) |
 | 208 | 27 Mar 2025, 14:00 UTC | [agenda](https://github.com/ethereum/pm/issues/1253) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-execution-acde-208/23140) | [video](https://youtu.be/0eVoE_isGBk) |
@@ -274,11 +275,13 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 
 | № | Date | Agenda | Notes | Discussion | Recording |
 | --- | ------ | ----- | ----- | ----- | ----- |
-| 155| 17 Apr 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1434) | tba| [EthMag](https://ethereum-magicians.org/t/23392) | [video](https://youtu.be/i_29BU3J97M)|
-| 154| 03 Apr 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1399) | tba| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-154/23340) | [video](https://youtu.be/RWBhHHrZ48w)|
-| 153| 20 Mar 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1356) | tba| [EthMag](https://ethereum-magicians.org/t/consensus-layer-call-153/23097) | [video](https://youtu.be/PDttc86jEkY)|
-| 152| 06 Mar 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1323) | tba| [EthMag](https://ethereum-magicians.org/t/consensus-layer-call-152/22959) | [video](https://youtu.be/iP3p33vFw2M)|
-| 151| 20 Feb 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1280) | tba| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-151-february-20-2025/22917) | [video](https://youtu.be/RMXhEnc4PZk)|
+| 157| 15 May 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1515) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-157-may-15-2025/23980/) | [video](https://youtu.be/Bn4jGMnub9g)|
+| 156| 01 May 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1490) | - | [EthMag](https://ethereum-magicians.org/t/23607) | [video](https://youtu.be/NQhTiMFDZHQ)|
+| 155| 17 Apr 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1434) | - | [EthMag](https://ethereum-magicians.org/t/23392) | [video](https://youtu.be/i_29BU3J97M)|
+| 154| 03 Apr 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1399) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-154/23340) | [video](https://youtu.be/RWBhHHrZ48w)|
+| 153| 20 Mar 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1356) | - | [EthMag](https://ethereum-magicians.org/t/consensus-layer-call-153/23097) | [video](https://youtu.be/PDttc86jEkY)|
+| 152| 06 Mar 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1323) | - | [EthMag](https://ethereum-magicians.org/t/consensus-layer-call-152/22959) | [video](https://youtu.be/iP3p33vFw2M)|
+| 151| 20 Feb 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1280) | - | [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-151-february-20-2025/22917) | [video](https://youtu.be/RMXhEnc4PZk)|
 | 150| 06 Feb 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1265) | [notes](AllCoreDevs-CL-Meetings/call_150.md)| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-150-february-6-2025/22703) | [video](https://youtu.be/JhDgD366DKg)|
 | 149| 23 Jan 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1258) | [notes](AllCoreDevs-CL-Meetings/call_149.md)| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-149-january-23-2025/22636) | [video](https://youtu.be/uIjPkGezPOg)|
 | 148| 09 Jan 2025, 14:00 UTC |[agenda](https://github.com/ethereum/pm/issues/1218) | [notes](AllCoreDevs-CL-Meetings/call_148.md)| [EthMag](https://ethereum-magicians.org/t/all-core-devs-consensus-acdc-148-january-9-2025/22206) | [video](https://youtu.be/4LbNL_hp2Ho)|
