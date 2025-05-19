@@ -48,7 +48,7 @@ Once the EIP is published, you can make it much easier for the community to eval
 - Implement your changes in the [execution-specs](https://github.com/ethereum/execution-specs) (EELS)
   - EIP authors are encouraged to attempt the implementation on their own. Once a PR is created, EELS maintainers regularly step in to provide feedback or polish the implementation.
   - Reference the [EIP Author's Manual](https://github.com/ethereum/execution-specs/blob/master/EIP_AUTHORS_MANUAL.md).
-- Generate client tests via the [execution-specs-tests](https://github.com/ethereum/execution-specs-tests) (EEST)
+- Generate client tests via the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) (EEST)
   - This step is frequently performed or augmented by EEST maintainers, but EIP authors are encouraged to make an attempt.
   - Reference the [EEST docs](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
 - Reach out for help in the [ETH R&D Discord](https://discord.gg/EVTQ9crVgQ), `#el-testing` channel.
