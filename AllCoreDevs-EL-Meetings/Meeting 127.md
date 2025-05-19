@@ -53,7 +53,7 @@ Got it., Andrew, you have your hand up,
 * I put in a PR I think two days ago to clarify that. 
 
 **Tim Beiko**
-* But you could Danny that you wanna explain. Okay. I think I can, again, yeah. So w we, we put in a PR in 3675, I think we just added a note say, Mike, that these parameters that are set the zero can be overridden, you know, based on subsequent EIP. didn't want to asse that like, every implementation, like if there's another network or something that wants to use 3675, that they did also use 4399. but yeah, just tried to make it clear. and yeah, the 4399 does superseed, basically, 3675. So you do use the mixed hash. Cool. Yeah. Let me tell sharp PR in the, in the chat. Cool. 
+* But you could Danny that you wanna explain. Okay. I think I can, again, yeah. So w we, we put in a PR in 3675, I think we just added a note say, Mike, that these parameters that are set the zero can be overridden, you know, based on subsequent EIP. didn't want to asse that like, every implementation, like if there's another network or something that wants to use 3675, that they did also use 4399. but yeah, just tried to make it clear. and yeah, the 4399 does supersede, basically, 3675. So you do use the mixed hash. Cool. Yeah. Let me tell sharp PR in the, in the chat. Cool. 
 * Perry. I see you have your, your, your hand up. 
 
 **Parithosh**
@@ -79,7 +79,7 @@ Got it., Andrew, you have your hand up,
 * Cool. And, there was a second, issue you wanted to bring up also to add, Eth get blogged body, or sorry, engine get logged bodies method. 
 
 **Mikhail Kalinin**
-* Yep. yeah, there is, it's, it's a proposal yet. It's, it's not even a PR, it's like a request for comments, but, that we can drop the issue. what is proposed is to, implement, get block bodies and methods in engineered BI. It allows for pruning execution payloads on a sales side and say, like potentially a lot of space, on the desk, in this case, the cl clients will request the block bodies, which is just it's transaction-based, after, after the merge, and, w whenever it needs to serve a block, beacon blocks to their node PR or to the user at all, just go, to, you know, under request by, bodies and request transactions of those payloads that are supposed to be served. one thing we're mentioned here is that this get blocked bodies maps on the protocol. So it, I, I'm assing that it's pretty straight forward for execution layer clients to implement, to expose this logic, this same logic flag engine API, because basically the logic already exists, and we just need another one interface to be accessible. 
+* Yep. yeah, there is, it's, it's a proposal yet. It's, it's not even a PR, it's like a request for comments, but, that we can drop the issue. what is proposed is to, implement, get block bodies and methods in engineered BI. It allows for pruning execution payloads on a sales side and say, like potentially a lot of space, on the desk, in this case, the cl clients will request the block bodies, which is just it's transaction-based, after, after the merge, and, w whenever it needs to serve a block, beacon blocks to their node PR or to the user at all, just go, to, you know, under request by, bodies and request transactions of those payloads that are supposed to be served. one thing we're mentioned here is that this get blocked bodies maps on the protocol. So it, I, I'm assign that it's pretty straight forward for execution layer clients to implement, to expose this logic, this same logic flag engine API, because basically the logic already exists, and we just need another one interface to be accessible. 
 
 **Peter Szilagyi**
 * Question, the response. Do you expect it in json format or included? 
@@ -118,7 +118,7 @@ Got it., Andrew, you have your hand up,
 * I was going just to say that we are about to release the next version of this Kintsugior spec pretty soon. they need to be one Ted's anything here. 
 
 **Danny**
-* Yeah. so I think as Yolo where the devnets are now launched on Tuesday rather than Thursday. and we had spoken about attempting to do the persistent tests at the next week or the week after I think given progress and given some of the iterative changes that are still coming out on the Kintsugi specs. I think we'll be able to conse V3, by about Monday or Tuesday. I would suggest that we are aiming for the persistent testnet, that launch on the 14th rather than seven. just to give us time to, I would say to give you three specs are out Monday or Tuesday, so then the seventh can be a V3, devnet and then the 14th is going to be the, persistent test. Not assing things are going well. I know that begins to push us close to holidays. I think it's at least reasonably far away from Christmas. but, obviously open a feedback on that, the shift in the timeline 
+* Yeah. so I think as Yolo where the devnets are now launched on Tuesday rather than Thursday. and we had spoken about attempting to do the persistent tests at the next week or the week after I think given progress and given some of the iterative changes that are still coming out on the Kintsugi specs. I think we'll be able to conse V3, by about Monday or Tuesday. I would suggest that we are aiming for the persistent testnet, that launch on the 14th rather than seven. just to give us time to, I would say to give you three specs are out Monday or Tuesday, so then the seventh can be a V3, devnet and then the 14th is going to be the, persistent test. Not assign things are going well. I know that begins to push us close to holidays. I think it's at least reasonably far away from Christmas. but, obviously open a feedback on that, the shift in the timeline 
 
 **Mikhail Kalinin**
 * At what answering the question marrows has, yeah, we'll, we'll have the change log and the Kintsugi spec in the table. 
@@ -711,7 +711,7 @@ Got it., Andrew, you have your hand up,
 - 09:48:03 From Ansgar Dietrichs to Everyone:
 	agree with Dankrad’s sentiment, but this year seems unrealistic. but would strongly be in favour of having a special fork for this early next year
 - 09:49:22 From Marius Van Der Wijden (M) to Everyone:
-	but if that's possible, why do the limit on the block and not on the transaction indivdually?
+	but if that's possible, why do the limit on the block and not on the transaction individually?
 - 09:50:55 From Marius Van Der Wijden (M) to Everyone:
 	*if it's possible to split the updates into multiple transactions
 - 09:51:38 From Marius Van Der Wijden (M) to Everyone:
@@ -865,7 +865,7 @@ Got it., Andrew, you have your hand up,
 - 10:23:27 From Ansgar Dietrichs to Everyone:
 	I don’t understand how the DA layer needs to provide more than the beacon chain does under the merge for the execution chain: provide canonical ordering, and DA, but use your own clients for history storage. execution clients don’t ask their consensus clients for history, they keep it on their own
 - 10:24:16 From Ansgar Dietrichs to Everyone:
-	the tl;dr here really just seems to be: you can’t be lazy and use the base layer for permanent history storage. this is not a security concern, just a lazyness concern
+	the tl;dr here really just seems to be: you can’t be lazy and use the base layer for permanent history storage. this is not a security concern, just a laziness concern
 - 10:24:48 From Louis Guthmann to Everyone:
 	I do not oppose this. I’m simply exposing the current security model of Rollups
 - 10:25:08 From Louis Guthmann to Everyone:
@@ -879,7 +879,7 @@ Got it., Andrew, you have your hand up,
 - 10:25:46 From Ansgar Dietrichs to Everyone:
 	and for rollups, if we have a forcing function for rectifying this sooner, they will be in a better shape to make use of sharding as soon as that comes online
 - 10:26:16 From Andrew Ashikhmin to Everyone:
-	Erigon has its own tin pool, so we can’t take gets implementation verbatium
+	Erigon has its own tin pool, so we can’t take gets implementation verbatim
 - 10:26:29 From Tim Beiko to Everyone:
 	Got it, so you could take the consensus changes but not everything else?
 - 10:27:19 From danny to Everyone:
