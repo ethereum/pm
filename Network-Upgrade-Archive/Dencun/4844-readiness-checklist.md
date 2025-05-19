@@ -6,7 +6,7 @@ This document is meant to capture various tasks that need to be completed before
 
 - [Execution Layer: EIP-4844](https://eips.ethereum.org/EIPS/eip-4844)
 - [Consensus Layer: consensus-specs `deneb` folder](https://github.com/ethereum/consensus-specs/tree/dev/specs/deneb)
-- [Engine API: `deneb.md`](https://github.com/ethereum/execution-apis/blob/main/src/engine/deneb.md)
+- [Engine API: `blob-extension.md`](https://github.com/ethereum/execution-apis/blob/main/src/engine/experimental/blob-extension.md)
 
 ## Implementation
 
