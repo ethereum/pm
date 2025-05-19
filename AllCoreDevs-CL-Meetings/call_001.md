@@ -1,7 +1,7 @@
 # Ethereum 2.0 Implementers Call 1 Notes
 ### Meeting Date/Time: Thu, Aug 16, 2018 14:00 UTC
 ### Meeting Duration: 1.5 hours
-### [GitHub Agenda Page](https://github.com/ethresearch/eth2.0-pm/issues/2)
+### [GitHub Agenda Page](https://github.com/ethereum/eth2.0-pm/issues/2)
 ### [Audio/Video of the meeting](https://www.youtube.com/watch?v=8F9NPGIv9vI)
 
 # Agenda
