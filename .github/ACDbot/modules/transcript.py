@@ -205,51 +205,51 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
 ### Recording Access:"""
 
     # Line 1: Join Recording Session (manual passcode, uses share_url)
-    if share_url:
-        post_content += f"\n- [Join Recording Session]({share_url})"
-        if manual_passcode:
-            post_content += f" (Passcode: `{manual_passcode}`)"
-    else:
-        post_content += "\n- *Join Recording Session link (via share page) not available."
+    # if share_url:
+    #     post_content += f"\n- [Join Recording Session]({share_url})"
+    #     if manual_passcode:
+    #         post_content += f" (Passcode: `{manual_passcode}`)"
+    # else:
+    #     post_content += "\n- *Join Recording Session link (via share page) not available.*"
         
     # Line 2: Join Recording Session with pwd (uses primary_video_play_url)
     if primary_video_play_url and recording_play_passcode:
         # Ensure passcode is URL-encoded
         encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
         join_session_direct_play_url = f"{primary_video_play_url}?pwd={encoded_pwd}"
-        post_content += f"\n- [Join Recording Session with pwd]({join_session_direct_play_url})"
+        post_content += f"\n- [Join Recording Session]({join_session_direct_play_url})"
     elif primary_video_play_url: # Play URL exists, but no passcode for URL
         post_content += "\n- *Link for 'Join Recording Session with pwd' (direct play) could not be generated (passcode for URL not found).* "
     else: # No primary video play_url found
         post_content += "\n- *Direct play link for 'Join Recording Session with pwd' not available (video play URL not found).* "
 
     # Line 3: Download Transcript (direct download)
-    if transcript_download_url:
-        post_content += f"\n- [Download Transcript]({transcript_download_url})"
-    else:
-        post_content += "\n- *Direct download link for transcript not found.*"
+    # if transcript_download_url:
+    #     post_content += f"\n- [Download Transcript]({transcript_download_url})"
+    # else:
+    #     post_content += "\n- *Direct download link for transcript not found.*"
 
     # Line 4: Download Transcript with pwd (uses transcript_download_url)
     if transcript_download_url and recording_play_passcode:
         encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
         download_transcript_with_pwd_url = f"{transcript_download_url}?pwd={encoded_pwd}" # Use download_url
-        post_content += f"\n- [Download Transcript with pwd]({download_transcript_with_pwd_url})"
+        post_content += f"\n- [Download Transcript]({download_transcript_with_pwd_url})"
     elif transcript_download_url: # transcript_download_url exists, but recording_play_passcode is missing
         post_content += "\n- *Link for 'Download Transcript with pwd' could not be generated (passcode for URL splicing not found).* "
     else: # transcript_download_url is missing
         post_content += "\n- *Download URL for transcript (needed for 'with pwd' link) not found.*"
         
     # Line 5: Download Chat (direct download)
-    if chat_download_url:
-        post_content += f"\n- [Download Chat]({chat_download_url})"
-    else:
-        post_content += "\n- *Direct download link for chat not found.*"
+    # if chat_download_url:
+    #     post_content += f"\n- [Download Chat]({chat_download_url})"
+    # else:
+    #     post_content += "\n- *Direct download link for chat not found.*"
 
     # Line 6: Download Chat with pwd (uses chat_download_url)
     if chat_download_url and recording_play_passcode:
         encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
         download_chat_with_pwd_url = f"{chat_download_url}?pwd={encoded_pwd}" # Use download_url
-        post_content += f"\n- [Download Chat with pwd]({download_chat_with_pwd_url})"
+        post_content += f"\n- [Download Chat]({download_chat_with_pwd_url})"
     elif chat_download_url: # chat_download_url exists, but recording_play_passcode is missing
         post_content += "\n- *Link for 'Download Chat with pwd' could not be generated (passcode for URL splicing not found).* "
     else: # chat_download_url is missing
