@@ -2,6 +2,7 @@ import os
 import json
 from modules import zoom, discourse, tg
 import requests
+import urllib.parse
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
@@ -148,21 +149,50 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     else:
         summary_overview = f"No summary available. {summary_error_message or 'Could not retrieve summary.'}" # Use error message if available
     
-    # Extract proper share URL and passcode (new format)
-    share_url = recording_data.get('share_url', '')
-    passcode = recording_data.get('password', '')
-    
-    # Get transcript download URL from recording files
-    transcript_url = None
-    chat_url = None
-    
-    for file in available_files: # Use the stored list
+    # Extract URLs and passcodes
+    share_url = recording_data.get('share_url', '') # For original "Join Recording Session" link
+    manual_passcode = recording_data.get('password', '') # For the original link's displayed passcode
+    recording_play_passcode = recording_data.get('recording_play_passcode') # For URL splicing
+
+    primary_video_play_url = None # For "Join Recording Session with pwd"
+    transcript_download_url = None  # For "Download Transcript" (direct)
+    transcript_play_url = None      # For "Download Transcript with pwd"
+    chat_download_url = None        # For "Download Chat" (direct)
+
+    video_recording_types_priority = [
+        "shared_screen_with_speaker_view",
+        "shared_screen_with_gallery_view",
+        "speaker_view",
+        "gallery_view",
+        "shared_screen"
+    ]
+    primary_video_play_url_type_priority_index = float('inf')
+
+    for file in available_files:
+        file_type = file.get('file_type')
+        recording_type = file.get('recording_type')
+
+        if file_type == 'MP4' and recording_type in video_recording_types_priority:
+            current_priority_index = video_recording_types_priority.index(recording_type)
+            if current_priority_index < primary_video_play_url_type_priority_index:
+                primary_video_play_url = file.get('play_url')
+                primary_video_play_url_type_priority_index = current_priority_index
+        
         if file.get('file_type') == 'TRANSCRIPT':
-            transcript_url = file.get('download_url')
+            transcript_download_url = file.get('download_url')
+            transcript_play_url = file.get('play_url')
         elif file.get('file_type') == 'CHAT':
-            chat_url = file.get('download_url')
+            chat_download_url = file.get('download_url')
+
+    # Fallback if no prioritized video play_url found, try any MP4
+    if primary_video_play_url is None:
+        for file in available_files:
+            if file.get('file_type') == 'MP4':
+                primary_video_play_url = file.get('play_url')
+                if primary_video_play_url: # Take the first MP4 play_url found
+                    break
     
-    # Build post content with the new format
+    # Build post content
     post_content = f"""### Meeting Summary:
 {summary_overview}
 
@@ -170,22 +200,48 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
 
 {next_steps}
 
-### Recording Access:
-- [Join Recording Session]({share_url}) (Passcode: `{passcode}`)"""
+### Recording Access:"""
 
-    # Add transcript link if available
-    if transcript_url:
-        post_content += f"\n- [Download Transcript]({transcript_url})"
+    # Line 1: Join Recording Session (manual passcode, uses share_url)
+    if share_url:
+        post_content += f"\\n- [Join Recording Session]({share_url})"
+        if manual_passcode:
+            post_content += f" (Passcode: `{manual_passcode}`)"
+    else:
+        post_content += "\\n- *Join Recording Session link (via share page) not available.*"
         
-    # Add chat file link if available
-    if chat_url:
-        post_content += f"\n- [Download Chat]({chat_url})"
+    # Line 2: Join Recording Session with pwd (uses primary_video_play_url)
+    if primary_video_play_url and recording_play_passcode:
+        # Ensure passcode is URL-encoded
+        encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
+        join_session_direct_play_url = f"{primary_video_play_url}?pwd={encoded_pwd}"
+        post_content += f"\\n- [Join Recording Session with pwd]({join_session_direct_play_url})"
+    elif primary_video_play_url: # Play URL exists, but no passcode for URL
+        post_content += "\\n- *Link for 'Join Recording Session with pwd' (direct play) could not be generated (passcode for URL not found).* "
+    else: # No primary video play_url found
+        post_content += "\\n- *Direct play link for 'Join Recording Session with pwd' not available (video play URL not found).* "
 
-    # Add notes if transcript or chat are missing
-    if not transcript_url:
-        post_content += "\n- *Transcript file not found in recording data.*"
-    if not chat_url:
-        post_content += "\n- *Chat file not found in recording data.*"
+    # Line 3: Download Transcript (direct download)
+    if transcript_download_url:
+        post_content += f"\\n- [Download Transcript]({transcript_download_url})"
+    else:
+        post_content += "\\n- *Direct download link for transcript not found.*"
+
+    # Line 4: Download Transcript with pwd (uses transcript_play_url)
+    if transcript_play_url and recording_play_passcode:
+        encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
+        download_transcript_with_pwd_url = f"{transcript_play_url}?pwd={encoded_pwd}"
+        post_content += f"\\n- [Download Transcript with pwd]({download_transcript_with_pwd_url})"
+    elif transcript_play_url: # Play URL for transcript exists, but no passcode for URL
+        post_content += "\\n- *Link for 'Download Transcript with pwd' could not be generated (passcode for URL not found).* "
+    elif transcript_download_url: # Direct download exists, but transcript play_url (for pwd link) is missing
+        post_content += "\\n- *Play URL for transcript (needed for 'with pwd' link) not found.*"
+        
+    # Line 5: Download Chat (direct download)
+    if chat_download_url:
+        post_content += f"\\n- [Download Chat]({chat_download_url})"
+    else:
+        post_content += "\\n- *Direct download link for chat not found.*"
 
     try:
         discourse.create_post(
