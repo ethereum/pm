@@ -229,15 +229,15 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     else:
         post_content += "\n- *Direct download link for transcript not found.*"
 
-    # Line 4: Download Transcript with pwd (uses transcript_play_url)
-    if transcript_play_url and recording_play_passcode:
+    # Line 4: Download Transcript with pwd (uses transcript_download_url)
+    if transcript_download_url and recording_play_passcode:
         encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
-        download_transcript_with_pwd_url = f"{transcript_play_url}?pwd={encoded_pwd}"
+        download_transcript_with_pwd_url = f"{transcript_download_url}?pwd={encoded_pwd}" # Use download_url
         post_content += f"\n- [Download Transcript with pwd]({download_transcript_with_pwd_url})"
-    elif transcript_play_url: # Play URL for transcript exists, but no passcode for URL
-        post_content += "\n- *Link for 'Download Transcript with pwd' could not be generated (passcode for URL not found).* "
-    elif transcript_download_url: # Direct download exists, but transcript play_url (for pwd link) is missing
-        post_content += "\n- *Play URL for transcript (needed for 'with pwd' link) not found.*"
+    elif transcript_download_url: # transcript_download_url exists, but recording_play_passcode is missing
+        post_content += "\n- *Link for 'Download Transcript with pwd' could not be generated (passcode for URL splicing not found).* "
+    else: # transcript_download_url is missing
+        post_content += "\n- *Download URL for transcript (needed for 'with pwd' link) not found.*"
         
     # Line 5: Download Chat (direct download)
     if chat_download_url:
@@ -245,15 +245,15 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     else:
         post_content += "\n- *Direct download link for chat not found.*"
 
-    # Line 6: Download Chat with pwd (uses chat_play_url)
-    if chat_play_url and recording_play_passcode:
+    # Line 6: Download Chat with pwd (uses chat_download_url)
+    if chat_download_url and recording_play_passcode:
         encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
-        download_chat_with_pwd_url = f"{chat_play_url}?pwd={encoded_pwd}"
+        download_chat_with_pwd_url = f"{chat_download_url}?pwd={encoded_pwd}" # Use download_url
         post_content += f"\n- [Download Chat with pwd]({download_chat_with_pwd_url})"
-    elif chat_play_url: # Play URL for chat exists, but no passcode for URL
-        post_content += "\n- *Link for 'Download Chat with pwd' could not be generated (passcode for URL not found).* "
-    elif chat_download_url: # Direct download exists, but chat play_url (for pwd link) is missing
-        post_content += "\n- *Play URL for chat (needed for 'with pwd' link) not found.*"
+    elif chat_download_url: # chat_download_url exists, but recording_play_passcode is missing
+        post_content += "\n- *Link for 'Download Chat with pwd' could not be generated (passcode for URL splicing not found).* "
+    else: # chat_download_url is missing
+        post_content += "\n- *Download URL for chat (needed for 'with pwd' link) not found.*"
 
     try:
         discourse.create_post(
