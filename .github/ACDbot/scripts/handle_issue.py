@@ -516,6 +516,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 zoom_id = f"placeholder-skipped-{issue.number}"
                 join_url = "Zoom creation skipped via issue input"
                 zoom_action = "skipped_issue"
+            # Ensure meeting_id is set when skipping Zoom creation
+            meeting_id = zoom_id
         else:
             # Proceed with Zoom creation/update logic (as skip_zoom_creation is False)
             # Check for existing meeting tied to this issue number (using data found earlier)
