@@ -184,6 +184,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Load existing mapping
     mapping = load_meeting_topic_mapping()
 
+    # Ensure meeting_id is always defined
+    meeting_id = None
+    
     # 1. Connect to GitHub API
     gh = Github(os.environ["GITHUB_TOKEN"])
     repo = gh.get_repo(repo_name)
@@ -604,6 +607,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         zoom_id = f"placeholder-time-error-{issue.number}"
         join_url = "Invalid time/duration in issue"
         zoom_action = "failed_time_parse"
+        meeting_id = zoom_id  # Ensure meeting_id is set even on error
     except Exception as e:
         # Catch other unexpected errors during Zoom processing
         print(f"[DEBUG] Unexpected error during Zoom processing: {str(e)}")
@@ -611,6 +615,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         zoom_id = f"placeholder-error-{issue.number}"
         join_url = "Error during Zoom processing"
         zoom_action = "failed_unexpected"
+        meeting_id = zoom_id  # Ensure meeting_id is set even on error
 
     # --- MODIFIED START: Always fetch Join URL via API ---
     # As per updated requirements, always fetch Zoom join URL from API
