@@ -234,10 +234,13 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
         download_transcript_with_pwd_url = f"{transcript_download_url}?pwd={encoded_pwd}" # Use download_url
         post_content += f"\n- [Download Transcript]({download_transcript_with_pwd_url})"
-    elif transcript_download_url: # transcript_download_url exists, but recording_play_passcode is missing
-        post_content += "\n- *Link for 'Download Transcript with pwd' could not be generated (passcode for URL splicing not found).* "
+    elif transcript_download_url and manual_passcode:
+        # Fallback: show link with manual passcode displayed
+        post_content += f"\n- [Download Transcript]({transcript_download_url}) (Passcode: `{manual_passcode}`)"
+    elif transcript_download_url: # transcript_download_url exists, but no passcode available
+        post_content += f"\n- [Download Transcript]({transcript_download_url}) (Passcode not available)"
     else: # transcript_download_url is missing
-        post_content += "\n- *Download URL for transcript (needed for 'with pwd' link) not found.*"
+        post_content += "\n- *Download URL for transcript not found.*"
         
     # Line 5: Download Chat (direct download)
     # if chat_download_url:
@@ -250,10 +253,13 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
         download_chat_with_pwd_url = f"{chat_download_url}?pwd={encoded_pwd}" # Use download_url
         post_content += f"\n- [Download Chat]({download_chat_with_pwd_url})"
-    elif chat_download_url: # chat_download_url exists, but recording_play_passcode is missing
-        post_content += "\n- *Link for 'Download Chat with pwd' could not be generated (passcode for URL splicing not found).* "
+    elif chat_download_url and manual_passcode:
+        # Fallback: show link with manual passcode displayed
+        post_content += f"\n- [Download Chat]({chat_download_url}) (Passcode: `{manual_passcode}`)"
+    elif chat_download_url: # chat_download_url exists, but no passcode available
+        post_content += f"\n- [Download Chat]({chat_download_url}) (Passcode not available)"
     else: # chat_download_url is missing
-        post_content += "\n- *Download URL for chat (needed for 'with pwd' link) not found.*"
+        post_content += "\n- *Download URL for chat not found.*"
 
     try:
         discourse.create_post(
