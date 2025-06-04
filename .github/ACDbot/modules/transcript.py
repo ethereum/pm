@@ -123,8 +123,8 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     next_steps = ""
     
     if summary_data:
-        # Extract summary overview
-        summary_overview = summary_data.get("summary", "No summary overview available")
+        # Extract summary overview - updated to use new API field name
+        summary_overview = summary_data.get("summary_overview", "No summary overview available")
         
         # Extract detailed summaries in a collapsible section
         if summary_data.get("summary_details"):
