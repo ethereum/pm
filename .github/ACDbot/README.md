@@ -58,6 +58,7 @@ The primary workflow is triggered by GitHub issues:
     *   **Commits Mapping:** Commits the updated `meeting_topic_mapping.json` back to the repository.
 4.  **Post-Meeting Workflows:**
     *   **YouTube Upload (`youtube-uploader.yml`, `upload_zoom_recording.py`):**
+        *   Runs on a scheduled cron job every 6 hours (`0 */6 * * *`).
         *   Periodically checks the mapping file for meetings that have finished.
         *   For meetings where `skip_youtube_upload` is `false`, it downloads the MP4 recording from Zoom.
         *   Uploads the recording to YouTube using `youtube_utils`.
@@ -65,7 +66,9 @@ The primary workflow is triggered by GitHub issues:
         *   Posts the YouTube link to the Discourse topic and Telegram.
         *   Updates the RSS feed.
         *   Commits the mapping file.
+        *   Can be manually triggered from GitHub Actions with a specific meeting ID.
     *   **Transcript Polling (`zoom-transcript-poll.yml`, `poll_zoom_recordings.py`):**
+        *   Runs on a scheduled cron job every 6 hours (`0 */6 * * *`).
         *   Periodically polls the Zoom API for completed recordings and available transcripts for recent meetings listed in the mapping file.
         *   If a transcript (`.vtt`) is found and not already processed (`transcript_processed` is false):
             *   Downloads the transcript.
@@ -74,7 +77,9 @@ The primary workflow is triggered by GitHub issues:
             *   Updates the mapping file, setting `transcript_processed` to true.
             *   Updates the RSS feed.
             *   Commits the mapping file.
+        *   Can be manually triggered for a specific meeting ID and issue number.
     *   **RSS Feed Generation (`rss-feed-generator.yml`, `serve_rss.py`):**
+        *   Triggered automatically after the completion of issue handling, transcript polling, or YouTube upload workflows.
         *   Periodically runs `serve_rss.py` which uses `rss_utils.py` to read the mapping file and generate/update an RSS feed file (`meetings_rss.xml`) based on the meeting data and artifact links (YouTube, Discourse, etc.).
         *   Commits the updated RSS file.
 
