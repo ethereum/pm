@@ -43,8 +43,8 @@
 
 ### Lighthouse (Adrian Manning) ([7:15](https://youtu.be/Q0EbnFViJFk?t=435))
 * Playing with the merge effort. Managed to get a merge chain running with Lighthouse and kjashdf-us and verified our first transaction. 
-* Last week a new release was done with big improvements to block production times, which hopefully will have an impact on the nubmer of lightblocks seen on Mainnet. Should be doing an analysis in 1-2 weeks, once enough users have updated to this latest release.
-* Prater got lauched and seems to be doing well. 
+* Last week a new release was done with big improvements to block production times, which hopefully will have an impact on the number of lightblocks seen on Mainnet. Should be doing an analysis in 1-2 weeks, once enough users have updated to this latest release.
+* Prater got launched and seems to be doing well. 
 * Doing decent progress on our fork handling logic. Not yet running the test vectors.
 * Building out the Altair networking changes. Will have a release in the next week or so to improve handling of the time discrepancies between the beacon and the validating client.
 
@@ -61,7 +61,7 @@
 * With regards to planning, **Danny**'s opinion is we can't plan dates much until getting feedback from engineers. Will check-in async to see where we stand.
 
 ## Prater Status ([12:45](https://youtu.be/Q0EbnFViJFk?t=765))
-* **Danny** mentions the lauch seems to be doing well. The most eventful item was probably the Nimbus protection that kicked in during genesis without doing nothing during a couple of epochs. Asks the group if there is anything the want to discuss around Prater.
+* **Danny** mentions the launch seems to be doing well. The most eventful item was probably the Nimbus protection that kicked in during genesis without doing nothing during a couple of epochs. Asks the group if there is anything the want to discuss around Prater.
 * **Mamy Ratsimbazafy** suggests some sort of blog post must be made to clear up Pyrmont/Prater because maybe the communication wasn't clear enough. Pyrmont is meant for Devs mainly but users may be asking themselves what's happening to Pyrmont (e.g. if you want to test in your Raspi or PC). We need to tell them where they need to go. **Danny** voices his understanding that Prater is first and foremost for Devs but would become the defacto tesnet and it's also the desire not to keep two test nets running in the long term, which would imply a deprecation of Premont. **Mamy** comments that he would still like using Pyrmont in around 2 months to test. 
 * **Danny** suggests to use Pyrmont  to test a live fork so if things go wrong it's not the worst thing because we're planning on killing it anyway. Then after we do that fork, we can do a test of non-finallity and have no more user guarantees. **Mamy** agrees. 
 * **Danny** mentions one downside to the previous idea: the cost of running a bunch of servers. **Jacek Sieka** points out more downside: if users want to stake on Mainnet, where should they test their setup Today? To that, **Dany** suggests they move to Prater and that we talk with the ETHStaker folks to maybe push their community to begin doing that. He commits in the next blog post to mention that and also contact the ETHStaker folks and see if they can get that out in their channels. 
@@ -69,7 +69,7 @@
 * **Ben Edgington** emphasizes we should encourage people to exit "nicely" of Pyrmont if we want to have a stable enough period to test the fork. This brings him to share the fact that currently there are sporadic failures to finalize in the network. **Danny** supposes it could be happening in times when Client Teams are doing updates (since the network is assumed to have Client Teams majority). **Preston Van Loon** (Prismatic) mentions they can be influencing that, as sometimes they end up taking validators offline due to problems.  
 
 ## Research Updates ([20:08](https://youtu.be/Q0EbnFViJFk?t=1208))
-* **Danny** re-iterates invitation to The Merge call. **Mikhail Kalinin** will anounce the merge call in the merge channel of Discord.
+* **Danny** re-iterates invitation to The Merge call. **Mikhail Kalinin** will announce the merge call in the merge channel of Discord.
 * **Mikhail** gives updates about the spec. There is a new PR that substitutes the "executable beacon chain" proposal. It's about making the consensus upgrade on the Mainnet and does not involve EVM interaction. Main difference is that instead of having an RLP stream in the beacon block body that represents the application block, we have the same stuff but represented by cc(?) structures. He invites to [take a look at it.](https://github.com/ethereum/eth2.0-specs/pull/2257)
 * **Vitalik** shares updates on proof of custody. He mentions Yesterday we were talking about the possibility to MVC it. Might want to do a couple of days of DD first to make sure it's something that works much better in that dimension. He added he has another proposal to publish soon for how to limit the number of active validators to 2^19 or 2^20 or whatever we choose, and do it in a way that's just simpler than the existing proposals. [A doc exists](https://notes.ethereum.org/@vbuterin/validator_rotation_proposal).
 
