@@ -169,14 +169,14 @@ This created a negative feedback loop where the valid chain had few blocks and f
 
 ## Validating Configuration and Fork Parameterization 
 
-Better validation of config and fork paramaters is necessary, also genesis configuration is being standardized across clients. EL clients are implementing a new RPC method enabling to retrieve and validate the correct configuration. [eth_config](https://hackmd.io/@shemnon/eth_config). Incompatible configuration results in an early error. 
+Better validation of config and fork parameters is necessary, also genesis configuration is being standardized across clients. EL clients are implementing a new RPC method enabling to retrieve and validate the correct configuration. [eth_config](https://hackmd.io/@shemnon/eth_config). Incompatible configuration results in an early error. 
 
 ## User-specified Unfinalized Checkpoint Sync 
 
 Clients will enable custom checkpoint sync block and improve capabilities to sync even from an arbitrary non-finalized checkpoints. This would enable users to socially coordinate around a specific chain, forcing the client to sync to it.
 Further improvement could be a leader-based coordination systems for correct chain identification and fix invalid chain pruning capabilities. 
 
-> e.g. Prysm added "sync from head" feature ([PR #15000](https://github.com/prysmaticlabs/prysm/pull/15000), more planned [#14988](https://github.com/prysmaticlabs/prysm/issues/14988)), geth is working on similar featre [#31375](https://github.com/ethereum/go-ethereum/issues/31375), Teku consideres it but it's codebase heavily relies on a finalized source to start the sync
+> e.g. Prysm added "sync from head" feature ([PR #15000](https://github.com/prysmaticlabs/prysm/pull/15000), more planned [#14988](https://github.com/prysmaticlabs/prysm/issues/14988)), geth is working on similar feature [#31375](https://github.com/ethereum/go-ethereum/issues/31375), Teku consideres it but it's codebase heavily relies on a finalized source to start the sync
 
 ## Further issues and mitigations
 
@@ -219,7 +219,7 @@ Every client team needed custom procedures for managing slashing protection. Sur
     - Fixed checkpoint state pruning to prevent OOM crashes [#7497](https://github.com/ChainSafe/lodestar/pull/7497), [#7505](https://github.com/ChainSafe/lodestar/pull/7505)
     - Added pruning of persisted checkpoint states [#7510](https://github.com/ChainSafe/lodestar/pull/7510), [#7495](https://github.com/ChainSafe/lodestar/issues/7495)
     - Added feature to use local state source as checkpoint [#7509](https://github.com/ChainSafe/lodestar/pull/7509)
-    - Addded new endpoint `eth/v1/lodestar/persisted_checkpoint_state` to return a state based on an optional `rootHex:epoch` parameter [#7541](https://github.com/ChainSafe/lodestar/pull/7541)
+    - Added new endpoint `eth/v1/lodestar/persisted_checkpoint_state` to return a state based on an optional `rootHex:epoch` parameter [#7541](https://github.com/ChainSafe/lodestar/pull/7541)
     - Improved peer management during sync stalls, adding check whether peer is `starved` [#7508](https://github.com/ChainSafe/lodestar/pull/7508)
     - Fixed bug in attestationgossip validation introduced in Electra [#7543](https://github.com/ChainSafe/lodestar/pull/7543)
     - Considered adding pessimistic sync but might cause problems with snap synced EL and doesn't seem that useful [#7511](https://github.com/ChainSafe/lodestar/pull/7511)
