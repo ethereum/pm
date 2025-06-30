@@ -1004,13 +1004,31 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 "skip_youtube_upload": existing_occurrence.get("skip_youtube_upload", False) or occurrence_data["skip_youtube_upload"],
                 "skip_transcript_processing": existing_occurrence.get("skip_transcript_processing", False) or occurrence_data["skip_transcript_processing"],
             }
-            # Preserve valid discourse topic ID if current one is placeholder
-            if str(occurrence_data.get("discourse_topic_id")).startswith("placeholder") and \
-               existing_occurrence.get("discourse_topic_id") and \
-               not str(existing_occurrence.get("discourse_topic_id")).startswith("placeholder"):
-                print(f"[DEBUG] Preserving existing valid occurrence discourse_topic_id '{existing_occurrence.get('discourse_topic_id')}' over placeholder.")
-                occurrence_data["discourse_topic_id"] = existing_occurrence.get("discourse_topic_id")
-                
+            # Preserve existing valid discourse_topic_id to prevent overwriting correct mapping
+            existing_topic_id = existing_occurrence.get("discourse_topic_id")
+            new_topic_id = occurrence_data.get("discourse_topic_id")
+
+            # Case 1: New topic ID is placeholder, existing is valid
+            if (
+                str(new_topic_id).startswith("placeholder")
+                and existing_topic_id
+                and not str(existing_topic_id).startswith("placeholder")
+            ):
+                print(f"[DEBUG] Preserving existing valid discourse_topic_id '{existing_topic_id}' over placeholder.")
+                occurrence_data["discourse_topic_id"] = existing_topic_id
+
+            # Case 2: Both are valid but different (prevent overwriting correct mapping)
+            elif (
+                existing_topic_id
+                and not str(existing_topic_id).startswith("placeholder")
+                and new_topic_id
+                and not str(new_topic_id).startswith("placeholder")
+                and existing_topic_id != new_topic_id
+            ):
+                print(f"[WARNING] Preserving existing valid discourse_topic_id '{existing_topic_id}' over new topic_id '{new_topic_id}' to prevent overwriting correct mapping.")
+                print(f"[WARNING] This prevents the bot from overwriting correct topic IDs when re-running on the same issue.")
+                occurrence_data["discourse_topic_id"] = existing_topic_id
+
             # Preserve existing YT streams if new ones weren't generated
             if not occurrence_data["youtube_streams"] and existing_occurrence.get("youtube_streams"):
                  print("[DEBUG] Preserving existing youtube_streams in occurrence.")
