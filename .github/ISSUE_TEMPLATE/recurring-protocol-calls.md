@@ -25,7 +25,7 @@ Facilitator emails: XXXXX, YYYYY
 
 - Duration in minutes : XXX
 - Recurring meeting : true
-- Call series : (e.g ACDC ; ACDE; testing call)
+- Call series : # Options: acde, acdc, acdt, l2interop, rpc, stateless, epbs, maxeb, focil, simulate, ethproofs, beam
 - Occurrence rate : weekly # Options: weekly, bi-weekly, monthly
 - Already a Zoom meeting ID : false # Set to true if you bring your own link -- WARNING the bot will not create a zoom ID and a summary or a Youtube video -- (make sure your zoom link meeting is auto recording you'll have to handle this yourself)
 - Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar (will not create calendar event)

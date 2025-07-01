@@ -12,6 +12,70 @@ from googleapiclient.http import MediaFileUpload
 # Define the thumbnail path (corrected)
 THUMBNAIL_PATH = ".github/ACDbot/Pectra YT.jpg"
 
+# YouTube Playlist IDs
+PLAYLIST_MAPPING = {
+    "allcoredevs": "PLJqWcTqh_zKHU6gjnA6ZcFPU5Pr0xT0io",  # All Core Devs
+    "acde": "PLJqWcTqh_zKFFK2Q3eK2hgbGijW_jf-Q5",  # All Core Devs - Execution
+    "acdc": "PLJqWcTqh_zKFtf6yUxjwjE5P1gsDSIPjV",  # All Core Devs - Consensus
+    "acdt": "PLJqWcTqh_zKFE51VgNZmgT5SGYTKnyY6Y",  # All Core Devs - Testing
+    "l2interop": "PLJqWcTqh_zKHhoemN-XtnPr2h3O6O79MD",  # L2 Interop Working Group
+    "rpc": "PLJqWcTqh_zKEl8EKKTBHWRFZ4-muNiWDX",  # RPC Standardization
+    "stateless": "PLJqWcTqh_zKG-A9qKJ-7niPaRXHmXnpU9", # Stateless Implementers
+    "epbs": "PLJqWcTqh_zKHoz9dnQFGrWI_s1-8RwMhX",  # ePBS Breakout
+    "maxeb": "PLJqWcTqh_zKHZUIo5DMXK1Z9oFWtr-Zsa", # maxEB Breakout
+    "focil": "PLJqWcTqh_zKFIaCmjgKO4HJLn4y-Rg3He", # FOCIL Breakout
+    "simulate": "PLJqWcTqh_zKECphjT_m7LVH4tusTtvory", # eth_simulate Implementers
+    "ethproofs": "PLJqWcTqh_zKGthi2bQDVOcNWXCSvH1sgB", # EthProofs
+    "beam": "PLJqWcTqh_zKF4GUIrzfikZ6hKebVVRc30", # Beam Call
+}
+
+def add_video_to_playlist(video_id, playlist_id):
+    """Add a video to a YouTube playlist"""
+    try:
+        youtube = get_youtube_service()
+
+        print(f"[DEBUG] Adding video {video_id} to playlist {playlist_id}")
+        body = {
+            'snippet': {
+                'playlistId': playlist_id,
+                'resourceId': {
+                    'kind': 'youtube#video',
+                    'videoId': video_id
+                }
+            }
+        }
+
+        response = youtube.playlistItems().insert(
+            part='snippet',
+            body=body
+        ).execute()
+
+        print(f"[INFO] Added video {video_id} to playlist {playlist_id}")
+        return response
+
+    except Exception as e:
+        print(f"[WARN] Failed to add video {video_id} to playlist {playlist_id}: {e}")
+        return None
+
+def add_video_to_appropriate_playlist(video_id, call_series):
+    """Add video to the appropriate playlist(s) based on meeting type"""
+    results = []
+
+    # Add to specific playlist based on call_series
+    specific_playlist_id = PLAYLIST_MAPPING.get(call_series.lower())
+    if specific_playlist_id:
+        result = add_video_to_playlist(video_id, specific_playlist_id)
+        results.append(result)
+
+    # Also add to general All Core Devs playlist for ACD meetings
+    if call_series.lower() in ["acde", "acdc", "acdt"]:
+        general_playlist_id = PLAYLIST_MAPPING.get("allcoredevs")
+        if general_playlist_id and general_playlist_id != specific_playlist_id:
+            result = add_video_to_playlist(video_id, general_playlist_id)
+            results.append(result)
+
+    return results if results else None
+
 def get_youtube_service():
     """
     Gets an authenticated YouTube service using OAuth2 credentials
