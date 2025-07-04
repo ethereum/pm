@@ -12,6 +12,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from modules import zoom, transcript, discourse, tg
+from modules.youtube_utils import add_video_to_appropriate_playlist
 from github import Github
 from google.auth.transport.requests import Request
 import json
@@ -196,6 +197,18 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         
         youtube_link = f"https://youtu.be/{response['id']}"
         print(f"Uploaded YouTube video: {youtube_link}")
+
+        # Add video to appropriate playlist; must be done after upload is successful
+        call_series = series_entry.get("call_series")
+        if call_series:
+            print(f"[DEBUG] Adding video {response['id']} to playlist(s) for call_series: {call_series}")
+            playlist_results = add_video_to_appropriate_playlist(response['id'], call_series)
+            if playlist_results:
+                print(f"[INFO] Successfully added video to {len(playlist_results)} playlist(s) for {call_series}")
+            else:
+                print(f"[WARN] Failed to add video to any playlist for {call_series}")
+        else:
+            print(f"[WARN] No call_series found for meeting {meeting_id}, skipping playlist assignment")
 
         # Post to Discourse (if applicable)
         discourse_topic_id = matched_occurrence.get("discourse_topic_id")
