@@ -1,7 +1,7 @@
 ## Resources
 
-- [Pre-read, zk stateless clients](https://hackmd.io/@kevaundray/r1APz8c-gx) [[PDF](Slides-notes/11-Jun-zk-stateless-clients-and-zk-benchmarking-preread1.pdf)]
-- [Pre-read, zk benchmarking](https://hackmd.io/@kevaundray/rkQiwS9Wex) [[PDF](Slides-notes/11-Jun-zk-stateless-clients-and-zk-benchmarking-preread2.pdf)]
+- [Pre-read, zk stateless clients](https://hackmd.io/@kevaundray/r1APz8c-gx) [[PDF](Slides-notes/11-Jun_zk-stateless-clients-and-zk-benchmarking-preread1.pdf)]
+- [Pre-read, zk benchmarking](https://hackmd.io/@kevaundray/rkQiwS9Wex) [[PDF](Slides-notes/11-Jun_zk-stateless-clients-and-zk-benchmarking-preread2.pdf)]
 
 ## AI-generated notes
 

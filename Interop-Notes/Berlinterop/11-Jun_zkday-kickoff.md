@@ -1,6 +1,6 @@
 ## Resources
 
-- Slides - [zkday](https://docs.google.com/presentation/d/1U0w2GthAj71NcKCguqj8nQCtGqxgC8g1Y2KrkkH4prg/edit?usp=sharing) [[PDF](Slides-notes/11-Jun-zkday-kickoff-slides.pdf)]
+- Slides - [zkday](https://docs.google.com/presentation/d/1U0w2GthAj71NcKCguqj8nQCtGqxgC8g1Y2KrkkH4prg/edit?usp=sharing) [[PDF](Slides-notes/11-Jun_zkday-kickoff-slides.pdf)]
 
 ## AI-generated Notes
 

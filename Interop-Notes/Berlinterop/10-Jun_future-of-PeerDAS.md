@@ -1,8 +1,8 @@
 ## Resources
 
-- [Pre-read](https://hackmd.io/xe5e3ubsQNOuKv3I9YTwyA) [[PDF](Slides-notes/10-Jun-future-of-PeerDAS-preread.pdf)]
-- Slides - [Scaling the L2: EL mempool short-term future](https://drive.google.com/file/d/1B0DfGcerj7HCOCWXN3frN_Rn2w1JDpi9/view) [[PDF](Slides-notes/10-Jun-future-of-PeerDAS-slides-el-mempool.pdf)]
-- Slides - [Scaling the L2: cell level "gossip"](https://drive.google.com/file/d/1ijtiyVodnvrozeEkLjsrjVuFXc1WpYAw/view) [[PDF](Slides-notes/10-Jun-future-of-PeerDAS-slides-cell-gossip.pdf)]
+- [Pre-read](https://hackmd.io/xe5e3ubsQNOuKv3I9YTwyA) [[PDF](Slides-notes/10-Jun_future-of-PeerDAS-preread.pdf)]
+- Slides - [Scaling the L2: EL mempool short-term future](https://drive.google.com/file/d/1B0DfGcerj7HCOCWXN3frN_Rn2w1JDpi9/view) [[PDF](Slides-notes/10-Jun_future-of-PeerDAS-slides-el-mempool.pdf)]
+- Slides - [Scaling the L2: cell level "gossip"](https://drive.google.com/file/d/1ijtiyVodnvrozeEkLjsrjVuFXc1WpYAw/view) [[PDF](Slides-notes/10-Jun_future-of-PeerDAS-slides-cell-gossip.pdf)]
 
 ## AI-generated notes
 

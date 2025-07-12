@@ -1,10 +1,10 @@
 ## Resources
 
-- [Pre-read](https://ethresear.ch/t/native-rollups-superpowers-from-l1-execution/21517) [[PDF](Slides-notes/12-Jun-native-rollups-preread.pdf)]
+- [Pre-read](https://ethresear.ch/t/native-rollups-superpowers-from-l1-execution/21517) [[PDF](Slides-notes/12-Jun_native-rollups-preread.pdf)]
 
 ## Human-generated notes
 
-- [Notes from Ladislaus](https://docs.google.com/document/d/1Ln1zXUOmUFEKaemfrK8oAROYfDL_HwFQP-fYItTVfMM/edit?tab=t.0) [[PDF](Slides-notes/12-Jun-native-rollups-notes.pdf)]
+- [Notes from Ladislaus](https://docs.google.com/document/d/1Ln1zXUOmUFEKaemfrK8oAROYfDL_HwFQP-fYItTVfMM/edit?tab=t.0) [[PDF](Slides-notes/12-Jun_native-rollups-notes.pdf)]
 
 ## AI-generated notes
 

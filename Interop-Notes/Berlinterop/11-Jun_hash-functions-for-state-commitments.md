@@ -1,6 +1,6 @@
 ## Resources
 
-- [Pre-read](https://notes.ethereum.org/m4L02cXBSzKRl9dGj-EiXQ) [[PDF](Slides-notes/11-Jun-hash-functions-for-state-commitments-preread.pdf)]
+- [Pre-read](https://notes.ethereum.org/m4L02cXBSzKRl9dGj-EiXQ) [[PDF](Slides-notes/11-Jun_hash-functions-for-state-commitments-preread.pdf)]
 
 ## AI-generated notes
 

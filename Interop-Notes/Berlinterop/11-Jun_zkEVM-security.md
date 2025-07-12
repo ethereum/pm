@@ -1,6 +1,6 @@
 ## Resources
 
-- [Pre-read](https://notes.ethereum.org/3-V-mUFUSliephNFkhaVyA) [[PDF](Slides-notes/11-Jun-zkEVM-security-preread.pdf)]
+- [Pre-read](https://notes.ethereum.org/3-V-mUFUSliephNFkhaVyA) [[PDF](Slides-notes/11-Jun_zkEVM-security-preread.pdf)]
 
 ## AI-generated notes
 

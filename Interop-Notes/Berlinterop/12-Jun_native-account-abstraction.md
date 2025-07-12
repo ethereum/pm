@@ -1,11 +1,11 @@
 ## Resources
 
-- [Pre-read](https://hackmd.io/@alexforshtat/native_aa_forschungsingenieurtagung) [[PDF](Slides-notes/12-Jun-native-account-abstraction-preread.pdf)]
-- [Slides](Slides-notes/12-Jun-native-account-abstraction-slides.pdf)
+- [Pre-read](https://hackmd.io/@alexforshtat/native_aa_forschungsingenieurtagung) [[PDF](Slides-notes/12-Jun_native-account-abstraction-preread.pdf)]
+- [Slides](Slides-notes/12-Jun_native-account-abstraction-slides.pdf)
 
 ## Human-generated notes
 
-[Notes by Souradeep](Slides-notes/12-Jun-native-account-abstraction-notes-souradeep.pdf)
+[Notes by Souradeep](Slides-notes/12-Jun_native-account-abstraction-notes-souradeep.pdf)
 
 ## AI-generated notes
 

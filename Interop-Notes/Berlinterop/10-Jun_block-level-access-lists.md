@@ -1,11 +1,11 @@
 ## Resources
 
-- [Pre-read](https://hackmd.io/@Nerolation/BJcGve7Mll) [[PDF](Slides-notes/10-Jun-block-level-access-lists-preread.pdf)]
-- Slides - [Block-level Access Lists](https://docs.google.com/presentation/d/1kWlWez8z5lwC_oCjWUnGSOEt5_4aUDzSrshKN-5IRRk/edit?slide=id.g2fc552e0e46_1_692#slide=id.g2fc552e0e46_1_692) [[PDF](Slides-notes/10-Jun-block-level-access-lists-slides.pdf)]
+- [Pre-read](https://hackmd.io/@Nerolation/BJcGve7Mll) [[PDF](Slides-notes/10-Jun_block-level-access-lists-preread.pdf)]
+- Slides - [Block-level Access Lists](https://docs.google.com/presentation/d/1kWlWez8z5lwC_oCjWUnGSOEt5_4aUDzSrshKN-5IRRk/edit?slide=id.g2fc552e0e46_1_692#slide=id.g2fc552e0e46_1_692) [[PDF](Slides-notes/10-Jun_block-level-access-lists-slides.pdf)]
 
 ## Human-generated notes
 
-[Notes by Bosul](Slides-notes/10-Jun-block-level-access-lists-notes-bosul.pdf)
+[Notes by Bosul](Slides-notes/10-Jun_block-level-access-lists-notes-bosul.pdf)
 
 ## AI-generated notes
 

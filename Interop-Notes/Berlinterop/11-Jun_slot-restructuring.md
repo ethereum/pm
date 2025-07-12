@@ -1,11 +1,11 @@
 ## Resources
 
-- [Pre-read](https://notes.ethereum.org/@ralexstokes/berlinterop-shorter-slot-times) [[PDF](Slides-notes/11-Jun-slot-restructuring-preread.pdf)]
+- [Pre-read](https://notes.ethereum.org/@ralexstokes/berlinterop-shorter-slot-times) [[PDF](Slides-notes/11-Jun_slot-restructuring-preread.pdf)]
 
 ## Human-generated notes
 
-- [Notes by Alex](Slides-notes/11-Jun-slot-restructuring-notes-alex.pdf)
-- [Notes by Shantikiran](Slides-notes/11-Jun-slot-restructuring-notes-shantikiran.pdf)
+- [Notes by Alex](Slides-notes/11-Jun_slot-restructuring-notes-alex.pdf)
+- [Notes by Shantikiran](Slides-notes/11-Jun_slot-restructuring-notes-shantikiran.pdf)
 
 ## AI-generated notes
 

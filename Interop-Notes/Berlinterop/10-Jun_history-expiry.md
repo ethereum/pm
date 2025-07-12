@@ -1,6 +1,6 @@
 ## Resources
 
-- [Pre-read](https://www.notion.so/efdn/History-Expiry-f23g-207d9895554180779fc4c7f9e3d95817) [[PDF](Slides-notes/10-Jun-history-expiry-preread.pdf)]
+- [Pre-read](https://www.notion.so/efdn/History-Expiry-f23g-207d9895554180779fc4c7f9e3d95817) [[PDF](Slides-notes/10-Jun_history-expiry-preread.pdf)]
 
 ## AI-generated notes
 

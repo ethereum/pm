@@ -1,11 +1,11 @@
 ## Resources
 
-- [Pre-read](https://hackmd.io/@oK3in1lRQ7-pt7b3j8nQxg/r1eEBJoGgg) [[PDF](Slides-notes/11-Jun-FOCIL-preread.pdf)]
-- Slides - [Intro to FOCIL, Thomas](https://docs.google.com/presentation/d/1UvD2pGxWNAh5fFF-jtUVXn9lWYRw8K8xjK8n28kgaO8/edit?usp=sharing) [[PDF](Slides-notes/11-Jun-FOCIL-slides-thomas.pdf)]
-- Slides - [FOCIL implementation status, Jihoon](Slides-notes/11-Jun-FOCIL-slides-jihoon.pdf.pdf)
-- Slides - [FOCIL & Future of Nodes, Barnabé](https://docs.google.com/presentation/d/1DHIVUeKTvm1qWrmfVQzgRTNXn37jZljj6wSRvg6o2lw/edit?usp=sharing) [[PDF](Slides-notes/11-Jun-FOCIL-barnabe.pdf)]
-- Slides - [Stateless FOCIL, Carlos](https://docs.google.com/presentation/d/1d0NSqc6OgIqyUwgjEVniE4Q16KC--ERiEVOe7l19XmA/edit?usp=sharing) [[PDF](Slides-notes/11-Jun-FOCIL-slides-carlos.pdf)]
-- Slides - [zkFOCIL, Benedikt](Slides-notes/11-Jun-FOCIL-slides-benedikt.pdf)
+- [Pre-read](https://hackmd.io/@oK3in1lRQ7-pt7b3j8nQxg/r1eEBJoGgg) [[PDF](Slides-notes/11-Jun_FOCIL-preread.pdf)]
+- Slides - [Intro to FOCIL, Thomas](https://docs.google.com/presentation/d/1UvD2pGxWNAh5fFF-jtUVXn9lWYRw8K8xjK8n28kgaO8/edit?usp=sharing) [[PDF](Slides-notes/11-Jun_FOCIL-slides-thomas.pdf)]
+- Slides - [FOCIL implementation status, Jihoon](Slides-notes/11-Jun_FOCIL-slides-jihoon.pdf.pdf)
+- Slides - [FOCIL & Future of Nodes, Barnabé](https://docs.google.com/presentation/d/1DHIVUeKTvm1qWrmfVQzgRTNXn37jZljj6wSRvg6o2lw/edit?usp=sharing) [[PDF](Slides-notes/11-Jun_FOCIL-barnabe.pdf)]
+- Slides - [Stateless FOCIL, Carlos](https://docs.google.com/presentation/d/1d0NSqc6OgIqyUwgjEVniE4Q16KC--ERiEVOe7l19XmA/edit?usp=sharing) [[PDF](Slides-notes/11-Jun_FOCIL-slides-carlos.pdf)]
+- Slides - [zkFOCIL, Benedikt](Slides-notes/11-Jun_FOCIL-slides-benedikt.pdf)
 
 ## AI-generated notes
 

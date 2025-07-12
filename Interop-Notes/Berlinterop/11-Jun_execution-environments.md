@@ -1,6 +1,6 @@
 ## Resources
 
-- [Pre-read](https://notes.ethereum.org/@gballet/Sypeq0Vbxl) [[PDF](Slides-notes/11-Jun-execution-environments-preread.pdf)]
+- [Pre-read](https://notes.ethereum.org/@gballet/Sypeq0Vbxl) [[PDF](Slides-notes/11-Jun_execution-environments-preread.pdf)]
 
 ## AI-generated notes
 

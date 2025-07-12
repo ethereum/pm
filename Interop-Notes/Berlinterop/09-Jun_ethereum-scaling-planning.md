@@ -1,6 +1,6 @@
 ## Resources
 
-- [Pre-read](https://ethereum-magicians.org/t/eip-7938-exponential-gas-limit-increase-via-default-client-voting-behavior/23884/13) [[PDF](Slides-notes/09-Jun-ethereum-scaling-planning-preread.pdf)]
+- [Pre-read](https://ethereum-magicians.org/t/eip-7938-exponential-gas-limit-increase-via-default-client-voting-behavior/23884/13) [[PDF](Slides-notes/09-Jun_ethereum-scaling-planning-preread.pdf)]
 
 ## AI-generated notes
 

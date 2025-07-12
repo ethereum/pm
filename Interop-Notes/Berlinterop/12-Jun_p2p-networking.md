@@ -1,12 +1,12 @@
 ## Resources
 
-- [Pre-read](https://hackmd.io/@raul/p2p-berlinterop-2025) [[PDF](Slides-notes/12-Jun-p2p-networking-preread.pdf)]
-- Slides - [P2P networking](https://docs.google.com/presentation/d/1Ek38ZSiKMCZtBDl9RQrO28BhKwDnLfGaox3pHXG7phU/edit?usp=sharing) [[PDF](Slides-notes/12-Jun-p2p-networking-slides.pdf)]
+- [Pre-read](https://hackmd.io/@raul/p2p-berlinterop-2025) [[PDF](Slides-notes/12-Jun_p2p-networking-preread.pdf)]
+- Slides - [P2P networking](https://docs.google.com/presentation/d/1Ek38ZSiKMCZtBDl9RQrO28BhKwDnLfGaox3pHXG7phU/edit?usp=sharing) [[PDF](Slides-notes/12-Jun_p2p-networking-slides.pdf)]
 
 ## Human-generated notes
 
-- [Notes by Pop](https://notes.ethereum.org/sgr6oeivSGKw9owxEjJY_A) [[PDF](Slides-notes/12-Jun-p2p-networking-notes-pop.pdf)]
-- [Notes by Wonbin](https://hackmd.io/@HMU3ciGqSo2XRf4OpBV7Ng/HkpETIFmgg) [[PDF](Slides-notes/12-Jun-p2p-networking-notes-wonbin.pdf)]
+- [Notes by Pop](https://notes.ethereum.org/sgr6oeivSGKw9owxEjJY_A) [[PDF](Slides-notes/12-Jun_p2p-networking-notes-pop.pdf)]
+- [Notes by Wonbin](https://hackmd.io/@HMU3ciGqSo2XRf4OpBV7Ng/HkpETIFmgg) [[PDF](Slides-notes/12-Jun_p2p-networking-notes-wonbin.pdf)]
 
 ## AI-generated notes
 

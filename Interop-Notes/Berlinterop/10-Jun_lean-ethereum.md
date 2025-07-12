@@ -1,8 +1,8 @@
 ## Resources
 
-- [Pre-read](https://notes.ethereum.org/@Ladislaus/ByNXBMyQlx) [[PDF](Slides-notes/10-Jun-lean-ethereum-preread.pdf)]
-- Slides - [Lean ethereum, Vitalik](https://docs.google.com/document/d/1GYrv43uD030ZipLoFmTRnLoz0-EkRpA-3q9mDChHKO8/edit?tab=t.0) [[PDF](Slides-notes/10-Jun-lean-ethereum-slides-vitalik.pdf)]
-- Slides - [lean ethereum, Justin Drake](https://docs.google.com/presentation/d/1WrElBUZ4duyY9SsmxWn6SeflrnUUYjejHEBxjccDnz8/edit) [[PDF](Slides-notes/10-Jun-lean-ethereum-slides-Justin.pdf)]
+- [Pre-read](https://notes.ethereum.org/@Ladislaus/ByNXBMyQlx) [[PDF](Slides-notes/10-Jun_lean-ethereum-preread.pdf)]
+- Slides - [Lean ethereum, Vitalik](https://docs.google.com/document/d/1GYrv43uD030ZipLoFmTRnLoz0-EkRpA-3q9mDChHKO8/edit?tab=t.0) [[PDF](Slides-notes/10-Jun_lean-ethereum-slides-vitalik.pdf)]
+- Slides - [lean ethereum, Justin Drake](https://docs.google.com/presentation/d/1WrElBUZ4duyY9SsmxWn6SeflrnUUYjejHEBxjccDnz8/edit) [[PDF](Slides-notes/10-Jun_lean-ethereum-slides-Justin.pdf)]
 
 ## Human-generated notes
 
