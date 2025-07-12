@@ -1,6 +1,6 @@
 ## Resources
 
-- [Pre-read](Slides-notes/09-Jun-ACD-reconfiguration-preread.pdf)
+- [Pre-read](https://notes.ethereum.org/@timbeiko/acd-berlinterop) [[PDF](Slides-notes/09-Jun-ACD-reconfiguration-preread.pdf)]
 
 ## AI-generated notes
 
