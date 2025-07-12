@@ -7,7 +7,7 @@ If you know about a status update please add a PR to this document or post on th
 
 ## London Network Upgrade
 
-For a list of included EIPs see the [specification](./mainnet-upgrades/london.md) document.
+For a list of included EIPs see the [EIP-1559 specification](https://eips.ethereum.org/EIPS/eip-1559) and the [London upgrade announcement](https://blog.ethereum.org/2021/07/15/london-mainnet-announcement).
 
 Tracking: `active`
 ⭕ - Not Started
