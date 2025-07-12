@@ -30,7 +30,7 @@
 
 ### Chronological notes
 
-* **00:00–00:03 Ansgar** – framing: L1 throughput flat for \~5 years; want a **continuous feedback loop** for safe, stepwise increases .
+* **Framing**: L1 throughput flat for \~5 years; want a **continuous feedback loop** for safe, stepwise increases .
 * **Loop breakdown**
 
   * *Detect* impending blockers via visibility tooling.
