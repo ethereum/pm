@@ -4,6 +4,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Goal of the workshop**: establish a repeatable “scaling loop” so that raising Ethereum’s L1 gas target becomes routine rather than ad‑hoc; identify bottlenecks early, classify them, and pick the right mitigation path .

@@ -4,6 +4,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Pre‑merge history expiry is implemented across all major execution clients**, including Geth, Nethermind, Besu, Erigon, Reth (import‑only), and the consensus clients; each confirms the code path to discard blocks **up to the Merge point** is merged and can be activated.

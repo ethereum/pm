@@ -4,6 +4,8 @@
 
 ## AI-generated Notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * Ethereum Foundation’s R\&D cluster has reorganised around a strong zkEVM focus; multiple sub‑teams (stateless consensus, formal verification, prototyping) now funnel effort into L1‑scale proving and integration work

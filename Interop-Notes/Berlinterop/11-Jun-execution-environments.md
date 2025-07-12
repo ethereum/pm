@@ -4,6 +4,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * Attendees explored **how to let execution‑layer client code run inside zkEVMs without re‑writing it**, focusing on Rust today but ultimately aiming for *any* language that existing clients use.

@@ -9,6 +9,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **ERC‑4337 adoption** proves demand for smart‑account UX, but its on‑chain bundler contract adds \~40 k‑70 k gas per transfer and incentivises private relays; native AA removes that overhead.

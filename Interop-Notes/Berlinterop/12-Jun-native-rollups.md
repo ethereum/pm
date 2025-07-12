@@ -8,6 +8,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Goal of proposal — “native roll‑ups”**: expose the L1 EVM state‑transition function (STF) to L2s through a new `EXECUTE` precompile so an L2 can *re‑use* Ethereum’s execution rather than re‑implementing it, thereby inheriting full Ethereum‑grade security and eliminating most Security‑Council and governance attack surface.

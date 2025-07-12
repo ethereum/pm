@@ -4,6 +4,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * Core‑devs presented a **three‑phase roadmap for integrating zkEVM proofs into Ethereum**:

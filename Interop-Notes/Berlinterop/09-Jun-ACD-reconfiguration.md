@@ -4,6 +4,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * The group reviewed how *headliner* EIPs are currently selected and agreed that explicitly decoupling **“choose the headline”** from **“fill the rest of the fork”** would improve decision quality.

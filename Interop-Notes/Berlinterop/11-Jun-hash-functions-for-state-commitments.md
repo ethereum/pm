@@ -4,6 +4,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 - The session’s purpose was to examine whether **Keccak‑256**‑based state commitments are a bottleneck for zkEVM provers and, if so, what hash‑function or tree‑layout changes might help.

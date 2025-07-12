@@ -10,6 +10,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Session purpose & context** – Newly‑formed EF peer‑to‑peer networking team (Raul & Marco) presented current network telemetry, outlined work‑streams (propagation, transport, benchmarking + simulation, telemetry + analysis) and invited broad discussion on reliability, security and “first‑principles” re‑design of the stack.

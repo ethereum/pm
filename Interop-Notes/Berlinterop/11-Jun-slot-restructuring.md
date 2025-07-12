@@ -9,6 +9,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Today’s slot anatomy:** a 12 s slot contains three critical sub‑events—block proposal (≈0 s), attestations (≈4 s) and attestation aggregation (≈8 s). Execution‑layer (EL) payload verification and gossiping happen in parallel with these windows.

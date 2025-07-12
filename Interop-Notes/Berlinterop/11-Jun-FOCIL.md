@@ -9,6 +9,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Current status of FOCIL (Fork‑Choice‑enforced Inclusion Lists)**

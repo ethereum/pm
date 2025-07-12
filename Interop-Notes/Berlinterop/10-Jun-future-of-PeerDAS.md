@@ -6,6 +6,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Session scope** – reviewed the *current* PeerDAS design, enumerated its weaknesses, and brainstormed two forward paths: **(a) mempool handling of blobs** and **(b) propagation / reconstruction efficiency**.

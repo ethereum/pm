@@ -5,6 +5,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * Reviewed the current **EL + CL** stack: proposer builds/outsources blocks (often via **MEV‑Boost**), attesters vote, and “full‑state” RPCs (e.g. Infura) answer trust‑based queries.

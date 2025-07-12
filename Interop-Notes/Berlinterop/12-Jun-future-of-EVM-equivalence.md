@@ -1,5 +1,7 @@
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * The original “roll‑up‑centric roadmap” assumed that Layer‑2s (L2s) would quickly diverge from Layer‑1 (L1) by adopting new EVM features, but the ecosystem is instead converging on **strong EVM equivalence** across layers.

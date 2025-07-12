@@ -9,6 +9,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Purpose of session** – review the goals, open design space and current EIP‑7928 draft for *block‑level access lists* (BLAL), then collect client & researcher feedback.

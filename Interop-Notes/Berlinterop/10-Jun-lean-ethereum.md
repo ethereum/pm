@@ -10,6 +10,8 @@
 
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **“Lean Ethereum” replaces the former *Beam Chain*** name and frames a long‑term redesign of Ethereum L1 around three pillars: security, simplicity and optimality.

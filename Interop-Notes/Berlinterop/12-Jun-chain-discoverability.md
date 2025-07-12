@@ -1,5 +1,7 @@
 ## AI-generated notes
 
+<sup>[prompt](Slides-notes/AI-info.md)</sup>
+
 ### Summary
 
 * **Wallet UX fragmentation**: today’s multi‑roll‑up ecosystem forces users to juggle network switching, bridging, gas management and chain lists, leading to phishing risks and poor adoption.
