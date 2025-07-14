@@ -36,7 +36,7 @@
   * Open design question: supporting AA when includers lack arbitrary state; options include transaction‑supplied proofs or 7702‑style upfront gas charge with refund.
 * **zkFOCIL prototype**
 
-  * Goal: hide which validator assembled an IL to deter targeted DoS. Achieved with linkable ring signatures + zkSNARK proof of key image. Prototype: 2.5 s key‑image generation (offline), 87 ms verification, 500 B proof; needs ≲16× speed‑up for production.
+  * Goal: hide which validator assembled an IL to deter targeted DoS. Achieved with linkable ring signatures, which are implemented using zkSNARKs. Prototype: 2.5 s key‑image generation (offline), 87 ms verification, 500 B proof; needs ≲16× speed‑up in verification for production.
 * **Future of nodes & “light FOCIL” vision**
 
   * Envisions three distinct roles: Attester (heavy), Builder (resource‑intensive), Includer (ultra‑light, possibly browser extension).
@@ -101,8 +101,8 @@
 
 * **zkFOCIL design**
 
-  * Replace BLS signature with *linkable ring signature* + key image.
-  * Key ring = all validator pubkeys; committee elected by hashing hidden key images.
+  * Replace BLS signature with *linkable ring signature*.
+  * Key ring = all validator pubkeys; committee elected by hashing hidden key images (key image = unique pseudonym of pubkey).
   * Security: anonymity, unbiased selection, linkability prevents grinding.
   * Prototype (Reya grant):
     * Key‑image+proof generation <2.5 s (offline)
