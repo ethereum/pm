@@ -440,9 +440,11 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 | 1| 16 Aug 2018, 14:00 UTC | [agenda](https://github.com/ethereum/eth2.0-pm/issues/2) | [notes](AllCoreDevs-CL-Meetings/call_001.md) | [reddit](https://www.reddit.com/r/ethereum/comments/97siac/live_eth20_implementers_call_1/) | [video](https://www.youtube.com/watch?v=8F9NPGIv9vI) |
 | 0| 02 Aug 2018, 14:00 UTC | [agenda](https://github.com/ethereum/beacon_chain/issues/44) | [notes](AllCoreDevs-CL-Meetings/call_000.md) | [reddit](https://www.reddit.com/r/ethereum/comments/949eo6/ethereum_sharding_implementers_call_0/)| [video](https://www.youtube.com/watch?v=Ynqrka5DQOI) |
 
-</details>
-
-
+  
+[//]: # cSpell:words reddit Beiko Hallam Rettig Perma Permacast
+=======
 #### Perma-archived Meetings
 
 The audio files of the Previous Meetings are stored permanently on [Permacast](./AllCoreDevs-EL-Meetings/perma-archive.md).
+  
+</details>
