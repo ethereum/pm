@@ -3,7 +3,7 @@ import sys
 import argparse
 from modules import discourse, zoom, gcal, email_utils, tg, rss_utils
 # Import the custom exception again
-from modules.discourse import DiscourseDuplicateTitleError 
+from modules.discourse import DiscourseDuplicateTitleError
 from github import Github
 import re
 from datetime import datetime as dt
@@ -15,6 +15,29 @@ from github import InputGitAuthor
 from modules import youtube_utils
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
+
+CALL_SERIES_ALIASES = {
+    "acdt": "acdt",
+    "allcoredevstesting": "acdt",
+    "acdc": "acdc",
+    "allcoredevsconsensus": "acdc",
+    "acde": "acde",
+    "allcoredevexecution": "acde",
+    "focil": "focil",
+    "focilbreakout": "focil",
+}
+
+def normalize_series(s):
+    if not s:
+        return ""
+    return ''.join(s.lower().replace('-', '').replace('_', '').replace('—', '').split())
+
+def canonicalize_series(s):
+    norm = normalize_series(s)
+    if norm in CALL_SERIES_ALIASES:
+        return CALL_SERIES_ALIASES[norm]
+    else:
+        return s or ""  # Use the original, user-supplied value (or empty string if missing)
 
 def load_meeting_topic_mapping():
     if os.path.exists(MAPPING_FILE):
@@ -46,9 +69,9 @@ def extract_facilitator_info(issue_body):
     # Combined pattern for plain text email, dash optional
     pattern_plain_combined = r"(?im)^(?:-\s*)?Facilitator email:\s*([^@\s]+@[^@\s\n]+)"
     print(f"[DEBUG] Extracting facilitator emails from issue body")
-    
+
     facilitator_emails = []
-    
+
     # Try matching the comma-separated list format first
     match_list = re.search(pattern_list, issue_body)
     if match_list:
@@ -81,14 +104,14 @@ def extract_recurring_info(issue_body):
     """
     recurring_pattern = r"Recurring meeting\s*:\s*(true|false)"
     occurrence_pattern = r"Occurrence rate\s*:\s*(none|weekly|bi-weekly|monthly)"
-    
+
     recurring_match = re.search(recurring_pattern, issue_body, re.IGNORECASE)
     occurrence_match = re.search(occurrence_pattern, issue_body, re.IGNORECASE)
-    
+
     # Default to false and none if fields are missing (one-time meeting template)
     is_recurring = recurring_match and recurring_match.group(1).lower() == 'true'
     occurrence_rate = occurrence_match.group(1).lower() if occurrence_match else 'none'
-    
+
     return is_recurring, occurrence_rate
 
 def extract_already_on_calendar(issue_body):
@@ -97,10 +120,10 @@ def extract_already_on_calendar(issue_body):
     Returns a boolean indicating if the meeting is already on the calendar.
     """
     calendar_pattern = r"Already on Ethereum Calendar\s*:\s*(true|false)"
-    
+
     calendar_match = re.search(calendar_pattern, issue_body, re.IGNORECASE)
     already_on_calendar = calendar_match and calendar_match.group(1).lower() == 'true'
-    
+
     return already_on_calendar
 
 def extract_call_series(issue_body):
@@ -117,10 +140,10 @@ def extract_need_youtube_streams(issue_body):
     Returns a boolean indicating if stream links should be created.
     """
     youtube_pattern = r"Need YouTube stream links\s*:\s*(true|false)"
-    
+
     youtube_match = re.search(youtube_pattern, issue_body, re.IGNORECASE)
     need_youtube_streams = youtube_match and youtube_match.group(1).lower() == 'true'
-    
+
     return need_youtube_streams
 
 def check_existing_youtube_streams(call_series, mapping):
@@ -130,19 +153,19 @@ def check_existing_youtube_streams(call_series, mapping):
     """
     if not call_series:
         return None
-        
+
     # Find all entries with the same call_series
-    existing_entries = [entry for entry in mapping.values() 
-                      if entry.get("call_series") == call_series 
+    existing_entries = [entry for entry in mapping.values()
+                      if entry.get("call_series") == call_series
                       and "youtube_streams" in entry]
-    
+
     # Sort by issue number if available (to get the most recent ones)
     existing_entries.sort(key=lambda e: e.get("issue_number", 0), reverse=True)
-    
+
     # Return the YouTube streams from the most recent entry
     if existing_entries:
         return existing_entries[0].get("youtube_streams")
-    
+
     return None
 
 def extract_already_zoom_meeting(issue_body):
@@ -151,10 +174,10 @@ def extract_already_zoom_meeting(issue_body):
     Returns a boolean indicating if Zoom creation should be skipped.
     """
     zoom_pattern = r"Already a Zoom meeting ID\s*:\s*(true|false)"
-    
+
     zoom_match = re.search(zoom_pattern, issue_body, re.IGNORECASE)
     skip_zoom_creation = zoom_match and zoom_match.group(1).lower() == 'true'
-    
+
     return skip_zoom_creation
 
 def extract_display_zoom_link(issue_body):
@@ -164,7 +187,7 @@ def extract_display_zoom_link(issue_body):
     """
     display_pattern = r"display zoom link in invite\s*:\s*(true|false)"
     match = re.search(display_pattern, issue_body, re.IGNORECASE)
-    
+
     display_link = match and match.group(1).lower() == 'true'
     print(f"[DEBUG] Extracted display_zoom_link_in_invite: {display_link}")
     return display_link
@@ -175,18 +198,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
     then creates or updates a Discourse topic using the issue title as the topic title
     and its body as the topic content.
 
-    If the date/time or duration cannot be parsed from the issue body, 
+    If the date/time or duration cannot be parsed from the issue body,
     a comment is posted indicating the format error, and no meeting is created.
     """
     comment_lines = []
     mapping_updated = False
-    
+
     # Load existing mapping
     mapping = load_meeting_topic_mapping()
 
     # Ensure meeting_id is always defined
     meeting_id = None
-    
+
     # 1. Connect to GitHub API
     gh = Github(os.environ["GITHUB_TOKEN"])
     repo = gh.get_repo(repo_name)
@@ -202,14 +225,15 @@ def handle_github_issue(issue_number: int, repo_name: str):
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
     need_youtube_streams = extract_need_youtube_streams(issue_body)
     call_series = extract_call_series(issue_body)
+    canonical_series = canonicalize_series(call_series)
     skip_zoom_creation = extract_already_zoom_meeting(issue_body)
     skip_gcal_creation = extract_already_on_calendar(issue_body)
     display_zoom_link_in_invite = extract_display_zoom_link(issue_body) # Extract the new flag
 
     # Check for existing YouTube streams for this call series
-    existing_youtube_streams = check_existing_youtube_streams(call_series, mapping)
-    
-    # --- Start Refactor: Separate Zoom and GCal skip logic --- 
+    existing_youtube_streams = check_existing_youtube_streams(canonical_series, mapping)
+
+    # --- Start Refactor: Separate Zoom and GCal skip logic ---
     # Extract whether to skip Zoom creation
     skip_zoom_creation = extract_already_zoom_meeting(issue_body)
     # Extract whether to skip Google Calendar creation
@@ -217,41 +241,41 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Automatic skip logic based on existing series (OVERRIDES issue input)
     existing_series_entry_for_zoom = None # Keep track if we reuse for Zoom
-    if is_recurring and call_series:
+    if is_recurring and canonical_series:
         # Find the most recent entry for this call series with a meeting_id
         series_entries = [
-            entry for entry in mapping.values() 
-            if entry.get("call_series") == call_series and "meeting_id" in entry
+            entry for entry in mapping.values()
+            if entry.get("call_series") == canonical_series and "meeting_id" in entry
         ]
         if series_entries:
             series_entries.sort(key=lambda e: e.get("issue_number", 0), reverse=True)
             # Check the most recent entry for this series
             potential_existing_series = series_entries[0]
             existing_series_meeting_id = potential_existing_series.get("meeting_id")
-            is_placeholder_id = (str(existing_series_meeting_id) == "null" or 
+            is_placeholder_id = (str(existing_series_meeting_id) == "null" or
                                  str(existing_series_meeting_id).startswith("placeholder-"))
 
             if existing_series_meeting_id and not is_placeholder_id:
                 # Found a valid, non-placeholder meeting ID - force reuse
                 existing_series_entry_for_zoom = potential_existing_series # Confirm this is the one we reuse
                 if not skip_zoom_creation:
-                    print(f"[INFO] Overriding 'Already a Zoom meeting ID: false' because a *valid* existing meeting ({existing_series_meeting_id}) for series '{call_series}' was found.")
+                    print(f"[INFO] Overriding 'Already a Zoom meeting ID: false' because a *valid* existing meeting ({existing_series_meeting_id}) for series '{canonical_series}' was found.")
                 skip_zoom_creation = True # Force skip Zoom creation
             elif is_placeholder_id:
-                print(f"[INFO] Found existing series '{call_series}' but meeting ID is a placeholder ('{existing_series_meeting_id}'). Will not force reuse based on this placeholder.")
+                print(f"[INFO] Found existing series '{canonical_series}' but meeting ID is a placeholder ('{existing_series_meeting_id}'). Will not force reuse based on this placeholder.")
                 # Do NOT force skip_zoom_creation or skip_gcal_creation based on a placeholder.
                 # Let the script decide based on issue input later.
                 # Still set existing_series_entry_for_zoom in case other details (like GCal ID) are valid and reusable
-                existing_series_entry_for_zoom = potential_existing_series 
+                existing_series_entry_for_zoom = potential_existing_series
             # Else: No meeting ID found in the most recent entry, do nothing here.
-    
+
     # Add comments based on final skip decisions
     if skip_zoom_creation and not existing_series_entry_for_zoom: # Skipped via issue input, not series reuse
         comment_lines.append("\n**Note:** Zoom meeting creation skipped as requested in issue.")
     if skip_gcal_creation and not existing_series_entry_for_zoom: # Skipped via issue input, not series reuse
         comment_lines.append("\n**Note:** Google Calendar event creation skipped as requested in issue.")
     # Note for series reuse is added within the Zoom processing block later
-    # --- End Refactor --- 
+    # --- End Refactor ---
 
     # 2. Check for existing topic_id and previous details by searching mapping correctly
     topic_id = None
@@ -270,7 +294,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             existing_occurrence_data = entry_data # Treat top-level as the occurrence data
             print(f"[DEBUG] Found issue #{issue_number} directly under meeting_id {m_id}.")
             break # Found it
-        
+
         # If not found directly, check inside occurrences list if it exists
         elif "occurrences" in entry_data and isinstance(entry_data["occurrences"], list):
             for occurrence in entry_data["occurrences"]:
@@ -293,7 +317,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print(f"[DEBUG] Found valid existing topic_id {topic_id} in mapping for issue {issue_number}.")
         else:
             print(f"[DEBUG] Found mapping entry for issue {issue_number}, but discourse_topic_id is missing or placeholder: {potential_topic_id}")
-        
+
         # Get previous Zoom details from the TOP-LEVEL meeting entry associated with this issue
         # Only store the meeting ID, not the link (as per updated requirements)
         series_data = mapping.get(found_meeting_id_for_issue, {}) # Get the main dict for the meeting_id
@@ -330,7 +354,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append(f"- Failed to update topic {topic_id}: Title '{e.title}' already exists.")
             # Keep the existing valid topic_id and URL, but mark action as failed update
             action = "update_failed_duplicate_title"
-            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}" 
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
         except Exception as e:
             print(f"[ERROR] Failed to update existing Discourse topic {topic_id}: {str(e)}")
             comment_lines.append("\n**⚠️ Discourse Topic Error**")
@@ -340,7 +364,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}" # Keep original URL for comment if possible
 
     else:
-        # No valid topic_id found in mapping for this issue, attempt to create 
+        # No valid topic_id found in mapping for this issue, attempt to create
         print(f"[DEBUG] No valid topic_id found in mapping for issue #{issue_number}. Attempting to create Discourse topic: '{issue_title}'")
         try:
             discourse_response = discourse.create_topic(
@@ -360,18 +384,18 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append(f"- Action: {action.capitalize()}")
             comment_lines.append(f"- URL: {discourse_url}")
             print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{issue_title}'")
-        
+
         except DiscourseDuplicateTitleError as e:
             print(f"[INFO] Discourse topic creation failed: Title '{e.title}' already exists. Searching mapping for existing topic.")
             comment_lines.append("\n**Discourse Topic:** Title already exists.")
             found_existing_in_mapping = False
             # Try to find the topic_id from the mapping based on call_series for recurring meetings
-            if is_recurring and call_series:
-                print(f"[DEBUG] Searching mapping for call series: '{call_series}'")
+            if is_recurring and canonical_series:
+                print(f"[DEBUG] Searching mapping for call series: '{canonical_series}'")
                 # Find entries matching the call series with a valid topic ID, sort by issue number desc
                 series_entries = sorted(
-                    [entry for entry in mapping.values() 
-                     if entry.get("call_series") == call_series and 
+                    [entry for entry in mapping.values()
+                     if entry.get("call_series") == canonical_series and
                         entry.get("discourse_topic_id") and # Check top-level first (older format?)
                         not str(entry.get("discourse_topic_id")).startswith("placeholder")],
                     key=lambda e: e.get("issue_number", 0), # May not have issue_number at top level
@@ -380,14 +404,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 # If not found at top level, check occurrences within matching series entries
                 if not series_entries:
                     potential_series_matches = [
-                        (m_id, entry) for m_id, entry in mapping.items() 
-                        if entry.get("call_series") == call_series and "occurrences" in entry
+                        (m_id, entry) for m_id, entry in mapping.items()
+                        if entry.get("call_series") == canonical_series and "occurrences" in entry
                     ]
                     for m_id, entry in potential_series_matches:
                          # Sort occurrences by issue number within the series
                          sorted_occurrences = sorted(
-                             [occ for occ in entry.get("occurrences", []) 
-                              if isinstance(occ, dict) and occ.get("discourse_topic_id") and 
+                             [occ for occ in entry.get("occurrences", [])
+                              if isinstance(occ, dict) and occ.get("discourse_topic_id") and
                                  not str(occ.get("discourse_topic_id")).startswith("placeholder")],
                              key=lambda o: o.get("issue_number", 0),
                              reverse=True
@@ -396,27 +420,27 @@ def handle_github_issue(issue_number: int, repo_name: str):
                              # Found the most recent valid topic ID within this series' occurrences
                              topic_id = sorted_occurrences[0]["discourse_topic_id"]
                              series_entries = [entry] # Use the parent entry for logging context below
-                             print(f"[DEBUG] Found existing topic ID {topic_id} in occurrences for series '{call_series}'")
+                             print(f"[DEBUG] Found existing topic ID {topic_id} in occurrences for series '{canonical_series}'")
                              break # Found it in this series, stop searching others
 
                 if series_entries: # If found either at top-level or in occurrences
                     if not topic_id: # If found at top-level
                          topic_id = series_entries[0]["discourse_topic_id"]
-                         print(f"[DEBUG] Found existing topic ID {topic_id} at top-level for series '{call_series}'")
+                         print(f"[DEBUG] Found existing topic ID {topic_id} at top-level for series '{canonical_series}'")
 
                     found_existing_in_mapping = True
                     action = "found_duplicate_series"
                     discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
                     # Log the issue number where the ID was found if possible
-                    found_in_issue_num = series_entries[0].get('issue_number', 'N/A') 
+                    found_in_issue_num = series_entries[0].get('issue_number', 'N/A')
                     if sorted_occurrences: # If found in occurrences, get issue from there
                          found_in_issue_num = sorted_occurrences[0].get('issue_number', 'N/A')
-                    print(f"[DEBUG] Using existing topic ID {topic_id} for series '{call_series}' (found via issue #{found_in_issue_num}).")
+                    print(f"[DEBUG] Using existing topic ID {topic_id} for series '{canonical_series}' (found via issue #{found_in_issue_num}).")
                     comment_lines.append(f"- Using existing Topic ID found in mapping: {topic_id}")
                     comment_lines.append(f"- URL: {discourse_url}")
                 else:
-                    print(f"[DEBUG] No existing valid topic ID found in mapping for series '{call_series}'.")
-            
+                    print(f"[DEBUG] No existing valid topic ID found in mapping for series '{canonical_series}'.")
+
             # If not found via series (or not recurring), handle as failure to find existing
             if not found_existing_in_mapping:
                 print(f"[ERROR] Duplicate title '{e.title}', but could not find existing topic ID in mapping.")
@@ -455,7 +479,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     print(f"[DEBUG] Error formatting stream date: {e}")
             comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
             stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-        
+
         # Update Discourse post with stream links
         try:
             # Prepare the body content to append
@@ -482,9 +506,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Determine the base title for recurring events
     event_base_title = issue_title # Default to issue title
-    if is_recurring and call_series:
+    if is_recurring and canonical_series:
         # Use call_series in proper Title Case (not all uppercase)
-        event_base_title = ' '.join(word.capitalize() for word in call_series.strip().split())
+        event_base_title = ' '.join(word.capitalize() for word in canonical_series.strip().split())
         print(f"[DEBUG] Using call series '{event_base_title}' (Title Case) as base title for recurring Zoom/GCal/YouTube events.")
 
     # Zoom meeting creation/update
@@ -505,14 +529,14 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print("[DEBUG] Skipping Zoom meeting creation/update based on issue input or existing series.")
             if existing_series_entry_for_zoom:
                 # Reuse existing meeting ID from the series
-                zoom_id = existing_series_entry_for_zoom["meeting_id"] 
+                zoom_id = existing_series_entry_for_zoom["meeting_id"]
                 # Don't set join_url yet - will be fetched directly via API call in the main fetch section
                 join_url = None
                 print(f"[DEBUG] Reusing meeting ID {zoom_id} from series. Will fetch current join URL via API.")
                 original_meeting_id_for_reuse = zoom_id # Store the ID we are reusing
                 reusing_series_meeting = True
                 zoom_action = "reused_series"
-                print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{call_series}'")
+                print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{canonical_series}'")
             else:
                 # Skipped via issue input, need placeholder
                 print("[DEBUG] Zoom creation skipped via issue input. Using placeholder Zoom ID.")
@@ -589,7 +613,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                             duration=duration
                         )
                         comment_lines.append("\n**Zoom Meeting Created**")
-                    
+
                     print(f"[DEBUG] Zoom meeting created with ID: {zoom_id}")
                     meeting_updated = True
                     zoom_action = "created"
@@ -620,7 +644,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # --- MODIFIED START: Always fetch Join URL via API ---
     # As per updated requirements, always fetch Zoom join URL from API
     # Never rely on stored URLs in the mapping or previous data
-    
+
     # First priority: Use zoom_id if available (and not a placeholder)
     if zoom_id and not str(zoom_id).startswith("placeholder-"):
         print(f"[DEBUG] Always fetching current join URL from API for meeting ID: {zoom_id}")
@@ -629,7 +653,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             if meeting_details and meeting_details.get('join_url'):
                 join_url = meeting_details['join_url']
                 print(f"[DEBUG] Successfully fetched join_url: {join_url}")
-                
+
                 # Store UUID if available (but not the join_url)
                 current_meeting_id = meeting_id if 'meeting_id' in locals() else zoom_id
                 if meeting_details.get('uuid') and current_meeting_id:
@@ -646,7 +670,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         except Exception as e:
             join_url = f"Error fetching Zoom link ({type(e).__name__})"
             print(f"::warning::{join_url}: {str(e)}")
-    
+
     # Second priority: Use meeting_id as fallback if zoom_id isn't available or failed (and not a placeholder)
     elif meeting_id and not str(meeting_id).startswith("placeholder-"):
         print(f"[DEBUG] Fetching meeting details via API for meeting ID: {meeting_id} to get join_url.")
@@ -655,7 +679,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             if meeting_details and meeting_details.get('join_url'):
                 join_url = meeting_details['join_url']
                 print(f"[DEBUG] Successfully fetched join_url: {join_url}")
-                
+
                 # Store UUID if available
                 if meeting_details.get('uuid'):
                     # Since we're in the fallback case, we know meeting_id is defined
@@ -672,7 +696,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         except Exception as e:
             join_url = f"Error fetching Zoom link ({type(e).__name__})"
             print(f"::warning::{join_url}: {str(e)}")
-    
+
     # Last resort: No valid ID available
     else:
         print("[DEBUG] No valid zoom_id or meeting_id available for API call.")
@@ -682,8 +706,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Add Zoom link details to GitHub comment based on the flag
     if zoom_id and not str(zoom_id).startswith("placeholder-"):
         if reusing_series_meeting:
-            comment_lines.append(f"\n**Zoom Meeting:** Reusing meeting {zoom_id} for series '{call_series}'.")
-        
+            comment_lines.append(f"\n**Zoom Meeting:** Reusing meeting {zoom_id} for series '{canonical_series}'.")
+
         # --- MODIFIED: Use join_url directly, check validity and display flag ---
         is_valid_join_url_for_display = bool(join_url and str(join_url).startswith("https://"))
 
@@ -739,7 +763,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                      should_create_streams = False # Don't create new ones
                  # TODO: Optional: Consider reusing series-level streams (`existing_youtube_streams`) if no occurrence-specific ones exist?
                  # elif existing_youtube_streams:
-                 #     print(f"[DEBUG] No streams found for this specific occurrence, reusing existing series streams for call series: {call_series}")
+                 #     print(f"[DEBUG] No streams found for this specific occurrence, reusing existing series streams for call series: {canonical_series}")
                  #     occurrence_youtube_streams = existing_youtube_streams
                  #     comment_lines.append("\n**Existing YouTube Stream Links (Series - Reused):**")
                  #     should_create_streams = False
@@ -756,7 +780,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                              start_time=start_time,
                              occurrence_rate=occurrence_rate # Needs careful handling if only ONE stream is needed
                          )
-                         
+
                          # Add stream URLs to comment
                          if occurrence_youtube_streams:
                              comment_lines.append("\n**YouTube Stream Links:**")
@@ -779,11 +803,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                          print(f"[DEBUG] Error formatting stream date: {e}")
                                          # If parsing fails, leave date empty
                                          pass
-                                 
+
                                  # Add date to stream links
                                  comment_lines.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
                                  stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
-                             
+
                              # Update Discourse post with stream links if we have a topic ID
                              if topic_id and not str(topic_id).startswith("placeholder-"):
                                  try:
@@ -794,7 +818,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                                      )
                                  except Exception as e:
                                      print(f"[DEBUG] Error updating Discourse topic with YouTube streams: {str(e)}")
-                             
+
                              # Flag that streams were generated (will be saved in occurrence data later)
                              # mapping_updated = True # Handled later when saving occurrence
                      except Exception as e:
@@ -813,7 +837,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Base calendar description
         calendar_description = f"Issue: {issue.html_url}"
 
-        # --- MODIFIED: Use join_url directly for GCal --- 
+        # --- MODIFIED: Use join_url directly for GCal ---
         is_valid_join_url_gcal = bool(join_url and str(join_url).startswith("https://"))
 
         # Append Zoom link to description only if requested AND available (valid URL)
@@ -823,7 +847,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         else:
             print(f"[DEBUG] Not adding Zoom link to calendar description (flag: {display_zoom_link_in_invite}, valid_url: {is_valid_join_url_gcal}).")
         # --- END MODIFICATION ---
-            
+
         event_link = None
         event_id = None # Initialize event_id
         event_result = None # Initialize event_result
@@ -837,7 +861,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                      # Construct a potential link (may not be perfect)
                      event_link = f"https://calendar.google.com/calendar/event?eid={gcal_event_id_from_series}" # Simplified link
                      comment_lines.append("\n**Calendar Event:** Reusing existing event for series.")
-                     print(f"[DEBUG] Reusing existing calendar event ID {gcal_event_id_from_series} from series '{call_series}'")
+                     print(f"[DEBUG] Reusing existing calendar event ID {gcal_event_id_from_series} from series '{canonical_series}'")
                      print(f"[DEBUG] No changes made to the Google Calendar event series - maintaining consistency")
                      if event_link:
                          comment_lines.append(f"- [Approximate Google Calendar Link]({event_link})")
@@ -851,7 +875,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             print(f"[DEBUG] Proceeding with Google Calendar check/update for meeting_id: {meeting_id}")
             # Find GCal event ID associated with this meeting_id in mapping
             gcal_event_id_from_mapping = mapping.get(meeting_id, {}).get("calendar_event_id")
-            
+
             # --- Start of Restored GCal Logic ---
             if gcal_event_id_from_mapping:
                 # Found existing event ID, try to update it
@@ -880,7 +904,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                              calendar_id=calendar_id,
                              description=calendar_description
                          )
-                    
+
                     if event_result: # Check if update was successful
                         event_link = event_result.get('htmlLink')
                         event_id = event_result.get('id') # Assign event_id for mapping update
@@ -899,7 +923,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 except Exception as e:
                     print(f"[DEBUG] Failed to update calendar event {gcal_event_id_from_mapping}, creating new one instead: {str(e)}")
                     gcal_event_id_from_mapping = None # Reset to trigger creation below
-            
+
             # Separate block for creation if no ID found OR update failed
             if not gcal_event_id_from_mapping:
                 print(f"[DEBUG] No existing calendar event found or update failed. Creating new GCal event.")
@@ -907,10 +931,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     try:
                         # If this is part of an existing recurring series but we're still creating a new event
                         # log a warning since we should be updating an existing event
-                        if is_recurring and call_series:
-                            print(f"[WARNING] Creating a NEW calendar event for recurring series '{call_series}'")
+                        if is_recurring and canonical_series:
+                            print(f"[WARNING] Creating a NEW calendar event for recurring series '{canonical_series}'")
                             print(f"[WARNING] This may cause duplicate events in calendar - should update existing series instead")
-                        
+
                         event_result = create_calendar_event(
                             is_recurring=is_recurring,
                             occurrence_rate=occurrence_rate,
@@ -959,7 +983,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         skip_transcript = skip_zoom_creation
         # Get youtube streams created specifically for this occurrence
         current_occurrence_streams = occurrence_youtube_streams if 'occurrence_youtube_streams' in locals() else None
-        
+
         # Base data for the new/updated occurrence
         occurrence_data = {
             "issue_number": issue.number,
@@ -980,7 +1004,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     "stream_url": stream.get("stream_url"),
                     "scheduled_time": stream.get("scheduled_time")
                 }
-                for stream in current_occurrence_streams 
+                for stream in current_occurrence_streams
                 if isinstance(stream, dict) and stream.get("stream_url")
             ] if current_occurrence_streams else None
         }
@@ -1041,8 +1065,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             # Assign occurrence number based on current count
             occurrence_data["occurrence_number"] = len(mapping_entry["occurrences"]) + 1
             mapping_entry["occurrences"].append(occurrence_data)
-            
-        # --- END REFACTOR ---
+
 
         # Update series-level info (applies to the meeting_id entry itself)
         series_updated = False
@@ -1053,8 +1076,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Update occurrence rate only if not set or 'none'
         if "occurrence_rate" not in mapping_entry or mapping_entry.get("occurrence_rate") == "none":
             mapping_entry["occurrence_rate"] = occurrence_rate if is_recurring else "none"; series_updated = True
-        if "call_series" not in mapping_entry and call_series:
-            mapping_entry["call_series"] = call_series; series_updated = True
+        if "call_series" not in mapping_entry and canonical_series:
+            mapping_entry["call_series"] = canonical_series; series_updated = True
         # No longer storing zoom_link in mapping - links are retrieved via API when needed
         if "zoom_link" in mapping_entry:
             del mapping_entry["zoom_link"]; series_updated = True
@@ -1070,10 +1093,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # if "telegram_message_id" in mapping_entry: del mapping_entry["telegram_message_id"]
         # Deprecated: Do not store issue_number, title, start_time, duration etc. at series level anymore
         # Clean up old top-level fields if they exist
-        obsolete_keys = ["issue_number", "issue_title", "discourse_topic_id", "start_time", "duration", 
-                         "skip_youtube_upload", "skip_transcript_processing", 
-                         "Youtube_upload_processed", "transcript_processed", "upload_attempt_count", 
-                         "transcript_attempt_count", "telegram_message_id", "youtube_streams", 
+        obsolete_keys = ["issue_number", "issue_title", "discourse_topic_id", "start_time", "duration",
+                         "skip_youtube_upload", "skip_transcript_processing",
+                         "Youtube_upload_processed", "transcript_processed", "upload_attempt_count",
+                         "transcript_attempt_count", "telegram_message_id", "youtube_streams",
                          "youtube_streams_posted_to_discourse"]
         for key in obsolete_keys:
             if key in mapping_entry:
@@ -1086,7 +1109,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Always update the mapping with the potentially modified entry
         # Check if the overall entry (including occurrences) has changed
         original_entry_before_update = mapping.get(meeting_id, {}).copy()
-        
+
         # Perform a deep comparison if necessary (simple check is usually sufficient here)
         if original_entry_before_update != mapping_entry:
             mapping[meeting_id] = mapping_entry
@@ -1101,17 +1124,17 @@ def handle_github_issue(issue_number: int, repo_name: str):
         print("[DEBUG] Entering Notification Block")
         # Extract facilitator information
         facilitator_emails = extract_facilitator_info(issue_body)
-        
+
         # Initialize flags
         email_sent = False
-        telegram_channel_sent = False 
+        telegram_channel_sent = False
 
-        # --- Email Sending --- 
+        # --- Email Sending ---
         # Send email ONLY if facilitator emails exist, join_url is valid, AND it's the first run for this issue
         emails_sent_count = 0
         emails_failed = []
 
-        # --- MODIFIED: Check join_url status for email --- 
+        # --- MODIFIED: Check join_url status for email ---
         # Determine if we *should* send an email (requires facilitator emails and first run)
         should_attempt_email = bool(facilitator_emails and is_first_run_for_issue)
 
@@ -1135,8 +1158,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
             # Proceed with sending email (First run, emails exist, valid zoom_id)
             print(f"[DEBUG] First run for issue #{issue.number}. Proceeding with email notification (Join URL Status: '{join_url}').")
             email_subject = f"Zoom Meeting Details for {issue_title}"
-            
-            # --- MODIFIED: Adjust email body based on join_url validity and display flag --- 
+
+            # --- MODIFIED: Adjust email body based on join_url validity and display flag ---
             email_body_content = ""
             if is_valid_join_url_email:
                  if display_zoom_link_in_invite:
@@ -1153,7 +1176,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
 <p><strong>Join URL:</strong> <a href="{join_url}">{join_url}</a></p>
 <p><strong>Meeting ID:</strong> {zoom_id}</p>
 """
-            else: 
+            else:
                  # join_url is not valid (placeholder/error)
                  email_body_content = f"""
 <p>The Zoom meeting (ID: {zoom_id}) for <strong>{issue_title}</strong> has been processed.</p>
@@ -1202,7 +1225,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                 else:
                     comment_lines.append(f"  - Please check the GitHub Actions logs for more details")
 
-        # --- Telegram Channel Posting --- 
+        # --- Telegram Channel Posting ---
         # Send Telegram regardless of Zoom status, as long as basic info is available
         # Ensure discourse_url is valid before proceeding
         if not discourse_url or discourse_url == "https://ethereum-magicians.org (API error occurred)":
@@ -1253,7 +1276,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                                 telegram_channel_sent = True  # Updated successfully
                                 # Ensure the message ID is preserved in the current occurrence data upon successful update
                                 if current_occurrence:
-                                    current_occurrence["telegram_message_id"] = existing_telegram_message_id 
+                                    current_occurrence["telegram_message_id"] = existing_telegram_message_id
                                     mapping_updated = True # Mark mapping for update as occurrence data changed
                             else:
                                 error_msg = (f"Failed to update Telegram message ID {existing_telegram_message_id}. "
@@ -1272,7 +1295,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                                 print(f"[DEBUG] Stored new telegram_message_id {new_message_id} in occurrence data for issue #{issue.number}.")
                             else:
                                 print(f"[ERROR] tg.send_message failed – no message ID returned.")
-                          
+
                         if telegram_channel_sent:
                             comment_lines.append("\n**Telegram Notification**")
                             action_word = "Updated" if existing_telegram_message_id else "Sent"
@@ -1298,7 +1321,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                 else:
                     print("[DEBUG] Telegram channel ID not configured or tg module not available.")
 
-        # --- RSS Notification Adding --- 
+        # --- RSS Notification Adding ---
         # Ensure we have occurrence_issue_number before adding RSS
         # Get occurrence_data again safely before using it
         current_occurrence_for_rss = next((occ for occ in mapping_entry.get("occurrences", []) if occ.get("issue_number") == issue.number), None)
@@ -1347,7 +1370,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
         print("[ERROR] zoom_id could not be determined. Skipping downstream processing and mapping update.")
         comment_lines.append("\n**⚠️ Critical Error:** Could not determine Zoom Meeting ID. Processing halted.")
 
-    # --- Final Comment Posting & Mapping Commit Logic --- 
+    # --- Final Comment Posting & Mapping Commit Logic ---
     print("[DEBUG] Entering Final Comment Posting & Mapping Commit Logic")
     # 1. Post consolidated comment to GitHub Issue
     if comment_lines:
@@ -1363,9 +1386,9 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
             comment_lines[action_line_index] = f"- Action: {action.capitalize()} at {now}"
         else: # Add action line if it wasn't present (e.g., only errors occurred)
             comment_lines.insert(0, f"- Action: Bot processing finished at {now}") # Add at the beginning
-            
+
         comment_text = "\n".join(comment_lines)
-        
+
         # Check for existing comments by the bot to update instead of creating new
         existing_comment = None
         try:
@@ -1377,7 +1400,7 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
                     break
         except Exception as e:
             print(f"::warning::Could not fetch existing comments: {e}")
-        
+
         # Update or create comment
         try:
             if existing_comment:
@@ -1423,12 +1446,12 @@ This email was sent automatically by the Ethereum Protocol Call Bot because meet
 def parse_issue_for_time(issue_body: str):
     """
     Parses the issue body to extract a start time and duration based on possible formats:
-    
+
     - Date/time line followed by a duration line (with or without "Duration in minutes" preceding it)
     - Accepts both abbreviated and full month names
     - Handles formats like "Apr 22 (Tues), 2025, 14:00 UTC"
     """
-    
+
     # -------------------------------------------------------------------------
     # 1. Regex pattern to find the date/time in the issue body
     # -------------------------------------------------------------------------
@@ -1447,7 +1470,7 @@ def parse_issue_for_time(issue_body: str):
         """,
         re.IGNORECASE | re.VERBOSE
     )
-    
+
     # Alternative pattern for PeerDAS format: "Apr 22 (Tues), 2025, 14:00 UTC"
     alt_date_pattern = re.compile(
         r"""
@@ -1467,16 +1490,16 @@ def parse_issue_for_time(issue_body: str):
     if not date_match:
         # Try alternative pattern
         date_match = alt_date_pattern.search(issue_body)
-        
+
     if not date_match:
         # Try to find any date-like mentions in the issue
         date_samples = re.findall(r'[A-Za-z]+\s+\d{1,2}(?:,?\s*\d{4})(?:,?\s*\d{1,2}:\d{2})?', issue_body)
         time_samples = re.findall(r'\d{1,2}:\d{2}\s*(?:UTC|GMT|EST|PST|[+-]\d{2}:\d{2})?', issue_body)
         error_msg = "Missing or invalid date/time format."
-        
+
         if date_samples or time_samples:
             error_msg += f" Found potential date/time fragments: {', '.join(date_samples[:2])} {', '.join(time_samples[:2])}"
-        
+
         print(f"[DEBUG] Could not match date pattern. Issue body excerpt: '{issue_body[:200].replace(chr(10), ' ')}'")
         raise ValueError(error_msg)
 
@@ -1500,7 +1523,7 @@ def parse_issue_for_time(issue_body: str):
 
     # Convert to UTC ISO format with Z suffix for Zoom API
     start_time_utc = start_dt.isoformat() + "Z"
-    
+
     # For debugging timezone issues
     print(f"[DEBUG] Parsed date: {month} {day}, {year} at {hour}:{minute} UTC")
     print(f"[DEBUG] Formatted as ISO 8601 for API: {start_time_utc}")
@@ -1519,7 +1542,7 @@ def parse_issue_for_time(issue_body: str):
             r"(?m)^\s*-\s*(\d+)\s*(?:minutes|min|m)?\b",
             issue_body
         )
-    
+
     if duration_match:
         return start_time_utc, int(duration_match.group(1))
 
@@ -1550,7 +1573,7 @@ def commit_mapping_file():
         name="GitHub Actions Bot",
         email="actions@github.com"
     )
-    
+
     # Add repo initialization
     token = os.environ["GITHUB_TOKEN"]
     repo_name = os.environ["GITHUB_REPOSITORY"]
@@ -1564,7 +1587,7 @@ def commit_mapping_file():
     try:
         # Get the CURRENT file state from repository
         contents = repo.get_contents(file_path, ref=branch)
-        
+
         # Verify we're updating the correct file
         if contents.path != file_path:
             raise ValueError(f"Path mismatch: {contents.path} vs {file_path}")
@@ -1579,7 +1602,7 @@ def commit_mapping_file():
             author=author,
         )
         print(f"Successfully updated {file_path} in repository. Commit SHA: {update_result['commit'].sha}")
-        
+
     except Exception as e:
         # If file doesn't exist, create it
         if isinstance(e, Exception) and "404" in str(e):
@@ -1598,7 +1621,7 @@ def commit_mapping_file():
 def create_calendar_event(is_recurring, occurrence_rate, **kwargs):
     """Helper function to create the appropriate type of calendar event"""
     print(f"[DEBUG] Creating calendar event: is_recurring={is_recurring}, occurrence_rate={occurrence_rate}")
-    
+
     if is_recurring and occurrence_rate != "none":
         print(f"[DEBUG] Creating recurring calendar event with occurrence_rate={occurrence_rate}")
         return gcal.create_recurring_event(
@@ -1614,17 +1637,17 @@ def extract_event_id_from_link(event_link):
     Extract the Google Calendar event ID from the event link.
     For recurring events, Google Calendar uses a format like:
     base_event_id_20250326T030000Z
-    
+
     We need to extract just the base event ID for updates to work properly.
     """
     if not event_link:
         return None
-        
+
     try:
         # First try to extract the eid parameter from the URL
         import re
         import urllib.parse
-        
+
         # Parse the URL to extract the eid parameter
         result = re.search(r'[?&]eid=([^&]+)', event_link)
         if result:
@@ -1636,7 +1659,7 @@ def extract_event_id_from_link(event_link):
                 eid = eid.split(' ')[0]
             if '@' in eid:
                 eid = eid.split('@')[0]
-            
+
             # For recurring events, Google Calendar adds a date suffix
             # Example: base_id_20250326T030000Z
             # We need just the base event ID for API operations
@@ -1645,10 +1668,10 @@ def extract_event_id_from_link(event_link):
                 base_id = base_id_match.group(1)
                 print(f"[DEBUG] Extracted base event ID: {base_id} from full ID: {eid}")
                 return base_id
-                
+
             print(f"[DEBUG] Extracted event ID: {eid}")
             return eid
-            
+
         # Fallback: Just strip anything after a space or @
         if 'eid=' in event_link:
             eid = event_link.split('eid=')[1]
@@ -1656,21 +1679,21 @@ def extract_event_id_from_link(event_link):
                 eid = eid.split(' ')[0]
             if '@' in eid:
                 eid = eid.split('@')[0]
-                
+
             # For recurring events, extract the base ID
             base_id_match = re.match(r'([^_]+)(?:_\d{8}T\d{6}Z)?', eid)
             if base_id_match:
                 base_id = base_id_match.group(1)
                 print(f"[DEBUG] Extracted base event ID (fallback): {base_id} from full ID: {eid}")
                 return base_id
-                
+
             print(f"[DEBUG] Extracted event ID (fallback): {eid}")
             return eid
     except Exception as e:
         print(f"Error extracting event ID from link: {e}")
         # If we can't parse it, just store the whole link to be safe
         return event_link
-        
+
     return None
 
 def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
@@ -1685,27 +1708,27 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
     """
     import calendar
     from datetime import datetime
-    
+
     results = {
         "has_mismatches": False,
         "first_occurrence_mismatch": False,
         "day_pattern_type": None,  # "calendar_day", "weekday", "weekly" or "mixed"
         "specific_dates": []
     }
-    
+
     # Only analyze if we have occurrences
     if 'occurrences' not in response_data or not response_data['occurrences']:
         return results
-        
+
     occurrences = response_data['occurrences']
-    
+
     # Check if the first occurrence matches our intended start date
     if len(occurrences) > 0:
         first_occurrence = occurrences[0]
         first_occurrence_time = first_occurrence.get('start_time')
         if first_occurrence_time:
             first_occurrence_dt = datetime.fromisoformat(first_occurrence_time.replace('Z', '+00:00'))
-            
+
             # Original date might be a string, convert if needed
             if isinstance(start_dt, str):
                 if start_dt.endswith('Z'):
@@ -1713,12 +1736,12 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
                 original_dt = datetime.fromisoformat(start_dt)
             else:
                 original_dt = start_dt
-                
+
             # Compare calendar days
             if original_dt.date() != first_occurrence_dt.date():
                 results["first_occurrence_mismatch"] = True
                 results["has_mismatches"] = True
-    
+
     # Analyze the pattern of occurrences
     if len(occurrences) >= 2:
         # Get dates and weekdays for all occurrences
@@ -1726,7 +1749,7 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
         days_of_month = []
         weekdays = []
         weekday_positions = []
-        
+
         for occurrence in occurrences:
             occurrence_time = occurrence.get('start_time')
             if occurrence_time:
@@ -1734,44 +1757,44 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
                 dates.append(occurrence_dt)
                 days_of_month.append(occurrence_dt.day)
                 weekdays.append(occurrence_dt.weekday())
-                
+
                 # Calculate weekday position (1st, 2nd, 3rd, 4th, or 5th)
                 week_number = (occurrence_dt.day - 1) // 7 + 1
                 weekday_positions.append(week_number)
-                
+
                 # Add to specific dates
                 results["specific_dates"].append({
                     "date": occurrence_dt.strftime("%Y-%m-%d"),
                     "weekday": calendar.day_name[occurrence_dt.weekday()],
                     "position": week_number
                 })
-        
+
         # Determine what kind of recurrence pattern this is
-        
+
         # Calculate intervals between consecutive dates
         intervals = [(dates[i+1] - dates[i]).days for i in range(len(dates)-1)]
-        
+
         # Check for consistent intervals
         unique_intervals = set(intervals)
-        
+
         # Weekly pattern: all intervals are 7 days
         if unique_intervals == {7}:
             results["day_pattern_type"] = "weekly"
             # Check if this was supposed to be monthly
             if occurrence_rate == "monthly":
                 results["has_mismatches"] = True
-        
+
         # Bi-weekly pattern: all intervals are 14 days
         elif unique_intervals == {14}:
             results["day_pattern_type"] = "bi-weekly"
             # Check if this was supposed to be monthly
             if occurrence_rate == "monthly":
                 results["has_mismatches"] = True
-        
+
         # Monthly by same day: all days of month are the same
         elif len(set(days_of_month)) == 1:
-            results["day_pattern_type"] = "calendar_day" 
-        
+            results["day_pattern_type"] = "calendar_day"
+
         # Monthly by same weekday: all weekdays are the same and positions follow a monthly pattern
         elif len(set(weekdays)) == 1:
             # Check for consistent monthly patterns - days should be approximately 28-31 days apart
@@ -1783,12 +1806,12 @@ def analyze_zoom_occurrences(response_data, start_dt, occurrence_rate):
                 results["day_pattern_type"] = "weekly"
                 if occurrence_rate == "monthly":
                     results["has_mismatches"] = True
-        
+
         # Mixed or unclear pattern
         else:
             results["day_pattern_type"] = "mixed"
             results["has_mismatches"] = True
-    
+
     return results
 
 def main():
