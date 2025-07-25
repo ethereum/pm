@@ -16,29 +16,6 @@ from modules import youtube_utils
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
-CALL_SERIES_ALIASES = {
-    "acdt": "acdt",
-    "allcoredevstesting": "acdt",
-    "acdc": "acdc",
-    "allcoredevsconsensus": "acdc",
-    "acde": "acde",
-    "allcoredevexecution": "acde",
-    "focil": "focil",
-    "focilbreakout": "focil",
-}
-
-def normalize_series(s):
-    if not s:
-        return ""
-    return ''.join(s.lower().replace('-', '').replace('_', '').replace('—', '').split())
-
-def canonicalize_series(s):
-    norm = normalize_series(s)
-    if norm in CALL_SERIES_ALIASES:
-        return CALL_SERIES_ALIASES[norm]
-    else:
-        return s or ""  # Use the original, user-supplied value (or empty string if missing)
-
 def load_meeting_topic_mapping():
     if os.path.exists(MAPPING_FILE):
         with open(MAPPING_FILE, "r") as f:
@@ -225,13 +202,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
     is_recurring, occurrence_rate = extract_recurring_info(issue_body)
     need_youtube_streams = extract_need_youtube_streams(issue_body)
     call_series = extract_call_series(issue_body)
-    canonical_series = canonicalize_series(call_series)
     skip_zoom_creation = extract_already_zoom_meeting(issue_body)
     skip_gcal_creation = extract_already_on_calendar(issue_body)
     display_zoom_link_in_invite = extract_display_zoom_link(issue_body) # Extract the new flag
 
     # Check for existing YouTube streams for this call series
-    existing_youtube_streams = check_existing_youtube_streams(canonical_series, mapping)
+    existing_youtube_streams = check_existing_youtube_streams(call_series, mapping)
 
     # --- Start Refactor: Separate Zoom and GCal skip logic ---
     # Extract whether to skip Zoom creation
@@ -241,11 +217,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Automatic skip logic based on existing series (OVERRIDES issue input)
     existing_series_entry_for_zoom = None # Keep track if we reuse for Zoom
-    if is_recurring and canonical_series:
+    if is_recurring and call_series:
         # Find the most recent entry for this call series with a meeting_id
         series_entries = [
             entry for entry in mapping.values()
-            if entry.get("call_series") == canonical_series and "meeting_id" in entry
+            if entry.get("call_series") == call_series and "meeting_id" in entry
         ]
         if series_entries:
             series_entries.sort(key=lambda e: e.get("issue_number", 0), reverse=True)
@@ -259,10 +235,10 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 # Found a valid, non-placeholder meeting ID - force reuse
                 existing_series_entry_for_zoom = potential_existing_series # Confirm this is the one we reuse
                 if not skip_zoom_creation:
-                    print(f"[INFO] Overriding 'Already a Zoom meeting ID: false' because a *valid* existing meeting ({existing_series_meeting_id}) for series '{canonical_series}' was found.")
+                    print(f"[INFO] Overriding 'Already a Zoom meeting ID: false' because a *valid* existing meeting ({existing_series_meeting_id}) for series '{call_series}' was found.")
                 skip_zoom_creation = True # Force skip Zoom creation
             elif is_placeholder_id:
-                print(f"[INFO] Found existing series '{canonical_series}' but meeting ID is a placeholder ('{existing_series_meeting_id}'). Will not force reuse based on this placeholder.")
+                print(f"[INFO] Found existing series '{call_series}' but meeting ID is a placeholder ('{existing_series_meeting_id}'). Will not force reuse based on this placeholder.")
                 # Do NOT force skip_zoom_creation or skip_gcal_creation based on a placeholder.
                 # Let the script decide based on issue input later.
                 # Still set existing_series_entry_for_zoom in case other details (like GCal ID) are valid and reusable
@@ -390,12 +366,12 @@ def handle_github_issue(issue_number: int, repo_name: str):
             comment_lines.append("\n**Discourse Topic:** Title already exists.")
             found_existing_in_mapping = False
             # Try to find the topic_id from the mapping based on call_series for recurring meetings
-            if is_recurring and canonical_series:
-                print(f"[DEBUG] Searching mapping for call series: '{canonical_series}'")
+            if is_recurring and call_series:
+                print(f"[DEBUG] Searching mapping for call series: '{call_series}'")
                 # Find entries matching the call series with a valid topic ID, sort by issue number desc
                 series_entries = sorted(
                     [entry for entry in mapping.values()
-                     if entry.get("call_series") == canonical_series and
+                     if entry.get("call_series") == call_series and
                         entry.get("discourse_topic_id") and # Check top-level first (older format?)
                         not str(entry.get("discourse_topic_id")).startswith("placeholder")],
                     key=lambda e: e.get("issue_number", 0), # May not have issue_number at top level
@@ -405,7 +381,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 if not series_entries:
                     potential_series_matches = [
                         (m_id, entry) for m_id, entry in mapping.items()
-                        if entry.get("call_series") == canonical_series and "occurrences" in entry
+                        if entry.get("call_series") == call_series and "occurrences" in entry
                     ]
                     for m_id, entry in potential_series_matches:
                          # Sort occurrences by issue number within the series
@@ -420,13 +396,13 @@ def handle_github_issue(issue_number: int, repo_name: str):
                              # Found the most recent valid topic ID within this series' occurrences
                              topic_id = sorted_occurrences[0]["discourse_topic_id"]
                              series_entries = [entry] # Use the parent entry for logging context below
-                             print(f"[DEBUG] Found existing topic ID {topic_id} in occurrences for series '{canonical_series}'")
+                             print(f"[DEBUG] Found existing topic ID {topic_id} in occurrences for series '{call_series}'")
                              break # Found it in this series, stop searching others
 
                 if series_entries: # If found either at top-level or in occurrences
                     if not topic_id: # If found at top-level
                          topic_id = series_entries[0]["discourse_topic_id"]
-                         print(f"[DEBUG] Found existing topic ID {topic_id} at top-level for series '{canonical_series}'")
+                         print(f"[DEBUG] Found existing topic ID {topic_id} at top-level for series '{call_series}'")
 
                     found_existing_in_mapping = True
                     action = "found_duplicate_series"
@@ -435,11 +411,11 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     found_in_issue_num = series_entries[0].get('issue_number', 'N/A')
                     if sorted_occurrences: # If found in occurrences, get issue from there
                          found_in_issue_num = sorted_occurrences[0].get('issue_number', 'N/A')
-                    print(f"[DEBUG] Using existing topic ID {topic_id} for series '{canonical_series}' (found via issue #{found_in_issue_num}).")
+                    print(f"[DEBUG] Using existing topic ID {topic_id} for series '{call_series}' (found via issue #{found_in_issue_num}).")
                     comment_lines.append(f"- Using existing Topic ID found in mapping: {topic_id}")
                     comment_lines.append(f"- URL: {discourse_url}")
                 else:
-                    print(f"[DEBUG] No existing valid topic ID found in mapping for series '{canonical_series}'.")
+                    print(f"[DEBUG] No existing valid topic ID found in mapping for series '{call_series}'.")
 
             # If not found via series (or not recurring), handle as failure to find existing
             if not found_existing_in_mapping:
@@ -506,9 +482,9 @@ def handle_github_issue(issue_number: int, repo_name: str):
 
     # Determine the base title for recurring events
     event_base_title = issue_title # Default to issue title
-    if is_recurring and canonical_series:
+    if is_recurring and call_series:
         # Use call_series in proper Title Case (not all uppercase)
-        event_base_title = ' '.join(word.capitalize() for word in canonical_series.strip().split())
+        event_base_title = ' '.join(word.capitalize() for word in call_series.strip().split())
         print(f"[DEBUG] Using call series '{event_base_title}' (Title Case) as base title for recurring Zoom/GCal/YouTube events.")
 
     # Zoom meeting creation/update
@@ -536,7 +512,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                 original_meeting_id_for_reuse = zoom_id # Store the ID we are reusing
                 reusing_series_meeting = True
                 zoom_action = "reused_series"
-                print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{canonical_series}'")
+                print(f"[DEBUG] Reusing existing Zoom meeting {zoom_id} for call series '{call_series}'")
             else:
                 # Skipped via issue input, need placeholder
                 print("[DEBUG] Zoom creation skipped via issue input. Using placeholder Zoom ID.")
@@ -706,7 +682,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
     # Add Zoom link details to GitHub comment based on the flag
     if zoom_id and not str(zoom_id).startswith("placeholder-"):
         if reusing_series_meeting:
-            comment_lines.append(f"\n**Zoom Meeting:** Reusing meeting {zoom_id} for series '{canonical_series}'.")
+            comment_lines.append(f"\n**Zoom Meeting:** Reusing meeting {zoom_id} for series '{call_series}'.")
 
         # --- MODIFIED: Use join_url directly, check validity and display flag ---
         is_valid_join_url_for_display = bool(join_url and str(join_url).startswith("https://"))
@@ -763,7 +739,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                      should_create_streams = False # Don't create new ones
                  # TODO: Optional: Consider reusing series-level streams (`existing_youtube_streams`) if no occurrence-specific ones exist?
                  # elif existing_youtube_streams:
-                 #     print(f"[DEBUG] No streams found for this specific occurrence, reusing existing series streams for call series: {canonical_series}")
+                 #     print(f"[DEBUG] No streams found for this specific occurrence, reusing existing series streams for call series: {call_series}")
                  #     occurrence_youtube_streams = existing_youtube_streams
                  #     comment_lines.append("\n**Existing YouTube Stream Links (Series - Reused):**")
                  #     should_create_streams = False
@@ -861,7 +837,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
                      # Construct a potential link (may not be perfect)
                      event_link = f"https://calendar.google.com/calendar/event?eid={gcal_event_id_from_series}" # Simplified link
                      comment_lines.append("\n**Calendar Event:** Reusing existing event for series.")
-                     print(f"[DEBUG] Reusing existing calendar event ID {gcal_event_id_from_series} from series '{canonical_series}'")
+                     print(f"[DEBUG] Reusing existing calendar event ID {gcal_event_id_from_series} from series '{call_series}'")
                      print(f"[DEBUG] No changes made to the Google Calendar event series - maintaining consistency")
                      if event_link:
                          comment_lines.append(f"- [Approximate Google Calendar Link]({event_link})")
@@ -931,8 +907,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
                     try:
                         # If this is part of an existing recurring series but we're still creating a new event
                         # log a warning since we should be updating an existing event
-                        if is_recurring and canonical_series:
-                            print(f"[WARNING] Creating a NEW calendar event for recurring series '{canonical_series}'")
+                        if is_recurring and call_series:
+                            print(f"[WARNING] Creating a NEW calendar event for recurring series '{call_series}'")
                             print(f"[WARNING] This may cause duplicate events in calendar - should update existing series instead")
 
                         event_result = create_calendar_event(
@@ -1066,6 +1042,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             occurrence_data["occurrence_number"] = len(mapping_entry["occurrences"]) + 1
             mapping_entry["occurrences"].append(occurrence_data)
 
+        # --- END REFACTOR ---
 
         # Update series-level info (applies to the meeting_id entry itself)
         series_updated = False
@@ -1076,8 +1053,8 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Update occurrence rate only if not set or 'none'
         if "occurrence_rate" not in mapping_entry or mapping_entry.get("occurrence_rate") == "none":
             mapping_entry["occurrence_rate"] = occurrence_rate if is_recurring else "none"; series_updated = True
-        if "call_series" not in mapping_entry and canonical_series:
-            mapping_entry["call_series"] = canonical_series; series_updated = True
+        if "call_series" not in mapping_entry and call_series:
+            mapping_entry["call_series"] = call_series; series_updated = True
         # No longer storing zoom_link in mapping - links are retrieved via API when needed
         if "zoom_link" in mapping_entry:
             del mapping_entry["zoom_link"]; series_updated = True
