@@ -7,7 +7,7 @@ This repository is for:
 - [L2 interop](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AL2%20)
  breakout meetings
 
-Agendas for these meetings can be found on the [Issues](https://github.com/ethereum/pm/issues) tab. This [Google Calendar](https://calendar.google.com/calendar/u/0?cid=Y191cGFvZm9uZzhtZ3JtcmtlZ243aWM3aGs1c0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) also tracks upcoming protocol meetings.
+Agendas for these meetings can be found on the [Issues](https://github.com/ethereum/pm/issues) tab. This [Google Calendar](https://calendar.google.com/calendar/embed?src=c_upaofong8mgrmrkegn7ic7hk5s%40group.calendar.google.com) also tracks upcoming protocol meetings.
 
 Past meetings with call summaries, related links, and discussions can be found on [Ethereum Magicians](https://ethereum-magicians.org/c/protocol-calls/63).
 
