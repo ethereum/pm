@@ -441,8 +441,3 @@ Call summaries have also recently started being posted on [Ethereum Magicians](h
 | 0| 02 Aug 2018, 14:00 UTC | [agenda](https://github.com/ethereum/beacon_chain/issues/44) | [notes](AllCoreDevs-CL-Meetings/call_000.md) | [reddit](https://www.reddit.com/r/ethereum/comments/949eo6/ethereum_sharding_implementers_call_0/)| [video](https://www.youtube.com/watch?v=Ynqrka5DQOI) |
 
 </details>
-
-
-#### Perma-archived Meetings
-
-The audio files of the Previous Meetings are stored permanently on [Permacast](./AllCoreDevs-EL-Meetings/perma-archive.md).
