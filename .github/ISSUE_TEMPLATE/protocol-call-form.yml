@@ -1,0 +1,138 @@
+name: Protocol Call
+description: Create a new protocol call (recurring or one-time)
+title: "<call name> <call #>, <call date>"
+labels: ["protocol-call"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Title: <call name> <call #>, <call date>
+        e.g. "All Core Devs - Execution (ACDE) \#210, April 24, 2025"
+
+  - type: input
+    id: date-time
+    attributes:
+      label: UTC Date & Time (Required)
+      description: Meeting date and time in UTC format, with a link to a time converter.
+      placeholder: "[April 24, 2025, 14:00 UTC](https://notime.zone/OWHEr5OFto71X)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: agenda
+    attributes:
+      label: Agenda
+      description: List the agenda items for this meeting
+      placeholder: |
+        - Agenda point 1
+        - Agenda point 2
+        - Agenda point n
+      render: markdown
+
+  - type: markdown
+    attributes:
+      value: |
+        ## 🤖 Automation Configuration
+
+        The bot can create/edit:
+        - an Ethereum Magicians forum post
+        - the Google calendar event
+        - a Zoom meeting, with download links for the recording and transcript
+        - a YouTube stream link
+
+  - type: dropdown
+    id: call-series
+    attributes:
+      label: Call Series
+      description: Select the call series this meeting belongs to. Choose "One-time call" for single occurrence calls.
+      options:
+        - All Core Devs - Consensus
+        - All Core Devs - Execution
+        - All Core Devs - Testing
+        - All Wallet Devs
+        - Beam Call
+        - EIP Editing Office Hour
+        - EIPIP Meeting
+        - EVM Resource Pricing Breakout
+        - eth_simulate
+        - Ethproofs Community Call
+        - FOCIL Breakout
+        - L2 Interop Working Group
+        - PQ Interop
+        - PeerDAS Breakout
+        - Portal Implementers
+        - Protocol Research
+        - RPC Standards
+        - RollCall
+        - Stateless Implementers
+        - One-time call
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: duration
+    attributes:
+      label: Duration
+      description: How long will the meeting last? (Used for the calendar event & Zoom meeting)
+      options:
+        - 30 minutes
+        - 60 minutes
+        - 90 minutes
+        - 120 minutes
+        - 180 minutes
+      default: 1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: occurrence-rate
+    attributes:
+      label: Occurrence Rate
+      description: How often does this meeting occur? (Only applies to recurring meetings)
+      options:
+        - weekly
+        - bi-weekly
+        - monthly
+        - other
+      default: 1
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: already-zoom-meeting
+    attributes:
+      label: Zoom Meeting Opt-Out (Optional)
+      description: Select if you do not need a Zoom link. If you select this option, the bot cannot provide download links, summaries, or upload the recording to YouTube.
+      options:
+        - label: I will provide my own meeting link
+
+  - type: input
+    id: facilitator-emails
+    attributes:
+      label: Facilitator Emails (Optional)
+      description: If using the Zoom meeting created by the bot, enter the email of the facilitator(s) to receive the meeting links
+      placeholder: "facilitator1@example.com, facilitator2@example.com"
+
+  - type: checkboxes
+    id: display-zoom-link
+    attributes:
+      label: Display Zoom Link in Calendar Invite (Optional)
+      description: Select if you want to add the Zoom link to the Google Calendar invite description
+      options:
+        - label: Display Zoom link in invite
+
+  - type: input
+    id: custom-meeting-link
+    attributes:
+      label: Custom Meeting Link (Optional)
+      description: If you want to add your own meeting to the calendar event, enter the link here
+      placeholder: "<link to your own meeting>"
+
+  - type: checkboxes
+    id: need-youtube-streams
+    attributes:
+      label: YouTube Livestream Link (Optional)
+      description: Select if you want to create a YouTube livestream link for this meeting
+      options:
+        - label: Create YouTube livestream link
