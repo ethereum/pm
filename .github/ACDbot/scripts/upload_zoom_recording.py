@@ -13,6 +13,12 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from modules import zoom, transcript, discourse, tg
 from modules.youtube_utils import add_video_to_appropriate_playlist
+from modules.mapping_utils import (
+    load_mapping as load_meeting_topic_mapping,
+    save_mapping as save_meeting_topic_mapping,
+    find_meeting_by_id,
+    find_meeting_by_issue_number
+)
 from github import Github
 from google.auth.transport.requests import Request
 import json
@@ -51,14 +57,18 @@ def get_authenticated_service():
         token_uri="https://oauth2.googleapis.com/token",
         scopes=SCOPES
     )
-    
+
     # Token already refreshed at workflow start
     return build("youtube", "v3", credentials=creds)
 
 def video_exists(youtube, meeting_id):
     """Check if video for this meeting ID already exists in mapping"""
     mapping = load_meeting_topic_mapping()
-    video_id = mapping.get(meeting_id, {}).get("youtube_video_id")
+    # Use the new helper function to find the meeting entry
+    entry = find_meeting_by_id(str(meeting_id), mapping)
+    if not entry:
+        return False
+    video_id = entry.get("youtube_video_id")
     if video_id is None or str(video_id).lower() in ("none", "null", ""):
         return False
     return True
@@ -78,12 +88,12 @@ def download_zoom_recording(meeting_id):
         if file.get('file_type') == 'MP4' and file.get('download_url'):
             download_url = file['download_url']
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
-            
+
             headers = {
                 "Authorization": f"Bearer {get_access_token()}",
                 "Content-Type": "application/json"
             }
-            
+
             response = requests.get(download_url, headers=headers, stream=True)
             if response.status_code == 200:
                 for chunk in response.iter_content(chunk_size=1024*1024):
@@ -101,7 +111,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
 
     youtube = get_authenticated_service()
     mapping = load_meeting_topic_mapping()
-    
+
     series_entry = mapping.get(meeting_id)
 
     if not series_entry:
@@ -126,14 +136,14 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         print(f"[ERROR] Occurrence with issue number {occurrence_issue_number} not found for meeting ID {meeting_id}.")
         return False # Indicate failure
 
-    # --- Use occurrence-specific data --- 
+    # --- Use occurrence-specific data ---
     print(f"Processing YouTube upload for Meeting ID {meeting_id}, Occurrence Issue #{occurrence_issue_number}")
 
     # Check if this occurrence should skip YouTube upload
     if matched_occurrence.get("skip_youtube_upload", False):
         print(f"  -> Skipping: Occurrence marked as skip_youtube_upload.")
         # Mark as processed anyway so we don't retry?
-        # mapping[meeting_id]["occurrences"][occurrence_index]["Youtube_upload_processed"] = True # Or leave as is?
+        # mapping[meeting_id]["occurrences"][occurrence_index]["youtube_upload_processed"] = True # Or leave as is?
         # save_meeting_topic_mapping(mapping) # No commit here, let poll script handle batch commit
         return True # Indicate already processed
 
@@ -148,7 +158,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
     save_meeting_topic_mapping(mapping) # Save attempt count increment
 
     # Only proceed if not already processed
-    if matched_occurrence.get("Youtube_upload_processed"):
+    if matched_occurrence.get("youtube_upload_processed"):
         print(f"  -> Skipping: YouTube upload already processed for occurrence.")
         return True # Indicate already processed
 
@@ -188,13 +198,13 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
 
         # --- Update occurrence flags in mapping ---
         mapping[meeting_id]["occurrences"][occurrence_index]["youtube_video_id"] = response['id']
-        mapping[meeting_id]["occurrences"][occurrence_index]["Youtube_upload_processed"] = True
+        mapping[meeting_id]["occurrences"][occurrence_index]["youtube_upload_processed"] = True
         # Reset attempt count on success
         # mapping[meeting_id]["occurrences"][occurrence_index]["upload_attempt_count"] = 0 # Optional reset
 
         save_meeting_topic_mapping(mapping)
         commit_mapping_file()
-        
+
         youtube_link = f"https://youtu.be/{response['id']}"
         print(f"Uploaded YouTube video: {youtube_link}")
 
@@ -286,85 +296,46 @@ def main():
 
     # Handle case where NO arguments are provided (check mapping)
     if not args.meeting_id and not args.occurrence_issue_number:
-        print("No meeting ID provided - checking last 5 meetings from mapping")
+        print("No meeting ID provided - checking mapping for unprocessed meetings")
         mapping = load_meeting_topic_mapping()
-        
-        # Get last 5 meetings sorted by insertion order (Python 3.7+ preserves dict order)
-        recent_meetings = list(mapping.items())[-5:]
-        
-        for meeting_id, details in recent_meetings:
-            if not isinstance(details, dict):
-                continue  # Skip legacy format entries
-                
-            # Iterate through occurrences within this meeting entry
-            if "occurrences" in details:
-                # Process occurrences in reverse (most recent first) for this check
-                for occurrence in reversed(details["occurrences"]):
-                    occ_issue_num = occurrence.get("issue_number")
-                    yt_processed = occurrence.get("Youtube_upload_processed", False)
-                    yt_skipped = occurrence.get("skip_youtube_upload", False)
 
-                    # Process if not skipped and not already processed
-                    if not yt_skipped and not yt_processed and occ_issue_num:
-                        print(f"\nProcessing occurrence from mapping: Meeting ID {meeting_id}, Issue #{occ_issue_num}")
+        # Process all call series and one-off meetings
+        for call_series, series_data in mapping.items():
+            if call_series == "one-off":
+                # Process one-off meetings
+                for meeting_id, details in series_data.items():
+                    if not isinstance(details, dict):
+                        continue
+
+                    yt_processed = details.get("youtube_upload_processed", False)
+                    yt_skipped = details.get("skip_youtube_upload", False)
+
+                    if not yt_skipped and not yt_processed:
+                        print(f"\nProcessing one-off meeting from mapping: {meeting_id}")
                         try:
-                            upload_recording(meeting_id, occ_issue_num)
-                            # Optionally break after processing one to avoid long runs?
-                            # break
+                            upload_recording(meeting_id)
                         except Exception as e:
-                            print(f"Failed to process {meeting_id} / {occ_issue_num}: {e}")
-            # else: Handle non-recurring meetings if needed (legacy structure)
-            elif not details.get("is_recurring", False):
-                yt_processed = details.get("Youtube_upload_processed", False)
-                yt_skipped = details.get("skip_youtube_upload", False)
-                if not yt_skipped and not yt_processed:
-                    print(f"\nProcessing non-recurring meeting from mapping: {meeting_id}")
-                    try:
-                        upload_recording(meeting_id) # Assumes it needs top-level processing
-                    except Exception as e:
-                        print(f"Failed to process {meeting_id}: {e}")
+                            print(f"Failed to process {meeting_id}: {e}")
+            else:
+                # Process recurring series occurrences
+                if "occurrences" in series_data:
+                    for occurrence in series_data["occurrences"]:
+                        occ_issue_num = occurrence.get("issue_number")
+                        yt_processed = occurrence.get("youtube_upload_processed", False)
+                        yt_skipped = occurrence.get("skip_youtube_upload", False)
 
-def load_meeting_topic_mapping():
-    if os.path.exists(MAPPING_FILE):
-        with open(MAPPING_FILE, "r") as f:
-            return json.load(f)
-    return {}
+                        # Get the effective meeting ID for this occurrence
+                        effective_meeting_id = series_data.get("meeting_id")
+                        if not effective_meeting_id:
+                            # Check if occurrence has its own meeting_id
+                            effective_meeting_id = occurrence.get("meeting_id")
 
-def save_meeting_topic_mapping(mapping):
-    with open(MAPPING_FILE, "w") as f:
-        json.dump(mapping, f, indent=2)
-
-def commit_mapping_file():
-    """Commit and push changes to the mapping file"""
-    try:
-        # Configure git user (required in CI)
-        subprocess.run(
-            ["git", "config", "--global", "user.email", "actions@github.com"],
-            check=True
-        )
-        subprocess.run(
-            ["git", "config", "--global", "user.name", "GitHub Actions"],
-            check=True
-        )
-        
-        # Commit and push
-        subprocess.run(["git", "add", MAPPING_FILE], check=True)
-        subprocess.run(
-            ["git", "commit", "-m", f"Update YouTube video mapping"],
-            check=True
-        )
-        subprocess.run(["git", "push"], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to commit mapping file: {e}")
-
-def find_occurrence_by_issue_number(series_entry, issue_number):
-    """Helper function to find an occurrence by issue number."""
-    if not series_entry or "occurrences" not in series_entry:
-        return None, -1
-    for index, occ in enumerate(series_entry["occurrences"]):
-        if occ.get("issue_number") == issue_number:
-            return occ, index
-    return None, -1
+                        if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
+                            print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")
+                            try:
+                                upload_recording(effective_meeting_id, occ_issue_num)
+                            except Exception as e:
+                                print(f"Failed to process {effective_meeting_id} / {occ_issue_num}: {e}")
 
 if __name__ == "__main__":
     main()

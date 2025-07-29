@@ -4,19 +4,15 @@ import argparse
 from datetime import datetime, timedelta, timezone
 import pytz
 from modules import zoom, transcript, youtube_utils, rss_utils, discourse
+from modules.mapping_utils import (
+    load_mapping as load_meeting_topic_mapping,
+    save_mapping as save_meeting_topic_mapping,
+    find_meeting_by_id,
+    get_effective_meeting_id
+)
 from github import Github, InputGitAuthor
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
-
-def load_meeting_topic_mapping():
-    if os.path.exists(MAPPING_FILE):
-        with open(MAPPING_FILE, "r") as f:
-            return json.load(f)
-    return {}
-
-def save_meeting_topic_mapping(mapping):
-    with open(MAPPING_FILE, "w") as f:
-        json.dump(mapping, f, indent=2)
 
 def commit_mapping_file():
     commit_message = "Update meeting-topic mapping"
@@ -69,9 +65,10 @@ def validate_meeting_id(meeting_id):
 
 def process_meeting(meeting_id, mapping):
     """Process a single meeting's recordings and transcripts"""
-    entry = mapping.get(str(meeting_id)) # Ensure meeting_id is string
-    if not isinstance(entry, dict):
-        print(f"Skipping meeting {meeting_id} - invalid mapping entry")
+    # Use the new helper function to find the meeting entry
+    entry = find_meeting_by_id(str(meeting_id), mapping)
+    if not entry:
+        print(f"Skipping meeting {meeting_id} - not found in mapping")
         return
 
     # Skip if already processed
@@ -83,31 +80,31 @@ def process_meeting(meeting_id, mapping):
     if entry.get("upload_attempt_count", 0) >= 10:
         print(f"Skipping meeting {meeting_id} - max upload attempts reached")
         return
-        
+
     # Skip if max transcript attempts reached
     if entry.get("transcript_attempt_count", 0) >= 10:
         print(f"Skipping meeting {meeting_id} - max transcript attempts reached")
         return
-        
+
     # Skip if meeting hasn't occurred yet
     start_time = entry.get("start_time")
     if start_time:
         try:
             meeting_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
             now = datetime.now(pytz.UTC)
-            
+
             if meeting_time > now:
                 print(f"Skipping meeting {meeting_id} - scheduled for future ({start_time})")
                 return
-                
+
             # Also skip if meeting ended less than 30 minutes ago
             duration = entry.get("duration", 60)  # Default to 60 minutes if duration not specified
             meeting_end_time = meeting_time + timedelta(minutes=duration)
-            
+
             if now < meeting_end_time + timedelta(minutes=30):
                 print(f"Skipping meeting {meeting_id} - ended less than 30 minutes ago")
                 return
-                
+
         except Exception as e:
             print(f"Error parsing meeting time {start_time}: {e}")
             # Continue processing if we can't parse the time
@@ -119,11 +116,11 @@ def process_meeting(meeting_id, mapping):
             print(f"Skipping YouTube upload for recurring meeting {meeting_id}")
             # Mark as processed to avoid future attempts
             entry["skip_youtube_upload"] = True
-            entry["Youtube_upload_processed"] = True
+            entry["youtube_upload_processed"] = True
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
         # Only attempt upload for non-recurring meetings that haven't been processed
-        elif not entry.get("Youtube_upload_processed") and not entry.get("skip_youtube_upload", False):
+        elif not entry.get("youtube_upload_processed") and not entry.get("skip_youtube_upload", False):
             # Import directly from package path rather than relative path
             import sys
             import os
@@ -139,7 +136,7 @@ def process_meeting(meeting_id, mapping):
             entry["transcript_processed"] = True
             save_meeting_topic_mapping(mapping)
             commit_mapping_file()
-            
+
             # Update RSS feed with transcript info
             try:
                 rss_utils.add_notification_to_meeting(
@@ -158,7 +155,7 @@ def process_meeting(meeting_id, mapping):
                 if youtube_streams:
                     print(f"Posting existing YouTube streams to Discourse topic {discourse_topic_id}")
                     stream_links_text = "\n".join([
-                        f"- Stream {i+1}: {stream.get('stream_url', 'URL not found')}" 
+                        f"- Stream {i+1}: {stream.get('stream_url', 'URL not found')}"
                         for i, stream in enumerate(youtube_streams)
                     ])
                     discourse_body = f"**Previously Generated YouTube Stream Links:**\n{stream_links_text}"
@@ -336,13 +333,13 @@ def process_recordings(mapping):
     mapping_updated = False
 
     for recording in recordings:
-        # --- Check Recording Duration --- 
+        # --- Check Recording Duration ---
         recording_duration = recording.get('duration', 0)
         if recording_duration < 10:
             print(f"[INFO] Skipping recording (Topic: {recording.get('topic', 'N/A')}, Start: {recording.get('start_time', 'N/A')}) - Duration ({recording_duration} min) is less than 10 minutes.")
             continue # Move to the next recording in the list
         # --- End Duration Check ---
-        
+
         recording_meeting_id = str(recording.get("id"))
         recording_start_time_str = recording.get("start_time")
         recording_uuid = recording.get("uuid") # Extract UUID here
@@ -351,18 +348,38 @@ def process_recordings(mapping):
             print(f"[WARN] Skipping recording with missing ID, start_time, or UUID: {recording.get('topic')}")
             continue
 
-        # Get the series entry from mapping
-        series_entry = mapping.get(recording_meeting_id)
-        if not isinstance(series_entry, dict) or "occurrences" not in series_entry:
-            print(f"[INFO] No mapping entry or occurrences found for meeting ID {recording_meeting_id}. Skipping recording processing.")
+        # Get the series entry from mapping using new helper function
+        series_entry = find_meeting_by_id(recording_meeting_id, mapping)
+        if not series_entry:
+            print(f"[INFO] No mapping entry found for meeting ID {recording_meeting_id}. Skipping recording processing.")
             continue
 
-        occurrences = series_entry.get("occurrences", [])
-        matched_occurrence, occurrence_index = find_matching_occurrence(occurrences, recording_start_time_str)
+        # Handle different mapping structures
+        if "occurrences" in series_entry:
+            # Recurring series case
+            occurrences = series_entry.get("occurrences", [])
+            matched_occurrence, occurrence_index = find_matching_occurrence(occurrences, recording_start_time_str)
 
-        if matched_occurrence is None:
-            print(f"[INFO] Could not match recording ({recording.get('topic', 'N/A')} at {recording_start_time_str}) to any occurrence for meeting ID {recording_meeting_id}.")
-            continue
+            if matched_occurrence is None:
+                print(f"[INFO] Could not match recording ({recording.get('topic', 'N/A')} at {recording_start_time_str}) to any occurrence for meeting ID {recording_meeting_id}.")
+                continue
+        else:
+            # One-off case: series_entry is the occurrence itself
+            matched_occurrence = series_entry
+            occurrence_index = 0
+            # Check if the recording time matches the occurrence time
+            occurrence_start_time = matched_occurrence.get("start_time")
+            if occurrence_start_time:
+                try:
+                    occurrence_time = datetime.fromisoformat(occurrence_start_time.replace('Z', '+00:00'))
+                    recording_time = datetime.fromisoformat(recording_start_time_str.replace('Z', '+00:00'))
+                    tolerance = timedelta(minutes=30)
+                    if abs(recording_time - occurrence_time) > tolerance:
+                        print(f"[INFO] Recording time ({recording_start_time_str}) doesn't match occurrence time ({occurrence_start_time}) for meeting ID {recording_meeting_id}.")
+                        continue
+                except Exception as e:
+                    print(f"[WARN] Error comparing times for meeting {recording_meeting_id}: {e}")
+                    continue
 
         # Call the refactored processing function
         updated = process_single_occurrence(
@@ -399,25 +416,36 @@ def main():
         meeting_id = validate_meeting_id(args.force_meeting_id)
         if meeting_id:
             print(f"Attempting forced processing for meeting {meeting_id}")
-            series_entry = mapping.get(meeting_id)
-            if not series_entry or "occurrences" not in series_entry:
-                print(f"::error::Meeting ID {meeting_id} not found in mapping or has no occurrences.")
+            # Use the new helper function to find the meeting entry
+            series_entry = find_meeting_by_id(meeting_id, mapping)
+            if not series_entry:
+                print(f"::error::Meeting ID {meeting_id} not found in mapping.")
                 return
 
             if args.force_issue_number:
                 occurrence_issue_number = args.force_issue_number
                 print(f"Searching for occurrence with Issue Number: {occurrence_issue_number}")
-                # Find the specific occurrence and its index
-                target_occurrence = None
-                occurrence_index = -1
-                for idx, occ in enumerate(series_entry["occurrences"]):
-                    if occ.get("issue_number") == occurrence_issue_number:
-                        target_occurrence = occ
-                        occurrence_index = idx
-                        break
+
+                # Check if series_entry is an occurrence itself (one-off case)
+                if series_entry.get("issue_number") == occurrence_issue_number:
+                    target_occurrence = series_entry
+                    occurrence_index = 0
+                    print(f"Found one-off occurrence: {target_occurrence.get('issue_title', 'N/A')}")
+                else:
+                    # Check if series_entry has occurrences (recurring case)
+                    if "occurrences" in series_entry:
+                        target_occurrence = None
+                        occurrence_index = -1
+                        for idx, occ in enumerate(series_entry["occurrences"]):
+                            if occ.get("issue_number") == occurrence_issue_number:
+                                target_occurrence = occ
+                                occurrence_index = idx
+                                break
+                    else:
+                        target_occurrence = None
 
                 if not target_occurrence:
-                    print(f"::error::Issue number {occurrence_issue_number} not found within occurrences for meeting ID {meeting_id}.")
+                    print(f"::error::Issue number {occurrence_issue_number} not found for meeting ID {meeting_id}.")
                     return
 
                 print(f"Found occurrence: {target_occurrence.get('issue_title', 'N/A')}")
@@ -469,14 +497,28 @@ def main():
 
                 # Now call the processing function with force=True
                 print(f"Forcing processing for Occurrence Issue #{occurrence_issue_number}...")
-                mapping_updated = process_single_occurrence(
-                    recording=matching_recording,
-                    occurrence=target_occurrence,
-                    occurrence_index=occurrence_index,
-                    series_entry=series_entry,
-                    mapping=mapping,
-                    force_process=True, # Enable force mode
-                )
+
+                # For one-off meetings, series_entry is the occurrence itself
+                if "occurrences" not in series_entry:
+                    # One-off case: series_entry is the occurrence
+                    mapping_updated = process_single_occurrence(
+                        recording=matching_recording,
+                        occurrence=series_entry,
+                        occurrence_index=0,
+                        series_entry=series_entry,  # Same as occurrence for one-off
+                        mapping=mapping,
+                        force_process=True, # Enable force mode
+                    )
+                else:
+                    # Recurring case: series_entry has occurrences
+                    mapping_updated = process_single_occurrence(
+                        recording=matching_recording,
+                        occurrence=target_occurrence,
+                        occurrence_index=occurrence_index,
+                        series_entry=series_entry,
+                        mapping=mapping,
+                        force_process=True, # Enable force mode
+                    )
 
                 if mapping_updated:
                     print("Saving updated mapping file after forced processing...")

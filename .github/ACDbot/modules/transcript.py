@@ -1,25 +1,15 @@
 import os
 import json
 from modules import zoom, discourse, tg
+from modules.mapping_utils import (
+    load_mapping as load_meeting_topic_mapping,
+    save_mapping as save_meeting_topic_mapping,
+    find_meeting_by_id
+)
 import requests
 import urllib.parse
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
-
-def load_meeting_topic_mapping():
-    if os.path.exists(MAPPING_FILE):
-        with open(MAPPING_FILE, "r") as f:
-            # Handle potential JSON errors
-            try:
-                return json.load(f)
-            except json.JSONDecodeError:
-                print(f"::error::Failed to decode JSON from {MAPPING_FILE}. Returning empty mapping.")
-                return {}
-    return {}
-
-def save_meeting_topic_mapping(mapping):
-    with open(MAPPING_FILE, "w") as f:
-        json.dump(mapping, f, indent=2) # Added indent for readability
 
 def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None, meeting_uuid_for_summary: str = None):
     """
@@ -31,10 +21,11 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     mapping = load_meeting_topic_mapping()
     discourse_topic_id = None
     meeting_topic = f"Meeting {meeting_id}" # Default title
-    entry = mapping.get(str(meeting_id))
+    # Use the new helper function to find the meeting entry
+    entry = find_meeting_by_id(str(meeting_id), mapping)
 
-    if not entry or not isinstance(entry, dict):
-        print(f"::error::Mapping entry for meeting ID {meeting_id} not found or invalid.")
+    if not entry:
+        print(f"::error::Mapping entry for meeting ID {meeting_id} not found.")
         # Indicate failure by returning None or raising an error?
         # For now, return False to signal failure to the caller.
         return False
@@ -61,7 +52,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         # Return True because the goal (transcript posted) is achieved.
         return True
 
-    # --- NOTE: Preemptive marking of transcript_processed moved to caller (poll_zoom_recordings.py) --- 
+    # --- NOTE: Preemptive marking of transcript_processed moved to caller (poll_zoom_recordings.py) ---
     # This avoids marking as processed if this function fails early.
     # entry["transcript_processed"] = True
     # save_meeting_topic_mapping(mapping)
@@ -70,7 +61,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     if not meeting_uuid_for_summary:
         print(f"::error::Cannot fetch recording data for meeting {meeting_id}: Specific meeting instance UUID is missing.")
         return False
-        
+
     print(f"[DEBUG] Fetching recording data using UUID: {meeting_uuid_for_summary}")
     recording_data = zoom.get_meeting_recording(meeting_uuid_for_summary)
     if not recording_data:
@@ -78,11 +69,11 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         return False # Failed to get recording data
 
     # Check if recording duration is sufficient
-    recording_duration = recording_data.get('duration', 0) 
+    recording_duration = recording_data.get('duration', 0)
     if recording_duration < 10:
         print(f"::warning::Skipping transcript post for meeting {meeting_id} (UUID: {meeting_uuid_for_summary}): Recording duration ({recording_duration} min) is less than 10 minutes.")
         # Return False as the transcript wasn't posted for this (presumably wrong) short recording
-        return False 
+        return False
 
     # Log the available recording files for debugging
     available_files = recording_data.get('recording_files', [])
@@ -121,11 +112,11 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     summary_overview = ""
     summary_details = ""
     next_steps = ""
-    
+
     if summary_data:
         # Extract summary overview - updated to use new API field name
         summary_overview = summary_data.get("summary_overview", "No summary overview available")
-        
+
         # Extract detailed summaries in a collapsible section
         if summary_data.get("summary_details"):
             details = []
@@ -136,19 +127,19 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
                     details.append(f"**{section_title}**\n{section_summary}")
                 elif section_summary:
                     details.append(section_summary)
-            
+
             if details:
                 summary_details = "<details>\n<summary>Click to expand detailed summary</summary>\n\n"
                 summary_details += "\n\n".join(details)
                 summary_details += "\n</details>"
-        
+
         # Format next steps
         if summary_data.get("next_steps"):
             steps = [f"- {step}" for step in summary_data["next_steps"]]
             next_steps = "### Next Steps:\n" + "\n".join(steps)
     else:
         summary_overview = f"No summary available. {summary_error_message or 'Could not retrieve summary.'}" # Use error message if available
-    
+
     # Extract URLs and passcodes
     share_url = recording_data.get('share_url', '') # For original "Join Recording Session" link
     manual_passcode = recording_data.get('password', '') # For the original link's displayed passcode
@@ -178,7 +169,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
             if current_priority_index < primary_video_play_url_type_priority_index:
                 primary_video_play_url = file.get('play_url')
                 primary_video_play_url_type_priority_index = current_priority_index
-        
+
         if file.get('file_type') == 'TRANSCRIPT':
             transcript_download_url = file.get('download_url')
             transcript_play_url = file.get('play_url')
@@ -193,7 +184,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
                 primary_video_play_url = file.get('play_url')
                 if primary_video_play_url: # Take the first MP4 play_url found
                     break
-    
+
     # Build post content
     post_content = f"""### Meeting Summary:
 {summary_overview}
@@ -211,7 +202,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     #         post_content += f" (Passcode: `{manual_passcode}`)"
     # else:
     #     post_content += "\n- *Join Recording Session link (via share page) not available.*"
-        
+
     # Line 2: Join Recording Session with pwd (uses primary_video_play_url)
     if primary_video_play_url and recording_play_passcode:
         # Ensure passcode is URL-encoded
@@ -235,7 +226,7 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
             post_content += f"\n- [Download Transcript]({link}) (Passcode not available)"
     else:
         post_content += "\n- *Download URL for transcript not found.*"
-        
+
     # Line 6: Download Chat with pwd (uses chat_download_url)
     if chat_download_url:
         link = chat_download_url
