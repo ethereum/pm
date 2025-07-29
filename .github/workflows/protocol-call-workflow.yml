@@ -1,4 +1,4 @@
-name: "Automate Zoom & Discourse from Issues"
+name: Protocol Call Handler
 
 on:
   issues:
@@ -15,16 +15,16 @@ jobs:
         run: |
           if [[ "${{ contains(github.event.issue.labels.*.name, 'protocol-call') }}" == "true" ]]; then
             echo "has_protocol_label=true" >> $GITHUB_OUTPUT
-            echo "✅ Issue has protocol-call label (will be handled by new workflow)"
+            echo "✅ Issue has protocol-call label"
           else
             echo "has_protocol_label=false" >> $GITHUB_OUTPUT
-            echo "❌ Issue does not have protocol-call label (will be handled by old workflow)"
+            echo "❌ Issue does not have protocol-call label"
           fi
 
   check_membership:
     needs: check_label
     runs-on: ubuntu-latest
-    if: needs.check_label.outputs.has_protocol_label == 'false'
+    if: needs.check_label.outputs.has_protocol_label == 'true'
     outputs:
       is_member: ${{ steps.set_output.outputs.is_member }}
     steps:
@@ -170,7 +170,7 @@ jobs:
         id: set_output
         run: echo "is_member=${{ steps.check_org_membership.outputs.result }}" >> $GITHUB_OUTPUT
 
-  handle_new_issue:
+  handle_protocol_call:
     needs: check_membership
     runs-on: ubuntu-latest
     if: needs.check_membership.outputs.is_member == 'true'
@@ -181,7 +181,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: '3.9'
 
       - name: Upgrade pip, setuptools, and wheel
         run: |
@@ -202,14 +202,13 @@ jobs:
         run: |
           pip list
 
-      - name: Log issue processing
+      - name: Log protocol call processing
         run: |
-          echo "Processing legacy issue #${{ github.event.issue.number }}"
+          echo "Processing protocol call issue #${{ github.event.issue.number }}"
           echo "Issue title: ${{ github.event.issue.title }}"
           echo "Issue labels: ${{ github.event.issue.labels.*.name }}"
-          echo "Note: This is handled by the old workflow (no protocol-call label)"
 
-      - name: Handle issue
+      - name: Handle protocol call
         run: |
           python .github/ACDbot/scripts/handle_protocol_call.py \
             --issue_number "${{ github.event.issue.number }}" \
@@ -263,4 +262,3 @@ permissions:
 concurrency:
   group: issue-${{ github.event.issue.number }}
   cancel-in-progress: false
-

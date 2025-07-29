@@ -1,5 +1,5 @@
 ---
-name: Recurring Protocol Call
+name: (Deprecated) Recurring Protocol Call
 about: Issue for planning a recurring dev call with automatic YouTube streams
 title: 'call name | call # | call date '
 labels: 'recurring'
@@ -11,10 +11,10 @@ assignees: ''
 
 - Date and time in UTC in format `month, day, year, time` with link to savvytime.com or timeanddate.com. E.g. [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)
 
-# Agenda 
+# Agenda
 
-- Agenda point 1 
-- Agenda point n 
+- Agenda point 1
+- Agenda point n
 
 Other comments and resources
 

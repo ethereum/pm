@@ -1,5 +1,5 @@
 ---
-name: One-Time Protocol Call - (with Youtube upload)
+name: (Deprecated) One-Time Protocol Call - (with Youtube upload)
 about: Issue for planning a single occurrence dev call with automatic YouTube upload after the call
 title: 'call name | call # | call date '
 labels: 'onetime'
@@ -11,10 +11,10 @@ assignees: ''
 
 - Date and time in UTC in format `month, day, year, time` with link to savvytime.com or timeanddate.com. E.g. [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)
 
-# Agenda 
+# Agenda
 
-- Agenda point 1 
-- Agenda point n 
+- Agenda point 1
+- Agenda point n
 
 Other comments and resources
 
@@ -29,4 +29,4 @@ Facilitator emails: XXXXX, YYYYY
 - Already on Ethereum Calendar : false # Set to true if this meeting is already on the Ethereum public calendar (will not create calendar event)
 - display zoom link in invite : false # Set to true to add the Zoom link to the Google Calendar invite description
 
-</details> 
+</details>

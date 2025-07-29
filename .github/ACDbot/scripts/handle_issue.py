@@ -1,3 +1,4 @@
+# DEPRECATED: This script is being replaced by handle_protocol_call.py
 import os
 import sys
 import argparse
@@ -969,7 +970,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             "duration": parsed_duration,
             "skip_youtube_upload": skip_yt_upload,
             "skip_transcript_processing": skip_transcript,
-            "Youtube_upload_processed": False, # Initialize processing flags
+            "youtube_upload_processed": False, # Initialize processing flags
             "transcript_processed": False,
             "upload_attempt_count": 0,
             "transcript_attempt_count": 0,
@@ -994,7 +995,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
             existing_occurrence = mapping_entry["occurrences"][existing_occurrence_index]
             preserve_flags = {
                 "occurrence_number": existing_occurrence.get("occurrence_number"), # Keep original number
-                "Youtube_upload_processed": existing_occurrence.get("Youtube_upload_processed", False),
+                "youtube_upload_processed": existing_occurrence.get("youtube_upload_processed", False),
                 "transcript_processed": existing_occurrence.get("transcript_processed", False),
                 "upload_attempt_count": existing_occurrence.get("upload_attempt_count", 0),
                 "transcript_attempt_count": existing_occurrence.get("transcript_attempt_count", 0),
@@ -1072,7 +1073,7 @@ def handle_github_issue(issue_number: int, repo_name: str):
         # Clean up old top-level fields if they exist
         obsolete_keys = ["issue_number", "issue_title", "discourse_topic_id", "start_time", "duration",
                          "skip_youtube_upload", "skip_transcript_processing",
-                         "Youtube_upload_processed", "transcript_processed", "upload_attempt_count",
+                         "youtube_upload_processed", "transcript_processed", "upload_attempt_count",
                          "transcript_attempt_count", "telegram_message_id", "youtube_streams",
                          "youtube_streams_posted_to_discourse"]
         for key in obsolete_keys:
