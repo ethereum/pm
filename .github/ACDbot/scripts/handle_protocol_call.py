@@ -568,26 +568,42 @@ class ProtocolCallHandler:
             from modules import gcal
 
             # Extract parameters from call_data
-            summary = call_data["issue_title"]
             start_dt = call_data["start_time"]
             duration_minutes = call_data["duration"]
             is_recurring = call_data["is_recurring"]
             occurrence_rate = call_data.get("occurrence_rate", "other")
 
+            # Determine calendar event title
+            if call_data["call_series"] == "one-off":
+                # For one-off calls, use the issue title
+                summary = call_data["issue_title"]
+            else:
+                # For series calls, use the human-friendly call series name
+                summary = self._get_call_series_display_name(call_data["call_series"])
+
             # Get calendar ID from environment (same as old system)
             calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
 
-            # Build description with agenda and links
+            # Build description with links first, then truncated agenda
             description_parts = []
-            if call_data.get("agenda"):
-                description_parts.append(f"Agenda:\n{call_data['agenda']}")
 
-            # Add Zoom link to description if requested and available
+            # Add meeting link to description if requested and available
             if call_data.get("display_zoom_link_in_invite") and call_data.get("zoom_url"):
-                description_parts.append(f"\nZoom Meeting: {call_data['zoom_url']}")
+                description_parts.append(f"Meeting: {call_data['zoom_url']}")
 
             # Add GitHub issue link
-            description_parts.append(f"\nGitHub Issue: {call_data['issue_url']}")
+            description_parts.append(f"Issue: {call_data['issue_url']}")
+
+            # Add truncated agenda if provided
+            if call_data.get("agenda"):
+                agenda_lines = call_data['agenda'].strip().split('\n')
+                # Limit to 7 lines (including "Agenda:" header)
+                if len(agenda_lines) > 6:
+                    truncated_agenda = '\n'.join(agenda_lines[:6])
+                    truncated_agenda += '\n\n[Agenda truncated - see GitHub issue for full details]'
+                    description_parts.append(f"Agenda:\n{truncated_agenda}")
+                else:
+                    description_parts.append(f"Agenda:\n{call_data['agenda']}")
 
             description = "\n\n".join(description_parts)
 
@@ -787,6 +803,32 @@ class ProtocolCallHandler:
                 "discourse_url": "https://ethereum-magicians.org (API error occurred)",
                 "action": "failed"
             }
+
+    def _get_call_series_display_name(self, call_series_key: str) -> str:
+        """Get the human-friendly display name for a call series key."""
+        display_name_mapping = {
+            "acde": "All Core Devs - Execution",
+            "acdc": "All Core Devs - Consensus",
+            "acdt": "All Core Devs - Testing",
+            "awd": "All Wallet Devs",
+            "beam": "Beam Call",
+            "eip": "EIP Editing Office Hour",
+            "eipip": "EIPIP Meeting",
+            "evm": "EVM Resource Pricing Breakout",
+            "eth_simulate": "eth_simulate Implementers",
+            "ethproofs": "Ethproofs Community Call",
+            "focil": "FOCIL Implementers",
+            "l2": "L2 Interop Working Group",
+            "pq": "PQ Interop",
+            "peerdas": "PeerDAS Breakout",
+            "portal": "Portal Implementers",
+            "research": "Protocol Research Call",
+            "rpc": "RPC Standards Call",
+            "rollcall": "RollCall",
+            "stateless": "Stateless Implementers"
+        }
+
+        return display_name_mapping.get(call_series_key, call_series_key)
 
     def _find_existing_discourse_topic(self, call_series: str) -> Optional[int]:
         """Find existing Discourse topic ID for a call series."""
