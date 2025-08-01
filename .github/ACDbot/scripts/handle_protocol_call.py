@@ -26,39 +26,39 @@ class ProtocolCallHandler:
         self.form_parser = FormParser()
         self.mapping_manager = MappingManager()
 
-    def _should_process_edit(self, call_data: Dict, existing_occurrence: Dict) -> bool:
-        """Determine if an edit should trigger resource updates."""
+    def _should_process_global_edit(self, call_data: Dict, existing_occurrence: Dict) -> bool:
+        """Determine if an edit contains global changes that require full resource reprocessing."""
         try:
             # Get the existing occurrence data
             occurrence = existing_occurrence.get("occurrence", {})
 
-            # Define critical fields that should trigger updates
-            critical_fields = ["start_time", "duration", "call_series"]
+            # Define global fields that require full resource reprocessing
+            global_fields = ["start_time", "duration", "call_series"]
 
-            # Check if any critical fields changed
-            for field in critical_fields:
+            # Check if any global fields changed (these require full resource reprocessing)
+            for field in global_fields:
                 current_value = call_data.get(field)
                 existing_value = occurrence.get(field)
 
                 if current_value != existing_value:
-                    print(f"[DEBUG] Critical field '{field}' changed: '{existing_value}' -> '{current_value}'")
+                    print(f"[DEBUG] Global field '{field}' changed: '{existing_value}' -> '{current_value}' - triggering full resource reprocessing")
                     return True
 
-            # Check if agenda changed (this might affect calendar description)
+            # Check if agenda changed (this only affects calendar description, not other resources)
             current_agenda = call_data.get("agenda", "")
             existing_agenda = occurrence.get("agenda", "")
             if current_agenda != existing_agenda:
-                print(f"[DEBUG] Agenda changed, will update calendar description")
-                return True
+                print(f"[DEBUG] Agenda changed, will update calendar description only")
+                # Don't return True here - agenda changes should only affect calendar, not other resources
 
             # Check if issue title changed (affects all resource titles)
             current_title = call_data.get("issue_title", "")
             existing_title = occurrence.get("issue_title", "")
             if current_title != existing_title:
-                print(f"[DEBUG] Issue title changed: '{existing_title}' -> '{current_title}'")
+                print(f"[DEBUG] Issue title changed: '{existing_title}' -> '{current_title}' - triggering full resource reprocessing")
                 return True
 
-            print(f"[DEBUG] No critical changes detected, skipping resource updates")
+            print(f"[DEBUG] No global changes detected, skipping full resource reprocessing")
             return False
 
         except Exception as e:
@@ -124,12 +124,12 @@ class ProtocolCallHandler:
             existing_occurrence = self.mapping_manager.find_occurrence(issue_number)
             is_update = existing_occurrence is not None
 
-            # 5. For updates, check if we should process the edit
+            # 5. For updates, check if we should process global changes
             should_process_resources = True
             if is_update:
-                should_process_resources = self._should_process_edit(call_data, existing_occurrence)
+                should_process_resources = self._should_process_global_edit(call_data, existing_occurrence)
                 if not should_process_resources:
-                    print(f"[INFO] Edit for issue #{issue_number} contains no critical changes, skipping resource updates")
+                    print(f"[INFO] Edit for issue #{issue_number} contains no global changes, skipping full resource reprocessing")
 
             existing_resources = self._check_existing_resources(call_data)
 
@@ -247,8 +247,8 @@ class ProtocolCallHandler:
     def _check_existing_resources(self, call_data: Dict) -> Dict:
         """Check if resources already exist for this occurrence."""
         try:
-            existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
-            if not existing_occurrence:
+            call_series_entry = self.mapping_manager.find_occurrence(call_data["issue_number"])
+            if not call_series_entry:
                 return {
                     "has_zoom": False,
                     "has_calendar": False,
@@ -256,28 +256,31 @@ class ProtocolCallHandler:
                     "has_youtube": False
                 }
 
-            occurrence = existing_occurrence["occurrence"]
+            occurrence = call_series_entry["occurrence"]
 
             # Check for existing resources
             has_zoom = (occurrence.get("meeting_id") and
                        not str(occurrence.get("meeting_id")).startswith("placeholder"))
-            has_calendar = bool(occurrence.get("calendar_event_id"))
+            # Calendar event ID is stored at the parent level (call series level)
+            has_calendar = bool(call_series_entry.get("calendar_event_id"))
             has_discourse = (occurrence.get("discourse_topic_id") and
                            not str(occurrence.get("discourse_topic_id")).startswith("placeholder"))
             has_youtube = bool(occurrence.get("youtube_streams"))
 
             print(f"[DEBUG] Existing resources for issue #{call_data['issue_number']}:")
             print(f"  - Zoom: {has_zoom} (ID: {occurrence.get('meeting_id')})")
-            print(f"  - Calendar: {has_calendar} (ID: {occurrence.get('calendar_event_id')})")
+            print(f"  - Calendar: {has_calendar} (ID: {call_series_entry.get('calendar_event_id')})")
             print(f"  - Discourse: {has_discourse} (ID: {occurrence.get('discourse_topic_id')})")
             print(f"  - YouTube: {has_youtube} (streams: {len(occurrence.get('youtube_streams', []))})")
+            print(f"[DEBUG] Full occurrence data: {occurrence}")
+            print(f"[DEBUG] Full call_series_entry data: {call_series_entry}")
 
             return {
                 "has_zoom": has_zoom,
                 "has_calendar": has_calendar,
                 "has_discourse": has_discourse,
                 "has_youtube": has_youtube,
-                "existing_occurrence": existing_occurrence
+                "existing_occurrence": call_series_entry
             }
 
         except Exception as e:
@@ -417,6 +420,7 @@ class ProtocolCallHandler:
 
             # Create or update Google Calendar event
             if not call_data["skip_gcal_creation"]:
+                print(f"[DEBUG] Calendar creation check - has_calendar: {existing_resources['has_calendar']}")
                 if existing_resources["has_calendar"]:
                     # Check if calendar actually needs updating
                     existing_occurrence = existing_resources["existing_occurrence"]
@@ -424,8 +428,8 @@ class ProtocolCallHandler:
 
                     if should_update:
                         print(f"[DEBUG] Calendar event exists and needs updating")
-                        # Get existing Calendar ID from mapping
-                        existing_calendar_event_id = existing_occurrence["occurrence"]["calendar_event_id"]
+                        # Get existing Calendar ID from mapping (stored at parent level)
+                        existing_calendar_event_id = existing_occurrence["calendar_event_id"]
 
                         # Pass zoom URL to calendar creation if available
                         calendar_call_data = call_data.copy()
@@ -436,12 +440,13 @@ class ProtocolCallHandler:
                         results.update(calendar_result)
                     else:
                         print(f"[DEBUG] Calendar event exists but no relevant changes, skipping update")
-                        # Use existing calendar data
-                        existing_occurrence_data = existing_resources["existing_occurrence"]["occurrence"]
+                        # Use existing calendar data (stored at parent level)
+                        existing_occurrence_data = existing_resources["existing_occurrence"]
                         results.update({
                             "calendar_created": True,
                             "calendar_event_id": existing_occurrence_data.get("calendar_event_id"),
-                            "calendar_event_url": f"https://calendar.google.com/event?eid={existing_occurrence_data.get('calendar_event_id', '')}"
+                            "calendar_event_url": f"https://calendar.google.com/event?eid={existing_occurrence_data.get('calendar_event_id', '')}",
+                            "calendar_action": "existing"
                         })
                 else:
                     # Pass zoom URL to calendar creation if available
@@ -461,7 +466,7 @@ class ProtocolCallHandler:
                     "discourse_created": True,
                     "discourse_topic_id": existing_occurrence["discourse_topic_id"],
                     "discourse_url": f"https://ethereum-magicians.org/t/{existing_occurrence['discourse_topic_id']}",
-                    "action": "existing"
+                    "discourse_action": "existing"
                 })
             else:
                 discourse_call_data = call_data.copy()
@@ -479,11 +484,17 @@ class ProtocolCallHandler:
                     print(f"[DEBUG] YouTube streams already exist, skipping creation")
                     # Use existing YouTube streams from mapping
                     existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
+                    youtube_streams = existing_occurrence.get("youtube_streams", [])
+                    if youtube_streams:
+                        stream_links = [f"- Stream {i+1}: {stream['stream_url']}"
+                                      for i, stream in enumerate(youtube_streams)]
+                    else:
+                        stream_links = []
+
                     results.update({
                         "youtube_streams_created": True,
-                        "youtube_streams": existing_occurrence["youtube_streams"],
-                        "stream_links": [f"- Stream {i+1}: {stream['stream_url']}"
-                                       for i, stream in enumerate(existing_occurrence["youtube_streams"])]
+                        "youtube_streams": youtube_streams,
+                        "stream_links": stream_links
                     })
                 else:
                     youtube_result = self._create_youtube_streams(call_data)
@@ -679,6 +690,7 @@ class ProtocolCallHandler:
                 )
                 print(f"[DEBUG] Created one-time calendar event with ID: {event_result.get('id')}")
 
+            print(f"[DEBUG] Calendar event result: {event_result}")
             return {
                 "calendar_created": True,
                 "calendar_event_id": event_result.get('id'),
@@ -1071,10 +1083,18 @@ class ProtocolCallHandler:
 
     def _resources_changed(self, resource_results: Dict) -> bool:
         """Check if any resources were actually created/updated."""
+        # Check if Discourse was actually created (not just found existing)
+        discourse_actually_created = (resource_results.get("discourse_created") and
+                                    resource_results.get("discourse_action") not in ["existing", "found_duplicate_series"])
+
+        # Check if Calendar was actually created/updated (not just found existing)
+        calendar_actually_created = (resource_results.get("calendar_created") and
+                                   resource_results.get("calendar_action") != "existing")
+
         return any([
             resource_results.get("zoom_created"),
-            resource_results.get("calendar_created"),
-            resource_results.get("discourse_created"),
+            calendar_actually_created,
+            discourse_actually_created,
             resource_results.get("youtube_streams_created")
         ])
 
@@ -1110,7 +1130,11 @@ class ProtocolCallHandler:
                 comment_lines.append("❌ **Zoom**: Failed to create")
 
             if resource_results["calendar_created"]:
-                if resource_results.get("calendar_event_url"):
+                calendar_action = resource_results.get("calendar_action", "created")
+                if calendar_action == "existing":
+                    # Don't include existing resources in the comment
+                    pass
+                elif resource_results.get("calendar_event_url"):
                     comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({resource_results['calendar_event_url']})")
                 else:
                     comment_lines.append("✅ **Calendar**: Event created")
@@ -1120,8 +1144,11 @@ class ProtocolCallHandler:
                 comment_lines.append("❌ **Calendar**: Failed to create")
 
             if resource_results["discourse_created"]:
-                discourse_action = resource_results.get("action", "created")
-                if resource_results.get("discourse_url"):
+                discourse_action = resource_results.get("discourse_action", "created")
+                if discourse_action in ["existing", "found_duplicate_series"]:
+                    # Don't include existing resources in the comment
+                    pass
+                elif resource_results.get("discourse_url"):
                     comment_lines.append(f"✅ **Discourse**: [{discourse_action.capitalize()} Topic]({resource_results['discourse_url']})")
                 else:
                     comment_lines.append(f"✅ **Discourse**: {discourse_action.capitalize()}")
