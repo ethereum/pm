@@ -75,7 +75,7 @@ class TestProtocolCallHandler(unittest.TestCase):
             }
         }
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             no_change_call_data,
             matching_existing
         )
@@ -86,7 +86,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         modified_call_data = self.sample_call_data.copy()
         modified_call_data["start_time"] = "2024-01-15T11:00:00Z"
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             modified_call_data,
             self.sample_existing_occurrence
         )
@@ -97,7 +97,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         modified_call_data = self.sample_call_data.copy()
         modified_call_data["duration"] = 90
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             modified_call_data,
             self.sample_existing_occurrence
         )
@@ -108,7 +108,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         modified_call_data = self.sample_call_data.copy()
         modified_call_data["call_series"] = "new-test-series"
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             modified_call_data,
             self.sample_existing_occurrence
         )
@@ -119,7 +119,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         modified_call_data = self.sample_call_data.copy()
         modified_call_data["agenda"] = "Updated test agenda"
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             modified_call_data,
             self.sample_existing_occurrence
         )
@@ -130,7 +130,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         modified_call_data = self.sample_call_data.copy()
         modified_call_data["issue_title"] = "Updated Test Protocol Call"
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             modified_call_data,
             self.sample_existing_occurrence
         )
@@ -140,7 +140,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         """Test handling of missing existing occurrence data."""
         incomplete_existing = {"call_series": "test-series", "occurrence": {}}
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             self.sample_call_data,
             incomplete_existing
         )
@@ -297,7 +297,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         existing_with_none = self.sample_existing_occurrence.copy()
         existing_with_none["occurrence"]["agenda"] = None
 
-        result = self.handler._should_process_edit(
+        result = self.handler._should_process_global_edit(
             call_data_with_empty,
             existing_with_none
         )
