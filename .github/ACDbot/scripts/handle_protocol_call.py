@@ -132,6 +132,7 @@ class ProtocolCallHandler:
                     print(f"[INFO] Edit for issue #{issue_number} contains no global changes, skipping full resource reprocessing")
 
             existing_resources = self._check_existing_resources(call_data)
+            print(f"[DEBUG] Existing resources result: {existing_resources}")
 
             # 6. Create or update mapping
             success = self._update_mapping(call_data, issue, is_update)
@@ -313,10 +314,11 @@ class ProtocolCallHandler:
                     update_data["meeting_id"] = resource_results["zoom_id"]
                     print(f"[DEBUG] Adding Zoom meeting ID: {resource_results['zoom_id']}")
 
-            # Add Calendar event ID if created
+            # Add Calendar event ID if created (stored at call series level)
             if resource_results.get("calendar_created") and resource_results.get("calendar_event_id"):
-                update_data["calendar_event_id"] = resource_results["calendar_event_id"]
-                print(f"[DEBUG] Adding Calendar event ID: {resource_results['calendar_event_id']}")
+                # Use the mapping manager's method to set calendar event ID at call series level
+                self.mapping_manager.set_series_calendar_event_id(call_series, resource_results["calendar_event_id"])
+                print(f"[DEBUG] Added Calendar event ID at call series level: {resource_results['calendar_event_id']}")
 
             # Add Discourse topic ID if created
             if resource_results.get("discourse_created") and resource_results.get("discourse_topic_id"):
