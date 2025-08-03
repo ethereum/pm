@@ -260,8 +260,16 @@ class ProtocolCallHandler:
             occurrence = call_series_entry["occurrence"]
 
             # Check for existing resources
-            has_zoom = (occurrence.get("meeting_id") and
-                       not str(occurrence.get("meeting_id")).startswith("placeholder"))
+            # For recurring calls, check series-level meeting ID; for one-off, check occurrence-level
+            if call_data.get("is_recurring") and call_data.get("call_series") != "one-off":
+                # For recurring calls, check if we have a series meeting ID
+                series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
+                has_zoom = bool(series_meeting_id and not str(series_meeting_id).startswith("placeholder"))
+            else:
+                # For one-off calls, check occurrence-level meeting ID
+                has_zoom = (occurrence.get("meeting_id") and
+                           not str(occurrence.get("meeting_id")).startswith("placeholder"))
+
             # Calendar event ID is stored at the parent level (call series level)
             has_calendar = bool(call_series_entry.get("calendar_event_id"))
             has_discourse = (occurrence.get("discourse_topic_id") and
@@ -311,8 +319,15 @@ class ProtocolCallHandler:
             # Add Zoom meeting ID if created
             if resource_results.get("zoom_created") and resource_results.get("zoom_id"):
                 if not str(resource_results["zoom_id"]).startswith("placeholder"):
-                    update_data["meeting_id"] = resource_results["zoom_id"]
-                    print(f"[DEBUG] Adding Zoom meeting ID: {resource_results['zoom_id']}")
+                    # For recurring calls, store at series level; for one-off, store at occurrence level
+                    if call_data.get("is_recurring") and call_data.get("call_series") != "one-off":
+                        # Store at series level for recurring calls
+                        self.mapping_manager.set_series_meeting_id(call_data["call_series"], resource_results["zoom_id"])
+                        print(f"[DEBUG] Set series meeting ID: {resource_results['zoom_id']}")
+                    else:
+                        # Store at occurrence level for one-off calls
+                        update_data["meeting_id"] = resource_results["zoom_id"]
+                        print(f"[DEBUG] Adding occurrence meeting ID: {resource_results['zoom_id']}")
 
             # Add Calendar event ID if created (stored at call series level)
             if resource_results.get("calendar_created") and resource_results.get("calendar_event_id"):
@@ -408,14 +423,22 @@ class ProtocolCallHandler:
             # Create or update Zoom meeting (if not skipped)
             if not call_data["skip_zoom_creation"]:
                 if existing_resources["has_zoom"]:
-                    print(f"[DEBUG] Zoom meeting already exists, skipping creation")
-                    # Use existing Zoom ID from mapping
-                    existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
-                    results.update({
-                        "zoom_created": True,
-                        "zoom_id": existing_occurrence["meeting_id"],
-                        "zoom_url": "https://zoom.us (existing meeting)"
-                    })
+                    print(f"[DEBUG] Zoom meeting already exists, reusing existing meeting")
+                    # For recurring calls, use series meeting ID; for one-off, use occurrence meeting ID
+                    if call_data.get("is_recurring") and call_data.get("call_series") != "one-off":
+                        existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
+                        results.update({
+                            "zoom_created": True,
+                            "zoom_id": existing_meeting_id,
+                            "zoom_url": "https://zoom.us (existing recurring meeting)"
+                        })
+                    else:
+                        existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
+                        results.update({
+                            "zoom_created": True,
+                            "zoom_id": existing_occurrence["meeting_id"],
+                            "zoom_url": "https://zoom.us (existing meeting)"
+                        })
                 else:
                     zoom_result = self._create_zoom_meeting(call_data)
                     results.update(zoom_result)
@@ -430,7 +453,7 @@ class ProtocolCallHandler:
 
                     if should_update:
                         print(f"[DEBUG] Calendar event exists and needs updating")
-                        # Get existing Calendar ID from mapping (stored at parent level)
+                        # Get existing Calendar ID from mapping (stored at call series level)
                         existing_calendar_event_id = existing_occurrence["calendar_event_id"]
 
                         # Pass zoom URL to calendar creation if available
@@ -510,7 +533,7 @@ class ProtocolCallHandler:
             return results
 
     def _create_zoom_meeting(self, call_data: Dict) -> Dict:
-        """Create Zoom meeting."""
+        """Create or update Zoom meeting."""
         try:
             # Import existing zoom module
             from modules import zoom
@@ -521,29 +544,49 @@ class ProtocolCallHandler:
             duration = call_data["duration"]
             is_recurring = call_data["is_recurring"]
             occurrence_rate = call_data.get("occurrence_rate", "other")
+            call_series = call_data.get("call_series", "unknown")
 
-            print(f"[DEBUG] Creating Zoom meeting: {topic}")
+            print(f"[DEBUG] Creating/updating Zoom meeting: {topic}")
             print(f"[DEBUG] Start time: {start_time}, Duration: {duration} minutes")
             print(f"[DEBUG] Recurring: {is_recurring}, Rate: {occurrence_rate}")
 
-            # Create meeting based on type
-            if is_recurring and occurrence_rate != "none":
-                # Create recurring meeting
-                join_url, zoom_id = zoom.create_recurring_meeting(
-                    topic=topic,
-                    start_time=start_time,
-                    duration=duration,
-                    occurrence_rate=occurrence_rate
-                )
-                print(f"[DEBUG] Created recurring Zoom meeting with ID: {zoom_id}")
+            # Check if we have an existing meeting ID to reuse
+            existing_meeting_id = None
+            if is_recurring and call_series != "one-off":
+                # For recurring calls, check if we have a series meeting ID
+                existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_series)
+                if existing_meeting_id:
+                    print(f"[DEBUG] Found existing series meeting ID: {existing_meeting_id}")
+                else:
+                    print(f"[DEBUG] No existing series meeting ID found for {call_series}")
+
+            if existing_meeting_id:
+                # Update existing meeting
+                print(f"[DEBUG] Updating existing meeting with ID: {existing_meeting_id}")
+                update_result = zoom.update_meeting(existing_meeting_id, topic, start_time, duration)
+                join_url = update_result.get("join_url", "https://zoom.us (updated meeting)")
+                zoom_id = existing_meeting_id
+                print(f"[DEBUG] Updated existing Zoom meeting with ID: {zoom_id}")
             else:
-                # Create one-time meeting
-                join_url, zoom_id = zoom.create_meeting(
-                    topic=topic,
-                    start_time=start_time,
-                    duration=duration
-                )
-                print(f"[DEBUG] Created one-time Zoom meeting with ID: {zoom_id}")
+                # Create new meeting based on type
+                print(f"[DEBUG] Creating new meeting...")
+                if is_recurring and occurrence_rate != "none":
+                    # Create recurring meeting
+                    join_url, zoom_id = zoom.create_recurring_meeting(
+                        topic=topic,
+                        start_time=start_time,
+                        duration=duration,
+                        occurrence_rate=occurrence_rate
+                    )
+                    print(f"[DEBUG] Created recurring Zoom meeting with ID: {zoom_id}")
+                else:
+                    # Create one-time meeting
+                    join_url, zoom_id = zoom.create_meeting(
+                        topic=topic,
+                        start_time=start_time,
+                        duration=duration
+                    )
+                    print(f"[DEBUG] Created one-time Zoom meeting with ID: {zoom_id}")
 
             # Always fetch current join URL from API (as per old system)
             if zoom_id and not str(zoom_id).startswith("placeholder-"):
