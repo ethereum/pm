@@ -85,7 +85,6 @@ class FormParser:
 
         # Extract other fields
         facilitator_emails = self._extract_old_facilitator_emails(issue_body)
-        custom_meeting_link = self._extract_old_custom_meeting_link(issue_body)
         agenda = self._extract_old_agenda(issue_body)
 
         return {
@@ -99,7 +98,6 @@ class FormParser:
             "need_youtube_streams": need_youtube_streams,
             "display_zoom_link_in_invite": display_zoom_link_in_invite,
             "facilitator_emails": facilitator_emails,
-            "custom_meeting_link": custom_meeting_link,
             "agenda": agenda
         }
 
@@ -215,16 +213,7 @@ class FormParser:
             return valid_emails
         return []
 
-    def _extract_old_custom_meeting_link(self, issue_body: str) -> Optional[str]:
-        """Extract custom meeting link from old format."""
-        pattern = r"Custom meeting link\s*:\s*([^\n]+)"
-        match = re.search(pattern, issue_body, re.IGNORECASE)
-        if match:
-            link = match.group(1).strip()
-            if link and link.lower() != 'none':
-                print(f"[DEBUG] Parsed old format custom_meeting_link: {link}")
-                return link
-        return None
+
 
     def _extract_old_agenda(self, issue_body: str) -> Optional[str]:
         """Extract agenda from old format."""
@@ -384,9 +373,7 @@ class FormParser:
             return emails
         return []
 
-    def parse_custom_meeting_link(self, issue_body: str) -> Optional[str]:
-        """Extract custom meeting link from form input."""
-        return self.parse_text_field(issue_body, "Custom Meeting Link \\(Optional\\)")
+
 
     def parse_agenda(self, issue_body: str) -> Optional[str]:
         """Extract agenda from form textarea."""
@@ -507,7 +494,6 @@ class FormParser:
 
         # Parse additional fields
         facilitator_emails = self.parse_facilitator_emails(issue_body)
-        custom_meeting_link = self.parse_custom_meeting_link(issue_body)
         agenda = self.parse_agenda(issue_body)
 
         # Parse date/time with duration
@@ -532,7 +518,6 @@ class FormParser:
             "need_youtube_streams": need_youtube_streams,
             "display_zoom_link_in_invite": display_zoom_link_in_invite,
             "facilitator_emails": facilitator_emails,
-            "custom_meeting_link": custom_meeting_link,
             "agenda": agenda,
             "date_time_text": date_time_text
         }

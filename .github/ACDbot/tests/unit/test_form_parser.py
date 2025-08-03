@@ -82,7 +82,6 @@ Test agenda for the meeting
         assert result["need_youtube_streams"] is True
         assert result["display_zoom_link_in_invite"] is True
         assert result["facilitator_emails"] == ["test@example.com"]
-        assert result["custom_meeting_link"] is None
         assert result["agenda"] == "Test agenda for the meeting"
 
     def test_parse_form_data_legacy_format(self, sample_legacy_issue_body):
@@ -115,7 +114,6 @@ Test agenda for the meeting
         assert result["need_youtube_streams"] is False
         assert result["display_zoom_link_in_invite"] is False
         assert result["facilitator_emails"] == ['organizer@example.com']
-        assert result["custom_meeting_link"] is None
 
     def test_parse_form_data_missing_required_fields(self):
         """Test parsing form data with missing required fields."""
