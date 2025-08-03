@@ -234,7 +234,6 @@ class ProtocolCallHandler:
                 "need_youtube_streams": form_data["need_youtube_streams"],
                 "display_zoom_link_in_invite": form_data["display_zoom_link_in_invite"],
                 "facilitator_emails": form_data["facilitator_emails"],
-                "custom_meeting_link": form_data["custom_meeting_link"],
                 "agenda": form_data.get("agenda")
             }
 
