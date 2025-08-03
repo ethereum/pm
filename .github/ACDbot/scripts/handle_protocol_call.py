@@ -376,8 +376,11 @@ class ProtocolCallHandler:
             # 8. Send Telegram notification
             self._send_telegram_notification(call_data, issue, resource_results, is_update)
 
-            # 9. Post results to GitHub
-            self._post_results(call_data, issue, resource_results, is_update)
+            # 9. Post results to GitHub only if resources were successfully created
+            if self._resources_changed(resource_results):
+                self._post_results(call_data, issue, resource_results, is_update)
+            else:
+                print(f"[DEBUG] No resources successfully created, skipping GitHub comment to avoid email spam")
 
             # 10. Save mapping
             self.mapping_manager.save_mapping()
@@ -1200,49 +1203,73 @@ class ProtocolCallHandler:
                 print(f"[DEBUG] No resource changes detected, skipping Telegram notification for issue #{call_data['issue_number']}")
                 return
 
-            # Check if we have a valid Discourse URL
-            discourse_url = resource_results.get("discourse_url")
-            if not discourse_url or discourse_url == "https://ethereum-magicians.org (API error occurred)":
-                print("[DEBUG] Skipping Telegram notification - Discourse URL not available.")
-                return
-
-            # Find the current occurrence data to get generated streams
-            existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
-            if not existing_occurrence:
-                print(f"[ERROR] Could not find current occurrence for issue {call_data['issue_number']} to generate Telegram message.")
-                return
+            # Check if any resources were successfully created
+            resources_created = self._resources_changed(resource_results)
 
             # Build the message
-            telegram_message_body = (
-                f"<b>{call_data['issue_title']}</b>\n\n"
-                f"<b>Links:</b>\n"
-                f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
-                f"• <a href='{call_data['issue_url']}'>GitHub Issue</a>\n"
-            )
+            if resources_created:
+                # Success case - include all created resources
+                telegram_message_body = (
+                    f"<b>{call_data['issue_title']}</b>\n\n"
+                    f"<b>Links:</b>\n"
+                    f"• <a href='{call_data['issue_url']}'>GitHub Issue</a>\n"
+                )
 
-            # Add Google Calendar link if available
-            calendar_event_url = resource_results.get("calendar_event_url")
-            if calendar_event_url:
-                telegram_message_body += f"• <a href='{calendar_event_url}'>Google Calendar</a>\n"
+                # Add Discourse link if created
+                discourse_url = resource_results.get("discourse_url")
+                if discourse_url and discourse_url != "https://ethereum-magicians.org (API error occurred)":
+                    telegram_message_body += f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
 
-            # Add occurrence-specific YouTube streams if they exist
-            occurrence = existing_occurrence["occurrence"]
-            occurrence_streams = occurrence.get("youtube_streams")
-            if occurrence_streams:
-                telegram_message_body += f"\n<b>YouTube Stream Links:</b>\n"
-                for i, stream in enumerate(occurrence_streams, 1):
-                    stream_url = stream.get('stream_url')
-                    if stream_url:
-                        telegram_message_body += f"• <a href='{stream_url}'>Stream {i}</a>\n"
+                # Add Google Calendar link if created
+                calendar_event_url = resource_results.get("calendar_event_url")
+                if calendar_event_url:
+                    telegram_message_body += f"• <a href='{calendar_event_url}'>Google Calendar</a>\n"
+
+                # Add YouTube streams if created
+                if resource_results.get("youtube_streams_created") and resource_results.get("stream_links"):
+                    telegram_message_body += f"\n<b>YouTube Stream Links:</b>\n"
+                    for stream_link in resource_results["stream_links"]:
+                        # Extract URL from stream link format: "- Stream 1: https://..."
+                        if "https://" in stream_link:
+                            url = stream_link.split("https://")[1].split(" ")[0]
+                            telegram_message_body += f"• <a href='https://{url}'>Stream {stream_link.split('Stream ')[1].split(':')[0]}</a>\n"
+            else:
+                # Failure case - notify about the failure
+                telegram_message_body = (
+                    f"<b>⚠️ Resource Creation Failed</b>\n\n"
+                    f"<b>{call_data['issue_title']}</b>\n\n"
+                    f"<b>Status:</b>\n"
+                )
+
+                # Add failure details for each resource
+                if not call_data.get("skip_zoom_creation") and not resource_results.get("zoom_created"):
+                    telegram_message_body += "• ❌ Zoom meeting creation failed\n"
+
+                if not call_data.get("skip_gcal_creation") and not resource_results.get("calendar_created"):
+                    telegram_message_body += "• ❌ Calendar event creation failed\n"
+
+                if not resource_results.get("discourse_created"):
+                    telegram_message_body += "• ❌ Discourse topic creation failed\n"
+
+                if call_data.get("need_youtube_streams") and not resource_results.get("youtube_streams_created"):
+                    telegram_message_body += "• ❌ YouTube streams creation failed\n"
+
+                telegram_message_body += f"\n<a href='{call_data['issue_url']}'>GitHub Issue</a>"
 
             # Send the message
             telegram_channel_id = os.environ.get("TELEGRAM_CHAT_ID")
-            existing_telegram_message_id = occurrence.get("telegram_message_id")
             telegram_channel_sent = False
 
             if telegram_channel_id and tg:
                 try:
-                    # Update existing message or create new one
+                    # For new issues, always send a new message
+                    # For updates, try to update existing message if available
+                    existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
+                    existing_telegram_message_id = None
+
+                    if existing_occurrence and is_update:
+                        existing_telegram_message_id = existing_occurrence["occurrence"].get("telegram_message_id")
+
                     if existing_telegram_message_id:
                         print(f"[DEBUG] Attempting to update existing Telegram message ID: {existing_telegram_message_id}")
                         update_successful = tg.update_message(existing_telegram_message_id, telegram_message_body)
@@ -1250,32 +1277,30 @@ class ProtocolCallHandler:
                             print(f"[DEBUG] Successfully updated Telegram message {existing_telegram_message_id}.")
                             telegram_channel_sent = True
                             # Preserve the message ID in the occurrence data
-                            occurrence["telegram_message_id"] = existing_telegram_message_id
-                            # Update the mapping
-                            self.mapping_manager.update_occurrence(
-                                existing_occurrence["call_series"],
-                                call_data["issue_number"],
-                                {"telegram_message_id": existing_telegram_message_id}
-                            )
+                            if existing_occurrence:
+                                self.mapping_manager.update_occurrence(
+                                    existing_occurrence["call_series"],
+                                    call_data["issue_number"],
+                                    {"telegram_message_id": existing_telegram_message_id}
+                                )
                         else:
                             error_msg = (f"Failed to update Telegram message ID {existing_telegram_message_id}. "
                                          "Message might have been deleted or API call failed.")
                             print(f"[ERROR] {error_msg}")
                     else:
                         # No existing message ID – send a new one
-                        print(f"[DEBUG] No existing Telegram message ID, sending new message for issue #{call_data['issue_number']}.")
+                        print(f"[DEBUG] Sending new Telegram message for issue #{call_data['issue_number']}.")
                         new_message_id = tg.send_message(telegram_message_body)
                         if new_message_id:
                             telegram_channel_sent = True
-                            # Store the new message ID in the occurrence data
-                            occurrence["telegram_message_id"] = new_message_id
-                            # Update the mapping
-                            self.mapping_manager.update_occurrence(
-                                existing_occurrence["call_series"],
-                                call_data["issue_number"],
-                                {"telegram_message_id": new_message_id}
-                            )
-                            print(f"[DEBUG] Stored new telegram_message_id {new_message_id} in occurrence data for issue #{call_data['issue_number']}.")
+                            # Store the new message ID in the occurrence data if we have one
+                            if existing_occurrence:
+                                self.mapping_manager.update_occurrence(
+                                    existing_occurrence["call_series"],
+                                    call_data["issue_number"],
+                                    {"telegram_message_id": new_message_id}
+                                )
+                                print(f"[DEBUG] Stored new telegram_message_id {new_message_id} in occurrence data for issue #{call_data['issue_number']}.")
                         else:
                             print(f"[ERROR] tg.send_message failed – no message ID returned.")
 
