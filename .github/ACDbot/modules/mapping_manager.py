@@ -151,10 +151,14 @@ class MappingManager:
 
     def find_occurrence(self, issue_number: int) -> Optional[Dict]:
         """Find an occurrence by issue number across all call series."""
+        print(f"[DEBUG] Searching for issue #{issue_number} in mapping with {len(self.mapping)} entries")
+
         # Check one-off calls first
         if "one-off" in self.mapping:
+            print(f"[DEBUG] Checking one-off calls: {len(self.mapping['one-off'])} entries")
             for meeting_id, entry in self.mapping["one-off"].items():
                 if isinstance(entry, dict) and entry.get("issue_number") == issue_number:
+                    print(f"[DEBUG] Found issue #{issue_number} in one-off calls")
                     return {"call_series": "one-off", "meeting_id": meeting_id, "occurrence": entry}
 
         # Check recurring calls
@@ -166,10 +170,15 @@ class MappingManager:
             if not isinstance(entry, dict):
                 continue
 
-            for occurrence in entry.get("occurrences", []):
+            occurrences = entry.get("occurrences", [])
+            print(f"[DEBUG] Checking call series '{call_series}' with {len(occurrences)} occurrences")
+
+            for occurrence in occurrences:
                 if occurrence.get("issue_number") == issue_number:
+                    print(f"[DEBUG] Found issue #{issue_number} in call series '{call_series}'")
                     return {"call_series": call_series, "meeting_id": entry.get("meeting_id"), "occurrence": occurrence}
 
+        print(f"[DEBUG] Issue #{issue_number} not found in any call series")
         return None
 
     def get_series_meeting_id(self, call_series: str) -> Optional[str]:
