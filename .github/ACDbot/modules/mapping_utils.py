@@ -176,7 +176,6 @@ def add_occurrence_to_series(call_series: str, occurrence_data: Dict, mapping: D
     if call_series not in mapping:
         mapping[call_series] = {
             "call_series": call_series,
-            "is_recurring": True,
             "occurrences": []
         }
 

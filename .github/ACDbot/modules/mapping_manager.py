@@ -56,13 +56,12 @@ class MappingManager:
         else:
             return self.mapping.get(call_series)
 
-    def create_call_series_entry(self, call_series: str, meeting_id: str, is_recurring: bool,
+    def create_call_series_entry(self, call_series: str, meeting_id: str,
                                 occurrence_rate: str, duration: int) -> Dict:
         """Create a new call series entry."""
         entry = {
             "call_series": call_series,
             "meeting_id": meeting_id,
-            "is_recurring": is_recurring,
             "occurrence_rate": occurrence_rate,
             "occurrences": []
         }
@@ -95,7 +94,6 @@ class MappingManager:
                     self.mapping[call_series] = self.create_call_series_entry(
                         call_series=call_series,
                         meeting_id=occurrence_data.get("meeting_id", "placeholder"),
-                        is_recurring=occurrence_data.get("is_recurring", True),
                         occurrence_rate=occurrence_data.get("occurrence_rate", "other"),
                         duration=occurrence_data.get("duration")
                     )
@@ -312,7 +310,7 @@ class MappingManager:
                     continue
 
                 # Check required fields
-                required_fields = ["call_series", "is_recurring", "occurrence_rate"]
+                required_fields = ["call_series", "occurrence_rate"]
                 for field in required_fields:
                     if field not in entry:
                         issues.append(f"call series '{call_series}' missing required field: {field}")

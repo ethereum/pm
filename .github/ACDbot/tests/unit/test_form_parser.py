@@ -159,7 +159,6 @@ Test agenda for the meeting
 
         for input_value, expected in test_cases:
             form_body = BOOLEAN_TEST_FORM_TEMPLATE.format(
-                is_recurring=input_value,
                 skip_zoom=input_value
             )
             result = parser.parse_form_data(form_body)

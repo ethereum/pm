@@ -68,8 +68,8 @@ class FormParser:
         # Extract call series
         call_series = self._extract_old_call_series(issue_body)
 
-        # Extract recurring info
-        is_recurring, occurrence_rate = self._extract_old_recurring_info(issue_body)
+        # Extract occurrence rate
+        occurrence_rate = self._extract_old_occurrence_rate(issue_body)
 
         # Extract date/time
         start_time = self._extract_old_date_time(issue_body)
@@ -89,7 +89,6 @@ class FormParser:
 
         return {
             "call_series": call_series,
-            "is_recurring": is_recurring,
             "occurrence_rate": occurrence_rate,
             "start_time": start_time,
             "duration": duration,
@@ -111,19 +110,13 @@ class FormParser:
             return call_series
         return None
 
-    def _extract_old_recurring_info(self, issue_body: str) -> Tuple[bool, str]:
-        """Extract recurring info from old format."""
-        recurring_pattern = r"Recurring meeting\s*:\s*(true|false)"
+    def _extract_old_occurrence_rate(self, issue_body: str) -> str:
+        """Extract occurrence rate from old format."""
         occurrence_pattern = r"Occurrence rate\s*:\s*(none|weekly|bi-weekly|monthly)"
-
-        recurring_match = re.search(recurring_pattern, issue_body, re.IGNORECASE)
         occurrence_match = re.search(occurrence_pattern, issue_body, re.IGNORECASE)
-
-        is_recurring = recurring_match and recurring_match.group(1).lower() == 'true'
         occurrence_rate = occurrence_match.group(1).lower() if occurrence_match else 'none'
-
-        print(f"[DEBUG] Parsed old format recurring: {is_recurring}, rate: {occurrence_rate}")
-        return is_recurring, occurrence_rate
+        print(f"[DEBUG] Parsed old format occurrence rate: {occurrence_rate}")
+        return occurrence_rate
 
     def _extract_old_date_time(self, issue_body: str) -> Optional[str]:
         """Extract date/time from old format."""
@@ -504,14 +497,10 @@ class FormParser:
         # Determine derived fields
         skip_gcal_creation = not self.should_be_on_ethereum_calendar(call_series) if call_series else True
 
-        # Determine if recurring based on call series
-        is_recurring = call_series != "one-off"
-
         return {
             "call_series": call_series,
             "duration": parsed_duration or duration,
             "occurrence_rate": occurrence_rate,
-            "is_recurring": is_recurring,
             "start_time": start_time,
             "skip_zoom_creation": skip_zoom_creation,
             "skip_gcal_creation": skip_gcal_creation,

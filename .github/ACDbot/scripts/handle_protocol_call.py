@@ -227,7 +227,7 @@ class ProtocolCallHandler:
                 "call_series": form_data["call_series"],
                 "duration": form_data["duration"],
                 "start_time": form_data["start_time"],
-                "is_recurring": form_data["is_recurring"],
+
                 "occurrence_rate": form_data.get("occurrence_rate", "other"),
                 "skip_zoom_creation": form_data["skip_zoom_creation"],
                 "skip_gcal_creation": form_data["skip_gcal_creation"],
@@ -260,7 +260,7 @@ class ProtocolCallHandler:
 
             # Check for existing resources
             # For recurring calls, check series-level meeting ID; for one-off, check occurrence-level
-            if call_data.get("is_recurring") and call_data.get("call_series") != "one-off":
+            if call_data.get("call_series") and call_data.get("call_series") != "one-off":
                 # For recurring calls, check if we have a series meeting ID
                 series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
                 has_zoom = bool(series_meeting_id and not str(series_meeting_id).startswith("placeholder"))
@@ -319,7 +319,7 @@ class ProtocolCallHandler:
             if resource_results.get("zoom_created") and resource_results.get("zoom_id"):
                 if not str(resource_results["zoom_id"]).startswith("placeholder"):
                     # For recurring calls, store at series level; for one-off, store at occurrence level
-                    if call_data.get("is_recurring") and call_data.get("call_series") != "one-off":
+                    if call_data.get("call_series") and call_data.get("call_series") != "one-off":
                         # Store at series level for recurring calls
                         self.mapping_manager.set_series_meeting_id(call_data["call_series"], resource_results["zoom_id"])
                         print(f"[DEBUG] Set series meeting ID: {resource_results['zoom_id']}")
@@ -424,7 +424,7 @@ class ProtocolCallHandler:
                 if existing_resources["has_zoom"]:
                     print(f"[DEBUG] Zoom meeting already exists, reusing existing meeting")
                     # For recurring calls, use series meeting ID; for one-off, use occurrence meeting ID
-                    if call_data.get("is_recurring") and call_data.get("call_series") != "one-off":
+                    if call_data.get("call_series") and call_data.get("call_series") != "one-off":
                         existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
                         results.update({
                             "zoom_created": True,
@@ -541,9 +541,9 @@ class ProtocolCallHandler:
             topic = call_data["issue_title"]
             start_time = call_data["start_time"]
             duration = call_data["duration"]
-            is_recurring = call_data["is_recurring"]
             occurrence_rate = call_data.get("occurrence_rate", "other")
             call_series = call_data.get("call_series", "unknown")
+            is_recurring = call_series != "one-off"
 
             print(f"[DEBUG] Creating/updating Zoom meeting: {topic}")
             print(f"[DEBUG] Start time: {start_time}, Duration: {duration} minutes")
@@ -625,8 +625,9 @@ class ProtocolCallHandler:
             # Extract parameters from call_data
             start_dt = call_data["start_time"]
             duration_minutes = call_data["duration"]
-            is_recurring = call_data["is_recurring"]
             occurrence_rate = call_data.get("occurrence_rate", "other")
+            call_series = call_data.get("call_series", "unknown")
+            is_recurring = call_series != "one-off"
 
             # Determine calendar event title
             if call_data["call_series"] == "one-off":
@@ -830,7 +831,7 @@ class ProtocolCallHandler:
             print(f"[INFO] Discourse topic creation failed: Title '{e.title}' already exists.")
 
             # Try to find existing topic ID in mapping for recurring calls
-            if call_data.get("is_recurring") and call_data.get("call_series"):
+            if call_data.get("call_series") and call_data.get("call_series") != "one-off":
                 existing_topic_id = self._find_existing_discourse_topic(call_data["call_series"])
                 if existing_topic_id:
                     discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{existing_topic_id}"
@@ -944,8 +945,9 @@ class ProtocolCallHandler:
             # Extract parameters from call_data
             title = call_data["issue_title"]
             start_time = call_data["start_time"]
-            is_recurring = call_data["is_recurring"]
             occurrence_rate = call_data.get("occurrence_rate", "other")
+            call_series = call_data.get("call_series", "unknown")
+            is_recurring = call_series != "one-off"
             issue_url = call_data["issue_url"]
 
             # Build description (same as old system)
