@@ -149,7 +149,7 @@ April 24, 2025, 14:00 UTC
 
 Bi-weekly
 
-### Zoom Meeting Opt-Out (Optional)
+### Use Custom Meeting Link (Optional)
 
 - [ ] No
 
@@ -191,7 +191,7 @@ invalid_time
 
 Bi-weekly
 
-### Zoom Meeting Opt-Out (Optional)
+### Use Custom Meeting Link (Optional)
 
 - [ ] No
 
@@ -234,7 +234,7 @@ April 26, 2025, 16:00 UTC
 
 None
 
-### Zoom Meeting Opt-Out (Optional)
+### Use Custom Meeting Link (Optional)
 
 - [x] Yes
 
@@ -286,7 +286,7 @@ All Core Devs - Execution
 
 April 24, 2025, 14:00 UTC
 
-### Zoom Meeting Opt-Out (Optional)
+### Use Custom Meeting Link (Optional)
 
 {skip_zoom}
 """

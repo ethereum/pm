@@ -374,7 +374,7 @@ class FormParser:
 
     def parse_zoom_opt_out(self, issue_body: str) -> bool:
         """Parse zoom meeting opt-out checkbox."""
-        return self.parse_checkbox_field(issue_body, "Zoom Meeting Opt-Out \\(Optional\\)")
+        return self.parse_checkbox_field(issue_body, "Use Custom Meeting Link \\(Optional\\)")
 
     def parse_youtube_streams(self, issue_body: str) -> bool:
         """Parse YouTube livestream checkbox."""
