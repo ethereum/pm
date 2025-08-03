@@ -9,7 +9,7 @@ This is a fresh implementation designed specifically for the new data model.
 import sys
 import os
 import argparse
-from typing import Dict, Optional, List
+from typing import Dict, Optional, List, Set
 from datetime import datetime
 
 # Add the modules directory to the path
@@ -26,76 +26,264 @@ class ProtocolCallHandler:
         self.form_parser = FormParser()
         self.mapping_manager = MappingManager()
 
-    def _should_process_global_edit(self, call_data: Dict, existing_occurrence: Dict) -> bool:
-        """Determine if an edit contains global changes that require full resource reprocessing."""
+    def _detect_field_changes(self, call_data: Dict, existing_occurrence: Dict) -> Dict[str, bool]:
+        """Detect which fields have changed and determine what resources need updating."""
         try:
-            # Get the existing occurrence data
+            changes = {}
+
+            # Special handling for new issues (no existing occurrence)
+            if not existing_occurrence:
+                print(f"[DEBUG] New issue - all resources need creation")
+                changes.update({
+                    "create_zoom": not call_data.get("skip_zoom_creation", False),
+                    "create_calendar": not call_data.get("skip_gcal_creation", False),
+                    "create_discourse": True,
+                    "create_youtube": call_data.get("need_youtube_streams", False)
+                })
+                return changes
+
+            # For existing issues, compare fields
             occurrence = existing_occurrence.get("occurrence", {})
 
-            # Define global fields that require full resource reprocessing
-            global_fields = ["start_time", "duration", "call_series"]
+            # Define which resources are affected by which fields
+            resource_field_mapping = {
+                "zoom": ["start_time", "duration", "issue_title", "call_series", "occurrence_rate", "skip_zoom_creation"],
+                "calendar": ["start_time", "duration", "issue_title", "agenda", "call_series", "display_zoom_link_in_invite", "skip_gcal_creation"],
+                "discourse": ["issue_title", "agenda"],
+                "youtube": ["start_time", "call_series", "occurrence_rate", "need_youtube_streams"]
+            }
 
-            # Check if any global fields changed (these require full resource reprocessing)
-            for field in global_fields:
-                current_value = call_data.get(field)
-                existing_value = occurrence.get(field)
+            # Check each resource for field changes
+            for resource, affecting_fields in resource_field_mapping.items():
+                resource_needs_update = False
 
-                if current_value != existing_value:
-                    print(f"[DEBUG] Global field '{field}' changed: '{existing_value}' -> '{current_value}' - triggering full resource reprocessing")
-                    return True
+                for field in affecting_fields:
+                    current_value = call_data.get(field)
 
-            # Check if agenda changed (this only affects calendar description, not other resources)
-            current_agenda = call_data.get("agenda", "")
-            existing_agenda = occurrence.get("agenda", "")
-            if current_agenda != existing_agenda:
-                print(f"[DEBUG] Agenda changed, will update calendar description only")
-                # Don't return True here - agenda changes should only affect calendar, not other resources
+                    # Handle fields that might be stored at different levels
+                    if field == "call_series":
+                        existing_value = existing_occurrence.get(field)  # Top level
+                    else:
+                        existing_value = occurrence.get(field)  # Occurrence level
 
-            # Check if issue title changed (affects all resource titles)
-            current_title = call_data.get("issue_title", "")
-            existing_title = occurrence.get("issue_title", "")
-            if current_title != existing_title:
-                print(f"[DEBUG] Issue title changed: '{existing_title}' -> '{current_title}' - triggering full resource reprocessing")
-                return True
+                    if current_value != existing_value:
+                        print(f"[DEBUG] Field '{field}' changed: '{existing_value}' -> '{current_value}' - affects {resource}")
+                        changes[field] = True
+                        resource_needs_update = True
+                    else:
+                        changes[field] = False
 
-            print(f"[DEBUG] No global changes detected, skipping full resource reprocessing")
-            return False
+                if resource_needs_update:
+                    changes[f"update_{resource}"] = True
+
+            # For existing issues, determine what needs updating (not creating)
+            changes.update({
+                "create_zoom": False,
+                "create_calendar": False,
+                "create_discourse": False,
+                "create_youtube": False
+            })
+
+            print(f"[DEBUG] Field changes detected: {changes}")
+            return changes
 
         except Exception as e:
-            print(f"[ERROR] Failed to determine if edit should be processed: {e}")
-            # Default to processing if we can't determine
-            return True
+            print(f"[ERROR] Failed to detect field changes: {e}")
+            # Fail safely - don't update anything if we can't determine changes
+            # This prevents unnecessary resource duplication
+            return {
+                "create_zoom": False,
+                "create_calendar": False,
+                "create_discourse": False,
+                "create_youtube": False,
+                "update_zoom": False,
+                "update_calendar": False,
+                "update_discourse": False,
+                "update_youtube": False,
+                "error": f"Failed to detect field changes: {e}"
+            }
 
-    def _should_update_calendar(self, call_data: Dict, existing_occurrence: Dict) -> bool:
-        """Determine if calendar event should be updated based on changed fields."""
+    def _handle_zoom_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+        """Handle Zoom meeting creation/updates."""
+        result = {
+            "zoom_created": False,
+            "zoom_id": None,
+            "zoom_url": None
+        }
+
         try:
-            occurrence = existing_occurrence.get("occurrence", {})
+            # Skip if there was an error detecting changes
+            if changes.get("error"):
+                print(f"[ERROR] Skipping Zoom resource handling due to change detection error: {changes['error']}")
+                return result
 
-            # Fields that affect calendar event
-            calendar_fields = ["start_time", "duration", "issue_title", "agenda"]
+            # Skip if user opted out
+            if call_data.get("skip_zoom_creation"):
+                print(f"[DEBUG] Zoom creation skipped (user opted out)")
+                return result
 
-            for field in calendar_fields:
-                current_value = call_data.get(field, "")
-                existing_value = occurrence.get(field, "")
+            # Check if we need to create or update
+            needs_creation = changes.get("create_zoom", False)
+            needs_update = changes.get("update_zoom", False)
 
-                if current_value != existing_value:
-                    print(f"[DEBUG] Calendar-relevant field '{field}' changed, will update calendar")
-                    return True
+            if not needs_creation and not needs_update:
+                print(f"[DEBUG] No Zoom changes needed")
+                return result
 
-            # Check if Zoom link display setting changed
-            current_display_zoom = call_data.get("display_zoom_link_in_invite", False)
-            existing_display_zoom = occurrence.get("display_zoom_link_in_invite", False)
-            if current_display_zoom != existing_display_zoom:
-                print(f"[DEBUG] Zoom link display setting changed, will update calendar")
-                return True
+            # Check if we have an existing Zoom meeting
+            has_existing = existing_resources.get("has_zoom", False)
 
-            print(f"[DEBUG] No calendar-relevant changes detected")
-            return False
+            if has_existing:
+                print(f"[DEBUG] Updating existing Zoom meeting")
+                result = self._update_zoom_meeting(call_data, existing_resources)
+            else:
+                print(f"[DEBUG] Creating new Zoom meeting")
+                result = self._create_zoom_meeting(call_data)
+
+            return result
 
         except Exception as e:
-            print(f"[ERROR] Failed to determine if calendar should be updated: {e}")
-            # Default to updating if we can't determine
-            return True
+            print(f"[ERROR] Failed to handle Zoom resource: {e}")
+            return result
+
+    def _handle_calendar_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+        """Handle Google Calendar event creation/updates."""
+        result = {
+            "calendar_created": False,
+            "calendar_event_id": None,
+            "calendar_event_url": None
+        }
+
+        try:
+            # Skip if there was an error detecting changes
+            if changes.get("error"):
+                print(f"[ERROR] Skipping Calendar resource handling due to change detection error: {changes['error']}")
+                return result
+
+            # Skip if not on Ethereum calendar
+            if call_data.get("skip_gcal_creation"):
+                print(f"[DEBUG] Calendar creation skipped (not on Ethereum calendar)")
+                return result
+
+            # Check if we need to create or update
+            needs_creation = changes.get("create_calendar", False)
+            needs_update = changes.get("update_calendar", False)
+
+            if not needs_creation and not needs_update:
+                print(f"[DEBUG] No Calendar changes needed")
+                return result
+
+            # Check if we have an existing calendar event
+            has_existing = existing_resources.get("has_calendar", False)
+
+            if has_existing:
+                print(f"[DEBUG] Updating existing calendar event")
+                result = self._update_calendar_event(call_data, existing_resources)
+            else:
+                print(f"[DEBUG] Creating new calendar event")
+                result = self._create_calendar_event(call_data)
+
+            return result
+
+        except Exception as e:
+            print(f"[ERROR] Failed to handle Calendar resource: {e}")
+            return result
+
+    def _handle_discourse_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+        """Handle Discourse topic creation/updates."""
+        result = {
+            "discourse_created": False,
+            "discourse_topic_id": None,
+            "discourse_url": None
+        }
+
+        try:
+            # Skip if there was an error detecting changes
+            if changes.get("error"):
+                print(f"[ERROR] Skipping Discourse resource handling due to change detection error: {changes['error']}")
+                return result
+
+            # Check if we need to create or update
+            needs_creation = changes.get("create_discourse", False)
+            needs_update = changes.get("update_discourse", False)
+
+            if not needs_creation and not needs_update:
+                print(f"[DEBUG] No Discourse changes needed")
+                return result
+
+            # Check if we have an existing discourse topic
+            has_existing = existing_resources.get("has_discourse", False)
+
+            if has_existing:
+                print(f"[DEBUG] Discourse topic already exists, skipping creation")
+                # Use existing Discourse data
+                existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
+                result = {
+                    "discourse_created": True,
+                    "discourse_topic_id": existing_occurrence["discourse_topic_id"],
+                    "discourse_url": f"https://ethereum-magicians.org/t/{existing_occurrence['discourse_topic_id']}",
+                    "action": "existing"
+                }
+            else:
+                print(f"[DEBUG] Creating new discourse topic")
+                result = self._create_discourse_topic(call_data)
+
+            return result
+
+        except Exception as e:
+            print(f"[ERROR] Failed to handle Discourse resource: {e}")
+            return result
+
+    def _handle_youtube_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+        """Handle YouTube streams creation/updates."""
+        result = {
+            "youtube_streams_created": False,
+            "youtube_streams": None,
+            "stream_links": []
+        }
+
+        try:
+            # Skip if there was an error detecting changes
+            if changes.get("error"):
+                print(f"[ERROR] Skipping YouTube resource handling due to change detection error: {changes['error']}")
+                return result
+
+            # Check if we need to create or update
+            needs_creation = changes.get("create_youtube", False)
+            needs_update = changes.get("update_youtube", False)
+
+            if not needs_creation and not needs_update:
+                print(f"[DEBUG] No YouTube changes needed")
+                return result
+
+            # Check if we have existing YouTube streams
+            has_existing = existing_resources.get("has_youtube", False)
+
+            if has_existing:
+                print(f"[DEBUG] YouTube streams already exist, using existing")
+                # Use existing YouTube streams
+                existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
+                youtube_streams = existing_occurrence.get("youtube_streams", [])
+                if youtube_streams:
+                    stream_links = [f"- Stream {i+1}: {stream['stream_url']}"
+                                  for i, stream in enumerate(youtube_streams)]
+                else:
+                    stream_links = []
+
+                result = {
+                    "youtube_streams_created": True,
+                    "youtube_streams": youtube_streams,
+                    "stream_links": stream_links
+                }
+            else:
+                print(f"[DEBUG] Creating new YouTube streams")
+                result = self._create_youtube_streams(call_data)
+
+            return result
+
+        except Exception as e:
+            print(f"[ERROR] Failed to handle YouTube resource: {e}")
+            return result
 
     def handle_protocol_call(self, issue_number: int, repo_name: str) -> bool:
         """Main entry point for handling a protocol call issue."""
@@ -124,46 +312,74 @@ class ProtocolCallHandler:
             existing_occurrence = self.mapping_manager.find_occurrence(issue_number)
             is_update = existing_occurrence is not None
 
-            # 5. For updates, check if we should process global changes
-            should_process_resources = True
-            if is_update:
-                should_process_resources = self._should_process_global_edit(call_data, existing_occurrence)
-                if not should_process_resources:
-                    print(f"[INFO] Edit for issue #{issue_number} contains no global changes, skipping full resource reprocessing")
-
+            # 5. Detect field changes and determine what needs updating
+            changes = self._detect_field_changes(call_data, existing_occurrence)
             existing_resources = self._check_existing_resources(call_data)
-            print(f"[DEBUG] Existing resources result: {existing_resources}")
 
-            # 6. Create or update mapping
-            success = self._update_mapping(call_data, issue, is_update)
-            if not success:
-                print(f"[ERROR] Failed to update mapping for issue #{issue_number}")
-                return False
-
-            # 7. Create or update resources (only if needed)
+            # 6. Handle each resource type individually based on changes
             resource_results = {
                 "zoom_created": False,
                 "zoom_id": None,
+                "zoom_url": None,
                 "calendar_created": False,
                 "calendar_event_id": None,
+                "calendar_event_url": None,
                 "discourse_created": False,
                 "discourse_topic_id": None,
+                "discourse_url": None,
                 "youtube_streams_created": False,
-                "youtube_streams": None
+                "youtube_streams": None,
+                "stream_links": []
             }
 
-            if should_process_resources:
-                resource_results = self._create_resources(call_data, issue, existing_resources)
-                # 8. Update mapping with resource IDs
-                self._update_mapping_with_resources(call_data, resource_results)
-                # 9. Send Telegram notification
-                self._send_telegram_notification(call_data, issue, resource_results, is_update)
-                # 10. Post results to GitHub
-                self._post_results(call_data, issue, resource_results, is_update)
-            else:
-                print(f"[DEBUG] Skipping resource creation and notifications for issue #{issue_number}")
+            # Track if any critical operations failed
+            critical_failures = []
 
-            # 11. Save mapping
+            # Handle each resource type
+            zoom_result = self._handle_zoom_resource(call_data, existing_resources, changes)
+            resource_results.update(zoom_result)
+            if not call_data.get("skip_zoom_creation") and not zoom_result.get("zoom_created"):
+                critical_failures.append("Zoom meeting creation failed")
+
+            # Store zoom URL for use by other resources
+            if zoom_result.get("zoom_url"):
+                self._last_zoom_url = zoom_result["zoom_url"]
+
+            calendar_result = self._handle_calendar_resource(call_data, existing_resources, changes)
+            resource_results.update(calendar_result)
+            if not call_data.get("skip_gcal_creation") and not calendar_result.get("calendar_created"):
+                critical_failures.append("Calendar event creation failed")
+
+            discourse_result = self._handle_discourse_resource(call_data, existing_resources, changes)
+            resource_results.update(discourse_result)
+            if not discourse_result.get("discourse_created"):
+                critical_failures.append("Discourse topic creation failed")
+
+            youtube_result = self._handle_youtube_resource(call_data, existing_resources, changes)
+            resource_results.update(youtube_result)
+            if call_data.get("need_youtube_streams") and not youtube_result.get("youtube_streams_created"):
+                critical_failures.append("YouTube streams creation failed")
+
+            # 7. Update mapping only if no critical failures occurred
+            if critical_failures:
+                print(f"[ERROR] Critical failures occurred: {', '.join(critical_failures)}")
+                print(f"[ERROR] Skipping mapping update to maintain consistency")
+                # Still proceed with notifications and GitHub posting, but don't update mapping
+            else:
+                success = self._update_mapping(call_data, issue, is_update)
+                if not success:
+                    print(f"[ERROR] Failed to update mapping for issue #{issue_number}")
+                    return False
+
+                self._update_mapping_with_resources(call_data, resource_results)
+
+            # 8. Send Telegram notification
+            self._send_telegram_notification(call_data, issue, resource_results, is_update)
+
+            # 9. Post results to GitHub
+            self._post_results(call_data, issue, resource_results, is_update)
+
+            # 10. Save mapping
             self.mapping_manager.save_mapping()
 
             print(f"[INFO] Successfully processed protocol call for issue #{issue_number}")
@@ -405,132 +621,6 @@ class ProtocolCallHandler:
             print(f"[ERROR] Failed to update mapping: {e}")
             return False
 
-    def _create_resources(self, call_data: Dict, issue, existing_resources: Dict) -> Dict:
-        """Create resources (Zoom, Calendar, Discourse, etc.)."""
-        results = {
-            "zoom_created": False,
-            "zoom_id": None,
-            "calendar_created": False,
-            "calendar_event_id": None,
-            "discourse_created": False,
-            "discourse_topic_id": None,
-            "youtube_streams_created": False,
-            "youtube_streams": None
-        }
-
-        try:
-            # Create or update Zoom meeting (if not skipped)
-            if not call_data["skip_zoom_creation"]:
-                if existing_resources["has_zoom"]:
-                    print(f"[DEBUG] Zoom meeting already exists, reusing existing meeting")
-                    # For recurring calls, use series meeting ID; for one-off, use occurrence meeting ID
-                    if call_data.get("call_series") and call_data.get("call_series") != "one-off":
-                        existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
-                        results.update({
-                            "zoom_created": True,
-                            "zoom_id": existing_meeting_id,
-                            "zoom_url": "https://zoom.us (existing recurring meeting)"
-                        })
-                    else:
-                        existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
-                        results.update({
-                            "zoom_created": True,
-                            "zoom_id": existing_occurrence["meeting_id"],
-                            "zoom_url": "https://zoom.us (existing meeting)"
-                        })
-                else:
-                    zoom_result = self._create_zoom_meeting(call_data)
-                    results.update(zoom_result)
-
-            # Create or update Google Calendar event
-            if not call_data["skip_gcal_creation"]:
-                print(f"[DEBUG] Calendar creation check - has_calendar: {existing_resources['has_calendar']}")
-                if existing_resources["has_calendar"]:
-                    # Check if calendar actually needs updating
-                    existing_occurrence = existing_resources["existing_occurrence"]
-                    should_update = self._should_update_calendar(call_data, existing_occurrence)
-
-                    if should_update:
-                        print(f"[DEBUG] Calendar event exists and needs updating")
-                        # Get existing Calendar ID from mapping (stored at call series level)
-                        existing_calendar_event_id = existing_occurrence["calendar_event_id"]
-
-                        # Pass zoom URL to calendar creation if available
-                        calendar_call_data = call_data.copy()
-                        if results.get("zoom_url"):
-                            calendar_call_data["zoom_url"] = results["zoom_url"]
-
-                        calendar_result = self._create_or_update_calendar_event(calendar_call_data, existing_calendar_event_id)
-                        results.update(calendar_result)
-                    else:
-                        print(f"[DEBUG] Calendar event exists but no relevant changes, skipping update")
-                        # Use existing calendar data (stored at parent level)
-                        existing_occurrence_data = existing_resources["existing_occurrence"]
-                        results.update({
-                            "calendar_created": True,
-                            "calendar_event_id": existing_occurrence_data.get("calendar_event_id"),
-                            "calendar_event_url": f"https://calendar.google.com/event?eid={existing_occurrence_data.get('calendar_event_id', '')}",
-                            "calendar_action": "existing"
-                        })
-                else:
-                    # Pass zoom URL to calendar creation if available
-                    calendar_call_data = call_data.copy()
-                    if results.get("zoom_url"):
-                        calendar_call_data["zoom_url"] = results["zoom_url"]
-
-                    calendar_result = self._create_or_update_calendar_event(calendar_call_data)
-                    results.update(calendar_result)
-
-            # Create or update Discourse topic (pass available URLs)
-            if existing_resources["has_discourse"]:
-                print(f"[DEBUG] Discourse topic already exists, skipping creation")
-                # Use existing Discourse ID from mapping
-                existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
-                results.update({
-                    "discourse_created": True,
-                    "discourse_topic_id": existing_occurrence["discourse_topic_id"],
-                    "discourse_url": f"https://ethereum-magicians.org/t/{existing_occurrence['discourse_topic_id']}",
-                    "discourse_action": "existing"
-                })
-            else:
-                discourse_call_data = call_data.copy()
-                if results.get("zoom_url"):
-                    discourse_call_data["zoom_url"] = results["zoom_url"]
-                if results.get("calendar_event_url"):
-                    discourse_call_data["calendar_event_url"] = results["calendar_event_url"]
-
-                discourse_result = self._create_discourse_topic(discourse_call_data)
-                results.update(discourse_result)
-
-            # Create or update YouTube streams (if requested)
-            if call_data["need_youtube_streams"]:
-                if existing_resources["has_youtube"]:
-                    print(f"[DEBUG] YouTube streams already exist, skipping creation")
-                    # Use existing YouTube streams from mapping
-                    existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
-                    youtube_streams = existing_occurrence.get("youtube_streams", [])
-                    if youtube_streams:
-                        stream_links = [f"- Stream {i+1}: {stream['stream_url']}"
-                                      for i, stream in enumerate(youtube_streams)]
-                    else:
-                        stream_links = []
-
-                    results.update({
-                        "youtube_streams_created": True,
-                        "youtube_streams": youtube_streams,
-                        "stream_links": stream_links
-                    })
-                else:
-                    youtube_result = self._create_youtube_streams(call_data)
-                    results.update(youtube_result)
-
-            print(f"[DEBUG] Resource creation results: {results}")
-            return results
-
-        except Exception as e:
-            print(f"[ERROR] Failed to create resources: {e}")
-            return results
-
     def _create_zoom_meeting(self, call_data: Dict) -> Dict:
         """Create or update Zoom meeting."""
         try:
@@ -614,6 +704,66 @@ class ProtocolCallHandler:
                 "zoom_created": False,
                 "zoom_id": f"placeholder-{call_data['issue_number']}",
                 "zoom_url": "https://zoom.us (API authentication failed)"
+            }
+
+    def _update_zoom_meeting(self, call_data: Dict, existing_resources: Dict) -> Dict:
+        """Update existing Zoom meeting."""
+        try:
+            # For recurring calls, use series meeting ID; for one-off, use occurrence meeting ID
+            if call_data.get("call_series") and call_data.get("call_series") != "one-off":
+                existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
+                result = {
+                    "zoom_created": True,
+                    "zoom_id": existing_meeting_id,
+                    "zoom_url": "https://zoom.us (existing recurring meeting)"
+                }
+            else:
+                existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
+                result = {
+                    "zoom_created": True,
+                    "zoom_id": existing_occurrence["meeting_id"],
+                    "zoom_url": "https://zoom.us (existing meeting)"
+                }
+
+            # Update the meeting if we have changes
+            if existing_meeting_id:
+                from modules import zoom
+                update_result = zoom.update_meeting(
+                    existing_meeting_id,
+                    call_data["issue_title"],
+                    call_data["start_time"],
+                    call_data["duration"]
+                )
+                if update_result.get("join_url"):
+                    result["zoom_url"] = update_result["join_url"]
+
+            return result
+
+        except Exception as e:
+            print(f"[ERROR] Failed to update Zoom meeting: {e}")
+            return {
+                "zoom_created": False,
+                "zoom_id": None,
+                "zoom_url": None
+            }
+
+    def _create_calendar_event(self, call_data: Dict) -> Dict:
+        """Create new Google Calendar event."""
+        try:
+            # Pass zoom URL to calendar creation if available
+            calendar_call_data = call_data.copy()
+            if hasattr(self, '_last_zoom_url'):
+                calendar_call_data["zoom_url"] = self._last_zoom_url
+
+            calendar_result = self._create_or_update_calendar_event(calendar_call_data)
+            return calendar_result
+
+        except Exception as e:
+            print(f"[ERROR] Failed to create calendar event: {e}")
+            return {
+                "calendar_created": False,
+                "calendar_event_id": None,
+                "calendar_event_url": None
             }
 
     def _create_or_update_calendar_event(self, call_data: Dict, existing_event_id: Optional[str] = None) -> Dict:
@@ -745,6 +895,29 @@ class ProtocolCallHandler:
         except Exception as e:
             print(f"[ERROR] Failed to create calendar event: {e}")
             # Return placeholder values on error (as per old system)
+            return {
+                "calendar_created": False,
+                "calendar_event_id": None,
+                "calendar_event_url": None
+            }
+
+    def _update_calendar_event(self, call_data: Dict, existing_resources: Dict) -> Dict:
+        """Update existing Google Calendar event."""
+        try:
+            # Get existing Calendar ID from mapping (stored at call series level)
+            existing_occurrence = existing_resources["existing_occurrence"]
+            existing_calendar_event_id = existing_occurrence["calendar_event_id"]
+
+            # Pass zoom URL to calendar creation if available
+            calendar_call_data = call_data.copy()
+            if hasattr(self, '_last_zoom_url'):
+                calendar_call_data["zoom_url"] = self._last_zoom_url
+
+            calendar_result = self._create_or_update_calendar_event(calendar_call_data, existing_calendar_event_id)
+            return calendar_result
+
+        except Exception as e:
+            print(f"[ERROR] Failed to update calendar event: {e}")
             return {
                 "calendar_created": False,
                 "calendar_event_id": None,
