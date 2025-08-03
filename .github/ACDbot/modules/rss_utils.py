@@ -153,7 +153,7 @@ def create_or_update_rss_feed(mapping):
                         desc_content += f"<p><strong>Duration:</strong> {duration} minutes</p>"
 
                     # Add series recurring info
-                    if series_data.get('is_recurring'):
+                    if series_data.get('call_series') and series_data.get('call_series') != "one-off":
                         occurrence_rate = series_data.get('occurrence_rate', 'none')
                         desc_content += f"<p><strong>Recurring Series:</strong> {occurrence_rate}</p>"
 

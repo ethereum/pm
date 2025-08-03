@@ -17,7 +17,6 @@ def sample_mapping():
         "acde": {
             "call_series": "acde",
             "meeting_id": "88269836469",
-            "is_recurring": True,
             "occurrence_rate": "bi-weekly",
             "occurrences": [
                 {

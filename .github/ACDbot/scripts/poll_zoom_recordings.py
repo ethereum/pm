@@ -111,7 +111,8 @@ def process_meeting(meeting_id, mapping):
 
     try:
         # For recurring meetings, we don't need to upload to YouTube
-        is_recurring = entry.get("is_recurring", False)
+        call_series = entry.get("call_series", "unknown")
+        is_recurring = call_series != "one-off"
         if is_recurring:
             print(f"Skipping YouTube upload for recurring meeting {meeting_id}")
             # Mark as processed to avoid future attempts
