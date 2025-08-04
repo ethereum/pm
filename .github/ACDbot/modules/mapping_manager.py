@@ -285,10 +285,6 @@ class MappingManager:
         if kwargs.get("meeting_id"):
             occurrence_data["meeting_id"] = kwargs["meeting_id"]
 
-        # Add calendar event ID for one-off calls
-        if kwargs.get("calendar_event_id"):
-            occurrence_data["calendar_event_id"] = kwargs["calendar_event_id"]
-
         return occurrence_data
 
     def validate_mapping_structure(self) -> List[str]:

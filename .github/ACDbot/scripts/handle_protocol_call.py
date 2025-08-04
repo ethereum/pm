@@ -358,14 +358,16 @@ class ProtocolCallHandler:
                            not str(occurrence.get("meeting_id")).startswith("placeholder"))
 
             # Calendar event ID is stored at the parent level (call series level)
-            has_calendar = bool(call_series_entry.get("calendar_event_id"))
+            call_series = call_series_entry.get("call_series")
+            calendar_event_id = self.mapping_manager.get_series_calendar_event_id(call_series) if call_series else None
+            has_calendar = bool(calendar_event_id)
             has_discourse = (occurrence.get("discourse_topic_id") and
                            not str(occurrence.get("discourse_topic_id")).startswith("placeholder"))
             has_youtube = bool(occurrence.get("youtube_streams"))
 
             print(f"[DEBUG] Existing resources for issue #{call_data['issue_number']}:")
             print(f"  - Zoom: {has_zoom} (ID: {occurrence.get('meeting_id')})")
-            print(f"  - Calendar: {has_calendar} (ID: {call_series_entry.get('calendar_event_id')})")
+            print(f"  - Calendar: {has_calendar} (ID: {calendar_event_id})")
             print(f"  - Discourse: {has_discourse} (ID: {occurrence.get('discourse_topic_id')})")
             print(f"  - YouTube: {has_youtube} (streams: {len(occurrence.get('youtube_streams', []))})")
             print(f"[DEBUG] Full occurrence data: {occurrence}")
@@ -778,7 +780,8 @@ class ProtocolCallHandler:
         try:
             # Get existing Calendar ID from mapping (stored at call series level)
             existing_occurrence = existing_resources["existing_occurrence"]
-            existing_calendar_event_id = existing_occurrence["calendar_event_id"]
+            call_series = existing_occurrence["call_series"]
+            existing_calendar_event_id = self.mapping_manager.get_series_calendar_event_id(call_series)
 
             # Pass zoom URL to calendar creation if available
             calendar_call_data = call_data.copy()

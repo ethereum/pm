@@ -50,7 +50,6 @@ class TestProtocolCallHandler(unittest.TestCase):
                     "duration": 60,
                     "agenda": "Test agenda",
                     "meeting_id": "test-meeting-id",
-                    "calendar_event_id": "test-calendar-id",
                     "discourse_topic_id": "test-discourse-id",
                     "youtube_streams": [{"stream_url": "https://youtube.com/test"}]
                 }
