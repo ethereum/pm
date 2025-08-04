@@ -26,84 +26,7 @@ class ProtocolCallHandler:
         self.form_parser = FormParser()
         self.mapping_manager = MappingManager()
 
-    def _detect_field_changes(self, call_data: Dict, existing_occurrence: Dict) -> Dict[str, bool]:
-        """Detect which fields have changed and determine what resources need updating."""
-        try:
-            changes = {}
-
-            # Special handling for new issues (no existing occurrence)
-            if not existing_occurrence:
-                print(f"[DEBUG] New issue - all resources need creation")
-                changes.update({
-                    "create_zoom": not call_data.get("skip_zoom_creation", False),
-                    "create_calendar": not call_data.get("skip_gcal_creation", False),
-                    "create_discourse": True,
-                    "create_youtube": call_data.get("need_youtube_streams", False)
-                })
-                return changes
-
-            # For existing issues, compare fields
-            occurrence = existing_occurrence.get("occurrence", {})
-
-            # Define which resources are affected by which fields
-            resource_field_mapping = {
-                "zoom": ["start_time", "duration", "issue_title", "call_series", "occurrence_rate", "skip_zoom_creation"],
-                "calendar": ["start_time", "duration", "issue_title", "agenda", "call_series", "display_zoom_link_in_invite", "skip_gcal_creation"],
-                "discourse": ["issue_title", "agenda"],
-                "youtube": ["start_time", "call_series", "occurrence_rate", "need_youtube_streams"]
-            }
-
-            # Check each resource for field changes
-            for resource, affecting_fields in resource_field_mapping.items():
-                resource_needs_update = False
-
-                for field in affecting_fields:
-                    current_value = call_data.get(field)
-
-                    # Handle fields that might be stored at different levels
-                    if field == "call_series":
-                        existing_value = existing_occurrence.get(field)  # Top level
-                    else:
-                        existing_value = occurrence.get(field)  # Occurrence level
-
-                    if current_value != existing_value:
-                        print(f"[DEBUG] Field '{field}' changed: '{existing_value}' -> '{current_value}' - affects {resource}")
-                        changes[field] = True
-                        resource_needs_update = True
-                    else:
-                        changes[field] = False
-
-                if resource_needs_update:
-                    changes[f"update_{resource}"] = True
-
-            # For existing issues, determine what needs updating (not creating)
-            changes.update({
-                "create_zoom": False,
-                "create_calendar": False,
-                "create_discourse": False,
-                "create_youtube": False
-            })
-
-            print(f"[DEBUG] Field changes detected: {changes}")
-            return changes
-
-        except Exception as e:
-            print(f"[ERROR] Failed to detect field changes: {e}")
-            # Fail safely - don't update anything if we can't determine changes
-            # This prevents unnecessary resource duplication
-            return {
-                "create_zoom": False,
-                "create_calendar": False,
-                "create_discourse": False,
-                "create_youtube": False,
-                "update_zoom": False,
-                "update_calendar": False,
-                "update_discourse": False,
-                "update_youtube": False,
-                "error": f"Failed to detect field changes: {e}"
-            }
-
-    def _handle_zoom_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+    def _handle_zoom_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle Zoom meeting creation/updates."""
         result = {
             "zoom_created": False,
@@ -112,22 +35,9 @@ class ProtocolCallHandler:
         }
 
         try:
-            # Skip if there was an error detecting changes
-            if changes.get("error"):
-                print(f"[ERROR] Skipping Zoom resource handling due to change detection error: {changes['error']}")
-                return result
-
             # Skip if user opted out
             if call_data.get("skip_zoom_creation"):
                 print(f"[DEBUG] Zoom creation skipped (user opted out)")
-                return result
-
-            # Check if we need to create or update
-            needs_creation = changes.get("create_zoom", False)
-            needs_update = changes.get("update_zoom", False)
-
-            if not needs_creation and not needs_update:
-                print(f"[DEBUG] No Zoom changes needed")
                 return result
 
             # Check if we have an existing Zoom meeting
@@ -146,7 +56,7 @@ class ProtocolCallHandler:
             print(f"[ERROR] Failed to handle Zoom resource: {e}")
             return result
 
-    def _handle_calendar_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+    def _handle_calendar_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle Google Calendar event creation/updates."""
         result = {
             "calendar_created": False,
@@ -155,22 +65,9 @@ class ProtocolCallHandler:
         }
 
         try:
-            # Skip if there was an error detecting changes
-            if changes.get("error"):
-                print(f"[ERROR] Skipping Calendar resource handling due to change detection error: {changes['error']}")
-                return result
-
             # Skip if not on Ethereum calendar
             if call_data.get("skip_gcal_creation"):
                 print(f"[DEBUG] Calendar creation skipped (not on Ethereum calendar)")
-                return result
-
-            # Check if we need to create or update
-            needs_creation = changes.get("create_calendar", False)
-            needs_update = changes.get("update_calendar", False)
-
-            if not needs_creation and not needs_update:
-                print(f"[DEBUG] No Calendar changes needed")
                 return result
 
             # Check if we have an existing calendar event
@@ -189,7 +86,7 @@ class ProtocolCallHandler:
             print(f"[ERROR] Failed to handle Calendar resource: {e}")
             return result
 
-    def _handle_discourse_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+    def _handle_discourse_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle Discourse topic creation/updates."""
         result = {
             "discourse_created": False,
@@ -198,19 +95,6 @@ class ProtocolCallHandler:
         }
 
         try:
-            # Skip if there was an error detecting changes
-            if changes.get("error"):
-                print(f"[ERROR] Skipping Discourse resource handling due to change detection error: {changes['error']}")
-                return result
-
-            # Check if we need to create or update
-            needs_creation = changes.get("create_discourse", False)
-            needs_update = changes.get("update_discourse", False)
-
-            if not needs_creation and not needs_update:
-                print(f"[DEBUG] No Discourse changes needed")
-                return result
-
             # Check if we have an existing discourse topic
             has_existing = existing_resources.get("has_discourse", False)
 
@@ -234,7 +118,7 @@ class ProtocolCallHandler:
             print(f"[ERROR] Failed to handle Discourse resource: {e}")
             return result
 
-    def _handle_youtube_resource(self, call_data: Dict, existing_resources: Dict, changes: Dict) -> Dict:
+    def _handle_youtube_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle YouTube streams creation/updates."""
         result = {
             "youtube_streams_created": False,
@@ -243,19 +127,6 @@ class ProtocolCallHandler:
         }
 
         try:
-            # Skip if there was an error detecting changes
-            if changes.get("error"):
-                print(f"[ERROR] Skipping YouTube resource handling due to change detection error: {changes['error']}")
-                return result
-
-            # Check if we need to create or update
-            needs_creation = changes.get("create_youtube", False)
-            needs_update = changes.get("update_youtube", False)
-
-            if not needs_creation and not needs_update:
-                print(f"[DEBUG] No YouTube changes needed")
-                return result
-
             # Check if we have existing YouTube streams
             has_existing = existing_resources.get("has_youtube", False)
 
@@ -312,11 +183,10 @@ class ProtocolCallHandler:
             existing_occurrence = self.mapping_manager.find_occurrence(issue_number)
             is_update = existing_occurrence is not None
 
-            # 5. Detect field changes and determine what needs updating
-            changes = self._detect_field_changes(call_data, existing_occurrence)
+            # 5. Check existing resources
             existing_resources = self._check_existing_resources(call_data)
 
-            # 6. Handle each resource type individually based on changes
+            # 6. Handle each resource type individually
             resource_results = {
                 "zoom_created": False,
                 "zoom_id": None,
@@ -336,7 +206,7 @@ class ProtocolCallHandler:
             critical_failures = []
 
             # Handle each resource type
-            zoom_result = self._handle_zoom_resource(call_data, existing_resources, changes)
+            zoom_result = self._handle_zoom_resource(call_data, existing_resources)
             resource_results.update(zoom_result)
             if not call_data.get("skip_zoom_creation") and not zoom_result.get("zoom_created"):
                 critical_failures.append("Zoom meeting creation failed")
@@ -345,17 +215,17 @@ class ProtocolCallHandler:
             if zoom_result.get("zoom_url"):
                 self._last_zoom_url = zoom_result["zoom_url"]
 
-            calendar_result = self._handle_calendar_resource(call_data, existing_resources, changes)
+            calendar_result = self._handle_calendar_resource(call_data, existing_resources)
             resource_results.update(calendar_result)
             if not call_data.get("skip_gcal_creation") and not calendar_result.get("calendar_created"):
                 critical_failures.append("Calendar event creation failed")
 
-            discourse_result = self._handle_discourse_resource(call_data, existing_resources, changes)
+            discourse_result = self._handle_discourse_resource(call_data, existing_resources)
             resource_results.update(discourse_result)
             if not discourse_result.get("discourse_created"):
                 critical_failures.append("Discourse topic creation failed")
 
-            youtube_result = self._handle_youtube_resource(call_data, existing_resources, changes)
+            youtube_result = self._handle_youtube_resource(call_data, existing_resources)
             resource_results.update(youtube_result)
             if call_data.get("need_youtube_streams") and not youtube_result.get("youtube_streams_created"):
                 critical_failures.append("YouTube streams creation failed")
@@ -446,7 +316,6 @@ class ProtocolCallHandler:
                 "call_series": form_data["call_series"],
                 "duration": form_data["duration"],
                 "start_time": form_data["start_time"],
-
                 "occurrence_rate": form_data.get("occurrence_rate", "other"),
                 "skip_zoom_creation": form_data["skip_zoom_creation"],
                 "skip_gcal_creation": form_data["skip_gcal_creation"],
