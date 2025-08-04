@@ -144,7 +144,8 @@ class ProtocolCallHandler:
                 result = {
                     "youtube_streams_created": True,
                     "youtube_streams": youtube_streams,
-                    "stream_links": stream_links
+                    "stream_links": stream_links,
+                    "action": "existing"
                 }
             else:
                 print(f"[DEBUG] Creating new YouTube streams")
@@ -568,7 +569,8 @@ class ProtocolCallHandler:
             return {
                 "zoom_created": True,
                 "zoom_id": zoom_id,
-                "zoom_url": join_url
+                "zoom_url": join_url,
+                "zoom_action": "created"
             }
 
         except Exception as e:
@@ -589,14 +591,16 @@ class ProtocolCallHandler:
                 result = {
                     "zoom_created": True,
                     "zoom_id": existing_meeting_id,
-                    "zoom_url": "https://zoom.us (existing recurring meeting)"
+                    "zoom_url": "https://zoom.us (existing recurring meeting)",
+                    "zoom_action": "updated"
                 }
             else:
                 existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
                 result = {
                     "zoom_created": True,
                     "zoom_id": existing_occurrence["meeting_id"],
-                    "zoom_url": "https://zoom.us (existing meeting)"
+                    "zoom_url": "https://zoom.us (existing meeting)",
+                    "zoom_action": "updated"
                 }
 
             # Update the meeting if we have changes
@@ -724,7 +728,8 @@ class ProtocolCallHandler:
                     return {
                         "calendar_created": True,
                         "calendar_event_id": event_result.get('id'),
-                        "calendar_event_url": event_result.get('htmlLink')
+                        "calendar_event_url": event_result.get('htmlLink'),
+                        "calendar_action": "updated"
                     }
 
                 except ValueError as e:
@@ -763,7 +768,8 @@ class ProtocolCallHandler:
             return {
                 "calendar_created": True,
                 "calendar_event_id": event_result.get('id'),
-                "calendar_event_url": event_result.get('htmlLink')
+                "calendar_event_url": event_result.get('htmlLink'),
+                "calendar_action": "created"
             }
 
         except Exception as e:
@@ -1045,7 +1051,8 @@ class ProtocolCallHandler:
                 return {
                     "youtube_streams_created": True,
                     "youtube_streams": youtube_streams,
-                    "stream_links": stream_links
+                    "stream_links": stream_links,
+                    "action": "created"
                 }
             else:
                 print(f"[DEBUG] No YouTube streams created")
@@ -1199,19 +1206,27 @@ class ProtocolCallHandler:
 
     def _resources_changed(self, resource_results: Dict) -> bool:
         """Check if any resources were actually created/updated."""
+        # Check if Zoom was actually created (not just updated)
+        zoom_actually_created = (resource_results.get("zoom_created") and
+                               resource_results.get("zoom_action") != "updated")
+
         # Check if Discourse was actually created (not just found existing)
         discourse_actually_created = (resource_results.get("discourse_created") and
                                     resource_results.get("discourse_action") not in ["existing", "found_duplicate_series"])
 
-        # Check if Calendar was actually created/updated (not just found existing)
+        # Check if Calendar was actually created (not just found existing or updated)
         calendar_actually_created = (resource_results.get("calendar_created") and
-                                   resource_results.get("calendar_action") != "existing")
+                                   resource_results.get("calendar_action") not in ["existing", "updated"])
+
+        # Check if YouTube streams were actually created (not just found existing)
+        youtube_actually_created = (resource_results.get("youtube_streams_created") and
+                                  resource_results.get("action") != "existing")
 
         return any([
-            resource_results.get("zoom_created"),
+            zoom_actually_created,
             calendar_actually_created,
             discourse_actually_created,
-            resource_results.get("youtube_streams_created")
+            youtube_actually_created
         ])
 
     def _post_results(self, call_data: Dict, issue, resource_results: Dict, is_update: bool):
@@ -1234,7 +1249,7 @@ class ProtocolCallHandler:
             # Build comment content
             comment_lines = [comment_prefix, ""]
 
-            # Add resource creation results
+            # Add resource creation results - only include newly created resources
             if resource_results["zoom_created"]:
                 if resource_results.get("zoom_url"):
                     comment_lines.append(f"✅ **Zoom**: [Join Meeting]({resource_results['zoom_url']})")
@@ -1247,8 +1262,8 @@ class ProtocolCallHandler:
 
             if resource_results["calendar_created"]:
                 calendar_action = resource_results.get("calendar_action", "created")
-                if calendar_action == "existing":
-                    # Don't include existing resources in the comment
+                if calendar_action in ["existing", "updated"]:
+                    # Don't include existing or updated resources in the comment
                     pass
                 elif resource_results.get("calendar_event_url"):
                     comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({resource_results['calendar_event_url']})")
@@ -1272,10 +1287,15 @@ class ProtocolCallHandler:
                 comment_lines.append("❌ **Discourse**: Failed to create")
 
             if resource_results["youtube_streams_created"]:
-                comment_lines.append("✅ **YouTube**: Streams created")
-                if resource_results.get("stream_links"):
-                    for stream_link in resource_results["stream_links"]:
-                        comment_lines.append(f"   📺 {stream_link}")
+                youtube_action = resource_results.get("action", "created")
+                if youtube_action == "existing":
+                    # Don't include existing resources in the comment
+                    pass
+                else:
+                    comment_lines.append("✅ **YouTube**: Streams created")
+                    if resource_results.get("stream_links"):
+                        for stream_link in resource_results["stream_links"]:
+                            comment_lines.append(f"   📺 {stream_link}")
             elif call_data["need_youtube_streams"]:
                 comment_lines.append("❌ **YouTube**: Failed to create streams")
 
