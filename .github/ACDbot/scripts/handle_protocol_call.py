@@ -1299,11 +1299,22 @@ class ProtocolCallHandler:
             elif call_data["need_youtube_streams"]:
                 comment_lines.append("❌ **YouTube**: Failed to create streams")
 
-            # Post comment
-            comment_text = "\n".join(comment_lines)
-            issue.create_comment(comment_text)
+            # [DEBUG] Add issue reference for context
+            comment_lines.append(f"\n📋 Issue: #{issue.number}")
 
-            print(f"[DEBUG] Posted results comment to issue #{issue.number}")
+            comment_text = "\n".join(comment_lines)
+
+            # issue.create_comment(comment_text)
+            # print(f"[DEBUG] Posted results comment to issue #{issue.number}")
+            # [DEBUG] Send message to Telegram channel
+            try:
+                from modules import tg
+                message_id = tg.send_message(comment_text)
+                print(f"[DEBUG] Posted results to Telegram (message ID: {message_id}) for issue #{issue.number}")
+            except ImportError:
+                print("[ERROR] Telegram module not available")
+            except Exception as e:
+                print(f"[ERROR] Failed to send Telegram message: {e}")
 
         except Exception as e:
             print(f"[ERROR] Failed to post results: {e}")
