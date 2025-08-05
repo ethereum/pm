@@ -140,7 +140,7 @@ class TestProtocolCallHandler(unittest.TestCase):
 
         self.assertTrue(result["discourse_created"])
         self.assertEqual(result["discourse_topic_id"], "test-discourse-id")
-        self.assertEqual(result["action"], "existing")
+        self.assertEqual(result["discourse_action"], "existing")
 
     def test_handle_youtube_resource_existing(self):
         """Test that youtube resource uses existing data when available."""
@@ -149,3 +149,78 @@ class TestProtocolCallHandler(unittest.TestCase):
         self.assertTrue(result["youtube_streams_created"])
         self.assertEqual(len(result["youtube_streams"]), 1)
         self.assertEqual(len(result["stream_links"]), 1)
+        self.assertEqual(result["youtube_action"], "existing")
+
+    def test_resources_changed_with_action_fields(self):
+        """Test that resources_changed correctly handles action fields."""
+        # Test with existing resources
+        resource_results = {
+            "zoom_created": True,
+            "zoom_action": "updated",
+            "calendar_created": True,
+            "calendar_action": "existing",
+            "discourse_created": True,
+            "discourse_action": "existing",
+            "youtube_streams_created": True,
+            "youtube_action": "existing"
+        }
+        result = self.handler._resources_changed(resource_results)
+        self.assertFalse(result)
+
+        # Test with newly created resources
+        resource_results = {
+            "zoom_created": True,
+            "zoom_action": "created",
+            "calendar_created": True,
+            "calendar_action": "created",
+            "discourse_created": True,
+            "discourse_action": "created",
+            "youtube_streams_created": True,
+            "youtube_action": "created"
+        }
+        result = self.handler._resources_changed(resource_results)
+        self.assertTrue(result)
+
+        # Test with mixed existing and new resources
+        resource_results = {
+            "zoom_created": True,
+            "zoom_action": "updated",
+            "calendar_created": True,
+            "calendar_action": "created",
+            "discourse_created": True,
+            "discourse_action": "existing",
+            "youtube_streams_created": True,
+            "youtube_action": "existing"
+        }
+        result = self.handler._resources_changed(resource_results)
+        self.assertTrue(result)
+
+    def test_find_existing_discourse_topic(self):
+        """Test that _find_existing_discourse_topic correctly finds existing topic IDs."""
+        # Mock the mapping manager to return test data
+        with unittest.mock.patch.object(self.handler.mapping_manager, 'load_mapping') as mock_load:
+            mock_load.return_value = {
+                "acdt": {
+                    "call_series": "acdt",
+                    "occurrences": [
+                        {
+                            "issue_number": 1648,
+                            "discourse_topic_id": 24956,
+                            "issue_title": "All Core Devs - Testing (ACDT) #47 | August 4 2025"
+                        },
+                        {
+                            "issue_number": 1640,
+                            "discourse_topic_id": 24800,
+                            "issue_title": "All Core Devs - Testing (ACDT) #46 | July 28 2025"
+                        }
+                    ]
+                }
+            }
+
+            # Test finding existing topic for acdt series
+            result = self.handler._find_existing_discourse_topic("acdt")
+            self.assertEqual(result, 24956)  # Should find the most recent one
+
+            # Test finding existing topic for non-existent series
+            result = self.handler._find_existing_discourse_topic("nonexistent")
+            self.assertIsNone(result)
