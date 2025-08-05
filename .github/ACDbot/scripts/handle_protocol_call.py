@@ -106,7 +106,7 @@ class ProtocolCallHandler:
                     "discourse_created": True,
                     "discourse_topic_id": existing_occurrence["discourse_topic_id"],
                     "discourse_url": f"https://ethereum-magicians.org/t/{existing_occurrence['discourse_topic_id']}",
-                    "action": "existing"
+                    "discourse_action": "existing"
                 }
             else:
                 print(f"[DEBUG] Creating new discourse topic")
@@ -145,7 +145,7 @@ class ProtocolCallHandler:
                     "youtube_streams_created": True,
                     "youtube_streams": youtube_streams,
                     "stream_links": stream_links,
-                    "action": "existing"
+                    "youtube_action": "existing"
                 }
             else:
                 print(f"[DEBUG] Creating new YouTube streams")
@@ -895,7 +895,7 @@ class ProtocolCallHandler:
                         "discourse_created": True,
                         "discourse_topic_id": existing_topic_id,
                         "discourse_url": discourse_url,
-                        "action": "found_duplicate_series"
+                        "discourse_action": "found_duplicate_series"
                     }
 
             # If no existing topic found, return error
@@ -903,7 +903,7 @@ class ProtocolCallHandler:
                 "discourse_created": False,
                 "discourse_topic_id": f"placeholder-duplicate-{call_data['issue_number']}",
                 "discourse_url": "https://ethereum-magicians.org (Duplicate title, ID not found)",
-                "action": "failed_duplicate_title"
+                "discourse_action": "failed_duplicate_title"
             }
 
         except Exception as e:
@@ -912,7 +912,7 @@ class ProtocolCallHandler:
                 "discourse_created": False,
                 "discourse_topic_id": f"placeholder-error-{call_data['issue_number']}",
                 "discourse_url": "https://ethereum-magicians.org (API error occurred)",
-                "action": "failed"
+                "discourse_action": "failed"
             }
 
     def _get_call_series_display_name(self, call_series_key: str) -> str:
@@ -1052,7 +1052,7 @@ class ProtocolCallHandler:
                     "youtube_streams_created": True,
                     "youtube_streams": youtube_streams,
                     "stream_links": stream_links,
-                    "action": "created"
+                    "youtube_action": "created"
                 }
             else:
                 print(f"[DEBUG] No YouTube streams created")
@@ -1220,7 +1220,7 @@ class ProtocolCallHandler:
 
         # Check if YouTube streams were actually created (not just found existing)
         youtube_actually_created = (resource_results.get("youtube_streams_created") and
-                                  resource_results.get("action") != "existing")
+                                  resource_results.get("youtube_action") != "existing")
 
         return any([
             zoom_actually_created,
@@ -1287,7 +1287,7 @@ class ProtocolCallHandler:
                 comment_lines.append("❌ **Discourse**: Failed to create")
 
             if resource_results["youtube_streams_created"]:
-                youtube_action = resource_results.get("action", "created")
+                youtube_action = resource_results.get("youtube_action", "created")
                 if youtube_action == "existing":
                     # Don't include existing resources in the comment
                     pass
