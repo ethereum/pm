@@ -493,3 +493,329 @@ April 24, 2025, 14:00 UTC
 ### Agenda
 
 """ + "A" * 10000  # Very long agenda
+
+# Agenda extraction test examples
+AGENDA_WITH_USER_HEADERS = """
+### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+# Meeting Agenda
+
+## Topics to Discuss
+- Topic 1
+- Topic 2
+
+### Action Items
+- Action 1
+- Action 2
+
+## Next Steps
+- Step 1
+- Step 2
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
+
+AGENDA_WITH_COMPLEX_FORMATTING = """
+### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+**Bold text** and *italic text*
+
+- List item 1
+  - Sub-item 1
+  - Sub-item 2
+- List item 2
+
+> Quote block
+> More quote
+
+`Code snippet`
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
+
+AGENDA_EMPTY_CONTENT = """
+### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
+
+AGENDA_WHITESPACE_ONLY = """
+### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
+
+AGENDA_VERY_LONG_CONTENT = """
+### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+""" + "A" * 10000 + """
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
+
+AGENDA_MISSING_CALL_SERIES_BOUNDARY = """
+### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+Test agenda content
+
+### Some Other Section
+
+Other content
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
+
+AGENDA_WITH_EXTRA_NEWLINES = """### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+Test agenda content
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
+
+AGENDA_PRESERVES_FORMATTING = """
+### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+   Indented content
+
+   More indented content
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+Bi-weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] No
+
+### YouTube Livestream Link (Optional)
+
+- [x] Yes
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [x] Yes
+
+### Facilitator Emails (Optional)
+
+test@example.com
+"""
