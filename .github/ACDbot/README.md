@@ -52,6 +52,27 @@ ACDbot is maintained by EF Protocol Support support team. Before contacting main
 
 ## Contributing
 
+Develop ACDbot locally using Python 3.10 or newer. Install dependencies to get started:
+
+```
+pip install -r requirements.txt
+```
+
+### Tests
+
+Important scripts have unit test coverage using pytest. Tests can be found in `tests/unit/` with config and fixtures in `tests/conftest.py`. 
+Run test cases when making changes and extend tests and fixtures if features were added.
+
+Run all tests:
+```
+python -m pytest tests/ -v
+```
+
+Run a specific test file:
+```
+python -m pytest tests/unit/test_mapping_utils.py
+```
+
 ### Configuration
 
 The bot in this repository is configured with existing accounts that facilitate Ethereum protocol meetings but can be customized for other use cases.
@@ -95,3 +116,4 @@ The database that keeps track of existing events is in `meeting_topic_mapping.js
         *   Commits the updated RSS file.
     -   `get_zoom_token.py`, `direct_token_exchange.py`, `get_refresh_token.py`: Utilities for managing Zoom OAuth tokens.
     -   `refresh_youtube_token.py`: Utility for refreshing the YouTube/Google token (often run manually or via a separate workflow).
+
