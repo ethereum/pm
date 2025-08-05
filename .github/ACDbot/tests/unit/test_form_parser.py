@@ -20,7 +20,15 @@ from .test_data import (
     CALL_SERIES_TEST_FORMS,
     OCCURRENCE_RATE_TEST_FORMS,
     WHITESPACE_FORM,
-    EDGE_CASE_FORM
+    EDGE_CASE_FORM,
+    AGENDA_WITH_USER_HEADERS,
+    AGENDA_WITH_COMPLEX_FORMATTING,
+    AGENDA_EMPTY_CONTENT,
+    AGENDA_WHITESPACE_ONLY,
+    AGENDA_VERY_LONG_CONTENT,
+    AGENDA_MISSING_CALL_SERIES_BOUNDARY,
+    AGENDA_WITH_EXTRA_NEWLINES,
+    AGENDA_PRESERVES_FORMATTING
 )
 
 
@@ -68,6 +76,9 @@ _No response_
 
 ### Agenda
 Test agenda for the meeting
+
+### Call Series
+All Core Devs - Execution
 """
 
         result = parser.parse_form_data(form_body)
@@ -320,6 +331,9 @@ All Core Devs - Execution
 
 ### Agenda
 Test agenda with special chars: !@#$%^&*()_+-=[]{}|;':",./<>?
+
+### Call Series
+All Core Devs - Execution
 """
 
         result = parser.parse_form_data(special_form)
@@ -398,13 +412,125 @@ Facilitator emails: XXXXX, YYYYY, test@example.com, INVALID, admin@test.org
 Facilitator emails: test@example.com, no-at-sign, missing@dot, @missinglocal, local@, .missingtld, valid@test.org, another@domain.co.uk
 
 <details> <summary>🤖 config</summary>
+
 - Duration in minutes : 90
+- Recurring meeting : true
 - Call series : acde
+- Occurrence rate : bi-weekly
+- Already a Zoom meeting ID : false
+- Already on Ethereum Calendar : false
+- Need YouTube stream links : true
+- display zoom link in invite : false
+
 </details>
 """
 
         result = parser.parse_form_data(legacy_issue_with_edge_cases)
 
         assert result is not None
-        # Should only include valid emails: test@example.com, valid@test.org, another@domain.co.uk
+        # Should only include valid emails
         assert result["facilitator_emails"] == ["test@example.com", "valid@test.org", "another@domain.co.uk"]
+
+    def test_agenda_extraction_with_user_headers(self):
+        """Test agenda extraction when users add their own headers within the agenda section."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_WITH_USER_HEADERS)
+
+        assert result is not None
+        expected_agenda = """# Meeting Agenda
+
+## Topics to Discuss
+- Topic 1
+- Topic 2
+
+### Action Items
+- Action 1
+- Action 2
+
+## Next Steps
+- Step 1
+- Step 2"""
+
+        assert result["agenda"] == expected_agenda
+
+    def test_agenda_extraction_with_complex_formatting(self):
+        """Test agenda extraction with complex markdown formatting."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_WITH_COMPLEX_FORMATTING)
+
+        assert result is not None
+        expected_agenda = """**Bold text** and *italic text*
+
+- List item 1
+  - Sub-item 1
+  - Sub-item 2
+- List item 2
+
+> Quote block
+> More quote
+
+`Code snippet`"""
+
+        assert result["agenda"] == expected_agenda
+
+    def test_agenda_extraction_empty_content(self):
+        """Test agenda extraction with empty or whitespace-only content."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_EMPTY_CONTENT)
+
+        assert result is not None
+        assert result["agenda"] is None
+
+    def test_agenda_extraction_whitespace_only(self):
+        """Test agenda extraction with whitespace-only content."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_WHITESPACE_ONLY)
+
+        assert result is not None
+        assert result["agenda"] is None
+
+    def test_agenda_extraction_very_long_content(self):
+        """Test agenda extraction with very long content."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_VERY_LONG_CONTENT)
+
+        assert result is not None
+        assert result["agenda"] == "A" * 10000
+        assert len(result["agenda"]) == 10000
+
+    def test_agenda_extraction_missing_call_series_boundary(self):
+        """Test agenda extraction when ### Call Series boundary is missing."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_MISSING_CALL_SERIES_BOUNDARY)
+
+        assert result is not None
+        # Should return None since we can't find the required ### Call Series boundary
+        assert result["agenda"] is None
+
+    def test_agenda_extraction_with_extra_newlines(self):
+        """Test agenda extraction with different newline formats."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_WITH_EXTRA_NEWLINES)
+
+        assert result is not None
+        assert result["agenda"] == "Test agenda content"
+
+    def test_agenda_extraction_preserves_original_formatting(self):
+        """Test that agenda extraction preserves original formatting exactly."""
+        parser = FormParser()
+
+        result = parser.parse_form_data(AGENDA_PRESERVES_FORMATTING)
+
+        assert result is not None
+        expected_agenda = """Indented content
+
+   More indented content"""
+
+        assert result["agenda"] == expected_agenda

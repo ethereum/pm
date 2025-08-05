@@ -370,7 +370,20 @@ class FormParser:
 
     def parse_agenda(self, issue_body: str) -> Optional[str]:
         """Extract agenda from form textarea."""
-        return self.parse_textarea_field(issue_body, "Agenda")
+        # Extract everything between ### Agenda and ### Call Series
+        pattern = r"### Agenda\n\n([\s\S]*?)(?=\n### Call Series)"
+        match = re.search(pattern, issue_body)
+        if not match:
+            # Try without extra newline (test data format)
+            pattern = r"### Agenda\n([\s\S]*?)(?=\n### Call Series)"
+            match = re.search(pattern, issue_body)
+
+        if match:
+            agenda = match.group(1).strip()
+            if agenda and agenda != "_No response_":
+                print(f"[DEBUG] Extracted agenda: {len(agenda)} characters")
+                return agenda
+        return None
 
     def parse_zoom_opt_out(self, issue_body: str) -> bool:
         """Parse zoom meeting opt-out checkbox."""
@@ -443,9 +456,19 @@ class FormParser:
             except ValueError:
                 pass
 
-            # If all strategies fail, return the original text as fallback
-            print(f"[WARN] Could not parse date/time '{date_time_str}', using as-is")
-            return date_time_text, duration_minutes
+            # Strategy 5: Try abbreviated month names without comma before year
+            # Users might write "Aug 24 2025, 14:00 UTC"
+            try:
+                parsed_time = datetime.strptime(date_time_str, "%b %d %Y, %H:%M UTC")
+                start_time = parsed_time.isoformat() + "Z"
+                print(f"[DEBUG] Parsed with abbreviated month (no comma): {start_time}")
+                return start_time, duration_minutes
+            except ValueError:
+                pass
+
+            # If all strategies fail, return the extracted date string as fallback (not the original markdown)
+            print(f"[WARN] Could not parse date/time '{date_time_str}', using extracted text as fallback")
+            return date_time_str, duration_minutes
 
         except Exception as e:
             print(f"[ERROR] Error parsing date/time '{date_time_text}': {e}")
