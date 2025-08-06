@@ -113,7 +113,7 @@ def process_meeting(meeting_id, mapping):
     try:
         # For recurring meetings, we don't need to upload to YouTube
         call_series = entry.get("call_series", "unknown")
-        is_recurring = call_series != "one-off"
+        is_recurring = not call_series.startswith("one-off-")
         if is_recurring:
             print(f"Skipping YouTube upload for recurring meeting {meeting_id}")
             # Mark as processed to avoid future attempts
@@ -407,32 +407,13 @@ def process_recordings(mapping):
             print(f"[INFO] No mapping entry found for meeting ID {recording_meeting_id}. Skipping recording processing.")
             continue
 
-        # Handle different mapping structures
-        if "occurrences" in series_entry:
-            # Recurring series case
-            occurrences = series_entry.get("occurrences", [])
-            matched_occurrence, occurrence_index = find_matching_occurrence(occurrences, recording_start_time_str)
+        # All series now use the unified structure with occurrences
+        occurrences = series_entry.get("occurrences", [])
+        matched_occurrence, occurrence_index = find_matching_occurrence(occurrences, recording_start_time_str)
 
-            if matched_occurrence is None:
-                print(f"[INFO] Could not match recording ({recording.get('topic', 'N/A')} at {recording_start_time_str}) to any occurrence for meeting ID {recording_meeting_id}.")
-                continue
-        else:
-            # One-off case: series_entry is the occurrence itself
-            matched_occurrence = series_entry
-            occurrence_index = 0
-            # Check if the recording time matches the occurrence time
-            occurrence_start_time = matched_occurrence.get("start_time")
-            if occurrence_start_time:
-                try:
-                    occurrence_time = datetime.fromisoformat(occurrence_start_time.replace('Z', '+00:00'))
-                    recording_time = datetime.fromisoformat(recording_start_time_str.replace('Z', '+00:00'))
-                    tolerance = timedelta(minutes=30)
-                    if abs(recording_time - occurrence_time) > tolerance:
-                        print(f"[INFO] Recording time ({recording_start_time_str}) doesn't match occurrence time ({occurrence_start_time}) for meeting ID {recording_meeting_id}.")
-                        continue
-                except Exception as e:
-                    print(f"[WARN] Error comparing times for meeting {recording_meeting_id}: {e}")
-                    continue
+        if matched_occurrence is None:
+            print(f"[INFO] Could not match recording ({recording.get('topic', 'N/A')} at {recording_start_time_str}) to any occurrence for meeting ID {recording_meeting_id}.")
+            continue
 
         # Call the refactored processing function
         updated = process_single_occurrence(
@@ -479,23 +460,14 @@ def main():
                 occurrence_issue_number = args.force_issue_number
                 print(f"Searching for occurrence with Issue Number: {occurrence_issue_number}")
 
-                # Check if series_entry is an occurrence itself (one-off case)
-                if series_entry.get("issue_number") == occurrence_issue_number:
-                    target_occurrence = series_entry
-                    occurrence_index = 0
-                    print(f"Found one-off occurrence: {target_occurrence.get('issue_title', 'N/A')}")
-                else:
-                    # Check if series_entry has occurrences (recurring case)
-                    if "occurrences" in series_entry:
-                        target_occurrence = None
-                        occurrence_index = -1
-                        for idx, occ in enumerate(series_entry["occurrences"]):
-                            if occ.get("issue_number") == occurrence_issue_number:
-                                target_occurrence = occ
-                                occurrence_index = idx
-                                break
-                    else:
-                        target_occurrence = None
+                # All series now use the unified structure with occurrences
+                target_occurrence = None
+                occurrence_index = -1
+                for idx, occ in enumerate(series_entry["occurrences"]):
+                    if occ.get("issue_number") == occurrence_issue_number:
+                        target_occurrence = occ
+                        occurrence_index = idx
+                        break
 
                 if not target_occurrence:
                     print(f"::error::Issue number {occurrence_issue_number} not found for meeting ID {meeting_id}.")
@@ -551,27 +523,15 @@ def main():
                 # Now call the processing function with force=True
                 print(f"Forcing processing for Occurrence Issue #{occurrence_issue_number}...")
 
-                # For one-off meetings, series_entry is the occurrence itself
-                if "occurrences" not in series_entry:
-                    # One-off case: series_entry is the occurrence
-                    mapping_updated = process_single_occurrence(
-                        recording=matching_recording,
-                        occurrence=series_entry,
-                        occurrence_index=0,
-                        series_entry=series_entry,  # Same as occurrence for one-off
-                        mapping=mapping,
-                        force_process=True, # Enable force mode
-                    )
-                else:
-                    # Recurring case: series_entry has occurrences
-                    mapping_updated = process_single_occurrence(
-                        recording=matching_recording,
-                        occurrence=target_occurrence,
-                        occurrence_index=occurrence_index,
-                        series_entry=series_entry,
-                        mapping=mapping,
-                        force_process=True, # Enable force mode
-                    )
+                # All series now use the unified structure with occurrences
+                mapping_updated = process_single_occurrence(
+                    recording=matching_recording,
+                    occurrence=target_occurrence,
+                    occurrence_index=occurrence_index,
+                    series_entry=series_entry,
+                    mapping=mapping,
+                    force_process=True, # Enable force mode
+                )
 
                 if mapping_updated:
                     print("Saving updated mapping file after forced processing...")
