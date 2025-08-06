@@ -233,6 +233,45 @@ def get_effective_meeting_id(call_series: str, issue_number: int, mapping: Dict)
     return None
 
 
+def find_call_series_by_meeting_id(meeting_id: str, occurrence_issue_number: int, mapping: Dict) -> Optional[str]:
+    """
+    Find the call series for a given meeting ID and issue number.
+
+    Args:
+        meeting_id: The Zoom meeting ID to search for
+        occurrence_issue_number: The GitHub issue number to match
+        mapping: The mapping dictionary
+
+    Returns:
+        The call series name if found, None otherwise
+    """
+    meeting_id = str(meeting_id)
+
+    for call_series, series_data in mapping.items():
+        if call_series == "one-off":
+            # Check one-off entries
+            if meeting_id in series_data:
+                return call_series
+        else:
+            # For recurring series, check both root level and occurrences
+            if not isinstance(series_data, dict):
+                continue
+
+            # Check if this is the series-level meeting ID
+            if series_data.get("meeting_id") == meeting_id:
+                # Find the occurrence with matching issue number
+                for occurrence in series_data.get("occurrences", []):
+                    if occurrence.get("issue_number") == occurrence_issue_number:
+                        return call_series
+
+            # Check occurrences for meeting_id overrides
+            for occurrence in series_data.get("occurrences", []):
+                if occurrence.get("meeting_id") == meeting_id and occurrence.get("issue_number") == occurrence_issue_number:
+                    return call_series
+
+    return None
+
+
 def validate_mapping_structure(mapping: Dict) -> bool:
     """
     Validate that the mapping follows the expected new structure.

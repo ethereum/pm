@@ -8,7 +8,8 @@ from modules.mapping_utils import (
     load_mapping as load_meeting_topic_mapping,
     save_mapping as save_meeting_topic_mapping,
     find_meeting_by_id,
-    get_effective_meeting_id
+    update_occurrence_entry,
+    find_call_series_by_meeting_id
 )
 from github import Github, InputGitAuthor
 
@@ -253,11 +254,29 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
             )
 
             if transcript_success:
-                mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_processed"] = True
-                # Reset attempt count on success
-                mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = 0
-                mapping_updated = True
-                print(f"  -> Transcript posted successfully for occurrence #{occurrence_issue_number} to topic {discourse_topic_id}.")
+                # Find the correct call series for updating
+                call_series = find_call_series_by_meeting_id(recording_meeting_id, occurrence_issue_number, mapping)
+
+                if call_series is not None:
+                    try:
+                        # Update the mapping with success status using existing utility
+                        updates = {
+                            "transcript_processed": True,
+                            "transcript_attempt_count": 0
+                        }
+                        if update_occurrence_entry(call_series, occurrence_issue_number, updates, mapping):
+                            mapping_updated = True
+                            print(f"  -> Transcript posted successfully for occurrence #{occurrence_issue_number} to topic {discourse_topic_id}.")
+                        else:
+                            print(f"  -> Transcript posted successfully but failed to update mapping.")
+                            mapping_updated = True  # Still mark as updated to prevent retries
+                    except Exception as e:
+                        print(f"[ERROR] Unexpected error updating mapping: {e}")
+                        mapping_updated = True
+                else:
+                    print(f"[ERROR] Could not find call series for meeting {recording_meeting_id}, issue {occurrence_issue_number}")
+                    print(f"[ERROR] This indicates a mapping structure issue. Manual intervention may be needed.")
+                    mapping_updated = True  # Still mark as updated to prevent retries
 
                 # Update RSS feed with transcript info
                 try:
@@ -274,14 +293,30 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
             else:
                  # Increment attempt counter only if not forced
                  if not force_process:
-                    mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = transcript_attempts + 1
+                    call_series = find_call_series_by_meeting_id(recording_meeting_id, occurrence_issue_number, mapping)
+                    if call_series is not None:
+                        try:
+                            updates = {"transcript_attempt_count": transcript_attempts + 1}
+                            update_occurrence_entry(call_series, occurrence_issue_number, updates, mapping)
+                        except Exception as e:
+                            print(f"[ERROR] Failed to update attempt count: {e}")
+                    else:
+                        print(f"[ERROR] Could not find call series for updating attempt count")
                  mapping_updated = True
                  print(f"  -> Transcript posting failed.")
 
         except Exception as e:
             # Increment attempt counter only if not forced
             if not force_process:
-                mapping[recording_meeting_id]["occurrences"][occurrence_index]["transcript_attempt_count"] = transcript_attempts + 1
+                call_series = find_call_series_by_meeting_id(recording_meeting_id, occurrence_issue_number, mapping)
+                if call_series is not None:
+                    try:
+                        updates = {"transcript_attempt_count": transcript_attempts + 1}
+                        update_occurrence_entry(call_series, occurrence_issue_number, updates, mapping)
+                    except Exception as e:
+                        print(f"[ERROR] Failed to update attempt count: {e}")
+                else:
+                    print(f"[ERROR] Could not find call series for updating attempt count")
             mapping_updated = True
             print(f"[ERROR] Error posting transcript for occurrence #{occurrence_issue_number}: {e}")
     elif transcript_processed:
@@ -308,9 +343,26 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
          discourse_body = f"{title}\n{stream_links_text}"
          try:
              discourse.create_post(topic_id=discourse_topic_id, body=discourse_body)
-             mapping[recording_meeting_id]["occurrences"][occurrence_index]["youtube_streams_posted_to_discourse"] = True
-             mapping_updated = True
-             print(f"  -> Successfully posted YouTube streams to Discourse.")
+
+             # Find the correct call series for updating
+             call_series = find_call_series_by_meeting_id(recording_meeting_id, occurrence_issue_number, mapping)
+
+             if call_series is not None:
+                 try:
+                     updates = {"youtube_streams_posted_to_discourse": True}
+                     if update_occurrence_entry(call_series, occurrence_issue_number, updates, mapping):
+                         mapping_updated = True
+                         print(f"  -> Successfully posted YouTube streams to Discourse.")
+                     else:
+                         print(f"  -> Posted YouTube streams but failed to update mapping.")
+                         mapping_updated = True  # Still mark as updated to prevent retries
+                 except Exception as e:
+                     print(f"[ERROR] Failed to update mapping for YouTube streams: {e}")
+                     mapping_updated = True
+             else:
+                 print(f"[ERROR] Could not find call series for updating YouTube streams status")
+                 mapping_updated = True  # Still mark as updated to prevent retries
+
          except Exception as e:
              print(f"[ERROR] Error posting YouTube streams to Discourse: {e}")
     elif streams_posted:
