@@ -51,10 +51,7 @@ class MappingManager:
 
     def get_call_series(self, call_series: str) -> Optional[Dict]:
         """Get a call series entry from the mapping."""
-        if call_series == "one-off":
-            return self.mapping.get("one-off", {})
-        else:
-            return self.mapping.get(call_series)
+        return self.mapping.get(call_series)
 
     def create_call_series_entry(self, call_series: str, meeting_id: str,
                                 occurrence_rate: str, duration: int) -> Dict:
@@ -75,39 +72,25 @@ class MappingManager:
     def add_occurrence(self, call_series: str, occurrence_data: Dict) -> bool:
         """Add a new occurrence to a call series."""
         try:
-            if call_series == "one-off":
-                # Handle one-off calls
-                if "one-off" not in self.mapping:
-                    self.mapping["one-off"] = {}
+            if call_series not in self.mapping:
+                # Create new call series entry
+                self.mapping[call_series] = self.create_call_series_entry(
+                    call_series=call_series,
+                    meeting_id=occurrence_data.get("meeting_id", "placeholder"),
+                    occurrence_rate=occurrence_data.get("occurrence_rate", "other"),
+                    duration=occurrence_data.get("duration")
+                )
 
-                meeting_id = occurrence_data.get("meeting_id")
-                if not meeting_id:
-                    print("[ERROR] One-off calls require a meeting_id")
-                    return False
+            # Add occurrence to the series
+            if "occurrences" not in self.mapping[call_series]:
+                self.mapping[call_series]["occurrences"] = []
 
-                self.mapping["one-off"][meeting_id] = occurrence_data
-                print(f"[DEBUG] Added one-off occurrence with meeting_id: {meeting_id}")
-            else:
-                # Handle recurring calls
-                if call_series not in self.mapping:
-                    # Create new call series entry
-                    self.mapping[call_series] = self.create_call_series_entry(
-                        call_series=call_series,
-                        meeting_id=occurrence_data.get("meeting_id", "placeholder"),
-                        occurrence_rate=occurrence_data.get("occurrence_rate", "other"),
-                        duration=occurrence_data.get("duration")
-                    )
+            # Set occurrence number
+            occurrence_number = len(self.mapping[call_series]["occurrences"]) + 1
+            occurrence_data["occurrence_number"] = occurrence_number
 
-                # Add occurrence to the series
-                if "occurrences" not in self.mapping[call_series]:
-                    self.mapping[call_series]["occurrences"] = []
-
-                # Set occurrence number
-                occurrence_number = len(self.mapping[call_series]["occurrences"]) + 1
-                occurrence_data["occurrence_number"] = occurrence_number
-
-                self.mapping[call_series]["occurrences"].append(occurrence_data)
-                print(f"[DEBUG] Added occurrence #{occurrence_number} to call series: {call_series}")
+            self.mapping[call_series]["occurrences"].append(occurrence_data)
+            print(f"[DEBUG] Added occurrence #{occurrence_number} to call series: {call_series}")
 
             return True
         except Exception as e:
@@ -117,34 +100,18 @@ class MappingManager:
     def update_occurrence(self, call_series: str, issue_number: int, update_data: Dict) -> bool:
         """Update an existing occurrence."""
         try:
-            if call_series == "one-off":
-                # Handle one-off calls
-                if "one-off" not in self.mapping:
-                    return False
-
-                # Find the one-off entry with matching issue number
-                for meeting_id, entry in self.mapping["one-off"].items():
-                    if entry.get("issue_number") == issue_number:
-                        entry.update(update_data)
-                        print(f"[DEBUG] Updated one-off occurrence for issue #{issue_number}")
-                        return True
-
-                print(f"[WARNING] One-off occurrence for issue #{issue_number} not found")
+            if call_series not in self.mapping:
                 return False
-            else:
-                # Handle recurring calls
-                if call_series not in self.mapping:
-                    return False
 
-                # Find the occurrence with matching issue number
-                for occurrence in self.mapping[call_series].get("occurrences", []):
-                    if occurrence.get("issue_number") == issue_number:
-                        occurrence.update(update_data)
-                        print(f"[DEBUG] Updated occurrence for issue #{issue_number} in call series: {call_series}")
-                        return True
+            # Find the occurrence with matching issue number
+            for occurrence in self.mapping[call_series].get("occurrences", []):
+                if occurrence.get("issue_number") == issue_number:
+                    occurrence.update(update_data)
+                    print(f"[DEBUG] Updated occurrence for issue #{issue_number} in call series: {call_series}")
+                    return True
 
-                print(f"[WARNING] Occurrence for issue #{issue_number} not found in call series: {call_series}")
-                return False
+            print(f"[WARNING] Occurrence for issue #{issue_number} not found in call series: {call_series}")
+            return False
         except Exception as e:
             print(f"[ERROR] Failed to update occurrence: {e}")
             return False
@@ -153,19 +120,8 @@ class MappingManager:
         """Find an occurrence by issue number across all call series."""
         print(f"[DEBUG] Searching for issue #{issue_number} in mapping with {len(self.mapping)} entries")
 
-        # Check one-off calls first
-        if "one-off" in self.mapping:
-            print(f"[DEBUG] Checking one-off calls: {len(self.mapping['one-off'])} entries")
-            for meeting_id, entry in self.mapping["one-off"].items():
-                if isinstance(entry, dict) and entry.get("issue_number") == issue_number:
-                    print(f"[DEBUG] Found issue #{issue_number} in one-off calls")
-                    return {"call_series": "one-off", "meeting_id": meeting_id, "occurrence": entry}
-
-        # Check recurring calls
+        # Check all call series
         for call_series, entry in self.mapping.items():
-            if call_series == "one-off":
-                continue
-
             # Skip if entry is not a dictionary (e.g., string values from test fixtures)
             if not isinstance(entry, dict):
                 continue
@@ -183,9 +139,6 @@ class MappingManager:
 
     def get_series_meeting_id(self, call_series: str) -> Optional[str]:
         """Get the meeting ID for a call series."""
-        if call_series == "one-off":
-            return None  # One-off calls don't have a series meeting ID
-
         series_entry = self.mapping.get(call_series)
         if series_entry:
             meeting_id = series_entry.get("meeting_id")
@@ -196,10 +149,6 @@ class MappingManager:
 
     def set_series_meeting_id(self, call_series: str, meeting_id: str) -> bool:
         """Set the meeting ID for a call series."""
-        if call_series == "one-off":
-            print("[WARNING] Cannot set series meeting ID for one-off calls")
-            return False
-
         if call_series not in self.mapping:
             print(f"[WARNING] Call series '{call_series}' not found in mapping")
             return False
@@ -210,9 +159,6 @@ class MappingManager:
 
     def get_series_calendar_event_id(self, call_series: str) -> Optional[str]:
         """Get the calendar event ID for a call series."""
-        if call_series == "one-off":
-            return None
-
         series_entry = self.mapping.get(call_series)
         if series_entry:
             return series_entry.get("calendar_event_id")
@@ -221,10 +167,6 @@ class MappingManager:
 
     def set_series_calendar_event_id(self, call_series: str, calendar_event_id: str) -> bool:
         """Set the calendar event ID for a call series."""
-        if call_series == "one-off":
-            print("[WARNING] Cannot set series calendar event ID for one-off calls")
-            return False
-
         if call_series not in self.mapping:
             print(f"[WARNING] Call series '{call_series}' not found in mapping")
             return False
@@ -235,9 +177,6 @@ class MappingManager:
 
     def get_series_uuid(self, call_series: str) -> Optional[str]:
         """Get the UUID for a call series."""
-        if call_series == "one-off":
-            return None
-
         series_entry = self.mapping.get(call_series)
         if series_entry:
             return series_entry.get("uuid")
@@ -246,10 +185,6 @@ class MappingManager:
 
     def set_series_uuid(self, call_series: str, uuid: str) -> bool:
         """Set the UUID for a call series."""
-        if call_series == "one-off":
-            print("[WARNING] Cannot set series UUID for one-off calls")
-            return False
-
         if call_series not in self.mapping:
             print(f"[WARNING] Call series '{call_series}' not found in mapping")
             return False
@@ -281,7 +216,7 @@ class MappingManager:
         if discourse_topic_id:
             occurrence_data["discourse_topic_id"] = discourse_topic_id
 
-        # Add meeting_id for one-off calls
+        # Add meeting_id if provided
         if kwargs.get("meeting_id"):
             occurrence_data["meeting_id"] = kwargs["meeting_id"]
 
@@ -292,50 +227,33 @@ class MappingManager:
         issues = []
 
         for call_series, entry in self.mapping.items():
-            if call_series == "one-off":
-                # Validate one-off structure
-                if not isinstance(entry, dict):
-                    issues.append(f"one-off entry is not a dictionary")
-                    continue
+            # Validate all call series structure uniformly
+            if not isinstance(entry, dict):
+                issues.append(f"call series '{call_series}' entry is not a dictionary")
+                continue
 
-                for meeting_id, one_off_entry in entry.items():
-                    if not isinstance(one_off_entry, dict):
-                        issues.append(f"one-off/{meeting_id} entry is not a dictionary")
+            # Check required fields
+            required_fields = ["call_series", "occurrence_rate"]
+            for field in required_fields:
+                if field not in entry:
+                    issues.append(f"call series '{call_series}' missing required field: {field}")
+
+            # Check occurrences
+            if "occurrences" not in entry:
+                issues.append(f"call series '{call_series}' missing occurrences list")
+            elif not isinstance(entry["occurrences"], list):
+                issues.append(f"call series '{call_series}' occurrences is not a list")
+            else:
+                # Validate each occurrence
+                for i, occurrence in enumerate(entry["occurrences"]):
+                    if not isinstance(occurrence, dict):
+                        issues.append(f"call series '{call_series}' occurrence {i} is not a dictionary")
                         continue
 
-                    # Check required fields
-                    required_fields = ["issue_number", "issue_title", "start_time", "duration"]
-                    for field in required_fields:
-                        if field not in one_off_entry:
-                            issues.append(f"one-off/{meeting_id} missing required field: {field}")
-            else:
-                # Validate recurring call structure
-                if not isinstance(entry, dict):
-                    issues.append(f"call series '{call_series}' entry is not a dictionary")
-                    continue
-
-                # Check required fields
-                required_fields = ["call_series", "occurrence_rate"]
-                for field in required_fields:
-                    if field not in entry:
-                        issues.append(f"call series '{call_series}' missing required field: {field}")
-
-                # Check occurrences
-                if "occurrences" not in entry:
-                    issues.append(f"call series '{call_series}' missing occurrences list")
-                elif not isinstance(entry["occurrences"], list):
-                    issues.append(f"call series '{call_series}' occurrences is not a list")
-                else:
-                    # Validate each occurrence
-                    for i, occurrence in enumerate(entry["occurrences"]):
-                        if not isinstance(occurrence, dict):
-                            issues.append(f"call series '{call_series}' occurrence {i} is not a dictionary")
-                            continue
-
-                        # Check required occurrence fields
-                        required_occurrence_fields = ["issue_number", "issue_title", "start_time", "duration"]
-                        for field in required_occurrence_fields:
-                            if field not in occurrence:
-                                issues.append(f"call series '{call_series}' occurrence {i} missing required field: {field}")
+                    # Check required occurrence fields
+                    required_occurrence_fields = ["issue_number", "issue_title", "start_time", "duration"]
+                    for field in required_occurrence_fields:
+                        if field not in occurrence:
+                            issues.append(f"call series '{call_series}' occurrence {i} missing required field: {field}")
 
         return issues

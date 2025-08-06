@@ -134,15 +134,14 @@ class TestMappingManager:
             "issue_title": "One-off Meeting",
             "start_time": "2025-04-24T14:00:00Z",
             "duration": 90,
-            "meeting_id": "123456789"  # Required for one-off calls
+            "meeting_id": "123456789"
         }
 
-        success = manager.add_occurrence("one-off", occurrence_data)
+        success = manager.add_occurrence("one-off-1465", occurrence_data)
         assert success is True
-        assert "one-off" in manager.mapping
-        # One-off calls use meeting_id as the key
-        assert "123456789" in manager.mapping["one-off"]
-        assert manager.mapping["one-off"]["123456789"]["issue_number"] == 1465
+        assert "one-off-1465" in manager.mapping
+        assert manager.mapping["one-off-1465"]["meeting_id"] == "123456789"
+        assert manager.mapping["one-off-1465"]["occurrences"][0]["issue_number"] == 1465
 
     def test_add_occurrence_invalid_data(self, temp_mapping_file):
         """Test adding occurrence with invalid data."""
@@ -189,13 +188,13 @@ class TestMappingManager:
             "issue_title": "One-off Meeting",
             "start_time": "2025-04-24T14:00:00Z",
             "duration": 90,
-            "meeting_id": "123456789"  # Required for one-off calls
+            "meeting_id": "123456789"
         }
-        manager.add_occurrence("one-off", occurrence_data)
+        manager.add_occurrence("one-off-1465", occurrence_data)
 
         # Update occurrence
         update_data = {"discourse_topic_id": 23502}
-        success = manager.update_occurrence("one-off", 1465, update_data)
+        success = manager.update_occurrence("one-off-1465", 1465, update_data)
         assert success is True
 
         # Verify update
@@ -238,13 +237,13 @@ class TestMappingManager:
             "issue_title": "One-off Meeting",
             "start_time": "2025-04-24T14:00:00Z",
             "duration": 90,
-            "meeting_id": "123456789"  # Required for one-off calls
+            "meeting_id": "123456789"
         }
-        manager.add_occurrence("one-off", occurrence_data)
+        manager.add_occurrence("one-off-1465", occurrence_data)
 
         result = manager.find_occurrence(1465)
         assert result is not None
-        assert result["call_series"] == "one-off"
+        assert result["call_series"] == "one-off-1465"
         assert result["occurrence"]["issue_number"] == 1465
 
     def test_find_occurrence_not_found(self, temp_mapping_file):
