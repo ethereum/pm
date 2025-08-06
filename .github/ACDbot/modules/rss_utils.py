@@ -43,22 +43,21 @@ def create_or_update_rss_feed(mapping):
         if not isinstance(series_data, dict):
             continue
 
-        if call_series == "one-off":
-            # One-off meetings: each entry is an occurrence
-            for meeting_id, entry in series_data.items():
-                if not isinstance(entry, dict):
+        if "occurrences" in series_data and isinstance(series_data["occurrences"], list):
+            for occurrence in series_data["occurrences"]:
+                if not isinstance(occurrence, dict):
                     continue
 
                 item = ET.SubElement(channel, 'item')
-                issue_number = entry.get('issue_number')
+                issue_number = occurrence.get('issue_number')
 
-                # Title (from entry)
+                # Title (from occurrence)
                 title_elem = ET.SubElement(item, 'title')
-                title_elem.text = entry.get('issue_title', f"One-off Meeting {meeting_id}")
+                title_elem.text = occurrence.get('issue_title', f"{call_series.upper()} - Occurrence {issue_number}")
 
-                # Link (to entry's Discourse topic)
+                # Link (to occurrence's Discourse topic)
                 link_elem = ET.SubElement(item, 'link')
-                discourse_topic_id = entry.get('discourse_topic_id')
+                discourse_topic_id = occurrence.get('discourse_topic_id')
                 if discourse_topic_id:
                     discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
                     link_elem.text = discourse_url
@@ -67,158 +66,91 @@ def create_or_update_rss_feed(mapping):
 
                 # Description
                 desc_elem = ET.SubElement(item, 'description')
-                desc_content = f"<p><strong>Meeting ID:</strong> {meeting_id}</p>"
-                desc_content += f"<p><strong>Issue:</strong> <a href='https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}'>#{issue_number}</a></p>"
+                desc_content = f"<p><strong>Series:</strong> {call_series.upper()}</p>"
+                desc_content += f"<p><strong>Occurrence Issue:</strong> <a href='https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}'>#{issue_number}</a></p>"
 
-                # Add start time and duration from entry
-                start_time = entry.get('start_time')
-                duration = entry.get('duration')
+                # Add start time and duration from occurrence
+                start_time = occurrence.get('start_time')
+                duration = occurrence.get('duration')
                 if start_time:
                     try:
                         dt_occ = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
                         formatted_time = dt_occ.strftime("%Y-%m-%d %H:%M UTC")
                         desc_content += f"<p><strong>Start Time:</strong> {formatted_time}</p>"
                     except Exception as e:
-                        print(f"[WARN] Error formatting entry start time {start_time}: {e}")
+                        print(f"[WARN] Error formatting occurrence start time {start_time}: {e}")
                         desc_content += f"<p><strong>Start Time:</strong> {start_time}</p>"
 
                 if duration:
                     desc_content += f"<p><strong>Duration:</strong> {duration} minutes</p>"
 
-                # Add YouTube stream links (from entry)
-                entry_youtube_streams = entry.get('youtube_streams', [])
-                if entry_youtube_streams:
-                    desc_content += "<p><strong>YouTube Streams:</strong></p><ul>"
-                    for i, stream in enumerate(entry_youtube_streams, 1):
+                # Add series recurring info
+                if series_data.get('call_series') and not series_data.get('call_series').startswith("one-off-"):
+                    occurrence_rate = series_data.get('occurrence_rate', 'none')
+                    desc_content += f"<p><strong>Recurring Series:</strong> {occurrence_rate}</p>"
+
+                # Add YouTube stream links (from occurrence)
+                occurrence_youtube_streams = occurrence.get('youtube_streams', [])
+                if occurrence_youtube_streams:
+                    desc_content += "<p><strong>YouTube Streams (Occurrence):</strong></p><ul>"
+                    for i, stream in enumerate(occurrence_youtube_streams, 1):
                         stream_url = stream.get('stream_url')
                         if stream_url:
                             desc_content += f"<li><a href='{stream_url}'>Stream #{i}</a></li>"
-                    desc_content += "</ul>"
+                desc_content += "</ul>"
 
-                desc_elem.text = desc_content
+            # Add occurrence-specific YouTube video if available
+            youtube_video_id = occurrence.get('youtube_video_id')
+            if youtube_video_id:
+                youtube_url = f"https://youtu.be/{youtube_video_id}"
+                desc_content += f"<p><strong>Recording (This Occurrence):</strong> <a href='{youtube_url}'>{youtube_url}</a></p>"
 
-                # Add pubDate
-                pub_date_elem = ET.SubElement(item, 'pubDate')
-                if start_time:
+            # Add occurrence-specific notifications
+            notifications = occurrence.get('notifications', [])
+            if notifications:
+                desc_content += "<h3>Occurrence Updates:</h3><ul>"
+                # Sort notifications by timestamp if possible
+                try:
+                    notifications.sort(key=lambda x: datetime.datetime.fromisoformat(x.get('timestamp')), reverse=True)
+                except:
+                    pass # Ignore sorting errors
+
+                for notification in notifications:
+                    timestamp = notification.get('timestamp')
+                    n_type = notification.get('type')
+                    n_content = notification.get('content')
+                    n_url = notification.get('url', '')
+
+                    formatted_time_notif = timestamp
                     try:
-                        dt_occ = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-                        pub_date_elem.text = dt_occ.strftime("%a, %d %b %Y %H:%M:%S %z")
-                    except Exception as e:
-                        print(f"[WARN] Error formatting pubDate for entry {issue_number}: {e}")
-                        pub_date_elem.text = datetime.datetime.now(pytz.UTC).strftime("%a, %d %b %Y %H:%M:%S %z")
-                else:
-                    pub_date_elem.text = datetime.datetime.now(pytz.UTC).strftime("%a, %d %b %Y %H:%M:%S %z")
+                        dt_notif = datetime.datetime.fromisoformat(timestamp)
+                        formatted_time_notif = dt_notif.strftime("%Y-%m-%d %H:%M UTC")
+                    except:
+                        pass
 
-        else:
-            # Recurring series: Create an item for each occurrence
-            if "occurrences" in series_data and isinstance(series_data["occurrences"], list):
-                for occurrence in series_data["occurrences"]:
-                    if not isinstance(occurrence, dict):
-                        continue
-
-                    item = ET.SubElement(channel, 'item')
-                    issue_number = occurrence.get('issue_number')
-
-                    # Title (from occurrence)
-                    title_elem = ET.SubElement(item, 'title')
-                    title_elem.text = occurrence.get('issue_title', f"{call_series.upper()} - Occurrence {issue_number}")
-
-                    # Link (to occurrence's Discourse topic)
-                    link_elem = ET.SubElement(item, 'link')
-                    discourse_topic_id = occurrence.get('discourse_topic_id')
-                    if discourse_topic_id:
-                        discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
-                        link_elem.text = discourse_url
+                    if n_url:
+                        desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> <a href='{n_url}'>{n_content}</a></li>"
                     else:
-                        link_elem.text = os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org') # Fallback link
+                        desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> {n_content}</li>"
+                desc_content += "</ul>"
 
-                    # Description
-                    desc_elem = ET.SubElement(item, 'description')
-                    desc_content = f"<p><strong>Series:</strong> {call_series.upper()}</p>"
-                    desc_content += f"<p><strong>Occurrence Issue:</strong> <a href='https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{issue_number}'>#{issue_number}</a></p>"
+            desc_elem.text = desc_content
 
-                    # Add start time and duration from occurrence
-                    start_time = occurrence.get('start_time')
-                    duration = occurrence.get('duration')
-                    if start_time:
-                        try:
-                            dt_occ = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-                            formatted_time = dt_occ.strftime("%Y-%m-%d %H:%M UTC")
-                            desc_content += f"<p><strong>Start Time:</strong> {formatted_time}</p>"
-                        except Exception as e:
-                            print(f"[WARN] Error formatting occurrence start time {start_time}: {e}")
-                            desc_content += f"<p><strong>Start Time:</strong> {start_time}</p>"
-
-                    if duration:
-                        desc_content += f"<p><strong>Duration:</strong> {duration} minutes</p>"
-
-                    # Add series recurring info
-                    if series_data.get('call_series') and series_data.get('call_series') != "one-off":
-                        occurrence_rate = series_data.get('occurrence_rate', 'none')
-                        desc_content += f"<p><strong>Recurring Series:</strong> {occurrence_rate}</p>"
-
-                    # Add YouTube stream links (from occurrence)
-                    occurrence_youtube_streams = occurrence.get('youtube_streams', [])
-                    if occurrence_youtube_streams:
-                        desc_content += "<p><strong>YouTube Streams (Occurrence):</strong></p><ul>"
-                        for i, stream in enumerate(occurrence_youtube_streams, 1):
-                            stream_url = stream.get('stream_url')
-                            if stream_url:
-                                desc_content += f"<li><a href='{stream_url}'>Stream #{i}</a></li>"
-                    desc_content += "</ul>"
-
-                # Add occurrence-specific YouTube video if available
-                youtube_video_id = occurrence.get('youtube_video_id')
-                if youtube_video_id:
-                    youtube_url = f"https://youtu.be/{youtube_video_id}"
-                    desc_content += f"<p><strong>Recording (This Occurrence):</strong> <a href='{youtube_url}'>{youtube_url}</a></p>"
-
-                # Add occurrence-specific notifications
-                notifications = occurrence.get('notifications', [])
-                if notifications:
-                    desc_content += "<h3>Occurrence Updates:</h3><ul>"
-                    # Sort notifications by timestamp if possible
-                    try:
-                        notifications.sort(key=lambda x: datetime.datetime.fromisoformat(x.get('timestamp')), reverse=True)
-                    except:
-                        pass # Ignore sorting errors
-
-                    for notification in notifications:
-                        timestamp = notification.get('timestamp')
-                        n_type = notification.get('type')
-                        n_content = notification.get('content')
-                        n_url = notification.get('url', '')
-
-                        formatted_time_notif = timestamp
-                        try:
-                            dt_notif = datetime.datetime.fromisoformat(timestamp)
-                            formatted_time_notif = dt_notif.strftime("%Y-%m-%d %H:%M UTC")
-                        except:
-                            pass
-
-                        if n_url:
-                            desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> <a href='{n_url}'>{n_content}</a></li>"
-                        else:
-                            desc_content += f"<li><strong>{formatted_time_notif} - {n_type}:</strong> {n_content}</li>"
-                    desc_content += "</ul>"
-
-                desc_elem.text = desc_content
-
-                # Publication date (use occurrence start time)
-                pub_date_elem = ET.SubElement(item, 'pubDate')
-                if start_time:
-                    try:
-                        dt_pub = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-                        pub_date_elem.text = dt_pub.strftime("%a, %d %b %Y %H:%M:%S %z")
-                    except:
-                        pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
-                else:
+            # Publication date (use occurrence start time)
+            pub_date_elem = ET.SubElement(item, 'pubDate')
+            if start_time:
+                try:
+                    dt_pub = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                    pub_date_elem.text = dt_pub.strftime("%a, %d %b %Y %H:%M:%S %z")
+                except:
                     pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
+            else:
+                pub_date_elem.text = now.strftime("%a, %d %b %Y %H:%M:%S %z")
 
-                # GUID (unique per occurrence)
-                guid_elem = ET.SubElement(item, 'guid')
-                guid_elem.set('isPermaLink', 'false')
-                guid_elem.text = f"meeting-{meeting_id}-occurrence-{issue_number}"
+            # GUID (unique per occurrence)
+            guid_elem = ET.SubElement(item, 'guid')
+            guid_elem.set('isPermaLink', 'false')
+            guid_elem.text = f"meeting-{meeting_id}-occurrence-{issue_number}"
 
     # Write updated RSS feed
     write_rss_feed(tree)

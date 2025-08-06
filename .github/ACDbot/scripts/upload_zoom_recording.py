@@ -17,7 +17,8 @@ from modules.mapping_utils import (
     load_mapping as load_meeting_topic_mapping,
     save_mapping as save_meeting_topic_mapping,
     find_meeting_by_id,
-    find_meeting_by_issue_number
+    find_meeting_by_issue_number,
+    find_call_series_by_meeting_id
 )
 from github import Github
 from google.auth.transport.requests import Request
@@ -112,7 +113,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
     youtube = get_authenticated_service()
     mapping = load_meeting_topic_mapping()
 
-    series_entry = mapping.get(meeting_id)
+    series_entry = find_meeting_by_id(meeting_id, mapping)
 
     if not series_entry:
         print(f"[ERROR] Meeting ID {meeting_id} not found in mapping.")
@@ -153,8 +154,14 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         print(f"  -> Skipping: Max upload attempts reached for occurrence.")
         return False # Indicate failure
 
+    # Find the series key for this meeting ID
+    call_series_key = find_call_series_by_meeting_id(meeting_id, occurrence_issue_number, mapping)
+    if not call_series_key:
+        print(f"[ERROR] Could not find call series for meeting {meeting_id}")
+        return False
+
     # Increment attempt count immediately
-    mapping[meeting_id]["occurrences"][occurrence_index]["upload_attempt_count"] = attempt_count + 1
+    mapping[call_series_key]["occurrences"][occurrence_index]["upload_attempt_count"] = attempt_count + 1
     save_meeting_topic_mapping(mapping) # Save attempt count increment
 
     # Only proceed if not already processed
@@ -197,10 +204,10 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         ).execute()
 
         # --- Update occurrence flags in mapping ---
-        mapping[meeting_id]["occurrences"][occurrence_index]["youtube_video_id"] = response['id']
-        mapping[meeting_id]["occurrences"][occurrence_index]["youtube_upload_processed"] = True
+        mapping[call_series_key]["occurrences"][occurrence_index]["youtube_video_id"] = response['id']
+        mapping[call_series_key]["occurrences"][occurrence_index]["youtube_upload_processed"] = True
         # Reset attempt count on success
-        # mapping[meeting_id]["occurrences"][occurrence_index]["upload_attempt_count"] = 0 # Optional reset
+        # mapping[call_series_key]["occurrences"][occurrence_index]["upload_attempt_count"] = 0 # Optional reset
 
         save_meeting_topic_mapping(mapping)
         commit_mapping_file()
@@ -299,43 +306,22 @@ def main():
         print("No meeting ID provided - checking mapping for unprocessed meetings")
         mapping = load_meeting_topic_mapping()
 
-        # Process all call series and one-off meetings
-        for call_series, series_data in mapping.items():
-            if call_series == "one-off":
-                # Process one-off meetings
-                for meeting_id, details in series_data.items():
-                    if not isinstance(details, dict):
-                        continue
+        for _, series_data in mapping.items():
+            if "occurrences" in series_data:
+                for occurrence in series_data["occurrences"]:
+                    occ_issue_num = occurrence.get("issue_number")
+                    yt_processed = occurrence.get("youtube_upload_processed", False)
+                    yt_skipped = occurrence.get("skip_youtube_upload", False)
 
-                    yt_processed = details.get("youtube_upload_processed", False)
-                    yt_skipped = details.get("skip_youtube_upload", False)
+                    # Get the effective meeting ID for this occurrence (series-level)
+                    effective_meeting_id = series_data.get("meeting_id")
 
-                    if not yt_skipped and not yt_processed:
-                        print(f"\nProcessing one-off meeting from mapping: {meeting_id}")
+                    if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
+                        print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")
                         try:
-                            upload_recording(meeting_id)
+                            upload_recording(effective_meeting_id, occ_issue_num)
                         except Exception as e:
-                            print(f"Failed to process {meeting_id}: {e}")
-            else:
-                # Process recurring series occurrences
-                if "occurrences" in series_data:
-                    for occurrence in series_data["occurrences"]:
-                        occ_issue_num = occurrence.get("issue_number")
-                        yt_processed = occurrence.get("youtube_upload_processed", False)
-                        yt_skipped = occurrence.get("skip_youtube_upload", False)
-
-                        # Get the effective meeting ID for this occurrence
-                        effective_meeting_id = series_data.get("meeting_id")
-                        if not effective_meeting_id:
-                            # Check if occurrence has its own meeting_id
-                            effective_meeting_id = occurrence.get("meeting_id")
-
-                        if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
-                            print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")
-                            try:
-                                upload_recording(effective_meeting_id, occ_issue_num)
-                            except Exception as e:
-                                print(f"Failed to process {effective_meeting_id} / {occ_issue_num}: {e}")
+                            print(f"Failed to process {effective_meeting_id} / {occ_issue_num}: {e}")
 
 if __name__ == "__main__":
     main()
