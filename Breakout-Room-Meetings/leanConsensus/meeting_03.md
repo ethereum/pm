@@ -1,6 +1,6 @@
-# beam call #3: research updates | p2p networking
+# leanConsensus (fka beam chain) call #3: research updates | p2p networking
 
-**Prev:** [Call 02](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/beam-chain/meeting_02.md)
+**Prev:** [Call 02](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/leanConsensus/meeting_02.md)
 
 **Meeting Date/Time:** Friday 2025/4/4 at 14:00 UTC
 

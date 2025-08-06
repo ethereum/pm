@@ -1,6 +1,6 @@
-# beam call #3: research updates | post-quantum cryptography
+# leanConsensus (fka beam chain) call #2: research updates | post-quantum cryptography
 
-**Prev:** [Call 01](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/beam-chain/meeting_01.md)
+**Prev:** [Call 01](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/leanConsensus/meeting_01.md)
 
 **Meeting Date/Time:** Friday 2025/2/28 at 14:00 UTC
 

@@ -1,6 +1,6 @@
-# beam call #4: research updates | exit queue
+# leanConsensus (fka beam chain) call #4: research updates | exit queue
 
-**Prev:** [Call 03](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/beam-chain/meeting_03.md)
+**Prev:** [Call 03](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/leanConsensus/meeting_03.md)
 
 **Meeting Date/Time:** Friday 2025/4/18 at 14:00 UTC
 

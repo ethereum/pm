@@ -1,4 +1,4 @@
-# beam call #1: beam client team introductions
+# leanConsensus (fka beam chain) call #1: beam client team introductions
 
 **Prev Call:** Initial Call
 
