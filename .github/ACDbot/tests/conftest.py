@@ -29,24 +29,35 @@ def sample_mapping():
                 {
                     "occurrence_number": 2,
                     "issue_number": 1463,
-                    "meeting_id": "86109593250",
                     "discourse_topic_id": 23503,
                     "start_time": "2025-05-08T14:00:00Z",
                     "duration": 90
                 }
             ]
         },
-        "one-off": {
-            "89880194464": {
-                "issue_number": 1465,
-                "meeting_id": "89880194464",
-                "discourse_topic_id": 23010
-            },
-            "99999999999": {
-                "issue_number": 1466,
-                "meeting_id": "99999999999",
-                "discourse_topic_id": 23011
-            }
+        "one-off-1465": {
+            "call_series": "one-off-1465",
+            "meeting_id": "89880194464",
+            "occurrence_rate": "one-time",
+            "occurrences": [
+                {
+                    "occurrence_number": 1,
+                    "issue_number": 1465,
+                    "discourse_topic_id": 23010
+                }
+            ]
+        },
+        "one-off-1466": {
+            "call_series": "one-off-1466",
+            "meeting_id": "99999999999",
+            "occurrence_rate": "one-time",
+            "occurrences": [
+                {
+                    "occurrence_number": 1,
+                    "issue_number": 1466,
+                    "discourse_topic_id": 23011
+                }
+            ]
         }
     }
 
