@@ -6,7 +6,8 @@ import pytest
 from modules.mapping_utils import (
     find_meeting_by_id,
     get_effective_meeting_id,
-    find_meeting_by_issue_number
+    find_meeting_by_issue_number,
+    find_call_series_by_meeting_id
 )
 
 
@@ -160,3 +161,38 @@ class TestMappingUtils:
         # Test invalid mapping
         invalid_mapping = {"invalid": "structure"}
         assert find_meeting_by_id("any_id", invalid_mapping) is None
+
+    def test_find_call_series_by_meeting_id_recurring_series_root(self, sample_mapping):
+        """Test finding call series for recurring series root meeting ID."""
+        result = find_call_series_by_meeting_id("88269836469", 1462, sample_mapping)
+        assert result == "acde"
+
+    def test_find_call_series_by_meeting_id_recurring_series_occurrence_override(self, sample_mapping):
+        """Test finding call series for recurring series with occurrence override."""
+        result = find_call_series_by_meeting_id("86109593250", 1463, sample_mapping)
+        assert result == "acde"
+
+    def test_find_call_series_by_meeting_id_one_off(self, sample_mapping):
+        """Test finding call series for one-off meeting."""
+        result = find_call_series_by_meeting_id("89880194464", 1465, sample_mapping)
+        assert result == "one-off"
+
+    def test_find_call_series_by_meeting_id_one_off_second(self, sample_mapping):
+        """Test finding call series for second one-off meeting."""
+        result = find_call_series_by_meeting_id("99999999999", 1466, sample_mapping)
+        assert result == "one-off"
+
+    def test_find_call_series_by_meeting_id_not_found(self, sample_mapping):
+        """Test finding call series for non-existent meeting."""
+        result = find_call_series_by_meeting_id("nonexistent", 9999, sample_mapping)
+        assert result is None
+
+    def test_find_call_series_by_meeting_id_wrong_issue_number(self, sample_mapping):
+        """Test finding call series with wrong issue number."""
+        result = find_call_series_by_meeting_id("88269836469", 9999, sample_mapping)
+        assert result is None
+
+    def test_find_call_series_by_meeting_id_empty_mapping(self):
+        """Test finding call series in empty mapping."""
+        result = find_call_series_by_meeting_id("any_id", 1462, {})
+        assert result is None
