@@ -114,6 +114,7 @@ All Core Devs - Execution
         """Test parsing one-off meeting form data."""
         parser = FormParser()
 
+        # Test without issue number (should return "one-off")
         result = parser.parse_form_data(ONE_OFF_MEETING_FORM)
 
         assert result is not None
@@ -125,6 +126,10 @@ All Core Devs - Execution
         assert result["need_youtube_streams"] is False
         assert result["display_zoom_link_in_invite"] is False
         assert result["facilitator_emails"] == ['organizer@example.com']
+
+        # Test with issue number (should return "one-off-123")
+        result_with_issue = parser.parse_form_data(ONE_OFF_MEETING_FORM, 123)
+        assert result_with_issue["call_series"] == "one-off-123"
 
     def test_parse_form_data_missing_required_fields(self):
         """Test parsing form data with missing required fields."""
@@ -182,7 +187,7 @@ All Core Devs - Execution
         test_cases = [
             ("All Core Devs - Execution", "acde"),
             ("All Core Devs - Consensus", "acdc"),
-            ("One-time call", "one-off"),
+            ("One-time call", "one-off"),  # Without issue number
         ]
 
         for display_name, expected_key in test_cases:
@@ -190,6 +195,12 @@ All Core Devs - Execution
                 form_body = CALL_SERIES_TEST_FORMS[display_name]
                 result = parser.parse_form_data(form_body)
                 assert result["call_series"] == expected_key, f"Failed for: {display_name}"
+
+        # Test one-off with issue number
+        if "One-time call" in CALL_SERIES_TEST_FORMS:
+            form_body = CALL_SERIES_TEST_FORMS["One-time call"]
+            result = parser.parse_form_data(form_body, 456)
+            assert result["call_series"] == "one-off-456", "Failed for One-time call with issue number"
 
     def test_parse_form_data_occurrence_rate_mapping(self):
         """Test occurrence rate display name to key mapping."""

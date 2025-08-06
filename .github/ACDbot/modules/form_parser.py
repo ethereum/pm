@@ -35,7 +35,7 @@ class FormParser:
             "RPC Standards": "rpcstandards",
             "RollCall": "rollcall",
             "Stateless Implementers": "stateless",
-            "One-time call": "one-off"
+            "One-time call": "one-off"  # This will be transformed to one-off-{issue_number}
         }
 
         # Duration mapping (display text -> minutes)
@@ -233,7 +233,7 @@ class FormParser:
                 return True
         return False
 
-    def parse_call_series(self, issue_body: str) -> Optional[str]:
+    def parse_call_series(self, issue_body: str, issue_number: Optional[int] = None) -> Optional[str]:
         """Extract and convert call series from form dropdown."""
         # Try with extra newline (real GitHub Issue Form format)
         pattern = r"### Call Series\n\n([^\n]+)"
@@ -247,7 +247,12 @@ class FormParser:
             display_name = match.group(1).strip()
             call_series_key = self.call_series_mapping.get(display_name)
             if call_series_key:
-                print(f"[DEBUG] Parsed call series: '{display_name}' -> '{call_series_key}'")
+                # For one-off calls, generate the unique key with issue number
+                if call_series_key == "one-off" and issue_number is not None:
+                    call_series_key = f"one-off-{issue_number}"
+                    print(f"[DEBUG] Parsed call series: '{display_name}' -> '{call_series_key}' (one-off with issue #{issue_number})")
+                else:
+                    print(f"[DEBUG] Parsed call series: '{display_name}' -> '{call_series_key}'")
                 return call_series_key
             else:
                 print(f"[WARNING] Unknown call series display name: '{display_name}'")
@@ -275,7 +280,7 @@ class FormParser:
 
         return None
 
-    def parse_occurrence_rate(self, issue_body: str) -> Optional[str]:
+    def parse_occurrence_rate(self, issue_body: str, call_series: Optional[str] = None) -> Optional[str]:
         """Extract occurrence rate from form dropdown."""
         # Try with extra newline (real GitHub Issue Form format)
         pattern = r"### Occurrence Rate\n\n([^\n]+)"
@@ -289,6 +294,12 @@ class FormParser:
             rate = match.group(1).strip().lower()
             print(f"[DEBUG] Parsed occurrence rate: {rate}")
             return rate
+
+        # For one-off calls, ensure occurrence_rate is set to "one-time"
+        if call_series and call_series.startswith("one-off-"):
+            print(f"[DEBUG] Setting occurrence_rate to 'one-time' for one-off call: {call_series}")
+            return "one-time"
+
         return None
 
     def parse_date_time(self, issue_body: str) -> Optional[str]:
@@ -476,11 +487,11 @@ class FormParser:
 
     def should_be_on_ethereum_calendar(self, call_series: str) -> bool:
         """Determine if a call series should be on the Ethereum calendar."""
-        # One-time calls should NOT be on the Ethereum calendar
-        # All other call series should be on the calendar
-        return call_series != "one-off"
+        # One-time calls should NOT already be on the Ethereum calendar
+        # All other call series are expected to be on the calendar
+        return not (call_series.startswith("one-off-") or call_series == "one-off")
 
-    def parse_form_data(self, issue_body: str) -> Dict:
+    def parse_form_data(self, issue_body: str, issue_number: Optional[int] = None) -> Dict:
         """Parse all form data and return structured dictionary."""
         # Check if it's the old format first
         if self.is_old_format_issue(issue_body):
@@ -490,17 +501,17 @@ class FormParser:
         # Check if it's the new format
         if self.is_form_issue(issue_body):
             print("[DEBUG] Detected new format issue template")
-            return self._parse_new_format_data(issue_body)
+            return self._parse_new_format_data(issue_body, issue_number)
 
         # If neither format is detected
         raise ValueError("Issue body does not appear to be from either the new form format or old template format")
 
-    def _parse_new_format_data(self, issue_body: str) -> Dict:
+    def _parse_new_format_data(self, issue_body: str, issue_number: Optional[int] = None) -> Dict:
         """Parse new form format data."""
         # Parse basic fields
-        call_series = self.parse_call_series(issue_body)
+        call_series = self.parse_call_series(issue_body, issue_number)
         duration = self.parse_duration(issue_body)
-        occurrence_rate = self.parse_occurrence_rate(issue_body)
+        occurrence_rate = self.parse_occurrence_rate(issue_body, call_series)
         date_time_text = self.parse_date_time(issue_body)
 
         # Parse options

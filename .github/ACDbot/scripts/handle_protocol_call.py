@@ -169,7 +169,7 @@ class ProtocolCallHandler:
                 return False
 
             # 2. Parse form data
-            form_data = self._parse_form_data(issue.body)
+            form_data = self._parse_form_data(issue.body, issue_number)
             if not form_data:
                 print(f"[ERROR] Failed to parse form data from issue #{issue_number}")
                 return False
@@ -287,11 +287,11 @@ class ProtocolCallHandler:
             print(f"[ERROR] Failed to get GitHub issue: {e}")
             return None
 
-    def _parse_form_data(self, issue_body: str) -> Optional[Dict]:
+    def _parse_form_data(self, issue_body: str, issue_number: int) -> Optional[Dict]:
         """Parse form data from issue body."""
         try:
             print(f"[DEBUG] Raw issue body:\n{issue_body}")
-            form_data = self.form_parser.parse_form_data(issue_body)
+            form_data = self.form_parser.parse_form_data(issue_body, issue_number)
             print(f"[DEBUG] Successfully parsed form data: {form_data}")
             return form_data
 
@@ -348,15 +348,8 @@ class ProtocolCallHandler:
             occurrence = call_series_entry["occurrence"]
 
             # Check for existing resources
-            # For recurring calls, check series-level meeting ID; for one-off, check occurrence-level
-            if call_data.get("call_series") and call_data.get("call_series") != "one-off":
-                # For recurring calls, check if we have a series meeting ID
-                series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
-                has_zoom = bool(series_meeting_id and not str(series_meeting_id).startswith("placeholder"))
-            else:
-                # For one-off calls, check occurrence-level meeting ID
-                has_zoom = (occurrence.get("meeting_id") and
-                           not str(occurrence.get("meeting_id")).startswith("placeholder"))
+            series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
+            has_zoom = bool(series_meeting_id and not str(series_meeting_id).startswith("placeholder"))
 
             # Calendar event ID is stored at the parent level (call series level)
             call_series = call_series_entry.get("call_series")
