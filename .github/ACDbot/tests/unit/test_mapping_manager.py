@@ -479,3 +479,39 @@ class TestMappingManager:
         assert occurrence["issue_number"] == 2000
         assert occurrence["issue_title"] == "EIP-7732 Breakout Room #1"
         assert "meeting_id" not in occurrence  # Should not be at occurrence level
+
+    def test_existing_series_without_meeting_id_defaults_to_pending(self, temp_mapping_file):
+        """When a pre-existing series lacks meeting_id, adding an occurrence should set it to 'pending'."""
+        # Pre-populate mapping file without meeting_id for the series
+        preexisting_mapping = {
+            "epbs": {
+                "call_series": "epbs",
+                "occurrence_rate": "other",
+                "occurrences": []
+            }
+        }
+        with open(temp_mapping_file, 'w') as f:
+            json.dump(preexisting_mapping, f)
+
+        manager = MappingManager(temp_mapping_file)
+
+        # Sanity check: mapping loaded and no meeting_id present initially
+        assert "epbs" in manager.mapping
+        assert "meeting_id" not in manager.mapping["epbs"]
+
+        # Add an occurrence; this should initialize meeting_id to 'pending'
+        occurrence_data = manager.create_occurrence_data(
+            issue_number=3000,
+            issue_title="EIP-7732 Breakout Room #2",
+            discourse_topic_id=None,
+            start_time="2025-09-08T14:00:00Z",
+            duration=60
+        )
+        success = manager.add_occurrence("epbs", occurrence_data)
+        assert success is True
+
+        # Verify meeting_id defaulted and occurrence added
+        call_series_entry = manager.mapping["epbs"]
+        assert call_series_entry["meeting_id"] == "pending"
+        assert len(call_series_entry["occurrences"]) == 1
+        assert call_series_entry["occurrences"][0]["issue_number"] == 3000

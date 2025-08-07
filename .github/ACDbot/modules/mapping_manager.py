@@ -80,6 +80,10 @@ class MappingManager:
                     occurrence_rate=occurrence_data.get("occurrence_rate", "other"),
                     duration=occurrence_data.get("duration")
                 )
+            else:
+                # Ensure existing series has a meeting_id field
+                if "meeting_id" not in self.mapping[call_series]:
+                    self.mapping[call_series]["meeting_id"] = "pending"
 
             # Add occurrence to the series
             if "occurrences" not in self.mapping[call_series]:
