@@ -76,7 +76,7 @@ class MappingManager:
                 # Create new call series entry
                 self.mapping[call_series] = self.create_call_series_entry(
                     call_series=call_series,
-                    meeting_id="placeholder",  # Will be updated with real meeting ID later
+                    meeting_id="pending",  # Will be updated to real meeting ID or "custom" based on user choice
                     occurrence_rate=occurrence_data.get("occurrence_rate", "other"),
                     duration=occurrence_data.get("duration")
                 )
@@ -142,7 +142,7 @@ class MappingManager:
         series_entry = self.mapping.get(call_series)
         if series_entry:
             meeting_id = series_entry.get("meeting_id")
-            if meeting_id and not str(meeting_id).startswith("placeholder"):
+            if meeting_id and not str(meeting_id).startswith("placeholder") and meeting_id not in ["custom", "pending"]:
                 return meeting_id
 
         return None
@@ -155,6 +155,16 @@ class MappingManager:
 
         self.mapping[call_series]["meeting_id"] = meeting_id
         print(f"[DEBUG] Set meeting ID '{meeting_id}' for call series: {call_series}")
+        return True
+
+    def set_series_custom_meeting(self, call_series: str) -> bool:
+        """Set the meeting ID to 'custom' when user opts out of Zoom creation."""
+        if call_series not in self.mapping:
+            print(f"[WARNING] Call series '{call_series}' not found in mapping")
+            return False
+
+        self.mapping[call_series]["meeting_id"] = "custom"
+        print(f"[DEBUG] Set meeting ID to 'custom' for call series: {call_series} (user opted out of Zoom)")
         return True
 
     def get_series_calendar_event_id(self, call_series: str) -> Optional[str]:

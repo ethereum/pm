@@ -133,14 +133,13 @@ class TestMappingManager:
             "issue_number": 1465,
             "issue_title": "One-off Meeting",
             "start_time": "2025-04-24T14:00:00Z",
-            "duration": 90,
-            "meeting_id": "123456789"
+            "duration": 90
         }
 
         success = manager.add_occurrence("one-off-1465", occurrence_data)
         assert success is True
         assert "one-off-1465" in manager.mapping
-        assert manager.mapping["one-off-1465"]["meeting_id"] == "123456789"
+        assert manager.mapping["one-off-1465"]["meeting_id"] == "pending"
         assert manager.mapping["one-off-1465"]["occurrences"][0]["issue_number"] == 1465
 
     def test_add_occurrence_invalid_data(self, temp_mapping_file):
@@ -301,11 +300,182 @@ class TestMappingManager:
             "start_time": "2025-04-24T14:00:00Z",
             "duration": 90
         }
-        manager1.add_occurrence("acde", occurrence_data)
+        success = manager1.add_occurrence("acde", occurrence_data)
+        assert success is True
         manager1.save_mapping()
 
         # Create second manager and verify data persists
         manager2 = MappingManager(temp_mapping_file)
-        result = manager2.find_occurrence(1462)
-        assert result is not None
-        assert result["occurrence"]["issue_number"] == 1462
+        assert "acde" in manager2.mapping
+        assert len(manager2.mapping["acde"]["occurrences"]) == 1
+        assert manager2.mapping["acde"]["occurrences"][0]["issue_number"] == 1462
+
+    def test_new_call_series_creation(self, temp_mapping_file):
+        """Test that a new call series gets properly added to the mapping when no series previously existed."""
+        manager = MappingManager(temp_mapping_file)
+
+        # Verify epbs doesn't exist initially
+        assert "epbs" not in manager.mapping
+
+        # Create occurrence data for new epbs call series using create_occurrence_data
+        occurrence_data = manager.create_occurrence_data(
+            issue_number=2000,
+            issue_title="EIP-7732 Breakout Room #1",
+            discourse_topic_id=None,
+            start_time="2025-09-01T14:00:00Z",
+            duration=60,
+            skip_youtube_upload=False,
+            skip_transcript_processing=False
+        )
+
+        # Add occurrence to new call series
+        success = manager.add_occurrence("epbs", occurrence_data)
+        assert success is True
+
+        # Verify the call series was created with correct structure
+        assert "epbs" in manager.mapping
+        call_series_entry = manager.mapping["epbs"]
+
+        # Verify call series level fields
+        assert call_series_entry["call_series"] == "epbs"
+        assert call_series_entry["meeting_id"] == "pending"  # Initially pending
+        assert call_series_entry["occurrence_rate"] == "other"  # Default from create_occurrence_data
+        assert call_series_entry["duration"] == 60
+        assert "occurrences" in call_series_entry
+        assert len(call_series_entry["occurrences"]) == 1
+
+        # Verify occurrence level fields
+        occurrence = call_series_entry["occurrences"][0]
+        assert occurrence["occurrence_number"] == 1
+        assert occurrence["issue_number"] == 2000
+        assert occurrence["issue_title"] == "EIP-7732 Breakout Room #1"
+        assert occurrence["start_time"] == "2025-09-01T14:00:00Z"
+        assert occurrence["duration"] == 60
+        assert occurrence["skip_youtube_upload"] is False
+        assert occurrence["skip_transcript_processing"] is False
+        assert occurrence["youtube_upload_processed"] is False
+        assert occurrence["transcript_processed"] is False
+        assert occurrence["upload_attempt_count"] == 0
+        assert occurrence["transcript_attempt_count"] == 0
+        assert occurrence["telegram_message_id"] is None
+        assert occurrence["youtube_streams_posted_to_discourse"] is False
+        assert occurrence["youtube_streams"] is None
+
+        # Verify no meeting_id at occurrence level (should be at series level only)
+        assert "meeting_id" not in occurrence
+
+    def test_set_series_meeting_id_for_new_call_series(self, temp_mapping_file):
+        """Test that set_series_meeting_id correctly updates the meeting_id for a new call series."""
+        manager = MappingManager(temp_mapping_file)
+
+        # Create new call series first using create_occurrence_data
+        occurrence_data = manager.create_occurrence_data(
+            issue_number=2000,
+            issue_title="EIP-7732 Breakout Room #1",
+            discourse_topic_id=None,
+            start_time="2025-09-01T14:00:00Z",
+            duration=60,
+            skip_youtube_upload=False,
+            skip_transcript_processing=False
+        )
+
+        success = manager.add_occurrence("epbs", occurrence_data)
+        assert success is True
+
+        # Verify initial state has pending
+        assert manager.mapping["epbs"]["meeting_id"] == "pending"
+
+        # Set real meeting ID
+        real_meeting_id = "12345678901234567890"
+        success = manager.set_series_meeting_id("epbs", real_meeting_id)
+        assert success is True
+
+        # Verify meeting_id was updated at series level
+        assert manager.mapping["epbs"]["meeting_id"] == real_meeting_id
+
+        # Verify occurrence still doesn't have meeting_id
+        occurrence = manager.mapping["epbs"]["occurrences"][0]
+        assert "meeting_id" not in occurrence
+
+    def test_new_call_series_with_zoom_meeting_flow(self, temp_mapping_file):
+        """Test the complete flow of creating a new call series with Zoom meeting creation."""
+        manager = MappingManager(temp_mapping_file)
+
+        # Simulate the flow from handle_protocol_call.py
+        # 1. Create occurrence data
+        occurrence_data = manager.create_occurrence_data(
+            issue_number=2000,
+            issue_title="EIP-7732 Breakout Room #1",
+            discourse_topic_id=None,
+            start_time="2025-09-01T14:00:00Z",
+            duration=60,
+            skip_youtube_upload=False,
+            skip_transcript_processing=False
+        )
+
+        # 2. Add occurrence to new call series
+        success = manager.add_occurrence("epbs", occurrence_data)
+        assert success is True
+
+        # 3. Verify initial structure (pending meeting_id)
+        assert manager.mapping["epbs"]["meeting_id"] == "pending"
+
+        # 4. Simulate Zoom meeting creation and set real meeting ID
+        real_meeting_id = "98765432109876543210"
+        success = manager.set_series_meeting_id("epbs", real_meeting_id)
+        assert success is True
+
+        # 5. Verify final structure
+        call_series_entry = manager.mapping["epbs"]
+        assert call_series_entry["call_series"] == "epbs"
+        assert call_series_entry["meeting_id"] == real_meeting_id
+        assert call_series_entry["occurrence_rate"] == "other"  # Default from create_occurrence_data
+        assert call_series_entry["duration"] == 60
+
+        # 6. Verify occurrence structure
+        occurrence = call_series_entry["occurrences"][0]
+        assert occurrence["occurrence_number"] == 1
+        assert occurrence["issue_number"] == 2000
+        assert occurrence["issue_title"] == "EIP-7732 Breakout Room #1"
+        assert "meeting_id" not in occurrence  # Should not be at occurrence level
+
+    def test_new_call_series_with_custom_meeting_flow(self, temp_mapping_file):
+        """Test the complete flow of creating a new call series when user opts out of Zoom."""
+        manager = MappingManager(temp_mapping_file)
+
+        # Simulate the flow from handle_protocol_call.py when user opts out
+        # 1. Create occurrence data
+        occurrence_data = manager.create_occurrence_data(
+            issue_number=2000,
+            issue_title="EIP-7732 Breakout Room #1",
+            discourse_topic_id=None,
+            start_time="2025-09-01T14:00:00Z",
+            duration=60,
+            skip_youtube_upload=True,  # User opted out
+            skip_transcript_processing=True
+        )
+
+        # 2. Add occurrence to new call series
+        success = manager.add_occurrence("epbs", occurrence_data)
+        assert success is True
+
+        # 3. Verify initial structure (pending meeting_id)
+        assert manager.mapping["epbs"]["meeting_id"] == "pending"
+
+        # 4. Simulate user opting out - set to "custom"
+        success = manager.set_series_custom_meeting("epbs")
+        assert success is True
+
+        # 5. Verify final structure
+        call_series_entry = manager.mapping["epbs"]
+        assert call_series_entry["call_series"] == "epbs"
+        assert call_series_entry["meeting_id"] == "custom"  # User opted out
+        assert call_series_entry["occurrence_rate"] == "other"
+        assert call_series_entry["duration"] == 60
+
+        # 6. Verify occurrence structure
+        occurrence = call_series_entry["occurrences"][0]
+        assert occurrence["occurrence_number"] == 1
+        assert occurrence["issue_number"] == 2000
+        assert occurrence["issue_title"] == "EIP-7732 Breakout Room #1"
+        assert "meeting_id" not in occurrence  # Should not be at occurrence level
