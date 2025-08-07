@@ -1,6 +1,6 @@
-# beam call #5: research updates | APS (attester-proposer separation)
+# leanConsensus (fka beam chain) call #5: research updates | APS (attester-proposer separation)
 
-**Prev:** [Call 04](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/beam-chain/meeting_04.md)
+**Prev:** [Call 04](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/leanConsensus/meeting_04.md)
 
 **Meeting Date/Time:** Friday 2025/5/2 at 14:00 UTC
 
