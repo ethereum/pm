@@ -76,7 +76,7 @@ class MappingManager:
                 # Create new call series entry
                 self.mapping[call_series] = self.create_call_series_entry(
                     call_series=call_series,
-                    meeting_id=occurrence_data.get("meeting_id", "placeholder"),
+                    meeting_id="placeholder",  # Will be updated with real meeting ID later
                     occurrence_rate=occurrence_data.get("occurrence_rate", "other"),
                     duration=occurrence_data.get("duration")
                 )
@@ -215,10 +215,6 @@ class MappingManager:
         # Add discourse topic ID if provided
         if discourse_topic_id:
             occurrence_data["discourse_topic_id"] = discourse_topic_id
-
-        # Add meeting_id if provided
-        if kwargs.get("meeting_id"):
-            occurrence_data["meeting_id"] = kwargs["meeting_id"]
 
         return occurrence_data
 
