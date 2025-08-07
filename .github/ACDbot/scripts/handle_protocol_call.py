@@ -454,6 +454,8 @@ class ProtocolCallHandler:
                     # Store the meeting ID to be set at series level later
                     call_data["series_meeting_id"] = zoom_result["zoom_id"]
                     print(f"[DEBUG] Created meeting ID for new call series: {zoom_result['zoom_id']}")
+            else:
+                print(f"[DEBUG] Skipping Zoom creation - user opted out or existing call series")
 
             # Create occurrence data
             occurrence_data = self.mapping_manager.create_occurrence_data(
@@ -480,12 +482,18 @@ class ProtocolCallHandler:
                     occurrence_data
                 )
 
-            # If this is a new call series and we created a Zoom meeting, set the series meeting_id
-            if success and not is_update and call_data.get("series_meeting_id"):
-                self.mapping_manager.set_series_meeting_id(
-                    call_data["call_series"],
-                    call_data["series_meeting_id"]
-                )
+            # Handle meeting ID based on user choice
+            if success and not is_update:
+                if call_data.get("skip_zoom_creation"):
+                    # User opted out of Zoom - set to "custom"
+                    self.mapping_manager.set_series_custom_meeting(call_data["call_series"])
+                elif call_data.get("series_meeting_id"):
+                    # User wanted Zoom and we created it - set real meeting ID
+                    self.mapping_manager.set_series_meeting_id(
+                        call_data["call_series"],
+                        call_data["series_meeting_id"]
+                    )
+                # If neither condition is met, meeting_id stays as "pending"
 
             if success:
                 print(f"[DEBUG] Successfully {'updated' if is_update else 'added'} occurrence in mapping")
