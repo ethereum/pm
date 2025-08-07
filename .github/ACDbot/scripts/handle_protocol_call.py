@@ -360,7 +360,7 @@ class ProtocolCallHandler:
             has_youtube = bool(occurrence.get("youtube_streams"))
 
             print(f"[DEBUG] Existing resources for issue #{call_data['issue_number']}:")
-            print(f"  - Zoom: {has_zoom} (ID: {occurrence.get('meeting_id')})")
+            print(f"  - Zoom: {has_zoom} (ID: {call_series_entry.get('meeting_id')})")
             print(f"  - Calendar: {has_calendar} (ID: {calendar_event_id})")
             print(f"  - Discourse: {has_discourse} (ID: {occurrence.get('discourse_topic_id')})")
             print(f"  - YouTube: {has_youtube} (streams: {len(occurrence.get('youtube_streams', []))})")
@@ -446,6 +446,15 @@ class ProtocolCallHandler:
     def _update_mapping(self, call_data: Dict, issue, is_update: bool) -> bool:
         """Update the mapping with call data."""
         try:
+            # For new call series, if user wants Zoom meetings, create them first
+            if not is_update and not call_data.get("skip_zoom_creation"):
+                print(f"[DEBUG] Creating Zoom meeting for new call series before mapping update")
+                zoom_result = self._create_zoom_meeting(call_data)
+                if zoom_result.get("zoom_created") and zoom_result.get("zoom_id"):
+                    # Store the meeting ID to be set at series level later
+                    call_data["series_meeting_id"] = zoom_result["zoom_id"]
+                    print(f"[DEBUG] Created meeting ID for new call series: {zoom_result['zoom_id']}")
+
             # Create occurrence data
             occurrence_data = self.mapping_manager.create_occurrence_data(
                 issue_number=call_data["issue_number"],
@@ -469,6 +478,13 @@ class ProtocolCallHandler:
                 success = self.mapping_manager.add_occurrence(
                     call_data["call_series"],
                     occurrence_data
+                )
+
+            # If this is a new call series and we created a Zoom meeting, set the series meeting_id
+            if success and not is_update and call_data.get("series_meeting_id"):
+                self.mapping_manager.set_series_meeting_id(
+                    call_data["call_series"],
+                    call_data["series_meeting_id"]
                 )
 
             if success:
@@ -641,8 +657,8 @@ class ProtocolCallHandler:
                 # For series calls, use the human-friendly call series name
                 summary = self._get_call_series_display_name(call_data["call_series"])
 
-            # Get calendar ID from environment (same as old system)
-            calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
+            # Get calendar ID from environment
+            calendar_id = os.getenv("GCAL_ID")
 
             # Build description with links first, then truncated agenda
             description_parts = []
@@ -897,20 +913,21 @@ class ProtocolCallHandler:
             "acde": "All Core Devs - Execution",
             "acdc": "All Core Devs - Consensus",
             "acdt": "All Core Devs - Testing",
-            "awd": "All Wallet Devs",
+            "allwalletdevs": "All Wallet Devs",
             "beam": "Beam Call",
-            "eip": "EIP Editing Office Hour",
+            "eipeditingofficehour": "EIP Editing Office Hour",
             "eipip": "EIPIP Meeting",
-            "evm": "EVM Resource Pricing Breakout",
-            "eth_simulate": "eth_simulate Implementers",
+            "epbs": "EIP-7732 Breakout Room",
+            "resourcepricing": "EVM Resource Pricing Breakout",
+            "ethsimulate": "eth_simulate Implementers",
             "ethproofs": "Ethproofs Community Call",
             "focil": "FOCIL Implementers",
-            "l2": "L2 Interop Working Group",
-            "pq": "PQ Interop",
+            "l2interop": "L2 Interop Working Group",
+            "pqinterop": "PQ Interop",
             "peerdas": "PeerDAS Breakout",
             "portal": "Portal Implementers",
-            "research": "Protocol Research Call",
-            "rpc": "RPC Standards Call",
+            "protocolresearch": "Protocol Research Call",
+            "rpcstandards": "RPC Standards Call",
             "rollcall": "RollCall",
             "stateless": "Stateless Implementers"
         }
