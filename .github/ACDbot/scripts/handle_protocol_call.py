@@ -445,17 +445,6 @@ class ProtocolCallHandler:
     def _update_mapping(self, call_data: Dict, issue, is_update: bool) -> bool:
         """Update the mapping with call data."""
         try:
-            # For new call series, if user wants Zoom meetings, create them first
-            if not is_update and not call_data.get("skip_zoom_creation"):
-                print(f"[DEBUG] Creating Zoom meeting for new call series before mapping update")
-                zoom_result = self._create_zoom_meeting(call_data)
-                if zoom_result.get("zoom_created") and zoom_result.get("zoom_id"):
-                    # Store the meeting ID to be set at series level later
-                    call_data["series_meeting_id"] = zoom_result["zoom_id"]
-                    print(f"[DEBUG] Created meeting ID for new call series: {zoom_result['zoom_id']}")
-            else:
-                print(f"[DEBUG] Skipping Zoom creation - user opted out or existing call series")
-
             # Create occurrence data
             occurrence_data = self.mapping_manager.create_occurrence_data(
                 issue_number=call_data["issue_number"],
@@ -486,13 +475,6 @@ class ProtocolCallHandler:
                 if call_data.get("skip_zoom_creation"):
                     # User opted out of Zoom - set to "custom"
                     self.mapping_manager.set_series_custom_meeting(call_data["call_series"])
-                elif call_data.get("series_meeting_id"):
-                    # User wanted Zoom and we created it - set real meeting ID
-                    self.mapping_manager.set_series_meeting_id(
-                        call_data["call_series"],
-                        call_data["series_meeting_id"]
-                    )
-                # If neither condition is met, meeting_id stays as "pending"
 
             if success:
                 print(f"[DEBUG] Successfully {'updated' if is_update else 'added'} occurrence in mapping")
