@@ -231,18 +231,17 @@ class ProtocolCallHandler:
             if call_data.get("need_youtube_streams") and not youtube_result.get("youtube_streams_created"):
                 critical_failures.append("YouTube streams creation failed")
 
-            # 7. Update mapping only if no critical failures occurred
+            # 7. Always update mapping first, then handle resources
+            success = self._update_mapping(call_data, issue, is_update)
+            if not success:
+                print(f"[ERROR] Failed to update mapping for issue #{issue_number}")
+                return False
+
+            # Update mapping with any successfully created resources
+            self._update_mapping_with_resources(call_data, resource_results)
             if critical_failures:
                 print(f"[ERROR] Critical failures occurred: {', '.join(critical_failures)}")
-                print(f"[ERROR] Skipping mapping update to maintain consistency")
-                # Still proceed with notifications and GitHub posting, but don't update mapping
-            else:
-                success = self._update_mapping(call_data, issue, is_update)
-                if not success:
-                    print(f"[ERROR] Failed to update mapping for issue #{issue_number}")
-                    return False
-
-                self._update_mapping_with_resources(call_data, resource_results)
+                print(f"[INFO] Saved any successful resource IDs to mapping; failed resources can be retried later")
 
             # 8. Send Telegram notification
             self._send_telegram_notification(call_data, issue, resource_results, is_update)
@@ -544,7 +543,7 @@ class ProtocolCallHandler:
             else:
                 # Create new meeting based on type
                 print(f"[DEBUG] Creating new meeting...")
-                if is_recurring and occurrence_rate != "none":
+                if is_recurring and occurrence_rate not in ["none", "other"]:
                     # Create recurring meeting
                     join_url, zoom_id = zoom.create_recurring_meeting(
                         topic=topic,
@@ -701,7 +700,7 @@ class ProtocolCallHandler:
             # Check if we should update an existing event
             if existing_event_id:
                 try:
-                    if is_recurring and occurrence_rate != "none":
+                    if is_recurring and occurrence_rate not in ["none", "other"]:
                         # Update recurring event
                         event_result = gcal.update_recurring_event(
                             event_id=existing_event_id,
@@ -742,7 +741,7 @@ class ProtocolCallHandler:
                     existing_event_id = None
 
             # Create new event (either no existing ID or update failed)
-            if is_recurring and occurrence_rate != "none":
+            if is_recurring and occurrence_rate not in ["none", "other"]:
                 # Create recurring event
                 event_result = gcal.create_recurring_event(
                     summary=summary,
@@ -754,7 +753,7 @@ class ProtocolCallHandler:
                 )
                 print(f"[DEBUG] Created recurring calendar event with ID: {event_result.get('id')}")
             else:
-                # Create one-time event
+                # Create one-time event (for one-off calls or "other" occurrence rate)
                 event_result = gcal.create_event(
                     summary=summary,
                     start_dt=start_dt,
