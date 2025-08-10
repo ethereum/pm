@@ -7,7 +7,7 @@ where keys are call series names instead of Zoom IDs.
 
 import json
 import os
-from typing import Dict, Optional, List, Any
+from typing import Dict, Optional, List, Any, Tuple
 
 
 def load_mapping(mapping_file_path: str = ".github/ACDbot/meeting_topic_mapping.json") -> Dict:
@@ -100,6 +100,23 @@ def find_occurrence_by_issue_number(call_series: str, issue_number: int, mapping
             return occurrence
 
     return None
+
+
+def find_occurrence_with_index(call_series: str, issue_number: int, mapping: Dict) -> Tuple[Optional[Dict], int]:
+    """
+    Find specific occurrence and its index within a call series by issue number.
+
+    Returns a tuple of (occurrence or None, index or -1).
+    """
+    series_data = mapping.get(call_series)
+    if not series_data:
+        return None, -1
+
+    occurrences = series_data.get("occurrences", [])
+    for idx, occurrence in enumerate(occurrences):
+        if occurrence.get("issue_number") == issue_number:
+            return occurrence, idx
+    return None, -1
 
 
 def update_meeting_entry(meeting_id: str, updates: Dict, mapping: Dict) -> bool:

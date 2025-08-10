@@ -18,7 +18,8 @@ from modules.mapping_utils import (
     save_mapping as save_meeting_topic_mapping,
     find_meeting_by_id,
     find_meeting_by_issue_number,
-    find_call_series_by_meeting_id
+    find_call_series_by_meeting_id,
+    find_occurrence_with_index,
 )
 from github import Github
 from google.auth.transport.requests import Request
@@ -117,6 +118,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
 
     if not series_entry:
         print(f"[ERROR] Meeting ID {meeting_id} not found in mapping.")
+        tg.send_message(f"❌ YouTube upload aborted: Unknown meeting_id {meeting_id} in mapping.")
         return False # Indicate failure
 
     # Find the specific occurrence
@@ -131,10 +133,16 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
             print(f"[ERROR] No occurrences found for meeting {meeting_id} and occurrence_issue_number not specified.")
             return False
     else:
-        matched_occurrence, occurrence_index = find_occurrence_by_issue_number(series_entry, occurrence_issue_number)
+        # Resolve call series key from meeting_id, then locate the occurrence within mapping
+        call_series_key = find_call_series_by_meeting_id(meeting_id, occurrence_issue_number, mapping)
+        if not call_series_key:
+            print(f"[ERROR] Could not find call series for meeting {meeting_id}")
+            return False
+        matched_occurrence, occurrence_index = find_occurrence_with_index(call_series_key, occurrence_issue_number, mapping)
 
     if matched_occurrence is None:
         print(f"[ERROR] Occurrence with issue number {occurrence_issue_number} not found for meeting ID {meeting_id}.")
+        tg.send_message(f"❌ YouTube upload aborted: Occurrence #{occurrence_issue_number} not found for meeting {meeting_id}.")
         return False # Indicate failure
 
     # --- Use occurrence-specific data ---
@@ -179,6 +187,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
     video_path = download_zoom_recording(meeting_id)
     if not video_path:
         print(f"No MP4 recording available for meeting {meeting_id}")
+        tg.send_message(f"❌ YouTube upload skipped: No MP4 recording available for meeting {meeting_id} (issue #{occurrence_issue_number}).")
         return False # Indicate failure
 
     try:
@@ -273,6 +282,8 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         return True # Indicate success
     except HttpError as e:
         print(f"YouTube API error: {e}")
+        err_text = getattr(e, 'content', None) or str(e)
+        tg.send_message(f"❌ YouTube upload failed for meeting {meeting_id} (issue #{occurrence_issue_number}).\nError: {err_text}")
         return False # Indicate failure
     finally:
         os.unlink(video_path)  # Clean up temp file
@@ -314,7 +325,11 @@ def main():
                     yt_skipped = occurrence.get("skip_youtube_upload", False)
 
                     # Get the effective meeting ID for this occurrence (series-level)
-                    effective_meeting_id = series_data.get("meeting_id")
+                    effective_meeting_id = str(series_data.get("meeting_id", "")).strip()
+
+                    # Skip if meeting_id isn't a real Zoom ID yet
+                    if not effective_meeting_id or effective_meeting_id.lower() in ("pending", "custom") or effective_meeting_id.startswith("placeholder"):
+                        continue
 
                     if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
                         print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")

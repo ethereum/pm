@@ -7,7 +7,8 @@ from modules.mapping_utils import (
     find_meeting_by_id,
     get_effective_meeting_id,
     find_meeting_by_issue_number,
-    find_call_series_by_meeting_id
+    find_call_series_by_meeting_id,
+    find_occurrence_with_index,
 )
 
 
@@ -191,3 +192,29 @@ class TestMappingUtils:
         """Test finding call series in empty mapping."""
         result = find_call_series_by_meeting_id("any_id", 1462, {})
         assert result is None
+
+    def test_find_occurrence_with_index_found_first(self, sample_mapping):
+        """Test locating an occurrence and its index within a series (first occurrence)."""
+        occ, idx = find_occurrence_with_index("acde", 1462, sample_mapping)
+        assert occ is not None
+        assert occ.get("issue_number") == 1462
+        assert idx == 0
+
+    def test_find_occurrence_with_index_found_second(self, sample_mapping):
+        """Test locating an occurrence and its index within a series (second occurrence)."""
+        occ, idx = find_occurrence_with_index("acde", 1463, sample_mapping)
+        assert occ is not None
+        assert occ.get("issue_number") == 1463
+        assert idx == 1
+
+    def test_find_occurrence_with_index_not_found(self, sample_mapping):
+        """Test not found behavior returns (None, -1)."""
+        occ, idx = find_occurrence_with_index("acde", 9999, sample_mapping)
+        assert occ is None
+        assert idx == -1
+
+    def test_find_occurrence_with_index_series_missing(self):
+        """Test series missing returns (None, -1)."""
+        occ, idx = find_occurrence_with_index("nonexistent-series", 1462, {})
+        assert occ is None
+        assert idx == -1
