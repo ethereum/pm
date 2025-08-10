@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime, timedelta, timezone
 import pytz
 from modules import zoom, transcript, youtube_utils, rss_utils, discourse
+from modules import tg
 from modules.mapping_utils import (
     load_mapping as load_meeting_topic_mapping,
     save_mapping as save_meeting_topic_mapping,
@@ -444,115 +445,149 @@ def main():
     parser.add_argument("--force_issue_number", required=False, type=int, help="Force processing for a specific occurrence identified by issue number (requires --force_meeting_id)")
     args = parser.parse_args()
 
-    mapping = load_meeting_topic_mapping()
+    def notify_failure(prefix: str, err: Exception):
+        try:
+            import requests as _req
+            status = None
+            reason = None
+            body = None
+            tracking_id = None
+            if isinstance(err, _req.HTTPError) and err.response is not None:
+                status = err.response.status_code
+                reason = err.response.reason
+                body = err.response.text[:400] if err.response.text else None
+                tracking_id = err.response.headers.get("X-Zm-Trackingid") or err.response.headers.get("X-Tracking-Id")
+            details = [
+                f"Error: {type(err).__name__}: {str(err)[:300]}",
+            ]
+            if status is not None:
+                details.append(f"\nHTTP: {status} {reason}")
+            if tracking_id:
+                details.append(f"\nTracking-ID: {tracking_id}")
+            if body:
+                details.append(f"\nBody: {body}")
+            message = (
+                f"⚠️ Zoom Transcript Poller failure\n\n{prefix}\n" + "\n".join(details)
+            )
+            tg.send_message(message)
+        except Exception as _e:
+            print(f"[WARN] Failed to send Telegram failure message: {_e}")
 
-    if args.force_meeting_id:
-        meeting_id = validate_meeting_id(args.force_meeting_id)
-        if meeting_id:
-            print(f"Attempting forced processing for meeting {meeting_id}")
-            # Use the new helper function to find the meeting entry
-            series_entry = find_meeting_by_id(meeting_id, mapping)
-            if not series_entry:
-                print(f"::error::Meeting ID {meeting_id} not found in mapping.")
+    try:
+        mapping = load_meeting_topic_mapping()
+
+        if args.force_meeting_id:
+            meeting_id = validate_meeting_id(args.force_meeting_id)
+            if meeting_id:
+                print(f"Attempting forced processing for meeting {meeting_id}")
+                # Use the new helper function to find the meeting entry
+                series_entry = find_meeting_by_id(meeting_id, mapping)
+                if not series_entry:
+                    print(f"::error::Meeting ID {meeting_id} not found in mapping.")
+                    return
+
+                if args.force_issue_number:
+                    occurrence_issue_number = args.force_issue_number
+                    print(f"Searching for occurrence with Issue Number: {occurrence_issue_number}")
+
+                    # All series now use the unified structure with occurrences
+                    target_occurrence = None
+                    occurrence_index = -1
+                    for idx, occ in enumerate(series_entry["occurrences"]):
+                        if occ.get("issue_number") == occurrence_issue_number:
+                            target_occurrence = occ
+                            occurrence_index = idx
+                            break
+
+                    if not target_occurrence:
+                        print(f"::error::Issue number {occurrence_issue_number} not found for meeting ID {meeting_id}.")
+                        return
+
+                    print(f"Found occurrence: {target_occurrence.get('issue_title', 'N/A')}")
+                    occurrence_start_time_str = target_occurrence.get("start_time")
+                    if not occurrence_start_time_str:
+                        print(f"::error::Target occurrence {occurrence_issue_number} is missing 'start_time'. Cannot match recording.")
+                        return
+
+                    # Fetch recordings and find the matching one
+                    print("Fetching Zoom recordings to find match...")
+                    recordings = zoom.get_recordings_list() # Fetch recent recordings
+                    if not recordings:
+                        print("::error::No recent recordings found on Zoom to match against.")
+                        return
+
+                    matching_recording = None
+                    try:
+                        # We need the target occurrence start time to find the recording
+                        target_start_time = datetime.fromisoformat(occurrence_start_time_str.replace('Z', '+00:00'))
+                        tolerance = timedelta(minutes=30) # Allow larger tolerance for matching
+
+                        for recording in recordings:
+                            rec_uuid = recording.get("uuid") # Get UUID for logging/check
+                            # First check if the recording's meeting ID matches
+                            if str(recording.get("id")) != meeting_id:
+                                continue
+                            # Then check the start time
+                            rec_start_str = recording.get("start_time")
+                            if not rec_start_str or not rec_uuid: # Also ensure UUID exists
+                                continue
+                            try:
+                                rec_start_time = datetime.fromisoformat(rec_start_str.replace('Z', '+00:00'))
+                                if abs(rec_start_time - target_start_time) <= tolerance:
+                                    matching_recording = recording
+                                    print(f"Found matching Zoom recording: Topic='{recording.get('topic', 'N/A')}', Start='{rec_start_str}', UUID='{rec_uuid}'")
+                                    break # Found the one we need
+                            except ValueError:
+                                print(f"[WARN] Invalid start_time format in recording: {rec_start_str}")
+                                continue
+
+                    except ValueError:
+                        print(f"::error::Invalid start_time format in target occurrence: {occurrence_start_time_str}")
+                        return
+
+                    if not matching_recording:
+                        print(f"::error::Could not find a matching Zoom recording for Meeting ID {meeting_id}, Occurrence Issue #{occurrence_issue_number} (start time: {occurrence_start_time_str}).")
+                        print("Check if the recording exists in Zoom and its start time matches the mapping.")
+                        return
+
+                    # Now call the processing function with force=True
+                    print(f"Forcing processing for Occurrence Issue #{occurrence_issue_number}...")
+
+                    # All series now use the unified structure with occurrences
+                    mapping_updated = process_single_occurrence(
+                        recording=matching_recording,
+                        occurrence=target_occurrence,
+                        occurrence_index=occurrence_index,
+                        series_entry=series_entry,
+                        mapping=mapping,
+                        force_process=True, # Enable force mode
+                    )
+
+                    if mapping_updated:
+                        print("Saving updated mapping file after forced processing...")
+                        save_meeting_topic_mapping(mapping)
+                        try:
+                            commit_mapping_file()
+                        except Exception as e:
+                            print(f"::error::Failed to commit mapping file after forced run: {e}")
+                    else:
+                        print("No mapping changes resulted from forced processing.")
+
+                else:
+                    # Keep the warning for forcing a whole series ID without issue number
+                    print("[WARN] Forced processing for an entire series without polling is not supported. Specify --force_issue_number.")
+                return # Exit after forced processing attempt
+            else:
+                print("Invalid force_meeting_id provided")
                 return
 
-            if args.force_issue_number:
-                occurrence_issue_number = args.force_issue_number
-                print(f"Searching for occurrence with Issue Number: {occurrence_issue_number}")
-
-                # All series now use the unified structure with occurrences
-                target_occurrence = None
-                occurrence_index = -1
-                for idx, occ in enumerate(series_entry["occurrences"]):
-                    if occ.get("issue_number") == occurrence_issue_number:
-                        target_occurrence = occ
-                        occurrence_index = idx
-                        break
-
-                if not target_occurrence:
-                    print(f"::error::Issue number {occurrence_issue_number} not found for meeting ID {meeting_id}.")
-                    return
-
-                print(f"Found occurrence: {target_occurrence.get('issue_title', 'N/A')}")
-                occurrence_start_time_str = target_occurrence.get("start_time")
-                if not occurrence_start_time_str:
-                    print(f"::error::Target occurrence {occurrence_issue_number} is missing 'start_time'. Cannot match recording.")
-                    return
-
-                # Fetch recordings and find the matching one
-                print("Fetching Zoom recordings to find match...")
-                recordings = zoom.get_recordings_list() # Fetch recent recordings
-                if not recordings:
-                    print("::error::No recent recordings found on Zoom to match against.")
-                    return
-
-                matching_recording = None
-                try:
-                    # We need the target occurrence start time to find the recording
-                    target_start_time = datetime.fromisoformat(occurrence_start_time_str.replace('Z', '+00:00'))
-                    tolerance = timedelta(minutes=30) # Allow larger tolerance for matching
-
-                    for recording in recordings:
-                        rec_uuid = recording.get("uuid") # Get UUID for logging/check
-                        # First check if the recording's meeting ID matches
-                        if str(recording.get("id")) != meeting_id:
-                            continue
-                        # Then check the start time
-                        rec_start_str = recording.get("start_time")
-                        if not rec_start_str or not rec_uuid: # Also ensure UUID exists
-                            continue
-                        try:
-                            rec_start_time = datetime.fromisoformat(rec_start_str.replace('Z', '+00:00'))
-                            if abs(rec_start_time - target_start_time) <= tolerance:
-                                matching_recording = recording
-                                print(f"Found matching Zoom recording: Topic='{recording.get('topic', 'N/A')}', Start='{rec_start_str}', UUID='{rec_uuid}'")
-                                break # Found the one we need
-                        except ValueError:
-                            print(f"[WARN] Invalid start_time format in recording: {rec_start_str}")
-                            continue
-
-                except ValueError:
-                    print(f"::error::Invalid start_time format in target occurrence: {occurrence_start_time_str}")
-                    return
-
-                if not matching_recording:
-                    print(f"::error::Could not find a matching Zoom recording for Meeting ID {meeting_id}, Occurrence Issue #{occurrence_issue_number} (start time: {occurrence_start_time_str}).")
-                    print("Check if the recording exists in Zoom and its start time matches the mapping.")
-                    return
-
-                # Now call the processing function with force=True
-                print(f"Forcing processing for Occurrence Issue #{occurrence_issue_number}...")
-
-                # All series now use the unified structure with occurrences
-                mapping_updated = process_single_occurrence(
-                    recording=matching_recording,
-                    occurrence=target_occurrence,
-                    occurrence_index=occurrence_index,
-                    series_entry=series_entry,
-                    mapping=mapping,
-                    force_process=True, # Enable force mode
-                )
-
-                if mapping_updated:
-                    print("Saving updated mapping file after forced processing...")
-                    save_meeting_topic_mapping(mapping)
-                    try:
-                        commit_mapping_file()
-                    except Exception as e:
-                        print(f"::error::Failed to commit mapping file after forced run: {e}")
-                else:
-                    print("No mapping changes resulted from forced processing.")
-
-            else:
-                # Keep the warning for forcing a whole series ID without issue number
-                print("[WARN] Forced processing for an entire series without polling is not supported. Specify --force_issue_number.")
-            return # Exit after forced processing attempt
-        else:
-            print("Invalid force_meeting_id provided")
-            return
-
-    # --- Regular Polling Logic ---
-    process_recordings(mapping)
+        # --- Regular Polling Logic ---
+        process_recordings(mapping)
+    except Exception as e:
+        print(f"::error::Zoom transcript poller failed: {e}")
+        notify_failure("Credential or API failure during transcript polling.", e)
+        # Re-raise to preserve non-zero exit for the workflow
+        raise
 
 if __name__ == "__main__":
     main()
