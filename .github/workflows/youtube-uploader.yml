@@ -45,8 +45,12 @@ jobs:
 
       - name: Upload Zoom recording to YouTube
         run: |
-          python .github/ACDbot/scripts/upload_zoom_recording.py \
-            --meeting_id "${{ github.event.inputs.MEETING_ID }}"
+          if [ -n "${{ github.event.inputs.MEETING_ID }}" ]; then
+            python .github/ACDbot/scripts/upload_zoom_recording.py \
+              --meeting_id "${{ github.event.inputs.MEETING_ID }}"
+          else
+            python .github/ACDbot/scripts/upload_zoom_recording.py
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}

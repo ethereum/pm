@@ -104,7 +104,7 @@ def download_zoom_recording(meeting_id):
                 return temp_file.name
     return None
 
-def upload_recording(meeting_id, occurrence_issue_number=None):
+def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None):
     """Uploads Zoom recording to YouTube for a specific occurrence."""
 
     # Ensure meeting_id is a string
@@ -117,7 +117,11 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
 
     if not series_entry:
         print(f"[ERROR] Meeting ID {meeting_id} not found in mapping.")
-        tg.send_message(f"❌ YouTube upload aborted: Unknown meeting_id {meeting_id} in mapping.")
+        error_msg = f"❌ YouTube upload aborted: Unknown meeting_id {meeting_id} in mapping."
+        if error_collector is not None:
+            error_collector.append(error_msg)
+        else:
+            tg.send_message(error_msg)
         return False # Indicate failure
 
     # Find the specific occurrence
@@ -141,7 +145,11 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
 
     if matched_occurrence is None:
         print(f"[ERROR] Occurrence with issue number {occurrence_issue_number} not found for meeting ID {meeting_id}.")
-        tg.send_message(f"❌ YouTube upload aborted: Occurrence #{occurrence_issue_number} not found for meeting {meeting_id}.")
+        error_msg = f"❌ YouTube upload aborted: Occurrence #{occurrence_issue_number} not found for meeting {meeting_id}."
+        if error_collector is not None:
+            error_collector.append(error_msg)
+        else:
+            tg.send_message(error_msg)
         return False # Indicate failure
 
     # --- Use occurrence-specific data ---
@@ -186,7 +194,11 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
     video_path = download_zoom_recording(meeting_id)
     if not video_path:
         print(f"No MP4 recording available for meeting {meeting_id}")
-        tg.send_message(f"❌ YouTube upload skipped: No MP4 recording available for meeting {meeting_id} (issue #{occurrence_issue_number}).")
+        error_msg = f"❌ YouTube upload skipped: No MP4 recording available for meeting {meeting_id} (issue #{occurrence_issue_number})."
+        if error_collector is not None:
+            error_collector.append(error_msg)
+        else:
+            tg.send_message(error_msg)
         return False # Indicate failure
 
     try:
@@ -281,7 +293,11 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
     except HttpError as e:
         print(f"YouTube API error: {e}")
         err_text = getattr(e, 'content', None) or str(e)
-        tg.send_message(f"❌ YouTube upload failed for meeting {meeting_id} (issue #{occurrence_issue_number}).\nError: {err_text}")
+        error_msg = f"❌ YouTube upload failed for meeting {meeting_id} (issue #{occurrence_issue_number}).\nError: {err_text}"
+        if error_collector is not None:
+            error_collector.append(error_msg)
+        else:
+            tg.send_message(error_msg)
         return False # Indicate failure
     finally:
         os.unlink(video_path)  # Clean up temp file
@@ -315,6 +331,11 @@ def main():
         print("No meeting ID provided - checking mapping for unprocessed meetings")
         mapping = load_meeting_topic_mapping()
 
+        # Collect all errors to send as a single aggregated message
+        error_messages = []
+        success_count = 0
+        processed_count = 0
+
         for _, series_data in mapping.items():
             if "occurrences" in series_data:
                 for occurrence in series_data["occurrences"]:
@@ -331,10 +352,123 @@ def main():
 
                     if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
                         print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")
+                        processed_count += 1
                         try:
-                            upload_recording(effective_meeting_id, occ_issue_num)
+                            result = upload_recording(effective_meeting_id, occ_issue_num, error_collector=error_messages)
+                            if result:
+                                success_count += 1
                         except Exception as e:
                             print(f"Failed to process {effective_meeting_id} / {occ_issue_num}: {e}")
+                            error_messages.append(f"❌ YouTube upload failed for meeting {effective_meeting_id} (issue #{occ_issue_num}): {str(e)}")
+
+        # Send aggregated message if there were any operations
+        if processed_count > 0:
+            send_aggregated_telegram_message(error_messages, success_count, processed_count)
+
+def send_aggregated_telegram_message(error_messages, success_count, processed_count):
+    """Send a single aggregated Telegram message for batch YouTube upload operations."""
+    if not error_messages and success_count == 0:
+        return  # Nothing to report
+
+    # Group similar error messages
+    error_groups = {}
+    for error in error_messages:
+        if "Unknown meeting_id" in error and "in mapping" in error:
+            key = "unknown_meeting_ids"
+            if key not in error_groups:
+                error_groups[key] = []
+            # Extract meeting ID from the error message
+            meeting_id = error.split("meeting_id ")[1].split(" in mapping")[0] if "meeting_id " in error else "Unknown"
+            error_groups[key].append(meeting_id)
+        elif "No MP4 recording available" in error:
+            key = "no_mp4_recordings"
+            if key not in error_groups:
+                error_groups[key] = []
+            # Extract meeting ID and issue number
+            if "meeting " in error and "(issue #" in error:
+                meeting_part = error.split("meeting ")[1].split(" (issue #")[0]
+                issue_part = error.split("(issue #")[1].split(")")[0]
+                error_groups[key].append(f"{meeting_part} (issue #{issue_part})")
+        elif "YouTube upload failed" in error:
+            key = "upload_failures"
+            if key not in error_groups:
+                error_groups[key] = []
+            # Extract meeting ID and issue number
+            if "meeting " in error and "(issue #" in error:
+                meeting_part = error.split("meeting ")[1].split(" (issue #")[0]
+                issue_part = error.split("(issue #")[1].split(")")[0]
+                error_groups[key].append(f"{meeting_part} (issue #{issue_part})")
+        else:
+            # Other errors - keep individual
+            key = "other_errors"
+            if key not in error_groups:
+                error_groups[key] = []
+            error_groups[key].append(error)
+
+    # Build the aggregated message
+    message_parts = []
+
+    if success_count > 0 or error_messages:
+        message_parts.append(f"📺 **YouTube Upload Batch Summary**")
+        message_parts.append(f"Processed: {processed_count} | Successful: {success_count} | Failed: {len(error_messages)}")
+        message_parts.append("")
+
+    if error_groups:
+        if "unknown_meeting_ids" in error_groups:
+            count = len(error_groups["unknown_meeting_ids"])
+            message_parts.append(f"❌ **Unknown meeting IDs ({count}):**")
+            # Show first few, then summarize if many
+            if count <= 5:
+                for meeting_id in error_groups["unknown_meeting_ids"]:
+                    message_parts.append(f"  • {meeting_id}")
+            else:
+                for meeting_id in error_groups["unknown_meeting_ids"][:3]:
+                    message_parts.append(f"  • {meeting_id}")
+                message_parts.append(f"  • ... and {count - 3} more")
+            message_parts.append("")
+
+        if "no_mp4_recordings" in error_groups:
+            count = len(error_groups["no_mp4_recordings"])
+            message_parts.append(f"❌ **No MP4 recordings available ({count}):**")
+            if count <= 5:
+                for meeting_info in error_groups["no_mp4_recordings"]:
+                    message_parts.append(f"  • {meeting_info}")
+            else:
+                for meeting_info in error_groups["no_mp4_recordings"][:3]:
+                    message_parts.append(f"  • {meeting_info}")
+                message_parts.append(f"  • ... and {count - 3} more")
+            message_parts.append("")
+
+        if "upload_failures" in error_groups:
+            count = len(error_groups["upload_failures"])
+            message_parts.append(f"❌ **Upload failures ({count}):**")
+            if count <= 5:
+                for meeting_info in error_groups["upload_failures"]:
+                    message_parts.append(f"  • {meeting_info}")
+            else:
+                for meeting_info in error_groups["upload_failures"][:3]:
+                    message_parts.append(f"  • {meeting_info}")
+                message_parts.append(f"  • ... and {count - 3} more")
+            message_parts.append("")
+
+        if "other_errors" in error_groups:
+            message_parts.append(f"❌ **Other errors ({len(error_groups['other_errors'])}):**")
+            for error in error_groups["other_errors"][:3]:  # Limit to first 3
+                message_parts.append(f"  • {error}")
+            if len(error_groups["other_errors"]) > 3:
+                message_parts.append(f"  • ... and {len(error_groups['other_errors']) - 3} more")
+
+    elif success_count > 0:
+        message_parts.append(f"✅ **All {success_count} YouTube uploads completed successfully!**")
+
+    # Send the message if there's content
+    if message_parts:
+        final_message = "\n".join(message_parts)
+        try:
+            tg.send_message(final_message)
+            print(f"Sent aggregated Telegram message for {processed_count} operations")
+        except Exception as e:
+            print(f"Failed to send aggregated Telegram message: {e}")
 
 if __name__ == "__main__":
     main()
