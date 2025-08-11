@@ -8,6 +8,7 @@ This is a fresh implementation designed specifically for the new data model.
 
 import sys
 import os
+import re
 import argparse
 from typing import Dict, Optional, List, Set
 from datetime import datetime
@@ -260,6 +261,10 @@ class ProtocolCallHandler:
 
             # 10. Save mapping
             self.mapping_manager.save_mapping()
+
+            # 11. Clean up issue body for better readability (only on initial creation)
+            if not is_update:
+                self._clean_issue_body_if_needed(issue)
 
             print(f"[INFO] Successfully processed protocol call for issue #{issue_number}")
             return True
@@ -1331,6 +1336,75 @@ class ProtocolCallHandler:
 
         except Exception as e:
             print(f"[ERROR] Failed to post results: {e}")
+
+    def _is_issue_already_cleaned(self, issue_body: str) -> bool:
+        """Check if the issue body has already been cleaned up."""
+        return "<details>" in issue_body and "Meeting Configuration" in issue_body
+
+    def _clean_issue_body_if_needed(self, issue):
+        """Clean up the issue body for better readability if not already cleaned."""
+        try:
+            if self._is_issue_already_cleaned(issue.body):
+                print(f"[DEBUG] Issue #{issue.number} body already cleaned, skipping cleanup")
+                return
+
+            cleaned_body = self._clean_issue_body(issue.body)
+            if cleaned_body != issue.body:
+                print(f"[DEBUG] Cleaning up issue #{issue.number} body for better readability")
+                issue.edit(body=cleaned_body)
+                print(f"[DEBUG] Successfully cleaned issue #{issue.number} body")
+            else:
+                print(f"[DEBUG] No cleanup needed for issue #{issue.number}")
+
+        except Exception as e:
+            print(f"[ERROR] Failed to clean issue body for issue #{issue.number}: {e}")
+
+    def _clean_issue_body(self, issue_body: str) -> str:
+        """Transform issue body to hide verbose config sections while preserving parsing."""
+        try:
+            # Handle None input
+            if issue_body is None:
+                return None
+
+            # Only proceed if this looks like a form issue
+            if not self.form_parser.is_form_issue(issue_body):
+                print("[DEBUG] Not a form issue, skipping cleanup")
+                return issue_body
+
+            # Find the position after "### Call Series" section
+            call_series_pattern = r"(### Call Series\n\n[^\n]+\n)"
+            match = re.search(call_series_pattern, issue_body)
+
+            if not match:
+                # Try without extra newline
+                call_series_pattern = r"(### Call Series\n[^\n]+\n)"
+                match = re.search(call_series_pattern, issue_body)
+
+            if not match:
+                print("[DEBUG] Could not find Call Series section, skipping cleanup")
+                return issue_body
+
+            # Split the issue body into: before call series, call series, after call series
+            call_series_end = match.end()
+            before_config = issue_body[:call_series_end]
+            after_config = issue_body[call_series_end:]
+
+            # Only wrap the config sections after Call Series in details
+            if after_config.strip():
+                cleaned_body = (
+                    before_config +
+                    "\n<details>\n<summary>🔧 Meeting Configuration</summary>\n\n" +
+                    after_config.strip() +
+                    "\n</details>\n"
+                )
+            else:
+                cleaned_body = before_config
+
+            return cleaned_body
+
+        except Exception as e:
+            print(f"[ERROR] Failed to clean issue body: {e}")
+            return issue_body
 
 
 def main():
