@@ -12,44 +12,8 @@ from modules.mapping_utils import (
     update_occurrence_entry,
     find_call_series_by_meeting_id
 )
-from github import Github, InputGitAuthor
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
-
-def commit_mapping_file():
-    commit_message = "Update meeting-topic mapping"
-    branch = os.environ.get("GITHUB_REF_NAME", "main")
-    token = os.environ["GITHUB_TOKEN"]
-    repo_name = os.environ["GITHUB_REPOSITORY"]
-    g = Github(token)
-    repo = g.get_repo(repo_name)
-    author = InputGitAuthor(
-        name="GitHub Actions Bot",
-        email="actions@github.com"
-    )
-    file_path = MAPPING_FILE
-    with open(file_path, "r") as f:
-        file_content = f.read()
-    try:
-        contents = repo.get_contents(file_path, ref=branch)
-        repo.update_file(
-            path=contents.path,
-            message=commit_message,
-            content=file_content,
-            sha=contents.sha,
-            branch=branch,
-            author=author,
-        )
-        print(f"Updated {file_path} in the repository.")
-    except Exception:
-        repo.create_file(
-            path=file_path,
-            message=commit_message,
-            content=file_content,
-            branch=branch,
-            author=author,
-        )
-        print(f"Created {file_path} in the repository.")
 
 def is_meeting_eligible(meeting_end_time):
     """
@@ -64,124 +28,6 @@ def is_meeting_eligible(meeting_end_time):
 
 def validate_meeting_id(meeting_id):
     return str(meeting_id).strip()
-
-def process_meeting(meeting_id, mapping):
-    """Process a single meeting's recordings and transcripts"""
-    # Use the new helper function to find the meeting entry
-    entry = find_meeting_by_id(str(meeting_id), mapping)
-    if not entry:
-        print(f"Skipping meeting {meeting_id} - not found in mapping")
-        return
-
-    # Skip if already processed
-    if entry.get("transcript_processed"):
-        print(f"Meeting {meeting_id} is already processed")
-        return
-
-    # Skip if max attempts reached
-    if entry.get("upload_attempt_count", 0) >= 10:
-        print(f"Skipping meeting {meeting_id} - max upload attempts reached")
-        return
-
-    # Skip if max transcript attempts reached
-    if entry.get("transcript_attempt_count", 0) >= 10:
-        print(f"Skipping meeting {meeting_id} - max transcript attempts reached")
-        return
-
-    # Skip if meeting hasn't occurred yet
-    start_time = entry.get("start_time")
-    if start_time:
-        try:
-            meeting_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-            now = datetime.now(pytz.UTC)
-
-            if meeting_time > now:
-                print(f"Skipping meeting {meeting_id} - scheduled for future ({start_time})")
-                return
-
-            # Also skip if meeting ended less than 30 minutes ago
-            duration = entry.get("duration", 60)  # Default to 60 minutes if duration not specified
-            meeting_end_time = meeting_time + timedelta(minutes=duration)
-
-            if now < meeting_end_time + timedelta(minutes=30):
-                print(f"Skipping meeting {meeting_id} - ended less than 30 minutes ago")
-                return
-
-        except Exception as e:
-            print(f"Error parsing meeting time {start_time}: {e}")
-            # Continue processing if we can't parse the time
-
-    try:
-        # For recurring meetings, we don't need to upload to YouTube
-        call_series = entry.get("call_series", "unknown")
-        is_recurring = not call_series.startswith("one-off-")
-        if is_recurring:
-            print(f"Skipping YouTube upload for recurring meeting {meeting_id}")
-            # Mark as processed to avoid future attempts
-            entry["skip_youtube_upload"] = True
-            entry["youtube_upload_processed"] = True
-            save_meeting_topic_mapping(mapping)
-            commit_mapping_file()
-        # Only attempt upload for non-recurring meetings that haven't been processed
-        elif not entry.get("youtube_upload_processed") and not entry.get("skip_youtube_upload", False):
-            # Import directly from package path rather than relative path
-            import sys
-            import os
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            sys.path.append(os.path.dirname(script_dir))
-            from scripts.upload_zoom_recording import upload_recording
-            upload_recording(meeting_id)
-
-        # Process transcript regardless of meeting type
-        discourse_topic_id = entry.get("discourse_topic_id")
-        if discourse_topic_id:
-            transcript.post_zoom_transcript_to_discourse(meeting_id)
-            entry["transcript_processed"] = True
-            save_meeting_topic_mapping(mapping)
-            commit_mapping_file()
-
-            # Update RSS feed with transcript info
-            try:
-                rss_utils.add_notification_to_meeting(
-                    meeting_id,
-                    "transcript_posted",
-                    "Meeting transcript posted to Discourse",
-                    f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{discourse_topic_id}"
-                )
-                print(f"Updated RSS feed with transcript info for meeting {meeting_id}")
-            except Exception as e:
-                print(f"Failed to update RSS feed: {e}")
-
-            # Post YouTube stream links if they exist and haven't been posted by this script yet
-            if "youtube_streams" in entry and not entry.get("youtube_streams_posted_to_discourse"):
-                youtube_streams = entry["youtube_streams"]
-                if youtube_streams:
-                    print(f"Posting existing YouTube streams to Discourse topic {discourse_topic_id}")
-                    stream_links_text = "\n".join([
-                        f"- Stream {i+1}: {stream.get('stream_url', 'URL not found')}"
-                        for i, stream in enumerate(youtube_streams)
-                    ])
-                    discourse_body = f"**Previously Generated YouTube Stream Links:**\n{stream_links_text}"
-                    try:
-                        discourse.create_post(
-                            topic_id=discourse_topic_id,
-                            body=discourse_body
-                        )
-                        entry["youtube_streams_posted_to_discourse"] = True
-                        print(f"Successfully posted YouTube streams to Discourse topic {discourse_topic_id}")
-                        # Save mapping after successful post
-                        save_meeting_topic_mapping(mapping)
-                        commit_mapping_file()
-                    except Exception as e:
-                        print(f"Error posting YouTube streams to Discourse topic {discourse_topic_id}: {e}")
-
-    except Exception as e:
-        # Increment attempt counter on failure
-        entry["transcript_attempt_count"] = entry.get("transcript_attempt_count", 0) + 1
-        print(f"Transcript attempt {entry['transcript_attempt_count']} of 10 failed for meeting {meeting_id}")
-        save_meeting_topic_mapping(mapping)
-        commit_mapping_file()
-        print(f"Error processing meeting {meeting_id}: {e}")
 
 def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_minutes=30):
     """Finds the occurrence matching the recording start time."""
@@ -432,10 +278,6 @@ def process_recordings(mapping):
     if mapping_updated:
         print("Saving updated mapping file...")
         save_meeting_topic_mapping(mapping)
-        try:
-            commit_mapping_file()
-        except Exception as e:
-            print(f"::error::Failed to commit mapping file: {e}")
     else:
         print("No mapping changes to commit.")
 
@@ -566,10 +408,6 @@ def main():
                     if mapping_updated:
                         print("Saving updated mapping file after forced processing...")
                         save_meeting_topic_mapping(mapping)
-                        try:
-                            commit_mapping_file()
-                        except Exception as e:
-                            print(f"::error::Failed to commit mapping file after forced run: {e}")
                     else:
                         print("No mapping changes resulted from forced processing.")
 
