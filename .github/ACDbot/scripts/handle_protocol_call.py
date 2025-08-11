@@ -221,6 +221,12 @@ class ProtocolCallHandler:
             if not call_data.get("skip_gcal_creation") and not calendar_result.get("calendar_created"):
                 critical_failures.append("Calendar event creation failed")
 
+            # Log calendar action for debugging
+            if calendar_result.get("calendar_created"):
+                action = calendar_result.get("calendar_action", "unknown")
+                event_id = calendar_result.get("calendar_event_id")
+                print(f"[DEBUG] Calendar event {action}: {event_id}")
+
             discourse_result = self._handle_discourse_resource(call_data, existing_resources)
             resource_results.update(discourse_result)
             if not discourse_result.get("discourse_created"):
@@ -336,12 +342,29 @@ class ProtocolCallHandler:
         """Check if resources already exist for this occurrence."""
         try:
             call_series_entry = self.mapping_manager.find_occurrence(call_data["issue_number"])
+
+            # For new occurrences, check series-level resources
             if not call_series_entry:
+                print(f"[DEBUG] No existing occurrence found for issue #{call_data['issue_number']}, checking series-level resources")
+
+                # Check series-level resources even for new occurrences
+                series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
+                has_zoom = bool(series_meeting_id and not str(series_meeting_id).startswith("placeholder"))
+
+                # Check for existing recurring calendar event at series level
+                calendar_event_id = self.mapping_manager.get_series_calendar_event_id(call_data["call_series"])
+                has_calendar = bool(calendar_event_id)
+
+                print(f"[DEBUG] Series-level resources for {call_data['call_series']}:")
+                print(f"  - Zoom: {has_zoom} (ID: {series_meeting_id})")
+                print(f"  - Calendar: {has_calendar} (ID: {calendar_event_id})")
+
                 return {
-                    "has_zoom": False,
-                    "has_calendar": False,
+                    "has_zoom": has_zoom,
+                    "has_calendar": has_calendar,
                     "has_discourse": False,
-                    "has_youtube": False
+                    "has_youtube": False,
+                    "calendar_event_id": calendar_event_id
                 }
 
             occurrence = call_series_entry["occurrence"]
@@ -371,7 +394,8 @@ class ProtocolCallHandler:
                 "has_calendar": has_calendar,
                 "has_discourse": has_discourse,
                 "has_youtube": has_youtube,
-                "existing_occurrence": call_series_entry
+                "existing_occurrence": call_series_entry,
+                "calendar_event_id": calendar_event_id
             }
 
         except Exception as e:
@@ -765,10 +789,17 @@ class ProtocolCallHandler:
     def _update_calendar_event(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Update existing Google Calendar event."""
         try:
-            # Get existing Calendar ID from mapping (stored at call series level)
-            existing_occurrence = existing_resources["existing_occurrence"]
-            call_series = existing_occurrence["call_series"]
-            existing_calendar_event_id = self.mapping_manager.get_series_calendar_event_id(call_series)
+            # Get existing series-level Calendar ID (calendar events are only stored at series level)
+            existing_calendar_event_id = existing_resources.get("calendar_event_id")
+
+            if not existing_calendar_event_id:
+                # Fallback: get series-level calendar event ID from mapping
+                if "existing_occurrence" in existing_resources:
+                    existing_occurrence = existing_resources["existing_occurrence"]
+                    call_series = existing_occurrence["call_series"]
+                    existing_calendar_event_id = self.mapping_manager.get_series_calendar_event_id(call_series)
+
+            print(f"[DEBUG] Updating series-level calendar event with ID: {existing_calendar_event_id}")
 
             # Pass zoom URL to calendar creation if available
             calendar_call_data = call_data.copy()
