@@ -21,7 +21,6 @@ from modules.mapping_utils import (
     find_call_series_by_meeting_id,
     find_occurrence_with_index,
 )
-from github import Github
 from google.auth.transport.requests import Request
 import json
 import subprocess
@@ -219,7 +218,6 @@ def upload_recording(meeting_id, occurrence_issue_number=None):
         # mapping[call_series_key]["occurrences"][occurrence_index]["upload_attempt_count"] = 0 # Optional reset
 
         save_meeting_topic_mapping(mapping)
-        commit_mapping_file()
 
         youtube_link = f"https://youtu.be/{response['id']}"
         print(f"Uploaded YouTube video: {youtube_link}")
