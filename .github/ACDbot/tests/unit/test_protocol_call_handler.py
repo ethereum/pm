@@ -393,7 +393,20 @@ All Core Devs - Execution"""
         result = self.handler._clean_issue_body(minimal_body)
         # Should not add details if there's no config content after Call Series
         self.assertNotIn("<details>", result)
-        self.assertEqual(result, minimal_body)
+
+        # Should have added savvytime link since it has Call Series section
+        expected_minimal_body = """### UTC Date & Time
+
+[April 24, 2025, 14:00 UTC](https://savvytime.com/converter/utc/apr-24-2025/2pm)
+
+### Agenda
+
+- Agenda item 1
+
+### Call Series
+
+All Core Devs - Execution"""
+        self.assertEqual(result, expected_minimal_body)
 
     def test_clean_issue_body_with_form_parser_compatibility(self):
         """Test that cleaned issue body maintains form parser compatibility."""
