@@ -11,13 +11,13 @@ import os
 import re
 import argparse
 from typing import Dict, Optional, List, Set
-from datetime import datetime
 
 # Add the modules directory to the path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'modules'))
 
 from modules.form_parser import FormParser
 from modules.mapping_manager import MappingManager
+from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display
 
 
 class ProtocolCallHandler:
@@ -844,25 +844,8 @@ class ProtocolCallHandler:
 
             # Add meeting time information
             if start_time and duration:
-                try:
-                    from datetime import datetime
-                    # Parse the start time
-                    if start_time.endswith('Z'):
-                        start_time_parsed = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-                    else:
-                        start_time_parsed = datetime.fromisoformat(start_time)
-
-                    # Format the date and time
-                    formatted_date = start_time_parsed.strftime("%A, %B %d, %Y")
-                    formatted_time = start_time_parsed.strftime("%H:%M UTC")
-
-                    time_info = f"**Meeting Time:** {formatted_date} at {formatted_time} ({duration} minutes)"
-                    discourse_body_parts.append(time_info)
-                except Exception as e:
-                    print(f"[WARN] Failed to format meeting time: {e}")
-                    # Fallback to raw time info
-                    time_info = f"**Meeting Time:** {start_time} ({duration} minutes)"
-                    discourse_body_parts.append(time_info)
+                time_info = format_datetime_for_discourse(start_time, duration)
+                discourse_body_parts.append(time_info)
 
             # Add GitHub issue link
             discourse_body_parts.append(f"\n[GitHub Issue]({issue_url})")
@@ -1054,15 +1037,7 @@ class ProtocolCallHandler:
                     # Extract date from stream details if available
                     stream_date = ""
                     if 'scheduled_time' in stream:
-                        try:
-                            from datetime import datetime
-                            scheduled_time = stream['scheduled_time']
-                            if scheduled_time.endswith('Z'):
-                                scheduled_time = scheduled_time.replace('Z', '+00:00')
-                            date_obj = datetime.fromisoformat(scheduled_time)
-                            stream_date = f" ({date_obj.strftime('%b %d, %Y')})"
-                        except Exception as e:
-                            print(f"[DEBUG] Error formatting stream date: {e}")
+                        stream_date = format_datetime_for_stream_display(stream['scheduled_time'])
 
                     stream_links.append(f"- Stream {i}{stream_date}: {stream['stream_url']}")
 
@@ -1359,6 +1334,10 @@ class ProtocolCallHandler:
         except Exception as e:
             print(f"[ERROR] Failed to clean issue body for issue #{issue.number}: {e}")
 
+    def _generate_savvytime_link(self, datetime_str: str) -> str:
+        """Generate a savvytime.com link from a datetime string."""
+        return generate_savvytime_link(datetime_str)
+
     def _clean_issue_body(self, issue_body: str) -> str:
         """Transform issue body to hide verbose config sections while preserving parsing."""
         try:
@@ -1371,23 +1350,26 @@ class ProtocolCallHandler:
                 print("[DEBUG] Not a form issue, skipping cleanup")
                 return issue_body
 
+            # Auto-generate savvytime link for datetime if not already present
+            cleaned_body = self._add_savvytime_link_if_needed(issue_body)
+
             # Find the position after "### Call Series" section
             call_series_pattern = r"(### Call Series\n\n[^\n]+\n)"
-            match = re.search(call_series_pattern, issue_body)
+            match = re.search(call_series_pattern, cleaned_body)
 
             if not match:
                 # Try without extra newline
                 call_series_pattern = r"(### Call Series\n[^\n]+\n)"
-                match = re.search(call_series_pattern, issue_body)
+                match = re.search(call_series_pattern, cleaned_body)
 
             if not match:
                 print("[DEBUG] Could not find Call Series section, skipping cleanup")
-                return issue_body
+                return cleaned_body
 
             # Split the issue body into: before call series, call series, after call series
             call_series_end = match.end()
-            before_config = issue_body[:call_series_end]
-            after_config = issue_body[call_series_end:]
+            before_config = cleaned_body[:call_series_end]
+            after_config = cleaned_body[call_series_end:]
 
             # Only wrap the config sections after Call Series in details
             if after_config.strip():
@@ -1404,6 +1386,54 @@ class ProtocolCallHandler:
 
         except Exception as e:
             print(f"[ERROR] Failed to clean issue body: {e}")
+            return issue_body
+
+    def _add_savvytime_link_if_needed(self, issue_body: str) -> str:
+        """Add savvytime link to datetime field if user didn't provide one."""
+        try:
+            # Only add savvytime links for proper form issues with Call Series section
+            if "### Call Series" not in issue_body:
+                print("[DEBUG] No Call Series section found, skipping savvytime link generation")
+                return issue_body
+
+            # Check if savvytime.com link is already present
+            if "savvytime.com" in issue_body:
+                print("[DEBUG] Savvytime link already present, skipping auto-generation")
+                return issue_body
+
+            # Find the UTC Date & Time section
+            datetime_pattern = r"(### UTC Date & Time\n\n)([^\n]+)"
+            match = re.search(datetime_pattern, issue_body)
+
+            if not match:
+                print("[DEBUG] Could not find UTC Date & Time section")
+                return issue_body
+
+            section_prefix = match.group(1)
+            datetime_text = match.group(2)
+
+            # Check if it's already a markdown link format
+            if datetime_text.startswith('[') and '](' in datetime_text:
+                print("[DEBUG] DateTime already in markdown link format")
+                return issue_body
+
+            # Generate savvytime link
+            savvytime_link = self._generate_savvytime_link(datetime_text)
+
+            # Only replace if we successfully generated a link (contains markdown format)
+            if savvytime_link != datetime_text and '[' in savvytime_link and '](' in savvytime_link:
+                updated_body = issue_body.replace(
+                    section_prefix + datetime_text,
+                    section_prefix + savvytime_link
+                )
+                print(f"[DEBUG] Added savvytime link to datetime field")
+                return updated_body
+            else:
+                print("[DEBUG] Could not generate valid savvytime link")
+                return issue_body
+
+        except Exception as e:
+            print(f"[ERROR] Failed to add savvytime link: {e}")
             return issue_body
 
 
