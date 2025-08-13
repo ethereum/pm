@@ -607,7 +607,7 @@ class ProtocolCallHandler:
             return {
                 "zoom_created": False,
                 "zoom_id": f"placeholder-{call_data['issue_number']}",
-                "zoom_url": "https://zoom.us (API authentication failed)"
+                "zoom_url": "https://zoom.us"
             }
 
     def _update_zoom_meeting(self, call_data: Dict, existing_resources: Dict) -> Dict:
@@ -617,31 +617,59 @@ class ProtocolCallHandler:
             result = {
                 "zoom_created": True,
                 "zoom_id": existing_meeting_id,
-                "zoom_url": "https://zoom.us (existing meeting)",
+                "zoom_url": None,  # Will be set below based on API success/failure
                 "zoom_action": "updated"
             }
 
             # Update the meeting if we have changes
             if existing_meeting_id:
                 from modules import zoom
-                update_result = zoom.update_meeting(
-                    existing_meeting_id,
-                    call_data["issue_title"],
-                    call_data["start_time"],
-                    call_data["duration"]
-                )
-                if update_result.get("join_url"):
-                    result["zoom_url"] = update_result["join_url"]
+                try:
+                    update_result = zoom.update_meeting(
+                        existing_meeting_id,
+                        call_data["issue_title"],
+                        call_data["start_time"],
+                        call_data["duration"]
+                    )
+                    # Use the official join_url from API response, or construct fallback
+                    result["zoom_url"] = update_result.get("join_url") or f"https://zoom.us/j/{existing_meeting_id}"
+                    print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
+                except Exception as zoom_error:
+                    # Handle permission/auth errors gracefully for edits
+                    if "access token" in str(zoom_error).lower() or "permission" in str(zoom_error).lower():
+                        print(f"[WARN] Zoom update skipped due to insufficient permissions: {zoom_error}")
+                        print(f"[INFO] Meeting link remains functional, only title/description won't be updated in Zoom")
+                        # Return success but indicate no actual update occurred, preserve functional meeting URL
+                        result["zoom_action"] = "skipped_permissions"
+                        result["zoom_url"] = f"https://zoom.us/j/{existing_meeting_id}" if existing_meeting_id else "https://zoom.us"
+                    else:
+                        # Re-raise other errors (API issues, etc.)
+                        raise zoom_error
+            else:
+                # No existing meeting ID - use generic fallback
+                result["zoom_url"] = "https://zoom.us"
 
             return result
 
         except Exception as e:
             print(f"[ERROR] Failed to update Zoom meeting: {e}")
-            return {
-                "zoom_created": False,
-                "zoom_id": None,
-                "zoom_url": None
-            }
+            # For permission errors, don't fail the whole process
+            if "access token" in str(e).lower() or "permission" in str(e).lower():
+                existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
+                # Try to get the actual working join URL despite permission issues
+                working_zoom_url = f"https://zoom.us/j/{existing_meeting_id}" if existing_meeting_id else "https://zoom.us"
+                return {
+                    "zoom_created": True,  # Don't fail the edit process
+                    "zoom_id": existing_meeting_id,
+                    "zoom_url": working_zoom_url,  # Use functional meeting link
+                    "zoom_action": "skipped_permissions"
+                }
+            else:
+                return {
+                    "zoom_created": False,
+                    "zoom_id": None,
+                    "zoom_url": None
+                }
 
     def _create_calendar_event(self, call_data: Dict) -> Dict:
         """Create new Google Calendar event."""
@@ -1207,9 +1235,9 @@ class ProtocolCallHandler:
 
     def _resources_changed(self, resource_results: Dict) -> bool:
         """Check if any resources were actually created/updated."""
-        # Check if Zoom was actually created (not just updated)
+        # Check if Zoom was actually created (not just updated or skipped due to permissions)
         zoom_actually_created = (resource_results.get("zoom_created") and
-                               resource_results.get("zoom_action") != "updated")
+                               resource_results.get("zoom_action") not in ["updated", "skipped_permissions"])
 
         # Check if Discourse was actually created (not just found existing)
         discourse_actually_created = (resource_results.get("discourse_created") and
