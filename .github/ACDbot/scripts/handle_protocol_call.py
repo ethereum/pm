@@ -486,11 +486,19 @@ class ProtocolCallHandler:
             )
 
             if is_update:
-                # Update existing occurrence
+                # Update existing occurrence - only update specific fields to preserve existing data
+                update_fields = {
+                    "issue_title": call_data["issue_title"],
+                    "start_time": call_data["start_time"],
+                    "duration": call_data["duration"]
+                }
+                if call_data.get("agenda"):
+                    update_fields["agenda"] = call_data["agenda"]
+
                 success = self.mapping_manager.update_occurrence(
                     call_data["call_series"],
                     call_data["issue_number"],
-                    occurrence_data
+                    update_fields  # Only update specific fields, preserve others like telegram_message_id
                 )
             else:
                 # Add new occurrence
