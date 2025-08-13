@@ -30,6 +30,7 @@ from modules.zoom import (
     get_meeting_summary
 )
 from google.oauth2 import service_account
+from datetime import datetime, timezone, timedelta
 
 # Import RSS utils
 try:
@@ -85,24 +86,66 @@ def download_zoom_recording(meeting_id):
     if not recording_info or 'recording_files' not in recording_info:
         return None
 
-    for file in recording_info['recording_files']:
-        if file.get('file_type') == 'MP4' and file.get('download_url'):
-            download_url = file['download_url']
-            temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+        # Define video quality priority
+    video_recording_types_priority = [
+        "shared_screen_with_speaker_view",
+        "shared_screen_with_gallery_view",
+        "speaker_view",
+        "gallery_view",
+        "shared_screen"
+    ]
 
-            headers = {
-                "Authorization": f"Bearer {get_access_token()}",
-                "Content-Type": "application/json"
-            }
+    best_video_file = None
 
-            response = requests.get(download_url, headers=headers, stream=True)
-            if response.status_code == 200:
-                for chunk in response.iter_content(chunk_size=1024*1024):
-                    if chunk:
-                        temp_file.write(chunk)
-                temp_file.close()
-                return temp_file.name
-    return None
+    # Try each priority level until we find a video
+    for preferred_type in video_recording_types_priority:
+        for file in recording_info['recording_files']:
+            if (file.get('file_type') == 'MP4' and
+                file.get('download_url') and
+                file.get('recording_type') == preferred_type):
+                best_video_file = file
+                print(f"[DEBUG] Selected priority video: {preferred_type}")
+                break
+        if best_video_file:
+            break
+
+    # Fallback: If no prioritized video found, use any MP4
+    if best_video_file is None:
+        for file in recording_info['recording_files']:
+            if file.get('file_type') == 'MP4' and file.get('download_url'):
+                best_video_file = file
+                print(f"[DEBUG] Using fallback video type: {file.get('recording_type', 'unknown')}")
+                break
+
+    if best_video_file is None:
+        print(f"[ERROR] No MP4 video files with download URLs found for meeting {meeting_id}")
+        return None
+
+    download_url = best_video_file['download_url']
+    recording_type = best_video_file.get('recording_type', 'unknown')
+    file_size = best_video_file.get('file_size', 'unknown')
+
+    print(f"[INFO] Downloading video: type={recording_type}, size={file_size}")
+
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+    headers = {
+        "Authorization": f"Bearer {get_access_token()}",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(download_url, headers=headers, stream=True)
+    if response.status_code == 200:
+        for chunk in response.iter_content(chunk_size=1024*1024):
+            if chunk:
+                temp_file.write(chunk)
+        temp_file.close()
+        print(f"[SUCCESS] Downloaded video to: {temp_file.name}")
+        return temp_file.name
+    else:
+        print(f"[ERROR] Failed to download video: HTTP {response.status_code}")
+        temp_file.close()
+        os.unlink(temp_file.name)  # Clean up failed download
+        return None
 
 def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None):
     """Uploads Zoom recording to YouTube for a specific occurrence."""
@@ -190,6 +233,23 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         f"Original Zoom Meeting ID: {meeting_id}"
         f"\nGitHub Issue: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{occurrence_issue_number}" # Add link to specific issue
     )
+
+    # Check recording duration before downloading
+    try:
+        recording_info = get_meeting_recording(meeting_id)
+        if recording_info:
+            recording_duration = recording_info.get('duration', 0)
+            if recording_duration < 10:
+                print(f"[SKIP] Recording too short: {recording_duration} minutes (minimum 10 minutes required)")
+                error_msg = f"⏭️ YouTube upload skipped: Recording for meeting {meeting_id} (issue #{occurrence_issue_number}) is only {recording_duration} minutes long (minimum 10 minutes required)."
+                if error_collector is not None:
+                    error_collector.append(error_msg)
+                else:
+                    tg.send_message(error_msg)
+                return False # Indicate failure - recording too short
+    except Exception as e:
+        print(f"[WARN] Could not check recording duration for meeting {meeting_id}: {e}")
+        # Continue with download attempt if we can't check duration
 
     video_path = download_zoom_recording(meeting_id)
     if not video_path:
@@ -349,6 +409,33 @@ def main():
                     # Skip if meeting_id isn't a real Zoom ID yet
                     if not effective_meeting_id or effective_meeting_id.lower() in ("pending", "custom") or effective_meeting_id.startswith("placeholder"):
                         continue
+
+                    # Date validation to prevent uploading videos for future meetings
+                    meeting_start_time_str = occurrence.get("start_time")
+                    if meeting_start_time_str:
+                        try:
+                            # Parse the meeting start time
+                            meeting_start_time = datetime.fromisoformat(meeting_start_time_str.replace('Z', '+00:00'))
+                            current_time = datetime.now(timezone.utc)
+
+                            # Only process meetings that ended at least 15 minutes ago to ensure recording is available
+                            meeting_duration = occurrence.get("duration", 60)  # Default 60 minutes if not specified
+                            meeting_end_time = meeting_start_time + timedelta(minutes=meeting_duration)
+                            time_since_meeting_end = current_time - meeting_end_time
+
+                            if current_time < meeting_start_time:
+                                print(f"[SKIP] Future meeting: Issue #{occ_issue_num}, starts {meeting_start_time} (in {meeting_start_time - current_time})")
+                                continue
+                            elif time_since_meeting_end < timedelta(minutes=15):
+                                print(f"[SKIP] Recent meeting: Issue #{occ_issue_num}, ended {time_since_meeting_end} ago (waiting for recording to be ready)")
+                                continue
+                            else:
+                                print(f"[INFO] Meeting eligible for upload: Issue #{occ_issue_num}, ended {time_since_meeting_end} ago")
+                        except (ValueError, TypeError) as e:
+                            print(f"[WARN] Could not parse start_time '{meeting_start_time_str}' for issue #{occ_issue_num}: {e}")
+                            # Continue processing if we can't parse the date (don't want to break existing functionality)
+                    else:
+                        print(f"[WARN] No start_time found for issue #{occ_issue_num}, proceeding without date validation")
 
                     if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
                         print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")
