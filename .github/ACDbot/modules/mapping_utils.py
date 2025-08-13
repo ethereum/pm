@@ -153,7 +153,23 @@ def update_occurrence_entry(call_series: str, issue_number: int, updates: Dict, 
     """
     occurrence = find_occurrence_by_issue_number(call_series, issue_number, mapping)
     if occurrence:
-        occurrence.update(updates)
+        # Safelist of allowed fields that can be updated in mapping
+        ALLOWED_UPDATE_FIELDS = {
+            "issue_title", "start_time", "duration", "skip_youtube_upload",
+            "skip_transcript_processing", "youtube_upload_processed", "transcript_processed",
+            "upload_attempt_count", "transcript_attempt_count", "telegram_message_id",
+            "youtube_streams_posted_to_discourse", "youtube_streams", "discourse_topic_id",
+            "calendar_event_id", "occurrence_number", "youtube_video_id"
+        }
+
+        # Filter updates to only include allowed fields
+        safe_updates = {k: v for k, v in updates.items() if k in ALLOWED_UPDATE_FIELDS}
+
+        if len(safe_updates) != len(updates):
+            rejected_fields = set(updates.keys()) - ALLOWED_UPDATE_FIELDS
+            print(f"[WARN] Rejected mapping update for non-allowed fields: {rejected_fields}")
+
+        occurrence.update(safe_updates)
         return True
     return False
 

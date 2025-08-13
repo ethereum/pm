@@ -492,8 +492,6 @@ class ProtocolCallHandler:
                     "start_time": call_data["start_time"],
                     "duration": call_data["duration"]
                 }
-                if call_data.get("agenda"):
-                    update_fields["agenda"] = call_data["agenda"]
 
                 success = self.mapping_manager.update_occurrence(
                     call_data["call_series"],
