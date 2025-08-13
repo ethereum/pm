@@ -264,9 +264,13 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
             if 'recurringEventId' in updated_instance:
                 print(f"[DEBUG] Updated instance belongs to recurring event: {updated_instance['recurringEventId']}")
 
+            # Return the original series ID, not the instance ID
+            original_series_id = updated_instance.get('recurringEventId', event_id)
+            print(f"[DEBUG] Returning original series ID: {original_series_id} (not instance ID: {event_id})")
+
             return {
                 'htmlLink': html_link,
-                'id': event_id
+                'id': original_series_id
             }
         else:
             print(f"[DEBUG] No matching instance found for date {start_dt.date()}")
