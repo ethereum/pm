@@ -1256,6 +1256,22 @@ class ProtocolCallHandler:
             youtube_actually_created
         ])
 
+    def _find_existing_bot_comment(self, issue):
+        """Find the bot's existing resource comment on this issue."""
+        try:
+            # Get bot username from environment or use fallback
+            bot_username = os.getenv('GITHUB_BOT_USERNAME', 'github-actions')
+
+            for comment in issue.get_comments():
+                # Check if comment is from the bot and contains our signature
+                if (comment.user.login.lower() in [bot_username.lower(), 'github-actions[bot]'] and
+                    "**Protocol Call Resources" in comment.body):
+                    return comment
+            return None
+        except Exception as e:
+            print(f"[ERROR] Failed to find existing bot comment: {e}")
+            return None
+
     def _post_results(self, call_data: Dict, issue, resource_results: Dict, is_update: bool):
         """Post results to GitHub issue."""
         try:
@@ -1263,22 +1279,29 @@ class ProtocolCallHandler:
             if not is_update:
                 # Initial creation - always post comment
                 should_post = True
-                comment_prefix = "🎉 **Protocol Call Resources Created:**"
             else:
                 # Edit - only post if resources actually changed
                 should_post = self._resources_changed(resource_results)
-                comment_prefix = "🔄 **Protocol Call Resources Updated:**"
 
             if not should_post:
                 print(f"[DEBUG] No resource changes detected, skipping comment for issue #{issue.number}")
                 return
 
             # Generate comprehensive comment using same logic as generate_resource_comment.py
+            comment_prefix = "⚡ **Protocol Call Resources:**"
             comment_text = self._generate_resource_comment(call_data, resource_results, comment_prefix)
 
-            # Post to GitHub issue
-            issue.create_comment(comment_text)
-            print(f"[DEBUG] Posted results comment to issue #{issue.number}")
+            # Check for existing bot comment
+            existing_comment = self._find_existing_bot_comment(issue)
+
+            if existing_comment:
+                # Update existing comment
+                existing_comment.edit(comment_text)
+                print(f"[DEBUG] Updated existing comment {existing_comment.id} on issue #{issue.number}")
+            else:
+                # Create new comment
+                new_comment = issue.create_comment(comment_text)
+                print(f"[DEBUG] Created new comment {new_comment.id} on issue #{issue.number}")
 
             # Send message to Telegram channel
             try:
