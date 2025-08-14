@@ -46,7 +46,7 @@ class ProtocolCallHandler:
 
             if has_existing:
                 print(f"[DEBUG] Updating existing Zoom meeting")
-                result = self._update_zoom_meeting(call_data, existing_resources)
+                result = self._update_zoom_meeting(call_data)
             else:
                 print(f"[DEBUG] Creating new Zoom meeting")
                 result = self._create_zoom_meeting(call_data)
@@ -616,7 +616,7 @@ class ProtocolCallHandler:
                 "zoom_url": "https://zoom.us"
             }
 
-    def _update_zoom_meeting(self, call_data: Dict, existing_resources: Dict) -> Dict:
+    def _update_zoom_meeting(self, call_data: Dict) -> Dict:
         """Update existing Zoom meeting."""
         try:
             existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
@@ -642,7 +642,7 @@ class ProtocolCallHandler:
                     print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
                 except Exception as zoom_error:
                     # Handle permission/auth errors gracefully for edits
-                    if "access token" in str(zoom_error).lower() or "permission" in str(zoom_error).lower():
+                    if any(phrase in str(zoom_error).lower() for phrase in ["access token", "permission", "invalid access token", "scopes"]):
                         print(f"[WARN] Zoom update skipped due to insufficient permissions: {zoom_error}")
                         print(f"[INFO] Meeting link remains functional, only title/description won't be updated in Zoom")
                         result["zoom_action"] = "skipped_permissions"
