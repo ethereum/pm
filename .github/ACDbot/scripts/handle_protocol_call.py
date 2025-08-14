@@ -448,7 +448,10 @@ class ProtocolCallHandler:
             # Add YouTube streams if created
             if resource_results.get("youtube_streams_created") and resource_results.get("youtube_streams"):
                 update_data["youtube_streams"] = resource_results["youtube_streams"]
+                # If livestreams are created, skip YouTube recording upload to avoid duplicate content
+                update_data["skip_youtube_upload"] = True
                 print(f"[DEBUG] Adding YouTube streams: {len(resource_results['youtube_streams'])} streams")
+                print(f"[DEBUG] Setting skip_youtube_upload=True (livestream exists, no recording upload needed)")
 
             # Update the occurrence with resource IDs
             if update_data:
@@ -475,14 +478,19 @@ class ProtocolCallHandler:
         """Update the mapping with call data."""
         try:
             # Create occurrence data
+            # skip_youtube_upload logic:
+            # - True if no Zoom meeting (skip_zoom_creation=True) OR if YouTube livestreams will be created
+            # - Will be updated to True later if YouTube livestreams are actually created
+            initial_skip_upload = call_data.get("skip_zoom_creation", False)
+
             occurrence_data = self.mapping_manager.create_occurrence_data(
                 issue_number=call_data["issue_number"],
                 issue_title=call_data["issue_title"],
                 discourse_topic_id=None,  # Will be set later if Discourse is created
                 start_time=call_data["start_time"],
                 duration=call_data["duration"],
-                skip_youtube_upload=call_data["skip_zoom_creation"],
-                skip_transcript_processing=call_data["skip_zoom_creation"]
+                skip_youtube_upload=initial_skip_upload,
+                skip_transcript_processing=call_data.get("skip_zoom_creation", False)
             )
 
             if is_update:
@@ -1291,6 +1299,11 @@ class ProtocolCallHandler:
             comment_prefix = "⚡ **Protocol Call Resources:**"
             comment_text = self._generate_resource_comment(call_data, resource_results, comment_prefix)
 
+            # Skip posting if comment generation failed
+            if not comment_text:
+                print(f"[ERROR] Failed to generate comment content, skipping comment for issue #{issue.number}")
+                return
+
             # Check for existing bot comment
             existing_comment = self._find_existing_bot_comment(issue)
 
@@ -1353,9 +1366,7 @@ class ProtocolCallHandler:
                     calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"
                     comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({calendar_link})")
                 else:
-                    # Fallback to basic calendar view if encoding fails
-                    calendar_link = f"https://calendar.google.com/calendar/u/0/"
-                    comment_lines.append(f"✅ **Calendar**: [Open Calendar]({calendar_link})")
+                    comment_lines.append("❌ **Calendar**: Failed to generate link")
             elif call_data.get("skip_gcal_creation"):
                 comment_lines.append("⏭️ **Calendar**: Skipped (not on Ethereum calendar)")
             else:
@@ -1395,8 +1406,7 @@ class ProtocolCallHandler:
 
         except Exception as e:
             print(f"[ERROR] Failed to generate resource comment: {e}")
-            # Fallback to simple comment
-            return f"{comment_prefix}\n\n📋 Issue: #{call_data.get('issue_number', 'unknown')}"
+            return None
 
     def _is_issue_already_cleaned(self, issue_body: str) -> bool:
         """Check if the issue body has already been cleaned up."""
