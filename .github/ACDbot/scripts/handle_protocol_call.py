@@ -253,11 +253,8 @@ class ProtocolCallHandler:
             # 8. Send Telegram notification
             self._send_telegram_notification(call_data, issue, resource_results, is_update)
 
-            # 9. Post results to GitHub only if resources were successfully created
-            if self._resources_changed(resource_results):
-                self._post_results(call_data, issue, resource_results, is_update)
-            else:
-                print(f"[DEBUG] No resources successfully created, skipping GitHub comment to avoid email spam")
+            # 9. Post results to GitHub
+            self._post_results(call_data, issue, resource_results, is_update)
 
             # 10. Save mapping
             self.mapping_manager.save_mapping()
