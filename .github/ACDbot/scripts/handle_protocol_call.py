@@ -1273,67 +1273,14 @@ class ProtocolCallHandler:
                 print(f"[DEBUG] No resource changes detected, skipping comment for issue #{issue.number}")
                 return
 
-            # Build comment content
-            comment_lines = [comment_prefix, ""]
+            # Generate comprehensive comment using same logic as generate_resource_comment.py
+            comment_text = self._generate_resource_comment(call_data, resource_results, comment_prefix)
 
-            # Add resource creation results - only include newly created resources
-            if resource_results["zoom_created"]:
-                if resource_results.get("zoom_url"):
-                    comment_lines.append(f"✅ **Zoom**: [Join Meeting]({resource_results['zoom_url']})")
-                else:
-                    comment_lines.append("✅ **Zoom**: Meeting created (join URL not available)")
-            elif call_data["skip_zoom_creation"]:
-                comment_lines.append("⏭️ **Zoom**: Skipped (user opted out)")
-            else:
-                comment_lines.append("❌ **Zoom**: Failed to create")
+            # Post to GitHub issue
+            issue.create_comment(comment_text)
+            print(f"[DEBUG] Posted results comment to issue #{issue.number}")
 
-            if resource_results["calendar_created"]:
-                calendar_action = resource_results.get("calendar_action", "created")
-                if calendar_action in ["existing", "updated"]:
-                    # Don't include existing or updated resources in the comment
-                    pass
-                elif resource_results.get("calendar_event_url"):
-                    comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({resource_results['calendar_event_url']})")
-                else:
-                    comment_lines.append("✅ **Calendar**: Event created")
-            elif call_data["skip_gcal_creation"]:
-                comment_lines.append("⏭️ **Calendar**: Skipped (not on Ethereum calendar)")
-            else:
-                comment_lines.append("❌ **Calendar**: Failed to create")
-
-            if resource_results["discourse_created"]:
-                discourse_action = resource_results.get("discourse_action", "created")
-                if discourse_action in ["existing", "found_duplicate_series"]:
-                    # Don't include existing resources in the comment
-                    pass
-                elif resource_results.get("discourse_url"):
-                    comment_lines.append(f"✅ **Discourse**: [{discourse_action.capitalize()} Topic]({resource_results['discourse_url']})")
-                else:
-                    comment_lines.append(f"✅ **Discourse**: {discourse_action.capitalize()}")
-            else:
-                comment_lines.append("❌ **Discourse**: Failed to create")
-
-            if resource_results["youtube_streams_created"]:
-                youtube_action = resource_results.get("youtube_action", "created")
-                if youtube_action == "existing":
-                    # Don't include existing resources in the comment
-                    pass
-                else:
-                    comment_lines.append("✅ **YouTube**: Streams created")
-                    if resource_results.get("stream_links"):
-                        for stream_link in resource_results["stream_links"]:
-                            comment_lines.append(f"   📺 {stream_link}")
-            elif call_data["need_youtube_streams"]:
-                comment_lines.append("❌ **YouTube**: Failed to create streams")
-
-            # [DEBUG] Add issue reference for context
-            comment_lines.append(f"\n📋 Issue: #{issue.number}")
-
-            comment_text = "\n".join(comment_lines)
-
-            # issue.create_comment(comment_text)
-            # print(f"[DEBUG] Posted results comment to issue #{issue.number}")
-            # [DEBUG] Send message to Telegram channel
+            # Send message to Telegram channel
             try:
                 from modules import tg
                 message_id = tg.send_message(comment_text)
@@ -1345,6 +1292,88 @@ class ProtocolCallHandler:
 
         except Exception as e:
             print(f"[ERROR] Failed to post results: {e}")
+
+    def _generate_resource_comment(self, call_data: Dict, resource_results: Dict, comment_prefix: str) -> str:
+        """Generate comprehensive resource comment with proper formatting and working links."""
+        try:
+            comment_lines = [
+                comment_prefix,
+                ""
+            ]
+
+            # Zoom Meeting with enhanced URL (including passcode if available)
+            if resource_results.get("zoom_created") and resource_results.get("zoom_url"):
+                zoom_url = resource_results["zoom_url"]
+
+                # Try to enhance with passcode if we have a meeting ID
+                if resource_results.get("zoom_id") and not resource_results["zoom_id"].startswith("placeholder"):
+                    from modules import zoom
+                    enhanced_url = zoom.get_meeting_url_with_passcode(resource_results["zoom_id"])
+                    if enhanced_url:
+                        zoom_url = enhanced_url
+
+                comment_lines.append(f"✅ **Zoom**: [Join Meeting]({zoom_url})")
+            elif call_data.get("skip_zoom_creation"):
+                comment_lines.append("⏭️ **Zoom**: Skipped (user opted out)")
+            else:
+                comment_lines.append("❌ **Zoom**: Failed to create")
+
+            # Calendar Event with proper eid encoding
+            calendar_event_id = resource_results.get("calendar_event_id")
+            if resource_results.get("calendar_created") and calendar_event_id:
+                # Use proper calendar link with encoded eid
+                from modules import gcal
+                calendar_id = os.getenv("GCAL_ID", "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com")
+                encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id)
+
+                if encoded_eid:
+                    calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"
+                    comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({calendar_link})")
+                else:
+                    # Fallback to basic calendar view if encoding fails
+                    calendar_link = f"https://calendar.google.com/calendar/u/0/"
+                    comment_lines.append(f"✅ **Calendar**: [Open Calendar]({calendar_link})")
+            elif call_data.get("skip_gcal_creation"):
+                comment_lines.append("⏭️ **Calendar**: Skipped (not on Ethereum calendar)")
+            else:
+                comment_lines.append("❌ **Calendar**: Failed to create")
+
+            # Discourse Topic
+            if resource_results.get("discourse_created") and resource_results.get("discourse_url"):
+                discourse_url = resource_results["discourse_url"]
+                if "ethereum-magicians.org/t/" in discourse_url:
+                    comment_lines.append(f"✅ **Discourse**: [Discussion Topic]({discourse_url})")
+                else:
+                    comment_lines.append("❌ **Discourse**: Failed to create")
+            else:
+                comment_lines.append("❌ **Discourse**: Failed to create")
+
+            # YouTube Streams - only show the first stream
+            if resource_results.get("youtube_streams_created") and resource_results.get("stream_links"):
+                first_stream = resource_results["stream_links"][0]
+                # Extract URL from stream link format and create clean markdown link
+                if "https://" in first_stream:
+                    try:
+                        # Parse "- Stream 1: https://youtube.com/..." format
+                        url_part = first_stream.split("https://")[1].split(" ")[0]
+                        stream_url = f"https://{url_part}"
+                        comment_lines.append(f"✅ **YouTube Live**: [Watch Stream]({stream_url})")
+                    except:
+                        # Fallback: use the raw stream link
+                        comment_lines.append(f"✅ **YouTube Live**: {first_stream}")
+                else:
+                    comment_lines.append(f"✅ **YouTube Live**: {first_stream}")
+            elif call_data.get("need_youtube_streams"):
+                comment_lines.append("❌ **YouTube Live**: Failed to create streams")
+            else:
+                comment_lines.append("❌ **YouTube Live**: No livestream scheduled")
+
+            return "\n".join(comment_lines)
+
+        except Exception as e:
+            print(f"[ERROR] Failed to generate resource comment: {e}")
+            # Fallback to simple comment
+            return f"{comment_prefix}\n\n📋 Issue: #{call_data.get('issue_number', 'unknown')}"
 
     def _is_issue_already_cleaned(self, issue_body: str) -> bool:
         """Check if the issue body has already been cleaned up."""

@@ -8,6 +8,30 @@ import pytz
 import sys
 import calendar
 
+
+def encode_calendar_eid(event_id, calendar_id):
+    """Encode Google Calendar event ID and calendar ID into proper eid parameter."""
+    try:
+        # Format calendar ID by replacing @group.calendar.google.com with @g
+        if "@group.calendar.google.com" in calendar_id:
+            formatted_calendar_id = calendar_id.replace("@group.calendar.google.com", "@g")
+        else:
+            formatted_calendar_id = calendar_id
+
+        # Combine event ID and calendar ID with a space
+        combined = f"{event_id} {formatted_calendar_id}"
+
+        # Base64 encode
+        encoded = base64.b64encode(combined.encode('utf-8')).decode('utf-8')
+
+        # Remove trailing = characters
+        eid = encoded.rstrip('=')
+
+        return eid
+    except Exception as e:
+        print(f"⚠️  Could not encode calendar eid: {e}")
+        return None
+
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def get_calendar_service():
