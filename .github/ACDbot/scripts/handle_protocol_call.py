@@ -1280,24 +1280,88 @@ class ProtocolCallHandler:
             print(f"[ERROR] Failed to find existing bot comment: {e}")
             return None
 
+    def _generate_comprehensive_resource_comment(self, call_data: Dict) -> Optional[str]:
+        """Generate comprehensive resource comment with ALL current resources from mapping."""
+        try:
+            # Find current occurrence in mapping to get ALL resources (like generate_resource_comment.py)
+            existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
+            if not existing_occurrence:
+                print(f"[ERROR] Could not find occurrence for issue #{call_data['issue_number']} in mapping")
+                return None
+
+            call_series = existing_occurrence["call_series"]
+            occurrence = existing_occurrence["occurrence"]
+
+            # Load full mapping to get series-level data
+            mapping = self.mapping_manager.load_mapping()
+            series_data = mapping.get(call_series, {})
+
+            comment_lines = [
+                "⚡ **Protocol Call Resources:**",
+                ""
+            ]
+
+            # Zoom Meeting with enhanced URL (including passcode if available)
+            meeting_id = series_data.get('meeting_id')
+            if meeting_id and not str(meeting_id).startswith("placeholder") and meeting_id != "custom":
+                from modules import zoom
+                enhanced_url = zoom.get_meeting_url_with_passcode(meeting_id)
+                if enhanced_url:
+                    comment_lines.append(f"✅ **Zoom**: [Join Meeting]({enhanced_url})")
+                else:
+                    comment_lines.append(f"✅ **Zoom**: [Join Meeting](https://zoom.us/j/{meeting_id})")
+            elif meeting_id == "custom":
+                comment_lines.append("🔗 **Zoom**: Custom meeting link (see issue description)")
+            else:
+                comment_lines.append("❌ **Zoom**: No meeting link available")
+
+            # Calendar Event with proper eid encoding
+            calendar_event_id = occurrence.get('calendar_event_id') or series_data.get('calendar_event_id')
+            if calendar_event_id:
+                from modules import gcal
+                calendar_id = os.getenv("GCAL_ID")
+                encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id)
+
+                if encoded_eid:
+                    calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"
+                    comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({calendar_link})")
+                else:
+                    comment_lines.append("❌ **Calendar**: Failed to generate link")
+            else:
+                comment_lines.append("❌ **Calendar**: No calendar event found")
+
+            # Discourse Topic
+            discourse_topic_id = occurrence.get('discourse_topic_id')
+            if discourse_topic_id:
+                discourse_link = f"https://ethereum-magicians.org/t/{discourse_topic_id}"
+                comment_lines.append(f"✅ **Discourse**: [Discussion Topic]({discourse_link})")
+            else:
+                comment_lines.append("❌ **Discourse**: No forum topic found")
+
+            # YouTube Stream - only show the first stream
+            youtube_streams = occurrence.get('youtube_streams', [])
+            if youtube_streams:
+                first_stream = youtube_streams[0]
+                stream_url = first_stream.get('stream_url')
+                if stream_url:
+                    comment_lines.append(f"✅ **YouTube Live**: [Watch Live]({stream_url})")
+                else:
+                    comment_lines.append("❌ **YouTube Live**: No livestream scheduled")
+            else:
+                comment_lines.append("❌ **YouTube Live**: No livestream scheduled")
+
+            return "\n".join(comment_lines)
+
+        except Exception as e:
+            print(f"[ERROR] Failed to generate comprehensive resource comment: {e}")
+            return None
+
     def _post_results(self, call_data: Dict, issue, resource_results: Dict, is_update: bool):
         """Post results to GitHub issue."""
         try:
-            # Only post comment on initial creation or if resources actually changed
-            if not is_update:
-                # Initial creation - always post comment
-                should_post = True
-            else:
-                # Edit - only post if resources actually changed
-                should_post = self._resources_changed(resource_results)
-
-            if not should_post:
-                print(f"[DEBUG] No resource changes detected, skipping comment for issue #{issue.number}")
-                return
-
-            # Generate comprehensive comment using same logic as generate_resource_comment.py
+            # Generate comprehensive comment with ALL current resources (like generate_resource_comment.py)
             comment_prefix = "⚡ **Protocol Call Resources:**"
-            comment_text = self._generate_resource_comment(call_data, resource_results, comment_prefix)
+            comment_text = self._generate_comprehensive_resource_comment(call_data)
 
             # Skip posting if comment generation failed
             if not comment_text:
@@ -1308,9 +1372,12 @@ class ProtocolCallHandler:
             existing_comment = self._find_existing_bot_comment(issue)
 
             if existing_comment:
-                # Update existing comment
-                existing_comment.edit(comment_text)
-                print(f"[DEBUG] Updated existing comment {existing_comment.id} on issue #{issue.number}")
+                # Only update if the content would actually be different
+                if existing_comment.body.strip() != comment_text.strip():
+                    existing_comment.edit(comment_text)
+                    print(f"[DEBUG] Updated existing comment {existing_comment.id} on issue #{issue.number} (content changed)")
+                else:
+                    print(f"[DEBUG] Existing comment {existing_comment.id} is already up-to-date, no update needed")
             else:
                 # Create new comment
                 new_comment = issue.create_comment(comment_text)
@@ -1359,7 +1426,7 @@ class ProtocolCallHandler:
             if resource_results.get("calendar_created") and calendar_event_id:
                 # Use proper calendar link with encoded eid
                 from modules import gcal
-                calendar_id = os.getenv("GCAL_ID", "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com")
+                calendar_id = os.getenv("GCAL_ID")
                 encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id)
 
                 if encoded_eid:
