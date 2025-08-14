@@ -670,14 +670,27 @@ class ProtocolCallHandler:
         except Exception as e:
             print(f"[ERROR] Failed to update Zoom meeting: {e}")
             # For permission errors, don't fail the whole process
-            if "access token" in str(e).lower() or "permission" in str(e).lower():
+            if any(phrase in str(e).lower() for phrase in ["access token", "permission", "invalid access token", "scopes"]):
                 existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
-                # Try to get the actual working join URL despite permission issues
+
+                # Try to get enhanced URL with passcode for calendar
                 working_zoom_url = f"https://zoom.us/j/{existing_meeting_id}" if existing_meeting_id else "https://zoom.us"
+                if existing_meeting_id:
+                    try:
+                        from modules import zoom
+                        enhanced_url = zoom.get_meeting_url_with_passcode(existing_meeting_id)
+                        if enhanced_url:
+                            working_zoom_url = enhanced_url
+                            print(f"[DEBUG] Retrieved enhanced Zoom URL with passcode (fallback path)")
+                        else:
+                            print(f"[DEBUG] Using basic Zoom URL (fallback path, no passcode available)")
+                    except Exception as url_error:
+                        print(f"[WARN] Could not retrieve enhanced Zoom URL (fallback path): {url_error}")
+
                 return {
                     "zoom_created": True,  # Don't fail the edit process
                     "zoom_id": existing_meeting_id,
-                    "zoom_url": working_zoom_url,  # Use functional meeting link
+                    "zoom_url": working_zoom_url,  # Use enhanced meeting link if available
                     "zoom_action": "skipped_permissions"
                 }
             else:
