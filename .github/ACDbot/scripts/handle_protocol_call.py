@@ -879,7 +879,7 @@ class ProtocolCallHandler:
 
             # Add agenda if provided
             if agenda:
-                discourse_body_parts.append(agenda)
+                discourse_body_parts.append(f"### Agenda\n\n{agenda}")
 
             # Add meeting time information
             if start_time and duration:
