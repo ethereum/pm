@@ -642,7 +642,13 @@ class ProtocolCallHandler:
                     print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
                 except Exception as zoom_error:
                     # Handle permission/auth errors gracefully for edits
-                    if any(phrase in str(zoom_error).lower() for phrase in ["access token", "permission", "invalid access token", "scopes"]):
+                    error_text = str(zoom_error).lower()
+
+                    # For HTTP errors, also check the response content
+                    if hasattr(zoom_error, 'response') and hasattr(zoom_error.response, 'text'):
+                        error_text += " " + zoom_error.response.text.lower()
+
+                    if any(phrase in error_text for phrase in ["access token", "permission", "invalid access token", "scopes"]):
                         print(f"[WARN] Zoom update skipped due to insufficient permissions: {zoom_error}")
                         print(f"[INFO] Meeting link remains functional, only title/description won't be updated in Zoom")
                         result["zoom_action"] = "skipped_permissions"
