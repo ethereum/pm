@@ -216,6 +216,9 @@ class ProtocolCallHandler:
             # Store zoom URL for use by other resources
             if zoom_result.get("zoom_url"):
                 self._last_zoom_url = zoom_result["zoom_url"]
+                print(f"[DEBUG] Set _last_zoom_url: {self._last_zoom_url}")
+            else:
+                print(f"[DEBUG] No zoom_url in result to set _last_zoom_url: {zoom_result}")
 
             calendar_result = self._handle_calendar_resource(call_data, existing_resources)
             resource_results.update(calendar_result)
@@ -642,12 +645,22 @@ class ProtocolCallHandler:
                     if "access token" in str(zoom_error).lower() or "permission" in str(zoom_error).lower():
                         print(f"[WARN] Zoom update skipped due to insufficient permissions: {zoom_error}")
                         print(f"[INFO] Meeting link remains functional, only title/description won't be updated in Zoom")
-                        # Return success but indicate no actual update occurred, preserve functional meeting URL
                         result["zoom_action"] = "skipped_permissions"
-                        result["zoom_url"] = f"https://zoom.us/j/{existing_meeting_id}" if existing_meeting_id else "https://zoom.us"
                     else:
                         # Re-raise other errors (API issues, etc.)
                         raise zoom_error
+
+                try:
+                    enhanced_url = zoom.get_meeting_url_with_passcode(existing_meeting_id)
+                    if enhanced_url:
+                        result["zoom_url"] = enhanced_url
+                        print(f"[DEBUG] Retrieved enhanced Zoom URL with passcode for calendar")
+                    else:
+                        result["zoom_url"] = f"https://zoom.us/j/{existing_meeting_id}"
+                        print(f"[DEBUG] Using basic Zoom URL (no passcode available)")
+                except Exception as e:
+                    print(f"[WARN] Could not retrieve enhanced Zoom URL: {e}")
+                    result["zoom_url"] = f"https://zoom.us/j/{existing_meeting_id}"
             else:
                 # No existing meeting ID - use generic fallback
                 result["zoom_url"] = "https://zoom.us"
@@ -849,6 +862,9 @@ class ProtocolCallHandler:
             calendar_call_data = call_data.copy()
             if hasattr(self, '_last_zoom_url'):
                 calendar_call_data["zoom_url"] = self._last_zoom_url
+                print(f"[DEBUG] Passing zoom_url to calendar: {self._last_zoom_url}")
+            else:
+                print(f"[DEBUG] No _last_zoom_url available for calendar")
 
             calendar_result = self._create_or_update_calendar_event(calendar_call_data, existing_calendar_event_id)
             return calendar_result
