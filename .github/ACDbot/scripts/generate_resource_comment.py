@@ -133,9 +133,7 @@ def generate_comment(call_series, occurrence, mapping):
             calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"
             comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({calendar_link})")
         else:
-            # Fallback to basic calendar view if encoding fails
-            calendar_link = f"https://calendar.google.com/calendar/u/0/"
-            comment_lines.append(f"✅ **Calendar**: [Open Calendar]({calendar_link})")
+            comment_lines.append("❌ **Calendar**: Failed to generate link")
     else:
         comment_lines.append("❌ **Calendar**: No calendar event found")
 
