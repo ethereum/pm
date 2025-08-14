@@ -672,3 +672,27 @@ def check_and_fix_recurrence_pattern(meeting_id, expected_pattern, response_data
         return None
 
     return None
+
+def get_meeting_url_with_passcode(meeting_id):
+    """Get Zoom meeting URL with embedded passcode if available."""
+    if not meeting_id or meeting_id == "custom":
+        return None
+
+    try:
+        meeting_details = get_meeting(meeting_id)
+        join_url = meeting_details.get('join_url')
+        password = meeting_details.get('password', '')
+
+        # If API provides join_url, use it (likely already has ?pwd= if needed)
+        if join_url:
+            return join_url
+
+        # If no join_url from API, construct URL with password if available
+        if password:
+            return f"https://zoom.us/j/{meeting_id}?pwd={password}"
+        else:
+            return f"https://zoom.us/j/{meeting_id}"
+
+    except Exception:
+        # Fallback to basic URL construction
+        return f"https://zoom.us/j/{meeting_id}"
