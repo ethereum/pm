@@ -1209,52 +1209,19 @@ class ProtocolCallHandler:
 
             if telegram_channel_id and tg:
                 try:
-                    # For new issues, always send a new message
-                    # For updates, try to update existing message if available
-                    existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
-                    existing_telegram_message_id = None
-
-                    if existing_occurrence and is_update:
-                        existing_telegram_message_id = existing_occurrence["occurrence"].get("telegram_message_id")
-
-                    if existing_telegram_message_id:
-                        print(f"[DEBUG] Attempting to update existing Telegram message ID: {existing_telegram_message_id}")
-                        update_successful = tg.update_message(existing_telegram_message_id, telegram_message_body)
-                        if update_successful:
-                            print(f"[DEBUG] Successfully updated Telegram message {existing_telegram_message_id}.")
-                            telegram_channel_sent = True
-                            # Preserve the message ID in the occurrence data
-                            if existing_occurrence:
-                                self.mapping_manager.update_occurrence(
-                                    existing_occurrence["call_series"],
-                                    call_data["issue_number"],
-                                    {"telegram_message_id": existing_telegram_message_id}
-                                )
-                        else:
-                            error_msg = (f"Failed to update Telegram message ID {existing_telegram_message_id}. "
-                                         "Message might have been deleted or API call failed.")
-                            print(f"[ERROR] {error_msg}")
+                    # Always send new Telegram messages (never update existing ones)
+                    print(f"[DEBUG] Sending new Telegram message for issue #{call_data['issue_number']}.")
+                    new_message_id = tg.send_message(telegram_message_body)
+                    if new_message_id:
+                        telegram_channel_sent = True
+                        print(f"[DEBUG] Successfully sent new Telegram message {new_message_id}.")
                     else:
-                        # No existing message ID – send a new one
-                        print(f"[DEBUG] Sending new Telegram message for issue #{call_data['issue_number']}.")
-                        new_message_id = tg.send_message(telegram_message_body)
-                        if new_message_id:
-                            telegram_channel_sent = True
-                            # Store the new message ID in the occurrence data if we have one
-                            if existing_occurrence:
-                                self.mapping_manager.update_occurrence(
-                                    existing_occurrence["call_series"],
-                                    call_data["issue_number"],
-                                    {"telegram_message_id": new_message_id}
-                                )
-                                print(f"[DEBUG] Stored new telegram_message_id {new_message_id} in occurrence data for issue #{call_data['issue_number']}.")
-                        else:
-                            print(f"[ERROR] tg.send_message failed – no message ID returned.")
+                        print(f"[ERROR] tg.send_message failed – no message ID returned.")
 
                     if telegram_channel_sent:
-                        print(f"[DEBUG] Telegram notification {'updated' if existing_telegram_message_id else 'sent'} successfully")
+                        print(f"[DEBUG] Telegram notification sent successfully")
                     else:
-                        print(f"[DEBUG] Failed to send/update Telegram channel message.")
+                        print(f"[DEBUG] Failed to send Telegram channel message.")
 
                 except requests.exceptions.HTTPError as http_err:
                     # Log a controlled error message without the full URL/token
