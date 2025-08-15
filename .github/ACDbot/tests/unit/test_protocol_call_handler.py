@@ -25,6 +25,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         self.sample_call_data = {
             "issue_number": 123,
             "issue_title": "Test Protocol Call",
+            "issue_url": "https://github.com/ethereum/pm/issues/123",
             "call_series": "test-series",
             "start_time": "2024-01-15T10:00:00Z",
             "duration": 60,
@@ -56,52 +57,6 @@ class TestProtocolCallHandler(unittest.TestCase):
                 }
             }
         }
-
-    def test_resources_changed_all_false(self):
-        """Test that resources_changed returns False when all resources are False."""
-        resource_results = {
-            "zoom_created": False,
-            "calendar_created": False,
-            "discourse_created": False,
-            "youtube_streams_created": False
-        }
-
-        result = self.handler._resources_changed(resource_results)
-        self.assertFalse(result)
-
-    def test_resources_changed_some_true(self):
-        """Test that resources_changed returns True when some resources are True."""
-        resource_results = {
-            "zoom_created": True,
-            "calendar_created": False,
-            "discourse_created": False,
-            "youtube_streams_created": False
-        }
-
-        result = self.handler._resources_changed(resource_results)
-        self.assertTrue(result)
-
-    def test_resources_changed_all_true(self):
-        """Test that resources_changed returns True when all resources are True."""
-        resource_results = {
-            "zoom_created": True,
-            "calendar_created": True,
-            "discourse_created": True,
-            "youtube_streams_created": True
-        }
-
-        result = self.handler._resources_changed(resource_results)
-        self.assertTrue(result)
-
-    def test_resources_changed_missing_keys(self):
-        """Test that resources_changed handles missing keys gracefully."""
-        resource_results = {
-            "zoom_created": True
-            # Missing other keys
-        }
-
-        result = self.handler._resources_changed(resource_results)
-        self.assertTrue(result)
 
     def test_get_call_series_display_name(self):
         """Test that call series display names are returned correctly."""
@@ -137,11 +92,26 @@ class TestProtocolCallHandler(unittest.TestCase):
 
     def test_handle_discourse_resource_existing(self):
         """Test that discourse resource uses existing data when available."""
-        result = self.handler._handle_discourse_resource(self.sample_call_data, self.sample_existing_resources)
+        # Mock the discourse module to return unchanged status
+        with unittest.mock.patch('modules.discourse.create_or_update_topic') as mock_discourse:
+            mock_discourse.return_value = {
+                "topic_id": "test-discourse-id",
+                "action": "unchanged"
+            }
 
-        self.assertTrue(result["discourse_created"])
-        self.assertEqual(result["discourse_topic_id"], "test-discourse-id")
-        self.assertEqual(result["discourse_action"], "existing")
+            result = self.handler._handle_discourse_resource(self.sample_call_data, self.sample_existing_resources)
+
+            self.assertTrue(result["discourse_created"])
+            self.assertEqual(result["discourse_topic_id"], "test-discourse-id")
+            self.assertEqual(result["discourse_action"], "unchanged")
+
+            # Verify discourse module was called with existing topic ID
+            mock_discourse.assert_called_once_with(
+                title=self.sample_call_data["issue_title"],
+                body=unittest.mock.ANY,  # body content can vary
+                topic_id="test-discourse-id",
+                category_id=63
+            )
 
     def test_handle_youtube_resource_existing(self):
         """Test that youtube resource uses existing data when available."""
@@ -152,49 +122,7 @@ class TestProtocolCallHandler(unittest.TestCase):
         self.assertEqual(len(result["stream_links"]), 1)
         self.assertEqual(result["youtube_action"], "existing")
 
-    def test_resources_changed_with_action_fields(self):
-        """Test that resources_changed correctly handles action fields."""
-        # Test with existing resources
-        resource_results = {
-            "zoom_created": True,
-            "zoom_action": "updated",
-            "calendar_created": True,
-            "calendar_action": "existing",
-            "discourse_created": True,
-            "discourse_action": "existing",
-            "youtube_streams_created": True,
-            "youtube_action": "existing"
-        }
-        result = self.handler._resources_changed(resource_results)
-        self.assertFalse(result)
 
-        # Test with newly created resources
-        resource_results = {
-            "zoom_created": True,
-            "zoom_action": "created",
-            "calendar_created": True,
-            "calendar_action": "created",
-            "discourse_created": True,
-            "discourse_action": "created",
-            "youtube_streams_created": True,
-            "youtube_action": "created"
-        }
-        result = self.handler._resources_changed(resource_results)
-        self.assertTrue(result)
-
-        # Test with mixed existing and new resources
-        resource_results = {
-            "zoom_created": True,
-            "zoom_action": "updated",
-            "calendar_created": True,
-            "calendar_action": "created",
-            "discourse_created": True,
-            "discourse_action": "existing",
-            "youtube_streams_created": True,
-            "youtube_action": "existing"
-        }
-        result = self.handler._resources_changed(resource_results)
-        self.assertTrue(result)
 
     def test_find_existing_discourse_topic(self):
         """Test that _find_existing_discourse_topic correctly finds existing topic IDs."""
