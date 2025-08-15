@@ -1123,71 +1123,85 @@ class ProtocolCallHandler:
                 "stream_links": []
             }
 
+    def _build_telegram_debug_message(self, call_data: Dict, resource_results: Dict, is_update: bool) -> str:
+        """Build admin-focused Telegram message with debug information."""
+        action = "🔄 UPDATED" if is_update else "🆕 CREATED"
+
+        message_lines = [
+            f"<b>{action}: {call_data['issue_title']}</b>",
+            f"<b>Issue:</b> <a href='{call_data['issue_url']}'>#{call_data['issue_number']}</a>",
+            f"<b>Series:</b> {call_data.get('call_series', 'unknown')}",
+            ""
+        ]
+
+        # Resource status with actions
+        message_lines.append("<b>📋 Resource Status:</b>")
+
+        # Zoom
+        zoom_action = resource_results.get("zoom_action", "unknown")
+        zoom_id = resource_results.get("zoom_id")
+        if resource_results.get("zoom_created"):
+            if zoom_action == "skipped_permissions":
+                message_lines.append(f"🔐 <b>Zoom:</b> Permissions skipped (ID: {zoom_id})")
+            elif zoom_action == "updated":
+                message_lines.append(f"🔄 <b>Zoom:</b> Updated (ID: {zoom_id})")
+            elif zoom_action == "created":
+                message_lines.append(f"✅ <b>Zoom:</b> Created (ID: {zoom_id})")
+            else:
+                message_lines.append(f"⏭️ <b>Zoom:</b> Using existing (ID: {zoom_id})")
+        else:
+            message_lines.append("❌ <b>Zoom:</b> Failed")
+
+        # Calendar
+        cal_action = resource_results.get("calendar_action", "unknown")
+        cal_id = resource_results.get("calendar_event_id")
+        if resource_results.get("calendar_created"):
+            message_lines.append(f"✅ <b>Calendar:</b> {cal_action.title()} (ID: {cal_id})")
+        else:
+            message_lines.append("❌ <b>Calendar:</b> Failed")
+
+        # Discourse
+        discourse_action = resource_results.get("discourse_action", "unknown")
+        discourse_id = resource_results.get("discourse_topic_id")
+        if resource_results.get("discourse_created"):
+            if discourse_action == "unchanged":
+                message_lines.append(f"⏭️ <b>Discourse:</b> Content unchanged (ID: {discourse_id})")
+            elif discourse_action == "updated":
+                message_lines.append(f"🔄 <b>Discourse:</b> Updated (ID: {discourse_id})")
+            else:
+                message_lines.append(f"✅ <b>Discourse:</b> {discourse_action.title()} (ID: {discourse_id})")
+        else:
+            message_lines.append("❌ <b>Discourse:</b> Failed")
+
+        # YouTube
+        youtube_action = resource_results.get("youtube_action", "unknown")
+        streams = resource_results.get("youtube_streams", [])
+        if resource_results.get("youtube_streams_created"):
+            if youtube_action == "existing":
+                message_lines.append(f"⏭️ <b>YouTube:</b> Using existing ({len(streams)} streams)")
+            else:
+                message_lines.append(f"✅ <b>YouTube:</b> Created ({len(streams)} streams)")
+        elif call_data.get("need_youtube_streams"):
+            message_lines.append("❌ <b>YouTube:</b> Failed")
+        else:
+            message_lines.append("⏭️ <b>YouTube:</b> Skipped")
+
+        # Add timing info
+        import datetime
+        timestamp = datetime.datetime.now().strftime("%H:%M UTC")
+        message_lines.extend(["", f"<i>Processed at {timestamp}</i>"])
+
+        return "\n".join(message_lines)
+
     def _send_telegram_notification(self, call_data: Dict, issue, resource_results: Dict, is_update: bool):
-        """Send Telegram notification to the Ethereum Protocol Updates channel."""
+        """Send Telegram notification to the ACDbot notification channel."""
         try:
             # Import telegram module
             from modules import tg
             import requests
 
-            # Always send Telegram notifications (consistent with GitHub comments)
-            # For updates, check if any resources exist to determine message format
-            resources_exist = any([
-                resource_results.get("zoom_created"),
-                resource_results.get("calendar_created"),
-                resource_results.get("discourse_created"),
-                resource_results.get("youtube_streams_created")
-            ])
-
-            # Build the message
-            if resources_exist:
-                # Success case - include all created resources
-                telegram_message_body = (
-                    f"<b>{call_data['issue_title']}</b>\n\n"
-                    f"<b>Links:</b>\n"
-                    f"• <a href='{call_data['issue_url']}'>GitHub Issue</a>\n"
-                )
-
-                # Add Discourse link if created
-                discourse_url = resource_results.get("discourse_url")
-                if discourse_url and discourse_url != "https://ethereum-magicians.org (API error occurred)":
-                    telegram_message_body += f"• <a href='{discourse_url}'>Discourse Topic</a>\n"
-
-                # Add Google Calendar link if created
-                calendar_event_url = resource_results.get("calendar_event_url")
-                if calendar_event_url:
-                    telegram_message_body += f"• <a href='{calendar_event_url}'>Google Calendar</a>\n"
-
-                # Add YouTube streams if created
-                if resource_results.get("youtube_streams_created") and resource_results.get("stream_links"):
-                    telegram_message_body += f"\n<b>YouTube Stream Links:</b>\n"
-                    for stream_link in resource_results["stream_links"]:
-                        # Extract URL from stream link format: "- Stream 1: https://..."
-                        if "https://" in stream_link:
-                            url = stream_link.split("https://")[1].split(" ")[0]
-                            telegram_message_body += f"• <a href='https://{url}'>Stream {stream_link.split('Stream ')[1].split(':')[0]}</a>\n"
-            else:
-                # Failure case - notify about the failure
-                telegram_message_body = (
-                    f"<b>⚠️ Resource Creation Failed</b>\n\n"
-                    f"<b>{call_data['issue_title']}</b>\n\n"
-                    f"<b>Status:</b>\n"
-                )
-
-                # Add failure details for each resource
-                if not call_data.get("skip_zoom_creation") and not resource_results.get("zoom_created"):
-                    telegram_message_body += "• ❌ Zoom meeting creation failed\n"
-
-                if not call_data.get("skip_gcal_creation") and not resource_results.get("calendar_created"):
-                    telegram_message_body += "• ❌ Calendar event creation failed\n"
-
-                if not resource_results.get("discourse_created"):
-                    telegram_message_body += "• ❌ Discourse topic creation failed\n"
-
-                if call_data.get("need_youtube_streams") and not resource_results.get("youtube_streams_created"):
-                    telegram_message_body += "• ❌ YouTube streams creation failed\n"
-
-                telegram_message_body += f"\n<a href='{call_data['issue_url']}'>GitHub Issue</a>"
+            # Build admin-focused debug message
+            telegram_message_body = self._build_telegram_debug_message(call_data, resource_results, is_update)
 
             # Send the message
             telegram_channel_id = os.environ.get("TELEGRAM_CHAT_ID")
@@ -1376,16 +1390,6 @@ class ProtocolCallHandler:
                 # Create new comment
                 new_comment = issue.create_comment(comment_text)
                 print(f"[DEBUG] Created new comment {new_comment.id} on issue #{issue.number}")
-
-            # Send message to Telegram channel
-            try:
-                from modules import tg
-                message_id = tg.send_message(comment_text)
-                print(f"[DEBUG] Posted results to Telegram (message ID: {message_id}) for issue #{issue.number}")
-            except ImportError:
-                print("[ERROR] Telegram module not available")
-            except Exception as e:
-                print(f"[ERROR] Failed to send Telegram message: {e}")
 
         except Exception as e:
             print(f"[ERROR] Failed to post results: {e}")
