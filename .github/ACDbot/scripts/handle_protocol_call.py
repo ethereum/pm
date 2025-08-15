@@ -99,25 +99,79 @@ class ProtocolCallHandler:
             # Check if we have an existing discourse topic
             has_existing = existing_resources.get("has_discourse", False)
 
+            # Import existing discourse module
+            from modules import discourse
+
+            title = call_data["issue_title"]
+            discourse_body = self._build_discourse_body(call_data)
+
+            # Get existing topic ID if available
+            existing_topic_id = None
             if has_existing:
-                print(f"[DEBUG] Discourse topic already exists, skipping creation")
-                # Use existing Discourse data
                 existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
-                result = {
-                    "discourse_created": True,
-                    "discourse_topic_id": existing_occurrence["discourse_topic_id"],
-                    "discourse_url": f"https://ethereum-magicians.org/t/{existing_occurrence['discourse_topic_id']}",
-                    "discourse_action": "existing"
-                }
-            else:
-                print(f"[DEBUG] Creating new discourse topic")
-                result = self._create_discourse_topic(call_data)
+                existing_topic_id = existing_occurrence["discourse_topic_id"]
+
+            # Use the unified create_or_update function
+            discourse_response = discourse.create_or_update_topic(
+                title=title,
+                body=discourse_body,
+                topic_id=existing_topic_id,
+                category_id=63
+            )
+
+            topic_id = discourse_response.get("topic_id")
+            action = discourse_response.get("action", "failed")
+
+            if not topic_id:
+                raise ValueError(f"Discourse module failed to return a valid topic ID")
+
+            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
+
+            print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{title}'")
+            print(f"[DEBUG] Discourse URL: {discourse_url}")
+
+            result = {
+                "discourse_created": True,
+                "discourse_topic_id": topic_id,
+                "discourse_url": discourse_url,
+                "discourse_action": action
+            }
 
             return result
+
+        except discourse.DiscourseDuplicateTitleError as e:
+            print(f"[INFO] Discourse topic failed: Title '{e.title}' already exists.")
+
+            # Try to find existing topic ID in mapping for recurring calls
+            if call_data.get("call_series") and not call_data.get("call_series").startswith("one-off-"):
+                existing_topic_id = self._find_existing_discourse_topic(call_data["call_series"])
+                if existing_topic_id:
+                    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{existing_topic_id}"
+                    print(f"[DEBUG] Found existing topic ID {existing_topic_id} for series '{call_data['call_series']}'")
+
+                    return {
+                        "discourse_created": True,
+                        "discourse_topic_id": existing_topic_id,
+                        "discourse_url": discourse_url,
+                        "discourse_action": "found_duplicate_series"
+                    }
+
+            # If no existing topic found, return error
+            return {
+                "discourse_created": False,
+                "discourse_topic_id": f"placeholder-duplicate-{call_data['issue_number']}",
+                "discourse_url": "https://ethereum-magicians.org (Duplicate title, ID not found)",
+                "discourse_action": "failed_duplicate_title"
+            }
 
         except Exception as e:
             print(f"[ERROR] Failed to handle Discourse resource: {e}")
-            return result
+            return {
+                "discourse_created": False,
+                "discourse_topic_id": f"placeholder-error-{call_data['issue_number']}",
+                "discourse_url": "https://ethereum-magicians.org (API error occurred)",
+                "discourse_action": "failed"
+            }
 
     def _handle_youtube_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle YouTube streams creation/updates."""
@@ -896,98 +950,30 @@ class ProtocolCallHandler:
                 "calendar_event_url": None
             }
 
-    def _create_discourse_topic(self, call_data: Dict) -> Dict:
-        """Create Discourse topic."""
-        try:
-            # Import existing discourse module
-            from modules import discourse
+    def _build_discourse_body(self, call_data: Dict) -> str:
+        """Build Discourse topic body from call data."""
+        agenda = call_data.get("agenda", "")
+        start_time = call_data.get("start_time")
+        duration = call_data.get("duration")
+        issue_url = call_data["issue_url"]
 
-            # Extract parameters from call_data
-            title = call_data["issue_title"]
-            agenda = call_data.get("agenda", "")
-            start_time = call_data.get("start_time")
-            duration = call_data.get("duration")
-            issue_url = call_data["issue_url"]
+        # Build clean discourse body with only essential information
+        discourse_body_parts = []
 
-            # Build clean discourse body with only essential information
-            discourse_body_parts = []
+        # Add agenda if provided
+        if agenda:
+            discourse_body_parts.append(f"### Agenda\n\n{agenda}")
 
-            # Add agenda if provided
-            if agenda:
-                discourse_body_parts.append(f"### Agenda\n\n{agenda}")
+        # Add meeting time information
+        if start_time and duration:
+            time_info = format_datetime_for_discourse(start_time, duration)
+            discourse_body_parts.append(time_info)
 
-            # Add meeting time information
-            if start_time and duration:
-                time_info = format_datetime_for_discourse(start_time, duration)
-                discourse_body_parts.append(time_info)
+        # Add GitHub issue link
+        discourse_body_parts.append(f"\n[GitHub Issue]({issue_url})")
 
-            # Add GitHub issue link
-            discourse_body_parts.append(f"\n[GitHub Issue]({issue_url})")
-
-            # Join all parts
-            discourse_body = "\n\n".join(discourse_body_parts)
-
-            print(f"[DEBUG] Creating Discourse topic: {title}")
-            print(f"[DEBUG] Body length: {len(discourse_body)} characters")
-
-            # Create topic using existing discourse module
-            discourse_response = discourse.create_topic(
-                title=title,
-                body=discourse_body,
-                category_id=63  # Same category as old system
-            )
-
-            topic_id = discourse_response.get("topic_id")
-            action = discourse_response.get("action", "failed")
-
-            if not topic_id:
-                raise ValueError(f"Discourse module failed to return a valid topic ID for title '{title}'")
-
-            discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
-
-            print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{title}'")
-            print(f"[DEBUG] Discourse URL: {discourse_url}")
-
-            return {
-                "discourse_created": True,
-                "discourse_topic_id": topic_id,
-                "discourse_url": discourse_url,
-                "action": action
-            }
-
-        except discourse.DiscourseDuplicateTitleError as e:
-            print(f"[INFO] Discourse topic creation failed: Title '{e.title}' already exists.")
-
-            # Try to find existing topic ID in mapping for recurring calls
-            if call_data.get("call_series") and not call_data.get("call_series").startswith("one-off-"):
-                existing_topic_id = self._find_existing_discourse_topic(call_data["call_series"])
-                if existing_topic_id:
-                    discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{existing_topic_id}"
-                    print(f"[DEBUG] Found existing topic ID {existing_topic_id} for series '{call_data['call_series']}'")
-
-                    return {
-                        "discourse_created": True,
-                        "discourse_topic_id": existing_topic_id,
-                        "discourse_url": discourse_url,
-                        "discourse_action": "found_duplicate_series"
-                    }
-
-            # If no existing topic found, return error
-            return {
-                "discourse_created": False,
-                "discourse_topic_id": f"placeholder-duplicate-{call_data['issue_number']}",
-                "discourse_url": "https://ethereum-magicians.org (Duplicate title, ID not found)",
-                "discourse_action": "failed_duplicate_title"
-            }
-
-        except Exception as e:
-            print(f"[ERROR] Failed to create Discourse topic: {e}")
-            return {
-                "discourse_created": False,
-                "discourse_topic_id": f"placeholder-error-{call_data['issue_number']}",
-                "discourse_url": "https://ethereum-magicians.org (API error occurred)",
-                "discourse_action": "failed"
-            }
+        # Join all parts
+        return "\n\n".join(discourse_body_parts)
 
     def _get_call_series_display_name(self, call_series_key: str) -> str:
         """Get the human-friendly display name for a call series key."""
@@ -1144,16 +1130,17 @@ class ProtocolCallHandler:
             from modules import tg
             import requests
 
-            # For updates, only send Telegram if resources actually changed
-            if is_update and not self._resources_changed(resource_results):
-                print(f"[DEBUG] No resource changes detected, skipping Telegram notification for issue #{call_data['issue_number']}")
-                return
-
-            # Check if any resources were successfully created
-            resources_created = self._resources_changed(resource_results)
+            # Always send Telegram notifications (consistent with GitHub comments)
+            # For updates, check if any resources exist to determine message format
+            resources_exist = any([
+                resource_results.get("zoom_created"),
+                resource_results.get("calendar_created"),
+                resource_results.get("discourse_created"),
+                resource_results.get("youtube_streams_created")
+            ])
 
             # Build the message
-            if resources_created:
+            if resources_exist:
                 # Success case - include all created resources
                 telegram_message_body = (
                     f"<b>{call_data['issue_title']}</b>\n\n"
@@ -1270,31 +1257,6 @@ class ProtocolCallHandler:
 
         except Exception as e:
             print(f"[ERROR] Failed to send Telegram notification: {e}")
-
-    def _resources_changed(self, resource_results: Dict) -> bool:
-        """Check if any resources were actually created/updated."""
-        # Check if Zoom was actually created (not just updated or skipped due to permissions)
-        zoom_actually_created = (resource_results.get("zoom_created") and
-                               resource_results.get("zoom_action") not in ["updated", "skipped_permissions"])
-
-        # Check if Discourse was actually created (not just found existing)
-        discourse_actually_created = (resource_results.get("discourse_created") and
-                                    resource_results.get("discourse_action") not in ["existing", "found_duplicate_series"])
-
-        # Check if Calendar was actually created (not just found existing or updated)
-        calendar_actually_created = (resource_results.get("calendar_created") and
-                                   resource_results.get("calendar_action") not in ["existing", "updated"])
-
-        # Check if YouTube streams were actually created (not just found existing)
-        youtube_actually_created = (resource_results.get("youtube_streams_created") and
-                                  resource_results.get("youtube_action") != "existing")
-
-        return any([
-            zoom_actually_created,
-            calendar_actually_created,
-            discourse_actually_created,
-            youtube_actually_created
-        ])
 
     def _find_existing_bot_comment(self, issue):
         """Find the bot's existing resource comment on this issue."""

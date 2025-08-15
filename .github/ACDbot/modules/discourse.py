@@ -3,6 +3,52 @@ import json
 import requests
 import urllib.parse
 
+def _content_unchanged(topic_id: int, new_title: str, new_body: str) -> bool:
+    """
+    Check if the topic content (title and body) is unchanged.
+    Returns True if content is identical, False if different or on error.
+    """
+    try:
+        api_key = os.environ["DISCOURSE_API_KEY"]
+        api_user = os.environ["DISCOURSE_API_USERNAME"]
+        base_url = os.environ.get("DISCOURSE_BASE_URL", "https://ethereum-magicians.org")
+
+        # Fetch the topic details
+        resp_topic = requests.get(
+            f"{base_url}/t/{topic_id}.json",
+            headers={
+                "Api-Key": api_key,
+                "Api-Username": api_user
+            }
+        )
+        resp_topic.raise_for_status()
+        topic_json = resp_topic.json()
+
+        # Compare title
+        current_title = topic_json.get("title", "")
+        if current_title.strip() != new_title.strip():
+            print(f"[DEBUG] Title changed: '{current_title}' -> '{new_title}'")
+            return False
+
+        # Compare body (first post content)
+        try:
+            first_post = topic_json["post_stream"]["posts"][0]
+            current_body = first_post.get("raw", "")
+            if current_body.strip() != new_body.strip():
+                print(f"[DEBUG] Body changed (length: {len(current_body)} -> {len(new_body)})")
+                return False
+        except (KeyError, IndexError, TypeError):
+            print(f"[DEBUG] Could not extract current body, assuming changed")
+            return False
+
+        print(f"[DEBUG] Topic content identical for topic {topic_id}")
+        return True
+
+    except Exception as e:
+        print(f"[DEBUG] Error checking content for topic {topic_id}, assuming changed: {e}")
+        return False
+
+
 class DiscourseDuplicateTitleError(Exception):
     """Custom exception for duplicate Discourse topic titles."""
     def __init__(self, title, message="Title has already been used"):
@@ -12,6 +58,31 @@ class DiscourseDuplicateTitleError(Exception):
 
     def __str__(self):
         return f'{self.message}: "{self.title}"'
+
+def create_or_update_topic(title: str, body: str, topic_id: int = None, category_id=63):
+    """
+    Creates a new topic or updates an existing one.
+    If topic_id is provided, updates that topic. Otherwise creates a new one.
+    Skips update if content is identical to avoid unnecessary API calls.
+    """
+    if topic_id:
+        print(f"[DEBUG] Checking existing Discourse topic {topic_id}: {title}")
+        try:
+            # First, check if content has actually changed
+            if _content_unchanged(topic_id, title, body):
+                print(f"[DEBUG] Topic content unchanged, skipping update for topic {topic_id}")
+                return {"topic_id": topic_id, "title": title, "action": "unchanged"}
+
+            print(f"[DEBUG] Content changed, updating topic {topic_id}")
+            update_topic(topic_id, title=title, body=body)
+            return {"topic_id": topic_id, "title": title, "action": "updated"}
+        except Exception as e:
+            print(f"[ERROR] Failed to update topic {topic_id}, falling back to status quo: {e}")
+            # Return existing topic info on update failure
+            return {"topic_id": topic_id, "title": title, "action": "update_failed"}
+    else:
+        print(f"[DEBUG] Creating new Discourse topic: {title}")
+        return create_topic(title, body, category_id)
 
 def create_topic(title: str, body: str, category_id=63):
     """
