@@ -32,6 +32,7 @@ PLAYLIST_MAPPING = {
     "evmmax": "PLJqWcTqh_zKGhTzV_QWHWwDA2NSMKCgsx",  # EVMmax - No playlist mapping yet
     "rollcall": "PLJqWcTqh_zKEeSGSnCsABZPT5qKEImdG6",  # RollCall - No playlist mapping yet
     "resourcepricing": "PLJqWcTqh_zKHEq4KVVCieRi_95Za93NBf",  # EVM Resource Pricing
+    "bal": None, # EIP-7928 Breakout
     "portal": None,  # Portal Implementers - No playlist mapping yet
     "protocolresearch": None,  # Protocol Research - No playlist mapping yet
     # "eipeditingofficehour": None,  # EIP Editing Office Hour - Maintained by ECH

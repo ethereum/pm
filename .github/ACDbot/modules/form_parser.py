@@ -24,6 +24,7 @@ class FormParser:
             "EIP Editing Office Hour": "eipeditingofficehour",
             "EIPIP Meeting": "eipip",
             "EIP-7732 Breakout Room": "epbs",
+            "EIP-7928 Breakout Room": "bal",
             "EVM Resource Pricing Breakout": "resourcepricing",
             "eth_simulate": "ethsimulate",
             "Ethproofs Community Call": "ethproofs",

@@ -982,6 +982,7 @@ class ProtocolCallHandler:
             "acdc": "All Core Devs - Consensus",
             "acdt": "All Core Devs - Testing",
             "allwalletdevs": "All Wallet Devs",
+            "bal": "EIP-7928 Breakout Room",
             "beam": "Beam Call",
             "eipeditingofficehour": "EIP Editing Office Hour",
             "eipip": "EIPIP Meeting",
