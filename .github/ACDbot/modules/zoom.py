@@ -5,7 +5,6 @@ import json
 import urllib.parse
 import calendar
 
-account_id=os.environ.get("ZOOM_ACCOUNT_ID", "")
 client_id=os.environ["ZOOM_CLIENT_ID"]
 client_secret=os.environ["ZOOM_CLIENT_SECRET"]
 refresh_token=os.environ.get("ZOOM_REFRESH_TOKEN", "")
@@ -72,7 +71,6 @@ def create_meeting(topic, start_time, duration):
 def get_access_token():
     """
     Get an access token using the refresh token (OAuth 2.0) for a General (User Managed) app
-    instead of account_credentials used for Server-to-Server apps.
     """
     global refresh_token
 
@@ -161,6 +159,106 @@ def get_meeting_recording(meeting_identifier):
         return None
 
     return response.json()
+
+def get_past_meeting_instances(meeting_id):
+    """Get all past meeting instances for a recurring meeting.
+
+    Args:
+        meeting_id: The meeting ID (numeric)
+
+    Returns:
+        List of meeting instances with UUIDs and metadata, or None if error
+    """
+    access_token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+
+    url = f"{api_base_url}/past_meetings/{meeting_id}/instances"
+    response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        error_details = response.json() if response.content else {"message": "Unknown error"}
+        print(f"Error fetching past meeting instances: {response.status_code} {response.reason} - {error_details}")
+        return None
+
+    data = response.json()
+    return data.get("meetings", [])
+
+def find_recordings_with_filters(meeting_id, target_start_time=None, min_duration=0,
+                                require_transcript=False, tolerance_minutes=30, topic_fallback=None):
+    """Find recordings for a meeting with configurable filters.
+
+    This is a generic API utility that can be used by any script needing to find recordings
+    with specific criteria. All filtering parameters are configurable.
+
+    Args:
+        meeting_id: The Zoom meeting ID
+        target_start_time: Optional datetime to filter recordings by start time
+        min_duration: Minimum duration in minutes (default: 0)
+        require_transcript: Whether to require transcript files (default: False)
+        tolerance_minutes: Tolerance for time matching in minutes (default: 30)
+        topic_fallback: Fallback topic if recording topic is missing (default: "Meeting")
+
+    Returns:
+        List of recording dictionaries matching the criteria
+    """
+    from datetime import timedelta
+
+    instances = get_past_meeting_instances(meeting_id)
+    if not instances:
+        return []
+
+    recordings = []
+    tolerance = timedelta(minutes=tolerance_minutes) if target_start_time else None
+
+    for instance in instances:
+        instance_uuid = instance.get('uuid')
+        instance_start_time_str = instance.get('start_time')
+
+        if not instance_uuid or not instance_start_time_str:
+            continue
+
+        # Time filtering if target_start_time is specified
+        if target_start_time and tolerance:
+            try:
+                from datetime import datetime
+                instance_start_time = datetime.fromisoformat(instance_start_time_str.replace('Z', '+00:00'))
+                if abs(instance_start_time - target_start_time) > tolerance:
+                    continue
+            except:
+                continue
+
+        recording_data = get_meeting_recording(instance_uuid)
+        if recording_data and recording_data.get('recording_files'):
+            duration = recording_data.get('duration', 0)
+            recording_files = recording_data.get('recording_files', [])
+
+            # Apply duration filter
+            if duration < min_duration:
+                continue
+
+            # Apply transcript filter if required
+            if require_transcript:
+                transcript_files = [f for f in recording_files if f.get('file_type') == 'TRANSCRIPT']
+                if len(transcript_files) == 0:
+                    continue
+
+            # Build standardized recording object
+            recordings.append({
+                'id': meeting_id,
+                'uuid': recording_data.get('uuid'),
+                'start_time': recording_data.get('start_time'),
+                'end_time': recording_data.get('end_time'),
+                'duration': duration,
+                'topic': recording_data.get('topic', topic_fallback or "Meeting"),
+                'recording_files': recording_files
+            })
+
+    return recordings
+
+
 
 def get_meeting_transcript(meeting_id):
     """
