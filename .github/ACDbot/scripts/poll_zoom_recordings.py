@@ -29,6 +29,143 @@ def is_meeting_eligible(meeting_end_time):
 def validate_meeting_id(meeting_id):
     return str(meeting_id).strip()
 
+def find_matching_recordings(meeting_id, series_name=None, target_start_time=None, tolerance_minutes=30):
+    """Find recordings for transcript processing with filters.
+
+    Args:
+        meeting_id: The Zoom meeting ID
+        series_name: Optional series name for logging/topic fallback
+        target_start_time: Optional datetime to filter recordings by start time
+        tolerance_minutes: Tolerance for time matching in minutes
+
+    Returns:
+        List of recording dictionaries matching transcript processing criteria
+    """
+    topic_fallback = f"{series_name.upper()} Meeting" if series_name else "Meeting"
+
+    return zoom.find_recordings_with_filters(
+        meeting_id=meeting_id,
+        target_start_time=target_start_time,
+        min_duration=10,
+        require_transcript=True,
+        tolerance_minutes=tolerance_minutes,
+        topic_fallback=topic_fallback
+    )
+
+def find_best_transcript_recording(meeting_id, target_date=None):
+    """Find the best recording for transcript processing, checking all past instances.
+
+    This function:
+    - gets all past meeting instances for the meeting ID,
+    - checks recordings for each instance UUID,
+    - filters by target date if provided (strict date matching), and
+    - returns the longest recording with transcript files.
+
+    Args:
+        meeting_id: The meeting ID (numeric)
+        target_date: Optional date string (YYYY-MM-DD) to match exactly
+
+    Returns:
+        Best recording data dict, or None if no suitable recording found
+    """
+    from datetime import datetime
+
+    instances = zoom.get_past_meeting_instances(meeting_id)
+    if not instances:
+        print(f"No past meeting instances found for meeting {meeting_id}")
+        return None
+
+    print(f"Found {len(instances)} past meeting instances for meeting {meeting_id}")
+
+    valid_recordings = []
+
+    for instance in instances:
+        instance_uuid = instance.get('uuid')
+        start_time = instance.get('start_time')
+
+        if not instance_uuid or not start_time:
+            continue
+
+        # Parse the start time to get the date
+        try:
+            start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+            instance_date = start_dt.strftime('%Y-%m-%d')
+        except:
+            print(f"Could not parse start time for instance {instance_uuid}: {start_time}")
+            continue
+
+        # If target_date is specified, enforce strict date matching
+        if target_date and instance_date != target_date:
+            print(f"Skipping instance {instance_uuid}: date {instance_date} != target {target_date}")
+            continue
+
+        print(f"Checking recordings for instance {instance_uuid} ({instance_date})")
+
+        # Get recordings for this specific instance UUID
+        recording_data = zoom.get_meeting_recording(instance_uuid)
+
+        if recording_data and recording_data.get('recording_files'):
+            duration = recording_data.get('duration', 0)
+            recording_files = recording_data.get('recording_files', [])
+
+            # Check for transcript files (transcript processing requirement)
+            transcript_files = [f for f in recording_files if f.get('file_type') == 'TRANSCRIPT']
+            has_transcript = len(transcript_files) > 0
+
+            print(f"  Found recording: {duration} min, {len(recording_files)} files, transcript: {has_transcript}")
+
+            # Only consider recordings with meaningful duration and transcript
+            if duration > 10 and has_transcript:
+                valid_recordings.append({
+                    'data': recording_data,
+                    'duration': duration,
+                    'date': instance_date,
+                    'uuid': instance_uuid,
+                    'start_time': start_time,
+                    'transcript_files': len(transcript_files)
+                })
+                print(f"  ✅ Valid recording candidate: {duration} min with transcript")
+            else:
+                print(f"  ⚠️  Skipped: duration {duration} min, transcript: {has_transcript}")
+        else:
+            print(f"  No recordings found for instance {instance_uuid}")
+
+    if not valid_recordings:
+        print(f"No valid recordings found for meeting {meeting_id}" +
+              (f" on date {target_date}" if target_date else ""))
+        return None
+
+    valid_recordings.sort(key=lambda x: x['duration'], reverse=True)
+    best_recording = valid_recordings[0]
+
+    print(f"Selected best recording: {best_recording['duration']} min from {best_recording['date']} "
+          f"(UUID: {best_recording['uuid']})")
+
+    return best_recording['data']
+
+def update_transcript_attempt_count(recording_meeting_id, occurrence_issue_number, transcript_attempts, mapping, force_process=False):
+    """Update transcript attempt count if not in force mode.
+
+    Args:
+        recording_meeting_id: The meeting ID
+        occurrence_issue_number: The occurrence issue number
+        transcript_attempts: Current attempt count
+        mapping: The mapping dictionary
+        force_process: Whether this is forced processing (skips increment if True)
+    """
+    if force_process:
+        return
+
+    call_series = find_call_series_by_meeting_id(recording_meeting_id, occurrence_issue_number, mapping)
+    if call_series is not None:
+        try:
+            updates = {"transcript_attempt_count": transcript_attempts + 1}
+            update_occurrence_entry(call_series, occurrence_issue_number, updates, mapping)
+        except Exception as e:
+            print(f"[ERROR] Failed to update attempt count: {e}")
+    else:
+        print(f"[ERROR] Could not find call series for updating attempt count")
+
 def find_matching_occurrence(occurrences, recording_start_time_str, tolerance_minutes=30):
     """Finds the occurrence matching the recording start time."""
     if not occurrences:
@@ -139,31 +276,13 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
                     print(f"[ERROR] Failed to update RSS feed for transcript: {e}")
             else:
                  # Increment attempt counter only if not forced
-                 if not force_process:
-                    call_series = find_call_series_by_meeting_id(recording_meeting_id, occurrence_issue_number, mapping)
-                    if call_series is not None:
-                        try:
-                            updates = {"transcript_attempt_count": transcript_attempts + 1}
-                            update_occurrence_entry(call_series, occurrence_issue_number, updates, mapping)
-                        except Exception as e:
-                            print(f"[ERROR] Failed to update attempt count: {e}")
-                    else:
-                        print(f"[ERROR] Could not find call series for updating attempt count")
+                 update_transcript_attempt_count(recording_meeting_id, occurrence_issue_number, transcript_attempts, mapping, force_process)
                  mapping_updated = True
                  print(f"  -> Transcript posting failed.")
 
         except Exception as e:
             # Increment attempt counter only if not forced
-            if not force_process:
-                call_series = find_call_series_by_meeting_id(recording_meeting_id, occurrence_issue_number, mapping)
-                if call_series is not None:
-                    try:
-                        updates = {"transcript_attempt_count": transcript_attempts + 1}
-                        update_occurrence_entry(call_series, occurrence_issue_number, updates, mapping)
-                    except Exception as e:
-                        print(f"[ERROR] Failed to update attempt count: {e}")
-                else:
-                    print(f"[ERROR] Could not find call series for updating attempt count")
+            update_transcript_attempt_count(recording_meeting_id, occurrence_issue_number, transcript_attempts, mapping, force_process)
             mapping_updated = True
             print(f"[ERROR] Error posting transcript for occurrence #{occurrence_issue_number}: {e}")
     elif transcript_processed:
@@ -222,27 +341,64 @@ def process_single_occurrence(recording, occurrence, occurrence_index, series_en
     return mapping_updated
 
 def process_recordings(mapping):
-    """Fetch recent recordings, match to occurrences, and process transcripts/Discourse posts."""
-    print("Fetching recent Zoom recordings...")
-    recordings = zoom.get_recordings_list()
-    if not recordings:
-        print("No recent recordings found on Zoom.")
-        return
+    """Check each meeting in mapping for recordings, then process transcripts/Discourse posts."""
+    print("Checking each meeting in mapping for recordings...")
 
-    print(f"Found {len(recordings)} recordings to check.")
+    all_recordings = []
     mapping_updated = False
 
-    for recording in recordings:
+    for series_name, series_data in mapping.items():
+        meeting_id = series_data.get('meeting_id')
+
+        if not meeting_id or meeting_id.startswith('placeholder'):
+            continue
+
+        print(f"🔍 Checking {series_name.upper()} (Meeting ID: {meeting_id})")
+
+        try:
+            # Use the new unified recording finder
+            series_recordings = find_matching_recordings(meeting_id, series_name)
+
+            if not series_recordings:
+                print(f"   ⚪ No valid recordings found (duration >10 min with transcript)")
+                continue
+
+            print(f"   🔍 Found {len(series_recordings)} valid recording(s)")
+
+            # Add all recordings from this series to the main list
+            all_recordings.extend(series_recordings)
+
+            # Log details for each recording
+            for recording in series_recordings:
+                # Parse date for logging
+                try:
+                    start_dt = datetime.fromisoformat(recording['start_time'].replace('Z', '+00:00'))
+                    instance_date = start_dt.strftime('%Y-%m-%d')
+                except:
+                    instance_date = 'Unknown'
+
+                print(f"   ✅ Added recording: {instance_date}, {recording['duration']} min, {len(recording['recording_files'])} files")
+
+        except Exception as e:
+            print(f"   ❌ Error checking {series_name}: {e}")
+            continue
+
+    if not all_recordings:
+        print("No recordings found for any meetings in mapping.")
+        return
+
+    print(f"Found {len(all_recordings)} meetings with recordings to check.")
+
+    for recording in all_recordings:
         # --- Check Recording Duration ---
         recording_duration = recording.get('duration', 0)
         if recording_duration < 10:
             print(f"[INFO] Skipping recording (Topic: {recording.get('topic', 'N/A')}, Start: {recording.get('start_time', 'N/A')}) - Duration ({recording_duration} min) is less than 10 minutes.")
-            continue # Move to the next recording in the list
-        # --- End Duration Check ---
+            continue
 
         recording_meeting_id = str(recording.get("id"))
         recording_start_time_str = recording.get("start_time")
-        recording_uuid = recording.get("uuid") # Extract UUID here
+        recording_uuid = recording.get("uuid")
 
         if not recording_meeting_id or not recording_start_time_str or not recording_uuid:
             print(f"[WARN] Skipping recording with missing ID, start_time, or UUID: {recording.get('topic')}")
@@ -351,46 +507,36 @@ def main():
                         print(f"::error::Target occurrence {occurrence_issue_number} is missing 'start_time'. Cannot match recording.")
                         return
 
-                    # Fetch recordings and find the matching one
-                    print("Fetching Zoom recordings to find match...")
-                    recordings = zoom.get_recordings_list() # Fetch recent recordings
-                    if not recordings:
-                        print("::error::No recent recordings found on Zoom to match against.")
-                        return
-
-                    matching_recording = None
+                    # Extract date from occurrence start time for exact matching
                     try:
-                        # We need the target occurrence start time to find the recording
-                        target_start_time = datetime.fromisoformat(occurrence_start_time_str.replace('Z', '+00:00'))
-                        tolerance = timedelta(minutes=30) # Allow larger tolerance for matching
+                        from datetime import datetime
+                        occurrence_dt = datetime.fromisoformat(occurrence_start_time_str.replace('Z', '+00:00'))
+                        target_date = occurrence_dt.strftime('%Y-%m-%d')
+                        print(f"Target date for recording search: {target_date}")
+                    except:
+                        print("Warning: Could not parse occurrence start time, searching without date filter")
+                        target_date = None
 
-                        for recording in recordings:
-                            rec_uuid = recording.get("uuid") # Get UUID for logging/check
-                            # First check if the recording's meeting ID matches
-                            if str(recording.get("id")) != meeting_id:
-                                continue
-                            # Then check the start time
-                            rec_start_str = recording.get("start_time")
-                            if not rec_start_str or not rec_uuid: # Also ensure UUID exists
-                                continue
-                            try:
-                                rec_start_time = datetime.fromisoformat(rec_start_str.replace('Z', '+00:00'))
-                                if abs(rec_start_time - target_start_time) <= tolerance:
-                                    matching_recording = recording
-                                    print(f"Found matching Zoom recording: Topic='{recording.get('topic', 'N/A')}', Start='{rec_start_str}', UUID='{rec_uuid}'")
-                                    break # Found the one we need
-                            except ValueError:
-                                print(f"[WARN] Invalid start_time format in recording: {rec_start_str}")
-                                continue
+                    # Use the same unified recording finder as regular mode
+                    print("Fetching Zoom recordings to find exact match...")
+                    target_start_time = datetime.fromisoformat(occurrence_start_time_str.replace('Z', '+00:00'))
+                    recordings = find_matching_recordings(meeting_id, target_start_time=target_start_time, tolerance_minutes=30)
 
-                    except ValueError:
-                        print(f"::error::Invalid start_time format in target occurrence: {occurrence_start_time_str}")
+                    if not recordings:
+                        print("::error::No valid recordings found for this occurrence on Zoom.")
+                        print(f"Searched for recordings matching occurrence time: {occurrence_start_time_str}")
                         return
 
-                    if not matching_recording:
-                        print(f"::error::Could not find a matching Zoom recording for Meeting ID {meeting_id}, Occurrence Issue #{occurrence_issue_number} (start time: {occurrence_start_time_str}).")
-                        print("Check if the recording exists in Zoom and its start time matches the mapping.")
-                        return
+                    print(f"Found {len(recordings)} matching recording(s)")
+
+                    # Use the first (and likely only) recording that matched our search
+                    if len(recordings) > 1:
+                        print(f"Warning: Found {len(recordings)} matching recordings, using the first one")
+                        for i, rec in enumerate(recordings):
+                            print(f"  Recording {i+1}: {rec['duration']} min, Start: {rec['start_time']}")
+
+                    matching_recording = recordings[0]
+                    print(f"Selected recording: Topic='{matching_recording.get('topic', 'N/A')}', Duration={matching_recording.get('duration')} min, UUID='{matching_recording.get('uuid')}'")
 
                     # Now call the processing function with force=True
                     print(f"Forcing processing for Occurrence Issue #{occurrence_issue_number}...")
