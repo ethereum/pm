@@ -307,14 +307,14 @@ class ProtocolCallHandler:
                 print(f"[ERROR] Critical failures occurred: {', '.join(critical_failures)}")
                 print(f"[INFO] Saved any successful resource IDs to mapping; failed resources can be retried later")
 
-            # 8. Send Telegram notification
+            # 8. Save mapping
+            self.mapping_manager.save_mapping()
+
+            # 9. Send Telegram notification
             self._send_telegram_notification(call_data, issue, resource_results, is_update)
 
-            # 9. Post results to GitHub
+            # 10. Post results to GitHub
             self._post_results(call_data, issue, resource_results, is_update)
-
-            # 10. Save mapping
-            self.mapping_manager.save_mapping()
 
             # 11. Clean up issue body for better readability (only on initial creation)
             if not is_update:
@@ -1292,7 +1292,7 @@ class ProtocolCallHandler:
                 comment_lines.append("❌ **Zoom**: No meeting link available")
 
             # Calendar Event with proper eid encoding
-            calendar_event_id = occurrence.get('calendar_event_id') or series_data.get('calendar_event_id')
+            calendar_event_id = series_data.get('calendar_event_id')
             if calendar_event_id:
                 from modules import gcal
                 calendar_id = os.getenv("GCAL_ID")

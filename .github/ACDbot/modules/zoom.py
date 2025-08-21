@@ -590,7 +590,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
             content = {
                 "meeting_url": response_data["join_url"],
                 "password": response_data.get("password", ""),
-                "meetingTime": response_data["start_time"],
+                "meetingTime": response_data.get("start_time", start_time),
                 "purpose": response_data["topic"],
                 "duration": response_data["duration"],
                 "message": "Success",
@@ -643,7 +643,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                     content = {
                         "meeting_url": response_data["join_url"],
                         "password": response_data.get("password", ""),
-                        "meetingTime": response_data["start_time"],
+                        "meetingTime": response_data.get("start_time", start_time),
                         "purpose": response_data["topic"],
                         "duration": response_data["duration"],
                         "message": "Success",
@@ -660,16 +660,12 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
 
     except Exception as e:
         error_message = str(e)
-        print(f"Error creating recurring Zoom meeting: {error_message}")
+        error_type = type(e).__name__
+        print(f"Error creating recurring Zoom meeting: {error_type}: {error_message}")
 
         # Check if there's a response body with more details
         if hasattr(e, 'response') and hasattr(e.response, 'text'):
             print(f"[DEBUG] Zoom API error response: {e.response.text}")
-
-        if "start_time" in error_message.lower() or "recurrence" in error_message.lower() or "body" in error_message.lower():
-            print(f"[DEBUG] Error creating Zoom meeting: {error_message}")
-            # No fallback - we only want meetings by day of week (type=2)
-            print(f"[DEBUG] Only supporting meetings by day of week, not attempting calendar day fallback")
 
         # Check if there's already a meeting ID we can use from a partially successful response
         if 'resp' in locals() and resp is not None and resp.status_code == 201:
