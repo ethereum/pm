@@ -73,12 +73,15 @@ class ProtocolCallHandler:
 
             # Check if we have an existing calendar event
             has_existing = existing_resources.get("has_calendar", False)
+            existing_calendar_id = existing_resources.get("calendar_event_id")
 
-            if has_existing:
-                print(f"[DEBUG] Updating existing calendar event")
+            print(f"[DEBUG] Calendar decision: has_existing={has_existing}, calendar_id={existing_calendar_id}")
+
+            if has_existing and existing_calendar_id:
+                print(f"[DEBUG] Updating existing calendar event with ID: {existing_calendar_id}")
                 result = self._update_calendar_event(call_data, existing_resources)
             else:
-                print(f"[DEBUG] Creating new calendar event")
+                print(f"[DEBUG] Creating new calendar event (has_existing={has_existing}, existing_id={existing_calendar_id})")
                 result = self._create_calendar_event(call_data)
 
             return result
@@ -277,7 +280,24 @@ class ProtocolCallHandler:
                 self._last_zoom_url = zoom_result["zoom_url"]
                 print(f"[DEBUG] Set _last_zoom_url: {self._last_zoom_url}")
             else:
-                print(f"[DEBUG] No zoom_url in result to set _last_zoom_url: {zoom_result}")
+                # Try to get an existing working zoom URL from the mapping
+                series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
+                if series_meeting_id and series_meeting_id != "custom":
+                    try:
+                        from modules import zoom
+                        enhanced_url = zoom.get_meeting_url_with_passcode(series_meeting_id)
+                        if enhanced_url:
+                            self._last_zoom_url = enhanced_url
+                            print(f"[DEBUG] Using existing enhanced Zoom URL: {enhanced_url}")
+                        else:
+                            self._last_zoom_url = f"https://zoom.us/j/{series_meeting_id}"
+                            print(f"[DEBUG] Using existing basic Zoom URL: {self._last_zoom_url}")
+                    except Exception as e:
+                        print(f"[DEBUG] Could not get existing Zoom URL: {e}")
+                        self._last_zoom_url = None  # Don't set a bad fallback
+                else:
+                    print(f"[DEBUG] No valid meeting ID available for Zoom URL fallback")
+                    self._last_zoom_url = None
 
             calendar_result = self._handle_calendar_resource(call_data, existing_resources)
             resource_results.update(calendar_result)
@@ -431,7 +451,16 @@ class ProtocolCallHandler:
                     "calendar_event_id": calendar_event_id
                 }
 
-            occurrence = call_series_entry["occurrence"]
+            occurrence = call_series_entry.get("occurrence")
+            if not occurrence:
+                print(f"[ERROR] No occurrence data found in call_series_entry for issue #{call_data['issue_number']}")
+                print(f"[DEBUG] call_series_entry structure: {call_series_entry}")
+                return {
+                    "has_zoom": False,
+                    "has_calendar": False,
+                    "has_discourse": False,
+                    "has_youtube": False
+                }
 
             # Check for existing resources
             series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
@@ -443,13 +472,15 @@ class ProtocolCallHandler:
             has_calendar = bool(calendar_event_id)
             has_discourse = (occurrence.get("discourse_topic_id") and
                            not str(occurrence.get("discourse_topic_id")).startswith("placeholder"))
-            has_youtube = bool(occurrence.get("youtube_streams"))
+            # Safely handle youtube_streams which might be None
+            youtube_streams = occurrence.get("youtube_streams", [])
+            has_youtube = bool(youtube_streams)
 
             print(f"[DEBUG] Existing resources for issue #{call_data['issue_number']}:")
             print(f"  - Zoom: {has_zoom} (ID: {call_series_entry.get('meeting_id')})")
             print(f"  - Calendar: {has_calendar} (ID: {calendar_event_id})")
             print(f"  - Discourse: {has_discourse} (ID: {occurrence.get('discourse_topic_id')})")
-            print(f"  - YouTube: {has_youtube} (streams: {len(occurrence.get('youtube_streams', []))})")
+            print(f"  - YouTube: {has_youtube} (streams: {len(youtube_streams) if youtube_streams else 0})")
             print(f"[DEBUG] Full occurrence data: {occurrence}")
             print(f"[DEBUG] Full call_series_entry data: {call_series_entry}")
 
@@ -672,7 +703,7 @@ class ProtocolCallHandler:
             return {
                 "zoom_created": False,
                 "zoom_id": f"placeholder-{call_data['issue_number']}",
-                "zoom_url": "https://zoom.us"
+                "zoom_url": None  # Don't set a bad fallback URL, let calendar handle it
             }
 
     def _update_zoom_meeting(self, call_data: Dict) -> Dict:
@@ -727,8 +758,9 @@ class ProtocolCallHandler:
                     print(f"[WARN] Could not retrieve enhanced Zoom URL: {e}")
                     result["zoom_url"] = f"https://zoom.us/j/{existing_meeting_id}"
             else:
-                # No existing meeting ID - use generic fallback
-                result["zoom_url"] = "https://zoom.us"
+                # No existing meeting ID - don't set a bad fallback URL
+                print(f"[ERROR] No existing meeting ID found for update")
+                result["zoom_url"] = None
 
             return result
 
@@ -739,7 +771,7 @@ class ProtocolCallHandler:
                 existing_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
 
                 # Try to get enhanced URL with passcode for calendar
-                working_zoom_url = f"https://zoom.us/j/{existing_meeting_id}" if existing_meeting_id else "https://zoom.us"
+                working_zoom_url = f"https://zoom.us/j/{existing_meeting_id}" if existing_meeting_id else None
                 if existing_meeting_id:
                     try:
                         from modules import zoom
@@ -1351,8 +1383,6 @@ class ProtocolCallHandler:
 
         except Exception as e:
             print(f"[ERROR] Failed to post results: {e}")
-
-
 
     def _is_issue_already_cleaned(self, issue_body: str) -> bool:
         """Check if the issue body has already been cleaned up."""
