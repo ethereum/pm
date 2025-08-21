@@ -803,7 +803,7 @@ class ProtocolCallHandler:
             # Get calendar ID from environment
             calendar_id = os.getenv("GCAL_ID")
 
-            # Build description with links first, then truncated agenda
+            # Build description with issue link and optional Zoom link
             description_parts = []
 
             # Add meeting link to description if requested and available
@@ -812,17 +812,6 @@ class ProtocolCallHandler:
 
             # Add GitHub issue link
             description_parts.append(f"Issue: {call_data['issue_url']}")
-
-            # Add truncated agenda if provided
-            if call_data.get("agenda"):
-                agenda_lines = call_data['agenda'].strip().split('\n')
-                # Limit to 7 lines (including "Agenda:" header)
-                if len(agenda_lines) > 6:
-                    truncated_agenda = '\n'.join(agenda_lines[:6])
-                    truncated_agenda += '\n\n[Agenda truncated - see GitHub issue for full details]'
-                    description_parts.append(f"Agenda:\n{truncated_agenda}")
-                else:
-                    description_parts.append(f"Agenda:\n{call_data['agenda']}")
 
             description = "\n\n".join(description_parts)
 
