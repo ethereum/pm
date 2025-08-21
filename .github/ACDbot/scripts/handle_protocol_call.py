@@ -1308,17 +1308,13 @@ class ProtocolCallHandler:
             else:
                 comment_lines.append("❌ **Discourse**: No forum topic found")
 
-            # YouTube Stream - only show the first stream
+            # YouTube Stream - only show if stream exists
             youtube_streams = occurrence.get('youtube_streams', [])
             if youtube_streams:
                 first_stream = youtube_streams[0]
                 stream_url = first_stream.get('stream_url')
                 if stream_url:
                     comment_lines.append(f"✅ **YouTube Live**: [Watch Live]({stream_url})")
-                else:
-                    comment_lines.append("❌ **YouTube Live**: No livestream scheduled")
-            else:
-                comment_lines.append("❌ **YouTube Live**: No livestream scheduled")
 
             return "\n".join(comment_lines)
 
@@ -1356,84 +1352,7 @@ class ProtocolCallHandler:
         except Exception as e:
             print(f"[ERROR] Failed to post results: {e}")
 
-    def _generate_resource_comment(self, call_data: Dict, resource_results: Dict, comment_prefix: str) -> str:
-        """Generate comprehensive resource comment with proper formatting and working links."""
-        try:
-            comment_lines = [
-                comment_prefix,
-                ""
-            ]
 
-            # Zoom Meeting with enhanced URL (including passcode if available)
-            if resource_results.get("zoom_created") and resource_results.get("zoom_url"):
-                zoom_url = resource_results["zoom_url"]
-
-                # Try to enhance with passcode if we have a meeting ID
-                if resource_results.get("zoom_id") and not resource_results["zoom_id"].startswith("placeholder"):
-                    from modules import zoom
-                    enhanced_url = zoom.get_meeting_url_with_passcode(resource_results["zoom_id"])
-                    if enhanced_url:
-                        zoom_url = enhanced_url
-
-                comment_lines.append(f"✅ **Zoom**: [Join Meeting]({zoom_url})")
-            elif call_data.get("skip_zoom_creation"):
-                comment_lines.append("⏭️ **Zoom**: Skipped (user opted out)")
-            else:
-                comment_lines.append("❌ **Zoom**: Failed to create")
-
-            # Calendar Event with proper eid encoding
-            calendar_event_id = resource_results.get("calendar_event_id")
-            if resource_results.get("calendar_created") and calendar_event_id:
-                # Use proper calendar link with encoded eid
-                from modules import gcal
-                calendar_id = os.getenv("GCAL_ID")
-                encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id)
-
-                if encoded_eid:
-                    calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"
-                    comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({calendar_link})")
-                else:
-                    comment_lines.append("❌ **Calendar**: Failed to generate link")
-            elif call_data.get("skip_gcal_creation"):
-                comment_lines.append("⏭️ **Calendar**: Skipped (not on Ethereum calendar)")
-            else:
-                comment_lines.append("❌ **Calendar**: Failed to create")
-
-            # Discourse Topic
-            if resource_results.get("discourse_created") and resource_results.get("discourse_url"):
-                discourse_url = resource_results["discourse_url"]
-                if "ethereum-magicians.org/t/" in discourse_url:
-                    comment_lines.append(f"✅ **Discourse**: [Discussion Topic]({discourse_url})")
-                else:
-                    comment_lines.append("❌ **Discourse**: Failed to create")
-            else:
-                comment_lines.append("❌ **Discourse**: Failed to create")
-
-            # YouTube Streams - only show the first stream
-            if resource_results.get("youtube_streams_created") and resource_results.get("stream_links"):
-                first_stream = resource_results["stream_links"][0]
-                # Extract URL from stream link format and create clean markdown link
-                if "https://" in first_stream:
-                    try:
-                        # Parse "- Stream 1: https://youtube.com/..." format
-                        url_part = first_stream.split("https://")[1].split(" ")[0]
-                        stream_url = f"https://{url_part}"
-                        comment_lines.append(f"✅ **YouTube Live**: [Watch Stream]({stream_url})")
-                    except:
-                        # Fallback: use the raw stream link
-                        comment_lines.append(f"✅ **YouTube Live**: {first_stream}")
-                else:
-                    comment_lines.append(f"✅ **YouTube Live**: {first_stream}")
-            elif call_data.get("need_youtube_streams"):
-                comment_lines.append("❌ **YouTube Live**: Failed to create streams")
-            else:
-                comment_lines.append("❌ **YouTube Live**: No livestream scheduled")
-
-            return "\n".join(comment_lines)
-
-        except Exception as e:
-            print(f"[ERROR] Failed to generate resource comment: {e}")
-            return None
 
     def _is_issue_already_cleaned(self, issue_body: str) -> bool:
         """Check if the issue body has already been cleaned up."""
