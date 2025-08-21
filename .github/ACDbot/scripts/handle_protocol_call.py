@@ -182,6 +182,11 @@ class ProtocolCallHandler:
         }
 
         try:
+            # Skip if user opted out of YouTube streams
+            if not call_data.get("need_youtube_streams"):
+                print(f"[DEBUG] YouTube stream creation skipped (user opted out)")
+                return result
+
             # Check if we have existing YouTube streams
             has_existing = existing_resources.get("has_youtube", False)
 
