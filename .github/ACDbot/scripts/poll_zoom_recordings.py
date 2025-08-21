@@ -350,7 +350,7 @@ def process_recordings(mapping):
     for series_name, series_data in mapping.items():
         meeting_id = series_data.get('meeting_id')
 
-        if not meeting_id or meeting_id.startswith('placeholder'):
+        if not meeting_id or str(meeting_id).startswith('placeholder'):
             continue
 
         print(f"🔍 Checking {series_name.upper()} (Meeting ID: {meeting_id})")

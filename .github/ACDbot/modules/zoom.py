@@ -66,7 +66,7 @@ def create_meeting(topic, start_time, duration):
                 "status":1
     }
     print(content)
-    return response_data["join_url"], response_data["id"]
+    return response_data["join_url"], str(response_data["id"])
 
 def get_access_token():
     """
@@ -597,7 +597,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                 "status":1
             }
             print(content)
-            return response_data["join_url"], response_data["id"]
+            return response_data["join_url"], str(response_data["id"])
 
         else:
             # For alternative host errors, try again without that field
@@ -650,7 +650,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                         "status":1
                     }
                     print(content)
-                    return response_data["join_url"], response_data["id"]
+                    return response_data["join_url"], str(response_data["id"])
                 else:
                     print(f"Unable to generate meeting link even without alternative hosts: {resp.text}")
                     resp.raise_for_status()
@@ -673,7 +673,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                 response_data = resp.json()
                 if 'id' in response_data and 'join_url' in response_data:
                     print(f"[DEBUG] Despite errors, we have a valid meeting ID: {response_data['id']}")
-                    return response_data["join_url"], response_data["id"]
+                    return response_data["join_url"], str(response_data["id"])
             except:
                 pass
 

@@ -157,7 +157,7 @@ class MappingManager:
             print(f"[WARNING] Call series '{call_series}' not found in mapping")
             return False
 
-        self.mapping[call_series]["meeting_id"] = meeting_id
+        self.mapping[call_series]["meeting_id"] = str(meeting_id)
         print(f"[DEBUG] Set meeting ID '{meeting_id}' for call series: {call_series}")
         return True
 
