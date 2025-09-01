@@ -51,6 +51,60 @@ class TestDatetimeUtils(unittest.TestCase):
                 self.assertIsNotNone(result)
                 self.assertIsInstance(result, datetime)
 
+    def test_parse_datetime_string_non_standard_abbreviations(self):
+        """Test parsing non-standard month abbreviations like 'Sept', 'June', 'July'."""
+        test_cases = [
+            ("Sept 10, 2025, 14:00 UTC", datetime(2025, 9, 10, 14, 0)),
+            ("June 15, 2025, 09:30 UTC", datetime(2025, 6, 15, 9, 30)),
+            ("July 4, 2025, 16:00 UTC", datetime(2025, 7, 4, 16, 0)),
+            # Test with different formatting variations
+            ("Sept 1 2025, 12:00 UTC", datetime(2025, 9, 1, 12, 0)),
+            ("June 30 2024, 23:59 UTC", datetime(2024, 6, 30, 23, 59)),
+            ("July 31 2025, 00:00 UTC", datetime(2025, 7, 31, 0, 0))
+        ]
+
+        for test_input, expected_dt in test_cases:
+            with self.subTest(test_case=test_input):
+                result = parse_datetime_string(test_input)
+                self.assertIsNotNone(result, f"Failed to parse: {test_input}")
+                self.assertIsInstance(result, datetime)
+                # Compare the essential datetime components
+                self.assertEqual(result.year, expected_dt.year)
+                self.assertEqual(result.month, expected_dt.month)
+                self.assertEqual(result.day, expected_dt.day)
+                self.assertEqual(result.hour, expected_dt.hour)
+                self.assertEqual(result.minute, expected_dt.minute)
+
+    def test_parse_datetime_string_comma_after_month(self):
+        """Test parsing formats with comma after month: 'Sept, 10, 2025, 14:00 UTC'."""
+        test_cases = [
+            ("Sept, 10, 2025, 14:00 UTC", datetime(2025, 9, 10, 14, 0)),
+            ("June, 15, 2025, 09:30 UTC", datetime(2025, 6, 15, 9, 30)),
+            ("July, 4, 2025, 16:00 UTC", datetime(2025, 7, 4, 16, 0)),
+            # Test with standard month names too
+            ("April, 24, 2025, 14:00 UTC", datetime(2025, 4, 24, 14, 0)),
+            ("Aug, 15, 2024, 12:00 UTC", datetime(2024, 8, 15, 12, 0)),
+            # Test with no comma before year
+            ("Sept, 1 2025, 12:00 UTC", datetime(2025, 9, 1, 12, 0)),
+            ("June, 30 2024, 23:59 UTC", datetime(2024, 6, 30, 23, 59)),
+            # Test case variations
+            ("sept, 10, 2025, 14:00 UTC", datetime(2025, 9, 10, 14, 0)),  # lowercase
+            ("JULY, 4, 2025, 16:00 UTC", datetime(2025, 7, 4, 16, 0)),   # uppercase
+            ("apr, 10 2025, 12:00 UTC", datetime(2025, 4, 10, 12, 0)),   # lowercase abbrev, no comma before year
+        ]
+
+        for test_input, expected_dt in test_cases:
+            with self.subTest(test_case=test_input):
+                result = parse_datetime_string(test_input)
+                self.assertIsNotNone(result, f"Failed to parse: {test_input}")
+                self.assertIsInstance(result, datetime)
+                # Compare the essential datetime components
+                self.assertEqual(result.year, expected_dt.year)
+                self.assertEqual(result.month, expected_dt.month)
+                self.assertEqual(result.day, expected_dt.day)
+                self.assertEqual(result.hour, expected_dt.hour)
+                self.assertEqual(result.minute, expected_dt.minute)
+
     def test_parse_datetime_string_no_comma_before_year(self):
         """Test parsing format without comma before year."""
         test_cases = [
@@ -106,6 +160,40 @@ class TestDatetimeUtils(unittest.TestCase):
             with self.subTest(test_case=test_case):
                 result = parse_datetime_string(test_case)
                 self.assertIsNone(result)
+
+    def test_parse_datetime_string_edge_cases(self):
+        """Test edge cases and boundary conditions."""
+        edge_cases = [
+            # Test case sensitivity - should now work with case insensitivity
+            ("sept 10, 2025, 14:00 UTC", datetime(2025, 9, 10, 14, 0)),  # lowercase - should work
+            ("SEPT 10, 2025, 14:00 UTC", datetime(2025, 9, 10, 14, 0)),  # uppercase - should work
+            # Test partial matches that might cause issues
+            ("September 10, 2025, 14:00 UTC", datetime(2025, 9, 10, 14, 0)),  # Full name should still work
+            ("Sep 10, 2025, 14:00 UTC", datetime(2025, 9, 10, 14, 0)),  # Standard abbrev should work
+            # Test that only our specific mappings work
+            ("Septemberish 10, 2025, 14:00 UTC", None),  # Contains "Sept" but isn't exact match
+            # Test valid month names that we don't have special mappings for
+            ("Nov 10, 2025, 14:00 UTC", datetime(2025, 11, 10, 14, 0)),  # Standard abbrev should work
+            ("March 10, 2025, 14:00 UTC", datetime(2025, 3, 10, 14, 0)),  # Full name should work
+            # Test case insensitivity for all standard month names
+            ("april 24, 2025, 14:00 UTC", datetime(2025, 4, 24, 14, 0)),  # lowercase full month
+            ("AUGUST 15, 2025, 09:30 UTC", datetime(2025, 8, 15, 9, 30)),  # uppercase full month
+            ("apr 10, 2025, 12:00 UTC", datetime(2025, 4, 10, 12, 0)),  # lowercase abbrev
+            ("DEC 31, 2024, 23:59 UTC", datetime(2024, 12, 31, 23, 59)),  # uppercase abbrev
+        ]
+
+        for test_input, expected_result in edge_cases:
+            with self.subTest(test_case=test_input):
+                result = parse_datetime_string(test_input)
+                if expected_result is None:
+                    self.assertIsNone(result, f"Expected None but got {result} for: {test_input}")
+                else:
+                    self.assertIsNotNone(result, f"Expected valid datetime but got None for: {test_input}")
+                    self.assertEqual(result.year, expected_result.year)
+                    self.assertEqual(result.month, expected_result.month)
+                    self.assertEqual(result.day, expected_result.day)
+                    self.assertEqual(result.hour, expected_result.hour)
+                    self.assertEqual(result.minute, expected_result.minute)
 
     def test_parse_iso_datetime(self):
         """Test ISO datetime parsing with various formats."""

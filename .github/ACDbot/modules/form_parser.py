@@ -9,6 +9,7 @@ import re
 from datetime import datetime
 from typing import Dict, Optional, List, Tuple
 
+from .datetime_utils import parse_datetime_string, extract_datetime_from_markdown_link
 
 class FormParser:
     """Parses GitHub Issue Form data for protocol calls."""
@@ -413,75 +414,26 @@ class FormParser:
     def parse_date_time_with_duration(self, date_time_text: str, duration_minutes: int) -> Tuple[Optional[str], Optional[int]]:
         """Parse date/time string and return start_time and duration."""
         try:
-            # First try to extract from markdown link format
-            # Format: [April 24, 2025, 14:00 UTC](https://notime.zone/OWHEr5OFto71X)
-            match = re.search(r'\[([^\]]+)\]', date_time_text)
-            if match:
-                date_time_str = match.group(1)
+            # Extract datetime string from markdown link or use directly
+            date_time_str = extract_datetime_from_markdown_link(date_time_text)
+            if date_time_str:
                 print(f"[DEBUG] Extracted date/time from markdown link: {date_time_str}")
             else:
                 # If no markdown link, try to parse the text directly
-                # Format: "April 24, 2025, 14:00 UTC"
                 date_time_str = date_time_text.strip()
                 print(f"[DEBUG] Using date/time directly from form: {date_time_str}")
 
-            # Strategy 1: Try standard format first
-            # Format: "Month Day, Year, HH:MM UTC"
-            try:
-                parsed_time = datetime.strptime(date_time_str, "%B %d, %Y, %H:%M UTC")
-                start_time = parsed_time.isoformat() + "Z"
-                print(f"[DEBUG] Parsed with standard format: {start_time}")
-                return start_time, duration_minutes
-            except ValueError:
-                pass
+            # Use the centralized datetime parsing from datetime_utils
+            parsed_datetime = parse_datetime_string(date_time_str)
 
-            # Strategy 2: Try with ordinal dates (1st, 2nd, 3rd, etc.)
-            # Users might write "24th April 2025, 14:00 UTC"
-            try:
-                # Remove ordinal suffixes
-                ordinal_pattern = r'(\d+)(st|nd|rd|th)'
-                normalized_str = re.sub(ordinal_pattern, r'\1', date_time_str)
-                # Try day-first format for ordinal dates
-                parsed_time = datetime.strptime(normalized_str, "%d %B %Y, %H:%M UTC")
-                start_time = parsed_time.isoformat() + "Z"
-                print(f"[DEBUG] Parsed with ordinal normalization: {start_time}")
+            if parsed_datetime:
+                start_time = parsed_datetime.isoformat() + "Z"
+                print(f"[DEBUG] Successfully parsed datetime: {start_time}")
                 return start_time, duration_minutes
-            except ValueError:
-                pass
-
-            # Strategy 3: Try without comma before year
-            # Users might write "April 24 2025, 14:00 UTC"
-            try:
-                parsed_time = datetime.strptime(date_time_str, "%B %d %Y, %H:%M UTC")
-                start_time = parsed_time.isoformat() + "Z"
-                print(f"[DEBUG] Parsed without comma before year: {start_time}")
-                return start_time, duration_minutes
-            except ValueError:
-                pass
-
-            # Strategy 4: Try abbreviated month names
-            # Users might write "Aug 24, 2026, 14:00 UTC"
-            try:
-                parsed_time = datetime.strptime(date_time_str, "%b %d, %Y, %H:%M UTC")
-                start_time = parsed_time.isoformat() + "Z"
-                print(f"[DEBUG] Parsed with abbreviated month: {start_time}")
-                return start_time, duration_minutes
-            except ValueError:
-                pass
-
-            # Strategy 5: Try abbreviated month names without comma before year
-            # Users might write "Aug 24 2025, 14:00 UTC"
-            try:
-                parsed_time = datetime.strptime(date_time_str, "%b %d %Y, %H:%M UTC")
-                start_time = parsed_time.isoformat() + "Z"
-                print(f"[DEBUG] Parsed with abbreviated month (no comma): {start_time}")
-                return start_time, duration_minutes
-            except ValueError:
-                pass
-
-            # If all strategies fail, return the extracted date string as fallback (not the original markdown)
-            print(f"[WARN] Could not parse date/time '{date_time_str}', using extracted text as fallback")
-            return date_time_str, duration_minutes
+            else:
+                # If parsing fails, return the extracted date string as fallback (not the original markdown)
+                print(f"[WARN] Could not parse date/time '{date_time_str}', using extracted text as fallback")
+                return date_time_str, duration_minutes
 
         except Exception as e:
             print(f"[ERROR] Error parsing date/time '{date_time_text}': {e}")

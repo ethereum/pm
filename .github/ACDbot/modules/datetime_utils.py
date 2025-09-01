@@ -36,6 +36,63 @@ def parse_datetime_string(datetime_str: str) -> Optional[datetime]:
     except ValueError:
         pass
 
+    # Try to handle case insensitivity and comma variations for all month names
+    try:
+        normalized_str = datetime_str
+
+        # First, handle comma after month: "Sept, 10, 2025" -> "Sept 10, 2025"
+        normalized_str = re.sub(r'([A-Za-z]+),\s+(\d+)', r'\1 \2', normalized_str)
+
+        # Handle non-standard month abbreviations (case insensitive)
+        month_mappings = {
+            'sept': 'Sep',
+            'june': 'Jun',
+            'july': 'Jul'
+        }
+
+        # Check for non-standard abbreviations (case insensitive)
+        for non_standard, standard in month_mappings.items():
+            # Use case-insensitive replacement
+            pattern = re.compile(re.escape(non_standard), re.IGNORECASE)
+            if pattern.search(normalized_str):
+                normalized_str = pattern.sub(standard, normalized_str)
+                break
+
+        # Try parsing with the normalized string (try both comma formats)
+        if normalized_str != datetime_str:
+            try:
+                return datetime.strptime(normalized_str, "%b %d, %Y, %H:%M UTC")
+            except ValueError:
+                return datetime.strptime(normalized_str, "%b %d %Y, %H:%M UTC")
+    except ValueError:
+        pass
+
+    # Try standard formats with case-insensitive month names
+    try:
+        # Handle case insensitivity for all standard month names
+        # Try to fix case by capitalizing first letter of each word
+        case_normalized = ' '.join(word.capitalize() for word in datetime_str.split())
+
+        # Remove comma after month if present: "April, 24" -> "April 24"
+        case_normalized = re.sub(r'([A-Za-z]+),\s+(\d+)', r'\1 \2', case_normalized)
+
+        if case_normalized != datetime_str:
+            # Try all the standard formats with case-corrected input
+            formats_to_try = [
+                "%B %d, %Y, %H:%M UTC",  # Full month with comma
+                "%b %d, %Y, %H:%M UTC",  # Abbreviated month with comma
+                "%B %d %Y, %H:%M UTC",   # Full month without comma before year
+                "%b %d %Y, %H:%M UTC"    # Abbreviated month without comma before year
+            ]
+
+            for fmt in formats_to_try:
+                try:
+                    return datetime.strptime(case_normalized, fmt)
+                except ValueError:
+                    continue
+    except ValueError:
+        pass
+
     # Try format without comma before year: "April 24 2025, 14:00 UTC"
     try:
         return datetime.strptime(datetime_str, "%B %d %Y, %H:%M UTC")
