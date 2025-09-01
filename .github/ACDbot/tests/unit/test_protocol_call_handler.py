@@ -115,7 +115,11 @@ class TestProtocolCallHandler(unittest.TestCase):
 
     def test_handle_youtube_resource_existing(self):
         """Test that youtube resource uses existing data when available."""
-        result = self.handler._handle_youtube_resource(self.sample_call_data, self.sample_existing_resources)
+        # Enable YouTube streams for this test
+        call_data = self.sample_call_data.copy()
+        call_data["need_youtube_streams"] = True
+
+        result = self.handler._handle_youtube_resource(call_data, self.sample_existing_resources)
 
         self.assertTrue(result["youtube_streams_created"])
         self.assertEqual(len(result["youtube_streams"]), 1)

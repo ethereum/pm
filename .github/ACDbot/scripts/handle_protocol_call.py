@@ -627,12 +627,19 @@ class ProtocolCallHandler:
             from modules import zoom
 
             # Extract parameters from call_data
-            topic = call_data["issue_title"]
             start_time = call_data["start_time"]
             duration = call_data["duration"]
             occurrence_rate = call_data.get("occurrence_rate", "other")
             call_series = call_data.get("call_series", "unknown")
             is_recurring = not call_series.startswith("one-off-")
+
+            # Determine appropriate title based on call type
+            if call_series.startswith("one-off-"):
+                # For one-off calls, use the specific issue title
+                topic = call_data["issue_title"]
+            else:
+                # For series calls, use the human-friendly call series name
+                topic = self._get_call_series_display_name(call_series)
 
             print(f"[DEBUG] Creating/updating Zoom meeting: {topic}")
             print(f"[DEBUG] Start time: {start_time}, Duration: {duration} minutes")
@@ -721,9 +728,18 @@ class ProtocolCallHandler:
             if existing_meeting_id:
                 from modules import zoom
                 try:
+                    # Determine appropriate title based on call type (same logic as creation)
+                    call_series = call_data.get("call_series", "unknown")
+                    if call_series.startswith("one-off-"):
+                        # For one-off calls, use the specific issue title
+                        topic = call_data["issue_title"]
+                    else:
+                        # For series calls, use the human-friendly call series name
+                        topic = self._get_call_series_display_name(call_series)
+
                     update_result = zoom.update_meeting(
                         existing_meeting_id,
-                        call_data["issue_title"],
+                        topic,
                         call_data["start_time"],
                         call_data["duration"]
                     )
