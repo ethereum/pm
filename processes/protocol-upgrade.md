@@ -10,13 +10,13 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 
 ### General
 - Upgrades must not be scheduled for major holidays or events.
-- Scheduling multiple upgrades in advance should not be done, and bundling the mainnet upgrade with other upgrades must not be done.
-    - If multiple upgrades are scheduled in advance, each testnet upgrade but must be at least 14 days apart.
-    - In the event that multiple testnet upgrades are scheduled, and the first a testnet upgrade is not deemed a success, the next testnet upgrade is automatically cancelled. The next testnet must not be scheduled until the first incident has been resolved, at which point the earliest point in time is 14 days from the ACD call it was agreed to proceed.
+- Bundling the mainnet upgrade with other upgrades should not be done.
+- If multiple testnet upgrades are scheduled in advance, each testnet upgrade but must be at least 10 days apart, ideally aiming for two weeks between upgrades.
+- In the event that multiple testnet upgrades are scheduled, and the first a testnet upgrade is not deemed a success, the next testnet upgrade is automatically cancelled. The next testnet must not be rescheduled until the first incident has been resolved, at which point the earliest point in time is 14 days from the All Core Devs (ACD) call it was agreed to proceed.
 - Upgrades must not take place until at least clients representing 90% of the active weight pass all [consensus](https://github.com/ethereum/consensus-specs/) and [execution](https://github.com/ethereum/execution-spec-tests) tests, and are stable.
-- An assessment must be done in All Core Devs (ACD) to assess if infrastructure external to the protocol is required to be upgraded for the upgrade to move forward.
+- An assessment must be done in ACD to assess if infrastructure external to the protocol is required to be upgraded for the upgrade to move forward.
 - In the event that the upgrade fails, an incident retrospective must take place to understand what went wrong and how it can be proved or strongly inferred that it won't happen on the next testnet.
-- ACD can if needed override parts of this document as needed, for example in the event of a contentious fork where a client with more than 10% of mainnet validators could otherwise hold up the process.
+- ACD can, if needed, override parts of this document. For example in the event of a contentious fork where a client with more than 10% of mainnet validators could otherwise hold up the process.
 
 ### EIPs
 - An assessment must be done if any EIPs and their client implementations should undergo an external review.
@@ -28,14 +28,12 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 - Devnets are expected to experience issues, are short lived, and a new one should be launched when relevant. Given their short lived nature, they are considered out of scope of this process.
 
 ### Testnets
-- There must be a 30 day period between client releases being ready, and the first testnet going live.
+- There must be a 14 day period between client releases being ready, and the first testnet going live.
     - This is to provide time for internal security reviews, inclusion of upgrade specific code in the bug bounty program, and potential external security reviews.
 
 ### Mainnet
-- Mainnet must not have an upgrade date set until all testnets have been upgraded.
 - The upgrade must have gone through at least two testnets.
-- Mainnet must not have an upgrade date set less than 30 days after the final testnet has been verified to have been successfully upgraded. This is to ensure enough time has been given to test and spot potential issues before going live on mainnet and to allow for downstream projects to plan their upgrades. L2s need time to produce DAO proposals, organize their own upgrades, etc.
-
+- Mainnet upgrade less than 30 days after the final testnet has been verified to have been successfully upgraded. This is to ensure enough time has been given to test and spot potential issues before going live on mainnet and to allow for downstream projects to plan their upgrades. L2s need time to produce DAO proposals, organize their own upgrades, etc.
 
 ## Verifying & Reviewing
 ### Internal Reviews
@@ -86,7 +84,6 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 
 ### Mainnet
 - Follow the same procedures as testnets.
-
 
 ## Incident Response Plan
 ### Role Assignment
