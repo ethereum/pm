@@ -32,7 +32,6 @@ class TestProtocolCallHandler(unittest.TestCase):
             "agenda": "Test agenda",
             "display_zoom_link_in_invite": True,
             "skip_zoom_creation": False,
-            "skip_gcal_creation": False,
             "need_youtube_streams": False,
             "occurrence_rate": "other"
         }
@@ -78,17 +77,6 @@ class TestProtocolCallHandler(unittest.TestCase):
         self.assertFalse(result["zoom_created"])
         self.assertIsNone(result["zoom_id"])
         self.assertIsNone(result["zoom_url"])
-
-    def test_handle_calendar_resource_skip_creation(self):
-        """Test that calendar resource is skipped when not on Ethereum calendar."""
-        call_data = self.sample_call_data.copy()
-        call_data["skip_gcal_creation"] = True
-
-        result = self.handler._handle_calendar_resource(call_data, self.sample_existing_resources)
-
-        self.assertFalse(result["calendar_created"])
-        self.assertIsNone(result["calendar_event_id"])
-        self.assertIsNone(result["calendar_event_url"])
 
     def test_handle_discourse_resource_existing(self):
         """Test that discourse resource uses existing data when available."""

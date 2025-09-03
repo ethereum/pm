@@ -89,7 +89,6 @@ All Core Devs - Execution
         assert result["start_time"] == "2025-04-24T14:00:00Z"
         assert result["occurrence_rate"] == "bi-weekly"
         assert result["skip_zoom_creation"] is False
-        assert result["skip_gcal_creation"] is False
         assert result["need_youtube_streams"] is True
         assert result["display_zoom_link_in_invite"] is True
         assert result["facilitator_emails"] == ["test@example.com"]
@@ -107,7 +106,6 @@ All Core Devs - Execution
         assert result["start_time"] == "2025-04-24T14:00:00Z"
         assert result["occurrence_rate"] == "bi-weekly"
         assert result["skip_zoom_creation"] is False
-        assert result["skip_gcal_creation"] is False
         assert result["need_youtube_streams"] is False
 
     def test_parse_form_data_one_off_meeting(self):
@@ -122,7 +120,6 @@ All Core Devs - Execution
         assert result["duration"] == 120
         assert result["start_time"] == "2025-04-26T16:00:00Z"
         assert result["skip_zoom_creation"] is True
-        assert result["skip_gcal_creation"] is True
         assert result["need_youtube_streams"] is False
         assert result["display_zoom_link_in_invite"] is False
         assert result["facilitator_emails"] == ['organizer@example.com']

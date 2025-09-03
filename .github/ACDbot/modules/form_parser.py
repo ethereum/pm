@@ -439,12 +439,6 @@ class FormParser:
             print(f"[ERROR] Error parsing date/time '{date_time_text}': {e}")
             return date_time_text, duration_minutes
 
-    def should_be_on_ethereum_calendar(self, call_series: str) -> bool:
-        """Determine if a call series should be on the Ethereum calendar."""
-        # One-time calls should NOT already be on the Ethereum calendar
-        # All other call series are expected to be on the calendar
-        return not (call_series.startswith("one-off-") or call_series == "one-off")
-
     def parse_form_data(self, issue_body: str, issue_number: Optional[int] = None) -> Dict:
         """Parse all form data and return structured dictionary."""
         # Check if it's the old format first
@@ -482,16 +476,12 @@ class FormParser:
         if date_time_text and duration:
             start_time, parsed_duration = self.parse_date_time_with_duration(date_time_text, duration)
 
-        # Determine derived fields
-        skip_gcal_creation = not self.should_be_on_ethereum_calendar(call_series) if call_series else True
-
         return {
             "call_series": call_series,
             "duration": parsed_duration or duration,
             "occurrence_rate": occurrence_rate,
             "start_time": start_time,
             "skip_zoom_creation": skip_zoom_creation,
-            "skip_gcal_creation": skip_gcal_creation,
             "need_youtube_streams": need_youtube_streams,
             "display_zoom_link_in_invite": display_zoom_link_in_invite,
             "facilitator_emails": facilitator_emails,

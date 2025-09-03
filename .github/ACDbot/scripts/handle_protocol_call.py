@@ -66,11 +66,6 @@ class ProtocolCallHandler:
         }
 
         try:
-            # Skip if not on Ethereum calendar
-            if call_data.get("skip_gcal_creation"):
-                print(f"[DEBUG] Calendar creation skipped (not on Ethereum calendar)")
-                return result
-
             # Check if we have an existing calendar event
             has_existing = existing_resources.get("has_calendar", False)
             existing_calendar_id = existing_resources.get("calendar_event_id")
@@ -301,7 +296,7 @@ class ProtocolCallHandler:
 
             calendar_result = self._handle_calendar_resource(call_data, existing_resources)
             resource_results.update(calendar_result)
-            if not call_data.get("skip_gcal_creation") and not calendar_result.get("calendar_created"):
+            if not calendar_result.get("calendar_created"):
                 critical_failures.append("Calendar event creation failed")
 
             # Log calendar action for debugging
@@ -408,7 +403,6 @@ class ProtocolCallHandler:
                 "start_time": form_data["start_time"],
                 "occurrence_rate": form_data.get("occurrence_rate", "other"),
                 "skip_zoom_creation": form_data["skip_zoom_creation"],
-                "skip_gcal_creation": form_data["skip_gcal_creation"],
                 "need_youtube_streams": form_data["need_youtube_streams"],
                 "display_zoom_link_in_invite": form_data["display_zoom_link_in_invite"],
                 "facilitator_emails": form_data["facilitator_emails"],
