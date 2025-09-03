@@ -12,7 +12,7 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 - Upgrades must not be scheduled for major holidays or events.
 - Bundling the mainnet upgrade with other upgrades should not be done.
 - If multiple testnet upgrades are scheduled in advance, each testnet upgrade but must be at least 10 days apart, ideally aiming for two weeks between upgrades.
-- In the event that multiple testnet upgrades are scheduled, and the first a testnet upgrade is not deemed a success, the next testnet upgrade is automatically cancelled. The next testnet must not be rescheduled until the first incident has been resolved, at which point the earliest point in time is 14 days from the All Core Devs (ACD) call it was agreed to proceed.
+- In the event that multiple testnet upgrades are scheduled, and the first testnet upgrade is not deemed a success, the next testnet upgrade is automatically cancelled. The next testnet must not be rescheduled until the first incident has been resolved, at which point the earliest point in time is 14 days from the All Core Devs (ACD) call it was agreed to proceed.
 - Upgrades must not take place until at least clients representing 90% of the active weight pass all [consensus](https://github.com/ethereum/consensus-specs/) and [execution](https://github.com/ethereum/execution-spec-tests) tests, and are stable.
 - An assessment must be done in ACD to assess if infrastructure external to the protocol is required to be upgraded for the upgrade to move forward.
 - In the event that the upgrade fails, an incident retrospective must take place to understand what went wrong and how it can be proved or strongly inferred that it won't happen on the next testnet.
