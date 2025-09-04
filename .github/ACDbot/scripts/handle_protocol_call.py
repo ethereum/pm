@@ -722,18 +722,9 @@ class ProtocolCallHandler:
             if existing_meeting_id:
                 from modules import zoom
                 try:
-                    # Determine appropriate title based on call type (same logic as creation)
-                    call_series = call_data.get("call_series", "unknown")
-                    if call_series.startswith("one-off-"):
-                        # For one-off calls, use the specific issue title
-                        topic = call_data["issue_title"]
-                    else:
-                        # For series calls, use the human-friendly call series name
-                        topic = self._get_call_series_display_name(call_series)
-
                     update_result = zoom.update_meeting(
                         existing_meeting_id,
-                        topic,
+                        call_data["issue_title"],
                         call_data["start_time"],
                         call_data["duration"]
                     )
