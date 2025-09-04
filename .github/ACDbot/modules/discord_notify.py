@@ -1,12 +1,10 @@
 import requests
 import os
 
-# Map call series to Discord webhook URLs via environment variables
 CALL_SERIES_TO_WEBHOOK = {
-    "acdc": os.environ.get("DISCORD_ACDC_WEBHOOK"),
-    "acde": os.environ.get("DISCORD_ACDC_WEBHOOK"),
-    "rollcall": os.environ.get("DISCORD_ROLLCALL_WEBHOOK"),
-    # Add more as needed
+    "acdc": os.environ.get("DISCORD_ACD_WEBHOOK"),
+    "acde": os.environ.get("DISCORD_ACD_WEBHOOK"),
+    "acdt": os.environ.get("DISCORD_ACD_WEBHOOK"),
 }
 
 def send_discord_notification(call_series, message):
@@ -16,4 +14,4 @@ def send_discord_notification(call_series, message):
         return False
     data = {"content": message}
     response = requests.post(webhook_url, json=data)
-    return response.status_code == 204 
+    return response.status_code == 204

@@ -17,6 +17,24 @@ jobs:
         run: pip install requests
       - name: Run Discord notification script
         env:
-          DISCORD_ACDC_WEBHOOK: ${{ secrets.DISCORD_ACDC_WEBHOOK }}
-          DISCORD_ROLLCALL_WEBHOOK: ${{ secrets.DISCORD_ROLLCALL_WEBHOOK }}
-        run: python .github/ACDbot/scripts/discord_notify.py 
+          DISCORD_ACD_WEBHOOK: ${{ secrets.DISCORD_ACD_WEBHOOK }}
+        run: python .github/ACDbot/scripts/discord_notify.py
+      - name: Commit mapping file
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          if git diff --quiet .github/ACDbot/meeting_topic_mapping.json; then
+            echo "No changes to mapping file"
+          else
+            git add .github/ACDbot/meeting_topic_mapping.json
+            git commit -m "Update meeting-topic mapping with Discord notifications"
+            git push
+            echo "Committed mapping file changes"
+          fi
+
+permissions:
+  contents: write
