@@ -219,14 +219,36 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
         service = get_calendar_service()
 
         try:
-            # First try to get the recurring event to verify it exists
+            # First try to get the event to verify it exists
             existing_event = service.events().get(
                 calendarId=calendar_id,
                 eventId=event_id
             ).execute()
-            print(f"[DEBUG] Found existing recurring event with ID: {existing_event.get('id')}")
+            print(f"[DEBUG] Found existing event with ID: {existing_event.get('id')}")
+
+            # Check if this is actually a recurring event
+            is_recurring = 'recurrence' in existing_event and existing_event['recurrence']
+            print(f"[DEBUG] Existing event is recurring: {is_recurring}")
+
+            if not is_recurring:
+                print(f"[DEBUG] Existing event is one-time, but we need recurring behavior")
+                print(f"[DEBUG] Creating new recurring event instead of trying to convert one-time event")
+
+                # Create a new recurring event instead of trying to convert a one-time event
+                new_recurring_event = create_recurring_event(
+                    summary=summary,
+                    start_dt=start_dt,
+                    duration_minutes=duration_minutes,
+                    calendar_id=calendar_id,
+                    occurrence_rate=occurrence_rate,
+                    description=description
+                )
+
+                print(f"[DEBUG] Created new recurring event to replace one-time event: {new_recurring_event.get('id')}")
+                return new_recurring_event
+
         except Exception as e:
-            error_msg = f"Failed to find existing recurring event: {str(e)}"
+            error_msg = f"Failed to find existing event: {str(e)}"
             print(f"[DEBUG] {error_msg}")
             raise ValueError(error_msg)
 
@@ -305,28 +327,25 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                     instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
                     print(f"[DEBUG]   {i+1}. {instance_dt.date()} - {instance.get('id')}")
 
-            # Fall back to updating the master recurring event
-            # This will affect future instances but not past ones
-            print(f"[DEBUG] Falling back to updating master recurring event")
+            # For recurring events, if no matching instance exists, just update the master event
+            # This is appropriate when the new occurrence represents a change to the entire series
+            # (e.g., changing time, description, or extending the series)
+            print(f"[DEBUG] No specific instance found, updating master recurring event")
+            print(f"[DEBUG] This will update the series metadata while preserving the recurrence pattern")
             print(f"[DEBUG] Master event current summary: {existing_event.get('summary')}")
             print(f"[DEBUG] Master event current description: {existing_event.get('description', 'No description')[:100]}...")
 
+            # Update only the metadata (summary, description) but preserve the original start time and recurrence
             event_body = {
                 'summary': summary,
                 'description': description,
-                'start': {
-                    'dateTime': start_dt.isoformat(),
-                    'timeZone': 'UTC'
-                },
-                'end': {
-                    'dateTime': end_dt.isoformat(),
-                    'timeZone': 'UTC'
-                },
-                'recurrence': existing_event.get('recurrence', []),  # Preserve recurrence rule
+                'start': existing_event.get('start'),
+                'end': existing_event.get('end'),
+                'recurrence': existing_event.get('recurrence', []),
             }
 
-            print(f"[DEBUG] Updating master event with new summary: {summary}")
-            print(f"[DEBUG] Updating master event with new description: {description[:100]}...")
+            print(f"[DEBUG] New summary: {summary}")
+            print(f"[DEBUG] New description: {description[:100]}...")
 
             event = service.events().update(
                 calendarId=calendar_id,
@@ -336,10 +355,10 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
 
             event_id = event.get('id')
             html_link = event.get('htmlLink')
-            print(f"[DEBUG] Updated master recurring event with ID: {event_id}")
+            print(f"[DEBUG] Updated master recurring event metadata with ID: {event_id}")
             print(f"[DEBUG] Updated master event summary: {event.get('summary')}")
             print(f"[DEBUG] Updated master event description: {event.get('description', 'No description')[:100]}...")
-            print(f"[DEBUG] Updated master event recurrence: {event.get('recurrence')}")
+            print(f"[DEBUG] Preserved master event recurrence: {event.get('recurrence')}")
 
             return {
                 'htmlLink': html_link,
