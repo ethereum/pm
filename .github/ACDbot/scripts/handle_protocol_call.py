@@ -18,6 +18,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'modules'))
 from modules.form_parser import FormParser
 from modules.mapping_manager import MappingManager
 from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display
+from modules.logging_config import get_logger, log_success, log_resource_status, log_api_call, should_log_debug
 
 
 class ProtocolCallHandler:
@@ -26,6 +27,7 @@ class ProtocolCallHandler:
     def __init__(self):
         self.form_parser = FormParser()
         self.mapping_manager = MappingManager()
+        self.logger = get_logger()
 
     def _handle_zoom_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle Zoom meeting creation/updates."""
@@ -38,23 +40,23 @@ class ProtocolCallHandler:
         try:
             # Skip if user opted out
             if call_data.get("skip_zoom_creation"):
-                print(f"[DEBUG] Zoom creation skipped (user opted out)")
+                self.logger.debug("Zoom creation skipped (user opted out)")
                 return result
 
             # Check if we have an existing Zoom meeting
             has_existing = existing_resources.get("has_zoom", False)
 
             if has_existing:
-                print(f"[DEBUG] Updating existing Zoom meeting")
+                self.logger.debug("Updating existing Zoom meeting")
                 result = self._update_zoom_meeting(call_data)
             else:
-                print(f"[DEBUG] Creating new Zoom meeting")
+                self.logger.debug("Creating new Zoom meeting")
                 result = self._create_zoom_meeting(call_data)
 
             return result
 
         except Exception as e:
-            print(f"[ERROR] Failed to handle Zoom resource: {e}")
+            self.logger.error(f"Failed to handle Zoom resource: {e}")
             return result
 
     def _handle_calendar_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
@@ -70,19 +72,20 @@ class ProtocolCallHandler:
             has_existing = existing_resources.get("has_calendar", False)
             existing_calendar_id = existing_resources.get("calendar_event_id")
 
-            print(f"[DEBUG] Calendar decision: has_existing={has_existing}, calendar_id={existing_calendar_id}")
+            if should_log_debug():
+                self.logger.debug(f"Calendar decision: has_existing={has_existing}, calendar_id={existing_calendar_id}")
 
             if has_existing and existing_calendar_id:
-                print(f"[DEBUG] Updating existing calendar event with ID: {existing_calendar_id}")
+                self.logger.debug(f"Updating existing calendar event with ID: {existing_calendar_id}")
                 result = self._update_calendar_event(call_data, existing_resources)
             else:
-                print(f"[DEBUG] Creating new calendar event (has_existing={has_existing}, existing_id={existing_calendar_id})")
+                self.logger.debug(f"Creating new calendar event")
                 result = self._create_calendar_event(call_data)
 
             return result
 
         except Exception as e:
-            print(f"[ERROR] Failed to handle Calendar resource: {e}")
+            self.logger.error(f"Failed to handle Calendar resource: {e}")
             return result
 
     def _handle_discourse_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
@@ -125,8 +128,9 @@ class ProtocolCallHandler:
 
             discourse_url = f"{os.environ.get('DISCOURSE_BASE_URL', 'https://ethereum-magicians.org')}/t/{topic_id}"
 
-            print(f"[DEBUG] Discourse topic {action}: ID {topic_id}, title '{title}'")
-            print(f"[DEBUG] Discourse URL: {discourse_url}")
+            if should_log_debug():
+                self.logger.debug(f"Discourse topic {action}: ID {topic_id}, title '{title}'")
+                self.logger.debug(f"Discourse URL: {discourse_url}")
 
             result = {
                 "discourse_created": True,
@@ -138,7 +142,7 @@ class ProtocolCallHandler:
             return result
 
         except discourse.DiscourseDuplicateTitleError as e:
-            print(f"[INFO] Discourse topic failed: Title '{e.title}' already exists.")
+            self.logger.info(f"Discourse topic failed: Title '{e.title}' already exists.")
 
             # Try to find existing topic ID in mapping for recurring calls
             if call_data.get("call_series") and not call_data.get("call_series").startswith("one-off-"):
@@ -163,7 +167,7 @@ class ProtocolCallHandler:
             }
 
         except Exception as e:
-            print(f"[ERROR] Failed to handle Discourse resource: {e}")
+            self.logger.error(f"Failed to handle Discourse resource: {e}")
             return {
                 "discourse_created": False,
                 "discourse_topic_id": f"placeholder-error-{call_data['issue_number']}",
@@ -182,14 +186,14 @@ class ProtocolCallHandler:
         try:
             # Skip if user opted out of YouTube streams
             if not call_data.get("need_youtube_streams"):
-                print(f"[DEBUG] YouTube stream creation skipped (user opted out)")
+                self.logger.debug("YouTube stream creation skipped (user opted out)")
                 return result
 
             # Check if we have existing YouTube streams
             has_existing = existing_resources.get("has_youtube", False)
 
             if has_existing:
-                print(f"[DEBUG] YouTube streams already exist, using existing")
+                self.logger.debug("YouTube streams already exist, using existing")
                 # Use existing YouTube streams
                 existing_occurrence = existing_resources["existing_occurrence"]["occurrence"]
                 youtube_streams = existing_occurrence.get("youtube_streams", [])
@@ -206,36 +210,36 @@ class ProtocolCallHandler:
                     "youtube_action": "existing"
                 }
             else:
-                print(f"[DEBUG] Creating new YouTube streams")
+                self.logger.debug("Creating new YouTube streams")
                 result = self._create_youtube_streams(call_data)
 
             return result
 
         except Exception as e:
-            print(f"[ERROR] Failed to handle YouTube resource: {e}")
+            self.logger.error(f"Failed to handle YouTube resource: {e}")
             return result
 
     def handle_protocol_call(self, issue_number: int, repo_name: str) -> bool:
         """Main entry point for handling a protocol call issue."""
         try:
-            print(f"[INFO] Starting protocol call handler for issue #{issue_number}")
+            self.logger.info(f"Starting protocol call handler for issue #{issue_number}")
 
             # 1. Get GitHub issue
             issue = self._get_github_issue(issue_number, repo_name)
             if not issue:
-                print(f"[ERROR] Failed to get GitHub issue #{issue_number}")
+                self.logger.error(f"Failed to get GitHub issue #{issue_number}")
                 return False
 
             # 2. Parse form data
             form_data = self._parse_form_data(issue.body, issue_number)
             if not form_data:
-                print(f"[ERROR] Failed to parse form data from issue #{issue_number}")
+                self.logger.error(f"Failed to parse form data from issue #{issue_number}")
                 return False
 
             # 3. Validate and transform data
             call_data = self._validate_and_transform(form_data, issue)
             if not call_data:
-                print(f"[ERROR] Failed to validate/transform data for issue #{issue_number}")
+                self.logger.error(f"Failed to validate/transform data for issue #{issue_number}")
                 return False
 
             # 4. Check for existing occurrence and resources
@@ -273,7 +277,8 @@ class ProtocolCallHandler:
             # Store zoom URL for use by other resources
             if zoom_result.get("zoom_url"):
                 self._last_zoom_url = zoom_result["zoom_url"]
-                print(f"[DEBUG] Set _last_zoom_url: {self._last_zoom_url}")
+                if should_log_debug():
+                    self.logger.debug(f"Set _last_zoom_url: {self._last_zoom_url[:50]}...")
             else:
                 # Try to get an existing working zoom URL from the mapping
                 series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
@@ -299,11 +304,11 @@ class ProtocolCallHandler:
             if not calendar_result.get("calendar_created"):
                 critical_failures.append("Calendar event creation failed")
 
-            # Log calendar action for debugging
+            # Log calendar action
             if calendar_result.get("calendar_created"):
                 action = calendar_result.get("calendar_action", "unknown")
                 event_id = calendar_result.get("calendar_event_id")
-                print(f"[DEBUG] Calendar event {action}: {event_id}")
+                log_resource_status("Calendar", action, f"ID: {event_id}")
 
             discourse_result = self._handle_discourse_resource(call_data, existing_resources)
             resource_results.update(discourse_result)
@@ -318,14 +323,14 @@ class ProtocolCallHandler:
             # 7. Always update mapping first, then handle resources
             success = self._update_mapping(call_data, issue, is_update)
             if not success:
-                print(f"[ERROR] Failed to update mapping for issue #{issue_number}")
+                self.logger.error(f"Failed to update mapping for issue #{issue_number}")
                 return False
 
             # Update mapping with any successfully created resources
             self._update_mapping_with_resources(call_data, resource_results)
             if critical_failures:
-                print(f"[ERROR] Critical failures occurred: {', '.join(critical_failures)}")
-                print(f"[INFO] Saved any successful resource IDs to mapping; failed resources can be retried later")
+                self.logger.error(f"Critical failures occurred: {', '.join(critical_failures)}")
+                self.logger.info("Saved any successful resource IDs to mapping; failed resources can be retried later")
 
             # 8. Save mapping
             self.mapping_manager.save_mapping()
@@ -340,11 +345,11 @@ class ProtocolCallHandler:
             if not is_update:
                 self._clean_issue_body_if_needed(issue)
 
-            print(f"[INFO] Successfully processed protocol call for issue #{issue_number}")
+            log_success(f"Successfully processed protocol call for issue #{issue_number}")
             return True
 
         except Exception as e:
-            print(f"[ERROR] Unexpected error in protocol call handler: {e}")
+            self.logger.error(f"Unexpected error in protocol call handler: {e}")
             return False
 
     def _get_github_issue(self, issue_number: int, repo_name: str):
@@ -356,7 +361,7 @@ class ProtocolCallHandler:
             # Get GitHub token from environment
             github_token = os.getenv('GITHUB_TOKEN')
             if not github_token:
-                print("[ERROR] GITHUB_TOKEN environment variable not set")
+                self.logger.error("GITHUB_TOKEN environment variable not set")
                 return None
 
             # Initialize GitHub client
@@ -364,23 +369,26 @@ class ProtocolCallHandler:
             repo = g.get_repo(repo_name)
             issue = repo.get_issue(issue_number)
 
-            print(f"[DEBUG] Retrieved GitHub issue: {issue.title}")
+            self.logger.debug(f"Retrieved GitHub issue: {issue.title}")
             return issue
 
         except Exception as e:
-            print(f"[ERROR] Failed to get GitHub issue: {e}")
+            self.logger.error(f"Failed to get GitHub issue: {e}")
             return None
 
     def _parse_form_data(self, issue_body: str, issue_number: int) -> Optional[Dict]:
         """Parse form data from issue body."""
         try:
-            print(f"[DEBUG] Raw issue body:\n{issue_body}")
+            if should_log_debug():
+                self.logger.debug(f"Raw issue body length: {len(issue_body) if issue_body else 0} chars")
             form_data = self.form_parser.parse_form_data(issue_body, issue_number)
-            print(f"[DEBUG] Successfully parsed form data: {form_data}")
+            if should_log_debug():
+                # Log only key fields, not full data
+                self.logger.debug(f"Parsed form: series={form_data.get('call_series')}, time={form_data.get('start_time')}")
             return form_data
 
         except Exception as e:
-            print(f"[ERROR] Failed to parse form data: {e}")
+            self.logger.error(f"Failed to parse form data: {e}")
             return None
 
     def _validate_and_transform(self, form_data: Dict, issue) -> Optional[Dict]:
@@ -390,7 +398,7 @@ class ProtocolCallHandler:
             required_fields = ["call_series", "duration", "start_time"]
             for field in required_fields:
                 if not form_data.get(field):
-                    print(f"[ERROR] Missing required field: {field}")
+                    self.logger.error(f"Missing required field: {field}")
                     return None
 
             # Create call data structure
@@ -409,11 +417,12 @@ class ProtocolCallHandler:
                 "agenda": form_data.get("agenda")
             }
 
-            print(f"[DEBUG] Validated and transformed call data: {call_data}")
+            if should_log_debug():
+                self.logger.debug(f"Validated call data for issue #{call_data['issue_number']}")
             return call_data
 
         except Exception as e:
-            print(f"[ERROR] Failed to validate/transform data: {e}")
+            self.logger.error(f"Failed to validate/transform data: {e}")
             return None
 
     def _check_existing_resources(self, call_data: Dict) -> Dict:
@@ -423,7 +432,7 @@ class ProtocolCallHandler:
 
             # For new occurrences, check series-level resources
             if not call_series_entry:
-                print(f"[DEBUG] No existing occurrence found for issue #{call_data['issue_number']}, checking series-level resources")
+                self.logger.debug(f"No existing occurrence found for issue #{call_data['issue_number']}, checking series-level resources")
 
                 # Check series-level resources even for new occurrences
                 series_meeting_id = self.mapping_manager.get_series_meeting_id(call_data["call_series"])
@@ -433,9 +442,10 @@ class ProtocolCallHandler:
                 calendar_event_id = self.mapping_manager.get_series_calendar_event_id(call_data["call_series"])
                 has_calendar = bool(calendar_event_id)
 
-                print(f"[DEBUG] Series-level resources for {call_data['call_series']}:")
-                print(f"  - Zoom: {has_zoom} (ID: {series_meeting_id})")
-                print(f"  - Calendar: {has_calendar} (ID: {calendar_event_id})")
+                if should_log_debug():
+                    self.logger.debug(f"Series-level resources for {call_data['call_series']}:")
+                    self.logger.debug(f"  - Zoom: {has_zoom} (ID: {series_meeting_id})")
+                    self.logger.debug(f"  - Calendar: {has_calendar} (ID: {calendar_event_id})")
 
                 return {
                     "has_zoom": has_zoom,
@@ -447,8 +457,9 @@ class ProtocolCallHandler:
 
             occurrence = call_series_entry.get("occurrence")
             if not occurrence:
-                print(f"[ERROR] No occurrence data found in call_series_entry for issue #{call_data['issue_number']}")
-                print(f"[DEBUG] call_series_entry structure: {call_series_entry}")
+                self.logger.error(f"No occurrence data found in call_series_entry for issue #{call_data['issue_number']}")
+                if should_log_debug():
+                    self.logger.debug(f"call_series_entry structure: {call_series_entry}")
                 return {
                     "has_zoom": False,
                     "has_calendar": False,
@@ -470,13 +481,12 @@ class ProtocolCallHandler:
             youtube_streams = occurrence.get("youtube_streams", [])
             has_youtube = bool(youtube_streams)
 
-            print(f"[DEBUG] Existing resources for issue #{call_data['issue_number']}:")
-            print(f"  - Zoom: {has_zoom} (ID: {call_series_entry.get('meeting_id')})")
-            print(f"  - Calendar: {has_calendar} (ID: {calendar_event_id})")
-            print(f"  - Discourse: {has_discourse} (ID: {occurrence.get('discourse_topic_id')})")
-            print(f"  - YouTube: {has_youtube} (streams: {len(youtube_streams) if youtube_streams else 0})")
-            print(f"[DEBUG] Full occurrence data: {occurrence}")
-            print(f"[DEBUG] Full call_series_entry data: {call_series_entry}")
+            if should_log_debug():
+                self.logger.debug(f"Existing resources for issue #{call_data['issue_number']}:")
+                self.logger.debug(f"  - Zoom: {has_zoom}")
+                self.logger.debug(f"  - Calendar: {has_calendar}")
+                self.logger.debug(f"  - Discourse: {has_discourse}")
+                self.logger.debug(f"  - YouTube: {has_youtube} (streams: {len(youtube_streams) if youtube_streams else 0})")
 
             return {
                 "has_zoom": has_zoom,
@@ -488,7 +498,7 @@ class ProtocolCallHandler:
             }
 
         except Exception as e:
-            print(f"[ERROR] Failed to check existing resources: {e}")
+            self.logger.error(f"Failed to check existing resources: {e}")
             return {
                 "has_zoom": False,
                 "has_calendar": False,
@@ -502,7 +512,7 @@ class ProtocolCallHandler:
             # Get the existing occurrence to update
             existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
             if not existing_occurrence:
-                print(f"[ERROR] Could not find occurrence for issue #{call_data['issue_number']} to update with resource IDs")
+                self.logger.error(f"Could not find occurrence for issue #{call_data['issue_number']} to update with resource IDs")
                 return False
 
             call_series = existing_occurrence["call_series"]
@@ -1065,12 +1075,12 @@ class ProtocolCallHandler:
                     if sorted_occurrences:
                         # Found the most recent valid topic ID within this series' occurrences
                         topic_id = sorted_occurrences[0]["discourse_topic_id"]
-                        print(f"[DEBUG] Found existing topic ID {topic_id} in occurrences for series '{call_series}'")
+                        self.logger.debug(f"Found existing topic ID {topic_id} in occurrences for series '{call_series}'")
                         return topic_id
 
             if series_entries:
                 topic_id = series_entries[0]["discourse_topic_id"]
-                print(f"[DEBUG] Found existing topic ID {topic_id} at top-level for series '{call_series}'")
+                self.logger.debug(f"Found existing topic ID {topic_id} at top-level for series '{call_series}'")
                 return topic_id
 
             return None

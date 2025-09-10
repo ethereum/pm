@@ -1,5 +1,6 @@
 import os
 import json
+import re
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta
@@ -327,43 +328,113 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                     instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
                     print(f"[DEBUG]   {i+1}. {instance_dt.date()} - {instance.get('id')}")
 
-            # For recurring events, if no matching instance exists, just update the master event
-            # This is appropriate when the new occurrence represents a change to the entire series
-            # (e.g., changing time, description, or extending the series)
-            print(f"[DEBUG] No specific instance found, updating master recurring event")
-            print(f"[DEBUG] This will update the series metadata while preserving the recurrence pattern")
-            print(f"[DEBUG] Master event current summary: {existing_event.get('summary')}")
-            print(f"[DEBUG] Master event current description: {existing_event.get('description', 'No description')[:100]}...")
+            # Check if the recurrence has ended before our target date
+            recurrence_rules = existing_event.get('recurrence', [])
+            recurrence_ended = False
+            for rule in recurrence_rules:
+                if 'UNTIL=' in rule:
+                    # Extract the UNTIL date
+                    until_match = re.search(r'UNTIL=(\d{8}T\d{6}Z?)', rule)
+                    if until_match:
+                        until_str = until_match.group(1)
+                        # Parse the until date
+                        if 'T' in until_str:
+                            until_dt = datetime.strptime(until_str.replace('Z', ''), '%Y%m%dT%H%M%S')
+                        else:
+                            until_dt = datetime.strptime(until_str, '%Y%m%d')
+                        until_dt = until_dt.replace(tzinfo=pytz.utc)
 
-            # Update only the metadata (summary, description) but preserve the original start time and recurrence
-            event_body = {
-                'summary': summary,
-                'description': description,
-                'start': existing_event.get('start'),
-                'end': existing_event.get('end'),
-                'recurrence': existing_event.get('recurrence', []),
-            }
+                        if until_dt < start_dt:
+                            recurrence_ended = True
+                            print(f"[DEBUG] Recurrence ended on {until_dt.date()}, before target date {start_dt.date()}")
+                            break
 
-            print(f"[DEBUG] New summary: {summary}")
-            print(f"[DEBUG] New description: {description[:100]}...")
+            if recurrence_ended:
+                # Extend the recurrence to include the new date
+                print(f"[DEBUG] Extending recurrence to include new date")
 
-            event = service.events().update(
-                calendarId=calendar_id,
-                eventId=event_id,
-                body=event_body
-            ).execute()
+                # Update the UNTIL date in the recurrence rule to at least cover the new date
+                # Add some buffer (e.g., 6 months from the new date)
+                new_until = start_dt + timedelta(days=180)
+                new_until_str = new_until.strftime('%Y%m%dT%H%M%SZ')
 
-            event_id = event.get('id')
-            html_link = event.get('htmlLink')
-            print(f"[DEBUG] Updated master recurring event metadata with ID: {event_id}")
-            print(f"[DEBUG] Updated master event summary: {event.get('summary')}")
-            print(f"[DEBUG] Updated master event description: {event.get('description', 'No description')[:100]}...")
-            print(f"[DEBUG] Preserved master event recurrence: {event.get('recurrence')}")
+                updated_recurrence = []
+                for rule in recurrence_rules:
+                    if 'UNTIL=' in rule:
+                        # Replace the old UNTIL with the new one
+                        rule = re.sub(r'UNTIL=\d{8}T\d{6}Z?', f'UNTIL={new_until_str}', rule)
+                    updated_recurrence.append(rule)
 
-            return {
-                'htmlLink': html_link,
-                'id': event_id
-            }
+                print(f"[DEBUG] Updated recurrence rules: {updated_recurrence}")
+
+                # Update the event with extended recurrence
+                event_body = {
+                    'summary': summary,
+                    'description': description,
+                    'start': existing_event.get('start'),
+                    'end': existing_event.get('end'),
+                    'recurrence': updated_recurrence,
+                }
+
+                event = service.events().update(
+                    calendarId=calendar_id,
+                    eventId=event_id,
+                    body=event_body
+                ).execute()
+
+                print(f"[DEBUG] Extended recurring event to include new date")
+                print(f"[DEBUG] New recurrence: {event.get('recurrence')}")
+
+                # Now try to get the specific instance for the target date
+                # Need to refetch instances after updating the recurrence
+                instances = service.events().instances(
+                    calendarId=calendar_id,
+                    eventId=event_id
+                ).execute()
+
+                for instance in instances.get('items', []):
+                    instance_start = instance.get('start', {}).get('dateTime')
+                    if instance_start:
+                        instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
+                        if instance_dt.date() == start_dt.date():
+                            # Found the new instance, return its link
+                            print(f"[DEBUG] Found new instance after extending recurrence")
+                            return {
+                                'htmlLink': instance.get('htmlLink'),
+                                'id': event_id  # Return the series ID, not instance ID
+                            }
+
+                # Return the series link if no specific instance found
+                return {
+                    'htmlLink': event.get('htmlLink'),
+                    'id': event_id
+                }
+            else:
+                # Recurrence hasn't ended, just update metadata
+                print(f"[DEBUG] No specific instance found, updating master recurring event metadata")
+                print(f"[DEBUG] This will update the series metadata while preserving the recurrence pattern")
+
+                # Update only the metadata (summary, description) but preserve the original start time and recurrence
+                event_body = {
+                    'summary': summary,
+                    'description': description,
+                    'start': existing_event.get('start'),
+                    'end': existing_event.get('end'),
+                    'recurrence': existing_event.get('recurrence', []),
+                }
+
+                event = service.events().update(
+                    calendarId=calendar_id,
+                    eventId=event_id,
+                    body=event_body
+                ).execute()
+
+                print(f"[DEBUG] Updated master recurring event metadata")
+
+                return {
+                    'htmlLink': event.get('htmlLink'),
+                    'id': event_id
+                }
 
     except ValueError:
         # Re-raise ValueError to let caller know this needs a new event

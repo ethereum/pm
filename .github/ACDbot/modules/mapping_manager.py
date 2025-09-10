@@ -9,6 +9,15 @@ import json
 import os
 from typing import Dict, List, Optional, Any
 from datetime import datetime
+try:
+    from .logging_config import get_logger, should_log_debug
+except ImportError:
+    # Fallback for when logging_config is not available
+    import logging
+    def get_logger():
+        return logging.getLogger(__name__)
+    def should_log_debug():
+        return os.getenv('ACDBOT_LOG_LEVEL', 'INFO').upper() == 'DEBUG'
 
 
 class MappingManager:
@@ -16,6 +25,7 @@ class MappingManager:
 
     def __init__(self, mapping_file_path: str = ".github/ACDbot/meeting_topic_mapping.json"):
         self.mapping_file_path = mapping_file_path
+        self.logger = get_logger()
         self.mapping = self.load_mapping()
 
     def load_mapping(self) -> Dict:
@@ -23,13 +33,13 @@ class MappingManager:
         try:
             with open(self.mapping_file_path, 'r') as f:
                 mapping = json.load(f)
-            print(f"[DEBUG] Loaded mapping with {len(mapping)} entries")
+            self.logger.info(f"Loaded mapping with {len(mapping)} entries")
             return mapping
         except FileNotFoundError:
-            print(f"[WARNING] Mapping file not found at {self.mapping_file_path}, creating new mapping")
+            self.logger.warning(f"Mapping file not found at {self.mapping_file_path}, creating new mapping")
             return {}
         except json.JSONDecodeError as e:
-            print(f"[ERROR] Failed to parse mapping file: {e}")
+            self.logger.error(f"Failed to parse mapping file: {e}")
             return {}
 
     def save_mapping(self) -> bool:
@@ -38,15 +48,15 @@ class MappingManager:
             # Ensure the directory exists (this should be part of the repository)
             directory = os.path.dirname(self.mapping_file_path)
             if not os.path.exists(directory):
-                print(f"[ERROR] Directory {directory} does not exist. The mapping file should be part of the repository.")
+                self.logger.error(f"Directory {directory} does not exist. The mapping file should be part of the repository.")
                 return False
 
             with open(self.mapping_file_path, 'w') as f:
                 json.dump(self.mapping, f, indent=2)
-            print(f"[DEBUG] Saved mapping to {self.mapping_file_path}")
+            self.logger.debug(f"Saved mapping to {self.mapping_file_path}")
             return True
         except Exception as e:
-            print(f"[ERROR] Failed to save mapping: {e}")
+            self.logger.error(f"Failed to save mapping: {e}")
             return False
 
     def get_call_series(self, call_series: str) -> Optional[Dict]:
@@ -94,11 +104,11 @@ class MappingManager:
             occurrence_data["occurrence_number"] = occurrence_number
 
             self.mapping[call_series]["occurrences"].append(occurrence_data)
-            print(f"[DEBUG] Added occurrence #{occurrence_number} to call series: {call_series}")
+            self.logger.debug(f"Added occurrence #{occurrence_number} to call series: {call_series}")
 
             return True
         except Exception as e:
-            print(f"[ERROR] Failed to add occurrence: {e}")
+            self.logger.error(f"Failed to add occurrence: {e}")
             return False
 
     def update_occurrence(self, call_series: str, issue_number: int, update_data: Dict) -> bool:
@@ -111,18 +121,19 @@ class MappingManager:
             for occurrence in self.mapping[call_series].get("occurrences", []):
                 if occurrence.get("issue_number") == issue_number:
                     occurrence.update(update_data)
-                    print(f"[DEBUG] Updated occurrence for issue #{issue_number} in call series: {call_series}")
+                    self.logger.debug(f"Updated occurrence for issue #{issue_number} in call series: {call_series}")
                     return True
 
-            print(f"[WARNING] Occurrence for issue #{issue_number} not found in call series: {call_series}")
+            self.logger.warning(f"Occurrence for issue #{issue_number} not found in call series: {call_series}")
             return False
         except Exception as e:
-            print(f"[ERROR] Failed to update occurrence: {e}")
+            self.logger.error(f"Failed to update occurrence: {e}")
             return False
 
     def find_occurrence(self, issue_number: int) -> Optional[Dict]:
         """Find an occurrence by issue number across all call series."""
-        print(f"[DEBUG] Searching for issue #{issue_number} in mapping with {len(self.mapping)} entries")
+        if should_log_debug():
+            self.logger.debug(f"Searching for issue #{issue_number} in mapping")
 
         # Check all call series
         for call_series, entry in self.mapping.items():
@@ -131,14 +142,16 @@ class MappingManager:
                 continue
 
             occurrences = entry.get("occurrences", [])
-            print(f"[DEBUG] Checking call series '{call_series}' with {len(occurrences)} occurrences")
+            # Removed verbose "Checking call series" logging - this was the main source of noise
 
             for occurrence in occurrences:
                 if occurrence.get("issue_number") == issue_number:
-                    print(f"[DEBUG] Found issue #{issue_number} in call series '{call_series}'")
+                    if should_log_debug():
+                        self.logger.debug(f"Found issue #{issue_number} in call series '{call_series}'")
                     return {"call_series": call_series, "meeting_id": entry.get("meeting_id"), "occurrence": occurrence}
 
-        print(f"[DEBUG] Issue #{issue_number} not found in any call series")
+        if should_log_debug():
+            self.logger.debug(f"Issue #{issue_number} not found in any call series")
         return None
 
     def get_series_meeting_id(self, call_series: str) -> Optional[str]:
@@ -154,21 +167,21 @@ class MappingManager:
     def set_series_meeting_id(self, call_series: str, meeting_id: str) -> bool:
         """Set the meeting ID for a call series."""
         if call_series not in self.mapping:
-            print(f"[WARNING] Call series '{call_series}' not found in mapping")
+            self.logger.warning(f"Call series '{call_series}' not found in mapping")
             return False
 
         self.mapping[call_series]["meeting_id"] = str(meeting_id)
-        print(f"[DEBUG] Set meeting ID '{meeting_id}' for call series: {call_series}")
+        self.logger.debug(f"Set meeting ID '{meeting_id}' for call series: {call_series}")
         return True
 
     def set_series_custom_meeting(self, call_series: str) -> bool:
         """Set the meeting ID to 'custom' when user opts out of Zoom creation."""
         if call_series not in self.mapping:
-            print(f"[WARNING] Call series '{call_series}' not found in mapping")
+            self.logger.warning(f"Call series '{call_series}' not found in mapping")
             return False
 
         self.mapping[call_series]["meeting_id"] = "custom"
-        print(f"[DEBUG] Set meeting ID to 'custom' for call series: {call_series} (user opted out of Zoom)")
+        self.logger.debug(f"Set meeting ID to 'custom' for call series: {call_series} (user opted out of Zoom)")
         return True
 
     def get_series_calendar_event_id(self, call_series: str) -> Optional[str]:
@@ -182,11 +195,11 @@ class MappingManager:
     def set_series_calendar_event_id(self, call_series: str, calendar_event_id: str) -> bool:
         """Set the calendar event ID for a call series."""
         if call_series not in self.mapping:
-            print(f"[WARNING] Call series '{call_series}' not found in mapping")
+            self.logger.warning(f"Call series '{call_series}' not found in mapping")
             return False
 
         self.mapping[call_series]["calendar_event_id"] = calendar_event_id
-        print(f"[DEBUG] Set calendar event ID '{calendar_event_id}' for call series: {call_series}")
+        self.logger.debug(f"Set calendar event ID '{calendar_event_id}' for call series: {call_series}")
         return True
 
     def get_series_uuid(self, call_series: str) -> Optional[str]:
@@ -200,11 +213,11 @@ class MappingManager:
     def set_series_uuid(self, call_series: str, uuid: str) -> bool:
         """Set the UUID for a call series."""
         if call_series not in self.mapping:
-            print(f"[WARNING] Call series '{call_series}' not found in mapping")
+            self.logger.warning(f"Call series '{call_series}' not found in mapping")
             return False
 
         self.mapping[call_series]["uuid"] = uuid
-        print(f"[DEBUG] Set UUID '{uuid}' for call series: {call_series}")
+        self.logger.debug(f"Set UUID '{uuid}' for call series: {call_series}")
         return True
 
     def create_occurrence_data(self, issue_number: int, issue_title: str, discourse_topic_id: Optional[int],
