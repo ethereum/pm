@@ -897,11 +897,14 @@ class ProtocolCallHandler:
                         )
                         print(f"[DEBUG] Updated one-time calendar event with ID: {event_result.get('id')}")
 
+                    # Get the specific action detail from gcal module if available
+                    action_detail = event_result.get('action_detail', '')
                     return {
                         "calendar_created": True,
                         "calendar_event_id": event_result.get('id'),
                         "calendar_event_url": event_result.get('htmlLink'),
-                        "calendar_action": "updated"
+                        "calendar_action": "updated",
+                        "calendar_action_detail": action_detail
                     }
 
                 except ValueError as e:
@@ -937,11 +940,14 @@ class ProtocolCallHandler:
                 print(f"[DEBUG] Created one-time calendar event with ID: {event_result.get('id')}")
 
             print(f"[DEBUG] Calendar event result: {event_result}")
+            # Get the specific action detail from gcal module if available
+            action_detail = event_result.get('action_detail', '')
             return {
                 "calendar_created": True,
                 "calendar_event_id": event_result.get('id'),
                 "calendar_event_url": event_result.get('htmlLink'),
-                "calendar_action": "created"
+                "calendar_action": "created",
+                "calendar_action_detail": action_detail
             }
 
         except Exception as e:
@@ -1180,21 +1186,37 @@ class ProtocolCallHandler:
         zoom_id = resource_results.get("zoom_id")
         if resource_results.get("zoom_created"):
             if zoom_action == "skipped_permissions":
-                message_lines.append(f"🔐 <b>Zoom:</b> Permissions skipped (ID: {zoom_id})")
+                message_lines.append(f"🔐 <b>Zoom:</b> Auth limited (link OK)")
             elif zoom_action == "updated":
-                message_lines.append(f"🔄 <b>Zoom:</b> Updated (ID: {zoom_id})")
+                message_lines.append(f"🔄 <b>Zoom:</b> Details updated")
             elif zoom_action == "created":
-                message_lines.append(f"✅ <b>Zoom:</b> Created (ID: {zoom_id})")
+                message_lines.append(f"✅ <b>Zoom:</b> New meeting created")
             else:
-                message_lines.append(f"⏭️ <b>Zoom:</b> Using existing (ID: {zoom_id})")
+                message_lines.append(f"⏭️ <b>Zoom:</b> Using existing")
+        elif call_data.get("skip_zoom_creation"):
+            message_lines.append(f"⏭️ <b>Zoom:</b> User provided link")
         else:
             message_lines.append("❌ <b>Zoom:</b> Failed")
 
         # Calendar
         cal_action = resource_results.get("calendar_action", "unknown")
+        cal_action_detail = resource_results.get("calendar_action_detail", "")
         cal_id = resource_results.get("calendar_event_id")
         if resource_results.get("calendar_created"):
-            message_lines.append(f"✅ <b>Calendar:</b> {cal_action.title()} (ID: {cal_id})")
+            if cal_action == "updated":
+                # Provide specific detail about what was updated
+                if cal_action_detail == "recurrence_extended":
+                    message_lines.append(f"📅 <b>Calendar:</b> Extended recurrence")
+                elif cal_action_detail == "instance_updated":
+                    message_lines.append(f"🔄 <b>Calendar:</b> Instance modified")
+                elif cal_action_detail == "metadata_updated":
+                    message_lines.append(f"📝 <b>Calendar:</b> Metadata updated")
+                else:
+                    message_lines.append(f"🔄 <b>Calendar:</b> Updated")
+            elif cal_action == "created":
+                message_lines.append(f"✅ <b>Calendar:</b> New event created")
+            else:
+                message_lines.append(f"📅 <b>Calendar:</b> {cal_action.title()}")
         else:
             message_lines.append("❌ <b>Calendar:</b> Failed")
 
@@ -1203,26 +1225,35 @@ class ProtocolCallHandler:
         discourse_id = resource_results.get("discourse_topic_id")
         if resource_results.get("discourse_created"):
             if discourse_action == "unchanged":
-                message_lines.append(f"⏭️ <b>Discourse:</b> Content unchanged (ID: {discourse_id})")
+                message_lines.append(f"⏭️ <b>Discourse:</b> No changes needed")
             elif discourse_action == "updated":
-                message_lines.append(f"🔄 <b>Discourse:</b> Updated (ID: {discourse_id})")
+                message_lines.append(f"🔄 <b>Discourse:</b> Content updated")
+            elif discourse_action == "created":
+                message_lines.append(f"✅ <b>Discourse:</b> New topic created")
             else:
-                message_lines.append(f"✅ <b>Discourse:</b> {discourse_action.title()} (ID: {discourse_id})")
+                message_lines.append(f"📝 <b>Discourse:</b> {discourse_action.title()}")
         else:
-            message_lines.append("❌ <b>Discourse:</b> Failed")
+            if "duplicate" in str(discourse_action).lower():
+                message_lines.append(f"⚠️ <b>Discourse:</b> Title exists")
+            else:
+                message_lines.append("❌ <b>Discourse:</b> Failed")
 
         # YouTube
         youtube_action = resource_results.get("youtube_action", "unknown")
         streams = resource_results.get("youtube_streams", [])
         if resource_results.get("youtube_streams_created"):
             if youtube_action == "existing":
-                message_lines.append(f"⏭️ <b>YouTube:</b> Using existing ({len(streams)} streams)")
+                message_lines.append(f"⏭️ <b>YouTube:</b> Reusing streams")
             else:
-                message_lines.append(f"✅ <b>YouTube:</b> Created ({len(streams)} streams)")
+                stream_count = len(streams)
+                if stream_count == 1:
+                    message_lines.append(f"✅ <b>YouTube:</b> Stream created")
+                else:
+                    message_lines.append(f"✅ <b>YouTube:</b> {stream_count} streams created")
         elif call_data.get("need_youtube_streams"):
             message_lines.append("❌ <b>YouTube:</b> Failed")
         else:
-            message_lines.append("⏭️ <b>YouTube:</b> Skipped")
+            message_lines.append("⏭️ <b>YouTube:</b> Not requested")
 
         # Add timing info
         import datetime

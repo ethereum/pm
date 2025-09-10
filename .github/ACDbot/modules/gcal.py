@@ -317,7 +317,8 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
 
             return {
                 'htmlLink': html_link,
-                'id': original_series_id
+                'id': original_series_id,
+                'action_detail': 'instance_updated'
             }
         else:
             print(f"[DEBUG] No matching instance found for date {start_dt.date()}")
@@ -401,13 +402,15 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                             print(f"[DEBUG] Found new instance after extending recurrence")
                             return {
                                 'htmlLink': instance.get('htmlLink'),
-                                'id': event_id  # Return the series ID, not instance ID
+                                'id': event_id,  # Return the series ID, not instance ID
+                                'action_detail': 'recurrence_extended'
                             }
 
                 # Return the series link if no specific instance found
                 return {
                     'htmlLink': event.get('htmlLink'),
-                    'id': event_id
+                    'id': event_id,
+                    'action_detail': 'recurrence_extended'
                 }
             else:
                 # Recurrence hasn't ended, just update metadata
@@ -433,7 +436,8 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
 
                 return {
                     'htmlLink': event.get('htmlLink'),
-                    'id': event_id
+                    'id': event_id,
+                    'action_detail': 'metadata_updated'
                 }
 
     except ValueError:
