@@ -32,6 +32,8 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
     - This is to provide time for internal security reviews, inclusion of upgrade specific code in the bug bounty program, and potential external security reviews.
 
 ### Mainnet
+
+- Mainnet should not have an upgrade date set until all testnets have been upgraded.
 - The upgrade must have gone through at least two testnets.
 - Mainnet must not upgrade less than 30 days after the final testnet has been verified to have been successfully upgraded. This is to ensure enough time has been given to test and spot potential issues before going live on mainnet and to allow for downstream projects to plan their upgrades. L2s need time to produce DAO proposals, organize their own upgrades, etc.
 
