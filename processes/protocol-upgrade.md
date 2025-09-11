@@ -28,7 +28,7 @@ Ethereum has regular protocol upgrades that introduce performance, security and 
 - Devnets are expected to experience issues, are short lived, and a new one should be launched when relevant. Given their short lived nature, they are considered out of scope of this process.
 
 ### Testnets
-- There must be a 14 day period between client releases being ready, and the first testnet going live.
+- There must be at least 14 days between client releases being ready, and the first testnet going live. If the first testnet being upgraded is planned to be shut down after the upgrade, this delay can be reduced to 7 days. 
     - This is to provide time for internal security reviews, inclusion of upgrade specific code in the bug bounty program, and potential external security reviews.
 
 ### Mainnet
