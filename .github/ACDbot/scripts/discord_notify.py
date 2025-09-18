@@ -8,9 +8,9 @@ from modules.mapping_utils import load_mapping, save_mapping
 
 MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
 
-# Notification window: send alerts between 60-50 minutes before meeting
+# Notification window: send alerts between 60-30 minutes before meeting
 NOTIFY_EARLY_MINUTES = 60  # Start sending notifications this many minutes before
-NOTIFY_CUTOFF_MINUTES = 50  # Stop automated notifications this many minutes before
+NOTIFY_CUTOFF_MINUTES = 30  # Stop automated notifications this many minutes before
 
 def build_discord_message(call_series, occurrence, series_data):
     """Build the enhanced Discord message with agenda, zoom, and YouTube links."""
@@ -119,10 +119,10 @@ def main():
             except Exception:
                 continue
             seconds_until = (start_dt - now).total_seconds()
-            # Notify between 60-50 minutes before meeting for early warning
+            # Notify between 60-30 minutes before meeting for early warning
             # This gives people advance notice while leaving time for manual intervention
             notify_early_seconds = NOTIFY_EARLY_MINUTES * 60  # 60 minutes before
-            notify_cutoff_seconds = NOTIFY_CUTOFF_MINUTES * 60  # 50 minutes before
+            notify_cutoff_seconds = NOTIFY_CUTOFF_MINUTES * 60  # 30 minutes before
 
             # Debug logging for time calculations
             if seconds_until < 0:
