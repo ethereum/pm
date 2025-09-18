@@ -19,6 +19,9 @@ jobs:
       - name: Run Discord notification script
         env:
           DISCORD_ACD_WEBHOOK: ${{ secrets.DISCORD_ACD_WEBHOOK }}
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
         run: python .github/ACDbot/scripts/discord_notify.py
       - name: Commit mapping file
         if: always()
