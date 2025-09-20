@@ -71,22 +71,8 @@ jobs:
           if git diff --quiet .github/ACDbot/meeting_topic_mapping.json; then
             echo "No changes to mapping file"
           else
-            # Pull latest changes to avoid conflicts
-            git pull --rebase origin master
-
-            # Check if there are still changes after pull (in case of conflicts)
-            if git diff --quiet .github/ACDbot/meeting_topic_mapping.json; then
-              echo "No changes to mapping file after pull"
-            else
-              git add .github/ACDbot/meeting_topic_mapping.json
-              git commit -m "Update meeting-topic mapping"
-
-              # Retry push with pull if it fails
-              if ! git push; then
-                echo "Push failed, trying pull and push again..."
-                git pull --rebase origin master
-                git push
-              fi
-              echo "Committed mapping file changes"
-            fi
+            git add .github/ACDbot/meeting_topic_mapping.json
+            git commit -m "Update meeting-topic mapping"
+            git push
+            echo "Committed mapping file changes"
           fi
