@@ -638,12 +638,7 @@ class ProtocolCallHandler:
             is_recurring = not call_series.startswith("one-off-")
 
             # Determine appropriate title based on call type
-            if call_series.startswith("one-off-"):
-                # For one-off calls, use the specific issue title
-                topic = call_data["issue_title"]
-            else:
-                # For series calls, use the human-friendly call series name
-                topic = self._get_call_series_display_name(call_series)
+            topic = self._get_zoom_meeting_title(call_data)
 
             print(f"[DEBUG] Creating/updating Zoom meeting: {topic}")
             print(f"[DEBUG] Start time: {start_time}, Duration: {duration} minutes")
@@ -717,6 +712,11 @@ class ProtocolCallHandler:
                 "zoom_url": None  # Don't set a bad fallback URL, let calendar handle it
             }
 
+    def _get_zoom_meeting_title(self, call_data: Dict) -> str:
+        """Get the appropriate Zoom meeting title based on call type."""
+        # Always use the specific issue title to keep Zoom meetings current
+        return call_data["issue_title"]
+
     def _update_zoom_meeting(self, call_data: Dict) -> Dict:
         """Update existing Zoom meeting."""
         try:
@@ -732,9 +732,10 @@ class ProtocolCallHandler:
             if existing_meeting_id:
                 from modules import zoom
                 try:
+                    topic = self._get_zoom_meeting_title(call_data)
                     update_result = zoom.update_meeting(
                         existing_meeting_id,
-                        call_data["issue_title"],
+                        topic,
                         call_data["start_time"],
                         call_data["duration"]
                     )
