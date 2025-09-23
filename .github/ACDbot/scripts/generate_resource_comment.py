@@ -112,6 +112,18 @@ def generate_comment(call_series, occurrence, mapping):
 
     comment_lines.append("")
 
+    # Check for date parsing errors
+    if start_time and not (isinstance(start_time, str) and start_time.endswith('Z')):
+        comment_lines.extend([
+            "⚠️ **Date Parsing Issue**: The date/time format could not be parsed automatically.",
+            f"   Current value: `{start_time}`",
+            "   Please edit the issue and use one of these formats:",
+            "   • `April 24, 2025, 14:00 UTC`",
+            "   • `Apr 24, 2025, 14:00 UTC`",
+            "   • `2025-04-24T14:00:00Z`",
+            ""
+        ])
+
     # Zoom Meeting
     zoom_url = get_zoom_meeting_url(meeting_id)
     if zoom_url:

@@ -393,3 +393,89 @@ bi-weekly
         result = self.handler._clean_issue_body(malformed_body)
         # Should return original body if cleaning fails
         self.assertEqual(result, malformed_body)
+
+    def test_generate_comprehensive_resource_comment_date_parsing_error(self):
+        """Test that date parsing errors are properly detected and displayed in resource comments."""
+        # Mock occurrence data with failed date parsing (string doesn't end with 'Z')
+        mock_occurrence_data = {
+            "call_series": "test-series",
+            "occurrence": {
+                "issue_number": 123,
+                "issue_title": "Test Protocol Call",
+                "start_time": "April 32, 2025, 14:00 UTC",  # Invalid date
+                "duration": 60,
+                "discourse_topic_id": "12345"
+            }
+        }
+
+        # Mock mapping data with no meeting ID to avoid Zoom import issues
+        mock_mapping_data = {
+            "test-series": {
+                "meeting_id": None,
+                "calendar_event_id": None
+            }
+        }
+
+        # Test call data
+        call_data = {
+            "issue_number": 123,
+            "issue_title": "Test Protocol Call"
+        }
+
+        # Mock the mapping manager methods
+        with unittest.mock.patch.object(self.handler.mapping_manager, 'find_occurrence', return_value=mock_occurrence_data), \
+             unittest.mock.patch.object(self.handler.mapping_manager, 'load_mapping', return_value=mock_mapping_data):
+
+            # Generate comment
+            result = self.handler._generate_comprehensive_resource_comment(call_data)
+
+            # Verify date parsing error is included
+            self.assertIsNotNone(result)
+            self.assertIn("⚠️ **Date Parsing Issue**", result)
+            self.assertIn("April 32, 2025, 14:00 UTC", result)
+            self.assertIn("April 24, 2025, 14:00 UTC", result)
+            self.assertIn("2025-04-24T14:00:00Z", result)
+
+    def test_generate_comprehensive_resource_comment_valid_date(self):
+        """Test that properly parsed dates don't trigger error messages."""
+        # Mock occurrence data with properly parsed date (ends with 'Z')
+        mock_occurrence_data = {
+            "call_series": "test-series",
+            "occurrence": {
+                "issue_number": 123,
+                "issue_title": "Test Protocol Call",
+                "start_time": "2025-04-24T14:00:00Z",  # Properly parsed ISO format
+                "duration": 60,
+                "discourse_topic_id": "12345"
+            }
+        }
+
+        # Mock mapping data with no meeting ID to avoid Zoom import issues
+        mock_mapping_data = {
+            "test-series": {
+                "meeting_id": None,
+                "calendar_event_id": None
+            }
+        }
+
+        # Test call data
+        call_data = {
+            "issue_number": 123,
+            "issue_title": "Test Protocol Call"
+        }
+
+        # Mock the mapping manager methods
+        with unittest.mock.patch.object(self.handler.mapping_manager, 'find_occurrence', return_value=mock_occurrence_data), \
+             unittest.mock.patch.object(self.handler.mapping_manager, 'load_mapping', return_value=mock_mapping_data):
+
+            # Generate comment
+            result = self.handler._generate_comprehensive_resource_comment(call_data)
+
+            # Verify NO date parsing error is included
+            self.assertIsNotNone(result)
+            self.assertNotIn("⚠️ **Date Parsing Issue**", result)
+            self.assertNotIn("could not be parsed automatically", result)
+
+
+if __name__ == '__main__':
+    unittest.main()

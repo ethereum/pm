@@ -1346,6 +1346,19 @@ class ProtocolCallHandler:
                 ""
             ]
 
+            # Check for date parsing errors
+            start_time = occurrence.get('start_time')
+            if start_time and not (isinstance(start_time, str) and start_time.endswith('Z')):
+                comment_lines.extend([
+                    "⚠️ **Date Parsing Issue**: The date/time format could not be parsed automatically.",
+                    f"   Current value: `{start_time}`",
+                    "   Please edit the issue and use one of these formats:",
+                    "   • `April 24, 2025, 14:00 UTC`",
+                    "   • `Apr 24, 2025, 14:00 UTC`",
+                    "   • `2025-04-24T14:00:00Z`",
+                    ""
+                ])
+
             # Zoom Meeting with enhanced URL (including passcode if available)
             meeting_id = series_data.get('meeting_id')
             if meeting_id and not str(meeting_id).startswith("placeholder") and meeting_id != "custom":
