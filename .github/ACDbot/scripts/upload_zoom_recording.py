@@ -75,18 +75,90 @@ def video_exists(youtube, meeting_id):
         return False
     return True
 
-def download_zoom_recording(meeting_id):
-    """Download Zoom recording MP4 file to temp location"""
+def find_best_youtube_recording(meeting_id, min_duration_minutes=10):
+    """Find the best recording for YouTube upload, checking all instances if needed."""
+
+    # First try direct lookup (for backwards compatibility)
     try:
         recording_info = get_meeting_recording(meeting_id)
+        if recording_info and recording_info.get('recording_files'):
+            duration = recording_info.get('duration', 0)
+            if duration >= min_duration_minutes:
+                print(f"[INFO] Found recording via direct lookup: {duration} minutes")
+                return recording_info
+            else:
+                print(f"[WARN] Direct lookup recording too short: {duration} minutes")
     except Exception as e:
-        print(f"Error fetching meeting recording for meeting {meeting_id}: {e}")
+        print(f"[WARN] Direct lookup failed: {e}")
+
+    # If direct lookup fails or returns short recording, check all instances
+    print(f"[INFO] Checking all meeting instances for meeting {meeting_id}...")
+    try:
+        instances = zoom.get_past_meeting_instances(meeting_id)
+        if not instances:
+            print(f"[ERROR] No past meeting instances found for meeting {meeting_id}")
+            return None
+
+        print(f"[INFO] Found {len(instances)} past meeting instances")
+
+        valid_recordings = []
+
+        for i, instance in enumerate(instances):
+            uuid = instance.get('uuid')
+            start_time = instance.get('start_time', 'N/A')
+
+            if not uuid:
+                continue
+
+            print(f"[INFO] Checking instance {i+1}: {start_time} (UUID: {uuid})")
+
+            try:
+                recording_data = get_meeting_recording(uuid)
+                if recording_data and recording_data.get('recording_files'):
+                    duration = recording_data.get('duration', 0)
+                    recording_files = recording_data.get('recording_files', [])
+                    mp4_files = [f for f in recording_files if f.get('file_type') == 'MP4']
+
+                    print(f"[INFO]   Duration: {duration} minutes, MP4 files: {len(mp4_files)}")
+
+                    if duration >= min_duration_minutes and mp4_files:
+                        valid_recordings.append({
+                            'data': recording_data,
+                            'duration': duration,
+                            'uuid': uuid,
+                            'start_time': start_time
+                        })
+                        print(f"[INFO]   ✅ Valid recording candidate: {duration} minutes")
+                    else:
+                        print(f"[INFO]   ⚠️  Skipped: {duration} minutes, {len(mp4_files)} MP4 files")
+                else:
+                    print(f"[INFO]   ❌ No recording data found")
+            except Exception as e:
+                print(f"[WARN]   Error checking instance {uuid}: {e}")
+
+        if not valid_recordings:
+            print(f"[ERROR] No valid recordings found with duration >= {min_duration_minutes} minutes")
+            return None
+
+        # Sort by duration (longest first) and return the best
+        valid_recordings.sort(key=lambda x: x['duration'], reverse=True)
+        best_recording = valid_recordings[0]
+
+        print(f"[INFO] Selected best recording: {best_recording['duration']} minutes from {best_recording['start_time']}")
+        return best_recording['data']
+
+    except Exception as e:
+        print(f"[ERROR] Failed to check meeting instances: {e}")
         return None
+
+def download_zoom_recording(meeting_id, min_duration_minutes=10):
+    """Download Zoom recording MP4 file to temp location"""
+    recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes)
 
     if not recording_info or 'recording_files' not in recording_info:
         return None
 
-        # Define video quality priority
+    # Define video quality priority
     video_recording_types_priority = [
         "shared_screen_with_speaker_view",
         "shared_screen_with_gallery_view",
@@ -236,17 +308,18 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
 
     # Check recording duration before downloading
     try:
-        recording_info = get_meeting_recording(meeting_id)
-        if recording_info:
+        recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes=10)
+        if not recording_info:
+            print(f"[SKIP] No recording found with minimum 10 minutes duration")
+            error_msg = f"⏭️ YouTube upload skipped: No recording found for meeting {meeting_id} (issue #{occurrence_issue_number}) with minimum 10 minutes duration."
+            if error_collector is not None:
+                error_collector.append(error_msg)
+            else:
+                tg.send_message(error_msg)
+            return False # Indicate failure - no suitable recording found
+        else:
             recording_duration = recording_info.get('duration', 0)
-            if recording_duration < 10:
-                print(f"[SKIP] Recording too short: {recording_duration} minutes (minimum 10 minutes required)")
-                error_msg = f"⏭️ YouTube upload skipped: Recording for meeting {meeting_id} (issue #{occurrence_issue_number}) is only {recording_duration} minutes long (minimum 10 minutes required)."
-                if error_collector is not None:
-                    error_collector.append(error_msg)
-                else:
-                    tg.send_message(error_msg)
-                return False # Indicate failure - recording too short
+            print(f"[INFO] Found suitable recording: {recording_duration} minutes")
     except Exception as e:
         print(f"[WARN] Could not check recording duration for meeting {meeting_id}: {e}")
         # Continue with download attempt if we can't check duration
