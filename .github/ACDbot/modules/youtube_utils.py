@@ -32,6 +32,7 @@ PLAYLIST_MAPPING = {
     "evmmax": "PLJqWcTqh_zKGhTzV_QWHWwDA2NSMKCgsx",  # EVMmax - No playlist mapping yet
     "rollcall": "PLJqWcTqh_zKEeSGSnCsABZPT5qKEImdG6",  # RollCall - No playlist mapping yet
     "resourcepricing": "PLJqWcTqh_zKHEq4KVVCieRi_95Za93NBf",  # EVM Resource Pricing
+    "trustlessagents": "PLJqWcTqh_zKFWAMzJaPE4L2B3FXwheK9H", # Trustless Agents (ERC-8004)
     "bal": None, # EIP-7928 Breakout
     "portal": None,  # Portal Implementers - No playlist mapping yet
     "protocolresearch": None,  # Protocol Research - No playlist mapping yet
@@ -71,12 +72,6 @@ def add_video_to_playlist(video_id, playlist_id):
 def add_video_to_appropriate_playlist(video_id, call_series):
     """Add video to the appropriate playlist(s) based on meeting type"""
     results = []
-
-    # Skip ECH-maintained calls
-    ech_maintained_calls = ["eipip", "eipeditingofficehour", "allwalletdevs"]
-    if call_series.lower() in ech_maintained_calls:
-        print(f"[INFO] Skipping playlist addition for ECH-maintained call series: {call_series}")
-        return None
 
     # Add to specific playlist based on call_series
     specific_playlist_id = PLAYLIST_MAPPING.get(call_series.lower())

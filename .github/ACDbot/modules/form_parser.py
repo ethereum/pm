@@ -38,6 +38,7 @@ class FormParser:
             "RPC Standards": "rpcstandards",
             "RollCall": "rollcall",
             "Stateless Implementers": "stateless",
+            "Trustless Agents (ERC-8004)": "trustlessagents",
             "One-time call": "one-off"  # This will be transformed to one-off-{issue_number}
         }
 

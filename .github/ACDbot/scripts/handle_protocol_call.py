@@ -1042,7 +1042,8 @@ class ProtocolCallHandler:
             "protocolresearch": "Protocol Research Call",
             "rpcstandards": "RPC Standards Call",
             "rollcall": "RollCall",
-            "stateless": "Stateless Implementers"
+            "stateless": "Stateless Implementers",
+            "trustlessagents": "Trustless Agents (ERC-8004)"
         }
 
         return display_name_mapping.get(call_series_key, call_series_key)
