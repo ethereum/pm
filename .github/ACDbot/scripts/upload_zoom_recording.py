@@ -220,7 +220,13 @@ def download_zoom_recording(meeting_id, min_duration_minutes=10):
         return None
 
 def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None):
-    """Uploads Zoom recording to YouTube for a specific occurrence."""
+    """Uploads Zoom recording to YouTube for a specific occurrence.
+
+    Returns:
+        True: Successfully uploaded
+        False: Failed with error (should be reported)
+        None: Expected skip (should not be reported)
+    """
 
     # Ensure meeting_id is a string
     meeting_id = str(meeting_id)
@@ -276,13 +282,13 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         # Mark as processed anyway so we don't retry?
         # mapping[meeting_id]["occurrences"][occurrence_index]["youtube_upload_processed"] = True # Or leave as is?
         # save_meeting_topic_mapping(mapping) # No commit here, let poll script handle batch commit
-        return True # Indicate already processed
+        return None # Expected skip, don't report
 
     # Check attempt counter within the occurrence
     attempt_count = matched_occurrence.get("upload_attempt_count", 0)
     if attempt_count >= 10:
         print(f"  -> Skipping: Max upload attempts reached for occurrence.")
-        return False # Indicate failure
+        return None # Expected skip after max retries, don't report
 
     # Find the series key for this meeting ID
     call_series_key = find_call_series_by_meeting_id(meeting_id, occurrence_issue_number, mapping)
@@ -297,7 +303,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
     # Only proceed if not already processed
     if matched_occurrence.get("youtube_upload_processed"):
         print(f"  -> Skipping: YouTube upload already processed for occurrence.")
-        return True # Indicate already processed
+        return None # Expected skip, already processed
 
     video_title = matched_occurrence.get("issue_title", f"Meeting {meeting_id} - Issue {occurrence_issue_number}")
     video_description = (
@@ -311,12 +317,9 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes=10)
         if not recording_info:
             print(f"[SKIP] No recording found with minimum 10 minutes duration")
-            error_msg = f"⏭️ YouTube upload skipped: No recording found for meeting {meeting_id} (issue #{occurrence_issue_number}) with minimum 10 minutes duration."
-            if error_collector is not None:
-                error_collector.append(error_msg)
-            else:
-                tg.send_message(error_msg)
-            return False # Indicate failure - no suitable recording found
+            print(f"  -> Expected skip: Recording may not be ready yet or meeting was cancelled")
+            # This is an expected case - don't report to Telegram
+            return None # Expected skip, don't report
         else:
             recording_duration = recording_info.get('duration', 0)
             print(f"[INFO] Found suitable recording: {recording_duration} minutes")
@@ -326,13 +329,10 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
 
     video_path = download_zoom_recording(meeting_id)
     if not video_path:
-        print(f"No MP4 recording available for meeting {meeting_id}")
-        error_msg = f"❌ YouTube upload skipped: No MP4 recording available for meeting {meeting_id} (issue #{occurrence_issue_number})."
-        if error_collector is not None:
-            error_collector.append(error_msg)
-        else:
-            tg.send_message(error_msg)
-        return False # Indicate failure
+        print(f"[SKIP] No MP4 recording available for meeting {meeting_id}")
+        print(f"  -> Expected skip: Recording may not be ready yet or meeting was cancelled")
+        # This is an expected case - don't report to Telegram
+        return None # Expected skip, don't report
 
     try:
         title = video_title
@@ -512,17 +512,23 @@ def main():
 
                     if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
                         print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")
-                        processed_count += 1
                         try:
                             result = upload_recording(effective_meeting_id, occ_issue_num, error_collector=error_messages)
-                            if result:
+                            if result is True:
+                                # Successful upload
                                 success_count += 1
+                                processed_count += 1
+                            elif result is False:
+                                # Failed upload (real error)
+                                processed_count += 1
+                            # else: result is None - expected skip, don't count as processed
                         except Exception as e:
                             print(f"Failed to process {effective_meeting_id} / {occ_issue_num}: {e}")
                             error_messages.append(f"❌ YouTube upload failed for meeting {effective_meeting_id} (issue #{occ_issue_num}): {str(e)}")
+                            processed_count += 1
 
-        # Send aggregated message if there were any operations
-        if processed_count > 0:
+        # Send aggregated message only if there were successes or real errors
+        if success_count > 0 or error_messages:
             send_aggregated_telegram_message(error_messages, success_count, processed_count)
 
 def send_aggregated_telegram_message(error_messages, success_count, processed_count):
@@ -539,7 +545,9 @@ def send_aggregated_telegram_message(error_messages, success_count, processed_co
                 error_groups[key] = []
             # Extract meeting ID from the error message
             meeting_id = error.split("meeting_id ")[1].split(" in mapping")[0] if "meeting_id " in error else "Unknown"
-            error_groups[key].append(meeting_id)
+            # Skip reporting "None" or empty meeting IDs - these are expected for pending/placeholder entries
+            if meeting_id and meeting_id.lower() not in ("none", "unknown", "null", ""):
+                error_groups[key].append(meeting_id)
         elif "No MP4 recording available" in error:
             key = "no_mp4_recordings"
             if key not in error_groups:
@@ -574,7 +582,7 @@ def send_aggregated_telegram_message(error_messages, success_count, processed_co
         message_parts.append("")
 
     if error_groups:
-        if "unknown_meeting_ids" in error_groups:
+        if "unknown_meeting_ids" in error_groups and error_groups["unknown_meeting_ids"]:
             count = len(error_groups["unknown_meeting_ids"])
             message_parts.append(f"❌ **Unknown meeting IDs ({count}):**")
             # Show first few, then summarize if many
