@@ -332,7 +332,19 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
             # Check if the recurrence has ended before our target date
             recurrence_rules = existing_event.get('recurrence', [])
             recurrence_ended = False
+            needs_pattern_update = False
+
+            # Check if the occurrence rate has changed (e.g., bi-weekly to weekly)
             for rule in recurrence_rules:
+                if 'FREQ=WEEKLY' in rule:
+                    if 'INTERVAL=2' in rule:
+                        if occurrence_rate == "weekly":
+                            needs_pattern_update = True
+                            print(f"[DEBUG] Need to update recurrence from bi-weekly to weekly")
+                    elif occurrence_rate == "bi-weekly":
+                        needs_pattern_update = True
+                        print(f"[DEBUG] Need to update recurrence from weekly to bi-weekly")
+
                 if 'UNTIL=' in rule:
                     # Extract the UNTIL date
                     until_match = re.search(r'UNTIL=(\d{8}T\d{6}Z?)', rule)
@@ -350,31 +362,58 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                             print(f"[DEBUG] Recurrence ended on {until_dt.date()}, before target date {start_dt.date()}")
                             break
 
-            if recurrence_ended:
-                # Extend the recurrence to include the new date
-                print(f"[DEBUG] Extending recurrence to include new date")
+            # If recurrence pattern needs updating
+            if needs_pattern_update or recurrence_ended:
+                print(f"[DEBUG] Updating recurrence pattern to match {occurrence_rate} schedule")
 
-                # Update the UNTIL date in the recurrence rule to at least cover the new date
-                # Add some buffer (e.g., 6 months from the new date)
-                new_until = start_dt + timedelta(days=180)
-                new_until_str = new_until.strftime('%Y%m%dT%H%M%SZ')
+                # Generate new recurrence rules based on occurrence_rate
+                if occurrence_rate == "weekly":
+                    new_recurrence = ['RRULE:FREQ=WEEKLY']
+                elif occurrence_rate == "bi-weekly":
+                    new_recurrence = ['RRULE:FREQ=WEEKLY;INTERVAL=2']
+                elif occurrence_rate == "monthly":
+                    # For monthly recurrence, we want to maintain the same day of the week
+                    day_of_week = start_dt.isoweekday()
+                    day_of_month = start_dt.day
+                    week_of_month = (day_of_month - 1) // 7 + 1
 
-                updated_recurrence = []
-                for rule in recurrence_rules:
-                    if 'UNTIL=' in rule:
-                        # Replace the old UNTIL with the new one
-                        rule = re.sub(r'UNTIL=\d{8}T\d{6}Z?', f'UNTIL={new_until_str}', rule)
-                    updated_recurrence.append(rule)
+                    # Check if this is the last occurrence of this weekday in the month
+                    days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
+                    if day_of_month + 7 > days_in_month:
+                        week_of_month = -1
 
-                print(f"[DEBUG] Updated recurrence rules: {updated_recurrence}")
+                    day_map = {1: "MO", 2: "TU", 3: "WE", 4: "TH", 5: "FR", 6: "SA", 7: "SU"}
+                    day_shortname = day_map[day_of_week]
+                    byday = f"{week_of_month}{day_shortname}"
+                    new_recurrence = [f'RRULE:FREQ=MONTHLY;BYDAY={byday}']
+                else:
+                    # Keep existing recurrence if unsupported
+                    new_recurrence = recurrence_rules
+                    print(f"[WARN] Unsupported occurrence_rate: {occurrence_rate}, keeping existing recurrence")
 
-                # Update the event with extended recurrence
+                # If recurrence ended, extend the UNTIL date
+                if recurrence_ended:
+                    new_until = start_dt + timedelta(days=180)
+                    new_until_str = new_until.strftime('%Y%m%dT%H%M%SZ')
+
+                    # Add UNTIL to the new recurrence
+                    updated_recurrence = []
+                    for rule in new_recurrence:
+                        if 'RRULE:' in rule:
+                            rule = rule + f';UNTIL={new_until_str}'
+                        updated_recurrence.append(rule)
+                    new_recurrence = updated_recurrence
+                    print(f"[DEBUG] Extended recurrence until {new_until.date()}")
+
+                print(f"[DEBUG] New recurrence rules: {new_recurrence}")
+
+                # Update the event with new recurrence
                 event_body = {
                     'summary': summary,
                     'description': description,
                     'start': existing_event.get('start'),
                     'end': existing_event.get('end'),
-                    'recurrence': updated_recurrence,
+                    'recurrence': new_recurrence,
                 }
 
                 event = service.events().update(
@@ -383,34 +422,12 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                     body=event_body
                 ).execute()
 
-                print(f"[DEBUG] Extended recurring event to include new date")
-                print(f"[DEBUG] New recurrence: {event.get('recurrence')}")
+                print(f"[DEBUG] Updated recurring event with new pattern: {event.get('recurrence')}")
 
-                # Now try to get the specific instance for the target date
-                # Need to refetch instances after updating the recurrence
-                instances = service.events().instances(
-                    calendarId=calendar_id,
-                    eventId=event_id
-                ).execute()
-
-                for instance in instances.get('items', []):
-                    instance_start = instance.get('start', {}).get('dateTime')
-                    if instance_start:
-                        instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
-                        if instance_dt.date() == start_dt.date():
-                            # Found the new instance, return its link
-                            print(f"[DEBUG] Found new instance after extending recurrence")
-                            return {
-                                'htmlLink': instance.get('htmlLink'),
-                                'id': event_id,  # Return the series ID, not instance ID
-                                'action_detail': 'recurrence_extended'
-                            }
-
-                # Return the series link if no specific instance found
                 return {
                     'htmlLink': event.get('htmlLink'),
                     'id': event_id,
-                    'action_detail': 'recurrence_extended'
+                    'action_detail': 'pattern_updated' if needs_pattern_update else 'recurrence_extended'
                 }
             else:
                 # Recurrence hasn't ended, just update metadata
