@@ -2,10 +2,8 @@
 
 ## Upgrade Information
 
-**TBA**
-
 | Epoch | Start Slot | Unix | UTC (+00:00) | Moscow (+03:00) | Los Angeles (-07:00) | New York (-04:00) | Brisbane (+10:00)
- | -- | -- | -- | -- | -- | -- | -- | --
+| 411392 | 13164544 | 1764798551 | 2025-12-03 21:49:11 | 2025-12-04 00:49:11 | 2025-12-03 13:49:11 | 2025-12-03 16:49:11 | 2025-12-04 07:49:11
 
 ## Upgrade / Incident Response team
 
