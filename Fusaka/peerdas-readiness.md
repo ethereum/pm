@@ -2,7 +2,7 @@
 
 This document outlines various tasks to work through to make PeerDAS ready for Mainnet release.
 
-*Note*: 
+*Note*:
 This document has been replaced by the following Google Docs to serve as the single source of truth and allow for easier modification. **Ongoing R&D and implementation work will be updated and tracked in the document below:**
 
 https://docs.google.com/document/d/1MXf5zTU58mRj0Yq88EPBP1gCJzWTY9FRfUdpZjcfgqw/edit?tab=t.0#heading=h.fg53pp2wx7q9
@@ -69,7 +69,7 @@ https://docs.google.com/document/d/1MXf5zTU58mRj0Yq88EPBP1gCJzWTY9FRfUdpZjcfgqw/
  * [ ] Stub out proof computation in the KZG lib and test CL performance with high blob count (to simulate proof computation offloaded).
  * [ ] Stress test mempool to make sure the ELs can handle high blob count.
 * [ ] High blob throughput testing (48/64 blobs) on a large network that mirrors mainnet network typology (after [proof computation changes](https://github.com/ethereum/EIPs/pull/9378) implemented in at least 1 CL/EL client pair)
- 
+
 ## R&D
 
 * [ ] Anaylsis of new blob count impact on bandwidth, hardware requirements once clients are feature complete (`peerdas-devnet-6`)
