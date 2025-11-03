@@ -25,7 +25,7 @@
 ### Coordinators
 | Role | Primary | Backup |
 |------|---------|----------------------------|
-| DevOps Coordinator | | |
+| DevOps Coordinator | Barnabas | Pari|
 | Testing Coordinator | ||
 | Communication Coordinator | | |
 | Security Coordinator | ||
