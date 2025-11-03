@@ -28,7 +28,7 @@
 | DevOps Coordinator | Barnabas | Pari|
 | Testing Coordinator | ||
 | Communication Coordinator | | |
-| Security Coordinator | ||
+| Security Coordinator | Fredrik | Justin |
 
 ## Communication Channels
 - **Primary Communication:** `#fusaka-upgrade` (Eth R&D Discord)
