@@ -16,7 +16,7 @@
 | Geth | | |
 | Grandine | | |
 | Lighthouse | ||
-| Lodestar | | |
+| Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | | |
 | Nethermind | | |
 | Prysm | | |
