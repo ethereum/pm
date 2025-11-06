@@ -21,7 +21,7 @@
 | Nethermind | | |
 | Prysm | | |
 | Reth | | |
-| Teku | | |
+| Teku | Paul Harris | Lucas Saldanha |
 
 ### Coordinators
 | Role | Primary | Backup |
