@@ -11,17 +11,17 @@
 ### Client Team Coordinators
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
-| Besu | ||
+| Besu | [Gabriel Trintinalia](https://github.com/Gabriel-Trintinalia) | [Justin Florentine](https://github.com/jflo)|
 | Erigon | ||
 | Geth | | |
 | Grandine | | |
 | Lighthouse | ||
-| Lodestar | | |
+| Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | | |
 | Nethermind | | |
 | Prysm | | |
 | Reth | mattsse | jenpaff |
-| Teku | | |
+| Teku | Paul Harris | Lucas Saldanha |
 
 ### Coordinators
 | Role | Primary | Backup |
