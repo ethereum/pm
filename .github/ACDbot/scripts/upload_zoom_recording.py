@@ -576,11 +576,6 @@ def send_aggregated_telegram_message(error_messages, success_count, processed_co
     # Build the aggregated message
     message_parts = []
 
-    if success_count > 0 or error_messages:
-        message_parts.append(f"📺 **YouTube Upload Batch Summary**")
-        message_parts.append(f"Processed: {processed_count} | Successful: {success_count} | Failed: {len(error_messages)}")
-        message_parts.append("")
-
     if error_groups:
         if "unknown_meeting_ids" in error_groups and error_groups["unknown_meeting_ids"]:
             count = len(error_groups["unknown_meeting_ids"])
