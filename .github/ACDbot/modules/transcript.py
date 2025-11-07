@@ -150,6 +150,8 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
     transcript_play_url = None      # For "Download Transcript with pwd"
     chat_download_url = None        # For "Download Chat" (direct)
     chat_play_url = None            # For "Download Chat with pwd"
+    audio_download_url = None       # For "Download Audio" (direct)
+    audio_play_url = None           # For "Download Audio with pwd"
 
     video_recording_types_priority = [
         "shared_screen_with_speaker_view",
@@ -176,6 +178,9 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
         elif file.get('file_type') == 'CHAT':
             chat_download_url = file.get('download_url')
             chat_play_url = file.get('play_url')
+        elif file.get('file_type') in ['M4A', 'MP3']:
+            audio_download_url = file.get('download_url')
+            audio_play_url = file.get('play_url')
 
     # Fallback if no prioritized video play_url found, try any MP4
     if primary_video_play_url is None:
@@ -239,6 +244,19 @@ def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict 
             post_content += f"\n- [Download Chat]({link}) (Passcode not available)"
     else:
         post_content += "\n- *Download URL for chat not found.*"
+
+    # Line 7: Download Audio with pwd (uses audio_download_url)
+    if audio_download_url:
+        link = audio_download_url
+        if recording_play_passcode:
+            encoded_pwd = urllib.parse.quote_plus(str(recording_play_passcode))
+            link = f"{audio_download_url}?pwd={encoded_pwd}"
+        if manual_passcode:
+            post_content += f"\n- [Download Audio]({link}) (Passcode: `{manual_passcode}`)"
+        else:
+            post_content += f"\n- [Download Audio]({link}) (Passcode not available)"
+    else:
+        post_content += "\n- *Download URL for audio not found.*"
 
     try:
         discourse.create_post(
