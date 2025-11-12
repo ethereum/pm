@@ -42,6 +42,9 @@ class FormParser:
             "One-time call": "one-off"  # This will be transformed to one-off-{issue_number}
         }
 
+        # Placeholder text used as default in the dropdown
+        self.call_series_placeholder = "-- Please select a call series --"
+
         # Duration mapping (display text -> minutes)
         self.duration_mapping = {
             "30 minutes": 30,
@@ -249,6 +252,12 @@ class FormParser:
 
         if match:
             display_name = match.group(1).strip()
+
+            # Check if the placeholder was selected (user didn't choose a valid call series)
+            if display_name == self.call_series_placeholder:
+                print(f"[WARNING] User did not select a call series - placeholder value detected")
+                return "PLACEHOLDER_NOT_SELECTED"
+
             call_series_key = self.call_series_mapping.get(display_name)
             if call_series_key:
                 # For one-off calls, generate the unique key with issue number

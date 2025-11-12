@@ -1,6 +1,6 @@
 import requests
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 import json
 import urllib.parse
 import calendar
@@ -355,7 +355,6 @@ def get_meeting_summary(meeting_uuid: str) -> dict:
 
         response.raise_for_status()
         summary = response.json()
-        print(f"Raw summary data: {json.dumps(summary, indent=2)}")  # Debug
         return summary
 
     except requests.HTTPError as e:
@@ -439,7 +438,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     # Parse the start_time to get the day of week and ensure it's correctly formatted
     try:
         # Convert ISO 8601 string to datetime object
-        from datetime import datetime, timedelta
+        from datetime import datetime
         start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
 
         # Calculate day_of_week for LOGGING/DEBUGGING (using Mon=1..Sun=7)

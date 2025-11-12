@@ -394,6 +394,29 @@ class ProtocolCallHandler:
     def _validate_and_transform(self, form_data: Dict, issue) -> Optional[Dict]:
         """Validate and transform form data into call data."""
         try:
+            # Check if user selected the placeholder (didn't choose a call series)
+            if form_data.get("call_series") == "PLACEHOLDER_NOT_SELECTED":
+                self.logger.error("User did not select a call series")
+                # Post a comment to the issue
+                comment_text = """⚠️ **Please Select a Call Series**
+
+You need to select a valid call series from the dropdown menu before this issue can be processed.
+
+**To fix this:**
+1. Click the "Edit" button on this issue
+2. Reference past issues and write in appropriate "Call Series" option exactly as written
+3. Save your changes
+
+The bot will automatically process your issue once you've selected a valid call series."""
+
+                try:
+                    issue.create_comment(comment_text)
+                    self.logger.info(f"Posted comment to issue #{issue.number} about missing call series selection")
+                except Exception as comment_error:
+                    self.logger.error(f"Failed to post comment: {comment_error}")
+
+                return None
+
             # Validate required fields
             required_fields = ["call_series", "duration", "start_time"]
             for field in required_fields:
