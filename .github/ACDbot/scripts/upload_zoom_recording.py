@@ -75,15 +75,53 @@ def video_exists(youtube, meeting_id):
         return False
     return True
 
-def find_best_youtube_recording(meeting_id, min_duration_minutes=10):
-    """Find the best recording for YouTube upload, checking all instances if needed."""
+def find_best_youtube_recording(meeting_id, min_duration_minutes=10, target_start_time=None, tolerance_minutes=120):
+    """Find the best recording for YouTube upload, checking all instances if needed.
+
+    Args:
+        meeting_id: Zoom meeting ID
+        min_duration_minutes: Minimum recording duration in minutes
+        target_start_time: Expected start time (ISO 8601 string) to match recordings against
+        tolerance_minutes: Time window for matching in minutes (default 120 = 2 hours)
+
+    Returns:
+        Recording data dictionary or None if no suitable recording found
+    """
+
+    # Parse target time if provided
+    target_time = None
+    tolerance = None
+    if target_start_time:
+        try:
+            target_time = datetime.fromisoformat(target_start_time.replace('Z', '+00:00'))
+            tolerance = timedelta(minutes=tolerance_minutes)
+            print(f"[INFO] Filtering recordings for target time: {target_start_time} (±{tolerance_minutes} min)")
+        except Exception as e:
+            print(f"[WARN] Could not parse target_start_time '{target_start_time}': {e}")
+            target_time = None
 
     # First try direct lookup (for backwards compatibility)
     try:
         recording_info = get_meeting_recording(meeting_id)
         if recording_info and recording_info.get('recording_files'):
             duration = recording_info.get('duration', 0)
-            if duration >= min_duration_minutes:
+            recording_start = recording_info.get('start_time')
+
+            # Check time match if target_time is specified
+            if target_time and recording_start:
+                try:
+                    recording_time = datetime.fromisoformat(recording_start.replace('Z', '+00:00'))
+                    time_diff = abs(target_time - recording_time)
+                    if time_diff > tolerance:
+                        print(f"[INFO] Direct lookup recording outside time window: {recording_start} (diff: {time_diff})")
+                    elif duration >= min_duration_minutes:
+                        print(f"[INFO] Found recording via direct lookup: {duration} minutes at {recording_start}")
+                        return recording_info
+                    else:
+                        print(f"[WARN] Direct lookup recording too short: {duration} minutes")
+                except Exception as e:
+                    print(f"[WARN] Could not parse recording start time: {e}")
+            elif duration >= min_duration_minutes:
                 print(f"[INFO] Found recording via direct lookup: {duration} minutes")
                 return recording_info
             else:
@@ -109,6 +147,17 @@ def find_best_youtube_recording(meeting_id, min_duration_minutes=10):
 
             if not uuid:
                 continue
+
+            # Filter by time if target_time is specified
+            if target_time and start_time != 'N/A':
+                try:
+                    instance_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                    time_diff = abs(target_time - instance_time)
+                    if time_diff > tolerance:
+                        print(f"[INFO] Skipping instance {i+1}: {start_time} (outside {tolerance_minutes} min window, diff: {time_diff})")
+                        continue
+                except Exception as e:
+                    print(f"[WARN] Could not parse instance start time '{start_time}': {e}")
 
             print(f"[INFO] Checking instance {i+1}: {start_time} (UUID: {uuid})")
 
@@ -151,9 +200,9 @@ def find_best_youtube_recording(meeting_id, min_duration_minutes=10):
         print(f"[ERROR] Failed to check meeting instances: {e}")
         return None
 
-def download_zoom_recording(meeting_id, min_duration_minutes=10):
+def download_zoom_recording(meeting_id, min_duration_minutes=10, target_start_time=None, tolerance_minutes=120):
     """Download Zoom recording MP4 file to temp location"""
-    recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes)
+    recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes, target_start_time, tolerance_minutes)
 
     if not recording_info or 'recording_files' not in recording_info:
         return None
@@ -312,9 +361,12 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         f"\nGitHub Issue: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{occurrence_issue_number}" # Add link to specific issue
     )
 
+    # Get the occurrence's expected start time for filtering recordings
+    occurrence_start_time = matched_occurrence.get("start_time")
+
     # Check recording duration before downloading
     try:
-        recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes=10)
+        recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes=10, target_start_time=occurrence_start_time, tolerance_minutes=120)
         if not recording_info:
             print(f"[SKIP] No recording found with minimum 10 minutes duration")
             print(f"  -> Expected skip: Recording may not be ready yet or meeting was cancelled")
@@ -327,7 +379,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         print(f"[WARN] Could not check recording duration for meeting {meeting_id}: {e}")
         # Continue with download attempt if we can't check duration
 
-    video_path = download_zoom_recording(meeting_id)
+    video_path = download_zoom_recording(meeting_id, target_start_time=occurrence_start_time, tolerance_minutes=120)
     if not video_path:
         print(f"[SKIP] No MP4 recording available for meeting {meeting_id}")
         print(f"  -> Expected skip: Recording may not be ready yet or meeting was cancelled")
