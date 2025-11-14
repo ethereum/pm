@@ -20,7 +20,7 @@
 | Nimbus | | |
 | Nethermind | | |
 | Prysm | | |
-| Reth | | |
+| Reth | mattsse | jenpaff |
 | Teku | Paul Harris | Lucas Saldanha |
 
 ### Coordinators
