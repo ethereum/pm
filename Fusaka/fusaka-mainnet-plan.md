@@ -28,7 +28,7 @@
 |------|---------|----------------------------|
 | DevOps Coordinator | Barnabas | Pari|
 | Testing Coordinator | [Mario V](https://github.com/marioevz/) | [Dan](https://github.com/danceratopz/), [Spencer](https://github.com/spencer-tb/)|
-| Communication Coordinator | | |
+| Communication Coordinator | Alex Stokes | Nixo |
 | Security Coordinator | Fredrik | Justin |
 
 ## Communication Channels
