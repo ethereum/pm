@@ -27,7 +27,7 @@
 | Role | Primary | Backup |
 |------|---------|----------------------------|
 | DevOps Coordinator | Barnabas | Pari|
-| Testing Coordinator | ||
+| Testing Coordinator | [Mario V](https://github.com/marioevz/) | [Dan](https://github.com/danceratopz/), [Spencer](https://github.com/spencer-tb/)|
 | Communication Coordinator | | |
 | Security Coordinator | Fredrik | Justin |
 
