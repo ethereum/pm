@@ -13,7 +13,7 @@
 |-------------|---------------------|--------------------|
 | Besu | [Gabriel Trintinalia](https://github.com/Gabriel-Trintinalia) | [Justin Florentine](https://github.com/jflo)|
 | Erigon | ||
-| Geth | | |
+| Geth | @lightclient | @cskiraly |
 | Grandine | | |
 | Lighthouse | ||
 | Lodestar | Matthew Keil | Cayman Nava |
