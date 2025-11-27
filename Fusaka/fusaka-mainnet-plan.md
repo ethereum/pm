@@ -15,7 +15,7 @@
 | Erigon | ||
 | Geth | | |
 | Grandine | | |
-| Lighthouse | ||
+| Lighthouse | [Jimmy Chen](https://github.com/jimmygchen) | [Sean Anderson](https://github.com/realbigsean) |
 | Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | | |
 | Nethermind | Alexey Osipov | Łukasz Rozmej |
