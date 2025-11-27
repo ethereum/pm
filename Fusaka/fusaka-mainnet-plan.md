@@ -15,7 +15,7 @@
 | Erigon | ||
 | Geth | | |
 | Grandine | | |
-| Lighthouse | ||
+| Lighthouse |[Jimmy](https://github.com/jimmygchen) [Sean](https://github.com/realbigsean) ||
 | Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | | |
 | Nethermind | | |
