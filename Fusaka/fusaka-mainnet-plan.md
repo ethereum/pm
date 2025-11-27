@@ -15,10 +15,10 @@
 | Erigon | ||
 | Geth | | |
 | Grandine | | |
-| Lighthouse | ||
+| Lighthouse | [Jimmy Chen](https://github.com/jimmygchen) | [Sean Anderson](https://github.com/realbigsean) |
 | Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | | |
-| Nethermind | | |
+| Nethermind | Alexey Osipov | Łukasz Rozmej |
 | Prysm | @prysmatic in Ethereum R&D Discord  | [Prysm Team email](mailto:team@prysmaticlabs.com) | 
 | Reth | mattsse | jenpaff |
 | Teku | Paul Harris | Lucas Saldanha |
