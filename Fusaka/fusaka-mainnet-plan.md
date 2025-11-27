@@ -19,7 +19,7 @@
 | Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | | |
 | Nethermind | Alexey Osipov | Łukasz Rozmej |
-| Prysm | | |
+| Prysm | @prysmatic in Ethereum R&D Discord  | [Prysm Team email](mailto:team@prysmaticlabs.com) | 
 | Reth | mattsse | jenpaff |
 | Teku | Paul Harris | Lucas Saldanha |
 
