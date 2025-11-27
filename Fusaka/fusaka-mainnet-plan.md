@@ -18,7 +18,7 @@
 | Lighthouse | ||
 | Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | | |
-| Nethermind | | |
+| Nethermind | Alexey Osipov | Łukasz Rozmej |
 | Prysm | | |
 | Reth | mattsse | jenpaff |
 | Teku | Paul Harris | Lucas Saldanha |
