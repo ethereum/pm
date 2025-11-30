@@ -17,7 +17,7 @@
 | Grandine | | |
 | Lighthouse | [Jimmy Chen](https://github.com/jimmygchen) | [Sean Anderson](https://github.com/realbigsean) |
 | Lodestar | Matthew Keil | Cayman Nava |
-| Nimbus | | |
+| Nimbus | [@agnxsh](https://github.com/https://github.com/agnxsh) | [@tersec](https://github.com/tersec) |
 | Nethermind | Alexey Osipov | Łukasz Rozmej |
 | Prysm | @prysmatic in Ethereum R&D Discord  | [Prysm Team email](mailto:team@prysmaticlabs.com) | 
 | Reth | mattsse | jenpaff |
