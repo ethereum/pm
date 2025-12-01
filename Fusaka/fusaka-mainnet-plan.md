@@ -12,7 +12,7 @@
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
 | Besu | [Gabriel Trintinalia](https://github.com/Gabriel-Trintinalia) | [Justin Florentine](https://github.com/jflo)|
-| Erigon | ||
+| Erigon | [Andrew Ashikhmin](https://github.com/yperbasis) | [Milen Filatov](https://github.com/taratorio) |
 | Geth | @lightclient | @cskiraly |
 | Grandine | | |
 | Lighthouse | [Jimmy Chen](https://github.com/jimmygchen) | [Sean Anderson](https://github.com/realbigsean) |
