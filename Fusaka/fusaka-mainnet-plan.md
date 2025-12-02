@@ -14,7 +14,7 @@
 | Besu | [Gabriel Trintinalia](https://github.com/Gabriel-Trintinalia) | [Justin Florentine](https://github.com/jflo)|
 | Erigon | [Andrew Ashikhmin](https://github.com/yperbasis) | [Milen Filatov](https://github.com/taratorio) |
 | Geth | @lightclient | @cskiraly |
-| Grandine | | |
+| Grandine | Saulius | Povilas |
 | Lighthouse | [Jimmy Chen](https://github.com/jimmygchen) | [Sean Anderson](https://github.com/realbigsean) |
 | Lodestar | Matthew Keil | Cayman Nava |
 | Nimbus | [@agnxsh](https://github.com/agnxsh) | [@tersec](https://github.com/tersec) |
