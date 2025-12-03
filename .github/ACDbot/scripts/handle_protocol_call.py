@@ -1505,16 +1505,21 @@ The bot will automatically process your issue once you've selected a valid call 
             # Auto-generate savvytime link for datetime if not already present
             cleaned_body = self._add_savvytime_link_if_needed(issue_body)
 
-            # Find the "## 🤖 Automation Configuration" markdown section
-            # This marks the beginning of the config sections to hide
-            automation_config_pattern = r"(## 🤖 Automation Configuration)"
-            match = re.search(automation_config_pattern, cleaned_body)
-
-            if not match:
-                print("[DEBUG] Could not find Automation Configuration section, skipping cleanup")
+            # Only fold config sections if this is a proper form issue with Call Series
+            if "### Call Series" not in cleaned_body:
+                print("[DEBUG] No Call Series section found, skipping fold")
                 return cleaned_body
 
-            # Split the issue body into: before config section, config section onwards
+            # Find "### Duration" section - first config field to hide
+            # Everything from Duration onwards gets wrapped in a collapsible section
+            duration_pattern = r"(### Duration\n)"
+            match = re.search(duration_pattern, cleaned_body)
+
+            if not match:
+                print("[DEBUG] Could not find Duration section, skipping cleanup")
+                return cleaned_body
+
+            # Split the issue body into: before Duration, Duration onwards
             config_start = match.start()
             before_config = cleaned_body[:config_start]
             after_config = cleaned_body[config_start:]

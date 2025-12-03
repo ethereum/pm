@@ -224,14 +224,6 @@ April 24, 2025, 14:00 UTC
 
 All Core Devs - Execution
 
-## 🤖 Automation Configuration
-
-The bot can create/edit:
-- an Ethereum Magicians forum post
-- the Google calendar event
-- a Zoom meeting, with download links for the recording and transcript
-- a YouTube stream link
-
 ### Duration
 
 90 minutes
@@ -355,14 +347,6 @@ April 24, 2025, 14:00 UTC
 ### Call Series
 
 All Core Devs - Execution
-
-## 🤖 Automation Configuration
-
-The bot can create/edit:
-- an Ethereum Magicians forum post
-- the Google calendar event
-- a Zoom meeting, with download links for the recording and transcript
-- a YouTube stream link
 
 ### Duration
 
