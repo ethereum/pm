@@ -9,37 +9,12 @@ from google.auth.exceptions import RefreshError
 import calendar
 from googleapiclient.http import MediaFileUpload
 
+from .call_series_config import get_youtube_playlist_mapping
+
 # Define the thumbnail path (corrected)
 THUMBNAIL_PATH = ".github/ACDbot/Pectra YT.jpg"
 
-# YouTube Playlist IDs
-PLAYLIST_MAPPING = {
-    "allcoredevs": "PLJqWcTqh_zKHU6gjnA6ZcFPU5Pr0xT0io",  # All Core Devs
-    "acde": "PLJqWcTqh_zKFFK2Q3eK2hgbGijW_jf-Q5",  # All Core Devs - Execution
-    "acdc": "PLJqWcTqh_zKFtf6yUxjwjE5P1gsDSIPjV",  # All Core Devs - Consensus
-    "acdt": "PLJqWcTqh_zKFE51VgNZmgT5SGYTKnyY6Y",  # All Core Devs - Testing
-    "l2interop": "PLJqWcTqh_zKHhoemN-XtnPr2h3O6O79MD",  # L2 Interop Working Group
-    "rpcstandards": "PLJqWcTqh_zKEl8EKKTBHWRFZ4-muNiWDX",  # RPC Standardization
-    "stateless": "PLJqWcTqh_zKG-A9qKJ-7niPaRXHmXnpU9", # Stateless Implementers
-    "epbs": "PLJqWcTqh_zKHoz9dnQFGrWI_s1-8RwMhX",  # ePBS Breakout
-    "maxeb": "PLJqWcTqh_zKHZUIo5DMXK1Z9oFWtr-Zsa", # maxEB Breakout
-    "focil": "PLJqWcTqh_zKFIaCmjgKO4HJLn4y-Rg3He", # FOCIL Breakout
-    "ethsimulate": "PLJqWcTqh_zKECphjT_m7LVH4tusTtvory", # eth_simulate Implementers
-    "ethproofs": "PLJqWcTqh_zKGthi2bQDVOcNWXCSvH1sgB", # EthProofs
-    "beam": "PLJqWcTqh_zKF4GUIrzfikZ6hKebVVRc30", # Beam Call
-    "pqinterop": "PLJqWcTqh_zKF_Q9HNXBLW_AtktsjToTIu", # PQ Interop
-    "peerdas": "PLJqWcTqh_zKH3X3dzG3h_M31HWfVIZJRW",  # PeerDAS Breakout
-    "evmmax": "PLJqWcTqh_zKGhTzV_QWHWwDA2NSMKCgsx",  # EVMmax - No playlist mapping yet
-    "rollcall": "PLJqWcTqh_zKEeSGSnCsABZPT5qKEImdG6",  # RollCall - No playlist mapping yet
-    "resourcepricing": "PLJqWcTqh_zKHEq4KVVCieRi_95Za93NBf",  # EVM Resource Pricing
-    "trustlessagents": "PLJqWcTqh_zKFWAMzJaPE4L2B3FXwheK9H", # Trustless Agents (ERC-8004)
-    "bal": None, # EIP-7928 Breakout
-    "portal": None,  # Portal Implementers - No playlist mapping yet
-    "protocolresearch": None,  # Protocol Research - No playlist mapping yet
-    # "eipeditingofficehour": None,  # EIP Editing Office Hour - Maintained by ECH
-    # "eipip": None,  # EIPIP Meeting - Maintained by ECH
-    # "allwalletdevs": None,  # All Wallet Devs - Maintained by ECH
-}
+PLAYLIST_MAPPING = get_youtube_playlist_mapping()
 
 def add_video_to_playlist(video_id, playlist_id):
     """Add a video to a YouTube playlist"""

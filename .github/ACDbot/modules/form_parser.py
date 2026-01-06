@@ -10,37 +10,13 @@ from datetime import datetime
 from typing import Dict, Optional, List, Tuple
 
 from .datetime_utils import parse_datetime_string, extract_datetime_from_markdown_link
+from .call_series_config import get_display_name_to_key_mapping
 
 class FormParser:
     """Parses GitHub Issue Form data for protocol calls."""
 
     def __init__(self):
-        # Display name to call series key mapping
-        self.call_series_mapping = {
-            "All Core Devs - Consensus": "acdc",
-            "All Core Devs - Execution": "acde",
-            "All Core Devs - Testing": "acdt",
-            "All Wallet Devs": "allwalletdevs",
-            "Beam Call": "beam",
-            "EIP Editing Office Hour": "eipeditingofficehour",
-            "EIPIP Meeting": "eipip",
-            "EIP-7732 Breakout Room": "epbs",
-            "EIP-7928 Breakout Room": "bal",
-            "EVM Resource Pricing Breakout": "resourcepricing",
-            "eth_simulate": "ethsimulate",
-            "Ethproofs Community Call": "ethproofs",
-            "FOCIL Breakout": "focil",
-            "L2 Interop Working Group": "l2interop",
-            "PQ Interop": "pqinterop",
-            "PeerDAS Breakout": "peerdas",
-            "Portal Implementers": "portal",
-            "Protocol Research": "protocolresearch",
-            "RPC Standards": "rpcstandards",
-            "RollCall": "rollcall",
-            "Stateless Implementers": "stateless",
-            "Trustless Agents (ERC-8004)": "trustlessagents",
-            "One-time call": "one-off"  # This will be transformed to one-off-{issue_number}
-        }
+        self.call_series_mapping = get_display_name_to_key_mapping()
 
         # Placeholder text used as default in the dropdown
         self.call_series_placeholder = "-- Please select a call series --"

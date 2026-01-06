@@ -1,0 +1,109 @@
+# Adding a New Call Series
+
+This document describes how to add a new recurring call series to ACDbot.
+
+## Required Changes
+
+Adding a new call series requires updating **2 files**:
+
+### 1. Call Series Config
+
+**File:** `.github/ACDbot/call_series_config.yml`
+
+Add a new entry under `call_series:`:
+
+```yaml
+  yournewcall:
+    display_name: "Your New Call"
+    youtube_playlist_id: null        # or "PLJqWcTqh_zK..." if you have one
+    discord_webhook_env: null        # or "DISCORD_WEBHOOK_ENV_VAR" if needed
+```
+
+**Field reference:**
+| Field | Description |
+|-------|-------------|
+| `yournewcall` | Internal key (lowercase, no spaces) |
+| `display_name` | Shown in issue template dropdown (must match exactly) |
+| `youtube_playlist_id` | YouTube playlist ID for uploaded recordings, or `null` |
+| `discord_webhook_env` | Environment variable name for Discord notifications, or `null` |
+
+### 2. Issue Template Dropdown
+
+**File:** `.github/ISSUE_TEMPLATE/protocol-call-form.yml`
+
+Add the display name to the dropdown options (around line 35):
+
+```yaml
+    options:
+      - "-- Please select a call series --"
+      - All Core Devs - Consensus
+      - All Core Devs - Execution
+      # ... existing options ...
+      - Your New Call              # <-- Add here (alphabetically)
+      - One-time call
+```
+
+**Important:** The display name must exactly match `display_name` in `call_series_config.yml`.
+
+## What Happens Automatically
+
+When the first issue for the new call series is created:
+
+1. **Form parsing** - ACDbot reads the issue and maps the display name to the internal key
+2. **Zoom meeting** - Created automatically (unless user opts out)
+3. **Calendar event** - Added to the Ethereum Protocol Events calendar
+4. **Discourse topic** - Created for meeting notes/discussion
+5. **JSON mapping** - Entry auto-created in `meeting_topic_mapping.json`
+
+You do **not** need to manually edit `meeting_topic_mapping.json`.
+
+## Optional: YouTube Playlist
+
+If you want recordings uploaded to a dedicated YouTube playlist:
+
+1. Create a playlist on the [Ethereum Protocol YouTube channel](https://www.youtube.com/@EthereumProtocol)
+2. Copy the playlist ID from the URL (starts with `PL`)
+3. Add it to `youtube_playlist_id` in `call_series_config.yml`
+
+If `youtube_playlist_id` is `null`, recordings will still be uploaded but won't be added to a playlist.
+
+## Optional: Discord Notifications
+
+To enable Discord notifications before meetings:
+
+1. Create a webhook in the target Discord channel
+2. Add the webhook URL as a GitHub Actions secret
+3. Set `discord_webhook_env` to the secret name in `call_series_config.yml`
+
+Currently only ACD calls (acde, acdc, acdt) have Discord notifications configured.
+
+## Verification
+
+After merging your changes:
+
+1. Create a test issue using the new call series
+2. Verify the ACDbot workflow completes successfully (check GitHub Actions)
+3. Confirm resources were created:
+   - Zoom meeting link in issue comment
+   - Calendar event on [Ethereum Protocol Events](https://calendar.google.com/calendar/embed?src=c_upaofong8mgrmrkegn7ic7hk5s%40group.calendar.google.com)
+   - Discourse topic linked in issue
+
+## Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| "Unknown call series" in logs | Display name mismatch | Ensure dropdown option exactly matches `display_name` in config |
+| Workflow fails to parse issue | Missing config entry | Add entry to `call_series_config.yml` |
+| No YouTube playlist assignment | Playlist ID not set | Add `youtube_playlist_id` to config (or leave as `null`) |
+| Tests fail after changes | Config structure issue | Run `pytest .github/ACDbot/tests` locally |
+
+## File Reference
+
+| File | Purpose | Manual edit required? |
+|------|---------|----------------------|
+| `.github/ACDbot/call_series_config.yml` | Central config for all call series | **Yes** |
+| `.github/ISSUE_TEMPLATE/protocol-call-form.yml` | Issue template dropdown | **Yes** |
+| `.github/ACDbot/meeting_topic_mapping.json` | Runtime meeting data | No (auto-populated) |
+| `.github/ACDbot/modules/form_parser.py` | Parses issue forms | No (reads from config) |
+| `.github/ACDbot/modules/youtube_utils.py` | YouTube integration | No (reads from config) |
+| `.github/ACDbot/modules/discord_notify.py` | Discord notifications | No (reads from config) |
