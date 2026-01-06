@@ -332,6 +332,32 @@ def get_recordings_list():
     data = response.json()
     return data.get("meetings", [])
 
+def get_recordings_for_date(target_date):
+    """
+    Retrieves a list of cloud recordings for a specific date.
+
+    Args:
+        target_date: Date string in YYYY-MM-DD format
+
+    Returns:
+        List of meeting recordings from that date
+    """
+    access_token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+    params = {
+        "page_size": 100,
+        "from": target_date,
+        "to": target_date
+    }
+    response = requests.get(f"{api_base_url}/users/me/recordings", headers=headers, params=params)
+    if response.status_code != 200:
+        print(f"Error fetching recordings for {target_date}: {response.status_code} {response.text}")
+        response.raise_for_status()
+    data = response.json()
+    return data.get("meetings", [])
+
 def get_meeting_summary(meeting_uuid: str) -> dict:
     """Temporary workaround for summary endpoint"""
     try:
