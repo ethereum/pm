@@ -79,15 +79,22 @@ class MappingManager:
 
         return entry
 
-    def add_occurrence(self, call_series: str, occurrence_data: Dict) -> bool:
-        """Add a new occurrence to a call series."""
+    def add_occurrence(self, call_series: str, occurrence_data: Dict, occurrence_rate: str = "other") -> bool:
+        """Add a new occurrence to a call series.
+
+        Args:
+            call_series: The call series key
+            occurrence_data: Per-occurrence data (issue_number, start_time, duration, etc.)
+            occurrence_rate: Call series level occurrence rate (weekly, bi-weekly, monthly, etc.)
+                           Only used when creating a new call series entry.
+        """
         try:
             if call_series not in self.mapping:
                 # Create new call series entry
                 self.mapping[call_series] = self.create_call_series_entry(
                     call_series=call_series,
                     meeting_id="pending",  # Will be updated to real meeting ID or "custom" based on user choice
-                    occurrence_rate=occurrence_data.get("occurrence_rate", "other"),
+                    occurrence_rate=occurrence_rate,
                     duration=occurrence_data.get("duration")
                 )
             else:

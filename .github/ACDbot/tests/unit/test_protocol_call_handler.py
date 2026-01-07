@@ -58,12 +58,16 @@ class TestProtocolCallHandler(unittest.TestCase):
         }
 
     def test_get_call_series_display_name(self):
-        """Test that call series display names are returned correctly."""
+        """Test that call series display names are returned correctly from YAML config."""
         # Test known call series
         result = self.handler._get_call_series_display_name("acde")
         self.assertEqual(result, "All Core Devs - Execution")
 
-        # Test unknown call series
+        # Test another call series from YAML config (verifies YAML lookup works)
+        result = self.handler._get_call_series_display_name("evmmax")
+        self.assertEqual(result, "EVMmax")
+
+        # Test unknown call series (should fall back to key itself)
         result = self.handler._get_call_series_display_name("unknown")
         self.assertEqual(result, "unknown")
 

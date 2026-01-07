@@ -515,3 +515,63 @@ class TestMappingManager:
         assert call_series_entry["meeting_id"] == "pending"
         assert len(call_series_entry["occurrences"]) == 1
         assert call_series_entry["occurrences"][0]["issue_number"] == 3000
+
+    def test_add_occurrence_with_explicit_occurrence_rate(self, temp_mapping_file):
+        """Test that occurrence_rate parameter is used when creating a new call series."""
+        manager = MappingManager(temp_mapping_file)
+
+        # Verify newcall doesn't exist initially
+        assert "newcall" not in manager.mapping
+
+        # Create occurrence data
+        occurrence_data = manager.create_occurrence_data(
+            issue_number=5000,
+            issue_title="New Call Series #1",
+            discourse_topic_id=None,
+            start_time="2025-10-01T14:00:00Z",
+            duration=90
+        )
+
+        # Add occurrence with explicit occurrence_rate
+        success = manager.add_occurrence("newcall", occurrence_data, occurrence_rate="bi-weekly")
+        assert success is True
+
+        # Verify the call series was created with the correct occurrence_rate
+        call_series_entry = manager.mapping["newcall"]
+        assert call_series_entry["occurrence_rate"] == "bi-weekly"  # Should NOT be "other"
+
+        # Verify occurrence_rate is NOT stored in the occurrence itself
+        occurrence = call_series_entry["occurrences"][0]
+        assert "occurrence_rate" not in occurrence
+
+    def test_add_occurrence_rate_only_used_for_new_series(self, temp_mapping_file):
+        """Test that occurrence_rate parameter is only used when creating a new call series."""
+        manager = MappingManager(temp_mapping_file)
+
+        # Create first occurrence with bi-weekly
+        occurrence_data1 = manager.create_occurrence_data(
+            issue_number=5001,
+            issue_title="Test Call #1",
+            discourse_topic_id=None,
+            start_time="2025-10-01T14:00:00Z",
+            duration=60
+        )
+        manager.add_occurrence("testcall", occurrence_data1, occurrence_rate="bi-weekly")
+
+        # Verify initial occurrence_rate
+        assert manager.mapping["testcall"]["occurrence_rate"] == "bi-weekly"
+
+        # Add second occurrence with different occurrence_rate parameter
+        occurrence_data2 = manager.create_occurrence_data(
+            issue_number=5002,
+            issue_title="Test Call #2",
+            discourse_topic_id=None,
+            start_time="2025-10-15T14:00:00Z",
+            duration=60
+        )
+        # Even though we pass "weekly", the series already exists so it should be ignored
+        manager.add_occurrence("testcall", occurrence_data2, occurrence_rate="weekly")
+
+        # Verify occurrence_rate was NOT changed (series already existed)
+        assert manager.mapping["testcall"]["occurrence_rate"] == "bi-weekly"
+        assert len(manager.mapping["testcall"]["occurrences"]) == 2

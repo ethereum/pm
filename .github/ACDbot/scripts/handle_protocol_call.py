@@ -627,7 +627,8 @@ The bot will automatically process your issue once you've selected a valid call 
                 # Add new occurrence
                 success = self.mapping_manager.add_occurrence(
                     call_data["call_series"],
-                    occurrence_data
+                    occurrence_data,
+                    occurrence_rate=call_data.get("occurrence_rate", "other")
                 )
 
             # Handle meeting ID based on user choice
@@ -1044,32 +1045,15 @@ The bot will automatically process your issue once you've selected a valid call 
 
     def _get_call_series_display_name(self, call_series_key: str) -> str:
         """Get the human-friendly display name for a call series key."""
-        display_name_mapping = {
-            "acde": "All Core Devs - Execution",
-            "acdc": "All Core Devs - Consensus",
-            "acdt": "All Core Devs - Testing",
-            "allwalletdevs": "All Wallet Devs",
-            "bal": "EIP-7928 Breakout Room",
-            "beam": "Beam Call",
-            "eipeditingofficehour": "EIP Editing Office Hour",
-            "eipip": "EIPIP Meeting",
-            "epbs": "EIP-7732 Breakout Room",
-            "resourcepricing": "EVM Resource Pricing Breakout",
-            "ethsimulate": "eth_simulate Implementers",
-            "ethproofs": "Ethproofs Community Call",
-            "focil": "FOCIL Implementers",
-            "l2interop": "L2 Interop Working Group",
-            "pqinterop": "PQ Interop",
-            "peerdas": "PeerDAS Breakout",
-            "portal": "Portal Implementers",
-            "protocolresearch": "Protocol Research Call",
-            "rpcstandards": "RPC Standards Call",
-            "rollcall": "RollCall",
-            "stateless": "Stateless Implementers",
-            "trustlessagents": "Trustless Agents (ERC-8004)"
-        }
+        from modules.call_series_config import get_call_series_config
 
-        return display_name_mapping.get(call_series_key, call_series_key)
+        # Look up display name from YAML config
+        config = get_call_series_config(call_series_key)
+        if config and "display_name" in config:
+            return config["display_name"]
+
+        # Fallback to the key itself if not found
+        return call_series_key
 
     def _find_existing_discourse_topic(self, call_series: str) -> Optional[int]:
         """Find existing Discourse topic ID for a call series."""
