@@ -11,7 +11,7 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
 
 ### Concise instructions (verbose below)
 
-1. Contact Protocol Support. Provide title, cadence, reason for breakout, associated EIP(s), target fork (if relevant) & your Github username. Wait for Protocol Support to confirm creation.
+1. Contact the Protocol Support team. Provide title, cadence, reason for breakout, associated EIP(s), target fork (if relevant) & your Github username. Wait for Protocol Support to confirm creation.
 2. Scheduling the first meeting: create an issue in the [pm repo](https://github.com/ethereum/pm/issues), choose `Protocol Call`. Use the template to create the issue. Recommended settings:
 
     - Call Series: your series
