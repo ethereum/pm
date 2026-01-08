@@ -20,8 +20,9 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
     - Call Series: your series
     - Duration: 60 minutes
     - Occurrence: if cadence is definite, choose weekly/biweekly/monthly. If not yet known, choose 'other'.
-    - Use Custom Meeting Link: ☐ (No) | must have someone with @ethereum.org email present
-        - ☒ (Yes) 
+    - Use Custom Meeting Link: 
+        - ☐ (No) | premium Zoom features, must have someone with @ethereum.org email present
+        - ☒ (Yes) | must self-record and send recording link to Protocol Support if yt upload desired
     - Display Zoom Link in Calendar Invite: ☒ (Yes)
     - Create Youtube livestream link: ☐ (No)
 
