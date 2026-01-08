@@ -1,4 +1,7 @@
 # Running a Breakout call
+
+A Breakout call is a feature- or topic- specific call for features in active implementation stages, that are aiming for inclusion in an upcoming fork, and would benefit from synchronous discussion beyond what can reasonably fit into the All Core Dev calls. A few examples of previous Breakout call series include: [ePBS](https://www.youtube.com/playlist?list=PLJqWcTqh_zKHoz9dnQFGrWI_s1-8RwMhX), [Block-Level Access Lists](https://www.youtube.com/playlist?list=PLJqWcTqh_zKHCi0b6xb6QB1KE1DiJm5Fj), [PQ Interop](https://www.youtube.com/playlist?list=PLJqWcTqh_zKF_Q9HNXBLW_AtktsjToTIu), [MaxEB](https://www.youtube.com/playlist?list=PLJqWcTqh_zKHZUIo5DMXK1Z9oFWtr-Zsa), [FOCIL](https://www.youtube.com/playlist?list=PLJqWcTqh_zKFIaCmjgKO4HJLn4y-Rg3He), and [PeerDAS](https://www.youtube.com/playlist?list=PLJqWcTqh_zKH3X3dzG3h_M31HWfVIZJRW).
+
 ## When to start a breakout
 
 Breakout calls are organized via issues in the ethereum/pm Github repo and you, as the call facilitator, are responsible for getting the right people to attend. Start a breakout if:
