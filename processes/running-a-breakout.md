@@ -27,7 +27,7 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
 ### Verbose instructions
 
 1. **Contact Protocol Support**
-    - **wolovim** (`@wolovim` on Discord / Twitter) or
+    - **Josh** (`@joshdavislight` on Discord / Telegram, `josh.davis@ethereum.org` by email) or
     - **nixo** (`@nixo.eth` on Discord, `nixo@ethereum.org` by email)
     
     Provide: title, cadence, reason for the breakout, associated EIP(s), target fork (if relevant), & your Github username. Wait for Protocol Support to confirm creation.
