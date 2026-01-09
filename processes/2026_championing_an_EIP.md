@@ -76,7 +76,6 @@ It is strongly encouraged to implement the EIP's protocol changes in the relevan
 <summary>If your EIP impacts the Consensus Layer:</summary>
 
 - Implement the feature in the [consensus-specs](https://github.com/ethereum/consensus-specs) repository. Once a PR is created, maintainers will provide feedback and guide next steps.
-- Update [generators](https://github.com/ethereum/consensus-specs/tree/dev/tests/generators) and generate client tests.  
 - Reference the feature addition [docs](https://github.com/ethereum/consensus-specs/blob/master/docs/docs/new-feature.md)
 - Reach out for help in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#cl-testing` channel.
 
