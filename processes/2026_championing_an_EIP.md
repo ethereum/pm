@@ -59,7 +59,7 @@ Stages are defined in [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723).
 
 ### Implementations & Tests
 
-It is strongly encouraged to implement the EIP's protocol changes in the relevant Python specification implementations as early as possible. This allows the community to help collaboratively disambiguate the spec and, later, is required to generate test vectors for client teams. Note: In order for an EIP to move to the SFI stage, it MUST have an executable spec implementation (see [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723)).
+It is strongly encouraged to implement the EIP's protocol changes in the relevant Python specifications as early as possible. This allows the community to help collaboratively disambiguate the specifications and generate reference tests for client teams. Note that in order for an EIP to move to the SFI stage, it MUST have executable specifications (see [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723)).
 
 <details>
 <summary>If your EIP impacts the Execution Layer:</summary>
@@ -68,17 +68,17 @@ It is strongly encouraged to implement the EIP's protocol changes in the relevan
   - EIP authors are encouraged to attempt the implementation on their own. Once a PR is created, EELS maintainers regularly step in to provide feedback or polish the implementation.
   - Reference the [EIP Author's Manual](https://github.com/ethereum/execution-specs/blob/master/EIP_AUTHORS_MANUAL.md).
   - Add test cases in an appropriate sub-folder of [`tests/unscheduled/`](https://github.com/ethereum/execution-specs/tree/b3543e94d12288e994fc1adea606c1a417db4a9f/tests/unscheduled). EELS maintainers will help with coverage, but simple tests can help you to verify your implementation.
-- For any help you may need, reach out to the [STEEL Team](https://steel.ethereum.foundation/) in the [ETH R&D Discord](https://discord.gg/EVTQ9crVgQ), `#el-testing` channel.
+- For any help you may need, reach out to the [STEEL Team](https://steel.ethereum.foundation/) in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#el-testing` channel.
 
 </details>
 
 <details>
 <summary>If your EIP impacts the Consensus Layer:</summary>
 
-- Implement the feature in the [consensus-specs](https://github.com/ethereum/consensus-specs) repo. Once a PR is created, repo maintainers will provide feedback and guide next steps.
+- Implement the feature in the [consensus-specs](https://github.com/ethereum/consensus-specs) repository. Once a PR is created, maintainers will provide feedback and guide next steps.
 - Update [generators](https://github.com/ethereum/consensus-specs/tree/dev/tests/generators) and generate client tests.  
-- Reference the feature addition [docs](https://github.com/ethereum/consensus-specs/blob/dev/docs/docs/new-feature.md)
-- Reach out for help in the [ETH R&D Discord](https://discord.gg/EVTQ9crVgQ), `#cl-testing` channel.
+- Reference the feature addition [docs](https://github.com/ethereum/consensus-specs/blob/master/docs/docs/new-feature.md)
+- Reach out for help in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#cl-testing` channel.
 
 </details>
 
