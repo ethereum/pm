@@ -1,4 +1,5 @@
 # Championing an EIP
+\*** DEPRECATED IN FAVOR OF THE [2026 GUIDE](2026_championing_an_EIP.md) ***
 
 ## Preamble
 
