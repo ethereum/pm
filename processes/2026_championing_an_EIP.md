@@ -124,14 +124,7 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
 
 ### Setting up a breakout call
 
-Contact Protocol Support:
-
-- **wolovim** (`@wolovim` on Discord / Twitter) or
-- **nixo** (`@nixo.eth` on Discord, `nixo@ethereum.org` by email)
-
-Provide: title, cadence, reason for the breakout, associated EIP(s), target fork
-
-You can use your own zoom meeting or you can use the EF zoom-bot to create the zoom link. The benefit of the EF zoom-bot is that it provides transcripts, an AI summary, and youtube video upload.
+See the [guide to running a breakout call](breakout_call_instructions.md).
 
 ## Templates
 
