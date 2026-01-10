@@ -41,33 +41,52 @@ If you champion an EIP, you are the point person who keeps it moving:
 Stages are defined in [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723).
 
 - **Proposed for Inclusion (PFI)**
-    
+
     An EIP becomes PFI when someone opens a PR to add it to the fork’s Meta EIP PFI list during the designated PFI window. Champion actions after PFI:
-    
+
     1. Ensure implementations are being created (you or by engaging client teams).
     2. Surface concerns early and address them (often via spec iteration).
     3. Stay active and responsive in Eth R&D Discord.
     4. Create/maintain a strong Forkcast entry - optional, but a good way to get your EIP better understood and on more radars. Your goal is to enable an *informed* signal from client teams. If it isn’t well understood or has unknowns, build shared understanding and drive down uncertainty (explanations, answering questions, spec work, breakout if needed).
 
 - **Considered for Inclusion (CFI)**
-    
+
     Moving PFI → CFI happens after the EIP is discussed on an ACD call during the designated discussion window and rough consensus is achieved. The ACD facilitator then updates its status on the Fork Meta EIP.
-    
+
 - **Scheduled for Inclusion (SFI)**
-    
+
     SFI generally implies the EIP has achieved rough consensus across client teams and is on the implementation/testing path (devnets → testnets → mainnet).
-    
 
-### Implementations & tests
+### Implementations & Tests
 
-[ coming soon ]
+It is strongly encouraged to implement the EIP's protocol changes in the relevant Python specifications as early as possible. This allows the community to help collaboratively disambiguate the specifications and generate reference tests for client teams. Note that in order for an EIP to move to the SFI stage, it MUST have executable specifications (see [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723)).
+
+<details>
+<summary>If your EIP impacts the Execution Layer:</summary>
+
+- Implement your changes in the [execution-specs](https://github.com/ethereum/execution-specs) (EELS)
+  - EIP authors are encouraged to attempt the implementation on their own. Once a PR is created, EELS maintainers regularly step in to provide feedback or polish the implementation.
+  - Reference the [EIP Author's Manual](https://github.com/ethereum/execution-specs/blob/master/EIP_AUTHORS_MANUAL.md).
+  - Add test cases in an appropriate sub-folder of [`tests/unscheduled/`](https://github.com/ethereum/execution-specs/tree/b3543e94d12288e994fc1adea606c1a417db4a9f/tests/unscheduled). EELS maintainers will help with coverage, but simple tests can help you to verify your implementation.
+- For any help you may need, reach out to the [STEEL Team](https://steel.ethereum.foundation/) in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#el-testing` channel.
+
+</details>
+
+<details>
+<summary>If your EIP impacts the Consensus Layer:</summary>
+
+- Implement the feature in the [consensus-specs](https://github.com/ethereum/consensus-specs) repository. Once a PR is created, maintainers will provide feedback and guide next steps.
+- Reference the feature addition [docs](https://github.com/ethereum/consensus-specs/blob/master/docs/docs/new-feature.md).
+- Reach out for help in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#cl-testing` channel.
+
+</details>
 
 ## Where decisions happen
 
 - **ACD**
-    - **ACDE / ACDC:** higher-level planning + “what goes in the fork” decisions
-    - **ACDT:** implementation/testing. Usually for current forks once something is already CFI’d.
-    - **Agendas:** organized in [**ethereum/pm** repo issues](github.com/ethereum/pm/issues). ACD agendas are typically updated the day before the call. Anyone is free to leave a comment on the call issue, requesting for their topic to be added to the agenda.
+  - **ACDE / ACDC:** higher-level planning + “what goes in the fork” decisions
+  - **ACDT:** implementation/testing. Usually for current forks once something is already CFI’d.
+  - **Agendas:** organized in [**ethereum/pm** repo issues](github.com/ethereum/pm/issues). ACD agendas are typically updated the day before the call. Anyone is free to leave a comment on the call issue, requesting for their topic to be added to the agenda.
 - **Async:** Eth R&D Discord is the primary async venue.
 
 ## Forkcast
