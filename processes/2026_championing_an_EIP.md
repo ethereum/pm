@@ -107,7 +107,7 @@ If you can’t attend:
 
 To know when decisions are likely to be made,
 
-- follow the [EF blog](https://blog.ethereum.org/) Checkpoint series
+- follow the [EF blog](https://blog.ethereum.org/) Checkpoint series in the [Research & Development category](https://blog.ethereum.org/category/research-and-development)
 - read messages in Eth R&D Discord #allcoredevs
 - watch the [fork timeline](https://forkcast.org/upgrade/glamsterdam#glamsterdam-timeline) on Forkcast, catch up on the [Calls](https://forkcast.org/calls/) page with transcripts & summaries
 - check ethereum/pm agendas the day before ACD calls
@@ -124,7 +124,7 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
 
 ### Setting up a breakout call
 
-See the [guide to running a breakout call](breakout_call_instructions.md).
+See the [guide to running a breakout call](running-a-breakout.md).
 
 ## Templates
 
