@@ -118,7 +118,33 @@ class TestProtocolCallHandler(unittest.TestCase):
         self.assertEqual(len(result["stream_links"]), 1)
         self.assertEqual(result["youtube_action"], "existing")
 
+    def test_handle_youtube_resource_clear_when_unchecked(self):
+        """Test that youtube resource returns clear action when checkbox is unchecked but streams exist."""
+        # YouTube checkbox is unchecked (default in sample_call_data)
+        call_data = self.sample_call_data.copy()
+        call_data["need_youtube_streams"] = False
 
+        # But existing resources show YouTube streams exist
+        result = self.handler._handle_youtube_resource(call_data, self.sample_existing_resources)
+
+        self.assertFalse(result["youtube_streams_created"])
+        self.assertIsNone(result["youtube_streams"])
+        self.assertEqual(result["youtube_action"], "clear")
+
+    def test_handle_youtube_resource_no_action_when_unchecked_and_no_existing(self):
+        """Test that youtube resource returns no action when checkbox is unchecked and no streams exist."""
+        call_data = self.sample_call_data.copy()
+        call_data["need_youtube_streams"] = False
+
+        # No existing YouTube streams
+        existing_resources = self.sample_existing_resources.copy()
+        existing_resources["has_youtube"] = False
+
+        result = self.handler._handle_youtube_resource(call_data, existing_resources)
+
+        self.assertFalse(result["youtube_streams_created"])
+        self.assertIsNone(result["youtube_streams"])
+        self.assertNotIn("youtube_action", result)
 
     def test_find_existing_discourse_topic(self):
         """Test that _find_existing_discourse_topic correctly finds existing topic IDs."""

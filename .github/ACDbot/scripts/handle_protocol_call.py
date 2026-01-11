@@ -184,9 +184,15 @@ class ProtocolCallHandler:
         }
 
         try:
-            # Skip if user opted out of YouTube streams
+            # Check if user opted out of YouTube streams
             if not call_data.get("need_youtube_streams"):
-                self.logger.debug("YouTube stream creation skipped (user opted out)")
+                # Check if there were existing streams that should be cleared
+                has_existing = existing_resources.get("has_youtube", False)
+                if has_existing:
+                    self.logger.info("YouTube streams checkbox unchecked - will clear existing streams from mapping")
+                    result["youtube_action"] = "clear"
+                else:
+                    self.logger.debug("YouTube stream creation skipped (user opted out)")
                 return result
 
             # Check if we have existing YouTube streams
@@ -569,6 +575,12 @@ The bot will automatically process your issue once you've selected a valid call 
                 update_data["skip_youtube_upload"] = True
                 print(f"[DEBUG] Adding YouTube streams: {len(resource_results['youtube_streams'])} streams")
                 print(f"[DEBUG] Setting skip_youtube_upload=True (livestream exists, no recording upload needed)")
+            # Clear YouTube streams if user unchecked the checkbox
+            elif resource_results.get("youtube_action") == "clear":
+                update_data["youtube_streams"] = None
+                update_data["skip_youtube_upload"] = False
+                print(f"[DEBUG] Clearing YouTube streams from mapping (user unchecked checkbox)")
+                print(f"[DEBUG] Setting skip_youtube_upload=False (Zoom recording can now be uploaded)")
 
             # Update the occurrence with resource IDs
             if update_data:
@@ -1259,6 +1271,8 @@ The bot will automatically process your issue once you've selected a valid call 
                     message_lines.append(f"✅ <b>YouTube:</b> Stream created")
                 else:
                     message_lines.append(f"✅ <b>YouTube:</b> {stream_count} streams created")
+        elif youtube_action == "clear":
+            message_lines.append("🗑️ <b>YouTube:</b> Streams cleared from mapping")
         elif call_data.get("need_youtube_streams"):
             message_lines.append("❌ <b>YouTube:</b> Failed")
         else:
