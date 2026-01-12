@@ -1156,6 +1156,24 @@ The bot will automatically process your issue once you've selected a valid call 
             if youtube_streams:
                 print(f"[DEBUG] Successfully created {len(youtube_streams)} YouTube streams")
 
+                # Add each broadcast to appropriate playlist(s)
+                # Note: This may fail for scheduled broadcasts - YouTube may require them to be live first
+                # We catch errors so this doesn't disrupt the stream creation process
+                for stream in youtube_streams:
+                    broadcast_id = stream.get('broadcast_id')
+                    if broadcast_id:
+                        try:
+                            print(f"[DEBUG] Attempting to add broadcast {broadcast_id} to playlist(s) for call_series: {call_series}")
+                            playlist_results = youtube_utils.add_video_to_appropriate_playlist(broadcast_id, call_series)
+                            if playlist_results:
+                                print(f"[INFO] Successfully added broadcast {broadcast_id} to {len(playlist_results)} playlist(s)")
+                            else:
+                                print(f"[WARN] Failed to add broadcast {broadcast_id} to any playlist (may need to wait until broadcast is live)")
+                        except Exception as playlist_error:
+                            # Don't fail the entire process if playlist addition fails
+                            print(f"[WARN] Failed to add broadcast {broadcast_id} to playlist(s): {playlist_error}")
+                            print(f"[WARN] This is non-critical - streams were created successfully, playlist can be added manually or later")
+
                 # Format stream links for display (same as old system)
                 stream_links = []
                 for i, stream in enumerate(youtube_streams, 1):
