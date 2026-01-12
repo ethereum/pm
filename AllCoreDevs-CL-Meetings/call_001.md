@@ -29,7 +29,7 @@
     * proposer package interacts with chain via RPC to determine if/when proposer/attester
     * beacon node simulates block and cycle transition
     * aligning codebase to v2.1 spec
-    * New Prysmatic [Discord server](https://discord.gg/KSA7rPr)
+    * New Prysmatic [Discord server](https://discord.com/invite/YMVYzv6)
     * Fork choice coming up
 * Lighthouse (Paul)
     * [sandbox](https://github.com/sigp/shuffling_sandbox) to mess around with shuffling algorithm (speed/output)
@@ -243,7 +243,7 @@
 * Danny: yes, could use XOR of those commitments. Both approaches seem reasonable. RANDAO is very likely but RNG is still a little up in the air
 
 # Links shared during meeting
-* [New Prysmatic Discord server](https://discord.gg/KSA7rPr)
+* [New Prysmatic Discord server](https://discord.com/invite/YMVYzv6)
 * [ethresearch post](https://ethresear.ch/t/pragmatic-signature-aggregation-with-bls/2105/29) with tips and pitfalls when implementing BLS
 * [BLS implementation in nim](https://github.com/status-im/nim-milagro-crypto/blob/master/src/scheme1.nim) using milagro
 * [OMNet](https://www.omnetpp.org/)
