@@ -1166,9 +1166,14 @@ The bot will automatically process your issue once you've selected a valid call 
                             print(f"[DEBUG] Attempting to add broadcast {broadcast_id} to playlist(s) for call_series: {call_series}")
                             playlist_results = youtube_utils.add_video_to_appropriate_playlist(broadcast_id, call_series)
                             if playlist_results:
-                                print(f"[INFO] Successfully added broadcast {broadcast_id} to {len(playlist_results)} playlist(s)")
+                                # Filter out None values (failed API calls) to count actual successes
+                                successful = [r for r in playlist_results if r is not None]
+                                if successful:
+                                    print(f"[INFO] Successfully added broadcast {broadcast_id} to {len(successful)} playlist(s)")
+                                else:
+                                    print(f"[WARN] Playlist API calls failed for broadcast {broadcast_id} (may need to wait until broadcast is live)")
                             else:
-                                print(f"[WARN] Failed to add broadcast {broadcast_id} to any playlist (may need to wait until broadcast is live)")
+                                print(f"[WARN] No playlist mapping found for call_series: {call_series}")
                         except Exception as playlist_error:
                             # Don't fail the entire process if playlist addition fails
                             print(f"[WARN] Failed to add broadcast {broadcast_id} to playlist(s): {playlist_error}")
