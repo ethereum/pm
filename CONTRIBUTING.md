@@ -1,4 +1,29 @@
-# Proposal: [Brief, Descriptive Title of Your Proposal]
+# Proposal: [## Proposal: [Brief, Clear Title]
+
+### Context
+*Link to related meeting notes, existing issues, or EIP discussions*
+
+### Current State Analysis
+[Describe what currently exists, referencing specific PRs/issues from the repo]
+
+### Proposed Improvement
+[Be specific about changes to documentation, process, or coordination]
+
+### Impact on Working Groups
+- [ ] All Core Devs - Execution
+- [ ] All Core Devs - Consensus  
+- [ ] All Core Devs - Testing
+- [ ] EIP Editing
+- [ ] Other: [Specify]
+
+### Implementation Steps
+1. [First concrete action]
+2. [Second action]
+3. [Success metrics]
+
+### Questions for Community
+- [Question 1]
+- [Question 2]]
 
 ## Abstract
 Provide a concise summary of the proposal, its goals, and the intended outcome. This should be understandable to a general technical audience.
