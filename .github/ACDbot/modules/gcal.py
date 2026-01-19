@@ -430,18 +430,54 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                     'action_detail': 'pattern_updated' if needs_pattern_update else 'recurrence_extended'
                 }
             else:
-                # Recurrence hasn't ended, just update metadata
-                print(f"[DEBUG] No specific instance found, updating master recurring event metadata")
-                print(f"[DEBUG] This will update the series metadata while preserving the recurrence pattern")
+                # No matching instance found - shift the recurrence pattern to start from the new date
+                print(f"[DEBUG] No specific instance found for target date {start_dt.date()}")
+                print(f"[DEBUG] Shifting recurrence pattern to start from the new date")
 
-                # Update only the metadata (summary, description) but preserve the original start time and recurrence
+                # Build new start/end times matching the target date
+                new_start = {
+                    'dateTime': start_dt.isoformat(),
+                    'timeZone': 'UTC'
+                }
+                new_end = {
+                    'dateTime': end_dt.isoformat(),
+                    'timeZone': 'UTC'
+                }
+
+                # Update the recurrence UNTIL date if it exists to ensure it extends far enough
+                updated_recurrence = []
+                for rule in recurrence_rules:
+                    if 'UNTIL=' in rule:
+                        # Parse existing UNTIL and ensure it's at least 6 months from new start
+                        until_match = re.search(r'UNTIL=(\d{8}T\d{6}Z?)', rule)
+                        if until_match:
+                            until_str = until_match.group(1)
+                            if 'T' in until_str:
+                                until_dt = datetime.strptime(until_str.replace('Z', ''), '%Y%m%dT%H%M%S')
+                            else:
+                                until_dt = datetime.strptime(until_str, '%Y%m%d')
+                            until_dt = until_dt.replace(tzinfo=pytz.utc)
+
+                            # Extend UNTIL if it's less than 6 months from new start
+                            min_until = start_dt + timedelta(days=180)
+                            if until_dt < min_until:
+                                new_until_str = min_until.strftime('%Y%m%dT%H%M%SZ')
+                                rule = re.sub(r'UNTIL=\d{8}T\d{6}Z?', f'UNTIL={new_until_str}', rule)
+                                print(f"[DEBUG] Extended UNTIL date to {min_until.date()}")
+                    updated_recurrence.append(rule)
+
+                # Use updated recurrence if we modified it, otherwise keep original
+                final_recurrence = updated_recurrence if updated_recurrence else recurrence_rules
+
                 event_body = {
                     'summary': summary,
                     'description': description,
-                    'start': existing_event.get('start'),
-                    'end': existing_event.get('end'),
-                    'recurrence': existing_event.get('recurrence', []),
+                    'start': new_start,
+                    'end': new_end,
+                    'recurrence': final_recurrence,
                 }
+
+                print(f"[DEBUG] Updating master event with new start date: {start_dt.date()}")
 
                 event = service.events().update(
                     calendarId=calendar_id,
@@ -449,12 +485,12 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                     body=event_body
                 ).execute()
 
-                print(f"[DEBUG] Updated master recurring event metadata")
+                print(f"[DEBUG] Shifted recurrence pattern to start from {start_dt.date()}")
 
                 return {
                     'htmlLink': event.get('htmlLink'),
                     'id': event_id,
-                    'action_detail': 'metadata_updated'
+                    'action_detail': 'pattern_shifted'
                 }
 
     except ValueError:
