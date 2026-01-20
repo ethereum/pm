@@ -230,7 +230,7 @@ class TestAutopilotConfig:
         assert "occurrence_rate" in defaults
         assert "need_youtube_streams" in defaults
         assert "display_zoom_link_in_invite" in defaults
-        assert "skip_zoom_creation" in defaults
+        assert "external_meeting_link" in defaults
 
     def test_get_autopilot_defaults_for_acdc(self):
         """Test that ACDC has correct autopilot defaults."""
@@ -264,7 +264,7 @@ class TestAutopilotConfig:
         assert defaults["occurrence_rate"] in ["weekly", "bi-weekly", "monthly", "other"]
         assert isinstance(defaults.get("need_youtube_streams"), bool)
         assert isinstance(defaults.get("display_zoom_link_in_invite"), bool)
-        assert isinstance(defaults.get("skip_zoom_creation"), bool)
+        assert isinstance(defaults.get("external_meeting_link"), bool)
 
     def test_all_series_with_defaults_have_complete_config(self):
         """Test that all series with autopilot defaults have all required fields."""
@@ -273,7 +273,7 @@ class TestAutopilotConfig:
             "occurrence_rate",
             "need_youtube_streams",
             "display_zoom_link_in_invite",
-            "skip_zoom_creation"
+            "external_meeting_link"
         ]
 
         for key in get_all_call_series_keys():

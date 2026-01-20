@@ -153,9 +153,9 @@ Autopilot mode was enabled, but this is a one-time call. One-time calls don't ha
             autopilot_form_data["display_zoom_link_in_invite"] = defaults["display_zoom_link_in_invite"]
             self.logger.debug(f"Autopilot: display_zoom_link_in_invite = {defaults['display_zoom_link_in_invite']}")
 
-        if "skip_zoom_creation" in defaults:
-            autopilot_form_data["skip_zoom_creation"] = defaults["skip_zoom_creation"]
-            self.logger.debug(f"Autopilot: skip_zoom_creation = {defaults['skip_zoom_creation']}")
+        if "external_meeting_link" in defaults:
+            autopilot_form_data["skip_zoom_creation"] = defaults["external_meeting_link"]
+            self.logger.debug(f"Autopilot: skip_zoom_creation = {defaults['external_meeting_link']}")
 
         return autopilot_form_data
 
