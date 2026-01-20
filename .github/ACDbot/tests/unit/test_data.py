@@ -91,10 +91,6 @@ Bi-weekly
 
 - [x] Yes
 
-### Facilitator Emails (Optional)
-
-_No response_
-
 ### Custom Meeting Link (Optional)
 
 _No response_
@@ -161,10 +157,6 @@ Bi-weekly
 
 - [x] Yes
 
-### Facilitator Emails (Optional)
-
-_No response_
-
 ### Custom Meeting Link (Optional)
 
 _No response_
@@ -202,10 +194,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-_No response_
 
 ### Custom Meeting Link (Optional)
 
@@ -245,10 +233,6 @@ None
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [ ] No
-
-### Facilitator Emails (Optional)
-
-organizer@example.com
 
 ### Custom Meeting Link (Optional)
 
@@ -539,10 +523,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """
 
 AGENDA_WITH_COMPLEX_FORMATTING = """
@@ -587,10 +567,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """
 
 AGENDA_EMPTY_CONTENT = """
@@ -624,10 +600,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """
 
 AGENDA_WHITESPACE_ONLY = """
@@ -662,10 +634,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """
 
 AGENDA_VERY_LONG_CONTENT = """
@@ -700,10 +668,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """
 
 AGENDA_MISSING_CALL_SERIES_BOUNDARY = """
@@ -738,10 +702,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """
 
 AGENDA_WITH_EXTRA_NEWLINES = """### UTC Date & Time
@@ -774,10 +734,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """
 
 AGENDA_PRESERVES_FORMATTING = """
@@ -814,8 +770,4 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Yes
-
-### Facilitator Emails (Optional)
-
-test@example.com
 """

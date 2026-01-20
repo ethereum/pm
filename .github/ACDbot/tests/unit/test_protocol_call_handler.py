@@ -266,10 +266,6 @@ bi-weekly
 
 - [ ] I will provide my own meeting link
 
-### Facilitator Emails (Optional)
-
-test@example.com
-
 ### Display Zoom Link in Calendar Invite (Optional)
 
 - [x] Display Zoom link in invite"""
@@ -290,7 +286,6 @@ test@example.com
         self.assertIn("### Duration", cleaned_body)
         self.assertIn("90 minutes", cleaned_body)
         self.assertIn("### Occurrence Rate", cleaned_body)
-        self.assertIn("test@example.com", cleaned_body)
         self.assertIn("</details>", cleaned_body)
 
         # Test parsing compatibility by ensuring Call Series appears before details
@@ -526,7 +521,6 @@ class TestAutopilotMode(unittest.TestCase):
             "display_zoom_link_in_invite": False,  # User provided
             "skip_zoom_creation": True,  # User provided
             "start_time": "2030-04-24T14:00:00Z",
-            "facilitator_emails": [],
             "agenda": "Test agenda"
         }
 
@@ -747,7 +741,6 @@ class TestDateInPastValidation(unittest.TestCase):
             "skip_zoom_creation": False,
             "need_youtube_streams": False,
             "display_zoom_link_in_invite": True,
-            "facilitator_emails": [],
             "agenda": "Test agenda"
         }
 

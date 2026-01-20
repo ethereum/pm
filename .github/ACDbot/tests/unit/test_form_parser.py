@@ -68,9 +68,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 - [x] Yes
 
-### Facilitator Emails (Optional)
-test@example.com
-
 ### Custom Meeting Link (Optional)
 _No response_
 
@@ -91,7 +88,6 @@ All Core Devs - Execution
         assert result["skip_zoom_creation"] is False
         assert result["need_youtube_streams"] is True
         assert result["display_zoom_link_in_invite"] is True
-        assert result["facilitator_emails"] == ["test@example.com"]
         assert result["agenda"] == "Test agenda for the meeting"
 
     def test_parse_form_data_legacy_format(self, sample_legacy_issue_body):
@@ -122,7 +118,6 @@ All Core Devs - Execution
         assert result["skip_zoom_creation"] is True
         assert result["need_youtube_streams"] is False
         assert result["display_zoom_link_in_invite"] is False
-        assert result["facilitator_emails"] == ['organizer@example.com']
 
         # Test with issue number (should return "one-off-123")
         result_with_issue = parser.parse_form_data(ONE_OFF_MEETING_FORM, 123)
@@ -366,78 +361,6 @@ All Core Devs - Execution
         start_time, duration = parser.parse_date_time_with_duration("April 24, 2025, 14:00 UTC", 90)
         assert start_time == "2025-04-24T14:00:00Z"
         assert duration == 90
-
-    def test_placeholder_facilitator_emails(self):
-        """Test that invalid facilitator emails are filtered out."""
-        parser = FormParser()
-
-        # Test with various invalid emails
-        legacy_issue_with_invalid_emails = """
-# Meeting title eg. All Core Devs - Execution (ACDE) #206, February 27, 2025
-
-- Date and time in UTC in format `month, day, year, time` with link to savvytime.com or timeanddate.com. E.g. [Jan 16, 2025, 14:00 UTC](https://savvytime.com/converter/utc/jan-16-2025/2pm)
-
-# Agenda
-
-- Agenda point 1
-- Agenda point n
-
-Other comments and resources
-
-The zoom link will be sent to the facilitator via email
-Facilitator emails: XXXXX, YYYYY, test@example.com, INVALID, admin@test.org
-
-<details> <summary>🤖 config</summary>
-
-- Duration in minutes : 90
-- Recurring meeting : true
-- Call series : acde
-- Occurrence rate : bi-weekly
-- Already a Zoom meeting ID : false
-- Already on Ethereum Calendar : false
-- Need YouTube stream links : true
-- display zoom link in invite : false
-
-</details>
-"""
-
-        result = parser.parse_form_data(legacy_issue_with_invalid_emails)
-
-        assert result is not None
-        # Should only include valid emails: test@example.com, admin@test.org
-        assert result["facilitator_emails"] == ["test@example.com", "admin@test.org"]
-        assert result["call_series"] == "acde"
-        assert result["duration"] == 90
-
-    def test_email_validation_edge_cases(self):
-        """Test email validation with various edge cases."""
-        parser = FormParser()
-
-        # Test with various email formats
-        legacy_issue_with_edge_cases = """
-# Meeting title
-
-Facilitator emails: test@example.com, no-at-sign, missing@dot, @missinglocal, local@, .missingtld, valid@test.org, another@domain.co.uk
-
-<details> <summary>🤖 config</summary>
-
-- Duration in minutes : 90
-- Recurring meeting : true
-- Call series : acde
-- Occurrence rate : bi-weekly
-- Already a Zoom meeting ID : false
-- Already on Ethereum Calendar : false
-- Need YouTube stream links : true
-- display zoom link in invite : false
-
-</details>
-"""
-
-        result = parser.parse_form_data(legacy_issue_with_edge_cases)
-
-        assert result is not None
-        # Should only include valid emails
-        assert result["facilitator_emails"] == ["test@example.com", "valid@test.org", "another@domain.co.uk"]
 
     def test_agenda_extraction_with_user_headers(self):
         """Test agenda extraction when users add their own headers within the agenda section."""

@@ -27,9 +27,8 @@ To schedule a call using ACDbot, simply open an issue using given templates and 
 * `Call series` (e.g., ACDE, ACDC) name for recurring meetings
 * `Already on Ethereum Calendar` (true/false) to optionally skip Zoom/GCal creation
 * `Need YouTube stream links`, set false if you don't want YouTube stream
-* Facilitator email for contact
 
-Based on options you chose, this will automatically create a new EthMagicians topic or updates an existing one (if editing existing meeting) with the meeting title, body, and a link back to the GitHub issue. This includes created Zoom link and Youtube stream which will be posted also as a comment under the issue. The Zoom link is also sent to the facilitator's email address.
+Based on options you chose, this will automatically create a new EthMagicians topic or updates an existing one (if editing existing meeting) with the meeting title, body, and a link back to the GitHub issue. This includes created Zoom link and Youtube stream which will be posted also as a comment under the issue.
 
 ### After the call
 
@@ -90,7 +89,6 @@ In Settings -> Secrets and variables -> Actions:
 -   `YOUTUBE_REFRESH_TOKEN_PATH`: Path within the repository where the YouTube/Google refresh token is stored (e.g., `.github/ACDbot/youtube_refresh_token.txt`). Requires manual refresh process upon expiry (see Google OAuth docs).
 -   `DISCOURSE_API_KEY`, `DISCOURSE_API_USERNAME`: Credentials for a Discourse user with API access.
 -   `DISCOURSE_BASE_URL`: The base URL of the target Discourse instance (e.g., `https://ethereum-magicians.org`).
--   `SENDER_EMAIL`, `SENDER_PASSWORD`: Credentials for the email account used to send facilitator notifications. Consider using an App Password if using Gmail with 2FA.
 -   `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`: Credentials for a Telegram bot and the target chat ID for notifications.
 
 ### Core files and flow
@@ -101,7 +99,7 @@ The database that keeps track of existing events is in `meeting_topic_mapping.js
     -   `handle_protocol_call.py`: Main script for processing GitHub issues using the new form-based workflow.
         - It parses the issue, loads mapping and checks for duplicates
         - Creates/updates EthMag topic and based on chosen options or existence of an event creates Zoom meeting ID, GCal event, YouTube stream
-        - Comments on the issue with created artifacts, sends an email to facilitator and commits changes to mapping file
+        - Comments on the issue with created artifacts and commits changes to mapping file
     -   `poll_zoom_recordings.py`, `upload_zoom_recording.py`, `zoom-transcript-poll.yml`
         - Scripts for downloading and uploading recordings/transcripts
         - Runs on a scheduled cron job every 6 hours (`0 */6 * * *`) to periodically check for finished meetings based on mapping and Zoom API

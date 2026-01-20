@@ -67,7 +67,6 @@ class FormParser:
         display_zoom_link_in_invite = self._extract_old_display_zoom_link(issue_body)
 
         # Extract other fields
-        facilitator_emails = self._extract_old_facilitator_emails(issue_body)
         agenda = self._extract_old_agenda(issue_body)
 
         return {
@@ -79,7 +78,6 @@ class FormParser:
             "skip_gcal_creation": skip_gcal_creation,
             "need_youtube_streams": need_youtube_streams,
             "display_zoom_link_in_invite": display_zoom_link_in_invite,
-            "facilitator_emails": facilitator_emails,
             "agenda": agenda
         }
 
@@ -169,27 +167,6 @@ class FormParser:
         display_link = match and match.group(1).lower() == 'true'
         print(f"[DEBUG] Parsed old format display_zoom_link_in_invite: {display_link}")
         return display_link
-
-    def _extract_old_facilitator_emails(self, issue_body: str) -> List[str]:
-        """Extract facilitator emails from old format."""
-        pattern = r"Facilitator emails\s*:\s*([^\n]+)"
-        match = re.search(pattern, issue_body, re.IGNORECASE)
-        if match:
-            emails_text = match.group(1).strip()
-            emails = [email.strip() for email in emails_text.split(',') if email.strip()]
-            valid_emails = []
-            for email in emails:
-                # Basic email validation: at least one char + @ + at least one char + . + at least one char
-                if re.match(r'^[^@]+@[^@]+\.[^@]+$', email):
-                    valid_emails.append(email)
-                else:
-                    print(f"[DEBUG] Filtered out invalid email: {email}")
-
-            print(f"[DEBUG] Parsed old format facilitator_emails: {valid_emails}")
-            return valid_emails
-        return []
-
-
 
     def _extract_old_agenda(self, issue_body: str) -> Optional[str]:
         """Extract agenda from old format."""
@@ -357,17 +334,6 @@ class FormParser:
                 return value
         return None
 
-    def parse_facilitator_emails(self, issue_body: str) -> List[str]:
-        """Extract facilitator emails from form input."""
-        emails_text = self.parse_text_field(issue_body, "Facilitator Emails \\(Optional\\)")
-        if emails_text:
-            emails = [email.strip() for email in emails_text.split(',') if email.strip()]
-            print(f"[DEBUG] Parsed facilitator emails: {emails}")
-            return emails
-        return []
-
-
-
     def parse_agenda(self, issue_body: str) -> Optional[str]:
         """Extract agenda from form textarea."""
         # Extract everything between ### Agenda and ### Call Series
@@ -461,7 +427,6 @@ class FormParser:
         display_zoom_link_in_invite = self.parse_display_zoom_link(issue_body)
 
         # Parse additional fields
-        facilitator_emails = self.parse_facilitator_emails(issue_body)
         agenda = self.parse_agenda(issue_body)
 
         # Parse date/time with duration
@@ -478,7 +443,6 @@ class FormParser:
             "skip_zoom_creation": skip_zoom_creation,
             "need_youtube_streams": need_youtube_streams,
             "display_zoom_link_in_invite": display_zoom_link_in_invite,
-            "facilitator_emails": facilitator_emails,
             "agenda": agenda,
             "date_time_text": date_time_text
         }

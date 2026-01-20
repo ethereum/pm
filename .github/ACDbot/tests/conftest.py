@@ -93,9 +93,6 @@ Bi-weekly
 ### Display Zoom Link in Calendar Invite (Optional)
 - [x] Yes
 
-### Facilitator Emails (Optional)
-test@example.com
-
 ### Custom Meeting Link (Optional)
 _No response_
 

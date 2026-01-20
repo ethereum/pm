@@ -583,7 +583,6 @@ The bot will automatically process your issue once you've selected a valid call 
                 "skip_zoom_creation": form_data["skip_zoom_creation"],
                 "need_youtube_streams": form_data["need_youtube_streams"],
                 "display_zoom_link_in_invite": form_data["display_zoom_link_in_invite"],
-                "facilitator_emails": form_data["facilitator_emails"],
                 "agenda": form_data.get("agenda")
             }
 
