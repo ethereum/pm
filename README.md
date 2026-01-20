@@ -38,10 +38,11 @@ Sometimes non-core contributors with particular expertise on a topic are invited
 ### Who Facilitates the Meetings
 
 Current facilitators:
-- Execution: [Tim Beiko](https://github.com/timbeiko/) (Mar '21)
+- Execution: [Ansgar Dietrichs](https://github.com/adietrichs) (interim, Oct '25)
 - Consensus: [Alex Stokes](https://github.com/ralexstokes) (Sep '24)
 
 Past facilitators:
+- Tim Beiko
 - Danny Ryan
 - Hudson Jameson
 - Lane Rettig
