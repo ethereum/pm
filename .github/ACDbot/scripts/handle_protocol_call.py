@@ -15,6 +15,8 @@ from typing import Dict, Optional, List, Set
 # Add the modules directory to the path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'modules'))
 
+from datetime import datetime, timezone
+
 from modules.form_parser import FormParser
 from modules.mapping_manager import MappingManager
 from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display
@@ -28,6 +30,70 @@ class ProtocolCallHandler:
         self.form_parser = FormParser()
         self.mapping_manager = MappingManager()
         self.logger = get_logger()
+
+    def _is_date_in_past(self, start_time: str, grace_hours: int = 1) -> bool:
+        """
+        Check if the given start_time is in the past.
+
+        Args:
+            start_time: ISO format datetime string ending with 'Z' (e.g., "2025-04-24T14:00:00Z")
+            grace_hours: Number of hours of grace period to allow (default 1 hour)
+
+        Returns:
+            True if the date is more than grace_hours in the past, False otherwise
+        """
+        try:
+            # Only check properly formatted ISO dates
+            if not isinstance(start_time, str) or not start_time.endswith('Z'):
+                # If we can't parse the date, don't block - let other validation handle it
+                return False
+
+            # Parse the ISO datetime string
+            parsed_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+
+            # Get current UTC time
+            now = datetime.now(timezone.utc)
+
+            # Calculate the difference
+            time_diff = now - parsed_time
+
+            # Check if it's more than grace_hours in the past
+            grace_seconds = grace_hours * 3600
+            is_past = time_diff.total_seconds() > grace_seconds
+
+            if is_past:
+                self.logger.info(f"Date {start_time} is in the past (current time: {now.isoformat()})")
+
+            return is_past
+
+        except Exception as e:
+            self.logger.error(f"Failed to check if date is in past: {e}")
+            # On error, don't block - let other processes handle it
+            return False
+
+    def _post_past_date_comment(self, issue, start_time: str) -> None:
+        """Post a comment explaining that the selected date is in the past."""
+        try:
+            comment_text = f"""⚠️ **Past Date Detected**
+
+The date/time you selected (`{start_time}`) appears to be in the past.
+
+**No resources were created** to avoid scheduling conflicts.
+
+**To fix this:**
+1. Click the "Edit" button on this issue
+2. Update the "UTC Date & Time" field to a future date
+3. Save your changes
+
+The bot will automatically process your issue once the date is corrected.
+
+💡 **Tip**: Double-check the year! Common mistake: using last year's date by accident."""
+
+            issue.create_comment(comment_text)
+            self.logger.info(f"Posted past date comment to issue #{issue.number}")
+
+        except Exception as e:
+            self.logger.error(f"Failed to post past date comment: {e}")
 
     def _handle_zoom_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle Zoom meeting creation/updates."""
@@ -246,6 +312,13 @@ class ProtocolCallHandler:
             call_data = self._validate_and_transform(form_data, issue)
             if not call_data:
                 self.logger.error(f"Failed to validate/transform data for issue #{issue_number}")
+                return False
+
+            # 3.5. Check if the date is in the past
+            start_time = call_data.get("start_time")
+            if self._is_date_in_past(start_time):
+                self.logger.warning(f"Issue #{issue_number} has a past date: {start_time}")
+                self._post_past_date_comment(issue, start_time)
                 return False
 
             # 4. Check for existing occurrence and resources

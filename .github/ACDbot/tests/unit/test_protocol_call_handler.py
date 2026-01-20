@@ -507,5 +507,170 @@ bi-weekly
             self.assertNotIn("could not be parsed automatically", result)
 
 
+class TestDateInPastValidation(unittest.TestCase):
+    """Tests for past date detection functionality."""
+
+    def setUp(self):
+        self.handler = ProtocolCallHandler()
+
+    def test_is_date_in_past_with_old_date(self):
+        """Test that dates clearly in the past are detected."""
+        # Date from 2020 - definitely in the past
+        old_date = "2020-01-15T10:00:00Z"
+        result = self.handler._is_date_in_past(old_date)
+        self.assertTrue(result)
+
+    def test_is_date_in_past_with_last_year(self):
+        """Test that dates from last year are detected as past."""
+        # Common mistake: using last year's date
+        last_year_date = "2025-06-15T14:00:00Z"
+        result = self.handler._is_date_in_past(last_year_date)
+        self.assertTrue(result)
+
+    def test_is_date_in_past_with_future_date(self):
+        """Test that future dates are not flagged as past."""
+        # Date in 2030 - definitely in the future
+        future_date = "2030-01-15T10:00:00Z"
+        result = self.handler._is_date_in_past(future_date)
+        self.assertFalse(result)
+
+    def test_is_date_in_past_with_near_future(self):
+        """Test that dates in the near future are not flagged."""
+        from datetime import datetime, timezone, timedelta
+        # Get a date 2 hours in the future
+        future_time = datetime.now(timezone.utc) + timedelta(hours=2)
+        future_date = future_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        result = self.handler._is_date_in_past(future_date)
+        self.assertFalse(result)
+
+    def test_is_date_in_past_within_grace_period(self):
+        """Test that dates within the grace period are not flagged."""
+        from datetime import datetime, timezone, timedelta
+        # Get a date 30 minutes in the past (within 1-hour grace period)
+        recent_time = datetime.now(timezone.utc) - timedelta(minutes=30)
+        recent_date = recent_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        result = self.handler._is_date_in_past(recent_date)
+        self.assertFalse(result)
+
+    def test_is_date_in_past_beyond_grace_period(self):
+        """Test that dates beyond the grace period are flagged."""
+        from datetime import datetime, timezone, timedelta
+        # Get a date 2 hours in the past (beyond 1-hour grace period)
+        old_time = datetime.now(timezone.utc) - timedelta(hours=2)
+        old_date = old_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        result = self.handler._is_date_in_past(old_date)
+        self.assertTrue(result)
+
+    def test_is_date_in_past_with_custom_grace_period(self):
+        """Test that custom grace periods work correctly."""
+        from datetime import datetime, timezone, timedelta
+        # Get a date 3 hours in the past
+        old_time = datetime.now(timezone.utc) - timedelta(hours=3)
+        old_date = old_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        # With default 1-hour grace, should be flagged
+        result = self.handler._is_date_in_past(old_date, grace_hours=1)
+        self.assertTrue(result)
+
+        # With 4-hour grace, should not be flagged
+        result = self.handler._is_date_in_past(old_date, grace_hours=4)
+        self.assertFalse(result)
+
+    def test_is_date_in_past_with_invalid_format(self):
+        """Test that invalid date formats don't block processing."""
+        # Non-ISO format (should return False to not block)
+        invalid_date = "April 24, 2020, 14:00 UTC"
+        result = self.handler._is_date_in_past(invalid_date)
+        self.assertFalse(result)
+
+    def test_is_date_in_past_without_z_suffix(self):
+        """Test that dates without Z suffix are not checked."""
+        # Missing Z suffix - let other validation handle it
+        no_z_date = "2020-01-15T10:00:00"
+        result = self.handler._is_date_in_past(no_z_date)
+        self.assertFalse(result)
+
+    def test_is_date_in_past_with_none(self):
+        """Test that None input doesn't cause errors."""
+        result = self.handler._is_date_in_past(None)
+        self.assertFalse(result)
+
+    def test_is_date_in_past_with_empty_string(self):
+        """Test that empty string doesn't cause errors."""
+        result = self.handler._is_date_in_past("")
+        self.assertFalse(result)
+
+    def test_post_past_date_comment_content(self):
+        """Test that the past date comment contains expected content."""
+        mock_issue = unittest.mock.MagicMock()
+        past_date = "2025-01-15T10:00:00Z"
+
+        self.handler._post_past_date_comment(mock_issue, past_date)
+
+        # Verify create_comment was called
+        mock_issue.create_comment.assert_called_once()
+
+        # Get the comment text
+        comment_text = mock_issue.create_comment.call_args[0][0]
+
+        # Verify expected content
+        self.assertIn("⚠️ **Past Date Detected**", comment_text)
+        self.assertIn(past_date, comment_text)
+        self.assertIn("No resources were created", comment_text)
+        self.assertIn("Edit", comment_text)
+        self.assertIn("UTC Date & Time", comment_text)
+        self.assertIn("Double-check the year", comment_text)
+
+    def test_post_past_date_comment_handles_error(self):
+        """Test that errors during comment posting are handled gracefully."""
+        mock_issue = unittest.mock.MagicMock()
+        mock_issue.create_comment.side_effect = Exception("API error")
+
+        # Should not raise an exception
+        self.handler._post_past_date_comment(mock_issue, "2025-01-15T10:00:00Z")
+
+    def test_handle_protocol_call_rejects_past_date(self):
+        """Test that handle_protocol_call exits early for past dates."""
+        mock_issue = unittest.mock.MagicMock()
+        mock_issue.body = "test body"
+        mock_issue.number = 999
+        mock_issue.title = "Test Issue"
+        mock_issue.html_url = "https://github.com/test/repo/issues/999"
+
+        # Mock the chain to return valid data with a past date
+        past_date = "2020-01-15T10:00:00Z"
+        mock_call_data = {
+            "issue_number": 999,
+            "issue_title": "Test Issue",
+            "issue_url": "https://github.com/test/repo/issues/999",
+            "call_series": "acde",
+            "duration": 60,
+            "start_time": past_date,
+            "occurrence_rate": "weekly",
+            "skip_zoom_creation": False,
+            "need_youtube_streams": False,
+            "display_zoom_link_in_invite": True,
+            "facilitator_emails": [],
+            "agenda": "Test agenda"
+        }
+
+        with unittest.mock.patch.object(self.handler, '_get_github_issue', return_value=mock_issue), \
+             unittest.mock.patch.object(self.handler, '_parse_form_data', return_value={"raw": "data"}), \
+             unittest.mock.patch.object(self.handler, '_validate_and_transform', return_value=mock_call_data):
+            result = self.handler.handle_protocol_call(999, "test/repo")
+
+        # Should return False due to past date
+        self.assertFalse(result)
+
+        # Should have posted a comment about the past date
+        mock_issue.create_comment.assert_called_once()
+        comment_text = mock_issue.create_comment.call_args[0][0]
+        self.assertIn("Past Date Detected", comment_text)
+        self.assertIn(past_date, comment_text)
+
+
 if __name__ == '__main__':
     unittest.main()
