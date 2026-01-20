@@ -578,21 +578,24 @@ class TestAutopilotMode(unittest.TestCase):
         self.assertIn("one-time call", comment_text)
 
     def test_apply_autopilot_defaults_no_defaults_configured(self):
-        """Test autopilot with series that has no defaults configured."""
+        """Test autopilot with series that has no defaults uses system defaults."""
         mock_issue = unittest.mock.MagicMock()
 
         form_data = {
             "call_series": "nonexistent-series",
             "autopilot_mode": True,
-            "duration": 60,
+            "duration": 90,
             "occurrence_rate": "weekly",
         }
 
         result = self.handler._apply_autopilot_defaults(form_data, mock_issue)
 
-        # Values should remain unchanged since no defaults exist
+        # System defaults should be applied
         self.assertEqual(result["duration"], 60)
-        self.assertEqual(result["occurrence_rate"], "weekly")
+        self.assertEqual(result["occurrence_rate"], "bi-weekly")
+        self.assertEqual(result["need_youtube_streams"], False)
+        self.assertEqual(result["display_zoom_link_in_invite"], True)
+        self.assertEqual(result["skip_zoom_creation"], False)
 
 
 class TestDateInPastValidation(unittest.TestCase):

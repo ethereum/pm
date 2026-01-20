@@ -13,6 +13,7 @@ from modules.call_series_config import (
     reload_config,
     get_autopilot_defaults,
     has_autopilot_support,
+    get_default_autopilot_settings,
 )
 
 
@@ -281,3 +282,14 @@ class TestAutopilotConfig:
             if defaults is not None:
                 for field in required_fields:
                     assert field in defaults, f"Series {key} missing field: {field}"
+
+    def test_get_default_autopilot_settings(self):
+        """Test that default autopilot settings are loaded from config."""
+        defaults = get_default_autopilot_settings()
+
+        assert defaults is not None
+        assert defaults["duration"] == 60
+        assert defaults["occurrence_rate"] == "bi-weekly"
+        assert defaults["need_youtube_streams"] is False
+        assert defaults["display_zoom_link_in_invite"] is True
+        assert defaults["external_meeting_link"] is False

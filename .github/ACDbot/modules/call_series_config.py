@@ -147,3 +147,15 @@ def has_autopilot_support(series_key: str) -> bool:
         True if the series has autopilot_defaults configured, False otherwise
     """
     return get_autopilot_defaults(series_key) is not None
+
+
+def get_default_autopilot_settings() -> dict:
+    """
+    Get the default autopilot settings used when a call series
+    doesn't have specific configuration.
+
+    Returns:
+        Dict with default autopilot settings
+    """
+    config = _load_config()
+    return config.get("default_autopilot_settings", {})

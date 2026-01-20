@@ -19,12 +19,14 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
 
     - Call Series: your series
     - Duration: 60 minutes
-    - Occurrence: if cadence is definite, choose weekly/biweekly/monthly. If not yet known, choose 'other'.
-    - Use Custom Meeting Link: 
-        - ☐ (No) | premium Zoom features, must have someone with @ethereum.org email present
-        - ☒ (Yes) | must self-record and send recording link to Protocol Support if yt upload desired
+    - Occurrence: if cadence is definite, choose weekly/biweekly/monthly. If not yet known or scheduled as-needed, choose 'other'.
+    - Use Custom Meeting Link:
+        - ☒ (No) | premium Zoom features, must have someone with @ethereum.org email present
+        - ☐ (Yes) | must self-record and send recording link to Protocol Support if yt upload desired
     - Display Zoom Link in Calendar Invite: ☒ (Yes)
     - Create Youtube livestream link: ☐ (No)
+
+Note: If don't need to change any settings each week, you can select the `Autopilot Mode` checkbox, which will utilize your call (or system) defaults found in the [call_series_config.yml](https://github.com/ethereum/pm/blob/master/processes/running-a-breakout.md).
 
 ---
 
@@ -33,17 +35,17 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
 1. **Contact Protocol Support**
     - **Josh** (`@joshdavislight` on Discord / Telegram, `josh.davis@ethereum.org` by email) or
     - **nixo** (`@nixo.eth` on Discord, `nixo@ethereum.org` by email)
-    
+
     Provide: title, cadence, reason for the breakout, associated EIP(s), target fork (if relevant), & your Github username. Wait for Protocol Support to confirm creation.
-    
+
     **Zoom premium features**: You can use your own zoom meeting or you can use the EF zoom-bot to create the zoom link. The benefit of the EF zoom-bot is that it provides transcripts, an AI summary, and youtube video upload.
-    
+
     *note: because of Zoom’s limitations, use of the EF zoom-bot is limited to calls where you expect to have someone with an @ethereum.org email address present to be assigned the host role. If no one from the EF regularly attends the calls, feel free to send a google drive link to Protocol Support for Youtube upload - please do this RIGHT AFTER THE CALL.*
-    
+
 2. Scheduling the first meeting
-    
+
     Once Protocol Support has added support for your breakout series, head to the [pm repo issues](https://github.com/ethereum/pm/issues), create a `New issue` and choose `Protocol Call`. Use the template to create the issue. Check that:
-    
+
     - [ ]  Title is formatted correctly: <call name> <call #>, <call date>
     - [ ]  UTC Date & Time is correct: Jan 1, 2025, 14:00 UTC
     - [ ]  Call Series: your call series should be in the dropdown

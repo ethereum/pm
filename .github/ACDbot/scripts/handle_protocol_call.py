@@ -21,7 +21,7 @@ from modules.form_parser import FormParser
 from modules.mapping_manager import MappingManager
 from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display
 from modules.logging_config import get_logger, log_success, log_resource_status, log_api_call, should_log_debug
-from modules.call_series_config import get_autopilot_defaults, has_autopilot_support
+from modules.call_series_config import get_autopilot_defaults, has_autopilot_support, get_default_autopilot_settings
 
 
 class ProtocolCallHandler:
@@ -124,14 +124,14 @@ Autopilot mode was enabled, but this is a one-time call. One-time calls don't ha
                 self.logger.warning(f"Failed to post autopilot note: {e}")
             return form_data
 
-        # Get autopilot defaults for this series
+        # Get autopilot defaults for this series, or use system defaults
         defaults = get_autopilot_defaults(call_series)
 
         if not defaults:
-            self.logger.warning(f"Autopilot mode enabled but no defaults configured for '{call_series}'")
-            return form_data
-
-        self.logger.info(f"Applying autopilot defaults for call series: {call_series}")
+            self.logger.info(f"No specific autopilot config for '{call_series}', using defaults")
+            defaults = get_default_autopilot_settings()
+        else:
+            self.logger.info(f"Applying autopilot defaults for call series: {call_series}")
 
         # Create new form_data with defaults applied
         autopilot_form_data = form_data.copy()
