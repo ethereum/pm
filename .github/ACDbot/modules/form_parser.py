@@ -397,6 +397,10 @@ class FormParser:
         """Parse display zoom link checkbox."""
         return self.parse_checkbox_field(issue_body, "Display Zoom Link in Calendar Invite \\(Optional\\)")
 
+    def parse_autopilot_mode(self, issue_body: str) -> bool:
+        """Parse autopilot mode checkbox."""
+        return self.parse_checkbox_field(issue_body, "Autopilot Mode")
+
     def parse_date_time_with_duration(self, date_time_text: str, duration_minutes: int) -> Tuple[Optional[str], Optional[int]]:
         """Parse date/time string and return start_time and duration."""
         try:
@@ -448,6 +452,9 @@ class FormParser:
         occurrence_rate = self.parse_occurrence_rate(issue_body, call_series)
         date_time_text = self.parse_date_time(issue_body)
 
+        # Parse autopilot mode
+        autopilot_mode = self.parse_autopilot_mode(issue_body)
+
         # Parse options
         skip_zoom_creation = self.parse_zoom_opt_out(issue_body)
         need_youtube_streams = self.parse_youtube_streams(issue_body)
@@ -467,6 +474,7 @@ class FormParser:
             "duration": parsed_duration or duration,
             "occurrence_rate": occurrence_rate,
             "start_time": start_time,
+            "autopilot_mode": autopilot_mode,
             "skip_zoom_creation": skip_zoom_creation,
             "need_youtube_streams": need_youtube_streams,
             "display_zoom_link_in_invite": display_zoom_link_in_invite,

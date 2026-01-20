@@ -542,3 +542,96 @@ Facilitator emails: test@example.com, no-at-sign, missing@dot, @missinglocal, lo
    More indented content"""
 
         assert result["agenda"] == expected_agenda
+
+class TestAutopilotParsing:
+    """Test cases for autopilot mode parsing."""
+
+    def test_parse_autopilot_mode_enabled(self):
+        """Test parsing autopilot mode when checked."""
+        parser = FormParser()
+
+        form_body = """### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+Test agenda
+
+### Call Series
+
+All Core Devs - Execution
+
+### Autopilot Mode
+
+- [x] Use autopilot (recommended defaults for this call series)
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+bi-weekly"""
+
+        result = parser.parse_form_data(form_body)
+        assert result["autopilot_mode"] is True
+
+    def test_parse_autopilot_mode_disabled(self):
+        """Test parsing autopilot mode when unchecked."""
+        parser = FormParser()
+
+        form_body = """### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+Test agenda
+
+### Call Series
+
+All Core Devs - Execution
+
+### Autopilot Mode
+
+- [ ] Use autopilot (recommended defaults for this call series)
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+bi-weekly"""
+
+        result = parser.parse_form_data(form_body)
+        assert result["autopilot_mode"] is False
+
+    def test_parse_autopilot_mode_missing(self):
+        """Test parsing when autopilot mode section is missing (backward compatibility)."""
+        parser = FormParser()
+
+        # Form without autopilot section
+        form_body = """### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+Test agenda
+
+### Call Series
+
+All Core Devs - Execution
+
+### Duration
+
+90 minutes
+
+### Occurrence Rate
+
+bi-weekly"""
+
+        result = parser.parse_form_data(form_body)
+        assert result.get("autopilot_mode", False) is False

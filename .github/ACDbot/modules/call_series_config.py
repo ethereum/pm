@@ -116,3 +116,34 @@ def reload_config():
     global _config_cache
     _config_cache = None
     _load_config()
+
+
+def get_autopilot_defaults(series_key: str) -> Optional[dict]:
+    """
+    Get autopilot default configuration for a specific call series.
+
+    Args:
+        series_key: The call series key (e.g., "acde")
+
+    Returns:
+        Dict with autopilot defaults (duration, occurrence_rate, need_youtube_streams, etc.)
+        or None if no autopilot defaults are configured for this series
+    """
+    config = _load_config()
+    series_config = config.get("call_series", {}).get(series_key)
+    if series_config:
+        return series_config.get("autopilot_defaults")
+    return None
+
+
+def has_autopilot_support(series_key: str) -> bool:
+    """
+    Check if a call series has autopilot defaults configured.
+
+    Args:
+        series_key: The call series key (e.g., "acde")
+
+    Returns:
+        True if the series has autopilot_defaults configured, False otherwise
+    """
+    return get_autopilot_defaults(series_key) is not None

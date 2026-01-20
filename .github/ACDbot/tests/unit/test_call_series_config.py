@@ -11,6 +11,8 @@ from modules.call_series_config import (
     get_all_call_series_keys,
     get_call_series_config,
     reload_config,
+    get_autopilot_defaults,
+    has_autopilot_support,
 )
 
 
@@ -214,3 +216,68 @@ class TestConfigIntegration:
 
         # The internal mapping should match config
         assert discord_notify._WEBHOOK_ENV_MAPPING == get_discord_webhook_mapping()
+
+
+class TestAutopilotConfig:
+    """Test cases for autopilot configuration."""
+
+    def test_get_autopilot_defaults_for_acde(self):
+        """Test that ACDE has autopilot defaults."""
+        defaults = get_autopilot_defaults("acde")
+
+        assert defaults is not None
+        assert "duration" in defaults
+        assert "occurrence_rate" in defaults
+        assert "need_youtube_streams" in defaults
+        assert "display_zoom_link_in_invite" in defaults
+        assert "skip_zoom_creation" in defaults
+
+    def test_get_autopilot_defaults_for_acdc(self):
+        """Test that ACDC has correct autopilot defaults."""
+        defaults = get_autopilot_defaults("acdc")
+
+        assert defaults is not None
+        assert defaults["duration"] == 90
+        assert defaults["occurrence_rate"] == "bi-weekly"
+        assert defaults["need_youtube_streams"] is True
+
+    def test_get_autopilot_defaults_for_one_off(self):
+        """Test that one-off calls have no autopilot defaults."""
+        defaults = get_autopilot_defaults("one-off")
+
+        assert defaults is None
+
+    def test_has_autopilot_support(self):
+        """Test autopilot support checking."""
+        assert has_autopilot_support("acde") is True
+        assert has_autopilot_support("acdc") is True
+        assert has_autopilot_support("one-off") is False
+        assert has_autopilot_support("nonexistent") is False
+
+    def test_autopilot_defaults_structure(self):
+        """Test that autopilot defaults have correct structure."""
+        defaults = get_autopilot_defaults("acde")
+
+        assert defaults is not None
+        assert isinstance(defaults.get("duration"), int)
+        assert defaults["duration"] in [30, 60, 90, 120, 180]
+        assert defaults["occurrence_rate"] in ["weekly", "bi-weekly", "monthly", "other"]
+        assert isinstance(defaults.get("need_youtube_streams"), bool)
+        assert isinstance(defaults.get("display_zoom_link_in_invite"), bool)
+        assert isinstance(defaults.get("skip_zoom_creation"), bool)
+
+    def test_all_series_with_defaults_have_complete_config(self):
+        """Test that all series with autopilot defaults have all required fields."""
+        required_fields = [
+            "duration",
+            "occurrence_rate",
+            "need_youtube_streams",
+            "display_zoom_link_in_invite",
+            "skip_zoom_creation"
+        ]
+
+        for key in get_all_call_series_keys():
+            defaults = get_autopilot_defaults(key)
+            if defaults is not None:
+                for field in required_fields:
+                    assert field in defaults, f"Series {key} missing field: {field}"

@@ -21,6 +21,7 @@ from modules.form_parser import FormParser
 from modules.mapping_manager import MappingManager
 from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display
 from modules.logging_config import get_logger, log_success, log_resource_status, log_api_call, should_log_debug
+from modules.call_series_config import get_autopilot_defaults, has_autopilot_support
 
 
 class ProtocolCallHandler:
@@ -94,6 +95,69 @@ The bot will automatically process your issue once the date is corrected.
 
         except Exception as e:
             self.logger.error(f"Failed to post past date comment: {e}")
+
+    def _apply_autopilot_defaults(self, form_data: Dict, issue) -> Dict:
+        """
+        Apply autopilot defaults if enabled and applicable.
+
+        Returns the form_data with defaults applied, or original form_data if autopilot
+        is not enabled or not applicable.
+        """
+        autopilot_enabled = form_data.get("autopilot_mode", False)
+        call_series = form_data.get("call_series")
+
+        if not autopilot_enabled:
+            self.logger.debug("Autopilot mode not enabled, using user-provided values")
+            return form_data
+
+        # Check if this is a one-off call
+        if call_series and call_series.startswith("one-off"):
+            self.logger.info("Autopilot mode enabled but call is one-off - using user-provided values")
+            # Post informational comment
+            try:
+                comment_text = """ℹ️ **Autopilot Note**
+
+Autopilot mode was enabled, but this is a one-time call. One-time calls don't have predefined defaults, so your provided configuration values have been used instead."""
+
+                issue.create_comment(comment_text)
+            except Exception as e:
+                self.logger.warning(f"Failed to post autopilot note: {e}")
+            return form_data
+
+        # Get autopilot defaults for this series
+        defaults = get_autopilot_defaults(call_series)
+
+        if not defaults:
+            self.logger.warning(f"Autopilot mode enabled but no defaults configured for '{call_series}'")
+            return form_data
+
+        self.logger.info(f"Applying autopilot defaults for call series: {call_series}")
+
+        # Create new form_data with defaults applied
+        autopilot_form_data = form_data.copy()
+
+        # Apply each default, overriding user-provided values
+        if "duration" in defaults:
+            autopilot_form_data["duration"] = defaults["duration"]
+            self.logger.debug(f"Autopilot: duration = {defaults['duration']}")
+
+        if "occurrence_rate" in defaults:
+            autopilot_form_data["occurrence_rate"] = defaults["occurrence_rate"]
+            self.logger.debug(f"Autopilot: occurrence_rate = {defaults['occurrence_rate']}")
+
+        if "need_youtube_streams" in defaults:
+            autopilot_form_data["need_youtube_streams"] = defaults["need_youtube_streams"]
+            self.logger.debug(f"Autopilot: need_youtube_streams = {defaults['need_youtube_streams']}")
+
+        if "display_zoom_link_in_invite" in defaults:
+            autopilot_form_data["display_zoom_link_in_invite"] = defaults["display_zoom_link_in_invite"]
+            self.logger.debug(f"Autopilot: display_zoom_link_in_invite = {defaults['display_zoom_link_in_invite']}")
+
+        if "skip_zoom_creation" in defaults:
+            autopilot_form_data["skip_zoom_creation"] = defaults["skip_zoom_creation"]
+            self.logger.debug(f"Autopilot: skip_zoom_creation = {defaults['skip_zoom_creation']}")
+
+        return autopilot_form_data
 
     def _handle_zoom_resource(self, call_data: Dict, existing_resources: Dict) -> Dict:
         """Handle Zoom meeting creation/updates."""
@@ -496,6 +560,9 @@ The bot will automatically process your issue once you've selected a valid call 
 
                 return None
 
+            # Apply autopilot defaults if enabled
+            form_data = self._apply_autopilot_defaults(form_data, issue)
+
             # Validate required fields
             required_fields = ["call_series", "duration", "start_time"]
             for field in required_fields:
@@ -512,6 +579,7 @@ The bot will automatically process your issue once you've selected a valid call 
                 "duration": form_data["duration"],
                 "start_time": form_data["start_time"],
                 "occurrence_rate": form_data.get("occurrence_rate", "other"),
+                "autopilot_mode": form_data.get("autopilot_mode", False),
                 "skip_zoom_creation": form_data["skip_zoom_creation"],
                 "need_youtube_streams": form_data["need_youtube_streams"],
                 "display_zoom_link_in_invite": form_data["display_zoom_link_in_invite"],

@@ -507,6 +507,100 @@ bi-weekly
             self.assertNotIn("could not be parsed automatically", result)
 
 
+class TestAutopilotMode(unittest.TestCase):
+    """Tests for autopilot mode functionality."""
+
+    def setUp(self):
+        self.handler = ProtocolCallHandler()
+
+    def test_apply_autopilot_defaults_enabled(self):
+        """Test that autopilot applies defaults when enabled."""
+        mock_issue = unittest.mock.MagicMock()
+
+        form_data = {
+            "call_series": "acde",
+            "autopilot_mode": True,
+            "duration": 60,  # User provided
+            "occurrence_rate": "weekly",  # User provided
+            "need_youtube_streams": False,  # User provided
+            "display_zoom_link_in_invite": False,  # User provided
+            "skip_zoom_creation": True,  # User provided
+            "start_time": "2030-04-24T14:00:00Z",
+            "facilitator_emails": [],
+            "agenda": "Test agenda"
+        }
+
+        result = self.handler._apply_autopilot_defaults(form_data, mock_issue)
+
+        # Defaults should override user-provided values
+        self.assertEqual(result["duration"], 90)
+        self.assertEqual(result["occurrence_rate"], "bi-weekly")
+        self.assertTrue(result["need_youtube_streams"])
+        self.assertTrue(result["display_zoom_link_in_invite"])
+        self.assertFalse(result["skip_zoom_creation"])
+
+        # Preserved fields should remain unchanged
+        self.assertEqual(result["start_time"], "2030-04-24T14:00:00Z")
+        self.assertEqual(result["agenda"], "Test agenda")
+
+    def test_apply_autopilot_defaults_disabled(self):
+        """Test that autopilot does not apply defaults when disabled."""
+        mock_issue = unittest.mock.MagicMock()
+
+        form_data = {
+            "call_series": "acde",
+            "autopilot_mode": False,
+            "duration": 60,
+            "occurrence_rate": "weekly",
+            "need_youtube_streams": False,
+        }
+
+        result = self.handler._apply_autopilot_defaults(form_data, mock_issue)
+
+        # Values should remain unchanged
+        self.assertEqual(result["duration"], 60)
+        self.assertEqual(result["occurrence_rate"], "weekly")
+        self.assertFalse(result["need_youtube_streams"])
+
+    def test_apply_autopilot_defaults_one_off_call(self):
+        """Test that autopilot posts notice for one-off calls."""
+        mock_issue = unittest.mock.MagicMock()
+
+        form_data = {
+            "call_series": "one-off-123",
+            "autopilot_mode": True,
+            "duration": 60,
+        }
+
+        result = self.handler._apply_autopilot_defaults(form_data, mock_issue)
+
+        # Values should remain unchanged
+        self.assertEqual(result["duration"], 60)
+
+        # Should post informational comment
+        mock_issue.create_comment.assert_called_once()
+        comment_text = mock_issue.create_comment.call_args[0][0]
+        self.assertIn("Autopilot Note", comment_text)
+        self.assertIn("one-time call", comment_text)
+
+    def test_apply_autopilot_defaults_no_defaults_configured(self):
+        """Test autopilot with series that has no defaults configured."""
+        mock_issue = unittest.mock.MagicMock()
+
+        form_data = {
+            "call_series": "nonexistent-series",
+            "autopilot_mode": True,
+            "duration": 60,
+            "occurrence_rate": "weekly",
+        }
+
+        result = self.handler._apply_autopilot_defaults(form_data, mock_issue)
+
+        # Values should remain unchanged since no defaults exist
+        self.assertEqual(result["duration"], 60)
+        self.assertEqual(result["occurrence_rate"], "weekly")
+
+
 class TestDateInPastValidation(unittest.TestCase):
     """Tests for past date detection functionality."""
 
