@@ -26,7 +26,7 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
     - Display Zoom Link in Calendar Invite: ☒ (Yes)
     - Create Youtube livestream link: ☐ (No)
 
-Note: If don't need to change any settings each week, you can select the `Autopilot Mode` checkbox, which will utilize your call (or system) defaults found in the [call_series_config.yml](https://github.com/ethereum/pm/blob/master/processes/running-a-breakout.md).
+Note: If don't need to change any settings each week, you can select the `Autopilot Mode` checkbox, which will utilize your call (or system) defaults found in the [call_series_config.yml](https://github.com/ethereum/pm/blob/master/.github/ACDbot/call_series_config.yml).
 
 ---
 
