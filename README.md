@@ -54,8 +54,6 @@ While the meetings are independent of any organization, the current facilitators
 
 ## Previous AllCoreDevs Meetings
 
-Call summaries have also recently started being posted on [Ethereum Magicians](https://ethereum-magicians.org/tag/acd).
-
 | Date | Type | № | Issue | Summary | Discussion | Recording | Logs |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 19 Jan 2026 | ACDT | 66 | [#1878](https://github.com/ethereum/pm/issues/1878) | [forkcast](https://forkcast.org/calls/acdt/066) | [EthMag](https://ethereum-magicians.org/t/27395) | [video](https://youtu.be/Y61OpUvVpFM) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-066_2026-01-19) |

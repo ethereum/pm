@@ -37,7 +37,6 @@ def update_pm_readme(table_content):
     # Pattern: Find the existing unified table after the "Previous AllCoreDevs" section
     pattern = (
         r'(## Previous AllCoreDevs Meetings\s*\n\n'
-        r'Call summaries have also recently started being posted on \[Ethereum Magicians\]\(https://ethereum-magicians\.org/tag/acd\)\.\s*\n\n)'
         r'\|[^\n]+\|\n\| ---[^\n]+\|\n(?:\|[^\n]+\|\n)*'
     )
     
