@@ -105,6 +105,18 @@ def parse_datetime_string(datetime_str: str) -> Optional[datetime]:
     except ValueError:
         pass
 
+    # Try format with comma after day but not after year: "Feb 04, 2026 15:00 UTC"
+    try:
+        return datetime.strptime(datetime_str, "%B %d, %Y %H:%M UTC")
+    except ValueError:
+        pass
+
+    # Try abbreviated month with comma after day but not after year: "Feb 04, 2026 15:00 UTC"
+    try:
+        return datetime.strptime(datetime_str, "%b %d, %Y %H:%M UTC")
+    except ValueError:
+        pass
+
     # Try with ordinal dates (normalize first)
     try:
         ordinal_pattern = r'(\d+)(st|nd|rd|th)'

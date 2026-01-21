@@ -118,6 +118,27 @@ class TestDatetimeUtils(unittest.TestCase):
                 self.assertIsNotNone(result)
                 self.assertIsInstance(result, datetime)
 
+    def test_parse_datetime_string_comma_after_day_no_comma_after_year(self):
+        """Test parsing format with comma after day but not after year: 'Feb 04, 2026 15:00 UTC'."""
+        test_cases = [
+            ("Feb 04, 2026 15:00 UTC", datetime(2026, 2, 4, 15, 0)),
+            ("February 04, 2026 15:00 UTC", datetime(2026, 2, 4, 15, 0)),
+            ("Aug 15, 2024 09:30 UTC", datetime(2024, 8, 15, 9, 30)),
+            ("December 31, 2025 23:59 UTC", datetime(2025, 12, 31, 23, 59)),
+            ("Jan 1, 2025 00:00 UTC", datetime(2025, 1, 1, 0, 0)),
+        ]
+
+        for test_input, expected_dt in test_cases:
+            with self.subTest(test_case=test_input):
+                result = parse_datetime_string(test_input)
+                self.assertIsNotNone(result, f"Failed to parse: {test_input}")
+                self.assertIsInstance(result, datetime)
+                self.assertEqual(result.year, expected_dt.year)
+                self.assertEqual(result.month, expected_dt.month)
+                self.assertEqual(result.day, expected_dt.day)
+                self.assertEqual(result.hour, expected_dt.hour)
+                self.assertEqual(result.minute, expected_dt.minute)
+
     def test_parse_datetime_string_ordinal_dates(self):
         """Test parsing ordinal date formats."""
         test_cases = [
