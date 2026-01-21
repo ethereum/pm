@@ -36,11 +36,15 @@ def update_pm_readme(table_content):
     
     # Pattern: Find the existing unified table after the "Previous AllCoreDevs" section
     pattern = (
-        r'(## Previous AllCoreDevs Meetings\s*\n\n'
+        r'(## Previous AllCoreDevs Meetings\s*\n\n)'
         r'\|[^\n]+\|\n\| ---[^\n]+\|\n(?:\|[^\n]+\|\n)*'
     )
     
-    updated_content = re.sub(pattern, r'\1' + table_content + '\n', content, flags=re.DOTALL)
+    # Use a function for replacement to avoid regex interpretation of table_content
+    def replacer(match):
+        return match.group(1) + table_content + '\n'
+    
+    updated_content = re.sub(pattern, replacer, content, flags=re.DOTALL)
     
     if updated_content == content:
         print("No changes detected")
