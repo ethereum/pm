@@ -47,6 +47,7 @@ def get_example_summary(call_type: str) -> str:
 MODEL_PRICING = {
     # Pricing per million tokens (input, output)
     "claude-opus-4-5-20251101": (15.00, 75.00),
+    "claude-sonnet-4-5-20250929": (3.00, 15.00),
     "claude-sonnet-4-20250514": (3.00, 15.00),
     "claude-3-5-sonnet-20241022": (3.00, 15.00),
     "claude-haiku-3-5-20241022": (0.80, 4.00),
@@ -148,7 +149,7 @@ def generate_summary(
     meeting_dir: Path,
     prompt_file: Path,
     call_type: str,
-    model: str = "claude-opus-4-5-20251101",
+    model: str = "claude-sonnet-4-5-20250929",
     force: bool = False
 ) -> bool:
     """Generate tldr.json using Claude API."""
@@ -315,7 +316,7 @@ def main():
     parser.add_argument('--dir', '-d', type=Path, help='Meeting directory (alternative to --call/--number)')
     parser.add_argument('--prompt', '-p', type=Path, default=DEFAULT_PROMPT,
                         help='Prompt file (default: asset_pipeline/prompts/summarize.md)')
-    parser.add_argument('--model', '-m', default='claude-opus-4-5-20251101',
+    parser.add_argument('--model', '-m', default='claude-sonnet-4-5-20250929',
                         help='Claude model to use')
     parser.add_argument('--force', '-f', action='store_true',
                         help='Regenerate even if tldr.json exists')
