@@ -109,4 +109,6 @@ When reviewing the transcript, prioritize capturing:
 - "[Thing] is finalized/ready"
 Generate the complete JSON summary based on the provided transcript and supplemental files.
 
-IMPORTANT: Combine, condense, deduplicate where possible. Remove items that may be superfluous or unimportant enough for a summary. Reference the example output provided for an approximate desired length.
+IMPORTANT:
+- Combine, condense, deduplicate where possible. Remove items that may be superfluous or unimportant enough for a summary. Reference the example output provided for an approximate desired length.
+- Distill each line item to 12 words or less.
