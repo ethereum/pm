@@ -1,0 +1,57 @@
+name: Update Active Breakouts
+
+on:
+  schedule:
+    # Run every Monday at 7:00 UTC (bi-weekly check happens in job)
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+    # Allow manual triggering (always runs)
+
+jobs:
+  update-breakouts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check if bi-weekly run (scheduled only)
+        id: check-week
+        run: |
+          WEEK=$(date +%V)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual trigger - running"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          elif [ $((WEEK % 2)) -eq 0 ]; then
+            echo "Even week ($WEEK) - running"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          else
+            echo "Odd week ($WEEK) - skipping"
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Checkout repository
+        if: steps.check-week.outputs.should_run == 'true'
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        if: steps.check-week.outputs.should_run == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Run update script
+        if: steps.check-week.outputs.should_run == 'true'
+        run: python .github/sync/update_active_breakouts.py
+      
+      - name: Check for changes
+        if: steps.check-week.outputs.should_run == 'true'
+        id: git-check
+        run: |
+          git diff --exit-code Breakout-Room-Meetings/active-breakout-series.md || echo "changes=true" >> $GITHUB_OUTPUT
+      
+      - name: Commit and push changes
+        if: steps.check-week.outputs.should_run == 'true' && steps.git-check.outputs.changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Breakout-Room-Meetings/active-breakout-series.md
+          git commit -m "Update active breakout series table"
+          git push
