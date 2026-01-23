@@ -41,6 +41,10 @@ def get_breakout_series(config):
     return breakouts
 
 
+# Trusted facilitators whose series are included even if not in config
+TRUSTED_FACILITATORS = {'will-corcoran'}
+
+
 def fetch_github_issues(repo='ethereum/pm', days=90):
     """Fetch recent issues from GitHub API."""
     since = (datetime.utcnow() - timedelta(days=days)).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -145,9 +149,22 @@ def parse_meeting_date(title):
     return None
 
 
-def get_active_breakouts(issues, breakout_series):
+def extract_series_name_from_title(title):
+    """Extract a series name from issue title for unconfigured series."""
+    # Pattern: "Series Name #N, Date" or "Series Name | Date"
+    # Try to extract the part before the number/date
+    match = re.match(r'^([^#|,]+?)(?:\s*[#|,]|\s+\d)', title)
+    if match:
+        return match.group(1).strip()
+    return title.split(',')[0].split('|')[0].strip()
+
+
+def get_active_breakouts(issues, breakout_series, days=90):
     """Identify active breakouts and their facilitators from recent issues."""
     active = {}  # key -> {display_name, facilitator, meeting_date, issue_url}
+    
+    # Calculate cutoff date for "active" (meeting date within past N days)
+    cutoff_date = (datetime.utcnow() - timedelta(days=days)).strftime('%Y-%m-%d')
     
     for issue in issues:
         # Skip pull requests
@@ -155,15 +172,29 @@ def get_active_breakouts(issues, breakout_series):
             continue
             
         title = issue.get('title', '')
+        facilitator = issue.get('user', {}).get('login', 'Unknown')
+        
+        # Try to match to configured series
         display_name, key = match_issue_to_series(title, breakout_series)
         
+        # If not matched but from a trusted facilitator, include anyway
+        if not key and facilitator in TRUSTED_FACILITATORS:
+            # Check if it looks like a call series (has a number pattern)
+            if re.search(r'#\d+|call\s*\d+', title, re.IGNORECASE):
+                display_name = extract_series_name_from_title(title)
+                key = display_name.lower().replace(' ', '_')
+        
         if key:
-            # Try to parse meeting date from title, fall back to created_at
+            # Parse meeting date from title
             meeting_date = parse_meeting_date(title)
             if not meeting_date:
+                # Fall back to created_at if no date in title
                 meeting_date = issue.get('created_at', '')[:10]
             
-            facilitator = issue.get('user', {}).get('login', 'Unknown')
+            # Only include if meeting date is within the active window
+            if meeting_date < cutoff_date:
+                continue
+            
             issue_url = issue.get('html_url', '')
             
             # Keep the most recent issue for each series (by meeting date)

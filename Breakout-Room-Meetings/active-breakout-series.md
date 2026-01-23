@@ -3,18 +3,17 @@
 This table is automatically updated based on recent issues in the ethereum/pm repo.
 A breakout is considered "active" if it has had an issue opened in the past 3 months.
 
-*Last updated: 2026-01-23 23:30 UTC*
+*Last updated: 2026-01-23 23:43 UTC*
 
 | Call Series | Facilitator | Latest | Issue |
 |-------------|-------------|--------|-------|
 | All Wallet Devs | [@SamWilsn](https://github.com/SamWilsn) | 2026-01-21 | [Link](https://github.com/ethereum/pm/issues/1846) |
-| Beam Call | [@will-corcoran](https://github.com/will-corcoran) | 2025-09-05 | [Link](https://github.com/ethereum/pm/issues/1717) |
 | EIP Editing Office Hour | [@poojaranjan](https://github.com/poojaranjan) | 2026-01-20 | [Link](https://github.com/ethereum/pm/issues/1885) |
 | EIP-7732 Breakout Room | [@jtraglia](https://github.com/jtraglia) | 2025-12-19 | [Link](https://github.com/ethereum/pm/issues/1835) |
 | EIP-7928 Breakout Room | [@nerolation](https://github.com/nerolation) | 2026-01-02 | [Link](https://github.com/ethereum/pm/issues/1857) |
 | EIPIP Meeting | [@poojaranjan](https://github.com/poojaranjan) | 2026-01-20 | [Link](https://github.com/ethereum/pm/issues/1886) |
-| eth_simulate | [@poojaranjan](https://github.com/poojaranjan) | 2025-05-19 | [Link](https://github.com/ethereum/pm/issues/1537) |
 | Ethproofs Community Call | [@will-corcoran](https://github.com/will-corcoran) | 2025-12-20 | [Link](https://github.com/ethereum/pm/issues/1849) |
+| FCR breakout room | [@will-corcoran](https://github.com/will-corcoran) | 2026-01-20 | [Link](https://github.com/ethereum/pm/issues/1887) |
 | FOCIL Breakout | [@jihoonsong](https://github.com/jihoonsong) | 2026-01-13 | [Link](https://github.com/ethereum/pm/issues/1848) |
 | L2 Interop Working Group | [@jrudolf](https://github.com/jrudolf) | 2025-12-08 | [Link](https://github.com/ethereum/pm/issues/1838) |
 | PQ Interop | [@will-corcoran](https://github.com/will-corcoran) | 2026-01-19 | [Link](https://github.com/ethereum/pm/issues/1880) |
@@ -27,6 +26,7 @@ A breakout is considered "active" if it has had an issue opened in the past 3 mo
 
 These series haven't had a meeting in the past 3 months or are completed.
 
+- Beam Call
 - EVM Resource Pricing Breakout
 - EVMmax
 - PQ Transaction Signatures
@@ -34,3 +34,4 @@ These series haven't had a meeting in the past 3 months or are completed.
 - Portal Implementers
 - Protocol Research
 - RollCall
+- eth_simulate
