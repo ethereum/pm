@@ -28,10 +28,15 @@ A breakout is considered "active" if it has had an issue opened in the past 3 mo
 These series haven't had a meeting in the past 3 months or are completed.
 
 - Beam Call
+- Dencun Interop Testing
+- EOF Implementers
 - EVM Resource Pricing Breakout
 - EVMmax
+- Future of EOA/AA Breakout
+- MaxEB Breakout
 - PeerDAS Breakout
 - Portal Implementers
 - Protocol Research
 - RollCall
+- Verkle Implementers
 - eth_simulate
