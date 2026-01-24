@@ -105,7 +105,7 @@ def match_issue_to_series(issue_title, breakout_series):
             'portal': ['portal'],
             'l2interop': ['l2 interop', 'l2-interop'],
             'pqinterop': ['pq interop', 'post-quantum interop'],
-            'pqtransactionsignatures': ['pq transaction', 'post-quantum transaction'],
+            'pqtransactionsignatures': ['pq transaction', 'post-quantum transaction', 'post quantum transaction', 'pqts'],
             'trustlessagents': ['trustless agents', 'erc-8004'],
             'allwalletdevs': ['allwalletdevs', 'all wallet devs', 'wallet devs'],
             'rpcstandards': ['rpc standards', 'rpc standard'],
@@ -123,25 +123,27 @@ def match_issue_to_series(issue_title, breakout_series):
     return None, None
 
 
-def parse_meeting_date(title):
-    """Extract meeting date from issue title like 'Call Name #1, January 21, 2026'."""
-    # Try to find date patterns in the title
-    # Pattern: Month Day, Year (e.g., "January 21, 2026")
-    month_pattern = r'(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})'
-    match = re.search(month_pattern, title, re.IGNORECASE)
+def parse_meeting_date(text):
+    """Extract meeting date from text (title or body)."""
+    # Pattern: Month Day, Year (e.g., "January 21, 2026" or "Jan 21, 2026")
+    month_pattern = r'(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2}),?\s+(\d{4})'
+    match = re.search(month_pattern, text, re.IGNORECASE)
     if match:
         month_name, day, year = match.groups()
         months = {
-            'january': '01', 'february': '02', 'march': '03', 'april': '04',
-            'may': '05', 'june': '06', 'july': '07', 'august': '08',
-            'september': '09', 'october': '10', 'november': '11', 'december': '12'
+            'jan': '01', 'january': '01', 'feb': '02', 'february': '02',
+            'mar': '03', 'march': '03', 'apr': '04', 'april': '04',
+            'may': '05', 'jun': '06', 'june': '06', 'jul': '07', 'july': '07',
+            'aug': '08', 'august': '08', 'sep': '09', 'september': '09',
+            'oct': '10', 'october': '10', 'nov': '11', 'november': '11',
+            'dec': '12', 'december': '12'
         }
         month_num = months.get(month_name.lower(), '01')
         return f"{year}-{month_num}-{int(day):02d}"
     
     # Pattern: YYYY-MM-DD or YYYY/MM/DD
     iso_pattern = r'(\d{4})[-/](\d{1,2})[-/](\d{1,2})'
-    match = re.search(iso_pattern, title)
+    match = re.search(iso_pattern, text)
     if match:
         year, month, day = match.groups()
         return f"{year}-{int(month):02d}-{int(day):02d}"
@@ -185,10 +187,14 @@ def get_active_breakouts(issues, breakout_series, days=90):
                 key = display_name.lower().replace(' ', '_')
         
         if key:
-            # Parse meeting date from title
+            # Parse meeting date from title first, then body
             meeting_date = parse_meeting_date(title)
             if not meeting_date:
-                # Fall back to created_at if no date in title
+                # Try parsing from issue body
+                body = issue.get('body', '') or ''
+                meeting_date = parse_meeting_date(body)
+            if not meeting_date:
+                # Fall back to created_at if no date found
                 meeting_date = issue.get('created_at', '')[:10]
             
             # Only include if meeting date is within the active window
