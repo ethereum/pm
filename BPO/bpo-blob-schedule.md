@@ -10,6 +10,10 @@ This file is intended to support:
 - Historical traceability
 - Operator and ecosystem visibility
 
+## Reference documents
+- [Blob scaling in 2026](https://notes.ethereum.org/@ethpandaops/blob-scaling-2026)
+- [Fusaka & BPO timelines](https://notes.ethereum.org/@bbusa/fusaka-bpo-timeline)
+
 ## Network
 
 - **Chain ID:** 1 (Ethereum Mainnet)
