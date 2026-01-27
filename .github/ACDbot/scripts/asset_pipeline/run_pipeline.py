@@ -85,6 +85,18 @@ def run_step(name: str, cmd: list[str], check: bool = True) -> bool:
     return True
 
 
+def prompt_yes_no(question: str) -> bool:
+    """Prompt user with a yes/no question. Returns True for yes, False for no."""
+    while True:
+        response = input(f"{question} [y/n]: ").strip().lower()
+        if response in ('y', 'yes'):
+            return True
+        elif response in ('n', 'no'):
+            return False
+        else:
+            print("Please enter 'y' or 'n'")
+
+
 def prompt_review(changelog_path: Path, open_editor: bool = False) -> str:
     """Prompt user to review the changelog. Returns 'y', 'n', or 'skip'."""
     print(f"\n{'='*60}")
@@ -154,6 +166,8 @@ def main():
                         help='Claude model for changelog generation')
     parser.add_argument('--summarize', action='store_true',
                         help='Generate structured summary (tldr.json) after corrections')
+    parser.add_argument('--include-zoom-summary', action='store_true',
+                        help='Download Zoom meeting summary (summary.json) during asset download')
     args = parser.parse_args()
 
     # Validate arguments
@@ -197,6 +211,8 @@ def main():
                 download_cmd.extend(["--date", date_part])
             else:
                 download_cmd.extend(["--recent", "1"])
+        if args.include_zoom_summary:
+            download_cmd.append("--include-summary")
 
         if not run_step("Step 1: Download Assets", download_cmd):
             sys.exit(1)
@@ -265,7 +281,11 @@ def main():
 
     # Step 5: Generate summary (optional)
     tldr_path = meeting_dir / "tldr.json"
-    if args.summarize:
+    run_summary = args.summarize
+    if not run_summary:
+        run_summary = prompt_yes_no("\n📝 Generate structured summary (tldr.json)?")
+
+    if run_summary:
         summary_cmd = [
             sys.executable, "generate_summary.py",
             "--call", call,

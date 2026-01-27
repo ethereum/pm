@@ -152,7 +152,7 @@ def create_config_json(meeting_dir, occurrence):
     except Exception as e:
         print(f"  ❌ Failed to create config.json: {e}")
 
-def download_assets_for_meeting(recording_data, series_name, access_token):
+def download_assets_for_meeting(recording_data, series_name, access_token, include_summary=False):
     """Downloads assets from recording data for a single meeting instance."""
     if not recording_data or not recording_data.get('recording_files'):
         print("   No recording files found for this meeting instance.")
@@ -200,7 +200,7 @@ def download_assets_for_meeting(recording_data, series_name, access_token):
         if os.path.exists(filepath):
             existing_assets.append(filename)
 
-    # Check if summary exists
+    # Check if summary exists (only relevant if include_summary is True)
     summary_path = os.path.join(meeting_dir, 'summary.json')
     summary_exists = os.path.exists(summary_path)
     if summary_exists:
@@ -210,7 +210,9 @@ def download_assets_for_meeting(recording_data, series_name, access_token):
     config_path = os.path.join(meeting_dir, 'config.json')
     config_exists = os.path.exists(config_path)
 
-    if existing_assets and config_exists and summary_exists:
+    # Determine if all required assets exist
+    summary_satisfied = summary_exists if include_summary else True
+    if existing_assets and config_exists and summary_satisfied:
         print(f"   ⏭️  Skipping {date_part} - all assets already exist: {', '.join(existing_assets)}, config.json")
         return
 
@@ -244,8 +246,8 @@ def download_assets_for_meeting(recording_data, series_name, access_token):
             if download_file(download_url, access_token, filepath):
                 download_count += 1
 
-    # Download meeting summary if it doesn't exist and is available
-    if not summary_exists:
+    # Download meeting summary if requested and it doesn't exist
+    if include_summary and not summary_exists:
         print(f"   📄 Checking for meeting summary...")
         meeting_uuid = recording_data.get('uuid')
         if meeting_uuid:
@@ -276,14 +278,14 @@ def download_assets_for_meeting(recording_data, series_name, access_token):
         print("   No new assets found to download for this instance.")
 
 
-def process_single_meeting(meeting_id, series_name, access_token):
+def process_single_meeting(meeting_id, series_name, access_token, include_summary=False):
     """Process a single meeting by its ID or UUID."""
     print(f"📋 Getting recordings for meeting: {meeting_id}...")
     recording_data = zoom.get_meeting_recording(meeting_id)
-    download_assets_for_meeting(recording_data, series_name, access_token)
+    download_assets_for_meeting(recording_data, series_name, access_token, include_summary)
 
 
-def process_recent_meetings(series_name, recent_count, access_token, min_duration_minutes=10):
+def process_recent_meetings(series_name, recent_count, access_token, min_duration_minutes=10, include_summary=False):
     """Fetch and process a number of recent meetings for a series using the mapping file."""
     print(f"📋 Looking up meeting ID for series '{series_name}'...")
 
@@ -400,7 +402,7 @@ def process_recent_meetings(series_name, recent_count, access_token, min_duratio
         duration = recording_data.get('duration', 0)
         date_part = start_time.split('T')[0] if start_time != 'N/A' else 'Unknown'
         print(f"\nProcessing meeting {i+1}/{len(valid_meetings)} from {date_part} (UUID: {uuid}, Duration: {duration} min)")
-        download_assets_for_meeting(recording_data, series_name, access_token)
+        download_assets_for_meeting(recording_data, series_name, access_token, include_summary)
 
 
 def get_topic_prefixes_for_series(series_name, mapping_manager):
@@ -437,7 +439,7 @@ def get_topic_prefixes_for_series(series_name, mapping_manager):
     return prefixes
 
 
-def process_meeting_by_date(series_name, target_date, access_token, min_duration_minutes=10):
+def process_meeting_by_date(series_name, target_date, access_token, min_duration_minutes=10, include_summary=False):
     """Fetch and process a meeting for a specific date using the mapping file."""
     print(f"📋 Looking up meeting ID for series '{series_name}'...")
 
@@ -560,7 +562,7 @@ def process_meeting_by_date(series_name, target_date, access_token, min_duration
 
     # Download assets for the matched meeting
     print(f"\n📋 Processing meeting from {target_date} (Duration: {matching_recording.get('duration', 0)} min)")
-    download_assets_for_meeting(matching_recording, series_name, access_token)
+    download_assets_for_meeting(matching_recording, series_name, access_token, include_summary)
 
 
 if __name__ == '__main__':
@@ -568,6 +570,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--series-name", required=True, help="The name of the call series (e.g., 'acde').")
     parser.add_argument("--min-duration", type=int, default=10, help="Minimum meeting duration in minutes to process (default: 10). Applies to --recent and --date.")
+    parser.add_argument("--include-summary", action="store_true", help="Download Zoom's meeting summary (summary.json). Disabled by default.")
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--meeting-id", help="A specific meeting instance ID or UUID.")
@@ -582,11 +585,11 @@ if __name__ == '__main__':
         print("✅ Authenticated with Zoom")
 
         if args.meeting_id:
-            process_single_meeting(args.meeting_id, args.series_name, access_token)
+            process_single_meeting(args.meeting_id, args.series_name, access_token, args.include_summary)
         elif args.recent is not None:
-            process_recent_meetings(args.series_name, args.recent, access_token, args.min_duration)
+            process_recent_meetings(args.series_name, args.recent, access_token, args.min_duration, args.include_summary)
         elif args.date:
-            process_meeting_by_date(args.series_name, args.date, access_token, args.min_duration)
+            process_meeting_by_date(args.series_name, args.date, access_token, args.min_duration, args.include_summary)
 
     except Exception as e:
         print(f"❌ An unexpected error occurred: {e}")
