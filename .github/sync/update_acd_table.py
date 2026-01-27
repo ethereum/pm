@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fetch ACD call data from nixorokish/eth-protocol-transcripts and update the README.
+Fetch ACD call data from nixorokish/eth-protocol-transcripts and update the README, append-only.
 """
 
 import re
@@ -14,17 +14,41 @@ def fetch_readme(url):
         return response.read().decode('utf-8')
 
 
-def extract_table_from_readme(readme_content):
-    """Extract the ACD calls table from the eth-protocol-transcripts README."""
-    pattern = r'# ACD calls\s*\n\n(\|[^\n]+\|\n\| ---[^\n]+\|\n(?:\|[^\n]+\|\n)*)'
+def extract_table_rows(table_content):
+    """Extract individual rows from a markdown table."""
+    lines = table_content.strip().split('\n')
+    rows = []
+    for line in lines:
+        # Skip header and separator rows
+        if line.startswith('| Date') or line.startswith('| ---'):
+            continue
+        if line.startswith('|'):
+            rows.append(line)
+    return rows
+
+
+def get_row_key(row):
+    """Extract a unique key from a row (date + type + number)."""
+    # Row format: | Date | Type | № | Issue | ...
+    parts = [p.strip() for p in row.split('|')]
+    if len(parts) >= 4:
+        # parts[0] is empty (before first |), parts[1] is date, parts[2] is type, parts[3] is number
+        return (parts[1], parts[2], parts[3])  # (date, type, number)
+    return None
+
+
+def extract_table_from_readme(readme_content, section_header):
+    """Extract table from a README section."""
+    # Pattern to find table after section header
+    pattern = rf'{re.escape(section_header)}\s*\n\n(\|[^\n]+\|\n\| ---[^\n]+\|\n(?:\|[^\n]+\|\n)*)'
     match = re.search(pattern, readme_content)
     if match:
         return match.group(1).strip()
     return None
 
 
-def update_pm_readme(table_content):
-    """Update the nixorokish/pm README with the new table."""
+def update_pm_readme(new_rows_to_add):
+    """Add new rows to the pm README table."""
     readme_path = Path('README.md')
     
     if not readme_path.exists():
@@ -34,17 +58,24 @@ def update_pm_readme(table_content):
     with open(readme_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Pattern: Find the existing unified table after the "Previous AllCoreDevs" section
+    if not new_rows_to_add:
+        print("No new rows to add")
+        return False
+    
+    # Pattern: Find the table header and separator, then insert new rows after
     pattern = (
-        r'(## Previous AllCoreDevs Meetings\s*\n\n)'
-        r'\|[^\n]+\|\n\| ---[^\n]+\|\n(?:\|[^\n]+\|\n)*'
+        r'(## Previous AllCoreDevs Meetings\s*\n\n'
+        r'\| Date[^\n]+\|\n'
+        r'\| ---[^\n]+\|\n)'
     )
     
-    # Use a function for replacement to avoid regex interpretation of table_content
-    def replacer(match):
-        return match.group(1) + table_content + '\n'
+    # Insert new rows right after the header
+    new_rows_text = '\n'.join(new_rows_to_add) + '\n'
     
-    updated_content = re.sub(pattern, replacer, content, flags=re.DOTALL)
+    def replacer(match):
+        return match.group(1) + new_rows_text
+    
+    updated_content = re.sub(pattern, replacer, content)
     
     if updated_content == content:
         print("No changes detected")
@@ -60,23 +91,59 @@ def update_pm_readme(table_content):
 def main():
     print("Fetching README from nixorokish/eth-protocol-transcripts...")
     
-    readme_url = "https://raw.githubusercontent.com/nixorokish/eth-protocol-transcripts/main/README.md"
+    source_url = "https://raw.githubusercontent.com/nixorokish/eth-protocol-transcripts/main/README.md"
     
     try:
-        readme_content = fetch_readme(readme_url)
+        source_readme = fetch_readme(source_url)
     except Exception as e:
-        print(f"ERROR: Failed to fetch README: {e}")
+        print(f"ERROR: Failed to fetch source README: {e}")
         return 1
     
-    table = extract_table_from_readme(readme_content)
-    
-    if not table:
+    # Extract table from source
+    source_table = extract_table_from_readme(source_readme, "# ACD calls")
+    if not source_table:
         print("ERROR: Could not find ACD calls table in source README")
         return 1
     
-    print(f"Found table with {table.count(chr(10))} rows")
+    source_rows = extract_table_rows(source_table)
+    print(f"Found {len(source_rows)} rows in source")
     
-    if update_pm_readme(table):
+    # Read existing pm README
+    readme_path = Path('README.md')
+    if not readme_path.exists():
+        print("ERROR: README.md not found")
+        return 1
+    
+    with open(readme_path, 'r', encoding='utf-8') as f:
+        pm_readme = f.read()
+    
+    # Extract existing table from pm README
+    pm_table = extract_table_from_readme(pm_readme, "## Previous AllCoreDevs Meetings")
+    if not pm_table:
+        print("ERROR: Could not find table in pm README")
+        return 1
+    
+    pm_rows = extract_table_rows(pm_table)
+    print(f"Found {len(pm_rows)} existing rows in pm README")
+    
+    # Find existing row keys
+    existing_keys = set()
+    for row in pm_rows:
+        key = get_row_key(row)
+        if key:
+            existing_keys.add(key)
+    
+    # Find new rows (in source but not in pm)
+    new_rows = []
+    for row in source_rows:
+        key = get_row_key(row)
+        if key and key not in existing_keys:
+            new_rows.append(row)
+            print(f"  New row: {key}")
+    
+    print(f"Found {len(new_rows)} new rows to add")
+    
+    if new_rows and update_pm_readme(new_rows):
         print("Done!")
     else:
         print("No updates made")
