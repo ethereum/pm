@@ -253,13 +253,22 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
             print(f"[DEBUG] {error_msg}")
             raise ValueError(error_msg)
 
-        # Get all instances of the recurring event
+        # Get instances of the recurring event around the target date
+        # Must use explicit timeMin/timeMax - without them, the API may exclude
+        # the instance matching the master event's start date
+        time_min = (start_dt - timedelta(days=7)).isoformat()
+        time_max = (start_dt + timedelta(days=7)).isoformat()
+
+        print(f"[DEBUG] Searching for instances between {time_min} and {time_max}")
+
         instances = service.events().instances(
             calendarId=calendar_id,
-            eventId=event_id
+            eventId=event_id,
+            timeMin=time_min,
+            timeMax=time_max
         ).execute()
 
-        print(f"[DEBUG] Found {len(instances.get('items', []))} instances of recurring event")
+        print(f"[DEBUG] Found {len(instances.get('items', []))} instances in date range")
 
         # Find the specific instance for our target date
         target_instance = None
