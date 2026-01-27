@@ -1,9 +1,9 @@
 # Active Breakout Call Series
 
-This table is automatically updated based on recent issues in the ethereum/pm repo.
-A breakout is considered "active" if it has had an issue opened in the past 3 months.
+This table is automatically updated based on issues in the ethereum/pm repo.
+A breakout is considered "active" if it has a meeting date within the past 3 months.
 
-*Last updated: 2026-01-24 04:13 UTC*
+*Last updated: 2026-01-24 04:13 UTC (updated weekly)*
 
 | Call Series | Facilitator | Latest | Issue |
 |-------------|-------------|--------|-------|

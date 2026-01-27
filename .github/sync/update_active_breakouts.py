@@ -223,7 +223,7 @@ def generate_markdown_table(active_breakouts, breakout_series):
         "This table is automatically updated based on recent issues in the ethereum/pm repo.",
         "A breakout is considered \"active\" if it has had an issue opened in the past 3 months.",
         "",
-        "*Last updated: " + datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC') + "*",
+        "*Last updated: " + datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC') + " (updated weekly)*",
         "",
         "| Call Series | Facilitator | Latest | Issue |",
         "|-------------|-------------|--------|-------|",
