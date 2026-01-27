@@ -215,19 +215,9 @@ def get_active_breakouts(issues, breakout_series, days=90):
     return active
 
 
-def generate_markdown_table(active_breakouts, breakout_series):
-    """Generate the markdown table content."""
-    lines = [
-        "# Active Breakout Call Series",
-        "",
-        "This table is automatically updated based on recent issues in the ethereum/pm repo.",
-        "A breakout is considered \"active\" if it has had an issue opened in the past 3 months.",
-        "",
-        "*Last updated: " + datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC') + " (updated weekly)*",
-        "",
-        "| Call Series | Facilitator | Latest | Issue |",
-        "|-------------|-------------|--------|-------|",
-    ]
+def generate_table_content(active_breakouts):
+    """Generate just the table rows (not header)."""
+    lines = []
     
     # Sort by display name
     sorted_breakouts = sorted(active_breakouts.items(), key=lambda x: x[1]['display_name'].lower())
@@ -240,39 +230,55 @@ def generate_markdown_table(active_breakouts, breakout_series):
             f"| {info['display_name']} | {facilitator_link} | {info['meeting_date']} | {issue_link} |"
         )
     
-    # Inactive series (no issues in past 3 months)
-    inactive_series = set(breakout_series.keys()) - set(b['display_name'] for b in active_breakouts.values())
-    
-    if inactive_series:
-        lines.extend([
-            "",
-            "## Inactive Series",
-            "",
-            "These series haven't had a meeting in the past 3 months or are completed.",
-            "",
-        ])
-        for name in sorted(inactive_series):
-            lines.append(f"- {name}")
-    
-    lines.append("")
     return '\n'.join(lines)
 
 
-def update_breakouts_file(content):
-    """Write the active breakouts markdown file."""
+def update_breakouts_file(active_breakouts):
+    """Update the markdown file, preserving header and inactive sections."""
     output_path = Path('Breakout-Room-Meetings/active-breakout-series.md')
-    output_path.parent.mkdir(parents=True, exist_ok=True)
     
-    # Check if content changed
-    if output_path.exists():
-        with open(output_path, 'r', encoding='utf-8') as f:
-            existing = f.read()
-        # Compare without the timestamp line
-        existing_no_ts = re.sub(r'\*Last updated:.*\*', '', existing)
-        content_no_ts = re.sub(r'\*Last updated:.*\*', '', content)
-        if existing_no_ts.strip() == content_no_ts.strip():
-            print("No changes detected (ignoring timestamp)")
-            return False
+    if not output_path.exists():
+        print(f"ERROR: {output_path} not found")
+        return False
+    
+    with open(output_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Generate new table content
+    new_table = generate_table_content(active_breakouts)
+    
+    # Update timestamp
+    new_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
+    content = re.sub(
+        r'\*Last updated:.*\*',
+        f'*Last updated: {new_timestamp} (updated weekly)*',
+        content
+    )
+    
+    # Replace table rows (everything between header row and ## Inactive or end of table)
+    # Pattern: table header, separator, then rows until empty line or ## 
+    table_pattern = (
+        r'(\| Call Series \| Facilitator \| Latest \| Issue \|\n'
+        r'\|[-|]+\|\n)'  # Header + separator
+        r'(?:\|[^\n]+\|\n)*'  # Existing rows
+    )
+    
+    content = re.sub(
+        table_pattern,
+        r'\g<1>' + new_table + '\n',
+        content
+    )
+    
+    # Check if content actually changed (compare without timestamp)
+    with open(output_path, 'r', encoding='utf-8') as f:
+        existing = f.read()
+    
+    existing_no_ts = re.sub(r'\*Last updated:.*\*', '', existing)
+    content_no_ts = re.sub(r'\*Last updated:.*\*', '', content)
+    
+    if existing_no_ts.strip() == content_no_ts.strip():
+        print("No changes detected (ignoring timestamp)")
+        return False
     
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(content)
@@ -295,10 +301,9 @@ def main():
     active_breakouts = get_active_breakouts(issues, breakout_series)
     print(f"Found {len(active_breakouts)} active breakout series")
     
-    print("Generating markdown...")
-    content = generate_markdown_table(active_breakouts, breakout_series)
+    print("Updating markdown...")
     
-    if update_breakouts_file(content):
+    if update_breakouts_file(active_breakouts):
         print("Done!")
     else:
         print("No updates made")
