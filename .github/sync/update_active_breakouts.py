@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 def load_call_series_config():
-    """Load the call series configuration using regex (no yaml dependency)."""
+    """Load the call series configuration using regex."""
     config_path = Path('.github/ACDbot/call_series_config.yml')
     with open(config_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -216,7 +216,7 @@ def get_active_breakouts(issues, breakout_series, days=90):
 
 
 def generate_table_content(active_breakouts):
-    """Generate just the table rows (not header)."""
+    """Generate table rows."""
     lines = []
     
     # Sort by display name
@@ -234,7 +234,7 @@ def generate_table_content(active_breakouts):
 
 
 def update_breakouts_file(active_breakouts):
-    """Update the markdown file, preserving header and inactive sections."""
+    """Update the markdown file"""
     output_path = Path('Breakout-Room-Meetings/active-breakout-series.md')
     
     if not output_path.exists():
