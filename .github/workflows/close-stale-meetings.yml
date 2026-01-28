@@ -1,0 +1,35 @@
+name: Close Stale Meeting Issues
+
+on:
+  schedule:
+    # Run twice per day at 06:00 and 18:00 UTC
+    - cron: '0 6 * * *'
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  close-stale-meetings:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install PyGithub
+
+      - name: Close stale meeting issues
+        run: python .github/ACDbot/scripts/close_stale_meetings.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+permissions:
+  contents: read
+  issues: write
