@@ -106,8 +106,7 @@ def close_issue_with_comment(repo, issue_number: int, meeting_title: str) -> boo
         # Post comment and close
         comment = (
             f"This meeting occurred more than {STALE_THRESHOLD_HOURS} hours ago. "
-            "Closing automatically. "
-            "Reopen if further discussion is needed."
+            "Closing automatically."
         )
         issue.create_comment(comment)
         issue.edit(state="closed")
