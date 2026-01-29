@@ -4,7 +4,7 @@ This document describes how to add a new recurring call series to ACDbot.
 
 ## Required Changes
 
-Adding a new call series requires updating **2 files**:
+Adding a new call series requires updating **3 files**:
 
 ### 1. Call Series Config
 
@@ -51,6 +51,19 @@ Add the display name to the dropdown options (around line 35):
 ```
 
 **Important:** The display name must exactly match `display_name` in `call_series_config.yml`.
+
+### 3. Auto-labeling
+
+**File:** `.github/labeler.yml`
+
+Add a regex pattern so issues for this call series are automatically labeled:
+
+```yaml
+YourCallLabel:
+ - "^(.*[Yy]our [Cc]all [Nn]ame.*)"
+```
+
+The pattern should match likely variations of how the call name appears in issue titles. Use case-insensitive character classes (e.g., `[Yy]our`) for flexibility.
 
 ## What Happens Automatically
 
@@ -145,6 +158,7 @@ After merging your changes:
 |------|---------|----------------------|
 | `.github/ACDbot/call_series_config.yml` | Central config for all call series (incl. autopilot defaults) | **Yes** |
 | `.github/ISSUE_TEMPLATE/protocol-call-form.yml` | Issue template dropdown | **Yes** |
+| `.github/labeler.yml` | Auto-labeling regex patterns | **Yes** |
 | `.github/ACDbot/meeting_topic_mapping.json` | Runtime meeting data | No (auto-populated) |
 | `.github/ACDbot/modules/form_parser.py` | Parses issue forms | No (reads from config) |
 | `.github/ACDbot/modules/call_series_config.py` | Loads config and autopilot defaults | No (reads from YAML) |
