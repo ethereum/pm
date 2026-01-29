@@ -84,7 +84,7 @@ To enable Discord notifications before meetings:
 
 Currently only ACD calls (acde, acdc, acdt) have Discord notifications configured.
 
-## Optional: Autopilot Defaults
+## Recommended: Autopilot Defaults
 
 Autopilot mode allows users to create issues with minimal input - just select the call series and date/time, and all other settings are filled in automatically.
 
