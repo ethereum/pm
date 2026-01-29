@@ -112,7 +112,7 @@ def match_issue_to_series(issue_title, breakout_series):
             'trustlesslogindex': ['trustless log', 'log index'],
             'eipeditingofficehour': ['eip editing', 'office hour'],
             'eipip': ['eipip'],
-            'glamsterdamrepricings': ['glamsterdam', 'glamsterdam repricings'],
+            'glamsterdamrepricings': ['glamsterdam repricings', 'glamsterdam gas repricings'],
             'zkevm': ['l1-zkevm', 'l1 zkevm', 'zkevm'],
             'protocolresearch': ['protocol research'],
         }
