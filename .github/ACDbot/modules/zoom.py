@@ -61,7 +61,7 @@ def create_meeting(topic, start_time, duration):
                 "password": response_data.get("password", ""),
                 "meetingTime": response_data["start_time"],
                 "purpose": response_data["topic"],
-                "duration": response_data["duration"],
+                "duration": response_data.get("duration", duration),
                 "message": "Success",
                 "status":1
     }
@@ -617,7 +617,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                 "password": response_data.get("password", ""),
                 "meetingTime": response_data.get("start_time", start_time),
                 "purpose": response_data["topic"],
-                "duration": response_data["duration"],
+                "duration": response_data.get("duration", duration),
                 "message": "Success",
                 "status":1
             }
@@ -670,7 +670,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
                         "password": response_data.get("password", ""),
                         "meetingTime": response_data.get("start_time", start_time),
                         "purpose": response_data["topic"],
-                        "duration": response_data["duration"],
+                        "duration": response_data.get("duration", duration),
                         "message": "Success",
                         "status":1
                     }
