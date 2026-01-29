@@ -15,18 +15,12 @@ Breakout calls are organized via issues in the ethereum/pm Github repo and you, 
 ### Concise instructions (verbose below)
 
 1. Contact the Protocol Support team. Provide title, cadence, reason for breakout, associated EIP(s), target fork (if relevant) & your Github username. Wait for Protocol Support to confirm creation.
-2. Scheduling the first meeting: create an issue in the [pm repo](https://github.com/ethereum/pm/issues), choose `Protocol Call`. Use the template to create the issue. Recommended settings:
+2. Scheduling the first meeting: create an issue in the [pm repo](https://github.com/ethereum/pm/issues), choose `Protocol Call`. Use the template to create the issue:
+    - Fill in title, date/time, and agenda
+    - Select your call series from the dropdown
+    - Check "Autopilot Mode": this uses your series' preconfigured defaults for duration, recurrence, Zoom, etc. Recommended unless instructed otherwise.
 
-    - Call Series: your series
-    - Duration: 60 minutes
-    - Occurrence: if cadence is definite, choose weekly/biweekly/monthly. If not yet known or scheduled as-needed, choose 'other'.
-    - Use Custom Meeting Link:
-        - ☒ (No) | premium Zoom features, must have someone with @ethereum.org email present
-        - ☐ (Yes) | must self-record and send recording link to Protocol Support if yt upload desired
-    - Display Zoom Link in Calendar Invite: ☒ (Yes)
-    - Create Youtube livestream link: ☐ (No)
-
-Note: If don't need to change any settings each week, you can select the `Autopilot Mode` checkbox, which will utilize your call (or system) defaults found in the [call_series_config.yml](https://github.com/ethereum/pm/blob/master/.github/ACDbot/call_series_config.yml).
+That's it! Autopilot handles the rest. Only uncheck Autopilot if you need to customize settings for a specific meeting.
 
 ---
 
@@ -48,9 +42,18 @@ Note: If don't need to change any settings each week, you can select the `Autopi
 
     - [ ]  Title is formatted correctly: <call name> <call #>, <call date>
     - [ ]  UTC Date & Time is correct: Jan 1, 2025, 14:00 UTC
-    - [ ]  Call Series: your call series should be in the dropdown
-    - [ ]  Choose 60 or 90 minutes
-    - [ ]  Occurrence: this affects the EF Protocol calendar event. If you’d like a recurring event on the EF Protocol Calendar, choose weekly/biweekly or monthly. If you’re not sure when the next call will be, choose “other”
-    - [ ]  “Use Custom Meeting Link”: check this box if you don’t want to use the EF zoom-bot. No recordings, summaries, transcripts will be provided
-    - [ ]  “Display Zoom Link in Calendar Invite”: checking this box is recommended unless you want finer-grained control over who attends the meeting
-    - [ ]  “Youtube Livestream Link”: check this if you expect to have someone present at your meeting who can run streaming software (e.g. OBS or Streamyard) and has access to a Youtube stream key. Protocol Support or Ethereum Cat Herders can support if needed. This option is not recommended for small breakouts.
+    - [ ]  Agenda: list the topics for discussion
+    - [ ]  Call Series: select your call series from the dropdown
+    - [ ]  Autopilot Mode (recommended): uses preconfigured defaults for the selected series
+
+    Autopilot will apply the correct duration, recurrence, Zoom settings, etc. based on your series configuration.
+
+    ### Customizing settings (optional)
+
+    If you need to override defaults for a specific meeting, uncheck Autopilot and configure manually:
+
+    - Duration: 60 or 90 minutes
+    - Occurrence: Occurrence: this affects the EF Protocol calendar event. If you’d like a recurring event on the EF Protocol Calendar, choose weekly/biweekly or monthly. If you’re not sure when the next call will be, choose “other”
+    - Use Custom Meeting Link: check this if you don't want to use the EF zoom-bot. No recordings, summaries, or transcripts will be provided
+    - Display Zoom Link in Calendar Invite: recommended unless you want finer-grained control over attendance
+    - Youtube Livestream Link: only check if someone at the meeting can run streaming software (e.g. OBS) with a Youtube stream key. Not recommended for small breakouts.
