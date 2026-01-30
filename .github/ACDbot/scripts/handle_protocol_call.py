@@ -32,13 +32,13 @@ class ProtocolCallHandler:
         self.mapping_manager = MappingManager()
         self.logger = get_logger()
 
-    def _is_date_in_past(self, start_time: str, grace_hours: int = 1) -> bool:
+    def _is_date_in_past(self, start_time: str, grace_hours: int = 12) -> bool:
         """
         Check if the given start_time is in the past.
 
         Args:
             start_time: ISO format datetime string ending with 'Z' (e.g., "2025-04-24T14:00:00Z")
-            grace_hours: Number of hours of grace period to allow (default 1 hour)
+            grace_hours: Number of hours of grace period to allow (default 12 hours to allow editing during and after meetings)
 
         Returns:
             True if the date is more than grace_hours in the past, False otherwise
