@@ -49,17 +49,60 @@ Use these standard categories for highlights (add others as needed):
 - organizational - Process changes, communication updates, meeting schedules
 ## Extraction Rules
 ### Highlights
-- Extract the most important technical updates and changes
+Be highly selective. Include only what a core developer **must know** if they missed the call.
+
+#### INCLUDE:
+- Decisions or changes affecting protocol specs
+- New devnet launches, fork dates, or schedule changes
+- Critical bugs or security issues discussed
+- Significant blockers or delays announced
+- Cross-team coordination requirements
+- Breaking changes to shared infrastructure
+
+#### EXCLUDE:
+- Routine client progress updates ("Client X made progress on feature Y")
+- Minor bug fixes already resolved
+- Work-in-progress without concrete outcomes
+- Incremental test result improvements
+- Status updates that don't require action from others
+
+#### Guidelines:
 - Include specific numbers/dates when mentioned (e.g., "10 target/15 max blobs")
 - Each highlight should be self-contained and understandable without context
 - Order chronologically within each category
+- **Target ~3-5 highlights per category maximum** - if you have more, keep only the most important
 ### Action Items
-Only include explicit commitments where someone agrees to do something:
-- "I'll/We'll create..." → Include
-- "Will release..." → Include
-- "Going to work on..." → Include
-- General discussion without commitment → Exclude
-- Past tense descriptions → Exclude
+Focus on **cross-team coordination and ecosystem-wide awareness** rather than individual development tasks.
+
+#### INCLUDE:
+- Cross-team coordination needs (e.g., "All CL teams coordinate on devnet timing")
+- Community feedback requests (e.g., "Gather app developer feedback on gas repricing")
+- Specification/standards work affecting multiple teams
+- Breaking changes requiring broad communication
+- Important deadlines affecting multiple parties
+- External dependencies (e.g., "Coordinate with L2 teams on rollup implications")
+
+#### EXCLUDE (routine development work):
+- Individual bug fixes ("Fix MIN_EPOCHS handling")
+- Client-specific PR merges ("Besu: Merge metrics and prefetch PRs")
+- Standard implementation work ("Implement engine API method")
+- Code review requests for client-specific code ("Review and merge BAL PRs")
+- Client-internal tasks without cross-team coordination aspect
+- Work already implied by being a core developer
+- Generic/obvious statements ("All EL teams: Increase test pass rates") - this is implied by their job
+
+#### Key distinction - Shared vs Client-specific:
+- **Shared specs/APIs** (execution-apis, consensus-specs, beacon-APIs) → INCLUDE
+  - e.g., "Merge execution-apis PRs 726 and 727" affects all EL teams
+- **Client implementations** (Geth, Besu, Reth, Lighthouse, etc.) → EXCLUDE
+  - e.g., "Besu: Merge metrics PRs" is internal to one team
+
+#### Quality filter - before including, ask:
+1. Would teams outside the mentioned team benefit from knowing this?
+2. Does this require coordination between multiple parties?
+3. Is this more than routine development work?
+
+If all answers are "no", exclude the item.
 ### Decisions Made
 Only formal decisions with clear consensus:
 - "We decided to..." → Include
@@ -110,5 +153,8 @@ When reviewing the transcript, prioritize capturing:
 Generate the complete JSON summary based on the provided transcript and supplemental files.
 
 IMPORTANT:
-- Combine, condense, deduplicate where possible. Remove items that may be superfluous or unimportant enough for a summary. Reference the example output provided for an approximate desired length.
+- Be ruthlessly selective. This summary is for busy developers - only include what they MUST know.
+- Combine, condense, deduplicate aggressively. When in doubt, leave it out.
+- Reference the example output for approximate length, but aim ~25% shorter than a comprehensive list.
 - Distill each line item to 12 words or less.
+- Action items should be rare (0-3 per meeting) - most meetings have no cross-team coordination needs.
