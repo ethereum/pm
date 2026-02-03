@@ -486,7 +486,7 @@ Autopilot mode was enabled, but this is a one-time call. One-time calls don't ha
 
             # 11. Clean up issue body for better readability (only on initial creation)
             if not is_update:
-                self._clean_issue_body_if_needed(issue)
+                self._clean_issue_body_if_needed(issue, call_data)
 
             log_success(f"Successfully processed protocol call for issue #{issue_number}")
             return True
@@ -1629,7 +1629,71 @@ The bot will automatically process your issue once you've selected a valid call 
         """Check if the issue body has already been cleaned up."""
         return "<details>" in issue_body and "Meeting Configuration" in issue_body
 
-    def _clean_issue_body_if_needed(self, issue):
+    def _update_displayed_autopilot_values(self, issue_body: str, call_data: Dict) -> str:
+        """Update the displayed config values in the issue body to reflect actual autopilot defaults.
+
+        When autopilot mode is enabled, the form shows template defaults (e.g., 60 minutes)
+        but the actual values used come from autopilot_defaults. This updates the displayed
+        values so users see what's actually being used.
+        """
+        try:
+            updated_body = issue_body
+
+            # Duration: Update "X minutes" to actual value
+            duration = call_data.get("duration")
+            if duration:
+                # Match the duration section and replace the value
+                duration_pattern = r"(### Duration\n\n)\d+ minutes"
+                updated_body = re.sub(duration_pattern, f"\\g<1>{duration} minutes", updated_body)
+                print(f"[DEBUG] Updated displayed duration to {duration} minutes")
+
+            # Occurrence Rate: Update to actual value
+            occurrence_rate = call_data.get("occurrence_rate")
+            if occurrence_rate:
+                occurrence_pattern = r"(### Occurrence Rate\n\n)(weekly|bi-weekly|monthly|other)"
+                updated_body = re.sub(occurrence_pattern, f"\\g<1>{occurrence_rate}", updated_body)
+                print(f"[DEBUG] Updated displayed occurrence rate to {occurrence_rate}")
+
+            # YouTube Livestream: Update checkbox based on actual value
+            # Note: Use lowercase [x] to match form parser expectations
+            need_youtube = call_data.get("need_youtube_streams", False)
+            if need_youtube:
+                # Check the box if not already checked
+                youtube_pattern = r"(### YouTube Livestream Link \(Optional\)\n\n)- \[ \]"
+                updated_body = re.sub(youtube_pattern, "\\g<1>- [x]", updated_body)
+                print(f"[DEBUG] Updated YouTube livestream checkbox to checked")
+            else:
+                # Uncheck the box if checked
+                youtube_pattern = r"(### YouTube Livestream Link \(Optional\)\n\n)- \[x\]"
+                updated_body = re.sub(youtube_pattern, "\\g<1>- [ ]", updated_body, flags=re.IGNORECASE)
+
+            # Display Zoom Link: Update checkbox based on actual value
+            display_zoom = call_data.get("display_zoom_link_in_invite", False)
+            if display_zoom:
+                zoom_display_pattern = r"(### Display Zoom Link in Calendar Invite \(Optional\)\n\n)- \[ \]"
+                updated_body = re.sub(zoom_display_pattern, "\\g<1>- [x]", updated_body)
+                print(f"[DEBUG] Updated display Zoom link checkbox to checked")
+            else:
+                zoom_display_pattern = r"(### Display Zoom Link in Calendar Invite \(Optional\)\n\n)- \[x\]"
+                updated_body = re.sub(zoom_display_pattern, "\\g<1>- [ ]", updated_body, flags=re.IGNORECASE)
+
+            # Custom Meeting Link: Update checkbox based on skip_zoom_creation
+            skip_zoom = call_data.get("skip_zoom_creation", False)
+            if skip_zoom:
+                custom_link_pattern = r"(### Use Custom Meeting Link \(Optional\)\n\n)- \[ \]"
+                updated_body = re.sub(custom_link_pattern, "\\g<1>- [x]", updated_body)
+                print(f"[DEBUG] Updated custom meeting link checkbox to checked")
+            else:
+                custom_link_pattern = r"(### Use Custom Meeting Link \(Optional\)\n\n)- \[x\]"
+                updated_body = re.sub(custom_link_pattern, "\\g<1>- [ ]", updated_body, flags=re.IGNORECASE)
+
+            return updated_body
+
+        except Exception as e:
+            print(f"[ERROR] Failed to update displayed autopilot values: {e}")
+            return issue_body
+
+    def _clean_issue_body_if_needed(self, issue, call_data: Dict = None):
         """Clean up the issue body for better readability if not already cleaned."""
         try:
             if self._is_issue_already_cleaned(issue.body):
@@ -1637,6 +1701,11 @@ The bot will automatically process your issue once you've selected a valid call 
                 return
 
             cleaned_body = self._clean_issue_body(issue.body)
+
+            # If autopilot is enabled, update displayed config values to reflect actual defaults
+            if call_data and call_data.get("autopilot_mode"):
+                cleaned_body = self._update_displayed_autopilot_values(cleaned_body, call_data)
+
             if cleaned_body != issue.body:
                 print(f"[DEBUG] Cleaning up issue #{issue.number} body for better readability")
                 issue.edit(body=cleaned_body)

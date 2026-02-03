@@ -648,8 +648,8 @@ class TestDateInPastValidation(unittest.TestCase):
     def test_is_date_in_past_beyond_grace_period(self):
         """Test that dates beyond the grace period are flagged."""
         from datetime import datetime, timezone, timedelta
-        # Get a date 2 hours in the past (beyond 1-hour grace period)
-        old_time = datetime.now(timezone.utc) - timedelta(hours=2)
+        # Get a date 13 hours in the past (beyond 12-hour default grace period)
+        old_time = datetime.now(timezone.utc) - timedelta(hours=13)
         old_date = old_time.strftime("%Y-%m-%dT%H:%M:%SZ")
 
         result = self.handler._is_date_in_past(old_date)
@@ -760,6 +760,299 @@ class TestDateInPastValidation(unittest.TestCase):
         comment_text = mock_issue.create_comment.call_args[0][0]
         self.assertIn("Past Date Detected", comment_text)
         self.assertIn(past_date, comment_text)
+
+
+class TestUpdateDisplayedAutopilotValues(unittest.TestCase):
+    """Tests for updating displayed config values when autopilot is enabled."""
+
+    def setUp(self):
+        self.handler = ProtocolCallHandler()
+
+        # Sample issue body with default form values
+        self.sample_issue_body = """### UTC Date & Time
+
+April 24, 2025, 14:00 UTC
+
+### Agenda
+
+- Agenda item 1
+- Agenda item 2
+
+### Call Series
+
+All Core Devs - Execution
+
+### Autopilot Mode
+
+- [x] Use autopilot (recommended defaults for this call series)
+
+### Duration
+
+60 minutes
+
+### Occurrence Rate
+
+weekly
+
+### Use Custom Meeting Link (Optional)
+
+- [ ] I will provide my own meeting link
+
+### Display Zoom Link in Calendar Invite (Optional)
+
+- [ ] Display Zoom link in invite
+
+### YouTube Livestream Link (Optional)
+
+- [ ] Create YouTube livestream link"""
+
+    def test_update_duration_value(self):
+        """Test that duration value is updated to reflect autopilot default."""
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,  # Autopilot default for ACDE
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": True,
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        self.assertIn("90 minutes", result)
+        self.assertNotIn("60 minutes", result)
+
+    def test_update_occurrence_rate_value(self):
+        """Test that occurrence rate value is updated to reflect autopilot default."""
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly",  # Autopilot default
+            "need_youtube_streams": True,
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # Check occurrence rate section specifically
+        self.assertIn("### Occurrence Rate\n\nbi-weekly", result)
+        self.assertNotIn("### Occurrence Rate\n\nweekly", result)
+
+    def test_update_youtube_checkbox_to_checked(self):
+        """Test that YouTube checkbox is checked when autopilot enables it."""
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": True,  # Autopilot enables YouTube
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # YouTube checkbox should now be checked
+        self.assertIn("### YouTube Livestream Link (Optional)\n\n- [x]", result)
+
+    def test_update_zoom_display_checkbox_to_checked(self):
+        """Test that Zoom display checkbox is checked when autopilot enables it."""
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": True,
+            "display_zoom_link_in_invite": True,  # Autopilot enables this
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # Zoom display checkbox should now be checked
+        self.assertIn("### Display Zoom Link in Calendar Invite (Optional)\n\n- [x]", result)
+
+    def test_update_custom_meeting_link_checkbox(self):
+        """Test that custom meeting link checkbox reflects autopilot setting."""
+        # Test with external_meeting_link enabled (e.g., Stateless Implementers)
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 60,
+            "occurrence_rate": "weekly",
+            "need_youtube_streams": False,
+            "display_zoom_link_in_invite": False,
+            "skip_zoom_creation": True  # External meeting link
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # Custom meeting link checkbox should now be checked
+        self.assertIn("### Use Custom Meeting Link (Optional)\n\n- [x]", result)
+
+    def test_uncheck_youtube_when_autopilot_disables(self):
+        """Test that YouTube checkbox is unchecked when autopilot disables it."""
+        # Issue body with YouTube already checked
+        body_with_youtube = self.sample_issue_body.replace(
+            "### YouTube Livestream Link (Optional)\n\n- [ ]",
+            "### YouTube Livestream Link (Optional)\n\n- [x]"
+        )
+
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 60,
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": False,  # Autopilot disables YouTube
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(body_with_youtube, call_data)
+
+        # YouTube checkbox should now be unchecked
+        self.assertIn("### YouTube Livestream Link (Optional)\n\n- [ ]", result)
+
+    def test_all_values_updated_together(self):
+        """Test that all config values are updated together for a complete autopilot scenario."""
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": True,
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # Check all values are updated
+        self.assertIn("90 minutes", result)
+        self.assertIn("### Occurrence Rate\n\nbi-weekly", result)
+        self.assertIn("### YouTube Livestream Link (Optional)\n\n- [x]", result)
+        self.assertIn("### Display Zoom Link in Calendar Invite (Optional)\n\n- [x]", result)
+        self.assertIn("### Use Custom Meeting Link (Optional)\n\n- [ ]", result)
+
+    def test_preserves_other_content(self):
+        """Test that updating autopilot values doesn't affect other issue content."""
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": True,
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # Other content should be preserved
+        self.assertIn("### UTC Date & Time", result)
+        self.assertIn("April 24, 2025, 14:00 UTC", result)
+        self.assertIn("### Agenda", result)
+        self.assertIn("- Agenda item 1", result)
+        self.assertIn("- Agenda item 2", result)
+        self.assertIn("### Call Series", result)
+        self.assertIn("All Core Devs - Execution", result)
+        self.assertIn("### Autopilot Mode", result)
+
+    def test_handles_missing_call_data_fields_gracefully(self):
+        """Test that missing fields in call_data don't cause errors."""
+        # Minimal call_data with only some fields
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90
+            # Other fields missing
+        }
+
+        # Should not raise an exception
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # Duration should be updated
+        self.assertIn("90 minutes", result)
+
+    def test_handles_empty_issue_body(self):
+        """Test that empty issue body is handled gracefully."""
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly"
+        }
+
+        result = self.handler._update_displayed_autopilot_values("", call_data)
+        self.assertEqual(result, "")
+
+    def test_form_parser_compatibility_after_update(self):
+        """Test that updated issue body can still be parsed correctly."""
+        from modules.form_parser import FormParser
+        parser = FormParser()
+
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": True,
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        result = self.handler._update_displayed_autopilot_values(self.sample_issue_body, call_data)
+
+        # Parse the updated body
+        parsed = parser.parse_form_data(result)
+
+        # Verify parsed values match the autopilot values
+        self.assertEqual(parsed["duration"], 90)
+        self.assertEqual(parsed["occurrence_rate"], "bi-weekly")
+        self.assertTrue(parsed["need_youtube_streams"])
+        self.assertTrue(parsed["display_zoom_link_in_invite"])
+        self.assertFalse(parsed["skip_zoom_creation"])
+
+    def test_clean_issue_body_if_needed_calls_update_with_autopilot(self):
+        """Test that _clean_issue_body_if_needed calls _update_displayed_autopilot_values when autopilot is enabled."""
+        mock_issue = unittest.mock.MagicMock()
+        mock_issue.body = self.sample_issue_body
+
+        call_data = {
+            "autopilot_mode": True,
+            "duration": 90,
+            "occurrence_rate": "bi-weekly",
+            "need_youtube_streams": True,
+            "display_zoom_link_in_invite": True,
+            "skip_zoom_creation": False
+        }
+
+        with unittest.mock.patch.object(self.handler, '_update_displayed_autopilot_values', wraps=self.handler._update_displayed_autopilot_values) as mock_update:
+            self.handler._clean_issue_body_if_needed(mock_issue, call_data)
+
+            # Verify _update_displayed_autopilot_values was called
+            mock_update.assert_called_once()
+
+    def test_clean_issue_body_if_needed_skips_update_without_autopilot(self):
+        """Test that _clean_issue_body_if_needed doesn't call _update_displayed_autopilot_values when autopilot is disabled."""
+        mock_issue = unittest.mock.MagicMock()
+        mock_issue.body = self.sample_issue_body
+
+        call_data = {
+            "autopilot_mode": False,
+            "duration": 60,
+            "occurrence_rate": "weekly"
+        }
+
+        with unittest.mock.patch.object(self.handler, '_update_displayed_autopilot_values') as mock_update:
+            self.handler._clean_issue_body_if_needed(mock_issue, call_data)
+
+            # Verify _update_displayed_autopilot_values was NOT called
+            mock_update.assert_not_called()
+
+    def test_clean_issue_body_if_needed_skips_update_without_call_data(self):
+        """Test that _clean_issue_body_if_needed works without call_data (backwards compatibility)."""
+        mock_issue = unittest.mock.MagicMock()
+        mock_issue.body = self.sample_issue_body
+
+        with unittest.mock.patch.object(self.handler, '_update_displayed_autopilot_values') as mock_update:
+            # Call without call_data
+            self.handler._clean_issue_body_if_needed(mock_issue)
+
+            # Verify _update_displayed_autopilot_values was NOT called
+            mock_update.assert_not_called()
 
 
 if __name__ == '__main__':
