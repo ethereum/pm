@@ -1,0 +1,50 @@
+name: Update Artifacts Manifest
+
+on:
+  push:
+    branches:
+      - master
+      - asset-pipeline  # TODO: Remove after testing
+    paths:
+      - '.github/ACDbot/artifacts/**'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Generate manifest
+        run: |
+          cd .github/ACDbot/scripts/asset_pipeline
+          python generate_manifest.py
+
+      - name: Check for manifest changes
+        id: check_changes
+        run: |
+          if git diff --quiet .github/ACDbot/artifacts/manifest.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit manifest if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/ACDbot/artifacts/manifest.json
+          git commit -m "Update artifacts manifest"
+          git push
