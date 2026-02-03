@@ -108,7 +108,10 @@ def get_access_token():
 
             # Save to a temporary file in a shared location that can be read by other workflow steps
             try:
-                token_dir = os.path.join(os.getcwd(), ".github", "ACDbot", "tokens")
+                # Use absolute path relative to this module's location, not cwd
+                module_dir = os.path.dirname(os.path.abspath(__file__))
+                acdbot_dir = os.path.dirname(module_dir)  # Go up from modules/ to ACDbot/
+                token_dir = os.path.join(acdbot_dir, "tokens")
                 os.makedirs(token_dir, exist_ok=True)
                 token_file = os.path.join(token_dir, "zoom_new_refresh_token.txt")
                 with open(token_file, "w") as f:

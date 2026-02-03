@@ -11,41 +11,152 @@ Runs the full asset pipeline for a meeting:
 """
 
 import argparse
+import json
 import os
+import re
 import subprocess
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from utils import SCRIPT_DIR, ARTIFACTS_DIR, find_call_directory
 
+ACDBOT_DIR = SCRIPT_DIR.parent.parent
+MAPPING_FILE = ACDBOT_DIR / "meeting_topic_mapping.json"
 
-def find_most_recent_directory(call: str) -> tuple[Path, int] | None:
-    """Find the most recent meeting directory for a call series."""
-    call_dir = ARTIFACTS_DIR / call
-    if not call_dir.exists():
+
+def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) -> tuple[str, int] | None:
+    """
+    Find the most recent occurrence from the mapping file.
+    Returns (date, number) tuple or None if not found or too old.
+
+    Args:
+        call: The call series name
+        max_age_days: If set, only return meetings within this many days
+    """
+    if not MAPPING_FILE.exists():
         return None
 
-    # Get all directories, sort by name (date_number format)
-    dirs = sorted(
-        [d for d in call_dir.iterdir() if d.is_dir()],
-        key=lambda x: x.name,
+    try:
+        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
+            mapping = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return None
+
+    series_data = mapping.get(call)
+    if not series_data or 'occurrences' not in series_data:
+        return None
+
+    occurrences = series_data['occurrences']
+    if not occurrences:
+        return None
+
+    # Sort by start_time descending to get most recent
+    sorted_occs = sorted(
+        occurrences,
+        key=lambda x: x.get('start_time', ''),
         reverse=True
     )
 
-    if not dirs:
+    most_recent = sorted_occs[0]
+    start_time = most_recent.get('start_time', '')
+    if not start_time:
         return None
 
-    most_recent = dirs[0]
-    # Extract number from directory name (e.g., "2024-12-12_226" -> 226)
-    parts = most_recent.name.split("_")
-    if len(parts) >= 2:
+    # Check if meeting is too old
+    if max_age_days is not None:
         try:
-            number = int(parts[-1])
-            return most_recent, number
+            meeting_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+            cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
+            if meeting_dt < cutoff:
+                return None
         except ValueError:
-            pass
+            pass  # If we can't parse the date, continue anyway
 
-    return most_recent, None
+    # Extract date from ISO format (e.g., "2026-02-03T15:00:00Z" -> "2026-02-03")
+    date = start_time.split('T')[0]
+
+    # Try to extract meeting number from issue_title
+    issue_title = most_recent.get('issue_title', '')
+    number = None
+
+    # Common patterns: "#1", "Call #21", "Breakout #10", etc.
+    match = re.search(r'#(\d+)', issue_title)
+    if match:
+        number = int(match.group(1))
+    else:
+        # Try occurrence_number as fallback
+        number = most_recent.get('occurrence_number')
+
+    return date, number
+
+
+def get_all_series_from_mapping() -> list[str]:
+    """Get all series names from the mapping file."""
+    if not MAPPING_FILE.exists():
+        return []
+
+    try:
+        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
+            mapping = json.load(f)
+        return list(mapping.keys())
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
+def find_most_recent_directory(call: str, max_age_days: int | None = None) -> tuple[Path | str, int] | None:
+    """
+    Find the most recent meeting for a call series.
+    First checks existing artifacts, then falls back to mapping file.
+    Returns (path_or_date, number) tuple or None.
+
+    Args:
+        call: The call series name
+        max_age_days: If set, only return meetings within this many days
+    """
+    call_dir = ARTIFACTS_DIR / call
+
+    # First, check existing artifact directories
+    if call_dir.exists():
+        dirs = sorted(
+            [d for d in call_dir.iterdir() if d.is_dir()],
+            key=lambda x: x.name,
+            reverse=True
+        )
+
+        if dirs:
+            most_recent = dirs[0]
+            # Check age if max_age_days is set
+            if max_age_days is not None:
+                try:
+                    # Extract date from directory name (e.g., "2024-12-12_226")
+                    date_str = most_recent.name.split("_")[0]
+                    meeting_dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                    cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
+                    if meeting_dt < cutoff:
+                        return None  # Too old
+                except ValueError:
+                    pass  # If we can't parse, continue
+
+            # Extract number from directory name (e.g., "2024-12-12_226" -> 226)
+            parts = most_recent.name.split("_")
+            if len(parts) >= 2:
+                try:
+                    number = int(parts[-1])
+                    return most_recent, number
+                except ValueError:
+                    pass
+            return most_recent, None
+
+    # Fall back to mapping file for series without artifacts yet
+    result = find_most_recent_from_mapping(call, max_age_days)
+    if result:
+        date, number = result
+        print(f"📋 No existing artifacts found, using mapping file")
+        print(f"   Most recent occurrence: {date}, #{number}")
+        return date, number
+
+    return None
 
 
 def run_step(name: str, cmd: list[str], check: bool = True) -> bool:
@@ -149,6 +260,10 @@ def main():
                         help='Generate structured summary (tldr.json) after corrections')
     parser.add_argument('--include-zoom-summary', action='store_true',
                         help='Download Zoom meeting summary (summary.json) during asset download')
+    parser.add_argument('--auto-approve', action='store_true',
+                        help='Auto-approve corrections without interactive review (for CI/automation)')
+    parser.add_argument('--max-age-days', type=int, default=None,
+                        help='Only process meetings within this many days (for CI, e.g., --max-age-days 7)')
     args = parser.parse_args()
 
     # Validate arguments
@@ -159,19 +274,37 @@ def main():
     number = args.number
 
     # If --recent, find the most recent meeting
+    recent_date = None  # Track if we got date from mapping file
     if args.recent:
-        result = find_most_recent_directory(call)
+        result = find_most_recent_directory(call, args.max_age_days)
         if result is None:
-            print(f"❌ No meetings found for series '{call}'")
-            sys.exit(1)
-        meeting_dir, number = result
-        if number:
-            print(f"📋 Most recent meeting: {call} #{number}")
+            if args.max_age_days:
+                # Not an error - just no recent meetings within the cutoff
+                print(f"⏭️  No recent meetings (within {args.max_age_days} days) for series '{call}'")
+                sys.exit(0)
+            else:
+                print(f"❌ No meetings found for series '{call}'")
+                sys.exit(1)
+        meeting_dir_or_date, number = result
+
+        # Check if result is a Path (existing artifacts) or string (date from mapping)
+        if isinstance(meeting_dir_or_date, Path):
+            meeting_dir = meeting_dir_or_date
+            if number:
+                print(f"📋 Most recent meeting: {call} #{number}")
+            else:
+                print(f"📋 Most recent meeting directory: {meeting_dir.name}")
         else:
-            print(f"📋 Most recent meeting directory: {meeting_dir.name}")
+            # Got a date string from mapping file
+            recent_date = meeting_dir_or_date
+            meeting_dir = None
+            print(f"📋 Most recent meeting: {call} #{number} on {recent_date}")
+    else:
+        meeting_dir = None
 
     # Check if meeting directory exists (for --resume)
-    meeting_dir = find_call_directory(call, number, raise_on_missing=False) if number else None
+    if number and not meeting_dir:
+        meeting_dir = find_call_directory(call, number, raise_on_missing=False)
 
     print(f"\n🚀 Asset Pipeline: {call} #{number}")
     print(f"{'='*60}")
@@ -182,7 +315,10 @@ def main():
             sys.executable, "download_zoom_assets.py",
             "--series-name", call,
         ]
-        if args.recent:
+        if recent_date:
+            # Use date from mapping file
+            download_cmd.extend(["--date", recent_date])
+        elif args.recent:
             download_cmd.extend(["--recent", "1"])
         elif number:
             # Use --date if we can find it from directory, otherwise use --recent
@@ -242,8 +378,12 @@ def main():
         print("   Run without --resume to generate it")
         sys.exit(1)
 
-    # Step 3: Review (pause)
-    review_result = prompt_review(changelog_path, args.open_editor)
+    # Step 3: Review (pause) - skip in auto-approve mode
+    if args.auto_approve:
+        print(f"\n⚡ Auto-approve mode: applying corrections without review")
+        review_result = 'y'
+    else:
+        review_result = prompt_review(changelog_path, args.open_editor)
 
     if review_result == 'n':
         print("\n❌ Pipeline aborted by user")
@@ -262,8 +402,8 @@ def main():
 
     # Step 5: Generate summary (optional)
     tldr_path = meeting_dir / "tldr.json"
-    run_summary = args.summarize
-    if not run_summary:
+    run_summary = args.summarize  # In auto-approve mode, only run if --summarize is set
+    if not run_summary and not args.auto_approve:
         run_summary = prompt_yes_no("\n📝 Generate structured summary (tldr.json)?")
 
     if run_summary:

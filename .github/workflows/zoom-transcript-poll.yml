@@ -31,7 +31,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -e .github/ACDbot/
-          pip install pytz google-api-python-client
+          pip install pytz google-api-python-client anthropic pyyaml
           pip install -r .github/ACDbot/requirements.txt
 
       - name: Poll Zoom for recordings
@@ -60,7 +60,27 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
 
-      - name: Commit mapping file
+      - name: Run asset pipeline for recent meetings
+        if: success()
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
+        run: |
+          cd .github/ACDbot/scripts/asset_pipeline
+
+          # Get all series from the mapping file
+          SERIES=$(python -c "import json; m=json.load(open('../../meeting_topic_mapping.json')); print(' '.join(m.keys()))")
+
+          # Process recent meetings for all series (within 3 days, auto-approve, with summaries)
+          for series in $SERIES; do
+            echo "Processing $series..."
+            python run_pipeline.py -c "$series" --recent --max-age-days 3 --auto-approve --summarize
+          done
+
+      - name: Generate manifest and commit all changes
         if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,12 +88,21 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          if git diff --quiet .github/ACDbot/meeting_topic_mapping.json; then
-            echo "No changes to mapping file"
+          # Generate manifest
+          cd .github/ACDbot/scripts/asset_pipeline
+          python generate_manifest.py
+          cd -
+
+          # Stage all changed files
+          git add .github/ACDbot/meeting_topic_mapping.json
+          git add .github/ACDbot/artifacts/
+
+          # Check if there are any staged changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
           else
-            git add .github/ACDbot/meeting_topic_mapping.json
-            git commit -m "Update meeting-topic mapping"
+            git commit -m "Update meeting mapping, artifacts, and manifest"
             git pull --rebase
             git push
-            echo "Committed mapping file changes"
+            echo "Committed all changes"
           fi
