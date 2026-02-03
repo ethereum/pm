@@ -7,7 +7,8 @@ Generate a structured JSON summary of the Ethereum Core Developer meeting with h
 - summary.json - AI-generated summary (optional/supplemental)
 ## Output Format
 Generate a JSON structure with the following schema:
-json
+
+```json
 {
   "meeting": "[Meeting Name] - [Date]",
   "highlights": {
@@ -38,6 +39,7 @@ json
     }
   ]
 }
+```
 
 ## Category Guidelines
 Use these standard categories for highlights (add others as needed):

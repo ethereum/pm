@@ -4,29 +4,12 @@ Apply corrections from transcript_changelog.tsv to a VTT transcript.
 Replaces all occurrences of each original term with its correction.
 """
 
-import csv
 import argparse
+import csv
 from dataclasses import dataclass
 from pathlib import Path
 
-# Base paths relative to this script
-SCRIPT_DIR = Path(__file__).parent
-ARTIFACTS_DIR = SCRIPT_DIR.parent.parent / "artifacts"
-
-
-def find_call_directory(call: str, number: int) -> Path:
-    """Find the directory for a given call type and number."""
-    call_dir = ARTIFACTS_DIR / call
-    if not call_dir.exists():
-        raise FileNotFoundError(f"Call type directory not found: {call_dir}")
-
-    # Find directory ending with _{number} (check both zero-padded and non-padded)
-    padded = str(number).zfill(3)
-    for d in call_dir.iterdir():
-        if d.is_dir() and (d.name.endswith(f"_{padded}") or d.name.endswith(f"_{number}")):
-            return d
-
-    raise FileNotFoundError(f"No directory found for {call} #{number}")
+from utils import find_call_directory
 
 
 @dataclass
@@ -36,11 +19,18 @@ class Change:
     confidence: str
 
 
-def load_changelog(path: str) -> list[Change]:
+def load_changelog(path: Path) -> list[Change]:
     """Load changelog from TSV file."""
     changes = []
     with open(path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
+
+        # Validate required columns
+        required_cols = {'original', 'corrected', 'confidence'}
+        if not required_cols.issubset(reader.fieldnames or []):
+            missing = required_cols - set(reader.fieldnames or [])
+            raise ValueError(f"Changelog missing required columns: {missing}")
+
         for row in reader:
             changes.append(Change(
                 original=row['original'],

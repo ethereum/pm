@@ -6,13 +6,15 @@ Review transcript_changelog.tsv before applying with apply_changelog.py
 
 import argparse
 import csv
-import re
 from pathlib import Path
-from dotenv import load_dotenv
+
 import anthropic
+from dotenv import load_dotenv
 
 # Load .env from ACDbot directory
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
+
+from utils import SCRIPT_DIR, find_call_directory, calculate_cost
 
 PROMPT = """## Task
 Identify misspelled Ethereum-specific terms in this WebVTT transcript that should be corrected.
@@ -51,32 +53,7 @@ If no changes needed, return only the header row.
 {transcript}
 """
 
-MODEL_PRICING = {
-    # Pricing per million tokens (input, output)
-    "claude-opus-4-5-20251101": (15.00, 75.00),
-    "claude-sonnet-4-20250514": (3.00, 15.00),
-    "claude-haiku-3-5-20241022": (0.80, 4.00),
-}
-
-# Base paths relative to this script
-SCRIPT_DIR = Path(__file__).parent
-ARTIFACTS_DIR = SCRIPT_DIR.parent.parent / "artifacts"
 DEFAULT_VOCAB = SCRIPT_DIR / "ethereum_vocab.yaml"
-
-
-def find_call_directory(call: str, number: int) -> Path:
-    """Find the directory for a given call type and number."""
-    call_dir = ARTIFACTS_DIR / call
-    if not call_dir.exists():
-        raise FileNotFoundError(f"Call type directory not found: {call_dir}")
-
-    # Find directory ending with _{number} (check both zero-padded and non-padded)
-    padded = str(number).zfill(3)
-    for d in call_dir.iterdir():
-        if d.is_dir() and (d.name.endswith(f"_{padded}") or d.name.endswith(f"_{number}")):
-            return d
-
-    raise FileNotFoundError(f"No directory found for {call} #{number}")
 
 def generate_changelog(transcript: str, vocab: str, model: str = "claude-opus-4-5-20251101"):
     """Call Claude API to generate changelog. Returns (text, usage_dict)."""
@@ -84,7 +61,7 @@ def generate_changelog(transcript: str, vocab: str, model: str = "claude-opus-4-
 
     message = client.messages.create(
         model=model,
-        max_tokens=8096,
+        max_tokens=8192,
         messages=[
             {"role": "user", "content": PROMPT.format(vocab=vocab, transcript=transcript)}
         ]
@@ -95,14 +72,6 @@ def generate_changelog(transcript: str, vocab: str, model: str = "claude-opus-4-
         "output_tokens": message.usage.output_tokens,
     }
     return message.content[0].text, usage
-
-
-def calculate_cost(model: str, usage: dict) -> float:
-    """Calculate cost in USD based on model and token usage."""
-    input_price, output_price = MODEL_PRICING.get(model, (0, 0))
-    input_cost = (usage["input_tokens"] / 1_000_000) * input_price
-    output_cost = (usage["output_tokens"] / 1_000_000) * output_price
-    return input_cost + output_cost
 
 def parse_response(response: str) -> list[tuple]:
     """Parse Claude's TSV response into list of tuples."""

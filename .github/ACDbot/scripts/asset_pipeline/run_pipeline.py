@@ -16,26 +16,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-SCRIPT_DIR = Path(__file__).parent
-ARTIFACTS_DIR = SCRIPT_DIR.parent.parent / "artifacts"
-
-
-def find_call_directory(call: str, number: int) -> Path:
-    """Find the directory for a given call type and number."""
-    call_dir = ARTIFACTS_DIR / call
-    if not call_dir.exists():
-        return None
-
-    # Find directory ending with _{number} (zero-padded to 3 digits)
-    padded = str(number).zfill(3)
-    for d in call_dir.iterdir():
-        if d.is_dir() and d.name.endswith(f"_{padded}"):
-            return d
-        # Also check non-padded
-        if d.is_dir() and d.name.endswith(f"_{number}"):
-            return d
-
-    return None
+from utils import SCRIPT_DIR, ARTIFACTS_DIR, find_call_directory
 
 
 def find_most_recent_directory(call: str) -> tuple[Path, int] | None:
@@ -107,7 +88,7 @@ def prompt_review(changelog_path: Path, open_editor: bool = False) -> str:
 
     # Show preview of corrections
     if changelog_path.exists():
-        with open(changelog_path, 'r') as f:
+        with open(changelog_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
         correction_count = len(lines) - 1  # Subtract header
         print(f"📊 Found {correction_count} suggested corrections\n")
@@ -190,7 +171,7 @@ def main():
             print(f"📋 Most recent meeting directory: {meeting_dir.name}")
 
     # Check if meeting directory exists (for --resume)
-    meeting_dir = find_call_directory(call, number) if number else None
+    meeting_dir = find_call_directory(call, number, raise_on_missing=False) if number else None
 
     print(f"\n🚀 Asset Pipeline: {call} #{number}")
     print(f"{'='*60}")
@@ -225,7 +206,7 @@ def main():
 
     # Verify meeting directory exists
     if number:
-        meeting_dir = find_call_directory(call, number)
+        meeting_dir = find_call_directory(call, number, raise_on_missing=False)
 
     if not meeting_dir or not meeting_dir.exists():
         print(f"❌ Meeting directory not found for {call} #{number}")

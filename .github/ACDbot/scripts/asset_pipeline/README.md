@@ -183,7 +183,7 @@ Options:
 - `--number`, `-n`: Call number
 - `--dir`, `-d`: Meeting directory (alternative to --call/--number)
 - `--prompt`, `-p`: Custom prompt file (default: `scripts/prompts/summarize.md`)
-- `--model`, `-m`: Claude model (default: `claude-3-5-sonnet-20241022`)
+- `--model`, `-m`: Claude model (default: `claude-sonnet-4-5-20250929`)
 - `--force`, `-f`: Regenerate even if `tldr.json` exists
 
 The script fetches the meeting agenda from the GitHub issue and uses it along with the transcript and chat to generate a structured summary with highlights, action items, decisions, and targets.

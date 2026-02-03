@@ -6,21 +6,20 @@ Uses Claude API with meeting transcript, chat, and GitHub issue agenda.
 
 import argparse
 import json
-import os
 import re
 import sys
 from html import unescape
 from pathlib import Path
 
+import anthropic
 import requests
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
-# Base paths relative to this script
-SCRIPT_DIR = Path(__file__).parent
-ARTIFACTS_DIR = SCRIPT_DIR.parent.parent / "artifacts"
+from utils import SCRIPT_DIR, find_call_directory, calculate_cost
+
 DEFAULT_PROMPT = SCRIPT_DIR / "prompts" / "summarize.md"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
@@ -43,33 +42,6 @@ def get_example_summary(call_type: str) -> str:
     if fallback.exists():
         return fallback.read_text()
     return ""
-
-MODEL_PRICING = {
-    # Pricing per million tokens (input, output)
-    "claude-opus-4-5-20251101": (15.00, 75.00),
-    "claude-sonnet-4-5-20250929": (3.00, 15.00),
-    "claude-sonnet-4-20250514": (3.00, 15.00),
-    "claude-3-5-sonnet-20241022": (3.00, 15.00),
-    "claude-haiku-3-5-20241022": (0.80, 4.00),
-}
-
-
-def find_call_directory(call: str, number: int) -> Path:
-    """Find the directory for a given call type and number."""
-    call_dir = ARTIFACTS_DIR / call
-    if not call_dir.exists():
-        raise FileNotFoundError(f"Call type directory not found: {call_dir}")
-
-    # Find directory ending with _{number} (zero-padded to 3 digits)
-    padded = str(number).zfill(3)
-    for d in call_dir.iterdir():
-        if d.is_dir() and d.name.endswith(f"_{padded}"):
-            return d
-        # Also check non-padded
-        if d.is_dir() and d.name.endswith(f"_{number}"):
-            return d
-
-    raise FileNotFoundError(f"No directory found for {call} #{number}")
 
 
 def fetch_github_issue_agenda(issue_number: int, repo: str = "ethereum/pm") -> str | None:
@@ -137,14 +109,6 @@ def fetch_github_issue_agenda(issue_number: int, repo: str = "ethereum/pm") -> s
         return None
 
 
-def calculate_cost(model: str, usage: dict) -> float:
-    """Calculate cost in USD based on model and token usage."""
-    input_price, output_price = MODEL_PRICING.get(model, (0, 0))
-    input_cost = (usage["input_tokens"] / 1_000_000) * input_price
-    output_cost = (usage["output_tokens"] / 1_000_000) * output_price
-    return input_cost + output_cost
-
-
 def generate_summary(
     meeting_dir: Path,
     prompt_file: Path,
@@ -153,11 +117,6 @@ def generate_summary(
     force: bool = False
 ) -> bool:
     """Generate tldr.json using Claude API."""
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        print("ANTHROPIC_API_KEY not found in environment")
-        return False
-
     # Paths
     config_path = meeting_dir / "config.json"
     transcript_path = meeting_dir / "transcript.vtt"
@@ -181,7 +140,7 @@ def generate_summary(
 
     # Load config for issue number
     try:
-        with open(config_path) as f:
+        with open(config_path, encoding='utf-8') as f:
             config = json.load(f)
         issue_number = config.get("issue")
         if not issue_number:
@@ -211,6 +170,14 @@ def generate_summary(
     # Load chat (optional)
     chat = chat_path.read_text() if chat_path.exists() else ""
 
+    # Load Zoom AI summary (optional)
+    zoom_summary = ""
+    if summary_path.exists():
+        try:
+            zoom_summary = summary_path.read_text()
+        except Exception:
+            pass
+
     # Load example summary for reference (based on call type)
     example_summary = get_example_summary(call_type)
 
@@ -233,7 +200,7 @@ def generate_summary(
 
 ## Zoom AI Summary (summary.json)
 
-{("(Available at summary.json)" if summary_path.exists() else "(No summary file available)")}
+{zoom_summary if zoom_summary else "(No summary file available)"}
 
 ---
 
@@ -241,41 +208,20 @@ def generate_summary(
 
     # Call Claude API
     print(f"Calling {model}...")
-    headers = {
-        "x-api-key": api_key,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json"
-    }
-
-    payload = {
-        "model": model,
-        "max_tokens": 16000,
-        "messages": [{"role": "user", "content": full_prompt}]
-    }
-
     try:
-        response = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers=headers,
-            json=payload,
-            timeout=300
+        client = anthropic.Anthropic()
+        message = client.messages.create(
+            model=model,
+            max_tokens=16000,
+            messages=[{"role": "user", "content": full_prompt}]
         )
 
-        if response.status_code != 200:
-            print(f"API request failed: {response.status_code} - {response.text}")
-            return False
-
-        result = response.json()
         usage = {
-            "input_tokens": result.get("usage", {}).get("input_tokens", 0),
-            "output_tokens": result.get("usage", {}).get("output_tokens", 0),
+            "input_tokens": message.usage.input_tokens,
+            "output_tokens": message.usage.output_tokens,
         }
 
-        if "content" not in result or not result["content"]:
-            print("Unexpected API response format")
-            return False
-
-        response_text = result["content"][0]["text"]
+        response_text = message.content[0].text
 
         # Extract JSON from response
         json_match = re.search(r'```json\s*(.*?)\s*```', response_text, re.DOTALL)
@@ -288,7 +234,7 @@ def generate_summary(
         # Parse and save
         try:
             tldr_data = json.loads(json_str)
-            with open(tldr_path, 'w') as f:
+            with open(tldr_path, 'w', encoding='utf-8') as f:
                 json.dump(tldr_data, f, indent=2)
 
             cost = calculate_cost(model, usage)
@@ -301,6 +247,9 @@ def generate_summary(
             print(f"Response was not valid JSON: {e}")
             return False
 
+    except anthropic.APIError as e:
+        print(f"API request failed: {e}")
+        return False
     except Exception as e:
         print(f"Error calling API: {e}")
         return False

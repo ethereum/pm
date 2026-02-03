@@ -8,36 +8,35 @@ for a given Zoom meeting ID or for recent instances of a recurring meeting serie
 
 import argparse
 import json
-import os
 import re
 import sys
 import traceback
 from collections import defaultdict
+from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Base paths relative to this script
+SCRIPT_DIR = Path(__file__).parent
+ACDBOT_DIR = SCRIPT_DIR.parent.parent
+ARTIFACTS_DIR = ACDBOT_DIR / "artifacts"
+MAPPING_FILE_PATH = ACDBOT_DIR / "meeting_topic_mapping.json"
+
+# Load environment variables from the correct location
+load_dotenv(ACDBOT_DIR / ".env")
 
 # Add modules to path
-modules_path = os.path.join(os.path.dirname(__file__), '..', '..', 'modules')
-sys.path.insert(0, modules_path)
+sys.path.insert(0, str(ACDBOT_DIR / "modules"))
 
 # Import zoom module after path is set
 import zoom
-
 from mapping_manager import MappingManager
 
-# Load environment variables from the correct location
-script_dir = os.path.dirname(__file__)
-env_path = os.path.join(script_dir, '..', '..', '.env')
-load_dotenv(env_path)
+# Maximum meeting number for validation (reasonable upper bound)
+MAX_MEETING_NUMBER = 999
 
-# Compute absolute path to mapping file (relative paths break when cwd changes)
-MAPPING_FILE_PATH = os.path.abspath(os.path.join(script_dir, '..', '..', 'meeting_topic_mapping.json'))
-
-def download_file(url, token, path):
+def download_file(url: str, token: str, path: Path) -> bool:
     """Download a file from a URL with authentication."""
     headers = {"Authorization": f"Bearer {token}"}
     try:
@@ -46,13 +45,13 @@ def download_file(url, token, path):
             with open(path, 'wb') as f:
                 f.write(response.content)
             file_size = len(response.content)
-            print(f"  ✅ Downloaded {os.path.basename(path)} ({file_size / 1024:.1f} KB)")
+            print(f"  ✅ Downloaded {path.name} ({file_size / 1024:.1f} KB)")
             return True
         else:
-            print(f"  ❌ Failed to download {os.path.basename(path)}: {response.status_code} {response.text}")
+            print(f"  ❌ Failed to download {path.name}: {response.status_code} {response.text}")
             return False
     except Exception as e:
-        print(f"  ❌ Failed to download {os.path.basename(path)}: {e}")
+        print(f"  ❌ Failed to download {path.name}: {e}")
         return False
 
 def extract_meeting_number(topic, series_name):
@@ -83,7 +82,7 @@ def extract_meeting_number(topic, series_name):
         if match:
             number = match.group(1)
             # Validate it looks like a reasonable meeting number (not year, etc.)
-            if 1 <= int(number) <= 500:  # Reasonable range for meeting numbers
+            if 1 <= int(number) <= MAX_MEETING_NUMBER:
                 return number
 
     return None
@@ -122,7 +121,7 @@ def get_youtube_video_url(occurrence):
 
     return None
 
-def create_config_json(meeting_dir, occurrence):
+def create_config_json(meeting_dir: Path, occurrence: dict | None) -> None:
     """Create config.json file with issue number and YouTube video URL."""
     if not occurrence:
         print("   ⚠️  No occurrence data found - skipping config.json creation")
@@ -140,9 +139,9 @@ def create_config_json(meeting_dir, occurrence):
         }
     }
 
-    config_path = os.path.join(meeting_dir, 'config.json')
+    config_path = meeting_dir / 'config.json'
     try:
-        with open(config_path, 'w') as f:
+        with open(config_path, 'w', encoding='utf-8') as f:
             json.dump(config_data, f, indent=2)
         print(f"  ✅ Created config.json with issue #{issue_number}")
         if video_url:
@@ -152,7 +151,12 @@ def create_config_json(meeting_dir, occurrence):
     except Exception as e:
         print(f"  ❌ Failed to create config.json: {e}")
 
-def download_assets_for_meeting(recording_data, series_name, access_token, include_summary=False):
+def download_assets_for_meeting(
+    recording_data: dict,
+    series_name: str,
+    access_token: str,
+    include_summary: bool = False
+) -> None:
     """Downloads assets from recording data for a single meeting instance."""
     if not recording_data or not recording_data.get('recording_files'):
         print("   No recording files found for this meeting instance.")
@@ -182,10 +186,8 @@ def download_assets_for_meeting(recording_data, series_name, access_token, inclu
             print(f"   📋 Meeting topic: {topic} (no meeting number found)")
 
     # Create directory structure
-    script_dir = os.path.dirname(__file__)
-    artifacts_dir = os.path.abspath(os.path.join(script_dir, '..', '..', 'artifacts'))
-    series_dir = os.path.join(artifacts_dir, series_name)
-    meeting_dir = os.path.join(series_dir, dir_name)
+    series_dir = ARTIFACTS_DIR / series_name
+    meeting_dir = series_dir / dir_name
 
     # Check if assets already exist
     asset_map = {
@@ -196,19 +198,19 @@ def download_assets_for_meeting(recording_data, series_name, access_token, inclu
 
     existing_assets = []
     for file_type, filename in asset_map.items():
-        filepath = os.path.join(meeting_dir, filename)
-        if os.path.exists(filepath):
+        filepath = meeting_dir / filename
+        if filepath.exists():
             existing_assets.append(filename)
 
     # Check if summary exists (only relevant if include_summary is True)
-    summary_path = os.path.join(meeting_dir, 'summary.json')
-    summary_exists = os.path.exists(summary_path)
+    summary_path = meeting_dir / 'summary.json'
+    summary_exists = summary_path.exists()
     if summary_exists:
         existing_assets.append('summary.json')
 
     # Check if config.json exists
-    config_path = os.path.join(meeting_dir, 'config.json')
-    config_exists = os.path.exists(config_path)
+    config_path = meeting_dir / 'config.json'
+    config_exists = config_path.exists()
 
     # Determine if all required assets exist
     summary_satisfied = summary_exists if include_summary else True
@@ -216,10 +218,10 @@ def download_assets_for_meeting(recording_data, series_name, access_token, inclu
         print(f"   ⏭️  Skipping {date_part} - all assets already exist: {', '.join(existing_assets)}, config.json")
         return
 
-    os.makedirs(meeting_dir, exist_ok=True)
+    meeting_dir.mkdir(parents=True, exist_ok=True)
 
     # Find occurrence data for config.json creation
-    mapping_manager = MappingManager(MAPPING_FILE_PATH)
+    mapping_manager = MappingManager(str(MAPPING_FILE_PATH))
     occurrence = find_occurrence_by_date_and_series(date_part, series_name, mapping_manager)
 
     # Create config.json if it doesn't exist
@@ -236,8 +238,8 @@ def download_assets_for_meeting(recording_data, series_name, access_token, inclu
         file_type = file_info.get('file_type')
         if file_type in asset_map:
             filename = asset_map[file_type]
-            filepath = os.path.join(meeting_dir, filename)
-            if not os.path.exists(filepath):
+            filepath = meeting_dir / filename
+            if not filepath.exists():
                 assets_to_download.append((file_info, filename, filepath))
 
     for file_info, filename, filepath in assets_to_download:
@@ -261,7 +263,7 @@ def download_assets_for_meeting(recording_data, series_name, access_token, inclu
                     }
                     filtered_summary = {k: v for k, v in summary_data.items() if k not in keys_to_omit}
 
-                    with open(summary_path, 'w') as f:
+                    with open(summary_path, 'w', encoding='utf-8') as f:
                         json.dump(filtered_summary, f, indent=2)
                     print(f"   ✅ Downloaded summary.json")
                     download_count += 1
@@ -278,19 +280,30 @@ def download_assets_for_meeting(recording_data, series_name, access_token, inclu
         print("   No new assets found to download for this instance.")
 
 
-def process_single_meeting(meeting_id, series_name, access_token, include_summary=False):
+def process_single_meeting(
+    meeting_id: str,
+    series_name: str,
+    access_token: str,
+    include_summary: bool = False
+) -> None:
     """Process a single meeting by its ID or UUID."""
     print(f"📋 Getting recordings for meeting: {meeting_id}...")
     recording_data = zoom.get_meeting_recording(meeting_id)
     download_assets_for_meeting(recording_data, series_name, access_token, include_summary)
 
 
-def process_recent_meetings(series_name, recent_count, access_token, min_duration_minutes=10, include_summary=False):
+def process_recent_meetings(
+    series_name: str,
+    recent_count: int,
+    access_token: str,
+    min_duration_minutes: int = 10,
+    include_summary: bool = False
+) -> None:
     """Fetch and process a number of recent meetings for a series using the mapping file."""
     print(f"📋 Looking up meeting ID for series '{series_name}'...")
 
     # Load the mapping to get the meeting ID(s) for this series
-    mapping_manager = MappingManager(MAPPING_FILE_PATH)
+    mapping_manager = MappingManager(str(MAPPING_FILE_PATH))
     primary_meeting_id = mapping_manager.get_series_meeting_id(series_name)
 
     if not primary_meeting_id:
@@ -439,12 +452,18 @@ def get_topic_prefixes_for_series(series_name, mapping_manager):
     return prefixes
 
 
-def process_meeting_by_date(series_name, target_date, access_token, min_duration_minutes=10, include_summary=False):
+def process_meeting_by_date(
+    series_name: str,
+    target_date: str,
+    access_token: str,
+    min_duration_minutes: int = 10,
+    include_summary: bool = False
+) -> None:
     """Fetch and process a meeting for a specific date using the mapping file."""
     print(f"📋 Looking up meeting ID for series '{series_name}'...")
 
     # Load the mapping to get the meeting ID(s) for this series
-    mapping_manager = MappingManager(MAPPING_FILE_PATH)
+    mapping_manager = MappingManager(str(MAPPING_FILE_PATH))
     primary_meeting_id = mapping_manager.get_series_meeting_id(series_name)
 
     if not primary_meeting_id:
