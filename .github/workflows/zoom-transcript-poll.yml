@@ -107,7 +107,7 @@ jobs:
             SERIES=$(python -c "import json; m=json.load(open('../../meeting_topic_mapping.json')); print(' '.join(m.keys()))")
             for series in $SERIES; do
               echo "Processing $series..."
-              python run_pipeline.py -c "$series" --recent --max-age-days 3 --auto-approve --summarize
+              python run_pipeline.py -c "$series" --recent --max-age-days 3 --auto-approve --summarize || echo "  (no recent meetings or processing skipped for $series)"
             done
           fi
 

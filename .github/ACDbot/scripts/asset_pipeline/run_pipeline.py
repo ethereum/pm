@@ -58,20 +58,32 @@ def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) ->
         reverse=True
     )
 
-    most_recent = sorted_occs[0]
-    start_time = most_recent.get('start_time', '')
-    if not start_time:
-        return None
+    # Filter to only past meetings and apply max_age_days if set
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=max_age_days) if max_age_days is not None else None
 
-    # Check if meeting is too old
-    if max_age_days is not None:
+    for occ in sorted_occs:
+        start_time = occ.get('start_time', '')
+        if not start_time:
+            continue
         try:
             meeting_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-            cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
-            if meeting_dt < cutoff:
-                return None
+            # Skip future meetings
+            if meeting_dt > now:
+                continue
+            # Skip if too old (when max_age_days is set)
+            if cutoff and meeting_dt < cutoff:
+                continue
+            # Found a valid meeting
+            most_recent = occ
+            break
         except ValueError:
-            pass  # If we can't parse the date, continue anyway
+            continue
+    else:
+        # No valid meeting found
+        return None
+
+    start_time = most_recent.get('start_time', '')
 
     # Extract date from ISO format (e.g., "2026-02-03T15:00:00Z" -> "2026-02-03")
     date = start_time.split('T')[0]
@@ -345,8 +357,13 @@ def main():
         meeting_dir = find_call_directory(call, number, raise_on_missing=False)
 
     if not meeting_dir or not meeting_dir.exists():
-        print(f"❌ Meeting directory not found for {call} #{number}")
-        sys.exit(1)
+        if args.max_age_days:
+            # In automated mode, missing directory means no recording available - not an error
+            print(f"⏭️  No recording available for {call} #{number} (directory not created)")
+            sys.exit(0)
+        else:
+            print(f"❌ Meeting directory not found for {call} #{number}")
+            sys.exit(1)
 
     transcript_path = meeting_dir / "transcript.vtt"
     changelog_path = meeting_dir / "transcript_changelog.tsv"
