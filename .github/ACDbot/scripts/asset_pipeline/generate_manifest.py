@@ -16,6 +16,7 @@ SCRIPT_DIR = Path(__file__).parent
 ACDBOT_DIR = SCRIPT_DIR.parent.parent
 ARTIFACTS_DIR = ACDBOT_DIR / "artifacts"
 CALL_SERIES_CONFIG = ACDBOT_DIR / "call_series_config.yml"
+MAPPING_FILE = ACDBOT_DIR / "meeting_topic_mapping.json"
 MANIFEST_PATH = ARTIFACTS_DIR / "manifest.json"
 
 # Known resource files and their types
@@ -24,7 +25,6 @@ RESOURCE_FILES = {
     "transcript_corrected.vtt": "transcript_corrected",
     "transcript_changelog.tsv": "changelog",
     "chat.txt": "chat",
-    "config.json": "config",
     "summary.json": "summary",
     "tldr.json": "tldr",
 }
@@ -39,6 +39,44 @@ def load_call_series_config() -> dict:
         config = yaml.safe_load(f)
 
     return config.get("call_series", {})
+
+
+def load_mapping_file() -> dict:
+    """Load the meeting topic mapping file."""
+    if not MAPPING_FILE.exists():
+        return {}
+
+    try:
+        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def get_youtube_video_url(occurrence: dict) -> str | None:
+    """Extract YouTube video URL from occurrence data."""
+    # Check for uploaded video ID first (preferred)
+    if occurrence.get('youtube_video_id'):
+        return f"https://www.youtube.com/watch?v={occurrence['youtube_video_id']}"
+
+    # Check for stream URLs in youtube_streams
+    youtube_streams = occurrence.get('youtube_streams')
+    if youtube_streams and isinstance(youtube_streams, list) and len(youtube_streams) > 0:
+        stream_url = youtube_streams[0].get('stream_url')
+        if stream_url:
+            return stream_url
+
+    return None
+
+
+def find_occurrence_in_mapping(mapping: dict, series_id: str, date: str) -> dict | None:
+    """Find an occurrence in the mapping file by series and date."""
+    series_data = mapping.get(series_id, {})
+    for occurrence in series_data.get('occurrences', []):
+        start_time = occurrence.get('start_time', '')
+        if start_time and start_time.startswith(date):
+            return occurrence
+    return None
 
 
 def parse_call_directory(dir_name: str) -> tuple[str, int | None]:
@@ -67,22 +105,10 @@ def get_call_resources(call_dir: Path) -> dict[str, str]:
     return resources
 
 
-def get_config_data(call_dir: Path) -> dict:
-    """Extract data from config.json if it exists."""
-    config_path = call_dir / "config.json"
-    if not config_path.exists():
-        return {}
-
-    try:
-        with open(config_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except (json.JSONDecodeError, OSError):
-        return {}
-
-
 def generate_manifest() -> dict:
     """Generate the complete manifest."""
     call_series_config = load_call_series_config()
+    mapping = load_mapping_file()
 
     manifest = {
         "version": 1,
@@ -119,8 +145,6 @@ def generate_manifest() -> dict:
             if not resources:
                 continue  # Skip empty directories
 
-            config_data = get_config_data(call_dir)
-
             call_entry = {
                 "date": date,
                 "path": f"{series_id}/{call_dir.name}",
@@ -130,11 +154,14 @@ def generate_manifest() -> dict:
             if number is not None:
                 call_entry["number"] = number
 
-            # Include issue number and video URL from config if available
-            if config_data.get("issue"):
-                call_entry["issue"] = config_data["issue"]
-            if config_data.get("videoUrl"):
-                call_entry["videoUrl"] = config_data["videoUrl"]
+            # Look up issue number and video URL from mapping file
+            occurrence = find_occurrence_in_mapping(mapping, series_id, date)
+            if occurrence:
+                if occurrence.get("issue_number"):
+                    call_entry["issue"] = occurrence["issue_number"]
+                video_url = get_youtube_video_url(occurrence)
+                if video_url:
+                    call_entry["videoUrl"] = video_url
 
             calls.append(call_entry)
 

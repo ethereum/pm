@@ -106,51 +106,6 @@ def find_occurrence_by_date_and_series(date_str, series_name, mapping_manager):
         print(f"   ❌ Error finding occurrence: {e}")
         return None
 
-def get_youtube_video_url(occurrence):
-    """Extract YouTube video URL from occurrence data."""
-    # Check for uploaded video ID first (preferred)
-    if occurrence.get('youtube_video_id'):
-        return f"https://www.youtube.com/watch?v={occurrence['youtube_video_id']}"
-
-    # Check for stream URLs in youtube_streams
-    youtube_streams = occurrence.get('youtube_streams')
-    if youtube_streams and isinstance(youtube_streams, list) and len(youtube_streams) > 0:
-        stream_url = youtube_streams[0].get('stream_url')
-        if stream_url:
-            return stream_url
-
-    return None
-
-def create_config_json(meeting_dir: Path, occurrence: dict | None) -> None:
-    """Create config.json file with issue number and YouTube video URL."""
-    if not occurrence:
-        print("   ⚠️  No occurrence data found - skipping config.json creation")
-        return
-
-    issue_number = occurrence.get('issue_number')
-    video_url = get_youtube_video_url(occurrence)
-
-    config_data = {
-        "issue": issue_number,
-        "videoUrl": video_url,
-        "sync": {
-            "transcriptStartTime": "00:00:00",
-            "videoStartTime": "00:00:00"
-        }
-    }
-
-    config_path = meeting_dir / 'config.json'
-    try:
-        with open(config_path, 'w', encoding='utf-8') as f:
-            json.dump(config_data, f, indent=2)
-        print(f"  ✅ Created config.json with issue #{issue_number}")
-        if video_url:
-            print(f"     📺 Video URL: {video_url}")
-        else:
-            print(f"     📺 Video URL: null (no video found)")
-    except Exception as e:
-        print(f"  ❌ Failed to create config.json: {e}")
-
 def download_assets_for_meeting(
     recording_data: dict,
     series_name: str,
@@ -208,25 +163,13 @@ def download_assets_for_meeting(
     if summary_exists:
         existing_assets.append('summary.json')
 
-    # Check if config.json exists
-    config_path = meeting_dir / 'config.json'
-    config_exists = config_path.exists()
-
     # Determine if all required assets exist
     summary_satisfied = summary_exists if include_summary else True
-    if existing_assets and config_exists and summary_satisfied:
-        print(f"   ⏭️  Skipping {date_part} - all assets already exist: {', '.join(existing_assets)}, config.json")
+    if existing_assets and summary_satisfied:
+        print(f"   ⏭️  Skipping {date_part} - all assets already exist: {', '.join(existing_assets)}")
         return
 
     meeting_dir.mkdir(parents=True, exist_ok=True)
-
-    # Find occurrence data for config.json creation
-    mapping_manager = MappingManager(str(MAPPING_FILE_PATH))
-    occurrence = find_occurrence_by_date_and_series(date_part, series_name, mapping_manager)
-
-    # Create config.json if it doesn't exist
-    if not config_exists:
-        create_config_json(meeting_dir, occurrence)
 
     print(f"   📂 Saving assets to: {meeting_dir}")
 
