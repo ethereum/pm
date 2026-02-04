@@ -122,7 +122,7 @@ def main():
         vocab = f.read()
 
     print(f"Loaded transcript ({len(transcript)} chars) and vocab ({len(vocab)} chars)")
-    print(f"Calling {args.model}...")
+    print(f"⏳ Calling Claude API ({args.model}) to generate corrections - this may take a minute...")
 
     # Generate changelog via API
     response, usage = generate_changelog(transcript, vocab, args.model)

@@ -20,6 +20,8 @@ load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
 from utils import SCRIPT_DIR, find_call_directory, calculate_cost
 
+ACDBOT_DIR = SCRIPT_DIR.parent.parent
+MAPPING_FILE = ACDBOT_DIR / "meeting_topic_mapping.json"
 DEFAULT_PROMPT = SCRIPT_DIR / "prompts" / "summarize.md"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
@@ -30,6 +32,24 @@ EXAMPLE_SUMMARIES = {
     "acde": PROMPTS_DIR / "example_acdc_summary.json",
     "acdc": PROMPTS_DIR / "example_acdc_summary.json",
 }
+
+
+def get_meeting_title_from_mapping(issue_number: int) -> str | None:
+    """Look up the issue_title from the mapping file by issue number."""
+    if not MAPPING_FILE.exists():
+        return None
+
+    try:
+        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
+            mapping = json.load(f)
+
+        for series_data in mapping.values():
+            for occ in series_data.get('occurrences', []):
+                if occ.get('issue_number') == issue_number:
+                    return occ.get('issue_title')
+        return None
+    except Exception:
+        return None
 
 
 def get_example_summary(call_type: str) -> str:
@@ -150,6 +170,11 @@ def generate_summary(
         print(f"Error reading config.json: {e}")
         return False
 
+    # Get meeting title from mapping file
+    meeting_title = get_meeting_title_from_mapping(issue_number)
+    if meeting_title:
+        print(f"Meeting title: {meeting_title}")
+
     # Fetch agenda from GitHub
     print(f"Fetching agenda from GitHub issue #{issue_number}...")
     agenda = fetch_github_issue_agenda(issue_number)
@@ -182,7 +207,11 @@ def generate_summary(
     example_summary = get_example_summary(call_type)
 
     # Build prompt
-    full_prompt = f"""## Meeting Agenda
+    full_prompt = f"""## Meeting Title
+
+{meeting_title if meeting_title else "(Use the title from the agenda)"}
+
+## Meeting Agenda
 
 {agenda}
 
@@ -207,7 +236,7 @@ def generate_summary(
 {prompt_template}"""
 
     # Call Claude API
-    print(f"Calling {model}...")
+    print(f"⏳ Calling Claude API ({model}) to generate summary - this may take a minute...")
     try:
         client = anthropic.Anthropic()
         message = client.messages.create(
