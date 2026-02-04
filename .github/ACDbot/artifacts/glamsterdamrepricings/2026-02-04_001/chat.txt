@@ -1,0 +1,32 @@
+00:02:12	Maria Silva:	https://github.com/ethereum/pm/issues/1910
+00:02:35	Ansgar Dietrichs:	I feel like it’s tradition that whenever there is a group of ppl joining acd together, camera on is a must :-)
+00:02:44	Justin Florentine (Besu):	Reacted to "I feel like it’s tra..." with 💯
+00:03:57	Ansgar Dietrichs:	great to see some L2 ppl joining today as well btw! maybe if we have time at the end, we could briefly touch on the repricings implications for non-L1 EVM chains?
+00:08:30	Maria Silva:	https://github.com/ethereum/EIPs/pull/11244
+00:11:42	Ben Adams:	POINT_EVALUATION determines Blob price floor; so should be knock on to be tested there
+00:26:32	Toni Wahrstätter:	My feeling is that this might not even need to touch receipts
+00:27:39	Ameziane Hamlat:	Mgas/s also won’t mean anything if we can’t separate state gas and regular gas
+00:29:19	Francesco:	Summary of questions I know about:
+CREATE regular gas cost? What should it be?
+SSTORE insert vs update regular gas cost? Should there be a difference?
+Receipts: keep cumulative_gas_used tracking actual user consumption, or change it to gas_used, or have two fields (same question as for other EIP?)
+TX_MAX_GAS_LIMIT enforcement: clarify that we want to enforce that max(intrinsic_regular_gas, calldata_floor_gas_cost) < TX_MAX_GAS_LIMIT, and leave TX_MAS_GAS_LIMIT - intrinsic_regular_gas available during execution (other than reservoir)
+00:29:56	Ben Adams:	Or I guess even in block; but information is lost because is determined at tx level not block level
+00:30:10	Maria Silva:	Reacted to "Or I guess even in b..." with 👍
+00:30:23	Luis Pinto | Besu:	What about refunds, shouldn’t that be discounted from state gas?
+00:31:14	Ameziane Hamlat:	Reacted to "What about refunds, ..." with 👌
+00:31:38	Ameziane Hamlat:	Replying to "What about refunds, ..."
+
+You mean from EIP-7778 ?
+00:33:43	jochem-brouwer:	Does it count against the gas limit or not? We want to incentivize people to clean up their state (refund) but we do not want them to use it to "abuse" the system by granting X% more gas limit to block
+00:34:23	Luis Pinto | Besu:	Not from the regular gas limit, but subtract it from state gas limit only
+00:34:53	Ben Adams:	Reacted to "Not from the regular..." with 👍
+00:36:46	Francesco:	This is the spec branch I have been working on btw, if you take a look and have comments lmk https://github.com/ethereum/execution-specs/compare/forks/osaka...fradamt:execution-specs:state-growth
+00:37:14	jochem-brouwer:	Antwoord verzenden naar "Does it count agai..."
+
+Ah right, yes this makes sense
+00:37:54	Maria Silva:	https://ethresear.ch/t/failure-modes-in-eip-8037-and-state-gas-scaling/23975
+00:40:34	Maria Silva:	https://ethresear.ch/t/analysis-of-different-aggregation-functions-for-eip-8037-under-different-elasticity-regimes/24033
+00:43:37	jochem-brouwer:	9k transfer cost per call
+00:54:25	Louis:	The benchmark documentation for test generation is here: https://github.com/ethereum/execution-specs/blob/forks/amsterdam/docs/writing_tests/benchmarks.md
+00:54:51	Louis:	We could construct the transaction and send it

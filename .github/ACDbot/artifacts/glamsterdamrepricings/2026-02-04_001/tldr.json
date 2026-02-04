@@ -1,0 +1,152 @@
+{
+  "meeting": "Glamsterdam Repricings #1 - February 4, 2026",
+  "highlights": {
+    "timeline_and_milestones": [
+      {
+        "timestamp": "00:03:51",
+        "highlight": "End of February: Preliminary repricing numbers needed for backward compatibility analysis"
+      },
+      {
+        "timestamp": "00:05:22",
+        "highlight": "End of February: All tooling ready including BALL optimizations and Fusaka fork support"
+      },
+      {
+        "timestamp": "00:06:02",
+        "highlight": "End of March: Final repricing numbers and definitive BALL integration complete"
+      },
+      {
+        "timestamp": "00:06:18",
+        "highlight": "April: Testing, security analysis, and community issue resolution phase"
+      }
+    ],
+    "compute_repricing_eip7904": [
+      {
+        "timestamp": "00:08:40",
+        "highlight": "EIP-7904 downscoped to 13 operations performing worse than 60 Mgas/s"
+      },
+      {
+        "timestamp": "00:09:14",
+        "highlight": "Price reductions removed; focus only on underperforming bottleneck operations"
+      },
+      {
+        "timestamp": "00:10:34",
+        "highlight": "Numbers still preliminary: awaiting Fusaka fork runs and BALL optimizations"
+      },
+      {
+        "timestamp": "00:11:42",
+        "highlight": "POINT_EVALUATION increase impacts blob base fee floor calculation"
+      }
+    ],
+    "state_growth_eip8037": [
+      {
+        "timestamp": "00:17:41",
+        "highlight": "CREATE regular gas cost needs definition beyond bundled GasCreate constant"
+      },
+      {
+        "timestamp": "00:19:05",
+        "highlight": "SSTORE update vs insert may need different regular gas costs"
+      },
+      {
+        "timestamp": "00:21:02",
+        "highlight": "Transaction max gas limit should enforce intrinsic regular gas upfront"
+      },
+      {
+        "timestamp": "00:22:02",
+        "highlight": "Receipt fields: cumulative_gas_used semantics unclear with state gas split"
+      },
+      {
+        "timestamp": "00:36:52",
+        "highlight": "Refund mechanism currently unchanged; applies to sum of regular+state gas"
+      }
+    ],
+    "failure_modes_analysis": [
+      {
+        "timestamp": "00:38:03",
+        "highlight": "Failure mode 1: Regular gas bottleneck causes lower state creation (acceptable)"
+      },
+      {
+        "timestamp": "00:39:21",
+        "highlight": "Failure mode 2: State gas bottleneck underutilizes compute and state access"
+      }
+    ],
+    "calldata_pricing_eip7976": [
+      {
+        "timestamp": "00:46:42",
+        "highlight": "Proposal: Harmonize to 64/64 gas per byte at floor (vs 15/60)"
+      },
+      {
+        "timestamp": "00:47:37",
+        "highlight": "Benefit: Delays 10MB limit from 150M gas to 650M gas"
+      },
+      {
+        "timestamp": "00:48:29",
+        "highlight": "Impact analysis shows marginal user effect; comprehensive review needed"
+      }
+    ],
+    "eth_transfer_pricing_eip2780": [
+      {
+        "timestamp": "00:43:04",
+        "highlight": "ETH transfer logs currently free due to overpriced transfers"
+      },
+      {
+        "timestamp": "00:43:52",
+        "highlight": "Component-based repricing removes slack; log costs must be added explicitly"
+      }
+    ],
+    "l2_coordination": [
+      {
+        "timestamp": "00:51:09",
+        "highlight": "OP Labs: DA costs and proof system implications are key divergence points"
+      },
+      {
+        "timestamp": "00:52:23",
+        "highlight": "OP Labs requests benchmarking collaboration to deduplicate efforts"
+      },
+      {
+        "timestamp": "00:53:41",
+        "highlight": "EEST benchmark suite being developed for generic EVM opcode testing"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:52:37",
+      "action": "Align on best place to share benchmarking findings and tooling",
+      "owner": "L1 and L2 benchmarking teams"
+    },
+    {
+      "timestamp": "00:55:05",
+      "action": "Use EL testing channel on ETH R&D to coordinate benchmarking efforts",
+      "owner": "jochem-brouwer to open thread"
+    },
+    {
+      "timestamp": "00:56:20",
+      "action": "Create PR for 64/64 calldata pricing; finalize decision in 2 weeks",
+      "owner": "Toni Wahrst\u00e4tter"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:34:53",
+      "decision": "EIP-8037 refund mechanism remains unchanged; applies to regular+state gas sum"
+    },
+    {
+      "timestamp": "00:43:17",
+      "decision": "EIP-2780 will add explicit log costs for ETH transfers (currently free)"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:03:51",
+      "target": "End of February 2026 - Preliminary repricing numbers and specs ready"
+    },
+    {
+      "timestamp": "00:06:02",
+      "target": "End of March 2026 - Final repricing numbers with BALL integration"
+    },
+    {
+      "timestamp": "00:55:48",
+      "target": "Next call in 2 weeks (February 18, 2026)"
+    }
+  ]
+}
