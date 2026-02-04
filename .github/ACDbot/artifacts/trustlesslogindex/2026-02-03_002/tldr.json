@@ -1,0 +1,73 @@
+{
+  "meeting": "Log Index Proposal Discussion - Date Unknown",
+  "highlights": {
+    "log_index_proposal": [
+      {
+        "timestamp": "00:09:26",
+        "highlight": "Simplified log index proposal: ordered event lists (blocks, txs, logs) tree-hashed by type then value"
+      },
+      {
+        "timestamp": "00:10:42",
+        "highlight": "Index tables generated per block or merged from multiple blocks; never modified after creation"
+      },
+      {
+        "timestamp": "00:17:23",
+        "highlight": "Single block tables added instantly to headers; larger tables added with delay for async processing"
+      },
+      {
+        "timestamp": "00:18:43",
+        "highlight": "Tables hashed into simple chain; small tables (last ~80 blocks) required for initialization"
+      },
+      {
+        "timestamp": "00:20:58",
+        "highlight": "Bigger tables (>64 blocks) generated with ZK proofs; not added to consensus headers"
+      }
+    ],
+    "technical_details": [
+      {
+        "timestamp": "00:12:43",
+        "highlight": "64-byte encoding per entry; SSZ list hashing proposed with big-endian numbers for sorting"
+      },
+      {
+        "timestamp": "00:22:02",
+        "highlight": "Exclusion proofs: prove non-existence via two adjacent sorted entries (~1KB for 10M+ blocks)"
+      },
+      {
+        "timestamp": "00:24:44",
+        "highlight": "Log pattern queries: prover searches least popular item first, proves matches via Merkle proofs"
+      },
+      {
+        "timestamp": "00:38:49",
+        "highlight": "Full history proof ~40KB using exponentially sized tables; vastly more efficient than bloom filters"
+      }
+    ],
+    "implementation_considerations": [
+      {
+        "timestamp": "00:31:00",
+        "highlight": "ZK-friendly hash function selection still needed; SHA-2 may not be optimal"
+      },
+      {
+        "timestamp": "00:43:00",
+        "highlight": "Receipts must remain for chronological ordering; content-ordered tables supplement, not replace"
+      },
+      {
+        "timestamp": "00:48:30",
+        "highlight": "Infra providers should duplicate data for efficient proofs; consensus-only nodes discard finalized tables"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:30:40",
+      "action": "Determine optimal ZK-friendly hash function for index tables",
+      "owner": "Zsolt Felf\u00f6ldi / ZK researchers"
+    },
+    {
+      "timestamp": "00:33:20",
+      "action": "Finalize parameters: table sizes in consensus (currently 64 blocks proposed)",
+      "owner": "Core developers / protocol designers"
+    }
+  ],
+  "decisions": [],
+  "targets": []
+}
