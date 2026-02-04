@@ -168,7 +168,10 @@ def main():
     if args.dry_run:
         print(json.dumps(manifest, indent=2))
     else:
-        with open(args.output, 'w', encoding='utf-8') as f:
+        # Ensure output directory exists
+        output_path = Path(args.output)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(manifest, f, indent=2)
         print(f"Generated {args.output}")
 

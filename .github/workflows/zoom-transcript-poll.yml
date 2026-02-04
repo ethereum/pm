@@ -3,13 +3,14 @@ name: "Zoom Transcript Poller"
 on:
   workflow_dispatch:
     inputs:
-      FORCE_MEETING_ID:
-        description: "Optional: Force processing of a specific Zoom meeting ID (requires FORCE_ISSUE_NUMBER)"
+      FORCE_SERIES:
+        description: "Optional: Series code (e.g., 'acde', 'trustlesslogindex')"
         required: false
-      FORCE_ISSUE_NUMBER:
-        description: "Optional: Force processing for a specific occurrence (requires FORCE_MEETING_ID)"
+        type: string
+      FORCE_NUMBER:
+        description: "Optional: Call number (e.g., 226 for ACDE #226)"
         required: false
-        type: string # Use string type, the script handles parsing to int
+        type: string
 
   schedule:
     - cron: "0 */2 * * *" # Run every 2 hours at minute 0
@@ -36,13 +37,40 @@ jobs:
 
       - name: Poll Zoom for recordings
         run: |
-          if [ -n "${{ github.event.inputs.FORCE_MEETING_ID }}" ] && [ -n "${{ github.event.inputs.FORCE_ISSUE_NUMBER }}" ]; then
-            python .github/ACDbot/scripts/poll_zoom_recordings.py \
-              --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}" \
-              --force_issue_number "${{ github.event.inputs.FORCE_ISSUE_NUMBER }}"
-          elif [ -n "${{ github.event.inputs.FORCE_MEETING_ID }}" ]; then
-            python .github/ACDbot/scripts/poll_zoom_recordings.py \
-              --force_meeting_id "${{ github.event.inputs.FORCE_MEETING_ID }}"
+          if [ -n "${{ github.event.inputs.FORCE_SERIES }}" ] && [ -n "${{ github.event.inputs.FORCE_NUMBER }}" ]; then
+            # Look up meeting_id and issue_number from mapping file
+            LOOKUP=$(python -c "
+          import json, re, sys
+          with open('.github/ACDbot/meeting_topic_mapping.json') as f:
+              mapping = json.load(f)
+          series = '${{ github.event.inputs.FORCE_SERIES }}'
+          call_num = int('${{ github.event.inputs.FORCE_NUMBER }}')
+          if series not in mapping:
+              print(f'Series {series} not found', file=sys.stderr)
+              sys.exit(1)
+          data = mapping[series]
+          meeting_id = data.get('meeting_id', '')
+          issue_number = ''
+          for occ in data.get('occurrences', []):
+              title = occ.get('issue_title', '')
+              # Match patterns: '#123', '# 123', 'Meeting 123', 'Call 123'
+              pattern = rf'(?:#\s*{call_num}|(?:Meeting|Call)\s+{call_num})(?:\D|$)'
+              if re.search(pattern, title, re.IGNORECASE):
+                  issue_number = str(occ.get('issue_number', ''))
+                  break
+          print(f'{meeting_id}|{issue_number}')
+          ")
+            MEETING_ID=$(echo "$LOOKUP" | cut -d'|' -f1)
+            ISSUE_NUMBER=$(echo "$LOOKUP" | cut -d'|' -f2)
+            echo "Found meeting_id=$MEETING_ID, issue_number=$ISSUE_NUMBER for ${{ github.event.inputs.FORCE_SERIES }} #${{ github.event.inputs.FORCE_NUMBER }}"
+            if [ -n "$MEETING_ID" ] && [ -n "$ISSUE_NUMBER" ]; then
+              python .github/ACDbot/scripts/poll_zoom_recordings.py \
+                --force_meeting_id "$MEETING_ID" \
+                --force_issue_number "$ISSUE_NUMBER"
+            else
+              echo "Could not find meeting_id or issue_number for ${{ github.event.inputs.FORCE_SERIES }} #${{ github.event.inputs.FORCE_NUMBER }}"
+              exit 1
+            fi
           else
             python .github/ACDbot/scripts/poll_zoom_recordings.py
           fi
@@ -60,7 +88,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
 
-      - name: Run asset pipeline for recent meetings
+      - name: Run asset pipeline
         if: success()
         continue-on-error: true
         env:
@@ -71,14 +99,18 @@ jobs:
         run: |
           cd .github/ACDbot/scripts/asset_pipeline
 
-          # Get all series from the mapping file
-          SERIES=$(python -c "import json; m=json.load(open('../../meeting_topic_mapping.json')); print(' '.join(m.keys()))")
-
-          # Process recent meetings for all series (within 3 days, auto-approve, with summaries)
-          for series in $SERIES; do
-            echo "Processing $series..."
-            python run_pipeline.py -c "$series" --recent --max-age-days 3 --auto-approve --summarize
-          done
+          if [ -n "${{ github.event.inputs.FORCE_SERIES }}" ] && [ -n "${{ github.event.inputs.FORCE_NUMBER }}" ]; then
+            # Process specific meeting
+            echo "Processing ${{ github.event.inputs.FORCE_SERIES }} #${{ github.event.inputs.FORCE_NUMBER }}..."
+            python run_pipeline.py -c "${{ github.event.inputs.FORCE_SERIES }}" -n "${{ github.event.inputs.FORCE_NUMBER }}" --auto-approve --summarize
+          else
+            # No forced meeting - process all recent meetings
+            SERIES=$(python -c "import json; m=json.load(open('../../meeting_topic_mapping.json')); print(' '.join(m.keys()))")
+            for series in $SERIES; do
+              echo "Processing $series..."
+              python run_pipeline.py -c "$series" --recent --max-age-days 3 --auto-approve --summarize
+            done
+          fi
 
       - name: Generate manifest and commit all changes
         if: always()
