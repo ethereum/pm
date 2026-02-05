@@ -52,8 +52,9 @@ def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) ->
         return None
 
     # Sort by start_time descending to get most recent
+    # Filter out occurrences with None/empty start_time before sorting
     sorted_occs = sorted(
-        occurrences,
+        [occ for occ in occurrences if occ.get('start_time')],
         key=lambda x: x.get('start_time', ''),
         reverse=True
     )

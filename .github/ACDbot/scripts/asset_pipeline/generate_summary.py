@@ -34,6 +34,28 @@ EXAMPLE_SUMMARIES = {
 }
 
 
+def get_occurrence_from_mapping(call_type: str, date_str: str) -> dict | None:
+    """Look up occurrence data from the mapping file by call type and date."""
+    if not MAPPING_FILE.exists():
+        return None
+
+    try:
+        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
+            mapping = json.load(f)
+
+        series_data = mapping.get(call_type)
+        if not series_data:
+            return None
+
+        for occ in series_data.get('occurrences', []):
+            start_time = occ.get('start_time', '')
+            if start_time and start_time.startswith(date_str):
+                return occ
+        return None
+    except Exception:
+        return None
+
+
 def get_meeting_title_from_mapping(issue_number: int) -> str | None:
     """Look up the issue_title from the mapping file by issue number."""
     if not MAPPING_FILE.exists():
@@ -138,7 +160,6 @@ def generate_summary(
 ) -> bool:
     """Generate tldr.json using Claude API."""
     # Paths
-    config_path = meeting_dir / "config.json"
     transcript_path = meeting_dir / "transcript.vtt"
     chat_path = meeting_dir / "chat.txt"
     summary_path = meeting_dir / "summary.json"
@@ -150,28 +171,26 @@ def generate_summary(
         return True
 
     # Validate required files
-    if not config_path.exists():
-        print(f"config.json not found in {meeting_dir}")
-        return False
-
     if not transcript_path.exists():
         print(f"transcript.vtt not found in {meeting_dir}")
         return False
 
-    # Load config for issue number
-    try:
-        with open(config_path, encoding='utf-8') as f:
-            config = json.load(f)
-        issue_number = config.get("issue")
-        if not issue_number:
-            print("No issue number in config.json")
-            return False
-    except Exception as e:
-        print(f"Error reading config.json: {e}")
+    # Extract date from directory name (e.g., "2026-02-05_174" -> "2026-02-05")
+    date_str = meeting_dir.name.split("_")[0]
+
+    # Look up occurrence data from mapping file
+    occurrence = get_occurrence_from_mapping(call_type, date_str)
+    if not occurrence:
+        print(f"No occurrence found in mapping for {call_type} on {date_str}")
         return False
 
-    # Get meeting title from mapping file
-    meeting_title = get_meeting_title_from_mapping(issue_number)
+    issue_number = occurrence.get('issue_number')
+    if not issue_number:
+        print(f"No issue number in mapping for {call_type} on {date_str}")
+        return False
+
+    # Get meeting title from occurrence
+    meeting_title = occurrence.get('issue_title')
     if meeting_title:
         print(f"Meeting title: {meeting_title}")
 
