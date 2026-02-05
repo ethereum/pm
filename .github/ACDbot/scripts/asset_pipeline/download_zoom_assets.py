@@ -127,14 +127,25 @@ def download_assets_for_meeting(
     # Extract meeting number from topic if available
     topic = recording_data.get('topic', '')
     meeting_number = extract_meeting_number(topic, series_name)
+    number_source = "topic" if meeting_number else None
+
+    # If not found in topic, check mapping file for occurrence_number
+    if not meeting_number:
+        mapping_manager = MappingManager(str(MAPPING_FILE_PATH))
+        occurrence = find_occurrence_by_date_and_series(date_part, series_name, mapping_manager)
+        if occurrence and occurrence.get('occurrence_number'):
+            meeting_number = str(occurrence['occurrence_number'])
+            number_source = "mapping"
 
     # Create directory name with meeting number if available
     if meeting_number:
-        # Zero-pad meeting number to 3 digits
         padded_number = meeting_number.zfill(3)
         dir_name = f"{date_part}_{padded_number}"
         print(f"   📋 Meeting topic: {topic}")
-        print(f"   🔢 Extracted meeting number: {meeting_number}")
+        if number_source == "mapping":
+            print(f"   🔢 Using occurrence_number from mapping: {meeting_number}")
+        else:
+            print(f"   🔢 Extracted meeting number: {meeting_number}")
     else:
         dir_name = date_part
         if topic:

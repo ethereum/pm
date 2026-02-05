@@ -152,13 +152,21 @@ def find_most_recent_directory(call: str, max_age_days: int | None = None) -> tu
 
             # Extract number from directory name (e.g., "2024-12-12_226" -> 226)
             parts = most_recent.name.split("_")
+            number = None
             if len(parts) >= 2:
                 try:
                     number = int(parts[-1])
-                    return most_recent, number
                 except ValueError:
                     pass
-            return most_recent, None
+
+            # If number not in directory name, check mapping file
+            if number is None:
+                date_str = parts[0]
+                result = find_most_recent_from_mapping(call, max_age_days)
+                if result and result[0] == date_str:
+                    number = result[1]
+
+            return most_recent, number
 
     # Fall back to mapping file for series without artifacts yet
     result = find_most_recent_from_mapping(call, max_age_days)
