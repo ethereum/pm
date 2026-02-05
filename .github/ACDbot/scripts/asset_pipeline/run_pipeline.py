@@ -299,6 +299,15 @@ def main():
                 sys.exit(1)
         meeting_dir_or_date, number = result
 
+        # If number couldn't be determined, skip in CI mode or error otherwise
+        if number is None:
+            if args.max_age_days:
+                print(f"⏭️  Could not determine meeting number for series '{call}' - skipping")
+                sys.exit(0)
+            else:
+                print(f"❌ Could not determine meeting number for series '{call}'")
+                sys.exit(1)
+
         # Check if result is a Path (existing artifacts) or string (date from mapping)
         if isinstance(meeting_dir_or_date, Path):
             meeting_dir = meeting_dir_or_date
@@ -368,6 +377,17 @@ def main():
     transcript_path = meeting_dir / "transcript.vtt"
     changelog_path = meeting_dir / "transcript_changelog.tsv"
     corrected_path = meeting_dir / "transcript_corrected.vtt"
+    tldr_path = meeting_dir / "tldr.json"
+
+    # Early exit if all artifacts already exist (in auto-approve/CI mode)
+    if args.auto_approve:
+        required_artifacts = [transcript_path, changelog_path, corrected_path]
+        if args.summarize:
+            required_artifacts.append(tldr_path)
+
+        if all(p.exists() for p in required_artifacts):
+            print(f"⏭️  All artifacts already exist for {call} #{number}")
+            sys.exit(0)
 
     # Check for transcript
     if not transcript_path.exists():
@@ -418,7 +438,6 @@ def main():
             sys.exit(1)
 
     # Step 5: Generate summary (optional)
-    tldr_path = meeting_dir / "tldr.json"
     run_summary = args.summarize  # In auto-approve mode, only run if --summarize is set
     if not run_summary and not args.auto_approve:
         run_summary = prompt_yes_no("\n📝 Generate structured summary (tldr.json)?")
