@@ -465,7 +465,7 @@ def main():
             if body:
                 details.append(f"\nBody: {body}")
             message = (
-                f"⚠️ Zoom Transcript Poller failure\n\n{prefix}\n" + "\n".join(details)
+                f"⚠️ Meeting Asset Pipeline failure\n\n{prefix}\n" + "\n".join(details)
             )
             tg.send_message(message)
         except Exception as _e:

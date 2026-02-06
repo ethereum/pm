@@ -100,9 +100,9 @@ The database that keeps track of existing events is in `meeting_topic_mapping.js
         - It parses the issue, loads mapping and checks for duplicates
         - Creates/updates EthMag topic and based on chosen options or existence of an event creates Zoom meeting ID, GCal event, YouTube stream
         - Comments on the issue with created artifacts and commits changes to mapping file
-    -   `poll_zoom_recordings.py`, `upload_zoom_recording.py`, `zoom-transcript-poll.yml`
-        - Scripts for downloading and uploading recordings/transcripts
-        - Runs on a scheduled cron job every 6 hours (`0 */6 * * *`) to periodically check for finished meetings based on mapping and Zoom API
+    -   `poll_zoom_recordings.py`, `upload_zoom_recording.py`, `meeting-asset-pipeline.yml`
+        - Scripts and workflow for the meeting asset pipeline: polls Zoom recordings, downloads assets, generates AI summaries, and commits artifacts
+        - Runs on a scheduled cron job every 2 hours (`0 */2 * * *`) to periodically check for finished meetings based on mapping and Zoom API
         *   Uploads the recording to YouTube using `youtube_utils`, uploads the transcript to EthMag topic
         *   Updates the mapping file with `youtube_video_id`, marks `youtube_upload_processed` and `transcript_processed` to true.
         *   Posts the YouTube link to the Discourse topic, updates the RSS feed and commits the mapping file.
