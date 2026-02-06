@@ -301,7 +301,6 @@ def main():
         if result is None:
             if args.max_age_days:
                 # Not an error - just no recent meetings within the cutoff
-                print(f"⏭️  No recent meetings (within {args.max_age_days} days) for series '{call}'")
                 sys.exit(0)
             else:
                 print(f"❌ No meetings found for series '{call}'")

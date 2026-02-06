@@ -278,18 +278,13 @@ def process_recent_meetings(
         print(f"📋 Found {len(meeting_ids)} meeting ID(s) for series '{series_name}': {primary_meeting_id} (current) + {len(historical_ids)} historical")
     else:
         print(f"📋 Found meeting ID {primary_meeting_id} for series '{series_name}'")
-    print(f"📋 Getting meeting instances with minimum duration of {min_duration_minutes} minutes...")
 
     # Collect instances from all meeting IDs
     all_past_instances = []
     for i, meeting_id in enumerate(meeting_ids):
-        print(f"   Getting instances from meeting ID {meeting_id} ({i+1}/{len(meeting_ids)})...")
         instances = zoom.get_past_meeting_instances(meeting_id)
         if instances:
-            print(f"   Found {len(instances)} instances from meeting ID {meeting_id}")
             all_past_instances.extend(instances)
-        else:
-            print(f"   No instances found for meeting ID {meeting_id}")
 
     if not all_past_instances:
         print(f"No recent meeting instances found for series '{series_name}' across {len(meeting_ids)} meeting ID(s).")
@@ -299,8 +294,6 @@ def process_recent_meetings(
 
     # Group instances by date and find the best recording for each date
     date_groups = defaultdict(list)
-
-    print(f"📋 Grouping instances by date and finding best recordings...")
 
     # Group all instances by date
     for instance in all_past_instances:
@@ -331,25 +324,17 @@ def process_recent_meetings(
         # Check all instances for this date to find the longest valid recording
         for instance in instances_for_date:
             uuid = instance.get('uuid')
-            start_time = instance.get('start_time', 'N/A')
 
             if uuid:
-                print(f"   Checking instance from {start_time} (UUID: {uuid})")
                 recording_data = zoom.get_meeting_recording(uuid)
 
                 if recording_data:
                     duration = recording_data.get('duration', 0)
-                    print(f"   Duration: {duration} minutes")
 
                     if duration >= min_duration_minutes and duration > best_duration:
                         best_duration = duration
                         best_recording = recording_data
                         best_instance = instance
-                        print(f"   ✅ New best recording for {date} ({duration} min)")
-                    else:
-                        print(f"   ⏭️  Not the best recording for this date ({duration} min)")
-                else:
-                    print(f"   ❌ No recording data found")
 
         if best_recording and best_instance:
             print(f"   🎯 Selected best recording for {date}: {best_duration} minutes")
@@ -553,9 +538,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     try:
-        print("🔐 Getting Zoom access token...")
         access_token = zoom.get_access_token()
-        print("✅ Authenticated with Zoom")
 
         if args.meeting_id:
             process_single_meeting(args.meeting_id, args.series_name, access_token, args.include_summary)

@@ -96,10 +96,7 @@ def find_best_transcript_recording(meeting_id, target_date=None):
 
         # If target_date is specified, enforce strict date matching
         if target_date and instance_date != target_date:
-            print(f"Skipping instance {instance_uuid}: date {instance_date} != target {target_date}")
             continue
-
-        print(f"Checking recordings for instance {instance_uuid} ({instance_date})")
 
         # Get recordings for this specific instance UUID
         recording_data = zoom.get_meeting_recording(instance_uuid)
@@ -112,8 +109,6 @@ def find_best_transcript_recording(meeting_id, target_date=None):
             transcript_files = [f for f in recording_files if f.get('file_type') == 'TRANSCRIPT']
             has_transcript = len(transcript_files) > 0
 
-            print(f"  Found recording: {duration} min, {len(recording_files)} files, transcript: {has_transcript}")
-
             # Only consider recordings with meaningful duration and transcript
             if duration > 10 and has_transcript:
                 valid_recordings.append({
@@ -124,11 +119,6 @@ def find_best_transcript_recording(meeting_id, target_date=None):
                     'start_time': start_time,
                     'transcript_files': len(transcript_files)
                 })
-                print(f"  ✅ Valid recording candidate: {duration} min with transcript")
-            else:
-                print(f"  ⚠️  Skipped: duration {duration} min, transcript: {has_transcript}")
-        else:
-            print(f"  No recordings found for instance {instance_uuid}")
 
     if not valid_recordings:
         print(f"No valid recordings found for meeting {meeting_id}" +

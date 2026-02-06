@@ -9,6 +9,8 @@ client_id=os.environ["ZOOM_CLIENT_ID"]
 client_secret=os.environ["ZOOM_CLIENT_SECRET"]
 refresh_token=os.environ.get("ZOOM_REFRESH_TOKEN", "")
 
+_refresh_token_logged = False
+
 auth_token_url = "https://zoom.us/oauth/token"
 api_base_url = "https://api.zoom.us/v2"
 
@@ -98,13 +100,15 @@ def get_access_token():
 
         # If the response includes a new refresh token, update it in memory
         if "refresh_token" in response_data:
+            global _refresh_token_logged
             new_refresh_token = response_data["refresh_token"]
             # Update the global refresh_token variable
             refresh_token = new_refresh_token
             # Update the environment variable for other processes to use
             os.environ["ZOOM_REFRESH_TOKEN"] = new_refresh_token
-            print("Received new refresh token - token hidden for security")
-            print("IMPORTANT: Updated ZOOM_REFRESH_TOKEN variable with the new value")
+            if not _refresh_token_logged:
+                print("🔑 Zoom refresh token rotated")
+                _refresh_token_logged = True
 
             # Save to a temporary file in a shared location that can be read by other workflow steps
             try:
@@ -116,7 +120,6 @@ def get_access_token():
                 token_file = os.path.join(token_dir, "zoom_new_refresh_token.txt")
                 with open(token_file, "w") as f:
                     f.write(new_refresh_token)
-                print(f"New refresh token saved to {token_file} for GitHub Actions update")
             except Exception as e:
                 print(f"Warning: Failed to save new refresh token to file: {str(e)}")
 
@@ -145,15 +148,12 @@ def get_meeting_recording(meeting_identifier):
         first_encode = urllib.parse.quote(identifier_str, safe='')
         # Second encode: ensures % from first encode is also encoded
         encoded_identifier = urllib.parse.quote(first_encode, safe='')
-        print(f"[DEBUG] Double-encoded meeting UUID: {identifier_str} -> {encoded_identifier}")
     else:
         # Single encode for numeric IDs or UUIDs without /
         encoded_identifier = urllib.parse.quote(identifier_str, safe='')
-        print(f"[DEBUG] Single-encoded meeting identifier: {identifier_str} -> {encoded_identifier}")
 
     # URL-encode the meeting id to ensure a compliant endpoint URL.
     url = f"{api_base_url}/meetings/{encoded_identifier}/recordings"
-    print(f"[DEBUG] Requesting recordings from URL: {url}")
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
