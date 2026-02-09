@@ -147,7 +147,15 @@ def find_most_recent_directory(call: str, max_age_days: int | None = None) -> tu
                     meeting_dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
                     cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
                     if meeting_dt < cutoff:
-                        return None  # Too old
+                        # Existing artifacts are too old — check mapping for a
+                        # newer occurrence that hasn't been processed yet.
+                        result = find_most_recent_from_mapping(call, max_age_days)
+                        if result:
+                            date, number = result
+                            print(f"📋 Existing artifacts too old, using mapping file")
+                            print(f"   Most recent occurrence: {date}, #{number}")
+                            return date, number
+                        return None  # Nothing recent in mapping either
                 except ValueError:
                     pass  # If we can't parse, continue
 
