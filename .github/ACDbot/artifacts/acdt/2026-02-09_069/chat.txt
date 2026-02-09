@@ -1,0 +1,254 @@
+00:13:47	spencer-tb:	Zoom bot? 👀
+00:14:02	Mario Vega:	Reacted to "Zoom bot? 👀" with 👀
+00:16:44	Stefan Starflinger:	my audio
+00:16:45	Stefan Starflinger:	does not work
+00:16:46	Stefan Starflinger:	sec
+00:16:53	Barnabas:	micdao
+00:16:59	Dragan Rakita:	Reacted to "micdao" with ➕
+00:17:04	Mario Vega:	Reacted to "micdao" with ➕
+00:17:08	spencer-tb:	Reacted to "micdao" with ➕
+00:17:24	Justin Traglia:	Reacted to "micdao" with ➕
+00:18:48	wolovim:	Stefan’s spec doc: https://notes.ethereum.org/@ethpandaops/bal-devnet-2
+00:20:29	Jared Wasinger:	It should be present for non-finalized blocks though
+00:22:03	Barnabas:	a single malicous actor could trigger a chain to halt over 100M gas without eth/70
+00:22:21	Dustin:	10MB still matters on CL gossip
+00:22:53	Dustin:	yes 10MB is a hard limit right now
+00:23:43	pk910:	receipts are more problematic than block payloads >10M.
+a bigger block can't be broadcasted, but everyone generates the receipts themselves - except whenhitting sync
+00:25:35	Ben Adams:	Call data price change is still important; because the size cap determining blocks rather than pricing distorts the gas market
+00:26:13	Marius van der Wijden:	What was the point about the ef making noises again? Sorry I missed the sentence
+00:27:07	Toni Wahrstätter:	It should be tested, yes, but we wouldn't go to 150M gas without the calldata pricing adjustment. After the calldata increase we have (a lot of) leeway again before getting close to 10mib.
+00:27:10	Potuz:	Want to call attention that fine control on the max size is also actually needed for ePBS because it will determine the max broadcast time allocated.
+00:27:19	Ansgar Dietrichs:	Replying to "What was the point a..."
+
+case in point :-)
+
+just kidding. he was talking about the suggestion that there might be a deadline for Glamsterdam, where even headliners that miss the deadline might be out
+00:27:24	Mario Vega:	Reacted to "It should be tested,..." with 👍🏼
+00:27:26	felipe:	Reacted to "It should be teste..." with 👍🏼
+00:27:28	Dragan Rakita:	Reacted to "It should be tested,..." with 👍🏼
+00:27:39	Toni Wahrstätter:	Replying to "Want to call attenti..." 
+
+ Bc of the dynamic ptc deadline?
+00:27:42	Stefan Starflinger:	Reacted to "It should be tested,..." with 👍🏼
+00:27:52	Marius van der Wijden:	Replying to "What was the point a..." 
+
+ Ah yes, I think thats a good thing, no?
+00:27:59	Francesco:	I would agree, it’s not clear why we should have this extra cap
+00:28:00	Potuz:	Replying to "Want to call attenti..."
+
+yes, that seems to be a needed feature in this fork given the gas numbers that are being talked about
+00:28:05	Caleb:	Reacted to "Want to call atten..." with 👍
+00:28:18	Ameziane Hamlat:	Reacted to "It should be tested,..." with 👍🏼
+00:28:18	Stefan Starflinger:	Replying to "It should be tested,..."
+
+so what would you recommend for devnet-2 reduce to 100M?
+00:29:11	Dustin:	Replying to "What was the point..."
+
+Not suggesting otherwise but saying it impacts BAL planning
+00:29:33	Dustin:	Replying to "What was the point..."
+
+and means the existing overhead from Fusaka has to remain even though ePBS would remove most of it
+00:29:34	Marius van der Wijden:	Replying to "What was the point a..." 
+
+ Yep makes sense
+00:29:45	Marius van der Wijden:	Reacted to It should be tested,... with "👍🏼"
+00:29:51	Toni Wahrstätter:	Replying to "It should be tested,..." 
+
+ 150M should be fine sice we have the rlp limit cap
+00:30:04	Dustin:	Replying to "I would agree, it..."
+
+ok, but that's at the earliest an H* point
+00:30:11	Toni Wahrstätter:	Replying to "It should be tested,..." 
+
+ Maybe not. Not sure anymore if 10mib is actually a problem ot not
+00:31:06	Ben Adams:	Replying to "It should be tested,..."
+
+eth/70 is the missing part on going high (as mentioned receipts) https://eips.ethereum.org/EIPS/eip-7975
+00:31:15	Francesco:	Replying to "I would agree, it’s ..."
+
+Sure, just saying I think that is the right way to do it eventually
+00:31:21	Barnabas:	Could we focus on testing bal instead of worrying about this high gaslimit scenario?
+00:31:36	Dragan Rakita:	Reacted to "Could we focus on te..." with ➕
+00:31:36	Mario Vega:	Reacted to "Could we focus on te..." with 👍🏼
+00:31:38	Mario Vega:	Reacted to "Could we focus on te..." with ➕
+00:31:39	Rafael Matias (skylenet):	Reacted to "Could we focus on ..." with ➕
+00:31:41	Toni Wahrstätter:	Because there's another 10mib there?
+00:31:41	felipe:	Reacted to "Could we focus on ..." with ➕
+00:31:47	Ben Adams:	Reacted to "Because there's anot..." with 👍
+00:31:48	Barnabas:	lest just decrease the gas cap to 70M and that should be safe enough to continue
+00:31:48	Dragan Rakita:	True, put it to 100M and go with it
+00:31:54	Dragan Rakita:	Reacted to "lest just decrease t..." with ➕
+00:31:55	Mario Vega:	Reacted to "lest just decrease t..." with ➕
+00:31:58	felipe:	Reacted to "lest just decrease..." with ➕
+00:32:11	Stefan Starflinger:	Replying to "Could we focus on te..."
+
+This is about testing BALs
+00:32:19	Ben Adams:	Replying to "It should be tested,..."
+
+Yeah, and is to allow receipt pagination
+00:33:06	Marius van der Wijden:	Reacted to Could we focus on te... with "➕"
+00:33:15	Dragan Rakita:	Replying to "Could we focus on te..."
+
+So we would need calldata repricing for it
+00:34:03	Toni Wahrstätter:	Reacted to So we would need cal... with "👍"
+00:34:25	Marius van der Wijden:	Geth miner limits blocks to ~7mb, transactions only
+00:35:20	Justin Traglia:	@Francesco any updates on the variable PTC deadline PR?
+00:35:49	Ben Adams:	eth/70 I think we want to have live for Glamsterdam? So would test higher than 100M at somepoint to confirm that EIP is in and works
+00:35:56	Marius van der Wijden:	One thing I wanted to add to the prev discussion: please speed up implementation of eth/70 so we can go beyond 70mgas
+00:36:01	Dustin:	what's max gas which fits in 10MB?
+00:36:09	Dustin:	with repricings
+00:36:23	Marius van der Wijden:	Replying to "eth/70 I think we wa..." 
+
+ We are working on kurtosis tests to show it works
+00:36:31	Marius van der Wijden:	Replying to "eth/70 I think we wa..." 
+
+ Cc @pk910
+00:36:32	James He:	We should get the beacon api prs merged in early this week
+00:37:00	James He:	And update it with subsequent prs if needed, the discussions are too long and getting hidden
+00:38:31	Ben Adams:	Oh is the safe limit 70 without it?
+00:39:09	Ben Adams:	Replying to "One thing I wanted t..."
+
+Thought it was > 100M
+00:39:24	nflaig:	Replying to "We should get the be..."
+
+working on it with Shane
+00:39:31	Potuz:	For some reasons I can't raise hands so I'll leave it here the forkchoice change that is **needed*  is to not be broken by empty slots
+00:39:55	Justin Traglia:	Reacted to "For some reasons I c..." with 👍
+00:40:06	Ameziane Hamlat:	Replying to "One thing I wanted t..."
+
+I see 83 mgas on EIP-7975: eth/70
+00:40:12	nflaig:	Replying to "We should get the be..."
+
+we will remove block production changes so we can discuss that separately and move ahead with the PR and merge it
+00:40:18	Barnabas:	we have a  ethpandaops/geth:epbs-devnet-0
+00:40:27	James He:	Reacted to "we will remove block..." with 👍
+00:40:49	Caleb:	Reacted to "we have a  ethpand..." with 👍
+00:40:51	Justin Traglia:	Reacted to "we have a  ethpandao..." with 👍
+00:40:53	Mario Vega:	Reacted to "we have a  ethpandao..." with 👍
+00:40:56	Marius van der Wijden:	Replying to "One thing I wanted t..." 
+
+ Yeah 83
+00:41:03	Dustin:	Reacted to "we have a  ethpand..." with 👍
+00:41:36	Dustin:	Replying to "we have a  ethpand..."
+
+is this from some particular gh repo/branch?
+00:41:51	Dustin:	Replying to "we have a  ethpand..."
+
+or it is the gh org it looks like
+00:42:10	Barnabas:	Replying to "we have a  ethpandao..."
+
+its a fork of mine
+00:42:18	Barnabas:	Replying to "we have a  ethpandao..."
+
+I’ll check with marius if they can do an official upstream branch
+00:42:35	Dustin:	Replying to "we have a  ethpand..."
+
+that would be useful, not to rely on only a docker image
+00:43:41	Toni Wahrstätter:	Replying to "Want to call attenti..." 
+
+ My current feeling is that it should just put as late into the slot as possible, ensuring max time for propagation while still ensuring our target gas limit can be executed (in the worst case) until the next slot.
+00:43:51	Barnabas:	@FLCL mind giving us an update?
+00:43:51	FLCL:	sorry what was the question?
+00:43:54	Barnabas:	eth70
+00:44:07	Mario Vega:	eth70
+00:44:12	FLCL:	mic issues, no significant updates
+00:44:18	Mario Vega:	Reacted to "mic issues, no signi..." with 👍🏼
+00:44:31	FLCL:	We tried to test it and seems better to check it in a devnet
+00:46:14	Barnabas:	“Its working”
+“We are not sure why its working tho”
+
+😂 oops
+00:46:20	Mario Vega:	Reacted to "“Its working”
+“We ar..." with 😂
+00:46:37	Dragan Rakita:	Reacted to "“Its working”
+“We ar..." with 😂
+00:47:32	Barnabas:	Could we just do eth70 for devnet 3?
+00:47:38	pk910:	Reacted to "“Its working”
+“We ar..." with 😂
+00:47:41	Mario Vega:	Reacted to "Could we just do eth..." with 👀
+00:47:41	Ben Adams:	Reacted to "Could we just do eth..." with 👍
+00:47:50	FLCL:	Btw do you guys want to split only big receipts? Or anything that can be placed under size limit?
+00:48:12	nflaig:	Reacted to "we have a  ethpandao..." with 👍
+00:48:34	FLCL:	Replying to "Could we just do eth..."
+
+Others will be able to sync with full sync only
+00:52:33	Louis:	Benchmark Release: https://github.com/ethereum/execution-spec-tests/releases/tag/benchmark%40v0.0.7
+
+Benchmark Documentation: https://github.com/ethereum/execution-specs/blob/forks/amsterdam/docs/writing_tests/benchmarks.md
+00:52:50	Marius van der Wijden:	Replying to "Btw do you guys want..." 
+
+ We split only when a packet would exceed the size
+00:53:55	Maria Silva:	https://github.com/misilva73/evm-gas-repricings/blob/main/reports/gas_repricings_todo.md
+00:54:21	wolovim:	https://forkcast.org/calls/price/001
+00:54:36	Louis:	Replying to "https://github.com/m..."
+
+I will complete the eip-2780 benchmark today. wip
+00:56:50	Louis:	Guru is working on eip2780 spec right now, I am working on benchmark for it
+00:56:59	Mario Vega:	Reacted to "Guru is working on e..." with 👍🏼
+00:57:28	spencer-tb:	Reacted to "Guru is working on e..." with ❤️
+00:58:06	felipe:	Reacted to "Guru is working on..." with 👍🏼
+01:01:32	Marius van der Wijden:	+1 on 8037 on devnet-3
+01:01:51	Dragan Rakita:	Replying to "+1 on 8037 on devnet..."
+
+I like this too
+01:01:57	Marius van der Wijden:	Replying to "+1 on 8037 on devnet..." 
+
+ Its the most complex one, so we should get it out of the way early
+01:02:11	Stefan Starflinger:	Replying to "+1 on 8037 on devnet..."
+
+me too we should discuss what we want to see in devnet-3 https://forkcast.org/devnets/
+01:02:16	Mario Vega:	Reacted to "+1 on 8037 on devnet..." with 👀
+01:02:22	spencer-tb:	Replying to "+1 on 8037 on devnet..."
+
+Will push in EELS, tests etc this week
+01:02:26	Mario Vega:	Reacted to "Will push in EELS, t..." with 🔥
+01:02:28	Stefan Starflinger:	Replying to "+1 on 8037 on devnet..."
+
+8037 is pretty large so maybe just that?
+01:02:30	Maria Silva:	Reacted to "Will push in EELS, t..." with 🔥
+01:02:49	Dragan Rakita:	Replying to "+1 on 8037 on devnet..."
+
+Who is the person that I can contact related to it?
+01:02:58	Mario Vega:	Great logo 🔥
+01:03:09	Kamil Chodoła:	Reacted to "Great logo 🔥" with 🔥
+01:03:11	Maria Silva:	Replying to "+1 on 8037 on devnet..."
+
+You can message me Dragan
+01:03:11	Dragan Rakita:	Reacted to "Great logo 🔥" with 🔥
+01:03:22	Dragan Rakita:	Replying to "+1 on 8037 on devnet..."
+
+Cool, will do that
+01:03:48	spencer-tb:	Reacted to "Great logo 🔥" with 🔥
+01:04:06	Stefan Starflinger:	Reacted to "Great logo 🔥" with 🔥
+01:05:36	Toni Wahrstätter:	8037 + the data repricings (7976, 7981), which have specs and aren't complex based on steel's assesment
+01:06:21	Louis:	Reacted to "Great logo 🔥" with 🔥
+01:06:38	Toni Wahrstätter:	Would be great to get to testing higher gas limits without running into limits
+01:06:46	Toni Wahrstätter:	Reacted to Great logo 🔥 with "🔥"
+01:07:13	Maria Silva:	Reacted to "8037 + the data repr..." with 💯
+01:07:22	nixo:	Reacted to "Great logo 🔥" with 🔥
+01:07:52	Toni Wahrstätter:	Reacted to +1 on 8037 on devnet... with "👍"
+01:08:19	Justin Traglia:	Reacted to "Great logo 🔥" with 🔥
+01:08:20	Ameziane Hamlat:	This is great for EL performance benchmarking. Are you getting the results on all the runs or there is a way to have runs for warmup, and then use other runs for getting the metrics ?
+01:08:31	CPerezz:	Awesome work @Rafael Matias (skylenet) !!! 🎉
+01:08:36	spencer-tb:	Reacted to "Awesome work @Rafael..." with 👏
+01:08:38	Mario Vega:	Reacted to "Awesome work @Rafael..." with 👏
+01:08:38	Louis:	Amazing!!!
+01:08:39	Ameziane Hamlat:	Reacted to "Awesome work @Rafael..." with 💯
+01:08:41	Ameziane Hamlat:	Reacted to "Awesome work @Rafael..." with 👏
+01:08:48	Kamil Chodoła:	Reacted to "Awesome work @Rafa..." with 💯
+01:08:49	Kamil Chodoła:	Reacted to "Awesome work @Rafa..." with 👏
+01:08:57	Maria Silva:	Reacted to "Awesome work @Rafael..." with 👏
+01:09:20	Caleb:	beauty
+01:09:27	Justin Traglia:	Reacted to "Awesome work @Rafael..." with 👏
+01:09:28	Dragan Rakita:	Reacted to "Awesome work @Rafael..." with 👏
+01:09:53	Maria Silva:	And shoutout to @CPerezz ’s work on standardizing metrics. Super useful for folks wanted to analyze state operations
+01:09:53	nflaig:	Reacted to "Awesome work @Rafael..." with 👏
+01:10:00	CPerezz:	Reacted to "And shoutout to @CPe..." with ❤️
+01:10:05	wolovim:	Reacted to "And shoutout to @CPe..." with ❤️
+01:11:35	Toni Wahrstätter:	Reacted to And shoutout to @CPe... with "❤️"
+01:11:43	Toni Wahrstätter:	Reacted to Awesome work @Rafael... with "👏"
+01:13:00	felipe:	Reacted to "Awesome work @Rafa..." with 💯
+01:13:13	felipe:	Reacted to "Great logo 🔥" with 🔥
+01:13:57	Louis:	Reacted to "And shoutout to @CPe..." with ❤️
+01:14:44	Luis Pinto | Besu:	Reacted to "Awesome work @Rafael..." with 👏
