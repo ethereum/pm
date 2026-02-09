@@ -93,8 +93,8 @@ def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) ->
     issue_title = most_recent.get('issue_title', '')
     number = None
 
-    # Common patterns: "#1", "Call #21", "Breakout #10", etc.
-    match = re.search(r'#(\d+)', issue_title)
+    # Common patterns: "#1", "Call #21", "Breakout #10", "# 20", etc.
+    match = re.search(r'#\s*(\d+)', issue_title)
     if match:
         number = int(match.group(1))
     else:

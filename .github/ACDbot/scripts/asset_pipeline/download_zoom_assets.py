@@ -61,8 +61,8 @@ def extract_meeting_number(topic, series_name):
 
     # Common patterns for meeting numbers
     patterns = [
-        # Pattern for "ACDE #210", "ACDC #164", etc.
-        r'#(\d+)',
+        # Pattern for "ACDE #210", "ACDC #164", "RPC Standards # 20", etc.
+        r'#\s*(\d+)',
         # Pattern for "Meeting 210", "Call 164", etc.
         r'(?:Meeting|Call)\s+(\d+)',
         # Pattern for numbers at the end like "ACDE 210"
