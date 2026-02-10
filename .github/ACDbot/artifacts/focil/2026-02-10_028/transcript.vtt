@@ -1,0 +1,646 @@
+WEBVTT
+
+1
+00:05:35.370 --> 00:05:36.420
+Katya: Hello.
+
+2
+00:05:40.350 --> 00:05:41.120
+Jihoon: Hello!
+
+3
+00:07:41.880 --> 00:07:44.950
+Jihoon: You can wait just a few more minutes.
+
+4
+00:08:36.450 --> 00:08:41.390
+Jihoon: Alright, I think we can just begin. It doesn't seem like we're gonna spring more people.
+
+5
+00:08:43.049 --> 00:08:45.709
+Jihoon: So, can you guys hear me okay?
+
+6
+00:08:51.220 --> 00:08:52.360
+Jihoon: Alright, thank you.
+
+7
+00:08:55.990 --> 00:09:00.050
+Jihoon: Okay, so hello everyone, welcome to Fossil Breakout 28.
+
+8
+00:09:00.650 --> 00:09:03.680
+Jihoon: Today we can share a little bit about
+
+9
+00:09:04.070 --> 00:09:09.819
+Jihoon: The headliner status, and then share some development updates, as always.
+
+10
+00:09:10.170 --> 00:09:17.239
+Jihoon: So, for the headliner side, we proposed a fossil for a headliner for Hakota.
+
+11
+00:09:17.340 --> 00:09:22.420
+Jihoon: Slightly after the last breakout call, we made a proposal.
+
+12
+00:09:22.610 --> 00:09:26.140
+Jihoon: Here's the link in case anyone missed it.
+
+13
+00:09:29.370 --> 00:09:40.399
+Jihoon: And to my understanding, we'll be deciding the CL headliner in the next ACDC, which is on the 19th, so please check that call if you are available.
+
+14
+00:09:41.270 --> 00:09:48.309
+Jihoon: Alongside with it, I'm currently working on to updating Fossil spec.
+
+15
+00:09:48.440 --> 00:09:51.170
+Jihoon: starting from the CL spec, and then…
+
+16
+00:09:51.380 --> 00:09:54.330
+Jihoon: Execution spec and engine API spec.
+
+17
+00:09:55.620 --> 00:09:59.970
+Jihoon: The CL spec should be ready by next, say, CDC, that's our plan.
+
+18
+00:10:00.510 --> 00:10:10.169
+Jihoon: Yeah, so for the CL spec, I'm thinking about two main changes there.
+
+19
+00:10:10.320 --> 00:10:20.059
+Jihoon: So, one is about IELT bit list inclusivity check, and the second one is about, IELT compliance check.
+
+20
+00:10:20.710 --> 00:10:25.469
+Jihoon: Yeah, actually, I was thinking about…
+
+21
+00:10:26.520 --> 00:10:34.380
+Jihoon: how can I explain this nicely? And I made a… short scrape, so,
+
+22
+00:10:34.710 --> 00:10:36.770
+Jihoon: Let me share my screen.
+
+23
+00:10:54.910 --> 00:11:01.400
+Jihoon: Let's see, okay, so, won't be long, don't be afraid. Can you guys see my screen?
+
+24
+00:11:03.720 --> 00:11:04.589
+Katya: Yes. Yeah.
+
+25
+00:11:05.670 --> 00:11:07.269
+Jihoon: Okay, cool, thank you.
+
+26
+00:11:07.880 --> 00:11:15.219
+Jihoon: So, there are two main changes, and I just wanted to explain what that is, because it's a little bit different from what we
+
+27
+00:11:15.400 --> 00:11:18.940
+Jihoon: Start back in the days, so… Let's start off.
+
+28
+00:11:19.260 --> 00:11:27.310
+Jihoon: with ILT bit list inclusivity check. So, we want to add the ILT bit list in the bid, so builders
+
+29
+00:11:27.530 --> 00:11:32.290
+Jihoon: build in this bit list indicating which IELTS they've considered
+
+30
+00:11:32.430 --> 00:11:37.109
+Jihoon: When building a block. And this serves as a good signal for a proposal.
+
+31
+00:11:37.300 --> 00:11:40.669
+Jihoon: whether the payload will satisfy the IR constraints.
+
+32
+00:11:41.120 --> 00:11:44.549
+Jihoon: It's not a guarantee, so builders can provide with
+
+33
+00:11:45.100 --> 00:11:55.740
+Jihoon: an IL-incompliant block at the end, but if you see a bid that has an inclusive IL bit list, you'd expect the corresponding payload
+
+34
+00:11:56.160 --> 00:11:58.350
+Jihoon: would be IR compliant.
+
+35
+00:11:59.160 --> 00:12:07.370
+Jihoon: And here, inclusive means the ILP place is a super superset of your local IL view, so…
+
+36
+00:12:07.420 --> 00:12:20.540
+Jihoon: If your view is, let's say, 11101, which means you didn't see the fourth IL, you expect bits with 11101 or 11111.
+
+37
+00:12:21.780 --> 00:12:28.090
+Jihoon: And this inclusivity check can be done by either attesters or PTC.
+
+38
+00:12:28.290 --> 00:12:33.310
+Jihoon: The trade-off here is what to reorg when it's not inclusive.
+
+39
+00:12:33.610 --> 00:12:41.079
+Jihoon: If we go with our testers, we will gonna reorg become blocked, while PTC will reorg the envelope.
+
+40
+00:12:41.960 --> 00:12:45.680
+Jihoon: But here, reorging Beacon Block gives us more…
+
+41
+00:12:45.820 --> 00:12:55.280
+Jihoon: made bigger impact, because we were not gonna… we were gonna miss the whole slot, basically. So I think using PTC here is better.
+
+42
+00:12:56.010 --> 00:13:01.300
+Jihoon: And my next question was, can we do better? So…
+
+43
+00:13:02.010 --> 00:13:14.679
+Jihoon: Do we have to reorg envelope if the bit list is not inclusive? And my current thinking is it doesn't have to be, because the payload can be IL compliant.
+
+44
+00:13:14.870 --> 00:13:17.959
+Jihoon: Even when the petlist is not inclusive.
+
+45
+00:13:18.360 --> 00:13:32.909
+Jihoon: This can happen when the ILs overlap, so the missing IL doesn't really add any new transaction. And this is not unlikely, especially when an IL is able to include most of transactions in the public manpool.
+
+46
+00:13:32.990 --> 00:13:41.730
+Jihoon: So, my current proposal is to let's add IRB leads to the bid, and let PTC do vote for inclusivity.
+
+47
+00:13:42.070 --> 00:13:45.179
+Jihoon: But we didn't use it in the fork choice.
+
+48
+00:13:45.360 --> 00:13:53.369
+Jihoon: So, the IL bid list itself is informational purpose, so if you found a builder.
+
+49
+00:13:53.600 --> 00:13:57.830
+Jihoon: That makes a bid with not inclusive bid list.
+
+50
+00:13:57.980 --> 00:14:04.539
+Jihoon: or they make the bid with inclusive bit lists, but with non… I mean.
+
+51
+00:14:04.720 --> 00:14:09.419
+Jihoon: ILN-compliant block. You can downscore them, for example.
+
+52
+00:14:10.950 --> 00:14:20.489
+Jihoon: But I'm not… but I'm not 100% sure if this is the way we have to go, so if you have any better idea or feedback, please let me know.
+
+53
+00:14:22.830 --> 00:14:25.870
+Jihoon: So, that was for…
+
+54
+00:14:26.020 --> 00:14:43.930
+Jihoon: the IL bit less, and the second one is IL compliance check. So, when a tester for slot N receive an envelope for slot N-1, they check if it satisfies the IL constraints. In this case, let's assume that
+
+55
+00:14:44.150 --> 00:14:50.279
+Jihoon: It did… it's not IL compliant, so it misses this yellow transaction.
+
+56
+00:14:50.400 --> 00:15:02.570
+Jihoon: Then, a tester stored this payload as ILN compliant, and when they receive a PICOM block for slot N, they expect it to extend the envelope for slot
+
+57
+00:15:02.570 --> 00:15:12.420
+Jihoon: N minus 2, not N minus 1. They vote for the beacon block, or if it correctly reuse the IRN-compliant envelope, so…
+
+58
+00:15:12.990 --> 00:15:20.209
+Jihoon: This is it, so these two changes will be the main changes of the usepec on top of Coloss.
+
+59
+00:15:20.760 --> 00:15:29.820
+Jihoon: And… Yeah, sorry, I… I didn't see the, the… the raise then. Yes, Justin?
+
+60
+00:15:30.070 --> 00:15:40.440
+Justin Florentine (Besu): That's okay. I actually had a question on the, the bit list being a superset of what was in the beacon block, and maybe this is a stupid question.
+
+61
+00:15:40.600 --> 00:15:51.550
+Justin Florentine (Besu): how does the… how does the view merge allow for that? Like, aren't we saying that there are additional transactions that, not everybody may have seen?
+
+62
+00:15:53.840 --> 00:15:55.409
+Jihoon: Oh, so, that's…
+
+63
+00:15:56.260 --> 00:15:57.740
+Justin Florentine (Besu): Go ahead. Yes, Bluth, go ahead.
+
+64
+00:15:59.560 --> 00:16:15.389
+Justin Florentine (Besu): No, I'm just… what I don't under… I guess, let me try to elaborate on the question a little bit. What I don't understand is that, we have a bit list of various inclusion lists, yeah? And that adds up to a list of transactions that need to be included, but…
+
+65
+00:16:15.770 --> 00:16:27.949
+Justin Florentine (Besu): If what you're proposing is a superset of what was merged by the committee, couldn't you be asking to include transactions that not everybody has seen?
+
+66
+00:16:32.310 --> 00:16:36.599
+Jihoon: Or… For Builder, I guess, right? Because, like, when…
+
+67
+00:16:36.830 --> 00:16:50.870
+Jihoon: Yeah, build… but I think it doesn't hurt, because the builder ends up including more transactions than you expect, and it doesn't violate any of the fossil mechanisms, so what could go wrong is when…
+
+68
+00:16:50.970 --> 00:17:03.070
+Jihoon: a builder gives you non-supperset IL view, then you probably don't want to accept a bid, because it might contain, it might not contain
+
+69
+00:17:03.430 --> 00:17:05.109
+Jihoon: I.O. transaction.
+
+70
+00:17:05.109 --> 00:17:10.330
+Justin Florentine (Besu): Okay, so we check inclusion against the committee's subset inclusion list.
+
+71
+00:17:10.550 --> 00:17:14.330
+Jihoon: Not against what the actual proposer saw. Got it.
+
+72
+00:17:14.859 --> 00:17:15.930
+Justin Florentine (Besu): That makes sense.
+
+73
+00:17:17.160 --> 00:17:18.169
+Justin Florentine (Besu): Sorry, thank you.
+
+74
+00:17:18.170 --> 00:17:23.119
+Jihoon: Yes, so, yeah, yeah, so, when, testers validate the,
+
+75
+00:17:23.510 --> 00:17:31.870
+Jihoon: IR constraints, they use their local IL view, not the one in the bit list. So…
+
+76
+00:17:32.210 --> 00:17:35.750
+Jihoon: The bit list could be super sad, because proposer…
+
+77
+00:17:35.900 --> 00:17:41.930
+Jihoon: Our builder have one more second to receive and update their IL view? Yeah.
+
+78
+00:17:42.250 --> 00:17:48.699
+Justin Florentine (Besu): So they have no idea that the extra transaction was somebody's inclusion list, they just see it as an extra transaction, they don't care.
+
+79
+00:17:51.320 --> 00:17:59.020
+Jihoon: They actually receive… they might receive an inclusion list that a tester hasn't seen yet.
+
+80
+00:17:59.540 --> 00:18:07.679
+Jihoon: Because they have some extra time to update their IL view. But the… when you are validating,
+
+81
+00:18:08.130 --> 00:18:09.690
+Jihoon: I.O. constraints.
+
+82
+00:18:09.710 --> 00:18:19.500
+Jihoon: what you carry is actually a set of transactions, not the number of ILs. So, there might be a case that… yeah, so that's why I think
+
+83
+00:18:19.500 --> 00:18:31.329
+Jihoon: It is better to not use IL BitLays inclusivity in our fork choice, because there could be a case that it is not a superset, but the payload itself is actually IL compliant.
+
+84
+00:18:31.970 --> 00:18:32.670
+Justin Florentine (Besu): Got it.
+
+85
+00:18:33.010 --> 00:18:34.060
+Justin Florentine (Besu): Thank you.
+
+86
+00:18:35.450 --> 00:18:36.180
+Jihoon: Thank you.
+
+87
+00:18:39.720 --> 00:18:41.830
+Jihoon: Do we have any other question?
+
+88
+00:18:45.290 --> 00:18:52.990
+Mehdi Aouadi: Yeah, I'd like to ask a question, about the difference between the, PTC,
+
+89
+00:18:53.200 --> 00:18:55.590
+Mehdi Aouadi: Checks on the attester checks.
+
+90
+00:18:55.730 --> 00:18:59.360
+Mehdi Aouadi: So correct me if I'm wrong, but,
+
+91
+00:18:59.860 --> 00:19:07.920
+Mehdi Aouadi: if we go with the, PTC checks, does that mean that there will be, no…
+
+92
+00:19:08.190 --> 00:19:14.770
+Mehdi Aouadi: Impact on the fork choice, because in my understanding, rearguing the envelope is done earlier, right?
+
+93
+00:19:18.470 --> 00:19:21.629
+Jihoon: Reworking the envelope.
+
+94
+00:19:21.770 --> 00:19:30.650
+Jihoon: Yes, because PTC doesn't… They… I mean, PTC vote doesn't say anything about
+
+95
+00:19:31.050 --> 00:19:34.349
+Jihoon: whether the payload is IL compliant or not.
+
+96
+00:19:34.500 --> 00:19:42.910
+Jihoon: But actually, so what… what I'm proposing is, let PTC to vote for the ILP list inclusivity.
+
+97
+00:19:43.700 --> 00:19:56.729
+Jihoon: So, whether the ILP is in the bid was a superset to their local IL view. But actually, it doesn't have to be PTC. I think you made the right point. It could be done by our testers.
+
+98
+00:19:57.040 --> 00:20:02.790
+Jihoon: Because, yeah, I need to think a little bit more about this, because,
+
+99
+00:20:02.930 --> 00:20:05.780
+Jihoon: It's not… it's not set in stone yet, so…
+
+100
+00:20:05.780 --> 00:20:06.450
+Mehdi Aouadi: Okay.
+
+101
+00:20:07.060 --> 00:20:08.970
+Jihoon: Yeah, the… I think the Gist…
+
+102
+00:20:09.100 --> 00:20:21.410
+Jihoon: that I wanted to convey is that, we want to add IR bit list to signal proposal that this corresponding payload would satisfy the IR constraint or not.
+
+103
+00:20:21.530 --> 00:20:30.200
+Jihoon: But… And we also wanna ask testers or PTC to vote for ILB Middle East inclusivity.
+
+104
+00:20:30.560 --> 00:20:48.520
+Jihoon: But we don't want to… I think it's better to not use that information in our fork choice. But whether testers or PTC vote for that inclusivity check is something that we have to think a little bit more, so yeah.
+
+105
+00:20:49.280 --> 00:20:51.140
+Mehdi Aouadi: Okay, I see. Yeah, thanks.
+
+106
+00:20:52.200 --> 00:20:52.810
+Jihoon: Thank you.
+
+107
+00:21:01.600 --> 00:21:07.520
+Jihoon: Do we have any other question, or anything's unclear, or seems weird?
+
+108
+00:21:14.010 --> 00:21:16.899
+Jihoon: Alright, I'm planning to make a PR
+
+109
+00:21:17.370 --> 00:21:19.499
+Jihoon: By the end of this week, so…
+
+110
+00:21:19.670 --> 00:21:24.450
+Jihoon: I think we can have more productive discussion once we have the code ready.
+
+111
+00:21:24.790 --> 00:21:36.159
+Jihoon: So, yeah, I'm pretty sure that we're gonna revisit this topic in the next breakout, so if my explanation was not clear enough, it's okay, we can just revisit it later.
+
+112
+00:21:36.600 --> 00:21:42.730
+Jihoon: And, yeah, so that was… all that I wanted to share.
+
+113
+00:21:43.040 --> 00:21:47.160
+Jihoon: Do we have any other updates or something to discuss?
+
+114
+00:21:57.870 --> 00:21:58.909
+Jihoon: Yes, Tyler?
+
+115
+00:22:00.180 --> 00:22:06.950
+Pelle Krabbenhoeft: Yeah, I guess I can go over some of the research I've been doing on the different delays with the inclusion list.
+
+116
+00:22:07.160 --> 00:22:26.899
+Pelle Krabbenhoeft: The data's a little messy with using the Excel data, from PandaOps, but, it's pretty much what everyone assumed with the current setup, with zero delay. 20% are…
+
+117
+00:22:27.540 --> 00:22:33.909
+Pelle Krabbenhoeft: 20% of the transactions in the inclusion list are getting added to the next block,
+
+118
+00:22:34.260 --> 00:22:53.499
+Pelle Krabbenhoeft: Regardless, so essentially, it's a wasted space, and when we move the delay to 1 and 2, it only increases by about 0.1%. It's still pretty messy, because there's a lot of spam transactions, and I can't check the state, since it's all historical data, but…
+
+119
+00:22:53.580 --> 00:23:07.699
+Pelle Krabbenhoeft: Other than that, and the censorship-only IOs, which are just transactions that have been flagged as censored, as you can expect, the delay doesn't really affect them, so…
+
+120
+00:23:07.870 --> 00:23:13.780
+Pelle Krabbenhoeft: I think a one, slot delay, as talked earlier, wouldn't be too bad, but…
+
+121
+00:23:13.900 --> 00:23:21.789
+Pelle Krabbenhoeft: I got some new data that I'm gonna go over soon from, Block Native, so hopefully that gives me a little bit more resolution, but yeah.
+
+122
+00:23:25.210 --> 00:23:32.209
+Jihoon: So… if I understood you correctly, delaying it by one slot would give us better results, because
+
+123
+00:23:32.450 --> 00:23:35.090
+Jihoon: It gives us extra 1%.
+
+124
+00:23:35.990 --> 00:23:41.329
+Pelle Krabbenhoeft: Gives us extra 0.1%, so there's not much of a difference.
+
+125
+00:23:41.570 --> 00:23:54.330
+Pelle Krabbenhoeft: Yeah, I'm not quite sure if it would really look like this, on, like, a live node with IELTS implemented, because we are having such a low inclusion rate of
+
+126
+00:23:54.550 --> 00:24:03.789
+Pelle Krabbenhoeft: the mock inclusion list. So we're building a mock inclusion list and then checking how many of those transactions get added into the next block.
+
+127
+00:24:03.810 --> 00:24:15.569
+Pelle Krabbenhoeft: And obviously, the IL is not actually being applied, and that's only about 20% of the mock IL with the current mempool data I have.
+
+128
+00:24:15.740 --> 00:24:30.679
+Pelle Krabbenhoeft: So, I've been trying a bunch of things to filter it out better, but, right now, it still also seems like it's a good idea to just fill the include… the full inclusion list, opposed to only doing sensor transactions.
+
+129
+00:24:33.400 --> 00:24:38.469
+Jihoon: Could you expand a little bit of the censorship detection algorithm?
+
+130
+00:24:39.000 --> 00:24:48.450
+Pelle Krabbenhoeft: Yeah, for the censorship detection algorithm, I was just looking at transactions that were valid. They were above the…
+
+131
+00:24:48.610 --> 00:24:52.450
+Pelle Krabbenhoeft: Base fee, and we're also above the top
+
+132
+00:24:52.490 --> 00:25:12.379
+Pelle Krabbenhoeft: 10 or 25th percentile of priority fees, so we're not looking at, like, bottom-bottom transactions, stuff that should likely be included. I can pull that up now. The average IL was including for those transactions per block for the mock ILs, but it was just a very simple
+
+133
+00:25:12.380 --> 00:25:21.530
+Pelle Krabbenhoeft: this looks like it should have been valid and put into a block, but it's been sitting in the mempool for 2 plus blocks, I believe, is the current setup.
+
+134
+00:25:23.870 --> 00:25:26.400
+Jihoon: Got it. Right.
+
+135
+00:25:27.560 --> 00:25:33.879
+Pelle Krabbenhoeft: And hopefully by next time, I'll have this ran up so it's not just me talking at everyone.
+
+136
+00:25:36.070 --> 00:25:42.430
+Jihoon: Yeah, that makes sense, yeah, great. Maybe we can also have… simulate various
+
+137
+00:25:42.830 --> 00:25:47.379
+Jihoon: Intentionally building algorithm, and then see how it affects the research.
+
+138
+00:25:49.020 --> 00:25:49.560
+Jihoon: I mean…
+
+139
+00:25:49.560 --> 00:25:51.110
+Pelle Krabbenhoeft: I was thinking, yeah.
+
+140
+00:25:51.260 --> 00:25:56.089
+Pelle Krabbenhoeft: Yeah. Yeah, it would definitely be possible and pretty easy to, like, add on top of this, but yeah.
+
+141
+00:25:56.360 --> 00:25:58.160
+Pelle Krabbenhoeft: Definitely for the future.
+
+142
+00:26:00.970 --> 00:26:07.550
+Jihoon: Yeah, yeah, we'd love to see if delaying it by one slot would give us
+
+143
+00:26:08.510 --> 00:26:16.700
+Jihoon: much network bandwidth saved, so… Yeah, it's a great research, I think, so… and thanks for the update.
+
+144
+00:26:19.370 --> 00:26:25.600
+Pelle Krabbenhoeft: Yeah, and on the network bandwidth, you're looking at… yeah…
+
+145
+00:26:25.770 --> 00:26:30.610
+Pelle Krabbenhoeft: About 20% saved, because you can…
+
+146
+00:26:31.960 --> 00:26:35.620
+Pelle Krabbenhoeft: Wait, sorry. Wait, never mind. Let me think about that for a second.
+
+147
+00:26:36.590 --> 00:26:42.010
+Jihoon: Yeah, because… I, I think that network… Bandwidth save is…
+
+148
+00:26:43.060 --> 00:26:46.920
+Jihoon: 0.1%, according to your current data.
+
+149
+00:26:47.540 --> 00:26:50.040
+Pelle Krabbenhoeft: Yeah. Because that's what we… yeah, yeah.
+
+150
+00:26:50.190 --> 00:26:51.160
+Jihoon: So, yeah.
+
+151
+00:26:51.670 --> 00:26:52.739
+Jihoon: Yeah, we'll see.
+
+152
+00:26:53.130 --> 00:26:53.830
+Jihoon: Yeah.
+
+153
+00:26:54.980 --> 00:26:56.719
+Jihoon: Looking forward to the update.
+
+154
+00:26:57.020 --> 00:26:59.650
+Jihoon: In the next breakout call. Thank you.
+
+155
+00:27:06.360 --> 00:27:09.009
+Jihoon: Alright, do we have any other updates?
+
+156
+00:27:26.830 --> 00:27:28.069
+Jihoon: Alright, Ethan.
+
+157
+00:27:29.100 --> 00:27:31.309
+Jihoon: We can just go ahead and wrap this call.
+
+158
+00:27:31.710 --> 00:27:39.500
+Jihoon: Yeah, thank you guys for joining. Hope you guys have a great rest of your day, and see you guys in two weeks. Thank you!
+
+159
+00:27:40.580 --> 00:27:41.960
+Katya: Thank you, bye.
+
+160
+00:27:42.250 --> 00:27:43.189
+Mehdi Aouadi: Thank you, bud.
+
+161
+00:27:44.300 --> 00:27:44.950
+Pelle Krabbenhoeft: Thanks.
+
