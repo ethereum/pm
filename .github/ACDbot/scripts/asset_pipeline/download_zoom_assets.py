@@ -162,23 +162,9 @@ def download_assets_for_meeting(
         'CHAT': 'chat.txt',
     }
 
-    existing_assets = []
-    for file_type, filename in asset_map.items():
-        filepath = meeting_dir / filename
-        if filepath.exists():
-            existing_assets.append(filename)
-
     # Check if summary exists (only relevant if include_summary is True)
     summary_path = meeting_dir / 'summary.json'
     summary_exists = summary_path.exists()
-    if summary_exists:
-        existing_assets.append('summary.json')
-
-    # Determine if all required assets exist
-    summary_satisfied = summary_exists if include_summary else True
-    if existing_assets and summary_satisfied:
-        print(f"   ⏭️  Skipping {date_part} - all assets already exist: {', '.join(existing_assets)}")
-        return
 
     meeting_dir.mkdir(parents=True, exist_ok=True)
 
