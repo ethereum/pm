@@ -271,11 +271,12 @@ class FormParser:
     def parse_date_time(self, issue_body: str) -> Optional[str]:
         """Extract date/time from form input."""
         # Try with extra newline (real GitHub Issue Form format)
-        pattern = r"### UTC Date & Time\n\n([^\n]+)"
+        # Note: [ \t]* handles optional trailing whitespace on the header line
+        pattern = r"### UTC Date & Time[ \t]*\n\n([^\n]+)"
         match = re.search(pattern, issue_body)
         if not match:
             # Try without extra newline (test data format)
-            pattern = r"### UTC Date & Time\n([^\n]+)"
+            pattern = r"### UTC Date & Time[ \t]*\n([^\n]+)"
             match = re.search(pattern, issue_body)
 
         if match:
