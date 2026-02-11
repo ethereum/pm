@@ -52,8 +52,8 @@ jobs:
           issue_number = ''
           for occ in data.get('occurrences', []):
               title = occ.get('issue_title', '')
-              # Match patterns: '#123', '# 123', 'Meeting 123', 'Call 123'
-              pattern = rf'(?:#\s*{call_num}|(?:Meeting|Call)\s+{call_num})(?:\D|$)'
+              # Match patterns: '#123', '# 123', '#0123', 'Meeting 123', 'Call 123', 'Breakout 123'
+              pattern = rf'(?:#\s*0*{call_num}|(?:Meeting|Call|Breakout)\s+0*{call_num})(?:\D|$)'
               if re.search(pattern, title, re.IGNORECASE):
                   issue_number = str(occ.get('issue_number', ''))
                   break
