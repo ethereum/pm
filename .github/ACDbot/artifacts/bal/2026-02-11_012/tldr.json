@@ -1,0 +1,116 @@
+{
+  "meeting": "EIP-7928 Breakout #12 - February 11, 2026",
+  "highlights": {
+    "client_optimization_status": [
+      {
+        "timestamp": "00:10:14",
+        "highlight": "Besu: All 3 optimizations live on bal-devnet-2 (parallel exec, state root, prefetch)"
+      },
+      {
+        "timestamp": "00:11:43",
+        "highlight": "Reth: Parallel exec and state root in progress; batch I/O delayed"
+      },
+      {
+        "timestamp": "00:12:36",
+        "highlight": "Nethermind: Parallel exec in progress; state root partially implemented; batch I/O not started"
+      },
+      {
+        "timestamp": "00:14:47",
+        "highlight": "Geth: 3 performance presets implemented via flags; block building issue being resolved"
+      }
+    ],
+    "devnet_and_testing": [
+      {
+        "timestamp": "00:17:43",
+        "highlight": "bal-devnet-2 stable; Besu and Geth ready for benchmarking"
+      },
+      {
+        "timestamp": "00:18:41",
+        "highlight": "Benchmarking framework needs BAL-specific tests targeting parallel exec, state root, prefetch"
+      },
+      {
+        "timestamp": "00:19:15",
+        "highlight": "ETH/71 (DevP2P BAL retrieval) required for reorg scenarios; must test with sync"
+      },
+      {
+        "timestamp": "00:27:40",
+        "highlight": "EELS can now fill Amsterdam benchmark tests; BAL-specific benchmarks in progress"
+      }
+    ],
+    "early_block_rejection": [
+      {
+        "timestamp": "00:41:06",
+        "highlight": "Static cap: BAL items limited by gas_limit/2000; prevents malicious builder DOS"
+      },
+      {
+        "timestamp": "00:42:50",
+        "highlight": "Dynamic check: track untouched items vs remaining gas to reject invalid blocks early"
+      },
+      {
+        "timestamp": "00:44:19",
+        "highlight": "Must exclude system contract accesses from dynamic check to avoid false positives"
+      }
+    ],
+    "json_rpc_updates": [
+      {
+        "timestamp": "00:49:56",
+        "highlight": "JSON RPC methods implemented in Besu, Nethermind, Geth for devnet-2"
+      },
+      {
+        "timestamp": "00:51:22",
+        "highlight": "Devnet-3: return BAL as JSON object (not RLP bytes); naming debate ongoing"
+      },
+      {
+        "timestamp": "00:57:49",
+        "highlight": "eth_simulateV1 should be implemented in devnet-3 for benchmarking support"
+      }
+    ],
+    "networking": [
+      {
+        "timestamp": "00:23:55",
+        "highlight": "ETH/71 spec adds getBAL method; separate from block bodies for cleaner implementation"
+      },
+      {
+        "timestamp": "01:02:13",
+        "highlight": "ETH/71 must support partial BAL responses (>10MB) like ETH/70 receipts"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:38:39",
+      "action": "Merge DevP2P ETH/71 spec and create corresponding EIP for BAL retrieval",
+      "owner": "Toni"
+    },
+    {
+      "timestamp": "00:46:10",
+      "action": "Update specs: static BAL item cap and dynamic rejection check (exclude system contracts)",
+      "owner": "Toni"
+    },
+    {
+      "timestamp": "00:56:02",
+      "action": "Finalize JSON RPC naming convention (byBlockHash vs byHash) in execution-apis PR #726",
+      "owner": "All teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:41:30",
+      "decision": "Static consensus rule: max BAL items = block_gas_limit / 2000"
+    },
+    {
+      "timestamp": "00:44:52",
+      "decision": "Dynamic check filters system contract accesses to prevent false positive rejections"
+    },
+    {
+      "timestamp": "01:02:26",
+      "decision": "Devnet-3 scope: BAL optimizations + EIP-8037 state creation + EIP-7954 max contract size"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:51:35",
+      "target": "Devnet-3: BAL as JSON objects, corrected RPC naming, eth_simulateV1 support"
+    }
+  ]
+}

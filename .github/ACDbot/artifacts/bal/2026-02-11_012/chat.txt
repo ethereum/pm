@@ -1,0 +1,138 @@
+00:07:11	jochem-brouwer:	gm
+00:08:02	Stefan Starflinger:	just got an orphaned block https://dora.bal-devnet-2.ethpandaops.io/
+00:08:13	Stefan Starflinger:	https://dora.bal-devnet-2.ethpandaops.io/slot/0x8d6acf6b83118db07a66a247fa46ba0ee400c665fee2078371418bb111fa698c
+00:08:36	Toni Wahrstätter:	Agenda:
+https://github.com/ethereum/pm/issues/1917
+00:13:21	Karim T. (matkt):	Nice is it from from benchmark you did ?
+00:14:13	Ameziane Hamlat:	Reacted to "asked claude for a c..." with 😮
+00:14:47	Ameziane Hamlat:	Replying to "asked claude for a c..."
+
+Bonsai L1 cache 😂, I like the analogy with CPU L1 cache
+00:15:02	mirgee:	Reacted to "Bonsai L1 cache 😂, ..." with 😄
+00:15:05	Karim T. (matkt):	Replying to "asked claude for a c..."
+
+I should maybe rename it like that
+00:16:49	Stefan Starflinger:	This is just from the prometheus metrics and logs
+00:16:55	Stefan Starflinger:	@geth what are the flags?
+00:17:03	Karim T. (matkt):	Reacted to "This is just from th..." with 🔥
+00:17:17	Ameziane Hamlat:	@Stefan Starflinger There may be an issue with the numbers, I don’t see how prefetch would help that much in reducing the reads
+00:18:17	Dragan Rakita:	We figured out the problem that we had with EIP-7778 on devnet-2
+00:18:42	Jared Wasinger:	Replying to "We figured out the p..."
+
+ —bal.executionmode={sequential|full|nobatchio}
+00:19:20	Ameziane Hamlat:	Replying to "This is just from th..."
+
+I see, so that’s based only on the metrics on the flat database reads. As those reads are batched in advanced, besu doesn’t need to do it during execution.
+00:19:56	Ameziane Hamlat:	Replying to "asked claude for a c..."
+
+I think I understand now the results
+00:20:16	Stefan Starflinger:	Replying to "asked claude for a c..."
+
+I didn't question the numbers yet :D
+00:20:47	Karim T. (matkt):	We said we should keep a minimum of BAL without pruning
+00:21:10	Karim T. (matkt):	Something like 113056 blocks
+00:23:23	felipe:	I wanted to note EELS has a branch of geth with support for opcode counts and has latest Amsterdam updates to t8n. I was able to fill some Amsterdam benchmark tests via these dev branches yesterday. We should be able to start building BAL-specific benchmark tests there soon.
+00:23:49	spencer-tb:	Reacted to "I wanted to note EEL..." with ❤️
+00:24:02	Karim T. (matkt):	For me BAL should also be available using P2P
+00:25:00	spencer-tb:	Replying to "I wanted to note EEL..."
+
+Does anyone know how we want to benchmark BAL specifically, parallel/serial/both <- for benchmark tests in EELS
+00:25:39	jochem-brouwer:	Where is the eth/71 spec? Is it draft EIP?
+00:26:05	Stefan Starflinger:	So what is the status on EEST benchmarking and benchmarkoor?
+00:26:11	felipe:	Replying to "I wanted to note E..."
+
+cc: @jochem-brouwer^^ I know you had some thoughts on BAL-specific benchmarks
+00:27:10	felipe:	Replying to "So what is the sta..."
+
+It's EELS all the way down now 🙂
+00:27:40	Stefan Starflinger:	Replying to "So what is the statu..."
+
+Giphy [ID:NEvPzZ8bd1V4Y]
+[Full message cannot be displayed on this version]
+00:35:10	Ameziane Hamlat:	In case of benchmarking BAL features, clients need to be benchmarked in separate VMs to have access to available cores and not fight on cores with other clients.
+00:37:07	Barnabas:	I’d recommend holding back shadowforks till we have all EL clients confirmed working with BAL optimizations. As these are pretty expensive tests to run.
+00:39:01	Toni Wahrstätter:	https://github.com/ethereum/devp2p/pull/264/
+00:40:27	jochem-brouwer:	Antwoord verzenden naar "https://github.com..."
+
+FYI, here is eth/70 EIP: https://eips.ethereum.org/EIPS/eip-7975
+00:44:52	Karim T. (matkt):	What do you mean by “This check SHOULD be performed periodically (e.g., every 8 transactions) to enable early rejection without impacting parallel execution.” ?
+
+Do you think this check will impact // execution ? Seems to be a light check
+00:46:10	jochem-brouwer:	Antwoord verzenden naar "I’d recommend hol..."
+
+Yes agreed, first focus on parallel execution and then later on state or sync which would require big state / shadowfork to bench correctly
+00:48:54	jochem-brouwer:	This would be part of benchmark effort also I'd say (invalid BALs)
+00:50:08	Marc:	implemented in nethermind
+00:50:16	Barnabas:	can we get it merged?
+00:50:19	Barnabas:	and add it to hive ?
+00:51:22	Karim T. (matkt):	Is it eth_getBlockAccessListByBlockHash or eth_getBlockAccessListByHash
+00:52:25	Karim T. (matkt):	yes
+00:53:49	Ameziane Hamlat:	It is different from existing RPC we already have ex.
+debug_traceBlockByHash and
+debug_traceBlockByNumber
+00:54:59	Karim T. (matkt):	We already have eth_getTransactionByBlockHashAndIndex
+00:56:02	jochem-brouwer:	I think it is ambiguous because eth_getBlockAccessListByHash could mean BAL hash or BlockHash, while eth_getBlockAccessListByBlockHash is clear what the hash points to
+00:56:06	Barnabas:	I think this is a call to be made in the rpc standard call
+00:56:08	Barnabas:	lol
+00:56:10	Karim T. (matkt):	Not sure eth_getBlockAccessListByHash you don’t know if it is the hash of BAL
+00:56:13	felipe:	Reacted to "I think it is ambi..." with ➕
+00:56:32	jochem-brouwer:	Heeft gereageerd op "I think this is a ..." met 👍
+00:56:42	Barnabas:	How about eth_getBlockAccessListByBalHash ?
+00:56:54	Karim T. (matkt):	Reacted to "How about eth_getBlo..." with 😱
+00:56:57	Toni Wahrstätter:	https://github.com/ethereum/execution-apis/pull/726
+00:57:05	felipe:	Reacted to "How about eth_getB..." with ➕
+00:57:24	jochem-brouwer:	This is also good for RPC consumers to let them chime in on here what would be a good practice :)
+00:57:49	Ameziane Hamlat:	Reacted to "How about eth_getBlo..." with ➕
+00:58:02	jochem-brouwer:	eth_simulate?
+00:58:03	Barnabas:	eth_simulateV1
+00:58:09	jochem-brouwer:	Heeft gereageerd op "eth_simulateV1" met 👍
+00:58:11	felipe:	Reacted to "eth_simulateV1" with 👍
+00:58:17	Stefan Starflinger:	Lets get all the hive tests passing otherwise all good from my end
+00:58:21	jochem-brouwer:	Antwoord verzenden naar "eth_simulateV1"
+
+Does it interact with BAL?
+00:58:22	Karim T. (matkt):	Do you have a link to the spec of this RPC ?
+00:58:27	Barnabas:	Replying to " eth_simulateV1 "
+
+shouldn’t
+00:58:34	Barnabas:	Replying to " eth_simulateV1 "
+
+it will help us with benchmarking tho
+00:58:38	jochem-brouwer:	Heeft gereageerd op "it will help us wi..." met 👍
+00:58:46	Karim T. (matkt):	eth_simulateV2 ?
+00:58:48	jochem-brouwer:	Antwoord verzenden naar "eth_simulateV1"
+
+Ah right yes it could def. strain exec time
+00:59:30	Barnabas:	Replying to "eth_simulateV2 ?"
+
+https://github.com/ethereum/execution-apis/blob/main/docs-api/api/methods/eth_simulateV1.mdx
+00:59:38	Barnabas:	Replying to "eth_simulateV2 ?"
+
+there is a v2?
+00:59:39	Karim T. (matkt):	Replying to "eth_simulateV2 ?"
+
+thanks
+00:59:51	Karim T. (matkt):	Replying to "eth_simulateV2 ?"
+
+No I was asking if you want a v2
+01:00:22	Barnabas:	Replying to "eth_simulateV2 ?"
+
+I want every client to implement v1
+01:00:32	Barnabas:	Replying to "eth_simulateV2 ?"
+
+as we still have a bunch of clients not having v1
+01:01:54	Karim T. (matkt):	Replying to "eth_simulateV2 ?"
+
+We have but are you asking to add BAL compatibility ?
+01:02:26	Barnabas:	Suggestion for devnet 3 scope:
+
+BAL OPTIMIZATIONS (parallel exec, parallel state loading, parallel state root calc) 
+8037 State Creation Gas Cost Increase 
+7954 Increase Maximum Contract Size
+01:03:38	Stefan Starflinger:	Reacted to "Suggestion for devne..." with 👍
+01:08:22	Fireflies.ai Notetaker Gustavo:	Gustavo invited Fireflies.ai here to record & take notes. View Security & Privacy info: https://fireflies.ai/policy
+
+Type:
+'/ff leave' - Remove Fireflies
+
+View Realtime notes here: https://app.fireflies.ai/live/01KH1JNFZ76EHSA6NDV1FP1H0H?ref=live_chat
