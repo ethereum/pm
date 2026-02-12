@@ -1,0 +1,196 @@
+00:01:34	nixo:	gm
+00:02:10	Potuz:	gm
+00:02:13	Mario Havel:	Leeeeeeeeroooooooooy
+00:02:21	nixo:	Reacted to "Leeeeeeeeroooooooooy" with 😂
+00:03:01	Justin Florentine (Besu):	if we keep putting memeable forknames, yes
+00:03:04	Ansgar Dietrichs:	https://github.com/ethereum/pm/issues/1921
+00:04:12	Stefan Starflinger:	https://dora.bal-devnet-2.ethpandaops.io/
+00:05:12	felipe:	Reacted to "Leeeeeeeeroooooooo..." with 😂
+00:07:08	Stefan Starflinger:	https://github.com/ethpandaops/bal-devnets/pull/29 examples for the flags besu and geth have
+00:08:53	Ansgar Dietrichs:	the two EIP-8024 changes discussed:
+https://github.com/ethereum/EIPs/pull/11094#issuecomment-3769076517 
+https://github.com/ethereum/EIPs/pull/11306
+00:12:32	Stefan Starflinger:	https://hive.ethpandaops.io/#/group/generic?suites=rpc-compat 
+e.g eth_simulateV1 fail example: https://hive.ethpandaops.io/#/test/generic/1768973576-78237392b0c263f38d2ab3465fd9ac5c?testnumber=133
+00:12:58	Stefan Starflinger:	——— devnet-3 
+BAL OPTIMIZATIONS (parallel exec, parallel state loading, parallel state root calc) 
+8037 State Creation Gas Cost Increase 
+7954 Increase Maximum Contract Size
+00:14:16	Toni Wahrstätter:	Replying to "——— devnet-3 
+BAL OP..." 
+
+ What about eth/70?
+We wanted to increase the higher gas limit and without the data repricing we may run into limits.
+00:14:23	Ben Adams:	Reacted to "What about eth/70?
+W..." with 👍
+00:14:27	Ansgar Dietrichs:	- non EIP priorities
+	- BAL optimizations
+		- parallel execution
+		- parallel state root calculation
+		- batched state reads
+	- `eth_simulateV1` RPC support
+- EIP priorities
+	- devnet-3
+		- EIP-8037: State Creation Gas Cost Increase
+		- EIP-7954: Increase Maximum Contract Size
+	- devnet-4+
+		- data repricings
+			- EIP-7976: Increase Calldata Floor Cost
+			- EIP-7981: Increase Access List Cost
+		- other repricings
+			- EIP-2780: Reduce intrinsic transaction gas
+			- EIP-7904: General Repricing
+			- EIP-8038: State-access gas cost increase
+		- EIP-7975: eth/70 - partial block receipt lists
+		- EIP-8070: Sparse Blobpool
+		- EIP-7997: Deterministic Factory Predeploy
+00:14:31	Stefan Starflinger:	Replying to "——— devnet-3 
+BAL OP..."
+
+Thats on a separate devnet, right?
+00:14:41	Toni Wahrstätter:	Replying to "——— devnet-3 
+BAL OP..." 
+
+ So eth/70, 7976 and 7981
+00:16:51	Karim T. (matkt):	Eth/71 for devnet 3 ? https://github.com/ethereum/EIPs/pull/11307
+00:19:24	nixo:	Replying to "- non EIP priorities..."
+
+non EIP priorities:
+BAL optimizations
+- parallel exec
+- parallel state root calculation
+- batched state reads
+
+EIP priorities
+devnet-3
+- 8037 State Creation Gas Cost Increase
+- 7954 Increase Maximum Contract Size
+——— devnet-4 & beyond
+data repricings
+- 7976 Increase Calldata Floor Cost
+- 7981 Increase Access List Cost
+- 2780 Reduce intrinsic transaction gas
+- 7904 General Repricing
+- 8038 State-access gas cost increase
+- 7975: eth/70 - partial block receipt lists
+- 8070 Sparse Blobpool
+- 7997 Deterministic Factory Predeploy
+00:19:34	Stefan Starflinger:	Replying to "Eth/71 for devnet 3 ..."
+
+Thats a good point, I think it would be great if we can include this
+00:19:34	nixo:	Replying to "- non EIP priorities..."
+
+7778 missing
+00:19:40	Stefan Starflinger:	Reacted to "Eth/71 for devnet 3 ..." with 👍
+00:21:07	Mario Vega:	Reacted to "Eth/71 for devnet 3 ..." with 👍
+00:21:23	FLCL:	Average receipts rlp is like 200KB on mainnet
+00:21:55	Justin Florentine (Besu):	Replying to "Average receipts rlp..."
+
+do you have examples of worst cases or 95/99 percentiles?
+00:22:17	Karim T. (matkt):	Replying to "Eth/71 for devnet 3 ..."
+
+BAL item cap https://github.com/ethereum/EIPs/pull/11234 not sure when we want to have it as it will depend if we want to add read into BAL @Toni Wahrstätter
+00:22:39	Ahmad Bitar | Nethermind:	Replying to "Eth/71 for devnet 3 ..." 
+
+ Are clients expected to store the access list to serve it? Unless you're an archive node, you will not be able to serve this for historical blocks
+00:22:44	marek:	agree with @Felix (Geth)
+00:22:45	FLCL:	let me collect, will post later in el networking
+00:22:58	Justin Florentine (Besu):	Reacted to "let me collect" with 🙏
+00:23:08	Toni Wahrstätter:	Reacted to Eth/71 for devnet 3 ... with "👍"
+00:23:23	Ahmad Bitar | Nethermind:	Replying to "Eth/71 for devnet 3 ..." 
+
+ I wouldnt include BAL in p2p tbh. By default clients will not be able to serve it
+00:23:25	Mario Vega:	Reacted to "let me collect, will..." with 🙏
+00:23:30	Karim T. (matkt):	Replying to "Eth/71 for devnet 3 ..."
+
+We should keep them during a Weak Subjectivity Period
+00:23:51	Karim T. (matkt):	And after we can prune them, so clients will be able to serve recent BALs
+00:24:09	Ahmad Bitar | Nethermind:	Replying to "Eth/71 for devnet 3 ..." 
+
+ But thats a short time, syncing clients will not really need them to catch up to the tip
+00:24:19	Fabio Di Fabio:	Make sense to add eth/70 to Glamsterdam
+00:24:24	Marius van der Wijden:	Reacted to "Make sense to add ..." with 👍
+00:24:28	Stefan Starflinger:	Reacted to "Make sense to add et..." with 👍
+00:25:17	Karim T. (matkt):	Replying to "Eth/71 for devnet 3 ..."
+
+113056 it is enough for healing optimization during snap sync, or enabled // during backward sync if you node turned off during some days
+00:25:41	Andrew Ashikhmin:	What’s the eth/71 EIP?
+00:25:48	Ansgar Dietrichs:	we are overloading the term “protocol” here :-)
+00:26:18	Toni Wahrstätter:	Replying to "What’s the eth/71 EI..." 
+
+ https://github.com/ethereum/EIPs/pull/11307
+00:26:24	Andrew Ashikhmin:	Reacted to "https://github.com/e..." with 👍
+00:28:11	Justin Florentine (Besu):	perfect
+00:28:18	Ansgar Dietrichs:	every blockchain needs a deadline guy
+00:28:25	Justin Florentine (Besu):	Barnabus "deadline" Busa
+00:28:29	G1:	Reacted to "every blockchain n..." with 😂
+00:28:32	Stefan Starflinger:	Reacted to "every blockchain nee..." with 😂
+00:28:33	G1:	Reacted to "Barnabus "deadline..." with 😂
+00:28:34	Marius van der Wijden:	We have an eth/70 devnet: https://dora.nft-devnet-10.ethpandaops.io/ which can be used for testing
+00:28:35	Katya:	Reacted to "Barnabus "deadline" ..." with 😂
+00:28:41	felipe:	Reacted to "Barnabus "deadline..." with 😂
+00:28:45	felipe:	Reacted to "every blockchain n..." with 💯
+00:28:46	Marius van der Wijden:	Replying to "We have an eth/70 ..."
+
+Geth and Nethermind are working
+00:29:53	FLCL:	Replying to "We have an eth/70 de..."
+
+Works in nethermind, we are adding more tests and constraints
+00:31:16	Stefan Starflinger:	what about besu? eth/70
+00:31:33	Fabio Di Fabio:	Replying to "what about besu? eth..."
+
+implemented, and testing right now
+00:31:33	Stefan Starflinger:	makes sense
+00:31:40	Stefan Starflinger:	Reacted to "implemented, and tes..." with 👍
+00:31:48	Dragan Rakita:	Replying to "We have an eth/70 de..."
+
+Reth branch  matt/make-eth70-default  and image should be at ghcr.io/paradigmxyz/reth:8399bafdbe36d9660a1752800534cf8a7cb4e6c6
+00:40:25	Ansgar Dietrichs:	I was curious whether Justin would remain video on during Anders’ presentation :-)
+00:43:39	Marc:	is there anything to prevent key providers withholding keys?
+00:43:41	Justin Florentine (Besu):	much like FOCIL
+00:44:33	soispoke:	Replying to "much like FOCIL"
+
+FOCIL is a lot more on CL (but yes also cross layer)
+00:44:44	Justin Florentine (Besu):	Reacted to "FOCIL is a lot more ..." with ➕
+00:45:01	Justin Florentine (Besu):	yes, if you withold your key you still pay full gas, and your transaction is skipped
+00:45:11	Justin Florentine (Besu):	https://ethresear.ch/t/lucid-encrypted-mempool-with-distributed-payload-propagation/24042
+00:45:11	lightclient:	what encryption scheme?
+00:45:53	Tomás Arjovsky | Lambda | Ethrex:	Who are the decrypters? What are their incentives? Is there any in-protocol mechanism to prevent them from decrypting the transactions earlier for the builders?
+00:46:09	Mehdi Aouadi:	Reacted to "Who are the decrypte..." with ➕
+00:47:21	lightclient:	we don’t have any efficient PQ encryption schemes in the protocol though
+00:48:30	Gottfried Herold:	Replying to "we don’t have any ef..."
+
+Note that the in-protocol part here is just using the released decryption key, which is a symmetric key, so PQ is not a big issue here.
+00:49:38	Danno Ferrin - Tectonic.xyz:	Replying to "we don’t have any ef..."
+
+AES? That’s quantum-safe
+00:49:46	Enrico Del Fante (tbenr):	Reacted to "AES? That’s quantum-..." with 💯
+00:49:54	lightclient:	so we’d need AES precompile essentially?
+00:49:56	Francesco:	Isn’t the decryption offchain?
+00:50:05	lightclient:	but the code to decrypt is on chain?
+00:52:16	Gottfried Herold:	Replying to "Isn’t the decryption..."
+
+This uses a KEM - DEM framework, so the envelope includes an (pk encrypted) symmetric key.
+The decryption of that is off-chain.
+Using the then-revealed symmetric key is onchain, IIUC.
+00:52:35	lightclient:	have encrypted mempools like this been deployed successfully out of protocol?
+00:52:43	Potuz:	Replying to "but the code to decr..."
+
+No, decryption is Offchain, you need to just check that the commitment from the open plaintext agrees to with the committed ticket.
+00:53:50	Justin Florentine (Besu):	Replying to "have encrypted mempo..."
+
+does Shutter network count?
+00:55:00	Danno Ferrin - Tectonic.xyz:	Replying to "Isn’t the decryption..."
+
+Keep Kems offchain, they generally are as impacted as assymetric algos (EC, RSA) and have the same key size / sig size issues when going to PQ for KEM.  so off-chain KEM is best.
+00:56:20	Justin Florentine (Besu):	Replying to "have encrypted mempo..."
+
+otherwise, "like this" i would say is no, because lucid depends on focil/ePBS
+00:56:35	Anders Elowsson:	Replying to "Isn’t the decryption..."
+
+Benedikt Wagner has outlined one specification for this off-chain part included in Appendix C: https://ethresear.ch/t/lucid-encrypted-mempool-with-distributed-payload-propagation/24042#p-58297-appendix-c-kemdem-hybrid-encryption-51
+00:57:57	lightclient:	https://github.com/lightclient/execution-specs/pull/1
+00:58:18	Mario Vega:	Reacted to "https://github.com/l..." with 🔥
+01:01:04	frangio:	would you use immediates for TXPARAM or is stack ok?
+01:01:15	spencer-tb:	Reacted to "https://github.com/l..." with 🔥
+01:01:28	James He:	feedback for whoever is coordinating the YouTube stream for the call, the steam makes it only look like there’s 9 people on the call , not sure what changed but it’s like a zoomed in view.
