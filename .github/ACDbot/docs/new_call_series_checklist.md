@@ -4,7 +4,7 @@ This document describes how to add a new recurring call series to ACDbot.
 
 ## Required Changes
 
-Adding a new call series requires updating **3 files**:
+Adding a new call series requires updating **4 files**:
 
 ### 1. Call Series Config
 
@@ -64,6 +64,21 @@ YourCallLabel:
 ```
 
 The pattern should match likely variations of how the call name appears in issue titles. Use case-insensitive character classes (e.g., `[Yy]our`) for flexibility.
+
+### 4. Trusted Contributors
+
+**File:** `.github/workflows/protocol-call-workflow.yml`
+
+Add the facilitator's GitHub username to the `trustedContributors` array (around line 42):
+
+```javascript
+const trustedContributors = [
+  "poojaranjan", "adietrichs", "carlbeek", // ... existing users
+  "newfacilitator"  // <-- Add here
+];
+```
+
+This allows the facilitator to create call agenda issues that ACDbot will process. Without this, the workflow will skip issues created by unrecognized users.
 
 ## What Happens Automatically
 
@@ -151,6 +166,7 @@ After merging your changes:
 | Autopilot uses wrong defaults | Missing `autopilot_defaults` | Add `autopilot_defaults` section to your call series config |
 | Autopilot ignored for one-off | One-off calls unsupported | One-off calls require manual configuration (by design) |
 | Tests fail after changes | Config structure issue | Run `pytest .github/ACDbot/tests` locally |
+| Workflow doesn't process issue | Facilitator not trusted | Add GitHub username to `trustedContributors` in workflow |
 
 ## File Reference
 
@@ -159,6 +175,7 @@ After merging your changes:
 | `.github/ACDbot/call_series_config.yml` | Central config for all call series (incl. autopilot defaults) | **Yes** |
 | `.github/ISSUE_TEMPLATE/protocol-call-form.yml` | Issue template dropdown | **Yes** |
 | `.github/labeler.yml` | Auto-labeling regex patterns | **Yes** |
+| `.github/workflows/protocol-call-workflow.yml` | Trusted contributors list | **Yes** |
 | `.github/ACDbot/meeting_topic_mapping.json` | Runtime meeting data | No (auto-populated) |
 | `.github/ACDbot/modules/form_parser.py` | Parses issue forms | No (reads from config) |
 | `.github/ACDbot/modules/call_series_config.py` | Loads config and autopilot defaults | No (reads from YAML) |
