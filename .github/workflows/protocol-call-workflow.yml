@@ -12,8 +12,10 @@ jobs:
     steps:
       - name: Check for protocol-call label
         id: check_label
+        env:
+          HAS_LABEL: ${{ contains(github.event.issue.labels.*.name, 'protocol-call') }}
         run: |
-          if [[ "${{ contains(github.event.issue.labels.*.name, 'protocol-call') }}" == "true" ]]; then
+          if [[ "$HAS_LABEL" == "true" ]]; then
             echo "has_protocol_label=true" >> $GITHUB_OUTPUT
             echo "✅ Issue has protocol-call label"
           else
@@ -205,10 +207,14 @@ jobs:
           pip list
 
       - name: Log protocol call processing
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
         run: |
-          echo "Processing protocol call issue #${{ github.event.issue.number }}"
-          echo "Issue title: ${{ github.event.issue.title }}"
-          echo "Issue labels: ${{ github.event.issue.labels.*.name }}"
+          echo "Processing protocol call issue #$ISSUE_NUMBER"
+          echo "Issue title: $ISSUE_TITLE"
+          echo "Issue labels: $ISSUE_LABELS"
 
       - name: Handle protocol call
         run: |
@@ -242,6 +248,7 @@ jobs:
         if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -250,7 +257,7 @@ jobs:
             echo "No changes to mapping file"
           else
             git add .github/ACDbot/meeting_topic_mapping.json
-            git commit -m "Update mapping for issue ${{ github.event.issue.number }}"
+            git commit -m "Update mapping for issue $ISSUE_NUMBER"
             git push
             echo "Committed mapping file changes"
           fi
