@@ -1485,16 +1485,17 @@ The bot will automatically process your issue once you've selected a valid call 
         except Exception as e:
             print(f"[ERROR] Failed to send Telegram notification: {e}")
 
-        try:
-            from modules import mattermost_notify
-            # Convert HTML tags to Markdown for Mattermost
-            mattermost_message = telegram_message_body
-            mattermost_message = re.sub(r'<b>(.*?)</b>', r'**\1**', mattermost_message)
-            mattermost_message = re.sub(r"<a href='(.*?)'>(.*?)</a>", r'[\2](\1)', mattermost_message)
-            mattermost_message = re.sub(r'<i>(.*?)</i>', r'_\1_', mattermost_message)
-            mattermost_notify.send_mattermost_notification(mattermost_message)
-        except Exception as e:
-            print(f"[ERROR] Failed to send Mattermost notification: {e}")
+        if not is_update:
+            try:
+                from modules import mattermost_notify
+                # Convert HTML tags to Markdown for Mattermost
+                mattermost_message = telegram_message_body
+                mattermost_message = re.sub(r'<b>(.*?)</b>', r'**\1**', mattermost_message)
+                mattermost_message = re.sub(r"<a href='(.*?)'>(.*?)</a>", r'[\2](\1)', mattermost_message)
+                mattermost_message = re.sub(r'<i>(.*?)</i>', r'_\1_', mattermost_message)
+                mattermost_notify.send_mattermost_notification(mattermost_message)
+            except Exception as e:
+                print(f"[ERROR] Failed to send Mattermost notification: {e}")
 
     def _find_existing_bot_comment(self, issue):
         """Find the bot's existing resource comment on this issue."""
