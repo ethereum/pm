@@ -1,0 +1,462 @@
+WEBVTT
+
+1
+00:01:49.020 --> 00:01:50.030
+Mikhail Kalinin: Ayy.
+
+2
+00:01:50.160 --> 00:01:51.270
+Mikhail Kalinin: Hey, Will.
+
+3
+00:01:54.470 --> 00:01:55.369
+Will Corcoran: There we go.
+
+4
+00:02:26.530 --> 00:02:27.250
+Julian Ma: Hey, hey.
+
+5
+00:02:33.310 --> 00:02:34.690
+Mikhail Kalinin: Did you learn? Anton?
+
+6
+00:02:34.690 --> 00:02:36.280
+Will Corcoran: Enjoy. Hey, Antoine.
+
+7
+00:02:37.160 --> 00:02:37.920
+Antoine James: Hi, everyone.
+
+8
+00:05:10.370 --> 00:05:17.030
+Will Corcoran: Hey, everyone. Normally start with client updates, we…
+
+9
+00:05:17.510 --> 00:05:20.020
+Will Corcoran: I don't believe any client devs on the call.
+
+10
+00:05:20.440 --> 00:05:27.210
+Will Corcoran: Mikal, you had… Added these spec changes that you wanted to discuss,
+
+11
+00:05:27.350 --> 00:05:33.779
+Will Corcoran: Is that something you would want to talk about at the top of the call, or are you hoping to have more of an audience to…
+
+12
+00:05:33.970 --> 00:05:35.520
+Will Corcoran: Review those changes.
+
+13
+00:05:37.220 --> 00:05:46.519
+Mikhail Kalinin: I would just go quick over the new change, and… on the call. So, basically.
+
+14
+00:05:47.380 --> 00:05:51.839
+Mikhail Kalinin: Yeah, they request us to review the thing, but yeah. Should we do it now?
+
+15
+00:05:57.750 --> 00:05:59.430
+Mikhail Kalinin: Sorry, can you hear me?
+
+16
+00:05:59.750 --> 00:06:05.680
+Will Corcoran: Yeah, we could… We could wait another couple of minutes before we start, if you want.
+
+17
+00:06:06.080 --> 00:06:07.219
+Mikhail Kalinin: Yeah, let's wait.
+
+18
+00:06:08.220 --> 00:06:08.810
+Will Corcoran: Okay.
+
+19
+00:09:14.100 --> 00:09:15.090
+Will Corcoran: Alright.
+
+20
+00:09:15.820 --> 00:09:22.670
+Will Corcoran: Thanks, everyone, for coming. This is Fast Confirmation Rule FCR breakout room number 4.
+
+21
+00:09:23.100 --> 00:09:26.650
+Will Corcoran: We normally start with client updates.
+
+22
+00:09:27.310 --> 00:09:32.699
+Will Corcoran: I don't see any client devs on the call, please correct me if I'm wrong.
+
+23
+00:09:32.970 --> 00:09:37.639
+Will Corcoran: But Mikhail had a couple of spec changes that we were gonna start with.
+
+24
+00:09:37.870 --> 00:09:43.390
+Will Corcoran: I will drop the… Links in the chat, and Michael…
+
+25
+00:09:43.750 --> 00:09:45.950
+Will Corcoran: If you wanna take it away.
+
+26
+00:09:47.690 --> 00:09:48.260
+Mikhail Kalinin: Yep.
+
+27
+00:09:48.390 --> 00:09:56.109
+Mikhail Kalinin: Thanks, Will. So… Yeah, the first one… Was the,
+
+28
+00:09:56.320 --> 00:10:00.380
+Mikhail Kalinin: the fix for the edge case found by Ethan from Nimbus?
+
+29
+00:10:01.020 --> 00:10:09.600
+Mikhail Kalinin: This is, like, the edge case with the first block in the reconfirmation part of the spec, so that's the spec issue.
+
+30
+00:10:09.740 --> 00:10:14.420
+Mikhail Kalinin: It's addressed, there is a test already written to cover the such case.
+
+31
+00:10:14.940 --> 00:10:20.560
+Mikhail Kalinin: Great credits to Ethan for finding this out.
+
+32
+00:10:21.070 --> 00:10:27.209
+Mikhail Kalinin: Also, there were… a side of… the second change, the second change is about,
+
+33
+00:10:29.070 --> 00:10:33.319
+Mikhail Kalinin: Yeah, it's just, like, the most recent one.
+
+34
+00:10:33.910 --> 00:10:41.350
+Mikhail Kalinin: So… This changes the way we compute the adversarial threshold for
+
+35
+00:10:41.540 --> 00:10:49.049
+Mikhail Kalinin: like, the adversarial wait for the, compute and honest FFG support, for the honest FFG support that we have.
+
+36
+00:10:49.270 --> 00:10:57.030
+Mikhail Kalinin: It's kind of like, this PR, this change, introduces, like, a similar way of
+
+37
+00:10:57.790 --> 00:11:07.040
+Mikhail Kalinin: processing locations, so a similar way to is1Confirmed, method. In is1Confirmed, we have this,
+
+38
+00:11:07.420 --> 00:11:25.269
+Mikhail Kalinin: discount for validators who already equocated. We discount these from the adversarial weight. So basically, if, like, say 20% of letters got slashed, we assume that honest validators never slashed, and we basically subtract
+
+39
+00:11:25.580 --> 00:11:34.810
+Mikhail Kalinin: these 20% from the 25% of the potential adversarial weight, which basically increases the liveness of the FCR,
+
+40
+00:11:35.090 --> 00:11:38.710
+Mikhail Kalinin: without compromising security. So this was,
+
+41
+00:11:39.520 --> 00:11:45.829
+Mikhail Kalinin: from the beginning in the spec for ES1 confirmed, but it was not for this honest FFG support.
+
+42
+00:11:46.150 --> 00:11:52.430
+Mikhail Kalinin: And now they are similar, in that regard, so that's basically it.
+
+43
+00:11:52.650 --> 00:12:04.949
+Mikhail Kalinin: what's left to do is to fix tests. Some of the tests are broken by this change, but yeah, just please take a look and be aware of this change. I hope this… this is, like, one of the last changes to the spec.
+
+44
+00:12:05.280 --> 00:12:12.340
+Mikhail Kalinin: Except for potential issues with the spec or box, but… Yep.
+
+45
+00:12:12.970 --> 00:12:26.019
+Mikhail Kalinin: That's about it. There were a few changes that also landed the main branch after the previous call, and also we were, after the previous call, we were exploring
+
+46
+00:12:26.520 --> 00:12:27.450
+Mikhail Kalinin: Damn.
+
+47
+00:12:28.150 --> 00:12:33.530
+Mikhail Kalinin: The… the way of, like, reusing fork choice weights in the first confirmation rule.
+
+48
+00:12:33.930 --> 00:12:38.830
+Mikhail Kalinin: But after, like, some conversations with developers.
+
+49
+00:12:38.970 --> 00:12:50.020
+Mikhail Kalinin: We decided not to do this, and because, yeah, it's… it's not possible as is to reuse the fork choice weights, and will require some additional tweaks.
+
+50
+00:12:50.320 --> 00:12:57.970
+Mikhail Kalinin: And also, the positive thing is that, if the fast confirmation rule implementation is independent on the FOC choice.
+
+51
+00:12:58.070 --> 00:13:06.790
+Mikhail Kalinin: So these two components can be changed independently, and yeah, the work can happen in parallel. So we decided not to do this.
+
+52
+00:13:07.120 --> 00:13:12.549
+Mikhail Kalinin: And, yeah, this back is moving towards, like, its final state.
+
+53
+00:13:13.760 --> 00:13:15.300
+Mikhail Kalinin: That's it about this track.
+
+54
+00:13:16.240 --> 00:13:18.149
+Roberto Saltini: So, Mikai, do you mean that we…
+
+55
+00:13:18.970 --> 00:13:23.050
+Roberto Saltini: We can new… we can compute the fork choice… sorry, the…
+
+56
+00:13:23.920 --> 00:13:28.389
+Roberto Saltini: The, yeah, the fork choice waits for the fast confirmation route using
+
+57
+00:13:28.730 --> 00:13:30.940
+Roberto Saltini: The violence is coming from this.
+
+58
+00:13:31.270 --> 00:13:32.590
+Roberto Saltini: any checkpoint.
+
+59
+00:13:34.170 --> 00:13:41.440
+Roberto Saltini: No, not just… Not just considering the… Most recent justified checkpoint.
+
+60
+00:13:41.990 --> 00:13:43.180
+Mikhail Kalinin: Yes, yes.
+
+61
+00:13:43.350 --> 00:13:46.320
+Mikhail Kalinin: So that's… That's my take.
+
+62
+00:13:46.590 --> 00:13:50.800
+Mikhail Kalinin: So we can use, like, not arbitrary, but a different
+
+63
+00:13:50.920 --> 00:13:55.819
+Mikhail Kalinin: balance source for the fast confirmation that we use for the fork choice.
+
+64
+00:13:56.420 --> 00:13:57.100
+Mikhail Kalinin: This whole thing.
+
+65
+00:13:57.100 --> 00:13:58.279
+Roberto Saltini: I used it. Yep.
+
+66
+00:13:59.040 --> 00:14:05.750
+Roberto Saltini: Can reach that checkpoint that we intend to use originally, which is the… Credit has justified?
+
+67
+00:14:06.100 --> 00:14:10.129
+Roberto Saltini: at the beginning… at the beginning of the last slot of the previous epoch.
+
+68
+00:14:11.270 --> 00:14:11.830
+Mikhail Kalinin: Yep.
+
+69
+00:14:12.900 --> 00:14:13.650
+Roberto Saltini: Okay.
+
+70
+00:14:15.150 --> 00:14:19.389
+Roberto Saltini: That's good from a… Okay, algorithm point of view.
+
+71
+00:14:38.650 --> 00:14:42.080
+Roberto Saltini: So that's the… Ugh.
+
+72
+00:14:42.300 --> 00:14:47.780
+Roberto Saltini: Lion, lighthouse implementation of the first confirmation rule, implement this.
+
+73
+00:14:48.290 --> 00:14:54.309
+Roberto Saltini: the algorithm, as we had, like, in the paper, were usually justified from the…
+
+74
+00:14:54.560 --> 00:14:56.520
+Roberto Saltini: Last slot of the previous ebook.
+
+75
+00:14:57.900 --> 00:15:08.889
+Mikhail Kalinin: Yeah, I think so. To be more specific, it's, like, in the spec, but the spec is, like, this… yeah, the spec is very close to the paper.
+
+76
+00:15:09.980 --> 00:15:13.589
+Mikhail Kalinin: So, yeah, I think that implementation,
+
+77
+00:15:14.060 --> 00:15:17.289
+Mikhail Kalinin: I believe it uses the algorithm as…
+
+78
+00:15:17.660 --> 00:15:20.040
+Mikhail Kalinin: In the spec. Well, sorry, in the paper.
+
+79
+00:15:20.720 --> 00:15:21.500
+Roberto Saltini: Okay.
+
+80
+00:15:31.230 --> 00:15:37.310
+Will Corcoran: I just dropped a link to the Lighthouse implementation Roberto was referring to in the chat.
+
+81
+00:15:48.570 --> 00:15:55.829
+Will Corcoran: Great. Any other updates? Spec-related, testing-related, research-related?
+
+82
+00:16:00.600 --> 00:16:02.299
+Will Corcoran: Or discussion topics.
+
+83
+00:16:02.970 --> 00:16:08.560
+Will Corcoran: On the paper side, We're resuming work after a short pause last week. Tomorrow.
+
+84
+00:16:08.960 --> 00:16:15.160
+Will Corcoran: I will have a meeting with Roto to plan the next steps towards finalizing it. Thanks, Luca.
+
+85
+00:16:17.770 --> 00:16:23.500
+Mikhail Kalinin: On the testing side… we had…
+
+86
+00:16:24.150 --> 00:16:30.530
+Mikhail Kalinin: Yeah, this… let me link to the PR. This is the PR with the… is one confirmed function test.
+
+87
+00:16:30.930 --> 00:16:35.210
+Mikhail Kalinin: Made by Luca, it has a… quite good coverage.
+
+88
+00:16:35.480 --> 00:16:40.400
+Mikhail Kalinin: Also, currently, we are working on the…
+
+89
+00:16:41.150 --> 00:16:48.719
+Mikhail Kalinin: Like, rigorous testing of the cases where we need to confirm the block from the previous epoch.
+
+90
+00:16:49.080 --> 00:16:52.889
+Mikhail Kalinin: To… to… to remind, we have these… we have…
+
+91
+00:16:53.360 --> 00:16:59.840
+Mikhail Kalinin: I see a similar test suite done for the current epoch blocks. Now, the previous epoch block case
+
+92
+00:17:00.100 --> 00:17:02.360
+Mikhail Kalinin: Okay, all cases need to be covered.
+
+93
+00:17:02.500 --> 00:17:10.500
+Mikhail Kalinin: So it's like… I would say more than a hundred of tests to be… finished soon, so… Yeah.
+
+94
+00:17:11.400 --> 00:17:14.160
+Mikhail Kalinin: The goal is to have them done by
+
+95
+00:17:14.700 --> 00:17:17.669
+Mikhail Kalinin: By the end of next week, something like that.
+
+96
+00:17:19.150 --> 00:17:30.600
+Mikhail Kalinin: And, after this is done, it's like, it will be, like, 90% of test coverage, maybe 95% will need, probably, to try to cover some edge cases and some
+
+97
+00:17:30.980 --> 00:17:38.220
+Mikhail Kalinin: More than 100, yes, for this particular stuff, for this particular, previous epoch block test.
+
+98
+00:17:39.170 --> 00:17:43.340
+Mikhail Kalinin: So we, we currently have, like, around 100 tests.
+
+99
+00:17:43.490 --> 00:17:45.349
+Mikhail Kalinin: Maybe something like that.
+
+100
+00:17:59.230 --> 00:18:03.690
+Mikhail Kalinin: Yeah, and a good test coverage will allow us to,
+
+101
+00:18:04.160 --> 00:18:10.539
+Mikhail Kalinin: to say that the devnet implementation that passes all the tests, if it passes all the tests that,
+
+102
+00:18:10.930 --> 00:18:17.250
+Mikhail Kalinin: He'll give us some… Assurance that it's likely correct.
+
+103
+00:18:46.080 --> 00:18:48.800
+Will Corcoran: Great. Any other topics?
+
+104
+00:19:05.650 --> 00:19:13.450
+Will Corcoran: Alright, well, we might just… have, A short call today.
+
+105
+00:19:14.120 --> 00:19:20.200
+Will Corcoran: And… that's okay. Seems like we're making a lot of progress, on the testing.
+
+106
+00:19:20.350 --> 00:19:25.820
+Will Corcoran: Cover side, the research is about ready to wrap up, and on the specification side, so…
+
+107
+00:19:26.450 --> 00:19:30.080
+Will Corcoran: Seems like things are all moving in a positive direction, and…
+
+108
+00:19:30.860 --> 00:19:40.429
+Will Corcoran: yeah, I'm sure we'll start getting more client, participation as things… I know that they just hit, DevNet Zero with
+
+109
+00:19:40.550 --> 00:19:41.820
+Will Corcoran: ePBS.
+
+110
+00:19:41.980 --> 00:19:46.230
+Will Corcoran: So there's probably a lot of effort focused on that right now.
+
+111
+00:19:50.310 --> 00:19:54.610
+Will Corcoran: If there's nothing else, I say we call to call.
+
+112
+00:20:02.170 --> 00:20:03.140
+Roberto Saltini: Thank you.
+
+113
+00:20:03.690 --> 00:20:04.469
+Will Corcoran: Thank you.
+
+114
+00:20:04.940 --> 00:20:05.580
+Mikhail Kalinin: Thank you.
+
+115
+00:20:05.580 --> 00:20:06.460
+Julian Ma: Thank you.
+
