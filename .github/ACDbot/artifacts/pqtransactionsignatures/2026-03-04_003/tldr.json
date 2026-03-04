@@ -1,0 +1,98 @@
+{
+  "meeting": "Post Quantum Transaction Signature (PQTS) Breakout #3 - January 2025",
+  "highlights": {
+    "ntt_precompile_proposal": [
+      {
+        "timestamp": "00:11:48",
+        "highlight": "EIP-7885 NTT precompile: 4 opcodes for polynomial multiplication, supports lattice schemes and Stark verification"
+      },
+      {
+        "timestamp": "00:18:30",
+        "highlight": "Falcon verification benchmarked at 400K gas with NTT precompile (down from 1.5M pure Solidity)"
+      },
+      {
+        "timestamp": "00:19:15",
+        "highlight": "Shake precompile combo could achieve ~2K gas for Falcon; calldata cost remains dominant"
+      },
+      {
+        "timestamp": "00:24:18",
+        "highlight": "NTT precompile hardwires 5-6 standard primes; generic primes require expensive lookup table transmission"
+      }
+    ],
+    "numpy_precompile_alternative": [
+      {
+        "timestamp": "00:20:10",
+        "highlight": "NVMPI precompile proposed: vectorized modular arithmetic, single opcode with operation parameter"
+      },
+      {
+        "timestamp": "00:22:02",
+        "highlight": "NVMPI more generic (benefits ML/finance/Poseidon) but higher gas cost than NTT"
+      },
+      {
+        "timestamp": "00:46:27",
+        "highlight": "NVMPI uses Barrett multiplication with generic moduli up to 2^32; constants computed on-the-fly"
+      }
+    ],
+    "implementation_challenges": [
+      {
+        "timestamp": "00:31:41",
+        "highlight": "14-bit Dilithium/Falcon encoding requires expensive bit manipulation in EVM (~150K gas decompression cost)"
+      },
+      {
+        "timestamp": "00:39:00",
+        "highlight": "Under 200K gas computational floor with NTT+Shake; monolithic NIST precompile significantly cheaper"
+      },
+      {
+        "timestamp": "00:57:10",
+        "highlight": "Data carriage cost dominates: 500-2000 bytes for PQ signatures (5-10x current ECDSA)"
+      }
+    ],
+    "account_abstraction_synergy": [
+      {
+        "timestamp": "00:53:38",
+        "highlight": "Native AA with Create2 enables deterministic address derivation from public key hash"
+      },
+      {
+        "timestamp": "00:55:35",
+        "highlight": "AA allows on-chain public key storage, enabling key rotation and reducing calldata transmission"
+      },
+      {
+        "timestamp": "01:01:48",
+        "highlight": "Frame transactions provide signature modularity but need separate composable signature mechanisms"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:48:00",
+      "action": "Benchmark NVMPI precompile with Falcon/Poseidon/large ECC and provide gas cost breakdown",
+      "owner": "Renaud/Simon (ZKnox team)"
+    },
+    {
+      "timestamp": "00:50:15",
+      "action": "Collect concrete ML/finance vectorized operation use cases for NVMPI scope definition",
+      "owner": "Community (post examples to team)"
+    },
+    {
+      "timestamp": "01:02:22",
+      "action": "Coordinate with Frame Transaction/AA teams on signature separation and composability requirements",
+      "owner": "Antonio (next call organizer)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:44:36",
+      "decision": "ZKnox team prioritizing NVMPI precompile development over NTT-specific implementation"
+    },
+    {
+      "timestamp": "00:46:27",
+      "decision": "ML-DSA-65 selected as reference over ML-DSA-44 based on Web2 adoption trends"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:06:00",
+      "target": "Next call (2 weeks): Account Abstraction focus with Frame Transaction team participation"
+    }
+  ]
+}

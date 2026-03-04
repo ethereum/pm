@@ -1,0 +1,1682 @@
+WEBVTT
+
+1
+00:51:18.050 --> 00:51:23.250
+Will Corcoran: Okay, good morning all. Welcome to PQ Interrupt number 29.
+
+2
+00:51:23.760 --> 00:51:29.489
+Will Corcoran: Let's jump in with Client Updates, Zoom team.
+
+3
+00:51:32.070 --> 00:51:36.169
+Gajinder Singh: Hello, Will. Hello, everyone. So, one second.
+
+4
+00:51:38.230 --> 00:51:44.580
+Will Corcoran: And I guess maybe I'll add, it sounds like we've got… Debnet 3 shipped.
+
+5
+00:51:45.000 --> 00:51:51.670
+Will Corcoran: We've got a lot of discussion going on about DevNet 5, and DevNet 4.
+
+6
+00:51:52.060 --> 00:51:53.709
+Will Corcoran: Somewhere in between there.
+
+7
+00:51:54.270 --> 00:51:58.490
+Gajinder Singh: Yep, so I'm back, yeah. Thanks, Will.
+
+8
+00:51:58.630 --> 00:52:11.880
+Gajinder Singh: Yeah, so DevNet 3, work is almost, you know, we are sort of wrapping it up on our end, in the sense that we were trying to simplify DevNet3 PR, figure out the issues.
+
+9
+00:52:11.980 --> 00:52:29.710
+Gajinder Singh: And, we have merged the DevNet3 PR into our main codebase. There are some follow-up PRs that are gonna come in, and we will… we are also aiming to upstream if there are changes that we need to upstream in the spec from our perspective, so that things are simplified at the spec level as well.
+
+10
+00:52:29.940 --> 00:52:37.879
+Gajinder Singh: And, for DemNet4, Anshal already, put up a PR, and,
+
+11
+00:52:38.000 --> 00:52:41.169
+Gajinder Singh: DevNet 5 discussions, I think we will do…
+
+12
+00:52:41.300 --> 00:52:43.210
+Gajinder Singh: In the later half of the call.
+
+13
+00:52:43.330 --> 00:53:01.750
+Gajinder Singh: Apart from that, yeah, so we have been running, DevNet3 runs with other clients, and trying to figure out which ones are compatible, and which one have issues, and also trying to bring Lean Quick Start up to the mark.
+
+14
+00:53:02.290 --> 00:53:06.169
+Gajinder Singh: So this is, sort of our update.
+
+15
+00:53:10.480 --> 00:53:14.110
+Will Corcoran: Great. Thanks, Gajinder. Rheem team.
+
+16
+00:53:14.850 --> 00:53:31.860
+Shariq Naiyer: We, on the DevNet 3 front, yeah, we, we're now… we've started running, we've started running against other clients on, on the long-running DevNets. However, in all our testing, we were testing, starting the clients before Genesis.
+
+17
+00:53:31.860 --> 00:53:45.559
+Shariq Naiyer: But, I've seen in some of the logs that Katya was running the client after Genesis, and something was going wrong in sync. So that was something we were focusing on fixing, and Katya has raised some other issues,
+
+18
+00:53:45.640 --> 00:53:51.010
+Shariq Naiyer: Involving, involving invalid blocks, block state routes at higher slots.
+
+19
+00:53:51.010 --> 00:54:14.489
+Shariq Naiyer: That's something we'll investigate further today. As for… as for DevNet 4, we have implemented, we have implemented the part of the spec that, we have split out, the feature flags for DevNet 3 and DevNet 4, we have retired DevNet 2, and, so now you can run DevNet 3, and you can run DevNet 4 on Rheem, and but for DevNet 4, I think,
+
+20
+00:54:14.760 --> 00:54:23.990
+Shariq Naiyer: I think Lean Multisig does not have the current API, does not use, LeanSigs bindings.
+
+21
+00:54:23.990 --> 00:54:46.039
+Shariq Naiyer: For the current API, so I think that's something we'll be waiting on before we can… we can move forward with DevNet 4. But apart from that, structurally, we have implemented parts of the DevNet 4 PR, that… that could have been implemented, and… and yeah, we're gonna further continue testing on DevNet, DevNet 3, and working on DevNet 4.
+
+22
+00:54:46.040 --> 00:54:46.710
+Shariq Naiyer: That's it.
+
+23
+00:54:49.580 --> 00:54:50.389
+Will Corcoran: Hey, Shariq.
+
+24
+00:54:50.610 --> 00:54:51.770
+Will Corcoran: Clean.
+
+25
+00:54:52.820 --> 00:54:54.849
+Will Corcoran: Kamil, good to see you back.
+
+26
+00:54:55.850 --> 00:55:07.489
+Kamil Salakhiev: Yeah, good to be back. Yeah, I'll have just some brief update on… about myself, and then pass the word to Ruslan, as he is more aware. Yeah, I'll be kind of stepping down as CEO from Quadrivium, I'll be joining
+
+27
+00:55:07.520 --> 00:55:15.919
+Kamil Salakhiev: Ethereum Foundation soon. I will still continue working on many, many stuff, including Lodestar Consensus, but yeah, the team will be mostly working
+
+28
+00:55:16.250 --> 00:55:22.920
+Kamil Salakhiev: still advising sometimes clean and working with it. But other than that, yeah, from now on, I think…
+
+29
+00:55:23.260 --> 00:55:25.529
+Kamil Salakhiev: Ruslan is a better person to…
+
+30
+00:55:25.640 --> 00:55:27.659
+Kamil Salakhiev: Talk about clean, so yeah. Ruslan?
+
+31
+00:55:30.710 --> 00:55:32.700
+Ruslan Tushov (qlean): Hello? Thanks.
+
+32
+00:55:33.270 --> 00:55:41.790
+Ruslan Tushov (qlean): So… As for clean, we made two branches, DevNet 2 and DevNet 3.
+
+33
+00:55:42.280 --> 00:55:48.120
+Ruslan Tushov (qlean): Recently, we added to… DevNet3 branch.
+
+34
+00:55:48.380 --> 00:55:51.180
+Ruslan Tushov (qlean): And the car image, checkpoint sync.
+
+35
+00:55:51.800 --> 00:55:56.320
+Ruslan Tushov (qlean): But currently, there are some problems.
+
+36
+00:55:56.470 --> 00:55:58.970
+Ruslan Tushov (qlean): Not yet investigated, like.
+
+37
+00:55:59.210 --> 00:56:09.029
+Ruslan Tushov (qlean): clean, for some reason, doesn't accept new blocks after restarting or after checkpointing, so we're still investigating that.
+
+38
+00:56:10.060 --> 00:56:15.180
+Ruslan Tushov (qlean): And, DevNet4, we didn't start implementing it yet.
+
+39
+00:56:16.870 --> 00:56:18.120
+Ruslan Tushov (qlean): Thank you.
+
+40
+00:56:20.440 --> 00:56:21.370
+Will Corcoran: Thanks, Russell.
+
+41
+00:56:22.360 --> 00:56:24.230
+Will Corcoran: Lantern.
+
+42
+00:56:25.450 --> 00:56:27.510
+Mihir Faujdar: Yep, thanks, Phil. Bye, everyone.
+
+43
+00:56:27.730 --> 00:56:34.670
+Mihir Faujdar: So yeah, since last week, just been focused on, fixing bugs in the engine.
+
+44
+00:56:34.790 --> 00:56:40.809
+Mihir Faujdar: Especially if it, encounters a fork block in the head.
+
+45
+00:56:41.010 --> 00:56:48.010
+Mihir Faujdar: it would basically replay all the blocks from Genesis and get stuck in this loop, but that has been fixed,
+
+46
+00:56:48.280 --> 00:56:52.789
+Mihir Faujdar: Been running a, like, a long-running demo on a remote server.
+
+47
+00:56:52.840 --> 00:57:09.359
+Mihir Faujdar: With, Clean and Eat Lambda, and for DevNet3, and it's been looking a lot stable. It's been able to finalize for more than 20,000 slots. Basically, we'll be testing with more clients, as more updates get pushed out.
+
+48
+00:57:09.670 --> 00:57:20.520
+Mihir Faujdar: And as well as, just some improvements in logs, like, easier tracking for, if you're running the client, you can, like, see the commit hash.
+
+49
+00:57:20.520 --> 00:57:30.589
+Mihir Faujdar: To see which version is running. And for DevNet4, we'll be able to start work on it once the PR is merged into the lean spec.
+
+50
+00:57:30.810 --> 00:57:34.460
+Mihir Faujdar: And yep, that's our update. Thanks.
+
+51
+00:57:37.600 --> 00:57:38.490
+Will Corcoran: Prysm here.
+
+52
+00:57:39.620 --> 00:57:40.900
+Will Corcoran: East Lambda.
+
+53
+00:57:43.140 --> 00:57:43.870
+Pablo Deymo | Lambda: Hello.
+
+54
+00:57:44.490 --> 00:57:48.829
+Pablo Deymo | Lambda: We were working on Lambda 3,
+
+55
+00:57:50.860 --> 00:58:06.900
+Pablo Deymo | Lambda: As you mentioned, we merged 73 branch domain, so we deprecated FNA2. We have debug… we have been debugging, fixing issues. We found, during non-finalizing runs, particularly our, around memory.
+
+56
+00:58:07.080 --> 00:58:12.789
+Pablo Deymo | Lambda: We hit some out-of-memory errors when the chain doesn't finalize for a while.
+
+57
+00:58:13.050 --> 00:58:16.940
+Pablo Deymo | Lambda: So we are working on this, on making a…
+
+58
+00:58:17.360 --> 00:58:20.219
+Pablo Deymo | Lambda: I mean, a boundary memory there.
+
+59
+00:58:20.460 --> 00:58:27.500
+Pablo Deymo | Lambda: Also, we, correctly, we fixed some metric computation of the link that float.
+
+60
+00:58:27.970 --> 00:58:34.060
+Pablo Deymo | Lambda: And we stop subscribing to aggregation subnets when we are not actually aggregating.
+
+61
+00:58:37.160 --> 00:58:42.810
+Pablo Deymo | Lambda: That's where we added some, we made some, cleanup.
+
+62
+00:58:43.490 --> 00:58:45.680
+Pablo Deymo | Lambda: General… turn on boarding up.
+
+63
+00:58:45.880 --> 00:58:53.650
+Pablo Deymo | Lambda: And, we added cross-plane XMSS compatibility tests, with, RIM.
+
+64
+00:58:54.880 --> 00:59:02.280
+Pablo Deymo | Lambda: So we'll, we'll be working with, DevNet 4, spec, and fixing this, OOM.
+
+65
+00:59:02.860 --> 00:59:04.220
+Pablo Deymo | Lambda: In the runs.
+
+66
+00:59:05.330 --> 00:59:06.219
+Pablo Deymo | Lambda: Thank you.
+
+67
+00:59:08.070 --> 00:59:08.960
+Will Corcoran: Thanks, Pablo.
+
+68
+00:59:09.370 --> 00:59:10.810
+Will Corcoran: Game team.
+
+69
+00:59:13.900 --> 00:59:18.039
+Shaaibu Suleiman: Yeah, thanks, Will. Yeah, hello, Ron.
+
+70
+00:59:18.330 --> 00:59:26.960
+Shaaibu Suleiman: Yeah, so we've, completed most of the work, for DevNet, 2. Basically, the integration.
+
+71
+00:59:27.210 --> 00:59:33.919
+Shaaibu Suleiman: for lean multi-sync, for signature aggregation, and also, the checkpoint, sync.
+
+72
+00:59:34.530 --> 00:59:41.719
+Shaaibu Suleiman: For clients, basically, for clients that are out of sync, they're actually syncing properly.
+
+73
+00:59:42.380 --> 00:59:43.949
+Shaaibu Suleiman: With Check Point Sync.
+
+74
+00:59:44.340 --> 00:59:51.060
+Shaaibu Suleiman: We also tested, Gene, standalone, on its own, and also did,
+
+75
+00:59:51.330 --> 01:00:00.300
+Shaaibu Suleiman: tested it, using the multi-client, interop, just a local instance, of that, with LeanQuick Start, on our own ends.
+
+76
+01:00:00.430 --> 01:00:07.629
+Shaaibu Suleiman: And, at the moment, justification and finalization is pretty, pretty coming up, well.
+
+77
+01:00:08.540 --> 01:00:16.060
+Shaaibu Suleiman: We have just, one PL that needs to be, reviewed, and then,
+
+78
+01:00:16.280 --> 01:00:21.920
+Shaaibu Suleiman: We also, we round up, most of the work we are doing, on DevNet 2.
+
+79
+01:00:22.100 --> 01:00:29.820
+Shaaibu Suleiman: And we are also looking forward to implement, a persistent… more of a persistent storage, because for now we are using
+
+80
+01:00:30.080 --> 01:00:48.399
+Shaaibu Suleiman: an e-memory storage, for most of the things we are doing, so we're looking forward to, implement, a persistent storage, in DevNet 2. We are considering, 2DBs, basically, BoltDB, or, PebbleDB, but then we are going to be finalizing that, and then
+
+81
+01:00:48.830 --> 01:00:55.130
+Shaaibu Suleiman: wrapping that up. So, before… before this week runs out, we should be done…
+
+82
+01:00:55.680 --> 01:01:07.160
+Shaaibu Suleiman: With DevNet 2, and see how we can, move forward, to DevNet, DevNet 3. So yeah, basically that's it, from our end, at Gene, yeah.
+
+83
+01:01:07.300 --> 01:01:08.200
+Shaaibu Suleiman: Thank you.
+
+84
+01:01:10.880 --> 01:01:12.000
+Will Corcoran: Excellent, thank you.
+
+85
+01:01:12.320 --> 01:01:18.609
+Will Corcoran: I don't believe anyone from Lighthouse, Grandine, Nimbus are on the call.
+
+86
+01:01:18.820 --> 01:01:21.820
+Will Corcoran: less… It's all for client updates.
+
+87
+01:01:25.280 --> 01:01:30.760
+Will Corcoran: Okay, great. Maybe we should move on to Spec Talk?
+
+88
+01:01:31.170 --> 01:01:39.010
+Will Corcoran: Anshul, in the comments, I believe Gadjinder thought you might have an update on the DevNets4 spec?
+
+89
+01:01:39.120 --> 01:01:39.930
+Will Corcoran: Pure.
+
+90
+01:01:48.120 --> 01:01:55.979
+Anshal: Sorry, I couldn't hear you properly, but I think it is related to DevNet 4PR that I have raised on this spec, right?
+
+91
+01:01:56.490 --> 01:02:04.039
+Will Corcoran: Yeah, yeah, just curious if there's anything blocking you on that. I know it's in… Up for review.
+
+92
+01:02:04.740 --> 01:02:21.620
+Anshal: Yeah, it is up for review, and, like, Gajinder has already posted a few comments that I, that I plan to solve today, and update that PR, so, yeah, I'll do that today, and, ask for a re-review on the channel itself.
+
+93
+01:02:21.670 --> 01:02:39.419
+Anshal: Once that is done, then I'll address the test cases that are failing. Right now, I have only made the changes on the functional side of things. Once, like, the draft PR gets approved regarding the more core changes, then I'll address the
+
+94
+01:02:39.480 --> 01:02:41.619
+Anshal: Other issues that are there.
+
+95
+01:02:45.470 --> 01:02:46.150
+Will Corcoran: Thank you.
+
+96
+01:02:46.520 --> 01:02:54.360
+Will Corcoran: Anything else regarding DevNet4 specifications or research?
+
+97
+01:02:56.090 --> 01:03:11.020
+Shariq: Yeah, so I have a quick question, and, like, maybe Ansham can answer this. From my understanding, Email usually makes us, like, a branch where we're using LeanSig encoding instead of…
+
+98
+01:03:11.020 --> 01:03:18.980
+Shariq: the XMSS encoding in Bertisec. I wonder if this branch has been created and I haven't seen it, or… or we're still waiting on that.
+
+99
+01:03:19.800 --> 01:03:32.480
+Anshal: So… That branch hasn't been created, and, like, there are plans to not create that branch altogether. Like, we had this discussion in the last week's call where we were planning to
+
+100
+01:03:32.480 --> 01:03:51.029
+Anshal: basically, move to ZK-friendly encoding based on, a recent, research paper I believe Benedict has written. I am, not completely sure about the status on LeanSig side of things, and how it is being planned to,
+
+101
+01:03:51.030 --> 01:03:58.450
+Anshal: Being modified on the… Lean VM eventually, maybe Tomas can, elaborate upon that.
+
+102
+01:04:04.770 --> 01:04:17.019
+T. Wambsgans: It's not really yet on Linuxec, it's not really yet either on LeanSeq, so sorry about that, it's a work in progress. There's just too many things to do, but…
+
+103
+01:04:17.920 --> 01:04:26.809
+T. Wambsgans: I hope it will be done in not too long, but honestly, there is just too much to be done, and I cannot promise you anything right now. I'm sorry.
+
+104
+01:04:27.510 --> 01:04:36.760
+Shariq: Yeah, yeah, 100%. I'm not rushing anyone, I was just like, I just didn't want to be in a position where I didn't know that there's a branch, so I'm glad to know that there is no branch here.
+
+105
+01:04:37.090 --> 01:04:43.680
+T. Wambsgans: I cannot guarantee you that it will be done in the next week, but I can guarantee you that when it's done, you will be noticed.
+
+106
+01:04:44.490 --> 01:04:45.880
+Shariq: Thank you, thank you, Amir.
+
+107
+01:04:46.180 --> 01:04:46.940
+T. Wambsgans: Visual.
+
+108
+01:04:47.870 --> 01:04:51.610
+Gajinder Singh: But as per my understanding of what Angel said, there is a branch, right?
+
+109
+01:04:53.490 --> 01:04:57.450
+T. Wambsgans: There is no branch. There is, no, because…
+
+110
+01:04:57.690 --> 01:05:10.090
+T. Wambsgans: I… because I would need to do first a PR in NSIG, and then to implement the changes in the multisig, and so it's… it remains to be done. But when it will be done, it will be noticed, as soon as it's done.
+
+111
+01:05:18.370 --> 01:05:24.640
+Will Corcoran: Awesome. Thanks, Emil. Anything regarding… DevNet 4.
+
+112
+01:05:24.790 --> 01:05:28.659
+Will Corcoran: I know there's some open discussion about .NET5, but…
+
+113
+01:05:29.360 --> 01:05:32.389
+Will Corcoran: Closed loop on 4 before we move forward.
+
+114
+01:05:37.000 --> 01:05:43.249
+Anshal: So the PR is up, and I'll be making the changes, but, nothing apart from that.
+
+115
+01:05:44.060 --> 01:05:46.709
+Will Corcoran: Okay, great. And then the…
+
+116
+01:05:46.710 --> 01:05:53.580
+Gajinder Singh: Also, Billy teams have not… Also, if other teams have not reviewed the PR, please take a look.
+
+117
+01:05:55.080 --> 01:06:02.530
+Will Corcoran: Yeah, and if you could also take a look at the, the high-level design doc, or,
+
+118
+01:06:03.460 --> 01:06:06.680
+Will Corcoran: specification doc in the PM repo for DevNet 4.
+
+119
+01:06:07.050 --> 01:06:12.030
+Will Corcoran: I believe that PR's… In the comments, and also open.
+
+120
+01:06:15.900 --> 01:06:30.509
+Shariq: Yeah, a quick note on the PM… when you brought up the PM repo. I made a PR to tag the latest branch for DevNet 3. I don't think it has been merged yet, but I think… I think that should be merged so anyone is not misled.
+
+121
+01:06:42.770 --> 01:06:43.430
+Will Corcoran: Perfect.
+
+122
+01:06:44.360 --> 01:06:53.669
+Gajinder Singh: So, what… until… what path from the commands? Do we have subnet as hard-coded as 1 in our DevNet 3 spec?
+
+123
+01:06:54.510 --> 01:07:01.139
+Gajinder Singh: I was under impression that we will be testing out multiple subnets.
+
+124
+01:07:01.260 --> 01:07:02.370
+Gajinder Singh: DevNet 3.
+
+125
+01:07:03.950 --> 01:07:22.340
+Anshal: No, we have it hard-coded as one. Also, I have already, commented out this in the spec PR itself, but, in DevNet4, while I'm recursively aggregating the signatures, I am not,
+
+126
+01:07:22.590 --> 01:07:34.550
+Anshal: sticking up to the subnet specifics, although that is not the case right now, but even if, like, I receive multiple signatures from different, multiple aggregated payloads from
+
+127
+01:07:34.580 --> 01:07:44.490
+Anshal: different aggregated subnet. I am, not… I am basically aggregating them recursively and not sticking to that. I'll only be aggregating to,
+
+128
+01:07:44.610 --> 01:07:49.279
+Anshal: A particular set of subnets in… as an aggregator.
+
+129
+01:07:49.700 --> 01:07:56.580
+Gajinder Singh: Yeah, that is fine, because that is how we want it. If you get an aggregated payload from any of the subnets, you can aggregate it, because
+
+130
+01:07:56.970 --> 01:08:09.930
+Gajinder Singh: as an aggregator, you can self-choose yourself to basically aggregate any subnet. So that is just to sort of manage traffic and say that, okay, this is the subnet that,
+
+131
+01:08:10.040 --> 01:08:13.190
+Gajinder Singh: That validators will be publishing.
+
+132
+01:08:17.149 --> 01:08:27.649
+Gajinder Singh: So, can we un-hardcode the subnet one? Because I don't understand why have we hard-coded as one? Maybe just for the sake of…
+
+133
+01:08:28.520 --> 01:08:33.869
+Gajinder Singh: the spec client, or the Python client, I mean, if that is the case, then…
+
+134
+01:08:34.750 --> 01:08:41.000
+Gajinder Singh: It can be moved to… moved to config and, sort of remove the hard coding.
+
+135
+01:08:45.050 --> 01:08:47.450
+Parthasarathy Ramanujam: Yeah, sure. We can…
+
+136
+01:08:48.430 --> 01:08:56.869
+Anshal: Do we want to raise it… raise it on this lean spec as well? I… yeah, Pate, you can continue. I think you have a.
+
+137
+01:08:56.870 --> 01:09:10.350
+Parthasarathy Ramanujam: No, no, my only concern is modification to lean quick start to support to multiple subnets. For now, DevNet3 PR on Lean Quick Start assumes you have a single subnet, otherwise we'd have to
+
+138
+01:09:10.390 --> 01:09:23.840
+Parthasarathy Ramanujam: I mean, spin up more machines in order to support, multiple devnets. So if we decide to support, or rather test with multiple subnets, I'd have to make some changes there and bring up more machines.
+
+139
+01:09:25.090 --> 01:09:33.610
+Gajinder Singh: Yeah, so once we are, through, single subnet testing, then that is the next step. And,
+
+140
+01:09:33.810 --> 01:09:37.339
+Gajinder Singh: These need to be made to Lean Quick Start, for that matter.
+
+141
+01:09:38.550 --> 01:09:43.470
+Gajinder Singh: And if the subnet count is,
+
+142
+01:09:43.660 --> 01:09:48.819
+Gajinder Singh: It's… is hard-coded, basically it needs to be moved to the chain config.
+
+143
+01:09:49.810 --> 01:09:56.370
+Gajinder Singh: I think this is something that we already implemented in Zim like that, but maybe it is not upstreamed.
+
+144
+01:10:05.350 --> 01:10:08.749
+Gajinder Singh: So I guess Anshul is going to put up a PR for this?
+
+145
+01:10:10.160 --> 01:10:23.640
+Anshal: Sure, I'll do PR on a spec as well, but if we plan to do a DevNet testing with multiple subnets, we'll have to increase the number of validators as well. Right now, we have very minimal machines. If we have, like.
+
+146
+01:10:23.810 --> 01:10:32.219
+Anshal: 2 or 3 subnets, we'll have to ensure that we have, like, enough machines on each subnet so that the aggregation can work properly.
+
+147
+01:10:33.220 --> 01:10:43.369
+Gajinder Singh: Yeah, that is the plan, and last time also, I think I mentioned that we should have the document in which we should say that, okay, we tested 400, then maybe bump it up.
+
+148
+01:10:43.500 --> 01:10:45.280
+Gajinder Singh: 200, 500, whatever.
+
+149
+01:10:45.390 --> 01:10:52.639
+Gajinder Singh: So, yes, we need to bump up the validators, because we have been testing with minimal validators, and it's time right now
+
+150
+01:10:53.130 --> 01:10:56.069
+Gajinder Singh: To actually get closer and closer
+
+151
+01:10:56.510 --> 01:10:59.540
+Gajinder Singh: To what things would be.
+
+152
+01:11:00.310 --> 01:11:02.200
+Gajinder Singh: in Maynat.
+
+153
+01:11:06.900 --> 01:11:07.930
+Kamil Salakhiev: Yeah, Kamil.
+
+154
+01:11:08.270 --> 01:11:17.220
+Kamil Salakhiev: Yeah, I just want to say that I was contacted by Dave, who is kind of leading all the P2P efforts.
+
+155
+01:11:17.370 --> 01:11:21.780
+Kamil Salakhiev: He said he has opportunity to ask some universities in the US to
+
+156
+01:11:21.970 --> 01:11:25.300
+Kamil Salakhiev: Allocate, like, 600 machines,
+
+157
+01:11:25.430 --> 01:11:31.730
+Kamil Salakhiev: or any kind of experience that use Libby2P, So, yeah, just saying that…
+
+158
+01:11:31.930 --> 01:11:38.649
+Kamil Salakhiev: Yeah, we might consider to work with them to kind of spin up larger networks. If anyone is interested, yeah, can help to coordinate.
+
+159
+01:11:41.870 --> 01:11:45.069
+Gajinder Singh: So, I guess we can coordinate with them over this.
+
+160
+01:11:45.930 --> 01:11:48.829
+Kamil Salakhiev: And get us the… Yeah, I'll talk to him.
+
+161
+01:11:50.490 --> 01:11:53.220
+Will Corcoran: Yeah, if you could put me in contact, that'd be great.
+
+162
+01:11:57.440 --> 01:11:59.090
+Will Corcoran: Wonderful.
+
+163
+01:12:00.570 --> 01:12:04.330
+Will Corcoran: Any other DevNet 4 items?
+
+164
+01:12:09.880 --> 01:12:28.269
+Anshal: Just that the PM, I have raised a high-level design on PM repo, that design is outdated, I'll be updating that as well, so if somebody refers to that design and compare it with the specs, there's a certain mismatch that I didn't preempt while writing that doc, I'll update the doc as well.
+
+165
+01:12:32.430 --> 01:12:34.160
+Will Corcoran: Awesome. Thanks, Anshul.
+
+166
+01:12:38.800 --> 01:12:47.729
+Will Corcoran: DevNet 5 spec spec. I see Gajinder, you dropped a lengthy note in the DevNet 5 chat today. I don't know if…
+
+167
+01:12:48.540 --> 01:12:49.979
+Will Corcoran: Do you want to start off third?
+
+168
+01:12:51.480 --> 01:13:03.309
+Gajinder Singh: Yeah, so basically, we propose that in DevNetify. So right now, what we do is, we don't sign over the block when the proposal signs over. It only signs over…
+
+169
+01:13:04.460 --> 01:13:08.290
+Gajinder Singh: Proposal written, and that is sort of… I mean…
+
+170
+01:13:08.600 --> 01:13:16.189
+Gajinder Singh: Not ideal, so we would want to sign over the block, as well as proposal attestation, and… use,
+
+171
+01:13:16.360 --> 01:13:27.429
+Gajinder Singh: multiple messages, in… so aggregate, signatures with multiple messages. And the way, sort of I… I think it can happen is that
+
+172
+01:13:27.890 --> 01:13:39.719
+Gajinder Singh: So… so block and proposer attestation, so block… block… block message and proposer attestation, they are both signed by the proposer, for the same index, so…
+
+173
+01:13:39.930 --> 01:13:52.790
+Gajinder Singh: we have the restriction of one-time signatures, but since this is not being propagated to the network, it is not really an issue. So we recursively aggregate, these two signatures in one,
+
+174
+01:13:52.890 --> 01:13:59.269
+Gajinder Singh: In one signature, in one proof signature, which is then transmitted, and that…
+
+175
+01:13:59.390 --> 01:14:08.510
+Gajinder Singh: I'm hoping will not, jeopardize one-time signature scheme. And then, using the interfaces
+
+176
+01:14:08.700 --> 01:14:23.519
+Gajinder Singh: that Emil provided, we can basically, make sure that, when we are… we can independently, validate signature, proposal attestration against the signature, as well as
+
+177
+01:14:23.630 --> 01:14:26.740
+Gajinder Singh: Independently validate, block.
+
+178
+01:14:27.220 --> 01:14:34.789
+Gajinder Singh: against this signature. So if we can do that, then what can be done is that this signature can be recursively aggregated
+
+179
+01:14:34.990 --> 01:14:42.630
+Gajinder Singh: With other XMSS signatures, which has the same message data as…
+
+180
+01:14:43.190 --> 01:14:47.959
+Gajinder Singh: the proposer attestation message. So… so this is…
+
+181
+01:14:48.600 --> 01:14:52.719
+Gajinder Singh: This is what came to my mind. If we can do this, then…
+
+182
+01:14:52.950 --> 01:15:01.930
+Gajinder Singh: probably this is something that we can do in DevNet 5, and this would also solve the problem that we are not signing the block as of now.
+
+183
+01:15:03.220 --> 01:15:18.609
+T. Wambsgans: Is it correct that you, initiation, the proposer should sign two messages at the same slot, at the same, sorry, sorry, two different messages at the same slot?
+
+184
+01:15:18.720 --> 01:15:33.090
+T. Wambsgans: And so, and the idea that you have is, that if it's inside an aggregated proof, and if, and it's an important if, the snack is a ZK snack, like, true ZK, in some sense.
+
+185
+01:15:33.250 --> 01:15:50.849
+T. Wambsgans: You mean that nobody can have the information of the two signatures, and so it cannot… like, it would remain safe because it's, like, a ZK snack? And just to be clear, currently, it's not ZK, in the sense that it's only 6 cent, but not ZK. Is it correct?
+
+186
+01:15:56.760 --> 01:16:04.630
+Gajinder Singh: Yeah, so this is what my proposal was, but, so… but you are saying that currently the proof is not ZK, it's only successful?
+
+187
+01:16:04.630 --> 01:16:05.190
+T. Wambsgans: beep.
+
+188
+01:16:05.480 --> 01:16:17.350
+T. Wambsgans: Currently, it's not CK, so currently it would be insecure, but it doesn't mean that it would not be CK in the future. And there are some other use cases where ZK is valuable.
+
+189
+01:16:17.350 --> 01:16:26.300
+T. Wambsgans: And so, it's… potentially, it's a bit risky. Probably Benedict, who is raising his hands, has some thought about it.
+
+190
+01:16:30.250 --> 01:16:32.279
+Will Corcoran: You know what I mean? Yeah.
+
+191
+01:16:32.750 --> 01:16:39.039
+benedikt: Yeah, so I think, adding ZK just for this feature sounds like a massive overkill.
+
+192
+01:16:39.270 --> 01:16:44.770
+benedikt: I don't think we should add this just because of this feature. It would be maybe…
+
+193
+01:16:44.880 --> 01:16:51.820
+benedikt: More useful to think of the two messages that the proposer needs to sign as one message.
+
+194
+01:16:52.400 --> 01:17:05.299
+benedikt: And then just do one signature over them, right? I mean, you can sign arbitrarily long messages, so you can sign two messages as long as you treat them as one message and sign them.
+
+195
+01:17:08.050 --> 01:17:18.759
+Gajinder Singh: Yeah, but would that basically give me the ability to validate against, let's say, you know, one of the messages independently, or to aggregate them
+
+196
+01:17:19.310 --> 01:17:21.799
+Gajinder Singh: just using one of the messages, right? So…
+
+197
+01:17:22.000 --> 01:17:30.430
+Gajinder Singh: So, what I'm… what… so once we have this combined, proofs, the signature for block, as well as,
+
+198
+01:17:30.610 --> 01:17:39.610
+Gajinder Singh: proposal attestation. So, I just want this signature that could be aggregated with other XMSS signatures.
+
+199
+01:17:39.750 --> 01:17:41.560
+Gajinder Singh: From other validators.
+
+200
+01:17:41.990 --> 01:17:43.539
+benedikt: So, strictly speaking.
+
+201
+01:17:43.810 --> 01:17:56.839
+benedikt: what we thought about all the time was a multi-signature scheme, where everyone signs the same message. Now you would say that this one party signs a different message, but because we are using Snarks, we can
+
+202
+01:17:57.530 --> 01:18:00.339
+benedikt: Equally, well, just… just do that, right?
+
+203
+01:18:01.070 --> 01:18:02.400
+benedikt: So, you can…
+
+204
+01:18:02.700 --> 01:18:10.819
+benedikt: if you design the relation that is proven in LeanVM correctly, then you can also aggregate signatures for different messages.
+
+205
+01:18:11.210 --> 01:18:13.590
+benedikt: And I think this is a much…
+
+206
+01:18:13.860 --> 01:18:18.800
+benedikt: more useful change to LeanVM than adding ZK just for that.
+
+207
+01:18:19.220 --> 01:18:26.930
+benedikt: especially that… I'm not even sure that ZK is sufficient for this construction to be… to work.
+
+208
+01:18:32.520 --> 01:18:34.349
+T. Wambsgans: a question,
+
+209
+01:18:34.810 --> 01:18:46.980
+T. Wambsgans: Among the two messages that you want to sign at the same slot with the same key, is there a dependency? In the sense, does the second message depend on the signature of the first message, or not?
+
+210
+01:18:51.060 --> 01:18:54.370
+Gajinder Singh: Can you… Tell it again?
+
+211
+01:18:54.650 --> 01:19:08.039
+T. Wambsgans: let's say you want to sign two messages with the same key as the same slot, is there a dependency between the two? Thus, the second message that you want to sign depends on the signature of the first message.
+
+212
+01:19:09.730 --> 01:19:16.580
+Gajinder Singh: So, there is a dependency in the sense that a proposal attestation is based upon the newly constructed block.
+
+213
+01:19:16.920 --> 01:19:26.810
+Gajinder Singh: So, there is that dependency, because first you construct the block, import it in the fork choice, and then you, create, your…
+
+214
+01:19:27.040 --> 01:19:32.960
+Gajinder Singh: Your proposal attestation, whose head is basically the new block that you added.
+
+215
+01:19:33.240 --> 01:19:37.309
+Gajinder Singh: So in that sense, yes, there is a dependency… dependency.
+
+216
+01:19:37.710 --> 01:19:49.120
+T. Wambsgans: So, if I understand correctly, it's kind of… I am the block proposer, I propose a block, I sign it, and then later I will vote for my own block. Is it the same here?
+
+217
+01:19:52.240 --> 01:20:00.180
+Gajinder Singh: Yeah, so currently we don't sign the block, because we only signed the proposal attestation, so the signing of the block is not there, but…
+
+218
+01:20:00.550 --> 01:20:06.819
+Gajinder Singh: We just create the block, import it in the fork choice, and then create a proposal attestation on top of it.
+
+219
+01:20:07.390 --> 01:20:12.100
+Gajinder Singh: So, proposal attestation is dependent upon the block, but not on the signed block.
+
+220
+01:20:12.530 --> 01:20:17.650
+T. Wambsgans: Yeah, okay, I think I understand the use case, and is it possible to…
+
+221
+01:20:17.810 --> 01:20:27.900
+T. Wambsgans: kind of, maybe say that if I'm the block proposer, I don't need to attest to my own block, I attest by default, or it's not possible.
+
+222
+01:20:29.650 --> 01:20:42.449
+Gajinder Singh: So if… so… so attestation, when you are packing, proposal attestation, that is not the attestation that can be consumed in this slot. It is, like, the feature attestation you are packing. What you are doing, for example, what generally happens?
+
+223
+01:20:42.520 --> 01:20:56.489
+Gajinder Singh: in consensus is that the block is block proposer proposes a block, and then everybody consumes it, imports it in the fork choice, and then that estration round starts, which is basically the testations that get packed in the next block.
+
+224
+01:20:56.540 --> 01:21:03.839
+Gajinder Singh: So… so it is… it is not… it is not the attestation for this block. It is basically to be consumed and packed
+
+225
+01:21:04.080 --> 01:21:10.440
+Gajinder Singh: for the future, for whoever is doing a block production downstream. So, in that sense,
+
+226
+01:21:10.680 --> 01:21:12.629
+Gajinder Singh: It is not possible, what you're saying.
+
+227
+01:21:13.690 --> 01:21:15.130
+T. Wambsgans: Okay, I see.
+
+228
+01:21:15.610 --> 01:21:17.300
+T. Wambsgans: Okay.
+
+229
+01:21:18.950 --> 01:21:29.629
+T. Wambsgans: And can we skip the… I don't know, can we say that the ballot proposer doesn't vote for the second vote? I don't know.
+
+230
+01:21:30.440 --> 01:21:42.319
+benedikt: I mean, okay, so there's another solution that I want to just… to introduce. I'm not sure if it's the best solution, but we should think about it, and that is if we say we have a lifetime of L,
+
+231
+01:21:42.460 --> 01:21:45.589
+benedikt: Then we create a virtual lifetime of 2L,
+
+232
+01:21:45.710 --> 01:21:55.440
+benedikt: So we have twice as many, on-time signatures, and we take the even on-time signatures for attestations, and the odd ones for being a proposer.
+
+233
+01:21:55.620 --> 01:22:00.120
+benedikt: So… you would just, you know, in slot I, you consume…
+
+234
+01:22:00.370 --> 01:22:06.240
+benedikt: one-time signature 2i and 2I plus 1, and you only consume 2i plus 1 if you are a proposer.
+
+235
+01:22:08.050 --> 01:22:10.359
+Gajinder Singh: And if we are already at true to the…
+
+236
+01:22:10.360 --> 01:22:21.239
+benedikt: 32 maximum lifetime, then it's… I guess it's probably fine to just have an effective lifetime of 2 to the 31 by using this sort of even hot split.
+
+237
+01:22:22.140 --> 01:22:23.120
+T. Wambsgans: But…
+
+238
+01:22:23.120 --> 01:22:28.659
+Gajinder Singh: So this was something that was also originally proposed, that, you know, we have, basically.
+
+239
+01:22:29.240 --> 01:22:37.239
+Gajinder Singh: Either a separate key for proposing and testing, or basically, you know, double the lifetimes and sort of index them out.
+
+240
+01:22:37.890 --> 01:22:50.939
+Gajinder Singh: That way, but then we decided that, okay, you know, we would… we could use… so LeanVM would allow us just to pack it and somehow be able to aggregate it later on.
+
+241
+01:22:52.900 --> 01:23:04.509
+T. Wambsgans: I think it would work. The only drawback, I guess, is the time it would 2X the key gen time for the same effective lifetime. Couldn't we also have a solution where
+
+242
+01:23:04.580 --> 01:23:22.699
+T. Wambsgans: When you sign the blog that you propose, like, the first time you sign as a blog proposal, you attach some kind of… another one-time signature, a new, like, a fresh one, you attach it to your blog and use this new one-time signature to sign the second message, something like this.
+
+243
+01:23:25.820 --> 01:23:29.249
+T. Wambsgans: Like, you, you, you, you continue the one that's the children.
+
+244
+01:23:29.250 --> 01:23:37.440
+benedikt: aggregation kills you, right? Because the one-time key will be somehow lost in the aggregate, right?
+
+245
+01:23:41.060 --> 01:23:44.870
+benedikt: So if you aggregate the signature that contains the new one-time key.
+
+246
+01:23:45.250 --> 01:23:48.419
+benedikt: How can you… retrieved this one-time P.
+
+247
+01:23:49.880 --> 01:23:58.569
+T. Wambsgans: Like, you, what you sign includes a public key of a one-time signature.
+
+248
+01:23:59.710 --> 01:24:03.169
+benedikt: Yes, and how do you make sure that everyone sees this one-time key?
+
+249
+01:24:03.990 --> 01:24:06.980
+benedikt: Because not everyone sees your signature, so…
+
+250
+01:24:07.370 --> 01:24:10.050
+benedikt: They only see aggregate signatures, right?
+
+251
+01:24:10.050 --> 01:24:16.210
+T. Wambsgans: You have to include it in the block. Like, the… the one-time public key is included in the block.
+
+252
+01:24:17.980 --> 01:24:28.549
+Gajinder Singh: Yeah, but what Benedict is saying, that once, basically, you know, downstream block proposer, he will try to aggregate this attestation signature with other
+
+253
+01:24:29.260 --> 01:24:33.640
+Gajinder Singh: Other signatures. Obviously, they will see the key, so they will have to pack it somehow.
+
+254
+01:24:34.410 --> 01:24:38.870
+Gajinder Singh: In the signed, in the proof itself, right?
+
+255
+01:24:39.450 --> 01:24:39.960
+Gajinder Singh: So that…
+
+256
+01:24:39.960 --> 01:24:43.870
+benedikt: Maybe it works, I'm not saying it doesn't work, it's just a bit…
+
+257
+01:24:44.060 --> 01:24:47.659
+benedikt: Sounds complex to make it work, but yeah.
+
+258
+01:24:47.660 --> 01:25:05.889
+Thomas Coratger: But let me know if I am wrong, but Benedict, in your first proposal, you didn't propose to double the lifetime. You just say that, given the high lifetime that we have of, like, a couple hundred of years, we just do the stuff that you proposed with the tool.
+
+259
+01:25:05.890 --> 01:25:08.600
+benedikt: Yeah, yeah, I mean, you can…
+
+260
+01:25:08.890 --> 01:25:15.320
+benedikt: Yeah, yeah, you can either say we double the lifetime, or we take the lifetime that we have right now, and we halve the effective lifetime.
+
+261
+01:25:16.060 --> 01:25:22.149
+Thomas Coratger: Yeah, because I think that with 2 to the power 32, it is, like, 500 years…
+
+262
+01:25:22.150 --> 01:25:22.710
+benedikt: Yeah.
+
+263
+01:25:22.970 --> 01:25:29.260
+Thomas Coratger: Yeah, 500 years, something like that, you just divide by 2 is 250, yeah, that is… this is also okay.
+
+264
+01:25:29.500 --> 01:25:37.279
+T. Wambsgans: I think the clearing the bottleneck would not be the total lifetime that… because it's effectively a lot.
+
+265
+01:25:37.450 --> 01:25:46.599
+T. Wambsgans: The domain button would be the region that would become two times slower for the same effective period, since you need to generate two keys per slot.
+
+266
+01:25:47.300 --> 01:25:53.709
+benedikt: Yeah, yeah, it would be… same… yeah, I agree with that. It's,
+
+267
+01:25:54.250 --> 01:25:58.899
+benedikt: So what was the problem, again, of taking this… these two messages that you…
+
+268
+01:25:59.110 --> 01:26:02.510
+benedikt: And then treating them as one message.
+
+269
+01:26:02.890 --> 01:26:13.049
+T. Wambsgans: The problem is that the second message has a logical dependency with the first message. You need to include the signature of the first in what you sign in the second.
+
+270
+01:26:16.290 --> 01:26:16.950
+benedikt: Okay.
+
+271
+01:26:25.040 --> 01:26:36.880
+T. Wambsgans: There… there is also an exaceration, but… if the… If the… the… Awesome.
+
+272
+01:26:40.430 --> 01:26:55.010
+Gajinder Singh: So, if, for example, you know, downstream, when you are… when the next proposer is sort of aggregating the signatures, it… it can also provide the message hash for the block, right? So, while trying to aggregate it.
+
+273
+01:26:55.160 --> 01:27:03.310
+Gajinder Singh: Because next proposer is the one who will be aggregating this with the other aggregates. So… so the question is that if…
+
+274
+01:27:03.640 --> 01:27:19.340
+Gajinder Singh: message, so let's say message 1 is block, and message 2 was proposal attestation, or it can be other way around. And when you're aggregating with the other aggregated signatures, or XMSS signatures, which are same of message 2. So, question is, in the
+
+275
+01:27:19.470 --> 01:27:27.990
+Gajinder Singh: in the final, aggregated signature, can you drop message 1? If it can drop, basically, what can happen is that
+
+276
+01:27:28.350 --> 01:27:37.129
+Gajinder Singh: the final aggregated signature can be verified independent of message 1, which was the blocked message. So if this can happen, then there is no problem.
+
+277
+01:27:41.680 --> 01:27:43.220
+T. Wambsgans: I don't think that…
+
+278
+01:27:43.220 --> 01:27:49.619
+benedikt: That works. Like, this would essentially say you verify a SNARC without having the full statement.
+
+279
+01:27:52.800 --> 01:27:59.509
+Gajinder Singh: But can't message one be treated as a witness itself? I mean, when you're trying to aggregate it, so…
+
+280
+01:27:59.840 --> 01:28:05.309
+benedikt: Yeah, but for the parties who want to verify that Message 1 is part of it, they need to
+
+281
+01:28:05.780 --> 01:28:11.759
+benedikt: treated as a statement, so you would have two different relations that you prove, so you need two different stocks.
+
+282
+01:28:12.650 --> 01:28:17.089
+benedikt: So what… what about the following? So this goes back to Emil's suggestion.
+
+283
+01:28:17.210 --> 01:28:26.310
+benedikt: When you are a proposer, when you sign, you include, a new one-time key, and then when you are a proposer the next time.
+
+284
+01:28:26.570 --> 01:28:29.329
+benedikt: You use that one-time key to sign.
+
+285
+01:28:29.690 --> 01:28:38.690
+benedikt: And so essentially, what I'm saying is just use a completely different, scheme, signature scheme for proposer signing.
+
+286
+01:28:38.970 --> 01:28:49.190
+benedikt: Then for attestations, for attestations, we use XMSS, and for proposal signing, we use this very naive chaining of one-time signatures, and you can always
+
+287
+01:28:49.620 --> 01:28:54.019
+benedikt: And because there's only one proposal per block, it's fine that you include a new
+
+288
+01:28:54.240 --> 01:28:58.519
+benedikt: next public key for the next time I will be a proposer.
+
+289
+01:29:01.300 --> 01:29:03.450
+T. Wambsgans: I want just to.
+
+290
+01:29:03.450 --> 01:29:05.040
+Gajinder Singh: So, maybe…
+
+291
+01:29:05.410 --> 01:29:06.939
+T. Wambsgans: Sorry, please, please, please.
+
+292
+01:29:08.360 --> 01:29:17.229
+Gajinder Singh: So what you… what… I think that could work. So what you're saying is that, so when… so I… when I create a blog, I basically sign it.
+
+293
+01:29:17.800 --> 01:29:21.310
+Gajinder Singh: with a different… proposer key.
+
+294
+01:29:21.910 --> 01:29:33.470
+Gajinder Singh: And, sort of, in the final, final signature that I make, with proposal attestation, I somehow… included.
+
+295
+01:29:37.720 --> 01:29:48.540
+benedikt: No, I'm saying that, forget about the two things. Let's say we've resolved attestation signatures using XFSS, now forget about that. How do we do supposer signatures?
+
+296
+01:29:48.980 --> 01:29:56.129
+benedikt: We use a very naive, completely independent, stateful hash-based signature scheme, where when you sign.
+
+297
+01:29:56.380 --> 01:30:01.400
+benedikt: You also publish a public key that you use for the next signature.
+
+298
+01:30:02.380 --> 01:30:12.509
+benedikt: So, when I want to verify a proposer signature, I check when has this party been proposer last time, and there I look up the public key.
+
+299
+01:30:13.430 --> 01:30:17.039
+Gajinder Singh: Yeah, so basically public keys get updated in the state.
+
+300
+01:30:17.040 --> 01:30:28.100
+benedikt: Yeah, whenever you sign as a proposer, you update your public key, essentially. But this is not the same public key as your XMSS public key for attestations, because you'd need to do attestations much more often.
+
+301
+01:30:28.370 --> 01:30:31.780
+benedikt: That's why we don't want to use this chain-based scheme.
+
+302
+01:30:31.980 --> 01:30:33.510
+benedikt: So, yeah.
+
+303
+01:30:33.570 --> 01:30:35.150
+Thomas Coratger: I don't know, it's not the preference.
+
+304
+01:30:35.150 --> 01:30:38.660
+benedikt: Perfect solution, it's a weird solution, but… It's one solution.
+
+305
+01:30:39.050 --> 01:30:44.920
+Thomas Coratger: In this case, this means that you have two keys registered by… per validator.
+
+306
+01:30:46.390 --> 01:30:49.000
+Thomas Coratger: Yeah, exactly. And you update this again.
+
+307
+01:30:49.000 --> 01:30:54.650
+benedikt: One of them is updated all the time. One of them is updated whenever you are a proposal, essentially.
+
+308
+01:30:56.190 --> 01:30:56.860
+Thomas Coratger: Okay.
+
+309
+01:31:01.170 --> 01:31:08.410
+Gajinder Singh: Yeah, this could make sense. I mean, so, I think what we can do right now for DevNet5 is that,
+
+310
+01:31:08.600 --> 01:31:16.229
+Gajinder Singh: We… since our devnets are short-term, we can just use index 1, so old and even index of the key.
+
+311
+01:31:16.530 --> 01:31:19.490
+Gajinder Singh: And in the meantime, we can figure this out,
+
+312
+01:31:19.750 --> 01:31:23.880
+Gajinder Singh: how to do it, because this suggestion, I think, is workable for sure.
+
+313
+01:31:24.740 --> 01:31:33.110
+Gajinder Singh: that we have… Proposer signature, that is being updated. Proposer key that is being updated all the time.
+
+314
+01:31:33.280 --> 01:31:33.800
+Gajinder Singh: And…
+
+315
+01:31:33.800 --> 01:31:35.329
+benedikt: I mean, you can also…
+
+316
+01:31:35.830 --> 01:31:45.200
+benedikt: You can also mix the two things, right? This… this chain-based signature that I described, like, you don't need to do a one-time signature, let's say you do a…
+
+317
+01:31:45.350 --> 01:31:50.330
+benedikt: 16 times signature, and then you only need to update your proposer key.
+
+318
+01:31:51.060 --> 01:32:10.609
+benedikt: every 16th time you have been a proposer, right? So you can use a… essentially, you can use a very short lifetime XMSS for being a proposer, and then you use a long lifetime XMSS for being a tester. And this means that you just need to take care that when you are a proposer.
+
+319
+01:32:10.650 --> 01:32:16.140
+benedikt: And your lifetime of being proposer runs out, you need to… Update your keys.
+
+320
+01:32:16.970 --> 01:32:23.689
+Gajinder Singh: So, so this is sort of like an epoch treatment, but on the level of an individual validator, right?
+
+321
+01:32:24.730 --> 01:32:35.949
+benedikt: Yes, exactly, and I guess individual validators could pick different, completely independent lifetimes for the proposal key.
+
+322
+01:32:36.830 --> 01:32:42.129
+benedikt: I… I'm not sure, this makes it a bit more complicated again, but yeah.
+
+323
+01:32:44.070 --> 01:32:55.820
+Gajinder Singh: So, for the simplicity for the next DevNet, why don't we then generate two keys, right, and just enroll them directly in the straight, at the Genesis? I mean, I don't see an issue in that for… as of now.
+
+324
+01:33:01.980 --> 01:33:07.780
+T. Wambsgans: It seems that the cleanest approach, if you don't care about key gen, it's probably the simplest way to do it is.
+
+325
+01:33:20.380 --> 01:33:25.019
+Gajinder Singh: Alright, so we'll keep thinking on this a bit more and sort of figure this out.
+
+326
+01:33:25.480 --> 01:33:30.280
+Gajinder Singh: And finalize this while we are specging out DevNet and implementing DevNet 4.
+
+327
+01:33:32.850 --> 01:33:33.880
+Gajinder Singh: All the input.
+
+328
+01:33:34.520 --> 01:33:35.389
+Gajinder Singh: Easily what?
+
+329
+01:33:35.840 --> 01:33:54.730
+T. Wambsgans: any guarantee on… for instance, some guarantee, like, you cannot be a proposer, two times, in a row, like, in, 16 blocks, like, there… the proposer, like, if you take 16 blocks, there cannot be two times the same proposer.
+
+330
+01:33:54.730 --> 01:33:59.630
+T. Wambsgans: It doesn't work if there are less than 16 proposers, but I don't know.
+
+331
+01:34:02.140 --> 01:34:06.850
+Gajinder Singh: So, one… one very problematic thing that can happen is that, let's say.
+
+332
+01:34:08.090 --> 01:34:11.999
+Gajinder Singh: So there were 16 forks that happened, right? And,
+
+333
+01:34:12.100 --> 01:34:16.239
+Gajinder Singh: Or 17 forks. And on the 17th fork, basically.
+
+334
+01:34:16.420 --> 01:34:20.280
+Gajinder Singh: You could not enroll your new key.
+
+335
+01:34:20.640 --> 01:34:23.689
+Gajinder Singh: But… Now your lifetime is sort of over.
+
+336
+01:34:23.970 --> 01:34:28.840
+Gajinder Singh: I mean, this is an extreme case, but this is something that could happen, and we'll be…
+
+337
+01:34:30.460 --> 01:34:33.349
+T. Wambsgans: Yeah. Okay. So, back to the show, okay.
+
+338
+01:34:43.510 --> 01:34:49.500
+Gajinder Singh: So, what we can do for now is maybe spec out DevNet 5 with respect to,
+
+339
+01:34:49.860 --> 01:34:58.650
+Gajinder Singh: With respect to separate keys, or basically audio one. But we still will need message 1 and message 2,
+
+340
+01:34:58.840 --> 01:35:06.189
+Gajinder Singh: Aggregation, because… Or we might even not need it here, because we'll have It's just published.
+
+341
+01:35:06.190 --> 01:35:16.759
+T. Wambsgans: In any case, this part is really easy with LinVM, so if you can write down the API, it will be really easy to make it implemented very thinly.
+
+342
+01:35:22.240 --> 01:35:32.039
+Gajinder Singh: So, when we… when we are going live, I mean, when we'll go, for example, live in Elstra Hot Fork, so do we… will… will we go with ZK or not?
+
+343
+01:35:34.880 --> 01:35:49.339
+T. Wambsgans: I believe we should not assume ZK right now. Even though there are other use cases of VINVM that will need ZK, so potentially, there will be ZK by default, but I would not assume ZK to…
+
+344
+01:35:49.540 --> 01:35:52.830
+T. Wambsgans: Build the consensus layer, in some sense.
+
+345
+01:35:58.980 --> 01:36:04.759
+Justin Drake: Is the idea… sorry, I was a bit distracted… is the idea that you have, basically, a Ziggy-style signature?
+
+346
+01:36:05.620 --> 01:36:08.990
+Justin Drake: with a proof of knowledge of a pre-image in ZK. Is that the idea?
+
+347
+01:36:11.090 --> 01:36:17.740
+T. Wambsgans: I believe the idea was to use two times a… there was a use case where you need to sign.
+
+348
+01:36:17.740 --> 01:36:18.610
+Justin Drake: Right.
+
+349
+01:36:18.610 --> 01:36:28.229
+T. Wambsgans: two times with the same XMSS, at the same slot, two message difference, and it should work… at least it makes sense that it could work with.
+
+350
+01:36:28.230 --> 01:36:29.459
+Justin Drake: Always true.
+
+351
+01:36:29.460 --> 01:36:33.459
+T. Wambsgans: It's… It's not, like, yeah?
+
+352
+01:36:33.460 --> 01:36:38.490
+Justin Drake: I mean, one issue with using a SNOC for signing is that it's unfriendly to weak devices.
+
+353
+01:36:41.940 --> 01:36:42.480
+T. Wambsgans: Correct.
+
+354
+01:36:42.480 --> 01:36:43.780
+Justin Drake: And I'm… yeah.
+
+355
+01:36:45.090 --> 01:36:45.910
+T. Wambsgans: Correct.
+
+356
+01:36:48.340 --> 01:36:50.609
+Gajinder Singh: So we should not be assuming
+
+357
+01:36:50.810 --> 01:36:56.389
+Gajinder Singh: security, because of the SNARC, it is basically coming from the underlying scheme.
+
+358
+01:36:57.900 --> 01:37:13.049
+T. Wambsgans: Yeah, and if we do it, it also exposes on, like, the site channel attacks that were, in some sense, not an issue with XMSS would become an issue, this time, probably.
+
+359
+01:37:22.490 --> 01:37:31.960
+Gajinder Singh: So, I think for now, maybe we can spec it, with two keys, or with… or even, and if we do that, we might not even…
+
+360
+01:37:32.270 --> 01:37:37.580
+Gajinder Singh: need message 1, message 2, because… If proposer…
+
+361
+01:37:37.700 --> 01:37:40.810
+Gajinder Singh: At a station is signed independently, basically, then…
+
+362
+01:37:41.210 --> 01:37:44.770
+Gajinder Singh: It can just be aggregated in the normal way.
+
+363
+01:37:47.530 --> 01:37:49.080
+T. Wambsgans: Beautiful. Perfect.
+
+364
+01:37:51.100 --> 01:38:07.349
+T. Wambsgans: And potentially, KeyGen will be so fast with CMT or other software optimizations that it will not be a problem to have this tool X overlap, because if it makes the overall protocol simpler, you can probably spend a few more minutes at KeyGen, in some sense.
+
+365
+01:38:15.970 --> 01:38:25.779
+Gajinder Singh: Maybe we still do it to bring the signature size down for the block. So, yes, I mean, yes, we'll see, we'll iterate on it.
+
+366
+01:38:41.700 --> 01:38:48.860
+Will Corcoran: Excellent. Any other… spec research-related conversations pertaining to DevNet 5.
+
+367
+01:38:54.740 --> 01:38:59.830
+Will Corcoran: metrics, observability? Any… Updates that you'd like to… or…
+
+368
+01:39:00.000 --> 01:39:02.019
+Will Corcoran: Topics you'd like to table this week?
+
+369
+01:39:03.350 --> 01:39:11.670
+Katya: Yes, hello, everyone. So currently, today, I'm trying to keep the DevNet alive.
+
+370
+01:39:11.670 --> 01:39:25.740
+Katya: It's running with these 6 nodes, so I replaced them temporarily for ETHLambda and Grandin Pro for Clean, so whatever the images from those two teams will be ready.
+
+371
+01:39:25.910 --> 01:39:29.989
+Katya: So I will replace them back, so…
+
+372
+01:39:29.990 --> 01:39:47.069
+Katya: The big win of today is that the DevNet stalled at around 500 slot with finalization, but then it could recover, so I restarted some nodes, with JPE,
+
+373
+01:39:47.480 --> 01:40:05.560
+Katya: checkpoint sync, and, so currently I'm struggling again with recovering it. So it could, recover from stalling at 500 slot to 2,500, so now I'm…
+
+374
+01:40:05.560 --> 01:40:11.329
+Katya: I made some fixes about Checkpoint Sync, and still struggling to make it… to keep it live.
+
+375
+01:40:11.330 --> 01:40:27.019
+Katya: So the issues, with the clients I share in the tool channel, like, Ikambda, you know, what you investigate, so whenever, we lose finality, so just, you use a lot of
+
+376
+01:40:27.090 --> 01:40:29.639
+Katya: memory.
+
+377
+01:40:29.960 --> 01:40:54.739
+Katya: And also, I'm asking for DevNet 3 metrics, at least who is aggregator, to know, like, or which subnet, because we are moving forward and going to increase the number of nodes, so this is important. Whenever your client is ready for metric 3, please ping me in the channel, I will update the dashboard so we can observe that.
+
+378
+01:40:54.740 --> 01:40:55.650
+Katya: as well.
+
+379
+01:40:56.000 --> 01:41:02.860
+Katya: Thank you. If… if this devot, won't recover, I will restart it again.
+
+380
+01:41:03.560 --> 01:41:04.500
+Katya: Thank you.
+
+381
+01:41:10.590 --> 01:41:11.520
+Will Corcoran: Thanks, Katya.
+
+382
+01:41:12.190 --> 01:41:15.490
+Will Corcoran: Any other open discussion topics?
+
+383
+01:41:26.310 --> 01:41:28.819
+Will Corcoran: If not, I have one.
+
+384
+01:41:29.640 --> 01:41:35.769
+Will Corcoran: Which is just to… Talk about the schedule for…
+
+385
+01:41:35.920 --> 01:41:40.080
+Will Corcoran: Cam, this came up, or it was shared yesterday.
+
+386
+01:41:40.610 --> 01:41:41.630
+Will Corcoran: So…
+
+387
+01:41:42.500 --> 01:41:53.249
+Will Corcoran: Most of our focus will be on Fort Mode, obviously, as a group. This is the event, the day that will be analogous to Beam Day last year. We're gonna…
+
+388
+01:41:53.400 --> 01:41:56.559
+Will Corcoran: Proceed that on Saturday with,
+
+389
+01:41:56.960 --> 01:42:00.049
+Will Corcoran: a, beast mode day, this is…
+
+390
+01:42:00.480 --> 01:42:07.300
+Will Corcoran: primarily focus on TK VMs, L1 TK VMs, ETH proofs, Things of that nature.
+
+391
+01:42:07.780 --> 01:42:25.770
+Will Corcoran: native roll-ups. So, yeah, really, the spirit behind the scheduling, they're both in the same venue. It's a rather small venue, only 80 people. We have a lot of interest. We're… we're in… we're, approving
+
+392
+01:42:26.020 --> 01:42:31.009
+Will Corcoran: Requests for many more people than 80, so it's first come, first serve.
+
+393
+01:42:31.580 --> 01:42:36.929
+Will Corcoran: You gotta do that with these things, otherwise you end up with empty seats, because people sign up and they don't show up.
+
+394
+01:42:37.220 --> 01:42:39.399
+Will Corcoran: So that being said.
+
+395
+01:42:40.020 --> 01:42:48.439
+Will Corcoran: really trying to put an emphasis on open forum discussions. We thought that that was really, really beneficial out of Beam Day last year.
+
+396
+01:42:48.470 --> 01:43:02.810
+Will Corcoran: The… the E3 is a little bit more presentation-focused. You've got a lot of teams that, you know, actual ZKVM teams that want to give their… their updates, but then there will be a lot of debate around,
+
+397
+01:43:02.920 --> 01:43:18.010
+Will Corcoran: And open discussion around the security sprint, and, sort of weighing canonical guests versus guest diversity, tied in with formal verification. And then the road to mandatory proofs.
+
+398
+01:43:18.300 --> 01:43:23.100
+Will Corcoran: With… so… That aside, with Fort Mode.
+
+399
+01:43:23.560 --> 01:43:25.890
+Will Corcoran: Really, you know, we're gonna start off
+
+400
+01:43:26.010 --> 01:43:33.510
+Will Corcoran: Justin giving a high-level, introduction, and then Toma talking about the new team, LeanCL,
+
+401
+01:43:33.610 --> 01:43:41.970
+Will Corcoran: Antonio Santo talking about cryptographic functions, and then Emil doing a deep dive into LeanVM.
+
+402
+01:43:42.010 --> 01:43:55.110
+Will Corcoran: We're gonna have a presentation from Nico talking about PQ signatures, but on the execution side. And then the afternoon, really, this is, I think, a great opportunity to, like, start to think about
+
+403
+01:43:55.840 --> 01:44:01.690
+Will Corcoran: perhaps, like, what the 6 months between Cannes and Cambridge will look like, so…
+
+404
+01:44:01.800 --> 01:44:19.170
+Will Corcoran: Starting off getting some really great presentations from Jan from the Protocol Consensus team, talking about fast finality and in-game finality, so there's a lot of in-flight research right now that will be presented there. And then same thing with the P2P layer, so…
+
+405
+01:44:19.490 --> 01:44:24.819
+Will Corcoran: Raul, the team lead for the networking team, will be presenting ETH P2P.
+
+406
+01:44:25.050 --> 01:44:39.499
+Will Corcoran: I believe for the first time. And then, another talk from Tama about lean spec, one from Katya talking about metrics and observability. And then, really, we are gonna reset the whole room into, like, kind of a round
+
+407
+01:44:39.910 --> 01:44:48.529
+Will Corcoran: Cable, open forum discussion, like last year, and end with 90 minutes of a lot of debate and discussion.
+
+408
+01:44:48.720 --> 01:44:54.970
+Will Corcoran: Talking about… each of… hopefully each of the CL teams that are there, talking about lessons learned.
+
+409
+01:44:55.100 --> 01:45:04.970
+Will Corcoran: Trying to bring… You know, topics of conversation that we've heard from the consensus researchers, networking researchers.
+
+410
+01:45:05.810 --> 01:45:12.699
+Will Corcoran: To hopefully align on a roadmap or scope items that we want to build into.
+
+411
+01:45:12.870 --> 01:45:17.840
+Will Corcoran: the next several DevNets, from that point on.
+
+412
+01:45:20.500 --> 01:45:29.759
+Will Corcoran: So that's… my little presentation, but yeah, any… any thoughts? Otherwise… We'll leave it there.
+
+413
+01:45:36.830 --> 01:45:37.790
+Will Corcoran: Excellent.
+
+414
+01:45:38.020 --> 01:45:40.230
+Will Corcoran: Look forward to seeing you all soon.
+
+415
+01:45:40.940 --> 01:45:44.020
+Will Corcoran: Spring is… Finally starting to…
+
+416
+01:45:44.570 --> 01:45:51.719
+Will Corcoran: Hop around the corner here in New York City. It's been a brittle winter. Really looking forward to camp.
+
+417
+01:45:52.290 --> 01:45:55.279
+Will Corcoran: Alright, have a good day. Talk soon, everyone.
+
+418
+01:45:55.280 --> 01:45:56.230
+Gajinder Singh: He was…
+
+419
+01:45:56.420 --> 01:45:57.979
+Mihir Faujdar: Bye. Thanks, everyone. Bye.
+
+420
+01:45:57.980 --> 01:45:58.860
+Thomas Coratger: Thanks, buddy.
+

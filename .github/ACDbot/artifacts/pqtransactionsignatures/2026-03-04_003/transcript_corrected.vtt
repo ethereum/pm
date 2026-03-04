@@ -1,0 +1,1998 @@
+WEBVTT
+
+1
+00:00:26.700 --> 00:00:27.810
+Antonio Sanso: Hello?
+
+2
+00:02:22.110 --> 00:02:24.969
+Antonio Sanso: Guys, can I ask you if you can see my slide?
+
+3
+00:02:28.710 --> 00:02:30.639
+yhl125: Yes, I can build a slide.
+
+4
+00:02:30.950 --> 00:02:34.679
+Antonio Sanso: You say it's, like, one slide, like, in presenter mode, or, like,
+
+5
+00:02:35.660 --> 00:02:37.130
+Antonio Sanso: Or is it more than one?
+
+6
+00:02:39.740 --> 00:02:41.190
+yhl125: It is present remote.
+
+7
+00:02:42.320 --> 00:02:45.029
+Antonio Sanso: So, I mean, you see one slide, or two, or two slides?
+
+8
+00:02:45.610 --> 00:02:46.480
+yhl125: One slide.
+
+9
+00:02:46.720 --> 00:02:49.069
+Antonio Sanso: Okay, so one big win, right?
+
+10
+00:02:49.070 --> 00:02:49.920
+yhl125: Yeah.
+
+11
+00:02:50.170 --> 00:02:52.249
+Antonio Sanso: Okay, thanks for checking, Issa.
+
+12
+00:04:39.980 --> 00:04:40.789
+Fab: Hello, everyone.
+
+13
+00:04:44.990 --> 00:04:48.540
+Antonio Sanso: Hello, we just wait. It's a bit early, wait a few more minutes.
+
+14
+00:05:35.560 --> 00:05:42.310
+Antonio Sanso: Hi, everyone so far. It's just, 4 o'clock now, as is custom. I'll wait 2 more minutes.
+
+15
+00:05:42.520 --> 00:05:45.650
+Antonio Sanso: To accommodate someone just a few minutes late.
+
+16
+00:05:45.920 --> 00:05:47.060
+Antonio Sanso: And then it will start.
+
+17
+00:07:13.730 --> 00:07:14.720
+Antonio Sanso: Right?
+
+18
+00:07:14.830 --> 00:07:17.749
+Antonio Sanso: Hi, everyone. Welcome to the third call.
+
+19
+00:07:17.870 --> 00:07:20.699
+Antonio Sanso: The post-quantum transaction signatures.
+
+20
+00:07:21.170 --> 00:07:30.060
+Antonio Sanso: I… Hope you'll see my slides, and… Let's start.
+
+21
+00:07:30.190 --> 00:07:31.660
+Antonio Sanso: If I manage to.
+
+22
+00:07:32.230 --> 00:07:34.150
+Antonio Sanso: Move this from my screen.
+
+23
+00:07:55.970 --> 00:07:57.210
+Antonio Sanso: Right.
+
+24
+00:07:59.180 --> 00:08:05.710
+Antonio Sanso: Do you see my slides, right? I think, like, yes. So, this third call, we had two calls so far.
+
+25
+00:08:05.970 --> 00:08:10.220
+Antonio Sanso: The first one was on, about lattice solution.
+
+26
+00:08:10.600 --> 00:08:17.630
+Antonio Sanso: The second one was about hash-based solution. Today, we have a special
+
+27
+00:08:17.960 --> 00:08:21.140
+Antonio Sanso: topic, but it's an NTT and non-per-compile.
+
+28
+00:08:21.350 --> 00:08:26.730
+Antonio Sanso: We'll have a kind of abstraction in the next call, and hopefully hardware support.
+
+29
+00:08:26.960 --> 00:08:28.410
+Antonio Sanso: And two goals.
+
+30
+00:08:29.980 --> 00:08:36.499
+Antonio Sanso: So, probably some of you seen this already. There's been this tweet by Justin Drake.
+
+31
+00:08:37.770 --> 00:08:41.320
+Antonio Sanso: Presenting this, long-term straw map org.
+
+32
+00:08:41.880 --> 00:08:51.549
+Antonio Sanso: the dislike, shows a bit of, idea for a potential Ethereum futures. Of course, this call, we're not gonna focus
+
+33
+00:08:51.700 --> 00:08:53.419
+Antonio Sanso: On all these boxes.
+
+34
+00:08:54.220 --> 00:08:59.350
+Antonio Sanso: And we probably are more interested about this… part.
+
+35
+00:08:59.620 --> 00:09:04.289
+Antonio Sanso: Specifically, like, native account abstraction that we don't focus, but we leverage it.
+
+36
+00:09:04.970 --> 00:09:10.869
+Antonio Sanso: And the really part… the meaty part for us is really… This NTT precompile.
+
+37
+00:09:11.280 --> 00:09:21.900
+Antonio Sanso: Or more than one. So, there was as well a tweet from Vitalik that, talks about a concept of non-peer compiled, and it's, like, more operation, not just NTT.
+
+38
+00:09:23.020 --> 00:09:26.990
+Antonio Sanso: So, I'd really like to, kind of try to
+
+39
+00:09:27.290 --> 00:09:38.669
+Antonio Sanso: launched this meme of Daisugi, and in my mind, we will have the NTT precompiles being there, down, and hopefully people will build on top of it.
+
+40
+00:09:38.940 --> 00:09:57.370
+Antonio Sanso: different signature schemes that are post-quantum or stark, because both starts and latte solutions, they have in common the fact that they heavily used polynomial rings, so operation on planet fields needs to be really efficient.
+
+41
+00:09:59.310 --> 00:10:08.749
+Antonio Sanso: The agenda for today is pretty lean, on purpose, because the first two calls, we set the stage, and so we had a lot of presentations. In the future, I will expect to have
+
+42
+00:10:08.880 --> 00:10:12.699
+Antonio Sanso: Some presentation, but mostly open discussions.
+
+43
+00:10:13.290 --> 00:10:20.590
+Antonio Sanso: And, the presentation of today is, I think, already in Advanced Renault, or Simon, I think Renault is a good percent.
+
+44
+00:10:20.970 --> 00:10:26.350
+Antonio Sanso: That will show, this NTT precompile that, ZKnox
+
+45
+00:10:26.530 --> 00:10:30.010
+Antonio Sanso: So, Simon and Renaud are ready.
+
+46
+00:10:30.290 --> 00:10:35.150
+Antonio Sanso: I presented, tried to launch last year, but now there's a revival.
+
+47
+00:10:35.790 --> 00:10:39.979
+Antonio Sanso: And with this, without further ado, I've passed the…
+
+48
+00:10:40.360 --> 00:10:44.350
+Antonio Sanso: the word Renault. I've seen you around before, Renault.
+
+49
+00:10:44.460 --> 00:10:45.859
+Antonio Sanso: I think you're still here.
+
+50
+00:10:46.290 --> 00:10:48.130
+Renaud-ZKNOX: Yep, yep, I am, so…
+
+51
+00:10:48.340 --> 00:10:49.870
+Antonio Sanso: Let me stop presenting, and…
+
+52
+00:10:49.870 --> 00:10:52.439
+Renaud-ZKNOX: Yeah, let me share my screen.
+
+53
+00:10:55.100 --> 00:10:57.469
+Renaud-ZKNOX: You… you have to shut your…
+
+54
+00:10:57.470 --> 00:10:58.639
+Antonio Sanso: Yeah, yeah, I'll try, I'm trying.
+
+55
+00:10:58.640 --> 00:11:00.670
+Renaud-ZKNOX: sharing, so I can launch mine.
+
+56
+00:11:01.130 --> 00:11:04.019
+Antonio Sanso: I have some issue with my mouth today, I don't know why.
+
+57
+00:11:10.320 --> 00:11:13.599
+Antonio Sanso: One second, I don't know what happened to my mouse.
+
+58
+00:11:21.670 --> 00:11:23.520
+Antonio Sanso: Alright, she'll be fine now.
+
+59
+00:11:29.580 --> 00:11:31.609
+Renaud-ZKNOX: Yep, yep, yep, let's meet…
+
+60
+00:11:35.190 --> 00:11:36.730
+Renaud-ZKNOX: Can you see it?
+
+61
+00:11:38.820 --> 00:11:39.870
+Antonio Sanso: Perfect, yep.
+
+62
+00:11:40.300 --> 00:11:41.730
+Renaud-ZKNOX: Okay.
+
+63
+00:11:41.980 --> 00:11:50.069
+Renaud-ZKNOX: Yeah, so… so this is a… this is an EIP we… we tried to… to launch last year as,
+
+64
+00:11:50.240 --> 00:11:54.910
+Renaud-ZKNOX: Antonio… Antonio said, we, we implemented it.
+
+65
+00:11:55.630 --> 00:12:04.009
+Renaud-ZKNOX: So I'm gonna present it. Actually, we were a bit surprised, to see the precompile appear,
+
+66
+00:12:04.980 --> 00:12:11.360
+Renaud-ZKNOX: In Justin, in a Justin tweet, last week, because we…
+
+67
+00:12:11.570 --> 00:12:20.150
+Renaud-ZKNOX: We actually didn't get too much eco on this one, but, yeah, so there was a sus mention for the straw map.
+
+68
+00:12:20.150 --> 00:12:31.890
+Renaud-ZKNOX: Not sure if Justin was intending here to directly target this precompile, or maybe it's related to another thing that Vitalik tweeted also last week.
+
+69
+00:12:32.210 --> 00:12:39.750
+Renaud-ZKNOX: Which is a numpy, NUMPI precompile, which, I will also…
+
+70
+00:12:40.480 --> 00:12:44.819
+Renaud-ZKNOX: Give some, insights, during, this, presentation.
+
+71
+00:12:45.550 --> 00:12:56.390
+Renaud-ZKNOX: So, starting with, with this, so, at first, yeah, the, the topic was a bit less hot, when we,
+
+72
+00:12:56.570 --> 00:13:04.250
+Renaud-ZKNOX: when we first, wrote this, this spray compile, we have two things in mind. So, of course, the post-contum threat.
+
+73
+00:13:04.360 --> 00:13:12.909
+Renaud-ZKNOX: Which is a very hot topic right now. So, okay, we, we talked, about it, during the previous, previous sessions.
+
+74
+00:13:13.010 --> 00:13:16.200
+Renaud-ZKNOX: the two EIPs that are,
+
+75
+00:13:17.300 --> 00:13:24.540
+Renaud-ZKNOX: that have been proposed, EIP8051 for Delitium and 8052 for Falcon.
+
+76
+00:13:24.760 --> 00:13:37.320
+Renaud-ZKNOX: And both share one common, core operation, which is a polynomial multiplication, in a ring, and this is, this can be efficiently computed, with NTT.
+
+77
+00:13:37.430 --> 00:13:42.899
+Renaud-ZKNOX: So… So this is, this is the core of,
+
+78
+00:13:43.400 --> 00:13:57.379
+Renaud-ZKNOX: of this precompile. And it also happens that this NTT is also used in the stock, verification, so I'm not sure if, for instance, Starknet is still,
+
+79
+00:13:57.630 --> 00:14:15.119
+Renaud-ZKNOX: is still, doing the L1 verification with the Stark directly on N1, or wrapping it in a KZG, but, the, this NTT we are pre-compiled could also, speed up, this part, so, to allow, fast
+
+80
+00:14:15.120 --> 00:14:25.759
+Renaud-ZKNOX: third verification of a ZK prover, even if… I guess that will… all the work that have been done since, we should, or we could have some…
+
+81
+00:14:26.120 --> 00:14:29.580
+Renaud-ZKNOX: pre-compile for the ZKVerify itself.
+
+82
+00:14:29.790 --> 00:14:33.699
+Renaud-ZKNOX: So I guess that, the other topic is a passcan to demonstrate.
+
+83
+00:14:34.660 --> 00:14:36.700
+Renaud-ZKNOX: So, if we…
+
+84
+00:14:36.980 --> 00:14:53.140
+Renaud-ZKNOX: The position of this precompile, so we have very specific, EIPs for the LTM and Falcom. Of course, they are optimal in terms of gas costs, because when you implement a precompile, this means that for the clients, for instance, gas, rest.
+
+85
+00:14:53.290 --> 00:15:12.279
+Renaud-ZKNOX: to call the precompiled, it means that there is a switch of context, which comes with a price. So, of course, having a monolithic implementation provides better gas costs, but, of course, it's also more rigid, and
+
+86
+00:15:12.560 --> 00:15:31.999
+Renaud-ZKNOX: if the choice has to be replaced, this means that you have to write a brand new EIP while having the NTT precompiled. You have some universal primitive for all lattice-based candidates, and more than this, because polynomial multiplication is not limited to…
+
+87
+00:15:32.200 --> 00:15:35.979
+Renaud-ZKNOX: To, to, to verifying a signature.
+
+88
+00:15:36.320 --> 00:15:44.680
+Renaud-ZKNOX: It does not include the ash, so as we presented for Falcons, if you have an EVM,
+
+89
+00:15:44.950 --> 00:15:53.369
+Renaud-ZKNOX: equivalent, where you replace the hash2Plane function by, EVM compatible. You have something that is
+
+90
+00:15:53.520 --> 00:16:10.330
+Renaud-ZKNOX: gas-efficient, otherwise you have to implement CHECK, and this is very expensive. Actually, when we implement the NIST versions of Delithium and Falcon. The ash is the most expensive part, so we will need a sheck precompile. We're also working on this.
+
+91
+00:16:10.710 --> 00:16:27.369
+Renaud-ZKNOX: So this is, this is here in the middle that, we have the NTT precompile, and another thing that has been introduced, by Vitalix recently is a NUMP precompile, we will, call it the NumPy precompile.
+
+92
+00:16:27.430 --> 00:16:35.590
+Renaud-ZKNOX: Which introduce, vectorized operation, for small, 32-bit, integral.
+
+93
+00:16:35.750 --> 00:16:43.679
+Renaud-ZKNOX: And so this has a maximum generality, many applications, so it's not limited to lattices, it could also speed up
+
+94
+00:16:43.910 --> 00:16:56.270
+Renaud-ZKNOX: matricial products, big integrals, implementation, poseden. This means that, for instance, even if you want to implement large, larger elliptic curve computation.
+
+95
+00:16:56.380 --> 00:17:09.090
+Renaud-ZKNOX: I knew there were some, some initiatives that were actually very, very, optimized, but still, to have a CDCAS384, it's like…
+
+96
+00:17:09.750 --> 00:17:15.330
+Renaud-ZKNOX: 10 million guys, so this will also benefit, from this.
+
+97
+00:17:15.530 --> 00:17:20.010
+Renaud-ZKNOX: But, as it is not monolithic, this means that you will have
+
+98
+00:17:20.130 --> 00:17:31.709
+Renaud-ZKNOX: Many, many other bit manipulation, hashing, for the world primitive. So, to address a specific, primitive, you have something that is less efficient.
+
+99
+00:17:33.150 --> 00:17:45.509
+Renaud-ZKNOX: Okay, so back to EIP7885, so it introduced four opcodes in the precompiles, so we have the NTT forward and, inverse.
+
+100
+00:17:45.780 --> 00:17:57.979
+Renaud-ZKNOX: And, the multiplication and addition of, vectorized tap, types, which are VECMILMOD and VECAD, VecAddMod, so…
+
+101
+00:17:58.600 --> 00:18:10.359
+Renaud-ZKNOX: this polynomial multiplication, the NTT compared to the naive, naive approach as a complexity of n log m.
+
+102
+00:18:10.550 --> 00:18:18.520
+Renaud-ZKNOX: And in our implementation, the fields that we covered are, of course, the NIST primitives, but also the…
+
+103
+00:18:19.130 --> 00:18:27.980
+Renaud-ZKNOX: the ash fields, that are for sites for stocks, so Baby Beer, God Deluxe, I think we have Koala, and the stock curve.
+
+104
+00:18:30.150 --> 00:18:38.000
+Renaud-ZKNOX: So, benchmarking this, we have… Something…
+
+105
+00:18:39.690 --> 00:18:46.170
+Renaud-ZKNOX: So, the reference Solidity Falcon is 1.5 million gas.
+
+106
+00:18:46.380 --> 00:18:57.089
+Renaud-ZKNOX: Implementing it using the, the NTT precompiled, we were able to lower this cost to, 400,
+
+107
+00:18:57.240 --> 00:18:58.550
+Renaud-ZKNOX: Okay, guys.
+
+108
+00:18:58.740 --> 00:19:02.210
+Renaud-ZKNOX: So, this is a… this is a huge improvement.
+
+109
+00:19:03.080 --> 00:19:11.469
+Renaud-ZKNOX: I think this is close to twice, the strengths minus, that, were presented last, last time.
+
+110
+00:19:11.620 --> 00:19:24.840
+Renaud-ZKNOX: But the… the call data size, is, yeah, very small. Very small compared to the huge, I don't remember what was the size, the size is, obtained by the…
+
+111
+00:19:25.700 --> 00:19:32.689
+Renaud-ZKNOX: Sphinx minus proposition, but, like, yeah, I think 20K kilobytes, something, something like this.
+
+112
+00:19:33.460 --> 00:19:41.059
+Renaud-ZKNOX: So, we have this decrease, but, the remaining bottleneck is, yeah, the ash function.
+
+113
+00:19:41.890 --> 00:19:46.230
+Renaud-ZKNOX: So, while we… we could have something that…
+
+114
+00:19:48.880 --> 00:19:53.920
+Renaud-ZKNOX: that could be to KGAS, who is, the companion IP.
+
+115
+00:19:56.630 --> 00:20:00.950
+Renaud-ZKNOX: So… yup, yup, yep, so…
+
+116
+00:20:01.070 --> 00:20:11.109
+Renaud-ZKNOX: Yeah, I guess I already talked about the advantage of the specific compared to the more generic, more generic approach.
+
+117
+00:20:13.060 --> 00:20:20.649
+Renaud-ZKNOX: Yeah, and so this NumPy, so that's a promising parallel track, we started to work on.
+
+118
+00:20:20.850 --> 00:20:32.399
+Renaud-ZKNOX: So it's a NumPy-like frequency for the EVM, so it's introducing vectorized modular arithmetic for those who have followed, their proposition, which was kind of…
+
+119
+00:20:32.690 --> 00:20:39.120
+Renaud-ZKNOX: abandon, with the… with the deaths of, EOF, which was EVM max.
+
+120
+00:20:39.420 --> 00:20:51.299
+Renaud-ZKNOX: So, EVM Max was a powerful, but very complex precompiled. I think the problem with EVM Max, it was introducing too much things at a time, and was too…
+
+121
+00:20:51.590 --> 00:20:58.800
+Renaud-ZKNOX: Too complex, while, what NumPy is, is just, vectorization
+
+122
+00:20:59.290 --> 00:21:14.080
+Renaud-ZKNOX: And the input of the precompile is the size of the vectorization and the operation. The operation being either addition, multiplication, with or without modular reduction.
+
+123
+00:21:14.790 --> 00:21:20.329
+Renaud-ZKNOX: So… So, yeah, we, we just started, we just started this work.
+
+124
+00:21:21.070 --> 00:21:27.909
+Renaud-ZKNOX: So… NumPy would provide maximal, algorithmic, agility.
+
+125
+00:21:28.430 --> 00:21:40.319
+Renaud-ZKNOX: But, at the expense of higher gas costs, because, we would have more data manipulation between the different stages of the NTT.
+
+126
+00:21:42.800 --> 00:21:44.930
+Renaud-ZKNOX: So…
+
+127
+00:21:45.250 --> 00:21:57.370
+Renaud-ZKNOX: To conclude, EIP7885, it's a single precompile that enables a post-consume signature verification and speedup of stark verifiers.
+
+128
+00:21:57.770 --> 00:22:03.560
+Renaud-ZKNOX: Providing some cryptographic agility, so there are still some constants,
+
+129
+00:22:04.010 --> 00:22:09.870
+Renaud-ZKNOX: Around, tights to which, which is, prime field, we are working on.
+
+130
+00:22:11.970 --> 00:22:21.670
+Renaud-ZKNOX: Yeah, and so right now, we began, we began some benchmarks, on targets.
+
+131
+00:22:23.520 --> 00:22:34.249
+Renaud-ZKNOX: Yeah, so… So, not, not sure. The proposition is on the, the table, we…
+
+132
+00:22:34.530 --> 00:22:44.960
+Renaud-ZKNOX: We kind of, put it on pause, last year, but if… if the interest is back, maybe we can…
+
+133
+00:22:45.260 --> 00:22:55.469
+Renaud-ZKNOX: revive, and work a little more on this one. So, I don't know, Antonio, if you have more insights about the trauma.
+
+134
+00:22:55.940 --> 00:23:15.729
+Antonio Sanso: I have a bunch of questions, if, I mean, if someone has a question, can post on the chat or tell, but I have at least 3 questions, if you don't mind. Until today, I didn't… I didn't understand… I mean, I was not aware, or, like, maybe I'm not correctly. Is the NTT and the NumPy… no, the NumPy precompile.
+
+135
+00:23:15.800 --> 00:23:20.739
+Antonio Sanso: in… opposition. I mean, it's one or the other, or they can work together.
+
+136
+00:23:22.580 --> 00:23:30.610
+Renaud-ZKNOX: I guess they can work together, but as the SADA functions, the more candidates you have, the less…
+
+137
+00:23:30.910 --> 00:23:40.190
+Renaud-ZKNOX: probability you have for each of them to be accepted, so I'm not sure that we should push all of them, but instead, maybe…
+
+138
+00:23:40.550 --> 00:23:43.470
+Renaud-ZKNOX: Choose a… a champion.
+
+139
+00:23:43.610 --> 00:23:46.760
+Renaud-ZKNOX: So this NVM Pi, we have…
+
+140
+00:23:47.540 --> 00:23:51.299
+Renaud-ZKNOX: Yeah, we have promising, first, first results.
+
+141
+00:23:51.570 --> 00:24:03.440
+Renaud-ZKNOX: But it needs to be incorporated in the world scheme to see what are the final, final gas costs we obtain, for… compared to…
+
+142
+00:24:04.360 --> 00:24:06.489
+Renaud-ZKNOX: To a monolithic NTT.
+
+143
+00:24:06.640 --> 00:24:12.179
+Renaud-ZKNOX: But I don't think it's a good idea to push all of them at once.
+
+144
+00:24:12.390 --> 00:24:20.709
+Antonio Sanso: But can it, I mean, can it be one that includes both an MP and an NTT, or, like, really cannot stay together?
+
+145
+00:24:22.000 --> 00:24:25.469
+Renaud-ZKNOX: No, I mean… I mean, MPs really…
+
+146
+00:24:25.830 --> 00:24:32.860
+Renaud-ZKNOX: is really something that is a kind of trade-off. Before, we have the risk VM, because I think this is,
+
+147
+00:24:33.290 --> 00:24:35.630
+Renaud-ZKNOX: This is the endgamer, right?
+
+148
+00:24:36.040 --> 00:24:45.109
+Renaud-ZKNOX: It provides many, many potential speedups for values, values implementations. That's what is really interesting.
+
+149
+00:24:45.250 --> 00:24:51.350
+Renaud-ZKNOX: And it happens that, NTT is, is one of them, so… bets…
+
+150
+00:24:53.290 --> 00:24:59.019
+Renaud-ZKNOX: Yeah, so they are not… they are not antagonists. They are not antagonists at all. Okay.
+
+151
+00:24:59.180 --> 00:25:00.070
+Antonio Sanso: And…
+
+152
+00:25:00.070 --> 00:25:03.890
+Renaud-ZKNOX: I mean, the, the, the, the ACDE… .
+
+153
+00:25:03.890 --> 00:25:06.110
+Antonio Sanso: Oh, yeah. I'm well aware of it.
+
+154
+00:25:06.110 --> 00:25:09.009
+Renaud-ZKNOX: the way it works, I don't think that if we…
+
+155
+00:25:09.170 --> 00:25:14.450
+Renaud-ZKNOX: Okay, pushing a single, cryptographic, precompile is already hard.
+
+156
+00:25:15.600 --> 00:25:20.429
+Renaud-ZKNOX: They don't like it, because it's hard to evaluate.
+
+157
+00:25:20.580 --> 00:25:29.579
+Renaud-ZKNOX: It's… it has… yeah, looking at what happened with BLS, you know, one of the rare incidents.
+
+158
+00:25:29.990 --> 00:25:35.300
+Renaud-ZKNOX: that happened was in divergence between clients with BLS, so since then.
+
+159
+00:25:35.800 --> 00:25:42.649
+Renaud-ZKNOX: I guess at core there, they are really scared when you want to introduce a new cryptographic precompiled, so…
+
+160
+00:25:43.550 --> 00:25:47.080
+Renaud-ZKNOX: I would mainly say that that's the main reason
+
+161
+00:25:47.460 --> 00:25:59.450
+Renaud-ZKNOX: not a technical reason, or the fact that there are antagonists, but the fact that, okay, pushing too many, computational, pre-compile for the same fork, I guess…
+
+162
+00:26:00.570 --> 00:26:11.980
+Antonio Sanso: No, but I mean, it will be still one with many opcodes. I mean, you have on your… on this NTT, there were four opcodes. How many opcodes you will see more in the NumPy one?
+
+163
+00:26:13.360 --> 00:26:14.339
+Renaud-ZKNOX: Only one.
+
+164
+00:26:15.100 --> 00:26:16.070
+Antonio Sanso: Only one.
+
+165
+00:26:16.230 --> 00:26:16.850
+Renaud-ZKNOX: Yep.
+
+166
+00:26:17.610 --> 00:26:24.759
+Antonio Sanso: Because I was under the impression, I see Vitalik here, actually, I was under the impression that the NumPy one will be having, as well, plus, or more.
+
+167
+00:26:24.760 --> 00:26:29.050
+Renaud-ZKNOX: Yep, yep, but… It's,
+
+168
+00:26:29.760 --> 00:26:36.390
+Renaud-ZKNOX: It's a parameter inside the precompile, so… yeah, you could say that it's kind of cheating.
+
+169
+00:26:36.560 --> 00:26:44.229
+Renaud-ZKNOX: But actually, it's really, if you see how,
+
+170
+00:26:44.390 --> 00:26:48.160
+Renaud-ZKNOX: vectorized, op-code works, it's like…
+
+171
+00:26:51.590 --> 00:26:54.829
+Antonio Sanso: It's, like, flexible, I mean, the input is… okay.
+
+172
+00:26:54.830 --> 00:27:04.320
+Renaud-ZKNOX: Yeah, I mean, it's like changing the… having one parameter would be the operation. Is it multiplication, addition, or subtraction?
+
+173
+00:27:04.480 --> 00:27:07.820
+Renaud-ZKNOX: And then it's vectorized on all the cells.
+
+174
+00:27:08.200 --> 00:27:11.019
+Renaud-ZKNOX: That are the input and output of,
+
+175
+00:27:11.130 --> 00:27:15.079
+Renaud-ZKNOX: of the precompile. So it's a bit less complex than, than.
+
+176
+00:27:16.890 --> 00:27:21.250
+Renaud-ZKNOX: than, EVM Max, of course, bets.
+
+177
+00:27:21.490 --> 00:27:24.709
+Renaud-ZKNOX: Yeah, but still, still a… still a complex one.
+
+178
+00:27:25.210 --> 00:27:38.160
+Antonio Sanso: Alright, and the last question, then I will have two questions in the chat, I see as well, is… I've seen that you were supporting, like, five, six primes on your proposal. Will it be totally out of question to have, like, the prime being…
+
+179
+00:27:38.880 --> 00:27:40.990
+Antonio Sanso: Generic.
+
+180
+00:27:41.500 --> 00:27:44.090
+Renaud-ZKNOX: No, but.
+
+181
+00:27:44.110 --> 00:27:49.880
+Antonio Sanso: This means that in the cold data, you would have to provide the power of,
+
+182
+00:27:50.810 --> 00:28:07.630
+Renaud-ZKNOX: of a generator as lookup tables, because if you… if you have to compute, the power, to… to recompute on the fly, then you lose all the interest of, of the precompile.
+
+183
+00:28:07.630 --> 00:28:08.310
+Antonio Sanso: Makes sense.
+
+184
+00:28:08.310 --> 00:28:23.039
+Renaud-ZKNOX: It's like… it's like when you perform a Montgomery multiplication, you provide the Montgomery constants, and if you don't, you lose interest of Montgomery multiplication, because computing, the constants.
+
+185
+00:28:23.250 --> 00:28:25.870
+Renaud-ZKNOX: Imply some inversion.
+
+186
+00:28:25.870 --> 00:28:36.109
+Antonio Sanso: make a lot of sense. So it will be really about, like… I think, like, choosing, like, the standard primes plus 3 or 4, I mean, will be enough.
+
+187
+00:28:36.110 --> 00:28:46.080
+Antonio Sanso: Now, I see a bunch of questions here, and we can go in order, and Gotti, you will be the first one, if you want to repeat by voice, or I can read, I don't know.
+
+188
+00:28:46.080 --> 00:29:05.560
+Gottfried Herold: Yeah, I mean, that was just a question. I mean, you partially answered it. To what extent, actually, you utilize the fact that you have hardwired primes in your precompiles. You know, so it, I mean, it just has a bit of a different, sort of API, depending on whether you can have arbitrary primes, a special set of primes, and with pre-computed tables, and so on was just a question.
+
+189
+00:29:05.560 --> 00:29:07.609
+Gottfried Herold: To what extent this sort of matters here.
+
+190
+00:29:07.610 --> 00:29:08.180
+Renaud-ZKNOX: Yep.
+
+191
+00:29:08.490 --> 00:29:12.270
+Renaud-ZKNOX: Yeah, yeah, so for the NTT precompiled,
+
+192
+00:29:12.320 --> 00:29:22.459
+Renaud-ZKNOX: It's really hardwire… the hardwiring, is, really important, because you have to pre-compile, pre-compute all those, power of P.
+
+193
+00:29:22.460 --> 00:29:33.870
+Renaud-ZKNOX: So these are a large, lookup table. For the NumPy, precompile, it's, really small, because here it's, it's only a barrett, barrett multiplication.
+
+194
+00:29:33.870 --> 00:29:39.849
+Renaud-ZKNOX: So I don't know if you see how Barrett multiplication works, but here the, the constant is very fast.
+
+195
+00:29:39.850 --> 00:29:59.629
+Renaud-ZKNOX: Yeah, I know. So it's really fast amortized, so… and we think that, so there was discussion, should we provide the Montgomery constant and, implement the, the, the vectorized multiplication as Montgomery? And no, we, we think that, Barrett,
+
+196
+00:29:59.650 --> 00:30:14.720
+Renaud-ZKNOX: So Barrett is, like, 30%, more expensive than, than Montgomery, but if you look at the fact that, the precompile also provides some… Perform, the butterfly.
+
+197
+00:30:14.790 --> 00:30:31.320
+Renaud-ZKNOX: So the gather-scatter, layer. So this is, amortized, so Barrett, Barrett compared to Montgomery, when you have to, to have this, linear permutation layer, is very…
+
+198
+00:30:31.480 --> 00:30:46.869
+Renaud-ZKNOX: very close to Montgomery. So, using Barrett, Barrett multiplication, it's very fast to first, compute the approximation, of Barrett, Barrett constants, and then, proceed with the full,
+
+199
+00:30:47.260 --> 00:30:53.230
+Renaud-ZKNOX: With the full, yeah, bar rate multiplication, or… and also for,
+
+200
+00:30:53.230 --> 00:31:07.810
+Renaud-ZKNOX: For modular, modular addition, it's faster to, to use Barrett, than, conditional, yeah, the conditional, modular production, which is just a subtraction for, for addition, subtraction.
+
+201
+00:31:08.560 --> 00:31:09.509
+Renaud-ZKNOX: If it's clear.
+
+202
+00:31:10.490 --> 00:31:11.649
+Antonio Sanso: Makes a lot of sense.
+
+203
+00:31:11.920 --> 00:31:18.160
+Antonio Sanso: I see as well a question from Stefa. I don't know if you want to go by boss, I didn't read the questions. You want Steffa?
+
+204
+00:31:18.440 --> 00:31:22.109
+Stefano Gogioso: Sorry, it's… yeah, Stefano, this is Windows being silly and cutting.
+
+205
+00:31:22.110 --> 00:31:23.670
+Antonio Sanso: Okay, awesome.
+
+206
+00:31:23.910 --> 00:31:33.449
+Stefano Gogioso: All right. But I think Dano can go first, because that seems a bit more… a bit closer a question to what we're discussing now.
+
+207
+00:31:34.100 --> 00:31:35.559
+Antonio Sanso: Dana, you want to go?
+
+208
+00:31:36.300 --> 00:31:46.239
+Danno Ferrin - Tectonic.xyz: Sure. I wanted to know how the precompiler has been done dealing with multiple bit widths of the encoding. I didn't see any specification of strides or anything, and…
+
+209
+00:31:46.240 --> 00:31:48.009
+Renaud-ZKNOX: The percentile definition.
+
+210
+00:31:48.010 --> 00:32:04.769
+Danno Ferrin - Tectonic.xyz: And, like, the keys of the Lithium and Falcon, they don't fit into 8-bit buckets. You know, we've got 3-bit, 4-bit, 10-bit, 14, 20-bit, and they go back and forth between the different bits all the time. Are you going to expect people to decompress their keys and bit align them before they submit them?
+
+211
+00:32:04.830 --> 00:32:11.890
+Danno Ferrin - Tectonic.xyz: Or will you be taking the canonical keys and be able to use those within the precompiler, or will we have to massage them with EVM?
+
+212
+00:32:12.600 --> 00:32:18.009
+Renaud-ZKNOX: No, here, it means that this is a bit manipulation that would have to be performed.
+
+213
+00:32:18.080 --> 00:32:33.150
+Renaud-ZKNOX: I think that the decompression, because we had this same problem when we implemented our Falcon in full solidity, and I think that, the overall cost for decompression was something like $150K.
+
+214
+00:32:33.460 --> 00:32:42.449
+Renaud-ZKNOX: So, yeah, that's expensive, and also the question is, should it be performed, at the contract layer?
+
+215
+00:32:42.750 --> 00:32:47.870
+Renaud-ZKNOX: Or, because actually, for… for the, for the signer.
+
+216
+00:32:48.220 --> 00:32:54.420
+Renaud-ZKNOX: The signer could be the one, performing the, the decompression.
+
+217
+00:32:55.240 --> 00:33:06.839
+Renaud-ZKNOX: And actually, actually, what is, very annoying is to have the, the 14, the 14 bits, representation, instead of 16.
+
+218
+00:33:07.090 --> 00:33:10.999
+Renaud-ZKNOX: Because it implies a lot of bitwise manipulation.
+
+219
+00:33:11.570 --> 00:33:15.389
+Renaud-ZKNOX: But, yeah, the…
+
+220
+00:33:16.070 --> 00:33:25.199
+Renaud-ZKNOX: the decompression could be… could be done wallet side, because it's just an encoding, right? So, there is no secret handling,
+
+221
+00:33:25.200 --> 00:33:36.209
+Renaud-ZKNOX: The way you represent, the function to verify can be specified, either at signing level or at, verifying level.
+
+222
+00:33:36.830 --> 00:33:48.069
+Danno Ferrin - Tectonic.xyz: So, what we're undoing is what the designers of the… of the particular algorithms we're designing for, which was smaller key size and smaller signature size, specifically for blockchain solutions.
+
+223
+00:33:48.150 --> 00:33:57.629
+Danno Ferrin - Tectonic.xyz: So now we're asking end users to undo that, and use a much more expanded form of the key and the signature, on the blockchain and increasing our carriage costs.
+
+224
+00:34:05.680 --> 00:34:06.849
+Renaud-ZKNOX: Yeah, I mean…
+
+225
+00:34:07.600 --> 00:34:23.920
+Renaud-ZKNOX: I mean, if either we have a fully NIST-compliant precompile, and this is more, the specific EIP 8051, 8052, which can just straightforward push NIST-compliant verification.
+
+226
+00:34:24.679 --> 00:34:31.730
+Renaud-ZKNOX: Or you will have to… to have something that is more custom, and here, I would say you're,
+
+227
+00:34:32.719 --> 00:34:39.329
+Renaud-ZKNOX: The contract, developer, will…
+
+228
+00:34:39.780 --> 00:34:46.440
+Renaud-ZKNOX: Yeah, we'll have the freedom to decide where the complexity of encoding is handled.
+
+229
+00:34:47.510 --> 00:34:57.730
+Danno Ferrin - Tectonic.xyz: So, yeah, this, I guess, is probably a subject for next week's as well, but the odds of getting custom hardware for custom bit widths for NIST algorithms, I think, is pretty low.
+
+230
+00:34:57.900 --> 00:35:10.970
+Danno Ferrin - Tectonic.xyz: The further we drift from NIST and our recommendations, the harder it's going to be, to get better hardware wallets, to get better adoption from, institutions. I mean, if we're just doing cypherpunk freedom, great.
+
+231
+00:35:10.970 --> 00:35:11.490
+Renaud-ZKNOX: Yeah, but…
+
+232
+00:35:11.490 --> 00:35:14.269
+Danno Ferrin - Tectonic.xyz: But that's limiting our market adaptability.
+
+233
+00:35:14.270 --> 00:35:31.059
+Renaud-ZKNOX: if I can add a word here, you can have an adaptator, which can be in software between the hardware signer, because, I mean, an encoding is something that can just be handled by the companion wallet. I mean, this is a public,
+
+234
+00:35:31.190 --> 00:35:33.380
+Renaud-ZKNOX: A public, computation.
+
+235
+00:35:33.880 --> 00:35:36.760
+Renaud-ZKNOX: So, you are not able to forge on forge, so…
+
+236
+00:35:37.340 --> 00:35:40.140
+Danno Ferrin - Tectonic.xyz: That can be done on social.
+
+237
+00:35:40.140 --> 00:35:43.180
+Renaud-ZKNOX: Where over, over, over the, hardware signer.
+
+238
+00:35:43.970 --> 00:35:50.409
+Danno Ferrin - Tectonic.xyz: Right, and that adds friction for non-users, like auditors, who need to verify it as well. I'm just concerned the more friction we put on.
+
+239
+00:35:50.730 --> 00:35:53.690
+Danno Ferrin - Tectonic.xyz: The more difficult it's gonna be for institutions to adopt this.
+
+240
+00:35:54.550 --> 00:36:10.049
+Antonio Sanso: But, correct me if I'm wrong, guys. I mean, as long as I understood, like, we have this NTT precompile that is as generic as possible, so people writing contract will be able to use different pieces of LEGO, in this case it would be Entity and shake.
+
+241
+00:36:10.050 --> 00:36:17.470
+Antonio Sanso: to… to do, like, if… to do whatever, right? I mean, because we have as well, like, an abstraction, so they will be able to do, like.
+
+242
+00:36:17.470 --> 00:36:22.179
+Antonio Sanso: Falcon, or Dilithium that is standard, or…
+
+243
+00:36:22.420 --> 00:36:27.119
+Antonio Sanso: or less standard, depending on what they really kind of decide to do it. And of course, like.
+
+244
+00:36:27.990 --> 00:36:31.299
+Danno Ferrin - Tectonic.xyz: there's still missing pieces, like Falcon would still need the shape precompile.
+
+245
+00:36:32.240 --> 00:36:45.810
+Antonio Sanso: Yes, yes, indeed, like, I will go to this other piece of question for Renault. I was really impressed by the 2000 GAS, if you have the check precompile. This is really impressive. Like, I mean, if really, like…
+
+246
+00:36:46.200 --> 00:36:48.929
+Antonio Sanso: Shake is as well common between…
+
+247
+00:36:49.400 --> 00:36:55.040
+Antonio Sanso: the Litimate Falcon. If we really have the combo NTT shake, this, like…
+
+248
+00:36:55.220 --> 00:36:58.490
+Antonio Sanso: With 2,000 gas, it's really like…
+
+249
+00:37:00.260 --> 00:37:04.519
+Antonio Sanso: As competitive as… as the current signature scape.
+
+250
+00:37:04.800 --> 00:37:05.400
+Antonio Sanso: Right.
+
+251
+00:37:05.400 --> 00:37:25.180
+Renaud-ZKNOX: Yeah, but I… not at all, because EC Recover is 3K, and actually, EIP851, AT52, so this 200K doesn't include the call data, right? So, if we… if we leave apart, the… the data cost.
+
+252
+00:37:25.180 --> 00:37:29.560
+Renaud-ZKNOX: So here, it's a rule of thumb of the sizes.
+
+253
+00:37:29.690 --> 00:37:36.970
+Renaud-ZKNOX: Actually, verifying a Falcon signature, or a Delithium signature, it just,
+
+254
+00:37:37.560 --> 00:37:43.849
+Renaud-ZKNOX: benchmarking DLTM and Falcon compared to a CDSA, and actually, it's… it's… it's really close.
+
+255
+00:37:44.270 --> 00:37:46.599
+Antonio Sanso: Yeah, I mean, delegate maybe have to…
+
+256
+00:37:46.600 --> 00:38:02.549
+Renaud-ZKNOX: We have something that is the data cost plus, plus 3K, or… and actually, the computational part will be negligible, compared to the core data. A bit like, what Consini, presented us last time.
+
+257
+00:38:03.340 --> 00:38:06.470
+Renaud-ZKNOX: All the costs lie on the… on the…
+
+258
+00:38:06.640 --> 00:38:10.279
+Renaud-ZKNOX: Large, data size we have to handle.
+
+259
+00:38:10.570 --> 00:38:16.549
+Antonio Sanso: So, assuming you have Shake and Tdprecompile, how much will it cost to verify a file, can you say?
+
+260
+00:38:19.140 --> 00:38:21.079
+Antonio Sanso: With bulk precompiles.
+
+261
+00:38:21.560 --> 00:38:25.089
+Renaud-ZKNOX: No, no, that's what I said, around 200K.
+
+262
+00:38:25.490 --> 00:38:29.240
+Antonio Sanso: Okay. And where's the other cost come from?
+
+263
+00:38:29.240 --> 00:38:29.910
+Renaud-ZKNOX: So what?
+
+264
+00:38:30.060 --> 00:38:38.459
+Antonio Sanso: I mean, where are the other causes coming from? Like, assuming you have, instead, entities, shake, and Numpy, how much you can cut?
+
+265
+00:38:38.900 --> 00:38:50.089
+Renaud-ZKNOX: Now, I mean, numpy will not cut. NUMP will be a larger cost than NTT, but NUMP is very agile.
+
+266
+00:38:50.780 --> 00:39:00.980
+Renaud-ZKNOX: With, with NUMP, you, you can speed up Poseidon, you can speed up, NTT, you can speed up, big integers.
+
+267
+00:39:01.260 --> 00:39:06.279
+Renaud-ZKNOX: Begin togetherless computation, if you want to have some I don't know,
+
+268
+00:39:06.580 --> 00:39:14.829
+Renaud-ZKNOX: yeah, larger elliptic curve, and so on and so on. So, an MP… NIMP is not… Yeah, it's…
+
+269
+00:39:15.110 --> 00:39:26.700
+Renaud-ZKNOX: It's a very, yeah, it's a useful tool that will be used for, I guess, any cryptographic algorithm that is not a precompile would benefit from NumPy.
+
+270
+00:39:26.700 --> 00:39:32.010
+Antonio Sanso: Right. So, but you're saying that under $200K is kind of impossible to go?
+
+271
+00:39:32.740 --> 00:39:33.630
+Renaud-ZKNOX: Sorry?
+
+272
+00:39:33.630 --> 00:39:38.479
+Antonio Sanso: under… with these two pieces, under $200K is impossible to go.
+
+273
+00:39:40.690 --> 00:39:47.740
+Renaud-ZKNOX: Or you… if you don't, if you don't, implement a specific precompile, of course.
+
+274
+00:39:47.740 --> 00:39:49.320
+Antonio Sanso: Yeah, yeah, yeah, I mean, I'm in the…
+
+275
+00:39:49.320 --> 00:39:52.019
+Renaud-ZKNOX: The 18052, would be far cheaper.
+
+276
+00:39:52.270 --> 00:40:01.019
+Antonio Sanso: Sure, sure, I mean, what I'm saying, like, with, like, going with the route of NTTP precompile and shake to undercase the baseline.
+
+277
+00:40:02.680 --> 00:40:03.250
+Renaud-ZKNOX: Yeah.
+
+278
+00:40:04.270 --> 00:40:04.950
+Antonio Sanso: Right.
+
+279
+00:40:05.130 --> 00:40:05.780
+Antonio Sanso: Alright.
+
+280
+00:40:05.780 --> 00:40:11.370
+Danno Ferrin - Tectonic.xyz: So, my concern is that, anything with EVM cost exceeds the data carriage cost.
+
+281
+00:40:11.600 --> 00:40:17.130
+Danno Ferrin - Tectonic.xyz: I'm concerned it's not gonna be terribly… Economically viable.
+
+282
+00:40:17.270 --> 00:40:25.409
+Danno Ferrin - Tectonic.xyz: I mean, for all of these post-quantum signatures, data carriage cost is going to be 5 to 10x what it is for an ECDSA signature. That's unavoidable.
+
+283
+00:40:25.740 --> 00:40:30.300
+Danno Ferrin - Tectonic.xyz: But if there's ways to avoid making computation greater than the daily carriage costs.
+
+284
+00:40:30.440 --> 00:40:38.400
+Danno Ferrin - Tectonic.xyz: I think those should be considered strongly, and that, in this case, would be a direct NIST precompile, but just my opinion.
+
+285
+00:40:39.900 --> 00:40:43.770
+Antonio Sanso: So, Daniel, your… your point is, like, you're… you don't like this…
+
+286
+00:40:44.310 --> 00:40:49.600
+Antonio Sanso: NTT per compile check combo, you will go directly with the NIST per compile, that's what you're saying?
+
+287
+00:40:49.770 --> 00:40:57.039
+Danno Ferrin - Tectonic.xyz: Yeah, strictly for economic reasons, yeah, there's no way that we can get, you know, hundreds of signatures in a block if each signature costs $200K to solve.
+
+288
+00:41:00.140 --> 00:41:00.980
+Antonio Sanso: Right, right.
+
+289
+00:41:02.380 --> 00:41:04.820
+Antonio Sanso: It would be really interesting to…
+
+290
+00:41:06.830 --> 00:41:12.000
+Antonio Sanso: To at least have a proof of concept and see where the costs come from.
+
+291
+00:41:12.460 --> 00:41:15.979
+Antonio Sanso: If there's some other low-hanging fruit that we can cut.
+
+292
+00:41:16.250 --> 00:41:19.030
+Antonio Sanso: I'm talking about NTT plus shake approach.
+
+293
+00:41:19.800 --> 00:41:26.039
+Danno Ferrin - Tectonic.xyz: Right, right, and that's for computation, that's probably worth looking into. But I think, you know, for all these signatures.
+
+294
+00:41:26.460 --> 00:41:29.620
+Danno Ferrin - Tectonic.xyz: The elephant in the room is that data carriage costs are gonna go up
+
+295
+00:41:29.810 --> 00:41:34.610
+Danno Ferrin - Tectonic.xyz: 5, 10, 20x, and that's… there's no signatures that we're not facing that.
+
+296
+00:41:35.370 --> 00:41:36.320
+Antonio Sanso: us, sorry.
+
+297
+00:41:36.950 --> 00:41:44.609
+Danno Ferrin - Tectonic.xyz: the cost of the data in the blockchain. The signatures are going to be, like, 500 to 2,000K, and that's on the low end.
+
+298
+00:41:44.840 --> 00:41:45.710
+Danno Ferrin - Tectonic.xyz: Bites.
+
+299
+00:41:46.260 --> 00:41:47.410
+Danno Ferrin - Tectonic.xyz: And…
+
+300
+00:41:47.410 --> 00:41:49.740
+Antonio Sanso: It's not avoidable, I mean, we know about that, right?
+
+301
+00:41:51.430 --> 00:41:53.409
+Danno Ferrin - Tectonic.xyz: Unless we're gonna do ski sign.
+
+302
+00:41:54.010 --> 00:41:54.969
+Antonio Sanso: No, no.
+
+303
+00:41:55.090 --> 00:42:01.269
+Antonio Sanso: I mean, I come from misogynist, I'm telling you, no, we're not going to ski side. It's too early, it's too early.
+
+304
+00:42:01.640 --> 00:42:14.430
+Danno Ferrin - Tectonic.xyz: Right, and unless we're ready to talk about signature aggregation with new lattice folds or whatever is being cooked up in the Ethereum Foundation, you know, those are the sort of things that we need to look at in addition.
+
+305
+00:42:14.590 --> 00:42:15.280
+Antonio Sanso: Lattice forward.
+
+306
+00:42:15.280 --> 00:42:16.320
+Danno Ferrin - Tectonic.xyz: Those abbreviennies.
+
+307
+00:42:16.320 --> 00:42:22.329
+Antonio Sanso: will not help here, let his fold, for signature segregation, will be something more like Labrador that might.
+
+308
+00:42:22.970 --> 00:42:26.190
+Danno Ferrin - Tectonic.xyz: Right, right. But those are the solutions that, for very large N,
+
+309
+00:42:26.360 --> 00:42:27.639
+Danno Ferrin - Tectonic.xyz: We might want to look at.
+
+310
+00:42:28.170 --> 00:42:35.180
+Antonio Sanso: Yeah, we'll have something in the next days that covers that, so just hold tight for a few more days.
+
+311
+00:42:37.560 --> 00:42:44.390
+Renaud-ZKNOX: Yeah, I think we need, we need, native, account abstraction for lattice-based candidates.
+
+312
+00:42:44.560 --> 00:42:51.280
+Renaud-ZKNOX: To avoid, to have this, transmission of the public key, which… which is the main problem.
+
+313
+00:42:53.770 --> 00:42:56.469
+Danno Ferrin - Tectonic.xyz: Probably key is about the same size as a signature, sometimes smaller.
+
+314
+00:42:56.700 --> 00:42:58.060
+Danno Ferrin - Tectonic.xyz: The signatures are pig.
+
+315
+00:42:58.930 --> 00:43:04.270
+Renaud-ZKNOX: Yeah, I mean, Falcon Signature, if you don't have to transmit, the public key is, 6…
+
+316
+00:43:04.430 --> 00:43:12.800
+Renaud-ZKNOX: 666 bytes, good number. Yeah, so… That's not that.
+
+317
+00:43:14.790 --> 00:43:20.959
+Antonio Sanso: But the other question is, Renault, of this 200K, assuming you don't transmit the public key.
+
+318
+00:43:21.210 --> 00:43:23.639
+Antonio Sanso: How much down do you go?
+
+319
+00:43:25.270 --> 00:43:31.850
+Renaud-ZKNOX: No, here, here, the problem will be the bit manipulation, because you…
+
+320
+00:43:32.430 --> 00:43:38.950
+Renaud-ZKNOX: You will have to go on and forth between, the different precompiles, so… Actually.
+
+321
+00:43:39.770 --> 00:43:42.330
+Renaud-ZKNOX: You can't get that much lower.
+
+322
+00:43:45.350 --> 00:43:50.699
+Antonio Sanso: It will be, you know, personally, and I'm not sure if there's something you will, or…
+
+323
+00:43:51.000 --> 00:44:04.880
+Antonio Sanso: you can provide. I will be really happy to see the… this… where these 200K are spent, how much are spent in cold data, how much are spent in each operation, will be…
+
+324
+00:44:05.060 --> 00:44:07.909
+Antonio Sanso: Would be really interesting from my perspective, too.
+
+325
+00:44:08.880 --> 00:44:10.099
+Antonio Sanso: To understand.
+
+326
+00:44:10.300 --> 00:44:14.250
+Antonio Sanso: Because 200Ks, yeah, it's… it's got something, right?
+
+327
+00:44:16.690 --> 00:44:24.570
+Renaud-ZKNOX: Yeah, yeah. To… but this is work, though. To be honest, we are more focusing on the NumP precompile right now.
+
+328
+00:44:25.380 --> 00:44:33.779
+Renaud-ZKNOX: Because we have been asked to. And also, I think it's interesting to have a generic tool, so this is something else.
+
+329
+00:44:34.440 --> 00:44:36.559
+Renaud-ZKNOX: But yeah, that would be interesting, right?
+
+330
+00:44:37.500 --> 00:44:41.389
+Antonio Sanso: Is there… is there… is there anyone… I mean, it would be interesting to, like,
+
+331
+00:44:42.060 --> 00:44:50.900
+Antonio Sanso: to have anyone helping you with the NTT per compiler. I mean, at the moment, it's you and Simon. If someone else will join the effort, you will be accommodating.
+
+332
+00:44:54.880 --> 00:44:57.600
+Antonio Sanso: I'm talking about the existing NTT one.
+
+333
+00:45:01.050 --> 00:45:03.370
+Renaud-ZKNOX: Yeah, yeah. Yeah, but,
+
+334
+00:45:03.960 --> 00:45:10.579
+Renaud-ZKNOX: I think it would be interesting to understand what Justine was, aiming.
+
+335
+00:45:11.530 --> 00:45:15.289
+Renaud-ZKNOX: Because I'm not sure… actually, I kind of…
+
+336
+00:45:17.280 --> 00:45:27.490
+Renaud-ZKNOX: share, Dano conclusion about the NTT precompiled. So, even if I'm the co-author,
+
+337
+00:45:28.760 --> 00:45:32.529
+Renaud-ZKNOX: This is not the horse I will bet on right now.
+
+338
+00:45:34.770 --> 00:45:45.440
+Antonio Sanso: Right. And do you think that the NumPy way will produce… assume you have NumPy and Shake, you will have a cheaper gas cost?
+
+339
+00:45:45.650 --> 00:45:50.830
+Renaud-ZKNOX: No, it will be higher, but once again, NumPy is very versatile.
+
+340
+00:45:52.030 --> 00:46:11.770
+Renaud-ZKNOX: it's not limited to, to just, even if you remove all Lattice's candidates, because, for instance, when EVM Max, started, it was absolutely not to implement, Lattice candidates. So, it's more the high, genericity of,
+
+341
+00:46:12.410 --> 00:46:27.880
+Renaud-ZKNOX: of NumPy, rather than having a lower gas cost. So maybe having something in the middle is not that interesting. Either we go full specific with a NIST candidate.
+
+342
+00:46:28.190 --> 00:46:35.110
+Renaud-ZKNOX: And honestly, I would push MLDSS 6065 right now, because I think this is a Web2 way.
+
+343
+00:46:36.240 --> 00:46:44.660
+Renaud-ZKNOX: or you push something that is not limited to lattices. NumPy is not just Pascantum, it's, it's,
+
+344
+00:46:45.570 --> 00:46:47.790
+Renaud-ZKNOX: Yeah, when you, when you…
+
+345
+00:46:48.150 --> 00:46:56.880
+Renaud-ZKNOX: When you implement something, and for instance, in the modern architectures, you have vectorized operation, in a…
+
+346
+00:46:56.990 --> 00:47:01.010
+Renaud-ZKNOX: Be it in AVX2 or,
+
+347
+00:47:01.190 --> 00:47:10.099
+Renaud-ZKNOX: vectorized arm restrictions, and they did not, do it for… for Pascantum. They did it because,
+
+348
+00:47:10.370 --> 00:47:13.469
+Renaud-ZKNOX: Parallelism is the way to go.
+
+349
+00:47:13.790 --> 00:47:15.650
+Renaud-ZKNOX: With modern computations.
+
+350
+00:47:17.750 --> 00:47:32.660
+Antonio Sanso: It would be at least interesting, and maybe this is something you're… would be more interesting, given what you've been saying so far, to provide some data, at least how much will be… assuming you have shake, and assuming you have this NumPy precompile.
+
+351
+00:47:32.660 --> 00:47:32.980
+Renaud-ZKNOX: Nope.
+
+352
+00:47:32.980 --> 00:47:49.710
+Antonio Sanso: how much you have, right? I agree with what you said, but if this combo is gonna be, like, I don't know, 1 million, call me out, you know? If this combo is $300K, okay, I buy what you say. Because, like, okay, so you have more flexibility, and the cost to pay is not…
+
+353
+00:47:50.260 --> 00:47:54.520
+Antonio Sanso: so much more than when I pay with NTT, for example, so…
+
+354
+00:47:54.600 --> 00:47:55.310
+Renaud-ZKNOX: Yeah.
+
+355
+00:47:55.620 --> 00:48:00.169
+Renaud-ZKNOX: Give us some weeks, and we will provide the answer. We are on this topic right now.
+
+356
+00:48:00.170 --> 00:48:05.029
+Antonio Sanso: Okay, well, thank you. This will be real interesting to understand, and .
+
+357
+00:48:05.600 --> 00:48:09.100
+Renaud-ZKNOX: And we will provide the answer shortly.
+
+358
+00:48:09.770 --> 00:48:12.090
+Antonio Sanso: And Shake, you already implemented as well?
+
+359
+00:48:12.860 --> 00:48:23.200
+Renaud-ZKNOX: Shaq, there is nothing to do to implement Shaq. You take some C library, you put it as a guess for a new precompile, and…
+
+360
+00:48:23.440 --> 00:48:24.510
+Antonio Sanso: Yeah.
+
+361
+00:48:24.510 --> 00:48:28.270
+Renaud-ZKNOX: You ask it to close, and you have your precompiled in 15 minutes.
+
+362
+00:48:28.550 --> 00:48:36.130
+Antonio Sanso: No, but I mean, like, I was wondering where you can… took your data from, with the shade. That means that you already, kind of.
+
+363
+00:48:36.770 --> 00:48:52.880
+Renaud-ZKNOX: Yeah, no, the thing is not the check cost, because it's… a check is like K-check. There is no diff… quasi no difference between check and K-check, only some constants, so you can say that the cost of check should be the cost of K-check at the end.
+
+364
+00:48:53.150 --> 00:48:56.410
+Antonio Sanso: Okay, so you took the baseline from that. Okay, makes sense.
+
+365
+00:48:56.590 --> 00:48:57.660
+Renaud-ZKNOX: No. I'm not.
+
+366
+00:48:58.320 --> 00:49:12.630
+Renaud-ZKNOX: The thing is, in Falcon, you have many, yeah, you have some kind of PRNG that is using check, but it's not DI check. And this is all the data manipulation that you have to do around it.
+
+367
+00:49:12.880 --> 00:49:14.410
+Renaud-ZKNOX: That creates the cost.
+
+368
+00:49:15.680 --> 00:49:23.060
+Antonio Sanso: Right. I know, Stefano, if you want to go with your question now. It was probably more about aligning with what we are discussing now with the…
+
+369
+00:49:23.510 --> 00:49:34.079
+Stefano Gogioso: Yeah, I mean, I'm not sure it's so much a question as a list of longer-term derata, but I…
+
+370
+00:49:34.480 --> 00:49:39.379
+Stefano Gogioso: when I envisage what would benefit the…
+
+371
+00:49:39.490 --> 00:49:46.309
+Stefano Gogioso: the Ethereum ecosystem more broadly in terms of SIMed operations, vectorization, tensorization, and so on.
+
+372
+00:49:46.400 --> 00:49:54.820
+Stefano Gogioso: I do think of cryptography, of course. There is all the number of theoretic primitives, Stark, post-quantum.
+
+373
+00:49:54.860 --> 00:50:04.439
+Stefano Gogioso: they all benefit from it. But there's a lot of use cases. One of them was suggested also in the… in the chat. A lot of…
+
+374
+00:50:04.450 --> 00:50:18.180
+Stefano Gogioso: finance applications make large use of vectorized primitives, but not a small, specific subset, like a large sub-language of vectorized primitives. And more generally, we do have, right now,
+
+375
+00:50:19.260 --> 00:50:28.070
+Stefano Gogioso: a fairly stable set of tensorized primitives that I used in machine learning, AI deep learning applications.
+
+376
+00:50:28.140 --> 00:50:44.430
+Stefano Gogioso: Some of them are, of course, not the sort of thing that you would want on-chain, or perhaps you'd want them in a sort of succinct, proof way, rather than directly executed, but a lot of the lower-level sim primitives are things that CPUs today would execute fairly efficiently.
+
+377
+00:50:44.840 --> 00:51:02.139
+Stefano Gogioso: And they will make it possible to introduce quite a lot of new use cases for on-chain computation, but this wouldn't be a specific set. This would be a broader, like, subset of stable NumPy primitives, NumPy functions, or subset of stable functions from something like…
+
+378
+00:51:02.220 --> 00:51:08.470
+Stefano Gogioso: I don't know, TensorFlow, or any of these languages, ultimately, they all share the same kind of basic building blocks.
+
+379
+00:51:08.580 --> 00:51:17.830
+Stefano Gogioso: So that's what I… that's what I envisage when I think of a NumPy recompile, not something quite specific. Now, maybe I have misunderstood what the ultimate direction
+
+380
+00:51:17.860 --> 00:51:31.199
+Stefano Gogioso: of travelers for this, in which case, yeah, sorry. But it seems to be that a lot of the attention is to making a very small set of primitives that are of interest today.
+
+381
+00:51:31.290 --> 00:51:32.519
+Stefano Gogioso: more performant?
+
+382
+00:51:33.360 --> 00:51:42.749
+Antonio Sanso: Just no one interrupt you, it's like, Renault is asking, like, if you have some concrete example, and probably means as well, machine learning, it will be… it will be happy to…
+
+383
+00:51:43.070 --> 00:51:45.369
+Antonio Sanso: to benchmark. Am I correct, Renault?
+
+384
+00:51:45.370 --> 00:51:52.980
+Renaud-ZKNOX: Yeah, but honestly, machine learning, I'm not sure I see what, what should be done on-chain?
+
+385
+00:51:54.180 --> 00:52:07.909
+Stefano Gogioso: No, no, machine learning is a… I mean, I think many things that could be done on-chain, actually, but perhaps that's a broader goal for slightly later on. But certainly a lot of vectorized… there are a lot more vectorized operations than just
+
+386
+00:52:08.590 --> 00:52:11.429
+Stefano Gogioso: Additions, multiplication, and arithmetic operations.
+
+387
+00:52:12.230 --> 00:52:28.399
+Stefano Gogioso: And they are used in a lot of financial applications that could very much live on-chain and are today prohibitive to do in terms of gas. So we could have more complicated contracts that do more realistic on-chain finance if we had a broader subset of the non-bip primitives.
+
+388
+00:52:29.940 --> 00:52:35.070
+Renaud-ZKNOX: Yeah, so really, I would be really interested by a concrete example here.
+
+389
+00:52:35.590 --> 00:52:41.799
+Antonio Sanso: Reno, for this pre-compile, is the field generic, or you have as well a fixed field?
+
+390
+00:52:43.610 --> 00:52:45.180
+Renaud-ZKNOX: No, it's generic, so…
+
+391
+00:52:45.180 --> 00:52:45.970
+Antonio Sanso: Lyric, okay.
+
+392
+00:52:45.970 --> 00:52:47.940
+Renaud-ZKNOX: It's, Barrett,
+
+393
+00:52:48.880 --> 00:53:03.020
+Renaud-ZKNOX: The, the Barrett constants, the Barrett multiplication constants are evaluated, entering the, the precompile, so it's on the fly, and, so it can take any, any modulus, lesser than 2 to the power, 32.
+
+394
+00:53:04.850 --> 00:53:06.190
+Antonio Sanso: Alright, we're right.
+
+395
+00:53:07.440 --> 00:53:14.370
+Antonio Sanso: I see as well, try to wrap this topic now. I think we got enough about that.
+
+396
+00:53:14.620 --> 00:53:22.549
+Antonio Sanso: Thanks a lot, Renault, for presenting and answering so many questions. I'm looking forward to your future numbers.
+
+397
+00:53:23.010 --> 00:53:27.179
+Antonio Sanso: Honestly, I mean, it's, has been great work.
+
+398
+00:53:27.490 --> 00:53:30.680
+Antonio Sanso: And I see Dan know that they wanted to take a tangent, if I don't…
+
+399
+00:53:30.890 --> 00:53:32.639
+Antonio Sanso: If I'm not wrong, right?
+
+400
+00:53:33.380 --> 00:53:36.370
+Danno Ferrin - Tectonic.xyz: Right, so one of the things that was brought up was, you know.
+
+401
+00:53:36.580 --> 00:53:38.890
+Danno Ferrin - Tectonic.xyz: Try not to carry the public key with it.
+
+402
+00:53:41.140 --> 00:53:54.529
+Danno Ferrin - Tectonic.xyz: There's two questions that come with that. Number one, where do we store the public key? Will we store it on-chain like a 77 on 2 delegation? Will we put some sort of, data in the account tuple? But the next question, I think, is more,
+
+403
+00:53:55.170 --> 00:53:56.580
+Danno Ferrin - Tectonic.xyz: existential.
+
+404
+00:53:57.200 --> 00:54:09.029
+Danno Ferrin - Tectonic.xyz: Because with the current transaction, you can validate it with all the data in the byte string that the signature is valid. And if we remove the public key, you would need to have chain data associated with the address.
+
+405
+00:54:09.380 --> 00:54:11.280
+Danno Ferrin - Tectonic.xyz: that…
+
+406
+00:54:11.470 --> 00:54:24.159
+Danno Ferrin - Tectonic.xyz: on one hand, makes it more difficult, to verify, without any other reference data, but it also opens the door to things like key rotation, so where you could have your address and you could move between different keys.
+
+407
+00:54:24.350 --> 00:54:38.890
+Danno Ferrin - Tectonic.xyz: So, that's… I don't have a strong opinion which way to go with it, but I think it's a path that needs to be considered, because that'll absolutely help us save chain data, cut it in half in some cases, because the keys, especially with someone where the keys are…
+
+408
+00:54:39.300 --> 00:54:51.030
+Danno Ferrin - Tectonic.xyz: Any key that's, like, 43K is not viable, but there's a lot of… there's some signatures coming down the pipe where the signature is small, but the public key is large. And if we could cache the public key and chain data, we might be able to keep
+
+409
+00:54:51.140 --> 00:54:59.370
+Danno Ferrin - Tectonic.xyz: not chain data, storage data. We might be able to keep the growing of the chain data much more under control with these transactions using these small signatures.
+
+410
+00:55:00.210 --> 00:55:14.350
+Antonio Sanso: Before, like, Renault was pointing that, that kind of abstraction might actually bring something on the table. I am planning, like, the next two weeks, the call number four.
+
+411
+00:55:14.350 --> 00:55:21.720
+Antonio Sanso: to bring the account abstraction people in, to just, I think we should talk in general, like, at least, like.
+
+412
+00:55:21.720 --> 00:55:35.779
+Antonio Sanso: people that are interested about post-quantrum signatures should understand the future native account abstraction well and collaborate, so I'm planning to bring here this call. But I see that as well in the chat that Renault is saying that
+
+413
+00:55:36.440 --> 00:55:39.859
+Antonio Sanso: create tool, and I can abstraction might help.
+
+414
+00:55:41.700 --> 00:55:49.829
+Renaud-ZKNOX: I mean, today, because we don't have to, when using acrony abstraction.
+
+415
+00:55:50.350 --> 00:56:10.280
+Renaud-ZKNOX: Actually, if the accounts are deployed using Create2, you have a deterministic function, which is actually… can be seen as an hash function from… yeah, from your public material to… to the address where the contract will be deployed.
+
+416
+00:56:12.460 --> 00:56:13.190
+Antonio Sanso: facilities.
+
+417
+00:56:13.190 --> 00:56:18.180
+Renaud-ZKNOX: So if you look today, if you look today at Ethereum addresses.
+
+418
+00:56:18.510 --> 00:56:25.660
+Renaud-ZKNOX: you have your public key, it's hashed, and… but the thing is, for all accounts, it's the same way, but…
+
+419
+00:56:27.730 --> 00:56:36.899
+Renaud-ZKNOX: For… for account abstraction icons, you have the kind of same hashing mechanism, which is implicit with the Create2 you're using.
+
+420
+00:56:37.150 --> 00:56:38.539
+Antonio Sanso: But, as long as…
+
+421
+00:56:39.530 --> 00:56:46.119
+Antonio Sanso: A per discrete tool, right, with that kind of attraction, will there be a way to store the public key in the contract as well?
+
+422
+00:56:46.120 --> 00:56:52.860
+Renaud-ZKNOX: Yeah, sure. That's what we've done with the 4237 implementation, and actually, we don't have
+
+423
+00:56:53.890 --> 00:57:03.950
+Renaud-ZKNOX: you don't have, because you want to have this kind of hashing mechanism so you can send money for someone even if the contract is not deployed. But if you…
+
+424
+00:57:04.080 --> 00:57:14.440
+Renaud-ZKNOX: If you use the create2… Okay, the contract doesn't have to be deployed to already send fund, to it, if you check a deployment.
+
+425
+00:57:15.140 --> 00:57:17.219
+Renaud-ZKNOX: The consistency of the grade 2.
+
+426
+00:57:17.600 --> 00:57:25.820
+Antonio Sanso: I mean, that's what I mean before, I wonder, like, the framing transaction, like, so the native account abstraction will keep all these features.
+
+427
+00:57:28.460 --> 00:57:34.239
+Danno Ferrin - Tectonic.xyz: It sounds like it would become an option of a particular smart contract wall provider, because they could just assign random
+
+428
+00:57:34.340 --> 00:57:38.250
+Danno Ferrin - Tectonic.xyz: Create two addresses, and just tie the key to it.
+
+429
+00:57:38.360 --> 00:57:46.069
+Danno Ferrin - Tectonic.xyz: So having the key be a function of the hash as a convention is useful, and that's the discussion I want to have for stuff like counterfactual deposits.
+
+430
+00:57:46.190 --> 00:57:51.039
+Danno Ferrin - Tectonic.xyz: You know, what are we losing by untying this, or making the tying conditional?
+
+431
+00:57:52.420 --> 00:58:04.409
+Antonio Sanso: But do you agree on the statement that it will be really useful to have a collaboration with the people that are doing the framing transaction EIP, to be sure that they don't… that we or them are not missing anything?
+
+432
+00:58:04.810 --> 00:58:05.570
+Danno Ferrin - Tectonic.xyz: So…
+
+433
+00:58:06.410 --> 00:58:14.419
+Danno Ferrin - Tectonic.xyz: Yes, we should, and I think it's a bit concerning that frame transaction is being pushed as a post-quantum solution, and they're not on this call.
+
+434
+00:58:15.040 --> 00:58:15.679
+Danno Ferrin - Tectonic.xyz: All the time.
+
+435
+00:58:15.680 --> 00:58:23.850
+Antonio Sanso: I will try to solve this somehow. I mean, at least, like, for next call, it's gonna be really the topic, I can't abstraction.
+
+436
+00:58:23.970 --> 00:58:27.039
+Antonio Sanso: And, we'll try to improve on this.
+
+437
+00:58:27.660 --> 00:58:28.560
+Antonio Sanso: Probably my best.
+
+438
+00:58:28.560 --> 00:58:42.640
+Danno Ferrin - Tectonic.xyz: The fact they're not on the call, to me, shows it's not a post-quantum solution, it's account abstraction, it's independent of it, and they're just using post-quantum to push them over the line, which is fine, they need the momentum, but it's not post-quantum, it's account abstraction. Plain and simple, that's all frame is.
+
+439
+00:58:42.670 --> 00:58:43.370
+Antonio Sanso: Well…
+
+440
+00:58:43.370 --> 00:58:45.000
+matteo vicari: Yeah, but,
+
+441
+00:58:45.140 --> 00:58:58.460
+matteo vicari: sorry for interrupt, but the idea of all the frame transactions is to have some modularity when you do the transaction. So, the idea of the frame transaction is not important if,
+
+442
+00:58:58.750 --> 00:59:10.029
+matteo vicari: we converge in a post-quantum way to a specific type of signature. The important parties have the possibility to change the signature or run.
+
+443
+00:59:10.200 --> 00:59:13.499
+matteo vicari: So, it's like, some technology can…
+
+444
+00:59:13.820 --> 00:59:19.069
+matteo vicari: push forward this discussion, give the possibility to change,
+
+445
+00:59:19.330 --> 00:59:29.020
+matteo vicari: the signature scheme, like account abstraction, now work, for example, in the example of Renoir in the last few calls.
+
+446
+00:59:29.740 --> 00:59:43.840
+matteo vicari: The account abstraction in the frame transaction is like, some technology that can validate the possibility to change the protocol without, any, stress for, artwork or stuff like this.
+
+447
+00:59:44.200 --> 00:59:45.149
+matteo vicari: Right, but it's…
+
+448
+00:59:45.150 --> 00:59:47.320
+Danno Ferrin - Tectonic.xyz: presented as the only possible solution.
+
+449
+00:59:47.450 --> 00:59:53.059
+Danno Ferrin - Tectonic.xyz: Where, you know, there's, you know, press switch is pushing some, I have a solution that doesn't require full abstraction.
+
+450
+00:59:53.190 --> 01:00:01.440
+Danno Ferrin - Tectonic.xyz: Whereas protocol-level signatures. That's… what I don't like about it, is that it's being presented as the only way to get it done, as if the decision's been made.
+
+451
+01:00:02.850 --> 01:00:03.410
+matteo vicari: Absolutely.
+
+452
+01:00:03.410 --> 01:00:20.659
+Antonio Sanso: Anyway, like, I don't know, just as well to say, like, I'm trying to get more involved with the people that are doing frame transactions, but, I mean, actually, Vitalik was here, so he just left, but, I mean, he's as well one of the author of Frame Transactions, so they're for sure aware of what is going on.
+
+453
+01:00:25.950 --> 01:00:28.219
+Danno Ferrin - Tectonic.xyz: That's exactly my point, is that…
+
+454
+01:00:28.410 --> 01:00:30.779
+Danno Ferrin - Tectonic.xyz: the decision's been made. There's no debate.
+
+455
+01:00:32.490 --> 01:00:50.140
+Antonio Sanso: Again, I think, like, if there is something that should be accommodated off both sides, I mean, there's still things we can sort out. I mean, the decision from my Hego Taya are still way open, I mean, it's not on stone, so there is plenty of time to do modifications in case we need it.
+
+456
+01:00:52.030 --> 01:00:56.699
+Danno Ferrin - Tectonic.xyz: Have there been any other post-quantum transaction formats other than AA seriously considered?
+
+457
+01:00:57.730 --> 01:00:59.409
+Antonio Sanso: No, but I mean, what…
+
+458
+01:00:59.410 --> 01:01:00.959
+Danno Ferrin - Tectonic.xyz: Exactly, the decision's been made.
+
+459
+01:01:01.690 --> 01:01:04.100
+Antonio Sanso: Yeah, but I mean, with…
+
+460
+01:01:04.100 --> 01:01:04.770
+Fab: event.
+
+461
+01:01:04.840 --> 01:01:21.410
+Fab: Do you have an alternative solution? Because at this point, the reason why AA was picked is because many of the post-quantum standards are still relatively young, and to be honest, even if NIST-certified
+
+462
+01:01:21.410 --> 01:01:28.899
+Fab: three standards, you know, I personally do not feel, like, completely safe, in using
+
+463
+01:01:28.900 --> 01:01:47.129
+Fab: a post-quantum signature scheme that hasn't, I don't know, 15 years of battle testing under its belt, and at the moment, we have none. So, when we enter this framework, to be honest with you, I… I think we need a solution that allows us to swap
+
+464
+01:01:47.220 --> 01:01:50.890
+Fab: Signatures, if we so need.
+
+465
+01:01:51.010 --> 01:01:51.610
+Fab: So…
+
+466
+01:01:51.610 --> 01:02:03.440
+Danno Ferrin - Tectonic.xyz: Exactly what I proposed in the first meeting, if you looked at my slides. We put the signatures and we put the body in two separate places. We don't rely on account abstraction and pushing in the EVM. I agree with you. We need to have a…
+
+467
+01:02:03.560 --> 01:02:22.059
+Danno Ferrin - Tectonic.xyz: we need to have cryptographic agility, because at least one of these signatures that's being talked about is going to be broken in the next 15 years, whether by the base or by the construction of the keys. But we… the transaction format itself is independent from the signature, and we need to keep the signatures separate. That's… that was literally in my first slides on the first section.
+
+468
+01:02:22.320 --> 01:02:23.470
+Stefano Gogioso: Yeah, no one.
+
+469
+01:02:23.470 --> 01:02:41.210
+Antonio Sanso: And I agree perfectly with you, and I encourage you to be in touch with the account abstraction people. I don't know if you manage to eventually, but yeah, like, I will have them in the next call presenting frame transaction, so… but even, like, outside of this call, if you have some ideas, I don't see why you cannot be in touch.
+
+470
+01:02:43.660 --> 01:02:45.350
+Antonio Sanso: Stefano, you…
+
+471
+01:02:45.570 --> 01:02:55.920
+Stefano Gogioso: Yeah, sorry, I just wanted to, as somebody who thinks that account abstraction plays a pretty major role in this, I do agree with Dano that
+
+472
+01:02:55.960 --> 01:03:09.569
+Stefano Gogioso: that is not probably the only way to do this, and maybe not even the best way to do this. It does give us flexibility, but would I favor a mechanism where signatures are composable and independent of the transaction? Yes.
+
+473
+01:03:09.680 --> 01:03:28.789
+Stefano Gogioso: There's always the question of, and then what happens if somebody disagrees on the signature schemes? But that's solvable. So I just wanted to say, as an AA fan, that I do agree that separate… like, having an alternative mechanism with a sort of composable signature transaction separation is a good idea.
+
+474
+01:03:28.950 --> 01:03:31.059
+Stefano Gogioso: So I… he has my support.
+
+475
+01:03:31.320 --> 01:03:31.940
+Antonio Sanso: Yeah, but…
+
+476
+01:03:31.940 --> 01:03:32.520
+Stefano Gogioso: Pacific time.
+
+477
+01:03:32.520 --> 01:03:41.990
+Antonio Sanso: What I'm trying to say, like, maybe to use some synergies, like the idea that you guys have, or that you, Stefano Rodano, like, proposed to the frame transaction
+
+478
+01:03:42.240 --> 01:03:47.450
+Antonio Sanso: And maybe can be included. I mean, I don't see one against the other, you know, like, maybe…
+
+479
+01:03:47.450 --> 01:03:57.749
+Stefano Gogioso: No, no, I don't think they're against. I just think that both should be, like… they serve different purposes, and they have different advantages and disadvantages, and I'm just, like, publicly stating that I.
+
+480
+01:03:57.750 --> 01:03:59.200
+Antonio Sanso: Maybe it can be embraced.
+
+481
+01:03:59.200 --> 01:03:59.730
+Stefano Gogioso: Yeah, I like that.
+
+482
+01:03:59.730 --> 01:04:10.280
+Antonio Sanso: That's what I… from his presentation, actually, that was my feeling, that some of his idea could be, like, actually taken into account, into the.
+
+483
+01:04:10.280 --> 01:04:23.700
+Fab: By the way, guys, just like a very small remark, I think that the idea that we use account abstraction so that we do not have to decide on signatures is ultimately wrong.
+
+484
+01:04:23.700 --> 01:04:40.749
+Fab: I think that I'm very convinced that, you know, the user base, the non-tech-savvy user base, will ask for a go-to signature scheme. So in this sense, it's, you know, we kind of solve the problem technically, but we are just
+
+485
+01:04:40.750 --> 01:04:59.520
+Fab: kick in the can further down the road, because at some point, you know, the user base will ask, okay, cool, we can support all the signatures in the observable universe. This said, what do I use for my shitty wallet? And, you know, in that case, yes. Yes, users would be…
+
+486
+01:04:59.610 --> 01:05:15.730
+Fab: wallet providers, in a way, most likely. But still, you know, I think they will ask for guidelines. Like, no one… no wallet provider wants to risk implementing a signature scheme that doesn't work or has problems, so…
+
+487
+01:05:15.730 --> 01:05:25.749
+Stefano Gogioso: Yeah, but I think that, like, like it is in the case of, like, most Web2 applications, ultimately the choice of scheme falls onto either library providers or wallet providers.
+
+488
+01:05:25.750 --> 01:05:37.990
+Stefano Gogioso: And it can be that we have multiple choices living together, like we do today, as long as they are all broadly acceptable, and it can be left to the consensus layer to decide which ones are acceptable and which ones are not.
+
+489
+01:05:38.010 --> 01:05:45.170
+Stefano Gogioso: And then, ultimately, people will have to switch, and it will be for, you know, not the end user to decide which
+
+490
+01:05:45.260 --> 01:05:56.769
+Stefano Gogioso: which signature scheme to use, but they're intermediaries that provide software for them. Yeah, sure. I think it can be done in a way where the end user doesn't really have to worry.
+
+491
+01:05:56.770 --> 01:06:04.160
+Fab: Yeah, what I'm saying is that resorting to AA is not the end of the discussion. There will be a lot more discussing.
+
+492
+01:06:04.160 --> 01:06:04.780
+Stefano Gogioso: down the road.
+
+493
+01:06:05.200 --> 01:06:06.600
+Stefano Gogioso: I agree, I agree completely.
+
+494
+01:06:06.950 --> 01:06:10.599
+Antonio Sanso: Anyway, guys, I think we're out of time. Today was really a marvelous discussion.
+
+495
+01:06:10.600 --> 01:06:11.999
+Stefano Gogioso: That was marvelous, yeah. Thank you all.
+
+496
+01:06:12.000 --> 01:06:25.989
+Antonio Sanso: I… I will, I will wait for you in two weeks. Will be account abstraction, the topic, so will be really a good segue from this call, alright? Thanks a lot for attending. See you all, guys. Cheers. Thank you.
+
+497
+01:06:25.990 --> 01:06:26.559
+Fab: I bet.
+
+498
+01:06:27.220 --> 01:06:28.069
+matteo vicari: See you, guy.
+
+499
+01:06:28.240 --> 01:06:28.889
+Antonio Sanso: Love it.
+
