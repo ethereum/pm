@@ -1,0 +1,1694 @@
+WEBVTT
+
+1
+00:02:17.960 --> 00:02:19.420
+Maria Silva: Hello, hello?
+
+2
+00:02:22.360 --> 00:02:23.140
+Carl Beekhuizen: Hell no.
+
+3
+00:02:24.130 --> 00:02:25.010
+Ameziane Hamlat: Hello, everyone.
+
+4
+00:02:25.440 --> 00:02:26.729
+Toni Wahrstätter: Hello, hello!
+
+5
+00:02:28.530 --> 00:02:36.229
+Maria Silva: So, I think we can maybe wait one more minute to see if more people join, and if not, we'll start.
+
+6
+00:02:40.670 --> 00:02:45.580
+Maria Silva: And in the meantime, I will share… The agenda…
+
+7
+00:03:09.020 --> 00:03:16.150
+Maria Silva: For the new people joining, just to warn that we are just waiting a bit to see if more people join, and then we'll kick off.
+
+8
+00:03:44.440 --> 00:03:50.009
+Maria Silva: So I don't think more people are joining, so I think we can just, kick off.
+
+9
+00:03:50.160 --> 00:03:55.580
+Maria Silva: So, the first, topic is 7904.
+
+10
+00:03:55.730 --> 00:04:11.739
+Maria Silva: So this is still very, preliminary, so it's not the final numbers, but I just wanted to show you, the recent runs we've been doing. So I'll just…
+
+11
+00:04:12.270 --> 00:04:23.540
+Maria Silva: copy the link here. So this is the… I put in the link for… for the meeting, but, this is the overview of
+
+12
+00:04:24.160 --> 00:04:33.260
+Maria Silva: how the numbers look after the Osaka fork. So the numbers we currently have in the EIP were still being run
+
+13
+00:04:33.510 --> 00:04:39.210
+Maria Silva: On Prague, and so they didn't have the transaction limit EEIP.
+
+14
+00:04:39.430 --> 00:04:44.709
+Maria Silva: And so we would expect numbers to be a bit better, after this fork.
+
+15
+00:04:44.930 --> 00:04:55.420
+Maria Silva: And, in fact, we can see, for instance, on the pre-compiles that now a lot of them show, price decreases.
+
+16
+00:04:56.860 --> 00:05:01.039
+Maria Silva: Another… but still, this is something we need to double-check.
+
+17
+00:05:01.050 --> 00:05:12.990
+Maria Silva: But, so the main changes between these numbers and the previous ones, or the current ones in the EIP, are, yes, the Osaka fork. Second, Besu did implement some
+
+18
+00:05:12.990 --> 00:05:22.989
+Maria Silva: optimizations on, mods and div, related operations, and so we should, we should be seeing that here as well.
+
+19
+00:05:23.360 --> 00:05:38.909
+Maria Silva: We also did some fixes to some of the mods tests, because they were, so the inputs they were using were sometimes leading to some degenerations that actually
+
+20
+00:05:39.020 --> 00:05:41.760
+Maria Silva: Students…
+
+21
+00:05:41.950 --> 00:06:00.949
+Maria Silva: they were not, like, really estimating the full cost of the operation, and so now we kind of fixed that. And so the… you can see one big change is that I think numbers between the various mods are not… are a bit more consistent than in the original proposal.
+
+22
+00:06:01.560 --> 00:06:05.759
+Maria Silva: And also, another, change was…
+
+23
+00:06:05.860 --> 00:06:19.409
+Maria Silva: So we have, in the tests, we do these loops where we run the same opcode, the target opcode, many times. So, for instance, if it's a mod, we are running this mod many times.
+
+24
+00:06:19.410 --> 00:06:39.270
+Maria Silva: But because of how we need to set up the test, we need to provide inputs to the operations, so on and so forth, we many times have these self-scaffolding opcodes that get bundled in the runtime when we are estimating the individual runtime of a single operation. And so now we are also
+
+25
+00:06:40.640 --> 00:06:50.309
+Maria Silva: Excluding, excluding these kind of scaffolding, opcodes from… from the estimation, so we get a more accurate.
+
+26
+00:06:53.710 --> 00:07:04.279
+Maria Silva: value on the actual runtime of that target opcode. And so this was something that we included as well, and we… we still… so…
+
+27
+00:07:04.410 --> 00:07:08.770
+Maria Silva: For the Osaka fork, we are still missing data from Erigon and Reth.
+
+28
+00:07:08.950 --> 00:07:30.599
+Maria Silva: So the tool that we are using to do this is the one that the Nethermind team has been developing, and I think there was some issues running these most recent tests on these two clients. I don't have a lot of details on this, but maybe something to check after if you are curious.
+
+29
+00:07:30.820 --> 00:07:49.610
+Maria Silva: Also, there were some caching issues on some precompiles, so especially for EC Recover and EC pairing, we know that because the test is set up in a way that is calling the same opcode with the same inputs multiple times, there is likely some caching happening, and actually.
+
+30
+00:07:49.610 --> 00:07:54.159
+Maria Silva: The clients are not recalculating things, and so this will lead to
+
+31
+00:07:54.280 --> 00:07:57.319
+Maria Silva: Numbers that look better than they are in reality.
+
+32
+00:07:58.550 --> 00:08:07.669
+Maria Silva: And then there's also, to have the final, final numbers, we still need to measure the performance on ball-optimized, implementations.
+
+33
+00:08:08.090 --> 00:08:27.619
+Maria Silva: And these will likely Rethuce the cost increases as well, because we expect, the parallelization to, up here. But just to give an update, so again, this is not the final numbers on, 7904.
+
+34
+00:08:27.720 --> 00:08:41.480
+Maria Silva: Oh, and I realized that I was not sharing my screen, and I meant to do it, sorry. I'll share it now. So these are the… these are the… the… the latest numbers for 7904.
+
+35
+00:08:41.549 --> 00:08:49.180
+Maria Silva: And if you see something that jumps to you, it'll be great to have some feedback async.
+
+36
+00:08:49.320 --> 00:08:55.890
+Maria Silva: Or if you already have some, some feedback, also to, to also have it in the call.
+
+37
+00:08:56.060 --> 00:09:01.110
+Maria Silva: But yeah, are any comments here, or should we move to the next section?
+
+38
+00:09:03.860 --> 00:09:08.130
+Ameziane Hamlat: So, I already shaReth in, in the chat,
+
+39
+00:09:08.730 --> 00:09:27.180
+Ameziane Hamlat: just quickly on keychak, so it is cheaper, right? So the new cash would be 20 instead of 30. Right. And this was one of the opcodes that is actually pretty slow currently, so it was a bit surprised to have it cheaper.
+
+40
+00:09:28.220 --> 00:09:39.160
+Maria Silva: Yeah, me too. I think this is one of the cases that I think we should look into the test more… more carefully. From a first analysis I did, I don't think there's any obvious
+
+41
+00:09:39.260 --> 00:09:43.320
+Maria Silva: Hashing happening, because the inputs are always different.
+
+42
+00:09:43.440 --> 00:10:02.610
+Maria Silva: But this is one that I definitely think we should double check and see if there could be any weird behavior from clients on these tests. I'm happy to share in the report, I can share the link after. I have the actual test that was being used to estimate this.
+
+43
+00:10:02.880 --> 00:10:13.320
+Maria Silva: And so we, we, we can probably, yeah, if, if you, if any of you have time to look into it and… and give your thoughts, it would be great. Yes, Luis?
+
+44
+00:10:15.340 --> 00:10:27.170
+Luis Pinto | Besu: Just one remark on the Div and S, Div. Besu has a PR app for adding a new implementation based on amounts, optimizations.
+
+45
+00:10:27.310 --> 00:10:31.770
+Luis Pinto | Besu: Which hasn't gone in yet, so…
+
+46
+00:10:31.890 --> 00:10:39.420
+Luis Pinto | Besu: I would expect it to equalize more with not, because the algorithm is basically the same.
+
+47
+00:10:40.070 --> 00:10:40.960
+Luis Pinto | Besu: Young.
+
+48
+00:10:41.140 --> 00:10:43.500
+Luis Pinto | Besu: So maybe back to finding people license.
+
+49
+00:10:43.690 --> 00:10:44.179
+Luis Pinto | Besu: Speaking all.
+
+50
+00:10:44.180 --> 00:10:44.740
+Maria Silva: Yep.
+
+51
+00:10:45.310 --> 00:11:01.950
+Maria Silva: Yeah, makes sense. I think, again, we still need to also do the final run with the ball-optimized operation, so for sure, these are not final numbers, so we still have time to take into account all the optimizations you are still working on.
+
+52
+00:11:06.060 --> 00:11:10.329
+Maria Silva: Perfect. Any more comments here, or should we move to the next section?
+
+53
+00:11:11.100 --> 00:11:16.969
+Dragan Rakita: I have a question, on what client was this run?
+
+54
+00:11:18.350 --> 00:11:27.889
+Maria Silva: on all of them, except Erigon and Reth, that were having, out-of-memory issues, if I recall correctly.
+
+55
+00:11:28.580 --> 00:11:29.900
+Dragan Rakita: So…
+
+56
+00:11:30.070 --> 00:11:30.580
+Maria Silva: Yeah.
+
+57
+00:11:31.110 --> 00:11:32.080
+Maria Silva: Gabe?
+
+58
+00:11:32.530 --> 00:11:38.409
+Maria Silva: Besu… And Nethermind are the clients that were run here.
+
+59
+00:11:40.570 --> 00:11:46.559
+Dragan Rakita: okay, maybe we can, like, talk in async?
+
+60
+00:11:47.100 --> 00:11:52.640
+Dragan Rakita: About why… I was, like, out of memory.
+
+61
+00:11:54.680 --> 00:11:55.990
+Dragan Rakita: But yeah, okay.
+
+62
+00:11:57.050 --> 00:12:15.560
+Maria Silva: Yeah, I think probably we could, I… so, Rafael from IthpandaOps and Camille from NetherMind, they are the ones currently running the tools to run these benchmarks, so they would be the right people to reach out to, but I think… I'm not sure if they were already in contact with your team or not.
+
+63
+00:12:15.940 --> 00:12:19.409
+Dragan Rakita: Yeah, sure, but this is on the state load network.
+
+64
+00:12:21.330 --> 00:12:23.180
+Maria Silva: Yeah, yeah, yeah. Okay.
+
+65
+00:12:23.180 --> 00:12:24.690
+Dragan Rakita: Oh, okay.
+
+66
+00:12:26.620 --> 00:12:31.679
+Maria Silva: Perfect. Just comment. It would be really nice if this can be reproducible.
+
+67
+00:12:31.680 --> 00:12:34.689
+Dragan Rakita: Because this doesn't depend on the state or anything like that.
+
+68
+00:12:34.990 --> 00:12:40.220
+Dragan Rakita: Maybe having something like the state test or something like that, that can be run and just, like, checked.
+
+69
+00:12:40.510 --> 00:12:44.880
+Dragan Rakita: A diss runs and times slower, faster, whatever it is.
+
+70
+00:12:46.330 --> 00:12:52.710
+Dragan Rakita: So you have… every client, like, has a slightly different implementation, and it depends on… You know, like.
+
+71
+00:12:54.340 --> 00:13:00.079
+Dragan Rakita: implementation depends how fast or slow it is. So, we need to be aware of that.
+
+72
+00:13:02.030 --> 00:13:09.860
+Maria Silva: Right, so I think… so my part of the analysis, the code is open source, I'm happy to share it after, so you could run these
+
+73
+00:13:10.200 --> 00:13:16.190
+Maria Silva: By yourself. I think for the data collection.
+
+74
+00:13:16.200 --> 00:13:26.410
+Maria Silva: I think it's a bit more complicated, but my understanding is that both NetherMind's Gas Benchmark Tool and Benchmark Core
+
+75
+00:13:26.410 --> 00:13:36.219
+Maria Silva: which is the one being developed by Fail from Itpendops. They are also open source, so you could also set them up and run it yourself.
+
+76
+00:13:36.240 --> 00:13:44.899
+Maria Silva: I'm… I'm not sure if someone in the call has more information on these that can chime in, but I… all of this should be reproducible.
+
+77
+00:13:48.350 --> 00:13:57.739
+jochem-brouwer: Yes, maybe also to mention, that these, tests, they are the compute tests, so they are run on empty state.
+
+78
+00:13:57.970 --> 00:14:01.189
+jochem-brouwer: And I think…
+
+79
+00:14:01.860 --> 00:14:13.550
+jochem-brouwer: that you can… yeah, you can also run these benchmarks yourself, so, and, like, on Benchmark or on GasBenchmark to do, like, these local tests. These tests are also reported on both
+
+80
+00:14:14.100 --> 00:14:23.559
+jochem-brouwer: Benchmarker and on, via the guest benchmarks, so you can also see, the results of different runs, except
+
+81
+00:14:23.970 --> 00:14:29.969
+jochem-brouwer: Yeah, okay, we… I don't think they are targeted at a performance bench currently, so that's something we should maybe check, yeah.
+
+82
+00:14:30.730 --> 00:14:38.720
+Maria Silva: I actually… I think for Benchmark Core, at least, I think they are. I remember seeing that they are tracking better performance bench.
+
+83
+00:14:39.110 --> 00:14:49.090
+Maria Silva: And, just to clarify, actually, for these numbers, they were run on top of maintenance states, just because we were, at the same time, also collecting some
+
+84
+00:14:49.260 --> 00:14:57.240
+Maria Silva: state benchmarks that needed at, but it shouldn't make a huge difference, because the… these compute ones shouldn't have, like, a huge…
+
+85
+00:14:57.760 --> 00:15:01.450
+Maria Silva: Like, having it run on my net wouldn't make a lot of difference.
+
+86
+00:15:05.340 --> 00:15:08.699
+Maria Silva: Perfect. Any more comments here?
+
+87
+00:15:17.690 --> 00:15:23.270
+Maria Silva: So, Lucas, to answer your question, this doesn't take into account wall-optimized branches.
+
+88
+00:15:23.440 --> 00:15:31.939
+Maria Silva: I'm assuming there's still temporalization going on, but I think the main difference was actually the Osaka fork and the 60 million.
+
+89
+00:15:32.300 --> 00:15:34.490
+Maria Silva: Gas limit transaction.
+
+90
+00:15:35.170 --> 00:15:38.069
+Maria Silva: And I think there might still be some…
+
+91
+00:15:38.350 --> 00:15:42.909
+Maria Silva: Issues with some of the pre-compiled tests, and we should look into them as well.
+
+92
+00:15:43.880 --> 00:15:45.310
+Łukasz Rozmej: Okay, so…
+
+93
+00:15:46.110 --> 00:15:55.189
+Łukasz Rozmej: Oh, those numbers actually puzzle me, because I expect that we will be increasing a lot of precompiles, and here we are kind of decreasing most of them.
+
+94
+00:15:55.960 --> 00:16:05.270
+Maria Silva: Yeah, yeah, yeah. So I think at least I know for EC pairing and EC Recover, these numbers are bogus, because essentially we are doing the same
+
+95
+00:16:05.270 --> 00:16:17.120
+Maria Silva: inputs, so there's definitely caching going on. For the other ones, I think we need to double-check and see if the issue is in the test definition, or how they are being run.
+
+96
+00:16:17.390 --> 00:16:21.499
+Maria Silva: But yeah, we need to… to… to double check on that.
+
+97
+00:16:22.810 --> 00:16:29.629
+DanielVF: Yeah, as I said in the comments, Monte had instrumented these and found that, these EC methods were much more expensive.
+
+98
+00:16:29.740 --> 00:16:31.980
+DanielVF: And drastically raise the prices on them.
+
+99
+00:16:32.730 --> 00:16:33.190
+Maria Silva: Yep.
+
+100
+00:16:33.360 --> 00:16:45.650
+Łukasz Rozmej: Yeah, so this… again, this is completely not what we got from our benchmarking some time ago, from our benchmarks. I don't… I'm not sure what the current state is, Camille is…
+
+101
+00:16:46.170 --> 00:16:49.860
+Łukasz Rozmej: Leading that, is he here? Why isn't he here?
+
+102
+00:16:51.170 --> 00:16:52.260
+Maria Silva: I don't think it's…
+
+103
+00:16:52.260 --> 00:17:11.869
+Łukasz Rozmej: Maybe I should ping him. But that's, like I said, completely the other way, that's one thing. And second thing, I think we shouldn't, for example, decrease pre-compile costs now if we, for example, will be increasing them very soon due to ZZK cost, because that's kind of…
+
+104
+00:17:12.380 --> 00:17:13.260
+Łukasz Rozmej: Doesn't make any sense.
+
+105
+00:17:13.260 --> 00:17:32.209
+Maria Silva: So, yeah, just a quick comment on that. I completely agree. So, anything that is here with a cost decrease, if there actually were, at the end, with the final numbers and everything, a cost decrease, the proposal would be not to change it. So this is just the preliminary numbers for you to get a sense, and I think we'll likely
+
+106
+00:17:32.290 --> 00:17:36.239
+Maria Silva: Find some issues with these tests, or how they are being run, that will…
+
+107
+00:17:36.400 --> 00:17:40.010
+Maria Silva: Tell us why these numbers are having a decrease rather than increase.
+
+108
+00:17:40.010 --> 00:17:47.030
+Łukasz Rozmej: Okay, okay, that's fine, that's fine, but again, the two are completely… numbers don't agree with…
+
+109
+00:17:47.310 --> 00:17:50.619
+Łukasz Rozmej: my previous knowledge. Right.
+
+110
+00:17:50.620 --> 00:17:54.089
+Maria Silva: Yeah, agreed, yeah. Joram, do you want to go next?
+
+111
+00:17:55.300 --> 00:17:59.230
+jochem-brouwer: Yeah, so Daniel and Lukas, you said that,
+
+112
+00:17:59.550 --> 00:18:04.410
+jochem-brouwer: yeah, your benchmarks say otherwise. I also think that These numbers shall be,
+
+113
+00:18:04.430 --> 00:18:23.590
+jochem-brouwer: well, at least be increased, but could you maybe share these benchmarks, so we can also check? And I think, like, this, this caching thing, it's interesting because this cache thing keeps, hitting us, because we don't want the best case here, we want the worst case, and this is, well, very hard to,
+
+114
+00:18:24.020 --> 00:18:33.739
+jochem-brouwer: to achieve using, like, the EVM level benchmark. So you can't directly go into the client, you have to make EVM tests, and then this cache keeps…
+
+115
+00:18:34.020 --> 00:18:39.959
+jochem-brouwer: hitting us, but yeah, okay. If you could share, like, the, these benchmarks, that would be great.
+
+116
+00:18:40.210 --> 00:18:56.130
+Łukasz Rozmej: Yeah, those were the, you know, the old benchmarks… well, I don't remember, again, I pinged Camille to… if he can… if he can join. I don't remember, I don't know the current state, I don't follow. I remember that we had those benchmarks when we created the block.
+
+117
+00:18:56.400 --> 00:19:01.220
+Łukasz Rozmej: And we pushed, you know, the block with,
+
+118
+00:19:02.890 --> 00:19:10.649
+Łukasz Rozmej: I probably are aware of it, right? That those are the earliest benchmarks that we used in Berlin on the Interop.
+
+119
+00:19:10.730 --> 00:19:14.160
+Maria Silva: And we pushed the block full of.
+
+120
+00:19:14.450 --> 00:19:32.890
+Łukasz Rozmej: opcode. Of course, you know, it needed, for example, also opcode to manipulate the stack, because those were kind… kind of real blocks. So it wasn't just isolated opcode, but the opcode sequence that allowed us to use this opcode. And we used,
+
+121
+00:19:33.020 --> 00:19:37.360
+Łukasz Rozmej: Data that isn't repeating, so it can… couldn't be cached, right?
+
+122
+00:19:37.530 --> 00:19:53.519
+Łukasz Rozmej: So, each opcode should have, each user.opcode should have a different data, right? So, slightly changed, so the cache couldn't be used. Is that how it worked? I don't know… I know those,
+
+123
+00:19:53.750 --> 00:20:11.190
+Łukasz Rozmej: like, those tests were trying to migrate it to eels, etc. I have no idea what the current state. I know that, this migration, I heard that there were problems, for example, with, with this, non-repitability, this, this, caching…
+
+124
+00:20:12.760 --> 00:20:22.209
+Łukasz Rozmej: prevention strategy, I know that there was a problem. I have no idea what the current state, Camel, Camel knows that. I checked out a few months ago on exact details.
+
+125
+00:20:24.030 --> 00:20:25.600
+Maria Silva: Right, and I…
+
+126
+00:20:25.760 --> 00:20:33.550
+Maria Silva: I think on that, I definitely know that for, again, EC Perry and EC Recover, they are using the same inputs in the current tests.
+
+127
+00:20:33.690 --> 00:20:53.280
+Maria Silva: So that's definitely something we need to change. But I would also say that right now, with Osaka, you can't fill a block with just one transaction, right? So you would at least get, like, around, like, 4 transactions, right? So you need to split it by the 60. So you would already expect to see
+
+128
+00:20:53.620 --> 00:20:57.400
+Maria Silva: Some performance gain there, because now you can… That was my…
+
+129
+00:20:57.400 --> 00:21:03.560
+Łukasz Rozmej: Question, do you… those… does those tests, take into account parallelization?
+
+130
+00:21:03.650 --> 00:21:15.119
+Maria Silva: That was my question, and… I would assume that you would use the default for the client, right? Like, now you have a block with, like, a certain number of transactions that have the 60 million
+
+131
+00:21:15.310 --> 00:21:22.410
+Maria Silva: Limit, and then it depends on how the client's, place.
+
+132
+00:21:22.410 --> 00:21:35.350
+Łukasz Rozmej: But, okay, but for example, you can make a block this way that, because of previous transaction, the new transaction will have a slightly different data into that, going into that.
+
+133
+00:21:35.520 --> 00:21:48.340
+Łukasz Rozmej: Into that, pre-compile, which makes it more or less non-parallelizable, right? Until you get balls, right?
+
+134
+00:21:48.510 --> 00:21:54.029
+Łukasz Rozmej: With balls, it will make it not probable, so… you can still attack it, right?
+
+135
+00:21:54.030 --> 00:21:59.720
+Maria Silva: That makes sense, yeah. I don't know how this… what is the status on that, on these tests,
+
+136
+00:22:00.070 --> 00:22:03.139
+Maria Silva: I don't know if someone in the call knows, but.
+
+137
+00:22:06.970 --> 00:22:12.409
+jochem-brouwer: Yeah, this, this is… Yeah, this is definitely something to, to, check,
+
+138
+00:22:12.520 --> 00:22:18.120
+jochem-brouwer: very, soon. But I also realized that
+
+139
+00:22:18.480 --> 00:22:29.210
+jochem-brouwer: NetherMind has a decent strategy to do, like, the parallel execution, and then there's also, like, a pre-compiled cache, I think, at the transaction level.
+
+140
+00:22:29.370 --> 00:22:45.430
+jochem-brouwer: And I realized that, for the Osaka test, where you actually spit up your transaction into multiple, this will actually make it perform, like, very good if, like, each transaction does not change their inputs
+
+141
+00:22:45.640 --> 00:22:49.630
+jochem-brouwer: Depending on the result of the previous transaction, because now you can use
+
+142
+00:22:50.140 --> 00:22:58.189
+jochem-brouwer: Parallelize all these transactions, cache them, and then when the transaction actually hits in your sequential run, then you can just read it from cache.
+
+143
+00:22:58.190 --> 00:23:13.900
+Łukasz Rozmej: Yeah, so we actually have a setting, I think, we added to disable this cache, if you want that, because we just wanted to have it for test, and Camille should join in a few minutes, so we can actually ask him more questions about…
+
+144
+00:23:13.900 --> 00:23:27.739
+jochem-brouwer: If you could post this flag, and then I will check if this is already activated on the benchmark, because this is something we definitely need. But also, I think we should integrate this in the test anyways, because
+
+145
+00:23:28.010 --> 00:23:29.500
+jochem-brouwer: Yeah, like…
+
+146
+00:23:29.630 --> 00:23:38.290
+jochem-brouwer: We should generate these worst-case blocks, and also think about, like, client optimizations like this, and to ensure that this kind of caching cannot
+
+147
+00:23:38.460 --> 00:23:40.590
+jochem-brouwer: happen, and…
+
+148
+00:23:40.950 --> 00:23:48.559
+jochem-brouwer: I… I'm not… I don't think we have this yet. That should be added, but thanks. If you could post this flag, that would be great.
+
+149
+00:23:50.540 --> 00:23:52.699
+Maria Silva: Dragon, do you want to go next?
+
+150
+00:23:52.960 --> 00:23:58.459
+Dragan Rakita: Yeah, I would like to propose to remove changes to precompiles.
+
+151
+00:23:59.170 --> 00:24:00.979
+Dragan Rakita: precompiles…
+
+152
+00:24:01.670 --> 00:24:08.260
+Dragan Rakita: There are a lot of nuisances there, depending on the cache, depending on the library that's used.
+
+153
+00:24:08.590 --> 00:24:10.919
+Dragan Rakita: Depending on the implementation that's used.
+
+154
+00:24:11.580 --> 00:24:17.120
+Dragan Rakita: It feels… I feel that you…
+
+155
+00:24:18.970 --> 00:24:22.169
+Dragan Rakita: A lot more time to be sure that they are okay.
+
+156
+00:24:22.850 --> 00:24:28.989
+Dragan Rakita: So I think removing them, it's… at least I'm proposing it to remove them from this EIP.
+
+157
+00:24:31.240 --> 00:24:35.730
+Maria Silva: Yeah, I'm not 100% sure we can do that. Like, if you just… if we just…
+
+158
+00:24:36.520 --> 00:24:42.770
+Maria Silva: Like, blankly remove them, then we may not be able to increase the gas limit, right?
+
+159
+00:24:43.110 --> 00:24:43.730
+Maria Silva: But…
+
+160
+00:24:43.730 --> 00:24:44.810
+Dragan Rakita: What do you mean by that?
+
+161
+00:24:45.540 --> 00:24:47.769
+Maria Silva: I, I mean that if…
+
+162
+00:24:47.920 --> 00:25:00.160
+Maria Silva: So, for instance, I… again, I know EC pairing and EC Recover, they are being cached, for sure, because the inputs are… are… are… are repeated. So, if they actually require a cost increase, like.
+
+163
+00:25:00.520 --> 00:25:09.010
+Maria Silva: two times cost increase. This means that they will be bottlenecks that we are not repricing, and so they will be blocking us to raise the cost limit.
+
+164
+00:25:10.460 --> 00:25:19.619
+Maria Silva: Or were you meaning that if the numbers lead to a gas decrease, then we shouldn't include them? And if that's the case, then I agree. So, as I was saying.
+
+165
+00:25:19.620 --> 00:25:20.739
+Dragan Rakita: I'm also…
+
+166
+00:25:21.370 --> 00:25:39.949
+Maria Silva: As I was saying before, this is just the numbers that I'm showing, but the rationale would be, if for some reason, with the final numbers, we've still figuReth out that some precompile was more efficient than we thought, and it would require a gas decrease, then we won't change it. Like, here we are just making gas increases in this EEIP.
+
+167
+00:25:40.480 --> 00:25:48.490
+Dragan Rakita: Yeah, to be honest, make the worst case be coveReth by gas is the, like, the best case for us.
+
+168
+00:25:49.180 --> 00:25:55.840
+Dragan Rakita: If we can manage that, that would be great. And yeah, I agree that we need to do that if we want to increase the block gas limit.
+
+169
+00:25:56.700 --> 00:25:59.560
+Dragan Rakita: So yeah, we should include those.
+
+170
+00:25:59.830 --> 00:26:01.550
+Dragan Rakita: for example, the Blake…
+
+171
+00:26:01.740 --> 00:26:12.929
+Dragan Rakita: pre-compile, you have, like, instruction, AVX instruction that you can use to speed it up, or you can use, like, default implementation that's slower.
+
+172
+00:26:13.160 --> 00:26:23.169
+Dragan Rakita: It's, like, very… I have both of those inside the REVM, but depending on what platform is used, it could be one case or another case.
+
+173
+00:26:23.500 --> 00:26:28.910
+Dragan Rakita: So we want to, like, for precompiles, we want to, like, match them in the… for the worst case.
+
+174
+00:26:29.020 --> 00:26:40.320
+Dragan Rakita: So there are a lot, like, nuisances around that. We should be careful. But yeah, I agree with you, we should definitely increase it, because we need it for the increase on the blog, yes, I mean.
+
+175
+00:26:41.430 --> 00:26:45.509
+Maria Silva: Right, and I think this is exactly the reason why
+
+176
+00:26:45.740 --> 00:27:00.030
+Maria Silva: I think it would be helpful to have more of you looking into the tests and see if there are, like, any particularities in your client implementations that might mean that we are not really capturing the worst case.
+
+177
+00:27:00.250 --> 00:27:05.489
+Maria Silva: Like, any help here at this point, I think would be much appreciated.
+
+178
+00:27:09.830 --> 00:27:17.020
+Maria Silva: Conscious of time, I think we should move to the next topic, so maybe if there are any more comments, we can continue these.
+
+179
+00:27:17.150 --> 00:27:36.260
+Maria Silva: async. I think the next update is around 1838, and Joram was going to chat a bit about the benchmarking of state operations, and, the update there. Joram, do you want to go next? I'll stop sharing.
+
+180
+00:27:37.230 --> 00:27:39.670
+jochem-brouwer: Yes, let me share my screen.
+
+181
+00:27:40.660 --> 00:27:42.360
+jochem-brouwer: Wait, this… boom, boom.
+
+182
+00:27:42.750 --> 00:27:43.460
+jochem-brouwer: Interesting.
+
+183
+00:27:44.720 --> 00:27:45.970
+jochem-brouwer: It's horrible.
+
+184
+00:27:48.260 --> 00:27:50.570
+jochem-brouwer: Alright, can you see my screen?
+
+185
+00:27:53.880 --> 00:27:54.450
+Ameziane Hamlat: Yes.
+
+186
+00:27:54.450 --> 00:27:55.320
+jochem-brouwer: Yes.
+
+187
+00:27:55.610 --> 00:28:06.929
+jochem-brouwer: Cool, okay, great. So this is about ERP 8038, about the benchmarking state operations. So, a quick recap, it's about the, about the change of the state access operations.
+
+188
+00:28:07.950 --> 00:28:16.919
+jochem-brouwer: These are the parameters which it is targeting, so this is anything which has to do with changing things to the state, so this has to do with contact, storage.
+
+189
+00:28:17.050 --> 00:28:18.629
+jochem-brouwer: And accounts.
+
+190
+00:28:19.090 --> 00:28:23.060
+jochem-brouwer: And the nasty thing here is…
+
+191
+00:28:23.160 --> 00:28:36.280
+jochem-brouwer: again, the cache. So we just talked about the compute, caches, which are, well, they can be nasty, or, like, they, they, they optimize the, the benchmarks.
+
+192
+00:28:36.620 --> 00:28:54.329
+jochem-brouwer: And that's not what we want, because we are actually targeting the worst cases here, so we have to take care of these caches. And in the EVM, we have the cache accounting, so we have cold storage and barn storage, both for the accounts and the storage.
+
+193
+00:28:54.620 --> 00:29:02.380
+jochem-brouwer: And this is what I wanted to mainly go into, because this is what we have been tackling in the last, well, week, two weeks.
+
+194
+00:29:02.620 --> 00:29:08.049
+jochem-brouwer: And the EVM cache, this is from ERP2929,
+
+195
+00:29:08.300 --> 00:29:16.839
+jochem-brouwer: And what it does is it tracks which accounts and which storage has been accessed, and if it has already been accessed.
+
+196
+00:29:16.970 --> 00:29:22.289
+jochem-brouwer: then… The cost to change this value is, decreased.
+
+197
+00:29:22.580 --> 00:29:24.070
+jochem-brouwer: So we get, like, a discount.
+
+198
+00:29:24.860 --> 00:29:29.110
+jochem-brouwer: And this happens on the transaction level. So there's the EVM cache.
+
+199
+00:29:31.450 --> 00:29:35.800
+jochem-brouwer: For the benchmarks, we had the initial setup.
+
+200
+00:29:35.920 --> 00:29:41.080
+jochem-brouwer: That, if we want to target existing accounts or storage.
+
+201
+00:29:41.440 --> 00:29:45.350
+jochem-brouwer: We have this setup where we
+
+202
+00:29:45.640 --> 00:29:48.949
+jochem-brouwer: Create these accounts, or these, the storage.
+
+203
+00:29:49.080 --> 00:29:51.010
+jochem-brouwer: Before running the benchmark.
+
+204
+00:29:51.570 --> 00:30:06.890
+jochem-brouwer: And the reason for this is that in the accounts, but also in the stores, you have to pay extra if you start creating accounts, so this is one of the reasons from the EVM. But also, from the clients, we see that in some clients, reading
+
+205
+00:30:07.010 --> 00:30:11.789
+jochem-brouwer: The storage or the accounts, which do not exist is actually the worst case for them.
+
+206
+00:30:12.200 --> 00:30:24.169
+jochem-brouwer: So we need to have tests for both accounts or storage for which does not exist, and for which do exist, for both for the EVM constant or the non-EVM.
+
+207
+00:30:24.290 --> 00:30:33.929
+jochem-brouwer: content, so like the, the, like, how the database operates, like that, and, also about the caching strategy of this client.
+
+208
+00:30:34.080 --> 00:30:45.749
+jochem-brouwer: So, what we have seen, and I will call it a cash monster, because we have just seen that this is not nice in the, in the computer test, but it is also very not nice,
+
+209
+00:30:46.490 --> 00:31:02.079
+jochem-brouwer: Not to… yeah. On the state level. So normally, if we have, like, cache hits on the mainnet, we are, oh, we are, we are, like, it's, like, very nice, because this increases our performance, but if we hit it on the benchmark, this is not very nice.
+
+210
+00:31:02.080 --> 00:31:09.859
+jochem-brouwer: So, Maria, made these graphs, and you can see on the left the cache hits and the misses without preset keys.
+
+211
+00:31:10.180 --> 00:31:21.380
+jochem-brouwer: And on the right, you can see it with the preset keys. So, with the preset keys, we actually started to create these keys in, like, blocks right before the
+
+212
+00:31:21.580 --> 00:31:23.740
+jochem-brouwer: Benchmarks actually being run.
+
+213
+00:31:24.150 --> 00:31:29.220
+jochem-brouwer: And what we see is, like, the difference between these two is, like, not so nice. So there's a problem.
+
+214
+00:31:30.570 --> 00:31:39.389
+jochem-brouwer: With, like, this cache, because it looks like, well, most values are actually in this cache, which is not what we want, because we want to,
+
+215
+00:31:39.560 --> 00:31:45.010
+jochem-brouwer: We want to… to get, like, the worst case, analysis.
+
+216
+00:31:45.170 --> 00:31:57.300
+jochem-brouwer: Yeah, and just to recap it, I think most of you know, like, the tests I run on top of a mainnet or a BloatNet snapshot, and BlowNet is the network which is a fork of mainnet, and we just spam, like, a lot of state on top of this.
+
+217
+00:31:58.230 --> 00:32:09.119
+jochem-brouwer: So, what we have to do is we have to battle this cash monster, and the new strategy is to ensure that the tests are actually… they are forced to go to disk.
+
+218
+00:32:09.380 --> 00:32:18.599
+jochem-brouwer: And this means that the snapshot which we use to run this benchmark on have these keys, so these storage keys and these accounts keys already preset.
+
+219
+00:32:18.810 --> 00:32:21.080
+jochem-brouwer: And,
+
+220
+00:32:22.420 --> 00:32:39.459
+jochem-brouwer: Oh yeah, and we have to skip in the test itself, so we don't want to have the set of this in the test that, like, in the previous blocks, before the benchmark, we, the benchmark block, that we actually set up these keys or these accounts, because this already puts them into the cache, and that's not what we want.
+
+221
+00:32:39.690 --> 00:32:43.840
+jochem-brouwer: So what did you do on bloatnets? And I want to know that this bloating is, like.
+
+222
+00:32:43.850 --> 00:32:55.699
+jochem-brouwer: Well, very, slow, like, it takes a long time to create, like, a reasonable amount of accounts, or, like, mainly storage, that's, that's, that's the main thing.
+
+223
+00:32:55.700 --> 00:33:06.229
+jochem-brouwer: So what we do is we build ESC20-like contracts with storage, and we also upload a range of accounts to query EOAs, so accounts without code.
+
+224
+00:33:06.340 --> 00:33:17.430
+jochem-brouwer: And we also want to target contracts. The reason for this is that we want to target also ERP2780. So 2780 wants to reprice,
+
+225
+00:33:17.590 --> 00:33:28.450
+jochem-brouwer: intrinsic gas costs, and also gas costs if you query accounts with code or without code. Like, now there is a different… this introduces different costs if you
+
+226
+00:33:28.880 --> 00:33:30.590
+jochem-brouwer: target accounts.
+
+227
+00:33:30.710 --> 00:33:35.080
+jochem-brouwer: With code or without code, so we want to directly integrate this.
+
+228
+00:33:35.080 --> 00:33:53.300
+jochem-brouwer: And, well, as a nice thing, like, for the target contracts, we do not need to upload this, because we can use an old contract on mainnet, which has created many accounts in the past, like, it's almost 430,000 contracts, which is the old ENS PTS3, so that's, like, very nice to resurrect one of these,
+
+229
+00:33:53.340 --> 00:34:12.420
+jochem-brouwer: old contracts, so we don't have to bloat on BloatNet, like these extra accounts. And the reason that we target the create opcode is because this generates a pattern of contracts, sorry, of addresses into the EVM, which we can directly,
+
+230
+00:34:12.440 --> 00:34:22.199
+jochem-brouwer: generate in the EVM without, like, a lot of cost, because otherwise we have to hard code the addresses into the EVM, and this is, like, both complex and,
+
+231
+00:34:22.530 --> 00:34:42.289
+jochem-brouwer: We also have to figure out, then, a way to actually hard-code these things, because we have the contract size limit and all kinds of challenges. So, on BloatNet, we have the… these new steps of different sizes. There's one missing that's already there. There's also 30GB of addresses, and we also want to see, like, okay, what
+
+232
+00:34:42.320 --> 00:34:47.729
+jochem-brouwer: Does this contact size of the source itself have an impact on the benchmark?
+
+233
+00:34:48.750 --> 00:35:00.719
+jochem-brouwer: For the benchmark targets, we have 3 levels of cache, and to also see, like, if there's, like, a difference. We have the no cache, so this is the part where we directly read from the snapshot state, so from disk.
+
+234
+00:35:00.920 --> 00:35:19.029
+jochem-brouwer: the caching at the THX level, that's where we target the state where it is both warm in the EVM and it is warm in the cache, so we actually target the storage slots, or the accounts, into the EVM where we first query these accounts before actually doing the opcodes which we are targeting for this benchmark.
+
+235
+00:35:19.200 --> 00:35:28.250
+jochem-brouwer: And there's also the caching strategy at the previous block. What we then do is, like, in the previous block, we query these accounts on the storage, and then in the next block, we do the actual benchmarks.
+
+236
+00:35:28.470 --> 00:35:33.880
+jochem-brouwer: For the accounts, we target EOAs and, contracts.
+
+237
+00:35:33.990 --> 00:35:41.270
+jochem-brouwer: And we also call these with value and without value, to also see the impact of changing our counts here.
+
+238
+00:35:41.630 --> 00:35:52.290
+jochem-brouwer: And for the storage bytes, we target these ESC20 targets, the existing and the non-existing keys, because, well, reading non-existent keys in some clients is the worst case.
+
+239
+00:35:52.500 --> 00:36:11.440
+jochem-brouwer: And also, reading keys is always necessary for storage writes because of this gas cost calculations. So if you create, like, new keys, you have to know if the key already exists or not, and a key which has zero in it, so it's non-existent, changing it to a value is actually expensive.
+
+240
+00:36:11.620 --> 00:36:17.720
+jochem-brouwer: And, we also check, like, okay, what if we write exactly the same value, or what if we change the value, what is the impact?
+
+241
+00:36:18.230 --> 00:36:27.239
+jochem-brouwer: For the storage reads, we target different sizes EC20 contracts, so this list which I showed before, and also, like, the existing and the non-existent keys.
+
+242
+00:36:27.820 --> 00:36:33.970
+jochem-brouwer: So, what are the next steps? So, right now, the broad net step is being taken.
+
+243
+00:36:34.160 --> 00:36:39.119
+jochem-brouwer: What we then do is we run these benchmarks on top of the snapshot.
+
+244
+00:36:39.240 --> 00:36:52.739
+jochem-brouwer: And then we analyze these benchmarks, well, if there is a problem with the test, we fix it, and, well, the main question is, and I likely… I would be very surprised if this, result would be a no, but did we fight this cache monster?
+
+245
+00:36:52.900 --> 00:36:53.800
+jochem-brouwer: Correctly.
+
+246
+00:36:54.590 --> 00:36:59.749
+jochem-brouwer: Alright, that's my, those are my points. Any questions, points, remarks?
+
+247
+00:37:10.230 --> 00:37:11.689
+Maria Silva: You can go, Daniel.
+
+248
+00:37:12.640 --> 00:37:15.359
+DanielVF: Yes, do you have a rough idea at this point?
+
+249
+00:37:15.790 --> 00:37:19.719
+DanielVF: how much increase you're thinking? I know the EEIP says TBD.
+
+250
+00:37:20.850 --> 00:37:22.700
+DanielVF: On, like, read access.
+
+251
+00:37:23.350 --> 00:37:35.500
+Maria Silva: I say it's still TBD, and it's hard to say, because on one hand, we do expect a pri… like, based on previous, benchmarks and how Zen
+
+252
+00:37:35.540 --> 00:37:54.000
+Maria Silva: We do expect there to… the fact that we need to increase the price, but at the same time, with ball-optimized state reads and, state route calculations, it's hard to say how much more performant clients will get.
+
+253
+00:37:54.230 --> 00:38:00.689
+Maria Silva: So I think, in my mind now, it's very hard to say what will be the numbers. I would expect
+
+254
+00:38:00.800 --> 00:38:09.410
+Maria Silva: An increase, but how big it is, it will depend on the ball optimizations, And how…
+
+255
+00:38:09.580 --> 00:38:11.679
+Maria Silva: Clients will behave after that.
+
+256
+00:38:13.590 --> 00:38:14.180
+DanielVF: Okay.
+
+257
+00:38:14.320 --> 00:38:20.410
+DanielVF: Yeah, coming from, Monad and, doing a lot of performance testing there.
+
+258
+00:38:20.760 --> 00:38:28.830
+DanielVF: State, you know, as you get into thousands of transactions a second, or 10,000 transactions a second,
+
+259
+00:38:29.290 --> 00:38:45.870
+DanielVF: just the speed that things can be read from the disk very much becomes a bottleneck, and is probably the primary bottleneck, at that… as you get up toward that speed. So, we increased the cost on cold reads, just because it is very much a bottleneck.
+
+260
+00:38:46.540 --> 00:38:50.229
+DanielVF: But, again, if you're running slower transactions, that may or may not
+
+261
+00:38:51.410 --> 00:38:54.319
+DanielVF: be the case, or it may not matter quite as much.
+
+262
+00:38:55.490 --> 00:39:12.640
+Maria Silva: Right, I think it will be great. Once we have the… more numbers on these, it will be great to compare and see how things differ, but I think at this point, it's really hard, because we are still… I think the numbers we have right now are not reliable enough for us to have a good view on it.
+
+263
+00:39:13.320 --> 00:39:14.730
+DanielVF: Yeah, that makes sense.
+
+264
+00:39:14.910 --> 00:39:18.670
+DanielVF: I guess just the one thing I want to throw out there is that,
+
+265
+00:39:18.930 --> 00:39:24.319
+DanielVF: Disk read speed can be another access of, you know, the hard balancing act of getting,
+
+266
+00:39:24.800 --> 00:39:32.040
+DanielVF: all the different dimensions of gas pricing together, but it's definitely a fundamental Fundamental constraint.
+
+267
+00:39:32.280 --> 00:39:32.950
+DanielVF: performance.
+
+268
+00:39:33.810 --> 00:39:37.779
+Maria Silva: Right, thank you. Amisienne, do you want to go next?
+
+269
+00:39:38.680 --> 00:39:51.709
+Ameziane Hamlat: Yeah, thanks. So, yeah, thanks, Yukam, for the presentation. I think it makes a lot of sense to have, like, these different scenarios. My question is related on how will our product
+
+270
+00:39:51.710 --> 00:40:00.249
+Ameziane Hamlat: sort of productable are these tests? So I guess the idea is to take, like, the snapshot of the blood network.
+
+271
+00:40:00.270 --> 00:40:17.709
+Ameziane Hamlat: then run on top of it, like, all these tests, and then we can delete, you know, like, everything that was generated, and then run again, run again. Is that, like, the idea? And the other question is, like, you said bloating is very slow.
+
+272
+00:40:17.840 --> 00:40:31.729
+Ameziane Hamlat: And I was wondering if it is related to the network itself, or to the, like, the benchmarks. Are we benchmarking the state, like, state creation in a way that we are creating, like, a lot of, basically, state as well?
+
+273
+00:40:33.690 --> 00:40:45.819
+jochem-brouwer: Okay, so for the, for the first question is, like, how, how, how reproducible are these, these benchmarks? So, these are East, benchmark tests. They are specifically targeted for BloatNet.
+
+274
+00:40:45.870 --> 00:40:47.550
+jochem-brouwer: But,
+
+275
+00:40:47.550 --> 00:41:07.150
+jochem-brouwer: if you, like, create, like, an EC20 contract with the functionality which the benchmark needs, then you can also point these benchmarks to these contracts on any network. So you can also generate, like, a pre-state yourself, or a set state yourself, from, like, empty state.
+
+276
+00:41:07.230 --> 00:41:09.790
+jochem-brouwer: And run it on top of that.
+
+277
+00:41:11.850 --> 00:41:27.170
+jochem-brouwer: maybe… yeah, yeah, to answer your question, like, how are these benchmarks being run? Like, does it, like, delete all the states when this benchmark happens? Yes, that's exactly the case. So, how these benchmarks are being ran?
+
+278
+00:41:27.170 --> 00:41:35.000
+jochem-brouwer: Camille could explain better, but I think I… well, if I explain it like this, that this would be,
+
+279
+00:41:35.180 --> 00:41:37.440
+jochem-brouwer: Correct? Like,
+
+280
+00:41:37.650 --> 00:41:49.380
+jochem-brouwer: these are, like, clients, you start them up, you run this benchmark, and then you kill them, and then you do, like, the next benchmark. So this should get rid of any caching or, yeah, whatever.
+
+281
+00:41:49.590 --> 00:41:56.069
+jochem-brouwer: I think that answers your first question. The second question was…
+
+282
+00:41:56.610 --> 00:41:59.220
+jochem-brouwer: No, I don't. Now I don't remember. But…
+
+283
+00:41:59.220 --> 00:42:03.450
+Ameziane Hamlat: was related to blue tin. You said gluten was slow, and I was wondering…
+
+284
+00:42:04.400 --> 00:42:26.989
+jochem-brouwer: Yes. So, the problem with bloating is, like, it's not really about the network or, like, if you want to, like, stress test the network there. The problem is that we are really being constrained there by the EVM. So, the bloating speed's essentially, like, you have to go… you have to do, like, a lot of overhead operations all the time.
+
+285
+00:42:27.020 --> 00:42:41.029
+jochem-brouwer: So you have to run the transaction, you have to win the blocks, but that also means you have to do, like, the state rules calculation and these kind of things. So this is, like, very slow. If you have to upload, like, 50 gigabytes of state, well, you can already calculate it yourself.
+
+286
+00:42:41.030 --> 00:42:50.860
+jochem-brouwer: So for 50GB of state, you would need 50GB divided by 32 storage slots, and creating storage slots is 20,000 GAS.
+
+287
+00:42:50.860 --> 00:42:54.719
+jochem-brouwer: So you can calculate how many guests you would need to actually build this thing, and that's, like.
+
+288
+00:42:54.720 --> 00:43:09.230
+jochem-brouwer: the hard low limit of this, and of course you have, like, some extra overhead, like, intrinsic transaction cost, the Osaka thing where you have to split the transactions. Well, you can imagine that this is not very fast to do this.
+
+289
+00:43:12.430 --> 00:43:13.710
+jochem-brouwer: Okay, thank you.
+
+290
+00:43:15.340 --> 00:43:35.169
+Maria Silva: Thank you. So, conscious of time, I think we'll move to the next, section, and if you still have any comments or questions, please let's do it a sync. I think now we have Spencer. He'll, talk a little bit about 8037, so the State Creation Gas Costing for CEIP.
+
+291
+00:43:35.240 --> 00:43:42.749
+Maria Silva: And his update on the specs and tests for Definite 3, and then also we'll chat a bit about
+
+292
+00:43:42.980 --> 00:43:44.450
+Maria Silva: The…
+
+293
+00:43:44.570 --> 00:43:53.299
+Maria Silva: changes they are doing to the entire testing framework to then accumulate all the repricings for DevNet 4. Spencer, you want to go?
+
+294
+00:43:54.540 --> 00:44:00.120
+spencer-tb: Hey, thanks. Thanks, Maria. Yeah, so… last…
+
+295
+00:44:00.690 --> 00:44:03.630
+spencer-tb: last week on… I think it was Saturday, we…
+
+296
+00:44:04.640 --> 00:44:09.570
+spencer-tb: released, or DevNet Free release, with…
+
+297
+00:44:10.200 --> 00:44:16.789
+spencer-tb: Our, like, initial set of tests for… 807, and
+
+298
+00:44:18.130 --> 00:44:27.600
+spencer-tb: Yeah, it seems… seems to… seems to have gone well, like, I'm glad, clients are passing, I'm glad Besu's passing most of those tests, which makes me happy.
+
+299
+00:44:27.990 --> 00:44:30.900
+spencer-tb: With this release, we have…
+
+300
+00:44:31.580 --> 00:44:42.949
+spencer-tb: Hard-coded the cost per state byte to, 1174, which is what it equates to when you use a block gas limit of 100 million.
+
+301
+00:44:43.590 --> 00:44:44.520
+spencer-tb: And…
+
+302
+00:44:45.050 --> 00:44:54.219
+spencer-tb: So the reason we did that was because of, complexity in the framework issues, and we wouldn't be able to get a release out, on time before the definite.
+
+303
+00:44:54.780 --> 00:45:00.420
+spencer-tb: So… For the next EVNET, at least over the coming weeks, we plan to…
+
+304
+00:45:00.700 --> 00:45:05.130
+spencer-tb: Yeah, update our framework to handle the EEIP correctly.
+
+305
+00:45:05.580 --> 00:45:10.739
+spencer-tb: So the issue being, that we've never had this,
+
+306
+00:45:11.300 --> 00:45:26.020
+spencer-tb: I guess, extra dimension of the block gas limit affecting gas costs within our framework, and it affecting a lot of tests, and I'd say the biggest difficulty has been the, static tests. We call them static tests, basically the…
+
+307
+00:45:26.790 --> 00:45:33.149
+spencer-tb: tests from Ethereum tests, they're YAML files that we are filling to JSON, so we have, like, a separate way of doing that.
+
+308
+00:45:33.290 --> 00:45:35.229
+spencer-tb: And a lot of those tests were failing.
+
+309
+00:45:35.370 --> 00:45:39.550
+spencer-tb: The hard part is that, yeah, changing those tests, to…
+
+310
+00:45:40.410 --> 00:45:55.189
+spencer-tb: past the spec for 8037 is not really possible in YAML, so, we've made good progress on porting these tests to Python, and then once they're in Python, we're going to update the logic for these tests for 8037.
+
+311
+00:45:55.300 --> 00:45:57.280
+spencer-tb: I'd say the overarching
+
+312
+00:45:57.470 --> 00:46:05.529
+spencer-tb: goal for me, and, I guess for DevNet4 is to, integrate, 8037,
+
+313
+00:46:06.080 --> 00:46:16.970
+spencer-tb: 78… no, 2780, 8038, and 7904, all into the framework with all the tests passing. Really just…
+
+314
+00:46:17.080 --> 00:46:21.430
+spencer-tb: Hardening everything so that… Yeah, the framework's more robust.
+
+315
+00:46:21.710 --> 00:46:24.480
+spencer-tb: And I think we should be in good shape for DevNet 4.
+
+316
+00:46:26.180 --> 00:46:32.990
+spencer-tb: Yeah, that's, that's my update. I can keep it brief. If there are any questions, please ask. I guess, I also have a question.
+
+317
+00:46:33.510 --> 00:46:41.159
+spencer-tb: M… Regarding, benchmark tests for 8037,
+
+318
+00:46:42.360 --> 00:46:47.279
+spencer-tb: Do we want any specific tests to target the…
+
+319
+00:46:47.580 --> 00:46:50.740
+spencer-tb: Reservoir mechanism, or should we…
+
+320
+00:46:50.950 --> 00:46:58.319
+spencer-tb: Or are we okay with the existing, State operation…
+
+321
+00:46:58.480 --> 00:47:05.410
+spencer-tb: tests that we have, for a blood net. I'm not super deep with those, so that's, what I'm asking.
+
+322
+00:47:05.820 --> 00:47:06.600
+spencer-tb: Thanks.
+
+323
+00:47:07.910 --> 00:47:14.970
+Maria Silva: Yeah, I think that's a great question. So, the tests on BloodNet are really just…
+
+324
+00:47:15.250 --> 00:47:26.160
+Maria Silva: benchmarks, they are not really tests, so they are just trying to assess the execution time of all state operations, so I don't think they are good to
+
+325
+00:47:26.440 --> 00:47:38.980
+Maria Silva: test that the clients are implementing 8037 the way they are supposed to. And so for that, I do feel like we need some sort of tests to
+
+326
+00:47:39.170 --> 00:47:40.260
+Maria Silva: to…
+
+327
+00:47:41.780 --> 00:47:53.660
+Maria Silva: to test. I don't have a better word for it, but we need tests that, kind of allows us to see these new code paths, using the reservoir.
+
+328
+00:47:53.880 --> 00:47:59.989
+Maria Silva: So I think it would be… it would make sense for us to have something around that.
+
+329
+00:48:03.010 --> 00:48:08.989
+spencer-tb: Sure, sure. Just to clarify, so we have… we have tests to make sure that clients are up-to-date with the spec, but for…
+
+330
+00:48:09.200 --> 00:48:16.159
+spencer-tb: benchmarking the reservoir specifically, we don't, so if… if we… if we need some of those, I can, take a note and take a look at that as well.
+
+331
+00:48:17.120 --> 00:48:22.250
+Maria Silva: So then, can you… can you explain what you mean by benchmarking the reservoir?
+
+332
+00:48:23.050 --> 00:48:27.839
+Maria Silva: What do you think is missing from the tests you already implemented?
+
+333
+00:48:29.270 --> 00:48:36.190
+spencer-tb: Well, the… the tests so far are just, like, spec compliance tests, so there's no…
+
+334
+00:48:36.720 --> 00:48:43.780
+spencer-tb: Like, I assume… I'm assuming the existing tests that benchmark,
+
+335
+00:48:45.970 --> 00:48:50.989
+spencer-tb: I guess what I'm trying to say is, because there's this kind of new code path.
+
+336
+00:48:51.600 --> 00:48:56.379
+spencer-tb: With the, the second dimension of gas.
+
+337
+00:48:57.770 --> 00:49:02.190
+spencer-tb: Should we have an extra… should we benchmark that specifically?
+
+338
+00:49:03.130 --> 00:49:06.060
+spencer-tb: Or are the existing tests that we have enough?
+
+339
+00:49:06.310 --> 00:49:07.510
+spencer-tb: To cover that.
+
+340
+00:49:07.820 --> 00:49:09.919
+spencer-tb: My understanding is it's the latter.
+
+341
+00:49:11.700 --> 00:49:17.010
+Maria Silva: Right, I think my understanding is also the latter, so I would assume that
+
+342
+00:49:17.450 --> 00:49:21.950
+Maria Silva: Adding this second, dimension, would it increase
+
+343
+00:49:22.000 --> 00:49:34.240
+Maria Silva: significantly execution time of things, but if… if it does increase, you'd still see it in the test that we are running right now, because we are considering the variance where
+
+344
+00:49:34.240 --> 00:49:42.659
+Maria Silva: the, for instance, SSTOR creates new slots, and so we would be able to observe on that test, like, an increase in
+
+345
+00:49:42.790 --> 00:49:51.699
+Maria Silva: in execution time. So, definitely once… and it's something we can definitely do, like, once we have a DevNet with all the repricings.
+
+346
+00:49:51.980 --> 00:49:59.520
+Maria Silva: can Retho all the benchmarks and see if there are any new bottlenecks, but I wouldn't expect
+
+347
+00:50:00.250 --> 00:50:05.010
+Maria Silva: us to need… new tests,
+
+348
+00:50:05.170 --> 00:50:09.190
+Maria Silva: Because with the tests we already have, we should be able to… to see it.
+
+349
+00:50:09.430 --> 00:50:12.920
+Maria Silva: yeah.
+
+350
+00:50:15.320 --> 00:50:17.909
+Maria Silva: I don't know, Jocham, you're going to say something as well, right?
+
+351
+00:50:17.910 --> 00:50:25.510
+jochem-brouwer: Yeah, yeah, yeah, yeah, yeah. So, so, okay, so I'm not… Deep into, 8037.
+
+352
+00:50:27.110 --> 00:50:38.859
+jochem-brouwer: like the current spec. But what we should do is we should… so we have, like, the spec test, and we have the benchmarks, and for the benchmarks, what we target there is, like, we want to target the worst case.
+
+353
+00:50:39.150 --> 00:50:40.950
+jochem-brouwer: What we should check.
+
+354
+00:50:41.090 --> 00:50:52.770
+jochem-brouwer: is if this ERP introduces, well, new code paths, or, like, new ways to, abuse, export, or, like, are there, like, new scenarios
+
+355
+00:50:52.890 --> 00:50:56.739
+jochem-brouwer: Where we have, like, these worst cases happening.
+
+356
+00:50:56.840 --> 00:51:06.360
+jochem-brouwer: And if there are new scenarios which are then just not coveReth, or likely not coveReth by the benchmark tests, or the benchmarks, then these should be added.
+
+357
+00:51:06.750 --> 00:51:11.630
+jochem-brouwer: So there should be, like, an analysis of this.
+
+358
+00:51:12.200 --> 00:51:13.460
+jochem-brouwer: The question is.
+
+359
+00:51:14.230 --> 00:51:20.049
+jochem-brouwer: who is going to do this? Because I don't think I have the bandwidth to do that right now.
+
+360
+00:51:23.080 --> 00:51:30.020
+Maria Silva: Right, and I, I do think there's… first, on, on, on, on, on one sense, there is…
+
+361
+00:51:30.500 --> 00:51:39.170
+Maria Silva: The question of, now, state creation gas is not included in the transaction limit of $60 million.
+
+362
+00:51:39.300 --> 00:51:43.849
+Maria Silva: Gas units, so we could actually have
+
+363
+00:51:44.080 --> 00:51:46.740
+Maria Silva: New worst cases that we should think about.
+
+364
+00:51:53.000 --> 00:51:59.929
+Maria Silva: So yeah, maybe it's something to put as a to-do, and then try to dedicate some time to think about this.
+
+365
+00:52:01.740 --> 00:52:04.700
+spencer-tb: I can, I can take a look over the next week.
+
+366
+00:52:08.580 --> 00:52:09.240
+jochem-brouwer: Cool, cool.
+
+367
+00:52:09.280 --> 00:52:10.629
+Maria Silva: Thank you, Spencer.
+
+368
+00:52:12.110 --> 00:52:18.970
+Maria Silva: Great. Any more comments, or can we move to the next section and lasts?
+
+369
+00:52:20.440 --> 00:52:22.719
+DanielVF: Yeah, one question I have, given that
+
+370
+00:52:22.900 --> 00:52:27.779
+DanielVF: Block times are scheduled to… are desiReth to go down, and probably will go down.
+
+371
+00:52:27.970 --> 00:52:35.369
+DanielVF: How does this interact with that? Because it seems like if you just follow the formula, we're actually making state, cheaper as block times go down.
+
+372
+00:52:38.310 --> 00:52:43.540
+Maria Silva: Yeah, so it would adjust with the… With a block limit.
+
+373
+00:52:43.810 --> 00:53:01.980
+Maria Silva: I think once we do shorter slots, we would have to refactor that in. Because at the end of the day, what we want is to keep a steady… like, we want to enforce, like, a long-term state growth.
+
+374
+00:53:02.110 --> 00:53:04.940
+Maria Silva: So, now if we are doing…
+
+375
+00:53:05.100 --> 00:53:23.790
+Maria Silva: more… So that the… the sort of the… the block space should, like, the… the cost in relation to the aggregate block space should become constant, shouldn't… shouldn't change. So once we are doing the zigzag or the short… if we end up doing the short,
+
+376
+00:53:23.910 --> 00:53:30.460
+Maria Silva: Slots, we need to… Do the analysis and likely update the cost per byte.
+
+377
+00:53:33.370 --> 00:53:40.130
+Maria Silva: But I think we'll… we'll… we'll hit that when… we will hit that… we'll cross that… that bridge when… when we get there.
+
+378
+00:53:41.290 --> 00:53:41.880
+DanielVF: Green.
+
+379
+00:53:45.640 --> 00:53:50.639
+Maria Silva: Perfect. So, conscious of time, any more comments, I'll,
+
+380
+00:53:50.780 --> 00:54:03.649
+Maria Silva: ask them to be async, and I'll now call Bhuta. He has an important update on the community outreach for repricings. Bhuta, the floor is yours.
+
+381
+00:54:03.950 --> 00:54:10.350
+Butta: Yes, thank you. Now, I feel bad for not having a nice presentation, just like you have.
+
+382
+00:54:10.350 --> 00:54:25.200
+Butta: But, yeah, for the survey itself, right now we have, 19 different entities who filled it out, mostly application developers, around 70% of them are application developers.
+
+383
+00:54:25.230 --> 00:54:42.310
+Butta: Other ones are, yeah, wallets, validator operators, or node operators in general. In summary, I would say, so for… I will, I will go through each EEIP, so it's a bit more, clearer.
+
+384
+00:54:42.310 --> 00:54:48.560
+Butta: But for the first 5 EEIPs, which is 79.81,
+
+385
+00:54:48.560 --> 00:55:02.980
+Butta: 7976, 7904, and 7778. There were no controversial opinions, so most of them, if not all of them, were fine with it.
+
+386
+00:55:03.390 --> 00:55:15.050
+Butta: With 2780, there was one question, I would say, which also led to a significant remark from them, asking whether
+
+387
+00:55:15.050 --> 00:55:25.559
+Butta: Deploying contract is also affected by it, because if it is, then also smart wallets will be affected, so maybe that's a question.
+
+388
+00:55:25.560 --> 00:55:37.949
+Butta: From Maria. Something we also did is, or I did is, everyone who had a high concern with any of the EEIPs, I discussed it with Maria and then reached out to them to clarify.
+
+389
+00:55:38.030 --> 00:55:42.529
+Butta: How they're affected, and if they're affected at all.
+
+390
+00:55:42.860 --> 00:55:54.519
+Butta: So, maybe this is something we can discuss afterwards, Maria. For the last two EEIPs, 8037 and 8038,
+
+391
+00:55:55.150 --> 00:56:01.159
+Butta: these were more the controversial ones, because, I think… so out of the…
+
+392
+00:56:01.880 --> 00:56:21.410
+Butta: 19 people, 6 were very concerned that it's extremely complex, to integrate, and also to use. Maybe also worth noting that, the survey was filled out by larger entities like Lido, Yearn, Arvware,
+
+393
+00:56:21.600 --> 00:56:30.890
+Butta: handle, like, more of the DeFi applications. So, yeah, I think 8037 is the most controversial one.
+
+394
+00:56:31.320 --> 00:56:42.780
+Butta: But yeah, we reached out to them, so depending on whether this EEIP actually makes it in, this is the one that, yeah, I would say is a bit questionable.
+
+395
+00:56:43.010 --> 00:56:44.180
+Butta: Right now.
+
+396
+00:56:44.380 --> 00:57:02.190
+Butta: As for the next step, so this is me reaching out in general, we will see which of the entities are actually affected. So some of the data was already deliveReth by Tony, where we reached out to some of the Layer 2s. I think it was,
+
+397
+00:57:02.550 --> 00:57:13.010
+Butta: One was Polygon, and one I would… I'm not allowed to mention, I think. I also reached out to Arbitrum and Optimism, and see what they will…
+
+398
+00:57:13.010 --> 00:57:23.510
+Butta: think about, generally, the gas repricing. So yeah, the Layer 2s will also be involved in… in their opinions, and the big…
+
+399
+00:57:23.760 --> 00:57:34.720
+Butta: the big stakeholders we're missing right now are wallets, which are a bit harder to reach out, it seems, but I will try my best to get their opinion during EFCC.
+
+400
+00:57:34.880 --> 00:57:39.930
+Butta: And then we will have the big picture. And in the final step, this will happen…
+
+401
+00:57:40.090 --> 00:57:42.300
+Butta: End of this month, ideally.
+
+402
+00:57:42.750 --> 00:57:54.899
+Butta: is when Carl provides his in-depth data, and to see who's actually affected, we will be able to reach out to affected entities specifically.
+
+403
+00:57:56.830 --> 00:58:01.099
+Butta: Yeah, I think that summarizes. Ideally, next time I have also a nice presentation.
+
+404
+00:58:02.440 --> 00:58:16.479
+Maria Silva: Yeah, I would just add, and thank you, Bhuta. So, my understanding was that the two biggest concerns around the state's operation EEIP, so 8037 and AT38,
+
+405
+00:58:16.580 --> 00:58:25.100
+Maria Silva: Was, on one hand, the actual increase, so a worry that making things more expensive could…
+
+406
+00:58:25.690 --> 00:58:32.809
+Maria Silva: Hurt some applications, either because things get too expensive, or because there's some, like, cold pots that need to be updated.
+
+407
+00:58:32.940 --> 00:58:43.270
+Maria Silva: And the second one was on the cost per byte, so the dynamic… the fact that we have a dynamic cost per byte now leads to some more complexity when
+
+408
+00:58:43.470 --> 00:58:46.050
+Maria Silva: Optimizing,
+
+409
+00:58:46.490 --> 00:59:00.239
+Maria Silva: apps, and so I think on the final point, it's, to me, the one that we should, and I think it's something we'll do in the next steps, as we follow through with these entities, is trying to understand, like.
+
+410
+00:59:00.400 --> 00:59:06.180
+Maria Silva: With the… so we do have now a quantization trick that makes the…
+
+411
+00:59:06.280 --> 00:59:16.339
+Maria Silva: dynamic cost per byte a bit smoother, so only changing when there's big, increases, so if this already makes things better, or,
+
+412
+00:59:16.970 --> 00:59:26.409
+Maria Silva: Or not, and then, actually, how much worse does it get in their overall experience? Because sometimes things, just because they are complex, they seem
+
+413
+00:59:26.660 --> 00:59:32.620
+Maria Silva: More complicated, but then, like, the final… Day-to-day impact is… is not…
+
+414
+00:59:32.930 --> 00:59:40.499
+Maria Silva: that's, big, so I think it's, it's, it's understanding, the actual, the actual concern by getting more
+
+415
+00:59:40.860 --> 00:59:42.850
+Maria Silva: more context,
+
+416
+00:59:43.860 --> 00:59:50.470
+Maria Silva: But yeah, so those… those… I just wanted to add those two points. And, Tony, do you have, something to… to add?
+
+417
+00:59:50.470 --> 01:00:05.030
+Toni Wahrstätter: Yeah, just to… just to quickly out, to add, the one entity that Buda left out is Starkware, and what I was meaning with you don't need to reach out to them was more because I already reached out to them, so not, like.
+
+418
+01:00:05.190 --> 01:00:12.800
+Toni Wahrstätter: they don't want to be mentioned or something. It's very obvious that Starkware, who is not using blobs, is affected there.
+
+419
+01:00:20.500 --> 01:00:25.010
+Maria Silva: Thank you. Are there any more comments or topics?
+
+420
+01:00:39.300 --> 01:00:45.249
+Maria Silva: Great, thank you so much, then, for attending, and we'll see each other in two weeks.
+
+421
+01:00:50.380 --> 01:00:51.080
+jochem-brouwer: Thanks, Harold.
+
+422
+01:00:51.350 --> 01:00:52.050
+jochem-brouwer: Bye-bye.
+
+423
+01:00:53.290 --> 01:00:54.310
+Louis: Thank you.
+

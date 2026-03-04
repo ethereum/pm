@@ -1,0 +1,1114 @@
+WEBVTT
+
+1
+00:00:06.920 --> 00:00:07.939
+normad | pbsf: Hi, dear.
+
+2
+00:00:11.080 --> 00:00:11.910
+Luis Pinto | Besu: Good day.
+
+3
+00:00:34.140 --> 00:00:34.980
+Jannik Luhn: Hello?
+
+4
+00:00:40.890 --> 00:00:46.690
+Justin Florentine (Besu): Encrypting the mempool… Hi, everyone.
+
+5
+00:00:48.060 --> 00:00:50.370
+Justin Florentine (Besu): Take a couple minutes for folks to arrive.
+
+6
+00:00:51.880 --> 00:00:53.160
+jochem-brouwer: DM, DM.
+
+7
+00:00:53.740 --> 00:00:54.710
+Justin Florentine (Besu): Hey, Yakim.
+
+8
+00:00:55.350 --> 00:00:56.130
+jochem-brouwer: Ayy.
+
+9
+00:00:57.740 --> 00:00:58.400
+Luis Bezzenberger: Oh.
+
+10
+00:00:59.580 --> 00:01:04.989
+Justin Florentine (Besu): Luis… Ben, what's good, buddy?
+
+11
+00:01:06.150 --> 00:01:07.020
+Ben Adams: Ayy.
+
+12
+00:01:26.540 --> 00:01:28.949
+Justin Florentine (Besu): Admin, that's impressive.
+
+13
+00:01:30.380 --> 00:01:31.889
+Justin Florentine (Besu): How do I get root access?
+
+14
+00:01:31.890 --> 00:01:33.110
+admin: I'm not logged in.
+
+15
+00:01:33.400 --> 00:01:35.209
+admin: This is Loring from Shutter.
+
+16
+00:01:35.210 --> 00:01:36.780
+Justin Florentine (Besu): Okay, Lori.
+
+17
+00:01:43.880 --> 00:01:51.640
+Justin Florentine (Besu): Alright… Nice, nice, nice. Let's see…
+
+18
+00:01:51.760 --> 00:01:57.310
+Justin Florentine (Besu): Let's see, let's see, let's post the agenda here so folks can get to it.
+
+19
+00:01:57.850 --> 00:02:02.710
+Justin Florentine (Besu): Oh, which I… closed. I don't know. Why would I do that?
+
+20
+00:02:24.870 --> 00:02:28.220
+Justin Florentine (Besu): This is meeting number 1, because we already have meeting 0.
+
+21
+00:02:30.180 --> 00:02:33.520
+Justin Florentine (Besu): Agenda is here in the chat.
+
+22
+00:02:34.640 --> 00:02:42.910
+Justin Florentine (Besu): Thanks for joining, y'all, we can get started, couple of things to discuss.
+
+23
+00:02:43.890 --> 00:02:57.190
+Justin Florentine (Besu): You probably heard already, EIP8105 has been withdrawn. This was the Universal Encrypted Enshrined Mempool design. It has been withdrawn,
+
+24
+00:02:57.190 --> 00:03:13.379
+Justin Florentine (Besu): with the intent of improving LUCID to cover what it provides. So the authors felt that LUCID got them where they needed to go, and we've withdrawn that one, and we're pursuing with the LUCID design.
+
+25
+00:03:13.660 --> 00:03:22.749
+Justin Florentine (Besu): Speaking of elusive design… There's an EIP that just got published this morning by our own Anders Ellison.
+
+26
+00:03:23.320 --> 00:03:24.920
+Justin Florentine (Besu): Hi, Anders, welcome.
+
+27
+00:03:27.280 --> 00:03:31.210
+Justin Florentine (Besu): That's… this is the link to the pull request for the EMS.
+
+28
+00:03:31.210 --> 00:03:32.589
+Anders Elowsson: Yeah, let me share the link.
+
+29
+00:03:32.750 --> 00:03:34.870
+Justin Florentine (Besu): Yes, sir. You got it.
+
+30
+00:03:37.300 --> 00:03:39.220
+Justin Florentine (Besu): I just put it in the chat.
+
+31
+00:03:42.230 --> 00:03:53.670
+Justin Florentine (Besu): So this will, you know, it will look a little bit different than the ETH research post, because this is more of an engineering document, you're all familiar with EIPs, so you're gonna have a lot more specifics in here.
+
+32
+00:03:54.000 --> 00:03:59.680
+Justin Florentine (Besu): Further discussion should be directed to the pull request, or asynchronously, you know.
+
+33
+00:03:59.800 --> 00:04:03.980
+Justin Florentine (Besu): But if you have… Ideas for improvements to it.
+
+34
+00:04:04.280 --> 00:04:06.000
+Justin Florentine (Besu): Please, they are welcome.
+
+35
+00:04:09.410 --> 00:04:13.519
+Justin Florentine (Besu): Okay, with that, I think we kind of open up the floor here.
+
+36
+00:04:13.820 --> 00:04:18.110
+Justin Florentine (Besu): To questions, comments, and concerns.
+
+37
+00:04:18.279 --> 00:04:23.460
+Justin Florentine (Besu): I think one of the things that I wanted to talk about was…
+
+38
+00:04:24.510 --> 00:04:32.289
+Justin Florentine (Besu): And maybe we… we don't have to start with this one if there's something else folks would rather start with, but beacon chain RPC APIs?
+
+39
+00:04:34.260 --> 00:04:48.169
+Justin Florentine (Besu): the design as it stands right now needs to kind of be able to listen for events on the beacon chain and, send messages to the beacon chain from the wallet, and that's kind of a new thing. So…
+
+40
+00:04:48.620 --> 00:04:54.569
+Justin Florentine (Besu): who has thoughts on that? I know RPC providers do provide the beacon chain RPCs?
+
+41
+00:04:55.940 --> 00:04:59.530
+Justin Florentine (Besu): So they're out there, they're usable.
+
+42
+00:04:59.650 --> 00:05:03.010
+Justin Florentine (Besu): But, what do folks think about that?
+
+43
+00:05:05.700 --> 00:05:09.609
+Justin Florentine (Besu): Correct, Yakim. 8105 is being withdrawn.
+
+44
+00:05:10.710 --> 00:05:15.460
+Justin Florentine (Besu): And LUCID is… Going to take its place.
+
+45
+00:05:24.990 --> 00:05:27.779
+Justin Florentine (Besu): No thoughts on beacon chain RPCs?
+
+46
+00:05:30.220 --> 00:05:32.730
+Justin Florentine (Besu): I'm not a CL developer, but I was fine with it.
+
+47
+00:05:44.480 --> 00:05:45.140
+Justin Florentine (Besu): Okay.
+
+48
+00:05:45.140 --> 00:06:00.709
+Jannik Luhn: Is there… is there a lot to, to discuss there? I guess if we need new endpoints, then I guess we have to add them. The fact that there's now an EL and a CL API that has to be used from wallets, it's kind of…
+
+49
+00:06:01.010 --> 00:06:03.780
+Jannik Luhn: Annoying, but it is what it is.
+
+50
+00:06:05.610 --> 00:06:07.459
+Justin Florentine (Besu): So.
+
+51
+00:06:08.130 --> 00:06:11.339
+Ben Adams: I mean, that's… Optional, is that correct?
+
+52
+00:06:11.910 --> 00:06:15.699
+Ben Adams: You don't have… not everything is necessarily forced to be encrypted.
+
+53
+00:06:16.450 --> 00:06:20.510
+Justin Florentine (Besu): Correct, oh yes, correct. This entire feature is optional, that's correct.
+
+54
+00:06:22.370 --> 00:06:28.740
+Justin Florentine (Besu): So it would be an update to an existing RPC method and the addition of a new one.
+
+55
+00:06:30.390 --> 00:06:50.779
+Justin Florentine (Besu): Okay, so there'd be a new one for actually releasing the key, and then a new event type to listen for. So the BeaconChain RPC API already has, like, a WebSocket-type thing where you can listen for events with filter. This would be adding support for, hey, your transaction has been included, you are safe to reveal the key.
+
+56
+00:06:51.120 --> 00:06:52.770
+Justin Florentine (Besu): So, new, new event.
+
+57
+00:07:02.070 --> 00:07:08.590
+Justin Florentine (Besu): You can find this in the section called Beacon Chain RPC API Changes in EIP.
+
+58
+00:07:16.220 --> 00:07:29.319
+Justin Florentine (Besu): Bukaz is asking for a 5-minute pitch of LUCID and another 5 minutes for its biggest issues and pitfalls. I can see CLRPC as a definitive nuisance. Would you mind saying more as definitive nuisance?
+
+59
+00:07:29.320 --> 00:07:36.509
+Łukasz Rozmej: Well, it's something that it's… you said it's not specified yet, so something that we would have to go and do, right? Just for it?
+
+60
+00:07:40.890 --> 00:07:45.379
+Justin Florentine (Besu): I mean, the overall beacon API is specified, is that what… is that what you're referring to?
+
+61
+00:07:45.960 --> 00:07:49.580
+Łukasz Rozmej: No, sorry, sorry, I had to misunderstood something then.
+
+62
+00:07:50.620 --> 00:07:56.470
+Justin Florentine (Besu): Okay, yeah, it would be one new method that needs to be specified and updates to an existing method.
+
+63
+00:08:01.660 --> 00:08:02.320
+Justin Florentine (Besu): Okay.
+
+64
+00:08:09.010 --> 00:08:14.709
+jochem-brouwer: Yeah, maybe, maybe to ask, because this PR dropped 40 minutes ago,
+
+65
+00:08:14.710 --> 00:08:15.480
+Justin Florentine (Besu): Yeah.
+
+66
+00:08:15.480 --> 00:08:23.729
+jochem-brouwer: And Lucas is also saying, like, yeah, can we have, like, a pitch of this, and maybe also, like, some, changes, because, yeah, I…
+
+67
+00:08:24.050 --> 00:08:27.939
+jochem-brouwer: could not beat the PR in 1 minute or 40 minutes, yeah.
+
+68
+00:08:30.280 --> 00:08:31.260
+Justin Florentine (Besu): Sure.
+
+69
+00:08:32.919 --> 00:08:37.780
+Justin Florentine (Besu): Sure. So, Anders, would you like to do this one, or do you want me to go for it?
+
+70
+00:08:41.429 --> 00:08:42.740
+Justin Florentine (Besu): You're on mute.
+
+71
+00:08:46.980 --> 00:08:47.850
+Justin Florentine (Besu): Okay.
+
+72
+00:08:51.920 --> 00:08:57.940
+Justin Florentine (Besu): Well, Anders… I guess I'll go.
+
+73
+00:08:59.780 --> 00:09:07.460
+Justin Florentine (Besu): So, yeah. The pitch for LUCID essentially is a two-slot design.
+
+74
+00:09:08.740 --> 00:09:18.559
+Justin Florentine (Besu): where… Users reveal their ticket, essentially, that claims a portion of the block space.
+
+75
+00:09:19.600 --> 00:09:26.880
+Justin Florentine (Besu): Where they say, alright, I'm gonna be sending a transaction, it's currently encrypted, and…
+
+76
+00:09:26.980 --> 00:09:30.270
+Justin Florentine (Besu): Here's my ticket that kind of reserves it in the next block.
+
+77
+00:09:31.480 --> 00:09:51.009
+Justin Florentine (Besu): Right? So you can look at this as not really all that encrypted, it's like a little encrypted for a slot. So that way that the transactions can be populated across the meth pool, they can't really be inspected, they can't be acted on, and then once the transaction is included via its tickets.
+
+78
+00:09:51.350 --> 00:09:53.730
+Justin Florentine (Besu): The wallets will then reveal their keys.
+
+79
+00:09:54.150 --> 00:10:03.279
+Justin Florentine (Besu): Keys will be used by the builders to decrypt and build their block in the order that they paid for, with their top of block fee.
+
+80
+00:10:05.700 --> 00:10:15.760
+Justin Florentine (Besu): so that's kind of the high-level elevator pitch. As far as pitfalls, I think,
+
+81
+00:10:16.760 --> 00:10:19.899
+Justin Florentine (Besu): You know, it prevents… it only prevents front running.
+
+82
+00:10:22.190 --> 00:10:26.610
+Justin Florentine (Besu): It really is, is, like I said, it's more of a transaction ordering fix.
+
+83
+00:10:26.630 --> 00:10:45.700
+Justin Florentine (Besu): So you could look at that as a pitfall. There's currently a debate ongoing right now in the encrypted Mempool's, Discord channel on R&D as to how it impacts back running. Like, if we consider back running to be good MEV, this may make it less efficient.
+
+84
+00:10:46.210 --> 00:10:58.199
+Justin Florentine (Besu): Because what you would be backgrounding would essentially be the entire top of block. Like, you wouldn't actually be able to insert transactions in the,
+
+85
+00:10:58.500 --> 00:11:00.290
+Justin Florentine (Besu): into the encrypted.
+
+86
+00:11:00.820 --> 00:11:04.089
+Justin Florentine (Besu): The LUCID block space, if we think of it as its own block space.
+
+87
+00:11:04.560 --> 00:11:15.139
+Justin Florentine (Besu): is inviolable, right? Those are already ordered, so even if they are revealed in plain text, you can't insert stuff in there. You can only backrun the result of the entire top of block.
+
+88
+00:11:16.960 --> 00:11:25.610
+Justin Florentine (Besu): What are some other pitfalls and shortcomings, The… Folks think should be brought.
+
+89
+00:11:27.400 --> 00:11:28.480
+Justin Florentine (Besu): to light.
+
+90
+00:11:33.890 --> 00:11:36.080
+Justin Florentine (Besu): Anders, Julian, anything you want to add?
+
+91
+00:11:40.620 --> 00:11:52.889
+Justin Florentine (Besu): Yes, this one slot delay is considered… your prices are gonna be stale, right? Ish. So you had a non-deterministic timing in slot N, and now you're gonna go to…
+
+92
+00:11:53.140 --> 00:11:55.129
+Justin Florentine (Besu): slot N plus 1.
+
+93
+00:11:55.750 --> 00:12:09.570
+Justin Florentine (Besu): And you're gonna be behind based on your top-of-block fee. So if you don't bid the highest top-of-block fee, everybody else that did outbid you is gonna go in front of you. So, yes, there's… your prices will decay a little bit.
+
+94
+00:12:10.770 --> 00:12:28.880
+Justin Florentine (Besu): any overhead on the network side. With regard to bandwidth increases, there's new traffic, it's small traffic, the keys are small, the tickets are small, but it would be new traffic and, some potentially new topics on the CLP2P network.
+
+95
+00:12:44.290 --> 00:12:49.900
+Justin Florentine (Besu): If the encryption key is not revealed, Anders, correct me if I'm wrong here, but…
+
+96
+00:12:51.190 --> 00:12:52.830
+Anders Elowsson: I can talk about it a little, yeah.
+
+97
+00:12:52.830 --> 00:12:53.890
+Justin Florentine (Besu): Okay, great.
+
+98
+00:12:53.890 --> 00:13:02.680
+Anders Elowsson: do not reveal your encryption key. We have, in this latest version, instituted a penalty.
+
+99
+00:13:02.800 --> 00:13:18.020
+Anders Elowsson: So what happens is that, when you pay for the encrypted transaction, you pay a top-of-block fee to be… and the commitment that pays the highest top-of-block fee goes the first.
+
+100
+00:13:18.700 --> 00:13:23.340
+Anders Elowsson: And if you, decrypt your transaction.
+
+101
+00:13:23.790 --> 00:13:32.040
+Anders Elowsson: Such that you, you, you reveal, the transactions that matches the, the, the commitment in the ticket.
+
+102
+00:13:32.210 --> 00:13:43.630
+Anders Elowsson: Then, you are returned a proportion of this top-of-loc fee. And currently, it's set so that you are returned 63 out of 64.
+
+103
+00:13:43.780 --> 00:13:55.810
+Anders Elowsson: So it's like you are returning 98% of what you paid, or something like this, for, for actually decrypting. And if you do not decrypt, then, you lose out on that,
+
+104
+00:13:55.920 --> 00:13:57.920
+Anders Elowsson: Top of lock fee that you paid.
+
+105
+00:13:59.020 --> 00:14:07.959
+Anders Elowsson: You can set the topography to zero, such that you do not have to pay any penalty for not revealing, but then you will end up
+
+106
+00:14:08.250 --> 00:14:10.899
+Anders Elowsson: lost, within the top of the block.
+
+107
+00:14:14.480 --> 00:14:19.070
+Anders Elowsson: And you may not be included also, because if someone else pays higher, then…
+
+108
+00:14:20.050 --> 00:14:21.930
+Anders Elowsson: Yeah, they would probably go before you.
+
+109
+00:14:25.530 --> 00:14:26.530
+Justin Florentine (Besu): Thank you, Anders.
+
+110
+00:14:32.720 --> 00:14:39.040
+Anders Elowsson: And I can mention one thing more, is that if you do not reveal, you also, the, the…
+
+111
+00:14:39.390 --> 00:14:48.039
+Anders Elowsson: There's nothing… like, there's… you don't… we don't waste the block space, because, then the builder of the next block simply ignores that…
+
+112
+00:14:48.400 --> 00:14:51.189
+Anders Elowsson: And so it doesn't count against the Gauss limit of the look.
+
+113
+00:14:57.910 --> 00:15:07.879
+Justin Florentine (Besu): Maybe this would be a good time… Andrews, could you elaborate on how we know a key was not revealed? I think that might be a mechanic that folks could, learn a lot from.
+
+114
+00:15:10.300 --> 00:15:15.540
+Anders Elowsson: How we know a case? Well, so the current implementation has a PTC vote.
+
+115
+00:15:16.110 --> 00:15:18.750
+Anders Elowsson: On which cases that are available.
+
+116
+00:15:19.000 --> 00:15:25.300
+Anders Elowsson: And, these PTC votes are, absurd, and,
+
+117
+00:15:26.030 --> 00:15:34.500
+Anders Elowsson: And the builder must adhere to whether the PTC voted that the keys were revealed or not.
+
+118
+00:15:34.690 --> 00:15:42.750
+Anders Elowsson: And so, you know if a key was revealed, if the decryptor address that was specified in the ticket released a key.
+
+119
+00:15:42.880 --> 00:15:52.200
+Anders Elowsson: That, that decrypted the transaction such that you get, something that matches, the, the reveal commitment in the, in the ticket.
+
+120
+00:15:56.020 --> 00:15:56.750
+Justin Florentine (Besu): Thank you.
+
+121
+00:16:00.400 --> 00:16:15.060
+Justin Florentine (Besu): Mark has a question in the chat. If we do this in Hegota and we also do frames, how do the proposals interact? You know, we haven't really looked into that too deeply, because having 3 headliners and a hard fork would be a little wild. You know, Hegota is kind of…
+
+122
+00:16:15.190 --> 00:16:24.769
+Justin Florentine (Besu): either Frames or LUCID or SC. Do encrypted transactions go into Frames? .
+
+123
+00:16:25.350 --> 00:16:32.419
+Anders Elowsson: I can mention one thing. I cannot answer that question either, because I haven't looked into it, but I can talk about the interaction with FOCIL.
+
+124
+00:16:32.580 --> 00:16:44.529
+Anders Elowsson: So, the currently… the current specification is that we should, interact with FOCILs such that the inclusion list should be able to include, these, sealed transactions.
+
+125
+00:16:44.650 --> 00:16:55.860
+Anders Elowsson: But this is not a requirement, because you get quite a lot of censorship resistance, even without having this. This is something that can be added later, because…
+
+126
+00:16:55.860 --> 00:17:08.040
+Anders Elowsson: even without adding it so that you put the transactions into the inclusion list, you still have this property that the sender is hidden, and the content is hidden. So, like.
+
+127
+00:17:08.089 --> 00:17:11.800
+Anders Elowsson: A lot of the rationale for censoring a transaction isn't there anymore.
+
+128
+00:17:23.930 --> 00:17:24.859
+Justin Florentine (Besu): Great.
+
+129
+00:17:26.480 --> 00:17:31.880
+mark: Well, that depends how long the transaction sits in the transaction pool, actually.
+
+130
+00:17:33.870 --> 00:17:40.159
+mark: Because you're thinking about, censorship, but there's also non-disclosure.
+
+131
+00:17:40.460 --> 00:17:49.039
+mark: Right, because you might want… A non-censored transaction that's actually going to be quite long-lived in the transaction pool?
+
+132
+00:17:55.540 --> 00:17:56.809
+Anders Elowsson: I don't understand the question.
+
+133
+00:17:58.040 --> 00:17:58.720
+mark: Whoa.
+
+134
+00:17:59.630 --> 00:18:02.040
+mark: I think the thing is, you end up needing both.
+
+135
+00:18:02.400 --> 00:18:06.359
+mark: Right, because I think what encryption is doing is protecting you from the…
+
+136
+00:18:07.060 --> 00:18:11.570
+mark: Inclusion order issue, but also the information leakage issue.
+
+137
+00:18:13.320 --> 00:18:18.539
+mark: And the information leakage issue is actually around the mempool, not, you know, not the block building.
+
+138
+00:18:21.180 --> 00:18:36.370
+Anders Elowsson: Yeah, but why would… so my point would be like this, why do someone censor a transaction? Perhaps because it acts as a contract that you don't want to access, or it does something that you don't like, or something like this?
+
+139
+00:18:36.990 --> 00:18:48.389
+Anders Elowsson: But in the case that you don't know anything about what the transaction is gonna do, it's very hard to find an economic rationale for censoring just a random transaction from a new account.
+
+140
+00:18:48.390 --> 00:18:57.729
+Anders Elowsson: And the only reason you will have for actually census… like, the only mechanism for censorship in this case that is reasonable is
+
+141
+00:18:57.730 --> 00:19:04.030
+Anders Elowsson: If you, for example… you cannot blacklist one address, because you can hide this under…
+
+142
+00:19:04.030 --> 00:19:23.919
+Anders Elowsson: But you can do some sort of whitelisting where, okay, I am, as a builder, only accepting transactions from these addresses. But in this case, it's very difficult to be profitable as a builder, so we would presume that this would not happen, and so we uphold censorship even…
+
+143
+00:19:23.990 --> 00:19:28.000
+Anders Elowsson: Quite strongly, even without going and using FOCIL.
+
+144
+00:19:44.630 --> 00:19:48.750
+Luis Bezzenberger: By the way, that's also why in EIP8105, there was…
+
+145
+00:19:49.070 --> 00:19:53.830
+Luis Bezzenberger: That was not the case that it went through via FOCIL, but rather just be a normal transaction type.
+
+146
+00:19:55.280 --> 00:19:57.050
+Luis Bezzenberger: So I just want to underline that point.
+
+147
+00:20:01.870 --> 00:20:02.890
+Anders Elowsson: Alright, cool.
+
+148
+00:20:10.260 --> 00:20:11.410
+Justin Florentine (Besu): Alright.
+
+149
+00:20:14.640 --> 00:20:20.419
+Justin Florentine (Besu): We've got about 10 minutes left. I'm happy to entertain more questions from the floor, if there are any.
+
+150
+00:20:33.750 --> 00:20:36.019
+Justin Florentine (Besu): Everybody's probably reading the EIP.
+
+151
+00:20:42.850 --> 00:20:47.469
+Justin Florentine (Besu): Is anybody here, representing builders? Or searchers?
+
+152
+00:20:49.310 --> 00:20:51.449
+Justin Florentine (Besu): I'd love to hear some input from…
+
+153
+00:20:51.850 --> 00:20:54.710
+Justin Florentine (Besu): From folks that, coming at it from that perspective.
+
+154
+00:21:05.940 --> 00:21:06.640
+Justin Florentine (Besu): Okay?
+
+155
+00:21:16.640 --> 00:21:19.390
+Justin Florentine (Besu): I have on the agenda to talk about bundling.
+
+156
+00:21:19.980 --> 00:21:22.489
+Justin Florentine (Besu): And ciphertext encapsulation.
+
+157
+00:21:23.870 --> 00:21:29.580
+Justin Florentine (Besu): Cipherdex encapsulation is kind of a new thing, that we're adding.
+
+158
+00:21:29.680 --> 00:21:40.080
+Justin Florentine (Besu): We're actually suggesting some symmetric encryption that should be used for the encrypted transaction.
+
+159
+00:21:41.780 --> 00:21:51.059
+Justin Florentine (Besu): And, you know, that's… that's a new thing. It's gonna use AEAD, as described in RFC 9180.
+
+160
+00:21:51.820 --> 00:21:58.140
+Justin Florentine (Besu): Which is a somewhat standardized ciphertext encapsulation format, so we'll have, you know,
+
+161
+00:21:58.940 --> 00:22:06.180
+Justin Florentine (Besu): suggestions on how to structure the data, and how it should be used. There is also, however.
+
+162
+00:22:06.850 --> 00:22:11.740
+Justin Florentine (Besu): header bytes, and extension capabilities. So…
+
+163
+00:22:11.890 --> 00:22:21.420
+Justin Florentine (Besu): While our suggestions right now are using, symmetric… Cryptography in envelopes.
+
+164
+00:22:21.560 --> 00:22:30.350
+Justin Florentine (Besu): That are, that are defined. There's nothing that prevents us from extending or creating entirely new ciphertext encapsulations.
+
+165
+00:22:31.110 --> 00:22:36.779
+Justin Florentine (Besu): I know that's a major concern for all of us as we look at our post-quantum future.
+
+166
+00:22:37.570 --> 00:22:42.440
+Justin Florentine (Besu): And so, with that regard, the encryption there is abstract.
+
+167
+00:22:57.570 --> 00:22:58.350
+Justin Florentine (Besu): Okay.
+
+168
+00:22:59.330 --> 00:23:01.839
+Justin Florentine (Besu): And then last thing is the notion of bundling.
+
+169
+00:23:02.180 --> 00:23:09.789
+Justin Florentine (Besu): Anders, where did we leave off on bundling with this, fi- not final, but…
+
+170
+00:23:10.380 --> 00:23:13.650
+Justin Florentine (Besu): most recent draft of the EIP.
+
+171
+00:23:15.650 --> 00:23:26.379
+Anders Elowsson: Yeah, so we include bundling, because, yeah, it felt like it was an important feature to have, so you can bundle, many different,
+
+172
+00:23:26.740 --> 00:23:31.020
+Anders Elowsson: The decryptor can bundle many different,
+
+173
+00:23:31.560 --> 00:23:38.720
+Anders Elowsson: Of these, sealed transactions into one, one singular commitment.
+
+174
+00:23:39.230 --> 00:23:44.600
+Anders Elowsson: And, this is useful because… for various reasons. One reason is that you…
+
+175
+00:23:44.890 --> 00:23:49.550
+Anders Elowsson: Yeah, so you release just one key message for all the…
+
+176
+00:23:50.120 --> 00:24:02.480
+Anders Elowsson: the transactions, and you can do two different ways. You can release the key message for bundles. You can either release one key for each transaction to be included, or one key for all the transactions in the bundle.
+
+177
+00:24:03.730 --> 00:24:09.089
+Anders Elowsson: Depending on your encryption scheme. If you're a threshold encryption, for example, you will use one key.
+
+178
+00:24:09.790 --> 00:24:12.669
+Anders Elowsson: And target the specific slot for your transaction slightly.
+
+179
+00:24:15.140 --> 00:24:15.870
+Justin Florentine (Besu): Let's see.
+
+180
+00:24:24.400 --> 00:24:30.549
+Justin Florentine (Besu): Lucas likes the explosion of transaction types. Do you have any ideas on how to avoid it?
+
+181
+00:24:36.490 --> 00:24:39.899
+Łukasz Rozmej: So, one idea is probably frame transactions.
+
+182
+00:24:41.800 --> 00:24:57.299
+Łukasz Rozmej: Our idea is, kind of wrapping transactions with adding them, adding to them some kind of additional, functionality, right? So, one transaction type wraps the another and adds some functionality to it, right?
+
+183
+00:24:58.290 --> 00:25:01.279
+Łukasz Rozmej: Those are two things that come to my mind.
+
+184
+00:25:08.660 --> 00:25:09.669
+Łukasz Rozmej: Because, you know.
+
+185
+00:25:09.670 --> 00:25:15.300
+Justin Florentine (Besu): Can you elaborate on why you dislike the explosion of transaction types? By my account, we're up to, like, 5.
+
+186
+00:25:15.790 --> 00:25:23.670
+Łukasz Rozmej: Okay, because we're… we're going in a way, I already, I think, mentioned it on ACDC, we're going in a way that we have…
+
+187
+00:25:24.030 --> 00:25:26.979
+Łukasz Rozmej: It's like an inheritance hierarchy.
+
+188
+00:25:27.710 --> 00:25:30.709
+Łukasz Rozmej: Right? So if we want to…
+
+189
+00:25:30.900 --> 00:25:38.269
+Łukasz Rozmej: add some new transaction with some new functionality, and it needs to be encrypted, you know? Now we cannot kind of…
+
+190
+00:25:39.360 --> 00:25:48.450
+Łukasz Rozmej: how do we do that, right? In some way, and we add more and more and more and more and more. Instead of, for example, we could do composition.
+
+191
+00:25:49.300 --> 00:25:54.929
+Justin Florentine (Besu): Oh, this is… these are composed. You can stick any type of transaction inside this encryption envelope.
+
+192
+00:25:57.290 --> 00:26:04.310
+Łukasz Rozmej: Envelope signer, non… well, no, that's any…
+
+193
+00:26:07.710 --> 00:26:10.369
+Justin Florentine (Besu): Sounds like blob transactions. Yeah…
+
+194
+00:26:12.730 --> 00:26:21.630
+Justin Florentine (Besu): Are we allowing decrypted and encrypted transactions at the same time? Yep, we sure are, and it does make sense because we want it to be an optional feature that folks use.
+
+195
+00:26:27.950 --> 00:26:33.239
+Luis Pinto | Besu: But, would that not make, like, a way of escaping this feature?
+
+196
+00:26:34.520 --> 00:26:36.280
+Luis Pinto | Besu: You know, in a sense.
+
+197
+00:26:36.700 --> 00:26:47.960
+Luis Pinto | Besu: Like, like, people… Could… could maybe, like, censor private transactions going forward, and only run the normal ones.
+
+198
+00:26:52.200 --> 00:26:56.220
+Justin Florentine (Besu): So, Fossil protects against that.
+
+199
+00:27:01.470 --> 00:27:04.740
+Justin Florentine (Besu): That's kind of why we refer to, like, the Holy Trinity of…
+
+200
+00:27:05.070 --> 00:27:09.130
+Justin Florentine (Besu): privacy features for Ethereum, right?
+
+201
+00:27:09.240 --> 00:27:14.660
+Justin Florentine (Besu): Proposer-builder separation, FOCIL, encrypting the mempool.
+
+202
+00:27:15.000 --> 00:27:21.950
+Justin Florentine (Besu): They all kind of lean on each other and provide different, different aspects in one happy little system.
+
+203
+00:27:35.460 --> 00:27:41.079
+mark: Yeah, it seems likely that you need all three, because in practice, if you're a regulated builder.
+
+204
+00:27:41.960 --> 00:27:46.440
+mark: You might well end up having a regulator saying, don't include…
+
+205
+00:27:46.700 --> 00:27:50.820
+mark: You know, this encryption and privacy thing is like a big red flag.
+
+206
+00:27:52.650 --> 00:27:55.800
+mark: Which is why I think if you're gonna do this, you end up needing Fossil.
+
+207
+00:27:57.330 --> 00:28:01.100
+mark: Which is not… it's not a technical thing, it's a… it's a legal thing, right?
+
+208
+00:28:05.850 --> 00:28:10.820
+Luis Pinto | Besu: What… what are the disadvantages of making everything encrypted from day one?
+
+209
+00:28:14.590 --> 00:28:22.329
+Justin Florentine (Besu): So, right, so we reserve, I think it's 1 eighth of the block space, for LUCID types of transactions.
+
+210
+00:28:22.870 --> 00:28:28.869
+Justin Florentine (Besu): And Anders, stop me if you'd prefer to speak to this. But…
+
+211
+00:28:29.330 --> 00:28:32.919
+Justin Florentine (Besu): You know, if you allowed the entire block to be…
+
+212
+00:28:33.050 --> 00:28:38.689
+Justin Florentine (Besu): encrypted, you kind of take us back to the bad old days of priority gas auctions.
+
+213
+00:28:40.880 --> 00:28:43.610
+Justin Florentine (Besu): Right? Like… You, you…
+
+214
+00:28:43.610 --> 00:28:59.390
+Anders Elowsson: There's one specific reason why we never want to make more than half of the block in these transaction types, and it's because we want to be able to… in the case that the payload is not revealed, we want to catch up.
+
+215
+00:28:59.390 --> 00:29:08.900
+Anders Elowsson: And that's why we want to allow twice as many transactions in the next payload. So we want to have our cap at half the SCs.
+
+216
+00:29:18.920 --> 00:29:23.710
+Justin Florentine (Besu): Right, and that's for payload withholding, not necessarily key withholding.
+
+217
+00:29:24.040 --> 00:29:24.960
+Justin Florentine (Besu): Got it.
+
+218
+00:29:43.880 --> 00:29:44.680
+Justin Florentine (Besu): Okay.
+
+219
+00:29:46.050 --> 00:29:53.170
+Justin Florentine (Besu): Well, we're at. Why is there a reserve space rather than some kind of gas auction mechanism?
+
+220
+00:29:57.760 --> 00:30:01.339
+Justin Florentine (Besu): I mean, I didn't explore that design space, did you, Anders?
+
+221
+00:30:11.940 --> 00:30:12.680
+Justin Florentine (Besu): Hmm.
+
+222
+00:30:15.020 --> 00:30:20.530
+Justin Florentine (Besu): Happy to, yeah, happy to pers- to follow up.
+
+223
+00:30:20.740 --> 00:30:29.909
+Justin Florentine (Besu): async, Lucas, with that. I just want to be mindful of people's time. I believe we're at time. We only had a… Oh, no, we have an hour. My bad.
+
+224
+00:30:31.310 --> 00:30:32.219
+Justin Florentine (Besu): My bad.
+
+225
+00:30:45.960 --> 00:30:49.639
+Justin Florentine (Besu): So does that answer your question, Lukaz? Andrew's response in chat?
+
+226
+00:30:51.060 --> 00:30:51.910
+Justin Florentine (Besu): Aye.
+
+227
+00:30:51.910 --> 00:30:56.130
+Łukasz Rozmej: I have a… Additional question.
+
+228
+00:30:56.340 --> 00:30:59.500
+Łukasz Rozmej: If I… not sure if I understood it correctly.
+
+229
+00:31:00.480 --> 00:31:01.670
+Łukasz Rozmej: Post it in the chat.
+
+230
+00:31:02.270 --> 00:31:03.030
+Justin Florentine (Besu): Okay.
+
+231
+00:31:06.550 --> 00:31:09.080
+Anders Elowsson: I don't quite understand your question in the shop.
+
+232
+00:31:10.310 --> 00:31:11.329
+Anders Elowsson: You have to…
+
+233
+00:31:11.330 --> 00:31:13.800
+Łukasz Rozmej: Okay, so what does it mean that you have reserved?
+
+234
+00:31:13.950 --> 00:31:15.140
+Łukasz Rozmej: What does it mean?
+
+235
+00:31:15.540 --> 00:31:16.529
+Łukasz Rozmej: One ice.
+
+236
+00:31:19.130 --> 00:31:33.459
+Anders Elowsson: Maybe I said it wrong sometime, or some… was it this reserved? I think it's probably not what we want to frame it as. What we can say is that it's the maximum, so you can use the maximum, 1 eighth of the block's gas for this.
+
+237
+00:31:33.570 --> 00:31:38.560
+Anders Elowsson: Sealed transactions in the first, and expanded up to half.
+
+238
+00:31:38.840 --> 00:31:44.630
+Łukasz Rozmej: And if there are more of those transactions, then part of them are ignored?
+
+239
+00:31:45.250 --> 00:31:45.970
+Łukasz Rozmej: What happened?
+
+240
+00:31:46.350 --> 00:31:48.710
+Justin Florentine (Besu): They'd just be delayed till subsequent blocks?
+
+241
+00:31:50.670 --> 00:31:59.609
+Anders Elowsson: It's just the same as always. It's the same as… if now there are more than twice. If there are now more than the block fits, it's just the same again. It doesn't change.
+
+242
+00:31:59.960 --> 00:32:06.869
+Łukasz Rozmej: Okay, but even if they pay more than the other transactions that fit into the block, they still will have to wait because of that limit.
+
+243
+00:32:09.200 --> 00:32:17.039
+Anders Elowsson: Yeah, unless there are… I mean, you have, you have the inclusion lists as well that factor into this decision, but yeah, if, if…
+
+244
+00:32:17.150 --> 00:32:19.039
+Anders Elowsson: If you fill the block.
+
+245
+00:32:19.170 --> 00:32:25.629
+Anders Elowsson: And the biller is free to decide, then the builder is free to decide if they want to include them or not.
+
+246
+00:32:34.960 --> 00:32:36.380
+mark: So where did you get to the one…
+
+247
+00:32:36.380 --> 00:32:38.380
+Anders Elowsson: Sorry, where did you go?
+
+248
+00:32:38.520 --> 00:32:40.360
+mark: Yeah. Where did you get to the 1A?
+
+249
+00:32:40.360 --> 00:32:43.119
+Anders Elowsson: I frame it a little bit weird, because,
+
+250
+00:32:43.220 --> 00:32:49.850
+Anders Elowsson: Because… I shouldn't say it like that, because when you are a builder, you have already
+
+251
+00:32:49.890 --> 00:32:57.230
+Anders Elowsson: So, so we set the setting was 18. So when you are a builder, you have
+
+252
+00:32:57.230 --> 00:33:12.599
+Anders Elowsson: the committed transactions to your block already, and so it can be at most of this one-eighth of these transactions that you have to include, which are these sealed transactions that have now been encrypted and will be executed first on top of your block.
+
+253
+00:33:12.840 --> 00:33:22.479
+Anders Elowsson: And so those are given upfront. And then you have 7-8 of the book for your own transactions. And you also commit to tickets for the next book.
+
+254
+00:33:28.290 --> 00:33:31.319
+Anders Elowsson: But those 1-8 have already been paid for beforehand.
+
+255
+00:33:52.400 --> 00:33:57.659
+Justin Florentine (Besu): Do we have a block validity rule that checks for that? That would be kind of…
+
+256
+00:33:58.350 --> 00:34:00.880
+Justin Florentine (Besu): Probably something that we should add, yeah?
+
+257
+00:34:01.540 --> 00:34:05.530
+Justin Florentine (Besu): Like, you know what the block limit's… you know what the gas limit's gonna be in the next block.
+
+258
+00:34:06.290 --> 00:34:17.859
+Justin Florentine (Besu): And so, you should probably not try to include more tickets in the N-1 block than you're gonna have room for in 1 8th of the next block, yeah?
+
+259
+00:34:19.929 --> 00:34:23.109
+Anders Elowsson: Yeah, so you can at most include 1 eighth.
+
+260
+00:34:23.499 --> 00:34:30.349
+Anders Elowsson: Of… you can at most include tickets that pay for and consume 1 eighth of the gas of the next block.
+
+261
+00:34:42.480 --> 00:34:43.170
+Justin Florentine (Besu): Okay.
+
+262
+00:34:57.580 --> 00:35:03.250
+Justin Florentine (Besu): Okay, well, we got time to kill. If folks, have more questions, throw them on out there.
+
+263
+00:35:03.550 --> 00:35:07.170
+Justin Florentine (Besu): If not, we are at the end of the agenda.
+
+264
+00:35:24.560 --> 00:35:29.260
+Justin Florentine (Besu): Alright, sounds like… It's time to wrap it.
+
+265
+00:35:31.140 --> 00:35:38.229
+Justin Florentine (Besu): Thanks everybody, you can find us on Discord and the R&D channel in the encrypted mempools.
+
+266
+00:35:38.400 --> 00:35:39.640
+Justin Florentine (Besu): Subchannel?
+
+267
+00:35:40.470 --> 00:35:56.519
+Justin Florentine (Besu): Please keep the conversation going, please reach out to any friends that you have in the MEV ecosphere, right? If you know builders, you know searchers, we'd love to get their opinions on some of this stuff to try and figure out, you know, other perspectives that we can look at the problem from.
+
+268
+00:35:56.980 --> 00:36:01.849
+Justin Florentine (Besu): So thanks, everyone, as always. And wallets, too, yes, 100%, please.
+
+269
+00:36:02.040 --> 00:36:03.699
+Justin Florentine (Besu): Wats need to use this.
+
+270
+00:36:03.800 --> 00:36:06.760
+Justin Florentine (Besu): So we need to make sure that we are hearing them.
+
+271
+00:36:07.140 --> 00:36:14.460
+Justin Florentine (Besu): Brad, feel free to reach out to me, Julian, or Anders.
+
+272
+00:36:14.800 --> 00:36:16.570
+Justin Florentine (Besu): With any… any concerns?
+
+273
+00:36:17.460 --> 00:36:18.300
+Justin Florentine (Besu): Thanks, everyone.
+
+274
+00:36:18.300 --> 00:36:19.410
+Julian: And do you adjusted.
+
+275
+00:36:19.790 --> 00:36:20.760
+Justin Florentine (Besu): You got…
+
+276
+00:36:20.760 --> 00:36:21.819
+mark: Okay, thanks.
+
+277
+00:36:22.310 --> 00:36:23.330
+Luis Bezzenberger: Thank you.
+
+278
+00:36:23.850 --> 00:36:25.070
+Jannik Luhn: Thank you, bye-bye.
+

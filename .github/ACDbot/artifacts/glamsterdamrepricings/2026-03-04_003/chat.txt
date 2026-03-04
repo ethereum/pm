@@ -1,0 +1,36 @@
+00:01:32	jochem-brouwer:	gm gm
+00:01:55	spencer-tb:	Ga 🙂
+00:02:34	Louis:	gn
+00:02:41	spencer-tb:	Reacted to "gn" with 😿
+00:02:52	Maria Silva:	https://github.com/ethereum/pm/issues/1959
+00:04:16	Maria Silva:	https://github.com/ethereum/pm/issues/1959#issuecomment-3996071514
+00:04:20	spencer-tb:	Reacted to "https://github.com/e..." with ❤️
+00:06:38	Ameziane Hamlat:	So keccak is cheaper in the new results. It is one of the one opcodes that needed repricing. I was expecting more expensive
+00:08:03	Louis:	For Reth & Erigon, I think the issue is OOM
+00:13:42	DanielVF:	Interestingly Monad instrumented and considerably increased the prices on the EC methods
+00:15:12	Łukasz Rozmej:	those numbers are because of parallelization? Otherwise I expected different ones.
+00:19:47	Ameziane Hamlat:	Yes, I remember there were benchmarks in gas benchmarks with cachable precompiles and not cachable precompiles
+00:24:03	Łukasz Rozmej:	--Blocks.CachePrecompilesOnBlockProcessing=false
+00:24:14	jochem-brouwer:	Heeft gereageerd op "--Blocks.CachePrec..." met 😍
+00:24:24	Ameziane Hamlat:	Besu does optimistic parallel transaction execution by default but we can disable it as well.
+00:24:27	DanielVF:	Reacted to "--Blocks.CachePrec..." with 👍
+00:24:59	Kamil Chodoła:	Jochem - Nethermind runs on benchamrks with that flag already - Reth probably have this cache disabled also
+00:25:10	Łukasz Rozmej:	--Blocks.PreWarmStateOnBlockProcessing=false  to remove background pre-warming (of state and precompiles too)
+00:25:13	jochem-brouwer:	Antwoord verzenden naar "Jochem - Nethermin..."
+
+Ah right thanks!
+00:25:41	jochem-brouwer:	Heeft gereageerd op "--Blocks.PreWarmSt..." met 👍
+00:27:00	Kamil Chodoła:	But not sure if you really want to disable prewarmer?
+00:27:06	Ameziane Hamlat:	Replying to "Besu does optimistic..."
+
+--bonsai-parallel-tx-processing-enabled=false to disable it
+00:30:59	Maria Silva:	FYI, plots were taken from benchmarkoor
+00:31:06	Maria Silva:	It has very nice visualizations
+00:34:17	Luis Pinto | Besu:	I think regarding vectorisation use in benchmarks, I guess we can assume that most people nowadays have access to at least AVX2 enabled chipsets at least for intel ones. Re: home stakers
+00:41:48	Louis:	This is the benchmark for BALANCE, EXTCODE*, CALL*
+https://github.com/ethereum/execution-specs/blob/3f507fa91fce7ebb8fa00537dfc709961bd582af/tests/benchmark/stateful/bloatnet/test_single_opcode.py#L1543
+00:44:07	spencer-tb:	https://github.com/ethereum/execution-spec-tests/releases/tag/bal%40v5.2.0
+00:45:43	jochem-brouwer:	Heeft gereageerd op "FYI, plots were ta..." met 👍
+00:45:46	jochem-brouwer:	Heeft gereageerd op "It has very nice v..." met 👍
+00:46:46	Maria Silva:	Great progress, Spencer!
+00:57:25	DanielVF:	I'm in favor of an increase in storage gas, but am quite concerned about the complexy/benefit on the scaling gas prices.

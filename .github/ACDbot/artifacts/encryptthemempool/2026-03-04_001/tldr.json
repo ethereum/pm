@@ -1,0 +1,79 @@
+{
+  "meeting": "Encrypt The Mempool #1 - March 4, 2026",
+  "highlights": {
+    "eip_status": [
+      {
+        "timestamp": "00:02:43",
+        "highlight": "EIP-8105 (Universal Encrypted Enshrined Mempool) withdrawn; replaced by Lucid design"
+      },
+      {
+        "timestamp": "00:03:22",
+        "highlight": "New Lucid EIP published (PR #11376); more engineering-specific than research post"
+      }
+    ],
+    "protocol_design": [
+      {
+        "timestamp": "00:09:07",
+        "highlight": "Lucid: two-slot design with tickets reserving block space, keys revealed post-inclusion"
+      },
+      {
+        "timestamp": "00:10:03",
+        "highlight": "Prevents front-running; may reduce back-running efficiency by requiring full top-of-block backrun"
+      },
+      {
+        "timestamp": "00:13:02",
+        "highlight": "Penalty mechanism: 1/64 of top-of-block fee retained if key not revealed"
+      },
+      {
+        "timestamp": "00:21:41",
+        "highlight": "Ciphertext encapsulation uses AEAD per RFC 9180; extensible for post-quantum"
+      },
+      {
+        "timestamp": "00:33:12",
+        "highlight": "Maximum 1/8 block gas for sealed transactions; expandable to 1/2 for catch-up"
+      }
+    ],
+    "implementation_requirements": [
+      {
+        "timestamp": "00:04:38",
+        "highlight": "Requires CL RPC API additions: new event for inclusion notification, key reveal method"
+      },
+      {
+        "timestamp": "00:15:02",
+        "highlight": "PTC votes on key availability; builders must adhere to vote results"
+      },
+      {
+        "timestamp": "00:23:26",
+        "highlight": "Bundling supported: multiple transactions in one commitment with single/multiple keys"
+      }
+    ],
+    "ecosystem_considerations": [
+      {
+        "timestamp": "00:16:15",
+        "highlight": "Interaction with Frames unclear; needs investigation if both in Hegot\u00e1"
+      },
+      {
+        "timestamp": "00:16:32",
+        "highlight": "FOCIL interaction: sealed transactions can go in inclusion lists (optional initially)"
+      },
+      {
+        "timestamp": "00:27:01",
+        "highlight": "Optional feature; normal and encrypted transactions coexist; FOCIL prevents censorship"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:03:59",
+      "action": "Review Lucid EIP PR #11376 and provide feedback",
+      "owner": "All teams"
+    },
+    {
+      "timestamp": "00:35:56",
+      "action": "Engage MEV ecosystem (builders, searchers, wallets) for feedback on Lucid",
+      "owner": "Justin, Julian, Anders"
+    }
+  ],
+  "decisions": [],
+  "targets": []
+}

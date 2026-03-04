@@ -1,0 +1,86 @@
+00:48:08	read.ai meeting notes:	Kai added read.ai meeting notes to the meeting.
+
+Read provides AI generated meeting summaries to make meetings more effective and efficient. View our Privacy Policy at https://www.read.ai/pp
+
+Type "read stop" to disable, or "opt out" to delete meeting data.
+00:49:18	Bubbles Notetaker:	Hi 👋 I'm recording this meeting and taking notes for Tamaghna Choudhuri.
+
+After the call, you'll get an AI summary and action items by email.
+
+Try Bubbles for free🔥 — Turn on automatic meeting note-taking:
+https://bubbl.es/notetaker
+
+Remove me from this meeting ➡️:
+https://bubbl.es/remove-notetaker?t=PmD5nh62scAaSk2rew9pbxQnUf4HfkVjN
+00:49:26	Gajinder Singh:	gm gm
+00:49:48	Will Corcoran:	morning all.  we will start in 2min
+00:52:57	Will Corcoran:	Devnet-4 pr: https://github.com/leanEthereum/leanSpec/pull/426
+00:54:12	Will Corcoran:	Also: https://github.com/leanEthereum/pm/pull/71
+00:54:51	Gajinder Singh:	Anshal will be able to update on that
+00:55:43	Will Corcoran:	Congrats, Kamil
+00:55:49	Mercy Boma Naps-Nkari:	Reacted to "Congrats, Kamil" with ❤️
+00:55:52	Mercy Boma Naps-Nkari:	Reacted to "Congrats, Kamil" with 🔥
+00:55:55	Kamil Salakhiev:	Reacted to "Congrats, Kamil" with ❤️
+00:56:01	Gajinder Singh:	Reacted to "Congrats, Kamil" with ❤️
+00:57:37	Parthasarathy Ramanujam:	The checkpoint sync issue seem to be consistent across all clients. It appears to be working now on zeam. But, we will need further tests to ensure this fix is stable. @Katya should we create a common issue to monitor this?
+00:57:44	Parthasarathy Ramanujam:	Reacted to "Congrats, Kamil" with ❤️
+00:58:23	Will Corcoran:	Replying to "Also: https://github..."
+
+Is there anything blocking the devnet-4 spec / pm PRs?
+00:58:53	Gajinder Singh:	Replying to "Also: https://github..."
+
+@Anshal 
+01:00:19	Will Corcoran:	Reacted to "Anshal will be able ..." with 🙏
+01:02:38	Gajinder Singh:	also for spec, readiness for leanmultisig for recusiveness
+01:05:20	Shariq:	Amazing 👍
+01:05:47	Parthasarathy Ramanujam:	Are we going to retain a single subnet for devnet4 as well?
+01:06:19	Gajinder Singh:	Replying to "Are we going to reta..."
+
+we will have multiple subnets even for devnet3 testing
+01:06:34	Parthasarathy Ramanujam:	Replying to "Are we going to reta..."
+
+Devnet3 spec hardcodes the subnet as 1
+01:06:41	Will Corcoran:	Bag it.  Tag it
+01:11:52	unnawut:	I think subnet_id is currently this, it’s dynamic but num_committees need to be bumped up
+
+https://github.com/leanEthereum/leanSpec/blob/44f896af5f43f71cdafaa993b61b4f4aa99681c0/src/lean_spec/subspecs/containers/validator.py#L31-L40
+01:11:55	Mercy Boma Naps-Nkari:	It should be code lab with utah
+01:12:29	Gajinder Singh:	Replying to "I think subnet_id is..."
+
+cool
+01:18:34	Mega | Lambda:	Why do we want the proposer to both sign the block and the proposer attestation?
+01:24:14	Mihir Faujdar:	If the proposer signs over the block, could that be treated as a proposer attestation?
+01:25:34	Gajinder Singh:	Replying to "If the proposer sign..."
+
+hw can next proposer aggregate it?
+01:28:02	Kamil Salakhiev:	curious how this works with bls today, will check later
+01:28:36	Will Corcoran:	Replying to "If the proposer sign..."
+
+So, the goal is to have a single proof/signature that can be used to both:
+
+a) verify the block
+b) and to aggregate proposer attestations cleanly with other attestations in the network
+
+?
+01:29:27	unnawut:	Replying to "curious how this wor..."
+
+BLS can sign multiple messages and produce separate signatures at any time, not subject to one time sig constraint
+01:29:33	Parthasarathy Ramanujam:	Replying to "curious how this wor..."
+
+The issue is due to OTS
+01:29:43	unnawut:	Reacted to "The issue is due to ..." with 👍
+01:29:48	Mihir Faujdar:	Reacted to "BLS can sign multipl..." with 👍
+01:29:49	Mihir Faujdar:	Reacted to "The issue is due to ..." with 👍
+01:30:51	Kamil Salakhiev:	Replying to "curious how this wor..."
+
+yes, but does proposer sign the same message that attesters sign today?
+01:31:05	Kamil Salakhiev:	Replying to "curious how this wor..."
+
+if so, we should try to do the same
+01:32:05	Parthasarathy Ramanujam:	These proposer keys are distributed via p2p?
+01:37:57	Mihir Faujdar:	Reacted to "So, the goal is to h..." with 👍
+01:42:22	unnawut:	Btw. Separate keys = good first step towards proposer-attester separation too? :S
+01:44:09	Gajinder Singh:	Reacted to "Btw. Separate keys =..." with 😀
+01:44:24	Gajinder Singh:	Replying to "Btw. Separate keys =..."
+
+good food for thought!
