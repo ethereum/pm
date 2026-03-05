@@ -1,0 +1,237 @@
+00:03:53	jochem-brouwer:	gm
+00:04:32	lightclient:	Will start in 1 min
+00:04:45	Gary Schulte:	GM
+00:05:21	lightclient:	https://github.com/ethereum/pm/issues/1954
+00:07:48	frangio:	https://github.com/ethereum/EIPs/pull/11379
+00:08:24	lightclient:	Reacted to "https://github.com/e..." with 👍
+00:09:08	Peter:	Reacted to "https://github.com/e..." with 👍
+00:09:51	lightclient:	Yeah I think I’m happy with how easy it is to support EOA in frame tx based on Derek’s PR. It also gives us some ability to continue improving EOAs w/o more tx types in the future
+00:11:43	frangio:	would this be equivalent to adding an authorization list to frame transactions, and including a delegation for the account in the same frame tx?
+00:12:15	lightclient:	I don’t see it like that. I think of it more like a ephemeral set code for the EOA just to orchestrate some validation and maybe a batch execution
+00:12:31	Peter:	Migrating an EOA to post-quantum keys will require 7702 (migration) + ecdsa key deactivation.
+
+This proposed feature just allows EOAs to benefit from other features of 8141.
+00:12:52	lightclient:	Yeah we will also introduce a permanent SETCODE operation, but it won’t be a headliner
+00:12:52	Nicolas Consigny:	https://github.com/ethereum/EIPs/pull/11379
+00:14:31	Nicolas Consigny:	Replying to "Migrating an EOA to ..."
+
+Yes these should be treated as two separate problems. You would still need the ecrecover modifications etc. 
+(I personally tried to bundle both at some point and it is ugly)
+00:14:57	Barnabas:	Replying to "https://github.com/e..."
+
+sounds like a no brainer
+00:14:58	DanielVF:	Good defaults are extrodinarily imprortant.
+00:15:05	Barnabas:	Reacted to "Good defaults are ex..." with 👍
+00:15:23	Derek Chiang:	Reacted to "Good defaults are ex..." with 👍
+00:15:29	Parthasarathy Ramanujam:	Wouldn’t that make a user lazy not ever upgrade their account? We’ve seen this even with 7702, no?
+00:15:31	Peter:	Reacted to "Good defaults are ex..." with 👍
+00:16:21	Barnabas:	Replying to "Wouldn’t that make a..."
+
+The user shouldn’t need to know what EIP they are using imo.
+00:16:43	ivo Georgiev @ ambire:	Replying to "Wouldn’t that make a…"
+They don’t need to upgrade their account with this setup
+00:16:53	ivo Georgiev @ ambire:	Replying to "Wouldn’t that make a…"
+All accounts would get sponsorship and batchign
+00:17:13	Parthasarathy Ramanujam:	Replying to "Wouldn’t that make a..."
+
+They don’t need to. But they will need to when PQ signatures goes live, no?
+00:17:23	ivo Georgiev @ ambire:	Replying to "Wouldn’t that make a…"
+Yep
+00:17:39	lightclient:	Felix’s point is important about all account types being able to use 8141: the guarantees good support across many areas like dev tooling, apps, clear signing, etc
+00:17:43	Doris Hernandez | Functor:	Agree on Derek proposal to add EOA support in 8141 instead of using 7702.
+00:17:54	Parthasarathy Ramanujam:	Replying to "Wouldn’t that make a..."
+
+Also, a user may continue to use regular EOA without using frames.
+00:18:17	lightclient:	Replying to "Felix’s point is imp..."
+
+And hw wallets, good point
+00:18:37	DanielVF:	Agree, good tradeoff
+00:19:03	Barnabas:	8141 basically makes 7702 obsolete
+00:19:05	jvn:	with 8141 , does it make sense to drop 7702 ?
+00:19:18	Derek Chiang:	7702 is still important for eventual EOA -> Smart Account migration, right?
+00:19:19	ivo Georgiev @ ambire:	I wouldn’t say so
+00:19:41	Derek Chiang:	We just need an extra EIP to revoke EOA root key
+00:19:53	Peter:	Reacted to "We just need an extr..." with 👍
+00:20:09	Nicolas Consigny:	Replying to "We just need an extr..."
+
+https://ethereum-magicians.org/t/eip-7851-deactivate-reactivate-a-delegated-eoas-key/22344/24?u=colinlyguo
+00:20:20	Doris Hernandez | Functor:	7702 give EOA options to upgrade but from a UX perspective it’s not the best.
+00:20:32	Nicolas Consigny:	Replying to "We just need an extr..."
+
+we reworked the eip to make it permanant
+00:20:44	Nicolas Consigny:	Replying to "We just need an extr..."
+
+But we would also need to change ecrecover
+00:20:49	ivo Georgiev @ ambire:	Still plenty of reasons to use 7702
+​migration to SA / PQ accs
+Conditional delegations 
+Extra signing keys, eg add a passkey
+00:21:01	ivo Georgiev @ ambire:	Conditional delegations = mm delegator
+00:21:07	roy:	EIP-7702 can be turned off only when EOA are turned off...
+00:21:45	jvn:	I see some cases where , If a 7702 delegation is active on my address, it has code which means the 8141 EOA fallback won't trigger right ?
+00:21:53	ivo Georgiev @ ambire:	And generally speaking it’s not very Ethereum to assume the default implementation will be sufficient for everyone and everything
+00:22:09	ivo Georgiev @ ambire:	Replying to "I see some cases whe…"
+Correct
+00:22:09	DanielVF:	It's a big boost.
+00:22:18	Parthasarathy Ramanujam:	I think most of the people attending this call were already sold on 8141 :-)
+00:22:24	lightclient:	Reacted to "I think most of the ..." with 🔥
+00:22:51	Nicolas Consigny:	We would also need other EIPs for the PQ migration we would need something like https://ethereum-magicians.org/t/eip-8151-private-key-deactivation-aware-ecrecover/27690?u=colinlyguo  
+And the EOA with a system contract https://ethereum-magicians.org/t/eip-7851-deactivate-reactivate-a-delegated-eoas-key/22344/24?u=colinlyguo
+00:23:06	Lukas:	need more apps to support eip5792 too. I think incentives are hardly there for wallets to do the effort to upgrade their users' accounts but gets more interesting if most apps are batching + sponsoring
+00:23:53	Parthasarathy Ramanujam:	@lightclient I’m curious. Earlier you mentioned considering making a precompile the default. How would that help?
+00:24:21	Doris Hernandez | Functor:	Very happy about the 8141, qq, how the signature validation will work? Currently with 7579 we use modules to validate a passkey, how will this happen with the 8141?
+00:24:22	lightclient:	Replying to "@lightclient I’m cur..."
+
+It’s more a choice: do we want the EOA default account defined in native language (go, rust, etc) or in EVM code
+00:24:32	Parthasarathy Ramanujam:	Replying to "@lightclient I’m cur..."
+
+Ah ok. Got it.
+00:25:27	Brian Bland:	Would we expect hardware wallets to meaningfully support 8141 smart account transactions if the account's code cannot be known offline?
+00:26:11	Parthasarathy Ramanujam:	How will signature verification work for default code with frames? Will eip1271 or 6492 signatures still be valid?
+00:28:00	ivo Georgiev @ ambire:	Replying to "How will signature v…"
+It’s not really conflicting in any way. The ephemeral code will not be there while validating signatures
+00:28:05	lightclient:	Replying to "Would we expect hard..."
+
+From initial talks with them, yes
+00:28:07	ivo Georgiev @ ambire:	Replying to "How will signature v…"
+So you’ll just validate as a regular eoa sig
+00:28:14	Parthasarathy Ramanujam:	Reacted to "So you’ll just valid..." with 👍
+00:28:42	lightclient:	Replying to "Very happy about the..."
+
+You would verify the signature in a VERIFY frame by calling the user’s smart account and have it emit an APPROVE to denote it approves the operation
+00:31:43	Derek Chiang:	There was an iteration of my PR where VERIFY targets precompiles so we can have “passkey EOAs” via P256VERIFY: https://github.com/ethereum/EIPs/compare/master...derekchiang:EIPs:eip-8141-precompiles#diff-fa7f710dbdc2909318c31c817ef313f90df424946ea1a162d13406806b7f1d92R112
+00:32:25	Danno Ferrin - Tectonic.xyz:	If we are going to batch validations we need to put signatures in a place in the transaciton where trimming them off is feasable, not in-line as part of a validate frame.
+00:33:02	roy:	Relying on a precompile for verification frame means it requires a fork to deploy that new precompile for every alternative signature scheme.
+One precompile that is a cood idea is ECRECOVER_VERIFY precompile, as it gives EIP-8141 batching capabilities to EOAs.
+00:33:35	lightclient:	Replying to "If we are going to b..."
+
+I don’t see why this is a major issue? We already need to deserialize over the wire in the block builder to build the block then reserialize to share. Seems okay to elide the data field in VERIFY frames like this
+00:34:02	Felix (Geth):	Replying to "If we are going to..."
+
+we will get to this on the call!
+00:34:11	Danno Ferrin - Tectonic.xyz:	Replying to "If we are going to b..."
+
+It’s prone to errors.  Something like what 6404 is propsoing
+00:34:50	Felix (Geth):	Replying to "Relying on a preco..."
+
+I want to highlight that the precompile is not a requirement. It is just a way to get an account that uses the absolute minimum gas possible.
+00:34:59	lightclient:	Reacted to "I want to highlight ..." with 👍
+00:37:16	DanielVF - Monad:	State is also a concern, not just the gas.
+00:37:30	Piotr:	Reacted to "State is also a co..." with ➕
+00:37:47	Brian Bland:	Reacted to "State is also a conc…" with ➕
+00:38:34	Derek Chiang:	Do we think we should propose a standard frame structure for the public mempool?  Like DEFAULT (deployment) -> VERIFY -> VERIFY (sponsor) -> SENDER(s)
+00:38:51	Doris Hernandez | Functor:	Replying to "Very happy about the..."
+
+Ahh so instead having to use verifier module, we just use the verify frame ( I will assume that there will be “standard” verify frames for different signature schemes as passkey for example)
+00:39:00	lightclient:	Reacted to "Do we think we shoul..." with 👍
+00:39:55	lightclient:	Replying to "Do we think we shoul..."
+
+You can see the frame structures we are currently imagining in the EIP rationale
+00:40:23	jvn:	we use Default Frame
+00:40:26	jvn:	to deploy first
+00:40:57	lightclient:	https://eips.ethereum.org/EIPS/eip-8141  example 1b in rationale
+00:41:25	Derek Chiang:	Reacted to "You can see the fram..." with 👍
+00:41:57	Luis Pinto | Besu:	So to me it seems we are giving a Swiss Army knife for account verification but at the same time need to impose limits to what users can do. Has this been researched? How much gas is enough? How will that impact gas limits?
+00:42:49	Derek Chiang:	Replying to "So to me it seems we..."
+
+The mempool rules are just for L1; L2s are free to do what they want and can potentially support very different frame structures
+00:43:44	Doris Hernandez | Functor:	Reacted to "There was an iterati..." with 💯
+00:45:15	FLCL:	stupid q: can new verification logic allow to escape simulation and provide different results on simulation vs execution, like if time passed is more than usual time spent on approve go steal all funds path?
+00:46:01	lightclient:	Replying to "stupid q: can new ve..."
+
+Only if you somehow deployed a smart account that is malicious
+00:47:45	Parthasarathy Ramanujam:	Curious, How does Tempo transaction solve the said issues?
+00:47:56	Derek Chiang | ZeroDev:	@DanielVF - Monad wouldn’t most developers not be dealing with frames directly, but rather indirectly through account/wallet toolkits like Viem, which would provide sane defaults for frames?
+00:49:19	Parthasarathy Ramanujam:	Reacted to "@DanielVF - Monad wo..." with 👍
+00:50:34	lightclient:	I don’t think async execution is currently on ethereum roadmap
+00:51:17	ivo Georgiev @ ambire:	I won’t take call time since it’s not completely on topic but I don’t agree re 7702 frictions and they sound like the poor perceptions that lead to its poor adoption 
+
+Saying “trusting another piece of code” isn’t really fair because this code is delegated by the wallet and the wallet alone, not by anything or anyone else. The wallet has thousands of security critical lines of code
+00:51:29	lightclient:	Reacted to "I won’t take call ti..." with 👍
+00:51:49	Parthasarathy Ramanujam:	Reacted to "I won’t take call ti..." with 👍
+00:52:04	ivo Georgiev @ ambire:	The other point was “another transaction” - not really accurate. There is the authorization message but you don’t need an additional transaction. You do need an additional txn TYPE if that’s what you meant
+00:52:16	Nicolas Consigny:	Reacted to "I won’t take call ti..." with 👍
+00:52:38	lightclient:	Reacted to "The other point was ..." with 👍
+00:52:49	v2:	Replying to "I won’t take call..."
+
+Also, 8141 protocolizes ~90% of the complexity of a smart contract wallet today, eg. if you want secp256r1, then it becomes just
+
+assert(secp256r1(sighash(), calldata[0:65]) == sload[0])
+00:54:09	Danno Ferrin - Tectonic.xyz:	Replying to "I don’t think async ..."
+
+On the Straw Map “Distributed Block Building” in CL longer term tasks has the same needs as async execution
+00:54:18	Justin Florentine (Besu):	far easier deployment
+00:54:20	Luis Pinto | Besu:	If you add precompiles we are back to square one. This needs protocol changes and support from core devs
+00:54:53	Danno Ferrin - Tectonic.xyz:	Replying to "I don’t think async ..."
+
+Low level details for distributed building may be different from monad’s pipeline, but high level needs align.
+00:56:16	FLCL:	how well it will displayed as a sum of intents in wallets? eip example contains quite technical steps as frames
+00:56:58	lightclient:	Replying to "how well it will dis..."
+
+This is mostly being handled by ERC-7730 clear signing
+00:57:28	lightclient:	Replying to "how well it will dis..."
+
+The frame tx will also be support by 7730
+00:57:55	FLCL:	Reacted to "The frame tx will al..." with 👍
+00:58:09	lightclient:	Replying to "how well it will dis..."
+
+(If accepted ;))
+00:58:26	Parthasarathy Ramanujam:	I keep hearing that Tempo transactions are better than Frame transactions proposal. How Tempo transactions solves concerns people have with frame transaction. However, I cannot find a single technical write-up on why it is so? Only “trust me bro” posts. Can anyone point me towards such a write-up (if one exists).
+00:58:28	jvn:	Reacted to "(If accepted ;))" with 👍
+00:58:54	jochem-brouwer:	Heeft gereageerd op "I keep hearing tha..." met ➕
+00:59:15	lightclient:	Reacted to "I keep hearing that ..." with ➕
+00:59:17	Justin Florentine (Besu):	Reacted to "I keep hearing that ..." with 👀
+00:59:30	DanielVF - Monad:	Replying to "I keep hearing tha..."
+
+I'll write it up in eth magicains
+00:59:39	FLCL:	Replying to "how well it will dis..."
+
+for sure it should be
+00:59:42	Parthasarathy Ramanujam:	Replying to "I keep hearing that ..."
+
+Looking forward to it.
+00:59:44	jvn:	Reacted to "I'll write it up i..." with ❤️
+00:59:49	DanielVF - Monad:	Reacted to "Looking forward to..." with 👍
+01:01:43	Barnabas:	so are we doing frame tx for hegota?
+01:01:49	DanielVF - Monad:	Reacted to "On the Straw Map ..." with 👍
+01:01:55	DanielVF - Monad:	Reacted to "Low level details ..." with 👍
+01:02:03	lightclient:	Reacted to "so are we doing fram..." with 👍
+01:02:08	lightclient:	Replying to "so are we doing fram..."
+
+🚢
+01:02:26	Nicolas Consigny:	Reacted to "so are we doing fram..." with 👍
+01:02:53	wolovim:	Replying to "so are we doing fram..."
+
+find out after this commercial break!
+01:03:16	Parithosh Jayanthi:	Reacted to "so are we doing fram..." with 👍
+01:03:21	Parithosh Jayanthi:	Reacted to "find out after this ..." with 😂
+01:04:57	v2:	we don't need another frame type for aggregation (if we can't aggregate evm), an opcode is better
+01:05:05	v2:	Because that way non-validation use cases can also take advantage of it
+01:05:17	DanielVF - Monad:	Agree strongly
+01:05:31	dionysuz.eth:	Reacted to "find out after this …" with 😂
+01:06:01	v2:	There is a decent case for doing it that way: if we aggregate ONLY signaures and starks, then we would be able to reuse the lean consensus infrastructure
+01:06:57	frangio:	FWIW I dont think it is clearly stated in the EIP
+01:07:04	DanielVF - Monad:	Reacted to "FWIW I dont think ..." with 👍
+01:07:06	Derek Chiang | ZeroDev:	Reacted to "FWIW I dont think it..." with 👍
+01:07:38	DanielVF - Monad:	One of my concerns with Frame TX's is from working with 7702. 7702 seems so simple on paper, but adds a lot of fractal complexity everywhere it touches.
+01:08:54	Barnabas:	Replying to "One of my concerns w..."
+
+nobody argues that frame tx is going to be an easy implementation tho
+01:08:55	fe:	Replying to "One of my concerns w..." 
+
+ Tempo tx doesn't support many use cases like post quantum signature schemes
+01:09:27	Danno Ferrin - Tectonic.xyz:	Replying to "One of my concerns w..."
+
+Tempo can just add PQ schemes.
+01:09:29	v2:	I'd also add privacy protocols :D
+ 
+(intermediary-free privacy protocols that can natively benefit from FOCIL are like 35% of my motivation for 8141)
+01:09:33	ivo Georgiev @ ambire:	Reacted to "I keep hearing that …" with ➕
+01:09:44	ivo Georgiev @ ambire:	Replying to "I keep hearing that …"
+All arguments are “muh complexity”
+01:09:54	DanielVF - Monad:	Reacted to "Tempo can just add..." with 👍
+01:09:59	Parthasarathy Ramanujam:	Reacted to "All arguments are “m..." with 🙂
+01:10:04	fe:	Replying to "One of my concerns w..." 
+
+ Which again locks you to specific implementations
+01:10:24	v2:	Thank you all!
