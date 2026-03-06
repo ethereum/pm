@@ -191,9 +191,83 @@ def find_upcoming_calls(mapping, days_ahead=7):
     return upcoming
 
 
-def check_warnings(upcoming_calls, youtube_cache, youtube_enabled=True, youtube_error=None):
+def find_expected_missing_calls(mapping, days_ahead=7):
+    """Find series where a meeting is expected but no occurrence exists."""
+    now = datetime.now(timezone.utc)
+    cutoff = now + timedelta(days=days_ahead)
+    RATE_TO_DAYS = {"weekly": 7, "bi-weekly": 14, "monthly": 28}
+    missing = []
+
+    for series_key, series_data in mapping.items():
+        if not isinstance(series_data, dict):
+            continue
+        # Skip one-off calls
+        if series_key.startswith("one-off"):
+            continue
+        # Only predictable rates
+        occurrence_rate = series_data.get("occurrence_rate")
+        if occurrence_rate not in RATE_TO_DAYS:
+            continue
+        # Must still be in call_series_config
+        series_config = get_call_series_config(series_key)
+        if not series_config:
+            continue
+
+        occurrences = series_data.get("occurrences", [])
+        if not occurrences:
+            continue
+
+        # Parse all occurrence start times
+        parsed_times = []
+        for occ in occurrences:
+            st = occ.get("start_time")
+            if st:
+                try:
+                    parsed_times.append(datetime.fromisoformat(st.replace("Z", "+00:00")))
+                except (ValueError, TypeError):
+                    pass
+        if not parsed_times:
+            continue
+
+        latest = max(parsed_times)
+        interval = timedelta(days=RATE_TO_DAYS[occurrence_rate])
+        tolerance = timedelta(days=2)
+        display_name = series_config.get("display_name", series_key)
+
+        # Skip series that appear retired/paused (no meeting in 3+ intervals)
+        if now - latest > 3 * interval:
+            continue
+
+        # Project forward from latest occurrence
+        expected = latest + interval
+        while expected <= cutoff:
+            # Only warn when the prior occurrence is already in the past;
+            # no need to alert about the meeting *after* one that hasn't happened yet
+            if expected >= now and (expected - interval) < now:
+                has_match = any(abs(t - expected) <= tolerance for t in parsed_times)
+                if not has_match:
+                    missing.append({
+                        "series_key": series_key,
+                        "display_name": display_name,
+                        "expected_time": expected,
+                        "occurrence_rate": occurrence_rate,
+                    })
+            expected += interval
+
+    missing.sort(key=lambda x: x["expected_time"])
+    return missing
+
+
+def check_warnings(upcoming_calls, youtube_cache, youtube_enabled=True, youtube_error=None, missing_calls=None):
     """Check for potential issues and return a list of warning strings."""
     warnings = []
+
+    # Warn about expected meetings with no issue created
+    for mc in (missing_calls or []):
+        expected_str = mc["expected_time"].strftime("%A, %B %d")
+        warnings.append(
+            f"{mc['display_name']}: Expected {mc['occurrence_rate']} meeting ~{expected_str} but no issue has been created"
+        )
 
     # Surface YouTube credential/API failure as a single top-level warning
     if youtube_error:
@@ -247,68 +321,68 @@ def check_warnings(upcoming_calls, youtube_cache, youtube_enabled=True, youtube_
     return warnings
 
 
-def build_markdown(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead=7, youtube_enabled=True, youtube_error=None):
+def build_markdown(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead=7, youtube_enabled=True, youtube_error=None, missing_calls=None):
     """Build a Markdown-formatted report string."""
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     lines = []
 
     if not upcoming_calls:
         lines.append(f"No upcoming calls found in the next {days_ahead} days (as of {now_str}).")
-        return "\n".join(lines)
+    else:
+        lines.append(f"#### Upcoming Calls — Next {days_ahead} Days")
+        lines.append(f"*Generated: {now_str}*")
 
-    lines.append(f"#### Upcoming Calls — Next {days_ahead} Days")
-    lines.append(f"*Generated: {now_str}*")
+        for call in upcoming_calls:
+            # Title linked to issue
+            title = call["title"]
+            if call["issue_number"]:
+                issue_url = f"https://github.com/ethereum/pm/issues/{call['issue_number']}"
+                title = f"[{title}]({issue_url})"
 
-    for call in upcoming_calls:
-        # Title linked to issue
-        title = call["title"]
-        if call["issue_number"]:
-            issue_url = f"https://github.com/ethereum/pm/issues/{call['issue_number']}"
-            title = f"[{title}]({issue_url})"
+            # Flag first occurrence of a new call series
+            is_new = call.get("occurrence_number") == 1
+            new_badge = " :new: **NEW SERIES**" if is_new else ""
 
-        # Flag first occurrence of a new call series
-        is_new = call.get("occurrence_number") == 1
-        new_badge = " :new: **NEW SERIES**" if is_new else ""
+            lines.append("")
+            lines.append("---")
+            lines.append(f"**{title}**{new_badge}")
 
-        lines.append("")
-        lines.append("---")
-        lines.append(f"**{title}**{new_badge}")
+            # Host line
+            zoom_info = zoom_details_cache.get(call["meeting_id"])
+            host_str = format_hosts(zoom_info)
+            if host_str:
+                lines.append(f"- {host_str}")
 
-        # Host line
-        zoom_info = zoom_details_cache.get(call["meeting_id"])
-        host_str = format_hosts(zoom_info)
-        if host_str:
-            lines.append(f"- {host_str}")
+            lines.append(
+                f"- **Date/Time:** {call['start_time'].strftime('%A, %B %d, %Y at %H:%M UTC')}"
+            )
 
-        lines.append(
-            f"- **Date/Time:** {call['start_time'].strftime('%A, %B %d, %Y at %H:%M UTC')}"
-        )
+            # YouTube stream
+            video_id = extract_video_id(call.get("youtube_url"))
+            yt = youtube_cache.get(video_id) if video_id else None
 
-        # YouTube stream
-        video_id = extract_video_id(call.get("youtube_url"))
-        yt = youtube_cache.get(video_id) if video_id else None
-
-        if yt:
-            yt_line = f"- **YouTube:** [{yt['title']}]({call['youtube_url']})"
-            details = []
-            if yt["scheduled_start_time"]:
-                details.append(
-                    f"Scheduled: {yt['scheduled_start_time'].strftime('%b %d at %H:%M UTC')}"
-                )
-            details.append(f"Status: {yt['broadcast_status']}")
-            yt_line += f" — {' | '.join(details)}"
-            lines.append(yt_line)
-        elif call["youtube_url"] and youtube_error:
-            lines.append(f"- **YouTube:** [{call['youtube_url']}]({call['youtube_url']}) _(API error — see warnings)_")
-        elif call["youtube_url"]:
-            lines.append(f"- **YouTube:** [{call['youtube_url']}]({call['youtube_url']})")
-        else:
-            lines.append("- **YouTube:** No stream scheduled")
+            if yt:
+                yt_line = f"- **YouTube:** [{yt['title']}]({call['youtube_url']})"
+                details = []
+                if yt["scheduled_start_time"]:
+                    details.append(
+                        f"Scheduled: {yt['scheduled_start_time'].strftime('%b %d at %H:%M UTC')}"
+                    )
+                details.append(f"Status: {yt['broadcast_status']}")
+                yt_line += f" — {' | '.join(details)}"
+                lines.append(yt_line)
+            elif call["youtube_url"] and youtube_error:
+                lines.append(f"- **YouTube:** [{call['youtube_url']}]({call['youtube_url']}) _(API error — see warnings)_")
+            elif call["youtube_url"]:
+                lines.append(f"- **YouTube:** [{call['youtube_url']}]({call['youtube_url']})")
+            else:
+                lines.append("- **YouTube:** No stream scheduled")
 
     # Warnings
     warnings = check_warnings(
         upcoming_calls, youtube_cache,
         youtube_enabled=youtube_enabled, youtube_error=youtube_error,
+        missing_calls=missing_calls,
     )
     if warnings:
         lines.append("")
@@ -343,7 +417,7 @@ def send_to_webhook(webhook_url, markdown_text):
         print(f"\nWebhook: failed ({resp.status_code}): {resp.text}")
 
 
-def print_report(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead=7, youtube_enabled=True, youtube_error=None):
+def print_report(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead=7, youtube_enabled=True, youtube_error=None, missing_calls=None):
     """Print a plain-text report to the terminal."""
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -351,59 +425,58 @@ def print_report(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead=7
         print(
             f"No upcoming calls found in the next {days_ahead} days (as of {now_str})."
         )
-        return
+    else:
+        print(f"{'=' * 60}")
+        print(f"  UPCOMING CALLS - Next {days_ahead} Days")
+        print(f"  Generated: {now_str}")
+        print(f"{'=' * 60}")
 
-    print(f"{'=' * 60}")
-    print(f"  UPCOMING CALLS - Next {days_ahead} Days")
-    print(f"  Generated: {now_str}")
-    print(f"{'=' * 60}")
+        for call in upcoming_calls:
+            # Flag first occurrence of a new call series
+            is_new = call.get("occurrence_number") == 1
+            new_badge = "  *** NEW SERIES ***" if is_new else ""
 
-    for call in upcoming_calls:
-        # Flag first occurrence of a new call series
-        is_new = call.get("occurrence_number") == 1
-        new_badge = "  *** NEW SERIES ***" if is_new else ""
+            # Title with issue number inline
+            title = call["title"]
+            if call["issue_number"]:
+                title = f"{title} (#{call['issue_number']})"
 
-        # Title with issue number inline
-        title = call["title"]
-        if call["issue_number"]:
-            title = f"{title} (#{call['issue_number']})"
+            print(f"\n{'-' * 60}")
+            print(f"  {title}{new_badge}")
 
-        print(f"\n{'-' * 60}")
-        print(f"  {title}{new_badge}")
+            # Host line
+            zoom_info = zoom_details_cache.get(call["meeting_id"])
+            host_str = format_hosts(zoom_info)
+            if host_str:
+                print(f"  {host_str}")
 
-        # Host line
-        zoom_info = zoom_details_cache.get(call["meeting_id"])
-        host_str = format_hosts(zoom_info)
-        if host_str:
-            print(f"  {host_str}")
+            print(
+                f"  Date/Time: {call['start_time'].strftime('%A, %B %d, %Y at %H:%M UTC')}"
+            )
 
-        print(
-            f"  Date/Time: {call['start_time'].strftime('%A, %B %d, %Y at %H:%M UTC')}"
-        )
+            # YouTube stream
+            video_id = extract_video_id(call.get("youtube_url"))
+            yt = youtube_cache.get(video_id) if video_id else None
 
-        # YouTube stream
-        video_id = extract_video_id(call.get("youtube_url"))
-        yt = youtube_cache.get(video_id) if video_id else None
-
-        if yt:
-            print(f"  YouTube:   {call['youtube_url']}")
-            print(f"    Title:     {yt['title']}")
-            if yt["scheduled_start_time"]:
-                print(
-                    f"    Scheduled: {yt['scheduled_start_time'].strftime('%A, %B %d, %Y at %H:%M UTC')}"
-                )
-            print(f"    Status:    {yt['broadcast_status']}")
-        elif call["youtube_url"] and youtube_error:
-            print(f"  YouTube:   {call['youtube_url']}")
-            print(f"    (YouTube API error - see warnings)")
-        elif call["youtube_url"]:
-            print(f"  YouTube:   {call['youtube_url']}")
-            print(f"    (details not available)")
-        else:
-            print(f"  YouTube:   No stream scheduled")
+            if yt:
+                print(f"  YouTube:   {call['youtube_url']}")
+                print(f"    Title:     {yt['title']}")
+                if yt["scheduled_start_time"]:
+                    print(
+                        f"    Scheduled: {yt['scheduled_start_time'].strftime('%A, %B %d, %Y at %H:%M UTC')}"
+                    )
+                print(f"    Status:    {yt['broadcast_status']}")
+            elif call["youtube_url"] and youtube_error:
+                print(f"  YouTube:   {call['youtube_url']}")
+                print(f"    (YouTube API error - see warnings)")
+            elif call["youtube_url"]:
+                print(f"  YouTube:   {call['youtube_url']}")
+                print(f"    (details not available)")
+            else:
+                print(f"  YouTube:   No stream scheduled")
 
     # Warnings section
-    warnings = check_warnings(upcoming_calls, youtube_cache, youtube_enabled=youtube_enabled, youtube_error=youtube_error)
+    warnings = check_warnings(upcoming_calls, youtube_cache, youtube_enabled=youtube_enabled, youtube_error=youtube_error, missing_calls=missing_calls)
     if warnings:
         print(f"\n{'=' * 60}")
         print(f"  WARNINGS ({len(warnings)})")
@@ -445,6 +518,7 @@ def main():
 
     mapping = load_mapping()
     upcoming = find_upcoming_calls(mapping, days_ahead=args.days)
+    missing_calls = find_expected_missing_calls(mapping, days_ahead=args.days)
 
     # Fetch Zoom details for each unique meeting ID
     zoom_details_cache = {}
@@ -480,6 +554,7 @@ def main():
         days_ahead=args.days,
         youtube_enabled=not args.no_youtube,
         youtube_error=youtube_error,
+        missing_calls=missing_calls,
     )
 
     # Always print to terminal
