@@ -164,6 +164,7 @@ jobs:
           fi
 
       - name: Generate manifest and commit all changes
+        id: commit
         if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -187,5 +188,18 @@ jobs:
             git commit -m "Update meeting mapping, artifacts, and manifest"
             git pull --rebase
             git push
+            echo "has_changes=true" >> $GITHUB_OUTPUT
             echo "Committed all changes"
           fi
+
+      - name: Notify Forkcast
+        if: steps.commit.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.FORKCAST_DISPATCH_TOKEN }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'ethereum',
+              repo: 'forkcast',
+              event_type: 'pm-assets-updated'
+            });
