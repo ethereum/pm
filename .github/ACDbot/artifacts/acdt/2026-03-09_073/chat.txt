@@ -1,0 +1,225 @@
+00:03:39	felix (eest):	gmonday
+00:03:45	danceratopz:	gmonday!
+00:03:49	felipe:	gm
+00:05:16	danceratopz:	https://github.com/ethereum/pm/issues/1956
+00:06:24	Parithosh Jayanthi:	https://github.com/ethereum/execution-apis/pull/764
+00:06:50	Giulio:	https://ethresear.ch/t/binary-ssz-transport-for-the-engine-api-an-initial-benchmark-on-a-live-network-with-kurtosis/24324
+00:08:28	Stefan Starflinger:	Reacted to "https://ethresear.ch..." with 👍
+00:09:25	Łukasz Rozmej:	not basically done -> in Nethermind it needs to be redone from scratch properly.
+00:10:20	Łukasz Rozmej:	Have we experimented with also using compression between EL<->CL?
+00:10:30	FLCL:	compression makes it slower
+00:10:49	Parithosh Jayanthi:	Also amount of data isn’t the issue right? Its just serializing/deserializing overhead
+00:10:50	Giulio:	yeah the best case is literally passing pointer to the data struct
+00:11:15	Łukasz Rozmej:	you mean shared memory or something?
+00:11:24	Giulio:	yeah
+00:11:46	Giulio:	but that's for the future, shared memory beetwen processes is hacky
+00:11:55	Giulio:	possible ofc
+00:12:14	Łukasz Rozmej:	it's quite simple, I've coded those in the past
+00:12:29	Potuz:	The best is not to pass anything
+00:12:38	Giulio:	the best is to pray
+00:12:42	Potuz:	not even a pointer, just a root to sign
+00:12:43	Łukasz Rozmej:	you can have simple messages for communication and shared memory for the payload
+00:12:46	Łukasz Rozmej:	makes it simple
+00:12:54	Ben Adams:	Replying to "The best is not to p..."
+
+vibe validation
+00:13:18	Giulio:	some machine may run CL and EL on different machines
+00:13:24	Potuz:	Replying to "The best is not to p..."
+
+no, we don't need anything, and on notify_newPayload, we should pass the snappy we get
+00:13:25	Giulio:	*some operators
+00:13:30	Łukasz Rozmej:	yeah we need a fallback then
+00:13:30	Potuz:	Replying to "The best is not to p..."
+
+and you deal with it directly
+00:13:35	Giulio:	the best case is to pass pointer :)
+00:13:44	Łukasz Rozmej:	so it is only optional optimization
+00:13:49	Maria Silva:	Sorry if I missed it, but what is the status on BAL optimizations for the various clients?
+00:13:56	Giulio:	yeah like SSZ, we can do that in the future
+00:14:04	Potuz:	Replying to "The best is not to p..."
+
+requests are essentially the only thing we need
+00:14:08	Potuz:	Replying to "The best is not to p..."
+
+withdrawals could be just the hash
+00:14:13	Ben Adams:	Reacted to "and you deal with it..." with 👍
+00:14:24	Giulio:	I recall there was some feature for fast jsonrpc through shared memory but forgot about it
+00:14:29	Łukasz Rozmej:	Replying to "Sorry if I missed it..."
+
+still in progress on Nethermind side, sorry
+00:14:37	Maria Silva:	Reacted to "still in progress on..." with 👍
+00:14:42	Toni Wahrstätter:	no updates,but Geth and Besu have been ready and devnet-2 is running with the optimizations enabled/disabled on different nodes
+00:16:11	Stefan Starflinger:	Replying to "Sorry if I missed it..."
+
+Ah yes I forgot to ask, reth has some flags updates otherewise nethermind and etherex we don't have any flags yet. Thanks for the update Lukasz
+00:16:16	Łukasz Rozmej:	just FYI the more we implemented 8037 the more we disliked it :(
+00:16:23	Stefan Starflinger:	Replying to "Sorry if I missed it..."
+
+https://notes.ethereum.org/@ethpandaops/bal-devnet-3  flags documented here
+00:16:31	Dragan Rakita:	Does it include refill of reservoir?
+00:17:13	Łukasz Rozmej:	Reacted to "Does it include refi..." with 👍
+00:17:16	Łukasz Rozmej:	Replying to "Does it include refi..."
+
+@Ben Adams?
+00:17:17	Stefan Starflinger:	https://notes.ethereum.org/@ethpandaops/bal-devnet-3
+00:17:57	Dragan Rakita:	Replying to "Does it include refi..."
+
+On revert/halt return child spent state_gas to reservoir.
+00:18:02	Dragan Rakita:	Replying to "Does it include refi..."
+
+Let me ping you in discord
+00:18:08	Maria Silva:	Replying to "just FYI the more we..."
+
+What are the messy parts? Anything we should take into the design and improve on?
+00:18:19	Dragan Rakita:	Replying to "Does it include refi..."
+
+https://discord.com/channels/595666850260713488/1476205965895536782/1476208158421549096
+00:19:14	spencer:	Replying to "Does it include re..."
+
+Yeah it does! It is up to date with EIPs repo now. This commit: https://github.com/ethereum/EIPs/pull/11328/changes/ec612217fd2fda7409369a98d160a929829cb66f
+00:19:22	Ben Adams:	Replying to "just FYI the more we..."
+
+Is a very deep change that effects everything
+00:19:52	Maria Silva:	Reacted to "Is a very deep chang..." with 👍
+00:21:53	Mario Vega:	Reacted to "just FYI the more we..." with 👍🏼
+00:21:56	Mario Vega:	Reacted to "Is a very deep chang..." with 👍
+00:22:27	Dragan Rakita:	Reacted to "Yeah it does! It is ..." with ❤️
+00:22:39	Stefan Starflinger:	AI slob testing :D
+00:22:52	spencer:	Reacted to "AI slob testing :D" with 🚀
+00:22:56	Ben Adams:	Replying to "just FYI the more we..."
+
+@Marius van der Wijden would be interested in what you'd change
+00:23:08	felix (eest):	Replying to "AI slob testing :D"
+
+0-90% feels so nice with AI, but the last 10%..
+00:23:14	spencer:	Replying to "AI slob testing :D"
+
+Can we create an agent called slob?
+00:25:36	felipe:	I have some more BAL benchmark tests lined up that we should sync on @Toni Wahrstätter
+00:25:44	Potuz:	I'd like to discuss the two topics I added in the end to the agenda
+00:25:49	Parithosh Jayanthi:	https://www.potuz.net/posts/epbs-devnet-0/
+00:26:39	Louis:	Replying to "I have some more ben..."
+
+@Toni Wahrstätter @felipe 
+https://github.com/jochem-brouwer/execution-specs/pull/1 
+
+This is for BAL benchmark by Felipe
+00:26:40	Stefan Starflinger:	Reacted to "https://www.potuz.ne..." with 🔥
+00:26:55	Louis:	Replying to "I have some more ben..."
+
+Sorry I’ve not yet reviewed it
+00:27:07	felipe:	Reacted to "@Toni Wahrstätter..." with 💯
+00:27:14	Stefan Starflinger:	Replying to "AI slob testing :D"
+
+Its very good when there are 1 or 2 things wrong, but when there are like 3+ things wrong its a real mess
+00:27:15	Toni Wahrstätter:	Reacted to "@Toni Wahrstätter @f..." with 💯
+00:27:47	felipe:	Reacted to "Sorry I’ve not ye..." with 👍
+00:28:28	Toni Wahrstätter:	Replying to "I have some more ben..."
+
+Yeah def! That's the one focusing on parallel IO I meant:
+https://github.com/ethereum/execution-specs/pull/2033
+00:28:58	felix (eest):	Reacted to "https://www.potuz...." with 🔥
+00:29:02	Stefan Starflinger:	Reacted to "@Toni Wahrstätter @f..." with 💯
+00:29:47	Potuz:	The spec does allow it
+00:29:51	Potuz:	it just says MAY
+00:29:59	Łukasz Rozmej:	is Marius breaking up?
+00:30:03	Mario Vega:	Reacted to "is Marius breaking u..." with 👍🏼
+00:30:03	NC:	Replying to "is Marius breaking u..."
+
+yes
+00:30:05	Eitan Seri-Levi:	Reacted to "is Marius breaking u…" with 👍🏼
+00:30:05	felix (eest):	german internet back at it again
+00:30:07	Francesco:	Reacted to "is Marius breaking u..." with 👍🏼
+00:30:09	Justin Traglia:	Reacted to "german internet back..." with 👍
+00:30:14	Justin Traglia:	Reacted to "is Marius breaking u..." with 👍🏼
+00:30:18	spencer:	Reacted to "german internet ba..." with 👍
+00:30:22	nixo:	Reacted to "german internet back..." with 👍
+00:30:22	Dragan Rakita:	Reacted to "german internet back..." with 👍
+00:30:25	felix (eest):	Reacted to "is Marius breaking..." with 👍🏼
+00:30:32	felipe:	Reacted to "german internet ba..." with 👍
+00:30:35	nflaig:	Reacted to "german internet back..." with 👍
+00:31:12	felipe:	Reacted to "Yeah def! That's t..." with 💯
+00:31:29	Parithosh Jayanthi:	Reacted to "german internet back..." with 😂
+00:33:02	Toni Wahrstätter:	Replying to "I have some more BAL..."
+
+@felipe lmk how you want to proceed. My PR is still a draft but happy to convert it :)
+00:34:01	Potuz:	Thanks :heart:
+00:39:26	Marius van der Wijden:	Pushed a fix to our epbs-devnet-0 branch that allows for reorging to parents
+00:39:38	Francesco:	The current PR seems fine if clients are fine with the occasional last minute change for the first slot of the epoch
+00:39:41	Łukasz Rozmej:	Reacted to "german internet back..." with 👍
+00:39:57	Justin Traglia:	https://github.com/ethereum/consensus-specs/pull/4979
+00:40:15	Ben Adams:	Will we need the re-org behaviour spec'd somewhere? Since isn't allowed atm
+00:40:56	Marius van der Wijden:	Replying to "Will we need the re-..." 
+
+ Yes we should. I remember there were engine api tests that demanded this behavior
+00:41:12	NC:	We are adding 256kb to the state, but we really only 4kb (1 slot of PTC) of it. Is that right?
+00:41:29	nflaig:	Replying to "The current PR seems..."
+
+I think this is fine, we fetch duties at the start of the epoch and ptc duty is quite late in the slot, imo we don't really need 2 epoch lookahead
+00:41:39	Francesco:	Reacted to "I think this is fine..." with 👍
+00:44:01	Potuz:	I love you @Marius van der Wijden 
+00:44:11	Mario Vega:	Reacted to "I love you @Marius v..." with ❤️
+00:44:12	Justin Traglia:	Reacted to "I love you @Marius v..." with ❤️
+00:44:16	felix (eest):	Reacted to "I love you @Marius..." with ❤️
+00:44:16	raxhvl:	Reacted to I love you @Marius v... with "❤️"
+00:44:18	jochem-brouwer:	Heeft gereageerd op "I love you @Marius..." met ❤️
+00:44:21	nflaig:	Reacted to "I love you @Marius v..." with ❤️
+00:45:35	Marius van der Wijden:	Reacted to I love you @Marius v... with "❤️"
+00:46:06	Eitan Seri-Levi:	I think LH might be able to handle them
+00:46:18	Łukasz Rozmej:	Reacted to "Will we need the re-..." with 👍
+00:48:04	felipe:	Reacted to "I love you @Marius..." with ❤️
+00:50:00	Potuz:	@Parithosh Jayanthi that's mostly a call for you, I suspect that deposits should not affect neither Teku's or Nimbus ability to catch up
+00:50:25	Parithosh Jayanthi:	Replying to "@Parithosh Jayanthi ..."
+
+Yeah I agree, I think its worth already breaking/finding out what’s broken in existing clients
+00:50:39	Justin Traglia:	Reacted to "Yeah I agree, I thin..." with 👍
+00:50:45	Toni Wahrstätter:	snap/2:
+https://github.com/nerolation/EIPs/blob/toni/snap-2/EIPS/eip-9999.md
+00:51:03	jochem-brouwer:	Does this remove the same msgs from eth/71?
+00:52:27	jochem-brouwer:	Antwoord verzenden naar "Does this remove t..."
+
+I will discuss this async
+00:52:33	Potuz:	@stokes want to discuss the honest reorg feature here in light of FCU changes?
+00:53:09	Toni Wahrstätter:	That's the PR for the eth/71 soft cap:
+https://github.com/ethereum/EIPs/pull/11387
+00:56:14	Ameziane Hamlat:	So the idea is to test the BAL optimisations on top of perf-devnet-3 (Bloat network) ?
+00:57:24	Maria Silva:	Replying to "So the idea is to te..."
+
+Yes, because we need bloatnet for the stageful repricings tests
+00:57:33	Maria Silva:	Replying to "So the idea is to te..."
+
+*stateful
+00:57:39	Toni Wahrstätter:	Replying to "So the idea is to te..."
+
+The pure exec optimizations (no state) can already be tested on devnet-2. For state related things we need to use a mainnet-state fork or bloatnet
+00:58:14	Ansgar Dietrichs:	I heard 5 Gigagas on mainnet? brb notifying stakers
+00:58:21	jochem-brouwer:	Heeft gereageerd op "I heard 5 Gigagas ..." met 😂
+00:58:23	Parithosh Jayanthi:	Reacted to "I heard 5 Gigagas on..." with 😂
+00:58:23	Ameziane Hamlat:	Reacted to "Yes, because we need..." with 👍
+00:58:26	Ameziane Hamlat:	Reacted to "The pure exec optimi..." with 👍
+00:58:44	nixo:	Reacted to "I heard 5 Gigagas on..." with 😰
+00:59:00	Mario Vega:	Reacted to "I heard 5 Gigagas on..." with 😰
+00:59:01	Mario Vega:	Reacted to "I heard 5 Gigagas on..." with 😂
+00:59:05	Ameziane Hamlat:	Replying to "So the idea is to te..."
+
+So we want to do the tests on one snapshot instead of having a snapshot of mainnet and another one of the bloat network
+00:59:56	Ameziane Hamlat:	Replying to "So the idea is to te..."
+
+I’m saying this because I don’t see the link between BAL and Bloat network
+00:59:58	nixo:	isn’t that… acdt
+01:00:10	jochem-brouwer:	Antwoord verzenden naar "isn’t that… acdt"
+
+acd-topic call? :)
+01:00:46	Louis:	Reacted to "I heard 5 Gigagas on..." with 😂
+01:00:57	Dragan Rakita:	Can we do async reporting?
+01:00:58	felipe:	acd-TBD
+01:01:09	Louis:	Reacted to "acd-TBD" with 😭
+01:01:13	Potuz:	yeah TBD is a good topic :)
+01:01:19	felix (eest):	Reacted to "acd-TBD" with 😂
+01:01:28	danceratopz:	Reacted to "acd-TBD" with 😆
+01:02:30	Justin Traglia:	I can help here too
+01:02:36	Mario Vega:	Reacted to "I can help here too" with ❤️
+01:02:39	Parithosh Jayanthi:	Reacted to "I can help here too" with ❤️
+01:02:48	nixo:	Reacted to "I can help here too" with ❤️
+01:02:52	felix (eest):	Reacted to "I can help here too" with ❤️
+01:03:05	felipe:	Reacted to "I can help here too" with ❤️

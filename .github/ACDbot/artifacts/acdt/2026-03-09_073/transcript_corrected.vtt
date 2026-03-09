@@ -1,0 +1,2030 @@
+WEBVTT
+
+1
+00:01:25.700 --> 00:01:27.320
+danceratopz: Good morning, good morning.
+
+2
+00:01:32.080 --> 00:01:32.920
+Potuz: Hello?
+
+3
+00:01:37.230 --> 00:01:37.830
+Bhargava Shastry: Hello.
+
+4
+00:02:01.190 --> 00:02:06.490
+danceratopz: Hey, Akash, do I need to be made the host, or does it not really matter, or…
+
+5
+00:02:06.490 --> 00:02:08.620
+Akash | ECH: N-no, you can…
+
+6
+00:02:09.280 --> 00:02:14.440
+Akash | ECH: No need to make me a host, just let me know whenever you are ready so I can switch the stream.
+
+7
+00:02:15.450 --> 00:02:23.329
+danceratopz: Okay, thanks a lot. And do I need to be the host? Because, as far as I know, I'm… I guess maybe I am automatically from…
+
+8
+00:02:24.380 --> 00:02:26.300
+danceratopz: From the clever setup that we have.
+
+9
+00:02:31.530 --> 00:02:35.049
+Akash | ECH: I don't know, I think you don't need to be a host.
+
+10
+00:02:36.080 --> 00:02:36.850
+danceratopz: Okay.
+
+11
+00:02:38.850 --> 00:02:41.370
+danceratopz: I think it should be okay. Maybe Mario knows.
+
+12
+00:02:41.480 --> 00:02:46.869
+danceratopz: Mario, if you create the issue on Ethereum PM, are you automatically the host?
+
+13
+00:02:48.260 --> 00:02:54.180
+Mario Vega: I'm not sure, I hadn't thought about that anymore. I don't know.
+
+14
+00:02:54.910 --> 00:03:00.530
+danceratopz: Don't worry, I'm clearly overthinking it. And we won't worry about that.
+
+15
+00:03:00.530 --> 00:03:02.530
+Mario Vega: Do you have an issue, or…
+
+16
+00:03:04.850 --> 00:03:06.740
+danceratopz: None yet, Mario, none yet.
+
+17
+00:03:07.500 --> 00:03:08.510
+danceratopz: Thank you.
+
+18
+00:03:12.690 --> 00:03:14.340
+spencer: Hey guys, how you doing?
+
+19
+00:03:15.410 --> 00:03:17.190
+danceratopz: Thanks, good morning.
+
+20
+00:04:14.750 --> 00:04:18.549
+danceratopz: Good morning, everyone. We'll just wait to see if a few more people come in.
+
+21
+00:04:19.440 --> 00:04:22.010
+danceratopz: Oh, Pari's the host. Hey, Pari.
+
+22
+00:04:23.180 --> 00:04:24.230
+Parithosh Jayanthi: Yay!
+
+23
+00:04:43.080 --> 00:04:46.780
+Parithosh Jayanthi: I've made you co-host, and you should be able to do everything you want.
+
+24
+00:04:47.380 --> 00:04:49.169
+danceratopz: Thanks a lot. Awesome.
+
+25
+00:04:50.180 --> 00:04:58.530
+danceratopz: Alright, so… We seem to have quite… yeah, we got quite a lot of people in here.
+
+26
+00:04:58.670 --> 00:05:02.819
+danceratopz: I think we can get started, Akash, please.
+
+27
+00:05:05.000 --> 00:05:05.989
+Akash | ECH: Yeah, real life.
+
+28
+00:05:07.270 --> 00:05:16.630
+danceratopz: Alright, good morning, everyone. Welcome to ACDT number 73. It's the March 9th of 2026.
+
+29
+00:05:17.350 --> 00:05:21.410
+danceratopz: I will just drop the agenda in the chat for everyone to have a look at.
+
+30
+00:05:21.980 --> 00:05:30.940
+danceratopz: And we've got a lot of DevNets running, or about to launch, so I think that'll take up a lot of time today. Let's get to it.
+
+31
+00:05:31.370 --> 00:05:36.879
+danceratopz: First off, the status of blob DevNet Zero.
+
+32
+00:05:37.390 --> 00:05:42.150
+danceratopz: Would someone like to speak up about that, who has a bit more context?
+
+33
+00:05:44.250 --> 00:05:54.569
+Parithosh Jayanthi: That should usually be Barnabus, but he's out today. Last I've heard, there hasn't been any particular change, so I would say it's roughly the same as last week.
+
+34
+00:05:55.430 --> 00:06:05.819
+Parithosh Jayanthi: I know that he was looking a bit into bottlenecks with higher blob counts, but I think we have an agenda item later to talk about, engine API and SLZ.
+
+35
+00:06:07.030 --> 00:06:16.419
+danceratopz: Yeah, thanks a lot, Perry. That would actually be more or less now, if we want to talk about it now, if someone would like to add a… I know that Barnabas did a bit of benchmarking.
+
+36
+00:06:16.950 --> 00:06:23.260
+danceratopz: If someone else would like to pick that up, there was quite a bit of discussion in Ethereum R&D on this.
+
+37
+00:06:28.120 --> 00:06:36.489
+Stefan Starflinger: I mean, just to summarize the issue, so there has been tracing, like, OTEL tracing.
+
+38
+00:06:36.720 --> 00:06:41.949
+Stefan Starflinger: OpenTelemetry added to the clients, and then Barnabas looked at the bottlenecks, and he saw that
+
+39
+00:06:42.090 --> 00:06:46.029
+Stefan Starflinger: Serializing is quite the bottleneck.
+
+40
+00:06:46.210 --> 00:06:51.070
+Stefan Starflinger: And since we want to switch to SSC anyways, it would make sense to
+
+41
+00:06:51.250 --> 00:06:56.220
+Stefan Starflinger: have that as a way to communicate between the EO and CO.
+
+42
+00:06:56.350 --> 00:07:07.979
+Stefan Starflinger: And that's kind of the proposal. And through the capabilities, it's not really a breaking thing, just if the clients support it, then they can, basically use that, otherwise fall back.
+
+43
+00:07:08.520 --> 00:07:14.029
+Stefan Starflinger: And that's kind of necessary to scale it further. That's kind of the context of the PR.
+
+44
+00:07:17.520 --> 00:07:20.669
+danceratopz: Awesome. Thanks a lot, Stefan.
+
+45
+00:07:21.560 --> 00:07:35.229
+danceratopz: I guess this would be a decision that would be deferred to ACDE or ACDC? Would any client teams like to speak up to this suggestion and strongly oppose it, or welcome it?
+
+46
+00:07:39.930 --> 00:07:41.820
+Giulio: I will.
+
+47
+00:07:41.930 --> 00:07:43.910
+Giulio: I think, because…
+
+48
+00:07:44.260 --> 00:08:02.159
+Giulio: I have been doing some work on this over the weekend. I actually… I just… I… this is not, of course, this is a discussion for ACD, so I'm not gonna take time too much, but I did implement the spec for…
+
+49
+00:08:02.590 --> 00:08:07.399
+Giulio: Prysm, Lodestar, Lighthouse, Teku, Erigon, Nethermind, and Geth?
+
+50
+00:08:07.600 --> 00:08:11.359
+Giulio: I also run some benchmark… some benchmarks through Kurtosis.
+
+51
+00:08:11.620 --> 00:08:17.000
+Giulio: It works. It can do… it can be done very easily in,
+
+52
+00:08:17.240 --> 00:08:19.199
+Giulio: It can be done very easily.
+
+53
+00:08:19.350 --> 00:08:27.869
+Giulio: Optionally, so… yeah, I just wanted to give this quick update. I'm gonna present it maybe more on ACD, but it's basically
+
+54
+00:08:28.240 --> 00:08:46.799
+Giulio: done… I mean, it's not done, but there is already… there are already a lot of… there is already a proof of concept, and probably if you want to test it on blobdevNet0, you can take one of my PRs from one CL and one EL, and then just yellow it there, and you should see if that helps or not.
+
+55
+00:08:50.330 --> 00:08:52.529
+danceratopz: Awesome, thanks a lot for that, Julose.
+
+56
+00:08:52.640 --> 00:08:56.560
+danceratopz: I think that's really helpful, to help make a decision.
+
+57
+00:08:57.510 --> 00:09:08.330
+Parithosh Jayanthi: The proposal was also do it as an optional thing, right? So, worst case, we can roll it out asynchronously, and whichever clients have it implemented, it would be used, otherwise it doesn't.
+
+58
+00:09:08.330 --> 00:09:27.430
+Giulio: So, the way it works is that when you send a request to anywhere via HTTP or via the web, you can put your content type that you expect in the header. So, if you put the application JSON, what happens is that you're going to be redirected to JSON RPC,
+
+59
+00:09:27.470 --> 00:09:43.519
+Giulio: This is all execution layer side, right? So if the engine API, if the layer puts that JSON RPC, it will be routed to the JSON RPC. If not, it will be… if it puts Octream, it will be redirected to a REST full API,
+
+60
+00:09:43.800 --> 00:09:45.490
+Giulio: that uses SSD instead.
+
+61
+00:09:45.720 --> 00:09:50.949
+Giulio: So that's why it's optional. So the CL can, you know, can test if there is the… if there is…
+
+62
+00:09:51.070 --> 00:10:00.859
+Giulio: the CSS support by seeing if it doesn't get an error, if he puts OctetStream, and then he can, you know, he can decide himself where to go by default.
+
+63
+00:10:01.190 --> 00:10:12.300
+Giulio: You know, maybe at the beginning, of course, since this will require maybe Hive tests to be adapted, you will have it basically disabled, even in CL, and be enablable by a flag.
+
+64
+00:10:12.790 --> 00:10:14.819
+Giulio: But, yeah, I think it's, you know, but…
+
+65
+00:10:14.940 --> 00:10:19.530
+Giulio: But it is optional. It's very easy to make it optional, and it's already optional as I already implemented them.
+
+66
+00:10:25.150 --> 00:10:26.020
+danceratopz: Alright.
+
+67
+00:10:26.340 --> 00:10:27.460
+danceratopz: Thank you.
+
+68
+00:10:29.880 --> 00:10:38.620
+danceratopz: I think we'll leave that there, perhaps, to be taken up for further discussion, another call.
+
+69
+00:10:38.720 --> 00:10:42.199
+danceratopz: The only other topic we had there was… there was some,
+
+70
+00:10:42.710 --> 00:10:57.469
+danceratopz: issues on E69, but I think it was just some mainnet peers sneaking in. I don't think… I don't know if anyone wants to say anything to that. I think the problem's solved. Would there be any other topics for Blob DevNet Zero that anyone wants to talk about today?
+
+71
+00:11:04.970 --> 00:11:06.170
+danceratopz: Okay.
+
+72
+00:11:06.370 --> 00:11:12.009
+danceratopz: Thanks a lot, Gilo and Parry, for the context. Moving on to Glamsterdam.
+
+73
+00:11:12.440 --> 00:11:21.720
+danceratopz: Bavnet, sorry, BAL DevNet2 is still, running, and I think Stefan just posted, in the issue below.
+
+74
+00:11:22.570 --> 00:11:27.500
+danceratopz: That you'd like to, hi.
+
+75
+00:11:27.500 --> 00:11:52.209
+Stefan Starflinger: I can go over… I can go over it, if you would like. So basically, I got around to adding some more nodes. These nodes won't have any validators attached to them, they're just different configurations with the prefetch enabled, sequential, or with all of the valid optimizations enabled, I've now rolled that out on DevNet2
+
+76
+00:11:52.750 --> 00:12:09.160
+Stefan Starflinger: just get and Bezo, so we can capture some benchmarks. I will update also the Grafana dashboard with these nodes. They're currently still syncing, and that will give us some insights. I'm not sure how long I will be running them, but we will have a little bit of data for
+
+77
+00:12:09.280 --> 00:12:14.249
+Stefan Starflinger: how good the optimizations are, and I think DevNet2 also has a
+
+78
+00:12:14.350 --> 00:12:22.510
+Stefan Starflinger: decent state by now. I mean, it's not mainnet, but it's something since we've been spamming continuously on the network.
+
+79
+00:12:22.810 --> 00:12:24.750
+Stefan Starflinger: Since it started.
+
+80
+00:12:25.190 --> 00:12:36.780
+Stefan Starflinger: But otherwise, I think, regarding nodes, it's going pretty smoothly so far. Just one issue with the Bezu tracing that is already being looked at.
+
+81
+00:12:37.090 --> 00:12:47.149
+Stefan Starflinger: And Erigon, hasn't, given an update regarding, their progress on DevNet 2. I think they switched over, focusing on DevNet 3.
+
+82
+00:12:47.390 --> 00:12:48.959
+Stefan Starflinger: about Definite 3.
+
+83
+00:12:49.150 --> 00:12:50.859
+Stefan Starflinger: But I think that's all from…
+
+84
+00:12:51.200 --> 00:12:54.620
+Stefan Starflinger: a definite tool, and I think we can…
+
+85
+00:12:54.890 --> 00:13:00.179
+Stefan Starflinger: If it's okay if anyone else has something to say for Definite 2, otherwise we can move on to Definite 3.
+
+86
+00:13:07.290 --> 00:13:23.990
+Stefan Starflinger: Okay, then, for Definite 3, we've been doing a lot of, local testing and kurtosis, trying to, find any inconsistencies with the spec or, with the different implementations.
+
+87
+00:13:24.200 --> 00:13:36.900
+Stefan Starflinger: So it's still an ongoing, process, especially for 837. These gas changes also kind of make it difficult, for…
+
+88
+00:13:37.000 --> 00:13:53.179
+Stefan Starflinger: the ball, because quickly there are consensus issues with the blocker access list and gas accounting, so that makes it a little bit harder, but it would be good if we could get an update from the clients regarding the progress.
+
+89
+00:13:56.350 --> 00:13:58.390
+Stefan Starflinger: on, about definite 3.
+
+90
+00:13:58.570 --> 00:14:00.769
+Stefan Starflinger: Maybe we can start with, Geth?
+
+91
+00:14:16.730 --> 00:14:23.779
+danceratopz: I see your PR got merged, Stefan. Does anyone from the call want to… from Geth want to speak up to that?
+
+92
+00:14:25.100 --> 00:14:27.740
+danceratopz: Looks like Marius merged the fix.
+
+93
+00:14:36.430 --> 00:14:40.940
+danceratopz: Okay, if not, shall we move on to Besu?
+
+94
+00:14:42.910 --> 00:14:49.820
+Daniel Lehrner (Besu): I… I can give an update. So with the latest spec test, 5.3…
+
+95
+00:14:50.790 --> 00:14:53.620
+Daniel Lehrner (Besu): We have, 7 filling tests.
+
+96
+00:14:54.110 --> 00:15:07.039
+Daniel Lehrner (Besu): Two of them are false positives, where BESU recognizes the block as invalid, which is expected. We just returned the wrong error message, so I need to…
+
+97
+00:15:07.220 --> 00:15:10.770
+Daniel Lehrner (Besu): to make a PR for the execution specs to fix that.
+
+98
+00:15:11.000 --> 00:15:19.589
+Daniel Lehrner (Besu): The other 5 were 8037 differences between the 5.2 test and the 5.3.
+
+99
+00:15:20.100 --> 00:15:26.149
+Daniel Lehrner (Besu): I have been fixing them this morning. I think it should work now, so…
+
+100
+00:15:26.540 --> 00:15:38.580
+Daniel Lehrner (Besu): If everything is correct, I think we should pass all the tests, but I need to… I need to double-check. As I said, except maybe for some false positives, but for the consensus-specific stuff.
+
+101
+00:15:38.770 --> 00:15:40.580
+Daniel Lehrner (Besu): It should be… it should be correct.
+
+102
+00:15:42.830 --> 00:15:43.650
+danceratopz: Awesome.
+
+103
+00:15:43.930 --> 00:15:48.549
+danceratopz: Thank you, Daniel. Just for context,
+
+104
+00:15:49.370 --> 00:16:07.420
+danceratopz: Ben detected some gaps in AT37 coverage, created an issue, and added some tests himself, and Spencer added a few more tests, for AT37, which resulted in another execution specs release, 5.3, which was released, like, late on Friday.
+
+105
+00:16:07.790 --> 00:16:13.390
+danceratopz: And just a heads up that that release, includes all the tests filled.
+
+106
+00:16:13.870 --> 00:16:20.489
+danceratopz: Well, it includes Osaka, but it actually includes, all forks. So not just Amsterdam.
+
+107
+00:16:22.980 --> 00:16:33.350
+danceratopz: So yeah, then, if you see any, issues with the tests, please ping us in the Discord and let us know what needs to be changed.
+
+108
+00:16:37.580 --> 00:16:43.289
+danceratopz: Then… Stefan, you also found an issue in Nimbus that…
+
+109
+00:16:43.590 --> 00:16:45.710
+danceratopz: PR also seems to be merged.
+
+110
+00:16:46.770 --> 00:16:48.860
+Stefan Starflinger: Yes, we're making some…
+
+111
+00:16:49.360 --> 00:17:06.130
+Stefan Starflinger: some small progress, but I've also been testing with all the clients with a basic payload of creating a large contract and EVM fuzzing, and those networks don't seem very healthy yet, so there are still a lot of things to uncover.
+
+112
+00:17:06.359 --> 00:17:11.239
+Stefan Starflinger: That, I'm also working on, and would be great if, client teams
+
+113
+00:17:11.440 --> 00:17:15.030
+Stefan Starflinger: Can, run kurtosis locally to see
+
+114
+00:17:15.339 --> 00:17:21.620
+Stefan Starflinger: If they can find some issues as well, still. I updated the Kurtosis configuration in the spec sheet.
+
+115
+00:17:21.750 --> 00:17:30.440
+Stefan Starflinger: To the latest one, and also updated the Ethereum Genesis generator to include the Nethermind, Timestamps.
+
+116
+00:17:30.560 --> 00:17:31.549
+Stefan Starflinger: as well.
+
+117
+00:17:31.700 --> 00:17:37.979
+Stefan Starflinger: But I think, is there anyone from Reth, that could give an update as well?
+
+118
+00:17:39.110 --> 00:17:40.470
+Stefan Starflinger: That would be great.
+
+119
+00:17:41.830 --> 00:17:54.229
+Emma: We've got Dragon working on 8.37, I think most of the changes are there, it's just, like, testing and some fixes, but otherwise, I think, on the Reth side, we're passing all the tests, so…
+
+120
+00:17:54.390 --> 00:17:56.660
+Emma: I think we're looking good.
+
+121
+00:17:59.690 --> 00:18:05.300
+Stefan Starflinger: Okay, another mind, a quick update, that'll be great.
+
+122
+00:18:08.860 --> 00:18:14.059
+Ben Adams: Yeah, we have all the features implemented, we're planning some tests at the moment.
+
+123
+00:18:15.360 --> 00:18:21.200
+Ben Adams: And the BALS optimizations we're thinking, will come a bit later.
+
+124
+00:18:24.310 --> 00:18:31.109
+Stefan Starflinger: Okay, great. I think then we're making pretty good progress. It's mostly about ironing out all the…
+
+125
+00:18:31.230 --> 00:18:38.340
+Stefan Starflinger: small issues with gas accounting that basically straight away result in consensus issues because of buzz.
+
+126
+00:18:43.170 --> 00:18:46.269
+Stefan Starflinger: Is there anything we missed on DevNet3?
+
+127
+00:18:51.930 --> 00:19:00.520
+danceratopz: Do you have a feeling, Stefan… sorry, do we… do you have a feeling, Stefan, for when we could potentially launch? Is there any, date?
+
+128
+00:19:00.730 --> 00:19:02.409
+danceratopz: Targeted for that.
+
+129
+00:19:04.040 --> 00:19:12.649
+Stefan Starflinger: I think Marius just raised his hand, but regarding the deadline, I'll try to get it for Wednesday, again. Let's get it working well.
+
+130
+00:19:12.890 --> 00:19:14.300
+Stefan Starflinger: Marius?
+
+131
+00:19:16.530 --> 00:19:19.969
+Marius van der Wijden: Yeah, so, we just sat in a call for, like.
+
+132
+00:19:20.080 --> 00:19:29.480
+Marius van der Wijden: an hour, and I think they said for two more hours before that. Looking over the 1837 changes, it's…
+
+133
+00:19:29.770 --> 00:19:49.680
+Marius van der Wijden: like, the stuff that we have is partly implemented by me, which are the good parts, of course, and half of it is implemented by AI, and it's just so garbage that we basically have to, yeah, sit down and redo a lot of these.
+
+134
+00:19:51.600 --> 00:19:59.370
+Marius van der Wijden: I suspect we will not be able to finish, or I will not be able to finish that by 2.
+
+135
+00:19:59.520 --> 00:20:01.850
+Marius van der Wijden: by, by Wednesday.
+
+136
+00:20:01.960 --> 00:20:10.899
+Marius van der Wijden: The… yeah, the version we have right now, it has a…
+
+137
+00:20:11.130 --> 00:20:30.979
+Marius van der Wijden: still not passing a bunch of test cases, like a thousand, but, yeah, might be able to participate on the network, except for, yeah, if there are any transactions on it, basically. No, if there are, if there are,
+
+138
+00:20:31.150 --> 00:20:33.340
+Marius van der Wijden: complex, interactions.
+
+139
+00:20:33.690 --> 00:20:41.149
+Marius van der Wijden: So, yeah, I've tried to do my best to, to get there, but, yeah, it's not super easy.
+
+140
+00:20:41.260 --> 00:20:49.220
+Marius van der Wijden: And, yeah, the whole… logic of 1837 is also…
+
+141
+00:20:50.020 --> 00:20:54.359
+Marius van der Wijden: It's… yeah, it's… it's just not super nice, and it…
+
+142
+00:20:56.380 --> 00:20:58.970
+Marius van der Wijden: Every time I think more about it, I…
+
+143
+00:20:59.150 --> 00:21:05.370
+Marius van der Wijden: I want to change stuff, but then I think more about it, and I don't want to change them anymore, and so it's… yeah.
+
+144
+00:21:05.630 --> 00:21:07.429
+Marius van der Wijden: It's not an easy process.
+
+145
+00:21:12.270 --> 00:21:12.910
+danceratopz: Okay, thank you.
+
+146
+00:21:12.910 --> 00:21:18.790
+Stefan Starflinger: So, yeah, it's hard to say what the deadline will be. I think we're… we'll make…
+
+147
+00:21:19.090 --> 00:21:26.969
+Stefan Starflinger: some more progress until Wednesday, and I think then, we can see, and maybe… Have some more specifics.
+
+148
+00:21:28.400 --> 00:21:29.350
+danceratopz: none?
+
+149
+00:21:29.350 --> 00:21:39.089
+Ben Adams: Yeah, just to follow up on that, the implementation for us has been, like, an extremely deep change that, like, has tendrils that affect everything.
+
+150
+00:21:39.760 --> 00:21:43.529
+Ben Adams: And so we don't like it from that respect.
+
+151
+00:21:44.120 --> 00:21:47.810
+Ben Adams: But then, from the… from another aspect.
+
+152
+00:21:48.540 --> 00:21:50.870
+Ben Adams: Don't really think of anything.
+
+153
+00:21:51.020 --> 00:21:51.960
+Ben Adams: That's fair.
+
+154
+00:21:53.380 --> 00:21:55.720
+Ben Adams: So, yeah.
+
+155
+00:21:57.020 --> 00:21:58.560
+Ben Adams: is what it is, I suppose.
+
+156
+00:22:04.000 --> 00:22:05.629
+danceratopz: Okay, alright, thanks.
+
+157
+00:22:05.760 --> 00:22:13.059
+danceratopz: for the additional context, Marius and Ben, I think Wednesday does seem a bit ambitious. As always, I think
+
+158
+00:22:13.460 --> 00:22:19.550
+danceratopz: we can lean on Highview and the test results to see how clients are doing, this week.
+
+159
+00:22:19.930 --> 00:22:24.160
+danceratopz: And obviously, Stefan's amazing ketosis testing as well.
+
+160
+00:22:25.740 --> 00:22:28.929
+danceratopz: To see if it reveals some more gaps in coverage.
+
+161
+00:22:31.040 --> 00:22:33.239
+danceratopz: Okay,
+
+162
+00:22:33.360 --> 00:22:38.709
+danceratopz: Is there anything else anyone would like to discuss for BAL DevNet 3? Or we… can we wrap that up now?
+
+163
+00:22:41.020 --> 00:22:45.800
+Toni Wahrstätter: Maybe, maybe just a quick question, regarding the PAL optimizations.
+
+164
+00:22:46.070 --> 00:23:00.089
+Toni Wahrstätter: So Geth and Basil have been ready already with the parallel I.O. I wanted to quickly get a feeling how far other clients are with regards to the parallel I.O. optimization. I think I saw in the chat
+
+165
+00:23:00.420 --> 00:23:06.910
+Toni Wahrstätter: that, was it Ben or Lukash? Someone mentioned that Nethermind is… It's getting there.
+
+166
+00:23:07.200 --> 00:23:11.990
+Toni Wahrstätter: Very soon, so I'm wondering, is that already, like, Definite Free ready?
+
+167
+00:23:12.570 --> 00:23:18.899
+Toni Wahrstätter: And also hearing from other clients, like Erigon and Rap, how far they are with regards to the hardware.
+
+168
+00:23:18.900 --> 00:23:36.419
+Łukasz Rozmej: So, parallel transaction processing is almost ready, and we are experimenting with parallel I.O, but our current experimentations are not really netting any major benefit, and almost any benefit, to be honest, so…
+
+169
+00:23:36.570 --> 00:23:40.750
+Łukasz Rozmej: But we are not sure, maybe we still will.
+
+170
+00:23:41.150 --> 00:23:42.709
+Łukasz Rozmej: Managed to get something.
+
+171
+00:23:47.100 --> 00:23:53.270
+Ben Adams: Yeah, we're more focused on correctness than optimization at this stage, I think.
+
+172
+00:23:56.220 --> 00:23:58.639
+Toni Wahrstätter: Makes sense, yeah, thanks a lot for the update.
+
+173
+00:23:59.120 --> 00:24:08.849
+Toni Wahrstätter: Is there also someone from REF that could quickly… I guess Dragon is not on the call, but is there someone else who has insights into parallel I.O. on REF?
+
+174
+00:24:11.500 --> 00:24:17.370
+Emma: We've got the batch I.O. work in a PR.
+
+175
+00:24:19.000 --> 00:24:25.290
+Emma: Otherwise… .
+
+176
+00:24:25.290 --> 00:24:28.240
+Łukasz Rozmej: Does it give you any… mmm… benefit?
+
+177
+00:24:29.360 --> 00:24:33.820
+Emma: Oh, no, we're just doing pure implementation at this point, no optimizations.
+
+178
+00:24:33.820 --> 00:24:37.270
+Łukasz Rozmej: But I mean, have you benchmarked it? Does it give you any benefit?
+
+179
+00:24:37.530 --> 00:24:39.499
+Łukasz Rozmej: No, we haven't been to it. Okay.
+
+180
+00:24:41.310 --> 00:24:43.210
+Emma: But I can do that today and report back.
+
+181
+00:24:44.300 --> 00:24:50.359
+Toni Wahrstätter: Awesome, thanks a lot for the update. Yeah, and we have some tests prepared, some in the… it's in the…
+
+182
+00:24:50.460 --> 00:24:51.939
+Toni Wahrstätter: In the testing repo.
+
+183
+00:24:52.080 --> 00:24:55.530
+Toni Wahrstätter: There are some tests specifically written for benchmarking.
+
+184
+00:24:55.900 --> 00:25:00.479
+Toni Wahrstätter: That could be used, I can, I can post them into the Discord, so we could.
+
+185
+00:25:00.910 --> 00:25:01.660
+Toni Wahrstätter: Yup.
+
+186
+00:25:01.920 --> 00:25:03.270
+Toni Wahrstätter: Catch up async.
+
+187
+00:25:05.040 --> 00:25:05.690
+Emma: Coop.
+
+188
+00:25:10.120 --> 00:25:14.559
+danceratopz: Awesome. Thanks a lot, Tony and everyone, for chiming in there.
+
+189
+00:25:15.460 --> 00:25:18.980
+danceratopz: I'm thinking that's it for about DevNet 3?
+
+190
+00:25:20.320 --> 00:25:26.679
+danceratopz: moving to the CL, Would someone like to give an update on the ePPS DevNet?
+
+191
+00:25:34.580 --> 00:25:41.590
+Parithosh Jayanthi: Yeah, so EPBS DevNet Zero launched last week, and we had a couple of early issues.
+
+192
+00:25:41.720 --> 00:25:48.020
+Parithosh Jayanthi: Portos has a write-up on his blog as to what the issues were.
+
+193
+00:25:48.240 --> 00:25:59.569
+Parithosh Jayanthi: I've linked it over here. But besides that, we aren't particularly testing or stressing the network, it's just making sure that the nodes are up-to-date and rolling out patches from clients.
+
+194
+00:25:59.830 --> 00:26:04.729
+Parithosh Jayanthi: I guess more serious testing would kind of happen on EPBS DevNet 1.
+
+195
+00:26:09.030 --> 00:26:15.969
+danceratopz: Thanks, Perry. I think POTUS wanted to talk about forcing the EL to trigger block production on older heads.
+
+196
+00:26:16.760 --> 00:26:19.129
+danceratopz: And the issue of PTC lookout.
+
+197
+00:26:19.390 --> 00:26:22.509
+danceratopz: POTUS, would you like to speak up on those topics?
+
+198
+00:26:23.100 --> 00:26:35.220
+Potuz: Yeah, so one is sort of, like, mandatory, and the other one, we need to make a decision what… how to deal with. So the first one is on the EL side. Today, there's, on the engine API,
+
+199
+00:26:35.440 --> 00:26:39.429
+Potuz: There is a May that I think needs to become a must.
+
+200
+00:26:39.690 --> 00:26:46.280
+Potuz: Which is the fact that when we send a four-choice updated message to the EL for a previous head.
+
+201
+00:26:46.560 --> 00:26:51.020
+Potuz: then the EL just ignores it and gives us a payload… an empty payload ID.
+
+202
+00:26:51.390 --> 00:26:56.389
+Potuz: But on EPBS, the problem is that we actually might have an honest reorg on the CL
+
+203
+00:26:56.580 --> 00:27:01.780
+Potuz: That, does a four-choice update to a previous head on the current branch.
+
+204
+00:27:02.440 --> 00:27:14.730
+Potuz: So I… currently, because of the issues that, well, we have, like, partial fork choice in the DevNet, this is actually being triggered on Prysm essentially every few blocks.
+
+205
+00:27:17.070 --> 00:27:32.929
+Potuz: And yes, so, well, that's the comment. I need input from the EL. Marius already replied something, but then that sort of died on Discord. I need to know from the EL if this is hard, if this is trivial, if we can have it soon, so that we can actually start testing, these kind of things.
+
+206
+00:27:36.390 --> 00:27:39.490
+Łukasz Rozmej: And alleles work like that?
+
+207
+00:27:41.090 --> 00:27:41.820
+Potuz: Well…
+
+208
+00:27:42.330 --> 00:27:49.479
+Potuz: All the else, as far as I know, give us an empty payload ID if I give you an FCU to a previous head.
+
+209
+00:27:50.600 --> 00:27:54.829
+Potuz: At least every time that we test, the EL gives us an empty payload ID,
+
+210
+00:27:55.160 --> 00:27:58.690
+Potuz: they ignore an FCU to a previous head.
+
+211
+00:27:58.940 --> 00:28:06.369
+Potuz: And they don't trigger blood production. When I do an FCU for an old head, And that breaks CPBS.
+
+212
+00:28:10.020 --> 00:28:10.760
+Marius van der Wijden: Yeah, the program.
+
+213
+00:28:10.760 --> 00:28:16.469
+stokes: thing, or… Like, do you think it'll get better with multiple choice progress?
+
+214
+00:28:17.460 --> 00:28:23.619
+Potuz: No, no, no, I mean, this has to be the case. I mean, a reorg… I might reorg to empty, like…
+
+215
+00:28:23.730 --> 00:28:30.770
+Potuz: there's an honest behavior, which is voting for the empty block, and in that case, the CL needs to reorg.
+
+216
+00:28:31.020 --> 00:28:35.839
+Potuz: Right. A current head, and it needs to be able to produce a blog on top of a previous head.
+
+217
+00:28:36.310 --> 00:28:36.969
+stokes: I bet.
+
+218
+00:28:41.490 --> 00:28:54.639
+Potuz: The thing that is triggering this… I mean, this shouldn't happen on production, on mainnet, regularly, right? So we want to continue building on full, but the problem is that Lighthouse and Lodestar are voting for empty everywhere.
+
+219
+00:28:54.950 --> 00:29:08.569
+Potuz: And they, they outweight us, and so we take this as a signal that we need to reorder the payload, and we try to build on empty, but then when we try to build on empty, the EL just grabs an app on us, and we get reordered.
+
+220
+00:29:13.170 --> 00:29:15.670
+danceratopz: Marius, did you want to add something?
+
+221
+00:29:17.720 --> 00:29:26.289
+Marius van der Wijden: Yes, so… The problem is that we, the spec does not allow FCU
+
+222
+00:29:26.870 --> 00:29:30.779
+Marius van der Wijden: To, a… a parent of…
+
+223
+00:29:31.310 --> 00:29:41.610
+Marius van der Wijden: little block, because that basically means we are reorging back the chain. The payload production is a different service.
+
+224
+00:29:53.960 --> 00:29:57.400
+Marius van der Wijden: To allow… Dude…
+
+225
+00:30:05.010 --> 00:30:07.530
+Potuz: Yeah, it's… I can't hear Marius.
+
+226
+00:30:07.530 --> 00:30:09.319
+Łukasz Rozmej: Yeah, we cannot hear anything.
+
+227
+00:30:12.070 --> 00:30:14.950
+Marius van der Wijden: So… No?
+
+228
+00:30:15.480 --> 00:30:16.650
+Marius van der Wijden: Goddammit.
+
+229
+00:30:17.130 --> 00:30:18.180
+Łukasz Rozmej: Every Friday.
+
+230
+00:30:18.180 --> 00:30:18.570
+Marius van der Wijden: Good Lord.
+
+231
+00:30:18.570 --> 00:30:19.200
+Łukasz Rozmej: Maybe.
+
+232
+00:30:22.230 --> 00:30:23.200
+Marius van der Wijden: Okay, different…
+
+233
+00:30:26.760 --> 00:30:28.110
+Łukasz Rozmej: Might be the internet.
+
+234
+00:30:38.600 --> 00:30:46.879
+danceratopz: Okay, we'll see if Marius can resolve his connection issues. Are there any other EL devs that would like to speak up to this in the meantime?
+
+235
+00:30:47.570 --> 00:30:56.539
+Łukasz Rozmej: Yeah, I'm taking a look, and I explicitly see this in our codebase, that yes, if we have,
+
+236
+00:30:56.680 --> 00:30:59.480
+Łukasz Rozmej: Fork choice to a…
+
+237
+00:30:59.660 --> 00:31:11.230
+Łukasz Rozmej: payload that is on the same chain as the current head, we ignore it, so… not sure what should we do, and how's the specification.
+
+238
+00:31:11.380 --> 00:31:12.240
+Łukasz Rozmej: Phew.
+
+239
+00:31:12.730 --> 00:31:28.339
+Marius van der Wijden: Yes, this was part of the spec. I hope you can hear me better now. I'm in a different Wi-Fi. Hopefully, I will get better internet soon. So, the problem is that we are forbidding these reorging the
+
+240
+00:31:28.340 --> 00:31:39.779
+Marius van der Wijden: reorging the same chain. What we could allow is, if you specify older, if you specify the new FOC choice.
+
+241
+00:31:39.920 --> 00:31:56.569
+Marius van der Wijden: but older payload parameters that we are building, these older blocks for you. We could do that, or we could allow for reorging the chain. But I think there was an issue with reorging the chain, why we specified it this way, but I'm not sure.
+
+242
+00:31:58.900 --> 00:32:04.210
+Łukasz Rozmej: I will add interesting… context in our…
+
+243
+00:32:04.320 --> 00:32:10.130
+Łukasz Rozmej: HiCore plugin, we actually have this feature disabled, so you can reorg to all the train.
+
+244
+00:32:10.260 --> 00:32:11.900
+Łukasz Rozmej: Which is interesting.
+
+245
+00:32:12.800 --> 00:32:15.689
+Łukasz Rozmej: But it's not in the mainnet implementation.
+
+246
+00:32:29.410 --> 00:32:35.499
+danceratopz: Okay, it seems like this topic will need to be followed up on.
+
+247
+00:32:35.500 --> 00:32:49.509
+Potuz: I just want to stress something that… I mean, it's not a matter of something that might be optional. There are reorgs on the EL that will happen where we roll back the chain.
+
+248
+00:32:50.030 --> 00:32:53.880
+Potuz: And that… that will be the head. Even if no block is produced.
+
+249
+00:32:54.070 --> 00:32:58.000
+Potuz: We are going to call the yel, saying, you just need to roll back your head.
+
+250
+00:33:01.410 --> 00:33:06.780
+Marius van der Wijden: Yeah, this is so horrible, UX. I… I… I know that this…
+
+251
+00:33:07.070 --> 00:33:23.749
+Marius van der Wijden: the way it's going to work now, but this is so horrible to UX, because we are telling the users that, hey, this is the new head, oh no, actually, the previous head is the new head. Or actually, no, we have now another sidechain that is the new head.
+
+252
+00:33:23.750 --> 00:33:25.880
+Potuz: But isn't that the way that it works now?
+
+253
+00:33:26.270 --> 00:33:27.640
+Marius van der Wijden: Yes, but it never happens.
+
+254
+00:33:27.640 --> 00:33:29.599
+Potuz: Is this behavior when you reorg a block?
+
+255
+00:33:29.950 --> 00:33:32.010
+Marius van der Wijden: Yes, but reorgs never happened.
+
+256
+00:33:32.600 --> 00:33:35.850
+Marius van der Wijden: And it seems that with.
+
+257
+00:33:35.850 --> 00:33:39.840
+Potuz: Yeah, reorgs will never happen on mainnet either, but we need to deal with them.
+
+258
+00:33:40.350 --> 00:33:46.670
+Marius van der Wijden: Okay, okay, then, then it's fine. Like, we can just prepare a branch that removes this check.
+
+259
+00:33:46.790 --> 00:33:55.210
+Marius van der Wijden: For… for Bell DevNet 1, or 0, or wherever you guys are at. I think that is… that is not a problem. Like, I can do that right now.
+
+260
+00:34:04.380 --> 00:34:11.960
+danceratopz: Okay, are there any other young, client devs who would like to speak up to that, or…
+
+261
+00:34:13.070 --> 00:34:16.719
+danceratopz: Does this discussion need to be taken in more detail elsewhere?
+
+262
+00:34:21.730 --> 00:34:25.280
+danceratopz: BOTUS, are you happy with the comments you've received?
+
+263
+00:34:26.290 --> 00:34:41.549
+Potuz: Yeah, definitely. If we just have an implementation that we can test, that'll allow us to test for choice. I mean, we don't expect to see many of these kind of reorgs, but we need to deal with them, and we need to test our for choice, so we need to have a branch that does this.
+
+264
+00:34:42.790 --> 00:34:43.659
+danceratopz: Okay.
+
+265
+00:34:44.250 --> 00:34:45.510
+Ben Adams: I do it.
+
+266
+00:34:45.900 --> 00:34:46.599
+Ben Adams: Where are you?
+
+267
+00:34:46.600 --> 00:34:58.789
+Potuz: no rush at all. We are not going to test for choice until two DevNets from now, so there's no problem at all not having this behavior now. We're not thinking on testing these things, even on DevNet 1.
+
+268
+00:35:00.910 --> 00:35:07.249
+Ben Adams: Is it… is it purely a testing thing, or would it need to… We expect change for me.
+
+269
+00:35:07.250 --> 00:35:14.260
+Potuz: It happens that we reorder blocks on mainnet. It will happen that we will reorder payloads on mainnet, which is done…
+
+270
+00:35:14.500 --> 00:35:22.110
+Potuz: We don't want to see it regularly, as they just don't happen today regularly. But it does happen that we have reorgs on mainnet.
+
+271
+00:35:31.090 --> 00:35:35.910
+danceratopz: All right, POTUS, when's the next EPBS breakout?
+
+272
+00:35:37.430 --> 00:35:40.449
+Potuz: We don't have breakouts since we have this meeting.
+
+273
+00:35:41.070 --> 00:35:46.669
+danceratopz: Okay, good. But I think the message was pretty clear. Thank you.
+
+274
+00:35:46.870 --> 00:35:52.090
+danceratopz: Did you want to talk about the PTC look-ahead as well?
+
+275
+00:35:52.660 --> 00:35:59.540
+Potuz: Yeah, this is an issue that Nico found, which… which is, yeah, it's a flaw in our spec. We…
+
+276
+00:35:59.660 --> 00:36:05.360
+Potuz: We need to… PTC attestations are sent during one slot.
+
+277
+00:36:05.560 --> 00:36:11.860
+Potuz: And then they are included in the next slot's block, and they are validated when we process those… that block.
+
+278
+00:36:12.230 --> 00:36:19.790
+Potuz: The problem is that, the PTC committee is computed with the balances of the given state.
+
+279
+00:36:20.450 --> 00:36:25.919
+Potuz: And that means that if you attested being on the PTC on slot 31,
+
+280
+00:36:26.100 --> 00:36:29.370
+Potuz: And your attestation got included in slot 32.
+
+281
+00:36:30.770 --> 00:36:37.790
+Potuz: you are validating the block that included that PTC attestation, and you're looking at the effective balances
+
+282
+00:36:37.930 --> 00:36:41.649
+Potuz: Of the current slot, which is 32, it's in a different epoch.
+
+283
+00:36:41.980 --> 00:36:53.780
+Potuz: And those are… that may have changed the PTC, the full committee. So an attestation that was included in the blog, because it was violent then, might just become invalid now.
+
+284
+00:36:54.420 --> 00:37:02.399
+Potuz: And to deal with this, we have a few options. I opened the most naive of the possible PRs, which is including
+
+285
+00:37:02.540 --> 00:37:06.659
+Potuz: a sort of like a look behind. We just cache
+
+286
+00:37:06.770 --> 00:37:13.629
+Potuz: the full PTC committee for the current epoch, well, the previous epoch and the current epoch on the beacon state.
+
+287
+00:37:14.150 --> 00:37:21.000
+Potuz: It is mostly useless, because this only happens at that particular slot. It's just one slot that is needed.
+
+288
+00:37:21.270 --> 00:37:22.380
+Potuz: But…
+
+289
+00:37:22.560 --> 00:37:33.299
+Potuz: Clients, anyway, seem to cache the full epoch to have duties, so it seems… on a first run, it seems that clients don't mind this.
+
+290
+00:37:33.530 --> 00:37:39.260
+Potuz: But I don't know. I wanted to have a small discussion, at least on what are the options, or what people prefer.
+
+291
+00:37:39.720 --> 00:37:42.689
+Potuz: I really have no strong opinion on the topic.
+
+292
+00:37:42.930 --> 00:37:47.049
+Potuz: Perhaps Nico is here, who found the topic, if you can just say something.
+
+293
+00:37:51.000 --> 00:38:06.729
+nflaig: Yeah, so I'm not sure what's the cleanest spec design here, but as for Loadstar, we currently cache the current and previous epoch, so for us, it wouldn't be extra memory usage. Also, I think it's the equivalent of
+
+294
+00:38:06.730 --> 00:38:12.039
+nflaig: I think 64 validators or something, so it's pretty small memory-wise.
+
+295
+00:38:21.130 --> 00:38:26.609
+Potuz: Yeah, so the current PR, I think it's 256 kilobytes per state that is added.
+
+296
+00:38:31.060 --> 00:38:33.060
+stokes: Does the spec right now say…
+
+297
+00:38:33.360 --> 00:38:37.780
+stokes: Like, I'm sure, like, the spec is correct, right? In terms of who you validate when and where?
+
+298
+00:38:37.780 --> 00:38:47.500
+Potuz: No, no, the spec is incorrect, actually. The spec, the specs… I mean, it's clear on whom you need to validate, but the problem is that, some.
+
+299
+00:38:47.500 --> 00:38:48.059
+stokes: It's using it wrong.
+
+300
+00:38:48.060 --> 00:38:51.230
+Potuz: It's valid in the previous epoch is not valid in the current epoch.
+
+301
+00:38:52.920 --> 00:38:53.830
+stokes: Right. Okay.
+
+302
+00:38:53.830 --> 00:38:54.350
+Potuz: This is a bugger.
+
+303
+00:38:54.350 --> 00:38:57.760
+stokes: So it's… it's using the wrong state at that point in time.
+
+304
+00:38:59.170 --> 00:38:59.780
+Potuz: Yep.
+
+305
+00:39:01.290 --> 00:39:02.110
+stokes: Okay.
+
+306
+00:39:02.770 --> 00:39:12.429
+stokes: then yeah, we should fix the spec. But I think what you suggested makes sense. Yeah, like, I don't think we need to be more invasive, have some cash explicit in the state.
+
+307
+00:39:12.880 --> 00:39:15.339
+stokes: Clients can just cache it locally.
+
+308
+00:39:16.060 --> 00:39:20.460
+stokes: But I should just be clear, yeah, who you want to validate against.
+
+309
+00:39:22.550 --> 00:39:35.860
+Potuz: The cache is actually quite trivial. We are… it turns out that Prysm is not caching the full epoch. Prysm is only caching the committee and computing slot by slot, but moving to the full epoch is trivial for us, so it's fine.
+
+310
+00:39:40.250 --> 00:39:41.639
+stokes: Do you have a link to the PR?
+
+311
+00:39:43.990 --> 00:39:45.230
+Potuz: Oh, yeah, let me find it.
+
+312
+00:39:45.820 --> 00:39:46.450
+stokes: Okay.
+
+313
+00:40:05.370 --> 00:40:11.110
+Justin Traglia: To be clear, this solution that you guys just talked about, would that mean not adding anything to the state?
+
+314
+00:40:11.840 --> 00:40:14.819
+Justin Traglia: Like, caching it in the clients outside of the state.
+
+315
+00:40:17.530 --> 00:40:22.489
+Potuz: No, no, no, this needs to be added somewhere. It needs to be clear what is the state that you're validating with, so…
+
+316
+00:40:22.900 --> 00:40:25.349
+Potuz: the PR caches it in the state.
+
+317
+00:40:26.160 --> 00:40:26.940
+Justin Traglia: I see.
+
+318
+00:40:26.940 --> 00:40:27.550
+stokes: Yeah, big 10.
+
+319
+00:40:27.550 --> 00:40:31.790
+Justin Traglia: 256 kilobytes is kind of a lot to be added to the state each.
+
+320
+00:40:32.700 --> 00:40:34.249
+Justin Traglia: Is it a slaughter epoch?
+
+321
+00:40:37.440 --> 00:40:42.200
+stokes: I think it's each epoch, but yeah, why can't it just say, you know, use the state?
+
+322
+00:40:42.640 --> 00:40:44.430
+stokes: In this case, I have the last slide.
+
+323
+00:40:45.960 --> 00:40:49.339
+stokes: Like, you just should just use the state that corresponds to the validators you're.
+
+324
+00:40:49.340 --> 00:40:55.260
+Potuz: Well, the state transition function is a function that takes one state, one block, and recovers a new state.
+
+325
+00:40:55.590 --> 00:41:02.909
+Potuz: If you… change the signature, that's a much deeper change. You're gonna be saying now, take two states.
+
+326
+00:41:03.100 --> 00:41:04.120
+stokes: Yeah, but we're seeing…
+
+327
+00:41:04.120 --> 00:41:04.809
+Potuz: Give me a new stake.
+
+328
+00:41:05.200 --> 00:41:06.440
+stokes: Hmm…
+
+329
+00:41:11.610 --> 00:41:17.870
+stokes: Yeah, I don't know… Is there nowhere else we don't do this?
+
+330
+00:41:17.870 --> 00:41:31.940
+Potuz: Yeah, there's no… no, no, this is… there's no way we're doing this, and… and even… we tried, like, milder changes before, of having one state and two blocks, like, to use the previous block as part of a state transition function, and…
+
+331
+00:41:32.160 --> 00:41:45.360
+Potuz: Danny almost kills us, and forced us to, like, cache… whenever we are in this kind of situation, we add an extra cache to the state. That's why we have headers, and we have a bunch of stuff in the states that we could just easily take from the previous block.
+
+332
+00:41:50.680 --> 00:41:57.590
+Justin Traglia: I think I'd prefer a solution that just adds the least amount of data to the state, whatever that is.
+
+333
+00:42:07.060 --> 00:42:12.250
+Potuz: So there is a solution that only adds, So, two committees?
+
+334
+00:42:12.390 --> 00:42:15.070
+Potuz: That is… that will be,
+
+335
+00:42:15.560 --> 00:42:20.450
+Potuz: a thousand, indices, so it's 8 kilobytes, I think.
+
+336
+00:42:22.020 --> 00:42:23.429
+Potuz: And that works.
+
+337
+00:42:23.730 --> 00:42:28.490
+Potuz: But then that forces clients to be, like, updating this
+
+338
+00:42:28.630 --> 00:42:37.470
+Potuz: So, to keeping the cache in memory, and then updating this state every slot. I can open that PR if you want. It's easy to open.
+
+339
+00:42:39.070 --> 00:42:45.859
+Potuz: I don't know what CL clients would think it's… I mean, there's a trade-off of complexity versus, like, having the space in the state or not.
+
+340
+00:42:48.540 --> 00:42:54.120
+Justin Traglia: Yeah, I would hold off on adding a PR for that. I think we should just continue discussing this more.
+
+341
+00:42:55.760 --> 00:42:56.539
+Justin Traglia: There you go.
+
+342
+00:42:59.310 --> 00:43:14.860
+Potuz: This one is a little bit more urgent than the previous one, because we do want to test PTC attestations, and we suspect that if we send PTC attestations now on DevNet0, we're gonna split. So I think that's the last thing we're gonna do. When we tested all of the existing structure.
+
+343
+00:43:15.010 --> 00:43:24.240
+Potuz: we are going to say, well, okay, so now we're fine by splitting, let's just send PTC attestations and see if we actually split, or everyone implemented the same kind of sort of cache.
+
+344
+00:43:26.810 --> 00:43:31.600
+Justin Traglia: Got it, yeah, let's make a decision on this, this week, and I can also…
+
+345
+00:43:31.710 --> 00:43:33.800
+Justin Traglia: make a SPAC release with this change as well.
+
+346
+00:43:39.230 --> 00:43:40.200
+danceratopz: Alright.
+
+347
+00:43:40.410 --> 00:43:43.400
+danceratopz: Thanks a lot, Justin.
+
+348
+00:43:44.540 --> 00:43:57.049
+danceratopz: I think we can continue that conversation async. Just in case you missed it, POTUS, Mario's already pushed a fix to the, GEF branch, the fix for reorgan to parents in the child wealth.
+
+349
+00:43:58.940 --> 00:44:05.759
+danceratopz: Is there anything else that we'd like to discuss on the ePBS DevNet before moving on?
+
+350
+00:44:08.410 --> 00:44:12.949
+Potuz: Can we quickly, like, decide parties here of what sort of, like, things we can…
+
+351
+00:44:13.180 --> 00:44:17.749
+Potuz: We can send, or… or it's fine if we just, like, comment on the chat.
+
+352
+00:44:19.240 --> 00:44:26.129
+Potuz: We want to, like, stress now EPBS.net zero. We can probably kill it by… but we can… we should, like, test
+
+353
+00:44:26.360 --> 00:44:34.750
+Potuz: I don't know, withdrawals and these kind of things. So for this, we just need to make sure that all… that we have clients that can handle, or that
+
+354
+00:44:34.890 --> 00:44:38.250
+Potuz: Think that they can handle, and what structures they can handle.
+
+355
+00:44:39.140 --> 00:44:44.669
+Parithosh Jayanthi: Can we make a thread on EPBS, and then we can have a list of things, and we'll take care of it.
+
+356
+00:44:46.690 --> 00:44:48.280
+Potuz: I'm sorry, Barry, I didn't hear you.
+
+357
+00:44:48.870 --> 00:44:59.459
+Parithosh Jayanthi: Can we make a list on the ETH R&D EPBS channel? And then, once we have a list, we can just go through it one by one? I'd rather first test it out locally before just breaking the live network.
+
+358
+00:45:02.730 --> 00:45:05.699
+Justin Traglia: Maybe it'd be nice to get some verbal,
+
+359
+00:45:06.000 --> 00:45:10.709
+Justin Traglia: Discussion on this really quickly, though? Like, what can clients not do? Is there anything?
+
+360
+00:45:11.040 --> 00:45:11.760
+Justin Traglia: work.
+
+361
+00:45:12.500 --> 00:45:16.419
+Justin Traglia: I don't know. I kind of agree with Botus that it might be nice to talk about.
+
+362
+00:45:23.720 --> 00:45:30.539
+Parithosh Jayanthi: Yeah, maybe withdrawals is the easiest first one. Is there any client that can handle withdrawals on EPPS DevNet Zero right now?
+
+363
+00:45:34.000 --> 00:45:42.100
+Potuz: Well… Withdrawals will happen once we have, Yeah, I don't know.
+
+364
+00:45:44.280 --> 00:45:47.210
+Potuz: We need to… so withdrawal request, you mean, right?
+
+365
+00:45:48.920 --> 00:45:49.480
+Parithosh Jayanthi: Yep.
+
+366
+00:45:53.090 --> 00:45:58.539
+Potuz: I think we should be able to ha- to handle them. Not sure. We can try.
+
+367
+00:46:02.310 --> 00:46:06.310
+Parithosh Jayanthi: Okay, we can create a local test and then share the outcome.
+
+368
+00:46:11.520 --> 00:46:21.830
+Parithosh Jayanthi: I would assume it's the same for deposits, blobs, transaction load, everything, so we can just try one test locally with everything and see what breaks?
+
+369
+00:46:22.410 --> 00:46:25.759
+Potuz: Right, so I'd like to try,
+
+370
+00:46:25.890 --> 00:46:31.450
+Potuz: Current structures that exist, whether or not we can continue to handle them, handling them.
+
+371
+00:46:31.780 --> 00:46:36.710
+Potuz: Especially if there is a missed slot, or a reorg of a payload.
+
+372
+00:46:38.370 --> 00:46:44.370
+Potuz: So, now the depth net is perfect, because there aren't that many missed lots. So… So it's good.
+
+373
+00:46:44.370 --> 00:46:55.160
+Parithosh Jayanthi: Yeah. Yeah, what we can probably do is Asserta can turn on and off block production, and then we can trigger missed slots via that, and then make sure that the network's still fine.
+
+374
+00:46:55.420 --> 00:46:58.199
+Parithosh Jayanthi: Yeah, I'll set up a test for it.
+
+375
+00:47:01.330 --> 00:47:06.070
+Justin Traglia: When you say builder deposits, or sorry, when you say deposits, does that include builder deposits?
+
+376
+00:47:06.310 --> 00:47:16.750
+Potuz: No, no, no, just the usual structures that exist now, and then once we know that we can handle those, like normal deposits, then we can just start dealing with builder deposits.
+
+377
+00:47:16.880 --> 00:47:19.529
+Potuz: I think that should be easy.
+
+378
+00:47:19.800 --> 00:47:34.909
+Potuz: And after that, we can just kill everything with BTC attestations, or trying to reorder just payloads. Like, we can start, like, withholding payloads, and these kind of things, and see if people, like, reorder the full block, or just build on empty.
+
+379
+00:47:37.200 --> 00:47:41.350
+Potuz: And then I'm sure we're gonna kill the devnet. I'm sure we're gonna be split then, but that's fine.
+
+380
+00:47:54.010 --> 00:47:57.239
+Justin Traglia: Okay, we'll continue discussing this on the ETHRNG Discord.
+
+381
+00:48:19.630 --> 00:48:21.019
+Justin Traglia: Dan, are you there?
+
+382
+00:48:22.230 --> 00:48:33.780
+danceratopz: Yeah, sorry, everyone. I had a bit of a sound problem for a minute, but I think I'm back now. I could hear you, Justin. Sorry about that. I lost the last minute of whatever was said or not said.
+
+383
+00:48:36.600 --> 00:48:47.889
+danceratopz: So, I have one short… in my agenda, I mentioned that Teco and Nimbus are not running on the DevNet. Is that… is that not true? Are all clients running on the DevNets at the moment?
+
+384
+00:48:51.920 --> 00:48:53.920
+Potuz: Techo and Nimbus are not running.
+
+385
+00:48:54.530 --> 00:48:54.930
+danceratopz: Okay.
+
+386
+00:48:54.930 --> 00:49:01.729
+Potuz: But, Stefan, I don't know if Stefan is here, but Stefan said that he might be able to hack a branch to sync.
+
+387
+00:49:01.730 --> 00:49:03.960
+Stefan Bratanov: So if we, if we start…
+
+388
+00:49:03.960 --> 00:49:08.450
+Potuz: from Genesis, I think, both work, but syncing is a problem, or checkpoint syncing is a problem.
+
+389
+00:49:09.260 --> 00:49:14.419
+Stefan Bratanov: Yeah, I'm working on it at the moment, but haven't done it yet.
+
+390
+00:49:18.600 --> 00:49:19.210
+danceratopz: Okay.
+
+391
+00:49:20.230 --> 00:49:27.749
+danceratopz: I was just wondering whether, it's time to up the ante on testing on the DevNet when some client teams haven't joined yet, but…
+
+392
+00:49:29.880 --> 00:49:35.780
+danceratopz: I'll let you, decide that based on local testing, if that's how you're gonna move forward.
+
+393
+00:49:42.300 --> 00:49:48.199
+danceratopz: Are there any other topics for EPS DevNet Zero before we move on?
+
+394
+00:49:53.840 --> 00:49:54.930
+danceratopz: Alright.
+
+395
+00:49:55.690 --> 00:50:00.820
+danceratopz: Then, Tony brought up on the agenda
+
+396
+00:50:01.360 --> 00:50:08.290
+danceratopz: he wanted to talk about a networking protocol change for Snap 2. Tony, would you like to speak to that?
+
+397
+00:50:09.030 --> 00:50:13.359
+Toni Wahrstätter: Yes, I will be quick with that one. Gary and me have,
+
+398
+00:50:14.180 --> 00:50:19.890
+Toni Wahrstätter: began inspecting SNAP2, which is, SNAP protocol using block access list.
+
+399
+00:50:20.200 --> 00:50:25.070
+Toni Wahrstätter: It's an early draft, so I would love to have more eyes on it.
+
+400
+00:50:25.270 --> 00:50:30.820
+Toni Wahrstätter: Basically, instead of, using getTryNotes, it will use the block level access list to…
+
+401
+00:50:30.930 --> 00:50:34.850
+Toni Wahrstätter: do the healing phase in SnapSync. That's kind of the TLDR.
+
+402
+00:50:35.160 --> 00:50:36.300
+Toni Wahrstätter: And, yeah.
+
+403
+00:50:36.650 --> 00:50:38.370
+Toni Wahrstätter: More to become.
+
+404
+00:50:39.160 --> 00:50:41.460
+Toni Wahrstätter: But would be great to get some feedback on it.
+
+405
+00:51:04.120 --> 00:51:10.259
+danceratopz: Sorry, yeah, thanks a lot, Tony. Tony just dropped the link in the chat if anyone wants to provide feedback.
+
+406
+00:51:10.590 --> 00:51:11.950
+danceratopz: Please take a look.
+
+407
+00:51:12.480 --> 00:51:18.980
+danceratopz: And I think Joachim's question moves on to the next agenda point, so if, just quickly.
+
+408
+00:51:19.090 --> 00:51:27.209
+danceratopz: If anyone would like to mention something now about SNAP2, please speak up. Otherwise, we'll move on to EV70, EV71.
+
+409
+00:51:31.630 --> 00:51:32.580
+danceratopz: Okay.
+
+410
+00:51:33.440 --> 00:51:38.270
+danceratopz: So, Tony had another agenda point for ETH71.
+
+411
+00:51:38.420 --> 00:51:42.950
+danceratopz: To clarify the response size cap, would you like to say something to that?
+
+412
+00:51:44.630 --> 00:52:03.070
+Toni Wahrstätter: Yeah, this was, this was a mistake I made, so I was just, thinking of the 10MB limit, which we had in EVE70 with the receipts, but, thanks to Besu, who pointed out on EVE Magicians, that GEF is using, for example, GEF is using a 2MB softcap.
+
+413
+00:52:03.230 --> 00:52:11.829
+Toni Wahrstätter: And EVE71 for block cloud access lists now also have… has the same soft cap of 2MB. So this was a…
+
+414
+00:52:12.190 --> 00:52:15.609
+Toni Wahrstätter: Very recent change I just did today, just as a heads up.
+
+415
+00:52:19.000 --> 00:52:22.900
+danceratopz: Awesome. Thanks a lot for the information, Tony.
+
+416
+00:52:23.180 --> 00:52:25.799
+danceratopz: Is there anything to discuss for EV70?
+
+417
+00:52:27.100 --> 00:52:29.239
+danceratopz: Does anyone have context on this?
+
+418
+00:52:31.080 --> 00:52:32.750
+danceratopz: Is this blocking anyone?
+
+419
+00:52:40.530 --> 00:52:45.040
+danceratopz: Okay. If no one… Has anything to say there?
+
+420
+00:52:45.580 --> 00:52:48.789
+danceratopz: then I would move on to…
+
+421
+00:52:49.860 --> 00:52:55.710
+danceratopz: Benchmarking and state bloat, in particular performance DevNet 3.
+
+422
+00:52:56.100 --> 00:53:00.540
+danceratopz: Would someone like to give an update on the Perf DevNet 3?
+
+423
+00:53:03.190 --> 00:53:20.279
+Louis: I can give a quick update. So, for the blotting process, we already completed blotting for EOA account and ERC20. We have a smaller size ERC20 that targeted, necessary benchmark.
+
+424
+00:53:20.410 --> 00:53:31.800
+Louis: And, we have an updated version of a related benchmark, including account access benchmark and Storage Operation Related Benchmark.
+
+425
+00:53:31.920 --> 00:53:38.790
+Louis: And we're now moving forward to generate the payload using guest benchmark tools from Nita and my team.
+
+426
+00:53:38.960 --> 00:53:42.080
+Louis: And collecting the data using Benchmarker.
+
+427
+00:53:42.560 --> 00:53:52.109
+Louis: On the agenda, I see there's some questions regarding the snapshot management. I'm not entirely sure about the details.
+
+428
+00:53:52.300 --> 00:53:58.080
+Louis: I see Johong on the call, maybe Johong could chime in for more details?
+
+429
+00:53:59.620 --> 00:54:02.470
+jochem-brouwer: Yeah, so on the… can everyone hear?
+
+430
+00:54:02.730 --> 00:54:03.670
+jochem-brouwer: That's true.
+
+431
+00:54:04.690 --> 00:54:05.050
+jochem-brouwer: Yes?
+
+432
+00:54:05.470 --> 00:54:13.830
+jochem-brouwer: Oh, great, great. So, on the DevNet, well, to take a snapshot, you of course have to have a synced client.
+
+433
+00:54:14.030 --> 00:54:20.609
+jochem-brouwer: As of now, we have, the clients Rev, Nethermind, Besu, and Kev.
+
+434
+00:54:20.850 --> 00:54:29.720
+jochem-brouwer: Here we go as a problem, but the plan is, if it is synced, then we will take another snapshot, and we will use that snapshot for the snapshot item.
+
+435
+00:54:38.930 --> 00:54:42.190
+danceratopz: Alright, thank you for the updates.
+
+436
+00:54:43.410 --> 00:54:49.650
+danceratopz: Lewis, did you want to add any other… did you have any other questions for client teams regarding…
+
+437
+00:54:52.030 --> 00:54:55.879
+Louis: Adding note from my side. Thank you.
+
+438
+00:54:56.550 --> 00:54:57.350
+danceratopz: Okay.
+
+439
+00:54:58.770 --> 00:54:59.820
+danceratopz: Jocham?
+
+440
+00:54:59.820 --> 00:55:06.330
+jochem-brouwer: Yes, one more point. So we are currently targeting the benchmarks for the repricing.
+
+441
+00:55:06.450 --> 00:55:12.980
+jochem-brouwer: But, I will also ask, to start learning the block-level access list benchmarks.
+
+442
+00:55:13.190 --> 00:55:14.930
+jochem-brouwer: We have some…
+
+443
+00:55:15.590 --> 00:55:26.009
+jochem-brouwer: benchmarks for that already. I think they are not merged yet, but I will focus on that this week to get these merged, and to also add additional benchmarks to also target the block level access lists.
+
+444
+00:55:26.240 --> 00:55:32.059
+jochem-brouwer: I think we will target the Perth DevNet, because then we can also focus on the state.
+
+445
+00:55:32.500 --> 00:55:41.960
+jochem-brouwer: To see what the impact is on the block access list there. So, also building clients with the block access list optimizations and without them to see the,
+
+446
+00:55:42.170 --> 00:55:45.350
+jochem-brouwer: Well, what they optimize and what the impact of these is.
+
+447
+00:55:45.470 --> 00:55:46.780
+jochem-brouwer: Yep, thank you.
+
+448
+00:55:50.480 --> 00:55:52.220
+danceratopz: Awesome, thank you, Joachim.
+
+449
+00:55:53.640 --> 00:55:59.209
+danceratopz: Is our all client synced to the DevNet now?
+
+450
+00:55:59.860 --> 00:56:01.049
+danceratopz: Or is it…
+
+451
+00:56:01.480 --> 00:56:03.400
+jochem-brouwer: No. Is there still some points missing?
+
+452
+00:56:03.620 --> 00:56:09.820
+jochem-brouwer: Here we go, it's not fixed, but I see on Discord that there is a fix ready.
+
+453
+00:56:10.150 --> 00:56:14.720
+jochem-brouwer: Except that it needs a resync, so this
+
+454
+00:56:14.860 --> 00:56:25.539
+jochem-brouwer: is going to take some time, but this is not a blocker for the benchmarks, we will bring them on the synced clients, and we will try to get everyone synced, and to also add those to the benchmarks.
+
+455
+00:56:26.680 --> 00:56:44.229
+jochem-brouwer: And one of the reasons, just to add this, is that the, well, not the reason, but one of the causes is that only DevNet, we really, well, we raise, like, the gas limit by a lot, and this stresses the clients, of course, and, well, this might run into unforeseen issues.
+
+456
+00:56:44.290 --> 00:56:50.139
+jochem-brouwer: Like, I'm not going to speculate, but one of these things are, like, out-of-memory issues where,
+
+457
+00:56:50.350 --> 00:57:04.969
+jochem-brouwer: well, there's, like, a lot of state changes happening, and these state changes are all loaded into memory, and this causes an out-of-memory. And this, of course, only a thing which happens if you, like, raise the guesstimate by a lot, and then start to spam this network with a lot of these bugs.
+
+458
+00:57:05.090 --> 00:57:19.490
+jochem-brouwer: But it's, I think, still nice to see… to find these kind of bugs and to fix these now. So we are basically ready for, like, a 5-giga-gas network based on these kind of stats, yeah.
+
+459
+00:57:20.170 --> 00:57:24.519
+jochem-brouwer: But I'm not saying we should move to 5G, I guess, on mainnet, of course, yeah.
+
+460
+00:57:26.920 --> 00:57:30.429
+danceratopz: Awesome, thanks a lot for the clarification, Joachim.
+
+461
+00:57:31.050 --> 00:57:40.770
+danceratopz: All right, any other topics for Perf DevNet 3, or for… Other benchmarking topics in total?
+
+462
+00:57:45.130 --> 00:57:51.730
+danceratopz: There's, of course, an informal gaslighting committee meeting tomorrow, if client teams wants to join.
+
+463
+00:57:52.670 --> 00:57:55.280
+danceratopz: Just drop a line to Lewis.
+
+464
+00:57:55.520 --> 00:57:57.800
+danceratopz: Or Maria, or Jocham?
+
+465
+00:57:59.080 --> 00:58:00.510
+danceratopz: And us to join.
+
+466
+00:58:01.380 --> 00:58:02.460
+danceratopz: Otherwise?
+
+467
+00:58:02.780 --> 00:58:05.899
+danceratopz: Any other topics on benchmarking or stay below?
+
+468
+00:58:10.320 --> 00:58:11.290
+danceratopz: Okay.
+
+469
+00:58:11.610 --> 00:58:16.940
+danceratopz: So, we're very close to the end of agenda. The only other topic
+
+470
+00:58:17.800 --> 00:58:30.430
+danceratopz: that I would, that I added to the agenda was basically there was some discussion about the ACDT cadence, and whether we should reduce this. I think…
+
+471
+00:58:31.040 --> 00:58:39.310
+danceratopz: I would just say, given the amount of discussion we have on this call at the moment, I think it's… it's merited to have it weekly.
+
+472
+00:58:39.550 --> 00:58:48.040
+danceratopz: But of course, it's… I understand that it's a diverse scope of topics, and that not all topics are directly relevant to a lot of people on the call.
+
+473
+00:58:48.570 --> 00:58:55.540
+danceratopz: I added the link to the thread in the ETH R&D Discord server thread.
+
+474
+00:58:55.850 --> 00:59:03.190
+danceratopz: To the agenda, please chime in there, but if anyone wants to add quickly their two cents before we finish up for today.
+
+475
+00:59:03.820 --> 00:59:05.569
+danceratopz: Please feel free to speak up.
+
+476
+00:59:07.940 --> 00:59:16.000
+Parithosh Jayanthi: Yeah, maybe one thing I was thinking of was taking a call about next week's ACDT by roughly, like, Wednesday or Thursday.
+
+477
+00:59:16.160 --> 00:59:32.949
+Parithosh Jayanthi: If it feels like there's mostly just topics to discuss on one specific, feature, for example, if it's EPBS or whether it's block-level access list, then we could just defer the call to an EPBS breakout, so that the teams can go deeper into those, those niches.
+
+478
+00:59:35.090 --> 00:59:36.240
+Parithosh Jayanthi: Yeah, portal.
+
+479
+00:59:37.040 --> 00:59:46.420
+Potuz: I'd suggest that we have a call that doesn't have a topic, and whose topic is chosen every week. So, for example, now we could say,
+
+480
+00:59:46.530 --> 00:59:53.580
+Potuz: benchmarking this or that feature on block-level access list requires a discussion, let's just take that spot on Wednesday.
+
+481
+00:59:54.960 --> 01:00:00.740
+Potuz: So that that call actually is a technical call, and only is attended by people that know that they want to be there.
+
+482
+01:00:04.460 --> 01:00:08.820
+Potuz: No, Nick, so it's not really ACDT, because ACDT now has
+
+483
+01:00:09.150 --> 01:00:16.579
+Potuz: I don't know, 20, 30, 40 people talking about completely separate topics, and none of them actually gets to be discussed in detail.
+
+484
+01:00:17.010 --> 01:00:19.860
+Potuz: Well, at least none of the ones that I know about.
+
+485
+01:00:21.160 --> 01:00:31.129
+danceratopz: So, this suggestion would be similar to how ACD got split into the EL and the CL calls. We could do the same for ACDT and rotate.
+
+486
+01:00:31.130 --> 01:00:38.950
+Potuz: No, because that… that keeps them… that keeps them every week, already forced, everyone from ACDC to go there. What I say is.
+
+487
+01:00:39.060 --> 01:00:51.159
+Potuz: we have a topic, we decide now, today, or an ACD, or whatever, or even an async, we have this topic, let's cover it in that call. And let's just have a focused call that is a very technical call.
+
+488
+01:00:53.670 --> 01:00:58.830
+danceratopz: So just reserve the spot for breakouts, and define the breakout subject based on demand.
+
+489
+01:01:00.630 --> 01:01:02.979
+danceratopz: Okay, Tony, did you want to add something?
+
+490
+01:01:04.040 --> 01:01:11.709
+Toni Wahrstätter: Yes, we also wanted to stop doing the Brock Cloud Access List breakout calls, and move them to ACDT.
+
+491
+01:01:11.840 --> 01:01:16.750
+Toni Wahrstätter: So as of… as of today, we are still on Wednesday.
+
+492
+01:01:17.000 --> 01:01:22.590
+Toni Wahrstätter: Every two weeks is the Block Club Accessless breakout call, and every other week there is the repricing breakout call.
+
+493
+01:01:22.680 --> 01:01:42.229
+Toni Wahrstätter: And we could also use that spot, so I think that's basically what Podos said. For example, with all the benchmarking that is still needed and might still need a breakout call, we could move it to do it weekly, or have that new spot that the block of access list breakout call had to do other, breakout sessions.
+
+494
+01:01:48.950 --> 01:01:53.770
+danceratopz: Okay. All right, thanks a lot. Yep, sorry, did someone want to speak up?
+
+495
+01:01:54.230 --> 01:02:04.389
+Parithosh Jayanthi: Yeah, I think part of the issue might just be that it's a seasonal thing. Maybe right now, the better option is to seed ACD in terms of,
+
+496
+01:02:04.840 --> 01:02:17.699
+Parithosh Jayanthi: sorry, ACDT in terms of more breakout sessions, because it seems like there's more interest in diving deeper into topics rather than making quicker decisions. Maybe in two months, that's not the case anymore, and we just need to meet to make quicker decisions.
+
+497
+01:02:17.820 --> 01:02:34.089
+Parithosh Jayanthi: So yeah, we… Mario and I can maybe take a call on it on a weekly basis. If it feels like there's a lot of piled up decisions across different streams, we can say that we do ACDT, but on weeks that there aren't, then we can, cede to…
+
+498
+01:02:34.240 --> 01:02:37.700
+Parithosh Jayanthi: switch to a breakout format. Does that sound like a fair outcome?
+
+499
+01:02:47.970 --> 01:02:49.099
+danceratopz: That sounds fine.
+
+500
+01:02:51.910 --> 01:03:01.770
+danceratopz: Thank you, Perry. I think we can leave it there. Continue a discussion async, perhaps in that thread. Thanks, Justin, also for offering to help, that's awesome.
+
+501
+01:03:02.020 --> 01:03:06.160
+danceratopz: We're at the hour, so thanks a lot for everyone for coming.
+
+502
+01:03:06.490 --> 01:03:09.600
+danceratopz: And for your contributions, been a really good call.
+
+503
+01:03:09.910 --> 01:03:11.910
+danceratopz: Thanks a lot, see you next time.
+
+504
+01:03:13.470 --> 01:03:14.260
+Potuz: Bye-bye.
+
+505
+01:03:15.330 --> 01:03:16.270
+Louis: Thank you.
+
+506
+01:03:17.280 --> 01:03:18.170
+Łukasz Rozmej: Bye, thank you.
+
+507
+01:03:18.460 --> 01:03:19.889
+Toni Wahrstätter: Thank you, bye-bye.
+
