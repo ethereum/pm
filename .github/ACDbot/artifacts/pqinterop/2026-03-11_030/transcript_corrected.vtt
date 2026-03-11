@@ -1,0 +1,1482 @@
+WEBVTT
+
+1
+00:11:36.550 --> 00:11:38.120
+Will Corcoran: Alright, good morning, all.
+
+2
+00:11:38.810 --> 00:11:42.370
+Will Corcoran: Welcome to… this is PQ interrupt call number 30.
+
+3
+00:11:43.360 --> 00:11:46.410
+Will Corcoran: Let's jump in with some client updates.
+
+4
+00:11:47.080 --> 00:11:48.270
+Will Corcoran: Loom team.
+
+5
+00:11:51.120 --> 00:11:52.830
+Gajinder Singh: Hello, everyone. Hi, Bill.
+
+6
+00:11:53.300 --> 00:12:04.890
+Gajinder Singh: Yeah, so we have been working on stabilizing our client. We have… we identified a few issues with the way we were importing things in fork choice and processing.
+
+7
+00:12:05.030 --> 00:12:10.439
+Gajinder Singh: New and known payloads, so that is something that we fixed.
+
+8
+00:12:10.860 --> 00:12:27.880
+Gajinder Singh: And, we have also identif… we also identified a small issue in the spec, for finalization, in straight transition function, where basically, whenever new finalized slot was, discovered, it was…
+
+9
+00:12:27.980 --> 00:12:36.240
+Gajinder Singh: It was not then iteratively used, in the next, for deciding for the next finalizations in the same block.
+
+10
+00:12:36.460 --> 00:12:41.550
+Gajinder Singh: So the issue was that if you basically split up the votes among two blocks, it would…
+
+11
+00:12:41.700 --> 00:12:44.580
+Gajinder Singh: It would result in a different…
+
+12
+00:12:44.900 --> 00:12:51.549
+Gajinder Singh: Finalization, and and basically we wanted a behavior in which,
+
+13
+00:12:51.690 --> 00:13:02.019
+Gajinder Singh: things would be more stable and consistent across blocks. So, we did a… we did an upstream PR for it, and if other clients have
+
+14
+00:13:02.510 --> 00:13:05.630
+Gajinder Singh: Seen it, please do implement it.
+
+15
+00:13:05.780 --> 00:13:08.960
+Gajinder Singh: Because otherwise it will result into consensus issues.
+
+16
+00:13:09.180 --> 00:13:16.509
+Gajinder Singh: Apart from that, we worked on, DevNet 3,
+
+17
+00:13:17.140 --> 00:13:24.000
+Gajinder Singh: runs, and, whatever issues Katya and Path had discovered, basically, they,
+
+18
+00:13:24.100 --> 00:13:26.019
+Gajinder Singh: They notified it to the teams.
+
+19
+00:13:26.480 --> 00:13:32.650
+Gajinder Singh: And, we have also improved… we have also improved Lean Quick Start.
+
+20
+00:13:33.060 --> 00:13:36.740
+Gajinder Singh: incorporated changes in the inquisitive for DevNet 3.
+
+21
+00:13:36.840 --> 00:13:56.579
+Gajinder Singh: On spec work, we have worked on DevNet 4, the PR is… Unsurance PR is out, and, so please give a review, I'm also reviewing it, as well as we put a DevNet 5 PR, which, we propose that we basically merge into DevNet 4 itself, so that, so the DevNet 5 PR was…
+
+22
+00:13:56.970 --> 00:13:59.419
+Gajinder Singh: For separating out,
+
+23
+00:13:59.530 --> 00:14:06.510
+Gajinder Singh: the proposer and the tester key, which we will… we are proposing that we just do it as DevNet.
+
+24
+00:14:06.750 --> 00:14:07.869
+Gajinder Singh: Portage settles.
+
+25
+00:14:08.120 --> 00:14:13.239
+Gajinder Singh: Because otherwise, DevNet forwards changes are not so many.
+
+26
+00:14:14.860 --> 00:14:23.449
+Gajinder Singh: Yep, so we have been doing debuggings and figuring out stability issues and working a bit on spec work as well, so yeah.
+
+27
+00:14:26.800 --> 00:14:27.540
+Will Corcoran: Excellent.
+
+28
+00:14:27.880 --> 00:14:31.980
+Will Corcoran: I'm gonna share my screen.
+
+29
+00:14:33.860 --> 00:14:53.299
+Will Corcoran: Feel free to call anything out here. I've been screwing around with Claude Code myself, old dog, learning new tricks, trying to write some cron jobs to, like, highlight all the work that you all are doing, so this runs a weekly summary and just pulls in, like, all the PRs that have been merged, opened, most discussed.
+
+30
+00:14:53.570 --> 00:14:58.370
+Will Corcoran: So I can leave this open, and I'd like to… maybe…
+
+31
+00:14:58.540 --> 00:15:01.280
+Will Corcoran: Refine this as we go, but feel free to
+
+32
+00:15:01.430 --> 00:15:06.469
+Will Corcoran: highlight any PRs that you want to talk about, and I can drop them into the chat.
+
+33
+00:15:07.090 --> 00:15:09.580
+Will Corcoran: Loom team.
+
+34
+00:15:10.350 --> 00:15:21.299
+Shariq Naiyer: Sweet, sweet. Yeah, that looks pretty… that looks pretty good. On the REAM side, we… we have been aggressively debugging, what's happening in our DevNets.
+
+35
+00:15:21.300 --> 00:15:46.280
+Shariq Naiyer: And, some of the issues we found, around consensus, as, as Gajinder pointed out, we initially matched the spec, but then, as Gajinder pointed out, that we would like to go for, the behavior that we had previously, we reverted that change. We were testing out check… we were having some issues with checkpoint sync, and, we found that the issue
+
+36
+00:15:46.280 --> 00:15:52.130
+Shariq Naiyer: who was, initialize… we weren't initializing the Folk Choice store, or…
+
+37
+00:15:52.370 --> 00:16:06.870
+Shariq Naiyer: if… we weren't initializing the FolkChoice store properly with some… with some configs that needed to be changed. So… so that has been… that has been updated, and as we can see in today's DevNet, I'm finding the clients to be fairly stable.
+
+38
+00:16:07.100 --> 00:16:25.469
+Shariq Naiyer: we're at, like, a thousand slots right now, 1,000 finalized slots, and, I'm expect… and if all clients have merged the, the… the spec change, like, 443, then, then I think… I think we'll have a pretty good DevNet today. As for…
+
+39
+00:16:26.090 --> 00:16:36.030
+Shariq Naiyer: Apart from that, we added DevNet3 metrics, and we added additional testing. We added a CI that now runs for 3 hours, but it tests our client
+
+40
+00:16:36.030 --> 00:16:51.419
+Shariq Naiyer: in relation to all other clients, I think… I think it's pretty beneficial to have that for now. Eventually we'll move that to, like, a nightly CI. As for… as for DevNet 4, we're reviewing the DevNet 4, spec PR.
+
+41
+00:16:51.450 --> 00:16:57.990
+Shariq Naiyer: But… but yeah, beyond that, I don't think we've had much happen in DevNet 4 this week.
+
+42
+00:16:58.050 --> 00:17:02.760
+Shariq Naiyer: As for the spec side of things, we've pushed a PR for,
+
+43
+00:17:03.650 --> 00:17:27.549
+Shariq Naiyer: we pushed a couple of PRs, O push to PR for changing the signature to, signature serialization to fixed bytes, from the, from the lean spec client, and I think in the lean spec as well, because all other clients were implementing fixed bytes, which was different from the spec, and we pushed to PR to,
+
+44
+00:17:28.280 --> 00:17:33.010
+Shariq Naiyer: for the API spec test to test the folk choice endpoint as well.
+
+45
+00:17:33.170 --> 00:17:36.430
+Shariq Naiyer: And… and yeah, yeah, that's all from our end.
+
+46
+00:17:40.020 --> 00:17:40.760
+Will Corcoran: Sure.
+
+47
+00:17:41.280 --> 00:17:43.250
+Will Corcoran: Grandine team.
+
+48
+00:17:49.250 --> 00:17:51.559
+Will Corcoran: I think your audio cut out, Russell.
+
+49
+00:17:51.560 --> 00:17:53.160
+Ruslan Tushov: Hello.
+
+50
+00:17:54.250 --> 00:17:54.570
+Will Corcoran: Perfect.
+
+51
+00:17:54.570 --> 00:17:55.700
+Ruslan Tushov: Can you hear me now?
+
+52
+00:17:55.700 --> 00:17:56.450
+Will Corcoran: Yep.
+
+53
+00:17:56.680 --> 00:18:02.050
+Ruslan Tushov: Okay, so, today… Someone…
+
+54
+00:18:02.220 --> 00:18:12.140
+Ruslan Tushov: wrote in the chat about, fork choice P endpoint. We added, pull requests. Currently, it's under review.
+
+55
+00:18:12.520 --> 00:18:22.129
+Ruslan Tushov: Also, we merged some remaining DevNet30 requests that were not merged into master.
+
+56
+00:18:22.580 --> 00:18:34.210
+Ruslan Tushov: Also cut, helped us to find some crash, in our computerMD ghost head function.
+
+57
+00:18:34.720 --> 00:18:44.339
+Ruslan Tushov: We'll check it later, and somehow, when we restart the docker, port becomes busy.
+
+58
+00:18:46.690 --> 00:18:52.010
+Ruslan Tushov: It's, uses network host, from Linkwick Start.
+
+59
+00:18:52.120 --> 00:18:55.599
+Ruslan Tushov: And we use Bustache for networking.
+
+60
+00:18:55.980 --> 00:19:01.450
+Ruslan Tushov: didn't… Also, didn't find a solution yet.
+
+61
+00:19:02.470 --> 00:19:08.489
+Ruslan Tushov: Oh… Also, we are doing some…
+
+62
+00:19:09.920 --> 00:19:22.300
+Ruslan Tushov: We're looking up into automating some interop tests, simple interop tests, which, for example, check that chain growth and finalizes and checks other metrics.
+
+63
+00:19:22.450 --> 00:19:25.470
+Ruslan Tushov: Also, not restarts and syncing.
+
+64
+00:19:25.720 --> 00:19:30.720
+Ruslan Tushov: But we're still cleaning it up, so not published yet.
+
+65
+00:19:31.480 --> 00:19:33.119
+Ruslan Tushov: Thank you, that's all.
+
+66
+00:19:36.660 --> 00:19:38.730
+Will Corcoran: Great, thanks, Austin. And the…
+
+67
+00:19:38.850 --> 00:19:45.209
+Will Corcoran: Chat Russellin was referring to is in the tooling channel of the main telegram group.
+
+68
+00:19:45.470 --> 00:19:46.609
+Will Corcoran: If you're interested.
+
+69
+00:19:46.710 --> 00:19:54.340
+Will Corcoran: mihir is… was not able to make it,
+
+70
+00:19:55.820 --> 00:20:02.900
+Will Corcoran: I will post a message that he wrote, and I… Chat to… So…
+
+71
+00:20:03.400 --> 00:20:09.269
+Will Corcoran: If you're interested in reviewing that, that PR… There you go.
+
+72
+00:20:09.940 --> 00:20:12.100
+Will Corcoran: Grandine.
+
+73
+00:20:18.770 --> 00:20:20.339
+Shaaibu Suleiman |gean: Yes, hello.
+
+74
+00:20:21.120 --> 00:20:28.079
+Shaaibu Suleiman |gean: Yeah, so for, what we've been able to do, we've implemented, persistent storage.
+
+75
+00:20:28.350 --> 00:20:36.009
+Shaaibu Suleiman |gean: We've chose to move forward with, BoltDB, and we've, implemented, that for persistent storage.
+
+76
+00:20:36.300 --> 00:20:42.529
+Shaaibu Suleiman |gean: And we have also actively started on, working on DevNet3, basically.
+
+77
+00:20:43.140 --> 00:20:58.100
+Shaaibu Suleiman |gean: We've, separated, both, signature aggregation from block production, basically, by introducing the aggregator rule, and of course, added, or introduced two more topics.
+
+78
+00:20:58.370 --> 00:21:05.179
+Shaaibu Suleiman |gean: For, propagation of both signed attestation and signed aggregated attestation, which are the requirements.
+
+79
+00:21:05.590 --> 00:21:12.090
+Shaaibu Suleiman |gean: For DEFNET3, alongside, you know, other requirements that we are actively working on.
+
+80
+00:21:12.370 --> 00:21:18.479
+Shaaibu Suleiman |gean: Right now. We have, a draft PR that is currently actively under review.
+
+81
+00:21:18.940 --> 00:21:24.659
+Shaaibu Suleiman |gean: For DevNet 3, to see how we can facilitate, things and complete, DevNet 3.
+
+82
+00:21:24.780 --> 00:21:33.079
+Shaaibu Suleiman |gean: But, all things being equal, by the end of this week, we should, raise a PR on Lean Quick Start to participate, in…
+
+83
+00:21:33.210 --> 00:21:42.369
+Shaaibu Suleiman |gean: the multi-client, interop, and all that. So basically, that's that, that's that from us, Ajin. Thank you.
+
+84
+00:21:45.870 --> 00:21:47.080
+Will Corcoran: Amazing, thank you.
+
+85
+00:21:47.830 --> 00:21:49.120
+Will Corcoran: EthLambda.
+
+86
+00:21:51.860 --> 00:21:52.470
+Pablo Deymo | Lambda: Hello!
+
+87
+00:21:53.110 --> 00:22:02.240
+Pablo Deymo | Lambda: We were working on the memory issues we had. We implemented a circular offer.
+
+88
+00:22:02.450 --> 00:22:06.780
+Pablo Deymo | Lambda: to put a limit to the memory consumption.
+
+89
+00:22:07.340 --> 00:22:12.470
+Pablo Deymo | Lambda: We also merged the beer with the pruning.
+
+90
+00:22:13.150 --> 00:22:22.800
+Pablo Deymo | Lambda: We… We've implemented a new version of our… a framework.
+
+91
+00:22:23.080 --> 00:22:36.720
+Pablo Deymo | Lambda: a concurrency for the actor model. We call it Spawn. It's a library of Lambda class, and so we moved to this new version, which is more ergonomic, written in Rust.
+
+92
+00:22:37.040 --> 00:22:44.429
+Pablo Deymo | Lambda: We also put this, the usage of this framework in P2P module of EthLambda.
+
+93
+00:22:45.060 --> 00:22:57.299
+Pablo Deymo | Lambda: We made some networking improvements to improve the resilience of the node. For example, excluding, failed peers, from block fetch.
+
+94
+00:22:57.470 --> 00:22:59.460
+Pablo Deymo | Lambda: from roughly retry.
+
+95
+00:23:02.600 --> 00:23:18.229
+Pablo Deymo | Lambda: And we made some small changes we were doing in the spec to align to the Boolean spec, changing the naming of epoch to slow, and signing the station message to data.
+
+96
+00:23:18.810 --> 00:23:25.119
+Pablo Deymo | Lambda: And, the last but not least, we implemented the pending lead metrics we have.
+
+97
+00:23:25.330 --> 00:23:30.990
+Pablo Deymo | Lambda: Especially the Aggregator, we had, Depending there.
+
+98
+00:23:31.280 --> 00:23:33.570
+Pablo Deymo | Lambda: So… That's it.
+
+99
+00:23:35.010 --> 00:23:35.870
+Pablo Deymo | Lambda: Thank you.
+
+100
+00:23:38.440 --> 00:23:39.210
+Will Corcoran: Thank you.
+
+101
+00:23:39.480 --> 00:23:42.210
+Will Corcoran: Any other client updates?
+
+102
+00:23:49.160 --> 00:23:53.410
+Will Corcoran: All right. Moving on to specs, research.
+
+103
+00:23:56.150 --> 00:23:58.069
+Thomas Coratger: Hmm, yeah,
+
+104
+00:23:58.440 --> 00:24:06.480
+Thomas Coratger: This week, we haven't worked that much, on spec in order to let client teams,
+
+105
+00:24:06.740 --> 00:24:09.569
+Thomas Coratger: debug and adapt with DevNet 3.
+
+106
+00:24:09.910 --> 00:24:15.659
+Thomas Coratger: The good news on the spec is that, thanks to recent PR,
+
+107
+00:24:15.870 --> 00:24:28.010
+Thomas Coratger: it seems that we have interrupt between the lean spec in Python and other clients, at least Zim, for the other ones, I am not sure, so that is pretty good.
+
+108
+00:24:28.330 --> 00:24:35.749
+Thomas Coratger: We also added, with the PR of PARTA, yesterday, the metrics.
+
+109
+00:24:36.090 --> 00:24:42.740
+Thomas Coratger: in LeanSpec, in order to be able to integrate with Prometheus and LeanQuick Start stuff.
+
+110
+00:24:43.000 --> 00:24:44.690
+Thomas Coratger: Like, your other clients.
+
+111
+00:24:45.630 --> 00:24:53.000
+Thomas Coratger: On the research side, we worked a lot with, blonQ3 and LinVM,
+
+112
+00:24:53.380 --> 00:25:02.180
+Thomas Coratger: Emily can detail further the LinVM work, but basically, we worked this week to improve a lot the performance of Poseidon 1.
+
+113
+00:25:02.600 --> 00:25:07.419
+Thomas Coratger: both in plain text and in the proving context. That is,
+
+114
+00:25:07.550 --> 00:25:19.329
+Thomas Coratger: we have… we are… we have two targets of optimization. One is just hashing inputs using Poseidon 1, and the other one is proving hashes of Poseidon 1.
+
+115
+00:25:19.520 --> 00:25:27.360
+Thomas Coratger: So, we worked on both of these targets with various fields combinations, so baby bear, koala bear.
+
+116
+00:25:27.490 --> 00:25:32.500
+Thomas Coratger: Goldilocks and Merced 31, so we worked to improve the benchmark.
+
+117
+00:25:32.870 --> 00:25:45.999
+Thomas Coratger: to see how fast we can get, when compared to Poseidon 1, Poseidon 2, in order to have real comparison, and it appears that approximately, for the plain text comparison.
+
+118
+00:25:46.140 --> 00:25:56.120
+Thomas Coratger: We are only 1.8 slower than Poseidon 2, which is a pretty good news, because we thought it would be much worse.
+
+119
+00:25:56.900 --> 00:26:10.309
+Thomas Coratger: So yeah, this is pretty good news, and we worked a lot on this. If you are interested by all of this work, you can check all of the PR that we made on Prong History recently.
+
+120
+00:26:10.670 --> 00:26:22.380
+Thomas Coratger: Yesterday, also, we released, Plonkies 3. 0.5, so that is a new release, with all of this changed inside.
+
+121
+00:26:22.900 --> 00:26:30.630
+Thomas Coratger: So, yeah, that is basically all on the research side. Emil, feel free to add anything about LeanVM that you want to add.
+
+122
+00:26:30.830 --> 00:26:35.780
+T. Wambsgans: I will… thank you. I will just add about DevNet4 that
+
+123
+00:26:35.890 --> 00:26:46.299
+T. Wambsgans: There is now a peer in LINSIG to include the new ZK-friendly encodings, and should be made very soon. I think Benedict
+
+124
+00:26:46.440 --> 00:26:48.959
+T. Wambsgans: Mainly,
+
+125
+00:26:49.310 --> 00:27:08.530
+T. Wambsgans: like, wrote some minor comments, but it should be good. And then, once this is merged, maybe today or in some days, like tomorrow, you know, we'll try to do the corresponding DevNet4 branch on Lin Multisig to have a recursive aggregation.
+
+126
+00:27:08.610 --> 00:27:12.179
+T. Wambsgans: with the official LINSIG repo.
+
+127
+00:27:12.310 --> 00:27:18.840
+T. Wambsgans: for DevNet 4. So, don't know if it's going to be ready in the next week, but,
+
+128
+00:27:19.000 --> 00:27:20.500
+T. Wambsgans: There is some progress, at least.
+
+129
+00:27:32.620 --> 00:27:38.730
+Will Corcoran: Awesome, thank you guys. Any other spec research-related updates?
+
+130
+00:27:38.910 --> 00:27:41.459
+Will Corcoran: Or discussion topics, anyone would like to table.
+
+131
+00:27:46.220 --> 00:27:52.889
+Thomas Coratger: Just if you are interested, I think that, next week, this is the 20, I think.
+
+132
+00:27:53.000 --> 00:27:55.549
+Thomas Coratger: We have heatproof call number 8.
+
+133
+00:27:55.720 --> 00:27:58.650
+Thomas Coratger: focused on… on Poseidon.
+
+134
+00:27:58.920 --> 00:28:14.769
+Thomas Coratger: So, Justin organized this, but if you are interested, you can, you can just check it, and we'll have a bunch of discussions and presentations about all of the recent updates about Poseidon.
+
+135
+00:28:20.810 --> 00:28:29.759
+Gajinder Singh: So I have one discussion topic to bring up, which is basically, what is the P2P topography that we need
+
+136
+00:28:30.190 --> 00:28:35.250
+Gajinder Singh: Because now we will, soon be experimenting with greater than one subnet.
+
+137
+00:28:35.430 --> 00:28:40.730
+Gajinder Singh: And then… Basically, this question will come up, that what is our best topography.
+
+138
+00:28:40.880 --> 00:28:44.110
+Gajinder Singh: For connections for the mesh.
+
+139
+00:28:44.300 --> 00:28:48.720
+Gajinder Singh: That is good for us. Other thing that we also need to figure out is
+
+140
+00:28:48.860 --> 00:28:52.299
+Gajinder Singh: All the validators in the…
+
+141
+00:28:52.700 --> 00:28:56.429
+Gajinder Singh: In the… in particular subnet, they should be…
+
+142
+00:28:56.760 --> 00:29:07.800
+Gajinder Singh: they should be ignoring the gossip attestration messages that come to them, or they should just be not subscribing and flood publishing. So, what is the best
+
+143
+00:29:08.140 --> 00:29:18.659
+Gajinder Singh: P2P, strategy for… Spreading out, the signed attestration messages, so that… The aggregator can…
+
+144
+00:29:18.840 --> 00:29:24.049
+Gajinder Singh: basically get most of them in a very short amount of hops. So this is something…
+
+145
+00:29:24.160 --> 00:29:27.149
+Gajinder Singh: I think we need to think even for…
+
+146
+00:29:27.280 --> 00:29:30.519
+Gajinder Singh: DevNet3, and apart from that, we also need to…
+
+147
+00:29:30.780 --> 00:29:35.640
+Gajinder Singh: See that whether the spec is,
+
+148
+00:29:35.850 --> 00:29:38.970
+Gajinder Singh: Compatible to having greater than one
+
+149
+00:29:39.290 --> 00:29:46.199
+Gajinder Singh: subnet, as well as basically, you know, how we configure it in Lean Quick Start.
+
+150
+00:29:46.680 --> 00:29:53.110
+Gajinder Singh: and how we distribute the validators among the nodes. So this is something I think,
+
+151
+00:29:53.670 --> 00:30:00.809
+Gajinder Singh: will be some… that some… will be a concern that I'll be looking into this week, but it is also…
+
+152
+00:30:01.750 --> 00:30:05.220
+Gajinder Singh: Good that other people can weigh in what they think about this.
+
+153
+00:30:11.660 --> 00:30:12.400
+Will Corcoran: Hi, Camille.
+
+154
+00:30:12.690 --> 00:30:15.759
+Kamil Salakhiev: Yeah, just my thoughts on that.
+
+155
+00:30:17.340 --> 00:30:19.980
+Kamil Salakhiev: Yeah, it's, I'm a bit…
+
+156
+00:30:20.560 --> 00:30:28.289
+Kamil Salakhiev: I would say, like, it's… it's not that simple. I mean, yeah, we have, like, grid, oh, sorry, not the grid, like, we use Gossip Self today.
+
+157
+00:30:28.970 --> 00:30:39.799
+Kamil Salakhiev: For stations propagation, yeah, some alternatives could be, like, grid or, you know, other kind of structured topology. I'm a bit,
+
+158
+00:30:40.410 --> 00:30:55.459
+Kamil Salakhiev: Yeah, I'm not kind of ready to say that, yeah, grid is kind of the best choice right now, because the… well, it's good for propagations, I mean, we did all the research, and yeah, for example, in Beam Simulator, but it has…
+
+159
+00:30:56.020 --> 00:31:00.929
+Kamil Salakhiev: Some privacy concerns, like we need to expose validators.
+
+160
+00:31:02.260 --> 00:31:17.009
+Kamil Salakhiev: basically, to be able to match validators' signing keys with their P2P keys and P2P addresses, which we want to avoid, because, yeah, we have certain privacy assumptions in existing Ethereum networks today, which we would like to keep.
+
+161
+00:31:17.260 --> 00:31:21.879
+Kamil Salakhiev: So it's not as simple. I would say that also.
+
+162
+00:31:22.350 --> 00:31:26.210
+Kamil Salakhiev: Maybe the best… well, maybe,
+
+163
+00:31:26.410 --> 00:31:30.439
+Kamil Salakhiev: The… the… my… maybe the thing that…
+
+164
+00:31:30.880 --> 00:31:40.109
+Kamil Salakhiev: Yeah, from my perspective, I would rather focus not on attestation propagation optimization today, but rather on,
+
+165
+00:31:40.590 --> 00:31:49.919
+Kamil Salakhiev: things like… First… Well, blocks propagation and proofs propagation, because, like, we have
+
+166
+00:31:50.190 --> 00:31:54.849
+Kamil Salakhiev: Once we have… because that's a lot of data, like, each block, when we have a proof.
+
+167
+00:31:55.010 --> 00:32:05.979
+Kamil Salakhiev: it's at the very least 128 kilobytes. Each proof is 128 kilobytes, and if you have multiple aggregators, so each aggregator creates 128 kilobytes message.
+
+168
+00:32:06.130 --> 00:32:09.460
+Kamil Salakhiev: Which could be a lot in a large network.
+
+169
+00:32:09.930 --> 00:32:14.470
+Kamil Salakhiev: There are… there are some ongoing work
+
+170
+00:32:15.100 --> 00:32:20.819
+Kamil Salakhiev: in ETP2P with, Azure-coded broadcast, yeah, I think…
+
+171
+00:32:21.890 --> 00:32:29.910
+Kamil Salakhiev: Yeah, you can check Raul's recent tweets about that. The result looks good, so I would maybe…
+
+172
+00:32:30.240 --> 00:32:35.910
+Kamil Salakhiev: From my perspective, at least, I would first try to…
+
+173
+00:32:37.160 --> 00:32:43.919
+Kamil Salakhiev: somehow introduce this thing, I mean, first blocks propagation, maybe first, and then…
+
+174
+00:32:44.450 --> 00:32:49.730
+Kamil Salakhiev: Move propagation, or do this at the same time, using some recording strategies.
+
+175
+00:32:50.610 --> 00:32:56.830
+Kamil Salakhiev: That would be a good playground to kind of check the research that, yeah, the
+
+176
+00:32:56.930 --> 00:33:00.969
+Kamil Salakhiev: Networking team did, so just check it in practice.
+
+177
+00:33:01.270 --> 00:33:18.889
+Thomas Coratger: Do you think this is relevant to… and do you think we can do that soon, to integrate all of the effort of Raul and his team inside the LeanSpec and Lean DevNet, as I say? Everything related to broadcast, ESP2P, all of this?
+
+178
+00:33:21.020 --> 00:33:25.109
+Kamil Salakhiev: Wow, the soon… define soon. Yeah,
+
+179
+00:33:26.810 --> 00:33:30.360
+Kamil Salakhiev: Yeah, it would take some time, maybe… I don't know.
+
+180
+00:33:30.990 --> 00:33:39.440
+Kamil Salakhiev: I need to maybe hands-on on that a bit, to investigate a bit deeper how the propagation strategies were implemented in the benchmarks.
+
+181
+00:33:39.860 --> 00:33:43.970
+Kamil Salakhiev: That's Sukun from, yeah, networking team did.
+
+182
+00:33:44.460 --> 00:34:01.119
+Kamil Salakhiev: So, and then, yeah, we might think to introduce this… yeah, I'm trying to think, maybe, yeah, you can help me, guys, like, what should… where should we start, like, if we want to go with recorded broadcast, like, maybe start with proof propagation or blocks propagation improvements,
+
+183
+00:34:01.630 --> 00:34:04.919
+Kamil Salakhiev: So, I just want… I just want to add, you know, while we are…
+
+184
+00:34:04.920 --> 00:34:20.570
+Gajinder Singh: about blocks propagation, propagation. Currently, the topology is a star topology, everyone is connected to everyone. So, I mean, even before we start talking about and start researching about blocks propagation or proof propagation, we need to, for example.
+
+185
+00:34:20.630 --> 00:34:37.159
+Gajinder Singh: target some topology that… that we think is something that is good. And we can do that without introducing the discovery, because in Dean Quick Start, we know what all nodes are, and we can basically supply… we can create the topology by supplying them
+
+186
+00:34:37.290 --> 00:34:41.920
+Gajinder Singh: The, those particular boot nodes, so we can, on the script level itself.
+
+187
+00:34:42.040 --> 00:34:53.710
+Gajinder Singh: create the topology. So, question is, what is the topology that we are going for? And then we can basically talk about block propagation optimizations, and…
+
+188
+00:34:53.880 --> 00:35:00.230
+Gajinder Singh: proof propagation optimizations, because right now at STAR, there is… everything is within single hop, so there is no…
+
+189
+00:35:00.230 --> 00:35:00.710
+Kamil Salakhiev: No.
+
+190
+00:35:01.410 --> 00:35:03.690
+Kamil Salakhiev: Yeah, just a correction, I…
+
+191
+00:35:04.100 --> 00:35:16.389
+Kamil Salakhiev: I don't think it's a start apology. Yes, you might have, like, maybe your clients, they connect to all the peers, they maintain connections to all the peers from the node's YAML.
+
+192
+00:35:16.500 --> 00:35:22.369
+Kamil Salakhiev: However, Gossip Sub has… Mesh size…
+
+193
+00:35:22.830 --> 00:35:25.660
+Kamil Salakhiev: I don't remember, 8, I believe.
+
+194
+00:35:25.840 --> 00:35:36.150
+Kamil Salakhiev: So, even though we maintain connections, even if your peer… even if your client connect… connects to all of the peers, which, by the way, in Clean, we did it in a way that
+
+195
+00:35:36.460 --> 00:35:43.249
+Kamil Salakhiev: at least we had a configuration so that we can connect only to a subset of peers, like, maybe 20 peers. Otherwise.
+
+196
+00:35:43.510 --> 00:35:59.009
+Kamil Salakhiev: shadow would just crash with too many connections and messages. So basically, even if your client connects to all the peers in the notes YAML, in your mesh, you only maintain… well, basically, you propagate messages only to 8 peers.
+
+197
+00:35:59.270 --> 00:36:03.419
+Kamil Salakhiev: Which is your merch site, so it's not really a start apology, it's more like a gossip.
+
+198
+00:36:03.700 --> 00:36:09.500
+Kamil Salakhiev: Even today, so we don't have one hope. We have multiple hopes.
+
+199
+00:36:10.700 --> 00:36:20.490
+Gajinder Singh: Yeah, I mean, to go over that, we basically first need to increase our nodes. I mean, we are not there. So, one thing is to basically push our nodes number high, and then…
+
+200
+00:36:21.140 --> 00:36:24.390
+Gajinder Singh: Again, come back to what you're saying.
+
+201
+00:36:27.260 --> 00:36:29.150
+Kamil Salakhiev: Sorry, do what?
+
+202
+00:36:29.470 --> 00:36:30.299
+Kamil Salakhiev: With the notes.
+
+203
+00:36:30.940 --> 00:36:36.780
+Gajinder Singh: We need to push the nodes that are… that we spin up in our network, and then only we can measure
+
+204
+00:36:37.060 --> 00:36:41.520
+Gajinder Singh: What is the propagation time for block and proofs and…
+
+205
+00:36:41.810 --> 00:36:45.179
+Gajinder Singh: Do optimizations on top of that, on the lines that you are saying.
+
+206
+00:36:45.510 --> 00:36:47.969
+Kamil Salakhiev: Yeah, we did that with,
+
+207
+00:36:48.070 --> 00:36:59.300
+Kamil Salakhiev: clean, basically. We ran analysis under shadow, to check, like, the blocks propagation, blocks propagation, and the sessions propagation, and…
+
+208
+00:36:59.700 --> 00:37:16.829
+Kamil Salakhiev: Yeah, we need to rerun it, maybe, when… yeah, the issue was that when we had… because we were testing, I believe, with DevNet… I need to double-check… DevNet 2 or DevNet 3. Basically, the issue was that a single block could have multiple
+
+209
+00:37:17.020 --> 00:37:22.659
+Kamil Salakhiev: Proofs included in it, so the block size…
+
+210
+00:37:23.340 --> 00:37:27.930
+Kamil Salakhiev: have, like, could be, like, maybe, I don't know, up to 1MB, which is really a lot.
+
+211
+00:37:29.520 --> 00:37:30.280
+Kamil Salakhiev: So…
+
+212
+00:37:30.420 --> 00:37:41.680
+Kamil Salakhiev: if we're still doing that, maybe that's one thing that we should optimize, like, make sure that our block can only have single, snark in it, otherwise, yeah, it's…
+
+213
+00:37:41.680 --> 00:37:47.480
+Gajinder Singh: It is not possible to have a single snack in the block for the reason that, I mean, you will pack
+
+214
+00:37:47.630 --> 00:37:53.430
+Gajinder Singh: For example, signatures, which have different registration data, right? So…
+
+215
+00:37:53.440 --> 00:37:57.049
+Kamil Salakhiev: I don't think it is possible to have a single proof in the block, but…
+
+216
+00:37:57.050 --> 00:38:01.020
+Gajinder Singh: What we can do is maybe target… for,
+
+217
+00:38:01.130 --> 00:38:07.739
+Gajinder Singh: For the aggregator, right? So… so that that particular thing can get delivered in a single packet.
+
+218
+00:38:15.780 --> 00:38:19.230
+Kamil Salakhiev: You mean aggregate? Well, how is it?
+
+219
+00:38:19.570 --> 00:38:25.019
+Kamil Salakhiev: Well, so you're saying that, yeah, we're not worried that our block size could
+
+220
+00:38:25.460 --> 00:38:28.190
+Kamil Salakhiev: Could be, like, I don't know, megabyte.
+
+221
+00:38:29.700 --> 00:38:30.769
+Gajinder Singh: I'm saying that.
+
+222
+00:38:30.770 --> 00:38:32.859
+Kamil Salakhiev: Because for me, this is a bit of a concern.
+
+223
+00:38:32.860 --> 00:38:48.999
+Gajinder Singh: never come below to the point where you have a single data packet, right? You can put it in a single data packet and optimize it. It will definitely get broken into multiple packets, because there will be multiple proofs, at least we might support, like.
+
+224
+00:38:49.180 --> 00:38:59.799
+Gajinder Singh: four different… Attestation, data, in… in our attestations, right? So we might support… support that. But…
+
+225
+00:39:00.200 --> 00:39:04.900
+Gajinder Singh: Again, and then we'll have a different proof for the block signature.
+
+226
+00:39:05.000 --> 00:39:11.250
+Gajinder Singh: itself, right? So… so we… we might not be able to…
+
+227
+00:39:11.320 --> 00:39:25.479
+Gajinder Singh: limit the block size to a point where basically we can transmit in a single packet, unless the proof size is, like, very small. But it is possible that with the aggregators, we might be able to do that, because they only need to transmit
+
+228
+00:39:25.820 --> 00:39:35.379
+Gajinder Singh: a single proof, and along with that, estration data. So there… there we definitely have the space for optimization, where we can compress the proof.
+
+229
+00:39:35.620 --> 00:39:38.820
+Gajinder Singh: To a size where it gets transmitted in a single bucket.
+
+230
+00:39:40.030 --> 00:39:43.710
+Kamil Salakhiev: Hmm… Okay, a question, like, do we have,
+
+231
+00:39:43.960 --> 00:39:53.380
+Kamil Salakhiev: like, upper limit for a number of proofs that could be included in a single block. Basically, the question is, do we have an upper limit for a block size today?
+
+232
+00:39:53.590 --> 00:40:00.460
+Kamil Salakhiev: Or it could be… Infant, due to the number of Proofs, could be unlimited.
+
+233
+00:40:02.450 --> 00:40:04.170
+Gajinder Singh: So, yeah, I mean…
+
+234
+00:40:04.330 --> 00:40:10.069
+Gajinder Singh: We will have… we will have… we will definitely need to have, for example, a size
+
+235
+00:40:10.410 --> 00:40:16.829
+Gajinder Singh: Of four different attestation data that can be packed, and different registration data directly maps to different proofs.
+
+236
+00:40:17.120 --> 00:40:23.469
+Gajinder Singh: in the signatures, in that signatures, right? So, because we are not aggregating across
+
+237
+00:40:24.000 --> 00:40:33.130
+Gajinder Singh: different messages. So… so that is… that… that directly maps over there, unless we come to a point where we are aggregating across different messages, but…
+
+238
+00:40:33.300 --> 00:40:41.050
+Gajinder Singh: Then we can also independently verify the signature across… Signature.
+
+239
+00:40:41.450 --> 00:40:46.299
+Gajinder Singh: against these particular, you know, independent messages, so…
+
+240
+00:40:46.420 --> 00:40:50.570
+Gajinder Singh: Maybe we can also think about that, if that can be done, if,
+
+241
+00:40:50.800 --> 00:40:55.090
+Gajinder Singh: Because we… because Emil did provide us an API to…
+
+242
+00:40:55.490 --> 00:40:59.530
+Gajinder Singh: Aggregate, against two different messages, and…
+
+243
+00:41:00.230 --> 00:41:05.120
+Gajinder Singh: We have not really thought… thought it through in the sense that
+
+244
+00:41:05.570 --> 00:41:12.470
+Gajinder Singh: We came up with a different solution for the proposer signature and attestration signature, but
+
+245
+00:41:13.920 --> 00:41:19.850
+Gajinder Singh: aggregating across different messages for attestations, right? So that is something that…
+
+246
+00:41:20.900 --> 00:41:25.919
+Gajinder Singh: One can think and see that, if that can work, then basically
+
+247
+00:41:26.390 --> 00:41:29.450
+Gajinder Singh: It is possible to have just one
+
+248
+00:41:30.080 --> 00:41:32.180
+Gajinder Singh: Proof signature in the… in the block.
+
+249
+00:41:33.080 --> 00:41:50.940
+Anshal: Virginia, even without that, for a particular attestation data, if I am a validator and I'm not an aggregator, and I receive multiple aggregates which… which basically cover a different set of validators, so for a single attestation data as well, I'll have to include, like, multiple, proofs.
+
+250
+00:41:52.800 --> 00:41:55.630
+Gajinder Singh: So basically, we are in… in…
+
+251
+00:41:55.740 --> 00:41:59.360
+Gajinder Singh: In a configuration where the proposal will always aggregate.
+
+252
+00:42:01.400 --> 00:42:07.669
+Anshal: If we get into that configuration, then yeah, we won't need it. Then… and along with that, if we have, like,
+
+253
+00:42:07.940 --> 00:42:17.410
+Anshal: multiple message aggregation, then we'll be able to basically aggregate over multiple attestations and produce a single proof, but in the current configuration.
+
+254
+00:42:17.560 --> 00:42:25.679
+Anshal: We'll have multiple proofs, even for a single attestation data, even after recursive aggregation.
+
+255
+00:42:31.560 --> 00:42:37.000
+Kamil Salakhiev: Is it even possible, from LinVM perspective to kind of…
+
+256
+00:42:37.260 --> 00:42:47.100
+Kamil Salakhiev: I don't know, have multiple aggregations for… I mean, different aggregations created on top of different messages, and then kind of merge them into a single.
+
+257
+00:42:47.710 --> 00:42:48.610
+T. Wambsgans: Yes.
+
+258
+00:42:49.140 --> 00:42:53.630
+T. Wambsgans: symbol, I believe. I believe… Everything is possible, you see there.
+
+259
+00:42:54.770 --> 00:42:58.880
+T. Wambsgans: If you can phrase it, we can prove it, yes.
+
+260
+00:42:59.620 --> 00:43:03.039
+Gajinder Singh: I mean, it's not difficult. Basically, the verification
+
+261
+00:43:03.530 --> 00:43:09.120
+Gajinder Singh: against the independent messages. If that is possible, then this approach can be taken.
+
+262
+00:43:11.550 --> 00:43:15.690
+Kamil Salakhiev: Hmm, cool. Yeah, maybe that's something that we can introduce in some upcoming DevNet.
+
+263
+00:43:15.880 --> 00:43:20.530
+Kamil Salakhiev: I mean, aggregating from multiple Well, multiple messages-based aggregations.
+
+264
+00:43:21.330 --> 00:43:21.800
+T. Wambsgans: Yeah.
+
+265
+00:43:21.800 --> 00:43:22.689
+Gajinder Singh: Yes, sir.
+
+266
+00:43:24.430 --> 00:43:26.030
+Kamil Salakhiev: Yeah, Yamil, please go ahead.
+
+267
+00:43:26.760 --> 00:43:29.760
+T. Wambsgans: No, I mean, I believe it's very…
+
+268
+00:43:30.010 --> 00:43:39.859
+T. Wambsgans: easy compared to everything else to add… if it's… if I understand correctly, we only need the possibility to have different messages, is that correct?
+
+269
+00:43:41.560 --> 00:43:49.160
+Gajinder Singh: So when we say that we need possibility to aggregate different messages, what it really means is that if I have the proof.
+
+270
+00:43:49.300 --> 00:43:56.609
+Gajinder Singh: And I used, for example, poor messages to aggregate. So if I have the proof, I can directly validate against
+
+271
+00:43:56.730 --> 00:44:01.210
+Gajinder Singh: Message 1 without requiring message 2, message 3, message 4, because…
+
+272
+00:44:01.450 --> 00:44:02.640
+Gajinder Singh: Yes. Then I can say that over.
+
+273
+00:44:03.970 --> 00:44:11.340
+Gajinder Singh: If we can do that, then definitely we can use this, because then it is like just having an independent signature for this particular message, and…
+
+274
+00:44:11.520 --> 00:44:12.180
+Gajinder Singh: Oh, yeah.
+
+275
+00:44:12.180 --> 00:44:15.130
+T. Wambsgans: I believe we can do… we can do that, yes.
+
+276
+00:44:16.050 --> 00:44:24.399
+T. Wambsgans: Basically, what is… we can have an, I think, an kind of an arbitrary number of messages, with… and potentially,
+
+277
+00:44:24.780 --> 00:44:30.579
+T. Wambsgans: In the beginning, there is only one message, and then you can add the other messages on top of this, and yes.
+
+278
+00:44:32.590 --> 00:44:35.430
+Gajinder Singh: So, if we can basically use the same…
+
+279
+00:44:35.740 --> 00:44:40.649
+Gajinder Singh: Signature to validate different messages, then definitely it's possible that,
+
+280
+00:44:41.460 --> 00:44:43.980
+T. Wambsgans: Sorry, sorry, you mean, sorry, you mean…
+
+281
+00:44:44.100 --> 00:44:51.099
+T. Wambsgans: Different… sorry, one signature, for different messages, That's okay, I didn't understand.
+
+282
+00:44:51.100 --> 00:45:00.280
+Gajinder Singh: we aggregate… so we aggregate proofs across different messages to get one final aggregated proof, right? So, this proof is now…
+
+283
+00:45:00.320 --> 00:45:12.540
+Gajinder Singh: we can independently validate against message 1 without needing message 2, message 3, message 4, let's say, and then can independently validate against message 2. So if we can do that, then basically it's like.
+
+284
+00:45:12.890 --> 00:45:17.790
+Gajinder Singh: This is the final proof that you can just reuse for message 1 and similarly, message 2.
+
+285
+00:45:18.020 --> 00:45:21.620
+Gajinder Singh: And so it acts like a normal, proof.
+
+286
+00:45:22.770 --> 00:45:24.939
+T. Wambsgans: Okay, so you want to, you want to weigh…
+
+287
+00:45:25.350 --> 00:45:39.599
+T. Wambsgans: So basically, you want a single SNARC proof that contains allegations across multiple messages, but you want to be able to verify it for message 1 if you don't know message 2, is that correct?
+
+288
+00:45:41.700 --> 00:45:48.440
+Gajinder Singh: Yes, I mean, somehow it can still be done, because I can… I can create a specialized proof for
+
+289
+00:45:48.450 --> 00:46:05.509
+Gajinder Singh: message 1 by saying that, okay, message 2, message C, message 4 hash was this, and I can just put it… push it in the specialized message, one proof, right? So I can… so I can create… if I can create such a specialized message one proof very easily from the aggregated message, then…
+
+290
+00:46:05.570 --> 00:46:08.329
+Gajinder Singh: I can basically see it as an independent…
+
+291
+00:46:08.570 --> 00:46:13.650
+Gajinder Singh: Message 1 signature, that can just…
+
+292
+00:46:13.760 --> 00:46:19.380
+Gajinder Singh: That can be validated to say that, okay, you know, these validators voted for this particular message one.
+
+293
+00:46:19.700 --> 00:46:23.640
+Gajinder Singh: And then I can basically use it, use it as…
+
+294
+00:46:23.800 --> 00:46:33.620
+Gajinder Singh: As I can then… the other block proposals can basically aggregate it further, right? So, there can be recursive aggregation on top of it.
+
+295
+00:46:33.730 --> 00:46:37.509
+Gajinder Singh: And can be packed into a block. I just need to make sure that
+
+296
+00:46:38.780 --> 00:46:44.780
+Gajinder Singh: I can independently verify them, which I think… It is possible if… I just…
+
+297
+00:46:45.210 --> 00:46:53.430
+Gajinder Singh: even, you know, back the message 2, message 3, message 4 hash, along with the proof itself, so that I can say that, okay, this message once proof is…
+
+298
+00:46:53.640 --> 00:47:00.359
+Gajinder Singh: This aggregated proof plus Concatination of the hashes of the other messages.
+
+299
+00:47:02.630 --> 00:47:08.560
+T. Wambsgans: I'm not sure to follow entirely, but maybe we can continue this chat
+
+300
+00:47:08.860 --> 00:47:16.650
+T. Wambsgans: After the call, but intuitively, if you can write it… yeah, if you can express it.
+
+301
+00:47:17.650 --> 00:47:20.320
+T. Wambsgans: We should be able to make it work, in some sense.
+
+302
+00:47:22.590 --> 00:47:25.050
+Gajinder Singh: Yeah, I think we'll be able to make it work.
+
+303
+00:47:26.380 --> 00:47:28.130
+Gajinder Singh: Yeah, we'll continue after.
+
+304
+00:47:29.730 --> 00:47:43.739
+Anshal: But, do we even need to independently verify it with each of the messages? Because in the block, we'll have all the, all the attestation messages and a single proof, so we should be able to, we'll have, like, all the four messages, and we'll just need to…
+
+305
+00:47:43.890 --> 00:47:48.669
+Anshal: Verify that the aggregate is basically
+
+306
+00:47:49.560 --> 00:47:53.319
+Anshal: An aggregate of all the… these four messages itself.
+
+307
+00:47:53.580 --> 00:48:02.660
+Anshal: So, along with attestation data, we'll be storing, like, the participation bits to which each attestation was signed, and
+
+308
+00:48:02.940 --> 00:48:06.360
+Anshal: Basically, with that, we can reconstruct the whole thing.
+
+309
+00:48:07.650 --> 00:48:14.240
+Gajinder Singh: I mean, it's always better if you can recursively pack the proof with other proofs that might come up, right? So…
+
+310
+00:48:15.030 --> 00:48:16.490
+Gajinder Singh: But yes, let's…
+
+311
+00:48:16.550 --> 00:48:26.359
+Anshal: sort of inspect and see whether we actually need it? Yeah, yeah, I mean, like, we'll be recursively constructing a single proof, but we'll still have, like, the attestation data for…
+
+312
+00:48:26.450 --> 00:48:44.429
+Anshal: all these different messages. So, suppose we have 4 different attestation data. So, for each attestation data, I believe we'll be storing the participation bits who have… basically the validators who have signed to that particular attestation data. And that… all of that will be packed in a block, along with the single proof.
+
+313
+00:48:45.060 --> 00:48:47.690
+Anshal: So… Right, that's fine.
+
+314
+00:48:47.690 --> 00:48:55.550
+Gajinder Singh: when I am just talking about one particular registration data, let's say that it's message 1, I want to forget about message 2, message 3, and message 4, right? So…
+
+315
+00:48:55.800 --> 00:49:01.280
+Gajinder Singh: I don't want to carry them together, or if I can basically carry them again, together with the…
+
+316
+00:49:01.610 --> 00:49:07.870
+Gajinder Singh: proof itself, that basically makes it possible for me to say that, okay, you know, I have an independent proof
+
+317
+00:49:08.220 --> 00:49:09.869
+Gajinder Singh: To validate for message 1.
+
+318
+00:49:10.810 --> 00:49:11.540
+Anshal: Hmm.
+
+319
+00:49:12.470 --> 00:49:13.679
+Anshal: Got it. Okay.
+
+320
+00:49:15.610 --> 00:49:24.710
+Gajinder Singh: Basically, it makes the thought process easier of how we can process and aggregate, further aggregate these messages. But I think it should be possible.
+
+321
+00:49:27.430 --> 00:49:28.030
+Anshal: Yeah.
+
+322
+00:49:28.030 --> 00:49:28.570
+Kamil Salakhiev: Huh.
+
+323
+00:49:30.140 --> 00:49:30.630
+T. Wambsgans: Yeah.
+
+324
+00:49:30.630 --> 00:49:32.360
+Kamil Salakhiev: Oh, sorry, yeah.
+
+325
+00:49:32.360 --> 00:49:33.620
+T. Wambsgans: Josephine…
+
+326
+00:49:33.780 --> 00:49:39.860
+T. Wambsgans: Not entirely sure to understand, but from what I understand, yeah, I also agree that it should be possible, yes.
+
+327
+00:49:40.380 --> 00:49:41.360
+T. Wambsgans: Please come in.
+
+328
+00:49:43.580 --> 00:49:46.429
+Kamil Salakhiev: Yeah, my… just another concern is that,
+
+329
+00:49:46.610 --> 00:49:54.070
+Kamil Salakhiev: Yeah, it still would be great to have some kind of limit, maybe, of number of proofs that we might… that we need to aggregate in such a way, because
+
+330
+00:49:54.730 --> 00:50:09.689
+Kamil Salakhiev: I believe we still have a target aggregation rate for proofs is, like, maybe 10 SNARCs per second, maybe Emil can correct me, and maybe there are improvements for that estimate already. But yeah, if we're talking… it's kind of a significant time.
+
+331
+00:50:09.810 --> 00:50:15.310
+Kamil Salakhiev: from the… Yeah, consensus, critical path perspective, that, yeah, we need to optimize.
+
+332
+00:50:16.010 --> 00:50:22.359
+Gajinder Singh: So, I think it will automatically be limited by the fact that when, you know,
+
+333
+00:50:22.840 --> 00:50:30.749
+Gajinder Singh: When… when the network sees new block, and most of the network confirms it, basically, it will result into a new
+
+334
+00:50:31.000 --> 00:50:33.790
+Gajinder Singh: attestation data as a head vote, right? So…
+
+335
+00:50:34.000 --> 00:50:42.729
+Gajinder Singh: In that sense, obviously, I think automatically it will come to a point where, you know, you won't keep on regulatively aggregating the same
+
+336
+00:50:42.980 --> 00:50:45.440
+Gajinder Singh: Same proof, right? So…
+
+337
+00:50:47.610 --> 00:50:48.690
+Kamil Salakhiev: Hmm…
+
+338
+00:50:50.390 --> 00:50:59.509
+Kamil Salakhiev: So it's not, like, only block proposals' responsibility to aggregate all these proofs for different messages, but it will be done recursively? Is that what you're saying?
+
+339
+00:51:00.260 --> 00:51:11.239
+Gajinder Singh: No, proposer… so, a test… anyone can do it, right? Aggregators generally will aggregate only fresh proofs, so it's a proposal responsibility to recursively aggregate
+
+340
+00:51:16.710 --> 00:51:20.369
+Gajinder Singh: I mean, aggregators can also do it, nothing is stopping the aggregators to not…
+
+341
+00:51:20.750 --> 00:51:24.469
+Gajinder Singh: Recursively aggregate and, make a better…
+
+342
+00:51:24.850 --> 00:51:34.280
+Gajinder Singh: And produce a better aggregate, right? So, if that particular registration data is still in play, But…
+
+343
+00:51:34.940 --> 00:51:53.699
+Gajinder Singh: the way I see it, most of the aggregators will consume new proofs, and the proposer will recursively aggregate them in a consensus where, you know, we see that the head is flowing, and the finalization is flowing, and all that, right? So, whenever there is new attestation data, new
+
+344
+00:51:54.690 --> 00:51:59.130
+Gajinder Singh: New proofs are gonna come, which means that there is a new head that the network recognizes.
+
+345
+00:51:59.630 --> 00:52:03.719
+Gajinder Singh: So if most of the network sees some… sees a block, definitely…
+
+346
+00:52:03.850 --> 00:52:06.649
+Gajinder Singh: New proofs will automatically come into the picture.
+
+347
+00:52:13.990 --> 00:52:19.909
+Kamil Salakhiev: Yeah, it would be great to have it written down somewhere, yeah, I need to… Think of, like…
+
+348
+00:52:20.460 --> 00:52:23.119
+Kamil Salakhiev: Yeah, maybe there are some attacks possible. Anyway, anyway.
+
+349
+00:52:23.790 --> 00:52:30.799
+Kamil Salakhiev: Yeah, I mean, if you think this might work, that would be great if we could use this approach to just have a single
+
+350
+00:52:30.960 --> 00:52:34.059
+Kamil Salakhiev: Eventually, maybe a single just… just a single proof in a block.
+
+351
+00:52:34.350 --> 00:52:43.300
+Kamil Salakhiev: That's the first way we can optimize. I mean, this is kind of low-hang fruit. We can basically do that to reduce block size.
+
+352
+00:52:46.350 --> 00:52:52.000
+Kamil Salakhiev: And then, in parallel, yeah, we might start working, I mean, yeah, maybe I should draft some… maybe have some kind of…
+
+353
+00:52:53.050 --> 00:53:00.060
+Kamil Salakhiev: write up about how we can introduce Reasure Code broadcast, just kind of investigate what's been going on,
+
+354
+00:53:00.490 --> 00:53:06.110
+Kamil Salakhiev: from the P2P team, research, and yeah, how… what's the best way to put it into…
+
+355
+00:53:06.610 --> 00:53:08.639
+Kamil Salakhiev: Into the leans perk in some way.
+
+356
+00:53:09.420 --> 00:53:13.919
+Kamil Salakhiev: Yeah, let me think about this. Yeah, I'll try to share something.
+
+357
+00:53:24.700 --> 00:53:25.450
+Will Corcoran: Excellent.
+
+358
+00:53:27.810 --> 00:53:32.480
+Will Corcoran: Any other spec or research-related discussion items?
+
+359
+00:53:39.610 --> 00:53:45.830
+Will Corcoran: Metrics and observability. Anything that you would like to… Able for this week.
+
+360
+00:53:46.380 --> 00:53:54.989
+Katya: Yeah, hello everyone. So, currently I'm running DevNet3 on all the 9, servers, so,
+
+361
+00:53:55.190 --> 00:54:06.540
+Katya: Currently, we lost Zim, but it's because of the old image. I don't have an updated image yet. As soon as I have it, I will replace Loom with a new one.
+
+362
+00:54:06.990 --> 00:54:24.060
+Katya: And I had to stop Grandin. I think no one on the call from Grandin's team, but they have memory leaks, so I will notify them in the chat. For all the teams, currently, what I need, is
+
+363
+00:54:24.360 --> 00:54:43.980
+Katya: API and metrics flags updates, so please, in the tooling, response to my message, what, what flags, clients have, because we are refactoring Lean Quick Start, so we need this, link point and for metrics. That's it, thank you.
+
+364
+00:54:59.310 --> 00:55:06.699
+Will Corcoran: Excellent. Any other… Discussion topics.
+
+365
+00:55:13.900 --> 00:55:17.700
+Will Corcoran: Great. Well, that felt like a really productive call, as usual.
+
+366
+00:55:18.060 --> 00:55:22.249
+Will Corcoran: I will see you again in a week.
+
+367
+00:55:22.960 --> 00:55:24.179
+Shariq Naiyer: Have it going, guys.
+
+368
+00:55:24.680 --> 00:55:25.930
+Katya: Right?
+
+369
+00:55:26.560 --> 00:55:27.910
+Anshal: Hi, everyone.
+
+370
+00:55:29.150 --> 00:55:29.900
+Pablo Deymo | Lambda: I wrote.
+
