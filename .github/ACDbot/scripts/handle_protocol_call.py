@@ -32,70 +32,6 @@ class ProtocolCallHandler:
         self.mapping_manager = MappingManager()
         self.logger = get_logger()
 
-    def _is_date_in_past(self, start_time: str, grace_hours: int = 12) -> bool:
-        """
-        Check if the given start_time is in the past.
-
-        Args:
-            start_time: ISO format datetime string ending with 'Z' (e.g., "2025-04-24T14:00:00Z")
-            grace_hours: Number of hours of grace period to allow (default 12 hours to allow editing during and after meetings)
-
-        Returns:
-            True if the date is more than grace_hours in the past, False otherwise
-        """
-        try:
-            # Only check properly formatted ISO dates
-            if not isinstance(start_time, str) or not start_time.endswith('Z'):
-                # If we can't parse the date, don't block - let other validation handle it
-                return False
-
-            # Parse the ISO datetime string
-            parsed_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-
-            # Get current UTC time
-            now = datetime.now(timezone.utc)
-
-            # Calculate the difference
-            time_diff = now - parsed_time
-
-            # Check if it's more than grace_hours in the past
-            grace_seconds = grace_hours * 3600
-            is_past = time_diff.total_seconds() > grace_seconds
-
-            if is_past:
-                self.logger.info(f"Date {start_time} is in the past (current time: {now.isoformat()})")
-
-            return is_past
-
-        except Exception as e:
-            self.logger.error(f"Failed to check if date is in past: {e}")
-            # On error, don't block - let other processes handle it
-            return False
-
-    def _post_past_date_comment(self, issue, start_time: str) -> None:
-        """Post a comment explaining that the selected date is in the past."""
-        try:
-            comment_text = f"""⚠️ **Past Date Detected**
-
-The date/time you selected (`{start_time}`) appears to be in the past.
-
-**No resources were created** to avoid scheduling conflicts.
-
-**To fix this:**
-1. Click the "Edit" button on this issue
-2. Update the "UTC Date & Time" field to a future date
-3. Save your changes
-
-The bot will automatically process your issue once the date is corrected.
-
-💡 **Tip**: Double-check the year! Common mistake: using last year's date by accident."""
-
-            issue.create_comment(comment_text)
-            self.logger.info(f"Posted past date comment to issue #{issue.number}")
-
-        except Exception as e:
-            self.logger.error(f"Failed to post past date comment: {e}")
-
     def _apply_autopilot_defaults(self, form_data: Dict, issue) -> Dict:
         """
         Apply autopilot defaults if enabled and applicable.
@@ -367,13 +303,6 @@ The bot will automatically process your issue once the date is corrected.
             call_data = self._validate_and_transform(form_data, issue)
             if not call_data:
                 self.logger.error(f"Failed to validate/transform data for issue #{issue_number}")
-                return False
-
-            # 3.5. Check if the date is in the past
-            start_time = call_data.get("start_time")
-            if self._is_date_in_past(start_time):
-                self.logger.warning(f"Issue #{issue_number} has a past date: {start_time}")
-                self._post_past_date_comment(issue, start_time)
                 return False
 
             # 4. Check for existing occurrence and resources
@@ -1541,9 +1470,9 @@ The bot will automatically process your issue once you've selected a valid call 
                     "⚠️ **Date Parsing Issue**: The date/time format could not be parsed automatically.",
                     f"   Current value: `{start_time}`",
                     "   Please edit the issue and use one of these formats:",
-                    "   • `April 24, 2025, 14:00 UTC`",
-                    "   • `Apr 24, 2025, 14:00 UTC`",
-                    "   • `2025-04-24T14:00:00Z`",
+                    "   • `April 24, 2026, 14:00 UTC`",
+                    "   • `Apr 24, 2026, 14:00 UTC`",
+                    "   • `2026-04-24T14:00:00Z`",
                     ""
                 ])
 
