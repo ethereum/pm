@@ -1,0 +1,2650 @@
+WEBVTT
+
+1
+00:02:18.210 --> 00:02:20.410
+dionysuz.eth: Hello, can… can everyone hear me?
+
+2
+00:02:21.720 --> 00:02:23.119
+vitalik: Yes, I guess.
+
+3
+00:02:23.550 --> 00:02:28.929
+dionysuz.eth: Okay, cool, I'm helping with the stream today, so that was useful to check the audio, thanks.
+
+4
+00:04:00.580 --> 00:04:04.960
+Justin Florentine (Besu): Let's go, Ethernets, let's go!
+
+5
+00:05:06.760 --> 00:05:08.090
+Ansgar Dietrichs: Hello, hello, everyone.
+
+6
+00:05:10.530 --> 00:05:11.480
+vitalik: Oh.
+
+7
+00:05:12.220 --> 00:05:13.170
+dionysuz.eth: Hello?
+
+8
+00:05:29.270 --> 00:05:35.130
+Ansgar Dietrichs: My understanding is, David, that today you are in charge of the streaming process, is that right?
+
+9
+00:05:35.130 --> 00:05:36.650
+dionysuz.eth: Yes, that's right.
+
+10
+00:05:37.670 --> 00:05:40.090
+Ansgar Dietrichs: Perfect. Let's give it a little bit, just to…
+
+11
+00:05:40.330 --> 00:05:42.229
+Ansgar Dietrichs: Have a few more people trickle in, and then…
+
+12
+00:05:43.160 --> 00:05:44.579
+Ansgar Dietrichs: I'll let you know in a second.
+
+13
+00:05:44.870 --> 00:05:46.010
+dionysuz.eth: Okay, sounds good.
+
+14
+00:06:21.230 --> 00:06:25.939
+Ansgar Dietrichs: This is an interesting camera on angle, Vitalik, what are we looking at here?
+
+15
+00:06:28.100 --> 00:06:36.279
+vitalik: That is the ceiling. Interesting. Well, I was, there we go.
+
+16
+00:06:36.920 --> 00:06:38.520
+Ansgar Dietrichs: Yes, yes, yes, you're okay.
+
+17
+00:06:38.700 --> 00:06:39.880
+Ansgar Dietrichs: I was just curious.
+
+18
+00:06:42.870 --> 00:06:45.899
+vitalik: Well, you know, people always ask me what's up.
+
+19
+00:06:48.620 --> 00:06:54.869
+Ansgar Dietrichs: App only. Okay. David, I think if, we'd be ready.
+
+20
+00:06:58.180 --> 00:06:59.640
+dionysuz.eth: Okay, cool, we're live.
+
+21
+00:07:01.100 --> 00:07:01.790
+Ansgar Dietrichs: Awesome.
+
+22
+00:07:02.150 --> 00:07:08.530
+Ansgar Dietrichs: Welcome everyone to All Core Devs Call 232.
+
+23
+00:07:08.550 --> 00:07:17.660
+Ansgar Dietrichs: Today, we have a few topics, around the ongoing preparation for Glamsterdam, and then looking forward to
+
+24
+00:07:17.660 --> 00:07:29.979
+Ansgar Dietrichs: Hegota and the headline selection there. Let's start with, Glamsterdam. DevNet updates, I think, Stefan, you could give us some updates on BAL DevNet 2 and 3?
+
+25
+00:07:30.410 --> 00:07:33.190
+Stefan Starflinger: Yes, can you hear me? So…
+
+26
+00:07:33.190 --> 00:07:33.560
+Ansgar Dietrichs: Yes.
+
+27
+00:07:33.560 --> 00:07:41.629
+Stefan Starflinger: for BAL DevNet 2, it's been going pretty well. I think only Erigon is left to,
+
+28
+00:07:41.670 --> 00:07:54.170
+Stefan Starflinger: get ready and start proposing some blocks, but they've been doing some work on fixing some syncing issues, and they should be ready soon, proposing blocks on DevNet 2.
+
+29
+00:07:54.170 --> 00:08:07.010
+Stefan Starflinger: We've also got further with the efforts to get some benchmarking ready on DevNet 2, and any benchmarking effort has been done against BAL DevNet 2 so far.
+
+30
+00:08:07.200 --> 00:08:26.659
+Stefan Starflinger: We've started dedicated nodes so that we can compare three different approaches. There is the all optimizations of BAL, then there is sequential, which is no optimizations of BAL, but still with any optimizations that the clients
+
+31
+00:08:26.660 --> 00:08:34.460
+Stefan Starflinger: have, inherently. And then there is no, prefetch, so with BAR, there's the concept of prefetching.
+
+32
+00:08:34.470 --> 00:08:49.949
+Stefan Starflinger: the state through the block-level access list before executing in parallel, and we wanted to see in the block-level access list if reading all the state in the beginning, is actually a speedup or not.
+
+33
+00:08:50.030 --> 00:09:06.350
+Stefan Starflinger: And there we see a little bit of mixed results, but it's just the average case, so we haven't been testing the worst case yet. So, so far we see that without prefetch, it's currently faster than with it.
+
+34
+00:09:06.460 --> 00:09:12.740
+Stefan Starflinger: That's for, DevNet 2, unless there is anything else for DevNet 2.
+
+35
+00:09:20.370 --> 00:09:23.979
+Stefan Starflinger: If not, I would, move on.
+
+36
+00:09:24.150 --> 00:09:26.720
+Stefan Starflinger: To, DevNet 3.
+
+37
+00:09:26.870 --> 00:09:32.779
+Stefan Starflinger: So I've been testing a lot, on kurtosis, and it, seems…
+
+38
+00:09:32.920 --> 00:09:50.339
+Stefan Starflinger: that most clients are not ready yet for, especially, 8.37. There are still some, issues that clients are resolving, and a recent test release was made by Spencer5.4.
+
+39
+00:09:50.340 --> 00:09:58.190
+Stefan Starflinger: And it would be good if all clients could test and see that they are passing as many tests as possible.
+
+40
+00:09:58.320 --> 00:10:06.470
+Stefan Starflinger: Yeah, and I think that's pretty much, the status for DevNet 3. We haven't started it yet.
+
+41
+00:10:06.910 --> 00:10:10.099
+Stefan Starflinger: And there's a point from Marius, so I would pass on.
+
+42
+00:10:10.290 --> 00:10:11.130
+Stefan Starflinger: Fuck.
+
+43
+00:10:15.160 --> 00:10:16.480
+Ansgar Dietrichs: Sounds good, Marius.
+
+44
+00:10:19.780 --> 00:10:24.209
+Stefan Starflinger: Or no, it wasn't Marius, it was, Iber, no, someone, someone else has.
+
+45
+00:10:24.210 --> 00:10:24.690
+Ansgar Dietrichs: Yes.
+
+46
+00:10:25.010 --> 00:10:25.610
+Stefan Starflinger: Sorry.
+
+47
+00:10:25.610 --> 00:10:39.189
+Ansgar Dietrichs: Right, right. Exactly. No, no worries. I saw this. So, basically, I think there is some concerns around, EIP8037. I'd heard this already, that clients in general were saying that it's a bit more complex than initially.
+
+48
+00:10:39.300 --> 00:10:44.510
+Ansgar Dietrichs: a thought, for context, of course, you know, we do need a…
+
+49
+00:10:44.970 --> 00:10:59.250
+Ansgar Dietrichs: an approach to state growth, if we do not end up addressing state growth at all in Amsterdam, we can't make use of all of the scaling benefits in the fork, so in some ways, it's kind of without alternative, but of course, the specific version of it is with alternative, and so…
+
+50
+00:10:59.250 --> 00:11:09.639
+Ansgar Dietrichs: their concerns whether the current shape of 8037 really is the thing we should or can do. Andrew, do you want to give a bit of an overview of your concerns, your team's concerns?
+
+51
+00:11:10.070 --> 00:11:15.569
+Andrew Ashikhmin: Yes, sure. So, as I wrote, now we have, like.
+
+52
+00:11:15.570 --> 00:11:39.889
+Andrew Ashikhmin: for 4 flavors of gas, so 4844 introduces blob gas, then 7928, introduces this, like, state gas accounting versus non-state gas accounting. 7778 introduces blob… block accounting versus user refund accounting.
+
+53
+00:11:40.110 --> 00:11:55.989
+Andrew Ashikhmin: And the 8037 introduces state versus regular gas, and each of the… all of those changes in isolation, they make sense, but if you look at all of them together, like, they end up in a horrible mess, because they are not aligned with each other.
+
+54
+00:11:56.050 --> 00:12:09.420
+Andrew Ashikhmin: So, if, like, if we are, keeping 8037 or something similar in Glamsterdam, then I think we should take a step back and…
+
+55
+00:12:09.620 --> 00:12:11.530
+Andrew Ashikhmin: And make…
+
+56
+00:12:13.430 --> 00:12:29.390
+Andrew Ashikhmin: make the gas changes coherent on the protocol level. So, say, how I see it, if you look at… if you look at, at Bells, 3928, they say, okay, you have
+
+57
+00:12:29.700 --> 00:12:43.179
+Andrew Ashikhmin: a gas validation before state access, and, like, pre-states, like, pre-state validation and post-state validation, right? And then, 8037 talks about state versus regular gas.
+
+58
+00:12:43.570 --> 00:12:57.089
+Andrew Ashikhmin: I think that we should just bite the bullet and do it coherently and say, okay, now gas is three-dimensional, the dimensions are blob gas, state gas, and computational gas.
+
+59
+00:12:57.550 --> 00:13:02.740
+Andrew Ashikhmin: When, like, 7928 and,
+
+60
+00:13:03.180 --> 00:13:20.729
+Andrew Ashikhmin: 8037 talk about state gas, they should talk about exactly the same state gas, right? So we should refactor both… both 7928 and 8037, like, to use exactly the same thing, the state gas.
+
+61
+00:13:21.150 --> 00:13:28.110
+Andrew Ashikhmin: And, then we should also, like, we should either drop, 77, 78,
+
+62
+00:13:28.400 --> 00:13:41.809
+Andrew Ashikhmin: Or make it, like, maybe we should drop refunds entirely, rethink 7778, or just double-check that if we introduce this more or less coherent
+
+63
+00:13:41.910 --> 00:13:47.480
+Andrew Ashikhmin: three-dimensional gas, that 7778, is still…
+
+64
+00:13:47.640 --> 00:13:58.129
+Andrew Ashikhmin: is still fine. Because if we don't do that, if we just add all the… all those kind of independent hacks all together, then we end up
+
+65
+00:13:58.450 --> 00:14:10.919
+Andrew Ashikhmin: In a… in a horrible mess, like… like we are now, with a gazillion of corner cases, things are incoherent, illogical, all kind of… you need to…
+
+66
+00:14:11.400 --> 00:14:20.109
+Andrew Ashikhmin: To think about… just very hard or impossible to think logically about what gas is now.
+
+67
+00:14:20.350 --> 00:14:25.230
+Andrew Ashikhmin: In Ethereum. So, if we don't do this coherent.
+
+68
+00:14:25.360 --> 00:14:29.709
+Andrew Ashikhmin: Approach, then we'll end up with a lot of technical data.
+
+69
+00:14:32.360 --> 00:14:36.050
+Ansgar Dietrichs: Yeah, we have a few, people with hands up. Mario?
+
+70
+00:14:37.250 --> 00:14:37.929
+Maria Silva: So I…
+
+71
+00:14:38.800 --> 00:14:47.839
+Maria Silva: I just, I just wanted to speak a little bit to the more principled approach. So I… the way I see it is…
+
+72
+00:14:47.900 --> 00:15:01.739
+Maria Silva: I think we've been using GAS for two different uses so far, in DVM. So, on one hand, we use Gaz for transaction pricing, so to decide how much a user should pay for things.
+
+73
+00:15:01.760 --> 00:15:16.560
+Maria Silva: But we are also using it to control resource abuses through the… through the block limit. So we want to make sure that execution doesn't take more than a certain amount of seconds, and that state doesn't grow at more than a certain rate.
+
+74
+00:15:16.870 --> 00:15:25.159
+Maria Silva: And because we are using the same thing for these two things, we end up in a non-optimized approach. So, I think one…
+
+75
+00:15:25.460 --> 00:15:26.620
+Maria Silva: principal…
+
+76
+00:15:26.790 --> 00:15:37.650
+Maria Silva: way that we should look at it is these are two different things, and so when we talk about transaction gas use, this is an inherently different thing from
+
+77
+00:15:37.810 --> 00:15:52.810
+Maria Silva: the block limit and block metering, so we should probably even have, like, these two different concepts. We have transaction gas use, and we have block metering, block gas metering. So this is… and I think some of the confusion around
+
+78
+00:15:53.110 --> 00:15:58.329
+Maria Silva: 1837, is that now we are actually needing to make these specific
+
+79
+00:15:58.560 --> 00:16:00.949
+Maria Silva: On what do we mean by
+
+80
+00:16:01.080 --> 00:16:16.940
+Maria Silva: the gas used in a block, and what we mean by the gas used in the transaction. So this is, like, the axis number one. Like, these two things need to be separate. The… the other axis is on the resources side, and I think the long-term
+
+81
+00:16:17.120 --> 00:16:35.130
+Maria Silva: principal approach is as, as was said, which is, like, we need to separate the resources if we want to have a better control over them. And I think the… the end goal for that would be something like 7999, where we are actually… have, like, a separate fee market for
+
+82
+00:16:35.190 --> 00:16:37.579
+Maria Silva: For… for each resource.
+
+83
+00:16:37.660 --> 00:16:42.059
+Maria Silva: And I think 8037 is compatible
+
+84
+00:16:42.180 --> 00:16:50.980
+Maria Silva: With 7999, and it's already implementing a lot of the things that we would need to then have 7999.
+
+85
+00:16:51.110 --> 00:16:52.150
+Maria Silva: And so…
+
+86
+00:16:52.760 --> 00:16:58.339
+Maria Silva: the way I see it, I think it's, like, 8037 is a step in the direction of the ends
+
+87
+00:16:58.530 --> 00:17:00.839
+Maria Silva: principled approach.
+
+88
+00:17:00.960 --> 00:17:13.899
+Maria Silva: So that's, that's, that's how I see it, and it's also a needed thing we need now if we want to continue to scale without having, state grow at the, at the, unmanageable rate.
+
+89
+00:17:17.460 --> 00:17:19.069
+Ansgar Dietrichs: Felix?
+
+90
+00:17:22.510 --> 00:17:40.199
+Felix (Geth): Yeah, thank you. I just wanted to quickly give the feedback from the implementer point of view. I was recently also debugging something related with this EAP, and the primary issue that we see right now is things like, for example, how is the reverse being handled? Like, how is the gas correctly
+
+91
+00:17:40.200 --> 00:17:48.129
+Felix (Geth): Attributed back to parent frames in these scenarios, and it took us a long time to figure out the correct semantics.
+
+92
+00:17:48.130 --> 00:18:00.579
+Felix (Geth): And I'm pretty sure that there's more cases like this, so it really has… it seems the bug potential of this EAP is very high. Doesn't mean the idea of it is bad, it's just, I think, what Andrew is also kind of trying to say here is that
+
+93
+00:18:01.130 --> 00:18:05.299
+Felix (Geth): It just intuitively feels like something that is super easy to get wrong.
+
+94
+00:18:05.490 --> 00:18:06.300
+Felix (Geth): And…
+
+95
+00:18:06.690 --> 00:18:13.269
+Felix (Geth): Yeah, I just really wanted to voice it that, like, from an implementer perspective, it's… it is… it's kind of complicated.
+
+96
+00:18:17.940 --> 00:18:18.790
+Ansgar Dietrichs: Andrew.
+
+97
+00:18:19.490 --> 00:18:38.169
+Andrew Ashikhmin: Yeah, so… so I think it's… yeah, right, right now we are reaching this level of complexity that we need the principal approach now, so I'm very uncomfortable with, implementing and shipping,
+
+98
+00:18:38.360 --> 00:18:42.829
+Andrew Ashikhmin: 8037 without a principal approach, so…
+
+99
+00:18:42.830 --> 00:18:59.880
+Andrew Ashikhmin: It either has to be refactored with a principled approach, and that principled approach should be also applied to 3928, 7778, and also blob gas should be consistent with the principled approach.
+
+100
+00:18:59.880 --> 00:19:02.109
+Andrew Ashikhmin: Or we should not ship it at all.
+
+101
+00:19:03.260 --> 00:19:10.079
+Andrew Ashikhmin: Otherwise, yeah, if we just, yeah, ship it without a principled approach, it will be very bug-prone, or error-prone.
+
+102
+00:19:17.550 --> 00:19:18.630
+Ansgar Dietrichs: And Dragon?
+
+103
+00:19:20.360 --> 00:19:26.779
+Dragan Rakita: I think the state gas is very much needed if you want any bigger blocks.
+
+104
+00:19:26.920 --> 00:19:33.920
+Dragan Rakita: It is complex change because it touches the gas, and everything that touches gas is very sensitive. There's a lot of edge cases there.
+
+105
+00:19:34.680 --> 00:19:53.870
+Dragan Rakita: I do think that there was a moving target regarding this AIP. There was a lot of cases that would not cover the example of how to return or revert to the halt. The reservoir was something that we, like, talked to weeks ago.
+
+106
+00:19:54.060 --> 00:20:01.829
+Dragan Rakita: And… The tests are currently… Needs to be polished a little bit, because they are just made now.
+
+107
+00:20:02.240 --> 00:20:03.530
+Dragan Rakita: So, I think…
+
+108
+00:20:03.880 --> 00:20:11.030
+Dragan Rakita: it's a little bit chaotic, because it's not… we are just coming to the place where the AIP is polished.
+
+109
+00:20:13.410 --> 00:20:15.919
+Dragan Rakita: So, in my opinion, we should…
+
+110
+00:20:16.640 --> 00:20:19.749
+Dragan Rakita: Add it, we should bind the bullet and just implement it.
+
+111
+00:20:21.910 --> 00:20:23.280
+Dragan Rakita: It will get better.
+
+112
+00:20:23.960 --> 00:20:30.659
+Ansgar Dietrichs: Yeah, I mean, from my side, I wrote some of this in chat, I think a full rework of,
+
+113
+00:20:30.960 --> 00:20:31.920
+Ansgar Dietrichs: Gas.
+
+114
+00:20:32.340 --> 00:20:46.430
+Ansgar Dietrichs: and basically trying to move towards a principled, integrated approach to gas in all ways, I think is, to me at least, infeasible for Glamsterdam, just because I think this is something that already in the background people have been thinking about. It's just a really, kind of.
+
+115
+00:20:46.780 --> 00:20:49.199
+Ansgar Dietrichs: Complex thing to get right.
+
+116
+00:20:49.330 --> 00:20:50.770
+Ansgar Dietrichs: Mmm…
+
+117
+00:20:51.410 --> 00:21:04.759
+Ansgar Dietrichs: that leaves us, I think, with the question of specifically on, this kind of state creation side, do we… can we either A make some adjustments to 8037 that make it easier to implement, or maybe just
+
+118
+00:21:05.080 --> 00:21:12.930
+Ansgar Dietrichs: Bigger changes, in principle, that, that, that really kind of reduce complexity on this topic in particular.
+
+119
+00:21:13.220 --> 00:21:19.619
+Ansgar Dietrichs: I… have… personally have a hard time seeing us making that…
+
+120
+00:21:19.820 --> 00:21:37.540
+Ansgar Dietrichs: final decision today, just because I think it was a kind of very short-term, short notice raised concern, and it's a consequential decision. So I'd rather than, say, schedule a breakout call for something like next week to really dive in on that call than make decisions.
+
+121
+00:21:39.130 --> 00:21:39.820
+Ansgar Dietrichs: Hmm…
+
+122
+00:21:39.930 --> 00:21:54.770
+Ansgar Dietrichs: I do wonder if we were to say today that we need changes, where that would leave us with regards to BAL DevNet 3, whether we would say we would still go ahead with 8037 as is, just to get it out the door, and then maybe have some more…
+
+123
+00:21:54.770 --> 00:22:01.800
+Ansgar Dietrichs: insights on how it behaves, or whether to then hold off the DevNet, until we've decided what to do about it.
+
+124
+00:22:01.800 --> 00:22:06.280
+Ansgar Dietrichs: I don't know if people have thoughts on this question. Also, Maria?
+
+125
+00:22:10.260 --> 00:22:22.679
+Maria Silva: was just… I was just going to… to add that we do have a repricing, breakout, next Wednesday, so I think that could be a good opportunity. Andrew, if you could,
+
+126
+00:22:22.680 --> 00:22:37.600
+Maria Silva: to dive deep into, in your opinion, what changes could be made to make it, work better with the other EIPs. I think, like, doing the full, principled approach might not be possible, because that would mean, like.
+
+127
+00:22:37.770 --> 00:22:47.800
+Maria Silva: adding all the resources we want, thinking about what about the ZKVM, so I don't think we'll do, like, the full, full thing, but…
+
+128
+00:22:47.820 --> 00:22:58.139
+Maria Silva: trying to make it less prone to edge cases and errors. I think it's… it's, it's, it's, it's a good aim, and so I'm… I'll be happy to have…
+
+129
+00:22:58.450 --> 00:23:00.229
+Maria Silva: In-depth discussion on this.
+
+130
+00:23:02.750 --> 00:23:03.430
+Ansgar Dietrichs: Ben?
+
+131
+00:23:04.220 --> 00:23:09.270
+Ben Adams: There's a question… a lot of the…
+
+132
+00:23:09.550 --> 00:23:13.509
+Ben Adams: Some of the complication comes from, like, tracking refunds and things, and…
+
+133
+00:23:14.340 --> 00:23:17.210
+Ben Adams: We could go back to the…
+
+134
+00:23:17.380 --> 00:23:23.900
+Ben Adams: question, do we just drop refunds? Is it… is the benefit that they bring
+
+135
+00:23:25.980 --> 00:23:29.750
+Ben Adams: More… more valuable than the complexity they're causing.
+
+136
+00:23:33.880 --> 00:23:35.250
+Dragan Rakita: So…
+
+137
+00:23:35.460 --> 00:23:46.380
+Marius van der Wijden: I think the problem that, why refunds are a bit complicated with this is because we are,
+
+138
+00:23:47.430 --> 00:24:03.869
+Marius van der Wijden: the current rule is that we are tracking… that we are refunding the state gas to this… to, to the state gas reservoir. If we would just refund the gas as… or if we had the same logic for the state gas as for normal gas.
+
+139
+00:24:04.000 --> 00:24:08.439
+Marius van der Wijden: Then, it would be significantly
+
+140
+00:24:08.710 --> 00:24:14.570
+Marius van der Wijden: easier to implement. The… The logic behind…
+
+141
+00:24:15.630 --> 00:24:23.930
+Marius van der Wijden: Refunding to the state gas reservoir is that, hey, you didn't use up the state gas, because you are not changing anything.
+
+142
+00:24:24.050 --> 00:24:40.690
+Marius van der Wijden: So, you are… you are being refunded that gas. But if we just say, hey, the state gas is handled, the same way that the regular gas is handled, then we can pretty significantly simplify things. But I…
+
+143
+00:24:41.530 --> 00:24:44.220
+Marius van der Wijden: I also don't think it is that complicated.
+
+144
+00:24:44.330 --> 00:24:52.960
+Marius van der Wijden: like, the first implementation I had of it was pretty complicated, but, I've been refactoring it, and
+
+145
+00:24:53.380 --> 00:25:00.139
+Marius van der Wijden: The only thing that is… That was pretty ugly about it was the thing that we just changed.
+
+146
+00:25:00.360 --> 00:25:03.330
+Marius van der Wijden: With, with the recent BAL release.
+
+147
+00:25:03.830 --> 00:25:18.260
+Marius van der Wijden: Otherwise, it is pretty straightforward, to be honest. When you are in this… when you are, like, yeah, when you are thinking about this, it's not that complex, to be honest.
+
+148
+00:25:20.030 --> 00:25:24.060
+Ben Adams: Yeah, I mean… refunds altogether, so we have the…
+
+149
+00:25:24.870 --> 00:25:28.209
+Ben Adams: The one that tracks how much,
+
+150
+00:25:29.080 --> 00:25:32.340
+Ben Adams: Has been used in the block versus how much
+
+151
+00:25:32.450 --> 00:25:35.549
+Ben Adams: You know, there's the separation of,
+
+152
+00:25:35.980 --> 00:25:41.489
+Ben Adams: Here's the refunded gas in the transaction, but here's how much resource the block has actually used.
+
+153
+00:25:41.790 --> 00:25:42.980
+Ben Adams: less the refund.
+
+154
+00:25:43.760 --> 00:25:48.270
+Ben Adams: So… if we… so there was, like, EIP…
+
+155
+00:25:48.380 --> 00:25:52.720
+Ben Adams: 3298, where it was, like, get rid of 3 funds altogether.
+
+156
+00:25:54.970 --> 00:26:00.319
+Ben Adams: So the question is, the refund incentive, is it that strong that people are deleting space?
+
+157
+00:26:01.720 --> 00:26:02.490
+Ben Adams: Or, or…
+
+158
+00:26:03.150 --> 00:26:03.830
+Ben Adams: Is it enough?
+
+159
+00:26:07.540 --> 00:26:15.699
+Dragan Rakita: m-maybee… I have some clarification here. In REV implementation, we don't touch a refund at all.
+
+160
+00:26:16.050 --> 00:26:22.849
+Dragan Rakita: The refilling of the state gas of reservoir with the state gas that's not used is, like, a different variable.
+
+161
+00:26:23.380 --> 00:26:25.690
+Dragan Rakita: So, dropping refunds doesn't, like…
+
+162
+00:26:25.810 --> 00:26:32.979
+Dragan Rakita: touch the refunds. In general, the constants around that is not touching the state gas, or…
+
+163
+00:26:33.800 --> 00:26:38.690
+Dragan Rakita: Or, reservoir at all. So it's like, Totally separate.
+
+164
+00:26:39.210 --> 00:26:42.260
+Dragan Rakita: In that part, it's like, it became very simple.
+
+165
+00:26:42.840 --> 00:26:52.330
+Dragan Rakita: propagand reservoir and coming back from the subcoals, it's simple logic. The problem that I had mostly is about merging that inside,
+
+166
+00:26:52.560 --> 00:26:55.619
+Dragan Rakita: Before execution and after execution per section.
+
+167
+00:26:57.160 --> 00:26:59.170
+Dragan Rakita: So I don't think the dropping…
+
+168
+00:26:59.630 --> 00:27:03.569
+Dragan Rakita: Refunds is going to solve anything around that.
+
+169
+00:27:12.430 --> 00:27:14.720
+Ansgar Dietrichs: Right. I do think, yeah.
+
+170
+00:27:14.910 --> 00:27:19.040
+Ansgar Dietrichs: Again, it seems unlikely to me that we will be able to make a decision today, but…
+
+171
+00:27:19.860 --> 00:27:38.009
+Ansgar Dietrichs: It seems like an important topic, because if, indeed, the feeling is that also, say, for example, from the testing side, I mean, maybe, do we have someone from the testing side who could briefly, like, maybe Mario or someone who could briefly speak up on what the latest feeling is around testing complexity of AD37 in particular?
+
+172
+00:27:41.140 --> 00:27:52.350
+Mario Vega: I think Spencer has more context, but I can give the overview. Well, at least my feeling, is that it does break a lot of tests. I think it's very complex in the testing side, but only because
+
+173
+00:27:52.470 --> 00:27:59.730
+Mario Vega: I mean, primarily because the static tests are not ready for this kind of changes, but we are in the process of converting this.
+
+174
+00:27:59.860 --> 00:28:02.749
+Mario Vega: The problem is that this is 10 years of…
+
+175
+00:28:02.920 --> 00:28:13.450
+Mario Vega: of tests, so it's not easy. And we've been meaning to do this for a long time, and I think 8037 is, like, pushing us to just get it done. Spencer, do you have other…
+
+176
+00:28:14.420 --> 00:28:15.340
+Mario Vega: Comments?
+
+177
+00:28:17.710 --> 00:28:22.800
+spencer: Yeah, it is tricky, and I mean, where the tests are right now, like…
+
+178
+00:28:22.910 --> 00:28:26.570
+spencer: At least in the most… yeah, in the most recent release, we don't have all the…
+
+179
+00:28:26.780 --> 00:28:29.929
+spencer: All the tests from the previous, previous works.
+
+180
+00:28:30.110 --> 00:28:31.619
+spencer: In the most recent release?
+
+181
+00:28:31.910 --> 00:28:37.190
+spencer: For about DevNet Free, we specifically chose to simplify some of the
+
+182
+00:28:37.790 --> 00:28:46.530
+spencer: or simplify… simplify a part of EIP8037 by essentially hard-coding the cost per state byte.
+
+183
+00:28:46.990 --> 00:28:53.210
+spencer: So it's already loosely simplified for this devnet, and My feeling…
+
+184
+00:28:53.640 --> 00:28:59.260
+spencer: maybe other clients can speak up here, but my feeling is that we should just go ahead with, DevNet Free as is.
+
+185
+00:28:59.600 --> 00:29:06.869
+spencer: and then kind of gauge from there if there's a lot more edge cases that pop up.
+
+186
+00:29:07.110 --> 00:29:15.139
+spencer: And yeah, for DevNet4, we will have a lot better coverage, and even more, I guess, specific edge cases for…
+
+187
+00:29:15.730 --> 00:29:17.160
+spencer: 88037.
+
+188
+00:29:19.370 --> 00:29:32.930
+Mario Vega: One thing is that, we have not, successfully filled all the tasks, so that's something that we have to take into account. I wouldn't feel confident, or, about signing off this EIP into…
+
+189
+00:29:33.160 --> 00:29:49.530
+Mario Vega: into the fork if we are not passing all the tests. But we can process progress about this. I do feel that we have to make sure that none of the tests break, or worse than breaking is that they pass without verifying what they correctly did verify before.
+
+190
+00:29:49.800 --> 00:29:53.860
+Mario Vega: So, yeah, I think it's gonna take a lot of work.
+
+191
+00:29:54.010 --> 00:30:00.750
+Mario Vega: from us, but if we… if this is a change that we need, I mean, it's just… it's something that we have to do.
+
+192
+00:30:03.100 --> 00:30:06.169
+Ansgar Dietrichs: Yeah, sounds good, thank you, that adds good context, I think.
+
+193
+00:30:06.170 --> 00:30:27.589
+Ansgar Dietrichs: Yeah, I agree, I think, with the general take that it would be very desirable if we could go ahead with DevNet 3, BAL DevNet 3, as is, including AD37 in its current form, if that's at all feasible for clients, just because even if we then still want to consider making changes, I think it would be really good to just also see, in practice, how does it work, you know, in the end.
+
+194
+00:30:28.080 --> 00:30:36.370
+Ansgar Dietrichs: And then I would still also like the idea of, say, next week's repricing breakout, we specifically focus on the question of
+
+195
+00:30:36.550 --> 00:30:47.229
+Ansgar Dietrichs: kind of 8037 and complexity there, and is there anything we can do? What would be potential alternatives in terms of trying to find ways to simplify? Is this already the best we can do here?
+
+196
+00:30:47.380 --> 00:31:05.300
+Ansgar Dietrichs: Yeah, so to really have people join next week, if… on that topic. Does that, for now, seem like a reasonable approach? And then we basically see, after next week, basically, whether we just stick with it, even, and just accept the complexity, or whether there are things we can do?
+
+197
+00:31:05.570 --> 00:31:09.770
+Ansgar Dietrichs: It feels like that's the best way forward. Do we have, yeah.
+
+198
+00:31:11.120 --> 00:31:12.650
+Ansgar Dietrichs: How do people feel about that?
+
+199
+00:31:18.020 --> 00:31:23.869
+Ansgar Dietrichs: I guess Erigon, for example, would you all be, able to,
+
+200
+00:31:24.350 --> 00:31:28.269
+Ansgar Dietrichs: basically support BileDevNet 3, in its current form.
+
+201
+00:31:28.530 --> 00:31:34.499
+Andrew Ashikhmin: Yeah, we are working on it, so yeah, we'll try to make it work.
+
+202
+00:31:34.890 --> 00:31:41.729
+Andrew Ashikhmin: It sounds… Yeah, like a reasonable interim approach, but I think we should,
+
+203
+00:31:42.330 --> 00:31:48.589
+Andrew Ashikhmin: at least a line 79, 28, and 8037 in Glamsterdam.
+
+204
+00:31:54.350 --> 00:31:56.830
+Ansgar Dietrichs: Yeah, makes sense, and I think that's… The type of.
+
+205
+00:31:56.830 --> 00:31:57.160
+Marius van der Wijden: Yeah.
+
+206
+00:31:57.160 --> 00:31:58.139
+Ansgar Dietrichs: Next week, Maris?
+
+207
+00:31:58.140 --> 00:32:02.260
+Marius van der Wijden: I totally agree with that. I also think those are…
+
+208
+00:32:02.770 --> 00:32:18.699
+Marius van der Wijden: those are two AIPs that both change the way, receipts work, and, I think they are, yeah, they are specified very differently, and so we should, we should definitely, yeah, make them.
+
+209
+00:32:25.300 --> 00:32:26.480
+Ansgar Dietrichs: Sounds good.
+
+210
+00:32:26.900 --> 00:32:29.980
+Ansgar Dietrichs: Mmm… then I think for now.
+
+211
+00:32:30.160 --> 00:32:38.240
+Ansgar Dietrichs: That's probably a good place to leave it at and move on. Is there any, like, any last comments, anything anyone would definitely still want to bring up on this topic for today?
+
+212
+00:32:47.960 --> 00:33:01.890
+Ansgar Dietrichs: Otherwise, before we get into Hegota headliner discussion, which is the main topic for today, I just very briefly wanted to ask Barnabas if there's any update regarding EPBS DevNet Zero. That's obviously mostly a CLSAT topic, but I think it's good to just…
+
+213
+00:33:02.090 --> 00:33:04.880
+Ansgar Dietrichs: Make sure we have visibility on from the EL side as well.
+
+214
+00:33:05.450 --> 00:33:14.620
+Barnabas: Yeah, sure. So, we have a stable-ish .NET, .NET Zero launched last week, Wednesday, and we've been going on for a whole week.
+
+215
+00:33:14.860 --> 00:33:30.190
+Barnabas: We have a few clients that are working. We have Lighthouse, Lone Star, and Prism working fine. Taku and Nimbus are working hard to, get up to head. We have Checkpoint Z working now as well. We have…
+
+216
+00:33:30.260 --> 00:33:42.650
+Barnabas: withdrawals working and deposits working. We currently do not have exits working, but it's something that clients are looking into getting fixed.
+
+217
+00:33:42.800 --> 00:33:48.659
+Barnabas: As well as exiting, 0.03, builders, that is not yet working.
+
+218
+00:33:51.100 --> 00:34:00.559
+Barnabas: We are expecting to have a new consensus pack released by the end of this week, and we are going to either launch the 1 next week, Wednesday, or a week after that.
+
+219
+00:34:01.190 --> 00:34:05.840
+Barnabas: That will be based on top of the latest, sales factual release.
+
+220
+00:34:09.210 --> 00:34:15.129
+Ansgar Dietrichs: Sounds good. Any EL-side topics, questions anyone has around this DevNet?
+
+221
+00:34:19.260 --> 00:34:33.990
+Barnabas: We currently only have, GAF as the EL. Ideally, we could have at least one more EL, just in case there's something, wrong with Geth. I'm not saying that there will be, but,
+
+222
+00:34:34.860 --> 00:34:36.640
+Barnabas: Ideally, we would have at least two.
+
+223
+00:34:44.590 --> 00:34:48.690
+Ansgar Dietrichs: Do we have any other EL clients actively working towards… like…
+
+224
+00:34:49.520 --> 00:34:55.139
+Ansgar Dietrichs: short-term… sorry, EP-based DevNet Zero readiness, and if so, how close are we there?
+
+225
+00:34:56.389 --> 00:35:01.579
+Barnabas: I'm not aware of anyone working on it. I think all the teams are very busy.
+
+226
+00:35:01.929 --> 00:35:07.089
+Barnabas: So, it's, like, not urgent, but if anyone has a bit of downtime, then,
+
+227
+00:35:07.829 --> 00:35:10.069
+Barnabas: Let me know, and I can point you to the…
+
+228
+00:35:10.819 --> 00:35:13.369
+Barnabas: Yeah, it's fairly easy to do.
+
+229
+00:35:14.359 --> 00:35:15.529
+Barnabas: I was going to use it.
+
+230
+00:35:16.240 --> 00:35:33.109
+Ansgar Dietrichs: Sounds good. So, open invite if anyone is bored from all the state questions and thinks this is trivial and wants a challenge. Sounds like a very small challenge, but, from the outside, but yeah, do reach out to Barnabas, maybe see if you… if you can join the DevNet, that sounds fun.
+
+231
+00:35:33.820 --> 00:35:34.730
+Ansgar Dietrichs: Okay.
+
+232
+00:35:34.960 --> 00:35:47.969
+Ansgar Dietrichs: Perfect, thank you, Barnabas. Then, next up, we do have the Hagota headliner selection. Just as a quick reminder, we kind of,
+
+233
+00:35:48.260 --> 00:35:57.399
+Ansgar Dietrichs: Already had a discussion, last call. The plan is to make a decision today. We basically have the different options that we had, where
+
+234
+00:35:57.700 --> 00:36:11.020
+Ansgar Dietrichs: The frontrunner, candidates, so to say, were either to do the frame transaction headliner proposal, or possibly some clients would have the preference of maybe
+
+235
+00:36:11.020 --> 00:36:23.989
+Ansgar Dietrichs: just not having an Yale-specific headliner, just, focus on FOCIL as the kind of cross-layer headliner for that fork, and then have smaller features, or just lower priority features, otherwise.
+
+236
+00:36:24.230 --> 00:36:35.740
+Ansgar Dietrichs: On the EL side, but there were also still the, candidates of, Lucid, the encrypted mempool proposal,
+
+237
+00:36:36.000 --> 00:36:41.790
+Ansgar Dietrichs: and, the SSE, pure ETH, proposal.
+
+238
+00:36:43.940 --> 00:36:57.150
+Ansgar Dietrichs: Yeah, I would maybe want to start, because it seemed to me, like, last time we were basically saying that both of those, MSSE and also Lucid only had outside chances, and…
+
+239
+00:36:57.240 --> 00:37:09.630
+Ansgar Dietrichs: I just wanted to check in on this first. My understanding was, for example, from the encrypted mempool side, that many people in general are very open to this, but, were feeling that this is one hard fog too early, and
+
+240
+00:37:09.630 --> 00:37:26.719
+Ansgar Dietrichs: that we should probably just revisit this for I-Star, and I think I heard from some of the champions as well that they are, kind of starting to at least be very open to this, lean in that direction. I don't know, Andas, are you on the call, for example? I think I heard you mention something in that regard.
+
+241
+00:37:27.520 --> 00:37:36.110
+Anders Elowsson: Yeah, I can just say that, yeah, I mean, if there's no general support for it, we are, of course, open for…
+
+242
+00:37:36.340 --> 00:37:46.670
+Anders Elowsson: sort of, recognizing that we can sort of try… try for iStore if there's, if people think that we should not do it for Hegota, so it's…
+
+243
+00:37:46.800 --> 00:38:00.989
+Anders Elowsson: Yeah, I would say, generally, we would still like to put it up there for discussion, but yeah, we are definitely open for thinking that maybe it's suitable for iStore.
+
+244
+00:38:02.820 --> 00:38:10.650
+Ansgar Dietrichs: Sounds good. Yeah, and of course, my feeling is that clients haven't really changed their take on this over the last two weeks, but…
+
+245
+00:38:10.650 --> 00:38:12.010
+Ansgar Dietrichs: Of course, if that… if that is…
+
+246
+00:38:12.010 --> 00:38:33.369
+Ansgar Dietrichs: different, then we can discuss it now. I was just thinking we should maybe, at the beginning of this discussion section, just make the decisions around SSE or Lucid as headliners, most likely just reject them as headliner candidates, so we have a simplified design space, and then we can just talk about frame transactions versus no headliner.
+
+247
+00:38:33.490 --> 00:38:42.709
+Ansgar Dietrichs: Yeah, do we have anyone here with opinions on either of those two headliners, SSE or,
+
+248
+00:38:43.260 --> 00:38:45.890
+Ansgar Dietrichs: Lucid,
+
+249
+00:38:46.380 --> 00:38:53.160
+Ansgar Dietrichs: would, yeah, maybe potentially want to argue against rejecting them now, or, of course, just confirm this decision. Ben?
+
+250
+00:38:54.210 --> 00:39:02.720
+Ben Adams: Just on SS… SSE, there's been, like, a recent movement to do a forum
+
+251
+00:39:02.840 --> 00:39:07.730
+Ben Adams: or some SSE, sort of, that's not… Walk-related.
+
+252
+00:39:08.390 --> 00:39:13.260
+Ben Adams: So I think that might change the topology on that as well.
+
+253
+00:39:13.680 --> 00:39:15.220
+Ben Adams: There doesn't need to be.
+
+254
+00:39:15.960 --> 00:39:18.820
+Ben Adams: Coordinated, necessarily, through consensus.
+
+255
+00:39:23.760 --> 00:39:25.059
+Ansgar Dietrichs: Yeah, Daniel?
+
+256
+00:39:26.350 --> 00:39:32.190
+Daniel Lehrner (Besu): Yeah, so, from Besto's side, we had Lucid as the favorite the last time.
+
+257
+00:39:32.680 --> 00:39:38.800
+Daniel Lehrner (Besu): But, now the team changed, actually, to no headliners figured, so…
+
+258
+00:39:38.960 --> 00:39:42.320
+Daniel Lehrner (Besu): From our side, it also would not be Lucid.
+
+259
+00:39:46.140 --> 00:39:56.810
+Ansgar Dietrichs: Makes sense. And yeah, just to confirm, I think people are overall quite positive about both of those, SSE and Lucid for the future of Ethereum. It's just, yeah, maybe…
+
+260
+00:39:56.810 --> 00:40:09.820
+Ansgar Dietrichs: not the right form as an Hegota headliner. That's at least the feeling that I got from conversations. So then, yeah, like, I would just… I mean, let's not do this as a batch decision, people do usually dislike this, so just let's do them one by one.
+
+261
+00:40:09.870 --> 00:40:16.089
+Ansgar Dietrichs: I would propose to just… reject SSE as headline-up proposal for Hegota?
+
+262
+00:40:18.330 --> 00:40:27.729
+Ansgar Dietrichs: And again, that does not mean that we are not considering doing this either out of protocol, in protocol, otherwise, but just not as… not selecting it as a headliner, basically.
+
+263
+00:40:28.960 --> 00:40:31.600
+Ansgar Dietrichs: Anyone who wants to speak up against that decision?
+
+264
+00:40:40.090 --> 00:40:56.849
+Ansgar Dietrichs: Okay, so then we will not do, the SSE as a headliner in Hegota. And then same proposal for, Lucid, basically saying, to officially reject it as a headliner candidate. Anyone who wants to speak up against that decision?
+
+265
+00:41:05.280 --> 00:41:10.250
+Ansgar Dietrichs: Okay, so then we also, yeah, brilliant.
+
+266
+00:41:10.490 --> 00:41:29.159
+Ansgar Dietrichs: reject Lucid as headliner for Hegota. And then that indeed leaves us with the decision. We can either accept frame transactions, or we can say we just do not have a separate headliner. I know that there has been quite a bit of discussion. Unfortunately, I was not able to join the breakout call last week.
+
+267
+00:41:29.240 --> 00:41:43.070
+Ansgar Dietrichs: Yes, do we… do we have anyone who could briefly summarize the discussion from the breakout? And otherwise, yeah, any clients with updated positions on… on this topic? Felix?
+
+268
+00:41:43.810 --> 00:41:55.459
+Felix (Geth): Yeah, I can definitely summarize. I have also four people to… if you are interested, I have posted a longer comment to the ACDPM issue that summarizes, basically.
+
+269
+00:41:55.500 --> 00:42:11.839
+Felix (Geth): everything that we have done on the EAP in the last couple weeks, just so… I mean, ever since it was proposed initially, we have made some updates to it, and we've done a lot of research to, like, see, you know, like, we've heard some criticism from various actors.
+
+270
+00:42:11.960 --> 00:42:30.060
+Felix (Geth): I've just been researching how this can be addressed, or, like, what is, like, the wanted feature set from this EAP, from the wider community. So, this is definitely an ongoing process, but some interesting changes have already happened. And, with regard to the breakout call, I'm very,
+
+271
+00:42:30.260 --> 00:42:41.860
+Felix (Geth): happy to say that this was also integrated into the forecast website, so I have actually also put the link to it in my comment. And, on the breakout call, mostly it was just
+
+272
+00:42:42.020 --> 00:43:00.430
+Felix (Geth): yeah, addressing people's questions. So there were just a lot of questions of what is the purpose of this EIP, why do account abstraction, what is the connection of account abstraction with post-quantum? We went a little bit, again, into these discussions of how can
+
+273
+00:43:00.850 --> 00:43:10.990
+Felix (Geth): post-quantum signatures be achieved within the block. It has some… there are some technical nuances that still have to be solved around this area.
+
+274
+00:43:10.990 --> 00:43:22.779
+Felix (Geth): And then, yeah, like I said, I mean, after the breakout call, it became clear that really what's necessary for us as the next step is just to engage way more with the wallet developer community, to… to just hear
+
+275
+00:43:22.860 --> 00:43:34.820
+Felix (Geth): what they really want out of this. Like, when native account abstraction comes to the mainnet, what do they want to see? And, I can just give a very high-level comment here that
+
+276
+00:43:35.560 --> 00:43:40.719
+Felix (Geth): In addition to… this being…
+
+277
+00:43:41.220 --> 00:43:58.580
+Felix (Geth): a change that would obviously affect the mainnet. What everyone is also seeing this as is, like, a chance to generally resolve some user experience issues across the wider network of Ethereum-compatible chains. So it is becoming kind of important that
+
+278
+00:43:58.580 --> 00:44:10.449
+Felix (Geth): once native account abstraction makes it in the mainnet, that it kind of makes it in the same way on the L2s, because this will enable people to use their account on all of these chains in the same way.
+
+279
+00:44:10.540 --> 00:44:15.390
+Felix (Geth): And, yeah, facing this wider landscape of having this
+
+280
+00:44:15.780 --> 00:44:29.149
+Felix (Geth): making this, like, work in the multi-chain context, we… yeah, like I said, we started making some changes and started considering all these upgrade paths and, like, stuff that people already have done in the past. For example.
+
+281
+00:44:29.230 --> 00:44:45.369
+Felix (Geth): we now have… are considering an upgrade path for the existing smart accounts, which are using EIC437, and which people are already using on some of these chains, things like that. Anyway, I highly recommend to read my comment to see all the updates, and, yeah, that's it.
+
+282
+00:44:47.850 --> 00:44:56.899
+Ansgar Dietrichs: Sounds good, thank you. Before we go into the open discussion, and I think, you know, I see Italik is also on the call, who's, I think, one of them.
+
+283
+00:44:57.290 --> 00:45:03.429
+Ansgar Dietrichs: well, co-creators of the EIP, but I just briefly wanted to make sure that we have the latest,
+
+284
+00:45:03.810 --> 00:45:14.199
+Ansgar Dietrichs: picture of where clients' positions are right now. So, for example, I think on the last call, there was a comment from Bisu that in…
+
+285
+00:45:14.270 --> 00:45:25.699
+Ansgar Dietrichs: in the absence of Lucid, they would actually prefer doing frame transactions over nothing, but now it sounded like maybe Besu is actually… would rather be in favor of,
+
+286
+00:45:25.860 --> 00:45:28.800
+Ansgar Dietrichs: No headliner? Is this… is this correct? Just to double check?
+
+287
+00:45:28.800 --> 00:45:30.980
+Daniel Lehrner (Besu): Yeah, yeah, yeah, that's correct.
+
+288
+00:45:32.020 --> 00:45:41.569
+Ansgar Dietrichs: Sounds… yeah, okay, makes sense. And then, I think otherwise, I had, Nethermind and Wrath on the side… written down as on the side of…
+
+289
+00:45:41.860 --> 00:45:51.329
+Ansgar Dietrichs: preferring no headliner over frame transactions, and Erigon and Geth on the side of… the other way around, preferring frame transactions over nothing? Is this still accurate?
+
+290
+00:45:51.580 --> 00:45:52.590
+Ansgar Dietrichs: Ben?
+
+291
+00:45:53.330 --> 00:45:59.530
+Ben Adams: Yeah, so, no headliner, but we wouldn't want to say…
+
+292
+00:45:59.930 --> 00:46:06.060
+Ben Adams: for end trans… no, to… for end transactions, we just don't want to put it on the headliner priority, where…
+
+293
+00:46:06.320 --> 00:46:09.459
+Ben Adams: We can't ship the fork if it's not ready.
+
+294
+00:46:09.600 --> 00:46:19.340
+Ben Adams: But we'd like it to come in as one of the regular EIPs. So we did… what we did in the previous work was we said.
+
+295
+00:46:19.470 --> 00:46:24.150
+Ben Adams: Or if it came in as the headliner and was rejected, it's obviously a big thing.
+
+296
+00:46:25.060 --> 00:46:34.280
+Ben Adams: So it shouldn't come in as a regular EIP. We don't think that's the case with frame transactions, and, so we'd like that to…
+
+297
+00:46:35.220 --> 00:46:36.830
+Ben Adams: Lucas can probably…
+
+298
+00:46:37.670 --> 00:46:48.080
+Łukasz Rozmej: Yeah, so if I can say something, we would potentially think about working on it, and prototyping it, and working on the spec, but we…
+
+299
+00:46:48.270 --> 00:47:01.489
+Łukasz Rozmej: We are not sure about it yet, so we don't want it as a headliner in that way, so potentially it's… we're not sure if we should commit to it, right? In this way.
+
+300
+00:47:03.900 --> 00:47:05.320
+Ansgar Dietrichs: Makes sense, Dragon?
+
+301
+00:47:06.350 --> 00:47:11.139
+Dragan Rakita: From red side, yeah, we have for the no headliners for Hegota.
+
+302
+00:47:11.460 --> 00:47:24.330
+Dragan Rakita: For… we don't support frame as such as it is to introduce additional abstraction layer that we don't need, and something like tempo intersection as the blueprint for the new intersection could be a lot better.
+
+303
+00:47:24.710 --> 00:47:30.470
+Dragan Rakita: It could give us a lot more benefits from… and smaller risk from anything.
+
+304
+00:47:30.860 --> 00:47:39.949
+Dragan Rakita: Frame.tx, in general, introduced a very big lift for TX pool and how DDoS protection is done and handled.
+
+305
+00:47:40.050 --> 00:47:48.310
+Dragan Rakita: It doesn't, explain how the things are going to be done, but it reduces additional abstraction that allows those things.
+
+306
+00:47:48.670 --> 00:47:59.720
+Dragan Rakita: So, directly permitting those end things that we need in some, like, specific or straightforward way, I think it's going to be a lot more beneficial.
+
+307
+00:48:02.450 --> 00:48:07.430
+Ansgar Dietrichs: Makes sense. And I think there's a comment by Matt, on the
+
+308
+00:48:07.500 --> 00:48:22.940
+Ansgar Dietrichs: Manpool side question, specifically. But, but yeah. Okay, sounds, sounds good. So then I think we have a picture. So right now we have, 3 clients more leaning towards no headliner, and 2 clients leaning to… or, supporting frame transactions, which would…
+
+309
+00:48:22.940 --> 00:48:34.130
+Ansgar Dietrichs: you know, given that I think that doing nothing is always the default, right now, tilt the decision more towards not doing frame transactions as a headliner, and then we could revisit it as an ERP still for the fork.
+
+310
+00:48:34.130 --> 00:48:44.430
+Ansgar Dietrichs: But I do think client opinions on these topics overall are still uncertain enough from what I felt, that it seems reasonable to have a discussion here and see if actually people
+
+311
+00:48:44.440 --> 00:48:47.480
+Ansgar Dietrichs: Still, in a position to change their mind on this.
+
+312
+00:48:47.730 --> 00:49:01.589
+Ansgar Dietrichs: So yeah, I think, we… this is the main, kind of, agenda point for today, so I think we have, basically the rest of the call, if we need it, if we want it, for this discussion. With that, do we have…
+
+313
+00:49:01.770 --> 00:49:04.140
+Ansgar Dietrichs: people, again.
+
+314
+00:49:04.140 --> 00:49:08.009
+mark: Can I just give you a little bit of extra feedback from an Erigon perspective?
+
+315
+00:49:08.010 --> 00:49:08.990
+Ansgar Dietrichs: Yes.
+
+316
+00:49:08.990 --> 00:49:12.579
+mark: Because I think we're… we're sort of…
+
+317
+00:49:12.790 --> 00:49:24.610
+mark: we were… we're more certain about, Lucid now than we were, I think, the last time we discussed this, basically because the proposal's firmer, so…
+
+318
+00:49:25.330 --> 00:49:35.900
+mark: I think what… what we want to do, probably from a development perspective, is work on… lucid and…
+
+319
+00:49:36.200 --> 00:49:37.420
+mark: frames.
+
+320
+00:49:37.530 --> 00:49:43.850
+mark: As a… as a kind of thing that we will coordinate together to get into the codebase.
+
+321
+00:49:44.090 --> 00:49:53.990
+mark: Now, I think that's probably because we're in a position where, because we worked on account abstraction before, we've already got, effectively, frame support in the codebase.
+
+322
+00:49:54.430 --> 00:49:58.209
+mark: And one of the things that…
+
+323
+00:49:58.520 --> 00:50:06.720
+mark: I think we want to get resolved is Lucid has this composite proposal.
+
+324
+00:50:06.820 --> 00:50:09.130
+mark: In it, as well, as frames.
+
+325
+00:50:09.530 --> 00:50:16.009
+mark: And… We don't think it makes sense to have, like, two composite transaction types.
+
+326
+00:50:16.910 --> 00:50:21.150
+mark: Effectively. So it seems like there needs to be some coordination there.
+
+327
+00:50:25.350 --> 00:50:33.760
+mark: But we basically want to work on both… we think it makes sense to work on both of those things in the, kind of, Hegatar timeframe.
+
+328
+00:50:39.530 --> 00:50:40.660
+Ansgar Dietrichs: Makes sense.
+
+329
+00:50:41.050 --> 00:50:44.299
+Ansgar Dietrichs: And it… at least it, yeah, it does seem like…
+
+330
+00:50:44.750 --> 00:50:48.590
+Ansgar Dietrichs: I don't… yeah, if we wanted to do Lucid…
+
+331
+00:50:48.830 --> 00:50:55.390
+Ansgar Dietrichs: I personally think it's unlikely we'll end up doing it as a non-headliner still for aged already, but, yeah, definitely one should think they're.
+
+332
+00:50:55.390 --> 00:50:58.990
+mark: Yeah, yeah, so I think we're kind of, sort of, less…
+
+333
+00:50:59.580 --> 00:51:03.549
+mark: we're more neutral on the headliner thing, right? Because…
+
+334
+00:51:03.660 --> 00:51:12.960
+mark: It seems like it makes sense from a development point of view, but it seems quite risky, and it's one of those things that if we try to do too much, we might end up not delivering anything.
+
+335
+00:51:13.460 --> 00:51:15.900
+mark: Essentially.
+
+336
+00:51:16.120 --> 00:51:22.890
+mark: So… While it makes sense to co-develop it, it doesn't necessarily make sense to us to co-deliver it.
+
+337
+00:51:23.140 --> 00:51:24.689
+mark: If that makes sense.
+
+338
+00:51:26.320 --> 00:51:39.269
+Ansgar Dietrichs: Yeah, that makes sense. And then that would still, at least in principle, be an argument that could still favor having, frame transactions as a headline and H star, and then already, like, in the development process for it, make sure that it is forward compatible with
+
+339
+00:51:39.440 --> 00:51:42.350
+Ansgar Dietrichs: Lucid or a Lucid variant that we would then bring in ice down.
+
+340
+00:51:42.350 --> 00:51:50.249
+mark: Yeah, because what we don't want to do, yeah, is do frame transactions, and then revisit them for the exact next fork, because we're putting Lucid in.
+
+341
+00:51:52.770 --> 00:52:12.320
+Ansgar Dietrichs: Yeah, that makes sense. But yeah, again, I agree, I think what you're saying, basically, it's not about shipping them together, it's not about shipping Lucid in H.S. still, it's just saying, like, if we were to select frame transactions to go first, we should make sure that it's already co-developed so that we can make sure that it's seamlessly forward compatible with the later Lucid change.
+
+342
+00:52:12.320 --> 00:52:14.459
+mark: Yeah, yeah, that's a good summary.
+
+343
+00:52:16.120 --> 00:52:32.180
+Ansgar Dietrichs: Sounds good. Yeah, then, in general, thoughts, kind of, I do know that there's a few people on here that have… that are actually very strongly in favor of frame transactions. I think now would be a good opportunity to speak up, to make the case, see if we can…
+
+344
+00:52:32.310 --> 00:52:35.619
+Ansgar Dietrichs: Still convince the skeptical clients.
+
+345
+00:52:36.860 --> 00:52:38.470
+Ansgar Dietrichs: Anyone who wants to.
+
+346
+00:52:42.010 --> 00:52:42.700
+Ansgar Dietrichs: Sweet.
+
+347
+00:52:42.700 --> 00:52:50.249
+lightclient: Kinda seems that the main concern is that frame transactions are gonna delay the next fork. That's what I'm understanding, at least from NetherMind.
+
+348
+00:52:50.820 --> 00:52:57.369
+lightclient: But I'm wondering if it changes people's opinions, knowing that we can
+
+349
+00:52:57.630 --> 00:53:00.990
+lightclient: Choose how complicated to make the transaction pool.
+
+350
+00:53:01.360 --> 00:53:02.529
+lightclient: That's one thing.
+
+351
+00:53:02.850 --> 00:53:04.319
+lightclient: The other thing is that…
+
+352
+00:53:04.450 --> 00:53:11.730
+lightclient: you know, we still have quite a long time before this fork is going to go live. We're already talking about
+
+353
+00:53:11.910 --> 00:53:14.809
+lightclient: maybe large changes to Glamsterdam?
+
+354
+00:53:15.320 --> 00:53:21.290
+lightclient: So we're looking at, like, you know, at least one year out before this feature would even go live.
+
+355
+00:53:22.130 --> 00:53:24.049
+lightclient: Yeah, Ben.
+
+356
+00:53:24.980 --> 00:53:32.300
+Ben Adams: I… I would… I would go further than just saying the latest work in that we're… we've…
+
+357
+00:53:32.510 --> 00:53:39.850
+Ben Adams: Positive towards friend transactions, but we're not 100% convinced, so… we've…
+
+358
+00:53:40.030 --> 00:53:43.650
+Ben Adams: Prefer the optionality to say, okay.
+
+359
+00:53:43.980 --> 00:53:47.029
+Ben Adams: Maybe this… this doesn't work at some point in the future.
+
+360
+00:53:47.250 --> 00:53:50.419
+Ben Adams: Whereas putting it as headliner would suggest
+
+361
+00:53:50.610 --> 00:53:53.350
+Ben Adams: That is the fork, if you know what I mean. It's not.
+
+362
+00:53:55.140 --> 00:53:56.680
+lightclient: I mean, yeah.
+
+363
+00:53:56.870 --> 00:54:04.079
+lightclient: If we say it's headliner, but we reserve the right to remove it later, if we realize it's not gonna work, is that…
+
+364
+00:54:04.650 --> 00:54:06.679
+lightclient: You know, sufficient to…
+
+365
+00:54:07.220 --> 00:54:11.620
+lightclient: accepted as a headliner. Like, we don't have to tie our hands behind our back with
+
+366
+00:54:12.750 --> 00:54:17.329
+lightclient: processes and rules if it's gonna lead to, like, worse outcomes for Ethereum.
+
+367
+00:54:17.820 --> 00:54:23.689
+Ben Adams: Yeah, but it would be weird messaging to put something as a headliner and then… Think about it later.
+
+368
+00:54:25.840 --> 00:54:36.629
+lightclient: I mean, what you're proposing is also not possible with the process either. Like, if we don't accept it as a headliner, now, because it's been proposed as a headliner, then we couldn't accept it as a non-headliner until I-Star.
+
+369
+00:54:36.950 --> 00:54:42.149
+lightclient: I don't know if this is what you're proposing, or if you're proposing that we consider it as a non-headliner an Hegota.
+
+370
+00:54:42.480 --> 00:54:45.070
+Ben Adams: As a non-headliner in Hegota.
+
+371
+00:54:46.150 --> 00:55:03.569
+lightclient: Right, so I would just say, like, if we're going to, like, change the process, we might as well just accept it as a headliner now, with the assumption that we could decide later that we are not going to be able to deliver this, or that there's not enough agreement on what the shape of the thing needs to be.
+
+372
+00:55:04.060 --> 00:55:09.339
+lightclient: Because if we say it's not a headliner, now we have to wait several more weeks for the non-headliners to come around.
+
+373
+00:55:09.850 --> 00:55:17.699
+Lumi | Offchain Labs: That's kind of the definition of a headliner, is we delay our upgrade, so why would we call it a headliner if we won't delay the upgrade?
+
+374
+00:55:18.070 --> 00:55:20.350
+Lumi | Offchain Labs: Might as well just not have it as a headline.
+
+375
+00:55:31.270 --> 00:55:34.319
+Felix (Geth): I'm gonna speak up now, so I think the,
+
+376
+00:55:34.990 --> 00:55:41.420
+Felix (Geth): this has been feedback that I also got from talking to client developers individually, that
+
+377
+00:55:41.840 --> 00:55:48.189
+Felix (Geth): it just somehow seems like for this… I think the concept of the headliner was introduced
+
+378
+00:55:48.310 --> 00:55:54.159
+Felix (Geth): So that clients could all commit to a singular goal, which has to be achieved by the fork.
+
+379
+00:55:54.190 --> 00:56:05.299
+Felix (Geth): And if this… this basically kind of defines it as being this thing that the fork will be delayed over, and that will not be pulled from the fork. So it seems that
+
+380
+00:56:05.300 --> 00:56:23.369
+Felix (Geth): we cannot currently gather this kind of support for EIP8141. If everyone was agreeing on it, or the absolute majority of the clients would be agreeing on it right now, that this is the single most important thing we have to achieve within the Hegota fork, then we wouldn't have such trouble deciding on it.
+
+381
+00:56:23.490 --> 00:56:35.149
+Felix (Geth): So, this is kind of where this hesitation is coming from, to say, yeah, maybe we should downgrade it to a non-headliner and whatever. I personally am not super attached to the exact process here.
+
+382
+00:56:35.150 --> 00:56:46.639
+Felix (Geth): for me, personally, I feel like it's a good moment in time to introduce native account abstraction. It has been sitting there on the side for a good number of years.
+
+383
+00:56:46.640 --> 00:56:54.139
+Felix (Geth): With people exploring different ideas to bring it there, and we feel that with EIP8141, we have
+
+384
+00:56:54.430 --> 00:57:06.919
+Felix (Geth): it's probably our best shot at it yet, especially regarding the mempool compatibility. Like, if you look at the previous account abstraction proposals, the mempool was always the issue, so this time, we are really making sure that
+
+385
+00:57:07.210 --> 00:57:08.250
+Felix (Geth): at least
+
+386
+00:57:08.410 --> 00:57:25.409
+Felix (Geth): some of the native account abstraction flows can be handled by the public mempool, whereas with previous proposals, it was always clear from the start that, yeah, even if we have native account abstraction, there will just not be a mempool as we know it for these transactions. So I feel like it is…
+
+387
+00:57:25.620 --> 00:57:30.800
+Felix (Geth): Better than what was proposed before for this particular topic.
+
+388
+00:57:31.730 --> 00:57:41.050
+Felix (Geth): And so, yeah, I've… I mean, given that there is no other good candidate for the headliner on the EL, that is, like, another reason for me to say, yeah, I mean, this…
+
+389
+00:57:41.250 --> 00:57:43.400
+Felix (Geth): It's like, we might as well do this one.
+
+390
+00:57:43.530 --> 00:57:49.500
+Felix (Geth): I mean, it is a bit larger change than tweaking gas prices or trying to…
+
+391
+00:57:50.480 --> 00:58:05.909
+Felix (Geth): I don't know, add some convenience features to the protocol. Like, it is a pretty fundamental change to the protocol in many ways, and so that's… for me, this is more important as the headliner. It just has, like, it gives a big upgrade to the chain in some ways.
+
+392
+00:58:13.050 --> 00:58:37.930
+vitalik: One, one thing I, wanted to also, highlight again is, that, there's a lot of, synergies between FOCIL and native account abstraction, and, like, those two EIPs are actually, quite, quite naturally complementary, basically, because, what, what FOCIL, does is.
+
+393
+00:58:37.930 --> 00:58:43.020
+vitalik: It creates very strong, rapid inclusion guarantees.
+
+394
+00:58:43.020 --> 00:58:50.900
+vitalik: For transactions, and native account abstraction greatly increases the set of things
+
+395
+00:58:51.230 --> 00:59:13.710
+vitalik: That, can be directly done as, as transactions. And so, if you have, those two things together, then it basically means that, very large sets of applications and, including transactions from smart contract wallets, and potentially including
+
+396
+00:59:13.710 --> 00:59:22.410
+vitalik: Things that, transactions that pay fees and other assets, also including privacy protocols, will… Bie,
+
+397
+00:59:22.460 --> 00:59:46.669
+vitalik: will be able to be inter, intermediary-free across the full stack, meaning they'll be able to no longer need intermediary choke points, both at the, layer of getting included into a transaction, and at the layer of needing to go through a block builder if block builders become…
+
+398
+00:59:46.670 --> 00:59:49.359
+vitalik: much more dominant, and so I think,
+
+399
+00:59:49.870 --> 01:00:02.249
+vitalik: And this is, also a case, for, base, treating the two, almost as a very interrelated unit to some degree.
+
+400
+01:00:09.690 --> 01:00:10.640
+Ansgar Dietrichs: Makes sense.
+
+401
+01:00:11.260 --> 01:00:13.870
+Ansgar Dietrichs: Dragon, if you want to?
+
+402
+01:00:16.030 --> 01:00:22.259
+Dragan Rakita: I would say that there is uncertainty or unclarity about exactly is the frame, the accent…
+
+403
+01:00:22.630 --> 01:00:26.979
+Dragan Rakita: listening from the Nethermine, Erigon, and basically all the clients.
+
+404
+01:00:27.300 --> 01:00:35.030
+Dragan Rakita: They need more time to evaluate what is needed, because they are uncertainty, this is the solution that we want to include or not.
+
+405
+01:00:35.270 --> 01:00:39.409
+Dragan Rakita: I think that should be a good enough reason to not include it as the headliner.
+
+406
+01:00:40.450 --> 01:00:41.790
+Dragan Rakita: for the…
+
+407
+01:00:42.150 --> 01:00:54.750
+Dragan Rakita: Frame.tx, in general, basically our stance is it's too complex, and those things, basically protocols that you want to include to enable all the things that you want to, it should be natively supported.
+
+408
+01:00:54.950 --> 01:01:01.730
+Dragan Rakita: Because if it's natively supported without that SEQTVM obstruction that FrameTX now has.
+
+409
+01:01:02.230 --> 01:01:09.280
+Dragan Rakita: It becomes a lot easier to use, it becomes more straightforward, it becomes a lot, yeah, better.
+
+410
+01:01:10.200 --> 01:01:13.949
+Dragan Rakita: So… Yeah, I think that's my stance here.
+
+411
+01:01:18.810 --> 01:01:21.410
+Ansgar Dietrichs: And Nico, you're unmuted? Did you want to say something?
+
+412
+01:01:21.560 --> 01:01:37.160
+Nico Consigny: Yeah, sorry, I couldn't raise my hand. One thing that I wanted to add is, on the timeline, timeline question, even if we headline or not, even if we ship,
+
+413
+01:01:37.380 --> 01:01:50.909
+Nico Consigny: frame transaction in Hegota. It's gonna be a tight timing for DAOs to upgrade their contract to post-quantum-resistant transaction. So, we are looking at
+
+414
+01:01:51.080 --> 01:02:00.739
+Nico Consigny: in the best scenario, one year to ship, the EIP. Then on top of that, you need to account for a very messy,
+
+415
+01:02:00.940 --> 01:02:05.200
+Nico Consigny: DAO voting decision, which will take a few months.
+
+416
+01:02:05.300 --> 01:02:11.249
+Nico Consigny: You need to add to that some audits for the… For the verification schemes.
+
+417
+01:02:11.600 --> 01:02:17.410
+Nico Consigny: So this brings us to 2028 and 2029, or even…
+
+418
+01:02:17.600 --> 01:02:25.000
+Nico Consigny: a bit later with, potential delays. So yeah, I just wanted to remind that, in this context, it's… it's a bit…
+
+419
+01:02:25.370 --> 01:02:30.219
+Nico Consigny: Gamblish to go for something that is not, post-quantum.
+
+420
+01:02:30.320 --> 01:02:37.120
+Nico Consigny: And, even… even if we take the French transaction and we manage to do everything, it's gonna be a…
+
+421
+01:02:37.250 --> 01:02:49.939
+Nico Consigny: a race, to, like, ship this, in a, in a safe time frame, so by 2029. So yeah, I just wanted to, to highlight the urgency here.
+
+422
+01:02:50.370 --> 01:02:51.860
+Nico Consigny: Because, yeah.
+
+423
+01:02:52.520 --> 01:02:59.110
+Nico Consigny: we have to account for DAOs, and we have to account for wallets, so yeah, it's… it's gonna take some time to do all this.
+
+424
+01:02:59.660 --> 01:03:00.450
+Nico Consigny: Sweet.
+
+425
+01:03:02.660 --> 01:03:15.080
+Nico Consigny: Yeah, I just… yeah, one comment I see in the chat, it's, it doesn't solve post-quantum directly, but it's… it does enable native, solidity verifiers.
+
+426
+01:03:15.160 --> 01:03:24.139
+Nico Consigny: to be the main account. So yes, in a sense, even if it's expensive, it does solve, post-quantum, yeah.
+
+427
+01:03:28.270 --> 01:03:30.659
+Ansgar Dietrichs: Any, mug you want to say something?
+
+428
+01:03:30.660 --> 01:03:35.099
+mark: I was just gonna… is that an argument for or against making it a headline?
+
+429
+01:03:35.100 --> 01:03:38.979
+Nico Consigny: It's foreign, it's, for,
+
+430
+01:03:39.220 --> 01:03:43.569
+Nico Consigny: Yeah, it's for making it evident by committing to it.
+
+431
+01:03:43.570 --> 01:03:44.280
+mark: Yeah.
+
+432
+01:03:45.060 --> 01:03:48.750
+Nico Consigny: Basically, if we eat it, it's gonna be very complicated.
+
+433
+01:03:49.610 --> 01:03:55.390
+Nico Consigny: And we will be gambling with the PQ timelines, which we really don't want to be doing.
+
+434
+01:03:57.840 --> 01:04:02.990
+mark: Yeah, I think if we need to reach consensus, we also maybe need to…
+
+435
+01:04:03.100 --> 01:04:09.280
+mark: Because it seems like, from a RET perspective, your concern is, is this the right AA proposal?
+
+436
+01:04:10.730 --> 01:04:22.260
+mark: I mean, I think the other thing that we need to think about is what happened with 7702, which… it's kind of… it was a less-than-perfect solution on the basis of, let's get it in.
+
+437
+01:04:22.520 --> 01:04:31.340
+mark: And let's get adoption. And actually, if you look at the history of that, adoption has still been quite slow, although it was put into the protocol.
+
+438
+01:04:31.540 --> 01:04:43.369
+mark: quite a long time ago. So that kind of, I think, speaks to what you're saying. It's saying we need to make the change sooner, because the adoption process after that is going to be pretty slow anyway.
+
+439
+01:04:45.730 --> 01:04:50.120
+mark: And if we don't… if we delay it by another year, it's another year of delay, fundamentally.
+
+440
+01:04:51.860 --> 01:05:02.850
+Nico Consigny: Yeah, exactly. And just, we also need to take into account that it's just not only wallets, it's also DAOs. Like, if you were a quantum attacker, what you would attack right now is the governance contract from Aave, and you would…
+
+441
+01:05:03.310 --> 01:05:05.369
+Nico Consigny: You would, you know, redeploy the…
+
+442
+01:05:05.490 --> 01:05:17.619
+Nico Consigny: the… you would update the Aave contract and run everything. You would not target, like, random wallets. So the main, targets are, big governance contracts and stuff, and they take a lot of time to move. So, yeah.
+
+443
+01:05:17.740 --> 01:05:20.049
+Nico Consigny: We need to account for that, too.
+
+444
+01:05:21.080 --> 01:05:24.790
+Ansgar Dietrichs: Thank you, derek, you fanned up?
+
+445
+01:05:25.490 --> 01:05:35.259
+Derek Chiang | ZeroDev: Yeah, I think I just wanted to say that I think, you know, since a lot of people are comparing 702 with frames, I just want to say that I think it's slightly misleading to,
+
+446
+01:05:35.640 --> 01:05:52.369
+Derek Chiang | ZeroDev: use the fact that maybe 7702 has lower adoption than some might have hoped, you know, even though, like Matt said in the comments, it still has decent adoption. But I think it's slightly misleading to use that as sort of, like, proof that, like, maybe A141 will have
+
+447
+01:05:52.470 --> 01:06:00.859
+Derek Chiang | ZeroDev: similarly low adoption, because the thing about 702 is that it's not actually native AA in any real sense, right? Like, 702 is simply a mechanism
+
+448
+01:06:00.930 --> 01:06:16.669
+Derek Chiang | ZeroDev: to allow EOAs to upgrade to smart contracts. To, you know, to upgrade to smart accounts. But it doesn't actually, like, allow the, smart accounts to originate transactions, for example, which is a core goal of NativeAA. It doesn't give the,
+
+449
+01:06:16.800 --> 01:06:28.929
+Derek Chiang | ZeroDev: the, you know, the accounts the ability to have their guests natively sponsored, for example, right? You know, so if you look at how the wallets have actually used 7712, for example, MetaMask, right, you know, they're using 7712, but…
+
+450
+01:06:28.930 --> 01:06:48.150
+Derek Chiang | ZeroDev: they cannot actually give their users the ability to have their guests sponsored without relying on application-level relayers, such as ERC437 bundlers, right? You know, whereas firm transactions is actually a full-fledged AA proposal.
+
+451
+01:06:48.150 --> 01:06:56.370
+Derek Chiang | ZeroDev: that natively introduces the capability of, you know, things like guest sponsorship, transaction batching. So I think, like, you know, firm transactions.
+
+452
+01:06:56.370 --> 01:06:56.859
+mark: Yeah, so…
+
+453
+01:06:56.860 --> 01:06:58.139
+Derek Chiang | ZeroDev: With the latest updates.
+
+454
+01:06:58.140 --> 01:07:01.449
+mark: Yeah, I was actually… I was actually making the opposite point.
+
+455
+01:07:01.670 --> 01:07:07.699
+mark: Basically, I think we should do frame transactions and not do another, let's do something simpler.
+
+456
+01:07:08.590 --> 01:07:16.450
+Derek Chiang | ZeroDev: Oh, awesome. Amazing. Yeah, I think, yeah, I think some people in the comments seem to be suggesting otherwise, you know, but yes, thanks for clarifying.
+
+457
+01:07:18.560 --> 01:07:35.160
+mark: Yeah, I'm just saying, because I originally bought it up, but my reason for bringing it up was to use it as an example of, there's where we did something which wasn't the full solution. Now, actually, I think it's quite good, because I think the frame solution is a lot better than the original AA one, because it's had time to
+
+458
+01:07:35.270 --> 01:07:41.760
+mark: It's had time to get developed, but it feels to me like this is the time that we should do it.
+
+459
+01:07:42.480 --> 01:07:44.730
+mark: Basically.
+
+460
+01:07:47.570 --> 01:07:52.470
+mark: And not… and not have another conversation and come up with a kind of compromise.
+
+461
+01:07:58.340 --> 01:07:58.950
+Ansgar Dietrichs: Right.
+
+462
+01:08:01.480 --> 01:08:06.950
+Ansgar Dietrichs: Yeah. I mean, I would… I think… I… yeah, I personally…
+
+463
+01:08:07.210 --> 01:08:26.369
+Ansgar Dietrichs: you know, like frame transactions, I'm not sure how I feel about the headliner situation, but luckily, this is not my decision to make. I will just say, in terms of purely process, I, you know, right now, seemingly, I only see two clients that would prefer this headliner.
+
+464
+01:08:26.370 --> 01:08:33.259
+Ansgar Dietrichs: With Geth and Erigon, I think if there was a third client, so if any of, say,
+
+465
+01:08:33.410 --> 01:08:46.699
+Ansgar Dietrichs: Neithermind, Beisu, or Reth would change their minds. I think we… we would be in a place where we could at least reasonably consider whether we would still want to go ahead with Headliner status. I think as long as it's only two clients, I think the default decision here will be…
+
+466
+01:08:47.290 --> 01:08:55.540
+Ansgar Dietrichs: To, or would be, would be, of course, there's still time, but would be to reject it as headliner and then reconsider it as a non-headliner,
+
+467
+01:08:56.490 --> 01:09:09.430
+Ansgar Dietrichs: Yeah, so I'm just wondering, out of the three clients that are currently against it, it seems like Ref is pretty locked in on being skeptical, I think also with some background there with the tempo developments.
+
+468
+01:09:09.540 --> 01:09:28.210
+Ansgar Dietrichs: Yeah, I was wondering, basically, like, maybe specifically a question towards Nethermind and Besu. Do you two… do the two clients think that they are pretty much locked in on the decision of preferring no headliner for today, or are either of you two still kind of, like, considering, open to arguments? Yeah, what's the situation there?
+
+469
+01:09:31.060 --> 01:09:31.990
+Ansgar Dietrichs: Daniel?
+
+470
+01:09:33.050 --> 01:09:40.839
+Daniel Lehrner (Besu): Yeah, from… so from Best's side, we had, like, a ranking, and no headliner was basically the first one.
+
+471
+01:09:41.000 --> 01:09:48.739
+Daniel Lehrner (Besu): And frame transaction and Lucid was a close second, but still, if the majority of the other clients is no headliner.
+
+472
+01:09:48.970 --> 01:09:53.710
+Daniel Lehrner (Besu): Then our decision, still stays like this, so…
+
+473
+01:09:53.830 --> 01:09:57.759
+Daniel Lehrner (Besu): There is for us. I don't think there's a reason to change that.
+
+474
+01:10:01.790 --> 01:10:03.580
+Ansgar Dietrichs: And from the nethermine side…
+
+475
+01:10:15.000 --> 01:10:24.030
+Łukasz Rozmej: I don't know, I don't… my personal standard didn't change, I don't know if other people.
+
+476
+01:10:29.230 --> 01:10:29.850
+Ansgar Dietrichs: Right.
+
+477
+01:10:30.450 --> 01:10:37.899
+Ansgar Dietrichs: Yeah, I personally… Don't… yeah, sorry, Matt, you seem to be unmuted?
+
+478
+01:10:38.210 --> 01:10:41.899
+lightclient: I was just gonna say, I feel like we're still focusing on…
+
+479
+01:10:42.890 --> 01:10:47.809
+lightclient: the ability to deliver the change, but I don't really understand why
+
+480
+01:10:48.490 --> 01:10:51.629
+lightclient: We're not accounting for the fact that we can…
+
+481
+01:10:52.100 --> 01:11:01.029
+lightclient: tune how much we're going to deliver with the frame transaction substantially. Like, this isn't like most changes where you have to implement every single thing.
+
+482
+01:11:01.320 --> 01:11:08.120
+lightclient: in the EIP to put on the mainnet, because the consensus changes for the framed transactions are really relatively small.
+
+483
+01:11:08.630 --> 01:11:11.650
+lightclient: Like, Etherrex said they implemented it in just a couple days.
+
+484
+01:11:12.090 --> 01:11:21.520
+lightclient: the transaction pool is where things get more complicated. Like, if we're going to submit, you know, if we're going to support the, you know, paymaster sponsoring.
+
+485
+01:11:22.420 --> 01:11:28.279
+lightclient: Then this is going to be a much larger change than if we added frame transactions to the consensus object.
+
+486
+01:11:29.380 --> 01:11:42.040
+lightclient: Which would allow them to, use frame transactions, begin the adoption of frame transactions, and then let clients, after the fork, continue working on the transaction pool changes without being blocked on a fork.
+
+487
+01:11:43.540 --> 01:12:02.460
+Łukasz Rozmej: So, to some extent, I… well, I actually quite agree, but I read the situation differently. I read it like, okay, we specified the easier part, and the harder part is left unspecified, but please commit to it, right? So, that's how I read the room.
+
+488
+01:12:02.770 --> 01:12:07.779
+lightclient: I mean, have you… have you read the ERC about how the transaction pool will work?
+
+489
+01:12:08.920 --> 01:12:09.730
+Łukasz Rozmej: Boom.
+
+490
+01:12:10.020 --> 01:12:15.099
+Łukasz Rozmej: there is a special specified ERC, not the EIP.
+
+491
+01:12:15.370 --> 01:12:16.520
+lightclient: Well, I mean, it's…
+
+492
+01:12:16.520 --> 01:12:25.010
+Felix (Geth): And we can explain this. So, the thing is that the EIP8141 was developed from EIP7001.
+
+493
+01:12:25.120 --> 01:12:36.109
+Felix (Geth): And this EIP was itself developed from ERC43C7, so all of these proposals are coming, basically, from the same family of proposals related to account abstraction.
+
+494
+01:12:36.170 --> 01:12:48.419
+Felix (Geth): And, as part of the ERC4337, the Ethereum Foundation account abstraction team has developed a set of rules for their mempool, which
+
+495
+01:12:48.490 --> 01:12:49.870
+Felix (Geth): Can be applied.
+
+496
+01:12:50.150 --> 01:13:07.430
+Felix (Geth): to analyze if a, basically any account, any contract interaction is somehow safe for the mempool. I have to, preface this, though, to say that the mempool that was implemented for ERC4337
+
+497
+01:13:07.900 --> 01:13:20.389
+Felix (Geth): is quite resource intensive, so I would not like to use it as the best possible example of it, but let me still go into detail a bit more to explain how this works. So.
+
+498
+01:13:20.880 --> 01:13:24.360
+Felix (Geth): basically, For the account abstraction.
+
+499
+01:13:24.520 --> 01:13:30.670
+Felix (Geth): to be viable in the mempool, there are two strategies. One of them is basically acknowledging that
+
+500
+01:13:30.760 --> 01:13:50.450
+Felix (Geth): the full generality that account extraction allows basically requires a very complicated mempool, and this is what this ERC represents. It basically gives you a full set of rules where if you implement that, you can judge any transaction to see if it… once it matches these rules, it is safe to include in the mempool.
+
+501
+01:13:50.530 --> 01:14:03.870
+Felix (Geth): But you do also have to trace the execution steps of the transaction to validate these rules. So basically, these are rules like, if this opcode is followed by this opcode with this parameter, then the transaction is invalid, basically.
+
+502
+01:14:03.870 --> 01:14:14.450
+Felix (Geth): So, it is good to have this rule set, and I think it's quite an achievement that they got very far with it, because it allows to build a general mempool for all account abstraction transactions.
+
+503
+01:14:14.500 --> 01:14:29.969
+Felix (Geth): At the same time, this is not the mempool that we would want to see included in, like, the full nodes, and I don't think it's very likely that this will ever happen. What we will be doing instead is, basically, with the frame transaction, the idea is that we, we…
+
+504
+01:14:29.970 --> 01:14:42.689
+Felix (Geth): develop the frame transaction specifically so that the protocol implementation has an insight into what the user is trying to achieve with their transaction by inspecting the frame structure. And also.
+
+505
+01:14:42.930 --> 01:14:56.190
+Felix (Geth): In some ways, it… basically, it allows to implement more strict mempool policies that only allow a subset of transactions to be accepted into the public mempool as we know it today.
+
+506
+01:14:56.190 --> 01:15:13.700
+Felix (Geth): And in practice, this is how I think the mempool will work with EIP8141. For the node implementations, we will come up with a guidance document that explains, like, a minimal set of rules that allow some useful subset of transactions to be submitted to the public mempool.
+
+507
+01:15:13.860 --> 01:15:25.019
+Felix (Geth): But then, there will also be third-party mempools which implement different rules or more complicated rules. And anyway, the goal of EIP8141 is
+
+508
+01:15:25.160 --> 01:15:34.950
+Felix (Geth): Primarily just to allow these, like, arbitrary transactions with any kind of, like, approval interaction to be included in a block.
+
+509
+01:15:35.150 --> 01:15:45.889
+Felix (Geth): Because this means that, ultimately, it is up to the block-building community to figure out, like, how, like, all of these flows can be optimally supported. And, for example, in the L2,
+
+510
+01:15:45.890 --> 01:16:00.740
+Felix (Geth): world, where most L2s use a sequencer. They actually have the capability to introspect transactions in a better way, so they can have different policies than, for example, a public Ethereum mainnet full node can have.
+
+511
+01:16:00.950 --> 01:16:11.669
+Felix (Geth): And so this is the other reason why we do not specify all the rules directly in EIP8141, because there is just no one set of rules that works for everyone. It is, like, a nuanced thing.
+
+512
+01:16:12.810 --> 01:16:16.770
+Felix (Geth): Okay, sorry, it was kind of a long text, but I hope you guys…
+
+513
+01:16:16.770 --> 01:16:19.840
+Łukasz Rozmej: Yeah, yeah, I understand it. So,
+
+514
+01:16:21.760 --> 01:16:34.150
+Łukasz Rozmej: My question is, should we… should we, make it a headliner, which we want, without polishing those rules for, public Ethereum mainnet mempool?
+
+515
+01:16:34.270 --> 01:16:37.359
+Łukasz Rozmej: And… We won't…
+
+516
+01:16:37.360 --> 01:16:43.440
+Felix (Geth): DevNetly. I mean, we have created some examples already in the ERP that show you, for example, the frame structure
+
+517
+01:16:43.440 --> 01:16:58.100
+Felix (Geth): of certain transactions. For example, if you just want to transfer, like, if you just want to do a simple balance transfer, it is actually more involved with a frame transaction than it is with, for example, a simple 1559 transaction, because you will have.
+
+518
+01:16:58.820 --> 01:17:02.229
+Felix (Geth): So, we have created some frame structures there that can show you, okay.
+
+519
+01:17:02.590 --> 01:17:20.429
+Felix (Geth): approximately what this can look like. And also, obviously, it depends a lot on, for example, which signature verification scheme is in use, and how much. We have been stressing this point quite often, that there is also this ability to set the validation gas, because if you think about the mempool, how it works right now.
+
+520
+01:17:20.430 --> 01:17:37.509
+Felix (Geth): the mempool basically performs a signature validation on every transaction. In most clients, this is cached somehow, but basically, one time, when the transaction is received new, it has to verify the signature of this transaction to make sure that the sender is correctly identified.
+
+521
+01:17:37.540 --> 01:17:41.909
+Felix (Geth): And so, yeah, this doesn't really change, but, like, in the 8141,
+
+522
+01:17:42.250 --> 01:18:00.889
+Felix (Geth): Obviously, it says the sender address is directly a part of the transaction, but it's not proven, so in order to prove it, you have to spend some amount of gas to determine that. In the public mempool, we will assume that every node will have some amount of validation gas, which it is willing to expend to perform this check. And we think that the
+
+523
+01:18:01.230 --> 01:18:16.400
+Felix (Geth): this will become quite an important thing. We have not fully finished our experiments for this either, like, we are still working towards, like, figuring out what are gonna be these limits, what are gonna be these rules. Like, this is for us also a big part of the work that lies ahead in the coming year, and this is also why
+
+524
+01:18:16.400 --> 01:18:23.920
+Felix (Geth): Fundamentally, the guest team is working so much on these changes, because we feel like we have a good understanding of the public mempool.
+
+525
+01:18:23.920 --> 01:18:31.169
+Felix (Geth): And this is kind of why we took over this account abstraction thing, because we feel like, yeah, the mempool is kind of the primary challenge here.
+
+526
+01:18:31.170 --> 01:18:36.299
+Felix (Geth): And, yeah, I mean, we don't have all the answers right now, definitely. It's a bit unfortunate, but…
+
+527
+01:18:36.690 --> 01:18:39.439
+Felix (Geth): We have to propose the headliner a year before the
+
+528
+01:18:39.730 --> 01:18:43.480
+Felix (Geth): You know, fork, so we have to just… there will.
+
+529
+01:18:43.480 --> 01:18:53.609
+Łukasz Rozmej: Okay, exactly, I agree, so that's why we proposed to make it a non-headliner EIP and go this path, because of these uncertainties.
+
+530
+01:18:55.520 --> 01:18:57.359
+Łukasz Rozmej: That was exactly our point.
+
+531
+01:18:58.240 --> 01:19:08.170
+Felix (Geth): Okay, well, I mean, there's no… I can't really argue with that, I'm just… I mean, anyway, I'm pretty happy that you… you understand my points and, like, why we,
+
+532
+01:19:08.380 --> 01:19:09.709
+Felix (Geth): Chose to work on it.
+
+533
+01:19:14.000 --> 01:19:17.359
+Felix (Geth): Ben, you also have your hand up, or is it resolved?
+
+534
+01:19:17.570 --> 01:19:20.830
+Ben Adams: Yeah, I was just gonna say, so…
+
+535
+01:19:21.380 --> 01:19:26.939
+Ben Adams: Potentially, ultimately, you'd be in a situation where to accept
+
+536
+01:19:27.120 --> 01:19:30.590
+Ben Adams: transactions, you'd have to be invoking the EVM.
+
+537
+01:19:31.450 --> 01:19:33.780
+Ben Adams: On the… in the transaction pool.
+
+538
+01:19:33.930 --> 01:19:36.349
+Ben Adams: To decide whether it's a valid transaction.
+
+539
+01:19:36.890 --> 01:19:56.789
+Felix (Geth): Yeah, I mean, that's kind of a part of it, yeah. But then there's a question, like, what can the EVM do, and like, what do you allow the EVM to do in this environment? Like, it is definitely a new environment for the EVM. Like, the EVM has not run in the transaction pool before, so in this case, we are treating the EVM as more like, yeah, like an arbitrary function, basically.
+
+540
+01:19:58.820 --> 01:20:06.760
+mark: Yeah, I think it's fair to say you have to… you have to introspect the EVM instructions in the, in the…
+
+541
+01:20:07.130 --> 01:20:08.599
+mark: in the transaction.
+
+542
+01:20:09.480 --> 01:20:13.689
+mark: you don't need to necessarily… I think part of the crafting of the,
+
+543
+01:20:13.790 --> 01:20:19.799
+mark: of the rules was so that for certain of them, you don't need to execute, you can just inspect.
+
+544
+01:20:22.820 --> 01:20:41.990
+Felix (Geth): There are various ways to do it. There is, for example, also the possibility of allow listing certain contracts, because they are known to be safe. So, for example, if you know that a certain, like, a certain account contract has a specific semantics, you can just model these semantics in native code, and then apply this model in your transaction pool, then you don't have to run the EVM.
+
+545
+01:20:41.990 --> 01:21:01.820
+Felix (Geth): or there are various other ideas that can basically save you some of these more expensive evaluations. So it is kind of an open area, but we feel like, fundamentally, the goal of the frame transaction is to make it actually possible to do this, because we will, over time, I already foresee it, be adding more and more things
+
+546
+01:21:02.030 --> 01:21:21.610
+Felix (Geth): to this transaction to allow the protocol to kind of introspect ahead of time what is, like, the validation intent of this transaction. And we already kind of have it now with the verify frames, so it's pretty clear to the transaction pool, for example. This is the reason why verify frames exist in this proposal, so that the mempool can see, okay, the verification is in this exact call.
+
+547
+01:21:21.610 --> 01:21:29.450
+Felix (Geth): and this call has this much gas, so it can right away say, yeah, I mean, it's trying to use way too much gas for the verification, I'm not even going to start executing that, for example.
+
+548
+01:21:29.450 --> 01:21:39.009
+Felix (Geth): So, it's not like you have to run the EVM to the full extent for every single transaction, you only have to run it, like, when it seems like it's gonna have any chance at actually validating, for example.
+
+549
+01:21:40.590 --> 01:21:47.799
+Felix (Geth): Anyways, it's going really deep now, but I feel like these discussions are valuable, because this proposal seems to be heavily misunderstood sometimes.
+
+550
+01:21:50.720 --> 01:21:54.840
+lightclient: It might also be worth mentioning this… Oh yeah, I was gonna…
+
+551
+01:21:55.200 --> 01:21:57.719
+lightclient: say Frederick's point, but Frederick, you can say it.
+
+552
+01:21:59.910 --> 01:22:05.300
+Fredrik: Yeah, yeah, I just want to say that there is, this,
+
+553
+01:22:05.720 --> 01:22:16.969
+Fredrik: There's other aspect of it as well, which is revolving around end-user security, and one of the things that we are… that we've seen and heard a lot from end users is that
+
+554
+01:22:17.320 --> 01:22:26.129
+Fredrik: They are losing quite a bit of funds through various types of hacks, scams, and drainers, and other means, and…
+
+555
+01:22:26.540 --> 01:22:45.779
+Fredrik: One thing that can solve this is, or at least one part of solving this kind of problem that end users are facing, which in some ways is driving people away from using blockchain technology, because they… once they lose all their funds through a scam, they're not super happy to continue transacting.
+
+556
+01:22:45.890 --> 01:22:53.269
+Fredrik: So, one of the things that we can do is to implement something like transaction assertions, which will allow people to
+
+557
+01:22:53.620 --> 01:22:56.739
+Fredrik: Basically, or wallets to provide
+
+558
+01:22:57.350 --> 01:23:07.039
+Fredrik: certain assertions, that needs to be true for the transaction to go through and otherwise revert. So if a user believes that they will receive
+
+559
+01:23:07.380 --> 01:23:23.109
+Fredrik: token X, and the transaction is actually doing something else, then the transaction would revert, and they would not end up losing their funds. And this is something that framed transactions could solve pretty nicely from the looks of it, which is…
+
+560
+01:23:23.310 --> 01:23:29.060
+Fredrik: why I am personally pretty excited about it, and I think it will have
+
+561
+01:23:29.490 --> 01:23:34.239
+Fredrik: A very big positive impact on the user ecosystem.
+
+562
+01:23:41.190 --> 01:23:51.490
+lightclient: I feel like if we don't make frame transactions the headliner here, it's gonna be harder to build things like this on top of it, because we don't want to accept
+
+563
+01:23:52.100 --> 01:23:55.550
+lightclient: You know, multiple non-headliners that are dependent on each other.
+
+564
+01:23:56.450 --> 01:24:03.510
+lightclient: Then we create, like, a large risk profile for, you know, one of them not shipping, causing
+
+565
+01:24:03.920 --> 01:24:07.119
+lightclient: A cascading failure of the fork.
+
+566
+01:24:19.080 --> 01:24:30.329
+Ansgar Dietrichs: Okay, so we are 10 minutes before the end of the call. I do think I want to at least actually try to make a decision today, so just another check. How are people feeling?
+
+567
+01:24:30.800 --> 01:24:36.110
+Ansgar Dietrichs: I did see in chat that, say, on the Netherland team, maybe there's just…
+
+568
+01:24:36.340 --> 01:24:42.359
+Ansgar Dietrichs: Kind of… different opinions, but it did seem like the team overall was Still pointing more.
+
+569
+01:24:43.150 --> 01:24:44.570
+Ansgar Dietrichs: Towards no headliner.
+
+570
+01:24:45.500 --> 01:24:46.660
+Ansgar Dietrichs: Mmm…
+
+571
+01:24:48.250 --> 01:25:06.569
+Ansgar Dietrichs: yeah, it just… it seems hard. You know, I think… I mean, obviously, we could just not make a decision, but I don't see how… what would improve by two weeks from now that would make… allow us to then make a decision, and the cost of, of course, delaying these types of decisions is high, so I'm very hesitant to, like, to pay that cost, unless there's a specific reason why we would think that
+
+572
+01:25:07.020 --> 01:25:10.410
+Ansgar Dietrichs: That there will be significant resolution within those two weeks.
+
+573
+01:25:10.600 --> 01:25:14.519
+Ansgar Dietrichs: And otherwise, it just feels very hard to…
+
+574
+01:25:15.360 --> 01:25:19.000
+Ansgar Dietrichs: Except a headliner with such significant,
+
+575
+01:25:19.230 --> 01:25:27.690
+Ansgar Dietrichs: client skepticism, so I think that the clear default decision here would be to just not accept it as a headliner. I just don't really see…
+
+576
+01:25:29.070 --> 01:25:33.730
+Ansgar Dietrichs: M… Yeah, how… what else, again, like, just process-wise, I don't…
+
+577
+01:25:33.730 --> 01:25:42.299
+lightclient: are in favor of adding as a headliner, and then even Lucas is saying now he doesn't know for certain and doesn't want to block it.
+
+578
+01:25:42.540 --> 01:25:48.579
+lightclient: Like, there is risk in changing Ethereum, there always is, but, like, part of…
+
+579
+01:25:49.230 --> 01:25:53.499
+lightclient: Having the governance decisions now, early, means that we can
+
+580
+01:25:54.220 --> 01:26:02.420
+lightclient: Try to minimize that risk a lot by iterating on this, rather than continuing to spend time figuring out what we're gonna even do with the fork.
+
+581
+01:26:02.420 --> 01:26:07.059
+Ansgar Dietrichs: Okay, but, I mean, so right now, I don't think, unless, again, over the next 5 minutes.
+
+582
+01:26:07.240 --> 01:26:26.279
+Ansgar Dietrichs: there's still more change. I don't think we're in a position to accept frame transactions as headliners, just because right now there's two clients in favor, and then a little bit of openness, but uncertainty from some of the other clients. That's not enough of a basis. I do think we could say we wait two more weeks if people think, like Barnabas was proposing it in chat, for example.
+
+583
+01:26:26.380 --> 01:26:38.069
+Ansgar Dietrichs: we, yeah, because it is really on the edge, I'm open to that. I would want to get the feeling that at least the majority of clients would prefer delaying that decision. Then I think we can do that.
+
+584
+01:26:38.300 --> 01:26:54.560
+Ansgar Dietrichs: Yeah. But then again, like, I think the understanding for next… for two weeks from now would be that, yeah, the default would be to not accept it as a headliner, so things would have to tilt more in the direction of headliner support, for it to make a difference. Ben?
+
+585
+01:26:55.250 --> 01:27:02.260
+Ben Adams: I'd just like to… pull out what Pelix said in… in chat. I think that's interesting.
+
+586
+01:27:02.530 --> 01:27:04.970
+Ben Adams: Maybe promoting it to Headliner later?
+
+587
+01:27:10.640 --> 01:27:13.830
+Ansgar Dietrichs: Well, we don't really have a process for that. I am…
+
+588
+01:27:14.080 --> 01:27:21.229
+Ansgar Dietrichs: But personally, I'm always leaning on the side of, like, some flexibility with processes. This seems like it would be bending the process.
+
+589
+01:27:21.550 --> 01:27:24.890
+Ansgar Dietrichs: quite a bit, which I don't… I definitely don't feel like…
+
+590
+01:27:25.590 --> 01:27:37.709
+Ansgar Dietrichs: prepared to say that that's going to be possible today. I mean, obviously, we could see, we could, you know, discuss this, and see, maybe over the next two weeks, decide whether that's something we would be willing to do.
+
+591
+01:27:38.580 --> 01:27:40.350
+Ben Adams: But yeah, I feel like…
+
+592
+01:27:40.350 --> 01:27:44.189
+Ansgar Dietrichs: I feel like it's a bit tricky to just impromptu make such big changes to processes.
+
+593
+01:27:44.790 --> 01:27:48.649
+Ben Adams: Well, I mean, it's… it's the no headliner gambling.
+
+594
+01:27:51.470 --> 01:27:52.220
+Ansgar Dietrichs: What's that?
+
+595
+01:27:53.850 --> 01:27:58.810
+Ben Adams: Well, then, if we don't have a headliner, then…
+
+596
+01:27:59.720 --> 01:28:02.800
+Ben Adams: It may not be a situation covered by process.
+
+597
+01:28:07.770 --> 01:28:11.709
+Ansgar Dietrichs: Sure, yeah, Avat?
+
+598
+01:28:13.100 --> 01:28:14.319
+Ahmad Bitar | Nethermind: Yep, can you hear me?
+
+599
+01:28:14.930 --> 01:28:15.540
+Ansgar Dietrichs: Yes.
+
+600
+01:28:16.560 --> 01:28:21.740
+Ahmad Bitar | Nethermind: Yeah, so I wanted to just… Like, surface that…
+
+601
+01:28:22.130 --> 01:28:26.829
+Ahmad Bitar | Nethermind: The Netherland team is split among this, some think that it shouldn't be a headliner, but
+
+602
+01:28:27.040 --> 01:28:28.490
+Ahmad Bitar | Nethermind: Some of us think that
+
+603
+01:28:28.670 --> 01:28:38.970
+Ahmad Bitar | Nethermind: we like it as a headliner, just to, be clear about that. I also noticed or heard similar, feedback from Bezo, but I might be wrong.
+
+604
+01:28:39.250 --> 01:28:43.119
+Ahmad Bitar | Nethermind: And we both… we know that death and wrath
+
+605
+01:28:43.250 --> 01:28:48.489
+Ahmad Bitar | Nethermind: are… no, no, sorry, Geth and, A3X are supporting, so…
+
+606
+01:28:48.970 --> 01:28:56.510
+Ahmad Bitar | Nethermind: doesn't it seem like most consensus is saying they support it as a headliner, or am I understanding this incorrectly?
+
+607
+01:29:00.370 --> 01:29:02.829
+mark: I think you guys would need to have to get off the fence.
+
+608
+01:29:03.680 --> 01:29:10.379
+mark: I think is what the situation is. I mean, I guess the question is, what would it take to persuade you that it's a good idea?
+
+609
+01:29:11.100 --> 01:29:13.260
+mark: Maybe that's the question that we should ask.
+
+610
+01:29:15.440 --> 01:29:18.169
+mark: That's the only way that'll take the process forward.
+
+611
+01:29:22.190 --> 01:29:27.810
+mark: Because presumably there's some, some…
+
+612
+01:29:28.060 --> 01:29:34.290
+mark: definable reason why it shouldn't be for people who are saying no. Maybe we need to understand what those issues are and address them.
+
+613
+01:29:35.860 --> 01:29:42.760
+Łukasz Rozmej: So for me, definitely, you know, some kind of rules on…
+
+614
+01:29:42.840 --> 01:29:56.199
+Łukasz Rozmej: That are acceptable by everyone, like the consensus on the rules around the transaction pool that is, on the one hand, not dossable and works in a reasonable way, on the other hand, has
+
+615
+01:29:56.540 --> 01:30:05.930
+Łukasz Rozmej: reasonable, usability, which I'm not, you know… I'm… I have… I'm not sure if it's easy to achieve.
+
+616
+01:30:06.230 --> 01:30:06.970
+Łukasz Rozmej: Both.
+
+617
+01:30:13.410 --> 01:30:22.020
+mark: So does that just require… because the EFAA guys have spent quite a lot of time on that. Have you… have you looked at what they've proposed?
+
+618
+01:30:25.340 --> 01:30:29.570
+Łukasz Rozmej: Oh, well, not completely, and,
+
+619
+01:30:29.700 --> 01:30:35.760
+Łukasz Rozmej: Felix says they already kind of have a bit different idea for the frame transactions.
+
+620
+01:30:36.630 --> 01:30:47.919
+Felix (Geth): Yeah, I just wanted to quickly highlight again that, like, there is two different things here. So, we're talking about this rule set, which is also cited within EIP8141, and this rule set is giving this
+
+621
+01:30:47.920 --> 01:31:02.729
+Felix (Geth): basically, we are citing this rule set because we feel like it is a very comprehensive way of analyzing the behavior of the frame transaction. I don't think we are going to apply all of this rule set in every client, it's just not possible. We have to come up with, like, a simpler ruleset
+
+622
+01:31:02.730 --> 01:31:03.480
+Felix (Geth): And…
+
+623
+01:31:03.480 --> 01:31:18.080
+Felix (Geth): this is still being worked on right now. I mean, one of the key things is that we do not actually have, like, the account implementations, like, fully worked out. That's a whole other thing, because the account implementations are technically something that can
+
+624
+01:31:18.460 --> 01:31:33.130
+Felix (Geth): is arbitrary in this proposal, right? At the same time, maybe one thing I can also highlight is that recently there was this default account added into the EIP, and the default account definitely is kind of a bigger change, so it means that, like,
+
+625
+01:31:33.150 --> 01:31:51.259
+Felix (Geth): all of the existing EOAs get some features added, like gas sponsoring and native batching and things like that, possibly even the ability to do different types of signatures. Like, there's a lot of things in the EIP now that were added all at once with this default account. This is also still something being worked on, but then the thing is that, like.
+
+626
+01:31:51.260 --> 01:31:59.120
+Felix (Geth): Once this is in, then it's, like, the question, like, these, like, public mempool rules definitely should permit using the default account.
+
+627
+01:31:59.140 --> 01:32:00.900
+Felix (Geth): And then there'd be, like.
+
+628
+01:32:01.120 --> 01:32:18.840
+Felix (Geth): The thing is that we are proposing this EIP now with some ideas, and we have pretty good ideas about, like, the space of it, but the absolute details, like, there is still some things that are being worked on. We're not presenting a fully finished design that has, like, every little corner worked out.
+
+629
+01:32:18.840 --> 01:32:23.039
+Felix (Geth): that's just not how the process works. We have to provide the EAP early on.
+
+630
+01:32:23.040 --> 01:32:29.190
+Felix (Geth): So that it can be worked on during the fork cycle. We cannot just, like, finish everything and then present it.
+
+631
+01:32:29.260 --> 01:32:38.610
+Felix (Geth): that's… that's… it doesn't work like that with other EAPs either, like, the… no… most EAPs get proposed, and then do… when… once it comes to…
+
+632
+01:32:38.760 --> 01:32:43.090
+Felix (Geth): Time to actually implement it, then all the changes come.
+
+633
+01:32:43.280 --> 01:32:48.079
+Felix (Geth): So that's also how I see it with this one. I mean, we have a pretty good idea how this can all work, but…
+
+634
+01:32:48.910 --> 01:32:51.170
+Felix (Geth): It still requires the work.
+
+635
+01:32:51.730 --> 01:33:06.309
+Ansgar Dietrichs: Okay, so, with 2 minutes left, then it does sound like, while I'm usually always… like, I don't like delaying decisions, I'm sometimes guilty of it, but it feels like, in chat also, it seemed like there wasn't really anyone pushing for a decision today, and several people
+
+636
+01:33:06.310 --> 01:33:12.269
+Ansgar Dietrichs: Suggesting that we should decide, we should wait for two more weeks, just given that it seems to be so on edge.
+
+637
+01:33:12.460 --> 01:33:13.390
+Ansgar Dietrichs: M…
+
+638
+01:33:13.570 --> 01:33:23.389
+Ansgar Dietrichs: Yeah, so then, I do think the right decision here is to say we make the final decision on whether to have frame transactions as headliner or not.
+
+639
+01:33:23.530 --> 01:33:33.249
+Ansgar Dietrichs: Two weeks from now. By that time, we then also will have some more information on, we can see if there's anything else process-wise that would be an option or anything.
+
+640
+01:33:33.360 --> 01:33:34.430
+Ansgar Dietrichs: M…
+
+641
+01:33:34.550 --> 01:33:46.049
+Ansgar Dietrichs: default outcome, again, I think, would be to not select it as a headliner, so, you know, just… people should have that as a mindset, but… but I… yeah, I think we are not far away from enough client support to change that.
+
+642
+01:33:47.690 --> 01:33:54.589
+Ansgar Dietrichs: Yeah, so… and then, I think it's on the frame transaction champions to maybe set up some, some sort of…
+
+643
+01:33:54.710 --> 01:33:58.639
+Ansgar Dietrichs: You know, one more breakout call or something like this between now and then to finish.
+
+644
+01:33:58.640 --> 01:34:08.690
+mark: Yeah, which it seems like needs to focus on the usability in the mempool, or the ability to build something in the mempool, at least a minimum.
+
+645
+01:34:08.800 --> 01:34:13.100
+mark: That's actually practical. Because that seems to be where the… where the questions are.
+
+646
+01:34:14.790 --> 01:34:18.110
+mark: So maybe that's what the breakout should address.
+
+647
+01:34:19.190 --> 01:34:22.490
+Ansgar Dietrichs: It seems reasonable for the sterleys to be a big focus.
+
+648
+01:34:22.730 --> 01:34:23.820
+Ansgar Dietrichs: Mmm…
+
+649
+01:34:24.620 --> 01:34:33.629
+Ansgar Dietrichs: And yeah, Matt also asked in chat, and then I think, let me put it this way, I think ideally anyone who has some specific questions or concerns or thought that they would want addressed.
+
+650
+01:34:33.820 --> 01:34:38.980
+Ansgar Dietrichs: do reach out to the champions. Also, ideally, we have an agenda item.
+
+651
+01:34:39.250 --> 01:34:53.650
+Ansgar Dietrichs: issue open where people can comment questions, topics they want to have addressed in advance. Let's try to make the most out of this so we can make an informed decision, because I feel like we should not end up having this be a coin flip. I think, ideally, by two weeks from now, we have a clear
+
+652
+01:34:53.750 --> 01:35:05.519
+Ansgar Dietrichs: clear decision where everyone is behind, and we can actually… I think that's best for Ethereum. Usually, coin flips are not great. So let's try to get there in two weeks. And then one last comment there, I think also,
+
+653
+01:35:06.100 --> 01:35:25.860
+Ansgar Dietrichs: In terms of non-headliners, there's the question already, at the moment we log in the headliner decisions, we can open up the proposing window for non-headliner EIPs, and then we will communicate, kind of, specific deadlines there around by when do non-headliners have to be proposed.
+
+654
+01:35:26.200 --> 01:35:42.800
+Ansgar Dietrichs: Yeah, at a later point, either 2 weeks from now or 4 weeks from now, we'll communicate, the specific deadlines there. So, look out for this, but basically, you can, you can prepare, like, you can prepare to drop your non-headliner proposals, starting, starting next call, basically.
+
+655
+01:35:43.490 --> 01:35:44.859
+Ansgar Dietrichs: Okay,
+
+656
+01:35:44.990 --> 01:35:51.900
+Ansgar Dietrichs: With that, we're also running up on time, we had a few more agenda items on the agenda, but I think I'll just bump them to…
+
+657
+01:35:52.190 --> 01:35:53.969
+Ansgar Dietrichs: Two weeks from now.
+
+658
+01:35:54.480 --> 01:35:56.169
+Ansgar Dietrichs: And… leave it at that.
+
+659
+01:35:57.240 --> 01:35:59.050
+Ansgar Dietrichs: Awesome. Thank you, everyone.
+
+660
+01:35:59.490 --> 01:36:01.470
+Ansgar Dietrichs: And talk to you all in two weeks.
+
+661
+01:36:05.290 --> 01:36:06.190
+lightclient: Thanks.
+
+662
+01:36:15.630 --> 01:36:16.469
+Marius van der Wijden: Thank you, bye.
+

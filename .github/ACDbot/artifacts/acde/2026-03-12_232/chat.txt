@@ -1,0 +1,770 @@
+00:04:07	Justin Traglia:	Gm
+00:04:09	dionysuz.eth:	gm
+00:04:12	lightclient:	gm
+00:04:14	spencer:	lfgm
+00:04:27	Justin Florentine (Besu):	lfhagoooooooota
+00:04:30	Justin Traglia:	Reacted to "lfgm" with 😄
+00:04:34	spencer:	Reacted to "lfhagoooooooota" with 🚀
+00:04:35	Justin Traglia:	Reacted to "lfhagoooooooota" with 🚀
+00:04:38	Kevaundray Wedderburn:	Reacted to "lfhagoooooooota" with 🚀
+00:05:02	Ben Adams:	Reacted to "lfhagoooooooota" with 🚀
+00:05:18	Barnabas:	g[frame]m
+00:05:57	Josh Davis:	Ben looks like a steampunk Seth Rogan
+00:06:39	lightclient:	lol
+00:06:41	Will Corcoran:	Replying to "Ben looks like a ste..."
+
+Looks like he is about to invite me on an amazing adventure
+00:06:43	Barnabas:	thats better 😂
+00:06:44	felix (eest):	hey i was watching that
+00:06:45	Justin Traglia:	Reacted to "lol" with 😄
+00:06:45	Ben Adams:	Reacted to "Ben looks like a ste..." with 😂
+00:06:47	Josh Davis:	Reacted to "lol" with 😄
+00:06:48	nixo:	ahahahahah
+00:06:50	wolovim:	Reacted to "lol" with 😄
+00:06:55	lightclient:	standup session with V?
+00:07:00	Ben Adams:	Reacted to "Looks like he is abo..." with 👍
+00:07:00	Louis:	Reacted to "standup session with..." with 😂
+00:08:05	Ansgar Dietrichs:	Reacted to "hey i was watching t..." with 😂
+00:09:22	FLCL:	Depends on how prefetch is implemented probably
+00:09:48	Toni Wahrstätter:	Replying to "Depends on how prefe..."
+
+yeah and what matters are worst-cases not average cases.
+00:09:49	spencer:	JICYMI, new EELS release for bal-devnet-3 with the latest 8037 tests: https://github.com/ethereum/execution-spec-tests/releases/tag/bal@v5.4.0
+00:09:54	Łukasz Rozmej:	8037 is ☠️
+00:09:54	felipe:	Reacted to "Depends on how pre..." with 💯
+00:10:01	Karim T. (matkt):	Replying to "Depends on how prefe..."
+
+And state size also
+00:10:03	Ansgar Dietrichs:	my understanding is that the read locations part of BALs is only for allowing deterministic prefetch, right?
+
+so we’d need to see it actually have (significant) benefits for the worst cases there to justify keeping it in the EIP?
+00:10:15	felipe:	Reacted to "yeah and what matt..." with 💯
+00:10:37	FLCL:	Any simple way to benchmark prefetch for an EL? Liek a pipeline or so?
+00:11:01	Karim T. (matkt):	Replying to "Depends on how prefe..."
+
+If it is on top of devnet 2 state I think we will see less performance improvement than mainnet state
+00:11:01	Dragan Rakita:	Replying to "JICYMI, new EELS rel..."
+
+I think there is a bug here. Have reported in discord
+00:11:11	Łukasz Rozmej:	Reacted to "my understanding is ..." with 👍
+00:11:13	Stefan Starflinger:	Replying to "my understanding is ..."
+
+yeah
+00:11:15	felipe:	Reacted to "If it is on top of..." with 👍
+00:11:17	FLCL:	Replying to "Depends on how prefe..."
+
+We want to not wait prefetching state, but start execution in parallel and hope it will speed up
+00:11:28	Łukasz Rozmej:	Replying to "my understanding is ..."
+
+probably it is not worth it
+00:11:52	Stefan Starflinger:	Replying to "Any simple way to be..."
+
+what do you mean with pipline?
+00:13:01	Karim T. (matkt):	Replying to "Depends on how prefe..."
+
+Yes the same in Besu we start without waiting for the prefetch
+00:13:30	FLCL:	So the testing happend for different optimizations right? But what if I have a new branch with more optimizations and want to test if it is more performant. Currently reruning some blocks from devnet locally, but it's very inconvinient
+00:13:46	Ansgar Dietrichs:	from my side regarding 8037 etc: moving to a more “principled” approach to gas accounting would be high up my priority list for H*, but I worry that trying to change things for G* will block process a lot. better to just try to just ship things now with minimal changes
+00:14:05	Stefan Starflinger:	Replying to "Any simple way to be..."
+
+Felipe has been working on making it possible to run benchmarks with benchmarkoor
+00:14:11	Dragan Rakita:	Reacted to "from my side regardi..." with ➕
+00:14:14	DanielVF | Monad:	Reacted to "from my side regar..." with ➕
+00:14:15	Stefan Starflinger:	Replying to "Any simple way to be..."
+
+do you have testing_buildBlockV1 implemented?
+00:14:22	Ansgar Dietrichs:	Replying to "from my side regardi..."
+
+but obv I am missing the implementer perspective, maybe this is impractical
+00:14:41	Greg K | Lido:	Reacted to "from my side regar..." with 👍
+00:15:06	FLCL:	And no huge gains?
+00:15:43	Łukasz Rozmej:	Reacted to "We want to not wait ..." with 👍
+00:15:56	Anders Elowsson:	Replying to "from my side regardi..."
+
+Yeah so EIP-7999 would here be the principled solution, but EIP-8037 is still to our benefit today.
+00:15:57	Karim T. (matkt):	Replying to "Depends on how prefe..."
+
+As I said I think the devnet 2 has a really small state so not sure we will see huge difference. Compared to only // transactions imo
+00:15:58	jochem-brouwer:	Antwoord verzenden naar "Any simple way to ..."
+
+We are setting up benchmarkoor to run (BAL) benchs against bloatnet (mainnet fork but then beefed up in state) which targets BAL branch in order to run it. So a re-run should then use the new image of that branch
+00:16:17	Karim T. (matkt):	Replying to "Depends on how prefe..."
+
+But in mainnet or bloatnet I think we will see more better performance imo
+00:16:20	Marius van der Wijden:	Reacted to from my side regardi... with "➕"
+00:16:35	Ansgar Dietrichs:	Reacted to "8037 is ☠️" with 😱
+00:16:49	DanielVF | Monad:	Replying to "from my side regar..."
+
+I don't think EIP-8037 has immediate benefits beyond what a simple repricing would do.
+00:17:23	Dragan Rakita:	Replying to "from my side regardi..."
+
+EIP-8037 is really desirable for bigger blocks
+00:17:28	Ben Adams:	EIP-7999 as H* headliner?
+00:17:28	raxhvl:	Reacted to from my side regardi... with "➕"
+00:17:37	Francesco:	Reacted to "EIP-7999 as H* headl..." with 👍
+00:17:53	Anders Elowsson:	Replying to "EIP-7999 as H* headl..."
+
+Hehe late headliner. It will be proposed as a regular EIP
+00:18:08	Łukasz Rozmej:	8037 is very very complicated
+00:18:15	jvn:	Reacted to "8037 is very very ..." with 👍
+00:18:16	spencer:	Reacted to "8037 is very very ..." with 👍
+00:18:17	lightclient:	Reacted to "8037 is very very co..." with 👍
+00:18:17	Guru:	Reacted to "8037 is very very co..." with 👍
+00:18:27	felix (eest):	Reacted to "8037 is very very ..." with 👍
+00:18:31	Ben Adams:	Reacted to "8037 is very very co..." with 👍
+00:18:45	Łukasz Rozmej:	and then we will complicate it even more in next forks
+00:19:02	Mario Vega:	Reacted to "8037 is very very co..." with 👍
+00:19:03	Luis Pinto | Besu:	Me likes coherent approach
+00:19:23	Ansgar Dietrichs:	we won’t be able to completely rework gas (including say blob gas) by Glamsterdam
+00:19:43	Daniel Lehrner (Besu):	Reacted to "we won’t be able to ..." with 💯
+00:19:58	Stefan Starflinger:	Reacted to "8037 is very very co..." with 👍
+00:20:27	Marius van der Wijden:	I don't think that 8037 is actually that complex. There is a few things about the refund logic
+00:20:37	Karim T. (matkt):	Reacted to "We are setting up be..." with 👍
+00:20:52	Daniel Lehrner (Besu):	Reacted to "I don't think that 8..." with ➕
+00:20:55	Stefan Starflinger:	Reacted to "I don't think that 8..." with ➕
+00:21:07	Dragan Rakita:	Reacted to "I don't think that 8..." with ➕
+00:21:42	Toni Wahrstätter:	Reacted to "we won’t be able to ..." with 💯
+00:21:53	felipe:	Reacted to "We are setting up ..." with 👍
+00:22:08	Dragan Rakita:	EIP-8037 as a change is good, I would not change it at all imo.
+00:22:10	felipe:	Reacted to "8037 is very very ..." with 👍
+00:22:29	Stefan Starflinger:	Reacted to "EIP-8037 as a change..." with 👍
+00:22:33	Ben Adams:	Replying to "I don't think that 8..."
+
+Drop refunds? https://eips.ethereum.org/EIPS/eip-3298
+00:22:39	spencer:	Reacted to "EIP-8037 as a chan..." with 👍
+00:22:46	Francesco:	What is the alternative? We are not going to do 7999 in Glamsterdam. What is this simple solution?
+00:22:55	Dragan Rakita:	Replying to "I don't think that 8..."
+
+H*
+00:23:02	felipe:	Reacted to "EIP-8037 as a chan..." with 👍
+00:24:18	FLCL:	Replying to "Any simple way to be..."
+
+Just a draft of testing_buildBlockV1 for now looks like
+00:24:19	FLCL:	Reacted to "We are setting up be..." with 👍
+00:24:32	CPerezz:	Replying to "8037 is very very co..."
+
+The alternative is doing nothing then wrt. Multidimensional & state-size/growth?
+
+I mean, complexity only can’t be an argument. Complex and not useful sure, complex and underspecified sure.
+
+But complex only isn’t an argument enough powerful.
+
+Marius implemented it in 3 days passing 99% tests. Can’t be that impossibly complicated
+00:24:35	FLCL:	Reacted to "But in mainnet or bl..." with 👍
+00:24:47	Stefan Starflinger:	Replying to "Any simple way to be..."
+
+when merge?
+00:24:49	Ameziane Hamlat:	Reacted to "We are setting up be..." with 👍
+00:25:04	Stefan Starflinger:	Replying to "8037 is very very co..."
+
+make no mistakes
+00:25:05	Toni Wahrstätter:	Reacted to "We are setting up be..." with 👍
+00:25:32	Łukasz Rozmej:	what did we just changed?
+00:25:40	Łukasz Rozmej:	Reacted to "make no mistakes" with 👍
+00:26:01	Daniel Lehrner (Besu):	Replying to "what did we just cha..."
+
+https://github.com/ethereum/execution-spec-tests/releases/tag/bal@v5.4.0
+00:26:12	Marius van der Wijden:	Replying to "8037 is very very co..." 
+
+ None of it was done with ai, I had an ai version but it was very ugly
+00:26:17	Ansgar Dietrichs:	if we think it’s at least possible we make larger changes here still, how do ppl feel about bal-devnet-3? still go ahead with 8037 as-is, or delay?
+00:26:28	FLCL:	Replying to "Any simple way to be..."
+
+🤷‍♂️ Will ping back when merged or can say more
+00:26:30	Łukasz Rozmej:	Replying to "8037 is very very co..."
+
+Ethereum narrative: simplify protocolEthereum reality: spaghetti? :(
+00:27:02	jvn:	Reacted to "Ethereum narrative..." with 🙃
+00:27:15	spencer:	Replying to "what did we just c..."
+
+Only EELS spec & test changes in the above release: https://github.com/ethereum/execution-specs/pull/2468
+00:28:03	felix (eest):	https://github.com/ethsteel/pm/blob/main/complexity_assessments/EIPs/EIP-8037.md
+
+old take but u can see how much pain it is for us
+00:28:51	CPerezz:	Replying to "8037 is very very co..."
+
+Open for improvements. But saying it’s complex doesn’t help simplifying it. Nor gives any alternative solutions 🙁
+00:29:07	Stefan Starflinger:	I agree
+00:29:23	Luis Pinto | Besu:	Well I would argue the spaguetti is already there and right now gas cost does not only reflect client effort. Having a coherent solution just makes it leaner.
+00:29:32	Maria Silva:	I also agree with Spencer
+00:29:42	Stefan Starflinger:	We wanted to do this EIP early before the others exactly becuase it's not easy but worthwile
+00:29:56	Dragan Rakita:	Reacted to "We wanted to do this..." with ➕
+00:29:58	Ansgar Dietrichs:	Reacted to "We wanted to do this..." with 👍
+00:30:00	lightclient:	how will 8037 and 8038 affect contracts on mainnet?
+00:30:37	CPerezz:	Replying to "how will 8037 and 80..."
+
+I think Carl was running the analysis IIRC. He has all the data.
+
+@Carl Beekhuizen
+00:30:44	CPerezz:	Replying to "how will 8037 and 80..."
+
+(For 8037)
+00:31:23	Maria Silva:	Replying to "how will 8037 and 80..."
+
+Butta collected some early feedback from the ecosystem: https://x.com/EFprotocol/status/2031056150427242892
+00:31:43	Maria Silva:	Replying to "how will 8037 and 80..."
+
+Also, Carl is currently looking into 7904 and 2870
+00:31:54	Maria Silva:	Replying to "how will 8037 and 80..."
+
+We will do the analysis on 8037 and 8038 next
+00:32:13	lightclient:	Replying to "how will 8037 and 80..."
+
+im looking more for analysis to see what will break when the prices change, not people’s concern level
+00:32:34	Maria Silva:	Replying to "how will 8037 and 80..."
+
+Got it. That analysis is what Carl as been working on
+00:32:41	Maria Silva:	Replying to "how will 8037 and 80..."
+
+We will share when we have final results
+00:33:46	Marius van der Wijden:	Replying to "how will 8037 and 80..." 
+
+ We will also give grants for security reviews to see what breaks once the eip is in a more final form (hopefully starting in ~2weeks)
+00:35:08	Marius van der Wijden:	Epbs devnet 0 can be implemented in 1 hour
+00:35:21	Marius van der Wijden:	Replying to "Epbs devnet 0 can be..." 
+
+ *on EL!
+00:35:45	Daniel Lehrner (Besu):	Replying to "Epbs devnet 0 can be..."
+
+Where can we see the spec changes needed for the devnet?
+00:36:12	Barnabas:	Replying to "Epbs devnet 0 can be..."
+
+https://notes.ethereum.org/@ethpandaops/epbs-devnet-0
+00:36:18	Daniel Lehrner (Besu):	Reacted to "https://notes.ethere..." with 🙏
+00:36:18	Barnabas:	Replying to "Epbs devnet 0 can be..."
+
+For this devnet we are going to use:
+engine_forkchoiceUpdatedV3
+engine_newPayloadV5
+engine_getPayloadV5
+00:36:42	Barnabas:	Replying to "Epbs devnet 0 can be..."
+
+we need to be able to trigger amsterdam without activating bal which is the important bit
+00:40:15	Łukasz Rozmej:	we are open for engine API SSZ as non-consensus change
+00:40:22	Ben Adams:	Reacted to "we are open for engi..." with 👍
+00:40:24	Marius van der Wijden:	Reacted to we are open for engi... with "👍"
+00:40:30	Lumi | Offchain Labs:	Reacted to "we are open for engi..." with 👍
+00:40:33	Iván | ethrex:	Reacted to "we are open for engi..." with 👍
+00:40:40	Luca Donno | L2BEAT:	Reacted to "we are open for engi..." with 👍
+00:40:43	Luis Pinto | Besu:	Replying to "we are open for engi..."
+
+Are you fine with adding content-type from HTTP headers into the Ethereum protocol?
+00:41:03	Łukasz Rozmej:	Replying to "we are open for engi..."
+
+Although PR we got from Giulio needs to be compleatly reworked from ground up.
+00:41:09	Stefan Starflinger:	Reacted to "we are open for engi..." with 👍
+00:41:16	Luis Pinto | Besu:	Replying to "we are open for engi..."
+
+Or how would we do it in a non-consensus way?
+00:41:32	Derek Chiang | ZeroDev:	Felix posted a summary of the major updates to Frame Txns since the last discussion: https://github.com/ethereum/pm/issues/1955#issuecomment-4046894879
+00:41:40	Marius van der Wijden:	Replying to "we are open for engi..." 
+
+ We should use this as a shelling point to rework the engine api imho
+00:41:47	Łukasz Rozmej:	Replying to "we are open for engi..."
+
+Isn't it just a transport entry-point?Not sure if we are talking same thing
+00:41:47	Barnabas:	Replying to "we are open for engi..."
+
+https://github.com/ethereum/execution-apis/pull/764
+00:41:51	Barnabas:	Replying to "we are open for engi..."
+
+do you mean this?
+00:42:05	FLCL:	Reacted to "https://github.com/e..." with 👍
+00:42:08	Łukasz Rozmej:	Reacted to "https://github.com/e..." with 👍
+00:42:08	Ben Adams:	Replying to "we are open for engi..."
+
+Non-consenus as via discovery either engine capability and/or accept headers
+00:42:11	Ben Adams:	Reacted to "https://github.com/e..." with 👍
+00:42:52	Barnabas:	Replying to "we are open for engi..."
+
+negotiation could happen with json, but once negotiation is done, it would use ssz if CL and EL both support ssz, otherwise fall back to using json
+00:43:04	Ben Adams:	Reacted to "negotiation could ha..." with 👍
+00:43:10	Luis Pinto | Besu:	Replying to "we are open for engi..."
+
+>do you mean this?
+yup
+00:43:16	nixo:	https://github.com/ethereum/pm/issues/1955#issuecomment-4046894879
+00:43:20	Łukasz Rozmej:	Reacted to "negotiation could ha..." with 👍
+00:43:41	FLCL:	May be a separate rest endpint for metadata btw and don't touch capabilties (there rest of the spec is super cool)
+00:43:45	Luis Pinto | Besu:	I think I would prefer it through an exchange capabilities request instead of using HTTP headers
+00:43:48	Lumi | Offchain Labs:	Reacted to "Felix posted a summa..." with 👍
+00:44:14	Ben Adams:	Replying to "we are open for engi..."
+
+capabilities exchange has benefit of allowing different urls rather than having to generically parse payload first
+00:44:22	Barnabas:	Replying to "we are open for engi..."
+
+We can hash this out, this is just a detail question
+00:44:28	Ben Adams:	Reacted to "We can hash this out..." with 👍
+00:44:49	Luis Pinto | Besu:	Reacted to "We can hash this out..." with 👍
+00:44:54	Barnabas:	Replying to "we are open for engi..."
+
+the main question is whether people are willing to add ssz in their codebase. If the answer to that is a yes, then we should finalize the spec and lets get it merged
+00:45:04	FLCL:	Replying to "we are open for engi..."
+
+http headers are necessary if you mean Accept/Content-Type
+00:45:49	Derek Chiang | ZeroDev:	What was the reason for the change for Besu?
+00:45:55	Lumi | Offchain Labs:	Reacted to "What was the reason ..." with ➕
+00:46:54	lightclient:	IMO the complexity of frame tx is in the txpool, and we have the ability turn the knob of how much the txpool allows based on time available.
+
+so i guess i’m not sure what complexity you are worried about?
+00:47:02	Ansgar Dietrichs:	Reacted to "IMO the complexity o..." with 👍
+00:47:04	Felix (Geth):	Reacted to "IMO the complexity..." with 👍
+00:47:04	jvn:	Reacted to "IMO the complexity..." with 👍
+00:47:08	Parthasarathy Ramanujam:	Reacted to "IMO the complexity o..." with 👍
+00:47:08	Luca Donno | L2BEAT:	Reacted to "IMO the complexity o..." with 👍
+00:47:14	Orca 0x:	Reacted to "IMO the complexity o..." with 👍
+00:47:18	Iván | ethrex:	Reacted to "IMO the complexity o..." with 👍
+00:47:32	Fredrik:	Reacted to "IMO the complexity o..." with 👍
+00:47:48	Daniel Lehrner (Besu):	Replying to "What was the reason ..."
+
+No headliner was not a realistic option when you did a team internal pool the last time. Now that it is, that was preferred.
+
+Frame tx and LUCID where close 2nd options.
+00:48:03	jvn:	IMO When trying out a impl , abstracting mempool , maybe Frame Tx might not be as complicated as I thought
+00:48:10	Barnabas:	I think not handling frame tx as a headliner could lead to wasting huge amount of resources and not including afterall. Which is not an ideal outcome imo.
+00:48:37	FLCL:	Frames look a bit like a separate simplest language on top of contract. Might be one top frame with simplified rules.
+00:49:05	Lumi | Offchain Labs:	Reacted to "I think not handling..." with ➕
+00:50:37	Trent:	Wasn’t LUCID just rejected 5min ago?
+00:51:01	lightclient:	I think we can keep LUCID in mind with respect to frame tx design
+00:51:01	Luis Pinto | Besu:	Replying to "Wasn’t LUCID just re..."
+
+What he’s saying is that he wants to look at them both holistically
+00:51:09	Ansgar Dietrichs:	Reacted to "I think we can keep ..." with 👍
+00:51:09	Marius van der Wijden:	Replying to "Wasn’t LUCID just re..." 
+
+ Erigon can still work on it if they choose to
+00:51:14	Barnabas:	I’d prefer to keep our focuses on a single/few EIPs instead of working on mutliple headliner sized EIPs
+00:51:19	Greg K | Lido:	Reacted to "What he’s saying ..." with 👍
+00:51:24	Fabio Di Fabio:	Reacted to "What he’s saying is ..." with 👍
+00:51:31	Stefan Starflinger:	Reacted to "I’d prefer to keep o..." with 👍
+00:51:33	FLCL:	Reacted to "I think we can keep ..." with 👍
+00:51:37	soispoke:	Reacted to "I think we can keep ..." with 👍
+00:52:03	Łukasz Rozmej:	Replying to "IMO the complexity o..."
+
+that sounds a bit handwavy, I would like to have a proper mempool spec/consensus as it is a main unknown at the moment
+00:52:25	lightclient:	it seems like the main concern is that frame tx would delay the next fork? does it change people’s opinion knowing we could simply not allow frame tx in txpool and the implementation is very straightforward
+00:52:48	Anders Elowsson:	Replying to "it seems like the ma..."
+
+But we would like to eventually right?
+00:53:28	Ansgar Dietrichs:	so say a scenario of shipping frame txs as headliner, but with very limited txpool support at first. would that be worth it?
+00:53:38	Dragan Rakita:	Reth take is that it is over abstracted and simpler solution would be better in general.
+00:53:50	spencer:	Reacted to "I’d prefer to kee..." with 👍
+00:54:02	Parithosh Jayanthi:	TBF we have taken out headliners before
+00:54:14	Łukasz Rozmej:	It is always harder to remove
+00:54:19	Parithosh Jayanthi:	Reacted to "It is always harder ..." with 👍🏽
+00:54:22	CPerezz:	Replying to "Reth take is that it..."
+
+You refer to the PQ part? Or the entire thing?
+00:54:29	Fredrik:	It’s part of the process that we can take it out though, for example if we find security issues and such
+00:54:33	DanielVF | Monad:	Reacted to "Reth take is that ..." with ➕
+00:54:53	Anders Elowsson:	From a decision-theoretic perspective, we may have not gathered sufficient information to make a robust decision. The marginal cost of exploring non-headliner EIPs at this point is relatively low, meaning one option is to not take a decision but to start exploring non-headliners over the next month. So that we know what the competition is so to speak.
+00:55:23	Danno Ferrin - Tectonic.xyz:	It’s less damaging to the process to elevate a feature to headliner than to demote it.
+00:55:31	Dragan Rakita:	Reacted to "It’s less damaging t..." with ➕
+00:55:31	soispoke:	That rule of not being able to repropose as a non headliner is still puzzling to me
+00:55:39	Marius van der Wijden:	There are two competing definitions of headliner 😅
+00:55:42	spencer:	Footliner?
+00:55:43	Maria Silva:	Reacted to "That rule of not bei..." with 💯
+00:55:48	Josh Davis:	Reacted to "Footliner?" with 😂
+00:55:50	Maria Silva:	Reacted to "Footliner?" with 😂
+00:55:52	Lumi | Offchain Labs:	Reacted to "Footliner?" with 😂
+00:55:56	Iván | ethrex:	In ethrex we’ve made an early implementation of EIP-8141. We got it working in 1-2 days. You can take a look at it and see if it looks complex for you https://github.com/lambdaclass/ethrex/pull/6326. There’s some docs listing some gaps and the decisions we took
+00:55:57	nixo:	Reacted to "Footliner?" with 🦶
+00:56:02	soispoke:	Reacted to "Footliner?" with 🦶
+00:56:10	lightclient:	Reacted to "In ethrex we’ve made..." with 👍
+00:56:12	Fredrik:	Reacted to "In ethrex we’ve made..." with 👍
+00:56:13	Greg K | Lido:	Replying to "it seems like the ..."
+
+I think also people are not convinced of the effectivness of this EIP for the problem is supposed to solve
+00:56:14	Shruti Gandhi:	Reacted to "Footliner?" with 😂
+00:56:16	Derek Chiang | ZeroDev:	Reacted to "In ethrex we’ve made..." with 👍
+00:56:17	Barnabas:	Reacted to "In ethrex we’ve made..." with 👍
+00:56:29	Chris H:	Reacted to "Footliner?" with 🦶
+00:56:30	lightclient:	Replying to "it seems like the ma..."
+
+that’s not what i’m hearing?
+00:56:44	lightclient:	Replying to "it seems like the ma..."
+
+seems like people are just worried about ability to ship in a timely manner
+00:56:45	Iván | ethrex:	There’s also a web demo for the e2e with some examples https://demo.eip-8141.ethrex.xyz
+00:57:00	Barnabas:	I’d like to take the input of not only core devs to make a decision whether we want frame txs or not.
+00:57:02	Greg K | Lido:	Reacted to "Footliner?" with 😂
+00:57:06	Iván | ethrex:	Replying to "In ethrex we’ve made..."
+
+Using an ethrex dev node
+00:57:28	Barnabas:	Replying to "I’d like to take the..."
+
+we always say that we should listen to the community more, so lets give the floor to them, and hear them out.
+00:57:34	Iván | ethrex:	Replying to "In ethrex we’ve made..."
+
+The code still needs to be cleaned up a little bit, but it’s clear enough
+00:57:36	lightclient:	one important point to do native AA in H*, if we don’t then smart accounts won’t be able to take advantage of FOCIL
+00:57:42	Greg K | Lido:	Reacted to "I’d like to take ..." with 👍
+00:57:47	jvn:	Reacted to "I’d like to take ..." with 👍
+00:58:16	Luis Pinto | Besu:	Replying to "I’d like to take the..."
+
+TBF what I hear mostly about the community it’s to raise code size and nothing about frame txs
+00:58:35	Barnabas:	Replying to "I’d like to take the..."
+
+thats already happening in glammy tho
+00:59:01	Luis Pinto | Besu:	Replying to "I’d like to take the..."
+
+Not lifting the limit altogether, just pushing the bar a bit up
+00:59:11	Łukasz Rozmej:	I'm also afraid it will end up in YAGNI space and don't get hoped adoption, similar to 7702, due to complexity
+00:59:49	CPerezz:	Reacted to "I'm also afraid it w..." with 👍
+00:59:54	Parthasarathy Ramanujam:	Replying to "I’d like to take the..."
+
+@Luis Pinto | Besu There is demand for native AA amongst all wallet developers. 8141 seems to be the most popular candidate now. Especially, a poll conducted by @lightclient among wallet and AA developers.
+01:00:11	Derek Chiang | ZeroDev:	Reacted to "@Luis Pinto | Besu T..." with 👍
+01:00:11	lightclient:	Replying to "I'm also afraid it w..."
+
+this is why we’re adding the default account, it solves these problems for wallets and users that are more skittish
+01:00:16	spencer:	Reacted to "In ethrex we’ve m..." with 👍
+01:00:29	Derek Chiang | ZeroDev:	Reacted to "this is why we’re ad..." with 👍
+01:00:30	FLCL:	We can agree on frames as is not final design, pick at as headliner and improve it on the way. It a significant change that may need more time that usually
+01:00:39	lightclient:	Reacted to "We can agree frames ..." with 👍
+01:00:40	Derek Chiang | ZeroDev:	Reacted to "We can agree frames ..." with 👍
+01:00:49	Parthasarathy Ramanujam:	Replying to "I'm also afraid it w..."
+
+The only way, you can increase adoption is by deprecating EOAs. That will get “lazy” users to migrate to smart accounts.
+01:00:50	Felix (Geth):	Reacted to "We can agree frame..." with 👍
+01:00:56	Fredrik:	Reacted to "We can agree frames ..." with 👍
+01:01:08	felix (eest):	Reacted to "We can agree on fr..." with 👍
+01:01:15	Lumi | Offchain Labs:	Reacted to "We can agree on fram..." with 👍
+01:01:19	Marius van der Wijden:	Reacted to We can agree on fram... with "👍"
+01:01:23	Łukasz Rozmej:	Reacted to "We can agree on fram..." with 👎
+01:01:27	Dragan Rakita:	Reacted to "We can agree on fram..." with 👎
+01:01:31	Dragan Rakita:	Reacted to "I'm also afraid it w..." with 👍
+01:01:35	Parthasarathy Ramanujam:	Reacted to "We can agree on fram..." with 👍
+01:02:02	Iván | ethrex:	Reacted to "We can agree on fram..." with 👍
+01:02:10	jvn:	Reacted to "We can agree on fr..." with 👍
+01:02:12	stokes:	Reacted to "We can agree on fram..." with 👍
+01:02:25	Dragan Rakita:	Reacted to "I’d like to take the..." with 👍
+01:02:47	frangio:	Reacted to "We can agree on fr..." with 👍
+01:02:55	Łukasz Rozmej:	Frame transaction doesn't solve post quantum, it gives a potential to solve it later
+01:03:03	DanielVF | Monad:	PQ doesn't require frame transactions though
+01:03:04	felipe:	Reacted to "Footliner?" with 🦶
+01:03:06	Dragan Rakita:	Replying to "I’d like to take the..."
+
+From devtooling feedback that I shared last time, it is unnecessary complex and bad eip.
+01:03:20	Dragan Rakita:	Reacted to "PQ doesn't require f..." with 👍
+01:03:23	Danno Ferrin - Tectonic.xyz:	We need a PQC algo as a precompile
+01:03:31	lightclient:	hoping we have a PQ precompile as a non-headliner in H* 🙂
+01:04:01	FLCL:	PQ is not solved at all for now and can be solved purely in parallel by people with very different competency
+01:04:10	Greg K | Lido:	Reacted to "We need a PQC algo..." with 👍
+01:04:18	Luis Pinto | Besu:	Reacted to "We need a PQC algo a..." with 👍
+01:04:39	lightclient:	guys 7702 has 4 million ops per week
+01:04:43	Barnabas:	Reacted to "@Luis Pinto | Besu T..." with 👍
+01:04:45	Parthasarathy Ramanujam:	Reacted to "guys 7702 has 4 mill..." with 👍
+01:04:46	Ansgar Dietrichs:	7702 is very synergistic with native AA, because it allows EOAs to upgrade to smart accounts that can then use e.g. frame txs
+01:04:51	CPerezz:	Replying to "hoping we have a PQ ..."
+
+Can’t cheaper compute and bigger gas limits get us there already without precompiles?
+01:04:55	soispoke:	One thing to maybe keep in mind is that we’re also deciding very early (compared to last time) so in theory it gives more time to iterate on EIPs after the decision point
+01:05:07	Felix (Geth):	Most definitely there will be iteration on the EIP
+01:05:15	DanielVF | Monad:	Reacted to "guys 7702 has 4 mi..." with 👍
+01:05:16	Ansgar Dietrichs:	Replying to "7702 is very synergi..."
+
+then we’d just at some point have to introduce a way to fully revoke the original ecdsa key
+01:05:30	Marc:	Reacted to "We can agree on fram…" with 👍
+01:05:43	Parthasarathy Ramanujam:	Adoption of 7702 or the lack of it, wasn’t due to the EIP, it was the reluctance of few wallets to support it and also due to a lot of false information spread about “alleged” vulnerabilities!
+01:06:06	Trent:	Reacted to "guys 7702 has 4 mill..." with 👍
+01:06:06	Nico Consigny:	FCLC for some reason I can't reply directly to
+01:06:10	Luis Bezzenberger:	Reacted to I think we can keep ... with "👍"
+01:06:25	Nico Consigny:	> PQ not solved at all
+01:06:27	Luis Bezzenberger:	Reacted to Erigon can still wor... with "👍"
+01:06:51	Łukasz Rozmej:	Replying to "Adoption of 7702 or ..."
+
+so won't they have similar issues with frame transactions?
+01:07:29	lightclient:	Replying to "Adoption of 7702 or ..."
+
+i think the default code will basically guarantee that frame tx has wide adoption
+01:07:41	Parthasarathy Ramanujam:	Replying to "Adoption of 7702 or ..."
+
+As I said earlier, unless EOA are specifically deprecated, you wont  have users migrate.  But the default code definitely help here.
+01:07:48	Orca 0x:	Reacted to "i think the default ..." with 👆
+01:07:54	Parthasarathy Ramanujam:	Reacted to "i think the default ..." with 👆
+01:07:59	Łukasz Rozmej:	Replying to "Adoption of 7702 or ..."
+
+@lightclient but then it is basically standard transaction?
+01:08:05	Ahmad Bitar | Nethermind:	My personal stance is to support frame as headliner for hegata
+01:08:08	Barnabas:	What do EL teams want to work on in the second half of this year, if they oppose all headliners?
+01:08:24	lightclient:	Replying to "Adoption of 7702 or ..."
+
+it is a standard tx, but it doesn’t make non standard accounts 2nd class
+01:08:29	lightclient:	Replying to "Adoption of 7702 or ..."
+
+which is important
+01:08:47	Marc:	Reacted to "My personal stance i…" with ➕
+01:08:48	Barnabas:	does ethrex count?
+01:08:50	Francesco:	Sorry but reth should clearly not be considered in this decision?
+01:08:52	Iván | ethrex:	+1 for ethrex
+01:08:56	nixo:	i think the idea here was clean up on a lot of non-headliners (based on comments from last ACDE)
+01:08:57	Luca Donno | L2BEAT:	Reacted to "Sorry but reth shoul..." with 👍
+01:09:17	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+Why is that?
+01:09:22	Francesco:	Replying to "Sorry but reth shoul..."
+
+There’s a clear conflict of interest\
+01:09:25	lightclient:	Reacted to "Sorry but reth shoul..." with 👍
+01:09:25	spencer:	Reacted to "Why is that?" with 👍
+01:09:26	Luca Donno | L2BEAT:	Reacted to "There’s a clear conf..." with 👍
+01:09:28	soispoke:	Reacted to "Sorry but reth shoul..." with 👍
+01:09:49	Trent:	Reacted to "Sorry but reth shoul..." with 👍
+01:09:51	Trent:	Reacted to "There’s a clear conf..." with 👍
+01:09:56	Francesco:	Replying to "Sorry but reth shoul..."
+
+(I don’t care or have opinions about frame txs at all fwiw)
+01:09:57	Ahmad Bitar | Nethermind:	Reacted to Sorry but reth shoul... with "👍"
+01:10:02	Barnabas:	@Daniel Lehrner (Besu) its a chicken and egg
+01:10:04	Parthasarathy Ramanujam:	Reacted to "Sorry but reth shoul..." with 👍
+01:10:06	Barnabas:	you could make it the  majority lol
+01:10:11	Lumi | Offchain Labs:	Reacted to "you could be the maj..." with 😂
+01:10:15	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+This does not make sense, we still think what is better for eth protocol
+01:10:29	Mega | Lambda:	Reacted to "+1 for ethrex" with 👍
+01:10:34	Francesco:	Replying to "Sorry but reth shoul..."
+
+You can say that and we can choose to believe you, there’s still a glaring conflict of interest
+01:10:39	Pablo Deymo | Lambda:	Reacted to "+1 for ethrex" with 👍
+01:10:49	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+Frame tx or not, it does not effect tempo at all.
+01:10:56	Josh Davis:	Reacted to "Sorry but reth shoul..." with 👍
+01:10:56	jonny (geth):	Reacted to "you could make it th..." with 👍
+01:11:10	Hsiao-Wei Wang:	Reacted to "@Luis Pinto | Besu T..." with ❤️
+01:11:19	Anders Elowsson:	Replying to "What do EL teams wan..."
+
+7999 😎
+01:11:20	Giulio:	Unreal chat
+01:11:22	Daniel Lehrner (Besu):	Reacted to "you could make it th..." with 😂
+01:11:30	Luca Donno | L2BEAT:	Reacted to "You can say that and..." with 👍
+01:11:36	Ansgar Dietrichs:	Reacted to "Unreal chat" with 😂
+01:11:37	FLCL:	3h sound scary now, 2 days may be a lot 😂
+01:11:47	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+We did a lot good for the protocol, this just feel a bad take.
+01:11:48	Chris H:	Reacted to "3h sound scary now, …" with 😂
+01:11:52	Fredrik:	Reacted to "My personal stance i..." with ➕
+01:12:25	Francesco:	Replying to "Sorry but reth shoul..."
+
+On a personal level, I believe you. But it is a conflict of interest, there’s a competing standard being proposed essentially...
+01:12:31	lightclient:	mempool rules: https://eips.ethereum.org/EIPS/eip-7562
+01:12:51	lightclient:	i wouldn’t say that “it isn’t defined” we just have to decide how much of 7562 we want in the core protocol
+01:12:59	lightclient:	it is very well thought through and thorough
+01:13:17	Ansgar Dietrichs:	I will keep the discussion open for however much longer there are things to discuss, but I would need either Besu, Nethermind, or reth to flip to frame tx headliner support to not then propose rejecting this headliner proposal at the end.
+01:13:27	Iván | ethrex:	Reacted to "Sorry but reth shoul..." with 👍
+01:13:52	Marius van der Wijden:	Replying to "Sorry but reth shoul..." 
+
+ I agree, Reth should be able to voice their opinion, even if they have a conflict of interest. I would hope that they won't die on the hill of not implementing it if it came to that though.
+01:13:53	Marc:	Replying to "I will keep the disc…"
+Nethermind team is split on this, personally I would be open to making headliner
+01:13:56	Pablo Deymo | Lambda:	Reacted to "Sorry but reth shoul..." with 👍
+01:14:17	DanielVF | Monad:	EIP-8141 spec metions rules "similar to" 
+https://eips.ethereum.org/EIPS/eip-7562
+01:14:17	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+If you believe me, you wouldn’t state it like that, it is really hurtful. The outcome we all want is what is best for etheream, proposing different approach does not make our vote invalid. It is just a bad take.
+01:14:22	Ansgar Dietrichs:	Reacted to "Nethermind team is s..." with 👍
+01:14:25	Francesco:	Replying to "Sorry but reth shoul..."
+
+It’s not personal, really
+01:14:49	Lumi | Offchain Labs:	Reacted to "Nethermind team is s..." with 👍
+01:14:54	Mega | Lambda:	Reacted to "Sorry but reth shoul..." with 👍
+01:14:54	lightclient:	Reacted to "Nethermind team is s..." with 👍
+01:15:18	Francesco:	Replying to "Sorry but reth shoul..."
+
+And one thing is expressing an opinion, a different thing is getting a “vote”. Seems very standard to not get a vote when there’s a clear conflict of interest?
+01:15:23	Lumi | Offchain Labs:	Replying to "I will keep the disc..."
+
+Where is Tomasz when we need him 😜
+01:15:24	Alex Forshtat:	Replying to "Sorry but reth shoul..." 
+
+ Just a question, why didn't Reth propose Tempo transactions for Hegota headliner?
+01:15:25	soispoke:	Replying to "i wouldn’t say that ..."
+
+I agree, the only thing to point out is that this was designed without FOCIL in mind
+
+which will impact some of the parameters (e.g., VERIFY gas)
+01:15:35	Dragan Rakita:	It is like saying drop everyone oppinion except geth
+01:15:48	lightclient:	some non-headliners may depend on frame tx, such as tx assertions. this is a very important upgrade to improve security of transacting on ethereum
+01:16:12	lightclient:	Replying to "some non-headliners ..."
+
+frame tx works very well for this because you can have a post-op frame to analyze the outcome of other frames
+01:16:27	lightclient:	Reacted to "I agree, the only th..." with 👍
+01:16:27	Ahmad Bitar | Nethermind:	Reacted to Nethermind team is s... with "👍"
+01:16:29	Giulio:	Replying to "Sorry but reth sho..."
+
+Claude, should Reth be included in decision-making? Make no mistakes.
+01:16:29	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+@Francesco I don’t see the conflicts, as I said implementation of frame does not touch tempo. Modular approach of reth allows that.
+01:17:49	Alex Forshtat:	Reacted to Sorry but reth shoul... with "👍"
+01:17:57	DanielVF | Monad:	Replying to "some non-headliner..."
+
+Will need batch reverting frame ability for post-op frame checks, which I think you are planning on adding?
+01:18:07	jvn:	I think a year is actually plenty of time to revise the EIP if needed and implement it properly. The benefits could be significant - bringing native account abstraction and even leaving room for a post-quantum pathway. Considering that, Making it as a headliner might actually be worthwhile. IMO
+01:18:10	FLCL:	Maybe something can be done with tx gossip scores or so
+01:18:28	lightclient:	Replying to "some non-headliners ..."
+
+there are a few ways it could be implemented. i personally imagined it would be done by only approving payment at end of tx
+01:18:36	Lumi | Offchain Labs:	Reacted to "I think a year is ac..." with ➕
+01:18:37	lightclient:	Reacted to "I think a year is ac..." with 👍
+01:18:38	lightclient:	Reacted to "I think a year is ac..." with ➕
+01:18:59	Shruti Gandhi:	Reacted to "I think a year is ac..." with ➕
+01:19:13	Fredrik:	Replying to "some non-headliners ..."
+
+This is that it’s one of the most asked for features by end users as it basically protects users against drainers and other types of attacks, and is coming from many discussions with various parties during 1TS
+01:19:29	Parthasarathy Ramanujam:	Reacted to "I think a year is ac..." with ➕
+01:19:30	Emma:	I do not think it is fair to say we shouldn’t be considered in the decision making, when we are clearly supporting and working hard on Reth for Ethereum….
+01:19:38	Iván | ethrex:	Reacted to "I think a year is ac..." with ➕
+01:20:31	Parthasarathy Ramanujam:	Isn’t there a native tracer built (in geth) that validates a transactions against erc7562 rules?
+01:20:54	Parthasarathy Ramanujam:	Wouldn’t that help with most of the complexities associated to mempool validation?
+01:21:03	lightclient:	Replying to "Is there a native tr..."
+
+we would just run the evm in a specific mode
+01:21:34	Parthasarathy Ramanujam:	Replying to "Isn’t there a native..."
+
+I blame auto-correct. I was supposed to type “Isn’t”
+01:21:37	Parthasarathy Ramanujam:	Reacted to "we would just run th..." with 👍
+01:21:46	Danno Ferrin - Tectonic.xyz:	Replying to "Sorry but reth shoul..."
+
+So one of the arguments is “Frame beacuse no alternateives have been proposed” and then when reth proposes an alternative they get penalized?
+01:22:24	Francesco:	Replying to "Sorry but reth shoul..."
+
+I never said anything about decision making in general, this just happens to be a case when there’s a conflict of interest, in my opinion. You can disagree on that, fine, agree to disagree
+01:24:13	Felix (Geth):	Just to clarify, Fredrik is talking about the ability to add arbitrary post-conditions to any transaction. Notably this feature is not related with the mempool at all.
+01:24:15	soispoke:	fwiw implementing encrypted mempools designs (e.g., LUCID) on top of frame txns is quite nice
+01:24:31	Fredrik:	Reacted to "Just to clarify, Fre..." with 👍
+01:24:33	Enrico Del Fante (tbenr):	The security argument is very appealing
+01:24:43	Nico Consigny:	Nethermind team is splitted
+01:24:46	nixo:	if we settle on “no headliner” - can we also get a decision on whether or not it can come back as a non-headliner since that’s technically been against process since the headliner process was introduced? but seems reasonable that acd can overrule
+01:24:47	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+We are sharing experience from something that we already have, so hope from here that synergy can be taken.
+01:24:54	frangio:	Reacted to "if we settle on “..." with 👍
+01:25:04	Alex Forshtat:	Replying to "Sorry but reth shoul..." 
+
+ @Danno Ferrin - Tectonic.xyz But Tempo transactions are not formally proposed for Hegota, are they?
+01:25:10	Lumi | Offchain Labs:	Reacted to "if we settle on “no ..." with 👍
+01:25:14	Łukasz Rozmej:	I personally don't know, I dont want to block it, but I still see the risk of adding it and then potentially removing as a headliner
+01:25:22	Danno Ferrin - Tectonic.xyz:	Replying to "Sorry but reth shoul..."
+
+This hiding behind process is not a good look.
+01:25:47	Ahmad Bitar | Nethermind:	Replying to "if we settle on “no ..." 
+
+ It frame cannot come back as a non headliner then i believe we should have it in
+01:25:47	Barnabas:	Can we wait another 2w in deciding? I’m usually not into delaying decisions but its really on the edge.
+01:25:54	Danno Ferrin - Tectonic.xyz:	Replying to "Sorry but reth shoul..."
+
+process should reflect consensus, not enforce it.
+01:25:57	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+For example this is improvement ever tempo in terms in EIP: https://eips.ethereum.org/EIPS/eip-8175  that would be even better than tempo,
+01:26:16	Derek Chiang | ZeroDev:	What would need to change to change Besu/Nethermind/Reth’s minds?
+01:26:21	Trent:	Reacted to "Can we wait another ..." with 👍
+01:26:23	Dragan Rakita:	Echoing that we all want to improve protocol, and think what is best for it.
+01:26:33	Felix (Geth):	can we promote it to headliner later?
+01:26:37	lightclient:	Reacted to "can we promote it to..." with 🔥
+01:26:40	Ben Adams:	Reacted to "can we promote it to..." with 🔥
+01:26:47	Tamaghna Choudhuri:	Reacted to "can we promote it to..." with 😆
+01:26:56	Felix (Geth):	like what if it turns out really good
+01:27:45	Dragan Rakita:	Replying to "Sorry but reth shoul..."
+
+I will start referring this as composable tx. This is not a headliner as it is smaller scope
+01:27:50	Luca Donno | L2BEAT:	Reacted to "Can we wait another ..." with 👍
+01:28:06	Dragan Rakita:	Reacted to "I do not think it is..." with 👍
+01:28:12	Lumi | Offchain Labs:	Reacted to "can we promote it to..." with 😆
+01:28:15	Alex Forshtat:	Reacted to I will start referri... with "👍"
+01:28:46	Ansgar Dietrichs:	can we get a temperature check on delaying the decision?
+👍 = delaying decision
+👎 = make decision today
+01:28:55	lightclient:	does anyone want to absolutely block it if we accept as headliner?
+01:28:58	soispoke:	Reacted to "can we get a tempera..." with 👍
+01:29:01	lightclient:	maybe another way to frame the Q
+01:29:04	Lumi | Offchain Labs:	Reacted to "can we get a tempera..." with 👍
+01:29:20	Ben Adams:	Replying to "does anyone want to ..."
+
+I don't think we'd block
+01:29:20	Barnabas:	if majority of nethermind is for it, then thats the decider
+01:29:45	Fredrik:	I think the security improvement alone is really valuable. People are losing hundreds of millions of USD each year, and this together with transaction assertions could remove or at the very least significantly reduce that
+01:29:56	Nicolas Consigny:	Reacted to "I think the security..." with 👍
+01:30:00	Parithosh Jayanthi:	Also note that we have a lot of ZK related priorities the next few forks. If we don’t do frame txs now, I don’t imagine us getting another chance for a while.
+01:30:07	lightclient:	Reacted to "Also note that we ha..." with 👍
+01:30:09	Lumi | Offchain Labs:	Reacted to "Also note that we ha..." with 👍
+01:30:16	Lumi | Offchain Labs:	Reacted to "I think the security..." with 👍
+01:30:25	Barnabas:	Reacted to "I think the security..." with 👍
+01:30:26	Felix (Geth):	we can work out some prototype rules within 2 weeks
+01:30:32	Ameziane Hamlat:	Reacted to "can we get a tempera..." with 👍
+01:30:34	felipe:	Reacted to "I think the securi..." with 👍
+01:30:35	Barnabas:	Reacted to "Also note that we ha..." with 👍
+01:30:51	Mega | Lambda:	Reacted to "maybe another way to..." with 😂
+01:31:05	Luca Donno | L2BEAT:	Reacted to "can we get a tempera..." with 👍
+01:31:06	Guillaume:	Replying to "Also note that we ha..."
+
+priorities change
+01:31:09	Orca 0x:	Reacted to "we can work out some..." with ❤️
+01:31:35	Luca Donno | L2BEAT:	Reacted to "we can work out some..." with ❤️
+01:31:44	Łukasz Rozmej:	Replying to "we can work out some..."
+
+make sense to me, to try
+01:31:47	Orca 0x:	Replying to "we can work out some..."
+
+rule clarity in 8141 itself is essential
+01:31:51	Parthasarathy Ramanujam:	Reacted to "we can work out some..." with ❤️
+01:31:56	frangio:	Reacted to "we can work out so..." with 👍
+01:31:56	Łukasz Rozmej:	Reacted to "we can work out some..." with ❤️
+01:31:58	Parithosh Jayanthi:	Reacted to "priorities change" with 😅
+01:31:58	Łukasz Rozmej:	Reacted to "we can work out some..." with 👍
+01:32:05	nixo:	i’m for delaying this decision - it seems a bit like support is broad but weak just because of a lack of familiarity / the newness of the EIP. i think it’s on the champions to shore up people’s opinions over the next two weeks
+01:32:12	Emma:	Replying to "Sorry but reth shoul..."
+
+I do not see where the conflict of interest lies…. We are here representing Reth for the Ethereum community. 
+
+My thoughts are that frame txs introduce more account abstraction galaxy braining by delegating complexity into frames. Developers don't want to work with defining "frames". 
+
+Reduces complexity in the sense that we don't need a "bundler" (which imo is like 5% of the problem of current AA landscape), but then introduces a ton of complexity on devtooling layer (both contracts and app devtools like viem), and makes account orchestration flows super difficult to reason about. 
+
+Generally think accounts don’t need to be galaxy brained abstracted for 95% of real world users. We should enshrine native features for the 95%, and escape hatch to account abstractions for the 5%.
+
+This proposal is good for the 5% and migrating to PQ: https://github.com/ethereum/EIPs/pull/11330
+01:32:16	felix (eest):	my main impression from the eth mag thread is that many people were sceptical at first but as the EIP got clarified they understood its value and now most support it
+01:32:26	Guillaume:	Replying to "Also note that we ha..."
+
+allocating 3+ years just to zk is a bad idea - so we'll need to make room for other stuff anyway.
+01:32:36	nixo:	Reacted to "priorities change" with 😅
+01:32:39	Shruti Gandhi:	Reacted to "Also note that we ha..." with 👍
+01:32:48	nixo:	Reacted to "priorities change" with 🌳
+01:32:54	Parithosh Jayanthi:	Reacted to "priorities change" with 🌳
+01:33:12	Emma:	Reacted to "I don't think we'd b..." with 👍
+01:33:23	lightclient:	what do people want to see in 2 weeks to sway opinion?
+01:33:34	Derek Chiang | ZeroDev:	Replying to "Sorry but reth shoul..."
+
+I think it’s unfair to discount Reth’s opinion because of perceived conflict of interests.  That said, I’m also trusting that Reth will go along with the decision if the clear majority is for it
+01:33:37	Barnabas:	frame-devnet-0 😂
+01:33:37	lightclient:	Replying to "what do people want ..."
+
+we can definitely build a prototype and bring txpool rules into 8141 itself
+01:33:40	Justin Traglia:	Reacted to "Sorry but reth shoul..." with 👍
+01:33:56	Nicolas Consigny:	Replying to "what do people want ..."
+
+More txpool rules ?
+01:33:57	Justin Traglia:	Reacted to "There’s a clear conf..." with 👍
+01:34:00	Nicolas Consigny:	Replying to "what do people want ..."
+
+yes this would be good
+01:34:04	Nicolas Consigny:	Reacted to "we can definitely bu..." with 👍
+01:34:05	Orca 0x:	Reacted to "we can definitely bu..." with ❤️
+01:34:18	Iván | ethrex:	Let us know how we can help here, we’ll be glad to do it
+01:34:41	Chris H:	Reacted to "we can definitely bu…" with 👍
+01:34:56	Nicolas Consigny:	Reacted to "Let us know where we..." with 🙏
+01:34:57	lightclient:	Reacted to "Let us know where we..." with 👍
+01:35:32	Luca Donno | L2BEAT:	Reacted to "Let us know how we c..." with 🔥
+01:35:32	Toni Wahrstätter:	Reacted to "we can definitely bu..." with ❤️
+01:35:49	Ben Adams:	Reacted to "we can definitely bu..." with ❤️
+01:35:50	Ben Adams:	Reacted to "we can definitely bu..." with 👍
+01:36:02	Barnabas:	Reacted to "Let us know how we c..." with 🔥
+01:36:20	Łukasz Rozmej:	Replying to "what do people want ..."
+
+some base on realistic tx pool rules
