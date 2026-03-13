@@ -458,8 +458,8 @@ bi-weekly
             self.assertIsNotNone(result)
             self.assertIn("⚠️ **Date Parsing Issue**", result)
             self.assertIn("April 32, 2025, 14:00 UTC", result)
-            self.assertIn("April 24, 2025, 14:00 UTC", result)
-            self.assertIn("2025-04-24T14:00:00Z", result)
+            self.assertIn("April 24, 2026, 14:00 UTC", result)
+            self.assertIn("2026-04-24T14:00:00Z", result)
 
     def test_generate_comprehensive_resource_comment_valid_date(self):
         """Test that properly parsed dates don't trigger error messages."""
@@ -692,34 +692,16 @@ class TestDateInPastValidation(unittest.TestCase):
         result = self.handler._is_date_in_past("")
         self.assertFalse(result)
 
-    def test_post_past_date_comment_content(self):
-        """Test that the past date comment contains expected content."""
+    def test_post_past_date_comment_logs_only(self):
+        """Test that past date detection only logs, does not post a GitHub comment."""
         mock_issue = unittest.mock.MagicMock()
+        mock_issue.number = 123
         past_date = "2025-01-15T10:00:00Z"
 
         self.handler._post_past_date_comment(mock_issue, past_date)
 
-        # Verify create_comment was called
-        mock_issue.create_comment.assert_called_once()
-
-        # Get the comment text
-        comment_text = mock_issue.create_comment.call_args[0][0]
-
-        # Verify expected content
-        self.assertIn("⚠️ **Past Date Detected**", comment_text)
-        self.assertIn(past_date, comment_text)
-        self.assertIn("No resources were created", comment_text)
-        self.assertIn("Edit", comment_text)
-        self.assertIn("UTC Date & Time", comment_text)
-        self.assertIn("Double-check the year", comment_text)
-
-    def test_post_past_date_comment_handles_error(self):
-        """Test that errors during comment posting are handled gracefully."""
-        mock_issue = unittest.mock.MagicMock()
-        mock_issue.create_comment.side_effect = Exception("API error")
-
-        # Should not raise an exception
-        self.handler._post_past_date_comment(mock_issue, "2025-01-15T10:00:00Z")
+        # Verify create_comment was NOT called
+        mock_issue.create_comment.assert_not_called()
 
     def test_handle_protocol_call_rejects_past_date(self):
         """Test that handle_protocol_call exits early for past dates."""
@@ -753,11 +735,8 @@ class TestDateInPastValidation(unittest.TestCase):
         # Should return False due to past date
         self.assertFalse(result)
 
-        # Should have posted a comment about the past date
-        mock_issue.create_comment.assert_called_once()
-        comment_text = mock_issue.create_comment.call_args[0][0]
-        self.assertIn("Past Date Detected", comment_text)
-        self.assertIn(past_date, comment_text)
+        # Should NOT post a GitHub comment (facilitators may edit after meetings)
+        mock_issue.create_comment.assert_not_called()
 
 
 class TestUpdateDisplayedAutopilotValues(unittest.TestCase):

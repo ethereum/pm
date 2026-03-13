@@ -282,6 +282,31 @@ class ProtocolCallHandler:
             self.logger.error(f"Failed to handle YouTube resource: {e}")
             return result
 
+    def _is_date_in_past(self, date_string, grace_hours=12):
+        """Check if a date string represents a date in the past (beyond grace period).
+
+        Returns False for invalid/missing inputs to avoid blocking processing.
+        """
+        if not date_string or not isinstance(date_string, str):
+            return False
+
+        # Only check properly formatted ISO dates ending with 'Z'
+        if not date_string.endswith('Z'):
+            return False
+
+        try:
+            dt = datetime.fromisoformat(date_string.replace('Z', '+00:00'))
+            now = datetime.now(timezone.utc)
+            from datetime import timedelta
+            return (now - dt).total_seconds() > grace_hours * 3600
+        except (ValueError, TypeError):
+            return False
+
+    def _post_past_date_comment(self, issue, date_string):
+        """Log a past date detection. No GitHub comment is posted since facilitators
+        may legitimately edit issues after a meeting has already occurred."""
+        self.logger.info(f"Past date detected ({date_string}) for issue #{issue.number}, skipping resource creation")
+
     def handle_protocol_call(self, issue_number: int, repo_name: str) -> bool:
         """Main entry point for handling a protocol call issue."""
         try:
@@ -303,6 +328,13 @@ class ProtocolCallHandler:
             call_data = self._validate_and_transform(form_data, issue)
             if not call_data:
                 self.logger.error(f"Failed to validate/transform data for issue #{issue_number}")
+                return False
+
+            # 3b. Check for past dates
+            start_time = call_data.get("start_time")
+            if self._is_date_in_past(start_time):
+                self.logger.warning(f"Rejecting past date {start_time} for issue #{issue_number}")
+                self._post_past_date_comment(issue, start_time)
                 return False
 
             # 4. Check for existing occurrence and resources
