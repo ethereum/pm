@@ -24,6 +24,7 @@ ACDBOT_DIR = SCRIPT_DIR.parent.parent
 MAPPING_FILE = ACDBOT_DIR / "meeting_topic_mapping.json"
 DEFAULT_PROMPT = SCRIPT_DIR / "prompts" / "summarize.md"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
+VOCAB_FILE = SCRIPT_DIR / "ethereum_vocab.yaml"
 
 # Example summaries by call type
 # Note: ACDE intentionally uses the ACDC example as they share similar format
@@ -159,8 +160,9 @@ def generate_summary(
     force: bool = False
 ) -> bool:
     """Generate tldr.json using Claude API."""
-    # Paths
-    transcript_path = meeting_dir / "transcript.vtt"
+    # Paths — prefer corrected transcript when available
+    corrected_path = meeting_dir / "transcript_corrected.vtt"
+    transcript_path = corrected_path if corrected_path.exists() else meeting_dir / "transcript.vtt"
     chat_path = meeting_dir / "chat.txt"
     summary_path = meeting_dir / "summary.json"
     tldr_path = meeting_dir / "tldr.json"
@@ -225,6 +227,11 @@ def generate_summary(
     # Load example summary for reference (based on call type)
     example_summary = get_example_summary(call_type)
 
+    # Load vocabulary reference for correct spelling of Ethereum terms
+    vocab = ""
+    if VOCAB_FILE.exists():
+        vocab = VOCAB_FILE.read_text()
+
     # Build prompt
     full_prompt = f"""## Meeting Title
 
@@ -233,6 +240,10 @@ def generate_summary(
 ## Meeting Agenda
 
 {agenda}
+
+## Ethereum Vocabulary Reference (use correct spellings from this list)
+
+{vocab if vocab else "(No vocabulary reference available)"}
 
 ## Example Output (for reference on structure and length)
 
