@@ -579,8 +579,8 @@ def main():
                             else:
                                 print(f"[INFO] Meeting eligible for upload: Issue #{occ_issue_num}, ended {time_since_meeting_end} ago")
                         except (ValueError, TypeError) as e:
-                            print(f"[WARN] Could not parse start_time '{meeting_start_time_str}' for issue #{occ_issue_num}: {e}")
-                            # Continue processing if we can't parse the date (don't want to break existing functionality)
+                            print(f"[WARN] Could not parse start_time '{meeting_start_time_str}' for issue #{occ_issue_num}, skipping upload: {e}")
+                            continue
                     else:
                         print(f"[WARN] No start_time found for issue #{occ_issue_num}, proceeding without date validation")
 
