@@ -1,0 +1,84 @@
+00:05:14	Potuz:	gm
+00:06:00	Stefan Starflinger:	hello
+00:06:27	FLCL:	gm
+00:06:42	nixo:	gm
+00:12:03	Barnabas:	wouldn’t this be better to do in the breakout room?
+00:14:17	Stefan Starflinger:	https://notes.ethereum.org/@ethpandaops/bal-devnet-2
+00:15:06	FLCL:	Are new tests planned?
+00:15:59	spencer:	Replying to "Are new tests plan..."
+
+We'll have another release but it wont change much. Just a single test case.
+00:16:05	jochem-brouwer:	If fuzzing and then network breaks then it means testing coverage is missing?
+00:16:14	FLCL:	Reacted to "We'll have another r..." with 👍
+00:16:16	felipe:	Reacted to "We'll have another..." with 👍
+00:17:43	spencer:	Replying to "Are new tests plan..."
+
+This is the test case mentioned by dragan: `tests/amsterdam/eip7954_increase_max_contract_size/test_max_initcode_size.py::test_max_initcode_size_gas_metering_via_create[fork_Amsterdam-create_opcode_CREATE-state_test-short_one_gas]`
+00:18:17	Toni Wahrstätter:	To add to jochem's qu., any specific EIPs that break?
+00:18:22	Stefan Starflinger:	Replying to "If fuzzing and then ..."
+
+yes and no, not all tests are being passed yet
+00:18:32	jochem-brouwer:	Heeft gereageerd op "yes and no, not al..." met 👍
+00:18:35	Dragan Rakita:	Reacted to "This is the test cas..." with 👍
+00:18:40	terence:	Prysm is not ready yet, we need to merge a PR, give us 2 days
+00:18:42	terence:	For exit
+00:18:47	felipe:	Replying to "If fuzzing and the..."
+
+https://hive.ethpandaops.io/ should we add a run for bal-devnet-3 here to track client status?
+00:19:21	terence:	Yes, can we do alpha4
+00:19:36	nflaig:	did some updates to our checkpoint cache serving @Barnabas should be fine to add to checkpoint-z again
+00:19:52	Barnabas:	Reacted to "did some updates to ..." with 👍
+00:20:21	Stefan Starflinger:	Replying to "To add to jochem's q..."
+
+8037 gas accounting causing BAL hash missmatch
+00:21:39	Barnabas:	I’d propose SFI-ing:
+7708
+7778
+7843
+8024
+00:22:04	Potuz:	Reacted to "did some updates to ..." with 👍
+00:22:41	Dragan Rakita:	Reacted to "I’d propose SFI-ing:..." with ➕
+00:23:50	Stefan Starflinger:	Replying to "To add to jochem's q..."
+
+For example: CREATE, CALL-with-value, or precompile calls. Nimbus records different storage/account accesses than geth for these operations. Simple eoatx passes. Only evm-fuzz triggers the divergence.
+00:24:49	nixo:	i think if ACDE/C is responsible, we can be a bit more proactive there
+00:25:19	FLCL:	Replying to "Are new tests planne..."
+
+Ty!
+00:25:23	spencer:	Reacted to "Screenshot2026_03_..." with 😂
+00:25:24	Stefan Starflinger:	Replying to "To add to jochem's q..."
+
+Erigon — EIP-8037 Block Gas Overflow (Single-Dimensional Pool)
+00:25:24	nixo:	Reacted to "Screenshot2026_03_16_152006.jpg" with 😎
+00:25:39	Akash | ECH:	Reacted to "Screenshot2026_03_16_152006.jpg" with 😂
+00:26:12	felix (eest):	Reacted to "Screenshot2026_03_..." with 😂
+00:26:16	Barnabas:	I’d do SFI devnet 3 maybe a week after its been stable
+00:26:17	Barnabas:	also I
+00:26:30	Jen:	Reacted to "I’d do SFI devnet 3 ..." with 👍
+00:27:16	spencer:	Reacted to "I’d propose SFI-i..." with ➕
+00:27:31	Stefan Starflinger:	Replying to "To add to jochem's q..."
+
+reth: Bug likely in how CREATE/CREATE2 tracks code changes or how storage reads vs writes are classified during contract deployment. The hash is computed by alloy compute_block_access_list_hash() which is shared, so the divergence is in the BAL
+00:28:08	spencer:	Will aim to add draft PR to update 7723 aligning on what we have spoke about. Few interactions and in passing devnet etc
+00:28:11	Barnabas:	"Fully baked”
+00:28:21	Barnabas:	Reacted to "Like this one. Will ..." with 👍
+00:28:35	Barnabas:	Replying to "I’d propose SFI-ing:..."
+
+7773 you mean?
+00:28:57	Potuz:	how?
+00:29:00	spencer:	Replying to "I’d propose SFI-i..."
+
+both :)
+00:29:04	Karim T. (matkt):	Reacted to "how?" with ➕
+00:29:04	terence:	Too high tech for me
+00:29:05	wolovim:	I think hosts can record locally - plz do that if you have the UI for it 🙂
+00:29:13	Parithosh Jayanthi:	Reacted to "I think hosts can re..." with ❤️
+00:29:14	felix (eest):	frick epbs all my homies join bal
+00:29:20	Parithosh Jayanthi:	Reacted to "frick epbs all my ho..." with 😂
+00:29:33	Dragan Rakita:	Room not detected, what is room code?
+00:29:46	Louis:	Replying to "how?"
+
+There is a “More” button, select it and there are two options
+00:29:54	Kevaundray Wedderburn:	More > Breakout rooms
+00:30:02	Dragan Rakita:	I see Transfer to room, but it requires room code
+00:30:17	Enrico Del Fante (tbenr):	More?

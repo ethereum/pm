@@ -1,0 +1,726 @@
+WEBVTT
+
+1
+00:05:24.930 --> 00:05:25.840
+spencer: Nope.
+
+2
+00:05:57.770 --> 00:05:59.220
+Parithosh Jayanthi: Hello, everyone.
+
+3
+00:06:27.040 --> 00:06:30.849
+Parithosh Jayanthi: Let's give people another minute to join, and then we can start off.
+
+4
+00:07:13.100 --> 00:07:21.420
+Parithosh Jayanthi: Okay, let's get started. First on the agenda item is, how we're gonna structure the call today.
+
+5
+00:07:21.490 --> 00:07:37.530
+Parithosh Jayanthi: So we're gonna do our usual updates, as well as going through any immediate blockers, as long as they're shared blockers. Once that's done, we're gonna experiment with breakout rooms today, so we're going to split the call into two breakout rooms, block-level access lists and ePBS.
+
+6
+00:07:37.550 --> 00:07:43.909
+Parithosh Jayanthi: I'm choosing the option to self-select, so each person can choose which breakout room they're gonna go to.
+
+7
+00:07:44.330 --> 00:07:49.550
+Parithosh Jayanthi: This might be exclusionary for some people who do want to be in both breakout rooms.
+
+8
+00:07:49.600 --> 00:08:01.580
+Parithosh Jayanthi: The rooms themselves won't be recorded, so for now, we're going to have to just experiment with this approach, and in the future, we can still see how to merge it better. The breakout room approach is also
+
+9
+00:08:01.610 --> 00:08:13.100
+Parithosh Jayanthi: Temporary, as in we're not fixing these as the two breakout rooms, but instead, on a week-by-week basis, we can decide what are the most valuable breakout rooms to choose, and who's going to lead them.
+
+10
+00:08:13.940 --> 00:08:26.720
+Parithosh Jayanthi: That being said, let's, start off with the usual bits. Devnet updates for block-level access lists, do we have… sorry, for block DevNet0, do we have Barnabis?
+
+11
+00:08:28.490 --> 00:08:42.169
+Barnabas: Yeah, BlobdevNet Zero has been seen some issues in the past week. I'm not sure if we have anyone from Prysm here that could, speak up regarding the Prysm bugs that,
+
+12
+00:08:42.370 --> 00:08:44.940
+Barnabas: For the… regarding the partial cell stuff.
+
+13
+00:08:45.220 --> 00:08:49.940
+Barnabas: Other than that, the spec is finally…
+
+14
+00:08:50.060 --> 00:08:55.079
+Barnabas: Pretty much firms, so everyone should be able to implement,
+
+15
+00:08:55.550 --> 00:08:57.839
+Barnabas: Everything that they need for partial size stuff.
+
+16
+00:08:58.390 --> 00:09:03.200
+Barnabas: If you have updated your partial self, self,
+
+17
+00:09:03.770 --> 00:09:09.670
+Barnabas: logic, then please let me know, and I can, add you to develop the list on Blob.net Zero.
+
+18
+00:09:12.060 --> 00:09:17.710
+Parithosh Jayanthi: Is there a rollout plan for this one? I know that there was some talk about deploying it on testnets.
+
+19
+00:09:19.110 --> 00:09:27.289
+Barnabas: Yeah, so ideally, we can start deploying it on testnets once, the clients feel very optimistic about it.
+
+20
+00:09:27.430 --> 00:09:37.519
+Barnabas: Right now, we… the alternative would be to launch a very big network, but, realistically, we're not gonna be able to see,
+
+21
+00:09:37.930 --> 00:09:44.140
+Barnabas: The network effect of… Of this change, unless we do, like, another 1,000-node network or something like that.
+
+22
+00:09:44.480 --> 00:09:51.339
+Barnabas: So, I think, what, we were thinking is a few validators will, have it enabled on,
+
+23
+00:09:52.420 --> 00:10:03.030
+Barnabas: on Sepolia, and on Hudi, and then on Hudi, we can investigate further if… in case we do see some kind of clustering. And, once we are confident, then,
+
+24
+00:10:03.200 --> 00:10:09.560
+Barnabas: Clients can decide to, have it, default enabled in their, in their logic.
+
+25
+00:10:13.780 --> 00:10:28.220
+Parithosh Jayanthi: Okay, sounds good. Next on the list is block-level access list, DevNet 2, as well as, any blockers for benchmarking. Either Stefan or Tuni, whoever wants to go?
+
+26
+00:10:28.220 --> 00:10:32.269
+Stefan Starflinger: Yeah, I can start quickly on just a general update.
+
+27
+00:10:32.410 --> 00:10:50.820
+Stefan Starflinger: So, we finally have reached pretty much 100% participation on DevNet 2. Erigon has implemented and fixed the issue today regarding proposals, so not… a few blocks get proposed, but most blocks now get proposed by all the clients.
+
+28
+00:10:51.000 --> 00:11:05.239
+Stefan Starflinger: There are still some small improvements that can be made in general. For example, I reported one issue to Besu, where sometimes when it falls behind syncing, for some reason, it has a little bit of trouble catching up.
+
+29
+00:11:05.300 --> 00:11:11.610
+Stefan Starflinger: But otherwise, I think we are at a good place with DevNet2 at the moment, which is great.
+
+30
+00:11:11.780 --> 00:11:23.439
+Stefan Starflinger: But just, the next thing would be the benchmarking, and it would be great to get an update on how far clients are that haven't added the benchmarking flags.
+
+31
+00:11:23.550 --> 00:11:35.260
+Stefan Starflinger: And if any clients have maybe also iterated on any of the benchmarking code that they have, maybe we could get an update from the clients that don't have the flags yet, Nethermind.
+
+32
+00:11:35.510 --> 00:11:38.110
+Stefan Starflinger: Or Erigon, or Reth.
+
+33
+00:11:38.420 --> 00:11:42.150
+Stefan Starflinger: That would be great. Maybe start with Nethermind.
+
+34
+00:11:47.190 --> 00:12:07.089
+Marc: Yeah, there's good progress on the parallel execution. It seems to be running, like, pretty stable in the DevNet, like, it worked for about 12 hours, but then it broke, so… I'm just gonna, investigate that a bit more, and then hopefully we can get that merged soon.
+
+35
+00:12:07.520 --> 00:12:14.660
+Marc: And I think Alexi's still investigating on the, parallel, state, ex…
+
+36
+00:12:15.400 --> 00:12:17.889
+Marc: Sorry, a parallel, state loading.
+
+37
+00:12:18.180 --> 00:12:19.460
+Marc: Yeah.
+
+38
+00:12:25.820 --> 00:12:31.379
+Stefan Starflinger: Yeah, I mean, we can also do that in the breakout call, would also make sense.
+
+39
+00:12:32.620 --> 00:12:34.160
+Stefan Starflinger: And what Barnabas said.
+
+40
+00:12:35.460 --> 00:12:40.260
+Stefan Starflinger: But I think that's then pretty much it, unless someone else has something regarding DevNet 2.
+
+41
+00:12:41.610 --> 00:12:52.240
+Parithosh Jayanthi: Yeah, I think we'd structure it such that general updates can happen in the main call, but if there's anything specific to dive deep into, then that can happen in the breakout rooms.
+
+42
+00:12:54.910 --> 00:13:01.110
+Parithosh Jayanthi: So yeah, it would still be interesting to get an update from, from the other ELs as to where they are.
+
+43
+00:13:08.090 --> 00:13:10.930
+Stefan Starflinger: Then can we continue with Reth quickly?
+
+44
+00:13:13.800 --> 00:13:18.609
+emma: Hey, I just joined… late. What are we discussing? Sorry.
+
+45
+00:13:18.610 --> 00:13:35.389
+Stefan Starflinger: Just the flags on the benchmarking, so the flag to toggle the prefetching, the flag to enable all the optimizations, and the flag to disable all the optimization regarding parallel processing and prefetching state and state root calculation.
+
+46
+00:13:36.160 --> 00:13:40.249
+emma: I think we have all three flags on our DevNet 2 and DevNet 3.
+
+47
+00:13:40.370 --> 00:13:41.530
+emma: Brunch.
+
+48
+00:13:41.530 --> 00:13:46.960
+Stefan Starflinger: Okay, could you, could you share all of the configuration? Because so far, I think I only have one of them.
+
+49
+00:13:47.200 --> 00:13:48.939
+emma: Yeah, I'll ping it through in the chat.
+
+50
+00:13:49.640 --> 00:13:50.590
+emma: No worries.
+
+51
+00:13:51.220 --> 00:13:55.950
+Stefan Starflinger: Thank you, and Erigon would be great, if you have any update on that.
+
+52
+00:13:58.680 --> 00:14:01.969
+Andrew Ashikhmin: Right, so, yeah, we are working on,
+
+53
+00:14:02.110 --> 00:14:07.739
+Andrew Ashikhmin: We are finishing parallel execution, I'll check about the flags,
+
+54
+00:14:08.400 --> 00:14:17.980
+Andrew Ashikhmin: So… I see that, where are they spec'd? On the Bell DevNet3, page. I see some flags for Basil…
+
+55
+00:14:18.500 --> 00:14:30.540
+Stefan Starflinger: Yeah, both. Bell DevNet 2 and 3, but 3 is not ready yet, so it's good to have it on 2 right now, so that we can continue the progress on the gas repricing.
+
+56
+00:14:31.840 --> 00:14:39.170
+Andrew Ashikhmin: Alright, okay, yeah, I'll check the implementation status, and if they are not implemented, I'll try to add them.
+
+57
+00:14:39.880 --> 00:14:40.930
+Andrew Ashikhmin: soonish.
+
+58
+00:14:42.450 --> 00:14:44.359
+Stefan Starflinger: Okay, super.
+
+59
+00:14:44.810 --> 00:14:50.140
+Stefan Starflinger: I think that's it for DevNet 2, otherwise we can move to DevNet 3, if there's nothing.
+
+60
+00:14:50.140 --> 00:15:01.130
+Parithosh Jayanthi: Let's move to that 3, then. What's the blocker or timeline there? I know that Tony shared an agenda, so maybe besides those discussion points, if there's any blockers?
+
+61
+00:15:07.880 --> 00:15:14.700
+Stefan Starflinger: Yeah, maybe I can give a quick overview. I've been doing some testing, regarding DevNet 3 and,
+
+62
+00:15:14.790 --> 00:15:28.530
+Stefan Starflinger: In a single testnet, most of the clients are doing pretty well with just normal transactions, but as soon as I start with EVM fuzzing scenario, it breaks apart pretty quickly, maybe…
+
+63
+00:15:29.450 --> 00:15:32.749
+Stefan Starflinger: Some updates from the client teams and testing would be great.
+
+64
+00:15:42.380 --> 00:15:45.770
+Parithosh Jayanthi: Have you already shared all the issues with the client teams?
+
+65
+00:15:46.230 --> 00:15:49.039
+Parithosh Jayanthi: Are there anything in specific you want to dig into?
+
+66
+00:15:50.310 --> 00:15:55.350
+Stefan Starflinger: It's quite general still, so…
+
+67
+00:15:56.980 --> 00:16:02.930
+Stefan Starflinger: There's nothing in particular right now, that I would want to share at the moment.
+
+68
+00:16:04.430 --> 00:16:05.350
+Stefan Starflinger: Okay, so…
+
+69
+00:16:05.350 --> 00:16:14.510
+Parithosh Jayanthi: So it sounds like we're still going to continue fuzzing locally. We'll probably have some minor spec change before we do a DevNet launch, right?
+
+70
+00:16:17.970 --> 00:16:20.459
+Stefan Starflinger: Yeah, we will…
+
+71
+00:16:20.840 --> 00:16:26.609
+Stefan Starflinger: I think, talk about it more in the breakout call. I think it's… yeah, I think we should…
+
+72
+00:16:26.880 --> 00:16:29.350
+Stefan Starflinger: Not go into too much detail here now.
+
+73
+00:16:31.410 --> 00:16:33.359
+Parithosh Jayanthi: Okay, yeah, drawback?
+
+74
+00:16:34.090 --> 00:16:39.679
+Dragan Rakita: I just mentioned that Friday I found some existing inspectors that needs to be fixed.
+
+75
+00:16:40.110 --> 00:16:48.799
+Dragan Rakita: And I think the test feature was just created a few times previous week, so I don't think that anybody's passing them.
+
+76
+00:16:49.760 --> 00:16:52.789
+Dragan Rakita: So there is still, like, work that needs to be done.
+
+77
+00:16:59.650 --> 00:17:04.550
+Parithosh Jayanthi: Okay, cool, thank you. Anything else for Blob DevNet 3?
+
+78
+00:17:09.220 --> 00:17:18.679
+Parithosh Jayanthi: Okay, I did want to announce that, Justin's made a release on the consensus specs for V170Alpha 3.
+
+79
+00:17:20.319 --> 00:17:30.079
+Parithosh Jayanthi: And to continue that point, do we want to get some updates on ePBS DevNet Zero, as well as where Alpha 3 will be used?
+
+80
+00:17:33.850 --> 00:17:40.829
+Barnabas: Yeah, I can give a quick update. So, we currently have Prysm, Lighthouse, and also working, correctly on the DevNet.
+
+81
+00:17:40.990 --> 00:17:47.370
+Barnabas: We have Nimbus proposing blocks here and there. It's not completely working yet.
+
+82
+00:17:47.630 --> 00:17:52.690
+Barnabas: And, Teku has not been able to sync or propose at all yet.
+
+83
+00:17:52.970 --> 00:17:58.269
+Barnabas: local groups that also weren't able to work with Teku.
+
+84
+00:17:58.850 --> 00:18:10.279
+Barnabas: we added Checkpoint Sync… we added Lodestar to the Checkpoint Sync instance last week, and that seemed to have broken some stuff, so we now reverted back into only using Prysm.
+
+85
+00:18:11.060 --> 00:18:12.990
+Barnabas: And,
+
+86
+00:18:14.020 --> 00:18:23.860
+Barnabas: Yeah, I tested exits last week, and deposits, deposits worked, exits do not work yet. I can run another round,
+
+87
+00:18:24.150 --> 00:18:28.790
+Barnabas: Later today, to see if there has been any changes that,
+
+88
+00:18:29.080 --> 00:18:32.229
+Barnabas: Would make sure that we can do the exits as well.
+
+89
+00:18:37.570 --> 00:18:48.370
+Parithosh Jayanthi: Sounds good. To carry on there, I also posted a message about disabling block production and then re-enabling it, and that's also leading to some
+
+90
+00:18:48.870 --> 00:19:00.909
+Parithosh Jayanthi: Some issues with the network, healing afterwards, but yeah, I guess there's still a lot of fixes for ePBS DevNet 0 before we go to DevNet 1, right? And I guess Alpha 3 will be what we use for DevNet 1?
+
+91
+00:19:03.050 --> 00:19:04.699
+Barnabas: Yes, most likely.
+
+92
+00:19:06.460 --> 00:19:18.239
+Potuz: Don't we want the PTC… I mean, we've discussed this in the breakout, but I think we want the PTC loop behind, or look ahead, one way of it, for the next advent.
+
+93
+00:19:18.240 --> 00:19:22.589
+Parithosh Jayanthi: Okay, so there's probably going to be another release, before that. Okay.
+
+94
+00:19:26.070 --> 00:19:42.170
+Parithosh Jayanthi: Cool. The next point on the agenda was, update from the gas repricing, effort. Do we have any more insight into numbers, where we are in terms of getting them, and when we want to sequence these into DevNets?
+
+95
+00:19:56.440 --> 00:20:02.969
+Parithosh Jayanthi: Okay, I think the relevant people might just not be here today. Okay, we can do that on async.
+
+96
+00:20:03.710 --> 00:20:15.919
+Parithosh Jayanthi: There was maybe one other agenda item before we switch to breakout rooms. The item was from Spencer talking about, SFI and EIPs.
+
+97
+00:20:16.180 --> 00:20:23.429
+Parithosh Jayanthi: Spencer, do you want to first bring up the point, and then I think Tony and I had some follow-up points over there?
+
+98
+00:20:25.520 --> 00:20:32.310
+spencer: Yeah, sure. I guess, just some context, so… And personally, I would, like.
+
+99
+00:20:32.530 --> 00:20:36.329
+spencer: us to SFI EIPs a bit faster,
+
+100
+00:20:36.820 --> 00:20:39.869
+spencer: Kind of aligning more with the network upgrades.
+
+101
+00:20:40.370 --> 00:20:44.329
+spencer: Including EIP, so EIP7723.
+
+102
+00:20:45.220 --> 00:20:50.989
+spencer: And selfishly, on the steel side on eels, we only include
+
+103
+00:20:51.920 --> 00:20:57.190
+spencer: EIPs, or we only merge EIPs into our main…
+
+104
+00:20:57.430 --> 00:21:00.270
+spencer: Our main branch, Forks Amsterdam, wants to recified.
+
+105
+00:21:00.700 --> 00:21:06.049
+spencer: it's a process that we like to keep, but we can also change that. But, I guess right now.
+
+106
+00:21:06.890 --> 00:21:18.240
+spencer: For Amsterdam, we've been having, like, a lot of, a lot of issues with, consistently having to have all these, conflicts between EIPs when creating the DevNet branches, because we don't…
+
+107
+00:21:18.670 --> 00:21:24.559
+spencer: yet have these EIPs specified, so we can't merge them in earlier into our works Amsterdam.
+
+108
+00:21:25.020 --> 00:21:28.199
+spencer: branch. So that's the kind of the selfish side.
+
+109
+00:21:28.390 --> 00:21:29.830
+spencer: From steel.
+
+110
+00:21:30.270 --> 00:21:36.950
+spencer: I guess the other benefit of SFI earlier is the downstream effects it would have.
+
+111
+00:21:37.510 --> 00:21:39.209
+spencer: For the community.
+
+112
+00:21:39.780 --> 00:21:42.260
+spencer: And… but yeah, I guess,
+
+113
+00:21:42.430 --> 00:21:45.099
+spencer: the main reason I brought this up is because…
+
+114
+00:21:45.670 --> 00:21:52.470
+spencer: In the network upgrade EIP, 7723, we staked
+
+115
+00:21:52.600 --> 00:21:58.909
+spencer: When client teams agree to implement a core EIP in the next upgrade DevNet, the EIP should move to
+
+116
+00:21:59.500 --> 00:22:10.289
+spencer: The SFI stage and the upgrade EIP should be updated to reflect this. We also state, SFI signals that implementation and testing work are underway.
+
+117
+00:22:10.900 --> 00:22:19.789
+spencer: the EIP should be included in the network upgrades if no issues arise. Now, I know, like, the key word here is should, doesn't say must.
+
+118
+00:22:21.430 --> 00:22:33.760
+spencer: But my gut feeling is that should apply to the majority of EIPs, and then the must should, I guess, negate that. So, my feeling is that maybe, like, 70-80% of the EIPs should
+
+119
+00:22:34.650 --> 00:22:36.570
+spencer: She'd follow this,
+
+120
+00:22:37.320 --> 00:22:50.280
+spencer: And I, yeah, I do… I do… I don't think it's the best idea to just say the EIP has been added to a DevNet, therefore we must SFI it. I think we could maybe change the terminology a bit to
+
+121
+00:22:51.130 --> 00:22:59.960
+spencer: state that, EIPs can be SFI'd once it's successful in a DevNet. So, for example, all the EIPs that have been successful on DevNet 2,
+
+122
+00:23:00.260 --> 00:23:04.010
+spencer: I feel like she'd be SFI'd by now,
+
+123
+00:23:04.340 --> 00:23:08.729
+spencer: But yeah, I guess I just wanted to bring this up as a general process question.
+
+124
+00:23:12.190 --> 00:23:26.289
+Parithosh Jayanthi: Yeah, maybe, sharing… I already posted my thoughts on the, on the topic in the issue as well, but, thanks for the context, I think that helps a ton. Probably…
+
+125
+00:23:26.410 --> 00:23:35.019
+Parithosh Jayanthi: The biggest fear for me is that we SFI something. It has a relation with another EIP that we only haven't included in a DevNet.
+
+126
+00:23:35.340 --> 00:23:38.639
+Parithosh Jayanthi: Because of differing complexity, and then…
+
+127
+00:23:39.520 --> 00:23:55.290
+Parithosh Jayanthi: we have to kind of backtrack the SFI-ing, if we SFI too early. There's probably a middle path over there where if an EIP doesn't have any interactions with other EIPs, or any foreseeable interactions with other EIPs, as well as is deemed
+
+128
+00:23:55.300 --> 00:24:10.660
+Parithosh Jayanthi: well implemented and testing coverage is good, then we can SSI it. But at least from my perspective, I think this makes more sense to do one ACD rather than ACDT until ACD explicitly says ACDT can take a call on this.
+
+129
+00:24:10.910 --> 00:24:14.279
+Parithosh Jayanthi: Yeah, that was, I guess, high-level thoughts, but…
+
+130
+00:24:14.470 --> 00:24:21.749
+Parithosh Jayanthi: yeah, open to other opinions or decisions. Do we want to SFI stuff on this call, or do we want to defer that to ACD?
+
+131
+00:24:37.520 --> 00:24:38.830
+Parithosh Jayanthi: Yeah, Tony?
+
+132
+00:24:39.870 --> 00:24:43.509
+Toni Wahrstätter: Yeah, I agree with you. I think we should do that on ACD.
+
+133
+00:24:43.670 --> 00:24:44.680
+Toni Wahrstätter: And…
+
+134
+00:24:45.380 --> 00:24:57.850
+Toni Wahrstätter: Yeah, so far, there haven't been many definites, so not many EAPs were already on DevNets, but maybe this week on ACD, we can already take a decision on a few of them that were already on DevNet.
+
+135
+00:24:58.070 --> 00:25:01.169
+Toni Wahrstätter: Two, and that don't interact with,
+
+136
+00:25:01.320 --> 00:25:04.229
+Toni Wahrstätter: many other EIPs, and we can already SFI them.
+
+137
+00:25:04.380 --> 00:25:11.699
+Toni Wahrstätter: Especially, like Spencer said, to give the community, like, more certainty about what is going to… Ship, or whatnot.
+
+138
+00:25:17.310 --> 00:25:27.560
+Parithosh Jayanthi: Yeah, that makes sense. I think the list that Spencer shared already makes sense. I think he also has a PR to update them, right?
+
+139
+00:25:28.570 --> 00:25:30.040
+Parithosh Jayanthi: Yes, he does.
+
+140
+00:25:30.180 --> 00:25:39.230
+Parithosh Jayanthi: So, in general, is anyone opposed to Spencer presenting this list on Thursday, and then getting ACD's approval for SFI?
+
+141
+00:25:43.610 --> 00:25:49.399
+spencer: And note, this list contains all the EIPs in DevNet 3, so… I think we might need to filter it down.
+
+142
+00:25:50.050 --> 00:25:56.630
+Parithosh Jayanthi: Sorry, okay. I guess you can post a list on ETH R&D and then solicit feedback there?
+
+143
+00:25:56.630 --> 00:25:58.230
+spencer: Sure, sure, sounds good.
+
+144
+00:25:59.270 --> 00:26:03.720
+Toni Wahrstätter: And we could also… we could start with only the EIPs from DevNet2,
+
+145
+00:26:03.980 --> 00:26:10.040
+Toni Wahrstätter: Because we don't even know if they work yet, we haven't launched FN3 yet, so maybe it would make sense to do that, like…
+
+146
+00:26:10.250 --> 00:26:11.600
+Toni Wahrstätter: One after another.
+
+147
+00:26:12.210 --> 00:26:14.290
+Toni Wahrstätter: But I have no strong opinion on that.
+
+148
+00:26:19.650 --> 00:26:30.189
+spencer: I guess, like, the main reason I brought this up was not necessarily to SFI the EIPs, but, like, should we change what we state in the network upgrade inclusion EIP to, kind of.
+
+149
+00:26:30.410 --> 00:26:35.210
+spencer: Align more with, a slightly different process of, like, okay, the…
+
+150
+00:26:36.450 --> 00:26:40.200
+spencer: the AIPs in the previous DevNet were stable, we should SFI them
+
+151
+00:26:40.440 --> 00:26:47.019
+spencer: Assuming that, yeah, there's no future conflicts with other EIPs that we may see in the future. I guess, like, that's…
+
+152
+00:26:47.150 --> 00:26:51.900
+spencer: That was kind of the main question. I don't want to take up too much more time here.
+
+153
+00:26:54.800 --> 00:26:58.559
+Parithosh Jayanthi: Yeah, maybe vulnerables for last points, and then we can move on.
+
+154
+00:26:58.870 --> 00:27:11.540
+Barnabas: Yeah, just one point that, for example, EIP-7637, the state creation gas cost increase, the IP, is not really finalized yet, so I would actually make sure that
+
+155
+00:27:11.780 --> 00:27:21.250
+Barnabas: We're not gonna SFI a half-complete EIP, because, yeah, right now it's just using some hard-coded version for .NET3.
+
+156
+00:27:21.390 --> 00:27:39.350
+Barnabas: So, I would not feel comfortable specifying that EIP in that… its current form. So, unless we're actually gonna be doing the seed creation gas cost increase properly, I would keep that away from the list, even if we do end up including it in the mystery.
+
+157
+00:27:42.660 --> 00:27:52.220
+Parithosh Jayanthi: Yeah, for sure. I think the same should apply for us putting in a change that requires a repricing later on. I think we should SSI EIPs
+
+158
+00:27:52.340 --> 00:28:00.870
+Parithosh Jayanthi: That we just see having very few interactions, and has already been tested adequately, and has implementation that's already in the final stage.
+
+159
+00:28:07.710 --> 00:28:09.810
+Parithosh Jayanthi: Okay, cool.
+
+160
+00:28:09.940 --> 00:28:17.850
+Parithosh Jayanthi: That's, I think, everything on the agenda. Are there any other topics people wanted to bring up before we head to breakout rooms?
+
+161
+00:28:24.140 --> 00:28:30.680
+Parithosh Jayanthi: Okay, if that's the case, I will… Create the rooms now.
+
+162
+00:28:30.970 --> 00:28:46.099
+Parithosh Jayanthi: Please note that the rooms won't be recorded, at least not right now. There also won't be a transcript, so if you're participating in one of the two rooms and make, make notes, please do post them on EthR&D so that we can, collect them later on.
+
+163
+00:28:47.600 --> 00:28:49.339
+Parithosh Jayanthi: And yes.
+
+164
+00:28:49.820 --> 00:28:52.950
+Parithosh Jayanthi: You should be able to choose a breakout room now.
+
+165
+00:29:31.440 --> 00:29:33.779
+Toni Wahrstätter: Is it only me, or is this…
+
+166
+00:29:33.990 --> 00:29:37.540
+Toni Wahrstätter: button I should click, like, outside my window, I can't click it.
+
+167
+00:29:38.630 --> 00:29:40.339
+Stefan Starflinger: I can't even see one.
+
+168
+00:29:40.730 --> 00:29:41.360
+Toni Wahrstätter: It's amazing.
+
+169
+00:29:41.360 --> 00:29:41.970
+Karim T. (matkt): students.
+
+170
+00:29:42.810 --> 00:29:44.539
+Parithosh Jayanthi: Is no one able to see the results?
+
+171
+00:29:44.540 --> 00:29:46.519
+Milos: And it should give a pop-up.
+
+172
+00:29:47.290 --> 00:29:47.950
+Parithosh Jayanthi: Yeah.
+
+173
+00:29:48.120 --> 00:29:50.149
+Parithosh Jayanthi: There's people joining the rooms.
+
+174
+00:29:51.910 --> 00:29:53.540
+Stefan Starflinger: Where should we see them?
+
+175
+00:29:54.120 --> 00:29:57.930
+Pooja Ranjan: Click on More, and then you will see breakout room in progress.
+
+176
+00:30:05.370 --> 00:30:11.219
+Parithosh Jayanthi: Thanks. Okay, let me just manually assign you, if I can, Rakan.
+
+177
+00:30:13.320 --> 00:30:14.240
+Dragan Rakita: Appreciate it.
+
+178
+00:30:25.150 --> 00:30:26.630
+Dragan Rakita: Shit, no.
+
+179
+01:06:28.260 --> 01:06:30.870
+Parithosh Jayanthi: Yep. Thanks, everyone, for coming. Bye.
+
+180
+01:06:32.450 --> 01:06:33.860
+Toni Wahrstätter: Thank you. Bye-bye.
+
+181
+01:06:34.030 --> 01:06:34.700
+Louis: Thank you.
+
