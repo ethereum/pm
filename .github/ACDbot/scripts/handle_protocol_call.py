@@ -861,15 +861,52 @@ The bot will automatically process your issue once you've selected a valid call 
                 from modules import zoom
                 try:
                     topic = self._get_zoom_meeting_title(call_data)
-                    update_result = zoom.update_meeting(
-                        existing_meeting_id,
-                        topic,
-                        call_data["start_time"],
-                        call_data["duration"]
-                    )
+
+                    # Check if this is a recurring meeting that needs an
+                    # occurrence-level time update rather than a series-level update.
+                    meeting_details = zoom.get_meeting(existing_meeting_id)
+                    if zoom.is_recurring_meeting(meeting_details):
+                        occurrences = meeting_details.get("occurrences", [])
+                        target_occ = zoom.find_occurrence_for_date(
+                            occurrences, call_data["start_time"]
+                        )
+
+                        if target_occ and zoom.needs_time_update(
+                            target_occ,
+                            call_data["start_time"],
+                            call_data["duration"],
+                        ):
+                            update_result = zoom.update_meeting_occurrence(
+                                existing_meeting_id,
+                                target_occ["occurrence_id"],
+                                call_data["start_time"],
+                                call_data["duration"],
+                            )
+                            print(f"[SUCCESS] Updated occurrence {target_occ['occurrence_id']} of Zoom meeting {existing_meeting_id}")
+                        else:
+                            # Series-level update (topic only, or no time change needed)
+                            update_result = zoom.update_meeting(
+                                existing_meeting_id,
+                                topic,
+                                call_data["start_time"],
+                                call_data["duration"],
+                            )
+                            if target_occ:
+                                print(f"[DEBUG] Recurring meeting occurrence found, no time change needed")
+                            else:
+                                print(f"[WARN] No occurrence found for date {call_data['start_time']} in recurring meeting {existing_meeting_id}")
+                            print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
+                    else:
+                        update_result = zoom.update_meeting(
+                            existing_meeting_id,
+                            topic,
+                            call_data["start_time"],
+                            call_data["duration"],
+                        )
+                        print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
+
                     # Use the official join_url from API response, or construct fallback
                     result["zoom_url"] = update_result.get("join_url") or f"https://zoom.us/j/{existing_meeting_id}"
-                    print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
                 except Exception as zoom_error:
                     # Handle permission/auth errors gracefully for edits
                     error_text = str(zoom_error).lower()

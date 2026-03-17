@@ -1,6 +1,6 @@
 import requests
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
 import urllib.parse
 import calendar
@@ -30,7 +30,24 @@ _refresh_token_logged = False
 auth_token_url = "https://zoom.us/oauth/token"
 api_base_url = "https://api.zoom.us/v2"
 
+def ensure_utc(start_time):
+    """
+    Validate that *start_time* is an explicit UTC timestamp and return it in
+    canonical ``…Z`` form.
+
+    Accepts ``Z`` suffix or ``+00:00`` / ``-00:00`` offsets.  Raises
+    ``ValueError`` for naive datetimes or non-UTC offsets.
+    """
+    dt = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
+    if dt.tzinfo is None or dt.utcoffset() != timedelta(0):
+        raise ValueError(
+            f"start_time must be in UTC, got: {start_time}"
+        )
+    return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 def create_meeting(topic, start_time, duration):
+    start_time = ensure_utc(start_time)
 
     access_token = get_access_token()
 
@@ -436,6 +453,7 @@ def update_meeting(meeting_id, topic, start_time, duration):
     :param duration: Updated duration in minutes.
     :return: A dict confirming the update.
     """
+    start_time = ensure_utc(start_time)
     access_token = get_access_token()
     headers = {
         "Authorization": f"Bearer {access_token}",
@@ -462,6 +480,124 @@ def update_meeting(meeting_id, topic, start_time, duration):
         "message": "Meeting updated successfully"
     }
 
+def is_recurring_meeting(meeting_details):
+    """
+    Check if a Zoom meeting is recurring based on its type.
+
+    Zoom meeting types:
+      1 = instant, 2 = scheduled, 3 = recurring (no fixed time), 8 = recurring (fixed time)
+
+    :param meeting_details: Dict of meeting details from the Zoom API.
+    :return: True if the meeting is recurring (type 3 or 8).
+    """
+    return meeting_details.get("type") in (3, 8)
+
+
+def find_occurrence_for_date(occurrences, target_start_time):
+    """
+    Find the Zoom occurrence whose date matches the target start time.
+
+    Matches by UTC date only (ignores time-of-day) so that a time *change*
+    for an existing occurrence can still locate it.
+
+    :param occurrences: List of occurrence dicts from the Zoom API, each with
+                        at least an ``occurrence_id`` and ``start_time`` key.
+    :param target_start_time: ISO 8601 datetime string for the desired date.
+    :return: The matching occurrence dict, or None.
+    """
+    target_dt = datetime.fromisoformat(target_start_time.replace("Z", "+00:00"))
+    target_date = target_dt.date()
+
+    for occ in occurrences:
+        occ_dt = datetime.fromisoformat(occ["start_time"].replace("Z", "+00:00"))
+        if occ_dt.date() == target_date:
+            return occ
+
+    return None
+
+
+def needs_time_update(occurrence, new_start_time, new_duration):
+    """
+    Determine whether a Zoom occurrence needs a time/duration update.
+
+    :param occurrence: Occurrence dict with ``start_time`` and optionally ``duration``.
+    :param new_start_time: Requested start time (ISO 8601).
+    :param new_duration: Requested duration in minutes, or None to skip duration comparison.
+    :return: True if the occurrence's time or duration differs from the requested values.
+    """
+    occ_dt = datetime.fromisoformat(occurrence["start_time"].replace("Z", "+00:00"))
+    new_dt = datetime.fromisoformat(new_start_time.replace("Z", "+00:00"))
+
+    if occ_dt != new_dt:
+        return True
+
+    if new_duration is not None:
+        occ_duration = occurrence.get("duration")
+        if occ_duration != new_duration:
+            return True
+
+    return False
+
+
+def list_meeting_occurrences(meeting_id):
+    """
+    List occurrences of a recurring Zoom meeting.
+
+    Calls GET /meetings/{meetingId} and returns the ``occurrences`` list.
+    Each occurrence dict contains at minimum ``occurrence_id``, ``start_time``,
+    ``duration``, and ``status``.
+
+    :param meeting_id: Zoom meeting ID (the series-level ID).
+    :return: List of occurrence dicts, or an empty list if the meeting is not
+             recurring or has no future occurrences.
+    """
+    meeting_details = get_meeting(meeting_id)
+    return meeting_details.get("occurrences", [])
+
+
+def update_meeting_occurrence(meeting_id, occurrence_id, start_time, duration):
+    """
+    Update a single occurrence of a recurring Zoom meeting.
+
+    Uses PATCH /meetings/{meetingId}?occurrence_id={occurrenceId} so only
+    the specified occurrence is changed, not the entire series.
+
+    :param meeting_id: Zoom meeting ID (the series-level ID).
+    :param occurrence_id: The occurrence_id from list_meeting_occurrences().
+    :param start_time: New start time in ISO 8601 format.
+    :param duration: New duration in minutes.
+    :return: A dict confirming the update.
+    """
+    start_time = ensure_utc(start_time)
+    access_token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "start_time": start_time,
+        "duration": duration
+    }
+    update_url = f"{api_base_url}/meetings/{meeting_id}?occurrence_id={occurrence_id}"
+    resp = requests.patch(update_url, headers=headers, json=payload)
+
+    if resp.status_code != 204:
+        print(f"Error updating occurrence {occurrence_id} of meeting {meeting_id}: {resp.status_code} {resp.text}")
+        resp.raise_for_status()
+
+    print(f"[SUCCESS] Updated occurrence {occurrence_id} of Zoom meeting {meeting_id}")
+
+    # Get updated meeting details to retrieve join_url
+    meeting_details = get_meeting(meeting_id)
+
+    return {
+        "id": meeting_id,
+        "occurrence_id": occurrence_id,
+        "join_url": meeting_details["join_url"],
+        "message": "Occurrence updated successfully"
+    }
+
+
 def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     """
     Creates a recurring Zoom meeting
@@ -473,6 +609,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
     Returns:
         Tuple of (join_url, meeting_id)
     """
+    start_time = ensure_utc(start_time)
     access_token = get_access_token()
 
     headers = {
