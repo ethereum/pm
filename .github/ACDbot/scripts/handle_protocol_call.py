@@ -887,12 +887,16 @@ The bot will automatically process your issue once you've selected a valid call 
                         elif not target_occ:
                             print(f"[WARN] No occurrence found for date {call_data['start_time']} in recurring meeting {existing_meeting_id}")
 
-                        # Update the series for topic/timezone only — omit
-                        # start_time and duration so Zoom doesn't
-                        # reinterpret them under the new timezone.
+                        # Update the series with the issue's known-good UTC
+                        # time so future occurrences use this schedule.
+                        # We use call_data (form input) rather than
+                        # meeting_details (Zoom API) to avoid timezone
+                        # reinterpretation when correcting to UTC.
                         update_result = zoom.update_meeting(
                             existing_meeting_id,
                             topic,
+                            call_data["start_time"],
+                            call_data["duration"],
                         )
                         if meeting_details.get("timezone") != "UTC":
                             print(f"[SUCCESS] Corrected Zoom meeting series {existing_meeting_id} timezone to UTC")
