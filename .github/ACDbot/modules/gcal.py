@@ -516,6 +516,73 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
         print(f"::error::{error_msg}")
         raise
 
+def delete_calendar_instance(event_id, target_date, calendar_id):
+    """Delete a single instance of a recurring Google Calendar event.
+
+    Args:
+        event_id: ID of the recurring calendar event series
+        target_date: date object for the instance to delete
+        calendar_id: Google Calendar ID
+
+    Returns:
+        True if deleted, False if instance not found
+    """
+    print(f"[DEBUG] Attempting to delete calendar instance for event {event_id} on {target_date}")
+
+    try:
+        service = get_calendar_service()
+
+        # Build a ±7 day window around the target date
+        target_dt = datetime.combine(target_date, datetime.min.time()).replace(tzinfo=pytz.utc)
+        time_min = (target_dt - timedelta(days=7)).isoformat()
+        time_max = (target_dt + timedelta(days=7)).isoformat()
+
+        print(f"[DEBUG] Searching for instances between {time_min} and {time_max}")
+
+        instances = service.events().instances(
+            calendarId=calendar_id,
+            eventId=event_id,
+            timeMin=time_min,
+            timeMax=time_max
+        ).execute()
+
+        print(f"[DEBUG] Found {len(instances.get('items', []))} instances in date range")
+
+        # Find the specific instance for the target date
+        target_instance = None
+        for instance in instances.get('items', []):
+            instance_start = instance.get('start', {}).get('dateTime')
+            if instance_start:
+                instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
+                if instance_dt.date() == target_date:
+                    target_instance = instance
+                    break
+
+        if not target_instance:
+            print(f"[DEBUG] No matching instance found for date {target_date}")
+            return False
+
+        instance_id = target_instance['id']
+        print(f"[DEBUG] Deleting instance {instance_id}")
+
+        service.events().delete(
+            calendarId=calendar_id,
+            eventId=instance_id
+        ).execute()
+
+        print(f"[DEBUG] Successfully deleted calendar instance for {target_date}")
+        return True
+
+    except Exception as e:
+        error_code = getattr(getattr(e, 'resp', None), 'status', None)
+        if error_code in (404, 410):
+            print(f"[DEBUG] Instance already deleted (HTTP {error_code})")
+            return True
+        error_msg = f"Error deleting calendar instance: {str(e)}"
+        print(f"::error::{error_msg}")
+        raise
+
+
 def create_recurring_event(summary: str, start_dt, duration_minutes: int, calendar_id: str, occurrence_rate: str, description=""):
     """
     Creates a recurring Google Calendar event

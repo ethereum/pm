@@ -1,0 +1,43 @@
+name: Cancel Unmapped Calendar Meetings
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (log only, no cancellations)'
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  cancel-unmapped-meetings:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install google-auth google-api-python-client pytz pyyaml
+
+      - name: Cancel unmapped meetings
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python .github/ACDbot/scripts/cancel_unmapped_meetings.py --dry-run
+          else
+            python .github/ACDbot/scripts/cancel_unmapped_meetings.py
+          fi
+        env:
+          GCAL_SERVICE_ACCOUNT_KEY: ${{ secrets.GCAL_SERVICE_ACCOUNT_KEY }}
+          GCAL_ID: ${{ vars.GCAL_ID }}
