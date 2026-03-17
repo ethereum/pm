@@ -443,18 +443,17 @@ def get_meeting(meeting_id):
 
     return response.json()
 
-def update_meeting(meeting_id, topic, start_time, duration):
+def update_meeting(meeting_id, topic, start_time=None, duration=None):
     """
     Updates an existing Zoom meeting using the PATCH method.
     See Zoom API documentation: https://developers.zoom.us/docs/api/meetings/#tag/meetings/PATCH/meetings/{meetingId}
 
     :param meeting_id: Zoom meeting ID to update.
     :param topic: Updated meeting topic/title.
-    :param start_time: Updated start time in ISO 8601 format (e.g., "2025-01-18T14:00:00Z").
-    :param duration: Updated duration in minutes.
+    :param start_time: Updated start time in ISO 8601 format, or None to leave unchanged.
+    :param duration: Updated duration in minutes, or None to leave unchanged.
     :return: A dict confirming the update.
     """
-    start_time = ensure_utc(start_time)
     access_token = get_access_token()
     headers = {
         "Authorization": f"Bearer {access_token}",
@@ -462,10 +461,12 @@ def update_meeting(meeting_id, topic, start_time, duration):
     }
     payload = {
         "topic": topic,
-        "start_time": start_time,
-        "duration": duration,
         "timezone": "UTC",
     }
+    if start_time is not None:
+        payload["start_time"] = ensure_utc(start_time)
+    if duration is not None:
+        payload["duration"] = duration
     update_url = f"{api_base_url}/meetings/{meeting_id}"
     resp = requests.patch(update_url, headers=headers, json=payload)
 
