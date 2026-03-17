@@ -866,6 +866,7 @@ The bot will automatically process your issue once you've selected a valid call 
                     # occurrence-level time update rather than a series-level update.
                     meeting_details = zoom.get_meeting(existing_meeting_id)
                     if zoom.is_recurring_meeting(meeting_details):
+                        # Update the specific occurrence if its time differs.
                         occurrences = meeting_details.get("occurrences", [])
                         target_occ = zoom.find_occurrence_for_date(
                             occurrences, call_data["start_time"]
@@ -883,19 +884,24 @@ The bot will automatically process your issue once you've selected a valid call 
                                 call_data["duration"],
                             )
                             print(f"[SUCCESS] Updated occurrence {target_occ['occurrence_id']} of Zoom meeting {existing_meeting_id}")
+                        elif not target_occ:
+                            print(f"[WARN] No occurrence found for date {call_data['start_time']} in recurring meeting {existing_meeting_id}")
+
+                        # Update the series for topic/timezone using the
+                        # series' own start_time so we don't shift all
+                        # future occurrences.
+                        series_start = meeting_details.get("start_time", call_data["start_time"])
+                        series_duration = meeting_details.get("duration", call_data["duration"])
+                        update_result = zoom.update_meeting(
+                            existing_meeting_id,
+                            topic,
+                            series_start,
+                            series_duration,
+                        )
+                        if meeting_details.get("timezone") != "UTC":
+                            print(f"[SUCCESS] Corrected Zoom meeting series {existing_meeting_id} timezone to UTC")
                         else:
-                            # Series-level update (topic only, or no time change needed)
-                            update_result = zoom.update_meeting(
-                                existing_meeting_id,
-                                topic,
-                                call_data["start_time"],
-                                call_data["duration"],
-                            )
-                            if target_occ:
-                                print(f"[DEBUG] Recurring meeting occurrence found, no time change needed")
-                            else:
-                                print(f"[WARN] No occurrence found for date {call_data['start_time']} in recurring meeting {existing_meeting_id}")
-                            print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
+                            print(f"[SUCCESS] Updated Zoom meeting series {existing_meeting_id}")
                     else:
                         update_result = zoom.update_meeting(
                             existing_meeting_id,

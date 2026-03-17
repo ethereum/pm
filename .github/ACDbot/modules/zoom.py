@@ -64,6 +64,7 @@ def create_meeting(topic, start_time, duration):
         "type": 2,  # Scheduled meeting
         "start_time": start_time,  # ISO 8601 format, e.g., "2025-01-18T14:00:00Z"
         "duration": duration,  # Duration in minutes
+        "timezone": "UTC",
         "settings": {
             "auto_start_meeting_summary": True,
             "auto_start_ai_companion_questions": True,
@@ -462,7 +463,8 @@ def update_meeting(meeting_id, topic, start_time, duration):
     payload = {
         "topic": topic,
         "start_time": start_time,
-        "duration": duration
+        "duration": duration,
+        "timezone": "UTC",
     }
     update_url = f"{api_base_url}/meetings/{meeting_id}"
     resp = requests.patch(update_url, headers=headers, json=payload)
@@ -539,22 +541,6 @@ def needs_time_update(occurrence, new_start_time, new_duration):
     return False
 
 
-def list_meeting_occurrences(meeting_id):
-    """
-    List occurrences of a recurring Zoom meeting.
-
-    Calls GET /meetings/{meetingId} and returns the ``occurrences`` list.
-    Each occurrence dict contains at minimum ``occurrence_id``, ``start_time``,
-    ``duration``, and ``status``.
-
-    :param meeting_id: Zoom meeting ID (the series-level ID).
-    :return: List of occurrence dicts, or an empty list if the meeting is not
-             recurring or has no future occurrences.
-    """
-    meeting_details = get_meeting(meeting_id)
-    return meeting_details.get("occurrences", [])
-
-
 def update_meeting_occurrence(meeting_id, occurrence_id, start_time, duration):
     """
     Update a single occurrence of a recurring Zoom meeting.
@@ -576,7 +562,8 @@ def update_meeting_occurrence(meeting_id, occurrence_id, start_time, duration):
     }
     payload = {
         "start_time": start_time,
-        "duration": duration
+        "duration": duration,
+        "timezone": "UTC",
     }
     update_url = f"{api_base_url}/meetings/{meeting_id}?occurrence_id={occurrence_id}"
     resp = requests.patch(update_url, headers=headers, json=payload)
@@ -584,8 +571,6 @@ def update_meeting_occurrence(meeting_id, occurrence_id, start_time, duration):
     if resp.status_code != 204:
         print(f"Error updating occurrence {occurrence_id} of meeting {meeting_id}: {resp.status_code} {resp.text}")
         resp.raise_for_status()
-
-    print(f"[SUCCESS] Updated occurrence {occurrence_id} of Zoom meeting {meeting_id}")
 
     # Get updated meeting details to retrieve join_url
     meeting_details = get_meeting(meeting_id)
@@ -715,6 +700,7 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         "type": 8,  # Recurring meeting with fixed time
         "start_time": formatted_start_time, # Use the formatted original start time
         "duration": duration,
+        "timezone": "UTC",
         "recurrence": recurrence,
         "settings": {
             "auto_start_meeting_summary": True,

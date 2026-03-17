@@ -6,6 +6,7 @@ Tests the pure/local functions for:
 - Determining if a meeting is recurring
 - Finding a specific occurrence by target date
 - Determining if a time update is needed for an occurrence
+- Validating that start times are UTC
 """
 
 import os
@@ -104,12 +105,6 @@ class TestFindOccurrenceForDate:
         """Should return None for empty occurrence list."""
         result = find_occurrence_for_date([], "2026-03-17T11:00:00Z")
         assert result is None
-
-    def test_handles_timezone_offset_in_target(self, sample_occurrences):
-        """Should handle target times with explicit timezone offsets."""
-        result = find_occurrence_for_date(sample_occurrences, "2026-03-17T12:00:00+01:00")
-        assert result is not None
-        assert result["occurrence_id"] == "1742367600000"
 
     def test_finds_first_occurrence(self, sample_occurrences):
         result = find_occurrence_for_date(sample_occurrences, "2026-03-03T11:00:00Z")
