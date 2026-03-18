@@ -1,0 +1,1666 @@
+WEBVTT
+
+1
+00:00:08.170 --> 00:00:09.000
+Justin Florentine (Besu): V?
+
+2
+00:00:10.040 --> 00:00:11.910
+Justin Florentine (Besu): How did you guys get in?
+
+3
+00:00:14.370 --> 00:00:14.880
+Luis: What?
+
+4
+00:00:15.350 --> 00:00:16.040
+Anthony: We're stuck in.
+
+5
+00:00:18.980 --> 00:00:19.620
+Gottfried Herold: Hello.
+
+6
+00:00:20.670 --> 00:00:21.720
+Anthony: Hello?
+
+7
+00:00:23.800 --> 00:00:28.670
+Justin Florentine (Besu): So I guess when you leave a meeting and transfer being the host to somebody else…
+
+8
+00:00:29.020 --> 00:00:31.240
+Justin Florentine (Besu): That's not good enough.
+
+9
+00:00:35.840 --> 00:00:37.230
+Justin Florentine (Besu): Great stuff, Sam.
+
+10
+00:00:41.490 --> 00:00:42.900
+Anthony: We got it sorted.
+
+11
+00:00:44.510 --> 00:00:51.040
+Justin Florentine (Besu): Sure. Hi, everybody. Welcome to Encrypted Mempool Working Group.
+
+12
+00:00:51.340 --> 00:00:53.630
+Justin Florentine (Besu): It normally starts 10 minutes ago.
+
+13
+00:00:54.320 --> 00:01:03.590
+Justin Florentine (Besu): So let's jump… jump into things here. I think folks are gonna start trickling in. I'm gonna go send a message real quick to…
+
+14
+00:01:04.129 --> 00:01:05.850
+Justin Florentine (Besu): To let people know.
+
+15
+00:01:06.570 --> 00:01:13.000
+Justin Florentine (Besu): We don't have a ton on the… well, we do have a ton on the agenda, look at this, new stuff's coming in. Great, great, great, great.
+
+16
+00:01:15.020 --> 00:01:16.900
+Justin Florentine (Besu): Alright…
+
+17
+00:01:27.040 --> 00:01:28.360
+Justin Florentine (Besu): Unbelievable. Every time.
+
+18
+00:01:41.320 --> 00:01:45.000
+Justin Florentine (Besu): And just tell people what's up now…
+
+19
+00:02:00.520 --> 00:02:03.569
+Justin Florentine (Besu): Alright, so is folks here, good stuff.
+
+20
+00:02:11.680 --> 00:02:15.580
+Justin Florentine (Besu): Okay.
+
+21
+00:02:32.170 --> 00:02:34.839
+Justin Florentine (Besu): So, encrypt in the mempool!
+
+22
+00:02:36.340 --> 00:02:42.640
+Justin Florentine (Besu): This is fun. Okay, we've got our EIP number for the Lucid design. That's cool, 8184.
+
+23
+00:02:43.380 --> 00:02:44.519
+Justin Florentine (Besu): Good stuff.
+
+24
+00:02:45.300 --> 00:02:47.209
+Justin Florentine (Besu): Good stuff.
+
+25
+00:02:50.580 --> 00:02:57.130
+Justin Florentine (Besu): New additions to the agenda… wow, okay. Improved back running efficiency.
+
+26
+00:02:59.060 --> 00:03:06.680
+Justin Florentine (Besu): Let's see, how do we want to organize all this? And maybe we should talk about some design, questions up front with regard to…
+
+27
+00:03:09.030 --> 00:03:14.740
+Justin Florentine (Besu): On-chain versus off-chain implementations, trust performance implications, that's a good one.
+
+28
+00:03:17.290 --> 00:03:23.449
+Justin Florentine (Besu): Back running efficiency, let's see… Luis, are these your suggestions?
+
+29
+00:03:24.140 --> 00:03:24.680
+Luis: Yep.
+
+30
+00:03:25.430 --> 00:03:27.859
+Justin Florentine (Besu): I think that… Anders, welcome.
+
+31
+00:03:29.830 --> 00:03:40.910
+Justin Florentine (Besu): So I think I wanted to… there's, there's 3 things that I wanted to cover, specifically, observability.
+
+32
+00:03:41.200 --> 00:03:50.579
+Justin Florentine (Besu): Right? A demonstrator stack, And then… I wanted to talk about… hey, Anders, I wanted to talk about,
+
+33
+00:03:52.380 --> 00:03:59.029
+Justin Florentine (Besu): So I spoke's recently dropped proposal for encrypted frame transactions. It's literally just got published.
+
+34
+00:03:59.380 --> 00:04:00.239
+Justin Florentine (Besu): I don't know.
+
+35
+00:04:00.770 --> 00:04:03.079
+Justin Florentine (Besu): 20 minutes ago, half hour ago.
+
+36
+00:04:03.550 --> 00:04:08.529
+Justin Florentine (Besu): So, I guess, I guess let's start with the top, from the top.
+
+37
+00:04:09.010 --> 00:04:11.850
+Justin Florentine (Besu): A demonstrator in observability.
+
+38
+00:04:12.130 --> 00:04:15.609
+Justin Florentine (Besu): If we put the notion of…
+
+39
+00:04:15.730 --> 00:04:22.590
+Justin Florentine (Besu): encrypting the mempool and the design for encrypting the mempool to the side. What would we want to build?
+
+40
+00:04:22.900 --> 00:04:26.740
+Justin Florentine (Besu): To demonstrate the lack of an encrypted mempool.
+
+41
+00:04:26.970 --> 00:04:39.409
+Justin Florentine (Besu): And what would we want to build as kind of a minimal network stack that demonstrated maybe sandwiching, right? And how to observe it, and how to observe that it disappears
+
+42
+00:04:39.430 --> 00:04:49.539
+Justin Florentine (Besu): once, an encrypted mempool design goes live. I think that's a good bucket of work that we need to get done kind of up front.
+
+43
+00:04:49.710 --> 00:04:55.749
+Justin Florentine (Besu): So that can be the thing that we test against, iterate against, and… and evolve.
+
+44
+00:04:56.070 --> 00:04:59.059
+Justin Florentine (Besu): So,
+
+45
+00:05:00.060 --> 00:05:07.709
+Justin Florentine (Besu): Any thoughts on that, as far as what work needs to be done for it? How would you… how would you go about doing it?
+
+46
+00:05:08.990 --> 00:05:18.179
+Luis: two things come up to… come to my mind is one thing that Yannick, our colleague Yannick, has done in the past is, simulated
+
+47
+00:05:18.300 --> 00:05:26.240
+Luis: that, just very basically, like, just simulated a simple AMM model, and then, kind of, with observability and with… or with encrypted and without encrypted.
+
+48
+00:05:26.410 --> 00:05:28.190
+Luis: Transactions, and just kind of, like.
+
+49
+00:05:28.570 --> 00:05:42.769
+Luis: But that's just a… just a model, it's not really a simulation, it's really just a model, I'd say, where I can share the link. And the other thing that we could use more practically would be, yeah, the Gnosis chain, the encrypted mempool on Gnosis chain.
+
+50
+00:05:43.180 --> 00:05:51.879
+Luis: Because, kind of, like, in principle, that is an out-of-protocol implementation of an encrypted memo, right? In theory, we could…
+
+51
+00:05:52.080 --> 00:05:55.910
+Luis: Kind of like… Showcase what happens if you send a
+
+52
+00:05:56.730 --> 00:06:03.489
+Luis: Something we've been thinking about in the past is just running a… Generic frontrunning… Frontrunner…
+
+53
+00:06:03.670 --> 00:06:10.100
+Luis: But on Gnosis chain, and front-running all transactions that don't go through the encrypted mempool.
+
+54
+00:06:10.530 --> 00:06:14.019
+Luis: So, but yeah, just high level, I think the Gnosis chain implementation could be used.
+
+55
+00:06:15.830 --> 00:06:22.809
+Justin Florentine (Besu): So, I'm curious, before we started talking about Gnosis, you were saying, you know.
+
+56
+00:06:23.480 --> 00:06:38.169
+Justin Florentine (Besu): that there was a way to kind of simulate this. Could you elaborate a little bit more on that? Like, because ideally we would have something that would be easy to run local versus a Kurtosis stack, and you could kind of look at it and see, like, oh, here go a bunch of transactions, and you see them getting sandwiched.
+
+57
+00:06:38.170 --> 00:06:46.789
+Justin Florentine (Besu): And then it hits the certain block height, and it activates it, and now the searchers are all sad because they can't find any sandwiches.
+
+58
+00:06:48.800 --> 00:06:49.799
+Luis: Yeah, I think this would…
+
+59
+00:06:49.920 --> 00:06:59.489
+Luis: Yeah, what Yannick built in the past was one step… a precursor to that, I would say. It's more like this very simple model of an AMM, and then kind of, like.
+
+60
+00:06:59.990 --> 00:07:08.229
+Luis: Monte Carlo-wise, simulated transactions, and different ordering, different ways to order, and, like.
+
+61
+00:07:09.010 --> 00:07:11.000
+Luis: Also this, like, the topic of…
+
+62
+00:07:11.120 --> 00:07:17.120
+Luis: How efficient is back running, per transaction backrunning, or per block back running?
+
+63
+00:07:17.280 --> 00:07:20.710
+Luis: But I can… I could share… I could share the link.
+
+64
+00:07:20.970 --> 00:07:23.849
+Luis: But I think maybe it's a precursor to what you're thinking.
+
+65
+00:07:24.990 --> 00:07:31.470
+Justin Florentine (Besu): Interesting. Stefan, you have a note here in chat. Would you care to elaborate?
+
+66
+00:07:35.290 --> 00:07:38.910
+Justin Florentine (Besu): Yes, depending on the timing, we could consider building on top of that.
+
+67
+00:07:39.970 --> 00:07:42.910
+Justin Florentine (Besu): A builder for EPBS. Okay.
+
+68
+00:07:42.910 --> 00:07:49.560
+Stefan Starflinger: Yeah. So… In general, we need just a sequence of transaction, from an AMM,
+
+69
+00:07:49.850 --> 00:08:00.620
+Stefan Starflinger: And you just buy, some token, and then you sandwich this transaction by first buying it cheaper, selling it more expensive, and then just back running again.
+
+70
+00:08:00.730 --> 00:08:05.410
+Stefan Starflinger: And we just need a builder for that, either, like, simulating is a good approach.
+
+71
+00:08:05.590 --> 00:08:10.109
+Stefan Starflinger: But if we have a builder through EPBS anyways.
+
+72
+00:08:10.290 --> 00:08:13.519
+Stefan Starflinger: We could consider using that. That's just an idea.
+
+73
+00:08:16.330 --> 00:08:26.150
+Justin Florentine (Besu): Okay, Luis, can you, maybe take an action item to talk to Yannick and see if what he's got
+
+74
+00:08:26.460 --> 00:08:28.979
+Justin Florentine (Besu): It's been published anywhere?
+
+75
+00:08:29.210 --> 00:08:33.900
+Justin Florentine (Besu): If there's a repo for it, we can take a look at it and try to run that.
+
+76
+00:08:34.789 --> 00:08:35.349
+Luis: Yep.
+
+77
+00:08:35.760 --> 00:08:41.370
+Justin Florentine (Besu): And then… maybe see how the builder fits into it for Stefan's suggestion.
+
+78
+00:08:42.590 --> 00:08:43.140
+Luis: Yep.
+
+79
+00:08:44.110 --> 00:08:45.610
+Justin Florentine (Besu): Does it have…
+
+80
+00:08:46.750 --> 00:09:01.809
+Justin Florentine (Besu): I mean, the other thing that I'm asking from a marketing perspective is… it'd be nice to have, like, a little front end that you could tell a quick story, kind of an elevator pitch, right? So people could actually see the sandwiches and see them, you know, stopping.
+
+81
+00:09:02.060 --> 00:09:07.470
+Justin Florentine (Besu): So I think, I think visualization is an important aspect to this that we want to make sure that we cover.
+
+82
+00:09:09.530 --> 00:09:10.130
+Luis: Yep.
+
+83
+00:09:11.020 --> 00:09:12.989
+Anthony: Yeah, I think that's definitely something we could do.
+
+84
+00:09:14.410 --> 00:09:18.119
+Justin Florentine (Besu): Okay Cool.
+
+85
+00:09:18.300 --> 00:09:22.999
+Justin Florentine (Besu): Is the AI taking notes? It is being transcribed, hooray! Great, I don't have to actually take notes.
+
+86
+00:09:24.120 --> 00:09:27.250
+Justin Florentine (Besu): This is… this is the… this is the future that we were promised.
+
+87
+00:09:27.840 --> 00:09:29.870
+Justin Florentine (Besu): Okay. Cool.
+
+88
+00:09:33.720 --> 00:09:43.379
+Justin Florentine (Besu): Now, that was one of the things that I really cared about. Luis, you had quite a few, bullet points here that we wanted to talk about with regard to…
+
+89
+00:09:44.080 --> 00:09:51.879
+Justin Florentine (Besu): I think defining some of the efficiencies in economics, would you care to elaborate on…
+
+90
+00:09:52.100 --> 00:09:58.559
+Justin Florentine (Besu): The need to improve… To better define the backgrounding efficiency.
+
+91
+00:09:59.370 --> 00:10:01.920
+Luis: Yeah, so this is triggered by,
+
+92
+00:10:02.540 --> 00:10:10.930
+Luis: I think Data Always from… from Flashbars, right, who said… who made this point that… The…
+
+93
+00:10:11.540 --> 00:10:25.519
+Luis: in the current private mempool, landscape, PBS kind of model, usually what you're seeing is that, every individual transaction is more or less getting backrun.
+
+94
+00:10:25.640 --> 00:10:30.830
+Luis: And… And we trust the, the,
+
+95
+00:10:31.060 --> 00:10:43.989
+Luis: the mempool, or the transaction supply chain, to pay back 90%… I mean, I think 90% is a stretch, but I think the ideal thing would be if they pay back 90% to the user.
+
+96
+00:10:44.500 --> 00:10:56.729
+Luis: And then in… as I understand, the in-protocol and crypto mempool are lucid, I think it would be… back running would still be possible, but more, like, on the block.
+
+97
+00:10:56.880 --> 00:11:01.259
+Luis: On the… on the one big transaction, background transaction, per block.
+
+98
+00:11:01.710 --> 00:11:05.549
+Luis: So… and then the argument is that that's…
+
+99
+00:11:05.690 --> 00:11:14.820
+Luis: That, gives users potentially worse prices, one, because there could be still… they could still be off, and they could still have…
+
+100
+00:11:15.080 --> 00:11:17.840
+Luis: They just get less of this back running.
+
+101
+00:11:18.280 --> 00:11:23.059
+Luis: Proceeds, because it's… it's not a granular per transaction thing, but per block.
+
+102
+00:11:23.240 --> 00:11:28.069
+Luis: And then the other… The other threat, I think, there is that you can have…
+
+103
+00:11:28.560 --> 00:11:32.869
+Luis: That… that then that encourages, more…
+
+104
+00:11:33.010 --> 00:11:35.050
+Luis: Probabilistic, or more, kind of, like…
+
+105
+00:11:35.420 --> 00:11:44.440
+Luis: Sort of spamming to, to, on-chain, spamming to on… to… to try to get, to try to get these…
+
+106
+00:11:44.820 --> 00:11:47.619
+Luis: Receipt, the… get the arbitrage profit.
+
+107
+00:11:47.900 --> 00:12:00.499
+Luis: So ideally, I mean, just on a high, very high level, and not technically enough to understand in detail how it would work, but ideally, I think it would be cool if we could get to a design where
+
+108
+00:12:00.630 --> 00:12:05.049
+Luis: the… same… Per transaction back running.
+
+109
+00:12:05.540 --> 00:12:14.010
+Luis: is… Possible in… and Lucid as well, so that, that, that, that efficiency is…
+
+110
+00:12:14.520 --> 00:12:29.840
+Luis: is the same, but I think the first question is probably, is that even desirable? Like, there's also, I think, a case to be made that it's very inefficient to backrun every individual transaction, and maybe it just makes more sense from an economics point of view to have a more… have one big
+
+111
+00:12:30.620 --> 00:12:40.870
+Luis: background transaction. So I guess that would be the first question about, do we even want that? And then second question is, is there a design, is there a modification possible that would allow that in the future?
+
+112
+00:12:41.450 --> 00:12:50.619
+Justin Florentine (Besu): I don't know the answer to the first question. That's kind of a Julian economist rig question, or maybe somebody else has an answer for that.
+
+113
+00:12:50.790 --> 00:12:54.989
+Justin Florentine (Besu): Regarding the second part of it, I think…
+
+114
+00:12:54.990 --> 00:12:56.070
+Anders Elowsson: Yes, answer.
+
+115
+00:12:56.070 --> 00:12:57.170
+Justin Florentine (Besu): Oh, go ahead, Anders.
+
+116
+00:12:59.280 --> 00:13:06.570
+Anders Elowsson: So, in the Lucid EIP, I have written a very, very long section about this, called Med and Welfare.
+
+117
+00:13:06.950 --> 00:13:10.609
+Anders Elowsson: And in this MEV Welfare, section, I…
+
+118
+00:13:10.830 --> 00:13:14.829
+Anders Elowsson: Because it's such a complex topic, so I need to go into a very deep…
+
+119
+00:13:15.080 --> 00:13:24.500
+Anders Elowsson: about, what we're dealing with, and I, I classify them into 3 different classes. Exogenous med, endogenous MEV, and exogenous MEV.
+
+120
+00:13:24.930 --> 00:13:29.720
+Anders Elowsson: And by doing so… and what we… what you are talking about is, endogenous map.
+
+121
+00:13:30.060 --> 00:13:37.789
+Anders Elowsson: And… and… And what we do in Lucid is that we provide,
+
+122
+00:13:39.930 --> 00:13:46.160
+Anders Elowsson: the, the Keap publisher to, to, to bundle its transactions.
+
+123
+00:13:46.470 --> 00:13:57.479
+Anders Elowsson: And… It can then place the background transaction directly after the transaction that perhaps will provide the…
+
+124
+00:13:57.590 --> 00:13:58.939
+Anders Elowsson: Out to arbitrage.
+
+125
+00:13:59.600 --> 00:14:06.089
+Anders Elowsson: And… by doing so, we sort of facilitate easy backgrounding.
+
+126
+00:14:06.470 --> 00:14:08.119
+Anders Elowsson: In… in Lucid.
+
+127
+00:14:09.030 --> 00:14:15.320
+Anders Elowsson: And so what we can say is that, of course, this would mean that there would be some more on-chain searching.
+
+128
+00:14:15.330 --> 00:14:27.040
+Anders Elowsson: To ensure that when you backrun your transaction, because you cannot know beforehand exactly the state of the pool, the various pools that you want to execute against when you backrun.
+
+129
+00:14:27.040 --> 00:14:38.870
+Anders Elowsson: So there will be a little bit more on-chain searching in this background section that will query the different pools, and to ensure that it tries to execute a…
+
+130
+00:14:39.410 --> 00:14:44.219
+Anders Elowsson: A good, background shade that provides the highest arbitrage.
+
+131
+00:14:44.350 --> 00:14:45.800
+Anders Elowsson: And,
+
+132
+00:14:46.860 --> 00:15:00.510
+Anders Elowsson: One way… one… two reasons why we think that this is desirable and sufficient is that, first of all, we can say that we are increasing in Ethereum the amount of compute.
+
+133
+00:15:00.990 --> 00:15:04.590
+Anders Elowsson: That we can execute during a block.
+
+134
+00:15:05.150 --> 00:15:06.880
+Anders Elowsson: Specifically.
+
+135
+00:15:07.140 --> 00:15:12.640
+Anders Elowsson: we'll be able to scale compute by easily, I don't know, 10x or something like that.
+
+136
+00:15:13.150 --> 00:15:16.040
+Anders Elowsson: This means that on-chain searching,
+
+137
+00:15:16.600 --> 00:15:20.339
+Anders Elowsson: Yeah, it's feasible to do some on-chain searching.
+
+138
+00:15:20.470 --> 00:15:27.420
+Anders Elowsson: And second of all, we… we are not… Like, it feels…
+
+139
+00:15:27.760 --> 00:15:34.250
+Anders Elowsson: almost desirable to move some of the settlement on Ethereum into the, you know, the…
+
+140
+00:15:34.480 --> 00:15:42.639
+Anders Elowsson: the on-chain domain, like, into the composer domain, and sort of encouraging, various,
+
+141
+00:15:43.030 --> 00:15:48.419
+Anders Elowsson: indexes to allow for these, on-chain background transactions.
+
+142
+00:15:49.720 --> 00:15:52.279
+Anders Elowsson: So, I think that was the first question you had.
+
+143
+00:15:52.380 --> 00:15:55.729
+Anders Elowsson: Right. Something like that, was it? Or was it something else?
+
+144
+00:15:55.730 --> 00:16:00.000
+Luis: Yeah, no, I think it's… So… Mmm…
+
+145
+00:16:01.790 --> 00:16:05.410
+Luis: But in theory, it could be possible, right, to…
+
+146
+00:16:06.450 --> 00:16:11.720
+Luis: To… there's not… it's not… it's not something that we… that is inherent to…
+
+147
+00:16:11.920 --> 00:16:18.069
+Luis: onto in-protocol and creative inputs, it is more like, you would say Lucid has
+
+148
+00:16:18.450 --> 00:16:22.719
+Luis: Deliberately made that decision because it's sort of like…
+
+149
+00:16:22.920 --> 00:16:29.330
+Luis: Desirable to bring more searching on-chain, to bring, kind of, like, routing on-chain.
+
+150
+00:16:30.960 --> 00:16:37.629
+Luis: So yeah, I think that's fair from Lucid. I just think we should… then we need to, like, explain that a lot, and…
+
+151
+00:16:38.040 --> 00:16:40.970
+Luis: And I think it would also be good… I think…
+
+152
+00:16:41.140 --> 00:16:46.369
+Luis: Yeah, just think, like, there's gonna be a bunch of people who are against that, right, and going to say it's…
+
+153
+00:16:46.500 --> 00:16:53.510
+Luis: It's less efficient, and creates spamming, and… Yeah, so… just, like.
+
+154
+00:16:56.800 --> 00:17:21.150
+Gottfried Herold: I mean, there is one thing I want to add here, is that in principle, there's also another way to sort of facilitate this, which we do not want, which I'm not sure how you can actually prevent, which is that because the current Lucid design has, a free option problem, that someone who wants to backrun basically just basically tries to bring a Lucid transaction in, or maybe several, with different amounts of sort of traded stuff.
+
+155
+00:17:21.329 --> 00:17:38.479
+Gottfried Herold: And then selectively exercises their free option, which Lucy basically gives up by not releasing their keys, to basically selectively, after, sort of, the other keys, sort of, have been released, to decide whether to release their own keys to either make a back running transaction or not.
+
+156
+00:17:38.810 --> 00:17:43.299
+Gottfried Herold: That's another, basically, way you could do this, which we do not want.
+
+157
+00:17:44.440 --> 00:17:47.920
+Luis: Interesting, so that… that means it… it's possible, actually.
+
+158
+00:17:48.240 --> 00:17:53.470
+Luis: Just… not as… not a… it's like a… Right?
+
+159
+00:17:54.160 --> 00:17:54.720
+Anders Elowsson: As far?
+
+160
+00:17:54.720 --> 00:17:55.869
+Gottfried Herold: As far as I understand, yes.
+
+161
+00:17:57.210 --> 00:18:06.310
+Anders Elowsson: Yeah, so if you want to place a background transaction with option, you have to place it after the bundle that has executed.
+
+162
+00:18:06.310 --> 00:18:06.720
+Gottfried Herold: Yes.
+
+163
+00:18:07.290 --> 00:18:07.850
+Gottfried Herold: Yes.
+
+164
+00:18:07.850 --> 00:18:10.930
+Anders Elowsson: transaction that induced the map, executed.
+
+165
+00:18:11.190 --> 00:18:21.389
+Anders Elowsson: And this means that in your bundle, you can place your transaction, with the background in transaction following directly after.
+
+166
+00:18:22.200 --> 00:18:30.659
+Anders Elowsson: So… so… so from this perspective, it is true that, there is an option to execute,
+
+167
+00:18:31.080 --> 00:18:38.039
+Anders Elowsson: to execute some optionality towards the end of the top of block.
+
+168
+00:18:38.200 --> 00:18:55.049
+Anders Elowsson: Among these lost commitments, and we can expect them to do so. And they may, for example, search for backrunning opportunities, or for exogenous map that has emerged during this time that we have waited.
+
+169
+00:18:55.870 --> 00:19:00.120
+Anders Elowsson: And in that case, they need to select the release keys for that.
+
+170
+00:19:00.550 --> 00:19:01.970
+Anders Elowsson: And,
+
+171
+00:19:03.470 --> 00:19:22.370
+Anders Elowsson: And so, what I would address then is that, first of all, we have an intact opportunity for every sender to compose their own background and trades directly after the transaction. So there's no one that can come in and…
+
+172
+00:19:22.780 --> 00:19:29.059
+Anders Elowsson: rely on their optionality to… to… to make the… The transaction execute faster.
+
+173
+00:19:29.270 --> 00:19:30.180
+Anders Elowsson: And…
+
+174
+00:19:31.140 --> 00:19:41.759
+Anders Elowsson: how… maybe I could add two more things. One thing I would add is that, first of all, we limit the damage at the protocol level from this optionality, in the sense that
+
+175
+00:19:41.760 --> 00:19:52.979
+Anders Elowsson: If you, indeed, do not execute your transaction, then this gas that you have reserved can't be used by any other transaction. So you do not remove scaling.
+
+176
+00:19:53.080 --> 00:19:55.860
+Anders Elowsson: By, by doing this, optionality thing.
+
+177
+00:19:57.040 --> 00:20:02.830
+Anders Elowsson: And then, I can also mention that,
+
+178
+00:20:03.570 --> 00:20:06.149
+Anders Elowsson: What was it more I wanted to say?
+
+179
+00:20:06.270 --> 00:20:07.840
+Anders Elowsson: I don't remember. Yeah, but…
+
+180
+00:20:09.470 --> 00:20:18.159
+Gottfried Herold: I mean, it does not cost gas for execution, but it still consumes resources as far as network resources are concerned.
+
+181
+00:20:21.750 --> 00:20:26.090
+Anders Elowsson: Yeah, but you have to pay the full gas limit for your.
+
+182
+00:20:26.090 --> 00:20:26.909
+Gottfried Herold: Yeah, yeah, yeah.
+
+183
+00:20:27.170 --> 00:20:28.229
+Anders Elowsson: That did not reveal.
+
+184
+00:20:29.830 --> 00:20:32.519
+Justin Florentine (Besu): So I spoke, you wanna pipe in?
+
+185
+00:20:32.750 --> 00:20:39.670
+soispoke: Yeah, I think there are, like, quite a few questions and answers in there, like.
+
+186
+00:20:40.140 --> 00:20:55.889
+soispoke: If the question was also about, like, whether you can, you know, have this sort of, like, separate lanes with first all the encrypted transactions and then the plaintank transactions, or can you, like, interleave them and sort of, like.
+
+187
+00:20:56.170 --> 00:21:03.190
+soispoke: Let people insert plain text transactions after encrypted transactions.
+
+188
+00:21:03.360 --> 00:21:05.990
+soispoke: And I think there, the design space is, like.
+
+189
+00:21:06.390 --> 00:21:16.170
+soispoke: more open than, it seems. Like, I feel like you could actually, like, interleave them, and that will maybe, like, leave space for, like.
+
+190
+00:21:16.350 --> 00:21:21.020
+soispoke: plaintext transactions that are, like, I don't know, backgrounding…
+
+191
+00:21:21.240 --> 00:21:34.590
+soispoke: optimistically, like, backrunning ones that are encrypted or something. I don't see why you would have, like, a sort of, like, strict separation between, you know, the encrypted, sort of, like.
+
+192
+00:21:34.990 --> 00:21:45.730
+soispoke: massive bucket and the rest. I'm not sure if there is a reason, but, like, one thing it does introduce is, like, you know, you have, like, the encrypted
+
+193
+00:21:45.850 --> 00:21:56.729
+soispoke: bucket of transactions, and then people will, or, like, might, actually fight for having the transaction that comes right after it, and that tries to sort of, like.
+
+194
+00:21:56.920 --> 00:22:10.410
+soispoke: back runs, like, everything that's left, in terms of, opportunities from this whole bucket. So… so yeah, instead of, like, inserting transactions.
+
+195
+00:22:10.410 --> 00:22:18.270
+soispoke: Right after, you know, some encrypted transactions, and trying to backrun specific more, like, more specific,
+
+196
+00:22:18.440 --> 00:22:21.379
+soispoke: transactions, so I do think it makes a difference.
+
+197
+00:22:23.170 --> 00:22:26.649
+soispoke: And I do think, intuitively at least, it feels like…
+
+198
+00:22:27.230 --> 00:22:32.929
+soispoke: having interlived plain text and encrypted transactions makes sense to me.
+
+199
+00:22:34.090 --> 00:22:46.450
+Anders Elowsson: I don't see why this brings any benefits, or the benefits it brings are very marginal relative to the cost associated with it, I think.
+
+200
+00:22:46.860 --> 00:22:50.559
+Anders Elowsson: But that's a deep question related to the overall design.
+
+201
+00:22:51.010 --> 00:22:54.149
+Anders Elowsson: I would further say,
+
+202
+00:22:54.980 --> 00:23:07.199
+Anders Elowsson: So, what I describe in the Lucid, in this MEV Welfare section, is how you, in your bundle, you can either put the background transaction directly after your transaction.
+
+203
+00:23:07.360 --> 00:23:25.750
+Anders Elowsson: Or the bundle can put lost in the entire bundle, a search that holistically, on-chain searches for all the math that may have emerged from the transactions in the bundle, and then backgrounds it and distributes it back to the transactors.
+
+204
+00:23:29.370 --> 00:23:37.820
+Anders Elowsson: Responding to the question in the cost is that you have to do a completely different design.
+
+205
+00:23:38.690 --> 00:23:39.869
+Anders Elowsson: If you interleave.
+
+206
+00:23:42.010 --> 00:23:50.450
+Anders Elowsson: it… Well, and I mean, if you… if you want to have a public plane transaction,
+
+207
+00:23:51.080 --> 00:23:55.489
+Anders Elowsson: Then, this means that you reveal what the…
+
+208
+00:23:55.820 --> 00:24:06.969
+Anders Elowsson: the seal transaction is gonna do, because you have to query certain pools about certain prices. So it's not clear to me that, I still don't understand,
+
+209
+00:24:08.100 --> 00:24:09.150
+Anders Elowsson: the benefits.
+
+210
+00:24:13.620 --> 00:24:16.699
+soispoke: Well, I think the benefits is…
+
+211
+00:24:17.550 --> 00:24:20.620
+soispoke: Comes back to the question of, like, trying to…
+
+212
+00:24:21.890 --> 00:24:32.629
+soispoke: compete to have, like, one plain text transaction after, like, every other encrypted transaction that was… that is sort of, like, set in stone, compared to…
+
+213
+00:24:33.210 --> 00:24:35.089
+soispoke: You know, picking…
+
+214
+00:24:35.540 --> 00:24:49.949
+soispoke: some transactions you think you can backrun and try to interleave your plain text transactions there. And I think it does make a difference. Like, instead of having this sort of, like, huge competition concentrated on one specific
+
+215
+00:24:52.130 --> 00:25:09.470
+soispoke: spot at the end of all encrypted transactions. I feel like it does make a difference, and then… yeah, the design will need to change, like, that's what I picked for the sort of, like, encrypted frame transactions post I published. It's,
+
+216
+00:25:09.890 --> 00:25:24.099
+soispoke: It's same slot, and it's interleaving, you know, plain text and encrypted transactions, and it is meaningfully different, and it does have some, you know, things we will need to really think through, because
+
+217
+00:25:24.360 --> 00:25:26.720
+soispoke: it changes a bit, like the EPBS.
+
+218
+00:25:26.850 --> 00:25:45.250
+soispoke: model, and where you actually commit very strictly to a block hash. Here, yeah, here you commit to, like, a block hash, but also, like, an ordering, and so it's a sort of, like, weird mix between a block and a slot auction, but
+
+219
+00:25:45.270 --> 00:25:59.360
+soispoke: I feel like it's definitely worth considering, because then you get the same slot, and you get the Interlift transactions benefit. I agree, like, it's not, like, a small change, but…
+
+220
+00:25:59.990 --> 00:26:04.109
+soispoke: I think it needs to be, like, carefully, sort of, like, considered.
+
+221
+00:26:04.680 --> 00:26:24.499
+Justin Florentine (Besu): Yeah, I… I agree with that. I think it's very interesting. I guess the thing that I question is the benefit, actually, that you end up getting from it, right? Because once you're already committed to the ordering, and you're blind as to the encrypted transactions.
+
+222
+00:26:24.820 --> 00:26:27.539
+Justin Florentine (Besu): How do you effectively take advantage of it?
+
+223
+00:26:27.680 --> 00:26:35.309
+Justin Florentine (Besu): You know what I mean? Like, you can't really… you can't really recover that background efficiency that's being claimed.
+
+224
+00:26:35.750 --> 00:26:41.559
+soispoke: I mean, you're blind, but there are some metadata leakage, right? Like…
+
+225
+00:26:41.570 --> 00:26:49.650
+soispoke: you can, I don't know, you can try to guess the IP of the transaction center, or you can sort of just, like, see some of the
+
+226
+00:26:49.650 --> 00:27:02.669
+soispoke: fields or look at the market and sort of, like, try to predict what would the encrypt… like, what are the sort of, like, encrypted transactions doing based on the state of the market and the state of pool, so…
+
+227
+00:27:02.670 --> 00:27:05.230
+soispoke: You know, even if you have few
+
+228
+00:27:05.560 --> 00:27:18.439
+soispoke: sort of, like, the information is not that large, I agree, but you can still make educated guesses about what's going on and try to compete, to extract value from what was going on, right?
+
+229
+00:27:18.700 --> 00:27:23.280
+Luis: I think there could also be… Couldn't it also be…
+
+230
+00:27:23.700 --> 00:27:27.120
+Luis: Kind of opening the field for, then, let's say, like.
+
+231
+00:27:27.690 --> 00:27:33.910
+Luis: Users who are open to sharing the details about their transactions in order to like…
+
+232
+00:27:34.100 --> 00:27:52.679
+Luis: So, then we have this hybrid, where a user would say, I am open to, kind of, I'm sharing some of my introduction details with, builders or… or, like, a TEE, and then they see my… they see details and can background, accordingly, and I just give… I just tell them the rule is.
+
+233
+00:27:52.690 --> 00:27:56.740
+Luis: You're not allowed to, front run, but you're allowed to backrun?
+
+234
+00:27:56.810 --> 00:27:58.070
+Luis: That's… that's a question.
+
+235
+00:27:59.290 --> 00:28:02.860
+soispoke: Yeah, I think… I think that's a potential case.
+
+236
+00:28:03.350 --> 00:28:11.050
+Anders Elowsson: I don't understand how it differs from… if I compare with Lucid. In Lucid, you… you…
+
+237
+00:28:11.360 --> 00:28:14.470
+Anders Elowsson: you already know the… I mean…
+
+238
+00:28:15.740 --> 00:28:18.249
+Anders Elowsson: Maybe, okay, maybe I can say it like this.
+
+239
+00:28:18.900 --> 00:28:21.570
+mark: Yeah, well, the difference is, it all happens.
+
+240
+00:28:21.570 --> 00:28:27.680
+Anders Elowsson: The… the… the… at the, at the last,
+
+241
+00:28:28.870 --> 00:28:34.380
+Anders Elowsson: transaction that's executed among the regular transactions. You already know the post state.
+
+242
+00:28:34.620 --> 00:28:38.789
+Anders Elowsson: the builder knows. So, so from that perspective,
+
+243
+00:28:39.590 --> 00:28:47.499
+Anders Elowsson: The first, the first decrypted transactions may, execute,
+
+244
+00:28:49.900 --> 00:28:55.219
+Anders Elowsson: Knowing the post state, and can also get hints from the builder in the same way.
+
+245
+00:28:56.060 --> 00:28:56.969
+Anders Elowsson: And then…
+
+246
+00:28:56.970 --> 00:29:00.070
+mark: Well, you've got to commit to the order, right?
+
+247
+00:29:00.070 --> 00:29:00.790
+Anders Elowsson: What was it?
+
+248
+00:29:03.510 --> 00:29:07.780
+mark: Builder's got to commit to the order, so they can't change the block.
+
+249
+00:29:18.480 --> 00:29:23.870
+Luis: I think the alternative design would be they could change, and could interleave transactions.
+
+250
+00:29:23.870 --> 00:29:33.150
+mark: Well, yeah, so that's the question. I mean, but this is a bit of a weird conversation, right? Is… is… in a… in a more traditional financial market.
+
+251
+00:29:33.270 --> 00:29:39.950
+mark: All of this stuff you're talking about isn't done by the block builder in some private space.
+
+252
+00:29:40.180 --> 00:29:48.510
+mark: The back running, which is market impact, generally comes out to everybody in the marketplace, because they can see the market data together.
+
+253
+00:29:48.660 --> 00:29:52.260
+mark: And then they compete for the next action.
+
+254
+00:29:52.920 --> 00:29:59.669
+mark: The kind of argument that You've got to protect backrunning for some…
+
+255
+00:30:00.310 --> 00:30:04.060
+mark: Privileged entities in the network.
+
+256
+00:30:04.560 --> 00:30:12.630
+mark: Isn't… you know, economically, it's not looking at the economic… the network economics, where actually you want to share the back running information
+
+257
+00:30:13.000 --> 00:30:18.400
+mark: More widely, because you let all market participants participate in the,
+
+258
+00:30:18.690 --> 00:30:28.549
+mark: In the… in the information gathering. Now, one of the issues there with, kind of, the way blockchain markets work at the moment is they don't really have a great market data mechanism.
+
+259
+00:30:29.670 --> 00:30:35.489
+mark: If you had blockchain nodes generating market data at block time.
+
+260
+00:30:36.390 --> 00:30:43.639
+mark: You'd basically… you'd be go… you'd be giving everybody the same opportunity to see the data and then contribute to the next block.
+
+261
+00:30:45.660 --> 00:30:47.760
+Justin Florentine (Besu): Yeah, so can I just parrot that back?
+
+262
+00:30:47.960 --> 00:30:55.359
+Justin Florentine (Besu): rephrasing it is that there's a timing difference. Some people have a different granularity of timing than others.
+
+263
+00:30:57.880 --> 00:30:58.850
+mark: Correct, yeah.
+
+264
+00:30:59.050 --> 00:31:02.840
+Justin Florentine (Besu): And the backgrounding could be thought of as…
+
+265
+00:31:04.260 --> 00:31:15.829
+Justin Florentine (Besu): On the granularity of blocks instead of transactions, but we are kind of framing our thoughts here, from the builder's perspective, and really thinking about it per transaction.
+
+266
+00:31:18.480 --> 00:31:36.989
+Murat: Hey everyone, the other nuance here… my name is Murad from Primab, by the way. The other nuance here is that in regular markets, they don't return it back to the user, right? So here you have a regime where you're kind of trying to return 90% to the user, which is why you can't just open it up, because then it's whoever, you know, closed
+
+267
+00:31:37.400 --> 00:31:38.360
+Murat: Opportunity.
+
+268
+00:31:38.930 --> 00:31:41.400
+mark: Well, that's because you're bribing everybody on the network.
+
+269
+00:31:43.350 --> 00:31:51.919
+mark: Right? So basically what you've got is a rigged market, and you're making it palatable by paying
+
+270
+00:31:52.240 --> 00:32:02.420
+mark: certain participants, i.e. the people who've done… because by users, you're returning it back to the people who submitted transactions in that block, right?
+
+271
+00:32:03.120 --> 00:32:07.670
+mark: And you're doing that at the cost to everybody else in the economy.
+
+272
+00:32:12.120 --> 00:32:13.800
+Anders Elowsson: Yeah, so, so what…
+
+273
+00:32:14.220 --> 00:32:22.620
+Anders Elowsson: What Mark is saying is that there's no, like, protocol welfare about having the builder interleave transactions, if I understand you correctly.
+
+274
+00:32:22.810 --> 00:32:36.120
+Anders Elowsson: which I… if I… if that's… that my understanding is correct, that… then I agree that there seems to be very little protocol welfare from that perspective. And we… we may add also that,
+
+275
+00:32:37.760 --> 00:32:55.300
+Anders Elowsson: Yeah, we could even have the… we may add that the reason why we would want the builder to have a sort of control of a section of the… a contingent section of the slot is to reduce, you know, this on-chain searching.
+
+276
+00:32:55.480 --> 00:32:57.760
+Anders Elowsson: And this is achieved by having
+
+277
+00:32:57.780 --> 00:33:15.819
+Anders Elowsson: you know, a contingent section of regular transactions. So that's a protocol welfare that we can say that, okay, it's good that the builder can control some part of the block, and just, you know, revert… do revert off-chain for those who wants that. And then we have the encrypted transactions where they bundle to do their back running as they wish.
+
+278
+00:33:17.020 --> 00:33:30.890
+Luis: Would it be fair to say that the not interleaving is… is probably better in terms of protocol and overall welfare, and the interleaving is probably more geared towards
+
+279
+00:33:31.240 --> 00:33:41.159
+Luis: the people who want to search, and the people and their needs, right? Is that something where the trade-off… and I think it could make sense to do a trade-off where you say.
+
+280
+00:33:41.540 --> 00:33:48.310
+Luis: We know that front-running is bad, make front-running impossible, but otherwise be as open to,
+
+281
+00:33:48.500 --> 00:33:53.470
+Luis: To searches and their demands, and then the people who want to trade, basically, as possible.
+
+282
+00:33:54.940 --> 00:34:05.530
+mark: Yeah, I mean, I think the thing is, and I'm just saying this coming from a high-frequency trading background in normal markets, it's…
+
+283
+00:34:06.090 --> 00:34:10.150
+mark: you get… Got a 12-second block.
+
+284
+00:34:10.260 --> 00:34:26.460
+mark: If you're a searcher, you're far… you're far better off searching for bigger wins at a higher level of time granularity than actually focused on what you get with an intra-block chain trade.
+
+285
+00:34:27.070 --> 00:34:35.220
+mark: you know, if you assume… if you assume… so there's a couple of issues here, is I think the reason for encrypted mempools is to…
+
+286
+00:34:35.350 --> 00:34:45.570
+mark: try to open the network up for other participants, essentially, who are avoiding the network at the moment, because it basically has MEV on it.
+
+287
+00:34:46.310 --> 00:34:54.130
+mark: So… The… and for those other participants, they're likely to be…
+
+288
+00:34:54.610 --> 00:35:02.110
+mark: You know, they're likely to hold stronger positions. So, you know, the searching they'll pay for is profitable trades on a, you know, on a…
+
+289
+00:35:02.250 --> 00:35:03.750
+mark: On a higher time scale.
+
+290
+00:35:04.020 --> 00:35:06.740
+mark: And, I mean, actually, I would argue that
+
+291
+00:35:06.950 --> 00:35:10.430
+mark: That might actually be more profitable for the searchers as well.
+
+292
+00:35:12.520 --> 00:35:13.680
+mark: Essentially.
+
+293
+00:35:14.630 --> 00:35:19.199
+mark: Because it's a bit like the whole ecosystem's got fixated on MEV.
+
+294
+00:35:19.750 --> 00:35:20.959
+mark: a bit like…
+
+295
+00:35:21.200 --> 00:35:27.669
+mark: You know, the financial world got fixated on high-frequency trading, because it seems like money for nothing.
+
+296
+00:35:29.090 --> 00:35:34.350
+mark: But in practice, there's only a… you know, you can only apply a relatively small amount of capital.
+
+297
+00:35:34.510 --> 00:35:37.809
+mark: To… to the… to the money that you make in…
+
+298
+00:35:37.900 --> 00:35:54.540
+mark: inside of the block message, which is one of the reasons that there is concentration of block builders is it's a niche thing, financially, because it's got, you know, there's a cap to the amount of capital that you can trade like that.
+
+299
+00:35:55.930 --> 00:35:58.510
+mark: So, most people don't bother participating.
+
+300
+00:35:59.650 --> 00:36:00.610
+mark: You know…
+
+301
+00:36:00.750 --> 00:36:06.569
+mark: Either they… either they're too big or they're too small, which is why you've got, you know, the block builder niche.
+
+302
+00:36:07.290 --> 00:36:08.260
+Justin Florentine (Besu): Anders?
+
+303
+00:36:10.040 --> 00:36:12.810
+Justin Florentine (Besu): You sub your hand up if you were, trying to say something.
+
+304
+00:36:13.100 --> 00:36:20.080
+Anders Elowsson: So, I just wanted to add also that I think that the price we're paying for
+
+305
+00:36:20.350 --> 00:36:28.519
+Anders Elowsson: for this interleaved design, where we have, you know, just a pause and waiting for keys to be released, I think it's a very high price.
+
+306
+00:36:31.430 --> 00:36:51.290
+Anders Elowsson: for this one-slot design, and I think that the one-slot design we describe in the Lucid AIP as a future potential improvement that sort of just extends the Lucid EIP is the correct way if you want to do a one-slot design. And it works like this. So you…
+
+307
+00:36:52.090 --> 00:36:54.079
+Anders Elowsson: You do just as in Lucid.
+
+308
+00:36:54.210 --> 00:37:06.589
+Anders Elowsson: But you do the second part of the slot as this sort of, you know, semantic block shunking, where you, where you have… you first execute all the regular transactions.
+
+309
+00:37:06.850 --> 00:37:07.710
+Anders Elowsson: Then…
+
+310
+00:37:08.200 --> 00:37:24.079
+Anders Elowsson: and you have the release of the keys. Then, in the second half, and this is also quite similar to EIP8105, but not exactly, but anyway, then in the second half, you have the builder release a second pile.
+
+311
+00:37:24.290 --> 00:37:31.270
+Anders Elowsson: For the decrypted transactions that have been decrypted, And then you have,
+
+312
+00:37:31.930 --> 00:37:38.810
+Anders Elowsson: And then you have, everyone executing those transactions. And the builder can then also…
+
+313
+00:37:39.580 --> 00:37:44.390
+Anders Elowsson: By the end, after this section, include regular transaction.
+
+314
+00:37:44.830 --> 00:38:01.839
+Anders Elowsson: regular transactions after this chunk of, of, decrypted transactions, allowing us to not waste gas, because if we commit before, before, the… if we commit as in this, this other design.
+
+315
+00:38:02.790 --> 00:38:14.410
+Anders Elowsson: and then someone does not release the key, then you waste the gas for the rest of the block. And this opens up for a griefing against the builder, because now, if I'm a builder and someone,
+
+316
+00:38:15.220 --> 00:38:21.859
+Anders Elowsson: Doesn't, doesn't, you know, just submit a transaction, and I don't have to pay for it.
+
+317
+00:38:22.440 --> 00:38:25.700
+Anders Elowsson: Then, it's just gonna waste the gas in my block.
+
+318
+00:38:29.580 --> 00:38:31.170
+Anders Elowsson: Yeah, and it's not.
+
+319
+00:38:36.690 --> 00:38:40.610
+Murat: But in terms of the price I'm getting on a swap.
+
+320
+00:38:41.150 --> 00:38:45.759
+Murat: Basically, like, the encrypted transaction becomes a second-class citizen.
+
+321
+00:39:03.900 --> 00:39:15.430
+Justin Florentine (Besu): Is it the encrypted transaction that becomes a second-class citizen, or is it subsequent transactions in the block, because the encrypted transaction denied price discovery?
+
+322
+00:39:17.730 --> 00:39:23.949
+Murat: I guess there's a second and a third-class citizen, it's a good point. So those become the third class citizens, yeah.
+
+323
+00:39:26.230 --> 00:39:27.170
+Justin Florentine (Besu): Godfrey?
+
+324
+00:39:27.540 --> 00:39:52.490
+Gottfried Herold: Yeah, I just wanted to add something on this kind of, basically interleaf transaction things. I mean, the alternative proposal by Tuma basically is, has… is a… well, basically, it uses same slot, basically committing, and sort of… it's basically a same slot design, whereas Lucid is not. I mean, in principle, nothing would stop you to do a interleaf design also by… by a Lucid, which is not
+
+325
+00:39:52.490 --> 00:40:02.050
+Gottfried Herold: slot. You would just have a second… you would have another round, or another round of interaction, where basically the builder first commits to transaction ordering.
+
+326
+00:40:02.050 --> 00:40:23.619
+Gottfried Herold: and also basically commit to the non-encrypted transactions, by sort of honoring some kind of ordering rules within the encrypted transactions that are sort of determined by the, previous block's, inclusion lists. You could do that and still have some of the… basically make some hybrid approach between the two.
+
+327
+00:40:23.620 --> 00:40:29.940
+Gottfried Herold: Just saying that this kind of… this interleavedness is not really tied to, same slot.
+
+328
+00:40:32.330 --> 00:40:42.809
+soispoke: Yeah, I completely agree. I think those are, like, two orthogonal dimensions that we can discuss. I think, for me, like, the same slot versus two slots is…
+
+329
+00:40:43.320 --> 00:41:01.930
+soispoke: way more about timing. Also, I mean, it's, you know, if you don't have time for, like, key reviews and stuff like this to happen within, like, one slot, then you might want to move towards two, like, a two-slot design, but, I mean, of course, like, if you can actually make it work within one slot, it's…
+
+330
+00:41:02.050 --> 00:41:15.999
+soispoke: it's just, like, strictly better, I think. And then the interleaved versus separated is also, yeah, completely orthogonal to that, and you can have, like, a one-slot or two-slot design with interleaved or, like, buckets,
+
+331
+00:41:16.470 --> 00:41:18.310
+soispoke: I think those are, like.
+
+332
+00:41:18.630 --> 00:41:25.540
+soispoke: More open, in my mind at least, to what's… Been sort of, like.
+
+333
+00:41:25.790 --> 00:41:32.170
+soispoke: said, and I think there could be, you know, dedicated time to think about
+
+334
+00:41:32.310 --> 00:41:43.779
+soispoke: one slot versus two slots, but also, like, entirely versus buckets, and that's… yeah. That's basically why I published this post, it's a…
+
+335
+00:41:43.930 --> 00:41:55.219
+soispoke: there are, like, 3 dimensions. There is the interlift, there is the same slot, which we already discussed, which is… so it's great. And then there is the, sort of, like, it builds on frame transactions, right? So…
+
+336
+00:41:55.220 --> 00:42:05.389
+soispoke: If, you know, if friend transactions actually come through, there is no point, at least to me, in sort of, like, shipping another
+
+337
+00:42:05.520 --> 00:42:19.910
+soispoke: additional transaction type that is not, sort of, like, PQ compatible, and we might as well just, like, build, this sort of, like, encrypted frame transaction on top of frame transactions, because it's basically what it was
+
+338
+00:42:19.910 --> 00:42:32.759
+soispoke: built for, right? It's to avoid bringing, like, more transaction types, which I think makes sense. So, but those are, like, basically the three things that… that sort of, like, my design introduces… introduce, I think.
+
+339
+00:42:34.880 --> 00:42:35.520
+Anders Elowsson: Yeah.
+
+340
+00:42:35.760 --> 00:42:42.809
+Anders Elowsson: No, it's… I think it's good to have frame transactions as an option. We describe it in the Lucid API, we describe it as…
+
+341
+00:42:42.920 --> 00:42:46.160
+Anders Elowsson: Essentially, just taking the… the…
+
+342
+00:42:46.160 --> 00:42:48.520
+Justin Florentine (Besu): that it's necessary?
+
+343
+00:42:48.520 --> 00:42:49.120
+Anders Elowsson: kit.
+
+344
+00:42:51.030 --> 00:43:02.940
+Anders Elowsson: just taking the SE ticket and, and then, putting it as the second frame. This was, what Gottfried recommended for, for this,
+
+345
+00:43:03.410 --> 00:43:09.760
+Anders Elowsson: for this… I don't know if he has any comment, or if it was inspired by Thomas, or how that
+
+346
+00:43:10.620 --> 00:43:14.809
+Anders Elowsson: transpired, but anyway, so, so… But I think that this is,
+
+347
+00:43:15.410 --> 00:43:17.869
+Anders Elowsson: Plain obvious that we can do so.
+
+348
+00:43:18.120 --> 00:43:21.710
+Gottfried Herold: Yeah, that's not so clear, actually. There is the…
+
+349
+00:43:21.710 --> 00:43:46.650
+Gottfried Herold: problem with the frame transaction framework. The frame transaction framework feels to me, like, not perfectly compatible with the two-slot design that Lucid currently has, because the frame transaction design basically makes the assumption that the individual frames that comprise one big frame transaction are basically executed one after another. In particular, sort of the verification part of the frame transaction and the actual
+
+350
+00:43:46.650 --> 00:43:51.029
+Gottfried Herold: execution part of the transaction are sort of immediately following in another.
+
+351
+00:43:51.030 --> 00:43:58.859
+Gottfried Herold: And in the way we would, do a current… the current Lucid design works, you have basically the authentication, which is
+
+352
+00:43:58.860 --> 00:44:13.409
+Gottfried Herold: basically, part of the, seal trans… of the, of the ST, of the, of the, of the, of the ticket, and the actual transaction happened in different blocks, and that is kind of very, very hard to sort of match with the way,
+
+353
+00:44:13.420 --> 00:44:19.490
+Gottfried Herold: the frame transaction, the current frame transaction EIP works, at least not without, sort of, making this much more flexible.
+
+354
+00:44:19.610 --> 00:44:21.859
+Gottfried Herold: That's one big issue as a year.
+
+355
+00:44:27.140 --> 00:44:32.819
+Anders Elowsson: So, if we did, if we did this, semantic shunking.
+
+356
+00:44:32.990 --> 00:44:34.699
+Anders Elowsson: I guess then it would work, right?
+
+357
+00:44:37.140 --> 00:44:40.410
+Anders Elowsson: The semantic shunking, idea.
+
+358
+00:44:40.550 --> 00:44:44.539
+Anders Elowsson: So the semantic shanking idea is that you first, have, have,
+
+359
+00:44:44.770 --> 00:44:47.749
+Anders Elowsson: You, you, you, you have the,
+
+360
+00:44:48.720 --> 00:44:51.600
+Anders Elowsson: You first have the commitments in the beacon block.
+
+361
+00:44:51.810 --> 00:44:56.189
+Anders Elowsson: Then you have the first chunk of regular transactions that execute with the ball.
+
+362
+00:44:56.450 --> 00:44:59.549
+Anders Elowsson: And then, secondly, you have a second chunk.
+
+363
+00:44:59.710 --> 00:45:06.789
+Anders Elowsson: That consists of the, the… this… in this case, it will be the frame transactions done.
+
+364
+00:45:07.630 --> 00:45:09.790
+Anders Elowsson: Execute in the second half.
+
+365
+00:45:10.900 --> 00:45:17.329
+soispoke: So yeah, that design makes sense, I think it works, but, like, the… it obviously introduces, like.
+
+366
+00:45:17.560 --> 00:45:26.319
+soispoke: two payloads, basically, within one slot. And you have to deal with, like, two different network objects, and maybe two deadlines, and that feels…
+
+367
+00:45:26.880 --> 00:45:31.290
+soispoke: Like, it's definitely some additional complexity that…
+
+368
+00:45:31.480 --> 00:45:44.060
+soispoke: needs to be taken into account compared to a design where you have, yes, you know, a mix of, like, plain text and encrypted transactions, but at least you have one, sort of, like, payload, and then,
+
+369
+00:45:44.440 --> 00:45:47.840
+soispoke: Yeah, I feel like that's the main difference.
+
+370
+00:45:48.980 --> 00:45:58.600
+Gottfried Herold: I mean, what… kind of the natural way, basically, would be, in my view, would be to have basically one frame transaction, which basically has one frame that goes in the previous slot.
+
+371
+00:45:58.650 --> 00:46:20.880
+Gottfried Herold: And that basically authenticates some stuff, including the frame transaction itself, and basically… and it also authenticates the second part… second frame, and that second frame only executes in the next block, and it basically has some kind of pointer or whatever to which frame transaction actually authenticated it in the previous block or something. It just means a bigger change to the way frame transactions work.
+
+372
+00:46:21.200 --> 00:46:26.569
+soispoke: I mean, yeah, that's, like, cross-lot frame transactions, it feels like it's…
+
+373
+00:46:26.720 --> 00:46:31.509
+soispoke: I mean, I haven't thought about it, like, very much, but it feels quite huge in terms of, like.
+
+374
+00:46:31.700 --> 00:46:50.739
+soispoke: rethinking the whole… you know, it's one thing to separate validation from execution, which is very nicely done with, like, from transactions, but, like, to have this sort of, like, validation done in one block, and then the execution done in another block with some sort of link between the two feels like a stripe at this point.
+
+375
+00:46:50.740 --> 00:47:06.410
+Gottfried Herold: Yeah, I mean, I fear where we would need it, if you actually want to make at least the current two-slot Lucid design compatible with frame transactions in a nice way, where you basically don't have two separate validation logics, and in particular, where you want to,
+
+376
+00:47:06.610 --> 00:47:16.669
+Gottfried Herold: benefit from the fact that we have programmable, validation logic that… for PQ security, I think you have to do something like that.
+
+377
+00:47:17.050 --> 00:47:22.459
+soispoke: Yeah, yeah, yeah, but I mean, hopefully we can just, like, make it work within one slot, and just… it simplifies.
+
+378
+00:47:22.460 --> 00:47:35.099
+Gottfried Herold: Yeah, I'm not so sure about that. I'm kind of skeptical about making it work as in one slot because of the introduced latency, but yeah, we wouldn't need… probably, we actually need some real-world data for that.
+
+379
+00:47:35.100 --> 00:47:44.660
+soispoke: Yeah, yeah. I agree. I mean, that's also my concern. It would need to be, like, very, sort of, like, heavily benchmarked, but I don't know. My intuition would be, like.
+
+380
+00:47:44.700 --> 00:48:04.119
+soispoke: why wouldn't we go with, like, some, like, one-slot design, just, like, if we can, just because it's so much cleaner, like, you see all the sort of, like, transactions being sort of, like, committed to at the same time, and then, you know, the keys are revealed, and then… it just feels, like, more natural for me to think about it, but of course, yeah, if it's just, like, impossible to do it in terms of…
+
+381
+00:48:04.120 --> 00:48:06.160
+soispoke: Timing and latency, then…
+
+382
+00:48:06.580 --> 00:48:16.860
+soispoke: yeah, we have to… but that actually, interestingly, interacts with the shorter slots, right? Like, for this, we will not want shorter slots, I guess.
+
+383
+00:48:18.460 --> 00:48:26.789
+Murat: Well, we actually assessed this, and if we simply give the builder the optionality to include it in same slot.
+
+384
+00:48:26.800 --> 00:48:50.759
+Murat: granted that keepers release keys, you know, either out of protocol or however they choose, then they're actually able to, you know, include them in the same slot. And then, you know, if something goes wrong, etc, then they just default to N plus 1, which is already the case. So, this was the proposal that, you know, we brought in the Telegram group, so…
+
+385
+00:48:50.760 --> 00:48:53.680
+Murat: I mean, it seems largely aligned with, what
+
+386
+00:48:53.690 --> 00:48:57.619
+Murat: Both people are saying here, wondering if there's any concerns regarding that.
+
+387
+00:49:11.400 --> 00:49:11.850
+Justin Florentine (Besu): Alright, we are.
+
+388
+00:49:11.850 --> 00:49:12.670
+Gottfried Herold: I mean…
+
+389
+00:49:12.670 --> 00:49:16.389
+Justin Florentine (Besu): on time, but, go ahead if you had an answer for that, Guthrie.
+
+390
+00:49:16.770 --> 00:49:39.330
+Gottfried Herold: Yeah, just saying, I mean, at least a concern I had would be that, I mean, at least for frame transactions, frame transaction compatible transactions would need… would… would basically be forced to use that. So this optionality would go away once you use frame transactions or any kind of PQ signature, at least the way we want to introduce PQ security. So it's not really an optionality thing at some point anymore.
+
+391
+00:49:40.760 --> 00:49:54.439
+Murat: Well, I mean, if you want good execution, it's not really optional anyway, right? So… but the current design makes it so that if you want good execution, then you cannot use encrypted transactions, because you're always, you know, N plus 1.
+
+392
+00:50:03.480 --> 00:50:09.759
+Anders Elowsson: Yeah, if you want to… if you want to extract an exogenous map, this sort of map from
+
+393
+00:50:09.880 --> 00:50:20.919
+Anders Elowsson: from, based on what happened during the last slot, yeah, then you will likely not be able to use, Lucid, particularly well, for example.
+
+394
+00:50:21.110 --> 00:50:23.400
+Anders Elowsson: But, but the, the thing is that,
+
+395
+00:50:23.810 --> 00:50:27.769
+Anders Elowsson: I mean, this has both benefits and drawbacks. It's not like it's,
+
+396
+00:50:28.530 --> 00:50:37.500
+Anders Elowsson: It's not like this is critical for people that just want to include their transactions with this endogenous MEV.
+
+397
+00:50:40.970 --> 00:50:47.339
+Murat: Yeah, but the approach, you know, kind of allows for both, essentially, right? We're essentially saying Lucid can
+
+398
+00:50:47.550 --> 00:50:56.979
+Murat: like, it's agnostic to whether it's slot N or N plus 1. If you have the keys, etc, you can do N, and if you don't, then N plus 1 is fine.
+
+399
+00:50:58.510 --> 00:51:01.379
+Anders Elowsson: No, yeah, but, I mean, you have to…
+
+400
+00:51:02.280 --> 00:51:18.420
+Anders Elowsson: No, it's… I mean, there are very… there are several considerations that has to match. One, you don't want to delay execution, we don't want to degrade scaling. Two, you have to… you have to have the panel there, so those two interact.
+
+401
+00:51:18.700 --> 00:51:24.100
+Anders Elowsson: Then, yeah.
+
+402
+00:51:25.160 --> 00:51:31.649
+Anders Elowsson: And I mean, I don't… it's not clear to me what the proposal is from you exactly, so it's…
+
+403
+00:51:31.650 --> 00:51:32.490
+mark: Americans.
+
+404
+00:51:32.490 --> 00:51:33.200
+Anders Elowsson: evaluated.
+
+405
+00:51:34.580 --> 00:51:50.410
+Murat: Yeah, maybe I'll do a write-up on it as well, but, you know, generally the decryption time is about 80 milliseconds, so as long as blocks are, you know, 130 milliseconds or longer, we're good from a scaling perspective. But…
+
+406
+00:51:50.640 --> 00:51:52.550
+Murat: Yeah, I'll do a write-up.
+
+407
+00:51:53.470 --> 00:51:54.290
+Justin Florentine (Besu): Right.
+
+408
+00:51:54.490 --> 00:51:55.309
+Justin Florentine (Besu): Thank you for that.
+
+409
+00:51:55.310 --> 00:51:57.660
+Anders Elowsson: But you have to have,
+
+410
+00:51:57.900 --> 00:52:01.880
+Anders Elowsson: Everyone has to observe the availability of the keys.
+
+411
+00:52:05.120 --> 00:52:10.449
+Murat: I see, so that might be a key, key difference between the same slot and N plus 1.
+
+412
+00:52:10.680 --> 00:52:15.500
+Justin Florentine (Besu): Yeah, it's more about key distribution, let alone… not so much decryption time.
+
+413
+00:52:16.570 --> 00:52:28.619
+Justin Florentine (Besu): Cool, so we're at time. Thanks to everyone. We should get a transcription here, and we should get an AI summary of it. I'll go over it to make sure that it's not total slop.
+
+414
+00:52:28.640 --> 00:52:42.369
+Justin Florentine (Besu): We'll attach it to, encrypted Mempool. Yeah, see you on Discord in the Encrypted Mempool channel, various telegrams, et cetera, et cetera. Thank you so much, everyone.
+
+415
+00:52:43.350 --> 00:52:44.040
+Luis: Thank you.
+
+416
+00:52:45.060 --> 00:52:45.820
+Murat: Thanks, guys.
+
