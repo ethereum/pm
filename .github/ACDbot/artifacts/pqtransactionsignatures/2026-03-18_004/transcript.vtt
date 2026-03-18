@@ -1,0 +1,1814 @@
+WEBVTT
+
+1
+00:02:04.120 --> 00:02:05.970
+Cyrus: Testing 1, 2, 3.
+
+2
+00:02:24.940 --> 00:02:26.640
+Cyrus: Testing 1, 2, 3.
+
+3
+00:07:17.800 --> 00:07:19.030
+Antonio Sanso: Hello, everyone.
+
+4
+00:07:21.580 --> 00:07:22.360
+Cyrus: Hello.
+
+5
+00:07:24.050 --> 00:07:31.029
+Antonio Sanso: As usual, I'm, like, a few minutes early, just, like, testing my screen and everything.
+
+6
+00:07:32.980 --> 00:07:36.999
+Antonio Sanso: I need to share my slides, or only a few slides, but…
+
+7
+00:07:37.280 --> 00:07:40.289
+Antonio Sanso: I would appreciate if you can tell me if it works.
+
+8
+00:08:04.270 --> 00:08:05.510
+Antonio Sanso: Hello, Benny.
+
+9
+00:08:07.340 --> 00:08:07.930
+Benedikt Wagner: Hello.
+
+10
+00:10:31.890 --> 00:10:39.180
+Antonio Sanso: Hi everyone, we wait a few more minutes, just, like, 2 minutes after 4, as usual, to wait for someone else, if it's…
+
+11
+00:10:39.640 --> 00:10:41.210
+Antonio Sanso: Someone else is late.
+
+12
+00:10:45.260 --> 00:10:46.370
+Matteo Vicari: Hi, everyone.
+
+13
+00:10:48.080 --> 00:10:48.620
+Alessandro Baiocchi: I…
+
+14
+00:10:49.540 --> 00:10:50.500
+Antonio Sanso: I'm a tip.
+
+15
+00:11:45.370 --> 00:11:47.299
+Antonio Sanso: One more minute and we start, huh?
+
+16
+00:12:39.260 --> 00:12:43.079
+Antonio Sanso: All right, I'll start. Cecil, I will have a few more… few slides.
+
+17
+00:12:45.540 --> 00:12:54.360
+Antonio Sanso: And then we'll start with the meeting per se. So today is the fourth occurrence of this post-quantum transaction signatures.
+
+18
+00:12:54.790 --> 00:12:57.340
+Antonio Sanso: We had the first trade,
+
+19
+00:12:57.910 --> 00:13:03.559
+Antonio Sanso: Here are the topics we already touched. First one, lattice solution. Second.
+
+20
+00:13:03.890 --> 00:13:09.870
+Antonio Sanso: hash-based solution, and last one, we had, entity and non-prepared compiles.
+
+21
+00:13:10.170 --> 00:13:14.370
+Antonio Sanso: And today's topic is about account abstraction.
+
+22
+00:13:15.660 --> 00:13:19.909
+Antonio Sanso: So I'm sharing again the strong app that was shared, like, a few weeks ago.
+
+23
+00:13:20.200 --> 00:13:22.580
+Antonio Sanso: And, again, for us.
+
+24
+00:13:23.590 --> 00:13:39.559
+Antonio Sanso: the part that are interested… interesting are the precompile part that leveraged and piggyback on the native ACAND abstraction. Last week, we have seen the entity precompile, and today we see a bit of account abstractions.
+
+25
+00:13:40.860 --> 00:13:45.629
+Antonio Sanso: So we will have, basically, two presentations. The first one is from Mattel.
+
+26
+00:13:45.800 --> 00:13:51.400
+Antonio Sanso: It's about 10 minutes presentation about one solution that can be already deployed right now.
+
+27
+00:13:51.700 --> 00:13:53.810
+Antonio Sanso: That involve a kind of traction.
+
+28
+00:13:54.020 --> 00:14:02.140
+Antonio Sanso: And then we'll have a lead client that is one of the authors of the frame transaction, EAP8141.
+
+29
+00:14:02.780 --> 00:14:15.629
+Antonio Sanso: And this will leave some space, hopefully, for open discussions. Another thing is, I created this Telegram chat for the future, so to have conversations. I will share in the chat of, of,
+
+30
+00:14:15.840 --> 00:14:18.640
+Antonio Sanso: of Zoom, if you want to join after.
+
+31
+00:14:18.900 --> 00:14:22.110
+Antonio Sanso: Hopefully, we'll have an interesting discussion in the future.
+
+32
+00:14:22.560 --> 00:14:25.060
+Antonio Sanso: And this is basically everything.
+
+33
+00:14:25.220 --> 00:14:35.839
+Antonio Sanso: From my side, and I will leave the stage to… to Mateo and Alessandra, I guess, at this point. You guys have 10 minutes. I will stop sharing. Thanks.
+
+34
+00:14:36.700 --> 00:14:37.430
+Alessandro Baiocchi: Okay.
+
+35
+00:14:38.080 --> 00:14:38.600
+Matteo Vicari: Okay?
+
+36
+00:14:42.650 --> 00:14:43.240
+Matteo Vicari: Okay.
+
+37
+00:14:43.690 --> 00:14:44.310
+Alessandro Baiocchi: Okay.
+
+38
+00:14:47.800 --> 00:14:49.679
+Alessandro Baiocchi: You should see my screen, then?
+
+39
+00:14:50.910 --> 00:14:51.970
+Matteo Vicari: It's all good.
+
+40
+00:14:52.340 --> 00:15:10.630
+Matteo Vicari: Nice, everyone. Today, we want to present a design for a femoral key rotation and a count abstraction, a possible way to bridge to a postume quantum security. I am Matteo Vigari, and this is Alessandro Bajoki, and we try to show us our idea.
+
+41
+00:15:11.470 --> 00:15:18.359
+Matteo Vicari: First, before we start, I want to make some clarification, because I don't want to upset nobody.
+
+42
+00:15:18.370 --> 00:15:33.580
+Matteo Vicari: So, our solution is not a replace for the needing of post-quantum signature, or the research of the post-quantum signator. Today's solution is for make the security asset of the people, today inside the chain.
+
+43
+00:15:33.630 --> 00:15:43.819
+Matteo Vicari: It's not a replacement for the work on the consensus layer, it's something more simple. So, I let Alessandro talk and illustrate the idea.
+
+44
+00:15:44.900 --> 00:15:47.040
+Alessandro Baiocchi: Yeah, thank you, Mattel, for the introduction.
+
+45
+00:15:47.270 --> 00:15:58.569
+Alessandro Baiocchi: So, as we all know, in a post-quantum world, public regulatory is not safe anymore, because private keys can be recovered from public keys.
+
+46
+00:15:58.600 --> 00:16:08.089
+Alessandro Baiocchi: And this also means that you need the public key to record the private key, so if a wallet didn't broadcast any transaction, the wallet is still safe in post-quantum world.
+
+47
+00:16:08.220 --> 00:16:22.530
+Alessandro Baiocchi: And we would like to use this to, like, achieve quantum security, but the issue is that to interact with basically anything on-chain, we need a stable identity. The protocol we're interacting with can identify us with.
+
+48
+00:16:22.710 --> 00:16:34.470
+Alessandro Baiocchi: So what we want to do is basically leverage account construction to decouple the on-chain identity, which would be the smart account address, and the signer address, which will be changed, and we'll see how.
+
+49
+00:16:34.700 --> 00:16:38.649
+Alessandro Baiocchi: So, this is our basic scheme of the idea.
+
+50
+00:16:38.680 --> 00:16:52.669
+Alessandro Baiocchi: And let's say Alice wants to send a transaction chain, and she has a smart contract wallet that's owned by Signer 1, and let's say, like, for the sake of this example, let's say signal 1 is the first address of a delegation path.
+
+51
+00:16:52.670 --> 00:17:02.259
+Alessandro Baiocchi: that's owned by Alice, but that's not actually necessary, it can, like, you can use, addresses, but let's say it's a degradation part, because it's more convenient.
+
+52
+00:17:02.560 --> 00:17:14.390
+Alessandro Baiocchi: And what happens is Alice will sign her transaction containing the user group she wants to execute, and the address of signer 2.
+
+53
+00:17:14.609 --> 00:17:17.390
+Alessandro Baiocchi: And sinex2 being the next address in the delegation path.
+
+54
+00:17:17.540 --> 00:17:18.660
+Alessandro Baiocchi: And…
+
+55
+00:17:18.800 --> 00:17:29.200
+Alessandro Baiocchi: what happens is that the smart contract holder will authenticate Alice, authenticate that the transaction is being signed by the owner, which is signer1,
+
+56
+00:17:29.340 --> 00:17:35.429
+Alessandro Baiocchi: And then, after executing the user operation, we'll change its owner to signX2.
+
+57
+00:17:35.620 --> 00:17:49.669
+Alessandro Baiocchi: And notice that we are just sending SENX2 address on chain, so the public key is still not being broadcast. This is just the address, there is a Nash in the middle, so we're still safe, even in a post-quantum world.
+
+58
+00:17:49.970 --> 00:17:54.400
+Alessandro Baiocchi: And what happens is now, Sanaguan Public Key is public.
+
+59
+00:17:54.480 --> 00:18:07.429
+Alessandro Baiocchi: And so is its private key, if the package is quantum capable. But, the smart contract wallet is no longer owned by San X1, it's owned by SanX2, so Sanc1 private key is now useless.
+
+60
+00:18:07.430 --> 00:18:22.940
+Alessandro Baiocchi: And this method can be integrated, basically making each keeper in the delegation path disposable. We only use it to sign one transaction, and after that transaction, the next signer will become active.
+
+61
+00:18:23.490 --> 00:18:31.529
+Alessandro Baiocchi: And this is a very simple idea. It's, the main appeal of this idea, it's simplicity. It relies on HCSA,
+
+62
+00:18:31.530 --> 00:18:45.160
+Alessandro Baiocchi: which has several benefits. For example, there is no need for product 11 changes, so no need in… to change anything in the scheme to use this. And using SCDSA has some benefits, for example.
+
+63
+00:18:45.260 --> 00:18:57.959
+Alessandro Baiocchi: We… we know it's a battle-tested signative scheme. It is classically, secure. We know it, up until now.
+
+64
+00:18:57.960 --> 00:19:05.280
+Alessandro Baiocchi: And, it has… it is cheap to verify on-chain, because it's the program standard for sign… for signatures.
+
+65
+00:19:05.440 --> 00:19:06.370
+Alessandro Baiocchi: And…
+
+66
+00:19:06.610 --> 00:19:18.599
+Alessandro Baiocchi: being the Korean standard for Signal means this is implementable as of today, without needing protocol-level changes. Of course, being this simple also has some
+
+67
+00:19:18.760 --> 00:19:27.360
+Alessandro Baiocchi: drawbacks, for example, we… the fact that we use, a PEC quantum, let's say ACCDSA, which is not a post-quantum signal.
+
+68
+00:19:27.360 --> 00:19:39.940
+Alessandro Baiocchi: Means that if the public key of a signer that still has not processed a transaction becomes public, for example, if the transaction is broadcast but reversed because of a wrong nonce.
+
+69
+00:19:39.990 --> 00:19:51.130
+Alessandro Baiocchi: Or the use of the public key is sniped from the mempool before the transaction is executed, the private key could become vulnerable.
+
+70
+00:19:51.280 --> 00:19:55.320
+Alessandro Baiocchi: But, for example, for the, the mempool example.
+
+71
+00:19:55.470 --> 00:20:13.009
+Alessandro Baiocchi: it's, the time frame for the attack becomes much smaller, of course, because it, it's, the attacker would have 12 seconds to… to… if you are on, on Ethereum, or if you're on L2, even less, to steal the private key, and, from the user, so even in that case, the attack window is
+
+72
+00:20:13.010 --> 00:20:24.660
+Alessandro Baiocchi: extremely reduced, even if the attacker has quantum capabilities. But in any case, it's important to acknowledge there are still, shortcomings that come from this simplicity.
+
+73
+00:20:25.360 --> 00:20:39.330
+Alessandro Baiocchi: As I was saying, this is implementable today, we did it, we started from a simple wallet, and we made a few modifications that allow us to integrate the user rotation feature.
+
+74
+00:20:39.640 --> 00:20:40.750
+Alessandro Baiocchi: And…
+
+75
+00:20:40.980 --> 00:20:52.750
+Alessandro Baiocchi: We tested it and deployed it on base Sepolia, so testing and gas measuring. We measured some simple object, a simple operation, which is XC20 transfer.
+
+76
+00:20:52.750 --> 00:21:03.179
+Alessandro Baiocchi: And we've seen that, with respect to a transfer made from an EOA, adding the whole account of Russian stuff, and with sign and rotation, adds less than 100K yes.
+
+77
+00:21:03.230 --> 00:21:20.760
+Alessandro Baiocchi: to the total cost of the transaction. And, of course, this comes without adding the whole account abstraction features. If you already have an account, smart contract wallet, and you just need to add the only accrotation, the cost is easily negligible, like, almost negligible.
+
+78
+00:21:21.440 --> 00:21:29.729
+Alessandro Baiocchi: And we also built a live demo, public demo, you can try at this link. It should be in the shot, and I'll leave it to Mattel for this one.
+
+79
+00:21:30.120 --> 00:21:37.010
+Matteo Vicari: This is a simple demo. We create, Smart Concept Wallet, through, a mnemonic.
+
+80
+00:21:37.360 --> 00:21:42.240
+Matteo Vicari: We create the mnemonic, okay? So we have the account.
+
+81
+00:21:42.350 --> 00:21:47.659
+Matteo Vicari: We mint some token to this account for, see all the transactions work on chain.
+
+82
+00:21:47.990 --> 00:22:07.849
+Matteo Vicari: And then we started to execute some transaction, we send tokens to one address, really simple. What we can see, there is an active signer, is the first signer, and then when we make a transaction, the send transaction, the active signer is not long one, but
+
+83
+00:22:07.850 --> 00:22:25.290
+Matteo Vicari: it becomes 1 to 0. If we do, every transaction we do, we change the signer. Pretty simple. This is really cheap, and if, for example, in the next transaction, we finish the balance of the token, so the transaction reverts.
+
+84
+00:22:25.290 --> 00:22:38.550
+Matteo Vicari: This revert is different, because this revert, it occurred inside the user operation, it's not inside the… for example, we finish the gas, or we put a wrong nonce. The transaction is still managed.
+
+85
+00:22:38.550 --> 00:22:50.539
+Matteo Vicari: and what we can see is the transaction also rotates the signer. If, for example, we go to the logs, we put any event that, show
+
+86
+00:22:50.860 --> 00:22:52.620
+Matteo Vicari: The rotation of the wallet.
+
+87
+00:22:52.990 --> 00:23:02.489
+Matteo Vicari: And, all you can see in the first tab, the gas consume of this transaction is, pretty low. Instead, the other solution.
+
+88
+00:23:02.990 --> 00:23:10.139
+Matteo Vicari: You can try, it's simple, all the demo is leveraging the account abstraction, you don't have to,
+
+89
+00:23:10.520 --> 00:23:23.509
+Matteo Vicari: put nothing, do all the stuff alone. We also have the discussion open inside at Research, so if you want to ask some questions or stuff like this, you can go there.
+
+90
+00:23:23.590 --> 00:23:38.290
+Matteo Vicari: So, the next step. We create, RC7579 modules for this feature, which I already put inside Git, so if you want to use it, it's there.
+
+91
+00:23:38.360 --> 00:23:53.010
+Matteo Vicari: And also, we want now working, mitigate some, some issue. For example, using the encrypto mempool for, or private mempool for not propagate the transaction, when we send the deficit transaction.
+
+92
+00:23:53.160 --> 00:24:08.990
+Matteo Vicari: And also, we want to try to address the problem to have the revert if the transaction, the old transaction is not executed correctly, for example, is going out of gas. And also, we start working, the comparability.
+
+93
+00:24:08.990 --> 00:24:13.640
+Matteo Vicari: of this system with the frame transaction. And then we want to
+
+94
+00:24:13.640 --> 00:24:15.490
+Matteo Vicari: Some edge case and stuff like this.
+
+95
+00:24:15.580 --> 00:24:23.120
+Matteo Vicari: Thanks for your attention. If you have questions or other stuff, you can send an email, there.
+
+96
+00:24:23.350 --> 00:24:26.999
+Matteo Vicari: We put all the link inside the chat.
+
+97
+00:24:27.680 --> 00:24:35.550
+Matteo Vicari: Dan, if we want to have some questions, we… in the last part of the… I don't know, work Antonio today.
+
+98
+00:24:35.780 --> 00:24:50.339
+Antonio Sanso: Thanks a lot, guys. This is actually a really nice, simple idea, but effective. Actually, I was really glad to learn they use, like, they can actually somehow hijack account abstraction with this simple idea and having something work.
+
+99
+00:24:50.600 --> 00:24:57.449
+Antonio Sanso: Great stuff. So if you guys have questions, you can leave in the chat, and we had actually a great segue for Lite Client.
+
+100
+00:24:57.610 --> 00:25:02.610
+Antonio Sanso: For a frame transaction that was mentioned in the last slide.
+
+101
+00:25:02.920 --> 00:25:06.850
+Antonio Sanso: So, I've seen Lite Client here before.
+
+102
+00:25:06.980 --> 00:25:10.440
+Antonio Sanso: If you're here, you can share your screen, and go ahead.
+
+103
+00:25:11.280 --> 00:25:13.019
+lightclient: Cool. Thanks, Antonio.
+
+104
+00:25:21.850 --> 00:25:22.760
+lightclient: Alright.
+
+105
+00:25:29.890 --> 00:25:35.069
+lightclient: Hey guys, I just want to give a high-level overview of the frame transaction.
+
+106
+00:25:35.460 --> 00:25:39.330
+lightclient: Today, I assume a lot of you have… Dean a bit about…
+
+107
+00:25:39.520 --> 00:25:46.290
+lightclient: the frame transaction, so I'm happy to also spend some time at the end and go more in-depth and answer
+
+108
+00:25:46.400 --> 00:25:50.849
+lightclient: Any questions that, that you guys might be having.
+
+109
+00:25:51.830 --> 00:25:59.719
+lightclient: In general, The reason that we are pursuing frame transaction today is…
+
+110
+00:25:59.980 --> 00:26:05.459
+lightclient: post-quantum, which is a lot of the reason that Antonio invited me to this call, I think.
+
+111
+00:26:08.940 --> 00:26:20.650
+lightclient: at many layers of the Ethereum stack, we're thinking about how to deal with quantum computing, becoming much more of a threat, and on the execution layer, we…
+
+112
+00:26:20.940 --> 00:26:27.459
+lightclient: Obviously, I have a lot of elliptic curve cryptography, which… We need to have…
+
+113
+00:26:27.690 --> 00:26:29.719
+lightclient: Clear solutions to deal with.
+
+114
+00:26:30.050 --> 00:26:34.910
+lightclient: And… The clearest one is the transaction signature.
+
+115
+00:26:36.030 --> 00:26:38.089
+lightclient: So, the frame transaction…
+
+116
+00:26:39.120 --> 00:26:47.829
+lightclient: is not the simplest way to deal with post-quantum. I think that we've kind of, like, seen this with other proposals on…
+
+117
+00:26:48.160 --> 00:26:49.490
+lightclient: adding different…
+
+118
+00:26:49.790 --> 00:27:00.580
+lightclient: cryptographic algorithms to the signature, to the transaction signature. There's certainly, like, simpler ways to do this if, you know, we're only trying to solve for post-quantum.
+
+119
+00:27:00.680 --> 00:27:04.849
+lightclient: But I think it's important to know that, like, even though the…
+
+120
+00:27:05.060 --> 00:27:08.809
+lightclient: primary goal of Frame Transaction is to…
+
+121
+00:27:09.590 --> 00:27:12.460
+lightclient: You know, begin this long migration of…
+
+122
+00:27:12.810 --> 00:27:16.830
+lightclient: accounts to a post-quantum world. We're also trying to do other things.
+
+123
+00:27:17.190 --> 00:27:21.300
+lightclient: And, in particular, we're trying to deliver
+
+124
+00:27:21.670 --> 00:27:27.350
+lightclient: this, like, broad account abstraction idea to the users of Ethereum.
+
+125
+00:27:27.480 --> 00:27:35.210
+lightclient: Because there are, many… there are many use cases that… that we believe are valuable that come out of that.
+
+126
+00:27:35.940 --> 00:27:50.080
+lightclient: And it feels like a loss to just solve post-quantum and, you know, not give users a lot of these nice new capabilities, which have been worked on as well for the last 6 to 8 years.
+
+127
+00:27:51.550 --> 00:27:59.340
+lightclient: So with that said, like, what… what is frame transaction? What's different about this versus, like, other ideas for native accounts abstraction?
+
+128
+00:27:59.940 --> 00:28:03.679
+lightclient: I think that, you know, the biggest thing
+
+129
+00:28:04.640 --> 00:28:11.220
+lightclient: to me about frames is that when we used to work on account subtraction before 7701,
+
+130
+00:28:11.630 --> 00:28:16.010
+lightclient: We always struggled with how can the protocol introspect
+
+131
+00:28:16.430 --> 00:28:19.350
+lightclient: The transaction, and, like, reason about it better.
+
+132
+00:28:19.610 --> 00:28:23.399
+lightclient: You'll probably see, like, I'm just gonna talk about the consensus
+
+133
+00:28:23.730 --> 00:28:27.609
+lightclient: Changes that need to be made to make frame transactions possible, but
+
+134
+00:28:27.850 --> 00:28:38.470
+lightclient: The complexity of framed transactions is often outside the protocol, in the transaction pool, and it was always a bit of a complication, like, how can we reason about
+
+135
+00:28:38.640 --> 00:28:54.520
+lightclient: how can we reason about the transaction in the transaction pool? And so with frames, we kind of had this insight, by looking at 7701 pretty deeply, and we kind of realized, as we were implementing 7701 that
+
+136
+00:28:54.990 --> 00:28:59.890
+lightclient: A lot of the different phases of 7701 are similar.
+
+137
+00:29:00.170 --> 00:29:16.340
+lightclient: you know, if there's a phase for the user to maybe deploy their account, there's a phase to validate the operation, there's a phase to, have the Paymaster validate the operation, execute the operation, all of these things. And so we realized that
+
+138
+00:29:17.060 --> 00:29:22.479
+lightclient: A lot of these things are, like, basically the same. We're just changing some environmental variables about the EBM.
+
+139
+00:29:23.120 --> 00:29:25.240
+lightclient: And that kind of led us to…
+
+140
+00:29:25.360 --> 00:29:32.490
+lightclient: thinking about this generalization, which we've kind of called frames. And yeah, this is a bit of a…
+
+141
+00:29:32.860 --> 00:29:37.440
+lightclient: You know, collision with the concept of a call frame.
+
+142
+00:29:38.000 --> 00:29:41.190
+lightclient: But in some ways, it is very much like a call frame.
+
+143
+00:29:41.980 --> 00:29:45.850
+lightclient: And, yeah, not to get them, like, too confused, we'll kind of see how…
+
+144
+00:29:45.970 --> 00:29:54.240
+lightclient: call frames play into it later. But yeah, we think about frames as, like, individual instantiations of the EVM.
+
+145
+00:29:54.440 --> 00:29:57.920
+lightclient: And we'll kind of see how that works out in a few slides.
+
+146
+00:29:59.340 --> 00:30:18.410
+lightclient: On top of the frames, like, we're trying to address, like, general concerns that the community has around the adoption of this technology, around the standardization of using this technology, and that's why we're also trying to add things like a default account.
+
+147
+00:30:18.720 --> 00:30:31.080
+lightclient: So the default account, as currently proposed, is not a post-quantum account. It's really just a very simple EOA account using the same cryptography that that Mainnet has today.
+
+148
+00:30:31.290 --> 00:30:38.649
+lightclient: But it gives users the account abstraction features that they kind of are expecting to have, things like, you know, native batching.
+
+149
+00:30:38.760 --> 00:30:44.209
+lightclient: And maybe we can add more things to this, like… Key rotation.
+
+150
+00:30:44.440 --> 00:30:55.190
+lightclient: And when the time comes where we have the post-quantum cryptography in the protocol as a precompile, and we're ready to…
+
+151
+00:30:55.600 --> 00:31:09.829
+lightclient: You know, kind of back a specific algorithm, or, like, a set of algorithms, then it might also be very possible for us to use the default account to help ease the transition for those users into using post-quantum cryptography.
+
+152
+00:31:11.690 --> 00:31:13.629
+lightclient: So that's a simple summary.
+
+153
+00:31:14.270 --> 00:31:26.610
+lightclient: Goals… kind of mentioned this as well in the simple summary, but, like, we need the answer to post-quantum on the execution layer. We're reusing a lot of the ideas in accounts abstraction. They go hand in hand.
+
+154
+00:31:27.230 --> 00:31:34.939
+lightclient: It's important to note that in Hagota, we have accepted Fossil as the headliner on the consensus layer.
+
+155
+00:31:35.180 --> 00:31:39.080
+lightclient: And we also believe that it's important that all
+
+156
+00:31:39.180 --> 00:31:55.549
+lightclient: account types in Ethereum can utilize these, like, new native functionalities. And today, if you want to use Fossil as a smart account, then you would have to wrap your operation or find a bundler who is willing to submit your operation to Fossil, to the Fossil mechanism.
+
+157
+00:31:56.370 --> 00:32:04.829
+lightclient: And so we want to make sure that users can use these native protocol features without finding intermediaries to go through, and without, like, you know.
+
+158
+00:32:05.000 --> 00:32:16.749
+lightclient: seriously degrading the… the UX that we're trying to create with smart accounts. So that's one other, like, big reason that, you know, we're talking about native account abstraction now.
+
+159
+00:32:19.090 --> 00:32:36.370
+lightclient: One final goal that we care a lot about in the frame transaction standard that, again, doesn't really have much to do with post-quantum, but has a lot to do with the user experience, is we do care about having trustless, permissionless gas abstraction.
+
+160
+00:32:36.790 --> 00:32:41.830
+lightclient: And this is kind of, like, building on all of the work from the ERC4337.
+
+161
+00:32:42.190 --> 00:32:46.100
+lightclient: Where they built, basically, this entire protocol.
+
+162
+00:32:46.370 --> 00:32:53.990
+lightclient: outside the protocol, on top of the Layer 1 and the Layer 2s, to do account subtraction without
+
+163
+00:32:54.190 --> 00:33:09.829
+lightclient: Even a protocol change. But it does create its own system, and depending on, like, the lens you look at it, like, there are intermediaries in that system. Yes, it has a path to being permissionless and decentralized.
+
+164
+00:33:09.990 --> 00:33:19.160
+lightclient: But it will always be bolted on top of the Layer 1, and so we believe it's important to try and dissolve that gap between
+
+165
+00:33:19.510 --> 00:33:22.940
+lightclient: The 4337 world and the native protocol.
+
+166
+00:33:23.300 --> 00:33:28.410
+lightclient: So that's another important goal that we are thinking a lot about with the frame transaction.
+
+167
+00:33:31.270 --> 00:33:33.349
+lightclient: Okay, what is the frame transaction?
+
+168
+00:33:34.050 --> 00:33:46.970
+lightclient: This is a diagram that basically shows all of the elements that exist in the frame transaction. I won't go into detail on every single one, because a lot of them are just standard values that exist.
+
+169
+00:33:47.000 --> 00:33:56.180
+lightclient: In particular, the, like, quote-unquote, outer values, this, like, list, chain ID, non-sender, etc, like, these are all things that…
+
+170
+00:33:56.330 --> 00:34:05.479
+lightclient: every transaction type has. With the exception of sender. And so, Sender is kind of, like.
+
+171
+00:34:05.950 --> 00:34:19.610
+lightclient: equivalent to the result of doing the EC recover on transaction signatures today, right? Like, we don't need to say who the transaction is coming from, because it's trivial for us to do an EC recover and determine this.
+
+172
+00:34:20.310 --> 00:34:23.370
+lightclient: With the frame transaction, we will want to make the validation
+
+173
+00:34:23.909 --> 00:34:30.310
+lightclient: arbitrary. We want to allow users to define whatever validation scheme they want. And so…
+
+174
+00:34:30.530 --> 00:34:32.979
+lightclient: In our case, like, we… we can't…
+
+175
+00:34:33.409 --> 00:34:48.220
+lightclient: always know how to recover the sender. Maybe there isn't, maybe the cryptographics doesn't allow the sender to be recovered, and so we need to kind of, like, understand who this transaction is intended to be originating from.
+
+176
+00:34:48.810 --> 00:34:50.639
+lightclient: And the reason for this is that
+
+177
+00:34:51.219 --> 00:35:05.129
+lightclient: in some earlier revisions of this standard, there was this idea that maybe the transat… you know, maybe we didn't need to think about a transaction as originating from a single person. Maybe we could just, like, be maximally generic here.
+
+178
+00:35:05.130 --> 00:35:16.530
+lightclient: And we could just, you know, treat it as, you know, a list of frames, and if the frames somehow coordinate and decide they want to pay for the transaction execution, we just let whatever happen happen.
+
+179
+00:35:17.040 --> 00:35:21.559
+lightclient: And an issue that we found with this is that it totally breaks the way that
+
+180
+00:35:22.540 --> 00:35:34.789
+lightclient: all of the clients, all of the downstream tooling, like, it's a 180-degree turn away from how people think about transactions. We think about transactions as something that someone sent, that some entity sent.
+
+181
+00:35:35.240 --> 00:35:43.509
+lightclient: And so we kind of realized it's actually pretty important to think more about a transaction as having one sender, rather than having, like, a list of senders.
+
+182
+00:35:43.630 --> 00:35:49.409
+lightclient: And so that was, like, an important, an important distinction that we… that we made early on.
+
+183
+00:35:51.500 --> 00:36:00.089
+lightclient: So that's the frame transaction object. I want to look more in detail about the frames now, because I think the frames are…
+
+184
+00:36:00.330 --> 00:36:02.980
+lightclient: The kind of novel part.
+
+185
+00:36:03.140 --> 00:36:09.029
+lightclient: Also, if you guys have some questions, feel free to just jump in. I saw some chat bubbles popping up.
+
+186
+00:36:15.780 --> 00:36:16.790
+lightclient: Okay.
+
+187
+00:36:17.450 --> 00:36:22.239
+lightclient: So the frame has 4 elements. It has mode, target, gas limit, and data.
+
+188
+00:36:22.450 --> 00:36:31.030
+lightclient: The mode basically says What… you know, it kind of conveys what the frame is attempting to do.
+
+189
+00:36:31.440 --> 00:36:39.629
+lightclient: And this goes back to the goal of having good introspection at the protocol layer about what a transaction is doing.
+
+190
+00:36:40.050 --> 00:36:46.890
+lightclient: And so right now, we have 3 modes. We have a default mode, which is basically just, it does a regular call.
+
+191
+00:36:48.460 --> 00:36:54.360
+lightclient: We'll see, like, some examples later, like, how exactly that one might be used, but it's basically just, like, a…
+
+192
+00:36:54.550 --> 00:36:59.019
+lightclient: It's a way to do some execution within your frame transaction.
+
+193
+00:36:59.800 --> 00:37:02.880
+lightclient: We have Verify, which is…
+
+194
+00:37:03.090 --> 00:37:12.189
+lightclient: The mode that signals the user is going to do some, like, cryptographic verification here.
+
+195
+00:37:12.630 --> 00:37:20.689
+lightclient: And… We, you know, don't… Constrain the types of cryptographic validations they do.
+
+196
+00:37:20.870 --> 00:37:26.790
+lightclient: But we do require that they, decide at the end. They make, like, a binary decision.
+
+197
+00:37:27.100 --> 00:37:31.759
+lightclient: is this successful or not? And they call an opcode called Approve.
+
+198
+00:37:32.720 --> 00:37:39.689
+lightclient: And there's a couple types of approves that we can have, and we'll look at this in a second, but basically, you can approve as a sender.
+
+199
+00:37:40.080 --> 00:37:45.800
+lightclient: You can approve as a payer, or like a paymaster, and then you can approve as both.
+
+200
+00:37:46.010 --> 00:38:00.339
+lightclient: And the analogy is probably, like, if you're approving as both, you can think of this as, like, a transaction today. If you sent an EOA transaction today, you are signing over the transaction and, like, implicitly approving both
+
+201
+00:38:00.340 --> 00:38:09.640
+lightclient: that you are willing to pay for that transaction, and that you desire to execute that transaction as the sender. So that's kind of what the, both
+
+202
+00:38:09.920 --> 00:38:12.959
+lightclient: the… the both,
+
+203
+00:38:13.630 --> 00:38:30.460
+lightclient: type of approved is. Then there's the sender and the payer that's kind of separating the two types of users there in this, like, paymastering world, where you might want to send a transaction, but you don't want to pay for it. Or you don't want to pay for it with ETH, you want to pay for it with a stablecoin.
+
+204
+00:38:30.820 --> 00:38:38.669
+lightclient: And so in that world, you might, have a verify frame which approves the, execution.
+
+205
+00:38:38.810 --> 00:38:40.900
+lightclient: And then a paymaster would have a…
+
+206
+00:38:41.080 --> 00:38:46.280
+lightclient: frame that approves the payment, the deduction of the Ether from the balance.
+
+207
+00:38:47.730 --> 00:38:49.860
+lightclient: So that's executed in a static call.
+
+208
+00:38:50.370 --> 00:39:06.860
+lightclient: That means that you can't actually write to any of the storage slots. You can read from storage slots. There's a lot of rules around what you can read that aren't encoded in the core protocol, so I'm not going over it in depth here, but are
+
+209
+00:39:07.090 --> 00:39:09.340
+lightclient: You know, applied…
+
+210
+00:39:09.670 --> 00:39:18.339
+lightclient: during the validation in the public transaction pool. And that's an important distinction, because in the public transaction pool, we want to have
+
+211
+00:39:18.530 --> 00:39:21.739
+lightclient: Robust transaction propagation, which is safe.
+
+212
+00:39:23.060 --> 00:39:26.100
+lightclient: And censorship Assistant, and permissionless.
+
+213
+00:39:27.340 --> 00:39:33.650
+lightclient: And that means that we have to constrain the types of interactions that users can come up with.
+
+214
+00:39:34.220 --> 00:39:46.390
+lightclient: But we want to keep that outside the protocol, because we don't want to pretend that we know the best way to, like, utilize these powerful primitives. And so we kind of allow a lot more things to happen.
+
+215
+00:39:46.950 --> 00:39:51.399
+lightclient: You know, in the protocol than would be possible in just the mempool.
+
+216
+00:39:51.710 --> 00:39:52.560
+lightclient: And…
+
+217
+00:39:52.600 --> 00:40:07.279
+lightclient: Essentially, what that means is that if you're a block builder, if you're an RPC provider, you might be able to come up with, like, nicer services to provide to the user, which maybe they can't go through the transaction, the public transaction pool, or maybe they can't go through the public transaction pool yet.
+
+218
+00:40:07.280 --> 00:40:13.269
+lightclient: Maybe it's something that, once we see that there's use of it, then we try to integrate into the public transaction pool.
+
+219
+00:40:13.530 --> 00:40:32.699
+lightclient: An example of this is something like a transaction assertion. If you want to assert at the end of your transaction that some behavior during the transaction happened and nothing else. Like, if you want to, you know, ensure that you swapped some token for Aave, and you received at least some amount of Aave.
+
+220
+00:40:32.770 --> 00:40:37.070
+lightclient: This would protect the, like, the swap that happened last week, where they…
+
+221
+00:40:37.440 --> 00:40:40.319
+lightclient: lost a lot of… a lot of money on an Aave swap.
+
+222
+00:40:40.610 --> 00:40:50.399
+lightclient: This is, like, kind of a revert protection style that could be offered by RPC providers or bundlers to users who have smart accounts.
+
+223
+00:40:51.040 --> 00:40:59.990
+lightclient: So we try to keep the protocol simple and very allowable, and then we apply more constraints in the transaction pool.
+
+224
+00:41:01.240 --> 00:41:14.990
+lightclient: So that's the verify frame, then the sender frame is the frame where the user action happens, essentially. This is, like, the permission frame where we actually set the message.sender to be the transaction sender.
+
+225
+00:41:15.630 --> 00:41:33.330
+lightclient: So if you, if you want to send an ERC token, an ERC20 token, then, you know, it's going to use the message.sender to authorize the send there. And so, the sender frame kind of, like, replicates that behavior that we have today with EOAs and with smart accounts.
+
+226
+00:41:33.980 --> 00:41:49.900
+lightclient: And that frame can only come after Verify has approved a sender, because, you know, you can't… you shouldn't be able to send a sender frame on behalf of someone… someone else. So you do have to go through, like, the verification process and calling approve.
+
+227
+00:41:51.770 --> 00:41:55.130
+lightclient: Okay, those are our three modes, our three, frame modes.
+
+228
+00:41:55.780 --> 00:42:00.260
+lightclient: Also in the frame is the target, that's, like, you know, the to address.
+
+229
+00:42:00.790 --> 00:42:18.249
+lightclient: to reduce on some call data, we also allow sending OXO as the TX sender, so that TX sender value just fills in if you submit, like, an empty target. Otherwise, that's, you know, the actual target address. And then we have the call data.
+
+230
+00:42:19.160 --> 00:42:23.000
+lightclient: And this gets passed in to that specific frame.
+
+231
+00:42:24.740 --> 00:42:34.570
+lightclient: We'll see a bit later, but one interesting aspect about the data is that for the verify frames, we allied the data.
+
+232
+00:42:36.600 --> 00:42:50.250
+lightclient: So, we actually don't allow the transaction to see what the verified data is during execution, unlike the other frames. The other frame types, you can look at the data, and you can kind of, like, reason about
+
+233
+00:42:50.250 --> 00:43:01.419
+lightclient: you know, is this person transferring ERC20 tokens? Are they doing a Uniswap transfer? Whatever. We don't… we don't allow this, for the verify, both in transaction RAM opcode.
+
+234
+00:43:01.490 --> 00:43:04.999
+lightclient: So, like, during execution, or with the signature hash.
+
+235
+00:43:05.110 --> 00:43:16.430
+lightclient: Which makes sense to a degree with the signature hash, because the signature hash is the hash that we're gonna sign. And so you can't… you know, if the verify frame call date is gonna have the signature, then you can't really…
+
+236
+00:43:16.880 --> 00:43:19.930
+lightclient: You know, hash the signature before you have it.
+
+237
+00:43:22.010 --> 00:43:27.090
+lightclient: One last thing to note on frames is that each frame It produces its own receipt.
+
+238
+00:43:27.430 --> 00:43:33.050
+lightclient: And this goes back to our, like, goal of trying to just make
+
+239
+00:43:33.360 --> 00:43:50.809
+lightclient: account abstraction more seamless for users. It's been a big complaint with 4337 that, you know, if you send a bundle of a bunch of users… user operations together, then it's very difficult to parse out which user operation is associated with which receipt.
+
+240
+00:43:51.120 --> 00:44:03.790
+lightclient: And even with batch calls, to a degree, like, users complain that if they submit a handful of calls and they get receipts for all of them, they are just jumbled together in one list today.
+
+241
+00:44:04.180 --> 00:44:09.989
+lightclient: And so with the frames, we're gonna introduce, like, per-frame receipts as well, in the receipt object.
+
+242
+00:44:12.120 --> 00:44:13.840
+lightclient: Okay, that's the frame.
+
+243
+00:44:14.420 --> 00:44:19.879
+lightclient: So the transaction param, this is an opcode that we're adding, which gives introspection about
+
+244
+00:44:19.980 --> 00:44:34.900
+lightclient: the transaction broadly, so it tells you basic elements of the transaction, gives you the max cost. These are things that help with paymastering, sponsoring transactions. There's, like, frame information, so you can get the current executing frame.
+
+245
+00:44:35.090 --> 00:44:37.180
+lightclient: And then there's the SIGH, which…
+
+246
+00:44:38.050 --> 00:44:52.860
+lightclient: it's a built-in function that constructs the hash of the overall transaction, you know, minus the call data in the verify frames. And we're hoping that, for the most part, wallets will use SIGH
+
+247
+00:44:53.020 --> 00:45:00.040
+lightclient: Directly, instead of constructing their own hashes for, you know, their own transaction hashes.
+
+248
+00:45:00.160 --> 00:45:06.259
+lightclient: For signing. And the reason is that we got tons of feedback from smart account developers saying that
+
+249
+00:45:06.660 --> 00:45:20.130
+lightclient: code to actually build a signature hash that's just really complicated for them. And it's, like, extremely critical, like, if your signature hash is poorly designed, or has, like, edge cases, then this is, like, a major security issue.
+
+250
+00:45:20.400 --> 00:45:25.110
+lightclient: And so one goal that we're trying to have in the frame transaction is
+
+251
+00:45:25.300 --> 00:45:38.139
+lightclient: have a… have good built-ins, have some batteries included, give the smart accounts a signature hash. They're free to freestyle if they believe they need more information in the signature hash, or they need a different type of signature hash.
+
+252
+00:45:38.430 --> 00:45:52.540
+lightclient: We don't treat them as second-class citizens, they're still first-class citizens, they just have to implement that logic themselves. For the vast majority of users, they get this, like, built-in signature hash scheme, which should work great for, like, 99% of cases.
+
+253
+00:45:56.430 --> 00:45:59.690
+lightclient: Any questions? I see a couple chat bubbles popping up.
+
+254
+00:45:59.690 --> 00:46:03.040
+Antonio Sanso: There's one on the chat, Matt, if you want to ask for now or later, it's up to you.
+
+255
+00:46:03.040 --> 00:46:05.319
+lightclient: Yeah, I can answer. I can answer now.
+
+256
+00:46:06.930 --> 00:46:14.940
+Antonio Sanso: So, basically, the question is, like, if the… if all the bundlers are gonna die, or move to the… to be broadcasters, like…
+
+257
+00:46:18.480 --> 00:46:19.440
+Antonio Sanso: The question is…
+
+258
+00:46:19.440 --> 00:46:21.850
+lightclient: Is… is that going to happen, or…
+
+259
+00:46:22.410 --> 00:46:25.760
+Antonio Sanso: No, if it's the bundlers are gonna die, basically.
+
+260
+00:46:27.020 --> 00:46:28.789
+lightclient: So the question is, will bundlers die?
+
+261
+00:46:28.790 --> 00:46:29.530
+Antonio Sanso: Yeah.
+
+262
+00:46:30.080 --> 00:46:30.750
+lightclient: I see.
+
+263
+00:46:30.880 --> 00:46:33.400
+lightclient: I don't think bundlers will die.
+
+264
+00:46:33.960 --> 00:46:36.259
+lightclient: It's a good question, though.
+
+265
+00:46:36.600 --> 00:46:41.000
+lightclient: I think that… It depends how…
+
+266
+00:46:41.220 --> 00:46:45.460
+lightclient: We implemented public transaction pool, because…
+
+267
+00:46:45.790 --> 00:46:51.370
+lightclient: Implementing the public transaction pool in a way where you can do paymastering.
+
+268
+00:46:52.030 --> 00:46:55.789
+lightclient: Efficiently is not the easiest challenge.
+
+269
+00:46:56.570 --> 00:47:06.590
+lightclient: And 4337 saw this. Like, 4337 defined this transaction pool. Like, we're using a lot of the ideas from the ERC7562.
+
+270
+00:47:06.980 --> 00:47:13.539
+lightclient: But it's not something that, like, is really in production, right? You know, no one is submitting user ops to the…
+
+271
+00:47:13.840 --> 00:47:16.170
+lightclient: 4337 transaction pool.
+
+272
+00:47:16.440 --> 00:47:18.950
+lightclient: And I think it's because it's, like, it's complicated.
+
+273
+00:47:19.330 --> 00:47:27.670
+lightclient: Users don't value it too much, it seems. Or operators don't value it too much.
+
+274
+00:47:27.980 --> 00:47:32.280
+lightclient: And so it is a bit of a question, like, how much of this do we support in the core protocol?
+
+275
+00:47:32.520 --> 00:47:41.490
+lightclient: Over time, we'll probably add more support for… for it. But even if the core protocol does support it, which right now…
+
+276
+00:47:41.650 --> 00:47:47.399
+lightclient: We are proposing, like, some limited support of paymastering, of, like, you know.
+
+277
+00:47:47.560 --> 00:47:59.399
+lightclient: propagating Paymaster transactions in the public end pool. I think bundlers will still exist, because I think that there are many times where you have special relationships with particular bundlers.
+
+278
+00:47:59.820 --> 00:48:14.589
+lightclient: Like, if a bundler is willing to offer some service that goes above and beyond what the core protocol is offering, or if you're interacting with a dApp who wants to provide a specific service to their users, then I think, like, those bundlers will continue to exist. I don't really expect that type of bundling to go away.
+
+279
+00:48:14.870 --> 00:48:18.779
+lightclient: I just expect maybe over time, the type of bundling that goes away is, like.
+
+280
+00:48:19.000 --> 00:48:32.539
+lightclient: no, you know, I'm just trying to pay for a transaction with USDC, I don't care about bundlers, I don't care about a specific DAP, I just want to have this, like, kind of trustless interaction, then maybe that type of bundling starts to, like, come closer to the protocol.
+
+281
+00:48:34.650 --> 00:48:39.799
+Antonio Sanso: There's as well a question that's probably simple to answer. Is there a testnet already or not?
+
+282
+00:48:42.040 --> 00:48:50.200
+lightclient: There's not really a testnet. I think maybe ETHREx implemented frame transactions last week and said they had something?
+
+283
+00:48:50.500 --> 00:49:00.350
+lightclient: But there's no, like, yeah, there's not, like, an official playground yet for this. We're kind of working on that, hopefully in the next few weeks, that will exist.
+
+284
+00:49:02.380 --> 00:49:03.330
+Antonio Sanso: Alright, thanks.
+
+285
+00:49:04.260 --> 00:49:04.810
+lightclient: Cool.
+
+286
+00:49:08.500 --> 00:49:10.480
+lightclient: Yeah, we're trying to vibe code it.
+
+287
+00:49:12.990 --> 00:49:20.520
+lightclient: Alright, approve… So, the approve opcode is kind of the… driver of…
+
+288
+00:49:20.630 --> 00:49:24.149
+lightclient: Authorization in this new frame transaction world.
+
+289
+00:49:25.500 --> 00:49:28.590
+lightclient: It's only valid in the verify frames.
+
+290
+00:49:32.000 --> 00:49:47.960
+lightclient: this is mostly to do with the introspection that I mentioned, like, the point of the verified frame is for us to, like, kind of really know that what's happening in the frame is the, the approve, the, like, signature verification.
+
+291
+00:49:48.000 --> 00:49:53.419
+lightclient: So, if you call approve outside of that, then that's, like, an exceptional abort. The…
+
+292
+00:49:53.470 --> 00:49:57.049
+lightclient: The frame will immediately abort.
+
+293
+00:49:57.350 --> 00:49:58.510
+lightclient: And exit out.
+
+294
+00:50:00.480 --> 00:50:11.249
+lightclient: As I mentioned, there's 3 types of approves. The sender only, the payer only, and then both sender and payer. I think we've kind of explained when you would use each of those.
+
+295
+00:50:11.910 --> 00:50:15.350
+lightclient: Then, a few more constraints that we've put on top of approve.
+
+296
+00:50:15.890 --> 00:50:19.910
+lightclient: For one, we're forcing it to be invoked by the frame.target.
+
+297
+00:50:20.610 --> 00:50:24.560
+lightclient: That basically means that if you have a verify frame.
+
+298
+00:50:24.950 --> 00:50:28.589
+lightclient: You can reason about who is approving.
+
+299
+00:50:29.500 --> 00:50:34.079
+lightclient: A concern we had is that if you let anybody, any, any,
+
+300
+00:50:35.260 --> 00:50:39.329
+lightclient: Any contract call it, is that it might be very deep within the call stack.
+
+301
+00:50:39.470 --> 00:50:43.660
+lightclient: And it's harder for the user to reason about signing the transaction.
+
+302
+00:50:44.410 --> 00:50:50.050
+lightclient: It's harder for the protocol to reason about, you know, maybe balances of the target.
+
+303
+00:50:50.460 --> 00:50:57.830
+lightclient: So it just makes things a lot simpler to kind of know who is in question here for the approved.
+
+304
+00:50:59.510 --> 00:51:11.849
+lightclient: Then there's also an implied ordering of how approve happens. So, if you don't do approve to by approving both sender and payer, then you must approve the sender before the payer.
+
+305
+00:51:12.580 --> 00:51:16.050
+lightclient: And… I don't know if there's, like…
+
+306
+00:51:18.500 --> 00:51:30.570
+lightclient: I don't know if there's a specific use case that you would want the payer to pay before the sender, but in general, since we've moved to this, thinking that there should only be one sender per transaction.
+
+307
+00:51:32.200 --> 00:51:40.190
+lightclient: And we're kind of gating the entire validity of the transaction, you know, the ability for the transaction to continue to execute on payer.
+
+308
+00:51:40.190 --> 00:51:53.890
+lightclient: then it just doesn't make sense to potentially have the transaction valid for execution, but maybe it never approves the sender. Like, those types of transactions we just didn't want to support because it doesn't make sense in that framework.
+
+309
+00:51:53.930 --> 00:51:58.030
+lightclient: And so we've, basically created this implicit ordering.
+
+310
+00:51:58.910 --> 00:52:03.619
+lightclient: And you'll see in some of the examples that that makes sense.
+
+311
+00:52:03.780 --> 00:52:07.030
+lightclient: It's just, like, the natural way that people would want to use this.
+
+312
+00:52:09.530 --> 00:52:15.309
+lightclient: So then we get to the heart of the frame transaction proposal, which is how do you actually process these things?
+
+313
+00:52:15.790 --> 00:52:25.489
+lightclient: And we can go over this kind of quickly. It's, for the most part, fairly straightforward, and it's not important to, like, understand, every single detail.
+
+314
+00:52:25.700 --> 00:52:27.300
+lightclient: Deeply right now.
+
+315
+00:52:27.880 --> 00:52:32.410
+lightclient: But, essentially, you can think about it as you… we have a list of calls.
+
+316
+00:52:33.000 --> 00:52:52.460
+lightclient: We… instead of, like, thinking about block processing as we have a list of transactions, now we have another nested loop inside of it. And so, once we begin executing a frame transaction, we have this list of calls. And for each of those frames, we need to execute the call with the environment that's defined by the frame.
+
+317
+00:52:52.560 --> 00:52:59.409
+lightclient: So, the mode, we have to call the target address, there's the specified gas limit, we have to pass that data.
+
+318
+00:53:00.020 --> 00:53:14.429
+lightclient: And we're kind of doing all of this processing. There's, of course, like, the sender mode, where you set the message.sender equal to tx sender, like, all of these things. But the overall goal is just to, like, work through this framed transaction.
+
+319
+00:53:14.800 --> 00:53:30.800
+lightclient: to reach a point, in 2, which is making sure that… or, sorry, in the italic at the bottom, we're just, like, working through this frame, all of these frames, to find, when the payer approved is equal to true.
+
+320
+00:53:31.380 --> 00:53:39.550
+lightclient: And in the transaction pool, we have, like, pretty specific ordering of the frames that we would expect payer approved equal true.
+
+321
+00:53:39.770 --> 00:53:44.049
+lightclient: To be reached at, like, a pretty fast point, but we're…
+
+322
+00:53:44.720 --> 00:53:50.119
+lightclient: In the consensus protocol, in the, like, actual implementation.
+
+323
+00:53:50.260 --> 00:54:07.910
+lightclient: open to the payer being approved at the very end of the transaction. Like I mentioned, this transaction assertions idea, that could happen at the very end of the transaction. And so the protocol, when it's processing the frame transaction, it's just working through these frames, waiting till it gets to the payer.approved.
+
+324
+00:54:08.230 --> 00:54:23.999
+lightclient: until it reaches payer approved, like, it's continuing to execute. Like, if it's processing a block, then it has to just assume this block is valid until it realizes it's not valid. But the frame transaction, it assumes it's invalid until payer approved flips to true.
+
+325
+00:54:24.110 --> 00:54:29.189
+lightclient: So if you process all the frames, and payer approved is never flipped to true.
+
+326
+00:54:29.420 --> 00:54:32.660
+lightclient: Then that transaction is just invalid.
+
+327
+00:54:32.830 --> 00:54:48.730
+lightclient: And it's invalid in the same sense that, you know, if you were processing a block today, and you had an EOA transaction, and you saw that the nonce was not equal to the nonce that that user had at that moment, based on the state that you knew.
+
+328
+00:54:48.730 --> 00:55:00.970
+lightclient: you would also consider that transaction valid. And as a byproduct, you would consider that overall block to be invalid. And so frame transactions is, like, the same. It's just that instead of encoding the specific
+
+329
+00:55:01.230 --> 00:55:17.090
+lightclient: you know, nonce checking the specific balance checking, you know, instead of having that hard-coded, we are trying to allow people to define it arbitrarily. So that's kind of the, you know, main idea that you can take away from how frame transactions are processed.
+
+330
+00:55:17.460 --> 00:55:22.520
+lightclient: Happy to answer any questions on that, now or later. Feel free to just jump in.
+
+331
+00:55:23.000 --> 00:55:38.789
+Antonio Sanso: Right, one thing's, Matt, probably we will not… so we are kind of three-quarters of the calls, we probably will not have time to answer all the questions. I will copy some of the questions that, we don't have time to answer into the channel that I created.
+
+332
+00:55:38.900 --> 00:55:50.200
+Antonio Sanso: And, okay. Actually, like, I will have a question myself, and, how long is, like, the presentation lasting more? And, I'll tell you why, because, I want to…
+
+333
+00:55:50.280 --> 00:56:02.239
+Antonio Sanso: double-check with, with Dano, because, he had some, I remember, like, in one of the previous calls, he had some suggestions for, for the Freeman transaction. I don't know if Dan wants to…
+
+334
+00:56:02.360 --> 00:56:05.820
+Antonio Sanso: Have you interacted with him already about this kind of, of.
+
+335
+00:56:05.820 --> 00:56:08.579
+Danno Ferrin - Tectonic.xyz: Let's continue… let's continue with the frame transaction.
+
+336
+00:56:08.580 --> 00:56:09.070
+Antonio Sanso: Right.
+
+337
+00:56:09.070 --> 00:56:10.040
+Danno Ferrin - Tectonic.xyz: Discuss is good.
+
+338
+00:56:10.040 --> 00:56:15.219
+Antonio Sanso: Alright, now, yeah, just, like, be mindful of time. I don't know how much of presentation's still left, that's what I'm.
+
+339
+00:56:15.220 --> 00:56:17.070
+lightclient: I don't know, maybe, like, 5 minutes or something.
+
+340
+00:56:17.450 --> 00:56:18.150
+Antonio Sanso: Right.
+
+341
+00:56:20.370 --> 00:56:22.899
+lightclient: Okay, so, couple quick examples.
+
+342
+00:56:23.030 --> 00:56:36.590
+lightclient: simple transfer, like, you can think of the frame structure like this. We have a verify frame and a sender frame. Obviously, like, there's data in this, but if we're just thinking high level, like, this is what the frame structure would look like. So, you process the verification.
+
+343
+00:56:36.820 --> 00:56:45.629
+lightclient: you know, does the same type of stuff we do for EOAs today, and then we have senders, the sender frame, and that processes the actual operation for the user.
+
+344
+00:56:46.890 --> 00:57:03.839
+lightclient: A more complicated frame structure that we kind of recognize is this paymaster transaction. This is sort of what we've been talking about a lot through this whole presentation. But basically, we can think about it in these five frames. This matches super closely with how 4337 works, and how 7701 was proposed to work.
+
+345
+00:57:03.840 --> 00:57:12.540
+lightclient: So basically, in the first frame, we do the, approve0, so that's the sender approve. It's kind of like the entry point calling the validate user op.
+
+346
+00:57:12.740 --> 00:57:15.050
+lightclient: Then we do the Paymaster signature.
+
+347
+00:57:15.180 --> 00:57:21.930
+lightclient: You know, they check the overall transaction to make sure, is this a transaction that we've signed?
+
+348
+00:57:21.990 --> 00:57:33.349
+lightclient: and that we, you know, expect to get paid, paid for, you know, or whatever the agreement is, and then that is approved one. And so at that point, like, payer is approved, so, like, those first two frames.
+
+349
+00:57:33.390 --> 00:57:45.010
+lightclient: have completed the entire, like, validation of the transaction, and then the remaining 3 frames are just the execution of the transaction. So you process, you know, any ERC20 token payments.
+
+350
+00:57:45.160 --> 00:57:57.189
+lightclient: Then you do whatever user operation that the user had desired, and you finish with any post-processing. So maybe you refund some of the ERC20 if all the gas wasn't used.
+
+351
+00:57:57.910 --> 00:58:01.719
+lightclient: So that's kind of, like, a more complicated example.
+
+352
+00:58:02.930 --> 00:58:15.370
+lightclient: Future work that we're thinking about is the… is doing signature aggregation. So, obviously, like, post-quantum signatures are very large, and we want to keep the bandwidth light.
+
+353
+00:58:15.670 --> 00:58:20.320
+lightclient: So, an important goal of 8141 is to…
+
+354
+00:58:20.590 --> 00:58:23.650
+lightclient: Support that, be future compatible with that.
+
+355
+00:58:23.690 --> 00:58:29.520
+lightclient: We're not… it's not something that's, like, likely to happen in A141 itself, the frame transaction itself.
+
+356
+00:58:29.540 --> 00:58:44.939
+lightclient: But we also need to make sure that what we do in frame transaction isn't going to inhibit our ability to do it in the future. And so, basically, our idea today is that if we allied the data in the verified frames from introspection, that means no one can depend on the data.
+
+357
+00:58:45.290 --> 00:58:56.499
+lightclient: And if nobody is depending on the data, that gives us a lot of, a lot of latitude in the future to actually change what that data is, remove that data, etc.
+
+358
+00:58:57.610 --> 00:59:12.630
+lightclient: In the future, hopefully, we have block builders that understand some of the, like, validation logic, and are able to parse out, post-quantum signatures from call… from the verify frame call datas, and then construct aggregation on those signatures.
+
+359
+00:59:12.720 --> 00:59:28.839
+lightclient: it's still a bit TBD, like, how do you expose this back to the EVM to know that that frame was valid? And there are some ideas there, like, you can either do this, like, you know, still execute the frame to a degree, but somehow, like, have an opcode that pops validation results.
+
+360
+00:59:28.860 --> 00:59:36.500
+lightclient: Or you, like, you know, inline the validation results without having to, like, have the entire signature in the transaction.
+
+361
+00:59:36.610 --> 00:59:53.460
+lightclient: Alternatively, like, maybe there's, like, some ZK proof that we can, generate just over the verify frame, so instead of, like, having to execute the verify frame at all, all we do is, like, have this, like, one ZK proof that proves all of the verify frames, for all transactions in the block.
+
+362
+00:59:53.830 --> 00:59:56.990
+lightclient: So those are some ideas that we're thinking on signature aggregation.
+
+363
+00:59:57.420 --> 01:00:02.139
+lightclient: Curious to, like, know what other people think about this, or if they have any good ideas here.
+
+364
+01:00:02.990 --> 01:00:19.760
+Antonio Sanso: Coincidentally, today, we published, actually, a post on aggregating signatures using Labrador, so we're Falcon signatures, so Labrador is specific to Falcon. Well, there's some… it's not as good as BLS, but yeah, you can see the… I put the link in the chat as well.
+
+365
+01:00:19.760 --> 01:00:21.730
+lightclient: Okay, cool. I'll check it out.
+
+366
+01:00:22.340 --> 01:00:24.710
+lightclient: Yeah, so that's pretty much it.
+
+367
+01:00:25.550 --> 01:00:30.679
+lightclient: Just in summary, frame transactions are agnostic to the exact post-quantum algorithm.
+
+368
+01:00:31.930 --> 01:00:40.520
+lightclient: It would be great if we had something to bundle with it in Hagota. I don't know if people on this call think that there will be.
+
+369
+01:00:40.850 --> 01:00:46.199
+lightclient: A specific algorithm that is sufficient to, you know, sufficiently ready to
+
+370
+01:00:46.740 --> 01:00:53.479
+lightclient: put as a precompile in Hagota, but I think that that would be a great opportunity to say, you know.
+
+371
+01:00:53.480 --> 01:01:07.670
+lightclient: Prime Transaction is trying to support people who are doing post-quantum, but also there's, like, now kind of an efficient way of doing it. Maybe it's not, like, EOA levels of efficiency, but hopefully, like, orders of magnitude improvement over what we have today.
+
+372
+01:01:08.070 --> 01:01:27.139
+Antonio Sanso: Right, we are… probably you've seen as well the strong map, that we are kind of targeting I-Star, but maybe this might tie together with the previous presentation of Matteo. That potentially will be ready today, right? Because it's just, like, an ephemeral way of using elliptic curve signatures.
+
+373
+01:01:27.670 --> 01:01:28.420
+lightclient: Right.
+
+374
+01:01:28.970 --> 01:01:47.759
+Matteo Vicari: Yeah, it will be now nice to work with the frame transaction and our idea. We… first step, work on account abstraction today, but we won't jump also in the frame transaction. It's very interesting to have,
+
+375
+01:01:48.010 --> 01:01:52.559
+Matteo Vicari: This kind of instrument for making the frame more secure also.
+
+376
+01:01:54.300 --> 01:01:57.890
+Antonio Sanso: Anyway, thanks a lot, Matt, for the presentation. This was really nice.
+
+377
+01:01:58.220 --> 01:02:12.599
+Antonio Sanso: I don't know, again, like, just, like, summarizing, like, in the… some of the previous call, like, Dano had, some kind of idea. I don't know if Dano, since you have a lead client here, if you want to… to share some of your ideas, or
+
+378
+01:02:12.730 --> 01:02:14.289
+Antonio Sanso: We can take this offline.
+
+379
+01:02:16.380 --> 01:02:27.549
+Danno Ferrin - Tectonic.xyz: So, I did publish, EIP, well, it's in PR mode right now, 8197, which is the structure of the CADX transactions I talked about on the first call.
+
+380
+01:02:27.710 --> 01:02:39.910
+Danno Ferrin - Tectonic.xyz: And, if one of the concerns is stripping signatures, I mean, this EIP was written for the idea that all signatures could be stripped from any transaction format. It separates the body from the signature, so the,
+
+381
+01:02:40.060 --> 01:02:59.740
+Danno Ferrin - Tectonic.xyz: The frame transaction will be written as a payload, and instead of putting the signatures in line, you would reference which signature number in the signature section it's referencing. And that makes it much easier to strip the signatures and replace it with a ZK stub that says, I am this address, and I am this index in the ZK aggregation, and all the information that's necessary to run it through the ZK proof.
+
+382
+01:02:59.890 --> 01:03:14.400
+Danno Ferrin - Tectonic.xyz: So that's kind of, you know, approaching from a completely orthogonal lead of what frame transaction is doing with account abstraction, and focusing more on how do we separate the specific signatures from all transactions, not just the new frame transaction.
+
+383
+01:03:14.400 --> 01:03:25.530
+Danno Ferrin - Tectonic.xyz: And so that's, you know, there is a way the frame could come in and use that if it wanted to, but I think the future needs. My experience is we're going to have to look into signature aggregation.
+
+384
+01:03:25.540 --> 01:03:30.809
+Danno Ferrin - Tectonic.xyz: Or the blockchain is going to need to, like, 10x its data load, which is also not a…
+
+385
+01:03:31.170 --> 01:03:40.619
+Danno Ferrin - Tectonic.xyz: you know, above and beyond, that's just for signatures, not even for payload. These post-quantum signatures are going to be large, we're going to do other fancy things, like store,
+
+386
+01:03:40.890 --> 01:03:44.860
+Danno Ferrin - Tectonic.xyz: Store the keys in the accounts, the public keys in the accounts, and have the transactions
+
+387
+01:03:45.140 --> 01:04:02.830
+Danno Ferrin - Tectonic.xyz: it's… there's so many unresolved questions that making it so the transaction is not deeply embedded in the trans… the signature is not deeply embedded in the transaction is something that's going to provide lots of, ease future… in the future. So, that's kind of, you know, what I wanted to talk about, and…
+
+388
+01:04:02.880 --> 01:04:06.080
+Danno Ferrin - Tectonic.xyz: You know, there's not much to summarize beyond just that, that
+
+389
+01:04:06.170 --> 01:04:09.239
+Danno Ferrin - Tectonic.xyz: Separating that, and so to put it in the frame transaction, you just…
+
+390
+01:04:09.350 --> 01:04:26.130
+Danno Ferrin - Tectonic.xyz: would reference this table on the outside for your signatures, and honestly, there's only two frame types. Do we even need to have the verified type? There's only ever going to be two types, and you can just assign them to type 1 and 2 if they're always present? There's just some design questions that come up with that.
+
+391
+01:04:26.730 --> 01:04:28.160
+lightclient: There's 3 types, right?
+
+392
+01:04:29.340 --> 01:04:39.309
+Danno Ferrin - Tectonic.xyz: default, which does both. There's… there's execution, payload, and then both payload and execution. You're never gonna have more than two frame… two verify frames in a frame, right?
+
+393
+01:04:40.850 --> 01:04:42.299
+lightclient: Oh, I see, I see.
+
+394
+01:04:48.660 --> 01:04:49.950
+lightclient: I don't think so.
+
+395
+01:04:52.460 --> 01:04:55.200
+Danno Ferrin - Tectonic.xyz: What are the constructions that would have more than two verify frames?
+
+396
+01:04:56.700 --> 01:05:00.060
+lightclient: So, originally, we, like I mentioned, we…
+
+397
+01:05:00.140 --> 01:05:19.679
+lightclient: Imagine that you might have multiple, senders in transaction, and so in that case, like, you would have, like, multiple verifies, and you, you know, if you had a batch of many user operations, many different user operations, you would verify that, and then do a sender frame as that user, and then you have a new verify to change the
+
+398
+01:05:19.720 --> 01:05:28.589
+lightclient: authorized to sender. But since that's not really part of the standard anymore, I don't see a reason you would have multiple verify frames.
+
+399
+01:05:29.840 --> 01:05:33.319
+Danno Ferrin - Tectonic.xyz: You'd have one for Paymaster, you'd have one for Execute, and that's the maximum.
+
+400
+01:05:33.320 --> 01:05:35.210
+lightclient: That's the max that I can imagine.
+
+401
+01:05:38.290 --> 01:05:48.380
+Antonio Sanso: Right. Anyway, the… I think, like, if there is something to be accommodated for the specific post-quantum signatures, I think there's still, kind of.
+
+402
+01:05:48.450 --> 01:06:00.520
+Antonio Sanso: space, right? I mean, I think, frame transaction is targeting Agota, so if there's something specific that will be… need to be done, there's still time, right?
+
+403
+01:06:03.090 --> 01:06:15.920
+Danno Ferrin - Tectonic.xyz: Yeah, and it could just be as simple as rewriting the frame transaction, not specifically within CADX, but to have the transaction signatures outside of the mainframe, so it could be stripped. Another thing that the CADEX does is
+
+404
+01:06:16.060 --> 01:06:29.979
+Danno Ferrin - Tectonic.xyz: the bytes that go into the hash are actually in the transaction. You don't have to rewrite the transaction. And that's another source of friction that's going to cause a lot of bugs, and so we keep asking people to rewrite transactions, someone's going to screw it up.
+
+405
+01:06:30.230 --> 01:06:34.689
+Danno Ferrin - Tectonic.xyz: So if we keep the bytes to what is in the transaction as a subset string, as a slice.
+
+406
+01:06:34.860 --> 01:06:37.709
+Danno Ferrin - Tectonic.xyz: That's gonna make things, less bug-prone.
+
+407
+01:06:38.260 --> 01:06:44.919
+Antonio Sanso: Is there any breakout room for a frame transaction? Stuff like this could be discussed?
+
+408
+01:06:45.960 --> 01:06:51.169
+lightclient: We don't have a recurrent one, but we're thinking of doing another one next week before ACD.
+
+409
+01:06:51.530 --> 01:06:52.320
+Antonio Sanso: Okay.
+
+410
+01:06:52.570 --> 01:06:53.440
+Antonio Sanso: So…
+
+411
+01:06:53.580 --> 01:07:01.120
+Antonio Sanso: Right. So, Dan, maybe, like, if you are strong on these ideas that would be useful, you can… Right.
+
+412
+01:07:01.790 --> 01:07:10.200
+Danno Ferrin - Tectonic.xyz: Well, and the craziest idea, which isn't that crazy, actually, is to make, make it an SSD transaction, and then you can do a partial proof and just get rid of the signatures that way.
+
+413
+01:07:11.880 --> 01:07:31.259
+Antonio Sanso: Right, again, like, probably it will be more… more appropriate to discuss this on the frame transaction. And I have a question, myself. Do you think, like, you were saying that for Agota will be a really nice use case to have some post-quantum transaction error. This probably is not gonna be…
+
+414
+01:07:31.390 --> 01:07:42.419
+Antonio Sanso: possible, but I probably wasting already the question before. Do you see, like, any chance to have, instead of a real post-quantum signatures, a kind of
+
+415
+01:07:43.270 --> 01:07:49.140
+Antonio Sanso: Ephemeral signature, like the presentation before, will be a use case, a valid use case for…
+
+416
+01:07:51.230 --> 01:07:52.090
+lightclient: Yeah, definitely.
+
+417
+01:07:54.150 --> 01:08:03.380
+Antonio Sanso: I mean, again, it's not going to be real post-quantum, but having the ephemeral key should be enough from the beginning.
+
+418
+01:08:03.840 --> 01:08:12.049
+lightclient: Yeah, I mean, that's the nice thing about the frame transaction, is that we are making room for people to define a validation in any way.
+
+419
+01:08:12.380 --> 01:08:15.660
+lightclient: And that lets people innovate.
+
+420
+01:08:15.780 --> 01:08:26.810
+lightclient: And find the best solutions, rather than us trying to decide, a priori, what the, like, preferred cryptographic algorithm is gonna be.
+
+421
+01:08:27.300 --> 01:08:28.350
+Antonio Sanso: Alright, so…
+
+422
+01:08:28.359 --> 01:08:31.399
+lightclient: This is a good option, if that's what's available in Hagota.
+
+423
+01:08:31.519 --> 01:08:41.319
+lightclient: As new options come around, we can add precompiles to do these things, and if there are trade-offs, like, some are compute-heavy, some are data-heavy, like.
+
+424
+01:08:41.319 --> 01:08:51.649
+lightclient: We can get… let the users decide, or, like, let the users' wallets kind of make those trade-offs, themselves, rather than the protocol just having, like, one uniform way that this is how it's done.
+
+425
+01:08:53.100 --> 01:08:56.790
+Antonio Sanso: Beautiful. Dano? Did you raise your hand again?
+
+426
+01:08:57.240 --> 01:09:12.590
+Danno Ferrin - Tectonic.xyz: Yeah, I just wanted to chime in with the ephemeral transactions. One thing that if they're going to use ECDSA keys, they probably need to put in their security stance and consideration of long exposure versus short exposure, which is the approach that Bitcoin's taking right now. So that would, you know.
+
+427
+01:09:12.850 --> 01:09:17.239
+Danno Ferrin - Tectonic.xyz: I'm not wild about using ECTSAs in the light of the coming CRQCs.
+
+428
+01:09:17.460 --> 01:09:19.399
+Danno Ferrin - Tectonic.xyz: But…
+
+429
+01:09:20.040 --> 01:09:26.749
+Danno Ferrin - Tectonic.xyz: you know, if you frame it properly, it has a longer shelf life, and that's what the approach Bitcoin staking with their longing short exposure.
+
+430
+01:09:27.029 --> 01:09:28.780
+Danno Ferrin - Tectonic.xyz: Which is basically what you're pitching.
+
+431
+01:09:29.850 --> 01:09:38.780
+Antonio Sanso: I mean, if I understood correctly, like, they're exposed, the, the public, really, for a few seconds on the, on the, on the, on the main pool. Yeah. Yeah.
+
+432
+01:09:39.350 --> 01:09:43.979
+Matteo Vicari: The problem is, the only… you are exposed only in the man pool.
+
+433
+01:09:44.470 --> 01:09:55.830
+Matteo Vicari: So, on the new type of manpool with the frame transaction, if we can have small windows, or we use a private manpool, or encrypted manpool.
+
+434
+01:09:56.500 --> 01:09:59.300
+Matteo Vicari: This, window is, more…
+
+435
+01:10:00.030 --> 01:10:12.670
+Matteo Vicari: The problem with the HEDSA is the long-last term. If a user make one transaction to 27, you have the time for front-run the transaction.
+
+436
+01:10:12.680 --> 01:10:20.260
+Matteo Vicari: break the cryptography. It's a lot in a few seconds. I, I don't know. I know.
+
+437
+01:10:20.260 --> 01:10:21.019
+Danno Ferrin - Tectonic.xyz: And that's the…
+
+438
+01:10:21.020 --> 01:10:22.299
+Matteo Vicari: No, it's a problem.
+
+439
+01:10:23.210 --> 01:10:33.369
+Danno Ferrin - Tectonic.xyz: But that's the exact argument that Bitcoin's making for their BIP360 right now. So they have a lot of security analysis going in there that could probably bolster your position if you speak to it properly.
+
+440
+01:10:34.100 --> 01:10:34.730
+Matteo Vicari: Hmm.
+
+441
+01:10:36.340 --> 01:10:50.259
+Antonio Sanso: Anyway, I think we're at time for this week again. Matt, I will ask you, let's ask you a favor, like, in copying some of the questions, we will not… we're not having time to… for today in this new chat.
+
+442
+01:10:50.430 --> 01:10:56.049
+Antonio Sanso: And if you could join lately, late, later, and Android will be again.
+
+443
+01:10:56.050 --> 01:10:56.720
+lightclient: Sure.
+
+444
+01:10:57.210 --> 01:10:57.950
+Antonio Sanso: Okay.
+
+445
+01:10:58.430 --> 01:10:59.640
+lightclient: Thanks a lot for having me.
+
+446
+01:10:59.970 --> 01:11:06.220
+Antonio Sanso: Thanks for your presentation, thank you guys for joining, and see you in two weeks, and we'll be about hardware wallets.
+
+447
+01:11:06.940 --> 01:11:07.550
+lightclient: bio.
+
+448
+01:11:07.550 --> 01:11:08.260
+Matteo Vicari: Thank you.
+
+449
+01:11:08.260 --> 01:11:09.360
+Antonio Sanso: Thank you, bye-bye.
+
+450
+01:11:09.360 --> 01:11:10.070
+Matteo Vicari: Bye bye.
+
+451
+01:11:10.240 --> 01:11:10.990
+Conor Deegan: Thank you.
+
+452
+01:11:11.710 --> 01:11:12.520
+Alessandro Baiocchi: Thank you, bye.
+
+453
+01:11:12.520 --> 01:11:14.269
+Miha Stopar: Hi, thank you.
+
