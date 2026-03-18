@@ -1,0 +1,88 @@
+{
+  "meeting": "Glamsterdam Repricings #4 - March 18, 2026",
+  "highlights": {
+    "eip_8037_state_gas": [
+      {
+        "timestamp": "00:05:05",
+        "highlight": "Multiple gas dimensions creating complexity: blob/regular, pre/post-state validation, state/regular, user/block accounting"
+      },
+      {
+        "timestamp": "00:19:02",
+        "highlight": "Regular gas must be charged before state gas to prevent reservoir refill consensus issues"
+      },
+      {
+        "timestamp": "00:23:00",
+        "highlight": "Execution spec tests changing frequently; next release should stabilize for DevNet 3"
+      },
+      {
+        "timestamp": "00:24:30",
+        "highlight": "Most clients passing tests; ~4 test failures expected in next release due to bug fixes"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:25:19",
+        "highlight": "Kurtosis EVM fuzzing reveals edge cases; gas discrepancy tracing difficult across clients"
+      },
+      {
+        "timestamp": "00:29:40",
+        "highlight": "Precompile tests updated to avoid caching; inputs now vary for realistic benchmarks"
+      }
+    ],
+    "repricing_updates": [
+      {
+        "timestamp": "00:31:00",
+        "highlight": "BOLT-optimized benchmarks starting this week for compute reprice (7904) final numbers"
+      },
+      {
+        "timestamp": "00:32:01",
+        "highlight": "State access benchmarking (8038) in third iteration; numbers expected by next breakout call"
+      },
+      {
+        "timestamp": "00:34:42",
+        "highlight": "Gas repricing target: final numbers during April, DevNet integration by interop"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:04:09",
+      "action": "Review Tony's block-level access list gas validation phases proposal",
+      "owner": "All client teams"
+    },
+    {
+      "timestamp": "00:19:15",
+      "action": "Add spec clarification: regular gas charged before state gas to prevent OOG edge cases",
+      "owner": "Maria Silva / Spencer"
+    },
+    {
+      "timestamp": "00:20:09",
+      "action": "Create tests for regular-before-state gas charging order",
+      "owner": "Spencer"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:19:02",
+      "decision": "When opcode requires both gas types, regular gas charge applied first; state gas skipped if OOG"
+    },
+    {
+      "timestamp": "00:28:51",
+      "decision": "Next execution spec test release will be baseline for DevNet 3; further changes deferred to DevNet 4"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:23:16",
+      "target": "This week - Final execution spec test release for EIP-8037 DevNet 3 baseline"
+    },
+    {
+      "timestamp": "00:31:00",
+      "target": "This week - BOLT-optimized benchmark data collection begins for EIP-7904"
+    },
+    {
+      "timestamp": "00:34:55",
+      "target": "April 2026 - Gas repricing EIPs (7904, 8038) integrated into DevNet 4 or 5"
+    }
+  ]
+}

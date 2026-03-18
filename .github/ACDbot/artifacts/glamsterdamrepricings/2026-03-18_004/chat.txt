@@ -1,0 +1,63 @@
+00:02:56	jochem-brouwer:	gm gm
+00:03:34	Maria Silva:	https://github.com/ethereum/pm/issues/1973
+00:04:09	Maria Silva:	https://github.com/ethereum/EIPs/pull/11414
+00:06:25	Toni Wahrstätter:	My PR is still a draft PR, but happy to push it for review if we can align on it in the call
+00:07:17	DanielVF | Monad:	I agree that is complicated.
+00:07:58	spencer:	Replying to "My PR is still a d..."
+
+I checked before the call, and we align with this in the EELS spec but we dont have specific tests for it. I think its a good clarification, so will adds tests for it if we approve!
+00:11:26	Toni Wahrstätter:	I agree on the complexity of everything that interacts but have hard times seeing alternatives. Having thorough tests that cover all edge cases will be critical.
+00:11:40	spencer:	Reacted to "I agree on the com..." with ➕
+00:11:54	Maria Silva:	We had a similar discussion about this in a previous call - here are the slides from that time: https://notes.ethereum.org/@misilva/S1ihobmdZx
+00:16:21	Dragan Rakita:	Have same thing with state gas, order of regular or state gas consumption matters bcs of reservoir refill.
+00:17:46	Toni Wahrstätter:	Replying to "Have same thing with..."
+
+I tried describing it, adding to 8037, here:
+https://github.com/ethereum/EIPs/pull/11414/changes 
+please, lmk if this covers it or if we should expand on it.
+00:19:02	spencer:	Replying to "Have same thing wi..."
+
+Following dragans point I wanted to add this too:
+
+"When an opcode requires both regular and state gas, the regular gas charge MUST be applied first. If the regular gas charge triggers an out-of-gas error, the state gas charge is not applied."
+00:19:29	DanielVF | Monad:	Reacted to "Following dragans ..." with 👍
+00:19:40	Maria Silva:	Reacted to "Following dragans po..." with 👍
+00:20:01	Dragan Rakita:	Reacted to "Following dragans po..." with 👍
+00:20:09	spencer:	Replying to "Have same thing wi..."
+
+Can add tests for this too if we all in consensus
+00:20:35	Marius van der Wijden:	Reacted to "Can add tests for ..." with 👍
+00:20:36	Dragan Rakita:	Reacted to "Can add tests for th..." with 👍
+00:21:32	Maria Silva:	Reacted to "Can add tests for th..." with 👍
+00:21:45	Toni Wahrstätter:	Reacted to "Following dragans po..." with 👍
+00:25:19	Marius van der Wijden:	Sounds like we need an execution-spec client for devnets :P
+00:25:26	Toni Wahrstätter:	Reacted to "Can add tests for th..." with 👍
+00:25:45	Stefan Starflinger:	Reacted to "Sounds like we need …" with 😂
+00:26:00	spencer:	Reacted to "Sounds like we nee..." with 🥲
+00:27:55	Dragan Rakita:	Btw for people to be aware, next test release should fix inconsistency found with gas state, and it will fail additional ~4 test (as tests had a bug).
+00:28:15	Stefan Starflinger:	Reacted to "Btw for people to be…" with 👍
+00:29:40	Dragan Rakita:	This is only folder/file paths update
+00:30:19	Ben Adams:	Replying to "This is only folder/..."
+
+Yeah, just want to make sure use right format 🙂 And don't think we are passing due to  stale version
+00:30:51	Dragan Rakita:	Reacted to "Yeah, just want to m..." with 👍
+00:32:01	Louis:	The precompile result is cache
+00:35:45	Stefan Starflinger:	Yeah that sounds good 👍🏼
+00:35:48	Marius van der Wijden:	Replying to "Btw for people to ..."
+
+which tests?
+00:35:57	Dragan Rakita:	Replying to "Btw for people to be..."
+
+Next one
+00:36:25	Marius van der Wijden:	Replying to "Btw for people to ..."
+
+I am only failing max_code_size tests at the moment
+00:36:28	Marius van der Wijden:	Replying to "Btw for people to ..."
+
+I mean what tests are wrong?
+00:37:35	Dragan Rakita:	Replying to "Btw for people to be..."
+
+Have cc=ed you
+00:37:44	Dragan Rakita:	Replying to "Btw for people to be..."
+
+Here is link to steel discord https://discord.com/channels/1359927674746835211/1481636302423195699

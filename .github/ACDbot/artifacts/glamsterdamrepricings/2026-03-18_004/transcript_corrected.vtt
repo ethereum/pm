@@ -1,0 +1,1058 @@
+WEBVTT
+
+1
+00:01:59.120 --> 00:02:00.530
+Maria Silva: Hello, hello?
+
+2
+00:02:02.790 --> 00:02:03.390
+Ameziane Hamlat: Yep.
+
+3
+00:02:05.650 --> 00:02:11.969
+Maria Silva: So, I think we can try and wait a few minutes to see if more people join, and then we'll kick off.
+
+4
+00:02:42.870 --> 00:02:49.969
+Maria Silva: Hi everyone, for the new joiners, we are just waiting a couple more minutes to see if more people join, and then we'll start.
+
+5
+00:03:20.040 --> 00:03:28.610
+Maria Silva: Okay, so… We are 2 minutes in, so I think we can probably start. I'll share the agenda…
+
+6
+00:03:29.470 --> 00:03:31.949
+Maria Silva: But these,
+
+7
+00:03:32.120 --> 00:03:46.490
+Maria Silva: this call, we don't have as many topics, so I wanted to go over, EIP 8037, the State Creation Gas Cost Increase. So we had this discussion on the last ACDE,
+
+8
+00:03:46.930 --> 00:03:58.329
+Maria Silva: about whether we could add any changes to this EIP to make it work better with the other EIPs in the fork, and also to make it a bit simpler.
+
+9
+00:03:58.670 --> 00:04:04.000
+Maria Silva: And in the meantime, we had this proposal from Tony.
+
+10
+00:04:04.270 --> 00:04:08.109
+Maria Silva: To clarify, I'll also share here.
+
+11
+00:04:08.610 --> 00:04:24.600
+Maria Silva: But essentially, this is, clarifying how the pre-state and post-state gas validation in block-level access lists maps to 8037 and the costs that are,
+
+12
+00:04:25.110 --> 00:04:30.560
+Maria Silva: And how it impacts the state gas and regular gas.
+
+13
+00:04:30.750 --> 00:04:35.580
+Maria Silva: So, maybe to… to kick off,
+
+14
+00:04:35.730 --> 00:04:53.180
+Maria Silva: I think it would be good, Andrew, if you can, maybe give, so everyone in the call is aware, like, a summary of your comment on ACDE, and in your view, what things maybe could be changed to… to… to make 8037 better?
+
+15
+00:04:53.400 --> 00:05:02.450
+Maria Silva: And then we can do a discussion on what makes sense, what doesn't make sense, any ideas that people may have, or comments.
+
+16
+00:05:02.700 --> 00:05:04.010
+Maria Silva: Sounds good.
+
+17
+00:05:05.680 --> 00:05:16.840
+Andrew Ashikhmin: Yeah, sure. So, it just, you know, just as I said, I have this concern that in Glamsterdam.
+
+18
+00:05:17.030 --> 00:05:24.629
+Andrew Ashikhmin: That, we are making a lot of changes to the gas, and now it's turning to be…
+
+19
+00:05:24.890 --> 00:05:35.290
+Andrew Ashikhmin: quite hairy and messy, so… like, before Glamsterdam, we had… we first introduced blob gas, so there is that, blob versus regular.
+
+20
+00:05:35.590 --> 00:05:47.070
+Andrew Ashikhmin: Now, with block access lists, we are, like, considering pre-state gas checks versus post-state gas checks.
+
+21
+00:05:47.660 --> 00:05:59.540
+Andrew Ashikhmin: than in… 8037. It's quite clever, it has the, like, the reservoir Model, and so on.
+
+22
+00:05:59.850 --> 00:06:06.130
+Andrew Ashikhmin: And I understand that some of it It's, like, driven…
+
+23
+00:06:06.540 --> 00:06:14.279
+Andrew Ashikhmin: By, by, by, by, by this design decision to not, like, to not,
+
+24
+00:06:14.600 --> 00:06:18.639
+Andrew Ashikhmin: Do multi-gas in earnest, but the result is that
+
+25
+00:06:18.850 --> 00:06:27.169
+Andrew Ashikhmin: It becomes quite complicated, and this is, like, this third flavor of state versus regular gas.
+
+26
+00:06:27.760 --> 00:06:38.789
+Andrew Ashikhmin: And then, with, 77… 7778, it has to do with refunds, so essentially it introduces a fourth,
+
+27
+00:06:39.520 --> 00:06:52.709
+Andrew Ashikhmin: flavor to the gas, user accounting versus block accounting, and I can understand the motivation behind all of those changes.
+
+28
+00:06:52.980 --> 00:06:56.290
+Andrew Ashikhmin: In isolation, but it just,
+
+29
+00:06:57.910 --> 00:07:05.779
+Andrew Ashikhmin: maybe we have to do it, but I think we have to admit that we are complicating
+
+30
+00:07:06.800 --> 00:07:20.130
+Andrew Ashikhmin: the gas in… in Glamsterdam quite a lot, and there are many nuances, and I don't have a solution, it just… just… I wanted to share my… my worry.
+
+31
+00:07:20.490 --> 00:07:25.359
+Andrew Ashikhmin: That, yeah, that we are having this… a lot of complexity.
+
+32
+00:07:25.730 --> 00:07:32.940
+Andrew Ashikhmin: So, unfortunately, I don't have a good solution. And initially, I thought that maybe we can… maybe…
+
+33
+00:07:33.330 --> 00:07:51.739
+Andrew Ashikhmin: when we talk about state gas in 17928 block access lists, and then in 8037, it should be the same state gas, but no, they are addressing different things. In block access lists, we are talking, like.
+
+34
+00:07:51.740 --> 00:07:55.549
+Andrew Ashikhmin: Pre-state checks versus post-state checks, while…
+
+35
+00:07:55.780 --> 00:08:04.399
+Andrew Ashikhmin: In 8037, we are talking about, like, state modifications of state growth, versus everything else.
+
+36
+00:08:04.600 --> 00:08:09.680
+Andrew Ashikhmin: Nevertheless, it just… my worry remains, yeah, it's just coming… I don't know.
+
+37
+00:08:10.180 --> 00:08:13.450
+Andrew Ashikhmin: Yeah, so that's… I just wanted to share this story.
+
+38
+00:08:17.720 --> 00:08:18.920
+Maria Silva: Goldwish?
+
+39
+00:08:20.340 --> 00:08:30.449
+Luis Pinto | Besu: Yeah, so I… I don't… I don't have much of an opinion on the pre- and post, gas on the, on the VALs, but…
+
+40
+00:08:30.460 --> 00:08:40.499
+Luis Pinto | Besu: as I've suggested, some time ago, maybe it makes sense to merge the refunds and the state gas, because
+
+41
+00:08:40.610 --> 00:08:52.589
+Luis Pinto | Besu: At the end of the day, both are, like, incentives for, incentives or disincentives for usage, for, storage usage.
+
+42
+00:08:52.710 --> 00:09:06.620
+Luis Pinto | Besu: More so, so it's kind of different than the regular gas, which is kind of, computation, client efforts, that it has to do, to, to make to…
+
+43
+00:09:07.250 --> 00:09:08.679
+Luis Pinto | Besu: process blocks.
+
+44
+00:09:08.990 --> 00:09:13.919
+Luis Pinto | Besu: So, in my opinion, I think these two,
+
+45
+00:09:14.160 --> 00:09:20.369
+Luis Pinto | Besu: parts of VIPs are, are related to reflect that, in the state metered, like.
+
+46
+00:09:24.750 --> 00:09:39.820
+Maria Silva: Sorry, I'm not sure if it was just me, but I think it broke the bit at the end, but my understanding is, like, you think that, essentially the refunds should go to state gas instead of regular gas. Is this the… the TLDR?
+
+47
+00:09:40.560 --> 00:09:44.610
+Luis Pinto | Besu: Yes, yes, yes, that's my… That's my take.
+
+48
+00:09:45.690 --> 00:10:00.859
+Maria Silva: Okay. My understanding is, like, I remember Marius saying something about that, making the implementation itself a bit more complicated, but I'm… I'm not too familiar about that. I don't know, Marius, do you have an opinion on that one?
+
+49
+00:10:04.950 --> 00:10:08.109
+Marius van der Wijden: Not really,
+
+50
+00:10:10.030 --> 00:10:18.400
+Marius van der Wijden: like, I think the… I don't think it is that… that complicated. Like, yes, definitely the refund is the one part…
+
+51
+00:10:18.910 --> 00:10:28.539
+Marius van der Wijden: Where if you are running out of normal gas in a subcore, the subcore reverts, and you don't get that gas back.
+
+52
+00:10:28.870 --> 00:10:32.149
+Marius van der Wijden: But the…
+
+53
+00:10:32.770 --> 00:10:44.650
+Marius van der Wijden: Problem is that with normal gas, you can specify that… how much gas you are giving to the subcall, in order to say, okay, like, I'm just giving a tiny amount, if the call reverts.
+
+54
+00:10:44.800 --> 00:10:47.739
+Marius van der Wijden: then that's fine, I can continue on with my execution.
+
+55
+00:10:47.920 --> 00:10:51.400
+Marius van der Wijden: With, with, state gas.
+
+56
+00:10:51.590 --> 00:10:59.260
+Marius van der Wijden: We are passing the gas… the state gas reservoir into every subcall, so if we would…
+
+57
+00:10:59.430 --> 00:11:07.550
+Marius van der Wijden: Just, like, if we would not give that gas back, the state gas back, then,
+
+58
+00:11:08.450 --> 00:11:13.229
+Marius van der Wijden: If you, yeah, if you fail a subcall, it would not just burn.
+
+59
+00:11:13.390 --> 00:11:21.649
+Marius van der Wijden: A bit… the bit of regular gas that you gave to it, but it would burn all of the state gas that you… that you had.
+
+60
+00:11:21.970 --> 00:11:31.129
+Marius van der Wijden: So… And, if you are… If you are…
+
+61
+00:11:31.370 --> 00:11:40.089
+Marius van der Wijden: passing state gas, and the subcore reverts, no state changes will be made. So, the…
+
+62
+00:11:40.910 --> 00:11:53.089
+Marius van der Wijden: The principal thing is to return back all of the state gas if a subcore reverts, right? Because there's not… there are no state changes, so you…
+
+63
+00:11:53.430 --> 00:11:55.250
+Marius van der Wijden: be paying for any state.
+
+64
+00:11:55.450 --> 00:12:01.380
+Marius van der Wijden: So, yeah, I…
+
+65
+00:12:03.900 --> 00:12:09.240
+Marius van der Wijden: Yeah, I also came around to that viewpoint, that it's basically, this is…
+
+66
+00:12:09.390 --> 00:12:13.840
+Marius van der Wijden: This is the best version of the EIP that I can see right now.
+
+67
+00:12:14.000 --> 00:12:20.010
+Marius van der Wijden: The… the things that are, and I think it is pretty…
+
+68
+00:12:20.320 --> 00:12:23.080
+Marius van der Wijden: It's pretty clean within the EVM.
+
+69
+00:12:23.830 --> 00:12:30.780
+Marius van der Wijden: I think the only… the only questions, the only, like, The ugly parts are…
+
+70
+00:12:31.220 --> 00:12:40.759
+Marius van der Wijden: when it's kind of outside of the EVM itself, so the gas accounting between transactions, and with that also the…
+
+71
+00:12:41.730 --> 00:12:44.909
+Marius van der Wijden: The receipts. And,
+
+72
+00:12:45.210 --> 00:12:58.009
+Marius van der Wijden: I don't really agree that we have now 4 types of gas, or something, like Andrew said, but I do agree that we, that gas is being significantly reworked.
+
+73
+00:12:58.430 --> 00:13:03.620
+Marius van der Wijden: And, many AIPs are touching the same stuff.
+
+74
+00:13:04.330 --> 00:13:06.700
+Marius van der Wijden: And, I'm making it…
+
+75
+00:13:07.030 --> 00:13:15.200
+Marius van der Wijden: Much more… or much harder to reason about, about, gas, especially…
+
+76
+00:13:15.640 --> 00:13:27.360
+Marius van der Wijden: like, in the outer layer of the EVM. So, basically, everything that is not inside of the EVM, but the user… the stuff that we use to, to…
+
+77
+00:13:27.360 --> 00:13:37.830
+Marius van der Wijden: to fill the receipts, and the stuff that we use to make sure that the block is not running out of gas, and so on. So, yeah, that logic…
+
+78
+00:13:37.840 --> 00:13:46.659
+Marius van der Wijden: It's a bit… it gets a bit murky with 8037, and… Block access lists, and… The…
+
+79
+00:13:47.150 --> 00:13:58.150
+Marius van der Wijden: I think it prints for one? Or, like, this other one that also changes the receipts, but, I also don't really see a better way than what we have right now.
+
+80
+00:14:02.280 --> 00:14:07.720
+Maria Silva: Luis, you still have your hand up, do you have any additional comments, or was it from the previous one?
+
+81
+00:14:08.720 --> 00:14:10.820
+Luis Pinto | Besu: No, it's still from the previous one, sorry.
+
+82
+00:14:12.110 --> 00:14:15.949
+Maria Silva: Okay, Tony, do you want to speak now?
+
+83
+00:14:16.730 --> 00:14:21.050
+Toni Wahrstätter: Yeah, maybe just to provide some additional context,
+
+84
+00:14:21.740 --> 00:14:26.430
+Toni Wahrstätter: When it comes to block access lists, so one thing we changed there…
+
+85
+00:14:26.950 --> 00:14:34.650
+Toni Wahrstätter: was also what Andrew was talking about, is when do we actually charge for certain gas?
+
+86
+00:14:35.160 --> 00:14:41.149
+Toni Wahrstätter: For example, for block lab access lists, it matters a lot if… when do we run out of gas?
+
+87
+00:14:41.470 --> 00:14:57.360
+Toni Wahrstätter: For example, there is things like checks if an account exists already, and then that can be done after accessing the account, but then there are things like memory expansion that is done before we even go to state.
+
+88
+00:14:57.700 --> 00:15:06.420
+Toni Wahrstätter: And this suddenly became, like, important, because clients could, up to block their access lists, implement that as they wanted.
+
+89
+00:15:06.720 --> 00:15:14.480
+Toni Wahrstätter: And, for example, we realized that GAF and the specs were aligned, but other clients did it in a more optimal way.
+
+90
+00:15:14.590 --> 00:15:22.380
+Toni Wahrstätter: That was already fine for block lab access lists, but this also meant we had to change the specs, and GAF had to also change some of their code.
+
+91
+00:15:23.190 --> 00:15:34.239
+Toni Wahrstätter: So, this is… this is what we mean when we talk about the gas changes coming from block web access lists, that suddenly it mattered in which order we charge certain things.
+
+92
+00:15:35.020 --> 00:15:41.260
+Toni Wahrstätter: And… The good thing is, we are now very sure that clients do it
+
+93
+00:15:41.460 --> 00:15:51.360
+Toni Wahrstätter: Similarly, and we have tests for that, so shout out to Philippe and Rahul. I think Block Live Access List is right now the most tested EAP we ever had.
+
+94
+00:15:51.760 --> 00:15:54.770
+Toni Wahrstätter: And all those edge cases are…
+
+95
+00:15:55.360 --> 00:15:59.569
+Toni Wahrstätter: So we have test cases for all of them, and I would just stress that
+
+96
+00:15:59.770 --> 00:16:10.990
+Toni Wahrstätter: Also, for 8037 and all the other smaller EFPs that interact, we just need to make sure that we understand the edge cases very well, and prepare tests for each of them to make sure that
+
+97
+00:16:11.350 --> 00:16:16.120
+Toni Wahrstätter: If we ship them, and they interact with each other, that at least we have,
+
+98
+00:16:16.340 --> 00:16:18.670
+Toni Wahrstätter: 100% certainty that nothing breaks.
+
+99
+00:16:30.880 --> 00:16:49.119
+Maria Silva: So I think… so there's two things that I wanted to take from this call. So first is just trying to understand if there's any improvements we could make, and it seems from what I'm hearing is, like, there's still some concerns, but there doesn't seem to be, like, a concrete proposal of
+
+100
+00:16:49.190 --> 00:16:51.130
+Maria Silva: Improvements we could make.
+
+101
+00:16:53.550 --> 00:17:01.100
+Maria Silva: maybe I can give a bit more time for us to discuss this, but if not, I guess the other point is also
+
+102
+00:17:01.210 --> 00:17:04.929
+Maria Silva: Increasing our confidence on the testing…
+
+103
+00:17:05.440 --> 00:17:09.750
+Maria Silva: coverage of all these… of all these EIPs,
+
+104
+00:17:09.900 --> 00:17:16.859
+Maria Silva: And so, on that note, I think, it's a matter of, like.
+
+105
+00:17:17.400 --> 00:17:26.879
+Maria Silva: making sure that, as you guys keep implementing the EIPs, you raise, like, new issues that you find, so we can continue to improve on the tests.
+
+106
+00:17:27.020 --> 00:17:39.359
+Maria Silva: But also to say that we will be doing a more in-depth security review once the… all the full repricing package is finalized.
+
+107
+00:17:39.460 --> 00:17:47.840
+Maria Silva: So that's, that's also, in the plans to, to, to make sure that things look, look good.
+
+108
+00:17:48.170 --> 00:17:56.579
+Maria Silva: But yeah, I don't know, are there any more comments or suggestions to… to… to improve.
+
+109
+00:17:59.100 --> 00:18:08.510
+Toni Wahrstätter: Maybe one thing, I posted the PR I had, again, in the chat. It would be great if we can just also specify that a little bit clearer in 8037.
+
+110
+00:18:08.750 --> 00:18:25.210
+Toni Wahrstätter: So, would love if clients could have a look and give some feedback there. Basically, what part of the gas do we have to check, pre-state access versus post-state access, such that we have alignment between
+
+111
+00:18:25.370 --> 00:18:28.849
+Toni Wahrstätter: Block level access lists and 8037 there, so please have a look.
+
+112
+00:18:30.950 --> 00:18:40.260
+Maria Silva: Yeah, thank you, Tony. I think, yeah, agreed, if you could, guys, could take a look and comment, it would be great. Dragon, do you want to add anything?
+
+113
+00:18:40.590 --> 00:18:44.399
+Dragan Rakita: Yeah, in general, the… the…
+
+114
+00:18:45.540 --> 00:18:49.950
+Dragan Rakita: the way how I think about it, the regular should be spent first.
+
+115
+00:18:50.580 --> 00:19:01.719
+Dragan Rakita: And when everything is, like, finished, checked, that means every account is loaded, storage is loaded, whatever needs to be done, then the state guess is spent.
+
+116
+00:19:02.020 --> 00:19:04.290
+Dragan Rakita: Why does this matter?
+
+117
+00:19:04.830 --> 00:19:12.320
+Dragan Rakita: We have refilling of reservoir, spilled reservoir, at the revert and on hold.
+
+118
+00:19:12.760 --> 00:19:20.240
+Dragan Rakita: If we have different, order of deducting regular gas.
+
+119
+00:19:20.460 --> 00:19:24.809
+Dragan Rakita: Against the reservoir gas, we can get consensus issues here.
+
+120
+00:19:25.270 --> 00:19:37.269
+Dragan Rakita: Because the… if we first deduct the state gas, then we fail on reservoir gas. That means that state gas will get refilled, or basically spilled over.
+
+121
+00:19:37.480 --> 00:19:40.619
+Dragan Rakita: The regular… the reservoir from the parent.
+
+122
+00:19:41.220 --> 00:19:46.090
+Dragan Rakita: So I think I talked with, yeah, Spencer, and yeah, I think
+
+123
+00:19:46.400 --> 00:19:51.440
+Dragan Rakita: we need to clarify slightly the AIP to say the state gas
+
+124
+00:19:51.680 --> 00:19:57.859
+Dragan Rakita: Needs to be, like, deducted at the end of the… all… after all the regular gas deductions.
+
+125
+00:20:02.050 --> 00:20:11.429
+Maria Silva: I think that… I think that makes a lot of sense, and I think we should… should… should make that. I can open a PR for the… for the EIP to… to update it.
+
+126
+00:20:14.840 --> 00:20:18.679
+Maria Silva: Are there any comments on why this doesn't make sense, or…
+
+127
+00:20:19.020 --> 00:20:21.749
+Maria Silva: Do people generally feel like this makes sense?
+
+128
+00:20:32.120 --> 00:20:35.230
+Maria Silva: Okay, thank you, Turagan.
+
+129
+00:20:35.970 --> 00:20:41.000
+Maria Silva: Anything else, or any more comments on… on these?
+
+130
+00:20:41.300 --> 00:20:49.669
+Maria Silva: And maybe I could ask, like, how… how are you guys on the implementation side? Like, is it, how… how has it been going so far?
+
+131
+00:20:59.220 --> 00:21:03.389
+Marius van der Wijden: Our implementation is passing the tests?
+
+132
+00:21:07.210 --> 00:21:20.850
+Marius van der Wijden: I already implemented the basic part of 8037, like, a couple of months ago, and I recently updated it to the newest spec version.
+
+133
+00:21:20.970 --> 00:21:23.179
+Marius van der Wijden: And now to the newest test version.
+
+134
+00:21:23.410 --> 00:21:30.700
+Marius van der Wijden: So I had a bit of a, like, earlier start than other implementations, but for us, it's okay.
+
+135
+00:21:36.790 --> 00:21:39.430
+Maria Silva: Do you want to… Danielle, do you want to go next?
+
+136
+00:21:40.390 --> 00:21:44.250
+Daniel Lehrner (Besu): Yeah. So, from Besu side also, I mean.
+
+137
+00:21:44.610 --> 00:21:54.779
+Daniel Lehrner (Besu): Our biggest challenge is just that, execution spec tests have been changing in the recent weeks. Several times, I think we had version 3.
+
+138
+00:21:56.170 --> 00:22:07.169
+Daniel Lehrner (Besu): In general, I think we had all the tests passing at some point, but then we need to change the implementation again, so that's what's costing us time at the moment.
+
+139
+00:22:07.500 --> 00:22:21.960
+Daniel Lehrner (Besu): So I… I don't know if maybe at some point you want to say, okay, we just use the current version of the tests as the one for Bar Defnet 3, and maybe other changes we want to do to 8037, we…
+
+140
+00:22:22.080 --> 00:22:31.569
+Daniel Lehrner (Besu): we do it in the next DevNet, because for the gas repricings, we need another one anyways. So this… this… this would help us, finish it, because right now, it's like…
+
+141
+00:22:31.790 --> 00:22:39.249
+Daniel Lehrner (Besu): trying to hit a moving target. And we are close. I think we have, like, two failing tests with the latest version.
+
+142
+00:22:40.000 --> 00:22:45.740
+Daniel Lehrner (Besu): So if we keep this one and don't change the specs again, I think we would be ready soon for…
+
+143
+00:22:46.150 --> 00:22:47.500
+Daniel Lehrner (Besu): For, definite.
+
+144
+00:22:50.620 --> 00:22:54.920
+Maria Silva: Cool. Spencer, do you want to… to… to talk on this point?
+
+145
+00:22:56.970 --> 00:23:00.420
+spencer: Yeah, sure, I totally agree, it's… it's…
+
+146
+00:23:00.720 --> 00:23:02.700
+spencer: Being, like, a moving target and a…
+
+147
+00:23:03.010 --> 00:23:08.230
+spencer: I'd say it's, primarily been because of, others finding
+
+148
+00:23:08.460 --> 00:23:17.159
+spencer: Issues with the spec. So, after each spec issue and spec clarification, we've, updated the tests.
+
+149
+00:23:17.570 --> 00:23:21.069
+spencer: That might have not been communicated very, very clearly.
+
+150
+00:23:21.410 --> 00:23:22.400
+spencer: and…
+
+151
+00:23:23.160 --> 00:23:35.669
+spencer: I do plan to create another release, so it might change again, so apologies, but I feel like that… that should hopefully be, like, the final cutoff,
+
+152
+00:23:36.160 --> 00:23:38.609
+spencer: And people are happy with that,
+
+153
+00:23:39.060 --> 00:23:43.259
+spencer: Yeah, I just wanted to comment next. But yeah, I do feel like we're…
+
+154
+00:23:43.830 --> 00:23:48.360
+spencer: Starting to get in a good place, because it feels like most exciting.
+
+155
+00:23:48.750 --> 00:23:53.590
+spencer: Gave good feedback, and found edge cases, so… yeah.
+
+156
+00:23:58.370 --> 00:24:06.989
+Maria Silva: Okay, and before going to Drogan, because I think you'll… maybe Stefan also has a comment on this topic, or is it a different topic, Stefan?
+
+157
+00:24:07.460 --> 00:24:20.270
+Stefan Starflinger: No, I just wanted to say that we should differentiate between changes to the spec when we have a test release, and just adding more edge case testing as well, because if I…
+
+158
+00:24:20.510 --> 00:24:30.299
+Stefan Starflinger: We're on a kurtosis network right now with EVM fuzz. It's pretty easy that most clients run into some issue at the moment.
+
+159
+00:24:30.330 --> 00:24:42.819
+Stefan Starflinger: And at the moment, this EIP is also pretty difficult to test, because you have to trace every single transaction to find where is the gas discrepancy, and then you have to figure out, okay, which client is implementing it correctly.
+
+160
+00:24:42.970 --> 00:24:52.890
+Stefan Starflinger: And so far, I have the most confidence in the Geth implementation, but still, like, I'm still not sure which client has the right implementation to really
+
+161
+00:24:53.090 --> 00:25:05.170
+Stefan Starflinger: compare and see that it's working together, and it doesn't make sense to start a DevNet. Even if all the tests are passing, there is some edge case where then all of the clients will fork into different directions.
+
+162
+00:25:11.140 --> 00:25:11.880
+Maria Silva: Okay.
+
+163
+00:25:12.000 --> 00:25:15.800
+Maria Silva: Makes sense. Dragan, do you want to speak next?
+
+164
+00:25:16.900 --> 00:25:24.099
+Dragan Rakita: Yeah, physically… I would say similar to something that Stefan said.
+
+165
+00:25:24.390 --> 00:25:27.769
+Dragan Rakita: Spencer, yeah, it was only target because…
+
+166
+00:25:27.980 --> 00:25:37.789
+Dragan Rakita: I did implementation on REVM, and I started running tests, and I found that tests are not okay. So there was a few iterations, like fixing all of that, and, like.
+
+167
+00:25:38.410 --> 00:25:41.780
+Dragan Rakita: Figuring out what's the correct thing to do or not.
+
+168
+00:25:42.530 --> 00:25:50.920
+Dragan Rakita: And I do agree with Spencer that the last iteration, the next test version that we are basically releasing.
+
+169
+00:25:51.340 --> 00:25:57.450
+Dragan Rakita: should be okay, because I think we passed all from, like, the…
+
+170
+00:25:57.950 --> 00:26:04.079
+Dragan Rakita: the execution loop to the… out of that, so I think we covered a lot of things there.
+
+171
+00:26:07.140 --> 00:26:10.000
+Maria Silva: Perfect, thank you. Andrew, do you have a comment?
+
+172
+00:26:11.160 --> 00:26:26.139
+Andrew Ashikhmin: Yeah, I wanted to tell about implementation in Erigon. So, we have a draft implementation. Unfortunately, the team member, Milan, who is working on 8037,
+
+173
+00:26:26.350 --> 00:26:32.439
+Andrew Ashikhmin: I fell ill, so… but I see in his draft implementation that we
+
+174
+00:26:33.210 --> 00:26:42.609
+Andrew Ashikhmin: now pass all the tests except for 4, and those four, I think they are not even 8037.
+
+175
+00:26:42.890 --> 00:26:53.390
+Andrew Ashikhmin: So, yeah, hopefully, when he recovers in a few days, we'll have, an acceptable implementation.
+
+176
+00:26:55.680 --> 00:26:58.140
+Maria Silva: Sounds good. Perfect.
+
+177
+00:26:58.500 --> 00:27:05.310
+Maria Silva: And Nethermind, Ben, do you have any updates on 8037? I'm not sure if you are the one working on it.
+
+178
+00:27:06.320 --> 00:27:10.410
+Ben Adams: I think we're good, we're just, following…
+
+179
+00:27:11.020 --> 00:27:12.759
+Ben Adams: Things as it's coming out, and…
+
+180
+00:27:13.120 --> 00:27:14.899
+Ben Adams: And the test was there, right?
+
+181
+00:27:15.800 --> 00:27:19.849
+Ben Adams: We have done Marius's change.
+
+182
+00:27:20.840 --> 00:27:28.320
+Ben Adams: Yeah, I have said before it was quite complicated, but…
+
+183
+00:27:28.740 --> 00:27:32.929
+Ben Adams: Yeah, I don't have any suggestions on how to…
+
+184
+00:27:34.470 --> 00:27:41.419
+Ben Adams: How to improve it. It's like a necessary… we need to do something about… State gas, and…
+
+185
+00:27:43.580 --> 00:27:46.050
+Ben Adams: I can't… I can't tell you a better method today.
+
+186
+00:27:51.730 --> 00:28:02.359
+Maria Silva: Okay, perfect, thank you. Any more comments or things that people want to discuss on 8037?
+
+187
+00:28:08.410 --> 00:28:10.130
+Maria Silva: Spencer, do you want to…
+
+188
+00:28:10.780 --> 00:28:14.230
+spencer: Sorry, yeah, I guess… I guess I'd just ask, are… are people happy with…
+
+189
+00:28:14.580 --> 00:28:22.350
+spencer: our final test release, in the next, day or two, and then we just use that as the base, and I feel like, yeah.
+
+190
+00:28:22.800 --> 00:28:24.950
+spencer: As we haven't mentioned, it should…
+
+191
+00:28:25.460 --> 00:28:30.770
+spencer: Everything kind of should be aligned… aligned well and cover most, important edge cases.
+
+192
+00:28:31.100 --> 00:28:36.739
+spencer: And then we use that as the spec for DevNet Free, and if there are any other
+
+193
+00:28:36.970 --> 00:28:42.700
+spencer: non-critical edge cases, we can make that for the release in DevNet4.
+
+194
+00:28:43.210 --> 00:28:45.819
+Ben Adams: Can… can the,
+
+195
+00:28:46.100 --> 00:28:51.019
+Ben Adams: Is that going to be in the new format of tests, or in the prior format?
+
+196
+00:28:55.970 --> 00:29:06.760
+spencer: So, would be the same, the same format as the previous, previous release. I think, I'd say the main… the main, the main change in addition would be just making sure that.
+
+197
+00:29:07.550 --> 00:29:11.319
+Ben Adams: I mean, there's… there's, like, a new JSON layout for them.
+
+198
+00:29:12.810 --> 00:29:14.039
+Ben Adams: For the East test.
+
+199
+00:29:14.770 --> 00:29:15.620
+Ben Adams: That's coming.
+
+200
+00:29:17.520 --> 00:29:23.109
+spencer: I think… I think that's already in the… the most recent… recent releases.
+
+201
+00:29:23.500 --> 00:29:26.570
+Ben Adams: Okay, so we'll need to update that. Thank you.
+
+202
+00:29:32.960 --> 00:29:39.820
+Maria Silva: Seems like there was a lot of thumbs up on one last release in the next couple of days,
+
+203
+00:29:40.100 --> 00:29:44.160
+Maria Silva: Does anyone… does anyone want to raise anything against it, or…
+
+204
+00:29:48.740 --> 00:29:51.809
+Maria Silva: Okay, so seems like people agree, Spencer.
+
+205
+00:29:52.340 --> 00:29:58.119
+Maria Silva: Cool. Anything else on 8037 people want to bring up?
+
+206
+00:30:12.310 --> 00:30:16.480
+Maria Silva: Okay, so… If not,
+
+207
+00:30:16.640 --> 00:30:26.710
+Maria Silva: I just wanted… so this will be a short update, so I just wanted to give you a quick update on the benchmarking effort, which is relevant for
+
+208
+00:30:26.800 --> 00:30:38.089
+Maria Silva: the compute reprice, so $7904, and also the state access reprice, so 8038, and the ETH transfers, reprice.
+
+209
+00:30:38.420 --> 00:30:41.580
+Maria Silva: So on that,
+
+210
+00:30:41.710 --> 00:30:49.150
+Maria Silva: We are now doing two things in parallel, essentially. So, one of them is starting to run
+
+211
+00:30:49.150 --> 00:31:03.530
+Maria Silva: repricing benchmarks on, BOLT-optimized, clients. So we did have to make some updates on the testing infrastructure and the tooling and the tests themselves.
+
+212
+00:31:03.790 --> 00:31:08.700
+Maria Silva: And we should be able to start collecting data on these, this week.
+
+213
+00:31:09.000 --> 00:31:11.419
+Maria Silva: So this is important,
+
+214
+00:31:11.500 --> 00:31:29.850
+Maria Silva: This will be a big step for the compute reprice, where so far we've only had the preliminary numbers, and once we have the runs with the optimizations, we can start getting more, like, finalized numbers that take those optimizations into account.
+
+215
+00:31:30.220 --> 00:31:32.490
+Maria Silva: On the compute,
+
+216
+00:31:32.610 --> 00:31:44.170
+Maria Silva: benchmarks, we also had an update on some precompiled tests that were… essentially, they were being too fast because they were being, like, there were…
+
+217
+00:31:47.160 --> 00:31:54.689
+Maria Silva: There… there was this issue where you could essentially not recompute everything and just read from the cache,
+
+218
+00:31:54.750 --> 00:32:07.180
+Maria Silva: Because the precompiles always had the same inputs, and so now we are… we have much more robust tests that change the inputs every time, and so we should be able to see
+
+219
+00:32:07.550 --> 00:32:15.049
+Maria Silva: We should be able to see, like, more realistic numbers for those precompiles.
+
+220
+00:32:16.110 --> 00:32:24.839
+Maria Silva: So I would expect that, in the next couple of weeks to, to, to start having the final numbers for 7904.
+
+221
+00:32:25.010 --> 00:32:42.910
+Maria Silva: For the state access, so this is the other thing in parallel, which is, benchmarking state access operations has been much harder, and much more complex than we initially thought, in the beginning of the year, so we had to do a lot of
+
+222
+00:32:43.350 --> 00:32:48.989
+Maria Silva: Updates to our tooling and to our tests, and we are still…
+
+223
+00:32:49.110 --> 00:33:05.739
+Maria Silva: In the back-and-forth stage, where we are doing some fixes on the test, rerunning everything, checking the numbers, and some numbers sometimes don't look… don't make sense, and so we need to go back to the… to the test and… and… and the process and make sure that things look good.
+
+224
+00:33:05.740 --> 00:33:11.399
+Maria Silva: So, at the moment, we are in the third iteration of, of these, and collecting,
+
+225
+00:33:11.710 --> 00:33:18.970
+Maria Silva: early results, and so I don't have yet numbers on these so I can show you, but just to let you know that
+
+226
+00:33:18.970 --> 00:33:31.819
+Maria Silva: We are, in this iterative phase, and, we are starting to see some numbers, but I don't think they are ready yet to share, because we still need to collect a few more… few more runs.
+
+227
+00:33:31.970 --> 00:33:39.090
+Maria Silva: But yeah, I would expect by the next, breakout call to maybe have a more…
+
+228
+00:33:39.460 --> 00:33:44.220
+Maria Silva: To be able to give you an update with these numbers.
+
+229
+00:33:44.410 --> 00:33:51.030
+Maria Silva: Yeah, so this is the status, so we are a bit delayed on getting numbers for
+
+230
+00:33:51.130 --> 00:33:59.460
+Maria Silva: the state access EIP, but yeah, we are working, tirelessly to get those numbers as soon as possible.
+
+231
+00:34:03.860 --> 00:34:12.860
+Maria Silva: Any more comments on any repricing EIPs, or… Questions people want to raise?
+
+232
+00:34:21.070 --> 00:34:22.799
+Maria Silva: Cool. Cold dragon?
+
+233
+00:34:23.570 --> 00:34:28.930
+Dragan Rakita: What would be rough plan when this is going to land?
+
+234
+00:34:30.260 --> 00:34:30.900
+Dragan Rakita: Easy.
+
+235
+00:34:30.909 --> 00:34:33.649
+Maria Silva: Do you mean the state access EIP?
+
+236
+00:34:34.699 --> 00:34:36.999
+Dragan Rakita: More about gas repricing.
+
+237
+00:34:37.389 --> 00:34:41.459
+Dragan Rakita: Should we expect it something like DevNet 4 or DevNet 5?
+
+238
+00:34:42.269 --> 00:34:45.659
+Dragan Rakita: I'm not, I'm just asking, I don't want to put pressure.
+
+239
+00:34:46.190 --> 00:34:55.749
+Maria Silva: Right, right. So it's hard for me to say a specific definite, so my initial plan was to have final numbers by end of March.
+
+240
+00:34:55.949 --> 00:34:59.370
+Maria Silva: And then have everything ready by interop.
+
+241
+00:34:59.560 --> 00:35:06.110
+Maria Silva: I think now, final numbers by end of March, I don't think it will very likely happen.
+
+242
+00:35:06.450 --> 00:35:11.289
+Maria Silva: And so I think maybe we are looking into, during April.
+
+243
+00:35:11.700 --> 00:35:16.480
+Maria Silva: adding it into a DevNet. I'm not sure if that would be DevNet 4 or DevNet 5.
+
+244
+00:35:16.820 --> 00:35:25.300
+Maria Silva: But I think this should be, like… I do, I do think that by interrupt, we should have…
+
+245
+00:35:27.440 --> 00:35:35.509
+Maria Silva: final numbers and a good progress into having everything into a DevNet, so then we have time
+
+246
+00:35:35.860 --> 00:35:48.259
+Maria Silva: We give time for the community to adjust, because there will be a lot of, like, contracts and dApps and tooling that needs to be updated, and it's nice that they have, like, a stable
+
+247
+00:35:48.400 --> 00:35:55.090
+Maria Silva: DevNet with enough time for them to… To… to update.
+
+248
+00:35:59.340 --> 00:36:02.870
+Dragan Rakita: Yeah, after we have that in our EVM, we can propagate that to…
+
+249
+00:36:03.010 --> 00:36:07.569
+Dragan Rakita: Foundry to everybody, so the tooling is… Could support all that.
+
+250
+00:36:08.550 --> 00:36:09.140
+Maria Silva: Yep.
+
+251
+00:36:09.370 --> 00:36:22.850
+Maria Silva: Yeah, in parallel, we are also doing a lot, like, Carl from the EF is also working on a backward compatibility analysis, and we are starting to contact specific
+
+252
+00:36:22.850 --> 00:36:29.409
+Maria Silva: top developers that are affected. But again, like, they will only know exactly
+
+253
+00:36:29.610 --> 00:36:42.130
+Maria Silva: what changes they need to make to their contracts until they have, like, a stable set of numbers and a stable definite that they can test against. So that's why I think we… it's important that we give them
+
+254
+00:36:42.490 --> 00:36:46.490
+Maria Silva: We integrate these early on so that we give them enough time.
+
+255
+00:36:53.480 --> 00:36:57.770
+Maria Silva: Perfect. Any more comments, questions, feedback?
+
+256
+00:37:18.600 --> 00:37:24.499
+Maria Silva: Okay, so if not, I think we can wrap up early and give you some time back.
+
+257
+00:37:24.940 --> 00:37:31.489
+Maria Silva: Thank you all for… For coming and,
+
+258
+00:37:33.020 --> 00:37:35.240
+Maria Silva: And yeah, I'll see you, see you around.
+
+259
+00:37:43.640 --> 00:37:44.540
+jochem-brouwer: I think so.
+
+260
+00:37:44.540 --> 00:37:45.269
+Maria Silva: Bye, everyone.
+
+261
+00:37:45.280 --> 00:37:46.190
+Ameziane Hamlat: I'm gonna fix.
+
+262
+00:37:46.190 --> 00:37:47.530
+Toni Wahrstätter: Thank you, bye-bye. Thank you.
+
+263
+00:37:48.960 --> 00:37:49.480
+Maria Silva: Bye.
+
+264
+00:37:49.480 --> 00:37:50.380
+Andrew Ashikhmin: Goodbye.
+
