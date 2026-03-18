@@ -1,0 +1,91 @@
+00:02:15	soispoke:	gmgm
+00:03:40	Anders Elowsson:	HI
+00:03:55	Anthony:	👋
+00:07:20	Stefan Starflinger:	Pk is working on a builder for epbs depending on the timing we could consider building on top of that
+00:10:01	Stefan Starflinger:	Replying to "Pk is working on a b…"
+https://github.com/ethpandaops/buildoor
+00:15:25	soispoke:	Practically there are definitely ways to interleave plaint text and encrypted txns (this is part of the encrypted frame txn design I published) https://ethresear.ch/t/encrypted-frame-transactions/24440
+00:16:08	soispoke:	Replying to "Practically there ar..."
+
+This doesn’t change what Anders is saying about needing to use onchain searching
+00:16:34	Justin Florentine (Besu):	yes, but is it meaningful if their order was committed already prior to reveal?
+00:17:03	soispoke:	Well it avoids competition for doing the 1 backrun at the end of all encrypted txns
+00:23:16	soispoke:	What are the costs and benefits in your opinion?
+00:23:28	soispoke:	(Interleaved between separate buckets)
+00:31:05	Potuz:	if they could interleave txs they could signal the other ones on how to branch isn't it? you'd always want to be committed on one of the encrypted one and then reserve the right to execute it or not or pick branch of execution by interleaving the trigger.
+00:32:07	soispoke:	Replying to "if they could interl..."
+
+The idea would be to commit to both plain and encrypted txns at the exact same time (if even if they are interleaved)
+00:33:39	Potuz:	Replying to "if they could interl..."
+
+as long as the full ordering is committed that could work.
+00:33:44	soispoke:	Reacted to "as long as the full ..." with 👍
+00:33:52	Gottfried Herold:	I mean you could have interleaved txs in soispoke's design also for Lucid, but with the difference that essentially the builder only commits to the ordering (but WHICH encrypted transactions have to go through is still determined by a FOCIL-like mechanism)
+00:34:46	soispoke:	Replying to "I mean you could hav..."
+
+Yes that’s the difference, which to be fair is a big one (because it changes the way ePBS commits to contents/ordering) but I think it’s worth considering
+00:37:06	Potuz:	is it me or Anders is the only one I can't hear?
+00:37:12	soispoke:	Replying to "is it me or Anders i..."
+
+I can hear
+00:37:15	Justin Florentine (Besu):	Replying to "if they could interl..."
+
+ePBS committing to something a little looser than a stateroot seems like a powerful unlock
+00:37:28	soispoke:	Replying to "if they could interl..."
+
+I agree
+00:37:45	Potuz:	Replying to "if they could interl..."
+
+how is the commitment going to be? the bid sends the ordering?
+00:37:46	soispoke:	Replying to "if they could interl..."
+
+But just not something to take lightly
+00:37:56	soispoke:	Replying to "if they could interl..."
+
+@Potuz yes
+00:38:23	soispoke:	Replying to "if they could interl..."
+
+In the figure above you just have tx_ordering_root in the bid
+00:44:12	soispoke:	Yeah I agree, frame txns cleany separate validation and execution which is great for 1 slot but weird to think about for 2 slots
+00:47:26	Anders Elowsson:	Can’t we just have a sidecar to a ticket inside a frame tx
+00:48:35	Potuz:	Already FOCIL kinda kills shorter slots anyway
+00:48:52	soispoke:	Replying to "Already FOCIL kinda ..."
+
+No I don’t think it does!
+00:49:04	soispoke:	Replying to "Already FOCIL kinda ..."
+
+Probably not the right breakout room but happy to chat more about this
+00:49:18	soispoke:	Replying to "Already FOCIL kinda ..."
+
+The tldr is: just do a separate BAL deadline
+00:49:24	soispoke:	Replying to "Already FOCIL kinda ..."
+
+That reveals it earlier
+00:49:47	Potuz:	Replying to "Already FOCIL kinda ..."
+
+I think you guys aren't equally afraid as I am with split views. Already ePBS is borderline crazy timing :)
+00:50:17	soispoke:	Replying to "Already FOCIL kinda ..."
+
+Haha ok then let’s frame it as ePBS kills shorter slots 🙂
+00:50:19	Potuz:	Replying to "Already FOCIL kinda ..."
+
+All the designs that are being thrown for encrypted txs seem quite impossible to me from the forkchoice perspective
+00:50:25	Potuz:	Replying to "Already FOCIL kinda ..."
+
+with 12 seconds even
+00:50:42	soispoke:	Replying to "Already FOCIL kinda ..."
+
+Ok yeah tbh I don’t have a good view on how much time it would take
+00:50:48	soispoke:	Replying to "Already FOCIL kinda ..."
+
+To release keys etc
+00:51:00	Justin Florentine (Besu):	Replying to "Already FOCIL kinda ..."
+
+ssf bro, 12 seconds are fine with instant finality
+00:51:31	soispoke:	Replying to "Already FOCIL kinda ..."
+
+3SF is more the vibe these days (but still very nice)
+00:51:34	Potuz:	Replying to "Already FOCIL kinda ..."
+
+gotta jump meetings, a pleasure seing y'all
+00:51:51	soispoke:	I have to go too, thanks for the discussion!
