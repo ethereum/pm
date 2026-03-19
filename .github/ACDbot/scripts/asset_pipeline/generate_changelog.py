@@ -25,7 +25,6 @@ Identify misspelled Ethereum-specific terms in this WebVTT transcript that shoul
 3. Focus on proper nouns, protocol names, technical terms from the vocabulary reference
 4. Only correct obvious transcription errors where context supports the correction
 5. When uncertain, leave unchanged
-6. Terms under `technical_terms` are common nouns — use sentence casing (e.g., "DevNet" → "devnet" mid-sentence, "Devnet" at sentence start). All other vocabulary entries are proper nouns and keep their listed casing.
 
 ## Examples of GOOD corrections (specific terms):
 - Nethermine → Nethermind
