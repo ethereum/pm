@@ -1,0 +1,538 @@
+00:06:40	Lumi | Offchain Labs:	Lol
+00:06:46	nixo:	gm!
+00:06:53	Mehdi Aouadi:	gm
+00:06:54	Fireflies.ai Notetaker Andriia:	Andriian invited Fireflies.ai here to record & take notes.  By continuing, you agree to https://fireflies.ai/privacy.
+
+Type:
+'/ff pause' - pause recording
+'/ff leave' - to stop recording
+
+View Realtime notes here: https://app.fireflies.ai/live/01KM0QR53Z1FQBRJZNKEFZDZ3E?ref=live_chat
+00:07:02	Caleb:	good morning Ethereummm
+00:07:38	Potuz:	GM
+00:07:55	Barnabas:	half of them are bots
+00:08:04	Stefan Starflinger:	I am a bot
+00:08:07	Barnabas:	Justin is def one of them :D
+00:08:10	felix (eest):	Reacted to "I am a bot" with 🤖
+00:08:14	Justin Florentine (Besu):	LIES
+00:08:15	Barnabas:	robocop
+00:08:18	Kalo | Obol:	Reacted to "Justin is def one of..." with 👍
+00:08:20	Justin Florentine (Besu):	oh wait... right
+00:08:23	Marius Van Der Wijden (M):	The whole pandaops team
+00:08:25	Barnabas:	Reacted to "oh wait... right" with 😂
+00:08:31	felipe:	Reacted to "oh wait... right" with 😂
+00:08:34	Marius Van Der Wijden (M):	Replying to "The whole pandaops t..." 
+
+ They are machines
+00:08:44	stokes:	https://github.com/ethereum/pm/issues/1941
+00:08:56	Kalo | Obol:	Reacted to "oh wait... right" with 😂
+00:09:11	Dima Gusakov | Lido:	Reacted to "They are machines" with 😂
+00:09:20	Dima Gusakov | Lido:	Reacted to "oh wait... right" with 😂
+00:09:25	Maria Silva:	Reacted to "They are machines" with 😂
+00:10:18	Stefan Starflinger:	Reacted to "They are machines" with 😂
+00:10:21	Parithosh Jayanthi:	Reacted to "They are machines" with 😂
+00:11:20	Potuz:	Alex, if there's time I'd like to go quickly over the open issues on ePBS so that it appears in the minutes and then call the right people to weigh in?
+00:11:25	Parithosh Jayanthi:	Replying to "The whole pandaops t..."
+
+Instructions unclear, running rm -rf /
+00:11:28	Matthew Keil:	Reacted to "oh wait... right" with 😂
+00:11:36	stokes:	Replying to "Alex, if there's tim..."
+
+Sure, do you want to go over Barnabas now?
+00:11:40	stokes:	Replying to "Alex, if there's tim..."
+
+I have a similar question
+00:11:47	Potuz:	Replying to "Alex, if there's tim..."
+
+sure
+00:13:13	Lumi | Offchain Labs:	Reacted to "oh wait... right" with 😂
+00:13:28	Lumi | Offchain Labs:	Reacted to "They are machines" with 😂
+00:16:15	stokes:	Seems like this is the main PR: https://github.com/ethereum/consensus-specs/pull/4992
+00:16:27	nflaig:	there is another alternative PR to fix it https://github.com/ethereum/consensus-specs/pull/5020
+00:16:34	nflaig:	just opened that like an hour ago
+00:16:46	stokes:	Reacted to "just opened that lik..." with 👍
+00:16:58	pk910:	the issue potus is talking about:
+https://notes.ethereum.org/@pk910/4788-epbs
+00:17:44	James He:	Not urgent but another issue.
+For proposer preferences we would like to replace eth/v1/validator/prepare_beacon_proposer  and /eth/v1/validator/register_validator  endpoints with it. But the protocol spec proposer preferences can only be sent out for the next epoch.
+
+This is an issue for a multitude of edge cases, 
+Also originally called out by Nico, ideally it could be revisited.
+
+https://github.com/ethereum/consensus-specs/pull/4777#discussion_r2634788761
+00:17:56	Dima Gusakov | Lido:	For Lido, restoring missing records is the best option. Otherwise, we will run into a few issues.
+00:19:26	pk910:	Patches just mentioned in discord that for RP the block root thing is a issue too:
+
+> rp uses state proof for validator withdrawal credentials, balances, and withdrawals, if i recall correctly
+00:19:28	terence:	PR to support reorg head’s ancestor: https://github.com/ethereum/execution-apis/pull/770 Please review EL devs
+00:20:12	Potuz:	Thanks Alex
+00:20:59	Dima Gusakov | Lido:	To be fully honest, Lido will not fall apart if we have missing records. But we will have to spend A LOT of money and effort to adapt to it.
+
+Over the past 2 years, we have done our best to add permissionless proofs wherever possible to reduce the protocol’s reliance on Oracles. Hence, the exposure to changes in 4788 for Lido is significant at the moment
+00:22:17	Potuz:	Let's have a more focused chat. I suspect the changes would be minimal if any just keeping things as they are now
+00:24:04	Greg K | Lido:	Reacted to "To be fully honest..." with 👍
+00:24:35	Dima Gusakov | Lido:	Reacted to "Let's have a more fo..." with 🫂
+00:24:38	stokes:	Replying to "To be fully honest, ..."
+
+Do you have a link to e.g. some solidity using 4788?
+00:24:53	stokes:	Replying to "To be fully honest, ..."
+
+Ideally we can find a way  so its transparent under epbs
+00:24:57	stokes:	Replying to "To be fully honest, ..."
+
+An example would help
+00:25:04	Tomás Arjovsky | Lambda | Ethrex:	Hey, Tomás from ethrex exec client here. @Potuz what you mentioned is ELs needing to support executing blocks from a parent/ancestor or reorgs to exactly the parent block? That is, just marking head/head+some ancestors as non-canonical?
+00:25:26	terence:	Its basically this PR: https://github.com/ethereum/execution-apis/pull/770
+00:25:39	Potuz:	Replying to "Hey, Tomás from ethr..."
+
+yes, we may need to reorg to a previous block in the chain
+00:26:20	Tomás Arjovsky | Lambda | Ethrex:	Replying to "Hey, Tomás from ethr..."
+
+ok interesting, I think we already support this, but I’ll check if our test cases cover it correctly. Thanks for the link terence!
+00:28:38	Marius Van Der Wijden (M):	But then thats iffy ux, right? Getting the update 12 sec later
+00:29:04	terence:	Replying to "But then thats iffy ..."
+
+Right.. that was my point. I don’t know how much this affect UX
+00:29:17	Marius Van Der Wijden (M):	Replying to "But then thats iffy ..." 
+
+ The cl knows that the head is bad, but keeps el in the dark until the next block
+00:29:44	stokes:	Replying to "But then thats iffy ..."
+
+Still wrapping my head around the issue but can the CL just update the EL as soon as it knows?
+00:31:13	terence:	Which turns out to be a really good tests, we found so many bugs because of it
+00:32:06	stokes:	right
+00:32:38	terence:	You won’t propose if you are optimistic anyway
+00:34:36	Potuz:	But still the question is that for CLs that reorg to a back node, they will get SYNCING if they were *already* receiving SYNCING correct?
+00:36:12	Potuz:	BTW, I am fairly certain that the proof becomes not larger than a couple of hashes
+00:36:16	Marius Van Der Wijden (M):	Can we not just populate the 4788 contract with the missing roots
+00:36:20	Potuz:	I'll post the full proof of this using the parent hash
+00:36:30	stokes:	Replying to "Can we not just popu..."
+
+What timestamp do they correspond to
+00:36:47	Marius Van Der Wijden (M):	Replying to "Can we not just popu..." 
+
+ Hmmm
+00:41:07	pk910:	Replying to "Can we not just popu..."
+
+yea, that's part of the problem.  we can't insert multiple reoots with the same or multiple system calls.  we need separate execution frames that mimic the block time of the empty missed payloads
+00:41:08	Potuz:	@Dima Gusakov | Lido don't you have the option to choose that slot?
+00:41:15	Potuz:	then you can just point to a full slot
+00:42:05	Potuz:	WRT consolidations: those are processed on full slots so you can prove against the parent hash I think?
+00:44:26	Dima Gusakov | Lido:	Replying to "WRT consolidations: ..."
+
+I need to look deeper here. The time for analysis was pretty small NGL
+00:44:56	Greg K | Lido:	Reacted to "I need to look dee..." with 👍
+00:45:41	pk910:	I think it's 3 intermediate hashes to profe via the parent_root  (header has 5 fields,  so deph 3).
+so yea, basically +3 hashes per missed slot.   but it makes proof path verification more complex
+00:46:21	Potuz:	Replying to "WRT consolidations: ..."
+
+There's plenty of time for this I believe, and everyone is open to fix it the best way for everyone so I don't think this will be a problem at all
+00:47:04	Potuz:	Replying to "I think it's 3 inter..."
+
+it's not linear in the missed blocks though, cause you will have the child block to the one you're interested always
+00:47:12	Potuz:	Replying to "I think it's 3 inter..."
+
+so it's always just one jump that you need
+00:47:45	stokes:	https://github.com/ethereum/consensus-specs/pull/4992
+00:47:51	stokes:	https://github.com/ethereum/consensus-specs/pull/5020
+00:50:36	Toni Wahrstätter:	For those interested in the different FC possibilities, created this to help me study it:
+https://nerolation.github.io/ePBS-ptc-fc-table/
+00:52:19	Potuz:	That's not the simpler one though, that moves complexity to the cache
+00:52:31	Potuz:	that's the one that has the least size impact on state though
+00:52:33	terence:	The simple one is where we can just use the state for the cache
+00:52:42	terence:	Similar to proposer look ahead
+00:52:42	Potuz:	I have no strong preference
+00:53:08	Potuz:	whatever clients decide is fine by me, just to be clear we're shipping this in devnet 1
+00:53:11	Parithosh Jayanthi:	Reacted to "For those interested..." with 🔥
+00:53:49	nflaig:	Replying to "That's not the simpl..."
+
+4992 still requires a separate ptc cache which is one of the main reasons I don't like it
+00:54:01	Parithosh Jayanthi:	Replying to "For those interested..."
+
+This is super cool!
+00:55:39	Barnabas:	What is the ensurance that on ACDT we can actually make a decision regarding this PTC stuff?
+00:55:45	Barnabas:	we have been dragging this on for a long time
+00:56:11	Toni Wahrstätter:	Variable Payload Deadline Post:
+https://hackmd.io/@Nerolation/B1GKtAUcZg 
+
+PR:
+https://github.com/ethereum/consensus-specs/pull/4843
+00:56:30	stokes:	Replying to "we have been draggin..."
+
+It needs a tad more analysis
+00:56:36	stokes:	Replying to "we have been draggin..."
+
+But I’ll track it so we can sort it out
+00:56:42	Potuz:	Replying to "we have been draggin..."
+
+we can just decide 100%, we've called for clients for a long time, so we will make a decision with whomever is there on monday
+00:56:49	stokes:	Replying to "we have been draggin..."
+
+We can focus on devnet-0 issues before needing to make a decision here
+00:56:55	Potuz:	Replying to "we have been draggin..."
+
+specially cause AFAICS there's no one with a strong feeling about any of these PRs
+00:57:04	stokes:	Replying to "we have been draggin..."
+
+Yeah, im also ok w/ just making a call monday
+00:57:23	stokes:	Replying to "we have been draggin..."
+
+In that case I will try to do a bit more thinking about the fork choice in the event we can make the protocol simpler
+00:57:41	Dustin:	yeah not all snappy implementations are the same. it's a format, not an algorithm
+00:58:04	Potuz:	Replying to "That's not the simpl..."
+
+yeah me too, my preferred one I believe is 2 epochs (or even 3) in state
+00:59:04	Potuz:	Replying to "That's not the simpl..."
+
+but 4992 allows to at least always use head state to get the ptc, while the new version has branches depending on the slot number
+00:59:22	Marius Van Der Wijden (M):	5s execution deadline pls
+00:59:48	Anders Elowsson:	Can we think this over a little longer?
+00:59:57	terence:	Replying to "That's not the simpl..."
+
+4992 is good with me, that I’m certain we won’t need another off chain cache and can use the state for it. (Except for beacon api use case)
+01:00:06	stokes:	Replying to "Can we think this ov..."
+
+I don’t think we need to make a decision on this today
+01:00:10	stokes:	Replying to "Can we think this ov..."
+
+But it will be time soon
+01:00:13	Marius Van Der Wijden (M):	We could just ship it in h*
+01:00:28	Potuz:	Replying to "We could just ship i..."
+
+we can ship it any time, it's not a hard fork
+01:00:33	Potuz:	Replying to "We could just ship i..."
+
+and its trivial to implement
+01:00:50	stokes:	Replying to "We could just ship i..."
+
+It needs to be coordinated though right?
+01:01:06	stokes:	Replying to "We could just ship i..."
+
+Essentially a soft fork
+01:01:17	Potuz:	Replying to "We could just ship i..."
+
+What Toni's proposing is reasonable: wait until we have a reasonable solution, whatever we do is fine. 
+
+@alex I don't think this really needs to be coordinated
+01:01:20	ethDreamer (Mark):	Replying to "We could just ship i..."
+
+Deadline parameter only hard forks :p
+01:01:28	Anders Elowsson:	Replying to "We could just ship i..."
+
+I suppose there are some interactions with pricing.. I.e., to accommodate a variable deadline being as useful as possible, if it is done
+01:01:29	Potuz:	Replying to "We could just ship i..."
+
+PTC voting is kinda irrelevant in 99% of cases
+01:01:33	Enrico Del Fante (tbenr):	Reacted to "Deadline parameter o..." with 🔥
+01:01:42	Kevaundray Wedderburn:	Execution time turns into proving time; so 6-7 seconds would be great there
+01:01:55	Toni Wahrstätter:	Reacted to "Deadline parameter o..." with 🔥
+01:02:19	Potuz:	The only thing I disagree with Toni is that linear regression *is the only reasonable* thing to do, cause broadcast is linear in size
+01:02:23	nflaig:	Replying to "That's not the simpl..."
+
+I am also fine with putting everything in the state so we can remove the off chain cache
+01:02:40	Toni Wahrstätter:	Replying to "Execution time turns..."
+
+What if execution time also turns into gas limit increases :D
+01:02:47	Potuz:	Replying to "That's not the simpl..."
+
+I think it's the best of all, since it also affects hashing in the best way
+01:02:50	Parithosh Jayanthi:	Target mid April tbh
+01:02:55	Anders Elowsson:	Reacted to "What if execution ti..." with 😃
+01:02:59	Parithosh Jayanthi:	Otherwise we risk overlapping with interop
+01:03:05	Potuz:	Replying to "That's not the simpl..."
+
+perhaps we can put 3 epochs and be done with duties as well
+01:03:09	terence:	Sounds good to me
+01:03:13	Barnabas:	We should make a decision about PTC then today
+01:04:01	Kevaundray Wedderburn:	Reacted to "What if execution ti..." with 😃
+01:04:19	Toni Wahrstätter:	Replying to "The only thing I dis..."
+
+I can see that argument but we should then not interpolate as of 3.6 but pick a later point in time
+01:04:46	Potuz:	Replying to "The only thing I dis..."
+
+yeah the constant term should be benched correctly
+01:05:17	Toni Wahrstätter:	Replying to "The only thing I dis..."
+
+Also, broadcast in linear, but we would anchor on uncompressed sizes, which changes the situation
+01:05:21	Ansgar Dietrichs:	Are we talking CL side or EL side?
+01:05:26	Potuz:	lol
+01:05:33	Ansgar Dietrichs:	Ah, right, I think it should be an acde decision
+01:05:39	Stefan Starflinger:	epbs-devnet-2 doesn't exist right? :D
+01:06:02	Barnabas:	Can we make sfi decisions on ACDT?
+01:06:23	Barnabas:	we usually have around 50ppl
+01:06:27	Potuz:	ACDT had very low volume when I go there
+01:06:30	Ansgar Dietrichs:	Replying to "Can we make sfi deci…"
+Maybe we should first discuss on acde? Going forward that might be fine
+01:06:37	Parithosh Jayanthi:	Reacted to "Maybe we should firs..." with 👍🏽
+01:06:39	Barnabas:	Reacted to "Maybe we should firs..." with 👍🏽
+01:06:44	felipe:	Reacted to "Maybe we should fi..." with 👍🏽
+01:06:45	felix (eest):	Reacted to "Maybe we should fi..." with 👍🏽
+01:06:52	Ansgar Dietrichs:	I am not strongly opinionated though, fine to be overruled
+01:07:20	Ansgar Dietrichs:	Acdt could at minimum have a recommendation maybe
+01:07:21	Toni Wahrstätter:	Replying to "I am not strongly op..."
+
+I'm strongly opinionated to not overrule ansgar
+01:07:24	Stefan Starflinger:	Reacted to "Maybe we should firs..." with 👍🏽
+01:07:24	Barnabas:	ppl usually don’t speak up anyways lol.
+01:07:27	Ansgar Dietrichs:	Replying to "Acdt could at minimu…"
+Will discuss with Barnabas
+01:07:38	Luca Donno | L2BEAT:	Reacted to "ppl usually don’t sp..." with 😢
+01:07:39	Ansgar Dietrichs:	Reacted to "I'm strongly opinion…" with ❤️
+01:07:42	felipe:	Reacted to "I'm strongly opini..." with 💯
+01:07:53	Potuz:	yes, let's SFI that right now
+01:07:54	Potuz:	:)
+01:07:56	Dustin:	Is SSZ ok in the EL now?
+01:08:51	Parithosh Jayanthi:	Reacted to "I'm strongly opinion..." with 💯
+01:09:00	Giulio:	yo
+01:09:04	Giulio:	Someone summoned me
+01:09:08	Cayman Nava:	does it need to be synced with a fork? can be built opt-in
+01:09:14	stokes:	Replying to "Someone summoned me"
+
+We are talking about ssz engine api
+01:09:15	Potuz:	Replying to "The only thing I dis..."
+
+we need to find a way of using compressed sizes here
+01:09:15	Giulio:	SSZ yees
+01:09:21	FLCL:	not bound by a fork
+01:09:29	Ben Adams:	Is via discovery
+01:10:46	Potuz:	+1 to Marius point, but that kind of thinking delays shipping though, until we get the "perfect API", we're bottlenecked by JSON
+01:10:52	Potuz:	SSZ can be used right now
+01:10:53	Toni Wahrstätter:	Joking aside, proving can start earlier anyway. This is the latest time when the payload must arrive the attesters. Builders will have to make sure their block is proven and might have time for the prove until the ptc deadline, independent from the payload deadline
+01:11:06	FLCL:	What exactly would you change?
+01:11:17	Barnabas:	we would need to have rest support anyway
+01:11:28	Barnabas:	there we can mess around with the versioning a little bit
+01:12:16	Toni Wahrstätter:	Replying to "The only thing I dis..."
+
+agree yeah, that would be the cleanest solution. Worth discussing async or at some point in the future what the blockers are there
+01:12:36	Marius Van Der Wijden (M):	Meta versioning 😅
+01:13:00	Parithosh Jayanthi:	Reacted to "Meta versioning 😅" with 😂
+01:13:07	Giulio:	yes
+01:13:15	Parithosh Jayanthi:	Engine API version versioning system
+01:13:28	Raúl Kripalani:	I would like to see a more fluid interface so EL and CL can coordinate tightly
+01:13:30	Kevaundray Wedderburn:	Reacted to "Engine API version v..." with 😭
+01:13:53	Justin Florentine (Besu):	all api versioning is dumb
+01:13:59	FLCL:	CL has a bit different approach of types maintanance per fork
+01:14:34	Parithosh Jayanthi:	Replying to "all api versioning i..."
+
+Gotta compliment guilio and jacek for their restraint in not jumping on this and saying we should get rid of EL/CL split altogether
+01:14:52	Stefan Starflinger:	Replying to "all api versioning i..."
+
+single binary?
+01:14:53	Dustin:	Can't speak for Marius,, but some of the things I've had in mind are: fcU bundles too many things, for example, e.g., setting head vs triggering sync or checking head validity vs setting new head validity being conflated.
+
+Inability to ask in any deterministic way whether a block is valid in a way which doesn't trigger a bunch of interference with other operations
+01:14:57	Dustin:	There are a bunch of semantic points
+01:14:57	Justin Florentine (Besu):	the best solution to api versioning is "dont", the second best is mime types
+01:15:38	Dustin:	basically right now engine API supports optimistic and and only optimistic sync, and that's always been the case
+01:15:49	Dustin:	but that's decreasingly useful
+01:16:24	Justin Florentine (Besu):	Replying to "all api versioning i..."
+
+besu/teku has considerd this for years, we're still kinda "meh" on the value add
+01:16:31	stokes:	I think I’d suggest “engine api next gen” for interop, and think about more iterative change before that
+01:16:50	Barnabas:	Reacted to "besu/teku has consid..." with 🥦
+01:17:13	Dustin:	also, the basic notion of exchangecapabilities is one big TOCTOU
+01:17:27	Dustin:	might as well just try to use $FOO, not ask to use $FOO
+01:17:55	Parithosh Jayanthi:	Reacted to "besu/teku has consid..." with 🥦
+01:18:04	Parithosh Jayanthi:	Replying to "all api versioning i..."
+
+I agree 😄
+01:18:21	Potuz:	Reacted to "Gotta compliment gui..." with 🤣
+01:18:38	Dustin:	Replying to "CL has a bit diffe..."
+
+Yeah, what the CL and EL consider a "mess" might vary
+01:18:42	Potuz:	Replying to "all api versioning i..."
+
+problem is Vouch and company, we will never get rid of the damned API
+01:18:44	nflaig:	we have Eth-consensus-version header for this on beacon-api so we don't need to bump the api version just because the type changes
+01:19:10	Luca Donno | L2BEAT:	Reacted to "Gotta compliment gui..." with 🤣
+01:19:33	Marius Van Der Wijden (M):	Rlp on cl
+01:19:40	stokes:	Reacted to "Rlp on cl" with 😂
+01:19:45	Parithosh Jayanthi:	Replying to "Rlp on cl"
+
+Really tempted to abuse mod rights on this one
+01:19:52	Kevaundray Wedderburn:	Reacted to "Really tempted to ab..." with 😂
+01:19:59	Barnabas:	Replying to "Rlp on cl"
+
+Marius, you may be excused to leave this call right now
+01:20:02	felix (eest):	Reacted to "Really tempted to ..." with 😂
+01:20:03	Potuz:	Replying to "Rlp on cl"
+
+lol
+01:20:05	felipe:	Reacted to "Rlp on cl" with 😂
+01:20:09	stokes:	Reacted to "Marius, you may be e..." with 😂
+01:20:10	Barnabas:	Reacted to "Rlp on cl" with 😂
+01:20:13	felix (eest):	Replying to "Rlp on cl"
+
+mods crush their skulls
+01:20:27	Enrico Del Fante (tbenr):	Reacted to "Really tempted to ab..." with 😂
+01:20:38	Stefan Starflinger:	Reacted to "besu/teku has consid..." with 🥦
+01:20:42	felipe:	Reacted to "Really tempted to ..." with 😂
+01:20:53	Stefan Starflinger:	flatbuffers+ssz :D
+01:21:03	Raúl Kripalani:	I don’t care SSZ vs RLP, i just want binary and zero copy
+01:21:09	wolovim:	Replying to "Rlp on cl"
+good luck here forkcast summary job
+01:21:16	Barnabas:	Reacted to "good luck here forkc..." with 😰
+01:21:23	Stefan Starflinger:	Replying to "I don’t care SSZ vs ..."
+
+not a fan of deserializing?
+01:21:40	FLCL:	SSZ is not simple, it needs safety checks and parallelisation. Need not MVP level
+01:21:42	Barnabas:	Barnabas’ PR: https://github.com/ethereum/execution-apis/pull/764
+01:21:44	Potuz:	Replying to "I don’t care SSZ vs ..."
+
+If this sentence makes it so that we go with RLP, you'll be in charge of implementing it in Prysm @Raúl Kripalani 
+01:21:47	Giulio:	fine
+01:21:48	Parithosh Jayanthi:	Reacted to "good luck here forkc..." with 😰
+01:21:57	Giulio:	I think we can rediscuss in ACDE£?
+01:21:58	Raúl Kripalani:	Reacted to "If this sentence mak…" with 😂
+01:21:59	Parithosh Jayanthi:	Reacted to "If this sentence mak..." with 😂
+01:22:02	Stefan Starflinger:	Reacted to "If this sentence mak..." with 😂
+01:22:15	felipe:	Reacted to "If this sentence m..." with 😂
+01:22:19	nixo:	Reacted to "I think we can redis..." with 💷
+01:22:29	Mercy Boma Naps-Nkari:	This is the PR https://github.com/ethereum/execution-apis/pull/297 I was hoping to get input from client devs on. So far,  the feedback I got from Nimbus was they  prefer a #302-like approach which is the (fixed secret for localhost) over #297's OS-specific paths due to some complexity concerns. While from  Lodestar  is open to implementing default behavior but there was questions  on overall impact since tooling already handles this and CL/EL often don't share filesystems. Waiting for more input from other client teams before deciding on the best agreed upon approach on this, thank you.
+01:22:34	Barnabas:	I know might be a stupid question, but any CL’s opposed to this? 764
+01:22:37	Raúl Kripalani:	Replying to "I don’t care SSZ vs …"
+Deep inside i knew i was making a mistake putting those two words together in a sentence
+01:22:37	Giulio:	@FLCL I would be happy to do it in Nethermind theb
+01:22:43	Giulio:	To prove you wrong 🙂
+01:22:46	Kevaundray Wedderburn:	Reacted to "Deep inside i knew i..." with 😂
+01:22:50	Dustin:	Replying to "The only thing I d..."
+
+well different snappy implementations exist
+01:22:55	Parithosh Jayanthi:	Reacted to "Deep inside i knew i..." with 😂
+01:23:03	Potuz:	Reacted to "Deep inside i knew i..." with 😂
+01:23:05	Dustin:	Replying to "The only thing I d..."
+
+Nimbus uses its own for example, but the general point is that it's a format, not one compression/encoding specification
+01:23:07	stokes:	https://github.com/ethereum/execution-apis/pull/297
+01:23:38	Barnabas:	I think changing defaults so late is a no go
+01:23:38	Marius Van Der Wijden (M):	Replying to "Rlp on cl" 
+
+ Btw can we get a ranked list of talking time? Who are the biggest yappers on acd
+01:24:00	Barnabas:	Replying to "Rlp on cl"
+
+Probably stokes 😂
+01:24:08	Parithosh Jayanthi:	Replying to "Rlp on cl"
+
+Ranked list for chat would also be cool
+01:24:16	Barnabas:	Replying to "Rlp on cl"
+
+oh crap
+01:24:19	Raúl Kripalani:	Replying to "I don’t care SSZ vs …"
+@Stefan Starflinger we don’t get rid of deserialization (unless we send blobs binaries without any framing), but with SSZ we can use the data from the network buffer without making another alloc
+01:24:35	Giulio:	Reacted to "Gotta compliment gui..." with 🤣
+01:24:39	Raúl Kripalani:	Replying to "I don’t care SSZ vs …"
+Which we can’t do in JSON because of the base64 decoding penalty
+01:24:41	Marius Van Der Wijden (M):	Replying to "Rlp on cl" 
+
+ Yeah the interesting point would be position 2+
+01:24:42	Potuz:	Replying to "The only thing I dis..."
+
+I have strong opinions on this, this is not going to cause a split view: PTC is irrelevant unless the next proposer is going to reorg the payload, which it shouldn't. I think it's fine to use different algo's as long as their outputs are not TOOO different
+01:24:53	Marius Van Der Wijden (M):	Replying to "Rlp on cl" 
+
+ Ansgar will likely take the top spot
+01:24:59	Giulio:	Replying to "all api versioning i..."
+
+Nah, I am realistic in my expectations 🙂
+01:25:14	Giulio:	Replying to "all api versioning i..."
+
+I hope this is enough work from for now 🙂
+01:25:17	wolovim:	Replying to "Rlp on cl"
+Congrats you found the only feature that jitsi has and zoom does not
+01:25:24	Parithosh Jayanthi:	Reacted to "Congrats you found t..." with 😂
+01:25:38	Potuz:	Replying to "Rlp on cl"
+
+> Btw can we get a ranked list of talking time? Who are the biggest yappers on acd
+
+Can we not do this on this call?
+01:25:46	Luca Donno | L2BEAT:	Reacted to "Rlp on cl" with 😂
+01:25:56	Barnabas:	Reacted to "> Btw can we get a r..." with 😂
+01:26:04	stokes:	Reacted to "Probably stokes 😂" with 🚀
+01:26:40	kingy_sigp:	Reacted to "Btw can we get a ran..." with 😂
+01:27:13	kingy_sigp:	Reacted to "> Btw can we get a r..." with 😂
+01:27:26	Dustin:	Replying to "The only thing I d..."
+
+so it works until it doesn't?
+01:28:16	Marius Van Der Wijden (M):	Replying to "Rlp on cl" 
+
+ We could download all the youtube live streams and feed them to an ai
+01:28:24	nixo:	Reacted to "mods crush their sku..." with 😂
+01:28:25	Potuz:	if you have a lot of 2024 validators and you worry about your partial withdrawals logistics/costs, please send me one of those 0x02 with 2024ETH and I'll pay your withdrawals from the remaining one :)
+01:28:33	stokes:	Reacted to "if you have a lot of..." with 😂
+01:28:36	pk910:	Reacted to "if you have a lot of..." with 😂
+01:28:39	nixo:	Reacted to "> Btw can we get a r..." with 😂
+01:28:40	Caleb:	Reacted to "if you have a lot ..." with 😂
+01:28:44	Greg K | Lido:	Reacted to "if you have a lot ..." with 😂
+01:28:46	Luca Donno | L2BEAT:	Reacted to "if you have a lot of..." with 😂
+01:28:57	nixo:	Reacted to "Congrats you found t..." with 😂
+01:29:15	nflaig:	Reacted to "if you have a lot of..." with 😂
+01:29:18	Parithosh Jayanthi:	Reacted to "> Btw can we get a r..." with 😂
+01:29:30	Barnabas:	Is there a a reason this (EIP8148) couldn’t be done on the app level?
+01:29:49	Barnabas:	Reacted to "if you have a lot of..." with 😂
+01:29:51	stokes:	Replying to "Is there a a reason ..."
+
+You need the consensus layer to be aware for it to be useful
+01:29:58	nixo:	Reacted to "if you have a lot of..." with 😂
+01:30:14	Potuz:	Replying to "Is there a a reason ..."
+
+also how would you implement this, someone needs to trigger the txs.
+01:30:16	Barnabas:	Replying to "if you have a lot of..."
+
+2048 you mean?
+01:30:18	Enrico Del Fante (tbenr):	Replying to "if you have a lot of..."
+
+2024 ? 🙂
+01:30:18	stokes:	Replying to "Is there a a reason ..."
+
+We did consider this w/ the original consolidation design, but decided against given how big pectra was getting
+01:30:26	Potuz:	Replying to "if you have a lot of..."
+
+lol, can't edit
+01:30:33	Greg K | Lido:	Replying to "Is there a a reaso..."
+
+The whole point is to use the sweep withdrawal algorithm of the CL
+01:30:35	stokes:	Replying to "Is there a a reason ..."
+
+Its a nice idea, just adds yet more complexity
+01:30:38	Barnabas:	Replying to "if you have a lot of..."
+
+potuz forgetting powers of 2 was not on my bingo sheet 😂
+01:30:41	Dustin:	the pectra consolidation design already proved to be a bug factory
+01:30:49	Enrico Del Fante (tbenr):	Reacted to "potuz forgetting pow..." with 💯
+01:31:24	Potuz:	Replying to "if you have a lot of..."
+
+I still don't even know where the number 2024 comes from
+01:31:40	Greg K | Lido:	Replying to "Is there a a reaso..."
+
+but looks like without this feature, 0x02 adoption is too low..
+01:31:53	Potuz:	Replying to "Is there a a reason ..."
+
+complexity I don't think it's an issue, but I would worry about performance
+01:32:07	Jihoon:	A spec PR for EIP-8148: https://github.com/ethereum/consensus-specs/pull/4901
+01:32:10	stokes:	Replying to "Is there a a reason ..."
+
+fair
+01:32:27	Barnabas:	Replying to "Is there a a reason ..."
+
+why can’t lido submit the manual partial withdrawal for validators that opt in for this ?
+01:32:37	stokes:	Replying to "Is there a a reason ..."
+
+Perhaps the champions could do a PoC to get some initial numbers
+01:32:44	Barnabas:	Replying to "Is there a a reason ..."
+
+like enable this feature for your customers, and submit the tx on their behalf
+01:33:11	Dima Gusakov | Lido:	https://eips.ethereum.org/EIPS/eip-8148
+01:33:51	Greg K | Lido:	Replying to "Is there a a reaso..."
+
+the point is to allow every validator use this feature, not only Lido ones :-)
+01:33:58	stokes:	Reacted to "the point is to allo..." with 👍
+01:34:10	stokes:	Replying to "Is there a a reason ..."
+
+Yeah its not just a lido thing
+01:34:51	Greg K | Lido:	Replying to "Is there a a reaso..."
+
+especially small validators benefit more from this (e.g., 60 ETH validators)
+01:35:02	nixo:	https://dune.com/butta_ethereum/maxeb-0x02-and-consolidations
+01:35:36	Barnabas:	I personally don’t think this is the reason people are not consolidating, but rather becuase they are lazy.
+01:35:40	Potuz:	perfect timing!
+01:35:47	Dima Gusakov | Lido:	Reacted to "I personally don’t t..." with 😂
