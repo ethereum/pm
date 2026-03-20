@@ -56,6 +56,7 @@ While the meetings are independent of any organization, the current facilitators
 
 | Date | Type | № | Issue | Summary | Discussion | Recording | Logs |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 19 Mar 2026 | ACDC | 176 | [#1941](https://github.com/ethereum/pm/issues/1941) | [forkcast](https://forkcast.org/calls/acdc/176) | [EthMag](https://ethereum-magicians.org/t/27798) | [video](https://youtu.be/UGyK9VOxFgU) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDC/Call-176_2026-03-19) |
 | 16 Mar 2026 | ACDT | 74 | [#1966](https://github.com/ethereum/pm/issues/1966) | [forkcast](https://forkcast.org/calls/acdt/074) | [EthMag](https://ethereum-magicians.org/t/27971) | [video](https://youtu.be/Sr4osj2u4-U) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-074_2026-03-16) |
 | 12 Mar 2026 | ACDE | 232 | [#1955](https://github.com/ethereum/pm/issues/1955) | [forkcast](https://forkcast.org/calls/acde/232) | [EthMag](https://ethereum-magicians.org/t/27880) | [video](https://youtu.be/3owz0r4Fv68) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDE/Call-232_2026-03-12) |
 | 09 Mar 2026 | ACDT | 73 | [#1956](https://github.com/ethereum/pm/issues/1956) | [forkcast](https://forkcast.org/calls/acdt/073) | [EthMag](https://ethereum-magicians.org/t/27883) | [video](https://youtu.be/9MxhnFm3CFM) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-073_2026-03-09) |
