@@ -10,8 +10,19 @@ import sys
 import calendar
 
 
-def encode_calendar_eid(event_id, calendar_id):
-    """Encode Google Calendar event ID and calendar ID into proper eid parameter."""
+def encode_calendar_eid(event_id, calendar_id, start_time=None):
+    """Encode Google Calendar event ID and calendar ID into proper eid parameter.
+
+    For recurring events, start_time must be provided to generate a link to
+    the specific occurrence. Without it, Google Calendar returns
+    "Could not find the requested event."
+
+    Args:
+        event_id: Google Calendar event ID (series-level for recurring events)
+        calendar_id: Google Calendar ID
+        start_time: ISO 8601 start time of the specific occurrence (e.g. "2026-03-26T14:00:00Z").
+                     Required for recurring events to build the instance ID.
+    """
     try:
         # Format calendar ID by replacing @group.calendar.google.com with @g
         if "@group.calendar.google.com" in calendar_id:
@@ -19,8 +30,17 @@ def encode_calendar_eid(event_id, calendar_id):
         else:
             formatted_calendar_id = calendar_id
 
+        # For recurring events, append the instance timestamp to the event ID
+        # Instance IDs have the format: {series_id}_{YYYYMMDD}T{HHMMSS}Z
+        effective_event_id = event_id
+        if start_time:
+            # Parse ISO timestamp and format as compact Google Calendar instance suffix
+            dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+            instance_suffix = dt.strftime('%Y%m%dT%H%M%SZ')
+            effective_event_id = f"{event_id}_{instance_suffix}"
+
         # Combine event ID and calendar ID with a space
-        combined = f"{event_id} {formatted_calendar_id}"
+        combined = f"{effective_event_id} {formatted_calendar_id}"
 
         # Base64 encode
         encoded = base64.b64encode(combined.encode('utf-8')).decode('utf-8')

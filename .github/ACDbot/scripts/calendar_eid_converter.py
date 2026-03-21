@@ -40,7 +40,7 @@ def decode_eid(encoded_eid):
         print(f"Error decoding eid: {e}")
         return None, None
 
-def encode_eid(event_id, calendar_id=None):
+def encode_eid(event_id, calendar_id=None, start_time=None):
     """Encode event ID and calendar ID into Google Calendar eid format."""
     try:
         # Use default calendar ID if not provided
@@ -49,7 +49,7 @@ def encode_eid(event_id, calendar_id=None):
 
         # Import the encode function from gcal module
         from modules import gcal
-        return gcal.encode_calendar_eid(event_id, calendar_id)
+        return gcal.encode_calendar_eid(event_id, calendar_id, start_time=start_time)
 
     except Exception as e:
         print(f"Error encoding eid: {e}")
@@ -75,6 +75,7 @@ def main():
     group.add_argument('--encode', metavar='EVENT_ID', help='Encode an event ID to eid format')
 
     parser.add_argument('--calendar-id', help='Calendar ID for encoding (uses default if not provided)')
+    parser.add_argument('--start-time', help='ISO 8601 start time for recurring event instance (e.g. 2026-03-26T14:00:00Z)')
 
     args = parser.parse_args()
 
@@ -100,7 +101,7 @@ def main():
             print(f"📅 Using calendar ID: {args.calendar_id}")
         print()
 
-        encoded_eid = encode_eid(args.encode, args.calendar_id)
+        encoded_eid = encode_eid(args.encode, args.calendar_id, start_time=args.start_time)
 
         if encoded_eid:
             print(f"✅ **Encoded eid**: {encoded_eid}")

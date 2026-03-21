@@ -139,7 +139,7 @@ def generate_comment(call_series, occurrence, mapping):
         # Create proper Google Calendar link with encoded eid
         import gcal
         calendar_id = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"  # From the logs
-        encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id)
+        encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id, start_time=start_time)
 
         if encoded_eid:
             calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"

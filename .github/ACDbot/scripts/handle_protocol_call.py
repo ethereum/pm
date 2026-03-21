@@ -1570,7 +1570,7 @@ The bot will automatically process your issue once you've selected a valid call 
             if calendar_event_id:
                 from modules import gcal
                 calendar_id = os.getenv("GCAL_ID")
-                encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id)
+                encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id, start_time=start_time)
 
                 if encoded_eid:
                     calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"
