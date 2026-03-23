@@ -2,7 +2,7 @@ name: Upcoming Calls Report
 
 on:
   schedule:
-    - cron: '0 8 * * 5' # Every Friday at 08:00 UTC
+    - cron: '0 8 * * *' # Daily at 08:00 UTC
   workflow_dispatch: # Allow manual triggering from GitHub UI
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        run: pip install requests pyyaml pytz google-api-python-client google-auth-oauthlib
+        run: pip install requests pyyaml pytz google-api-python-client google-auth-oauthlib python-dateutil
       - name: Generate upcoming calls report
         env:
           ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}

@@ -19,6 +19,7 @@ import re
 import requests
 import sys
 from datetime import datetime, timedelta, timezone
+from dateutil import parser as date_parser
 
 # Resolve paths relative to this script
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -258,6 +259,38 @@ def find_expected_missing_calls(mapping, days_ahead=7):
     return missing
 
 
+def extract_date_from_title(title):
+    """Extract date from YouTube title using various common patterns.
+
+    Returns datetime object or None if no date found.
+    """
+    if not title:
+        return None
+
+    # Try various date patterns commonly found in stream titles
+    patterns = [
+        # "February 13, 2026" or "Feb 13, 2026"
+        r'([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})',
+        # "2026-02-13" or "2026/02/13"
+        r'(\d{4})[-/](\d{1,2})[-/](\d{1,2})',
+        # "13 February 2026" or "13 Feb 2026"
+        r'(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})',
+    ]
+
+    for pattern in patterns:
+        match = re.search(pattern, title)
+        if match:
+            try:
+                # Try to parse the matched string
+                date_str = match.group(0)
+                dt = date_parser.parse(date_str, fuzzy=True)
+                return dt.replace(tzinfo=timezone.utc)
+            except (ValueError, TypeError):
+                continue
+
+    return None
+
+
 def check_warnings(upcoming_calls, youtube_cache, youtube_enabled=True, youtube_error=None, missing_calls=None):
     """Check for potential issues and return a list of warning strings."""
     warnings = []
@@ -306,6 +339,18 @@ def check_warnings(upcoming_calls, youtube_cache, youtube_enabled=True, youtube_
                         f"{label}: YouTube scheduled time ({yt_time}) differs from meeting time ({call_time})"
                     )
 
+            # Check: YouTube title contains a stale/mismatched date
+            if yt["title"] and call["start_time"]:
+                title_date = extract_date_from_title(yt["title"])
+                if title_date:
+                    # Compare dates (ignoring time)
+                    title_date_only = title_date.date()
+                    call_date_only = call["start_time"].date()
+                    if title_date_only != call_date_only:
+                        warnings.append(
+                            f"{label}: YouTube title contains date {title_date.strftime('%B %d, %Y')} but meeting is scheduled for {call['start_time'].strftime('%B %d, %Y')} - STALE STREAM TITLE"
+                        )
+
             # Check: stream not in "upcoming" status
             status = yt.get("broadcast_status", "unknown")
             if status == "none":
@@ -326,11 +371,27 @@ def build_markdown(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     lines = []
 
+    lines.append(f"#### Upcoming Calls — Next {days_ahead} Days")
+    lines.append(f"*Generated: {now_str}*")
+
+    # Warnings at the top
+    warnings = check_warnings(
+        upcoming_calls, youtube_cache,
+        youtube_enabled=youtube_enabled, youtube_error=youtube_error,
+        missing_calls=missing_calls,
+    )
+    if warnings:
+        lines.append("")
+        lines.append("---")
+        lines.append(f"**:warning: Warnings ({len(warnings)})**")
+        for w in warnings:
+            lines.append(f"- {w}")
+
     if not upcoming_calls:
-        lines.append(f"No upcoming calls found in the next {days_ahead} days (as of {now_str}).")
+        lines.append("")
+        lines.append("---")
+        lines.append(f"No upcoming calls found in the next {days_ahead} days.")
     else:
-        lines.append(f"#### Upcoming Calls — Next {days_ahead} Days")
-        lines.append(f"*Generated: {now_str}*")
 
         for call in upcoming_calls:
             # Title linked to issue
@@ -378,19 +439,6 @@ def build_markdown(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead
             else:
                 lines.append("- **YouTube:** No stream scheduled")
 
-    # Warnings
-    warnings = check_warnings(
-        upcoming_calls, youtube_cache,
-        youtube_enabled=youtube_enabled, youtube_error=youtube_error,
-        missing_calls=missing_calls,
-    )
-    if warnings:
-        lines.append("")
-        lines.append("---")
-        lines.append(f"**:warning: Warnings ({len(warnings)})**")
-        for w in warnings:
-            lines.append(f"- {w}")
-
     lines.append("")
     lines.append("---")
     lines.append(f"*{len(upcoming_calls)} call(s) in the next {days_ahead} days*")
@@ -421,15 +469,23 @@ def print_report(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead=7
     """Print a plain-text report to the terminal."""
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
+    print(f"{'=' * 60}")
+    print(f"  UPCOMING CALLS - Next {days_ahead} Days")
+    print(f"  Generated: {now_str}")
+    print(f"{'=' * 60}")
+
+    # Warnings at the top
+    warnings = check_warnings(upcoming_calls, youtube_cache, youtube_enabled=youtube_enabled, youtube_error=youtube_error, missing_calls=missing_calls)
+    if warnings:
+        print(f"\n{'=' * 60}")
+        print(f"  WARNINGS ({len(warnings)})")
+        print(f"{'=' * 60}")
+        for w in warnings:
+            print(f"  ! {w}")
+
     if not upcoming_calls:
-        print(
-            f"No upcoming calls found in the next {days_ahead} days (as of {now_str})."
-        )
+        print(f"\nNo upcoming calls found in the next {days_ahead} days.")
     else:
-        print(f"{'=' * 60}")
-        print(f"  UPCOMING CALLS - Next {days_ahead} Days")
-        print(f"  Generated: {now_str}")
-        print(f"{'=' * 60}")
 
         for call in upcoming_calls:
             # Flag first occurrence of a new call series
@@ -474,15 +530,6 @@ def print_report(upcoming_calls, zoom_details_cache, youtube_cache, days_ahead=7
                 print(f"    (details not available)")
             else:
                 print(f"  YouTube:   No stream scheduled")
-
-    # Warnings section
-    warnings = check_warnings(upcoming_calls, youtube_cache, youtube_enabled=youtube_enabled, youtube_error=youtube_error, missing_calls=missing_calls)
-    if warnings:
-        print(f"\n{'=' * 60}")
-        print(f"  WARNINGS ({len(warnings)})")
-        print(f"{'=' * 60}")
-        for w in warnings:
-            print(f"  ! {w}")
 
     print(f"\n{'=' * 60}")
     print(f"  Total: {len(upcoming_calls)} call(s) in the next {days_ahead} days")
