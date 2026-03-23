@@ -1,0 +1,135 @@
+{
+  "meeting": "ACDT #75 - March 23, 2026",
+  "highlights": {
+    "blob_devnet_updates": [
+      {
+        "timestamp": "00:08:10",
+        "highlight": "blob-devnet-0: Nethermind and Erigon failing to stay at head on trunk branches"
+      },
+      {
+        "timestamp": "00:08:34",
+        "highlight": "Need stable releases with GetBlobV3 instead of unstable trunk branches"
+      }
+    ],
+    "bal_devnet_progress": [
+      {
+        "timestamp": "00:11:44",
+        "highlight": "bal-devnet-3: Nimbus EL and Etherax nearly done with testing"
+      },
+      {
+        "timestamp": "00:12:00",
+        "highlight": "Besu 19 failures, Geth 49 failures, Nethermind/Reth 400+ failures remaining"
+      },
+      {
+        "timestamp": "00:12:47",
+        "highlight": "Many failures are exception mapping issues, not logic bugs"
+      },
+      {
+        "timestamp": "00:13:20",
+        "highlight": "Minor spec changes deferred to bal-devnet-4 to stabilize current implementation"
+      }
+    ],
+    "epbs_specification": [
+      {
+        "timestamp": "00:18:11",
+        "highlight": "Consensus reached: Store 3 epochs of PTC in state (prev + next 2)"
+      },
+      {
+        "timestamp": "00:20:41",
+        "highlight": "PTC in state enables testability and eliminates caching bugs across clients"
+      },
+      {
+        "timestamp": "00:21:40",
+        "highlight": "State size increase: 256-384KB, negligible compared to hundreds of MB state"
+      },
+      {
+        "timestamp": "00:28:51",
+        "highlight": "Variable PTC deadline postponed; non-consensus, can add later if needed"
+      }
+    ],
+    "bal_benchmarking": [
+      {
+        "timestamp": "00:32:06",
+        "highlight": "Batch I/O flag urgently needed from Nethermind and Erigon for benchmarking"
+      },
+      {
+        "timestamp": "00:32:43",
+        "highlight": "Flag must isolate prefetch optimization, not disable all BAL optimizations"
+      },
+      {
+        "timestamp": "00:40:49",
+        "highlight": "Geth showing 3X speedup from execution parallelization (limited to 4 CPUs)"
+      },
+      {
+        "timestamp": "00:35:50",
+        "highlight": "Nethermind block-building memory leak blocking stateful test generation"
+      }
+    ],
+    "network_planning": [
+      {
+        "timestamp": "00:16:01",
+        "highlight": "Proposal: Replace bal-devnet-4 with Glamsterdam-devnet-0"
+      }
+    ],
+    "account_abstraction": [
+      {
+        "timestamp": "00:42:02",
+        "highlight": "Frame transaction mempool: Strategy 2 (canonical paymaster) preferred approach"
+      },
+      {
+        "timestamp": "00:42:48",
+        "highlight": "Strategy 1 (self-relaying only) fallback if Strategy 2 faces issues"
+      },
+      {
+        "timestamp": "00:43:18",
+        "highlight": "Full ERC-7562 permissionless paymasters deemed too complex for initial deployment"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:27:17",
+      "action": "Update consensus-specs PR #4979 with 3-epoch PTC storage",
+      "owner": "Potuz"
+    },
+    {
+      "timestamp": "00:32:06",
+      "action": "Add batch I/O prefetch flag (isolate from other optimizations)",
+      "owner": "Nethermind and Erigon teams"
+    },
+    {
+      "timestamp": "00:35:50",
+      "action": "Use alternative client (Besu/Geth) for stateful test generation",
+      "owner": "Kamil"
+    },
+    {
+      "timestamp": "00:42:24",
+      "action": "Schedule breakout Wednesday for Frame mempool discussion",
+      "owner": "lightclient"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:24:27",
+      "decision": "Store 3 epochs of PTC in consensus state (previous + next 2 epochs)"
+    },
+    {
+      "timestamp": "00:29:23",
+      "decision": "Variable PTC deadline deferred; can add post-fork if needed"
+    },
+    {
+      "timestamp": "00:13:20",
+      "decision": "Defer minor 8037 spec changes to bal-devnet-4 to stabilize devnet-3"
+    },
+    {
+      "timestamp": "00:28:51",
+      "decision": "ePBS devnet-1 focuses on structure testing, not builder API or benchmarking"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:27:54",
+      "target": "ePBS devnet-1 spec release targeting end of week"
+    }
+  ]
+}
