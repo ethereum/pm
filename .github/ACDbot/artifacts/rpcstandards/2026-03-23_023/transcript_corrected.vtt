@@ -1,0 +1,1338 @@
+WEBVTT
+
+1
+00:05:26.440 --> 00:05:27.310
+Mercy Boma Naps-Nkari: Hello?
+
+2
+00:05:27.570 --> 00:05:28.510
+Mercy Boma Naps-Nkari: Good evening.
+
+3
+00:05:29.970 --> 00:05:30.510
+Julian Ma: Okay.
+
+4
+00:05:33.140 --> 00:05:33.860
+Tullio | Erigon: Oh.
+
+5
+00:05:36.440 --> 00:05:37.530
+Vlad S: Hey, everyone.
+
+6
+00:05:37.530 --> 00:05:42.619
+Mercy Boma Naps-Nkari: Good evening. Thank you all for joining.
+
+7
+00:05:43.350 --> 00:05:46.319
+Mercy Boma Naps-Nkari: So, I think we can start.
+
+8
+00:05:46.920 --> 00:05:51.150
+Mercy Boma Naps-Nkari: Good afternoon, everyone. Welcome to RPC Standard Call 23, and…
+
+9
+00:05:51.280 --> 00:05:54.690
+Mercy Boma Naps-Nkari: In our agenda, let me share the agenda for today.
+
+10
+00:05:55.370 --> 00:05:58.930
+Mercy Boma Naps-Nkari: We'll be having a presentation by Julian.
+
+11
+00:05:59.950 --> 00:06:01.910
+Mercy Boma Naps-Nkari: on FCR.
+
+12
+00:06:03.770 --> 00:06:08.970
+Mercy Boma Naps-Nkari: I shared a link to the agenda, and then I think we can start.
+
+13
+00:06:12.980 --> 00:06:14.949
+Julian Ma: Okay, perfect. Give me one second.
+
+14
+00:06:31.180 --> 00:06:45.120
+Julian Ma: So, you should be able to see my screen now. Yeah, so thanks all for having me here, and I'd like to present a bit on the fast confirmation rule, which is a new rule that the Ethereum Foundation is rolling out in the next month or two.
+
+15
+00:06:45.260 --> 00:06:59.920
+Julian Ma: What it does is it decreases confirmation time from 13 seconds to 13 seconds. So it gives you a very strong Layer 1 confirmation within 13 seconds, which is about a 98% reduction from the 13-minute time to finality.
+
+16
+00:07:01.400 --> 00:07:08.470
+Julian Ma: This is a great benefit for many types of users. So, first of all, exchanges. What it means is that if someone deposits
+
+17
+00:07:08.470 --> 00:07:25.989
+Julian Ma: ETH from, let's say, Ethereum mainnet to a centralized exchange like Coinbase. Their deposits can be credited way faster than they could today. And it also means that they face less risk, because the exchanges today typically wait for a few blocks instead of actually waiting for a finality.
+
+18
+00:07:25.990 --> 00:07:36.820
+Julian Ma: And this is very unsafe, whereas using the fast information rule gives you a provably safe guarantee under its assumptions that a block won't be reorged, which means that it's easier to do the risk management.
+
+19
+00:07:37.670 --> 00:08:00.440
+Julian Ma: The faster deposits argument actually holds for L2s and cross-strain bridges as well. We'd like… we're approaching L2s to figure out whether FCR is a good fit for them, and see if they want to adopt it. That would mean that instead of following the chain with a few-minute delay, as most L2s have today, they would follow the chain within 13 seconds, which would be way faster, and would mean that if you deposit
+
+20
+00:08:00.460 --> 00:08:07.209
+Julian Ma: some assets on Ethereum in the canonical bridge to, let's say, Arbitrum, they would be credited way faster than Arbitrum.
+
+21
+00:08:07.860 --> 00:08:20.560
+Julian Ma: Interestingly, L2s have different benefits as well, which is better pricing. And this… because L2s, follow the L1 with some delay today, they have a delayed price as well.
+
+22
+00:08:20.560 --> 00:08:33.119
+Julian Ma: So, for example, Arbitrum has a sequencer which only sees the latest, updated blob price from the last blob that it considers confirmed, which could be, let's say, like, 7 minutes ago.
+
+23
+00:08:33.120 --> 00:08:35.680
+Julian Ma: And that means that the price is very much out of date.
+
+24
+00:08:35.730 --> 00:08:44.650
+Julian Ma: With FCR, they can get a very updated price, which means it's easier for them to price, their L2 block space to their users.
+
+25
+00:08:46.500 --> 00:08:55.800
+Julian Ma: FCR does come with additional assumptions over a finality, and these assumptions are synchrony, which means that attestations in the network are delivered within 8 seconds.
+
+26
+00:08:55.820 --> 00:09:08.220
+Julian Ma: Which holds most of the time. It basically holds when the network is functioning well, and there aren't any, I don't know, like, very large-scale internet outages or DOS attacks on the network.
+
+27
+00:09:08.460 --> 00:09:13.039
+Julian Ma: And the second assumption is that there's no adversary with more than 25% stake.
+
+28
+00:09:13.160 --> 00:09:27.849
+Julian Ma: This would mean that there would be an adversary that would have more than about 22 billion US dollars worth of ETH state at this point in time, and, yeah, that's something that's unlikely to happen.
+
+29
+00:09:28.300 --> 00:09:43.399
+Julian Ma: These are the safety assumptions, and if these two assumptions hold, so if the network is synchronous, and there isn't an adversary with more than 25% stake trying to attack the faster information rule, then any fast confirmed block will be finalized with certainty. So…
+
+30
+00:09:43.460 --> 00:09:53.730
+Julian Ma: The faster confirmation rule is not something probabilistic, it's not a probabilistic guarantee, it's a deterministic guarantee. Any fast-confirmed block will be finalized with certainty if the assumptions hold.
+
+31
+00:09:54.280 --> 00:10:08.780
+Julian Ma: And only under very extreme network circumstances, like network asynchrony, or that there actually is an adversary with sufficient state to attack it, will a fast confirm block be reorged. So safety-wise, fast confirmation rules is very, very safe.
+
+32
+00:10:10.040 --> 00:10:29.060
+Julian Ma: We can see here on the next slide, which is the liveness assumption slide, in the top, there's a cumulative distribution function of how long it takes to fast confirm a block, and this is based on, take your node, running the fast confirmation rule, over a 24-hour time span.
+
+33
+00:10:29.140 --> 00:10:36.710
+Julian Ma: And we can see that about 94-95% of blocks are fast-confirmed, within 12 seconds.
+
+34
+00:10:36.810 --> 00:10:48.539
+Julian Ma: And we see that some… for some blocks, it takes slightly longer, so it might take 2 blocks to fast confirm them, or even three, but it approaches 100% quite fast.
+
+35
+00:10:48.790 --> 00:11:00.070
+Julian Ma: And this is because it could be that there is some network distortions, that means that there's maybe a lower participation rate, which means it takes slightly longer to fast confirm a load.
+
+36
+00:11:00.380 --> 00:11:03.560
+Julian Ma: And in fact, our liveness assumptions are as follows.
+
+37
+00:11:03.690 --> 00:11:20.660
+Julian Ma: If there is an adversary with more than 5% stake, it would take at least 2 slots to fast confirm a block. If there were an adversary with more than 50% stake, it would take at least 3 slots to fast confirm a block. And if there were an adversary with more than 20% stake, it would take at least 5 blocks to fast confirm a block.
+
+38
+00:11:20.790 --> 00:11:26.389
+Julian Ma: This is what you can see in the bottom figure. And so the liveness assumptions and the safety assumptions are slightly different.
+
+39
+00:11:26.530 --> 00:11:43.790
+Julian Ma: An adversary with less than 25% state, but more than 5, could cause a slight delay to how long it takes a fast confirm your block, but only an adversary with more than 25% state, or if the network is asynchronous, could actually cause a fast confirm block to be reordered.
+
+40
+00:11:44.920 --> 00:11:53.310
+Julian Ma: So I hope that's clear, and we can see that, again, for, like, 95% of cases, blocks are fast confirmed within 12 seconds.
+
+41
+00:11:54.140 --> 00:12:02.710
+Julian Ma: And so how do we actually get, a lot better guarantee than, or at least time-wise than finality, which again takes 13 minutes?
+
+42
+00:12:02.710 --> 00:12:18.609
+Julian Ma: It's because instead of counting blocks, which people do, for example, today as they wait for exchanges to credit deposits, we count attestations, which… and as we know, of course, attestations actually contribute to the four-choice weights, and so they actually contribute to safety, whereas blocks are a more crude measure.
+
+43
+00:12:19.210 --> 00:12:25.239
+Julian Ma: Counting attestations is what we call the dominance check here, and next to the dominance check, we also do a robustness check.
+
+44
+00:12:25.430 --> 00:12:35.029
+Julian Ma: What the robustness check does is it checks that, for example, EPOT boundaries, whether slashing was incorporated well, and it checks whether the last fast confirmed block was not too long ago.
+
+45
+00:12:35.270 --> 00:12:45.419
+Julian Ma: The goal of these robustness checks is to see whether there's any, weird things happening in the network, and so basically what we're trying to figure out is whether the network actually is synchronous.
+
+46
+00:12:45.420 --> 00:12:59.690
+Julian Ma: There are some cases in which we can catch that the network isn't synchronous, although we can't catch it in all cases. But if these robustness checks don't fill… if these robustness checks pass, so they don't fill, then a block can safely be fast confirmed.
+
+47
+00:13:02.310 --> 00:13:13.419
+Julian Ma: And now I'd like to compare the faster information rule a little bit with KDeep, which is what many exchanges and L2s use today, where they just wait for a few blocks until they confirm something, and finality.
+
+48
+00:13:13.940 --> 00:13:23.230
+Julian Ma: So, KDEP and the FASC information rule both, assumes network synchrony, whereas Finality actually also works with network asynchrony.
+
+49
+00:13:24.050 --> 00:13:43.859
+Julian Ma: Interestingly, KD doesn't have a known adversarial threshold, so it's unknown how safe the rule actually is, and it gives very little guarantees in that sense. The adversarial threshold from the FCR information rule is quite similar to that of finality. It's an 8% percentage point difference, and so, yeah, it's 25%.
+
+50
+00:13:44.120 --> 00:13:59.510
+Julian Ma: Importantly, also, faster information rule doesn't have any economic security, so it's not like if a faster block does get viewed in the extremely unlikely event that it were to happen, that anyone would actually get slashed.
+
+51
+00:13:59.540 --> 00:14:20.650
+Julian Ma: It's, yeah. The trade-off here is that FCR has slightly, weaker assumptions, but you get a huge latency decrease. So you go from 13 minutes to 13 seconds, which is faster than the K deep as well for most K, because many places wait for a few amounts of blocks before they can fast confirm something.
+
+52
+00:14:21.550 --> 00:14:26.260
+Julian Ma: So, the FCR is faster and proven safe, as opposed to KDeep.
+
+53
+00:14:28.280 --> 00:14:42.389
+Julian Ma: Implementation for L2s, exchanges, and bridges is, like, extremely easy. Basically, what they do is they enable the flag in their clients, and then they can immediately query, and what we have actually done is that we're repurposing the safe block tag.
+
+54
+00:14:42.420 --> 00:14:49.660
+Julian Ma: And, which is today is used for justification, and we're repurposing that for the faster information rule.
+
+55
+00:14:49.730 --> 00:15:01.570
+Julian Ma: We're doing so because we believe that the faster information rule provides a better rule for users, as it's way faster than justification, and justification also doesn't have proven guarantees around it.
+
+56
+00:15:02.010 --> 00:15:14.749
+Julian Ma: The nice thing here is that RPCs will immediately support the faster information rule, and there's actually no implementation work that they need to do. What is left is that they need to inform their customers about the change that's happening, and this is where we're here to support.
+
+57
+00:15:15.880 --> 00:15:29.099
+Julian Ma: So the next steps are, is that we're establishing the faster information rule as a new industry standard for L2s and exchanges. We're talking with lots of L2s and with lots of exchanges, so our PC providers might expect some inbound from these users.
+
+58
+00:15:29.170 --> 00:15:36.919
+Julian Ma: The first clients will be ready for testing around the end of March, and we expect that the faster information rule will be used in production in Q2.
+
+59
+00:15:37.010 --> 00:15:47.450
+Julian Ma: The interesting thing is that there's actually no hard work required for the faster information rule. Instead, it's a rule that's nodes run locally, so it's not a global rule like finality is.
+
+60
+00:15:47.550 --> 00:15:57.190
+Julian Ma: This means that as soon as the client is ready, so for example, Prism passed all of their tests today, that, client could,
+
+61
+00:15:57.540 --> 00:16:14.690
+Julian Ma: rollouts, the faster information will go very fast. Just to be clear, Prism isn't rolling it out today, but it should be that Prism is rolling it out faster than some other consensus clients. And this may have an impact on you as an RPC provider, because it could be that different clients now return different safe plots, whereas
+
+62
+00:16:14.690 --> 00:16:24.369
+Julian Ma: some older clients still return the last justifier block, and the newer client returns the last fast confirmed block. So it's just good to be aware of this, and to ensure that,
+
+63
+00:16:24.390 --> 00:16:26.699
+Julian Ma: Customers are supported in the transition.
+
+64
+00:16:27.270 --> 00:16:41.690
+Julian Ma: We're here to support RPCs in informing our customers and ensuring that there is a smooth transition, and yeah, I'd love to hear if there's any questions. We have a website called FastConfirm.it, and there you can find one-pagers with information
+
+65
+00:16:41.690 --> 00:16:49.380
+Julian Ma: for all of the customer types, so for example, L2s, exchanges, and bridges, so that they have all of the information that they need.
+
+66
+00:16:50.040 --> 00:16:53.049
+Julian Ma: Okay, that was it. I see that, Felix, you have a question?
+
+67
+00:16:57.990 --> 00:17:00.060
+Felix (Geth): Yes, can you hear me, actually?
+
+68
+00:17:00.740 --> 00:17:01.879
+Julian Ma: Yeah, I can hear you.
+
+69
+00:17:02.350 --> 00:17:21.489
+Felix (Geth): Okay, sorry, I am driving, but, so just a quick question. I missed the beginning of this presentation, but, one thing you should know is that the JSON RPC API, which this call is about, is served by the execution clients. Can the fast confirmation rule be implemented in the execution client?
+
+70
+00:17:23.040 --> 00:17:39.939
+Julian Ma: So it's a consensus layer rule, but from what I understand is if the consensus layer client implements it, it can be queried via the execution layer client, because it is repurposing the safe block tag, so it's reusing something existing instead of creating a new tag in that sense.
+
+71
+00:17:40.130 --> 00:17:53.139
+Felix (Geth): Okay, interesting, okay, nice, yeah. So basically, the consensus client relays to the execution client what is the current safe block, but the algorithm for determining the safe block changes with this proposal.
+
+72
+00:17:53.670 --> 00:18:01.350
+Julian Ma: Yes, exactly. So today, it returns the latest justified block, and when implemented, it will return the latest FastConfirm block.
+
+73
+00:18:03.130 --> 00:18:04.120
+Felix (Geth): Okay, thank you.
+
+74
+00:18:12.480 --> 00:18:14.610
+Julian Ma: Yeah, feel free to ask JVN.
+
+75
+00:18:16.750 --> 00:18:18.900
+jvn: Yeah. Yeah, sure, am I audible?
+
+76
+00:18:19.850 --> 00:18:20.659
+Julian Ma: You're all available.
+
+77
+00:18:21.560 --> 00:18:29.189
+jvn: Yeah, just wanted to know. So now, are we removing the concept of justification and finalization from the protocol itself?
+
+78
+00:18:30.730 --> 00:18:47.680
+jvn: So, just… that's the first part, and the second one, so if we say around 13 seconds, in most cases, if it's fast confirmed in 26 seconds, I'm assuming there won't be no reacts more than 2 blocks on more than 99% of the cases.
+
+79
+00:18:48.380 --> 00:18:55.770
+jvn: And, what about, like, currently attesters are voting afterwards? Like, now, for a block-in, there are…
+
+80
+00:18:56.030 --> 00:19:01.770
+jvn: what as we're testing for it on block N plus 2. What are we doing here on these cases?
+
+81
+00:19:03.230 --> 00:19:21.060
+Julian Ma: Okay, let me get to your first two questions first, and I didn't fully hear the last one, so maybe if you could repeat that one afterwards. So we're not removing the concept of finality from Ethereum. The faster information rule is different. It has different assumptions, and it gives you a different latency, so it's a trade-off that users can make.
+
+82
+00:19:21.190 --> 00:19:27.380
+Julian Ma: For many of them, the faster information rule will be very good, but some of them might want to wait for a full finality.
+
+83
+00:19:27.720 --> 00:19:36.700
+Julian Ma: we are removing justification from, like, the RPC endpoints from the nodes, and so we're repurposing that one for the faster information rule.
+
+84
+00:19:37.520 --> 00:19:51.639
+Julian Ma: Secondly, around, whether it's safe. The thing is that if the assumptions hold, a fast and firm block will never be reorged, and so deterministically, it will be finalized.
+
+85
+00:19:52.170 --> 00:20:02.249
+Julian Ma: that's, that means that, yes, for the 99% of cases where if a block is fast confirmed, there won't be a deep reord.
+
+86
+00:20:02.610 --> 00:20:19.100
+Julian Ma: for the cases where a block isn't fast confirmed, it could be that there is a reorg. And this is actually, I think, quite a nice feature of the FCR confirmation rule. There's, like, a sort of a safety net here, so if you don't get sufficiently many attestations, in which case the reorg is more likely to happen, right?
+
+87
+00:20:19.100 --> 00:20:33.900
+Julian Ma: In that case, we actually don't fast confirm a block, either within 13 seconds and we wait a bit, or if the network is doing very poorly and we're really getting very few attestations, eventually the fast confirmation will actually fall back to finality.
+
+88
+00:20:34.140 --> 00:20:44.710
+Julian Ma: And so, FCR has, like, a built-in safety net. That means that it's extremely unlikely for a VOR to be affected. And if you could repeat the third question, I couldn't hear that one fully.
+
+89
+00:20:45.760 --> 00:20:58.180
+jvn: Yeah, sure. So, yeah, your second part actually answered my third question. So, if you don't get sufficient confirmations or attestations, we move the IFCR something. Yeah, that was my third question. It actually answers it.
+
+90
+00:20:58.180 --> 00:20:59.130
+Julian Ma: Okay, perfect.
+
+91
+00:20:59.480 --> 00:21:05.639
+jvn: Got it. So we are kind of replacing the justification by this past confirmed rule.
+
+92
+00:21:06.060 --> 00:21:07.009
+Julian Ma: Yes, that's fair.
+
+93
+00:21:07.010 --> 00:21:07.610
+jvn: Excited.
+
+94
+00:21:07.880 --> 00:21:09.730
+jvn: Okay, good. Thank you.
+
+95
+00:21:17.390 --> 00:21:23.719
+Mercy Boma Naps-Nkari: Okay, I guess that would be all. I don't know if anyone has any other questions in regards to FCR.
+
+96
+00:21:26.610 --> 00:21:31.240
+Julian Ma: Okay, thanks. I've got my Telegram in the chat if anyone has any questions.
+
+97
+00:21:31.470 --> 00:21:32.090
+Julian Ma: Thanks, Mason.
+
+98
+00:21:32.090 --> 00:21:35.559
+Mercy Boma Naps-Nkari: Okay, thank you. Thank you very much, Elena, for the presentation.
+
+99
+00:21:35.730 --> 00:21:40.689
+Mercy Boma Naps-Nkari: And I think we can move over to the next agenda, but,
+
+100
+00:21:43.510 --> 00:21:49.889
+Mercy Boma Naps-Nkari: Which is this. So, since Felix is driving, I don't know, Clara, thank you for coming back,
+
+101
+00:21:53.250 --> 00:21:58.230
+Mercy Boma Naps-Nkari: We need to discuss about this PR, and then some issues.
+
+102
+00:21:59.090 --> 00:22:00.370
+Mercy Boma Naps-Nkari: Which is this.
+
+103
+00:22:06.810 --> 00:22:17.609
+Mercy Boma Naps-Nkari: So, and then on the other hand, while I share the links, Sims, you… the error code sphere was meshed today, so is there something else you would like to…
+
+104
+00:22:17.880 --> 00:22:19.120
+Mercy Boma Naps-Nkari: point out.
+
+105
+00:22:20.830 --> 00:22:27.669
+Simsonraj Easvarasakthi: No, thanks for merging that, Felix, and I'll start working on the next steps, which will be…
+
+106
+00:22:27.790 --> 00:22:31.769
+Simsonraj Easvarasakthi: RPC test gen, and eventually the actual tests.
+
+107
+00:22:32.510 --> 00:22:36.630
+Simsonraj Easvarasakthi: But yeah, I'm glad it's merged, so I can work on the next steps.
+
+108
+00:22:38.360 --> 00:22:47.509
+Mercy Boma Naps-Nkari: Okay, do we need to talk to clients about this? Like, make a sort of an announcement, or to inform them about this?
+
+109
+00:22:47.950 --> 00:22:49.649
+Simsonraj Easvarasakthi: Yeah, yeah, we can do that.
+
+110
+00:22:49.950 --> 00:23:05.960
+Simsonraj Easvarasakthi: by… I guess, they won't be actually implementing it without a test. I think we discussed this kind of already, but I think it is definitely good to give a heads up. It is coming, and it is merged, and people can start implementing it if they want to.
+
+111
+00:23:07.360 --> 00:23:08.909
+Mercy Boma Naps-Nkari: Okay, thank you.
+
+112
+00:23:09.350 --> 00:23:10.320
+Simsonraj Easvarasakthi: Thanks, Mosey.
+
+113
+00:23:13.880 --> 00:23:17.800
+Mercy Boma Naps-Nkari: So, although, Chase, you did share, this
+
+114
+00:23:18.330 --> 00:23:26.909
+Mercy Boma Naps-Nkari: PRs and these issues. I don't know if you want to say anything about it, but I think Felix is driving, I'm not sure he will be able to, like, look through it.
+
+115
+00:23:29.840 --> 00:23:30.540
+Chase Wright: Yeah, so…
+
+116
+00:23:30.540 --> 00:23:36.640
+Felix (Geth): I checked it, and so you posted one about the… the first one you posted is about the testing build block?
+
+117
+00:23:36.870 --> 00:23:37.620
+Felix (Geth): Yep.
+
+118
+00:23:38.590 --> 00:23:39.160
+Chase Wright: Yeah.
+
+119
+00:23:40.420 --> 00:23:41.220
+Mercy Boma Naps-Nkari: Yes.
+
+120
+00:23:45.260 --> 00:23:51.960
+Felix (Geth): I mean, as far as I understand, this is now implemented already, so we can just merge it, I guess.
+
+121
+00:23:52.590 --> 00:24:01.800
+Chase Wright: Yeah, I'll fix the conflicts, the… because you merged stuff this morning, I'll fix the conflicts, and then we just need someone to merge it.
+
+122
+00:24:02.820 --> 00:24:15.230
+Felix (Geth): Yeah, so notably, we need to kind of decide how we're gonna… I think this might be a good time to figure out, also, like, get started figuring out this whole, spec profiles thing, because this testing build block method, I mean…
+
+123
+00:24:15.390 --> 00:24:26.529
+Felix (Geth): we expect this to be implemented by the execution clients, I guess, but this isn't really something that, like, every endpoint… I mean, it's more, like, adjacent to the engine API, I guess.
+
+124
+00:24:40.140 --> 00:24:43.870
+Felix (Geth): So basically, what I was trying to say is just that when…
+
+125
+00:24:44.520 --> 00:24:57.750
+Felix (Geth): If you're a client that implements the engine API, then you also have to implement this method, but if you don't, then this is not required. But right now, we can't really… there isn't really a way for us to… to tell that inside of the spec.
+
+126
+00:25:07.240 --> 00:25:19.739
+Chase Wright: So, is your assumption that we need to do something, like, globally, within the repo and the spec, to suggest that
+
+127
+00:25:20.460 --> 00:25:24.519
+Chase Wright: Entire methods and namespaces are just optional?
+
+128
+00:25:26.760 --> 00:25:42.079
+Felix (Geth): Yeah, I mean, we discussed it kind of before, that there is this whole, idea to potentially split up the spec into different profiles, which are implemented by different entities. So, at the moment, for example, we have things like the ETH namespace.
+
+129
+00:25:42.090 --> 00:25:56.070
+Felix (Geth): and things related with that. So they are obviously supposed to be implemented by the execution clients, but also, for example, the RPC providers. But then we also have the engine API, which is kind of a mechanism
+
+130
+00:25:56.370 --> 00:26:10.029
+Felix (Geth): used to communicate with… between the consensus layer and the execution layer, the RPC providers don't have to provide this API. So, it's a bit strange that we have the spec that has, like, everything. And so, for… we wanted to… we will…
+
+131
+00:26:10.230 --> 00:26:21.980
+Felix (Geth): one to introduce a technical mechanism that allows us to generate two different specs. Like, one for these, that includes, like, the engine API, and one that is basically only the actual
+
+132
+00:26:22.240 --> 00:26:23.370
+Felix (Geth): access.
+
+133
+00:26:23.800 --> 00:26:41.670
+Felix (Geth): And, I mean, I'm just mentioning this because, like, with this API, I mean, it's called Testing Build Block. It's maybe clear that, you know, this falls more with the engine API, but it's not in the engine namespace. It's, like, in its own namespace testing, which is basically kind of a one-off, as far as I understand.
+
+134
+00:26:52.070 --> 00:26:56.999
+Chase Wright: Yeah, I mean, it's a… it's a good point, but I don't… I mean, that's gonna be a lot of,
+
+135
+00:26:57.720 --> 00:26:59.699
+Chase Wright: It's gonna be a lot of work, but…
+
+136
+00:26:59.900 --> 00:27:04.909
+Chase Wright: yeah, I… I more or less agree, because we also need to, like…
+
+137
+00:27:05.030 --> 00:27:13.010
+Chase Wright: Account for the fact that certain clients may… might diverge, and… You know, like.
+
+138
+00:27:14.480 --> 00:27:18.650
+Chase Wright: like, Ethrex doesn't want to support, like, pre-merge…
+
+139
+00:27:18.900 --> 00:27:21.589
+Chase Wright: stuff, right? So, I think it makes.
+
+140
+00:27:21.590 --> 00:27:21.940
+Felix (Geth): Yeah, yeah.
+
+141
+00:27:21.940 --> 00:27:26.849
+Chase Wright: that we should do this kind of stuff, but I don't think we're gonna solve that on the call.
+
+142
+00:27:27.290 --> 00:27:45.129
+Felix (Geth): No, no, no, no! That was not my intention, I just wanted to bring it up, because I, like, I just always like to bring up the adjacent topics with this, because, yeah, I mean, this method, it's good, but, I mean, for example, it's also pretty clear we're not going to be adding any, like, normal RPC tests for this method, because it is, like.
+
+143
+00:27:45.130 --> 00:27:52.160
+Felix (Geth): it exists, like, and we also don't use RPC TestGen to test the engine API, for example, because it has, like, another purpose.
+
+144
+00:27:52.160 --> 00:27:58.829
+Felix (Geth): So this is something that I just wanted to make clear, that, like, it falls more in, like, this family, and…
+
+145
+00:27:59.210 --> 00:27:59.950
+Felix (Geth): Yeah
+
+146
+00:28:08.590 --> 00:28:15.939
+Felix (Geth): Anyway, we can move on now. I can just… I mean, as soon as the conflicts are resolved, I think I can just merge this, it's okay.
+
+147
+00:28:16.870 --> 00:28:18.970
+Chase Wright: Yeah, I'll do it right after the call.
+
+148
+00:28:22.750 --> 00:28:27.790
+Mercy Boma Naps-Nkari: Okay, I think the next one will have, like, beads… 756.
+
+149
+00:28:30.890 --> 00:28:31.900
+Mercy Boma Naps-Nkari: This one.
+
+150
+00:28:38.510 --> 00:28:41.040
+Mercy Boma Naps-Nkari: And that should be get storage values.
+
+151
+00:28:47.350 --> 00:28:52.949
+Felix (Geth): Yes, so I'm a bit curious about this. So, I mean, it is now implemented by several clients, I guess?
+
+152
+00:28:55.510 --> 00:28:56.180
+Mercy Boma Naps-Nkari: Yeah.
+
+153
+00:28:58.920 --> 00:29:07.380
+Chase Wright: Yeah, yeah, so I know… so it's already merged in Geth, I know Reth also has it. I'm working on a PR for Nethermind,
+
+154
+00:29:08.510 --> 00:29:12.939
+Chase Wright: I don't… I don't know about Erigon right this second, but I mean…
+
+155
+00:29:12.940 --> 00:29:14.609
+Tullio | Erigon: We have it, we have it.
+
+156
+00:29:14.610 --> 00:29:24.259
+Chase Wright: You got it? Okay. So, unless there's actual objections to it, it's already merged in clients, and I assume it's fine.
+
+157
+00:29:26.850 --> 00:29:31.239
+Felix (Geth): Yeah, I mean, it sounds great that this is going so fast.
+
+158
+00:29:31.660 --> 00:29:36.790
+Felix (Geth): I… I mean, that's… that's… that's very nice.
+
+159
+00:29:39.510 --> 00:29:45.390
+Felix (Geth): So, I mean, what's the next action here? Also, it should just be merged, or it requires some more…
+
+160
+00:29:46.010 --> 00:29:51.429
+Felix (Geth): discussions, or… I mean, basically, I didn't have time to look into this PR a whole lot.
+
+161
+00:29:53.500 --> 00:29:58.029
+Mercy Boma Naps-Nkari: I think we can merge it, then for clients that don't have it yet, we can…
+
+162
+00:29:58.160 --> 00:30:02.420
+Mercy Boma Naps-Nkari: signified, but I think majority of the clients already has this.
+
+163
+00:30:03.110 --> 00:30:03.730
+Mercy Boma Naps-Nkari: Your dad is.
+
+164
+00:30:03.730 --> 00:30:09.750
+Chase Wright: Yeah, like, like I said, most of the clients already have it, so, like, merging it probably won't…
+
+165
+00:30:10.130 --> 00:30:19.269
+Chase Wright: ruin anybody's hive test, except Nethermine, but I have a… I have the code already, I was gonna push a PR up to Nethermine and ask them to look at it today, so…
+
+166
+00:30:19.850 --> 00:30:24.420
+Chase Wright: There's re… There's really no reason not to merge it unless…
+
+167
+00:30:25.030 --> 00:30:29.609
+Chase Wright: one of the other client teams complains, but I don't… I don't see that happening.
+
+168
+00:30:30.270 --> 00:30:32.350
+Chase Wright: It's a very… it's a very small change.
+
+169
+00:30:35.430 --> 00:30:39.119
+Felix (Geth): Yeah, nice. Yeah, yeah, I mean, definitely we can get that in also.
+
+170
+00:30:40.660 --> 00:30:43.850
+Chase Wright: Geth already has it. It's already merged.
+
+171
+00:30:45.500 --> 00:30:51.910
+Felix (Geth): Yeah, I know, I mean the spec. We have to watch the spec, right? I, I, I understand we have it…
+
+172
+00:30:52.040 --> 00:30:52.930
+Felix (Geth): Yes.
+
+173
+00:31:00.920 --> 00:31:11.290
+Mercy Boma Naps-Nkari: So, before we go on, I have something else to say in regards to this 297. So, I did reach out to, the CL clients, and then the only people that
+
+174
+00:31:11.420 --> 00:31:28.840
+Mercy Boma Naps-Nkari: responded was Luster and then Nimbus. Loster doesn't have an issue implementing this, or 297 or 302, but the question is, he, Nicole did end up saying, do we actually need this, or we can just close the, PR entirely?
+
+175
+00:31:28.990 --> 00:31:36.559
+Mercy Boma Naps-Nkari: But I'm not sure how else we can go about this, since the only two clients that has responded so far is just Losta and Nimbus and
+
+176
+00:31:36.870 --> 00:31:40.449
+Mercy Boma Naps-Nkari: the two, options they chose are not like,
+
+177
+00:31:40.640 --> 00:31:50.339
+Mercy Boma Naps-Nkari: They are not agreeing to each other, although Lodestar doesn't mind in agreeing with Nimbus, but I'm not sure what exactly to do in this case, where we don't have a consensus on what to do.
+
+178
+00:32:00.480 --> 00:32:03.530
+Chase Wright: Sorry, which one are you talking about specifically? Which pair?
+
+179
+00:32:03.530 --> 00:32:06.649
+Mercy Boma Naps-Nkari: 2297, the JW2Secrets.
+
+180
+00:32:06.970 --> 00:32:10.250
+Chase Wright: Oh… Yeah, I don't know.
+
+181
+00:32:10.250 --> 00:32:12.500
+Mercy Boma Naps-Nkari: It's an old… it's an old PR.
+
+182
+00:32:14.070 --> 00:32:14.650
+Chase Wright: Yeah.
+
+183
+00:32:18.320 --> 00:32:21.020
+Chase Wright: I mean, it's so old that, like…
+
+184
+00:32:22.140 --> 00:32:27.780
+Chase Wright: And no one seems to care. The last comment's 2023, like…
+
+185
+00:32:28.860 --> 00:32:38.690
+Felix (Geth): I mean, so we kind of agreed a while earlier that, like, this is kind of… this is going to be the strategy. We do have to process these things, and I do think it makes sense to bring it up another time.
+
+186
+00:32:38.740 --> 00:32:56.679
+Felix (Geth): But if… if… basically, what has to happen here is that we have to, solicit some recent comments from current clients, and if they cannot agree on it, then we either have to drop it, or we have to bring it up on a wider forum.
+
+187
+00:32:56.680 --> 00:33:00.109
+Felix (Geth): So the playbook, basically, for these kinds of things is always the same.
+
+188
+00:33:00.180 --> 00:33:00.940
+Felix (Geth): Yep.
+
+189
+00:33:01.160 --> 00:33:05.210
+Mercy Boma Naps-Nkari: Yeah, I did bring it up to ACDC. That was last Thursday.
+
+190
+00:33:06.340 --> 00:33:06.950
+Felix (Geth): So…
+
+191
+00:33:06.950 --> 00:33:19.760
+Mercy Boma Naps-Nkari: The thing is, not everybody actually, like, went through it. Then, before then, before ACDC last Thursday, I brought it up, because I think the other ACDC call that was supposed to happen before this last one was canceled.
+
+192
+00:33:20.190 --> 00:33:27.670
+Mercy Boma Naps-Nkari: So, I sent it, as a message on the Discord channel. Lodestar and Nimbus commented on it.
+
+193
+00:33:27.950 --> 00:33:37.040
+Mercy Boma Naps-Nkari: Luster says they don't have any issue. Then Nimbus complained about some complexities that has to do with, I think, 302 or this 297.
+
+194
+00:33:37.420 --> 00:33:43.950
+Mercy Boma Naps-Nkari: Now, the thing is, I sent a link here to, an issue Nico tagged me to.
+
+195
+00:33:44.000 --> 00:33:58.370
+Mercy Boma Naps-Nkari: So, he was saying, if this is really important, it's been, like, for… since 3 years back, if it is not important, we can drop it. Because nobody's really saying anything about it. The only people that left a comment on it is Losta and Nimbus.
+
+196
+00:33:59.150 --> 00:34:03.500
+Mercy Boma Naps-Nkari: So… I'm not exactly sure how we can…
+
+197
+00:34:03.610 --> 00:34:06.989
+Mercy Boma Naps-Nkari: But I did bring it up to ACDC. I did…
+
+198
+00:34:07.520 --> 00:34:21.999
+Felix (Geth): Okay, well, that's great. So in that case, there isn't really anything more we can do. Basically, we have… it is just… I think from this group, the… basically, our job is to float these ideas to the client developers, and if they are just
+
+199
+00:34:22.040 --> 00:34:34.310
+Felix (Geth): simply not interested in it, then we just have to close the issue, because we cannot make it happen. And if it turns out to be so important, then someone else will come back to propose it another time.
+
+200
+00:34:34.400 --> 00:34:36.590
+Felix (Geth): So that's kind of how I see it. It just…
+
+201
+00:34:36.840 --> 00:34:47.689
+Felix (Geth): we just don't have another option, like, we cannot just keep bringing it up also, because I don't think that it will change. So maybe the right course of action now is just to close the issue.
+
+202
+00:34:50.500 --> 00:34:54.080
+Mercy Boma Naps-Nkari: Yeah, that's the same thing he said, so…
+
+203
+00:34:54.260 --> 00:34:57.880
+Mercy Boma Naps-Nkari: I think we can close it, and then I can inform him also on it.
+
+204
+00:35:00.670 --> 00:35:04.140
+Mercy Boma Naps-Nkari: Thank you. Then the next one should be,
+
+205
+00:35:17.560 --> 00:35:19.750
+Mercy Boma Naps-Nkari: 771, I think.
+
+206
+00:35:22.810 --> 00:35:27.060
+Felix (Geth): Wait, is this the get transaction by a nonce one?
+
+207
+00:35:27.420 --> 00:35:28.140
+Chase Wright: Yes.
+
+208
+00:35:29.790 --> 00:35:43.339
+Felix (Geth): Yeah, so with this one, it's kind of… it has some… the issue that you need to have a separate index for it. And this index in Geth, definitely we don't have it. And as far as I understand, NetherMind also doesn't have it. So…
+
+209
+00:35:43.570 --> 00:35:55.760
+Felix (Geth): I mean, the idea itself is not bad, but the implementation is definitely gonna be more than just adding an endpoint. Like, it's not possible right now to create this endpoint in, like, any… any…
+
+210
+00:35:55.830 --> 00:36:12.130
+Felix (Geth): way in Geth, so we would have to do some engineering to actually get this in. So the indexing of transactions has to be updated to also store the index, and the index has to be managed, and so on. I'm not saying this can't be done, but definitely,
+
+211
+00:36:12.990 --> 00:36:19.279
+Felix (Geth): not something that I… I can just commit to, like, right away, that, like, this is gonna happen, like, anytime soon.
+
+212
+00:36:20.360 --> 00:36:32.209
+Chase Wright: Yeah, that's totally fair. The issue's been open for a while, and people have wanted it. Someone created a Geth PR for it, and that was what encouraged me to write the test. So…
+
+213
+00:36:32.210 --> 00:36:39.289
+Chase Wright: I don't have a lot of skin in the game. I just looked at there's an issue for it, there's a PR for it, and…
+
+214
+00:36:39.290 --> 00:36:53.700
+Chase Wright: You know, so how can I help move it forward by creating tests and spec? So I did that. It's in draft because the Geth PR is also, not merged and hasn't been reviewed, so…
+
+215
+00:36:53.730 --> 00:37:00.750
+Chase Wright: The only thing I'm bringing up here is that we need someone to actually review the implementation and figure out
+
+216
+00:37:00.830 --> 00:37:10.559
+Chase Wright: Is it good? Do we want to do it or not? And… and then we can go from there. I don't have any issues with this sitting in draft until a decision is made.
+
+217
+00:37:12.540 --> 00:37:18.089
+Felix (Geth): Yeah, I would be curious a bit to hear the use cases for this method. I mean, it is kind of,
+
+218
+00:37:19.940 --> 00:37:26.590
+Felix (Geth): Basically, it allows you to iterate the transactions of an account, or… What's.
+
+219
+00:37:28.180 --> 00:37:42.559
+Chase Wright: Yeah, so the actual issue that it is linked to has a bunch of documentation about why they want it, and there's a big discussion in the issue. So I… you could review that, I guess.
+
+220
+00:37:43.720 --> 00:37:49.220
+Felix (Geth): Yeah, sorry, I cannot review it right now, but, I mean, definitely, I will also review it later.
+
+221
+00:37:49.700 --> 00:37:50.040
+Chase Wright: Yeah.
+
+222
+00:37:50.040 --> 00:37:55.060
+Felix (Geth): I wish I I'm curious if there's, like, any kind of, like, really compelling argument for this.
+
+223
+00:37:55.640 --> 00:37:56.130
+Felix (Geth): Like.
+
+224
+00:37:56.130 --> 00:37:57.390
+Chase Wright: Yeah, so, I mean…
+
+225
+00:37:57.860 --> 00:38:10.199
+Chase Wright: In the original issue, there are diagrams, there are workflows, there are reasons why they want it, and other people have chimed in, app developers, so you can review it when you have time.
+
+226
+00:38:15.990 --> 00:38:19.139
+Mercy Boma Naps-Nkari: Hi, Jeffrey, and you can… your hands are raised.
+
+227
+00:38:21.590 --> 00:38:33.839
+jvn: Yeah, sure. So, basically, I can quickly summarize it on that. So, this get transaction by sender and loans is basically… so, to get the transaction as from,
+
+228
+00:38:34.400 --> 00:38:42.730
+jvn: the sender and the, non-soft sender. It's basically… it's currently for the use of valid, so currently what they are, like, assuming is,
+
+229
+00:38:42.880 --> 00:38:55.280
+jvn: Valid, once they get the transaction, they send the transaction to the node, and there is a possibility, that the valid doesn't send the transaction hash again to the end customer.
+
+230
+00:38:55.440 --> 00:39:06.009
+jvn: So now the end customer, even though the transaction was already broadcasted to the node, this end customer or the third party doesn't have a way to actually get that transaction hash again.
+
+231
+00:39:06.790 --> 00:39:10.399
+jvn: So, this was a problem in some of the valid use cases.
+
+232
+00:39:10.650 --> 00:39:29.569
+jvn: So, certain wallets, what it does is, it sends the hash before and before it sends the, before it sends the transaction to the node itself, but there are certain wallet implementations where it sends to the node, and after the, after it's gone into the mempool, it sends the hash to the,
+
+233
+00:39:29.580 --> 00:39:38.219
+jvn: libraries and stuff, all the… you need the daps and stuff. So if that… if that one fails, the tab has no way of knowing the hash again.
+
+234
+00:39:38.240 --> 00:39:40.269
+jvn: So, this kind of,
+
+235
+00:39:40.390 --> 00:39:53.429
+jvn: So if that particular transaction didn't go into the block, so this, RPC basically helps the, so the DAP can query the transaction as just by giving the non-sender
+
+236
+00:39:53.540 --> 00:39:56.999
+jvn: The center address, which the tab already knows beforehand.
+
+237
+00:39:57.370 --> 00:39:59.500
+jvn: To give a quick summary of what…
+
+238
+00:39:59.660 --> 00:40:03.820
+jvn: the… it's all soft. Yeah. I hope… Yeah, thank you.
+
+239
+00:40:04.800 --> 00:40:23.699
+Felix (Geth): I mean, it's useful to hear this, but at the same time, it doesn't really inspire the confidence from my side, because, for example, it is tech… I mean, the… if you are submitting transaction to Ethereum, probably you should know the hash of the transaction before you send it. Like, you're not in any way dependent on the node to tell you the hash.
+
+240
+00:40:23.700 --> 00:40:29.269
+Felix (Geth): Like, usually you just already know what the hash is gonna be, because it is literally just…
+
+241
+00:40:29.450 --> 00:40:31.339
+Felix (Geth): The hash of what you are sending.
+
+242
+00:40:32.020 --> 00:40:35.920
+Felix (Geth): Like, I mean, you know what I mean? It's like, typically the node, like.
+
+243
+00:40:36.340 --> 00:40:52.890
+Felix (Geth): the app will send a transaction by invoking the send transaction by hash, but the Ethereum transaction hash is literally just the hash of the input to send raw transaction. So they could just hash that input, and then they would have the return value. So that's not very, like…
+
+244
+00:40:52.930 --> 00:41:09.900
+Felix (Geth): That doesn't really make me very confident that, like, this… this endpoint is needed just for this exact case. It basically just seems to be, like, a software issue where some wallets are architected so that it might actually forget this hash somehow. Like, it might forget what transaction it already sent before.
+
+245
+00:41:10.040 --> 00:41:15.710
+Felix (Geth): And then it kind of wants to re-initialize itself, from the chain state.
+
+246
+00:41:16.770 --> 00:41:32.959
+Felix (Geth): I'm not against it, but I'm basically also want to make you aware that, like, implementing this requires, like I said, an additional index on the client, and it's basically an information that can be derived from the chain by indexing it.
+
+247
+00:41:33.210 --> 00:41:34.250
+Felix (Geth): So…
+
+248
+00:41:34.680 --> 00:41:50.319
+Felix (Geth): if the app wanted to know, like, all of the recent transactions in the chain, it could just iterate the chain and index it by itself on their side, stuff like that. So there are other solutions for it. It's not like a critical service that has to be provided by the execution node.
+
+249
+00:41:50.370 --> 00:41:56.150
+Felix (Geth): At the same time, I mean, so I would… basically, I would rate it more as a, like, convenience feature.
+
+250
+00:41:56.400 --> 00:42:05.750
+Felix (Geth): And so, I mean, that, for me, that decreases slightly the priority of this feature anyways, because it's possible…
+
+251
+00:42:05.970 --> 00:42:06.650
+Felix (Geth): Okay.
+
+252
+00:42:06.930 --> 00:42:08.479
+Felix (Geth): Where I also see…
+
+253
+00:42:08.570 --> 00:42:14.949
+Felix (Geth): I mean, one of the things in Almond now is that they have a time window
+
+254
+00:42:14.970 --> 00:42:34.310
+Felix (Geth): for which transaction hashes are indexed. So, if you do get transaction by hash, actually that only works for some amount of time. You cannot actually get all transactions that were submitted ever using get transaction by hash, at least not in the default configuration of the full nodes. So,
+
+255
+00:42:34.620 --> 00:42:51.480
+Felix (Geth): because of this, I think it would be similar with this, like, transaction by sender nonce. Basically, there is going to be a time window where this information is available, but then after a while, it's not going to be available. And so this means, for example, you cannot,
+
+256
+00:42:52.500 --> 00:42:57.510
+Felix (Geth): walk… All the transaction of an account all the way back.
+
+257
+00:42:57.760 --> 00:43:05.900
+Felix (Geth): At least not with the default configuration, but you will only be able to access recent transactions from the account.
+
+258
+00:43:06.390 --> 00:43:24.819
+Felix (Geth): And, I'm not really sure what are the, like, requirements for this, like, would it be okay to just have it for only, like, one week of time, or would it have to go back, like, more than two weeks of time, or like… so basically, these kinds of requirements would be really good to hear, because otherwise, when we would implement this.
+
+259
+00:43:25.140 --> 00:43:28.819
+Felix (Geth): You would just have to take a guess, basically, how long you would want that.
+
+260
+00:43:31.750 --> 00:43:42.150
+jvn: Yeah, yeah, I totally get it. Yeah, it's currently implemented on some, like, yeah, currently Red and JKSYNC have it. Yeah, as I see, I also tried to implement one
+
+261
+00:43:42.350 --> 00:43:59.969
+jvn: get, actually. So, as she said, I discussed with Sina also. So, there is no indexing, as you mentioned, so we created an optional indexing which can be configurable via an index flag, but as you said, it's… we do create a new index for transactions, for every transaction.
+
+262
+00:44:00.640 --> 00:44:07.349
+jvn: Yeah, maybe some kind of window to actually delete the old indexes might be a good idea.
+
+263
+00:44:08.960 --> 00:44:09.750
+jvn: Yeah.
+
+264
+00:44:12.510 --> 00:44:17.909
+Felix (Geth): Anyway, I will also review the issue. Thank you, for, summarizing it.
+
+265
+00:44:21.080 --> 00:44:22.260
+jvn: Thank you, Felix.
+
+266
+00:44:25.120 --> 00:44:27.990
+Mercy Boma Naps-Nkari: Okay, I think you can go about to 753.
+
+267
+00:44:29.390 --> 00:44:37.089
+Mercy Boma Naps-Nkari: the engine and its… I think I've shed it, okay.
+
+268
+00:44:47.210 --> 00:44:50.150
+Chase Wright: So this one… this one touches on…
+
+269
+00:44:50.840 --> 00:44:59.669
+Chase Wright: the consensus and the engine stuff, but it's mostly just nits and, like, updating links and stuff. I don't…
+
+270
+00:45:00.970 --> 00:45:06.930
+Chase Wright: I don't see anything wrong with it, but again, I'm not an expert on the engine stuff, so…
+
+271
+00:45:08.790 --> 00:45:15.639
+Chase Wright: I asked… Michael and if he would review it, but I don't know if…
+
+272
+00:45:15.960 --> 00:45:21.039
+Chase Wright: there's anyone else who could review it? I don't know. I think it's fine, but…
+
+273
+00:45:28.350 --> 00:45:32.739
+Mercy Boma Naps-Nkari: How… is it possible for us to, like, also introduce this to ACDC?
+
+274
+00:45:33.130 --> 00:45:34.959
+Mercy Boma Naps-Nkari: Or just acts on the channel.
+
+275
+00:45:36.400 --> 00:45:39.099
+Felix (Geth): So this is about the 753?
+
+276
+00:45:39.360 --> 00:45:40.080
+Chase Wright: Yep.
+
+277
+00:45:40.080 --> 00:45:40.860
+Mercy Boma Naps-Nkari: Yeah.
+
+278
+00:45:40.860 --> 00:45:51.009
+Felix (Geth): Because, basically, we kind of have this rule on this call that we cannot process the engine changes. It even seems ridiculous, but the thing is, we… I mean.
+
+279
+00:45:51.220 --> 00:46:08.540
+Felix (Geth): yes, maybe it's not bad, and we can just merge it, but I would rather leave it to Mikhail to merge it. And, I mean, he will get to it, so he is definitely the person to ping, because he is the de facto owner of the engine API. I mean, I can also review this, and pretty much, I mean.
+
+280
+00:46:08.540 --> 00:46:14.460
+Felix (Geth): Like you say, it's nothing big, so we can… Just get it in, also?
+
+281
+00:46:14.710 --> 00:46:19.229
+Felix (Geth): And… but I think on this particular call, this isn't really the venue to discuss this.
+
+282
+00:46:21.630 --> 00:46:27.809
+Chase Wright: Yeah, it's fine. We can do it out of sync. I think it just helps to sometimes have a stamp of approval from
+
+283
+00:46:28.500 --> 00:46:30.959
+Chase Wright: From… from someone else.
+
+284
+00:46:32.740 --> 00:46:33.300
+Felix (Geth): Yup.
+
+285
+00:46:33.820 --> 00:46:34.699
+Felix (Geth): I get it.
+
+286
+00:46:41.120 --> 00:46:46.800
+Mercy Boma Naps-Nkari: And I think the last one should be 773, the one that has to do with ZKVM.
+
+287
+00:46:46.920 --> 00:46:47.830
+Mercy Boma Naps-Nkari: Fuh-
+
+288
+00:46:48.610 --> 00:46:52.890
+Mercy Boma Naps-Nkari: Oh… It was opened 3 days ago.
+
+289
+00:46:55.570 --> 00:46:58.500
+Felix (Geth): So, this one, I have no idea about.
+
+290
+00:46:58.720 --> 00:47:01.470
+Felix (Geth): I checked this, and it just seems like…
+
+291
+00:47:01.790 --> 00:47:04.819
+Felix (Geth): I think this is not really something we can…
+
+292
+00:47:06.510 --> 00:47:10.619
+Felix (Geth): Process on this call, because it's kind of a proposal for…
+
+293
+00:47:10.960 --> 00:47:14.920
+Felix (Geth): Something between the consensus layer and the execution layer with, like.
+
+294
+00:47:15.160 --> 00:47:20.559
+Felix (Geth): some strings attached, like, it's… it's not just, like, a JSON RPC, change.
+
+295
+00:47:21.670 --> 00:47:27.370
+Mercy Boma Naps-Nkari: Yeah, I have a question in regards to this. I just wanted to… is this something we need an EIP for?
+
+296
+00:47:30.080 --> 00:47:38.980
+Felix (Geth): Yeah, I mean, I haven't really had the time to review this, but if it does… if it fundamentally changes the engine API, then usually it has to be at least
+
+297
+00:47:40.560 --> 00:47:50.880
+Felix (Geth): decided by another forum, and if it's not… if it's not a backwards compatible thing, then it probably requires also EIP. I mean, just because
+
+298
+00:47:51.180 --> 00:47:54.370
+Felix (Geth): Ultimately, the communication between
+
+299
+00:47:58.380 --> 00:48:06.380
+Felix (Geth): I don't fork rules, so it's… we at least have to engage… with the…
+
+300
+00:48:06.810 --> 00:48:09.580
+Felix (Geth): Right body that, you know, governs these rules.
+
+301
+00:48:15.800 --> 00:48:24.650
+Mercy Boma Naps-Nkari: So, because I'm trying to understand how, REST endpoints works, like, how to, like, introduce new REST endpoints, so…
+
+302
+00:48:28.310 --> 00:48:37.110
+Felix (Geth): I think, recently this discussion of the REST-based engine API has come up, and basically the whole idea there was that we will
+
+303
+00:48:37.220 --> 00:48:45.280
+Felix (Geth): want to transition the engine API from JSON RPC to another format, which would be a REST API.
+
+304
+00:48:45.700 --> 00:48:46.500
+Felix (Geth): And…
+
+305
+00:48:46.920 --> 00:49:05.859
+Felix (Geth): this also maybe highlights why this call is not the right one to discuss this, because, I mean, if it's a REST API, are we still going to talk about it here? I mean, we basically… we talk about the engine API here sometimes because it is also a JSON or PC API, but that's about the only thing it has in common with the other APIs. So it's like…
+
+306
+00:49:08.530 --> 00:49:11.199
+Felix (Geth): Like I said, I think this PR is not for this call.
+
+307
+00:49:13.180 --> 00:49:19.459
+Felix (Geth): So, anyway, in the recent times, there have been discussions about changing the engine API to use REST,
+
+308
+00:49:19.620 --> 00:49:25.350
+Felix (Geth): And, I think in this PR, they are basically building on that proposal to
+
+309
+00:49:26.720 --> 00:49:29.019
+Felix (Geth): Add, like, another endpoint to it or something.
+
+310
+00:49:30.240 --> 00:49:39.419
+Mercy Boma Naps-Nkari: Yeah, that is just, like, my point, like, where do we discuss this? Because I can see on, Lighthouse and Iterex, I think they have this already implemented.
+
+311
+00:49:39.670 --> 00:49:43.470
+Mercy Boma Naps-Nkari: That's, like, yeah.
+
+312
+00:49:45.830 --> 00:49:49.579
+Felix (Geth): I mean, yeah, it's like, consensus clients doing consensus things, yeah.
+
+313
+00:49:53.160 --> 00:49:54.410
+Mercy Boma Naps-Nkari: Shh, okay.
+
+314
+00:50:02.080 --> 00:50:10.450
+Felix (Geth): I mean, one problem is that we don't really have a lot of representation from the consensus clients on this call. Basically, there's mostly, I mean.
+
+315
+00:50:10.890 --> 00:50:17.790
+Felix (Geth): I'm pretty happy that now, at least, we have representation from the execution clients on this call, and that's nice, but…
+
+316
+00:50:18.020 --> 00:50:26.159
+Felix (Geth): I mean, we cannot really decide anything without the actors who are involved in this, and in this case, it's the consensus clients, so…
+
+317
+00:50:26.260 --> 00:50:30.059
+Felix (Geth): We would need to have them on this call to talk about it at all.
+
+318
+00:50:44.300 --> 00:50:48.540
+Mercy Boma Naps-Nkari: Okay, I think the last one on our list should be 706.
+
+319
+00:50:49.410 --> 00:50:51.050
+Mercy Boma Naps-Nkari: 760, though.
+
+320
+00:51:16.230 --> 00:51:21.770
+Chase Wright: I mean, this is another one that McKaylin is already actively involved in, and I don't…
+
+321
+00:51:22.200 --> 00:51:23.109
+Chase Wright: I don't know if…
+
+322
+00:51:23.110 --> 00:51:26.489
+Felix (Geth): So it's, again, like, engine API. It's an engine API…
+
+323
+00:51:26.790 --> 00:51:40.490
+Felix (Geth): It, like, modifies the semantics, and it's related with the fork choice values, so it is not something that we can, I mean, make a decision on here. Also, it looks like, yeah, I mean, they are actively discussing it, so…
+
+324
+00:51:41.020 --> 00:51:43.920
+Felix (Geth): We just have to leave it alone, basically.
+
+325
+00:51:46.400 --> 00:51:54.490
+Mercy Boma Naps-Nkari: Okay, thank you very much. I think that's all from my end. I'm not sure if someone else has something else to say, or on issues of Gingo.
+
+326
+00:52:04.350 --> 00:52:05.810
+Chase Wright: I think that's it for today.
+
+327
+00:52:06.550 --> 00:52:14.600
+Mercy Boma Naps-Nkari: Yeah, okay. So, I was actually expecting Zane in the call, in regards to the version we talked about, but…
+
+328
+00:52:15.430 --> 00:52:18.409
+Mercy Boma Naps-Nkari: Maybe we can defer that for the next two weeks.
+
+329
+00:52:18.530 --> 00:52:24.500
+Mercy Boma Naps-Nkari: Alright, thank you everyone for joining today's call. See you same time next two weeks. Bye.
+
+330
+00:52:26.500 --> 00:52:27.000
+Tullio | Erigon: Thank you.
+
+331
+00:52:27.000 --> 00:52:27.980
+Felix (Geth): Thank you, bye.
+
+332
+00:52:27.980 --> 00:52:28.790
+jvn: Oh my goodness.
+
+333
+00:52:28.940 --> 00:52:29.610
+jvn: Thank you.
+
+334
+00:52:29.610 --> 00:52:31.280
+Vlad S: Thank you, bye-bye.
+
