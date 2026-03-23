@@ -230,21 +230,26 @@ def find_expected_missing_calls(mapping, days_ahead=7):
         if not parsed_times:
             continue
 
-        latest = max(parsed_times)
         interval = timedelta(days=RATE_TO_DAYS[occurrence_rate])
         tolerance = timedelta(days=2)
         display_name = series_config.get("display_name", series_key)
+
+        # Find the latest PAST occurrence (not future ones) to project from
+        # This prevents future occurrences from hiding gaps in the sequence
+        past_times = [t for t in parsed_times if t < now]
+        if not past_times:
+            continue  # No past occurrences to project from
+        latest = max(past_times)
 
         # Skip series that appear retired/paused (no meeting in 3+ intervals)
         if now - latest > 3 * interval:
             continue
 
-        # Project forward from latest occurrence
+        # Project forward from latest PAST occurrence and check for gaps
         expected = latest + interval
         while expected <= cutoff:
-            # Only warn when the prior occurrence is already in the past;
-            # no need to alert about the meeting *after* one that hasn't happened yet
-            if expected >= now and (expected - interval) < now:
+            # Check if this expected time is missing
+            if expected >= now:
                 has_match = any(abs(t - expected) <= tolerance for t in parsed_times)
                 if not has_match:
                     missing.append({
