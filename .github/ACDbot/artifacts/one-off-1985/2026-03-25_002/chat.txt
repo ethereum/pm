@@ -1,0 +1,294 @@
+00:08:29	jochem-brouwer:	gm
+00:08:48	Lumi | Offchain Labs:	Gm
+00:08:51	lightclient:	gm
+00:08:58	Filip (Biconomy):	gmgm
+00:09:57	Renaud-ZKNOX:	gm, gm.
+00:10:10	Manuel | Lambda:	gm
+00:10:22	Nico mobile:	Hello everyone
+00:10:52	lightclient:	https://hackmd.io/@matt/frame-mempool
+00:10:57	lightclient:	https://github.com/ethereum/EIPs/pull/11415
+00:15:23	DanielVF (Monad):	I like #2 + eoas.
+00:15:57	Parthasarathy Ramanujam:	Canonical paymasters will also support gasless? If so, which tokens?
+00:16:18	Jeevan (jvn):	IMO having a canonical paymaster at start might mitigate a lot of problems at first
+00:16:34	Parthasarathy Ramanujam:	Reacted to "IMO having a canonic..." with 👍
+00:16:36	v2:	I don't think anything needs "tracing" per se, I think what it looks like in practice is: the EVM implementation gets a new "call type", similar to StaticCall, but that call type is not in the ethereum protocol, it's only ever used by mempool nodes
+00:17:25	v2:	yeah, "tracing" has the overhead of writing out 50 things into stdout per EVM opcode, that was needed in 4337 only because they were trying to make everything work with zero node changes
+00:18:51	lightclient:	Reacted to "yeah, "tracing" has ..." with 👍
+00:19:15	v2:	(I personally prefer 8141 + whitelist in default mempool to any non-8141 AA
+ 
+and yeah whitelist-based is fully tracing-free and does not require new EVM call types)
+00:21:52	Chris - Base:	Can share that doc?
+00:22:08	Derek Chiang:	Precompiles automatically approving based on the approval bits could be interesting
+00:23:06	v2:	right, we could take every existing signature precompile (k1, r1 ...), make it approve if called with approval bits, and then in-protocol enshrined delegation, which would allow wallets to just set a precompile as their address
+00:23:46	Orca 0x:	Reacted to "right, we could take..." with ❤️
+00:23:51	Derek Chiang:	@Chris - Base we could do either configurations, or the EOA address is derived from the precompile
+00:23:57	Jeevan (jvn):	Reacted to "right, we could ta..." with ❤️
+00:24:09	Luca Donno | L2BEAT:	Reacted to "right, we could take..." with 😮
+00:24:36	Nico mobile:	Reacted to "right, we could ta..." with ❤️
+00:25:10	Parthasarathy Ramanujam:	Reacted to "right, we could take..." with ❤️
+00:25:13	Derek Chiang:	Reacted to "right, we could take every existing signature precompile (k1, r1 ...), make it approve if called with approval bits, and then in-protocol enshrined delegation, which would allow wallets to just set a precompile as their address" with ❤️
+00:25:21	Chris - Base:	Single key per account then?
+00:26:53	DanielVF (Monad):	Yes, I'm fine having the "multisig" at the EVM level - as long as it's not controlling transaction inclusion into a block.
+00:27:44	Derek Chiang:	@Chris - Base would the precompile idea address Base’s concern?
+00:28:04	Chris - Base:	https://ethereum-magicians.org/t/frame-transactions-vs-schemedtransactions-for-post-quantum-ethereum/28056
+
+is the one I referenced
+00:29:17	Derek Chiang:	Reacted to "IMO having a canonical paymaster at start might mitigate a lot of problems at first" with 👍
+00:29:32	Derek Chiang:	Reacted to "I don't think anything needs "tracing" per se, I think what it looks like in practice is: the EVM implementation gets a new "call type", similar to StaticCall, but that call type is not in the ethereum protocol, it's only ever used by mempool nodes" with 👍
+00:30:11	Danno Ferrin:	Don’t add falcon, wait for FN-DSA.  This will be keccak/SHA3 all over again
+00:32:09	Nico mobile:	Totally agree !
+00:33:13	Chris - Base:	We want key rotation, multiple owners (of different types). We are trying to provide tempo level native tx but also flexibility which is what led us to 8130. 
+
+Hard to optimize 8141 (keep fully in protocol validation)
+00:33:32	Nico mobile:	And we also get the privacy protocols withdrawals !
+00:33:40	Jeevan (jvn):	I didn’t initially like the idea of going all-in on Falcon for several reasons. While its smaller size is a clear advantage, it also comes with trade-offs. Adopting it would shift our focus from hash-based approaches to lattice-based ones, and I’m not sure we’re ready yet to commit to a specific post-quantum algorithm currently
+00:33:49	v2:	Replying to "We want key rotati..."
+
+it should be not hard to make sure the defailt mempool provides that!
+ 
+even the whitelist approach should
+00:33:51	Danno Ferrin:	I don’t share the optimism that a NTT precompile plus evm logic will get standard FN-DSA or Falcon signatures below calldata cost.  There is too much small size bit twidding.  A vector API to ahdnel that would need bit level strides, not byte.  Plus the falcon signature compression logic is not vector friendly.
+00:34:32	Giulio:	Guys I am outside
+00:34:40	Danno Ferrin:	Replying to "I didn’t initially l..."
+
+Cryptographic Agility is table stakes for sustainability.  If we commit to one signature we’ve done it wrong.
+00:34:46	Giulio:	I cannot hear. Can someone tell me what’s up?
+00:35:10	Jeevan (jvn):	Replying to "I didn’t initiall..."
+
+yeah , completely agree with that
+00:35:14	Jeevan (jvn):	Reacted to "Cryptographic Agil..." with 👍
+00:35:23	Giulio:	If it is pricing. 2 things: 1) sig bytes should cost less than call data if you target worst case block 2) pricing is targeted at 350mgas/s on an M4
+00:35:29	Giulio:	So probably too much
+00:35:51	Giulio:	Sorry too little I mean
+00:36:08	Luca Donno | L2BEAT:	Replying to "I cannot hear. Can s..."
+
+you can try this
+[Full message cannot be displayed on this version]
+00:36:17	lightclient:	Reacted to "you can try this" with 😂
+00:36:25	Danno Ferrin:	Replying to "If it is pricing. 2 ..."
+
+Making sig bytes less than call data is a bad idea. Apart from performance conerns at load it opens up inscription vectors.
+00:36:26	Lumi | Offchain Labs:	Reacted to "you can try this" with 😂
+00:36:49	lightclient:	the configuration should live in the user account?
+00:37:03	Parthasarathy Ramanujam:	Reacted to "you can try this" with 😂
+00:37:22	v2:	Reacted to "the configuration ..." with 👍
+00:37:31	Renaud-ZKNOX:	Répondre à "If it is pricing. ..."
+
+Agree with Danno. First thing would be to exploit SSTORE2 style to reduce cost for other purposes
+00:37:55	Renaud-ZKNOX:	A réagi à "Making sig bytes l..." avec 👍
+00:39:15	DanielVF (Monad):	You'd have to deploy a contract to the account, that then uses are registry of validator contracts
+00:39:19	Derek Chiang:	@Chris - Base that restriction would be lifted if we start allowing VERIFY frames to target precompiles, for example
+00:39:47	Chris - Base:	Still needs a place to register configurations for keys
+00:40:01	Derek Chiang:	Reacted to "Still needs a place to register configurations for keys" with 👍
+00:40:18	Luca Donno | L2BEAT:	Reacted to "Still needs a place ..." with 👍
+00:40:20	Derek Chiang:	Replying to "Still needs a place ..."
+
+Right it basically comes down to whether there’s in-protocol support for key rotation
+00:40:24	Filip (Biconomy):	Singleton contract? One per sigscheme so that already by the frame target - nodes know a lot upfront
+00:41:33	Chris - Base:	Frames are good yes
+00:42:07	Giulio:	Replying to "Singleton contract? ..." 
+
+ This is schemes transactions
+00:42:37	Derek Chiang:	The only fixed part of 8141 is the 3 axioms:
+
+A transaction is a series of frames
+Frames can approve / pay gas for the transaction
+Frames can introspect one another
+
+Everything else can change without 8141 becoming a new EIP
+00:42:41	v2:	@chris on your specific question ("we cannot do 8130 on top of 8141 today because of delegation"), would also doing an EIP where contracts can specify their code by pointing to another address solve that?
+00:43:03	Lumi | Offchain Labs:	Reacted to "The only fixed part of 8141 is the 3 axioms:
+
+A transaction is a series of frames
+Frames can approve / pay gas for the transaction
+Frames can introspect one another
+
+Everything else can change without 8141 becoming a new EIP" with 👍
+00:43:05	Luca Donno | L2BEAT:	Reacted to "The only fixed part ..." with 👍
+00:43:11	Alex Forshtat:	Reacted to The only fixed part ... with "👍"
+00:43:36	Parthasarathy Ramanujam:	Reacted to "The only fixed part ..." with 👍
+00:43:46	Chris - Base:	Ideally accounts can specify a set of validation contracts that can validate transactions for itself
+00:44:10	v2:	Replying to "Ideally accounts c..."
+
+a set, meaning being a 1-of-N multisig between different schemes?
+00:44:15	Orca 0x:	who would be responsible for finalising the proposal between now and the fork / how would that work?
+00:44:41	Parthasarathy Ramanujam:	What is the position of the Besu team now? They had some concerns and reservations with 8141 as a headliner during the last call.
+00:44:42	Derek Chiang:	Replying to "Ideally accounts can..."
+
+If an account can delegate verification logic to another contract, then the registry logic can just be implemented inside the contract, right?
+00:44:49	Chris - Base:	A set being like:
+owner a is k1 key 
+owner b is p256 key
+owner c is some recovery mechanism
+00:44:50	Felix (Geth):	sorry I have to leave call now because I have an IRL appointment
+00:44:51	v2:	Replying to "Ideally accounts c..."
+
+yep
+00:45:10	Luca Donno | L2BEAT:	Reacted to "What is the position..." with ➕
+00:45:11	Lumi | Offchain Labs:	Reacted to "What is the position of the Besu team now? They had some concerns and reservations with 8141 as a headliner during the last call." with ➕
+00:45:17	frangio:	Reacted to "What is the positi..." with ➕
+00:45:17	Łukasz Rozmej:	Things we dislike about frame transactions:running evm in transaction pool - complex rules to potentially do it safelycomplex rules on special mode to run authorization frames - big complexity increase
+00:45:33	DanielVF (Monad):	Reacted to "Things we dislike ..." with 👍
+00:45:35	Jeevan (jvn):	Replying to "What is the positi..."
+
+Also would be good to know the pov of reth I guess
+00:45:54	Danno Ferrin:	Must it be a headliner?  Can it be worked on in a non-headliner state?
+00:45:59	Chris - Base:	Replying to "A set being like:
+..."
+
+each being a "full" owner
+00:46:04	Felix (Geth):	Replying to "Things we dislike ..."
+
+I agree this part is not easy but doing this buys us so much!
+00:46:17	DanielVF (Monad):	All the opcodes you can't call
+00:46:20	Felix (Geth):	Replying to "Things we dislike ..."
+
+So it is a tradeoff, yes.
+00:46:30	Barnabas:	Replying to "Must it be a headlin..."
+
+I’d think so.
+00:47:12	Danno Ferrin:	Replying to "Must it be a headlin..."
+
+There was two questions where yes means different things ;)
+00:47:27	Derek Chiang:	Reacted to "There was two questions where yes means different things ;)" with 😂
+00:47:38	Parthasarathy Ramanujam:	Replying to "Must it be a headlin..."
+
+The fear is that if 8141 isn’t a headliner, we may end up with status quo.
+00:47:41	Łukasz Rozmej:	Replying to "Things we dislike ab..."
+
+yep I mean approval
+00:48:17	Chris - Base:	Small question - for tx expiration, is an account expected to call some canonical expiry contract so that can be traced?
+00:48:37	Luca Donno | L2BEAT:	Reacted to "There was two questi..." with 😂
+00:48:48	Łukasz Rozmej:	Reacted to "All the opcodes you ..." with 👍
+00:48:50	v2:	Replying to "Small question - f..."
+
+tx expiration, meaning, txs setting a max allowed timestamp/slot?
+00:49:22	Felix (Geth):	sorry really have to go now
+00:49:25	Felix (Geth):	bye ~~
+00:49:32	Luca Donno | L2BEAT:	Reacted to "bye ~~" with 🫡
+00:49:33	Chris - Base:	Replying to "Small question - f..."
+
+Yes, would violate 7562 rules / trivial DoS vector?
+00:49:35	Orca 0x:	Reacted to "bye ~~" with 🫡
+00:49:55	Iván | ethrex:	Reacted to "bye ~~" with 🫡
+00:50:35	Parthasarathy Ramanujam:	Replying to "What is the position..."
+
+They are clearly not in favour of 8141. AFAIU, only Nethermind and Besu are still on the fence.
+00:50:56	Jeevan (jvn):	Reacted to "They are clearly n..." with 👍
+00:51:50	Luca Donno | L2BEAT:	Reacted to "They are clearly not..." with 👍
+00:51:55	frangio:	Replying to "Small question - f..."
+
+yes using a canonical expiry contract for the sender verify frame would be a simple way to enable this in the mempool
+00:52:34	Orca 0x:	is it still the intention that you can call APPROVE in non-Verify frames? (this seems to add a decent amount of complexity, and it might be cleaner just to have APPROVE in verify frames)
+00:52:45	Derek Chiang:	I think privacy and multisig are the two use cases that can really benefit from EVM-based validation.  Multisig can arguably be enshrined but in practice there are so many different multisig use cases like owners with different weights, conditional multisig (e.g. requiring a co-signer only for certain transactions), that it’s hard to properly enshrine it
+00:52:59	frangio:	Replying to "Small question - f..."
+
+i'd think it needs to be the verify frame's call target though. not called inside
+00:53:09	Orca 0x:	Reacted to "I think privacy and ..." with 👍
+00:53:42	Jeevan (jvn):	Replying to "is it still the in..."
+
+I thought it was only called in verify frame , Maybe im missing something  : |
+00:54:57	Daniel Lehrner (Besu):	Replying to "What is the position..."
+
+At Besu we have not changed our opinion. We talked several times about it since last ACDE, but the majority is still in favor of no headliner.
+00:55:36	v2:	Replying to "Small question - f..."
+
+I feel like I have a memory that yoav thought about how to add timestamp limits to 7562
+00:55:50	Orca 0x:	Replying to "is it still the inte..."
+
+currently I can’t see that constraint in the EIP. I think if it was there we could do without approval bits which would be a nice simplification
+00:56:01	Danno Ferrin:	Replying to "is it still the inte..."
+
+Approve reverts if not in a verify frame. Nothing in 8141 prevents approval contracts from being called, so a revert is the cleanest fix.
+00:56:07	Derek Chiang:	Replying to "is it still the inte..."
+
+Yeah it’s still the intention that you can call APPROVE in any frame.  In practice, since SENDER frames require the sender having been already approved, you can’t approve the sender in a SENDER frame, but other than that there’s no restrictions
+
+In terms of use cases, it would allow for stateful approvals.  These are long-tail use cases but they are conceivable
+
+I’m personally open to simplifying the proposal by restricting APPROVE to only VERIFY frames but it’s not a common opinion shared by all the coauthors yet
+00:56:21	Parthasarathy Ramanujam:	But you aren’t against EIP 8141 per se?
+00:56:57	Danno Ferrin:	Replying to "What is the position..."
+
+That’s not the question that has to be answered tomorrow.  The question is “what is the headliner” not “do you like 8141”
+00:57:15	Luca Donno | L2BEAT:	Replying to "is it still the inte..."
+
+do you have an example of such stateful approval use case?
+00:57:18	Daniel Lehrner (Besu):	Replying to "What is the position..."
+
+No, we would not block it. If the majority is for it, we are willing to go ahead with it.
+00:57:25	Parthasarathy Ramanujam:	Reacted to "No, we would not blo..." with 👍
+00:57:39	Daniel Lehrner (Besu):	Replying to "What is the position..."
+
+It’s just that our favourite is no headliner
+00:57:47	Jeevan (jvn):	Reacted to "It’s just that ou..." with 👍
+00:57:51	Renaud-ZKNOX:	Beside PQ, classic ECC sigs should be enforced at wallet level, nothing on chain, using FROST. Schnorr with AA is almost equivalent to ecrecover, and is standardized now.
+00:57:56	Parthasarathy Ramanujam:	Reacted to "It’s just that our f..." with 👍
+00:58:11	Luca Donno | L2BEAT:	Reacted to "No, we would not blo..." with 👍
+00:58:12	Luca Donno | L2BEAT:	Reacted to "It’s just that our f..." with 👍
+00:58:49	Danno Ferrin:	Replying to "I think privacy and ..."
+
+CRQCs will spill all the ECC secrets when they show up.  Elliptic Curves won’t keep your secrets.
+00:59:07	Renaud-ZKNOX:	Répondre à "I think privacy an..."
+
+yep, i said beside.
+00:59:12	v2:	https://hackmd.io/@matt/frame-mempool
+00:59:41	Orca 0x:	Replying to "is it still the inte..."
+
+as VERIFY frames are static calls I don’t see a reason why it’s not cleaner to just have one at the relevant point in the transaction
+01:00:23	Chris - Base:	Reacted to "It’s just that ou..." with 👍
+01:01:04	Luca Donno | L2BEAT:	Reacted to "as VERIFY frames are..." with 👍
+01:02:02	Chris - Base:	What is the suggested initial allowlist in this case?
+01:02:32	frangio:	what's the issue with the canonical paymaster?
+01:03:13	v2:	Replying to "What is the sugges..."
+
+k1, r1, PQ, multisig
+allow a single canonical paymaster
+and then do the EIP that allows contracts to specify another address (incl precompile) as their code address
+01:04:45	v2:	basically we can do:
+
+(1A) whitelisted signatures, no paymaster allowed
+(1B) EVM in validation, no paymaster allowed
+(2A) whitelisted signatures, single canonical paymaster
+(2B) EVM in validation, single canonical paymaster
+(3) full 7562
+01:04:46	Chris - Base:	Replying to "What is the sugges..."
+
+The allowlist is on the bytecode then?
+
+Or what is the mempool using to do this allowlist - signature itself?
+01:05:02	lightclient:	Reacted to "basically we can do:..." with 👍
+01:05:10	v2:	Replying to "What is the sugges..."
+
+right, allow list is on the allowed account codes
+01:05:12	Derek Chiang:	There can even be a more relaxed version of strategy 1, say strategy 1.5, where you can use one of your accounts to pay gas for another account.  So each paymaster is restricted to sponsoring gas for at most one account at a time.
+
+But personally I think strategy 2 is fine
+01:05:14	Chris - Base:	Signatures dont give a solid proof that its not doing some other validation method 
+sorry its bytecode allowlist suggested
+01:05:27	Chris - Base:	Reacted to "right, allow list ..." with 👍
+01:05:36	Orca 0x:	Reacted to "There can even be a ..." with 👍
+01:06:03	lightclient:	Reacted to "There can even be a ..." with 👍
+01:06:09	frangio:	Reacted to "basically we can d..." with 👍
+01:06:16	Barnabas:	so are we doing frames?
+01:06:29	Orca 0x:	Replying to "so are we doing fram..."
+
+no spoilers
+01:06:30	Luca Donno | L2BEAT:	Reacted to "so are we doing fram..." with 😁
+01:06:34	Jeevan (jvn):	Reacted to "no spoilers" with 😂
+01:06:34	Lumi | Offchain Labs:	Reacted to "no spoilers" with 😂
+01:06:36	nixo:	Reacted to "no spoilers" with 😂
+01:06:38	Parthasarathy Ramanujam:	Reacted to "so are we doing fram..." with 😁
+01:06:43	Lumi | Offchain Labs:	Reacted to "so are we doing frames?" with 😁
+01:06:44	Iván | ethrex:	Reacted to "no spoilers" with 😂
+01:06:48	Iván | ethrex:	Reacted to "so are we doing fram..." with 😁
+01:08:25	Chris - Base:	Gotta run - thanks all!
+01:08:34	Derek Chiang:	Reacted to "Gotta run - thanks all!" with ❤️
+01:08:38	v2:	Empirically speaking, almost all transactions are far less than 16M
+01:08:56	v2:	and I think it's fine to say that if you have an exceptional super-crazy big tx, then you have to submit it individually
+01:09:46	Łukasz Rozmej:	Replying to "Empirically speaking..."
+
+well empiricly speaking ALL transactions are less than 16M as it is a cap ;)
+01:09:56	v2:	Replying to "Empirically speaki..."
+
+hehe I meant far less :D
