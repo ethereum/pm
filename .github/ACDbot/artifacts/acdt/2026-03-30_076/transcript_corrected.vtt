@@ -1,0 +1,1386 @@
+WEBVTT
+
+1
+00:02:02.080 --> 00:02:03.340
+Barnabas: Hello, hello.
+
+2
+00:02:04.570 --> 00:02:05.720
+Barnabas: Can you guys hear me?
+
+3
+00:02:06.280 --> 00:02:09.069
+jochem-brouwer: Yes, I can hear you. GM, GM!
+
+4
+00:02:11.080 --> 00:02:12.310
+Barnabas: Good evening. No.
+
+5
+00:02:12.870 --> 00:02:14.220
+Barnabas: Push it by an hour.
+
+6
+00:02:15.240 --> 00:02:16.730
+Barnabas: Insight about that.
+
+7
+00:02:17.670 --> 00:02:20.030
+jochem-brouwer: Yes, yes, 4 o'clock, 4 o'clock.
+
+8
+00:02:30.710 --> 00:02:32.590
+Barnabas: Let's wait a couple more minutes.
+
+9
+00:02:34.140 --> 00:02:36.259
+Barnabas: It's like people are a bit slow today.
+
+10
+00:04:22.690 --> 00:04:29.169
+Barnabas: Looks like we have a much smaller attendance today, probably due to ECC.
+
+11
+00:04:31.670 --> 00:04:35.019
+Barnabas: When they're efficient, give it another few minutes.
+
+12
+00:04:39.890 --> 00:04:43.559
+Barnabas: Is anyone on the call from… calling from ECC?
+
+13
+00:04:43.850 --> 00:04:46.829
+Barnabas: Do we know if, we will have more people coming?
+
+14
+00:05:11.440 --> 00:05:14.680
+Barnabas: Yeah, maybe we can just get started anyway.
+
+15
+00:05:16.530 --> 00:05:25.979
+Barnabas: Welcome to the ACD testing call, number 76. Today is the 30th of March. Akash, can you start the stream, please?
+
+16
+00:05:27.190 --> 00:05:28.430
+Akash | ECH: Yep, we are alive.
+
+17
+00:05:28.940 --> 00:05:37.449
+Barnabas: Yeah, thanks. So, welcome everybody to All Core Devs testing call number 76. Today is the 13th of March 2026.
+
+18
+00:05:37.950 --> 00:05:40.359
+Barnabas: Let's jump straight into it.
+
+19
+00:05:40.880 --> 00:05:42.720
+Barnabas: We have the agenda.
+
+20
+00:05:43.410 --> 00:05:45.760
+Barnabas: Not that quick.
+
+21
+00:05:48.980 --> 00:05:56.480
+Barnabas: It's a bit, shorted agenda today, because Pari made the agenda and he couldn't make it to today's call.
+
+22
+00:05:56.610 --> 00:06:06.489
+Barnabas: But let's go through, Blob DevNet Zero. Currently, it looks like Prysm and Lighthouse are planning on trunk-ready implementations by the end of April.
+
+23
+00:06:06.740 --> 00:06:12.869
+Barnabas: So, we're going to try to do a rollout plan, shortly following that.
+
+24
+00:06:13.500 --> 00:06:21.730
+Barnabas: Parithosh's team will, run the trunk, versions of Lighthouse and Prysm with the partial cells.
+
+25
+00:06:21.960 --> 00:06:25.360
+Barnabas: Implementations on about 300,000 validators.
+
+26
+00:06:26.180 --> 00:06:38.680
+Barnabas: Other client teams, if you're still working on this, and you have an update on the partial cell implementation, you may speak up now, or put your
+
+27
+00:06:38.840 --> 00:06:45.650
+Barnabas: comment in the chat, and we would like to onboard you to Blob Definite Zero as soon as possible, hopefully.
+
+28
+00:06:47.690 --> 00:06:48.240
+Barnabas: Amazing.
+
+29
+00:06:48.240 --> 00:06:53.860
+Matthew Keil: headway on it, and getting closer will hopefully be in the next week or two, we'll be ready for DevNet.
+
+30
+00:06:54.920 --> 00:06:56.400
+Barnabas: Great. Thanks.
+
+31
+00:06:57.390 --> 00:07:01.490
+Barnabas: Not sure if anyone from Teku is around to comment on it, also.
+
+32
+00:07:05.140 --> 00:07:15.650
+Barnabas: I have a… I have opened a new PR, targeting EIP8136, which is the partial cell, EIP.
+
+33
+00:07:15.920 --> 00:07:22.460
+Barnabas: And I would like to include it in the Glamsterdam and not the EIP. I'm just curious, what the client thinks.
+
+34
+00:07:22.630 --> 00:07:24.449
+Barnabas: Think about this change.
+
+35
+00:07:27.040 --> 00:07:32.830
+Barnabas: I don't think we're gonna be rolling this out, much earlier than Glamsterdam, anyway.
+
+36
+00:07:41.730 --> 00:07:43.170
+Barnabas: Yeah, maybe…
+
+37
+00:07:43.300 --> 00:07:50.789
+Barnabas: So everyone can take a look at this offline. Is there any… any other team that, would like to comment on Blob DevNet Zero?
+
+38
+00:07:54.460 --> 00:08:00.029
+Barnabas: If not, then let's go to NFT DevNet10, which is the 870 config.
+
+39
+00:08:00.230 --> 00:08:07.119
+Barnabas: I'm not sure if Marius is on the call, maybe… or anyone else is working on 870 right now?
+
+40
+00:08:10.120 --> 00:08:18.219
+jochem-brouwer: Yeah, maybe as a general comment also on this networking change for the fork. EV70 is required for
+
+41
+00:08:18.690 --> 00:08:37.790
+jochem-brouwer: glance to them, at least if we want to go beyond the… well, I don't know what the exact number is, but the 80 million guess, because if we don't require E70, then we have this syncing problem where you can create, like, this block where the logs go over this 10 megabytes.
+
+42
+00:08:38.100 --> 00:08:45.129
+jochem-brouwer: Where you can't sync anymore, so I don't think we should actually introduce this to a different category, but it should be,
+
+43
+00:08:45.440 --> 00:08:47.570
+jochem-brouwer: In the configured for inclusion.
+
+44
+00:08:47.820 --> 00:08:49.820
+jochem-brouwer: Because it is required for the fork.
+
+45
+00:08:50.070 --> 00:08:51.510
+jochem-brouwer: Just as a comment on that.
+
+46
+00:08:52.130 --> 00:09:01.129
+Barnabas: Well, it would be required for the fork if you also say that we want to have a gas limit of 80 million, right? And we don't currently have an EIP that would be raising the gas limit.
+
+47
+00:09:01.620 --> 00:09:04.719
+jochem-brouwer: Yes, okay, that's a good point, yeah. Fair enough, fair enough.
+
+48
+00:09:05.590 --> 00:09:11.769
+Barnabas: Yeah, I'm not sure if we are gonna have another EIP to raise the gas limit at the fork.
+
+49
+00:09:12.220 --> 00:09:13.819
+Barnabas: If you do…
+
+50
+00:09:14.020 --> 00:09:21.360
+Barnabas: add one, then we could push it back. But for now, I would say that this is still an optional EIP for now.
+
+51
+00:09:24.850 --> 00:09:36.390
+Barnabas: Yeah, so I'm not sure if we want to have it 70 as a prerequisite for DevNet 3, while DevNet 3. Would every EL team would be happy with that?
+
+52
+00:09:37.540 --> 00:09:42.829
+Barnabas: I see Lucas, the management has already 870. I assume then…
+
+53
+00:09:43.290 --> 00:09:44.650
+Barnabas: I think it would be fine.
+
+54
+00:09:47.850 --> 00:09:50.219
+Barnabas: Any other EL teams can speak up?
+
+55
+00:10:02.770 --> 00:10:06.320
+Barnabas: Maybe you can make the decision about that, offline as well?
+
+56
+00:10:13.530 --> 00:10:14.290
+Barnabas: Yeah.
+
+57
+00:10:15.560 --> 00:10:16.410
+Barnabas: Okay.
+
+58
+00:10:17.060 --> 00:10:22.320
+Barnabas: Yeah, so Bezu, also seemed to have 870 and 71.
+
+59
+00:10:23.210 --> 00:10:30.220
+Barnabas: I'm not sure if, I'm not sure if you should have all 3 of them activated.
+
+60
+00:10:36.400 --> 00:10:42.629
+Barnabas: And that will bring us to broaden S3 discussions. Stefan, maybe you can take over?
+
+61
+00:10:43.790 --> 00:10:44.840
+Stefan Starflinger: Yes, sir.
+
+62
+00:10:45.210 --> 00:11:01.679
+Stefan Starflinger: So, about definite 3, I think the main blocker, is 837 still, especially the 2D gas accounting. There are some issues when I run the EVM fuzz, scenario, with the spammer.
+
+63
+00:11:01.880 --> 00:11:10.880
+Stefan Starflinger: There are quite, still a few orphan blocks. I managed to get it running stable with most clients individually.
+
+64
+00:11:11.010 --> 00:11:14.220
+Stefan Starflinger: But if I mix the clients up,
+
+65
+00:11:14.390 --> 00:11:18.710
+Stefan Starflinger: Or pair them together, then it breaks apart pretty quickly.
+
+66
+00:11:18.970 --> 00:11:25.069
+Stefan Starflinger: One thing I found, recently was, in Geth, I think.
+
+67
+00:11:25.420 --> 00:11:33.590
+Stefan Starflinger: I can share the link in a bit, but I shared it with the relevant teams already, with the 2D accounting, where the block
+
+68
+00:11:33.760 --> 00:11:37.700
+Stefan Starflinger: Can, go over the gas limit.
+
+69
+00:11:37.880 --> 00:11:48.630
+Stefan Starflinger: With either, state, or regular gas. And before, like, the classical gas limit for the block was informed, I think that was in gas.
+
+70
+00:11:48.850 --> 00:12:00.020
+Stefan Starflinger: At a Nimbus, so far, so there are still gaps in the testing, and, as far as I understand, Spencer will release another version.
+
+71
+00:12:00.110 --> 00:12:17.620
+Stefan Starflinger: With some extra tests, to get, really, the edge cases. It doesn't really make sense to start a DevNet if there are so many consensus-related issues, unless we just start the DevNet without, any transactions, which I don't think either makes sense as well.
+
+72
+00:12:17.930 --> 00:12:30.199
+Stefan Starflinger: And I've also, yeah, I mean, it's very brutal. It's also very tough to find issues. If I run them and I see orphaned blocks, it's very hard because of the…
+
+73
+00:12:30.330 --> 00:12:34.040
+Stefan Starflinger: Kind of difficulty of the accounting to see where the issue is.
+
+74
+00:12:34.750 --> 00:12:35.630
+Stefan Starflinger: Yeah.
+
+75
+00:12:35.770 --> 00:12:42.390
+Stefan Starflinger: Maybe Spencer, if you're on the call, maybe you could give an update on the next release that you're planning to make?
+
+76
+00:12:45.840 --> 00:12:49.510
+spencer-tb: Hey, everyone. Yeah, thanks. Thanks, Stefan. I think,
+
+77
+00:12:49.690 --> 00:12:57.319
+spencer-tb: One thing I would like to mention is that we're running, all the tests…
+
+78
+00:12:57.470 --> 00:13:01.469
+spencer-tb: From Osaka to Amsterdam now, so…
+
+79
+00:13:02.150 --> 00:13:04.559
+spencer-tb: There will be some extra fills.
+
+80
+00:13:04.660 --> 00:13:11.729
+spencer-tb: Also related to AT37, but also unrelated, so if clients can take a look at those.
+
+81
+00:13:12.310 --> 00:13:15.080
+spencer-tb: yeah, the next release…
+
+82
+00:13:15.190 --> 00:13:23.130
+spencer-tb: won't really have any spec changes, I think, where the spec is right now, I think we can…
+
+83
+00:13:23.430 --> 00:13:26.780
+spencer-tb: We can stay with that, and just focus on getting…
+
+84
+00:13:27.030 --> 00:13:31.050
+spencer-tb: More test coverage. But yeah, we'll try and get a release out.
+
+85
+00:13:31.800 --> 00:13:36.139
+spencer-tb: And the next day with, extra tests. I think one thing
+
+86
+00:13:36.940 --> 00:13:39.090
+spencer-tb: I guess I would like to ask is,
+
+87
+00:13:40.230 --> 00:13:43.770
+spencer-tb: Maybe we can try and get… Some…
+
+88
+00:13:45.260 --> 00:13:53.990
+spencer-tb: some… some… someone assigned from each… each client team, who is, like, visibly the… the person working on AT37.
+
+89
+00:13:54.260 --> 00:13:57.180
+spencer-tb: and then,
+
+90
+00:13:58.320 --> 00:14:03.409
+spencer-tb: We can also get some extra resources and steel, and we can just really try and push on this.
+
+91
+00:14:04.070 --> 00:14:06.690
+spencer-tb: With ironing out everything, because it's,
+
+92
+00:14:07.330 --> 00:14:10.829
+spencer-tb: Yeah, it's been… been going on for a while, I think,
+
+93
+00:14:11.200 --> 00:14:19.260
+spencer-tb: Overall, there have definitely been amazing input from client teams. I think Trogan from Wrath has been extremely helpful in finding
+
+94
+00:14:19.970 --> 00:14:25.789
+spencer-tb: spec mismatches, but I think if we could maybe try and get a group of us together, with,
+
+95
+00:14:26.070 --> 00:14:31.680
+spencer-tb: Even myself, Stefan, someone else from Steel, and then an individual person from each client team.
+
+96
+00:14:32.100 --> 00:14:37.599
+spencer-tb: And we can maybe start, just trying to iron everything out. Yeah.
+
+97
+00:14:40.600 --> 00:14:46.960
+Stefan Starflinger: Yeah, that sounds great. Would it be possible also to get a quick update from the clients, how it's going?
+
+98
+00:14:48.640 --> 00:14:50.189
+Stefan Starflinger: Maybe from Nethermind?
+
+99
+00:14:55.040 --> 00:14:57.050
+Łukasz Rozmej: So,
+
+100
+00:14:57.190 --> 00:15:06.250
+Łukasz Rozmej: In terms of testing and spec, we recently fixed a lot of issues, and it's even shown in test, and we still have
+
+101
+00:15:07.040 --> 00:15:12.609
+Łukasz Rozmej: A few issues left, but it's comparable to the other clients now.
+
+102
+00:15:12.810 --> 00:15:18.009
+Łukasz Rozmej: In terms of, parallel processing, we're…
+
+103
+00:15:18.120 --> 00:15:20.980
+Łukasz Rozmej: Still… close, but not there yet.
+
+104
+00:15:21.720 --> 00:15:27.179
+Łukasz Rozmej: So hopefully I've… I really hope in a week we can say that it's available.
+
+105
+00:15:30.510 --> 00:15:37.299
+Stefan Starflinger: Okay, so would something like, launching next week, Wednesday, be realistic?
+
+106
+00:15:37.300 --> 00:15:41.790
+Łukasz Rozmej: It's optimistic, but maybe.
+
+107
+00:15:42.810 --> 00:15:43.590
+Stefan Starflinger: Okay.
+
+108
+00:15:43.950 --> 00:15:50.129
+Stefan Starflinger: Then, Someone from Gas here to give an update?
+
+109
+00:16:06.270 --> 00:16:10.439
+Stefan Starflinger: If no one is here from guests, let's go with Nimbus, EL.
+
+110
+00:16:11.110 --> 00:16:12.130
+Stefan Starflinger: So I wonder…
+
+111
+00:16:28.480 --> 00:16:32.990
+Stefan Starflinger: everyone at ECC today. Then Erigon.
+
+112
+00:16:43.150 --> 00:16:44.540
+Stefan Starflinger: Otherwise, Reth?
+
+113
+00:16:49.630 --> 00:16:53.839
+Jen: Let me follow up async, but next week should be good.
+
+114
+00:16:57.150 --> 00:16:58.950
+Stefan Starflinger: Okay, Besu?
+
+115
+00:17:00.120 --> 00:17:05.900
+Daniel Lehrner (Besu): Yeah, same, same for us. I think we're more or less ready, so next week. Should be okay.
+
+116
+00:17:10.319 --> 00:17:13.029
+Stefan Starflinger: Okay, any updates regarding testing?
+
+117
+00:17:13.179 --> 00:17:18.679
+Stefan Starflinger: Have you tested with another client, as well, or just, in Bezo?
+
+118
+00:17:19.499 --> 00:17:20.729
+Stefan Starflinger: networks.
+
+119
+00:17:21.349 --> 00:17:26.929
+Daniel Lehrner (Besu): Right now, just in… in Besu Networks. We need to check with, Kurtosis.
+
+120
+00:17:27.499 --> 00:17:31.279
+Daniel Lehrner (Besu): Next, but at least, according to the tests.
+
+121
+00:17:31.689 --> 00:17:36.809
+Daniel Lehrner (Besu): We should be, spec compliant. But yeah, we need to test with Kurtosis.
+
+122
+00:17:38.000 --> 00:17:39.020
+Stefan Starflinger: Okay, great.
+
+123
+00:17:40.140 --> 00:17:43.949
+Stefan Starflinger: Okay, I think that's it from my side for DevNet 3.
+
+124
+00:17:49.720 --> 00:17:56.279
+Barnabas: Thank you. So the next topic, was Ball DevNet 4,
+
+125
+00:17:57.140 --> 00:18:07.789
+Barnabas: I think it would be better not to talk about Ball.net 4, at least till we launch Ball.net 3, and also, after that, I think it would be time to…
+
+126
+00:18:07.990 --> 00:18:16.810
+Barnabas: merge, EPBS with local access list, so maybe it's gonna be prime time to start talking about Glamsterdam.net Zero.
+
+127
+00:18:17.710 --> 00:18:24.540
+Barnabas: But before we do that, maybe we can, start discussing EPPS DevNet1 progress.
+
+128
+00:18:25.680 --> 00:18:27.530
+Barnabas: Anyone from prison?
+
+129
+00:18:27.900 --> 00:18:32.500
+Barnabas: Maybe, you can say how things are going?
+
+130
+00:18:40.960 --> 00:18:49.790
+Potuz: Well, it seems Terrence is not there. So… I think we're good to go. We're, Barnabas knows better than me how we are. He's finding bugs.
+
+131
+00:18:49.910 --> 00:18:58.900
+Potuz: There are some issues with blobs now, which I think they're fixed. There were some peering issues, but those peering issues would not happen on a DevNet.
+
+132
+00:18:59.140 --> 00:19:00.910
+Potuz: On a large lab net.
+
+133
+00:19:01.170 --> 00:19:03.850
+Potuz: I think we're good to… to launch.
+
+134
+00:19:05.060 --> 00:19:06.560
+Potuz: Whenever you guys want.
+
+135
+00:19:07.630 --> 00:19:15.429
+Barnabas: Right, so Prysm is almost ready, including all the PTC changes that we have been talking about in the past weeks.
+
+136
+00:19:15.830 --> 00:19:17.569
+Barnabas: If…
+
+137
+00:19:17.750 --> 00:19:32.780
+Barnabas: You're listening and you're a CL client team, please push your changes into EPP as DevNet1 branch, and ping me when you're ready. Then we will be spinning up, DevNet1 basically as soon as possible, once Prysm is confirmed to be working.
+
+138
+00:19:32.830 --> 00:19:38.069
+Barnabas: And then other clients can test their syncing capability, the checkpoint sync as well.
+
+139
+00:19:38.440 --> 00:19:44.139
+Barnabas: But yeah, it would be good to hear from, the other client teams as well.
+
+140
+00:19:44.400 --> 00:19:46.999
+Barnabas: I'm not sure if we have anyone else,
+
+141
+00:19:47.420 --> 00:19:50.680
+Barnabas: Nicole that is working on, PBS.
+
+142
+00:19:54.320 --> 00:20:03.519
+Eitan Seri-Levi: For Lighthouse, I think we could be ready this week. We're merging the Alpha 4 spec changes, to our trunk bench tomorrow.
+
+143
+00:20:03.700 --> 00:20:05.809
+Eitan Seri-Levi: We don't have Checkpoint Sync yet.
+
+144
+00:20:06.720 --> 00:20:08.290
+Eitan Seri-Levi: I think we have everything else.
+
+145
+00:20:08.420 --> 00:20:11.040
+Eitan Seri-Levi: So maybe we can participate.
+
+146
+00:20:11.320 --> 00:20:13.359
+Eitan Seri-Levi: And DevNet1 at Genesis, and…
+
+147
+00:20:13.780 --> 00:20:18.100
+Eitan Seri-Levi: I think Checkpoint Sync would probably be ready by the end of the week, or early next week.
+
+148
+00:20:18.980 --> 00:20:23.360
+Barnabas: Yeah, that sounds good. Can you let me know when,
+
+149
+00:20:23.740 --> 00:20:29.429
+Barnabas: It's either in trunk or in a feature branch, and then I can start testing with Prysm.
+
+150
+00:20:29.930 --> 00:20:32.479
+Eitan Seri-Levi: Yeah, I'll spin up a DevNet1 branch for you.
+
+151
+00:20:32.820 --> 00:20:33.780
+Barnabas: Okay, thanks.
+
+152
+00:20:35.310 --> 00:20:36.460
+Barnabas: Yep, photos.
+
+153
+00:20:37.960 --> 00:20:49.720
+Potuz: Yeah, I would feel better if we actually make checkpoint sync mandatory for this DevNet, or range sync, but then heavily tested on the server side for every participating client.
+
+154
+00:20:49.850 --> 00:20:55.159
+Potuz: Because if Lighthouse, or if Prysm fails,
+
+155
+00:20:55.270 --> 00:21:07.960
+Potuz: and then we can't checkpoint sync, or if Lighthouse fails, then we can't checkpoint sync, and then Lighthouse starts range syncing, and then Prysm is sending non-canonical payloads, and these kind of things, we're gonna be screwed quickly.
+
+156
+00:21:08.230 --> 00:21:16.540
+Potuz: So, I really think we should aim to have Checkpoint Sync on all participating clients before they launch, at least at the time they launch.
+
+157
+00:21:21.480 --> 00:21:21.810
+Barnabas: I mean.
+
+158
+00:21:21.810 --> 00:21:22.380
+Potuz: What did you?
+
+159
+00:21:22.760 --> 00:21:32.960
+Potuz: It was just a couple of lines on Prysm, so I'm surprised that this would take a long time in Lighthouse. For us, it was… after we had range syncing, it was just, like, 5 lines to add checkpoint sync.
+
+160
+00:21:32.960 --> 00:21:36.659
+Barnabas: They don't have range thinking either, I think, right?
+
+161
+00:21:37.590 --> 00:21:41.049
+Eitan Seri-Levi: Yeah, we don't have rain sync, we just… we've been dealing with a lot of,
+
+162
+00:21:42.210 --> 00:21:51.799
+Eitan Seri-Levi: other bugs, like, on our P2P, so most of the team's been, like, doing that, so we've just been kind of a skeleton crew for EPBS the last, like, 3 weeks, but
+
+163
+00:21:52.000 --> 00:21:57.489
+Eitan Seri-Levi: But yeah, I don't think it's too big of a change, so hopefully end of this week or early next week should be right.
+
+164
+00:22:01.220 --> 00:22:19.140
+Barnabas: I think if you can be ready by Genesis, and I can test interrupt, then that is gonna be just as valuable as having checkpointing working. And then if you can push for end-of-the-week checkpointing capabilities, that would be very good. You can test it on the running.net already.
+
+165
+00:22:21.570 --> 00:22:25.900
+Barnabas: Okay, thank you. Anyone else? We have an update for us?
+
+166
+00:22:26.240 --> 00:22:26.850
+Caleb: Yes.
+
+167
+00:22:26.850 --> 00:22:29.100
+Nico Flaig: Sorry, go ahead, Caleb.
+
+168
+00:22:29.580 --> 00:22:34.570
+Caleb: Okay, so for Nimbus, we are currently upgrading to Alpha 4.
+
+169
+00:22:34.680 --> 00:22:41.550
+Caleb: I reckon it should be done by the end of the week, so should be good to go by Thursday, Friday.
+
+170
+00:22:44.070 --> 00:22:46.180
+Barnabas: Okay, and do you have Checkpoint Sync?
+
+171
+00:22:46.490 --> 00:22:49.230
+Caleb: Yes, we do have checkpoints in case.
+
+172
+00:22:49.610 --> 00:22:50.579
+Barnabas: Okay, thank you.
+
+173
+00:22:51.620 --> 00:22:59.590
+Nico Flaig: Yeah, it's similar for Lodestar. We should have something end of the week. Just one question, do we plan to do blobs as well?
+
+174
+00:23:00.440 --> 00:23:02.639
+Nico Flaig: Or is it still out of scope?
+
+175
+00:23:03.410 --> 00:23:10.219
+Barnabas: Yeah, so blobs would be… Yeah, it's up to you guys, really.
+
+176
+00:23:11.180 --> 00:23:25.269
+Potuz: I think it should be in scope for the DevNet, but we can easily agree not to send them at the beginning, because anyways, it's not a hard fork. So we just agree not to send them at the beginning, and whenever client signals we're ready, we just start sending them.
+
+177
+00:23:28.350 --> 00:23:29.400
+Barnabas: Yeah, that sounds good.
+
+178
+00:23:31.220 --> 00:23:34.659
+Barnabas: Yeah, maybe we can do that a week from now, or something like that.
+
+179
+00:23:36.550 --> 00:23:44.070
+Barnabas: Okay, that's good. So, let's aim to launch, APBSN at 1, maybe tomorrow?
+
+180
+00:23:44.910 --> 00:24:02.250
+Barnabas: And, regarding EPBS.NET2, I don't think there will be a need for EPBS.NET2. I don't expect any drastic, spec changes anymore on EPBS, luckily, so I think what we could do is actually discuss, Glamsterdam.net 0.
+
+181
+00:24:03.440 --> 00:24:07.229
+Barnabas: Maybe we can start talking about target dates also for that?
+
+182
+00:24:09.070 --> 00:24:21.640
+Barnabas: My initial proposal would be the 15th of April. I know that that sounds like a stretch, but that will give us maybe a fallback date for the 22nd of April.
+
+183
+00:24:21.960 --> 00:24:32.699
+Barnabas: the 22nd should really be the last day, when we launch, Glamsterdam M.0, because ideally we want to have a very stable,
+
+184
+00:24:32.840 --> 00:24:36.770
+Barnabas: merge DevNet before we head out to interrupt.
+
+185
+00:24:36.960 --> 00:24:38.309
+Barnabas: In the end of this month.
+
+186
+00:24:38.940 --> 00:24:55.649
+Barnabas: And regarding spec-wise changes, bold.NET3 and APPS.NET1 would be merged in the EI and CS side. I don't expect to include any new EIPs. What we really want to do is just have a stable testing environment.
+
+187
+00:24:55.740 --> 00:25:05.729
+Barnabas: So, whatever is on, DPBL.NET1, and whatever is on ball.net 3 is, should be the target for Glamsterdam DevNet 0.
+
+188
+00:25:07.410 --> 00:25:08.670
+Barnabas: Yep, Bluetooth.
+
+189
+00:25:09.540 --> 00:25:18.650
+Potuz: I'm not sure how stable of an environment you want to have for glam.devNet Zero, but I think it'll be a mistake to merge valves with EPBS.
+
+190
+00:25:18.930 --> 00:25:30.969
+Potuz: before we've tested external builders, I think definite one, we're going to be testing external builders, but I do think that we want to have the builder API tested in isolation on APBS.
+
+191
+00:25:33.270 --> 00:25:41.829
+Barnabas: I mean, but that's still, like, 3 weeks away, so, like, there's not one, if it will come online tomorrow, we will have, like, 3 weeks to test that, so…
+
+192
+00:25:42.360 --> 00:25:44.960
+Barnabas: I don't expect that to be an issue.
+
+193
+00:25:45.660 --> 00:25:53.640
+Barnabas: And also, DevNet1 can, like, run along, Glamsterdam and DevNet0, so if you want to do, like, very specific EPVS.
+
+194
+00:25:54.040 --> 00:26:01.679
+Potuz: Yeah, no, I think it's absolutely fine, as long as the builder API does not come with Hartford changes.
+
+195
+00:26:01.800 --> 00:26:09.919
+Potuz: I mean, if the same spec is supported on DevNet1 done on the builder API, like, meaning contacting
+
+196
+00:26:10.070 --> 00:26:12.460
+Potuz: builders directly over HTTP,
+
+197
+00:26:12.720 --> 00:26:20.890
+Potuz: then… then we're fine. If we need to make any changes that are hard for changes for those, then I'd suspect that we'll need a DevNet 2.
+
+198
+00:26:24.180 --> 00:26:28.259
+Barnabas: Maybe Bharat can comment on that? I haven't been on…
+
+199
+00:26:28.800 --> 00:26:32.890
+Barnabas: I'll update you on the latest Bikini API discussions, so…
+
+200
+00:26:32.890 --> 00:26:44.009
+Bharath: Yeah, sure, sure, sure, I can take that. I'm not sure what you mean by a hard fork change, so, the… I have updated the latest spec, I think it should be, like, fully updated so far.
+
+201
+00:26:44.310 --> 00:26:46.589
+Bharath: I mean, it dev… I think,
+
+202
+00:26:47.610 --> 00:26:50.829
+Bharath: The new Builder API will involve, like, new APIs.
+
+203
+00:26:51.190 --> 00:26:54.309
+Bharath: But I don't… I don't ex…
+
+204
+00:26:54.720 --> 00:27:03.080
+Bharath: I mean, can take us offline, but it'll involve new APIs, we'll probably not have validated registrations anymore, we'll use proposal preferences.
+
+205
+00:27:03.390 --> 00:27:06.489
+Bharath: And, there will be, like, builder preferences to, like.
+
+206
+00:27:06.670 --> 00:27:16.929
+Bharath: indicate, like, the max trusted bid. So, yeah, I guess that'll be a, like, hard fork change. I think it makes sense to test that in isolation, but on the other hand, also, like.
+
+207
+00:27:17.240 --> 00:27:26.690
+Bharath: The builder API is only dealing with, like, consensus data structures, like the bid and the envelope. So, I think bars will anyways be encapsulated, like, in the
+
+208
+00:27:26.820 --> 00:27:33.760
+Bharath: bidding in the envelope, so… With or without bars, the builder API won't change, with either of them.
+
+209
+00:27:33.920 --> 00:27:42.610
+Bharath: So, that's one thing. But, yeah, outside that, I do agree that it makes sense to test the Builder API in isolation, because
+
+210
+00:27:43.740 --> 00:27:47.029
+Bharath: Yeah, I mean, with Balt, I don't know how the builder will
+
+211
+00:27:47.360 --> 00:27:57.279
+Bharath: break, like, so we are implementing an in-house, builder, an external builder. I don't know how that will impact that, I hope it doesn't. But I think I agree with Potus, like,
+
+212
+00:27:57.380 --> 00:28:03.210
+Bharath: isolated, like, environment for that makes a lot of sense. And then maybe you can integrate with Balls, yeah.
+
+213
+00:28:10.490 --> 00:28:17.080
+Barnabas: Yeah, so, like, my target would be for the first half of April to do this, and figure out what kind of spec we want.
+
+214
+00:28:17.620 --> 00:28:23.859
+Barnabas: And, basically make any kind of bacon API changes for Gamsterium.0.
+
+215
+00:28:24.550 --> 00:28:26.700
+Barnabas: I don't know if that's realistic.
+
+216
+00:28:40.520 --> 00:28:47.449
+Barnabas: Has any planning teams, taken a look at what it would be to merge these two,
+
+217
+00:28:47.660 --> 00:28:48.890
+Barnabas: Feature branches?
+
+218
+00:28:49.420 --> 00:28:52.239
+Barnabas: Like, the ball side and EPPS side.
+
+219
+00:28:52.850 --> 00:28:56.050
+Barnabas: Do we expect that to be a… Difficult problem.
+
+220
+00:29:00.630 --> 00:29:01.930
+Barnabas: Yep, Daniel.
+
+221
+00:29:03.160 --> 00:29:13.099
+Daniel Lehrner (Besu): I think you mentioned in the past that there is a little spec change that the ELs need to do, no? That they can, like, reorg to the parent…
+
+222
+00:29:13.640 --> 00:29:16.500
+Daniel Lehrner (Besu): Of the current head, or something like this.
+
+223
+00:29:19.370 --> 00:29:21.340
+Daniel Lehrner (Besu): for, for, for EPBS.
+
+224
+00:29:24.250 --> 00:29:25.930
+Barnabas: Yeah,
+
+225
+00:29:26.360 --> 00:29:33.920
+Barnabas: I think, Marius did a change on the gas side, and maybe Portus can comment on it.
+
+226
+00:29:34.760 --> 00:29:47.629
+Potuz: Yes, there is currently a line on the… on the engine API that says that if you receive, payload attributes for a four-choice update, for a previous head that is canonical.
+
+227
+00:29:47.810 --> 00:29:51.920
+Potuz: you, you can…
+
+228
+00:29:52.150 --> 00:29:59.810
+Potuz: You may trigger execution, and you may trigger a Fortress update. That may need to become a must.
+
+229
+00:29:59.950 --> 00:30:02.880
+Potuz: Namely, if I send you a four-choice update.
+
+230
+00:30:03.040 --> 00:30:09.429
+Potuz: For a block that you consider canonical and it's not a tip on your chain, it still may become the head.
+
+231
+00:30:11.230 --> 00:30:15.659
+Daniel Lehrner (Besu): Okay, but this, this is the only change, I think, no, that you need.
+
+232
+00:30:16.010 --> 00:30:17.430
+Daniel Lehrner (Besu): From… from the yields.
+
+233
+00:30:19.350 --> 00:30:24.410
+Potuz: You mean on the ELs? Yeah, so from… uniquely from EPBS.
+
+234
+00:30:24.700 --> 00:30:25.819
+Daniel Lehrner (Besu): Yup, yeah, yeah, yeah, yeah.
+
+235
+00:30:25.820 --> 00:30:26.769
+Potuz: Yes, that's correct.
+
+236
+00:30:27.090 --> 00:30:30.469
+Daniel Lehrner (Besu): Okay, okay, then, then it should not be a big problem.
+
+237
+00:30:30.650 --> 00:30:33.569
+Daniel Lehrner (Besu): At least for us, because we have all the…
+
+238
+00:30:33.900 --> 00:30:39.429
+Daniel Lehrner (Besu): The bar changes in our release branch. So we just need to…
+
+239
+00:30:39.730 --> 00:30:43.400
+Daniel Lehrner (Besu): We just need to modify this.
+
+240
+00:30:44.480 --> 00:30:46.709
+Daniel Lehrner (Besu): But I think it's not a big problem.
+
+241
+00:31:05.050 --> 00:31:06.069
+Barnabas: Okay, thank you.
+
+242
+00:31:08.930 --> 00:31:13.679
+Barnabas: So it looks like Nethermind… for Nethermind, it would also not be a big problem.
+
+243
+00:31:13.970 --> 00:31:15.129
+Barnabas: Make it to you.
+
+244
+00:31:17.270 --> 00:31:24.679
+Barnabas: And yeah, so EPBS DevNet1 will have Alpha 4 consensus spec alpha 4 as the target.
+
+245
+00:31:29.440 --> 00:31:37.059
+Barnabas: Yeah, that… that was the… the general idea to basically try to aim for Glamsterdam does not
+
+246
+00:31:37.210 --> 00:31:40.489
+Barnabas: zero by the end, the second half of April.
+
+247
+00:31:42.050 --> 00:31:47.060
+Barnabas: That's assuming that, you know, Paul.3 will go smoothly next week.
+
+248
+00:31:48.130 --> 00:31:52.990
+Barnabas: And that APPI71 will also go smoothly this week and the following week.
+
+249
+00:31:54.640 --> 00:32:00.759
+Barnabas: And other than that, I saw that Bharat also has two PRs that he would like to raise.
+
+250
+00:32:01.470 --> 00:32:03.150
+Barnabas: Third?
+
+251
+00:32:03.660 --> 00:32:13.339
+Bharath: Yeah, I can talk. So, we're working on building, like, the external P2P builder, and also, like, the builder will implement the builder API. For that,
+
+252
+00:32:13.860 --> 00:32:19.830
+Bharath: there are, like, two things that would make life, like, super easy. One thing is this PR, which…
+
+253
+00:32:20.000 --> 00:32:26.940
+Bharath: is basically, related to proposal preferences. Like, it involves, like, an SSE event.
+
+254
+00:32:27.280 --> 00:32:28.810
+Bharath: For the client to…
+
+255
+00:32:29.200 --> 00:32:34.659
+Bharath: Like, trying to, like, stream the proposal preference when it receives them, similar to, like, attestations.
+
+256
+00:32:35.780 --> 00:32:42.379
+Bharath: So that'll be, like, super useful in general, because as a builder, like, I want to listen to the preferences. Be very easy if, like…
+
+257
+00:32:42.550 --> 00:32:54.230
+Bharath: there is an SSE event for that. I think PRISM… James from PRISM has seen… has a draft PR with this, but yeah, I would love, like, clients to take a look. Nico, I think, raised that
+
+258
+00:32:54.420 --> 00:33:00.760
+Bharath: this PR should also involve, like, deprecation of two other APIs. I'll leave it up to client devs to
+
+259
+00:33:00.880 --> 00:33:04.369
+Bharath: work that out. I don't have a lot of context there.
+
+260
+00:33:04.580 --> 00:33:09.000
+Bharath: So… That is one thing. The second thing is,
+
+261
+00:33:09.440 --> 00:33:18.359
+Bharath: So, as a builder, like, when I'm building, like, payloads externally, like, if my bid gets selected in the block, I want to create an envelope to broadcast.
+
+262
+00:33:18.660 --> 00:33:23.400
+Bharath: I think the envelope involves a beacon-state transition, so,
+
+263
+00:33:23.720 --> 00:33:27.649
+Bharath: it's like… so it'll be nice if there's an API for the builder to, like.
+
+264
+00:33:27.800 --> 00:33:38.499
+Bharath: Send the beacon block route, the payload and the execution request, and get back an envelope from the… from the beacon node, which involves also, like, the late… the updated beacon state route.
+
+265
+00:33:39.340 --> 00:33:53.759
+Bharath: like, I would love if clients could take a look at this too, like, maybe erase the PR, like, but maybe there are some more parameters, like, or maybe, you know, you want, some, like, more updates on that, like, it would be great if clients could take a look,
+
+266
+00:33:54.040 --> 00:34:09.760
+Bharath: these two, like, PRs will probably make, like, building, like, the external builder, like, much easier. Like, otherwise, like, especially for creating the envelope, like, right now, I have to manually implement the state transition, which is not, like, very clean. So, yeah, like, please feel free to take a look when you feel.
+
+267
+00:34:16.760 --> 00:34:23.960
+Barnabas: Neither of these are hard fork-required changes, sir, right? Like, we could just add these on, DevNet1?
+
+268
+00:34:24.270 --> 00:34:31.650
+Bharath: Yeah, for DevNet one, yeah, they're not critical. They're just for… to make the life of, like, building, like, a builder easier with all these things.
+
+269
+00:34:31.860 --> 00:34:38.499
+Bharath: So, I don't think they're important for DevNet one, but it'd be great if clients can, like, review that and, like, take that and implement that, so…
+
+270
+00:34:43.620 --> 00:34:48.400
+Barnabas: I was still a bit confused, like, what kind of changes Bottus mentioned that would actually require.
+
+271
+00:34:48.400 --> 00:34:53.280
+Potuz: There are no changes now on the Builder API that requires a hard fork.
+
+272
+00:34:53.650 --> 00:34:57.179
+Potuz: When we start testing, this may appear.
+
+273
+00:34:57.860 --> 00:35:04.680
+Potuz: That's why I'm saying it's fine so far, we're aiming at DevNet1 for testing the external builder.
+
+274
+00:35:04.980 --> 00:35:07.989
+Potuz: But we might find ourselves in a situation
+
+275
+00:35:08.480 --> 00:35:12.260
+Potuz: Which is unforeseen, not many people have seen this builder API yet.
+
+276
+00:35:12.920 --> 00:35:18.589
+Potuz: We might find ourselves in a situation in which we may need a hard fork, and therefore a definite 2.
+
+277
+00:35:22.120 --> 00:35:22.720
+Barnabas: Okay.
+
+278
+00:35:22.960 --> 00:35:27.569
+Bharath: Yeah, these channels are also mainly to implement, like, a P2P builder tool. I'm not even looking.
+
+279
+00:35:27.570 --> 00:35:33.060
+Potuz: None of the changes that you have now require a hard fork at all, so it's absolutely fine right now.
+
+280
+00:35:33.990 --> 00:35:37.309
+Bharath: Yeah, and just to be clear, you're mentioning the APIs, right? Like.
+
+281
+00:35:37.920 --> 00:35:39.850
+Bharath: Or are you mentioning the Builder AP?
+
+282
+00:35:39.850 --> 00:35:54.039
+Potuz: Yes, by a hard fork, I mean something that would be consensus-breaking, so we would need a different spec. For example, if you need to change the structure of the bid, or if you need to change the structure of the payload envelope, then yes, we will need a new DevNet.
+
+283
+00:35:54.990 --> 00:35:59.800
+Bharath: Oh, yeah, no, no, no, the builder API, definitely, like, I think that's something, like, I don't want to do, like…
+
+284
+00:36:00.010 --> 00:36:11.359
+Bharath: I want to keep it, like… I want to make sure it uses the consensus data structures, and outside that, like, maybe the request auth and the builder preferences can stay with the builder specs, and they don't require, like, a hard focus.
+
+285
+00:36:11.510 --> 00:36:17.589
+Bharath: But yeah, I mean, we should definitely, like, not change these structures for the builder repair. At least we should not try to, so…
+
+286
+00:36:24.880 --> 00:36:29.220
+Barnabas: Okay. Is there any other, EPPS-related questions?
+
+287
+00:36:32.280 --> 00:36:34.100
+Barnabas: Are other discussion topics?
+
+288
+00:36:36.740 --> 00:36:43.470
+Bharath: I have one question, like, so I can also put it in the EPBS channel, but, like, now that,
+
+289
+00:36:43.800 --> 00:36:48.159
+Bharath: And recently, like, Nico has merged a PR and consensus specs to…
+
+290
+00:36:48.330 --> 00:36:57.330
+Bharath: also, like, broadcast the proposal preferences in the same epoch. So I just wanted to, like, understand, like, how the workflow will be. I think at the start of the epoch.
+
+291
+00:36:57.680 --> 00:37:01.959
+Bharath: I would assume a client is gonna broadcast the preferences for
+
+292
+00:37:02.100 --> 00:37:17.529
+Bharath: like, all the validators in the same epoch, and also in the next epoch. Basically, like, you look at the look ahead, and if a validator's in the current epoch, or in the next epoch, like, you make sure you broadcast for both cases, which is unlike before, where we were only broadcasting for the next epoch.
+
+293
+00:37:17.720 --> 00:37:21.259
+Bharath: So, just wanted to understand if that is, like, the way it will work.
+
+294
+00:37:34.370 --> 00:37:35.760
+Barnabas: Maybe Nicole?
+
+295
+00:37:38.700 --> 00:37:44.219
+Nico Flaig: So I think you would broadcast for the next epoch, only, and…
+
+296
+00:37:44.480 --> 00:37:50.569
+Nico Flaig: The current epoch would only be the case if you… if the node hasn't broadcast for that validator.
+
+297
+00:37:50.690 --> 00:37:58.240
+Nico Flaig: Because I just double-checked there's a gossip rule which basically says it's the first valid message, otherwise it's ignored.
+
+298
+00:37:58.530 --> 00:38:05.720
+Nico Flaig: I don't know, I guess nodes could just broadcast them again, but I think it's probably wasteful to do that.
+
+299
+00:38:06.000 --> 00:38:14.739
+Nico Flaig: So if your local node knows it already did it for the next epoch for that validator, I would think we are not gonna rebroadcast the same message again.
+
+300
+00:38:17.620 --> 00:38:24.540
+Bharath: Got it. So I… just to be clear, like, I think the happy case was gonna be, like, at the start of the epoch, you broadcast for the…
+
+301
+00:38:24.760 --> 00:38:28.449
+Bharath: Like, the validators of the next epoch, basically.
+
+302
+00:38:29.120 --> 00:38:39.539
+Nico Flaig: Yeah, exactly. And the other case is just, in case the node started up, then it will try to broadcast for the current and next, but otherwise, only next.
+
+303
+00:38:40.010 --> 00:38:41.950
+Bharath: Okay, sounds good, like, thank you.
+
+304
+00:38:49.990 --> 00:38:51.980
+Barnabas: Right. Is there any other questions?
+
+305
+00:38:57.500 --> 00:39:01.280
+Barnabas: In case not, Don also had a question.
+
+306
+00:39:05.870 --> 00:39:07.940
+Barnabas: Not sure if Den is around?
+
+307
+00:39:14.240 --> 00:39:20.730
+Barnabas: Regarding whether clients are using Frederick's security… Oh, April.
+
+308
+00:39:20.730 --> 00:39:23.459
+danceratopz: Yeah, hey, Barnabas, sorry, yeah,
+
+309
+00:39:23.830 --> 00:39:30.959
+danceratopz: It was just a quick question, really, whether, clients… client teams are available about
+
+310
+00:39:31.170 --> 00:39:37.069
+danceratopz: Aware, sorry, whether they're aware of this, thanks for dropping the link.
+
+311
+00:39:37.530 --> 00:39:44.019
+danceratopz: of this GitHub action, which was created from, Frederick Svantes from the, security team at the EF.
+
+312
+00:39:44.540 --> 00:39:52.110
+danceratopz: And I haven't used it myself. It just came up today in discussions because we've kind of realized that with
+
+313
+00:39:52.850 --> 00:40:01.509
+danceratopz: coding agents implementing more of our features in the specs and in clients as well.
+
+314
+00:40:02.130 --> 00:40:14.970
+danceratopz: We kind of need to up our game, really, and review, and perhaps this could potentially help us to, get better automated reviews on the specs that we're implementing, or the tests.
+
+315
+00:40:15.380 --> 00:40:25.919
+danceratopz: I hope we get to try this out ourselves in the testing team soon. We should integrate it in our stuff. And I don't think it's a silver bullet, but, it could… could help us.
+
+316
+00:40:27.480 --> 00:40:38.669
+danceratopz: As a follow-up, dragon from Ref, basically, also, Push that we could stop…
+
+317
+00:40:38.790 --> 00:40:46.150
+danceratopz: Trying to do, A deeper dive into the implementations of clients before we launch a DEFNet?
+
+318
+00:40:46.290 --> 00:40:57.730
+danceratopz: So the first step would be really to do a hardcore analysis of the specs against the Markdown… I'm sorry, the Python specs against the Markdown specs.
+
+319
+00:40:58.290 --> 00:41:09.750
+danceratopz: then also do a review of the tests, obviously. And once that's in place, that we're confident that the Python specs are in alignment with the Markdown specs.
+
+320
+00:41:10.250 --> 00:41:17.989
+danceratopz: then we should do, like, at least some kind of automated review of all the client implementations on a per-EIP basis.
+
+321
+00:41:18.120 --> 00:41:21.570
+danceratopz: Before going to a DevNet, in order to capture this kind of problem.
+
+322
+00:41:21.870 --> 00:41:29.439
+danceratopz: And I think this is basically the process that happens already, by the security team before
+
+323
+00:41:29.770 --> 00:41:37.990
+danceratopz: as we get very close to a hard fork, but I think it could really help, accelerate things and get things nailed down
+
+324
+00:41:38.140 --> 00:41:41.060
+danceratopz: on a DevNet basis as well. And…
+
+325
+00:41:41.390 --> 00:41:44.450
+danceratopz: With the tooling available today, we can automate quite a lot of this.
+
+326
+00:41:44.960 --> 00:41:53.020
+danceratopz: Anyway, sorry, it's a bit rambling and just a few thoughts, but it was mainly just to create awareness around this GitHub action and see if people were using it.
+
+327
+00:41:53.760 --> 00:41:57.359
+danceratopz: If anyone wants to step up and is using it, then please do chime in right now.
+
+328
+00:42:03.320 --> 00:42:04.300
+Barnabas: Thank you, Dan.
+
+329
+00:42:07.000 --> 00:42:12.380
+Barnabas: Yeah, I think we can… we can discuss it, maybe more on this call or offline.
+
+330
+00:42:19.090 --> 00:42:23.319
+Barnabas: I think it's related to the ER team, mainly, at this point.
+
+331
+00:42:28.020 --> 00:42:33.070
+Barnabas: Okay, does anybody else have anything else to raise?
+
+332
+00:42:43.290 --> 00:42:48.050
+Barnabas: Oh yeah, next week call. So next week, Monday, is, Easter Monday.
+
+333
+00:42:48.630 --> 00:42:53.709
+Barnabas: I know that probably a lot of you will be taking the day off,
+
+334
+00:42:54.410 --> 00:43:02.510
+Barnabas: We would be curious whether Anyone would be interested in having the call. The default will be canceling.
+
+335
+00:43:05.240 --> 00:43:06.070
+Barnabas: Yeah.
+
+336
+00:43:14.320 --> 00:43:19.390
+Barnabas: Chad has been saying that we're gonna be skipping it, so I think we should stick to that.
+
+337
+00:43:25.600 --> 00:43:26.730
+Barnabas: Right.
+
+338
+00:43:26.940 --> 00:43:34.000
+Barnabas: Then, I guess, 2 weeks from now, in the 13th of April, is the next, All Core Devs testing call.
+
+339
+00:43:36.560 --> 00:43:43.310
+Barnabas: Yeah, and as Marius mentioned, we can do an async update on Discord, if anyone else has anything to raise.
+
+340
+00:43:43.730 --> 00:43:45.070
+Barnabas: Between that and now.
+
+341
+00:43:48.800 --> 00:43:50.749
+Barnabas: Okay, thanks everyone for coming.
+
+342
+00:43:52.600 --> 00:43:53.200
+Potuz: Bye-bye.
+
+343
+00:43:53.200 --> 00:43:53.770
+Marius Van Der Wijden (M): Bye-bye.
+
+344
+00:43:53.770 --> 00:43:54.320
+Barnabas: Whatever.
+
+345
+00:43:54.320 --> 00:43:55.310
+Marius Van Der Wijden (M): Right?
+
+346
+00:43:55.830 --> 00:43:57.509
+jochem-brouwer: Thank you, bye-bye.
+
