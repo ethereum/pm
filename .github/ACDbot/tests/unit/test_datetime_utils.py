@@ -153,6 +153,24 @@ class TestDatetimeUtils(unittest.TestCase):
                 self.assertIsNotNone(result)
                 self.assertIsInstance(result, datetime)
 
+    def test_parse_datetime_string_common_human_variants(self):
+        """Test parsing user-entered variants that should normalize to ISO."""
+        test_cases = [
+            ("Sep 16, 2025 at 16:00 UTC", datetime(2025, 9, 16, 16, 0)),
+            ("October 6th, 2025, 15:00 UTC", datetime(2025, 10, 6, 15, 0)),
+            ("March 9th 2026 15:00 UTC", datetime(2026, 3, 9, 15, 0)),
+        ]
+
+        for test_input, expected_dt in test_cases:
+            with self.subTest(test_case=test_input):
+                result = parse_datetime_string(test_input)
+                self.assertIsNotNone(result, f"Failed to parse: {test_input}")
+                self.assertEqual(result.year, expected_dt.year)
+                self.assertEqual(result.month, expected_dt.month)
+                self.assertEqual(result.day, expected_dt.day)
+                self.assertEqual(result.hour, expected_dt.hour)
+                self.assertEqual(result.minute, expected_dt.minute)
+
     def test_parse_datetime_string_iso_format(self):
         """Test parsing ISO format datetime strings."""
         test_cases = [
