@@ -9,6 +9,9 @@ import unittest
 import unittest.mock
 import sys
 import os
+import re
+import types
+from urllib.parse import urlparse, parse_qs
 
 # Add the scripts directory to the path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'scripts'))
@@ -444,7 +447,8 @@ bi-weekly
         # Test call data
         call_data = {
             "issue_number": 123,
-            "issue_title": "Test Protocol Call"
+            "issue_title": "Test Protocol Call",
+            "issue_url": "https://github.com/ethereum/pm/issues/123",
         }
 
         # Mock the mapping manager methods
@@ -486,7 +490,8 @@ bi-weekly
         # Test call data
         call_data = {
             "issue_number": 123,
-            "issue_title": "Test Protocol Call"
+            "issue_title": "Test Protocol Call",
+            "issue_url": "https://github.com/ethereum/pm/issues/123",
         }
 
         # Mock the mapping manager methods
@@ -500,6 +505,122 @@ bi-weekly
             self.assertIsNotNone(result)
             self.assertNotIn("⚠️ **Date Parsing Issue**", result)
             self.assertNotIn("could not be parsed automatically", result)
+
+    def _extract_add_link(self, comment: str) -> str:
+        match = re.search(r"\[Add to Calendar\]\(([^)]+)\)", comment)
+        self.assertIsNotNone(match)
+        return match.group(1)
+
+    def _extract_view_link(self, comment: str) -> str:
+        match = re.search(r"\[View\]\(([^)]+)\)", comment)
+        self.assertIsNotNone(match)
+        return match.group(1)
+
+    def test_generate_comprehensive_resource_comment_includes_zoom_in_calendar_payload_when_enabled(self):
+        """Test that live comment payload includes Zoom details when invite setting allows it."""
+        mock_occurrence_data = {
+            "call_series": "test-series",
+            "occurrence": {
+                "issue_number": 123,
+                "issue_title": "Test Protocol Call",
+                "start_time": "2025-04-24T14:00:00Z",
+                "duration": 60,
+                "calendar_event_id": "calendar-event-id",
+                "discourse_topic_id": "12345",
+            }
+        }
+        mock_mapping_data = {
+            "test-series": {
+                "meeting_id": "987654321",
+                "calendar_event_id": "calendar-event-id"
+            }
+        }
+        call_data = {
+            "issue_number": 123,
+            "issue_title": "Test Protocol Call",
+            "issue_url": "https://github.com/ethereum/pm/issues/123",
+            "duration": 60,
+            "display_zoom_link_in_invite": True,
+        }
+
+        fake_zoom = types.SimpleNamespace(
+            get_meeting_url_with_passcode=lambda _: 'https://zoom.us/j/987654321?pwd=secret'
+        )
+
+        with unittest.mock.patch.object(self.handler.mapping_manager, 'find_occurrence', return_value=mock_occurrence_data), \
+             unittest.mock.patch.object(self.handler.mapping_manager, 'load_mapping', return_value=mock_mapping_data), \
+             unittest.mock.patch.dict(sys.modules, {'modules.zoom': fake_zoom}):
+            result = self.handler._generate_comprehensive_resource_comment(call_data)
+
+        self.assertIsNotNone(result)
+        self.assertIn("✅ **Zoom**: [Join Meeting](https://zoom.us/j/987654321?pwd=secret)", result)
+
+        # Verify dual calendar links
+        self.assertIn("[View]", result)
+        self.assertIn("[Add to Calendar]", result)
+
+        view_link = self._extract_view_link(result)
+        view_params = parse_qs(urlparse(view_link).query)
+        self.assertEqual(view_params["mode"], ["AGENDA"])
+        self.assertEqual(view_params["dates"], ["20250424/20250425"])
+
+        add_link = self._extract_add_link(result)
+        add_params = parse_qs(urlparse(add_link).query)
+        self.assertEqual(add_params["action"], ["TEMPLATE"])
+        self.assertEqual(add_params["text"], ["Test Protocol Call"])
+        self.assertEqual(
+            add_params["details"],
+            ["Meeting: https://zoom.us/j/987654321?pwd=secret\n\nIssue: https://github.com/ethereum/pm/issues/123"],
+        )
+
+    def test_generate_comprehensive_resource_comment_omits_zoom_in_calendar_payload_when_disabled(self):
+        """Test that live comment payload omits Zoom details when invite setting disables it."""
+        mock_occurrence_data = {
+            "call_series": "test-series",
+            "occurrence": {
+                "issue_number": 123,
+                "issue_title": "Test Protocol Call",
+                "start_time": "2025-04-24T14:00:00Z",
+                "duration": 60,
+                "calendar_event_id": "calendar-event-id",
+                "discourse_topic_id": "12345",
+            }
+        }
+        mock_mapping_data = {
+            "test-series": {
+                "meeting_id": "987654321",
+                "calendar_event_id": "calendar-event-id"
+            }
+        }
+        call_data = {
+            "issue_number": 123,
+            "issue_title": "Test Protocol Call",
+            "issue_url": "https://github.com/ethereum/pm/issues/123",
+            "duration": 60,
+            "display_zoom_link_in_invite": False,
+        }
+
+        fake_zoom = types.SimpleNamespace(
+            get_meeting_url_with_passcode=lambda _: 'https://zoom.us/j/987654321?pwd=secret'
+        )
+
+        with unittest.mock.patch.object(self.handler.mapping_manager, 'find_occurrence', return_value=mock_occurrence_data), \
+             unittest.mock.patch.object(self.handler.mapping_manager, 'load_mapping', return_value=mock_mapping_data), \
+             unittest.mock.patch.dict(sys.modules, {'modules.zoom': fake_zoom}):
+            result = self.handler._generate_comprehensive_resource_comment(call_data)
+
+        self.assertIsNotNone(result)
+        self.assertIn("[View]", result)
+        self.assertIn("[Add to Calendar]", result)
+
+        add_link = self._extract_add_link(result)
+        add_params = parse_qs(urlparse(add_link).query)
+        self.assertEqual(add_params["action"], ["TEMPLATE"])
+        self.assertEqual(add_params["text"], ["Test Protocol Call"])
+        self.assertEqual(
+            add_params["details"],
+            ["Issue: https://github.com/ethereum/pm/issues/123"],
+        )
 
 
 class TestAutopilotMode(unittest.TestCase):

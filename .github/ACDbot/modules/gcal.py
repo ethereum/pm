@@ -4,10 +4,58 @@ import re
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta
+from urllib.parse import urlencode
 import base64
 import pytz
 import sys
 import calendar
+
+PROTOCOL_CALENDAR_ID = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
+
+
+def build_calendar_view_link(start_time, calendar_id=None):
+    """Build a link to view the public protocol calendar around a specific date."""
+    if not start_time:
+        return None
+    if calendar_id is None:
+        calendar_id = PROTOCOL_CALENDAR_ID
+    try:
+        dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+    except Exception:
+        return None
+    date_str = dt.strftime('%Y%m%d')
+    next_day = (dt + timedelta(days=1)).strftime('%Y%m%d')
+    params = {
+        'src': calendar_id,
+        'ctz': 'UTC',
+        'mode': 'AGENDA',
+        'dates': f'{date_str}/{next_day}',
+        'showTitle': '1',
+        'showCalendars': '0',
+        'showTabs': '0',
+        'showPrint': '0',
+        'showNav': '0',
+    }
+    return f"https://calendar.google.com/calendar/embed?{urlencode(params)}"
+
+
+def build_calendar_add_link(summary, start_time, duration_minutes, description=""):
+    """Build a Google Calendar add-event link for a specific occurrence."""
+    if not start_time:
+        return None
+    try:
+        start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+        end_dt = start_dt + timedelta(minutes=duration_minutes)
+    except Exception:
+        return None
+    params = {
+        "action": "TEMPLATE",
+        "text": summary,
+        "dates": f"{start_dt.strftime('%Y%m%dT%H%M%SZ')}/{end_dt.strftime('%Y%m%dT%H%M%SZ')}",
+    }
+    if description:
+        params["details"] = description
+    return f"https://www.google.com/calendar/render?{urlencode(params)}"
 
 
 def encode_calendar_eid(event_id, calendar_id):

@@ -17,6 +17,12 @@ def parse_datetime_string(datetime_str: str) -> Optional[datetime]:
     if not datetime_str:
         return None
 
+    datetime_str = datetime_str.strip()
+
+    # Normalize common user-entered variants before parsing them into datetimes.
+    datetime_str = re.sub(r'\s+at\s+', ', ', datetime_str, flags=re.IGNORECASE)
+    datetime_str = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', datetime_str, flags=re.IGNORECASE)
+
     # Try ISO format first (what's stored internally)
     if datetime_str.endswith('Z'):
         try:
@@ -105,6 +111,18 @@ def parse_datetime_string(datetime_str: str) -> Optional[datetime]:
     except ValueError:
         pass
 
+    # Try format without commas: "March 9 2026 15:00 UTC"
+    try:
+        return datetime.strptime(datetime_str, "%B %d %Y %H:%M UTC")
+    except ValueError:
+        pass
+
+    # Try abbreviated month without commas: "Mar 9 2026 15:00 UTC"
+    try:
+        return datetime.strptime(datetime_str, "%b %d %Y %H:%M UTC")
+    except ValueError:
+        pass
+
     # Try format with comma after day but not after year: "Feb 04, 2026 15:00 UTC"
     try:
         return datetime.strptime(datetime_str, "%B %d, %Y %H:%M UTC")
@@ -117,11 +135,9 @@ def parse_datetime_string(datetime_str: str) -> Optional[datetime]:
     except ValueError:
         pass
 
-    # Try with ordinal dates (normalize first)
+    # Try with ordinal dates in day-first form
     try:
-        ordinal_pattern = r'(\d+)(st|nd|rd|th)'
-        normalized_str = re.sub(ordinal_pattern, r'\1', datetime_str)
-        return datetime.strptime(normalized_str, "%d %B %Y, %H:%M UTC")
+        return datetime.strptime(datetime_str, "%d %B %Y, %H:%M UTC")
     except ValueError:
         pass
 
