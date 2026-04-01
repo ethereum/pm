@@ -5,6 +5,7 @@ import unittest
 import sys
 import os
 from unittest.mock import MagicMock
+from unittest.mock import patch
 from urllib.parse import urlparse, parse_qs
 
 # Mock heavy dependencies before importing gcal
@@ -46,6 +47,12 @@ class TestBuildCalendarViewLink(unittest.TestCase):
         result = build_calendar_view_link("2026-04-02T14:00:00Z", calendar_id="custom@group.calendar.google.com")
         params = parse_qs(urlparse(result).query)
         self.assertEqual(params["src"], ["custom@group.calendar.google.com"])
+
+    def test_uses_gcal_id_env_by_default(self):
+        with patch.dict(os.environ, {"GCAL_ID": "env-calendar@group.calendar.google.com"}, clear=False):
+            result = build_calendar_view_link("2026-04-02T14:00:00Z")
+        params = parse_qs(urlparse(result).query)
+        self.assertEqual(params["src"], ["env-calendar@group.calendar.google.com"])
 
     def test_minimal_chrome(self):
         result = build_calendar_view_link("2026-04-02T14:00:00Z")

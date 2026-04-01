@@ -20,7 +20,7 @@ def build_calendar_view_link(start_time, calendar_id=None):
     if not start_time:
         return None
     if calendar_id is None:
-        calendar_id = PROTOCOL_CALENDAR_ID
+        calendar_id = os.getenv("GCAL_ID", PROTOCOL_CALENDAR_ID)
     dt = parse_iso_datetime(start_time)
     if dt is None:
         return None
