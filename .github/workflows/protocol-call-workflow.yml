@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: Check Organization Membership
         id: check_org_membership
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.ORG_READ_TOKEN }}
           script: |
@@ -180,10 +180,10 @@ jobs:
     if: needs.check_membership.outputs.is_member == 'true'
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
