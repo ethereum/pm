@@ -1565,27 +1565,15 @@ The bot will automatically process your issue once you've selected a valid call 
                 comment_lines.append("❌ **Zoom**: No meeting link available")
 
             # Calendar links
-            from modules.gcal import build_calendar_view_link, build_calendar_add_link
-            view_link = build_calendar_view_link(start_time)
-
-            details_parts = [f"Issue: {call_data['issue_url']}"]
-            if call_data.get("display_zoom_link_in_invite") and zoom_url:
-                details_parts.insert(0, f"Meeting: {zoom_url}")
-            add_link = build_calendar_add_link(
-                summary=occurrence.get('issue_title', call_data['issue_title']),
+            from modules.gcal import render_calendar_comment_line
+            cal_zoom = zoom_url if call_data.get("display_zoom_link_in_invite") else None
+            comment_lines.append(render_calendar_comment_line(
                 start_time=start_time,
-                duration_minutes=occurrence.get('duration', call_data.get('duration', 60)),
-                description="\n\n".join(details_parts)
-            )
-
-            if view_link and add_link:
-                comment_lines.append(f"✅ **Calendar**: [View]({view_link}) | [Add to Calendar]({add_link})")
-            elif add_link:
-                comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({add_link})")
-            elif view_link:
-                comment_lines.append(f"✅ **Calendar**: [View]({view_link})")
-            else:
-                comment_lines.append("❌ **Calendar**: No calendar event found")
+                summary=occurrence.get('issue_title', call_data['issue_title']),
+                duration=occurrence.get('duration', call_data.get('duration', 60)),
+                issue_url=call_data['issue_url'],
+                zoom_url=cal_zoom,
+            ))
 
             # Discourse Topic
             discourse_topic_id = occurrence.get('discourse_topic_id')

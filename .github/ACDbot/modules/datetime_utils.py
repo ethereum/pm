@@ -19,16 +19,16 @@ def parse_datetime_string(datetime_str: str) -> Optional[datetime]:
 
     datetime_str = datetime_str.strip()
 
-    # Normalize common user-entered variants before parsing them into datetimes.
-    datetime_str = re.sub(r'\s+at\s+', ', ', datetime_str, flags=re.IGNORECASE)
-    datetime_str = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', datetime_str, flags=re.IGNORECASE)
-
-    # Try ISO format first (what's stored internally)
+    # Try ISO format first (what's stored internally) — skip normalization for this fast path.
     if datetime_str.endswith('Z'):
         try:
             return datetime.fromisoformat(datetime_str.replace('Z', '+00:00'))
         except ValueError:
             pass
+
+    # Normalize common user-entered variants before trying strptime formats.
+    datetime_str = re.sub(r'\s+at\s+', ', ', datetime_str, flags=re.IGNORECASE)
+    datetime_str = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', datetime_str, flags=re.IGNORECASE)
 
     # Try standard format: "April 24, 2025, 14:00 UTC"
     try:

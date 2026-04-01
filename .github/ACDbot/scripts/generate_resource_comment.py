@@ -131,21 +131,7 @@ def generate_comment(call_series, occurrence, mapping):
 
     # Calendar links
     import gcal
-    view_link = gcal.build_calendar_view_link(start_time)
-
-    details_parts = [f"Issue: {issue_url}"]
-    if zoom_url:
-        details_parts.insert(0, f"Meeting: {zoom_url}")
-    add_link = gcal.build_calendar_add_link(issue_title, start_time, duration, "\n\n".join(details_parts))
-
-    if view_link and add_link:
-        comment_lines.append(f"✅ **Calendar**: [View]({view_link}) | [Add to Calendar]({add_link})")
-    elif add_link:
-        comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({add_link})")
-    elif view_link:
-        comment_lines.append(f"✅ **Calendar**: [View]({view_link})")
-    else:
-        comment_lines.append("❌ **Calendar**: No calendar event found")
+    comment_lines.append(gcal.render_calendar_comment_line(start_time, issue_title, duration, issue_url, zoom_url))
 
     # Discourse Topic
     discourse_topic_id = occurrence.get('discourse_topic_id')

@@ -10,6 +10,8 @@ import pytz
 import sys
 import calendar
 
+from datetime_utils import parse_iso_datetime
+
 PROTOCOL_CALENDAR_ID = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
 
 
@@ -19,9 +21,8 @@ def build_calendar_view_link(start_time, calendar_id=None):
         return None
     if calendar_id is None:
         calendar_id = PROTOCOL_CALENDAR_ID
-    try:
-        dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-    except Exception:
+    dt = parse_iso_datetime(start_time)
+    if dt is None:
         return None
     date_str = dt.strftime('%Y%m%d')
     next_day = (dt + timedelta(days=1)).strftime('%Y%m%d')
@@ -43,11 +44,10 @@ def build_calendar_add_link(summary, start_time, duration_minutes, description="
     """Build a Google Calendar add-event link for a specific occurrence."""
     if not start_time:
         return None
-    try:
-        start_dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
-        end_dt = start_dt + timedelta(minutes=duration_minutes)
-    except Exception:
+    start_dt = parse_iso_datetime(start_time)
+    if start_dt is None:
         return None
+    end_dt = start_dt + timedelta(minutes=duration_minutes)
     params = {
         "action": "TEMPLATE",
         "text": summary,
@@ -56,6 +56,24 @@ def build_calendar_add_link(summary, start_time, duration_minutes, description="
     if description:
         params["details"] = description
     return f"https://www.google.com/calendar/render?{urlencode(params)}"
+
+
+def render_calendar_comment_line(start_time, summary, duration, issue_url, zoom_url=None):
+    """Build the calendar comment line with View and Add to Calendar links."""
+    view_link = build_calendar_view_link(start_time)
+
+    details_parts = [f"Issue: {issue_url}"]
+    if zoom_url:
+        details_parts.insert(0, f"Meeting: {zoom_url}")
+    add_link = build_calendar_add_link(summary, start_time, duration, "\n\n".join(details_parts))
+
+    if view_link and add_link:
+        return f"✅ **Calendar**: [View]({view_link}) | [Add to Calendar]({add_link})"
+    if add_link:
+        return f"✅ **Calendar**: [Add to Calendar]({add_link})"
+    if view_link:
+        return f"✅ **Calendar**: [View]({view_link})"
+    return "❌ **Calendar**: No calendar event found"
 
 
 def encode_calendar_eid(event_id, calendar_id):
