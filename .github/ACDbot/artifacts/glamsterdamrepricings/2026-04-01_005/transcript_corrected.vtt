@@ -1,0 +1,1118 @@
+WEBVTT
+
+1
+00:06:53.950 --> 00:06:55.380
+Maria Silva: Hello, everyone.
+
+2
+00:07:01.740 --> 00:07:03.140
+Ameziane Hamlat: What was it? No.
+
+3
+00:07:05.090 --> 00:07:05.910
+Maria Silva: Hey, hey.
+
+4
+00:07:06.170 --> 00:07:13.800
+Maria Silva: So, as always, I would suggest that we wait maybe one more minute to see if more people join, and then we can start.
+
+5
+00:07:55.800 --> 00:07:58.790
+Maria Silva: Okay, so… I don't see…
+
+6
+00:07:59.250 --> 00:08:11.240
+Maria Silva: more people joining, so maybe we can kick off. So I think the agenda today is a bit lighter, so we'll be focusing on the State Growth EIP, so AT37,
+
+7
+00:08:11.320 --> 00:08:21.460
+Maria Silva: As the other EIPs, we are still working on the latest benchmark data collection, so there are no… no, no updates there.
+
+8
+00:08:21.570 --> 00:08:30.229
+Maria Silva: so on, 1837, maybe, Spencer, if you could, maybe you and Stefan, if you could give,
+
+9
+00:08:30.410 --> 00:08:36.480
+Maria Silva: a quick update on the current status of the Ball DevNet 3, and, any
+
+10
+00:08:37.039 --> 00:08:40.630
+Maria Silva: pending things we need to figure out and discuss.
+
+11
+00:08:44.130 --> 00:08:54.440
+Stefan Starflinger: So in general, we have, I think, in the channel, 8037, been discussing, kind of, how we should progress, and…
+
+12
+00:08:54.880 --> 00:09:11.360
+Stefan Starflinger: I think we decided that Spencer is gonna make some small adjustments, and gonna release another spec change with these small adjustments. I think Erigon shared something, then I have some tests, that will be potentially added as well.
+
+13
+00:09:11.800 --> 00:09:14.359
+Stefan Starflinger: And then there is the question.
+
+14
+00:09:14.590 --> 00:09:28.069
+Stefan Starflinger: I think which will not be added, to the next spec release, with the parent, state gas refund. That's something we can discuss, but maybe Spencer, are you here?
+
+15
+00:09:28.230 --> 00:09:29.250
+Stefan Starflinger: In the car?
+
+16
+00:09:30.910 --> 00:09:36.480
+spencer: Yeah, I guess, Just to kind of relay what Stefan,
+
+17
+00:09:37.420 --> 00:09:42.130
+spencer: mentioned. I think, I mean, ideally, we wouldn't update the spec.
+
+18
+00:09:42.410 --> 00:09:47.740
+spencer: Just to get DevNet Free up and running, but I think… Because we have,
+
+19
+00:09:49.510 --> 00:09:51.230
+spencer: We have, kind of, different…
+
+20
+00:09:51.630 --> 00:09:55.690
+spencer: issues with the spec that different client teams have found, so Erigon found one.
+
+21
+00:09:55.850 --> 00:10:05.699
+spencer: And rest, fund, found more, Nether, Nethermind, Has, has one. So I think it's,
+
+22
+00:10:06.640 --> 00:10:10.279
+spencer: It makes sense to align at least these, like, kind of smaller changes, I feel like.
+
+23
+00:10:10.410 --> 00:10:16.240
+spencer: for the next release, just so that there's minimal, like, back and forth between clients, like…
+
+24
+00:10:16.480 --> 00:10:18.790
+spencer: Clients that are technically correct.
+
+25
+00:10:19.310 --> 00:10:24.810
+spencer: Than having to… Like, make a change that makes them incorrect.
+
+26
+00:10:25.710 --> 00:10:31.509
+spencer: To then revert it back in the future. So I think… Yeah, we'll…
+
+27
+00:10:31.790 --> 00:10:34.579
+spencer: Well, I'll get another test release out,
+
+28
+00:10:34.990 --> 00:10:36.480
+spencer: By the end of today, with…
+
+29
+00:10:37.000 --> 00:10:40.179
+spencer: these spec changes, I'll make it very clear what the changes are.
+
+30
+00:10:41.250 --> 00:10:44.140
+spencer: And then hopefully that can be the final…
+
+31
+00:10:44.270 --> 00:10:50.200
+spencer: DevNote-free set of spec… spec and tests, or at least the spec, I mean, we might add more tests,
+
+32
+00:10:51.270 --> 00:10:55.010
+spencer: But yeah, and then I think… For DevNet4, we can…
+
+33
+00:10:56.260 --> 00:11:03.669
+spencer: add, any other spec changes, so I think, in the… 8037 channel,
+
+34
+00:11:03.820 --> 00:11:07.270
+spencer: Yeah, there has been some discussion going on about,
+
+35
+00:11:07.750 --> 00:11:12.840
+spencer: Other spec changes, but those can be in… The next step now.
+
+36
+00:11:13.020 --> 00:11:13.690
+spencer: Yep.
+
+37
+00:11:14.800 --> 00:11:26.800
+Stefan Starflinger: I'd also like to add, that now all clients work pretty well just with themselves in the network, so only Geth, only Nimbus EL, and so on.
+
+38
+00:11:26.920 --> 00:11:44.159
+Stefan Starflinger: But if I add a guest to any of the networks with any of the other clients, there is quite the disagreement, so it… I think it makes sense to do the small changes now, like you said, Spencer. We don't necessarily want clients to do work to…
+
+39
+00:11:44.220 --> 00:11:48.710
+Stefan Starflinger: Add code that's not gonna stay anyways, and if they're not, interrupt.
+
+40
+00:11:48.970 --> 00:11:54.250
+Stefan Starflinger: If there's no interrupt yet anyways, I think we can still make that change.
+
+41
+00:11:54.460 --> 00:12:01.430
+Stefan Starflinger: But I hope that we can still target Wednesday next week to launch, that would be the goal.
+
+42
+00:12:03.810 --> 00:12:19.249
+Maria Silva: Okay, and just so… so we are clear, so what issues would remain out of scope for, ball definet 3? So, which… which open questions or the bugs that were already reported would not be included in these small changes?
+
+43
+00:12:21.730 --> 00:12:29.549
+Stefan Starflinger: Like I said, from my side, the, thing, the change to the EIP, if the…
+
+44
+00:12:31.670 --> 00:12:39.419
+Stefan Starflinger: parent, frame, if, the state gets from the parent frame, if that gets, returned or not.
+
+45
+00:12:39.710 --> 00:12:45.349
+Stefan Starflinger: And I think this change is something we should discuss here, but I don't think it will make it into the DevNet.
+
+46
+00:12:46.020 --> 00:12:50.440
+Stefan Starflinger: So, regarding the accounting, clients should…
+
+47
+00:12:50.550 --> 00:13:00.200
+Stefan Starflinger: Return from child frames, to the parent frame if there is a failure, but the parent frame, that state guy should not be returned for the definite.
+
+48
+00:13:02.050 --> 00:13:05.350
+Maria Silva: Okay, but then that would be a situation where…
+
+49
+00:13:05.900 --> 00:13:11.470
+Maria Silva: So, clients would have to change… Indefinite for their…
+
+50
+00:13:11.950 --> 00:13:15.090
+Maria Silva: Their codebase to then have that fix.
+
+51
+00:13:17.520 --> 00:13:18.570
+Stefan Starflinger: Yes
+
+52
+00:13:19.670 --> 00:13:25.870
+Stefan Starflinger: If we decide to do that, maybe we will find a reason why this is not a good idea.
+
+53
+00:13:28.160 --> 00:13:31.699
+Maria Silva: Godragon, do you want to comment on this?
+
+54
+00:13:31.880 --> 00:13:39.270
+Dragan Rakita: Yeah, I would like to say there's, like, two discussions. First one is if this is correct behavior.
+
+55
+00:13:39.570 --> 00:13:41.959
+Dragan Rakita: And I think,
+
+56
+00:13:42.740 --> 00:13:50.299
+Dragan Rakita: In general, we should… it makes sense to unify behaviors between the subcalls and the main topmost call.
+
+57
+00:13:50.450 --> 00:13:55.620
+Dragan Rakita: And second is, discussion is, should we include this inside the Devon tree?
+
+58
+00:13:56.040 --> 00:13:59.580
+Dragan Rakita: For dentistry, I think we should skip it, just like…
+
+59
+00:14:00.380 --> 00:14:07.470
+Dragan Rakita: things true, it's basically already have branch reside red, that basically make… reverts disk change.
+
+60
+00:14:07.960 --> 00:14:11.929
+Dragan Rakita: So, I would say that for the definite tree, we are fine to not include it.
+
+61
+00:14:12.960 --> 00:14:16.229
+Dragan Rakita: Just wanted to say there is, like, two discussions that we should have.
+
+62
+00:14:17.260 --> 00:14:19.110
+Maria Silva: Right, right, makes sense. So…
+
+63
+00:14:19.220 --> 00:14:27.440
+Maria Silva: So maybe we can just focus on now for the DevNet 3, and then we can open the discussion on the correctness. Okay, so…
+
+64
+00:14:27.700 --> 00:14:41.999
+Maria Silva: seems like we are all in agreement, so just doing some small changes that wouldn't have a big impact on clients, and I'm guessing Red would have to undo that logic for the…
+
+65
+00:14:42.310 --> 00:14:46.910
+Maria Silva: reservoir… Refill on the topmost frame.
+
+66
+00:14:47.230 --> 00:14:47.790
+Dragan Rakita: Yep.
+
+67
+00:14:48.160 --> 00:14:54.690
+Dragan Rakita: Just addition to mention, this is one of the three issues that I think
+
+68
+00:14:55.440 --> 00:15:03.600
+Dragan Rakita: are affecting dignitary. One… the second one is…
+
+69
+00:15:04.730 --> 00:15:14.849
+Dragan Rakita: When the init code limit is checked, the state… it's about static call, check.
+
+70
+00:15:15.050 --> 00:15:18.559
+Dragan Rakita: It is done after the state gas is consumed.
+
+71
+00:15:18.810 --> 00:15:21.330
+Dragan Rakita: So this is the second issue?
+
+72
+00:15:21.740 --> 00:15:27.650
+Dragan Rakita: And the third issue is… When there is…
+
+73
+00:15:28.080 --> 00:15:36.770
+Dragan Rakita: At the topmost call, if there is create that fails on the init code check.
+
+74
+00:15:37.070 --> 00:15:41.310
+Dragan Rakita: The state gas for the… for…
+
+75
+00:15:41.760 --> 00:15:49.049
+Dragan Rakita: State gas is still consumed for the… state gas is returned to the topmost frame.
+
+76
+00:15:49.530 --> 00:15:53.040
+Dragan Rakita: And it… it shouldn't, because it failed.
+
+77
+00:15:54.450 --> 00:16:02.980
+Dragan Rakita: In the end, the gas limit… the gas used should be the gas limit, but it is lower than that.
+
+78
+00:16:03.650 --> 00:16:06.590
+Dragan Rakita: This is one of the two tests that…
+
+79
+00:16:06.890 --> 00:16:09.510
+Dragan Rakita: We are not passing. That's, like, the third issue.
+
+80
+00:16:10.700 --> 00:16:16.420
+Maria Silva: Sorry, do you think you can explain issues 2 and 3 again? Because I didn't fully follow it.
+
+81
+00:16:16.420 --> 00:16:22.379
+Dragan Rakita: Issue… Issue 2 is basically when you do create, there is static call check.
+
+82
+00:16:22.950 --> 00:16:28.089
+Dragan Rakita: And that statical check is done after the state gas is consumed.
+
+83
+00:16:29.130 --> 00:16:33.579
+Dragan Rakita: This means on the creator, create two opcodes.
+
+84
+00:16:34.420 --> 00:16:38.949
+Dragan Rakita: If it is called in the static call context.
+
+85
+00:16:39.520 --> 00:16:43.480
+Dragan Rakita: It will still consume the state gas, and it probably shouldn't.
+
+86
+00:16:45.700 --> 00:16:51.879
+Maria Silva: Okay, and this is the… so the current spec is like that, and it's something we would have to fix.
+
+87
+00:16:52.290 --> 00:16:53.040
+Maria Silva: Down the line.
+
+88
+00:16:53.040 --> 00:16:58.310
+Dragan Rakita: that's specified in spec at all. I think that's just a bug in the spec code.
+
+89
+00:16:58.690 --> 00:17:01.570
+Dragan Rakita: It's not specified in the IP.
+
+90
+00:17:02.070 --> 00:17:05.120
+Dragan Rakita: But I think the spec has a bug there.
+
+91
+00:17:07.010 --> 00:17:14.190
+Maria Silva: And I'm sorry, Spencer, you are saying this is one of the things that would be fixed in the release you are doing today, or not?
+
+92
+00:17:15.480 --> 00:17:19.039
+spencer: Yeah, I was… I was going to add it, because it's a… I mean, it's a simple change.
+
+93
+00:17:19.410 --> 00:17:23.259
+spencer: For us, it was just a spec change, the tests are there.
+
+94
+00:17:23.800 --> 00:17:27.199
+spencer: And, the tests just need refilled with a small change.
+
+95
+00:17:27.650 --> 00:17:29.909
+spencer: If, that works for everyone.
+
+96
+00:17:33.590 --> 00:17:34.140
+Dragan Rakita: Yep.
+
+97
+00:17:34.140 --> 00:17:34.810
+Maria Silva: And so…
+
+98
+00:17:35.510 --> 00:17:48.989
+Maria Silva: Okay, so this one, essentially, clients may have to do some updates on their code, but it would already be included in Abol DevNet 3. Okay, and the sec… and the third issue, Dragon, can you go over it again?
+
+99
+00:17:50.180 --> 00:17:55.859
+Dragan Rakita: I don't know full details, but what I noticed in the tests is
+
+100
+00:17:56.370 --> 00:18:00.710
+Dragan Rakita: There is one test with gas limit of 60 million.
+
+101
+00:18:01.460 --> 00:18:06.779
+Dragan Rakita: And that test inside calls create and create2UPCODE.
+
+102
+00:18:07.260 --> 00:18:11.590
+Dragan Rakita: Those create and create duop codes fail on init code track.
+
+103
+00:18:12.180 --> 00:18:15.170
+Dragan Rakita: So the init code is more than the maximum.
+
+104
+00:18:15.840 --> 00:18:21.470
+Dragan Rakita: And I would expect For full gas limit to be consumed.
+
+105
+00:18:21.650 --> 00:18:24.660
+Dragan Rakita: But on the test, it is consuming
+
+106
+00:18:24.840 --> 00:18:27.729
+Dragan Rakita: Something like 50 million and something.
+
+107
+00:18:28.450 --> 00:18:32.570
+Dragan Rakita: The difference is, like, 100… 100,000 gas.
+
+108
+00:18:37.270 --> 00:18:37.920
+Maria Silva: Hmm.
+
+109
+00:18:39.340 --> 00:18:44.040
+Maria Silva: Okay, Ben, do you have a comment here, or is it at a different point?
+
+110
+00:18:44.280 --> 00:18:47.559
+Ben Adams: Yeah, on the… Sorry, it's… it's not about…
+
+111
+00:18:47.890 --> 00:18:51.819
+Ben Adams: Situation 3. That fills Situation 1.
+
+112
+00:18:51.980 --> 00:18:55.490
+Ben Adams: Do we have a test to confirm the… Opposite
+
+113
+00:18:55.860 --> 00:18:58.690
+Ben Adams: If that makes sense. So that we have consensus.
+
+114
+00:19:00.150 --> 00:19:02.790
+Ben Adams: A test to ensure consensus.
+
+115
+00:19:04.750 --> 00:19:09.789
+Dragan Rakita: Oh yeah, when that change is made inside the code, a lot of tests is going to fail.
+
+116
+00:19:10.780 --> 00:19:13.050
+Dragan Rakita: Not a lot, but, like, 10 to 20.
+
+117
+00:19:19.580 --> 00:19:22.160
+spencer: Yeah, I'm not… I'm not sure if we have a test.
+
+118
+00:19:22.810 --> 00:19:28.309
+spencer: But I can… I can check. I think, just in general, I,
+
+119
+00:19:29.880 --> 00:19:32.660
+spencer: The changes to the spec and the tests?
+
+120
+00:19:33.270 --> 00:19:35.810
+spencer: I… I'm going to try and align… so…
+
+121
+00:19:36.040 --> 00:19:38.990
+spencer: I'd say the issues are coming up because,
+
+122
+00:19:39.180 --> 00:19:44.609
+spencer: within the eel spec, I've added… I've added things that have not been defined in the actual
+
+123
+00:19:44.770 --> 00:19:46.320
+spencer: EIP is marked by.
+
+124
+00:19:46.870 --> 00:19:50.320
+spencer: So it's kind of like a spec issue that shouldn't really be there.
+
+125
+00:19:50.860 --> 00:19:58.029
+spencer: So I think the changes are mostly just aligning the spec with the existing EIP's repo markdown file.
+
+126
+00:19:58.680 --> 00:20:00.390
+spencer: For this next release.
+
+127
+00:20:00.980 --> 00:20:06.730
+spencer: And so I… I guess I'm proposing that any Any change that requires
+
+128
+00:20:06.950 --> 00:20:14.580
+spencer: The changes to the EIPs repo should be… moved to… Devnet 4?
+
+129
+00:20:16.030 --> 00:20:22.270
+spencer: And… the changes on our end where our spec doesn't align with the EIP's markdown.
+
+130
+00:20:22.800 --> 00:20:24.190
+spencer: And we'll be in this.
+
+131
+00:20:24.850 --> 00:20:25.969
+spencer: release.
+
+132
+00:20:28.810 --> 00:20:31.599
+Dragan Rakita: To comment on that, I, I…
+
+133
+00:20:32.270 --> 00:20:39.450
+Dragan Rakita: did one implementation of AT37, and the things that I found, basically, is when I started running tests.
+
+134
+00:20:39.700 --> 00:20:48.460
+Dragan Rakita: And I saw that my implementation doesn't… it's, like, different than the test assumed. And when I started the debugging test, I found that there is, like, inconsistencies.
+
+135
+00:20:49.200 --> 00:20:58.519
+Dragan Rakita: So, I'm not sure… because the spec was kind… the AIP wording was kind of ambiguous.
+
+136
+00:20:58.700 --> 00:21:06.150
+Dragan Rakita: On some of those… on some of those, like, terms, so I, like, interpreted it in a different way than the spec code.
+
+137
+00:21:06.800 --> 00:21:14.480
+Dragan Rakita: So I don't see it as the spec being wrong here, but spec being… Sorry.
+
+138
+00:21:14.900 --> 00:21:20.210
+Dragan Rakita: I was confused back in AIP. AIP having wrong wording, but it…
+
+139
+00:21:20.630 --> 00:21:28.389
+Dragan Rakita: In a sense, they need clarification, too, so we are sure that Everything knows what exactly expected.
+
+140
+00:21:33.520 --> 00:21:36.699
+Dragan Rakita: But yeah, I think for the sake of the…
+
+141
+00:21:36.970 --> 00:21:41.520
+Dragan Rakita: Moving forward, we can move all this clarification into DevNet form.
+
+142
+00:21:45.270 --> 00:21:54.060
+Maria Silva: Okay, and sorry, on the issue 3 again, so this is something you are saying that currently is…
+
+143
+00:21:54.280 --> 00:21:56.260
+Maria Silva: breaking indefinite 3.
+
+144
+00:21:56.420 --> 00:22:00.720
+Maria Silva: And so, we will have to essentially investigate what is happening there.
+
+145
+00:22:01.080 --> 00:22:06.699
+Maria Silva: Is this something that only happens in breadth, or is it happening on other clients as well?
+
+146
+00:22:16.790 --> 00:22:17.125
+spencer: I…
+
+147
+00:22:18.510 --> 00:22:19.210
+Dragan Rakita: dispenser.
+
+148
+00:22:19.830 --> 00:22:24.769
+spencer: I think… I think it might only be Russ. I think,
+
+149
+00:22:25.530 --> 00:22:27.650
+spencer: Yeah, do you have the test?
+
+150
+00:22:27.830 --> 00:22:29.130
+spencer: Andrew again.
+
+151
+00:22:31.110 --> 00:22:34.479
+Dragan Rakita: Let me find it, I'll be… I have turned somewhere.
+
+152
+00:22:41.390 --> 00:22:47.239
+Maria Silva: Okay, so maybe we can… Follow, this one async.
+
+153
+00:22:52.150 --> 00:22:53.540
+Maria Silva: Okay,
+
+154
+00:22:56.130 --> 00:23:05.729
+Maria Silva: maybe, so for DevNet 3, anything else we should discuss? I think, Ben, you raised the concern there, I don't know if you…
+
+155
+00:23:05.920 --> 00:23:07.770
+Maria Silva: Give a bit more thought on that.
+
+156
+00:23:09.380 --> 00:23:14.130
+Ben Adams: Yeah, so if there's changes we're delaying to DevNet 4,
+
+157
+00:23:14.550 --> 00:23:23.640
+Ben Adams: then the inverse test should be in DevNet 3, otherwise we'll have… the consensus will be a bit sloppy, and we'll have,
+
+158
+00:23:24.170 --> 00:23:26.670
+Ben Adams: People with different implementations.
+
+159
+00:23:27.370 --> 00:23:28.260
+Ben Adams: Potentially.
+
+160
+00:23:30.040 --> 00:23:41.130
+Stefan Starflinger: I don't quite follow that, because if we make a change to the EIP, for example, and then that is added to the tests.
+
+161
+00:23:41.240 --> 00:23:46.240
+Stefan Starflinger: Then we don't need to test the inverse, because we're changing the existing test, right?
+
+162
+00:23:46.840 --> 00:23:53.039
+Stefan Starflinger: Or is it just the discrepancy between the EIP and the tests that currently exist, which you're referencing?
+
+163
+00:23:53.790 --> 00:23:59.140
+Ben Adams: Yeah, so if… if we're changing the EIP in DevNet 4,
+
+164
+00:23:59.680 --> 00:24:02.099
+Ben Adams: And we should be testing for the…
+
+165
+00:24:03.410 --> 00:24:06.050
+Ben Adams: the not-changed version in DevNet 3.
+
+166
+00:24:06.940 --> 00:24:12.739
+Ben Adams: Otherwise… You know, we'll have two clients that'll decide two different things.
+
+167
+00:24:13.060 --> 00:24:14.900
+Ben Adams: If it… if there was no test.
+
+168
+00:24:15.270 --> 00:24:16.830
+Ben Adams: Enforcing a behavior.
+
+169
+00:24:17.950 --> 00:24:32.770
+Maria Silva: Yeah, I would say I'm not sure if I fully agree, so I think this would be a case where we are just saying that we will not be testing that component. So, for instance, we are not doing any tests on the dynamic
+
+170
+00:24:32.910 --> 00:24:40.880
+Maria Silva: cost per byte in DevNet 3, right? So, at this point, like, we are not targeting the DevNet to cover
+
+171
+00:24:41.020 --> 00:24:44.290
+Maria Silva: all edge cases of this EIP.
+
+172
+00:24:44.520 --> 00:24:46.870
+Maria Silva: And so I think it…
+
+173
+00:24:47.080 --> 00:24:52.760
+Maria Silva: should be fine to have, like, meeting spots, then we address on DevNet 4.
+
+174
+00:24:53.070 --> 00:24:55.830
+Maria Silva: But I may be missing something, I don't know.
+
+175
+00:24:56.000 --> 00:24:58.479
+Maria Silva: Trakhan, do you have a comment there?
+
+176
+00:24:59.440 --> 00:25:02.220
+Dragan Rakita: And the spec code…
+
+177
+00:25:02.510 --> 00:25:09.019
+Dragan Rakita: get changed. The tests generated by that new spec code are going to be changed.
+
+178
+00:25:09.470 --> 00:25:13.040
+Dragan Rakita: So, tests are already covering these cases.
+
+179
+00:25:13.150 --> 00:25:16.190
+Dragan Rakita: But the problem was that no…
+
+180
+00:25:17.030 --> 00:25:21.029
+Dragan Rakita: No client basically notices that this is not correct.
+
+181
+00:25:22.700 --> 00:25:26.860
+Dragan Rakita: I… I assume that we are a lot… a lot… that's one of discussions that I…
+
+182
+00:25:27.010 --> 00:25:30.840
+Dragan Rakita: basically, we started in the, in the Discord, and…
+
+183
+00:25:31.150 --> 00:25:38.219
+Dragan Rakita: on the Monday of code dev testing call. A lot of clients, I'm assuming, is basically using AI bots, and…
+
+184
+00:25:38.960 --> 00:25:45.599
+Dragan Rakita: Like, let's pass all the tests, and not checking should they pass that test or not.
+
+185
+00:25:47.740 --> 00:25:52.440
+Dragan Rakita: So there is, like, the tests are there, tests are covering those use cases.
+
+186
+00:25:52.660 --> 00:25:59.479
+Dragan Rakita: But because the spec code has bugs, They are basically…
+
+187
+00:26:00.140 --> 00:26:03.430
+Dragan Rakita: Outcome of those tests, basically, is wrong.
+
+188
+00:26:05.580 --> 00:26:07.670
+Dragan Rakita: So when we fix the…
+
+189
+00:26:08.120 --> 00:26:15.340
+Dragan Rakita: spec code, the test outcome is going to change, and we are testing… we are going to test the cases.
+
+190
+00:26:16.720 --> 00:26:25.279
+Dragan Rakita: I think all the tests that got failed on REVM is the way how I found those, like, changes that…
+
+191
+00:26:25.640 --> 00:26:30.399
+Dragan Rakita: And how I basically… Like, try to address them.
+
+192
+00:26:34.470 --> 00:26:42.070
+Maria Silva: Okay, sounds good. So, is there anything else for Ball Definite 3 that we need to discuss?
+
+193
+00:26:43.570 --> 00:26:48.570
+Stefan Starflinger: Yeah, I would like just to agree with what Dragon said, that…
+
+194
+00:26:49.000 --> 00:27:04.090
+Stefan Starflinger: I think it's good that clients really look at and challenge the IP itself, because I also found many points where the IP is, like, really not clear, and it's just as difficult for a client as for
+
+195
+00:27:04.090 --> 00:27:10.720
+Stefan Starflinger: the EALS implementation to really get that right, and anything that's unclear.
+
+196
+00:27:10.730 --> 00:27:17.110
+Stefan Starflinger: should be really fed back into the IEP to make it as clear as possible.
+
+197
+00:27:17.130 --> 00:27:21.979
+Stefan Starflinger: And there are just many discrepancies because it's just so unclear.
+
+198
+00:27:26.550 --> 00:27:43.509
+Maria Silva: Yeah, I think… I think that's… that's, that's a great point. So I… I would say maybe before we launch DevNet 4, we could maybe try to do, like, a full review on all the tests and the IP wording, and, make sure that,
+
+199
+00:27:43.660 --> 00:27:47.730
+Maria Silva: Everything is… is… is aligned and clarified.
+
+200
+00:27:51.730 --> 00:27:57.449
+Maria Silva: Cool. Anything else on DevNet 3?
+
+201
+00:27:59.580 --> 00:28:08.600
+spencer: Yeah, this, this sounds good to me. I think just… just want to say that I'll, I'll make it very clear what the spec changes are gonna be in the next release, and…
+
+202
+00:28:10.520 --> 00:28:20.999
+spencer: Yeah, I mean, maybe, if there's anything I'm missing in that release, just please, like, flag up quickly, or anything I've added that you think I shouldn't, also flag it up.
+
+203
+00:28:21.660 --> 00:28:22.340
+spencer: Yeah.
+
+204
+00:28:26.290 --> 00:28:27.980
+Maria Silva: Perfect, thank you, Spencer.
+
+205
+00:28:28.390 --> 00:28:30.899
+Maria Silva: Anything else?
+
+206
+00:28:37.660 --> 00:28:47.769
+Maria Silva: Okay, so should we then move to the discussion of, state gas refill on failure cases?
+
+207
+00:28:48.220 --> 00:28:52.400
+Maria Silva: Maybe I'll just add, like, from,
+
+208
+00:28:53.930 --> 00:28:59.440
+Maria Silva: from a general, like, philosophy perspective, I think the…
+
+209
+00:29:00.140 --> 00:29:02.609
+Maria Silva: What to me makes the most sense is…
+
+210
+00:29:03.060 --> 00:29:13.060
+Maria Silva: State gas should… so, state gas covers the costs of growing states, and These specifically should be…
+
+211
+00:29:13.540 --> 00:29:21.379
+Maria Silva: The… the cost of… Actually, like, renting the space in the state database.
+
+212
+00:29:21.670 --> 00:29:31.700
+Maria Silva: And not the execution or I.O. costs of in-the-moment creating that… That state.
+
+213
+00:29:31.820 --> 00:29:33.200
+Maria Silva: So…
+
+214
+00:29:34.790 --> 00:29:49.919
+Maria Silva: whenever we are splitting up the costs of each operation in state gas and regular gas, the general principle is always the burst resources, so the in-the-moment execution costs and I.O. costs go to regular gas.
+
+215
+00:29:50.150 --> 00:29:52.220
+Maria Silva: And state gas is only…
+
+216
+00:29:52.820 --> 00:30:00.530
+Maria Silva: the cost of state growth, so, like, paying the rent for using space in Ethereum's state DB.
+
+217
+00:30:00.950 --> 00:30:14.159
+Maria Silva: And, in that sense, I think a guiding principle should always be that you only pay for it if you are actually using that space, right? If you are not using that space, then
+
+218
+00:30:14.240 --> 00:30:25.539
+Maria Silva: you shouldn't pay for it. And I think this kind of, like, touches a lot of the edge cases where we kind of discuss, like, should the state gas be refunded or not?
+
+219
+00:30:26.000 --> 00:30:31.590
+Maria Silva: My… my view is that, from a general point of view, it should always be refunded.
+
+220
+00:30:31.830 --> 00:30:43.330
+Maria Silva: But I think this then enters into conflict with some behavior that we currently have in the EVM. So, for instance, the… the…
+
+221
+00:30:43.480 --> 00:30:47.440
+Maria Silva: Gaz's new account, where… it kind of…
+
+222
+00:30:47.590 --> 00:30:57.139
+Maria Silva: only tries to cover the state growth cost, because the in-the-moment I.O. cost is covered by a other parameter.
+
+223
+00:30:57.770 --> 00:31:04.480
+Maria Silva: But it's still not being refunded when… when there's a failure, so we would actually be changing
+
+224
+00:31:05.350 --> 00:31:18.390
+Maria Silva: a behavior in the EVM. Although, I would argue it seems like the correct behavior, but we need to be really careful and make sure that we are not missing anything here. But so, but this is, like, my general…
+
+225
+00:31:18.560 --> 00:31:26.770
+Maria Silva: frame when I'm thinking about this, but yeah, happy to also hear your thoughts. Johan, do you want to go next?
+
+226
+00:31:27.470 --> 00:31:46.840
+jochem-brouwer: Yes, one question on this, because I agree that from, like, a, like, how we would view these gas costs, it would make a lot of sense to refund this state cash in case that you are not creating a new account. But then we also have this similar situation for the storage keys.
+
+227
+00:31:47.190 --> 00:31:50.879
+jochem-brouwer: If you create a new storage slot, then we have the same situation, right?
+
+228
+00:31:52.140 --> 00:31:53.949
+Maria Silva: Right, I'd say, yes.
+
+229
+00:31:54.730 --> 00:31:56.399
+jochem-brouwer: Okay, okay, interesting.
+
+230
+00:31:57.890 --> 00:32:00.949
+jochem-brouwer: Yeah, I think… I think… I think…
+
+231
+00:32:01.230 --> 00:32:04.259
+jochem-brouwer: If we would apply this all in a,
+
+232
+00:32:04.710 --> 00:32:10.799
+jochem-brouwer: how do you say this? Like, in the same way for both accounts and stores, I think that makes sense.
+
+233
+00:32:10.940 --> 00:32:12.799
+jochem-brouwer: And…
+
+234
+00:32:13.250 --> 00:32:21.709
+jochem-brouwer: Then the refunds, these are, like, the normal refunds which get, applied after the transaction, right? Then you get back your gas.
+
+235
+00:32:22.020 --> 00:32:27.099
+Ben Adams: But… They're not normal refunds, are they? They're just… you didn't use.
+
+236
+00:32:27.100 --> 00:32:27.820
+Maria Silva: No.
+
+237
+00:32:28.260 --> 00:32:37.180
+Maria Silva: No, so I think, like, on accounts, the KZs, the account doesn't exist, and you are creating a new account, and then things fail.
+
+238
+00:32:37.400 --> 00:32:49.870
+Maria Silva: on S-Tor, is a bit simpler. I think Dragon made a comment on this in the channel as well, so it's… it's only the case where you go from 0 to X,
+
+239
+00:32:50.270 --> 00:32:57.590
+Maria Silva: And then something happens, and something fails. Or you go from 0 to X, and then to 0 again.
+
+240
+00:32:58.020 --> 00:33:00.680
+Maria Silva: So in these cases,
+
+241
+00:33:00.940 --> 00:33:04.050
+Maria Silva: Before the transaction, the slot didn't exist there.
+
+242
+00:33:04.200 --> 00:33:05.430
+Maria Silva: And so…
+
+243
+00:33:05.600 --> 00:33:16.830
+Maria Silva: it never occupied space in the DB, and so you shouldn't be charged for state CAS. But in the case where, at the beginning of the transaction, there was something there, so there was X,
+
+244
+00:33:16.900 --> 00:33:27.849
+Maria Silva: and you are clearing the slot, then this… nothing changes here. So you just do the normal refunds, as we are doing right now, and it has the 20%, cap.
+
+245
+00:33:33.620 --> 00:33:34.430
+jochem-brouwer: Yes. But in the.
+
+246
+00:33:34.430 --> 00:33:39.760
+Maria Silva: In this case, this transaction would never have paid for state gas anyways.
+
+247
+00:33:44.300 --> 00:33:58.300
+jochem-brouwer: Yes, so the situation I was thinking about is, like, creating a storage slot, so not deleting a storage slot, but creating one, and then applying the same logic as creating an account to creating this storage slot, because that would… that makes sense, I think.
+
+248
+00:34:00.740 --> 00:34:01.320
+Maria Silva: Yeah.
+
+249
+00:34:01.770 --> 00:34:11.270
+Maria Silva: Yeah, so I think… I think if we… if we end up doing it for the accounts, it would also make sense to do it for the… for the storage slots to make everything consistent.
+
+250
+00:34:11.690 --> 00:34:19.140
+Maria Silva: And it should apply, like, on… I think on the top post level, and also the call level.
+
+251
+00:34:19.540 --> 00:34:29.720
+Maria Silva: But again, I think the… the big point here is we are changing how the guys…
+
+252
+00:34:29.830 --> 00:34:48.350
+Maria Silva: costs, work. So this is not just going from one dimension to two dimensions, we are actually changing the behavior, and so we need to make sure that we are not opening ourselves up for any new, weird actors there. So in… yeah, again, like, in general, it makes sense, but then there's the question of
+
+253
+00:34:48.469 --> 00:34:53.199
+Maria Silva: We want to make… The change now, and can we think of any other issues?
+
+254
+00:34:53.530 --> 00:35:00.439
+Maria Silva: so yeah, I don't know if there are more, thoughts on these.
+
+255
+00:35:02.080 --> 00:35:19.149
+Dragan Rakita: I have you basically started with self-destruct, and it was, like, we already have, like… we already know that account is locally created, so self-destruct locally created account, we could, like, refund part of the gas that we know that's not going to be spent on creating an account.
+
+256
+00:35:19.650 --> 00:35:25.230
+Dragan Rakita: Yeah, it can be, like… the same behavior can be, like, applied to the storage, so it makes sense.
+
+257
+00:35:25.960 --> 00:35:35.930
+Dragan Rakita: I like that we have a reservoir when we don't, like, reimburse the ordinary gas, we are putting it in reservoir, so the…
+
+258
+00:35:36.050 --> 00:35:41.079
+Dragan Rakita: The main path of how the gas is used and how it's consumed still just stays the same.
+
+259
+00:35:41.490 --> 00:35:47.620
+Dragan Rakita: So, because of that, I'm slightly confident there are not going to be edge cases that we don't know about.
+
+260
+00:35:47.990 --> 00:35:52.149
+Dragan Rakita: But yeah, I agree with Maria that we need… we should think about it.
+
+261
+00:35:52.670 --> 00:35:53.510
+Dragan Rakita: At least.
+
+262
+00:35:53.710 --> 00:36:01.160
+Dragan Rakita: It doesn't make sense to add these, but, thinking about education is always time-consuming, and we need… yeah.
+
+263
+00:36:01.560 --> 00:36:03.249
+Dragan Rakita: To be sure that everything is okay.
+
+264
+00:36:09.640 --> 00:36:12.290
+Maria Silva: Cool, are there more… more comments on these?
+
+265
+00:36:28.600 --> 00:36:31.310
+Maria Silva: Okay, so it seems like we…
+
+266
+00:36:31.690 --> 00:36:41.179
+Maria Silva: will likely not, have a decision on this call. I think this maybe would need more eyes.
+
+267
+00:36:41.420 --> 00:36:45.170
+Maria Silva: So maybe a next step here is, like, maybe…
+
+268
+00:36:45.300 --> 00:37:04.109
+Maria Silva: we can all agree that this will be up for DevNet 4, so we won't, won't, change, or test this in the, in the current, DevNet. And in the meantime, we should probably have a better view on this. So on this point, I can…
+
+269
+00:37:04.180 --> 00:37:06.959
+Maria Silva: maybe start the discussion on the ethmos…
+
+270
+00:37:07.410 --> 00:37:12.849
+Maria Silva: on the, magician's, thread,
+
+271
+00:37:13.690 --> 00:37:25.799
+Maria Silva: And maybe list all the options, and try to be as thorough as possible. And then I'll also ask you all to take a look and chime in.
+
+272
+00:37:26.340 --> 00:37:30.160
+Maria Silva: Does that sound good?
+
+273
+00:37:36.770 --> 00:37:38.220
+Maria Silva: Okay, perfect.
+
+274
+00:37:38.490 --> 00:37:47.590
+Maria Silva: Okay, so, on that note, is there anything else we should… we should discuss?
+
+275
+00:38:10.270 --> 00:38:27.340
+Maria Silva: Okay, so if not, we can wrap up early. Yeah, as I said at the beginning, it was likely, like, a shorter… a shorter call. Thank you all for joining, and yeah, anything else, we can chat to sync in the… in the channel.
+
+276
+00:38:31.470 --> 00:38:32.870
+Maria Silva: Thank you, bye-bye.
+
+277
+00:38:33.170 --> 00:38:34.719
+jochem-brouwer: Thank you, bye-bye.
+
+278
+00:38:34.720 --> 00:38:35.810
+spencer: Thanks, guys.
+
+279
+00:38:37.360 --> 00:38:38.080
+Dragan Rakita: Bye-bye.
+

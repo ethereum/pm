@@ -1,0 +1,1702 @@
+WEBVTT
+
+1
+00:00:08.260 --> 00:00:09.409
+Antonio Sanso: But that'll be noted.
+
+2
+00:03:21.620 --> 00:03:24.199
+Antonio Sanso: Hello everyone, we'll give a couple minutes, as usual.
+
+3
+00:04:22.300 --> 00:04:25.000
+Antonio Sanso: Alright, let's start,
+
+4
+00:04:25.400 --> 00:04:32.600
+Antonio Sanso: Today's a kind of special event. We're running live from Cannes. We have, as well, a different time zone, so…
+
+5
+00:04:33.600 --> 00:04:37.770
+Antonio Sanso: More than time zone, change the time, so the call is 1 hour before then used to be.
+
+6
+00:04:38.640 --> 00:04:40.959
+Antonio Sanso: In any case, this is the…
+
+7
+00:04:41.320 --> 00:04:45.519
+Antonio Sanso: Fifth occurrence of the post-quantum transaction signature breakout room.
+
+8
+00:04:45.870 --> 00:04:49.349
+Antonio Sanso: Today, is about hardware support.
+
+9
+00:04:50.590 --> 00:04:55.009
+Antonio Sanso: And, we will have the presentation.
+
+10
+00:04:55.490 --> 00:05:00.500
+Antonio Sanso: the first one from Connor Diggin from Project 11, and it will show
+
+11
+00:05:00.930 --> 00:05:06.590
+Antonio Sanso: Some of the papers that, was presented a few weeks ago.
+
+12
+00:05:06.690 --> 00:05:13.539
+Antonio Sanso: About… key derivation… Bip32 for Lattice.
+
+13
+00:05:14.060 --> 00:05:23.710
+Antonio Sanso: And, then we'll have Yannick from, Trezor, sorry, from Ledger, talking about post-quantum signatures and hardware signals.
+
+14
+00:05:24.100 --> 00:05:26.560
+Antonio Sanso: Before to give the stage to Connor.
+
+15
+00:05:26.890 --> 00:05:29.379
+Antonio Sanso: I just want to shout out, Julio.
+
+16
+00:05:29.640 --> 00:05:31.529
+Antonio Sanso: From, Erigon.
+
+17
+00:05:31.880 --> 00:05:40.129
+Antonio Sanso: He put some, Testnet plus wallet at this, freshly… both address Daizugi.
+
+18
+00:05:40.480 --> 00:05:44.390
+Antonio Sanso: And contains some of the things we have been speaking.
+
+19
+00:05:44.650 --> 00:05:46.769
+Antonio Sanso: In the previous calls.
+
+20
+00:05:48.680 --> 00:05:53.229
+Antonio Sanso: And, so, as you can see from the screenshot, there is a…
+
+21
+00:05:53.620 --> 00:06:01.750
+Antonio Sanso: some of the algorithms we discussed, like Falcon or Dilithium, and the more recent ephemeral ECDSA for now.
+
+22
+00:06:02.040 --> 00:06:05.590
+Antonio Sanso: Probably he is working as well on some ephemeral…
+
+23
+00:06:05.860 --> 00:06:10.159
+Antonio Sanso: Hash-based signatures, let's see how it goes.
+
+24
+00:06:10.520 --> 00:06:13.980
+Antonio Sanso: And, with this, I will give the stage directly to Connor.
+
+25
+00:06:14.250 --> 00:06:16.330
+Antonio Sanso: You have about 10 minutes.
+
+26
+00:06:16.330 --> 00:06:20.200
+Conor Deegan: Great. Thanks, Antonio. I will just share my screen.
+
+27
+00:06:34.950 --> 00:06:40.809
+Conor Deegan: Sorry, to Mac. Usual Mac things, just let me rejoin the call once, give it sharing permissions to Ethereum Zoom.
+
+28
+00:06:41.640 --> 00:06:42.210
+Antonio Sanso: Correct.
+
+29
+00:07:03.010 --> 00:07:04.530
+Conor Deegan: Great, sorry about that.
+
+30
+00:07:05.910 --> 00:07:06.530
+Antonio Sanso: All good?
+
+31
+00:07:08.020 --> 00:07:12.440
+Conor Deegan: Okay, great. Hopefully, you guys can see my screen.
+
+32
+00:07:15.270 --> 00:07:16.010
+Antonio Sanso: Sure.
+
+33
+00:07:16.010 --> 00:07:22.670
+Conor Deegan: Great, great. Okay. Nice to meet you, everyone, who I haven't met. I'm Connor from Project 11, I'm a cryptographer.
+
+34
+00:07:22.770 --> 00:07:38.680
+Conor Deegan: First, Antonio, thank you for asking me to speak at this. What I want to go through today is a paper myself and my team released, I think, about 3 weeks ago at this point, which is, you know, an idea for how we can maintain BIP32 in a post-quantum setting.
+
+35
+00:07:38.970 --> 00:07:42.600
+Conor Deegan: This is gonna be a Lattice proposal, which obviously, you know.
+
+36
+00:07:42.730 --> 00:07:59.330
+Conor Deegan: Terium Foundation, and for those at Antonio's talk this morning, it's, you know, moving towards hash-based, so I think largely what I wanted to get across here is… is less around, like, specific schemes or hardness assumptions, more just general kind of a way of thinking as we migrate, you know, various infrastructure to post-quantum.
+
+37
+00:07:59.590 --> 00:08:10.649
+Conor Deegan: So, I don't think I probably have to spend a lot of time on this slide. I'm sure everyone knows what a hardware… or, sorry, a hardware… a hierarchical deterministic wallet is, but for those of you who maybe haven't read about it in a while, it is a
+
+38
+00:08:10.730 --> 00:08:15.740
+Conor Deegan: Three of key pairs from a single master seed. And one key feature of this is
+
+39
+00:08:15.770 --> 00:08:17.920
+Conor Deegan: Non-hardened derivation, or…
+
+40
+00:08:17.920 --> 00:08:36.730
+Conor Deegan: extended public keys, whereby you can derive public keys from a parent public key without the presence of the private key. This is helpful for lots of reasons. One of the biggest is you can have a server which can generate fresh receiving addresses on demand, and your private key can remain on some sort of cold store or signing device.
+
+41
+00:08:36.730 --> 00:08:49.479
+Conor Deegan: So pretty good security posture to be able to have something like extended keys. Very easy in bit32 classical setting, because addition in elliptic curves is linear, so I'm sure we've all seen this before.
+
+42
+00:08:49.760 --> 00:09:09.259
+Conor Deegan: That breaks as we move to post-quantum. I can touch briefly at the end, maybe on, you know, explicitly how it breaks for hashes, but, you know, TLDR is… it's next to near impossible. But lattices do offer maybe some ideas on how to do this, but there's two large problems that Lattice introduces that makes doing extended public keys or non-hardened derivation quite difficult.
+
+43
+00:09:10.160 --> 00:09:21.370
+Conor Deegan: The first is, during things like public key generation, a lot of the schemes do rounding to drop low-order bits to reduce some sizes, which is great. It means that we get slightly smaller public keys.
+
+44
+00:09:21.370 --> 00:09:36.640
+Conor Deegan: But rounding destroys distribution addition. My small way brain of thinking like that is, if I ask everyone to add 2.3 and 2.3 together, you'll get a different answer whether you round before or after you perform the addition. So rounding isn't stable under addition.
+
+45
+00:09:37.360 --> 00:09:46.099
+Conor Deegan: The other obstacle is noise. So, as I'm sure a lot of you have seen with lattice-based schemes, we have to introduce noise in a post-quantum setting.
+
+46
+00:09:46.210 --> 00:09:58.749
+Conor Deegan: The issue is pretty easy in that one, that as we kind of generate more and more of these from a parent public key, we add more and more noise, and so after a while, we end up with a statistically different distribution,
+
+47
+00:09:58.750 --> 00:10:12.820
+Conor Deegan: from child keys to parent keys, and one issue with that is, one key piece of bit 32 is unlinkability. I shouldn't know that one key is further up a hierarchical tree than another. We want these things to be unlinkable as much as possible.
+
+48
+00:10:13.520 --> 00:10:14.420
+Conor Deegan: So…
+
+49
+00:10:15.630 --> 00:10:26.750
+Conor Deegan: Oh, sorry, maybe just to give a big shout out to some of the prior work, these are kind of the three main, major prior works, all excellent papers. I'll share the overall R paper with you at the end of this, and these are all referenced throughout.
+
+50
+00:10:26.750 --> 00:10:36.980
+Conor Deegan: They all have different approaches to this problem. One of them, for instance, just destroys the idea of non-hardened paths. They just say, we'll only ever do hardened paths, i.e. the private key must be present.
+
+51
+00:10:37.180 --> 00:10:49.199
+Conor Deegan: One of the others uses Q-Tesla, which was a digital signing algorithm, which is now, as far as I can tell, not maintained as much. And then the last one there, which is very impressive, just the only downside is it's
+
+52
+00:10:49.200 --> 00:10:57.189
+Conor Deegan: Proofs are quite complicated. They don't reduce to standard lattice assumptions, so one of the things we wanted to do is reduce our… reduce our security proofs to standard lattice assumptions.
+
+53
+00:10:57.720 --> 00:11:08.840
+Conor Deegan: So, what do we build? We have two constructions of this HT wallet, and again, as I say, both proofs reduce to standard lattice assumptions, which is a nice assumption, because it means that we don't have to introduce new hardness assumptions.
+
+54
+00:11:08.840 --> 00:11:18.229
+Conor Deegan: Bar are the ones that come with a lot of schemes. Construction 1 is very easy. This is not new work, this is not novel work. This is a MLDSA HD wallet.
+
+55
+00:11:18.270 --> 00:11:32.729
+Conor Deegan: For the record, it doesn't need to be MLDSA. It is a very standard idea. We are just effectively copying what ED DSA chains do, like SUI and Aptos, whereby instead of the private key being the output from the,
+
+56
+00:11:32.730 --> 00:11:42.749
+Conor Deegan: tree of derivations. They treat that as a seed, and that seed further goes through a further key gen algorithm to generate private-public key pairs. So this is trivial, and we could do this with any
+
+57
+00:11:42.750 --> 00:11:56.889
+Conor Deegan: scheme that offers a key gen function, which is any scheme. So this isn't novel or new. What we do, though, in this one is we do add full unlinkability and unforgeability proofs, so that is net new work. We prove the security of this construction under standard lattice assumptions.
+
+58
+00:11:58.360 --> 00:12:15.370
+Conor Deegan: The second thing we do is the new work. So this is now the first, from what we can see, of non-hardened, i.e. extended public key, lattice-based post-quantum DIP32. We use a scheme called RaccoonG for this, and I'll get into why we use RaccoonG in a few minutes.
+
+59
+00:12:15.550 --> 00:12:34.899
+Conor Deegan: I want to be very clear on this. This is not a recommendation to deploy RaccoonG. We are not the authors of RakunG. RaccoonG didn't pass NIST's second ground of standardization, for no reason, except for the fact that NIST wanted more diversity in their algorithm selection. They didn't want lattices. It's not broken, it's still maintained, but this is not an endorsement of RakunG.
+
+60
+00:12:34.990 --> 00:12:46.930
+Conor Deegan: But the point is, we want to demonstrate that, you know, we can still maintain BIP32 full functionality, and what the criteria to do so are, i.e. what algebraic properties you might need, a scheme to support this.
+
+61
+00:12:47.920 --> 00:12:59.909
+Conor Deegan: Okay, so very quickly then, how does this work? So RaccoonG, as I say, it's a variant of Raccoon, which is, one of the post-quantum algorithms, and it was introduced in 2024 in Eurocrypt. Again, it's a great paper.
+
+62
+00:12:59.910 --> 00:13:09.669
+Conor Deegan: And the big difference between raccoon and Raccoon G is the G stands for Gaussian, so the keys are chosen rather than from a uniform distribution, they're chosen from a Gaussian distribution.
+
+63
+00:13:09.670 --> 00:13:12.290
+Conor Deegan: Which, I'll explain why that's helpful in 2 seconds.
+
+64
+00:13:12.420 --> 00:13:19.859
+Conor Deegan: So, how do we get over the first obstacle? So, I mentioned two obstacles a few minutes ago. There was rounding, and there is noise. Sorry, someone's calling me.
+
+65
+00:13:20.850 --> 00:13:39.910
+Conor Deegan: there is rounding, and there is noise. So, the rounding is pretty easy. How do we get over rounding? Well, we publish the full unrounded public key. This does mean that we end up with slightly larger public keys, but it means we can do stable addition. So, again, this could be done with any scheme. You know, we could go into Dilithium, MLDSA, whatever it might be, and we could pull out the full unrounded public key.
+
+66
+00:13:40.530 --> 00:13:51.820
+Conor Deegan: Obstacle 2 is Gaussians have a nice property that the sum of independent Gaussians remains Gaussian. So this means that derived child… children key pairs, child key pairs, rather, sorry.
+
+67
+00:13:51.820 --> 00:14:05.529
+Conor Deegan: remain statistically unlinkable to parents, because some of their distribution remains Gaussian. That is not the case for uniform distribution. If you add two uniform distributions, you end up with more of, like, a pyramodal, style distribution, so you'll be able to tell that these things are
+
+68
+00:14:05.530 --> 00:14:16.180
+Conor Deegan: the addition, i.e, they're further down the hierarchical keychain. But Gaussians are… remain Gaussian under addition, which is… which is quite a nice property. So any… basically what this means is any…
+
+69
+00:14:16.720 --> 00:14:36.249
+Conor Deegan: post-quantum scheme that uses Gaussian distributions, you know, this property could be… could be plausible. One scheme that was interesting was dilithium G, but dilithium G, which is dilithium with Gaussian, was actually removed formally due to… due to some other errors and bugs in the paper, so Raccoon G was the… the scheme we decided to use.
+
+70
+00:14:36.750 --> 00:14:53.140
+Conor Deegan: For those of you interested, that's effectively how public and private key derivation work. I have a GitHub and a Rust implementation at the end that I'll share, which will make this more interesting. But this is effectively how we can do public key only derivation, and then the private key can then retroactively go and make the same key pair for the signing event.
+
+71
+00:14:55.030 --> 00:15:11.910
+Conor Deegan: As I said, one of the core things we wanted to do here was reduce all of our security to standard lattice assumptions, so that's what we did. There's largely two important assumptions we need to have. That's unlinkability and unforgeability. So, as I said, derived public keys must be indistinguishable from
+
+72
+00:15:12.000 --> 00:15:18.169
+Conor Deegan: parent public keys. And we basically have a proof,
+
+73
+00:15:18.170 --> 00:15:26.580
+Conor Deegan: through a cryptographic game, that up to a certain depth, this is true. And that depth, by the way, is, like, something crazy. I think it was, like, I think it's, like, half a million.
+
+74
+00:15:26.580 --> 00:15:43.310
+Conor Deegan: child keys, which is obviously ridiculous. I don't think any wallet's going to really get up that high, especially because BIP44, which is the most common use, like, implementation of BIP32, which is still using Ethereum today, really only goes two levels deep with non-hardened paths. So, we can say up to a million, it's still unlinkable.
+
+75
+00:15:43.380 --> 00:16:02.480
+Conor Deegan: in, like, almost all cases, it only ever gets two levels deep anyway, so they're completely uninkable at that point. And then unfortunability, obviously, you know, crucial for any sort of key derivation scheme. And again, we reduce our entire assumption to the base underlying scheme. So the re-randomization is linear, so we can effectively
+
+76
+00:16:02.540 --> 00:16:12.050
+Conor Deegan: remove that re-randomization step, and then the entire unforgeability proof just reduces to the unforgeability of the underlying scheme, which in Rakun G's case, is sound.
+
+77
+00:16:13.570 --> 00:16:20.159
+Conor Deegan: Yeah, I kind of said that already, so I don't need to go into this. What's the big downside? Well, there's… there's loads. So first is…
+
+78
+00:16:20.310 --> 00:16:33.149
+Conor Deegan: this is lattice-based, you know, hey, we, Antonio, gave a great talk this morning, that with a kind of traction, you know, there's gonna be people who probably end up using lattices, you know, whether or not that's the kind of main decision from
+
+79
+00:16:33.340 --> 00:16:48.530
+Conor Deegan: from others, but that's the first big trade-off. The second major trade-off is its size. I mean, here we're, you know, look at these sizes. They're pretty, pretty nasty. I don't for a second think that this is something that we should be deploying today, but I do think it's an investing step forward.
+
+80
+00:16:50.340 --> 00:16:51.940
+Conor Deegan: What? Do…
+
+81
+00:16:53.910 --> 00:17:00.650
+Conor Deegan: Oh, that's from the previous… that should be on the previous slide. Apologies, I think. And then, as I said, this is not a… not a, you know, endorsement for Kunji.
+
+82
+00:17:01.160 --> 00:17:05.459
+Conor Deegan: This is kind of, I guess, the more interesting point. This is my…
+
+83
+00:17:05.609 --> 00:17:17.999
+Conor Deegan: penultimate slide, but, you know, I think one thing we kind of all still talk about is, you know, which schemes should we be using? I think the next phase we need to get to very quickly, is
+
+84
+00:17:18.270 --> 00:17:23.050
+Conor Deegan: ecosystem parity from previous, you know, from the pre-quantum world, and…
+
+85
+00:17:23.160 --> 00:17:41.899
+Conor Deegan: This is non-trivial. You know, electric curves gave us such beautiful structures that we could do a lot of things with. As we all know on these calls, that a lot of that disappears quite quickly with post-quantum. You know, we think this is one example of an area where we may want to maintain feature parity. Maybe we don't. Maybe we can say we can throw it out.
+
+86
+00:17:41.920 --> 00:17:57.319
+Conor Deegan: But I think a big push for us, and for me personally, in terms of the work I do, is how can we maintain, you know, infrastructure-level parity, despite changing these new schemes out underneath the hood? And that might mean rethinking how the schemes work, but ultimately maybe offer the same API, or something like this.
+
+87
+00:17:57.390 --> 00:18:01.520
+Conor Deegan: So that's kind of the bigger point of why this work exists.
+
+88
+00:18:01.800 --> 00:18:13.349
+Conor Deegan: hey, for… for HD wallets, maybe we can use RakunG, and maybe that solves the problem. I think there's still a lot of… plenty more work to do, but I think it's a cool start. Would love for people to tear apart the paper, play with the code.
+
+89
+00:18:13.620 --> 00:18:17.910
+Conor Deegan: Tell us, you know, where we could make it better, or fork it off and do something cooler.
+
+90
+00:18:18.090 --> 00:18:31.720
+Conor Deegan: And that's it. As I said, there's some Rust code there. I don't like QR codes, because I don't scan them, so I didn't put a QR code in, but I will share these links in the chat. There's some Rust code there, there's the paper there. Thank you very much.
+
+91
+00:18:32.870 --> 00:18:46.809
+Antonio Sanso: Thanks a lot, Connor. I have actually two questions myself, I didn't check in the chat, but I have two questions. One is, like, it's about the key derivation. I agree with you that you say 500 million? How many derivations?
+
+92
+00:18:46.810 --> 00:18:48.100
+Conor Deegan: Yeah, yeah, yeah.
+
+93
+00:18:48.100 --> 00:18:57.929
+Antonio Sanso: I was actually wondering, just, like, out of curiosity, you probably have seen today at my presentation, the people were… I presented this, ephemeral
+
+94
+00:18:58.210 --> 00:19:11.850
+Antonio Sanso: Yes. Mode, that in theory works with any construction, right? I mean, will be possible to derive ephemerally from the seed, one public after the other with your way? Up to 500 million?
+
+95
+00:19:12.640 --> 00:19:18.169
+Conor Deegan: Yeah, absolutely. So, and I know that some of the folks who… who presented that ephemeral,
+
+96
+00:19:18.360 --> 00:19:36.449
+Conor Deegan: on the call last week were there today and are here on this call, which, by the way, as me and Antonio caught up earlier, I think it's a… it's a really cool construction. This works absolutely alongside that. The ephemeral stuff, you know, you could probably take us… take it even further and do more interesting things because of the fact that we… we're kind of guaranteeing ephemeralness.
+
+97
+00:19:36.450 --> 00:19:40.240
+Conor Deegan: So if we can remove even some of the constraints of how deep it needs to go.
+
+98
+00:19:40.520 --> 00:20:00.279
+Conor Deegan: and actually just generate fresh key pairs. But I think to answer the question directly, Antonio, this would absolutely work alongside some sort of ephemeral scheme, where you end up with a post-quantum, stateless, reusable scheme, even in an ephemeral setting, which can be helpful, because, you know, one, obviously the drawback to the ephemeral key solution is
+
+99
+00:20:00.280 --> 00:20:12.660
+Conor Deegan: you know, any sort of errors require possibly signing again, which maybe requires a few time signature, whereas something like this would be fully stateless, so you could just retry, you know, unlimited times, and the security problem won't be, yeah, won't be.
+
+100
+00:20:12.660 --> 00:20:13.100
+Antonio Sanso: Excite.
+
+101
+00:20:13.100 --> 00:20:14.620
+Conor Deegan: You know, you won't be leaking key material.
+
+102
+00:20:15.180 --> 00:20:17.130
+Antonio Sanso: Like, for elliptic curve, basically.
+
+103
+00:20:17.130 --> 00:20:18.689
+Conor Deegan: It's exactly the same.
+
+104
+00:20:18.930 --> 00:20:20.990
+Antonio Sanso: Right. And the second question is, like.
+
+105
+00:20:21.270 --> 00:20:28.810
+Antonio Sanso: How… and I already answered it before, but what is the chance you can replicate this for… Hashbase signal.
+
+106
+00:20:28.810 --> 00:20:29.809
+Conor Deegan: Yeah, right? Yeah.
+
+107
+00:20:29.940 --> 00:20:37.959
+Conor Deegan: It's… I think it's zero. I, I, I spent, a long time staring at a wall, trying to think about this.
+
+108
+00:20:37.960 --> 00:20:57.349
+Conor Deegan: you really have to go outside the box, you know, doing anything naive doesn't work, just given the way that, you know, there is no concept of adding, you know, two hashes together, and then getting the pre-image, you know, of the second, you know, of the child hash. You'd have to, you know, if we had Grover's algorithm, we could do it, which would be fun, but without that, there just is no way. So right now.
+
+109
+00:20:57.350 --> 00:21:01.649
+Antonio Sanso: It's a post-post quantum algorithm, basically. Yeah, yeah.
+
+110
+00:21:01.650 --> 00:21:16.280
+Conor Deegan: I think right now it'd be a post-quantum only. Yeah, from what we've seen anyway, there's no nice way of doing it all with hashes. The best way is really bad, and it's probably the only way, is for the signing device to probably batch generate
+
+111
+00:21:16.570 --> 00:21:25.979
+Conor Deegan: a couple of thousand, you know, say, key… key pairs, and then only give… send the public keys out. But I'm sure when we talk to the… we've actually spoke to
+
+112
+00:21:25.980 --> 00:21:37.059
+Conor Deegan: both Ledger and Trezor about this problem, and I know Ledger's about to speak now. But obviously the signing device generating, you know, say, even a thousand hash-based key pairs.
+
+113
+00:21:37.060 --> 00:21:39.250
+Conor Deegan: And then only sending the public key
+
+114
+00:21:39.300 --> 00:21:50.979
+Conor Deegan: you know, all the public keys out to, say, the hot device, like the laptop, you know, that's still obviously a challenge. And then every time you want to refresh your batch, you have to go and plug your, you know, get back onto your signing device and ask for a new batch of keys.
+
+115
+00:21:51.510 --> 00:21:53.969
+Matteo Vicari: Sorry for interruption, but
+
+116
+00:21:54.180 --> 00:22:03.459
+Matteo Vicari: For, one-time signature, using, this key, the key is more light, and it can generate more faster.
+
+117
+00:22:03.730 --> 00:22:14.050
+Matteo Vicari: And, in… in this… using one-time seniors can help, the hardware device to generate more keywords, and then try to have…
+
+118
+00:22:14.230 --> 00:22:18.560
+Matteo Vicari: the same effect of the femoral key using just one time signature.
+
+119
+00:22:19.140 --> 00:22:27.210
+Conor Deegan: Yeah, absolutely. Something like a one-time signature, which is… the key then is the ops, I mean, the benchmarking ops for those, it's such a light operation.
+
+120
+00:22:27.210 --> 00:22:39.959
+Conor Deegan: And that's where I think it would be better to actually probably use a smaller, you know, one-time signature or a few-time signature, because if the idea is we want to keep everything ephemeral, we might as well go with a very light algorithm choice, like a WinterNets or, you know, whatever, you know.
+
+121
+00:22:39.960 --> 00:22:40.940
+Matteo Vicari: Yeah, yeah.
+
+122
+00:22:41.690 --> 00:22:42.219
+Conor Deegan: completely agree.
+
+123
+00:22:42.220 --> 00:22:43.020
+Matteo Vicari: Dude, it's…
+
+124
+00:22:43.670 --> 00:22:57.559
+Matteo Vicari: Okay. And there is some BIP that can help to, because for all we can generate, we try to have a prototype for working this. We start using B44,
+
+125
+00:22:57.560 --> 00:23:08.669
+Matteo Vicari: And, use the, like, the seed of the B44 and all the key, and then, derivate the one-time signal from the,
+
+126
+00:23:08.710 --> 00:23:09.610
+Matteo Vicari: Ayy.
+
+127
+00:23:09.670 --> 00:23:12.180
+Matteo Vicari: B44, key parts.
+
+128
+00:23:12.510 --> 00:23:16.680
+Matteo Vicari: And actually, something can be done, or…
+
+129
+00:23:17.180 --> 00:23:23.190
+Conor Deegan: Well, actually, I would… maybe we can… I'm not sure if I'm here in Cannes, and we can maybe chat…
+
+130
+00:23:23.190 --> 00:23:24.910
+Matteo Vicari: We can chat, yeah, yeah.
+
+131
+00:23:24.910 --> 00:23:33.680
+Conor Deegan: Yeah, BIP85 is the short answer of something that we can look at, which we've used extensively, and I've done a lot of work on. So BIP85 might be another thing that we can talk about.
+
+132
+00:23:34.080 --> 00:23:39.860
+Antonio Sanso: If you guys look at… give a look at this here in Cannes together, it will be, like, amazing. Like, incredible.
+
+133
+00:23:39.860 --> 00:23:44.210
+Conor Deegan: Yeah, while we're here, we might as well, you know, have these So, no, definitely, I…
+
+134
+00:23:44.210 --> 00:23:46.670
+Matteo Vicari: We are in their corner food now.
+
+135
+00:23:47.010 --> 00:23:50.260
+Conor Deegan: Oh, nice! I just ran back to my hotel, but I'll come straight back over here.
+
+136
+00:23:50.260 --> 00:23:53.910
+Stefano Gogioso: I'd like to also join if you're having this discussion.
+
+137
+00:23:54.170 --> 00:23:54.730
+Conor Deegan: either.
+
+138
+00:23:54.730 --> 00:23:55.490
+Stefano Gogioso: I'm in the same place.
+
+139
+00:23:55.490 --> 00:23:56.100
+Conor Deegan: How are ya?
+
+140
+00:23:56.320 --> 00:23:57.910
+Matteo Vicari: You're all together.
+
+141
+00:23:57.910 --> 00:23:58.969
+Stefano Gogioso: places, everybody else.
+
+142
+00:23:59.780 --> 00:24:03.380
+Conor Deegan: Fantastic. All right, well, I'll come hang out with you guys after this.
+
+143
+00:24:04.540 --> 00:24:11.760
+Antonio Sanso: So, next is, Yannick. Yannick, I don't know if you're in Cannes as well, but, I mean, in case you just… you… welcome to join.
+
+144
+00:24:12.100 --> 00:24:12.950
+Yannick Seurin (Ledger): No.
+
+145
+00:24:12.950 --> 00:24:13.320
+Antonio Sanso: And.
+
+146
+00:24:13.320 --> 00:24:15.309
+Yannick Seurin (Ledger): Unfortunately, everything in Paris.
+
+147
+00:24:15.310 --> 00:24:16.480
+Antonio Sanso: Okay.
+
+148
+00:24:16.480 --> 00:24:17.290
+Yannick Seurin (Ledger): Can you hear me well?
+
+149
+00:24:17.970 --> 00:24:22.710
+Antonio Sanso: Yeah, yes, yes, stage is yours. Thanks a lot for accepting the invite, and Nick.
+
+150
+00:24:23.350 --> 00:24:27.790
+Yannick Seurin (Ledger): Yeah, sure. Thanks to you, Antonio. Let me share my screen.
+
+151
+00:24:48.110 --> 00:24:51.349
+Yannick Seurin (Ledger): Can you see the slides? Can you see the slides well?
+
+152
+00:24:51.350 --> 00:24:53.820
+Antonio Sanso: I mean, yes, now, now yes, perfectly.
+
+153
+00:24:54.080 --> 00:24:54.790
+Yannick Seurin (Ledger): Okay.
+
+154
+00:24:59.740 --> 00:25:19.610
+Yannick Seurin (Ledger): Okay, so thank you, Antonio, for inviting us to speak here today. So, I'm Yannick, and together with Alain, we work at the security team at Ledger, more commonly called the Ledger Dungeon, and today we will speak about the challenges of implementing
+
+155
+00:25:19.820 --> 00:25:23.459
+Yannick Seurin (Ledger): Post-quantum, signatures on hardware sinus.
+
+156
+00:25:24.110 --> 00:25:38.389
+Yannick Seurin (Ledger): And before starting, let me precise that what we call hardware signers is what we used to call hardware wallets, but we recently decided to change the wording a bit in order to make clear what these devices do, namely
+
+157
+00:25:38.610 --> 00:25:45.940
+Yannick Seurin (Ledger): hold securely your secret keys and allow you to sign transactions. And it was causing a bit of confusion, because
+
+158
+00:25:46.120 --> 00:25:57.190
+Yannick Seurin (Ledger): These devices have to be used with a piece of software which is running on your laptop or your mobile phone, and people often confuse the role of the device and the role of the software.
+
+159
+00:25:57.280 --> 00:26:15.379
+Yannick Seurin (Ledger): Which is to manage your accounts, and so on. So, to clarify things, we renamed hardware wallets to Hardware Signers, and the piece of software which we use at Ledger, which was called before Ledger Live, is now called Ledger Wallets. So, I think it makes things a bit more clear.
+
+160
+00:26:16.040 --> 00:26:32.620
+Yannick Seurin (Ledger): So, first, let me, recall about what… briefly recap what the current situation is. So, the blockchain landscape today is… that is, before the quantum threat started to loom, is pretty homogeneous.
+
+161
+00:26:32.640 --> 00:26:36.869
+Yannick Seurin (Ledger): Every blockchain is relying on elliptic cryptography.
+
+162
+00:26:36.960 --> 00:26:51.580
+Yannick Seurin (Ledger): Mostly based on the same curves, like P26K1, and mostly use the ECDSA signature scheme, or variants like Schnor or at DSA. And this…
+
+163
+00:26:51.580 --> 00:26:58.999
+Antonio Sanso: Yeah, Nick, sorry, I don't know if you want to change the slide. Okay, yeah, I think you were… Okay, now it's better, yeah, sorry, sorry.
+
+164
+00:26:59.000 --> 00:26:59.720
+Yannick Seurin (Ledger): No, you see what…
+
+165
+00:26:59.720 --> 00:27:02.360
+Antonio Sanso: But I know… I know they said you were on the wrong slide, thank you.
+
+166
+00:27:02.870 --> 00:27:06.909
+Yannick Seurin (Ledger): Okay, now you see the good slide, nice.
+
+167
+00:27:07.750 --> 00:27:11.400
+Yannick Seurin (Ledger): So, this allowed a large blockchain support in hardware.
+
+168
+00:27:11.830 --> 00:27:13.320
+Yannick Seurin (Ledger): in the hall to assign us.
+
+169
+00:27:14.720 --> 00:27:32.130
+Yannick Seurin (Ledger): But now, with the threat of cryptographic… with the threat of quantum computers, we need to move to post-quantum signature seams. Unfortunately, the NIST competition for post-quantum signatures did not really target constrained platforms. The primary focus was rather to secure
+
+170
+00:27:32.270 --> 00:27:45.160
+Yannick Seurin (Ledger): the internet traffic, let's say. And because of that, none of the current standards that we have, that is MLGSA, SLHDSA, and Falcon, soon to become the FNDSA standard.
+
+171
+00:27:45.390 --> 00:27:48.550
+Yannick Seurin (Ledger): None of these standards is really hardware friendly.
+
+172
+00:27:48.910 --> 00:28:07.980
+Yannick Seurin (Ledger): So, this doesn't mean that it's impossible to implement them in constrained platforms, but compared to elliptic curve cryptography, which was very efficient in hardware and also pretty easy to mask and to protect against physical attacks, the situation is radically different with these new standards.
+
+173
+00:28:08.700 --> 00:28:14.600
+Yannick Seurin (Ledger): So… Let me… prudent,
+
+174
+00:28:15.860 --> 00:28:19.410
+Yannick Seurin (Ledger): The architecture of our hardware signals.
+
+175
+00:28:20.150 --> 00:28:30.430
+Yannick Seurin (Ledger): Before that, let me precisely that this architecture is specific to Ledger devices, and other vendors have slightly different architectures, but the constraints will be pretty similar.
+
+176
+00:28:30.670 --> 00:28:31.859
+Yannick Seurin (Ledger): between vendors, I think.
+
+177
+00:28:33.290 --> 00:28:37.600
+Yannick Seurin (Ledger): So, our signers rely on two chips.
+
+178
+00:28:37.980 --> 00:28:41.139
+Yannick Seurin (Ledger): the MCU, which is, STM32.
+
+179
+00:28:41.350 --> 00:28:43.410
+Yannick Seurin (Ledger): And… and a secure limit.
+
+180
+00:28:43.450 --> 00:28:53.909
+Yannick Seurin (Ledger): And the difference between the two chips is that the NCU is rather high-end, but it is also much less secure against physical attacks. On the other hand, the secure element is
+
+181
+00:28:53.910 --> 00:29:04.479
+Yannick Seurin (Ledger): more constrained in terms of memory and clock frequency and so on, but it's also much more secure against physical attacks. And the way we use these two chips is that
+
+182
+00:29:04.690 --> 00:29:09.920
+Yannick Seurin (Ledger): really, the MCU, we'll only do, dumb things.
+
+183
+00:29:10.060 --> 00:29:17.430
+Yannick Seurin (Ledger): Namely, it will only be used as a kind of footer between the secure element and the peripherals, like USB, Bluetooth, and so on.
+
+184
+00:29:19.640 --> 00:29:34.410
+Yannick Seurin (Ledger): And because since the MCU is not very secure, we don't want to have any critical logic or any secrets inside the MCU. So, all the critical operations will be done in the secure element, and in particular, all of the secrets
+
+185
+00:29:34.730 --> 00:29:40.489
+Yannick Seurin (Ledger): are stored in the secure element, and never leave the secure element when used to sign transactions.
+
+186
+00:29:40.730 --> 00:29:50.469
+Yannick Seurin (Ledger): And so all the applications, like the Bitcoin application, the Ethereum application, any other application running on the device, will run inside the CQ element.
+
+187
+00:29:51.240 --> 00:29:55.770
+Yannick Seurin (Ledger): There is a mechanism of application isolation based on,
+
+188
+00:29:56.010 --> 00:30:04.940
+Yannick Seurin (Ledger): ARM memory protection unit, and in particular, each application is restricted to its own memory region in the SE memory.
+
+189
+00:30:06.440 --> 00:30:11.830
+Yannick Seurin (Ledger): Also, the device is restricted to a single task model, where only one application can run at a time.
+
+190
+00:30:12.660 --> 00:30:25.220
+Yannick Seurin (Ledger): And the SE also provides a cryptographic accelerator, providing hardware acceleration for, for example, AES or elliptic curve operations. And in the future, as we will see, some post-quantum
+
+191
+00:30:25.740 --> 00:30:26.820
+Yannick Seurin (Ledger): signatures.
+
+192
+00:30:29.060 --> 00:30:35.570
+Yannick Seurin (Ledger): So, no, let me… show you how, constrained these CQ elements are. So…
+
+193
+00:30:35.670 --> 00:30:45.700
+Yannick Seurin (Ledger): Here is the range of devices that are used, of secure elements that are used by our devices. As you can see, the very first device
+
+194
+00:30:45.970 --> 00:30:50.420
+Yannick Seurin (Ledger): Had a very low, amount of RAM, 10 kilobytes.
+
+195
+00:30:52.290 --> 00:30:59.539
+Yannick Seurin (Ledger): The next generation was a bit better, and the current generation of devices, which rely on the ST33,
+
+196
+00:30:59.880 --> 00:31:12.989
+Yannick Seurin (Ledger): have 1.5 megabytes of non-volatile memory, 64 kilobytes of RAM with 2KB of cache, and have a frequency of 70 MHz.
+
+197
+00:31:14.650 --> 00:31:18.600
+Yannick Seurin (Ledger): So, as we can see, the amount of RAM is pretty scarce.
+
+198
+00:31:19.320 --> 00:31:27.349
+Yannick Seurin (Ledger): And given that post-conterm signature schemes tend to have a rather large RAM footprint, this will be,
+
+199
+00:31:27.540 --> 00:31:33.200
+Yannick Seurin (Ledger): a problem, as we will see. And also, the clock frequency is not that high, and for schemes like
+
+200
+00:31:33.610 --> 00:31:42.039
+Yannick Seurin (Ledger): SLH GSA, which require, a lot of hash computations, for example. The time to compute a signature
+
+201
+00:31:42.350 --> 00:31:44.330
+Yannick Seurin (Ledger): Will be very large, as we will see.
+
+202
+00:31:46.600 --> 00:31:51.080
+Yannick Seurin (Ledger): So as I said, the, ST33 provides
+
+203
+00:31:51.440 --> 00:31:55.670
+Yannick Seurin (Ledger): a number of things, like hardware acceleration for AES, and,
+
+204
+00:31:55.940 --> 00:32:03.510
+Yannick Seurin (Ledger): A coprocessor for elliptic curve operations. And all this was nice up to now, because it enabled
+
+205
+00:32:03.900 --> 00:32:11.050
+Yannick Seurin (Ledger): To, efficiently and securely implement all of the pre-contem cryptography you might want to use, like…
+
+206
+00:32:11.240 --> 00:32:18.530
+Yannick Seurin (Ledger): ACDSC or SNO on SECP256K1 or other curves, even pairing-based cryptography.
+
+207
+00:32:19.070 --> 00:32:21.380
+Yannick Seurin (Ledger): DFLMAN-based secure channel protocols.
+
+208
+00:32:24.010 --> 00:32:28.870
+Yannick Seurin (Ledger): So, this is the current situation, and now I will,
+
+209
+00:32:29.920 --> 00:32:35.490
+Yannick Seurin (Ledger): give the stage to Alan to prevent the preliminary benchmarks we did with,
+
+210
+00:32:35.840 --> 00:32:40.080
+Yannick Seurin (Ledger): post-quantum standards running on the ST33.
+
+211
+00:32:40.820 --> 00:32:41.540
+Yannick Seurin (Ledger): Hello?
+
+212
+00:32:42.370 --> 00:32:46.419
+Alain MAGAZIN (LEDGER): Yes, thank you, Annik. Hello, everyone. So…
+
+213
+00:32:46.620 --> 00:32:53.710
+Alain MAGAZIN (LEDGER): The goal of this project of preliminary benchmarking was, really to take the… the…
+
+214
+00:32:54.270 --> 00:32:59.410
+Alain MAGAZIN (LEDGER): The plain implementations of the three algorithms that we studied.
+
+215
+00:32:59.900 --> 00:33:13.670
+Alain MAGAZIN (LEDGER): not try and by ourselves implement anything, but really see what's out there and what can be done on our devices. The setup used is a bare metal secure element.
+
+216
+00:33:13.890 --> 00:33:18.930
+Alain MAGAZIN (LEDGER): Which is important, because that means there's no Ledger operating system running on it.
+
+217
+00:33:19.110 --> 00:33:25.100
+Alain MAGAZIN (LEDGER): And as someone mentioned in the chat, I just saw it, there is a reserved part of the RAM
+
+218
+00:33:25.150 --> 00:33:39.400
+Alain MAGAZIN (LEDGER): that is for the Ledger operating system when it's actually installed, and it's about 25 kilobytes of RAM that is already being consumed by the operating system. So in our case, we wanted to try and run,
+
+219
+00:33:39.550 --> 00:33:51.309
+Alain MAGAZIN (LEDGER): Most algorithms… the most algorithms that we could, and therefore we did it on bare metal, but there is this additional constraint, that we have to take into account in a real-world application.
+
+220
+00:33:51.510 --> 00:33:54.000
+Alain MAGAZIN (LEDGER): So we start off with Falcon.
+
+221
+00:33:54.250 --> 00:34:04.810
+Alain MAGAZIN (LEDGER): We are, using here the C implementation, that has some optimization. That is an implementation from one of the authors of Falcon.
+
+222
+00:34:04.960 --> 00:34:09.130
+Alain MAGAZIN (LEDGER): The main thing here to see… is,
+
+223
+00:34:09.690 --> 00:34:14.929
+Alain MAGAZIN (LEDGER): the memory constraint for Falcon, right? So we have a high memory footprint.
+
+224
+00:34:15.040 --> 00:34:19.320
+Alain MAGAZIN (LEDGER): Already, we see that on the Falcon 512 version.
+
+225
+00:34:19.380 --> 00:34:36.720
+Alain MAGAZIN (LEDGER): The signing operation will barely fit in if we add the ledger operating system to the mix, so that means we are already touching on the possibilities of our current devices, and for the higher security version, it doesn't run even on bare metal.
+
+226
+00:34:37.000 --> 00:34:42.400
+Alain MAGAZIN (LEDGER): The advantages, on the other hand, of Falcon are somewhat…
+
+227
+00:34:42.610 --> 00:34:47.039
+Alain MAGAZIN (LEDGER): Smaller object sizes, whether it's keys or signatures, and…
+
+228
+00:34:47.190 --> 00:35:02.260
+Alain MAGAZIN (LEDGER): we saw a speed that is actually not too bad from what we expected, because, as you may know, Falcon's main problem for embedded systems is the extensive use of floating-point operations.
+
+229
+00:35:02.430 --> 00:35:10.470
+Alain MAGAZIN (LEDGER): Which are not possible to implement, as is in FPUs, because they don't exist in our embedded systems.
+
+230
+00:35:10.570 --> 00:35:24.739
+Alain MAGAZIN (LEDGER): So, we see, nonetheless, decent execution time, especially for signing, and we'll get back to that when we compare with the other algorithms. The last thing I want to mention is that
+
+231
+00:35:24.960 --> 00:35:38.979
+Alain MAGAZIN (LEDGER): after talking to some of the authors in informal settings, we have the impression that, well, they didn't abandon the embedded, target, right? So they are working on implementations that will be
+
+232
+00:35:39.090 --> 00:35:46.679
+Alain MAGAZIN (LEDGER): More adapted to constrained devices. So we are hopeful that it can improve in the future.
+
+233
+00:35:48.210 --> 00:35:50.160
+Alain MAGAZIN (LEDGER): We can move on to Dilithium.
+
+234
+00:35:55.110 --> 00:35:56.000
+Alain MAGAZIN (LEDGER): Alright.
+
+235
+00:35:56.230 --> 00:36:03.479
+Alain MAGAZIN (LEDGER): So here we used, the low RAM implementation, so here I want to, think and,
+
+236
+00:36:03.560 --> 00:36:09.199
+Alain MAGAZIN (LEDGER): shout out, ZKnox for their, implementation of Dilithium for low-RAM devices.
+
+237
+00:36:09.250 --> 00:36:17.330
+Alain MAGAZIN (LEDGER): based on the, I believe, the NXP paper that described some techniques to, lower memory footprint.
+
+238
+00:36:17.380 --> 00:36:32.150
+Alain MAGAZIN (LEDGER): For ML-DSA. So we used that implementation because the reference implementation did not run any signing operation, no matter the version of ML-DSA used. It couldn't run on our devices. So we used this one.
+
+239
+00:36:32.770 --> 00:36:50.360
+Alain MAGAZIN (LEDGER): The main hurdle outside of that for Dilithium is really the object sizes, which are bigger in every aspect, in keys and signature size. What we see for the new… this new low RAM implementation is that RAM now becomes a non-issue, it fits in comfortably.
+
+240
+00:36:50.460 --> 00:36:52.820
+Alain MAGAZIN (LEDGER): Even for the higher security versions.
+
+241
+00:36:52.950 --> 00:36:59.209
+Alain MAGAZIN (LEDGER): But it has a trade-off, obviously, and the trade-off is, much longer operation times.
+
+242
+00:36:59.270 --> 00:37:16.049
+Alain MAGAZIN (LEDGER): specifically for the signing operation, which is crucial for devices like ours, because we don't want users to be on a screen that is blocked for 5 seconds, because a signing operation is being executed. So that's…
+
+243
+00:37:16.050 --> 00:37:21.599
+Alain MAGAZIN (LEDGER): starting to hit user experience badly at that point.
+
+244
+00:37:21.710 --> 00:37:39.580
+Alain MAGAZIN (LEDGER): it's starting to even become slower than Falcon, which we anticipated to be much slower because of the floating-point operation. So now, because we wanted to lower the memory footprint, we're seeing higher execution times, for an integer-only operation, which is, well…
+
+245
+00:37:39.680 --> 00:37:53.549
+Alain MAGAZIN (LEDGER): kind of unfortunate. But the fact that it is integer-only still has advantages that we are going to talk about later. I just want to briefly mention also security, physical security, concerns.
+
+246
+00:37:53.750 --> 00:38:05.809
+Alain MAGAZIN (LEDGER): Dilithium has had already some research done for masking techniques that will prevent different types of hardware attacks, while for Falcon, again, because of the floating operations, we…
+
+247
+00:38:06.020 --> 00:38:14.159
+Alain MAGAZIN (LEDGER): presume it's going to be a bit more difficult, to develop effective countermeasures, so there's also that to point out.
+
+248
+00:38:14.660 --> 00:38:16.750
+Alain MAGAZIN (LEDGER): I think we can move on to,
+
+249
+00:38:17.740 --> 00:38:21.030
+Alain MAGAZIN (LEDGER): to the last one, to Sphinx or SLHDSA.
+
+250
+00:38:22.310 --> 00:38:27.870
+Alain MAGAZIN (LEDGER): So, here we are going to be very brief, because the results are quite clear.
+
+251
+00:38:28.100 --> 00:38:37.190
+Alain MAGAZIN (LEDGER): Obviously, what's great with things is, the object sizes. As we can see, they are very small for keys.
+
+252
+00:38:37.260 --> 00:38:56.480
+Alain MAGAZIN (LEDGER): However, the signature sizes on the other end are a real issue. Now, again, there are some ways to make it run on low RAM devices, and again, memory footprint is less of an issue on its own, but it does increase execution times a lot, and
+
+253
+00:38:56.790 --> 00:39:13.680
+Alain MAGAZIN (LEDGER): even on the lower ends of the security levels, on the 128 versions, we see a signing time that is absolutely unacceptable for any user experience. I mean, 6 minutes to sign a transaction really isn't realistic, so…
+
+254
+00:39:14.400 --> 00:39:28.020
+Alain MAGAZIN (LEDGER): For now, for this use case, it is going to be very difficult for us to envision a future where SLA GSA is used as a signing operation on secure elements.
+
+255
+00:39:29.310 --> 00:39:32.840
+Alain MAGAZIN (LEDGER): So yeah, that… that would be it for the results.
+
+256
+00:39:33.560 --> 00:39:34.509
+Alain MAGAZIN (LEDGER): of our tests.
+
+257
+00:39:34.650 --> 00:39:36.150
+Alain MAGAZIN (LEDGER): Yeah, Nick, back to you.
+
+258
+00:39:37.570 --> 00:39:38.469
+Yannick Seurin (Ledger): Thank you, Adam.
+
+259
+00:39:39.490 --> 00:39:50.719
+Yannick Seurin (Ledger): So these were the benchmarks on the current CQ element we use, but, the, chip manufacturers are starting to,
+
+260
+00:39:51.570 --> 00:39:52.630
+Yannick Seurin (Ledger): implement.
+
+261
+00:39:53.040 --> 00:40:05.020
+Yannick Seurin (Ledger): post-quantum crystalography inside their chips, which will be good for us. And in particular, the next secure element generation that we plan to use for the future devices
+
+262
+00:40:05.290 --> 00:40:17.590
+Yannick Seurin (Ledger): Have, First, they will have more memory, more flash, more RAM, 158 kilobytes, which is,
+
+263
+00:40:17.760 --> 00:40:22.909
+Yannick Seurin (Ledger): Much more comfortable to implement, latency-based schemes in particular.
+
+264
+00:40:23.500 --> 00:40:32.410
+Yannick Seurin (Ledger): Frequency will be higher, also. It will have some, IP for, for Ketchak. And,
+
+265
+00:40:32.680 --> 00:40:40.639
+Yannick Seurin (Ledger): What's interesting for us is that it will have hardware acceleration for quantum cryptography, in particular for ML Chem.
+
+266
+00:40:41.120 --> 00:40:43.540
+Yannick Seurin (Ledger): and for ML GSA.
+
+267
+00:40:44.670 --> 00:40:45.840
+Yannick Seurin (Ledger): 65.
+
+268
+00:40:46.760 --> 00:40:47.580
+Yannick Seurin (Ledger): But…
+
+269
+00:40:47.820 --> 00:40:57.070
+Yannick Seurin (Ledger): Right now, I don't think there is any plan to have Falcon or SLHGSA implemented in a hardware accelerator.
+
+270
+00:40:59.370 --> 00:41:11.379
+Yannick Seurin (Ledger): So, if we want to summarize a bit the situation for each of the standards we have right now, so for MLDSA, we can say for sure that
+
+271
+00:41:11.700 --> 00:41:14.700
+Yannick Seurin (Ledger): Will be available in the next generation.
+
+272
+00:41:15.640 --> 00:41:18.090
+Yannick Seurin (Ledger): It's secure elements and devices.
+
+273
+00:41:19.640 --> 00:41:21.699
+Yannick Seurin (Ledger): legacy, devices.
+
+274
+00:41:22.840 --> 00:41:37.049
+Yannick Seurin (Ledger): We are pretty confident that we'll be able to have it run on these devices, with the caveat, which is… which applies to all other algorithms, which is that the benchmark that we have now
+
+275
+00:41:38.760 --> 00:41:46.640
+Yannick Seurin (Ledger): implementations which are not protected against side-channel attacks. So, we'll need to, to…
+
+276
+00:41:47.910 --> 00:41:57.269
+Yannick Seurin (Ledger): implement, masking and control measures for these side channels, and it's, abuse that will, it will increase,
+
+277
+00:41:57.680 --> 00:42:00.880
+Yannick Seurin (Ledger): Probably the memory footprint and the running time.
+
+278
+00:42:01.210 --> 00:42:03.659
+Yannick Seurin (Ledger): So, as we've seen,
+
+279
+00:42:04.230 --> 00:42:12.329
+Yannick Seurin (Ledger): the benchmarks are, encouraging for MLDSA, but, there's still this caveat that for,
+
+280
+00:42:12.930 --> 00:42:21.510
+Yannick Seurin (Ledger): For a hardware signer, we need to have these control measures against such channel in place, and it's still a…
+
+281
+00:42:22.090 --> 00:42:29.480
+Yannick Seurin (Ledger): Upon question, how much it will increase the memory footprint and the runtime.
+
+282
+00:42:30.890 --> 00:42:35.290
+Yannick Seurin (Ledger): For Falcon, the situation is a bit different, because
+
+283
+00:42:36.080 --> 00:42:38.569
+Yannick Seurin (Ledger): It will not be in hardware.
+
+284
+00:42:39.160 --> 00:42:42.590
+Yannick Seurin (Ledger): accelerators of secure elements in Dysom, I think.
+
+285
+00:42:43.010 --> 00:42:48.889
+Yannick Seurin (Ledger): So, as we've seen, the next generation of CQ elements is… we have much more,
+
+286
+00:42:49.530 --> 00:42:53.060
+Yannick Seurin (Ledger): room to implement Falcon into, have…
+
+287
+00:42:53.230 --> 00:42:56.660
+Yannick Seurin (Ledger): side-channel content users, but as Alan said, it seems…
+
+288
+00:42:56.990 --> 00:43:01.610
+Yannick Seurin (Ledger): more complicated to, to protect Falcon against side-channel attacks, so…
+
+289
+00:43:01.830 --> 00:43:09.339
+Yannick Seurin (Ledger): It's… we are confident that we can have in the next generation of sequence, but it's not… it's not a given yet.
+
+290
+00:43:09.800 --> 00:43:12.220
+Yannick Seurin (Ledger): And for legacy signers, it's…
+
+291
+00:43:12.540 --> 00:43:18.880
+Yannick Seurin (Ledger): It's still an open question whether it will be able to run with high-channel quantum reserves in place.
+
+292
+00:43:19.080 --> 00:43:22.210
+Yannick Seurin (Ledger): For… for SLHGSA.
+
+293
+00:43:22.700 --> 00:43:24.819
+Yannick Seurin (Ledger): The situation is a bit different, I would say.
+
+294
+00:43:25.150 --> 00:43:34.590
+Yannick Seurin (Ledger): Because as we've seen, the running times are currently unacceptable to… for generating a signature, so…
+
+295
+00:43:34.900 --> 00:43:36.579
+Yannick Seurin (Ledger): So I guess,
+
+296
+00:43:36.710 --> 00:43:43.290
+Yannick Seurin (Ledger): In… in legacy signals, it's, it's particularly, it will be very difficult to have, Hashbait signatures.
+
+297
+00:43:43.480 --> 00:43:46.940
+Yannick Seurin (Ledger): At least stateless hash-based signatures in…
+
+298
+00:43:47.070 --> 00:43:52.209
+Yannick Seurin (Ledger): into these, into these devices. For the next generation, as there will be,
+
+299
+00:43:53.490 --> 00:43:59.779
+Yannick Seurin (Ledger): like, a check accelerator, maybe we can have a check-based hash-based signature, maybe?
+
+300
+00:44:00.100 --> 00:44:07.539
+Yannick Seurin (Ledger): But, we still… didn't, start to… To test this,
+
+301
+00:44:08.010 --> 00:44:11.079
+Yannick Seurin (Ledger): In practice. So it's still really a question mark.
+
+302
+00:44:12.420 --> 00:44:13.710
+Matteo Vena: Who knows?
+
+303
+00:44:15.010 --> 00:44:16.370
+Yannick Seurin (Ledger): Yeah, is that a question?
+
+304
+00:44:18.510 --> 00:44:19.479
+Yannick Seurin (Ledger): No? Okay.
+
+305
+00:44:19.590 --> 00:44:26.100
+Yannick Seurin (Ledger): And I've separated here the signature and the key generation, because there might be,
+
+306
+00:44:26.720 --> 00:44:33.179
+Yannick Seurin (Ledger): Some benefits of implementing at least the key generation in legacy signals, so that people can
+
+307
+00:44:33.450 --> 00:44:40.260
+Yannick Seurin (Ledger): Maybe generate a post-quantum address on their device and move their phones to this,
+
+308
+00:44:40.490 --> 00:44:44.089
+Yannick Seurin (Ledger): Addresses from their old devices, and maybe next…
+
+309
+00:44:45.530 --> 00:44:51.039
+Yannick Seurin (Ledger): Spence using a next-generation device, which is able to
+
+310
+00:44:51.180 --> 00:44:53.650
+Yannick Seurin (Ledger): To generate signatures for these schemes.
+
+311
+00:44:57.410 --> 00:45:07.240
+Yannick Seurin (Ledger): So, what's next? What are the next steps? So, for lattice-based schemes, as I said, for MLDSA and Falcon.
+
+312
+00:45:07.480 --> 00:45:16.969
+Yannick Seurin (Ledger): The… the main, Work for now is to include countermeasures into, the implementations.
+
+313
+00:45:17.240 --> 00:45:18.710
+Yannick Seurin (Ledger): Polygasy signals?
+
+314
+00:45:19.180 --> 00:45:28.049
+Yannick Seurin (Ledger): And for Falcon, also improved the state of the ODR for software implementation for the future, and possibly legacy signers.
+
+315
+00:45:28.290 --> 00:45:35.790
+Yannick Seurin (Ledger): We have also started to work on the state-of-the-art of side-channel attacks against these algorithms.
+
+316
+00:45:36.000 --> 00:45:39.299
+Yannick Seurin (Ledger): And work is currently ongoing in,
+
+317
+00:45:39.480 --> 00:45:48.159
+Yannick Seurin (Ledger): our labs on… not on MLD GSA, it will be the next target, but for now we work on ML Chem, because it's the first algorithm that we will
+
+318
+00:45:49.020 --> 00:45:57.250
+Yannick Seurin (Ledger): ship in our devices for our own internal use, for example, to, For… for establishing,
+
+319
+00:45:58.150 --> 00:46:01.390
+Yannick Seurin (Ledger): Secure channel… secure channel is with our backend.
+
+320
+00:46:01.970 --> 00:46:03.649
+Yannick Seurin (Ledger): And our devices.
+
+321
+00:46:04.540 --> 00:46:10.650
+Yannick Seurin (Ledger): For SLHGSA, as we saw, the signature time is the bottleneck.
+
+322
+00:46:11.740 --> 00:46:18.150
+Yannick Seurin (Ledger): One thing to say about hash-based signatures is that there are a lot of Freedom Degrees.
+
+323
+00:46:18.840 --> 00:46:26.600
+Yannick Seurin (Ledger): Like, the maximum number of signatures, whether you use a stateless, or a stateful, or some combination of the two.
+
+324
+00:46:27.340 --> 00:46:28.260
+Yannick Seurin (Ledger): scheme.
+
+325
+00:46:28.650 --> 00:46:33.990
+Yannick Seurin (Ledger): Which hash function you used? Do you, do you rely on, on Kitcheck, or on,
+
+326
+00:46:34.680 --> 00:46:41.209
+Yannick Seurin (Ledger): possibly don't like your algebraic-friendly hash function. So all of this might change completely the,
+
+327
+00:46:41.470 --> 00:46:43.740
+Yannick Seurin (Ledger): The figures,
+
+328
+00:46:44.240 --> 00:46:48.990
+Yannick Seurin (Ledger): That you obtain, and so we plan to explore a bit of these degrees of freedom.
+
+329
+00:46:52.560 --> 00:47:09.420
+Yannick Seurin (Ledger): And for the long term, we will keep an eye, obviously, on the NIST competition, which is still ongoing for additional signature schemes, with interesting alternatives, like multivariate schemes or MPC in the head schemes, which could give
+
+330
+00:47:09.570 --> 00:47:12.419
+Yannick Seurin (Ledger): Signature schemes, which better,
+
+331
+00:47:12.610 --> 00:47:15.440
+Yannick Seurin (Ledger): Performances that, the current standards.
+
+332
+00:47:16.340 --> 00:47:18.399
+Yannick Seurin (Ledger): And ideally, maybe.
+
+333
+00:47:18.510 --> 00:47:26.859
+Yannick Seurin (Ledger): isogenies could come to the risk queue, because these are the… the schemes which give the shortest signatures and the more efficient,
+
+334
+00:47:27.370 --> 00:47:28.440
+Yannick Seurin (Ledger): algorithms.
+
+335
+00:47:28.610 --> 00:47:33.369
+Yannick Seurin (Ledger): So, maybe in a… in a couple of years, we'll have,
+
+336
+00:47:34.330 --> 00:47:40.759
+Yannick Seurin (Ledger): an algorithm based on hogenes, which will fulfill all of our needs. We'll see.
+
+337
+00:47:44.030 --> 00:47:49.049
+Yannick Seurin (Ledger): Thanks for listening, and if you have questions, we are happy to answer with Allow.
+
+338
+00:47:50.460 --> 00:47:59.010
+Antonio Sanso: Thanks a lot, Yannick and Alan. This was really, really, really useful context from the hardware perspective. I will have a couple questions.
+
+339
+00:47:59.290 --> 00:48:13.450
+Antonio Sanso: One is about, the hashing, so, signatures, and yeah, the times are horrible, you're right. But these are for 2 to 64…
+
+340
+00:48:13.700 --> 00:48:18.429
+Antonio Sanso: Signatures, so it's stat less, but, 2 to 64 signatures.
+
+341
+00:48:18.430 --> 00:48:21.490
+Yannick Seurin (Ledger): Yeah, yeah, it's a standard, yeah, so it's…
+
+342
+00:48:21.490 --> 00:48:22.620
+Antonio Sanso: Yes, yes, it's alley.
+
+343
+00:48:22.620 --> 00:48:23.170
+Yannick Seurin (Ledger): 065.
+
+344
+00:48:23.170 --> 00:48:29.900
+Antonio Sanso: Also, even the standards considering having a lighter version of it, let's say Sphinx Minus.
+
+345
+00:48:30.110 --> 00:48:32.190
+Antonio Sanso: That is gonna be 2 to the 32.
+
+346
+00:48:32.670 --> 00:48:36.939
+Antonio Sanso: So, just, I'm having some hope there that maybe…
+
+347
+00:48:37.590 --> 00:48:45.420
+Antonio Sanso: this kind of lighter signatures. I mean, for our use case, 32 signatures might be actually being not too bad.
+
+348
+00:48:45.420 --> 00:48:45.970
+Yannick Seurin (Ledger): Yeah.
+
+349
+00:48:45.970 --> 00:48:46.930
+Antonio Sanso: I wonder…
+
+350
+00:48:47.360 --> 00:48:51.130
+Yannick Seurin (Ledger): Unfortunately, the thing is that when you… so…
+
+351
+00:48:51.740 --> 00:48:55.960
+Yannick Seurin (Ledger): people from Blockstream, like, I think they presented their work,
+
+352
+00:48:56.640 --> 00:49:10.429
+Yannick Seurin (Ledger): Right. Some time ago, here. So, what is to notice is that if you play on this parameter, the maximum number of signatures, you reduce the signature size, which is nice for the,
+
+353
+00:49:11.860 --> 00:49:13.799
+Yannick Seurin (Ledger): For the footprint on the blockchain.
+
+354
+00:49:14.020 --> 00:49:24.360
+Yannick Seurin (Ledger): But you actually don't reduce that much the time to sign. The number of hash operations you need to do, it's globally the same, or it's even a bit more, actually, if you…
+
+355
+00:49:24.580 --> 00:49:30.999
+Yannick Seurin (Ledger): If you play on this parameter. So you… you reduce the, the signature size, but unfortunately for…
+
+356
+00:49:31.540 --> 00:49:36.970
+Yannick Seurin (Ledger): For the running time of the signing algorithm, it's not very beneficial.
+
+357
+00:49:37.420 --> 00:49:39.859
+Yannick Seurin (Ledger): So I'm not sure it's a good deal.
+
+358
+00:49:40.040 --> 00:49:41.060
+Yannick Seurin (Ledger): It's a good bit of things off.
+
+359
+00:49:41.060 --> 00:49:43.830
+Antonio Sanso: This, this, these matches as well, the…
+
+360
+00:49:44.300 --> 00:49:48.350
+Antonio Sanso: The result of seeing the paper, yes. And the second question is…
+
+361
+00:49:48.430 --> 00:50:00.739
+Alain MAGAZIN (LEDGER): Yeah, if I may add something, I will send in the chat a link to a paper that we used in the study that explores various parameter sets for Sphinx, and
+
+362
+00:50:00.850 --> 00:50:08.429
+Alain MAGAZIN (LEDGER): And if you look, none of them actually reduced the number of hashes. So the conclusion that we had was.
+
+363
+00:50:08.740 --> 00:50:22.609
+Alain MAGAZIN (LEDGER): for every parameter set that meaningfully reduces signature size, it actually only goes up in terms of execution speeds, and sometimes it goes up a lot. So yeah, just wanted to add this paper, it's an interesting study.
+
+364
+00:50:23.070 --> 00:50:24.950
+Antonio Sanso: Indeed, indeed. Thanks a lot, Alan.
+
+365
+00:50:26.330 --> 00:50:35.620
+Antonio Sanso: And, we'll have a second question, and then I'll go to the chat to check if there are. Second question is, if by any chance you have seen the discussion that happened in the last weeks about the…
+
+366
+00:50:35.750 --> 00:50:38.949
+Antonio Sanso: Ephemeral style of signing.
+
+367
+00:50:39.120 --> 00:50:55.660
+Antonio Sanso: And in that case, we may open the door apart, like, of course, the obvious case of elliptic curve that, I mean, in my opinion, will not have a lot of filters, because it's, like, not really pass quantum. But maybe it opens the door to Winter's needs of force, so a few times signatures.
+
+368
+00:50:55.800 --> 00:51:01.139
+Antonio Sanso: I wonder if you guys explored, or you have any intention to explore such a paradigma?
+
+369
+00:51:02.800 --> 00:51:10.210
+Yannick Seurin (Ledger): So we… we haven't explored it yet, but yeah, it's, it's, to-do list to… Look at
+
+370
+00:51:10.540 --> 00:51:12.579
+Yannick Seurin (Ledger): Either, stateful.
+
+371
+00:51:12.910 --> 00:51:24.570
+Yannick Seurin (Ledger): hash-based signatures, like XMSS or LMS, and see, if the running time improves. Because, for example, if you look at… so the Bitcoin community is also looking at a lot of…
+
+372
+00:51:25.450 --> 00:51:29.219
+Yannick Seurin (Ledger): at Hashbase Signatures, and there are proposals, for example, to combine
+
+373
+00:51:29.820 --> 00:51:38.580
+Yannick Seurin (Ledger): stateful hash-based signatures with a fallback in case you lose your state on stateless hash-based signatures. So.
+
+374
+00:51:38.730 --> 00:51:43.199
+Yannick Seurin (Ledger): You kind of get the boss of both worlds, you, you sign…
+
+375
+00:51:43.580 --> 00:51:51.070
+Yannick Seurin (Ledger): With the stateful scheme, as long as you trust that you still have your… the correct state, and…
+
+376
+00:51:51.250 --> 00:51:55.319
+Yannick Seurin (Ledger): In case you… You need to restore your,
+
+377
+00:51:55.830 --> 00:52:02.370
+Yannick Seurin (Ledger): You're sitting on a new device or something, where you lose your state, then you fall back to the stateless scheme.
+
+378
+00:52:02.520 --> 00:52:12.370
+Yannick Seurin (Ledger): Which could be, maybe, a solution, I don't know. But yeah, we plan to explore the few-time signature schemes as well.
+
+379
+00:52:13.020 --> 00:52:27.740
+Antonio Sanso: Right? I mean, from my perspective, probably, I see the ephemeral case being… again, at the moment, I'm bullish on that, because it looks the perfect use case for the execution layer.
+
+380
+00:52:27.860 --> 00:52:33.620
+Antonio Sanso: Because maintaining the state is kind of, you know, it's not an easy task, so it will be nice to…
+
+381
+00:52:33.940 --> 00:52:37.610
+Antonio Sanso: to play with both. I agree that the Blogstream…
+
+382
+00:52:37.830 --> 00:52:52.360
+Antonio Sanso: papers or the experiment they are doing are interesting, and just adding the female use case into the game maybe would be nice to have some results. And again, it's on my desk as well. I don't want to put any work on your desk, of course, so let me just, like,
+
+383
+00:52:52.500 --> 00:52:59.860
+Antonio Sanso: It would be nice as a community if we can experiment a bit. Thanks a lot, and
+
+384
+00:53:00.090 --> 00:53:04.749
+Antonio Sanso: I see one, question in the chat from Stefano.
+
+385
+00:53:05.360 --> 00:53:09.839
+Antonio Sanso: It is asking if you have any specific MPs in the head.
+
+386
+00:53:11.180 --> 00:53:13.640
+Antonio Sanso: I can ask. Oh, you can ask Stefan directly, yes.
+
+387
+00:53:14.220 --> 00:53:17.930
+Stefano Gogioso: I mean, I'm just literally sitting next.
+
+388
+00:53:18.590 --> 00:53:22.370
+Stefano Gogioso: Antonio, yeah, just, I have one…
+
+389
+00:53:22.480 --> 00:53:40.080
+Stefano Gogioso: I hope you can hear me, because I am on my headphones. Yeah, all right, sorry. Yeah, so MPC Internet specifically, because we're using it to do some early days zero-knowledge proofs for proof of seed, for our Proof of Seed project.
+
+390
+00:53:40.310 --> 00:53:44.410
+Stefano Gogioso: So support for MPC in the head techniques would be…
+
+391
+00:53:44.790 --> 00:53:56.610
+Stefano Gogioso: more than just signature schemes. It would have other uses, because there's zero-knowledge proof systems based on that. So it'd be quite good to, like, maybe
+
+392
+00:53:56.830 --> 00:54:05.790
+Stefano Gogioso: keep in touch or have a conversation about what can be done there, because the constraints on the hardware are quite tight for anything CK.
+
+393
+00:54:08.860 --> 00:54:09.700
+Yannick Seurin (Ledger): Yep, sure.
+
+394
+00:54:10.770 --> 00:54:13.179
+Yannick Seurin (Ledger): So, probably it would have the same kind of…
+
+395
+00:54:13.810 --> 00:54:18.280
+Yannick Seurin (Ledger): problems as SLHDSA, because MPC, in the head relies on a lot of
+
+396
+00:54:19.090 --> 00:54:23.389
+Yannick Seurin (Ledger): symmetric, primitives operation, like ES, or…
+
+397
+00:54:23.750 --> 00:54:28.010
+Yannick Seurin (Ledger): But we haven't started to look into this yet.
+
+398
+00:54:28.870 --> 00:54:38.689
+Stefano Gogioso: Yeah, I'm more thinking of the basic, sort of the underlying primitives, not necessarily its use for a specific signature scheme.
+
+399
+00:54:38.770 --> 00:54:54.950
+Stefano Gogioso: So, like, you can implement, of course, MPC in the head directly, like, in Rust or in C, and you can implement the underlying operations, but having lower-level support would probably be… it would make things significantly faster, more performant.
+
+400
+00:54:55.170 --> 00:54:59.090
+Stefano Gogioso: But anyway, this is perhaps a bit of a deep technical conversation.
+
+401
+00:54:59.430 --> 00:55:06.539
+Stefano Gogioso: I had a brief question, if you don't mind, since you are here, and you mentioned the restrictions on the current generation of MCUs.
+
+402
+00:55:10.160 --> 00:55:18.549
+Stefano Gogioso: nominally, the, the SCD33, the one for the Flex.
+
+403
+00:55:18.740 --> 00:55:22.040
+Stefano Gogioso: has 64 kilobytes of ROM.
+
+404
+00:55:22.950 --> 00:55:24.740
+Stefano Gogioso: But, at least that's the spec.
+
+405
+00:55:25.380 --> 00:55:39.240
+Stefano Gogioso: But in practice, when we tried doing allocation, sort of, in app space, and we tried to do heap allocs, we noticed that they were severely limited. Like, you can't use anywhere close to the
+
+406
+00:55:39.500 --> 00:55:44.279
+Stefano Gogioso: to the full RAM, and you can't use anywhere close to the available stack space.
+
+407
+00:55:44.450 --> 00:55:51.389
+Stefano Gogioso: I was wondering whether there's, like, a specific design rationale for that. Like, we saw something close to, like, 7 kilobytes.
+
+408
+00:55:51.560 --> 00:55:55.180
+Stefano Gogioso: Which is 7, 8 kilobytes available for super cat logs.
+
+409
+00:55:55.410 --> 00:55:57.069
+Stefano Gogioso: So, for vectors, for example.
+
+410
+00:55:59.480 --> 00:56:06.710
+Yannick Seurin (Ledger): So I… yeah, first, I suspect LedgerOS is… Using… quite a… quite a few…
+
+411
+00:56:06.900 --> 00:56:13.340
+Yannick Seurin (Ledger): kilobytes of the RAM, but why are you restrict it to 7 kilobytes, you say?
+
+412
+00:56:13.340 --> 00:56:30.920
+Stefano Gogioso: Yeah, so we tried allocating… we tried experiments with, sort of, deep stack allocations to see how much of the RAM we could fill with that, and it was around 30-something kilobytes, which I expect… which is reasonable, because, of course, you have, you have the OS running on probably the remaining space.
+
+413
+00:56:31.000 --> 00:56:40.610
+Stefano Gogioso: But we… we noticed that the heap, the maximum heap allocation we could get, at least continuously, was around 7.5. It was slightly short of 8, perhaps.
+
+414
+00:56:42.180 --> 00:56:43.890
+Stefano Gogioso: Maybe it's a fragmentation issue.
+
+415
+00:56:44.330 --> 00:56:48.590
+Yannick Seurin (Ledger): Yeah, I don't have the answer, but I can ask internally later on.
+
+416
+00:56:49.410 --> 00:56:54.239
+Stefano Gogioso: Alright, yeah, and maybe, maybe something we could have a separate technical conversation about, if you don't.
+
+417
+00:56:54.240 --> 00:56:55.149
+Yannick Seurin (Ledger): Yeah, sure.
+
+418
+00:56:55.770 --> 00:56:57.549
+Stefano Gogioso: Alright, I appreciate that, thank you.
+
+419
+00:56:59.500 --> 00:57:00.500
+Antonio Sanso: Alright, guys.
+
+420
+00:57:00.940 --> 00:57:08.750
+Antonio Sanso: I think that for today, I give you back 5 minutes of your life. It was a really nice conversation. Thanks a lot, the speakers.
+
+421
+00:57:08.910 --> 00:57:14.170
+Antonio Sanso: The presentations were really useful, and I guess I'll see you in two weeks, and do take care.
+
+422
+00:57:15.860 --> 00:57:16.960
+Yannick Seurin (Ledger): Thank you, goodbye.
+
+423
+00:57:17.060 --> 00:57:18.310
+Conor Deegan: Thank you.
+
+424
+00:57:18.310 --> 00:57:19.020
+Alain MAGAZIN (LEDGER): Goodbye.
+
+425
+00:57:23.360 --> 00:57:24.200
+Matteo Vicari: Bye.
+

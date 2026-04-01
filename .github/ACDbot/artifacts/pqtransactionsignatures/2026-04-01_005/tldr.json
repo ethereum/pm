@@ -1,0 +1,89 @@
+{
+  "meeting": "Post Quantum Transaction Signature (PQTS) Breakout #5",
+  "highlights": {
+    "bip32_key_derivation": [
+      {
+        "timestamp": "00:07:03",
+        "highlight": "First BIP32 non-hardened derivation for lattice-based PQ (RaccoonG)"
+      },
+      {
+        "timestamp": "00:12:49",
+        "highlight": "Gaussian distributions enable unlinkable child keys up to ~500k depth"
+      },
+      {
+        "timestamp": "00:21:30",
+        "highlight": "Hash-based signatures cannot support extended public keys (non-hardened paths)"
+      }
+    ],
+    "hardware_wallet_constraints": [
+      {
+        "timestamp": "00:31:41",
+        "highlight": "Current Ledger SE: 64KB RAM, 70MHz - tight for PQ schemes"
+      },
+      {
+        "timestamp": "00:34:23",
+        "highlight": "Falcon-512 signing barely fits with OS overhead; Falcon-1024 doesn't run"
+      },
+      {
+        "timestamp": "00:36:50",
+        "highlight": "ML-DSA runs with low-RAM implementation but 5+ second signing time"
+      },
+      {
+        "timestamp": "00:38:42",
+        "highlight": "SLH-DSA signing: 6 minutes at 128-bit security - unacceptable UX"
+      }
+    ],
+    "next_generation_hardware": [
+      {
+        "timestamp": "00:40:17",
+        "highlight": "Next-gen SE: 158KB RAM, Keccak IP, ML-KEM/ML-DSA hardware acceleration"
+      },
+      {
+        "timestamp": "00:40:58",
+        "highlight": "No planned HW acceleration for Falcon or SLH-DSA"
+      }
+    ],
+    "algorithm_viability": [
+      {
+        "timestamp": "00:41:28",
+        "highlight": "ML-DSA: confirmed next-gen, likely legacy devices (with side-channel protections TBD)"
+      },
+      {
+        "timestamp": "00:42:45",
+        "highlight": "Falcon: feasible next-gen, uncertain legacy due to floating-point masking complexity"
+      },
+      {
+        "timestamp": "00:43:15",
+        "highlight": "SLH-DSA: unlikely for signing on any current/next-gen hardware"
+      }
+    ],
+    "implementation_approaches": [
+      {
+        "timestamp": "00:18:29",
+        "highlight": "Ephemeral mode compatible with lattice HD wallets for stateless reusable keys"
+      },
+      {
+        "timestamp": "00:22:02",
+        "highlight": "Few-time signatures (Winternitz) viable for ephemeral use cases"
+      },
+      {
+        "timestamp": "00:51:51",
+        "highlight": "Stateful hash schemes with stateless fallback under Bitcoin community consideration"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:23:33",
+      "action": "Offline discussion on BIP85 + few-time signatures for ephemeral keys",
+      "owner": "Connor (Project 11), Matteo, Stefano"
+    },
+    {
+      "timestamp": "00:45:01",
+      "action": "Begin side-channel countermeasure work for ML-DSA and Falcon",
+      "owner": "Ledger team"
+    }
+  ],
+  "decisions": [],
+  "targets": []
+}
