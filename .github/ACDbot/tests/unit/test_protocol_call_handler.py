@@ -562,7 +562,7 @@ bi-weekly
         view_link = self._extract_view_link(result)
         view_params = parse_qs(urlparse(view_link).query)
         self.assertEqual(view_params["mode"], ["AGENDA"])
-        self.assertEqual(view_params["date"], ["20250424"])
+        self.assertEqual(view_params["dates"], ["20250424/20250425"])
 
         add_link = self._extract_add_link(result)
         add_params = parse_qs(urlparse(add_link).query)

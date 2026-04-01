@@ -30,7 +30,7 @@ class TestBuildCalendarViewLink(unittest.TestCase):
         self.assertIn("/calendar/embed", parsed.path)
         self.assertEqual(params["src"], [PROTOCOL_CALENDAR_ID])
         self.assertEqual(params["mode"], ["AGENDA"])
-        self.assertEqual(params["date"], ["20260402"])
+        self.assertEqual(params["dates"], ["20260402/20260403"])
         self.assertEqual(params["ctz"], ["UTC"])
 
     def test_none_start_time(self):

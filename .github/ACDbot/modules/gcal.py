@@ -23,11 +23,13 @@ def build_calendar_view_link(start_time, calendar_id=None):
         dt = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
     except Exception:
         return None
+    date_str = dt.strftime('%Y%m%d')
+    next_day = (dt + timedelta(days=1)).strftime('%Y%m%d')
     params = {
         'src': calendar_id,
         'ctz': 'UTC',
         'mode': 'AGENDA',
-        'date': dt.strftime('%Y%m%d'),
+        'dates': f'{date_str}/{next_day}',
         'showTitle': '1',
         'showCalendars': '0',
         'showTabs': '0',
