@@ -1,0 +1,28 @@
+name: PR Validation
+
+on:
+  pull_request:
+    paths:
+      - '.github/ACDbot/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip install -e .github/ACDbot/
+          pip install -r .github/ACDbot/requirements.txt
+
+      - name: Run tests
+        working-directory: .github/ACDbot
+        run: pytest
