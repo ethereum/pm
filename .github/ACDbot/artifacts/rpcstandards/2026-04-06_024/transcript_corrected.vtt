@@ -1,0 +1,1798 @@
+WEBVTT
+
+1
+00:02:34.910 --> 00:02:35.830
+Chase Wright: Hello.
+
+2
+00:02:55.750 --> 00:02:56.910
+Chase Wright: Can you guys hear me?
+
+3
+00:02:58.720 --> 00:02:59.869
+keri: Yep, good morning.
+
+4
+00:03:00.180 --> 00:03:00.640
+Felix (Geth): Nope.
+
+5
+00:03:11.530 --> 00:03:17.070
+Chase Wright: Okay, I guess we could just get started. Felix is here, and I…
+
+6
+00:03:17.280 --> 00:03:21.320
+Chase Wright: As far as I know, this is everyone who usually participates.
+
+7
+00:03:23.380 --> 00:03:27.929
+Chase Wright: I guess I can share my screen, and we can probably get started.
+
+8
+00:03:30.910 --> 00:03:31.640
+Chase Wright: Boom.
+
+9
+00:03:32.890 --> 00:03:33.550
+Chase Wright: Okay.
+
+10
+00:03:33.550 --> 00:03:36.759
+Felix (Geth): There isn't gonna be too much to discuss today, I think.
+
+11
+00:03:37.050 --> 00:03:46.909
+Chase Wright: Yeah, which is totally fine by me, since it's the day after Easter. Let me see, let me… let me see. So,
+
+12
+00:03:47.340 --> 00:03:49.730
+Chase Wright: We do have this one,
+
+13
+00:03:49.880 --> 00:03:57.879
+Chase Wright: This one is fixing the error message checking in, in the RPC compat?
+
+14
+00:03:59.910 --> 00:04:09.190
+Chase Wright: I looked at it, I… I think it's fine, but, you know, I'm not as Go expert-y as you are there, Felix, and…
+
+15
+00:04:09.300 --> 00:04:18.969
+Chase Wright: some other people. So they added a test, it got approval from From… this person?
+
+16
+00:04:19.180 --> 00:04:22.989
+Chase Wright: That's it. Okay. I cared.
+
+17
+00:04:23.790 --> 00:04:28.419
+Chase Wright: Also, welcome back, I guess? I think you've been, you've been gone for a while.
+
+18
+00:04:28.420 --> 00:04:29.779
+keri: Thank you. Yeah, yep.
+
+19
+00:04:29.780 --> 00:04:36.599
+Chase Wright: Okay, cool. Yeah, so, I don't know. I think this is… this is probably good,
+
+20
+00:04:36.890 --> 00:04:41.249
+Chase Wright: I know that these error messages are sometimes, client…
+
+21
+00:04:41.600 --> 00:04:45.419
+Chase Wright: And, like, depends on the… how the client does…
+
+22
+00:04:45.530 --> 00:04:49.099
+Chase Wright: some of this stuff, so I don't really have a problem with it. I think it's fine.
+
+23
+00:04:49.410 --> 00:04:52.149
+Chase Wright: Does anyone have any other opinions?
+
+24
+00:04:53.320 --> 00:05:00.790
+Felix (Geth): No, I think it's okay, but it's a bit… it's a bit strange, so this now… Changes the comparison?
+
+25
+00:05:01.810 --> 00:05:07.879
+Felix (Geth): So that it will… Always remove this kind of combination, so any object
+
+26
+00:05:08.010 --> 00:05:16.170
+Felix (Geth): Which, like, so any object containing key error, which has an object containing key message, We'll have that message
+
+27
+00:05:17.270 --> 00:05:18.900
+Felix (Geth): removed.
+
+28
+00:05:19.050 --> 00:05:19.840
+Chase Wright: Yeah.
+
+29
+00:05:19.840 --> 00:05:25.119
+Felix (Geth): It's just, we don't really have this combination except in this method, but it's just kind of a strange…
+
+30
+00:05:26.380 --> 00:05:41.899
+Felix (Geth): It's like the same… we have a similar kind of logic already when it comes to, I think, some other thing there in the comparison, like, I think with some floats or something, we also have this similar kind of thing, where it's… the comparison is a bit custom.
+
+31
+00:05:42.930 --> 00:05:44.780
+Felix (Geth): But I…
+
+32
+00:05:44.780 --> 00:05:45.300
+Chase Wright: Yeah.
+
+33
+00:05:45.300 --> 00:05:51.669
+Felix (Geth): I understand that it's, like, the best solution That is possible.
+
+34
+00:05:52.390 --> 00:06:01.620
+Chase Wright: Yeah, you know, so, like, I've had… I've had conversations with some customers, you know, previously, where,
+
+35
+00:06:02.350 --> 00:06:17.100
+Chase Wright: like, they will complain if it's not, you know, byte for byte, and a lot of times, it is these messages, and the error code reverted, or, like, ABI, you know, parsing that the clients do sometimes to provide
+
+36
+00:06:17.180 --> 00:06:26.000
+Chase Wright: human-readable, useful error messages, they're not… they're not the same. And then, so, you know, if you are,
+
+37
+00:06:26.230 --> 00:06:42.529
+Chase Wright: a major exchange, and you're depending on multiple RPC providers, and you're doing comparisons across those RPC providers to make sure that your data is good, then you run into these situations where it's not byte for byte, the message is slightly different, and then
+
+38
+00:06:42.580 --> 00:06:47.070
+Chase Wright: You know, if you're doing a dumb analysis, like.
+
+39
+00:06:47.420 --> 00:06:56.099
+Chase Wright: Is the hash of these two responses the same, or whatever, then they're not going to be the same, and it does cause some issues.
+
+40
+00:06:56.250 --> 00:07:05.140
+Chase Wright: But I don't… I don't know if that is a thing that we can enforce or fix reasonably within our PC compatibility testing.
+
+41
+00:07:05.140 --> 00:07:19.750
+Felix (Geth): So I think it's just kind of a strange thing, because in this part… I mean, usually with the errors themselves, there is no problem, because we already removed it. It's just that because this is a legitimate result from the call, but inside of this result, we have
+
+42
+00:07:19.880 --> 00:07:21.850
+Felix (Geth): These, like, errors.
+
+43
+00:07:22.310 --> 00:07:34.230
+Felix (Geth): which have error codes and messages, but they are just a part of the response. So it's kind of a strange situation that only really comes up with the SimulateV1.
+
+44
+00:07:34.440 --> 00:07:47.620
+Felix (Geth): I mean, one thing we could do is, for example, just take out the message from eSimilatev1 and just say this is not… the client shouldn't return any message there. But then that's also not very helpful. I guess you do kind of want to see the message, but…
+
+45
+00:07:47.970 --> 00:07:50.860
+Felix (Geth): It… or the other thing we could do is…
+
+46
+00:07:51.380 --> 00:07:57.409
+Felix (Geth): I mean, why is this even using the arrow code and message type of situation? We could as well have…
+
+47
+00:07:57.670 --> 00:08:11.059
+Felix (Geth): just predefined errors, which are just strings, and then it should say, yeah, this call failed because of reason reverted, or something. And then we would have a standardized set of things. It's only because in eSimulate, they are kind of…
+
+48
+00:08:11.970 --> 00:08:29.259
+Felix (Geth): using the same machinery that we sometimes use also in ETHCAL to run the EVM and capture the error, and then they return the error in this… in this way. So that… that leads to these diverging responses. I do think this fix is okay, we're not gonna change it in the spec.
+
+49
+00:08:29.410 --> 00:08:42.449
+Felix (Geth): for now, but I do think that this is kind of an avoidable situation from a spec point of view, because technically, from a spec point of view, all the messages, like, all of the… not the messages, all of the values that are returned
+
+50
+00:08:42.450 --> 00:08:53.849
+Felix (Geth): by the clients should be the same, unless it's completely impossible. I think in this case, it would actually be possible to define this API in a way that makes it, like, not dependent on the client.
+
+51
+00:08:54.170 --> 00:08:59.540
+Felix (Geth): But we haven't done that, so now we have to live with it, so I guess this fix is okay.
+
+52
+00:09:00.870 --> 00:09:04.209
+Chase Wright: Yeah, I mean, I… I think I agree with that, like…
+
+53
+00:09:04.680 --> 00:09:14.190
+Chase Wright: From… from, like, a… you know, a troubleshooting, debugging standpoint, like, Having the message is…
+
+54
+00:09:14.500 --> 00:09:25.150
+Chase Wright: is generally more useful than not. Because, you know, there can be 8,000 reasons why something reverts, and if you don't have
+
+55
+00:09:25.340 --> 00:09:32.210
+Chase Wright: Any… if you don't have any idea what it is, then, you know, your analysis has to go much, much, much more deeper.
+
+56
+00:09:32.430 --> 00:09:46.390
+Felix (Geth): Yeah, definitely, it's nice to have the message there, but it's also something where it… I mean, there is also the error codes, which are supposed to be unique, and it's also a bit funny, because these error codes are the same as these, like.
+
+57
+00:09:46.610 --> 00:09:55.669
+Felix (Geth): general EVM call message type error codes. So that's also a bit strange, that we're kind of hoisting these error codes up into the result of the
+
+58
+00:09:56.380 --> 00:09:58.130
+Felix (Geth): Of the thing, it's just kind of a…
+
+59
+00:09:58.330 --> 00:10:05.130
+Felix (Geth): like, ETH Simulator's honestly kind of a messy thing. So, we'll just… I can… I can… I can merge this.
+
+60
+00:10:05.280 --> 00:10:13.519
+Felix (Geth): I will have to look, into the code a little bit. It is kind of strange how it's written.
+
+61
+00:10:13.850 --> 00:10:14.340
+Chase Wright: Yeah.
+
+62
+00:10:14.340 --> 00:10:14.770
+Felix (Geth): But…
+
+63
+00:10:14.770 --> 00:10:15.410
+Chase Wright: Okay.
+
+64
+00:10:15.570 --> 00:10:20.560
+Felix (Geth): to be honest, like, I mean, it works, but it's also, like, the code is not that great.
+
+65
+00:10:22.410 --> 00:10:23.240
+Felix (Geth): Nope.
+
+66
+00:10:23.760 --> 00:10:26.339
+Chase Wright: Okay, well, when you have time, you can provide.
+
+67
+00:10:26.340 --> 00:10:33.689
+Felix (Geth): Yeah, I'll get to it differently. If it fixes the eSimulate error for Bisu, then that's also nice.
+
+68
+00:10:34.210 --> 00:10:42.610
+Chase Wright: Yeah, Besu is at, 94% last time I checked for compatibility testing, so… Doing pretty good.
+
+69
+00:10:42.710 --> 00:10:46.750
+Felix (Geth): That would actually help a lot with getting them closer, yeah.
+
+70
+00:10:47.810 --> 00:10:59.429
+Chase Wright: All right, the next one is the testing Build Block V1. I don't think we have to talk about it very much, but it's been… it's been merged. Most of the clients support it, so I'm looking forward to seeing the results of the
+
+71
+00:10:59.630 --> 00:11:14.260
+Chase Wright: upcoming Hive runs, yeah, we'll move on. The next one will make, Sina happy. So we added the getStorageValues method. Again, that'll be nice to see in the,
+
+72
+00:11:14.930 --> 00:11:16.450
+Chase Wright: upcoming,
+
+73
+00:11:16.870 --> 00:11:28.129
+Chase Wright: Hive compatibility and make sure everybody's on board. I know multiple clients already support it, including NetherMind, and Reth, and Geth, so that's good.
+
+74
+00:11:28.310 --> 00:11:30.890
+Chase Wright: After that…
+
+75
+00:11:31.730 --> 00:11:44.029
+Chase Wright: I don't know, Mercy, if you want to take over here. We have… we have your two PRs that you wanted to talk about. I guess we could talk about… which one you want to talk about first?
+
+76
+00:11:44.740 --> 00:11:46.070
+Mercy Boma Naps-Nkari: The, the…
+
+77
+00:11:46.300 --> 00:11:54.450
+Mercy Boma Naps-Nkari: Okay, I can go with the, the TSpoon space. Okay. I had to open, like, some couple of pairs on,
+
+78
+00:11:54.780 --> 00:11:58.179
+Mercy Boma Naps-Nkari: Eterx, and then Nethermind, because…
+
+79
+00:11:58.300 --> 00:12:14.420
+Mercy Boma Naps-Nkari: GET and Red has the full method implemented already, so… although Erigon, I checked their codeBesu, they had… they had all four, but they commented out two, so I asked them if there was a reason they commented it out or something like that, so…
+
+80
+00:12:14.850 --> 00:12:20.650
+Mercy Boma Naps-Nkari: I was hoping we can match this, since… Besu also said if implemented it, that's another thing.
+
+81
+00:12:22.460 --> 00:12:22.950
+Chase Wright: Okay.
+
+82
+00:12:22.950 --> 00:12:25.160
+Mercy Boma Naps-Nkari: So I'm not sure if…
+
+83
+00:12:25.160 --> 00:12:28.590
+Chase Wright: We have Julio here, maybe he can… he can comment if he's…
+
+84
+00:12:28.770 --> 00:12:30.440
+Mercy Boma Naps-Nkari: Oh, oh, okay.
+
+85
+00:12:30.780 --> 00:12:36.620
+Tullio | Erigon: Yeah, I think we don't have inspect, but we have already discussed it last time, I think.
+
+86
+00:12:37.070 --> 00:12:42.200
+Tullio | Erigon: So… We kind of decided not to standardize it.
+
+87
+00:12:42.380 --> 00:12:43.930
+Tullio | Erigon: If I remember correctly.
+
+88
+00:12:44.010 --> 00:13:02.440
+Felix (Geth): Yeah, there's this thing with this… the inspect is just kind of weird with these, like, string responses, because we're gonna be running into the same issue that we just discussed now, where, like, the clients, they are allowed to return whatever, so then we would have to, again, you know, update the comparison in the tests to allow for a mismatch in this.
+
+89
+00:13:02.440 --> 00:13:04.870
+Felix (Geth): And in general, the method is quite…
+
+90
+00:13:04.870 --> 00:13:12.759
+Felix (Geth): useless. I mean, it exists in clients, but that doesn't mean it's a good way. And we discussed it last time that… I mean, it is…
+
+91
+00:13:12.820 --> 00:13:16.820
+Felix (Geth): now, I guess, documented that these…
+
+92
+00:13:16.940 --> 00:13:25.769
+Felix (Geth): Summaries are… like, these strings are client-specific, but that doesn't really help much with the fact that this is effectively not testable.
+
+93
+00:13:26.440 --> 00:13:39.909
+Chase Wright: Yeah, I think I remember that, and I do think that the general consensus was that we should just not do TXPoolinspect, and we should keep the other methods. Is everyone on board with that? I think…
+
+94
+00:13:40.760 --> 00:13:41.140
+Felix (Geth): Now, I…
+
+95
+00:13:41.140 --> 00:13:41.919
+Chase Wright: I think that's fine.
+
+96
+00:13:41.920 --> 00:13:45.510
+Felix (Geth): I mean, it's better to specify less for now.
+
+97
+00:13:45.510 --> 00:13:45.830
+Chase Wright: Yeah.
+
+98
+00:13:45.830 --> 00:13:57.299
+Felix (Geth): there's a need to have some kind of more compact response, then we can define one, but it cannot be TXBull Inspect as it is now, because as it is now, it's just a huge hack.
+
+99
+00:13:58.100 --> 00:13:58.640
+Chase Wright: Okay.
+
+100
+00:13:58.640 --> 00:14:00.700
+Felix (Geth): It's not, not, you know…
+
+101
+00:14:17.380 --> 00:14:19.590
+Chase Wright: So I'll make a comment here, and…
+
+102
+00:14:20.130 --> 00:14:25.020
+Chase Wright: Marci, I assume you can probably… Deal with that.
+
+103
+00:14:29.040 --> 00:14:33.100
+Chase Wright: Okay, so, I mean, is everyone else agreed that
+
+104
+00:14:33.450 --> 00:14:39.960
+Chase Wright: It's pretty much good to go, as long as we remove TxPoolinspect. Is that the last action item necessary here?
+
+105
+00:14:41.810 --> 00:14:45.080
+Felix (Geth): Yeah, I think it's… Fine, yup.
+
+106
+00:14:45.430 --> 00:14:50.619
+Felix (Geth): Okay. Thing is, for the test, it's gonna be interesting. I mean, it is possible to test this.
+
+107
+00:14:50.860 --> 00:14:56.889
+Felix (Geth): But… not… I think, for now, the tests here, they mostly have…
+
+108
+00:14:57.530 --> 00:15:01.550
+Felix (Geth): The empty responses, or do they have something in there?
+
+109
+00:15:01.900 --> 00:15:04.480
+Chase Wright: Let's see, TS4… let's see.
+
+110
+00:15:04.480 --> 00:15:04.950
+Felix (Geth): I mean?
+
+111
+00:15:05.290 --> 00:15:07.500
+Chase Wright: Tests. Die.
+
+112
+00:15:08.410 --> 00:15:11.659
+Chase Wright: So that's the inspect the status.
+
+113
+00:15:11.660 --> 00:15:29.420
+Felix (Geth): So this is gonna lead to some pain, I think, because it has 5 pending transactions, but the thing is, this is very much dependent on the client policy, so we will run into some problems with this, simply because when we merge these tests.
+
+114
+00:15:29.780 --> 00:15:32.340
+Felix (Geth): the… it basically…
+
+115
+00:15:32.400 --> 00:15:46.550
+Felix (Geth): because the client instance is shared between all tests in the test suite. So, the… all of the RPC Compact tests. I'm not even really sure why that particular client had 5… had 5 transactions in its pool.
+
+116
+00:15:46.610 --> 00:15:53.720
+Felix (Geth): I mean, I guess it's because in some trans- other tests, we do send a transaction, and that runs before this one.
+
+117
+00:15:54.450 --> 00:16:13.020
+Chase Wright: Yeah, I have, so when I was doing some of the testing build block stuff, when… when we reach chain head, we do have pending transactions in the queue, at least… at least on the get side. So I think that's… that is part of it, is that
+
+118
+00:16:13.160 --> 00:16:15.610
+Chase Wright: We have a bunch of pending transactions.
+
+119
+00:16:15.900 --> 00:16:33.490
+Felix (Geth): Yeah, the issue is just that it's not gonna be the same for all the clients, because the transaction pool policies might be different, and there's nothing standardized about that. So this means when, depending on the client implementation, there might also just be 4 transactions, and then that's also fine.
+
+120
+00:16:33.490 --> 00:16:37.599
+Felix (Geth): But in general, also, one problem with this particular test is that
+
+121
+00:16:38.000 --> 00:16:52.619
+Felix (Geth): It… the response is completely dependent on the order in which tests are executed, because it is just shared state that we are seeing. We didn't explicitly put any of these transactions there in this test, they are just…
+
+122
+00:16:52.940 --> 00:16:58.819
+Felix (Geth): state that was created by another test. So we have to figure out how we're gonna test this at some point.
+
+123
+00:16:59.170 --> 00:17:01.820
+Felix (Geth): I do think it's valuable to test it, but…
+
+124
+00:17:02.250 --> 00:17:07.700
+Felix (Geth): I think this would be one of these things where, actually, we should probably… have…
+
+125
+00:17:09.829 --> 00:17:22.309
+Felix (Geth): Yeah, we should somehow implement this, like, schema validation in the test or something, and then have it so that this is one of these spec-only tests that only validates the schema or so, because it's not super easy.
+
+126
+00:17:22.940 --> 00:17:32.159
+Felix (Geth): for us to get the client to a point where it has a very, very specific transaction set inside of its TX pool. I mean, we can kind of try, but…
+
+127
+00:17:32.520 --> 00:17:34.060
+Felix (Geth): This is gonna be tough.
+
+128
+00:17:34.690 --> 00:17:35.420
+Felix (Geth): I just ordered…
+
+129
+00:17:35.480 --> 00:17:39.549
+Chase Wright: I… I think I… I think I definitely agree.
+
+130
+00:17:39.970 --> 00:17:45.799
+Chase Wright: I think what we… maybe what we should do is just make it spec only, for now.
+
+131
+00:17:45.840 --> 00:18:02.139
+Chase Wright: And then, once it's merged in, we can actually go look at the results, see how the clients are actually, returning, see what they're returning, see how similar they are, and then we can probably make a decision on, like, how much we need to fine-tune it, and then, like.
+
+132
+00:18:02.270 --> 00:18:14.670
+Chase Wright: We could go so far as to, like, send a raw transaction into the nodes, and then just make sure that that is a response within the TX pool content. Like, that is maybe something we could get.
+
+133
+00:18:14.670 --> 00:18:25.759
+Felix (Geth): Yeah, yeah, yeah, I know. This is where we now enter this issue that these tests, the way they are executed, it is really showing its limits with these types of tests, because
+
+134
+00:18:25.760 --> 00:18:42.320
+Felix (Geth): the only kind of test we can really do is we can just check what's the return value. We cannot perform the custom validation, so then we would, again, enter this whole world of, like, trying to figure out what is the specific result validation required for this method.
+
+135
+00:18:42.950 --> 00:18:44.220
+Felix (Geth): I think…
+
+136
+00:18:44.340 --> 00:18:53.869
+Felix (Geth): it is possible to add something like that. For example, we could start adding, like, we can add a framework that allows us to do a custom validation on the result.
+
+137
+00:18:54.070 --> 00:19:01.549
+Felix (Geth): for example, into RPC Compact, and then we can have any kind of validation, and for these methods, it would be something like, yeah, this…
+
+138
+00:19:01.700 --> 00:19:18.939
+Felix (Geth): this particular transaction has to be in there, and that's our success criteria, and if there's other stuff in there, it has to pass the schema, for example, so we could define it like that. It's just that this is not implemented now, and it's gonna be a bit of work to actually get this delivered.
+
+139
+00:19:20.040 --> 00:19:29.209
+Felix (Geth): So I would just say… also, another problem is that if you market spec only now, the way spec only works, it was implemented by Carrie at one point.
+
+140
+00:19:29.400 --> 00:19:40.649
+Felix (Geth): it wouldn't really work either, because the current spec only will actually verify the structure matches. And so, because these functions return, like.
+
+141
+00:19:42.280 --> 00:19:46.920
+Felix (Geth): They return these, like, objects with, like, these weird string number keys.
+
+142
+00:19:47.730 --> 00:19:56.659
+Felix (Geth): it will actually try to match that on the response, even if you put spec only. It's because the current spec only doesn't use the actual spec, it uses, like, the…
+
+143
+00:19:57.290 --> 00:20:02.820
+Felix (Geth): It tries to make sure that the… Jason… type.
+
+144
+00:20:02.980 --> 00:20:19.639
+Felix (Geth): returned by the client is the same as the JSON type in the test. So we do have some work to do anyways. This is not, like, as straightforward. But we will get this done. I'm just saying, for now, the testing for these methods has some issues because of how the test framework works.
+
+145
+00:20:19.920 --> 00:20:27.499
+Felix (Geth): It is still good, I think, to put in the specs, because these are existing methods, which all clients kind of have.
+
+146
+00:20:28.050 --> 00:20:31.220
+Felix (Geth): And, it's important to have them in the spec.
+
+147
+00:20:34.440 --> 00:20:35.190
+Chase Wright: Okay.
+
+148
+00:20:37.380 --> 00:20:39.400
+Chase Wright: Makes sense to me.
+
+149
+00:20:40.860 --> 00:20:48.200
+Chase Wright: I… and I also, you know, I don't want perfection to be the enemy of, good enough for now. So…
+
+150
+00:20:48.750 --> 00:21:00.820
+Felix (Geth): It's just that if we merge it, it will make the test fail. And that's… we want to avoid that. And if we make it spec-only, the test will still fail, so we just have some work to do to get that to…
+
+151
+00:21:00.970 --> 00:21:10.439
+Felix (Geth): to get that to pass, and then we can get and see the next step. So there's some… a little work ahead, but I still think it's a good step to have this.
+
+152
+00:21:11.760 --> 00:21:13.090
+Chase Wright: Yeah,
+
+153
+00:21:13.550 --> 00:21:22.679
+Chase Wright: Yeah, yeah, yeah. I mean, I agree. I think, you know, just from, getting all of the clients on board, like, introducing a test that fails is…
+
+154
+00:21:23.030 --> 00:21:27.160
+Chase Wright: It's not the end of the world. But, yeah, it's fine.
+
+155
+00:21:27.290 --> 00:21:33.859
+Chase Wright: Alright, I guess we can move on. So, this is Doc's ad site versioning. Mercy, if you…
+
+156
+00:21:34.440 --> 00:21:42.169
+Chase Wright: Have any… thing to say here. My only question is, if this did get merged.
+
+157
+00:21:43.870 --> 00:21:45.190
+Chase Wright: I can't see the photo.
+
+158
+00:21:45.370 --> 00:21:49.359
+Chase Wright: Oh, that's cool. If this did get merged,
+
+159
+00:21:49.740 --> 00:21:55.540
+Chase Wright: What would… what would the version show on the… on the production?
+
+160
+00:21:55.860 --> 00:21:57.290
+Chase Wright: dock site.
+
+161
+00:21:57.660 --> 00:21:59.760
+Chase Wright: Because there's no version currently.
+
+162
+00:22:01.150 --> 00:22:14.149
+Mercy Boma Naps-Nkari: So, it kind of, like, would display the current version we have, so if you would not want to, like, maybe toggle between various versions that has been, shipped or released, you have to, like,
+
+163
+00:22:14.790 --> 00:22:17.409
+Mercy Boma Naps-Nkari: I need to see the screenshot again. It's somewhere on the top.
+
+164
+00:22:17.410 --> 00:22:19.150
+Chase Wright: Sorry. Yeah, yeah, it's, like, up here.
+
+165
+00:22:19.150 --> 00:22:26.209
+Mercy Boma Naps-Nkari: Yeah, yeah, yes. So you have to, like, toggle between it to switch from one version to the other.
+
+166
+00:22:27.770 --> 00:22:30.910
+Chase Wright: Yeah, no, that makes sense. But we don't…
+
+167
+00:22:31.230 --> 00:22:35.570
+Chase Wright: We don't have a version, do we? Like, there's no currently specified version.
+
+168
+00:22:35.570 --> 00:22:44.619
+Mercy Boma Naps-Nkari: No, I had to make a test version to, like, get this image, right? So, I was trying to, like, see if it actually works, so…
+
+169
+00:22:45.330 --> 00:22:51.490
+Chase Wright: Okay, so in order for this to work, we would have to go, we would have to actually cut a release, yes?
+
+170
+00:22:51.740 --> 00:22:53.499
+Chase Wright: Because we don't… we don't have any.
+
+171
+00:22:53.500 --> 00:23:00.569
+Mercy Boma Naps-Nkari: Yes, but you can test it, like, on your local, maybe Rond du Pierre or something, like, to.
+
+172
+00:23:01.440 --> 00:23:05.149
+Chase Wright: I don't think I'm set up to do that on this laptop right now. Sorry.
+
+173
+00:23:05.150 --> 00:23:17.169
+Mercy Boma Naps-Nkari: Okay, so you can just run npm run docs version 1.0.0, then you can get that, and then you view it on your local host, just to see what it looks like.
+
+174
+00:23:17.780 --> 00:23:25.460
+Felix (Geth): We do actually… we do actually have some versions tagged. We could also just do tag another version.
+
+175
+00:23:25.650 --> 00:23:30.560
+Felix (Geth): Just to get that… like, we can just make a pre-release, for example.
+
+176
+00:23:30.860 --> 00:23:36.470
+Felix (Geth): And then… and then we would have it. The question is mostly, like… I mean, so this adds the…
+
+177
+00:23:36.820 --> 00:23:40.450
+Felix (Geth): This adds the dropdown, but… the…
+
+178
+00:23:42.590 --> 00:23:46.279
+Felix (Geth): Oh, so there's this file that contains the versions, I guess?
+
+179
+00:23:47.350 --> 00:23:48.589
+Chase Wright: Yeah, I don't know how this works.
+
+180
+00:23:50.870 --> 00:23:56.010
+Felix (Geth): Yeah, that is actually kind of an interesting question, like, where are the versions going to come from?
+
+181
+00:23:56.560 --> 00:23:59.369
+Felix (Geth): Are we just gonna add them to this array, or…
+
+182
+00:24:03.910 --> 00:24:05.889
+Chase Wright: Yeah, I mean, we don't have, like, a…
+
+183
+00:24:05.890 --> 00:24:11.829
+Felix (Geth): in the future, we haven't… I mean, we haven't really thought about it too much. I mean, we do want… ultimately, we want the…
+
+184
+00:24:12.930 --> 00:24:20.720
+Felix (Geth): how this is supposed to work is that we will have a GitHub action, just like now, that will…
+
+185
+00:24:21.400 --> 00:24:26.419
+Felix (Geth): Occasionally do a build, And for that build, it will pull
+
+186
+00:24:27.730 --> 00:24:34.700
+Felix (Geth): It will basically generate the site for each of the listed versions.
+
+187
+00:24:38.100 --> 00:24:48.319
+Felix (Geth): and then it will allow you to select between them. Because we don't actually want… I think this is actually kind of a smart way to do it with the file, because we are not gonna want
+
+188
+00:24:48.790 --> 00:24:55.210
+Felix (Geth): 10,000 versions on there, right? There's only gonna be, I mean, we're gonna have the 1.0, and then maybe we wanna have, like.
+
+189
+00:24:55.560 --> 00:24:56.580
+Felix (Geth): the last…
+
+190
+00:24:56.850 --> 00:25:05.439
+Felix (Geth): 10, 15 versions or something, but I don't think we want to have, like, hundreds of versions in that drop-down. At some point, they're also gonna just expire or something.
+
+191
+00:25:06.240 --> 00:25:14.430
+Felix (Geth): So it's actually not too bad to have this file that configures which versions are actually… you know, which versions should be… the docs should be built for.
+
+192
+00:25:17.100 --> 00:25:21.230
+Chase Wright: Yeah, so do you think, we should have something like,
+
+193
+00:25:21.630 --> 00:25:26.389
+Chase Wright: like, a GitHub action that when we cut a release, it… it updates this…
+
+194
+00:25:27.170 --> 00:25:31.709
+Chase Wright: this version before publishing? Or do you think we should just do it manually?
+
+195
+00:25:32.170 --> 00:25:51.340
+Felix (Geth): I think the main thing is just that this GitHub action is going to be a little bit different, because it also has to fetch the built OpenRPC spec for that version, and then generate the docs from that. So that's kind of the thing, like, the docs are gonna be generated from the OpenRPC output.
+
+196
+00:25:51.370 --> 00:25:55.560
+Felix (Geth): But the OpenRPC output right now is not in the repository at all.
+
+197
+00:25:55.860 --> 00:25:59.750
+Felix (Geth): So that's kind of the thing, the OpenRPC output file.
+
+198
+00:26:00.180 --> 00:26:12.859
+Felix (Geth): is an artifact that you can build, but it is not contained in the repository. And so our plan is that when we will create the GitHub releases that
+
+199
+00:26:13.110 --> 00:26:27.430
+Felix (Geth): of the versioned API, we will attach a JSON file, which is the OpenRPC specification. So there will be, like, a release artifact, which is that JSON file. So our GitHub action that builds the docs has to then
+
+200
+00:26:28.120 --> 00:26:32.470
+Felix (Geth): download the OpenRPC.json file.
+
+201
+00:26:32.590 --> 00:26:43.550
+Felix (Geth): For each of the listed versions, and build a documentation website for each of these versions, and then this dropdown is supposed to just switch between these versions.
+
+202
+00:26:45.330 --> 00:26:46.340
+Felix (Geth): You know what I mean?
+
+203
+00:26:51.930 --> 00:26:53.389
+Felix (Geth): Mercy says she gets it.
+
+204
+00:26:55.880 --> 00:26:58.380
+Felix (Geth): But… Do you understand?
+
+205
+00:26:59.690 --> 00:27:02.259
+Felix (Geth): Or should I try to explain it better?
+
+206
+00:27:02.730 --> 00:27:07.059
+Chase Wright: No, I mean… I mean… I'm… I mostly understand,
+
+207
+00:27:07.520 --> 00:27:11.829
+Chase Wright: But I… I've never built the, OpenRPC stuff, so I don't…
+
+208
+00:27:11.830 --> 00:27:21.390
+Felix (Geth): You can't see it! So if you go to the main… if you go to the branch selector, there is actually a very old thing that was recently made to work again. There is this assembled spec branch.
+
+209
+00:27:22.500 --> 00:27:29.250
+Felix (Geth): So, this is… this is something very strange. I own… I didn't know about this until recently as well. We do have a GitHub action, which
+
+210
+00:27:29.360 --> 00:27:32.900
+Felix (Geth): Every time a commit is made to the main branch.
+
+211
+00:27:33.140 --> 00:27:38.999
+Felix (Geth): it will reBesu this branch to add the OpenRPC.json on top.
+
+212
+00:27:39.310 --> 00:27:54.799
+Felix (Geth): So it always creates… it always recreates this one commit that adds these files. I have no idea why this is there, or who depends on it, but this has been there for a long time. And in this branch, you can actually see the current JSON files, which you can otherwise only get by building…
+
+213
+00:27:55.080 --> 00:28:02.030
+Felix (Geth): We do also, I think, deploy them into the… like, we deploy the… the most recent one.
+
+214
+00:28:02.340 --> 00:28:14.809
+Felix (Geth): into the GitHub pages, so it is also possible to download the current one somewhere from GitHub pages, the current JSON file. But for the releases, the problem is we need this, like, version thing, so we basically, we need a…
+
+215
+00:28:15.030 --> 00:28:26.619
+Felix (Geth): for every single tagged version, we need the canonical open.pc.json that corresponds to this version of the spec. And so that's where the release artifacts are gonna come in.
+
+216
+00:28:31.960 --> 00:28:36.999
+Felix (Geth): Actually, it's kind of interesting, we do have some existing tagged releases, but I'm not sure what's in there.
+
+217
+00:28:37.520 --> 00:28:46.490
+Felix (Geth): I think there's no… there are no artifacts in the current releases. The releases that were made were all made by Matt when he started this repository, just as a kind of…
+
+218
+00:28:47.440 --> 00:28:52.430
+Felix (Geth): I mean, no, it just has the default assets, it doesn't actually have the…
+
+219
+00:28:52.700 --> 00:28:54.710
+Felix (Geth): It's just the YAML files.
+
+220
+00:28:59.920 --> 00:29:01.579
+Felix (Geth): So yeah, these are old.
+
+221
+00:29:02.750 --> 00:29:04.370
+Chase Wright: Yeah, 2024.
+
+222
+00:29:05.960 --> 00:29:11.990
+keri: I think if we could start tagging releases, then that kind of solves the problem, too, of, like, that transaction pool.
+
+223
+00:29:14.040 --> 00:29:18.999
+keri: Thing that we were talking about, too, where we could, instead of, like, failing clients, we could warn them and just say, hey.
+
+224
+00:29:19.140 --> 00:29:20.359
+keri: This is coming up.
+
+225
+00:29:20.900 --> 00:29:21.710
+Felix (Geth): Yeah, yeah, that's…
+
+226
+00:29:21.710 --> 00:29:23.380
+keri: I'm gonna fix that. Yeah, yeah, okay.
+
+227
+00:29:23.380 --> 00:29:32.239
+Felix (Geth): Anyways, the whole plan with tagging the releases, we've just been dragging a little bit. We should've… like, we've been talking about it for quite a while, and trying to prepare for this, like…
+
+228
+00:29:32.320 --> 00:29:44.369
+Felix (Geth): the addition of the version, so several, like, while you were gone, like, some small steps have happened towards this, and so now we're kind of at the point where we feel like if we would tag something.
+
+229
+00:29:44.600 --> 00:29:51.679
+Felix (Geth): We can kind of make it work, but we still need to work on the actual pipeline, like, on the build pipeline.
+
+230
+00:29:51.850 --> 00:29:55.049
+Felix (Geth): That works with these tagged releases.
+
+231
+00:29:55.190 --> 00:30:13.330
+Felix (Geth): Because if we just tag a release now, it's not sufficient. We need to make a release, and then we also have to attach the OpenRPC JSON files to that release. We need something that downloads these files, and then builds the docs from the release thing, and so on, and none of that is built. Like, so the current PR just adds the drop-down, which is kind of nice, but also…
+
+232
+00:30:13.490 --> 00:30:14.220
+Felix (Geth): Yo.
+
+233
+00:30:14.390 --> 00:30:15.790
+Felix (Geth): Not really.
+
+234
+00:30:16.810 --> 00:30:17.420
+Felix (Geth): Cool.
+
+235
+00:30:17.420 --> 00:30:21.499
+keri: Yeah, I have something locally to run Hive off of a specific version.
+
+236
+00:30:22.460 --> 00:30:26.610
+Felix (Geth): Yeah, that's also nice. That's also another step that needs to be done, yes.
+
+237
+00:30:26.820 --> 00:30:27.420
+keri: Cool.
+
+238
+00:30:35.700 --> 00:30:36.450
+Chase Wright: Okay.
+
+239
+00:30:36.730 --> 00:30:45.790
+Chase Wright: Anybody got anything else? I mean, I think that… Pretty much covers… Today.
+
+240
+00:30:46.110 --> 00:30:47.900
+Chase Wright: Everything that was in the agenda.
+
+241
+00:31:01.830 --> 00:31:04.939
+Felix (Geth): Yeah, I will look into this one, yeah, into the error message one.
+
+242
+00:31:09.700 --> 00:31:10.210
+Chase Wright: Okay?
+
+243
+00:31:10.210 --> 00:31:13.409
+Mercy Boma Naps-Nkari: Sorry, I don't know if you can hear me. Yes.
+
+244
+00:31:14.040 --> 00:31:21.439
+Mercy Boma Naps-Nkari: Yeah, I wanted to ask about EIP770 to the set code, transaction.
+
+245
+00:31:24.440 --> 00:31:27.030
+Chase Wright: Do you have a link or something, or…
+
+246
+00:31:27.200 --> 00:31:27.839
+Chase Wright: What do you want to say?
+
+247
+00:31:27.840 --> 00:31:39.329
+Mercy Boma Naps-Nkari: And I don't really have a link, like… I was trying to look at, some of the test cases, because I was trying to, like, fill in some tests that we don't have, then I noticed that,
+
+248
+00:31:41.780 --> 00:31:47.029
+Mercy Boma Naps-Nkari: like, the… it's central transaction, and it simulated V1.
+
+249
+00:31:56.230 --> 00:32:00.999
+Chase Wright: So, what about it? Like, I don't know, I'm sharing my screen, but I don't know what… what I should do.
+
+250
+00:32:02.410 --> 00:32:08.160
+Mercy Boma Naps-Nkari: like, I'm talking about adding test cases for it, like, that's my point, like, the…
+
+251
+00:32:08.650 --> 00:32:13.039
+Mercy Boma Naps-Nkari: There is no, like, test cases for it on the test file.
+
+252
+00:32:13.790 --> 00:32:16.500
+Chase Wright: And… I understand. Which… oh, okay.
+
+253
+00:32:16.500 --> 00:32:19.969
+Felix (Geth): I… so for… you mean for EIP7702?
+
+254
+00:32:20.820 --> 00:32:21.190
+Chase Wright: This one?
+
+255
+00:32:21.190 --> 00:32:22.250
+Mercy Boma Naps-Nkari: Yeah, the…
+
+256
+00:32:23.000 --> 00:32:25.060
+Felix (Geth): No, it's not a specific issue,
+
+257
+00:32:25.990 --> 00:32:30.020
+Felix (Geth): It's just, she was just saying, in general, we have some, we have some missing tests.
+
+258
+00:32:30.540 --> 00:32:39.330
+Mercy Boma Naps-Nkari: It's not an issue, I'm asking about… is it okay if I should write a test case for it? Sorry, it's raining over here, I don't know if you can hear me.
+
+259
+00:32:39.700 --> 00:32:47.719
+Felix (Geth): We can totally… we can absolutely hear you, and I understand what you're talking about. It's not about a GitHub issue, it's about the general question if…
+
+260
+00:32:47.980 --> 00:33:03.510
+Felix (Geth): some tests should be added for it. I think for each send raw transaction, it's not super necessary to add tests for EIP7702, because we know that the clients accept all valid transactions there, so…
+
+261
+00:33:03.840 --> 00:33:19.859
+Felix (Geth): basically creating a test that… I mean, it's just another test that submits, like, a hex payload to this endpoint. We do kind of expect them to accept that, but it is just, like, a given. I don't think we need to specifically test that thing. It's not gonna increase the coverage by…
+
+262
+00:33:21.460 --> 00:33:35.859
+Felix (Geth): much at all. I mean, we could add that test, but it's just guaranteed to pass like any other. I mean, I would be very, very surprised if that didn't pass. That said, yeah, I mean, if you feel like for completeness' sake, it should be tested, that's the thing, but what was the other method that you would want to add it to?
+
+263
+00:33:39.420 --> 00:33:40.060
+Felix (Geth): It was…
+
+264
+00:33:40.060 --> 00:33:41.299
+Mercy Boma Naps-Nkari: That's justice.
+
+265
+00:33:41.960 --> 00:33:44.339
+Felix (Geth): I mean, you mean eSimulate as well, or…
+
+266
+00:33:46.330 --> 00:33:52.420
+Mercy Boma Naps-Nkari: No, I was trying to… I was comparing it with It Simulate, and then send raw transactions, like…
+
+267
+00:33:52.810 --> 00:34:00.859
+Felix (Geth): Yeah. Okay. Yeah, so for each simulate, I think we do actually have, some inputs, but that's because
+
+268
+00:34:01.920 --> 00:34:10.269
+Felix (Geth): eTsimulate has the… this is something we also figured out recently when debugging some stuff, so…
+
+269
+00:34:10.960 --> 00:34:19.500
+Felix (Geth): ETH Simulate is kind of the only place in the API where the… transaction… object…
+
+270
+00:34:19.750 --> 00:34:25.639
+Felix (Geth): parsing is kind of exposed in the tests, so what I mean by that is.
+
+271
+00:34:26.520 --> 00:34:33.349
+Felix (Geth): the… the… there are two representations of Ethereum transactions in the API. One is this, like, hex…
+
+272
+00:34:33.710 --> 00:34:40.110
+Felix (Geth): blob format that is used by send raw transaction. So for that, you just send a…
+
+273
+00:34:40.940 --> 00:34:50.690
+Felix (Geth): you just send a serialized transaction as hex. That's not very interesting, like, the client will internally deserialize it, and then process it, or whatever, but…
+
+274
+00:34:50.940 --> 00:35:02.340
+Felix (Geth): this is not very interesting from an API spec perspective, because it's just a hex string. But then there's also the other format used for transactions, which is used inside of
+
+275
+00:35:02.470 --> 00:35:09.320
+Felix (Geth): ETH send transaction, for example, And also in ETH Simulate, where when we are submitting the…
+
+276
+00:35:09.590 --> 00:35:14.130
+Felix (Geth): transaction, we are submitting it as a JSON object containing fields.
+
+277
+00:35:14.410 --> 00:35:20.330
+Felix (Geth): And so there, it kind of matters if, for example, we use the…
+
+278
+00:35:22.830 --> 00:35:27.469
+Felix (Geth): Because the different transaction types have different fields.
+
+279
+00:35:27.570 --> 00:35:31.319
+Felix (Geth): So, for example, the 7702, it has the authorizations.
+
+280
+00:35:31.540 --> 00:35:35.400
+Felix (Geth): which… Are not present in any other type.
+
+281
+00:35:35.540 --> 00:35:43.029
+Felix (Geth): So, it does kind of make sense to have test cases for these inputs, because they are specific to,
+
+282
+00:35:45.620 --> 00:35:50.300
+Felix (Geth): specific to the different transaction types.
+
+283
+00:35:52.650 --> 00:35:55.920
+Felix (Geth): It would be…
+
+284
+00:35:57.920 --> 00:36:15.009
+Felix (Geth): It would be kind of interesting. I mean, so this is also where, for example, this issue that you clicked on, Chase, there's this issue here that says authorization signature handling in ETH call. That is also related to that, because in ETH Call, we have kind of a similar pipeline, and we do also accept, like, the 7702 kind of payloads there.
+
+285
+00:36:15.570 --> 00:36:16.730
+Felix (Geth): So…
+
+286
+00:36:16.890 --> 00:36:28.339
+Felix (Geth): But I think we have sufficient coverage for that right now. So this issue is more about extending this, like, generic transaction, or this, like, transaction input to have, like, other stuff.
+
+287
+00:36:28.510 --> 00:36:47.869
+Felix (Geth): specifically for EIP7702, but what we have now is sufficient, actually. I don't think we really need to do this thing that the issue says, it's just more like a convenience feature, and so far, hasn't really been asked about much, so I guess it's okay. But definitely, there is this thing that for certain transaction types.
+
+288
+00:36:48.040 --> 00:36:51.519
+Felix (Geth): These methods, like ETHCALL, EstimateGas.
+
+289
+00:36:51.670 --> 00:37:03.130
+Felix (Geth): eSimulate, eSendTransaction, they will be… have to be extended with new fields. And then it also makes sense to add tests for them if a new transaction type is added.
+
+290
+00:37:04.640 --> 00:37:09.050
+Felix (Geth): But I think for now, the EIP7702, we have enough tests, I would say.
+
+291
+00:37:19.010 --> 00:37:29.150
+Chase Wright: I do… I do have, one other question. We have this issue about post-marriage-only clients, and this has come up a few times. I know we discussed
+
+292
+00:37:29.210 --> 00:37:39.840
+Chase Wright: the possibility of adding, like, profiles, right? This seems to fit… fall within that discussion. What do you… what's your take on…
+
+293
+00:37:40.010 --> 00:37:44.900
+Chase Wright: the… Clients that only want to support post-merge.
+
+294
+00:37:45.080 --> 00:37:46.000
+Chase Wright: Everything.
+
+295
+00:37:47.080 --> 00:38:01.699
+Felix (Geth): Yeah, I mean, there aren't that many differences in the post-merge versus pre-merge. It mostly comes down to these, like, older receipt formats with the post state root versus the status. The status, like, a very old difference, and then it's the question of.
+
+296
+00:38:03.360 --> 00:38:09.999
+Felix (Geth): Yeah, I mean… I guess that's maybe the only difference. The… in the API,
+
+297
+00:38:10.360 --> 00:38:16.879
+Felix (Geth): like, there aren't that many differences in the API over time, so we could actually get away with
+
+298
+00:38:17.580 --> 00:38:23.389
+Felix (Geth): Having a chain that only has post-match, and the only thing we would lose is support for these old receipt formats.
+
+299
+00:38:23.560 --> 00:38:28.079
+Felix (Geth): So… that's maybe acceptable, I'm not sure.
+
+300
+00:38:28.940 --> 00:38:48.729
+Chase Wright: So, like, if we create a profile that is… like, if we get to the point where we have profiles, we create a profile that is, like, post-merge-only clients, then I guess that means we're going to have to create another Hive chain, right? We're gonna have to create a new Hive chain that doesn't have
+
+301
+00:38:49.080 --> 00:38:50.469
+Chase Wright: pre-merge blocks.
+
+302
+00:38:51.540 --> 00:39:10.970
+Felix (Geth): Yeah, we could generate another chain. It's very easy to generate another test chain that doesn't have the post-merge blocks, that doesn't have the pre-merge blocks. There's a flag for the Hive chain tool that makes it emit, like, a post-merge chain. We use it in some other tests, so it's very easy to create this.
+
+303
+00:39:11.740 --> 00:39:18.700
+Felix (Geth): So, that is not the problem, it's just a question… and then, I mean, if you would do the… it is totally possible to, like.
+
+304
+00:39:18.890 --> 00:39:29.430
+Felix (Geth): on this issue now. Like I said, the only thing we would lose is maybe the support for some of the tests. If we want to go to the point of having the profiles, and then having profile-specific tests.
+
+305
+00:39:30.110 --> 00:39:33.630
+Felix (Geth): it's a possibility, I mean… But…
+
+306
+00:39:33.630 --> 00:39:34.059
+Chase Wright: That's a lot of work.
+
+307
+00:39:34.060 --> 00:39:44.340
+Felix (Geth): there's gotta be very, very little… very, very few differences in these tests, is what I'm trying to say. It's like, maybe it's actually not worth it. Maybe it's just not worth even testing this old stuff.
+
+308
+00:39:44.840 --> 00:39:57.209
+Felix (Geth): that is… I've been pondering this, at least, that I think maybe we should just give up on this and make it, like, all the testing post-merge, because it's more inclusive for the clients, and it's actually kind of easier.
+
+309
+00:39:57.730 --> 00:39:58.740
+Felix (Geth): But we do…
+
+310
+00:39:58.740 --> 00:40:12.809
+Chase Wright: Yeah, I fully agree with you on one hand. Like, I mentioned in one of the issues that the ref team brought up, because they wanted to change the target for one of the tests, and it was like…
+
+311
+00:40:13.470 --> 00:40:14.690
+Chase Wright: archae, like…
+
+312
+00:40:14.900 --> 00:40:30.249
+Chase Wright: people want archived data, and I don't… and, you know, even non-archived nodes can return receipts, you know, from, like, pre-merge blocks, in theory. And so, on the one hand, it's like.
+
+313
+00:40:30.530 --> 00:40:36.659
+Chase Wright: I totally understand not wanting to support the legacy stuff, but then, on the other hand, it's like…
+
+314
+00:40:36.780 --> 00:40:39.559
+Chase Wright: as a consumer of the API,
+
+315
+00:40:40.270 --> 00:40:52.660
+Chase Wright: the answer that you get to the exact same query is going to be different depending on which client you run, and as an API should just be a black box that returns whatever.
+
+316
+00:40:53.040 --> 00:40:57.770
+Chase Wright: I… I don't know, it's kind of weird. It's like sweeping the issue under the rug.
+
+317
+00:40:58.170 --> 00:40:59.319
+Felix (Geth): Yeah, I understand.
+
+318
+00:40:59.630 --> 00:41:00.190
+Chase Wright: Yeah.
+
+319
+00:41:00.810 --> 00:41:02.440
+Chase Wright: So… it's tough.
+
+320
+00:41:03.960 --> 00:41:06.380
+Chase Wright: Okay.
+
+321
+00:41:06.610 --> 00:41:07.380
+Chase Wright: I guess that's it.
+
+322
+00:41:07.380 --> 00:41:08.060
+Felix (Geth): index.
+
+323
+00:41:08.610 --> 00:41:12.390
+Felix (Geth): there is honestly… I'm… I'm just thinking…
+
+324
+00:41:12.800 --> 00:41:19.269
+Felix (Geth): Like, this… this one change that we did to the receipts, where we… where we removed the postage route and added the status.
+
+325
+00:41:19.720 --> 00:41:23.600
+Felix (Geth): It was one of these… very few changes.
+
+326
+00:41:23.820 --> 00:41:25.220
+Felix (Geth): That are like this.
+
+327
+00:41:25.260 --> 00:41:25.940
+Chase Wright: Yeah.
+
+328
+00:41:26.790 --> 00:41:35.759
+Felix (Geth): It's basically… it was kind of a one-off type of situation, where they were… they reused a field that was… that had a different purpose in the protocol.
+
+329
+00:41:36.100 --> 00:41:38.129
+Felix (Geth): And that has never happened again.
+
+330
+00:41:38.390 --> 00:41:58.059
+Felix (Geth): from that point onward, they only made additive changes to the objects in Consensus. It's just… that was the only time where they changed the meaning of an existing field, and that was mirrored on the API as well. And it makes it very awkward, because it's basically like a breaking change that occurs mid-chain.
+
+331
+00:41:58.600 --> 00:42:09.720
+Felix (Geth): it's, like, built into the chain that there's a breaking API change somehow at, like, block X, and that's… that's just very hard to work with. I think it was maybe a mistake how they pulled that off, they should have…
+
+332
+00:42:10.150 --> 00:42:13.660
+Felix (Geth): I'm not really sure how they could have changed it, but it was just kind of…
+
+333
+00:42:14.350 --> 00:42:23.649
+Tullio | Erigon: Oh, but, why are you saying that a field changed in the meaning? Because if I do recall, it was root field.
+
+334
+00:42:23.860 --> 00:42:27.170
+Tullio | Erigon: In the… in the receipt, and then status.
+
+335
+00:42:27.580 --> 00:42:27.940
+Felix (Geth): Yeah, yeah.
+
+336
+00:42:28.610 --> 00:42:34.320
+Felix (Geth): So they… I mean, in the underlying RLP objects, the fields don't have names, right? They are just…
+
+337
+00:42:34.460 --> 00:42:37.969
+Felix (Geth): They are just indexes into some kind of array.
+
+338
+00:42:38.400 --> 00:42:38.920
+Tullio | Erigon: Hell yeah.
+
+339
+00:42:38.920 --> 00:42:44.629
+Felix (Geth): We can say that, like, the value at position 3 in this list has a different meaning after block X.
+
+340
+00:42:44.630 --> 00:42:49.950
+Tullio | Erigon: Okay, in the RLP, but I was thinking about the JSON object, the problem.
+
+341
+00:42:49.950 --> 00:43:03.440
+Felix (Geth): The problem is that the JSON is not… you literally cannot… like, in Erigon, we were facing the situation where Erigon was kind of supporting the status, so it was basically parsing the RLP object, and then interpreting it as a kind of…
+
+342
+00:43:04.590 --> 00:43:10.440
+Felix (Geth): Object that has the status field, but that was incorrect, because you have to interpret it at the time of
+
+343
+00:43:11.120 --> 00:43:25.259
+Felix (Geth): Basically, you have to be aware, is this, like, a receipt that has a root, or is this a receipt that has a status? You have to distinguish that in your internal handling of it, and if, for example, it has, like, length 32, then it's,
+
+344
+00:43:25.690 --> 00:43:32.240
+Felix (Geth): it's a hash, so it's the post root, so you return it with a different name. But this logic is, like.
+
+345
+00:43:32.810 --> 00:43:49.740
+Felix (Geth): it's just very ugly logic, like, it was maybe a little bit of a mistake to add that to the protocol, but it's also so long ago that there is no way for us to change it, and there isn't really another way to do this. So, we just have to live with it now. But I'm just mostly trying to give this
+
+346
+00:43:50.330 --> 00:43:59.750
+Felix (Geth): Give this perspective that this is probably the only change like this, and that is the only reason why we have to have this, like.
+
+347
+00:44:00.660 --> 00:44:09.799
+Felix (Geth): compatibility all the way back in the tests, because there is no other part of the API that really is different over time. It's not, not like…
+
+348
+00:44:10.480 --> 00:44:12.850
+Felix (Geth): it's not like… I mean, I guess…
+
+349
+00:44:13.000 --> 00:44:20.620
+Felix (Geth): One other thing we could say is that, in theory, If you have a block.
+
+350
+00:44:20.910 --> 00:44:38.649
+Felix (Geth): if you do get block from an old fork, it's going to return less fields, maybe, or some of the fields are going to be null, whereas if you access a block that is newer, then these same fields will be set, because the fork has now filled them. For example, there's things like the withdrawals. Nowadays.
+
+351
+00:44:38.960 --> 00:44:41.019
+Felix (Geth): Every block contains
+
+352
+00:44:41.360 --> 00:44:50.790
+Felix (Geth): consensus, like, withdrawals initiated by the consensus layer. But in earlier forks, there was no consensus layer, so these withdrawals are not present on the old blocks.
+
+353
+00:44:50.790 --> 00:44:53.979
+Tullio | Erigon: Yeah, yeah. And also TDD has the same.
+
+354
+00:44:53.980 --> 00:45:07.749
+Felix (Geth): Yeah, but the thing is, with the TTD, we all decided that we will just not have that anymore at all. Like, for example, in Geth, we simply do not serve the TTD for any block, regardless of if it's old or new, because
+
+355
+00:45:07.920 --> 00:45:11.200
+Felix (Geth): We always had to keep that as a separate index, and then.
+
+356
+00:45:11.200 --> 00:45:12.920
+Tullio | Erigon: This index is for you.
+
+357
+00:45:12.920 --> 00:45:22.449
+Felix (Geth): Yeah, so we basically just retroactively removed it from the API, even for the old blocks. So that is also a possibility, that you just, you know, we just…
+
+358
+00:45:22.630 --> 00:45:24.640
+Felix (Geth): Choose to remove something.
+
+359
+00:45:25.220 --> 00:45:25.540
+Tullio | Erigon: Okay.
+
+360
+00:45:25.540 --> 00:45:45.260
+Felix (Geth): And… and we're not gonna come back and be like, oh yeah, we have a testing profile where it checks the TDD, like that. It's just… this is just… I mean, we considered it, but it's, like, annoying, because then we have to… yeah, so we're not doing that. But for the blocks, it does actually kind of make sense, for example, to be able to support a block that…
+
+361
+00:45:45.460 --> 00:46:00.679
+Felix (Geth): doesn't have a certain field, because it literally doesn't have that field in the underlying representation as well. And I do think we have some tests for this, but maybe I'd have to lie, maybe it's actually… I'm not fully aware. I think we do some checks.
+
+362
+00:46:00.800 --> 00:46:02.620
+Felix (Geth): I did, at one point.
+
+363
+00:46:04.690 --> 00:46:13.239
+Felix (Geth): consider adding tests for… that does, like, get block on every fork, but I'm not sure if I ever was… I ever landed that.
+
+364
+00:46:14.860 --> 00:46:16.270
+Felix (Geth): Let me actually check.
+
+365
+00:46:48.810 --> 00:46:49.510
+Felix (Geth): Hmm.
+
+366
+00:46:50.920 --> 00:47:05.860
+Felix (Geth): Yeah, no, I mean, yeah, we do, yeah. So we have, get block London fork, Get Block Merge fork, Get Block Shanghai fork, Get Block Cancun, Get Block Prague, and so on. So we have them. But we mostly, like, the London one, I guess, is the one that's pre-merge.
+
+367
+00:47:07.060 --> 00:47:19.169
+Felix (Geth): So that is, like, the other thing. And these tests should, in theory, return, like… so the point of these tests was to ensure that if a field is added.
+
+368
+00:47:19.460 --> 00:47:34.910
+Felix (Geth): To a later fork, then it's… we have to figure out how this impacts the old block, so that's why we have these tests, to make sure that the clients don't accidentally add some information into their block when… when it's not actually present in the underlying data.
+
+369
+00:47:40.760 --> 00:47:51.430
+Tullio | Erigon: Anyway, just to be clear, I'm not against removing the root field from the JSON RPC representation, even because having it just
+
+370
+00:47:51.960 --> 00:47:54.500
+Tullio | Erigon: I mean, removing it would allow me to
+
+371
+00:47:54.620 --> 00:48:00.230
+Tullio | Erigon: delete some weird code that we have in Erigon, so I… I would be happy to.
+
+372
+00:48:00.230 --> 00:48:03.950
+Felix (Geth): Yeah, but we don't really want you to delete that code, right? Like, that's the whole thing, it's like…
+
+373
+00:48:04.060 --> 00:48:09.189
+Felix (Geth): We don't want to… we basically wanna stop testing it, but you're still supposed to have that code, because… Okay.
+
+374
+00:48:09.190 --> 00:48:10.559
+Tullio | Erigon: Yeah, yeah, yeah, I can, I can.
+
+375
+00:48:10.560 --> 00:48:16.099
+Felix (Geth): You have to give, like, the… the… that's, like, kind of the… so maybe that's an argument for not removing this.
+
+376
+00:48:16.100 --> 00:48:22.969
+Tullio | Erigon: Yes, yes, exactly. I mean, if I need to keep the code, then I'd like to have the test
+
+377
+00:48:22.970 --> 00:48:42.040
+Tullio | Erigon: for that code as well, maybe with profiles. Or otherwise, if we decide that we don't want to invest into profiles for testing and keeping the test for that code, then please let me throw away the code as well, because keeping the code.
+
+378
+00:48:42.040 --> 00:48:42.430
+Felix (Geth): Chaos.
+
+379
+00:48:42.430 --> 00:48:47.419
+Tullio | Erigon: I mean, the test is the worst option, in some sense.
+
+380
+00:48:47.820 --> 00:48:54.079
+Felix (Geth): Exactly, so that's why we are in the current situation that we're in now, where we basically decided that we will not
+
+381
+00:48:54.240 --> 00:48:58.910
+Felix (Geth): The clients which do not support pre-merge.
+
+382
+00:48:59.350 --> 00:49:10.010
+Felix (Geth): they just literally cannot pass the test right now, because the test requires this compatibility. And I also just checked it, and it's also the same as for the,
+
+383
+00:49:10.440 --> 00:49:21.350
+Felix (Geth): get blocked by number for, for example, the London fork. So we have a test there for… that… that… that requests a block… block at the London fork, and this, block
+
+384
+00:49:21.760 --> 00:49:22.960
+Felix (Geth): contains
+
+385
+00:49:23.710 --> 00:49:38.339
+Felix (Geth): several, like, it contains some fields, but it doesn't contain, all of the newer fields. So it is, like, important that this test basically is preserved as is, so the API has the semantics that if, for example, the withdrawals are not present.
+
+386
+00:49:38.430 --> 00:49:57.279
+Felix (Geth): from the consensus layer, then they are simply omitted from the response. And I think that's also something quite important, whereas if you request a later block, it is going to have the withdrawals present, and if there are no withdrawals, it's going to be an empty list versus the field not being present. So I think that's also something important, that these distinctions kind of matter.
+
+387
+00:49:57.280 --> 00:50:03.330
+Felix (Geth): And they have to be… echoed by the tests. So the get block… London…
+
+388
+00:50:03.790 --> 00:50:08.150
+Felix (Geth): Would also be broken if we… Remove this.
+
+389
+00:50:09.900 --> 00:50:14.720
+Tullio | Erigon: Okay, so do we have an issue about this profiling feature in…
+
+390
+00:50:14.960 --> 00:50:34.690
+Felix (Geth): We were kind of gonna work on that after we got the… so there are two things right now. One of them is, like, we're having a pretty hard time getting these, like, released versions together, so that was, like, the priority number one, was to just make sure that we can actually do the versioning. And once the versioning is in, we can start working on the profiles. I didn't want to mix the two, because we were.
+
+391
+00:50:34.690 --> 00:50:35.630
+Tullio | Erigon: Oh, no, no!
+
+392
+00:50:35.630 --> 00:50:36.220
+Felix (Geth): Such a hard time.
+
+393
+00:50:36.220 --> 00:50:37.000
+Tullio | Erigon: Of course.
+
+394
+00:50:37.000 --> 00:50:38.500
+Felix (Geth): We're just getting chipped.
+
+395
+00:50:38.500 --> 00:50:56.049
+Tullio | Erigon: No, no, no, I was just arguing that we could have an issue for the profile feature, and then refer the issue into this other issue, because it's a dependency, basically. This can be solved when profile issue is addressed.
+
+396
+00:50:56.230 --> 00:50:57.909
+Felix (Geth): Yeah, that makes sense. Yeah.
+
+397
+00:50:58.220 --> 00:51:00.260
+Felix (Geth): I think that makes a lot of sense, yeah.
+
+398
+00:51:02.950 --> 00:51:09.150
+Chase Wright: So the only thing that I'm wondering is, like, I think it's okay, right, if…
+
+399
+00:51:09.250 --> 00:51:25.180
+Chase Wright: Ethrex or another client is… if the test exists and it fails, okay, so it's at, like, 99.99% pass. Like, I think it's fine, but, like, this particular issue says that their client literally cannot
+
+400
+00:51:25.370 --> 00:51:33.910
+Chase Wright: import the chain ROP, and I think that… that prevents them from even, like, starting, right? And… and.
+
+401
+00:51:33.910 --> 00:51:43.859
+Felix (Geth): Yeah, that's true. They cannot load them, because the test chain has the fork spaced out by, like, one or two blocks, so it's, like, every second block, there's, like, another fork.
+
+402
+00:51:43.860 --> 00:51:54.279
+Felix (Geth): And they don't like that, because they need all of the pre-merge forks to happen at block 0. But if we do that, then we basically don't have any ability to request these earlier…
+
+403
+00:51:54.740 --> 00:52:11.790
+Felix (Geth): that's kind of why… why I implemented the spacing with the forks, is because… so that we have some block where we can actually request some, like, old data, and it's not just all, like, the new. So, it's just… I mean, in some ways, it's just a limitation of their software that they cannot import it.
+
+404
+00:52:12.080 --> 00:52:19.350
+Felix (Geth): They could kind of import it, because there's also the post state, so they could technically just skip importing the chain and just import the…
+
+405
+00:52:19.500 --> 00:52:20.229
+Felix (Geth): the states?
+
+406
+00:52:20.230 --> 00:52:22.470
+Tullio | Erigon: The post-merge blocks, yeah.
+
+407
+00:52:22.470 --> 00:52:29.310
+Felix (Geth): Because they can also snap-sync, right? I mean, they can snap sync to the current chain, and the current chain is also
+
+408
+00:52:29.360 --> 00:52:42.789
+Felix (Geth): a chain that has a pre-merge prefix, so they could technically do the same operation, and just, like, load the state, and also load the chain, like they can do now, and then they could serve all the API. I think that's actually…
+
+409
+00:52:42.910 --> 00:52:56.879
+Felix (Geth): That would be another valid way of doing it. They just cannot, like, full sync this chain, because they don't have the EVM rules implemented for the earlier forks, but they have the ability to operate on a chain that has emerged in its history, I think.
+
+410
+00:52:57.270 --> 00:53:05.150
+Tullio | Erigon: Yeah, yeah, I do agree. They should skip the block that they not support, and deal with the rest of the chain.
+
+411
+00:53:05.310 --> 00:53:09.559
+Tullio | Erigon: And then not answering… not answering API before the merge, but…
+
+412
+00:53:10.230 --> 00:53:16.849
+Chase Wright: Is that a limitation of our current… Hive pipeline, then, that…
+
+413
+00:53:16.850 --> 00:53:24.980
+Felix (Geth): I mean, I guess so. I mean, the one thing is that we basically supply the clients with the…
+
+414
+00:53:27.030 --> 00:53:39.300
+Felix (Geth): We supply them with the chain.urlp file, and they have to process that to get the state. They have no other way to come up with the state than to process the blocks. We could… yes, in some ways, it is a limitation in Hive. We could…
+
+415
+00:53:39.300 --> 00:53:53.059
+Felix (Geth): give them the poststate.json, and just expect them to load it to their dataBesu, but I'm not sure if they have a code path for that, honestly. I don't think any… I mean, I'm not sure if any client supports initializing the state from a JSON file. It's not
+
+416
+00:53:53.400 --> 00:53:54.320
+Felix (Geth): operation.
+
+417
+00:53:55.980 --> 00:53:59.840
+Tullio | Erigon: And then, from another point of view, if… if we were to…
+
+418
+00:54:00.180 --> 00:54:06.639
+Tullio | Erigon: I mean, do the DRLP, the chain RLP for mainnet.
+
+419
+00:54:06.830 --> 00:54:16.950
+Tullio | Erigon: That would be obviously huge, but with exactly this structure. The merge at the same point, not at zero.
+
+420
+00:54:17.160 --> 00:54:33.009
+Felix (Geth): Yeah, it's a bit… I mean, yeah, so… basically, we don't have… we don't give them… we could launch another client that supports the merge, and then give it to them, and be like, hey, just snap sync from this one, and then we can run the test. Like, we could… we could do that, basically.
+
+421
+00:54:33.010 --> 00:54:33.860
+Tullio | Erigon: It's just zero.
+
+422
+00:54:33.860 --> 00:54:43.460
+Felix (Geth): launch Geth, it'd be like, here's the SnapSync endpoint, do your thing, and then we can test the API. Maybe that's how we should… that's maybe how we should implement that, I don't know.
+
+423
+00:54:43.460 --> 00:54:44.560
+Tullio | Erigon: I don't know.
+
+424
+00:54:44.860 --> 00:54:57.929
+Felix (Geth): It was just an… just an idea, but it's not that trivial to implement. We just, basically, we're not prepared for these kinds of clients, because we just expect that all the clients can just execute the blocks and…
+
+425
+00:54:58.110 --> 00:55:06.699
+Felix (Geth): You know, get… that's, like, their main… the main point of the client anyway. So, I think it does kind of make more sense with the profiles in some ways, because…
+
+426
+00:55:06.900 --> 00:55:07.700
+Felix (Geth): that…
+
+427
+00:55:08.090 --> 00:55:15.200
+Felix (Geth): But how exactly it's gonna look with the profiles with this issue, I'm not sure. To be honest, I'm not really sure how it's really gonna be.
+
+428
+00:55:15.360 --> 00:55:17.299
+Felix (Geth): So we also have to see that then.
+
+429
+00:55:20.660 --> 00:55:29.780
+Tullio | Erigon: Yeah, this would require profiles implicitly to also have different chain RLP, not the same chain.
+
+430
+00:55:29.780 --> 00:55:30.450
+Felix (Geth): Yo.
+
+431
+00:55:30.610 --> 00:55:50.440
+Felix (Geth): So each profile would have to have their own tests, and the tests would have to be generated on top of a custom chain. It's not a… I mean, this is kind of possible for us to do that, because the profiles are literally, like, the way we see the profiles, at least in the idea of it, is just for them to be a complete copy of the spec.
+
+432
+00:55:50.440 --> 00:55:53.970
+Felix (Geth): which… I mean, in some ways, the profiles are just, like…
+
+433
+00:55:54.800 --> 00:56:02.469
+Felix (Geth): how we generate the spec from the sources, because we do expect that the source files, like the YAML files, they will be the same.
+
+434
+00:56:02.470 --> 00:56:15.790
+Felix (Geth): we will have one set of YAML files, it's just that we can generate different outputs from them. So we can generate different OpenRPC.json, we can generate different, different tests, and so on from the same sort of…
+
+435
+00:56:15.790 --> 00:56:27.259
+Felix (Geth): thing just is gonna be gated by the profile. Certain things in the spec are only enabled in certain profiles, and by that, I mean certain methods are only in certain profiles, maybe even… yeah, I'm not sure.
+
+436
+00:56:27.560 --> 00:56:41.309
+Felix (Geth): this is actually kind of an interesting question. If we did have this profile feature, would we be able to say that a method behaves differently depending on profile? So, if we have, for example, the post-merge profile, then the, like, getReceived
+
+437
+00:56:41.830 --> 00:56:49.520
+Felix (Geth): kind of has a different response type, because we don't allow… I guess that's not really how we want to handle that, that's gonna be really complex.
+
+438
+00:56:49.720 --> 00:56:54.739
+Felix (Geth): Yeah, well, whatever, like, it's interesting to wax about it, but we will get there.
+
+439
+00:56:54.840 --> 00:56:56.189
+Felix (Geth): Just not now.
+
+440
+00:57:02.490 --> 00:57:12.299
+Chase Wright: Okay, that sounds good. I don't know, maybe we can, maybe we can get Ethrex people to, join the RPC Standards Call in the near future. That would be cool.
+
+441
+00:57:12.300 --> 00:57:15.700
+Felix (Geth): I mean, they would probably be quite happy to be around, yeah.
+
+442
+00:57:15.700 --> 00:57:16.230
+Chase Wright: Yeah.
+
+443
+00:57:16.360 --> 00:57:20.920
+Chase Wright: So, I'll reach out to them, see if, anyone wants to participate.
+
+444
+00:57:22.370 --> 00:57:22.910
+Felix (Geth): Nope.
+
+445
+00:57:23.370 --> 00:57:24.250
+Felix (Geth): Nice.
+
+446
+00:57:25.280 --> 00:57:33.370
+Chase Wright: Alright, well, I guess that wraps up… wraps it up for today. Thank you everyone for their time, and see you again in 2 weeks.
+
+447
+00:57:34.100 --> 00:57:35.389
+Felix (Geth): Yeah, thank you.
+
+448
+00:57:35.780 --> 00:57:37.120
+Tullio | Erigon: you all. Bye.
+
+449
+00:57:37.660 --> 00:57:38.200
+keri: Bye.
+
