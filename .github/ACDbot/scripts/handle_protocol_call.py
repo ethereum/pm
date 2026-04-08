@@ -1520,7 +1520,7 @@ The bot will automatically process your issue once you've selected a valid call 
     def _generate_comprehensive_resource_comment(self, call_data: Dict) -> Optional[str]:
         """Generate comprehensive resource comment with ALL current resources from mapping."""
         try:
-            # Find current occurrence in mapping to get ALL resources (like generate_resource_comment.py)
+            # Find current occurrence in mapping to get ALL resources
             existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
             if not existing_occurrence:
                 print(f"[ERROR] Could not find occurrence for issue #{call_data['issue_number']} in mapping")
@@ -1553,32 +1553,27 @@ The bot will automatically process your issue once you've selected a valid call 
 
             # Zoom Meeting with enhanced URL (including passcode if available)
             meeting_id = series_data.get('meeting_id')
+            zoom_url = None
             if meeting_id and not str(meeting_id).startswith("placeholder") and meeting_id != "custom":
                 from modules import zoom
                 enhanced_url = zoom.get_meeting_url_with_passcode(meeting_id)
-                if enhanced_url:
-                    comment_lines.append(f"✅ **Zoom**: [Join Meeting]({enhanced_url})")
-                else:
-                    comment_lines.append(f"✅ **Zoom**: [Join Meeting](https://zoom.us/j/{meeting_id})")
+                zoom_url = enhanced_url or f"https://zoom.us/j/{meeting_id}"
+                comment_lines.append(f"✅ **Zoom**: [Join Meeting]({zoom_url})")
             elif meeting_id == "custom":
                 comment_lines.append("🔗 **Zoom**: Custom meeting link (see issue description)")
             else:
                 comment_lines.append("❌ **Zoom**: No meeting link available")
 
-            # Calendar Event with proper eid encoding
-            calendar_event_id = series_data.get('calendar_event_id')
-            if calendar_event_id:
-                from modules import gcal
-                calendar_id = os.getenv("GCAL_ID")
-                encoded_eid = gcal.encode_calendar_eid(calendar_event_id, calendar_id)
-
-                if encoded_eid:
-                    calendar_link = f"https://www.google.com/calendar/event?eid={encoded_eid}"
-                    comment_lines.append(f"✅ **Calendar**: [Add to Calendar]({calendar_link})")
-                else:
-                    comment_lines.append("❌ **Calendar**: Failed to generate link")
-            else:
-                comment_lines.append("❌ **Calendar**: No calendar event found")
+            # Calendar links
+            from modules.gcal import render_calendar_comment_line
+            cal_zoom = zoom_url if call_data.get("display_zoom_link_in_invite") else None
+            comment_lines.append(render_calendar_comment_line(
+                start_time=start_time,
+                summary=occurrence.get('issue_title', call_data['issue_title']),
+                duration=occurrence.get('duration', call_data.get('duration', 60)),
+                issue_url=call_data['issue_url'],
+                zoom_url=cal_zoom,
+            ))
 
             # Discourse Topic
             discourse_topic_id = occurrence.get('discourse_topic_id')
@@ -1605,7 +1600,7 @@ The bot will automatically process your issue once you've selected a valid call 
     def _post_results(self, call_data: Dict, issue, resource_results: Dict, is_update: bool):
         """Post results to GitHub issue."""
         try:
-            # Generate comprehensive comment with ALL current resources (like generate_resource_comment.py)
+            # Generate comprehensive comment with ALL current resources
             comment_prefix = "⚡ **Protocol Call Resources:**"
             comment_text = self._generate_comprehensive_resource_comment(call_data)
 

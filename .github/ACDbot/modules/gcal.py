@@ -4,10 +4,122 @@ import re
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta
+from urllib.parse import urlencode, urlparse
 import base64
 import pytz
 import sys
 import calendar
+
+from datetime_utils import parse_iso_datetime
+
+PROTOCOL_CALENDAR_ID = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
+
+
+def _is_valid_url(url):
+    """Basic URL validation - checks for http/https scheme and netloc."""
+    if not url or not isinstance(url, str):
+        return False
+    try:
+        result = urlparse(url)
+        return all([result.scheme in ('http', 'https'), result.netloc])
+    except Exception:
+        return False
+
+
+def build_calendar_view_link(start_time, calendar_id=None):
+    """Build a link to view the public protocol calendar around a specific date.
+
+    Args:
+        start_time: ISO-formatted datetime string
+        calendar_id: Optional calendar ID (defaults to GCAL_ID env var, then PROTOCOL_CALENDAR_ID)
+    """
+    if not start_time:
+        return None
+    if calendar_id is None:
+        # GCAL_ID env var allows overriding the default calendar for testing/alternate calendars
+        calendar_id = os.getenv("GCAL_ID", PROTOCOL_CALENDAR_ID)
+    dt = parse_iso_datetime(start_time)
+    if dt is None:
+        print(f"[WARN] build_calendar_view_link: Failed to parse start_time: {start_time}")
+        return None
+    # Show 1-day range (event day + next day) to display event in calendar context
+    date_str = dt.strftime('%Y%m%d')
+    next_day = (dt + timedelta(days=1)).strftime('%Y%m%d')
+    params = {
+        'src': calendar_id,
+        'ctz': 'UTC',
+        'mode': 'AGENDA',
+        'dates': f'{date_str}/{next_day}',
+        'showTitle': '1',
+        'showCalendars': '0',
+        'showTabs': '0',
+        'showPrint': '0',
+        'showNav': '0',
+    }
+    return f"https://calendar.google.com/calendar/embed?{urlencode(params)}"
+
+
+def build_calendar_add_link(summary, start_time, duration_minutes, description=""):
+    """Build a Google Calendar add-event link for a specific occurrence.
+
+    Args:
+        summary: Event title
+        start_time: ISO-formatted datetime string
+        duration_minutes: Event duration in minutes
+        description: Optional event description
+    """
+    if not start_time:
+        return None
+    start_dt = parse_iso_datetime(start_time)
+    if start_dt is None:
+        print(f"[WARN] build_calendar_add_link: Failed to parse start_time: {start_time}")
+        return None
+    end_dt = start_dt + timedelta(minutes=duration_minutes)
+    params = {
+        "action": "TEMPLATE",
+        "text": summary,
+        "dates": f"{start_dt.strftime('%Y%m%dT%H%M%SZ')}/{end_dt.strftime('%Y%m%dT%H%M%SZ')}",
+    }
+    if description:
+        params["details"] = description
+    return f"https://www.google.com/calendar/render?{urlencode(params)}"
+
+
+def render_calendar_comment_line(start_time, summary, duration, issue_url, zoom_url=None):
+    """Build the calendar comment line with View and Add to Calendar links.
+
+    Args:
+        start_time: ISO-formatted datetime string
+        summary: Event title
+        duration: Event duration in minutes
+        issue_url: GitHub issue URL (validated)
+        zoom_url: Optional Zoom meeting URL (validated if provided)
+    """
+    # Basic URL validation
+    if not _is_valid_url(issue_url):
+        print(f"[ERROR] render_calendar_comment_line: Invalid issue_url: {issue_url}")
+        return "❌ **Calendar**: Invalid issue URL"
+
+    if zoom_url and not _is_valid_url(zoom_url):
+        print(f"[WARN] render_calendar_comment_line: Invalid zoom_url, omitting from calendar: {zoom_url}")
+        zoom_url = None  # Omit invalid Zoom URLs but continue
+
+    view_link = build_calendar_view_link(start_time)
+
+    details_parts = [f"Issue: {issue_url}"]
+    if zoom_url:
+        details_parts.insert(0, f"Meeting: {zoom_url}")
+    add_link = build_calendar_add_link(summary, start_time, duration, "\n\n".join(details_parts))
+
+    if view_link and add_link:
+        return f"✅ **Calendar**: [View]({view_link}) | [Add to Calendar]({add_link})"
+    if add_link:
+        return f"✅ **Calendar**: [Add to Calendar]({add_link})"
+    if view_link:
+        return f"✅ **Calendar**: [View]({view_link})"
+
+    print(f"[ERROR] render_calendar_comment_line: Failed to build calendar links for start_time: {start_time}")
+    return "❌ **Calendar**: No calendar event found"
 
 
 def encode_calendar_eid(event_id, calendar_id):
