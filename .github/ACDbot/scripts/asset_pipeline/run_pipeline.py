@@ -293,6 +293,8 @@ def main():
                         help='Auto-approve corrections without interactive review (for CI/automation)')
     parser.add_argument('--max-age-days', type=int, default=None,
                         help='Only process meetings within this many days (for CI, e.g., --max-age-days 7)')
+    parser.add_argument('--min-duration', type=int, default=10,
+                        help='Minimum meeting duration in minutes for asset download (default: 10, set to 0 to process all)')
     args = parser.parse_args()
 
     # Validate arguments
@@ -351,6 +353,7 @@ def main():
         download_cmd = [
             sys.executable, "download_zoom_assets.py",
             "--series-name", call,
+            "--min-duration", str(args.min_duration),
         ]
         if recent_date:
             # Use date from mapping file

@@ -11,6 +11,11 @@ on:
         description: "Optional: Call number (e.g., 226 for ACDE #226)"
         required: false
         type: string
+      MIN_DURATION:
+        description: "Minimum meeting duration in minutes (default: 10, set to 0 to process all)"
+        required: false
+        type: number
+        default: 10
 
   schedule:
     - cron: "0 * * * *" # Run every hour at minute 0
@@ -23,6 +28,7 @@ jobs:
       refresh_failed: 'false'
       INPUT_FORCE_SERIES: ${{ github.event.inputs.FORCE_SERIES }}
       INPUT_FORCE_NUMBER: ${{ github.event.inputs.FORCE_NUMBER }}
+      INPUT_MIN_DURATION: ${{ github.event.inputs.MIN_DURATION || '10' }}
 
     steps:
       - name: Check out code
@@ -154,12 +160,14 @@ jobs:
           if [ -n "$INPUT_FORCE_SERIES" ] && [ -n "$INPUT_FORCE_NUMBER" ]; then
             # Process specific meeting
             echo "Processing $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER..."
-            python run_pipeline.py -c "$INPUT_FORCE_SERIES" -n "$INPUT_FORCE_NUMBER" --auto-approve --summarize
+            python run_pipeline.py -c "$INPUT_FORCE_SERIES" -n "$INPUT_FORCE_NUMBER" \
+              --auto-approve --summarize --min-duration "$INPUT_MIN_DURATION"
           else
             # No forced meeting - process all recent meetings
             SERIES=$(python -c "import json; m=json.load(open('../../meeting_topic_mapping.json')); print(' '.join(m.keys()))")
             for series in $SERIES; do
-              python run_pipeline.py -c "$series" --recent --max-age-days 3 --auto-approve --summarize || true
+              python run_pipeline.py -c "$series" --recent --max-age-days 3 \
+                --auto-approve --summarize --min-duration "$INPUT_MIN_DURATION" || true
             done
           fi
 
