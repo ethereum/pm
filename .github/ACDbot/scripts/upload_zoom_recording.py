@@ -382,7 +382,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         print(f"[WARN] Could not check recording duration for meeting {meeting_id}: {e}")
         # Continue with download attempt if we can't check duration
 
-    video_path = download_zoom_recording(meeting_id, target_start_time=occurrence_start_time, tolerance_minutes=120)
+    video_path = download_zoom_recording(meeting_id, min_duration_minutes=min_duration, target_start_time=occurrence_start_time, tolerance_minutes=120)
     if not video_path:
         print(f"[SKIP] No MP4 recording available for meeting {meeting_id}")
         print(f"  -> Expected skip: Recording may not be ready yet or meeting was cancelled")
