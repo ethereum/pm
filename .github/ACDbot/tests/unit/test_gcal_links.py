@@ -9,15 +9,23 @@ from unittest.mock import patch
 from urllib.parse import urlparse, parse_qs
 
 # Mock heavy dependencies before importing gcal
-sys.modules['google.oauth2'] = MagicMock()
-sys.modules['google.oauth2.service_account'] = MagicMock()
-sys.modules['googleapiclient'] = MagicMock()
-sys.modules['googleapiclient.discovery'] = MagicMock()
-sys.modules['pytz'] = MagicMock()
+_gcal_mock_keys = (
+    'google.oauth2.service_account',
+    'google.oauth2',
+    'googleapiclient.discovery',
+    'googleapiclient',
+    'pytz',
+)
+for _key in _gcal_mock_keys:
+    sys.modules[_key] = MagicMock()
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'modules'))
 
 from gcal import build_calendar_view_link, build_calendar_add_link, PROTOCOL_CALENDAR_ID
+
+# Do not leave mocked google/pytz in sys.modules: other test modules import real libraries.
+for _key in _gcal_mock_keys:
+    sys.modules.pop(_key, None)
 
 
 class TestBuildCalendarViewLink(unittest.TestCase):

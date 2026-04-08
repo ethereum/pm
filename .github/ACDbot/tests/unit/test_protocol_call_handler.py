@@ -10,7 +10,6 @@ import unittest.mock
 import sys
 import os
 import re
-import types
 from urllib.parse import urlparse, parse_qs
 
 # Add the scripts directory to the path
@@ -543,17 +542,17 @@ bi-weekly
             "display_zoom_link_in_invite": True,
         }
 
-        fake_zoom = types.SimpleNamespace(
-            get_meeting_url_with_passcode=lambda _: 'https://zoom.us/j/987654321?pwd=secret'
-        )
-
+        zoom_url_with_pwd = 'https://zoom.us/j/987654321?pwd=secret'
         with unittest.mock.patch.object(self.handler.mapping_manager, 'find_occurrence', return_value=mock_occurrence_data), \
              unittest.mock.patch.object(self.handler.mapping_manager, 'load_mapping', return_value=mock_mapping_data), \
-             unittest.mock.patch.dict(sys.modules, {'modules.zoom': fake_zoom}):
+             unittest.mock.patch(
+                 'modules.zoom.get_meeting_url_with_passcode',
+                 return_value=zoom_url_with_pwd,
+             ):
             result = self.handler._generate_comprehensive_resource_comment(call_data)
 
         self.assertIsNotNone(result)
-        self.assertIn("✅ **Zoom**: [Join Meeting](https://zoom.us/j/987654321?pwd=secret)", result)
+        self.assertIn(f"✅ **Zoom**: [Join Meeting]({zoom_url_with_pwd})", result)
 
         # Verify dual calendar links
         self.assertIn("[View]", result)
@@ -570,7 +569,7 @@ bi-weekly
         self.assertEqual(add_params["text"], ["Test Protocol Call"])
         self.assertEqual(
             add_params["details"],
-            ["Meeting: https://zoom.us/j/987654321?pwd=secret\n\nIssue: https://github.com/ethereum/pm/issues/123"],
+            [f"Meeting: {zoom_url_with_pwd}\n\nIssue: https://github.com/ethereum/pm/issues/123"],
         )
 
     def test_generate_comprehensive_resource_comment_omits_zoom_in_calendar_payload_when_disabled(self):
@@ -600,13 +599,13 @@ bi-weekly
             "display_zoom_link_in_invite": False,
         }
 
-        fake_zoom = types.SimpleNamespace(
-            get_meeting_url_with_passcode=lambda _: 'https://zoom.us/j/987654321?pwd=secret'
-        )
-
+        zoom_url_with_pwd = 'https://zoom.us/j/987654321?pwd=secret'
         with unittest.mock.patch.object(self.handler.mapping_manager, 'find_occurrence', return_value=mock_occurrence_data), \
              unittest.mock.patch.object(self.handler.mapping_manager, 'load_mapping', return_value=mock_mapping_data), \
-             unittest.mock.patch.dict(sys.modules, {'modules.zoom': fake_zoom}):
+             unittest.mock.patch(
+                 'modules.zoom.get_meeting_url_with_passcode',
+                 return_value=zoom_url_with_pwd,
+             ):
             result = self.handler._generate_comprehensive_resource_comment(call_data)
 
         self.assertIsNotNone(result)
