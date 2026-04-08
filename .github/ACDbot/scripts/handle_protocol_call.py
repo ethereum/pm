@@ -1520,7 +1520,7 @@ The bot will automatically process your issue once you've selected a valid call 
     def _generate_comprehensive_resource_comment(self, call_data: Dict) -> Optional[str]:
         """Generate comprehensive resource comment with ALL current resources from mapping."""
         try:
-            # Find current occurrence in mapping to get ALL resources (like generate_resource_comment.py)
+            # Find current occurrence in mapping to get ALL resources
             existing_occurrence = self.mapping_manager.find_occurrence(call_data["issue_number"])
             if not existing_occurrence:
                 print(f"[ERROR] Could not find occurrence for issue #{call_data['issue_number']} in mapping")
@@ -1600,7 +1600,7 @@ The bot will automatically process your issue once you've selected a valid call 
     def _post_results(self, call_data: Dict, issue, resource_results: Dict, is_update: bool):
         """Post results to GitHub issue."""
         try:
-            # Generate comprehensive comment with ALL current resources (like generate_resource_comment.py)
+            # Generate comprehensive comment with ALL current resources
             comment_prefix = "⚡ **Protocol Call Resources:**"
             comment_text = self._generate_comprehensive_resource_comment(call_data)
 
