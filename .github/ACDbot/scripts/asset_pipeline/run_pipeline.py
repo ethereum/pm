@@ -293,8 +293,8 @@ def main():
                         help='Auto-approve corrections without interactive review (for CI/automation)')
     parser.add_argument('--max-age-days', type=int, default=None,
                         help='Only process meetings within this many days (for CI, e.g., --max-age-days 7)')
-    parser.add_argument('--min-duration', type=int, default=10,
-                        help='Minimum meeting duration in minutes for asset download (default: 10, set to 0 to process all)')
+    parser.add_argument('--min-duration', type=int, default=15,
+                        help='Minimum meeting duration in minutes for asset download (default: 15, set to 0 to process all)')
     args = parser.parse_args()
 
     # Validate arguments

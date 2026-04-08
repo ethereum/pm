@@ -236,7 +236,7 @@ def process_recent_meetings(
     series_name: str,
     recent_count: int,
     access_token: str,
-    min_duration_minutes: int = 10,
+    min_duration_minutes: int = 15,
     include_summary: bool = False
 ) -> None:
     """Fetch and process a number of recent meetings for a series using the mapping file."""
@@ -381,7 +381,7 @@ def process_meeting_by_date(
     series_name: str,
     target_date: str,
     access_token: str,
-    min_duration_minutes: int = 10,
+    min_duration_minutes: int = 15,
     include_summary: bool = False
 ) -> None:
     """Fetch and process a meeting for a specific date using the mapping file."""
@@ -513,7 +513,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Download assets from Zoom meetings.")
 
     parser.add_argument("--series-name", required=True, help="The name of the call series (e.g., 'acde').")
-    parser.add_argument("--min-duration", type=int, default=10, help="Minimum meeting duration in minutes to process (default: 10). Applies to --recent and --date.")
+    parser.add_argument("--min-duration", type=int, default=15, help="Minimum meeting duration in minutes to process (default: 15). Applies to --recent and --date.")
     parser.add_argument("--include-summary", action="store_true", help="Download Zoom's meeting summary (summary.json). Disabled by default.")
 
     group = parser.add_mutually_exclusive_group(required=True)

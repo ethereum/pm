@@ -78,7 +78,7 @@ def video_exists(youtube, meeting_id):
         return False
     return True
 
-def find_best_youtube_recording(meeting_id, min_duration_minutes=10, target_start_time=None, tolerance_minutes=120):
+def find_best_youtube_recording(meeting_id, min_duration_minutes=15, target_start_time=None, tolerance_minutes=120):
     """Find the best recording for YouTube upload, checking all instances if needed.
 
     Args:
@@ -203,7 +203,7 @@ def find_best_youtube_recording(meeting_id, min_duration_minutes=10, target_star
         print(f"[ERROR] Failed to check meeting instances: {e}")
         return None
 
-def download_zoom_recording(meeting_id, min_duration_minutes=10, target_start_time=None, tolerance_minutes=120):
+def download_zoom_recording(meeting_id, min_duration_minutes=15, target_start_time=None, tolerance_minutes=120):
     """Download Zoom recording MP4 file to temp location"""
     recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes, target_start_time, tolerance_minutes)
 
@@ -271,7 +271,7 @@ def download_zoom_recording(meeting_id, min_duration_minutes=10, target_start_ti
         os.unlink(temp_file.name)  # Clean up failed download
         return None
 
-def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None, min_duration=10):
+def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None, min_duration=15):
     """Uploads Zoom recording to YouTube for a specific occurrence.
 
     Returns:
@@ -513,7 +513,7 @@ def main():
     parser = argparse.ArgumentParser(description="Upload Zoom recording to YouTube")
     parser.add_argument("--meeting_id", required=False, help="Zoom meeting ID to process")
     parser.add_argument("--occurrence_issue_number", required=False, type=int, help="Issue number of the specific occurrence to upload (requires --meeting_id)")
-    parser.add_argument("--min-duration", type=int, default=10, help="Minimum meeting duration in minutes to process (default: 10, set to 0 to process all)")
+    parser.add_argument("--min-duration", type=int, default=15, help="Minimum meeting duration in minutes to process (default: 15, set to 0 to process all)")
     args = parser.parse_args()
 
     # Handle case where specific occurrence is provided

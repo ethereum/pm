@@ -46,7 +46,7 @@ def find_matching_recordings(meeting_id, series_name=None, target_start_time=Non
     return zoom.find_recordings_with_filters(
         meeting_id=meeting_id,
         target_start_time=target_start_time,
-        min_duration=10,
+        min_duration=15,
         require_transcript=True,
         tolerance_minutes=tolerance_minutes,
         topic_fallback=topic_fallback
