@@ -299,6 +299,15 @@ def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, c
 def update_recurring_event(event_id: str, summary: str, start_dt, duration_minutes: int, calendar_id: str, occurrence_rate: str, description=""):
     """
     Update an existing recurring Google Calendar event, preserving recurrence settings
+
+    Strategy for handling missing instances:
+    - If target date is BEFORE the next series instance AND aligns with the recurrence pattern,
+      creates a one-time event for the target date while preserving the existing series.
+    - This handles cases where an instance was auto-deleted (e.g., by unmapped meeting cleanup)
+      and needs to be restored without disrupting the entire series.
+    - Example: Weekly series on Wednesdays starting April 15, but April 8 instance was deleted.
+      Creating issue for April 8 will add a one-time event on April 8 and keep series on April 15+.
+
     Args:
         event_id: ID of the existing recurring event to update
         summary: Event title
@@ -308,7 +317,7 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
         occurrence_rate: weekly, bi-weekly, or monthly
         description: Optional event description
     Returns:
-        Dict with htmlLink and id
+        Dict with htmlLink and id (series ID, not one-time event ID if created)
     """
     print(f"[DEBUG] Attempting to update recurring calendar event {event_id} with summary: {summary}")
 
@@ -368,8 +377,9 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
         # Get instances of the recurring event around the target date
         # Must use explicit timeMin/timeMax - without them, the API may exclude
         # the instance matching the master event's start date
-        time_min = (start_dt - timedelta(days=7)).isoformat()
-        time_max = (start_dt + timedelta(days=7)).isoformat()
+        # Use ±14 days to catch instances even if there's a week offset
+        time_min = (start_dt - timedelta(days=14)).isoformat()
+        time_max = (start_dt + timedelta(days=14)).isoformat()
 
         print(f"[DEBUG] Searching for instances between {time_min} and {time_max}")
 
@@ -443,12 +453,21 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
             }
         else:
             print(f"[DEBUG] No matching instance found for date {start_dt.date()}")
-            print(f"[DEBUG] Available instance dates:")
-            for i, instance in enumerate(instances.get('items', [])[:5]):
+            print(f"[DEBUG] Checking next 2 instances for alignment:")
+            future_instances = []
+            for i, instance in enumerate(instances.get('items', [])):
                 instance_start = instance.get('start', {}).get('dateTime')
                 if instance_start:
                     instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
-                    print(f"[DEBUG]   {i+1}. {instance_dt.date()} - {instance.get('id')}")
+                    if instance_dt.date() > start_dt.date():
+                        future_instances.append((instance_dt.date(), instance_dt))
+                        # Only need to check the next 2 future instances
+                        if len(future_instances) >= 2:
+                            break
+
+            # Log what we found
+            for i, (future_date, _) in enumerate(future_instances):
+                print(f"[DEBUG]   {i+1}. {future_date}")
 
             # Check if the recurrence has ended before our target date
             recurrence_rules = existing_event.get('recurrence', [])
@@ -557,8 +576,55 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                     'action_detail': 'pattern_updated' if needs_pattern_update else 'recurrence_extended'
                 }
             else:
-                # No matching instance found - shift the recurrence pattern to start from the new date
+                # No matching instance found - check if we should create a one-time event instead of shifting
                 print(f"[DEBUG] No specific instance found for target date {start_dt.date()}")
+
+                # Check if there's a future instance that aligns with the occurrence rate
+                if future_instances:
+                    closest_future_date, closest_future_dt = min(future_instances, key=lambda x: x[0])
+                    days_diff = (closest_future_date - start_dt.date()).days
+
+                    print(f"[DEBUG] Found future instance on {closest_future_date}, {days_diff} days from target")
+
+                    # Check if the future instance aligns with the occurrence rate
+                    is_aligned = False
+                    if occurrence_rate == "weekly":
+                        is_aligned = days_diff == 7
+                    elif occurrence_rate == "bi-weekly":
+                        is_aligned = days_diff == 14
+                    elif occurrence_rate == "monthly":
+                        # For monthly, check if it's approximately 4 weeks (allow 27-31 days)
+                        is_aligned = 27 <= days_diff <= 31
+                        if not is_aligned:
+                            print(f"[WARN] Monthly occurrence but days_diff is {days_diff} (expected 27-31 days)")
+
+                    if is_aligned:
+                        print(f"[INFO] Future instance aligns with {occurrence_rate} schedule ({days_diff} days)")
+                        print(f"[INFO] Creating one-time event for {start_dt.date()} and preserving series starting {closest_future_date}")
+
+                        # Create a one-time event for the target date
+                        one_time_event = create_event(
+                            summary=summary,
+                            start_dt=start_dt,
+                            duration_minutes=duration_minutes,
+                            calendar_id=calendar_id,
+                            description=description
+                        )
+
+                        print(f"[DEBUG] Created one-time event for {start_dt.date()}: {one_time_event.get('id')}")
+                        print(f"[DEBUG] Series continues on {closest_future_date} (event ID: {event_id})")
+
+                        return {
+                            'htmlLink': one_time_event.get('htmlLink'),
+                            'id': event_id,  # Return the series ID, not the one-time event ID
+                            'action_detail': 'one_time_created_series_preserved',
+                            'one_time_event_id': one_time_event.get('id')  # For future reference if needed
+                        }
+                    else:
+                        print(f"[WARN] Future instance on {closest_future_date} does NOT align with {occurrence_rate} schedule ({days_diff} days)")
+                        print(f"[WARN] This may indicate a schedule conflict - proceeding with series shift")
+
+                # No aligned future instance - shift the recurrence pattern to start from the new date
                 print(f"[DEBUG] Shifting recurrence pattern to start from the new date")
 
                 # Build new start/end times matching the target date
@@ -605,6 +671,7 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                 }
 
                 print(f"[DEBUG] Updating master event with new start date: {start_dt.date()}")
+                print(f"[DEBUG] Event body: start={new_start['dateTime']}, recurrence={final_recurrence}")
 
                 event = service.events().update(
                     calendarId=calendar_id,
@@ -613,6 +680,7 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                 ).execute()
 
                 print(f"[DEBUG] Shifted recurrence pattern to start from {start_dt.date()}")
+                print(f"[DEBUG] Returned event: start={event.get('start')}, recurrence={event.get('recurrence')}")
 
                 return {
                     'htmlLink': event.get('htmlLink'),
