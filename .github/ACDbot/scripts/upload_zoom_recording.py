@@ -271,7 +271,7 @@ def download_zoom_recording(meeting_id, min_duration_minutes=10, target_start_ti
         os.unlink(temp_file.name)  # Clean up failed download
         return None
 
-def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None):
+def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None, min_duration=10):
     """Uploads Zoom recording to YouTube for a specific occurrence.
 
     Returns:
@@ -369,9 +369,9 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
 
     # Check recording duration before downloading
     try:
-        recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes=10, target_start_time=occurrence_start_time, tolerance_minutes=120)
+        recording_info = find_best_youtube_recording(meeting_id, min_duration_minutes=min_duration, target_start_time=occurrence_start_time, tolerance_minutes=120)
         if not recording_info:
-            print(f"[SKIP] No recording found with minimum 10 minutes duration")
+            print(f"[SKIP] No recording found with minimum {min_duration} minutes duration")
             print(f"  -> Expected skip: Recording may not be ready yet or meeting was cancelled")
             # This is an expected case - don't report to Telegram
             return None # Expected skip, don't report
@@ -513,13 +513,14 @@ def main():
     parser = argparse.ArgumentParser(description="Upload Zoom recording to YouTube")
     parser.add_argument("--meeting_id", required=False, help="Zoom meeting ID to process")
     parser.add_argument("--occurrence_issue_number", required=False, type=int, help="Issue number of the specific occurrence to upload (requires --meeting_id)")
+    parser.add_argument("--min-duration", type=int, default=10, help="Minimum meeting duration in minutes to process (default: 10, set to 0 to process all)")
     args = parser.parse_args()
 
     # Handle case where specific occurrence is provided
     if args.meeting_id and args.occurrence_issue_number:
         print(f"Attempting upload for specific occurrence: Meeting ID {args.meeting_id}, Issue #{args.occurrence_issue_number}")
         try:
-            upload_recording(args.meeting_id, args.occurrence_issue_number)
+            upload_recording(args.meeting_id, args.occurrence_issue_number, min_duration=args.min_duration)
         except Exception as e:
             print(f"Failed to process specific occurrence {args.meeting_id} / {args.occurrence_issue_number}: {e}")
         return # Exit after processing specific occurrence
@@ -528,7 +529,7 @@ def main():
     if args.meeting_id and not args.occurrence_issue_number:
         print(f"[WARN] Only --meeting_id provided. Attempting upload for the LATEST occurrence of {args.meeting_id}.")
         try:
-            upload_recording(args.meeting_id) # Will try latest occurrence by default
+            upload_recording(args.meeting_id, min_duration=args.min_duration) # Will try latest occurrence by default
         except Exception as e:
             print(f"Failed to process latest occurrence for {args.meeting_id}: {e}")
         return
@@ -587,7 +588,7 @@ def main():
                     if not yt_skipped and not yt_processed and occ_issue_num and effective_meeting_id:
                         print(f"\nProcessing occurrence from mapping: Meeting ID {effective_meeting_id}, Issue #{occ_issue_num}")
                         try:
-                            result = upload_recording(effective_meeting_id, occ_issue_num, error_collector=error_messages)
+                            result = upload_recording(effective_meeting_id, occ_issue_num, error_collector=error_messages, min_duration=args.min_duration)
                             if result is True:
                                 # Successful upload
                                 success_count += 1

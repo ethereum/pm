@@ -122,13 +122,16 @@ jobs:
           ")
             if [ -n "$MEETING_ID" ]; then
               python .github/ACDbot/scripts/upload_zoom_recording.py \
-                --meeting_id "$MEETING_ID"
+                --meeting_id "$MEETING_ID" \
+                --min-duration "$INPUT_MIN_DURATION"
             else
               echo "No meeting_id found for series $INPUT_FORCE_SERIES"
-              python .github/ACDbot/scripts/upload_zoom_recording.py
+              python .github/ACDbot/scripts/upload_zoom_recording.py \
+                --min-duration "$INPUT_MIN_DURATION"
             fi
           else
-            python .github/ACDbot/scripts/upload_zoom_recording.py
+            python .github/ACDbot/scripts/upload_zoom_recording.py \
+              --min-duration "$INPUT_MIN_DURATION"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
