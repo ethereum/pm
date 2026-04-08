@@ -1,0 +1,84 @@
+00:05:00	Luca Donno | L2BEAT:	gmgm
+00:05:20	Kevaundray Wedderburn:	Reacted to "gmgm" with ❤️
+00:05:36	Ladislaus:	Hat auf "gmgm" mit 🫡 reagiert
+00:06:35	Alex Hicks:	great chat 👍
+00:07:01	Francesco Risitano:	Reacted to "gmgm" with 🫡
+00:07:04	Francesco Risitano:	Reacted to "gmgm" with ❤️
+00:07:09	Francesco Risitano:	Reacted to "great chat 👍" with 😃
+00:15:12	Alexandre Belling:	It seems that the overall size of the EVM implementation is very small no?
+
+Is that around 1000-ish R5 instruction for the EVM?
+00:15:35	Alex Hicks:	the STF will be much bigger though
+00:17:45	Alex Hicks:	can we talk about optimizing the produced assembly?
+00:17:54	Alexandre Belling:	Reacted to "can we talk about op..." with 👍
+00:19:12	Alex Hicks:	ok Mamy is doing it :D
+00:19:54	Mamy:	xD
+00:20:24	Yi Sun:	One concern about EVM -> AIR directly is that the correctness of the AIRs depends on the global memory / execution model of the zkVM.
+00:20:37	Mamy:	this should use unsaturated arithmetic. And there is a formally verified ways of doing this in fiat-crypto
+00:20:49	Alex Hicks:	PR this to claude.md please
+00:20:54	Alex Hicks:	:)
+00:20:56	Tamir Hemo:	It also depend on field sizes etc
+00:22:04	Tamir Hemo:	To add to Alex point we can also add skills for the AI to write zk optimal assembly vs hardware optimal
+00:22:23	Alex Hicks:	yes that's the idea, the performance profile is obviously very different
+00:22:34	Mamy:	One concern about EVM -> AIR directly is that the correctness of the AIRs depends on the global memory / execution model of the zkVM.
+
+I wonder if we can have a common AIR serialization format that can handle the variatiosn between the zkVMs?
+00:22:50	Derek Sorensen:	Reacted to "PR this to claude.md..." with 👍
+00:23:00	Alexandre Belling:	For direct assembly-written EVM, I expect the auto-precompiles approach might work well.
+00:23:11	Derek Sorensen:	Reacted to "To add to Alex point..." with 👍
+00:23:25	Derek Sorensen:	Reacted to "For direct assembly-..." with 👍
+00:23:42	Alexandre Belling:	As there would be typically not that many modules. And that would also avoid to maintain an AIR for EVM opcodes
+00:23:47	Yi Sun:	Replying to "One concern about EV..."
+
+One concern about EVM -> AIR directly is that the correctness of the AIRs depends on the global memory / execution model of the zkVM.
+
+I wonder if we can have a common AIR serialization format that can handle the variatiosn between the zkVMs?
+I think this might be difficult.  We have a separation between these as the “Core” and “Adapter” part of chips in OpenVM, but I wouldn’t expect the separation to generalize across different designs.
+00:23:58	Alex Hicks:	Reacted to "As there would be ..." with 💯
+00:24:40	cody:	Does evm-asm currently give a way to execute a RV64IM binary?
+00:28:32	Derek Sorensen:	Do you have a link for these specs and tests?
+00:29:42	Kevaundray Wedderburn:	Replying to "Do you have a link f..."
+
+Its in the execution specs: https://github.com/ethereum/execution-specs/tree/projects/zkevm/src/ethereum/forks/amsterdam
+00:29:58	Derek Sorensen:	Reacted to "Its in the execution..." with 👍
+00:34:52	ignacio:	slides link proj 1, 2 and 6 https://docs.google.com/presentation/d/1YPIU2jPPTetAUw_qzQsefKntXIqOPeFZja7udtFVQUI/edit?usp=sharing
+00:35:07	Ladislaus:	Hat auf "slides link proj 1, ..." mit 🙏 reagiert
+00:37:51	Kevaundray Wedderburn:	Reacted to "slides link proj 1, ..." with 🙏
+00:38:33	Mamy:	@Alex Hicks https://github.com/Verified-zkEVM/evm-asm/issues/175
+00:38:50	cody:	Replying to "Does evm-asm curre..."
+
+bump
+00:39:15	Derek Sorensen:	not yet, no. But hopefully soon 🙂
+00:39:34	cody:	Reacted to "not yet, no" with 🙏
+00:40:44	Kevaundray Wedderburn:	Replying to "@Alex Hicks https://..."
+
+We could also test this with normal guest programs too
+00:41:49	Kevaundray Wedderburn:	Replying to "@Alex Hicks https://..."
+
+Maybe some sort of conditional compilation such that if the ISA has instructions like add-with-carry, then it uses saturated limbs and without it uses unsaturated
+00:42:17	Ruben:	for accelerators, i proposed https://github.com/eth-act/zkvm-standards/issues/23
+for io, https://github.com/eth-act/zkvm-standards/issues/21
+00:42:59	Francesco Risitano:	Sorry mic issues
+00:44:52	Kevaundray Wedderburn:	Replying to "for accelerators, i ..."
+
+keccakf makes sense — I think a lot of zkVMs have accelerators for the permutation anyways.
+
+It would maybe make our interface incoherent however because the exposed methods correspond to evm precompiles
+00:45:07	Barnabas:	couple more days
+00:45:32	Barnabas:	just wanna make sure its very user friendly
+00:45:35	Kevaundray Wedderburn:	Replying to "for accelerators, i ..."
+
++1 on logging too — maybe @Marcin Bugaj you have some thoughts on these too?
+00:45:43	Kevaundray Wedderburn:	Reacted to "just wanna make sure..." with 🔥
+00:49:44	Barnabas:	are the lh changes upstreamed already?
+00:50:08	Barnabas:	are prysm changes upstreamed already?
+00:50:26	Ruben:	Reacted to "+1 on logging too ..." with 👍
+00:50:29	Ruben:	Reacted to "keccakf makes sens..." with 👍
+00:52:46	Francesco Risitano:	Are all of those dashboard views provided via grafana?
+00:53:54	Han Jian:	Slide for project 5 https://docs.google.com/presentation/d/16TJS0fwgxg9IzjLZWq-xsolKP9eOD2t6wolT-eLipfA/edit?usp=sharing
+00:54:02	Kevaundray Wedderburn:	Reacted to "Slide for project 5 ..." with 🔥
+00:54:26	Francesco Risitano:	Reacted to "Slide for project 5 ..." with 🔥
+00:54:49	Francesco Risitano:	Slides for consensus layer updates: https://frisitano.github.io/slides/presentations/optional-proofs-2026-04-08/index.html#1
+00:54:58	Ladislaus:	Hat auf "Slides for consensus..." mit 🙏 reagiert
+00:59:15	Alex Hicks:	can quickly comment if you want
+01:02:18	Francesco Risitano:	Reacted to "just wanna make sure..." with ❤️
