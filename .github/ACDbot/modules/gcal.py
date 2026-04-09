@@ -85,6 +85,34 @@ def build_calendar_add_link(summary, start_time, duration_minutes, description="
     return f"https://www.google.com/calendar/render?{urlencode(params)}"
 
 
+ICS_BASE_URL = os.getenv("ICS_BASE_URL", "https://ps.ethereum.foundation")
+
+
+def build_ics_download_link(summary, start_time, duration_minutes, description=""):
+    """Build a link to download an .ics file for the event via ps.ethereum.foundation.
+
+    Args:
+        summary: Event title
+        start_time: ISO-formatted datetime string
+        duration_minutes: Event duration in minutes
+        description: Optional event description
+    """
+    if not start_time:
+        return None
+    start_dt = parse_iso_datetime(start_time)
+    if start_dt is None:
+        print(f"[WARN] build_ics_download_link: Failed to parse start_time: {start_time}")
+        return None
+    params = {
+        "title": summary,
+        "start": start_dt.strftime('%Y%m%dT%H%M%SZ'),
+        "duration": str(duration_minutes),
+    }
+    if description:
+        params["description"] = description
+    return f"{ICS_BASE_URL}/api/ics?{urlencode(params)}"
+
+
 def render_calendar_comment_line(start_time, summary, duration, issue_url, zoom_url=None):
     """Build the calendar comment line with View and Add to Calendar links.
 
@@ -109,14 +137,20 @@ def render_calendar_comment_line(start_time, summary, duration, issue_url, zoom_
     details_parts = [f"Issue: {issue_url}"]
     if zoom_url:
         details_parts.insert(0, f"Meeting: {zoom_url}")
-    add_link = build_calendar_add_link(summary, start_time, duration, "\n\n".join(details_parts))
+    description = "\n\n".join(details_parts)
+    add_link = build_calendar_add_link(summary, start_time, duration, description)
+    ics_link = build_ics_download_link(summary, start_time, duration, description)
 
-    if view_link and add_link:
-        return f"✅ **Calendar**: [View]({view_link}) | [Add to Calendar]({add_link})"
-    if add_link:
-        return f"✅ **Calendar**: [Add to Calendar]({add_link})"
+    links = []
     if view_link:
-        return f"✅ **Calendar**: [View]({view_link})"
+        links.append(f"[View]({view_link})")
+    if add_link:
+        links.append(f"[Add to Calendar]({add_link})")
+    if ics_link:
+        links.append(f"[Download .ics]({ics_link})")
+
+    if links:
+        return f"✅ **Calendar**: {' | '.join(links)}"
 
     print(f"[ERROR] render_calendar_comment_line: Failed to build calendar links for start_time: {start_time}")
     return "❌ **Calendar**: No calendar event found"
