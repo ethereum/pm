@@ -1,5 +1,4 @@
 # Ethereum Project Management Repository
-
 This repository is used for project management for various initiatives affecting the Ethereum protocol.
 This repository is for:
 - [Execution](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AExecution) and [Consensus](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AConsensus) Layer AllCoreDevs meetings
