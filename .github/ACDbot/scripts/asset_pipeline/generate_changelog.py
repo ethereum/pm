@@ -25,6 +25,7 @@ Identify misspelled Ethereum-specific terms in this WebVTT transcript that shoul
 3. Focus on proper nouns, protocol names, technical terms from the vocabulary reference
 4. Only correct obvious transcription errors where context supports the correction
 5. When uncertain, leave unchanged
+6. Devnet names use lowercase kebab-case: bal-devnet, epbs-devnet, blob-devnet (NOT "BalDevNet", "DevNet", etc.). The words devnet, testnet, mainnet are always lowercase.
 
 ## Examples of GOOD corrections (specific terms):
 - Nethermine → Nethermind
