@@ -161,4 +161,3 @@ IMPORTANT:
 - Distill each line item to 12 words or less.
 - Action items should be rare (0-3 per meeting) - most meetings have no cross-team coordination needs.
 - Use the Ethereum Vocabulary Reference for correct spelling of all client names, protocol terms, and acronyms. The transcript may contain speech-to-text errors (e.g., "Prism" for Prysm, "Aragon" for Erigon, "Lone Star" for Lodestar). Always use the canonical spellings from the vocabulary list.
-- The word "devnet" is always lowercase (not "DevNet"). Specific networks use lowercase kebab-case with number: bal-devnet-3, epbs-devnet-2. Informal references like "BAL devnet" or "ePBS devnet" (no number) are fine.
