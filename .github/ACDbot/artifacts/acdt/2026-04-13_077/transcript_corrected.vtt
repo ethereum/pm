@@ -1,0 +1,906 @@
+WEBVTT
+
+1
+00:07:01.790 --> 00:07:07.140
+Parithosh Jayanthi: Hey everyone, let's wait another minute for people to join, and then we can get started.
+
+2
+00:08:18.060 --> 00:08:30.240
+Parithosh Jayanthi: Yeah, so let's get started. First thing on the agenda today is, existing DevNet updates. Could we start with maybe Barnabas and then Stefan?
+
+3
+00:08:31.800 --> 00:08:41.629
+Barnabas: Sure. So, EPV as an has been broken, basically, from the get-go. They've been trying to recover it, without much success.
+
+4
+00:08:41.880 --> 00:08:58.220
+Barnabas: Since then, there has been some progress on, ePBS development, and we're gonna have a breakout where we're gonna be deciding, whether we're gonna be changing the beacon state to make it a bit more simpler, and then with that change, we would be just relaunching DevNet, 2.
+
+5
+00:09:02.610 --> 00:09:11.479
+Parithosh Jayanthi: Okay, I guess there'll be more on that topic in the breakout room, but in the meantime, Stefan, do you want to give an update on block-level access lists?
+
+6
+00:09:12.030 --> 00:09:16.449
+Stefan Starflinger: Yeah, sure. So we launched BalDevNet 3 on Wednesday.
+
+7
+00:09:16.680 --> 00:09:33.529
+Stefan Starflinger: And it went decently well, and then once I turned on some transactions, we saw, first Nethermind, fork away, and then, it seemed that Geth, had a disagreement with a lot of, the clients.
+
+8
+00:09:33.730 --> 00:09:38.160
+Stefan Starflinger: And it might be related to, also.
+
+9
+00:09:38.310 --> 00:09:42.979
+Stefan Starflinger: this issue, that I, raised against the EIP.
+
+10
+00:09:43.490 --> 00:09:53.579
+Stefan Starflinger: So it seems that there… if there isn't enough, gas left, state gas left in the reservoir, it tries to use, take it from gas left.
+
+11
+00:09:53.750 --> 00:10:09.739
+Stefan Starflinger: And then there seems to be a discrepancy in how that is treated. Some are using the gas from gas left as regular gas, and some are using it as state gas. Geth, I think, used it as state gas, and all the other clients considered it as regular gas.
+
+12
+00:10:09.950 --> 00:10:26.700
+Stefan Starflinger: So, I think, it would be good to get an understanding here. Maybe this clarification to the EIP is enough, and we should figure out in the breakout call what is the right behavior. I think also Marius found some other issues.
+
+13
+00:10:28.540 --> 00:10:40.600
+Stefan Starflinger: And, yeah, I think Spencer also mentioned something regarding how we best approach fixing some parts for BalDevNet 3, and then going on to Balddefinite 4.
+
+14
+00:10:41.680 --> 00:10:49.949
+Parithosh Jayanthi: For the 8037 topic, should we discuss it now already, or is it more appropriate in the breakout room section?
+
+15
+00:10:51.320 --> 00:10:53.740
+Stefan Starflinger: I think the breakouts would be good.
+
+16
+00:10:54.220 --> 00:10:54.980
+Stefan Starflinger: For it.
+
+17
+00:10:54.980 --> 00:10:56.150
+Parithosh Jayanthi: Oh, okay.
+
+18
+00:10:57.660 --> 00:10:58.420
+Parithosh Jayanthi: Oh, sorry.
+
+19
+00:10:58.420 --> 00:11:17.250
+Stefan Starflinger: And I also created a spec sheet for BalDevNet 4. I'm not too opinionated on how much we should still be putting work into BalDevNet 3, and when we should make the cut up for BalDevNet 4. I think that's something we can discuss also in the breakout room.
+
+20
+00:11:17.870 --> 00:11:21.699
+Parithosh Jayanthi: Like, what are the… What are the major changes between the two?
+
+21
+00:11:22.620 --> 00:11:29.599
+Stefan Starflinger: So there are, I think, 5 issues, and I think 2 or 3 of them
+
+22
+00:11:29.700 --> 00:11:34.569
+Stefan Starflinger: That are referenced, as the open spec decision.
+
+23
+00:11:36.030 --> 00:11:53.119
+Stefan Starflinger: kind of issues, in the BalDevNet spec. I think, two or three, what Spencer said, we can already include and iterate on in BalDevNet 3, and two of them, would require too much change, and they should land in BalDevNet 4.
+
+24
+00:11:53.940 --> 00:11:58.320
+Stefan Starflinger: Maybe, Spencer, if you would like to add something to that, your reasoning?
+
+25
+00:12:00.480 --> 00:12:03.600
+spencer: Yeah, hey guys, I think, I think it would be nice to…
+
+26
+00:12:03.950 --> 00:12:09.339
+spencer: Basically, a lot of what we have now for DevNet Free, there are open questions.
+
+27
+00:12:09.680 --> 00:12:18.509
+spencer: And I think, yeah, Maria posted, this open questions doc, I can… Maybe link it here…
+
+28
+00:12:20.930 --> 00:12:29.729
+spencer: And I think .3 to 6 right now, as far as I understand, and all of the clients are in consensus with eels.
+
+29
+00:12:29.950 --> 00:12:31.879
+spencer: And the spec for 3 to 6.
+
+30
+00:12:32.510 --> 00:12:39.160
+spencer: So my feeling is that 3 to 6, we just need to add the spec clarifications to the EIP text.
+
+31
+00:12:40.180 --> 00:12:42.099
+spencer: And then…
+
+32
+00:12:42.250 --> 00:12:47.330
+spencer: We'll add tests for that, and then it means that DevNet Free, the spec is the same?
+
+33
+00:12:47.930 --> 00:12:56.110
+spencer: The EIP text has just been updated, and we have tests for everything. And then for DevNet4, we actually focus on
+
+34
+00:12:56.340 --> 00:13:00.489
+spencer: Things that will actually modify the spec, and change the tests.
+
+35
+00:13:00.720 --> 00:13:06.940
+spencer: Including adding the dynamic, Cost per state bite for 837.
+
+36
+00:13:07.850 --> 00:13:11.000
+spencer: But we can, we can chat more about this in the breakout rooms.
+
+37
+00:13:12.740 --> 00:13:13.960
+Parithosh Jayanthi: Yeah, Maria?
+
+38
+00:13:17.230 --> 00:13:26.220
+Maria Silva: Yeah, I just wanted to… to add a point. So I do think we need to discuss also points 3 to 6 in my doc. So I think,
+
+39
+00:13:27.050 --> 00:13:46.939
+Maria Silva: Spencer said it's true, like, the current science and the spec are aligned, but I don't think I'm fully convinced that the current design is the right design, so I think definitely we'll need to have a discussion on this, and if we figure out that we should go with the design that is not currently implemented, then this would be a bigger change.
+
+40
+00:13:47.280 --> 00:13:52.119
+Maria Silva: and so we may need to include it in all DevNet 4.
+
+41
+00:13:52.240 --> 00:13:59.509
+Maria Silva: But yeah, I agree that, we should have a longer discussion on these, during the breakout.
+
+42
+00:14:04.340 --> 00:14:05.579
+Stefan Starflinger: Okay, that's fair.
+
+43
+00:14:05.580 --> 00:14:07.250
+Parithosh Jayanthi: Sorry, go ahead.
+
+44
+00:14:07.730 --> 00:14:12.110
+Stefan Starflinger: And apart from the discussions on AT37,
+
+45
+00:14:12.220 --> 00:14:24.539
+Stefan Starflinger: I would propose adding, 7976 and 7981, as something, that we can discuss, about adding to ValdevNet4.
+
+46
+00:14:27.340 --> 00:14:28.360
+Parithosh Jayanthi: Yep, Ben?
+
+47
+00:14:29.190 --> 00:14:38.349
+Ben Adams: I'd like to add, maybe 780 to that list, because since it affects every single transaction, it would be good to…
+
+48
+00:14:39.050 --> 00:14:40.769
+Ben Adams: Gets out of it early.
+
+49
+00:14:42.490 --> 00:14:45.400
+Parithosh Jayanthi: Oh, sorry, could you describe 2780 again?
+
+50
+00:14:45.860 --> 00:14:50.390
+Ben Adams: Dropping the transaction… base transaction, yes.
+
+51
+00:14:52.640 --> 00:15:05.079
+Parithosh Jayanthi: Got it. Maybe we can talk briefly about timelines for the two DevNets. So, when is PAL DevNet 4 meant to be launched, and would it be able to accommodate such change?
+
+52
+00:15:06.610 --> 00:15:12.880
+Stefan Starflinger: Regarding the timeline, it would be nice if we could launch it before interop, so,
+
+53
+00:15:13.320 --> 00:15:21.129
+Stefan Starflinger: regarding a date, I think the latest I'd want to launch it would be on the 29th, of April.
+
+54
+00:15:21.400 --> 00:15:30.299
+Stefan Starflinger: And I think, 27… What was it, 80? Would take, I think, considerably more time.
+
+55
+00:15:31.140 --> 00:15:32.319
+Stefan Starflinger: To add.
+
+56
+00:15:35.750 --> 00:15:40.059
+Parithosh Jayanthi: Yeah. Ben, what do you think? What's the implementation complexity like?
+
+57
+00:15:41.760 --> 00:15:47.639
+Ben Adams: I don't know if it's too hard, but I, I mean, it would have…
+
+58
+00:15:48.050 --> 00:15:55.790
+Ben Adams: Potentially a significant effect on the tests if they're assuming certain… Gas.
+
+59
+00:15:58.320 --> 00:15:59.510
+Parithosh Jayanthi: Yeah, Dan?
+
+60
+00:16:03.440 --> 00:16:09.410
+danceratopz: Hey everyone, yeah, Guru already put a PR for execution spec up for 2780,
+
+61
+00:16:10.010 --> 00:16:13.249
+danceratopz: And already added quite a lot of new tests for it.
+
+62
+00:16:13.710 --> 00:16:18.639
+danceratopz: And yeah, Ben's right, like, there are quite a few
+
+63
+00:16:18.760 --> 00:16:21.709
+danceratopz: Updates for the older tests as well, required?
+
+64
+00:16:22.220 --> 00:16:25.480
+danceratopz: I think most of it's in place, at least from the spec side.
+
+65
+00:16:26.010 --> 00:16:29.460
+danceratopz: It's pretty ready to go, barring edge cases, of course.
+
+66
+00:16:31.530 --> 00:16:33.960
+Parithosh Jayanthi: Okay, let's do Maria and then Tony.
+
+67
+00:16:35.430 --> 00:16:47.049
+Maria Silva: So maybe this is related to what Tony wants to say, but, he asked about the fact that 2780 is still waiting on benchmarks, so to give some context there.
+
+68
+00:16:47.050 --> 00:16:55.760
+Maria Silva: what this EIP is doing is it's breaking down the current intrinsic cost of a transaction into its various components.
+
+69
+00:16:56.080 --> 00:17:02.700
+Maria Silva: And some of those components are state access-related components. They are, like, read of an account.
+
+70
+00:17:02.820 --> 00:17:21.399
+Maria Silva: or read off an account with codes, these sort of things. And it's true that we still don't have final numbers on those, so those parameterizations will be updated once we have the final numbers for the state access EIP, which is the AT38.
+
+71
+00:17:21.690 --> 00:17:23.369
+Maria Silva: But this doesn't mean that we…
+
+72
+00:17:23.670 --> 00:17:27.280
+Maria Silva: We could potentially start working on the implementation
+
+73
+00:17:27.410 --> 00:17:31.019
+Maria Silva: Of the logic of breaking out these components.
+
+74
+00:17:31.130 --> 00:17:32.250
+Maria Silva: And then…
+
+75
+00:17:32.390 --> 00:17:45.049
+Maria Silva: essentially, we would be just changing the parameters' values once we have them. And so I think we could, in principle, start implementing 2780,
+
+76
+00:17:45.090 --> 00:17:56.140
+Maria Silva: Before having the final file and numbers, because the… most of the work will be in this logic of breaking out, like, the intrinsic cost into its various components.
+
+77
+00:17:59.220 --> 00:18:01.270
+Parithosh Jayanthi: Yeah, Tony and then Spencer?
+
+78
+00:18:03.390 --> 00:18:12.930
+Toni Wahrstätter: Yeah, I very much agree with what Maria just said, and basically wanted to bring up something very similarly. One thing we must also consider is that 2780
+
+79
+00:18:12.930 --> 00:18:23.529
+Toni Wahrstätter: Currently, for example, the cost to call an EOA, so an account with no code, is so cheap that it would introduce a new worst-case block size.
+
+80
+00:18:23.600 --> 00:18:37.950
+Toni Wahrstätter: Which is something we should also reconsider, like, there is no use case for calling, UAs so cheaply, and this is because, there are different costs for calling accounts with code versus without code.
+
+81
+00:18:38.120 --> 00:18:54.900
+Toni Wahrstätter: Yeah, I would just echo what, Stefan said, that data EAPs, are rather small and very much contained, so I think they can be added. I'm not sure if we can make it, until interop with 2780.
+
+82
+00:18:55.030 --> 00:19:00.220
+Toni Wahrstätter: Especially because there's still, some work to do with 8037.
+
+83
+00:19:04.250 --> 00:19:09.709
+Parithosh Jayanthi: Yeah, that's fair. Spencer, do you want to add to the same topic, or is it a different one?
+
+84
+00:19:11.000 --> 00:19:19.219
+spencer: Yeah, I just wanted to ask, like, maybe we could circle back to this question, next Monday? I think we could…
+
+85
+00:19:19.610 --> 00:19:26.500
+spencer: At least on the test side, see if there are any major conflicts with, AT37.
+
+86
+00:19:28.560 --> 00:19:35.860
+spencer: And then, if there are too many, then we can maybe push it to a later DevNet, but if it seems like it's feasible, then we could consider adding it.
+
+87
+00:19:36.660 --> 00:19:56.070
+Parithosh Jayanthi: Yeah, that sounds, reasonable to me. Ben, would you be able to work on the implementation side, so we can also get a grasp on how difficult it would be? So then we would have a better understanding of testing, we'd have a better understanding of implementation, and we can take a call next week. But currently, yeah, I think I'm leaning towards…
+
+88
+00:19:56.360 --> 00:20:02.579
+Parithosh Jayanthi: fewer EIPs and more stability, at least going into the interop event.
+
+89
+00:20:05.170 --> 00:20:05.730
+Ben Adams: Sure.
+
+90
+00:20:10.010 --> 00:20:15.610
+Parithosh Jayanthi: Awesome. Yeah, also just echoing Barnabas's comment, currently at least prefer
+
+91
+00:20:15.830 --> 00:20:26.569
+Parithosh Jayanthi: a stable base that we can discuss on at Interop. So, this can be an active discussion topic for, when we're in person, but we don't want to block other progress on it.
+
+92
+00:20:28.230 --> 00:20:34.440
+Parithosh Jayanthi: Great. So, we have a timeline for Battle DevNet 4, yeah, Tony?
+
+93
+00:20:35.290 --> 00:20:42.409
+Toni Wahrstätter: Can we quickly take a final decision on 7976 and 7981, the two data EOPs?
+
+94
+00:20:45.240 --> 00:20:54.769
+Parithosh Jayanthi: Sorry, I would assume that if they're small enough, and it is a non-controversial change, that we include them for BalDevNet 4. Is that…
+
+95
+00:20:55.050 --> 00:20:56.990
+Parithosh Jayanthi: A reasonable path forward.
+
+96
+00:20:58.370 --> 00:21:15.840
+Toni Wahrstätter: Yes, I would say so. So, just to summarize, there was, I think it was, they were very high ranked at the client priors originally. Then, the survey that Bhuta did also showed that the ecosystem has no concerns with them, or very minimal concerns.
+
+97
+00:21:15.870 --> 00:21:25.080
+Toni Wahrstätter: And it would be nice to just be able to test, what the maximum block size will be, especially now that we're adding block-level access lists, too.
+
+98
+00:21:28.500 --> 00:21:37.140
+Parithosh Jayanthi: That's fair. Yes, let's include the two in Bell DevNet 4, and as Stefan said, let's aim for before interop.
+
+99
+00:21:37.320 --> 00:21:43.800
+Parithosh Jayanthi: Assuming that we will have some delays, and we can at latest get it running during interim.
+
+100
+00:21:49.630 --> 00:21:53.460
+Parithosh Jayanthi: Yeah, any other comments for block-level accesses DevNet 4?
+
+101
+00:21:58.020 --> 00:22:05.759
+Parithosh Jayanthi: Cool. Do we want to discuss EPBS DevNet 2, or is that reliant on the breakout room decision?
+
+102
+00:22:06.460 --> 00:22:09.350
+Barnabas: Yeah, we need to go to the breakout for that.
+
+103
+00:22:10.090 --> 00:22:28.089
+Parithosh Jayanthi: Okay, cool. It feels like there's a lot to discuss today, and more, relevant breakout room-related stuff, so, if there's… I'm just gonna ask for, as a last call, for any shared room discussions. If not, we'd yield more time to the breakout today. Yaputos?
+
+104
+00:22:28.510 --> 00:22:31.120
+Potuz: I'm not sure if I am audible.
+
+105
+00:22:31.870 --> 00:22:33.070
+Potuz: Can you guys hear me?
+
+106
+00:22:33.290 --> 00:22:34.409
+Parithosh Jayanthi: Yes, we can hear ya.
+
+107
+00:22:34.410 --> 00:22:39.880
+Potuz: Good. Yeah, so there's something that is contentious to… to…
+
+108
+00:22:41.040 --> 00:22:54.280
+Potuz: contingent to the breakouts, but anyways, I'd like to ask here, because we'll need some ELDATs. There is a proposal to change something on EPBS that would allow us to actually sync, range sync.
+
+109
+00:22:54.760 --> 00:22:58.590
+Potuz: Without requesting payloads at all.
+
+110
+00:22:59.500 --> 00:23:04.560
+Potuz: And, yeah, so I'd like to have a discussion about that.
+
+111
+00:23:05.350 --> 00:23:21.799
+Parithosh Jayanthi: Okay, then I would propose that we do this right now, because at least on the order of things, I think figuring out this topic is higher than, AD37 changes. So, yeah, you have the floor, Potus. Do you want to give context, and then…
+
+112
+00:23:22.090 --> 00:23:26.350
+Potuz: Yeah, I can… quickly describe what the situation is. Today.
+
+113
+00:23:26.950 --> 00:23:32.070
+Potuz: When, when we do range sync, there are essentially two scenarios.
+
+114
+00:23:32.380 --> 00:23:39.279
+Potuz: Let's say that you want to… you'd spin up a node, and you want to sync over the last 5 days of blocks.
+
+115
+00:23:39.600 --> 00:23:45.689
+Potuz: And your finalized checkpoint happened just one day ago. So you have 4 days of
+
+116
+00:23:46.120 --> 00:23:54.109
+Potuz: Finalized, blocks that you're gonna sync over, and then one day of something that… where the chain hasn't finalized.
+
+117
+00:23:57.020 --> 00:24:06.489
+Potuz: We start from our previous head, or our previous finalized checkpoint, whatever it is, and we start requesting all blocks by range.
+
+118
+00:24:08.510 --> 00:24:13.879
+Potuz: We get both blocks and payloads because the payload is now included within the block.
+
+119
+00:24:14.330 --> 00:24:18.010
+Potuz: We do the state transition on the consensus layer.
+
+120
+00:24:18.150 --> 00:24:21.620
+Potuz: And, well, clients here differ in what they do.
+
+121
+00:24:21.810 --> 00:24:25.400
+Potuz: Some clients validate the block hash themselves.
+
+122
+00:24:25.560 --> 00:24:32.159
+Potuz: Other clients, like Prism would send the new payload to the EL, and the EL would validate the block hash.
+
+123
+00:24:32.350 --> 00:24:39.329
+Potuz: and return syncing, or if it actually manages to sync it, it will just return valid. And we advance this way.
+
+124
+00:24:39.850 --> 00:24:44.590
+Potuz: However, There is a proposed change on EPBS
+
+125
+00:24:44.830 --> 00:24:48.869
+Potuz: that, I mean, of course, now, with the current Hegota spec.
+
+126
+00:24:48.920 --> 00:24:56.700
+Potuz: We can do the same sort of syncing, it's just that now the payload comes in the envelope, so we request, by range, the blocks.
+
+127
+00:24:56.700 --> 00:25:11.199
+Potuz: and by arrange the payload, then the CL is in charge of interleaving them, finding out which payloads actually became canonical, and then you sync them one by one, you affect… you do the state transition for the consensus block.
+
+128
+00:25:11.350 --> 00:25:17.130
+Potuz: And then you do the state transition for the payload, and so forth. And then you do the new payload again.
+
+129
+00:25:17.980 --> 00:25:22.950
+Potuz: The proposal for changing the PBS will remove the state transition from the payload.
+
+130
+00:25:23.190 --> 00:25:28.419
+Potuz: That means that the CL can actually do all of the state transition without ever knowing
+
+131
+00:25:28.660 --> 00:25:35.770
+Potuz: That the payload… well, knowing that the payload was there, but without ever validating the payload, without ever validating the block hatch.
+
+132
+00:25:35.940 --> 00:25:38.980
+Potuz: And that's where my question lands.
+
+133
+00:25:39.280 --> 00:25:48.010
+Potuz: What happens if you range sync without requesting payloads for all the finalized sections?
+
+134
+00:25:48.390 --> 00:25:51.569
+Potuz: and we do all of the state transitions on the CL,
+
+135
+00:25:51.690 --> 00:25:56.180
+Potuz: We assumed that the block hash chain was fine on the EL,
+
+136
+00:25:56.330 --> 00:26:12.290
+Potuz: and then we just send an FCU, or a new payload, and start sending new payloads only on the unfinalized section. Will this make a client that just is starting out possibly sync through a finalized invalid block?
+
+137
+00:26:12.600 --> 00:26:14.090
+Potuz: I suspect yes.
+
+138
+00:26:21.000 --> 00:26:25.039
+Parithosh Jayanthi: Is there some EL dev who'd be willing to speak up for this?
+
+139
+00:26:31.470 --> 00:26:37.940
+Ben Adams: Do you mean, will we jump ahead to… Too far ahead.
+
+140
+00:26:38.060 --> 00:26:40.949
+Ben Adams: And not have anything behind two real people.
+
+141
+00:26:44.360 --> 00:26:52.969
+Potuz: I don't mean anything, because I don't know how you guys think. I suspect that you're going to start downloading a snapshot, and that snapshot could be based
+
+142
+00:26:53.090 --> 00:26:58.620
+Potuz: On an already finalized state that already includes an invalid block.
+
+143
+00:27:03.620 --> 00:27:04.720
+Parithosh Jayanthi: Yeah, Lukash?
+
+144
+00:27:05.020 --> 00:27:10.810
+Łukasz Rozmej: So, I remember having this discussion with Peter Shilagi at some point.
+
+145
+00:27:10.940 --> 00:27:27.379
+Łukasz Rozmej: that when we are doing snap sync, so when we are firstly getting… so, let me maybe describe… this is the scenario when you need to catch up to the chain, like, you have a stale node, and the strange sync is when you're catching up, right? It's not the first sync.
+
+146
+00:27:28.110 --> 00:27:28.780
+Potuz: Correct.
+
+147
+00:27:29.040 --> 00:27:40.670
+Łukasz Rozmej: So, currently, Nethermind, will replay all the blocks, so if we, in this, in this long chain, there will be an invalid block, we will catch that.
+
+148
+00:27:41.000 --> 00:27:43.220
+Potuz: But how do you get those blocks?
+
+149
+00:27:43.260 --> 00:27:45.399
+Łukasz Rozmej: We will get it from the network.
+
+150
+00:27:45.930 --> 00:27:46.820
+Łukasz Rozmej: So…
+
+151
+00:27:46.820 --> 00:27:47.920
+Potuz: Get them yourself.
+
+152
+00:27:48.080 --> 00:28:03.529
+Łukasz Rozmej: Yes. Yes, we will get them ourselves from the network. If you want, pass them to us, and you will go forward. We will request them from the network, and we will replay all of them. But potentially, clients…
+
+153
+00:28:04.060 --> 00:28:16.509
+Łukasz Rozmej: could redo the healing phase, for example, of SnapSync, and, or… or… okay, if we'll have balls, we will just do balls, so…
+
+154
+00:28:16.720 --> 00:28:28.490
+Łukasz Rozmej: That's also not a big deal. But balls will be only available for some time. We are discussing how long, so I think it will be at least few weeks, but, we'll see.
+
+155
+00:28:28.590 --> 00:28:38.830
+Łukasz Rozmej: So, yeah, there are, like, multiple ways of doing that, and some of them could potentially…
+
+156
+00:28:40.270 --> 00:28:43.609
+Łukasz Rozmej: not detect that the block was invalid, I think.
+
+157
+00:28:44.570 --> 00:28:51.640
+Łukasz Rozmej: We all trust, kind of, that it's… you say it's finalized, so we… We might not validate it.
+
+158
+00:28:52.320 --> 00:29:03.919
+Łukasz Rozmej: Currently we'll definitely… Nethermind will definitely validate it, and I think most of the clients will, if not all, but I'm not… I'm starting to think what will happen with balls, and I'm not sure.
+
+159
+00:29:04.840 --> 00:29:21.969
+Justin Florentine (Besu): Yeah, so I actually wanted to ask you, Lucas, are you guys checking a consensus state on the things that you are re-syncing? Because we do something similar, where we do a backwards sync, we follow the hashes all the way back, and then we replay them forward, but we don't check the CL in any way, so we have no notion of, like, whether things have been finalized or not.
+
+160
+00:29:22.460 --> 00:29:31.129
+Łukasz Rozmej: Well, we don't check CL, but we are replaying the block, so we… if the block will fail, we won't accept it, right?
+
+161
+00:29:32.740 --> 00:29:40.160
+Potuz: The CL should be fine here. We checked the consensus side on our own. The problem is, if you guys
+
+162
+00:29:40.280 --> 00:29:45.899
+Potuz: If… if we… the question is, should we actually force ourselves to check the block hash?
+
+163
+00:29:46.070 --> 00:29:52.440
+Potuz: To avoid sending you blocks, or can we even avoid that, even the check for the block hash itself?
+
+164
+00:29:57.860 --> 00:30:01.090
+Łukasz Rozmej: What do you mean, checking the block? I'm not gonna…
+
+165
+00:30:01.330 --> 00:30:05.329
+Potuz: Well, if we say that we have a chain of blocks.
+
+166
+00:30:06.120 --> 00:30:21.179
+Potuz: that we want to sync, we will perform this state transition on the consensus layer, and this state transition would include… the consensus block would say, my latest block hash was this, I am building on top of this execution payload.
+
+167
+00:30:21.310 --> 00:30:25.360
+Potuz: that has this particular block catch. We can check that the promise
+
+168
+00:30:25.440 --> 00:30:43.900
+Potuz: of those block hash chains is actually, well, we can check that this block hash is based on the parent block hash and so forth, but these are all promises. We… we are not actually doing the hash on the RRP of the payload, because we don't even have the payload. In principle, it could be
+
+169
+00:30:43.960 --> 00:30:56.959
+Potuz: That one of these payloads was invalid, that its block hash was not what it promised it to be, and we wouldn't even find out if we actually didn't request the payload to check that the block hash was what it promised to be.
+
+170
+00:30:58.000 --> 00:31:07.349
+Łukasz Rozmej: Okay, so you potentially will give us a block hash that… is invalid, so we might not be able to find it in the network in the first place.
+
+171
+00:31:07.830 --> 00:31:08.660
+Potuz: Correct.
+
+172
+00:31:09.320 --> 00:31:16.960
+Łukasz Rozmej: So, then we'll kind of be stuck by not finding it in the network, because we cannot validate something we cannot even obtain.
+
+173
+00:31:17.390 --> 00:31:33.709
+Potuz: That's fine, but then that means that you always will try to get all blocks and connect to a chain that you know, and all clients would do this, so there's no snap-syncing from a particular state, and taking that state as finalized and valid, and continue from there.
+
+174
+00:31:36.610 --> 00:31:50.580
+Łukasz Rozmej: generally, that was the consensus when we were doing the merge, that we… if we want SnapSync, we won't snap sync again, right? So we do that snap syncing at the initial sync, right, of the…
+
+175
+00:31:50.710 --> 00:31:53.059
+Łukasz Rozmej: Of the train, but that's what we have to do.
+
+176
+00:32:01.280 --> 00:32:01.890
+Parithosh Jayanthi: And he cooked.
+
+177
+00:32:02.190 --> 00:32:11.080
+Łukasz Rozmej: But again, I'm not sure how it's… I haven't really thought how it will, be working with balls, so I'm not entirely sure here.
+
+178
+00:32:12.460 --> 00:32:23.399
+Enrico Del Fante (tbenr): I was just to, add the question. Is this a situation that is definitely not new? Because you cannot assume that your EL down…
+
+179
+00:32:23.480 --> 00:32:40.120
+Enrico Del Fante (tbenr): you are using is in sync, you can somehow swap or wipe out the database with URL, and then anyway, URL needs to start syncing.
+
+180
+00:32:40.230 --> 00:32:46.149
+Enrico Del Fante (tbenr): while CL is still… still following the chain, and optimistically, so…
+
+181
+00:32:46.760 --> 00:32:51.949
+Enrico Del Fante (tbenr): the EL needs to, anyway, find out the blocks and replay everything.
+
+182
+00:32:54.440 --> 00:33:00.739
+Potuz: Yeah, but the thing is that when we sync optimistically, we actually have the payload, and we either
+
+183
+00:33:01.210 --> 00:33:06.140
+Potuz: Verify the block hash ourself, and then we avoid to send that payload.
+
+184
+00:33:06.140 --> 00:33:08.370
+Enrico Del Fante (tbenr): Yeah, I mean, are we doing?
+
+185
+00:33:08.370 --> 00:33:15.220
+Potuz: on the EL to sending us the syncing reply. My question is, can we do this without ever touching a payload?
+
+186
+00:33:16.090 --> 00:33:19.630
+Potuz: And then trusting that the EL is going to get those payloads on their own.
+
+187
+00:33:27.740 --> 00:33:31.670
+Łukasz Rozmej: I think so, I think yes, but again,
+
+188
+00:33:32.870 --> 00:33:40.259
+Łukasz Rozmej: we can get stuck if we won't be able to find those payloads in the network, for example, right? So there are situations where we could get stuck.
+
+189
+00:33:40.480 --> 00:33:48.200
+Potuz: That's… that's absolutely fine. I mean, getting stuck is not my problem. My problem is, if we… if I make prison never to request a payload.
+
+190
+00:33:48.860 --> 00:33:55.049
+Potuz: Am I risking someone that follows the chain to actually say that a block that is invalid being valid?
+
+191
+00:33:55.480 --> 00:34:13.309
+Potuz: So that's my only fear, and I really want… I want to use this feature because it's something completely new that we can actually range sync. It's very fast. It's going to be… it's… in my mind, this is a game changer, the fact that we can actually range sync without ever touching a payload. It's much faster to catch up.
+
+192
+00:34:17.159 --> 00:34:20.639
+Łukasz Rozmej: So, in my opinion, you should be fine, but,
+
+193
+00:34:21.529 --> 00:34:24.299
+Łukasz Rozmej: Yeah, I'm happy to hear Avar's opinions.
+
+194
+00:34:32.530 --> 00:34:33.300
+Parithosh Jayanthi: Enrico?
+
+195
+00:34:34.830 --> 00:34:37.300
+Enrico Del Fante (tbenr): Sorry, it was remaining up.
+
+196
+00:34:37.489 --> 00:34:39.309
+Enrico Del Fante (tbenr): But, yeah.
+
+197
+00:34:39.860 --> 00:34:40.250
+Parithosh Jayanthi: Okay.
+
+198
+00:34:40.250 --> 00:34:40.569
+Enrico Del Fante (tbenr): I think they.
+
+199
+00:34:40.570 --> 00:34:43.930
+Parithosh Jayanthi: do you feel like you got your answer, Potos?
+
+200
+00:34:44.969 --> 00:34:51.129
+Potuz: It seems that Nethermine says that it's fine. Thanks, Lucas, but I'd like to, like.
+
+201
+00:34:51.369 --> 00:35:00.959
+Potuz: have it here, it's on the record. I'd like to get an okay from other Yale devs, or at least have a validation of this.
+
+202
+00:35:02.310 --> 00:35:03.210
+Parithosh Jayanthi: Yeah, Tony.
+
+203
+00:35:04.630 --> 00:35:11.469
+Toni Wahrstätter: Yeah, it would be nice, Protos, if we could, document that somehow in written form. I would also like to look into it.
+
+204
+00:35:13.940 --> 00:35:19.919
+Parithosh Jayanthi: Yeah, yeah, I think we'll get it in writing, and then, have all the ELs act it.
+
+205
+00:35:24.590 --> 00:35:31.650
+Parithosh Jayanthi: Okay, cool. That being said, any other general topics we need to discuss with everyone, before breakout rooms?
+
+206
+00:35:39.450 --> 00:35:42.800
+Parithosh Jayanthi: Okay, then I will create them…
+
+207
+00:35:46.280 --> 00:35:52.719
+Barnabas: Harry, can you make, mark and David, co-host, so they can record these sessions.
+
+208
+00:35:53.300 --> 00:35:58.509
+Parithosh Jayanthi: Yeah, one second, sorry, give me a second.
+
+209
+00:36:07.590 --> 00:36:10.599
+Parithosh Jayanthi: Okay, David is co-host, anyone else?
+
+210
+00:36:12.340 --> 00:36:17.290
+Parithosh Jayanthi: Okay.
+
+211
+00:36:18.030 --> 00:36:19.919
+Parithosh Jayanthi: Mark, one second.
+
+212
+00:36:19.920 --> 00:36:20.250
+Barnabas: I don't.
+
+213
+00:36:20.250 --> 00:36:21.979
+Parithosh Jayanthi: Trying to find… yeah.
+
+214
+00:36:22.540 --> 00:36:23.590
+Parithosh Jayanthi: And,
+
+215
+00:36:26.950 --> 00:36:28.220
+Parithosh Jayanthi: Okay, perfect.
+
+216
+00:36:28.850 --> 00:36:31.430
+Parithosh Jayanthi: The rooms are being created now.
+
+217
+00:36:31.950 --> 00:36:37.239
+Parithosh Jayanthi: You should be able to… you should be prompted to, choose whichever breakout room you want.
+
+218
+00:36:37.480 --> 00:36:39.940
+Parithosh Jayanthi: If you're unable to, I can add you later.
+
+219
+00:37:05.890 --> 00:37:08.970
+Parithosh Jayanthi: I can add you to… oh.
+
+220
+00:37:10.440 --> 00:37:12.700
+Parithosh Jayanthi: Why can some people not see it?
+
+221
+00:37:13.800 --> 00:37:14.790
+Parithosh Jayanthi: Interesting.
+
+222
+00:37:17.250 --> 00:37:20.189
+Parithosh Jayanthi: I will add whoever can't see it.
+
+223
+00:37:25.640 --> 00:37:27.779
+Parithosh Jayanthi: Nixo, which one do you want to go to?
+
+224
+00:37:31.590 --> 00:37:34.430
+Parithosh Jayanthi: Interesting why it doesn't work for so many people today.
+
+225
+00:37:37.760 --> 00:37:39.260
+Parithosh Jayanthi: I'm so blessed to it.
+
+226
+00:37:58.940 --> 00:38:05.810
+Parithosh Jayanthi: Yeah, if you're not able to, please hit Menu Bar, More, and breakout rooms, and you should be able to choose.
+
