@@ -10,7 +10,9 @@ This file is intended to support:
 - Historical traceability
 - Operator and ecosystem visibility
 
-Each BPO upgrade MAY have its own markdown file (e.g., bpo1.md, bpo2.md) and be indexed from a top-level registry file. Each entry SHOULD document the parameter changes, the rationale for deploying the change on mainnet, and links to relevant testing, client implementations, coordination notes, and other materials used for upgrade preparation and validation.
+Each BPO upgrade MAY have its own Meta EIP and be indexed from a top-level registry file. For reference, [EIP-8134: Hardfork Meta - BPO1](https://eips.ethereum.org/EIPS/eip-8134) and [EIP-8135: Hardfork Meta - BPO2](https://eips.ethereum.org/EIPS/eip-8135).
+
+Each entry SHOULD document the parameter changes, the rationale for deploying the change on mainnet, and links to relevant testing, client implementations, coordination notes, and other materials used for upgrade preparation and validation.
 
 ## Reference documents
 - [Blob scaling in 2026](https://notes.ethereum.org/@ethpandaops/blob-scaling-2026)
