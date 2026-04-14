@@ -21,7 +21,7 @@ for _key in _gcal_mock_keys:
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'modules'))
 
-from gcal import build_calendar_view_link, build_calendar_add_link, PROTOCOL_CALENDAR_ID
+from gcal import build_calendar_view_link, build_calendar_add_link, build_ics_download_link, PROTOCOL_CALENDAR_ID
 
 # Do not leave mocked google/pytz in sys.modules: other test modules import real libraries.
 for _key in _gcal_mock_keys:
@@ -105,6 +105,51 @@ class TestBuildCalendarAddLink(unittest.TestCase):
 
     def test_invalid_start_time(self):
         self.assertIsNone(build_calendar_add_link("Test", "garbage", 60))
+
+
+class TestBuildIcsDownloadLink(unittest.TestCase):
+
+    def test_basic(self):
+        result = build_ics_download_link("ACD Call", "2026-04-02T14:00:00Z", 60)
+        self.assertIsNotNone(result)
+        parsed = urlparse(result)
+        params = parse_qs(parsed.query)
+        self.assertIn("/api/ics", parsed.path)
+        self.assertEqual(params["title"], ["ACD Call"])
+        self.assertEqual(params["start"], ["20260402T140000Z"])
+        self.assertEqual(params["duration"], ["60"])
+
+    def test_with_description(self):
+        result = build_ics_download_link("Test", "2026-04-02T14:00:00Z", 90, "Issue: https://example.com")
+        params = parse_qs(urlparse(result).query)
+        self.assertEqual(params["description"], ["Issue: https://example.com"])
+        self.assertEqual(params["duration"], ["90"])
+
+    def test_no_description(self):
+        result = build_ics_download_link("Test", "2026-04-02T14:00:00Z", 60)
+        params = parse_qs(urlparse(result).query)
+        self.assertNotIn("description", params)
+
+    def test_none_start_time(self):
+        self.assertIsNone(build_ics_download_link("Test", None, 60))
+
+    def test_empty_start_time(self):
+        self.assertIsNone(build_ics_download_link("Test", "", 60))
+
+    def test_invalid_start_time(self):
+        self.assertIsNone(build_ics_download_link("Test", "garbage", 60))
+
+    def test_custom_base_url(self):
+        with patch.dict(os.environ, {"ICS_BASE_URL": "https://preview.example.com"}, clear=False):
+            # Need to reimport to pick up the env var since it's read at module level
+            import gcal
+            original = gcal.ICS_BASE_URL
+            gcal.ICS_BASE_URL = "https://preview.example.com"
+            try:
+                result = build_ics_download_link("Test", "2026-04-02T14:00:00Z", 60)
+                self.assertTrue(result.startswith("https://preview.example.com/api/ics"))
+            finally:
+                gcal.ICS_BASE_URL = original
 
 
 if __name__ == '__main__':
