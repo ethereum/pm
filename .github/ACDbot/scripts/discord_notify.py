@@ -2,6 +2,7 @@ import json
 from datetime import datetime, timedelta, timezone
 import os
 import sys
+# Allow standalone execution without pip install -e
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from modules.discord_notify import send_discord_notification
 from modules.mapping_utils import load_mapping, save_mapping

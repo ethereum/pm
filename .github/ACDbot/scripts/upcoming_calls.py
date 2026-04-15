@@ -25,6 +25,7 @@ from dateutil import parser as date_parser
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ACDBOT_DIR = os.path.dirname(SCRIPT_DIR)
 
+# Allow standalone execution without pip install -e
 sys.path.insert(0, ACDBOT_DIR)
 
 from modules.call_series_config import get_call_series_config
