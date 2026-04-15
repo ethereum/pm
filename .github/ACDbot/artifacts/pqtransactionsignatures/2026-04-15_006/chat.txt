@@ -1,0 +1,59 @@
+00:04:54	Simon ZKNOX:	2²⁴ :-)
+00:09:50	Kenneth:	Where can I access all these and try them ?
+00:10:31	Antonio Sanso:	https://daisugi.fyi/create
+00:10:45	Kenneth:	❤️
+00:14:20	Kenneth:	May I also have the repo url if they are open sourced
+00:15:24	Simon ZKNOX:	This is the cost of the precompile without the call data, right?  A Falcon signature is 666B which means at least 10k additional gas in practice?
+00:16:13	Giulio:	https://daisugi.fyi/create 
+https://daisugi.fyi/explorer
+00:16:37	Giulio:	https://github.com/Giulio2002/pq-eth-precompiles
+00:18:48	Oleg Lodygensky:	Is there any work to standardize PQWallet. There are different paths, different algorithms and I think it would be interesting to have (1) a discovery mechanism so that an endpoint would publish its requirements and features (used library (OQS?); available algorithms etc.)
+And (2) a « standardized » API. 
+e.g /createwallet, /signtx etc
+00:28:09	Giulio:	I think signing time is not important
+00:28:13	Simon ZKNOX:	Agreed with this! You trade verification cost against number of hash for the signer :-)
+00:28:28	Lumi | Wonderland:	Reacted to "Agreed with this! ..." with ❤️
+00:28:33	Simon ZKNOX:	Replying to "I think signing ti..."
+
+On a HW wallet, it does if signing takes 10 min 🤡
+00:28:43	Giulio:	Replying to "I think signing time..."
+
+nvm
+00:30:37	Simon ZKNOX:	Reacted to "Agreed with this! ..." with 🧉
+00:31:39	Yannick Seurin (Ledger):	KeyGen for SLH-DSA-128s (2^64 sigs) is currently 50sec
+00:32:06	Simon ZKNOX:	but this will increase with a 2²⁴ version
+00:32:37	Yannick Seurin (Ledger):	Indeed, will need to test it
+00:32:43	Simon ZKNOX:	Reacted to "Indeed, will need ..." with 👍
+00:34:18	Oleg Lodygensky:	no
+00:34:32	Oleg Lodygensky:	maybe Hadrien Croubois ( ? )
+00:34:45	Oleg Lodygensky:	he works at OpenZeppelin
+00:34:47	Oleg Lodygensky:	yes
+00:34:53	Matteo Vicari:	Certora
+00:35:01	Oleg Lodygensky:	I will ask him
+00:35:35	Matteo Vicari:	We have pretty interesting updates coming soon on the ephemeral keys design, including specs, hopefully ready for the next call!
+00:36:01	Giulio:	It’s dangerous if someone makes a tx that hangs in the txpool for days. Can happen with high congestion
+00:36:10	Giulio:	I had a tx pending for 3 days back in 2021
+00:36:16	Gottfried Herold:	I am also concerned about Ephemeral keys + censorship (essentially, if your transaction is refused from inclusion, attackers have more time)
+00:36:35	Matteo Vena:	It depends on the context. Ephemeral keys for example are currently enough for rollups with private sequencers
+00:37:52	Nico C:	Hello everyone sry being late
+00:37:54	Simon ZKNOX:	No it was a bit different
+00:39:04	Simon ZKNOX:	the link is here if you are interested: https://www.youtube.com/watch?v=FW5gkC9TwRg
+
+Deploy and send a tx using PQ sig in clear-signing :-)
+00:41:29	Nico C:	Will do !
+00:42:25	Alexandre Roque:	In the ephemeral key setting you still need to publish the pub keys map in advance, no? what impedes a CQRC to revert a couple of pub keys and then front run when the time is right? It seems to work if we assume the user will rotate often and in a short time-frame
+00:44:00	Matteo Vicari:	Replying to "In the ephemeral key..."
+
+The hash of public key , like and address
+00:44:05	Simon ZKNOX:	It's mostly the same as before, but we showed the ledger integration. I don't think it makes sense to do a demo here as it was mostly already presented
+00:46:12	Gottfried Herold:	Re: only using Ephemeral keys for low-value transactions:
+IIUC, what matters is the value of the account, not the value of the transaction.
+00:47:26	Alexandre Roque:	Reacted to "The hash of public k..." with 👍
+00:49:21	Alexandre Roque:	Reacted to "Re: only using Ephem..." with 👍
+00:49:54	Yannick Seurin (Ledger):	I was thinking of https://github.com/Verified-zkEVM/VCV-io (@Nico C you're probably aware of it)
+00:50:33	Yannick Seurin (Ledger):	For hash-based sigs there has been work in EasyCrypt: https://eprint.iacr.org/2026/134
+00:50:43	Nico C:	Reacted to "I was thinking of ..." with 👍
+00:51:29	Lumi | Wonderland:	Thank you everyone! 🤍
+00:51:32	Alexandre Roque:	Thanks!
+00:51:33	Ottie | Wonderland:	Thanks!
+00:51:35	Simon ZKNOX:	Thanks, see you!

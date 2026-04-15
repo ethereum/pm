@@ -1,0 +1,90 @@
+{
+  "meeting": "Post Quantum Transaction Signature (PQTS) Breakout #6 - January 2025",
+  "highlights": {
+    "protocol_developments": [
+      {
+        "timestamp": "00:04:01",
+        "highlight": "Frame transaction/native AA no longer headliner for Hegot\u00e1 fork"
+      },
+      {
+        "timestamp": "00:04:36",
+        "highlight": "NIST released limited-use SLHDSA parameters: 2^24 signatures, ~3-4KB size"
+      }
+    ],
+    "implementation_updates": [
+      {
+        "timestamp": "00:06:52",
+        "highlight": "Daisugi testnet live: Erigon node with Falcon/Dilithium/ephemeral ECDSA support"
+      },
+      {
+        "timestamp": "00:14:21",
+        "highlight": "NTT/LEGO approach requires scheme-specific precompiles; abstraction doesn't work well"
+      },
+      {
+        "timestamp": "00:17:41",
+        "highlight": "Direct precompiles much lower gas than NTT, especially Dilithium (~100k difference)"
+      }
+    ],
+    "hardware_constraints": [
+      {
+        "timestamp": "00:27:18",
+        "highlight": "NIST SLHDSA-24: ~6 minutes signing time on Ledger hardware wallet"
+      },
+      {
+        "timestamp": "00:38:25",
+        "highlight": "New NIST parameters still impractical: millions of hashes needed per signature"
+      },
+      {
+        "timestamp": "00:39:14",
+        "highlight": "Custom Keccak-based parameters achieve 100-1000x faster signing than NIST proposal"
+      }
+    ],
+    "strategy_discussion": [
+      {
+        "timestamp": "00:32:23",
+        "highlight": "Proposed dual approach: ephemeral keys for low-value, Dilithium for high-value transactions"
+      },
+      {
+        "timestamp": "00:36:10",
+        "highlight": "Ephemeral key security concerns: censorship attacks and long mempool times"
+      },
+      {
+        "timestamp": "00:42:48",
+        "highlight": "Formal verification critical for Solidity-based PQ signature contracts"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:40:02",
+      "action": "Publish EVM-friendly SLHDSA parameter research with Keccak instantiation",
+      "owner": "Nico C"
+    },
+    {
+      "timestamp": "00:41:23",
+      "action": "Send NIST feedback at tomorrow's workshop on hash function crypto-agility",
+      "owner": "Ethereum Foundation representatives"
+    },
+    {
+      "timestamp": "00:50:43",
+      "action": "Present full Dilithium ledger integration round-trip demo",
+      "owner": "Simon ZKNOX (future call)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:14:36",
+      "decision": "Lesson learned: NTT/LEGO abstraction approach doesn't work for PQ signatures"
+    },
+    {
+      "timestamp": "00:43:06",
+      "decision": "Solidity contracts for PQ verification must be formally verified, not precompiles"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:50:18",
+      "target": "Two weeks - Next PQTS breakout with Matteo's ephemeral key updates"
+    }
+  ]
+}
