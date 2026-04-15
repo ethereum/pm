@@ -10,7 +10,7 @@ import pytz
 import sys
 import calendar
 
-from .datetime_utils import parse_iso_datetime
+from datetime_utils import parse_iso_datetime
 
 PROTOCOL_CALENDAR_ID = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
 

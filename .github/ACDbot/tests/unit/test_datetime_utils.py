@@ -1,12 +1,7 @@
 import unittest
-import sys
-import os
 from datetime import datetime
 
-# Add the modules directory to the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'modules'))
-
-from datetime_utils import (
+from modules.datetime_utils import (
     parse_datetime_string,
     parse_iso_datetime,
     format_hour_for_savvytime,
