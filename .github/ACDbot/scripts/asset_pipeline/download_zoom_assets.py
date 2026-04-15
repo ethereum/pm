@@ -26,10 +26,9 @@ MAPPING_FILE_PATH = ACDBOT_DIR / "meeting_topic_mapping.json"
 # Load environment variables from the correct location
 load_dotenv(ACDBOT_DIR / ".env")
 
-# Add modules to path
+# Add modules to path for standalone execution
 sys.path.insert(0, str(ACDBOT_DIR / "modules"))
 
-# Import zoom module after path is set
 import zoom
 from mapping_manager import MappingManager
 

@@ -19,8 +19,6 @@ _gcal_mock_keys = (
 for _key in _gcal_mock_keys:
     sys.modules[_key] = MagicMock()
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-
 from modules.gcal import build_calendar_view_link, build_calendar_add_link, PROTOCOL_CALENDAR_ID
 
 # Do not leave mocked google/pytz in sys.modules: other test modules import real libraries.

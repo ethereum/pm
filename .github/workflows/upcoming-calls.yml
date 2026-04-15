@@ -15,7 +15,9 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        run: pip install requests pyyaml pytz google-api-python-client google-auth-oauthlib python-dateutil
+        run: |
+          pip install -e .github/ACDbot/
+          pip install requests pyyaml pytz google-api-python-client google-auth-oauthlib python-dateutil
       - name: Generate upcoming calls report
         env:
           ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}

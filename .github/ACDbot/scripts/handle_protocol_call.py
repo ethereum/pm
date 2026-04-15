@@ -11,10 +11,6 @@ import os
 import re
 import argparse
 from typing import Dict, Optional, List, Set
-
-# Add the modules directory to the path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'modules'))
-
 from datetime import datetime, timezone
 
 from modules.form_parser import FormParser

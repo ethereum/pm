@@ -29,6 +29,7 @@ PIPELINE_DIR = SCRIPT_DIR / "asset_pipeline"
 ARTIFACTS_DIR = ACDBOT_DIR / "artifacts"
 MAPPING_FILE = ACDBOT_DIR / "meeting_topic_mapping.json"
 
+# modules/ needs to be on path for bare imports inside functions (mapping_manager)
 sys.path.insert(0, str(ACDBOT_DIR / "modules"))
 
 

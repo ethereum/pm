@@ -10,9 +10,6 @@ import os
 import argparse
 import base64
 
-# Add the modules directory to the path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'modules'))
-
 def decode_eid(encoded_eid):
     """Decode a Google Calendar eid to get event ID and calendar ID."""
     try:
