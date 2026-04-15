@@ -1,0 +1,78 @@
+00:01:16	Stefan Starflinger:	hello
+00:01:29	Stefan Starflinger:	thanks for saving us
+00:01:49	spencer:	Glad we made it!!
+00:02:17	Maria Silva:	https://github.com/ethereum/pm/issues/2016
+00:02:24	Parithosh Jayanthi:	Giphy [ID:XCrNuIxkoVqQbG55MP]
+[Full message cannot be displayed on this version]
+00:02:59	Dragan Rakita:	Awesome list spencer!
+00:03:43	Stefan Starflinger:	Reacted to "Awesome list spencer..." with 🔥
+00:03:54	spencer:	Replying to "Awesome list spenc..."
+
+Maria's finds just relaying!
+00:04:07	Dragan Rakita:	Reacted to "Maria's finds just r..." with ❤️
+00:05:59	FLCL:	exec cost will be spent
+00:06:04	Dragan Rakita:	Reacted to "exec cost will be sp..." with 👍
+00:06:17	Ben Adams:	Reacted to "exec cost will be sp..." with 👍
+00:08:07	Dragan Rakita:	This one makes sense to add, it aligns how subcall logic is currently done
+00:08:24	Stefan Starflinger:	Reacted to "This one makes sense..." with 👍
+00:09:23	Stefan Starflinger:	1. Top-Level Reservior Refund -> Option 2 refund parent frame same as child frame
+00:09:40	spencer:	Reacted to "1. Top-Level Reser..." with 🔥
+00:13:44	Dragan Rakita:	It is state refund, not present refund
+00:15:50	spencer:	If we do 2, we should do 3/4 I think
+00:18:34	Ben Adams:	self destruct was a mistake 😅So many issues
+00:18:39	Dragan Rakita:	Reacted to "self destruct was a ..." with ➕
+00:18:41	Stefan Starflinger:	Reacted to "self destruct was a ..." with 🥹
+00:18:44	Dragan Rakita:	Replying to "self destruct was a ..."
+
+Worst thing ever!
+00:19:45	jochem-brouwer:	deprecate selfdestruct eip when
+00:20:46	Ben Adams:	self distruct refund loop?
+00:20:54	jochem-brouwer:	only happens at end of tx :)
+00:22:46	Stefan Starflinger:	when RAM gas?
+00:23:44	Dragan Rakita:	True, there is access cost
+00:27:26	jochem-brouwer:	I also think to be consistent return all the state cost paid for the selfdestructed contract (so refund this at the end of the transaction)
+00:28:08	Dragan Rakita:	How to fully kill selfdestruct?
+00:28:16	Ben Adams:	Reacted to "How to fully kill se..." with 👍
+00:28:18	spencer:	Reacted to "How to fully kill ..." with 👍
+00:28:19	jochem-brouwer:	Heeft gereageerd op "How to fully kill ..." met 👍
+00:28:50	jochem-brouwer:	This CREATE3 pattern is this used much in practice? Are there any use cases of SELFDESTRUCT currently besides reusing CREATE?
+00:29:16	Stefan Starflinger:	Reacted to "How to fully kill se..." with 👍
+00:29:52	Ben Adams:	Replying to "This CREATE3 pattern..."
+
+CREATE3 is quite cool as gives you an CREATE2 like address (nonce free) that isn't dependent on initcode
+00:30:22	Ben Adams:	As the creator is always same address and always has nonce 0
+00:31:08	jochem-brouwer:	Antwoord verzenden naar "This CREATE3 patte..."
+
+oh right good point, address independent of initcode
+00:31:30	Ben Adams:	Replying to "This CREATE3 pattern..."
+
+but not sure why you'd use self-destruct beyond contract creates
+00:34:12	Ben Adams:	Replying to "This CREATE3 pattern..."
+
+is a wacky opcode
+00:39:09	Stefan Starflinger:	sgtm
+00:41:50	FLCL:	sounds cool
+00:42:27	Dragan Rakita:	I would do sstore at moment of call, and do selfdestruct at the end
+00:43:27	FLCL:	it sounds stricter against dos and simpler/safer
+00:43:59	FLCL:	maybe at the end of tx?
+00:45:16	FLCL:	don't you track it with bals?
+00:46:20	Dragan Rakita:	Replying to "don't you track it w..."
+
+This is at the end of tx, not at the end of the call that eels code did.
+00:46:51	FLCL:	Replying to "don't you track it w..."
+
+and can't we refund at the end of tx?
+00:46:55	Stefan Starflinger:	agree, this still needs time
+00:47:55	jochem-brouwer:	This EIP sounds like a nightmare to test lol. I am mainly thinking about cases where there is just enough, gas -1 and gas+1 available and then doing proper journaling e.g. OOG, not OOG, and the refund tracker 🥲
+00:48:51	Stefan Starflinger:	Reacted to "This EIP sounds like..." with 🥶
+00:48:58	FLCL:	incerement only state gas, real charge at the very end. so gas limit should be bigger, but gas spent is just for state changes
+00:49:22	jochem-brouwer:	Yes agreed
+00:50:45	Dragan Rakita:	Replying to "don't you track it w..."
+
+Ok got confused, there are two things here, one is proposal to use gas state at the end of call, and second is when to use refund. Second one to use refund makes sense, it would be done as inner counter  state_refund  and just do it after tx ends.
+00:51:33	spencer:	Reacted to "This EIP sounds li..." with 🥶
+00:52:55	spencer:	so bal-devnet 4 pre interop -> glamsterdam-devnet-0 at interop -> glamsterdam-devnet-1 (maybe)
+00:53:13	jochem-brouwer:	Heeft gereageerd op "so bal-devnet 4 pr..." met 👍
+00:53:42	spencer:	we just need to work 15hrs a day and we'll get there
+00:53:54	Dragan Rakita:	Reacted to "we just need to work..." with 😂
+00:54:05	Stefan Starflinger:	happy to support as many devnets as we can manage :)
