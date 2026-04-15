@@ -51,24 +51,33 @@ ACDbot is maintained by EF Protocol Support support team. Before contacting main
 
 ## Contributing
 
-Develop ACDbot locally using Python 3.10 or newer. Install dependencies to get started:
+Develop ACDbot locally using Python 3.10 or newer.
 
+From the repository root, install ACDbot in editable mode and then install the test/runtime dependencies:
+
+```bash
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -e .github/ACDbot/
+python -m pip install -r .github/ACDbot/requirements.txt
 ```
-pip install -r requirements.txt
-```
+
+This mirrors the GitHub Actions setup. The editable install is part of the expected local workflow because scripts and tests import `modules` and `scripts` as packages.
 
 ### Tests
 
-Important scripts have unit test coverage using pytest. Tests can be found in `tests/unit/` with config and fixtures in `tests/conftest.py`. 
-Run test cases when making changes and extend tests and fixtures if features were added.
+Important scripts have unit test coverage using pytest. Tests live in `tests/unit/`, with config and fixtures in `tests/conftest.py`.
+
+Run relevant tests when making changes, and extend tests and fixtures when behavior changes.
 
 Run all tests:
-```
+```bash
+cd .github/ACDbot
 python -m pytest tests/ -v
 ```
 
 Run a specific test file:
-```
+```bash
+cd .github/ACDbot
 python -m pytest tests/unit/test_mapping_utils.py
 ```
 
@@ -114,4 +123,3 @@ The database that keeps track of existing events is in `meeting_topic_mapping.js
         *   Commits the updated RSS file.
     -   `get_zoom_token.py`, `direct_token_exchange.py`, `get_refresh_token.py`: Utilities for managing Zoom OAuth tokens.
     -   `refresh_youtube_token.py`: Utility for refreshing the YouTube/Google token (often run manually or via a separate workflow).
-

@@ -7,15 +7,11 @@ Focuses on testing the resource handlers and utility functions.
 
 import unittest
 import unittest.mock
-import sys
 import os
 import re
 from urllib.parse import urlparse, parse_qs
 
-# Add the scripts directory to the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'scripts'))
-
-from handle_protocol_call import ProtocolCallHandler
+from scripts.handle_protocol_call import ProtocolCallHandler
 
 
 class TestProtocolCallHandler(unittest.TestCase):
