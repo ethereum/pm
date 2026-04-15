@@ -1,0 +1,104 @@
+{
+  "meeting": "Glamsterdam Repricings #6 - April 15, 2026",
+  "highlights": {
+    "eip_8037_design_decisions": [
+      {
+        "timestamp": "00:06:01",
+        "highlight": "Refund state gas to reservoir when reverts prevent state creation"
+      },
+      {
+        "timestamp": "00:09:23",
+        "highlight": "Refund 0\u2192X\u21920 storage transitions to reservoir, not refund counter"
+      },
+      {
+        "timestamp": "00:15:03",
+        "highlight": "CREATE gas refunded when no state created; new VM behavior"
+      },
+      {
+        "timestamp": "00:19:45",
+        "highlight": "Self-destruct refunds processed end-of-transaction, includes storage slots created"
+      },
+      {
+        "timestamp": "00:36:02",
+        "highlight": "EIP-7702 authorization refunds go to reservoir when account exists"
+      },
+      {
+        "timestamp": "00:38:19",
+        "highlight": "Transaction validity check now requires sufficient state gas coverage"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:50:07",
+        "highlight": "State access benchmarks operational; initial results collected for EIP-7904/8038"
+      },
+      {
+        "timestamp": "00:52:55",
+        "highlight": "bal-devnet-4 pre-interop \u2192 glamsterdam-devnet-0 at interop planned"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:48:34",
+        "highlight": "Thread-based async spec discussions proved effective for edge cases"
+      },
+      {
+        "timestamp": "00:51:06",
+        "highlight": "Next call during interop week; likely canceled"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:28:46",
+      "action": "Benchmark self-destruct loop refund overhead with gas benchmarks post-8037",
+      "owner": "Benchmarking team (Johan, Luis)"
+    },
+    {
+      "timestamp": "00:42:27",
+      "action": "Async discussion: evaluate end-of-call vs in-place refund timing",
+      "owner": "All client teams"
+    },
+    {
+      "timestamp": "00:50:07",
+      "action": "Finalize EIP-7904/8038 benchmarks for interop presentation",
+      "owner": "Maria Silva, benchmarking team"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:09:41",
+      "decision": "State gas refunded to reservoir when no state created (top-level reverts)"
+    },
+    {
+      "timestamp": "00:13:27",
+      "decision": "0\u2192X\u21920 storage refunds go to reservoir; old refund counter deprecated for state gas"
+    },
+    {
+      "timestamp": "00:15:50",
+      "decision": "CREATE operations refund state gas when account creation fails"
+    },
+    {
+      "timestamp": "00:27:26",
+      "decision": "Self-destruct refunds all state gas at transaction end, including storage slots"
+    },
+    {
+      "timestamp": "00:37:07",
+      "decision": "EIP-7702 authorization refunds to reservoir when account pre-exists"
+    },
+    {
+      "timestamp": "00:41:50",
+      "decision": "Transaction inclusion requires sufficient state gas for maximum consumption"
+    },
+    {
+      "timestamp": "00:47:42",
+      "decision": "DevNet 4 uses in-place refunds; end-of-call alternative deferred pending review"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:52:55",
+      "target": "Interop week - Present final EIP-7904/8038 benchmarks; launch glamsterdam-devnet-0"
+    }
+  ]
+}

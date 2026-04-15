@@ -1,0 +1,1114 @@
+WEBVTT
+
+1
+00:13:14.120 --> 00:13:15.760
+Thomas Coratger: Hello, hello.
+
+2
+00:13:16.590 --> 00:13:17.800
+Shariq Naiyer: How you doing, Tomas?
+
+3
+00:13:20.590 --> 00:13:27.559
+Thomas Coratger: So, yeah, Will cannot make it this week, so let's start.
+
+4
+00:13:28.850 --> 00:13:32.640
+Thomas Coratger: Let's start first with client updates.
+
+5
+00:13:33.180 --> 00:13:35.539
+Thomas Coratger: So, Zim first.
+
+6
+00:13:37.720 --> 00:13:47.440
+Gajinder Singh: Hi, Ramal, thank you. And let's start with our update. We were able to achieve Interop for devnet 4 over the weekend.
+
+7
+00:13:47.610 --> 00:14:01.729
+Gajinder Singh: And I believe, we… Zoom is working well with Lantern and EthLambda, and over multiple subnets as well. So, that's fantastic news. On…
+
+8
+00:14:01.900 --> 00:14:08.729
+Gajinder Singh: on, on this front, Zim was mostly, busy in fixing the issues.
+
+9
+00:14:08.830 --> 00:14:11.739
+Gajinder Singh: That we encountered, while doing the interop.
+
+10
+00:14:11.900 --> 00:14:16.900
+Gajinder Singh: And we are working on stability and optimizations.
+
+11
+00:14:17.050 --> 00:14:29.909
+Gajinder Singh: Which… there are some few low-hanging optimizations that we are going for, and then we'll dig deep into the performance, issues that might… that are coming up, or that might come up.
+
+12
+00:14:30.040 --> 00:14:37.490
+Gajinder Singh: And, basically, our aim is to make sure that, devnet 4…
+
+13
+00:14:37.660 --> 00:14:43.900
+Gajinder Singh: Onwards, Zee becomes one of the most stable clients, participating in the network.
+
+14
+00:14:44.330 --> 00:14:50.999
+Gajinder Singh: And, that is what our focus is on devnet 5, me, we,
+
+15
+00:14:51.270 --> 00:14:54.790
+Gajinder Singh: we, so I and Anchilla are basically…
+
+16
+00:14:54.830 --> 00:15:11.769
+Gajinder Singh: discussing on what could be the devnet 5 spec. Basically, what we really want to do is aggregate all the signatures into one signature, but as we have seen in some spec discussions and PRs and rewards, that
+
+17
+00:15:11.770 --> 00:15:21.669
+Gajinder Singh: That we will need to repack at a station. So, so we will basically need to figure out a way where we can
+
+18
+00:15:21.720 --> 00:15:31.330
+Gajinder Singh: reutilize… The signatures, in repacking of the attestations, even if we have a single aggregated signature.
+
+19
+00:15:31.590 --> 00:15:44.370
+Gajinder Singh: For some particular validators, because let's say your node was not able to… was not able to receive the aggregated attestations for some particular validators, and you got them in a… in a block.
+
+20
+00:15:44.700 --> 00:15:48.910
+Gajinder Singh: And now, if you are a proposer, so you'll need to rebuild it and…
+
+21
+00:15:49.130 --> 00:15:56.280
+Gajinder Singh: You will need to repack, which is exactly the case that we discussed for the latest,
+
+22
+00:15:56.550 --> 00:15:59.109
+Gajinder Singh: justified,
+
+23
+00:15:59.390 --> 00:16:09.029
+Gajinder Singh: justified updates that we talked about in devnet for Channel itself. So, we are basically looking into that and,
+
+24
+00:16:09.450 --> 00:16:14.900
+Gajinder Singh: determining what is the best way to go forward, and basically discussing with Amel
+
+25
+00:16:15.060 --> 00:16:18.110
+Gajinder Singh: And you, over what should be the interface.
+
+26
+00:16:18.390 --> 00:16:23.640
+Gajinder Singh: for… Block-level aggregation of all the signatures.
+
+27
+00:16:25.790 --> 00:16:32.439
+Gajinder Singh: Yeah, and then our aim is to also produce a shadow-compatible build, so we did
+
+28
+00:16:32.820 --> 00:16:35.929
+Gajinder Singh: some, shadow-related,
+
+29
+00:16:36.260 --> 00:16:45.709
+Gajinder Singh: fixes, in the sense that to support Shadow, to support running on Shadow, and once we have a stable devnet for
+
+30
+00:16:45.940 --> 00:16:49.060
+Gajinder Singh: a much more stable devnet for running,
+
+31
+00:16:49.240 --> 00:16:57.430
+Gajinder Singh: codebase and images, we will basically then try to do shadow simulations with Camel.
+
+32
+00:16:59.020 --> 00:16:59.860
+Gajinder Singh: Thank you.
+
+33
+00:17:02.340 --> 00:17:07.280
+Thomas Coratger: Okay, cool, let us talk about, like, the…
+
+34
+00:17:07.390 --> 00:17:12.150
+Thomas Coratger: the block syncs for devnet… for devnet 5, just after, maybe?
+
+35
+00:17:12.410 --> 00:17:19.500
+Thomas Coratger: or maybe next week, let's see, like, as we are running on stability for devnet 4.
+
+36
+00:17:19.670 --> 00:17:27.099
+Thomas Coratger: Maybe this call is not the best one to talk about it, but maybe the next one, but let's see.
+
+37
+00:17:27.819 --> 00:17:35.939
+Thomas Coratger: maybe with Emil, who is in VM discussion. Let's continue first on the client updates.
+
+38
+00:17:36.870 --> 00:17:52.240
+Shariq Naiyer: So, yeah, how you doing, guys? We've been working on getting devnet 4 up to spec, and we have been testing against, currently, we have been testing against Zim and Grandine, and we seem to be fin- we seem to be finalizing quite well.
+
+39
+00:17:52.560 --> 00:18:04.209
+Shariq Naiyer: And, on the other hand, we have seen all the spec tests that have been added to the spec, and we're updating our spec test suite to, match, to match the devnet 4 spec.
+
+40
+00:18:04.270 --> 00:18:16.000
+Shariq Naiyer: And our main focus is going to be devnet4 stability and, and testing, and, and just ensuring that we can, we can finalize at, pretty high slots.
+
+41
+00:18:17.940 --> 00:18:27.559
+Shariq Naiyer: On a different note, we've also been working on a testing framework. We've been working on Hive. We've been integrating some of the clients on Hive.
+
+42
+00:18:27.560 --> 00:18:43.769
+Shariq Naiyer: I think we have Zim, we're slowly working on Lantern, adding Lantern, we have Reem, and we have ETH Lambda. Derek would like to give a quick, a quick, a quick spot on it, just a quick show of, tool on it, at the end, towards the end of the call.
+
+43
+00:18:46.630 --> 00:18:51.750
+Thomas Coratger: Yeah, perfect. Let us do that just after, like, client updates.
+
+44
+00:18:51.910 --> 00:18:53.310
+Thomas Coratger: clean.
+
+45
+00:18:55.100 --> 00:18:55.910
+Ruslan Tushov: Hello.
+
+46
+00:18:56.030 --> 00:19:06.010
+Ruslan Tushov: Oh, we've… implemented devnet4, however, we didn't implement case separation yet, so…
+
+47
+00:19:06.280 --> 00:19:13.690
+Ruslan Tushov: During testing, we used two same key players, and didn't test separate subnets yet.
+
+48
+00:19:13.810 --> 00:19:22.690
+Ruslan Tushov: Also, when running interop tests, I noticed that, there is some Yes.
+
+49
+00:19:23.270 --> 00:19:33.540
+Ruslan Tushov: slow penalty, and as I mentioned in chat, it seems that recourse fabrication it can be slow.
+
+50
+00:19:34.600 --> 00:19:47.240
+Ruslan Tushov: I've attached a link to the… in the chat. If you can measure it on your machine, I would add its results to the README, too.
+
+51
+00:19:48.160 --> 00:19:49.660
+Ruslan Tushov: Thank you, that's all.
+
+52
+00:19:52.500 --> 00:19:55.879
+Thomas Coratger: Great, thank you, Lantern.
+
+53
+00:19:59.180 --> 00:19:59.730
+Mihir Faujdar: Yep.
+
+54
+00:19:59.850 --> 00:20:14.099
+Mihir Faujdar: Hi, everyone. So yeah, I've basically been preparing for devnet 4. We have implemented the specs and have been able to interop with Grandine in our local testing, but also good to see that we can interop with Zim.
+
+55
+00:20:14.230 --> 00:20:16.959
+Mihir Faujdar: So that's great to see.
+
+56
+00:20:17.620 --> 00:20:28.319
+Mihir Faujdar: As well as being working on adding tests, the new test vectors that have been added in, lean specs, just to ensure that we're compliant with all of them.
+
+57
+00:20:28.420 --> 00:20:39.200
+Mihir Faujdar: I guess on the metric side, just waiting for the devnet4 metric to be merged, before adding support for it. Yep, that's your update, thanks.
+
+58
+00:20:42.320 --> 00:20:46.030
+Thomas Coratger: Great, thank you. It's Lambda.
+
+59
+00:20:47.560 --> 00:20:48.320
+Pablo Deymo | Lambda: Hello.
+
+60
+00:20:49.070 --> 00:20:52.760
+Pablo Deymo | Lambda: We finished working on the devnet4 support.
+
+61
+00:20:53.080 --> 00:20:54.400
+Pablo Deymo | Lambda: The last week?
+
+62
+00:20:54.530 --> 00:20:58.569
+Pablo Deymo | Lambda: This last week, we implemented the station count cap per block.
+
+63
+00:20:58.770 --> 00:21:02.020
+Pablo Deymo | Lambda: Proof aggregation changes from the spec.
+
+64
+00:21:02.320 --> 00:21:10.099
+Pablo Deymo | Lambda: We integrated the new SSZ and the STF standard intervention test from the spec.
+
+65
+00:21:10.530 --> 00:21:17.889
+Pablo Deymo | Lambda: And we also updated to the latest version of lean spec Development 4 Branch.
+
+66
+00:21:18.890 --> 00:21:24.720
+Pablo Deymo | Lambda: And we were running multiple interoperability devnets to debug issues.
+
+67
+00:21:25.250 --> 00:21:27.260
+Pablo Deymo | Lambda: With some of our clients.
+
+68
+00:21:27.450 --> 00:21:32.259
+Pablo Deymo | Lambda: And, we also started an internal initiative
+
+69
+00:21:32.380 --> 00:21:41.199
+Pablo Deymo | Lambda: We work… started working on formalizing the state transition function and four-choice algorithm in lean for language.
+
+70
+00:21:41.510 --> 00:21:46.440
+Pablo Deymo | Lambda: So we made a PR in our repo, adding the…
+
+71
+00:21:46.880 --> 00:21:52.780
+Pablo Deymo | Lambda: Porting the is justified… shutifiable after function.
+
+72
+00:21:53.030 --> 00:21:54.810
+Pablo Deymo | Lambda: In… in lean form.
+
+73
+00:21:55.740 --> 00:21:58.050
+Pablo Deymo | Lambda: So, that's our update. Thanks.
+
+74
+00:22:01.480 --> 00:22:02.250
+Thomas Coratger: Great.
+
+75
+00:22:02.680 --> 00:22:03.750
+Thomas Coratger: Thank you.
+
+76
+00:22:03.980 --> 00:22:05.700
+Thomas Coratger: Guin?
+
+77
+00:22:07.790 --> 00:22:09.399
+Shaaibu Suleiman | gean: Yeah, hello.
+
+78
+00:22:09.770 --> 00:22:11.090
+Shaaibu Suleiman | gean: Hello, yeah, hello.
+
+79
+00:22:11.330 --> 00:22:18.660
+Shaaibu Suleiman | gean: Yeah, so, we've been working on… still working on, support for devnet 4, basically.
+
+80
+00:22:19.410 --> 00:22:27.390
+Shaaibu Suleiman | gean: We've, implemented, I think basically the support for dual keys, basically for, attestation.
+
+81
+00:22:27.660 --> 00:22:35.120
+Shaaibu Suleiman | gean: and also proposal, and also, recursive aggregation. We've, provided support
+
+82
+00:22:35.990 --> 00:22:43.519
+Shaaibu Suleiman | gean: for our latest updates, been made, I think basically for lean, multi-seq.
+
+83
+00:22:43.920 --> 00:22:51.130
+Shaaibu Suleiman | gean: And also support for annotated, validators. You know, config for, validators.
+
+84
+00:22:51.380 --> 00:22:57.529
+Shaaibu Suleiman | gean: And, we've tested, we've tested, the implementation we have so far.
+
+85
+00:22:57.750 --> 00:23:08.150
+Shaaibu Suleiman | gean: against, Zim and It Lambda, and it has been, coming up, pretty well. Locally, though, we've been doing that test, locally.
+
+86
+00:23:08.500 --> 00:23:15.349
+Shaaibu Suleiman | gean: And I think our PR for devnet 4 only in Quick Start was, was merged through that.
+
+87
+00:23:15.760 --> 00:23:27.250
+Shaaibu Suleiman | gean: We could also participate, in the multi-client, interlock run for Defnet 4. So yeah, basically, that's it from us. Yeah. Thank you.
+
+88
+00:23:30.390 --> 00:23:32.499
+Thomas Coratger: Great, thanks a lot.
+
+89
+00:23:33.640 --> 00:23:36.800
+Thomas Coratger: Next, Lighthouse?
+
+90
+00:23:42.690 --> 00:23:45.970
+Thomas Coratger: Next… Grandine?
+
+91
+00:23:48.300 --> 00:23:56.930
+Mercy Boma Naps-Nkari: Good afternoon. So, excuse me. On the grounding side, we've implemented devnet4, and we're running locally to actually see
+
+92
+00:23:57.080 --> 00:24:01.029
+Mercy Boma Naps-Nkari: If we have good enough stability for them to forwards,
+
+93
+00:24:01.130 --> 00:24:05.389
+Mercy Boma Naps-Nkari: It's flamba, lantern, and tin, which everything has been me.
+
+94
+00:24:05.710 --> 00:24:08.040
+Mercy Boma Naps-Nkari: Going all well, so…
+
+95
+00:24:08.270 --> 00:24:14.630
+Mercy Boma Naps-Nkari: about the metrics, once the metrics PR get managed, we'll have our metrics ready also.
+
+96
+00:24:15.620 --> 00:24:16.609
+Mercy Boma Naps-Nkari: Thank you.
+
+97
+00:24:19.440 --> 00:24:22.070
+Thomas Coratger: Cool, thank you, Nimbus?
+
+98
+00:24:28.370 --> 00:24:32.370
+Thomas Coratger: Okay, did I miss anyone?
+
+99
+00:24:35.250 --> 00:24:36.359
+Thomas Coratger: Don't think so.
+
+100
+00:24:37.460 --> 00:24:44.619
+Thomas Coratger: Okay, so let's go for spec and research update. So…
+
+101
+00:24:45.000 --> 00:24:48.889
+Thomas Coratger: On this side, basically, on the spec.
+
+102
+00:24:49.030 --> 00:24:54.490
+Thomas Coratger: We have implemented a lot of tests in the past weeks.
+
+103
+00:24:54.700 --> 00:25:04.119
+Thomas Coratger: No spec change, basically, but a lot of new tests have been added, especially test vectors for you to be able to consume.
+
+104
+00:25:04.270 --> 00:25:16.309
+Thomas Coratger: And to check with. I have added a lot of good first issues for external contributors to participate as well in this effort to diversify a bit the…
+
+105
+00:25:16.450 --> 00:25:25.090
+Thomas Coratger: The contributors that we have, and not only me and a couple of people pushing tests, but also, like, the broader community.
+
+106
+00:25:25.310 --> 00:25:32.030
+Thomas Coratger: So we started by adding a bunch of very edge case, situations.
+
+107
+00:25:32.160 --> 00:25:44.659
+Thomas Coratger: Even if some of them should never happen, for me, this is cool to have tests for this to ensure that we are all on the same page with all of the behavior of the code.
+
+108
+00:25:45.280 --> 00:25:57.399
+Thomas Coratger: Then I have started yesterday to add much more basic test vectors that we didn't have before, for example, for SSD implementation, and now for networking stuff.
+
+109
+00:25:57.620 --> 00:26:12.510
+Thomas Coratger: to ensure that, even on these very basic primitives, we are on the same page. If this is not the case, this is not at all a problem. We should fix either on the client side, or on the spec side.
+
+110
+00:26:12.640 --> 00:26:20.230
+Thomas Coratger: This is not a problem, this is just a good news, because we'll be able to catch bugs much more easily.
+
+111
+00:26:20.930 --> 00:26:39.089
+Thomas Coratger: Next, we should work on some kind of visualization tool to have a list of the client and the tests they pass and they don't pass, so that we can have, like, a clear visualization. I know, Marci, that you will send me a message about this. Thanks a lot for…
+
+112
+00:26:39.410 --> 00:26:45.000
+Thomas Coratger: for taking this, like, for thinking about this. I will answer you, today.
+
+113
+00:26:45.190 --> 00:26:46.340
+Thomas Coratger: Mmm…
+
+114
+00:26:46.680 --> 00:26:55.010
+Thomas Coratger: That is, on the… on the pure spec update, we will continue like this to try to reach a stability point and add more tests.
+
+115
+00:26:55.400 --> 00:27:03.649
+Thomas Coratger: For now, I am a bit concerned about the duration of the tests, especially the test vectors. I think this is mainly due to the
+
+116
+00:27:04.470 --> 00:27:07.730
+Thomas Coratger: recursive aggregation that we have added in devnet 4.
+
+117
+00:27:07.990 --> 00:27:20.200
+Thomas Coratger: causing much more aggregation to happen, and so much more time than we had before. We multiply something by 2 or 3, the duration of the test vectors, and this could become a problem.
+
+118
+00:27:20.450 --> 00:27:28.659
+Thomas Coratger: If we have much more tests, I don't want to inflate the duration that much. I should check, maybe.
+
+119
+00:27:29.800 --> 00:27:34.979
+Thomas Coratger: Then I think that we have, like, the production test vectors.
+
+120
+00:27:34.980 --> 00:27:49.849
+Thomas Coratger: on main not passing, but I think this may be due to not regenerate… due to not… to us not regenerating the production keys after the latest post agent update. I think this is…
+
+121
+00:27:49.900 --> 00:27:51.570
+Thomas Coratger: Probably the root cause.
+
+122
+00:27:51.690 --> 00:27:59.670
+Thomas Coratger: Because, test configuration of the test vectors pass… properly.
+
+123
+00:28:00.050 --> 00:28:02.140
+Thomas Coratger: So that is one thing.
+
+124
+00:28:02.940 --> 00:28:10.130
+Thomas Coratger: That is on the spec side. On more, like, research and cryptography side,
+
+125
+00:28:10.250 --> 00:28:27.670
+Thomas Coratger: We are making very good progress on PromQ3 and LeanVM. Emil will talk about LeanVM just after, but on the PromQ3 side of things, we are implementing much more things. We're in… is in the process of being fully integrated.
+
+126
+00:28:27.820 --> 00:28:32.910
+Thomas Coratger: We have also some SEM check optimization in the pipeline.
+
+127
+00:28:33.060 --> 00:28:44.269
+Thomas Coratger: with at least two additional PRs to be merged in Plonkey 3, and probably some upcoming one with a new paper coming on ePrint in the coming days.
+
+128
+00:28:44.750 --> 00:28:51.280
+Thomas Coratger: So that is basically… it's about the research, yeah.
+
+129
+00:28:51.590 --> 00:28:54.439
+Thomas Coratger: Emil, if you want to talk about LeanVM.
+
+130
+00:28:55.150 --> 00:29:02.769
+T. Wambsgans: Hello, thank you. Yes, simply, some… some check simplifications, basically, batching
+
+131
+00:29:02.930 --> 00:29:08.329
+T. Wambsgans: previously that there was one sum check for each Airtable, and now we batched them.
+
+132
+00:29:08.330 --> 00:29:31.349
+T. Wambsgans: And so, in some sense, the lean VM now is only, like, one commitment with wear, one GKI error for logup, one… some check for error validity, and one we're opening, and that's it. So basically, it becomes simpler conceptually, and also more recreation-friendly. And maybe, I don't know, about the…
+
+133
+00:29:31.350 --> 00:29:33.170
+T. Wambsgans: The, the fact that the…
+
+134
+00:29:33.170 --> 00:29:42.470
+T. Wambsgans: recursive aggregation is slow. I think that's indeed a problem for the tests. What do you think? Maybe, couldn't we, like, run to server
+
+135
+00:29:42.650 --> 00:29:52.330
+T. Wambsgans: to have faster continuous integration than the default GitHub one, maybe, I don't know. And if we have a dedicated server.
+
+136
+00:29:52.390 --> 00:30:11.959
+T. Wambsgans: one valuable aspect would be to be able to have AVX512, which is not available on GitHub. And typically, for a lean VM, I know that sometimes there are some commits that breaks AVX512, and since I'm not on this machine, it's hard to detect it, so having,
+
+137
+00:30:12.000 --> 00:30:24.990
+T. Wambsgans: a fast, continuous integration on all the targets would probably be valuable for the spec, for lean VM, for everyone. So maybe we should invest some time and resources into it, probably.
+
+138
+00:30:29.030 --> 00:30:36.499
+Thomas Coratger: Yeah, yeah, sounds good. Yeah, definitely, yeah, that should be an option. There are, like, definitely different options.
+
+139
+00:30:37.270 --> 00:30:42.289
+Thomas Coratger: Either these, or maybe for some…
+
+140
+00:30:43.510 --> 00:31:01.620
+Thomas Coratger: For some specific case where we don't want to test precisely the aggregation, but we want to test some other properties, we could just mock the aggregation and have, like, some random values, because this is a test where we don't want to test aggregation, and just reserve
+
+141
+00:31:01.620 --> 00:31:08.370
+Thomas Coratger: the aggregation for a couple of tests, where we want to test aggregation precisely, that could be also an option.
+
+142
+00:31:08.570 --> 00:31:10.660
+Thomas Coratger: I should check.
+
+143
+00:31:10.910 --> 00:31:16.049
+T. Wambsgans: That makes sense. Actually, like, we could say that you only have
+
+144
+00:31:16.220 --> 00:31:23.020
+T. Wambsgans: A few tests is, as you said, a few tests On the spec, and,
+
+145
+00:31:23.240 --> 00:31:30.690
+T. Wambsgans: on the lean VM side, it's okay if the CI is slower, so we could have much more tests here, probably, yeah.
+
+146
+00:31:35.740 --> 00:31:37.630
+Thomas Coratger: Yep,
+
+147
+00:31:37.970 --> 00:31:48.470
+Thomas Coratger: On the RIM side, you mentioned that you wanted maybe to show us some tooling integration or something? Maybe this is the right one?
+
+148
+00:31:48.780 --> 00:32:08.730
+Shariq Naiyer: Yeah, so, one thing is, we were discussing visualization of the spec test in all the clients. We wanna use the same… we're trying to get this visualize, the tool that Derek is going to show, to, to do that visualization as well. I'm gonna pass over this to Derek right now, and he can present, what we are working on.
+
+149
+00:32:09.470 --> 00:32:22.399
+Derek Sorken: For sure, hello? Just make sure I can be heard while I just had a fresh install of Zoom. I think it's saying I can be heard. Perfect. Yeah, so, I'm just gonna go ahead and share my screen, if that's alright, but basically…
+
+150
+00:32:22.800 --> 00:32:30.640
+Derek Sorken: It's a visualization… at the end of it, it's a visualization tool, but…
+
+151
+00:32:31.180 --> 00:32:38.040
+Derek Sorken: Just for a, maybe a high-level overview for anyone who isn't familiar with Hive, essentially, it's a…
+
+152
+00:32:38.710 --> 00:32:44.409
+Derek Sorken: A test harness, and it's… the way that it's ran is,
+
+153
+00:32:44.970 --> 00:32:54.199
+Derek Sorken: It's done through Docker, and so at the beginning of the test, for example, we'll have, like, a test to run with a client, Zim, as we're running Zim, and…
+
+154
+00:32:54.490 --> 00:32:56.710
+Derek Sorken: What we're trying to do in this test.
+
+155
+00:32:57.150 --> 00:33:00.820
+Derek Sorken: is test, client RPC compatibility.
+
+156
+00:33:00.950 --> 00:33:08.409
+Derek Sorken: And so, essentially, all it is at the end of the day is, a bunch of lambda functions for different tests.
+
+157
+00:33:08.670 --> 00:33:10.150
+Derek Sorken: And so it'll go through…
+
+158
+00:33:10.450 --> 00:33:18.990
+Derek Sorken: a bunch of different tests, to test different functionalities for, in this case, fork choice, checkpoints, and state for RPC.
+
+159
+00:33:21.150 --> 00:33:31.270
+Derek Sorken: And, what it'll do is run through those tests, and for each test, it will start up a Docker image of Zim, run through the Zim test, and then…
+
+160
+00:33:31.530 --> 00:33:33.420
+Derek Sorken: produce that to…
+
+161
+00:33:33.560 --> 00:33:44.030
+Derek Sorken: a workspace, so it'll dump all of the logs, and so we can see, like, here's our Zim logs, and then we have Reem, Lantern, and, ETH Lambda.
+
+162
+00:33:46.020 --> 00:33:55.020
+Derek Sorken: And right now, we are in the process of getting a Lantern devnet 4, but just for the sake of demonstration,
+
+163
+00:33:55.300 --> 00:33:57.769
+Derek Sorken: We can see the visualization tool.
+
+164
+00:33:58.660 --> 00:34:00.020
+Derek Sorken: Move this out of the way.
+
+165
+00:34:01.040 --> 00:34:04.829
+Derek Sorken: There we go. Okay, so… For example, we can look at…
+
+166
+00:34:05.080 --> 00:34:10.410
+Derek Sorken: the, Lantern run, and so we can see RPC compatibility and Lantern devnet 3.
+
+167
+00:34:10.570 --> 00:34:15.410
+Derek Sorken: And we can see, right now, when we run through it, there's two fails, and we can see why.
+
+168
+00:34:15.870 --> 00:34:16.980
+Derek Sorken: And so…
+
+169
+00:34:17.900 --> 00:34:28.340
+Derek Sorken: We can see all of the tests here, and view all the tests, and if nothing happens in the test, then we'll just say no log output. But for each test, we can actually view all of the…
+
+170
+00:34:28.530 --> 00:34:35.569
+Derek Sorken: the Docker logs, and so if we want to see, for example, the health healthy, just to check if the RPC Health Endpoint is working properly.
+
+171
+00:34:35.840 --> 00:34:37.430
+Derek Sorken: We can check, see…
+
+172
+00:34:37.540 --> 00:34:44.920
+Derek Sorken: the whole startup process in Lantern, gone back, and see, of course, it returned it, and the test went well, and…
+
+173
+00:34:45.150 --> 00:34:49.389
+Derek Sorken: When something goes wrong. So, for example, right now, this test was just picking up.
+
+174
+00:34:49.550 --> 00:34:53.899
+Derek Sorken: There's a OX prefix in the log, and so it happened to not return.
+
+175
+00:34:54.090 --> 00:34:56.100
+Derek Sorken: an OX prefix, and if…
+
+176
+00:34:56.320 --> 00:35:07.990
+Derek Sorken: If we needed more in-detail information about it, we could, of course, go to the Lantern log and view through that. But this is just done through HiveView, which is an existing tool in Hive.
+
+177
+00:35:08.160 --> 00:35:11.620
+Derek Sorken: And the idea is that…
+
+178
+00:35:11.890 --> 00:35:24.469
+Derek Sorken: Right now, I've just done individual tests for these first few, just to show that, okay, we can look at the individual tests, and some of them right now are failing. So, for example, the one, I believe, in ETH Lambda, I'll have to take a look at the test itself.
+
+179
+00:35:24.600 --> 00:35:29.160
+Derek Sorken: I think it's just a race condition that this shouldn't be failing, but I'll have to fix that later on.
+
+180
+00:35:29.320 --> 00:35:48.780
+Derek Sorken: But, for example, the one, if we look at, like, Zim, I believe that's one of the same problems, but it'll just pick up inconsistencies, and so, like, right now, in the, health endpoint, instead of returning, like, the lean RPC, it'll turn… right now, it returns, like, Zim API, which I suppose we could…
+
+181
+00:35:48.930 --> 00:35:53.770
+Derek Sorken: make more lenient, depending on how consistent we want that to be.
+
+182
+00:35:54.090 --> 00:36:03.649
+Derek Sorken: But at the end of the day, the idea is we run all of the clients all at once for each suite, and so if you go back to the code… here we go,
+
+183
+00:36:04.810 --> 00:36:23.510
+Derek Sorken: there is, suites that you can specify, and so right now, we have the RPC compatibility suite that we've specified as a tool, and as we build onto Hive, this can be more like interoperability tests, and so I believe, Colby will be working on, like, right now in Reem, we have a matrix CI test, where it'll go through
+
+184
+00:36:23.840 --> 00:36:35.630
+Derek Sorken: Reams compatibility with each client, but ideally in Hive, then we make it so that each client runs against each other client, to see if it can finalize, and, like, stuff like checkpoint sync, and late compatibility.
+
+185
+00:36:36.130 --> 00:36:39.739
+Derek Sorken: But… Just for, like, a…
+
+186
+00:36:40.350 --> 00:36:47.159
+Thomas Coratger: Just maybe a stupid question, but in the test that you have shown in the screen.
+
+187
+00:36:47.820 --> 00:36:53.050
+Thomas Coratger: where they come from? Like, natural to understand, like.
+
+188
+00:36:53.050 --> 00:36:53.709
+Derek Sorken: Oh, for sure.
+
+189
+00:36:53.710 --> 00:36:56.110
+Thomas Coratger: These are, like, specific,
+
+190
+00:36:56.290 --> 00:37:01.060
+Thomas Coratger: specs that you define yourself, because I think these are not spec tests or something.
+
+191
+00:37:01.130 --> 00:37:10.439
+Derek Sorken: Yeah, so these specific tests, were built on just going through the behavior, like, either explicit or implicit behavior from
+
+192
+00:37:11.800 --> 00:37:28.749
+Derek Sorken: lean spec, so I guess an example of that would be, lean spec, what it wants to do is return, like, OX, prefixed roots, and so that's one of the tests, is literally just, if I can find… all the way at the top here…
+
+193
+00:37:31.710 --> 00:37:37.010
+Derek Sorken: One of the tests is just, does it hex encode the root? Does it have that… Ox…
+
+194
+00:37:37.250 --> 00:37:42.219
+Derek Sorken: encoded root, should be OX prefix. Just implicit behavior.
+
+195
+00:37:42.220 --> 00:37:48.660
+Thomas Coratger: And… Maybe this should be tests that we add, as well as test vectors inside the spec, no?
+
+196
+00:37:48.940 --> 00:38:04.039
+Derek Sorken: Yeah, for sure, we could eventually migrate this to, like, test vectors inside the spec as well. This was maybe more so just done as, like, proof of concept and something that could be done either way, but yeah, it could migrate either way, where we also, I believe, would want to take…
+
+197
+00:38:04.040 --> 00:38:22.049
+Thomas Coratger: In this case, in your tooling right now, if we do that, if we migrate everything as test vectors inside the spec, so that all of the client teams can consume, and then in your tooling that you present there, you will just test, basically, all of the test vectors of the spec, correct?
+
+198
+00:38:22.050 --> 00:38:30.360
+Derek Sorken: Yeah, this would go for testing everything, and then making it easily visualizable, and ideally, what we'd want to do is,
+
+199
+00:38:30.480 --> 00:38:36.830
+Derek Sorken: just have some sort of long-running high-vis instance that kind of just goes through each test, and as clients update their…
+
+200
+00:38:37.160 --> 00:38:45.239
+Derek Sorken: their image, it will then be like an immediate feedback to say, okay, does this image do anything to change the test results?
+
+201
+00:38:45.530 --> 00:39:02.149
+Derek Sorken: But ideally, what we do is, for each run, in each suite, we'd run all clients all at once, so this is a run, for example, where I ran, in the… there's a command here. I ran Xem, ETH, Lambda, and REAMS, comma separated in the, command line here.
+
+202
+00:39:02.270 --> 00:39:05.140
+Derek Sorken: But what it'll do is then…
+
+203
+00:39:05.440 --> 00:39:20.840
+Derek Sorken: run, for example, all we have right now is the RPC compatibility Suite, but it'll run through each one individually, it'll test them against the RPC compatibility Suite, so see, we can see, like, each RPC compatibility test, ETH Lambda, you scroll down later, and then it's Reem, and a little bit lower is Zem.
+
+204
+00:39:22.210 --> 00:39:36.270
+Derek Sorken: And then as we add a different suite, which would just be added right in here, we could add, like, the matrix test, for example, where we just take, like, Xem against ream, two zems, 1 ream, and then two reams, one Zem, and so on.
+
+205
+00:39:36.340 --> 00:39:43.509
+Derek Sorken: And… and for each client, we could do that, and so it could really cover all the interoperability bases, just to make sure that
+
+206
+00:39:43.790 --> 00:39:45.420
+Derek Sorken: As, like, a basic start.
+
+207
+00:39:45.560 --> 00:39:59.180
+Derek Sorken: everyone can finalize with everyone else, in every combination. That's, like, every basic combination. Obviously, we could make them more complex combinations, but there's probably diminishing returns as to how long those tests would take to run.
+
+208
+00:39:59.990 --> 00:40:07.010
+Derek Sorken: As opposed to just actually doing, like, a full devnet run. But yeah, that's… that's kind of the idea of, of Hive.
+
+209
+00:40:09.480 --> 00:40:12.289
+Derek Sorken: If there's any questions as well, I could answer those.
+
+210
+00:40:19.430 --> 00:40:26.560
+Thomas Coratger: That's great. Like, personally, I love it. I don't know about other things, but… I love it.
+
+211
+00:40:27.240 --> 00:40:42.650
+Derek Sorken: Perfect, sounds great. Yeah, we'll be continuing to update as time goes on. I believe this week we'll try to get the, kind of, the matrix tests to go on, and perhaps we could present later on to kind of give an idea of what that looks like as well, but yeah, that sounds good.
+
+212
+00:40:43.010 --> 00:40:44.950
+Shariq Naiyer: And, and when he says…
+
+213
+00:40:44.950 --> 00:40:45.700
+Gajinder Singh: Suspended.
+
+214
+00:40:46.990 --> 00:40:48.890
+Shariq Naiyer: Someone who's speaking. I don't know if I'm speaking.
+
+215
+00:40:50.100 --> 00:40:55.750
+Gajinder Singh: Yeah, yeah, so, yeah, this is great, and we will aggressively integrate with Hive.
+
+216
+00:40:55.970 --> 00:40:59.370
+Gajinder Singh: And make sure that, you know.
+
+217
+00:40:59.640 --> 00:41:08.899
+Gajinder Singh: This is sort of one of the steps that everyone needs to achieve when they come before and come to an interop point.
+
+218
+00:41:09.030 --> 00:41:17.170
+Gajinder Singh: So, I think this is an excellent step, and hopefully all teams will contribute to writing tests for Hive.
+
+219
+00:41:18.140 --> 00:41:22.500
+Derek Sorken: Awesome, sounds great. Oh, one thing I should also mention, I know that it was…
+
+220
+00:41:22.690 --> 00:41:36.059
+Derek Sorken: maybe a concern last interrupt call, to make sure that any test… so, for example, right now in our individual tests, there are cases that we want to test that are, post-genesis, and so…
+
+221
+00:41:36.150 --> 00:41:43.340
+Derek Sorken: the best way that I've found to make this most consistent is what we'll actually do is spin up the lean spec client itself, and so…
+
+222
+00:41:43.690 --> 00:41:45.210
+Derek Sorken: For our,
+
+223
+00:41:45.390 --> 00:42:00.929
+Derek Sorken: certain post-Genesis tests right now will actually test against the given client that we're testing. So, for example, we're testing Zim, or something like that. Zim would show up, and we'll insert it in here as Zim, but we'll actually run it against the lean spec client, so…
+
+224
+00:42:01.130 --> 00:42:03.959
+Derek Sorken: To get, like, this example's just like a…
+
+225
+00:42:05.110 --> 00:42:08.940
+Derek Sorken: Maybe a very, like, niche edge case, but,
+
+226
+00:42:09.590 --> 00:42:26.869
+Derek Sorken: should there be a difference in how the checkpoint shape is Genesis versus post-Genesis, but essentially what we'll do is spin up the lean spec client with 3 validators, so it can get to a point where there's some finalization achieved, and then we'll checkpoint sync the given tested client.
+
+227
+00:42:26.900 --> 00:42:38.600
+Derek Sorken: To then get that new checkpoint that's finalized. And this way, it's as unbiased as possible to just run specifically against lean spec for very, like, in-depth.
+
+228
+00:42:38.640 --> 00:42:44.099
+Derek Sorken: Specific spec tests, I think as we go on, we can…
+
+229
+00:42:44.350 --> 00:42:50.710
+Derek Sorken: there'll probably be more applications of when this would be a good use of using the lean spec client itself.
+
+230
+00:42:51.180 --> 00:42:54.079
+Derek Sorken: But yeah, I think that's probably also important to note.
+
+231
+00:42:55.550 --> 00:43:01.640
+Gajinder Singh: So, for most of the tests, lean spec client should be the source of truth, but maybe in some scenarios.
+
+232
+00:43:01.780 --> 00:43:05.519
+Gajinder Singh: Lean spec, client might not be,
+
+233
+00:43:05.810 --> 00:43:16.670
+Gajinder Singh: optimized enough to produce some particular test, and in that case, I guess, we'll figure out, how to go about and, run that test.
+
+234
+00:43:16.800 --> 00:43:22.609
+Gajinder Singh: But, most likely, I think test will be a series of hard-coded RPC calls.
+
+235
+00:43:22.820 --> 00:43:29.840
+Gajinder Singh: In that sense, I think we'll be able to sort of circumvent,
+
+236
+00:43:30.050 --> 00:43:33.900
+Gajinder Singh: the issues that lean spec client might not be production.
+
+237
+00:43:34.050 --> 00:43:41.730
+Gajinder Singh: Grade, but, yeah, I sort of… because what I know is that,
+
+238
+00:43:41.970 --> 00:43:49.060
+Gajinder Singh: Currently, Hive uses GET as the backend to… Orchestrate everything.
+
+239
+00:43:49.220 --> 00:43:55.059
+Gajinder Singh: But hey, we want that, that lean spec should be that, source of truth.
+
+240
+00:43:55.970 --> 00:43:58.970
+Derek Sorken: Yeah, yeah, 100%, I agree. So yeah, we can…
+
+241
+00:43:59.110 --> 00:44:17.699
+Derek Sorken: In Hive, it'll show runtimes, and that is one thing, like, it takes a little while to spin up, but I think that's something that we'll tackle as we go to see if we can kind of get things more optimized, but I do agree that, yeah, lean spec is ideal as source of truth, but if it is insufficient, then, yeah.
+
+242
+00:44:17.700 --> 00:44:37.419
+Thomas Coratger: Yeah, but in any case, this is what I respond to the message of Colby just in the chat, but in any case, I am sure that sometime you will find or discover some tests that are not in lean spec, for example, for the peer-to-peer behavior, or for the syncing, or for some risk.
+
+243
+00:44:37.580 --> 00:44:43.159
+Thomas Coratger: Rec, RESP, Exchange, and stuff like this, so please, in this case, just…
+
+244
+00:44:43.390 --> 00:44:48.930
+Thomas Coratger: Send me a link with those tests that… so that we should add them as well in the spec.
+
+245
+00:44:49.060 --> 00:44:53.449
+Thomas Coratger: So that all of the other client teams can benefit from this test.
+
+246
+00:44:53.550 --> 00:44:59.519
+Thomas Coratger: So, this is totally possible that you will discover tests, that we should add in the spec.
+
+247
+00:44:59.870 --> 00:45:01.659
+Derek Sorken: For sure, yeah, that sounds good.
+
+248
+00:45:03.720 --> 00:45:06.240
+Derek Sorken: Alright, I'll go ahead and end the screen share.
+
+249
+00:45:12.920 --> 00:45:19.220
+Thomas Coratger: Yeah, so thanks, thanks a lot for this presentation, this is, this is amazing.
+
+250
+00:45:19.950 --> 00:45:26.719
+Thomas Coratger: now, maybe, about metrics, Katya, if you want to add some stuff, anything?
+
+251
+00:45:27.150 --> 00:45:39.309
+Katya: Yes, hello, everyone. So, PR is open. I'm working currently on the dashboard update itself. If you have any comments, please take a look into this PR, so if
+
+252
+00:45:39.590 --> 00:45:47.719
+Katya: does it cover all these… all we need for, measuring devnet4? So that would be great if someone
+
+253
+00:45:47.850 --> 00:46:02.860
+Katya: just start to look into it, and how it is… it can be applied to their code, so maybe we'll have some more updates for this. If not, I will… to the maximum, I will merge it on Friday, maybe.
+
+254
+00:46:03.140 --> 00:46:07.940
+Katya: I mean, not… not later than Friday, so this week,
+
+255
+00:46:08.340 --> 00:46:12.290
+Katya: If we cover something interesting, we can add to this.
+
+256
+00:46:13.170 --> 00:46:18.420
+Katya: And regarding running devnet4, maybe Parse, you will share the updates?
+
+257
+00:46:19.970 --> 00:46:37.209
+Parthasarathy Ramanujam: Yeah, thanks, Kathy, I can do that. I mean, we've had a stable run of 3 clients with a single subnet running yesterday. Today, I managed to get, I mean, multiple subnets, I think 2 subnets running with 3 clients, and then after a while.
+
+258
+00:46:37.210 --> 00:46:40.320
+Parthasarathy Ramanujam: it's stalled, I'll probably,
+
+259
+00:46:40.380 --> 00:46:45.420
+Parthasarathy Ramanujam: Include the additional clients today, and then share the logs as soon as we have something working.
+
+260
+00:46:46.790 --> 00:46:47.660
+Parthasarathy Ramanujam: That's true.
+
+261
+00:46:53.920 --> 00:46:54.830
+Thomas Coratger: Great.
+
+262
+00:46:55.130 --> 00:46:59.690
+Thomas Coratger: Anything else that anyone wants to add?
+
+263
+00:47:03.140 --> 00:47:14.949
+Thomas Coratger: In any case, like, as a summary, I think that we are in a stability period, let us say, where, from what I understood, and from what I have in mind, all of the client teams want to
+
+264
+00:47:15.020 --> 00:47:26.960
+Thomas Coratger: stabilize on devnet 4, trying to debug, add more tests. This is also our status right now in the lead spec, where we are trying to stabilize pretty much everything.
+
+265
+00:47:27.100 --> 00:47:29.020
+Thomas Coratger: And had a lot of Cisco rage.
+
+266
+00:47:29.730 --> 00:47:34.389
+Thomas Coratger: Yeah, and on the R&D front, we are constantly improving.
+
+267
+00:47:34.590 --> 00:47:36.470
+Thomas Coratger: The cryptography.
+
+268
+00:47:36.570 --> 00:47:43.900
+Thomas Coratger: to be noted that beginning of May, we will have this cryptography event in Rome, so we will have
+
+269
+00:47:44.040 --> 00:47:52.840
+Thomas Coratger: hopefully… a bunch of events there, and so more news to share about new cryptography and R&D development.
+
+270
+00:47:53.200 --> 00:47:54.730
+Thomas Coratger: So, yeah, that's it.
+
+271
+00:47:56.250 --> 00:47:59.240
+Thomas Coratger: If you have nothing else, we can wrap up.
+
+272
+00:48:04.370 --> 00:48:06.070
+Thomas Coratger: Thanks a lot, everyone.
+
+273
+00:48:06.370 --> 00:48:08.350
+Thomas Coratger: See you next week. Bye-bye.
+
+274
+00:48:09.180 --> 00:48:09.699
+Katya: Thank you, boy.
+
+275
+00:48:09.960 --> 00:48:11.240
+Mihir Faujdar: Thanks for Eric.
+
+276
+00:48:11.660 --> 00:48:12.080
+Pablo Deymo | Lambda: My wife.
+
+277
+00:48:12.080 --> 00:48:12.920
+T. Wambsgans: Thanks, buddy.
+
+278
+00:48:12.920 --> 00:48:13.980
+Shariq Naiyer: Have a good one, guys.
+

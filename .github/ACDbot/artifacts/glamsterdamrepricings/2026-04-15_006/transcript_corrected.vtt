@@ -1,0 +1,1806 @@
+WEBVTT
+
+1
+00:00:32.220 --> 00:00:35.810
+Parithosh Jayanthi: I'm assuming you guys couldn't join until I joined the call?
+
+2
+00:00:36.280 --> 00:00:37.420
+Parithosh Jayanthi: Is that true?
+
+3
+00:00:43.960 --> 00:00:45.250
+Ben Adams: Maybe.
+
+4
+00:01:03.710 --> 00:01:05.250
+Maria Silva: Hello, everyone.
+
+5
+00:01:06.580 --> 00:01:11.540
+Maria Silva: Sorry for the bumpy start, I'm not sure what happened.
+
+6
+00:01:14.490 --> 00:01:21.760
+Parithosh Jayanthi: I meet you host now, so you should be good to go. But you should ask someone from DevOps to sort this out next time.
+
+7
+00:01:22.630 --> 00:01:25.220
+Ben Adams: We had to wait… we had to wait for Barry.
+
+8
+00:01:27.850 --> 00:01:35.410
+Parithosh Jayanthi: Yeah, no, I'm… I just abused some admin permissions to get the call to start, but it was a short-term fix, let's say.
+
+9
+00:01:37.350 --> 00:01:40.509
+Maria Silva: Okay, okay, I will reach out to them after. Thank you.
+
+10
+00:01:40.650 --> 00:01:52.879
+Maria Silva: It's actually funny, because for some reason, I was timed out out of the ETH Research channel, Discord, so I couldn't even talk there, so I'm not sure what happened.
+
+11
+00:01:53.040 --> 00:01:59.420
+Maria Silva: But yeah. So, without further delay,
+
+12
+00:01:59.580 --> 00:02:07.659
+Maria Silva: maybe we can start. So, the goal of this call, so I can post the agenda…
+
+13
+00:02:08.009 --> 00:02:10.479
+Maria Silva: Let me just get it,
+
+14
+00:02:10.680 --> 00:02:18.080
+Maria Silva: But the main topic is, finalizing the decision on, the spec for…
+
+15
+00:02:18.340 --> 00:02:22.359
+Maria Silva: EIP-8037 and, Pectra DevNet 4.
+
+16
+00:02:22.640 --> 00:02:32.049
+Maria Silva: So, spencer posted, posted the,
+
+17
+00:02:32.480 --> 00:02:43.319
+Maria Silva: open questions, in the Discord, and I saw that some of you, went there and gave your opinion. I think you also had a more recent proposal
+
+18
+00:02:43.400 --> 00:02:54.039
+Maria Silva: from, Pavel that, Spencer then implemented, very quickly in the specs, just to… just to have a, an idea.
+
+19
+00:02:54.130 --> 00:03:01.750
+Maria Silva: But yeah, I think, maybe the, the, the best way here would be just to get, like,
+
+20
+00:03:02.220 --> 00:03:11.459
+Maria Silva: a general… Feedback from, from, from each of you, saying, like, in general,
+
+21
+00:03:11.680 --> 00:03:18.489
+Maria Silva: How do you feel about the… the… the refund to the reservoir?
+
+22
+00:03:18.680 --> 00:03:22.950
+Maria Silva: And then the general idea of doing it at the end of the call.
+
+23
+00:03:23.250 --> 00:03:34.969
+Maria Silva: And… and also if there's any, if there's any, like, questions on the, on the open, topics and the potential solutions, also happy to…
+
+24
+00:03:35.550 --> 00:03:44.799
+Maria Silva: to… to go through it. But yeah, if there's our… if there are any, like, specific opinions right off the bat, I would like to… to hear them.
+
+25
+00:04:00.910 --> 00:04:07.250
+Maria Silva: Should we… if there are no, like, general comments, should we go maybe one by one and discuss?
+
+26
+00:04:11.850 --> 00:04:12.760
+Maria Silva: Okay.
+
+27
+00:04:12.890 --> 00:04:19.669
+Maria Silva: So, let me then try to get the lease out.
+
+28
+00:04:21.380 --> 00:04:22.530
+Maria Silva: Mmm…
+
+29
+00:04:31.870 --> 00:04:35.749
+Maria Silva: Okay, so I'll just share my screen, and we can go one by one.
+
+30
+00:04:38.350 --> 00:04:45.570
+Maria Silva: Okay, so… First on the…
+
+31
+00:04:45.920 --> 00:05:03.169
+Maria Silva: top-level reservoir, so this idea is essentially, if there is a revert and no, state is created, should we still charge for it or not? I think on this one, there was some…
+
+32
+00:05:03.400 --> 00:05:09.020
+Maria Silva: Consensus from the people that answered that things should be refunded to the reservoir.
+
+33
+00:05:09.160 --> 00:05:13.330
+Maria Silva: But yeah, happy to… happy to hear your thoughts there.
+
+34
+00:05:23.780 --> 00:05:31.120
+Ben Adams: So, one… one consideration is… Could somebody…
+
+35
+00:05:31.750 --> 00:05:35.419
+Ben Adams: If it was a full refund, could somebody use it to…
+
+36
+00:05:35.740 --> 00:05:39.290
+Ben Adams: Grief in some way, where they create state and revert.
+
+37
+00:05:41.190 --> 00:05:43.840
+Ben Adams: Could not pay any state cost.
+
+38
+00:05:46.160 --> 00:05:51.240
+Ben Adams: If you know what I mean. So there's no cost for the river, but they have done extra work.
+
+39
+00:05:52.960 --> 00:05:58.120
+Maria Silva: Right, so the way, I'm thinking about it is…
+
+40
+00:05:58.330 --> 00:06:09.100
+Maria Silva: I think the state gas component of operations should only account for the added costs of
+
+41
+00:06:09.620 --> 00:06:27.920
+Maria Silva: adding states. So, by this, I mean every time a new account and a new slot is created, this creates an overhead on the entire network. Not the in-the-moment processing, but just the fact that now we have to live with that state going forward, and that has a bunch of
+
+42
+00:06:27.920 --> 00:06:30.470
+Maria Silva: Of impacts, both for the size.
+
+43
+00:06:30.730 --> 00:06:36.490
+Maria Silva: requirements of disks, but also syncing, and so on and so forth. Like, we are all aware, we are
+
+44
+00:06:37.780 --> 00:06:48.089
+Maria Silva: we all know what these, like, long-term costs of state are. But so, essentially, like, we have these two costs, right? We have, like, the in-the-moment execution of actually
+
+45
+00:06:48.210 --> 00:06:52.860
+Maria Silva: accessing The states, so reading and writing.
+
+46
+00:06:53.050 --> 00:06:57.810
+Maria Silva: And then we have these, like, long-term cost of the fact that now state got larger.
+
+47
+00:06:57.920 --> 00:07:01.949
+Maria Silva: And… the way I'm thinking about is, like, the states…
+
+48
+00:07:02.130 --> 00:07:09.530
+Maria Silva: gas component should only cover the long-term costs, and so it's only actually affected if…
+
+49
+00:07:10.090 --> 00:07:24.620
+Maria Silva: state is created. For the part of the in-the-moment execution cost, that should be covered by the state access cost, which we updated with EIP 8038. And so, I would expect no
+
+50
+00:07:25.210 --> 00:07:29.080
+Maria Silva: incentives for grifting to be there, because you'd always…
+
+51
+00:07:29.270 --> 00:07:31.679
+Maria Silva: Pay the cost of the execution.
+
+52
+00:07:31.830 --> 00:07:37.419
+Maria Silva: You just wouldn't pay the cost of the state growth, and that's fine, because actually no state is being grown.
+
+53
+00:07:37.590 --> 00:07:44.670
+Maria Silva: so I… I think this is where, for instance, on the… on the CREATE case,
+
+54
+00:07:44.690 --> 00:08:04.200
+Maria Silva: the reason why there was grifting, or the possibility of grifting before, is because we didn't have these two separated costs, right? Like, the $32K cost of a create combines both the in-the-moment execution cost and the state growth cost, so, you couldn't separate. But now we are separating it, and so,
+
+55
+00:08:04.400 --> 00:08:08.690
+Maria Silva: we can… we can make this, this decision, I guess.
+
+56
+00:08:16.950 --> 00:08:17.960
+Ben Adams: Yeah, okay.
+
+57
+00:08:21.530 --> 00:08:28.039
+Maria Silva: Okay, are there any more issues here? Does anyone want to give more opinions on these, or should we just…
+
+58
+00:08:28.400 --> 00:08:34.440
+Maria Silva: decide on, yeah, we will do the refund in this case.
+
+59
+00:08:37.830 --> 00:08:46.770
+spencer: I think in the thread, we all kind of seemed aligned on the refund. That being, I guess, myself, Dragan, yourself, Maria.
+
+60
+00:08:46.880 --> 00:08:52.459
+spencer: And then Avail as well. So if… if there are no objections from anyone, I'd say we… we do that.
+
+61
+00:08:54.120 --> 00:09:00.449
+Maria Silva: Okay, so let's go with that. I'll give just one more bit for anyone to complain.
+
+62
+00:09:00.880 --> 00:09:10.289
+Maria Silva: And if not… okay, let's… let's move to the other one. Okay, so the other one is similar in a way, like, we are still…
+
+63
+00:09:10.420 --> 00:09:26.789
+Maria Silva: doing this thing where we know that no state will be created, so we should likely just refund it. But again, we are changing the way that the VM works in this case, because previously, actually, this would not be
+
+64
+00:09:26.990 --> 00:09:33.630
+Maria Silva: refunded fully, it would go to the refund counter, which had a cap of 20%.
+
+65
+00:09:33.870 --> 00:09:40.129
+Maria Silva: And so, on this case, I'm still… Personally, I'm still a bit…
+
+66
+00:09:41.240 --> 00:09:47.300
+Maria Silva: tending towards giving the refund, because I think that's the more correct thing to say, but I also
+
+67
+00:09:47.490 --> 00:09:54.999
+Maria Silva: can see the fact that implementation-wise gets… this may get a bit more tricky, because now we have these two
+
+68
+00:09:55.150 --> 00:10:06.879
+Maria Silva: separate cases of going from X to 0. We have the just X to 0, and we have the 0 to X to 0. And these two will have different behaviors.
+
+69
+00:10:07.090 --> 00:10:13.819
+Maria Silva: So yeah, I'm open here for the discussion. How do you guys feel about this one?
+
+70
+00:10:20.030 --> 00:10:24.559
+Dragan Rakita: I think… In general, this makes sense.
+
+71
+00:10:25.460 --> 00:10:34.219
+Dragan Rakita: If you don't do that, we will have, like, a little bit fake data on how much state gas is consumed.
+
+72
+00:10:34.800 --> 00:10:38.989
+Dragan Rakita: For me, it's more about how to implement it.
+
+73
+00:10:39.870 --> 00:10:47.369
+Dragan Rakita: Pavel proposed to delay That state gets refund to the end of the section.
+
+74
+00:10:47.800 --> 00:10:54.500
+Dragan Rakita: And second option is to do refund at the place when we do X to 0.
+
+75
+00:10:55.540 --> 00:11:08.280
+Dragan Rakita: So, I'm not exactly sure what's better implementation-wise, but internally, I think we should choose one of those options, and this is… it looks like a good change to do.
+
+76
+00:11:13.730 --> 00:11:20.940
+Maria Silva: Thank you, Dragan. How about the other people? How do you feel about this one?
+
+77
+00:11:23.370 --> 00:11:31.829
+Andrew Ashikhmin: Yeah, I think we should do the proper fix, because we want to decommission the old refund model anyway.
+
+78
+00:11:37.140 --> 00:11:42.439
+Dragan Rakita: I'm more leaning to, like, doing refund at the place when we do weeks to zero.
+
+79
+00:11:43.130 --> 00:11:45.040
+Dragan Rakita: Then delaying it to the end.
+
+80
+00:11:46.400 --> 00:11:49.170
+Dragan Rakita: But I wouldn't mind, like, doing it differently.
+
+81
+00:11:53.840 --> 00:11:55.809
+Maria Silva: Okay, so maybe,
+
+82
+00:11:56.300 --> 00:12:15.539
+Maria Silva: if we all agree that, in general, we want to refund, so maybe then we can sort of work on, figuring out the details of the two implementations and see, what would work, better. But, yeah, so I… I take from Andrew that you, you would like to do the…
+
+83
+00:12:15.940 --> 00:12:22.739
+Maria Silva: the refund in this case. Lucas, do you have, an opinion on this? Oh, sorry, Andrew, do you want to speak?
+
+84
+00:12:23.180 --> 00:12:27.709
+Andrew Ashikhmin: Yeah, so basically I want to do whichever option is more correct.
+
+85
+00:12:28.560 --> 00:12:35.489
+Maria Silva: I wish… Lucas, do you have an opinion on this one?
+
+86
+00:12:35.920 --> 00:12:42.000
+Maria Silva: I know you always tend to… to lean more towards the making it simpler approach.
+
+87
+00:12:42.640 --> 00:12:44.459
+Łukasz Rozmej: I don't have an opinion.
+
+88
+00:12:45.700 --> 00:12:46.500
+Maria Silva: Okay.
+
+89
+00:12:46.870 --> 00:12:52.890
+Maria Silva: Daniel, do you… from Besu, do you have an opinion here?
+
+90
+00:12:54.540 --> 00:12:59.290
+Daniel Lehrner (Besu): Weekly, I would say, I would return it immediately.
+
+91
+00:12:59.410 --> 00:13:01.909
+Daniel Lehrner (Besu): Not adding it to the refund.
+
+92
+00:13:02.350 --> 00:13:04.689
+Daniel Lehrner (Besu): That's… that's a big position.
+
+93
+00:13:06.240 --> 00:13:06.950
+Maria Silva: Okay.
+
+94
+00:13:07.360 --> 00:13:15.140
+Maria Silva: Okay, so maybe, if no one complains, I'll say, to me, the takeaway here is we do want to do the refund.
+
+95
+00:13:15.220 --> 00:13:18.650
+Maria Silva: Maybe we still… still need to…
+
+96
+00:13:18.690 --> 00:13:34.769
+Maria Silva: think a bit if we want to do it, at the end of the call, or right, when the refund happens, so I'm… I think maybe we could do some exploration on… on those two options, but at least we have a decision, like, in general, for
+
+97
+00:13:34.770 --> 00:13:39.130
+Maria Silva: the end of the block, the refund should be there.
+
+98
+00:13:39.760 --> 00:13:41.870
+Maria Silva: And should go to the reservoir.
+
+99
+00:13:42.270 --> 00:13:46.969
+Maria Silva: I'll give one more bit for…
+
+100
+00:13:47.880 --> 00:13:51.089
+Maria Silva: People to complain about this one.
+
+101
+00:13:52.960 --> 00:13:53.960
+Maria Silva: Okay.
+
+102
+00:13:54.450 --> 00:13:55.340
+Maria Silva: Perfect.
+
+103
+00:13:56.210 --> 00:14:03.599
+Maria Silva: Then point number 3… I think this one is…
+
+104
+00:14:03.750 --> 00:14:14.599
+Maria Silva: very much connected with point number one. So, to me, it's… it's very similar. So it's like, if no state is created, we still…
+
+105
+00:14:14.770 --> 00:14:19.660
+Maria Silva: should return, the state CAS.
+
+106
+00:14:21.650 --> 00:14:28.039
+Maria Silva: So, like, in my mind, if we are okay with 0.1 and 2, I think 3 is sort of,
+
+107
+00:14:28.930 --> 00:14:29.690
+Maria Silva: like…
+
+108
+00:14:31.080 --> 00:14:41.649
+Maria Silva: coming from those two as well, it makes sense to do the refund. But yeah, also, happy to hear your thoughts, if there are any complaints on giving the refund in this case.
+
+109
+00:14:56.450 --> 00:15:02.270
+Maria Silva: Okay, so I give one more bit. So I guess here, if there are no complaints, we'll…
+
+110
+00:15:02.380 --> 00:15:04.009
+Maria Silva: Give the refunds.
+
+111
+00:15:04.360 --> 00:15:06.590
+Maria Silva: In this case, so this will change.
+
+112
+00:15:06.690 --> 00:15:11.599
+Maria Silva: how… Gas Create works,
+
+113
+00:15:20.230 --> 00:15:27.619
+Maria Silva: Okay, then I'll take these as we provide the refund, and then for point number 4…
+
+114
+00:15:27.880 --> 00:15:42.000
+Maria Silva: I would say, again, maybe we should be consistent with 3, so again, this is the question of, we are self-destructing an account that was created in that transaction, and so should we give the
+
+115
+00:15:42.040 --> 00:15:49.149
+Maria Silva: a state act… the state's gas back, and, yeah, in that case, I think it would also make sense to…
+
+116
+00:15:49.270 --> 00:15:54.570
+Maria Silva: To do it, yeah.
+
+117
+00:15:55.170 --> 00:15:56.110
+Maria Silva: Go, Ben.
+
+118
+00:15:57.510 --> 00:16:04.650
+Ben Adams: And just a side question, will this… completely affect refunds. So we're…
+
+119
+00:16:05.010 --> 00:16:10.580
+Ben Adams: we're giving immediate refunds for site creation. Would we want
+
+120
+00:16:11.460 --> 00:16:13.859
+Ben Adams: We also have the other refund.
+
+121
+00:16:14.400 --> 00:16:18.019
+Ben Adams: Oh no, maybe it doesn't matter.
+
+122
+00:16:19.100 --> 00:16:20.279
+Maria Silva: Right, so I think…
+
+123
+00:16:21.720 --> 00:16:32.940
+Maria Silva: Yeah, so I guess the way I see it is, like, you still maintain the old refunds for the case of storing X to 0,
+
+124
+00:16:33.290 --> 00:16:35.709
+Maria Silva: That will go through the refund counter.
+
+125
+00:16:36.040 --> 00:16:42.489
+Maria Silva: For all these new refunds we are giving, they will go directly to the reservoir.
+
+126
+00:16:43.070 --> 00:16:51.220
+Maria Silva: So they can be immediately used, and they don't have The 20% cap on it.
+
+127
+00:16:52.040 --> 00:16:58.500
+Maria Silva: And then, maybe in the next fork, we can decide if we want to fully get away with the…
+
+128
+00:16:58.990 --> 00:17:01.120
+Maria Silva: 0 to X refunds.
+
+129
+00:17:02.270 --> 00:17:07.679
+Ben Adams: I mean, not… I would say that is consistent also with the regular
+
+130
+00:17:08.069 --> 00:17:11.910
+Ben Adams: So if you… if you start a…
+
+131
+00:17:12.530 --> 00:17:16.800
+Ben Adams: If you start with the zero state, set it to something, and then set it back to zero.
+
+132
+00:17:18.310 --> 00:17:26.160
+Ben Adams: In the same transaction, that's a different cost to the,
+
+133
+00:17:26.319 --> 00:17:31.020
+Ben Adams: You know, starting with something that's not zero, and then setting it to zero.
+
+134
+00:17:31.610 --> 00:17:35.700
+Maria Silva: Exactly, exactly. So I think those are two separate cases,
+
+135
+00:17:35.820 --> 00:17:43.099
+Maria Silva: I mean, in the current costs, they… they… they don't… they have the same refund, let's say, but yeah, with these
+
+136
+00:17:43.490 --> 00:17:47.049
+Maria Silva: Issue number two would be changing how that works, so…
+
+137
+00:17:47.150 --> 00:17:51.540
+Maria Silva: Now the 0 to X to 0 will just go directly to the reservoir.
+
+138
+00:17:56.470 --> 00:18:00.179
+Maria Silva: Perfect. So, any, oh, go, Johann?
+
+139
+00:18:00.900 --> 00:18:08.540
+jochem-brouwer: Yes, about 4. There's, like, a gotcha about self-destruct. If you… Invoke South District?
+
+140
+00:18:08.700 --> 00:18:14.500
+jochem-brouwer: Then the account flow actually gets removed at the end of the transaction, so not if you invoke it.
+
+141
+00:18:14.680 --> 00:18:22.150
+jochem-brouwer: So if we'll do the immediate, state gas refund, then the right time to do this is then at the end of the transaction.
+
+142
+00:18:24.380 --> 00:18:33.310
+Maria Silva: Okay, so that's… that's a good point. So, in issue 4, instead of… as we were doing with all the others, where we just
+
+143
+00:18:33.440 --> 00:18:40.910
+Maria Silva: refund in place. In this specific case, we should just refund at the end of the transaction.
+
+144
+00:18:43.160 --> 00:18:44.949
+jochem-brouwer: Yes, exactly, yeah.
+
+145
+00:18:45.230 --> 00:18:45.890
+jochem-brouwer: So…
+
+146
+00:18:45.890 --> 00:18:46.400
+Maria Silva: Okay.
+
+147
+00:18:46.550 --> 00:18:59.450
+jochem-brouwer: maybe also to note, because I think that the general pattern, what we are now pursuing, is that, any state gas, which… or state-specified gas, which we spend in the current transaction.
+
+148
+00:18:59.670 --> 00:19:08.589
+jochem-brouwer: That can theoretically be refunded, in the case that this storage is either reset, or cleared, or whatever.
+
+149
+00:19:08.820 --> 00:19:25.259
+jochem-brouwer: And I think that that would then directly catch rule 2 and 3. And then the main gotcha here is that if you would have, like, a refund which is not state-created in this transaction, so you would clear, for instance, a storage slot.
+
+150
+00:19:25.440 --> 00:19:30.849
+jochem-brouwer: then, that will not go into the stated SFR, but then into the
+
+151
+00:19:30.990 --> 00:19:34.909
+jochem-brouwer: Regular gas, sorry, not the regular gas in the refit count.
+
+152
+00:19:35.360 --> 00:19:38.070
+Maria Silva: Exactly. Yes, it will go into the refund counter.
+
+153
+00:19:41.110 --> 00:19:44.099
+Maria Silva: Bragan, do you… do you want to speak next?
+
+154
+00:19:44.570 --> 00:19:49.399
+Dragan Rakita: There is one more edge case around self-destruct.
+
+155
+00:19:50.230 --> 00:19:58.240
+Dragan Rakita: If we create a contract, then self-destruct it, basically, in the local the local, like… context.
+
+156
+00:19:58.600 --> 00:20:05.860
+Dragan Rakita: What if we do a store on all the self-destructed accounts?
+
+157
+00:20:06.020 --> 00:20:11.780
+Dragan Rakita: We will still charge the state gas… Because…
+
+158
+00:20:12.180 --> 00:20:14.400
+Dragan Rakita: We don't know… there is no, like…
+
+159
+00:20:15.240 --> 00:20:19.509
+Dragan Rakita: We'll still charge the gas for the account that will get self-destructed.
+
+160
+00:20:20.280 --> 00:20:27.179
+Dragan Rakita: So the question is, should we account the storage that got deleted?
+
+161
+00:20:27.480 --> 00:20:29.510
+Dragan Rakita: For the account that got self-destructed.
+
+162
+00:20:30.550 --> 00:20:33.399
+Dragan Rakita: And refund that after the section finished.
+
+163
+00:20:34.560 --> 00:20:43.069
+Maria Silva: Right, so I think, like, my intuition is that this would be a sort of 0 to X to 0 case, right?
+
+164
+00:20:43.490 --> 00:20:50.789
+Maria Silva: Because there was no slot before, because the accounts… Self-destructed in the same transaction.
+
+165
+00:20:51.930 --> 00:20:56.180
+Dragan Rakita: But it's implemented a little bit differently because of self-destruct.
+
+166
+00:20:56.980 --> 00:20:57.300
+Maria Silva: Right.
+
+167
+00:20:57.300 --> 00:21:04.889
+Dragan Rakita: the… when you do STOR and you do X to 0, you are at that place in that instruction, and you know, you can check that.
+
+168
+00:21:05.340 --> 00:21:09.850
+Dragan Rakita: Self-destruct, you can check that only after the end.
+
+169
+00:21:10.020 --> 00:21:10.540
+Dragan Rakita: So…
+
+170
+00:21:10.540 --> 00:21:10.870
+Maria Silva: Right.
+
+171
+00:21:11.010 --> 00:21:14.090
+Dragan Rakita: Yeah, Satistract is very… Not great.
+
+172
+00:21:16.000 --> 00:21:29.519
+Maria Silva: Okay, but I think, yeah, even though maybe implementation-wise it's a bit tricky, I think we should keep with the principle and make things consistent, so I do think we should give the refund in that case at the end of the transaction.
+
+173
+00:21:29.740 --> 00:21:31.519
+Dragan Rakita: Yeah, I do agree.
+
+174
+00:21:35.260 --> 00:21:40.250
+Maria Silva: Perfect. Are there any more comments on these?
+
+175
+00:21:40.770 --> 00:21:46.519
+Ben Adams: Yeah, if you, if you create, like, 100 storage slots.
+
+176
+00:21:47.600 --> 00:21:52.209
+Ben Adams: And then self-destruct. You… Return the 100 storage lots.
+
+177
+00:21:52.790 --> 00:21:53.760
+Ben Adams: In cost.
+
+178
+00:21:57.220 --> 00:21:58.730
+Ben Adams: Because he didn't grip.
+
+179
+00:21:59.970 --> 00:22:07.870
+Dragan Rakita: You… Created, then nothing is going to be stored on the state.
+
+180
+00:22:08.090 --> 00:22:10.419
+Dragan Rakita: Because all of that is going to be deleted.
+
+181
+00:22:11.110 --> 00:22:15.830
+Dragan Rakita: So it makes sense to, like, not spend state gas, because nothing's going to be stored.
+
+182
+00:22:17.790 --> 00:22:27.140
+Ben Adams: So could you then… then the weird approach would be, I call self-destruct. It doesn't permanent to the end.
+
+183
+00:22:27.350 --> 00:22:30.800
+Ben Adams: Of the transaction, now is all my storage fee.
+
+184
+00:22:31.640 --> 00:22:33.470
+Ben Adams: So I can… I can store.
+
+185
+00:22:35.620 --> 00:22:42.570
+Ben Adams: Because if it doesn't count, it's gonna be deleted. I mean, obviously, you have the execution cost, but… .
+
+186
+00:22:43.730 --> 00:22:47.110
+Dragan Rakita: But… isn't that fine?
+
+187
+00:22:50.410 --> 00:22:51.120
+Ben Adams: Maybe.
+
+188
+00:22:53.680 --> 00:22:54.459
+Maria Silva: Right, so I think…
+
+189
+00:22:54.460 --> 00:23:02.869
+Ben Adams: I'm also a bit worried about, like, you'll have a loop of, like, well, how many storage slots have you created that we should be refunding?
+
+190
+00:23:05.270 --> 00:23:06.710
+Ben Adams: Oh my god, that word.
+
+191
+00:23:10.450 --> 00:23:25.760
+Maria Silva: Right, I guess, like, the only cost that we may not be considering is that end-of-transaction loop where we are accounting the refunds. Like, if that is significant, I would assume no, because I would assume the cost of
+
+192
+00:23:26.330 --> 00:23:33.459
+Maria Silva: actually access… accessing Like, the access costs for creating those accounts will be
+
+193
+00:23:33.700 --> 00:23:42.000
+Maria Silva: Much more expensive than just a final loop of just iterating over them and giving the refunds.
+
+194
+00:23:42.260 --> 00:23:47.459
+Maria Silva: But I would guess that this is something we can try
+
+195
+00:23:47.730 --> 00:24:04.869
+Maria Silva: to benchmark once EIP8037 is fully done, so we can even, like, run the gas benchmarks on that and see if there's any… any problems there, and in that case, we can simply just increase the access cost until things look… look safe.
+
+196
+00:24:10.150 --> 00:24:10.969
+Ben Adams: Or.
+
+197
+00:24:10.970 --> 00:24:12.170
+Maria Silva: Make… make sense?
+
+198
+00:24:12.470 --> 00:24:17.120
+Ben Adams: Or return the account gas, but not the storage slot gas.
+
+199
+00:24:22.300 --> 00:24:27.079
+Maria Silva: Right, I think that would be too… too harsh, I feel.
+
+200
+00:24:29.510 --> 00:24:38.109
+Ben Adams: Yeah, but it would be… it'd be a weird behavior, that you create an account, add a thousand storage slots, and then self-destruct the account.
+
+201
+00:24:39.610 --> 00:24:45.219
+Ben Adams: I mean, it's normally… I think, the most use of,
+
+202
+00:24:46.490 --> 00:24:49.709
+Ben Adams: self-destruct is, like, a Create 3, where you…
+
+203
+00:24:49.850 --> 00:24:56.490
+Ben Adams: You deploy an account, use that to deploy a… contract with the Create.
+
+204
+00:24:57.110 --> 00:25:03.370
+Ben Adams: So that you get a deterministic… Nonce endpoint across chain.
+
+205
+00:25:04.370 --> 00:25:07.310
+Ben Adams: I don't see why… what…
+
+206
+00:25:07.690 --> 00:25:10.190
+Ben Adams: Functionality you'd be gaining from, like.
+
+207
+00:25:10.830 --> 00:25:14.180
+Ben Adams: Raiding a thousand storage slots and then self-destructing it.
+
+208
+00:25:14.560 --> 00:25:15.459
+Ben Adams: But I don't.
+
+209
+00:25:16.490 --> 00:25:19.330
+Ben Adams: Other than, like, a briefing rate in that.
+
+210
+00:25:19.900 --> 00:25:22.030
+Ben Adams: Massively increasing the accounting.
+
+211
+00:25:27.460 --> 00:25:30.869
+Maria Silva: So I… I guess that's… that's also a point, but I…
+
+212
+00:25:31.110 --> 00:25:33.049
+Maria Silva: I think it's more of, like.
+
+213
+00:25:34.100 --> 00:25:46.429
+Maria Silva: keeping consistency in the principle itself, and so I think things start to become much more complicated when you have edge cases. Like, you always keep the refund.
+
+214
+00:25:46.580 --> 00:25:51.609
+Maria Silva: Except when… this specific thing happens.
+
+215
+00:25:55.670 --> 00:26:00.800
+Ben Adams: Yeah, but my… my issue is that the self-destructors are fixed.
+
+216
+00:26:01.050 --> 00:26:05.720
+Ben Adams: cost. It's not related to the number of things you're self-destructing.
+
+217
+00:26:05.880 --> 00:26:06.819
+Ben Adams: with her.
+
+218
+00:26:07.260 --> 00:26:10.629
+Ben Adams: So there's an inconsistency in self-destruct.
+
+219
+00:26:12.430 --> 00:26:13.020
+Maria Silva: Right.
+
+220
+00:26:15.740 --> 00:26:21.889
+jochem-brouwer: Yeah, maybe to also mention here that, just as a reminder.
+
+221
+00:26:22.230 --> 00:26:28.479
+jochem-brouwer: that you can only do self-district in the same transaction as in with the contract it's created.
+
+222
+00:26:28.630 --> 00:26:30.589
+jochem-brouwer: Yeah, just a reminder about it.
+
+223
+00:26:35.690 --> 00:26:43.929
+Maria Silva: Yeah, so this is really, like, an edge case of an edge case, but I think it's still important for us to have a decision on this, so…
+
+224
+00:26:46.760 --> 00:26:48.579
+Dragan Rakita: You don't mind, I think.
+
+225
+00:26:50.460 --> 00:26:53.180
+Dragan Rakita: It makes sense to refund,
+
+226
+00:26:53.390 --> 00:26:58.069
+Dragan Rakita: the state… state guides that it's not going to be used to create state.
+
+227
+00:26:59.510 --> 00:27:03.410
+Dragan Rakita: That's the logic that I go by. So, if…
+
+228
+00:27:03.620 --> 00:27:10.889
+Dragan Rakita: even if somebody creates the 100 or 1,000 storages inside self-destruct account.
+
+229
+00:27:11.160 --> 00:27:16.909
+Dragan Rakita: That storage, because it's locally created, are not going to be stored on the… in the tree.
+
+230
+00:27:17.620 --> 00:27:20.130
+Dragan Rakita: So it makes sense to refund them and have…
+
+231
+00:27:20.390 --> 00:27:27.199
+Dragan Rakita: State gas only representing… to have state gas representing only the state that got created.
+
+232
+00:27:28.300 --> 00:27:29.010
+Dragan Rakita: Yeah.
+
+233
+00:27:30.530 --> 00:27:42.560
+Maria Silva: I agree, and I think, like, the user won't be able to use these reservoir refunded things for anything else, right? It just gets added to their account.
+
+234
+00:27:42.690 --> 00:27:46.990
+Maria Silva: And so it's not like they can do this to then fit more things in the block.
+
+235
+00:27:47.520 --> 00:27:48.679
+Maria Silva: And,
+
+236
+00:27:48.710 --> 00:28:07.669
+Maria Silva: And then I think we can really target and make sure that, with gas benchmarks, that this additional loop at the end is not introducing any new attack vectors, and make sure that the access cost of these operations cover for that… for that case, which will be an edge case.
+
+237
+00:28:07.710 --> 00:28:09.909
+Maria Silva: So I would…
+
+238
+00:28:10.320 --> 00:28:23.790
+Maria Silva: And then maybe we can consider in another fork to fully kill Top Distract. I'll be up for that as well. But I think in this case, it makes sense for us to just keep the consistency and say that we refund everything.
+
+239
+00:28:23.980 --> 00:28:28.010
+Maria Silva: Ben would be okay with this… with this plan.
+
+240
+00:28:28.800 --> 00:28:29.630
+Ben Adams: Yeah.
+
+241
+00:28:30.340 --> 00:28:38.480
+Ben Adams: Although I'm… I'd like to… look at the effects, right? Okay with how it is, but maybe…
+
+242
+00:28:40.210 --> 00:28:43.589
+Ben Adams: In some testing, yeah.
+
+243
+00:28:43.960 --> 00:28:48.310
+Ben Adams: Go into it. See if there's any, like, terrible deniers for…
+
+244
+00:28:49.590 --> 00:29:02.659
+Maria Silva: Yeah, for sure, and I think this is likely, like, a takeaway for the benchmarking people, so Johan and Luis, like, I don't think this is a priority right now, but we eventually will need some benchmark to test this.
+
+245
+00:29:02.840 --> 00:29:04.340
+Maria Silva: This case.
+
+246
+00:29:06.180 --> 00:29:16.580
+Maria Silva: Yeah, good, good point. Anything else on point 4, or are we all in agreement to issue the refund to the reservoir?
+
+247
+00:29:19.880 --> 00:29:25.290
+spencer: If we're wanting to refund at the end of the transaction for 4, should we do the same for 2?
+
+248
+00:29:30.850 --> 00:29:35.069
+jochem-brouwer: I would say no, because I think that the…
+
+249
+00:29:35.390 --> 00:29:38.379
+jochem-brouwer: Or at least that's how this rule works in my mind.
+
+250
+00:29:38.550 --> 00:29:43.889
+jochem-brouwer: You refund the state cash once you actually change this state.
+
+251
+00:29:44.310 --> 00:29:49.560
+jochem-brouwer: So, from the 0x20 case, if you would set X20, then you would get this refund.
+
+252
+00:29:49.790 --> 00:30:06.250
+jochem-brouwer: And for the self-destruct case, then you would get the refund when this state is actually being restored to the original value. This is at the end of the transaction, and you will then refund the account creation gas.
+
+253
+00:30:06.390 --> 00:30:10.220
+jochem-brouwer: And possibly also these, storage slots, which were created.
+
+254
+00:30:10.350 --> 00:30:16.779
+jochem-brouwer: Then the only note there is that if we were to rethread this to the, state reservoir.
+
+255
+00:30:16.960 --> 00:30:27.949
+jochem-brouwer: Well, of course, it's at the end of the transaction, so we can't execute anything anymore, so that's… it's just like an, well, it will directly get added back into the account.
+
+256
+00:30:33.260 --> 00:30:46.839
+Maria Silva: Right, so I would agree with Johann. I still think the question of, for all other points, if we give them at the end of the call, is still something we can discuss, is independent from point four, I think.
+
+257
+00:30:50.160 --> 00:30:56.229
+Maria Silva: perfect. Anything else on point 4, or should we move to 0.5?
+
+258
+00:31:01.520 --> 00:31:08.679
+Maria Silva: Okay, so I think in point 5, since we are refunding the self-destructs.
+
+259
+00:31:08.880 --> 00:31:10.490
+Maria Silva: I think…
+
+260
+00:31:10.680 --> 00:31:19.030
+Maria Silva: Here… so, the question in this point is, what happens when you do a call with value?
+
+261
+00:31:19.430 --> 00:31:24.160
+Maria Silva: To an account that was previously self-destructed.
+
+262
+00:31:24.450 --> 00:31:28.960
+Maria Silva: So, my…
+
+263
+00:31:28.970 --> 00:31:35.570
+Maria Silva: Intuition here is that you should try to keep with the principle that we only charge for
+
+264
+00:31:35.570 --> 00:31:51.790
+Maria Silva: state that is created, and in this case, what would happen is, like, the self-destruct would occur at the end of the transaction, but then there was a call after. So how would this work, Johan? Because the first time I was…
+
+265
+00:31:51.850 --> 00:31:59.110
+Maria Silva: thinking about this, I… I forgot that the self-district would only happen at the end of the transaction.
+
+266
+00:32:02.130 --> 00:32:09.850
+jochem-brouwer: Yeah, I'm actually slightly confused about 0.5, because, about what state cost is this actually
+
+267
+00:32:10.150 --> 00:32:21.820
+jochem-brouwer: having an issue, because if you will do call with value to an already existing account, would you then charge state cash in this ERP account?
+
+268
+00:32:21.820 --> 00:32:22.550
+Maria Silva: No.
+
+269
+00:32:22.720 --> 00:32:23.570
+Maria Silva: No, you wouldn't.
+
+270
+00:32:24.230 --> 00:32:32.100
+jochem-brouwer: Right, so then I think that 5 is not an issue, right? Because the self-destruct happens at the end of the transaction.
+
+271
+00:32:32.290 --> 00:32:36.519
+jochem-brouwer: So the account is already created, because if you are in account
+
+272
+00:32:36.710 --> 00:32:39.850
+jochem-brouwer: With, which is creating code.
+
+273
+00:32:40.050 --> 00:32:47.260
+jochem-brouwer: then it is already being created. Let me actually check if that's the case, even if it goes from inside.
+
+274
+00:32:47.880 --> 00:32:48.980
+jochem-brouwer: Mmm…
+
+275
+00:32:52.170 --> 00:33:03.960
+jochem-brouwer: Yeah, I think this is not an issue, because you would go to value to this specific account, but it is already created, so you would not extra charge a new create gas for this account.
+
+276
+00:33:04.610 --> 00:33:09.940
+Maria Silva: Okay, so, so you did something where… You self-destructed?
+
+277
+00:33:11.520 --> 00:33:20.460
+Maria Silva: And then you still do a call after. So in that case, the account would still exist, because you haven't destructed it yet.
+
+278
+00:33:21.480 --> 00:33:39.659
+jochem-brouwer: Yes, so indeed, if you would… if you would, in the same transaction, if you would create a contract, if you would self-destruct it, but also in the same transaction, recall this contract, then the account would just sit there with the code, with the storage, with whatever. Only at the end of the transaction, the code gets removed, and the storage gets cleared.
+
+279
+00:33:41.340 --> 00:33:45.470
+Maria Silva: Okay. Dragon, do you want to add something to this?
+
+280
+00:33:45.630 --> 00:33:57.610
+Dragan Rakita: Just wanted to confirm. Yeah, I missed that, but yeah, Johim is correct. At least notes will stay, incremented, so no new account is going to be created.
+
+281
+00:33:58.350 --> 00:34:04.700
+Dragan Rakita: I think… Yeah, yeah, no state gas is going…
+
+282
+00:34:04.820 --> 00:34:10.909
+Dragan Rakita: No state gas should be consumed there, so it's, we can skip 5 and just, like…
+
+283
+00:34:12.350 --> 00:34:13.599
+Dragan Rakita: It's not tissue.
+
+284
+00:34:14.870 --> 00:34:15.560
+Maria Silva: Okay.
+
+285
+00:34:15.840 --> 00:34:24.630
+Maria Silva: Perfect. So, maybe a takeaway there, Spencer, is would it make sense for us to try to have a test on these to check the behavior?
+
+286
+00:34:27.170 --> 00:34:28.670
+spencer: Yeah, no, sounds good.
+
+287
+00:34:29.739 --> 00:34:30.899
+Maria Silva: Okay, perfect.
+
+288
+00:34:31.079 --> 00:34:36.989
+Maria Silva: So moving on to 6, I think this one is… One that is a bit…
+
+289
+00:34:37.959 --> 00:34:47.949
+Maria Silva: slightly different from all the others, because this is connecting to intrinsic Cas. So maybe just, just going there. So I…
+
+290
+00:34:48.099 --> 00:35:04.399
+Maria Silva: make sure that I'm not seeing anything incorrect. So, yeah, so this is about the 7702 cauterization, mechanism, and in this case, the way that the initial EIP
+
+291
+00:35:04.679 --> 00:35:21.549
+Maria Silva: defined this was, we will assume that the intrinsic cost of this transaction includes the cost of creating the account, right? Like, when I'm setting the delegation, I would assume that the account doesn't exist, and then during the execution.
+
+292
+00:35:21.839 --> 00:35:29.899
+Maria Silva: If the account actually exists, then I do a refund through the refund counter.
+
+293
+00:35:30.149 --> 00:35:34.979
+Maria Silva: Okay, so this is how 7702 initially implemented this.
+
+294
+00:35:35.079 --> 00:35:42.119
+Maria Silva: So if we didn't want to change anything, we should just keep this behavior, but again, like.
+
+295
+00:35:42.649 --> 00:35:52.759
+Maria Silva: we are doing a lot of refunds through the reservoir, so would it make sense for us to also do this here? I think the only point is, like.
+
+296
+00:35:53.569 --> 00:36:01.299
+Maria Silva: We are sort of mutating I mean, we are not mutating the intrinsic gas, because that still is,
+
+297
+00:36:01.699 --> 00:36:11.609
+Maria Silva: doesn't change, but we are giving a refund from Intrinsica, so this is sort of slightly different. So, yeah, I don't know how you guys, think of this.
+
+298
+00:36:15.090 --> 00:36:19.630
+jochem-brouwer: Yeah, so also with these authorizations, we have to…
+
+299
+00:36:20.120 --> 00:36:35.540
+jochem-brouwer: the computer gas here, and also the state gas. If we will treat the state gas in the same, the same behavior as we did with the storage and the accounts, then at the start of the transaction, if the
+
+300
+00:36:35.660 --> 00:36:45.690
+jochem-brouwer: 772 account, which is being authorized, if that already exists, then we should directly refund this gas to the state reservoir.
+
+301
+00:36:46.090 --> 00:36:50.440
+jochem-brouwer: And if this does not exist, then we would, of course, charge it.
+
+302
+00:36:54.420 --> 00:36:55.280
+Maria Silva: Okay.
+
+303
+00:36:56.000 --> 00:37:07.800
+Maria Silva: Yeah, I think I'm also tending towards refunding it again through the reservoir, because I think it's the more… the most correct, like, you are not capped with those 20%.
+
+304
+00:37:07.940 --> 00:37:13.959
+Maria Silva: And it's consistent with everything else we've decided, but I just wanted to…
+
+305
+00:37:14.100 --> 00:37:17.620
+Maria Silva: Here maybe some, some more opinions,
+
+306
+00:37:32.670 --> 00:37:40.030
+Maria Silva: Okay, so I'm assuming no complaint means that it's okay to give the refund through the reservoir?
+
+307
+00:37:40.620 --> 00:37:44.470
+Maria Silva: So, should we go with that one?
+
+308
+00:37:51.950 --> 00:37:59.059
+Maria Silva: Okay, then I guess we'll… we'll go… With that one,
+
+309
+00:37:59.800 --> 00:38:19.180
+Maria Silva: I think then the final one is this transaction inclusion validity. So, at the moment, we are only… so when we are, checking, doing this check transaction pre-execution, we are essentially just making sure that the transaction has enough
+
+310
+00:38:19.220 --> 00:38:23.350
+Maria Silva: Gas available to cover for the regular gas.
+
+311
+00:38:23.480 --> 00:38:26.330
+Maria Silva: But I think we should also…
+
+312
+00:38:26.560 --> 00:38:36.639
+Maria Silva: consider, the state gas. So we should, have enough available gas…
+
+313
+00:38:37.800 --> 00:38:42.099
+Maria Silva: Sorry, enough state gas available to cover for the
+
+314
+00:38:42.260 --> 00:38:49.270
+Maria Silva: transaction gas, which is the most that the user can use on state.
+
+315
+00:38:49.690 --> 00:38:57.969
+Maria Silva: So I think this is a bit more limiting, right? Like, now you… you will feed less transactions, but I think it's the correct… the correct thing to do.
+
+316
+00:38:58.420 --> 00:39:06.799
+Maria Silva: are there any, opinions against this, or complaints?
+
+317
+00:39:14.860 --> 00:39:19.900
+Maria Silva: Okay, so, in this case, we'll do the streak to the bottleneck here.
+
+318
+00:39:20.290 --> 00:39:23.460
+Maria Silva: Ultra again.
+
+319
+00:39:26.470 --> 00:39:38.330
+Dragan Rakita: I think there is, like, two cases here. One is tracking the regular gas, and one is tracking if you have a maximum state gas to fill inside the block.
+
+320
+00:39:39.080 --> 00:39:41.729
+Dragan Rakita: Currently for DevNet 3, we need…
+
+321
+00:39:42.080 --> 00:39:49.250
+Dragan Rakita: I think we are doing that check after the transaction, and that's slightly… Strange.
+
+322
+00:39:49.830 --> 00:40:04.270
+Dragan Rakita: So, we can move that before execution, before the section starts, and we have two checks. One is, do we have maximum regular gas to fit inside the block? And second is, do we have maximum state gas to fit inside the block?
+
+323
+00:40:04.780 --> 00:40:13.080
+Dragan Rakita: That will cover that, in any case, anything that's get, as a kid, we'll…
+
+324
+00:40:13.480 --> 00:40:17.209
+Dragan Rakita: be inside that block. That recycling will be inside the book.
+
+325
+00:40:18.830 --> 00:40:27.180
+Maria Silva: Right, I think that's also a good point that actually will simplify things a bit, so instead of doing these two checks, we just do one at the start, and that's it.
+
+326
+00:40:29.090 --> 00:40:33.310
+Dragan Rakita: We need those two checks. One is for regular gas, one is for the state gas.
+
+327
+00:40:33.910 --> 00:40:36.359
+Maria Silva: Right, but they happen at the same point in time.
+
+328
+00:40:36.360 --> 00:40:39.020
+Dragan Rakita: Yeah, yeah, yeah, yeah, yeah, exactly, yeah, true.
+
+329
+00:40:43.070 --> 00:40:45.849
+Maria Silva: Perfect. Any more comment here?
+
+330
+00:40:50.380 --> 00:41:07.780
+Maria Silva: Okay, so I guess, like, the final thing is we've gone through all the points, and I think we've mostly tended towards always giving the refund, so maybe in the last, 10 minutes, we could probably just have a quick discussion on
+
+331
+00:41:07.780 --> 00:41:10.599
+Maria Silva: the idea from Pavel, and,
+
+332
+00:41:10.700 --> 00:41:20.600
+Maria Silva: This option of giving the refund just at the end of… The call frame versus
+
+333
+00:41:20.720 --> 00:41:24.770
+Maria Silva: Right at the point where the…
+
+334
+00:41:25.370 --> 00:41:32.899
+Maria Silva: The… the… the storage is being not… or destroyed, or whatever, is not being used.
+
+335
+00:41:32.930 --> 00:41:45.569
+Maria Silva: So, are there any comments on this? I think, Drogan, you already gave a little bit your opinion, where you think you like more doing it at the point of…
+
+336
+00:41:45.740 --> 00:41:49.160
+Maria Silva: At the point of,
+
+337
+00:41:49.680 --> 00:41:58.110
+Maria Silva: Of when the state is being destroyed, rather than at the end of the call. But it seems like doing it at the end of the call would make things a bit simpler.
+
+338
+00:41:58.400 --> 00:42:04.069
+Maria Silva: So yeah, I don't know if there are any other opinions on these.
+
+339
+00:42:19.350 --> 00:42:24.549
+jochem-brouwer: Yeah, I think I may have to reread this thread, but what is, like, the…
+
+340
+00:42:24.880 --> 00:42:27.809
+jochem-brouwer: Benefit of doing… doing this? Or, like…
+
+341
+00:42:29.770 --> 00:42:33.049
+Maria Silva: Of doing it at the end of the call.
+
+342
+00:42:33.050 --> 00:42:34.250
+jochem-brouwer: Yes, yes, yes.
+
+343
+00:42:36.310 --> 00:42:45.730
+Maria Silva: My understanding is that, it simplifies, the accounting, because you can rely on this journal.
+
+344
+00:42:45.900 --> 00:42:53.999
+Maria Silva: And so… Yeah, you, you… Like, yeah, I'm…
+
+345
+00:42:54.480 --> 00:43:01.290
+Maria Silva: this was, like, my broad understanding, but also it's not very deep.
+
+346
+00:43:02.080 --> 00:43:12.960
+Maria Silva: But I think also from what Spencer was seeing at the spec side, I think the spec also got a bit simpler, like, you remove some edge cases and things
+
+347
+00:43:13.200 --> 00:43:15.000
+Maria Silva: Become a bit more simpler.
+
+348
+00:43:17.770 --> 00:43:19.970
+spencer: Yeah, I guess I'd add, so…
+
+349
+00:43:20.440 --> 00:43:27.640
+spencer: Yeah, on the… on the spec side, basically, all of the… all of the logic we do before the call is now…
+
+350
+00:43:27.820 --> 00:43:29.619
+spencer: At the end of the call.
+
+351
+00:43:30.130 --> 00:43:35.350
+spencer: So basically, We just removed that logic, which…
+
+352
+00:43:36.550 --> 00:43:42.910
+spencer: to me, makes… makes… makes things more simple, and I guess kind of more safe in that sense, because it's just, like…
+
+353
+00:43:43.200 --> 00:43:45.650
+spencer: It's happening at one point instead of,
+
+354
+00:43:46.290 --> 00:43:50.159
+spencer: multiple areas, but just because it's simpler in eels.
+
+355
+00:43:50.300 --> 00:43:57.630
+spencer: Doesn't necessarily… it's gonna be simpler for the clients when they… Use the… use their journaling.
+
+356
+00:43:58.460 --> 00:44:00.840
+spencer: oh, yeah.
+
+357
+00:44:08.920 --> 00:44:12.610
+Maria Silva: Go. Rogan, do you want to say something?
+
+358
+00:44:12.790 --> 00:44:23.370
+Dragan Rakita: Yeah, I looked at the ELS code, and it's not something that any clients can use. It is mostly iterating over the state after every call.
+
+359
+00:44:23.720 --> 00:44:26.300
+Dragan Rakita: So, this is not a solution that we can…
+
+360
+00:44:26.430 --> 00:44:29.629
+Dragan Rakita: Anybody can use because of performance.
+
+361
+00:44:30.100 --> 00:44:35.709
+Dragan Rakita: we will still need to have… I don't see it as a simpler solution, it's a different solution.
+
+362
+00:44:36.230 --> 00:44:42.410
+Dragan Rakita: We'll still need to have a counter that counts the state gas that needs to be…
+
+363
+00:44:43.060 --> 00:44:46.859
+Dragan Rakita: Accounted at the end of that transaction.
+
+364
+00:44:47.640 --> 00:44:53.860
+Dragan Rakita: in comparison, First solution is basically adding it directly to the refund.
+
+365
+00:44:55.030 --> 00:45:00.870
+Dragan Rakita: So, I don't see it as simpler, I think to get teams set, they're simpler for them.
+
+366
+00:45:01.530 --> 00:45:04.080
+Dragan Rakita: And… Yeah.
+
+367
+00:45:04.410 --> 00:45:08.750
+Dragan Rakita: That's my… Yeah, input on that.
+
+368
+00:45:11.130 --> 00:45:12.740
+Maria Silva: Okay, perfect, thank you.
+
+369
+00:45:12.950 --> 00:45:21.519
+Maria Silva: So did you guys have any time to look into these? Maybe people from Nethermind, Besu.
+
+370
+00:45:23.600 --> 00:45:24.690
+Maria Silva: Or nuts.
+
+371
+00:45:31.070 --> 00:45:32.250
+Ben Adams: Not really.
+
+372
+00:45:34.540 --> 00:45:36.410
+Maria Silva: Okay, so,
+
+373
+00:45:36.660 --> 00:45:44.229
+Maria Silva: Yeah, I don't want to rush to a decision here, because I do think this is, like, a major design
+
+374
+00:45:44.370 --> 00:45:46.000
+Maria Silva: choice, so…
+
+375
+00:45:46.240 --> 00:45:55.530
+Maria Silva: Maybe, Spencer, would it be okay for us to just, take the decisions we have right now?
+
+376
+00:45:55.730 --> 00:46:04.270
+Maria Silva: And then… Give a few more days for people to look into this option, and then, report back.
+
+377
+00:46:05.730 --> 00:46:09.439
+Maria Silva: Like, what would be the best, or what would be, like.
+
+378
+00:46:09.890 --> 00:46:14.500
+Maria Silva: A good deadline for us to, like, fully settle on this decision.
+
+379
+00:46:19.540 --> 00:46:28.779
+spencer: I mean, just to keep the ball moving, and the fact that we're all happy with, I guess, the previous decisions, I would be inclined to…
+
+380
+00:46:29.710 --> 00:46:35.330
+spencer: go with what we have decided here for… Definite 4?
+
+381
+00:46:35.760 --> 00:46:44.339
+spencer: And then if anyone has any strong opinions on… The alternative approach?
+
+382
+00:46:45.170 --> 00:46:49.549
+spencer: Then we, in the next few days, just as we chat async, then…
+
+383
+00:46:49.750 --> 00:46:54.970
+spencer: we can maybe revisit that at ACDT, but if not, I'd say we just go with
+
+384
+00:46:55.500 --> 00:46:59.919
+spencer: Go with these decisions for… For DevNet 4.
+
+385
+00:47:00.930 --> 00:47:05.089
+spencer: Stefan, maybe, maybe you wanna… wanna say something as well?
+
+386
+00:47:05.500 --> 00:47:15.690
+Stefan Starflinger: Just that I, agree. I think we've made a lot of decisions, I think we have enough to go on, and this is pretty fresh. I think we should let that idea…
+
+387
+00:47:15.820 --> 00:47:18.750
+Stefan Starflinger: Grow it a little bit and think about it a bit.
+
+388
+00:47:22.300 --> 00:47:30.839
+Maria Silva: Okay, sounds good. So let's take these decisions into DevNet 4, so we'll just assume that we do the refunds at the time where they
+
+389
+00:47:31.080 --> 00:47:42.410
+Maria Silva: Happened, with the exception of the self-destruct, of course, that it happens at the end of the transaction, but for all the others, things happened during, the execution.
+
+390
+00:47:42.520 --> 00:47:49.910
+Maria Silva: And, and then in parallel, we'll continue to chat async and try to figure out if the
+
+391
+00:47:50.070 --> 00:48:00.459
+Maria Silva: option of doing at the end of the call, or even doing at the end of transaction, how, how people are discussing now in the chat would be a better approach.
+
+392
+00:48:01.910 --> 00:48:03.139
+Maria Silva: Sounds good.
+
+393
+00:48:09.010 --> 00:48:13.539
+spencer: Just a quick, question. So, the… the threads?
+
+394
+00:48:14.160 --> 00:48:18.140
+spencer: To me, it felt like I was kind of spamming the channel, but,
+
+395
+00:48:18.520 --> 00:48:22.280
+spencer: I feel like overall the feedback has been positive. Is this something that…
+
+396
+00:48:22.700 --> 00:48:25.140
+spencer: You guys think we should consider doing…
+
+397
+00:48:25.870 --> 00:48:32.510
+spencer: In the future for… for EIPs, if there are any spec… Related, changes or decisions.
+
+398
+00:48:32.800 --> 00:48:34.700
+spencer: And we just opened these threads.
+
+399
+00:48:36.380 --> 00:48:40.900
+spencer: And then kind of what we've done here, agree on the call. I mean, in an ideal world, we'd,
+
+400
+00:48:41.180 --> 00:48:42.449
+spencer: Have the spec.
+
+401
+00:48:43.770 --> 00:48:49.100
+spencer: I guess, finalized a lot earlier before… for implementing, but I think with EIPs like this.
+
+402
+00:48:49.510 --> 00:48:52.330
+spencer: But there are a lot of edge cases to, kind of.
+
+403
+00:48:52.630 --> 00:48:56.139
+spencer: figure out. The Fred solution, to me, feels…
+
+404
+00:48:56.360 --> 00:48:59.280
+spencer: Feels like it's been good, sort of, people…
+
+405
+00:48:59.650 --> 00:49:03.179
+spencer: I agree with that, then we can maybe make that,
+
+406
+00:49:04.030 --> 00:49:06.590
+spencer: As part… as part of our process, I guess.
+
+407
+00:49:10.030 --> 00:49:13.780
+Maria Silva: Yes, I think, at least for me, it was super helpful,
+
+408
+00:49:14.490 --> 00:49:17.929
+Maria Silva: Yeah, I don't know if someone disagrees, but yeah, I think it was good.
+
+409
+00:49:18.870 --> 00:49:20.160
+Maria Silva: well organized.
+
+410
+00:49:34.620 --> 00:49:39.049
+Maria Silva: Perfect. Anything else on AT37?
+
+411
+00:49:44.090 --> 00:49:46.979
+Maria Silva: So I'll just stop sharing my screen then.
+
+412
+00:49:48.950 --> 00:49:55.039
+Maria Silva: And maybe in the last 4 minutes, I'll just like to give a quick upload, so…
+
+413
+00:49:55.380 --> 00:50:07.739
+Maria Silva: Good news on, benchmarking side, so after, a huge lift from Louise and Jocham, I think we finally have the state access benchmarks, working.
+
+414
+00:50:07.750 --> 00:50:15.570
+Maria Silva: We've collected initial results. I haven't yet shared any numbers yet, because I think we are still
+
+415
+00:50:15.720 --> 00:50:24.869
+Maria Silva: We still only collected a few runs, so I think we need to wait a bit more to get more runs in. But we should be able to then, by interop.
+
+416
+00:50:24.870 --> 00:50:39.759
+Maria Silva: have the numbers for… final numbers for both 7904 and AT38, so the compute reprice and the state access reprice, so I think we'll be in a good position to then try to include them into a definite re-interrupt, so…
+
+417
+00:50:39.780 --> 00:50:44.200
+Maria Silva: Yeah, just to give that, that quick update. And,
+
+418
+00:50:44.350 --> 00:50:53.179
+Maria Silva: On that note, also, I think the next, call would fall in the interrupt, so they… it would likely be
+
+419
+00:50:53.440 --> 00:50:54.970
+Maria Silva: canceled.
+
+420
+00:50:57.610 --> 00:51:06.510
+Maria Silva: And yeah, and then we'll see if it still makes sense to continue the breakout, after that, depending on… on the progress we do.
+
+421
+00:51:06.970 --> 00:51:15.869
+Maria Silva: But yeah, thank you so much for attending. Are there… sorry, is there any other questions or comments there? Yes, Johan?
+
+422
+00:51:16.470 --> 00:51:22.559
+jochem-brouwer: Yes, about the compute cache and the state cache, I see that we have not yet
+
+423
+00:51:22.940 --> 00:51:31.880
+jochem-brouwer: proposed this for DevNet 4. I think we should only do this when we think these are ready, but maybe we should start to signal that, this
+
+424
+00:51:32.530 --> 00:51:38.629
+jochem-brouwer: well, the EP with at least the initial numbers is coming soon, but we would really want this on DevNet 4.
+
+425
+00:51:38.910 --> 00:51:39.939
+jochem-brouwer: Is that correct?
+
+426
+00:51:41.110 --> 00:51:47.809
+Maria Silva: So I wouldn't say it goes to DevNet 4, so my understanding is, like, DevNet 4 is something that is already launched.
+
+427
+00:51:47.960 --> 00:51:49.570
+Maria Silva: or interrupt?
+
+428
+00:51:49.750 --> 00:51:55.879
+Maria Silva: And then maybe during interop, we'd be working on integrating those EIPs into
+
+429
+00:51:56.180 --> 00:52:02.769
+Maria Silva: a DevNet 5, maybe? Or is this not correct? Spencer, am I incorrect?
+
+430
+00:52:02.770 --> 00:52:12.249
+Stefan Starflinger: I think we would… we would go in the direction of, getting a Glamsterdam DevNet running, so with both EPBS and, BAL.
+
+431
+00:52:12.390 --> 00:52:31.020
+Stefan Starflinger: And the repricing changes, but there, I think we would create a Glamstagram DevNet Zero with just the already existing EIPs, not adding new ones, depending on how EPBS progresses also. So right now, there's been a lot of spec changes on the EPBS side.
+
+432
+00:52:31.300 --> 00:52:40.140
+Stefan Starflinger: And that will probably delay things a little bit, so we really have to see it interop what the best, course of action is.
+
+433
+00:52:41.800 --> 00:52:52.959
+Maria Silva: Right, but I would say that initial, Glamsterdam DevNet would only have DevNet for EIPs, right? So it wouldn't have the repricing for compute and state access.
+
+434
+00:52:53.940 --> 00:52:55.620
+Stefan Starflinger: Yeah, that's right, yeah.
+
+435
+00:52:55.620 --> 00:53:00.810
+Maria Silva: Right. And then we could try to work during the week to get those EIPs in.
+
+436
+00:53:03.510 --> 00:53:09.030
+Stefan Starflinger: yeah, I mean… We can try, for sure.
+
+437
+00:53:09.800 --> 00:53:12.410
+Stefan Starflinger: Depends on how quickly we progress.
+
+438
+00:53:12.830 --> 00:53:17.050
+Stefan Starflinger: Really. I think it's, quite optimistic.
+
+439
+00:53:17.720 --> 00:53:19.649
+Stefan Starflinger: To get, everything done.
+
+440
+00:53:22.970 --> 00:53:41.230
+Dragan Rakita: From implementation side, I'm very optimistic that we could do it, but we'll see. AP8037 is very… yeah, there is a lot of new mechanism and all things, but changing costs should be… should be easier, but we'll see.
+
+441
+00:53:42.460 --> 00:53:45.079
+Stefan Starflinger: Yeah, I'm happy to be proven wrong.
+
+442
+00:53:46.740 --> 00:53:52.109
+Maria Silva: Yes, and I think there's been also a lot of work done on the testing side, right, Spencer?
+
+443
+00:53:54.170 --> 00:53:55.889
+Maria Silva: For… for those EIPs.
+
+444
+00:53:56.970 --> 00:54:00.720
+spencer: Yeah, I think… I think those EIPs should be… should be okay.
+
+445
+00:54:05.670 --> 00:54:06.220
+Maria Silva: Cool.
+
+446
+00:54:06.630 --> 00:54:11.130
+Maria Silva: So… yeah, I think we are…
+
+447
+00:54:11.670 --> 00:54:17.439
+Maria Silva: At the end of the call. Thank you all for joining, and yeah, speak soon.
+
+448
+00:54:19.450 --> 00:54:20.619
+jochem-brouwer: Alright, thank you.
+
+449
+00:54:20.620 --> 00:54:21.519
+Stefan Starflinger: Thank you.
+
+450
+00:54:21.520 --> 00:54:22.280
+spencer: Cheers.
+
+451
+00:54:22.740 --> 00:54:23.460
+Maria Silva: Bye.
+
