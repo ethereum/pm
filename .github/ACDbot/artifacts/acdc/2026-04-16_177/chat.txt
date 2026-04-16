@@ -1,0 +1,385 @@
+00:08:22	Christine Kim:	gm
+00:08:28	Pooja Ranjan:	gm
+00:08:45	Christine Kim:	Reacted to "gm" with ❤️
+00:09:09	Barnabas:	@Justin Florentine (Besu) its a quiet morning?
+00:09:13	Potuz:	GM
+00:09:19	Pooja Ranjan:	Reacted to "gm" with 🌞
+00:09:29	Justin Traglia:	Gm
+00:09:31	Mehdi Aouadi:	gm
+00:09:55	David (dionysuz):	gm ☀️
+00:10:30	felipe:	gm
+00:10:37	stokes:	Gm, 1 more min
+00:11:08	stokes:	https://github.com/ethereum/pm/issues/1990
+00:12:50	Justin Traglia:	https://github.com/ethereum/consensus-specs/pull/5094
+00:15:45	Barnabas:	How much data duplication are we talking about per slot?
+00:15:58	Potuz:	the max can be large
+00:17:11	Nico Flaig:	we can remove them from the envelope though but requires engine api changes
+00:17:22	Justin Traglia:	Replying to "How much data duplic..."
+
+Theoretically, ~1.5 MiB of requests. With today’s gas limit, ~500 KiB. That would require a 2500 batched deposits.
+00:17:51	Justin Traglia:	Replying to "How much data duplic..."
+
+But the average case is way, way smaller. IIRC.
+00:19:17	Justin Traglia:	I don’t think we can lower the deposit request limit, because deposits are not queued. Could be wrong though.
+00:19:31	Nico Flaig:	I think we can Justin
+00:19:40	Justin Traglia:	Reacted to "I think we can Justi..." with 👀
+00:19:50	Justin Traglia:	Replying to "I think we can Justi..."
+
+Oh okay! Nice.
+00:20:13	Barnabas:	Replying to "How much data duplic..."
+
+would it not be just for that one slot? How likely that we gonna get 2.5k deposits every slot?
+00:20:25	Justin Traglia:	Replying to "How much data duplic..."
+
+Yup, it’s not sustainable.
+00:21:37	Barnabas:	Replying to "How much data duplic..."
+
+whats the duplicated data on a slot where there are no deposits?
+00:22:47	Raúl Kripalani:	Sounds like regardless we need to make the limits consistent with each other
+00:23:46	Raúl Kripalani:	The hope is to continue increasing the gas limit over time
+00:23:57	Parithosh Jayanthi:	Blocks are also often built by builders and they may not respect this particular limit if the block with deposits is more profitable
+00:24:16	Toni Wahrstätter:	Instead of putting an arbitrary limit on the EL side, we should just price it such that, with a given gas limit, it stays in a range the CL is fine with.
+00:24:16	Parithosh Jayanthi:	(They often don’t use vanilla clients to build blocks)
+00:24:23	Parithosh Jayanthi:	Reacted to "Instead of putting an arbitrary limit on the EL side, we should just price it such that, with a given gas limit, it stays in a range the CL is fine with." with 👍
+00:24:45	Bharath:	Replying to "Blocks are also ofte..."
+
+I am really not sure how profitable execution requests are for builders.
+00:24:52	Justin Florentine (Besu):	Replying to "@Justin Florentine (..."
+
+it is. the vibes are off.
+00:24:59	Parithosh Jayanthi:	Reacted to "it is. the vibes are off." with ❤️
+00:25:09	Bharath:	Replying to "Blocks are also ofte..."
+
+Whether they have incentives to pack the payload completely at the cost of slowing down their payload broadcast time
+00:25:17	Barnabas:	Reacted to "it is. the vibes are..." with ❤️
+00:25:21	Toni Wahrstätter:	Reacted to it is. the vibes are... with "❤️"
+00:25:25	Justin Traglia:	Reacted to "it is. the vibes are..." with ❤️
+00:27:17	Justin Florentine (Besu):	Replying to "Blocks are also ofte..."
+
+why would it slow down broadcast time?
+00:27:57	Bharath:	Replying to "Blocks are also ofte..."
+
+I mean if they pack all the execution requests, their payload size gets bigger which is not the best for broadcast
+00:28:05	Bharath:	Replying to "Blocks are also ofte..."
+
+If they fill up the execution requests I mean*
+00:29:26	Bharath:	Replying to "Blocks are also ofte..."
+
+I ll check rbuilder as to see how they pack their execution requests
+00:29:50	Potuz:	gossip is never a problem, RPC is
+00:31:21	Raúl Kripalani:	I’m fine with that
+00:33:03	Barnabas:	5094 solves a beacon api issue basically
+00:35:01	Nico Flaig:	@Barnabas regaridng engin api changes, we need to do that for BALs anyways, so maybe can revisit that later?
+00:35:10	Potuz:	edge cases always involve reorgs and proposing on top of a previous payload
+00:35:45	Barnabas:	Replying to "@Barnabas regaridng ..."
+
+how big of a change is it?
+00:35:52	Enrico Del Fante (tbenr):	Reacted to "edge cases always in..." with 👍
+00:35:56	Barnabas:	Replying to "@Barnabas regaridng ..."
+
+thats actually true, kinda forgot about it
+00:35:56	Nico Flaig:	Replying to "@Barnabas regaridng ..."
+
+add a field to new_payload response
+00:36:19	Barnabas:	We should also discuss: https://github.com/ethereum/consensus-specs/pull/5067
+00:36:31	Raúl Kripalani:	If too hard: the plan B would be to lower the limits in the way Nico explained (might be worth doing regardless)
+00:37:00	stokes:	Reacted to "If too hard: the plan B would be to lower the limits in the way Nico explained (might be worth doing regardless)" with 👍
+00:37:02	Potuz:	lowering the limits is not possible without involving extra checks on the EL
+00:37:48	Justin Traglia:	Yeah we intend to rebase & get this merged before the release is made. Unsure of its current status.
+00:37:55	Jihoon:	I think he is waiting for 5094 as it will introduce some merge conflicts.
+00:37:55	Brechy:	I'm rebasing it atm
+00:38:02	Brechy:	Yes
+00:38:02	Barnabas:	Reacted to "I'm rebasing it atm" with 👍
+00:38:03	Nico Flaig:	Replying to "If too hard: the pla..."
+
+also worth noting that the current limit breaks at 194M gas limit, and ELs could theoretically be stuck trying to build a payload that will never be accepted by CLs (kinda similar to the 10MB gossip limit situation)
+00:38:22	Brechy:	It does change
+00:38:26	terence:	is_parent_block_full goes away in 5094
+00:39:05	Brechy:	Reacted to "is_parent_block_full goes away in 5094" with 👍
+00:39:06	Raúl Kripalani:	Replying to "edge cases always involve reorgs and proposing on top of a previous payload"
+
+This is the risk, but the problem is reduced to “the parent MUST be available”, so if clients are decently designed, there shouldn’t edge case handling in code
+00:40:11	Potuz:	Replying to "edge cases always in..."
+
+well, designing decently a client to deal with late reorgs is not trivial at all
+00:40:12	Justin Traglia:	@Potuz currently, the plan is make an alpha.5 release without BAL and follow up this time next week with alpha.6 with BAL.
+00:40:17	Potuz:	Replying to "edge cases always in..."
+
+and this will add complexity
+00:40:42	Dustin:	why do the intermediate release of epbs-devnet-2?
+00:40:47	Barnabas:	https://github.com/ethereum/pm/issues/1990#issuecomment-4260587912
+00:40:50	Raúl Kripalani:	Replying to "If too hard: the plan B would be to lower the limits in the way Nico explained (might be worth doing regardless)"
+
+Ideally we audit all these interdependent limit layers and turn them into functions instead of hardcoded values that (a) don’t align, and (b) drift over time
+00:41:05	Potuz:	Reacted to "Ideally we audit all..." with 👍
+00:41:21	Nico Flaig:	Reacted to "Ideally we audit all..." with 👍
+00:41:47	Justin Traglia:	Replying to "why do the intermedi..."
+
+Just to keep things compartmentalized. Open to putting everything into a single release. Whatever clients want.
+00:42:40	Potuz:	I also think it's easier to do BAL
+00:42:45	Potuz:	with ePBS on our side
+00:43:32	Dustin:	would rather encounter go into interop knowing these potential issues are happening before interop
+00:44:19	Dustin:	yes
+00:44:21	Dustin:	exactly
+00:44:24	Raúl Kripalani:	Stokes saying the words “The Merge” brings up memories from 6y ago 😅
+00:44:30	Justin Traglia:	Reacted to "Stokes saying the wo..." with 😄
+00:44:33	Parithosh Jayanthi:	Reacted to "Stokes saying the words “The Merge” brings up memories from 6y ago 😅" with ❤️
+00:44:36	stokes:	Replying to "Stokes saying the wo..."
+
+I had the same thought lol
+00:44:55	Justin Traglia:	What do other clients think? Do we prefer a single release?
+00:45:04	Barnabas:	bal devnets have other cl changes too like slotnum
+00:45:10	Raúl Kripalani:	Reacted to "I had the same thought lol" with ❤️
+00:45:10	Ben Edgington:	Reacted to "Stokes saying the wo..." with ❤️
+00:45:21	Dustin:	Replying to "bal devnets have o..."
+
+this is the problem, ultimately, this is why to move to merged asap
+00:45:26	Barnabas:	Replying to "What do other client..."
+
+nimbus + prysm obviously want to skip epbs devnet 2
+00:45:48	Stefan Starflinger:	We also have to consider the testing velocity that is impacted after the merge for each stream
+00:45:48	Potuz:	Replying to "What do other client..."
+
+it's my preference, but it doesn't matter much
+00:45:49	Justin Traglia:	Replying to "What do other client..."
+
+Their concerns are valid.
+00:46:52	kingy_sigp:	no strong preference at lighthouse one devnet makes sense
+00:47:27	Stefan Bratanov:	I would rather go to interop with kurtosis ready and confidence in the code and then on Monday, we can spin up devnet together with debugging and sorting out issues easily since everyone is there
+00:47:44	Potuz:	yeah my preference is not strong either, just think we're wasting time not merging the trivial changes from BAL
+00:47:51	kingy_sigp:	Reacted to "yeah my preference i..." with 👍
+00:47:53	Dustin:	Reacted to "yeah my preference..." with 👍
+00:48:08	felipe:	Reacted to "I would rather go ..." with 👍
+00:48:11	Potuz:	Reacted to "I would rather go to..." with 👍
+00:48:16	kingy_sigp:	Replying to "yeah my preference i..."
+
+it's a good point, I'm trying to think of a reason not to do it 🤔
+00:48:49	Justin Traglia:	Sounds good to me.
+00:48:50	Potuz:	are we good with this @terence ?
+00:48:57	terence:	Replying to "are we good with thi..."
+
+yes
+00:49:02	Potuz:	Reacted to "yes" with 👍
+00:49:37	Justin Traglia:	https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip7928
+00:49:41	Justin Traglia:	I think it’s this, right?
+00:49:57	Stefan Starflinger:	https://notes.ethereum.org/@ethpandaops/bal-devnet-3#Test-Releases
+00:50:00	Stefan Starflinger:	also here
+00:50:13	Stefan Starflinger:	https://github.com/ethereum/consensus-specs/releases/tag/v1.6.1
+00:50:21	Potuz:	oh this changes the payloadtype right :(
+00:50:23	terence:	Ya but Im looking for a PR against gloas.. not an existing features spec : )
+00:50:46	Stefan Starflinger:	Reacted to "Ya but Im looking fo..." with 👍
+00:50:55	Jihoon:	Reacted to "Ya but Im looking fo..." with 👍
+00:50:55	Potuz:	Reacted to "Ya but Im looking fo..." with 👍
+00:50:57	Justin Traglia:	Replying to "Ya but Im looking fo..."
+
+Ah, yeah no PR yet. But the PR would just merge this into Gloas.
+00:51:07	Enrico Del Fante (tbenr):	Which is the bal xyz link?
+00:51:09	Justin Traglia:	Replying to "Ya but Im looking fo..."
+
+I will work on this today. Should be simple.
+00:51:23	Stefan Starflinger:	https://blockaccesslist.xyz/
+00:51:32	Parithosh Jayanthi:	ATM for interop id like us to just focus on a stable Glamsterdam devnet + breaking it rather than adding more features
+00:51:32	Potuz:	the header is gone in Gloas
+00:51:36	Parithosh Jayanthi:	We haven’t broken things at all yet
+00:51:38	Enrico Del Fante (tbenr):	Reacted to "https://blockaccessl..." with 🙏
+00:51:40	Potuz:	the root would need to be removed right?
+00:51:46	terence:	Replying to "Ya but Im looking fo..."
+
+Thanks! I think you might want to merge 5094 first otherwise there will be conflicts.. up to you!
+00:51:54	Justin Traglia:	Replying to "Ya but Im looking fo..."
+
+100% 🙂
+00:52:00	Toni Wahrstätter:	Replying to "Which is the bal xyz..." 
+
+ Blockaccesslist.xyz
+00:52:29	Potuz:	It'd be better to have the actual PR @Toni Wahrstätter, there are nonsense objects there like the execution header. Do you want the root in the bid or not?
+00:52:33	Potuz:	I assume not
+00:53:07	Toni Wahrstätter:	Replying to "It'd be better to ha..." 
+
+ Let me check
+00:53:16	Parithosh Jayanthi:	+1 for staking EIPs as stretch goal
+00:53:24	Potuz:	the block changes are weird
+00:53:45	Potuz:	does the header need to be cached in the beacon state or not?
+00:54:10	Potuz:	so do I assume that there are zero changes on payload processing?
+00:54:21	Barnabas:	https://github.com/ethereum/EIPs/pull/11452
+00:54:59	Toni Wahrstätter:	https://github.com/ethereum/consensus-specs/pull/4526
+00:55:20	Toni Wahrstätter:	This was the PR but would have to check if somwthing changed since then
+00:55:36	kingy_sigp:	it's fine
+00:55:39	Barnabas:	https://github.com/ethereum/EIPs/pull/11443
+00:56:06	Potuz:	Can I take care of opening the CL spec PR @Toni Wahrstätter 
+00:56:07	Potuz:	?
+00:56:10	Potuz:	this one seems wrong to me
+00:56:17	kingy_sigp:	are we allowed to ship partials ahead of glamsterdam?
+00:56:30	Toni Wahrstätter:	This one seemed wrong?
+https://github.com/ethereum/consensus-specs/pull/4526
+00:56:49	kingy_sigp:	Replying to "are we allowed to sh..."
+
+this was mostly a joke
+00:56:55	Justin Traglia:	Reacted to "this was mostly a jo..." with 😄
+00:56:59	stokes:	Reacted to "this was mostly a joke" with 😄
+00:57:01	Jihoon:	Replying to "this one seems wrong..."
+
+To put it differently, it's outdated. Gloas spec has changed since then.
+00:57:05	Barnabas:	Reacted to "this was mostly a jo..." with 😄
+00:57:15	felipe:	Reacted to "this was mostly a ..." with 😄
+00:57:18	Potuz:	Replying to "this one seems wrong..."
+
+not that, the changes on the feature are wrong
+00:57:19	Enrico Del Fante (tbenr):	Replying to "https://blockaccessl..."
+
+Bal CL changes are just a new field (block_access_list) in the payload (with all the consequences with data structures and engine API)?
+00:57:28	Raúl Kripalani:	Replying to "are we allowed to ship partials ahead of glamsterdam?"
+
+Partial messages? Yes that’s the idea :-)
+00:57:36	Jihoon:	Replying to "this one seems wrong..."
+
+Such as?
+00:57:36	kingy_sigp:	Reacted to "Partial messages? Ye..." with 👍
+00:57:49	Potuz:	Replying to "https://blockaccessl..."
+
+it's just the payload change, nothing else changes, no state and no processing changes
+00:58:02	Potuz:	Replying to "this one seems wrong..."
+
+there should not be any state and processing changes
+00:58:04	Enrico Del Fante (tbenr):	Reacted to "it's just the payloa..." with 👍
+00:58:10	Justin Traglia:	Ah here’s the SLOTNUM consensus-specs PR: https://github.com/ethereum/consensus-specs/pull/4840
+00:58:41	Dima Gusakov | Lido:	Nice one to have
+00:59:26	Toni Wahrstätter:	Replying to "this one seems wrong..." 
+
+ Feel free to go for it @Potuz , if you want, I can also do it but if you take the shot
+00:59:32	Barnabas:	not to include 8045 or not to include 11443
+00:59:59	Jihoon:	Replying to "this one seems wrong..."
+
+Are you referring to ExecutionPayloadHeader-related changes? If so, I think that's what I meant by outdated.
+01:00:05	Stefan Starflinger:	Replying to "this one seems wrong..."
+
+https://github.com/sigp/lighthouse/commit/a17c447680d655d70f4230f2603f6ad7182f943a 
+
+https://github.com/sigp/lighthouse/commit/47094d592c252363911e82ec3c68ac8f4ab05a9d 
+
+https://github.com/sigp/lighthouse/commit/658163cfdeeca00a4cd3ff2c36c2c11ef8b12d61 
+
+these are the main changes LH made to support BAL
+01:00:43	stokes:	Replying to "not to include 8045 ..."
+
+11443 if I’m following you correctly
+01:00:57	stokes:	Replying to "not to include 8045 ..."
+
+Exactly when we include 8045 is another question
+01:01:00	Jihoon:	Yeah it's because that PR was made before we had Gloas in master. It's just outdated artifact.
+01:01:11	terence:	I think we should do that to be consistent
+01:01:15	stokes:	Replying to "not to include 8045 ..."
+
+I was just saying we can touch on 11443 at interop
+01:01:20	Barnabas:	Replying to "@Barnabas regaridng ..."
+
+@Potuz this
+01:01:44	Potuz:	Replying to "@Barnabas regaridng ..."
+
+yes, the API changes, that's not my concern :)
+01:02:35	Potuz:	This makes sense to me, but can we aim this as a post-interop optimization?
+01:03:32	Barnabas:	🚢
+01:03:52	Justin Traglia:	Reacted to "🚢" with 🚢
+01:04:20	Barnabas:	lets aim to 5094 now and optimize later
+01:04:26	Potuz:	@Nico Flaig if you do that please do it independent of 5094
+01:04:27	Justin Traglia:	One more small thing. Are we okay with this change by Etan? https://github.com/ethereum/consensus-specs/pull/5113
+01:04:32	Potuz:	so that we can merge 5094 independent of that
+01:04:47	Potuz:	Reacted to "One more small thing..." with 👍
+01:04:48	terence:	Replying to "One more small thing..."
+
+Good with us. It’s easy
+01:04:51	Dustin:	Reacted to "One more small thi..." with 👍
+01:04:53	Potuz:	Replying to "One more small thing..."
+
+trivial for us
+01:04:56	Nico Flaig:	Replying to "@Nico Flaig if you d..."
+
+yes, definitely should be separate
+01:04:58	Enrico Del Fante (tbenr):	Replying to "One more small thing..."
+
+We can yes
+01:05:08	Potuz:	Reacted to "yes, definitely shou..." with 👍
+01:05:19	Potuz:	Reacted to "lets aim to 5094 now..." with 👍
+01:05:21	Barnabas:	Replying to "One more small thing..."
+
+ppl use the approve button on github 😂
+01:05:30	Enrico Del Fante (tbenr):	Reacted to "ppl use the approve ..." with 🔥
+01:05:37	felipe:	Reacted to "ppl use the approv..." with 😄
+01:05:42	Kalo | Obol:	Reacted to "ppl use the approve ..." with 🧠
+01:05:56	Potuz:	Reacted to "ppl use the approve ..." with 😄
+01:05:59	Justin Traglia:	Reacted to "ppl use the approve ..." with 😄
+01:06:07	felipe:	Reacted to "ppl use the approv..." with 🧠
+01:06:23	Justin Traglia:	Reacted to "lets aim to 5094 now..." with 👍
+01:08:52	Dima Gusakov | Lido:	Reacted to "ppl use the approve ..." with 😄
+01:09:14	Parithosh Jayanthi:	Reacted to "ppl use the approve button on github 😂" with 😄
+01:12:29	Nico Flaig:	we had a draft PR a while ago I think
+01:12:32	Manu:	@Oisin Kyne can you share the link of your slides?
+01:12:42	Oisin Kyne:	Replying to "@Oisin Kyne can you ..."
+
+https://docs.google.com/presentation/d/1hbkdjHsP_2rTc0zTgXLBf3thYv9FHEcNurWiZKnR6c8/edit?slide=id.p34#slide=id.p34
+01:12:58	Mario Havel:	Reacted to "Stokes saying the ..." with ❤️
+01:13:00	Dima Gusakov | Lido:	https://eips.ethereum.org/EIPS/eip-8205
+01:13:09	Manu:	Reacted to "https://docs.google.com/presentation/d/1hbkdjHsP_2rTc0zTgXLBf3thYv9FHEcNurWiZKnR6c8/edit?slide=id.p34#slide=id.p34" with 👍
+01:14:52	Nico Flaig:	@Oisin Kyne we had this PR for EIP-7716 https://github.com/ChainSafe/lodestar/pull/6851
+01:15:37	Potuz:	@Toni Wahrstätter I think this is all that's needed https://github.com/ethereum/consensus-specs/pull/5117
+01:16:03	Potuz:	I'll fix Heze/etc. if that's fine, I don't think you want BALs ont he Bid
+01:16:51	Bharath:	Reacted to "I'll fix Heze/etc. i..." with 👍
+01:17:04	Barnabas:	8205: IMO Overcomplicating the protocol for little benefit.
+01:17:31	Dima Gusakov | Lido:	https://eips.ethereum.org/EIPS/eip-8205
+01:17:58	stokes:	Replying to "8205: IMO Overcompli..."
+
+I think this is a problem staking pools face, FWIW
+01:18:50	Barnabas:	Replying to "8205: IMO Overcompli..."
+
+It feels like it could be solved on the app side tho?
+01:18:56	stokes:	Replying to "8205: IMO Overcompli..."
+
+Yeah I have the same question
+01:22:55	Oisin Kyne:	Replying to "@Oisin Kyne we had t..."
+
+233 line diff, super encouraging! 😄
+01:23:50	Barnabas:	Replying to "8205: IMO Overcompli..."
+
+Is the idea to go from having to do 2tx to doing 1tx?
+01:24:07	Nico Flaig:	most of it is fork boilerplate code, the real diff is ~100 lines
+01:24:12	Barnabas:	Replying to "8205: IMO Overcompli..."
+
+you would still need to do 2 txs, one with pre-registration, followed by the actual sum of eth
+01:24:34	Barnabas:	Replying to "8205: IMO Overcompli..."
+
+like how is it different than just doing 1eth deposit followed by your actual deposit?
+01:24:55	stokes:	Reacted to "like how is it different than just doing 1eth deposit followed by your actual deposit?" with 👀
+01:25:06	Kalo | Obol:	Reacted to "most of it is fork b..." with 🥳
+01:25:22	spencer:	Spec changes so far: https://github.com/ethereum/execution-specs/pull/2697
+
+Keri & I are working on getting the tests done currently!
+01:25:31	felix (eest):	Reacted to "Spec changes so fa..." with 🔥
+01:25:35	Maria Silva:	Reacted to "Spec changes so far:..." with 🔥
+01:25:40	felipe:	Reacted to "Spec changes so fa..." with 🔥
+01:26:16	marc | wolovim:	Unrelated heads up: native AA breakout occurring next Wednesday, 15:00 UTC. Agenda WIP: https://github.com/ethereum/pm/issues/2018
+01:26:30	danceratopz:	Reacted to Spec changes so far:... with "🔥"
+01:26:31	Raúl Kripalani:	Opus 4.7 is out, so we can ship Glamsterdam to mainnet during Svalbard
+01:26:34	Justin Traglia:	https://github.com/ethereum/consensus-specs/pull/5117
+01:26:37	spencer:	Reacted to "Opus 4.7 is out, s..." with 🔥
+01:26:37	Justin Traglia:	Reacted to "Opus 4.7 is out, so ..." with 🔥
+01:26:38	stokes:	Reacted to "Opus 4.7 is out, so we can ship Glamsterdam to mainnet during Svalbard" with 🔥
+01:26:42	Barnabas:	we still have 13 mins so lets do a live review?
+01:26:43	Oisin Kyne:	Reacted to "Opus 4.7 is out, so ..." with 🔥
+01:26:44	danceratopz:	Reacted to Opus 4.7 is out, so ... with "🚀"
+01:26:45	Nico Flaig:	Reacted to "Opus 4.7 is out, so ..." with 🔥
+01:26:48	Justin Traglia:	Reacted to "we still have 13 min..." with 😄
+01:26:56	spencer:	Replying to "Opus 4.7 is out, s..."
+
+We got 4.6 back!! Woo
+01:27:00	Bharath:	Reacted to "Opus 4.7 is out, so ..." with 🔥
+01:27:00	Bharath:	Reacted to "Opus 4.7 is out, so ..." with 🚀
+01:27:03	Parithosh Jayanthi:	Reacted to "Opus 4.7 is out, so we can ship Glamsterdam to mainnet during Svalbard" with 🔥
+01:27:09	felipe:	Reacted to "Opus 4.7 is out, s..." with 🔥
+01:27:11	felipe:	Reacted to "Opus 4.7 is out, s..." with 🚀
+01:27:13	felipe:	Reacted to "We got 4.6 back!! ..." with 😂
+01:27:21	Enrico Del Fante (tbenr):	Reacted to "Opus 4.7 is out, so ..." with 🔥
+01:27:31	Raúl Kripalani:	Replying to "Opus 4.7 is out, so we can ship Glamsterdam to mainnet during Svalbard"
+
+Opus models like macOS. Always be one version behind
+01:27:37	Barnabas:	Reacted to "Opus 4.7 is out, so ..." with 🔥
+01:27:48	felipe:	Reacted to "we still have 13 m..." with 😄

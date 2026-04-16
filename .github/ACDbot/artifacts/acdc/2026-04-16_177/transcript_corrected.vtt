@@ -1,0 +1,2446 @@
+WEBVTT
+
+1
+00:09:13.570 --> 00:09:16.389
+stokes: Hello! How's everyone doing?
+
+2
+00:09:16.700 --> 00:09:17.610
+Potuz: Hello?
+
+3
+00:09:21.790 --> 00:09:27.579
+stokes: Okay, let's wait, like, another 2 minutes, just to give people some time to join, and then we'll get started.
+
+4
+00:10:49.820 --> 00:10:55.860
+stokes: Okay, let's see, Josh, it says you're here, are you helping with the stream today?
+
+5
+00:10:57.360 --> 00:10:58.649
+Josh Davis: Yep, you're alive.
+
+6
+00:10:59.240 --> 00:11:01.200
+stokes: Okay, thanks. Hi, everyone.
+
+7
+00:11:01.550 --> 00:11:10.099
+stokes: Welcome to ACDC number 177. This is issue 1990 in the PM repo.
+
+8
+00:11:10.690 --> 00:11:18.140
+stokes: The agendas here, in the chat, and… yeah, we have a number of things to discuss today.
+
+9
+00:11:18.350 --> 00:11:28.020
+stokes: You know, in the short term, looking at Glamsterdam and moving forward with devnets there, also some different proposals for Hegota we'll touch on.
+
+10
+00:11:28.580 --> 00:11:35.449
+stokes: And if there's time, we'll have an update on some of the FOCIL work.
+
+11
+00:11:35.950 --> 00:11:38.300
+stokes: Er, sorry, the repricing worked.
+
+12
+00:11:38.950 --> 00:11:44.130
+stokes: So yeah, let's go ahead and get into it. So, to begin, we have Amsterdam.
+
+13
+00:11:44.300 --> 00:11:50.020
+stokes: And… yeah, many of these things here kind of all tied together,
+
+14
+00:11:50.270 --> 00:11:52.709
+stokes: But maybe to get us started…
+
+15
+00:11:53.010 --> 00:12:02.770
+stokes: We've had ePBS DevNet1 for some time now, but it looks kind of dead. Are there any updates that anyone would like to share?
+
+16
+00:12:03.110 --> 00:12:10.289
+stokes: If not, I think ultimately we'll just talk about our plan for how to get back to a stable devnets, but I'll start it off there.
+
+17
+00:12:12.310 --> 00:12:13.409
+stokes: Yeah, Barnabas?
+
+18
+00:12:14.640 --> 00:12:16.610
+Barnabas: Yeah, so ePBS does not…
+
+19
+00:12:16.960 --> 00:12:28.969
+Barnabas: one is pretty much dead, and we decided on, yesterday, this Monday that we're not gonna try to resort it, and rather, we're gonna be focusing on APPSN at 2.
+
+20
+00:12:29.620 --> 00:12:37.049
+Barnabas: Which basically requires the 5094, which is, basically the next step on the agenda.
+
+21
+00:12:39.760 --> 00:12:43.280
+stokes: Okay, so yeah, then let's just go ahead and get into that.
+
+22
+00:12:44.360 --> 00:12:56.520
+stokes: Right, so this came up, I think there was an issue with checkpoint sync and just the intricacies here of finalization with the change in ePBS that breaks apart the payload from the block.
+
+23
+00:12:57.420 --> 00:13:05.380
+stokes: As far as I understand, I think this PR is in a pretty good place. Here, let me try to… oh, I just got a link, thank you.
+
+24
+00:13:07.290 --> 00:13:17.550
+stokes: Yeah, so I think this PR is in a pretty good place. Any comments on this PR? Otherwise, I think we just go ahead and merge it, because it sounds like that's blocking us with the next DevNet.
+
+25
+00:13:20.540 --> 00:13:21.590
+stokes: Yeah, photos?
+
+26
+00:13:22.410 --> 00:13:37.480
+Potuz: I don't know if now, or probably by the end of the meeting, but it'd be nice to have a discussion about, syncing and gossiping. There's arguments still on whether we want to be duplicating… duplicating the broadcast of requests.
+
+27
+00:13:41.550 --> 00:13:42.310
+stokes: Okay.
+
+28
+00:13:43.390 --> 00:13:46.719
+stokes: Yeah, do we want to get into it? Can you just give us a quick summary?
+
+29
+00:13:47.800 --> 00:13:50.149
+Potuz: Oh, yeah, so…
+
+30
+00:13:50.930 --> 00:14:02.039
+Potuz: The issue is that, we are now sending the requests on the envelope, and also including these requests on the block.
+
+31
+00:14:03.120 --> 00:14:14.210
+Potuz: We added the requests on the PICOM block to keep the state transition function a pure function that takes only the state, the block, and it gives us a new state.
+
+32
+00:14:14.220 --> 00:14:23.709
+Potuz: If we remove these requests from the block, then we would lose that signature. There's an argument to be made whether or not we want to preserve the signature or not.
+
+33
+00:14:23.850 --> 00:14:38.859
+Potuz: But that's the current status. And the problem of doing this is that if the request can be actually very large, and broadcasting on this consensus layer side is dead broadcasting on ePBS, because it's just part of the slot that is useless.
+
+34
+00:14:39.300 --> 00:14:46.200
+Potuz: So the question is whether or not we want to address this now, or we want to address this in the future if it becomes a problem.
+
+35
+00:14:46.910 --> 00:15:03.259
+Potuz: That's… that's the situation. There are some ways we could prevent this from being on the block at the cost of making the state transition function contingent to, having that data, that in principle, every node should have it because it is on the payload.
+
+36
+00:15:03.540 --> 00:15:15.210
+Potuz: It also complicates things on checkpoint sync, because now when you do checkpoint sync, you actually will need the payload from a previous epoch, presumably, to actually get those requests.
+
+37
+00:15:15.490 --> 00:15:17.899
+Potuz: So, it comes with a bunch of trade-offs.
+
+38
+00:15:20.260 --> 00:15:20.880
+stokes: Yeah.
+
+39
+00:15:22.030 --> 00:15:22.680
+Raúl Kripalani: And also…
+
+40
+00:15:22.680 --> 00:15:23.290
+stokes: any…
+
+41
+00:15:23.290 --> 00:15:30.300
+Raúl Kripalani: Yeah, just to add to that, I've been participating in the discussion as well. So, the question here really is,
+
+42
+00:15:30.330 --> 00:15:55.329
+Raúl Kripalani: a data flow question, more than… than simply extending the signature from our perspective. Basically, what I'm proposing is that if the state transition function remains anyway, preconditioned by the node actually having received the execution payload from the previous lot to begin with, if that precondition still exists, any BPS is currently,
+
+43
+00:15:55.330 --> 00:15:58.939
+Raúl Kripalani: suggested, Then, what we can do is simply
+
+44
+00:15:58.940 --> 00:16:01.710
+Raúl Kripalani: The data structure… the signature would remain the same.
+
+45
+00:16:01.710 --> 00:16:20.040
+Raúl Kripalani: the signature could con… could… and the beacon block that is sent… that is provided in the call to the STF would be the expanded form, so this would include the execution request, so everything in the PR stays that it is, as it is, as it is.
+
+46
+00:16:20.040 --> 00:16:25.159
+Raúl Kripalani: Today, The thing that we would do is we would simply…
+
+47
+00:16:25.170 --> 00:16:39.249
+Raúl Kripalani: expand. So instead of propagating the execution request twice, once on the execution payload and the second time on the next beacon block, we would just propagate a commitment
+
+48
+00:16:39.250 --> 00:16:53.959
+Raúl Kripalani: on the beacon block, and the client implementation would expand that commitment with the data that they already have available before… from the execution payload, before providing it to the SDF. So the… so really, it's… it's a matter of what data
+
+49
+00:16:54.000 --> 00:17:11.399
+Raúl Kripalani: is available when, not so much about… from my perspective, it's not so much about, like, a puristic, you know, the puristic side of, kind of like, do we want to extend the signature or not? Like, that's not the gist here. I think the gist is really what data elements depend on what, and what can we count on.
+
+50
+00:17:12.730 --> 00:17:13.380
+stokes: Yeah.
+
+51
+00:17:13.790 --> 00:17:16.719
+stokes: Quick question for my own understanding.
+
+52
+00:17:16.859 --> 00:17:25.479
+stokes: When we're talking about having execution requests on the beacon block, these execution requests are from the execution payload of the previous slide. Is that correct?
+
+53
+00:17:26.579 --> 00:17:28.149
+Raúl Kripalani: That's my understanding, yes.
+
+54
+00:17:28.390 --> 00:17:29.030
+stokes: Okay.
+
+55
+00:17:29.710 --> 00:17:30.760
+stokes: Outpost.
+
+56
+00:17:32.830 --> 00:17:34.040
+Potuz: Yeah, so…
+
+57
+00:17:34.460 --> 00:17:43.009
+Potuz: Well, I mean, regard… regardless of semantics or not, like, we could do this, we could, we could, like, gossip blocks
+
+58
+00:17:43.120 --> 00:17:48.040
+Potuz: Blinded, but this comes with a considerable
+
+59
+00:17:48.500 --> 00:18:05.579
+Potuz: complications on implementation, we would need to have a new object, which is a blinded vehicle block that is blinded in a different way than it is today, and that's the thing that is being gossiped, then we would need to change all of the RPC requests for, like, by range.
+
+60
+00:18:05.580 --> 00:18:14.739
+Potuz: for example, or when you request a block on RPC to be the unblinded one, and then on Gossip to get the blinded one.
+
+61
+00:18:14.800 --> 00:18:23.030
+Potuz: I think we're going to continue over-complicating this, over something that was essentially an API problem.
+
+62
+00:18:24.170 --> 00:18:40.600
+Raúl Kripalani: I mean, I disagree with that. We're talking about the worst-case scenario. Another possibility here is we actually revisit the limits on deposits, because this is… there's 8,192, that's the limit on deposits per slot, per block.
+
+63
+00:18:40.600 --> 00:18:49.859
+Raúl Kripalani: So if we revisit this number, then we can make the payload smaller, right? But otherwise, we're looking at a worst-case scenario of 1.5 megabytes, and that is not negligible.
+
+64
+00:18:49.860 --> 00:19:09.620
+Raúl Kripalani: And when I actually look at the implementations, I don't think the cost of implementing this… it's a simple expansion. Like, it's just one translation in the data structure. It is a stateful translation, because you do need to have the data that you're expanding available from the previous slot, but it's literally
+
+65
+00:19:09.620 --> 00:19:18.229
+Raúl Kripalani: like, it can be a ring buffer, it could be not even a ring buffer, you're literally just taking the data from the previous slot, otherwise you're not even able to execute the STF in the first.
+
+66
+00:19:18.230 --> 00:19:27.560
+Potuz: So it just does not, it needs to be curried, right? It's interleaved. It's not just on the gossiping side. Right. The problems are on the RPC side.
+
+67
+00:19:28.490 --> 00:19:43.270
+Raúl Kripalani: Yeah, but you can store the expanded payload to serve it over our PC. Like, I don't care about the data storage side of things, because the data storage is cheaper than the network. You can store it in the expanded form, and you just continue serving it the way that it's being served today.
+
+68
+00:19:43.270 --> 00:19:51.099
+Raúl Kripalani: It's just this particular route in the critical path, adding 1.5 megabytes to send duplicate data, is extremely inefficient.
+
+69
+00:19:52.580 --> 00:20:10.310
+Raúl Kripalani: So we're just talking about a compression, or… or kind of like an expansion method. The other possibility here is reducing, like, if we really want to go this way, then we need to revisit the deposits, the limit on deposits. If it can be smaller, then, like, we need to scale this… this value down.
+
+70
+00:20:10.310 --> 00:20:15.489
+Raúl Kripalani: But anyway, one thing that I do want to highlight is that the STF, as I understand it.
+
+71
+00:20:15.560 --> 00:20:27.420
+Raúl Kripalani: was built originally, and kind of like this signature that we… that we really care about, for it to be pure, was built in a world in which the execution and consensus were in the same object.
+
+72
+00:20:27.450 --> 00:20:46.939
+Raúl Kripalani: Right? This is no longer the case, so something has to give somewhere. I think we can resolve this by, like, this solution that wouldn't… from the data architecture perspective, is just, like, a different scenario, right? So, yeah, revisiting the signature is warranted. I think we can keep the signature intact if we just do this expansion.
+
+73
+00:20:48.990 --> 00:20:50.860
+stokes: Nico, then Enrico?
+
+74
+00:20:51.960 --> 00:21:06.680
+Nico Flaig: Yeah, so I looked into this a bunch yesterday to just see what are even the implications. So right now, the maximum, really, that can be achieved is, 489 kilobytes.
+
+75
+00:21:06.990 --> 00:21:22.159
+Nico Flaig: Because there's a limiting factor, which is the gas limit. So, with 60 million, that's the maximum you can even do. But even that, requires you to lock up 6.4 million in EVE, because you need to do…
+
+76
+00:21:22.300 --> 00:21:40.890
+Nico Flaig: these, I think it was 2,000-something, deposits that are possible, and to reach this 1.5 megabyte limit, we need a gas limit of, let me double-check this, 193 million, and it requires to lock up 20…
+
+77
+00:21:41.070 --> 00:21:56.340
+Nico Flaig: 0.5 million in ETH to even get to that. And the average size of execution requests is really tiny, so I looked at mainnet data from the last two weeks, and they are 70 bytes on average.
+
+78
+00:21:57.700 --> 00:22:12.800
+Nico Flaig: I mean, not to downplay this complaint, but there's also, I think, a thing that the SSC size limit is set way too high. I was looking into discussions when
+
+79
+00:22:12.850 --> 00:22:23.639
+Nico Flaig: that, 6110 PR was implemented, and they set the limit to that, so you don't get into a scenario where the EL could produce a block.
+
+80
+00:22:23.740 --> 00:22:43.680
+Nico Flaig: That produces execution requests that don't meet, or that… that is higher than this 8,192 limit. But this seems flawed in itself, because if we have a gas limit increase over these… this… over 200, for example, million, then this limit
+
+81
+00:22:43.680 --> 00:22:51.740
+Nico Flaig: Doesn't… it's not sufficient anymore, I guess, because the EL could still produce a block that is invalid.
+
+82
+00:22:51.880 --> 00:23:00.719
+Nico Flaig: So, what I was wondering is, isn't there a way for ELs to have this limit as well, and then we can reduce it even?
+
+83
+00:23:00.850 --> 00:23:02.200
+Nico Flaig: Too low number.
+
+84
+00:23:04.710 --> 00:23:11.939
+Nico Flaig: Like, the EL could maybe just say, don't include more deposits into a single block than what this limit is.
+
+85
+00:23:15.800 --> 00:23:20.200
+stokes: Yeah, I mean, it's possible. I don't know if any yellow devs want to chime in on this.
+
+86
+00:23:23.490 --> 00:23:32.500
+stokes: Yeah. I mean, one thing there is it just adds this other limit that we have to synchronize across layers, whereas I think today it's more the EL just puts whatever they have, and they don't have to think about it.
+
+87
+00:23:34.690 --> 00:23:36.060
+stokes: Enrico?
+
+88
+00:23:38.390 --> 00:23:47.070
+Enrico Del Fante (tbenr): Yeah, I just want to comment on… on Raul's perspective, because…
+
+89
+00:23:47.630 --> 00:23:58.610
+Enrico Del Fante (tbenr): I don't feel that we may say that the Raul perspective is too much complicated, because I feel like
+
+90
+00:23:58.610 --> 00:24:09.680
+Enrico Del Fante (tbenr): He's right saying that we could confine this change in the networking layer and the overall client just on
+
+91
+00:24:09.720 --> 00:24:11.520
+Enrico Del Fante (tbenr): block gossip.
+
+92
+00:24:11.670 --> 00:24:21.159
+Enrico Del Fante (tbenr): flow, and make everything else, including RPC, exactly… How they are today.
+
+93
+00:24:21.530 --> 00:24:28.850
+Enrico Del Fante (tbenr): So, just when we receive the block, during the flow.
+
+94
+00:24:29.190 --> 00:24:45.279
+Enrico Del Fante (tbenr): Even… even… even before, even before gossip… gossip, validation could be done, expanding things from… from… from what we've received from… from the payload, and everything remains the same in database, and…
+
+95
+00:24:45.560 --> 00:24:57.880
+Enrico Del Fante (tbenr): all the other RPC. So, I'm not saying… I'm not saying that there might be complications, but I'm saying that it's possible that we could have something that is low impact.
+
+96
+00:25:02.690 --> 00:25:04.380
+stokes: Roll. You have your hand up?
+
+97
+00:25:05.850 --> 00:25:11.570
+Raúl Kripalani: Yeah, I think that's… that's exactly right. Thanks for explaining it, Enrico. That's what I was thinking, is just…
+
+98
+00:25:11.750 --> 00:25:21.919
+Raúl Kripalani: the… on the gossip layer, everything else stays intact. We still save the data structure on the store, we serve it over our PC,
+
+99
+00:25:21.940 --> 00:25:32.060
+Raúl Kripalani: in… as it's currently being served, everything stays intact. It's just on the gossip… on the gossip layer, instead of duplicating the data.
+
+100
+00:25:32.060 --> 00:25:34.730
+Enrico Del Fante (tbenr): But there is a complication.
+
+101
+00:25:34.730 --> 00:25:35.299
+Raúl Kripalani: Okay, so…
+
+102
+00:25:35.300 --> 00:25:46.269
+Enrico Del Fante (tbenr): To be super, super resilient here is we need to cover the situation in which the client doesn't have the payload, and maybe once.
+
+103
+00:25:46.270 --> 00:25:46.900
+Raúl Kripalani: Right.
+
+104
+00:25:46.900 --> 00:25:52.820
+Enrico Del Fante (tbenr): Only… only the… only something, actually, to… to…
+
+105
+00:25:52.950 --> 00:25:55.159
+Enrico Del Fante (tbenr): To be able to import the block.
+
+106
+00:25:55.360 --> 00:26:01.489
+Raúl Kripalani: Yeah, but then we're back in the scenario with the two roots, right? Because you can't really…
+
+107
+00:26:01.610 --> 00:26:04.350
+Raúl Kripalani: You would then be moving the beacon state without…
+
+108
+00:26:04.350 --> 00:26:18.380
+Enrico Del Fante (tbenr): It would be just another input to the envelope by the payload by route request. It will trigger that, and the client should download the missing payload.
+
+109
+00:26:19.060 --> 00:26:26.829
+Enrico Del Fante (tbenr): Yeah, I think, like, yeah, we don't need to have a specific RPC to get just the execution
+
+110
+00:26:27.080 --> 00:26:34.440
+Enrico Del Fante (tbenr): request unblinded from clients, I don't know if there's any reason to have a specific RPC.
+
+111
+00:26:34.820 --> 00:26:39.280
+Enrico Del Fante (tbenr): In… But, yeah, it's possible that you just…
+
+112
+00:26:39.280 --> 00:26:40.080
+Raúl Kripalani: Yeah, so…
+
+113
+00:26:40.080 --> 00:26:45.499
+Enrico Del Fante (tbenr): trigger… trigger the payload again, and you can unblind, and everything flows.
+
+114
+00:26:45.710 --> 00:27:00.510
+Raúl Kripalani: Yeah, so from my perspective, if… and please correct me if this is… if my assumption is wrong here, but the design assumption is that PTC is a strong enough signal of network-wide availability of the execution payload.
+
+115
+00:27:00.510 --> 00:27:20.439
+Raúl Kripalani: to execute the STF, now with the… with the non-dual form, so to speak, you would anyway need to have the execution payload. I think if you want to advance… if I'm… if I'm understanding the current proposal correctly, if you want to… if you want to advance the chain, you would need to have the execution payload anyway.
+
+116
+00:27:20.660 --> 00:27:27.190
+Raúl Kripalani: So… That's… Is that… is that wrong? Is… Is this assumption wrong?
+
+117
+00:27:31.640 --> 00:27:39.259
+Enrico Del Fante (tbenr): Yeah, definitely, you need to have the previous payload if you want to build the next beacon block on top of it.
+
+118
+00:27:39.260 --> 00:27:50.359
+Raúl Kripalani: Right, right. So then it would be… so if you don't have it, it's either a propagation fault, right, that it didn't get there in time, but also, if PTC was positive, right.
+
+119
+00:27:50.360 --> 00:28:01.589
+Raúl Kripalani: then at that point, you also have a BTC fault, in the sense that the PTC signal that we got was not consistent with what the network saw. There's always going to be outliers, of course, but then the fallback
+
+120
+00:28:01.630 --> 00:28:12.769
+Raúl Kripalani: path for those outliers would just be conducting the RPC call to one of the… their peers that is synced ahead, and simply fetching the full block. The beacon block, we know, is tiny.
+
+121
+00:28:12.790 --> 00:28:23.999
+Raúl Kripalani: So I would prefer that path because it's just a fallback path from our perspective, right, that is not going to be exercised on the critical path by every node.
+
+122
+00:28:24.000 --> 00:28:37.940
+Raúl Kripalani: It's just those nodes that failed to receive the payload in time would just, invoke the RPC, and if I remember correctly from the numbers, the beacon block, the resulting beacon block, was tiny, anyway, so…
+
+123
+00:28:38.620 --> 00:28:44.859
+Raúl Kripalani: It shouldn't… so if you're really only interested in the execution payload at that point, then the…
+
+124
+00:28:45.010 --> 00:28:52.490
+Raúl Kripalani: cost of receiving the beacon block as well in the response is just residual, it's just tiny, so it shouldn't matter.
+
+125
+00:28:54.270 --> 00:28:57.610
+Raúl Kripalani: My perspective is a much better space of the design trade-off here.
+
+126
+00:28:58.890 --> 00:29:07.349
+Enrico Del Fante (tbenr): Yeah, there is also the other side of it, that you have to blind it during publishing, so there is an unblinding, and then
+
+127
+00:29:08.380 --> 00:29:15.550
+Enrico Del Fante (tbenr): The proposer needs to blind that while doing the pro… the… .
+
+128
+00:29:15.550 --> 00:29:18.069
+stokes: Yeah, but you just put the hushed root of the…
+
+129
+00:29:18.440 --> 00:29:27.970
+Enrico Del Fante (tbenr): Yeah, it's… the blinding is… is trivial. It's just a tiny complication, and I don't know if there are clients that have some kind of strong…
+
+130
+00:29:28.380 --> 00:29:37.429
+Enrico Del Fante (tbenr): Strong tightening between the block type and what is on the publishing side, so if some kinds have some…
+
+131
+00:29:37.870 --> 00:29:42.040
+Enrico Del Fante (tbenr): Assumptions, and they have to break that assumption.
+
+132
+00:29:42.320 --> 00:29:45.510
+Enrico Del Fante (tbenr): Maybe it could be a complication.
+
+133
+00:29:47.450 --> 00:29:51.780
+stokes: I imagine there's enough change already with ePBS that that's fine to me.
+
+134
+00:29:52.410 --> 00:29:53.740
+stokes: Barnabas?
+
+135
+00:29:55.110 --> 00:29:58.460
+Barnabas: Yeah, that would be my main question here, that…
+
+136
+00:29:58.870 --> 00:30:03.139
+Barnabas: Do we really want to keep pushing this decision based on,
+
+137
+00:30:03.370 --> 00:30:12.779
+Barnabas: you know, potential duplication of, like, 17 bytes, what Nicole said, that would be the average case. I know the diverse case is looking significantly worse, but,
+
+138
+00:30:13.120 --> 00:30:20.490
+Barnabas: Even 1.5MB on a 3000 deposit slot is very, very unlikely to happen.
+
+139
+00:30:21.320 --> 00:30:25.669
+Barnabas: And, we're not gonna get many of those, even on mainnet.
+
+140
+00:30:29.020 --> 00:30:32.660
+Barnabas: Like, is this really something we have to deal with?
+
+141
+00:30:32.660 --> 00:30:34.819
+stokes: Yeah, yeah, it's a good question.
+
+142
+00:30:35.430 --> 00:30:36.570
+stokes: Enrico?
+
+143
+00:30:37.120 --> 00:30:45.700
+Enrico Del Fante (tbenr): Yeah, I feel like we can definitely postpone this… this. If… so, if the assumption is correct, which is the only way
+
+144
+00:30:45.900 --> 00:30:59.319
+Enrico Del Fante (tbenr): we could move forward with this. So, the assumption is this approach is simple. If it is, we can postpone it later as an addition, because it won't
+
+145
+00:30:59.820 --> 00:31:06.710
+Enrico Del Fante (tbenr): break… change anything on the consensus layer. It will be just a networking change, and we can decide it.
+
+146
+00:31:06.880 --> 00:31:10.869
+Enrico Del Fante (tbenr): To do this later, after a better evaluation of it.
+
+147
+00:31:12.820 --> 00:31:20.470
+stokes: Right, so yeah, the proposal would be then to have them duplicated, and someone help me.
+
+148
+00:31:20.800 --> 00:31:23.700
+stokes: Is this the current status of 5094?
+
+149
+00:31:27.510 --> 00:31:35.219
+Nico Flaig: So currently, they are duplicated, yeah. But, we don't even need them in the envelope, because,
+
+150
+00:31:35.360 --> 00:31:40.670
+Nico Flaig: like, they are kind of duplicated in the transactions already, right? Like, the…
+
+151
+00:31:40.780 --> 00:31:50.459
+Nico Flaig: payload itself contains the transactions for the deposits, and you can always generate the execution requests from that. So I think with the
+
+152
+00:31:50.670 --> 00:31:59.890
+Nico Flaig: with the PR, we could even drop them from the envelope, but we would need to update the engine API, I think, so the EL can return them.
+
+153
+00:32:00.120 --> 00:32:07.630
+Nico Flaig: And then the next proposal needs to include them in the beacon block, but you would get rid of the data duplication.
+
+154
+00:32:09.490 --> 00:32:12.809
+Barnabas: I would not introduce an engine API change for this.
+
+155
+00:32:13.340 --> 00:32:15.059
+Barnabas: But that's just my personal take.
+
+156
+00:32:17.790 --> 00:32:22.670
+stokes: Yeah, and then one quick question to POTUS' comment here, in terms of RPC.
+
+157
+00:32:23.140 --> 00:32:25.540
+stokes: RPC will change either way, right?
+
+158
+00:32:27.810 --> 00:32:39.300
+Potuz: No, so the problem is that the reason why 5094 was even proposed was that clients were having problems with checkpoint sync.
+
+159
+00:32:39.410 --> 00:32:51.369
+Potuz: And the problems they were having with Checkpoint Sync was that they got a state, and they needed to request data from an epoch that was previous to the slot on the state.
+
+160
+00:32:53.310 --> 00:32:56.990
+Potuz: 5094 in the current status solves that problem.
+
+161
+00:32:57.610 --> 00:33:00.800
+Potuz: If we remove the request from the block.
+
+162
+00:33:01.180 --> 00:33:08.080
+Potuz: This problem would go back to the status that was before 1594, And…
+
+163
+00:33:08.690 --> 00:33:24.719
+Potuz: then to solve that problem again, we're gonna introduce changes on the RPC to come… to… to have the RPC return the unblinded block, and then on gossip, having the blinded block. I think we'll just keep adding complexity over things that…
+
+164
+00:33:25.080 --> 00:33:34.480
+Potuz: are not really strictly necessary on Consensus. Already 1594 is not necessary for consensus. We just accepted it because it, like, simplifies implementation.
+
+165
+00:33:34.720 --> 00:33:49.079
+Potuz: I agree with, Enrico. We should just go with 1594, we agreed that that was the simplification to all of us, and then later on decide whether or not we want to include these changes to avoid the duplication or not.
+
+166
+00:33:50.410 --> 00:33:51.040
+stokes: Yeah.
+
+167
+00:33:51.260 --> 00:33:53.970
+stokes: That's how I'm leaning as well at the moment.
+
+168
+00:33:54.580 --> 00:33:56.199
+stokes: Yeah, roll.
+
+169
+00:33:56.420 --> 00:34:11.389
+Raúl Kripalani: I'm good with that, I just want to maybe scope what the exact ask is for clients to investigate. Like Enrico said, the current hypothesis is that simply adding a very
+
+170
+00:34:11.719 --> 00:34:26.350
+Raúl Kripalani: simple trans… Translation, at the gossip layer only, nothing… nothing in RPC changes, nothing in the store changes, everything remains the same, nothing in the STF changes.
+
+171
+00:34:26.350 --> 00:34:33.999
+Raúl Kripalani: The only… the only thing that changes is on the proposer side of things, on the proposer, you would be, instead of… you would be blinding.
+
+172
+00:34:34.000 --> 00:34:55.560
+Raúl Kripalani: And on the receiving side of things, it would be expanding, and that's it. Everything else stays the same. And the assumption is that simply by having a cache of one slot, of the previous slot, or the parent slot, would be… would be sufficient. There might be some edge cases here, and I think that's the thing that we're interested in finding out, if there are edge cases that we're not seeing.
+
+173
+00:34:59.830 --> 00:35:01.520
+stokes: Yeah, that makes sense.
+
+174
+00:35:02.790 --> 00:35:06.690
+stokes: In the specs, like, we'd have…
+
+175
+00:35:07.070 --> 00:35:12.779
+stokes: So, like, yeah, I think the straightforward way that you would do this is you'd have, like, new block types in the spec.
+
+176
+00:35:13.050 --> 00:35:15.370
+stokes: Maybe this is, like, an optimization?
+
+177
+00:35:15.950 --> 00:35:17.550
+stokes: Well, that would be messy, too.
+
+178
+00:35:18.180 --> 00:35:22.920
+stokes: So, in any case, yeah, hear what you're saying.
+
+179
+00:35:24.670 --> 00:35:27.520
+stokes: It might be… harder than it sounds.
+
+180
+00:35:27.940 --> 00:35:32.609
+stokes: But yeah, let's, let's get back to the current topic.
+
+181
+00:35:33.110 --> 00:35:40.270
+stokes: Then, it sounds like we're all in agreement to go ahead and merge 5094 to get past this issue.
+
+182
+00:35:40.760 --> 00:35:46.639
+stokes: There may be an ask down the line to add this optimization that Rule's proposing.
+
+183
+00:35:47.490 --> 00:35:50.470
+stokes: And is everyone okay with that?
+
+184
+00:35:54.860 --> 00:35:55.710
+stokes: Okay.
+
+185
+00:35:57.040 --> 00:35:58.609
+stokes: Okay, got some thumbs up.
+
+186
+00:35:59.760 --> 00:36:10.000
+stokes: Okay, cool. So, let's do that. Thank you, everyone. This stuff, you know, the devil's always in the details. So, in any case…
+
+187
+00:36:10.510 --> 00:36:12.059
+stokes: From there…
+
+188
+00:36:12.380 --> 00:36:24.429
+stokes: I forget what these comments are. Yeah, okay. So I think from here, I might hand it over to Barnabas, because he had a number of comments that are kind of all interrelated, just around scope and how we went forward with the devnets.
+
+189
+00:36:25.120 --> 00:36:32.469
+stokes: There's FOCIL DevNet 4, eBPS DevNet 2, that's gonna reflect some of the changes we were just discussing.
+
+190
+00:36:32.760 --> 00:36:36.760
+stokes: And then, of course, the road to Glumpster Dam DevNet Zero.
+
+191
+00:36:37.810 --> 00:36:38.250
+Barnabas: Congress.
+
+192
+00:36:38.250 --> 00:36:39.120
+stokes: that…
+
+193
+00:36:39.460 --> 00:36:44.180
+Barnabas: There's just one more quick PR that I think we should discuss.
+
+194
+00:36:44.370 --> 00:36:45.820
+Barnabas: 5067.
+
+195
+00:36:46.130 --> 00:36:49.069
+stokes: Okay, well, I think you have 3 now, so do you just want to run through them?
+
+196
+00:36:49.940 --> 00:36:56.430
+Barnabas: Yeah, so 5061 is basically… clarifies the, growth genesis,
+
+197
+00:36:57.020 --> 00:37:04.500
+Barnabas: Questions, and, this is gonna be rebased on top of, 5094.
+
+198
+00:37:05.760 --> 00:37:10.589
+Barnabas: I'm just not sure what the current state of this PR right now.
+
+199
+00:37:17.930 --> 00:37:20.629
+stokes: Yeah, it's from Brekkie, I don't know if they're on the call.
+
+200
+00:37:22.610 --> 00:37:29.309
+stokes: Otherwise, yeah, is this something we need to merge before we can move forward with DevOps?
+
+201
+00:37:29.680 --> 00:37:30.270
+Barnabas: Yep.
+
+202
+00:37:30.850 --> 00:37:40.749
+Barnabas: Ideally. Okay. So the main reason we need this is, when we're testing out the builder workflow,
+
+203
+00:37:40.760 --> 00:37:53.029
+Barnabas: Having the builders already available at Genesis basically enables us to get the builders working without needing to make builder deposits.
+
+204
+00:37:53.310 --> 00:37:55.169
+stokes: Yeah, okay, that makes sense.
+
+205
+00:37:55.440 --> 00:38:00.699
+stokes: Brekkie left a comment that this should be revisited after 5094, so…
+
+206
+00:38:02.120 --> 00:38:06.460
+stokes: Yeah, maybe then we can do that, say, today or tomorrow.
+
+207
+00:38:06.710 --> 00:38:08.910
+stokes: And circled back to this on Monday.
+
+208
+00:38:09.110 --> 00:38:11.239
+stokes: Oh, okay, he's in the chat here.
+
+209
+00:38:11.950 --> 00:38:12.800
+stokes: Okay.
+
+210
+00:38:13.970 --> 00:38:17.829
+stokes: Does 5094 change anything, or it just needs a rebase?
+
+211
+00:38:23.820 --> 00:38:25.379
+stokes: Okay, it does change.
+
+212
+00:38:26.790 --> 00:38:31.320
+stokes: So does that work, Barnabis, if we just handle this on Monday, then?
+
+213
+00:38:32.300 --> 00:38:37.640
+Barnabas: Yeah, ideally, we want to have everything merchant by, tomorrow, I think.
+
+214
+00:38:38.350 --> 00:38:39.160
+stokes: Okay.
+
+215
+00:38:39.180 --> 00:38:39.980
+Iván | ethrex: Yeah, it's on…
+
+216
+00:38:39.980 --> 00:38:41.569
+stokes: Like, we can do that then.
+
+217
+00:38:42.080 --> 00:38:46.400
+Justin Traglia: I'm, targeting to make a release today or tomorrow. I would like to get it in before then.
+
+218
+00:38:46.760 --> 00:38:48.799
+Justin Traglia: That's the target.
+
+219
+00:38:49.520 --> 00:38:50.130
+stokes: Perfect.
+
+220
+00:38:51.660 --> 00:38:52.530
+stokes: Okay.
+
+221
+00:38:54.490 --> 00:38:58.160
+stokes: Otis, did you have your hand up for this?
+
+222
+00:38:58.160 --> 00:39:10.760
+Potuz: Yeah, so I wanted to ask, is… is there a strong opposition to targeting, Glamster.devNet1 or Definite0, whatever it's called, for interop?
+
+223
+00:39:12.050 --> 00:39:22.429
+Potuz: I mean, it seems, from our perspective, from my perspective on the CL side, it seems very low risk to add ePBS… to add valves to ePBS,
+
+224
+00:39:22.730 --> 00:39:37.390
+Potuz: I understand that for a bald DevNet, this is… this might be a problem, so they might want to keep another DevNet that is just pure balls without ePBS, but for us, I think very low risk in just including balds and start testing directly on Glamstone.
+
+225
+00:39:37.760 --> 00:39:43.639
+stokes: Yeah, I think Barnabas wanted to talk about that, but also he was gonna cover these two other PRs first.
+
+226
+00:39:45.880 --> 00:39:55.939
+Barnabas: Yeah, so Bold.NET 4 is targeting to launch next week, Friday, and that is the same day when we plan to launch ePBS FNet 2.
+
+227
+00:39:56.250 --> 00:40:01.620
+Barnabas: And ideally, Glamstra Demp Definite Zero could,
+
+228
+00:40:01.620 --> 00:40:19.580
+Barnabas: be launched on the first day of Interop, which would be this pack of Bold MNT4 plus APPSNET2, without adding any other EIPs. So this would require a new CL release as well, Alpha 6, which would, introduce the…
+
+229
+00:40:19.580 --> 00:40:22.109
+Barnabas: ball changes on the CR side.
+
+230
+00:40:22.400 --> 00:40:29.469
+Barnabas: And then, ideally, in the last day of interop, we could also do, Glamstagram. 1, where we…
+
+231
+00:40:29.610 --> 00:40:33.810
+Barnabas: basically introduce a few…
+
+232
+00:40:34.030 --> 00:40:41.319
+Barnabas: or none, no other CL VIPs, and, some or none, BL DIPs.
+
+233
+00:40:42.150 --> 00:40:49.860
+Barnabas: Because… You can find more details about everything in the issue of the score.
+
+234
+00:40:54.290 --> 00:40:55.050
+stokes: Turns.
+
+235
+00:40:56.860 --> 00:41:04.970
+terence: My immediate feedback… by looking at it, is that you want to do ePBS.N2 on Friday.
+
+236
+00:41:05.140 --> 00:41:13.509
+terence: then you want to do Gamson and Death Night Zero the first day of interrupt, then there's not much time in between, right? It's just the weekend, and people are starting
+
+237
+00:41:13.890 --> 00:41:15.350
+terence: hearing that.
+
+238
+00:41:15.350 --> 00:41:15.980
+Iván | ethrex: Oh, you know?
+
+239
+00:41:15.980 --> 00:41:18.270
+terence: part, so I think, like.
+
+240
+00:41:18.340 --> 00:41:37.889
+terence: My proposal is that I think it would be actually much easier if you just do Glenster and DevNet 0 on the end of Friday, and just skip DevNet 2, because I still don't think it's gonna work if you want to do two devnets back-to-back, but then the only gap is the weekend and people are traveling.
+
+241
+00:41:39.770 --> 00:41:46.830
+Barnabas: The idea is that on Monday, we're gonna be spending the holiday, figuring out the ESCL changes.
+
+242
+00:41:47.180 --> 00:42:06.210
+Barnabas: And, local access lists are still not stable, and that is the main reason we want to keep it separate, because I'm assuming that ePBS.Net2 is also not going to be stable, and if neither of them are stable on Friday, then having a very messy network will not benefit anyone.
+
+243
+00:42:08.780 --> 00:42:13.169
+terence: Yeah, but I just don't think, like, there's enough time
+
+244
+00:42:13.370 --> 00:42:21.080
+terence: between Definite2 and DefNet0. If you want to just bring in Bell, it's just much easier to do everything together at that point.
+
+245
+00:42:22.310 --> 00:42:27.650
+stokes: Well, unless there's a lot of bugs from merging them. If we relax the time.
+
+246
+00:42:27.650 --> 00:42:28.540
+terence: Yeah.
+
+247
+00:42:28.540 --> 00:42:31.540
+stokes: Amsterdam DevNet Zero, does that make everyone feel better?
+
+248
+00:42:31.540 --> 00:42:49.889
+terence: So I actually studied, like, the differences, like, the overlapping part is actually surprisingly small, because of the bell changes a couple things. One thing on the beacon state, and then the… and then the payload, the header, and then the engine API code. And turns out those things…
+
+249
+00:42:49.890 --> 00:42:52.860
+terence: are minimally touched by 5094.
+
+250
+00:42:57.480 --> 00:43:05.029
+stokes: Yeah, and so we're not worried about, like, some FOCIL bug on the EL causing issues with the EPPS state transition, and…
+
+251
+00:43:05.180 --> 00:43:06.380
+stokes: Breaking things?
+
+252
+00:43:06.380 --> 00:43:19.370
+terence: Well, there's definitely risks, right? But I think that's a possible route. I just think it's impossible to do definite 2 on Friday, then definite zero glamps, and then on the first day of interrupt. There's just no time.
+
+253
+00:43:19.810 --> 00:43:33.640
+stokes: Right, but, like, what if we make it the second day? Like, I think, at least what I would say is it's more important to get in one more cycle of them separated, just because, like, we haven't even had a stable DevNet 1.
+
+254
+00:43:33.950 --> 00:43:38.929
+stokes: So then Devna 2 stable would give us, like, a good foundation then to work on the merge.
+
+255
+00:43:39.400 --> 00:43:46.479
+stokes: And… I would imagine that if we just go for the merge, it, will just add more…
+
+256
+00:43:46.640 --> 00:43:47.770
+stokes: more issues.
+
+257
+00:43:47.950 --> 00:43:49.689
+stokes: To work through, than otherwise.
+
+258
+00:43:50.550 --> 00:44:05.850
+terence: Yeah, I don't have a strong opinion. I just wanted to mainly point out there's not enough time in between, but if you want to give it more time for DevNet Zero, then that's fine, but in my opinion, I think it's just more productive to just do it all together, but I will let others chime in.
+
+259
+00:44:07.630 --> 00:44:08.720
+stokes: Photos?
+
+260
+00:44:09.300 --> 00:44:23.889
+Potuz: If we decide to do together, then we can start testing on Cortosis now. I think Dustin is probably pointing the same thing. We want to get into Interop already having Cortosis runs on clients, and if we're gonna be wasting a week
+
+261
+00:44:23.890 --> 00:44:43.899
+Potuz: trying Cortosis only on ePBS, and then later we're gonna have to anyways make changes to run them on Cortosis to check whether balls is changing anything or not. I think it's just wasted time. We can and should start testing with balls on the CL side, and I don't think the kind of balls that you mentioned
+
+262
+00:44:43.900 --> 00:44:49.909
+Potuz: are even possible, the kind of bugs that balls would just affect on the CL side. I think
+
+263
+00:44:50.120 --> 00:45:03.420
+Potuz: ePBS bugs could screw up the ball DevNet, make it unstable, so I do understand why EL devs might want to have a separate DevNet, but I think on the CL side, we're going to be better off having just one.
+
+264
+00:45:07.300 --> 00:45:11.600
+stokes: Well, there's just one… That would be it, right?
+
+265
+00:45:12.250 --> 00:45:21.099
+stokes: Like, I feel like I think that's also part of the calculus here, is, like, the idea is this would be the merged dev nodes that then, you know, both layers are working on together.
+
+266
+00:45:24.520 --> 00:45:28.219
+stokes: So, do any EL devs actually want to speak to us? That might be helpful?
+
+267
+00:45:32.770 --> 00:45:39.149
+stokes: Or if they're not here, Barnabas, what do you think about just relaxing the timing that you have for Lumpstream DevNet Zero?
+
+268
+00:45:40.080 --> 00:45:43.620
+Barnabas: I don't think it's the timing that is of question,
+
+269
+00:45:44.090 --> 00:45:47.490
+Barnabas: from Portos, like, they basically won Glamsterdam Definitely zero.
+
+270
+00:45:48.160 --> 00:45:49.469
+Barnabas: Next week, Friday.
+
+271
+00:45:49.730 --> 00:45:50.600
+Barnabas: Right?
+
+272
+00:45:52.770 --> 00:45:54.040
+stokes: That's the proposal, yeah.
+
+273
+00:45:54.390 --> 00:45:55.030
+Barnabas: Yep.
+
+274
+00:45:55.990 --> 00:45:58.520
+Barnabas: I mean, yeah.
+
+275
+00:45:58.520 --> 00:46:05.820
+Potuz: Probably a timing issue, I don't really mind much. We're not really on a rush, it's just time-saving.
+
+276
+00:46:07.050 --> 00:46:11.740
+Barnabas: Yeah, I would really want to hear the opinion of other CL devs as well.
+
+277
+00:46:12.880 --> 00:46:22.449
+Parithosh Jayanthi: Also, please take into note that there are some CL changes already in block-level access list.nets, and those would also be merged into your ePBS branches.
+
+278
+00:46:28.310 --> 00:46:30.380
+stokes: Yeah, other… other seal plant tombs?
+
+279
+00:46:30.540 --> 00:46:32.660
+stokes: I think we've heard from Nimbus, and…
+
+280
+00:46:32.660 --> 00:46:35.809
+Barnabas: The stock norm is very minimal, by the way.
+
+281
+00:46:36.130 --> 00:46:37.790
+Barnabas: So that's… that's a minor one.
+
+282
+00:46:38.890 --> 00:46:39.610
+stokes: Bye.
+
+283
+00:46:50.630 --> 00:46:52.749
+stokes: Yeah, in that case…
+
+284
+00:46:52.750 --> 00:46:59.610
+Barnabas: if… if we do end up going with Amsterdam Devon Zero next week, Friday, then I would actually target to do…
+
+285
+00:46:59.890 --> 00:47:05.790
+Barnabas: block level access list DevNet 3 scope with,
+
+286
+00:47:07.010 --> 00:47:09.770
+Barnabas: with the Alpha 5 changes from the CR side.
+
+287
+00:47:13.130 --> 00:47:18.689
+stokes: Okay, and then you'd merge in the DevNet 4 stuff in DevNet 1, or how do you think about that?
+
+288
+00:47:19.450 --> 00:47:20.150
+Barnabas: Yeah.
+
+289
+00:47:21.640 --> 00:47:35.830
+Barnabas: Or maybe we can do, like, Amsterdam.net 1 in the first or second day of interop, and, there we could add the, 7976 and 7981 there. I… I would just…
+
+290
+00:47:36.060 --> 00:47:42.680
+Barnabas: Yeah, I would just like to test those separate on, Docker Access List Network before we can,
+
+291
+00:47:43.200 --> 00:47:43.690
+stokes: Yeah.
+
+292
+00:47:43.690 --> 00:47:47.230
+Barnabas: Before we can merge it in. But, yeah, they are also…
+
+293
+00:47:47.880 --> 00:47:50.400
+Barnabas: Quite, isolated, so it might…
+
+294
+00:47:50.870 --> 00:48:03.030
+Barnabas: Also, makes sense. If we can do, maybe, local level access to this DevNet 4 on Thursday instead of Friday, then we could try Glamstagram DevNet 0 on Friday as well, just the day after.
+
+295
+00:48:03.210 --> 00:48:10.940
+Barnabas: If it's, if it's stable. If it's not stable, then I would just stick to DevNet3, assuming that DevNet3 is stable by…
+
+296
+00:48:11.600 --> 00:48:12.530
+Barnabas: end of next week.
+
+297
+00:48:13.010 --> 00:48:13.610
+stokes: Yeah.
+
+298
+00:48:16.150 --> 00:48:17.010
+stokes: Okay.
+
+299
+00:48:18.410 --> 00:48:25.370
+stokes: Then, yeah, I think otherwise, from Lighthouse, no strong preference, but lean towards OneDevNet.
+
+300
+00:48:25.480 --> 00:48:34.149
+stokes: So yeah, I mean, I think then I'd go ahead and propose this. Let's skip ePBS DevNet 2, and instead just target DevNet 0 of Glamsterdam.
+
+301
+00:48:34.630 --> 00:48:37.560
+stokes: with the spec versions part of us just gave.
+
+302
+00:48:38.730 --> 00:48:39.790
+stokes: So…
+
+303
+00:48:40.300 --> 00:48:48.850
+Barnabas: Yeah, then Justin would also need to make sure to merge in the slot num and the block.SS list stuff into Alpha 5.
+
+304
+00:48:50.080 --> 00:48:50.710
+stokes: Oh, man.
+
+305
+00:48:52.640 --> 00:48:54.889
+stokes: Yeah, Justin says, sounds good to me…
+
+306
+00:48:56.460 --> 00:48:58.319
+stokes: Terrence, does that work for you?
+
+307
+00:48:58.670 --> 00:49:00.059
+stokes: Okay, he said yes.
+
+308
+00:49:01.470 --> 00:49:02.960
+stokes: Okay, cool.
+
+309
+00:49:03.490 --> 00:49:21.170
+terence: Sorry, I have one last question, if you don't mind that. Is there a block-level asset stack that's out already against consensus Layer, Repo? Because I couldn't find anything out, and I really wanted to implement it, like, last weekend, and yeah, is there something I can do?
+
+310
+00:49:22.340 --> 00:49:28.789
+Toni Wahrstätter: Yes, this exists. You can go to blockaccesslist.xyz and the CR specs.
+
+311
+00:49:29.060 --> 00:49:32.470
+Toni Wahrstätter: or the engine API specs are… link there.
+
+312
+00:49:33.440 --> 00:49:35.459
+terence: But is there a PR that's.
+
+313
+00:49:35.460 --> 00:49:37.799
+Potuz: Yeah, open a PR, man. Stop sending.
+
+314
+00:49:37.800 --> 00:49:38.320
+Toni Wahrstätter: Yeah, it's.
+
+315
+00:49:38.320 --> 00:49:39.380
+Potuz: different…
+
+316
+00:49:40.120 --> 00:49:42.969
+Toni Wahrstätter: Yeah, I'm just on my phone right now, so…
+
+317
+00:49:43.250 --> 00:49:45.890
+Toni Wahrstätter: The link is up there, there is a PR there.
+
+318
+00:49:46.210 --> 00:49:48.199
+terence: Okay, and it's up to date, right?
+
+319
+00:49:49.500 --> 00:49:50.190
+Toni Wahrstätter: Yes.
+
+320
+00:49:50.620 --> 00:49:52.030
+terence: Thank you so much. Awesome.
+
+321
+00:49:55.590 --> 00:50:00.680
+stokes: Yeah, do we know if it's, this link here, Tony, under Features 7928?
+
+322
+00:50:05.460 --> 00:50:06.970
+Toni Wahrstätter: Yes, I think that's it.
+
+323
+00:50:07.760 --> 00:50:08.480
+stokes: Okay.
+
+324
+00:50:09.390 --> 00:50:12.050
+Toni Wahrstätter: I will double-check it, but I think it should be right.
+
+325
+00:50:13.320 --> 00:50:13.900
+stokes: Okay.
+
+326
+00:50:15.670 --> 00:50:25.630
+stokes: Cool. Okay, so are we good then? At least, yeah, Barnabas, are you clear on the changes to this proposal, and then everyone else?
+
+327
+00:50:26.130 --> 00:50:30.179
+stokes: We're clear on targeting Clemstrand bit.0, right?
+
+328
+00:50:31.250 --> 00:50:44.470
+Barnabas: Yeah, one more thing that I would like to discuss is also maybe we can start discussing DevNet1 scope, so that we are, like, aware of, like, what kind of changes we want to be working on during interop.
+
+329
+00:50:45.760 --> 00:50:48.989
+Barnabas: Because we're not gonna have another ACT SQL before that.
+
+330
+00:50:49.420 --> 00:50:52.840
+Barnabas: So, I would propose that,
+
+331
+00:50:53.380 --> 00:50:57.749
+Barnabas: we either do nothing, no additional EIPs, I would…
+
+332
+00:50:58.520 --> 00:51:09.449
+Barnabas: I would not like to offer this as a suggestion, but option B would be to add 8045, which is the exclusion of slash validators.
+
+333
+00:51:09.710 --> 00:51:16.469
+Barnabas: Or option C would be the IP 8080 plus 8061, which is the,
+
+334
+00:51:16.760 --> 00:51:19.769
+Barnabas: Churn rework and the exit via consolidation queue.
+
+335
+00:51:20.720 --> 00:51:26.400
+Barnabas: Both of those, still need to be, merged in into the, consensus spec.
+
+336
+00:51:29.990 --> 00:51:33.540
+Barnabas: I'm just curious, what SEA teams would prefer.
+
+337
+00:51:39.720 --> 00:51:40.800
+stokes: Any thoughts?
+
+338
+00:51:41.610 --> 00:51:50.839
+stokes: I think, yeah, I would generally propose that we focus on getting the other stuff stable first, but then, yeah, if we want to have some things queued up.
+
+339
+00:51:53.520 --> 00:51:56.719
+Barnabas: Yeah, I think we should just have a nice target to hit in case.
+
+340
+00:51:56.720 --> 00:51:58.600
+stokes: Yeah, yeah, I'm thinking, yeah.
+
+341
+00:51:58.990 --> 00:52:01.020
+Barnabas: I mean, the state.
+
+342
+00:52:01.020 --> 00:52:06.270
+stokes: I mean, the, like, options that you have here are, like, very nice staking UX things.
+
+343
+00:52:07.400 --> 00:52:24.899
+Parithosh Jayanthi: Is that defined as a stretch goal for Interop in that case, or what's the plan there? Because I think we haven't stressed anything, and often once we start stressing stuff, we tend to find edge cases, and it's probably very productive if we're together to find those edge cases.
+
+344
+00:52:25.780 --> 00:52:28.259
+stokes: Yeah, I think stretch goal would be good.
+
+345
+00:52:29.130 --> 00:52:29.809
+Barnabas: Yeah, so that…
+
+346
+00:52:29.810 --> 00:52:30.150
+stokes: what'.
+
+347
+00:52:30.150 --> 00:52:39.909
+Barnabas: These are isolated VIPs that, people that are… don't work necessarily own Amsterdam, directly, they could also be focused on this.
+
+348
+00:52:40.010 --> 00:52:45.239
+Barnabas: And they could be, they're pre-isolated, so they could be tested, independently as well.
+
+349
+00:52:51.830 --> 00:52:52.490
+stokes: Okay.
+
+350
+00:52:52.830 --> 00:52:55.599
+stokes: Does the client team have an opinion here?
+
+351
+00:52:57.570 --> 00:53:02.680
+stokes: Otherwise, I'd lean towards nothing, or… these staking EIPs myself.
+
+352
+00:53:08.840 --> 00:53:18.380
+stokes: Okay. I guess another way is just take a look, and Barnabas, you could either ask again on Monday during ACDT, or next week, ACD.
+
+353
+00:53:19.190 --> 00:53:22.990
+stokes: Otherwise, yeah, maybe it's just something we handle, during interop.
+
+354
+00:53:30.220 --> 00:53:31.020
+stokes: Okay.
+
+355
+00:53:31.760 --> 00:53:40.969
+stokes: And then, Barnabas, you had, I think, two other comments. Do you want to cover those now, or do you feel like we've covered them sufficiently? We haven't really talked about them.
+
+356
+00:53:41.500 --> 00:53:46.680
+stokes: This is the cell level deltas and the PR to the 8045.
+
+357
+00:53:46.870 --> 00:53:52.329
+Barnabas: Yeah, so the one… one of them is just, the meta… the IP from Amsterdam.
+
+358
+00:53:53.120 --> 00:54:02.489
+Barnabas: basically moving the networking EIPs into their own section at 70, 71, and 72, and also adding desirable datas,
+
+359
+00:54:02.780 --> 00:54:04.739
+Barnabas: mass-working EIP for Amsterdam.
+
+360
+00:54:06.080 --> 00:54:08.820
+Barnabas: These are all, optional yet this.
+
+361
+00:54:10.730 --> 00:54:12.400
+Barnabas: I think we have done this in the past.
+
+362
+00:54:12.790 --> 00:54:14.659
+Barnabas: It's just a formatting change.
+
+363
+00:54:15.720 --> 00:54:16.410
+stokes: Okay.
+
+364
+00:54:17.010 --> 00:54:19.169
+stokes: What does optional mean here?
+
+365
+00:54:19.330 --> 00:54:22.870
+stokes: That it's in the meta EIP, but you don't have to implement it by the fork?
+
+366
+00:54:23.640 --> 00:54:29.550
+Barnabas: Yeah… Realistically, this is mainly a…
+
+367
+00:54:30.260 --> 00:54:36.070
+Barnabas: a question of these, ELs, with EV70, 71, and 72. Yeah.
+
+368
+00:54:37.290 --> 00:54:43.210
+Barnabas: I, I think, they're also working heavily on implementing all three of those.
+
+369
+00:54:46.940 --> 00:54:47.620
+stokes: Okay.
+
+370
+00:54:50.230 --> 00:54:55.949
+stokes: We could get a temp check here, then take it to ACD next week, then? Potu, so you have your hand up?
+
+371
+00:54:57.260 --> 00:55:02.949
+Potuz: I want to ask a technical question, it's going to be fast, but point me later when you finish this topic.
+
+372
+00:55:04.640 --> 00:55:05.330
+stokes: Okay.
+
+373
+00:55:08.310 --> 00:55:17.609
+stokes: Yeah, does anyone here have an issue with including this PR? Which adds… yeah, 8136?
+
+374
+00:55:17.860 --> 00:55:19.190
+stokes: to the Meta EIP?
+
+375
+00:55:25.610 --> 00:55:32.729
+stokes: This is generally consistent with what we've discussed in the past, and what I think many of you are working on, so it's not a surprise.
+
+376
+00:55:39.550 --> 00:55:40.380
+stokes: Okay.
+
+377
+00:55:40.590 --> 00:55:42.040
+stokes: We got it, it's fine.
+
+378
+00:55:42.610 --> 00:55:43.760
+stokes: From Lighthouse?
+
+379
+00:55:45.080 --> 00:55:48.300
+stokes: Do you want to run this by the AL devs next week, Barnabas?
+
+380
+00:55:50.170 --> 00:55:58.119
+Barnabas: I mean, the ELDevs, yeah, for formatting wire share, but the addition of the,
+
+381
+00:55:59.530 --> 00:56:04.570
+Barnabas: of the partial sales EIP that… Doesn't concern them.
+
+382
+00:56:04.870 --> 00:56:06.790
+Barnabas: Only concerns the sellers.
+
+383
+00:56:08.170 --> 00:56:08.830
+stokes: Okay.
+
+384
+00:56:09.900 --> 00:56:16.900
+stokes: I guess the question is, what if we include this in the media IP, and then it doesn't get shipped with Amsterdam? Like, is that weird?
+
+385
+00:56:17.830 --> 00:56:20.549
+stokes: Do we just take it out later? Do we mark it optional?
+
+386
+00:56:20.960 --> 00:56:29.889
+Barnabas: I mean, the… yeah, the partial cell is optional, and we have two client implementations that are pretty much relatable, so…
+
+387
+00:56:30.840 --> 00:56:41.540
+Barnabas: I think others are also working on it. I think it would be a nice stretch goal as well for everyone to try to merge it in by Amsterdam. That's why I would like to list it there.
+
+388
+00:56:41.860 --> 00:56:42.440
+stokes: Yeah.
+
+389
+00:56:43.990 --> 00:56:48.199
+Barnabas: Yeah, you're also allowed to ship partials ahead of Grand Sterdam.
+
+390
+00:56:48.480 --> 00:56:52.170
+Barnabas: If it would be just nice to start testing it on a… when I…
+
+391
+00:56:52.860 --> 00:56:58.429
+Barnabas: And, if you have your changes in the trunk branches, just let us know, and then you can,
+
+392
+00:56:59.110 --> 00:57:00.779
+Barnabas: That's just a joke. Okay, never mind that.
+
+393
+00:57:02.760 --> 00:57:10.590
+stokes: It was ambitious, but yeah, a joke, but also ambitious. Yeah, okay, then I would say let's go ahead and merge this in.
+
+394
+00:57:10.870 --> 00:57:13.069
+stokes: And, yeah, we should be good there.
+
+395
+00:57:13.520 --> 00:57:17.670
+stokes: And then… did you want to talk about 8045?
+
+396
+00:57:17.670 --> 00:57:18.060
+Barnabas: Yeah.
+
+397
+00:57:18.060 --> 00:57:19.140
+stokes: Wrap up this section.
+
+398
+00:57:19.530 --> 00:57:24.589
+Barnabas: So, 8445, has a little bit of,
+
+399
+00:57:25.310 --> 00:57:40.739
+Barnabas: change that I'm proposing. So, originally, the idea was that, slash editor should be excluded from proposing blocks, but I would like to expand the scoping to, exclude it to… from all the later Qtys.
+
+400
+00:57:45.540 --> 00:57:53.140
+stokes: Yeah, I took a look, and this might look kind of heavy, just because it touches more of the spec rather than less.
+
+401
+00:57:53.920 --> 00:57:57.280
+stokes: But yeah, I think generally this is probably…
+
+402
+00:57:57.690 --> 00:57:59.580
+stokes: Some people need about the protocol?
+
+403
+00:57:59.780 --> 00:58:00.570
+Barnabas: Yeah.
+
+404
+00:58:02.080 --> 00:58:04.270
+stokes: Has anyone else had a chance to look at this?
+
+405
+00:58:13.390 --> 00:58:19.800
+stokes: So, yeah, just to reiterate, this would… so 8045 right now, it says if you're slashed, you can't propose.
+
+406
+00:58:20.000 --> 00:58:24.680
+stokes: And this change just extends it to all duties, so if you're slashed, you just don't do anything.
+
+407
+00:58:36.020 --> 00:58:37.120
+stokes: Any thoughts?
+
+408
+00:58:39.120 --> 00:58:47.500
+Potuz: We've never had time to actually check on the problem that this brings, which is the fact that,
+
+409
+00:58:47.830 --> 00:58:56.689
+Potuz: It changes the kind of states that we can use, from being head, or anything that is compatible with the shuffling, to being the right state.
+
+410
+00:58:57.180 --> 00:59:12.790
+Potuz: having the… not only the shuffling, but the right balances. I'm scared of that change, but I haven't really thought deeply about it, because we're implementing something else. My default would be not to include this and aim it for later, if we find time to analyze that statement.
+
+411
+00:59:20.310 --> 00:59:21.650
+stokes: Those are good points.
+
+412
+00:59:22.530 --> 00:59:25.119
+stokes: Any other thoughts on this?
+
+413
+00:59:27.460 --> 00:59:34.470
+stokes: If not, I would maybe suggest Barnabas. We just… Run this again during interop.
+
+414
+00:59:34.950 --> 00:59:37.520
+stokes: And see if we can make more progress in person.
+
+415
+00:59:37.730 --> 00:59:38.410
+stokes: Yup.
+
+416
+00:59:40.570 --> 00:59:47.610
+stokes: Okay, cool. And then, yeah, circling back to BOTUS, I'm assuming you might have a question about the FOCIL stuff?
+
+417
+00:59:48.010 --> 00:59:56.029
+Potuz: Yeah, so I'm reading the spec, I just want to make sure of something. The changes are that we change the payload.
+
+418
+00:59:56.070 --> 01:00:12.240
+Potuz: And… that's it. Nothing else. I mean, there's a corresponding engine API call, because the payload will have this extra… this extra thing, but it seems wrong to me to have this root, and the header changes in the beacon state. This should not affect the beacon state at all.
+
+419
+01:00:12.240 --> 01:00:29.510
+Potuz: And I think it's also wrong to change the process execution payload. We should not change the process execution payload at all. So I think the only changes are on structure, just the payload changes, and the engine API changes. And Slot NAM also changes the engine API with a…
+
+420
+01:00:29.510 --> 01:00:36.699
+Potuz: with, attributes. But there's no structured changes on the CL side, as far as I can say, besides the payload change.
+
+421
+01:00:38.530 --> 01:00:40.849
+Potuz: If that's the case, I can open the PR right now.
+
+422
+01:00:40.850 --> 01:00:44.929
+Toni Wahrstätter: Yeah, I think that's right. That sounds about right, and go for it.
+
+423
+01:00:48.290 --> 01:00:55.200
+Barnabas: If you're, gonna do this engine API change anyway. Do we also want to now…
+
+424
+01:00:56.990 --> 01:01:05.080
+Barnabas: To the new payload response, add the field to the new payload response, so we would remove the duplicate data that we were talking about in the beginning.
+
+425
+01:01:05.450 --> 01:01:08.099
+Barnabas: Introduced in 5094.
+
+426
+01:01:20.040 --> 01:01:25.370
+stokes: Karen says here in the chat, we should do that to be consistent. I think that was about the current question, right?
+
+427
+01:01:29.850 --> 01:01:35.959
+Nico Flaig: So I think we need to see how ELs handle this right now, maybe before doing that.
+
+428
+01:01:36.420 --> 01:01:53.739
+Nico Flaig: Because from my understanding, is we sent this as part of the new payload right now, and then the EL basically generates the execution requests from the receipts of the transactions, and then compares the two lists, and if they don't match, then the payload is invalid.
+
+429
+01:01:53.990 --> 01:02:03.630
+Nico Flaig: So with that change, what we would need to do is the EL sends back the list, and the CL checks the response against the commitment.
+
+430
+01:02:04.030 --> 01:02:08.300
+Nico Flaig: And to see if they match to what the builder committed to.
+
+431
+01:02:09.810 --> 01:02:14.840
+Nico Flaig: But I'm not sure, we just talked about this on Discord, so…
+
+432
+01:02:15.460 --> 01:02:21.640
+Nico Flaig: I don't think we have looked into the details yet, and it would be good to have ELDevs chime in.
+
+433
+01:02:24.700 --> 01:02:31.560
+Barnabas: Nico, could you maybe open a PR on the execution API side, so that the EL devs can take a look at that?
+
+434
+01:02:31.970 --> 01:02:37.180
+Barnabas: And see if, if it's something that we could, be targeting for the next, DevNet.
+
+435
+01:02:38.950 --> 01:02:41.160
+Nico Flaig: IS, definitely, I can do that, yeah.
+
+436
+01:02:43.870 --> 01:02:47.780
+Barnabas: I would actually target this optimization,
+
+437
+01:02:48.810 --> 01:02:52.850
+Barnabas: now, because we are touching the engine API now anyway.
+
+438
+01:02:53.290 --> 01:02:56.179
+Barnabas: So the AIL teams would have to,
+
+439
+01:02:56.800 --> 01:03:00.289
+Barnabas: Make the changes, and this just feels like a small change.
+
+440
+01:03:02.860 --> 01:03:19.849
+Potuz: Well, it's not really small, because it would affect also the objects that we're gossiping on the CL side, it would affect the way that we're handling things. We expected the request to be on the envelope, and now we no longer would expect the request to be on the envelope.
+
+441
+01:03:19.850 --> 01:03:27.050
+Potuz: I think it's an easy change, I just think if we keep piling changes, we're never gonna ship. I want to ship.
+
+442
+01:03:36.230 --> 01:03:36.940
+stokes: Okay.
+
+443
+01:03:37.130 --> 01:03:39.359
+stokes: So, are we gonna do this or not right now?
+
+444
+01:03:40.580 --> 01:03:48.670
+Barnabas: Maybe let's open the, the PR on the Engine API spec, and then, circle back to it during interop.
+
+445
+01:03:48.870 --> 01:03:58.330
+Potuz: It's not only an engine API change, it's a PR that needs to be included in the CL repo as well. I mean, it's not an engine… an engine change.
+
+446
+01:03:58.650 --> 01:04:00.709
+Potuz: It's a consensus change as well.
+
+447
+01:04:05.850 --> 01:04:14.509
+stokes: Okay, so then maybe to move forward, if someone can open the PR, we can start to wrap our heads around it, and yeah, we'll figure out if it's an interrupt thing or a post-interrupt.
+
+448
+01:04:16.110 --> 01:04:17.010
+stokes: Sound good?
+
+449
+01:04:24.970 --> 01:04:25.630
+stokes: Okay.
+
+450
+01:04:27.600 --> 01:04:28.800
+stokes: Cool.
+
+451
+01:04:29.660 --> 01:04:32.949
+stokes: Okay, Justin had one more question.
+
+452
+01:04:34.900 --> 01:04:36.839
+stokes: I'm not sure what this is.
+
+453
+01:04:37.200 --> 01:04:39.620
+stokes: Do you… can you give us a summary of the change, Justin?
+
+454
+01:04:40.900 --> 01:04:48.860
+Justin Traglia: Yeah, it just swaps two fields in the, state. I mean, it makes sense, but it's just, maybe a little annoying to implement.
+
+455
+01:04:51.980 --> 01:04:53.710
+stokes: Let's see… interesting.
+
+456
+01:04:55.580 --> 01:04:56.770
+stokes: Okay…
+
+457
+01:04:57.730 --> 01:04:59.620
+Justin Traglia: I don't… Just wanting a confirmation.
+
+458
+01:04:59.620 --> 01:05:01.640
+stokes: I had a chance to look at this.
+
+459
+01:05:01.910 --> 01:05:05.300
+stokes: Yeah, I don't know. We have a good number of people saying it's fine.
+
+460
+01:05:05.570 --> 01:05:07.540
+stokes: So yeah, we'll just go ahead and merge it then.
+
+461
+01:05:10.720 --> 01:05:11.640
+stokes: Thank you.
+
+462
+01:05:15.090 --> 01:05:19.670
+stokes: Okay, cool. I lost the agenda, here it is.
+
+463
+01:05:20.160 --> 01:05:25.250
+stokes: Okay, anything else on Glamsterdam?
+
+464
+01:05:26.320 --> 01:05:31.079
+stokes: Maria wanted to give an update on the repricing stuff, but I think I'm gonna hold that till the end.
+
+465
+01:05:31.590 --> 01:05:36.440
+stokes: If there's time… So we can cover… I go to stuff…
+
+466
+01:05:38.080 --> 01:05:40.260
+stokes: Any other Glensteram things for right now?
+
+467
+01:05:42.560 --> 01:05:46.120
+stokes: It sounds like we have a pretty clear plan to interrupt.
+
+468
+01:05:46.480 --> 01:05:50.539
+stokes: There are many open questions, but that's… that's the point.
+
+469
+01:05:57.270 --> 01:06:00.439
+stokes: Okay, then let's move to Hagota.
+
+470
+01:06:00.740 --> 01:06:08.809
+stokes: And yeah, just a quick reminder, so we've opened the nod headliner proposal process, or window, I should say.
+
+471
+01:06:09.130 --> 01:06:12.119
+stokes: This is gonna run for some time.
+
+472
+01:06:13.510 --> 01:06:27.820
+stokes: I think ultimately, you know, it'd be best to kind of time this with Amsterdam progress, and that's a bit uncertain at the moment, so then that means the end of this window is a bit uncertain, but ultimately, there will be ample notice.
+
+473
+01:06:28.460 --> 01:06:34.869
+stokes: For people both here and watching this recording, either, you know, now or later.
+
+474
+01:06:35.020 --> 01:06:39.799
+stokes: Anyone in the community who hears this, yeah, you'll get a notice about that.
+
+475
+01:06:40.160 --> 01:06:47.459
+stokes: You should assume you'll have, yeah, yeah, probably weeks, like, more than a month at this point, from today.
+
+476
+01:06:47.990 --> 01:06:49.760
+stokes: But yeah, so…
+
+477
+01:06:50.000 --> 01:06:58.120
+stokes: We are there, and point being, already today, there were two requests to discuss some proposals.
+
+478
+01:06:58.480 --> 01:07:04.429
+stokes: So, let me make sure I get this in order. Okay, the first one, from Ocean…
+
+479
+01:07:04.590 --> 01:07:12.980
+stokes: EIP7716, if you're here and want to take a couple minutes to give us the TLDR, now would be a good time.
+
+480
+01:07:13.450 --> 01:07:16.929
+Oisin Kyne: Perfect. Am I sharing my screen properly?
+
+481
+01:07:16.930 --> 01:07:18.009
+stokes: I can see it, yeah.
+
+482
+01:07:18.600 --> 01:07:31.480
+Oisin Kyne: Sweet. Nice to meet you, everyone. Plan here is to briefly reintroduce you guys to an EIP that we'd like to put forward for Hegota, called, Correlated Downtime Penalties.
+
+483
+01:07:32.120 --> 01:07:45.159
+Oisin Kyne: So the problem that we're looking to solve with this is that liveness failures aren't particularly penalized unless and until you go over 66% downtime. That's when the kind of quadratic
+
+484
+01:07:45.160 --> 01:07:56.259
+Oisin Kyne: penalty kicks in, so for the most part, you know, losing 10% of the network doesn't have a particularly significant impact on those offline, and it, in fact, also penalizes the people online.
+
+485
+01:07:56.260 --> 01:08:07.639
+Oisin Kyne: We think this is a bit of a missed opportunity, and something we can do to try and incentivize people not to have the most correlated setups, so that we're in a better position if ever there is some kind of mass slashing situation.
+
+486
+01:08:08.210 --> 01:08:24.409
+Oisin Kyne: The EIP is pretty simple and kind of concept, and then the implementation side we can kind of talk about. But, something that's pretty important to note is that, this penalty spikes up literally just at the beginning of this, like, decrease.
+
+487
+01:08:24.439 --> 01:08:41.229
+Oisin Kyne: And it doesn't actually continue to have high penalties while downtime is ongoing. This isn't deliberate such that, you know, the bigger centralized entity that has on-call teams and can, you know, get things rectified faster, don't, you know, have a benefit versus, you know, the smaller orgs.
+
+488
+01:08:41.390 --> 01:08:43.790
+Oisin Kyne: And, you know, pictures says a thousand words.
+
+489
+01:08:44.439 --> 01:08:58.780
+Oisin Kyne: Why does this matter? Right now, I think the validator set is not in really a great shape from a decentralization perspective. Delegating fees are, like, you know, 1% and zero, so a lot of small and medium operators are shutting down.
+
+490
+01:08:58.779 --> 01:09:07.410
+Oisin Kyne: And a lot of people are kind of agglomerating in a couple of cheap bare-metal data centers in Europe, and I think that proves a risk to the network.
+
+491
+01:09:07.760 --> 01:09:21.480
+Oisin Kyne: As I mentioned earlier, I think a key upside for this is if we correlated penalize on liveness, that will have us in a better position, that we're less likely to be in a correlated slashing position if that ever happens.
+
+492
+01:09:21.649 --> 01:09:33.760
+Oisin Kyne: Generally speaking, the kind of way this impacts the solo stakers and geographically diverse stakers see no change from the usual downtime penalties, and this mostly impacts the kind of larger operators.
+
+493
+01:09:33.890 --> 01:09:40.039
+Oisin Kyne: You can see here from research by Tony, kind of two graphs to try and, like, exemplify this.
+
+494
+01:09:40.040 --> 01:09:55.839
+Oisin Kyne: So, here in, kind of, his clustering analysis, you can see the smaller clusters, see the reduction in penalty, and looking at it by, kind of, named orgs, Rocketpool and Solo Stakers stand out as the people that get, you know, the biggest reduction in penalties. Everyone else gets mostly a modest increase, if anything.
+
+495
+01:09:56.520 --> 01:10:04.050
+Oisin Kyne: the kind of key questions that I've kind of, like, pre-prepared or surfaced from people between here and an SFI decision.
+
+496
+01:10:04.050 --> 01:10:17.139
+Oisin Kyne: is things like, you know, do we have the curve the right shape? Is this actually enough? Right now, it's set to only have a 4X increase. I'd love to kind of straw poll people that kind of have a decision around.
+
+497
+01:10:17.140 --> 01:10:30.200
+Oisin Kyne: If we did lose 20% of the network, how many, you know, days or weeks does it feel appropriate to make it back, such that you incentivize yourself to, like, change the provider and not end up in a situation where you're, you know, down with 20% of the network in the future?
+
+498
+01:10:30.440 --> 01:10:44.599
+Oisin Kyne: Questions around, you know, client diversity, small validators, could it increase adversarial behavior? Does timing games come into this? You know, can that, you know, harm the kind of most decentralized end?
+
+499
+01:10:44.600 --> 01:11:02.629
+Oisin Kyne: does it change the STF by much? Could it do anything weird on, like, the chain tip? You know, does this impact operator consolidation? I think that one, not really. It's, like, based on ETH, not on key count, and the usual, you know, opportunity cost of, is it worth it versus other decentralized EIPs.
+
+500
+01:11:02.750 --> 01:11:16.479
+Oisin Kyne: The published research is, you know, one from Vitalik originally, two from Tony. There are links here. I straw-pull some of the client teams, and you can kind of see some open issues that are like, yeah, you know, soft yes, but need to, like, harden some questions.
+
+501
+01:11:16.770 --> 01:11:28.950
+Oisin Kyne: And that's pretty much it, and would love to get anyone's, you know, feedback, either verbally or in the chat, about things that you'd like to see solidified in this to bring it on the maturity path for Hegota. Thank you.
+
+502
+01:11:31.560 --> 01:11:34.600
+stokes: Great, thanks. Any questions?
+
+503
+01:11:38.920 --> 01:11:47.310
+stokes: One thing that might be helpful is, like, a very, you know, sort of initial early, proof-of-concept implementation, just to de-risk
+
+504
+01:11:47.470 --> 01:11:51.929
+stokes: the scope here, when we do go to think about including this with other things in Agoda.
+
+505
+01:11:52.780 --> 01:11:59.549
+stokes: And it might be a little tricky to get that, but I think the more you can do, the merrier.
+
+506
+01:11:59.920 --> 01:12:03.929
+Oisin Kyne: Bill implied that there was a mock implementation before, I don't know who NC is.
+
+507
+01:12:09.670 --> 01:12:12.040
+stokes: Nc, I think, from Lodestar.
+
+508
+01:12:14.740 --> 01:12:20.259
+stokes: But either way, yeah, just something to keep in mind, and if you have someone you've been working with, just follow up.
+
+509
+01:12:21.250 --> 01:12:23.890
+stokes: Cool. Cool, yeah, thanks.
+
+510
+01:12:25.200 --> 01:12:38.069
+stokes: Okay, next up then, we had another proposal from Dimitri here for EIP8205, if you'd also like to take a few minutes to say some words about it.
+
+511
+01:12:38.760 --> 01:12:58.750
+Dima Gusakov | Lido: Sure. Unfortunately, I'm not that well prepared as Ocean, and I do not have slides. However, the thing that I want to present today is pretty simple and straightforward, and probably none of you would need, any slides to understand what we are trying to solve. So what we are trying to solve with, 8205
+
+512
+01:12:58.890 --> 01:13:02.620
+Dima Gusakov | Lido: is a… very long leaving.
+
+513
+01:13:03.020 --> 01:13:10.380
+Dima Gusakov | Lido: deposit front-run vulnerability. So, as you all know, right now, when you make a deposit to a validator.
+
+514
+01:13:10.530 --> 01:13:21.699
+Dima Gusakov | Lido: Only the first one counts, and the first deposit, larger than 1ETH, for sure, will set withdrawal credentials for the validator once and for all.
+
+515
+01:13:22.030 --> 01:13:36.260
+Dima Gusakov | Lido: So, with the delegated staking, where the funds are controlled by one entity, and the validator is controlled, the validator private key is controlled by the other entity, which is the absolute majority of all Ethereum staked.
+
+516
+01:13:36.400 --> 01:13:40.780
+Dima Gusakov | Lido: For sure. There is a chance that the…
+
+517
+01:13:40.900 --> 01:13:48.759
+Dima Gusakov | Lido: I wouldn't say there's a chance. There is a possibility for the owner of the validator private key to
+
+518
+01:13:49.290 --> 01:13:50.530
+Dima Gusakov | Lido: Frontran.
+
+519
+01:13:50.600 --> 01:14:09.600
+Dima Gusakov | Lido: any deposit transaction made by the counterparty that controls funds, so that they insert their transaction with one EVE deposit, setting up withdrawal credentials to their own address, so that any other transaction from the
+
+520
+01:14:10.760 --> 01:14:24.009
+Dima Gusakov | Lido: funds holder would land on the validator, but since this validator would already have a different withdrawal credential sat, these funds would effectively be stolen by the owner of the validator private key.
+
+521
+01:14:24.270 --> 01:14:34.799
+Dima Gusakov | Lido: And there is no… Like, reasonable way to protect from that, other than sophisticated monitoring systems, other than
+
+522
+01:14:34.820 --> 01:14:46.770
+Dima Gusakov | Lido: Doing multiple checks on-chain and off-chain to ensure that your transaction, your deposit transaction as the holder of the funds, or as the counterparty that controls the funds at the moment.
+
+523
+01:14:46.770 --> 01:14:55.299
+Dima Gusakov | Lido: To ensure that the validator you're making deposit to has not been previously deposited, because, again, the front run might happen
+
+524
+01:14:55.300 --> 01:15:05.069
+Dima Gusakov | Lido: in the same, in the same block using, MEV relays or whatever. So what we are proposing here is a simple and elegant solution to this problem.
+
+525
+01:15:05.070 --> 01:15:24.260
+Dima Gusakov | Lido: Given that, starting from the introduction of EIP4788, which allows execution layer to get access to the data on the consensus layer, we propose to leverage this opportunity and introduce a pre-registration, an optional pre-registration mechanism for the
+
+526
+01:15:24.580 --> 01:15:42.509
+Dima Gusakov | Lido: validator keys, so that, before making any deposit, a staking protocol or any delegated staking entity, like using smart contracts or not using smart contracts, can ensure that the pre-registration exists
+
+527
+01:15:42.610 --> 01:15:57.300
+Dima Gusakov | Lido: For the given validator key, and that they can safely make a deposit, making sure that their transaction would not be front-run, and the withdrawal credentials would not be set to a different address.
+
+528
+01:15:57.300 --> 01:16:11.360
+Dima Gusakov | Lido: The pre-registrations happen through a simple mechanism of propagating messages from execution layer to consensus layer in the same way as we do for execution layer withdrawal requests, consolidations, and so on and so forth.
+
+529
+01:16:11.390 --> 01:16:30.380
+Dima Gusakov | Lido: The pre-registration messages and the pre-registration objects, they have a lifetime, so that people would not be able to overextend the consensus layer state, so whenever you do a pre-registration, there is a lifetime after which the pre-registration is removed.
+
+530
+01:16:30.640 --> 01:16:47.920
+Dima Gusakov | Lido: And provided that this information would be stored in the consensus layer staking protocols, and again, any other delegated staking party, would be able to ask for a proof that such a pre-registration exists before making a deposit to a validator key.
+
+531
+01:16:48.140 --> 01:16:57.089
+Dima Gusakov | Lido: And that's pretty much the gist of the EIP. So, the core idea here is to fix, to finally fix this deposit run from…
+
+532
+01:16:57.090 --> 01:17:09.849
+Dima Gusakov | Lido: deposit front-run vulnerability that had been with us since the very, very first day of Beacon Chain, and we are living with the Beacon Chain and the consensus layer for more than 4 years already.
+
+533
+01:17:09.850 --> 01:17:21.970
+Dima Gusakov | Lido: And this thing had never been fixed, so we believe that the time has come to propose and to implement such a small, elegant, and simple fix to this problem.
+
+534
+01:17:22.370 --> 01:17:25.830
+Dima Gusakov | Lido: I'm happy to answer any questions, should you guys have any.
+
+535
+01:17:27.090 --> 01:17:33.429
+stokes: Yeah, I have one that might be straightforward, but how do you prevent front-running of the preregistrations?
+
+536
+01:17:34.230 --> 01:17:53.350
+Dima Gusakov | Lido: you are not preventing from running of the pre-registrations, you are simply saying that you will only make a deposit to a validator if the pre-registration exists with the correct withdrawal credential. If pre-registration exists with an incorrect withdrawal credentials, you will not make a deposit.
+
+537
+01:17:53.350 --> 01:18:04.070
+Dima Gusakov | Lido: So you are basically getting an opportunity to know beforehand that your deposit will succeed and will land on the validator with the correct withdrawal credentials.
+
+538
+01:18:05.870 --> 01:18:09.570
+stokes: Okay, so yeah, it's almost like a pre-commit and then a commit, or like a…
+
+539
+01:18:10.270 --> 01:18:16.909
+stokes: It's like an optimistic thing. If you go to deposit, and it doesn't match… yeah, actually, what happens to the deposit then?
+
+540
+01:18:17.200 --> 01:18:24.559
+Dima Gusakov | Lido: This deposit is simply ignored, in the same way as incorrect deposits are handled these days.
+
+541
+01:18:24.560 --> 01:18:26.249
+stokes: And you burn these.
+
+542
+01:18:26.640 --> 01:18:39.760
+Dima Gusakov | Lido: Correct, but you have the opportunity, and yes, so this mechanism is optional, and if you want to opt in to use this mechanism, you need to make sure that you ask for pre-registration proof before making deposit.
+
+543
+01:18:40.100 --> 01:18:57.950
+Dima Gusakov | Lido: For the others, for those not willing to use this mechanism, they can still continue working in the same way that they did before. So, the beauty of this is that it's fully optional, but for those who are concerned about this vulnerability, there is now a clear path
+
+544
+01:18:58.000 --> 01:19:00.419
+Dima Gusakov | Lido: To resolve this vulnerability.
+
+545
+01:19:04.690 --> 01:19:09.259
+stokes: Yeah, I guess one more quick question, because we have a few minutes.
+
+546
+01:19:09.840 --> 01:19:18.870
+stokes: Yeah, I haven't thought about this myself. I think I talked to Greg about this, actually, at ECC, and haven't had time to think about it since, but…
+
+547
+01:19:19.290 --> 01:19:23.600
+stokes: I do wonder if you can do this with smart contracts, like, you could have…
+
+548
+01:19:23.720 --> 01:19:28.540
+stokes: A pre-registration gate smart contract that then submits the deposit for you.
+
+549
+01:19:28.640 --> 01:19:29.820
+stokes: If it matches.
+
+550
+01:19:30.410 --> 01:19:40.249
+Dima Gusakov | Lido: Unfortunately, right now, with the current state, there is no way to prevent it on the smart contract level, because the game here is very simple.
+
+551
+01:19:40.250 --> 01:19:58.759
+Dima Gusakov | Lido: the owner of the validator private key can always be faster than any transaction you would like to do from the execution layer. And the only case when you can guarantee that is when you guarantee it on the consensus layer where the request is actually processed.
+
+552
+01:19:58.790 --> 01:20:15.909
+Dima Gusakov | Lido: So, right now, and as Barnabas mentioned, yes, there is a way to solve it on the upside, and, like, we're solving it right now. However, it costs, Lido and any other delegated staking protocol, like, literally millions of dollars every year.
+
+553
+01:20:15.910 --> 01:20:27.650
+Dima Gusakov | Lido: to maintain the system. So the current system in LiDAR is probably one of the most sophisticated, because it does not involve, does not involve risking pre-deposits of one ETH.
+
+554
+01:20:28.060 --> 01:20:36.020
+Dima Gusakov | Lido: But the system is complicated and very hard to maintain in between the forks. The other protocols, they use…
+
+555
+01:20:36.330 --> 01:20:40.590
+Dima Gusakov | Lido: they use mechanism, I would call this mechanism rocket pool-like.
+
+556
+01:20:40.610 --> 01:20:58.510
+Dima Gusakov | Lido: where the… either the owner of the private key is required to post a bond of 1 ETH and make this initial deposit of 1 ETH, but this is not acceptable for the protocols where validators do not post a bond at all. And again, this is the majority of the network.
+
+557
+01:20:58.740 --> 01:21:13.740
+Dima Gusakov | Lido: So, the protocols right now are either risking 1 ETH per validator, or having a very complicated system in place, and the problem is that these systems are not standard, and each and every protocol have to pay this price.
+
+558
+01:21:13.740 --> 01:21:24.760
+Dima Gusakov | Lido: So, what we are asking for here, and what we are proposing, is to make a simple change to a consensus layer that would be fully optional, again, and that would not interrupt any…
+
+559
+01:21:25.030 --> 01:21:32.729
+Dima Gusakov | Lido: existing schemes, any existing protocols, especially those making this, 1 ETH pre-deposit.
+
+560
+01:21:33.020 --> 01:21:44.229
+Dima Gusakov | Lido: But would allow many protocols to, stop maintaining this complicated system and stop spending thousands of dollars and focus, again, on the more important things.
+
+561
+01:21:44.770 --> 01:21:58.519
+Dima Gusakov | Lido: like, keeping up with Ethereum and implementing things that are important for Ethereum, other than simply having to maintain this, pretty, pretty heavy-weighted systems.
+
+562
+01:22:01.120 --> 01:22:02.410
+stokes: Yeah. Okay.
+
+563
+01:22:03.350 --> 01:22:05.799
+stokes: Any other questions or comments?
+
+564
+01:22:11.370 --> 01:22:12.759
+stokes: Okay. If not.
+
+565
+01:22:12.760 --> 01:22:13.330
+Dima Gusakov | Lido: Again.
+
+566
+01:22:13.330 --> 01:22:13.800
+stokes: Thanks.
+
+567
+01:22:13.800 --> 01:22:25.159
+Dima Gusakov | Lido: Yeah, like, again, I want to finally point out that the change to the consensus layer itself is, like, extremely simple, and please go check out this EAP. It would not break anything.
+
+568
+01:22:25.280 --> 01:22:29.650
+Dima Gusakov | Lido: And but that would solve a lot of problems.
+
+569
+01:22:29.790 --> 01:22:39.910
+Dima Gusakov | Lido: So, from the implementation perspective, it's… it's a very simple thing, and from LIDAR side, we are ready to develop an audit
+
+570
+01:22:39.910 --> 01:22:52.219
+Dima Gusakov | Lido: The reference implementation of the so-called safe deposit contract, where people would be able to provide their deposit signature, plus the expected withdrawal credentials, plus the proof.
+
+571
+01:22:52.340 --> 01:23:08.630
+Dima Gusakov | Lido: of the fact that pre-registration exists, and make a safe deposit, no questions asked, through a smart contract that will be, again, developed, provided, and audited by LIDAR if such a reference implementation will be considered as needed.
+
+572
+01:23:11.000 --> 01:23:11.620
+stokes: Okay.
+
+573
+01:23:11.870 --> 01:23:12.800
+stokes: Sounds good.
+
+574
+01:23:14.880 --> 01:23:27.470
+stokes: Okay, thank you. If there are no other questions on that, then yeah, we'll just keep it on the table for later, once we get back to, scoping the headliner proposals.
+
+575
+01:23:27.740 --> 01:23:33.089
+stokes: And yeah, we'll have both this and 7716, in the set.
+
+576
+01:23:34.660 --> 01:23:35.490
+stokes: Okay.
+
+577
+01:23:36.760 --> 01:23:44.929
+stokes: Then I think we are here. We have the last thing on the agenda. Maria wanted to give an update on the repricings.
+
+578
+01:23:45.220 --> 01:23:52.249
+stokes: And I think this is mostly, an EL thing, but, yeah, if you wanted to say something, Maria?
+
+579
+01:23:52.940 --> 01:23:54.589
+stokes: You could take a few minutes.
+
+580
+01:23:54.810 --> 01:24:13.979
+Maria Silva: Right, so it'll be fast, it was just to give a quick update. So we had the Amsterdam repricing breakout, last Wednesday, and, we did a couple of decisions on the final, spec for the state growth EIP, so AT37.
+
+581
+01:24:14.240 --> 01:24:27.859
+Maria Silva: And, I think, it changes, a few things on how, state-related refunds work.
+
+582
+01:24:28.130 --> 01:24:35.260
+Maria Silva: And I can give a bigger update on the next ACDE, but it's just to,
+
+583
+01:24:35.280 --> 01:24:44.520
+Maria Silva: just to communicate that, yeah, we've solved the open issues we had on the TIP, so the next spec that Spencer is working on.
+
+584
+01:24:44.520 --> 01:24:56.340
+Maria Silva: should be more stable, but also to say that we kind of did a rework on how state gas is charged and refunded. That, I think now aligns much more to
+
+585
+01:24:56.410 --> 01:25:11.169
+Maria Silva: the actual cost. So, we only really charge for state growth when actual state is created, which I think it's, it's nice. So yeah, just a quick update on that. And again, I can,
+
+586
+01:25:11.280 --> 01:25:15.589
+Maria Silva: probably do a bigger update in the… in the next ACD.
+
+587
+01:25:16.440 --> 01:25:17.240
+Maria Silva: Thank you.
+
+588
+01:25:18.400 --> 01:25:20.230
+stokes: Alright, amazing. Thank you.
+
+589
+01:25:21.590 --> 01:25:30.840
+stokes: If there are no follow-up question or… questions or comments about that, yeah, anyone have anything?
+
+590
+01:25:31.560 --> 01:25:35.030
+stokes: Spencer here has a link to spec changes for that as well.
+
+591
+01:25:37.840 --> 01:25:46.559
+stokes: Okay, I believe this is everything on the agenda. Let me just make a quick scan here, but I think we touched on it all.
+
+592
+01:25:47.120 --> 01:25:53.500
+stokes: Okay, cool. Yeah, if there's nothing else, then… yeah, again, I think everyone will be…
+
+593
+01:25:53.750 --> 01:25:55.570
+stokes: Very busy. Oh, Barnabas?
+
+594
+01:25:56.320 --> 01:26:07.129
+Barnabas: Yeah, all the EL devs, please start to think about what would you like also in Amsterdam, Dev, not one scope, which kind of EIPs, because we still have a bunch of, EL-side EIPs.
+
+595
+01:26:08.550 --> 01:26:11.840
+Barnabas: And just check my comment on ACDC.
+
+596
+01:26:13.860 --> 01:26:14.850
+stokes: Hmm, okay.
+
+597
+01:26:14.980 --> 01:26:16.119
+stokes: Potus?
+
+598
+01:26:16.310 --> 01:26:29.389
+Potuz: I opened the Trivial PR for balls on the CL side. It seems to me that it's only the payload change and nothing else. If we can agree on the engine API changes for the DevNet, that would be great.
+
+599
+01:26:29.390 --> 01:26:36.439
+Potuz: In particular, it seems to me that it's only the changes on the engine API that we send the balls now on the… with the payload.
+
+600
+01:26:36.440 --> 01:26:50.330
+Potuz: And, the… the slot number, if we send them on the… on the paid order attributes, I don't know if that should be in the DevNet or not, but let's try to get the engine API ready quickly, so we can just start.
+
+601
+01:26:50.530 --> 01:26:52.520
+Potuz: Having this now undeveloped.
+
+602
+01:26:54.760 --> 01:26:56.659
+stokes: Okay, yeah, thanks for putting that together.
+
+603
+01:26:57.830 --> 01:26:59.170
+stokes: Very fast.
+
+604
+01:27:01.010 --> 01:27:10.779
+stokes: Okay, there was one thing here from Mark, just a heads up, we will have a native account obstruction breakout next Wednesday, 1500 UTC.
+
+605
+01:27:11.350 --> 01:27:18.419
+stokes: And, the agenda is linked here in the chat, if you want that. Otherwise, it's on… it's in the PM repo.
+
+606
+01:27:19.740 --> 01:27:21.280
+stokes: And, okay.
+
+607
+01:27:22.380 --> 01:27:27.350
+stokes: I think, then, that's it. Again, last call for anything else.
+
+608
+01:27:31.390 --> 01:27:41.690
+stokes: Okay. If not, then great, yeah, I think everyone will be super busy getting the deadnets together as we move towards Interrupt, and yeah, good luck with that, everyone.
+
+609
+01:27:42.040 --> 01:27:44.950
+stokes: And I'll see you next time. Thank you.
+
+610
+01:27:46.180 --> 01:27:47.140
+Potuz: Bye-bye.
+
+611
+01:27:48.450 --> 01:27:49.140
+Justin Traglia: Hi, everyone.
+
