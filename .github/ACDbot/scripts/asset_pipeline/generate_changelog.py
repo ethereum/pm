@@ -24,7 +24,6 @@ Identify misspelled Ethereum-specific terms in this WebVTT transcript that shoul
 2. Terms must be safe for global find/replace (no common words that could cause false positives)
 3. Focus on proper nouns, protocol names, technical terms from the vocabulary reference
 4. Only correct obvious transcription errors where context supports the correction
-5. Do not rewrite plausible Ethereum acronyms or terms into different canonical terms; only fix obvious casing, spacing, or unmistakable transcription errors
 6. When uncertain, leave unchanged
 
 ## Examples of GOOD corrections (specific terms):
