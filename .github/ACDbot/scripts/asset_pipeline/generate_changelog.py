@@ -24,9 +24,8 @@ Identify misspelled Ethereum-specific terms in this WebVTT transcript that shoul
 2. Terms must be safe for global find/replace (no common words that could cause false positives)
 3. Focus on proper nouns, protocol names, technical terms from the vocabulary reference
 4. Only correct obvious transcription errors where context supports the correction
-5. Never replace one valid Ethereum acronym or term with another valid Ethereum acronym or term unless the transcript makes the intended correction explicit
-6. Short uppercase tokens (2-5 letters) are especially risky. If they already look like a plausible acronym, leave them unchanged unless the correction is an obvious casing or spacing fix from the vocabulary
-7. When uncertain, leave unchanged
+5. Do not rewrite plausible Ethereum acronyms or terms into different canonical terms; only fix obvious casing, spacing, or unmistakable transcription errors
+6. When uncertain, leave unchanged
 
 ## Examples of GOOD corrections (specific terms):
 - Nethermine → Nethermind
@@ -38,7 +37,6 @@ Identify misspelled Ethereum-specific terms in this WebVTT transcript that shoul
 - Full sentences or long phrases
 - Common words like "the", "from", "and"
 - Phrases with punctuation that may not match exactly
-- Replacing one valid acronym with another (for example: BAL → FOCIL)
 
 ## Output Format
 Return ONLY a TSV (tab-separated) with these columns, no markdown formatting:
