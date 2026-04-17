@@ -24,7 +24,7 @@ Identify misspelled Ethereum-specific terms in this WebVTT transcript that shoul
 2. Terms must be safe for global find/replace (no common words that could cause false positives)
 3. Focus on proper nouns, protocol names, technical terms from the vocabulary reference
 4. Only correct obvious transcription errors where context supports the correction
-6. When uncertain, leave unchanged
+5. When uncertain, leave unchanged
 
 ## Examples of GOOD corrections (specific terms):
 - Nethermine → Nethermind
