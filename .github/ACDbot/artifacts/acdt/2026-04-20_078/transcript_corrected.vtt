@@ -1,0 +1,1782 @@
+WEBVTT
+
+1
+00:02:30.450 --> 00:02:31.300
+Mario Vega: Nope.
+
+2
+00:02:34.770 --> 00:02:35.790
+Justin Traglia: Good morning.
+
+3
+00:04:42.890 --> 00:04:49.629
+Mario Vega: Hi, everyone. We'll just give a couple more minutes, to give time to join, and we can start.
+
+4
+00:06:02.540 --> 00:06:06.360
+Mario Vega: Alright. Do we have everything to start the recording?
+
+5
+00:06:10.310 --> 00:06:12.750
+David (dionysuz): Yeah, it's… it should be ready to go.
+
+6
+00:06:14.620 --> 00:06:16.040
+Mario Vega: Alright, thank you.
+
+7
+00:06:16.720 --> 00:06:22.480
+Mario Vega: All right, so welcome, everyone, to ACDT number 78. Today is April 20th.
+
+8
+00:06:22.710 --> 00:06:26.960
+Mario Vega: Mainly we'll focus on discussing DevNets today.
+
+9
+00:06:27.160 --> 00:06:32.209
+Mario Vega: So, yeah, let's just get started. And the first topic is blob DevNets.
+
+10
+00:06:32.480 --> 00:06:37.029
+Mario Vega: Blood Delta Serum, and I think Barnabas, that's,
+
+11
+00:06:37.210 --> 00:06:40.110
+Mario Vega: Your domain? Do you have an update on this?
+
+12
+00:06:40.860 --> 00:06:57.460
+Barnabas: There's no, currently, any updates. I think most of the CL teams are focusing on, shipping ePBS. We currently have still just Prysm and Lighthouse deployed on them. Last week, we have enabled partial cells on every single node, and we're experimenting with that.
+
+13
+00:07:01.230 --> 00:07:02.920
+Mario Vega: Alright, thanks.
+
+14
+00:07:03.060 --> 00:07:08.540
+Mario Vega: Any points to be raised by any of the client teams? We're gonna need a lot of minutes.
+
+15
+00:07:11.480 --> 00:07:15.240
+Barnabas: It would be good to start onboarding other clients here as well.
+
+16
+00:07:17.880 --> 00:07:22.549
+Mario Vega: Which are the ones that are currently, joined and not, and who is missing?
+
+17
+00:07:22.550 --> 00:07:24.300
+Barnabas: It's Prysm and Lighthouse only.
+
+18
+00:07:25.500 --> 00:07:26.960
+Barnabas: Everyone else is missing.
+
+19
+00:07:30.150 --> 00:07:32.439
+Mario Vega: Alright, anyone from Nimbus?
+
+20
+00:07:33.320 --> 00:07:36.140
+Mario Vega: Lodestar, who want to chime in?
+
+21
+00:07:42.250 --> 00:07:47.770
+Nico Flaig: Yeah, for us, there's still a few pieces missing we need to get done, probably this week.
+
+22
+00:07:54.960 --> 00:07:59.150
+Mario Vega: Alright, thank you. Anyone from Nimbus?
+
+23
+00:08:01.480 --> 00:08:03.960
+Mario Vega: This is blob.net server, by the way.
+
+24
+00:08:06.850 --> 00:08:10.360
+Nico Flaig: Oh, never mind my comment. I was thinking ePBS, Definite.
+
+25
+00:08:10.670 --> 00:08:11.509
+Mario Vega: Oh, I see.
+
+26
+00:08:11.830 --> 00:08:12.630
+Mario Vega: Got it.
+
+27
+00:08:18.970 --> 00:08:21.789
+Mario Vega: Alright, I think… I don't think there's anyone from Nimbus.
+
+28
+00:08:23.570 --> 00:08:26.449
+Mario Vega: Should we jump into the next topic, then?
+
+29
+00:08:26.820 --> 00:08:29.610
+Mario Vega: Or, Barnabas, do you want to… .
+
+30
+00:08:30.170 --> 00:08:30.900
+Barnabas: Yeah, because my wife.
+
+31
+00:08:30.900 --> 00:08:33.320
+Mario Vega: PowerPoint Alright, thanks.
+
+32
+00:08:33.990 --> 00:08:39.580
+Mario Vega: Yeah, let's move on straight to, blog level access list, DevNets.
+
+33
+00:08:39.720 --> 00:08:55.780
+Mario Vega: There was a comment in the agenda today by Marius that, he suggested that we should jump directly into Glamsterdam.devNet 0 instead of going into, Block Level Access Lists.devnet 4. So Marius, would you like to, explain on the topic?
+
+34
+00:08:57.970 --> 00:09:03.669
+Marius Van Der Wijden (M): Oh, give me a second, I'm in the room, and my fiance is also in the call, so…
+
+35
+00:09:11.690 --> 00:09:13.030
+Marius Van Der Wijden (M): Okay, so…
+
+36
+00:09:13.460 --> 00:09:24.680
+Marius Van Der Wijden (M): Basically, what we want to do is we want to move, to a world that has all of the changes for Glamsterdam as soon as possible.
+
+37
+00:09:25.100 --> 00:09:40.339
+Marius Van Der Wijden (M): And there's two ways to do… of doing it. We can either go to VelDefNet 4, or we can go to Limited DevNet 0. What we would gain by going to BAL DevNet 4 is that there is a…
+
+38
+00:09:41.060 --> 00:10:00.949
+Marius Van Der Wijden (M): That, it's, like, regardless of whether ePBS is happening on… on the consensus layer, we can, we can continue testing stuff on the, on the execution layer. But what we can instead also do is just go to glimpse at M, definite0,
+
+39
+00:10:01.730 --> 00:10:08.349
+Marius Van Der Wijden (M): And then… Get an old version of the consensus layer, to create a network.
+
+40
+00:10:08.810 --> 00:10:14.849
+Marius Van Der Wijden (M): Based off of that, if we feel like the contents layer is not ready.
+
+41
+00:10:15.060 --> 00:10:18.230
+Marius Van Der Wijden (M): for, for Glamsterdam yet.
+
+42
+00:10:18.570 --> 00:10:21.050
+Marius Van Der Wijden (M): Yeah.
+
+43
+00:10:26.180 --> 00:10:31.719
+Mario Vega: So, Barnabas, you have, the other, suggestion, right?
+
+44
+00:10:32.290 --> 00:10:44.029
+Barnabas: Yeah, so basically, we want to make sure that the PBS branch is as stable as possible, so we're not going to be doing any kind of pausing yet in the early days of Amsterdam DevNet Zero, for sure.
+
+45
+00:10:44.160 --> 00:10:52.259
+Barnabas: So, if you want to do fuzzing and benchmarking and stuff like that, I think that should be done on Ball-specific DevNets, like BAL DevNet 4.
+
+46
+00:10:52.280 --> 00:11:04.400
+Barnabas: And ideally, Glamstreet and DevNet3 should be, based on top of, ball DevNet3 plus, the PR770 from Execution APIs.
+
+47
+00:11:08.080 --> 00:11:09.040
+Mario Vega: Yes, produce?
+
+48
+00:11:10.760 --> 00:11:16.150
+Potuz: I want to support what Barnabas is saying. I think,
+
+49
+00:11:16.260 --> 00:11:23.080
+Potuz: the Glamsterdam DevNet Zero should be thought of as an ePBS DevNet. It's not going to be stable.
+
+50
+00:11:23.340 --> 00:11:28.840
+Potuz: And it doesn't matter for us that it's not so stable, and it doesn't matter if
+
+51
+00:11:28.860 --> 00:11:38.199
+Potuz: Block Level Access Lists wants to be testing, like, new features on that DevNet, because it's very unlikely that we're gonna be hit with problems that are gonna be…
+
+52
+00:11:38.210 --> 00:11:52.540
+Potuz: more complicated for us to debug, but I suspect that for EL devs, debugging on an unstable consensus chain is going to be much more complicated. So, my advice for EL devs would be to just have a second,
+
+53
+00:11:52.590 --> 00:12:00.409
+Potuz: just purely EL, just purely bald DevNet, while we test consensus on the Glamsterdam at DevNet0.
+
+54
+00:12:04.540 --> 00:12:05.920
+Mario Vega: Okay, Johnny?
+
+55
+00:12:07.460 --> 00:12:17.969
+Toni Wahrstätter: Yeah, or I can also just echo that… what Potos just said, and also what Barnabas said, just with one small caveat, because Barnabas, you said, we should then
+
+56
+00:12:18.210 --> 00:12:20.760
+Toni Wahrstätter: build, glow as definite.
+
+57
+00:12:21.270 --> 00:12:31.590
+Toni Wahrstätter: or Amsterdam Definite 0 on top of BAL DevNet 3, but we are currently working on BAL DevNet 4, so I guess you mean we build on top of BAL DevNet 4, right?
+
+58
+00:12:31.590 --> 00:12:38.989
+Barnabas: No, because I don't want any 8037 HAVOC on Glamsterdam, that net zero. That's why I.
+
+59
+00:12:38.990 --> 00:12:41.219
+Toni Wahrstätter: But we have it on Definite Free already.
+
+60
+00:12:42.310 --> 00:12:53.989
+Barnabas: No, those are using static values. Yeah, but those are using the static values, not the dynamic ones, and as far as I know, the dynamic values are the ones, that, like, require a huge, rebate.
+
+61
+00:12:53.990 --> 00:12:54.319
+Marius Van Der Wijden (M): you know.
+
+62
+00:12:54.320 --> 00:12:56.059
+Barnabas: the execution of the airplanes.
+
+63
+00:12:56.060 --> 00:13:07.020
+Marius Van Der Wijden (M): No, no, no. No, that is just changing one value. I'm doing a rebase because, because we've merged some stuff, into…
+
+64
+00:13:07.160 --> 00:13:19.439
+Marius Van Der Wijden (M): into… into master and… and rework some of the stuff. That's why we have to do rebase. It's not because of the dynamic value for the… for AT37. Basically, like.
+
+65
+00:13:19.730 --> 00:13:28.839
+Marius Van Der Wijden (M): whether it's a static or a dynamic value shouldn't make a big difference. The calculation is pretty easy.
+
+66
+00:13:28.990 --> 00:13:34.990
+Marius Van Der Wijden (M): The… the bigger point is… is,
+
+67
+00:13:35.350 --> 00:13:41.750
+Marius Van Der Wijden (M): whether, is whether 8037 is correctly implemented, and that is…
+
+68
+00:13:42.010 --> 00:13:48.029
+Marius Van Der Wijden (M): Testable regardless of what the cost per state byte is.
+
+69
+00:13:48.600 --> 00:13:54.619
+Barnabas: Alright, but then, could maybe Dragon mention what he means under disruptive changes?
+
+70
+00:13:56.140 --> 00:14:08.329
+Dragan Rakita: Maybe that's true, forget, but for our EVM, we still need to implement those dynamic changes, and there is additional, like, 4 or 5 additional changes that needed to land on the state gas.
+
+71
+00:14:09.380 --> 00:14:14.720
+Dragan Rakita: So yeah, there is… Yeah, there's multiple trains that need to be done.
+
+72
+00:14:16.870 --> 00:14:23.000
+Marius Van Der Wijden (M): Yes. Like, there are changes that need to be done, also for the GAF side for Definite 4, but…
+
+73
+00:14:23.110 --> 00:14:25.820
+Marius Van Der Wijden (M): Like, those are not super traumatic.
+
+74
+00:14:26.110 --> 00:14:27.309
+Marius Van Der Wijden (M): God, I would say.
+
+75
+00:14:27.430 --> 00:14:34.789
+Marius Van Der Wijden (M): Anyway, like, it seems like everyone is, is, yeah, for making definite for…
+
+76
+00:14:35.020 --> 00:14:43.929
+Marius Van Der Wijden (M): the next, thing for… well, definite 4, and… but I, I think we should not make Glamsterdam DevNet.
+
+77
+00:14:44.400 --> 00:14:49.830
+Marius Van Der Wijden (M): 0 based on, BAL DevNet 3. That would be a pretty huge mess for us.
+
+78
+00:14:51.670 --> 00:14:54.799
+Mario Vega: Alright, let's do Maria, D'Antonio, and Spencer.
+
+79
+00:14:57.070 --> 00:15:13.700
+Maria Silva: Yeah, I think I was just going to… to add that the complication on the dynamic cost was mostly around the test, so the Steel team had to rework a lot of the previous tests to,
+
+80
+00:15:13.700 --> 00:15:31.740
+Maria Silva: to be able to take these dynamic costs into consideration, and my understanding is that most of the work there is being done. Then, I would agree with Dragan, so we do have some spec changes between, BAL DevNet 3 and Bold DevNet 4.
+
+81
+00:15:31.740 --> 00:15:51.349
+Maria Silva: But I feel… I don't know, it's still up to the clients to decide, but I think it would be easier to manage to just have Paul DevNet 4, and then have Glamsterdam feed from… from that development branch, because implementations will be slightly different, and so it's… it's a bit weird to…
+
+82
+00:15:51.350 --> 00:15:58.940
+Maria Silva: be using, like, old implementations of AT37 in the…
+
+83
+00:15:58.950 --> 00:16:08.179
+Maria Silva: interop, DevNet, and then, on the side have, like, continued to work on the new, specs. But yeah.
+
+84
+00:16:08.350 --> 00:16:10.830
+Maria Silva: Happy to also hear your thoughts there.
+
+85
+00:16:12.740 --> 00:16:13.440
+Mario Vega: Tony?
+
+86
+00:16:14.360 --> 00:16:27.769
+Toni Wahrstätter: Yeah, I agree with that, what Marius and Maria just said. We should do DevNet 4, and then have the first Glamstadom DevNet also use DevNet 4 instead of doing Definite 4, and then have the first Glamsterdamdam Defnet, basically.
+
+87
+00:16:27.980 --> 00:16:32.719
+Toni Wahrstätter: Go a step back, and… be a DevNet-free implementation.
+
+88
+00:16:37.460 --> 00:16:38.159
+Mario Vega: That's true.
+
+89
+00:16:39.590 --> 00:16:59.200
+spencer: Yeah, I guess from my side, I think it depends how… like, how quickly do we want to test a glance at RamdevNet? If we just want to quickly test the integration between the EL and the CL, then using Belle DevNet 3 feels good, but if we want to use BAL DevNet 4, then it means the first glance at MDevNet's probably going to be delayed.
+
+90
+00:16:59.440 --> 00:17:02.420
+spencer: And… Probably towards the end of next.
+
+91
+00:17:02.970 --> 00:17:04.200
+spencer: next Friday.
+
+92
+00:17:06.800 --> 00:17:11.600
+Parithosh Jayanthi: I think at least timeline-wise, we should definitely be aiming for
+
+93
+00:17:11.730 --> 00:17:15.359
+Parithosh Jayanthi: Late this week, or early next week, because…
+
+94
+00:17:15.910 --> 00:17:22.520
+Parithosh Jayanthi: If we have stuff in person, then it's going to be most productive if we're not waiting till the end of the week to have it done.
+
+95
+00:17:22.869 --> 00:17:29.789
+Barnabas: Exactly, and that's why I proposed that we would do, bold.net 3, instead of Bold.net 4.
+
+96
+00:17:30.519 --> 00:17:34.529
+Barnabas: Like, we ideally want to start the Glamsterdam DevNet.
+
+97
+00:17:34.940 --> 00:17:44.619
+Marius Van Der Wijden (M): Barnabis, like, we… like, we have most of the changes for BAL DevNet 4 already, and, like, it takes us another day or two to get a version of BAL DevNet.
+
+98
+00:17:44.800 --> 00:17:52.079
+Marius Van Der Wijden (M): for done, for all clients. And then it makes no sense to… to test a version of…
+
+99
+00:17:52.210 --> 00:17:55.989
+Marius Van Der Wijden (M): of AT37 that is, like… I don't know.
+
+100
+00:17:55.990 --> 00:18:01.560
+Parithosh Jayanthi: But then where does Spencer's timeline of end of next week come from, if the changes are 1-2 days?
+
+101
+00:18:01.990 --> 00:18:03.009
+Marius Van Der Wijden (M): I don't know.
+
+102
+00:18:03.490 --> 00:18:13.579
+Marius Van Der Wijden (M): Like, definitely for us, it's not… it's not one to two days. It is… sorry, it is one to two, two, two days. I need to do a rebase of,
+
+103
+00:18:13.870 --> 00:18:19.029
+Marius Van Der Wijden (M): Of the stuff, and then I need to implement the seven changes that we discussed on top.
+
+104
+00:18:19.190 --> 00:18:21.399
+Marius Van Der Wijden (M): And that should be done in a day.
+
+105
+00:18:22.550 --> 00:18:23.520
+Marius Van Der Wijden (M): Maybe two.
+
+106
+00:18:26.960 --> 00:18:31.149
+spencer: I guess I'd add the reason I said, it'd be a bit later is just…
+
+107
+00:18:31.380 --> 00:18:37.419
+spencer: each individual new spec change, so I think there's 7 total to 1837, has, like.
+
+108
+00:18:37.880 --> 00:18:43.400
+spencer: added already a lot of… a lot of extra testing that has taken… taken a while, and I think…
+
+109
+00:18:44.020 --> 00:18:48.440
+spencer: I mean, maybe we'll be very slick in person, and
+
+110
+00:18:48.610 --> 00:18:50.609
+spencer: It'll be very quick for us to…
+
+111
+00:18:51.000 --> 00:18:53.330
+spencer: Like, iron out all the bugs in person.
+
+112
+00:18:53.740 --> 00:18:56.659
+Marius Van Der Wijden (M): like, do you have… do you have tests for BAL DevNet?
+
+113
+00:18:56.850 --> 00:18:58.630
+Marius Van Der Wijden (M): 4… already?
+
+114
+00:18:59.420 --> 00:19:04.410
+spencer: No, no, not yet. I was hoping to have it released for this call,
+
+115
+00:19:04.970 --> 00:19:10.549
+spencer: But yeah, we're… we're still ironing out, some… some of the AT37 changes.
+
+116
+00:19:11.010 --> 00:19:16.340
+spencer: But yeah, well, I think we're just filling the tests now, and trying to fix…
+
+117
+00:19:17.100 --> 00:19:18.669
+spencer: And the remaining changes.
+
+118
+00:19:19.030 --> 00:19:22.840
+spencer: Yeah, and I think most of the fixes are… Due to the dynamic…
+
+119
+00:19:23.540 --> 00:19:26.539
+spencer: Cost per state byte, addition.
+
+120
+00:19:26.860 --> 00:19:28.670
+spencer: But we're close, we're very close.
+
+121
+00:19:31.980 --> 00:19:32.870
+Mario Vega: Yes, Stephan?
+
+122
+00:19:33.670 --> 00:19:41.650
+Stefan Starflinger: Yeah, I would also propose, to have… to launch, BAL DevNet 4. We can have it
+
+123
+00:19:41.860 --> 00:19:48.869
+Stefan Starflinger: very short, but then to give clients to iterate a little bit, and then quickly afterwards launched Glamster Dam.
+
+124
+00:19:49.020 --> 00:19:54.329
+Stefan Starflinger: Definite zero, that would be my suggestion. It doesn't have to be very long-lived, but just…
+
+125
+00:19:54.600 --> 00:20:03.300
+Stefan Starflinger: To get some fixes in, and then focus on GameStream DevNet Zero, or we can have both running then at the same time as well.
+
+126
+00:20:07.430 --> 00:20:16.970
+Barnabas: My main question would be, is there any other EL teams that feel, sufficiently ready, basically, to have 10.4 changes?
+
+127
+00:20:17.420 --> 00:20:18.809
+Barnabas: In a feature branch?
+
+128
+00:20:26.900 --> 00:20:31.570
+Toni Wahrstätter: I guess the question is by end of week, right? Or what's the timeline you're now thinking of, Parabas?
+
+129
+00:20:31.850 --> 00:20:38.689
+Barnabas: Well, I'm trying to do local group assistance tests before we launch a .NET, so that usually requires at least another day.
+
+130
+00:20:39.110 --> 00:20:49.060
+Barnabas: ideally by Wednesday, if we would have… like, Mario said that, they should be ready by Wednesday, so that's why it would be good to have at least another client or so by Wednesday.
+
+131
+00:20:54.150 --> 00:20:58.980
+spencer: We'll have tests, tests out by the end of today, at the latest, early tomorrow.
+
+132
+00:20:59.370 --> 00:21:00.890
+spencer: Yeah.
+
+133
+00:21:04.910 --> 00:21:14.059
+Mario Vega: So, to add up to that, I think, we can reduce the number of tests by reducing the coverage, if something is not… does not go quite smoothly.
+
+134
+00:21:14.410 --> 00:21:18.590
+Mario Vega: But we'll try to have something. Bye tomorrow.
+
+135
+00:21:18.860 --> 00:21:20.990
+Mario Vega: Or Demophore. Ball metaphor.
+
+136
+00:21:21.490 --> 00:21:30.450
+Marius Van Der Wijden (M): Instead of… instead of reducing the number of tests, can you just undo the, the dynamic state cost thing?
+
+137
+00:21:31.090 --> 00:21:38.210
+Marius Van Der Wijden (M): Because, like, that would be, for us, very easy to test. We would just undo that change.
+
+138
+00:21:38.440 --> 00:21:43.299
+Marius Van Der Wijden (M): We would… we would run all of the tests, all of them would be passing, and then we would just…
+
+139
+00:21:43.630 --> 00:21:48.750
+Marius Van Der Wijden (M): Redo the gas cost change, and then…
+
+140
+00:21:48.880 --> 00:21:58.049
+Marius Van Der Wijden (M): Like, if this is the… if this is the issue with the… why the tests are not… are not published yet, then, I think that should just be undone.
+
+141
+00:21:58.220 --> 00:22:04.889
+Marius Van Der Wijden (M): Because, as I said, I don't see many… Issues happening with that.
+
+142
+00:22:08.150 --> 00:22:17.199
+Marius Van Der Wijden (M): Well, the, like, the behavior changes that we are doing to 8037 are more complex and would require, like, specific test cases.
+
+143
+00:22:21.400 --> 00:22:26.030
+spencer: I think… I think we'll be able to get them in. Like, we're… we're… we're basically there, yeah.
+
+144
+00:22:26.450 --> 00:22:27.230
+spencer: M.
+
+145
+00:22:31.220 --> 00:22:34.439
+Mario Vega: Just to be clear, that's a 4 spec,
+
+146
+00:22:36.480 --> 00:22:37.920
+Mario Vega: Are we all on the same page?
+
+147
+00:22:38.150 --> 00:22:39.520
+Mario Vega: All teams?
+
+148
+00:22:48.910 --> 00:22:54.380
+Mario Vega: Alright, so, just to reiterate, we're aiming, for spec.
+
+149
+00:22:54.670 --> 00:22:59.860
+Mario Vega: For Block Level Access Lists, DevNet 4, which will become Glamsterdam DevNet0.
+
+150
+00:23:00.800 --> 00:23:02.779
+Mario Vega: Is that… is that correct?
+
+151
+00:23:03.110 --> 00:23:04.880
+Mario Vega: Barnabas, or anyone else?
+
+152
+00:23:06.450 --> 00:23:18.830
+Barnabas: Yeah, I'm still waiting for at least one more client to speak up about it, because last week we were still hearing a bunch of people that were doubting that they could be even done, by end of next week, which means end of this week.
+
+153
+00:23:23.880 --> 00:23:29.630
+Mario Vega: Can other clients comment on this? How about Nethermind Besu? Yeah, Besu, please.
+
+154
+00:23:30.970 --> 00:23:49.700
+Daniel Lehrner (Besu): Yeah, I think as long as we get the tests, we could be ready. So, I mean, we have most changes prepared in draft PRs, basically. I'm a bit afraid of the 80-47 changes without tests, because those are really easy to get wrong.
+
+155
+00:23:50.160 --> 00:23:53.560
+Daniel Lehrner (Besu): But I think if we get those, we should be ready, yeah.
+
+156
+00:23:56.880 --> 00:24:01.630
+Barnabas: Yeah, in that case, we can definitely do DevNet4, with the new
+
+157
+00:24:01.790 --> 00:24:04.830
+Barnabas: two new EIPs and the dynamic,
+
+158
+00:24:05.140 --> 00:24:09.750
+Barnabas: changes plus, yeah, plus the PR from 770.
+
+159
+00:24:10.540 --> 00:24:12.710
+Barnabas: Which we should discuss next, I think.
+
+160
+00:24:16.950 --> 00:24:23.099
+Mario Vega: Alright, before we jump into that, there are, any other ideal clients, with objections to…
+
+161
+00:24:23.450 --> 00:24:28.370
+Mario Vega: The current, spec, that we are aiming for.
+
+162
+00:24:36.850 --> 00:24:46.519
+Mario Vega: All right. If not, I think, just to reiterate, we're aiming DevNet4, so full 83.7 for DevNet 4.
+
+163
+00:24:46.840 --> 00:24:49.330
+Mario Vega: And this will become Gamson Devidence Zero.
+
+164
+00:24:49.610 --> 00:25:00.190
+Mario Vega: And the last top… the last, PR to discuss would be the Execution AP's, PR, so let's… let's discuss that. I just linked that in the comment, so, for everyone to see.
+
+165
+00:25:00.740 --> 00:25:05.010
+Mario Vega: Who is in charge of this, PR? Who can give us an overview?
+
+166
+00:25:08.700 --> 00:25:10.589
+Mikhail Kalinin: I can give an overview.
+
+167
+00:25:14.610 --> 00:25:16.040
+Mikhail Kalinin: Can you hear me?
+
+168
+00:25:16.800 --> 00:25:17.430
+Mario Vega: Yes, perfect.
+
+169
+00:25:19.530 --> 00:25:25.600
+Mikhail Kalinin: Alright, so… this PR, basically.
+
+170
+00:25:27.070 --> 00:25:30.560
+Mikhail Kalinin: Changes the, Oh.
+
+171
+00:25:30.880 --> 00:25:39.090
+Mikhail Kalinin: the behavior of EL when CL is, like, kind of in sync and way behind the head that EL is aware of.
+
+172
+00:25:39.430 --> 00:25:45.210
+Mikhail Kalinin: Previously, if, FCL, Sends the head block.
+
+173
+00:25:45.530 --> 00:25:52.680
+Mikhail Kalinin: that EL already has validated many, many, much time, a lot of time ago.
+
+174
+00:25:52.820 --> 00:26:01.299
+Mikhail Kalinin: In the case when this book is from the canonical chain, it's ancestor of the head that the EL wears of.
+
+175
+00:26:01.450 --> 00:26:04.780
+Mikhail Kalinin: Basically, this back was…
+
+176
+00:26:05.010 --> 00:26:09.090
+Mikhail Kalinin: Saying that. In this case, the folk choice Update.
+
+177
+00:26:09.540 --> 00:26:10.850
+Mikhail Kalinin: Can be skipped.
+
+178
+00:26:10.990 --> 00:26:17.219
+Mikhail Kalinin: And in the case when it's skipped, there is no payload build process triggered.
+
+179
+00:26:17.500 --> 00:26:23.249
+Mikhail Kalinin: And, yeah, that was before Gloss, and worked before Gloss.
+
+180
+00:26:23.540 --> 00:26:27.209
+Mikhail Kalinin: But now, since gloss, we need to…
+
+181
+00:26:27.770 --> 00:26:47.680
+Mikhail Kalinin: build payloads, and we need to rework out payloads, canonical, like, from the canonical chain, from the point of view that EL thinks that it's canonical, because it was previously, pointed out as the head. So we need to rework back to, like, ancestor of the head of canonical chain, and be able to… to build
+
+182
+00:26:47.870 --> 00:26:51.320
+Mikhail Kalinin: payloads on top of ancestor of…
+
+183
+00:26:51.650 --> 00:26:53.449
+Mikhail Kalinin: Of the head of canonical chain.
+
+184
+00:26:54.070 --> 00:27:03.439
+Mikhail Kalinin: Yeah, that's… that's what this PR is about, and also it introduces some limitation on how deep this reorog could be.
+
+185
+00:27:04.260 --> 00:27:11.130
+Mikhail Kalinin: Which is 32 blocks, basically, and… Yeah, but this limitation only…
+
+186
+00:27:11.330 --> 00:27:21.100
+Mikhail Kalinin: matters for the case where we do rework from the head of canonical chain to one of its ancestors, but not to any other kind of reworks.
+
+187
+00:27:25.980 --> 00:27:26.740
+Mario Vega: Marius?
+
+188
+00:27:30.670 --> 00:27:37.290
+Marius Van Der Wijden (M): Yeah, so, I, I left this PR, I,
+
+189
+00:27:38.320 --> 00:27:52.400
+Marius Van Der Wijden (M): It's, it's, it's a 5-minute thing for… for every client to, to, to change. Basically, the way we, we, we have discussed it, in the gas team is,
+
+190
+00:27:54.770 --> 00:28:07.600
+Marius Van Der Wijden (M): So the way where we had this rule not to reopen the head block was, in order to get, yeah, to filter out faulty or late messages from the…
+
+191
+00:28:07.720 --> 00:28:17.549
+Marius Van Der Wijden (M): from the CL, that would, yeah, basically, show a weird state to the user, by going one block back.
+
+192
+00:28:17.810 --> 00:28:30.220
+Marius Van Der Wijden (M): what we're doing here now is just to track more closely the fork choice of the CL, and we hope and we trust that they're not
+
+193
+00:28:30.590 --> 00:28:38.650
+Marius Van Der Wijden (M): doing weird things with it, so, yeah, but this is anyway an assumption that we have. So, yeah, this…
+
+194
+00:28:38.800 --> 00:28:44.990
+Marius Van Der Wijden (M): should be really a no-brainer. I've… I've implemented it twice today.
+
+195
+00:28:45.120 --> 00:28:48.039
+Marius Van Der Wijden (M): And in… in… within 10 minutes, so…
+
+196
+00:28:48.280 --> 00:28:51.510
+Marius Van Der Wijden (M): I think every, every client should be able to do this.
+
+197
+00:28:52.100 --> 00:28:53.490
+Marius Van Der Wijden (M): Yep, that's it.
+
+198
+00:28:57.130 --> 00:28:57.970
+Mario Vega: Maputos?
+
+199
+00:28:58.860 --> 00:29:06.759
+Potuz: Yeah, so I think the phrasing on the PR of, like, the block… the limits being 32 blocks for this reorg, it's off.
+
+200
+00:29:07.100 --> 00:29:16.669
+Potuz: ideally, what EL clients should support is a reorg up to the finalized hash.
+
+201
+00:29:17.190 --> 00:29:34.520
+Potuz: And if clients cannot deal with very deep reorgs, that's fine. The spec says that you should be able to support up to the finalized hash, and if you can't, then just put in your implementation some limits that are reasonable for the implementation themselves. But I think it's…
+
+202
+00:29:34.950 --> 00:29:44.570
+Potuz: not correct to have the specification, allowing for this sort of reorgs up to a, like, fixed… any fixed number of blocks.
+
+203
+00:29:47.280 --> 00:29:53.060
+Mikhail Kalinin: I think it's not, like, fixed. I mean, yeah, it could be… any number.
+
+204
+00:29:53.350 --> 00:29:55.549
+Mikhail Kalinin: I think we need some sane limit.
+
+205
+00:29:56.030 --> 00:30:09.629
+Mikhail Kalinin: And finalized, realled back to finalized. Yeah, I'm just, you know, it's up to EL implementation, so what do they think about it? And, for instance, what happens, then the question, what happens if…
+
+206
+00:30:10.090 --> 00:30:17.610
+Mikhail Kalinin: If EL does not support a reorg of, you know, of 10,000 block depth, What should it…
+
+207
+00:30:17.790 --> 00:30:19.630
+Mikhail Kalinin: Return, in this case.
+
+208
+00:30:19.920 --> 00:30:21.410
+Mikhail Kalinin: Probably it should be an error.
+
+209
+00:30:21.410 --> 00:30:21.760
+Potuz: I don't…
+
+210
+00:30:21.760 --> 00:30:22.749
+Mikhail Kalinin: Or something like that.
+
+211
+00:30:22.750 --> 00:30:32.539
+Potuz: It's fine, because it's only on the proposer side. If you're proposing locally, you're self-building and your EL cannot support this.
+
+212
+00:30:32.550 --> 00:30:50.050
+Potuz: then you will fail just proposing your local block, but you can just still take bits, and you can still propose a block. And for anyone else in the chain, it doesn't matter, because if there is such a long reorg, anyone else that actually gets that payload will see a non-S reorg, not one of these going back to head.
+
+213
+00:30:50.260 --> 00:30:54.849
+Potuz: So it only affects the proposer side and in the self-building path.
+
+214
+00:30:55.040 --> 00:31:02.609
+Potuz: So I just don't see any reason why we shouldn't just put there that you're… you should be able to reorg up to the finalized hash.
+
+215
+00:31:04.760 --> 00:31:07.899
+Mikhail Kalinin: Then what will happen? I don't know.
+
+216
+00:31:08.710 --> 00:31:09.810
+Potuz: Then you get a blog.
+
+217
+00:31:09.810 --> 00:31:10.190
+Mikhail Kalinin: Yay.
+
+218
+00:31:10.190 --> 00:31:23.290
+Potuz: And then you have a branch, and that's just the usual case in which the EL should be able to support the reorg up to the finalized hash. That happens today. Right. The EL today should be able to reorg up to the finalized hash.
+
+219
+00:31:24.070 --> 00:31:27.800
+Mikhail Kalinin: Yeah, just imagine the case where we have a long period of non-finality.
+
+220
+00:31:28.490 --> 00:31:29.210
+Mikhail Kalinin: And then…
+
+221
+00:31:29.210 --> 00:31:31.170
+Potuz: Happens today. This is today!
+
+222
+00:31:31.170 --> 00:31:31.520
+Mikhail Kalinin: Right.
+
+223
+00:31:31.520 --> 00:31:32.550
+Potuz: specification.
+
+224
+00:31:34.580 --> 00:31:40.069
+Mikhail Kalinin: But, yeah, so we had this… In this fact, so not…
+
+225
+00:31:40.210 --> 00:31:47.570
+Mikhail Kalinin: not do a reorg if the CL, like, syncs with, like, the chain, right, with the network.
+
+226
+00:31:48.220 --> 00:32:03.599
+Mikhail Kalinin: And it tries to catch up with the head, and it sends already known payloads and payload hashes, and yeah, and FogChoice updated as well, pointing out already known and validated in the past blocks by EL.
+
+227
+00:32:04.240 --> 00:32:15.179
+Mikhail Kalinin: So, and in this case, if there is a long period of non-finality, in this case, EL will have to do a reorg to a finalized block regardless. So, yeah.
+
+228
+00:32:16.900 --> 00:32:24.920
+Mikhail Kalinin: I tried… actually, this PR just tries to do something in between, still allows for this optimization.
+
+229
+00:32:25.160 --> 00:32:27.149
+Mikhail Kalinin: Let's name it this way.
+
+230
+00:32:27.490 --> 00:32:35.700
+Mikhail Kalinin: And, allow for… For reorgs to, you know, if it's, like, quite close to the head, to…
+
+231
+00:32:36.490 --> 00:32:40.570
+Mikhail Kalinin: Yeah, to address the case for a PDS.
+
+232
+00:32:43.570 --> 00:32:44.240
+Mario Vega: Tony.
+
+233
+00:32:47.100 --> 00:33:01.580
+Toni Wahrstätter: Yeah, my question was, just answered by Marius, so I was curious, like, because Podos mentioned it's only for the proposal, but I was interested in, yeah, how would this work for a test desk? Would they have the state on the EL site available? But Marius just,
+
+234
+00:33:02.290 --> 00:33:14.339
+Toni Wahrstätter: replied in the chat that EL clients would basically need to resync in such a situation. So I guess it's not super smooth if we ever had such a long reorg, because this would mean
+
+235
+00:33:14.840 --> 00:33:22.270
+Toni Wahrstätter: The nodes could not attest, timely, because they would need to re-sync in order to get the… state.
+
+236
+00:33:22.470 --> 00:33:24.520
+Toni Wahrstätter: Of that pivot block.
+
+237
+00:33:24.520 --> 00:33:26.299
+Potuz: That cannot really happen.
+
+238
+00:33:26.720 --> 00:33:37.609
+Potuz: If clients cannot support a 90,000 block reorg, then that chain will not have the attestation weight to actually cause the reorg.
+
+239
+00:33:39.730 --> 00:33:43.319
+Potuz: So that's… I think it… we're just discussing over nothing.
+
+240
+00:33:44.700 --> 00:34:03.409
+Marius Van Der Wijden (M): Yeah, so, I… I like… I like the limitation to this, one, because what we have seen in the past was faulty CLs just feeding us old blocks and… and causing… and then, like, we ignored them, but this would now cause us to reorg back to old blocks.
+
+241
+00:34:03.440 --> 00:34:11.239
+Marius Van Der Wijden (M): So I think it makes sense to me, to have a limitation there, how deep these…
+
+242
+00:34:11.420 --> 00:34:16.909
+Marius Van Der Wijden (M): Like, these reorgs within the same branch can take.
+
+243
+00:34:17.100 --> 00:34:21.640
+Marius Van Der Wijden (M): And yeah, as… as Mikhail already said, this doesn't…
+
+244
+00:34:21.780 --> 00:34:29.189
+Marius Van Der Wijden (M): This doesn't, impact how reorgs to a different branch, take.
+
+245
+00:34:29.440 --> 00:34:30.110
+Marius Van Der Wijden (M): Right.
+
+246
+00:34:30.389 --> 00:34:47.309
+Potuz: But the guy thinks… you guys are dismissing the fact that we need to change FordChoice to put this kind of limitation, because otherwise, we actually might get into sort of, like, a deadlock. If FortChoice is saying, you should reorg up to, like, say, 64 blocks.
+
+247
+00:34:47.529 --> 00:34:52.139
+Potuz: and the EL cannot handle this, for whatever reason, then…
+
+248
+00:34:52.139 --> 00:34:52.459
+Marius Van Der Wijden (M): Why…
+
+249
+00:34:52.460 --> 00:34:54.899
+Potuz: CL, not advanced, because that's…
+
+250
+00:34:54.909 --> 00:34:55.309
+Marius Van Der Wijden (M): Why would…
+
+251
+00:34:55.310 --> 00:34:57.070
+Potuz: We should be building on top of.
+
+252
+00:34:57.480 --> 00:35:03.580
+Marius Van Der Wijden (M): But why would the fog choice ever need to reorg 64 blocks on a…
+
+253
+00:35:04.180 --> 00:35:06.970
+Marius Van Der Wijden (M): A chain without any new block.
+
+254
+00:35:09.060 --> 00:35:28.440
+Potuz: No, no, so 4Choice would need to reorg on whatever… that's the assurances that we have. We can always reorg back up to our finalized checkpoint. It may not happen, it may be very difficult to happen, but this is what 4Choice is. That's what… that's what FFG guarantees to us.
+
+255
+00:35:29.850 --> 00:35:37.640
+Mikhail Kalinin: You mean, like, you… you need… you are talking about a reorg on the same chain, back to finalized block?
+
+256
+00:35:37.750 --> 00:35:45.799
+Mikhail Kalinin: Without, like, you know, introducing Without, like, introducing a competing block, right?
+
+257
+00:35:48.060 --> 00:35:48.860
+Potuz: Correct.
+
+258
+00:35:50.310 --> 00:35:54.350
+Mikhail Kalinin: Why would… why would, this kind of rework need it?
+
+259
+00:35:55.550 --> 00:36:02.259
+Potuz: Well, because this is what fortune is. We don't have a proof of fortjoice, we don't have a proof that this is impossible to do.
+
+260
+00:36:04.870 --> 00:36:08.679
+Mikhail Kalinin: Yeah, I'm just trying to find… find a way, you know?
+
+261
+00:36:08.680 --> 00:36:13.259
+Potuz: It might be impossible, that's… that's the whole point, and… and it's…
+
+262
+00:36:13.330 --> 00:36:33.039
+Potuz: It's fine if the spec says we should be able to reorg up to finalize, and implementations cannot handle this situation. Today, the spec says you should be able to sync any block on top of an unfinalized block, and that's what the spec says. Actually, the spec doesn't even say that it needs to be, well, it doesn't matter.
+
+263
+00:36:33.160 --> 00:36:36.560
+Potuz: In principle, clients should be able to sync any block.
+
+264
+00:36:37.130 --> 00:36:39.979
+Potuz: On top of a block that is not finalized.
+
+265
+00:36:40.180 --> 00:36:47.079
+Potuz: And we just can't handle this. We get dust, and therefore, we ignore some blocks. That's just fine.
+
+266
+00:36:47.730 --> 00:37:02.970
+Potuz: So, I don't see why we would put an artificial limitation where clients can just deal with those limitations. As Mario's saying, the clients already are not following the spec, and they cannot handle a reorg that is deeper than 90,000 blocks.
+
+267
+00:37:04.650 --> 00:37:08.539
+Toni Wahrstätter: I think they can handle it, they just need to re-sync. That's the… that's the thing.
+
+268
+00:37:08.540 --> 00:37:09.740
+Potuz: No, that means not.
+
+269
+00:37:09.740 --> 00:37:10.330
+Marius Van Der Wijden (M): No, no.
+
+270
+00:37:10.330 --> 00:37:19.260
+Potuz: Because if I don't get a… if I don't get an accepted, or if I don't get a valid there, then we just can't, we can't be in sync.
+
+271
+00:37:20.310 --> 00:37:27.660
+Marius Van Der Wijden (M): Yeah, but the… like, that's… that's the thing, we always had this… we always had this guarantee that the folk choice will never…
+
+272
+00:37:27.950 --> 00:37:32.780
+Marius Van Der Wijden (M): Flip as long as there is no other chain, no other block.
+
+273
+00:37:33.330 --> 00:37:36.160
+Marius Van Der Wijden (M): Where, where, like, it will just not go…
+
+274
+00:37:37.310 --> 00:37:49.020
+Potuz: Like, what happens if we're not finalizing for 90,001 blocks, and I just produce a beacon block on top of that one, like, 90,000 old block?
+
+275
+00:37:49.230 --> 00:37:51.660
+Potuz: You're telling me that you cannot handle this?
+
+276
+00:37:52.320 --> 00:37:59.660
+Marius Van Der Wijden (M): I'm telling you that we cannot handle this, but this is a different… this is a different scenario from what we've been talking about.
+
+277
+00:37:59.870 --> 00:38:04.980
+Marius Van Der Wijden (M): is, is, reorgs within the same chain.
+
+278
+00:38:05.790 --> 00:38:17.519
+Potuz: I understand, but the point is that there's already a situation in which the spec says something, which is what ideally clients should do, and what actual clients can do is true.
+
+279
+00:38:17.670 --> 00:38:29.359
+Marius Van Der Wijden (M): Yeah, yeah, I agree, I agree, and the thing is, we can handle 90,000… guests can handle 90,000 blocks. Good luck trying that with other clients. I think they can handle, at most…
+
+280
+00:38:30.320 --> 00:38:35.470
+Marius Van Der Wijden (M): maybe a thousand blocks, if you're lucky. So…
+
+281
+00:38:36.280 --> 00:38:41.669
+Marius Van Der Wijden (M): And even for us, the 90,000 block reorg takes several seconds.
+
+282
+00:38:41.990 --> 00:38:44.519
+Marius Van Der Wijden (M): Probably minutes, by this point.
+
+283
+00:38:46.520 --> 00:38:46.910
+Mario Vega: you know, Mark.
+
+284
+00:38:47.680 --> 00:39:00.179
+marek: Yeah, so what I wanted to say is that, on one point, we brainstormed the idea that basically, in case of long reorg, because it's really problematic for us to handle such long reorgs.
+
+285
+00:39:00.180 --> 00:39:09.030
+marek: But on the other hand, we can just switch to, let's say, archive node in this case. And basically, we will use more
+
+286
+00:39:09.070 --> 00:39:10.380
+marek: storage.
+
+287
+00:39:10.450 --> 00:39:22.329
+marek: But that's it. We will handle this anyway, so this is not fully implemented in Netherlands, we can do it like this, and I think I agree with Potus that this is what we should do.
+
+288
+00:39:25.040 --> 00:39:36.269
+Mikhail Kalinin: So it also kind of implies that the spec since Paris, was incorrect about what we are talking now. I mean, like, with respect to what we are talking about now.
+
+289
+00:39:36.690 --> 00:39:39.949
+Mikhail Kalinin: So, it should not have this optimization at all.
+
+290
+00:39:41.480 --> 00:39:49.660
+Mikhail Kalinin: And what worries me is that, for some reason, we just remove it now, and yeah, we're required to get reoralk to final… back to finalized.
+
+291
+00:39:49.920 --> 00:39:56.329
+Mikhail Kalinin: Which is probably… Fine, if finalized block is not too far from the head.
+
+292
+00:39:56.460 --> 00:40:03.550
+Mikhail Kalinin: But then what happens if, you know, if this starts to… if this… Is the case on some…
+
+293
+00:40:03.770 --> 00:40:05.629
+Mikhail Kalinin: testnet, or whatever.
+
+294
+00:40:05.920 --> 00:40:07.530
+Mikhail Kalinin: That we've seen in the past.
+
+295
+00:40:08.180 --> 00:40:12.480
+Mikhail Kalinin: So just… I'm just trying to think about potential implications of that.
+
+296
+00:40:12.480 --> 00:40:23.540
+Marius Van Der Wijden (M): Yeah, the bigger problem is that we don't have this finalized state until, until… basically until we get to the head. Like, we don't know when… when is the final…
+
+297
+00:40:23.700 --> 00:40:31.299
+Marius Van Der Wijden (M): what block is final until we get to the head? And so there's… there's, like, this… there's many cases where we don't even know
+
+298
+00:40:31.420 --> 00:40:37.659
+Marius Van Der Wijden (M): Where the final… where the final block is, and what… where the finalization point is.
+
+299
+00:40:37.660 --> 00:40:45.110
+Potuz: relevant in this case, right? Because this is only for a proposer that should be already in sync. And for what it's worth, unless we are under an attack.
+
+300
+00:40:45.110 --> 00:40:45.500
+Marius Van Der Wijden (M): Okay.
+
+301
+00:40:45.500 --> 00:40:47.799
+Potuz: I think this limit could be just 2.
+
+302
+00:40:47.980 --> 00:40:52.840
+Potuz: Like, we would never need to reorg more than just to the previous block.
+
+303
+00:40:53.970 --> 00:41:00.850
+Marius Van Der Wijden (M): Yeah, I agree. The problem is, if we, if we, if we don't put a limit there.
+
+304
+00:41:01.120 --> 00:41:07.080
+Marius Van Der Wijden (M): Then… and the CL tells us weird things, then we might just not be able to sync.
+
+305
+00:41:07.490 --> 00:41:13.240
+Marius Van Der Wijden (M): Because we keep… we keep getting, like, just imagine having, having tools.
+
+306
+00:41:13.240 --> 00:41:24.330
+Potuz: It's fine, that's an EL that is already a faulty EL, and you shouldn't be syncing in the case that the EL is faulty. And if the EL is not faulty, then we are under a situation in which we should be reorging.
+
+307
+00:41:25.230 --> 00:41:27.810
+Potuz: So, it'll cause a deadlock either way.
+
+308
+00:41:28.280 --> 00:41:32.919
+Marius Van Der Wijden (M): Just, like, just imagine, like, right now you can run an EL off of two CLs.
+
+309
+00:41:33.170 --> 00:41:49.380
+Marius Van Der Wijden (M): like, you have two CLs that feed you different points, you have one CL that is at the head, you have one CL that is at, not at the head, that is currently syncing up, and it works, because we specifically just ignore all the updates from
+
+310
+00:41:49.740 --> 00:42:05.609
+Marius Van Der Wijden (M): from the one CL that is out of sync. If we don't have this limit, what will happen is that this one CL will go forward, the other CL will tell us, hey, you actually need to go 5,000 blocks back.
+
+311
+00:42:05.610 --> 00:42:13.890
+Marius Van Der Wijden (M): We will happily go 5,000 blocks back, then the other CR tells us, no, you have to go 5,000 blocks forward, we will go 5,000 blocks forward.
+
+312
+00:42:14.830 --> 00:42:19.969
+Marius Van Der Wijden (M): So we will not ignore the, ignore the blocks from the out-of-state CL anymore.
+
+313
+00:42:24.640 --> 00:42:28.240
+Marius Van Der Wijden (M): This is… this is why this… this limit is, is there.
+
+314
+00:42:33.180 --> 00:42:37.769
+Mario Vega: It sounds… Barnabas, it sounds like there's… needs to be a change in this… in the PR.
+
+315
+00:42:38.060 --> 00:42:40.330
+Mario Vega: At least to me. Is that correct?
+
+316
+00:42:44.450 --> 00:42:45.970
+Marius Van Der Wijden (M): I don't think so.
+
+317
+00:42:51.440 --> 00:42:53.130
+Mikhail Kalinin: Yeah, my… my…
+
+318
+00:42:53.590 --> 00:43:01.380
+Mikhail Kalinin: Yeah, my opinion is, I'm just… I'm fine with, like, introducing an error, which will say that we will not reorog, you know.
+
+319
+00:43:01.980 --> 00:43:03.959
+Mikhail Kalinin: Beyond some.
+
+320
+00:43:04.550 --> 00:43:10.720
+Mikhail Kalinin: And yeah, yeah, and beyond some, you know, some depth, MDL will just… each EL implementation will pick up
+
+321
+00:43:10.940 --> 00:43:13.730
+Mikhail Kalinin: Own, limitation on that.
+
+322
+00:43:14.800 --> 00:43:21.509
+Mikhail Kalinin: We're gonna say that It must be at least till the finalized block, which is some…
+
+323
+00:43:22.310 --> 00:43:24.259
+Mikhail Kalinin: Yeah, which is kind of like…
+
+324
+00:43:24.580 --> 00:43:33.229
+Mikhail Kalinin: for EL finalized means that it actually doesn't know where a finalized block is, right? So it's, like, arbitrary,
+
+325
+00:43:33.730 --> 00:43:34.620
+Mikhail Kalinin: Depth.
+
+326
+00:43:35.190 --> 00:43:40.980
+Mikhail Kalinin: So we can just have some kind of 90,000 block limit on that, or whatever.
+
+327
+00:43:41.800 --> 00:43:43.109
+Mikhail Kalinin: So…
+
+328
+00:43:44.130 --> 00:44:01.839
+Mikhail Kalinin: Yeah, but that's, like, up to EL client developers to decide on what should be spec'd out there. Again, this PR tries to find a middle ground between the optimization that we had since berries, and the new requirement that Gloss actually has.
+
+329
+00:44:02.160 --> 00:44:07.410
+Mikhail Kalinin: That's all. If that's gonna be an error, whatever, yeah, let's just do it.
+
+330
+00:44:13.970 --> 00:44:18.489
+Mario Vega: Alright, can we, wrap this discussion and continue on the PR?
+
+331
+00:44:18.720 --> 00:44:21.780
+Mario Vega: Does anybody else have any questions about this?
+
+332
+00:44:31.860 --> 00:44:37.360
+Mario Vega: Alright, the follow-up question would be, is this going to be introduced in Devna 4?
+
+333
+00:44:37.940 --> 00:44:39.979
+Mario Vega: Is this a requirement? .
+
+334
+00:44:41.710 --> 00:44:42.090
+Barnabas: Yes.
+
+335
+00:44:42.090 --> 00:44:44.490
+Mario Vega: I feel like we're leaning towards… yes, okay.
+
+336
+00:44:44.490 --> 00:44:56.369
+Marius Van Der Wijden (M): Well, no, it's not a… it's not a requirement for… for BAL DevNet 4, because it's not used by BAL DevNet 4, but if we ever want to do, ePBS testing on top of BAL DevNet 4, then…
+
+337
+00:44:56.570 --> 00:45:01.269
+Marius Van Der Wijden (M): then we would need it, so I would also say
+
+338
+00:45:01.570 --> 00:45:06.190
+Marius Van Der Wijden (M): that we should do it, but it's not a… it's not a requirement for BAL DevNet 4.
+
+339
+00:45:06.790 --> 00:45:15.240
+Parithosh Jayanthi: I'd also say we're probably not stressing this exact path, right? We need quite deep reorgs, and right now we're still doing relatively happy case testing anyway.
+
+340
+00:45:15.740 --> 00:45:19.610
+Marius Van Der Wijden (M): No, ePBS, triggers this path quite.
+
+341
+00:45:20.160 --> 00:45:21.130
+Marius Van Der Wijden (M): Easily.
+
+342
+00:45:23.360 --> 00:45:24.150
+Parithosh Jayanthi: Cool.
+
+343
+00:45:24.150 --> 00:45:27.779
+Barnabas: Yeah, we had this issue already on .NET1, or .NET 0.
+
+344
+00:45:31.850 --> 00:45:36.600
+Mario Vega: Alright, regarding the requirements, is it okay,
+
+345
+00:45:36.740 --> 00:45:39.970
+Mario Vega: Barnabas, that we create, the…
+
+346
+00:45:40.480 --> 00:45:52.179
+Mario Vega: the note with the description above them before, without this PR, and then on Glamster then zero, we add this PR as a requirement for EO clients to be able to join.
+
+347
+00:45:53.090 --> 00:45:55.710
+Mario Vega: Can't… Okay.
+
+348
+00:45:56.780 --> 00:46:00.290
+Parithosh Jayanthi: And is this implementable by all clients by next week?
+
+349
+00:46:01.710 --> 00:46:03.590
+Barnabas: This week, end of this week.
+
+350
+00:46:03.590 --> 00:46:10.709
+Marius Van Der Wijden (M): Yeah, this should be implementable by all clients by the end of the call, and we have 20 minutes left, so get to it.
+
+351
+00:46:21.110 --> 00:46:30.960
+Mario Vega: Alright. Great, so we have agreement. Good. Do we have,
+
+352
+00:46:31.180 --> 00:46:41.149
+Mario Vega: do we need to break into… into break… into the breakout rooms for, discussions in specifics to block global access and ePBS?
+
+353
+00:46:42.810 --> 00:46:43.950
+Mario Vega: Yes, Potus?
+
+354
+00:46:44.410 --> 00:46:48.880
+Potuz: Before any break, I would like to talk about syncing, again, just 5 minutes.
+
+355
+00:46:51.010 --> 00:46:51.870
+Mario Vega: Yep, okay.
+
+356
+00:46:53.860 --> 00:46:55.049
+Potuz: Oh, can I do it now?
+
+357
+00:46:56.530 --> 00:46:57.870
+Mario Vega: Yes, yes, please do.
+
+358
+00:46:58.640 --> 00:47:17.679
+Potuz: Alright, so it's the same thing that I raised on ACD, and I would try to raise it again. I want to… and no one has returned on us with this. I really want to have some eyes on, potentially removing completely the payload envelope syncing… range syncing on the CL. There is…
+
+359
+00:47:18.130 --> 00:47:22.770
+Potuz: So the question is to analyze the security, or lack of thereof.
+
+360
+00:47:22.950 --> 00:47:29.669
+Potuz: from range syncing on the CL side without even requesting the payload envelopes.
+
+361
+00:47:30.170 --> 00:47:39.070
+Potuz: the CL could perform all of the state transition on the CL side without ever taking any payload, without even knowing if the payloads actually existed.
+
+362
+00:47:39.210 --> 00:47:48.919
+Potuz: And then, when it catches the head, as soon as it sends a new payload, the EL should be able to tell if it's invalid or not.
+
+363
+00:47:49.230 --> 00:48:02.429
+Potuz: So what I'm proposing is to change the notion of optimistic sync in this setting. So the CL would not even check the block hash of the blocks, because it wouldn't even take the payload envelopes. Another
+
+364
+00:48:02.710 --> 00:48:05.919
+Potuz: Problem with this would be that, the CL…
+
+365
+00:48:06.140 --> 00:48:15.309
+Potuz: would not verify the signature of the payload envelope, because it's not even requesting those payload envelopes. On backfield, if the CL
+
+366
+00:48:15.590 --> 00:48:23.399
+Potuz: wants to backfill and get those envelopes, then we could do a batch verification of those signatures.
+
+367
+00:48:23.560 --> 00:48:32.070
+Potuz: So I'd like to understand what is the trade-off space here, because CPBS allows us to sync without ever requesting a payload.
+
+368
+00:48:58.950 --> 00:49:03.870
+Mario Vega: Alright, are you looking for input from the ELs, CLs, or what's the, approach here?
+
+369
+00:49:04.130 --> 00:49:06.949
+Potuz: From anyone, but mostly from…
+
+370
+00:49:07.160 --> 00:49:16.329
+Potuz: the EL, because Optimistic Sync is something that is quite complicated on clients, and I believe that most of the edge cases had to do with the merge itself.
+
+371
+00:49:16.450 --> 00:49:21.250
+Potuz: So, I believe we can just remove and simplify quite a bit of optimistic thinking.
+
+372
+00:49:21.910 --> 00:49:28.310
+Potuz: We can just sync without a payload, and when we're on gossip, validate payload just on Gossip.
+
+373
+00:49:30.990 --> 00:49:32.310
+Marius Van Der Wijden (M): Hmm, that's it.
+
+374
+00:49:32.480 --> 00:49:34.360
+Marius Van Der Wijden (M): Does it matter for the ELs?
+
+375
+00:49:34.900 --> 00:49:40.430
+Marius Van Der Wijden (M): Like, as long as you, at some point, give us a payload, we will be doing SnapSync anyway.
+
+376
+00:49:41.480 --> 00:49:50.309
+Potuz: Well, that's… so if we trigger SnapSync, that would be a big problem. So the security assumption that we do not want to lose is that
+
+377
+00:49:50.430 --> 00:50:01.950
+Potuz: an EL that had the state at some point, and we're just, like, restarting or whatever it is, we do not want to trick an EL into following a finalized but invalid chain.
+
+378
+00:50:02.930 --> 00:50:09.269
+Potuz: If this can happen, and if this can happen because of this change, that would be a problem.
+
+379
+00:50:09.500 --> 00:50:15.649
+Marius Van Der Wijden (M): Okay, so what you're saying is that the year is… is… is at some point?
+
+380
+00:50:16.430 --> 00:50:23.380
+Marius Van Der Wijden (M): you shut it… you shut it down, you… you restart the CL, the CL does some… some sync to the head.
+
+381
+00:50:23.680 --> 00:50:29.370
+Marius Van Der Wijden (M): Without giving us any payloads, and then it tells us this is the block that you're syncing to.
+
+382
+00:50:29.480 --> 00:50:31.339
+Marius Van Der Wijden (M): And then, in that case.
+
+383
+00:50:31.510 --> 00:50:38.030
+Marius Van Der Wijden (M): What happens is the ER will go and… and fetch those… this data from the network anyway.
+
+384
+00:50:38.530 --> 00:50:42.950
+Potuz: Exactly. And today, for example, my house, like, fetches it twice.
+
+385
+00:50:48.020 --> 00:50:50.620
+Marius Van Der Wijden (M): Yeah, that's… Sounds unnecessary.
+
+386
+00:50:53.160 --> 00:51:10.850
+Potuz: Yeah, so what I would want to do is not even fetch it, so not even check the block hash, not do anything on the CL on this, and just give you, later, when I catch up, give you a block, and make sure that if this block is a descendant of an invalid block, even if it was already finalized on the CL,
+
+387
+00:51:10.850 --> 00:51:14.799
+Potuz: I want to make sure that the EL would just tell me this is invalid.
+
+388
+00:51:23.220 --> 00:51:25.759
+Marius Van Der Wijden (M): Yeah, I think that is already working.
+
+389
+00:51:25.940 --> 00:51:26.560
+marek: Yeah.
+
+390
+00:51:26.560 --> 00:51:27.140
+Marius Van Der Wijden (M): for us.
+
+391
+00:51:27.140 --> 00:51:33.050
+marek: But is it, like, the problem with some concrete EL, or you just want to make sure that
+
+392
+00:51:33.180 --> 00:51:36.389
+marek: That's how ELs work nowadays.
+
+393
+00:51:36.890 --> 00:51:47.120
+Potuz: Yeah, so I want to make sure, and I want to, like, to have it written somewhere so that we can actually get into agreement. It sounds to me
+
+394
+00:51:47.310 --> 00:51:58.640
+Potuz: that there is no reason for the CL to keep payload envelopes, and there's no reason for the CL to even serve by range payload envelopes.
+
+395
+00:51:59.890 --> 00:52:17.969
+marek: So, my only comment is that it makes sense to me, it's how Nethermind works nowadays, but the only thing is that it's quite a tricky scenario that you cannot easily trigger, so we need to make sure that it is really well covered by tests, and there were… some of the tests were,
+
+396
+00:52:18.050 --> 00:52:20.179
+marek: Flaky a little bit for us.
+
+397
+00:52:20.780 --> 00:52:31.619
+marek: because there are many testing hives that are checking it, that you… you will return correct, invalid hash, and so on. So, I guess it should be fine, generally, what you are talking about.
+
+398
+00:52:32.170 --> 00:52:44.980
+Potuz: Yeah, so what I would want… so this is the concrete request. The concrete request would be to EL devs to analyze the situation, analyze what are the security, the problems that this could cause.
+
+399
+00:52:45.230 --> 00:52:53.110
+Potuz: For example, one that would be dramatic would be if such a situation can trigger all ELs into snap syncing.
+
+400
+00:52:53.300 --> 00:53:06.539
+Potuz: Because if that happens, then my understanding is that, that could force… that could trick the EL into treating a finalized but invalid block as valid.
+
+401
+00:53:06.840 --> 00:53:08.400
+Potuz: And this would be an exception.
+
+402
+00:53:08.890 --> 00:53:09.670
+Potuz: acceptable.
+
+403
+00:53:13.160 --> 00:53:13.680
+marek: So, sound…
+
+404
+00:53:13.680 --> 00:53:15.249
+Mikhail Kalinin: Please repeat that, sir.
+
+405
+00:53:15.490 --> 00:53:16.659
+marek: Yeah, go ahead.
+
+406
+00:53:19.330 --> 00:53:28.679
+Mikhail Kalinin: Just, photos, could you please… could you please do a recap on why C… for CL with, like, in a PBS case, it's… it becomes a problem?
+
+407
+00:53:29.730 --> 00:53:30.690
+Mikhail Kalinin: Don't exactly…
+
+408
+00:53:30.690 --> 00:53:36.940
+Potuz: It's the other way around. ePBS allows… today, the CL cannot sync.
+
+409
+00:53:37.080 --> 00:53:42.309
+Potuz: Without getting the payload, without downloading the payload, because the payload is within… is with the block.
+
+410
+00:53:43.000 --> 00:53:57.279
+Potuz: So the way we sync when this EL is not catched up is we verify the block hash, either we do it, or the EL does it for us, and then we continue syncing. But we download the full thing.
+
+411
+00:53:57.480 --> 00:54:01.900
+Potuz: ePBS allows us to sync without ever downloading the payload.
+
+412
+00:54:02.270 --> 00:54:12.839
+Potuz: to which we would fail… we would just no longer verify the block hash, and moreover, we wouldn't verify the signature on the CL side that the payload envelope carries.
+
+413
+00:54:13.220 --> 00:54:18.989
+Potuz: But I believe that this is safe, anyways, because of what EL devs are telling me of the way they sync.
+
+414
+00:54:43.390 --> 00:54:44.830
+Mario Vega: Alright,
+
+415
+00:54:45.430 --> 00:54:53.439
+Mario Vega: I feel we have to park this conversation. Bottus, can you, coordinate to do a,
+
+416
+00:54:54.100 --> 00:54:58.870
+Mario Vega: write-up on this topic to see if we can keep discussing it.
+
+417
+00:54:58.870 --> 00:55:00.140
+Potuz: already written…
+
+418
+00:55:00.280 --> 00:55:14.140
+Potuz: most of the scenario up, and I've already posted it on ACD. I'll ask to, again, bring this up on ACD next time. I'm hoping to get someone to, I mean, ELDFs to look into this and actually produce some written statement.
+
+419
+00:55:15.650 --> 00:55:23.890
+Mario Vega: Yeah, sorry about the rush, it's that just we have to go into breakouts, because we have barely enough time. Is that okay?
+
+420
+00:55:24.250 --> 00:55:25.120
+Mario Vega: Alright.
+
+421
+00:55:25.250 --> 00:55:32.119
+Mario Vega: Yeah, let's try to jump quickly into the breakout rooms. One for ePBS, one for Block Level Access Lists.
+
+422
+00:55:32.630 --> 00:55:40.859
+Mario Vega: And, probably if people have more time, we can stick a little bit longer. I know these… I know these have already 15 minutes, but let's just try to…
+
+423
+00:55:43.070 --> 00:55:46.259
+Mario Vega: Let's try to finish the discussion topics that we have today.
+
+424
+00:55:48.310 --> 00:55:49.030
+Mario Vega: Alright.
+
+425
+00:55:50.660 --> 00:55:53.149
+Mario Vega: Who's helping today with, breakouts?
+
+426
+00:55:58.680 --> 00:56:00.899
+Parithosh Jayanthi: I think it's Tony and Justin.
+
+427
+00:56:01.890 --> 00:56:02.510
+Justin Traglia: Yep.
+
+428
+00:56:03.400 --> 00:56:06.579
+Mario Vega: Right, but I mean, admin contracts. Yeah.
+
+429
+00:56:06.840 --> 00:56:09.110
+Mario Vega: The admin controls on the… on the call.
+
+430
+00:56:11.100 --> 00:56:14.589
+Parithosh Jayanthi: Voloim and, Dionysus.
+
+431
+00:56:20.240 --> 00:56:24.549
+Mario Vega: Alright, can you guys create the breakout rooms? I don't have admin controls on this.
+
+432
+00:56:28.320 --> 00:56:30.120
+Parithosh Jayanthi: Oh, one sec, let me…
+
+433
+00:56:43.760 --> 00:56:44.460
+Parithosh Jayanthi: They should be on.
+
+434
+00:56:44.460 --> 00:56:47.120
+Marius Van Der Wijden (M): Do you really… do we really need one… need them?
+
+435
+00:56:49.640 --> 00:56:51.660
+Potuz: I don't think we underneath PBS.
+
+436
+00:56:52.240 --> 00:56:54.580
+Marius Van Der Wijden (M): Yeah, then just do the ballot stuff here.
+
+437
+00:56:55.810 --> 00:56:56.330
+Justin Traglia: Beautiful.
+
+438
+00:56:56.330 --> 00:56:58.170
+Toni Wahrstätter: My stuff is also very short.
+
+439
+00:56:58.700 --> 00:57:01.639
+Toni Wahrstätter: It depends, like, we need, like, 5 minutes, I guess.
+
+440
+00:57:01.640 --> 00:57:03.850
+Barnabas: People are already left at work.
+
+441
+00:57:03.850 --> 00:57:06.299
+Mario Vega: Yeah, they're already on the… Okay.
+
+442
+00:57:06.300 --> 00:57:06.740
+Toni Wahrstätter: Let's try.
+
+443
+00:57:06.740 --> 00:57:08.989
+Mario Vega: Let's go… let's just go there, yeah.
+
+444
+00:57:09.470 --> 00:57:10.120
+Mario Vega: All right.
+
+445
+00:57:10.120 --> 00:57:12.419
+Justin Traglia: I'm also gonna join the APPS breakout, yep.
+
