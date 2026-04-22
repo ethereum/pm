@@ -1,0 +1,1706 @@
+WEBVTT
+
+1
+00:02:49.720 --> 00:02:50.600
+lightclient: Hello.
+
+2
+00:02:54.220 --> 00:02:55.930
+Bobby | Ambire: Hello, guys.
+
+3
+00:02:57.980 --> 00:02:59.300
+marc | wolovim: Appeal, how we doing?
+
+4
+00:03:02.380 --> 00:03:03.350
+lightclient: Good.
+
+5
+00:03:04.790 --> 00:03:07.030
+lightclient: Ready for a fun call?
+
+6
+00:03:14.940 --> 00:03:16.440
+marc | wolovim: Should be fine.
+
+7
+00:03:39.160 --> 00:03:43.019
+marc | wolovim: If anything, the agenda is overly ambitious, but we'll do what we can.
+
+8
+00:04:39.740 --> 00:04:43.030
+marc | wolovim: Hey everyone, we'll get started at, 3 past the hour.
+
+9
+00:04:43.160 --> 00:04:45.290
+marc | wolovim: Just give enough people a chance to trickle in.
+
+10
+00:07:27.170 --> 00:07:33.120
+marc | wolovim: All right, welcome everyone. I will post in the agenda in the chat, and then we'll kick this thing off.
+
+11
+00:07:36.680 --> 00:07:43.950
+marc | wolovim: So welcome to Native Account Abstraction Breakout Number 1. Today is April 22nd, 2026.
+
+12
+00:07:44.610 --> 00:07:47.999
+marc | wolovim: The agenda is a big one, so,
+
+13
+00:07:48.580 --> 00:07:51.780
+marc | wolovim: Let's… let's get through what we can, and
+
+14
+00:07:52.370 --> 00:07:55.670
+marc | wolovim: Find out how much is left over for the next chat.
+
+15
+00:07:59.150 --> 00:08:10.749
+marc | wolovim: The context for this new series is that EIP8141, that's Frame Transactions, was recently proposed as a headliner for HEGOTA, the Ethereum upgrade after Glamsterdam.
+
+16
+00:08:11.080 --> 00:08:19.129
+marc | wolovim: It garnered support from a variety of stakeholders in the ecosystem and was CFI'd, meaning considered for inclusion in that upgrade.
+
+17
+00:08:19.260 --> 00:08:25.430
+marc | wolovim: But ultimately was not selected as the headliner by client teams, and the reasons given varied
+
+18
+00:08:25.610 --> 00:08:29.090
+marc | wolovim: And they are hopefully well represented in today's agenda.
+
+19
+00:08:29.610 --> 00:08:44.840
+marc | wolovim: But in short, if I may summarize, client teams wanted more time to understand the implications on the mempool, stateless efforts, privacy preservation, and the post-quantum roadmap, among other design decisions.
+
+20
+00:08:45.380 --> 00:08:49.039
+marc | wolovim: More broadly, though, the proposal generated
+
+21
+00:08:49.320 --> 00:08:55.369
+marc | wolovim: Well, it feels like real momentum for shipping native account abstraction in the Hego Tough Fork.
+
+22
+00:08:55.640 --> 00:09:02.880
+marc | wolovim: So there's been a flurry of other proposals, both alternatives to 8141, and those complementary or compatible with it.
+
+23
+00:09:03.240 --> 00:09:10.210
+marc | wolovim: So now seems exactly the right time to start to converge on a version of this feature set that we can all live with.
+
+24
+00:09:11.500 --> 00:09:22.389
+marc | wolovim: The sooner we have rough consensus on an approach, the sooner client teams can begin pipelining the work, and the sooner the broader ecosystem can begin the long road to adoption.
+
+25
+00:09:23.370 --> 00:09:37.119
+marc | wolovim: Last logistics note, breakout calls like this one cannot change the inclusion stage or the headliner status of an EIP. That can only be done by rough consensus within an all-core devs call.
+
+26
+00:09:37.370 --> 00:09:53.290
+marc | wolovim: So I would suggest that a good use of time here is to improve our collective understanding of the trade-offs we need to make, to refine the existing proposals, steal good ideas, and identify whatever the next steps are to move forward with confidence.
+
+27
+00:09:55.150 --> 00:09:57.949
+marc | wolovim: So that's sort of the preamble.
+
+28
+00:09:59.140 --> 00:10:07.380
+marc | wolovim: Before we jump into hearing from proposal authors on recent updates,
+
+29
+00:10:08.150 --> 00:10:14.029
+marc | wolovim: the first feedback I've heard that I would like to at least briefly acknowledge is the sentiment that we…
+
+30
+00:10:14.270 --> 00:10:22.709
+marc | wolovim: should be sure we're clear on goals and what we're solving for here. It's true that account abstraction means different things to different people.
+
+31
+00:10:22.970 --> 00:10:32.280
+marc | wolovim: And much has been written on that topic. For example, Vitalik has outlined core and stretch goals in his full account abstraction doc that you can find in the agenda.
+
+32
+00:10:32.570 --> 00:10:41.230
+marc | wolovim: I've heard Matt and Felix and others describe their motivations on all CoreDev's calls, but I wanted to leave at least a little space here.
+
+33
+00:10:41.630 --> 00:10:50.739
+marc | wolovim: So the prompt is, would anybody like a minute or two to communicate what you think is most important for a native account abstraction proposal to accomplish?
+
+34
+00:10:51.480 --> 00:11:03.120
+marc | wolovim: Those I've mentioned already are welcome to come up and reiterate any points. Maybe this is a good opportunity for other ecosystem stakeholders to chime in, so just raise a hand if you'd like to
+
+35
+00:11:03.320 --> 00:11:04.459
+marc | wolovim: Say a few words?
+
+36
+00:11:12.120 --> 00:11:18.329
+ivo Georgiev @ ambire: I can give you a few thoughts from the point of view of a wallet developer.
+
+37
+00:11:18.740 --> 00:11:19.610
+ivo Georgiev @ ambire: So…
+
+38
+00:11:19.990 --> 00:11:27.680
+ivo Georgiev @ ambire: There's a couple of things, and they're all related to the practical efficiency of existing account abstraction solutions.
+
+39
+00:11:27.960 --> 00:11:31.089
+ivo Georgiev @ ambire: So, one of them is…
+
+40
+00:11:31.580 --> 00:11:46.179
+ivo Georgiev @ ambire: really, 7702 and all solutions before 7702, which were just proprietary solutions, what they managed to achieve, a lot of things, but without actual upgrade paths for existing EOAs and existing accounts, the adoption really stalled.
+
+41
+00:11:46.590 --> 00:11:51.840
+ivo Georgiev @ ambire: 7702 kind of solved it, but the issue with this is that it still requires
+
+42
+00:11:52.110 --> 00:12:02.569
+ivo Georgiev @ ambire: an authorization, and most hardware wallets still don't support this feature, so they still, like, either rely on a very narrow, whitelist.
+
+43
+00:12:02.570 --> 00:12:16.860
+ivo Georgiev @ ambire: or they don't support it at all. So, in practice, the current account… the current state of account abstraction is that you cannot use account abstraction features in many EOA accounts. So, this is something that frame transactions solve.
+
+44
+00:12:16.980 --> 00:12:33.040
+ivo Georgiev @ ambire: So that's fantastic. And then the second thing is, 4337 really is kind of a bit clunky. Some would even say bloated, and that's also another point of, point of view that, frame transactions solve. So this is, like, the practical implications.
+
+45
+00:12:38.230 --> 00:12:43.209
+marc | wolovim: Thank you. Agus, if I'm pronouncing it anywhere close to right.
+
+46
+00:12:43.480 --> 00:12:46.390
+Agusx1211 (Polygon): Yeah, I think so.
+
+47
+00:12:46.590 --> 00:13:04.869
+Agusx1211 (Polygon): In our perspective, we are a polygon, we are X-sequence, we are also Smart Control Wallet. Our point of view of account abstraction, really, or in the context that we are discussing this, is that this is what, in the old times, was called
+
+48
+00:13:04.870 --> 00:13:23.400
+Agusx1211 (Polygon): every layer, like, this is an alternative to have a proper solution to be able to execute the smart contract transactions on-chain. And our point of view is not really about migration from old accounts or anything like that. We are working mostly with new accounts.
+
+49
+00:13:23.410 --> 00:13:42.240
+Agusx1211 (Polygon): But what we want to preserve is the flexibility to develop new functionalities on smart contract wallets. And what we want to gain is not having to maintain and develop around custom, like, vertical layer that is not a great, like.
+
+50
+00:13:43.030 --> 00:13:47.459
+Agusx1211 (Polygon): not a great participant in the whole stack. It's not decentralized, etc.
+
+51
+00:13:47.580 --> 00:13:52.099
+Agusx1211 (Polygon): M… So… From our perspective.
+
+52
+00:13:52.270 --> 00:14:08.109
+Agusx1211 (Polygon): any solution, we are big supporters of frame transactions as they are, mostly because they do allow for a full spectrum of development of new functionalities and things like that. If we go into something more constrained.
+
+53
+00:14:08.110 --> 00:14:19.720
+Agusx1211 (Polygon): what will likely happen for us is that we will just not use it, and we will keep, like, working on some of the previous standards.
+
+54
+00:14:19.830 --> 00:14:28.129
+Agusx1211 (Polygon): But… Frame transactions as they are is something that, like, will be very useful for our team.
+
+55
+00:14:31.720 --> 00:14:33.050
+marc | wolovim: Thanks, Matt.
+
+56
+00:14:37.760 --> 00:14:43.400
+lightclient: Hey guys. Just wanted to share a little bit of my perspective. I've shared it in…
+
+57
+00:14:43.790 --> 00:14:57.769
+lightclient: you know, many different contexts over the past few months, but if I could try to address one point that's been coming up a bit around the post-quantum side of AA and the frames transaction.
+
+58
+00:14:57.930 --> 00:15:02.159
+lightclient: You know, when we originally started with frames, we had a…
+
+59
+00:15:02.360 --> 00:15:05.589
+lightclient: A lot of conversations, like, what are we trying to achieve?
+
+60
+00:15:05.850 --> 00:15:06.970
+lightclient: And…
+
+61
+00:15:07.600 --> 00:15:16.070
+lightclient: there's a doc that I shared by Vitalik that, you know, kind of goes over many of the core goals that we had in mind with accounts abstraction.
+
+62
+00:15:16.210 --> 00:15:18.839
+lightclient: And at that time, you know.
+
+63
+00:15:19.040 --> 00:15:26.850
+lightclient: And even today, I feel like post-quantum is becoming something that everybody's realizing we need to start thinking about and focusing on.
+
+64
+00:15:27.700 --> 00:15:29.229
+lightclient: And I felt that…
+
+65
+00:15:30.100 --> 00:15:45.020
+lightclient: focusing AA and frame transactions a bit in this direction of post-quantum was good, because, you know, broadly, everybody feels this is a direction that we should be working towards and focusing on.
+
+66
+00:15:45.110 --> 00:16:04.939
+lightclient: And we know, as, you know, people who have been working on the protocol for a very long time, and people who have, you know, been working on account abstraction in different ways for, you know, 6, 7, 8 years, you know, we know all of the downstream effects that AA would provide, and it's very difficult to…
+
+67
+00:16:05.260 --> 00:16:10.310
+lightclient: You know, have these breakout rooms, have these, you know, long.
+
+68
+00:16:10.340 --> 00:16:26.880
+lightclient: running discussions about what the protocol should and shouldn't do, and, you know, how should they deliver accounts abstraction, how should they not? You know, we're all kind of seeing how difficult it is to define what accounts abstraction even is. You know, it's different for every single person, and it just depends on, like, where in the stack you're sitting.
+
+69
+00:16:27.440 --> 00:16:45.859
+lightclient: And so I felt like, you know, focusing a bit on post-quantum was a good rallying point for people, where we could say, look, it's not that we don't care about UX, it's not that we don't care about these other things, it's just that, like, we need to solve post-quantum, and we have this really good technology that does tons of other things at the same time that we've been working on for a long time.
+
+70
+00:16:46.090 --> 00:16:49.769
+lightclient: And, I don't know, maybe that was, like, kind of, like, the wrong initial approach.
+
+71
+00:16:49.880 --> 00:17:00.519
+lightclient: And some people have, like, you know, pushed back and said, do we really want to tie, you know, post-quantum to count abstraction? And it, you know, it's a question. I still think that, like.
+
+72
+00:17:00.570 --> 00:17:19.290
+lightclient: you know, broadly, this is the right direction for us. It's not the easy path to solving post-quantum, but it's a path that we understand pretty well at this point, and we just need to, you know, put in the work to achieve it, and to define the exact feature set that we're trying to, you know, achieve.
+
+73
+00:17:20.200 --> 00:17:35.139
+lightclient: And so, you know, through all these conversations, I've also kind of, like, realized that there's one, you know, other piece that's kind of in this original Vitalik doc, but, like, maybe wasn't, you know, communicated as clearly from the beginning with 8141.
+
+74
+00:17:35.200 --> 00:17:50.239
+lightclient: And that's something that I… you know, this is something that I think that most other proposals, you know, also don't really support. And the frames and the native AA proposals are basically the only ones that support it. And that's that, you know, we're trying to reduce
+
+75
+00:17:50.410 --> 00:18:06.320
+lightclient: the centralization around transaction flow in Ethereum. And we're trying to allow all users of Ethereum, you know, both ELA and smart accounts, to make use of new, you know, hardening functionality in the protocol, like FOCIL.
+
+76
+00:18:06.450 --> 00:18:25.329
+lightclient: And that's, like, you know, maybe something that we haven't highlighted quite as much in the past, but I think, like, going forward, it's something that we should be keeping in mind. Like, yes, we need to have batching, yes, we need to support key rotation, this is all, like, critical for accounts abstraction, but we need to make sure that we're doing this in a way that, you know, supports post-quantum.
+
+77
+00:18:25.330 --> 00:18:28.429
+lightclient: Supports post-quantum aggregation types of techniques.
+
+78
+00:18:28.480 --> 00:18:32.390
+lightclient: And reduces the reliance on centralized relayers.
+
+79
+00:18:32.470 --> 00:18:44.600
+lightclient: And so I think, like, this combination is kind of how we've come up to, you know, presenting the frame transaction. And, you know, some of the decisions of the frame transaction may not always be the most obvious of why these decisions are getting made.
+
+80
+00:18:44.600 --> 00:19:02.550
+lightclient: But all of this… all of these decisions are coming from, like, many years of experience across, like, you know, Felix Vitalik and I from the protocol, Derek from the wallet side, and then interacting with, like, you know, tons of people in the wallet community and the application developer community on understanding, like, what their needs are.
+
+81
+00:19:03.710 --> 00:19:09.630
+lightclient: So, that's kind of, yeah, how we've ended up, you know, from our perspective on the solution that we have.
+
+82
+00:19:13.220 --> 00:19:14.750
+marc | wolovim: Thanks. Ben?
+
+83
+00:19:16.200 --> 00:19:25.230
+Ben Adams: Yeah, so, I appreciate the flexibility of frame transactions, but, from
+
+84
+00:19:25.440 --> 00:19:39.709
+Ben Adams: my perspective on approaching it more pragmatically, and, what's practical in terms of… so, for instance, a frame transaction, you could, in theory, do a, like, a post-quantum signature, and then…
+
+85
+00:19:40.290 --> 00:19:41.540
+Ben Adams: Validate that.
+
+86
+00:19:42.320 --> 00:19:49.040
+Ben Adams: In… in that, but at the moment, we don't have a way in the EVM of
+
+87
+00:19:49.400 --> 00:19:50.870
+Ben Adams: Efficiently running that.
+
+88
+00:19:51.250 --> 00:19:59.899
+Ben Adams: So, you know, like, Falcon would be, like, 2 million gas. Dilithium would be about 8 million gas transactions.
+
+89
+00:20:00.090 --> 00:20:05.060
+Ben Adams: So these, these are, like, heavy. I mean, even EDSA is…
+
+90
+00:20:05.250 --> 00:20:08.230
+Ben Adams: I don't know, it's like 100,000 gas or something?
+
+91
+00:20:08.700 --> 00:20:11.960
+Ben Adams: Versus… as…
+
+92
+00:20:12.130 --> 00:20:21.780
+Ben Adams: in protocol, as a precompile or native, then it becomes, you know, 3,000 gas. So it's orders of magnitude different.
+
+93
+00:20:22.260 --> 00:20:27.579
+Ben Adams: If it's running as… current EVM bike code. I know there were…
+
+94
+00:20:27.940 --> 00:20:35.939
+Ben Adams: proposals, which I'm not sure are currently active to do, like, EVM Max and FIMD to do efficient
+
+95
+00:20:36.700 --> 00:20:41.090
+Ben Adams: crypto… Cryptographic, processing.
+
+96
+00:20:41.380 --> 00:20:45.239
+Ben Adams: But I don't think they are active at the moment. I could be wrong.
+
+97
+00:20:45.860 --> 00:20:50.650
+Ben Adams: So I… my… my concern is that we would…
+
+98
+00:20:51.310 --> 00:20:55.250
+Ben Adams: Deliver something that, in theory, can
+
+99
+00:20:55.460 --> 00:21:00.080
+Ben Adams: Meet lots of needs, but in practice, would fall down.
+
+100
+00:21:00.940 --> 00:21:10.430
+Ben Adams: If you see what I mean. So if your… if your transaction, just to verify the signature is costing 2 million gas, you can only have 30 in the mempool.
+
+101
+00:21:10.620 --> 00:21:15.400
+Ben Adams: And you… that's the size of a block, just verifying those signatures.
+
+102
+00:21:16.100 --> 00:21:26.130
+Ben Adams: So for instance, scheme transactions would say, alright, well, we accept that we need currently, native.
+
+103
+00:21:26.310 --> 00:21:31.390
+Ben Adams: Processing for these, signatures.
+
+104
+00:21:31.610 --> 00:21:36.799
+Ben Adams: Rather than… you know, write it as raw EVM bike code when
+
+105
+00:21:37.070 --> 00:21:39.829
+Ben Adams: That would be extremely expensive to process.
+
+106
+00:21:43.530 --> 00:21:48.019
+Ben Adams: Yeah, it's more about practicality. Will it deliver?
+
+107
+00:21:48.550 --> 00:21:51.530
+Ben Adams: On the expectations in a practical way.
+
+108
+00:21:55.950 --> 00:21:57.580
+marc | wolovim: Thank you, Ben. Mustav?
+
+109
+00:21:58.610 --> 00:22:07.700
+Mislav: Yeah, hi everyone. On my end, I just wanted to basically reiterate, support, from my end for the frame transactions.
+
+110
+00:22:07.700 --> 00:22:22.719
+Mislav: Though the critiques are certainly valid, and by any means I'm not an expert in post-quantum cryptography. I think for what we've seen in the cases of existing AA teams and the use cases that we have been serving for the last
+
+111
+00:22:22.810 --> 00:22:35.070
+Mislav: 2 or 3 years. Frame transactions luckily capture all of them in a very elegant manner. Even Derek made a proposal yesterday to access, like, some bits of,
+
+112
+00:22:35.080 --> 00:22:50.750
+Mislav: non-self state without hurting the mempool, etc. So I feel, as far as the coordination is going on the account abstraction teams, we can do a lot, and standardize a lot, through the frame transaction,
+
+113
+00:22:50.750 --> 00:22:58.900
+Mislav: through the frame transaction, proposal as it is right now, maybe with a few minor changes, and that's, yeah, that's definitely something I would…
+
+114
+00:22:58.900 --> 00:23:12.630
+Mislav: give it as a big plus, because, you know, like, it's always been notoriously difficult to coordinate in the AA community, and yeah, frames have actually managed to achieve that in quite a significant way, so I think that's a very big plus.
+
+115
+00:23:16.830 --> 00:23:18.440
+marc | wolovim: Thank you. Press switch.
+
+116
+00:23:26.240 --> 00:23:33.659
+prestwich: The things I think are most important for native AA to accomplish are transaction batching and permanent key invalidation.
+
+117
+00:23:34.100 --> 00:23:38.060
+prestwich: You need to be able to permanently invalidate the credentials of an account.
+
+118
+00:23:39.290 --> 00:23:41.250
+prestwich: And replace them.
+
+119
+00:23:41.740 --> 00:23:44.950
+prestwich: Frame transactions accomplish these in…
+
+120
+00:23:45.800 --> 00:23:51.889
+prestwich: reasonable, but fairly complex ways. They require an awful lot of wallet rollover.
+
+121
+00:23:52.420 --> 00:23:54.880
+prestwich: and…
+
+122
+00:23:55.300 --> 00:24:03.279
+prestwich: you know, I think that simplifying implementation is the other main thing native AI should accomplish. I don't think that…
+
+123
+00:24:03.610 --> 00:24:08.720
+prestwich: Future compatibility for unspecified aggregation systems, or for…
+
+124
+00:24:09.280 --> 00:24:13.120
+prestwich: Other unspecified future cryptographic systems is important.
+
+125
+00:24:17.920 --> 00:24:23.130
+marc | wolovim: I appreciate that. We're gonna wrap up here, but Chris, are you able to…
+
+126
+00:24:23.550 --> 00:24:25.860
+marc | wolovim: Speak quickly on this topic?
+
+127
+00:24:25.860 --> 00:24:33.370
+Chris - Base: Yeah, I can go… try to go super quick, but, like, I think, you know, in summary, I think, you know.
+
+128
+00:24:34.880 --> 00:24:37.429
+Chris - Base: Teams have different kind of opinions on, like.
+
+129
+00:24:37.650 --> 00:24:44.480
+Chris - Base: What's important based on, you know, if their wallet, if they've run protocols, etc, like, and…
+
+130
+00:24:44.630 --> 00:24:48.009
+Chris - Base: frame transactions, like, you know, I think
+
+131
+00:24:48.560 --> 00:24:52.830
+Chris - Base: speak to the ethos of Ethereum, like, being uncensorable.
+
+132
+00:24:52.950 --> 00:24:56.290
+Chris - Base: And compatibility with FOCIL, like, that's all…
+
+133
+00:24:56.390 --> 00:24:58.970
+Chris - Base: You know, super powerful and whatnot, but…
+
+134
+00:24:59.140 --> 00:25:03.129
+Chris - Base: I do think, like, I hear a lot of feedback from, you know, wallet teams, it's like, well.
+
+135
+00:25:03.240 --> 00:25:05.930
+Chris - Base: again, I think the only feature they do want is, like.
+
+136
+00:25:06.080 --> 00:25:09.529
+Chris - Base: So the ERC20 gas payment, and then a few signature types.
+
+137
+00:25:09.700 --> 00:25:11.360
+Chris - Base: key rotation.
+
+138
+00:25:11.780 --> 00:25:20.070
+Chris - Base: And that, you know, that seems to be, like, you know, roughly it. So, I think there's,
+
+139
+00:25:20.430 --> 00:25:39.390
+Chris - Base: a bit of overhead being paid and, like, the complexity of frame transactions for, like, maybe future features that we may not necessarily use. And that's the, you know, I'm just trying to, like, aggregate some of the feedback, that I've gotten as well, just on, you know, why teams aren't… don't want to do, A141.
+
+140
+00:25:39.740 --> 00:25:46.690
+Chris - Base: I think, like, everything else has kind of been said. And then, like, in general,
+
+141
+00:25:47.560 --> 00:25:54.980
+Chris - Base: 8130 is, like, just trying to address some of the performance issues while still being general, but more…
+
+142
+00:25:55.330 --> 00:26:09.000
+Chris - Base: defined in certain sense, so it's not quite as flexible, like, the frame ordering is… Sorry, the ordering of, like, what you can do and what you can call is explicit to try to make, things easier for protocol and denial of service risks and whatnot.
+
+143
+00:26:09.110 --> 00:26:11.849
+Chris - Base: But all those, like, things have to be considered as…
+
+144
+00:26:12.180 --> 00:26:22.149
+Chris - Base: Like, obviously 8141, and, like, AA in general touches, you know, pretty much the entire stack, from protocol, right, to wallets, to, like, UX to everything, right? So…
+
+145
+00:26:22.310 --> 00:26:24.109
+Chris - Base: Yeah, just to add that.
+
+146
+00:26:26.040 --> 00:26:30.440
+marc | wolovim: Great, thank you, and that's, maybe a good transition as well.
+
+147
+00:26:30.700 --> 00:26:37.600
+marc | wolovim: maybe my parting thought on this topic is that I don't think it's reasonable to expect consensus on this topic.
+
+148
+00:26:37.940 --> 00:26:43.560
+marc | wolovim: Yet, it is very valuable to hear what's important and what's at stake for different users of Ethereum.
+
+149
+00:26:43.800 --> 00:26:55.309
+marc | wolovim: Let's transition here to the, proposal updates section. So, for each, proposal, I welcome the authors to
+
+150
+00:26:55.580 --> 00:27:09.670
+marc | wolovim: catch up… catch us up on developments from, let's say, the past month or so, because it was, maybe three-ish weeks ago, where the last debate of account abstraction or
+
+151
+00:27:09.780 --> 00:27:12.850
+marc | wolovim: These… this set of proposals occurred.
+
+152
+00:27:13.380 --> 00:27:16.229
+marc | wolovim: And I know there's been a lot of activity since then.
+
+153
+00:27:17.270 --> 00:27:20.280
+marc | wolovim: I'll leave the floor open, does anyone,
+
+154
+00:27:20.380 --> 00:27:22.120
+marc | wolovim: Does anyone want to step up to…
+
+155
+00:27:22.790 --> 00:27:26.059
+marc | wolovim: Provide some updates for the proposal they are an author for.
+
+156
+00:27:29.980 --> 00:27:31.709
+Derek Chiang | ZeroDev: Oh, I think I can probably, like…
+
+157
+00:27:31.940 --> 00:27:36.700
+Derek Chiang | ZeroDev: give some updates on the firm's side. So…
+
+158
+00:27:36.940 --> 00:27:42.699
+Derek Chiang | ZeroDev: I think based on what everyone has said, it's clear that there are two competing…
+
+159
+00:27:42.910 --> 00:27:50.789
+Derek Chiang | ZeroDev: I guess, goals of AA that, I guess are pushing some of the Yazis, you know, EIPs in different directions, right?
+
+160
+00:27:51.010 --> 00:27:58.540
+Derek Chiang | ZeroDev: So, one thing that people want, is flexibility, right? You know, people want to, for example, be able to.
+
+161
+00:27:58.640 --> 00:28:11.240
+Derek Chiang | ZeroDev: originates transactions from privacy protocols, right? So that will save users of privacy protocols from having to rely on centralized relayers. So that's, like, one example of the larger goal of
+
+162
+00:28:11.560 --> 00:28:17.770
+Derek Chiang | ZeroDev: Flexible validation logic. But then on the other hand, you also hear people who want to have.
+
+163
+00:28:17.850 --> 00:28:33.689
+Derek Chiang | ZeroDev: essentially predictable performance when it comes to the mempool, right? So people want to be able to validate transactions very cheaply, without necessarily having to chase through a very large transaction, right? And that's also true for L2s, right? You know, so that's why Chris from Base
+
+164
+00:28:33.690 --> 00:28:38.229
+Derek Chiang | ZeroDev: mentioned that, some L2s, they, you know, they also want that, right?
+
+165
+00:28:38.390 --> 00:28:57.469
+Derek Chiang | ZeroDev: So one update, you know, so, and by the way, like, that's actually been the top priority, within, kind of like, the firm's author group, which is to adjust this dichotomy, right? You know, like, the, kind of like the tension between flexibility and performance. So, one solution that we, worked on, I actually posted a PI in…
+
+166
+00:28:57.720 --> 00:29:02.490
+Derek Chiang | ZeroDev: the AA Mafia, you know, yesterday. Basically.
+
+167
+00:29:02.990 --> 00:29:10.760
+Derek Chiang | ZeroDev: It's this idea of allowing, friends to be structured such that the payment, the payment frame.
+
+168
+00:29:10.770 --> 00:29:29.089
+Derek Chiang | ZeroDev: can come before the sender validation frame. So, normally for every transaction, obviously, like, no one pays gas unless the sender signature is valid, right? Because if the sender signature is invalid, then obviously this transaction should not be authorized, and therefore no one pays gas, right?
+
+169
+00:29:29.160 --> 00:29:42.390
+Derek Chiang | ZeroDev: But since frames kind of, like, decouples the authorization from the ordering, right, you know, because you can order firms in any way, we're actually able to allow, I guess, people to approve the payment of a transaction
+
+170
+00:29:43.120 --> 00:29:57.939
+Derek Chiang | ZeroDev: before the validation of the sender signature. So what this does is that, if a member pool sees a friend's transaction where the payment is authorized first, then they actually do not have to check
+
+171
+00:29:57.940 --> 00:30:10.229
+Derek Chiang | ZeroDev: they do not have to validate the sender logic. So what this means is that, for example, today, if you want to send a, a privacy, you know, a transaction originated by a privacy protocol.
+
+172
+00:30:10.330 --> 00:30:24.779
+Derek Chiang | ZeroDev: that may be hard to propagate through the public manpool, because the privacy protocol validation might take a lot of guess, right? But with this change, as long as you can find another sponsor for your transaction, which can also, by the way, be one of your other wallets.
+
+173
+00:30:24.860 --> 00:30:36.790
+Derek Chiang | ZeroDev: Then the mempool just has to validate the payer signature. The mempool doesn't have to validate the sender signature. So that's essentially one way for us to achieve very predictable performance in the mempool.
+
+174
+00:30:36.810 --> 00:30:51.060
+Derek Chiang | ZeroDev: wire still allowing arbitrary, sender validation logic. So, I think that's, like, a really, sort of, like, noteworthy update that is currently being worked on for friends.
+
+175
+00:30:51.160 --> 00:31:00.059
+Derek Chiang | ZeroDev: Yeah, not sure if there are any questions, or if maybe Matt or Vitalik want to add anything.
+
+176
+00:31:20.940 --> 00:31:22.900
+marc | wolovim: Okay, thank you. Ben?
+
+177
+00:31:24.370 --> 00:31:32.310
+Ben Adams: Yeah, so I added, I tightened up the spec for frame transactions a little bit, and that's been merged.
+
+178
+00:31:32.450 --> 00:31:48.610
+Ben Adams: But also… So they, added two more EIPs, which are, Contact contract payer transaction.
+
+179
+00:31:48.850 --> 00:31:56.260
+Ben Adams: And the idea… so… You'd have something… Else that would handle,
+
+180
+00:31:56.690 --> 00:32:02.389
+Ben Adams: Changing the cryptographic keys in terms of what you're signing with, which
+
+181
+00:32:02.860 --> 00:32:08.049
+Ben Adams: would be schemed, but I think there's a number of other EIPs for that.
+
+182
+00:32:08.870 --> 00:32:14.290
+Ben Adams: And so if we divorce that, from…
+
+183
+00:32:15.140 --> 00:32:18.550
+Ben Adams: From the system, then the idea with
+
+184
+00:32:18.730 --> 00:32:27.630
+Ben Adams: The contact payer transaction is… it would be, like, one-to-one, so a contract would say, I accept.
+
+185
+00:32:29.770 --> 00:32:38.080
+Ben Adams: I am the… I am the… I am owned by this signer, so your, your… the EOA effectively becomes a signer.
+
+186
+00:32:38.330 --> 00:32:39.050
+Ben Adams: And…
+
+187
+00:32:40.090 --> 00:32:49.270
+Ben Adams: the Memple could go, okay, does this contract have enough ETH to pay for the transaction? And it becomes a very light way to verify it.
+
+188
+00:32:49.650 --> 00:32:53.959
+Ben Adams: Rather than having to invoke the, EVM.
+
+189
+00:32:54.400 --> 00:32:59.090
+Ben Adams: And then… Also, there was the counterfactual transaction.
+
+190
+00:32:59.450 --> 00:33:01.620
+Ben Adams: Which is a similar thing.
+
+191
+00:33:03.610 --> 00:33:18.429
+Ben Adams: But you can validate that a privacy pool could pay for the transaction. What's being withdrawn… you prove that what's being withdrawn from the privacy pool can cover the transaction gas, so those are the two others. But it's,
+
+192
+00:33:18.880 --> 00:33:27.509
+Ben Adams: So the combination of the EIPs is more unbundling than Frame, which is a different kind of layering.
+
+193
+00:33:30.970 --> 00:33:31.890
+Ben Adams: That's this.
+
+194
+00:33:32.050 --> 00:33:37.289
+Ben Adams: I… I'd highlight a difference in the sponsorship,
+
+195
+00:33:37.760 --> 00:33:50.059
+Ben Adams: So the contact payer transaction is essentially one signer to one vault. The signer can have, like, many assets, many contracts that approve them.
+
+196
+00:33:50.190 --> 00:33:51.610
+Ben Adams: So you could,
+
+197
+00:33:52.890 --> 00:34:11.419
+Ben Adams: you could sign, you know, you could say, I'm using this smart contract. You'd essentially do two, and the… the smart contract, because it's a smart contract, can do batching and all that sort of stuff, so that's… that's fine. But it wouldn't do what Frame Transactions does, where you could
+
+198
+00:34:12.350 --> 00:34:22.449
+Ben Adams: have a difference between… I could be sponsored by somebody completely different, you know, that could be disconnected. It would be like.
+
+199
+00:34:22.710 --> 00:34:27.319
+Ben Adams: You… you can be sponsored by your assets, which are in a different account, not…
+
+200
+00:34:28.270 --> 00:34:30.350
+Ben Adams: Some third party can do it.
+
+201
+00:34:33.670 --> 00:34:34.800
+Ben Adams: If that makes sense.
+
+202
+00:34:36.770 --> 00:34:41.489
+Ben Adams: Buddy, you can… Through that, you can achieve key rotation and all that.
+
+203
+00:34:41.870 --> 00:34:45.760
+Ben Adams: Stuff as well, because you change who the signer key is for…
+
+204
+00:34:46.120 --> 00:34:49.720
+Ben Adams: For that vault. And then the assets are now at a different address.
+
+205
+00:34:51.040 --> 00:34:56.649
+Ben Adams: And the identity would be associated with the smart contract, because that's the thing that contains everything.
+
+206
+00:34:57.070 --> 00:34:59.869
+Ben Adams: So that would have your… You know, you're…
+
+207
+00:35:00.180 --> 00:35:04.650
+Ben Adams: ENS names, your positions on Aave, or… or whatever.
+
+208
+00:35:07.130 --> 00:35:09.220
+Ben Adams: So it just sort of inverts everything.
+
+209
+00:35:11.480 --> 00:35:12.699
+marc | wolovim: Cool, thank you, Ben.
+
+210
+00:35:13.100 --> 00:35:15.680
+marc | wolovim: If we've got time for it,
+
+211
+00:35:15.980 --> 00:35:23.120
+marc | wolovim: there are sub-bullet points for privacy and adoption strategy. Some of this is, good debate to occur there as well.
+
+212
+00:35:23.910 --> 00:35:26.920
+marc | wolovim: The…
+
+213
+00:35:27.380 --> 00:35:35.099
+marc | wolovim: last EIP on my radar. I know Frederick was interested in saying a couple words about, 7906, which is…
+
+214
+00:35:35.700 --> 00:35:38.770
+marc | wolovim: Compatible with, frame transactions?
+
+215
+00:35:39.600 --> 00:35:41.059
+marc | wolovim: Frederick, do you want to jump in?
+
+216
+00:35:41.400 --> 00:35:43.289
+Fredrik: Yeah, yeah, sure.
+
+217
+00:35:43.450 --> 00:35:50.839
+Fredrik: Yeah, to give you a bit of a background, so during the outreach of the trillion dollar security project, we asked
+
+218
+00:35:51.360 --> 00:36:01.689
+Fredrik: basically hundreds of people and entities for feedback on areas, that they felt we should focus on to help onboard the next billion users. And…
+
+219
+00:36:02.570 --> 00:36:18.580
+Fredrik: There was one thing that was always brought up as one of the most problematic factors for mass adaptation, and that was the amount of hacks that people fell victim to, primarily to things like drainers and phishing attacks and other things.
+
+220
+00:36:18.870 --> 00:36:28.950
+Fredrik: It's obviously a problem here when someone do lose their funds, on, like, in its own.
+
+221
+00:36:29.250 --> 00:36:41.250
+Fredrik: But then, this is amplified by quite a lot, when, you know, they will naturally tell their friends, their family, colleagues, etc, about what happened. And that kind of creates this negative spiral.
+
+222
+00:36:42.020 --> 00:36:43.300
+Fredrik: So…
+
+223
+00:36:43.670 --> 00:36:53.030
+Fredrik: We have been looking into ways to fix this, and there's no, like, silver bullet to fix this, but, you know, there are projects such as
+
+224
+00:36:53.120 --> 00:37:05.860
+Fredrik: Clear signing being worked on that would help people more easily understand what they're signing. There are verifiable frontends that help provide the ability to wallets to
+
+225
+00:37:06.100 --> 00:37:19.420
+Fredrik: display warnings if a front end that people are interacting with has been compromised in any way. And then there's transaction assertions, which is, yeah, I guess the topic here.
+
+226
+00:37:19.980 --> 00:37:35.049
+Fredrik: So, you know, today, if you use a wallet, normally what it will do is simulate what you're about to sign, and you can see that it looks like this is gonna happen. But a simulation is…
+
+227
+00:37:35.540 --> 00:37:39.520
+Fredrik: Just a simulation, so it's not, you know, binding.
+
+228
+00:37:39.990 --> 00:37:42.679
+Fredrik: And the real issue is not…
+
+229
+00:37:42.810 --> 00:37:47.849
+Fredrik: Like, if the intended action happens, but…
+
+230
+00:37:48.180 --> 00:37:54.469
+Fredrik: I mean, that's not the only issue, it's also if any extra side effects happen that the user never approved.
+
+231
+00:37:54.640 --> 00:38:09.850
+Fredrik: And that can be, for example, you know, you think that you're gonna get a NFT by doing this transaction, which you might get, but you also approve a spender… a malicious spender address on your USDC, for example.
+
+232
+00:38:11.090 --> 00:38:18.890
+Fredrik: And then, so transaction assertions, they basically solved this by letting the user approve.
+
+233
+00:38:19.060 --> 00:38:32.989
+Fredrik: what could be called an envelope of effects. Basically, execute this specific thing, but then revert your transaction if the actual outcome goes outside of this policy.
+
+234
+00:38:33.690 --> 00:38:39.489
+Fredrik: We've been discussing many ways of doing this,
+
+235
+00:38:39.990 --> 00:38:55.869
+Fredrik: But I think this fits very naturally into frame transactions, because frames already separate the execution into stages, so, you know, frames can give us the structure, and then assertion can give us the safety policy at the end.
+
+236
+00:38:58.930 --> 00:39:16.140
+Fredrik: we've been thinking about different ways of doing this. It's been, I guess, discussed in various forms for, like, a year or so, maybe even more. We had a big… a fairly big breakout at DevConnect about this as well, discussing the pros and cons of
+
+237
+00:39:16.700 --> 00:39:21.770
+Fredrik: For example, one idea was to have a new transaction type,
+
+238
+00:39:22.070 --> 00:39:26.529
+Fredrik: Which was then, kind of, shelved after discussions.
+
+239
+00:39:27.070 --> 00:39:29.680
+Fredrik: And then, basically the…
+
+240
+00:39:30.380 --> 00:39:44.459
+Fredrik: the best approach seems to be to have an opcode. So, there's an EIP for this, 7906, which basically helps fix this.
+
+241
+00:39:45.510 --> 00:39:54.590
+Fredrik: The next step here is basically to create a proof of concept that this works, some kind of a demo playground that shows, you know.
+
+242
+00:39:54.820 --> 00:39:58.760
+Fredrik: With… without, 7906,
+
+243
+00:39:58.940 --> 00:40:07.729
+Fredrik: This is what would happen during a malicious transaction with 7906. This is, you know, how it would be stopped, basically.
+
+244
+00:40:08.250 --> 00:40:15.400
+Fredrik: And then, create some tests and such, so we can hopefully be included in a future hard fork.
+
+245
+00:40:16.660 --> 00:40:18.549
+Fredrik: Yeah, I guess,
+
+246
+00:40:19.360 --> 00:40:25.230
+Fredrik: Something I did want to bring up is that I saw that eTrex made this,
+
+247
+00:40:25.550 --> 00:40:30.329
+Fredrik: cool them implementation of transactions, and yeah, perhaps…
+
+248
+00:40:30.570 --> 00:40:43.470
+Fredrik: We can chat later about doing something similar to this to show, basically, how 7906 ties together with the frame transactions and provide the ability to prevent these kind of attacks from happening.
+
+249
+00:40:43.630 --> 00:40:55.810
+Fredrik: Alex is the author of 7906. I think he's in the call. I think I saw him, at least, at one point. I don't know if he wants to say something.
+
+250
+00:40:57.620 --> 00:41:08.949
+Alex Forshtat: Yeah, hi, everyone. Thank you very much for, the interest, and yeah, I would, love to cooperate with Ethrex on the demo, like, thought, about it for…
+
+251
+00:41:09.010 --> 00:41:21.599
+Alex Forshtat: quite some time, and, yeah, it's, it's a very strong primitive to be able to provide, the, like, negative, assertions, like, and negative conditions for…
+
+252
+00:41:21.670 --> 00:41:29.940
+Alex Forshtat: per transaction, it plays very well with frame transaction, doesn't necessarily require frame transaction as an opcode. You can…
+
+253
+00:41:30.210 --> 00:41:38.280
+Alex Forshtat: done in… In parallel, yeah, I guess that's it, I,
+
+254
+00:41:38.430 --> 00:41:41.999
+Alex Forshtat: If anyone has any questions, I'd also be happy to answer.
+
+255
+00:41:43.890 --> 00:41:46.070
+marc | wolovim: Thank you both. Tomas has a hand up.
+
+256
+00:41:47.740 --> 00:42:07.679
+Tomás Arjovsky | Lambda | Ethrex: Hey, no, just a quick clarification from the Ethrex team. Aside from the demo, we have also implemented a small DevNet. It's running on one server, so it's nothing to prove on low tests or high scale, but if you want to try, give some RPC requests to some running nodes, we already have them. We can send you the links if you want.
+
+257
+00:42:07.710 --> 00:42:22.469
+Tomás Arjovsky | Lambda | Ethrex: And there's also a faucet, and there's a couple of contracts for a Paymaster example, and a gas sponsor example that can be used to test, how frame transactions work. So yeah, let us know if that's something that you'd be interested in testing.
+
+258
+00:42:26.460 --> 00:42:27.889
+marc | wolovim: Excellent, thank you.
+
+259
+00:42:28.900 --> 00:42:43.929
+marc | wolovim: So I see we've got plenty of follow-up questions in chat. I think that's a good thing. I will acknowledge we will not be able to go down each of those rabbit holes here. We've got about 20 minutes remaining in the call, so I'll suggest we move to the
+
+260
+00:42:44.150 --> 00:42:57.219
+marc | wolovim: the next section, which is… there are many more rabbit holes here as well. We're definitely not going to be able to get very deep into any of them, but hopefully we can make enough progress to identify
+
+261
+00:42:57.450 --> 00:43:05.229
+marc | wolovim: For example, next steps, or whatever open questions exist that need to get answering… are answered before we can move forward.
+
+262
+00:43:07.650 --> 00:43:20.560
+marc | wolovim: So, next section is compatibility discussions, or these are just a series of considerations. I've heard the most noise about people wanting the most clarity, or asking for the most clarity about
+
+263
+00:43:21.590 --> 00:43:25.660
+marc | wolovim: For any of these given, proposals.
+
+264
+00:43:27.250 --> 00:43:34.000
+marc | wolovim: there's… at the risk of, choosing the wrong thing to focus on first, I'm…
+
+265
+00:43:34.180 --> 00:43:39.189
+marc | wolovim: gonna take the order that exists there. The first one is adoption strategy, so…
+
+266
+00:43:39.310 --> 00:43:52.070
+marc | wolovim: quick context is, this is one of the categories of concern for any Native AAA proposal I've heard, is essentially how do we ensure adoption reaches critical mass in a timely manner?
+
+267
+00:43:52.480 --> 00:44:02.660
+marc | wolovim: There's a lot to dig in here, like how opinionated are patterns within the proposal, how much work and risk is there for wallets or app developers.
+
+268
+00:44:04.960 --> 00:44:07.250
+marc | wolovim: Would anybody like to… to…
+
+269
+00:44:08.670 --> 00:44:14.389
+marc | wolovim: Try to describe the state of… of… of how you're thinking about your proposal and
+
+270
+00:44:15.190 --> 00:44:21.449
+marc | wolovim: Rolling it out effectively to the world, or what questions you have that maybe some others on this call can help answer.
+
+271
+00:44:28.500 --> 00:44:30.279
+marc | wolovim: David's got a hand up.
+
+272
+00:44:31.180 --> 00:44:41.530
+david: Yeah, it's David from Trust Wallet. Actually, some of the arguments that I have been, seeing regarding, like, A141 was
+
+273
+00:44:41.770 --> 00:44:44.600
+david: The low adoption of 7702.
+
+274
+00:44:44.940 --> 00:44:52.519
+david: And I think, like, from a wallet developer perspective, it actually does take a lot of effort, too.
+
+275
+00:44:52.630 --> 00:45:11.899
+david: have, like, some of these fundamental level shifts as a wallet. Like, we need to audit our SPAR contract, like, and then, like, our front-end layer, how we have, like, the bundler, paymaster, or, like, the relayer systems. So, from a wallet perspective, having these types of updates actually do take a bit of time.
+
+276
+00:45:11.990 --> 00:45:28.540
+david: However, if we have a look into the data today, there is, like, nearly, like, 100 million weekly 7702 transactions, actually not there, but close to. And trustwall also have been seeing, like, meaningful traffic, leveraging these.
+
+277
+00:45:28.780 --> 00:45:35.420
+david: And also a lot of wallets, use these techniques to somehow make it more automated.
+
+278
+00:45:35.760 --> 00:45:48.160
+david: So, I believe that it will be somehow in line with a one-for-one. Like, in my personal opinion, it wouldn't be, like, extremely drastic as soon as things get merged.
+
+279
+00:45:48.450 --> 00:46:08.280
+david: But wallets actually look into the opportunities of how we can, like, really automate or make wallets smarter, and then they work on these, and then by the time they're, like, confident enough through multiple rounds of security audits and development, it actually gradually gets rolled out to the users.
+
+280
+00:46:08.300 --> 00:46:15.260
+david: So, from that perspective, having these foundations, I actually, believe will be a big plus.
+
+281
+00:46:15.290 --> 00:46:22.690
+david: And ultimately, like, a way that, like, the consumer wallets potentially would be willing to go.
+
+282
+00:46:22.910 --> 00:46:29.830
+david: But there will need to be a bit of time buffer, because there needs to be a lot of preparation for those.
+
+283
+00:46:30.240 --> 00:46:47.900
+david: And also, one of the reasons why I think this A141, this needs to be merged, or potentially something that could do these merged in a timely manner, is because, like, wallets also are transitioning from more of a passive helper.
+
+284
+00:46:47.900 --> 00:46:57.690
+david: into a more automated solution at an ecosystem level. And then if we actually do not have some things to support these.
+
+285
+00:46:57.720 --> 00:47:13.080
+david: at the protocol level, each wallet or each solutions will come up with their own ways, like, basically their own private, really, networks to just automate their wallet experience. And actually having something like a 141 will…
+
+286
+00:47:13.140 --> 00:47:26.560
+david: create a more, on-chain, verifiable way of how wallets actually end up building your automation solutions. So, yeah, those are just my two cents as a wallet developer.
+
+287
+00:47:31.840 --> 00:47:32.690
+marc | wolovim: Thanks, David.
+
+288
+00:47:32.890 --> 00:47:40.550
+marc | wolovim: Carlos, is this, maybe I'm confused by your question in chat. Is this related to adoption concerns?
+
+289
+00:47:41.150 --> 00:47:42.379
+CPerezz: No, not adoption.
+
+290
+00:47:43.480 --> 00:47:47.620
+marc | wolovim: Okay, if it were stateless or mempool, or…
+
+291
+00:47:47.970 --> 00:47:50.980
+marc | wolovim: Something else, those… those we can tackle next?
+
+292
+00:47:53.270 --> 00:47:56.340
+marc | wolovim: Thanks, Dirt.
+
+293
+00:47:56.340 --> 00:48:10.240
+Derek Chiang | ZeroDev: Oh, yeah, sorry, I just wanted to speak, kind of like… I just wanted to comment on what David said. You know, I think, really, really, really truly agree with what David said. I mean, honestly, TrustWallet's obviously one of the top adopters of AA, right? You know, they adopted
+
+294
+00:48:10.240 --> 00:48:22.480
+Derek Chiang | ZeroDev: 7702-4327, you know, so I trust their experience a lot. You know, so I think, like, our experience at Zero Dev has been very similar in that, the three core adoption…
+
+295
+00:48:22.570 --> 00:48:31.309
+Derek Chiang | ZeroDev: sort of, like, roadblocks to AA, in my opinion, are, one, you have to audit smart contracts, right?
+
+296
+00:48:31.400 --> 00:48:33.220
+Derek Chiang | ZeroDev: Two,
+
+297
+00:48:33.230 --> 00:48:47.659
+Derek Chiang | ZeroDev: you have to rely on relayers, right? You know, like, if you want to take advantage of the gas abstraction features. And the third one is that smart accounts do not work as reliably across chains
+
+298
+00:48:47.660 --> 00:49:06.740
+Derek Chiang | ZeroDev: as EOAs do, right? So I think, like, David mentioned point 1 and 2, and I just want to emphasize 3 as well, right? And so that's why, like, for firm transactions, we're actually trying really hard to adjust all three core adoption barriers. So for, the need to audit smart accounts.
+
+299
+00:49:06.790 --> 00:49:22.019
+Derek Chiang | ZeroDev: We are solving this in two ways. So one is that firm transaction just natively supports EOAs. Like, EOAs just work. You don't have to, like, order new smart contracts for it to work, right? Like, EOAs will be treated as if they have… are running a default smart accounts.
+
+300
+00:49:22.020 --> 00:49:34.210
+Derek Chiang | ZeroDev: Which is obviously, you know, guaranteed by the protocol in terms of security. And, you know, so even EOAs can start doing things like batching, you know, getting guests sponsored, paying guests in yes-20 tokens and whatnot, right?
+
+301
+00:49:34.440 --> 00:49:51.449
+Derek Chiang | ZeroDev: So that, so this one. The second way we are addressing this, which, you know, we are still working on, is basically defining a set of, what we call, canonical verifiers. So these are basically smart contracts, like, very minimal smart contracts, that wrap
+
+302
+00:49:51.900 --> 00:49:59.750
+Derek Chiang | ZeroDev: existing precompiliers, such as, you know, EC Recover and P256 Verify.
+
+303
+00:50:00.100 --> 00:50:04.019
+Derek Chiang | ZeroDev: So these are essentially smart contracts you can use.
+
+304
+00:50:04.170 --> 00:50:20.330
+Derek Chiang | ZeroDev: you can compose with your smart accounts to, to leverage new signature algorithms, right? You know, so, so again, you know, we hope that we can take away the burden of auditing the most obvious, sort of, like, authentication path.
+
+305
+00:50:20.410 --> 00:50:31.379
+Derek Chiang | ZeroDev: from the wallet developers, right? And then on the second point of, relayers, you know, NativeA, of course, solves that problem, because with NativeA, you don't need relayers, you know, that's kind of, like, the whole point.
+
+306
+00:50:31.480 --> 00:50:33.240
+Derek Chiang | ZeroDev: And then on the third point of.
+
+307
+00:50:33.340 --> 00:50:41.939
+Derek Chiang | ZeroDev: compatibility across chains. That's actually, like, the trickiest part that's, we are trying to solve right now, because, again, you know.
+
+308
+00:50:42.160 --> 00:50:50.000
+Derek Chiang | ZeroDev: from talking to L2s today, including base, Arbitrum, and whatnot, there are definitely, like, some concerns over, kind of like, with native AA,
+
+309
+00:50:50.150 --> 00:51:08.330
+Derek Chiang | ZeroDev: how they can achieve predictable performance and cost when it comes to validating transactions. So, yeah, you know, so I think that's, to me, like, the largest outstanding unknown here, you know, which is basically, like, whether we can convince, all the L2s, at least all the leading L2s, to
+
+310
+00:51:08.480 --> 00:51:14.950
+Derek Chiang | ZeroDev: support some kind of native AA, right? You know, so I think that's the… yeah, that's my view on, you know, on this topic.
+
+311
+00:51:17.890 --> 00:51:20.579
+marc | wolovim: Thanks. Follow-up question, is there…
+
+312
+00:51:21.130 --> 00:51:25.220
+marc | wolovim: What is progress on those discussions already?
+
+313
+00:51:25.520 --> 00:51:26.720
+marc | wolovim: Has that begun?
+
+314
+00:51:27.070 --> 00:51:29.620
+Derek Chiang | ZeroDev: You mean the discussions with, L2s?
+
+315
+00:51:30.160 --> 00:51:30.840
+marc | wolovim: Yes.
+
+316
+00:51:31.400 --> 00:51:34.129
+Derek Chiang | ZeroDev: Yes, yes, we are actually…
+
+317
+00:51:34.350 --> 00:51:51.809
+Derek Chiang | ZeroDev: you know, group chat with, base and Arbitrum. Obviously, if there's OP folks in here, please join as well. And yeah, you know, so I would say the discussion's ongoing, you know, but I wouldn't say that any consensus has been reached, but I don't know if Chris wants to speak from his perspective.
+
+318
+00:51:56.280 --> 00:52:00.379
+Chris - Base: Yeah, I wouldn't say consensus has been reached,
+
+319
+00:52:00.720 --> 00:52:04.160
+Chris - Base: I think, yeah, things are still in flux in development and whatnot.
+
+320
+00:52:08.980 --> 00:52:14.580
+marc | wolovim: Okay, are there any clear next steps that can be spelled out here?
+
+321
+00:52:22.260 --> 00:52:30.080
+Derek Chiang | ZeroDev: I think, from my perspective, yeah, just, like, keep working towards the consensus, with the L tools, seeing if there's, like,
+
+322
+00:52:30.660 --> 00:52:40.790
+Derek Chiang | ZeroDev: we can get firms to a specs where they feel very comfortable supporting. That's what I'm hoping we can get to, you know.
+
+323
+00:52:45.940 --> 00:52:46.710
+marc | wolovim: Okay.
+
+324
+00:52:47.650 --> 00:52:54.879
+marc | wolovim: Keeping an eye on the clock. There's only 12 minutes here left, so we are definitely not making it all the way through.
+
+325
+00:52:55.310 --> 00:53:09.499
+marc | wolovim: Are there any of these other, bullet points that can be tackled quickly, whether it be the current state of thinking on mempool implications, statelessness, compatibility, or privacy? Ben, go for it.
+
+326
+00:53:10.340 --> 00:53:16.400
+Ben Adams: Yeah, so I have a concern of any transaction type that needs to
+
+327
+00:53:16.750 --> 00:53:21.760
+Ben Adams: In fact, the EVM, in terms of… First…
+
+328
+00:53:23.040 --> 00:53:30.830
+Ben Adams: If it's pushing the cost… the base cost of a transaction up to, you know, 10 times what it normally is.
+
+329
+00:53:31.230 --> 00:53:38.869
+Ben Adams: Then… that might not be practical. And also, if,
+
+330
+00:53:39.290 --> 00:53:44.109
+Ben Adams: If they all have to be run in the mempool, that again is a problem, so…
+
+331
+00:53:44.660 --> 00:53:52.070
+Ben Adams: Essentially, the mempool is going to be processing you know, like… A hundred times the number…
+
+332
+00:53:52.250 --> 00:54:01.350
+Ben Adams: the amount of gas that would go in a block. It seems like now we're… we're in a situation where we wanna… we wanna put more transactions through the block, but we're…
+
+333
+00:54:02.610 --> 00:54:05.950
+Ben Adams: Forcing the validators into,
+
+334
+00:54:07.620 --> 00:54:13.850
+Ben Adams: spending all their, all their CPU on, processing transactions that aren't paying for anything.
+
+335
+00:54:16.050 --> 00:54:18.349
+Ben Adams: And so that's some of my concerns.
+
+336
+00:54:21.210 --> 00:54:25.980
+marc | wolovim: Before we go to Carlos, would anybody like to quickly respond to Ben's point?
+
+337
+00:54:38.790 --> 00:54:42.859
+Ben Adams: I mean, it… To… to be very specific, if… if…
+
+338
+00:54:43.000 --> 00:54:50.990
+Ben Adams: all the transactions now cost 10X on their… on their base, then we've, like, drop the…
+
+339
+00:54:51.240 --> 00:54:54.610
+Ben Adams: What can be included in that quite significantly, also.
+
+340
+00:55:04.340 --> 00:55:07.940
+lightclient: I guess I don't really understand fully the issue here.
+
+341
+00:55:09.610 --> 00:55:17.640
+Ben Adams: If you're validating signatures in the, in the… In the block and mempool.
+
+342
+00:55:18.750 --> 00:55:21.040
+Ben Adams: Using EVM instructions.
+
+343
+00:55:25.630 --> 00:55:32.039
+lightclient: Right, but why is this such an issue? Like, we already expend compute.
+
+344
+00:55:32.270 --> 00:55:35.819
+lightclient: It's just a different type of compute to validate the transaction.
+
+345
+00:55:37.030 --> 00:55:37.640
+Ben Adams: Is that the evening.
+
+346
+00:55:37.640 --> 00:55:40.510
+lightclient: Apparently inefficient about these things?
+
+347
+00:55:41.470 --> 00:55:46.579
+Ben Adams: Well, because the… at the moment, we use the EC Recover precompile.
+
+348
+00:55:46.800 --> 00:55:54.340
+Ben Adams: Which is… If you write EC Recover in EVM bike code, it is significantly more expensive.
+
+349
+00:55:54.760 --> 00:55:55.280
+Ben Adams: Brazile.
+
+350
+00:55:55.280 --> 00:56:01.129
+lightclient: Oh, well, we're not proposing people do that, though. Like, people will use the precompiles for…
+
+351
+00:56:01.630 --> 00:56:06.099
+lightclient: Most of their cryptographic needs, and it's just a matter of some…
+
+352
+00:56:06.480 --> 00:56:13.869
+lightclient: You know, interpreter functions to push and pop data to get in the correct form to submit to the cryptographic precompile.
+
+353
+00:56:14.520 --> 00:56:23.780
+Ben Adams: Okay, so then you'd have to introduce… The signing schemes as, that's pre-compiled.
+
+354
+00:56:23.950 --> 00:56:24.759
+Ben Adams: Is that correct?
+
+355
+00:56:26.090 --> 00:56:28.980
+lightclient: I mean, did we ever say that we would not be?
+
+356
+00:56:29.240 --> 00:56:33.199
+lightclient: Introducing… Designing schemes discrete precompiles?
+
+357
+00:56:34.400 --> 00:56:41.799
+Ben Adams: I think so from that document, Jared, it's like the walk-away test, it could be automatically upgraded without
+
+358
+00:56:42.370 --> 00:56:48.510
+Ben Adams: Or devastating anything. So that would… imply that… Oh, we've got a new…
+
+359
+00:56:49.040 --> 00:56:55.090
+Ben Adams: quantum signature we want to do, so we'll… someday can write a contract that verifies that… for that.
+
+360
+00:56:55.830 --> 00:56:58.110
+Ben Adams: Will be a massive expense.
+
+361
+00:57:00.800 --> 00:57:24.649
+vitalik: Yeah, so, like, one example is that any, hash-based signature algorithm, like, that definitely can be done without any precompiles, because the, like, the acceleration that matters is, already done in the existing hash precompile, right? And, you know, there is overhead in the sense of needing to, like, take
+
+362
+00:57:24.650 --> 00:57:42.960
+vitalik: a hash output and put it back into a hash input, but if you, like, kind of do the EVM math, it's, like, less than, like, 1.3x or something, right? I guess, like, two other big categories of examples of this that count. One of them is that, you know, with this,
+
+363
+00:57:42.960 --> 00:57:48.570
+vitalik: possible vectorization precompile, you will, be able to
+
+364
+00:57:48.900 --> 00:58:11.450
+vitalik: do, handle a large volume of, different lattice-based schemes that have different, different nuances and, different parameters, and there again, basically, yeah, what's going on is that the expensive object is being wrapped in a precompile, but, not the, sort of…
+
+365
+00:58:11.450 --> 00:58:21.649
+vitalik: customizable glue around it. And then probably a third example is, like, even if you do have a precomp… like, even if we do have to have a precompile for each
+
+366
+00:58:21.650 --> 00:58:24.269
+vitalik: individual algorithm, like, that's…
+
+367
+00:58:24.640 --> 00:58:47.149
+vitalik: still better than, having it be a, an account type, and, one of the big reasons why is because it's composable, right? Because, like, if it's in the form of a precompile, you can combine it together in a multisig, you can combine different schemes, you can have hierarchical multisigs, you can, mix and match things in
+
+368
+00:58:47.150 --> 00:58:53.870
+vitalik: whatever… in whatever format, that you want. So I would say, like, those are the…
+
+369
+00:58:53.950 --> 00:59:06.509
+vitalik: Big… big situa… Situations in which it's, an in… like, there's an actual improvement available over having, like, types for each individual thing you want to do.
+
+370
+00:59:14.240 --> 00:59:19.810
+marc | wolovim: In the interest of time, we've got 5 minutes left here, I'll suggest we have…
+
+371
+00:59:20.010 --> 00:59:22.500
+marc | wolovim: Carlos, Tomas, and Presswich.
+
+372
+00:59:22.960 --> 00:59:28.340
+marc | wolovim: Carlos, you've been waiting patiently, so the floor's yours.
+
+373
+00:59:29.600 --> 00:59:36.149
+CPerezz: Thank you. I'll try to be quick. So, we have discussed a lot, like.
+
+374
+00:59:36.150 --> 00:59:59.449
+CPerezz: AA, and the flavors of AA, and the different ideas, and all that stuff, but I think that's another big discussion, which, I mean, I'm not sure to which extent wallets and LTOS want to actually give input, or really have any interest, I don't know, whatever, but certainly, we are putting a lot of effort in on other areas of the protocol, like,
+
+375
+00:59:59.450 --> 01:00:13.649
+CPerezz: having CK validation and statelessness and stuff like that. And we have already seen that this is quite conflicting, depending on the flavor and the strategy that we go for in frames.
+
+376
+01:00:13.650 --> 01:00:22.939
+CPerezz: So, at the beginning, Frames was set to go for Strategy 2, which, that basically translates into you only can have sponsorships of ETH,
+
+377
+01:00:22.940 --> 01:00:33.670
+CPerezz: but not ERC20s. But seeing what wallets and Ltos say they want, it's clear that this is not gonna be enough.
+
+378
+01:00:33.720 --> 01:00:42.009
+CPerezz: So that basically only gives two options. One is we force every single node to hold all ERC20s.
+
+379
+01:00:42.110 --> 01:00:52.060
+CPerezz: Or the other one is we have a whitelist of VRC20s, which to me sounds crazy, but whatever. I mean, it can be done, of course. And…
+
+380
+01:00:52.060 --> 01:01:07.600
+CPerezz: I'm not sure if there's any kind of preference or idea, or wallets care about that or not, but that's certainly, from a protocol perspective, having this whitelist, although I don't like it, would be for sure the best trade-off.
+
+381
+01:01:07.600 --> 01:01:15.459
+CPerezz: Because otherwise, what we're saying is, every single node is gonna be forced to hold mostly two-thirds of the state already.
+
+382
+01:01:15.800 --> 01:01:27.810
+CPerezz: So once EKBM or any sort of statelessness lands, and people drop the state, that's gonna be a huge requirement, and therefore, we will lose a lot of member pool health, if not all of it.
+
+383
+01:01:27.830 --> 01:01:37.049
+CPerezz: So, my question to the authors, is basically, what kind of strategy are we going for? Because it clearly seems that we are not going strat 2.
+
+384
+01:01:37.280 --> 01:01:49.429
+CPerezz: And if… what's the approach gonna look like? Meaning, are we going for everything that wallets ask for, and then cutting down, based on how
+
+385
+01:01:49.510 --> 01:02:06.779
+CPerezz: crazy or hard, or the consequences on other parts of the protocol we observe, or are we going minimal to start, and then adding features as long as we agree on the trade-offs? Like, what is the approach, and how do we discuss that with wallets and stakeholders? Because it's not clear to me at all.
+
+386
+01:02:10.690 --> 01:02:11.610
+marc | wolovim: Thanks, Carlos.
+
+387
+01:02:11.810 --> 01:02:13.780
+marc | wolovim: Tomas.
+
+388
+01:02:15.720 --> 01:02:32.310
+Tomás Arjovsky | Lambda | Ethrex: Hey, so a couple of things. I mostly wanted to answer a couple of comments by both Ben and Carlos. So, Ben mentioned a couple of minutes ago the problem with precompiles. I don't think that the frame transactions idea is inherently against precompiles.
+
+389
+01:02:32.370 --> 01:02:46.789
+Tomás Arjovsky | Lambda | Ethrex: I think that it just opens the way to either use them or not, and in the future, you can just add a new precompile if you really require it, and that wouldn't be an issue, because you just don't need to have a new transaction type for that.
+
+390
+01:02:46.790 --> 01:03:05.610
+Tomás Arjovsky | Lambda | Ethrex: That on the one hand, and if you don't, then it's even more seamless. Regarding Carlos, I won't be able to answer the part regarding statelessness. I think that's an interesting topic of discussion, but regarding the strategies, I'm not familiar with the numbers of the strategies.
+
+391
+01:03:05.610 --> 01:03:15.369
+Tomás Arjovsky | Lambda | Ethrex: But I think that you can have a ERC20 sponsorship without necessarily having that either centralized or pre-whitelisted. I think that
+
+392
+01:03:15.370 --> 01:03:38.839
+Tomás Arjovsky | Lambda | Ethrex: we can have different paymasters, and paymasters can have their own list of supported ERC20s. And if you have something like that, you don't have to have anything protocol level, but you still can have some level of control by each of the paymasters, on what are the ERC20s that they trust. So I think that that is something that
+
+393
+01:03:39.300 --> 01:03:43.069
+Tomás Arjovsky | Lambda | Ethrex: In itself could be in the direction to solve this issue.
+
+394
+01:03:46.820 --> 01:03:49.740
+marc | wolovim: Great. Press switch, and then I'll close this out.
+
+395
+01:03:51.160 --> 01:03:58.340
+prestwich: So, through the call, we've talked about a bundle of features that Frame should provide.
+
+396
+01:03:58.700 --> 01:04:07.129
+prestwich: transaction batching, ERC20 paymasters, gas abstraction, etc, post-quantum.
+
+397
+01:04:07.520 --> 01:04:10.479
+prestwich: But it seems like a lot of those are…
+
+398
+01:04:10.810 --> 01:04:18.460
+prestwich: unfinished. Like, we've been talking about, just now, ideation on how to handle ERC20s safely.
+
+399
+01:04:18.790 --> 01:04:24.619
+prestwich: So, that feedback frame provides, we're not confident it provides it yet.
+
+400
+01:04:25.140 --> 01:04:28.680
+prestwich: And in chat, we've been talking about post-quantum.
+
+401
+01:04:29.570 --> 01:04:40.209
+prestwich: Frames don't provide that. We need follow-on EIPs for precompiles for specific signature schemes, we need follow-on EIPs for what ECE Recover does.
+
+402
+01:04:40.920 --> 01:04:52.119
+prestwich: afterwards… You know, frames don't provide some of the things that they are supposed to provide… yet.
+
+403
+01:04:52.820 --> 01:05:00.540
+prestwich: Do we want to do this if we're still in ideation on a lot of the benefits?
+
+404
+01:05:20.720 --> 01:05:21.750
+marc | wolovim: Nico.
+
+405
+01:05:21.920 --> 01:05:23.620
+marc | wolovim: And then we're… we're done here.
+
+406
+01:05:25.910 --> 01:05:33.179
+Nico C: Yeah, on the… Post quantum stuff, I think the question…
+
+407
+01:05:33.500 --> 01:05:42.040
+Nico C: are, like, the two options are basically hash-based or lattice. Hash-based, we don't need to pre-compile, and Lattice, we will probably
+
+408
+01:05:42.360 --> 01:05:46.960
+Nico C: find a way to have the generic precompile that Vitalik described.
+
+409
+01:05:47.490 --> 01:05:50.469
+Nico C: So, like, this part is done.
+
+410
+01:05:50.650 --> 01:06:03.389
+Nico C: EC DSA deactivation and EC recover is kind of independent from Frame. Like, if you take this in any scenario, we would have to do it.
+
+411
+01:06:03.920 --> 01:06:10.660
+Nico C: So yeah, the only remaining question, I feel, is the stateless part, and I think it's,
+
+412
+01:06:11.450 --> 01:06:15.790
+Nico C: Like, probably something that… Can be where, like…
+
+413
+01:06:16.290 --> 01:06:18.330
+Nico C: Defined in the next few weeks?
+
+414
+01:06:18.460 --> 01:06:20.730
+Nico C: And we have almost,
+
+415
+01:06:21.580 --> 01:06:26.489
+Nico C: 3 quarters until we actually ship this. So, yeah, I think it's kind of fine.
+
+416
+01:06:27.020 --> 01:06:31.960
+Nico C: But yeah, the post-quantum stuff, and the ACDSA deactivation, and…
+
+417
+01:06:32.070 --> 01:06:40.470
+Nico C: AC recovery modification, I feel like, yeah, it's… it's… Either independent or, done anyway.
+
+418
+01:06:44.570 --> 01:06:49.330
+marc | wolovim: Okay, thank you, everybody, for, for coming, participating.
+
+419
+01:06:49.480 --> 01:06:53.760
+marc | wolovim: And, going deep in the chat. Hopefully this is…
+
+420
+01:06:53.880 --> 01:07:06.519
+marc | wolovim: helpful for at least illuminating what important next questions need answering. And, I'll work to get this up on forecasts, but I encourage others to, don't wait for
+
+421
+01:07:06.730 --> 01:07:12.280
+marc | wolovim: for that to happen before, figuring out next steps for yourselves.
+
+422
+01:07:12.640 --> 01:07:20.160
+marc | wolovim: We don't have a date for the next one yet, but we'll announce, if and when we do. So,
+
+423
+01:07:20.540 --> 01:07:21.660
+marc | wolovim: Until then.
+
+424
+01:07:21.860 --> 01:07:23.500
+marc | wolovim: Catch you in the usual channels.
+
+425
+01:07:23.630 --> 01:07:24.909
+marc | wolovim: Thanks for coming, everyone.
+
+426
+01:07:26.920 --> 01:07:27.780
+lightclient: Thanks, Mark.
+
