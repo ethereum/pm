@@ -64,11 +64,12 @@ It is strongly encouraged to implement the EIP's protocol changes in the relevan
 <details>
 <summary>If your EIP impacts the Execution Layer:</summary>
 
-- Implement your changes in the [execution-specs](https://github.com/ethereum/execution-specs) (EELS)
+- Implement your changes in [execution-specs](https://github.com/ethereum/execution-specs) (EELS)
+  - Check the [docs](https://steel.ethereum.foundation/docs/) for help getting started.
   - EIP authors are encouraged to attempt the implementation on their own. Once a PR is created, EELS maintainers regularly step in to provide feedback or polish the implementation.
-  - Reference the [EIP Author's Manual](https://github.com/ethereum/execution-specs/blob/master/EIP_AUTHORS_MANUAL.md).
-  - Add test cases in an appropriate sub-folder of [`tests/unscheduled/`](https://github.com/ethereum/execution-specs/tree/b3543e94d12288e994fc1adea606c1a417db4a9f/tests/unscheduled). EELS maintainers will help with coverage, but simple tests can help you to verify your implementation.
-- For any help you may need, reach out to the [STEEL Team](https://steel.ethereum.foundation/) in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#el-testing` channel.
+  - Reference the [EIP Author's Manual](https://github.com/ethereum/execution-specs/blob/6333758e404889469abfed22a3028fa0eb459520/docs/specs/adding_a_new_eip.md).
+  - Add test cases in an appropriate sub-folder of [`tests/unscheduled/`](https://github.com/ethereum/execution-specs/tree/6333758e404889469abfed22a3028fa0eb459520/tests/unscheduled). EELS maintainers will help with coverage, but simple tests can help you to verify your implementation.
+- For any help you may need, reach out to the [STEEL Team](https://steel.ethereum.foundation/team) in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#el-testing` channel.
 
 </details>
 
