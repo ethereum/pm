@@ -1,0 +1,102 @@
+{
+  "meeting": "RPC Standards #26 - May 18, 2026",
+  "highlights": {
+    "specification_updates": [
+      {
+        "timestamp": "00:06:43",
+        "highlight": "Agreed to merge PR #791 (JSON-RPC invalid params error code clarification) and rename it appropriately"
+      },
+      {
+        "timestamp": "00:11:00",
+        "highlight": "Agreed to merge PR removing uncle methods from spec; no clients store uncle data anymore, untestable"
+      },
+      {
+        "timestamp": "00:23:14",
+        "highlight": "PR #762 (debug_traceTransaction standardization) ready to merge pending Felix review; implemented and approved across Geth, Besu, Erigon, Nethermind"
+      },
+      {
+        "timestamp": "00:33:59",
+        "highlight": "PR #790 (eth_getConfig) agreed to merge; replacement for prior PR with corrected auto-generated files"
+      }
+    ],
+    "open_rpc_versioning": [
+      {
+        "timestamp": "00:16:38",
+        "highlight": "OpenRPC 1.4 resolves Go binding and versioning issues; upgrade unblocks PR #797 (eth_subscribe specification)"
+      },
+      {
+        "timestamp": "01:01:21",
+        "highlight": "Documentation versioning demo shown: version dropdown, 'Next' for main branch, release notes workflow, and method tagging all functional; PR coming end of week"
+      }
+    ],
+    "missing_methods_review": [
+      {
+        "timestamp": "00:34:24",
+        "highlight": "HackMD overview of methods missing from spec identified; focus should be methods implemented in 3\u20134 clients"
+      },
+      {
+        "timestamp": "00:38:26",
+        "highlight": "eth_fillTransaction security concern raised by Nethermind: returning unsigned binary payload is risky; proposal to remove encoded output from method scope"
+      },
+      {
+        "timestamp": "00:45:18",
+        "highlight": "debug_executionWitness not in spec despite all-client implementation; straightforward candidate for a new PR"
+      }
+    ],
+    "hive_test_failures": [
+      {
+        "timestamp": "01:09:00",
+        "highlight": "Nethermind reported eth_simulateV1 Hive failures: multiple test cases failing on same generic error code; need distinct error codes per scenario or reduce test cases"
+      },
+      {
+        "timestamp": "01:11:17",
+        "highlight": "Root cause: clients validate EVM operations in different orders, causing different error codes; proposal to allow multiple acceptable error codes per test fixture"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:21:57",
+      "action": "Open PR to upgrade execution-apis OpenRPC spec version to 1.4; unblocks PR #797",
+      "owner": "Mercy Boma Naps-Nkari"
+    },
+    {
+      "timestamp": "00:45:37",
+      "action": "Open PR to add debug_executionWitness to execution-apis spec",
+      "owner": "Mercy Boma Naps-Nkari"
+    },
+    {
+      "timestamp": "00:49:13",
+      "action": "Bring missing-methods HackMD list to ACDE for broader input on what to standardize or drop",
+      "owner": "Mercy Boma Naps-Nkari"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:10:00",
+      "decision": "Merge PR removing eth_getUncle* methods from spec; data unavailable on any current client"
+    },
+    {
+      "timestamp": "00:21:38",
+      "decision": "Defer PR #797 (eth_subscribe) until OpenRPC spec version is upgraded to 1.4"
+    },
+    {
+      "timestamp": "00:42:09",
+      "decision": "eth_fillTransaction to be updated: remove unsigned encoded payload from response; retain default-filling behavior only"
+    },
+    {
+      "timestamp": "01:06:47",
+      "decision": "Documentation versioning: retain 'Next' label for main branch in versioned docs site"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:07:21",
+      "target": "End of week - documentation versioning PR to be opened by zcstarr"
+    },
+    {
+      "timestamp": "01:12:25",
+      "target": "Next call - discuss Hive eth_simulateV1 test failures and error code alignment in detail"
+    }
+  ]
+}

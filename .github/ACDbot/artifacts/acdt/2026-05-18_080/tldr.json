@@ -1,0 +1,112 @@
+{
+  "meeting": "ACDT #80 - May 18, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:25:40",
+        "highlight": "bal-devnet-7 launching today/tomorrow; gated on tests-bal@v7.2.0 release"
+      },
+      {
+        "timestamp": "00:27:22",
+        "highlight": "Erigon, Nethermind, Nimbus passing tests; Besu missing some tests; Geth branch not ready until mid-week"
+      },
+      {
+        "timestamp": "00:43:47",
+        "highlight": "glamsterdam-devnet-4 requires separate branch from bal-devnet-7 due to engine API gas limit change (PR #796); Nethermind and Erigon already done"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:26:09",
+        "highlight": "tests-bal@v7.2.0 releasing post-call; adds ~9 new AT37 tests clients must pass before joining bal-devnet-7"
+      },
+      {
+        "timestamp": "00:33:12",
+        "highlight": "Benchmarking moving to bal-devnet-7; clients urged to merge state access optimizations (batch I/O, state root calculation) urgently \u2014 blocker for final repricing numbers"
+      }
+    ],
+    "repricing_and_eips": [
+      {
+        "timestamp": "00:45:37",
+        "highlight": "EIP-7904 (compute repricings) tentatively dropped \u2014 most clients exceed 100M gas/s target post-BAL optimizations"
+      },
+      {
+        "timestamp": "00:50:59",
+        "highlight": "EIP-8038 and EIP-2780 targeted for glamsterdam-devnet-5 with placeholder numbers to de-risk implementation; final values pending benchmarks"
+      },
+      {
+        "timestamp": "00:53:16",
+        "highlight": "EIP-8246 (remove self-destruct gas burn) targeted for glamsterdam-devnet-5; EIP-7708 lists it as a dependency"
+      }
+    ],
+    "contract_code_size": [
+      {
+        "timestamp": "00:08:22",
+        "highlight": "EIP-7954 proposed to raise max contract code size from 32KB to 64KB; already CFI'd at 32KB, this bumps further"
+      },
+      {
+        "timestamp": "00:14:04",
+        "highlight": "Consensus: target glamsterdam-devnet-5; benchmark all three values (32, 48, 64KB) before finalizing; do not change current devnet scope"
+      }
+    ],
+    "ssz_engine_api": [
+      {
+        "timestamp": "01:00:49",
+        "highlight": "Two competing REST-SSZ Engine API proposals: PR #764 (Barnabas, minimal changes) vs PR #793 (Marius, cleaner REST structure); Nethermind and Erigon already merged #764"
+      },
+      {
+        "timestamp": "01:10:27",
+        "highlight": "No resolution reached; decision deferred to ACDE Thursday; key debate is shipping fast vs. doing it cleanly"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:35:49",
+      "action": "Client teams: report post-state root calculation optimization status in BAL Discord thread",
+      "owner": "All EL client teams"
+    },
+    {
+      "timestamp": "00:30:42",
+      "action": "Review and merge eth/71 devp2p PR #264 (mandatory for bal-devnet-7)",
+      "owner": "Felix / client teams"
+    },
+    {
+      "timestamp": "01:11:44",
+      "action": "Decide between execution-apis PR #764 vs #793 (REST-SSZ Engine API)",
+      "owner": "ACDE Thursday"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:14:04",
+      "decision": "EIP-7954 (64KB code size) targets glamsterdam-devnet-5, not current devnet"
+    },
+    {
+      "timestamp": "00:25:05",
+      "decision": "SELFDESTRUCT removal deferred to next fork (Hegota); propose proper EIP for Bogota"
+    },
+    {
+      "timestamp": "00:29:13",
+      "decision": "bal-devnet-7 client participation gated on passing tests-bal@v7.2.0"
+    },
+    {
+      "timestamp": "00:56:33",
+      "decision": "EIP-8246 targets glamsterdam-devnet-5 alongside EIP-7708"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:28:00",
+      "target": "bal-devnet-7 launch: end of day May 18 or early May 19"
+    },
+    {
+      "timestamp": "00:43:47",
+      "target": "glamsterdam-devnet-4: after bal-devnet-7 stabilizes; requires separate client branches"
+    },
+    {
+      "timestamp": "00:50:59",
+      "target": "glamsterdam-devnet-5: EIP-8038, EIP-2780, EIP-8246, EIP-7954 (pending benchmarks)"
+    }
+  ]
+}

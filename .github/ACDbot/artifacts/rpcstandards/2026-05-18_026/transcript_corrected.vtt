@@ -1,0 +1,2502 @@
+WEBVTT
+
+1
+00:00:32.090 --> 00:00:32.880
+Mercy Boma Naps-Nkari: Hello?
+
+2
+00:00:36.560 --> 00:00:37.260
+sina: Bye.
+
+3
+00:00:39.190 --> 00:00:40.050
+Mercy Boma Naps-Nkari: Good evening.
+
+4
+00:00:43.060 --> 00:00:48.289
+Mercy Boma Naps-Nkari: I guess we can wait for the next, like… Too many tootsu.
+
+5
+00:00:50.710 --> 00:00:51.510
+sina: Yep, sure.
+
+6
+00:01:07.130 --> 00:01:08.250
+Stavros Vlachakis: No, I know.
+
+7
+00:02:39.260 --> 00:02:42.240
+Mercy Boma Naps-Nkari: Hello, so I think, okay.
+
+8
+00:02:42.370 --> 00:02:45.179
+Mercy Boma Naps-Nkari: Yep, we can start now. Good afternoon.
+
+9
+00:02:45.510 --> 00:02:50.770
+Mercy Boma Naps-Nkari: Welcome to ROPC Core, and I think I can share my screen.
+
+10
+00:02:51.950 --> 00:02:53.469
+Mercy Boma Naps-Nkari: What's this agenda?
+
+11
+00:03:11.880 --> 00:03:13.929
+Mercy Boma Naps-Nkari: Chuck, is my screen visible?
+
+12
+00:03:17.060 --> 00:03:17.840
+Felix (Geth): Yes.
+
+13
+00:03:18.970 --> 00:03:20.319
+Mercy Boma Naps-Nkari: Okay, thank you.
+
+14
+00:03:24.220 --> 00:03:30.250
+Mercy Boma Naps-Nkari: We sort of have, like, a lot of things, and then… but we can go in this order.
+
+15
+00:03:30.590 --> 00:03:34.200
+Mercy Boma Naps-Nkari: on this EIGM PRO791.
+
+16
+00:03:36.050 --> 00:03:38.589
+Mercy Boma Naps-Nkari: Oh, that's by me.
+
+17
+00:03:42.240 --> 00:03:54.429
+Mercy Boma Naps-Nkari: Although, it's… it's not like, any, major changes. I think, Sinai has already approved this, but I'm not sure if, there's some other comments on it.
+
+18
+00:03:54.940 --> 00:03:56.899
+Mercy Boma Naps-Nkari: Or something else should be done.
+
+19
+00:03:59.420 --> 00:04:00.979
+Felix (Geth): Senior, can you make a comment?
+
+20
+00:04:02.650 --> 00:04:04.170
+Mercy Boma Naps-Nkari: He already approved it.
+
+21
+00:04:08.250 --> 00:04:13.660
+sina: I mean, this, this error, I believe is, jason, RPC-wide.
+
+22
+00:04:14.210 --> 00:04:15.260
+sina: Standard.
+
+23
+00:04:16.839 --> 00:04:19.600
+sina: But I know that some methods
+
+24
+00:04:20.339 --> 00:04:23.560
+sina: I believe it simulates, for one.
+
+25
+00:04:24.080 --> 00:04:28.460
+sina: specifies it explicitly, and I guess it doesn't really harm to do so.
+
+26
+00:04:35.330 --> 00:04:40.820
+Felix (Geth): Yeah, I think we should somehow… I mean, it's just weird that it doesn't.
+
+27
+00:04:42.750 --> 00:04:48.470
+Felix (Geth): Allow this, because it's a standard error, so this error can anyways happen in any method.
+
+28
+00:04:49.960 --> 00:04:55.880
+Felix (Geth): So, is there… how is this exactly… Checked.
+
+29
+00:05:01.670 --> 00:05:04.240
+Felix (Geth): So, I mean, why did this PR even happen?
+
+30
+00:05:05.460 --> 00:05:07.800
+Felix (Geth): Is it just because there was some…
+
+31
+00:05:10.350 --> 00:05:15.060
+Mercy Boma Naps-Nkari: It was due to a comment on,
+
+32
+00:05:15.930 --> 00:05:18.869
+Mercy Boma Naps-Nkari: on Discord. I think that's what led to this.
+
+33
+00:05:20.060 --> 00:05:25.230
+sina: Look, I don't think this is necessarily a fix, it's more of a clarification.
+
+34
+00:05:26.310 --> 00:05:27.760
+sina: like.
+
+35
+00:05:29.650 --> 00:05:30.640
+Felix (Geth): Yeah.
+
+36
+00:05:31.270 --> 00:05:36.029
+Stavros Vlachakis: would it be maybe easier to go through…
+
+37
+00:05:36.410 --> 00:05:40.100
+Stavros Vlachakis: I'll never mind, issue that created with drugs.
+
+38
+00:05:40.580 --> 00:05:45.609
+Stavros Vlachakis: Everything that I discussed on Discord, maybe it would be easier to discuss over there.
+
+39
+00:05:47.050 --> 00:05:47.900
+Felix (Geth): Hmm.
+
+40
+00:05:48.670 --> 00:05:49.920
+Stavros Vlachakis: It should be this link.
+
+41
+00:05:50.960 --> 00:05:53.790
+Stavros Vlachakis: RPC spec and high testing scrapes.
+
+42
+00:05:54.520 --> 00:05:57.950
+Felix (Geth): Yeah, yeah, but we should, we should follow the agenda also a little bit.
+
+43
+00:05:58.060 --> 00:06:08.389
+Felix (Geth): So, I mean, I can merge this PR if you guys want, but I do feel that it should just always allow
+
+44
+00:06:09.950 --> 00:06:21.339
+Felix (Geth): the standard codes, because any method can raise these codes, and we don't have to specify it, I mean, otherwise we're just gonna go crazy. If we have to put it on every single method that these errors are allowed.
+
+45
+00:06:23.840 --> 00:06:27.950
+Stavros Vlachakis: No, no, on our side, it makes sense. Our only thought, let's say, is that
+
+46
+00:06:28.350 --> 00:06:35.040
+Stavros Vlachakis: For example, for this simulate V1, we have 5 tests, and basically.
+
+47
+00:06:35.310 --> 00:06:47.130
+Stavros Vlachakis: all the five tests are failing on the same place, which is a generic, the generic error, the invalid input params, I think, or something like that, indeed. So…
+
+48
+00:06:47.290 --> 00:06:58.079
+Stavros Vlachakis: At least on my mind, either we should keep only one test, since all of them are failing in the same place, or if we want to exercise different scenarios, we need to make the test
+
+49
+00:06:58.290 --> 00:07:04.109
+Stavros Vlachakis: Fail on different scenarios, and for those different scenarios, we should have different, maybe, error codes and messages, right?
+
+50
+00:07:04.110 --> 00:07:12.540
+Felix (Geth): Yeah, wait, so I'm also a bit confused. This PR has a different title than what it is, say, doing.
+
+51
+00:07:12.540 --> 00:07:13.290
+Mercy Boma Naps-Nkari: eat.
+
+52
+00:07:14.280 --> 00:07:19.719
+Mercy Boma Naps-Nkari: Yes, I received a comment from… about, this two cop…
+
+53
+00:07:20.750 --> 00:07:21.800
+Felix (Geth): Yeah.
+
+54
+00:07:22.030 --> 00:07:22.770
+Mercy Boma Naps-Nkari: Think…
+
+55
+00:07:23.310 --> 00:07:31.729
+Mercy Boma Naps-Nkari: So, a lot of things got changed, right? Because the, how would I say? The contest sort of got changed a little bit, so…
+
+56
+00:07:31.920 --> 00:07:32.720
+Mercy Boma Naps-Nkari: That's why.
+
+57
+00:07:33.010 --> 00:07:38.650
+Felix (Geth): Okay, basically, I will merge this PR, but I will just call it, like, a little bit different, like…
+
+58
+00:07:42.200 --> 00:07:51.460
+Mercy Boma Naps-Nkari: But what's, like, the, because I was thinking about the, 32C02, it's what's for, kind of, like, invalid params, so…
+
+59
+00:07:51.580 --> 00:07:57.270
+Mercy Boma Naps-Nkari: So, for non-go clients to have, like, something to return, in a sense.
+
+60
+00:07:58.100 --> 00:08:01.019
+Felix (Geth): I'm sorry, can you repeat? I didn't understand what you meant.
+
+61
+00:08:02.010 --> 00:08:03.200
+Mercy Boma Naps-Nkari: Okay, let me show you.
+
+62
+00:08:04.410 --> 00:08:05.629
+Mercy Boma Naps-Nkari: I mean, this…
+
+63
+00:08:06.770 --> 00:08:20.390
+Mercy Boma Naps-Nkari: I was thinking this could help clients, like, non-good clients, to have something to return, because the whole thing is that, the spec leaves, like, malformed hash imputes undefined. That's where all this is coming from.
+
+64
+00:08:20.850 --> 00:08:21.660
+Felix (Geth): Yeah.
+
+65
+00:08:22.150 --> 00:08:36.630
+Felix (Geth): I understand, but this error code is defined in the JSON RPC specification itself, like, not this specification, but the specification of the JSON RPC protocol. It says that this error code is to be returned when the parameters of the method are invalid.
+
+66
+00:08:36.630 --> 00:08:47.100
+Felix (Geth): So I feel like we don't have to explicitly say it for every method, that if the parameters are invalid, this code should be returned, because this is already something that JSON RPC has. It's just…
+
+67
+00:08:47.270 --> 00:09:04.189
+Felix (Geth): there, like, always. So if you… it goes for… you… we could add this error code to every single method in the whole spec, but… because it could technically happen. So that's mostly what we are saying, is not… but I can merge this, and we can later clean it up, like…
+
+68
+00:09:04.220 --> 00:09:13.580
+Felix (Geth): It's fine, I just think it's a bit strange to only add it here, because, yeah, like I said, this is an error that can happen for every method.
+
+69
+00:09:14.210 --> 00:09:20.300
+sina: Oh, I mean, just for demonstration, I posted a link in the chat, Marci, if you can open that.
+
+70
+00:09:20.840 --> 00:09:24.009
+sina: And it's… Makes it clear.
+
+71
+00:09:27.170 --> 00:09:36.780
+Stavros Vlachakis: To me, what Felix is saying makes sense. I mean, it doesn't make too much sense to me to merge this PR, which is just adding the generic error there. I think the problem is…
+
+72
+00:09:37.390 --> 00:09:56.230
+Stavros Vlachakis: is on the root, issue which came from us, and it's basically what I described before, different cases that need different codes, and not all of them firing up this generic, issue, let's say, on 5 different test cases. That's the issue. It's not about mentioning the generic error code.
+
+73
+00:09:56.310 --> 00:09:59.579
+Stavros Vlachakis: On the spec, at least for my… for my view.
+
+74
+00:10:00.900 --> 00:10:13.809
+Felix (Geth): Yeah, I understand. It's different. What you are raising in this other issue is different. Okay, let's not get hung up on this too much. I am happy to just, you know, merge this now to, to, like…
+
+75
+00:10:14.930 --> 00:10:21.409
+Felix (Geth): be done with it, and then let's just go to the next PR, because we have kind of a lot of items in the agenda, and…
+
+76
+00:10:21.870 --> 00:10:23.080
+Felix (Geth): So, yeah.
+
+77
+00:10:25.480 --> 00:10:33.710
+Mercy Boma Naps-Nkari: Okay, the last row 7, 8, it's… on the… Oh, still funny.
+
+78
+00:10:37.240 --> 00:10:45.680
+Mercy Boma Naps-Nkari: So this was actually one of the stealth periods we were trying to, like, clear off, and then the original author was, like, clients, so…
+
+79
+00:10:46.570 --> 00:10:50.740
+Mercy Boma Naps-Nkari: I guess most clients already agreed on this.
+
+80
+00:10:51.230 --> 00:10:56.500
+Mercy Boma Naps-Nkari: from… This one… should I share the link?
+
+81
+00:10:59.130 --> 00:11:03.759
+Felix (Geth): It's okay for me. I mean, I don't necessarily need… so yeah, removing…
+
+82
+00:11:05.330 --> 00:11:08.869
+Felix (Geth): this about removing the uncle methods, or…
+
+83
+00:11:09.470 --> 00:11:10.060
+Mercy Boma Naps-Nkari: Yeah.
+
+84
+00:11:11.200 --> 00:11:11.870
+Felix (Geth): Hmm…
+
+85
+00:11:12.580 --> 00:11:19.539
+Felix (Geth): Yeah, there was some previous discussions. Some people don't like it because they want to keep, this information.
+
+86
+00:11:19.790 --> 00:11:26.050
+Felix (Geth): Is… I mean…
+
+87
+00:11:28.230 --> 00:11:33.969
+Felix (Geth): So, Chase, you came around to it and said we should probably just remove it, or…
+
+88
+00:11:35.120 --> 00:11:54.579
+Chase Wright: Yeah, so, like, you know, it's not part of the spec, per se, to be like, all the clients need to keep the uncles, right? And, like, you can't even get uncles from historical archive nodes. Like, it's just not a thing that you can do. So, I see…
+
+89
+00:11:54.580 --> 00:11:55.310
+Felix (Geth): Definitely.
+
+90
+00:11:55.310 --> 00:11:58.799
+Chase Wright: Yeah, yeah, exactly. I see some utility in, like…
+
+91
+00:11:59.210 --> 00:12:09.110
+Chase Wright: being able to look at an uncle from, like, you know, 5 minutes ago, but, like… but beyond that, like, none of the nodes are gonna have the data anyway, so, like…
+
+92
+00:12:09.110 --> 00:12:09.580
+Felix (Geth): Correct.
+
+93
+00:12:09.580 --> 00:12:11.950
+Chase Wright: Calling in systems does nothing.
+
+94
+00:12:12.150 --> 00:12:17.549
+Felix (Geth): we don't actually have this. Yeah, you are kind of right. This is… this information is not even stored.
+
+95
+00:12:17.850 --> 00:12:19.680
+Felix (Geth): Yeah, you, you are correct.
+
+96
+00:12:20.210 --> 00:12:28.700
+Felix (Geth): So, yeah, this also means, for me, we have to remove it, because I'm pretty sure, like, even current archive nodes do not keep this.
+
+97
+00:12:29.560 --> 00:12:31.269
+Chase Wright: Yeah, they don't… they don't.
+
+98
+00:12:31.510 --> 00:12:38.300
+Felix (Geth): Yeah, and I mean, it is kind of… I mean, it is necessary for proof of work, yes, but the thing is that
+
+99
+00:12:39.760 --> 00:12:44.420
+Felix (Geth): it's like… Yeah.
+
+100
+00:12:45.460 --> 00:12:49.419
+Felix (Geth): It is required for proof of work to access, but…
+
+101
+00:12:50.230 --> 00:12:54.420
+Felix (Geth): I think none of the Ethereum maintenance clients support this anymore.
+
+102
+00:12:54.910 --> 00:12:59.819
+Chase Wright: Yeah, and like, even… but even if… even if you're on a proof-of-work network, like.
+
+103
+00:13:00.180 --> 00:13:09.930
+Chase Wright: just because an uncle exists doesn't mean that your node saw it anyway, right? So you may not even have the uncle, even if it was a real uncle, and it happened.
+
+104
+00:13:09.930 --> 00:13:11.250
+Felix (Geth): Yeah, yeah, I know.
+
+105
+00:13:11.250 --> 00:13:11.810
+Chase Wright: block.
+
+106
+00:13:18.320 --> 00:13:21.469
+Felix (Geth): Yeah, I mean, I'm in favor of merging, it's because we…
+
+107
+00:13:22.010 --> 00:13:24.129
+Felix (Geth): I have no way, also, of testing it.
+
+108
+00:13:24.540 --> 00:13:37.390
+Felix (Geth): That's, like, the other thing, there's just, like, no test set up for this, and, like, with the current tools that we have, it is not possible to create a test that would exercise this, because we would have to create a chain, with
+
+109
+00:13:37.440 --> 00:13:44.669
+Felix (Geth): uncles, which, I mean, I guess that's still possible somehow, but they're not even gonna be stored, like.
+
+110
+00:13:44.820 --> 00:13:46.899
+Felix (Geth): It's just not gonna work.
+
+111
+00:13:51.710 --> 00:13:52.550
+Felix (Geth): Hmm.
+
+112
+00:13:56.370 --> 00:13:58.299
+Mercy Boma Naps-Nkari: So, we can move a lot to the next one.
+
+113
+00:13:59.530 --> 00:14:02.129
+Felix (Geth): Yeah, I mean, I can merge this PR as well.
+
+114
+00:14:05.050 --> 00:14:05.780
+Mercy Boma Naps-Nkari: Okay, thank you.
+
+115
+00:14:05.780 --> 00:14:06.430
+Felix (Geth): Okay.
+
+116
+00:14:10.930 --> 00:14:17.430
+Felix (Geth): But then, there was also one, from, LightClient, so that we should close, yeah? The fourth.
+
+117
+00:14:17.430 --> 00:14:17.750
+Mercy Boma Naps-Nkari: Yeah, yeah.
+
+118
+00:14:17.750 --> 00:14:19.260
+Felix (Geth): 445? Yeah.
+
+119
+00:14:19.740 --> 00:14:20.460
+Mercy Boma Naps-Nkari: Yes.
+
+120
+00:14:27.430 --> 00:14:28.020
+Felix (Geth): Okay.
+
+121
+00:14:28.020 --> 00:14:33.799
+Mercy Boma Naps-Nkari: So… The next one is, from Sina. I think I can let him to talk about it.
+
+122
+00:14:34.030 --> 00:14:35.740
+Mercy Boma Naps-Nkari: 797.
+
+123
+00:14:36.840 --> 00:14:37.510
+Felix (Geth): Yup.
+
+124
+00:14:38.160 --> 00:14:45.759
+sina: Yeah, I mean, just to give a short note about this.
+
+125
+00:14:45.890 --> 00:14:54.019
+sina: I've tried a few years ago to specify this method, and didn't really succeed because of OpenRPC standard not…
+
+126
+00:14:54.340 --> 00:14:59.719
+sina: Allowing… this… In its most ideal form.
+
+127
+00:14:59.990 --> 00:15:02.250
+sina: So this is a relaxation of that.
+
+128
+00:15:02.980 --> 00:15:03.740
+sina: Dude.
+
+129
+00:15:06.040 --> 00:15:16.060
+sina: It is not very strict, in the sense that you can have Like, the spec allows for…
+
+130
+00:15:16.190 --> 00:15:20.610
+sina: Adding the parameters of one event type, for…
+
+131
+00:15:21.540 --> 00:15:26.600
+sina: on an unrelevant event. So in that sense, it is not strict, it's incorrect.
+
+132
+00:15:26.720 --> 00:15:31.630
+sina: But at least it lets us… Specify…
+
+133
+00:15:32.740 --> 00:15:38.429
+sina: it's anyway, like, in some way, and then in future, when OpenRPC
+
+134
+00:15:40.060 --> 00:15:48.449
+sina: add support for this kind of bundling of parameters, then we can change this and improve the situation.
+
+135
+00:15:50.200 --> 00:15:55.220
+sina: So right now, how I do it is that the event type is an enum.
+
+136
+00:15:56.120 --> 00:16:03.330
+sina: And Param is, like, one of several parameter options.
+
+137
+00:16:04.230 --> 00:16:07.570
+sina: So they are not, like, bundled together in this sense.
+
+138
+00:16:18.620 --> 00:16:25.529
+zcstarr: I guess, what was the issue you were hitting with, like, OpenRPC, like, bundling parameters?
+
+139
+00:16:27.790 --> 00:16:33.700
+sina: Basically, it's… I needed to be able to express The fact that
+
+140
+00:16:34.800 --> 00:16:40.279
+sina: If the first parameter… like, basically, the second parameter should be conditional on the first
+
+141
+00:16:41.320 --> 00:16:46.660
+sina: I made an issue on OpenRPC GitHub a while ago.
+
+142
+00:16:47.560 --> 00:16:50.789
+sina: But I couldn't get hold of the maintainer so far.
+
+143
+00:16:50.790 --> 00:16:59.520
+zcstarr: Yeah, I'm one of the maintainers of OpenRBC, so, like, if you file the issue, can you, just, like, drop the link to the issue?
+
+144
+00:17:00.350 --> 00:17:01.390
+sina: Yeah, sure.
+
+145
+00:17:01.790 --> 00:17:03.450
+sina: Let me just find it real quick.
+
+146
+00:17:10.770 --> 00:17:15.480
+Mercy Boma Naps-Nkari: Okay, so I have a question about this, because,
+
+147
+00:17:16.099 --> 00:17:21.780
+Mercy Boma Naps-Nkari: this one. How do we go around this particular… Issue.
+
+148
+00:17:30.060 --> 00:17:38.950
+zcstarr: Yeah, OpenRBC 1.3.x, like, supports notifications, like, notifications have been supported in
+
+149
+00:17:39.250 --> 00:17:47.340
+zcstarr: 1.4 as well. The difference between 1.4 and 1.3 is that we changed the meta schema.
+
+150
+00:17:47.560 --> 00:17:56.350
+zcstarr: So that way we could have proper versioning for, the library and package, so…
+
+151
+00:17:57.110 --> 00:18:16.539
+zcstarr: What that means is, like, going forward, if we wanted to make changes to the spec, we could make those changes way more easily than we could in the past. But otherwise, all things are, like, backwards and forwards compatible, so you're not gonna, like, really get issues. 1.4 would be the preferred, like, version.
+
+152
+00:18:16.610 --> 00:18:24.249
+zcstarr: To go, and 1.4 does have Go binding, it's just that we moved all the packages around.
+
+153
+00:18:24.480 --> 00:18:31.539
+zcstarr: So let me just pull that up. It's no longer in the meta schema, it's in spec types.
+
+154
+00:18:32.180 --> 00:18:34.570
+zcstarr: So you can pull this down.
+
+155
+00:18:37.520 --> 00:18:39.650
+zcstarr: I'll drafted here. Boom.
+
+156
+00:18:42.900 --> 00:18:49.569
+zcstarr: So spec types has, like, the Go production as well, and then it has, like, Python and Rust.
+
+157
+00:18:49.930 --> 00:18:55.130
+zcstarr: But we're working out some transpiler issues with the typing, there.
+
+158
+00:18:58.630 --> 00:19:04.999
+Mercy Boma Naps-Nkari: Okay, so, which means we don't have, like, a blocker around it, because I was thinking,
+
+159
+00:19:05.340 --> 00:19:11.209
+Mercy Boma Naps-Nkari: If we are going to go with the 1.4, the go-Biden issue would suffice at some point.
+
+160
+00:19:15.230 --> 00:19:20.759
+zcstarr: 1.4 has… yeah, it has all the packages and things that you want.
+
+161
+00:19:21.020 --> 00:19:30.350
+zcstarr: So you'll see that it's, like, versioned, so if you wanted to, like, slowly move to 1.4 for some reason, you could do that as well.
+
+162
+00:19:32.590 --> 00:19:41.000
+zcstarr: So that's, like, the Go package tree, branch. You'll see V underscore 1, 3, and V underscore 14.
+
+163
+00:19:41.130 --> 00:19:49.079
+zcstarr: So the new layout has, like, proper versioning for all the things, and then they're properly tagged as well, so…
+
+164
+00:19:49.350 --> 00:19:54.090
+zcstarr: I don't think you should hit any issues pulling whatever version you want to use.
+
+165
+00:19:54.520 --> 00:20:02.719
+zcstarr: So, if it's like, I want to slow roll to 1.4, or if we come out with a 1.5, you should be able to do that.
+
+166
+00:20:03.480 --> 00:20:04.820
+zcstarr: At your leisure.
+
+167
+00:20:06.450 --> 00:20:11.340
+Mercy Boma Naps-Nkari: Okay, so, Sina, I think this applies to this PR, 797.
+
+168
+00:20:12.420 --> 00:20:27.470
+zcstarr: Yeah, I mean, like, as long as you're using, like, version 1.3, or 1.4, you're good to go, so you really shouldn't be hitting any issues. A lot of the issue was, internally.
+
+169
+00:20:27.990 --> 00:20:32.629
+zcstarr: For validation tools, etc, that were built in the ecosystem.
+
+170
+00:20:33.190 --> 00:20:48.109
+zcstarr: That wasn't properly translated to support notifications, but if you were to just, like, go into the repo and delete the return value, that would work across the board,
+
+171
+00:20:49.620 --> 00:20:57.300
+zcstarr: I'm trying to think if the playground requires 1.4, but I think we made that backwards compatible for 1.3 as well.
+
+172
+00:20:58.760 --> 00:21:16.790
+zcstarr: So, like, yeah, you should be okay. We also changed the validation on the OpenRBC document versions, so patch is, like, mostly irrelevant, so if you're at 1.4.x, you're guaranteed to be compatible with the rest of the ecosystem.
+
+173
+00:21:16.790 --> 00:21:23.430
+zcstarr: If you're at 1.3.x, you'll be completely compatible with any of the patch versions as well.
+
+174
+00:21:25.200 --> 00:21:26.590
+zcstarr: Alright, cool.
+
+175
+00:21:27.520 --> 00:21:31.419
+Mercy Boma Naps-Nkari: Okay, so, Felix, I don't know what's…
+
+176
+00:21:33.800 --> 00:21:36.269
+Mercy Boma Naps-Nkari: What sounds we have on this?
+
+177
+00:21:37.120 --> 00:21:41.739
+Felix (Geth): I mean, wasn't there any way this plan to upgrade the specification version?
+
+178
+00:21:42.230 --> 00:21:50.779
+Felix (Geth): that we are using, I mean, this has to happen, so I think we should just do that, and then come back to this PR. I mean, it is…
+
+179
+00:21:51.960 --> 00:21:55.019
+Felix (Geth): It's just kind of better now to do it like this.
+
+180
+00:21:56.800 --> 00:22:00.020
+Mercy Boma Naps-Nkari: Okay, I think I can make a PR for it.
+
+181
+00:22:01.470 --> 00:22:04.639
+Felix (Geth): Okay, well, if that's… if it's as easy as that, then yeah.
+
+182
+00:22:06.150 --> 00:22:06.960
+Mercy Boma Naps-Nkari: Okay.
+
+183
+00:22:07.360 --> 00:22:12.740
+Mercy Boma Naps-Nkari: That means after that, we come back, we'll have to, like, come back to this after the PR has been met.
+
+184
+00:22:15.600 --> 00:22:18.069
+Felix (Geth): Yeah, I think that's the best resolution now.
+
+185
+00:22:21.600 --> 00:22:25.200
+Mercy Boma Naps-Nkari: The nests… PRH762.
+
+186
+00:22:27.230 --> 00:22:28.030
+Mercy Boma Naps-Nkari: Yeah.
+
+187
+00:22:33.030 --> 00:22:38.539
+Mercy Boma Naps-Nkari: I think mostly this PR has had, like, had, like, a lot of comments, and then…
+
+188
+00:22:39.890 --> 00:22:40.460
+Chase Wright: Yeah, I mean…
+
+189
+00:22:40.460 --> 00:22:41.220
+Mercy Boma Naps-Nkari: Michelle…
+
+190
+00:22:41.220 --> 00:22:43.070
+Chase Wright: I think everyone is…
+
+191
+00:22:43.400 --> 00:22:53.459
+Chase Wright: more or less done reviewing it, and it's now merged in Geth, and all the other clients have made a bunch of updates. I think Besu is also done.
+
+192
+00:22:53.600 --> 00:23:01.140
+Chase Wright: I don't… I don't know if… I don't think anything is blocking merging.
+
+193
+00:23:01.330 --> 00:23:07.860
+Chase Wright: When… when we merge, there might be some hive failures that we'll need to go back and look at.
+
+194
+00:23:08.010 --> 00:23:10.340
+Chase Wright: maybe make some additional PRs, but…
+
+195
+00:23:11.240 --> 00:23:13.750
+Chase Wright: I don't know, it seems good to me.
+
+196
+00:23:14.730 --> 00:23:15.619
+Felix (Geth): I mean, this is crazy.
+
+197
+00:23:15.620 --> 00:23:17.720
+Chase Wright: I'm still the author, so…
+
+198
+00:23:18.350 --> 00:23:26.560
+Felix (Geth): I mean, this is… this is… this is a pretty amazing result, I have to say, like, seeing that it comes together with the tracer standardization, I mean, this is…
+
+199
+00:23:26.720 --> 00:23:28.530
+Felix (Geth): This is a complicated thing.
+
+200
+00:23:30.170 --> 00:23:39.950
+Chase Wright: Yeah, I mean, there's more work to do in standardizing the debug namespace, you know, like, move on to call tracer and things like that, but I think…
+
+201
+00:23:40.400 --> 00:23:41.839
+Chase Wright: Think this is good.
+
+202
+00:23:42.030 --> 00:23:42.810
+Chase Wright: For now.
+
+203
+00:23:44.350 --> 00:23:44.700
+Felix (Geth): Yup.
+
+204
+00:23:44.700 --> 00:23:48.660
+sina: Wasn't one of the outstanding items the wrong memory?
+
+205
+00:23:50.750 --> 00:23:57.279
+Felix (Geth): But there are… so there are some pending… I mean, honestly, this PR is huge, so there are some items…
+
+206
+00:23:59.010 --> 00:24:00.020
+Felix (Geth): Or…
+
+207
+00:24:00.630 --> 00:24:01.989
+Chase Wright: So, so the, the…
+
+208
+00:24:02.460 --> 00:24:21.660
+Chase Wright: The basic holdup or argument that is still being made is whether or not we should truncate the zeros in the memory and or storage. And if we do that, then we're gonna have to go back and update it again, and then update the clients again, and make
+
+209
+00:24:22.370 --> 00:24:26.099
+Chase Wright: make everyone have, like, one version of Geth, where…
+
+210
+00:24:26.620 --> 00:24:31.789
+Chase Wright: where we added the zeros, and then we removed them again, and I think the…
+
+211
+00:24:32.200 --> 00:24:42.620
+Chase Wright: Like, the argument is made that, like, yeah, some blocks produce, like, 600GB outputs, and if we truncate the zeros, it becomes, like…
+
+212
+00:24:42.750 --> 00:24:52.619
+Chase Wright: 400GB output instead of 600GB output. And I… and this is an issue… this is a problem that's existed for, like, 10 years, so I don't… I don't think we should…
+
+213
+00:24:52.740 --> 00:25:00.479
+Chase Wright: necessarily block The progress, and go back and… Change it again.
+
+214
+00:25:01.860 --> 00:25:19.519
+Felix (Geth): Yeah, I mean, honestly, yeah, I don't think that this method is practical for very large traces. This has always been the issue with this particular interface, that it is very limited, and it can produce a lot of output.
+
+215
+00:25:19.540 --> 00:25:24.950
+Felix (Geth): And, yeah, basically this is… Kind of known issue.
+
+216
+00:25:25.220 --> 00:25:36.859
+Felix (Geth): We thought about it in the past to potentially later define another kind of interface where we would stream the traces, for example, but we never did it, so…
+
+217
+00:25:37.050 --> 00:25:39.589
+Felix (Geth): Yeah, it is kind of what it is now.
+
+218
+00:25:39.590 --> 00:25:50.710
+Chase Wright: Yeah, and as far as streaming goes, like, Nethermind, Besu, and Erigon do have streaming, but I think implementation of streaming is, you know, separate from the spec, and so…
+
+219
+00:25:50.710 --> 00:25:56.889
+Felix (Geth): No, that's not what I meant with streaming, I just also mean it's… with the streaming,
+
+220
+00:25:57.600 --> 00:26:03.340
+Felix (Geth): It's… it's generally annoying if
+
+221
+00:26:05.940 --> 00:26:17.890
+Felix (Geth): if… in order to properly work with a method, you have to implement, like, streaming parsing in your client all the way through. Like, this… some clients have it, some clients don't. And so it is, like…
+
+222
+00:26:19.050 --> 00:26:27.990
+Felix (Geth): maybe better to just, like, not have APIs that can return such large outputs, because it will always be a challenge to deal with them.
+
+223
+00:26:28.040 --> 00:26:35.100
+Felix (Geth): I mean, also, you basically have to implement custom logic in your client to then stream the result directly to a file or something, because
+
+224
+00:26:35.100 --> 00:26:49.460
+Felix (Geth): unless you have a very large machine, you might never be able to actually fit the entire response into your memory. So I think it has some… it has some… some issues with the… with, like, relying on streaming to capture such outputs.
+
+225
+00:26:49.460 --> 00:26:56.579
+Felix (Geth): This is… but as you say, this is unrelated to the PR. This is an existing API which works the way
+
+226
+00:26:56.790 --> 00:27:10.089
+Felix (Geth): it is specified here, and it was also, it can now be standardized, which is great. I do think in the long term, we have to figure out this, like, how we want the streaming to work.
+
+227
+00:27:10.670 --> 00:27:17.230
+Felix (Geth): But… is… Not related with,
+
+228
+00:27:18.810 --> 00:27:21.350
+Felix (Geth): Not really related with this PR.
+
+229
+00:27:23.710 --> 00:27:28.479
+Felix (Geth): I mean, I personally didn't have time to review this PR, I just…
+
+230
+00:27:28.830 --> 00:27:33.220
+Felix (Geth): So I feel like I would like to actually give it a read before I…
+
+231
+00:27:33.490 --> 00:27:36.620
+Felix (Geth): just merge it. It is kind of a large thing.
+
+232
+00:27:36.870 --> 00:27:42.709
+Felix (Geth): But I do… Trust you guys that, I mean, there has been so much feedback on this, like…
+
+233
+00:27:42.980 --> 00:27:50.950
+Felix (Geth): I don't know, like, 40 comments, and from lots of people, and also people who work in clients have approved, so I think this is…
+
+234
+00:27:51.470 --> 00:27:54.649
+Felix (Geth): honestly, good thing, but I would still like to…
+
+235
+00:27:55.130 --> 00:28:07.589
+Felix (Geth): review it myself one more time, just to see, like, where it's at, if you don't mind. But I'm really happy that this has come together, and also now the fixes are in place, and clients. I think this is very good.
+
+236
+00:28:07.790 --> 00:28:19.490
+Chase Wright: Yeah, yeah, I don't… I don't care. I mean, it's been open a long time, so another couple weeks isn't gonna hurt anything. And, yeah, and, like, we've had discussions in Discord, too, as well, in the ETH R&D, so, like…
+
+237
+00:28:20.300 --> 00:28:29.860
+Chase Wright: Yeah, like I said, I think the only thing that, you know, people have open questions about was, like, the leading zeros, and should we remove it, and…
+
+238
+00:28:30.430 --> 00:28:35.549
+Chase Wright: you know, I don't… I don't think it makes that big of a meaningful difference, and…
+
+239
+00:28:36.070 --> 00:28:51.270
+Chase Wright: as I said, like, this has been an issue for, like, a very long time, and it only came up again because I created the standard, and then more people were trying to implement it and looking at it, and so, you know, it's not a new problem, it's just new feedback.
+
+240
+00:28:53.510 --> 00:28:57.050
+sina: If I may stealman the other side, because…
+
+241
+00:28:57.760 --> 00:29:01.270
+sina: In this thread, a lot of people participated.
+
+242
+00:29:01.590 --> 00:29:04.829
+sina: So I do want to take it seriously.
+
+243
+00:29:05.340 --> 00:29:10.369
+sina: Basically, the thing is… That, when it comes to memory.
+
+244
+00:29:10.770 --> 00:29:14.409
+sina: Well, we all know that it's… it can…
+
+245
+00:29:14.870 --> 00:29:17.750
+sina: Bloat the trace, but a lot of it's enabled.
+
+246
+00:29:18.500 --> 00:29:23.650
+sina: And… The ideas that have come up are…
+
+247
+00:29:24.840 --> 00:29:29.220
+sina: This was… the first idea was brought up by Besu.
+
+248
+00:29:29.470 --> 00:29:32.540
+sina: And it says that we can…
+
+249
+00:29:33.210 --> 00:29:36.600
+sina: Avoid emitting the full memory dump.
+
+250
+00:29:38.050 --> 00:29:44.280
+sina: Unless the upcode actually touches touches the memory.
+
+251
+00:29:44.710 --> 00:29:48.659
+sina: So, this is what was brought up by Abu Besu at first.
+
+252
+00:29:48.980 --> 00:30:01.040
+sina: But there are various… Various modifications you can have to this, like… You can… Only amidst the…
+
+253
+00:30:02.060 --> 00:30:03.259
+sina: And we're a diff.
+
+254
+00:30:04.310 --> 00:30:11.570
+sina: And… I think… Maybe just one small thing that we can do, but…
+
+255
+00:30:12.120 --> 00:30:17.600
+sina: Like, so, in my head, we can do it in a backwards-compatible way, in which
+
+256
+00:30:17.820 --> 00:30:20.480
+sina: We just add a new config memory.
+
+257
+00:30:21.010 --> 00:30:29.600
+sina: And when this, or, like, config variable, and when this variable is set, Then we ignore
+
+258
+00:30:29.830 --> 00:30:31.659
+sina: The enable memory flag.
+
+259
+00:30:31.910 --> 00:30:36.699
+sina: And so we could do this in a backwards-compatible way, and then, like, fix it later on.
+
+260
+00:30:36.870 --> 00:30:44.470
+sina: But just wanted to bring it up because it's something that was… Discussed by… Multiple people.
+
+261
+00:30:52.750 --> 00:31:03.649
+Chase Wright: Yeah, I mean, I don't really have a counter-argument to that, other than, like, if it can be done in a backwards-compatible way, then does it impact the spec?
+
+262
+00:31:07.160 --> 00:31:13.690
+Chase Wright: Or can we just… make… Make a, you know… an addition.
+
+263
+00:31:13.860 --> 00:31:15.040
+Chase Wright: After the fact.
+
+264
+00:31:19.440 --> 00:31:23.960
+sina: Yeah, so basically, my thinking is that we can add it after the fact.
+
+265
+00:31:36.380 --> 00:31:40.969
+Chase Wright: Yeah, I mean… My only… my only concern is if we keep
+
+266
+00:31:41.220 --> 00:31:45.299
+Chase Wright: If we keep changing, and we keep… going, then…
+
+267
+00:31:45.400 --> 00:31:53.000
+Chase Wright: This is gonna… the same thing that happened to the previous efforts to standardize will happen here, and we'll just all never agree.
+
+268
+00:32:02.310 --> 00:32:07.340
+Chase Wright: But yeah, okay, let's let… let's let Felix review it when he has time, and then we can move on.
+
+269
+00:32:10.120 --> 00:32:13.879
+Mercy Boma Naps-Nkari: Okay, I think the next one should be 790, okay?
+
+270
+00:32:14.980 --> 00:32:21.309
+Mercy Boma Naps-Nkari: Yeah, this… The original auto, we had some,
+
+271
+00:32:26.590 --> 00:32:31.799
+Mercy Boma Naps-Nkari: this was the original, PR, but I had to, like, open a new one altogether.
+
+272
+00:32:32.340 --> 00:32:34.830
+Mercy Boma Naps-Nkari: So…
+
+273
+00:32:38.220 --> 00:32:43.820
+Mercy Boma Naps-Nkari: I don't know if I can get a review on it, although Chase has already approved this, but…
+
+274
+00:32:46.750 --> 00:32:52.490
+Felix (Geth): Oh, ETHConfig. Yeah… I have not, had time.
+
+275
+00:32:52.490 --> 00:32:52.830
+Mercy Boma Naps-Nkari: P.
+
+276
+00:32:52.830 --> 00:32:54.319
+Felix (Geth): Look into it, yo.
+
+277
+00:33:00.040 --> 00:33:07.150
+Mercy Boma Naps-Nkari: So, about this PR, do we also let other clients aware of it, in case they don't have it?
+
+278
+00:33:07.630 --> 00:33:08.239
+Mercy Boma Naps-Nkari: I mean…
+
+279
+00:33:08.240 --> 00:33:12.450
+Felix (Geth): This is… this method was added by an EAP, and the EAP is…
+
+280
+00:33:12.880 --> 00:33:21.570
+Felix (Geth): live, as far as I understand, so there should not be any input from clients on this, because it's already… everything is already defined.
+
+281
+00:33:27.830 --> 00:33:28.560
+Mercy Boma Naps-Nkari: Okay.
+
+282
+00:33:29.920 --> 00:33:34.879
+Mercy Boma Naps-Nkari: I guess we'll have to, like, wait for a review, then we cannot afford.
+
+283
+00:33:35.690 --> 00:33:37.260
+Mercy Boma Naps-Nkari: So this is what it looks like.
+
+284
+00:33:37.260 --> 00:33:42.339
+Felix (Geth): replacement for the old PR, that's the thing. So there was a previous PR, yeah, 6, 7, 8.
+
+285
+00:33:43.070 --> 00:33:48.660
+Mercy Boma Naps-Nkari: Yes, that was a previous PR, so the thing was, the .io files wasn't properly generated.
+
+286
+00:33:48.660 --> 00:33:49.030
+Felix (Geth): No doubt.
+
+287
+00:33:49.800 --> 00:33:51.000
+Mercy Boma Naps-Nkari: the auto…
+
+288
+00:33:51.160 --> 00:34:03.079
+Mercy Boma Naps-Nkari: he didn't have a chance to properly generate and then update the PR itself, so I asked him, and then he agreed, so I had to open a new PR in order to.
+
+289
+00:34:03.700 --> 00:34:07.889
+Felix (Geth): Yeah, I mean, I can merge this, it's fine. This is… this is okay to merge.
+
+290
+00:34:12.540 --> 00:34:25.410
+Mercy Boma Naps-Nkari: Then, the next one would be this hackMD. There's so many methods that are missing from the spec, and there's so many methods that some clients have, others don't have.
+
+291
+00:34:26.199 --> 00:34:32.840
+Mercy Boma Naps-Nkari: So, I'm not sure, although, Sina had a comment on it, on how we can easily…
+
+292
+00:34:33.480 --> 00:34:39.629
+Mercy Boma Naps-Nkari: Put them back in place, which… this, the,
+
+293
+00:34:40.480 --> 00:34:44.559
+Mercy Boma Naps-Nkari: this AIP was also part of it, the itConfig AIP was also part of it.
+
+294
+00:34:45.210 --> 00:34:46.330
+Mercy Boma Naps-Nkari: So…
+
+295
+00:34:48.050 --> 00:34:56.350
+Mercy Boma Naps-Nkari: I'm not really sure how else or what else to do about the method, but I would like us to take a look and then give feedback on it.
+
+296
+00:35:04.570 --> 00:35:06.270
+Mercy Boma Naps-Nkari: I'm not sure if I said it, okay, yeah.
+
+297
+00:35:22.260 --> 00:35:28.490
+Mercy Boma Naps-Nkari: I think our most, it's cool, Minnie.
+
+298
+00:35:34.150 --> 00:35:41.659
+Chase Wright: I mean, for this call, I think we should focus on methods missing from spec, but implemented in 3-4 clients. That's probably…
+
+299
+00:35:43.070 --> 00:35:43.730
+Mercy Boma Naps-Nkari: Yup.
+
+300
+00:35:43.730 --> 00:35:45.099
+Chase Wright: Spend most of our time.
+
+301
+00:35:46.640 --> 00:35:49.070
+Mercy Boma Naps-Nkari: The first approach was its config.
+
+302
+00:35:49.910 --> 00:35:55.539
+Mercy Boma Naps-Nkari: That's… I think, yes, which is this.
+
+303
+00:35:56.030 --> 00:36:05.780
+Mercy Boma Naps-Nkari: So I need to, like, take this out now. Although, RET doesn't… I don't think they have it, or if they have already included, but the last I checked, they don't have it.
+
+304
+00:36:06.360 --> 00:36:12.009
+Mercy Boma Naps-Nkari: Then we can move to… I'm trying to understand, in what order are we going to do this?
+
+305
+00:36:18.300 --> 00:36:23.240
+sina: Yeah, I just wanted to say that I think it's really cool to have this overview.
+
+306
+00:36:24.010 --> 00:36:27.290
+sina: And I was surprised to see so many methods here.
+
+307
+00:36:28.910 --> 00:36:34.740
+Chase Wright: So, I think it's important that we remember that the execution specs repo is…
+
+308
+00:36:35.010 --> 00:36:38.440
+Chase Wright: Like, it even says, like, in it that…
+
+309
+00:36:38.730 --> 00:36:41.859
+Chase Wright: This is for methods that all clients
+
+310
+00:36:42.260 --> 00:36:47.110
+Chase Wright: You know, must implement, and should be standardized, and that…
+
+311
+00:36:47.910 --> 00:36:55.609
+Chase Wright: clients are welcome to implement methods outside of the execution spec, like, Individually, you know?
+
+312
+00:36:56.230 --> 00:37:02.330
+Chase Wright: So the question becomes, then, Which of the methods…
+
+313
+00:37:02.860 --> 00:37:11.170
+Chase Wright: Are… that are… that are missing, or most clients have implemented, that we should spec, and we should standardize.
+
+314
+00:37:11.350 --> 00:37:13.989
+Chase Wright: not… I don't know that we need to…
+
+315
+00:37:14.110 --> 00:37:17.960
+Chase Wright: Document every single method supported by every single client.
+
+316
+00:37:23.750 --> 00:37:24.399
+Felix (Geth): Yeah, you are right.
+
+317
+00:37:24.400 --> 00:37:25.410
+Mercy Boma Naps-Nkari: I understand.
+
+318
+00:37:25.850 --> 00:37:27.930
+Mercy Boma Naps-Nkari: Okay, sorry. Go on, please.
+
+319
+00:37:28.300 --> 00:37:29.910
+Felix (Geth): No, you speak, sorry.
+
+320
+00:37:30.090 --> 00:37:33.140
+Mercy Boma Naps-Nkari: No, no, no, I just wanted to concur to what he was saying, not the mom.
+
+321
+00:37:36.800 --> 00:37:37.470
+Felix (Geth): Hmm.
+
+322
+00:37:38.360 --> 00:37:45.130
+Felix (Geth): Yeah, there are some strange methods. There are also things like ETHR resend and things like that. These are just really old.
+
+323
+00:37:45.530 --> 00:37:48.590
+Felix (Geth): Yeah, all this, like, ETH sign.
+
+324
+00:37:49.340 --> 00:37:54.090
+Felix (Geth): remain… ETHubmitWork. Like, some of these methods
+
+325
+00:37:54.510 --> 00:37:58.240
+Felix (Geth): Will not be added to the spec, ever.
+
+326
+00:37:58.370 --> 00:38:09.950
+Felix (Geth): Like, we removed a bunch of proof-of-work-related methods from the spec. Now, for example, even today, from the spec, we removed this getUngleCount by block hash, but it's still implemented in some clients.
+
+327
+00:38:09.950 --> 00:38:19.149
+Felix (Geth): So we have to filter this list more to see the really useful ones, and then I think that not too much will be…
+
+328
+00:38:19.150 --> 00:38:26.590
+Felix (Geth): remaining. One of them is this ETH Get Raw transaction by hash. This is a very recent addition.
+
+329
+00:38:36.050 --> 00:38:42.619
+Felix (Geth): Yeah, field transaction is another good example. It's, like, one that we want to push, but then…
+
+330
+00:38:43.130 --> 00:38:57.650
+Felix (Geth): Some clients, like, we always wanted to get some feedback from other clients, and we got a little bit of feedback, but ultimately, it was not to the level that people really got excited about implementing it, so we still don't have it.
+
+331
+00:38:58.340 --> 00:39:06.070
+Felix (Geth): And, so I think that actually most methods here are just… Fine, I guess.
+
+332
+00:39:09.270 --> 00:39:19.260
+Stavros Vlachakis: Also, on, in-field transaction, we had a comment from Nethermind side about its security. I don't know if it's mentioned in the…
+
+333
+00:39:19.260 --> 00:39:31.240
+Felix (Geth): Something that was recently discussed, yeah, you're right. So recently, there was this discussion that fill transaction is somehow insecure, because it returns both the encoded payload as well as the
+
+334
+00:39:32.450 --> 00:39:34.250
+Felix (Geth): decoded payload.
+
+335
+00:39:34.790 --> 00:39:47.969
+Felix (Geth): So, we can maybe talk about this a little bit here, because this topic will anyway come up at some point again. So, one thing about it is that the point of fill transaction was to…
+
+336
+00:39:48.120 --> 00:39:56.410
+Felix (Geth): Make it so that… most software doesn't have to know how to encode transactions. So…
+
+337
+00:39:56.790 --> 00:40:02.370
+Felix (Geth): We can reduce the scope of it to be only about…
+
+338
+00:40:03.790 --> 00:40:12.970
+Felix (Geth): To only be about this question of filling in the defaults, but then you still have to actually encode it as a binary payload for signing.
+
+339
+00:40:13.140 --> 00:40:18.330
+Felix (Geth): And, I don't know too much about how these things work, but I think that
+
+340
+00:40:19.630 --> 00:40:26.350
+Felix (Geth): is… would be… I mean, since this method is not supported now, I'm not really sure how… how the integrations work.
+
+341
+00:40:26.410 --> 00:40:44.110
+Felix (Geth): Inside of wallets, but the intention of fill transaction was just that if you would implement, like, a simple wallet inside of your application or something, then you would be able to take advantage of the default setting behavior of fill transaction, just to
+
+342
+00:40:44.390 --> 00:40:52.849
+Felix (Geth): So you don't have to make so many queries to fill out all your transaction details. Like, it just does all at once, like, it gives you the…
+
+343
+00:40:53.130 --> 00:41:07.390
+Felix (Geth): current, base fee, and, some kind of estimate on how you should set your fees, and it can also estimate the gas for you, and it can set your norms, like, it does all these things in one step.
+
+344
+00:41:08.590 --> 00:41:09.260
+Felix (Geth): So if…
+
+345
+00:41:09.260 --> 00:41:10.260
+Stavros Vlachakis: Yeah, it makes…
+
+346
+00:41:10.720 --> 00:41:19.139
+Felix (Geth): point of fill transaction, then yeah, you're kind of right, we can just keep only this part. And then this other part of returning the unsigned binary payload
+
+347
+00:41:20.470 --> 00:41:26.410
+Felix (Geth): it's just a convenience thing. It basically gives you the input to the hash that you then have to sign.
+
+348
+00:41:27.890 --> 00:41:29.750
+Stavros Vlachakis: Yeah. Yeah.
+
+349
+00:41:30.000 --> 00:41:33.160
+Stavros Vlachakis: I see the… yeah, I see. Makes sense.
+
+350
+00:41:33.290 --> 00:41:36.319
+Stavros Vlachakis: The only caveat is what we described, I mean…
+
+351
+00:41:36.930 --> 00:41:49.170
+Stavros Vlachakis: the user has to blindly trust whatever data was returned by the RPC provider, and sign it, and if he signs the wrong data, it can mean anything.
+
+352
+00:41:49.550 --> 00:42:10.690
+Felix (Geth): Yeah, exactly. But, I mean, this… in some ways, this also always exists, because if you submit your transaction, and then you return… get a JSON object back, you would still have to validate the JSON object somehow. So there will always be some additional validation required. But you are kind of right. Like, I don't have a problem, personally, removing this encoded output.
+
+353
+00:42:11.720 --> 00:42:20.240
+Felix (Geth): it's okay for me, so if this is your comment and this makes you accept it, we would be happy with it. For us, the point of fill transaction is
+
+354
+00:42:20.240 --> 00:42:28.939
+Felix (Geth): is that it's an off-ramp for people who are using ETH sign transaction with the notebook, or ETH send transaction, because we want to stop supporting this.
+
+355
+00:42:29.040 --> 00:42:40.730
+Felix (Geth): And we've been wanting to stop supporting it for a long time, so we always thought, like, fill transaction is kind of a good replacement, because it gives you most of the functionality, but it just externalizes the signing.
+
+356
+00:42:44.140 --> 00:42:46.950
+Stavros Vlachakis: Yeah, I think… yeah, I think it's better.
+
+357
+00:42:47.090 --> 00:42:53.970
+Stavros Vlachakis: To drop this part. I don't know what the… obviously, the thing is like.
+
+358
+00:43:04.960 --> 00:43:05.960
+Felix (Geth): Yeah, alright.
+
+359
+00:43:06.500 --> 00:43:15.859
+Felix (Geth): I mean, let's… we can make an update to the proposal, there is a PR open about fill transaction, we can update that to remove this signed output.
+
+360
+00:43:16.650 --> 00:43:18.450
+Felix (Geth): And, yeah.
+
+361
+00:43:18.790 --> 00:43:20.750
+Felix (Geth): I mean, it's okay for us.
+
+362
+00:43:21.440 --> 00:43:22.180
+Felix (Geth): We have to check.
+
+363
+00:43:22.180 --> 00:43:22.670
+Mercy Boma Naps-Nkari: Yeah, because…
+
+364
+00:43:22.670 --> 00:43:33.419
+Felix (Geth): This method has been supported in GoEthereum for many years, so I feel like if we change it now in an incompatible way, there might be some fallout from this, but who knows? We can just see.
+
+365
+00:43:34.460 --> 00:43:35.310
+Felix (Geth): Yup.
+
+366
+00:43:36.520 --> 00:43:39.949
+Mercy Boma Naps-Nkari: Should we also involve other clients? Like, the ones that are not here yet?
+
+367
+00:43:40.310 --> 00:43:56.899
+Felix (Geth): Yeah, yeah, yeah. I mean, this is just specifically to get the feedback from NetherMind, and then we can just… I mean, we can discuss it further, it's… this is not the final decision about ETH fill transaction, it was just because it recently came up as a topic, so I felt like we couldn't discuss it now here in the call.
+
+368
+00:44:00.800 --> 00:44:03.170
+Mercy Boma Naps-Nkari: Okay, so, Ches, this…
+
+369
+00:44:03.360 --> 00:44:16.499
+Mercy Boma Naps-Nkari: said on the chart that for method missing from spec, but implemented in 3 to 4 clients. I guess that would be the order, but, if we could also, like, leave a comment on the, this is so that I can easily take note of it.
+
+370
+00:44:19.340 --> 00:44:21.910
+Mercy Boma Naps-Nkari: And then probably make a PR if there is no PR yet.
+
+371
+00:44:21.910 --> 00:44:26.489
+Chase Wright: I was just pointing out, that's a header in your document, if you scroll down.
+
+372
+00:44:28.100 --> 00:44:29.220
+Mercy Boma Naps-Nkari: Oh, sorry.
+
+373
+00:44:43.760 --> 00:44:47.109
+Chase Wright: It's, like, 3 quarters of the way. Yeah, there, there you go.
+
+374
+00:44:54.980 --> 00:44:55.770
+Mercy Boma Naps-Nkari: Mmm…
+
+375
+00:45:00.440 --> 00:45:03.229
+Mercy Boma Naps-Nkari: I guess the points should be,
+
+376
+00:45:05.280 --> 00:45:08.300
+Mercy Boma Naps-Nkari: Okay, we can start with the fuel transaction, and then…
+
+377
+00:45:08.540 --> 00:45:13.180
+Mercy Boma Naps-Nkari: make good progress from it, and then we can progress further. I don't know.
+
+378
+00:45:15.670 --> 00:45:20.440
+sina: I'm surprised debug execution witness is not specified. I thought there was…
+
+379
+00:45:21.290 --> 00:45:24.410
+sina: Maybe there was an issue somewhere, but not the spec.
+
+380
+00:45:29.830 --> 00:45:33.690
+sina: This one should be straightforward, because it is implemented in all clients.
+
+381
+00:45:34.480 --> 00:45:35.190
+Mercy Boma Naps-Nkari: EF.
+
+382
+00:45:38.090 --> 00:45:40.229
+Mercy Boma Naps-Nkari: Okay, I can make a PR for this.
+
+383
+00:45:47.350 --> 00:45:50.600
+Mercy Boma Naps-Nkari: But then again, how do we, like, truly…
+
+384
+00:45:50.970 --> 00:46:00.630
+Mercy Boma Naps-Nkari: map out, methods that we don't need to, like, specify in… In the repo.
+
+385
+00:46:09.320 --> 00:46:10.210
+Mercy Boma Naps-Nkari: Hello?
+
+386
+00:46:11.000 --> 00:46:14.250
+Chase Wright: Yeah, I don't… I don't really know the answer to that question. I mean, it's…
+
+387
+00:46:14.570 --> 00:46:19.300
+Chase Wright: all… it's basically rough consensus. I mean… We can make…
+
+388
+00:46:19.870 --> 00:46:26.859
+Chase Wright: PRs to try to standardize, but then it's the same as just, like, adding a new method to some of the clients, right?
+
+389
+00:46:48.190 --> 00:47:06.009
+Felix (Geth): I also just think that, like, some of these things… so, for example, there are things like debug standard trace block to file, which is kind of a bad, like, this… we should never add it to the spec, even though it's implemented by 4 clients, this method is kind of bad. Like, it just shouldn't… this shouldn't exist in this namespace.
+
+390
+00:47:10.900 --> 00:47:17.289
+Felix (Geth): So it's… it's kind of like, I mean, this list is interesting, but I think some of these things we just… just…
+
+391
+00:47:17.900 --> 00:47:19.730
+Felix (Geth): Really wouldn't want to add.
+
+392
+00:47:23.450 --> 00:47:29.419
+Stavros Vlachakis: I think, in general, this list is very useful, you know, for people working in clients to check
+
+393
+00:47:29.600 --> 00:47:38.729
+Stavros Vlachakis: what is implemented where, and implement more things, but I think we should focus more, as you guys said before, on what is in spec, and what we can add to the spec.
+
+394
+00:47:38.930 --> 00:47:46.679
+Stavros Vlachakis: And maybe also for the other methods that are not specced, maybe we can have some kind of, I don't know, suggested spec or whatever.
+
+395
+00:47:52.150 --> 00:47:55.539
+Chase Wright: Yeah, I also feel like, you know, if people aren't…
+
+396
+00:47:55.700 --> 00:47:58.869
+Chase Wright: Participating and asking for it, then…
+
+397
+00:47:59.090 --> 00:48:02.950
+Chase Wright: Maybe not enough people care, right?
+
+398
+00:48:03.480 --> 00:48:22.500
+Felix (Geth): Yeah, that's the thing. It's like, if… the idea with the API spec is also that it should be driven by what people want to see in it. It's not about, like, specifying everything that exists, because some things that exist, existed because of some historic reason, or because people wanted in the past, or…
+
+399
+00:48:22.980 --> 00:48:23.810
+Felix (Geth): Yo.
+
+400
+00:48:31.040 --> 00:48:35.179
+Stavros Vlachakis: Right, the question then goes to whether we want to…
+
+401
+00:48:36.360 --> 00:48:43.610
+Stavros Vlachakis: Let's say, keep it as is, or we want to standardize and improve it across clients and have more consistent results overall.
+
+402
+00:48:49.250 --> 00:48:52.999
+Chase Wright: I don't think we're gonna answer that on this call, I think… and…
+
+403
+00:48:53.300 --> 00:49:03.290
+Chase Wright: to… to previous points, like, we're gonna have to go through it, like, method by method, and I don't think anyone wants to take on that… that burden right at this minute.
+
+404
+00:49:06.050 --> 00:49:07.350
+Stavros Vlachakis: That's also true.
+
+405
+00:49:13.870 --> 00:49:17.589
+Mercy Boma Naps-Nkari: So, I have a suggestion. What if we kind of, like,
+
+406
+00:49:18.840 --> 00:49:21.970
+Mercy Boma Naps-Nkari: present it to ACDE, and then get,
+
+407
+00:49:22.320 --> 00:49:31.059
+Mercy Boma Naps-Nkari: people to look at it. If it's a method they want to see, then we can make a PR for it. If it's something they don't care about, then…
+
+408
+00:49:31.210 --> 00:49:32.560
+Mercy Boma Naps-Nkari: We can't enjoy it.
+
+409
+00:49:37.120 --> 00:49:42.679
+Stavros Vlachakis: I would say if something that people don't care about, it's even… even better to drop it completely.
+
+410
+00:49:45.080 --> 00:49:46.989
+Stavros Vlachakis: From the spec and from our codes.
+
+411
+00:49:51.770 --> 00:49:53.789
+Mercy Boma Naps-Nkari: Because we can't really make,
+
+412
+00:49:54.080 --> 00:50:00.760
+Mercy Boma Naps-Nkari: We… in this call, we can't, like, say, okay, they want it or they don't want it, but we just have to, like, extend the courtesy of
+
+413
+00:50:00.880 --> 00:50:11.429
+Mercy Boma Naps-Nkari: letting them know, then if they care much about it, then we can make a PR for it. But if it's something that they don't find that useful, then we can, okay, say, okay, this is…
+
+414
+00:50:11.740 --> 00:50:14.650
+Mercy Boma Naps-Nkari: This was crapped out, and then we have it somewhere.
+
+415
+00:50:17.140 --> 00:50:21.899
+Mercy Boma Naps-Nkari: So I will know in case of future references and documentation purpose.
+
+416
+00:50:25.100 --> 00:50:27.690
+Mercy Boma Naps-Nkari: I'm not sure, but that's just my thoughts.
+
+417
+00:50:39.420 --> 00:50:43.300
+Mercy Boma Naps-Nkari: So, any more comments, or we can move over to the next thing?
+
+418
+00:50:51.710 --> 00:50:57.069
+Mercy Boma Naps-Nkari: So I guess I can bring it up to SCDE, and then… Move on from there.
+
+419
+00:51:03.800 --> 00:51:04.490
+Mercy Boma Naps-Nkari: Wow.
+
+420
+00:51:07.090 --> 00:51:09.919
+Mercy Boma Naps-Nkari: Then SPR should be 795.
+
+421
+00:51:21.800 --> 00:51:23.430
+Mercy Boma Naps-Nkari: I'm not sure what's happening.
+
+422
+00:51:31.100 --> 00:51:35.159
+Mercy Boma Naps-Nkari: Although this… I think Gets already mentioned this PR, if I'm not mistaken.
+
+423
+00:51:38.790 --> 00:51:40.300
+sina: It's not merged yet.
+
+424
+00:51:43.250 --> 00:51:44.750
+Mercy Boma Naps-Nkari: Oh, it's open, sorry.
+
+425
+00:51:46.440 --> 00:51:51.120
+sina: Yeah, it's often, those… is there any…
+
+426
+00:51:58.680 --> 00:52:03.570
+sina: Yeah, I, I think it can be merged from our side.
+
+427
+00:52:05.360 --> 00:52:10.950
+Mercy Boma Naps-Nkari: Because it needs to get merged from GET first before we can… Undrafted.
+
+428
+00:52:11.740 --> 00:52:18.109
+sina: Right, so the only, the only open question for me was whether we should return nil or zero for
+
+429
+00:52:18.740 --> 00:52:22.830
+sina: pre-London blogs, but I… it seems like Neil is…
+
+430
+00:52:24.590 --> 00:52:27.420
+sina: It has more consensus on it.
+
+431
+00:52:29.220 --> 00:52:31.230
+sina: And that would be my preference as well.
+
+432
+00:52:36.030 --> 00:52:40.620
+sina: So as long as everybody here agrees on that, then I go ahead and merge.
+
+433
+00:52:41.360 --> 00:52:42.280
+sina: In Gus.
+
+434
+00:52:44.510 --> 00:52:48.339
+Stavros Vlachakis: Another mine side, we are fine. We have also draft implementation.
+
+435
+00:52:56.940 --> 00:53:00.560
+Mercy Boma Naps-Nkari: I think Bisha has, like, an open PL.
+
+436
+00:53:04.900 --> 00:53:05.770
+Mercy Boma Naps-Nkari: Oh, yeah.
+
+437
+00:53:13.180 --> 00:53:15.209
+Mercy Boma Naps-Nkari: So, what's our consensus on this?
+
+438
+00:53:22.180 --> 00:53:28.890
+Felix (Geth): Yeah, I mean… We basically have to merge it in Geth, and then we can…
+
+439
+00:53:29.490 --> 00:53:33.750
+Felix (Geth): Get this PR in if everyone agrees that this method is necessary to add.
+
+440
+00:53:37.330 --> 00:53:44.449
+Mercy Boma Naps-Nkari: But I have an additional comment, is there also a way to make the spec not to, like, really depend on get?
+
+441
+00:53:45.070 --> 00:53:57.779
+Felix (Geth): Yeah, I mean, certainly. It's just more that, like, for the current testing pipeline, we require the implementation in Geth to generate the test using the generator, so that's why. But, I mean, this is not…
+
+442
+00:53:58.390 --> 00:54:03.150
+Felix (Geth): the spec itself doesn't depend on get, just the tests do. But I also think…
+
+443
+00:54:04.690 --> 00:54:06.520
+Mercy Boma Naps-Nkari: That's what I'm asking.
+
+444
+00:54:08.880 --> 00:54:27.830
+Felix (Geth): Yeah, I mean, certainly another spec generator could be implemented in another language, and we could use that then. But the current one is in Go, so it's kind of easier. I mean, we can make… support launching Nethermind, and then generate the test with that, if you want, but then we will still have to figure out
+
+445
+00:54:28.040 --> 00:54:29.899
+Felix (Geth): Which one to actually use.
+
+446
+00:54:30.100 --> 00:54:40.630
+Felix (Geth): for each method and so on, so I felt like in the name of simplicity, this is, like, the easiest setup right now. Like, yeah, we have to implement in Geth, but we anyway have to implement it in Geth, like, it's not like…
+
+447
+00:54:43.480 --> 00:54:52.010
+Chase Wright: And even if we… even if we did switch to using Nethermind, then it just moves the goal to, this needs to be implemented in Nethermind first.
+
+448
+00:54:52.990 --> 00:54:57.189
+Mercy Boma Naps-Nkari: Yes, that's the… that's the thing, I was trying to, like,
+
+449
+00:54:57.310 --> 00:55:06.729
+Mercy Boma Naps-Nkari: for it not to be, how will I say it? Client dependent. If there is a way you can easily switch to the next available client without having to…
+
+450
+00:55:06.800 --> 00:55:11.900
+Chase Wright: I mean, you can merge a spec without the test…
+
+451
+00:55:12.840 --> 00:55:16.939
+Chase Wright: files. That is a thing that we can technically do.
+
+452
+00:55:16.940 --> 00:55:31.919
+Felix (Geth): Yeah, that's true. So if you want to… if you don't want to wait, you can also remove the test, and we can do the test later. So that's, like, the other option. So there is… there is this option, and then there's the option of implementing Geth, so we can do the test and the… and the spec in one.
+
+453
+00:55:33.530 --> 00:55:35.340
+Mercy Boma Naps-Nkari: I kind of like the test.
+
+454
+00:55:35.850 --> 00:55:39.930
+Felix (Geth): Yeah, yeah, I mean… It's… it's alright. So,
+
+455
+00:55:40.170 --> 00:55:50.949
+Felix (Geth): I think, like, with this dependency on Geth, one of the things is that for certain scenarios, Geth has a specific behavior, and we hit this sometimes also in
+
+456
+00:55:51.150 --> 00:55:55.629
+Felix (Geth): For example, testing error codes and things like that.
+
+457
+00:55:55.920 --> 00:56:10.219
+Felix (Geth): So yeah, for that, it would be useful if we could somehow capture another client, but anyways, if all clients are according to the spec, and they return the same thing for the same method, then it shouldn't even matter which client we use.
+
+458
+00:56:10.390 --> 00:56:14.300
+Felix (Geth): It only matters during this implementation phase of the method.
+
+459
+00:56:24.020 --> 00:56:28.959
+Mercy Boma Naps-Nkari: Okay, so I guess we can come back to this once it's been mentioned.
+
+460
+00:56:31.850 --> 00:56:33.160
+Mercy Boma Naps-Nkari: And then…
+
+461
+00:56:41.090 --> 00:56:43.449
+Mercy Boma Naps-Nkari: I think the nesting should be this.
+
+462
+00:57:03.050 --> 00:57:07.150
+Mercy Boma Naps-Nkari: She not left a comment, she has left a comment, but.
+
+463
+00:57:08.350 --> 00:57:12.619
+sina: Yeah, I mean, my final comment was that it looks good to me.
+
+464
+00:57:12.830 --> 00:57:13.620
+sina: So…
+
+465
+00:57:13.620 --> 00:57:19.300
+Chase Wright: Oh yeah, I wanted the CI test to run, though, so I did ping you, Felix, if I don't…
+
+466
+00:57:20.050 --> 00:57:23.539
+Felix (Geth): Sorry, I have to… you mean I have to click the button here, or…
+
+467
+00:57:23.540 --> 00:57:24.800
+Chase Wright: Yeah, probably.
+
+468
+00:57:24.950 --> 00:57:25.460
+Felix (Geth): Okay.
+
+469
+00:57:25.460 --> 00:57:29.129
+Chase Wright: I don't… I don't know how to kick off the… it just says they're waiting approval.
+
+470
+00:57:29.720 --> 00:57:33.350
+Felix (Geth): Okay, yeah. One second.
+
+471
+00:57:41.530 --> 00:57:45.779
+Felix (Geth): Let me see… Wait, which one was that?
+
+472
+00:57:46.420 --> 00:57:48.290
+Felix (Geth): 755, yeah.
+
+473
+00:57:48.810 --> 00:57:49.660
+Felix (Geth): Sweet.
+
+474
+00:57:57.270 --> 00:57:58.190
+Felix (Geth): Hmm.
+
+475
+00:57:59.820 --> 00:58:05.050
+Felix (Geth): Yeah, I mean, so in general, is there now some agreement on this method, or…
+
+476
+00:58:05.460 --> 00:58:15.350
+Chase Wright: Yeah, I think everyone's more or less on board, but because the CI wasn't running, I wasn't sure if all the test fixtures were correct or not.
+
+477
+00:58:16.240 --> 00:58:16.880
+Felix (Geth): Yo.
+
+478
+00:58:21.870 --> 00:58:31.760
+Mercy Boma Naps-Nkari: Yeah, I think most people are on board, because we have Erigon get, Right, also.
+
+479
+00:58:33.370 --> 00:58:40.130
+Chase Wright: So I… so, like, from my standpoint, if CI turns green, then I… I'm okay with it, but…
+
+480
+00:58:42.320 --> 00:58:49.570
+sina: I probably will not… green. We haven't merged in guests right now. I just asked, for…
+
+481
+00:58:50.470 --> 00:58:56.340
+sina: I just asked the author to make some changes based on the recent spec commit.
+
+482
+00:58:58.860 --> 00:59:02.570
+sina: But I do want a confirmation from other clients that
+
+483
+00:59:02.720 --> 00:59:06.929
+sina: it's okay in this current form, before merging the PR.
+
+484
+00:59:07.450 --> 00:59:12.309
+sina: So I don't know if maybe, Nethermind has looked into this, and they think it's okay?
+
+485
+00:59:26.820 --> 00:59:30.119
+Mercy Boma Naps-Nkari: I was thinking we had someone from Nethermind on the call, so I'm not sure.
+
+486
+00:59:32.670 --> 00:59:39.429
+Stavros Vlachakis: Yeah, we are from Nethermind. What's the concern? We have a draft implementation of this one also.
+
+487
+00:59:40.760 --> 00:59:42.919
+Stavros Vlachakis: We are good with endpoints.
+
+488
+00:59:48.850 --> 00:59:50.520
+Mercy Boma Naps-Nkari: What about Besu?
+
+489
+00:59:56.640 --> 01:00:03.079
+Chase Wright: I mean, it sounds like we should take it offline, go to Discord, and maybe go to ACD.
+
+490
+01:00:05.030 --> 01:00:05.930
+Mercy Boma Naps-Nkari: Okay.
+
+491
+01:00:05.930 --> 01:00:08.299
+kclowes: It looks like Phase 2 has an implementation.
+
+492
+01:00:09.320 --> 01:00:10.820
+Mercy Boma Naps-Nkari: Okay, thank you.
+
+493
+01:00:16.020 --> 01:00:18.280
+Mercy Boma Naps-Nkari: Yeah, but we can still, like,
+
+494
+01:00:18.930 --> 01:00:21.629
+Mercy Boma Naps-Nkari: Take it to ACDA, in case.
+
+495
+01:00:24.700 --> 01:00:31.540
+Mercy Boma Naps-Nkari: But probably for most clients are involved, because there was, like, a lot of, Comments on this, regardless.
+
+496
+01:00:41.100 --> 01:00:42.890
+Mercy Boma Naps-Nkari: This is a CMPF, sorry.
+
+497
+01:00:49.230 --> 01:00:50.990
+Mercy Boma Naps-Nkari: I think that's okay.
+
+498
+01:01:05.880 --> 01:01:12.079
+Mercy Boma Naps-Nkari: So I will let Zen take this on, because this is more about the fashioning we've been working on.
+
+499
+01:01:13.550 --> 01:01:21.490
+zcstarr: Yeah, did you want to just open the, website, or for me to screen share? Okay.
+
+500
+01:01:21.630 --> 01:01:37.440
+zcstarr: So, this was about, documentation versioning. So, we're pretty close to putting up the PR, but I did want to show off some of the features and decisions. So, basically, you'll see that, there's this
+
+501
+01:01:37.500 --> 01:01:53.669
+zcstarr: fake version 0.0.9, and there's a dropdown for all the versions going down, back into time. It's capped at, like, 10 versions, just because that's what it is for right now. It can always go back further, it can be adjusted.
+
+502
+01:01:54.600 --> 01:02:05.669
+zcstarr: But, you'll see this other thing called Next, so if you go to Next, that's basically whatever's in Maine, because it kind of sucks to not be able to see dogs for what's in Maine.
+
+503
+01:02:06.120 --> 01:02:12.389
+zcstarr: And then, it works as advertised, so if you were to go to, like, any of the methods.
+
+504
+01:02:12.690 --> 01:02:16.070
+zcstarr: Let's say go to Eve Call is, is a good one.
+
+505
+01:02:17.260 --> 01:02:22.950
+zcstarr: But if you go to any of the methods and switch between versions, it'll take you to that version of the dots.
+
+506
+01:02:23.160 --> 01:02:26.110
+zcstarr: So, yeah, sure.
+
+507
+01:02:27.380 --> 01:02:35.090
+zcstarr: Yeah. And you can see the version number is changing and all of that. Then there's releases for where release notes go.
+
+508
+01:02:35.340 --> 01:02:37.450
+zcstarr: So if you just click on releases…
+
+509
+01:02:38.610 --> 01:02:40.860
+zcstarr: At the navbar at the top.
+
+510
+01:02:41.940 --> 01:02:45.210
+zcstarr: Sorry, my audio might be a little wonky.
+
+511
+01:02:45.620 --> 01:02:46.620
+zcstarr: Let's go.
+
+512
+01:02:48.340 --> 01:03:00.229
+zcstarr: This is probably a little bit better. Yeah, so that shows you all the different releases that are there. If you go back, actually, to the site.
+
+513
+01:03:00.590 --> 01:03:02.069
+zcstarr: Yeah.
+
+514
+01:03:02.390 --> 01:03:09.549
+zcstarr: The release notes are on the left as the sidebar, so if you wanted to see a release for version 0.9,
+
+515
+01:03:09.650 --> 01:03:29.400
+zcstarr: This way. And then the releases are done manually, because I think, Felix, we were saying that you wanted to create, the releases from the release notes. So if you were in execution APIs and you wanted to cut a new release, you would do that. I used the Golang-style version with a V prefix.
+
+516
+01:03:29.400 --> 01:03:47.520
+zcstarr: for the, numbers, and then this gets updated into, the OpenRBC document. So now, assembled spec, branch that different downstream clients use will have, like, versioning that is parallel to the version that you cut in the release.
+
+517
+01:03:47.920 --> 01:03:59.360
+zcstarr: And then this, release notes can be done in two ways. So, after you cut a release, a PR for merging in the release notes is then added,
+
+518
+01:03:59.420 --> 01:04:14.020
+zcstarr: to the GitHub that you can then merge in when you feel like putting in those release notes. It's done that way because if there's, like, a typo or something you wanted to add extra, you don't have to republish the release in order to
+
+519
+01:04:14.580 --> 01:04:19.350
+zcstarr: get that data back in. It's just additional metadata and a convenience function.
+
+520
+01:04:20.540 --> 01:04:22.920
+zcstarr: Other things to note…
+
+521
+01:04:23.110 --> 01:04:38.399
+zcstarr: I think that's pretty much so it. The holdup on a PR is just me cleaning up all of the, kind of, fake releases and tags that I did, and just making it so the PR into the repo is, is, like, clean.
+
+522
+01:04:38.980 --> 01:04:43.999
+zcstarr: Were there… There's one other thing, so if you go to Execution APIs.
+
+523
+01:04:45.660 --> 01:04:52.429
+zcstarr: just, like, yeah. And then, Chick, I guess, I did, like, a kind of example of this. If you go to Eve Cole.
+
+524
+01:04:54.620 --> 01:04:56.160
+zcstarr: Yeah.
+
+525
+01:04:56.740 --> 01:04:57.600
+zcstarr: I think…
+
+526
+01:05:00.620 --> 01:05:02.489
+zcstarr: And scroll down…
+
+527
+01:05:04.130 --> 01:05:10.689
+zcstarr: Yeah, you'll see that there's tags, so let's say just click on an execute tag for the sake of example.
+
+528
+01:05:10.840 --> 01:05:15.000
+zcstarr: And that will tell you, like, all the different things for the execute.
+
+529
+01:05:15.760 --> 01:05:28.630
+zcstarr: And this page can look slightly different, or you can view all tags, and if you go to the API reference, just the main, for that, if you go… or click view all tags, that works as well.
+
+530
+01:05:28.630 --> 01:05:38.870
+zcstarr: Essentially, these are the different methods that will allow you to group all of the methods together, so if you wanted to quickly go through EV call, EV estimate, CAS, or…
+
+531
+01:05:38.870 --> 01:05:48.270
+zcstarr: whatever you wanted to group, or all the engine methods, you could do that. And, yeah, if you just go to the main, I think, API reference.
+
+532
+01:05:49.270 --> 01:05:53.060
+zcstarr: like what you would normally see. And you scroll down to the bottom.
+
+533
+01:05:54.410 --> 01:06:02.209
+zcstarr: Yeah, you'll see all the different tags, so this is just, like, a way of grouping methods together.
+
+534
+01:06:02.400 --> 01:06:11.070
+zcstarr: All right, and that's, that's pretty much so, the document update that we've been, sort of working out.
+
+535
+01:06:11.950 --> 01:06:17.360
+zcstarr: Yeah. The other thing is, like, linting, but it's not on the agenda for today.
+
+536
+01:06:19.840 --> 01:06:22.530
+zcstarr: Yeah, any questions or anything like that?
+
+537
+01:06:34.330 --> 01:06:46.650
+Felix (Geth): No, thank you, this was great. I think it looks pretty good. One thing is that maybe it's interesting, it's called Next, for the… yeah, I guess, yeah, we can call it that.
+
+538
+01:06:47.190 --> 01:06:48.160
+Felix (Geth): You can.
+
+539
+01:06:48.440 --> 01:06:52.369
+zcstarr: If you have another name that you like, I'm happy to throw that down.
+
+540
+01:06:52.370 --> 01:07:04.329
+Felix (Geth): We can call it main or something, because that's what the branch is called, but yeah. It doesn't really… I mean, to be honest, next is probably cleaner, because it is, like, the next after the released version, so let's just keep it as next.
+
+541
+01:07:04.750 --> 01:07:07.430
+Felix (Geth): And, yo.
+
+542
+01:07:08.440 --> 01:07:12.369
+Felix (Geth): Yeah, I think this looks really good, so I'm excited to see the PR.
+
+543
+01:07:15.860 --> 01:07:17.210
+zcstarr: Cool, cool.
+
+544
+01:07:19.440 --> 01:07:20.530
+Mercy Boma Naps-Nkari: Thank you.
+
+545
+01:07:20.530 --> 01:07:21.869
+zcstarr: Probably by the end of the week.
+
+546
+01:07:21.870 --> 01:07:22.939
+Mercy Boma Naps-Nkari: That's nice.
+
+547
+01:07:25.830 --> 01:07:27.920
+Mercy Boma Naps-Nkari: the PR looks nice, actually.
+
+548
+01:07:32.020 --> 01:07:36.580
+Stavros Vlachakis: I guess since we are out of time, maybe… Sorry, Mr.
+
+549
+01:07:36.580 --> 01:07:38.320
+Mercy Boma Naps-Nkari: Sorry.
+
+550
+01:07:39.600 --> 01:07:42.939
+Stavros Vlachakis: Yeah, maybe, since we're out of time, let's discuss,
+
+551
+01:07:43.330 --> 01:07:48.049
+Stavros Vlachakis: The issues that we have found on Nethermind side on the next, call.
+
+552
+01:07:50.350 --> 01:07:52.769
+Mercy Boma Naps-Nkari: Sorry, I didn't get to that.
+
+553
+01:07:53.300 --> 01:07:54.609
+Stavros Vlachakis: I'm not sure what it was.
+
+554
+01:07:55.720 --> 01:08:01.410
+Stavros Vlachakis: It's this one, basically, but let's discuss it on the next call, because now we are already over 10 minutes.
+
+555
+01:08:02.660 --> 01:08:05.990
+Mercy Boma Naps-Nkari: Can you also… So that we can… we can…
+
+556
+01:08:06.130 --> 01:08:09.750
+Mercy Boma Naps-Nkari: have it in the agenda, because I totally… Oh.
+
+557
+01:08:12.630 --> 01:08:18.130
+Mercy Boma Naps-Nkari: All right, thank you. We can put this async, or we can have it on the next call.
+
+558
+01:08:19.189 --> 01:08:22.289
+sina: I mean, I'm happy to stay on if,
+
+559
+01:08:22.589 --> 01:08:24.419
+sina: Do you want to discuss this?
+
+560
+01:08:24.599 --> 01:08:25.669
+sina: Star Wars.
+
+561
+01:08:27.599 --> 01:08:34.989
+Stavros Vlachakis: Yeah, basically I have to drop, but real quickly, the points from 2 to 5…
+
+562
+01:08:35.359 --> 01:08:50.509
+Stavros Vlachakis: It goes to what I said before, I think. I mean, if Geth fails early in all test cases, either we keep only one test case, or we make a test case that Geth fails as it should, and we adjust the codes.
+
+563
+01:08:51.079 --> 01:08:56.959
+Stavros Vlachakis: For points from 6 to… 13…
+
+564
+01:08:57.199 --> 01:09:00.619
+Stavros Vlachakis: I guess we need to make high tests to…
+
+565
+01:09:01.019 --> 01:09:04.259
+Stavros Vlachakis: I don't know if test, by the way, cuts his error message, but…
+
+566
+01:09:04.979 --> 01:09:08.899
+Stavros Vlachakis: In any case, maybe we need to align their message with what the spec says.
+
+567
+01:09:10.099 --> 01:09:14.029
+Stavros Vlachakis: Or if it… or if it doesn't go into alignment.
+
+568
+01:09:14.529 --> 01:09:19.129
+Stavros Vlachakis: Or if we don't care about their message at all, we just drop it.
+
+569
+01:09:19.619 --> 01:09:21.489
+Stavros Vlachakis: And we're jailing about the code.
+
+570
+01:09:21.959 --> 01:09:29.909
+Stavros Vlachakis: For 14, Sambaf had the point, I don't know, yeah, he's in the call, so Sambaf, if you can take…
+
+571
+01:09:29.910 --> 01:09:30.520
+Sambhav: Yeah.
+
+572
+01:09:30.529 --> 01:09:31.959
+Stavros Vlachakis: Cool. So I'm…
+
+573
+01:09:33.319 --> 01:09:40.940
+Sambhav: Yeah, like, my point was, like, I get the comment, but Reth and Erigon both implement, like, both
+
+574
+01:09:41.200 --> 01:09:46.339
+Sambhav: like, throw an error that sender is not an EOA.
+
+575
+01:09:46.710 --> 01:10:00.339
+Sambhav: But, like, GET does it, both ways, like, if validation is both on and off, GET does it. Like, I get that comment, but, like, Erigon and Reth both behave like, never mind, just the error code is different. So, yeah, it was my point.
+
+576
+01:10:03.960 --> 01:10:09.369
+sina: Yeah, I think when it comes to 14, it should be discussed separately, because
+
+577
+01:10:09.670 --> 01:10:12.209
+sina: In the spec document, it says…
+
+578
+01:10:12.970 --> 01:10:19.809
+sina: This is how clients should behave, so it is specified as such, and it would be a spec change.
+
+579
+01:10:20.350 --> 01:10:34.130
+sina: Regarding the other one, like, with the error messages, a PRR was merged to Hive that should drop error messages, so they should not be checked anymore. It would be good to get a confirmation if it's working now.
+
+580
+01:10:34.800 --> 01:10:39.880
+sina: And I believe in a few of the other cases.
+
+581
+01:10:40.320 --> 01:10:47.840
+sina: When it comes to codes, so, yeah, going also to this comment in the chat, the codes are standardized.
+
+582
+01:10:47.980 --> 01:10:53.140
+sina: The issue is that Each client does… the…
+
+583
+01:10:53.270 --> 01:10:59.949
+sina: validation, like the EVM validations, in a different order, and this causes them to fail at
+
+584
+01:11:00.210 --> 01:11:05.810
+sina: different points, thus returning a different error code, so…
+
+585
+01:11:06.520 --> 01:11:09.089
+sina: And I don't really think that we should be
+
+586
+01:11:09.350 --> 01:11:17.369
+sina: specifying the order of operations for each client. This is not the job of the… execution API to do.
+
+587
+01:11:17.830 --> 01:11:24.749
+sina: What I think we can do is basically change the test case?
+
+588
+01:11:24.910 --> 01:11:28.119
+sina: So that they accept multiple error codes.
+
+589
+01:11:28.780 --> 01:11:31.129
+sina: So, if a test is to fail.
+
+590
+01:11:32.060 --> 01:11:38.269
+sina: In different scenario, or, like, both, in terms of nons and gas price, then…
+
+591
+01:11:38.440 --> 01:11:41.629
+sina: The test case should accept all of those different error codes.
+
+592
+01:11:42.500 --> 01:11:47.490
+sina: it's a bit of a… so…
+
+593
+01:11:47.770 --> 01:11:51.010
+sina: The issue with this is that…
+
+594
+01:11:52.510 --> 01:11:57.649
+sina: like, the test cases are generated with GET, and it returns a single response.
+
+595
+01:11:58.110 --> 01:12:02.410
+sina: So either we'd have to change the I.O. format, or…
+
+596
+01:12:02.580 --> 01:12:06.910
+sina: Add another file, like, an additional file that says.
+
+597
+01:12:07.350 --> 01:12:10.860
+sina: For this particular test, these error codes are acceptable.
+
+598
+01:12:11.010 --> 01:12:13.480
+sina: And then have Hive parse that.
+
+599
+01:12:14.000 --> 01:12:22.480
+sina: But I, like, I think this would solve… Like, half of these… These cases here.
+
+600
+01:12:25.090 --> 01:12:30.979
+Stavros Vlachakis: Yeah, makes sense. Maybe let's discuss it, more extensively, one by one, on the next call.
+
+601
+01:12:31.320 --> 01:12:36.850
+Stavros Vlachakis: A lot of them are duplicated. In total, let's say, out of 17 items, it's like, I don't know…
+
+602
+01:12:37.610 --> 01:12:39.180
+Stavros Vlachakis: Five, six cases.
+
+603
+01:12:43.000 --> 01:12:51.629
+Mercy Boma Naps-Nkari: Okay, I also have a question. I think we had, like, error code standardization going on. Does this, somehow overlap with this?
+
+604
+01:12:54.420 --> 01:13:04.540
+Simsonraj Easvarasakthi: Yeah, I think it would, because during the initial decision-making of the validation of the error codes, we chose to ignore the messages.
+
+605
+01:13:04.950 --> 01:13:13.180
+Simsonraj Easvarasakthi: Just for this exact reason, because a different client returns different kind of messages, so it would be very hard to validate them, or…
+
+606
+01:13:13.430 --> 01:13:16.180
+Simsonraj Easvarasakthi: Stick to the standard. So, we are currently only…
+
+607
+01:13:16.510 --> 01:13:23.159
+Simsonraj Easvarasakthi: We will be actually implementing tests, only to test certain error codes, not all of them.
+
+608
+01:13:23.740 --> 01:13:27.040
+Simsonraj Easvarasakthi: Yeah, but I think this needs to be discussed a little bit more.
+
+609
+01:13:28.840 --> 01:13:44.719
+Stavros Vlachakis: Yeah, on Nethermind perspective, we agree, and we don't care if we should have, let's say, same codes, same messages, nothing the same. It's okay, whatever we decide, but let's decide on something across the whole board.
+
+610
+01:13:45.890 --> 01:14:01.399
+Simsonraj Easvarasakthi: Yeah, yeah, I agree. We can… we can have a little bit more discussion next week. That's exactly why current error code standardization actually has very limited error codes, because we want to be able to replicate those and test those, and keep adding on to it.
+
+611
+01:14:01.610 --> 01:14:05.979
+Simsonraj Easvarasakthi: If we can, you know, consistently replicate across all the clients.
+
+612
+01:14:07.020 --> 01:14:13.760
+Simsonraj Easvarasakthi: But yeah, we can extend and discuss this a little bit more. But I think currently we don't have tests that
+
+613
+01:14:14.060 --> 01:14:15.659
+Simsonraj Easvarasakthi: Validates this properly.
+
+614
+01:14:18.070 --> 01:14:24.790
+sina: So, in the case of It Simulates, it specifies the error codes, And…
+
+615
+01:14:25.630 --> 01:14:34.320
+sina: There's quite a lot of tests that also explicitly test those error codes, and that's why we have these high failures.
+
+616
+01:14:35.550 --> 01:14:36.219
+sina: What are you up?
+
+617
+01:14:36.220 --> 01:14:41.209
+Simsonraj Easvarasakthi: So, yeah, I believe, yeah, Simulate might have been the one that had it.
+
+618
+01:14:41.410 --> 01:14:46.069
+Simsonraj Easvarasakthi: But it's not done in a conventional way of how the other tests are behaving.
+
+619
+01:14:46.340 --> 01:14:50.420
+Simsonraj Easvarasakthi: I'll take a look at this so we can discuss, more next week, yeah.
+
+620
+01:14:51.730 --> 01:14:52.450
+sina: Sure.
+
+621
+01:14:52.730 --> 01:14:57.690
+sina: Yeah, let's, let's take it for next session. I just wanted to bring up this idea of…
+
+622
+01:14:58.140 --> 01:15:01.399
+sina: Having tests accept multiple error codes.
+
+623
+01:15:04.840 --> 01:15:14.359
+Mercy Boma Naps-Nkari: Hey, I think we can look into this further, and then… sorry for the overtime, I totally got lost. Thank you all for joining today's call, see you guys next two weeks.
+
+624
+01:15:15.090 --> 01:15:16.080
+Mercy Boma Naps-Nkari: Thank you.
+
+625
+01:15:20.870 --> 01:15:21.580
+Simsonraj Easvarasakthi: Thank you.
+
