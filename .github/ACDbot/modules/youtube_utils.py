@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timedelta
 import pytz
 import sys
+from pathlib import Path
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google.auth.exceptions import RefreshError
@@ -12,7 +13,7 @@ from googleapiclient.http import MediaFileUpload
 from .call_series_config import get_youtube_playlist_mapping
 
 # Thumbnail for livestreams
-THUMBNAIL_PATH = ".github/ACDbot/thumbnails/livestream_thumbnail.jpg"
+THUMBNAIL_PATH = str(Path(__file__).resolve().parent.parent / "thumbnails" / "livestream_thumbnail.jpg")
 
 PLAYLIST_MAPPING = get_youtube_playlist_mapping()
 

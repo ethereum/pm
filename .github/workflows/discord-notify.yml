@@ -10,21 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.10'
-      - name: Install dependencies
-        run: |
-          pip install -e .github/ACDbot/
-          pip install requests pyyaml
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
       - name: Run Discord notification script
         env:
           DISCORD_ACD_WEBHOOK: ${{ secrets.DISCORD_ACD_WEBHOOK }}
           ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
           ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
           ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
-        run: python .github/ACDbot/scripts/discord_notify.py
+        run: uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/discord_notify.py"
       - name: Commit mapping file
         if: always()
         env:

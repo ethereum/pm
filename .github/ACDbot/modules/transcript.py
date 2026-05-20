@@ -9,8 +9,6 @@ from modules.mapping_utils import (
 import requests
 import urllib.parse
 
-MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
-
 def post_zoom_transcript_to_discourse(meeting_id: str, occurrence_details: dict = None, meeting_uuid_for_summary: str = None):
     """
     Posts the Zoom meeting recording link and summary to Discourse.

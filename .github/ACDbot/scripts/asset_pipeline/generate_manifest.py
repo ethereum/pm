@@ -187,7 +187,7 @@ def generate_manifest() -> dict:
 def main():
     parser = argparse.ArgumentParser(
         description='Generate manifest.json for call artifacts',
-        epilog='Example: python generate_manifest.py'
+        epilog='Example: uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/generate_manifest.py'
     )
     parser.add_argument('--output', '-o', type=Path, default=MANIFEST_PATH,
                         help=f'Output path (default: {MANIFEST_PATH})')

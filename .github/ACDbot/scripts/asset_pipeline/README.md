@@ -12,7 +12,7 @@ The asset pipeline handles:
 ## Prerequisites
 
 - Python 3.10+
-- Zoom OAuth credentials configured in `.env`
+- Zoom OAuth credentials configured in `.github/ACDbot/.env`
 - Anthropic API key for transcript cleaning
 
 Required environment variables (in `.github/ACDbot/.env`):
@@ -25,14 +25,14 @@ ANTHROPIC_API_KEY=...
 
 Install dependencies:
 ```bash
-pip install anthropic pyyaml python-dotenv requests
+uv sync --project .github/ACDbot
 ```
 
 ## Directory Structure
 
 Assets are saved to `.github/ACDbot/artifacts/<series>/<date>_<number>/`:
 ```
-artifacts/
+.github/ACDbot/artifacts/
 ├── acde/
 │   ├── 2024-12-12_226/
 │   │   ├── config.json              # Issue number, YouTube URL, sync offsets
@@ -53,10 +53,10 @@ Use `run_pipeline.py` to run the full pipeline with a single command:
 
 ```bash
 # Process a specific meeting
-python run_pipeline.py --call acde --number 226
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/run_pipeline.py --call acde --number 226
 
 # Process the most recent meeting in a series
-python run_pipeline.py --call acdc --recent
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/run_pipeline.py --call acdc --recent
 ```
 
 The pipeline will:
@@ -78,13 +78,13 @@ Options:
 Example workflow:
 ```bash
 # Run full pipeline
-python run_pipeline.py --call acde --recent
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/run_pipeline.py --call acde --recent
 
 # Run full pipeline with summary generation
-python run_pipeline.py --call acde --recent --summarize
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/run_pipeline.py --call acde --recent --summarize
 
 # If you need to re-review or re-apply corrections
-python run_pipeline.py --call acde --number 226 --resume --open-editor
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/run_pipeline.py --call acde --number 226 --resume --open-editor
 ```
 
 ---
@@ -99,16 +99,16 @@ Download assets for a specific meeting series using `download_zoom_assets.py`:
 
 ```bash
 # Download the most recent meeting
-python download_zoom_assets.py --series-name acde --recent
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/download_zoom_assets.py --series-name acde --recent
 
 # Download the 5 most recent meetings
-python download_zoom_assets.py --series-name acde --recent 5
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/download_zoom_assets.py --series-name acde --recent 5
 
 # Download assets for a specific date
-python download_zoom_assets.py --series-name acde --date 2024-12-12
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/download_zoom_assets.py --series-name acde --date 2024-12-12
 
 # Download by specific meeting ID/UUID
-python download_zoom_assets.py --series-name acde --meeting-id <uuid>
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/download_zoom_assets.py --series-name acde --meeting-id <uuid>
 ```
 
 Options:
@@ -124,10 +124,10 @@ Review the transcript for errors, then generate a changelog of corrections:
 
 ```bash
 # Using call type and number (recommended)
-python generate_changelog.py --call acde --number 226
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/generate_changelog.py --call acde --number 226
 
 # Using explicit paths
-python generate_changelog.py --transcript path/to/transcript.vtt
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/generate_changelog.py --transcript path/to/transcript.vtt
 ```
 
 Options:
@@ -151,10 +151,10 @@ After reviewing, apply the corrections:
 
 ```bash
 # Using call type and number
-python apply_changelog.py --call acde --number 226
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/apply_changelog.py --call acde --number 226
 
 # Using explicit paths
-python apply_changelog.py --input transcript.vtt --changelog transcript_changelog.tsv
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/apply_changelog.py --input transcript.vtt --changelog transcript_changelog.tsv
 ```
 
 Options:
@@ -172,17 +172,17 @@ Generate a structured JSON summary (`tldr.json`) of the meeting:
 
 ```bash
 # Using call type and number
-python generate_summary.py --call acde --number 226
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/generate_summary.py --call acde --number 226
 
 # Using explicit directory path
-python generate_summary.py --dir artifacts/acde/2024-12-12_226
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/generate_summary.py --dir .github/ACDbot/artifacts/acde/2024-12-12_226
 ```
 
 Options:
 - `--call`, `-c`: Call type (acde, acdc, acdt, etc.)
 - `--number`, `-n`: Call number
 - `--dir`, `-d`: Meeting directory (alternative to --call/--number)
-- `--prompt`, `-p`: Custom prompt file (default: `scripts/prompts/summarize.md`)
+- `--prompt`, `-p`: Custom prompt file (default: `.github/ACDbot/scripts/prompts/summarize.md`)
 - `--model`, `-m`: Claude model (default: `claude-sonnet-4-5-20250929`)
 - `--force`, `-f`: Regenerate even if `tldr.json` exists
 
@@ -221,7 +221,7 @@ https://raw.githubusercontent.com/ethereum/pm/master/.github/ACDbot/artifacts/{p
 
 To regenerate manually:
 ```bash
-python generate_manifest.py
+uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/generate_manifest.py
 ```
 
 The manifest includes:

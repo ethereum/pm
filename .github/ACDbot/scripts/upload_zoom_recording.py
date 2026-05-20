@@ -7,6 +7,7 @@ import google.oauth2.credentials
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
+from pathlib import Path
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -46,11 +47,8 @@ SCOPES = [
 ]
 CLIENT_SECRETS_FILE = "client_secrets.json"
 
-# Add these functions at the top of the file
-MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
-
 # Thumbnail for uploaded recordings (distinct from livestream thumbnail)
-UPLOAD_THUMBNAIL_PATH = ".github/ACDbot/thumbnails/recording_thumbnail.png"
+UPLOAD_THUMBNAIL_PATH = str(Path(__file__).resolve().parent.parent / "thumbnails" / "recording_thumbnail.png")
 
 def get_authenticated_service():
     # Initialize credentials from environment variables

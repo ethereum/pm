@@ -7,10 +7,13 @@ where keys are call series names instead of Zoom IDs.
 
 import json
 import os
+from pathlib import Path
 from typing import Dict, Optional, List, Any, Tuple
 
+MAPPING_FILE_PATH = Path(__file__).resolve().parent.parent / "meeting_topic_mapping.json"
 
-def load_mapping(mapping_file_path: str = ".github/ACDbot/meeting_topic_mapping.json") -> Dict:
+
+def load_mapping(mapping_file_path: str | os.PathLike = MAPPING_FILE_PATH) -> Dict:
     """Load the meeting topic mapping from file."""
     if os.path.exists(mapping_file_path):
         with open(mapping_file_path, "r") as f:
@@ -18,7 +21,7 @@ def load_mapping(mapping_file_path: str = ".github/ACDbot/meeting_topic_mapping.
     return {}
 
 
-def save_mapping(mapping: Dict, mapping_file_path: str = ".github/ACDbot/meeting_topic_mapping.json"):
+def save_mapping(mapping: Dict, mapping_file_path: str | os.PathLike = MAPPING_FILE_PATH):
     """Save the meeting topic mapping to file."""
     with open(mapping_file_path, "w") as f:
         json.dump(mapping, f, indent=2)

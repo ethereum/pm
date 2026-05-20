@@ -34,21 +34,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -e .github/ACDbot/
-          pip install -r .github/ACDbot/requirements.txt
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
 
       - name: Resolve forced meeting
         if: env.INPUT_FORCE_SERIES != '' && env.INPUT_FORCE_NUMBER != ''
         run: |
-          python .github/ACDbot/scripts/asset_pipeline/resolve_forced_target.py \
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/asset_pipeline/resolve_forced_target.py" \
             --series "$INPUT_FORCE_SERIES" \
             --number "$INPUT_FORCE_NUMBER" \
             --github-env "$GITHUB_ENV"
@@ -59,14 +51,14 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: |
-          python .github/ACDbot/scripts/refresh_youtube_token.py || echo "refresh_failed=true" >> $GITHUB_ENV
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/refresh_youtube_token.py" || echo "refresh_failed=true" >> $GITHUB_ENV
 
       - name: Poll Zoom for recordings
         run: |
           if [ -n "$INPUT_FORCE_SERIES" ] && [ -n "$INPUT_FORCE_NUMBER" ]; then
             echo "Using resolved forced target meeting_id=$FORCED_MEETING_ID, issue_number=$FORCED_ISSUE_NUMBER for $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER"
             if [ -n "$FORCED_MEETING_ID" ] && [ -n "$FORCED_ISSUE_NUMBER" ]; then
-              python .github/ACDbot/scripts/poll_zoom_recordings.py \
+              uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/poll_zoom_recordings.py" \
                 --force_meeting_id "$FORCED_MEETING_ID" \
                 --force_issue_number "$FORCED_ISSUE_NUMBER"
             else
@@ -74,7 +66,7 @@ jobs:
               exit 1
             fi
           else
-            python .github/ACDbot/scripts/poll_zoom_recordings.py
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/poll_zoom_recordings.py"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -95,7 +87,7 @@ jobs:
         run: |
           if [ -n "$INPUT_FORCE_SERIES" ] && [ -n "$INPUT_FORCE_NUMBER" ]; then
             if [ -n "$FORCED_MEETING_ID" ] && [ -n "$FORCED_ISSUE_NUMBER" ]; then
-              python .github/ACDbot/scripts/upload_zoom_recording.py \
+              uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/upload_zoom_recording.py" \
                 --meeting_id "$FORCED_MEETING_ID" \
                 --occurrence_issue_number "$FORCED_ISSUE_NUMBER" \
                 --min-duration "$INPUT_MIN_DURATION"
@@ -104,9 +96,10 @@ jobs:
               exit 1
             fi
           elif [ -n "$INPUT_FORCE_SERIES" ]; then
-            MEETING_ID=$(python -c "
-          import json, sys, os
-          with open('.github/ACDbot/meeting_topic_mapping.json') as f:
+            MEETING_ID=$(uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked python -c "
+          import json, os, sys
+          mapping_path = os.path.join(os.environ['GITHUB_WORKSPACE'], '.github', 'ACDbot', 'meeting_topic_mapping.json')
+          with open(mapping_path) as f:
               mapping = json.load(f)
           series = os.environ['INPUT_FORCE_SERIES']
           if series not in mapping:
@@ -115,16 +108,16 @@ jobs:
           print(mapping[series].get('meeting_id', ''))
           ")
             if [ -n "$MEETING_ID" ]; then
-              python .github/ACDbot/scripts/upload_zoom_recording.py \
+              uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/upload_zoom_recording.py" \
                 --meeting_id "$MEETING_ID" \
                 --min-duration "$INPUT_MIN_DURATION"
             else
               echo "No meeting_id found for series $INPUT_FORCE_SERIES"
-              python .github/ACDbot/scripts/upload_zoom_recording.py \
+              uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/upload_zoom_recording.py" \
                 --min-duration "$INPUT_MIN_DURATION"
             fi
           else
-            python .github/ACDbot/scripts/upload_zoom_recording.py \
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/upload_zoom_recording.py" \
               --min-duration "$INPUT_MIN_DURATION"
           fi
         env:
@@ -152,18 +145,18 @@ jobs:
           ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
           ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
         run: |
-          cd .github/ACDbot/scripts/asset_pipeline
+          cd "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/asset_pipeline"
 
           if [ -n "$INPUT_FORCE_SERIES" ] && [ -n "$INPUT_FORCE_NUMBER" ]; then
             # Process specific meeting
             echo "Processing $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER..."
-            python run_pipeline.py -c "$INPUT_FORCE_SERIES" -n "$INPUT_FORCE_NUMBER" \
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/asset_pipeline/run_pipeline.py" -c "$INPUT_FORCE_SERIES" -n "$INPUT_FORCE_NUMBER" \
               --auto-approve --summarize --min-duration "$INPUT_MIN_DURATION"
           else
             # No forced meeting - process all recent meetings
-            SERIES=$(python -c "import json; m=json.load(open('../../meeting_topic_mapping.json')); print(' '.join(m.keys()))")
+            SERIES=$(uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked python -c "import json, os; p=os.path.join(os.environ['GITHUB_WORKSPACE'], '.github', 'ACDbot', 'meeting_topic_mapping.json'); m=json.load(open(p)); print(' '.join(m.keys()))")
             for series in $SERIES; do
-              python run_pipeline.py -c "$series" --recent --max-age-days 3 \
+              uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/asset_pipeline/run_pipeline.py" -c "$series" --recent --max-age-days 3 \
                 --auto-approve --summarize --min-duration "$INPUT_MIN_DURATION" || true
             done
           fi
@@ -178,8 +171,8 @@ jobs:
           git config --local user.name "GitHub Action"
 
           # Generate manifest
-          cd .github/ACDbot/scripts/asset_pipeline
-          python generate_manifest.py
+          cd "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/asset_pipeline"
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/asset_pipeline/generate_manifest.py"
           cd -
 
           # Stage all changed files

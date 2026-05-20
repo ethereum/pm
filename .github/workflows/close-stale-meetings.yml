@@ -16,16 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install PyGithub
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
 
       - name: Close stale meeting issues
-        run: python .github/ACDbot/scripts/close_stale_meetings.py
+        run: uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/close_stale_meetings.py"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}

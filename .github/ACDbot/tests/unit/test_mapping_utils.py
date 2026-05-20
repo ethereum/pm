@@ -4,6 +4,7 @@ Unit tests for mapping_utils.py module.
 
 import pytest
 from modules.mapping_utils import (
+    load_mapping,
     find_meeting_by_id,
     get_effective_meeting_id,
     find_meeting_by_issue_number,
@@ -14,6 +15,14 @@ from modules.mapping_utils import (
 
 class TestMappingUtils:
     """Test cases for mapping utility functions."""
+
+    def test_default_mapping_loads_project_mapping_from_any_cwd(self, tmp_path, monkeypatch):
+        """ACDbot should load its canonical mapping regardless of process cwd."""
+        monkeypatch.chdir(tmp_path)
+
+        mapping = load_mapping()
+
+        assert mapping
 
     def test_find_meeting_by_id_recurring_series_root(self, sample_mapping):
         """Test finding meeting in recurring series at root level."""

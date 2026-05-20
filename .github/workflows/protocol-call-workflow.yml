@@ -183,29 +183,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-
-      - name: Upgrade pip, setuptools, and wheel
-        run: |
-          pip install --upgrade pip setuptools wheel
-
-      - name: Install PyGithub Explicitly
-        run: |
-          pip install PyGithub>=1.55.1
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -e .github/ACDbot/
-          pip install pytz google-api-python-client
-          pip install -r .github/ACDbot/requirements.txt
-
-      - name: Verify Installed Packages
-        run: |
-          pip list
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
 
       - name: Log protocol call processing
         env:
@@ -219,7 +198,7 @@ jobs:
 
       - name: Handle protocol call
         run: |
-          python .github/ACDbot/scripts/handle_protocol_call.py \
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/handle_protocol_call.py" \
             --issue_number "${{ github.event.issue.number }}" \
             --repo "${{ github.repository }}"
         env:

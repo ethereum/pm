@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - '.github/ACDbot/**'
+      - '.github/actions/setup-acdbot/**'
       - '.github/workflows/pr-validation.yml'
 
 jobs:
@@ -13,17 +14,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip setuptools wheel
-          pip install -e .github/ACDbot/
-          pip install -r .github/ACDbot/requirements.txt
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
 
       - name: Run tests
-        working-directory: .github/ACDbot
-        run: pytest
+        run: uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked pytest "${GITHUB_WORKSPACE}/.github/ACDbot/tests"

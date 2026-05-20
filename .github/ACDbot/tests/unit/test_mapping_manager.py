@@ -13,12 +13,13 @@ from modules.mapping_manager import MappingManager
 class TestMappingManager:
     """Test cases for MappingManager class."""
 
-    def test_init_with_default_path(self):
-        """Test initialization with default mapping file path."""
+    def test_default_mapping_loads_project_mapping_from_any_cwd(self, tmp_path, monkeypatch):
+        """MappingManager should load the canonical mapping regardless of process cwd."""
+        monkeypatch.chdir(tmp_path)
+
         manager = MappingManager()
-        # The manager uses relative path, not absolute
-        expected_path = ".github/ACDbot/meeting_topic_mapping.json"
-        assert manager.mapping_file_path == expected_path
+
+        assert manager.mapping
 
     def test_init_with_custom_path(self, temp_mapping_file):
         """Test initialization with custom mapping file path."""

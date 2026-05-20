@@ -13,8 +13,6 @@ from modules.mapping_utils import (
     find_call_series_by_meeting_id
 )
 
-MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
-
 def is_meeting_eligible(meeting_end_time):
     """
     Check if the meeting ended more than 15 minutes ago.
