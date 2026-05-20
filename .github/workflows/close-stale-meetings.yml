@@ -20,7 +20,7 @@ jobs:
         uses: ./.github/actions/setup-acdbot
 
       - name: Close stale meeting issues
-        run: uv run --locked python .github/ACDbot/scripts/close_stale_meetings.py
+        run: uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked python .github/ACDbot/scripts/close_stale_meetings.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}

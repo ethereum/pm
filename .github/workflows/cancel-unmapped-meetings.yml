@@ -29,9 +29,9 @@ jobs:
       - name: Cancel unmapped meetings
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            uv run --locked python .github/ACDbot/scripts/cancel_unmapped_meetings.py --dry-run
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked python .github/ACDbot/scripts/cancel_unmapped_meetings.py --dry-run
           else
-            uv run --locked python .github/ACDbot/scripts/cancel_unmapped_meetings.py
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked python .github/ACDbot/scripts/cancel_unmapped_meetings.py
           fi
         env:
           GCAL_SERVICE_ACCOUNT_KEY: ${{ secrets.GCAL_SERVICE_ACCOUNT_KEY }}

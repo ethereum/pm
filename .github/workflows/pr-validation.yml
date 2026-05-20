@@ -16,9 +16,7 @@ jobs:
 
       - name: Set up ACDbot
         uses: ./.github/actions/setup-acdbot
-        with:
-          include-dev: "true"
 
       - name: Run tests
         working-directory: .github/ACDbot
-        run: uv run --locked pytest
+        run: uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked pytest
