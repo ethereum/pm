@@ -8,7 +8,6 @@ for a given Zoom meeting ID or for recent instances of a recurring meeting serie
 
 import argparse
 import json
-import re
 import sys
 import traceback
 from collections import defaultdict
@@ -31,9 +30,8 @@ sys.path.insert(0, str(ACDBOT_DIR / "modules"))
 
 import zoom
 from mapping_manager import MappingManager
+from meeting_identity import extract_public_call_number, get_occurrence_call_number
 
-# Maximum meeting number for validation (reasonable upper bound)
-MAX_MEETING_NUMBER = 999
 
 def download_file(url: str, token: str, path: Path) -> bool:
     """Download a file from a URL with authentication."""
@@ -53,63 +51,101 @@ def download_file(url: str, token: str, path: Path) -> bool:
         print(f"  ❌ Failed to download {path.name}: {e}")
         return False
 
-def extract_meeting_number(topic, series_name):
+def extract_meeting_number(topic, _series_name):
     """Extract meeting number from the meeting topic."""
-    if not topic:
-        return None
+    number = extract_public_call_number(topic, include_series_patterns=True)
+    return str(number) if number is not None else None
 
-    # Common patterns for meeting numbers
-    patterns = [
-        # Pattern for "ACDE #210", "ACDC #164", "RPC Standards # 20", etc.
-        r'#\s*(\d+)',
-        # Pattern for "Meeting 210", "Call 164", etc.
-        r'(?:Meeting|Call)\s+(\d+)',
-        # Pattern for numbers at the end like "ACDE 210"
-        r'\b(\d{2,4})(?:\s*,|\s*$)',
-        # Pattern for numbers after series name like "All Core Devs - Execution 210"
-        r'(?:ACDE|ACDC|ACDT|Execution|Consensus|Testing)\s+(\d+)',
-        # Pattern for ePBS breakout room calls like "EIP-7732 Breakout Room Call #21"
-        r'(?:EIP-7732\s+)?Breakout\s+Room\s+(?:call|Call)\s+#?(\d+)',
-        # Pattern for BAL breakout calls like "EIP-7928 Breakout #1"
-        r'EIP-7928\s+Breakout\s+#(\d+)',
-        # Pattern for FOCIL breakout calls like "FOCIL Breakout #10"
-        r'FOCIL\s+Breakout\s+#(\d+)',
-    ]
-
-    for pattern in patterns:
-        match = re.search(pattern, topic, re.IGNORECASE)
-        if match:
-            number = match.group(1)
-            # Validate it looks like a reasonable meeting number (not year, etc.)
-            if 0 <= int(number) <= MAX_MEETING_NUMBER:
-                return number
-
-    return None
-
-def find_occurrence_by_date_and_series(date_str, series_name, mapping_manager):
-    """Find the occurrence data for a specific date and series."""
+def find_occurrences_by_date_and_series(date_str, series_name, mapping_manager):
+    """Find mapped occurrences for a specific date and series."""
     try:
         mapping = mapping_manager.mapping
         series_data = mapping.get(series_name)
 
         if not series_data or 'occurrences' not in series_data:
-            return None
+            return []
 
+        occurrences = []
         for occurrence in series_data['occurrences']:
             start_time = occurrence.get('start_time', '')
             if start_time and start_time.startswith(date_str):
-                return occurrence
+                occurrences.append(occurrence)
 
-        return None
+        return occurrences
     except Exception as e:
         print(f"   ❌ Error finding occurrence: {e}")
+        return []
+
+
+def find_occurrence_by_date_series_and_number(date_str, series_name, mapping_manager, number=None):
+    """Find one mapped occurrence by date, series, and optional public call number."""
+    occurrences = find_occurrences_by_date_and_series(date_str, series_name, mapping_manager)
+    if number is not None:
+        try:
+            expected_number = int(number)
+        except (TypeError, ValueError):
+            print(f"   ❌ Invalid call number: {number}")
+            return None
+
+        matches = [
+            occurrence for occurrence in occurrences
+            if get_occurrence_call_number(occurrence) == expected_number
+        ]
+        if len(matches) == 1:
+            return matches[0]
+        if not matches:
+            print(f"   ❌ No mapped occurrence for {series_name} #{expected_number} on {date_str}")
+            return None
+        print(f"   ❌ Multiple mapped occurrences for {series_name} #{expected_number} on {date_str}")
         return None
+
+    if len(occurrences) == 1:
+        return occurrences[0]
+    if len(occurrences) > 1:
+        numbers = [get_occurrence_call_number(occurrence) for occurrence in occurrences]
+        print(f"   ❌ Ambiguous mapped occurrences for {series_name} on {date_str}: {numbers}")
+    return None
+
+
+def choose_recording(candidates, series_name, expected_number=None):
+    """Choose one recording candidate without guessing across ambiguous calls."""
+    if not candidates:
+        return None, None
+
+    if expected_number is not None:
+        expected_number = int(expected_number)
+        numbered_candidates = []
+        unnumbered_candidates = []
+        for instance, recording_data in candidates:
+            topic_number = extract_meeting_number(recording_data.get('topic', ''), series_name)
+            if topic_number is None:
+                unnumbered_candidates.append((instance, recording_data))
+            elif int(topic_number) == expected_number:
+                numbered_candidates.append((instance, recording_data))
+        if len(numbered_candidates) == 1:
+            return numbered_candidates[0]
+        if len(candidates) == 1 and len(unnumbered_candidates) == 1:
+            return unnumbered_candidates[0]
+        if len(candidates) == 1:
+            print(f"   ❌ Recording topic does not match expected {series_name} #{expected_number}")
+            return None, None
+
+        print(f"   ❌ Ambiguous recordings for {series_name} #{expected_number}; refusing to guess")
+        return None, None
+
+    if len(candidates) == 1:
+        return candidates[0]
+
+    print(f"   ❌ Ambiguous recordings for {series_name}; refusing to choose by duration alone")
+    return None, None
+
 
 def download_assets_for_meeting(
     recording_data: dict,
     series_name: str,
     access_token: str,
-    include_summary: bool = False
+    include_summary: bool = False,
+    occurrence: dict | None = None
 ) -> None:
     """Downloads assets from recording data for a single meeting instance."""
     if not recording_data or not recording_data.get('recording_files'):
@@ -121,19 +157,28 @@ def download_assets_for_meeting(
         print("   ❌ Could not determine meeting start time. Cannot create directory.")
         return
 
-    date_part = start_time.split('T')[0]
+    if occurrence and occurrence.get('start_time'):
+        date_part = occurrence['start_time'].split('T')[0]
+    else:
+        date_part = start_time.split('T')[0]
 
-    # Extract meeting number from topic if available
     topic = recording_data.get('topic', '')
-    meeting_number = extract_meeting_number(topic, series_name)
-    number_source = "topic" if meeting_number else None
+    mapped_number = get_occurrence_call_number(occurrence)
+    meeting_number = str(mapped_number) if mapped_number is not None else None
+    number_source = "mapping" if meeting_number else None
 
-    # If not found in topic, check mapping file for occurrence_number
-    if not meeting_number:
+    if not occurrence and not meeting_number:
+        # Manual one-off processing may not have occurrence context; keep topic
+        # parsing there, but never use it when a mapped occurrence is known.
+        meeting_number = extract_meeting_number(topic, series_name)
+        number_source = "topic" if meeting_number else None
+
+    if not occurrence and not meeting_number:
         mapping_manager = MappingManager(str(MAPPING_FILE_PATH))
-        occurrence = find_occurrence_by_date_and_series(date_part, series_name, mapping_manager)
-        if occurrence and occurrence.get('occurrence_number'):
-            meeting_number = str(occurrence['occurrence_number'])
+        mapped_occurrence = find_occurrence_by_date_series_and_number(date_part, series_name, mapping_manager)
+        mapped_number = get_occurrence_call_number(mapped_occurrence)
+        if mapped_number is not None:
+            meeting_number = str(mapped_number)
             number_source = "mapping"
 
     # Create directory name with meeting number if available
@@ -142,7 +187,7 @@ def download_assets_for_meeting(
         dir_name = f"{date_part}_{padded_number}"
         print(f"   📋 Meeting topic: {topic}")
         if number_source == "mapping":
-            print(f"   🔢 Using occurrence_number from mapping: {meeting_number}")
+            print(f"   🔢 Using public call number from mapping: {meeting_number}")
         else:
             print(f"   🔢 Extracted meeting number: {meeting_number}")
     else:
@@ -236,7 +281,8 @@ def process_recent_meetings(
     recent_count: int,
     access_token: str,
     min_duration_minutes: int = 15,
-    include_summary: bool = False
+    include_summary: bool = False,
+    requested_number: int | None = None
 ) -> None:
     """Fetch and process a number of recent meetings for a series using the mapping file."""
     print(f"📋 Looking up meeting ID for series '{series_name}'...")
@@ -299,14 +345,22 @@ def process_recent_meetings(
         if dates_processed >= recent_count:
             break
 
+        occurrence = find_occurrence_by_date_series_and_number(
+            date,
+            series_name,
+            mapping_manager,
+            requested_number,
+        )
+        if not occurrence:
+            print(f"\n⏭️  Skipping {date}: no mapped occurrence for series '{series_name}'")
+            continue
+
         instances_for_date = date_groups[date]
         print(f"\n📅 Processing {len(instances_for_date)} instance(s) from {date}:")
 
-        best_recording = None
-        best_duration = 0
-        best_instance = None
+        candidates = []
 
-        # Check all instances for this date to find the longest valid recording
+        # Check all instances for this date to find valid recording candidates.
         for instance in instances_for_date:
             uuid = instance.get('uuid')
 
@@ -316,14 +370,14 @@ def process_recent_meetings(
                 if recording_data:
                     duration = recording_data.get('duration', 0)
 
-                    if duration >= min_duration_minutes and duration > best_duration:
-                        best_duration = duration
-                        best_recording = recording_data
-                        best_instance = instance
+                    if duration >= min_duration_minutes:
+                        candidates.append((instance, recording_data))
 
+        expected_number = get_occurrence_call_number(occurrence)
+        best_instance, best_recording = choose_recording(candidates, series_name, expected_number)
         if best_recording and best_instance:
-            print(f"   🎯 Selected best recording for {date}: {best_duration} minutes")
-            valid_meetings.append((best_instance, best_recording))
+            print(f"   🎯 Selected recording for {date}: {best_recording.get('duration', 0)} minutes")
+            valid_meetings.append((best_instance, best_recording, occurrence))
             dates_processed += 1
         else:
             print(f"   ❌ No valid recordings found for {date}")
@@ -333,47 +387,13 @@ def process_recent_meetings(
         return
 
     print(f"\n📋 Found {len(valid_meetings)} meeting(s) with sufficient duration to process.")
-    for i, (instance, recording_data) in enumerate(valid_meetings):
+    for i, (instance, recording_data, occurrence) in enumerate(valid_meetings):
         uuid = instance.get('uuid')
         start_time = instance.get('start_time', 'N/A')
         duration = recording_data.get('duration', 0)
         date_part = start_time.split('T')[0] if start_time != 'N/A' else 'Unknown'
         print(f"\nProcessing meeting {i+1}/{len(valid_meetings)} from {date_part} (UUID: {uuid}, Duration: {duration} min)")
-        download_assets_for_meeting(recording_data, series_name, access_token, include_summary)
-
-
-def get_topic_prefixes_for_series(series_name, mapping_manager):
-    """Get possible topic prefixes for a series based on mapping data."""
-    # Known prefixes for common series
-    known_prefixes = {
-        'epbs': ['EIP-7732', 'ePBS'],
-        'acde': ['All Core Devs - Execution', 'ACDE', 'AllCoreDevs Execution'],
-        'acdc': ['All Core Devs - Consensus', 'ACDC', 'AllCoreDevs Consensus'],
-        'acdt': ['All Core Devs - Testing', 'ACDT', 'AllCoreDevs Testing'],
-        'focil': ['FOCIL'],
-        'bal': ['EIP-7928', 'BAL'],
-        'peerdas': ['PeerDAS'],
-        'rollcall': ['RollCall', 'Rollup Call'],
-    }
-
-    prefixes = known_prefixes.get(series_name, [])
-
-    # Also extract prefix from existing occurrence titles in the mapping
-    series_data = mapping_manager.mapping.get(series_name, {})
-    occurrences = series_data.get('occurrences', [])
-    if occurrences:
-        # Get unique prefixes from occurrence titles (first few words)
-        for occ in occurrences[:3]:  # Check first 3 occurrences
-            title = occ.get('issue_title', '')
-            if title:
-                # Extract prefix up to first number or comma
-                prefix_match = re.match(r'^([A-Za-z\-\s]+)', title)
-                if prefix_match:
-                    prefix = prefix_match.group(1).strip()
-                    if prefix and prefix not in prefixes:
-                        prefixes.append(prefix)
-
-    return prefixes
+        download_assets_for_meeting(recording_data, series_name, access_token, include_summary, occurrence)
 
 
 def process_meeting_by_date(
@@ -381,7 +401,8 @@ def process_meeting_by_date(
     target_date: str,
     access_token: str,
     min_duration_minutes: int = 15,
-    include_summary: bool = False
+    include_summary: bool = False,
+    requested_number: int | None = None
 ) -> None:
     """Fetch and process a meeting for a specific date using the mapping file."""
     print(f"📋 Looking up meeting ID for series '{series_name}'...")
@@ -410,9 +431,18 @@ def process_meeting_by_date(
         print(f"📋 Found meeting ID {primary_meeting_id} for series '{series_name}'")
 
     print(f"📋 Searching for meeting on {target_date}...")
+    occurrence = find_occurrence_by_date_series_and_number(
+        target_date,
+        series_name,
+        mapping_manager,
+        requested_number,
+    )
+    if not occurrence:
+        print(f"❌ Could not resolve a single mapped occurrence for series '{series_name}' on {target_date}.")
+        print("   Pass --number when multiple calls share the same date, or fix meeting_topic_mapping.json.")
+        return
 
-    # Track the best matching recording found
-    matching_recording = None
+    candidates = []
 
     # Method 1: Try get_past_meeting_instances for each meeting ID
     print(f"\n🔍 Method 1: Searching via past meeting instances...")
@@ -440,72 +470,30 @@ def process_meeting_by_date(
                     print(f"   Duration: {duration} minutes")
 
                     if duration >= min_duration_minutes:
-                        if not matching_recording or duration > matching_recording.get('duration', 0):
-                            matching_recording = recording_data
-                            print(f"   ✅ Best match so far ({duration} min)")
+                        candidates.append((instance, recording_data))
                     else:
                         print(f"   ⏭️  Duration below minimum ({duration} < {min_duration_minutes} min)")
                 else:
                     print(f"   ❌ No recording data found")
 
-    # Method 2: Fallback to searching all recordings for the date if not found
-    if not matching_recording:
-        print(f"\n🔍 Method 2: Searching via recordings list for {target_date}...")
-        topic_prefixes = get_topic_prefixes_for_series(series_name, mapping_manager)
-        print(f"   Looking for topics starting with: {topic_prefixes}")
-
-        try:
-            recordings = zoom.get_recordings_for_date(target_date)
-            print(f"   Found {len(recordings)} recordings on {target_date}")
-        except Exception as e:
-            print(f"   ❌ Error fetching recordings: {e}")
-            recordings = []
-
-        for recording in recordings:
-            topic = recording.get('topic', '')
-            duration = recording.get('duration', 0)
-            uuid = recording.get('uuid', '')
-
-            # Check if topic matches any of our prefixes
-            matches_prefix = any(topic.startswith(prefix) for prefix in topic_prefixes)
-
-            if matches_prefix:
-                print(f"   📋 Found matching topic: '{topic}' ({duration} min)")
-
-                if duration >= min_duration_minutes:
-                    if not matching_recording or duration > matching_recording.get('duration', 0):
-                        # Get full recording data
-                        full_recording = zoom.get_meeting_recording(uuid)
-                        if full_recording:
-                            matching_recording = full_recording
-                            print(f"   ✅ Best match so far ({duration} min)")
-                        else:
-                            print(f"   ⚠️  Could not fetch full recording data")
-                else:
-                    print(f"   ⏭️  Duration below minimum ({duration} < {min_duration_minutes} min)")
-            else:
-                if duration >= min_duration_minutes:
-                    print(f"   ⏭️  Skipping non-matching topic: '{topic}' ({duration} min)")
-
+    _, matching_recording = choose_recording(
+        candidates,
+        series_name,
+        get_occurrence_call_number(occurrence),
+    )
     if not matching_recording:
         print(f"\n❌ No meeting found on {target_date} with duration >= {min_duration_minutes} minutes")
-
-        # Check if the date exists in the mapping
-        occurrence = find_occurrence_by_date_and_series(target_date, series_name, mapping_manager)
-        if occurrence:
-            print(f"\n💡 Note: The mapping file shows a meeting on {target_date}:")
-            print(f"   Issue: #{occurrence.get('issue_number')}")
-            print(f"   Title: {occurrence.get('issue_title')}")
-            print(f"\n   The Zoom API may not have this meeting's recording available.")
-            print(f"   This can happen if:")
-            print(f"   - The recording has been deleted or archived")
-            print(f"   - The meeting was held with a different meeting ID")
-            print(f"   - The Zoom API has a retention limit for past instances")
+        print(f"\n💡 The mapping file has an occurrence on {target_date}:")
+        print(f"   Issue: #{occurrence.get('issue_number')}")
+        print(f"   Title: {occurrence.get('issue_title')}")
+        print("\n   ACDbot only ingests recordings found through the mapped meeting IDs.")
+        print("   If this call used a different Zoom meeting, add that meeting ID to")
+        print("   historical_meeting_ids or ingest the exact recording UUID manually.")
         return
 
     # Download assets for the matched meeting
     print(f"\n📋 Processing meeting from {target_date} (Duration: {matching_recording.get('duration', 0)} min)")
-    download_assets_for_meeting(matching_recording, series_name, access_token, include_summary)
+    download_assets_for_meeting(matching_recording, series_name, access_token, include_summary, occurrence)
 
 
 if __name__ == '__main__':
@@ -514,6 +502,7 @@ if __name__ == '__main__':
     parser.add_argument("--series-name", required=True, help="The name of the call series (e.g., 'acde').")
     parser.add_argument("--min-duration", type=int, default=15, help="Minimum meeting duration in minutes to process (default: 15). Applies to --recent and --date.")
     parser.add_argument("--include-summary", action="store_true", help="Download Zoom's meeting summary (summary.json). Disabled by default.")
+    parser.add_argument("--number", type=int, help="Expected public call number for disambiguating same-day occurrences.")
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--meeting-id", help="A specific meeting instance ID or UUID.")
@@ -528,9 +517,23 @@ if __name__ == '__main__':
         if args.meeting_id:
             process_single_meeting(args.meeting_id, args.series_name, access_token, args.include_summary)
         elif args.recent is not None:
-            process_recent_meetings(args.series_name, args.recent, access_token, args.min_duration, args.include_summary)
+            process_recent_meetings(
+                args.series_name,
+                args.recent,
+                access_token,
+                args.min_duration,
+                args.include_summary,
+                args.number,
+            )
         elif args.date:
-            process_meeting_by_date(args.series_name, args.date, access_token, args.min_duration, args.include_summary)
+            process_meeting_by_date(
+                args.series_name,
+                args.date,
+                access_token,
+                args.min_duration,
+                args.include_summary,
+                args.number,
+            )
 
     except Exception as e:
         print(f"❌ An unexpected error occurred: {e}")

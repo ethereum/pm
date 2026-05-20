@@ -14,6 +14,7 @@ from pathlib import Path
 import anthropic
 import requests
 from dotenv import load_dotenv
+from meeting_identity import get_occurrence_call_number
 
 # Load environment variables
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
@@ -35,8 +36,16 @@ EXAMPLE_SUMMARIES = {
 }
 
 
-def get_occurrence_from_mapping(call_type: str, date_str: str) -> dict | None:
-    """Look up occurrence data from the mapping file by call type and date."""
+def parse_call_directory(dir_name: str) -> tuple[str | None, int | None]:
+    """Parse an artifact directory name into date and public call number."""
+    match = re.match(r'^(\d{4}-\d{2}-\d{2})(?:_(\d+))?$', dir_name)
+    if not match:
+        return None, None
+    return match.group(1), int(match.group(2)) if match.group(2) else None
+
+
+def get_occurrence_from_mapping(call_type: str, date_str: str, number: int | None = None) -> dict | None:
+    """Look up one occurrence by call type, date, and optional public call number."""
     if not MAPPING_FILE.exists():
         return None
 
@@ -48,11 +57,16 @@ def get_occurrence_from_mapping(call_type: str, date_str: str) -> dict | None:
         if not series_data:
             return None
 
+        matches = []
         for occ in series_data.get('occurrences', []):
             start_time = occ.get('start_time', '')
-            if start_time and start_time.startswith(date_str):
-                return occ
-        return None
+            if not start_time or not start_time.startswith(date_str):
+                continue
+            if number is not None and get_occurrence_call_number(occ) != number:
+                continue
+            matches.append(occ)
+
+        return matches[0] if len(matches) == 1 else None
     except Exception:
         return None
 
@@ -177,18 +191,23 @@ def generate_summary(
         print(f"transcript.vtt not found in {meeting_dir}")
         return False
 
-    # Extract date from directory name (e.g., "2026-02-05_174" -> "2026-02-05")
-    date_str = meeting_dir.name.split("_")[0]
+    # Extract identity from directory name (e.g., "2026-02-05_174")
+    date_str, number = parse_call_directory(meeting_dir.name)
+    if not date_str:
+        print(f"Could not parse meeting directory name: {meeting_dir.name}")
+        return False
 
     # Look up occurrence data from mapping file
-    occurrence = get_occurrence_from_mapping(call_type, date_str)
+    occurrence = get_occurrence_from_mapping(call_type, date_str, number)
     if not occurrence:
-        print(f"No occurrence found in mapping for {call_type} on {date_str}")
+        label = f"{date_str} #{number}" if number is not None else date_str
+        print(f"No occurrence found in mapping for {call_type} on {label}")
         return False
 
     issue_number = occurrence.get('issue_number')
     if not issue_number:
-        print(f"No issue number in mapping for {call_type} on {date_str}")
+        label = f"{date_str} #{number}" if number is not None else date_str
+        print(f"No issue number in mapping for {call_type} on {label}")
         return False
 
     # Get meeting title from occurrence

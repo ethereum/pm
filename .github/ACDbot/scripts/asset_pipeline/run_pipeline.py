@@ -13,19 +13,39 @@ Runs the full asset pipeline for a meeting:
 import argparse
 import json
 import os
-import re
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from utils import SCRIPT_DIR, ARTIFACTS_DIR, find_call_directory
+from meeting_identity import get_occurrence_call_number
+from utils import SCRIPT_DIR, ARTIFACTS_DIR
 
 ACDBOT_DIR = SCRIPT_DIR.parent.parent
 MAPPING_FILE = ACDBOT_DIR / "meeting_topic_mapping.json"
 
 
-def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) -> tuple[str, int] | None:
+def load_mapping() -> dict | None:
+    """Load the meeting topic mapping file."""
+    if not MAPPING_FILE.exists():
+        return None
+
+    try:
+        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return None
+
+
+def get_occurrence_date(occurrence: dict) -> str | None:
+    """Return the YYYY-MM-DD date for a mapped occurrence."""
+    start_time = occurrence.get('start_time', '')
+    if not start_time:
+        return None
+    return start_time.split('T')[0]
+
+
+def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) -> tuple[str, int | None] | None:
     """
     Find the most recent occurrence from the mapping file.
     Returns (date, number) tuple or None if not found or too old.
@@ -34,13 +54,8 @@ def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) ->
         call: The call series name
         max_age_days: If set, only return meetings within this many days
     """
-    if not MAPPING_FILE.exists():
-        return None
-
-    try:
-        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
-            mapping = json.load(f)
-    except (json.JSONDecodeError, OSError):
+    mapping = load_mapping()
+    if not mapping:
         return None
 
     series_data = mapping.get(call)
@@ -84,108 +99,62 @@ def find_most_recent_from_mapping(call: str, max_age_days: int | None = None) ->
         # No valid meeting found
         return None
 
-    start_time = most_recent.get('start_time', '')
-
-    # Extract date from ISO format (e.g., "2026-02-03T15:00:00Z" -> "2026-02-03")
-    date = start_time.split('T')[0]
-
-    # Try to extract meeting number from issue_title
-    issue_title = most_recent.get('issue_title', '')
-    number = None
-
-    # Common patterns: "#1", "Call #21", "Breakout #10", "# 20", etc.
-    match = re.search(r'#\s*(\d+)', issue_title)
-    if match:
-        number = int(match.group(1))
-    else:
-        # Try occurrence_number as fallback
-        number = most_recent.get('occurrence_number')
+    date = get_occurrence_date(most_recent)
+    number = get_occurrence_call_number(most_recent)
 
     return date, number
 
 
-def get_all_series_from_mapping() -> list[str]:
-    """Get all series names from the mapping file."""
-    if not MAPPING_FILE.exists():
-        return []
+def find_date_for_call_number(call: str, number: int) -> str | None:
+    """Find the unique mapped date for a public call number."""
+    mapping = load_mapping()
+    if not mapping:
+        return None
 
-    try:
-        with open(MAPPING_FILE, 'r', encoding='utf-8') as f:
-            mapping = json.load(f)
-        return list(mapping.keys())
-    except (json.JSONDecodeError, OSError):
-        return []
+    series_data = mapping.get(call)
+    if not series_data:
+        return None
+
+    matches = []
+    for occurrence in series_data.get('occurrences', []):
+        occurrence_number = get_occurrence_call_number(occurrence)
+        occurrence_date = get_occurrence_date(occurrence)
+        if occurrence_number == number and occurrence_date:
+            matches.append(occurrence_date)
+
+    if len(matches) > 1:
+        dates = ", ".join(matches)
+        raise ValueError(f"Ambiguous mapped occurrences for {call} #{number}: {dates}")
+
+    return matches[0] if matches else None
 
 
-def find_most_recent_directory(call: str, max_age_days: int | None = None) -> tuple[Path | str, int] | None:
-    """
-    Find the most recent meeting for a call series.
-    First checks existing artifacts, then falls back to mapping file.
-    Returns (path_or_date, number) tuple or None.
+def find_call_directory_by_date_and_number(call: str, date: str, number: int | None) -> Path | None:
+    """Find the artifact directory for one mapped occurrence identity."""
+    if number is None:
+        return None
 
-    Args:
-        call: The call series name
-        max_age_days: If set, only return meetings within this many days
-    """
     call_dir = ARTIFACTS_DIR / call
+    if not call_dir.exists():
+        return None
 
-    # First, check existing artifact directories
-    if call_dir.exists():
-        dirs = sorted(
-            [d for d in call_dir.iterdir() if d.is_dir()],
-            key=lambda x: x.name,
-            reverse=True
-        )
-
-        if dirs:
-            most_recent = dirs[0]
-            # Check age if max_age_days is set
-            if max_age_days is not None:
-                try:
-                    # Extract date from directory name (e.g., "2024-12-12_226")
-                    date_str = most_recent.name.split("_")[0]
-                    meeting_dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
-                    cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
-                    if meeting_dt < cutoff:
-                        # Existing artifacts are too old — check mapping for a
-                        # newer occurrence that hasn't been processed yet.
-                        result = find_most_recent_from_mapping(call, max_age_days)
-                        if result:
-                            date, number = result
-                            print(f"📋 Existing artifacts too old, using mapping file")
-                            print(f"   Most recent occurrence: {date}, #{number}")
-                            return date, number
-                        return None  # Nothing recent in mapping either
-                except ValueError:
-                    pass  # If we can't parse, continue
-
-            # Extract number from directory name (e.g., "2024-12-12_226" -> 226)
-            parts = most_recent.name.split("_")
-            number = None
-            if len(parts) >= 2:
-                try:
-                    number = int(parts[-1])
-                except ValueError:
-                    pass
-
-            # If number not in directory name, check mapping file
-            if number is None:
-                date_str = parts[0]
-                result = find_most_recent_from_mapping(call, max_age_days)
-                if result and result[0] == date_str:
-                    number = result[1]
-
-            return most_recent, number
-
-    # Fall back to mapping file for series without artifacts yet
-    result = find_most_recent_from_mapping(call, max_age_days)
-    if result:
-        date, number = result
-        print(f"📋 No existing artifacts found, using mapping file")
-        print(f"   Most recent occurrence: {date}, #{number}")
-        return date, number
+    candidates = [
+        call_dir / f"{date}_{number:03d}",
+        call_dir / f"{date}_{number}",
+    ]
+    for candidate in candidates:
+        if candidate.is_dir():
+            return candidate
 
     return None
+
+
+def get_all_series_from_mapping() -> list[str]:
+    """Get all series names from the mapping file."""
+    mapping = load_mapping()
+    if not mapping:
+        return []
+    return list(mapping.keys())
 
 
 def run_step(name: str, cmd: list[str], check: bool = True) -> bool:
@@ -304,10 +273,12 @@ def main():
     call = args.call
     number = args.number
 
-    # If --recent, find the most recent meeting
-    recent_date = None  # Track if we got date from mapping file
+    # Resolve the pipeline target from mapping. Artifact directories are used
+    # only after identity is known; they must not choose which call to process.
+    target_date = None
+    meeting_dir = None
     if args.recent:
-        result = find_most_recent_directory(call, args.max_age_days)
+        result = find_most_recent_from_mapping(call, args.max_age_days)
         if result is None:
             if args.max_age_days:
                 # Not an error - just no recent meetings within the cutoff
@@ -315,10 +286,10 @@ def main():
             else:
                 print(f"❌ No meetings found for series '{call}'")
                 sys.exit(1)
-        meeting_dir_or_date, number = result
+        target_date, number = result
 
         # If number couldn't be determined, skip in CI mode or error otherwise
-        if number is None:
+        if target_date is None or number is None:
             if args.max_age_days:
                 print(f"⏭️  Could not determine meeting number for series '{call}' - skipping")
                 sys.exit(0)
@@ -326,24 +297,22 @@ def main():
                 print(f"❌ Could not determine meeting number for series '{call}'")
                 sys.exit(1)
 
-        # Check if result is a Path (existing artifacts) or string (date from mapping)
-        if isinstance(meeting_dir_or_date, Path):
-            meeting_dir = meeting_dir_or_date
-            if number is not None:
-                print(f"📋 Most recent meeting: {call} #{number}")
-            else:
-                print(f"📋 Most recent meeting directory: {meeting_dir.name}")
-        else:
-            # Got a date string from mapping file
-            recent_date = meeting_dir_or_date
-            meeting_dir = None
-            print(f"📋 Most recent meeting: {call} #{number} on {recent_date}")
+        meeting_dir = find_call_directory_by_date_and_number(call, target_date, number)
+        print(f"📋 Most recent mapped meeting: {call} #{number} on {target_date}")
     else:
-        meeting_dir = None
+        if number is not None:
+            try:
+                target_date = find_date_for_call_number(call, number)
+            except ValueError as e:
+                print(f"❌ {e}")
+                print("   Use a date-specific ingestion command or fix duplicate public numbers in meeting_topic_mapping.json.")
+                sys.exit(1)
 
-    # Check if meeting directory exists (for --resume)
-    if number is not None and not meeting_dir:
-        meeting_dir = find_call_directory(call, number, raise_on_missing=False)
+            if not target_date:
+                print(f"❌ Could not find mapped date for {call} #{number}")
+                sys.exit(1)
+
+            meeting_dir = find_call_directory_by_date_and_number(call, target_date, number)
 
     print(f"\n🚀 Asset Pipeline: {call} #{number}")
     print(f"{'='*60}")
@@ -355,34 +324,25 @@ def main():
             "--series-name", call,
             "--min-duration", str(args.min_duration),
         ]
-        if recent_date:
-            # Use date from mapping file
-            download_cmd.extend(["--date", recent_date])
+        if target_date:
+            download_cmd.extend(["--date", target_date])
+            if number is not None:
+                download_cmd.extend(["--number", str(number)])
         elif args.recent:
             download_cmd.extend(["--recent", "1"])
-        elif number is not None:
-            # Use --date if we can find it from directory, otherwise use --recent
-            if meeting_dir:
-                # Extract date from directory name
-                date_part = meeting_dir.name.split("_")[0]
-                download_cmd.extend(["--date", date_part])
-            else:
-                download_cmd.extend(["--recent", "1"])
         if args.include_zoom_summary:
             download_cmd.append("--include-summary")
 
         if not run_step("Step 1: Download Assets", download_cmd):
             sys.exit(1)
 
-        # Re-check for meeting directory after download
-        if args.recent:
-            result = find_most_recent_directory(call)
-            if result:
-                meeting_dir, number = result
+        # Re-check only the selected occurrence after download.
+        if target_date and number is not None:
+            meeting_dir = find_call_directory_by_date_and_number(call, target_date, number)
 
     # Verify meeting directory exists
-    if number is not None:
-        meeting_dir = find_call_directory(call, number, raise_on_missing=False)
+    if target_date and number is not None:
+        meeting_dir = find_call_directory_by_date_and_number(call, target_date, number)
 
     if not meeting_dir or not meeting_dir.exists():
         if args.max_age_days:
@@ -421,8 +381,8 @@ def main():
         else:
             changelog_cmd = [
                 sys.executable, "generate_changelog.py",
-                "--call", call,
-                "--number", str(number),
+                "--transcript", str(transcript_path),
+                "--output", str(changelog_path),
                 "--model", args.model,
             ]
             if not run_step("Step 2: Generate Changelog", changelog_cmd):
@@ -450,8 +410,9 @@ def main():
         # Step 4: Apply changelog
         apply_cmd = [
             sys.executable, "apply_changelog.py",
-            "--call", call,
-            "--number", str(number),
+            "--input", str(transcript_path),
+            "--changelog", str(changelog_path),
+            "--output", str(corrected_path),
         ]
         if not run_step("Step 4: Apply Corrections", apply_cmd):
             sys.exit(1)
@@ -464,8 +425,8 @@ def main():
     if run_summary:
         summary_cmd = [
             sys.executable, "generate_summary.py",
-            "--call", call,
-            "--number", str(number),
+            "--dir", str(meeting_dir),
+            "--model", args.model,
         ]
         if not run_step("Step 5: Generate Summary", summary_cmd, check=False):
             print("⚠️  Summary generation had issues, continuing...")

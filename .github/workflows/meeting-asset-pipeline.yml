@@ -45,6 +45,14 @@ jobs:
           pip install -e .github/ACDbot/
           pip install -r .github/ACDbot/requirements.txt
 
+      - name: Resolve forced meeting
+        if: env.INPUT_FORCE_SERIES != '' && env.INPUT_FORCE_NUMBER != ''
+        run: |
+          python .github/ACDbot/scripts/asset_pipeline/resolve_forced_target.py \
+            --series "$INPUT_FORCE_SERIES" \
+            --number "$INPUT_FORCE_NUMBER" \
+            --github-env "$GITHUB_ENV"
+
       - name: Refresh YouTube Token
         env:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
@@ -56,37 +64,13 @@ jobs:
       - name: Poll Zoom for recordings
         run: |
           if [ -n "$INPUT_FORCE_SERIES" ] && [ -n "$INPUT_FORCE_NUMBER" ]; then
-            # Look up meeting_id and issue_number from mapping file
-            LOOKUP=$(python -c "
-          import json, re, sys, os
-          with open('.github/ACDbot/meeting_topic_mapping.json') as f:
-              mapping = json.load(f)
-          series = os.environ['INPUT_FORCE_SERIES']
-          call_num = int(os.environ['INPUT_FORCE_NUMBER'])
-          if series not in mapping:
-              print(f'Series {series} not found', file=sys.stderr)
-              sys.exit(1)
-          data = mapping[series]
-          meeting_id = data.get('meeting_id', '')
-          issue_number = ''
-          for occ in data.get('occurrences', []):
-              title = occ.get('issue_title', '')
-              # Match patterns: '#123', '# 123', '#0123', 'Meeting 123', 'Call 123', 'Breakout 123'
-              pattern = rf'(?:#\s*0*{call_num}|(?:Meeting|Call|Breakout)\s+0*{call_num})(?:\D|$)'
-              if re.search(pattern, title, re.IGNORECASE):
-                  issue_number = str(occ.get('issue_number', ''))
-                  break
-          print(f'{meeting_id}|{issue_number}')
-          ")
-            MEETING_ID=$(echo "$LOOKUP" | cut -d'|' -f1)
-            ISSUE_NUMBER=$(echo "$LOOKUP" | cut -d'|' -f2)
-            echo "Found meeting_id=$MEETING_ID, issue_number=$ISSUE_NUMBER for $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER"
-            if [ -n "$MEETING_ID" ] && [ -n "$ISSUE_NUMBER" ]; then
+            echo "Using resolved forced target meeting_id=$FORCED_MEETING_ID, issue_number=$FORCED_ISSUE_NUMBER for $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER"
+            if [ -n "$FORCED_MEETING_ID" ] && [ -n "$FORCED_ISSUE_NUMBER" ]; then
               python .github/ACDbot/scripts/poll_zoom_recordings.py \
-                --force_meeting_id "$MEETING_ID" \
-                --force_issue_number "$ISSUE_NUMBER"
+                --force_meeting_id "$FORCED_MEETING_ID" \
+                --force_issue_number "$FORCED_ISSUE_NUMBER"
             else
-              echo "Could not find meeting_id or issue_number for $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER"
+              echo "Forced target was not resolved for $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER"
               exit 1
             fi
           else
@@ -109,7 +93,17 @@ jobs:
       - name: Upload Zoom recordings to YouTube
         continue-on-error: true
         run: |
-          if [ -n "$INPUT_FORCE_SERIES" ]; then
+          if [ -n "$INPUT_FORCE_SERIES" ] && [ -n "$INPUT_FORCE_NUMBER" ]; then
+            if [ -n "$FORCED_MEETING_ID" ] && [ -n "$FORCED_ISSUE_NUMBER" ]; then
+              python .github/ACDbot/scripts/upload_zoom_recording.py \
+                --meeting_id "$FORCED_MEETING_ID" \
+                --occurrence_issue_number "$FORCED_ISSUE_NUMBER" \
+                --min-duration "$INPUT_MIN_DURATION"
+            else
+              echo "Forced target was not resolved for $INPUT_FORCE_SERIES #$INPUT_FORCE_NUMBER"
+              exit 1
+            fi
+          elif [ -n "$INPUT_FORCE_SERIES" ]; then
             MEETING_ID=$(python -c "
           import json, sys, os
           with open('.github/ACDbot/meeting_topic_mapping.json') as f:
