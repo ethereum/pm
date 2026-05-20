@@ -51,15 +51,18 @@ def resolve_forced_target(mapping: dict, series: str, number: int) -> dict:
     occurrence = matches[0]
     meeting_id = str(occurrence.get("meeting_id") or series_data.get("meeting_id") or "").strip()
     issue_number = occurrence.get("issue_number")
+    date = occurrence_date(occurrence)
     if not meeting_id:
         raise ValueError(f"Mapped occurrence for {series} #{number} has no meeting_id")
     if not issue_number:
         raise ValueError(f"Mapped occurrence for {series} #{number} has no issue_number")
+    if not date:
+        raise ValueError(f"Mapped occurrence for {series} #{number} has no start_time")
 
     return {
         "meeting_id": meeting_id,
         "issue_number": int(issue_number),
-        "date": occurrence_date(occurrence),
+        "date": date,
         "number": number,
     }
 
@@ -69,8 +72,6 @@ def write_github_env(path: Path, target: dict) -> None:
     with path.open("a", encoding="utf-8") as env_file:
         env_file.write(f"FORCED_MEETING_ID={target['meeting_id']}\n")
         env_file.write(f"FORCED_ISSUE_NUMBER={target['issue_number']}\n")
-        env_file.write(f"FORCED_DATE={target['date']}\n")
-        env_file.write(f"FORCED_NUMBER={target['number']}\n")
 
 
 def main() -> None:

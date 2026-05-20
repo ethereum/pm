@@ -83,7 +83,7 @@ def find_occurrence_in_mapping(mapping: dict, series_id: str, date: str, number:
     return None
 
 
-def parse_call_directory(dir_name: str) -> tuple[str, int | None]:
+def parse_call_directory(dir_name: str) -> tuple[str | None, int | None]:
     """
     Parse a call directory name into (date, number).
 

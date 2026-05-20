@@ -51,7 +51,7 @@ def download_file(url: str, token: str, path: Path) -> bool:
         print(f"  ❌ Failed to download {path.name}: {e}")
         return False
 
-def extract_meeting_number(topic, series_name):
+def extract_meeting_number(topic, _series_name):
     """Extract meeting number from the meeting topic."""
     number = extract_public_call_number(topic, include_series_patterns=True)
     return str(number) if number is not None else None
