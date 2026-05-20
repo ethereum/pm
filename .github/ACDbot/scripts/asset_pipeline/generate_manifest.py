@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 import yaml
+from meeting_identity import get_occurrence_call_number
 
 SCRIPT_DIR = Path(__file__).parent
 ACDBOT_DIR = SCRIPT_DIR.parent.parent
@@ -69,13 +70,16 @@ def get_youtube_video_url(occurrence: dict) -> str | None:
     return None
 
 
-def find_occurrence_in_mapping(mapping: dict, series_id: str, date: str) -> dict | None:
-    """Find an occurrence in the mapping file by series and date."""
+def find_occurrence_in_mapping(mapping: dict, series_id: str, date: str, number: int | None = None) -> dict | None:
+    """Find an occurrence in the mapping file by series, date, and optional call number."""
     series_data = mapping.get(series_id, {})
     for occurrence in series_data.get('occurrences', []):
         start_time = occurrence.get('start_time', '')
-        if start_time and start_time.startswith(date):
-            return occurrence
+        if not start_time or not start_time.startswith(date):
+            continue
+        if number is not None and get_occurrence_call_number(occurrence) != number:
+            continue
+        return occurrence
     return None
 
 
@@ -155,7 +159,12 @@ def generate_manifest() -> dict:
                 call_entry["number"] = number
 
             # Look up issue number and video URL from mapping file
-            occurrence = find_occurrence_in_mapping(mapping, series_id, date)
+            occurrence = find_occurrence_in_mapping(mapping, series_id, date, number)
+            if number is not None and not occurrence:
+                raise ValueError(
+                    f"artifact directory has no mapped occurrence: {series_id}/{call_dir.name}"
+                )
+
             if occurrence:
                 if occurrence.get("issue_number"):
                     call_entry["issue"] = occurrence["issue_number"]
