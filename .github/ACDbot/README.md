@@ -51,17 +51,15 @@ ACDbot is maintained by EF Protocol Support support team. Before contacting main
 
 ## Contributing
 
-Develop ACDbot locally using Python 3.10 or newer.
+Develop ACDbot locally using Python 3.10 or newer. The project pins its default development interpreter in `.python-version` and manages dependencies with `uv`.
 
-From the repository root, install ACDbot in editable mode and then install the test/runtime dependencies:
+From the repository root, sync the locked ACDbot environment:
 
 ```bash
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install -e .github/ACDbot/
-python -m pip install -r .github/ACDbot/requirements.txt
+uv sync --project .github/ACDbot --locked
 ```
 
-This mirrors the GitHub Actions setup. The editable install is part of the expected local workflow because scripts and tests import `modules` and `scripts` as packages.
+This mirrors the GitHub Actions setup. `uv.lock` is checked in for reproducible installs; update dependencies in `pyproject.toml`, then refresh the lockfile with `uv lock --project .github/ACDbot`.
 
 ### Tests
 
@@ -71,14 +69,12 @@ Run relevant tests when making changes, and extend tests and fixtures when behav
 
 Run all tests:
 ```bash
-cd .github/ACDbot
-python -m pytest tests/ -v
+uv run --project .github/ACDbot --locked pytest .github/ACDbot/tests/ -v
 ```
 
 Run a specific test file:
 ```bash
-cd .github/ACDbot
-python -m pytest tests/unit/test_mapping_utils.py
+uv run --project .github/ACDbot --locked pytest .github/ACDbot/tests/unit/test_mapping_utils.py
 ```
 
 ### Configuration

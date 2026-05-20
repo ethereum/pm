@@ -22,21 +22,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -e .github/ACDbot/
-          pip install pytz
-          pip install -r .github/ACDbot/requirements.txt
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
 
       - name: Generate RSS feed
         run: |
-          python .github/ACDbot/scripts/serve_rss.py --update-only
+          uv run --locked python .github/ACDbot/scripts/serve_rss.py --update-only
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
@@ -74,4 +65,4 @@ jobs:
 
 permissions:
   contents: write
-  pages: write 
+  pages: write

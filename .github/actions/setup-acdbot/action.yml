@@ -1,0 +1,40 @@
+name: Setup ACDbot
+description: Install Python and uv, then sync the ACDbot project environment.
+
+inputs:
+  include-dev:
+    description: Include ACDbot development dependencies.
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version-file: .github/ACDbot/.python-version
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+      with:
+        version: "0.11.15"
+        enable-cache: true
+        cache-dependency-glob: .github/ACDbot/uv.lock
+
+    - name: Configure uv project
+      shell: bash
+      run: |
+        echo "UV_PROJECT=${GITHUB_WORKSPACE}/.github/ACDbot" >> "$GITHUB_ENV"
+        if [ "${{ inputs.include-dev }}" != "true" ]; then
+          echo "UV_NO_DEV=1" >> "$GITHUB_ENV"
+        fi
+
+    - name: Sync ACDbot
+      shell: bash
+      run: |
+        if [ "${{ inputs.include-dev }}" = "true" ]; then
+          uv sync --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked
+        else
+          uv sync --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked --no-dev
+        fi

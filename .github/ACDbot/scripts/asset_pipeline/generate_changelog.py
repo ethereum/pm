@@ -91,7 +91,7 @@ def parse_response(response: str) -> list[tuple]:
 def main():
     parser = argparse.ArgumentParser(
         description='Generate changelog using Claude API',
-        epilog='Example: python generate_changelog.py --call acde --number 226'
+        epilog='Example: uv run --project .github/ACDbot --locked python .github/ACDbot/scripts/asset_pipeline/generate_changelog.py --call acde --number 226'
     )
     # Shorthand arguments for call directory lookup
     parser.add_argument('--call', '-c', help='Call type (e.g., acde, acdc, acdt)')
@@ -142,9 +142,9 @@ def main():
 
     print(f"\nGenerated {output_path} with {len(corrections)} corrections")
     if args.call and args.number:
-        print(f"Review the file, then run: python apply_changelog.py -c {args.call} -n {args.number}")
+        print(f"Review the file, then run: uv run --project .github/ACDbot --locked python .github/ACDbot/scripts/asset_pipeline/apply_changelog.py -c {args.call} -n {args.number}")
     else:
-        print("Review the file, then run: python apply_changelog.py")
+        print("Review the file, then run: uv run --project .github/ACDbot --locked python .github/ACDbot/scripts/asset_pipeline/apply_changelog.py")
 
 if __name__ == '__main__':
     main()

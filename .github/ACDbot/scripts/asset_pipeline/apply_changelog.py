@@ -58,7 +58,7 @@ def apply_changelog(content: str, changes: list[Change]) -> tuple[str, dict[str,
 def main():
     parser = argparse.ArgumentParser(
         description='Apply changelog corrections to VTT',
-        epilog='Example: python apply_changelog.py --call acde --number 226'
+        epilog='Example: uv run --project .github/ACDbot --locked python .github/ACDbot/scripts/asset_pipeline/apply_changelog.py --call acde --number 226'
     )
     # Shorthand arguments for call directory lookup
     parser.add_argument('--call', '-c', help='Call type (e.g., acde, acdc, acdt)')

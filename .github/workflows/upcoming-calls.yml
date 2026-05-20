@@ -10,14 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.10'
-      - name: Install dependencies
-        run: |
-          pip install -e .github/ACDbot/
-          pip install requests pyyaml pytz google-api-python-client google-auth-oauthlib python-dateutil
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
       - name: Generate upcoming calls report
         env:
           ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
@@ -27,4 +21,4 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           MATTERMOST_BOT_WEBHOOK_URL: ${{ secrets.MATTERMOST_BOT_WEBHOOK_URL }}
-        run: python .github/ACDbot/scripts/upcoming_calls.py --days 5
+        run: uv run --locked python .github/ACDbot/scripts/upcoming_calls.py --days 5
