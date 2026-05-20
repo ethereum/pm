@@ -7,6 +7,7 @@ Provides clean, focused operations for managing call series and occurrences.
 
 import json
 import os
+from pathlib import Path
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 try:
@@ -19,12 +20,14 @@ except ImportError:
     def should_log_debug():
         return os.getenv('ACDBOT_LOG_LEVEL', 'INFO').upper() == 'DEBUG'
 
+MAPPING_FILE_PATH = Path(__file__).resolve().parent.parent / "meeting_topic_mapping.json"
+
 
 class MappingManager:
     """Manages operations on the meeting_topic_mapping.json file."""
 
-    def __init__(self, mapping_file_path: str = ".github/ACDbot/meeting_topic_mapping.json"):
-        self.mapping_file_path = mapping_file_path
+    def __init__(self, mapping_file_path: str | os.PathLike = MAPPING_FILE_PATH):
+        self.mapping_file_path = os.fspath(mapping_file_path)
         self.logger = get_logger()
         self.mapping = self.load_mapping()
 
@@ -47,7 +50,7 @@ class MappingManager:
         try:
             # Ensure the directory exists (this should be part of the repository)
             directory = os.path.dirname(self.mapping_file_path)
-            if not os.path.exists(directory):
+            if directory and not os.path.exists(directory):
                 self.logger.error(f"Directory {directory} does not exist. The mapping file should be part of the repository.")
                 return False
 

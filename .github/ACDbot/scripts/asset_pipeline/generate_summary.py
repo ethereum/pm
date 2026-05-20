@@ -336,7 +336,7 @@ def generate_summary(
 def main():
     parser = argparse.ArgumentParser(
         description='Generate tldr.json summary using Claude API',
-        epilog='Example: uv run --project .github/ACDbot --locked python .github/ACDbot/scripts/asset_pipeline/generate_summary.py --call acde --number 226'
+        epilog='Example: uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/generate_summary.py --call acde --number 226'
     )
     parser.add_argument('--call', '-c', help='Call type (e.g., acde, acdc, acdt)')
     parser.add_argument('--number', '-n', type=int, help='Call number (e.g., 226)')

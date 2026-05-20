@@ -23,7 +23,7 @@ def create_zoom(title, start_time, duration):
     """
     Create a Zoom meeting and prints the join URL.
     Example usage:
-        uv run --project .github/ACDbot --locked python -m modules.cli create-zoom --title 'My Meeting' --start-time '2025-01-01T13:00:00Z'
+        uv run --project .github/ACDbot python -m modules.cli create-zoom --title 'My Meeting' --start-time '2025-01-01T13:00:00Z'
     """
     try:
         duration = duration if 'duration' in locals() else 60
@@ -40,7 +40,7 @@ def create_discourse(title, body, category_id):
     """
     Create a topic on Discourse.
     Example usage:
-        uv run --project .github/ACDbot --locked python -m modules.cli create-discourse --title 'Proposal' --body 'My content' --category-id 63
+        uv run --project .github/ACDbot python -m modules.cli create-discourse --title 'Proposal' --body 'My content' --category-id 63
     """
     topic_data = discourse.create_topic(title, body, category_id)
     click.echo(f"Created Discourse topic with ID {topic_data.get('topic_id')}")
@@ -51,7 +51,7 @@ def send_telegram(message):
     """
     Send a message to a Telegram channel.
     Example usage:
-        uv run --project .github/ACDbot --locked python -m modules.cli send-telegram --message 'Hello from ACD Bot!'
+        uv run --project .github/ACDbot python -m modules.cli send-telegram --message 'Hello from ACD Bot!'
     """
     response = telegram.send_message(message)
     click.echo(response)
@@ -65,7 +65,7 @@ def create_calendar_event(summary, start, duration, calendar_id):
     """
     Create a Google Calendar event.
     Example usage:
-        uv run --project .github/ACDbot --locked python -m modules.cli create-calendar-event --summary 'Team Sync' \
+        uv run --project .github/ACDbot python -m modules.cli create-calendar-event --summary 'Team Sync' \
           --start '2025-01-01T10:00:00' --duration 30 --calendar-id 'mycalendarid@group.calendar.google.com'
     """
     from datetime import datetime
@@ -87,7 +87,7 @@ def publish_transcript(meeting_id, category_id):
     Fetch a transcript from a Zoom call and upload it to Discourse as a new topic.
 
     Example usage:
-        uv run --project .github/ACDbot --locked python -m modules.cli publish-transcript --meeting-id 123456789 \
+        uv run --project .github/ACDbot python -m modules.cli publish-transcript --meeting-id 123456789 \
           --category-id 63
     """
     # This helper function calls Zoom to fetch the transcript text

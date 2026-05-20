@@ -4,8 +4,9 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import pytz
 import json
+from pathlib import Path
 
-RSS_FILE_PATH = ".github/ACDbot/rss/meetings.xml"
+RSS_FILE_PATH = str(Path(__file__).resolve().parent.parent / "rss" / "meetings.xml")
 
 def ensure_rss_directory():
     """Ensure the RSS directory exists"""
@@ -250,18 +251,10 @@ def add_notification_to_meeting(meeting_id, occurrence_issue_number, notificatio
     try:
         from .transcript import load_meeting_topic_mapping, save_meeting_topic_mapping # Relative import
     except ImportError:
-        # Assume running as script, need a way to load/save mapping
-        # This might require moving load/save functions out or duplicating them
-        print("[WARN] Could not perform relative import for mapping functions in rss_utils.")
-        # Fallback: Define simple load/save here if needed, or rely on caller to save
-        def load_meeting_topic_mapping(): # Simple fallback
-             if os.path.exists(".github/ACDbot/meeting_topic_mapping.json"): # Adjust path if needed
-                 with open(".github/ACDbot/meeting_topic_mapping.json", "r") as f:
-                     return json.load(f)
-             return {}
-        def save_meeting_topic_mapping(m): # Simple fallback
-             with open(".github/ACDbot/meeting_topic_mapping.json", "w") as f:
-                 json.dump(m, f, indent=2)
+        from mapping_utils import (
+            load_mapping as load_meeting_topic_mapping,
+            save_mapping as save_meeting_topic_mapping,
+        )
 
     mapping = load_meeting_topic_mapping()
 

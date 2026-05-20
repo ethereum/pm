@@ -165,7 +165,7 @@ After merging your changes:
 | No YouTube playlist assignment | Playlist ID not set | Add `youtube_playlist_id` to config (or leave as `null`) |
 | Autopilot uses wrong defaults | Missing `autopilot_defaults` | Add `autopilot_defaults` section to your call series config |
 | Autopilot ignored for one-off | One-off calls unsupported | One-off calls require manual configuration (by design) |
-| Tests fail after changes | Config structure issue | Run `uv run --project .github/ACDbot --locked pytest .github/ACDbot/tests` locally |
+| Tests fail after changes | Config structure issue | Run `uv run --project .github/ACDbot pytest .github/ACDbot/tests` locally |
 | Workflow doesn't process issue | Facilitator not trusted | Add GitHub username to `trustedContributors` in workflow |
 
 ## File Reference

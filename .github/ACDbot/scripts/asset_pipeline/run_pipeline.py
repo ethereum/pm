@@ -240,7 +240,7 @@ def prompt_review(changelog_path: Path, open_editor: bool = False) -> str:
 def main():
     parser = argparse.ArgumentParser(
         description='Run the full asset pipeline for a meeting',
-        epilog='Example: uv run --project .github/ACDbot --locked python .github/ACDbot/scripts/asset_pipeline/run_pipeline.py --call acde --number 226'
+        epilog='Example: uv run --project .github/ACDbot .github/ACDbot/scripts/asset_pipeline/run_pipeline.py --call acde --number 226'
     )
     parser.add_argument('--call', '-c', required=True,
                         help='Call type (e.g., acde, acdc, acdt)')

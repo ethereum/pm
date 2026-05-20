@@ -7,8 +7,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from modules.discord_notify import send_discord_notification
 from modules.mapping_utils import load_mapping, save_mapping
 
-MAPPING_FILE = ".github/ACDbot/meeting_topic_mapping.json"
-
 # Notification window: send alerts between 90-20 minutes before meeting
 NOTIFY_EARLY_MINUTES = 90  # Start sending notifications this many minutes before
 NOTIFY_CUTOFF_MINUTES = 20  # Stop automated notifications this many minutes before
