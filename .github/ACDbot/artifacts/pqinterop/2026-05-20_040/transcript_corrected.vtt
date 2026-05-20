@@ -1,0 +1,1686 @@
+WEBVTT
+
+1
+00:03:08.600 --> 00:03:09.730
+Pablo Deymo | Lambda: Hello, hello.
+
+2
+00:03:11.350 --> 00:03:12.419
+Shariq Naiyer: How you doing, Pablo?
+
+3
+00:03:12.950 --> 00:03:13.940
+Shariq Naiyer: How are you doing, guys?
+
+4
+00:04:13.020 --> 00:04:14.100
+Thomas Coratger: Hello, hello.
+
+5
+00:04:31.770 --> 00:04:33.230
+Thomas Coratger: Can you hear me?
+
+6
+00:04:34.020 --> 00:04:35.130
+Shariq Naiyer: Yes.
+
+7
+00:04:36.980 --> 00:04:37.780
+Thomas Coratger: Perfect.
+
+8
+00:04:39.430 --> 00:04:46.530
+Thomas Coratger: Okay, so… Let's get started. So today…
+
+9
+00:04:47.270 --> 00:04:52.410
+Thomas Coratger: We're gonna discuss a couple of small things, nothing very big, but…
+
+10
+00:04:52.630 --> 00:04:58.560
+Thomas Coratger: mainly the DevNet 5, stuff and PR that we have merged, in the spec.
+
+11
+00:04:58.700 --> 00:05:02.650
+Thomas Coratger: A bit of, like, lean spec stabilization.
+
+12
+00:05:03.480 --> 00:05:06.410
+Thomas Coratger: And a bit of a scaling of number of validators.
+
+13
+00:05:06.760 --> 00:05:13.169
+Thomas Coratger: And then I have seen a couple of comments about DevNet criteria's acceptance.
+
+14
+00:05:13.380 --> 00:05:16.030
+Thomas Coratger: And, a bit of benchmarking.
+
+15
+00:05:16.670 --> 00:05:21.780
+Thomas Coratger: So, yeah, let's get started with some client updates.
+
+16
+00:05:21.880 --> 00:05:25.010
+Thomas Coratger: First, let us start with Zeam.
+
+17
+00:05:27.290 --> 00:05:28.450
+Gajinder Singh: Thank you, Thomas.
+
+18
+00:05:28.990 --> 00:05:34.019
+Gajinder Singh: Yeah, so we have been working on DevNet 5 spec.
+
+19
+00:05:34.140 --> 00:05:40.410
+Gajinder Singh: And it has been merged, so we will now start implementing DevNet 5.
+
+20
+00:05:40.590 --> 00:05:44.949
+Gajinder Singh: on DevNet4, we have been working to further optimize
+
+21
+00:05:45.060 --> 00:05:50.559
+Gajinder Singh: Zeam as an aggregator. We have… we did several, PRs for that.
+
+22
+00:05:50.740 --> 00:05:54.169
+Gajinder Singh: to… Resolve our hot parts.
+
+23
+00:05:54.260 --> 00:06:04.480
+Gajinder Singh: And we also did some PRs to add aggregate metrics for subnet and combined, and we will be upstreaming those metrics in the lean spec as well.
+
+24
+00:06:04.570 --> 00:06:17.939
+Gajinder Singh: So that all the clients can implement it, and then we can get a unified per-client view of the metrics on aggregates, because as of now, I'm feeling that this is something that we
+
+25
+00:06:18.090 --> 00:06:25.659
+Gajinder Singh: Was missing when we were trying to do analysis for multiple subnets, and
+
+26
+00:06:25.830 --> 00:06:28.679
+Gajinder Singh: Multiple aggregators per subnet.
+
+27
+00:06:28.820 --> 00:06:34.840
+Gajinder Singh: So, this will give us more visibility into How each aggregator is performing.
+
+28
+00:06:36.520 --> 00:06:40.990
+Gajinder Singh: And, on the test runs, we further integrated,
+
+29
+00:06:41.240 --> 00:06:47.609
+Gajinder Singh: The tests that were, updated on the LeanSpec, and…
+
+30
+00:06:47.830 --> 00:06:51.629
+Gajinder Singh: We have been, keeping up with the Hive integrations as well.
+
+31
+00:06:52.280 --> 00:07:02.009
+Gajinder Singh: on… on DevNetRuns, Partha will give you update for scaling the validators, because we started scaling the validators.
+
+32
+00:07:02.120 --> 00:07:09.299
+Gajinder Singh: And again, as expected, we started running into, again, the choking issues that
+
+33
+00:07:09.600 --> 00:07:28.670
+Gajinder Singh: that were expected, and we expect various clients to look into it and resolve those issues. On Zoom's side, we will be focusing on improving our aggregation computation itself. That is something that has come out to be a clear priority for us.
+
+34
+00:07:28.800 --> 00:07:34.350
+Gajinder Singh: So this is… Overall picture on Zoom's end.
+
+35
+00:07:38.600 --> 00:07:40.120
+Thomas Coratger: Great, thanks a lot.
+
+36
+00:07:41.070 --> 00:07:41.950
+Thomas Coratger: a ring?
+
+37
+00:07:43.730 --> 00:07:55.010
+Shariq Naiyer: Hi, guys. We have implemented, one of the PRs around block building that was, allowing us to use older justified,
+
+38
+00:07:55.190 --> 00:08:04.039
+Shariq Naiyer: I forget exactly, but it was allowing you to use older justified stuff to, to build blocks currently. We've implemented that PR, we…
+
+39
+00:08:04.040 --> 00:08:17.009
+Shariq Naiyer: We're looking through the demo site spec and implementing it now, and, we've explored some metrics around application, that were missing, from… so Partha couldn't tell us what our application time was.
+
+40
+00:08:17.260 --> 00:08:38.859
+Shariq Naiyer: And on Hive, we're adding tests for multi-subnet, interop, so clients operating on multi-subnets against other clients, and we're adding tests for, every client as an aggregator, and we're adding tests for the new API that was added to, lean spec. That's all from us for now.
+
+41
+00:08:42.130 --> 00:08:45.180
+Thomas Coratger: Great, thanks a lot. Clean.
+
+42
+00:08:47.110 --> 00:08:53.710
+Ruslan Tushov: Hello. We're fixing some Hive tests.
+
+43
+00:08:54.550 --> 00:09:01.010
+Ruslan Tushov: currently investigating the problem with connecting to Mock Peer from HiveTest.
+
+44
+00:09:01.560 --> 00:09:11.350
+Ruslan Tushov: which is used in GOSI validation and request response tests, and also implemented a test driver for spec tests in Hive.
+
+45
+00:09:11.760 --> 00:09:12.690
+Ruslan Tushov: Thank you.
+
+46
+00:09:16.380 --> 00:09:18.610
+Thomas Coratger: Great, thank you, Lantion.
+
+47
+00:09:28.860 --> 00:09:30.050
+Thomas Coratger: It's from there.
+
+48
+00:09:32.020 --> 00:09:33.050
+Pablo Deymo | Lambda: No, hello.
+
+49
+00:09:33.560 --> 00:09:42.270
+Pablo Deymo | Lambda: We made a VR to Linuxpec, fixing an edge case in block buildings, and that was already merged.
+
+50
+00:09:42.520 --> 00:09:52.570
+Pablo Deymo | Lambda: It's already emerged. We saw some other instability due to useless attestations being included in build blocks.
+
+51
+00:09:52.830 --> 00:09:59.449
+Pablo Deymo | Lambda: And so, we are already testing some changes to block building that should address this.
+
+52
+00:09:59.690 --> 00:10:04.189
+Pablo Deymo | Lambda: And we will make a PR Kooly inspect for this afterwards.
+
+53
+00:10:05.210 --> 00:10:10.280
+Pablo Deymo | Lambda: On the other side, we have full block aggregation implemented.
+
+54
+00:10:10.460 --> 00:10:15.869
+Pablo Deymo | Lambda: But we are debugging an issue with slow block proof generation.
+
+55
+00:10:16.170 --> 00:10:23.430
+Pablo Deymo | Lambda: And, we, have a working execution layer integration.
+
+56
+00:10:24.260 --> 00:10:30.160
+Pablo Deymo | Lambda: We can show you a demo after this plan updates. In this meeting, we can show you a link.
+
+57
+00:10:30.810 --> 00:10:33.329
+Pablo Deymo | Lambda: So, that's our science.
+
+58
+00:10:35.610 --> 00:10:39.969
+Thomas Coratger: Great, thanks a lot for the PRs on Linspecca as well.
+
+59
+00:10:40.600 --> 00:10:43.419
+Thomas Coratger: Now, Gin?
+
+60
+00:10:45.600 --> 00:10:47.190
+Shaaibu Suleiman | gean: Yes, hello, hello.
+
+61
+00:10:47.360 --> 00:10:58.220
+Shaaibu Suleiman | gean: Yeah, so, from our own site, we've been, making some, updates, basically, some merged, pull requests for the FNet4, I think on Lynchwork as they come.
+
+62
+00:10:58.370 --> 00:11:08.479
+Shaaibu Suleiman | gean: We also make, the updates on our own ends, and also, a couple of hive tests, that we're failing at some point, around networking.
+
+63
+00:11:08.710 --> 00:11:17.609
+Shaaibu Suleiman | gean: And all. We've been trying to, fix that also. So yeah, that's, pretty much it from our own ends. Thank you.
+
+64
+00:11:18.440 --> 00:11:19.719
+Shaaibu Suleiman | gean: power and off.
+
+65
+00:11:21.770 --> 00:11:23.880
+Thomas Coratger: Great, thanks a lot.
+
+66
+00:11:24.000 --> 00:11:25.230
+Thomas Coratger: Lighthouse?
+
+67
+00:11:33.020 --> 00:11:35.799
+Thomas Coratger: Okay, and Grandine?
+
+68
+00:11:38.950 --> 00:11:45.869
+Mercy Boma Naps-Nkari: Good afternoon, so… We received an OM report from the general government, and then we did an internal run.
+
+69
+00:11:46.060 --> 00:11:48.849
+Mercy Boma Naps-Nkari: And this is the result of it,
+
+70
+00:11:50.090 --> 00:11:52.789
+Mercy Boma Naps-Nkari: So, we are still trying to figure out why.
+
+71
+00:11:53.140 --> 00:11:59.720
+Mercy Boma Naps-Nkari: this OM issue occurs, on the generative net and not, in our own internal one, so…
+
+72
+00:11:59.840 --> 00:12:06.509
+Mercy Boma Naps-Nkari: We are currently trying to attach a profiler to pin down where the issue is coming from, and then…
+
+73
+00:12:06.980 --> 00:12:09.340
+Mercy Boma Naps-Nkari: Fix some,
+
+74
+00:12:10.210 --> 00:12:17.350
+Mercy Boma Naps-Nkari: figure out if it's a configuration based on the DevNet, on the server, side, which we're not sure yet, so…
+
+75
+00:12:17.600 --> 00:12:25.640
+Mercy Boma Naps-Nkari: If we figure that out, we'll be able to… if it's a fix from our own end, we'll make a fix for it, but we're still investigating.
+
+76
+00:12:26.870 --> 00:12:27.840
+Mercy Boma Naps-Nkari: Thank you.
+
+77
+00:12:32.020 --> 00:12:35.650
+Thomas Coratger: Great. Thanks, thanks a lot, Nimbus.
+
+78
+00:12:47.140 --> 00:12:50.479
+Thomas Coratger: Yep, so, yeah, and Lynn? Yeah.
+
+79
+00:12:58.480 --> 00:13:01.009
+Thomas Coratger: Okay, did I miss someone?
+
+80
+00:13:05.520 --> 00:13:14.989
+Thomas Coratger: Okay, great. So, I can give you, like, now a brief update of what we are doing in the spec and on the research side.
+
+81
+00:13:15.360 --> 00:13:16.909
+Thomas Coratger: So, first on the spec.
+
+82
+00:13:17.610 --> 00:13:20.110
+Thomas Coratger: No, first, maybe on the research side.
+
+83
+00:13:20.720 --> 00:13:24.399
+Thomas Coratger: we have merged, like, a couple of new PRs in Plonkey 3.
+
+84
+00:13:24.660 --> 00:13:27.939
+Thomas Coratger: For different sources of optimization,
+
+85
+00:13:28.270 --> 00:13:33.380
+Thomas Coratger: I will skip details, but this is mostly small marginal gains plus, like,
+
+86
+00:13:33.480 --> 00:13:38.930
+Thomas Coratger: We have merged also a full benchmarking suite for WEER, that is our polynomial commitment scheme.
+
+87
+00:13:39.050 --> 00:13:46.379
+Thomas Coratger: We have also merged a new arithmization for Monolis, that is an arithmeticization-friendly hash function.
+
+88
+00:13:46.650 --> 00:13:49.450
+Thomas Coratger: That is, let us say,
+
+89
+00:13:49.940 --> 00:13:55.589
+Thomas Coratger: super, super modern and less studied alternative to Poseidon.
+
+90
+00:13:56.050 --> 00:13:59.800
+Thomas Coratger: Just to test and stuff, so we have done that.
+
+91
+00:14:01.720 --> 00:14:11.609
+Thomas Coratger: not that much new things since Roam on the research side. Maybe, immediately want to complete with the new stuff that you are doing right now in LeanVM?
+
+92
+00:14:12.270 --> 00:14:15.759
+T. Wambsgans: Hi, everyone. Yeah, mostly working on…
+
+93
+00:14:16.160 --> 00:14:20.920
+T. Wambsgans: improving the spec and the paper associated to LinVM.
+
+94
+00:14:21.270 --> 00:14:32.720
+T. Wambsgans: there is no quickly web-coded Python verifier implementation, which is, like, 1,500 lines of code.
+
+95
+00:14:32.720 --> 00:14:41.769
+T. Wambsgans: I… as soon as the spec paper is, good enough, I will have a look at… myself, at the Python verifier.
+
+96
+00:14:41.940 --> 00:14:50.920
+T. Wambsgans: To try to make it below 1,000 lines of code, and then trying to… write a LIN4 verifier.
+
+97
+00:14:51.470 --> 00:14:55.230
+T. Wambsgans: And so, yeah, entering,
+
+98
+00:14:55.330 --> 00:14:58.510
+T. Wambsgans: Like, at least, having a well-defined,
+
+99
+00:14:58.660 --> 00:15:02.919
+T. Wambsgans: verifier for LinVM. That's the current goal.
+
+100
+00:15:07.110 --> 00:15:08.210
+Thomas Coratger: Great.
+
+101
+00:15:09.540 --> 00:15:13.700
+Thomas Coratger: So that is on the research side of things, so…
+
+102
+00:15:14.610 --> 00:15:21.429
+Thomas Coratger: I think, from my hand at least, like, I am spending most of my time right now since,
+
+103
+00:15:22.100 --> 00:15:26.240
+Thomas Coratger: since after ROM, on the spec, on lean spec.
+
+104
+00:15:26.450 --> 00:15:43.540
+Thomas Coratger: because we are entering a bit of a phase of, I think, a stabilization, and I want to showcase also, like, the specification to, like, a more broader audience. We are discussing that internally at DEF, and I want… I would love, like, to have more feedbacks about
+
+105
+00:15:44.180 --> 00:16:01.630
+Thomas Coratger: existing Beacon client teams, and also, like, more people inside ZEF and outside ZF, the ones that are doing, like, currently the Beacon specification, just to see if they agree or not with how we are doing specification.
+
+106
+00:16:01.750 --> 00:16:18.499
+Thomas Coratger: That's why I am trying to clean things up a lot since this weekend. So, for example, basic example, I have reworked a bit, like, the way we are doing some SSD types, and trying to add more test coverage when missing.
+
+107
+00:16:18.630 --> 00:16:29.780
+Thomas Coratger: I have completely removed this morning, as well, the Disk 5… diskv5, discovery stuff, because we are not using it, and we don't need that for a spec or a minimal client.
+
+108
+00:16:29.930 --> 00:16:33.359
+Thomas Coratger: So, I have removed these kind of things that are…
+
+109
+00:16:33.910 --> 00:16:36.559
+Thomas Coratger: Not that useful for what we are doing.
+
+110
+00:16:36.750 --> 00:16:45.109
+Thomas Coratger: I am also trying to check every line of code to check that there is nothing pretty wrong.
+
+111
+00:16:45.180 --> 00:16:59.119
+Thomas Coratger: So I am spending a bit of time on this, to architecture things properly, before showcasing that to, like, a broader audience than just this group. So I will work on that in the coming,
+
+112
+00:17:00.080 --> 00:17:10.420
+Thomas Coratger: days, and weeks, probably. At the end of this week, I am going with, with Antonio from, and, and, and Justine from ZEF,
+
+113
+00:17:10.660 --> 00:17:16.080
+Thomas Coratger: at a conference in Zurich to present, post-quantum, consensus.
+
+114
+00:17:16.599 --> 00:17:18.969
+Thomas Coratger: for Ethereum, at a conference.
+
+115
+00:17:19.119 --> 00:17:20.250
+Thomas Coratger: of researchers.
+
+116
+00:17:20.569 --> 00:17:34.320
+Thomas Coratger: So that is it. On the spec side of things, also, this morning, we have merged the DevNet 5 PR, so now we have, like, a single block posted, a single proof posted per block on-chain.
+
+117
+00:17:34.400 --> 00:17:44.400
+Thomas Coratger: So that is the good news. No, I think that we can stabilize the spec a bit. I don't see any major feature that we should add.
+
+118
+00:17:44.960 --> 00:17:52.229
+Thomas Coratger: Also, I think that this is pretty aligned with the comments that I have seen from Bartai in the issue.
+
+119
+00:17:52.820 --> 00:18:04.110
+Thomas Coratger: of this meeting. Basically, PATA is proposing, like, to defining the clear acceptance criteria for each DevNet, because I think that the complaint is a bit that we are
+
+120
+00:18:04.270 --> 00:18:07.140
+Thomas Coratger: We have not reached stability yet.
+
+121
+00:18:07.530 --> 00:18:13.899
+Thomas Coratger: And this is a bit of a mess right now to debug the .NET, so basically what I propose now is that
+
+122
+00:18:14.200 --> 00:18:24.230
+Thomas Coratger: Now that we have a single proof per block on chain, we can just try to stabilize things and reach a larger number of validators.
+
+123
+00:18:24.270 --> 00:18:35.889
+Thomas Coratger: So, let us say, as soon as we don't have stability for 1K validators among different clients and the spec, probably, then we shouldn't move
+
+124
+00:18:36.190 --> 00:18:39.870
+Thomas Coratger: Anything else, because this will be useless just
+
+125
+00:18:40.160 --> 00:18:54.099
+Thomas Coratger: this will just result in more bugs into the code and into the DevNet, so I think that we can do something like this. I don't know if you have any comments or things like this.
+
+126
+00:18:55.460 --> 00:18:58.740
+Thomas Coratger: Yeah, please feel free to comment on anything.
+
+127
+00:19:04.950 --> 00:19:07.829
+Parthasarathy Ramanujam: Sorry, was that a question to me, Thomas?
+
+128
+00:19:09.990 --> 00:19:23.420
+Thomas Coratger: No… not specifically, but I think that in the issue of, like, the… in the issue of the… of the two-day calls, you mentioned the fact that we… we should have clear acceptance criteria for EastDevNets.
+
+129
+00:19:23.420 --> 00:19:23.880
+Parthasarathy Ramanujam: Yay.
+
+130
+00:19:23.880 --> 00:19:24.550
+Thomas Coratger: before moving.
+
+131
+00:19:24.550 --> 00:19:24.940
+Parthasarathy Ramanujam: go to the…
+
+132
+00:19:24.940 --> 00:19:25.959
+Thomas Coratger: Next one, yeah.
+
+133
+00:19:26.170 --> 00:19:37.000
+Parthasarathy Ramanujam: Yeah, so just wanted to elaborate on that point. Until we ran a DevNet with just two subnets, we were able to achieve justification and finality almost every run.
+
+134
+00:19:37.000 --> 00:19:46.860
+Parthasarathy Ramanujam: But ever since we scaled up to 4 with 64 validators, we've not achieved it even once, and every run results in a new bug or issue.
+
+135
+00:19:46.860 --> 00:20:00.349
+Parthasarathy Ramanujam: The major concern that I have seen is that, for the metrics that have been available for 4 clients, the P95 for aggregation is 4 seconds, but our slot interval is 0.8 seconds. So…
+
+136
+00:20:00.350 --> 00:20:12.329
+Parthasarathy Ramanujam: I'm not sure how we would achieve justification of finality when every client is failing to complete the aggregation task within a given slot interval.
+
+137
+00:20:12.360 --> 00:20:22.240
+Parthasarathy Ramanujam: And this is the present case with… without recursive aggregation, so I'm not sure how recursive aggregation would add on to it.
+
+138
+00:20:22.240 --> 00:20:33.840
+Parthasarathy Ramanujam: I mean, it's… it's okay. If we can agree that the problem is only with the hardware specification that we are using for aggregators, we should ideally arrive at,
+
+139
+00:20:33.840 --> 00:20:49.690
+Parthasarathy Ramanujam: what is the exact specification we need for the aggregator service? So that's why I wanted to check with O, what were each of those criteria that he benchmarked, what was the legend associated to each of those hardware, so that we could then
+
+140
+00:20:49.690 --> 00:20:55.239
+Parthasarathy Ramanujam: Come to an agreement on how, big the aggregator servers ought to be.
+
+141
+00:20:55.410 --> 00:21:00.530
+Parthasarathy Ramanujam: Yeah, and the second, issue I've seen is that,
+
+142
+00:21:00.530 --> 00:21:24.660
+Parthasarathy Ramanujam: although it was evident earlier, lib P2P latency does add to the stability or instability of the DevNet, at least until what I've seen till now. So, when you're running multiple subnet DevNet on the same machine, you may be able to view finality, but on the DevNets, it doesn't, because we are running it across
+
+143
+00:21:24.850 --> 00:21:39.370
+Parthasarathy Ramanujam: 30 different servers. So, but before we could, really see if the, P2P, layer is an issue, we should first sort out, the issue with the aggregation, and,
+
+144
+00:21:39.370 --> 00:21:47.300
+Parthasarathy Ramanujam: try to see that at least P95 across all plants is achieved within that 0.8 second interval.
+
+145
+00:21:47.630 --> 00:21:50.350
+Parthasarathy Ramanujam: Yeah, that's all I had. Sorry, Gajinder, you can go for it.
+
+146
+00:21:55.620 --> 00:21:57.330
+Thomas Coratger: Yes, please get Ginger, go ahead.
+
+147
+00:21:57.800 --> 00:22:06.469
+Gajinder Singh: Yeah. So, on this, I want to add, basically, I mean, we should go in a reverse manner right now, because…
+
+148
+00:22:06.710 --> 00:22:13.109
+Gajinder Singh: By the time this thing will go live, and… We will have…
+
+149
+00:22:13.430 --> 00:22:16.120
+Gajinder Singh: A lot of hardware improvements, as well as…
+
+150
+00:22:16.140 --> 00:22:29.740
+Gajinder Singh: software optimizations. So, the way we should approach this particular issue is, yes, the aggregators might require a different hardware spec, and for that question we need to ask is.
+
+151
+00:22:29.740 --> 00:22:45.819
+Gajinder Singh: what is the… what is the network that we are envisioning? That an aggregator… how many aggregators will be there in a particular subnet, or what is the size of subnet, and how many subnets do you expect a typical aggregator to aggregate? And on the basis of that.
+
+152
+00:22:46.050 --> 00:22:47.659
+Gajinder Singh: We, right now.
+
+153
+00:22:47.940 --> 00:23:05.290
+Gajinder Singh: get a… gets those machines, for the aggregators, which are beefed up, but then work hard to basically bring down, the requirement to the level where it's acceptable, and what we would like to see in mainnet.
+
+154
+00:23:05.490 --> 00:23:09.729
+Gajinder Singh: So… so I would basically want to go in reverse so that
+
+155
+00:23:10.070 --> 00:23:12.900
+Gajinder Singh: We can then target what we need to achieve.
+
+156
+00:23:14.250 --> 00:23:15.880
+Thomas Coratger: Okay, so…
+
+157
+00:23:16.160 --> 00:23:24.959
+Thomas Coratger: Have we identified, like, the source of the bug? Because let me summarize to see if I understand correctly. So, basically, when you…
+
+158
+00:23:25.060 --> 00:23:39.380
+Thomas Coratger: tested with one subnet, then everything was fine. You reached finality and justification, but as soon as you test with, like, two subnets or something like that, you have a problem. Is it correct?
+
+159
+00:23:39.550 --> 00:23:46.609
+Parthasarathy Ramanujam: Up to two subnets, we are able to receive, achieve finality, but anything greater than 2, it becomes a problem.
+
+160
+00:23:46.610 --> 00:23:47.730
+Thomas Coratger: Okay, okay.
+
+161
+00:23:47.800 --> 00:23:57.290
+Thomas Coratger: So yeah, up to two subnets, it is okay. After two subnets, there is a problem. Have you, like, have we identified, like.
+
+162
+00:23:57.310 --> 00:24:10.560
+Thomas Coratger: at least what the problem is. Is it, like, the time to aggregate? Is it a networking problem? Is it a bug problem inside the code? Or what is it exactly?
+
+163
+00:24:10.560 --> 00:24:27.499
+Parthasarathy Ramanujam: So, most of the cases, the entire network does not view the same section of the chain, right? So, aggregation is slow. As a result, within a given slot, every client does not see the complete view, so they are not able to
+
+164
+00:24:27.500 --> 00:24:32.149
+Parthasarathy Ramanujam: Progress with justification, or essentially complete the state transition function.
+
+165
+00:24:32.150 --> 00:24:33.239
+Parthasarathy Ramanujam: As they should.
+
+166
+00:24:33.430 --> 00:24:52.470
+Parthasarathy Ramanujam: So till now, over the past week, I've run probably 5 to 6 DevNets, with different sections of clients. Across, the board, I would say the average aggregation, or rather P95, aggregation is 4 seconds, and average is… ranges between 1.5 to 1.8.
+
+167
+00:24:53.390 --> 00:24:54.140
+Thomas Coratger: Okay.
+
+168
+00:24:54.360 --> 00:25:00.910
+Thomas Coratger: And so, okay, so the problem, if I understand correctly, is that the time…
+
+169
+00:25:01.620 --> 00:25:10.129
+Gajinder Singh: I… basically, I would… I think there are multiple issues here that I see before, basically, we try to… So, in my…
+
+170
+00:25:10.290 --> 00:25:16.740
+Gajinder Singh: mind. I think there are, there are multiple issues. Like, one is, like, whether all clients
+
+171
+00:25:16.790 --> 00:25:30.599
+Gajinder Singh: as an aggregator, they are stable. They are able to produce aggregation of their subnet in correct time, because when we are going above 2, basically, we are putting a different client on each aggregator subnet, right, Partha?
+
+172
+00:25:31.360 --> 00:25:44.990
+Parthasarathy Ramanujam: So, yeah, at the moment, I have homogeneous, so every subnet consists of the same client, with one of them functioning as an aggregator. In next future runs, I could probably mix and match them and try with different combinations.
+
+173
+00:25:45.650 --> 00:26:05.149
+Gajinder Singh: Right, so… so the point is that going beyond… so up till 2, we have some stability, and beyond to the stability, there are multiple issues, right, that I can see, and we basically need to identify them and debug them on that basis. So, first, without increasing the number of aggregator clients, and just increases the number of
+
+174
+00:26:05.190 --> 00:26:09.899
+Gajinder Singh: subnets, as well as the aggregator combinations, right?
+
+175
+00:26:09.960 --> 00:26:15.760
+Gajinder Singh: So… so instead of putting more clients in the mix, just… Make the same client as…
+
+176
+00:26:16.320 --> 00:26:26.470
+Gajinder Singh: as two nodes of same client as aggregator or something like that, right? So, first, this needs to be done. Then the second issue, I think, is whether our clients
+
+177
+00:26:26.540 --> 00:26:46.270
+Gajinder Singh: as an aggregator role, they are stable. Then the third issue that I see is that whether, in a block proposer, if you are getting multiple aggregates, what is the, what is the block proposal, efficiency, right? So, what time is it taking for a block proposal to
+
+178
+00:26:46.360 --> 00:26:49.710
+Gajinder Singh: Process all these aggregates and put them in the block.
+
+179
+00:26:49.870 --> 00:26:54.840
+Gajinder Singh: And, so… so these are… and the… and the last issue is that
+
+180
+00:26:54.960 --> 00:26:57.760
+Gajinder Singh: Once we have all this, basically, what is the…
+
+181
+00:26:57.840 --> 00:27:12.910
+Gajinder Singh: aggregation coverage on all these subnets. And for the last… last point, I think is quite a bit important, and that is what I earlier mentioned, that we will be upstreaming a few metrics to basically capture that.
+
+182
+00:27:12.990 --> 00:27:20.029
+Gajinder Singh: And that is something that I think will help us quite a bit in debugging, that on these subnets, what is the…
+
+183
+00:27:20.190 --> 00:27:38.400
+Gajinder Singh: aggregation coverage that is happening, as well as what is the combined aggregation that is happening… coverage that is happening, as well as what the aggregator is seeing, and compared to what the block proposer has done. So all these metrics, I think, on an urgent basis, we need to add, and so…
+
+184
+00:27:38.400 --> 00:27:41.590
+Gajinder Singh: We will upstream them, in the spec.
+
+185
+00:27:41.950 --> 00:27:48.039
+Gajinder Singh: By tomorrow. And hopefully, when we have that, we will start getting a better picture of
+
+186
+00:27:48.150 --> 00:28:05.250
+Gajinder Singh: Where the things are going wrong, and then basically drill down on what the issues are by saying that, okay, first you scale without increasing the number of aggregator clients, and then you try to basically, again, have an approach
+
+187
+00:28:05.360 --> 00:28:09.239
+Gajinder Singh: Of seeing how many clients, as an aggregator, they are.
+
+188
+00:28:09.510 --> 00:28:18.719
+Gajinder Singh: they are stable even in a small two-subnet, network. So… so I think we will basically need to have
+
+189
+00:28:18.870 --> 00:28:21.349
+Gajinder Singh: This kind of approach to figure out,
+
+190
+00:28:21.460 --> 00:28:26.809
+Gajinder Singh: Where the issues are, and to patch in, solutions for them.
+
+191
+00:28:30.740 --> 00:28:32.690
+Thomas Coratger: Yeah, please, hold, go, go ahead.
+
+192
+00:28:34.580 --> 00:28:50.459
+unnawut: Yeah, just want to share some numbers, from the bench, from the feedback that Toma, gave last time that I… I benchmarked against, main branch, and that's more performant, but that's not what we are using for… for DemNet 4 and 5.
+
+193
+00:28:50.460 --> 00:28:58.209
+unnawut: So I, I re-ran it again, and, the performance… is about,
+
+194
+00:28:58.210 --> 00:29:07.419
+unnawut: three times, slower, but I think it kind of, like, might be answering what PARTA is, seeing as well, for example, like.
+
+195
+00:29:07.420 --> 00:29:12.290
+Thomas Coratger: J- you mean this is 3 times slower, like the…
+
+196
+00:29:12.670 --> 00:29:18.870
+Thomas Coratger: the DevNet 5 or DevNet 4 branch is 3 times slower than the main branch, is it correct?
+
+197
+00:29:18.870 --> 00:29:33.909
+unnawut: Yes, yes, yes, that's correct. Yeah. And, so if you look at the aggregation for 125 signatures, if it's a 32 core, it's about 1 second. Sorry, actually, yeah, 1.1 second, P95.
+
+198
+00:29:33.920 --> 00:29:40.499
+unnawut: For 16-core, that's about 1.6 seconds, but that's linear.
+
+199
+00:29:40.500 --> 00:29:54.689
+unnawut: Parter, I think you said 64, right? So I think we are looking at about, like, 800 milliseconds for… for basically just the leaf aggregation. So I guess that's why the aggregation at, like, a single subnet level works.
+
+200
+00:29:54.750 --> 00:29:57.980
+unnawut: But if we look at the… the subnet level.
+
+201
+00:29:58.070 --> 00:30:07.000
+unnawut: For example, like, these 2X, so basically two subnets, right? We are looking at about 1.3 milliseconds.
+
+202
+00:30:07.310 --> 00:30:11.640
+unnawut: Which, I guess, like, is still okay, like, it's within, like, the fore…
+
+203
+00:30:11.930 --> 00:30:20.210
+unnawut: But once you go up to, like, say, 4, it doubles up. So I think that… that might be one cause why…
+
+204
+00:30:20.720 --> 00:30:21.550
+unnawut: you…
+
+205
+00:30:21.550 --> 00:30:21.870
+Parthasarathy Ramanujam: Oh, yeah.
+
+206
+00:30:21.870 --> 00:30:22.749
+unnawut: yet more time.
+
+207
+00:30:23.340 --> 00:30:26.480
+Parthasarathy Ramanujam: Sorry to interrupt, did you say 64 core? .
+
+208
+00:30:27.360 --> 00:30:31.479
+unnawut: No, I said 32, but I assume that you're using 64 validators.
+
+209
+00:30:31.480 --> 00:30:31.910
+Parthasarathy Ramanujam: Right here.
+
+210
+00:30:31.910 --> 00:30:32.810
+unnawut: for scaling, scaling?
+
+211
+00:30:32.810 --> 00:30:41.969
+Parthasarathy Ramanujam: Oh, yeah, yeah. Yeah, yeah, 64 validators, 8 validators per subnet, but the configuration is 8-core, 16GB RAM.
+
+212
+00:30:43.230 --> 00:30:56.349
+unnawut: Yeah, so… and I think, like, the recursion, like, it doesn't matter how many, like, leave signatures you add in there, right? It's the number of… number of proofs that you are aggregating, and once it goes up to 4 proofs.
+
+213
+00:30:56.610 --> 00:31:02.120
+unnawut: Like, we are looking at, 2.7 seconds on a 32 car.
+
+214
+00:31:02.290 --> 00:31:11.590
+unnawut: I think that might slip past, like, the remaining time for a slot, or for the next slot, and that might be the issue.
+
+215
+00:31:11.940 --> 00:31:20.760
+Parthasarathy Ramanujam: Okay, so then going by this bench, our configuration for, an aggregator should be at least 16, core.
+
+216
+00:31:21.280 --> 00:31:23.159
+Parthasarathy Ramanujam: Is that what you're addressing?
+
+217
+00:31:24.290 --> 00:31:29.960
+unnawut: So… Are you… oh, so you're using… Less than 16 right now.
+
+218
+00:31:29.960 --> 00:31:31.810
+Parthasarathy Ramanujam: Yeah, yeah, I'm using 8-core, right?
+
+219
+00:31:31.810 --> 00:31:36.949
+unnawut: Okay, then I… yeah, so, so I… my… what I'm trying to say is that if, like.
+
+220
+00:31:37.290 --> 00:31:52.099
+unnawut: I think we might have to be based on the performance of lean multisig right now, because, like, if we try to optimize any level above it, but the raw performance from the multi-sig is basically, for example, like, 5 seconds.
+
+221
+00:31:52.120 --> 00:32:00.179
+unnawut: To do, like, a four subnet, aggregation, then… then it's not going to fit in a slot, or two slots, or three slots.
+
+222
+00:32:01.110 --> 00:32:16.139
+Thomas Coratger: Maybe I have a couple of comments about this. So, first, we will not touch the spec much more in the coming days and weeks, so we will have plenty of time to debug this, so that is the good news.
+
+223
+00:32:16.740 --> 00:32:25.649
+Thomas Coratger: the fact that the DevNet 4 branch is 3 times slower than the mainnet branch in some sort.
+
+224
+00:32:25.870 --> 00:32:28.870
+Thomas Coratger: is kind of a good news. Why? Because…
+
+225
+00:32:29.220 --> 00:32:32.799
+Thomas Coratger: This means that if we switch to the main branch.
+
+226
+00:32:32.970 --> 00:32:37.600
+Thomas Coratger: We will… we will, like, have something 3 times faster, basically.
+
+227
+00:32:38.170 --> 00:32:53.010
+Thomas Coratger: The problem… Emil can elaborate on this, but to summarize in one sentence, the problem is that the current main branch… the parameters of XMSS that are used in the current main branch are not proven
+
+228
+00:32:53.290 --> 00:32:58.020
+Thomas Coratger: in the paper of XMSS, these are all the parameters that are
+
+229
+00:32:58.140 --> 00:33:03.759
+Thomas Coratger: Under construction in terms of proofs, but not proven officially, let us say.
+
+230
+00:33:04.300 --> 00:33:18.730
+Thomas Coratger: So, of course, we can move to these parameters if this is better, but I don't want us to have a bad surprise at the end, and having to move backward in something that is much slower. That is something that we can do as well.
+
+231
+00:33:19.180 --> 00:33:29.850
+Thomas Coratger: And I don't know your opinion about the hardware requirements, Emil, but I think that the part of the hardware that you are describing with 8-core
+
+232
+00:33:30.000 --> 00:33:36.799
+Thomas Coratger: seems super, super slow, I think, and maybe super small, because right now.
+
+233
+00:33:36.950 --> 00:33:45.899
+Thomas Coratger: we are kind of, we are kind of under large constraints already with CPU only for signature aggregation.
+
+234
+00:33:46.280 --> 00:33:56.969
+Thomas Coratger: And so, I think that all of the benchmarks that are run by Emil are on a M4 Max, so it's a, let's say, a fancy laptop.
+
+235
+00:33:57.270 --> 00:34:08.500
+Thomas Coratger: And I think that we cannot really run on a non-fancy laptop, I would say. Emil, please elaborate, but I think on such a small laptop, this will be difficult.
+
+236
+00:34:08.500 --> 00:34:20.269
+Thomas Coratger: Even, I think, in Rome, we benchmark within my laptop, which is a M1 Pro or something like that, and it was already four times slower than on Emil's laptop, so…
+
+237
+00:34:20.270 --> 00:34:37.700
+Parthasarathy Ramanujam: I follow, but given that we are running everything on Headsner, and Headsner does not provide M-related stuff, so I just need to understand if we can… what is the minimum configuration we should target for? So if it's 16 core, that's fine. If it's 32 core, that's fine.
+
+238
+00:34:37.699 --> 00:34:42.479
+Parthasarathy Ramanujam: We can discuss in the DevOps group on what's the budget available to set up.
+
+239
+00:34:42.480 --> 00:34:49.400
+Parthasarathy Ramanujam: But, I just need the minimum configuration for an aggregator so that we can plan and deploy this accordingly.
+
+240
+00:34:49.439 --> 00:34:54.309
+Thomas Coratger: Emil, feel free to elaborate, but I think you're the 64, no?
+
+241
+00:34:55.090 --> 00:34:58.349
+T. Wambsgans: The MAC is, I think, 16.
+
+242
+00:34:58.460 --> 00:35:04.369
+T. Wambsgans: But there is the number of cores, but there is also the performance of the memory.
+
+243
+00:35:04.780 --> 00:35:13.870
+T. Wambsgans: And, typically, I have, like, a small Etsnaire server, and it's much slower than the Mac.
+
+244
+00:35:14.160 --> 00:35:17.659
+T. Wambsgans: But I think mostly because the memory is much slower.
+
+245
+00:35:18.120 --> 00:35:19.060
+T. Wambsgans: So…
+
+246
+00:35:19.190 --> 00:35:33.010
+T. Wambsgans: it's hard for me to give, right now, precise, requirements, but we can try to write them down for the next call, probably. But I think 16 calls is,
+
+247
+00:35:33.280 --> 00:35:34.420
+T. Wambsgans: A good idea.
+
+248
+00:35:36.870 --> 00:35:39.750
+Thomas Coratger: Yeah, and I feel 80's too small, no?
+
+249
+00:35:41.090 --> 00:35:41.810
+T. Wambsgans: Yeah.
+
+250
+00:35:42.220 --> 00:35:48.739
+T. Wambsgans: And about XMSS, basically, it depends on the…
+
+251
+00:35:48.960 --> 00:36:01.459
+T. Wambsgans: framework in which you do the security proof, if it's the standard model, which is conservative, like, the most conservative you can have, or if you assume Poseidon behaves…
+
+252
+00:36:01.770 --> 00:36:09.399
+T. Wambsgans: in some way, like, as a random oracle, you can get tighter and more efficient XMSS, which…
+
+253
+00:36:09.720 --> 00:36:15.629
+T. Wambsgans: also has the advantage of being below 1 MTU and EPV6 MTU.
+
+254
+00:36:16.210 --> 00:36:32.110
+T. Wambsgans: And, but, like, the question of which security framework to use is not consensual among the experts, I would say. I would not, like, I'm not qualified enough to tell, but I would say among the
+
+255
+00:36:32.440 --> 00:36:45.790
+T. Wambsgans: small number of cryptographers I have asked this question. Some say it's okay, some say it's not, so it's… I would say it's not an easy question for us to answer right now. But, obviously, main…
+
+256
+00:36:46.310 --> 00:36:57.339
+T. Wambsgans: would be much… the main branch would be much faster, so maybe one thing we could try in the future, without saying we should use the main XMSS long-term, but
+
+257
+00:36:57.440 --> 00:37:07.819
+T. Wambsgans: we could try to have a DevNet using the main XMSS, just to be able to compare how better would it be for the performance of the…
+
+258
+00:37:08.090 --> 00:37:09.170
+T. Wambsgans: the DevNet.
+
+259
+00:37:10.410 --> 00:37:16.040
+Thomas Coratger: Okay, and so if we are pragmatic, why not, like.
+
+260
+00:37:16.340 --> 00:37:20.250
+Thomas Coratger: First, trying to increase the hardware requirement a bit.
+
+261
+00:37:20.770 --> 00:37:23.559
+Thomas Coratger: Trying to simulate
+
+262
+00:37:23.710 --> 00:37:32.149
+Thomas Coratger: as is right now with the DevNet 4, DevNet 5, whatever branch, with the conservative assumptions that we have right now, so we changed nothing about XMSS.
+
+263
+00:37:32.300 --> 00:37:48.669
+Thomas Coratger: We try to debug and everything, we try to make it stable, we try to see if the performance are good enough, let us say, with this slow branch, let us say, and if we cannot manage this, and if this is an absolute blocker.
+
+264
+00:37:48.780 --> 00:37:54.550
+Thomas Coratger: then we can circle back and discuss, like, basically you, Justine.
+
+265
+00:37:54.760 --> 00:37:59.980
+Thomas Coratger: Benedict and myself, maybe, to see if this is a good idea or not, like, to…
+
+266
+00:38:00.340 --> 00:38:04.939
+Thomas Coratger: to go back… to go to the main branch. This is something that we can do that way.
+
+267
+00:38:10.310 --> 00:38:13.730
+Thomas Coratger: For, yeah, maybe Anchal, you had also a comment?
+
+268
+00:38:14.140 --> 00:38:20.019
+Anshal Shukla: Yeah, so I was thinking that we're putting a lot of focus on the aggregator right now, but I think…
+
+269
+00:38:20.350 --> 00:38:39.659
+Anshal Shukla: The culprit here is, like, the validators, because on increasing it to 4 subnets, we have, like, for each attestation data, we have to, while doing the block production, we have to aggregate all these four, different proofs into the one… into a single proof, and we had…
+
+270
+00:38:40.250 --> 00:38:45.470
+Anshal Shukla: right now, we have that max attestation limit of 16 and DevNet 4. So…
+
+271
+00:38:45.740 --> 00:39:00.830
+Anshal Shukla: in every block production, we'll be basically trying to aggregate these 64 different chunks, maybe 8 of them are parallelized, 16 of them are parallelized, but I don't think, like, aggregator is really the culprit here, because if that's the case, then
+
+272
+00:39:01.340 --> 00:39:19.240
+Anshal Shukla: in a single subnet DevNet, it has to perform, like, the majority of the work, but it works fine with a single subnet scenario. It works fine in a dual subnet scenario. It doesn't work fine in, like, 3 or 4 subnet scenario. That basically indicates that the block production
+
+273
+00:39:19.520 --> 00:39:27.390
+Anshal Shukla: Is not happening properly. Maybe it's missing slots, or it is, like, propagating the blocks too late.
+
+274
+00:39:27.590 --> 00:39:40.540
+Anshal Shukla: So, I think one easy way to do it is that, obviously, we can increase the, configuration, but I think we should try decreasing the max attestation,
+
+275
+00:39:40.810 --> 00:39:54.510
+Anshal Shukla: here, and maybe do it like a 2 or a 4 thing, that will also help a lot, because then it will be basically a multiplier of the number of subnets into, like, the max attestation data that we are trying to do. Yeah.
+
+276
+00:39:54.700 --> 00:40:07.910
+Thomas Coratger: just before Gajinder, like, to circle back to your point, I totally agree, and that's why I think that this is a good thing, that we don't modify kind of new things into the spec, and that you guys have time, like, to
+
+277
+00:40:08.200 --> 00:40:26.429
+Thomas Coratger: To debug and, like, properly study the matrix and, like, the logs and stuff like this, because the worst thing that could happen right now is that we spend a bunch of time just debugging, for example, the aggregators, and we spend, like, one month, two months just for the aggregators.
+
+278
+00:40:26.490 --> 00:40:39.539
+Thomas Coratger: And if the aggregator at the end is not the problem, like, this is a big issue, so we should really debug things properly. Of course, if the aggregator is a problem, then we should tackle this problem and think about it, but
+
+279
+00:40:39.780 --> 00:40:48.010
+Thomas Coratger: First, yeah, I would love, like, to reach a certain point of stability where we are sure that we identified properly the problem.
+
+280
+00:40:48.330 --> 00:40:49.530
+Thomas Coratger: Yeah, good, Jinder.
+
+281
+00:40:50.520 --> 00:41:01.789
+Gajinder Singh: Yeah, Thomas, so I basically agree to you. We basically need metrics for it, and I think we have metric on aggregator performance as such. So that is there, then we will just be our…
+
+282
+00:41:01.790 --> 00:41:14.169
+Gajinder Singh: Metric for the aggregation coverage itself, so that we also know if justification and finalization is not happening, what is going on in the network, and which basically subnet is the culprit behind it.
+
+283
+00:41:14.170 --> 00:41:25.220
+Gajinder Singh: Another thing that I wanted to say was, so, yes, basically we need to define that… what were… how many ag… how many aggregations
+
+284
+00:41:25.340 --> 00:41:41.690
+Gajinder Singh: proposer might be doing, because since it's getting aggregates from different aggregators, and it might need to merge them to make a proposal, so what is that expected number? And I think that expected number right now goes by max attestations, which is
+
+285
+00:41:42.000 --> 00:41:46.100
+Gajinder Singh: Max attestations is not the expected number, because there can be multiple
+
+286
+00:41:46.260 --> 00:41:54.190
+Gajinder Singh: Aggregates with the same, attestation data that might need to… that might just merge into one
+
+287
+00:41:54.320 --> 00:42:02.860
+Gajinder Singh: entry into attestations for block, right? So we basically need to say that, okay, this is the max number of…
+
+288
+00:42:02.990 --> 00:42:13.379
+Gajinder Singh: aggregator payloads that a proposer might be able to handle, and this doesn't need to be a hard limit, because
+
+289
+00:42:13.490 --> 00:42:26.620
+Gajinder Singh: Depending upon the valid data being run on a big machine or a small machine, they can basically say that, okay, this is something we can try to maximize our
+
+290
+00:42:26.720 --> 00:42:31.560
+Gajinder Singh: block, production, or we basically choose to say that, okay.
+
+291
+00:42:31.570 --> 00:42:49.240
+Gajinder Singh: we will leave some of the votes out. So this is something I think can be done on a client basis, but on a typical basis, we should base… we should figure out what is the expectation that we have from a validator, and then, once we have this, then what we need to then put on the top is that…
+
+292
+00:42:49.260 --> 00:43:03.509
+Gajinder Singh: If we have aggregators that… that are producing a lot of payloads, right, in different subnets with the same attestation data, then we need another round of aggregation on top of that. So one thing to… one thing to basically
+
+293
+00:43:03.540 --> 00:43:16.520
+Gajinder Singh: do is make an aggregator subscribe to multiple subnets, and obviously the load will increase. But other thing to do is that, okay, as an aggregator, there can be another aggregator which aggregates
+
+294
+00:43:16.560 --> 00:43:19.100
+Gajinder Singh: the same,
+
+295
+00:43:19.340 --> 00:43:31.899
+Gajinder Singh: same attestation data payloads, so that less of the work will need to be done by the proposal. And I think we… as we go forward, we will basically also need to figure out this topology.
+
+296
+00:43:31.940 --> 00:43:45.820
+Gajinder Singh: of what we expect in a typical network to happen, and what will basically be the hardware requirements for that. So, this is something that we might also need to do, that an aggregator
+
+297
+00:43:46.090 --> 00:43:49.739
+Gajinder Singh: Who is… who is an aggregator, who is basically, you know.
+
+298
+00:43:49.870 --> 00:44:01.279
+Gajinder Singh: listening to multiple subnet aggregates. They might just aggregate it and republish it, but in this particular sense, we might
+
+299
+00:44:01.580 --> 00:44:04.990
+Gajinder Singh: Actually need to introduce a little bit more time.
+
+300
+00:44:05.100 --> 00:44:13.879
+Gajinder Singh: on the aggregation… aggregate payloads transmission, because there is an additional delta that comes in between. So, if we are basically going
+
+301
+00:44:14.520 --> 00:44:22.979
+Gajinder Singh: for basically having this flexibility, and I think we should have this flexibility, where there is an aggregator, or there are aggregators which are aggregating on top of
+
+302
+00:44:23.100 --> 00:44:36.209
+Gajinder Singh: the aggregates that are being produced across different subnets, and we introduce… we need to introduce another delta in between, and I think another delta will take about 1 second or 1.2 second
+
+303
+00:44:36.380 --> 00:44:43.390
+Gajinder Singh: To basically make this happen. So we… we need… we might need an additional interval of the sorts.
+
+304
+00:44:43.520 --> 00:44:51.139
+Gajinder Singh: And it does not need to be a total, an exclusive interval. It basically needs to be… so the
+
+305
+00:44:51.670 --> 00:44:56.350
+Gajinder Singh: So the aggregation, payload transmission interval needs…
+
+306
+00:44:56.490 --> 00:45:05.500
+Gajinder Singh: To be bigger in that particular sense, to have this particular kind of topology, without increasing the number of intervals.
+
+307
+00:45:11.030 --> 00:45:12.499
+Thomas Coratger: Yeah, Mega, please.
+
+308
+00:45:15.050 --> 00:45:19.210
+Mega | Lambda: Yeah, I heard you guys mention the…
+
+309
+00:45:19.520 --> 00:45:22.479
+Mega | Lambda: That block building might be a problem.
+
+310
+00:45:22.730 --> 00:45:34.699
+Mega | Lambda: We have a PR in Lambda improving the block building algorithms. We've already been running some debits with that, and we know this justification and finality
+
+311
+00:45:34.880 --> 00:45:36.640
+Mega | Lambda: Improving soon.
+
+312
+00:45:36.800 --> 00:45:40.940
+Mega | Lambda: we can… We can make a PR to Lynn Sprinkle.
+
+313
+00:45:41.180 --> 00:45:44.420
+Mega | Lambda: Just share it so other teams can benefit from it.
+
+314
+00:45:47.920 --> 00:45:49.030
+Thomas Coratger: Yeah, sure.
+
+315
+00:45:49.720 --> 00:45:58.089
+Thomas Coratger: So… Okay, so if I summarize correctly, what we should do next is to try to,
+
+316
+00:45:58.520 --> 00:46:00.010
+Thomas Coratger: Stabilize a bit.
+
+317
+00:46:01.680 --> 00:46:07.129
+Thomas Coratger: take the time to ingest the new DevNet 5 PR that we have made in the spec.
+
+318
+00:46:07.530 --> 00:46:12.459
+Thomas Coratger: Try maybe to increase a bit, the hardware requirements.
+
+319
+00:46:12.810 --> 00:46:22.639
+Thomas Coratger: or not… We can… we can see, for the… the aggregators, maybe, 8-core is not enough.
+
+320
+00:46:23.110 --> 00:46:27.589
+Thomas Coratger: then we will try to isolate the problem.
+
+321
+00:46:28.660 --> 00:46:36.129
+Thomas Coratger: that we have right now with the DevNets, by adding maybe more metrics and much… a bit more experiment with multiple clients.
+
+322
+00:46:36.750 --> 00:46:51.059
+Thomas Coratger: Then we can find what the problem is, if this is the aggregation of the post-quantum signature, if this is the aggregator's role, if this is the hardware requirement, or if this is the block building, or if this is something else.
+
+323
+00:46:51.510 --> 00:47:00.780
+Thomas Coratger: And once we have this information, we can take appropriate measures. I don't know if you agree with this plan, but this is my proposal.
+
+324
+00:47:05.270 --> 00:47:22.919
+Gajinder Singh: Yeah, this sounds good. So we will do two PRs by tomorrow, one to basically do the aggregate coverage, and then to further add metrics on the proposer aggregation, that… that happens, because I think these two seems like
+
+325
+00:47:23.320 --> 00:47:28.969
+Gajinder Singh: Where we can find a lot of, juice to optimize.
+
+326
+00:47:30.460 --> 00:47:49.750
+Thomas Coratger: Okay, great. And in the meantime, myself, I will, I will first go to Zurich, give the presentation, and then I will, work more on the spec, to simplify anything that I can in a way that we can have, like, hopefully by a couple of weeks to one or two months maximum.
+
+327
+00:47:49.910 --> 00:47:53.779
+Thomas Coratger: A much, like, broader, feedback
+
+328
+00:47:54.250 --> 00:47:59.510
+Thomas Coratger: other people, about the spec. I am thinking about,
+
+329
+00:47:59.900 --> 00:48:09.890
+Thomas Coratger: other contentious client teams about internal people within the EF that are, like, prospecters for years now, yeah.
+
+330
+00:48:10.930 --> 00:48:16.089
+Thomas Coratger: So let's do that. Do you have anything else to discuss?
+
+331
+00:48:17.550 --> 00:48:18.960
+Thomas Coratger: Yeah, let me go, please.
+
+332
+00:48:19.300 --> 00:48:29.760
+Mega | Lambda: not really a discussion, but I had… we had a demo of the EL integration we made, or more, like, just some things to show.
+
+333
+00:48:29.760 --> 00:48:30.809
+Thomas Coratger: Yeah, sure.
+
+334
+00:48:32.040 --> 00:48:33.650
+Mega | Lambda: Okay, give me a sec.
+
+335
+00:48:35.590 --> 00:48:37.160
+Mega | Lambda: others here.
+
+336
+00:48:40.040 --> 00:48:41.540
+Mega | Lambda: Let me share my screen.
+
+337
+00:48:45.700 --> 00:48:46.840
+Mega | Lambda: There we go.
+
+338
+00:48:47.770 --> 00:48:56.410
+Mega | Lambda: So, this is two parts. We basically, first of all, we made a… a,
+
+339
+00:48:56.630 --> 00:49:02.139
+Mega | Lambda: an addition to Ethereum package to support lean… lean clients.
+
+340
+00:49:02.460 --> 00:49:04.950
+Mega | Lambda: And we also,
+
+341
+00:49:05.280 --> 00:49:17.429
+Mega | Lambda: use that to try to run with Lambda with execution clients. We made something like what I think she proposed for…
+
+342
+00:49:17.850 --> 00:49:25.849
+Mega | Lambda: for, for MNET 6. We basically copied part of the Beacon spec to…
+
+343
+00:49:27.120 --> 00:49:36.270
+Mega | Lambda: to, to support Yields through the engine API with execution payloads traveling in consensus blocks.
+
+344
+00:49:36.790 --> 00:49:44.260
+Mega | Lambda: To start, we… We…
+
+345
+00:49:44.380 --> 00:49:47.990
+Mega | Lambda: I'm gonna show a bit about the…
+
+346
+00:49:48.400 --> 00:49:51.209
+Mega | Lambda: the Ethereum package integration we have.
+
+347
+00:49:51.680 --> 00:50:00.950
+Mega | Lambda: We have this package in our… in our Lambda Glass 4 of Ethereum package. It's number 19, so if anyone's interested.
+
+348
+00:50:02.360 --> 00:50:09.779
+Mega | Lambda: And I have here… we have the… this DevNet, the link is public, if…
+
+349
+00:50:10.620 --> 00:50:14.009
+Mega | Lambda: If Pablo can share it on… In the chat.
+
+350
+00:50:14.780 --> 00:50:25.440
+Mega | Lambda: We have… these, this, DevNet running with Kurtosis. This is single subnet, single machine.
+
+351
+00:50:25.700 --> 00:50:29.949
+Mega | Lambda: So, nothing fancy on that, but we have running all clients here.
+
+352
+00:50:30.850 --> 00:50:36.340
+Mega | Lambda: Emm… On this, public domain.
+
+353
+00:50:36.560 --> 00:50:42.630
+Mega | Lambda: This is running on Kurtosis, and the configuration we are using is this one.
+
+354
+00:50:43.500 --> 00:50:49.290
+Mega | Lambda: Here we have it lambda is 2 times, because we were using it as a grader, but…
+
+355
+00:50:49.560 --> 00:50:54.830
+Mega | Lambda: The rest are just… Mmm… Two of each client.
+
+356
+00:50:55.630 --> 00:51:05.940
+Mega | Lambda: here we have similar parameters to the… those we use on Validator config, the Genesis delay, the active epoch for the XMSS keys.
+
+357
+00:51:06.160 --> 00:51:08.310
+Mega | Lambda: And also the number of subnets.
+
+358
+00:51:08.960 --> 00:51:09.990
+Mega | Lambda: M…
+
+359
+00:51:10.270 --> 00:51:17.759
+Mega | Lambda: I think here we have some, yeah, some information on how to run each of these, each of these examples.
+
+360
+00:51:18.480 --> 00:51:24.590
+Mega | Lambda: And… well, that's it for the disintegration. We also have the…
+
+361
+00:51:25.220 --> 00:51:36.669
+Mega | Lambda: integration between Lambda and execution and the execution client. We… these images are for ethrex, but we have it running with any execution client.
+
+362
+00:51:37.060 --> 00:51:39.070
+Mega | Lambda: An Ethlambda.
+
+363
+00:51:39.390 --> 00:51:46.880
+Mega | Lambda: this DevNet is not public, but we have it here. As you can see, we have… I think it's…
+
+364
+00:51:47.360 --> 00:51:50.089
+Mega | Lambda: 12, the longest? Yeah.
+
+365
+00:51:50.730 --> 00:51:55.119
+Mega | Lambda: called Trouble with Lambdas running with execution Clients.
+
+366
+00:51:55.250 --> 00:51:56.170
+Mega | Lambda: Ew.
+
+367
+00:51:56.820 --> 00:52:00.809
+Mega | Lambda: the… The configuration we are using is this one.
+
+368
+00:52:01.190 --> 00:52:07.820
+Mega | Lambda: We have ethrex with Atlanta, ethrex with Lambda, Nethermind, Geth, Erigon, Nimbus, and Besu.
+
+369
+00:52:08.550 --> 00:52:11.899
+Mega | Lambda: I'm going to show some vlogs also.
+
+370
+00:52:12.100 --> 00:52:15.149
+Mega | Lambda: This is… this is more interesting here.
+
+371
+00:52:15.260 --> 00:52:16.840
+Mega | Lambda: Let's see…
+
+372
+00:52:26.830 --> 00:52:34.760
+Mega | Lambda: We can see here that it's processing blocks execution, nearly at 4 seconds… every 4 seconds.
+
+373
+00:52:35.360 --> 00:52:39.549
+Mega | Lambda: You should see some form choice updated messages.
+
+374
+00:52:42.780 --> 00:52:43.830
+Mega | Lambda: Oof.
+
+375
+00:52:44.260 --> 00:52:54.839
+Mega | Lambda: Dude Here I have… Yeah, basically these ones, full choice updated, includes payload attributes, mentioning the… that… that the…
+
+376
+00:52:55.390 --> 00:52:58.660
+Mega | Lambda: If Lambda is asking the Yale for a…
+
+377
+00:52:58.810 --> 00:53:07.850
+Mega | Lambda: For a new payload, for its, for proposing. And we can see that it's requesting, then it, asks it back.
+
+378
+00:53:08.540 --> 00:53:12.609
+Mega | Lambda: And later it provides you through a network.
+
+379
+00:53:13.150 --> 00:53:15.810
+Mega | Lambda: You can see maybe that on Ethlambda Logs.
+
+380
+00:53:18.100 --> 00:53:20.150
+Mega | Lambda: In Islam, no.
+
+381
+00:53:25.700 --> 00:53:27.910
+Mega | Lambda: Yeah, anyone is fine, I think.
+
+382
+00:53:29.100 --> 00:53:30.180
+Mega | Lambda: It's gonna be fun.
+
+383
+00:53:57.660 --> 00:53:58.740
+Mega | Lambda: There we go.
+
+384
+00:54:03.330 --> 00:54:04.490
+Mega | Lambda: New block.
+
+385
+00:54:12.410 --> 00:54:15.990
+Mega | Lambda: Okay, well, if Lambda here is processing blocks.
+
+386
+00:54:16.320 --> 00:54:26.540
+Mega | Lambda: I don't think we expose more data on execution, but… It's already on slot 10,000.
+
+387
+00:54:28.470 --> 00:54:30.570
+Mega | Lambda: Yeah.
+
+388
+00:54:33.980 --> 00:54:35.780
+Mega | Lambda: No, you're empowering, thank you.
+
+389
+00:54:36.050 --> 00:54:41.929
+Mega | Lambda: Okay, I think… that's it.
+
+390
+00:54:43.030 --> 00:54:44.200
+Mega | Lambda: For the demo?
+
+391
+00:54:44.680 --> 00:54:52.530
+Mega | Lambda: So, for next steps, we don't still have an execution requests on this integration.
+
+392
+00:54:52.790 --> 00:54:56.220
+Mega | Lambda: We also need to write this,
+
+393
+00:54:57.930 --> 00:55:04.839
+Mega | Lambda: get this down to a proposal, write it in a proposal for this integration to be added on some DevNet.
+
+394
+00:55:05.140 --> 00:55:13.590
+Mega | Lambda: And lastly, we still need to work on the machine dev nets for… for lean and execution clients.
+
+395
+00:55:14.920 --> 00:55:16.120
+Mega | Lambda: Hmm, that's it.
+
+396
+00:55:20.560 --> 00:55:30.109
+Thomas Coratger: Amazing, and so you linked, like, you linked the CL and the EL directly into East Lambda? Do you have, like, a specific branch for this, or…
+
+397
+00:55:30.720 --> 00:55:33.949
+Mega | Lambda: Yeah, we have the APR in our repo.
+
+398
+00:55:34.430 --> 00:55:35.230
+Thomas Coratger: Okay.
+
+399
+00:55:36.020 --> 00:55:36.820
+Thomas Coratger: Okay, that's fine.
+
+400
+00:55:38.170 --> 00:55:44.399
+Mega | Lambda: Yeah, we used the engine API, so most… we didn't have to touch ethics or any execution.
+
+401
+00:55:48.520 --> 00:55:49.869
+Thomas Coratger: Okay, that's great.
+
+402
+00:55:50.460 --> 00:55:51.529
+Thomas Coratger: Oh, yeah.
+
+403
+00:55:54.420 --> 00:55:57.059
+Thomas Coratger: Okay, this is the PR that you're linked.
+
+404
+00:56:03.130 --> 00:56:06.990
+Thomas Coratger: Okay, like, the size of the PR looks pretty reasonable.
+
+405
+00:56:10.490 --> 00:56:11.360
+Thomas Coratger: Cool.
+
+406
+00:56:12.130 --> 00:56:16.650
+Thomas Coratger: Yeah, probably when we link the two, we should take inspiration from this.
+
+407
+00:56:17.060 --> 00:56:19.140
+Thomas Coratger: Yeah, that seems great.
+
+408
+00:56:20.590 --> 00:56:25.049
+Thomas Coratger: Any question about this, from other people there?
+
+409
+00:56:25.290 --> 00:56:26.719
+Thomas Coratger: Anything to add?
+
+410
+00:56:32.310 --> 00:56:36.670
+Thomas Coratger: Okay, thanks a lot, guys, so if nothing else is coming…
+
+411
+00:56:37.670 --> 00:56:41.549
+Thomas Coratger: Then see you next week, and on the chat.
+
+412
+00:56:42.670 --> 00:56:49.609
+Thomas Coratger: Maybe if you have time, like, you can just post the link of the PR on the chat so that people can check that async.
+
+413
+00:56:50.040 --> 00:56:51.080
+Thomas Coratger: After the call.
+
+414
+00:56:56.650 --> 00:57:00.170
+Thomas Coratger: Yeah, okay, thank you. See you next week.
+
+415
+00:57:00.460 --> 00:57:01.290
+Thomas Coratger: Bye-bye.
+
+416
+00:57:01.290 --> 00:57:01.750
+T. Wambsgans: Right?
+
+417
+00:57:01.750 --> 00:57:02.700
+Kolby ML: Bye-bye.
+
+418
+00:57:02.700 --> 00:57:03.260
+Gajinder Singh: That's true.
+
+419
+00:57:03.520 --> 00:57:04.729
+Pablo Deymo | Lambda: My wife's here.
+
+420
+00:57:04.950 --> 00:57:05.530
+Mega | Lambda: Right.
+
+421
+00:57:07.480 --> 00:57:08.330
+Anshal Shukla: By this.
+
