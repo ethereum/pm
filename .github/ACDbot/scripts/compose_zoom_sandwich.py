@@ -24,6 +24,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from scripts.asset_pipeline.meeting_identity import get_occurrence_call_number
+
 
 ACDBOT_DIR = Path(__file__).resolve().parents[1]
 MAPPING_FILE_PATH = ACDBOT_DIR / "meeting_topic_mapping.json"
@@ -88,7 +90,7 @@ def select_occurrence_candidates(
         start_time = occurrence.get("start_time")
         start_dt = parse_utc_timestamp(start_time)
 
-        if number is not None and occurrence.get("occurrence_number") != number:
+        if number is not None and get_occurrence_call_number(occurrence) != number:
             continue
         if number is None and start_dt and start_dt > now:
             continue

@@ -54,8 +54,18 @@ def test_select_occurrence_candidates_can_target_number():
         "acde": {
             "meeting_id": "85451723466",
             "occurrences": [
-                {"occurrence_number": 235, "issue_number": 2015, "start_time": "2026-04-23T14:00:00Z"},
-                {"occurrence_number": 236, "issue_number": 2033, "start_time": "2026-05-07T14:00:00Z"},
+                {
+                    "occurrence_number": 26,
+                    "issue_number": 2015,
+                    "issue_title": "All Core Devs - Execution (ACDE) #235, April 23, 2026",
+                    "start_time": "2026-04-23T14:00:00Z",
+                },
+                {
+                    "occurrence_number": 27,
+                    "issue_number": 2033,
+                    "issue_title": "All Core Devs - Execution (ACDE) #236, May 7, 2026",
+                    "start_time": "2026-05-07T14:00:00Z",
+                },
             ],
         }
     }
