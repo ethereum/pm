@@ -1,0 +1,107 @@
+name: ACD Video Sandwich Test
+
+on:
+  pull_request:
+    paths:
+      - ".github/ACDbot/scripts/compose_zoom_sandwich.py"
+      - ".github/ACDbot/tests/unit/test_compose_zoom_sandwich.py"
+      - ".github/workflows/acd-video-sandwich-test.yml"
+      - ".github/actions/setup-acdbot/action.yml"
+      - ".github/ACDbot/pyproject.toml"
+      - ".github/ACDbot/uv.lock"
+  workflow_dispatch:
+    inputs:
+      SERIES:
+        description: "Call series to test"
+        required: false
+        default: "acde"
+        type: string
+      NUMBER:
+        description: "Optional public occurrence number, e.g. 236"
+        required: false
+        type: string
+      BUMPER_URL:
+        description: "Optional URL for ev.mp4; falls back to ACD_BUMPER_URL variable/secret"
+        required: false
+        type: string
+
+jobs:
+  stitch:
+    name: Download latest ACDE Zoom recording and stitch
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    timeout-minutes: 90
+
+    env:
+      SERIES: ${{ inputs.SERIES || 'acde' }}
+      NUMBER: ${{ inputs.NUMBER }}
+      BUMPER_URL: ${{ inputs.BUMPER_URL || vars.ACD_BUMPER_URL || secrets.ACD_BUMPER_URL }}
+      ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+      ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+      ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
+
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Validate required configuration
+        run: |
+          missing=()
+          for name in BUMPER_URL ZOOM_CLIENT_ID ZOOM_CLIENT_SECRET ZOOM_REFRESH_TOKEN; do
+            if [ -z "${!name}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::error::Missing required configuration: ${missing[*]}"
+            echo "::error::Set ACD_BUMPER_URL to a downloadable ev.mp4 URL and ensure Zoom OAuth secrets are available."
+            exit 1
+          fi
+
+      - name: Download bumper
+        run: |
+          mkdir -p "${RUNNER_TEMP}/acd-video"
+          curl --fail --location --retry 3 --retry-delay 5 "$BUMPER_URL" --output "${RUNNER_TEMP}/acd-video/ev.mp4"
+          ffprobe -v error -show_entries format=duration,size -of json "${RUNNER_TEMP}/acd-video/ev.mp4"
+
+      - name: Compose sandwich
+        run: |
+          args=(
+            --series "$SERIES"
+            --bumper "${RUNNER_TEMP}/acd-video/ev.mp4"
+            --output "${RUNNER_TEMP}/acd-video/acd-sandwich.mp4"
+            --metadata "${RUNNER_TEMP}/acd-video/metadata.json"
+            --min-duration 10
+            --max-candidates 5
+          )
+
+          if [ -n "$NUMBER" ]; then
+            args+=(--number "$NUMBER")
+          fi
+
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked \
+            "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/compose_zoom_sandwich.py" "${args[@]}"
+
+      - name: Upload stitched video
+        uses: actions/upload-artifact@v7
+        with:
+          path: ${{ runner.temp }}/acd-video/acd-sandwich.mp4
+          retention-days: 3
+          archive: false
+
+      - name: Upload stitch metadata
+        uses: actions/upload-artifact@v7
+        with:
+          name: acd-video-sandwich-metadata
+          path: ${{ runner.temp }}/acd-video/metadata.json
+          retention-days: 3
+          compression-level: 0
