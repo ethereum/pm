@@ -1,0 +1,1782 @@
+WEBVTT
+
+1
+00:04:07.450 --> 00:04:08.589
+Gary Schulte: Good morning.
+
+2
+00:04:12.780 --> 00:04:14.370
+David (dionysuz): Hello. Good morning.
+
+3
+00:04:14.690 --> 00:04:15.520
+Justin Traglia: Good morning.
+
+4
+00:04:18.370 --> 00:04:19.180
+nixo: Morning.
+
+5
+00:05:30.460 --> 00:05:36.079
+nixo: Okay, I think we are good to get started. David, are you streaming today?
+
+6
+00:05:39.600 --> 00:05:47.239
+David (dionysuz): To my knowledge, it was Josh, but I could. Just, I'd need, like, a minute, yeah.
+
+7
+00:05:47.530 --> 00:05:51.340
+nixo: Okay, that would be helpful, because it doesn't look like Josh is on. Thank you.
+
+8
+00:05:51.340 --> 00:05:52.700
+David (dionysuz): Okay, yeah, give me a sec.
+
+9
+00:07:35.910 --> 00:07:40.729
+nixo: No, we're, we're waiting just a minute, to get streaming going.
+
+10
+00:07:48.730 --> 00:07:56.060
+David (dionysuz): Yeah, sorry, just give me a sec here, this setup has changed for me for some reason. Yeah, maybe, like, 30 seconds, let me see here.
+
+11
+00:07:56.770 --> 00:07:59.210
+nixo: No worries, thanks for stepping in last minute.
+
+12
+00:09:01.250 --> 00:09:09.289
+David (dionysuz): Okay, I think maybe this stream… I can't set it up for some reason. Maybe we'll just record this regularly with Zoom for this one?
+
+13
+00:09:12.860 --> 00:09:13.450
+nixo: Okay.
+
+14
+00:09:15.220 --> 00:09:17.460
+nixo: That works, and then we'll just upload it afterwards.
+
+15
+00:09:17.770 --> 00:09:18.400
+David (dionysuz): Okay.
+
+16
+00:09:19.900 --> 00:09:22.289
+nixo: Okay, let's get started.
+
+17
+00:09:23.350 --> 00:09:35.159
+nixo: Welcome to ACDC… ACDE237. It's May 21st. We're gonna start with Glamsterdam, DevNet updates. Barnabas, do you have, DevNet updates?
+
+18
+00:09:36.750 --> 00:09:41.620
+Barnabas: Yeah, I've been looking at, answering DevNet 4 launching,
+
+19
+00:09:41.990 --> 00:09:45.359
+Barnabas: We hit a few bucks here and there. I've been,
+
+20
+00:09:45.550 --> 00:09:54.609
+Barnabas: reaching out to the different CL teams regarding that, and hopefully everything will be ironed out by end of today, and we can launch DevNet 4 today.
+
+21
+00:09:54.840 --> 00:09:58.609
+Barnabas: We currently have only 2 years, ready to go.
+
+22
+00:09:58.810 --> 00:10:03.759
+Barnabas: That is, Nethermind and ethrex, and on the CR side, we have Prism, Lodestar, and Lighthouse.
+
+23
+00:10:04.810 --> 00:10:09.429
+Barnabas: And, hopefully Nimbus as well. I haven't tested Nimbus yet.
+
+24
+00:10:12.680 --> 00:10:16.540
+Barnabas: That is about it for Glamsterdam Telescope.
+
+25
+00:10:18.720 --> 00:10:19.350
+nixo: Great.
+
+26
+00:10:22.070 --> 00:10:28.929
+nixo: Next up, we have a BAL spec update. Tony, do you want to talk about the 7702 delegate inclusion on failed calls?
+
+27
+00:10:32.090 --> 00:10:37.979
+Toni Wahrstätter: Yes, happy to do so. Let me quickly post a link into the chat, such that everyone has…
+
+28
+00:10:38.180 --> 00:10:39.959
+Toni Wahrstätter: And kind of look at the…
+
+29
+00:10:40.100 --> 00:10:43.469
+Toni Wahrstätter: update that we did to the EAP.
+
+30
+00:10:43.780 --> 00:10:55.209
+Toni Wahrstätter: So the TLDR here is we clarified one edge case around 7702, and basically, it's about, the delegation address is only added to the bar once.
+
+31
+00:10:55.660 --> 00:11:01.740
+Toni Wahrstätter: We pass the gas check, the value balance check, and the stack to deep check.
+
+32
+00:11:02.230 --> 00:11:09.040
+Toni Wahrstätter: So… Otherwise, like, if those checks are not passing, then only the original caller
+
+33
+00:11:09.250 --> 00:11:14.850
+Toni Wahrstätter: Or the call target, to be precise, is added to the ball. And if those checks pass, then the…
+
+34
+00:11:15.030 --> 00:11:17.510
+Toni Wahrstätter: The delegation address is added to the ball, too.
+
+35
+00:11:17.800 --> 00:11:22.810
+Toni Wahrstätter: And… I think Ignatio brought that up, so thanks a lot, Ignacio.
+
+36
+00:11:23.020 --> 00:11:29.740
+Toni Wahrstätter: For bringing this up? No, I think someone else, sorry, I'm now confusing names. Maybe someone can correct me.
+
+37
+00:11:30.080 --> 00:11:42.050
+Toni Wahrstätter: But anyway, this is the new, spec update. Maybe Felipe, if he's on the call, or Rahul, they can tell us if all the clients are already passing the new tests that we rolled out together with this change.
+
+38
+00:11:42.480 --> 00:11:45.559
+Toni Wahrstätter: But it's a… it's a small change, and should be fine.
+
+39
+00:11:48.840 --> 00:11:51.720
+felipe: Yeah, I can… I can,
+
+40
+00:11:52.240 --> 00:11:58.770
+felipe: I haven't checked against all of the clients, whether they're passing or not. I'm running locally right now just to check, but
+
+41
+00:11:58.940 --> 00:12:01.100
+felipe: to answer Karim, in the chat.
+
+42
+00:12:01.520 --> 00:12:06.229
+felipe: It was already merged in and updated in a test.
+
+43
+00:12:07.000 --> 00:12:18.520
+felipe: I can put the… the test name here, so, yeah, so basically, the…
+
+44
+00:12:19.120 --> 00:12:25.850
+felipe: The edge case this created was, mostly for the value, so if this is a value call.
+
+45
+00:12:26.280 --> 00:12:31.529
+felipe: We don't have to load the 7702 delegation,
+
+46
+00:12:32.180 --> 00:12:37.760
+felipe: Stack2Deep cannot be reached with the… Transaction gas limit.
+
+47
+00:12:38.000 --> 00:12:53.450
+felipe: And so this… this would have been another edge case, but we… we would… we don't… we can't really test this, this boundary. That wouldn't really, be a case. And so this is mostly for a call that doesn't have enough funds
+
+48
+00:12:53.700 --> 00:13:01.369
+felipe: For a value transfer. We used to touch the account anyway if it had enough gas for it.
+
+49
+00:13:01.490 --> 00:13:06.289
+felipe: But now, if you don't have enough balance, there's no use in touching it. And so…
+
+50
+00:13:06.550 --> 00:13:15.460
+felipe: Yeah, I want… I guess we wanted to see, like, where clients stand on this, and if this changes… if we have a consensus on it.
+
+51
+00:13:24.720 --> 00:13:25.370
+nixo: Ben?
+
+52
+00:13:27.150 --> 00:13:32.160
+Ben Adams: Depending… So, I, I'm for it, but,
+
+53
+00:13:32.590 --> 00:13:40.960
+Ben Adams: depending on if everybody passes, then it's fine. If they don't, then I assume it would have to wait till the next cabinet to be included.
+
+54
+00:13:45.340 --> 00:13:49.410
+felipe: Yeah, that's fair. I don't expect everyone to pass this.
+
+55
+00:13:49.540 --> 00:13:54.499
+felipe: To be honest, because… We had…
+
+56
+00:13:55.080 --> 00:13:58.180
+felipe: this… I believe this test was added recently?
+
+57
+00:13:58.390 --> 00:14:03.749
+felipe: and then the spec changed, and the expectation also changed.
+
+58
+00:14:04.430 --> 00:14:10.210
+felipe: And so if clients were aligned already, and I know, I think, Reth was… was one of them.
+
+59
+00:14:10.610 --> 00:14:19.210
+felipe: then this spec change would have… would have broken those assumptions. So yeah, maybe we… we should put this in the… in the next DevNet.
+
+60
+00:14:21.050 --> 00:14:21.920
+felipe: Dragon?
+
+61
+00:14:23.250 --> 00:14:24.599
+Dragan Rakita: Yeah.
+
+62
+00:14:24.760 --> 00:14:31.140
+Dragan Rakita: We are probably going to have, clients failing this, because it's, like, it's a bigger change.
+
+63
+00:14:31.720 --> 00:14:38.079
+Dragan Rakita: Depending on implementation, I think all clients should check that. Basically.
+
+64
+00:14:39.350 --> 00:14:45.500
+Dragan Rakita: It makes a difference if you check the… if the caller has enough balance to transfer account.
+
+65
+00:14:45.620 --> 00:14:48.000
+Dragan Rakita: In this frame, or the another frame.
+
+66
+00:14:48.630 --> 00:14:54.650
+Dragan Rakita: And basically, we did do this, in second frame, not before.
+
+67
+00:14:55.610 --> 00:14:59.339
+Dragan Rakita: So, plus, it becomes slightly…
+
+68
+00:14:59.580 --> 00:15:09.900
+Dragan Rakita: Unnatural to do it in, like, to check if the coal gas is consumed, then load the account later down the line.
+
+69
+00:15:12.080 --> 00:15:23.270
+Dragan Rakita: So, yeah, I would like to have it as the previous, like, when we spend the gas for the loading of the count, that is the place where a count needs to be loaded.
+
+70
+00:15:24.650 --> 00:15:31.090
+Dragan Rakita: This… if we delay this for another frame, that's basically what's assumed here.
+
+71
+00:15:31.420 --> 00:15:39.719
+Dragan Rakita: We are basically breaking that notion that spending gas, it's going to, like, trigger the action that needs to be done.
+
+72
+00:15:48.440 --> 00:15:55.909
+Dragan Rakita: It… yeah, I think the client should, like, take a look at their code and check how they basically do this.
+
+73
+00:16:05.100 --> 00:16:09.239
+nixo: So is the consensus that we are not going to have this in the next DevNet?
+
+74
+00:16:15.130 --> 00:16:17.260
+Dragan Rakita: That's, I think, definite, yeah.
+
+75
+00:16:17.600 --> 00:16:23.920
+Dragan Rakita: But I think even, like, do we want even to include this? This is basically the question.
+
+76
+00:16:24.820 --> 00:16:33.239
+Dragan Rakita: I think, decision is, do we want to include it in… I think next DevNet's going to be Glam DevNet 5.
+
+77
+00:16:33.520 --> 00:16:36.570
+Dragan Rakita: If you want to include there or not include it at all.
+
+78
+00:16:46.240 --> 00:16:47.970
+nixo: Felipe, do you have,
+
+79
+00:16:48.460 --> 00:16:53.150
+nixo: Yeah, do you have any, like, resources or write-up about it? About the necessity of it?
+
+80
+00:16:56.700 --> 00:17:05.690
+felipe: Yeah, no, there's not really a necessity of this. It came about, like, more recently in…
+
+81
+00:17:06.380 --> 00:17:16.470
+felipe: been another implementation, so, I think Ignacio opened the PR to our spec, but, there was another implementation recently that,
+
+82
+00:17:17.190 --> 00:17:21.430
+felipe: Kind of wanted to go this route, and it kind of made sense, but
+
+83
+00:17:22.640 --> 00:17:25.750
+felipe: Yeah, I don't… I don't really have,
+
+84
+00:17:26.410 --> 00:17:34.259
+felipe: Like, any… I don't… I think I can see both sides here. I don't really have any write-up for any necessity or anything like this.
+
+85
+00:17:39.560 --> 00:17:44.970
+nixo: Tony, do you have, a strong opinion for this, being… necessary?
+
+86
+00:17:46.690 --> 00:17:48.950
+Toni Wahrstätter: No, I don't have a strong opinion on it.
+
+87
+00:17:49.100 --> 00:17:51.350
+Toni Wahrstätter: Yeah, I mean, if we…
+
+88
+00:17:51.470 --> 00:18:04.600
+Toni Wahrstätter: won't find any agreement today, I would just propose we… I open, like, a thread on the Block Access List Discord channel, and we move the discussion there, and we come to some agreement. I…
+
+89
+00:18:04.780 --> 00:18:06.599
+Toni Wahrstätter: Don't have any opinion on it.
+
+90
+00:18:06.700 --> 00:18:10.859
+Toni Wahrstätter: like, when to best do it, and I would let, clients decide.
+
+91
+00:18:11.130 --> 00:18:14.030
+Toni Wahrstätter: What they think is the most efficient thing to do here.
+
+92
+00:18:19.000 --> 00:18:19.680
+nixo: Okay.
+
+93
+00:18:20.420 --> 00:18:34.910
+nixo: Great. If there are no other opinions here, then I think the move is, this is not going in the next DevNet, and whether or not it's going in, any future DevNet should be discussed in the block-level access list channel.
+
+94
+00:18:37.190 --> 00:18:40.510
+nixo: Yeah, and if all of the clients can take a look at that.
+
+95
+00:18:42.470 --> 00:18:43.620
+nixo: Thank you.
+
+96
+00:18:44.530 --> 00:18:49.790
+nixo: Next up we have an update on 7904. Maria, are you here?
+
+97
+00:18:51.540 --> 00:18:53.159
+Maria Silva: Yes, can you hear me alright?
+
+98
+00:18:53.340 --> 00:18:53.930
+nixo: Yes.
+
+99
+00:18:54.570 --> 00:19:10.899
+Maria Silva: Right, so, I just wanted to give a quick update based on, the latest numbers we are seeing from benchmarking compute operations. So for context, 7904 is the compute reprice EIP that is
+
+100
+00:19:10.900 --> 00:19:18.509
+Maria Silva: Aiming to reprice all operations that are performing worse than 100 million Gauss per second.
+
+101
+00:19:19.030 --> 00:19:20.070
+Maria Silva: And…
+
+102
+00:19:20.590 --> 00:19:39.110
+Maria Silva: up to this point, all clients with their current block-level access list optimizations are already performing at these, targets. So this means that likely we won't need to do any repricing for 7904. The reason why I'm not
+
+103
+00:19:39.210 --> 00:19:43.920
+Maria Silva: doing any changes yet to the EIP itself is because,
+
+104
+00:19:43.970 --> 00:19:54.859
+Maria Silva: Specifically, Nethermind and Geth have a different codebase implementation for balls between BAL DevNet 3 and BAL DevNet 7.
+
+105
+00:19:54.860 --> 00:20:14.820
+Maria Silva: And we've only started now to do benchmarks on Paul DevNet 7. We have early results for NetherMind that are looking good, but we still miss, Geth. And so before, just making sure that all the clients with their most current implementations are performing at this target, which is very likely, but we need to double check.
+
+106
+00:20:14.840 --> 00:20:33.750
+Maria Silva: then the likely scenario will be that we don't need to include DZIP anymore in the fork, because essentially all clients after the optimizations are performing at already the desired target. So, I don't think there's any to-dos now in terms of,
+
+107
+00:20:33.750 --> 00:20:39.670
+Maria Silva: moving the… the status of the EIP, because again, I would like to beef…
+
+108
+00:20:39.900 --> 00:20:49.260
+Maria Silva: for sure that this is the final resolution, but I just wanted to highlight this, because it's the likely scenario at this point.
+
+109
+00:20:54.590 --> 00:20:57.590
+nixo: Wow, removal of an EIP, that rarely happens.
+
+110
+00:20:59.090 --> 00:21:07.830
+nixo: Okay, so, 7904, likely not going in, but not moving status right now.
+
+111
+00:21:08.310 --> 00:21:12.180
+nixo: So, clients should not put effort into that at that… at this point.
+
+112
+00:21:13.410 --> 00:21:32.190
+Maria Silva: That is correct, and I think for the community as well, because we already had some people looking into, how their contracts would break with these repricings, it maybe should likely put a pause on that work. But yeah, likely the final EIP status will only
+
+113
+00:21:32.190 --> 00:21:35.110
+Maria Silva: I be, certain after…
+
+114
+00:21:35.110 --> 00:21:40.659
+Maria Silva: at the end of the month, most likely. So, yeah, just to be double sure.
+
+115
+00:21:42.050 --> 00:21:48.050
+nixo: Got it. Might be worth it to put a notice on forecast for that, just a note for the protocol support team.
+
+116
+00:21:48.700 --> 00:21:50.640
+nixo: Okay.
+
+117
+00:21:51.140 --> 00:21:54.589
+nixo: Any other… Glamsterdam topics.
+
+118
+00:22:04.180 --> 00:22:05.140
+nixo: Great.
+
+119
+00:22:05.690 --> 00:22:14.819
+nixo: Then we will move on to Hegota. We have 3 EIPs being proposed today. We'll start out with, Weihan.
+
+120
+00:22:15.450 --> 00:22:17.759
+nixo: Do you want to start with the 8188?
+
+121
+00:22:18.170 --> 00:22:19.529
+Han | EF Stateless: Yeah, Holwood.
+
+122
+00:22:19.690 --> 00:22:25.979
+Han | EF Stateless: Present my screen, so… Wait, just to double check, can you see it?
+
+123
+00:22:26.210 --> 00:22:27.159
+nixo: Yes, looks good.
+
+124
+00:22:27.820 --> 00:22:37.070
+Han | EF Stateless: Cool, yeah, so it'll be a quick presentation. So, today I'd like to propose, EIP8188 state hearing by Rajesh, for Hegota.
+
+125
+00:22:37.160 --> 00:22:48.099
+Han | EF Stateless: So, hopefully this proposal helps to solve some of the problems that we have, for state growth in the short to medium term. So, yeah, let's get into it.
+
+126
+00:22:48.990 --> 00:22:52.380
+Han | EF Stateless: If you are not already aware, right, you should.
+
+127
+00:22:52.710 --> 00:23:01.159
+Han | EF Stateless: Basically, majority of the state right now is inactive. It's about 80% inactive state, and only 20% active state.
+
+128
+00:23:01.300 --> 00:23:15.259
+Han | EF Stateless: So, ideally, we'll want to, deal with this inactive state, as early as possible, and carry of it, which is… which would help with, the problems that we have, with state bloat, in the long run.
+
+129
+00:23:15.730 --> 00:23:20.050
+Han | EF Stateless: So, the gist of this EIP is actually very simple.
+
+130
+00:23:20.380 --> 00:23:24.810
+Han | EF Stateless: So, basically, we will add an additional signal, or additional metadata.
+
+131
+00:23:25.050 --> 00:23:40.979
+Han | EF Stateless: So, the first step is that we introduce this new concept called period, where it's basically… it's derived from blocks, so you can think of one period as… for now it's 6 months, but it could be 1 month, it could be two months, depending on how we change the parameter.
+
+132
+00:23:41.070 --> 00:23:55.109
+Han | EF Stateless: Then the second part to that is to add this period metadata for accounts and storage slots. So for accounts, the RLP changes because it's already a list, so, adding an additional field is simple.
+
+133
+00:23:55.590 --> 00:24:11.970
+Han | EF Stateless: for storage slots, it's slightly inconvenient, because you have to change the encoding format for RLP from byte string to this, but it's not… it's not gonna break anything, it's just an additional check when you decode these two different versions of storage slots, so I wouldn't say it's…
+
+134
+00:24:12.030 --> 00:24:17.950
+Han | EF Stateless: It's an impossible task, or it's something that is going to affect performance. Correct me if I'm wrong.
+
+135
+00:24:18.330 --> 00:24:23.479
+Han | EF Stateless: And then the final part is to have, different, state.
+
+136
+00:24:23.640 --> 00:24:36.639
+Han | EF Stateless: tiering of different gas costs, particularly for rides, when, basically, when you write to the inactive state, it will cost more, and then when you write to the active state, it will cost less. So, some form of hot-cold storage separation.
+
+137
+00:24:37.170 --> 00:24:41.309
+Han | EF Stateless: So, yeah, that's basically the… really the summary of the EIP.
+
+138
+00:24:41.730 --> 00:24:59.279
+Han | EF Stateless: So, what, increments the period? Basically, write operations or any state modifications, would increment the period of the accounts and storage slots, so it doesn't affect reads. In terms of the gas cost, it's also… it will only affect, writes as well.
+
+139
+00:24:59.510 --> 00:25:04.630
+Han | EF Stateless: So… Yeah, because if we do consider REITs, then REITs
+
+140
+00:25:04.790 --> 00:25:24.459
+Han | EF Stateless: I mean, if reads bumps the period, then it effectively becomes a write operation, which would have different edge cases and also cause, more write amplification for the… for… for some operations, so that's why, we wanted… wanted to keep it simple and just do it for writes.
+
+141
+00:25:25.460 --> 00:25:37.950
+Han | EF Stateless: So, why do we want to do something like this? Well, having the… this signal, or this metadata, would allow different, things for the EL clients, but the foundation is basically,
+
+142
+00:25:38.190 --> 00:25:53.730
+Han | EF Stateless: Hoko storage separation, or separation between inactive and active state. So, for example, in LSM clients, Geth, Nethermind, Besu, and ethrex, you can extract out your inactive trinos to an immutable flat file.
+
+143
+00:25:53.780 --> 00:26:03.839
+Han | EF Stateless: And then you can leave, references, to the inactive subtree or inactive triangles in your main LSAM database.
+
+144
+00:26:03.840 --> 00:26:14.679
+Han | EF Stateless: So effectively, your main 7 dB would see a much smaller DB size, and which would help with overall access, performance, and also convection time.
+
+145
+00:26:15.090 --> 00:26:33.530
+Han | EF Stateless: For Erigon, I think this EIP fits very well with what Erigon 3 already has, because Erigon 3 already has some form of focal story separation, where the entries in the database are actually moved into immutable snapshot files periodically. So I would say it already fits what this EIP wants to do.
+
+146
+00:26:33.910 --> 00:26:35.580
+Han | EF Stateless: for F,
+
+147
+00:26:35.820 --> 00:26:50.810
+Han | EF Stateless: I think with the modular architecture, it should be simpler to do some form of story separation. I also see comments that you guys are experimenting with, or not really experimenting, but already have it in production, I'm not sure, with RoxDB.
+
+148
+00:26:50.810 --> 00:26:59.720
+Han | EF Stateless: So you could, for example, just an idea that you could put the active state into VoxDB, and then put the inactive state into MDBX, because theoretically, MDBX is…
+
+149
+00:26:59.820 --> 00:27:06.350
+Han | EF Stateless: better for reads. So, this is an idea, but the foundation, again, is to have this storage separation.
+
+150
+00:27:07.490 --> 00:27:22.189
+Han | EF Stateless: So, just to elaborate on the point, on the LSM clients, because that's where I did the prototype. So, on the left side, in today's status quo, you have… you store all the triangles in the main LSMDB. So.
+
+151
+00:27:22.190 --> 00:27:35.950
+Han | EF Stateless: effectively, you can separate them out, where in the live… in the main LSMDB, you would just store the references to the data in… in some immutable snapshot file. So that's one of the ideas that
+
+152
+00:27:36.050 --> 00:27:39.269
+Han | EF Stateless: We have, and that's also why, what we did for the prototype.
+
+153
+00:27:39.780 --> 00:27:46.689
+Han | EF Stateless: So, in this prototype, we basically see a 78% of data reduction.
+
+154
+00:27:47.140 --> 00:27:54.509
+Han | EF Stateless: Yeah, after running… after replaying, one year worth of Minet blocks.
+
+155
+00:27:54.660 --> 00:28:10.649
+Han | EF Stateless: In terms of performance, the final numbers are not, out yet. We are still ongoing, but for now, we are looking at, overall speedup across… all across the benchmark metrics, which is expected, because the main database size is smaller.
+
+156
+00:28:11.200 --> 00:28:15.180
+Han | EF Stateless: So, that's that, and then, some…
+
+157
+00:28:15.580 --> 00:28:20.429
+Han | EF Stateless: questions that some people might have. So, in terms of metadata building the state.
+
+158
+00:28:20.880 --> 00:28:30.350
+Han | EF Stateless: In, with the given state size that we have right now, the worst case is about 3.4GB, if you consider one period as just storing as 1 byte.
+
+159
+00:28:30.510 --> 00:28:38.360
+Han | EF Stateless: So there's only 3.4GB, which is not a lot relative to the state size that we have. But in terms of real world.
+
+160
+00:28:38.600 --> 00:28:57.320
+Han | EF Stateless: I mean, in our prototype, it's actually… we only see, like, 300 megabytes increase in state size, because only the state that, got touched or got modified would actually add this new period. So, yeah, in real-world scenario, we… the metadata blow is actually negligible.
+
+161
+00:28:57.520 --> 00:29:02.790
+Han | EF Stateless: Why not state expiry? state expiry is good, but… It's blocked by…
+
+162
+00:29:02.860 --> 00:29:22.730
+Han | EF Stateless: mainly because of UX, mainly because we need a decentralized resurrection infrastructure where it can guarantee all users to resurrect their data, which doesn't exist yet. So this EIP is somewhat a compromise and helps to solve some of the problems, but without the,
+
+163
+00:29:22.810 --> 00:29:26.170
+Han | EF Stateless: the cost of user experience that state expiry has.
+
+164
+00:29:26.390 --> 00:29:39.570
+Han | EF Stateless: It's also compatible with future tree migration, because we are adding the metadata to each of the accounts, and also the storage slots, so that means, if we move to some sort of page-based layout, then it will aggregate to the page.
+
+165
+00:29:40.390 --> 00:29:52.739
+Han | EF Stateless: So the final, I guess, pitch is why Hegota and not later? So, first, it's a relatively small EIP in terms of the, changes to the state.
+
+166
+00:29:52.960 --> 00:29:56.190
+Han | EF Stateless: We are… we are changing the RRP encoding.
+
+167
+00:29:56.320 --> 00:30:07.299
+Han | EF Stateless: so there would not be any tree migration, there would not be any resurrection, and no whatever networking layer changes. So, yeah, so I think it's a really, really simple change to the state.
+
+168
+00:30:07.580 --> 00:30:26.719
+Han | EF Stateless: Second of all, we would like to have the metadata accumulated as early as possible, because we don't expect that clients already have the database optimizations ready when we have this fork. Clients can work on the database optimizations while the metadata accumulates in the protocol.
+
+169
+00:30:26.930 --> 00:30:34.630
+Han | EF Stateless: So, so, yeah, that's… that's that. And if people are concerned with the pricing complexity.
+
+170
+00:30:34.810 --> 00:30:40.000
+Han | EF Stateless: We… there is an option where we can defer the pricing to a later form, depending on
+
+171
+00:30:40.130 --> 00:30:46.019
+Han | EF Stateless: the parameters that we set for period. For example, if we set periods as… one period as 6 months, then
+
+172
+00:30:46.060 --> 00:31:02.300
+Han | EF Stateless: the… this entire active and inactive state separation will only kick in after one year, for example. So, we can actually defer the pricing if… if that's people… that's what people want, and we can also do more accurate benchmarks to set the parameters right.
+
+173
+00:31:02.690 --> 00:31:08.189
+Han | EF Stateless: So in regards of that, there is one possible alternative.
+
+174
+00:31:08.330 --> 00:31:25.069
+Han | EF Stateless: to this EIP, which is just… we can just record the metadata as block number in Hegota, and then we can decide the gas pricing mechanism later on. So it would cost four times more, in general, 4 times more bytes in general, than just storing periods.
+
+175
+00:31:25.150 --> 00:31:34.370
+Han | EF Stateless: But it allows us to be more flexible. So one example is that if you store the metadata as bulk number, then we don't do any gas changes.
+
+176
+00:31:34.800 --> 00:31:48.759
+Han | EF Stateless: later in the future, we say that, oh, if, we decided… we decide that if some state hasn't been, modified for, before this block number, then we consider it as inactive, and then we charge some number of guests. So…
+
+177
+00:31:48.990 --> 00:31:52.210
+Han | EF Stateless: Yeah, that's… that's one flexible thing that we can do.
+
+178
+00:31:53.010 --> 00:31:57.459
+Han | EF Stateless: So, yeah, that's pretty much it for my presentation, and…
+
+179
+00:31:58.140 --> 00:32:02.950
+Han | EF Stateless: I'll be happy to discuss more and also answer some questions if anyone has.
+
+180
+00:32:15.130 --> 00:32:19.029
+nixo: I think we have a few questions in the chat if you want to address them now, we have time.
+
+181
+00:32:22.290 --> 00:32:31.489
+Han | EF Stateless: Let me see, I think the reason why is from Barnabas,
+
+182
+00:32:32.210 --> 00:32:35.630
+Han | EF Stateless: I think Guillaume really helped me to answer that,
+
+183
+00:32:35.780 --> 00:32:50.280
+Han | EF Stateless: Would reading pricing change? No, because it only affects writes. I think it's also a debate, like, whether we want to have reads also modify the metadata, or whether we want to also include metadata for REITs as well.
+
+184
+00:32:50.540 --> 00:33:06.589
+Han | EF Stateless: In the initial design of this proposal, we did consider reads, but considering all of the edge cases that we have, ultimately went with writes. But if people are willing to accept the trade-off that reads also updating their metadata.
+
+185
+00:33:06.890 --> 00:33:10.869
+Han | EF Stateless: then we can go with VITs as well. Yeah, it's a different set of trade-offs.
+
+186
+00:33:13.540 --> 00:33:14.370
+nixo: Andrew?
+
+187
+00:33:15.360 --> 00:33:21.149
+Andrew Ashikhmin: Yeah, I think it's, it's a move in the right direction, it just,
+
+188
+00:33:21.310 --> 00:33:35.849
+Andrew Ashikhmin: aligns with, you know, with Alex's thoughts on three-prong scaling of Ethereum. So, we are scaling EVM execution with ZK, EVM, we are scaling blobs, and we are scale… and we need to scale
+
+189
+00:33:36.280 --> 00:33:43.799
+Andrew Ashikhmin: state with new forms of state, and also optimizations like this one. So yeah, I think it's a good idea.
+
+190
+00:33:47.730 --> 00:33:48.480
+nixo: Peter?
+
+191
+00:33:50.530 --> 00:34:02.009
+Peter Miller: So, a couple of comments. You've mentioned that you are changing… that changing the, structure of the account structure is simple.
+
+192
+00:34:02.080 --> 00:34:16.660
+Peter Miller: I think it is worth pointing out, that, no one has ever changed the tree in any way in the 10 years that Ethereum has existed for, and so I would want to, like, be a little bit thoughtful about
+
+193
+00:34:16.719 --> 00:34:25.689
+Peter Miller: whether that might break things in ways that, we haven't anticipated, because unlike a lot of things in theorem, we have never changed this.
+
+194
+00:34:26.000 --> 00:34:34.619
+Peter Miller: I'm also a little bit curious about your thoughts on, recording how long since… Something was red.
+
+195
+00:34:34.860 --> 00:34:43.919
+Peter Miller: Because if we had some data that we knew, hadn't been read in ages, and we were going to charge a first read fee.
+
+196
+00:34:44.159 --> 00:34:48.400
+Peter Miller: We'd… you could then potentially store it on a hard disk drive.
+
+197
+00:34:48.670 --> 00:34:50.900
+Peter Miller: Which would be considerably cheaper.
+
+198
+00:34:51.050 --> 00:34:55.000
+Peter Miller: So… I wondered when you'd consider that optimization.
+
+199
+00:34:55.150 --> 00:34:59.180
+Peter Miller: Which would be the other possibility, rather than this system where you just record rights.
+
+200
+00:35:00.140 --> 00:35:19.150
+Han | EF Stateless: Yeah, thanks for the point on the… on the, like, the security side. I think, definitely, we would have to do more investigation on… on whether just changing the account RLP or even the storage would break other things, because on the… at least from the client codebase level, I don't see it yet, but on the other parts, maybe there are things that would break.
+
+201
+00:35:19.150 --> 00:35:25.330
+Han | EF Stateless: I think on the part for REITs, again, I mean, I'm happy to see the debate here on REITs.
+
+202
+00:35:25.430 --> 00:35:34.229
+Han | EF Stateless: But in essence, if reads update the metadata of a state, then ultimately it becomes a write, because it will also affect the state root.
+
+203
+00:35:34.340 --> 00:35:53.809
+Han | EF Stateless: then it cascades into, like, you know, you have to charge… because now it becomes a ride, you have to charge the right gas costs for REITs. Then there are a bunch of other… other consequences as well, like, every period or every… every cycle, people have to pay this expensive operation. Like, some guy would be very unlucky to pay this.
+
+204
+00:35:54.060 --> 00:36:09.330
+Han | EF Stateless: So yes, it's nice to have, if we can consider both reads and writes, and then if… because then they would truly be inactive and not just writes, then we can store it in the HDD and archive it and, you know, compress it or whatever. But,
+
+205
+00:36:09.660 --> 00:36:16.020
+Han | EF Stateless: Yeah, I think, like what, Lukash said, turning HV into Write will backfire, but, you know.
+
+206
+00:36:16.230 --> 00:36:18.700
+Han | EF Stateless: Yeah, it's worth exploring both.
+
+207
+00:36:18.830 --> 00:36:20.290
+Han | EF Stateless: Scenarios, but yeah.
+
+208
+00:36:26.070 --> 00:36:26.660
+nixo: 8.
+
+209
+00:36:27.050 --> 00:36:28.519
+nixo: Thank you so much, Jen.
+
+210
+00:36:29.730 --> 00:36:35.499
+nixo: Okay, we're gonna move on to, EIP8182.
+
+211
+00:36:35.790 --> 00:36:37.410
+nixo: With Tom.
+
+212
+00:36:37.690 --> 00:36:39.839
+Tom Lehman | EIP-8182: Hi, everyone. Thank you.
+
+213
+00:36:40.520 --> 00:36:43.870
+Tom Lehman | EIP-8182: Oh my…
+
+214
+00:36:44.810 --> 00:36:52.360
+Tom Lehman | EIP-8182: Okay, sorry about this, my Zoom for the very first time. I have to quit and reopen, sorry, I'll be right back.
+
+215
+00:36:52.600 --> 00:36:53.390
+nixo: No worries.
+
+216
+00:36:56.360 --> 00:37:00.160
+nixo: We'll wait just a second to see if this is fast, and if it's not, we'll move on to the…
+
+217
+00:37:00.770 --> 00:37:02.240
+nixo: Next EIP.
+
+218
+00:37:26.370 --> 00:37:26.950
+Marius van der Wijden: Yep.
+
+219
+00:37:30.090 --> 00:37:40.239
+Tom Lehman | EIP-8182: Okay, my apologies. Let's do it. Okay, so, I'm Tom Lehman here to talk about EIP8182, which brings private transfers to Ethereum.
+
+220
+00:37:40.450 --> 00:37:56.380
+Tom Lehman | EIP-8182: Okay, so why do we need private transfers? You know, I'm deep in this. To me, this is just, like, staring me in the face every time I look at Ethereum. We are in a crazy situation right now, which is Ethereum is settling hundreds of billions, trillions of dollars worth of stablecoins alone.
+
+221
+00:37:56.380 --> 00:38:08.779
+Tom Lehman | EIP-8182: And everything, basically, is public, right? So, if you have a financial system, and I think, you know, Ethereum wants to be a leader, right? A leader in terms of infrastructure for global finance, it's like.
+
+222
+00:38:08.990 --> 00:38:15.369
+Tom Lehman | EIP-8182: no financial system has everything, public, and this, to me, makes Ethereum even hard to explain to someone.
+
+223
+00:38:15.370 --> 00:38:36.220
+Tom Lehman | EIP-8182: hey, you've never heard of Ethereum. It does all this finance stuff, but everyone knows how much money you have and when you get paid. Obviously, many people have called for this to change. Vitalik is one example. Last year, you know, let's just make it easy to send money privately in wallets, and that has not happened. And so, why, and then what's the solution? So.
+
+224
+00:38:36.220 --> 00:38:59.470
+Tom Lehman | EIP-8182: Why? Why is the app layer not going to solve this alone, in my opinion? So, the big issue is that you have this notion of an anonymity set, which is like, you know, everyone here understands, it's like who you're hiding among when you're transferring. So, the more, value and the more people in the anonymity set, the better your privacy and, you know, the less, the worse. And so you have this chicken and the egg.
+
+225
+00:38:59.470 --> 00:39:24.459
+Tom Lehman | EIP-8182: issue, which is you need users to offer privacy, and you need privacy to attract users. It's very, very hard to build an anonymity set, and it is extremely sticky, and so it's hard for competition over building an anonymity set to produce the best product, because it's hard to, you know, build this anonymity set, and so even if you have the best features, you might not be able to compete with the incumbent, and also
+
+226
+00:39:24.460 --> 00:39:48.259
+Tom Lehman | EIP-8182: So competition is bad in the sense that the more competition happens, the more the anonymity set is split between different products. Competition, overbuilding an enemy set isn't good, it's not going to yield the best product. Also, we have a trust issue here, which is, since we depend in a privacy context on this big pot of money, it not only has to be built, it has to be governed. And there are two approaches.
+
+227
+00:39:48.260 --> 00:40:10.890
+Tom Lehman | EIP-8182: make it immutable, Tornado Cash, but then when quantum risks happen, you can't upgrade the cryptography. Everyone there on Tornado has to either withdraw or lose all their money once Q-date happens, or you can make it upgradable in the Railgun model, and then how do you governments, maybe you have some token, and how do you, you know, get wallets and, you know, big financial players to evaluate the security of a token? Very, very hard to do.
+
+228
+00:40:10.890 --> 00:40:32.859
+Tom Lehman | EIP-8182: Ether has a very good security model, and sending Ether privately should have the same thing. So, the split here that I'm proposing is you get apps out of the business of building anonymity sets and governing them, and competing on this basis, and you let them build the stuff they're going to be good at, which is UX compliance, proving, relaying, and all these kind of things. So this is how 8182
+
+229
+00:40:32.860 --> 00:40:38.140
+Tom Lehman | EIP-8182: approaches it. So what literally are we talking about here? We are talking about a system contract.
+
+230
+00:40:38.460 --> 00:40:41.300
+Tom Lehman | EIP-8182: Okay, a lot of different ways you can do privacy.
+
+231
+00:40:41.330 --> 00:41:05.729
+Tom Lehman | EIP-8182: and even a lot of different ways you can structure, you know, the anonymous set and the storage and your actions, but this takes a very pragmatic and very simple approach, which is one system contract, the entire EIP is about taking some state and some storage and putting it in this account, right? That's it. There's no other… there's no pre-compile, there's no change to the internal logic of the client, nothing with,
+
+232
+00:41:05.790 --> 00:41:09.260
+Tom Lehman | EIP-8182: You know, the protocol-level store, it's just changing one account.
+
+233
+00:41:09.610 --> 00:41:27.699
+Tom Lehman | EIP-8182: This is a UTXO-based shielded pool, not so different from something like a railgun. This is not trying to be massively innovative on the side of, you know, cool construction. It's trying to innovate in terms of building and securing the anonymity set. So we're doing something reasonably straightforward.
+
+234
+00:41:27.700 --> 00:41:43.539
+Tom Lehman | EIP-8182: The one twist here is that the pool does not prescribe any specific authentication method. And the reason for that is that's really hard to do, to say, hey, on a protocol level, here's how everyone must authenticate. People want to authenticate in different ways.
+
+235
+00:41:43.540 --> 00:41:50.260
+Tom Lehman | EIP-8182: And, because of that, users are allowed to bring their own authentication, and so this keeps the, protocol-level proof
+
+236
+00:41:50.290 --> 00:42:05.729
+Tom Lehman | EIP-8182: or a verifier, quite simple, because it's only enforcing, you know, things like value conservation, whereas authorization happens, through per-user chosen, verifiers. So anyway, quickly, not to go through all of this, but, like, this is the basic idea.
+
+237
+00:42:05.730 --> 00:42:13.849
+Tom Lehman | EIP-8182: So this illustrates one particular case, which is, using an EIP712 signature as auth.
+
+238
+00:42:13.910 --> 00:42:15.420
+Tom Lehman | EIP-8182: So,
+
+239
+00:42:15.420 --> 00:42:34.580
+Tom Lehman | EIP-8182: you know, one question with, ZK stuff, right, is like, how do you do a proof on a hardware wallet? And so this is how we, solve it in 8182. You have the hardware wallet sign, create a signature, you know, via EIP712, or whatever you want. You take that signature, you send it to your computer, your computer constructs the proof.
+
+240
+00:42:34.580 --> 00:42:54.449
+Tom Lehman | EIP-8182: But the computer can't actually… the computer's private key material can't actually, spend the money. So the authorization happens on the hardware wallet, the proof happens, and then when the proof is verified, you have two proofs that are verified. One that verifies your signature through your chosen-off method, and then the other is about the, single global pool.
+
+241
+00:42:55.130 --> 00:42:56.580
+Tom Lehman | EIP-8182: verifier, so…
+
+242
+00:42:57.610 --> 00:43:06.679
+Tom Lehman | EIP-8182: can go back to that if people have specific questions or want to get through it. So, what do you got? Okay, so for one thing, it's very, fast, to prove.
+
+243
+00:43:07.280 --> 00:43:21.240
+Tom Lehman | EIP-8182: This is, something that's gonna work on mobile, but it's probably not gonna work on a hardware wallet, which is why, we have this, credential-proof separation, where you don't have to, create the proof on the thing that authorizes the spend.
+
+244
+00:43:22.870 --> 00:43:42.260
+Tom Lehman | EIP-8182: You get the synchronous L1 composability that you want, which is the ability to shield, swap, and reshield automatically to make decisions, and decide whether to shield based on EVM execution, and so forth. So this flexibility, you've probably seen this in something like a Railgun, you get this. And then you get a minimal core, which is basically as little as possible is enshrined
+
+245
+00:43:42.260 --> 00:43:43.639
+Tom Lehman | EIP-8182: In the protocol
+
+246
+00:43:44.900 --> 00:43:54.389
+Tom Lehman | EIP-8182: And then, here are some risks. So, the pool, proof system, growth 16, BN25P4, so…
+
+247
+00:43:54.390 --> 00:44:09.319
+Tom Lehman | EIP-8182: This is a very pragmatic, simple, fast, cheap choice. It does require a trusted setup, as I note below, but it's not post-quantum. And so, the, this will have to be swapped, and we've planned for this because the,
+
+248
+00:44:09.360 --> 00:44:31.419
+Tom Lehman | EIP-8182: the bytecode for the verifier is within the system contract, and so you can swap out the code of that system contract, create a new verifier, and in doing that, users aren't going to have to migrate or do, anything. This is just a one-time swap, and, you know, don't want to downplay the seriousness there, but I think the architecture is well set up to minimize the…
+
+249
+00:44:31.660 --> 00:44:56.660
+Tom Lehman | EIP-8182: The pain. On-state growth, of course, this is, standard stuff, right? Each transfer, you get, unprunable state nullifiers. And so, you know, one question is, should this be stored in some other place, right? And, I think maybe, down the road, once we, have a better handle on situation, but I think that, for the moment, I don't think that's such a good idea, because I think if you keep everything
+
+250
+00:44:56.660 --> 00:45:13.480
+Tom Lehman | EIP-8182: in the EVM as the place where, you know, value transfers happen. You get compatibility with, you know, existing tools and mental models of people, but you also get this nice synchronous composability functionality. It's not clear exactly what you would use from taking it… what you would lose from taking it
+
+251
+00:45:13.480 --> 00:45:31.360
+Tom Lehman | EIP-8182: out, and so this is kind of, like, part of my overall thesis here, which is we have to worry about scalability, and dealing with tens of thousands of transactions per second, but we also have to worry about getting people to actually create a ton of transactions, and so making the feature, you know, as simple and intuitive will help with that. But this could be changed.
+
+252
+00:45:31.360 --> 00:45:38.609
+Tom Lehman | EIP-8182: In the future. There are… there is the potential for bugs, so this is scary, right? Like, what if there's a soundness bug?
+
+253
+00:45:39.120 --> 00:46:02.900
+Tom Lehman | EIP-8182: the mitigation here, to the extent that you can mitigate this, is A keeping the circuit simple, the single circuit simple, and then B, using this contract setup where we can just guarantee that any problem is going to be scoped to the money in this particular account, this particular smart contract, which is still very bad, because losing all that money would be extremely bad, but it's less bad than, you know, printing unlimited Ether, for example.
+
+254
+00:46:03.650 --> 00:46:07.439
+Tom Lehman | EIP-8182: And then there's gas costs, which are, you know.
+
+255
+00:46:07.950 --> 00:46:24.689
+Tom Lehman | EIP-8182: basically similar to, you know, something like a railgun, a little more expensive, and could be mitigated if we want with a pre-compile on Poseidon 2, but I don't think that's really necessary. The gas limit's going up a lot, and I think the costs are currently
+
+256
+00:46:25.250 --> 00:46:26.319
+Tom Lehman | EIP-8182: Very low.
+
+257
+00:46:27.240 --> 00:46:28.430
+Tom Lehman | EIP-8182: So…
+
+258
+00:46:29.250 --> 00:46:37.189
+Tom Lehman | EIP-8182: this is the big missing feature, in my opinion, but I think it's, you know, and Barnaby had a nice tweet about this, I think if you look at the straw map.
+
+259
+00:46:37.290 --> 00:46:54.269
+Tom Lehman | EIP-8182: what you'll see is a lot of supply-side work, right? As I mentioned a moment ago. How do we deal with incredible growth in usage of Ethereum? And, I just want to put out there that we should also really think about getting that growth, about getting the users, about building stuff that will make a lot of people use Ethereum.
+
+260
+00:46:54.270 --> 00:47:13.960
+Tom Lehman | EIP-8182: And I think this is one of the best things that we could do to do that. We are already doing a lot of stuff to be better supportive of privacy. I mentioned some things here. Let's not stop before we do the thing that will actually literally enable it to work, which is a private transfer protocol itself. So.
+
+261
+00:47:13.960 --> 00:47:29.110
+Tom Lehman | EIP-8182: that's 8182, and my ask is, Hegota, or whatever's the soonest possible, for, because I think this is a big emergency in terms of, increasing the value of, of Ethereum, and also giving people, you know, the ability just, you know, to, to…
+
+262
+00:47:29.350 --> 00:47:33.369
+Tom Lehman | EIP-8182: do a very basic human thing, which is send some money without having everyone know. So,
+
+263
+00:47:34.020 --> 00:47:37.480
+Tom Lehman | EIP-8182: So that's 8182, thank you all, happy to take questions.
+
+264
+00:47:52.410 --> 00:47:53.660
+nixo: Any questions?
+
+265
+00:47:54.580 --> 00:47:55.570
+nixo: Feedback?
+
+266
+00:47:56.700 --> 00:47:57.570
+nixo: Peter?
+
+267
+00:47:59.040 --> 00:48:05.470
+Peter Miller: I want to understand why you want
+
+268
+00:48:05.990 --> 00:48:08.709
+Peter Miller: What you want from, like, the protocol on this?
+
+269
+00:48:09.330 --> 00:48:16.239
+Peter Miller: Because what you seem to be saying is that you want to deploy a special contract at a system address.
+
+270
+00:48:17.120 --> 00:48:26.399
+Peter Miller: But even when we want a special contract, like the deposit contract, we just use the, normal mechanisms of…
+
+271
+00:48:26.720 --> 00:48:30.310
+Peter Miller: Contract deployment, and then go, this contract is special.
+
+272
+00:48:30.570 --> 00:48:39.370
+Peter Miller: So, couldn't you just achieve this by deploying this contract, using a standard method of
+
+273
+00:48:39.510 --> 00:48:42.510
+Peter Miller: Making a contract appear at the same address on every chain.
+
+274
+00:48:42.890 --> 00:48:47.409
+Peter Miller: And then just get everyone to agree that it's the special default thing we use.
+
+275
+00:48:48.820 --> 00:48:53.420
+Tom Lehman | EIP-8182: Sure, so there, I think…
+
+276
+00:48:53.420 --> 00:49:16.909
+Tom Lehman | EIP-8182: part of the literal mechanics of that decision that you mentioned is, if you deploy it in a standard way, you can't get a super, pretty-looking, all zeros, leading zeros, address, which might sound like a small thing, but it comes together with a lot of other factors here to produce a, a standard, a shelling point where the Ethereum protocol can say, this is how you do it. Hey, apps, don't worry about building
+
+277
+00:49:16.910 --> 00:49:25.509
+Tom Lehman | EIP-8182: your version of this, because this is… this is how you do it. And so, you know, an app could emerge as the shelling point, and that's another strategy.
+
+278
+00:49:25.510 --> 00:49:50.369
+Tom Lehman | EIP-8182: EF or CoreDevs could take is saying, hey, everyone, Railgun is the official one, use Railgun. And so that would be another option, but then Railgun has this issue with the token, which is, you know, hard to say whether it's, you know, how do you know whether that's, like, a safe arrangement or what the risks are, exactly. So part of it is creating a standard and a shelling point, and that is, I think a very valuable thing, even if the literal technology of, like, what goes in this contract could be.
+
+279
+00:49:50.550 --> 00:49:52.299
+Tom Lehman | EIP-8182: Put there by anyone.
+
+280
+00:49:58.150 --> 00:50:04.490
+Tom Lehman | EIP-8182: And yes, I think there is a meme about unifying standards, but it is not guaranteed that… I mean.
+
+281
+00:50:05.560 --> 00:50:22.909
+Tom Lehman | EIP-8182: the current approach is not guaranteed to work, is kind of my, other argument here. So if you think the current approach is guaranteed to work, then that is a good argument, but if you look, you know, if you look at it from a pure philosophical standpoint and say, well, you know, an app could,
+
+282
+00:50:22.940 --> 00:50:26.850
+Tom Lehman | EIP-8182: accomplish these things if it, you know…
+
+283
+00:50:28.000 --> 00:50:38.060
+Tom Lehman | EIP-8182: I think, A, an app can't accomplish what we're talking about when it comes to security. An app cannot be, something that is changeable and also not subject to the governance of some,
+
+284
+00:50:38.060 --> 00:50:55.260
+Tom Lehman | EIP-8182: token or otherwise small group of people. And B, on the standardization front, I don't think… I think the argument is it's not going to happen the way we want, in the timescale that we want. So, depending on the priority here, which I think is very high, we should consider, you know, other options, and then, you know, the safety factor is just
+
+285
+00:50:55.420 --> 00:51:00.439
+Tom Lehman | EIP-8182: One thing on top of that that apps can't, provide that the protocol can.
+
+286
+00:51:02.040 --> 00:51:02.800
+nixo: Enough.
+
+287
+00:51:04.420 --> 00:51:21.640
+Milos: Yeah, so just a quick question. Does this allow withdrawing, ETH to a brand new account? In that case, who pays for the gas? And how would that work with a public mempool, and does it work with a public mempool?
+
+288
+00:51:22.870 --> 00:51:35.910
+Tom Lehman | EIP-8182: Right, so good question. So, right now, keeping things minimal, not trying to, like, innovate tremendously, although we could change this and do that on that, the way it's set up now is that the protocol has an affordance for a fee that gets paid,
+
+289
+00:51:35.910 --> 00:51:45.260
+Tom Lehman | EIP-8182: optionally, and so the idea would be App Layer would provide a relay-type service, and then people would be able to compensate the relayer using, the,
+
+290
+00:51:45.260 --> 00:51:47.720
+Tom Lehman | EIP-8182: The fee output of the,
+
+291
+00:51:47.770 --> 00:51:50.550
+Tom Lehman | EIP-8182: Of the transfer, but this could be…
+
+292
+00:51:50.850 --> 00:52:01.850
+Tom Lehman | EIP-8182: optimized and, and tweaked also. It's not… the proposal right now is not trying to, do anything, tremendously out of the ordinary, with respect to, like, the relaying question.
+
+293
+00:52:07.620 --> 00:52:08.370
+nixo: Come on.
+
+294
+00:52:09.510 --> 00:52:17.220
+soispoke: Yeah, I mean, I said it in the chat, but… and we've already had, like, some discussions with Tom, but…
+
+295
+00:52:17.260 --> 00:52:34.129
+soispoke: Yeah, in my opinion, I think it's, it's a bit too much too soon, and I would worry about, sort of, like, enshrining this big pool with one single design, with, you know, I don't know, one of the questions, for example, is, like, the cryptography, right? Like.
+
+296
+00:52:34.330 --> 00:52:47.710
+soispoke: if we're saying we are using Poseidon, like, do we risk, enshrining something with cryptography that's not secured enough? And so, I don't know, it comes with, like, a lot of questions, so my…
+
+297
+00:52:48.280 --> 00:53:02.080
+soispoke: take is that it's a bit too early to enshrine the whole thing, and I'd rather, like, enshrine primitives that let, you know, privacy transactions be trustless and native,
+
+298
+00:53:02.200 --> 00:53:11.760
+soispoke: But still allow for, like, different apps to come up with their own design, until, you know, we get,
+
+299
+00:53:12.050 --> 00:53:23.399
+soispoke: a lot more confidence on, like, what's the right design. Otherwise, we're gonna have to upgrade ourselves, via ACD governance, and we know it's not the most, let's say…
+
+300
+00:53:23.700 --> 00:53:32.159
+soispoke: A quick, way, to, to just, like, upgrade and iterate and sort of, like, innovate on, on, on, on…
+
+301
+00:53:32.300 --> 00:53:44.109
+soispoke: yeah, a bunch of parts that compose this CIP. So, yeah, I think the intent is really good, I think… I mean, I believe as much as Tom that we really should
+
+302
+00:53:44.190 --> 00:53:54.960
+soispoke: sort of, like, accelerate on making privacy, transactions, like, a first-class citizen on Ethereum, but I… I just feel like that EIP,
+
+303
+00:53:55.630 --> 00:53:58.359
+soispoke: Tries to do too much at once.
+
+304
+00:53:59.770 --> 00:54:04.640
+Tom Lehman | EIP-8182: I think it's a fair point, you know, I would just say two things, like, one is that it is…
+
+305
+00:54:05.030 --> 00:54:22.159
+Tom Lehman | EIP-8182: the benefit of this is very hard to see, because the benefit relies on, like, increased usage and new people using it, and we can't go out and meet those people right now, because they're not using it, we don't see the transactions. The costs are really easy to see, right? Which is all the costs that you mentioned, like, what if there's a literal cryptography issue in the actual cryptography here?
+
+306
+00:54:22.160 --> 00:54:43.070
+Tom Lehman | EIP-8182: And so I just would say that it's… there'll always be more straightforward reasons to delay this, and I would just say, for everyone, if you're thinking in these lines, at least force yourself to put a cost on delay. Don't put yourself in the position of, like, a delay is… is super low cost, because I think a delay is high cost, and there are also risks. And then in terms of, like, the,
+
+307
+00:54:43.070 --> 00:54:44.960
+Tom Lehman | EIP-8182: the making decisions, I think.
+
+308
+00:54:44.960 --> 00:55:01.659
+Tom Lehman | EIP-8182: you know, I think the Ethereum Foundation, at least, is in an interesting position because, you know, Kohaku is being developed, a lot of pro-privacy stuff is happening. You, yourself, have tweeted a lot of very important, you know, pro-privacy things, and so I think if the punchline of that is, here's
+
+309
+00:55:01.660 --> 00:55:22.680
+Tom Lehman | EIP-8182: all this positivity around privacy, but use this app layer stuff because we don't know what is secure, so we can't be responsible for it. It's like, if the answer is we don't know what's gonna work the best, then we should be telling users, don't use any of these systems, basically. Otherwise, you are going to, you know, end up in a situation where maybe these
+
+310
+00:55:22.880 --> 00:55:38.569
+Tom Lehman | EIP-8182: bad things come true, and all we can say is, well, users lost a lot of money, but at least it wasn't, you know, our direct fault. And so, another thing to think about. But yes, this is a, certainly there are risks with this. I appreciate it.
+
+311
+00:55:39.280 --> 00:55:42.420
+nixo: Okay, Ben, and then we'll move on to the next EIP.
+
+312
+00:55:42.990 --> 00:55:47.650
+Ben Adams: I'd just like to point out that I think
+
+313
+00:55:48.150 --> 00:55:53.889
+Ben Adams: the difficulty of doing an upgrade via ACD, and it being a complex and…
+
+314
+00:55:54.610 --> 00:56:00.279
+Ben Adams: long-running process with forks and so forth. It's almost a feature, because
+
+315
+00:56:00.570 --> 00:56:04.439
+Ben Adams: It will need to be upgraded at some point to, like, a post-quantum scheme.
+
+316
+00:56:06.250 --> 00:56:17.359
+Ben Adams: And the alternative would be, alright, well, it's got to be a proxy contract, and now you need the governance, and if… you don't want everybody putting all their money in something with weak governance.
+
+317
+00:56:19.310 --> 00:56:21.940
+Tom Lehman | EIP-8182: Yes, I… 100%, and that's…
+
+318
+00:56:21.940 --> 00:56:46.929
+Tom Lehman | EIP-8182: kind of where we are now with Railgun, the closest thing, it has a token, and what is the security there? But yes, just to be clear, maybe I glossed over this, but the idea would be, if you want to upgrade this thing, you can, but you have to go through what we're talking about now, a hard fork on Ethereum. And so, not to say that a hard fork on Ethereum is, like, easy, or good, or gonna, you know, get the best results, but it's just an already built-in assumption that we have for upgrading, where if you want to change the way public
+
+319
+00:56:46.930 --> 00:57:03.059
+Tom Lehman | EIP-8182: ETH behaves, you have to do a hard fork if you want to change the way private ETH behaves. You should also have to do a hard fork. It's, like, kind of this parity thing. Not to say it's absolutely best, but it's about, you know, parity and doing things people are, you know, understand, and risks that people are already… relying on risks people are already taking… taking.
+
+320
+00:57:03.960 --> 00:57:05.970
+Tom Lehman | EIP-8182: So yes, appreciate that comment.
+
+321
+00:57:08.100 --> 00:57:09.440
+nixo: Thank you, Tom.
+
+322
+00:57:10.000 --> 00:57:17.010
+nixo: We will move on to EIP-4758, Deactivate Self-Destruct. Peter, are you here?
+
+323
+00:57:17.600 --> 00:57:18.569
+Peter Miller: I am here.
+
+324
+00:57:18.760 --> 00:57:19.370
+nixo: Great.
+
+325
+00:57:19.740 --> 00:57:20.949
+Peter Miller: Can people hear me?
+
+326
+00:57:21.120 --> 00:57:21.750
+nixo: Yes.
+
+327
+00:57:22.300 --> 00:57:23.760
+Peter Miller: Okay, good.
+
+328
+00:57:24.100 --> 00:57:43.049
+Peter Miller: Hello everyone, I would like to, say we should get self-destruct. So, a little bit of history for people's reminders. Self-Destruct has been deprecated for a long, long time. We decided ages ago, that we didn't want it around, that it caused annoying problems.
+
+329
+00:57:43.100 --> 00:57:46.940
+Peter Miller: And… It was a mistake to happen in the first place.
+
+330
+00:57:47.380 --> 00:58:03.060
+Peter Miller: So over the time, all of the main, features of self-destruct have, been neutered, and indeed, a while ago, we disabled self-destruct, unless it's…
+
+331
+00:58:03.060 --> 00:58:20.470
+Peter Miller: in the same transaction. So if you create a… if you create a account in a transaction, you are then allowed to, break… you are then… you will self-destruct during the same transaction, the account will be self-destruct at the end.
+
+332
+00:58:20.750 --> 00:58:27.910
+Peter Miller: Which, is a lot simpler than the previous version of self-destruct, because this means you only…
+
+333
+00:58:28.080 --> 00:58:30.920
+Peter Miller: You don't… it never gets written to the DB at all.
+
+334
+00:58:31.120 --> 00:58:37.569
+Peter Miller: The remaining users of this, like, there really aren't very many.
+
+335
+00:58:37.710 --> 00:58:55.559
+Peter Miller: And self-destruct, like, is one of these things that it just turns out to be really quite annoying. So there was a bunch of discussion during 8037 about how do we handle self-destruct during 8037, and similarly with 7708, there were some edge cases of transfers involved with self-destruct.
+
+336
+00:58:55.660 --> 00:58:59.449
+Peter Miller: That, again, just turned out to be annoying and creating complexity.
+
+337
+00:58:59.920 --> 00:59:00.920
+Peter Miller: I'd…
+
+338
+00:59:01.140 --> 00:59:16.810
+Peter Miller: Then there was a discussion about, do we want to change self-destruct further? And I'm proposing that we CFI the deactivate Self-Destruct EAP. VATIP says.
+
+339
+00:59:17.420 --> 00:59:32.879
+Peter Miller: that we take self-destruct, we remove all the self-destruct functionality, and we retain only the send all function. So when you call the self-destruct opcode, it does two things. It marks the account to be self-destructed, and sends the entire Ethereum balance of the contract somewhere else.
+
+340
+00:59:32.980 --> 00:59:37.480
+Peter Miller: We get rid of the first one of those, and we retain only the sendAll function.
+
+341
+00:59:37.780 --> 00:59:39.900
+Peter Miller: This is currently the case.
+
+342
+00:59:40.140 --> 00:59:48.290
+Peter Miller: If the account self-destructed wasn't created in the current transaction.
+
+343
+00:59:48.500 --> 00:59:53.079
+Peter Miller: So we are literally taking an if statement, and we are deleting it.
+
+344
+00:59:53.390 --> 01:00:01.860
+Peter Miller: and now you… it always is the sender. It's an extremely technically trivial change, it's only going to make things simpler.
+
+345
+01:00:02.970 --> 01:00:09.880
+Peter Miller: The problem is… that there are a small number of users who still use Self-Destruct.
+
+346
+01:00:10.200 --> 01:00:15.669
+Peter Miller: And those users, we don't really know very much about them, and
+
+347
+01:00:16.330 --> 01:00:19.100
+Peter Miller: It's possible that they will experience breakage.
+
+348
+01:00:19.630 --> 01:00:29.699
+Peter Miller: Now, and, last ACD, we had some data from PAL, who looked at, the last 5 million blocks
+
+349
+01:00:30.220 --> 01:00:33.319
+Peter Miller: Worth of self-destruct data.
+
+350
+01:00:33.620 --> 01:00:41.390
+Peter Miller: And he discovered, that the vast majority of self-destructs the account self-destructs.
+
+351
+01:00:41.670 --> 01:00:46.830
+Peter Miller: It's created in a transaction, it's self-destructive in the same transaction, and then it's never touched again.
+
+352
+01:00:47.490 --> 01:00:52.750
+Peter Miller: This won't break anything, because it just… the only difference is that now.
+
+353
+01:00:52.880 --> 01:00:58.109
+Peter Miller: That account that's been created will sit around forever, rather than being deleted.
+
+354
+01:00:58.370 --> 01:01:01.029
+Peter Miller: And that's fine, it's not going to break anything.
+
+355
+01:01:01.400 --> 01:01:08.630
+Peter Miller: There are a small number of, of contracts and transactions where
+
+356
+01:01:08.760 --> 01:01:12.999
+Peter Miller: The account gets destroyed in the first
+
+357
+01:01:13.150 --> 01:01:21.670
+Peter Miller: In a transaction the first time around, and then someone creates it and re-self-destructs it again, potentially multiple times.
+
+358
+01:01:22.430 --> 01:01:27.379
+Peter Miller: These transactions, if we were new to self-destruct, will fail.
+
+359
+01:01:28.700 --> 01:01:36.830
+Peter Miller: But we think that based on the complexity that self-destruct is causing, and, like, the level of
+
+360
+01:01:37.030 --> 01:01:50.279
+Peter Miller: Nuisance, that we should neuter it, we should neuter it anyway, and we should try and find out whether we can persuade the people who are relying on this functionality, to stop using it.
+
+361
+01:01:51.680 --> 01:01:56.269
+Peter Miller: The problem with this is that we really need to, like, signal a long time in advance
+
+362
+01:01:56.930 --> 01:02:06.830
+Peter Miller: Because, you know, we're potentially going to break things, we're also gonna have to do a whole bunch of investigation to work out, you know, whether the amount of stuff we break is acceptable.
+
+363
+01:02:07.390 --> 01:02:17.799
+Peter Miller: So what I'm suggesting today, is that we, PFI, propose for Inclusion, this deactivate self-destruct EIP.
+
+364
+01:02:17.910 --> 01:02:19.549
+Peter Miller: With the goal
+
+365
+01:02:19.740 --> 01:02:35.430
+Peter Miller: that we will, then have a long time, both, to signal to people that if they're reliant on this functionality, that it's going to break, and also to free up people who have to go and consider in the EIPs, what do we do about self-destruct?
+
+366
+01:02:35.850 --> 01:02:39.299
+Peter Miller: To, not have to think about it.
+
+367
+01:02:40.700 --> 01:02:59.829
+Peter Miller: The other… I would also be interested in hearing from people who have opinions about this, of what level of investigation they think they would need to be satisfied that neutering self-destruct is safe from a breakage point of view, as well as, like, getting it PFI today.
+
+368
+01:02:59.980 --> 01:03:00.820
+Peter Miller: Thank you.
+
+369
+01:03:04.570 --> 01:03:05.220
+nixo: Thank you.
+
+370
+01:03:06.530 --> 01:03:10.510
+Guillaume: Yeah, so, a lot of to unpack here.
+
+371
+01:03:10.710 --> 01:03:22.700
+Guillaume: In answering the last question, there's, like, there's no investigation to be, to be made, really. It's a fact, it will break some use cases. I am aware of two.
+
+372
+01:03:22.700 --> 01:03:37.560
+Guillaume: One of them, I don't remember their names, but it was found by D-Dob, so, when we did 70… sorry, 6780, I think that was the one that deactivated self-destruct, except in the creation transaction.
+
+373
+01:03:37.790 --> 01:03:50.130
+Guillaume: DDOP did an analysis, and they found someone, a second project that was doing this. I have no contact with those people, but I can try to see if DDOP does.
+
+374
+01:03:50.320 --> 01:04:01.139
+Guillaume: Regarding the second use case, this one is called… there was an NFT project called Rivest, or Rivest, I'm not sure.
+
+375
+01:04:01.360 --> 01:04:05.810
+Guillaume: I talked to the guy in 2022, so that's pretty old.
+
+376
+01:04:05.980 --> 01:04:24.450
+Guillaume: I have been trying to look for them before ACD. I couldn't find any mention of them, so it could be that the project is dead in the water, and if that's the case, then it's excellent. But, I mean, sorry for them if that's the case, but I mean, it's good for us, because we don't have to worry about this use case.
+
+377
+01:04:26.110 --> 01:04:35.750
+Guillaume: But, yeah, like, what the guy was telling me, back in 2022 is that their contract is not upgradable, so you will never get them
+
+378
+01:04:36.120 --> 01:04:51.189
+Guillaume: to, to agree, to completely disable self-destruct. Now, yeah, the question is, do they still exist? But I can confirm that, this contract still exists, and potentially some people
+
+379
+01:04:51.190 --> 01:05:01.730
+Guillaume: rely on this to, to spend their NFT. It's a very convoluted, process where, I mean, the guy explained, and honestly, I don't remember, it was very convoluted.
+
+380
+01:05:02.010 --> 01:05:14.950
+Guillaume: But the fact is that, yeah, there are people depending on this, and it's going to completely break their use case, if that's, if that's the case. Now.
+
+381
+01:05:14.950 --> 01:05:28.339
+Guillaume: Personally, I'm happy to deactivate it, but, yeah, we need to talk to those two people, and I think that's whoever manifested themselves last time we tried to deactivate it.
+
+382
+01:05:33.040 --> 01:05:52.350
+Peter Miller: Yes, you've reminded… so I've actually had, a look at, the data, so I've been looking at the CSV that Powell produced. I… I have identified, over the last 5 million blocks, there are
+
+383
+01:05:53.070 --> 01:06:01.849
+Peter Miller: 162, contracts that recreate a self-destructed account.
+
+384
+01:06:02.220 --> 01:06:07.140
+Peter Miller: Multiple times, and thus, might be broken.
+
+385
+01:06:07.620 --> 01:06:27.540
+Peter Miller: The vast majority… the most common one of these appears to be one, that, transfers… that calls, does an ERC transfer from init code. So they have an address, they want to transfer away stuff from that address, and so they, call it in init code.
+
+386
+01:06:27.990 --> 01:06:32.149
+Peter Miller: So yeah, but I agree with Goo that we definitely will break stuff.
+
+387
+01:06:32.520 --> 01:06:35.020
+Peter Miller: And,
+
+388
+01:06:35.320 --> 01:06:50.889
+Peter Miller: You know, these people who have these contracts that are repeatedly self-destructing will only be able to execute that transaction one more time after this goes live, because the next time they try to create the contract, it won't have been destroyed.
+
+389
+01:06:53.360 --> 01:06:54.919
+Peter Miller: And I would be…
+
+390
+01:06:57.280 --> 01:07:03.739
+Peter Miller: Yeah. I mean, is this something we're prepared? Because if the position is that we're never prepared to break anything, then this can't happen.
+
+391
+01:07:05.360 --> 01:07:10.050
+Peter Miller: But what is the threshold for, breaking stuff?
+
+392
+01:07:19.050 --> 01:07:19.790
+nixo: Spencer.
+
+393
+01:07:21.500 --> 01:07:31.750
+spencer: Hey, yeah, I think, I'm definitely quoting others here, but my understanding is that self-destruct has been marked as deprecated, like, 5 years ago, so…
+
+394
+01:07:32.180 --> 01:07:35.940
+spencer: People that are still using it? Like, why are they still using it?
+
+395
+01:07:36.060 --> 01:07:41.219
+spencer: so, like… I tend to be quite trigger-happy in general.
+
+396
+01:07:41.470 --> 01:07:45.450
+spencer: And… So my gauge would be that we just…
+
+397
+01:07:46.270 --> 01:07:49.290
+spencer: Yeah, remove it. And if people…
+
+398
+01:07:49.690 --> 01:07:56.600
+spencer: that are still using something that has been deprecated for so long are upset. Like, why have they been using something that's been deprecated?
+
+399
+01:08:01.670 --> 01:08:05.310
+Guillaume: I mean, the contract itself is pretty old, the one I know of, so…
+
+400
+01:08:05.600 --> 01:08:11.960
+Guillaume: you know, those people, they signed up into this NFT program, they still want their NFTs to work. That's,
+
+401
+01:08:12.150 --> 01:08:13.790
+Guillaume: That's why they still use it.
+
+402
+01:08:22.580 --> 01:08:28.089
+Peter Miller: Yeah, the problem here is that people, built weird things.
+
+403
+01:08:28.300 --> 01:08:30.300
+Peter Miller: With self-destruct.
+
+404
+01:08:30.630 --> 01:08:35.180
+Peter Miller: And, you know, now…
+
+405
+01:08:35.510 --> 01:08:48.780
+Peter Miller: they, you know, we want to change this, and their things depended on self-destruct working. I mean, historically, people used to, have upgradable contracts where the contract was,
+
+406
+01:08:49.170 --> 01:08:55.299
+Peter Miller: you know, could be created with Create 2, and then could later self-destruct and be replaced with a different contract?
+
+407
+01:08:55.670 --> 01:09:02.239
+Peter Miller: There we had, I think, a clear upgrade route, because people could switch, could upgrade to a delegate called proxy.
+
+408
+01:09:03.870 --> 01:09:13.740
+Peter Miller: Yeah, like, is it worth going and invest… so my feeling on this is that we should go and investigate.
+
+409
+01:09:13.880 --> 01:09:19.129
+Peter Miller: whether there's enough TVL in the stuff that remains.
+
+410
+01:09:19.540 --> 01:09:28.349
+Peter Miller: That it's worth continuing to support this. So as an example, I also looked at whether we could get rid of the call code opcode.
+
+411
+01:09:28.550 --> 01:09:32.880
+Peter Miller: And I very quickly concluded that the answer to that question is no.
+
+412
+01:09:33.120 --> 01:09:37.180
+Peter Miller: Because call code…
+
+413
+01:09:39.229 --> 01:09:53.600
+Peter Miller: Because call code… there are some call code proxies, so call code is a broken variant of, delegate Call. And there are some call code proxies, that have existed since the beginning of time, and, like, one of them's still in use and has 55F in it.
+
+414
+01:09:54.250 --> 01:10:01.690
+Peter Miller: And I'm pretty skeptical about doing that. But if…
+
+415
+01:10:01.880 --> 01:10:11.079
+Peter Miller: But the question here is very much one of, like, how much v- you know, how much is destroyed that people still care about and still using? And if it's below a certain minimal threshold.
+
+416
+01:10:12.000 --> 01:10:14.420
+Peter Miller: Then… let's get rid of it.
+
+417
+01:10:16.840 --> 01:10:25.990
+Peter Miller: But if we're going to get… think about getting rid of it, I don't want to do… because you could say, well, go away and do the analysis, and if your analysis comes back good, then PFI it.
+
+418
+01:10:26.110 --> 01:10:35.320
+Peter Miller: But especially for something like this, where the issue is entirely social and community-driven, I'd be interested in PFI-ing it now.
+
+419
+01:10:35.950 --> 01:10:43.590
+Peter Miller: And then that puts a big sign up that we can point people at, saying, if you're affected by this, you need to complain.
+
+420
+01:10:52.230 --> 01:10:52.900
+nixo: Okay.
+
+421
+01:10:53.370 --> 01:10:54.700
+nixo: Thank you, Peter.
+
+422
+01:10:54.960 --> 01:11:05.099
+nixo: Just as a reminder for anybody who proposed an EIP today, please open a PR against 8081, the Hegota, meta.
+
+423
+01:11:05.410 --> 01:11:17.769
+nixo: In the proposed for inclusion section. It's also helpful if you go on Forecast afterwards and add the EIP, or update the EIP on Forecast, so that the community can see what it's about.
+
+424
+01:11:22.940 --> 01:11:31.729
+nixo: The next, next thing, last thing on the agenda is, Mercy, do you want to, talk about getting client feedback on execution API cases?
+
+425
+01:11:32.910 --> 01:11:39.809
+Mercy Boma Naps-Nkari: Yeah, good afternoon. So, I have to, issues. One is the CPR.
+
+426
+01:11:39.940 --> 01:11:51.680
+Mercy Boma Naps-Nkari: And then, we talked about, this PR on Monday, and we agreed to drop the raw field from the result, and that was due to a security concern, never mind flat.
+
+427
+01:11:51.990 --> 01:11:58.119
+Mercy Boma Naps-Nkari: So, I would like other teams to weigh in on it, so that we'll be able to move forward. Then, secondly.
+
+428
+01:11:58.480 --> 01:11:59.890
+Mercy Boma Naps-Nkari: Let me grab the link.
+
+429
+01:12:04.060 --> 01:12:11.680
+Mercy Boma Naps-Nkari: Is this hackMD? So, in here, I've put together a cross-client matrix of every JSON ROPC method against the spec.
+
+430
+01:12:11.730 --> 01:12:30.519
+Mercy Boma Naps-Nkari: For example, we have about 15 meters implemented by 6… 5 or 6 clients thereabouts that are not in the spec at all. So, instead of us to guess which one to standardize, I would like each client team to look at the metrics and flag what, they actually want to be spec'd.
+
+431
+01:12:30.620 --> 01:12:48.369
+Mercy Boma Naps-Nkari: And if, if there is not… if there is some methods that shouldn't be specced, we'll have to drop it. For example, Felix did, point out about, debug standard trees. He said it shouldn't be, spec'd at all. So, for cases like this, we would want to know what we…
+
+432
+01:12:48.370 --> 01:12:52.230
+Mercy Boma Naps-Nkari: Can actually specify, and what we shouldn't.
+
+433
+01:12:52.860 --> 01:12:53.840
+Mercy Boma Naps-Nkari: Thank you.
+
+434
+01:12:55.850 --> 01:12:57.289
+nixo: Great. Thanks, Marty.
+
+435
+01:12:57.770 --> 01:13:13.610
+nixo: That's all for the agenda. I just want to add, two logistics notes. There still is no closing date for Hegota proposals, but, we will make sure that there is adequate notice, either two weeks or a month before closing that.
+
+436
+01:13:13.880 --> 01:13:29.899
+nixo: And there was a poll on Allcore Devs, the AllCoreDevs channel, about canceling this upcoming Monday's ACDT, because it is a public holiday in a lot of European countries and in the US.
+
+437
+01:13:30.020 --> 01:13:39.329
+nixo: It looks like the, consensus is to cancel right now, but, if you feel strongly about that, please go over there and…
+
+438
+01:13:40.320 --> 01:13:42.730
+nixo: Emoji, react to that poll.
+
+439
+01:13:43.180 --> 01:13:50.569
+nixo: So, right now, tentatively, ACD… the upcoming ACDT is canceled, but check the All Core Devs channel for any updates on that.
+
+440
+01:13:53.720 --> 01:13:55.639
+nixo: If there's nothing else…
+
+441
+01:13:59.370 --> 01:14:01.920
+nixo: Thank you, everyone. That's everything on the agenda.
+
+442
+01:14:05.780 --> 01:14:07.280
+Toni Wahrstätter: Thanks, everyone, bye-bye.
+
+443
+01:14:07.930 --> 01:14:08.410
+Pooja Ranjan: Thank you.
+
+444
+01:14:09.020 --> 01:14:09.890
+Andrew Ashikhmin: Thank you, bye-bye.
+
+445
+01:14:09.890 --> 01:14:10.590
+Louis: Bye.
+
