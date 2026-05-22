@@ -74,7 +74,7 @@ Barnabas: Yeah, I've been looking at, answering DevNet 4 launching,
 
 19
 00:09:41.990 --> 00:09:45.359
-Barnabas: We hit a few bucks here and there. I've been,
+Barnabas: We hit a few bugs here and there. I've been,
 
 20
 00:09:45.550 --> 00:09:54.609
@@ -86,7 +86,7 @@ Barnabas: We currently have only 2 years, ready to go.
 
 22
 00:09:58.810 --> 00:10:03.759
-Barnabas: That is, Nethermind and ethrex, and on the CR side, we have Prism, Lodestar, and Lighthouse.
+Barnabas: That is, Nethermind and ethrex, and on the CL side, we have Prysm, Lodestar, and Lighthouse.
 
 23
 00:10:04.810 --> 00:10:09.429
@@ -114,7 +114,7 @@ Toni Wahrstätter: And kind of look at the…
 
 29
 00:10:40.100 --> 00:10:43.469
-Toni Wahrstätter: update that we did to the EAP.
+Toni Wahrstätter: update that we did to the EIP.
 
 30
 00:10:43.780 --> 00:10:55.209
@@ -122,7 +122,7 @@ Toni Wahrstätter: So the TLDR here is we clarified one edge case around 7702, a
 
 31
 00:10:55.660 --> 00:11:01.740
-Toni Wahrstätter: We pass the gas check, the value balance check, and the stack to deep check.
+Toni Wahrstätter: We pass the gas check, the value balance check, and the stack-too-deep check.
 
 32
 00:11:02.230 --> 00:11:09.040
@@ -182,7 +182,7 @@ felipe: We don't have to load the 7702 delegation,
 
 46
 00:12:32.180 --> 00:12:37.760
-felipe: Stack2Deep cannot be reached with the… Transaction gas limit.
+felipe: stack-too-deep cannot be reached with the… Transaction gas limit.
 
 47
 00:12:38.000 --> 00:12:53.450
@@ -398,7 +398,7 @@ Maria Silva: Right, so, I just wanted to give a quick update based on, the lates
 
 100
 00:19:10.900 --> 00:19:18.509
-Maria Silva: Aiming to reprice all operations that are performing worse than 100 million Gauss per second.
+Maria Silva: Aiming to reprice all operations that are performing worse than 100 million gas per second.
 
 101
 00:19:19.030 --> 00:19:20.070
@@ -418,11 +418,11 @@ Maria Silva: Specifically, Nethermind and Geth have a different codebase impleme
 
 105
 00:19:54.860 --> 00:20:14.820
-Maria Silva: And we've only started now to do benchmarks on Paul DevNet 7. We have early results for NetherMind that are looking good, but we still miss, Geth. And so before, just making sure that all the clients with their most current implementations are performing at this target, which is very likely, but we need to double check.
+Maria Silva: And we've only started now to do benchmarks on BAL DevNet 7. We have early results for Nethermind that are looking good, but we still miss, Geth. And so before, just making sure that all the clients with their most current implementations are performing at this target, which is very likely, but we need to double check.
 
 106
 00:20:14.840 --> 00:20:33.750
-Maria Silva: then the likely scenario will be that we don't need to include DZIP anymore in the fork, because essentially all clients after the optimizations are performing at already the desired target. So, I don't think there's any to-dos now in terms of,
+Maria Silva: then the likely scenario will be that we don't need to include this EIP anymore in the fork, because essentially all clients after the optimizations are performing at already the desired target. So, I don't think there's any to-dos now in terms of,
 
 107
 00:20:33.750 --> 00:20:39.670
@@ -494,7 +494,7 @@ nixo: Yes, looks good.
 
 124
 00:22:27.820 --> 00:22:37.070
-Han | EF Stateless: Cool, yeah, so it'll be a quick presentation. So, today I'd like to propose, EIP8188 state hearing by Rajesh, for Hegota.
+Han | EF Stateless: Cool, yeah, so it'll be a quick presentation. So, today I'd like to propose, EIP8188 state tiering by write age, for Hegota.
 
 125
 00:22:37.160 --> 00:22:48.099
@@ -542,7 +542,7 @@ Han | EF Stateless: And then the final part is to have, different, state.
 
 136
 00:24:23.640 --> 00:24:36.639
-Han | EF Stateless: tiering of different gas costs, particularly for rides, when, basically, when you write to the inactive state, it will cost more, and then when you write to the active state, it will cost less. So, some form of hot-cold storage separation.
+Han | EF Stateless: tiering of different gas costs, particularly for writes, when, basically, when you write to the inactive state, it will cost more, and then when you write to the active state, it will cost less. So, some form of hot-cold storage separation.
 
 137
 00:24:37.170 --> 00:24:41.309
@@ -554,7 +554,7 @@ Han | EF Stateless: So, what, increments the period? Basically, write operations
 
 139
 00:24:59.510 --> 00:25:04.630
-Han | EF Stateless: So… Yeah, because if we do consider REITs, then REITs
+Han | EF Stateless: So… Yeah, because if we do consider reads, then reads
 
 140
 00:25:04.790 --> 00:25:24.459
@@ -566,19 +566,19 @@ Han | EF Stateless: So, why do we want to do something like this? Well, having t
 
 142
 00:25:38.190 --> 00:25:53.730
-Han | EF Stateless: Hoko storage separation, or separation between inactive and active state. So, for example, in LSM clients, Geth, Nethermind, Besu, and ethrex, you can extract out your inactive trinos to an immutable flat file.
+Han | EF Stateless: hot-cold storage separation, or separation between inactive and active state. So, for example, in LSM clients, Geth, Nethermind, Besu, and ethrex, you can extract out your inactive tries to an immutable flat file.
 
 143
 00:25:53.780 --> 00:26:03.839
-Han | EF Stateless: And then you can leave, references, to the inactive subtree or inactive triangles in your main LSAM database.
+Han | EF Stateless: And then you can leave, references, to the inactive subtree or inactive tries in your main LSAM database.
 
 144
 00:26:03.840 --> 00:26:14.679
-Han | EF Stateless: So effectively, your main 7 dB would see a much smaller DB size, and which would help with overall access, performance, and also convection time.
+Han | EF Stateless: So effectively, your main 7 dB would see a much smaller DB size, and which would help with overall access, performance, and also compaction time.
 
 145
 00:26:15.090 --> 00:26:33.530
-Han | EF Stateless: For Erigon, I think this EIP fits very well with what Erigon 3 already has, because Erigon 3 already has some form of focal story separation, where the entries in the database are actually moved into immutable snapshot files periodically. So I would say it already fits what this EIP wants to do.
+Han | EF Stateless: For Erigon, I think this EIP fits very well with what Erigon 3 already has, because Erigon 3 already has some form of hot-cold storage separation, where the entries in the database are actually moved into immutable snapshot files periodically. So I would say it already fits what this EIP wants to do.
 
 146
 00:26:33.910 --> 00:26:35.580
@@ -586,11 +586,11 @@ Han | EF Stateless: for F,
 
 147
 00:26:35.820 --> 00:26:50.810
-Han | EF Stateless: I think with the modular architecture, it should be simpler to do some form of story separation. I also see comments that you guys are experimenting with, or not really experimenting, but already have it in production, I'm not sure, with RoxDB.
+Han | EF Stateless: I think with the modular architecture, it should be simpler to do some form of storage separation. I also see comments that you guys are experimenting with, or not really experimenting, but already have it in production, I'm not sure, with RocksDB.
 
 148
 00:26:50.810 --> 00:26:59.720
-Han | EF Stateless: So you could, for example, just an idea that you could put the active state into VoxDB, and then put the inactive state into MDBX, because theoretically, MDBX is…
+Han | EF Stateless: So you could, for example, just an idea that you could put the active state into RocksDB, and then put the inactive state into MDBX, because theoretically, MDBX is…
 
 149
 00:26:59.820 --> 00:27:06.350
@@ -598,7 +598,7 @@ Han | EF Stateless: better for reads. So, this is an idea, but the foundation, a
 
 150
 00:27:07.490 --> 00:27:22.189
-Han | EF Stateless: So, just to elaborate on the point, on the LSM clients, because that's where I did the prototype. So, on the left side, in today's status quo, you have… you store all the triangles in the main LSMDB. So.
+Han | EF Stateless: So, just to elaborate on the point, on the LSM clients, because that's where I did the prototype. So, on the left side, in today's status quo, you have… you store all the tries in the main LSMDB. So.
 
 151
 00:27:22.190 --> 00:27:35.950
@@ -730,7 +730,7 @@ Han | EF Stateless: I think Guillaume really helped me to answer that,
 
 183
 00:32:35.780 --> 00:32:50.280
-Han | EF Stateless: Would reading pricing change? No, because it only affects writes. I think it's also a debate, like, whether we want to have reads also modify the metadata, or whether we want to also include metadata for REITs as well.
+Han | EF Stateless: Would reading pricing change? No, because it only affects writes. I think it's also a debate, like, whether we want to have reads also modify the metadata, or whether we want to also include metadata for reads as well.
 
 184
 00:32:50.540 --> 00:33:06.589
@@ -738,7 +738,7 @@ Han | EF Stateless: In the initial design of this proposal, we did consider read
 
 185
 00:33:06.890 --> 00:33:10.869
-Han | EF Stateless: then we can go with VITs as well. Yeah, it's a different set of trade-offs.
+Han | EF Stateless: then we can go with reads as well. Yeah, it's a different set of trade-offs.
 
 186
 00:33:13.540 --> 00:33:14.370
@@ -802,7 +802,7 @@ Han | EF Stateless: Yeah, thanks for the point on the… on the, like, the secur
 
 201
 00:35:19.150 --> 00:35:25.330
-Han | EF Stateless: I think on the part for REITs, again, I mean, I'm happy to see the debate here on REITs.
+Han | EF Stateless: I think on the part for reads, again, I mean, I'm happy to see the debate here on reads.
 
 202
 00:35:25.430 --> 00:35:34.229
@@ -810,7 +810,7 @@ Han | EF Stateless: But in essence, if reads update the metadata of a state, the
 
 203
 00:35:34.340 --> 00:35:53.809
-Han | EF Stateless: then it cascades into, like, you know, you have to charge… because now it becomes a ride, you have to charge the right gas costs for REITs. Then there are a bunch of other… other consequences as well, like, every period or every… every cycle, people have to pay this expensive operation. Like, some guy would be very unlucky to pay this.
+Han | EF Stateless: then it cascades into, like, you know, you have to charge… because now it becomes a write, you have to charge the write gas costs for reads. Then there are a bunch of other… other consequences as well, like, every period or every… every cycle, people have to pay this expensive operation. Like, some guy would be very unlucky to pay this.
 
 204
 00:35:54.060 --> 00:36:09.330
@@ -834,7 +834,7 @@ nixo: 8.
 
 209
 00:36:27.050 --> 00:36:28.519
-nixo: Thank you so much, Jen.
+nixo: Thank you so much, Han.
 
 210
 00:36:29.730 --> 00:36:35.499
@@ -906,7 +906,7 @@ Tom Lehman | EIP-8182: So competition is bad in the sense that the more competit
 
 227
 00:39:48.260 --> 00:40:10.890
-Tom Lehman | EIP-8182: make it immutable, Tornado Cash, but then when quantum risks happen, you can't upgrade the cryptography. Everyone there on Tornado has to either withdraw or lose all their money once Q-date happens, or you can make it upgradable in the Railgun model, and then how do you governments, maybe you have some token, and how do you, you know, get wallets and, you know, big financial players to evaluate the security of a token? Very, very hard to do.
+Tom Lehman | EIP-8182: make it immutable, Tornado Cash, but then when quantum risks happen, you can't upgrade the cryptography. Everyone there on Tornado has to either withdraw or lose all their money once Q-Day happens, or you can make it upgradable in the Railgun model, and then how do you governments, maybe you have some token, and how do you, you know, get wallets and, you know, big financial players to evaluate the security of a token? Very, very hard to do.
 
 228
 00:40:10.890 --> 00:40:32.859
@@ -982,7 +982,7 @@ Tom Lehman | EIP-8182: In the protocol
 
 246
 00:43:44.900 --> 00:43:54.389
-Tom Lehman | EIP-8182: And then, here are some risks. So, the pool, proof system, growth 16, BN25P4, so…
+Tom Lehman | EIP-8182: And then, here are some risks. So, the pool, proof system, Groth16, BN254, so…
 
 247
 00:43:54.390 --> 00:44:09.319
@@ -1350,7 +1350,7 @@ Peter Miller: I'd…
 
 338
 00:59:01.140 --> 00:59:16.810
-Peter Miller: Then there was a discussion about, do we want to change self-destruct further? And I'm proposing that we CFI the deactivate Self-Destruct EAP. VATIP says.
+Peter Miller: Then there was a discussion about, do we want to change self-destruct further? And I'm proposing that we CFI the deactivate Self-Destruct EIP. VATIP says.
 
 339
 00:59:17.420 --> 00:59:32.879
@@ -1734,7 +1734,7 @@ Mercy Boma Naps-Nkari: Thank you.
 
 434
 01:12:55.850 --> 01:12:57.289
-nixo: Great. Thanks, Marty.
+nixo: Great. Thanks, Mercy.
 
 435
 01:12:57.770 --> 01:13:13.610
