@@ -483,6 +483,45 @@ def update_meeting(meeting_id, topic, start_time=None, duration=None):
         "message": "Meeting updated successfully"
     }
 
+def extend_recurring_meeting_end_date(meeting_id, meeting_details, target_start_time):
+    """
+    Extend a recurring meeting's end date so that Zoom generates occurrences
+    up to and including the target date. Use this when the occurrence list is
+    exhausted (end_times consumed) and a future occurrence is missing.
+
+    :param meeting_id: Zoom meeting ID (series-level).
+    :param meeting_details: Existing meeting details dict from get_meeting().
+    :param target_start_time: ISO 8601 datetime string for the desired occurrence.
+    """
+    recurrence = meeting_details.get("recurrence")
+    if not recurrence:
+        print(f"[WARN] Meeting {meeting_id} has no recurrence config; cannot extend end date")
+        return
+
+    target_dt = datetime.fromisoformat(target_start_time.replace("Z", "+00:00"))
+    end_year = target_dt.year + 1
+    end_date_time = f"{end_year}-12-31T23:59:59Z"
+
+    updated_recurrence = {k: v for k, v in recurrence.items()}
+    updated_recurrence["end_date_time"] = end_date_time
+    updated_recurrence.pop("end_times", None)
+
+    access_token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+    resp = requests.patch(
+        f"{api_base_url}/meetings/{meeting_id}",
+        headers=headers,
+        json={"recurrence": updated_recurrence},
+    )
+    if resp.status_code != 204:
+        print(f"[WARN] Failed to extend recurrence for meeting {meeting_id}: {resp.status_code} {resp.text}")
+    else:
+        print(f"[INFO] Extended recurring meeting {meeting_id} end date to {end_date_time}")
+
+
 def is_recurring_meeting(meeting_details):
     """
     Check if a Zoom meeting is recurring based on its type.

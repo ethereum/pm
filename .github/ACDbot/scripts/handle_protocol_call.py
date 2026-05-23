@@ -882,6 +882,11 @@ The bot will automatically process your issue once you've selected a valid call 
                             print(f"[SUCCESS] Updated occurrence {target_occ['occurrence_id']} of Zoom meeting {existing_meeting_id}")
                         elif not target_occ:
                             print(f"[WARN] No occurrence found for date {call_data['start_time']} in recurring meeting {existing_meeting_id}")
+                            zoom.extend_recurring_meeting_end_date(
+                                existing_meeting_id,
+                                meeting_details,
+                                call_data["start_time"],
+                            )
 
                         # Update the series with the issue's known-good UTC
                         # time so future occurrences use this schedule.
