@@ -1,0 +1,1066 @@
+WEBVTT
+
+1
+00:01:05.910 --> 00:01:06.979
+Mikhail Kalinin: Hey, everyone.
+
+2
+00:01:10.460 --> 00:01:11.420
+Justin Traglia: Good morning.
+
+3
+00:01:13.150 --> 00:01:14.430
+Mikhail Kalinin: Yeah, morning.
+
+4
+00:01:21.180 --> 00:01:23.400
+Mikhail Kalinin: So I would wait for…
+
+5
+00:01:23.650 --> 00:01:26.770
+Mikhail Kalinin: Maybe 3 to 4 minutes, and then start.
+
+6
+00:05:26.060 --> 00:05:31.519
+Mikhail Kalinin: Alright, hello, everyone. Welcome to the…
+
+7
+00:05:32.470 --> 00:05:36.810
+Mikhail Kalinin: Last confirmation rule breakout number 8.
+
+8
+00:05:38.580 --> 00:05:41.889
+Mikhail Kalinin: I'll just drop an agenda to the chat.
+
+9
+00:05:42.090 --> 00:05:45.399
+Mikhail Kalinin: Yeah, so, have a few updates to Dave.
+
+10
+00:05:45.950 --> 00:05:54.600
+Mikhail Kalinin: From the spec side, and testing, and API, and so forth, and maybe research updates, and
+
+11
+00:05:54.870 --> 00:05:59.720
+Mikhail Kalinin: We will start with the client updates first. So…
+
+12
+00:06:00.450 --> 00:06:03.299
+Mikhail Kalinin: Are there any client updates so far?
+
+13
+00:06:17.210 --> 00:06:24.980
+Mikhail Kalinin: All right, so there is one update from Nazar, who is not able to attend the call today.
+
+14
+00:06:25.400 --> 00:06:31.800
+Mikhail Kalinin: he's basically saying that he's waiting for the review.
+
+15
+00:06:32.010 --> 00:06:33.890
+Mikhail Kalinin: from his team on the PR.
+
+16
+00:06:34.250 --> 00:06:37.730
+Mikhail Kalinin: To get it merged and released, which is great.
+
+17
+00:06:37.850 --> 00:06:44.359
+Mikhail Kalinin: Once they're done, Nazara plans to, work on the bus confirmation API.
+
+18
+00:06:44.860 --> 00:06:49.420
+Mikhail Kalinin: event, the Beacon API event for fast confirmation.
+
+19
+00:06:50.350 --> 00:06:56.900
+Mikhail Kalinin: Yeah, that's… that's it. Marissa, maybe you wanna share any updates from your side?
+
+20
+00:06:57.830 --> 00:07:11.099
+Mercy Boma Naps-Nkari: Yeah, sorry, I did make, some adjustments to my code based on the feedback you gave me, and I also added some, like, up to 6 metrics, based on what we discussed, the last time.
+
+21
+00:07:11.450 --> 00:07:17.180
+Mercy Boma Naps-Nkari: And also, I'm waiting for reviews from… Gradient team.
+
+22
+00:07:20.040 --> 00:07:21.900
+Mercy Boma Naps-Nkari: That's all from my own end.
+
+23
+00:07:22.580 --> 00:07:28.269
+Mikhail Kalinin: Great, do you have a link to metrics that you have added?
+
+24
+00:07:30.630 --> 00:07:32.770
+Mikhail Kalinin: No, I just… New York link to the code, yeah.
+
+25
+00:07:33.720 --> 00:07:44.609
+Mercy Boma Naps-Nkari: Okay, I… I will push the code, like, in the next hour or so. I'm trying to, like, I'm running it locally, so I'm trying to see if anything pops up before I push.
+
+26
+00:07:47.490 --> 00:07:52.809
+Mikhail Kalinin: Alright, cool. Please feel free to share whenever you push this.
+
+27
+00:07:53.490 --> 00:07:54.160
+Mercy Boma Naps-Nkari: Okay.
+
+28
+00:07:55.100 --> 00:07:59.560
+Mikhail Kalinin: Okay, other clients' updates.
+
+29
+00:08:06.770 --> 00:08:15.580
+Mikhail Kalinin: Yeah, Nimbus, have added the event, to the event stream as well, so that's the update from Nimbus.
+
+30
+00:08:16.270 --> 00:08:20.070
+Mikhail Kalinin: And also, I've been checking with,
+
+31
+00:08:20.550 --> 00:08:28.370
+Mikhail Kalinin: Like, I've been checking the Nethermind releases, and apparently they have not yet released the pics for…
+
+32
+00:08:28.650 --> 00:08:32.730
+Mikhail Kalinin: were the safe block hash they had with Engine API.
+
+33
+00:08:33.140 --> 00:08:36.969
+Mikhail Kalinin: So, yeah, waiting for… for this to be…
+
+34
+00:08:37.789 --> 00:08:46.029
+Mikhail Kalinin: To be fixed, and put in one of… sorry, waiting for this to be actually… for this fix to be actually, put in one of the releases.
+
+35
+00:08:47.820 --> 00:08:53.210
+Mikhail Kalinin: Oh, right, I think that's all for the client updates today.
+
+36
+00:08:53.460 --> 00:08:54.650
+Mikhail Kalinin: Thanks, everyone.
+
+37
+00:08:55.370 --> 00:08:59.390
+Mikhail Kalinin: And now, we'll move over to this pack of dates.
+
+38
+00:08:59.930 --> 00:09:02.170
+Mikhail Kalinin: Have a couple of things here.
+
+39
+00:09:03.750 --> 00:09:08.119
+Mikhail Kalinin: So the first… the first one to share is this PR.
+
+40
+00:09:08.790 --> 00:09:18.780
+Mikhail Kalinin: That… I recently opened. So in this PR, basically, It changes the…
+
+41
+00:09:18.900 --> 00:09:31.160
+Mikhail Kalinin: validation that we have, during reconfirmation. So today, the reconfirmation starts, with a check whether the confirmed block is a descendant of the,
+
+42
+00:09:32.040 --> 00:09:34.200
+Mikhail Kalinin: Of the block of the checkpoint.
+
+43
+00:09:34.700 --> 00:09:43.529
+Mikhail Kalinin: we run reconfirmation from. But, this PR does the change… does change this condition, and,
+
+44
+00:09:43.630 --> 00:09:51.580
+Mikhail Kalinin: It now, instead of, like, checking that the confirmed block is a descendant of the checkpoint's block, it,
+
+45
+00:09:51.910 --> 00:09:58.540
+Mikhail Kalinin: Checks the… the confirmed block, Has the checkpoint
+
+46
+00:09:58.780 --> 00:10:03.670
+Mikhail Kalinin: That we reconfirm from has this checkpoint in the chain, in its chain.
+
+47
+00:10:03.800 --> 00:10:06.609
+Mikhail Kalinin: Because there can be an edge case where the,
+
+48
+00:10:07.560 --> 00:10:14.489
+Mikhail Kalinin: The confirmed block is a descendant of a block of that checkpoint, but that checkpoint is not in the chain of a confirmed block.
+
+49
+00:10:14.630 --> 00:10:17.130
+Mikhail Kalinin: And,
+
+50
+00:10:17.360 --> 00:10:27.049
+Mikhail Kalinin: There are two reasons for having this. First one is that if this happens, actually, this should not happen if all our assumptions hold.
+
+51
+00:10:29.330 --> 00:10:42.239
+Mikhail Kalinin: And if this happens, it's a signal for the case where assumptions are not holed anymore, so we want to fall back to find out in this case. And also,
+
+52
+00:10:42.350 --> 00:10:45.320
+Mikhail Kalinin: The proofs… the proofs use the,
+
+53
+00:10:45.790 --> 00:10:53.800
+Mikhail Kalinin: use the condition where the confirm block is a descendant of a checkpoint and not a descendant of a checkpoint block. So just…
+
+54
+00:10:56.180 --> 00:11:02.270
+Mikhail Kalinin: Yeah, Justin, I think… Yeah, sorry.
+
+55
+00:11:07.150 --> 00:11:09.350
+Mikhail Kalinin: Yeah, yeah, I see.
+
+56
+00:11:09.600 --> 00:11:10.110
+Justin Traglia: Yeah, sorry.
+
+57
+00:11:10.110 --> 00:11:16.170
+Mikhail Kalinin: Yeah, GU is, like, a bit… yeah, no worries. GU is a bit, maybe, ambiguous in this case, but yeah.
+
+58
+00:11:16.560 --> 00:11:25.959
+Mikhail Kalinin: So, this PR has a test, so it's accompanied with the test, so you will not miss that, because, yeah, if your implementation does not have this check.
+
+59
+00:11:26.210 --> 00:11:28.370
+Mikhail Kalinin: And has just the check.
+
+60
+00:11:28.590 --> 00:11:33.280
+Mikhail Kalinin: On the block, not on the checkpoint, then this test will not pass.
+
+61
+00:11:33.890 --> 00:11:39.270
+Mikhail Kalinin: Yeah, that's, that's the, update to the algorithm.
+
+62
+00:11:39.440 --> 00:11:45.960
+Mikhail Kalinin: I think… It's… it should be relatively easy to implement.
+
+63
+00:11:46.680 --> 00:11:50.900
+Mikhail Kalinin: But if not, let us know.
+
+64
+00:11:55.060 --> 00:11:59.479
+Mikhail Kalinin: Okay, any questions for… Related to this one.
+
+65
+00:12:03.840 --> 00:12:12.400
+Mikhail Kalinin: All right, so the next, the next spec, update would be, it's not directly related to
+
+66
+00:12:12.650 --> 00:12:23.849
+Mikhail Kalinin: to the fast confirmation rule, it's rather related to Gloas, but this, this PR, once it gets merged, this PR basically makes the fast confirmation rule
+
+67
+00:12:24.240 --> 00:12:25.980
+Mikhail Kalinin: compatible with Gloas.
+
+68
+00:12:26.300 --> 00:12:33.120
+Mikhail Kalinin: And, any other forks? And has a basically the one fork that is based on the Gloas.
+
+69
+00:12:34.020 --> 00:12:37.339
+Mikhail Kalinin: Yeah, so we're looking forward to get this merged.
+
+70
+00:12:37.480 --> 00:12:46.200
+Mikhail Kalinin: And I already, tried to run, like, tried to run, tests.
+
+71
+00:12:46.820 --> 00:12:54.789
+Mikhail Kalinin: for the Gloas fork, the fast confirmation test for the Gloas fork, and with this PR, they work, they just pass.
+
+72
+00:12:55.030 --> 00:12:59.229
+Mikhail Kalinin: So, yeah, waiting for… for the SPR to get merged.
+
+73
+00:13:02.050 --> 00:13:12.179
+Mikhail Kalinin: All right, this, this, these were the spec updates, and I'm gonna give a… Testing updates.
+
+74
+00:13:12.770 --> 00:13:21.139
+Mikhail Kalinin: If any question you have for these two PRs, just ask it. And yeah, for the testing updates, as I mentioned, that, the Gloas.
+
+75
+00:13:21.390 --> 00:13:25.030
+Mikhail Kalinin: Tests will… will be… Yup.
+
+76
+00:13:25.220 --> 00:13:29.229
+Mikhail Kalinin: are fine, with this PR, and after this PR is,
+
+77
+00:13:29.820 --> 00:13:32.709
+Mikhail Kalinin: merged, I will open up a PR.
+
+78
+00:13:33.000 --> 00:13:40.750
+Mikhail Kalinin: To enable the fast confirmation rule test to run with Gloss and Haze, and yep.
+
+79
+00:13:41.560 --> 00:13:47.900
+Mikhail Kalinin: Also, on the testing thing, testing side of things,
+
+80
+00:13:48.970 --> 00:13:51.060
+Mikhail Kalinin: I think it makes sense to…
+
+81
+00:13:51.160 --> 00:13:55.220
+Mikhail Kalinin: disable BLS for fast confirmation rule tests.
+
+82
+00:13:56.610 --> 00:14:04.710
+Mikhail Kalinin: It will just make it, faster, for… the generation will make… yeah, generating those tests will be faster, I believe.
+
+83
+00:14:04.890 --> 00:14:11.350
+Mikhail Kalinin: Because I don't see any, case for BLS to actually… Be…
+
+84
+00:14:13.810 --> 00:14:20.319
+Mikhail Kalinin: You know, important for… for these tests, because, yeah, we assume that, all that we see is, like.
+
+85
+00:14:21.230 --> 00:14:26.380
+Mikhail Kalinin: Comes with valid signatures, so I would just, yeah, cool.
+
+86
+00:14:27.020 --> 00:14:40.610
+Mikhail Kalinin: If anything, any problem with disabling this, the BOS for a fast confirmation test, just let me know, but I don't think there will be any problem with that. So… and there are some,
+
+87
+00:14:41.270 --> 00:14:46.160
+Mikhail Kalinin: some edge case, mostly edge case tests, that are still on the testing plan.
+
+88
+00:14:46.750 --> 00:14:51.879
+Mikhail Kalinin: And after all this work is done, I mean, like, this, octress refractor.
+
+89
+00:14:52.120 --> 00:14:59.149
+Mikhail Kalinin: And the follow-up, tests, update, for, for, fast confirmation rule.
+
+90
+00:14:59.490 --> 00:15:07.659
+Mikhail Kalinin: There is a plan to start working on those, edge cases as well. And, yeah, to have these,
+
+91
+00:15:07.990 --> 00:15:11.280
+Mikhail Kalinin: Fast confirmation rule test ensued, complete.
+
+92
+00:15:12.970 --> 00:15:15.529
+Mikhail Kalinin: So that's the testing updates,
+
+93
+00:15:20.330 --> 00:15:22.859
+Mikhail Kalinin: The next is API and metrics.
+
+94
+00:15:23.150 --> 00:15:27.210
+Mikhail Kalinin: We have been discussing this a bit during the previous call.
+
+95
+00:15:27.440 --> 00:15:30.470
+Mikhail Kalinin: There is a very, very short,
+
+96
+00:15:31.380 --> 00:15:38.349
+Mikhail Kalinin: very small PR to begin API. It basically clarifies what is sent in the first confirmation.
+
+97
+00:15:38.650 --> 00:15:40.690
+Mikhail Kalinin: Event.
+
+98
+00:15:41.650 --> 00:15:52.910
+Mikhail Kalinin: We had a quick chat, about this, and, actually, To avoid any confusion, we…
+
+99
+00:15:53.560 --> 00:15:57.129
+Mikhail Kalinin: Should likely clarify that, these,
+
+100
+00:15:57.250 --> 00:16:03.959
+Mikhail Kalinin: The FAT confirmation event sends the… just the most recent confirmed block, so the tip of the confirmed chain.
+
+101
+00:16:04.150 --> 00:16:13.730
+Mikhail Kalinin: And, events for every confirmed block will not be, sent. Because we know that, yeah, the fast confirmation rule can confirm,
+
+102
+00:16:13.920 --> 00:16:15.880
+Mikhail Kalinin: Several blocks at a time.
+
+103
+00:16:16.190 --> 00:16:19.439
+Mikhail Kalinin: And, in some cases, these,
+
+104
+00:16:19.630 --> 00:16:22.290
+Mikhail Kalinin: Confirmed chain can be advanced,
+
+105
+00:16:22.920 --> 00:16:30.950
+Mikhail Kalinin: By a lot of blocks, in case of restart, in case of falling back to finality, and when finality is getting updated.
+
+106
+00:16:31.210 --> 00:16:39.689
+Mikhail Kalinin: This all falls into, like, fast confirm and a block, and we don't want to spam, this, event stream with,
+
+107
+00:16:40.010 --> 00:16:44.240
+Mikhail Kalinin: Event generated for every, confirmed block.
+
+108
+00:16:44.370 --> 00:16:47.799
+Mikhail Kalinin: So we just passed the tip of the confirmed chain.
+
+109
+00:16:51.780 --> 00:17:02.770
+Mikhail Kalinin: Yeah, and… yeah, and the next PR is, to the Beacon metrics. It introduces, for…
+
+110
+00:17:03.870 --> 00:17:05.160
+Mikhail Kalinin: or metrics.
+
+111
+00:17:06.099 --> 00:17:08.220
+Mikhail Kalinin: That we want to have.
+
+112
+00:17:10.569 --> 00:17:15.509
+Mikhail Kalinin: So, take a look at them, please, and yeah, give your feedback.
+
+113
+00:17:16.160 --> 00:17:21.430
+Mikhail Kalinin: I have just one, one… Yeah, there are.
+
+114
+00:17:21.810 --> 00:17:30.940
+Mikhail Kalinin: So let me quickly go over those metrics. The registered total reorgs of confirmed log, which is an important thing.
+
+115
+00:17:31.170 --> 00:17:35.940
+Mikhail Kalinin: Important security signal for us.
+
+116
+00:17:36.110 --> 00:17:52.120
+Mikhail Kalinin: There are fallbacks, there are restarts. Fallbacks, means that whenever we fall back to finalized, block, yeah, that's… that counter should be bumped. And, one is, like, the slot, the fast confirmed slot, the most recent one.
+
+117
+00:17:52.220 --> 00:18:03.870
+Mikhail Kalinin: From this slot, it could be possible to… to derive a… Pass confirmation, delay.
+
+118
+00:18:04.330 --> 00:18:13.939
+Mikhail Kalinin: metric, if client has a current slot metric, but it's not standardized, the current slot is not standardized, so I don't know how…
+
+119
+00:18:14.620 --> 00:18:17.539
+Mikhail Kalinin: How it is in different clients.
+
+120
+00:18:17.770 --> 00:18:19.680
+Mikhail Kalinin: Whether they have this metric or not.
+
+121
+00:18:20.410 --> 00:18:24.710
+Mikhail Kalinin: But anyway, please take a look at these, set off.
+
+122
+00:18:24.910 --> 00:18:29.210
+Mikhail Kalinin: Minimal set of metrics, and yeah, provide your feedback if you have
+
+123
+00:18:31.390 --> 00:18:48.079
+Mikhail Kalinin: It would be just great to have these metrics standardized, because then we would basically… comparing the performance and different security signals from fast confirmation rule, would be really easy across different clients.
+
+124
+00:18:52.180 --> 00:18:54.590
+Mikhail Kalinin: Alright, any questions so far?
+
+125
+00:19:03.380 --> 00:19:04.250
+Mikhail Kalinin: Cool.
+
+126
+00:19:04.650 --> 00:19:11.819
+Mikhail Kalinin: Let's move over to the research updates. Are there any research updates so far?
+
+127
+00:19:13.760 --> 00:19:17.050
+Roberto Saltini: We are going through the last,
+
+128
+00:19:17.760 --> 00:19:23.000
+Roberto Saltini: Final round of reviews of the proofs, just fixing some minor issues.
+
+129
+00:19:23.210 --> 00:19:25.350
+Roberto Saltini: I know…
+
+130
+00:19:25.530 --> 00:19:32.240
+Roberto Saltini: No impact on the final results or on the algorithm. It's just some internal issues to make sure that the blocks
+
+131
+00:19:32.750 --> 00:19:40.870
+Roberto Saltini: they all fit together, but I think that's… mostly done, yep.
+
+132
+00:19:46.990 --> 00:19:49.299
+Mikhail Kalinin: Great, thanks, Roberto.
+
+133
+00:19:53.960 --> 00:19:58.600
+Mikhail Kalinin: Are there any topics, to discuss.
+
+134
+00:20:01.600 --> 00:20:03.590
+Mikhail Kalinin: March from what we had already.
+
+135
+00:20:04.390 --> 00:20:06.529
+samcm: I've got two links to share.
+
+136
+00:20:09.030 --> 00:20:18.510
+samcm: I'll post the first one in the chat. So this is a public dashboard that's connected to one of the Lighthouse nodes that we're running that has fast confirmation enabled.
+
+137
+00:20:19.570 --> 00:20:22.129
+samcm: This link should be the last 30 days.
+
+138
+00:20:22.970 --> 00:20:23.950
+samcm: It's…
+
+139
+00:20:24.260 --> 00:20:29.740
+samcm: I think it might actually default to the last hour. You can zoom back out to the last 30 days,
+
+140
+00:20:30.460 --> 00:20:36.350
+samcm: It's been pretty stable, around 97% just, like, immediately Confirming.
+
+141
+00:20:39.010 --> 00:20:47.679
+samcm: yeah, it's just something to keep an eye on, I guess. And this is going to be more valuable as we step forward, and it's just continually scraping data.
+
+142
+00:20:49.850 --> 00:20:52.559
+samcm: And then I also have another link,
+
+143
+00:20:54.380 --> 00:20:57.959
+samcm: Which is off the back of some of the other discussions that we've had.
+
+144
+00:20:58.350 --> 00:21:04.209
+samcm: Around simulating the historical data, this is a much bigger…
+
+145
+00:21:04.470 --> 00:21:07.580
+samcm: sort of discussion. I won't recite the
+
+146
+00:21:07.800 --> 00:21:15.269
+samcm: the contents of the article. But to cut it short, I essentially created a simulator that wraps
+
+147
+00:21:15.620 --> 00:21:18.719
+samcm: A couple of the consensus clients,
+
+148
+00:21:19.220 --> 00:21:31.090
+samcm: And then sourced blocks from other infrastructure that we have. So we've got, yeah, we've got the era files, which are public for the canonical chain, and then we also have all the orphaned blocks.
+
+149
+00:21:31.430 --> 00:21:35.870
+samcm: In our, like, tracer slash block archive infra.
+
+150
+00:21:36.430 --> 00:21:50.429
+samcm: And then we ripped out the data from ZATU of what an actual node would see. I know there's… we've talked a couple times back and forth about, like, what data we should be feeding in here. The one that ended up
+
+151
+00:21:50.570 --> 00:21:55.539
+samcm: Being the most viable to run over a long period of time was just the…
+
+152
+00:21:55.710 --> 00:22:12.850
+samcm: unique set of attestations that were seen in the first 12 seconds for each slot, across all the ZATU nodes, and completely discarding all the aggregates, because the computation was a little bit annoying to explode those back out into single attestations. So, I'm just looking at…
+
+153
+00:22:13.770 --> 00:22:19.959
+samcm: Single attestations, on the assumption that aggregates are good enough on mainnet, like,
+
+154
+00:22:21.200 --> 00:22:29.339
+samcm: The end result was, like, That we didn't fast confirm any, slots that got
+
+155
+00:22:29.450 --> 00:22:38.339
+samcm: eventually re-ogged, or orphaned, which is, yeah, obviously a great thing. There's a bit of, like, discrepancy between the CLs,
+
+156
+00:22:39.870 --> 00:22:53.850
+samcm: mostly just Teku, which I think is a little bit more optimistic, which I think we discussed previously. But yeah, you can really see it in the monthly one-slot, fast confirmation rate chart.
+
+157
+00:22:54.280 --> 00:22:56.549
+samcm: And then there's also a couple…
+
+158
+00:22:57.080 --> 00:23:07.490
+samcm: in the distance distribution chart, like, there's a… a long tail there, where Lodestar and Lighthouse seem to have…
+
+159
+00:23:08.550 --> 00:23:13.919
+samcm: some issue in there. It might also just be in the data or something. I haven't had a chance to,
+
+160
+00:23:14.410 --> 00:23:16.629
+samcm: To actually dig into it, to be honest.
+
+161
+00:23:19.710 --> 00:23:29.600
+samcm: Yeah, I've uploaded all of this, all of the raw data, to the Fast Confirmation simulation repo that we've created.
+
+162
+00:23:29.820 --> 00:23:35.249
+samcm: So it should be recreatable. Everything's, like, pinned to…
+
+163
+00:23:35.510 --> 00:23:41.760
+samcm: the commit versions and stuff, so if anyone has any questions, or wants a hand, like, stepping through it, or is interested.
+
+164
+00:23:41.890 --> 00:23:44.260
+samcm: Feel free to just send me a message.
+
+165
+00:23:49.830 --> 00:23:54.550
+Mikhail Kalinin: This is huge. Thank you, Sam. Yeah, that's just awesome work.
+
+166
+00:23:55.350 --> 00:23:57.040
+Mikhail Kalinin: On all this analysis.
+
+167
+00:23:57.610 --> 00:24:08.260
+Mikhail Kalinin: And the dashboard looks great. I just have one question I want to ask you to clarify what's not confirmed means on the dashboard, because it might be confusing.
+
+168
+00:24:10.410 --> 00:24:15.920
+samcm: Yeah, so that's just essentially, like, it didn't get confirmed in the same slot.
+
+169
+00:24:16.480 --> 00:24:22.210
+samcm: Because we don't get those consecutive Beacon API events, and we…
+
+170
+00:24:23.500 --> 00:24:30.839
+samcm: it's not easy in Grafana to sort of reconstruct the parent state, I guess, or the chain, so we just…
+
+171
+00:24:31.450 --> 00:24:35.099
+samcm: Yeah, flag that. Slot is not immediately confirmed.
+
+172
+00:24:35.730 --> 00:24:41.079
+samcm: I'm sure if you, like, if you went back through it, though, it was eventually confirmed by the parent, or…
+
+173
+00:24:41.340 --> 00:24:43.350
+samcm: Parent, parent, or something like that.
+
+174
+00:24:45.350 --> 00:24:47.520
+samcm: It's just a limitation of the…
+
+175
+00:24:47.950 --> 00:24:50.240
+samcm: Yeah, the way we're displaying this data at the moment.
+
+176
+00:24:54.090 --> 00:24:55.060
+Mikhail Kalinin: Thank you.
+
+177
+00:24:57.460 --> 00:24:59.949
+Mikhail Kalinin: Alright, yeah, that's great.
+
+178
+00:25:00.410 --> 00:25:06.410
+Mikhail Kalinin: Okay, any questions to Sam?
+
+179
+00:25:15.020 --> 00:25:20.359
+Mikhail Kalinin: Right, I have one organizational thing. Sorry, yeah, go ahead, Roberto.
+
+180
+00:25:20.970 --> 00:25:24.720
+Roberto Saltini: I had a question about the dashboard. Is the data coming directly?
+
+181
+00:25:25.400 --> 00:25:32.930
+Roberto Saltini: from Lighthouse, or say, like, if we wanted to, say, fix this issue of the non-confirmed blocks.
+
+182
+00:25:33.820 --> 00:25:39.559
+Roberto Saltini: What… is it something that can be… Done externally by…
+
+183
+00:25:40.140 --> 00:25:44.159
+Roberto Saltini: Yeah, we're checking the child-parent relationship, or…
+
+184
+00:25:44.880 --> 00:25:50.530
+Roberto Saltini: Or is the fix more complex? Because this data comes directly from Lighthouse?
+
+185
+00:25:52.450 --> 00:25:58.510
+samcm: Yeah, so… We already have enough data in our ClickHouse cluster to, like.
+
+186
+00:25:58.900 --> 00:26:18.159
+samcm: fix this properly. It's just really gross. And, like, if we were ever gonna do deep data analysis, we have it all there. The, like, proper fix, and all the nice fix, would be getting the Beacon API to event… to emit an event for all the blocks in between the tip and what was previously confirmed, but then…
+
+187
+00:26:18.730 --> 00:26:24.629
+samcm: This is what the Beacon API PR before that was posted,
+
+188
+00:26:25.250 --> 00:26:33.200
+samcm: is doing the opposite of, and, like, that makes sense, because it's another, like, thing for the clients to track, like, I think.
+
+189
+00:26:33.430 --> 00:26:40.450
+samcm: I'm not sure how painful it would be. I'm also not sure… Yeah, like…
+
+190
+00:26:40.750 --> 00:26:46.909
+samcm: if it's that useful for other… for consumers of this event stream, if that makes sense, Roboto.
+
+191
+00:26:48.760 --> 00:26:51.560
+Roberto Saltini: Yeah, yeah. I was thinking, like, externally.
+
+192
+00:26:51.740 --> 00:26:54.750
+Roberto Saltini: In user, we need to check that.
+
+193
+00:26:55.730 --> 00:26:57.509
+Roberto Saltini: Oh, cool.
+
+194
+00:26:58.560 --> 00:27:04.769
+Roberto Saltini: That the parent… Like, the block is the parent of…
+
+195
+00:27:05.550 --> 00:27:08.689
+Roberto Saltini: what has been confirmed later on. So, like…
+
+196
+00:27:10.080 --> 00:27:14.670
+Roberto Saltini: And to fix, say, to, to… Fixed is non-confirmed.
+
+197
+00:27:14.800 --> 00:27:16.470
+Roberto Saltini: visualization issue.
+
+198
+00:27:17.450 --> 00:27:21.200
+Roberto Saltini: Who you need to… Basically… ugh.
+
+199
+00:27:21.750 --> 00:27:27.629
+Roberto Saltini: Speak out the data that's showing on the dashboard, not directly from the
+
+200
+00:27:27.990 --> 00:27:30.710
+Roberto Saltini: CL side of things, but we need to have
+
+201
+00:27:31.520 --> 00:27:35.510
+Roberto Saltini: Another layer in between the checks that…
+
+202
+00:27:36.600 --> 00:27:40.100
+Roberto Saltini: The particular goes back along the chain and confirms.
+
+203
+00:27:40.210 --> 00:27:43.210
+Roberto Saltini: Block that has not been confirmed before, right?
+
+204
+00:27:44.550 --> 00:27:56.209
+samcm: Yeah, that's correct. I can probably, like, hack something together if this dashboard is going to get some serious visibility, and it's going to be, like, shown to, potential users of the fast confirmation rule.
+
+205
+00:27:56.350 --> 00:27:59.459
+samcm: We can get something going, but, like, as a…
+
+206
+00:28:00.460 --> 00:28:06.159
+samcm: outside of this sort of Grafana setup, and the long-term
+
+207
+00:28:06.850 --> 00:28:11.009
+samcm: I guess, recommendation would be that we say to…
+
+208
+00:28:11.710 --> 00:28:23.099
+samcm: implementers or users, like, when you get an event come through, you should be, like, progressing up the chain and hitting the Beacon API, getting those headers, and, like, actually walking.
+
+209
+00:28:23.280 --> 00:28:29.380
+samcm: Back to the previously fast-confirmed checkpoint, so that you get the definitive list.
+
+210
+00:28:31.060 --> 00:28:40.350
+samcm: Yeah, I'll hack something together tomorrow, and I'll post it in here. I don't think it'll be too bad, but it's… yeah, this is something, I guess, to keep an eye on for consumers.
+
+211
+00:28:41.990 --> 00:28:45.100
+Roberto Saltini: Thanks a lot. Yeah, I think it would be great, like, ideally…
+
+212
+00:28:45.490 --> 00:28:48.830
+Roberto Saltini: We wanted to have something like this embedded in the…
+
+213
+00:28:49.330 --> 00:28:52.439
+Roberto Saltini: In the website, because, you know, it's just a showcase of
+
+214
+00:28:52.810 --> 00:28:55.839
+Roberto Saltini: Live performers, so, yeah, it'll be great.
+
+215
+00:29:01.810 --> 00:29:08.410
+Mikhail Kalinin: Yeah, and I have a related question. So, if we introduce this metric.
+
+216
+00:29:09.020 --> 00:29:10.870
+Mikhail Kalinin: Let me just drop it into the chat.
+
+217
+00:29:11.250 --> 00:29:18.150
+Mikhail Kalinin: To speak at first confirmation rule slot, which is the most recent… the slot of the most recent confirmed block.
+
+218
+00:29:18.610 --> 00:29:22.990
+Mikhail Kalinin: And it helps, anyhow?
+
+219
+00:29:23.480 --> 00:29:30.870
+Mikhail Kalinin: to actually… Measure the delay between the current slots and the confirm block.
+
+220
+00:29:32.350 --> 00:29:36.860
+Mikhail Kalinin: I mean, like, if we have this metric, we could measure that delay.
+
+221
+00:29:37.680 --> 00:29:42.270
+Mikhail Kalinin: If we have a… something like current slot, metric as well, so…
+
+222
+00:29:42.860 --> 00:29:49.019
+Mikhail Kalinin: I, yeah, I'm not sure if clients have, if all clients have the current stuff.
+
+223
+00:29:50.440 --> 00:29:51.190
+Mikhail Kalinin: I know that.
+
+224
+00:29:51.190 --> 00:29:51.580
+samcm: folder.
+
+225
+00:29:51.580 --> 00:29:52.970
+Mikhail Kalinin: head… yeah, sorry.
+
+226
+00:29:53.440 --> 00:30:04.810
+samcm: Sorry, sorry to cut you off. I think for current slot, you can actually just sort of hack it together and throw a timestamp of Genesis in there, or something, and then, yeah, divide by…
+
+227
+00:30:05.090 --> 00:30:08.399
+samcm: Slots, or epochs, or whatever the arithmetic works out.
+
+228
+00:30:08.600 --> 00:30:17.360
+samcm: So that's, like, a little… that'll sort of work. The problem with, using the metric is most Prometheus
+
+229
+00:30:17.540 --> 00:30:24.869
+samcm: Scrapers, like, have a 15-second interval or 30-second intervals for scraping, so…
+
+230
+00:30:25.100 --> 00:30:30.510
+samcm: We're gonna get a bit of noise there, given that our slots are 12 seconds, and it'll be hard to, like.
+
+231
+00:30:31.930 --> 00:30:34.389
+samcm: Yeah, sort of correlate it.
+
+232
+00:30:39.050 --> 00:30:53.089
+samcm: I think… I think this metric is going to be useful if we, like, zoom out at a month level or something. Once… once this R2 method has got enough data, we can then go back and compare side by side, and it'll give us, like, a rough and…
+
+233
+00:30:53.260 --> 00:30:56.860
+samcm: Rough enough. Yeah, second data point.
+
+234
+00:30:57.100 --> 00:30:58.299
+samcm: If that makes sense.
+
+235
+00:31:00.080 --> 00:31:01.959
+Mikhail Kalinin: Yeah, I see. Yeah, thank you.
+
+236
+00:31:02.820 --> 00:31:09.900
+Roberto Saltini: Personally, this event doesn't… It doesn't provide information about the child-parent relationship, so…
+
+237
+00:31:10.240 --> 00:31:12.410
+Roberto Saltini: 850, you know that this lock.
+
+238
+00:31:12.590 --> 00:31:14.989
+Roberto Saltini: It's been confirmed. It doesn't mean that the…
+
+239
+00:31:16.570 --> 00:31:21.559
+Roberto Saltini: What was proposed and is not before was being confirmed as well, because it might not be the parent of…
+
+240
+00:31:21.700 --> 00:31:23.809
+Roberto Saltini: The block paused in the current slot.
+
+241
+00:31:31.550 --> 00:31:32.150
+Mikhail Kalinin: Yeah.
+
+242
+00:31:35.370 --> 00:31:35.830
+Roberto Saltini: Rosie.
+
+243
+00:31:35.830 --> 00:31:36.220
+Mikhail Kalinin: comp.
+
+244
+00:31:36.220 --> 00:31:43.150
+Roberto Saltini: This wouldn't, I don't think, without serving this non-confirmed… strategy.
+
+245
+00:31:43.920 --> 00:31:45.789
+Mikhail Kalinin: Yeah, I see, I see what I mean.
+
+246
+00:31:46.300 --> 00:31:55.250
+Mikhail Kalinin: Right, and Mercy, thanks for providing a list of metrics that you… you have.
+
+247
+00:32:02.930 --> 00:32:11.210
+Mikhail Kalinin: Yeah, okay. If we are done with all this stuff, I have one organizational, Question, or…
+
+248
+00:32:11.360 --> 00:32:12.990
+Mikhail Kalinin: Remark?
+
+249
+00:32:15.070 --> 00:32:23.790
+Mikhail Kalinin: I'm planning to be on vacation in two weeks, so I will not be able to run this call in two weeks, and I propose to have an
+
+250
+00:32:24.470 --> 00:32:29.879
+Mikhail Kalinin: asynchronous updates in the chat, in the Telegram, instead of the call.
+
+251
+00:32:30.360 --> 00:32:37.100
+Mikhail Kalinin: For, for the, next time, and, meet in, in four weeks, 4 weeks.
+
+252
+00:32:38.330 --> 00:32:48.339
+Mikhail Kalinin: Unless there is a strong case for having a call, and there is a… somebody who is willing to actually host the call.
+
+253
+00:33:00.170 --> 00:33:04.060
+Roberto Saltini: I mean, I'll be happy to ask the call if there is a need for the call.
+
+254
+00:33:04.360 --> 00:33:07.710
+Roberto Saltini: But if there is no need, I might be… Go escape.
+
+255
+00:33:10.190 --> 00:33:14.680
+Mikhail Kalinin: Okay, let's, let's then have a skip as a default option.
+
+256
+00:33:15.210 --> 00:33:20.689
+Mikhail Kalinin: and, decide on this,
+
+257
+00:33:21.390 --> 00:33:26.759
+Mikhail Kalinin: Yeah, let's just have a skip the default option and decide on this, maybe, this and next week.
+
+258
+00:33:31.630 --> 00:33:32.620
+Mikhail Kalinin: Alright.
+
+259
+00:33:38.640 --> 00:33:40.350
+Mikhail Kalinin: Thanks, everyone.
+
+260
+00:33:42.370 --> 00:33:43.720
+Mikhail Kalinin: Let's rip up.
+
+261
+00:33:44.410 --> 00:33:45.090
+Mikhail Kalinin: Yep.
+
+262
+00:33:47.340 --> 00:33:48.380
+samcm: Thank you.
+
+263
+00:33:48.700 --> 00:33:49.500
+Justin Traglia: Thank you. Bye, everyone.
+
+264
+00:33:50.630 --> 00:33:51.020
+Jihoon: Thank you.
+
+265
+00:33:51.020 --> 00:33:52.070
+Mikhail Kalinin: Mobile.
+
+266
+00:33:52.070 --> 00:33:52.930
+Jihoon: Bye-bye.
+

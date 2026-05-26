@@ -1,0 +1,74 @@
+{
+  "meeting": "Fast Confirmation Rule (FCR) #8 - May 26, 2026",
+  "highlights": {
+    "spec_updates": [
+      {
+        "timestamp": "00:09:03",
+        "highlight": "PR #5288: reconfirmation validation changed to check checkpoint is in confirmed block's chain, not just block ancestry"
+      },
+      {
+        "timestamp": "00:12:05",
+        "highlight": "PR #5249: makes FCR compatible with Gloas and future Gloas-based forks; FCR tests passing with this PR"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:13:43",
+        "highlight": "Plan to disable BLS in FCR tests to speed up test generation; no functional impact expected"
+      },
+      {
+        "timestamp": "00:13:48",
+        "highlight": "After PRs #5249 and #5288 merge, FCR tests will be enabled for Gloas and Haze forks"
+      }
+    ],
+    "api_and_metrics": [
+      {
+        "timestamp": "00:15:23",
+        "highlight": "Beacon API PR #611: FCR event emits only tip of confirmed chain, not every confirmed block"
+      },
+      {
+        "timestamp": "00:16:54",
+        "highlight": "Beacon metrics PR #22: proposes standardized FCR metrics (reorgs, fallbacks, restarts, confirmed slot, duration)"
+      }
+    ],
+    "research_and_monitoring": [
+      {
+        "timestamp": "00:19:13",
+        "highlight": "Public Grafana dashboard live showing FCR performance from a Lighthouse node; ~97% same-slot confirmation rate"
+      },
+      {
+        "timestamp": "00:20:55",
+        "highlight": "EthPandaOps FCR simulator published: no reorged/orphaned slots were fast-confirmed across historical mainnet data"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:32:15",
+        "highlight": "Next call in 2 weeks skipped by default (Mikhail on vacation); async updates in Telegram instead; reconvene in 4 weeks"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:16:54",
+      "action": "Review beacon-metrics PR #22 and provide feedback on proposed standardized FCR metrics",
+      "owner": "All client teams"
+    },
+    {
+      "timestamp": "00:27:56",
+      "action": "Implement chain-walking logic in dashboard to correctly display all confirmed blocks between events",
+      "owner": "samcm (EthPandaOps)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:15:38",
+      "decision": "FCR Beacon API event sends only the tip of the confirmed chain, not an event per confirmed block"
+    },
+    {
+      "timestamp": "00:33:14",
+      "decision": "FCR call in 2 weeks skipped by default; async Telegram updates instead"
+    }
+  ],
+  "targets": []
+}
