@@ -1,0 +1,1362 @@
+WEBVTT
+
+1
+00:11:11.460 --> 00:11:12.770
+Antonio Sanso: Hello, everyone.
+
+2
+00:11:14.690 --> 00:11:15.760
+Matteo Vicari: Hi, Antonio.
+
+3
+00:11:16.010 --> 00:11:16.970
+Antonio Sanso: Oh, dope.
+
+4
+00:11:17.710 --> 00:11:22.149
+Antonio Sanso: As usual, I'm a bit earlier to check if everything's okay.
+
+5
+00:11:22.830 --> 00:11:26.589
+Antonio Sanso: I will try to share my slides.
+
+6
+00:11:27.290 --> 00:11:28.630
+Antonio Sanso: Alessandro.
+
+7
+00:11:48.560 --> 00:11:50.020
+Antonio Sanso: Do you see my slide, right?
+
+8
+00:11:50.570 --> 00:11:51.210
+Matteo Vicari: Yes?
+
+9
+00:11:51.860 --> 00:11:52.570
+Antonio Sanso: Alright.
+
+10
+00:11:53.470 --> 00:11:56.399
+Antonio Sanso: As you should wait a few more minutes, and we'll start.
+
+11
+00:14:44.720 --> 00:14:47.490
+Antonio Sanso: We just wait a couple more minutes, we'll start.
+
+12
+00:16:34.930 --> 00:16:36.970
+Antonio Sanso: All right, let's kick it in.
+
+13
+00:16:37.400 --> 00:16:44.719
+Antonio Sanso: We are the breakout room number 9 for post-pandemic transaction signatures.
+
+14
+00:16:44.960 --> 00:16:50.709
+Antonio Sanso: Just… Quick comment. Today, we are not having any guests.
+
+15
+00:16:50.960 --> 00:17:01.359
+Antonio Sanso: I want to check with you, with the people here, that you are all on the same page. This is call number 9, so…
+
+16
+00:17:01.660 --> 00:17:07.240
+Antonio Sanso: I want just to recap what we've been doing in the previous
+
+17
+00:17:07.440 --> 00:17:10.520
+Antonio Sanso: 8 goals, and see if,
+
+18
+00:17:10.980 --> 00:17:13.140
+Antonio Sanso: You guys agree with the status quo?
+
+19
+00:17:13.329 --> 00:17:16.750
+Antonio Sanso: So, I'll start with the presentation. Can you guys see my screen?
+
+20
+00:17:19.450 --> 00:17:20.679
+Antonio Sanso: I think it is.
+
+21
+00:17:20.880 --> 00:17:30.329
+Antonio Sanso: Okay, great. So interrupt me at any time. Again, just having a few slides to having a recap of where we are right now.
+
+22
+00:17:31.810 --> 00:17:35.890
+Antonio Sanso: Just saying that, we're breading as well.
+
+23
+00:17:36.000 --> 00:17:41.309
+Antonio Sanso: I will use some of the comment of today to include this in a blog post that should appear in the next weeks.
+
+24
+00:17:41.750 --> 00:17:45.190
+Antonio Sanso: Of course, I'll try to credit everyone if…
+
+25
+00:17:45.860 --> 00:17:49.030
+Antonio Sanso: There is some comments that I can understand the source.
+
+26
+00:17:50.930 --> 00:17:58.829
+Antonio Sanso: So, this is more or less the… this is the data of the transaction signatures for this post quantum.
+
+27
+00:17:58.940 --> 00:18:07.890
+Antonio Sanso: There are, like, 6… boxes. Of course, let's try to spend a couple of words about that.
+
+28
+00:18:08.220 --> 00:18:10.680
+Antonio Sanso: We want this transaction signal to…
+
+29
+00:18:10.930 --> 00:18:15.190
+Antonio Sanso: to be post-com secure, but of course, we want to be as well classical secure.
+
+30
+00:18:15.460 --> 00:18:22.569
+Antonio Sanso: We want this to be efficient, so as small as possible. Of course, we can never meet the…
+
+31
+00:18:22.800 --> 00:18:33.690
+Antonio Sanso: 64 bytes, but yeah, we try to do our best. We want to be fast to sign and verify, with low bandwidth.
+
+32
+00:18:34.150 --> 00:18:36.060
+Antonio Sanso: We want to be simple to implement.
+
+33
+00:18:36.390 --> 00:18:38.120
+Antonio Sanso: With low complexity.
+
+34
+00:18:38.350 --> 00:18:43.330
+Antonio Sanso: As well, low memory footprint, and no heavy hardware needed.
+
+35
+00:18:44.750 --> 00:18:46.569
+Antonio Sanso: We want no dresses it up.
+
+36
+00:18:46.760 --> 00:18:51.559
+Antonio Sanso: Compatible with validators, and a graceful, updatable path.
+
+37
+00:18:52.020 --> 00:18:57.670
+Antonio Sanso: I want to be robust, so long-term security margin, we don't really want to
+
+38
+00:18:57.890 --> 00:19:00.420
+Antonio Sanso: Migrate to a new signature every year.
+
+39
+00:19:01.300 --> 00:19:04.180
+Antonio Sanso: That's basically it. This is the router.
+
+40
+00:19:06.330 --> 00:19:08.849
+Antonio Sanso: This is what we have from NIST.
+
+41
+00:19:09.320 --> 00:19:14.019
+Antonio Sanso: Again, we've already seen this this few weeks ago.
+
+42
+00:19:14.730 --> 00:19:19.779
+Antonio Sanso: As you can see, there's no rod, it's all green, so it really is a bigger poison.
+
+43
+00:19:20.540 --> 00:19:21.720
+Antonio Sanso: Scenario.
+
+44
+00:19:22.650 --> 00:19:27.740
+Antonio Sanso: Just focusing on the slide on the signature side, just to recap.
+
+45
+00:19:28.380 --> 00:19:30.440
+Antonio Sanso: list. Just one of the…
+
+46
+00:19:30.820 --> 00:19:41.250
+Antonio Sanso: columns in the previous slides, but the signal size is one important one. So, as we know, ECDSA has 64 bytes, the smallest
+
+47
+00:19:41.640 --> 00:19:46.749
+Antonio Sanso: Post-quantum signatories is Falcon, which is 10 times bigger, and…
+
+48
+00:19:46.880 --> 00:19:52.030
+Antonio Sanso: up to SPHINCS Plus, that is 122 times bigger.
+
+49
+00:19:53.790 --> 00:19:54.570
+Antonio Sanso: Tomorrow.
+
+50
+00:19:55.530 --> 00:20:01.790
+Antonio Sanso: So far, I… Found two, basically two scenarios.
+
+51
+00:20:01.980 --> 00:20:08.499
+Antonio Sanso: that are important to cover. I'm not saying they're the only ones, but these are the two that I see the most.
+
+52
+00:20:09.100 --> 00:20:12.480
+Antonio Sanso: And the first one on the left is the…
+
+53
+00:20:13.080 --> 00:20:20.830
+Antonio Sanso: infrequent high-value transactions, they can be a treasury, can be a Dow, so they have… this… people have…
+
+54
+00:20:21.190 --> 00:20:26.689
+Antonio Sanso: All that have hardware wallets, and ideally, save with a K of N Multisig.
+
+55
+00:20:27.200 --> 00:20:35.919
+Antonio Sanso: And the right scenario is, like, everyday low-cost signing. That's what we do, for example, with MetaMask on a browser wallet.
+
+56
+00:20:37.860 --> 00:20:40.799
+Antonio Sanso: So, let's set to the scenario for the first.
+
+57
+00:20:41.040 --> 00:20:45.749
+Antonio Sanso: So the low… the high value and infrequent transactions.
+
+58
+00:20:46.030 --> 00:20:53.859
+Antonio Sanso: So, if we see the demo again, what do we want? We want hardware implementation, And threshold signatures.
+
+59
+00:20:54.090 --> 00:21:00.210
+Antonio Sanso: And we see only a row that has to green, and it's Dilithium.
+
+60
+00:21:01.580 --> 00:21:15.080
+Antonio Sanso: So, so far, we had already two people in the Ethereum sphere doing something about that. Of course, we have GKnox that's been working on this Dilithium implementation.
+
+61
+00:21:15.360 --> 00:21:19.349
+Antonio Sanso: for Ledger using an abstraction, did a really nice demo.
+
+62
+00:21:19.690 --> 00:21:22.209
+Antonio Sanso: At HCCAM.
+
+63
+00:21:22.670 --> 00:21:26.379
+Antonio Sanso: And, as well, recently there's science laboratories.
+
+64
+00:21:26.500 --> 00:21:31.589
+Antonio Sanso: That hopefully we'll present this demo next week… in the next two weeks at this call, so…
+
+65
+00:21:31.710 --> 00:21:41.990
+Antonio Sanso: Call number 10 will be… they did use what, ZKnox did for verification, but before signing, they have some MPC infrastructure.
+
+66
+00:21:44.020 --> 00:21:47.140
+Antonio Sanso: Let's see what we can do for the…
+
+67
+00:21:47.680 --> 00:21:51.970
+Antonio Sanso: Browser wallet, so frequent and cheap transactions.
+
+68
+00:21:52.860 --> 00:22:01.390
+Antonio Sanso: So again, here we want to have a signature size that's not too big, and we want, as well the gas to be approachable.
+
+69
+00:22:02.420 --> 00:22:12.399
+Antonio Sanso: And we know already what we do in the long term with these things, because what really matters is not the signature size, but ideally we'll have a…
+
+70
+00:22:12.470 --> 00:22:24.530
+Antonio Sanso: signal aggregation that will low impact at the peer-to-peer mental layer, so we know that for L-star, we will have something like Lean-Lean SPHINCS minus.
+
+71
+00:22:24.640 --> 00:22:29.209
+Antonio Sanso: with the stranded signal recreation, the question is, like, what do we do here?
+
+72
+00:22:29.750 --> 00:22:33.720
+Antonio Sanso: for, until L-star.
+
+73
+00:22:34.410 --> 00:22:35.590
+Antonio Sanso: So…
+
+74
+00:22:35.750 --> 00:22:52.560
+Antonio Sanso: We've seen shrinks already. We had Mikhail presenting it, and in the… for Ethereum World, we had already a proposal that they're doing something similar, and we have Jordan from Nico that has in the call. Thanks for joining, Nico.
+
+75
+00:22:52.710 --> 00:22:59.139
+Antonio Sanso: So, Jordan is a… The implementation of this compact plus fallback.
+
+76
+00:22:59.280 --> 00:23:02.470
+Antonio Sanso: And, it used sphinx minus plus FORS.
+
+77
+00:23:02.870 --> 00:23:04.780
+Antonio Sanso: And, yeah.
+
+78
+00:23:05.080 --> 00:23:15.190
+Antonio Sanso: We keep the state off-chain, and every 128 for signature rotate, and then we had a nice try that had SPHINCS minus plus.
+
+79
+00:23:15.460 --> 00:23:20.199
+Antonio Sanso: winter's needs, but now I have also 4s, so I just forgot to update the slide, sorry.
+
+80
+00:23:20.320 --> 00:23:32.849
+Antonio Sanso: sorry, I guess, from Riva Labs, I forgot to update the fact that you support Force now, and you can see the nice dry wallet, like Ger10, with, with
+
+81
+00:23:32.850 --> 00:23:41.780
+Antonio Sanso: Q equals 1, namely that they rotated the fourth signature every time, not after 128.
+
+82
+00:23:42.220 --> 00:23:44.059
+Antonio Sanso: For signatures.
+
+83
+00:23:46.950 --> 00:23:54.760
+Antonio Sanso: Two important things for going forward, and in my opinion, are not evacant abstraction, as we said many times, but it is…
+
+84
+00:23:55.240 --> 00:24:02.899
+Antonio Sanso: above my pay grade, so it will need to be SED approved. Hopefully, we'll have this for Pegota.
+
+85
+00:24:03.050 --> 00:24:09.239
+Antonio Sanso: And what I would really like someone to help with, if there is anyone in…
+
+86
+00:24:09.900 --> 00:24:24.739
+Antonio Sanso: in the call that can help you with that, I would be really, really happy, to… since we are not gonna ship precompile, we really need to formally verify signature contracts in Lean. This historically used to be, kind of.
+
+87
+00:24:24.910 --> 00:24:29.890
+Antonio Sanso: big… task, maybe now with AI and machine learning.
+
+88
+00:24:30.000 --> 00:24:32.400
+Antonio Sanso: Should be… and could be a bit…
+
+89
+00:24:32.990 --> 00:24:34.780
+Alex: Glimmer.
+
+90
+00:24:35.060 --> 00:24:45.579
+Alex: Ricardo and I have been working on, like, getting the verification of the signatures using Lean, and so far, it's looking pretty promising.
+
+91
+00:24:46.200 --> 00:24:49.200
+Antonio Sanso: Sorry, was there? Can you repeat again?
+
+92
+00:24:49.200 --> 00:24:58.149
+Alex: Oh yeah, yeah, we've been, trying to do this formal verification of the signature contracts using Lean, and it's looking pretty,
+
+93
+00:24:58.750 --> 00:25:00.290
+Alex: Pretty good so far.
+
+94
+00:25:01.020 --> 00:25:03.950
+Antonio Sanso: Alright, who is speaking, sorry? I didn't see it.
+
+95
+00:25:03.950 --> 00:25:07.499
+Alex: This is Alex, and also Ricardo, who's in the call as well.
+
+96
+00:25:07.500 --> 00:25:12.050
+Antonio Sanso: Hi. Hi, Alex. Were you guys, by any chance, in Rome?
+
+97
+00:25:12.050 --> 00:25:13.540
+Alex: Yeah, yeah, that was us.
+
+98
+00:25:13.810 --> 00:25:18.819
+Antonio Sanso: Oh, okay, great. Can we be in touch after? I think I already replied Ricardo, and
+
+99
+00:25:18.950 --> 00:25:30.419
+Antonio Sanso: We… we… just, like, I mean, we can be in touch after the call in the next days. If you… I would be really happy to have someone helping here, if possible. So you already… you already look into it?
+
+100
+00:25:30.420 --> 00:25:36.040
+Alex: Yeah, yeah, and amazing, yeah, I'll take your contact after, and we'll… Keep speaking.
+
+101
+00:25:36.600 --> 00:25:39.019
+Antonio Sanso: Okay, great, thanks a lot.
+
+102
+00:25:39.650 --> 00:25:47.750
+Antonio Sanso: And, yeah, basically, in any case, it… this hole I had… What I would like to…
+
+103
+00:25:48.090 --> 00:25:49.809
+Antonio Sanso: Discuss now, huh?
+
+104
+00:25:49.980 --> 00:25:56.940
+Antonio Sanso: Yes, I see Nico, and the river laps Here… And probably…
+
+105
+00:25:57.410 --> 00:26:01.080
+Antonio Sanso: We know, again, we're not ready for SPHINCS models, the kind of parameters.
+
+106
+00:26:01.640 --> 00:26:06.150
+Antonio Sanso: We kind of know somehow, but… Do you think…
+
+107
+00:26:06.460 --> 00:26:08.919
+Antonio Sanso: And I will ask Nico first, and then Dariba.
+
+108
+00:26:09.070 --> 00:26:12.490
+Antonio Sanso: Do we have numbers in terms of, like.
+
+109
+00:26:13.610 --> 00:26:17.519
+Antonio Sanso: Size of 4 signatures, and the gas cost.
+
+110
+00:26:17.990 --> 00:26:24.699
+Antonio Sanso: That we… a ballpark that we can agree on? Because I remember from your presentation, Nico, there were, like.
+
+111
+00:26:25.520 --> 00:26:35.159
+Antonio Sanso: a zoo of combination you can really launch your script with, but is there any golden combination that is actually
+
+112
+00:26:36.040 --> 00:26:38.779
+Antonio Sanso: Now being agreed on.
+
+113
+00:26:40.200 --> 00:26:50.400
+Nicolas Consigny: Not yet. I mean, I've been agreeing with myself, mostly, so I need to find people to agree with. The…
+
+114
+00:26:50.860 --> 00:26:56.010
+Nicolas Consigny: last, update that I have is…
+
+115
+00:26:56.750 --> 00:27:07.159
+Nicolas Consigny: a plain SPHINCS, pass for, signing registration, sorry, for plane registration in, Jordan.
+
+116
+00:27:07.310 --> 00:27:12.460
+Nicolas Consigny: And this one really optimized for signer,
+
+117
+00:27:13.160 --> 00:27:17.320
+Nicolas Consigny: For assigner work, so it creates a big…
+
+118
+00:27:17.870 --> 00:27:28.499
+Nicolas Consigny: signature size, and it's, it's not the best. If we're talking about just FORS, so plain FORS, for the…
+
+119
+00:27:29.880 --> 00:27:48.830
+Nicolas Consigny: for the compact signing pass, so it's just a Merkle tree with, FORS, leaves. This one is also proposed in the Jordan repo, and, yeah, I took two different parameters, and they give roughly the same signature size.
+
+120
+00:27:49.240 --> 00:27:53.299
+Nicolas Consigny: Which is 2.6 kilobytes.
+
+121
+00:27:53.890 --> 00:27:59.990
+Nicolas Consigny: So yeah, I'm happy to discuss, the… The different trade-offs.
+
+122
+00:28:00.260 --> 00:28:08.949
+Nicolas Consigny: For hardware signer, I have the one SPHINCS Minus that is the most optimized for signing work.
+
+123
+00:28:09.430 --> 00:28:14.030
+Nicolas Consigny: And for laptop signers, I have the…
+
+124
+00:28:14.450 --> 00:28:25.290
+Nicolas Consigny: SPHINCS Minus, that is the most optimized for gas costs. And actually, I published a repo, which is the EVM parameter research.
+
+125
+00:28:25.550 --> 00:28:38.810
+Nicolas Consigny: And so we can do a sweep and find the best variants, depending on our use case, and depending on the cold data pricing and the kit track opcode pricing.
+
+126
+00:28:39.110 --> 00:28:43.769
+Nicolas Consigny: So for this exploration, I took the next, call data.
+
+127
+00:28:43.900 --> 00:28:49.909
+Nicolas Consigny: price, and I estimated that we are going to bump the K-track cost by at least 20%.
+
+128
+00:28:50.810 --> 00:28:54.060
+Nicolas Consigny: So yeah, happy to… to discuss the…
+
+129
+00:28:54.530 --> 00:29:04.990
+Nicolas Consigny: optimal variance and to settle on a canonical one. I guess, yeah, happy to discuss that with Riva Labs or anyone that is interested in the topic.
+
+130
+00:29:05.830 --> 00:29:12.830
+Antonio Sanso: Alright, a quick question, Nico. So, I arrived at the conclusion that, the…
+
+131
+00:29:13.240 --> 00:29:22.719
+Antonio Sanso: like, let's say the nice dry wallet is similar, because at the moment they migrate to FORS, it's similar to Jordan, with Q, with your queue equals to 1.
+
+132
+00:29:23.130 --> 00:29:32.439
+Antonio Sanso: Do you think it's, like, is some… something that is… can converge, or are you really keen to keep your line of 128 for signature?
+
+133
+00:29:33.350 --> 00:29:39.250
+Nicolas Consigny: So the only reason there is a line of 128 signature is,
+
+134
+00:29:39.420 --> 00:29:46.749
+Nicolas Consigny: Because Jordane is used on a hardware wallets, and on a hardware wallet, you need to do the key generation, which is very slow.
+
+135
+00:29:47.100 --> 00:29:56.149
+Nicolas Consigny: And so 129 is just an arbitrary number that takes about 1 minute on the Ledger Nano.
+
+136
+00:29:56.310 --> 00:29:59.740
+Nicolas Consigny: device, so this is why I kept it.
+
+137
+00:30:00.050 --> 00:30:08.130
+Nicolas Consigny: But if we are okay to say that at onboarding, the user is gonna wait for 5 minutes on the hardware, then we can make this number
+
+138
+00:30:08.250 --> 00:30:09.359
+Nicolas Consigny: Go up…
+
+139
+00:30:09.480 --> 00:30:22.789
+Nicolas Consigny: Or we can just say that there is no number, and whenever the user is registering the wallet the first time, he can wait for as much as he wants, and when he finishes, he commits.
+
+140
+00:30:23.500 --> 00:30:26.920
+Nicolas Consigny: A certain number, Yeah.
+
+141
+00:30:27.080 --> 00:30:31.409
+Antonio Sanso: Oh, but I mean, with Q equals 1, there is no line at all, right?
+
+142
+00:30:31.850 --> 00:30:32.510
+Matteo Vicari: Yeah.
+
+143
+00:30:32.510 --> 00:30:39.359
+Nicolas Consigny: Yeah, with QE Code 1, you don't need a… a tree, basically, yeah, so you can just…
+
+144
+00:30:39.360 --> 00:30:49.270
+Antonio Sanso: Sorry, second, Matt, I'll give you… just to understand. Is Q equals 1 something that will work on a hardware wallet, or not at all?
+
+145
+00:30:50.160 --> 00:30:56.060
+Nicolas Consigny: I guess yes, I guess, yes, you just do a FORS. Whiskey, you come over one…
+
+146
+00:30:56.340 --> 00:31:03.430
+Nicolas Consigny: Yeah, it would work. You would just add an extra rotation cost on every transaction.
+
+147
+00:31:03.630 --> 00:31:10.280
+Nicolas Consigny: Which is, in my opinion, unnecessary, because you are using a few-time post-quantum transaction scheme.
+
+148
+00:31:10.720 --> 00:31:14.580
+Nicolas Consigny: But yeah, it works, it works. Bose works.
+
+149
+00:31:15.070 --> 00:31:30.240
+Antonio Sanso: Okay. Okay, okay, thanks. So let's, let's see, what Riva Labs says about the… their numbers, and we can, I mean, we don't have to end up here, I mean, we can continue this if we don't finish today, or we can have a specific time.
+
+150
+00:31:30.240 --> 00:31:40.029
+Matteo Vicari: we can, talk in, we have a chat with, all the guys that work on, this kind of media. Just a question. Why,
+
+151
+00:31:40.130 --> 00:31:46.380
+Matteo Vicari: You need to, why it's better to submit more key in the first instance, because…
+
+152
+00:31:46.530 --> 00:31:56.209
+Matteo Vicari: For what we… we see, so far, if you can just put only one and rotate… the rotate is, really cheap, because
+
+153
+00:31:56.310 --> 00:32:07.340
+Matteo Vicari: You just need to put another address on chain that is representing the next FORS, like in the ephemeral tree first design.
+
+154
+00:32:07.710 --> 00:32:16.289
+Matteo Vicari: And the cost to every time resign with a SPHINCS,
+
+155
+00:32:16.400 --> 00:32:24.009
+Matteo Vicari: It's a really high cost compared to just adding the next signer, and…
+
+156
+00:32:24.150 --> 00:32:31.140
+Matteo Vicari: why… why it is approved? What's the benefit of this approach? Because this is something we were working on and trying to understand.
+
+157
+00:32:32.440 --> 00:32:35.180
+Matteo Vicari: Yeah, this is just a question.
+
+158
+00:32:35.200 --> 00:32:43.820
+Nicolas Consigny: So this is really just because of the hardware constraint. There is really no other reason than the hardware constraint.
+
+159
+00:32:44.230 --> 00:32:55.949
+Nicolas Consigny: So you need to commit, basically, you need to commit, to a tree in the design where Q is not equal 1, where you have a Merkle tree, you need to commit…
+
+160
+00:32:57.600 --> 00:33:07.639
+Nicolas Consigny: you need to commit this tree in order to be able to reveal the leaves, and the size of the tree that you commit. You need to do the full KGEN for this.
+
+161
+00:33:07.820 --> 00:33:13.039
+Nicolas Consigny: And so the more kitchen you do, the bigger the tree you want.
+
+162
+00:33:13.450 --> 00:33:20.730
+Nicolas Consigny: the bigger the signing time that you need to spend, sorry, the key gen time that you need to spend.
+
+163
+00:33:20.870 --> 00:33:25.960
+Nicolas Consigny: So basically the trade-off here is just, trading
+
+164
+00:33:26.140 --> 00:33:32.009
+Nicolas Consigny: a kitchen time, versus, gas cost in the EVM.
+
+165
+00:33:32.190 --> 00:33:39.300
+Matteo Vicari: Why? Because if you have to sign with the SPHINCS, you have to pay the cost of the SPHINCS.
+
+166
+00:33:39.430 --> 00:33:42.820
+Matteo Vicari: Okay? So, it's like,
+
+167
+00:33:42.970 --> 00:33:58.560
+Matteo Vicari: If we don't need to resign with the SPHINCS every 108 sign, we don't pay an extra cost, because the rotation, it's practically free, because it's just to memorize
+
+168
+00:33:59.360 --> 00:34:01.689
+Matteo Vicari: one address on-chain. So…
+
+169
+00:34:02.370 --> 00:34:13.089
+Matteo Vicari: I don't know why you say, are more gas cost, this approach, because in… for what I see, but maybe I missed something, because this is, my…
+
+170
+00:34:13.090 --> 00:34:26.710
+Nicolas Consigny: I think you're, you might be missing the… so here, I don't sign with SPHINCS all the time, I sign with FORS, okay? So we're signing with the same… let's say we're signing with the exact same FORS.
+
+171
+00:34:27.250 --> 00:34:35.220
+Nicolas Consigny: If I sign with this, FORS, in my model, I,
+
+172
+00:34:35.480 --> 00:34:45.250
+Nicolas Consigny: I need to give a queue that is progressing, because I don't want to use the same queue all the time. So for this, I commit a Merkle tree.
+
+173
+00:34:45.880 --> 00:34:51.869
+Nicolas Consigny: When I commit this Merkle tree, when I sign with Q1, Q2, Q3, I spend the leave.
+
+174
+00:34:52.360 --> 00:35:03.689
+Nicolas Consigny: And then, when I get to the last leaf of my miracle tree, I don't have an index anymore, so I need to, redo a key gen, and to redo the, the…
+
+175
+00:35:04.290 --> 00:35:09.170
+Nicolas Consigny: The key generation to have more index and register a new lane.
+
+176
+00:35:09.450 --> 00:35:15.180
+Nicolas Consigny: Yeah. I could… I could also design, decide, that I'm gonna spend,
+
+177
+00:35:15.970 --> 00:35:26.349
+Nicolas Consigny: an arbitrary amount of time, and commit to, let's say, a thousand key, and then I will not have to do anything for a thousand transactions.
+
+178
+00:35:26.560 --> 00:35:40.240
+Nicolas Consigny: Your model is also very good. I think we're almost at the same point at this… at this point. It's just instead of spending this time to commit the Merkle tree, you just rotate and use Q1 all the time.
+
+179
+00:35:41.080 --> 00:35:47.669
+Nicolas Consigny: It's a very valid trade-off, and I think it's basically you trade a few thousand, or a few hundred gas, I don't know.
+
+180
+00:35:48.100 --> 00:35:59.059
+Matteo Vicari: It's really, really low gas, because it's just to memorize an address on-chain. So it's around, I don't know, 100 gas, something like this.
+
+181
+00:35:59.060 --> 00:36:05.890
+Nicolas Consigny: That's okay. Yeah, then in that case, I think if it's this slow… Wait, you just need to…
+
+182
+00:36:06.670 --> 00:36:15.460
+Nicolas Consigny: Memorized post address… okay, yeah, well, if rotation is below, like, 2K guys, but you still need to do an easy recover on top?
+
+183
+00:36:16.370 --> 00:36:24.940
+Matteo Vicari: No, really, because we… our verify is like a C-Recover for FORS.
+
+184
+00:36:25.660 --> 00:36:39.869
+Matteo Vicari: So, the verify part is the recover for parts. There is not, no, no electric cure, nothing, it's just… I call it, XC Recover just for,
+
+185
+00:36:40.080 --> 00:36:40.850
+Nicolas Consigny: Is he comfortable?
+
+186
+00:36:40.850 --> 00:36:42.290
+Matteo Vicari: impression, but it's not…
+
+187
+00:36:42.290 --> 00:36:45.960
+Nicolas Consigny: You don't also rotate any CDA key all the time.
+
+188
+00:36:45.960 --> 00:36:46.980
+Matteo Vicari: No, no, no, no.
+
+189
+00:36:47.250 --> 00:36:52.750
+Matteo Vicari: We just… we just rotate the address of the next FORS.
+
+190
+00:36:52.830 --> 00:37:02.860
+Nicolas Consigny: Oh, alright, alright. Yeah, then, okay, then at this point, it's almost exactly the same, and your, model might be nicer, because you don't have the…
+
+191
+00:37:03.570 --> 00:37:07.180
+Nicolas Consigny: Basically, the key gen time to spend
+
+192
+00:37:07.350 --> 00:37:18.329
+Nicolas Consigny: At the beginning. So yeah, the trade-off is just really this gas cost versus spending some time waiting for the hardware to grind some addresses.
+
+193
+00:37:18.640 --> 00:37:27.039
+Nicolas Consigny: So yeah, I guess at this point, it's a very good trade-off to also just say we are always going to use Q1,
+
+194
+00:37:28.680 --> 00:37:41.239
+Antonio Sanso: Just from understanding here, with quick Q equal 1, there is no… there's no grinding at all, right? I mean, because the tree is really small. It's just, I mean, I don't understand that the price to pay here is…
+
+195
+00:37:41.490 --> 00:37:59.590
+Antonio Sanso: updating the next public key, that's the next… the next, FORS address, and but again, like I said, I really see now… it took me a while, to be fair, but I… I really… I really think that what the Riva Labs guys did is Jordan with Q equals 1, basically. That says, you can see that.
+
+196
+00:37:59.590 --> 00:38:10.519
+Nicolas Consigny: Exactly. Yeah, exactly. Right now, it is the case. Yeah, it seems to be… it seems to be a good trade-off. Like, if it's… if we're talking about less than 1K gas.
+
+197
+00:38:10.690 --> 00:38:14.859
+Nicolas Consigny: And it's basically saving me a few minutes of my life.
+
+198
+00:38:15.270 --> 00:38:16.399
+Nicolas Consigny: Well, it's…
+
+199
+00:38:16.760 --> 00:38:25.040
+Nicolas Consigny: a few K gas all the time, or a few hundred gas all the time. Maybe it's worth a few minutes of my life, so…
+
+200
+00:38:25.760 --> 00:38:27.079
+Nicolas Consigny: I think it's a good trade-off, yeah.
+
+201
+00:38:27.080 --> 00:38:44.639
+Antonio Sanso: Maybe what we can do as an exercise for the next weeks is this. Seeing everything in… with the eye of Jordan Framework, and see if Q equals 1 makes sense, for example, for…
+
+202
+00:38:44.800 --> 00:38:52.790
+Antonio Sanso: browser wallet, and Q128 makes sense for hardware wallet, and see where…
+
+203
+00:38:53.030 --> 00:38:56.859
+Antonio Sanso: the sweet spot of QEs for each situation. Do you know what I mean?
+
+204
+00:38:57.610 --> 00:39:10.770
+Nicolas Consigny: In that case, it would be the same signing work, so basically the QEQAL1 would work for both, I mean, this entire design was based, designed to be hardware wallet friendly, so…
+
+205
+00:39:10.920 --> 00:39:14.700
+Nicolas Consigny: So yeah, both would work with hardware wallets, yeah.
+
+206
+00:39:15.300 --> 00:39:17.829
+Antonio Sanso: So there is no… do you think there's no…
+
+207
+00:39:18.260 --> 00:39:26.569
+Antonio Sanso: scenario where Q more than 1… assuming that the gas cost is low, do you think that Q equals 1 is really the sweet spot?
+
+208
+00:39:26.830 --> 00:39:43.280
+Matteo Vicari: I think we find a scenario where this can be useful, and we try to send us… we try to build up a paper for, try to make, post-quantum, also paymaster, in,
+
+209
+00:39:44.560 --> 00:39:46.210
+Matteo Vicari: In.
+
+210
+00:39:46.210 --> 00:39:49.369
+Antonio Sanso: You mean a scenario with Q, more than one, you've been using PM?
+
+211
+00:39:49.970 --> 00:39:50.530
+Antonio Sanso: Yeah. Okay.
+
+212
+00:39:50.530 --> 00:40:09.119
+Matteo Vicari: this can be useful. We try to finish our paper about this, because the idea is start talking about the big elephant in the room when we use count abstraction, and we want to go post-quantum, because the transponder of the transaction is still HEDSA.
+
+213
+00:40:09.200 --> 00:40:15.390
+Matteo Vicari: We try to figure out a solution for, mitigate this and make it, better.
+
+214
+00:40:15.620 --> 00:40:30.969
+Matteo Vicari: and Post Quantum. We are working, I think in the next few days, we try to, put online this part. And, the idea to have, more sign… sign commits all together can help, to,
+
+215
+00:40:31.250 --> 00:40:34.339
+Matteo Vicari: In this kind of scenario, so we can.
+
+216
+00:40:34.340 --> 00:40:49.360
+Alessandro Baiocchi: Basically, sorry, because the reason it's useful to have more than one sign registered is because you can then sign most transactions in parallel and do not risk of, like, a cascade failure if one fails.
+
+217
+00:40:49.470 --> 00:41:02.990
+Alessandro Baiocchi: Because you, of course, you don't want to sign MOX transactions in the same block with the same signal, because it's a few times signal, and… but if you sign with our, like, similar quotation that rotates each time.
+
+218
+00:41:02.990 --> 00:41:11.429
+Alessandro Baiocchi: if one fails, all the other subsequent transactions are not signed by a valid signer, so they will fail. Instead, if you have, like, 128 valid signers.
+
+219
+00:41:11.430 --> 00:41:20.629
+Alessandro Baiocchi: you can sign a lot of transactions, and then they can all succeed if one reverts. That's the basic, the reason why it's useful.
+
+220
+00:41:20.860 --> 00:41:33.679
+Matteo Vicari: Yeah, and in, one, scenario that can be really useful, and, the, the paymaster. The paymaster received a lot of transaction, a lot of data from other, other users.
+
+221
+00:41:33.680 --> 00:41:50.429
+Matteo Vicari: So, he can have to parallel all the lane more as possible. It's not important to have a low kitchen, because he can preparate, it's like a server, the work of pre-master, so you have the…
+
+222
+00:41:50.660 --> 00:42:04.180
+Matteo Vicari: running capacity to, create more key in parallel. So, this can be helpful, and we can think to use this solution for this idea. So, we try to finish this work.
+
+223
+00:42:04.510 --> 00:42:05.120
+Matteo Vicari: And.
+
+224
+00:42:05.120 --> 00:42:10.199
+Antonio Sanso: So, just to recap, just to recap, like, you're saying that Q more than one can be useful for the
+
+225
+00:42:10.360 --> 00:42:12.630
+Antonio Sanso: key master of icon abstraction.
+
+226
+00:42:12.780 --> 00:42:29.580
+Matteo Vicari: Yeah, they pay master of the account abstraction, the bundler, all the stuff maybe can, help… can benefit to have, a really, large queue for parallel, all the operations they want to use for, pushing the data on-chain.
+
+227
+00:42:29.730 --> 00:42:31.890
+Matteo Vicari: This is something we are working.
+
+228
+00:42:32.310 --> 00:42:36.810
+Matteo Vicari: So, when it's ready, we share it with you, I promise.
+
+229
+00:42:36.810 --> 00:42:56.619
+Antonio Sanso: Just to keep things in a nice mental model for the future, do you guys agree that we can call this now Jordan, and working with a different kind of queue? So, I mean, like, the framework, you know, like, having this as a mental model that will be a FORS.
+
+230
+00:42:56.860 --> 00:43:07.360
+Antonio Sanso: with the variable Q, and the Q equals 1 will be, like, let's say that the normal scenario, and in some scenario will be beneficial to have a Q more than 1.
+
+231
+00:43:09.740 --> 00:43:24.409
+Matteo Vicari: I think, I think, yeah. Just another, curiosity, because there is some different part, part we see. Just, something. In our, implementation, we use forts plus C.
+
+232
+00:43:24.650 --> 00:43:34.069
+Matteo Vicari: But I see in Jordan, the last version, it is, I don't know if I also am wrong, just use plain FORS.
+
+233
+00:43:34.070 --> 00:43:52.690
+Nicolas Consigny: Yeah, I did both. I did fine FORS for… because it was easier for some of the formal verification work, but there is no… actually, it's not even much easier. I thought it was easier, but it's not really. So both are… you can do FORS plus C, or FORS.
+
+234
+00:43:52.830 --> 00:43:54.820
+Nicolas Consigny: It's… yeah.
+
+235
+00:43:54.820 --> 00:44:04.359
+Matteo Vicari: And also, we come with, the, the verify of the, the forza, is around, I don't remember, Alessandro.
+
+236
+00:44:04.550 --> 00:44:05.610
+Matteo Vicari: the, the, the.
+
+237
+00:44:05.610 --> 00:44:18.410
+Alessandro Baiocchi: Is it the gas? Yeah. Yeah, we worked a bit on the optimization of the verifier, and we went down to 3,500, a bit lower than 35,000 gas, excuse me, sorry, 3,500.
+
+238
+00:44:18.650 --> 00:44:20.200
+Alessandro Baiocchi: No, 35,000.
+
+239
+00:44:20.200 --> 00:44:27.859
+Antonio Sanso: But does this include the verification plus the rotation, or only the verification?
+
+240
+00:44:28.270 --> 00:44:38.440
+Alessandro Baiocchi: Well, it's… no, it's just a verification, but the rotation is just a… like a nest store on an address storage slot, so it's, like, it's…
+
+241
+00:44:40.180 --> 00:44:43.849
+Alessandro Baiocchi: It's 2,500. 25,000. TX5,000.
+
+242
+00:44:44.270 --> 00:44:48.209
+Antonio Sanso: So, and this includes… this includes everything. I mean, also, they… they call the.
+
+243
+00:44:48.210 --> 00:44:57.560
+Alessandro Baiocchi: Well… No, no, no, that's the cost for the execution of the verify, plus the changing of the address.
+
+244
+00:44:57.930 --> 00:45:00.109
+Antonio Sanso: And the collector, how much does it add on top?
+
+245
+00:45:01.890 --> 00:45:06.550
+Alessandro Baiocchi: I don't know if we have some measures here already.
+
+246
+00:45:08.190 --> 00:45:15.790
+Antonio Sanso: Do you remember, by any chance yourself? Because, probably, I see this. Also, you guys, you come with 2.5…
+
+247
+00:45:16.200 --> 00:45:25.280
+Antonio Sanso: 25 kilobytes It's similar. So, the call data of the signatures being about 2.6K, how much is in gas?
+
+248
+00:45:26.880 --> 00:45:31.590
+Nicolas Consigny: Depends on which variant.
+
+249
+00:45:32.500 --> 00:45:42.749
+Matteo Vicari: I think we, we both use the same, parameter, N16, key, 27, 27… 26?
+
+250
+00:45:42.750 --> 00:45:45.079
+Alessandro Baiocchi: 26 degrees and a depth of 5.
+
+251
+00:45:47.090 --> 00:45:52.020
+Nicolas Consigny: I think it was 26 and 5 deaths, right? 26… Yeah, 26…
+
+252
+00:45:52.020 --> 00:45:53.370
+Alessandro Baiocchi: And five steps, yeah.
+
+253
+00:45:54.170 --> 00:46:00.780
+Nicolas Consigny: Yeah, yeah, it's, well, I have the number somewhere, I just don't remember by hand.
+
+254
+00:46:00.780 --> 00:46:01.419
+Alessandro Baiocchi: Yeah, it sucks.
+
+255
+00:46:01.420 --> 00:46:02.740
+Matteo Vicari: the same mass.
+
+256
+00:46:02.970 --> 00:46:04.200
+Matteo Vicari: And…
+
+257
+00:46:04.750 --> 00:46:10.650
+Nicolas Consigny: I think it's 2.4K, the size of the signature, and then the cold data, well, you price it with the…
+
+258
+00:46:10.870 --> 00:46:13.950
+Nicolas Consigny: floor, EIP, yeah.
+
+259
+00:46:19.050 --> 00:46:24.189
+Alessandro Baiocchi: Signal size is to… yeah, it's, 2400 bytes.
+
+260
+00:46:24.190 --> 00:46:24.720
+Antonio Sanso: Yeah.
+
+261
+00:46:24.720 --> 00:46:25.740
+Alessandro Baiocchi: I have it here.
+
+262
+00:46:25.740 --> 00:46:26.450
+Antonio Sanso: Yeah.
+
+263
+00:46:26.850 --> 00:46:27.790
+Alessandro Baiocchi: And…
+
+264
+00:46:34.160 --> 00:46:39.130
+Matteo Vicari: But, all this parameters, we can talk, we can create a chat and, talk about it.
+
+265
+00:46:39.130 --> 00:46:39.720
+Antonio Sanso: Sure, sure.
+
+266
+00:46:39.720 --> 00:46:40.760
+Matteo Vicari: Okay.
+
+267
+00:46:40.760 --> 00:46:53.930
+Antonio Sanso: But, I mean, so, actually, I close the second here discussion, I'll be back soon, but, for anyone that's seen the presentation, I mean, do you guys have any… do you agree on the mental model of
+
+268
+00:46:54.040 --> 00:47:03.009
+Antonio Sanso: Of these two scenarios, where, one, you probably better use the lithium, because we have all the machinery of threshold, and, and…
+
+269
+00:47:03.260 --> 00:47:16.699
+Antonio Sanso: And the verification can be, as well, also here, but it can be, like, formally verified, and we'll use… okay, long term, we'll use SPHINCS minus, or SPHINCS with Lean SPHINCS, and short term, we are using this Jordan with the variable Q2.
+
+270
+00:47:16.700 --> 00:47:24.460
+Antonio Sanso: For the… for… for the medium term before Lynn SPHINCS. Do you guys have any… do you guys agree, or have any question?
+
+271
+00:47:27.900 --> 00:47:32.309
+Matteo Vicari: A question was with Dilithium, but there is,
+
+272
+00:47:32.450 --> 00:47:41.080
+Matteo Vicari: There is, some paper, you also post, Antonio. I, I don't have the time for reading,
+
+273
+00:47:41.420 --> 00:47:53.029
+Matteo Vicari: But, it's something like, there is some… find some algorithm to, skip some, the bit security of Dilithium. I don't know.
+
+274
+00:47:53.330 --> 00:48:03.659
+Matteo Vicari: Because I don't work on, Lattice Becinado, so, there is some concern, because I see your post, just for this.
+
+275
+00:48:03.660 --> 00:48:14.630
+Antonio Sanso: No, I think probably what you mean is, like, probably misunderstandardized Dilithium way too early, so there have been some optimization at Crypto 2025, but, I mean, part that…
+
+276
+00:48:14.900 --> 00:48:21.769
+Antonio Sanso: It's kind of fine. I shall see as well, Reno on the call… Reno, do you mind if I make you a question about this Dilithium contract?
+
+277
+00:48:25.050 --> 00:48:26.190
+RENO ZKNOX: Yeah, of course.
+
+278
+00:48:26.190 --> 00:48:37.419
+Antonio Sanso: Okay, thank you. Probably, I don't know if you were at the presentation, but there is a company that uses your contract for MPC, so they, they.
+
+279
+00:48:37.420 --> 00:48:47.009
+RENO ZKNOX: Yeah, yeah, we are in contact with them, and actually, we're also working on the same subject, so we're having TSS over MLDSA.
+
+280
+00:48:47.350 --> 00:48:48.230
+Antonio Sanso: Right, right.
+
+281
+00:48:48.380 --> 00:48:58.999
+Antonio Sanso: And basically, like, my question is, are you guys working, or any… are interested to verify, formally verify the Dalitium contract, the Solidity one?
+
+282
+00:49:00.560 --> 00:49:04.560
+RENO ZKNOX: Yeah, yeah, we are. So we, we are discussing V-Verity.
+
+283
+00:49:04.830 --> 00:49:09.499
+RENO ZKNOX: One of our concerns is how to phone this effort right now, to be transparent.
+
+284
+00:49:09.500 --> 00:49:10.170
+Antonio Sanso: Sure.
+
+285
+00:49:10.170 --> 00:49:15.270
+RENO ZKNOX: Because, actually, yeah, with the wing down, it's like… but, yeah, this is, clearly something that,
+
+286
+00:49:15.410 --> 00:49:18.229
+RENO ZKNOX: We are highly interested in, and…
+
+287
+00:49:18.390 --> 00:49:25.430
+RENO ZKNOX: Yeah, I think for, for this, working with LFG Labs, We'll certainly be, yeah.
+
+288
+00:49:25.580 --> 00:49:26.480
+Antonio Sanso: Right.
+
+289
+00:49:26.480 --> 00:49:27.110
+RENO ZKNOX: Huh.
+
+290
+00:49:27.970 --> 00:49:44.030
+Antonio Sanso: Probably just a bit late, but in the call, there are Alex and Ricardo that are looking into formally verified contract, but in case you're already covered here, Alex and Ricardo may, if interested, they can, they can focus on the verification of, instead, the hash-based signatures, I mean…
+
+291
+00:49:44.030 --> 00:49:47.880
+Alex: Yeah, I would… I would be very interested in doing the hash-based route as well.
+
+292
+00:49:47.880 --> 00:49:51.040
+Antonio Sanso: Okay. Yeah. Okay. Alright, so let's be in touch.
+
+293
+00:49:51.420 --> 00:49:52.580
+Antonio Sanso: Let's be in touch.
+
+294
+00:49:53.620 --> 00:50:00.759
+Antonio Sanso: Great, so, that's basically all I had for today. We…
+
+295
+00:50:01.600 --> 00:50:06.609
+Antonio Sanso: I'm really happy to see things kind of converging as well with Jordan and the Riva Labs framework.
+
+296
+00:50:06.740 --> 00:50:16.849
+Antonio Sanso: That's what I understood of the article, FORS, is about, for both, is about 2.6 kilobyte.
+
+297
+00:50:17.600 --> 00:50:25.819
+Antonio Sanso: And the verification is 30K, 35K with FORS plus C, and of course there is, call data.
+
+298
+00:50:27.250 --> 00:50:31.930
+Antonio Sanso: Let's see if there's something in the chat, and we can write the verify directly in Lean.
+
+299
+00:50:32.710 --> 00:50:33.630
+Antonio Sanso: Yeah?
+
+300
+00:50:34.180 --> 00:50:37.349
+Antonio Sanso: I mean, what do you mean, Nico? You don't need solidity?
+
+301
+00:50:38.870 --> 00:50:44.619
+Nicolas Consigny: So right now, we still need Solidity, but, if, the Verity…
+
+302
+00:50:44.980 --> 00:50:48.609
+Nicolas Consigny: works as a full compiler at some point, we…
+
+303
+00:50:49.080 --> 00:50:51.410
+Nicolas Consigny: Would be able to write directly to me.
+
+304
+00:50:51.750 --> 00:50:57.369
+Matteo Vicari: Yeah, the problem to write directly in Lean, it is what we have to solve.
+
+305
+00:50:57.600 --> 00:51:11.940
+Matteo Vicari: is matching the bytecode size, the bytecode with the Lean implementation, and the Solidity ARD optimized implementation, because this is something we struggle to do.
+
+306
+00:51:12.120 --> 00:51:28.489
+Matteo Vicari: Because we cut a lot of corner for, put the gas lower possible in the implementation, but, we need also a way to matching with the Lean, so this is something, if someone can help on this part, we are really helpful.
+
+307
+00:51:28.490 --> 00:51:32.230
+Nicolas Consigny: Yeah, absolutely. Actually, we started to do this,
+
+308
+00:51:32.520 --> 00:51:46.080
+Nicolas Consigny: So, when we had the Verity idea, the SPHINCS Minus was one of the first examples, and they started to work on, one of the early versions. It was, like, C5 or C6.
+
+309
+00:51:46.450 --> 00:52:00.670
+Nicolas Consigny: And so we need to do it again for a new version, and yeah, the LFG Labs team, the Verity team, they know how to, to get this equivalence from the YuleBytecode to the lean.
+
+310
+00:52:00.840 --> 00:52:06.309
+Nicolas Consigny: So yeah, they will definitely be able to do this for you, and I think it's quite easy for them.
+
+311
+00:52:06.430 --> 00:52:09.110
+Nicolas Consigny: I know it's a lot for us, but yeah.
+
+312
+00:52:09.530 --> 00:52:14.330
+Matteo Vicari: Nice. We can talk and share some info about this.
+
+313
+00:52:14.680 --> 00:52:18.670
+Antonio Sanso: Alex, Ricardo, are you guys using Verity as well, or are you using something else?
+
+314
+00:52:21.620 --> 00:52:23.289
+Nicolas Consigny: Yeah, I see they're using Verity.
+
+315
+00:52:23.880 --> 00:52:24.540
+Antonio Sanso: Okay.
+
+316
+00:52:24.540 --> 00:52:29.940
+Alex: No, we're not at that stage yet.
+
+317
+00:52:30.250 --> 00:52:31.860
+Antonio Sanso: So you're not at that stage.
+
+318
+00:52:33.580 --> 00:52:34.510
+Antonio Sanso: Okay.
+
+319
+00:52:35.060 --> 00:52:35.870
+Antonio Sanso: Alright.
+
+320
+00:52:38.020 --> 00:52:40.250
+ricardoperello: Like, for now, we're trying to,
+
+321
+00:52:40.810 --> 00:52:46.380
+ricardoperello: get some proofs around the Falcon SimpleWallet, contract?
+
+322
+00:52:46.770 --> 00:52:50.470
+ricardoperello: So we're not yet, we haven't finished that yet.
+
+323
+00:52:50.720 --> 00:52:53.130
+ricardoperello: But we're open to do other stuff as well, I guess.
+
+324
+00:52:53.520 --> 00:52:58.200
+Matteo Vicari: You, you try to do the form verify of the simple wallet.
+
+325
+00:52:59.700 --> 00:53:04.040
+ricardoperello: the simple wallet, and for the Falcon Simple wallet as well.
+
+326
+00:53:04.040 --> 00:53:04.760
+Matteo Vicari: Okay.
+
+327
+00:53:07.160 --> 00:53:12.080
+ricardoperello: That's what we're trying to get to, like, by the end of… Month, I guess.
+
+328
+00:53:15.550 --> 00:53:16.330
+Antonio Sanso: Alright.
+
+329
+00:53:16.550 --> 00:53:27.240
+Antonio Sanso: Cool. So, next step is, with, I'm writing with, Toma from the Post Quantum, Ethereum. We're writing this blog post.
+
+330
+00:53:27.400 --> 00:53:37.220
+Antonio Sanso: I'm planning to share an initial note in the chat, in the post-quantum transactions in the chat, looking for feedback, and basically, like.
+
+331
+00:53:37.560 --> 00:53:46.430
+Antonio Sanso: the content is what I presented today, with the slides, plus the discussion here, and happy to have any feedback when
+
+332
+00:53:46.550 --> 00:53:48.050
+Antonio Sanso: Once I have a day of the draft.
+
+333
+00:53:48.620 --> 00:53:53.409
+Antonio Sanso: And if you don't have any questions, I will wrap the call for today.
+
+334
+00:53:58.810 --> 00:54:03.380
+Antonio Sanso: Alright then, thanks a lot for your help so far, it was really productive today.
+
+335
+00:54:03.530 --> 00:54:05.449
+Antonio Sanso: Thank you, and see you in two weeks.
+
+336
+00:54:06.280 --> 00:54:06.940
+Matteo Vicari: Thank you.
+
+337
+00:54:06.940 --> 00:54:08.740
+Alessandro Baiocchi: fuel, my energy.
+
+338
+00:54:09.150 --> 00:54:09.660
+Miha Stopar: Bye-bye.
+
+339
+00:54:09.660 --> 00:54:10.680
+Nicolas Consigny: Thank you, guys, bye.
+
+340
+00:54:10.890 --> 00:54:11.770
+Alex: Interesting.
+
