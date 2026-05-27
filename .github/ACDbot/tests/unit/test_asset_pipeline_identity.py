@@ -302,7 +302,7 @@ def test_requested_number_selects_matching_same_day_occurrence(tmp_path, monkeyp
     assert not (artifacts_dir / "sample" / "2025-05-19_037").exists()
 
 
-def test_expected_number_rejects_single_recording_with_wrong_topic_number(tmp_path, monkeypatch):
+def test_expected_number_accepts_single_recording_with_stale_topic_number(tmp_path, monkeypatch):
     download_zoom_assets = load_asset_pipeline_module("download_zoom_assets")
 
     mapping_path = tmp_path / "meeting_topic_mapping.json"
@@ -331,7 +331,7 @@ def test_expected_number_rejects_single_recording_with_wrong_topic_number(tmp_pa
     monkeypatch.setattr(
         download_zoom_assets,
         "download_file",
-        lambda *args, **kwargs: pytest.fail("wrong-number recording must not be downloaded"),
+        lambda url, token, path: path.write_text(url, encoding="utf-8") > 0,
     )
 
     download_zoom_assets.process_meeting_by_date(
@@ -342,7 +342,10 @@ def test_expected_number_rejects_single_recording_with_wrong_topic_number(tmp_pa
         requested_number=38,
     )
 
-    assert not (artifacts_dir / "sample").exists()
+    assert (artifacts_dir / "sample" / "2025-05-19_038" / "chat.txt").exists()
+    assert (
+        artifacts_dir / "sample" / "2025-05-19_038" / "chat.txt"
+    ).read_text(encoding="utf-8") == "https://example.test/sample-37-chat.txt"
 
 
 def test_summary_generation_uses_directory_number_for_same_day_occurrences(tmp_path, monkeypatch):

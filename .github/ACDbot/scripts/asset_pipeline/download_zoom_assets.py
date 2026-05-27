@@ -108,7 +108,12 @@ def find_occurrence_by_date_series_and_number(date_str, series_name, mapping_man
 
 
 def choose_recording(candidates, series_name, expected_number=None):
-    """Choose one recording candidate without guessing across ambiguous calls."""
+    """Choose one recording candidate without guessing across ambiguous calls.
+
+    The mapped occurrence is the source of truth for the public call number.
+    Zoom recording topics can retain stale recurring-meeting titles, so a
+    single date-matched candidate is accepted even when its topic number is old.
+    """
     if not candidates:
         return None, None
 
@@ -127,8 +132,15 @@ def choose_recording(candidates, series_name, expected_number=None):
         if len(candidates) == 1 and len(unnumbered_candidates) == 1:
             return unnumbered_candidates[0]
         if len(candidates) == 1:
-            print(f"   ❌ Recording topic does not match expected {series_name} #{expected_number}")
-            return None, None
+            _, recording_data = candidates[0]
+            topic = recording_data.get('topic', '')
+            print(
+                f"   ⚠️  Recording topic does not match expected {series_name} #{expected_number}; "
+                f"using mapped occurrence because it is the only candidate"
+            )
+            if topic:
+                print(f"      Zoom topic: {topic}")
+            return candidates[0]
 
         print(f"   ❌ Ambiguous recordings for {series_name} #{expected_number}; refusing to guess")
         return None, None
