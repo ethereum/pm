@@ -348,6 +348,83 @@ def test_expected_number_accepts_single_recording_with_stale_topic_number(tmp_pa
     ).read_text(encoding="utf-8") == "https://example.test/sample-37-chat.txt"
 
 
+def test_asset_download_filters_same_day_recordings_by_mapped_start_time(tmp_path, monkeypatch):
+    download_zoom_assets = load_asset_pipeline_module("download_zoom_assets")
+
+    mapping_path = tmp_path / "meeting_topic_mapping.json"
+    artifacts_dir = tmp_path / "artifacts"
+    mapping_path.write_text(
+        json.dumps(
+            {
+                "sample": {
+                    "meeting_id": "84600001111",
+                    "occurrences": [
+                        {
+                            "issue_number": 1038,
+                            "issue_title": "Sample Call #38 | May 19 2025",
+                            "start_time": "2025-05-19T14:00:00Z",
+                        },
+                    ],
+                },
+            },
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(download_zoom_assets, "MAPPING_FILE_PATH", mapping_path)
+    monkeypatch.setattr(download_zoom_assets, "ARTIFACTS_DIR", artifacts_dir)
+    monkeypatch.setattr(
+        download_zoom_assets.zoom,
+        "get_past_meeting_instances",
+        lambda meeting_id: [
+            {"uuid": "near-recording", "start_time": "2025-05-19T14:02:00Z"},
+            {"uuid": "later-recording", "start_time": "2025-05-19T18:00:00Z"},
+        ],
+    )
+
+    recordings = {
+        "near-recording": {
+            "uuid": "near-recording",
+            "start_time": "2025-05-19T14:02:00Z",
+            "duration": 54,
+            "topic": "Sample Call #38 | May 19 2025",
+            "recording_files": [
+                {"file_type": "CHAT", "download_url": "https://example.test/near-chat.txt"},
+            ],
+        },
+        "later-recording": {
+            "uuid": "later-recording",
+            "start_time": "2025-05-19T18:00:00Z",
+            "duration": 55,
+            "topic": "Sample Call #38 | May 19 2025",
+            "recording_files": [
+                {"file_type": "CHAT", "download_url": "https://example.test/later-chat.txt"},
+            ],
+        },
+    }
+    monkeypatch.setattr(
+        download_zoom_assets.zoom,
+        "get_meeting_recording",
+        lambda uuid: recordings[uuid],
+    )
+    monkeypatch.setattr(
+        download_zoom_assets,
+        "download_file",
+        lambda url, token, path: path.write_text(url, encoding="utf-8") > 0,
+    )
+
+    download_zoom_assets.process_meeting_by_date(
+        "sample",
+        "2025-05-19",
+        "test-token",
+        min_duration_minutes=10,
+        requested_number=38,
+    )
+
+    chat_path = artifacts_dir / "sample" / "2025-05-19_038" / "chat.txt"
+    assert chat_path.exists()
+    assert chat_path.read_text(encoding="utf-8") == "https://example.test/near-chat.txt"
+
+
 def test_summary_generation_uses_directory_number_for_same_day_occurrences(tmp_path, monkeypatch):
     generate_summary = load_asset_pipeline_module("generate_summary")
 
