@@ -122,6 +122,37 @@ def render_calendar_comment_line(start_time, summary, duration, issue_url, zoom_
     return "❌ **Calendar**: No calendar event found"
 
 
+def _parse_event_datetime(event_time):
+    """Parse a Google Calendar event time value."""
+    if not event_time:
+        return None
+    date_time = event_time.get('dateTime')
+    if not date_time:
+        return None
+    return datetime.fromisoformat(date_time.replace('Z', '+00:00'))
+
+
+def _instance_original_datetime(instance):
+    """Return the scheduled datetime for a recurring instance, including cancelled instances."""
+    if instance.get('status') == 'cancelled':
+        return (
+            _parse_event_datetime(instance.get('originalStartTime', {}))
+            or _parse_event_datetime(instance.get('start', {}))
+        )
+    return (
+        _parse_event_datetime(instance.get('start', {}))
+        or _parse_event_datetime(instance.get('originalStartTime', {}))
+    )
+
+
+def _find_instance_on_date(instances, target_date):
+    for instance in instances.get('items', []):
+        instance_dt = _instance_original_datetime(instance)
+        if instance_dt and instance_dt.date() == target_date:
+            return instance
+    return None
+
+
 def encode_calendar_eid(event_id, calendar_id):
     """Encode Google Calendar event ID and calendar ID into proper eid parameter."""
     try:
@@ -301,12 +332,12 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
     Update an existing recurring Google Calendar event, preserving recurrence settings
 
     Strategy for handling missing instances:
-    - If target date is BEFORE the next series instance AND aligns with the recurrence pattern,
-      creates a one-time event for the target date while preserving the existing series.
-    - This handles cases where an instance was auto-deleted (e.g., by unmapped meeting cleanup)
-      and needs to be restored without disrupting the entire series.
-    - Example: Weekly series on Wednesdays starting April 15, but April 8 instance was deleted.
-      Creating issue for April 8 will add a one-time event on April 8 and keep series on April 15+.
+    - First check whether the target instance exists but is cancelled. Google Calendar hides
+      cancelled recurring instances unless showDeleted=True, but those exceptions still block
+      the normal recurring occurrence from appearing.
+    - Restore the cancelled instance directly when found, preserving the recurring series.
+    - Fall back to the existing one-time/series update behavior only when there is no cancelled
+      instance for the requested date.
 
     Args:
         event_id: ID of the existing recurring event to update
@@ -393,15 +424,7 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
         print(f"[DEBUG] Found {len(instances.get('items', []))} instances in date range")
 
         # Find the specific instance for our target date
-        target_instance = None
-        for instance in instances.get('items', []):
-            instance_start = instance.get('start', {}).get('dateTime')
-            if instance_start:
-                instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
-                # Compare dates (ignore time)
-                if instance_dt.date() == start_dt.date():
-                    target_instance = instance
-                    break
+        target_instance = _find_instance_on_date(instances, start_dt.date())
 
         if target_instance:
             print(f"[DEBUG] Found target instance with ID: {target_instance.get('id')}")
@@ -453,17 +476,61 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
             }
         else:
             print(f"[DEBUG] No matching instance found for date {start_dt.date()}")
+
+            deleted_instances = service.events().instances(
+                calendarId=calendar_id,
+                eventId=event_id,
+                timeMin=time_min,
+                timeMax=time_max,
+                showDeleted=True
+            ).execute()
+            cancelled_instance = _find_instance_on_date(deleted_instances, start_dt.date())
+            if cancelled_instance and cancelled_instance.get('status') == 'cancelled':
+                print(f"[DEBUG] Found cancelled target instance with ID: {cancelled_instance.get('id')}")
+                print(f"[DEBUG] Restoring cancelled instance for date {start_dt.date()}")
+
+                restored_instance = {
+                    **cancelled_instance,
+                    'status': 'confirmed',
+                    'summary': summary,
+                    'description': description,
+                    'start': {
+                        'dateTime': start_dt.isoformat(),
+                        'timeZone': 'UTC'
+                    },
+                    'end': {
+                        'dateTime': end_dt.isoformat(),
+                        'timeZone': 'UTC'
+                    },
+                }
+
+                updated_instance = service.events().update(
+                    calendarId=calendar_id,
+                    eventId=cancelled_instance['id'],
+                    body=restored_instance
+                ).execute()
+
+                instance_id = updated_instance.get('id')
+                html_link = updated_instance.get('htmlLink')
+                original_series_id = updated_instance.get('recurringEventId', event_id)
+                print(f"[DEBUG] Restored cancelled instance with ID: {instance_id}")
+                print(f"[DEBUG] Returning original series ID: {original_series_id} (not instance ID: {instance_id})")
+
+                return {
+                    'htmlLink': html_link,
+                    'id': original_series_id,
+                    'action_detail': 'cancelled_instance_restored'
+                }
+
             print(f"[DEBUG] Checking next 2 instances for alignment:")
             future_instances = []
             for i, instance in enumerate(instances.get('items', [])):
-                instance_start = instance.get('start', {}).get('dateTime')
-                if instance_start:
-                    instance_dt = datetime.fromisoformat(instance_start.replace('Z', '+00:00'))
-                    if instance_dt.date() > start_dt.date():
-                        future_instances.append((instance_dt.date(), instance_dt))
-                        # Only need to check the next 2 future instances
-                        if len(future_instances) >= 2:
-                            break
+                instance_dt = _instance_original_datetime(instance)
+                if instance_dt and instance_dt.date() > start_dt.date():
+                    future_instances.append((instance_dt.date(), instance_dt))
+                    # Only need to check the next 2 future instances
+                    if len(future_instances) >= 2:
+                        break
 
             # Log what we found
             for i, (future_date, _) in enumerate(future_instances):
