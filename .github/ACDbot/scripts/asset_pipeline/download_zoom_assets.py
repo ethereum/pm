@@ -11,6 +11,7 @@ import json
 import sys
 import traceback
 from collections import defaultdict
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import requests
@@ -150,6 +151,45 @@ def choose_recording(candidates, series_name, expected_number=None):
 
     print(f"   ❌ Ambiguous recordings for {series_name}; refusing to choose by duration alone")
     return None, None
+
+
+def parse_utc_datetime(value):
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+
+
+def filter_candidates_by_occurrence_start(candidates, occurrence, tolerance_minutes=30):
+    """Keep recordings near the mapped occurrence start time when possible."""
+    if not candidates or not occurrence:
+        return candidates
+
+    target_start = parse_utc_datetime(occurrence.get("start_time"))
+    if not target_start:
+        return candidates
+
+    tolerance = timedelta(minutes=tolerance_minutes)
+    matching_candidates = []
+
+    for instance, recording_data in candidates:
+        start_time = instance.get("start_time") or recording_data.get("start_time")
+        candidate_start = parse_utc_datetime(start_time)
+        if candidate_start and abs(candidate_start - target_start) <= tolerance:
+            matching_candidates.append((instance, recording_data))
+
+    if matching_candidates:
+        skipped = len(candidates) - len(matching_candidates)
+        if skipped:
+            print(
+                f"   📍 Filtered out {skipped} same-day recording(s) outside "
+                f"{tolerance_minutes} minutes of mapped start time"
+            )
+        return matching_candidates
+
+    return candidates
 
 
 def download_assets_for_meeting(
@@ -386,6 +426,7 @@ def process_recent_meetings(
                         candidates.append((instance, recording_data))
 
         expected_number = get_occurrence_call_number(occurrence)
+        candidates = filter_candidates_by_occurrence_start(candidates, occurrence)
         best_instance, best_recording = choose_recording(candidates, series_name, expected_number)
         if best_recording and best_instance:
             print(f"   🎯 Selected recording for {date}: {best_recording.get('duration', 0)} minutes")
@@ -489,7 +530,7 @@ def process_meeting_by_date(
                     print(f"   ❌ No recording data found")
 
     _, matching_recording = choose_recording(
-        candidates,
+        filter_candidates_by_occurrence_start(candidates, occurrence),
         series_name,
         get_occurrence_call_number(occurrence),
     )
