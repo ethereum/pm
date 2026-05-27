@@ -1,0 +1,27 @@
+00:01:56	Louis:	GM
+00:05:53	spencer:	https://github.com/ethereum/execution-specs/pull/2892
+00:09:30	spencer:	Sounds good! Will move it!
+00:09:42	Stefan Starflinger:	That makes sense
+00:09:57	Stefan Starflinger:	To eger to get 8037 done :D
+00:10:02	Dragan Rakita:	Reacted to "To eger to get 8037 ..." with 😂
+00:10:30	Dragan Rakita:	It looks good
+00:11:14	Maria Silva:	https://github.com/ethereum/EIPs/pull/11706
+00:12:09	Dragan Rakita:	Makes sense, but that PR needs a update from pseudo code from discord
+00:12:10	Maria Silva:	https://github.com/ethereum/EIPs/pull/11715
+00:16:13	Maria Silva:	https://github.com/misilva73/evm-gas-repricings/blob/main/reports/runtime_estimation_update_2026-05-26.md
+00:19:02	Stefan Starflinger:	We have AOT runs for besu now
+00:19:15	Stefan Starflinger:	updating this with thier newest image atm
+00:19:25	Maria Silva:	Reacted to "updating this with t..." with 👍
+00:19:54	Dragan Rakita:	It is about disk format, it behaves badly on ZFS bcs of the way how db works, this probably effects other clients too, preference is at ext4.
+00:20:40	Louis:	Reacted to "updating this with t..." with 👍
+00:21:02	Stefan Starflinger:	It affects erigon and reth, both use a CoW database which duplicates work and slows down performance
+00:21:23	Stefan Starflinger:	also ZFS by default has a 128k block size which is not great for databases (but we've modified this to 16k)
+00:21:24	Dragan Rakita:	Reacted to "It affects erigon an..." with 👍
+00:24:04	Stefan Starflinger:	is it possible to set the record size of MDBX to 16k as well?
+00:24:45	Stefan Starflinger:	maybe thats something we can do to improve performance a bit while keeping the benefits of ZFS
+00:25:16	Dragan Rakita:	Replying to "maybe thats somethin..."
+
+We did some, pep did a good amount of investigation.
+00:26:52	Dragan Rakita:	Replying to "maybe thats somethin..."
+
+There were some about number of parallel threads that we spawn, it was too little so this was fixed.
