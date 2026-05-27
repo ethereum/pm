@@ -1,0 +1,101 @@
+{
+  "meeting": "Post-Quantum (PQ) Interop #41 - May 27, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:08:17",
+        "highlight": "Zeam: DevNet 5 multi-message aggregation over 9 payloads takes 4\u20135s; target is <0.5s"
+      },
+      {
+        "timestamp": "00:16:39",
+        "highlight": "Ream: min-signers crash fixed by requiring \u22653 signers; proposes continuing on DevNet 4 until stable"
+      },
+      {
+        "timestamp": "00:19:18",
+        "highlight": "Lantern: new LPPDP and SSZ libraries integrated; Hive gossip tests passing; DevNet 5 support added"
+      },
+      {
+        "timestamp": "00:20:23",
+        "highlight": "Ethlambda: fixed attestation fallback bug; merged block-building algorithm improvement; lean spec PR merged with test vectors"
+      },
+      {
+        "timestamp": "00:22:31",
+        "highlight": "Gean: DevNet 4 consensus stable; async aggregation refactor brings latency in line with other clients"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:29:51",
+        "highlight": "DevNet 4 (8 subnets, 64 validators): finality achieved to slot 56 then lost; P95 aggregation time is 3\u20134s across clients, target is <1s"
+      },
+      {
+        "timestamp": "00:38:51",
+        "highlight": "Grandine/Qlean/Ream validators on shared servers hitting 3.5GB container memory cap, causing crashes"
+      },
+      {
+        "timestamp": "00:43:09",
+        "highlight": "DevNet 4 is using Multisig library ~2 months old; upcoming breaking-change update expected to significantly boost performance"
+      },
+      {
+        "timestamp": "00:47:14",
+        "highlight": "Decision: focus on DevNet 4 stability before moving to DevNet 5 broader validator scaling"
+      }
+    ],
+    "infrastructure": [
+      {
+        "timestamp": "00:41:53",
+        "highlight": "LeanVM on Hetzner AX42U (~$50/month) achieves ~50% of M4 Max performance; custom Rust memory allocator yields additional ~20% gain"
+      },
+      {
+        "timestamp": "00:49:07",
+        "highlight": "Shadow simulation fuzzer in development: randomizes subnets, aggregators, latency, bandwidth, client mix; supports Zeam and Qlean; needs artificial sleep flags from clients to simulate aggregation delay"
+      },
+      {
+        "timestamp": "00:56:27",
+        "highlight": "Shadow sims viable for DevNet 5 interop testing while real aggregation times are being optimized"
+      }
+    ],
+    "documentation": [
+      {
+        "timestamp": "00:25:14",
+        "highlight": "lean spec simplification underway: XMSS section simplified, type tests added; logic unchanged"
+      },
+      {
+        "timestamp": "00:27:35",
+        "highlight": "LeanVM Python verifier (1,200 lines, excluding Poseidon/field arithmetic) completed; ZKDSL documentation next"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:31:09",
+      "action": "Agree on common aggregation metric definition; add to lean spec as source of truth",
+      "owner": "Thomas Coratger + all client teams"
+    },
+    {
+      "timestamp": "00:54:41",
+      "action": "Add configurable artificial-sleep flag for signature aggregation rate to support Shadow simulation",
+      "owner": "All client teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:47:14",
+      "decision": "Deprioritize DevNet 5 work; focus all teams on stabilizing DevNet 4 first"
+    },
+    {
+      "timestamp": "00:56:27",
+      "decision": "Use Shadow simulations to progress DevNet 5 interop testing in parallel with real performance work"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:31:47",
+      "target": "P95 aggregation time target: <1 second per client on DevNet 4"
+    },
+    {
+      "timestamp": "00:40:27",
+      "target": "Multi-message aggregation (9 payloads) target: <0.4s before DevNet 5 launch"
+    }
+  ]
+}
