@@ -1,0 +1,2146 @@
+WEBVTT
+
+1
+00:05:07.680 --> 00:05:09.400
+Parithosh Jayanthi: Hello, everyone.
+
+2
+00:05:33.480 --> 00:05:36.630
+Parithosh Jayanthi: Let's wait another half a minute, and then we can start.
+
+3
+00:05:46.650 --> 00:05:51.089
+Parithosh Jayanthi: Oh, am I not audible for anyone, or is it just bonus?
+
+4
+00:05:51.420 --> 00:05:52.380
+nixo: We can hear you.
+
+5
+00:05:52.920 --> 00:05:53.530
+Parithosh Jayanthi: Oh, yeah.
+
+6
+00:05:53.530 --> 00:05:54.129
+Josh Davis: Loud and clear.
+
+7
+00:06:31.270 --> 00:06:38.099
+Parithosh Jayanthi: Okay, let's get started. Welcome to ACDC number 179.
+
+8
+00:06:38.700 --> 00:06:48.640
+Parithosh Jayanthi: The first item on the agenda is gonna be a Glamsterdam DevNet 4 update. Do you want to give us the update, Barnabas?
+
+9
+00:06:51.610 --> 00:06:52.800
+Barnabas: Can you guys hear me?
+
+10
+00:06:53.260 --> 00:06:53.820
+Parithosh Jayanthi: Yeah.
+
+11
+00:06:55.790 --> 00:07:06.949
+Barnabas: Yeah, so, Glamsterdam devnet 4, has been, struggling to stay alive. We have had some issues, starting, I think, on Monday, and
+
+12
+00:07:07.000 --> 00:07:18.420
+Barnabas: Ever since Monday, we have been unable to recover. Currently, we are still investigating what the actual root cause of the bug was. There seems to be a Lodestar implementation bug.
+
+13
+00:07:18.430 --> 00:07:33.920
+Barnabas: But I think we are still not 100% sure, and, once we are, confident, that we know what the bug was, then, we can relaunch, with the same spec, just the following, answer the number.
+
+14
+00:07:41.320 --> 00:07:49.249
+Parithosh Jayanthi: Lodestar seemed to be hinting that it is a spec issue, and we need to update the spec, right? Has anyone gotten some time to look into it?
+
+15
+00:07:56.550 --> 00:08:00.499
+Justin Traglia: I'm not sure that it's a spec issue, but I will investigate more later.
+
+16
+00:08:04.340 --> 00:08:11.740
+Parithosh Jayanthi: Oh yeah, I see there's a part of the thread I haven't caught up on. Yeah, okay, Portus is also arguing that it is a spec issue.
+
+17
+00:08:13.100 --> 00:08:15.580
+Parithosh Jayanthi: Okay, if…
+
+18
+00:08:16.590 --> 00:08:28.460
+Parithosh Jayanthi: I guess an implementation bug would explain what's going on with Lodestar, but most or all the clients on the network seem to be down, so, has anyone looked into why the other clients are down?
+
+19
+00:08:38.520 --> 00:08:50.390
+Parithosh Jayanthi: Okay, yeah, I guess it's probably more of a cascading issue, and we might know more soon. It seems that a few people are on vacation, so maybe it might just take a bit longer.
+
+20
+00:08:50.810 --> 00:08:52.339
+Parithosh Jayanthi: Yeah, abandonments?
+
+21
+00:08:52.640 --> 00:09:00.250
+Barnabas: Yeah, one more thing, so probably the cascading effect was caused by Watchtower, rolling all the images all at once.
+
+22
+00:09:00.430 --> 00:09:13.310
+Barnabas: Which probably led to a bunch of the same clients just restarting all at the same time, and I think that could have had something to do with it.
+
+23
+00:09:15.610 --> 00:09:31.189
+Barnabas: But yeah, it still shouldn't be this catastrophic, in my opinion. I'm gonna be looking into fixing the watchtower bug, possibly shifting by some random number of minutes, so that we don't have to scan the bug, or maybe add,
+
+24
+00:09:32.010 --> 00:09:38.219
+Barnabas: add some health check into it. I'm not sure what the correct approach would be.
+
+25
+00:09:40.070 --> 00:09:42.599
+Barnabas: Either way, it shouldn't be this catastrophic.
+
+26
+00:09:43.040 --> 00:09:46.630
+Parithosh Jayanthi: Yeah. Yeah, the plant should be resilient to this.
+
+27
+00:09:48.990 --> 00:09:53.600
+Parithosh Jayanthi: Okay, that sounds good. Yeah, Nico?
+
+28
+00:09:53.800 --> 00:10:07.450
+Nico Flaig: Yeah, so from Lodestar's side, there is a bug in our fork choice, where we didn't check for the payload data available in should extend payload, so that meant,
+
+29
+00:10:07.450 --> 00:10:17.760
+Nico Flaig: So we implemented this new feature where you reorg a payload if the data is unavailable, but basically our fork choice, voted for full.
+
+30
+00:10:17.890 --> 00:10:24.869
+Nico Flaig: So we basically reorged our own payload, and we always build on the wrong chain, basically.
+
+31
+00:10:25.420 --> 00:10:28.409
+Nico Flaig: But never updated it in our Fortress.
+
+32
+00:10:30.780 --> 00:10:34.099
+Nico Flaig: But yeah, it doesn't really explain why the network died.
+
+33
+00:10:37.000 --> 00:10:37.590
+Parithosh Jayanthi: Yep.
+
+34
+00:10:37.690 --> 00:10:46.339
+Parithosh Jayanthi: So, I guess if it isn't a spec-related issue, do we then wait for the Lodestar bug fix, and then relaunch the DevNet?
+
+35
+00:10:47.000 --> 00:10:49.690
+Parithosh Jayanthi: As DevNet 5? What's, planned there?
+
+36
+00:10:53.280 --> 00:10:55.729
+Barnabas: Yeah, so I wouldn't increase the scope,
+
+37
+00:10:56.080 --> 00:11:01.860
+Barnabas: Until we have at least a stable DevNet4 spec, for at least
+
+38
+00:11:02.050 --> 00:11:07.729
+Barnabas: you know, two weeks, and then looking to, adding additional EIPs to the scope.
+
+39
+00:11:14.760 --> 00:11:17.210
+Parithosh Jayanthi: Yeah, that sounds good.
+
+40
+00:11:20.000 --> 00:11:31.079
+Parithosh Jayanthi: Moving on to the next topic, it's more of an FYI, but the target gas limit PRs brought up at last week's ACD, last ACDC have been merged.
+
+41
+00:11:31.190 --> 00:11:36.150
+Parithosh Jayanthi: So, both the execution API as well as consensus specs. I just wanted to make a note there.
+
+42
+00:11:36.920 --> 00:11:43.629
+Parithosh Jayanthi: And on a related topic, the builder deposit overflow
+
+43
+00:11:43.690 --> 00:11:58.920
+Parithosh Jayanthi: So, in order to prevent billier deposits overflowing, we've kept, Glamsterdam testing at 190 million. Has anyone else got some time to do some deposit benchmark tests? Do we have some new numbers? Any update on this topic?
+
+44
+00:12:05.510 --> 00:12:12.409
+Justin Traglia: I'm aware the Prysm and Lighthouse can handle new builder deposit spamming.
+
+45
+00:12:13.210 --> 00:12:15.340
+Justin Traglia: I have not been able to test other clients.
+
+46
+00:12:16.540 --> 00:12:18.079
+Justin Traglia: Or prove that they work.
+
+47
+00:12:22.140 --> 00:12:27.910
+Parithosh Jayanthi: Okay, and by… they're able to handle it, essentially, they're able to do 8,000-ish deposits?
+
+48
+00:12:28.660 --> 00:12:30.090
+Justin Traglia: Yep, that's right.
+
+49
+00:12:30.340 --> 00:12:30.930
+Parithosh Jayanthi: Okay.
+
+50
+00:12:31.390 --> 00:12:32.500
+Parithosh Jayanthi: That's good to know.
+
+51
+00:12:34.240 --> 00:12:43.909
+Parithosh Jayanthi: Maybe just a quick recap for photos, we mainly spoke about Labsed on DevNet 4, as well as, if anyone's gotten time to debug it.
+
+52
+00:12:44.170 --> 00:12:51.490
+Parithosh Jayanthi: If you did and you want to say something, please feel free. Otherwise, we had already moved on to other topics.
+
+53
+00:12:58.680 --> 00:13:00.580
+Parithosh Jayanthi: Okay,
+
+54
+00:13:02.350 --> 00:13:14.639
+Parithosh Jayanthi: Yeah, so the next, agenda item is, produce block V4 with, payload. We have an open PR here.
+
+55
+00:13:14.950 --> 00:13:21.529
+Parithosh Jayanthi: And the Beacon API specs. Does someone want to present it or discuss it today?
+
+56
+00:13:26.960 --> 00:13:32.770
+Shane Moore: Hey guys, I'm Shane, I, made the PR. I think it's in pretty good shape overall.
+
+57
+00:13:33.150 --> 00:13:41.949
+Shane Moore: The whole idea is just introducing the idea of being able to get and post, payload envelopes, and also, produce block V4.
+
+58
+00:13:42.950 --> 00:13:52.389
+Shane Moore: I think a couple, like, just lingering things to kind of discuss that are interesting are, like, how we want to handle Builder Boost Factor and, the new produce block. I mean, previously.
+
+59
+00:13:52.510 --> 00:14:00.399
+Shane Moore: It could be that you would be comparing some value from the ex… for local block building, the, local payload.
+
+60
+00:14:01.150 --> 00:14:05.549
+Shane Moore: with a value derived from the execution layer, and I compared that against the,
+
+61
+00:14:05.880 --> 00:14:25.299
+Shane Moore: potential value from a external block being built, and then compare the two, and you use this build or boost factor to decide whether or not you want to really prefer local block anyway, or you can, like, really scale up the factor to prefer… to prefer the external, block. Or you can set, like, the factor to, like, 100 and let the two values be compared.
+
+62
+00:14:25.630 --> 00:14:38.399
+Shane Moore: Doesn't really make so much sense, I think, for Gloas, since, like, if you're… you're comparing bids now, and for a local block building, that value would be, zero for local, and then for external block.
+
+63
+00:14:38.630 --> 00:14:40.840
+Shane Moore: Whatever they set as the bid.
+
+64
+00:14:41.180 --> 00:14:53.149
+Shane Moore: So, we want to keep the build a boost factor, which I think Miko has some interest, then maybe it's more like a Boolean, where we could say, like, either A, prefer local block.
+
+65
+00:14:53.260 --> 00:14:57.100
+Shane Moore: always, or B, just accept whatever is the…
+
+66
+00:14:57.280 --> 00:15:01.300
+Shane Moore: This did, because you can't really compare. No more…
+
+67
+00:15:01.450 --> 00:15:04.469
+Shane Moore: It doesn't seem to make sense to have an actual factor.
+
+68
+00:15:05.130 --> 00:15:06.090
+Shane Moore: Just my thought.
+
+69
+00:15:14.570 --> 00:15:17.949
+Parithosh Jayanthi: And Nico, do you want to bring up the question?
+
+70
+00:15:19.690 --> 00:15:28.149
+Nico Flaig: Yeah, so I don't really understand why we cannot compare local versus the bid. It should be exactly the same as with Gloas.
+
+71
+00:15:28.710 --> 00:15:36.489
+Nico Flaig: Because essentially, you just look at your local payload value, and then you pick whatever's the highest bid you have in the pool locally.
+
+72
+00:15:36.680 --> 00:15:41.520
+Nico Flaig: And then you apply the BuilderBoost, to those values.
+
+73
+00:15:43.840 --> 00:15:45.729
+Shane Moore: Really, the local bid's value is zero.
+
+74
+00:15:46.360 --> 00:15:47.430
+Shane Moore: Pardon, I missed.
+
+75
+00:15:48.140 --> 00:15:50.210
+Nico Flaig: Local bit of zero.
+
+76
+00:15:50.540 --> 00:15:52.369
+Nico Flaig: Wait, why is it 0?
+
+77
+00:15:54.310 --> 00:16:01.450
+Nico Flaig: So if you said, build a boost factor 0, right, we multiply by zero, which means we always pick local block.
+
+78
+00:16:02.720 --> 00:16:03.320
+Shane Moore: Dear.
+
+79
+00:16:04.080 --> 00:16:05.080
+Shane Moore: That would be true.
+
+80
+00:16:05.610 --> 00:16:13.650
+Nico Flaig: And if it's set to 100, you basically always pick a bit instead of local. And then everything in between, you still apply the…
+
+81
+00:16:13.950 --> 00:16:18.109
+Nico Flaig: Ratio to each value, and then calculate based on that.
+
+82
+00:16:19.640 --> 00:16:26.509
+Shane Moore: Yeah, but I mean, the local bid's always zero, so, like, if you do anything higher than zero, you're always going to prefer the.
+
+83
+00:16:26.510 --> 00:16:27.510
+Nico Flaig: Oh, no, yeah.
+
+84
+00:16:27.510 --> 00:16:30.819
+Shane Moore: Whether it be 100 or infinity, because right now, it's kind of like…
+
+85
+00:16:31.280 --> 00:16:41.110
+Shane Moore: BuilderBoost factor of, like, 0 or 100, or, like, 2 to the 64 minus 1, I think, are kind of, like, the three kind of common values as examples. But you…
+
+86
+00:16:41.110 --> 00:16:42.910
+Nico Flaig: Yeah. I mean, you don't…
+
+87
+00:16:42.910 --> 00:16:47.690
+Shane Moore: It's like a Boolean now, really, more so, as opposed to, like… after.
+
+88
+00:16:47.690 --> 00:16:54.509
+Nico Flaig: bid, right? Like, if you do a local build, the bid itself doesn't really exist, it's just a placeholder.
+
+89
+00:16:54.930 --> 00:17:01.510
+Nico Flaig: In a sense, in the block like a dummy, more or less. You should just use the local payload value.
+
+90
+00:17:11.930 --> 00:17:16.669
+Shane Moore: a local payload value being the value from the EL that we were previously getting before Gloas.
+
+91
+00:17:16.980 --> 00:17:18.329
+Shane Moore: Compare that to a bit.
+
+92
+00:17:19.410 --> 00:17:26.180
+Nico Flaig: Yeah, exactly, like, it's the same as we do today. You just look at the local payload value, and then…
+
+93
+00:17:26.329 --> 00:17:33.390
+Nico Flaig: Instead of getting the header from the builder API, you would look at the bitpool, and look at the value there.
+
+94
+00:17:34.460 --> 00:17:40.569
+Shane Moore: Okay, I thought they might be, like, apples to oranges, comparing, like, bid to, like, a CL value, but… okay.
+
+95
+00:17:41.030 --> 00:17:44.010
+Shane Moore: So then, yeah, it would work the same as today. That's true.
+
+96
+00:17:52.910 --> 00:17:54.080
+Parithosh Jayanthi: Yeah, photos?
+
+97
+00:17:54.860 --> 00:18:07.569
+Potuz: I just had a question, because I got confused by Nico's comment. So how does this boost work? Forget about the issue of, like, having zero or not, and if you grab the local value, so what… what are…
+
+98
+00:18:08.150 --> 00:18:14.160
+Potuz: what is the whole branch of numbers that we can have? You multiply, and then you divide by 100, or…
+
+99
+00:18:16.080 --> 00:18:19.320
+Nico Flaig: Yeah, it's the same as the current spec we have.
+
+100
+00:18:19.560 --> 00:18:23.869
+Nico Flaig: I think Prysm has this local boost, flag.
+
+101
+00:18:23.870 --> 00:18:37.939
+Potuz: Yeah, we had it in a way in which you wouldn't be able to boost the external builder, and then we changed it so that we have now these two different flags, one that conforms to the Beacon API, and the other one that
+
+102
+00:18:38.210 --> 00:18:47.730
+Potuz: that is ours, that has only positive range. So I want… I just want to make sure that at least you have the option of always boosting the local payload.
+
+103
+00:18:48.980 --> 00:18:52.929
+Potuz: from what you said, it didn't sound like it, so that's why I'm asking.
+
+104
+00:18:54.560 --> 00:19:06.140
+Nico Flaig: So how it works on the API, it's called Builder Boost Factor, right? So if you set it below 100, it boosts the local payload. If you set it above, it would boost the builder payload.
+
+105
+00:19:08.490 --> 00:19:16.759
+Potuz: Okay, perfect. So it wasn't really 100, but it was, like, sort of max you in, what makes you always choose the builder payload.
+
+106
+00:19:16.940 --> 00:19:21.750
+Nico Flaig: Yes, so 100 will just compare value to value, like…
+
+107
+00:19:21.750 --> 00:19:22.980
+Potuz: Yeah, that's what…
+
+108
+00:19:22.980 --> 00:19:24.850
+Nico Flaig: buying anything.
+
+109
+00:19:35.270 --> 00:19:43.380
+Parithosh Jayanthi: Okay, so, is the decision then to close this PR, or make a modification? What would the preference be?
+
+110
+00:19:47.030 --> 00:19:49.920
+Shane Moore: I mean, I need to at least, just…
+
+111
+00:19:50.330 --> 00:20:06.639
+Shane Moore: make sure, like, close out the conversation on this little boost factor. It seems like it worked the same as today, so I'll just make sure that the description, is good for that. The only, like, other thing I introduced a couple days ago from, you guys' suggestion was to introduce a blinded execution payload envelope, like, for when you're doing the safe pull path.
+
+112
+00:20:06.810 --> 00:20:12.969
+Shane Moore: basically, for Staple, if you're trying to get the payload envelope from
+
+113
+00:20:13.110 --> 00:20:19.049
+Shane Moore: the beacon node, then you really only need a blinded envelope, since the beacon node,
+
+114
+00:20:19.160 --> 00:20:29.059
+Shane Moore: the full payload, so you can sign that. Then, whenever you post it back to the Beacon node, you can send back a signed blinded payload envelope.
+
+115
+00:20:29.550 --> 00:20:37.740
+Shane Moore: If you are going the staple path. Else, if you're doing stateless, you can send back, like, the full envelope with blobs and, KG commitments or proofs.
+
+116
+00:20:38.240 --> 00:20:47.129
+Shane Moore: But, that's, like, a small PR that I could then merge into 580. And, yeah, Nico looked at it, but of course, it'd be great to get more eyes on it.
+
+117
+00:21:02.340 --> 00:21:05.050
+Parithosh Jayanthi: Okay, sounds good.
+
+118
+00:21:06.150 --> 00:21:20.790
+Parithosh Jayanthi: Next agenda topic, maybe it also matches well with, with Tony's comments of CLS can handle 8,192 deposits, what about more? Do we want to bump the limit in Hegota?
+
+119
+00:21:21.300 --> 00:21:30.420
+Parithosh Jayanthi: And if we were to increase the deposit costs to 42K gas, we'd run into the problem at 350 million gas limit.
+
+120
+00:21:35.570 --> 00:21:42.440
+Parithosh Jayanthi: Yeah, do you guys want to bring the discussion from chat to the call? Maybe Tony, Potos, Farnibus, one of you?
+
+121
+00:21:51.810 --> 00:21:53.660
+Toni Wahrstätter: Yeah, I can do so.
+
+122
+00:21:53.900 --> 00:22:03.919
+Toni Wahrstätter: Yeah, I was just wondering, like, 8,192 deposits? That's then possible, like, as of $350 million. And then it would be nice if…
+
+123
+00:22:04.050 --> 00:22:07.209
+Toni Wahrstätter: We had some change in Hegota.
+
+124
+00:22:07.670 --> 00:22:11.960
+Toni Wahrstätter: That either bumps the number or introduces stable containers.
+
+125
+00:22:12.210 --> 00:22:18.320
+Toni Wahrstätter: like, I'm not opinionated on the final solution, nor that we… Somehow fix this.
+
+126
+00:22:21.950 --> 00:22:23.190
+Parithosh Jayanthi: Yeah, portals?
+
+127
+00:22:23.560 --> 00:22:28.410
+Potuz: I really think we're just wasting too much time on this theoretical problem.
+
+128
+00:22:28.530 --> 00:22:39.220
+Potuz: we can make this limit infinite now. We have, like, several months to punish anyone that is willing to waste, or at least to lock, thousands and thousands of ETH.
+
+129
+00:22:39.610 --> 00:22:57.949
+Potuz: on the changes to attack and overdose this. So if someone is willing to send constantly 8,000 ETH of deposits, and then wait months to withdraw them back and keep them back, I'm sure we can just coordinate a fork to punish that group.
+
+130
+00:22:58.540 --> 00:23:03.190
+Potuz: So I think we're wasting too much time. Just make this limit infinite, and that's it, and let's just…
+
+131
+00:23:03.350 --> 00:23:08.540
+Potuz: Deal with this if it actually happens that someone is willing to waste billions and billions of dollars.
+
+132
+00:23:11.940 --> 00:23:16.649
+Parithosh Jayanthi: So you'd propose just changing the limit from 8,182 to UN max or something.
+
+133
+00:23:17.300 --> 00:23:24.250
+Potuz: Well, yeah, so something that… UN match is going to, like, require a lot of hashing, but some reasonable limit.
+
+134
+00:23:25.110 --> 00:23:27.040
+Potuz: Like, more than the available ETH.
+
+135
+00:23:29.370 --> 00:23:34.090
+Barnabas: Wasn't the idea to just remove this whole number with stable containers?
+
+136
+00:23:34.640 --> 00:23:36.679
+Potuz: Yeah, but we don't have civil… well…
+
+137
+00:23:37.190 --> 00:23:56.509
+Potuz: I don't want to continue changing the spec. Changing just and adding just a limit, it's just easy now, it's just a constant. If we have stable containers and we are testing this, then it's easy to just really fix it that way. But as of now, just changing one constant removes this discussion and saves us time.
+
+138
+00:23:57.970 --> 00:24:04.590
+Justin Traglia: It's not exactly just changing a single constant. It will be more annoying. I believe it involves a new config variable and stuff.
+
+139
+00:24:04.810 --> 00:24:11.280
+Potuz: Why would it change anything but just… just the constant that is the limit in the list?
+
+140
+00:24:12.640 --> 00:24:17.160
+Justin Traglia: Those aren't set as constants, those are set as, I think, presets or something.
+
+141
+00:24:17.160 --> 00:24:19.430
+Potuz: Yeah, that's fine, this is a constant in our code.
+
+142
+00:24:22.410 --> 00:24:23.250
+Justin Traglia: Okay.
+
+143
+00:24:25.750 --> 00:24:33.280
+Parithosh Jayanthi: Is that the case with every client? I remember Nimbus had a hard time changing or touching any presets in the past.
+
+144
+00:24:35.630 --> 00:24:36.960
+Parithosh Jayanthi: Yeah, phone numbers.
+
+145
+00:24:37.620 --> 00:24:46.939
+Barnabas: My point was to wait for stable containers, because if we add this now, and then we end up doing stable containers anyway in Glamsterdam, then we would need to remove it.
+
+146
+00:24:47.160 --> 00:24:50.529
+Barnabas: So I just don't see the reason to…
+
+147
+00:24:50.720 --> 00:24:53.700
+Barnabas: Add something now, just for the sake of,
+
+148
+00:24:54.680 --> 00:25:02.790
+Barnabas: sake of unlocking… unblocking us, so I would only add this new value if we DFI,
+
+149
+00:25:03.210 --> 00:25:04.660
+Barnabas: This table container.
+
+150
+00:25:04.870 --> 00:25:05.800
+Barnabas: the IP.
+
+151
+00:25:07.330 --> 00:25:11.909
+Justin Traglia: I also agree. I'd rather not make this change into sleep containers.
+
+152
+00:25:12.880 --> 00:25:17.220
+Parithosh Jayanthi: Yeah, agreed. It doesn't, doesn't make sense to add that culture now.
+
+153
+00:25:18.260 --> 00:25:26.990
+Parithosh Jayanthi: Cool, I will put this as a result for now, but we do need to revisit it before we agree to ship plans to them.
+
+154
+00:25:27.160 --> 00:25:29.160
+Parithosh Jayanthi: As in, some fix has to go in.
+
+155
+00:25:32.570 --> 00:25:38.630
+Parithosh Jayanthi: Cool. Okay, the next, anything else on this topic? If not, we'd move to the next agenda item.
+
+156
+00:25:41.830 --> 00:25:55.429
+Parithosh Jayanthi: Okay, the next one is, about the SSE-ing of the engine API. As always, we had these two proposals. First one is, just adding
+
+157
+00:25:55.890 --> 00:26:03.039
+Parithosh Jayanthi: SSE-ing the existing engine API from Barnabas, and the other ones from Marius, which kind of rethinks everything.
+
+158
+00:26:04.000 --> 00:26:15.659
+Parithosh Jayanthi: Has anyone been able to dig a bit more into this? I know that, Yasek posted a few messages about it on ACD, but besides that, has anyone given some deeper thought?
+
+159
+00:26:26.140 --> 00:26:34.770
+Barnabas: I would like to highlight that Nethermind and Erigon now have their implementation of 764 in their tribe branches.
+
+160
+00:26:40.570 --> 00:26:47.169
+Barnabas: And we do not have any CL implementation of either of them, I think, in any of the trunk branches.
+
+161
+00:26:59.170 --> 00:27:09.709
+Barnabas: Also, I'm not very opinionated which one we do. I would just like one of them to be decided on, ideally today, and then we can close the other one.
+
+162
+00:27:10.050 --> 00:27:11.280
+Barnabas: inferiority.
+
+163
+00:27:11.880 --> 00:27:19.859
+Parithosh Jayanthi: But do we have any information for or against one? Either one? I mean, yes, we have some implementations of
+
+164
+00:27:20.000 --> 00:27:22.590
+Parithosh Jayanthi: Of one, but there isn't a reason to choose it.
+
+165
+00:27:24.990 --> 00:27:33.090
+Barnabas: I think ethrex did a benchmarking of both of them. I'm not sure if they have published the numbers yet.
+
+166
+00:27:49.370 --> 00:27:54.039
+Parithosh Jayanthi: Casey, do you maybe want to talk about the Prysm trade-off?
+
+167
+00:27:55.300 --> 00:28:11.610
+kasey: Yeah, just that we already have a JSON RPC client, and it might be easier to, wedge SSE into that, but I think that being able to drop, JSON RPC at Hegota is a pretty huge advantage to jumping straight into what Marius is proposing.
+
+168
+00:28:22.200 --> 00:28:29.970
+kasey: So, a tiny bit more scope versus a faster deprecation path, I feel like the faster deprecation path is a big benefit.
+
+169
+00:28:32.570 --> 00:28:35.869
+Parithosh Jayanthi: Yep, that's a fair point.
+
+170
+00:28:37.890 --> 00:28:40.260
+Parithosh Jayanthi: Marius, if we were to go with…
+
+171
+00:28:40.670 --> 00:28:56.199
+Parithosh Jayanthi: with your PR, would, would you be the one leading this? Because, historically, the problem with a lot of API discussions is they're very fertile for bike shedding, so I don't want to choose one of the options where we don't have someone who's willing to
+
+172
+00:28:56.550 --> 00:28:58.220
+Parithosh Jayanthi: Keep up with the bike shedding.
+
+173
+00:28:59.230 --> 00:29:01.939
+Marius Van Der Wijden (M): Yep, happy to lead this.
+
+174
+00:29:07.100 --> 00:29:07.720
+Parithosh Jayanthi: Okay.
+
+175
+00:29:07.960 --> 00:29:18.539
+Parithosh Jayanthi: Cool. Then let's go with, Maurice's PR, purely for faster deprecation path and having someone who's willing to keep up with the budgeting.
+
+176
+00:29:24.780 --> 00:29:28.070
+Parithosh Jayanthi: Any other points on this topic?
+
+177
+00:29:41.610 --> 00:29:49.460
+Parithosh Jayanthi: Great. We already spoke about, Glamsterdam, DevNet 5 timelines, so…
+
+178
+00:29:49.940 --> 00:29:55.319
+Parithosh Jayanthi: To summarize, is there any other Glamsterdam-related topic that we should discuss today?
+
+179
+00:30:02.360 --> 00:30:03.700
+Parithosh Jayanthi: Yeah, photos?
+
+180
+00:30:04.110 --> 00:30:23.190
+Potuz: Yeah, I want to request again if clients can, ping me or give me images when you guys have implemented the honest reorg feature and dual deadlines for PTC. I want to start, actually checking for choice. We haven't been testing for Choice on the DevNet.
+
+181
+00:30:23.290 --> 00:30:28.799
+Potuz: I need at least 3 clients that have dual deadlines that I can set at different times.
+
+182
+00:30:28.960 --> 00:30:31.780
+Potuz: And honest reorgs of late payloads.
+
+183
+00:30:32.270 --> 00:30:40.250
+Potuz: You don't really need the honest reorg of late payloads, that's not that important. I'm gonna take care of reorgan myself, but I do need dual deadlines.
+
+184
+00:30:50.080 --> 00:30:51.140
+Parithosh Jayanthi: Yeah, Barra.
+
+185
+00:30:52.440 --> 00:31:02.460
+Bharath: Yeah, I just wanna ask, like, regarding the builder API stuff, like, what DevNet or something should we target that for? Like, do we wanna wait to make sure that
+
+186
+00:31:02.760 --> 00:31:09.809
+Bharath: Glamsterdam DevNets are, like, very stable, and then go for it, because I'm just curious, like.
+
+187
+00:31:10.010 --> 00:31:14.579
+Bharath: how we should be looking at that, because I think, for me, it makes sense that
+
+188
+00:31:15.000 --> 00:31:16.520
+Bharath: That can come with…
+
+189
+00:31:17.390 --> 00:31:30.429
+Bharath: when all the… the DevNets are stable and P2P bidding is, like, working well across all clients, and then this is something that can, like, be added after that. But I just want to get… understand, like, what do people think about that?
+
+190
+00:31:45.740 --> 00:31:51.300
+Parithosh Jayanthi: Is there a specific client or someone specific you would want input from, Bharat?
+
+191
+00:31:52.290 --> 00:31:56.920
+Bharath: No one specific, like, just… I just want to get to a general understanding on, like.
+
+192
+00:31:57.240 --> 00:32:01.690
+Bharath: which DevNet, or when we should, like, probably, like, think of targeting them.
+
+193
+00:32:02.290 --> 00:32:04.189
+Bharath: Just, like, curious to know that.
+
+194
+00:32:04.920 --> 00:32:13.770
+Parithosh Jayanthi: I'd probably say DevNet 6, because DevNet 5 is mostly relaunch of DevNet 4 specs and focus on stability.
+
+195
+00:32:13.960 --> 00:32:20.669
+Parithosh Jayanthi: So yeah, I think the type of things you're talking about will likely be relevant for DevNet 6.
+
+196
+00:32:21.090 --> 00:32:22.780
+Bharath: Okay, cool, thank you.
+
+197
+00:32:28.180 --> 00:32:35.689
+Parithosh Jayanthi: Okay, one maybe other minor, point, we merged in a new tool called Disruptor.
+
+198
+00:32:35.960 --> 00:32:47.130
+Parithosh Jayanthi: They should give us the ability to do short-range and long-range reorgs and network forks directly in Kurtosis, so if you want to test fork choice and trigger a lot of small reorgs regularly.
+
+199
+00:32:47.240 --> 00:32:55.399
+Parithosh Jayanthi: Have a look at the playbook. Everything's just done by a sort of playbook, so it's very configurable and easy to… to reuse.
+
+200
+00:32:55.790 --> 00:32:59.709
+Parithosh Jayanthi: If you have any questions about it, then please reach out.
+
+201
+00:33:00.020 --> 00:33:01.150
+Parithosh Jayanthi: Yeah, portals.
+
+202
+00:33:01.910 --> 00:33:10.710
+Potuz: I wanted to ask a question to clients. There's a discussion on the chat about some possible four-choice bug.
+
+203
+00:33:10.780 --> 00:33:26.449
+Potuz: I want to ask about how are you guys sending PTC attestations? It just occurred to me that it would be very rare to have a situation in DevNet in which the PTC voted for the payload being timely and the data being not available.
+
+204
+00:33:26.560 --> 00:33:51.209
+Potuz: So I'd like to have confirmation that clients are actually, making the right attestations. I think Prysm had about a lot of this, making the right attestation with regard to both timely and data available, and if they… clients… since we are getting these attestations very early, like, much earlier than the deadline, we're getting them together with the blog sometimes, I suspect that clients are sending these attestations
+
+205
+00:33:51.270 --> 00:34:10.909
+Potuz: as soon as the payload is there, as soon as the payload is synced, I just want to make sure that we are sending them with the data available flag correctly set. I'm very surprised at what Nico is pointing out, that Lodestar might have been hit by a situation in which the PTC voted split. Timely, but not available.
+
+206
+00:34:26.670 --> 00:34:32.899
+Parithosh Jayanthi: Stefan said that Teku sets them on deadline, and if blobs have arrived by then, then they set the flag.
+
+207
+00:34:54.409 --> 00:35:02.919
+Nico Flaig: So for Lodestar, we only send them early if we see the block. So if we had the proposal ourselves, then we could send them really early.
+
+208
+00:35:03.830 --> 00:35:15.759
+Potuz: But… so only… so if you're not a proposer and you see the payload very early, do you wait until you put it in Fortress? So, namely, you wait until you're sure that the data is available?
+
+209
+00:35:16.760 --> 00:35:21.619
+Nico Flaig: And we only vote when everything is available, and we import the payload.
+
+210
+00:35:21.960 --> 00:35:24.330
+Nico Flaig: Otherwise, we wait for the deadline.
+
+211
+00:35:24.330 --> 00:35:43.250
+Potuz: No, wait a second, you should… I mean, if the payload appears, is available, but you don't import it because… I'm sorry, the payload appeared, it's timely, but you don't import it in 4 choice because you couldn't get the columns, you still should vote for available, timely, but not available.
+
+212
+00:35:43.460 --> 00:35:48.790
+Potuz: So, PTC attesters should attest to payloads that they haven't put in 4 choice.
+
+213
+00:35:54.110 --> 00:35:57.699
+Nico Flaig: Yeah, I think that's what we should do, but I would need to double-check.
+
+214
+00:35:57.700 --> 00:36:03.460
+Potuz: That's actually very important, because if you wait until you put in 4 choice, then you're waiting for execution as well.
+
+215
+00:36:29.480 --> 00:36:33.100
+Parithosh Jayanthi: Okay, any other comments here, or…
+
+216
+00:36:33.310 --> 00:36:35.369
+Parithosh Jayanthi: Is there any conclusion, Portos?
+
+217
+00:36:36.340 --> 00:36:44.239
+Potuz: Well, I'm not sure. We need to grab that block, and test Nico's theory. I'm very puzzled by this. I can't… I mean…
+
+218
+00:36:44.670 --> 00:36:50.389
+Potuz: I can only think of a bug if the situation happened that the PTC was split at this moment.
+
+219
+00:36:50.630 --> 00:36:52.029
+Potuz: In such a debit.
+
+220
+00:36:56.930 --> 00:37:06.940
+Parithosh Jayanthi: And… maybe 4K still has it saved. I'm sending the link. It's been running, so… Which could be there.
+
+221
+00:37:20.320 --> 00:37:26.889
+Parithosh Jayanthi: Yeah, I think it's partly crashing 4K, it's not made for such crazy forking, I guess.
+
+222
+00:37:31.050 --> 00:37:33.740
+Parithosh Jayanthi: Okay, anything else for Glamsterdam?
+
+223
+00:37:40.320 --> 00:37:52.119
+Parithosh Jayanthi: Cool, then let's move to Hegota. The first item on the Hegota list is EIP7684, Return Deposits for Distinct Credentials.
+
+224
+00:37:52.250 --> 00:37:57.460
+Parithosh Jayanthi: Do we have, Tapline or someone else to speak for this?
+
+225
+00:37:58.650 --> 00:38:09.590
+Greg K | Lido: Yeah, so, I had included this on the, last ACT call, agenda, together with the next one, like, 8148.
+
+226
+00:38:09.680 --> 00:38:22.900
+Greg K | Lido: But for the purpose of today's idea, I wanted just to, don't discuss on it, and move it to the next one, and discuss only for the second item, the 8148.
+
+227
+00:38:22.960 --> 00:38:31.600
+Greg K | Lido: because the topics are a bit unrelated, so I prefer to come, like, keep it focused, so… I would skip the first one for today and move it to the next call, and.
+
+228
+00:38:31.600 --> 00:38:31.940
+Parithosh Jayanthi: Okay.
+
+229
+00:38:31.940 --> 00:38:34.699
+Greg K | Lido: That's only for the 8148, if that's okay.
+
+230
+00:38:35.000 --> 00:38:36.440
+Parithosh Jayanthi: Okay, that's perfectly fine.
+
+231
+00:38:38.530 --> 00:38:43.199
+Greg K | Lido: Soon… Give me a second to share screen.
+
+232
+00:38:55.400 --> 00:38:56.890
+Greg K | Lido: So you see my screen, guys?
+
+233
+00:39:00.090 --> 00:39:01.580
+Parithosh Jayanthi: Yes, please go ahead.
+
+234
+00:39:01.850 --> 00:39:21.439
+Greg K | Lido: Okay, nice. So, I will try to keep it short, because this AP was also discussed by Dima in a previous ACD call, just to, like, recap everything. So, it's AP8148, Custom Sweep Threshold for validators. It was also by Dima, Dmitri, and myself, who are all lighter contributors.
+
+235
+00:39:21.440 --> 00:39:24.839
+Greg K | Lido: And, it has to do with,
+
+236
+00:39:24.840 --> 00:39:44.770
+Greg K | Lido: the proof-of-stake, withdrawal credentials for validators. So, yeah, like, I think here for ACT call, we don't really need much background, but just as a reminder, what's the difference is, like, you have two validators, Alice and Bob, 01 and 02. The difference is that, when you, like, your effective balance exceeds 32 ETH,
+
+237
+00:39:44.770 --> 00:40:00.969
+Greg K | Lido: The 4001 validators, the legacy ones, the rewards are automatically withdrawn every roughly one week from the automatic withdrawal algorithm, while 4002 validators, this is not happening, the balance is compounding.
+
+238
+00:40:01.620 --> 00:40:24.060
+Greg K | Lido: And, actually, the new threshold for 002 validators is 2084 ETH. So, there is this kind of asymmetry between 32 and, 2048, and nothing in between. So, yeah, fast comparison, like we all know, 002 validators can accumulate balance, while 001 cannot. They have both
+
+239
+00:40:24.060 --> 00:40:26.679
+Greg K | Lido: Minimum and maximum on 32 degrees.
+
+240
+00:40:27.500 --> 00:40:37.150
+Greg K | Lido: 002 validators require almost the same hardware resources per validator, but the important thing here is, like, 002 validators
+
+241
+00:40:37.150 --> 00:40:47.600
+Greg K | Lido: are better for the network, particularly to reduce total validator count. It was one of the main incentives to introduce in this class. And essentially, for fast finality, which is one of the most important parts of the
+
+242
+00:40:47.600 --> 00:41:07.190
+Greg K | Lido: future, roadmap, requires from 10x to 30x decrease on the number of validators to enable fast finality, together with other strong map, elements. So, this is really where we need to go, and this is why, the goal of the protocol is to have validators switching to 002,
+
+243
+00:41:07.190 --> 00:41:26.259
+Greg K | Lido: However, the main problem is that the adoption of this is slower than expected, although over the last few months, we had some improvements. So currently, I said this morning, this, from Bhuta, from June, like, 1.5% of validators are 002, and they hold roughly
+
+244
+00:41:26.260 --> 00:41:33.390
+Greg K | Lido: 28% of all is staked, because they have average of 821.
+
+245
+00:41:33.430 --> 00:41:47.909
+Greg K | Lido: And it has been quite discussed why is this adoption slow, and why people are not moving to 002, and one of the reasons is the liquidity concern. It's exactly this part that you don't get
+
+246
+00:41:47.910 --> 00:41:55.789
+Greg K | Lido: regular reward distribution with this automatic reward scheming as, in 001 case, that whatever goes
+
+247
+00:41:56.280 --> 00:42:04.159
+Greg K | Lido: above 32 ETH, you receive immediately, with no single actions required from the, like, from the validator.
+
+248
+00:42:04.160 --> 00:42:18.370
+Greg K | Lido: And actually, that was the initial motivation of, the CAP, like, it was, like, during discussions in, Buenos Aires, like, in Devon last year, that this seems to be one of the big, barriers for many people to enter, 002.
+
+249
+00:42:20.080 --> 00:42:31.820
+Greg K | Lido: And, yeah, example of people that, were saying the same thing were, like, some small solo stakers, like, just 32 each stakers that they say, okay, I prefer to have this predictable
+
+250
+00:42:31.820 --> 00:42:56.150
+Greg K | Lido: has free rewards coming to me, and, but we had also serious, similar, cases with people who run, like, like, bigger, like, 6 validators, but… and the question is, like, why should I convert my 6 validators to 1 if I don't get my rewards automatically? Because I'm too far from the 2084 ETH. And similarly, there are also bigger players with just less than this, amount of ETH.
+
+251
+00:42:56.150 --> 00:43:11.450
+Greg K | Lido: but they also prefer to receive the rewards automatically. And also, another class is fractional home stakers, like the ones that are using permissionless staking pools, like the CSM or ReptPool, that, they cannot afford
+
+252
+00:43:11.450 --> 00:43:29.749
+Greg K | Lido: bonds for full 002 keys, but so they prefer to stay 001 in order to be able to afford the bond and receive the rewards, for free, basically. So the solution, as you might predict, is to introduce a custom sweep threshold. So, instead of having
+
+253
+00:43:30.080 --> 00:43:33.870
+Greg K | Lido: the sweep threshold fixed at 2084 ETH.
+
+254
+00:43:33.990 --> 00:43:46.070
+Greg K | Lido: just make this a configurable constant for every 002 validator. So this is now… it would not be a universal constant, it will be just separate value for its validator, and when
+
+255
+00:43:46.070 --> 00:43:54.959
+Greg K | Lido: The effective balance goes above the stress code, then the rewards will be sent automatically to the execution layer with raw credentials.
+
+256
+00:43:55.570 --> 00:44:01.579
+Greg K | Lido: So this achieves best of both worlds for this class of validators we've discussed, because
+
+257
+00:44:01.610 --> 00:44:18.829
+Greg K | Lido: they can set any desired amount of ETH to accumulate, so it's quite continuous, between 32 and 2084 ETH, depending on the profile of the validator. They receive any excess rewards automatically, and they can also change the threshold at any time.
+
+258
+00:44:19.080 --> 00:44:35.200
+Greg K | Lido: In terms of security, and, kind of protocol properties, it's designed in a way that it does not allow withdrawal gaming, so you cannot set the new threshold to be below your current balance, so it cannot be used as an excuse
+
+259
+00:44:35.200 --> 00:44:41.580
+Greg K | Lido: to have faster withdrawals. So every validator, like, let's say if someone
+
+260
+00:44:41.580 --> 00:44:49.120
+Greg K | Lido: today has a thousand ETH, they cannot set the custom threshold below this, they cannot set above it.
+
+261
+00:44:49.120 --> 00:45:10.860
+Greg K | Lido: And the full control of the, of this threshold is to the stakeholder, so, it's only via execution layer triggerable actions that are introduced in PECTRA, so the entity that contains… that owns the ETH, not the entity who runs the validator, can, can only change this script threshold.
+
+262
+00:45:11.200 --> 00:45:30.200
+Greg K | Lido: So, just to wrap up, what are the main benefits? First of all, for Ethereum protocol, the main benefit is that we expect that this will help reducing the validator count, which in turn enables fast finality, while not putting the smallest validators at this advantage.
+
+263
+00:45:30.510 --> 00:45:47.560
+Greg K | Lido: And a second interesting feature that I think it's quite useful for the future of Ethereum Protocol is that this makes a potential future change of max effective balance, or even complete removal of max effective balance much easier.
+
+264
+00:45:47.560 --> 00:45:54.919
+Greg K | Lido: Because, currently, the way that the protocol is, in order to remove the maximum effective balance, you need to…
+
+265
+00:45:55.420 --> 00:46:14.269
+Greg K | Lido: modify also this sweep withdrawal algorithm. They interact quite heavily, but now, like with EIP-8148, this current constant of 2084 could be just used as the custom ceiling for current 002 validator. So, I think in the later part of the strong map, there is an item which is called
+
+266
+00:46:14.270 --> 00:46:20.809
+Greg K | Lido: the preset, and it includes also, as far as I understand, removing the maxiP, and I think this CIP
+
+267
+00:46:21.010 --> 00:46:28.170
+Greg K | Lido: prepare the ground quite easily to make this future change much smoother, and which I think it's a good change for the Athenium Proof of Stake.
+
+268
+00:46:28.250 --> 00:46:41.710
+Greg K | Lido: For validators, it allows flexibility, because a validator can become 002 and receive rewards at any desired threshold, so there are no kind of incentives to remain in 001, or trade-offs.
+
+269
+00:46:41.710 --> 00:46:48.890
+Greg K | Lido: And small stakers and fractional home stakers can remain into the game, without being at disadvantage.
+
+270
+00:46:49.370 --> 00:47:14.350
+Greg K | Lido: And one might ask, like, why, whether there is some impact on light as well. So, there will be some impact, but it's quite, small, and I just wanted to emphasize this. Like, 95% of light evaluators will switch to 002 anyways, no matter what happens with this AP. You know, permissions, we already start the test network
+
+271
+00:47:14.350 --> 00:47:17.370
+Greg K | Lido: migrations and, should be shipped until Q1.
+
+272
+00:47:17.370 --> 00:47:26.390
+Greg K | Lido: next year. And also, CSM, like, permissionless module for 002 validators will be, set by end of this year.
+
+273
+00:47:26.680 --> 00:47:37.979
+Greg K | Lido: But the point is that there might be a small fraction of the permissionless validators who cannot afford to bond for, for 2048.
+
+274
+00:47:37.980 --> 00:47:47.049
+Greg K | Lido: So, essentially, what this enables is the smaller players that are using Lidoc's permissionless staking to
+
+275
+00:47:47.190 --> 00:47:49.509
+Greg K | Lido: contribute to Ethereum decentralization.
+
+276
+00:47:49.510 --> 00:48:13.339
+Greg K | Lido: to keep them inside the game. So they could afford now a small bond, perhaps very slightly higher than now, become 002, and also don't kicked out in the future when the attester size gap comes, which is currently on Hegota of the protocol. So it's basically saving the kind of most decentralized 5%, which is vulnerable.
+
+277
+00:48:13.340 --> 00:48:16.549
+Greg K | Lido: For the future, like, changes coming.
+
+278
+00:48:16.810 --> 00:48:26.880
+Greg K | Lido: And yeah, last, why check withizable timing, I think, is… I think it perfectly matches with the currently announced road map. I have a small screenshot on the related items.
+
+279
+00:48:26.880 --> 00:48:44.540
+Greg K | Lido: But the target is at Hegota, which is… which is expected to be one year after Hegota, essentially. The fast finality will become feasible with 100 gate validators, so it will give enough time to have one year between this feature gets enabled.
+
+280
+00:48:44.540 --> 00:48:57.960
+Greg K | Lido: And, the cap of number of validators being applied, so that both staking pools and validators have time to adjust, before getting kicked out due to this capping.
+
+281
+00:48:57.980 --> 00:49:13.569
+Greg K | Lido: And also, as I said before, there are other future big concerns improvements that exist on the strong map, and this EIP is not so complex, and it will make those changes, which are here for the protocol easier to occur in the future.
+
+282
+00:49:13.820 --> 00:49:26.359
+Greg K | Lido: So, this is it. Yeah, there is also a thread in the mathematicians, there is also a PR open for, including this EAP in the Hegota Meta EAP, and yeah, happy to take any questions.
+
+283
+00:49:32.320 --> 00:49:47.680
+Parithosh Jayanthi: Thank you. Maybe one question is, is there any argument against keeping today's ceiling and expecting Xerox2 validators to just execute withdrawals manually? That's sort of hacking in the custom ceiling, right?
+
+284
+00:49:57.690 --> 00:50:07.439
+Greg K | Lido: Yeah, yeah, so if I understand the question, this is like, like, keep the current stuff, like, don't do the change that, I presented here, and just…
+
+285
+00:50:07.560 --> 00:50:10.229
+Greg K | Lido: Do the withdrawals via the execution layer, right?
+
+286
+00:50:11.800 --> 00:50:12.400
+Greg K | Lido: Exactly.
+
+287
+00:50:12.400 --> 00:50:13.240
+Parithosh Jayanthi: Exactly.
+
+288
+00:50:13.510 --> 00:50:18.759
+Greg K | Lido: Yeah, yeah. So, yeah, I think this is possible to happen, but the main point is to…
+
+289
+00:50:18.830 --> 00:50:38.310
+Greg K | Lido: maintain this seamless, reward accounting that, like, the reward received that happens today, with, this automatic, this is what I try to say, like, this automatic sweep, algorithm, like, it's predictable and custom-free, you don't have to take any action, the rewards come automatically to you.
+
+290
+00:50:40.540 --> 00:50:42.290
+Greg K | Lido: Yeah, that makes sense.
+
+291
+00:50:42.290 --> 00:50:44.790
+Parithosh Jayanthi: It is in the UX to have it automatic.
+
+292
+00:50:46.170 --> 00:50:46.790
+Greg K | Lido: you know.
+
+293
+00:50:48.440 --> 00:50:50.280
+Parithosh Jayanthi: Cw?
+
+294
+00:50:51.330 --> 00:51:01.469
+CW: Yeah, hi there. I'm Celtic Warrior, a solo staker that is reasonably well known on some of the discords, like ETH Staker.
+
+295
+00:51:01.600 --> 00:51:09.929
+CW: I'd like to come out strongly in support of EIP 8148 for all of the reasons that have been outlined.
+
+296
+00:51:10.070 --> 00:51:16.080
+CW: The number one differentiator between 0x01 and 0x02 is predictable cash flow.
+
+297
+00:51:16.180 --> 00:51:28.869
+CW: Staking income, whether you're a solo, small operator, or a large operator, is generally taxable, and that means that having predictable income for paying taxes, operating costs, sometimes living expenses.
+
+298
+00:51:28.940 --> 00:51:41.880
+CW: is very necessary beyond, you know, the tiniest operations, let's say. The challenge is, of course, that most solos don't have 2,048 ETH to stake.
+
+299
+00:51:41.990 --> 00:51:49.579
+CW: So therefore, we are kind of trapped a little bit in 0x01 because of the need for predictable, cash flow.
+
+300
+00:51:50.770 --> 00:52:05.149
+CW: having a configurable cap, as suggested by EIP8148, makes all the sense in the world, and I could imagine, that most solo stakers, and this topic has come up a lot on the Discord, it's not new.
+
+301
+00:52:05.220 --> 00:52:25.009
+CW: I could imagine that most solo stakers would be quite willing to consolidate into 0x02 if this configurable cap was available. I should also point out that in my professional life, I work in digital assets in a financial institution.
+
+302
+00:52:25.090 --> 00:52:27.609
+CW: A large one, global.
+
+303
+00:52:27.980 --> 00:52:43.210
+CW: It also appears to me that a configurable cap would be very useful for institutional stakers as well, and why is that? Risk limits. Right now, with 2048 ETH per validator key, that's a $4 million key.
+
+304
+00:52:43.390 --> 00:52:47.100
+CW: That's a lot of value at stake in a single key.
+
+305
+00:52:47.170 --> 00:53:05.619
+CW: even if an institution has hundreds of keys, it doesn't matter. It's still a lot of value at stake per key. It probably would be convenient for a lot of institutions to be able to say, look, I want to have a million dollars per key at risk, and still maintain predictable cash flow, or I want to have two million at risk, and still maintain predictable cash flow.
+
+306
+00:53:05.620 --> 00:53:15.040
+CW: So there's a myriad of different reasons to 8148 being implemented. Really what it is, is just an upgrade to 0x02. We should do that.
+
+307
+00:53:19.450 --> 00:53:21.689
+Parithosh Jayanthi: Thank you, yeah, Amir?
+
+308
+00:53:24.340 --> 00:53:33.000
+Amir | P2P.org: Yeah, hello, everyone. I'm Amir from P2P.org, we are a large node operator in the ecosystem. Just wanted to,
+
+309
+00:53:33.570 --> 00:53:47.549
+Amir | P2P.org: show my support for this EIP, and some of the reasons that I see this as a need for both institutions and solar stakers, building on what CW said, and
+
+310
+00:53:47.960 --> 00:53:49.930
+Amir | P2P.org: what Greg presented.
+
+311
+00:53:50.240 --> 00:53:53.200
+Amir | P2P.org: Now, I, I think,
+
+312
+00:53:54.310 --> 00:54:05.830
+Amir | P2P.org: A key point here is for the rewards not to be automatically added to the effective balance, so if we want to do partial withdrawals, even as a node operator, if we can, which we cannot.
+
+313
+00:54:05.840 --> 00:54:15.259
+Amir | P2P.org: that would… that rewards would go through the withdrawal queue, and not directly to the street delay. So… and that kind of…
+
+314
+00:54:15.690 --> 00:54:31.709
+Amir | P2P.org: That's not predictable, it depends on what withdrawal Q is at that time, but if someone wants, sort of, like, a dividend mechanism on their validators, they want to be… they want the cash flow to be predictable and be liquid for them, so they don't want to…
+
+315
+00:54:31.830 --> 00:54:34.949
+Amir | P2P.org: Have the risk of withdrawal queue being super large.
+
+316
+00:54:35.170 --> 00:54:47.089
+Amir | P2P.org: So making it automatic and not added to the effective balance would solve that problem for them. Another key point is, us as a node operator, we do not have the access to withdrawal address, so we cannot initiate
+
+317
+00:54:47.730 --> 00:54:56.050
+Amir | P2P.org: partial withdrawals on behalf of our clients, so it's an added operation on their side, so if they want to
+
+318
+00:54:56.050 --> 00:55:11.810
+Amir | P2P.org: do something like a dividend stock mechanism for their customers if they're an intermediary, they need to add this operation internally, with the withdrawal queue, and from what we've seen, they much rather go with the 32 ETH
+
+319
+00:55:11.890 --> 00:55:18.630
+Amir | P2P.org: validators at the moment, just not to have that headache, and not utilize 0x02 validators.
+
+320
+00:55:25.380 --> 00:55:41.560
+Parithosh Jayanthi: Thank you. So as far as I know, custom ceilings were something we were looking at during Petra as well, but the main reason against it was implementation complexity. Perhaps there's some CLs who want to speak to it, or…
+
+321
+00:55:41.900 --> 00:55:45.670
+Parithosh Jayanthi: Give your opinion on… on… on the EIP?
+
+322
+00:56:04.560 --> 00:56:20.730
+Parithosh Jayanthi: Okay, other than that, it seems like there's some, comments on it as well. Essentially, if the threshold needs to be in the EL or on the CL side, like, client, do you want to maybe bring up the topic?
+
+323
+00:56:25.610 --> 00:56:30.749
+lightclient: Sorry, I was just… I was just trying to understand the proposal.
+
+324
+00:56:31.680 --> 00:56:35.430
+lightclient: Bill, you… Want to write the…
+
+325
+00:56:36.020 --> 00:56:44.240
+lightclient: this threshold on the EL, and then the EL decides, given the… Like, potential sweeps when…
+
+326
+00:56:44.680 --> 00:56:48.440
+lightclient: The funds are dispersed to the validator?
+
+327
+00:56:49.090 --> 00:56:51.439
+lightclient: Is that my… is that the right understanding?
+
+328
+00:56:53.480 --> 00:57:02.650
+Greg K | Lido: No, no, this is on the CL. So, in the CL is where the withdrawals happen, right? So, what currently happens is that.
+
+329
+00:57:02.650 --> 00:57:03.420
+lightclient: Like…
+
+330
+00:57:03.420 --> 00:57:03.779
+Greg K | Lido: Oh, it's a…
+
+331
+00:57:03.780 --> 00:57:06.600
+lightclient: Sweep threshold request contract.
+
+332
+00:57:08.040 --> 00:57:12.300
+lightclient: That's just to register the… threshold?
+
+333
+00:57:13.390 --> 00:57:14.050
+Greg K | Lido: Yep.
+
+334
+00:57:15.600 --> 00:57:18.690
+lightclient: Okay, so it is also written into…
+
+335
+00:57:19.560 --> 00:57:21.939
+lightclient: Registry on the consensus layer.
+
+336
+00:57:22.390 --> 00:57:23.080
+Greg K | Lido: Right.
+
+337
+00:57:26.960 --> 00:57:27.750
+lightclient: Makes sense.
+
+338
+00:57:35.980 --> 00:57:37.610
+Greg K | Lido: Yes, I just think…
+
+339
+00:57:37.960 --> 00:57:46.589
+Greg K | Lido: there might be some questions, like, while talking… I saw there was some questions about Maxim P that I discussed, but I can't see it now. If someone can raise it, it would be fine.
+
+340
+00:57:49.090 --> 00:57:59.540
+Parithosh Jayanthi: Do you mean the point from Barnabas, where he was talking about, removing the MaxCB upper bound completely? So, essentially, everything's a custom ceiling?
+
+341
+00:58:01.010 --> 00:58:06.659
+Greg K | Lido: Yeah, yeah, this is actually what I think, like, it could be like that, right? But, yeah.
+
+342
+00:58:06.900 --> 00:58:09.840
+Greg K | Lido: But I'm not… I'm not sure when…
+
+343
+00:58:10.310 --> 00:58:23.739
+Greg K | Lido: people who want to remove this max effective balance, and why, like, I'm not, so it's outside the scope of this particular AP, but I think it allows to do these things whenever we want it much easier.
+
+344
+00:58:32.350 --> 00:58:43.580
+Parithosh Jayanthi: Okay, any other comments on the EIP? If not, I think clients would need to look into it, look at the details, and then we bring it up again in the next call.
+
+345
+00:58:54.290 --> 00:59:01.500
+Parithosh Jayanthi: Okay, thank you. And I think you said initially that we'll bring up EIP7684,
+
+346
+00:59:01.780 --> 00:59:09.280
+Parithosh Jayanthi: In the next ACDC. If you want, we still have time at this ACDC to bring it up if, if you're already prepared for it.
+
+347
+00:59:14.360 --> 00:59:17.739
+Greg K | Lido: No, yeah, let's put it in the next one, yeah.
+
+348
+00:59:18.380 --> 00:59:20.019
+Parithosh Jayanthi: Okay, that's perfectly fine.
+
+349
+00:59:20.540 --> 00:59:30.879
+Parithosh Jayanthi: Yeah, Tony had a comment about, simplifying the EIP. Essentially, no EL requests, transactions, just directly right into CL state.
+
+350
+00:59:31.370 --> 00:59:38.789
+Parithosh Jayanthi: I think more devs also need to look at the EIP to figure out what the shape is, should be.
+
+351
+00:59:38.930 --> 00:59:47.949
+Greg K | Lido: Yeah, I'm not sure, about the question. Actually, I will share now the… also the AP and the specs, we have, but
+
+352
+00:59:48.410 --> 01:00:02.029
+Greg K | Lido: the idea is that from the EL, the request is triggered by the owner of the stakeholder, the owner of the capital. From the CL,
+
+353
+01:00:02.310 --> 01:00:15.260
+Greg K | Lido: is, like, the node operator who runs, the validator, who has to do it. So the idea is, like, like, in delegated staking, the owner of the capital is the, like, on the execution layer, so…
+
+354
+01:00:15.430 --> 01:00:17.940
+Greg K | Lido: That's why we use the execution layer request.
+
+355
+01:00:19.150 --> 01:00:23.879
+Greg K | Lido: But I'm not sure if this is the question, so if there is something else, just let me know.
+
+356
+01:00:27.300 --> 01:00:32.200
+Parithosh Jayanthi: Tony, do you wanna immediately answer that? If not, Portis?
+
+357
+01:00:39.140 --> 01:00:41.059
+Parithosh Jayanthi: Okay, photos?
+
+358
+01:00:41.790 --> 01:00:51.070
+Potuz: Yeah, so I feel… I mean, I'm… overall, I like this, the CIP. I think it's not going to affect much the…
+
+359
+01:00:51.700 --> 01:01:00.650
+Potuz: The purpose of having 002 validators, which is to actually have large, effective balance, because we want to concentrate validators.
+
+360
+01:01:00.720 --> 01:01:12.779
+Potuz: And I feel we're not going to see many validators that are going to be in between, so it's… it's not a danger. But what I… what I feel is that we're conflating a couple of things, like, on the way pools work.
+
+361
+01:01:13.050 --> 01:01:18.199
+Potuz: I understand, for example, if I have a home validator, it's my own validator, and… and…
+
+362
+01:01:18.340 --> 01:01:29.160
+Potuz: and I… I can afford to have more than 32, much less than 2048, then I might want to have a limit around, like, say, 128 ETH.
+
+363
+01:01:29.210 --> 01:01:40.229
+Potuz: And then consolidate everything on one validator. But what I don't understand is for validators like CSM operators or rocket pool operators, why would they need to be,
+
+364
+01:01:40.340 --> 01:01:51.249
+Potuz: running these validators with a custom limit, why… I mean, if the withdrawals are done… if the sweep is done on the pool itself, the pool has a lot of capital, they can actually be
+
+365
+01:01:51.570 --> 01:02:01.349
+Potuz: handling this on their side instead of, on the pooled capital, instead of, like, overloading the protocol for this. So I don't see how… so on…
+
+366
+01:02:01.500 --> 01:02:13.540
+Potuz: So for pools, I would have expected that the pools themselves can handle this without having to overload the protocol. And for homestakers, well, we're seeing homestakers anyways consolidating.
+
+367
+01:02:13.990 --> 01:02:16.660
+Potuz: So, yeah, so it's that.
+
+368
+01:02:19.030 --> 01:02:21.020
+Greg K | Lido: Yeah, so I'm not…
+
+369
+01:02:21.190 --> 01:02:34.059
+Greg K | Lido: So, but I think the reply to your question is that the bond that you have in the permissionless taking depends on this effective balance. So, the bond that you have
+
+370
+01:02:34.060 --> 01:02:45.870
+Greg K | Lido: when you have a 001 validator, and the amount staked, like, using the capital provided by users is 32 ETH, then the bond is something very small, like 1.5 ETH.
+
+371
+01:02:45.870 --> 01:02:59.269
+Greg K | Lido: the bond that you will need to, to use in order to run a permissionless validator when the, max effective balance is, like, 20084 will be much higher. So, basically, you cannot, like.
+
+372
+01:02:59.270 --> 01:03:18.639
+Potuz: Yeah, so, but it's… it's… it becomes… I mean, if those numbers are like that, I just contacted, actually, Jim on the side, because I wasn't excited about CSM accepting 002, but if the numbers are like that, then again, it becomes very, very niche, right? A very small operator for CSM, like, running 24 keys.
+
+373
+01:03:18.640 --> 01:03:25.309
+Potuz: would already have the full bond to stake at 2048 validator.
+
+374
+01:03:25.340 --> 01:03:37.460
+Potuz: So this only makes sense for a CSM operator that is running about between up to 12 keys maximum, so between 1 and 12 keys maximum. So I suspect that this is going to be very, very niche.
+
+375
+01:03:42.030 --> 01:03:48.660
+Greg K | Lido: Yeah, so, you mean from this, focusing on the set of
+
+376
+01:03:49.260 --> 01:03:53.670
+Greg K | Lido: CSM validators, and this is a small fraction of them, this is what you say, right?
+
+377
+01:03:53.820 --> 01:04:01.129
+Potuz: Well, I would have expected this to be, like, essentially no user of the chain to be on that, because…
+
+378
+01:04:01.250 --> 01:04:11.090
+Potuz: It's not the difference between 32 and 2048. Now it's the difference between having 1.5 ETH and 32 ETH.
+
+379
+01:04:11.210 --> 01:04:12.930
+Potuz: Right? Which is the bond. So…
+
+380
+01:04:12.930 --> 01:04:13.330
+Greg K | Lido: Exactly.
+
+381
+01:04:13.330 --> 01:04:33.279
+Potuz: The question is, how many operators do you see running keys for somewhere else, so semi-professionally now, at their home, running on metal validators, and bonded for much less than 32 ETH? And I don't expect that number to be a large number of validators. And those are the guys that are, according to this.
+
+382
+01:04:33.330 --> 01:04:36.809
+Potuz: argument will benefit from this EIP,
+
+383
+01:04:37.030 --> 01:04:45.040
+Potuz: On the pool side, of course, home stakers will, benefit, but on the pooling side, I only see this very small fraction.
+
+384
+01:04:47.350 --> 01:05:07.059
+Greg K | Lido: Yeah, correct. So, I don't have a precise number right now. So, I said before that 95% of LIDAR validators will be anyways there, even without the CAP. So, we expect to be max 5%, but it might be even less, but yeah, I don't have now an optimal, like, I don't have a precise number around that.
+
+385
+01:05:11.150 --> 01:05:20.860
+Greg K | Lido: Yeah, so 75% of… yeah, no, 75% of the 10% is basically… yeah, 7.5% has less of it, something like that.
+
+386
+01:05:21.390 --> 01:05:25.800
+Greg K | Lido: So it's something between, let's say, 5 and 7.5%.
+
+387
+01:05:45.590 --> 01:05:52.609
+Parithosh Jayanthi: So I guess the request here is a bit more data about how many validators this would actually help with consolidation, right?
+
+388
+01:05:53.360 --> 01:05:56.990
+Greg K | Lido: Yeah, but the question of what is, like, how many validators does it help?
+
+389
+01:05:57.230 --> 01:06:07.759
+Greg K | Lido: within the LiDo side, not in general. So I think in general, POTUS agreed that it is useful for, like, small stakers, but the question is, like, what percentage of
+
+390
+01:06:08.030 --> 01:06:10.069
+Greg K | Lido: Permissionless taking pools.
+
+391
+01:06:10.350 --> 01:06:11.690
+Greg K | Lido: Who wouldn't be affected, right?
+
+392
+01:06:14.090 --> 01:06:14.640
+Parithosh Jayanthi: Yeah.
+
+393
+01:06:15.050 --> 01:06:16.349
+Parithosh Jayanthi: Cw?
+
+394
+01:06:17.100 --> 01:06:29.460
+CW: Yeah, it would seem to me that there are three distinct categories of staker that should be considered here that could potentially benefit from the CIP. Number 1, solo stakers, with
+
+395
+01:06:29.660 --> 01:06:33.379
+CW: Smaller amount than 2048 ETH.
+
+396
+01:06:33.560 --> 01:06:42.990
+CW: Number two, pool stakers, and number three, as I said earlier, institutional stakers that want to be able to configure the amount of risk per key.
+
+397
+01:06:43.480 --> 01:06:52.700
+CW: Which could be very convenient, particularly for those institutions that have things called risk committees, which are reasonably common in the financial industry.
+
+398
+01:07:07.380 --> 01:07:15.199
+Parithosh Jayanthi: Yeah, yeah, thank you. I guess we continue the conversation in the next call. Is that okay for you guys?
+
+399
+01:07:16.100 --> 01:07:29.579
+Parithosh Jayanthi: And maybe we'd add some more color onto the number of Lido stakers this would, affect, and it would be nice if client teams could have whoever looked into custom ceilings, during the PETRA implementation present on the call, too.
+
+400
+01:07:41.310 --> 01:07:52.770
+Greg K | Lido: Yep, I also see, actually, from Barnabas some comment about… consensus layer EIPs, from Glamsterdam, which I guess… Yeah.
+
+401
+01:07:52.930 --> 01:07:59.539
+Greg K | Lido: should have been discussed, like, before Hegota, but perhaps it's useful to discuss now, since we are still having some time.
+
+402
+01:07:59.920 --> 01:08:07.939
+Parithosh Jayanthi: Yeah, I just wanted to give ample time for Hegota discussions. Is there any other Hegota topic being proposed for today?
+
+403
+01:08:08.660 --> 01:08:14.869
+Parithosh Jayanthi: If not, yes, we can bring up the Glamsterdam CFI, DFI decisions.
+
+404
+01:08:22.450 --> 01:08:23.270
+Parithosh Jayanthi: Okay.
+
+405
+01:08:23.540 --> 01:08:30.320
+Parithosh Jayanthi: Yeah, let's, jump back to Glamsterdam in that case, since we still have some time.
+
+406
+01:08:30.939 --> 01:08:37.279
+Parithosh Jayanthi: First EIP that is still pending is, EIP8080.
+
+407
+01:08:38.120 --> 01:08:45.700
+Parithosh Jayanthi: This is, let exits use the consolidation queue. So the intent here is mainly that,
+
+408
+01:08:46.130 --> 01:08:54.299
+Parithosh Jayanthi: We still have a bunch of CFI EIPs, how serious are we about implementing it for Glamsterdam? If not, let's DFI them.
+
+409
+01:08:56.140 --> 01:09:00.660
+Parithosh Jayanthi: Has anyone looked into exits using the consolidation queue?
+
+410
+01:09:01.910 --> 01:09:05.819
+Parithosh Jayanthi: I don't think Francesco is available today to present it again.
+
+411
+01:09:16.810 --> 01:09:28.090
+Parithosh Jayanthi: Okay, maybe to be fair to client teams, we shouldn't make the decision here right now to DFI it, but at least give intent that we plan on DFI.
+
+412
+01:09:28.590 --> 01:09:30.090
+Parithosh Jayanthi: Yeah, and…
+
+413
+01:09:30.279 --> 01:09:30.929
+Greg K | Lido: execute on that.
+
+414
+01:09:30.930 --> 01:09:32.410
+Parithosh Jayanthi: And decision in two weeks.
+
+415
+01:09:33.220 --> 01:09:37.279
+Greg K | Lido: Yeah, may I ask whether there is context on why to deify this AP?
+
+416
+01:09:40.220 --> 01:09:48.380
+Parithosh Jayanthi: Essentially, that we still are working on Stable Glamsterdam, and there's a bunch of other EIPs that feel more important than this one.
+
+417
+01:09:48.560 --> 01:09:55.250
+Parithosh Jayanthi: So, if we're not intending to ship it in Glamsterdam, then it's better to earlier DFI it, so…
+
+418
+01:09:55.350 --> 01:09:57.579
+Parithosh Jayanthi: It doesn't hang around at a dead state.
+
+419
+01:10:05.060 --> 01:10:15.329
+Greg K | Lido: Okay, but what is weird is, like, there is this difference between deifying and deifying with moving to Hegota, considered for inclusion, right? So…
+
+420
+01:10:16.020 --> 01:10:20.510
+Greg K | Lido: I guess if it's deified due to timing, then it should be kind of…
+
+421
+01:10:23.090 --> 01:10:25.660
+Greg K | Lido: Automatically included power or not, I don't know.
+
+422
+01:10:26.070 --> 01:10:38.360
+Parithosh Jayanthi: Yeah, I think that's the part I would also need to check up. As far as I know, no, that isn't the case. It doesn't get automatically added to the Hegota CFI list. You would need to re-propose it for Hegota.
+
+423
+01:10:46.530 --> 01:10:52.719
+Parithosh Jayanthi: Yeah, exactly. I think, Tony and Nix were kind of mirroring that. It would need to be re-proposed for Hegota.
+
+424
+01:10:53.360 --> 01:11:01.889
+Parithosh Jayanthi: And the proposal for window for Hegota is still open, so it is better to make the DFI decision now, so people have ample time to re-propose.
+
+425
+01:11:13.320 --> 01:11:22.029
+Parithosh Jayanthi: Okay, so for EIP 8080, there's intent to DFI it, we'll take another call on it at the…
+
+426
+01:11:22.270 --> 01:11:24.950
+Parithosh Jayanthi: at the next ACDC, and make a decision.
+
+427
+01:11:28.290 --> 01:11:40.969
+Parithosh Jayanthi: The next one is, EIP8061, increase, exit, and consolidation churn. Do we have Anders, perhaps, on the call?
+
+428
+01:11:55.370 --> 01:12:03.499
+Parithosh Jayanthi: Okay, Barnabas, you proposed SFI-ing this. Why… why is that, if we don't have this on DevNets yet?
+
+429
+01:12:03.980 --> 01:12:09.020
+Barnabas: We do. We've been having this in DevNets, since DevNet 1.
+
+430
+01:12:09.860 --> 01:12:11.010
+Parithosh Jayanthi: Okay, perfect.
+
+431
+01:12:12.000 --> 01:12:16.690
+Parithosh Jayanthi: Are there any clients against SFI-ing this in two weeks?
+
+432
+01:12:17.590 --> 01:12:22.080
+Parithosh Jayanthi: Is there any reason that we would want to take this out of Glamsterdam?
+
+433
+01:12:27.770 --> 01:12:34.239
+Parithosh Jayanthi: Porto's EIT8061, so this is, increasing exit and consolidation churn.
+
+434
+01:12:37.520 --> 01:12:40.870
+Parithosh Jayanthi: And it creates a separate consolidation shown limit parameter.
+
+435
+01:12:44.520 --> 01:12:50.249
+Parithosh Jayanthi: Yeah, exactly. It's already been implemented and tested, so the main argument is, if this
+
+436
+01:12:50.350 --> 01:12:54.999
+Parithosh Jayanthi: someone making a case for taking it out. If not, then in two weeks we can SFI it.
+
+437
+01:13:08.100 --> 01:13:15.250
+Parithosh Jayanthi: Okay, the next EIP is, EIP8045.
+
+438
+01:13:15.840 --> 01:13:19.860
+Parithosh Jayanthi: Excludes slashed validators from proposing.
+
+439
+01:13:25.540 --> 01:13:28.419
+Parithosh Jayanthi: I don't think there's an implementation for this, right?
+
+440
+01:13:28.880 --> 01:13:33.649
+Parithosh Jayanthi: Has any client looked into… implementation complexity for the CIP?
+
+441
+01:13:37.930 --> 01:13:40.320
+Potuz: I'm sorry, this is excluding from duties.
+
+442
+01:13:42.490 --> 01:13:43.490
+Barnabas: So, just rampos up.
+
+443
+01:13:43.490 --> 01:13:44.609
+Parithosh Jayanthi: proposal, just proposal.
+
+444
+01:13:44.610 --> 01:13:45.440
+Potuz: Closers.
+
+445
+01:13:46.540 --> 01:13:49.490
+Barnabas: It should be fairly easy with the proposal you could add.
+
+446
+01:13:50.110 --> 01:13:59.280
+Potuz: Yeah, I think… so in Glamsterdam, we discussed this, it sounds to me that it's absolutely trivial to do this on,
+
+447
+01:13:59.560 --> 01:14:17.470
+Potuz: just only for proposers, so I am inclined to… to accept if this is specified. It should be very easy for us to implement. I assume… I haven't really seen the details of the AP, but I assume that it's just… at the time of computing the look-ahead, you just pick the next one if it's slashed.
+
+448
+01:14:17.600 --> 01:14:22.089
+Potuz: If it's that, then it's… this is a very simple, change.
+
+449
+01:14:24.360 --> 01:14:37.929
+Parithosh Jayanthi: Sure, but is there still intent to ship this, potentially, or not? If there's intent, then we can also leave it in SFI. If there's absolutely no intent to ship it, then we move it to DFI.
+
+450
+01:14:39.250 --> 01:14:44.460
+Potuz: I can have the PR open in presently, like, 5 minutes. It shouldn't be an issue.
+
+451
+01:14:46.180 --> 01:14:58.489
+Parithosh Jayanthi: Okay, then if you could do that, then we can take a call in two weeks, what we want to do with this EIP. Worst case, it stays in CFI mode until, it gets scheduled in a dead net.
+
+452
+01:15:03.490 --> 01:15:09.569
+Parithosh Jayanthi: But yes, it would be nice to know if we're talking about a relatively trivial implementation or a much bigger one.
+
+453
+01:15:16.010 --> 01:15:23.830
+Parithosh Jayanthi: Okay, the next one is EIP7688, Forward Compatible consensus Data Structures.
+
+454
+01:15:28.230 --> 01:15:33.109
+Parithosh Jayanthi: This is a bigger EIP, for sure.
+
+455
+01:15:33.330 --> 01:15:38.559
+Parithosh Jayanthi: the question is… and it has been CFI'd, the question is, do we…
+
+456
+01:15:38.910 --> 01:15:42.779
+Parithosh Jayanthi: intend to ship this in Glamsterdam, or not at all?
+
+457
+01:15:43.220 --> 01:15:44.720
+Parithosh Jayanthi: And push it to Hegota.
+
+458
+01:15:47.050 --> 01:15:49.949
+Parithosh Jayanthi: Or is there not enough information at this point?
+
+459
+01:15:58.210 --> 01:16:06.849
+Parithosh Jayanthi: Have any client teams looked into rebasing 7688 changes? I know there was a DevNet in the past, but rebase on top of Gloas?
+
+460
+01:16:09.550 --> 01:16:18.029
+Barnabas: the PR is currently rebased on top of glass. I think we are just waiting on a decision whether it's gonna be making it into the next,
+
+461
+01:16:18.710 --> 01:16:20.579
+Barnabas: CL spectral is.
+
+462
+01:16:27.810 --> 01:16:29.950
+Barnabas: Just a temporary comment on that.
+
+463
+01:16:33.910 --> 01:16:36.439
+Justin Traglia: Yeah, we're just waiting for a decision to be made.
+
+464
+01:16:40.590 --> 01:16:52.090
+Parithosh Jayanthi: Okay, since this is still a relatively large EIP, I would leave it as CFI. Let's see how long it takes for us to get to stable Glamsterdam before we're talking about
+
+465
+01:16:52.240 --> 01:16:55.760
+Parithosh Jayanthi: Another relatively large change to the codebase.
+
+466
+01:16:59.710 --> 01:17:02.659
+Barnabas: Yeah, I think we've been pushing this for…
+
+467
+01:17:03.160 --> 01:17:13.059
+Barnabas: months now, this decision, and that's why I think it would be very good to have a clear signal for plantings, otherwise they will never dedicate time,
+
+468
+01:17:14.040 --> 01:17:17.080
+Barnabas: Yeah, like Kingy just said, I'll send in the chat.
+
+469
+01:17:17.490 --> 01:17:26.529
+Parithosh Jayanthi: Yeah, but the thing is, we can't move it to SFI until there's a DevNet. We're not gonna change dev nets until we have stability, so it's kind of in limbo right now.
+
+470
+01:17:28.340 --> 01:17:31.899
+Barnabas: Yeah, but, like, maybe we can show an intent to restify.
+
+471
+01:17:33.060 --> 01:17:38.380
+Barnabas: And, like, how we have the intent to the FI, idiot.
+
+472
+01:17:40.450 --> 01:17:44.010
+Parithosh Jayanthi: I think DFI decisions are inherently easier because we…
+
+473
+01:17:44.740 --> 01:17:48.009
+Parithosh Jayanthi: Can have relatively high conviction that we're not going to get to them.
+
+474
+01:17:48.370 --> 01:17:56.879
+Parithosh Jayanthi: But SFI decisions really do need a DevNet, people implementing so that we don't SFI something that we're not sure of.
+
+475
+01:17:57.910 --> 01:18:05.389
+Parithosh Jayanthi: Yeah, exactly, and Nixo's already shared the, requirements to be SFI'd, so if anything.
+
+476
+01:18:05.910 --> 01:18:07.870
+Parithosh Jayanthi: I think we just need to…
+
+477
+01:18:08.840 --> 01:18:14.409
+Parithosh Jayanthi: get Glamsterdam DevNet stable, and then schedule this for a future DevNet.
+
+478
+01:18:15.860 --> 01:18:16.990
+Parithosh Jayanthi: Yeah, Tony?
+
+479
+01:18:18.490 --> 01:18:24.610
+Toni Wahrstätter: Yeah, could someone quickly remind me what was the main motivation behind this EAP? Because now we also have, like, this…
+
+480
+01:18:25.120 --> 01:18:36.739
+Toni Wahrstätter: Yeah, side motivation, that it solves the deposit contract stuff, but was the… was the original motivation, basically, that we keep, like, the proofs?
+
+481
+01:18:36.980 --> 01:18:39.719
+Toni Wahrstätter: Against the Biker root stable? Was that… Exactly.
+
+482
+01:18:39.720 --> 01:18:46.780
+Parithosh Jayanthi: So that, if we change stuff, we don't need to trigger, everyone in the ecosystem updating their contracts.
+
+483
+01:18:47.140 --> 01:18:47.840
+Toni Wahrstätter: Right.
+
+484
+01:18:48.290 --> 01:18:55.930
+Toni Wahrstätter: Yeah, this feels like very, low impact, and we're quite advanced in the fork, and it's not a small feature, so I would…
+
+485
+01:18:56.200 --> 01:18:59.230
+Toni Wahrstätter: Probably lean towards not doing it.
+
+486
+01:19:04.520 --> 01:19:06.960
+Barnabas: I wouldn't say that it's a low impact.
+
+487
+01:19:07.510 --> 01:19:09.869
+Barnabas: Maybe we… maybe we disagree on this.
+
+488
+01:19:11.530 --> 01:19:19.519
+Toni Wahrstätter: Do we have a number of how many people use the CL proofs? Because I remember the last time we checked, it was, like, a handful of people.
+
+489
+01:19:19.910 --> 01:19:23.709
+Toni Wahrstätter: And not saying that those are not important or anything, but…
+
+490
+01:19:23.860 --> 01:19:28.440
+Toni Wahrstätter: It's quite a trade-off to now include a big feature.
+
+491
+01:19:29.950 --> 01:19:38.679
+Toni Wahrstätter: like, if everything is done, and definites worked fine, then I won't be opposed to just don't want to delay it for additional CR features.
+
+492
+01:19:48.280 --> 01:19:55.660
+Parithosh Jayanthi: Yeah, let's maybe leave it at CFI for now, and see how long it takes for us to get stable dev nuts, and then we take a call.
+
+493
+01:20:00.450 --> 01:20:07.180
+Parithosh Jayanthi: But yeah, we should make the decision before we close the, the Hegota proposal.
+
+494
+01:20:07.730 --> 01:20:11.770
+Parithosh Jayanthi: times. Yeah, stable diagnostic for stable containers, exactly.
+
+495
+01:20:17.080 --> 01:20:24.149
+Parithosh Jayanthi: Okay, any other EIPs worth discussing, or any other topics worth, discussing today?
+
+496
+01:20:30.830 --> 01:20:34.729
+Mario Havel: If I may, just to interject for a little bit of topic.
+
+497
+01:20:34.810 --> 01:20:51.259
+Mario Havel: We are preparing the next cohort of, EPF, the Protocol Fellowship. Just wanted to remind you guys about that, and invite you to submit, projects for the upcoming cohort if your team wants to, get some fellows to help with
+
+498
+01:20:51.350 --> 01:21:01.980
+Mario Havel: of some, some implementation, some prototyping, and so on, please feel free to reach out or submit, your idea by opening PR here, so…
+
+499
+01:21:01.980 --> 01:21:12.710
+Mario Havel: Yeah, we are starting in a couple of weeks, so just wanted to remind you all that there is this possibility, and there are some former fellows here, some former mentors, so just, yeah, hope to
+
+500
+01:21:12.740 --> 01:21:14.390
+Mario Havel: Get some more people.
+
+501
+01:21:14.550 --> 01:21:18.339
+Mario Havel: For the EPA this time. And, yeah, thank you.
+
+502
+01:21:24.860 --> 01:21:31.240
+Parithosh Jayanthi: Barnabas, do you want to talk about the change in time for ACDC?
+
+503
+01:21:33.780 --> 01:21:35.489
+Barnabas: Yeah, sure. So…
+
+504
+01:21:35.630 --> 01:21:55.120
+Barnabas: In the interrupt, there was quite some feedback, from people that have not been able to attend, many of the DCDC calls, that live in the Australia time zone region. They are probably not here now, to speak up, and
+
+505
+01:21:55.760 --> 01:22:09.900
+Barnabas: We were just discussing whether this alternative time slot would work for most of the people that are here right now, and if there would be any opposition from moving the time slot from
+
+506
+01:22:10.420 --> 01:22:12.900
+Barnabas: 1400 to 1100.
+
+507
+01:22:13.350 --> 01:22:18.969
+Barnabas: So basically, 3 hours earlier than when the current times are.
+
+508
+01:22:24.950 --> 01:22:28.900
+Barnabas: And this would be only for ACDC, but for ACDE.
+
+509
+01:22:39.180 --> 01:22:49.500
+Parithosh Jayanthi: Yeah, I think from the European time zone, it doesn't really make a big difference. It's mostly gonna affect the Pacific time zone US participants.
+
+510
+01:23:07.670 --> 01:23:13.089
+Parithosh Jayanthi: Okay, I mean, there's still some discussion about we've tried in the past, etc,
+
+511
+01:23:14.200 --> 01:23:23.130
+Parithosh Jayanthi: how do we want to proceed? I think we had a small internal vote with some CL teams, it's…
+
+512
+01:23:23.390 --> 01:23:27.689
+Parithosh Jayanthi: Kind of 8 versus… 8 people prefer…
+
+513
+01:23:28.230 --> 01:23:40.589
+Parithosh Jayanthi: The 3-hour earlier situ- call, 6 people don't really care, and 3 people prefer the European time zone, so it's not a massive variance or any reason to really change stuff.
+
+514
+01:23:45.210 --> 01:23:53.759
+Parithosh Jayanthi: Could we maybe flip this and get a strong commitment of who we would actually lose and who we would actually gain if we moved the time zone from the client teams?
+
+515
+01:23:55.240 --> 01:24:00.170
+Parithosh Jayanthi: That would probably be the… Thing that's, yeah, that's most important.
+
+516
+01:24:11.300 --> 01:24:13.479
+Parithosh Jayanthi: Maybe to Lightfan's point, it…
+
+517
+01:24:14.020 --> 01:24:22.300
+Parithosh Jayanthi: I mean, it doesn't have to be a permanent move, you can also try it for one or two calls, see if there's actually better engagement, and then move it back if we don't.
+
+518
+01:24:25.740 --> 01:24:29.379
+Parithosh Jayanthi: And to Barnabas' point, I mean, Terrence is on vacation.
+
+519
+01:24:30.420 --> 01:24:32.289
+Parithosh Jayanthi: So that's, yeah.
+
+520
+01:24:40.900 --> 01:24:54.299
+Parithosh Jayanthi: Okay, should we try it out ad hoc for the next ACDC? See if more people actually show up, and how the engagement looks, and if not, we can move it. By default, it stays at the current time.
+
+521
+01:24:56.820 --> 01:25:06.069
+Parithosh Jayanthi: The new timing is 3 hours earlier, but this is just a trial timing for the next ACDC, number 180, I guess, yeah.
+
+522
+01:25:08.890 --> 01:25:15.590
+Parithosh Jayanthi: And 181 onwards, it will stay at the existing timing until… unless we make a more permanent decision.
+
+523
+01:25:25.010 --> 01:25:37.679
+Parithosh Jayanthi: To answer Jihoon's question, let's say this is just going to be for the next call, so just 180, purely so that it's easy to communicate. So, if you're extremely bullish on the earlier time zone, then please show up.
+
+524
+01:25:39.070 --> 01:25:49.290
+Potuz: So what's gonna be considered, like, a success if there's more turnout, or if we… I mean, if people come in and we fight more, do we consider that as a success or a failure?
+
+525
+01:25:49.620 --> 01:25:56.890
+Parithosh Jayanthi: I would consider that a success. If the ratio of me talking to everyone else talking goes up, then it's a failure.
+
+526
+01:26:08.200 --> 01:26:08.740
+Barnabas: I mean…
+
+527
+01:26:09.060 --> 01:26:17.259
+Barnabas: We have more Lighthouse people and more tech people on the call. I would call that a success, if we can achieve that without losing
+
+528
+01:26:17.430 --> 01:26:20.270
+Barnabas: many more, client intubs.
+
+529
+01:26:22.090 --> 01:26:23.240
+Parithosh Jayanthi: Sure, yeah.
+
+530
+01:26:31.070 --> 01:26:34.059
+Parithosh Jayanthi: Okay, any other topics for today?
+
+531
+01:26:39.930 --> 01:26:41.799
+Parithosh Jayanthi: If not,
+
+532
+01:26:42.070 --> 01:26:48.820
+Parithosh Jayanthi: Then, thank you, everyone, for coming. See you next time at the earlier time slot, 1180 UTC.
+
+533
+01:26:58.010 --> 01:26:59.729
+Toni Wahrstätter: Thanks, everyone. Bye-bye.
+
+534
+01:26:59.730 --> 01:27:01.550
+Parithosh Jayanthi: Thank you for coming. Bye.
+
+535
+01:27:01.550 --> 01:27:02.250
+Greg K | Lido: Thank you for being…
+
+536
+01:27:03.540 --> 01:27:04.270
+Oisin Kyne: Thanks.
+

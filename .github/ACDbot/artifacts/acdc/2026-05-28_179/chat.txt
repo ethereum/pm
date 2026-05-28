@@ -1,0 +1,408 @@
+00:05:11	nixo:	gmgm
+00:05:13	Iván | ethrex:	gm
+00:05:21	kwame:	gm gm
+00:05:30	Edgar | ethrex:	gm
+00:05:39	Luca Donno | L2BEAT:	Reacted to "gm" with ❤️
+00:05:42	Barnabas:	I can’t seem to hear anyone
+00:05:49	Barnabas:	Is it a me problem?
+00:05:57	Parithosh Jayanthi:	Its you
+00:05:58	Luca Donno | L2BEAT:	Reacted to "Is it a me problem?" with 👍
+00:06:01	Kalo | Obol:	gm
+00:06:04	Kalo | Obol:	Reacted to "Is it a me problem?" with 👍
+00:06:07	Dmitrii Shmatko:	Replying to "Is it a me problem?"
+
+You are a problem
+00:06:17	Christine Kim:	gm
+00:06:22	Luca Donno | L2BEAT:	Reacted to "You are a problem" with 😱
+00:07:57	Dmitrii Shmatko:	Reacted to "Is it a me problem?" with 👍
+00:09:06	Daniel Knopik:	lh has a bug that prevents restarting in certain circumstances, michael has a fix
+00:09:24	kingy_sigp:	Reacted to "lh has a bug that pr..." with 👍
+00:11:22	Barnabas:	Replying to "lh has a bug that pr..."
+
+When will this be in the devnet branch?
+00:11:58	kingy_sigp:	Replying to "lh has a bug that pr..."
+
+being reviewed tomorrow, I'd say mon/tues next week
+00:12:26	Potuz:	what did I miss
+00:12:30	Barnabas:	Replying to "lh has a bug that pr..."
+
+Should we wait till then with the relaunch?
+00:12:53	Daniel Knopik:	Replying to "lh has a bug that ..."
+
+IMO we can optismistically merge this into the devnet branch
+00:12:58	Potuz:	I had little debug info
+00:12:59	kingy_sigp:	Replying to "lh has a bug that pr..."
+
+the bug shouldn't occur if we dont relaunch all at once
+00:13:06	Daniel Knopik:	Reacted to "the bug shouldn't ..." with 👍
+00:13:14	Parithosh Jayanthi:	https://github.com/ethereum/beacon-APIs/pull/580
+00:13:20	Potuz:	Replying to ""
+
+what do you guys want to merge?
+00:13:54	kingy_sigp:	Replying to "lh has a bug that pr..."
+
+just a weird fork choice bug, nothing major
+00:15:08	Nico Flaig:	but why can't you compare? I don't get that
+00:15:34	Potuz:	Replying to ""
+
+I think Lodestar must have a fc bug given the issue they raised up
+00:15:47	kingy_sigp:	Reacted to "I think Lodestar mus..." with 👍
+00:16:04	kingy_sigp:	Replying to "lh has a bug that pr..."
+
+yep nico confirmed must have been just before you joined
+00:17:04	Potuz:	Reacted to "yep nico confirmed m..." with 👍
+00:19:59	Nico Flaig:	I vote for keeping builder boost as we have pre-gloas
+00:20:18	Nico Flaig:	https://ethereum.github.io/beacon-APIs/#/Validator/produceBlockV3  for reference
+00:20:40	Toni Wahrstätter:	So CLs can handle 8192 deposits but what about more? Can we bump the limit in hegota?
+Assuming a deposit costs 42k gas, we'd run into this problem at 350M gas limit.
+00:21:00	Barnabas:	Replying to "So CLs can handle 81..."
+
+The idea is to yeet the limit using stable containers
+00:21:31	Potuz:	Replying to "So CLs can handle 81..."
+
+people don't like my way of thinking about this, but I think we should make it infinite and if someone uses this to attack the chain we fork and burn that eth
+00:21:43	Toni Wahrstätter:	Replying to "So CLs can handle 81..."
+
+this is needed in hegota then. I wouldn't say stable containers is the simplest solution, e.g. could we just bump
+00:22:26	Oisin Kyne:	Replying to "So CLs can handle 81..."
+
+is it worth the effort to bump the number?
+00:23:16	Shane Moore:	https://github.com/shane-moore/beacon-APIs/pull/10 
+For adding blinded execution payload envelope in stateful block production path
+00:23:43	Toni Wahrstätter:	I'm happy with that change. Just doing the most simple thing, bumping the number.
+00:24:21	Oisin Kyne:	Replying to "I'm happy with that ..."
+
+why does it need to change at all? isn’t 8k enough?
+00:24:41	Toni Wahrstätter:	proofs aginst the beacon roots may need to change
+00:24:43	Potuz:	Replying to "I'm happy with that ..."
+
+it isn't if we raise the gas limit
+00:25:04	Potuz:	I agree with Barnabas
+00:25:12	Potuz:	if we do not ship stable containers we change it
+00:25:25	Justin Traglia:	Reacted to "if we do not ship st..." with 👍
+00:25:28	Justin Traglia:	Replying to "if we do not ship st..."
+
+Yes
+00:25:34	Oisin Kyne:	Replying to "I'm happy with that ..."
+
+is the fear that someone will make 10k deposits in a single slot, and a chunk of them fail?
+00:25:38	Toni Wahrstätter:	Replying to "I'm happy with that ..."
+
+It is much more than needed but we cannot limit in on the EL but need to account for worst-cases that go beyond 8192
+00:25:39	kingy_sigp:	Reacted to "I agree with Barnaba..." with 👍
+00:25:50	Toni Wahrstätter:	Reacted to "if we do not ship st..." with 👍
+00:25:55	Parithosh Jayanthi:	https://github.com/ethereum/execution-apis/pull/764 
+
+https://github.com/ethereum/execution-apis/pull/793
+00:26:04	Oisin Kyne:	Reacted to "if we do not ship st..." with 👍
+00:26:27	Marius Van Der Wijden (M):	"Rethinks everything" is a bit much, its not really different
+00:26:43	Łukasz Rozmej:	It is not that hard to move to Marius PR
+00:26:49	Marius Van Der Wijden (M):	Reacted to It is not that hard ... with "👍"
+00:26:51	Potuz:	Replying to "I'm happy with that ..."
+
+The fear is that someone will send a ton of deposits and DOS the chain cause the CL won't be able to process all the signatures in time. But whomever does this will risk constantly thousands of ETH that is locked for months and it's a trivial fork to burn it
+00:26:52	Nico Flaig:	Replying to "lh has a bug that pr..."
+
+@Potuz we missed `payload_data_is_available` in our `should_extend_payload`
+00:26:54	Mario Vega:	Reacted to "It is not that hard ..." with 👍
+00:27:33	kasey:	The tradeoff for prysm is that we need to do more work implementing a client that uses vanilla http vs importing geth’s client, but we have an api client package that this should fit into well enough. I like the more aggressive option because we can deprecate json-rpc at hegota.
+00:27:38	Marius Van Der Wijden (M):	Barnabas AI prefers mine :P
+00:27:47	Iván | ethrex:	We have benchmarks for Barnabas’s implementation
+00:28:08	Iván | ethrex:	We’re about to add them in the PR description implementing it https://github.com/lambdaclass/ethrex/pull/6710
+00:28:21	Potuz:	Replying to ""
+
+hmmm but without this why did you get true as result? was the PTC voting yes for timely and no for available?
+00:28:40	Barnabas:	I don’t expect a huge diff in perf between the two
+00:28:49	Marius Van Der Wijden (M):	Tbh I don't care too much either, it should just go in
+00:28:50	Oisin Kyne:	Replying to "I'm happy with that ..."
+
+so so many 1 eth deposits that the OOM CLs that can’t process them in time because they can only do 8k? Seems low probability enough that i’d take the dos risk and not mess with the constant at all to me… (but probably low information/weakly held view)
+00:29:01	Potuz:	Loool I got Pari in my club!
+00:29:30	Potuz:	Replying to "I'm happy with that ..."
+
+oh no! the constant is a different thing
+00:29:33	kasey:	Potuz just wants to take the bikes out of the shed and ride!
+00:29:40	Barnabas:	Just closed 764 in favor of 793
+00:29:43	Iván | ethrex:	Replying to "I don’t expect a hug..."
+
+We’d need some CLs to implement Marius’s to have some real numbers for it
+00:29:46	Potuz:	Replying to "I'm happy with that ..."
+
+the constant always needs to be larger than the maximum legal EL block
+00:29:52	Potuz:	Replying to "I'm happy with that ..."
+
+otherwise there's a deadlock in the chain
+00:29:52	Marius Van Der Wijden (M):	🚲🛖
+00:29:59	Barnabas:	Replying to "Just closed 764 in f..."
+
+Please everyone implement 793
+00:29:59	Justin Traglia:	Reacted to "🚲🛖" with 🚲
+00:30:24	Oisin Kyne:	Reacted to "otherwise there's a ..." with 🫡
+00:30:30	Oisin Kyne:	Reacted to "the constant always ..." with 👍🏽
+00:30:57	kingy_sigp:	we'll let you know when we've got one potuz
+00:31:02	Nico Flaig:	Replying to "lh has a bug that pr..."
+
+yes, that's what I think happened but not 100% confirmed, but it seems like the ptc voted against data being available but payload timely
+00:31:30	Potuz:	Replying to ""
+
+if that's happened I really want to know it may be a general bug in clients. I'll ask now in the meeting
+00:32:14	Iván | ethrex:	Reacted to "Please everyone impl..." with 👍
+00:32:58	Toni Wahrstätter:	how deep can we reorg?
+00:33:05	Parithosh Jayanthi:	As deep as we want 😄
+00:33:09	Parithosh Jayanthi:	Its a config variable
+00:33:22	Parithosh Jayanthi:	Assertor has a notion of time and slots, so it can keep track
+00:33:37	Parithosh Jayanthi:	https://discord.com/channels/595666850260713488/892088344438255616/1506975822513442896
+00:34:12	Toni Wahrstätter:	Replying to "Its a config variabl..."
+
+Can we test this:
+https://eips.ethereum.org/EIPS/eip-8252
+00:34:21	Stefan Bratanov:	We set them on the deadline and if blobs have arrived by then, we set the flag
+00:34:39	Toni Wahrstätter:	Replying to "Its a config variabl..."
+
+or test, many days being reorged, e.g.?
+00:34:43	Potuz:	interesting, Lodestar for sure sends the attestations early
+00:34:51	Potuz:	cause I get them sometimes even before the beacon block!
+00:35:28	Parithosh Jayanthi:	Replying to "Its a config variabl..."
+
+Yeah no reason we can’t 😄 can we also modify the values to make the test faster to avoid super long networks?
+00:37:02	Parithosh Jayanthi:	https://forky.glamsterdam-devnet-4.ethpandaops.io/
+00:37:53	Iván | ethrex:	Is there any CL client that already implements 793?
+00:38:03	Parithosh Jayanthi:	https://eips.ethereum.org/EIPS/eip-7684
+00:38:33	Parithosh Jayanthi:	https://eips.ethereum.org/EIPS/eip-8148
+00:41:39	Nico Flaig:	Replying to "lh has a bug that pr..."
+
+@Potuz lodestar should vote correctly here, we also have `PAYLOAD_DUE_BPS` implemented for separate deadlines (configurable via config)
+00:42:05	Potuz:	Replying to ""
+
+ah nice! now I need just one more
+00:42:29	Potuz:	Replying to ""
+
+ok so it may be Prysm that is voting incorrectly, will check that endpoint, it'd be nice to confirm your parent block had this situation
+00:45:27	Jihoon:	Replying to "https://eips.ethereum.org/EIPS/eip-8148"
+
+https://github.com/ethereum/consensus-specs/pull/4901
+00:47:24	Parithosh Jayanthi:	Is there an argument against just using 0x02 with todays ceiling and executing withdrawals manually? That’s sort of hacking in custom ceiling
+00:47:54	Barnabas:	I’d merge this idea with removing maxEB upper bound.
+00:48:17	Barnabas:	If we do a custom ceiling, there is no real reason to limit it with 2048 ETH imo
+00:48:52	Oisin Kyne:	Reacted to "If we do a custom ce..." with 👍🏽
+00:49:57	Potuz:	they can't on pools
+00:50:03	Potuz:	they don't own the withdrawal address
+00:50:41	Justin Traglia:	Reacted to "If we do a custom ce..." with 👍🏽
+00:51:30	Barnabas:	The protocol shouldn’t be concerned of your cashflow.
+00:52:22	Marius Van Der Wijden (M):	Can we bundle this with halving issuance?
+00:52:30	Barnabas:	Reacted to "Can we bundle this with halving issuance? " with 😂
+00:52:32	Trent Van Epps:	Reacted to "Can we bundle this w..." with 👍
+00:52:34	Ben Edgington:	Reacted to "Can we bundle this w..." with 😂
+00:52:37	Dmitrii Shmatko:	Reacted to "Can we bundle this w..." with 😂
+00:52:45	Mehdi Aouadi:	Reacted to "Can we bundle this with halving issuance? " with 😂
+00:53:32	lightclient:	stupid question, but why write the threshold into EL storage vs CL?
+00:53:34	Potuz:	Reacted to "Can we bundle this w..." with 😂
+00:53:49	Luca Donno | L2BEAT:	Reacted to "Can we bundle this w..." with 🔥
+00:53:50	soispoke:	Reacted to "Can we bundle this w..." with 😂
+00:53:51	Luca Donno | L2BEAT:	Reacted to "Can we bundle this w..." with 😂
+00:53:57	Barnabas:	Replying to "stupid question, but..."
+
+Could live in CL.
+00:55:44	lightclient:	Replying to "stupid question, but why write the threshold into EL storage vs CL?"
+
+i mean the sweep is on the CL so feels like it should be there
+00:56:08	Potuz:	Replying to "stupid question, but..."
+
+I suspect it makes it easier for pools to track this
+00:56:11	Potuz:	Replying to "stupid question, but..."
+
+ask this please
+00:56:23	Potuz:	Replying to "stupid question, but..."
+
+I assume it's about the contract handling this
+00:57:29	Potuz:	Replying to "stupid question, but..."
+
+yeah each validator has a new value
+00:57:41	Oisin Kyne:	Replying to "stupid question, but..."
+
+I guess it goes in the beaconstate?
+00:58:15	Potuz:	Replying to "stupid question, but..."
+
+yeah there's a new slice (or you can modify the validator slice) both of them were speced out
+00:58:18	Barnabas:	Replying to "stupid question, but..."
+
+Can we do this as an optional field?
+00:58:22	Ben Edgington:	Replying to "stupid question, but..."
+
+Yeah, it's 8 bytes of beaconstate per validator (~8MB today)
+00:58:36	Potuz:	Replying to "stupid question, but..."
+
+I thought Matt was asking why not send the message in the CL instead the EL
+00:58:59	Toni Wahrstätter:	would be nice to simplify it
+00:59:16	Toni Wahrstätter:	like, no EL requests, no txs, write directly to the CL state
+01:00:39	Toni Wahrstätter:	Makes sense yeah. Thanks
+01:03:01	Barnabas:	I know it’s a bit out of order, but could we decide the fate of the remaining glammy CL EIPs? 
+
+Suggested decisions could be: 
+8080 - CFI ->  DFI
+8061 - CFI -> SFI
+8045 -> CFI -> DFI (possibly move to hegota CFI list?)
+7688 - CFI -> SFI or CFI -> DFI
+01:05:05	Potuz:	Dima told me 75% have less than 32ETH
+01:05:25	Potuz:	but that includes surely the limit of 12 keys set originally
+01:05:33	Potuz:	so I'd expect a lot of them to have 12 keyus
+01:07:18	Barnabas:	To me this still feels too much complexity for too little number of users.
+01:07:25	Dmitrii Shmatko:	Reacted to "To me this still fee..." with 👍
+01:07:27	Carl Beekhuizen:	Reacted to "To me this still feels too much complexity for too little number of users." with 👍
+01:07:31	Potuz:	On the other hand I did look in early drafts of this EIP and it does seem very simple to implement
+01:07:39	Greg K | Lido:	Reacted to "On the other hand ..." with 👍
+01:07:42	Parithosh Jayanthi:	Reacted to "On the other hand I did look in early drafts of this EIP and it does seem very simple to implement" with 👍
+01:07:56	Potuz:	I'm just skeptical on the usage and whether this can be handled out of the protocol
+01:08:14	Toni Wahrstätter:	I get it now, this is mirroring 7002. 
+Feel like a lot of touched surface (EL, CL, Requests). Would be great to have a % how much of the stake would adopt this.
+01:08:37	Parithosh Jayanthi:	https://eips.ethereum.org/EIPS/eip-8080
+01:09:25	Barnabas:	We kind of ‘pre-dfi-ed’ this in Svalbard.
+01:10:28	nixo:	no auto CFIs
+01:10:32	Toni Wahrstätter:	those are two things. You can propose it for hegota
+01:10:37	nixo:	needs to be reproposed for Hegota
+01:11:00	Barnabas:	This is why it would be important to make a call on DFI these now
+01:11:03	Christine Kim:	Replying to "We kind of ‘pre-dfi-..."
+
+blog post made it sound pretty final
+01:12:19	Potuz:	which one?
+01:12:26	Barnabas:	Replying to "which one?"
+
+8061
+01:12:41	Potuz:	ahh we've already implemented and tested all of this
+01:12:47	Potuz:	taking it out is a mess
+01:12:49	nixo:	Reacted to "ahh we've already implemented and tested all of this" with 👍
+01:13:16	Parithosh Jayanthi:	https://eips.ethereum.org/EIPS/eip-8045
+01:14:23	marc | wolovim:	Replying to "https://eips.ethereu..."
+
+From tim’s blog post: “EIP-8045 (slashed-validator duty removal) was scoped down to proposer duties within the look-ahead window only”
+01:15:00	Barnabas:	Can any other CL also pls take a look?
+01:15:09	Mehdi Aouadi:	Replying to "https://eips.ethereu..."
+
+We have worked on it in Teku and we have a stale implementation
+01:15:15	Parithosh Jayanthi:	https://eips.ethereum.org/EIPS/eip-7688
+01:15:45	Justin Traglia:	Reacted to "https://eips.ethereu..." with 👍
+01:15:52	Barnabas:	I think we should keep it in Gloas!
+01:15:59	Greg K | Lido:	Reacted to "I think we should ..." with 👍
+01:16:00	kingy_sigp:	Reacted to "I think we should ke..." with 👍
+01:16:08	Justin Traglia:	Reacted to "I think we should ke..." with 👍
+01:16:16	Jihoon:	7688 is also related to max deposits and raising gas limit
+01:16:22	marc | wolovim:	Replying to "https://eips.ethereu..."
+
+Soldogn blog: “EIP-7688 (SSZ stable containers) remains in Glamsterdam scope but is held out of glamsterdam-devnet-1 while the team works through bounded gossip-message size for attestations under progressive lists.”
+01:16:30	Parithosh Jayanthi:	Well there’s the alternate option of just bumping limits
+01:16:55	kingy_sigp:	we haven't rebased 7688 - if we set a devnet date we can do it
+01:16:55	Toni Wahrstätter:	true but this could be solved in simpler ways by just bumping the limit
+01:17:33	Toni Wahrstätter:	What was the argument for this EIP? Mainly to have stable proofs against the beacon root?
+01:17:44	Jihoon:	Replying to "Well there’s the alternate option of just bumping limits"
+
+Up to which limit?
+01:18:05	nixo:	i think just keeping the CFI / SFI / DFI lists up to date do the work of signaling to devs which are still in contention
+01:19:30	Greg K | Lido:	Reacted to "i think just keepi..." with 👍
+01:20:06	Justin Traglia:	Stable devnets before stable containers
+01:20:10	kingy_sigp:	Reacted to "Stable devnets befor..." with 👍
+01:20:11	Christine Kim:	Reacted to "Stable devnets befor..." with 👍
+01:20:17	Toni Wahrstätter:	Reacted to "Stable devnets befor..." with 👍
+01:20:19	Barnabas:	Reacted to "Stable devnets before stable containers" with 👍
+01:20:20	Marius Van Der Wijden (M):	Does anyone have an intuition how long it takes to implement?
+01:20:29	Parithosh Jayanthi:	Reacted to "Stable devnets before stable containers" with 👍
+01:20:33	Potuz:	Reacted to "Stable devnets befor..." with 👍
+01:20:36	Barnabas:	Replying to "Does anyone have an ..."
+
+It should be done in most clients, just probably stale implementations
+01:20:42	Nico Flaig:	Reacted to "Stable devnets befor..." with 👍
+01:20:57	Mario Vega:	Reacted to "Stable devnets befor..." with 👍
+01:20:58	Mario Havel:	https://github.com/eth-protocol-fellows/cohort-seven/blob/main/projects/project-ideas.md
+01:21:13	Pooja Ranjan:	Reacted to "https://github.com/e..." with 👍
+01:21:28	Trent Van Epps:	Reacted to "https://github.com/e..." with 👍
+01:21:30	brechy:	Reacted to "https://github.com/e..." with 👍
+01:21:30	marc | wolovim:	Reacted to "https://github.com/e..." with 👍
+01:21:36	Toni Wahrstätter:	Reacted to "https://github.com/e..." with 👍
+01:22:21	lightclient:	Replying to "stupid question, but why write the threshold into EL storage vs CL?"
+
+i think i misunderstood it
+01:22:33	lightclient:	I feel like we tried this before and no one came
+01:22:36	Marius Van Der Wijden (M):	Works for europe
+01:22:43	Trent Van Epps:	How many people PST?
+01:22:50	nixo:	having ACDs at different times is gonna confuse people lol
+01:22:57	Barnabas:	Replying to "I feel like we tried..."
+
+It will be different, according to some Aussie/nz folks
+01:22:57	lightclient:	Reacted to "having ACDs at different times is gonna confuse people lol" with 👍
+01:22:57	nixo:	not opposed just pointing out
+01:22:58	Justin Traglia:	Reacted to "having ACDs at diffe..." with 👍
+01:23:01	Trent Van Epps:	We’ve tried this in the past as well
+01:23:03	Parithosh Jayanthi:	Reacted to "having ACDs at different times is gonna confuse people lol" with 👍
+01:23:10	Trent Van Epps:	Not easy to solve
+01:23:13	lightclient:	Reacted to "Not easy to solve" with 👍
+01:23:31	Christine Kim:	and did more people show up?
+01:23:37	Toni Wahrstätter:	Reacted to "Not easy to solve" with 👍
+01:23:56	Trent Van Epps:	Is 1100 UTC the latest possible time for people in AEST?
+01:23:57	Potuz:	Terence will be gone
+01:24:01	lightclient:	is it a permanent move?
+01:24:01	Potuz:	people in the west US
+01:24:12	nixo:	Replying to "is it a permanent mo..."
+
+ye permanent
+01:24:13	Potuz:	and Lighthouse crowd and some Teku people will come
+01:24:15	Barnabas:	Is terence here now?
+01:24:26	nixo:	i like that idea
+01:24:27	Potuz:	Terence is on vacations for the first time in 10 years
+01:24:31	lightclient:	Reacted to "Terence is on vacations for the first time in 10 years" with ❤️
+01:24:31	Iván | ethrex:	Not a CL dev but I won’t be able to make it
+01:24:32	Mario Vega:	Reacted to "Terence is on vacati..." with ❤️
+01:24:32	Barnabas:	Reacted to "Terence is on vacations for the first time in 10 years" with ❤️
+01:24:34	Toni Wahrstätter:	Reacted to "Terence is on vacati..." with ❤️
+01:24:34	nixo:	Reacted to "Terence is on vacations for the first time in 10 years" with ❤️
+01:24:35	Justin Traglia:	Reacted to "Terence is on vacati..." with ❤️
+01:24:37	Parithosh Jayanthi:	Reacted to "Terence is on vacations for the first time in 10 years" with ❤️
+01:24:38	Ben Edgington:	Reacted to "Terence is on vacati..." with ❤️
+01:24:41	Barnabas:	Replying to "Terence is on vacati..."
+
+Since when is that an excuse 😂
+01:24:44	Nico Flaig:	Reacted to "Terence is on vacati..." with ❤️
+01:24:45	Oisin Kyne:	Reacted to "Terence is on vacati..." with ❤️
+01:24:47	lightclient:	nooo
+01:24:47	Potuz:	Reacted to "Since when is that a..." with 😁
+01:24:49	Pooja Ranjan:	Reacted to "Terence is on vacati..." with ❤️
+01:24:53	Mario Havel:	Reacted to "Terence is on vaca..." with ❤️
+01:24:54	Mario Vega:	Can you repeat the new timing please?
+01:25:02	Barnabas:	11 UTC
+01:25:09	Potuz:	FWIW that timing is perfect for me :)
+01:25:14	Barnabas:	Reacted to "FWIW that timing is perfect for me :)" with 🎉
+01:25:20	Jihoon:	How many trials are we gonna have?
+01:25:25	lightclient:	Reacted to "How many trials are we gonna have?" with 😆
+01:25:40	nixo:	australia people, get your people to show up
+01:25:47	Christine Kim:	low stakes to try out a new time, why not?
+01:25:47	nixo:	55 people here today
+01:25:50	Toni Wahrstätter:	next call we ship like crazy
+01:25:54	lightclient:	Reacted to "next call we ship like crazy" with 😆
+01:25:58	Kalo | Obol:	Reacted to "next call we ship li..." with 😆
+01:26:02	Mario Vega:	Reacted to "next call we ship li..." with 😆
+01:26:29	Kalo | Obol:	Reacted to "Terence is on vacati..." with ❤️
+01:26:31	Parithosh Jayanthi:	Reacted to "next call we ship like crazy" with 😆
+01:26:36	lightclient:	what if we move australia closer to europe?
+01:26:37	Barnabas:	Replying to "55 people here today"
+
+I don’t think the raw number of ppl should be the deciding factor
+01:26:41	Iván | ethrex:	Reacted to "what if we move aust..." with ☝️
+01:26:42	Kalo | Obol:	Reacted to "what if we move aust..." with 🧠
+01:26:42	Barnabas:	Reacted to "what if we move australia closer to europe?" with ☝️
+01:26:44	Barnabas:	Reacted to "what if we move australia closer to europe?" with 🧠
+01:26:44	Iván | ethrex:	Reacted to "what if we move aust..." with 🧠
+01:26:44	nixo:	Reacted to "what if we move australia closer to europe?" with 🧠
+01:26:45	Trent Van Epps:	Reacted to "what if we move aust..." with ☝️
+01:26:45	Carl Beekhuizen:	Reacted to "what if we move australia closer to europe?" with 🧠
+01:26:45	Luca Donno | L2BEAT:	Reacted to "what if we move aust..." with ☝️
+01:26:46	Luca Donno | L2BEAT:	Reacted to "what if we move aust..." with 🧠
+01:26:48	Edgar | ethrex:	Se ha reaccionado a "what if we move au..." con 🧠
+01:26:49	Edgar | ethrex:	Se ha reaccionado a "what if we move au..." con ☝️
+01:26:50	Luca Donno | L2BEAT:	Reacted to "next call we ship li..." with 😆
+01:26:51	Mario Havel:	Reacted to "what if we move au..." with 🧠
+01:26:52	Parithosh Jayanthi:	Reacted to "what if we move australia closer to europe?" with ☝️
+01:26:53	Mario Havel:	gg
+01:26:53	Milos:	Reacted to "what if we move aust..." with 🧠
+01:26:54	Nico Flaig:	Reacted to "what if we move aust..." with 🧠
+01:26:55	lightclient:	why is it all the way down there
+01:27:02	Justin Traglia:	Reacted to "what if we move aust..." with 🧠
+01:27:03	Justin Traglia:	Reacted to "what if we move aust..." with ☝️
+01:27:04	marc | wolovim:	Reacted to "what if we move aust..." with 🧠
