@@ -62,7 +62,7 @@ Justin Traglia: I'm not sure that it's a spec issue, but I will investigate more
 
 16
 00:08:04.340 --> 00:08:11.740
-Parithosh Jayanthi: Oh yeah, I see there's a part of the thread I haven't caught up on. Yeah, okay, Portus is also arguing that it is a spec issue.
+Parithosh Jayanthi: Oh yeah, I see there's a part of the thread I haven't caught up on. Yeah, okay, Potuz is also arguing that it is a spec issue.
 
 17
 00:08:13.100 --> 00:08:15.580
@@ -122,7 +122,7 @@ Nico Flaig: So we basically reorged our own payload, and we always build on the 
 
 31
 00:10:25.420 --> 00:10:28.409
-Nico Flaig: But never updated it in our Fortress.
+Nico Flaig: But never updated it in our fork choice.
 
 32
 00:10:30.780 --> 00:10:34.099
@@ -382,7 +382,7 @@ Shane Moore: So then, yeah, it would work the same as today. That's true.
 
 96
 00:17:52.910 --> 00:17:54.080
-Parithosh Jayanthi: Yeah, photos?
+Parithosh Jayanthi: Yeah, Potuz?
 
 97
 00:17:54.860 --> 00:18:07.569
@@ -478,7 +478,7 @@ Parithosh Jayanthi: And if we were to increase the deposit costs to 42K gas, we'
 
 120
 00:21:35.570 --> 00:21:42.440
-Parithosh Jayanthi: Yeah, do you guys want to bring the discussion from chat to the call? Maybe Tony, Potos, Farnibus, one of you?
+Parithosh Jayanthi: Yeah, do you guys want to bring the discussion from chat to the call? Maybe Tony, Potuz, Barnabas, one of you?
 
 121
 00:21:51.810 --> 00:21:53.660
@@ -502,7 +502,7 @@ Toni Wahrstätter: like, I'm not opinionated on the final solution, nor that we�
 
 126
 00:22:21.950 --> 00:22:23.190
-Parithosh Jayanthi: Yeah, portals?
+Parithosh Jayanthi: Yeah, Potuz?
 
 127
 00:22:23.560 --> 00:22:28.410
@@ -594,7 +594,7 @@ Barnabas: sake of unlocking… unblocking us, so I would only add this new value
 
 149
 00:25:03.210 --> 00:25:04.660
-Barnabas: This table container.
+Barnabas: Stable containers.
 
 150
 00:25:04.870 --> 00:25:05.800
@@ -602,7 +602,7 @@ Barnabas: the IP.
 
 151
 00:25:07.330 --> 00:25:11.909
-Justin Traglia: I also agree. I'd rather not make this change into sleep containers.
+Justin Traglia: I also agree. I'd rather not make this change without stable containers.
 
 152
 00:25:12.880 --> 00:25:17.220
@@ -698,7 +698,7 @@ Parithosh Jayanthi: Okay.
 
 175
 00:29:07.960 --> 00:29:18.539
-Parithosh Jayanthi: Cool. Then let's go with, Maurice's PR, purely for faster deprecation path and having someone who's willing to keep up with the budgeting.
+Parithosh Jayanthi: Cool. Then let's go with, Marius's PR, purely for faster deprecation path and having someone who's willing to keep up with the budgeting.
 
 176
 00:29:24.780 --> 00:29:28.070
@@ -714,11 +714,11 @@ Parithosh Jayanthi: To summarize, is there any other Glamsterdam-related topic t
 
 179
 00:30:02.360 --> 00:30:03.700
-Parithosh Jayanthi: Yeah, photos?
+Parithosh Jayanthi: Yeah, Potuz?
 
 180
 00:30:04.110 --> 00:30:23.190
-Potuz: Yeah, I want to request again if clients can, ping me or give me images when you guys have implemented the honest reorg feature and dual deadlines for PTC. I want to start, actually checking for choice. We haven't been testing for Choice on the DevNet.
+Potuz: Yeah, I want to request again if clients can, ping me or give me images when you guys have implemented the honest reorg feature and dual deadlines for PTC. I want to start, actually checking fork choice. We haven't been testing fork choice on the DevNet.
 
 181
 00:30:23.290 --> 00:30:28.799
@@ -802,11 +802,11 @@ Parithosh Jayanthi: If you have any questions about it, then please reach out.
 
 201
 00:33:00.020 --> 00:33:01.150
-Parithosh Jayanthi: Yeah, portals.
+Parithosh Jayanthi: Yeah, Potuz.
 
 202
 00:33:01.910 --> 00:33:10.710
-Potuz: I wanted to ask a question to clients. There's a discussion on the chat about some possible four-choice bug.
+Potuz: I wanted to ask a question to clients. There's a discussion on the chat about some possible fork-choice bug.
 
 203
 00:33:10.780 --> 00:33:26.449
@@ -830,7 +830,7 @@ Nico Flaig: So for Lodestar, we only send them early if we see the block. So if 
 
 208
 00:35:03.830 --> 00:35:15.759
-Potuz: But… so only… so if you're not a proposer and you see the payload very early, do you wait until you put it in Fortress? So, namely, you wait until you're sure that the data is available?
+Potuz: But… so only… so if you're not a proposer and you see the payload very early, do you wait until you put it in fork choice? So, namely, you wait until you're sure that the data is available?
 
 209
 00:35:16.760 --> 00:35:21.619
@@ -842,11 +842,11 @@ Nico Flaig: Otherwise, we wait for the deadline.
 
 211
 00:35:24.330 --> 00:35:43.250
-Potuz: No, wait a second, you should… I mean, if the payload appears, is available, but you don't import it because… I'm sorry, the payload appeared, it's timely, but you don't import it in 4 choice because you couldn't get the columns, you still should vote for available, timely, but not available.
+Potuz: No, wait a second, you should… I mean, if the payload appears, is available, but you don't import it because… I'm sorry, the payload appeared, it's timely, but you don't import it in fork choice because you couldn't get the columns, you still should vote for available, timely, but not available.
 
 212
 00:35:43.460 --> 00:35:48.790
-Potuz: So, PTC attesters should attest to payloads that they haven't put in 4 choice.
+Potuz: So, PTC attesters should attest to payloads that they haven't put in fork choice.
 
 213
 00:35:54.110 --> 00:35:57.699
@@ -854,7 +854,7 @@ Nico Flaig: Yeah, I think that's what we should do, but I would need to double-c
 
 214
 00:35:57.700 --> 00:36:03.460
-Potuz: That's actually very important, because if you wait until you put in 4 choice, then you're waiting for execution as well.
+Potuz: That's actually very important, because if you wait until you put in fork choice, then you're waiting for execution as well.
 
 215
 00:36:29.480 --> 00:36:33.100
@@ -862,7 +862,7 @@ Parithosh Jayanthi: Okay, any other comments here, or…
 
 216
 00:36:33.310 --> 00:36:35.369
-Parithosh Jayanthi: Is there any conclusion, Portos?
+Parithosh Jayanthi: Is there any conclusion, Potuz?
 
 217
 00:36:36.340 --> 00:36:44.239
@@ -898,7 +898,7 @@ Parithosh Jayanthi: Do we have, Tapline or someone else to speak for this?
 
 225
 00:37:58.650 --> 00:38:09.590
-Greg K | Lido: Yeah, so, I had included this on the, last ACT call, agenda, together with the next one, like, 8148.
+Greg K | Lido: Yeah, so, I had included this on the, last ACD call, agenda, together with the next one, like, 8148.
 
 226
 00:38:09.680 --> 00:38:22.900
@@ -934,7 +934,7 @@ Parithosh Jayanthi: Yes, please go ahead.
 
 234
 00:39:01.850 --> 00:39:21.439
-Greg K | Lido: Okay, nice. So, I will try to keep it short, because this AP was also discussed by Dima in a previous ACD call, just to, like, recap everything. So, it's AP8148, Custom Sweep Threshold for validators. It was also by Dima, Dmitri, and myself, who are all lighter contributors.
+Greg K | Lido: Okay, nice. So, I will try to keep it short, because this EIP was also discussed by Dima in a previous ACD call, just to, like, recap everything. So, it's EIP-8148, Custom Sweep Threshold for validators. It was also by Dima, Dmitri, and myself, who are all Lido contributors.
 
 235
 00:39:21.440 --> 00:39:24.839
@@ -942,15 +942,15 @@ Greg K | Lido: And, it has to do with,
 
 236
 00:39:24.840 --> 00:39:44.770
-Greg K | Lido: the proof-of-stake, withdrawal credentials for validators. So, yeah, like, I think here for ACT call, we don't really need much background, but just as a reminder, what's the difference is, like, you have two validators, Alice and Bob, 01 and 02. The difference is that, when you, like, your effective balance exceeds 32 ETH,
+Greg K | Lido: the proof-of-stake, withdrawal credentials for validators. So, yeah, like, I think here for ACD call, we don't really need much background, but just as a reminder, what's the difference is, like, you have two validators, Alice and Bob, 01 and 02. The difference is that, when you, like, your effective balance exceeds 32 ETH,
 
 237
 00:39:44.770 --> 00:40:00.969
-Greg K | Lido: The 4001 validators, the legacy ones, the rewards are automatically withdrawn every roughly one week from the automatic withdrawal algorithm, while 4002 validators, this is not happening, the balance is compounding.
+Greg K | Lido: The 0x01 validators, the legacy ones, the rewards are automatically withdrawn every roughly one week from the automatic withdrawal algorithm, while 0x02 validators, this is not happening, the balance is compounding.
 
 238
 00:40:01.620 --> 00:40:24.060
-Greg K | Lido: And, actually, the new threshold for 002 validators is 2084 ETH. So, there is this kind of asymmetry between 32 and, 2048, and nothing in between. So, yeah, fast comparison, like we all know, 002 validators can accumulate balance, while 001 cannot. They have both
+Greg K | Lido: And, actually, the new threshold for 002 validators is 2048 ETH. So, there is this kind of asymmetry between 32 and, 2048, and nothing in between. So, yeah, fast comparison, like we all know, 002 validators can accumulate balance, while 001 cannot. They have both
 
 239
 00:40:24.060 --> 00:40:26.679
@@ -966,7 +966,7 @@ Greg K | Lido: are better for the network, particularly to reduce total validato
 
 242
 00:40:47.600 --> 00:41:07.190
-Greg K | Lido: future, roadmap, requires from 10x to 30x decrease on the number of validators to enable fast finality, together with other strong map, elements. So, this is really where we need to go, and this is why, the goal of the protocol is to have validators switching to 002,
+Greg K | Lido: future, roadmap, requires from 10x to 30x decrease on the number of validators to enable fast finality, together with other strawmap, elements. So, this is really where we need to go, and this is why, the goal of the protocol is to have validators switching to 002,
 
 243
 00:41:07.190 --> 00:41:26.259
@@ -990,7 +990,7 @@ Greg K | Lido: above 32 ETH, you receive immediately, with no single actions req
 
 248
 00:42:04.160 --> 00:42:18.370
-Greg K | Lido: And actually, that was the initial motivation of, the CAP, like, it was, like, during discussions in, Buenos Aires, like, in Devon last year, that this seems to be one of the big, barriers for many people to enter, 002.
+Greg K | Lido: And actually, that was the initial motivation of, the EIP, like, it was, like, during discussions in, Buenos Aires, like, in Devon last year, that this seems to be one of the big, barriers for many people to enter, 002.
 
 249
 00:42:20.080 --> 00:42:31.820
@@ -998,7 +998,7 @@ Greg K | Lido: And, yeah, example of people that, were saying the same thing wer
 
 250
 00:42:31.820 --> 00:42:56.150
-Greg K | Lido: has free rewards coming to me, and, but we had also serious, similar, cases with people who run, like, like, bigger, like, 6 validators, but… and the question is, like, why should I convert my 6 validators to 1 if I don't get my rewards automatically? Because I'm too far from the 2084 ETH. And similarly, there are also bigger players with just less than this, amount of ETH.
+Greg K | Lido: has free rewards coming to me, and, but we had also serious, similar, cases with people who run, like, like, bigger, like, 6 validators, but… and the question is, like, why should I convert my 6 validators to 1 if I don't get my rewards automatically? Because I'm too far from the 2048 ETH. And similarly, there are also bigger players with just less than this, amount of ETH.
 
 251
 00:42:56.150 --> 00:43:11.450
@@ -1010,7 +1010,7 @@ Greg K | Lido: bonds for full 002 keys, but so they prefer to stay 001 in order 
 
 253
 00:43:30.080 --> 00:43:33.870
-Greg K | Lido: the sweep threshold fixed at 2084 ETH.
+Greg K | Lido: the sweep threshold fixed at 2048 ETH.
 
 254
 00:43:33.990 --> 00:43:46.070
@@ -1026,7 +1026,7 @@ Greg K | Lido: So this achieves best of both worlds for this class of validators
 
 257
 00:44:01.610 --> 00:44:18.829
-Greg K | Lido: they can set any desired amount of ETH to accumulate, so it's quite continuous, between 32 and 2084 ETH, depending on the profile of the validator. They receive any excess rewards automatically, and they can also change the threshold at any time.
+Greg K | Lido: they can set any desired amount of ETH to accumulate, so it's quite continuous, between 32 and 2048 ETH, depending on the profile of the validator. They receive any excess rewards automatically, and they can also change the threshold at any time.
 
 258
 00:44:19.080 --> 00:44:35.200
@@ -1042,7 +1042,7 @@ Greg K | Lido: today has a thousand ETH, they cannot set the custom threshold be
 
 261
 00:44:49.120 --> 00:45:10.860
-Greg K | Lido: And the full control of the, of this threshold is to the stakeholder, so, it's only via execution layer triggerable actions that are introduced in PECTRA, so the entity that contains… that owns the ETH, not the entity who runs the validator, can, can only change this script threshold.
+Greg K | Lido: And the full control of the, of this threshold is to the stakeholder, so, it's only via execution layer triggerable actions that are introduced in Pectra, so the entity that contains… that owns the ETH, not the entity who runs the validator, can, can only change this script threshold.
 
 262
 00:45:11.200 --> 00:45:30.200
@@ -1058,15 +1058,15 @@ Greg K | Lido: Because, currently, the way that the protocol is, in order to rem
 
 265
 00:45:55.420 --> 00:46:14.269
-Greg K | Lido: modify also this sweep withdrawal algorithm. They interact quite heavily, but now, like with EIP-8148, this current constant of 2084 could be just used as the custom ceiling for current 002 validator. So, I think in the later part of the strong map, there is an item which is called
+Greg K | Lido: modify also this sweep withdrawal algorithm. They interact quite heavily, but now, like with EIP-8148, this current constant of 2048 could be just used as the custom ceiling for current 002 validator. So, I think in the later part of the strawmap, there is an item which is called
 
 266
 00:46:14.270 --> 00:46:20.809
-Greg K | Lido: the preset, and it includes also, as far as I understand, removing the maxiP, and I think this CIP
+Greg K | Lido: the preset, and it includes also, as far as I understand, removing the max EB, and I think this EIP
 
 267
 00:46:21.010 --> 00:46:28.170
-Greg K | Lido: prepare the ground quite easily to make this future change much smoother, and which I think it's a good change for the Athenium Proof of Stake.
+Greg K | Lido: prepare the ground quite easily to make this future change much smoother, and which I think it's a good change for the Ethereum Proof of Stake.
 
 268
 00:46:28.250 --> 00:46:41.710
@@ -1078,7 +1078,7 @@ Greg K | Lido: And small stakers and fractional home stakers can remain into the
 
 270
 00:46:49.370 --> 00:47:14.350
-Greg K | Lido: And one might ask, like, why, whether there is some impact on light as well. So, there will be some impact, but it's quite, small, and I just wanted to emphasize this. Like, 95% of light evaluators will switch to 002 anyways, no matter what happens with this AP. You know, permissions, we already start the test network
+Greg K | Lido: And one might ask, like, why, whether there is some impact on light as well. So, there will be some impact, but it's quite, small, and I just wanted to emphasize this. Like, 95% of Lido validators will switch to 002 anyways, no matter what happens with this EIP. You know, permissions, we already start the test network
 
 271
 00:47:14.350 --> 00:47:17.370
@@ -1094,7 +1094,7 @@ Greg K | Lido: But the point is that there might be a small fraction of the perm
 
 274
 00:47:37.980 --> 00:47:47.049
-Greg K | Lido: So, essentially, what this enables is the smaller players that are using Lidoc's permissionless staking to
+Greg K | Lido: So, essentially, what this enables is the smaller players that are using Lido's permissionless staking to
 
 275
 00:47:47.190 --> 00:47:49.509
@@ -1122,15 +1122,15 @@ Greg K | Lido: And, the cap of number of validators being applied, so that both 
 
 281
 00:48:57.980 --> 00:49:13.569
-Greg K | Lido: And also, as I said before, there are other future big concerns improvements that exist on the strong map, and this EIP is not so complex, and it will make those changes, which are here for the protocol easier to occur in the future.
+Greg K | Lido: And also, as I said before, there are other future big concerns improvements that exist on the strawmap, and this EIP is not so complex, and it will make those changes, which are here for the protocol easier to occur in the future.
 
 282
 00:49:13.820 --> 00:49:26.359
-Greg K | Lido: So, this is it. Yeah, there is also a thread in the mathematicians, there is also a PR open for, including this EAP in the Hegota Meta EAP, and yeah, happy to take any questions.
+Greg K | Lido: So, this is it. Yeah, there is also a thread in the mathematicians, there is also a PR open for, including this EIP in the Hegota Meta EIP, and yeah, happy to take any questions.
 
 283
 00:49:32.320 --> 00:49:47.680
-Parithosh Jayanthi: Thank you. Maybe one question is, is there any argument against keeping today's ceiling and expecting Xerox2 validators to just execute withdrawals manually? That's sort of hacking in the custom ceiling, right?
+Parithosh Jayanthi: Thank you. Maybe one question is, is there any argument against keeping today's ceiling and expecting 0x02 validators to just execute withdrawals manually? That's sort of hacking in the custom ceiling, right?
 
 284
 00:49:57.690 --> 00:50:07.439
@@ -1278,7 +1278,7 @@ Amir | P2P.org: validators at the moment, just not to have that headache, and no
 
 320
 00:55:25.380 --> 00:55:41.560
-Parithosh Jayanthi: Thank you. So as far as I know, custom ceilings were something we were looking at during Petra as well, but the main reason against it was implementation complexity. Perhaps there's some CLs who want to speak to it, or…
+Parithosh Jayanthi: Thank you. So as far as I know, custom ceilings were something we were looking at during Pectra as well, but the main reason against it was implementation complexity. Perhaps there's some CLs who want to speak to it, or…
 
 321
 00:55:41.900 --> 00:55:45.670
@@ -1354,11 +1354,11 @@ Greg K | Lido: Yes, I just think…
 
 339
 00:57:37.960 --> 00:57:46.589
-Greg K | Lido: there might be some questions, like, while talking… I saw there was some questions about Maxim P that I discussed, but I can't see it now. If someone can raise it, it would be fine.
+Greg K | Lido: there might be some questions, like, while talking… I saw there was some questions about max EB that I discussed, but I can't see it now. If someone can raise it, it would be fine.
 
 340
 00:57:49.090 --> 00:57:59.540
-Parithosh Jayanthi: Do you mean the point from Barnabas, where he was talking about, removing the MaxCB upper bound completely? So, essentially, everything's a custom ceiling?
+Parithosh Jayanthi: Do you mean the point from Barnabas, where he was talking about, removing the max EB upper bound completely? So, essentially, everything's a custom ceiling?
 
 341
 00:58:01.010 --> 00:58:06.659
@@ -1370,7 +1370,7 @@ Greg K | Lido: But I'm not… I'm not sure when…
 
 343
 00:58:10.310 --> 00:58:23.739
-Greg K | Lido: people who want to remove this max effective balance, and why, like, I'm not, so it's outside the scope of this particular AP, but I think it allows to do these things whenever we want it much easier.
+Greg K | Lido: people who want to remove this max effective balance, and why, like, I'm not, so it's outside the scope of this particular EIP, but I think it allows to do these things whenever we want it much easier.
 
 344
 00:58:32.350 --> 00:58:43.580
@@ -1402,7 +1402,7 @@ Parithosh Jayanthi: I think more devs also need to look at the EIP to figure out
 
 351
 00:59:38.930 --> 00:59:47.949
-Greg K | Lido: Yeah, I'm not sure, about the question. Actually, I will share now the… also the AP and the specs, we have, but
+Greg K | Lido: Yeah, I'm not sure, about the question. Actually, I will share now the… also the EIP and the specs, we have, but
 
 352
 00:59:48.410 --> 01:00:02.029
@@ -1422,15 +1422,15 @@ Greg K | Lido: But I'm not sure if this is the question, so if there is somethin
 
 356
 01:00:27.300 --> 01:00:32.200
-Parithosh Jayanthi: Tony, do you wanna immediately answer that? If not, Portis?
+Parithosh Jayanthi: Tony, do you wanna immediately answer that? If not, Potuz?
 
 357
 01:00:39.140 --> 01:00:41.059
-Parithosh Jayanthi: Okay, photos?
+Parithosh Jayanthi: Okay, Potuz?
 
 358
 01:00:41.790 --> 01:00:51.070
-Potuz: Yeah, so I feel… I mean, I'm… overall, I like this, the CIP. I think it's not going to affect much the…
+Potuz: Yeah, so I feel… I mean, I'm… overall, I like this, the EIP. I think it's not going to affect much the…
 
 359
 01:00:51.700 --> 01:01:00.650
@@ -1482,7 +1482,7 @@ Greg K | Lido: when you have a 001 validator, and the amount staked, like, using
 
 371
 01:02:45.870 --> 01:02:59.269
-Greg K | Lido: the bond that you will need to, to use in order to run a permissionless validator when the, max effective balance is, like, 20084 will be much higher. So, basically, you cannot, like.
+Greg K | Lido: the bond that you will need to, to use in order to run a permissionless validator when the, max effective balance is, like, 2048 will be much higher. So, basically, you cannot, like.
 
 372
 01:02:59.270 --> 01:03:18.639
@@ -1534,7 +1534,7 @@ Potuz: On the pool side, of course, home stakers will, benefit, but on the pooli
 
 384
 01:04:47.350 --> 01:05:07.059
-Greg K | Lido: Yeah, correct. So, I don't have a precise number right now. So, I said before that 95% of LIDAR validators will be anyways there, even without the CAP. So, we expect to be max 5%, but it might be even less, but yeah, I don't have now an optimal, like, I don't have a precise number around that.
+Greg K | Lido: Yeah, correct. So, I don't have a precise number right now. So, I said before that 95% of Lido validators will be anyways there, even without the EIP. So, we expect to be max 5%, but it might be even less, but yeah, I don't have now an optimal, like, I don't have a precise number around that.
 
 385
 01:05:11.150 --> 01:05:20.860
@@ -1554,7 +1554,7 @@ Greg K | Lido: Yeah, but the question of what is, like, how many validators does
 
 389
 01:05:57.230 --> 01:06:07.759
-Greg K | Lido: within the LiDo side, not in general. So I think in general, POTUS agreed that it is useful for, like, small stakers, but the question is, like, what percentage of
+Greg K | Lido: within the Lido side, not in general. So I think in general, Potuz agreed that it is useful for, like, small stakers, but the question is, like, what percentage of
 
 390
 01:06:08.030 --> 01:06:10.069
@@ -1574,7 +1574,7 @@ Parithosh Jayanthi: Cw?
 
 394
 01:06:17.100 --> 01:06:29.460
-CW: Yeah, it would seem to me that there are three distinct categories of staker that should be considered here that could potentially benefit from the CIP. Number 1, solo stakers, with
+CW: Yeah, it would seem to me that there are three distinct categories of staker that should be considered here that could potentially benefit from the EIP. Number 1, solo stakers, with
 
 395
 01:06:29.660 --> 01:06:33.379
@@ -1594,7 +1594,7 @@ Parithosh Jayanthi: Yeah, yeah, thank you. I guess we continue the conversation 
 
 399
 01:07:16.100 --> 01:07:29.579
-Parithosh Jayanthi: And maybe we'd add some more color onto the number of Lido stakers this would, affect, and it would be nice if client teams could have whoever looked into custom ceilings, during the PETRA implementation present on the call, too.
+Parithosh Jayanthi: And maybe we'd add some more color onto the number of Lido stakers this would, affect, and it would be nice if client teams could have whoever looked into custom ceilings, during the Pectra implementation present on the call, too.
 
 400
 01:07:41.310 --> 01:07:52.770
@@ -1658,7 +1658,7 @@ Parithosh Jayanthi: And decision in two weeks.
 
 415
 01:09:33.220 --> 01:09:37.279
-Greg K | Lido: Yeah, may I ask whether there is context on why to deify this AP?
+Greg K | Lido: Yeah, may I ask whether there is context on why to DFI this EIP?
 
 416
 01:09:40.220 --> 01:09:48.380
@@ -1674,11 +1674,11 @@ Parithosh Jayanthi: It doesn't hang around at a dead state.
 
 419
 01:10:05.060 --> 01:10:15.329
-Greg K | Lido: Okay, but what is weird is, like, there is this difference between deifying and deifying with moving to Hegota, considered for inclusion, right? So…
+Greg K | Lido: Okay, but what is weird is, like, there is this difference between DFI'ing and DFI'ing with moving to Hegota, considered for inclusion, right? So…
 
 420
 01:10:16.020 --> 01:10:20.510
-Greg K | Lido: I guess if it's deified due to timing, then it should be kind of…
+Greg K | Lido: I guess if it's DFI'd due to timing, then it should be kind of…
 
 421
 01:10:23.090 --> 01:10:25.660
@@ -1730,7 +1730,7 @@ Parithosh Jayanthi: Is there any reason that we would want to take this out of G
 
 433
 01:12:27.770 --> 01:12:34.239
-Parithosh Jayanthi: Porto's EIT8061, so this is, increasing exit and consolidation churn.
+Parithosh Jayanthi: Potuz, EIP-8061, so this is, increasing exit and consolidation churn.
 
 434
 01:12:37.520 --> 01:12:40.870
@@ -1758,7 +1758,7 @@ Parithosh Jayanthi: I don't think there's an implementation for this, right?
 
 440
 01:13:28.880 --> 01:13:33.649
-Parithosh Jayanthi: Has any client looked into… implementation complexity for the CIP?
+Parithosh Jayanthi: Has any client looked into… implementation complexity for the EIP?
 
 441
 01:13:37.930 --> 01:13:40.320
@@ -1786,7 +1786,7 @@ Potuz: Yeah, I think… so in Glamsterdam, we discussed this, it sounds to me th
 
 447
 01:13:59.560 --> 01:14:17.470
-Potuz: just only for proposers, so I am inclined to… to accept if this is specified. It should be very easy for us to implement. I assume… I haven't really seen the details of the AP, but I assume that it's just… at the time of computing the look-ahead, you just pick the next one if it's slashed.
+Potuz: just only for proposers, so I am inclined to… to accept if this is specified. It should be very easy for us to implement. I assume… I haven't really seen the details of the EIP, but I assume that it's just… at the time of computing the look-ahead, you just pick the next one if it's slashed.
 
 448
 01:14:17.600 --> 01:14:22.089
@@ -1838,7 +1838,7 @@ Parithosh Jayanthi: Have any client teams looked into rebasing 7688 changes? I k
 
 460
 01:16:09.550 --> 01:16:18.029
-Barnabas: the PR is currently rebased on top of glass. I think we are just waiting on a decision whether it's gonna be making it into the next,
+Barnabas: the PR is currently rebased on top of Gloas. I think we are just waiting on a decision whether it's gonna be making it into the next,
 
 461
 01:16:18.710 --> 01:16:20.579
@@ -1914,7 +1914,7 @@ Parithosh Jayanthi: Yeah, Tony?
 
 479
 01:18:18.490 --> 01:18:24.610
-Toni Wahrstätter: Yeah, could someone quickly remind me what was the main motivation behind this EAP? Because now we also have, like, this…
+Toni Wahrstätter: Yeah, could someone quickly remind me what was the main motivation behind this EIP? Because now we also have, like, this…
 
 480
 01:18:25.120 --> 01:18:36.739
@@ -2062,7 +2062,7 @@ Parithosh Jayanthi: That would probably be the… Thing that's, yeah, that's mos
 
 516
 01:24:11.300 --> 01:24:13.479
-Parithosh Jayanthi: Maybe to Lightfan's point, it…
+Parithosh Jayanthi: Maybe to lightclient's point, it…
 
 517
 01:24:14.020 --> 01:24:22.300
@@ -2126,7 +2126,7 @@ Parithosh Jayanthi: If not,
 
 532
 01:26:42.070 --> 01:26:48.820
-Parithosh Jayanthi: Then, thank you, everyone, for coming. See you next time at the earlier time slot, 1180 UTC.
+Parithosh Jayanthi: Then, thank you, everyone, for coming. See you next time at the earlier time slot, 1100 UTC.
 
 533
 01:26:58.010 --> 01:26:59.729
