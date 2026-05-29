@@ -20,3 +20,14 @@ These shared references apply to every BPO entry in this archive and are not rep
 - **Meta EIP:** [EIP-8134: Hardfork Meta - BPO1](https://eips.ethereum.org/EIPS/eip-8134) — parameters, activation time, base fee update fraction.
 - **Significance:** First mainnet exercise of the EIP-7892 mechanism. Establishes the precedent for config-only forks between major network upgrades and produces the first empirical data on whether the mechanism functions as designed at the coordination layer.
 - **Predecessor blob schedule:** Inherits from the Prague blob configuration set at the Pectra upgrade. See [EIP-7607: Hardfork Meta - Fusaka](https://eips.ethereum.org/EIPS/eip-7607) for the immediately preceding upgrade context.
+
+## BPO1 activation across networks
+
+Historical record of BPO1 activation on each network. Mainnet activation parameters are also recorded in [EIP-8134](https://eips.ethereum.org/EIPS/eip-8134); per-network testnet activations are recorded in [EIP-7606](https://eips.ethereum.org/EIPS/eip-8134), added here for quick reference:
+
+| Network Name | Activation Epoch | Activation Timestamp | Activation Time (UTC) | Fork ID      |
+| ------------ | ---------------- | -------------------- | --------------------- | ------------ |
+| Holešky      | 166400           | 1759800000           | 2025-10-07 01:20:00   | 0xa280a45c   |
+| Sepolia      | 274176           | 1761017184           | 2025-10-21 03:26:24   | 0x56078a1e   |
+| Hoodi        | 52480            | 1762365720           | 2025-11-05 18:02:00   | 0x3893353e   |
+| Mainnet      | 412672           | 1765290071           | 2025-12-09 14:21:11   | 0xcba2a1c0   |
