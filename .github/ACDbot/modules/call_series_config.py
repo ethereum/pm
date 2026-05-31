@@ -16,6 +16,7 @@ CONFIG_FILE_PATH = os.path.join(
 )
 
 _config_cache = None
+DEFAULT_RECORDING_PUBLICATION_MODE = "raw_zoom_recording"
 
 
 def _load_config() -> dict:
@@ -109,6 +110,20 @@ def get_call_series_config(series_key: str) -> Optional[dict]:
     """
     config = _load_config()
     return config.get("call_series", {}).get(series_key)
+
+
+def get_recording_publication_mode(series_key: str) -> str:
+    """
+    Get how recordings should be prepared before YouTube upload.
+
+    Args:
+        series_key: The call series key (e.g., "acdt")
+
+    Returns:
+        "raw_zoom_recording" unless the series config opts into another mode.
+    """
+    series_config = get_call_series_config(series_key) or {}
+    return series_config.get("recording_publication_mode") or DEFAULT_RECORDING_PUBLICATION_MODE
 
 
 def reload_config():

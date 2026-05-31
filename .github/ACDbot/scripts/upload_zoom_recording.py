@@ -13,6 +13,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from modules import zoom, transcript, discourse, tg, mattermost_notify
+from modules.call_series_config import get_recording_publication_mode
 from modules.youtube_utils import add_video_to_appropriate_playlist
 from modules.mapping_utils import (
     load_mapping as load_meeting_topic_mapping,
@@ -49,6 +50,9 @@ CLIENT_SECRETS_FILE = "client_secrets.json"
 
 # Thumbnail for uploaded recordings (distinct from livestream thumbnail)
 UPLOAD_THUMBNAIL_PATH = str(Path(__file__).resolve().parent.parent / "thumbnails" / "recording_thumbnail.png")
+DEFAULT_ACD_BUMPER_URL = "https://github.com/ethereum/pm/releases/download/acd-video-bumper-v1/ev.mp4"
+RAW_ZOOM_RECORDING_MODE = "raw_zoom_recording"
+COMPOSED_ZOOM_RECORDING_MODE = "composed_zoom_recording"
 
 def get_authenticated_service():
     # Initialize credentials from environment variables
@@ -276,6 +280,95 @@ def download_zoom_recording(meeting_id, min_duration_minutes=15, target_start_ti
         os.unlink(temp_file.name)  # Clean up failed download
         return None
 
+
+def download_bumper_from_url(url):
+    """Download the configured ACD bumper to a temporary local file."""
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+    try:
+        with requests.get(url, stream=True, timeout=60) as response:
+            if response.status_code != 200:
+                raise RuntimeError(f"Failed to download bumper: HTTP {response.status_code}")
+            for chunk in response.iter_content(chunk_size=1024 * 1024):
+                if chunk:
+                    temp_file.write(chunk)
+    finally:
+        temp_file.close()
+
+    path = Path(temp_file.name)
+    print(f"[SUCCESS] Downloaded bumper to: {path} ({path.stat().st_size / 1024 / 1024:.1f} MiB)")
+    return path
+
+
+def resolve_bumper_path():
+    """Resolve the bumper MP4 path for composed recording uploads."""
+    configured_path = os.environ.get("ACD_BUMPER_PATH")
+    if configured_path:
+        path = Path(configured_path)
+        if not path.exists():
+            raise FileNotFoundError(f"ACD_BUMPER_PATH does not exist: {path}")
+        return path, False
+
+    bumper_url = os.environ.get("ACD_BUMPER_URL") or DEFAULT_ACD_BUMPER_URL
+    return download_bumper_from_url(bumper_url), True
+
+
+def prepare_upload_video(
+    call_series_key,
+    recording_info,
+    meeting_id,
+    min_duration_minutes=15,
+    target_start_time=None,
+    tolerance_minutes=120,
+):
+    """Prepare the MP4 that should be uploaded for one call occurrence."""
+    mode = get_recording_publication_mode(call_series_key)
+    print(f"[INFO] Recording publication mode for {call_series_key}: {mode}")
+
+    if mode == RAW_ZOOM_RECORDING_MODE:
+        return download_zoom_recording(
+            meeting_id,
+            min_duration_minutes=min_duration_minutes,
+            target_start_time=target_start_time,
+            tolerance_minutes=tolerance_minutes,
+            recording_info=recording_info,
+        )
+
+    if mode == COMPOSED_ZOOM_RECORDING_MODE:
+        from scripts.compose_zoom_recording import compose_zoom_recording
+
+        bumper_path, cleanup_bumper = resolve_bumper_path()
+        output_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+        output_file.close()
+        output_path = Path(output_file.name)
+        try:
+            composed_path = compose_zoom_recording(
+                recording_info=recording_info,
+                bumper_path=bumper_path,
+                output_path=output_path,
+                access_token=get_access_token(),
+            )
+            if not composed_path:
+                try:
+                    os.unlink(output_path)
+                except FileNotFoundError:
+                    pass
+                return None
+            return str(composed_path)
+        except Exception:
+            try:
+                os.unlink(output_path)
+            except FileNotFoundError:
+                pass
+            raise
+        finally:
+            if cleanup_bumper:
+                try:
+                    os.unlink(bumper_path)
+                except FileNotFoundError:
+                    pass
+
+    raise ValueError(f"Unsupported recording publication mode for {call_series_key}: {mode}")
+
 def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None, min_duration=15):
     """Uploads Zoom recording to YouTube for a specific occurrence.
 
@@ -393,12 +486,13 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         print(f"[WARN] Could not check recording duration for meeting {meeting_id}: {e}")
         # Continue with download attempt if we can't check duration
 
-    video_path = download_zoom_recording(
+    video_path = prepare_upload_video(
+        call_series_key,
+        recording_info,
         meeting_id,
         min_duration_minutes=min_duration,
         target_start_time=occurrence_start_time,
         tolerance_minutes=120,
-        recording_info=recording_info,
     )
     if not video_path:
         print(f"[SKIP] No MP4 recording available for meeting {meeting_id}")

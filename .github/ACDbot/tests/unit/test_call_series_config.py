@@ -14,6 +14,7 @@ from modules.call_series_config import (
     get_autopilot_defaults,
     has_autopilot_support,
     get_default_autopilot_settings,
+    get_recording_publication_mode,
 )
 
 
@@ -241,6 +242,25 @@ class TestAutopilotConfig:
         assert defaults["duration"] == 90
         assert defaults["occurrence_rate"] == "bi-weekly"
         assert defaults["need_youtube_streams"] is True
+
+    def test_get_autopilot_defaults_for_acdt_disables_livestreams(self):
+        """Test that ACDT no longer creates scheduled livestreams."""
+        defaults = get_autopilot_defaults("acdt")
+
+        assert defaults is not None
+        assert defaults["duration"] == 60
+        assert defaults["occurrence_rate"] == "weekly"
+        assert defaults["need_youtube_streams"] is False
+
+    def test_get_recording_publication_mode_defaults_to_raw_zoom_recording(self):
+        """Test that series upload raw Zoom recordings unless configured otherwise."""
+        assert get_recording_publication_mode("acde") == "raw_zoom_recording"
+        assert get_recording_publication_mode("acdc") == "raw_zoom_recording"
+        assert get_recording_publication_mode("nonexistent") == "raw_zoom_recording"
+
+    def test_get_recording_publication_mode_for_acdt(self):
+        """Test that ACDT uses the composed recording upload path."""
+        assert get_recording_publication_mode("acdt") == "composed_zoom_recording"
 
     def test_get_autopilot_defaults_for_one_off(self):
         """Test that one-off calls have no autopilot defaults."""
