@@ -830,6 +830,26 @@ def delete_calendar_instance(event_id, target_date, calendar_id):
         raise
 
 
+def truncate_recurrence_rules(recurrence: list[str], until_str: str) -> list[str]:
+    """Return recurrence rules capped at UNTIL, preserving non-RRULE entries."""
+    truncated = []
+    for rule in recurrence:
+        if not rule.startswith('RRULE:'):
+            truncated.append(rule)
+            continue
+
+        _, _, rule_body = rule.partition(':')
+        rule_parts = [
+            part
+            for part in rule_body.split(';')
+            if part and not part.startswith(('UNTIL=', 'COUNT='))
+        ]
+        rule_parts.append(f'UNTIL={until_str}')
+        truncated.append(f"RRULE:{';'.join(rule_parts)}")
+
+    return truncated
+
+
 def end_recurring_event(event_id: str, calendar_id: str) -> bool:
     """End a recurring series at UNTIL=now: past instances are kept, no future ones generate.
 
@@ -854,14 +874,8 @@ def end_recurring_event(event_id: str, calendar_id: str) -> bool:
             print(f"[DEBUG] Event {event_id} has no recurrence; nothing to end")
             return True
 
-        # Strip any existing UNTIL/COUNT, then cap each RRULE at now.
         until_str = datetime.now(pytz.utc).strftime('%Y%m%dT%H%M%SZ')
-        new_recurrence = []
-        for rule in recurrence:
-            if rule.startswith('RRULE:'):
-                rule = re.sub(r';?(UNTIL=\d{8}(T\d{6}Z?)?|COUNT=\d+)', '', rule)
-                rule = f'{rule};UNTIL={until_str}'
-            new_recurrence.append(rule)
+        new_recurrence = truncate_recurrence_rules(recurrence, until_str)
 
         service.events().patch(
             calendarId=calendar_id,
