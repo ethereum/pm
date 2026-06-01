@@ -1,0 +1,170 @@
+00:02:35	danceratopz:	📋 GM! ACDT #81 agenda
+<https://github.com/ethereum/pm/issues/2085>
+00:03:06	Louis:	GM!
+00:04:49	Justin Traglia:	Gm
+00:07:09	danceratopz:	📋 GM! ACDT #81 agenda
+https://github.com/ethereum/pm/issues/2085
+00:07:20	danceratopz:	🟢 bal-devnet-7 - stable, 100% EVM fuzzing
+hive <https://hive.ethpandaops.io/#/group/bal>
+dora <https://dora.bal-devnet-7.ethpandaops.io/>
+🧪 final test release tests-bal@v7.3.0 once 8037 lands in forks/amsterdam
+tracker <https://github.com/ethereum/execution-specs/issues/2912>
+00:08:36	danceratopz:	Replying to "🟢 bal-devnet-7 - st..."
+
+eth/70 (EIP-7975) and eth/71 (EIP-8159) are mandatory on bal-devnet-7 - is this work complete?
+00:09:23	Toni Wahrstätter:	eth/71 is done in all clients afaik
+00:09:35	Daniel Lehrner (Besu):	Both implemented in Besu
+00:09:41	Edgar | ethrex:	same in ethrex
+00:10:07	Dragan Rakita:	Just landed
+00:11:56	danceratopz:	🏎️ Benchmarking - state of client BAL optimizations on bal-devnet-7 branches? (per-client round)
+state-actor (replace perf-devnet-3 snapshots) <https://github.com/ethereum/state-actor>
+issue <https://github.com/ethereum/execution-specs/issues/2916>
+00:12:55	danceratopz:	---------- Devnet Status: glamsterdam-devnet-4 post-mortem ----------
+🔴 Status: <https://dora.glamsterdam-devnet-4.ethpandaops.io/>
+🪦 glamsterdam-devnet-4 - recover or abandon?
+TLDR: ePBS split ~slot 22800; defect open (peering vs topic-ID vs should_build_on_full / PTC timing)
+<https://github.com/ethereum/consensus-specs/issues/5307>
+00:13:40	Justin Traglia:	What did we change in the spec?
+00:14:09	Eitan Seri-Levi:	the should build on full thing
+00:14:43	Nico Flaig:	https://github.com/ethereum/consensus-specs/pull/5309
+00:15:49	Justin Traglia:	I would like for these to be merged before making the alpha.9 release btw:
+
+* https://github.com/ethereum/consensus-specs/pull/5306: Apply proposer boost if dependent roots match
+* https://github.com/ethereum/consensus-specs/pull/5309: Limit should_build_on_full checks to the previous slot
+* https://github.com/ethereum/consensus-specs/pull/5310: Use should_build_on_full for bid parent block hash
+* https://github.com/ethereum/consensus-specs/pull/5174: Remove should_override_forkchoice_update
+
+And if we decide to include it:
+
+* https://github.com/ethereum/consensus-specs/pull/5115: Exclude slashed validators from proposing (EIP-8045)
+00:16:06	Eitan Seri-Levi:	We had a bug where our node couldn’t restart under certain conditions
+00:16:45	Nico Flaig:	what about https://github.com/ethereum/consensus-specs/pull/5210  ?
+00:17:02	Justin Traglia:	Replying to "what about https://g..."
+
+Oh yeah, that would be good to include too
+00:17:24	Nico Flaig:	5115 has no consensus yet though?
+00:18:41	spencer:	Silence = yes?
+00:18:42	Eitan Seri-Levi:	It’s not a huge lift for us but would delay our devnet readiness by a bit
+00:18:59	marc | wolovim:	Potuz in #interop channel: "I don't think I will be able to make it to ACDT so I'll leave my vote here to include 8045 in devnet 5”
+00:18:59	Nico Flaig:	potuz said yes
+00:19:07	danceratopz:	https://eips.ethereum.org/EIPS/eip-8045
+00:19:09	Justin Traglia:	Reacted to "Potuz in #interop ch..." with 🙏
+00:19:32	James He:	Potuz voted yes to include 8045
+00:20:19	Justin Traglia:	Fwiw I also like 8045 & support including it.
+00:20:33	Dmitrii Shmatko:	Reacted to "Fwiw I also like 804..." with 👍
+00:20:48	Nico Flaig:	8045 doesn't matter
+00:21:20	danceratopz:	---------- Spec Changes: 7928 non-empty change set ----------
+📋 EIP-7928 BAL - SlotChanges must have >=1 StorageChange (no empty sets)
+<https://github.com/ethereum/EIPs/pull/11750>
+00:21:38	Ben Adams:	targetGasLimit in PayloadAttributesV4 isn't compatable with the BAL devnets?
+00:23:52	danceratopz:	---------- Spec Changes: 7928 state-access decoupling ----------
+🧩 EIP-7928 - decouple state-access validation from EIP-2929 (stack/balance checks to pre-state; warming+BAL paired with post-state cost)
+<https://github.com/ethereum/EIPs/compare/master...nerolation:EIPs:toni/state-access>
+R&D discussion <https://discord.com/channels/595666850260713488/1506543443172921464/1509797201340137544>
+00:24:07	Toni Wahrstätter:	BAL / Change charge order:
+https://github.com/ethereum/EIPs/compare/master...nerolation:EIPs:toni/state-access
+00:27:00	Toni Wahrstätter:	That's how it looks in EELS:
+https://github.com/ethereum/execution-specs/pull/2900
+00:28:03	Dragan Rakita:	We need to change it too
+00:29:09	Karim T. (matkt):	I will prefer to test to implement it and see the impact before . But for the moment seems to not be a simple change (besu)
+00:29:36	Dragan Rakita:	Yeah
+00:29:54	danceratopz:	Reacted to "I will prefer to tes..." with 👍
+00:31:31	danceratopz:	---------- Spec Changes: 8037 calldata floor (merged) ----------
+🧾 EIP-8037 - calldata floor accounting alignment & call-frame refill clarification
+<https://github.com/ethereum/EIPs/pull/11706>
+
+---------- Spec Changes: 8037 auth refunds ----------
+🧾 EIP-8037 - expand EIP-7702 authorization gas refunds (5-rule scheme)
+TLDR: want it or not? added complexity / attack vectors?
+<https://github.com/ethereum/EIPs/pull/11715>
+00:38:37	danceratopz:	---------- Spec Changes: 2780 ----------
+⛽ EIP-2780 - remove self-transfer & precompile carve-outs
+TLDR: open Q - charge TRANSFER_LOG_COST for self-transfers (no 7708 log)? one cost or Code-vs-No-Code split?
+<https://github.com/ethereum/EIPs/pull/11735>
+00:42:14	Dragan Rakita:	I am fine with the log part.
+00:47:28	Toni Wahrstätter:	What about 7997?
+00:47:59	Toni Wahrstätter:	the factory precompile
+00:48:40	spencer:	From my side I like the following below, and adding all EL changes and new EL EIPs to `bal-devnet-8` :
+Launch two devnets simultaneously and merge into later devnet:
+i. glamsterdam-devnet-5 for CL stability.
+ii. bal-devnet-8 for close-to-final EL spec.
+iii. -> merge into glamsterdam-devnet-6.
+00:49:30	Stefan Starflinger:	7997 is marked https://eips.ethereum.org/EIPS/eip-7773  as CFI
+00:49:32	danceratopz:	https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7997.md
+00:49:57	Dragan Rakita:	Ship it I guess
+00:50:01	Stefan Starflinger:	Reacted to "Ship it I guess" with 👍
+00:50:47	Stefan Starflinger:	Replying to "Ship it I guess"
+
+🛳️
+00:51:08	Etan (Nimbus):	I mean, the Q about 7688 is, how do we get prysm/teku/lighthouse/grandine to become ready? we keep pushing it to “next devnet”
+00:51:10	Dragan Rakita:	Reacted to "🛳️" with 🛳️
+00:51:16	spencer:	Replying to "Ship it I guess"
+
+🛳️
+00:51:18	spencer:	Reacted to "🛳️" with 🛳️
+00:51:26	danceratopz:	https://github.com/ethsteel/pm/blob/main/complexity_assessments/EIPs/EIP-7997.md
+00:51:29	Ben Adams:	Replying to "Ship it I guess"
+
+🛳️
+00:51:34	Ben Adams:	Reacted to "Ship it I guess" with 👍
+00:52:06	Louis:	Replying to "the factory precompi..."
+
+It is a system contract?
+00:52:43	spencer:	Reacted to "🛳️" with 🛳️
+00:52:53	spencer:	Reacted to "🛳️" with 🛳️
+00:52:56	Stefan Starflinger:	Reacted to "🛳️" with 🛳️
+00:52:57	spencer:	Reacted to "Ship it I guess" with 🛳️
+00:53:00	Stefan Starflinger:	Reacted to "🛳️" with 🛳️
+00:53:02	Stefan Starflinger:	Reacted to "🛳️" with 🛳️
+00:53:08	Dragan Rakita:	Replying to "the factory precompi..."
+
+It is bytecode that is deployed at 0x12 address
+00:53:18	Toni Wahrstätter:	I'd keep 7997 in CFI for now and ask clients to double-check if we actually need it.
+E.g. this one:
+https://safefoundation.org/blog/safe-research-meet-erc-7955-no-private-key-required 
+
+We shouldn't include it just because it's small but only if it makes much sense.
+00:53:24	danceratopz:	Launch two devnets simultaneously and merge into later devnet:
+i. glamsterdam-devnet-5 for CL stability.
+ii. bal-devnet-8 for close-to-final EL spec.
+iii. -> merge into glamsterdam-devnet-6.
+00:58:48	Dragan Rakita:	For repricing, I would be fine to change it to anything, just to test the change and later update it when we get better number. Just so we are not blocked by this.
+01:00:25	spencer:	optimizations + benchmarking on bal-devnet-7
+all new el eips and eip changes on glam-denvet-6
+
+ELs should prio optimizations over glam-devnet-6 EIPs/changes?
+01:00:44	Maria Silva:	Also would like to hear from erigon, geth and besu as they are still working on optimizations
+01:01:08	Toni Wahrstätter:	benchmarking/optimizations > more eips
+01:01:19	Stefan Starflinger:	Reacted to "benchmarking/optimiz..." with 👍
+01:01:25	Mario Vega:	Reacted to "benchmarking/optimiz..." with 👍
+01:01:32	Stefan Starflinger:	sounds great
+01:02:24	Dragan Rakita:	Reacted to "Also would like to h..." with ➕
+01:02:29	Stefan Starflinger:	7997?
+01:02:55	felix (eest):	Reacted to "benchmarking/optim..." with 👍
+01:03:50	Mario Vega:	I’d prioritize SELFDESTRUCT burn removal, because it simplifies other things
+01:04:05	Dragan Rakita:	Reacted to "I’d prioritize SELFD..." with ➕
+01:04:30	Toni Wahrstätter:	Reacted to "I’d prioritize SELFD..." with ➕
+01:04:48	Dragan Rakita:	Lets focus all EL changes to glam-devnet-6
+01:04:52	spencer:	Reacted to "Lets focus all EL ..." with ➕
+01:04:53	Ben Adams:	Reacted to "Lets focus all EL ch..." with ➕
+01:04:54	Mario Vega:	I meeant over 7997, sorry for confusion
+01:05:01	Edgar | ethrex:	Reacted to "Lets focus all EL ..." with ➕
+01:05:22	Stefan Starflinger:	Reacted to "Lets focus all EL ch..." with ➕
+01:05:27	Stefan Starflinger:	okay then lets postpone it
+01:06:02	spencer:	Replying to "Lets focus all EL ..."
+
+For clients that have optimizations complete, can you work on this so we have someone to test against?
+01:06:05	Ben Adams:	More important to have a working glamsterdam devnet than adding more EL changes to it ahead of the other EL changes?
+01:06:08	Toni Wahrstätter:	optimizations > selfdesctruct burn > 7997
+01:06:15	Mario Vega:	Reacted to "optimizations > self..." with 👍🏼
+01:06:19	Andrew Ashikhmin:	Reacted to "optimizations > self..." with 👍🏼
+01:06:21	Stefan Starflinger:	Reacted to "optimizations > self..." with 👍🏼
+01:06:22	Dragan Rakita:	Lets list all needed changes for glam-devnet-6 so people know what is needed
+01:06:26	Dragan Rakita:	Reacted to "optimizations > self..." with 👍🏼
+01:06:57	Dragan Rakita:	Replying to "Lets focus all EL ch..."
+
+Yeah already have some version of all of this
+01:07:11	Dragan Rakita:	Replying to "Lets focus all EL ch..."
+
+Intrinsic gas is maybe only thing missing
+01:07:12	spencer:	Reacted to "Yeah already have ..." with 🔥
