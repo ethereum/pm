@@ -333,6 +333,12 @@ class ProtocolCallHandler:
                 self._post_past_date_comment(issue, start_time)
                 return False
 
+            # 3c. Refuse to schedule a retired series (set active=true to resume).
+            call_series = call_data.get("call_series")
+            if call_series and not self.mapping_manager.is_series_active(call_series):
+                self.logger.warning(f"Series '{call_series}' is retired (active=false); skipping issue #{issue_number}")
+                return False
+
             # 4. Check for existing occurrence and resources
             existing_occurrence = self.mapping_manager.find_occurrence(issue_number)
             is_update = existing_occurrence is not None
@@ -1012,19 +1018,6 @@ The bot will automatically process your issue once you've selected a valid call 
             occurrence_rate = call_data.get("occurrence_rate", "other")
             call_series = call_data.get("call_series", "unknown")
             is_recurring = not call_series.startswith("one-off-")
-
-            # Retired series have no live calendar event. Refuse to create or
-            # extend one so the mapping invariant (active=false => no calendar
-            # event) cannot be broken by editing or reopening an old issue.
-            if not self.mapping_manager.is_series_active(call_series):
-                print(f"[INFO] Call series '{call_series}' is retired (active=false); skipping calendar event.")
-                return {
-                    "calendar_created": False,
-                    "calendar_event_id": None,
-                    "calendar_event_url": None,
-                    "calendar_action": "skipped",
-                    "calendar_action_detail": "series_retired",
-                }
 
             # Determine calendar event title
             if call_series.startswith("one-off-"):

@@ -213,31 +213,19 @@ class MappingManager:
         return True
 
     def is_series_active(self, call_series: str) -> bool:
-        """Whether a call series is currently active.
-
-        A series is active unless its mapping entry explicitly sets
-        ``active: false``. Missing series (e.g. brand-new or one-off calls)
-        default to active.
-        """
+        """Whether a series is active. Defaults to True unless the entry sets active=false."""
         series_entry = self.mapping.get(call_series)
         if not isinstance(series_entry, dict):
             return True
         return series_entry.get("active", True)
 
     def retire_series(self, call_series: str) -> bool:
-        """Retire a call series so the record reflects reality.
-
-        Marks the series ``active: false`` and clears its calendar event ID
-        (the recurring event is deleted from Google Calendar separately, by
-        the retire script, before this is called). After retirement the
-        scheduling guard refuses to recreate a calendar event for the series.
-        """
+        """Mark a series inactive. The calendar recurrence is ended separately by the retire script."""
         if call_series not in self.mapping:
             self.logger.warning(f"Call series '{call_series}' not found in mapping")
             return False
 
         self.mapping[call_series]["active"] = False
-        self.mapping[call_series]["calendar_event_id"] = None
         self.logger.debug(f"Retired call series: {call_series}")
         return True
 

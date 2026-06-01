@@ -589,8 +589,8 @@ class TestMappingManager:
         assert manager.is_series_active("missing") is True       # unknown series -> active
         assert manager.is_series_active("withflag") is False     # explicitly retired
 
-    def test_retire_series_marks_inactive_and_clears_calendar(self, temp_mapping_file):
-        """Retiring a series sets active=false and clears the stale calendar event id."""
+    def test_retire_series_marks_inactive(self, temp_mapping_file):
+        """Retiring a series sets active=false while preserving its event id and history."""
         manager = MappingManager(temp_mapping_file)
         manager.mapping = {
             "testseries": {
@@ -604,9 +604,9 @@ class TestMappingManager:
         assert manager.retire_series("testseries") is True
         entry = manager.mapping["testseries"]
         assert entry["active"] is False
-        assert entry["calendar_event_id"] is None
         assert manager.is_series_active("testseries") is False
-        # History is preserved.
+        # The event id (still a real, now-ended event) and history are preserved.
+        assert entry["calendar_event_id"] == "abc123"
         assert entry["occurrences"] == [{"issue_number": 1}]
 
     def test_retire_series_missing_returns_false(self, temp_mapping_file):

@@ -830,32 +830,48 @@ def delete_calendar_instance(event_id, target_date, calendar_id):
         raise
 
 
-def delete_recurring_event(event_id: str, calendar_id: str) -> bool:
-    """Delete an entire recurring event series from Google Calendar.
+def end_recurring_event(event_id: str, calendar_id: str) -> bool:
+    """End a recurring series at UNTIL=now: past instances are kept, no future ones generate.
 
-    Removes the series and all its instances (past and future). Used to retire
-    a call series. Returns True if the event was deleted or was already gone.
-
-    Args:
-        event_id: ID of the recurring calendar event series
-        calendar_id: Google Calendar ID
-
-    Returns:
-        True on success (including if already deleted), raises on other errors.
+    Returns True on success (including if the event is already gone); raises otherwise.
     """
-    print(f"[DEBUG] Deleting recurring event series {event_id} from calendar {calendar_id}")
+    print(f"[DEBUG] Ending recurring event series {event_id} on calendar {calendar_id}")
 
     try:
         service = get_calendar_service()
-        service.events().delete(calendarId=calendar_id, eventId=event_id).execute()
-        print(f"[DEBUG] Deleted recurring event series {event_id}")
+
+        try:
+            event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
+        except Exception as e:
+            error_code = getattr(getattr(e, 'resp', None), 'status', None)
+            if error_code in (404, 410):
+                print(f"[DEBUG] Recurring event already gone (HTTP {error_code})")
+                return True
+            raise
+
+        recurrence = event.get('recurrence', [])
+        if not recurrence:
+            print(f"[DEBUG] Event {event_id} has no recurrence; nothing to end")
+            return True
+
+        # Strip any existing UNTIL/COUNT, then cap each RRULE at now.
+        until_str = datetime.now(pytz.utc).strftime('%Y%m%dT%H%M%SZ')
+        new_recurrence = []
+        for rule in recurrence:
+            if rule.startswith('RRULE:'):
+                rule = re.sub(r';?(UNTIL=\d{8}(T\d{6}Z?)?|COUNT=\d+)', '', rule)
+                rule = f'{rule};UNTIL={until_str}'
+            new_recurrence.append(rule)
+
+        service.events().patch(
+            calendarId=calendar_id,
+            eventId=event_id,
+            body={'recurrence': new_recurrence}
+        ).execute()
+        print(f"[DEBUG] Ended recurring event {event_id} at {until_str} (past instances preserved)")
         return True
     except Exception as e:
-        error_code = getattr(getattr(e, 'resp', None), 'status', None)
-        if error_code in (404, 410):
-            print(f"[DEBUG] Recurring event already deleted (HTTP {error_code})")
-            return True
-        error_msg = f"Error deleting recurring event: {str(e)}"
+        error_msg = f"Error ending recurring event: {str(e)}"
         print(f"::error::{error_msg}")
         raise
 
