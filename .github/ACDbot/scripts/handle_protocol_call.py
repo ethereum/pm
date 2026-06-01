@@ -1013,6 +1013,19 @@ The bot will automatically process your issue once you've selected a valid call 
             call_series = call_data.get("call_series", "unknown")
             is_recurring = not call_series.startswith("one-off-")
 
+            # Retired series have no live calendar event. Refuse to create or
+            # extend one so the mapping invariant (active=false => no calendar
+            # event) cannot be broken by editing or reopening an old issue.
+            if not self.mapping_manager.is_series_active(call_series):
+                print(f"[INFO] Call series '{call_series}' is retired (active=false); skipping calendar event.")
+                return {
+                    "calendar_created": False,
+                    "calendar_event_id": None,
+                    "calendar_event_url": None,
+                    "calendar_action": "skipped",
+                    "calendar_action_detail": "series_retired",
+                }
+
             # Determine calendar event title
             if call_series.startswith("one-off-"):
                 # For one-off calls, use the issue title

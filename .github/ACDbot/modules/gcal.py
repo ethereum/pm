@@ -830,6 +830,36 @@ def delete_calendar_instance(event_id, target_date, calendar_id):
         raise
 
 
+def delete_recurring_event(event_id: str, calendar_id: str) -> bool:
+    """Delete an entire recurring event series from Google Calendar.
+
+    Removes the series and all its instances (past and future). Used to retire
+    a call series. Returns True if the event was deleted or was already gone.
+
+    Args:
+        event_id: ID of the recurring calendar event series
+        calendar_id: Google Calendar ID
+
+    Returns:
+        True on success (including if already deleted), raises on other errors.
+    """
+    print(f"[DEBUG] Deleting recurring event series {event_id} from calendar {calendar_id}")
+
+    try:
+        service = get_calendar_service()
+        service.events().delete(calendarId=calendar_id, eventId=event_id).execute()
+        print(f"[DEBUG] Deleted recurring event series {event_id}")
+        return True
+    except Exception as e:
+        error_code = getattr(getattr(e, 'resp', None), 'status', None)
+        if error_code in (404, 410):
+            print(f"[DEBUG] Recurring event already deleted (HTTP {error_code})")
+            return True
+        error_msg = f"Error deleting recurring event: {str(e)}"
+        print(f"::error::{error_msg}")
+        raise
+
+
 def create_recurring_event(summary: str, start_dt, duration_minutes: int, calendar_id: str, occurrence_rate: str, description=""):
     """
     Creates a recurring Google Calendar event

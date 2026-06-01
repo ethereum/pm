@@ -1,0 +1,61 @@
+name: Retire Call Series
+
+# Manually retire a recurring call series: delete its recurring Google Calendar
+# event and record active=false in the mapping. Run this when a series stops
+# meeting for good (or indefinitely). To resume later, set the series' "active"
+# field back to true in the mapping and open an issue as normal.
+
+on:
+  workflow_dispatch:
+    inputs:
+      series:
+        description: "Call series key to retire (e.g. glamsterdamrepricings)"
+        required: true
+        type: string
+      dry_run:
+        description: "Dry run (log only, no calendar deletion or commit)"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  retire-call-series:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
+
+      - name: Retire call series
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/retire_call_series.py" --series "${{ inputs.series }}" --dry-run
+          else
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/retire_call_series.py" --series "${{ inputs.series }}"
+          fi
+        env:
+          GCAL_SERVICE_ACCOUNT_KEY: ${{ secrets.GCAL_SERVICE_ACCOUNT_KEY }}
+          GCAL_ID: ${{ vars.GCAL_ID }}
+
+      - name: Commit mapping file
+        if: ${{ inputs.dry_run == false }}
+        env:
+          SERIES: ${{ inputs.series }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          if git diff --quiet .github/ACDbot/meeting_topic_mapping.json; then
+            echo "No changes to mapping file"
+          else
+            git add .github/ACDbot/meeting_topic_mapping.json
+            git commit -m "Retire call series $SERIES"
+            git pull --rebase
+            git push
+          fi
