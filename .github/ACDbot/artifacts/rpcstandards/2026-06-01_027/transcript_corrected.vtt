@@ -1,0 +1,1490 @@
+WEBVTT
+
+1
+00:03:02.300 --> 00:03:08.319
+kclowes: Hello, everyone. Welcome to the RPC Standards Call Number 27.
+
+2
+00:03:08.480 --> 00:03:12.389
+kclowes: I guess I made the agenda so I can kick us off.
+
+3
+00:03:14.350 --> 00:03:24.939
+kclowes: Let's see, I wanted to get started with, Dane works for, OpenRPC, and has a bunch of PRs up,
+
+4
+00:03:25.100 --> 00:03:28.070
+kclowes: Zane, I don't know if you want to walk through them?
+
+5
+00:03:28.360 --> 00:03:32.290
+kclowes: Or if you, I can…
+
+6
+00:03:32.290 --> 00:03:41.479
+Zane Starr: Sure, I can, like, walk through them at a high level. I think, I can share screen if that's useful.
+
+7
+00:03:42.010 --> 00:03:42.550
+kclowes: Sure.
+
+8
+00:03:43.070 --> 00:03:48.180
+Zane Starr: Okay… Give me a second to pull up the PRs.
+
+9
+00:03:48.400 --> 00:04:03.860
+kclowes: Sounds good. Yeah, so the context here, is that, OpenRPC is wrapping up a grant, to help us with execution APIs, and so this is kind of the final milestone here. So we're hoping to get this merged, after the meeting today.
+
+10
+00:04:07.940 --> 00:04:12.459
+Zane Starr: Share, and… desktop tube…
+
+11
+00:04:16.930 --> 00:04:20.480
+Zane Starr: Think… here we go. Let's go here.
+
+12
+00:04:20.660 --> 00:04:23.220
+Zane Starr: Okay, can everyone see my screen?
+
+13
+00:04:25.430 --> 00:04:26.000
+kclowes: Yep.
+
+14
+00:04:26.480 --> 00:04:35.929
+Zane Starr: Okay, cool. So, actually, there are two, sort of, pull requests, so one is… For a linter?
+
+15
+00:04:36.130 --> 00:04:40.029
+Zane Starr: Which, like, maybe that's the easiest to start with.
+
+16
+00:04:41.060 --> 00:04:53.610
+Zane Starr: So, traditionally, OpenRPC documents have been kind of hard to reason about, like, what's good or sort of bad, with construction of a document.
+
+17
+00:04:53.630 --> 00:05:11.649
+Zane Starr: And so, basically, we, within the past couple of months, implemented a end-to-end linter that will tell you whether or not the OpenRPC document, or in this case, it's kind of like the YAML that you generate,
+
+18
+00:05:11.740 --> 00:05:14.970
+Zane Starr: has any problems, with it, so…
+
+19
+00:05:16.170 --> 00:05:24.399
+Zane Starr: We have a sort of set of recommended rules, and that tells you, sort of, like, how your document should look.
+
+20
+00:05:24.590 --> 00:05:38.329
+Zane Starr: So, like, historically, I think there haven't been enough guidelines on, like, what people should do, and, like, how that should look. Actually, I'm gonna just share more of my screen. Let's see…
+
+21
+00:05:39.860 --> 00:05:42.919
+Zane Starr: I'll just go all the way in. Why not?
+
+22
+00:05:43.560 --> 00:05:48.720
+Zane Starr: Okay, so we've kind of had this, like, historical issue.
+
+23
+00:05:49.810 --> 00:05:51.080
+Zane Starr: So, really.
+
+24
+00:05:52.900 --> 00:05:58.840
+Zane Starr: Let's go here… And… let's have a look at the linter.
+
+25
+00:05:59.980 --> 00:06:17.269
+Zane Starr: Okay, so this is, like, where the linter… the bulk of the linter code lives. Everything kind of lives here. Within the README, you basically define a basic document that has, like, an extend and says that you want to implement the recommended.
+
+26
+00:06:17.340 --> 00:06:26.829
+Zane Starr: There's a list of recommended rules in this default, and then you get an example output that looks kind of like this, but in color.
+
+27
+00:06:26.880 --> 00:06:40.929
+Zane Starr: So, basically what this says is, like, what is the method or, in some place, schema components or content descriptions that are within, like, air, so you can locate it.
+
+28
+00:06:40.930 --> 00:06:51.889
+Zane Starr: Then it says, what exactly is the problem? So, in this case, it's this method, which happens to be the first method that we're looking at, and then it says, like.
+
+29
+00:06:51.960 --> 00:06:58.380
+Zane Starr: The field is description, and we're just missing a description field. So,
+
+30
+00:06:58.950 --> 00:07:12.960
+Zane Starr: within execution APIs, like, summary is, like, overloaded. It should really be description, and that changes the way that different, like, people that view OpenRPC documents, either through, like, our documentation, through
+
+31
+00:07:13.090 --> 00:07:26.029
+Zane Starr: DocuSource plugins, or the Markdown generator that we wrote. It just kind of plays with how that works. And so right now, summary within Execution APIs is, like.
+
+32
+00:07:26.850 --> 00:07:37.549
+Zane Starr: 4,000, 5,000 characters. It should really be, like, 120. And then description should be where you put your 5,000, character, tone.
+
+33
+00:07:37.830 --> 00:07:43.390
+Zane Starr: So that's just, like, one of those things. Other things are about uniqueness.
+
+34
+00:07:43.790 --> 00:07:44.790
+Zane Starr: So…
+
+35
+00:07:45.780 --> 00:08:04.439
+Zane Starr: There's this ability to say whether or not a field is missing. So, for error codes or something like that, it could be something like every method should have an error. That could be a thing that you want to define, or every method should have examples, which I think is one of our default rules, which will throw a warning.
+
+36
+00:08:04.650 --> 00:08:20.259
+Zane Starr: And so that gives you that kind of functionality, and probably the thing that we wanted to do is, like, enable you as spec maintainers to be able to define how you want your own spec to evolve.
+
+37
+00:08:20.260 --> 00:08:24.700
+Zane Starr: So, we have this ability to define, schema.
+
+38
+00:08:25.000 --> 00:08:32.009
+Zane Starr: So you can define your own rules to add, to the,
+
+39
+00:08:32.010 --> 00:08:45.399
+Zane Starr: Rulebook, so you could have a method name schema, so to prevent people from putting in, non-snake-cased or non-camel-cased, method names, you could do that.
+
+40
+00:08:45.430 --> 00:08:54.270
+Zane Starr: You could do things like, oh, we want method names to be less than 50 characters, you want, like, a parameter count limit.
+
+41
+00:08:54.350 --> 00:08:57.429
+Zane Starr: And so you can do all of these things with,
+
+42
+00:08:57.650 --> 00:09:10.669
+Zane Starr: a schema rule, and then there's kind of this third rule, which is kind of uniqueness. And so these are just, like, backing technologies to sort of… or backing, like, primitives, through specifying, like.
+
+43
+00:09:10.840 --> 00:09:18.960
+Zane Starr: what primitive you want to use to enable you to validate or lynch your document. So…
+
+44
+00:09:19.900 --> 00:09:34.740
+Zane Starr: for instance, Ethereum doesn't quite use this, prop… well, within the JSON RPC APIs, but there is ability to have key-value pairs for parameter names versus arrays.
+
+45
+00:09:34.880 --> 00:09:41.010
+Zane Starr: And so, you can do this, where you say, like, the name of the method should be unique.
+
+46
+00:09:41.150 --> 00:09:50.640
+Zane Starr: per every param. So, you have this scale of being able to do something that's locally unique, or globally unique.
+
+47
+00:09:50.640 --> 00:10:02.170
+Zane Starr: So this is, like, global uniqueness, and this is, like, per method uniqueness. And so this scope allows you to say whether or not a thing should be, unique.
+
+48
+00:10:02.640 --> 00:10:06.880
+Zane Starr: So… Jumping back…
+
+49
+00:10:07.310 --> 00:10:21.840
+Zane Starr: we can go into rules, and defaults, and recommended. So, here's a list of, I think, 25 or 28, recommended rules that we put together.
+
+50
+00:10:22.370 --> 00:10:28.030
+Zane Starr: And then these, like, so, method names, examples, area codes, etc.
+
+51
+00:10:28.650 --> 00:10:32.300
+Zane Starr: I'll spare you the details, and we'll look at the PR.
+
+52
+00:10:32.520 --> 00:10:47.369
+Zane Starr: So, essentially, the changes that go into the repo are to actually just use the linter. So, we have this nice little make command for lint, so you would call make lint, and this would help you lint the OpenRPC document.
+
+53
+00:10:48.240 --> 00:10:54.550
+Zane Starr: And then here are the rules that are added, and this is what linting looks like.
+
+54
+00:10:55.030 --> 00:11:01.540
+Zane Starr: You go here, you add this to the GoTools, And then you call lint.
+
+55
+00:11:01.660 --> 00:11:05.899
+Zane Starr: This is the OpenRPC document that,
+
+56
+00:11:06.010 --> 00:11:21.309
+Zane Starr: Linting works on reference documents as well as dereference documents, it doesn't really matter, so you don't have to use the assembled spec for this, you can just use the refs. And then here you specify the lint rule.
+
+57
+00:11:22.010 --> 00:11:35.139
+Zane Starr: Here are the lint rules that we have. So, method errors, we changed these severity to warn, so you can override any of the rules that are annoying you, so…
+
+58
+00:11:35.210 --> 00:11:52.560
+Zane Starr: In this case, there are a lot of issues where there aren't example descriptions, or error descriptions, or in schema descriptions, but we didn't want this to be disruptive to your current workflow, so we kind of minimized the amount of, like, warnings that you see, so I think…
+
+59
+00:11:52.890 --> 00:12:05.739
+Zane Starr: With all of these warnings turned to ignore or turned off, you end up with something like 34 warnings that you can then, like, pick and choose and slowly kind of go through the methods and…
+
+60
+00:12:05.980 --> 00:12:12.760
+Zane Starr: make things better. So, that's the entirety of the OpenRPC lent.
+
+61
+00:12:12.860 --> 00:12:20.040
+Zane Starr: ARC, does anyone have any sort of questions about that, or, things that they would like clarified?
+
+62
+00:12:29.840 --> 00:12:32.450
+Zane Starr: Okay. So,
+
+63
+00:12:33.040 --> 00:12:39.999
+Zane Starr: that's, like, the linting PR, and then sort of the bigger PR, that we're doing.
+
+64
+00:12:40.200 --> 00:12:48.280
+Zane Starr: Is the, tag-driven release pipeline for version docs and spec.
+
+65
+00:12:48.710 --> 00:12:52.250
+Zane Starr: So, Felix, a while back.
+
+66
+00:12:53.510 --> 00:12:57.490
+Zane Starr: Came to us about a sort of problem within,
+
+67
+00:12:58.550 --> 00:13:05.350
+Zane Starr: execution APIs, and I think Carrie has been working on, a versioning spec, so…
+
+68
+00:13:05.570 --> 00:13:12.379
+Zane Starr: Basically, it would always be super great if the execution APIs had versions, right?
+
+69
+00:13:12.780 --> 00:13:17.150
+Zane Starr: And this would allow downstream consumers to reliably know
+
+70
+00:13:17.430 --> 00:13:22.390
+Zane Starr: what is within what version of the OpenRPC document?
+
+71
+00:13:23.380 --> 00:13:32.230
+Zane Starr: And it's just, like, a generally nice thing to have, so if you're doing tests, and say that, like, you know that there's gonna be
+
+72
+00:13:32.910 --> 00:13:39.749
+Zane Starr: A hard fork coming up, and then you can tie that hard fork to whatever version, that you have.
+
+73
+00:13:40.000 --> 00:13:43.050
+Zane Starr: So, essentially what we did…
+
+74
+00:13:43.370 --> 00:13:47.059
+Zane Starr: Was to come up with a way to…
+
+75
+00:13:47.270 --> 00:13:56.809
+Zane Starr: track the, sort of, GAF release process, which is a manual release, so Felix or Carrie or someone can
+
+76
+00:13:56.950 --> 00:14:04.790
+Zane Starr: Create a release through the GitHub Pages release, then… Go about, sort of.
+
+77
+00:14:05.420 --> 00:14:20.709
+Zane Starr: describing all the changes that are going to be in the release, and then tag it, and then have that release show up in documents. So, it's a little bit difficult to view from this PR, but I can give you a quick sample
+
+78
+00:14:20.710 --> 00:14:29.759
+Zane Starr: by going to one of the pages that we did. So, if you'll look at, this, sort of setup.
+
+79
+00:14:29.760 --> 00:14:43.429
+Zane Starr: You'll see here, you have the execution APIs, you have the docs, and you have this thing called releases, and these are just gonna be the release notes for every release that you had, in the past.
+
+80
+00:14:43.430 --> 00:14:50.640
+Zane Starr: And then you now have this other sort of feature, which is to be able to switch between the different versions of the release.
+
+81
+00:14:50.640 --> 00:15:06.749
+Zane Starr: So this will go back 10 different versions of the pass. So when, say, you cut a new release, and you're in version, like, V8, you can then drill into these methods, and then say, oh, actually, I want to know what's, like.
+
+82
+00:15:06.970 --> 00:15:17.300
+Zane Starr: currently the latest release, and then you can switch, and this actually switches the version that you're in. There's a little affordance to let you know where you are in space.
+
+83
+00:15:17.330 --> 00:15:36.919
+Zane Starr: And then sort of the other final sort of thing is to think about, like, what's in, like, main, right? Or what's in the next upcoming release, because often as developers, we're kind of looking forward as, like, features get merged in and changes, even though they're not tagged in the release.
+
+84
+00:15:36.920 --> 00:15:37.890
+Zane Starr: So…
+
+85
+00:15:38.090 --> 00:15:49.199
+Zane Starr: Basically, what we needed to do was create a way for changes that got merged into main to then update the docs, and kind of land in this next version.
+
+86
+00:15:49.720 --> 00:15:59.679
+Zane Starr: So, this is somewhat more complicated, because, as you know, right now, let me just duplicate this…
+
+87
+00:16:00.260 --> 00:16:04.850
+Zane Starr: You have this ability to, keep
+
+88
+00:16:05.230 --> 00:16:20.620
+Zane Starr: track of different versions. So, we have this page here called Assembled Spec, and maybe some of you aren't totally familiar with this, but Assembled Spec is how downstream consumers tend to actually consume
+
+89
+00:16:20.890 --> 00:16:35.160
+Zane Starr: the OpenRPC, like, API docs. So, Flashbots is using this, I think MetaMask uses this, I think, Infura uses this. And so, the assembled OpenRPC.json
+
+90
+00:16:35.840 --> 00:16:41.220
+Zane Starr: Is, like, sort of a canonical reference of whatever is…
+
+91
+00:16:41.840 --> 00:16:53.780
+Zane Starr: And all those YAML files. And this makes it, like, easily downloadable or consumable from, like, sort of third parties. So they'll go, and they'll download refs openrpc.json.
+
+92
+00:16:53.890 --> 00:17:04.579
+Zane Starr: So, one of the things that, like, happens right now, if we go here… Do… Info.
+
+93
+00:17:05.079 --> 00:17:06.040
+Zane Starr: Alright.
+
+94
+00:17:06.160 --> 00:17:18.869
+Zane Starr: So, this right here is what we're talking about changing versions. So, the change that we've put in is actually going to overwrite the version that gets produced here.
+
+95
+00:17:18.869 --> 00:17:30.250
+Zane Starr: within the execution APIs. Version is actually not set in any of the YAMLs, it's generated by the Go tools within, I think SpecCheck or SpecGen.
+
+96
+00:17:30.320 --> 00:17:35.679
+Zane Starr: With the recent, sort of, refactoring that happened within the repo.
+
+97
+00:17:35.890 --> 00:17:41.640
+Zane Starr: So… For, changes going forward.
+
+98
+00:17:42.220 --> 00:17:58.430
+Zane Starr: we have multiple branches that are going to be created. So one is the assembled spec branch, which is going to now have versioning here. So this will be version 0.1.0, or whatever the version is that you tagged the release.
+
+99
+00:17:58.430 --> 00:18:03.100
+Zane Starr: And so we went with this sort of Golang prefix of V,
+
+100
+00:18:04.190 --> 00:18:14.449
+Zane Starr: X.x.x as the tag release, and then the release within the refsopenRPC.json, with major-minor, patch.
+
+101
+00:18:14.450 --> 00:18:24.639
+Zane Starr: Just gets the V stripped off, and you are left with the three semantic sort of digits, which is kind of in line with the ecosystem of OpenRPC.
+
+102
+00:18:25.070 --> 00:18:29.940
+Zane Starr: Okay, so, we said that we had this assembled spec.
+
+103
+00:18:30.220 --> 00:18:33.620
+Zane Starr: But this presents a sort of problem.
+
+104
+00:18:33.840 --> 00:18:52.780
+Zane Starr: Because, we have this next release, right? And so developers also need access to the assembled spec that's just in main, and so we've created an additional branch called assembled spec-main. And so, if you look…
+
+105
+00:18:54.060 --> 00:18:57.650
+Zane Starr: I'll go back to this, sort of…
+
+106
+00:18:58.000 --> 00:19:03.430
+Zane Starr: Place where we've been playing a lot with how the release works and testing that, like.
+
+107
+00:19:03.560 --> 00:19:11.900
+Zane Starr: Things do seem, behaviors, You can go here, and you'll look at this, branch.
+
+108
+00:19:12.460 --> 00:19:26.040
+Zane Starr: assembled spec, and assembled spec main. And assembled spec main is just, the same sort of, main branch that you saw from,
+
+109
+00:19:26.780 --> 00:19:33.259
+Zane Starr: Back in the day, where it's just, like, no version, it's just 0.0.0.
+
+110
+00:19:33.580 --> 00:19:40.050
+Zane Starr: And then if you look at assembled spec, cool.
+
+111
+00:19:40.640 --> 00:19:43.850
+Zane Starr: And… Draw…
+
+112
+00:19:49.600 --> 00:19:51.980
+Zane Starr: You'll see that there's this version.
+
+113
+00:19:52.240 --> 00:20:00.900
+Zane Starr: Right there. And so that means that, you know, versioning flows as you would expect, which is also tagged before release.
+
+114
+00:20:01.070 --> 00:20:09.310
+Zane Starr: So I'm trying to show you all of the artifacts first, so that way things make a lot more sense as we, like, look at the PR quickly. So…
+
+115
+00:20:09.380 --> 00:20:23.450
+Zane Starr: Here is, like, an example of a release. So this is, like, the first minor release. You can do this however you want to fill it out. You can do the generate spec notes, and that will fill these things in.
+
+116
+00:20:23.540 --> 00:20:31.189
+Zane Starr: And you'll see that there are 3 different assets here. So… or 5 different assets. So you've got your code.
+
+117
+00:20:31.390 --> 00:20:43.459
+Zane Starr: And then you've got the OpenRPC.json document, the refsopenRPC.json, that's also associated with the release, and then you'll see this doc snapshot. So…
+
+118
+00:20:44.140 --> 00:20:49.780
+Zane Starr: One of the kind of challenges, with documentation is that
+
+119
+00:20:50.110 --> 00:21:04.559
+Zane Starr: if you can recall, the way that things work in the current release is, you have this DOTS API, and this has a bunch of, API documentation, things that are kind of generated.
+
+120
+00:21:04.560 --> 00:21:13.809
+Zane Starr: Initially, we put these in the build because we were thinking, we'll only have one. It's good for non-technical folks to be able to see what the markdown looks like that's generated.
+
+121
+00:21:13.810 --> 00:21:16.379
+Zane Starr: So if they want to be able to.
+
+122
+00:21:16.380 --> 00:21:27.009
+Zane Starr: Do some technical writing, or some improvements on the style, and something that's not fully out of reach to talk with developers and everyone and coordinate and make happen.
+
+123
+00:21:27.040 --> 00:21:35.689
+Zane Starr: But, because now we have multiple versions, what we've done is actually evict the API from…
+
+124
+00:21:35.780 --> 00:21:53.460
+Zane Starr: the generation, so all of this generation is hidden, and we need to be able to track multiple versions so we don't have to build, so this becomes cached. So we have a cache of all of the different API versions, and the way the cache works is that we use releases as the cache.
+
+125
+00:21:53.620 --> 00:22:12.549
+Zane Starr: So, that's what the docs snapshot is. It's a snapshot of the docs, so that way, within the GitHub Actions, or within CI, we can just download the released version, and then we go on about our business. And we copy it into the right canonical docuseries, like, format.
+
+126
+00:22:12.600 --> 00:22:29.099
+Zane Starr: So, underneath the hood, this is all just vanilla DocuSaurus. There's nothing funny or, crazy about it. It does all of the DocuSaurus things, and essentially what we've done in between is make a little bit of tooling…
+
+127
+00:22:29.100 --> 00:22:40.360
+Zane Starr: To make the process, like, seamless from being able to get a release, and being able to, tag it, and then have that appear in the build.
+
+128
+00:22:40.610 --> 00:22:46.400
+Zane Starr: One sort of side effect of being able to have,
+
+129
+00:22:46.520 --> 00:22:53.249
+Zane Starr: Let's go back to the website… yeah, one side effect of being able to have Next and this.
+
+130
+00:22:53.670 --> 00:22:58.630
+Zane Starr: is that… Let's say that you tag a release.
+
+131
+00:22:58.840 --> 00:23:03.520
+Zane Starr: You tag the release, and, you do the deploy.
+
+132
+00:23:03.580 --> 00:23:20.670
+Zane Starr: that tagged release is going to still have the same SHA as what was deployed with Next, and unfortunately, the GitHub cache will, like, not invalidate, and there's no way to force a CDN cache invalidation on the same SHA 1.
+
+133
+00:23:20.860 --> 00:23:28.789
+Zane Starr: So, one of the things that is also kind of a side effect of doing manual releases versus something like Nope.
+
+134
+00:23:28.900 --> 00:23:40.120
+Zane Starr: Is that you need to find a way of getting these release notes, let's go… Here…
+
+135
+00:23:40.530 --> 00:23:52.650
+Zane Starr: You need to find a way to get the release notes, into… yeah, getting these release notes into the repo. So, if you were gonna go to…
+
+136
+00:23:54.000 --> 00:24:00.690
+Zane Starr: Execution, APIs… And then… yeah.
+
+137
+00:24:00.990 --> 00:24:06.590
+Zane Starr: So, like, all of this is not in the repo, but what we do…
+
+138
+00:24:06.870 --> 00:24:23.070
+Zane Starr: is after you tag a release, is that there is a GitHub Actions bot that will ask to make a pull request into the repo to add it into the releases space. So, if you go here to…
+
+139
+00:24:24.410 --> 00:24:29.860
+Zane Starr: The releases space… docs releases…
+
+140
+00:24:29.860 --> 00:24:51.850
+Zane Starr: all of the releases and release notes are going to be live on whatever version of the API that you're looking at. It's out-of-band, and this out-of-band pull request also serves to help invalidate the cache. Because the cache invalidation could happen a week, or 3 weeks from whenever GitHub updates it.
+
+141
+00:24:51.890 --> 00:25:01.399
+Zane Starr: And so you're not really in control of the cache validation, except through commits. So, essentially, this is an automated commit.
+
+142
+00:25:02.270 --> 00:25:22.249
+Zane Starr: That then, basically takes the markdown that was in your physically written release notes, slugs it properly, puts it in the correct sidebar position because you want to order your releases by version, and then,
+
+143
+00:25:22.820 --> 00:25:25.719
+Zane Starr: Like, does the right thing.
+
+144
+00:25:25.830 --> 00:25:35.279
+Zane Starr: And then I think if you look at the PR request, you'll see, like, the notes that it makes within it,
+
+145
+00:25:35.720 --> 00:25:42.420
+Zane Starr: Might have a bunch of auto-closed ones, but this is an example of the automated notes, so…
+
+146
+00:25:43.030 --> 00:25:57.069
+Zane Starr: GitHub Actions Bot tells you the source, and then after this PR is merged, it'll talk about no need to republish the GitHub release, and then it says why it does it. Right. Well, not why it does it, but…
+
+147
+00:25:57.820 --> 00:26:17.449
+Zane Starr: what happens by merging this. So if you can't… you were to tag a release, and you didn't see an update, but you hadn't merged this PR, it's like an affordance to kind of tell you, like, merge this PR. Which you should be doing anyways, because release notes should exist on the site.
+
+148
+00:26:18.010 --> 00:26:27.790
+Zane Starr: Okay, so I think that is, like, the high-level overview of changes. One of the other changes, that…
+
+149
+00:26:27.830 --> 00:26:42.169
+Zane Starr: also exists, in this is the change to tags. So, there was a request that there's an ability to kind of do a bit of a grouping for how the
+
+150
+00:26:43.220 --> 00:26:44.800
+Zane Starr: APIs work.
+
+151
+00:26:45.050 --> 00:26:57.770
+Zane Starr: And so, basically, what we wanted to do, was add the ability to have, tags. So here, you'll see that you can add a tag to
+
+152
+00:26:58.300 --> 00:27:15.029
+Zane Starr: a method, and then if you scroll from the main methods, you'll be able to access tags, and if you're on the method itself, you can see other tags. And the release that we have, this goes away. It's just, like, an artifact of this example.
+
+153
+00:27:15.030 --> 00:27:21.720
+Zane Starr: But you'll see that we have these two that are with the execute tag, and then you can say EF estimateGas.
+
+154
+00:27:22.100 --> 00:27:40.390
+Zane Starr: And you'll see that, oh, I want to see what else is in this same category of functions. So, I believe there's been a lot of talk about grouping the different methods by functionality, and so tags is, like, a convenient way to, like, sort of do that.
+
+155
+00:27:40.670 --> 00:27:54.769
+Zane Starr: Other things… yeah. So, I think now that's, like, all the context you need to be able to understand, like, why everything is what it is, and then, like, what is this, like, sort of PR.
+
+156
+00:27:55.020 --> 00:28:00.410
+Zane Starr: Workflows are introduced to GitHub Actions, we talked about the SHA-1.
+
+157
+00:28:00.550 --> 00:28:19.009
+Zane Starr: There's no way to automate that, we talked about that. And then, basically, a lot of this are, GitHub Action workflows. So, the easiest way to, like, sort of go over what happens with the workflows is to see them.
+
+158
+00:28:19.110 --> 00:28:26.359
+Zane Starr: So we have a deep amount of, sort of, documentation on it?
+
+159
+00:28:26.540 --> 00:28:32.380
+Zane Starr: If I go back… One more here.
+
+160
+00:28:33.170 --> 00:28:38.769
+Zane Starr: Closer tools… I think this one's just as good.
+
+161
+00:28:39.300 --> 00:28:44.239
+Zane Starr: So… no. It's the wrong one.
+
+162
+00:28:44.720 --> 00:28:59.580
+Zane Starr: Our main… I think… Different branch… Oopsie Winter… Maybe this… Alright.
+
+163
+00:29:00.150 --> 00:29:01.889
+Zane Starr: I'll go here.
+
+164
+00:29:06.880 --> 00:29:14.990
+Zane Starr: There's been a couple of different, sort of, like, branches, because we have a couple of changes going on, so it's a little bit difficult to, sort of, organize.
+
+165
+00:29:15.360 --> 00:29:30.069
+Zane Starr: But here's, like, sort of the way that the release pipeline works. It's just hard to see it because it's split in between so many different YAMLs. So we have, the release YAML, which is kind of like, oh, I tagged a release.
+
+166
+00:29:30.230 --> 00:29:38.149
+Zane Starr: Full release is, like, the build, there's the version snapshot, a pages deploy, a GitHub release, and timestamp, so…
+
+167
+00:29:38.310 --> 00:29:41.529
+Zane Starr: Here, essentially, you push this tag.
+
+168
+00:29:41.910 --> 00:29:58.280
+Zane Starr: It goes to this build release YAML, which goes through deploy pages, and to GitHub Pages, which calls this GitHub release, which also does, a few of the artifacts. So this is, like, take a snapshot of the documents.
+
+169
+00:29:58.280 --> 00:30:05.699
+Zane Starr: with our new version, do this GitHub release process, which is, GitHub release.
+
+170
+00:30:05.990 --> 00:30:19.680
+Zane Starr: And this is just showing, like, if you were to do the next, you hadn't done a tag, then it goes through here. But here you have this build release, which is the GitHub release, and then, the published spec.
+
+171
+00:30:19.800 --> 00:30:29.580
+Zane Starr: Which is going to do the push to the assembled spec branch with the proper version. This has got the GitHub release for doing the
+
+172
+00:30:29.700 --> 00:30:33.880
+Zane Starr: Release notes, so this takes, the release.
+
+173
+00:30:34.380 --> 00:30:46.229
+Zane Starr: from the GitHub page… from the GitHub releaser, and then converts that into Markdown, and then makes the PR to put this into the docs release.
+
+174
+00:30:46.620 --> 00:30:47.870
+Zane Starr: And then…
+
+175
+00:30:48.250 --> 00:30:58.519
+Zane Starr: This is essentially the whole flow of everything and how it works. And then you also have the ability to do some manual dispatch if for some reason you need to, like.
+
+176
+00:30:58.670 --> 00:31:04.669
+Zane Starr: not go through a tag push, but you have your own tag you want to release. I don't know.
+
+177
+00:31:04.870 --> 00:31:23.550
+Zane Starr: Up to you. So, you can also see it just going from left to right, which is a little bit easier. So, push tag, release YAML, assembled spec gets released. Here's the GitHub release. We actually have to download all the previous releases.
+
+178
+00:31:23.660 --> 00:31:28.240
+Zane Starr: Then we have to assemble the versions, and so assembling the versions.
+
+179
+00:31:28.280 --> 00:31:47.749
+Zane Starr: basically does a bunch of the GitHub stuff, that you saw around the ordering, so, like, next sits at the top, then it's semantic release versioning on, and that produces the API versions, and then you get to deploy YAML, and this is how you do GitHub pages releases, and then…
+
+180
+00:31:47.970 --> 00:32:02.459
+Zane Starr: After that, you also have this, push to assembled spec main, which is to take all of the stuff that you were just releasing, and then also release that into the, like, next branch.
+
+181
+00:32:02.560 --> 00:32:09.800
+Zane Starr: For consumers to just download, whatever is the latest in the repo as an assembled spec.
+
+182
+00:32:09.870 --> 00:32:24.240
+Zane Starr: And then you can see here is the deploy next landing. So… and then this is the flow for just pushing into main. So anytime you move into main, it goes here, to the deploy YAML, to the pages to the assembled spec.
+
+183
+00:32:25.230 --> 00:32:31.700
+Zane Starr: And then there's a little bit of a runbook for how you go about, like, doing all of the stuff.
+
+184
+00:32:32.140 --> 00:32:34.989
+Zane Starr: Or if something fails. Yep.
+
+185
+00:32:34.990 --> 00:32:39.300
+kclowes: I'm gonna make sure that we get to the rest of the agenda, too.
+
+186
+00:32:39.300 --> 00:32:39.690
+Zane Starr: Yeah.
+
+187
+00:32:39.690 --> 00:32:44.940
+kclowes: I think this stuff is mostly just for, maintainers. Is there anything else that,
+
+188
+00:32:45.470 --> 00:32:48.020
+kclowes: That you want to make sure that we go over?
+
+189
+00:32:48.290 --> 00:33:06.049
+Zane Starr: No! That's just the general flow. If you wanted to look deeply at the code, it's here. I think you have enough information to orient yourself as to what is actually happening. If anyone has any questions, just let me know. I'm happy to answer them. Yeah.
+
+190
+00:33:06.410 --> 00:33:08.379
+kclowes: Awesome, thank you so much, it looks great.
+
+191
+00:33:08.580 --> 00:33:12.219
+kclowes: Does anyone have any questions or clarifications?
+
+192
+00:33:12.720 --> 00:33:13.869
+kclowes: on this stuff.
+
+193
+00:33:19.160 --> 00:33:20.969
+Zane Starr: Okay, yeah, thanks.
+
+194
+00:33:21.230 --> 00:33:34.339
+kclowes: Cool, thank you so much. I wanted to also take this moment to hijack, conversation around, versioning, too. I think, the Execution APIs repo has a
+
+195
+00:33:34.890 --> 00:33:40.250
+kclowes: version… I think it's, like, 1… or 0.
+
+196
+00:33:40.370 --> 00:33:51.989
+kclowes: 1, let me just pull it up real fast. It's 1.0 Beta 4. I'd like to, I think, tag it soon, and I'm sort of inclined to do a Beta 5.
+
+197
+00:33:52.170 --> 00:34:05.850
+kclowes: The last release was April 19th, 2024. And then we can also… I can update Hive to run, like, the tagged version, and we can see how that goes for a little bit.
+
+198
+00:34:06.120 --> 00:34:14.260
+kclowes: I think it makes sense to, maybe once Glamsterdam is released, to do the V1.0.
+
+199
+00:34:14.429 --> 00:34:23.919
+kclowes: release. I'm not sure how much sense it makes to do it, like, to do major versions in lockstep with,
+
+200
+00:34:24.330 --> 00:34:26.650
+kclowes: the… Hard forks?
+
+201
+00:34:26.780 --> 00:34:30.520
+kclowes: But open to opinions on that, if anyone has any opinions.
+
+202
+00:34:37.449 --> 00:34:42.209
+Zane Starr: Here's a thought that, like, floated a while back, is that…
+
+203
+00:34:42.309 --> 00:34:45.269
+Zane Starr: Actually, for methods that you introduce
+
+204
+00:34:45.419 --> 00:34:49.549
+Zane Starr: per hard fork, you could also tag those methods with
+
+205
+00:34:49.809 --> 00:35:00.309
+Zane Starr: a hard fork tag, in tags, and then that gives you the ability to know what methods were introduced and what release,
+
+206
+00:35:00.729 --> 00:35:05.519
+Zane Starr: That's… that's just, like, one… A little affordance that can be given.
+
+207
+00:35:07.480 --> 00:35:08.810
+kclowes: Yeah, that'll be awesome.
+
+208
+00:35:09.220 --> 00:35:10.769
+kclowes: To have, that's a great idea.
+
+209
+00:35:12.670 --> 00:35:23.290
+kclowes: Okay, so I'll plan, I guess, to release 1.0 Beta 5 sometime this week, and make the appropriate updates, unless there's any
+
+210
+00:35:23.450 --> 00:35:27.150
+kclowes: Any objections?
+
+211
+00:35:27.690 --> 00:35:36.529
+kclowes: Cool, let's move on to the next agenda item. Manuel, that's you, I think?
+
+212
+00:35:39.730 --> 00:35:46.390
+Manuel Arto: Yeah, yes, it's me. I don't know if I will need to share my screen, but maybe…
+
+213
+00:35:46.520 --> 00:35:47.820
+Manuel Arto: I'll do it.
+
+214
+00:35:53.310 --> 00:35:55.940
+Manuel Arto: Okay, I think you can all see it.
+
+215
+00:36:01.910 --> 00:36:21.860
+Manuel Arto: Okay, so my topic was… is about the block param requirements for all ATH methods, specifically about state methods, and during some… some functional tests we had on Nethermind, we found out that right now, all state methods
+
+216
+00:36:21.970 --> 00:36:26.139
+Manuel Arto: on specs require the… the block param.
+
+217
+00:36:26.370 --> 00:36:43.589
+Manuel Arto: And right now, in the five different execution layers, we have Nethermind and also ARF, which have this default to latest behavior, so whenever a block is submitted, they…
+
+218
+00:36:44.050 --> 00:36:53.420
+Manuel Arto: They lend it to latest, while the other execution clients rejected correctly matching the current spec.
+
+219
+00:36:53.480 --> 00:37:01.000
+Manuel Arto: So we did an internal review, and some of us evaluated this… the full-to-latist behavior more as a feature than a bug.
+
+220
+00:37:01.000 --> 00:37:23.299
+Manuel Arto: And also, I found out that right now we have a little inconsistency in specs, because, for example, for other ETH metals, like coal, or estimate gas, or also simulate V1, we have a specifically required false behavior, and also a description to too latest. So my proposal is…
+
+221
+00:37:23.500 --> 00:37:38.440
+Manuel Arto: about, changing this… this behavior in all the five stat… state APH methods to relax these requirements block… about block patterns, and… and enforce this latest… default to latest behavior.
+
+222
+00:37:38.510 --> 00:37:46.770
+Manuel Arto: I also chatted a little bit with Chase on the… on the Discord channel, and of course, this is,
+
+223
+00:37:47.430 --> 00:37:59.259
+Manuel Arto: This is only the first approach, because we would need to add also some IV tests to specifically verify that all clients are accordingly
+
+224
+00:37:59.410 --> 00:38:03.880
+Manuel Arto: behave with this default to latest behavior.
+
+225
+00:38:04.170 --> 00:38:09.339
+Manuel Arto: But this is, of course, will be on a second, second round. So…
+
+226
+00:38:09.910 --> 00:38:12.660
+Manuel Arto: Just rapidly go to the changes.
+
+227
+00:38:12.660 --> 00:38:34.470
+Manuel Arto: we… we replaced all the requirement true to false, adding this description, and I also found out that they are all referring to the same… to the same schema. So, I think that for… for consistency, it would be better to have this default to latest behavior also on the state methods, because we already all agreed
+
+228
+00:38:34.470 --> 00:38:37.749
+Manuel Arto: On this behavior for other ATH metals.
+
+229
+00:38:37.810 --> 00:38:42.009
+Manuel Arto: And I just wanted to know what… what do you think about this?
+
+230
+00:38:57.340 --> 00:38:58.370
+Chase Wright: So…
+
+231
+00:38:58.500 --> 00:39:07.669
+Chase Wright: I think you already know where I stand. I think it's fine. I probably lean on the encourage
+
+232
+00:39:07.930 --> 00:39:11.400
+Chase Wright: Side of, this is probably a good change.
+
+233
+00:39:11.860 --> 00:39:20.070
+Chase Wright: But I'd like to hear from the other client devs, and a lot of them are not on this call.
+
+234
+00:39:20.360 --> 00:39:26.739
+Chase Wright: I know, like, Tulio, you're here from Erigon,
+
+235
+00:39:27.040 --> 00:39:31.200
+Chase Wright: Would this be a change that you guys would support?
+
+236
+00:39:35.260 --> 00:39:40.249
+Tullio | Erigon: Yeah, I need to take a deeper look, but…
+
+237
+00:39:40.360 --> 00:39:46.510
+Tullio | Erigon: Yeah, I mean, in terms of implications, but,
+
+238
+00:39:46.800 --> 00:39:49.400
+Tullio | Erigon: Generally speaking, I'm in favor of it.
+
+239
+00:39:49.700 --> 00:39:51.339
+Tullio | Erigon: It seems reasonable.
+
+240
+00:39:54.150 --> 00:40:05.439
+Chase Wright: Yeah. I just… so, like, from the standards perspective, like, I think the PR is okay, but I wouldn't want to merge it until…
+
+241
+00:40:06.180 --> 00:40:09.420
+Chase Wright: the other clients give a thumbs up, right? So, like…
+
+242
+00:40:09.640 --> 00:40:13.220
+Chase Wright: If Erigon's willing to give a thumbs up to the…
+
+243
+00:40:13.320 --> 00:40:25.560
+Chase Wright: to the PR, and, like, reference an issue that says they're gonna fix it, and then I can talk to, like, Cena and Felix and the Geth team, and see if they'll give it a thumbs up, then…
+
+244
+00:40:26.290 --> 00:40:32.730
+Chase Wright: then I don't have a problem moving forward with it. I just… I don't want to make that unilateral decision, though, right?
+
+245
+00:40:34.410 --> 00:40:35.699
+Tullio | Erigon: Yeah, sounds good.
+
+246
+00:40:37.530 --> 00:40:40.789
+Manuel Arto: Yeah, for me, for me too. That sounds good.
+
+247
+00:40:44.530 --> 00:40:46.250
+kclowes: Awesome. Thanks, Al.
+
+248
+00:40:46.530 --> 00:40:49.779
+kclowes: Okay, Mercy, I think you're…
+
+249
+00:40:51.760 --> 00:41:05.250
+Mercy Boma Naps-Nkari: Yeah, so the thing is, it's about the, the two PRs I pointed out. One has to do with the bumping the version, and then the other one has to do it…
+
+250
+00:41:06.980 --> 00:41:12.120
+Mercy Boma Naps-Nkari: The other one, I think it's not ready, because I have a question for Sina, and he hasn't, like, replied yet.
+
+251
+00:41:14.770 --> 00:41:17.930
+Mercy Boma Naps-Nkari: And then I have another question on,
+
+252
+00:41:18.070 --> 00:41:21.319
+Mercy Boma Naps-Nkari: debug execution witness, so I tried…
+
+253
+00:41:22.270 --> 00:41:33.669
+Mercy Boma Naps-Nkari: speaking from the, the metrics we did, review, the HACMD, about some method that is not yet specified, and that is not yet expect.
+
+254
+00:41:34.020 --> 00:41:38.379
+Mercy Boma Naps-Nkari: So, on debug execution Witness, I saw that,
+
+255
+00:41:39.450 --> 00:41:54.889
+Mercy Boma Naps-Nkari: like, across clients, we have, like, no agreements on what the wire shape should look like. For example, in GET, GET uses an adjacent header, and then it leaves the key empty. Y Red, on the other hand, RET's never mind, and I think Erigon also.
+
+256
+00:41:55.280 --> 00:41:58.489
+Mercy Boma Naps-Nkari: defaults use, the RLP bytes, and then
+
+257
+00:41:58.610 --> 00:42:01.240
+Mercy Boma Naps-Nkari: They, populates the keys, sort of.
+
+258
+00:42:01.680 --> 00:42:19.790
+Mercy Boma Naps-Nkari: And also, get and read still, like, exposes, like, a separate, by hash method, if I could remember correctly. So, I'm trying to understand which of these should be specced, like, how do we go about this? And then, on a smaller call, do we want to mandate sort and do…
+
+259
+00:42:20.010 --> 00:42:26.060
+Mercy Boma Naps-Nkari: State code, and then a standard error code for when the state isn't available to generate the witness.
+
+260
+00:42:26.580 --> 00:42:30.129
+Mercy Boma Naps-Nkari: And also, to adopt, RET, optional…
+
+261
+00:42:30.400 --> 00:42:33.769
+Mercy Boma Naps-Nkari: mode and param, or we should drop it.
+
+262
+00:42:38.010 --> 00:42:44.439
+Mercy Boma Naps-Nkari: So, that's, like, my question on, the Borg Execution Witness. Then, the other PR, I was…
+
+263
+00:42:45.360 --> 00:42:48.830
+Mercy Boma Naps-Nkari: It's about the versioning, and then the,
+
+264
+00:42:49.420 --> 00:42:56.280
+Mercy Boma Naps-Nkari: then that was an issue for Nethermind. I think… Yeah, he's here.
+
+265
+00:42:56.890 --> 00:42:58.980
+Mercy Boma Naps-Nkari: We were discussing this last week.
+
+266
+00:42:59.440 --> 00:43:05.259
+Mercy Boma Naps-Nkari: We were unable to, like, properly look through it last week, so I think, he can take over and walk through us.
+
+267
+00:43:10.630 --> 00:43:12.110
+Stavros Vlachakis: Otherwise we…
+
+268
+00:43:12.550 --> 00:43:13.349
+Tullio | Erigon: Okay, sorry.
+
+269
+00:43:13.710 --> 00:43:21.570
+Stavros Vlachakis: Sorry, sorry. I don't know if you have any updates concerning the issue, never mind about the discrepancy we have found concerning messages and codes?
+
+270
+00:43:27.290 --> 00:43:29.860
+Mercy Boma Naps-Nkari: Sorry, is that your question? I didn't get it.
+
+271
+00:43:32.430 --> 00:43:47.190
+Stavros Vlachakis: Yeah, yeah. Basically, I asked if you have any updates concerning the issue that you have posted there from Nethermind, which is carrying over from the previous call, concerning discrepancies and messages and codes, error messages and error codes.
+
+272
+00:43:49.850 --> 00:43:52.270
+Mercy Boma Naps-Nkari: Not really from Besu.
+
+273
+00:43:56.860 --> 00:44:00.480
+Stavros Vlachakis: Okay, so it carries over to the next call, or what?
+
+274
+00:44:01.730 --> 00:44:05.630
+Mercy Boma Naps-Nkari: So I'm not really sure how we're going to move forward, so that's why I brought it back.
+
+275
+00:44:07.600 --> 00:44:14.060
+Mercy Boma Naps-Nkari: do we… do we take this to ACDE, or we can, like, put it on the channel?
+
+276
+00:44:14.230 --> 00:44:16.900
+Mercy Boma Naps-Nkari: the execution Dev Channel on Discord.
+
+277
+00:44:18.870 --> 00:44:23.660
+Stavros Vlachakis: I would say par nous… as you…
+
+278
+00:44:23.910 --> 00:44:26.630
+Stavros Vlachakis: Preferred, but in any case, we need to…
+
+279
+00:44:27.490 --> 00:44:32.169
+Stavros Vlachakis: fix the issues, I mean, agree on some guidelines concerning
+
+280
+00:44:32.300 --> 00:44:36.849
+Stavros Vlachakis: Codes and concerning messages, and cases that hit them, and…
+
+281
+00:44:36.960 --> 00:44:40.329
+Stavros Vlachakis: Have them documented so those… all the clients will tell the same thing.
+
+282
+00:44:42.250 --> 00:44:46.300
+Mercy Boma Naps-Nkari: So, like, is it just Besu that is the problem? Because I'm trying to, like, really…
+
+283
+00:44:50.280 --> 00:44:51.989
+Stavros Vlachakis: Sorry, didn't blab you?
+
+284
+00:44:52.730 --> 00:45:01.400
+Mercy Boma Naps-Nkari: So I was asking… you specifically asked for Besu, like, I was asking, is it Besu that is just the client that is not in line with all this?
+
+285
+00:45:02.940 --> 00:45:06.789
+Stavros Vlachakis: Yeah, basically, I think guess, in some cases, is very generic.
+
+286
+00:45:07.360 --> 00:45:10.360
+Stavros Vlachakis: And the question is, do we want to remain
+
+287
+00:45:11.710 --> 00:45:16.529
+Stavros Vlachakis: as generic, or we want to have the real codes that you have in guest
+
+288
+00:45:17.020 --> 00:45:23.979
+Stavros Vlachakis: prop, populating properly, because it looks like in this issue, which has, I don't remember how many, 18 cases.
+
+289
+00:45:24.370 --> 00:45:33.549
+Stavros Vlachakis: Some cases were meant to throw another code, but because GET is behaving generically, It's just returning, you know.
+
+290
+00:45:33.810 --> 00:45:37.270
+Stavros Vlachakis: The generic error code, which has the same on 5 tests.
+
+291
+00:45:37.830 --> 00:45:40.149
+Stavros Vlachakis: So, we need the coordination.
+
+292
+00:45:40.670 --> 00:45:45.600
+Stavros Vlachakis: If we decide generic, okay, fine, generic, but let's… Make it clear.
+
+293
+00:45:46.650 --> 00:45:47.620
+Stavros Vlachakis: On the spec.
+
+294
+00:45:51.730 --> 00:46:00.600
+Mercy Boma Naps-Nkari: Okay, on then, on this note, I think it's not really something we can make a decision on in this call, because most of the client teams are not here.
+
+295
+00:46:01.120 --> 00:46:08.120
+Mercy Boma Naps-Nkari: that we can take this to the Discord channel, and… or maybe the ACD call.
+
+296
+00:46:08.350 --> 00:46:11.490
+Mercy Boma Naps-Nkari: a CDE call. I don't know when the next one will be.
+
+297
+00:46:16.630 --> 00:46:19.350
+Mercy Boma Naps-Nkari: If that's okay, then I can do that.
+
+298
+00:46:20.090 --> 00:46:28.960
+Stavros Vlachakis: It's fine for me, the only thing is that I don't know how much important this is for… to discuss on ECD, but whatever you think, it's better.
+
+299
+00:46:32.800 --> 00:46:43.329
+Mercy Boma Naps-Nkari: The reason why I said we should defy it to ACDE is that the clients that can make this decision on whether we want it generic or not, they barely attend this call, so…
+
+300
+00:46:43.460 --> 00:46:51.900
+Mercy Boma Naps-Nkari: or I can make a post, or you can make a post on Discord, on… on the execution Dev channel. That would kind of, like, be the quickest,
+
+301
+00:46:52.390 --> 00:46:53.870
+Mercy Boma Naps-Nkari: way around it.
+
+302
+00:46:55.650 --> 00:47:00.310
+Stavros Vlachakis: Yeah, maybe that's more reasonable before taking it to the call, I guess.
+
+303
+00:47:00.930 --> 00:47:04.350
+Mercy Boma Naps-Nkari: Okay, alright then. So I, I should leave it to that.
+
+304
+00:47:04.580 --> 00:47:05.450
+Mercy Boma Naps-Nkari: Thank you.
+
+305
+00:47:09.700 --> 00:47:14.240
+Mercy Boma Naps-Nkari: So, another PRI I wanted a review on is this one.
+
+306
+00:47:15.760 --> 00:47:19.579
+Mercy Boma Naps-Nkari: Because I think this is also blocking one of Sina's PR.
+
+307
+00:47:23.210 --> 00:47:27.069
+Zane Starr: It's the, OpenRPC version bump, is that the one?
+
+308
+00:47:38.950 --> 00:47:42.650
+Zane Starr: Oh, okay, cool. Yeah, so,
+
+309
+00:47:42.870 --> 00:47:50.459
+Zane Starr: I took a look at it, it overall looks good. There is, like, a difference, so, like.
+
+310
+00:47:50.630 --> 00:47:53.420
+Zane Starr: In your PR, you remove the external refs.
+
+311
+00:47:53.600 --> 00:47:57.140
+Zane Starr: And I wouldn't recommend doing that, because that will…
+
+312
+00:47:57.560 --> 00:48:02.329
+Zane Starr: stop any sort of validation for JSON schema itself.
+
+313
+00:48:02.630 --> 00:48:19.819
+Zane Starr: And so the way to go about that is, like, many years ago, JSONSchema.org was not 100% stable that it was gonna, like, last. That's kind of changed, and so we've had a lot of internal talks about whether or not we should
+
+314
+00:48:20.230 --> 00:48:22.729
+Zane Starr: at OpenRPC, do an internal bump.
+
+315
+00:48:23.130 --> 00:48:31.309
+Zane Starr: But regardless of that, the fix is I made a PR to your PR.
+
+316
+00:48:31.540 --> 00:48:38.810
+Zane Starr: Which basically, instead of removes external refs, just replaces it with the canonical,
+
+317
+00:48:39.320 --> 00:48:50.719
+Zane Starr: version ref, and so this does, like, a couple different things. So, in this case, the scope is just going to be limited to the validation of the documents, but,
+
+318
+00:48:50.830 --> 00:49:03.200
+Zane Starr: Pretty much so. Most JSON schema libraries will then reference the draft URL path to then have an internal cache. So, with,
+
+319
+00:49:03.720 --> 00:49:15.389
+Zane Starr: the JSON Takuma, like, library, it does that. So, you'll see that I replaced the paths that were problematic, where we had, like.
+
+320
+00:49:15.580 --> 00:49:21.069
+Zane Starr: meta. Schema…json dash schema.tools.
+
+321
+00:49:21.470 --> 00:49:31.040
+Zane Starr: as the path for the spec reference resolving, to be just replaced with, draft. And so.
+
+322
+00:49:32.390 --> 00:49:49.529
+Zane Starr: If that change looks good to you, then, like, to merge that in. The other thing I noticed about the PR was that there's, like, Webpack, override for 5.0.61. I couldn't see why that would be necessary. So I removed that, everything seemed to work.
+
+323
+00:49:50.200 --> 00:49:54.399
+Zane Starr: But, if for some reason you need the webpack, add it back.
+
+324
+00:49:55.070 --> 00:50:09.979
+Zane Starr: And then otherwise, I think everything looks good, and then I did another audit over the production of the new, sort of, library to use, which is not metaschema.go anymore, it's now SpecTypes.
+
+325
+00:50:10.210 --> 00:50:16.629
+Zane Starr: And the Go package looks right to me now, and, like, does the right things.
+
+326
+00:50:16.820 --> 00:50:19.659
+Zane Starr: Alright, so, does that clarify things?
+
+327
+00:50:20.680 --> 00:50:24.479
+Mercy Boma Naps-Nkari: Yeah, thank you. So, moving on to the next one is, this…
+
+328
+00:50:24.600 --> 00:50:27.280
+Mercy Boma Naps-Nkari: I think this PR is sort of, like,
+
+329
+00:50:29.720 --> 00:50:34.420
+Mercy Boma Naps-Nkari: long overdue, and then I feel it's good to go in.
+
+330
+00:50:35.480 --> 00:50:38.730
+Mercy Boma Naps-Nkari: So, Chase, I don't know if you have anything to say in regards to this.
+
+331
+00:50:46.590 --> 00:50:48.649
+Chase Wright: This is, ETH Capabilities?
+
+332
+00:50:50.360 --> 00:50:51.240
+Mercy Boma Naps-Nkari: Yes.
+
+333
+00:50:51.730 --> 00:50:58.670
+Chase Wright: yeah, I don't know if…
+
+334
+00:50:59.640 --> 00:51:05.369
+Chase Wright: I don't think Felix ever kicked off the… CICD pipeline, though, so…
+
+335
+00:51:06.120 --> 00:51:09.050
+Chase Wright: There's no, like, green CI on it,
+
+336
+00:51:09.350 --> 00:51:13.299
+Chase Wright: I think we just need to get… That, as a double check.
+
+337
+00:51:14.210 --> 00:51:15.710
+kclowes: I think I can kick it up.
+
+338
+00:51:16.320 --> 00:51:16.930
+Chase Wright: Alright.
+
+339
+00:51:19.480 --> 00:51:27.370
+Chase Wright: As long as the CICD passes, I don't have a problem merging it. It looks like the other clients are,
+
+340
+00:51:28.160 --> 00:51:29.149
+Chase Wright: Doing it.
+
+341
+00:51:32.860 --> 00:51:37.539
+Mercy Boma Naps-Nkari: Yeah, the CI is running now, so that's… I think that's all from me.
+
+342
+00:51:38.050 --> 00:51:43.810
+Mercy Boma Naps-Nkari: then the… I don't know about the questions I asked about, the debug witness.
+
+343
+00:51:43.920 --> 00:51:44.800
+Mercy Boma Naps-Nkari: Method.
+
+344
+00:51:46.220 --> 00:51:55.410
+Tullio | Erigon: Yeah, I have something to say about that. Thanks for raising the question, because, currently in, in Erigon.
+
+345
+00:51:55.410 --> 00:52:08.200
+Tullio | Erigon: I'm working, also on Silcore, which is our approver implementation, and so I'm exactly seeing the issue from both parts of
+
+346
+00:52:08.200 --> 00:52:24.810
+Tullio | Erigon: debug execution witness, let's say, on the serving side and the consuming side of the API, and I've exactly experimented what you have pointed out, which there are differences between… among gas.
+
+347
+00:52:24.870 --> 00:52:30.130
+Tullio | Erigon: Reth, Erigon, they have different implementations,
+
+348
+00:52:30.220 --> 00:52:44.150
+Tullio | Erigon: JSONs versus, RLP for some fields, then other fields are, not the same, or Geth doesn't,
+
+349
+00:52:44.390 --> 00:52:48.909
+Tullio | Erigon: By, by default, doesn't return
+
+350
+00:52:49.060 --> 00:52:56.030
+Tullio | Erigon: keys or pre-images, so there are different things definitely to discuss for this API.
+
+351
+00:52:56.330 --> 00:53:04.840
+Tullio | Erigon: And so, yeah, I would say… I think we… We should try to,
+
+352
+00:53:05.820 --> 00:53:09.810
+Tullio | Erigon: Okay, first of all, discuss…
+
+353
+00:53:10.370 --> 00:53:28.660
+Tullio | Erigon: a good direction, but I think, Chase, sorry for pointing you out, but I think you could be the right person to discuss with Kev, because there is a dedicated working group on this thing, on the ZKEVM
+
+354
+00:53:28.690 --> 00:53:31.240
+Tullio | Erigon: group side, so I think…
+
+355
+00:53:31.540 --> 00:53:38.939
+Tullio | Erigon: There is some discussion to be done regarding which direction is… should be taken.
+
+356
+00:53:39.070 --> 00:53:46.100
+Tullio | Erigon: In order to… Let's see, fix.
+
+357
+00:53:46.370 --> 00:53:48.150
+Tullio | Erigon: these discrepancies.
+
+358
+00:53:53.660 --> 00:53:57.869
+Chase Wright: Is there, like, a meeting I can join or something?
+
+359
+00:53:58.630 --> 00:53:59.730
+Tullio | Erigon: Oh, bruh.
+
+360
+00:53:59.950 --> 00:54:01.160
+Tullio | Erigon: Okay, I…
+
+361
+00:54:01.160 --> 00:54:01.920
+Chase Wright: I don't know.
+
+362
+00:54:01.920 --> 00:54:10.590
+Tullio | Erigon: I think there are some working groups. I'm… I'm not personally attending them, because it's Somnath who goes to that for Erigon.
+
+363
+00:54:10.630 --> 00:54:25.810
+Tullio | Erigon: But, yeah, what I wanted to say is that there is a dedicated effort within the EF regarding the ZK EVM and the provers and all that stuff, and as it is in the case.
+
+364
+00:54:25.880 --> 00:54:33.840
+Tullio | Erigon: for the engine API, also this debug execution witness, it's not just
+
+365
+00:54:34.020 --> 00:54:43.110
+Tullio | Erigon: an API that, Ethereum clients serve to customers, but it's used by another,
+
+366
+00:54:43.520 --> 00:54:57.360
+Tullio | Erigon: piece, another component of the base layer, let's say, at least in the near future, so I think it deserves a more broader… broader discussion.
+
+367
+00:54:57.730 --> 00:55:03.250
+Tullio | Erigon: That's not related only to the RPC standard, but must involve also
+
+368
+00:55:03.610 --> 00:55:11.580
+Tullio | Erigon: ZK EVM group, CAV, and other groups within DF.
+
+369
+00:55:33.300 --> 00:55:34.070
+kclowes: Alright.
+
+370
+00:55:34.210 --> 00:55:38.779
+kclowes: Sounds good. Does anyone have anything else that they want to talk about?
+
+371
+00:55:39.460 --> 00:55:41.560
+kclowes: In the last 5 minutes, floor math.
+
+372
+00:55:49.090 --> 00:55:51.879
+kclowes: Alright, I think we can call it. Thanks, everyone.
+

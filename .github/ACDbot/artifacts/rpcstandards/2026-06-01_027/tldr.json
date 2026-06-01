@@ -1,0 +1,66 @@
+{
+  "meeting": "RPC Standards #27 - June 1, 2026",
+  "highlights": {
+    "documentation": [
+      {
+        "timestamp": "00:03:48",
+        "highlight": "OpenRPC linter PR adds ~25-28 recommended rules, `make lint` command, ~34 warnings in current execution-apis spec"
+      },
+      {
+        "timestamp": "00:12:33",
+        "highlight": "Tag-driven release pipeline PR adds versioned docs, assembled-spec branches, and automated release-note PRs for execution-apis"
+      },
+      {
+        "timestamp": "00:33:21",
+        "highlight": "Execution-apis current version is 1.0 Beta 4 (last tagged April 19, 2024); Beta 5 planned this week; V1.0 targeting Glamsterdam release"
+      }
+    ],
+    "spec_changes": [
+      {
+        "timestamp": "00:36:01",
+        "highlight": "Proposal to relax block param from required to optional (default latest) for all five state ETH methods, aligning with eth_call/estimateGas behavior; Nethermind and Erigon already default to latest"
+      },
+      {
+        "timestamp": "00:41:54",
+        "highlight": "debug_executionWitness has divergent implementations across clients: Geth uses JSON header with empty keys; Reth/Nethermind/Erigon use RLP bytes with populated keys; needs broader ZK EVM working group discussion before speccing"
+      },
+      {
+        "timestamp": "00:43:00",
+        "highlight": "Error code/message inconsistency across clients (Nethermind issue #11412): Geth returns generic codes where specific codes expected; needs Discord discussion before ACDE escalation"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:40:05",
+      "action": "Erigon, Geth (Cena/Felix) to approve block-param relaxation PR #809 before merge",
+      "owner": "Chase Wright / client teams"
+    },
+    {
+      "timestamp": "00:53:53",
+      "action": "Chase to connect with Kev / ZK EVM working group on debug_executionWitness wire format alignment",
+      "owner": "Chase Wright"
+    },
+    {
+      "timestamp": "00:46:00",
+      "action": "Post error code/message inconsistency discussion to Execution Dev Discord channel",
+      "owner": "Mercy Boma Naps-Nkari"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:33:52",
+      "decision": "Release execution-apis 1.0 Beta 5 this week; target V1.0 release at Glamsterdam"
+    },
+    {
+      "timestamp": "00:50:51",
+      "decision": "Merge eth_capabilities PR #755 once CI passes"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:34:06",
+      "target": "This week - execution-apis 1.0 Beta 5 tagged; Hive updated to run tagged version"
+    }
+  ]
+}
