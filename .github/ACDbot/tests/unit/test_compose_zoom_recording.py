@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import datetime, timezone
 
 import pytest
 
@@ -6,9 +7,83 @@ from scripts.compose_zoom_recording import (
     ZoomTrimWindow,
     build_ffmpeg_command,
     extract_peak_level_db,
+    select_recording_target,
     select_recording_files,
     transcript_speech_window,
 )
+
+
+def test_select_recording_target_returns_latest_recent_past_occurrence():
+    mapping = {
+        "acdt": {
+            "meeting_id": "88479308162",
+            "occurrences": [
+                {
+                    "occurrence_number": 80,
+                    "issue_number": 2049,
+                    "issue_title": "ACDT #80",
+                    "start_time": "2026-05-18T14:00:00Z",
+                    "duration": 60,
+                },
+                {
+                    "occurrence_number": 81,
+                    "issue_number": 2085,
+                    "issue_title": "ACDT #81",
+                    "start_time": "2026-06-01T14:00:00Z",
+                    "duration": 60,
+                },
+                {
+                    "occurrence_number": 82,
+                    "issue_number": 2090,
+                    "issue_title": "ACDT #82",
+                    "start_time": "2026-06-08T14:00:00Z",
+                    "duration": 60,
+                },
+            ],
+        }
+    }
+
+    target = select_recording_target(
+        mapping,
+        "acdt",
+        max_age_days=3,
+        now=datetime(2026, 6, 1, 16, tzinfo=timezone.utc),
+    )
+
+    assert target is not None
+    assert target.number == 81
+    assert target.issue_number == 2085
+    assert target.meeting_id == "88479308162"
+
+
+def test_select_recording_target_can_force_public_number():
+    mapping = {
+        "acdt": {
+            "meeting_id": "88479308162",
+            "occurrences": [
+                {
+                    "occurrence_number": 80,
+                    "issue_number": 2049,
+                    "issue_title": "ACDT #80",
+                    "start_time": "2026-05-18T14:00:00Z",
+                    "duration": 60,
+                },
+                {
+                    "occurrence_number": 81,
+                    "issue_number": 2085,
+                    "issue_title": "ACDT #81",
+                    "start_time": "2026-06-01T14:00:00Z",
+                    "duration": 60,
+                },
+            ],
+        }
+    }
+
+    target = select_recording_target(mapping, "acdt", number=80)
+
+    assert target is not None
+    assert target.number == 80
+    assert target.issue_number == 2049
 
 
 def test_build_ffmpeg_command_uses_first_and_last_45_seconds_of_bumper():

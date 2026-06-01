@@ -20,10 +20,13 @@ import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
 import requests
+
+from scripts.asset_pipeline.meeting_identity import get_occurrence_call_number
 
 
 PEAK_LEVEL_PATTERN = re.compile(r"Peak level dB:\s+(-inf|[-0-9.]+)")
@@ -33,6 +36,19 @@ VTT_CUE_PATTERN = re.compile(
 )
 REQUIRED_VIDEO_LAYOUT = "shared_screen_with_speaker_view"
 DEFAULT_BUMPER_CLIP_SECONDS = 45.0
+ACDBOT_DIR = Path(__file__).resolve().parents[1]
+MAPPING_FILE_PATH = ACDBOT_DIR / "meeting_topic_mapping.json"
+
+
+@dataclass(frozen=True)
+class OccurrenceRecordingTarget:
+    series: str
+    meeting_id: str
+    issue_number: int | None
+    number: int | None
+    title: str
+    start_time: str | None
+    duration_minutes: int | None
 
 
 @dataclass(frozen=True)
@@ -46,6 +62,64 @@ class SelectedRecordingFiles:
 class ZoomTrimWindow:
     start_seconds: float
     end_seconds: float | None
+
+
+def parse_utc_timestamp(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+
+def select_recording_target(
+    mapping: dict[str, Any],
+    series: str,
+    number: int | None = None,
+    max_age_days: int | None = None,
+    now: datetime | None = None,
+) -> OccurrenceRecordingTarget | None:
+    """Select one mapped occurrence to compose for test-artifact generation."""
+    series_entry = mapping.get(series)
+    if not series_entry:
+        raise ValueError(f"Series '{series}' was not found in {MAPPING_FILE_PATH}")
+
+    now = now or datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=max_age_days) if max_age_days is not None else None
+    matches = []
+    for occurrence in series_entry.get("occurrences", []):
+        occurrence_number = get_occurrence_call_number(occurrence)
+        if number is not None and occurrence_number != number:
+            continue
+
+        start_dt = parse_utc_timestamp(occurrence.get("start_time"))
+        if number is None:
+            if start_dt and start_dt > now:
+                continue
+            if cutoff and start_dt and start_dt < cutoff:
+                continue
+
+        matches.append((start_dt or datetime.min.replace(tzinfo=timezone.utc), occurrence_number, occurrence))
+
+    if not matches:
+        return None
+    if number is not None and len(matches) > 1:
+        dates = ", ".join(occurrence.get("start_time", "unknown") for _, _, occurrence in matches)
+        raise ValueError(f"Ambiguous mapped occurrences for {series} #{number}: {dates}")
+
+    _, occurrence_number, occurrence = sorted(matches, key=lambda item: item[0], reverse=True)[0]
+    meeting_id = str(occurrence.get("meeting_id") or series_entry.get("meeting_id") or "").strip()
+    if not meeting_id:
+        raise ValueError(f"Mapped occurrence for {series} has no meeting_id")
+
+    issue_number = occurrence.get("issue_number")
+    return OccurrenceRecordingTarget(
+        series=series,
+        meeting_id=meeting_id,
+        issue_number=int(issue_number) if issue_number is not None else None,
+        number=occurrence_number,
+        title=occurrence.get("issue_title") or f"{series.upper()} recording",
+        start_time=occurrence.get("start_time"),
+        duration_minutes=occurrence.get("duration"),
+    )
 
 
 def probe_duration(path: Path) -> float:
@@ -378,20 +452,72 @@ def compose_zoom_recording(
                 pass
 
 
+def write_metadata(path: Path, target: OccurrenceRecordingTarget, output_path: Path | None) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    metadata = {
+        "series": target.series,
+        "meeting_id": target.meeting_id,
+        "issue_number": target.issue_number,
+        "number": target.number,
+        "title": target.title,
+        "start_time": target.start_time,
+        "duration_minutes": target.duration_minutes,
+        "output_file": str(output_path) if output_path else None,
+        "output_size_bytes": output_path.stat().st_size if output_path and output_path.exists() else None,
+    }
+    path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Create a composed Zoom recording upload")
-    parser.add_argument("--recording-json", required=True, type=Path, help="Path to Zoom recording JSON")
+    parser.add_argument("--recording-json", type=Path, help="Path to Zoom recording JSON")
+    parser.add_argument("--series", help="Mapped call series to compose from Zoom")
+    parser.add_argument("--number", type=int, help="Optional public call number for --series")
     parser.add_argument("--bumper", required=True, type=Path, help="Path to the bumper MP4")
     parser.add_argument("--output", required=True, type=Path, help="Path for the composed MP4")
+    parser.add_argument("--metadata", type=Path, help="Optional metadata JSON output path")
     parser.add_argument("--bumper-clip-seconds", type=float, default=DEFAULT_BUMPER_CLIP_SECONDS)
+    parser.add_argument("--min-duration", type=int, default=10, help="Minimum Zoom recording duration in minutes")
+    parser.add_argument("--max-age-days", type=int, default=3, help="Recent target cutoff when --number is omitted")
     args = parser.parse_args()
 
     if not args.bumper.exists():
         raise FileNotFoundError(f"Bumper file does not exist: {args.bumper}")
+    if bool(args.recording_json) == bool(args.series):
+        raise ValueError("Pass exactly one of --recording-json or --series")
 
     from modules.zoom import get_access_token
 
-    recording_info = json.loads(args.recording_json.read_text(encoding="utf-8"))
+    target = None
+    if args.recording_json:
+        recording_info = json.loads(args.recording_json.read_text(encoding="utf-8"))
+    else:
+        from scripts.upload_zoom_recording import find_best_youtube_recording
+
+        mapping = json.loads(MAPPING_FILE_PATH.read_text(encoding="utf-8"))
+        target = select_recording_target(
+            mapping,
+            args.series,
+            args.number,
+            max_age_days=args.max_age_days,
+        )
+        if not target:
+            print(f"[SKIP] No recent mapped occurrence found for {args.series}")
+            return 0
+
+        target_min_duration = args.min_duration
+        if target.duration_minutes:
+            target_min_duration = max(args.min_duration, target.duration_minutes // 2)
+        recording_info = find_best_youtube_recording(
+            target.meeting_id,
+            min_duration_minutes=target_min_duration,
+            target_start_time=target.start_time,
+            tolerance_minutes=180,
+        )
+        if not recording_info:
+            print(f"[SKIP] No Zoom recording found yet for {target.series} #{target.number}")
+            return 0
+
     output = compose_zoom_recording(
         recording_info,
         args.bumper,
@@ -399,6 +525,8 @@ def main() -> int:
         get_access_token(),
         bumper_clip_seconds=args.bumper_clip_seconds,
     )
+    if args.metadata and target:
+        write_metadata(args.metadata, target, output)
     return 0 if output else 1
 
 
