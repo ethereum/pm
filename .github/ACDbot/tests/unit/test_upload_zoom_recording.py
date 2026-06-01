@@ -95,3 +95,59 @@ def test_recording_type_matches_zoom_cc_suffix():
         "shared_screen_with_speaker_view(CC)",
         "shared_screen_with_speaker_view",
     )
+
+
+def test_prepare_upload_video_uses_raw_zoom_recording_mode(monkeypatch):
+    upload_zoom_recording = load_upload_module()
+    calls = []
+
+    monkeypatch.setattr(upload_zoom_recording, "get_recording_publication_mode", lambda _series: "raw_zoom_recording")
+
+    def fake_download_zoom_recording(*args, **kwargs):
+        calls.append((args, kwargs))
+        return "/tmp/raw.mp4"
+
+    monkeypatch.setattr(upload_zoom_recording, "download_zoom_recording", fake_download_zoom_recording)
+
+    result = upload_zoom_recording.prepare_upload_video(
+        "acde",
+        {"recording_files": []},
+        "123",
+        min_duration_minutes=10,
+        target_start_time="2026-06-01T14:00:00Z",
+    )
+
+    assert result == "/tmp/raw.mp4"
+    assert calls[0][0][0] == "123"
+    assert calls[0][1]["recording_info"] == {"recording_files": []}
+
+
+def test_prepare_upload_video_uses_composed_zoom_recording_mode(monkeypatch, tmp_path):
+    upload_zoom_recording = load_upload_module()
+
+    bumper_path = tmp_path / "bumper.mp4"
+    bumper_path.write_bytes(b"bumper")
+    composed_path = tmp_path / "composed.mp4"
+
+    monkeypatch.setattr(upload_zoom_recording, "get_recording_publication_mode", lambda _series: "composed_zoom_recording")
+    monkeypatch.setattr(upload_zoom_recording, "resolve_bumper_path", lambda: (bumper_path, False))
+    monkeypatch.setattr(upload_zoom_recording, "get_access_token", lambda: "zoom-token")
+
+    from scripts import compose_zoom_recording
+
+    def fake_compose_zoom_recording(recording_info, bumper_path, output_path, access_token):
+        assert recording_info == {"recording_files": [{"file_type": "MP4"}]}
+        assert bumper_path == tmp_path / "bumper.mp4"
+        assert access_token == "zoom-token"
+        output_path.write_bytes(b"composed")
+        return composed_path
+
+    monkeypatch.setattr(compose_zoom_recording, "compose_zoom_recording", fake_compose_zoom_recording)
+
+    result = upload_zoom_recording.prepare_upload_video(
+        "acdt",
+        {"recording_files": [{"file_type": "MP4"}]},
+        "123",
+    )
+
+    assert result == str(composed_path)

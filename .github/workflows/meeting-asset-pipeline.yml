@@ -37,6 +37,11 @@ jobs:
       - name: Set up ACDbot
         uses: ./.github/actions/setup-acdbot
 
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
       - name: Resolve forced meeting
         if: env.INPUT_FORCE_SERIES != '' && env.INPUT_FORCE_NUMBER != ''
         run: |
@@ -135,6 +140,47 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
           MATTERMOST_BOT_WEBHOOK_URL: ${{ secrets.MATTERMOST_BOT_WEBHOOK_URL }}
+          ACD_BUMPER_URL: ${{ vars.ACD_BUMPER_URL || secrets.ACD_BUMPER_URL || 'https://github.com/ethereum/pm/releases/download/acd-video-bumper-v1/ev.mp4' }}
+
+      - name: Compose ACDT recording test artifact
+        if: env.INPUT_FORCE_SERIES == '' || env.INPUT_FORCE_SERIES == 'acdt'
+        continue-on-error: true
+        run: |
+          mkdir -p "${RUNNER_TEMP}/acdt-compose-test"
+          curl --fail --location --retry 3 --retry-delay 5 "$ACD_BUMPER_URL" --output "${RUNNER_TEMP}/acdt-compose-test/ev.mp4"
+          ffprobe -v error -show_entries format=duration,size -of json "${RUNNER_TEMP}/acdt-compose-test/ev.mp4"
+
+          args=(
+            --series acdt
+            --bumper "${RUNNER_TEMP}/acdt-compose-test/ev.mp4"
+            --output "${RUNNER_TEMP}/acdt-compose-test/acdt-composed-recording.mp4"
+            --metadata "${RUNNER_TEMP}/acdt-compose-test/metadata.json"
+            --min-duration "$INPUT_MIN_DURATION"
+            --max-age-days 3
+          )
+
+          if [ "$INPUT_FORCE_SERIES" = "acdt" ] && [ -n "$INPUT_FORCE_NUMBER" ]; then
+            args+=(--number "$INPUT_FORCE_NUMBER")
+          fi
+
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked \
+            "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/compose_zoom_recording.py" "${args[@]}"
+        env:
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
+          ACD_BUMPER_URL: ${{ vars.ACD_BUMPER_URL || secrets.ACD_BUMPER_URL || 'https://github.com/ethereum/pm/releases/download/acd-video-bumper-v1/ev.mp4' }}
+
+      - name: Upload ACDT composed recording test artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: acdt-composed-recording-test
+          path: |
+            ${{ runner.temp }}/acdt-compose-test/acdt-composed-recording.mp4
+            ${{ runner.temp }}/acdt-compose-test/metadata.json
+          if-no-files-found: ignore
+          retention-days: 3
 
       - name: Run asset pipeline
         if: success()
