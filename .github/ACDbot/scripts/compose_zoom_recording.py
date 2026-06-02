@@ -234,7 +234,10 @@ def required_video_rank(file_info: dict[str, Any]) -> tuple[int, int]:
     return is_not_caption_variant, -(file_info.get("file_size") or 0)
 
 
-def select_recording_files(recording_info: dict[str, Any]) -> SelectedRecordingFiles | None:
+def select_recording_files(
+    recording_info: dict[str, Any],
+    allow_active_speaker_fallback: bool = False,
+) -> SelectedRecordingFiles | None:
     recording_files = recording_info.get("recording_files", [])
     video_files = [
         file_info
@@ -255,6 +258,20 @@ def select_recording_files(recording_info: dict[str, Any]) -> SelectedRecordingF
         if normalize_recording_type(file_info.get("recording_type", "")) == REQUIRED_VIDEO_LAYOUT
     ]
     video_file = min(required_video_files, key=required_video_rank) if required_video_files else None
+    if video_file is None:
+        if allow_active_speaker_fallback:
+            active_speaker_files = [
+                file_info
+                for file_info in video_files
+                if normalize_recording_type(file_info.get("recording_type", "")) == "active_speaker"
+            ]
+            if active_speaker_files:
+                video_file = max(active_speaker_files, key=lambda file_info: file_info.get("file_size") or 0)
+                print(
+                    "[WARN] Using active_speaker MP4 fallback for temporary composition test: "
+                    f"size={video_file.get('file_size', 'unknown')}"
+                )
+
     if video_file is None:
         print(f"[WARN] Recording had no required MP4 video layout: {REQUIRED_VIDEO_LAYOUT}")
         return None
@@ -385,9 +402,13 @@ def compose_zoom_recording(
     output_path: Path,
     access_token: str,
     bumper_clip_seconds: float = DEFAULT_BUMPER_CLIP_SECONDS,
+    allow_active_speaker_fallback: bool = False,
 ) -> Path | None:
     """Download selected Zoom media and compose the final upload MP4."""
-    selected_files = select_recording_files(recording_info)
+    selected_files = select_recording_files(
+        recording_info,
+        allow_active_speaker_fallback=allow_active_speaker_fallback,
+    )
     if not selected_files:
         raise RuntimeError(
             "Zoom recording exists but does not include required video layout "
@@ -477,6 +498,11 @@ def main() -> int:
     parser.add_argument("--output", required=True, type=Path, help="Path for the composed MP4")
     parser.add_argument("--metadata", type=Path, help="Optional metadata JSON output path")
     parser.add_argument("--bumper-clip-seconds", type=float, default=DEFAULT_BUMPER_CLIP_SECONDS)
+    parser.add_argument(
+        "--allow-active-speaker-fallback",
+        action="store_true",
+        help="Temporary test-only fallback when Zoom did not produce the required shared-screen layout",
+    )
     parser.add_argument("--min-duration", type=int, default=10, help="Minimum Zoom recording duration in minutes")
     parser.add_argument("--max-age-days", type=int, default=3, help="Recent target cutoff when --number is omitted")
     args = parser.parse_args()
@@ -524,6 +550,7 @@ def main() -> int:
         args.output,
         get_access_token(),
         bumper_clip_seconds=args.bumper_clip_seconds,
+        allow_active_speaker_fallback=args.allow_active_speaker_fallback,
     )
     if args.metadata and target:
         write_metadata(args.metadata, target, output)

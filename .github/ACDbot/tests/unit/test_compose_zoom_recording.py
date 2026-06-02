@@ -208,6 +208,31 @@ def test_select_recording_files_rejects_non_speaker_composite_layouts():
     assert selected is None
 
 
+def test_select_recording_files_allows_explicit_active_speaker_test_fallback():
+    selected = select_recording_files(
+        {
+            "recording_files": [
+                {
+                    "file_type": "MP4",
+                    "recording_type": "active_speaker",
+                    "download_url": "https://example.com/speaker.mp4",
+                    "file_size": 100_000_000,
+                },
+                {
+                    "file_type": "MP4",
+                    "recording_type": "active_speaker",
+                    "download_url": "https://example.com/speaker-small.mp4",
+                    "file_size": 9_000,
+                },
+            ]
+        },
+        allow_active_speaker_fallback=True,
+    )
+
+    assert selected is not None
+    assert selected.video_file["download_url"] == "https://example.com/speaker.mp4"
+
+
 def test_extract_peak_level_db_returns_loudest_finite_peak():
     output = """
     [Parsed_astats_0] Peak level dB: -inf
