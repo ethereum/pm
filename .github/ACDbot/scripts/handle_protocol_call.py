@@ -333,7 +333,7 @@ class ProtocolCallHandler:
                 self._post_past_date_comment(issue, start_time)
                 return False
 
-            # 3c. Refuse to schedule a retired series (set active=true to resume).
+            # 3c. Refuse to schedule a retired series (delete active=false to resume).
             call_series = call_data.get("call_series")
             if call_series and not self.mapping_manager.is_series_active(call_series):
                 self.logger.warning(f"Series '{call_series}' is retired (active=false); skipping issue #{issue_number}")

@@ -830,66 +830,6 @@ def delete_calendar_instance(event_id, target_date, calendar_id):
         raise
 
 
-def truncate_recurrence_rules(recurrence: list[str], until_str: str) -> list[str]:
-    """Return recurrence rules capped at UNTIL, preserving non-RRULE entries."""
-    truncated = []
-    for rule in recurrence:
-        if not rule.startswith('RRULE:'):
-            truncated.append(rule)
-            continue
-
-        _, _, rule_body = rule.partition(':')
-        rule_parts = [
-            part
-            for part in rule_body.split(';')
-            if part and not part.startswith(('UNTIL=', 'COUNT='))
-        ]
-        rule_parts.append(f'UNTIL={until_str}')
-        truncated.append(f"RRULE:{';'.join(rule_parts)}")
-
-    return truncated
-
-
-def end_recurring_event(event_id: str, calendar_id: str) -> bool:
-    """End a recurring series at UNTIL=now: past instances are kept, no future ones generate.
-
-    Returns True on success (including if the event is already gone); raises otherwise.
-    """
-    print(f"[DEBUG] Ending recurring event series {event_id} on calendar {calendar_id}")
-
-    try:
-        service = get_calendar_service()
-
-        try:
-            event = service.events().get(calendarId=calendar_id, eventId=event_id).execute()
-        except Exception as e:
-            error_code = getattr(getattr(e, 'resp', None), 'status', None)
-            if error_code in (404, 410):
-                print(f"[DEBUG] Recurring event already gone (HTTP {error_code})")
-                return True
-            raise
-
-        recurrence = event.get('recurrence', [])
-        if not recurrence:
-            print(f"[DEBUG] Event {event_id} has no recurrence; nothing to end")
-            return True
-
-        until_str = datetime.now(pytz.utc).strftime('%Y%m%dT%H%M%SZ')
-        new_recurrence = truncate_recurrence_rules(recurrence, until_str)
-
-        service.events().patch(
-            calendarId=calendar_id,
-            eventId=event_id,
-            body={'recurrence': new_recurrence}
-        ).execute()
-        print(f"[DEBUG] Ended recurring event {event_id} at {until_str} (past instances preserved)")
-        return True
-    except Exception as e:
-        error_msg = f"Error ending recurring event: {str(e)}"
-        print(f"::error::{error_msg}")
-        raise
-
-
 def create_recurring_event(summary: str, start_dt, duration_minutes: int, calendar_id: str, occurrence_rate: str, description=""):
     """
     Creates a recurring Google Calendar event

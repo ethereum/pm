@@ -578,7 +578,7 @@ class TestMappingManager:
         assert len(manager.mapping["testcall"]["occurrences"]) == 2
 
     def test_is_series_active_defaults_true(self, temp_mapping_file):
-        """Missing series, missing flag, and one-off calls all default to active."""
+        """Missing series and missing flags default to active."""
         manager = MappingManager(temp_mapping_file)
         manager.mapping = {
             "withflag": {"call_series": "withflag", "active": False},
@@ -588,30 +588,3 @@ class TestMappingManager:
         assert manager.is_series_active("noflag") is True       # flag absent -> active
         assert manager.is_series_active("missing") is True       # unknown series -> active
         assert manager.is_series_active("withflag") is False     # explicitly retired
-
-    def test_retire_series_marks_inactive(self, temp_mapping_file):
-        """Retiring a series sets active=false while preserving its event id and history."""
-        manager = MappingManager(temp_mapping_file)
-        manager.mapping = {
-            "testseries": {
-                "call_series": "testseries",
-                "occurrence_rate": "bi-weekly",
-                "calendar_event_id": "abc123",
-                "occurrences": [{"issue_number": 1}],
-            }
-        }
-
-        assert manager.retire_series("testseries") is True
-        entry = manager.mapping["testseries"]
-        assert entry["active"] is False
-        assert manager.is_series_active("testseries") is False
-        # The event id (still a real, now-ended event) and history are preserved.
-        assert entry["calendar_event_id"] == "abc123"
-        assert entry["occurrences"] == [{"issue_number": 1}]
-
-    def test_retire_series_missing_returns_false(self, temp_mapping_file):
-        """Retiring an unknown series is a no-op that reports failure."""
-        manager = MappingManager(temp_mapping_file)
-        manager.mapping = {}
-
-        assert manager.retire_series("nope") is False

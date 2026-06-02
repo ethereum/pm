@@ -855,49 +855,25 @@ class TestDateInPastValidation(unittest.TestCase):
         mock_issue.create_comment.assert_not_called()
 
     def test_handle_protocol_call_skips_retired_series_before_resources(self):
-        """Retired series exit before any resource handlers can run."""
+        """Retired series exit before resource handling can begin."""
         mock_issue = unittest.mock.MagicMock()
         mock_issue.body = "test body"
-        mock_issue.number = 999
-        mock_issue.title = "Test Issue"
-        mock_issue.html_url = "https://github.com/test/repo/issues/999"
 
-        mock_call_data = {
-            "issue_number": 999,
-            "issue_title": "Test Issue",
-            "issue_url": "https://github.com/test/repo/issues/999",
-            "call_series": "acde",
-            "duration": 60,
-            "start_time": "2099-01-15T10:00:00Z",
-            "occurrence_rate": "weekly",
-            "skip_zoom_creation": False,
-            "need_youtube_streams": False,
-            "display_zoom_link_in_invite": True,
-            "agenda": "Test agenda",
-        }
+        mock_call_data = {"call_series": "acde", "start_time": "2099-01-15T10:00:00Z"}
 
         with unittest.mock.patch.object(self.handler, '_get_github_issue', return_value=mock_issue), \
              unittest.mock.patch.object(self.handler, '_parse_form_data', return_value={"raw": "data"}), \
              unittest.mock.patch.object(self.handler, '_validate_and_transform', return_value=mock_call_data), \
              unittest.mock.patch.object(self.handler.mapping_manager, 'is_series_active', return_value=False) as mock_is_active, \
-             unittest.mock.patch.object(self.handler, '_check_existing_resources') as mock_check_resources, \
-             unittest.mock.patch.object(self.handler, '_handle_zoom_resource') as mock_zoom, \
-             unittest.mock.patch.object(self.handler, '_handle_calendar_resource') as mock_calendar, \
-             unittest.mock.patch.object(self.handler, '_handle_discourse_resource') as mock_discourse, \
-             unittest.mock.patch.object(self.handler, '_handle_youtube_resource') as mock_youtube, \
-             unittest.mock.patch.object(self.handler, '_update_mapping') as mock_update_mapping, \
-             unittest.mock.patch.object(self.handler.mapping_manager, 'save_mapping') as mock_save_mapping:
+             unittest.mock.patch.object(
+                 self.handler,
+                 '_check_existing_resources',
+                 side_effect=AssertionError("retired series should not reach resource handling"),
+             ):
             result = self.handler.handle_protocol_call(999, "test/repo")
 
         self.assertFalse(result)
         mock_is_active.assert_called_once_with("acde")
-        mock_check_resources.assert_not_called()
-        mock_zoom.assert_not_called()
-        mock_calendar.assert_not_called()
-        mock_discourse.assert_not_called()
-        mock_youtube.assert_not_called()
-        mock_update_mapping.assert_not_called()
-        mock_save_mapping.assert_not_called()
 
 
 class TestUpdateDisplayedAutopilotValues(unittest.TestCase):

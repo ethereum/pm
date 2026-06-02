@@ -219,16 +219,6 @@ class MappingManager:
             return True
         return series_entry.get("active", True)
 
-    def retire_series(self, call_series: str) -> bool:
-        """Mark a series inactive. The calendar recurrence is ended separately by the retire script."""
-        if call_series not in self.mapping:
-            self.logger.warning(f"Call series '{call_series}' not found in mapping")
-            return False
-
-        self.mapping[call_series]["active"] = False
-        self.logger.debug(f"Retired call series: {call_series}")
-        return True
-
     def get_series_uuid(self, call_series: str) -> Optional[str]:
         """Get the UUID for a call series."""
         series_entry = self.mapping.get(call_series)
