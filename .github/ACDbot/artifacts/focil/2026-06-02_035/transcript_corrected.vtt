@@ -1,0 +1,1122 @@
+WEBVTT
+
+1
+00:01:25.800 --> 00:01:27.230
+Justin Traglia: Good morning.
+
+2
+00:03:47.720 --> 00:03:51.170
+Jihoon: Hello guys, let's wait… Few more minutes…
+
+3
+00:05:06.020 --> 00:05:08.650
+Jihoon: Nice, can you hear me okay?
+
+4
+00:05:11.540 --> 00:05:13.310
+Justin Traglia: Yep, can you hear me just fine.
+
+5
+00:05:15.240 --> 00:05:16.420
+Jihoon: And get…
+
+6
+00:05:19.570 --> 00:05:23.600
+Jihoon: Sorry, Lindro, I closed the previous call because I was…
+
+7
+00:05:24.120 --> 00:05:28.640
+Jihoon: checking if I can share my slide. It was not intentional.
+
+8
+00:05:28.960 --> 00:05:35.179
+Jihoon: Alright, hello everyone, welcome to FOCIL Breakout 35.
+
+9
+00:05:35.890 --> 00:05:40.960
+Jihoon: Today we can discuss client development, spec changes, and testing.
+
+10
+00:05:42.890 --> 00:05:49.079
+Jihoon: Let's start with client development. I know more clients started implementing FOCIL.
+
+11
+00:05:49.340 --> 00:05:55.039
+Jihoon: Do we have any clients that want to share more detailed updates?
+
+12
+00:06:10.350 --> 00:06:15.440
+Jihoon: Otherwise, I think we can just… tentatively…
+
+13
+00:06:15.810 --> 00:06:30.719
+Jihoon: say that we're gonna base off of Glam DevNet 5, if it's stabilized, and then move on, because we are… we are waiting for the latest stabilized GLAM DevNet and Glam DevNet 4 instead.
+
+14
+00:06:30.920 --> 00:06:39.169
+Jihoon: it's gonna be okay for clients, because Glam DevNet 5 includes more scope.
+
+15
+00:06:48.790 --> 00:06:50.450
+Jihoon: Okay, so,
+
+16
+00:06:52.450 --> 00:07:02.250
+Jihoon: I got one thumbs up, so… let's just say that we're gonna base off of Glam DevNet 5, if it's good, and then let's move on to spec changes. Yes.
+
+17
+00:07:02.250 --> 00:07:08.870
+Nico Flaig: So, I definitely don't want to base it on definite 4 specs, so we should definitely go on 5.
+
+18
+00:07:09.160 --> 00:07:11.299
+Nico Flaig: Makes things easier for us, at least.
+
+19
+00:07:13.000 --> 00:07:20.799
+Jihoon: Yeah, I don't mind if it… delays, I go to DevNet Zero.
+
+20
+00:07:21.040 --> 00:07:24.009
+Jihoon: Yeah, I think it's a matter.
+
+21
+00:07:24.850 --> 00:07:30.409
+Jihoon: And if DevNet 5 is dead, then we're gonna move on to DevNet 6, and so on, so, yeah.
+
+22
+00:07:30.630 --> 00:07:36.550
+Jihoon: So, let me share my… Slides…
+
+23
+00:07:43.810 --> 00:07:44.980
+Jihoon: Has anyone?
+
+24
+00:07:45.190 --> 00:07:47.000
+Jihoon: Can everyone? Yes.
+
+25
+00:07:47.230 --> 00:07:48.510
+Jihoon: See this okay?
+
+26
+00:07:49.180 --> 00:07:50.449
+Justin Traglia: I can see it as fine.
+
+27
+00:07:53.030 --> 00:07:53.810
+Jihoon: Bye.
+
+28
+00:07:54.130 --> 00:07:57.359
+Justin Traglia: Actually, it's a little blurry for me, but it just cleared up.
+
+29
+00:07:58.820 --> 00:07:59.490
+Jihoon: Yep.
+
+30
+00:07:59.660 --> 00:08:01.369
+Jihoon: Just give me a sec…
+
+31
+00:08:05.550 --> 00:08:06.500
+Jihoon: Pretty good.
+
+32
+00:08:09.330 --> 00:08:10.499
+Justin Traglia: Yep, it is.
+
+33
+00:08:11.390 --> 00:08:19.440
+Jihoon: Right, so, just wanted to talk about two things today. It's all about IL validation.
+
+34
+00:08:19.950 --> 00:08:28.740
+Jihoon: So, for syncing, I think, yeah, it's… so it's about, like, IL validation during syncing, and for…
+
+35
+00:08:29.140 --> 00:08:34.780
+Jihoon: sidechain. So, for syncing, I think the cleanest solution is…
+
+36
+00:08:35.940 --> 00:08:40.659
+Jihoon: letting the CL pass IELTS only when it's synced, so…
+
+37
+00:08:40.820 --> 00:08:45.129
+Jihoon: During sinking, the CL will follow the heaviest weight.
+
+38
+00:08:45.410 --> 00:08:50.980
+Jihoon: Perhaps this is already how it is implemented in the CR clients, but I just wanted to make sure
+
+39
+00:08:51.130 --> 00:08:53.940
+Jihoon: We're on the same page.
+
+40
+00:08:55.140 --> 00:08:59.539
+Jihoon: The next item is about accepted payloads. So.
+
+41
+00:09:00.710 --> 00:09:10.400
+Jihoon: Let's say that this is the chain. I drew only payloads for simplicity. Let's say that we are on XYZ chain here at the bottom.
+
+42
+00:09:10.820 --> 00:09:20.240
+Jihoon: And… let's say the CL calls FCU with D, then what happens is…
+
+43
+00:09:20.440 --> 00:09:27.149
+Jihoon: The EL, we're gonna validate B, C, and D, and choose D as the head.
+
+44
+00:09:27.530 --> 00:09:33.150
+Jihoon: The question is… What if D is not IR compliant?
+
+45
+00:09:33.410 --> 00:09:47.710
+Jihoon: then there could be a discrepancy between notes on BCD and from XYZ, because notes on BCD will… not gonna vote for a become block if it doesn't reorg D.
+
+46
+00:09:48.290 --> 00:09:58.140
+Jihoon: Whereas notes from XYZ, we're gonna vote for it. I'm just ignoring PTC votes here for simplicity, so let's just assume that PTC is happy.
+
+47
+00:09:58.510 --> 00:10:01.269
+Jihoon: So… In this case.
+
+48
+00:10:01.420 --> 00:10:11.850
+Jihoon: we want to know the IL compliance of the tip of the change… the chain. So the change that I'm thinking about is…
+
+49
+00:10:12.260 --> 00:10:23.070
+Jihoon: Introducing Payload Status V2 with Latest inclusion list satisfied hash, similar to, like, latest valid hash.
+
+50
+00:10:23.610 --> 00:10:31.810
+Jihoon: So until now, we piggybacked on payload status V1, adding IL unsatisfied value.
+
+51
+00:10:33.220 --> 00:10:36.960
+Jihoon: Can I see the chat? Let me read the chat later.
+
+52
+00:10:37.250 --> 00:10:47.519
+Jihoon: Yeah, so… yeah, but you can use this new field to get the same result, and going back to the previous example.
+
+53
+00:10:51.080 --> 00:11:08.540
+Jihoon: Yeah, in this case, the EL will gonna return the block cache of C as the latest IL-satisfied block cache. And this way, we can make all nodes to have the same view when it receives the next become block.
+
+54
+00:11:09.150 --> 00:11:13.949
+Jihoon: But of course, this is not complete yet. The follow-up question will be.
+
+55
+00:11:14.220 --> 00:11:18.199
+Jihoon: what does the EL return when C, this…
+
+56
+00:11:18.350 --> 00:11:22.180
+Jihoon: intermediate payload is not IL compliant.
+
+57
+00:11:22.940 --> 00:11:35.980
+Jihoon: And what does it return when C is not IL compliant, but D is compliant? So, I'm still thinking about this, so I don't have a prepared answer at the moment yet, but just wanted to share.
+
+58
+00:11:35.980 --> 00:11:43.059
+Jihoon: what's being changed, and why. I'm gonna update the execution API SPR once it's ready.
+
+59
+00:11:43.660 --> 00:11:45.450
+Jihoon: And… yeah.
+
+60
+00:11:45.850 --> 00:11:48.219
+Jihoon: This is what I'm working on these days.
+
+61
+00:11:49.570 --> 00:11:50.690
+Jihoon: So…
+
+62
+00:11:51.620 --> 00:11:59.190
+Justin Florentine (Besu): Can you, Jihoon, can you, like, outline the problem here a little bit? I'm sorry, I showed up a little bit later, but to me, so far, this looks like…
+
+63
+00:11:59.910 --> 00:12:09.520
+Justin Florentine (Besu): a pretty… I don't know, this seems like a non-controversial change to fork choice here, like, you're choosing… you're still choosing the longest one, considering IL compliance, so…
+
+64
+00:12:10.150 --> 00:12:13.399
+Justin Florentine (Besu): Am I… sorry, my dog, am I… am I missing something?
+
+65
+00:12:14.810 --> 00:12:27.610
+Jihoon: Yeah, so, in this case, when you were on XYZ and moved to BCD, then you need to know the IL compliance of this D, because
+
+66
+00:12:27.750 --> 00:12:32.079
+Jihoon: you might have different view from notes on a BCD.
+
+67
+00:12:32.860 --> 00:12:35.820
+Jihoon: And that was the reason,
+
+68
+00:12:35.940 --> 00:12:49.730
+Jihoon: Yeah, of course, we don't need to add this new field to that end, because we can just use the piggybacked status value for the same result, but the question was, actually, was more about
+
+69
+00:12:49.760 --> 00:12:57.940
+Jihoon: what if this intermediate payload is not IAT compliant? Then, do we want to know, like.
+
+70
+00:12:58.340 --> 00:13:08.010
+Jihoon: Let's go back to this trivial question, like, in this case, this latest IL-satisfied hash, we're gonna return the black hash of B,
+
+71
+00:13:08.180 --> 00:13:09.440
+Jihoon: then…
+
+72
+00:13:10.520 --> 00:13:27.780
+Jihoon: Yeah, that was the main, like, reasoning of this introduction of this new field. Like, then, how do you want a CL gonna handle this? Like, do they just want to follow the weight, or do they want to use this information to…
+
+73
+00:13:28.730 --> 00:13:34.010
+Jihoon: do something more, so yeah, I'm still working on that, so…
+
+74
+00:13:39.200 --> 00:13:46.559
+Jihoon: The view diverges regardless of weight at the tip of the chain, and that's…
+
+75
+00:13:46.810 --> 00:13:54.750
+Jihoon: the same with PTC, right? And with PTC, we're gonna rely on whether
+
+76
+00:13:55.250 --> 00:14:01.639
+Jihoon: Yeah, so at the tip of the chain, we don't follow the weight, because you haven't received our test stations yet.
+
+77
+00:14:02.480 --> 00:14:09.580
+Jihoon: And, yeah, the reasoning is similar here, because PTC and IL are one-slot reorg.
+
+78
+00:14:09.880 --> 00:14:17.660
+Jihoon: And… you need to make a decision for FCU before you receive attestations.
+
+79
+00:14:21.080 --> 00:14:22.410
+Jihoon: So, yeah.
+
+80
+00:14:22.410 --> 00:14:24.760
+Justin Florentine (Besu): think I understand it a little bit better, thank you.
+
+81
+00:14:27.130 --> 00:14:27.860
+Jihoon: Yep.
+
+82
+00:14:34.790 --> 00:14:39.810
+Jihoon: Alright, so, it's still a draft, so it's a bit, you know…
+
+83
+00:14:40.730 --> 00:14:50.649
+Jihoon: not organized, but yeah, just wanted to share, because this will gonna affect on CL and EL, and I just wanted to give a little bit of a heads up.
+
+84
+00:14:52.740 --> 00:15:00.210
+Nico Flaig: So, can you, ask… so you removed it already? Okay, but, so for the ABC chain,
+
+85
+00:15:01.280 --> 00:15:17.450
+Nico Flaig: So does it mean that the… the branch got more weight? Because more than, I guess, half of the validators voted for it, so you should be setting it as your head, but due to… like, based on your view, it's not IL compliant, so you… you don't update your head?
+
+86
+00:15:19.940 --> 00:15:28.520
+Nico Flaig: Or should you only… like, you update your head, but you're not… no, that doesn't make sense, like… and you're not voting for the branch?
+
+87
+00:15:29.270 --> 00:15:32.210
+Nico Flaig: I'm a bit confused how that should be handled.
+
+88
+00:15:34.180 --> 00:15:41.530
+Jihoon: In the case that… I'm sorry, in the case that which payload is not IL compliant?
+
+89
+00:15:43.020 --> 00:15:46.840
+Nico Flaig: So I think it was C. Maybe you could quickly reshare.
+
+90
+00:15:47.650 --> 00:15:55.209
+Nico Flaig: Yeah, it was D, so… or even that case, but that other case as well.
+
+91
+00:15:55.210 --> 00:15:55.810
+Jihoon: Yeah.
+
+92
+00:15:57.010 --> 00:16:02.950
+Nico Flaig: So let's say D has more weight, right, than our other branch that is fully IL compliant.
+
+93
+00:16:03.540 --> 00:16:04.530
+Nico Flaig: Then…
+
+94
+00:16:04.640 --> 00:16:13.039
+Nico Flaig: Okay, so your node sees that other branch, it got more weight, then it has to import D as the head currently, right? Assuming no IELTs.
+
+95
+00:16:14.800 --> 00:16:19.210
+Nico Flaig: But now, not IL compliant, so, what is…
+
+96
+00:16:19.210 --> 00:16:31.189
+Jihoon: It's not. Yeah, so in this scenario, when you call FCU with D, you are actually calling with a BCOM block, let's say, like, BCOM block E that extends
+
+97
+00:16:31.210 --> 00:16:39.720
+Jihoon: payload D, right? Because you're not calling FC with payload, you're calling with big on block, so… that's where…
+
+98
+00:16:41.390 --> 00:16:51.020
+Jihoon: the assumption of majority of knowledge as a testers kick in, because this is not…
+
+99
+00:16:51.210 --> 00:17:01.170
+Jihoon: you know, not a happy case. So, when you receive FCU that payload D is the head, then… yeah.
+
+100
+00:17:01.420 --> 00:17:14.689
+Jihoon: something's not right. But still, the protocol should be able to handle it, and then, yeah, I'm just thinking about many cases. I'm sorry that my answer is not crystal clear, because, yeah, it's still, like, TBD.
+
+101
+00:17:15.829 --> 00:17:21.369
+Jihoon: So, yeah, what do you think, like, how this should be in this case?
+
+102
+00:17:22.790 --> 00:17:37.909
+Nico Flaig: I mean, the case where it's only D, and you receive that block, and it's, like… and, like, C is the head, and then you have to vote on D, then it's fine, but if it's, like, deeper in the chain, I mean, how can you set that as head? I'm not sure.
+
+103
+00:17:38.250 --> 00:17:39.809
+Jihoon: Yeah, makes sense.
+
+104
+00:17:39.810 --> 00:17:43.950
+Nico Flaig: Basically, under your view, the chain is invalid, right?
+
+105
+00:17:47.880 --> 00:17:55.350
+Jihoon: Yeah, yeah, because, yeah, it doesn't extend the head correctly, because you're not gonna follow this chain.
+
+106
+00:17:55.720 --> 00:17:58.770
+Jihoon: But…
+
+107
+00:18:00.710 --> 00:18:13.660
+Jihoon: I'm sorry that I'm just keep brainstorming here, but the thing is, you were on XYZ, and then you receive, some become block that extends payload D,
+
+108
+00:18:14.100 --> 00:18:19.769
+Jihoon: And somehow you found that E has bigger weight than Z.
+
+109
+00:18:20.980 --> 00:18:27.630
+Jihoon: then we're gonna call FCU with E, right? And then… It basically means that
+
+110
+00:18:27.860 --> 00:18:31.670
+Jihoon: you will have to validate B, C, and D.
+
+111
+00:18:41.760 --> 00:18:48.169
+Nico Flaig: But it's not clear, would we then make the… mark the branches invalid in that case?
+
+112
+00:18:50.080 --> 00:18:51.010
+Jihoon: Yeah.
+
+113
+00:18:53.440 --> 00:18:55.310
+Jihoon: Isn't that clear? Yeah.
+
+114
+00:18:56.020 --> 00:19:06.569
+Nico Flaig: Also, there's a bigger other issue that I see is when you sync a node and it didn't follow the both branches, it didn't observe all the ILs, right?
+
+115
+00:19:08.450 --> 00:19:08.830
+Jihoon: Yeah.
+
+116
+00:19:08.830 --> 00:19:14.539
+Nico Flaig: you have to swim with the IELTS as well. I guess, so the idea I think you proposed is you…
+
+117
+00:19:14.640 --> 00:19:17.849
+Nico Flaig: Only do this for the unfinalized chain, right?
+
+118
+00:19:18.790 --> 00:19:26.379
+Nico Flaig: But still, that could be a really deep sync chain, or a really deep brown, so you need to get the ILs to even know
+
+119
+00:19:26.630 --> 00:19:31.249
+Nico Flaig: Whether it's IL compliant or not. Because they are not part of the block itself, right?
+
+120
+00:19:32.450 --> 00:19:39.299
+Nico Flaig: And I think determining chain validity based on something that's not part of the block, I'm not sure that's great.
+
+121
+00:19:39.300 --> 00:19:42.370
+Jihoon: Yeah, yeah, yeah, yeah, I got what you mean, yeah.
+
+122
+00:19:42.540 --> 00:19:45.639
+Jihoon: So, in this case, if there's, like.
+
+123
+00:19:46.000 --> 00:19:56.770
+Jihoon: 100 unfinalized sidechain, then you maybe need to fetch IELTS for at least the head of each 100 side chains.
+
+124
+00:19:58.400 --> 00:20:03.379
+Jihoon: To generalize this scenario. So, yeah.
+
+125
+00:20:04.840 --> 00:20:05.740
+Jihoon: Okay.
+
+126
+00:20:06.030 --> 00:20:10.069
+Jihoon: Let me think about this more, sorry that it is…
+
+127
+00:20:10.180 --> 00:20:15.459
+Jihoon: a bit brainstorming-y. Yeah, so the reason that…
+
+128
+00:20:15.750 --> 00:20:18.420
+Jihoon: I brought up with this new payload.
+
+129
+00:20:19.150 --> 00:20:23.060
+Jihoon: Status version is that, like, do…
+
+130
+00:20:23.520 --> 00:20:30.879
+Jihoon: was mainly this scenario, like, do we need to… do we want to know that the B was the latest
+
+131
+00:20:31.440 --> 00:20:35.130
+Jihoon: Il satisfying payloads, but yeah.
+
+132
+00:20:35.560 --> 00:20:40.670
+Jihoon: Let me think about this more, so… Okay.
+
+133
+00:20:40.930 --> 00:20:43.250
+Jihoon: fantastic.
+
+134
+00:20:43.250 --> 00:20:56.190
+Justin Florentine (Besu): One thing I'm not understanding about the premise here that maybe we could clarify real quick is they forked at Block A, which was valid but non-IL compliant.
+
+135
+00:20:56.900 --> 00:20:57.940
+Jihoon: Oh.
+
+136
+00:20:58.530 --> 00:21:02.639
+Jihoon: Sorry, I'm so sorry, it was… it's just my type, I'm sorry.
+
+137
+00:21:02.640 --> 00:21:08.189
+Justin Florentine (Besu): Okay, okay, good, thank goodness. Alright, I was like, maybe we should sort that out first.
+
+138
+00:21:08.190 --> 00:21:12.580
+Jihoon: Oh, yeah. Oh, sorry, I was, like, yeah, quickly jamming.
+
+139
+00:21:12.580 --> 00:21:13.100
+Justin Florentine (Besu): with this.
+
+140
+00:21:13.100 --> 00:21:15.840
+Jihoon: slides right before the call, and then I made a mistake.
+
+141
+00:21:15.840 --> 00:21:18.149
+Justin Florentine (Besu): Okay, all good, Jihoon. Thank you.
+
+142
+00:21:18.650 --> 00:21:19.930
+Jihoon: Thank you, Justin.
+
+143
+00:21:21.540 --> 00:21:22.819
+Jihoon: Right, yeah.
+
+144
+00:21:23.060 --> 00:21:29.090
+Jihoon: So… Yep, okay, that's all that I prepared for the spec changes.
+
+145
+00:21:30.890 --> 00:21:37.329
+Nico Flaig: So can we discuss, maybe, what's the exact problem we are trying to address with this change?
+
+146
+00:21:38.030 --> 00:21:38.889
+Jihoon: Right, so.
+
+147
+00:21:38.890 --> 00:21:42.659
+Nico Flaig: implement it, but what do we actually achieve doing this?
+
+148
+00:21:43.150 --> 00:21:50.400
+Jihoon: Yeah, so, the main problem is that we haven't considered
+
+149
+00:21:51.310 --> 00:21:57.270
+Jihoon: The situation where you move to sidechain.
+
+150
+00:21:59.660 --> 00:22:13.629
+Jihoon: And then there might be a, split view between nodes from, coming from different chain, because they don't share IL view of the view of the chain.
+
+151
+00:22:16.290 --> 00:22:23.520
+Jihoon: And then it escalated, like, okay, then what happens if… there are…
+
+152
+00:22:23.710 --> 00:22:27.809
+Jihoon: Majority of malicious or testers somehow
+
+153
+00:22:28.030 --> 00:22:33.699
+Jihoon: canonicalized non-IL-compliant payload in between, then yeah.
+
+154
+00:22:36.260 --> 00:22:44.439
+Nico Flaig: But this is, like, an honest behavior case, where you just have a split view, or you mean in a attack scenario?
+
+155
+00:22:44.940 --> 00:23:00.519
+Jihoon: Yeah, so I… sorry, I mixed two things up. So, the prior is about honesty, so even when there are no malicious or testers, there could be a split view, because if you were… in the previous example that I shared on the slide, if you were…
+
+156
+00:23:00.620 --> 00:23:07.340
+Jihoon: on XYZ and move to PCD, you have no IL view on payload D.
+
+157
+00:23:09.840 --> 00:23:10.350
+Jihoon: Yikes.
+
+158
+00:23:10.350 --> 00:23:19.260
+Nico Flaig: Exactly, that would be a concern, right? Because their notes voted per their IL view, so they acted honestly, but…
+
+159
+00:23:19.630 --> 00:23:20.680
+Jihoon: Yes.
+
+160
+00:23:20.880 --> 00:23:24.949
+Nico Flaig: just had imperfect information at the time. Yes.
+
+161
+00:23:24.950 --> 00:23:36.379
+Jihoon: Yes, that was the starting point. So, I was discussing this with Mikhail about, engine APIs, and then erase these points, and then, yeah,
+
+162
+00:23:39.020 --> 00:23:40.010
+Jihoon: So…
+
+163
+00:23:40.690 --> 00:23:49.700
+Jihoon: maybe we don't need payload status V2, but still, this is a problem that we haven't really thought about, so yeah.
+
+164
+00:23:50.260 --> 00:23:54.850
+Jihoon: There will be some spec changes, in the near future.
+
+165
+00:23:54.990 --> 00:23:59.340
+Jihoon: And… I'm gonna try my best to prepare it.
+
+166
+00:24:00.040 --> 00:24:05.630
+Jihoon: before DevNet Zero, so… Okay.
+
+167
+00:24:10.940 --> 00:24:18.909
+Jihoon: It's… there is no more question, then I think we can move on to testing updates.
+
+168
+00:24:22.290 --> 00:24:25.969
+Nico Flaig: Another question, just the last, last point, so… Yes.
+
+169
+00:24:25.970 --> 00:24:26.909
+Jihoon: Please go ahead.
+
+170
+00:24:26.910 --> 00:24:32.200
+Nico Flaig: The attack scenario would be you have a 51% of attesters.
+
+171
+00:24:32.940 --> 00:24:40.110
+Nico Flaig: basically voting for a non-IL-compliant chain? Was there any adult scenario you had in mind?
+
+172
+00:24:44.130 --> 00:24:50.660
+Jihoon: If he… Scope it to FOCIL only, then… Ice…
+
+173
+00:24:50.900 --> 00:24:54.349
+Jihoon: That is the only alt-tech scenario that I can think of.
+
+174
+00:24:54.700 --> 00:24:56.040
+Jihoon: On the spot.
+
+175
+00:24:56.630 --> 00:25:03.049
+Jihoon: But of course, if you have a control over more than 50% of a testers, then…
+
+176
+00:25:03.540 --> 00:25:07.509
+Jihoon: You can probably do much worse than that.
+
+177
+00:25:07.950 --> 00:25:15.849
+Jihoon: No matter what that is. But still, when it comes to FOCIL, of course, you can canonicalize not IL-compliant payload.
+
+178
+00:25:27.860 --> 00:25:35.570
+Nico Flaig: Yeah, so I would think it's not an issue, like, the current design, also, having it similar to PTC.
+
+179
+00:25:36.450 --> 00:25:39.829
+Nico Flaig: But yeah, I would also… I guess we need to think more about this.
+
+180
+00:25:41.610 --> 00:25:42.490
+Jihoon: Yeah.
+
+181
+00:25:45.570 --> 00:25:56.570
+Jihoon: There was a question that, like, Do you wanna increase… the IL enforcement window.
+
+182
+00:25:56.780 --> 00:26:00.169
+Jihoon: to, let's say, like, N, which is bigger than 1.
+
+183
+00:26:00.870 --> 00:26:11.510
+Jihoon: I'm not sure about that, to be honest. What I know for sure is we cannot make it permanent, unless we're gonna make IL on-chain.
+
+184
+00:26:11.770 --> 00:26:13.969
+Jihoon: Because there could be a split view.
+
+185
+00:26:14.110 --> 00:26:17.030
+Jihoon: Even only with honest or testers.
+
+186
+00:26:17.350 --> 00:26:19.759
+Jihoon: If there's, like, client bugs or something.
+
+187
+00:26:20.450 --> 00:26:21.750
+Jihoon: But, yeah.
+
+188
+00:26:22.350 --> 00:26:24.249
+Jihoon: I'm also thinking about it, and then…
+
+189
+00:26:24.250 --> 00:26:33.659
+Nico Flaig: So, yeah, if you make it deeper than, like, the PTC world, for example, how it currently works, then you would need to…
+
+190
+00:26:33.860 --> 00:26:36.509
+Nico Flaig: included in the weight counting, I guess?
+
+191
+00:26:37.130 --> 00:26:38.060
+Jihoon: What'd he come to?
+
+192
+00:26:39.520 --> 00:26:48.590
+Nico Flaig: Like, right now, right, if the payload is not IL compliant, attesters will not vote for that, and then anything beyond, like, the previous slot.
+
+193
+00:26:49.150 --> 00:26:56.949
+Nico Flaig: That, was voted on, or the previous block, the payload, sorry, will be based on the weight only, right?
+
+194
+00:27:00.850 --> 00:27:04.769
+Jihoon: I mean, past slots, right? Paleo from past slots.
+
+195
+00:27:06.750 --> 00:27:13.590
+Nico Flaig: Yeah, exactly, but you already voted for the parent block, so it's part of the canonical chain by weight, right?
+
+196
+00:27:14.440 --> 00:27:15.770
+Jihoon: Yes, yes.
+
+197
+00:27:15.770 --> 00:27:16.230
+Nico Flaig: So if you may.
+
+198
+00:27:16.230 --> 00:27:16.790
+Jihoon: But indeed.
+
+199
+00:27:16.790 --> 00:27:21.980
+Nico Flaig: deeper than one slot or one block, then it becomes difficult, I think.
+
+200
+00:27:22.580 --> 00:27:25.979
+Jihoon: Yeah, it's… we're gonna complicate the protocol.
+
+201
+00:27:27.560 --> 00:27:42.880
+Jihoon: a lot, it is not technically impossible, of course not, but then, like, when do we stop? The question is, like, do we want to make it, like, one epoch, or up to the final… latest finalized blog, and then…
+
+202
+00:27:43.240 --> 00:27:44.010
+Jihoon: Yeah.
+
+203
+00:27:46.900 --> 00:27:51.790
+Jihoon: Probably not a big of a deal, but… It is somehow…
+
+204
+00:27:52.570 --> 00:27:58.149
+Jihoon: Yeah, okay. So the one-slot reorg thing is, is a separate concern, so…
+
+205
+00:28:09.210 --> 00:28:13.139
+Jihoon: Okay, so, maybe we can move on to…
+
+206
+00:28:14.580 --> 00:28:27.270
+Jihoon: testing updates, not sure if we're gonna have Any changes, but… since we have Felix here… maybe…
+
+207
+00:28:29.890 --> 00:28:31.819
+Jihoon: Do you want to share any updates?
+
+208
+00:28:32.030 --> 00:28:33.570
+Jihoon: Nothing here? Okay.
+
+209
+00:28:33.890 --> 00:28:35.030
+Jihoon: Yeah.
+
+210
+00:28:35.650 --> 00:28:44.900
+Jihoon: Speaking of which… I think I'm gonna ask for your input once this spec changes, like, figured out.
+
+211
+00:28:45.520 --> 00:28:46.550
+Jihoon: Nevertheless.
+
+212
+00:28:46.820 --> 00:28:55.480
+Jihoon: Oh yeah, Mark reached out to me asking for some pointers, and he said that he's working on FOCIL at the moment, and…
+
+213
+00:28:56.650 --> 00:29:00.690
+Jihoon: Nether… he said, nether mind passes all… Tests.
+
+214
+00:29:01.950 --> 00:29:03.600
+Jihoon: But…
+
+215
+00:29:04.320 --> 00:29:17.990
+Jihoon: He also tried interrupt with, other clients, but since we don't have, stabilized DevNet, it was, like, half-ish interrupt, but it seems like that their mind is also ready.
+
+216
+00:29:27.300 --> 00:29:32.819
+Jihoon: All right, does anyone have any more comments, more questions?
+
+217
+00:29:37.760 --> 00:29:41.300
+Nico Flaig: So, maybe just what's the plan for the definite?
+
+218
+00:29:42.430 --> 00:29:47.820
+Nico Flaig: Do we want to launch it with one CL? I don't think it makes a lot of sense, but…
+
+219
+00:29:48.140 --> 00:29:48.730
+Nico Flaig: Yeah.
+
+220
+00:29:48.730 --> 00:29:53.239
+Jihoon: I think we need at least 2x2, like, two CLs and 2 ELs.
+
+221
+00:29:53.520 --> 00:29:59.819
+Jihoon: The, you know, it just… It is still, you know, heaven…
+
+222
+00:30:00.790 --> 00:30:10.809
+Jihoon: haven't worked out yet, but, you know, we have how many clients? Like, nearly 3 CLs and 3-4 ELs, so I think we have enough clients.
+
+223
+00:30:11.110 --> 00:30:12.860
+Jihoon: We just need stable.
+
+224
+00:30:13.010 --> 00:30:14.690
+Jihoon: Glam DevNet, I think.
+
+225
+00:30:24.860 --> 00:30:26.410
+Jihoon: Cool, thank you, Felix.
+
+226
+00:30:34.030 --> 00:30:39.540
+Jihoon: Yeah, regarding… I got a DevNet Zero, I can… I think we can revisit it.
+
+227
+00:30:39.710 --> 00:30:44.090
+Jihoon: as soon as we have stabilized Glam DevNet, so…
+
+228
+00:30:45.170 --> 00:30:49.129
+Jihoon: For the scope of Hagar Devidence Zero.
+
+229
+00:30:49.340 --> 00:30:55.799
+Jihoon: We can say that whatever we have live for… Hazy and Bogota.
+
+230
+00:30:56.150 --> 00:31:00.039
+Jihoon: I'm gonna make sure we can have…
+
+231
+00:31:00.170 --> 00:31:04.770
+Jihoon: specs ready by then. Not sure when that would be.
+
+232
+00:31:05.370 --> 00:31:06.950
+Jihoon: Maybe in a few weeks.
+
+233
+00:31:07.110 --> 00:31:11.640
+Jihoon: So, yeah, we can revisit that issue in 2 weeks.
+
+234
+00:31:18.750 --> 00:31:19.850
+Jihoon: So we shouldn't comment?
+
+235
+00:31:19.850 --> 00:31:27.549
+Justin Florentine (Besu): So I'm just gonna keep an eye on both the CL specs and the execution spec branches to see those come in, I assume.
+
+236
+00:31:30.100 --> 00:31:31.100
+Jihoon: Yes.
+
+237
+00:31:31.290 --> 00:31:37.110
+Jihoon: Please. Of course, I'm gonna share it in the… Discord channel.
+
+238
+00:31:37.110 --> 00:31:41.630
+Justin Florentine (Besu): Okay, yeah, I was kind of just, the actual question, I guess, is…
+
+239
+00:31:41.770 --> 00:31:47.050
+Justin Florentine (Besu): Is that Discord channel the primary, coordination point at the moment?
+
+240
+00:31:47.900 --> 00:31:51.560
+Jihoon: Yes, yes. It has been, and it will be for the time being.
+
+241
+00:31:52.660 --> 00:31:53.220
+Justin Florentine (Besu): Okay.
+
+242
+00:31:53.220 --> 00:32:01.060
+Jihoon: just to avoid any confusion, it is enclosure external, and then once we feel like we are mature enough, I think we can
+
+243
+00:32:01.230 --> 00:32:07.420
+Jihoon: merge this breakout into ACDT, and then… Yeah.
+
+244
+00:32:08.120 --> 00:32:10.810
+Jihoon: Just like we did with ePBS and Balls.
+
+245
+00:32:10.960 --> 00:32:15.930
+Jihoon: But for now, I think we could use this breakout to discuss FOCIL-specific
+
+246
+00:32:16.180 --> 00:32:24.570
+Jihoon: changes, and then in Collision Lase channel for any new spec changes, and… development changes.
+
+247
+00:32:26.150 --> 00:32:38.930
+Justin Florentine (Besu): One thing that would be helpful is if we could point, my team, if I could point my team to maybe a condensed version of the, discussion that we had in the beginning of the call.
+
+248
+00:32:39.350 --> 00:32:45.919
+Justin Florentine (Besu): To, like, what to do when, you know, chains of equal weight diverge by inclusion state.
+
+249
+00:32:46.150 --> 00:32:56.409
+Justin Florentine (Besu): If we need to solicit opinions from ELs or CLs on that, it'd be nice to have a quick explainer on the issue to point them to.
+
+250
+00:32:57.120 --> 00:32:58.680
+Jihoon: Got it. I can…
+
+251
+00:32:59.280 --> 00:33:08.380
+Jihoon: prepare a write-up regarding this issue, and then share it in the Discord. It would be really helpful if…
+
+252
+00:33:08.800 --> 00:33:12.349
+Jihoon: Client devs could weigh in and share some inputs.
+
+253
+00:33:12.690 --> 00:33:14.960
+Justin Florentine (Besu): Awesome, will do. Thank you, Jihoon.
+
+254
+00:33:15.490 --> 00:33:16.760
+Jihoon: Great, thank you, Justin.
+
+255
+00:33:18.280 --> 00:33:22.920
+Jihoon: Alright, do we have… more questions?
+
+256
+00:33:24.630 --> 00:33:39.859
+Nico Flaig: I would just have her ask for some EL, maybe, if you could prepare an image where you can have a malicious or censoring node, that would be great to have, I think. I tried this with Besu, during the indoor op.
+
+257
+00:33:40.130 --> 00:33:51.079
+Nico Flaig: I think there were some bar-related issues, and Besu didn't quite give me the right arrow codes to reorg those payloads, but I think we should be testing the unhappy case.
+
+258
+00:33:51.510 --> 00:34:01.020
+Nico Flaig: On Kurtosis before we do a DevNet, and I'm not sure if Barat's builder is ready. Ideally, we want that to be censoring, but yeah.
+
+259
+00:34:01.020 --> 00:34:07.720
+Justin Florentine (Besu): If you still have that branch, Nico, feel free to send that my way and kind of get some basic devs to take a look at it to figure out what was wrong.
+
+260
+00:34:08.090 --> 00:34:17.379
+Nico Flaig: Oh, I think it was very trivial. I think I just disabled some mempool stuff to produce empty blocks. I'm not sure. I think Fabio should be aware of it.
+
+261
+00:34:17.820 --> 00:34:18.790
+Justin Florentine (Besu): Great.
+
+262
+00:34:19.190 --> 00:34:26.329
+Nico Flaig: I think the issue was not that, it was rather Besu not giving me the error code when processing the payload.
+
+263
+00:34:28.980 --> 00:34:32.639
+Nico Flaig: But yeah, that might be already resolved. It's been a few weeks ago.
+
+264
+00:34:33.170 --> 00:34:35.039
+Justin Florentine (Besu): Okay, holler if you need me.
+
+265
+00:34:39.370 --> 00:34:46.999
+Jihoon: Great, and… regarding Build War, I, as Barad last week.
+
+266
+00:34:47.139 --> 00:34:50.610
+Jihoon: And he said that he's working on something else.
+
+267
+00:34:50.830 --> 00:34:56.719
+Jihoon: And probably quite be busy for, I don't know, the next couple of weeks, but…
+
+268
+00:34:56.860 --> 00:35:00.819
+Jihoon: since Glam DevNet is still…
+
+269
+00:35:01.090 --> 00:35:05.699
+Jihoon: in progress, I can ask him again in, like, a few weeks if he can
+
+270
+00:35:05.820 --> 00:35:12.750
+Jihoon: Prepare, build work to produce some… IL in compliant payloads.
+
+271
+00:35:13.310 --> 00:35:15.300
+Jihoon: For our first step, Ned.
+
+272
+00:35:19.460 --> 00:35:21.240
+Jihoon: And that thing?
+
+273
+00:35:21.890 --> 00:35:27.890
+Jihoon: It's something we can also discuss in… Like, 2 weeks for… better availability.
+
+274
+00:35:35.570 --> 00:35:39.800
+Jihoon: Right, any more questions?
+
+275
+00:35:49.120 --> 00:35:54.080
+Jihoon: If not… Thank you, everyone, for joining, and…
+
+276
+00:35:54.530 --> 00:35:56.499
+Jihoon: Have a great rest of your day.
+
+277
+00:36:02.520 --> 00:36:03.070
+Pablo Deymo | Lambda: Thank you.
+
+278
+00:36:03.070 --> 00:36:04.899
+Nico Flaig: Have a nice week. See ya.
+
+279
+00:36:04.900 --> 00:36:06.160
+Jihoon: Thank you. Bye-bye.
+
+280
+00:36:06.510 --> 00:36:06.950
+Justin Florentine (Besu): Yep.
+
