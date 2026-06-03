@@ -1,0 +1,24 @@
+00:15:52	Thomas Coratger:	https://github.com/leanEthereum/leanSpec/pull/817
+00:18:48	Ladislaus:	for reference https://x.com/tcoratger/status/2061748291335774427?s=20
+00:18:55	Thomas Coratger:	https://ethresear.ch/t/exploring-the-design-space-for-a-post-quantum-public-key-registry-for-ethereum-validators/25040/5
+00:35:46	unnawut:	Ideally before we close out devnet4 completely, I think we should together compile a devnet4 report listing out what we achieved in terms of performance metrics
+00:36:12	unnawut:	Replying to "Ideally before we close out devnet4 completely, I think we should together compile a devnet4 report listing out what we achieved in terms of performance metrics"
+
+so ideally some hours of stable run
+00:37:10	Gajinder Singh:	Replying to "Ideally before we cl..."
+
+once we isolate the issue we can do that, but we will be moving zeam main branch to devnet5
+
+a side branch could continue for devnet4 if needed
+00:38:17	Mega | ethrex:	Grandine’s (f66d4a974eced803574eb0ea43d812e523c8d7ad) should be fine
+00:38:34	Thomas Coratger:	https://github.com/leanEthereum/leanSpec/pull/822
+00:41:35	Thomas Coratger:	8fcbd77958a58666e828315de2d6ce7c93297117
+00:41:44	Anshal Shukla:	We can take it async
+00:41:53	Mega | ethrex:	Just in case, that commit is for devnet 5
+00:41:56	Mercy Boma Naps-Nkari:	Hello everyone, here is the latest commit hash for the devnet4 branch of leanMultisig: f66d4a9 . It's a breaking change (both for the proof system, and also a little bit the API (now returning Error instead of panicking etc)). The performance gain is about 10% for raw-XMSS aggregation and 15% for recursion  (resp. 25% and 35% using the experimental zk_alloc (custom memory allocator), but there is a non zero chance it corrupts some of your memory). Not entirely sure the coordination effort to switch the version of leanMultisig is worth 10% / 15% performance? In any case, don't hesitate if you have any requests concerning the API or whatever. (PS: similarly, devnet5 has been updated with the latest changes from main: the latest commit is 8fcbd77, I kept the focus on devnet4 to avoid confusion)
+00:43:14	Parthasarathy Ramanujam:	Those who ran devnet5 image, does it work well on 8 core 16 GB machine?
+00:45:30	Mega | ethrex:	In our experience, it should run fine
+00:45:45	Mega | ethrex:	We’re running 16 nodes in a 64GB 8 cores/16 threads machine
+00:46:40	Parthasarathy Ramanujam:	Reacted to "We’re running 16 nod..." with 👍
+00:48:05	Kamil Salakhiev:	I ran 64 nodes in 64gb machine for shadow simulation🙂 but in shadow nodes do not compete for CPU
+00:48:30	Anshal Shukla:	I’ll drop off will continue async thanks!

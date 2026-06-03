@@ -1,0 +1,70 @@
+{
+  "meeting": "P2P Networking #2 - June 3, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:17:47",
+        "highlight": "Lighthouse: next release adds partial message support for Fulu and disables MPLEX by default"
+      },
+      {
+        "timestamp": "00:20:47",
+        "highlight": "Discovery V5: all clients now passing basic tests; ethrex passing most, coverage being expanded"
+      }
+    ],
+    "sparse_blob_pool": [
+      {
+        "timestamp": "00:23:51",
+        "highlight": "EIP-8070 sparse blob pool spec stable; Geth, Nethermind, and ethrex have active implementations"
+      },
+      {
+        "timestamp": "00:25:58",
+        "highlight": "No CL yet supports engine API changes (getBlobsV4 + custody group FCU notification) needed for devnet testing"
+      },
+      {
+        "timestamp": "00:47:22",
+        "highlight": "Atomicity concern raised: hasBlobs and getBlobsV4 are not atomic; Lighthouse confirmed it does not populate 'I have' bitmap from hasBlobs, only the request bitmap"
+      },
+      {
+        "timestamp": "00:49:55",
+        "highlight": "Ra\u00fal proposed renaming hasBlobs (e.g., 'lock blobs' or 'prepare blobs') since it carries implicit availability guarantee for current slot"
+      },
+      {
+        "timestamp": "00:56:58",
+        "highlight": "Partial messages spec lacks explicit implementer note about hasBlobs/getBlobsV4 non-atomicity; agreed to add one"
+      }
+    ],
+    "pq_interop_devnets": [
+      {
+        "timestamp": "01:01:06",
+        "highlight": "PQ shadow simulation: 32-node devnet stable (~500ms propagation); 64-node shows finalization gaps with 256KB SNARK blocks at 4s slots"
+      },
+      {
+        "timestamp": "01:05:19",
+        "highlight": "Zeam and other clients will add artificial aggregation delay flags to make simulations more realistic"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "01:00:07",
+      "action": "Create Sparse Blob Pool coordination channel in Ethereum Discord; CL teams (Prysm, Lighthouse, Teku) ping when getBlobsV4 + FCU custody group notification is ready",
+      "owner": "Kamil / all CL teams"
+    },
+    {
+      "timestamp": "00:56:53",
+      "action": "Add implementer's note to partial messages spec clarifying hasBlobs and getBlobsV4 are non-atomic",
+      "owner": "Daniel Knopik / Michael"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:49:30",
+      "decision": "EL should guarantee blob availability for current slot after hasBlobs returns true; next slot not guaranteed"
+    },
+    {
+      "timestamp": "00:18:19",
+      "decision": "Lighthouse will disable MPLEX by default in next release; opt-in flag remains available"
+    }
+  ],
+  "targets": []
+}

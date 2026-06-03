@@ -1,0 +1,54 @@
+00:24:25	Kamil Salakhiev:	https://github.com/ethereum/execution-apis/pull/774
+00:26:03	Edgar | ethrex:	we have a pr open implementing 8070 on ethrex
+00:26:11	Bosul Mun:	Reacted to "we have a pr open im..." with 👍
+00:26:28	Edgar | ethrex:	https://github.com/lambdaclass/ethrex/pull/6776
+00:26:55	kasey:	[CL changes for testing] This would be to notify EL of custody group changes?
+00:27:23	Kamil Salakhiev:	https://github.com/ethereum/beacon-metrics/pull/23
+00:28:31	Daniel Knopik:	i have a branch, but i need to fix it x)
+00:29:30	Bosul Mun:	Replying to "[CL changes for test..."
+
+If you don’t use getBlobsV4, there could be more missing blobs, since if el doesn’t have enough cells to recover blobs on the blobpool then it will return nil for those
+00:30:13	Bosul Mun:	Replying to "[CL changes for test..."
+
+So ideally we want to have both engine apis on devnet
+00:42:02	kasey:	Would the EL then fallback to “dense” blob pool if CL stops sending custody group metadata in FCU? That could be a nice operational feature, because then we could have a single flag in the CL, and that CL flag would drive both layers.
+00:46:21	Csaba:	Why is is hasBlobs query, and not a hasBlob stream from from EL to CL?
+00:47:22	Kamil Salakhiev:	do we have streaming support in engine api?
+00:47:51	Csaba:	Replying to "do we have streaming..."
+
+Don’t know, but I did propose to add it a few month ago :-)
+00:48:17	Csaba:	Replying to "do we have streaming..."
+
+AFAIK the protocol itself supports it
+00:48:27	kasey:	A blob appearing where we didn’t have it seems fine, a blob disappearing would be a bigger issue.
+00:48:43	Daniel Knopik:	I built hasBlobs support with the assumption that the received blobs might be different, both appearing and disappearing
+00:48:47	Csaba:	Replying to "do we have streaming..."
+
+I remember looking it up in JSON RPC, and there is something
+00:49:31	Csaba:	Replying to "do we have streaming..."
+
+That was my getBlobs “v3” improvement proposal before other v3 and v4 things came up
+00:49:46	Daniel Knopik:	Replying to "I built hasBlobs s..."
+
+this means e.g. that I do not implement optimization like intentionally not verifying incoming cells while waiting for getblobsv3
+00:49:58	kasey:	FWIW, a lot of things can go sideways (buffering etc, across multiple implementations) with such a small streaming response. Meaning in practice we could very well not see the “fast” part of the message until we also get the “slow” part on the wire.
+00:52:31	kasey:	Replying to "I built hasBlobs sup..."
+
+My concern was more that if we tell peers that we have a particular blob, but we actually need it, seems more likely to run into bugs where they don’t send us the missing cells on bitmap update.
+00:53:18	Daniel Knopik:	Replying to "I built hasBlobs s..."
+
+i dont set it in my metadata until i truly have it
+
+hasblobs only affects the request bitmap: i do not request promised blobs
+00:56:31	kasey:	hasBlobs: I want
+getBlobs: I have
+00:56:37	Csaba:	Where is the hasBlobs description?
+00:57:16	Kamil Salakhiev:	Replying to "Where is the hasBlob..."
+
+We don’t have it yet. Marco should start working on that soon. But it is implemented in geth already
+00:57:26	Csaba:	Replying to "Where is the hasBlob..."
+
+OK
+01:06:01	Kamil Salakhiev:	http://202.61.202.59:4321/
+01:06:14	Kamil Salakhiev:	https://github.com/kamilsa/lean-shadow-fuzzer
+01:07:11	Leandro:	Bye bye

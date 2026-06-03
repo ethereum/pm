@@ -1,0 +1,1214 @@
+WEBVTT
+
+1
+00:06:41.440 --> 00:06:43.120
+Thomas Coratger: Hello, everyone.
+
+2
+00:06:51.530 --> 00:06:52.809
+Thomas Coratger: Can you hear me?
+
+3
+00:06:56.470 --> 00:06:57.770
+Thomas Coratger: I mean, yeah.
+
+4
+00:06:58.140 --> 00:06:59.110
+Gajinder Singh: All good.
+
+5
+00:06:59.540 --> 00:07:07.360
+Thomas Coratger: Yeah, perfect. So, let's get started. So today we will talk about… we will make, like, the usual client updates.
+
+6
+00:07:07.980 --> 00:07:10.339
+Thomas Coratger: Then we will talk about,
+
+7
+00:07:10.460 --> 00:07:15.320
+Thomas Coratger: Maybe a bit more about, lean spec refactoring that we are doing right now.
+
+8
+00:07:16.650 --> 00:07:23.330
+Thomas Coratger: And maybe mentioning quickly, like, the recent posts that we posted beginning of the week on Eat Research.
+
+9
+00:07:23.460 --> 00:07:31.570
+Thomas Coratger: About Post Quantum public key registry, so that you guys are aware of what we are publishing and what we are doing.
+
+10
+00:07:31.660 --> 00:07:47.399
+Thomas Coratger: And, yeah, fine. I will give myself, like, a brief update on LeanVM, since Emil cannot join, today. So yeah, let's get started with client updates. Zeam, first.
+
+11
+00:07:49.640 --> 00:07:50.770
+Gajinder Singh: Thanks, Domo.
+
+12
+00:07:51.380 --> 00:08:09.600
+Gajinder Singh: So, we've been working on DevNet 4 scaling efforts, and I think now we have reached a point where we can say that on DevNet 4, for 64 nodes, we are able to have a smooth DevNet, apart from the fact that
+
+13
+00:08:09.760 --> 00:08:25.859
+Gajinder Singh: We have started seeing some issue, which does not seem to be related with the spec, but the P2P. Maybe Bata can talk more about it when he's giving the DevNet runs update. On DevNet5, we…
+
+14
+00:08:26.060 --> 00:08:29.080
+Gajinder Singh: We're able to interrupt with,
+
+15
+00:08:29.200 --> 00:08:34.589
+Gajinder Singh: Ethlambda, we tried interoping with Ream, we are, facing some issues. We…
+
+16
+00:08:34.880 --> 00:08:43.119
+Gajinder Singh: also made sure that Shadow Sims, we got, devNet5 image to run Shadow.
+
+17
+00:08:43.220 --> 00:08:48.490
+Gajinder Singh: So, I think Camille is… Doing some experiments on that.
+
+18
+00:08:48.800 --> 00:08:54.659
+Gajinder Singh: So… so that's… that has been our update, and…
+
+19
+00:08:54.940 --> 00:09:10.610
+Gajinder Singh: We believe that we have been able to improve our aggregator performance quite a bit with a lot of optimizations and a lot of strategies that we, deployed, to make sure that we can aggregate in time and
+
+20
+00:09:10.770 --> 00:09:14.159
+Gajinder Singh: The aggregates are available to the nodes in time.
+
+21
+00:09:18.640 --> 00:09:21.599
+Thomas Coratger: Okay, great. Rim?
+
+22
+00:09:22.380 --> 00:09:23.740
+Shariq Naiyer: Hey guys.
+
+23
+00:09:23.910 --> 00:09:33.070
+Shariq Naiyer: on the DevNet 4 front, we have been fixing issues that have been arising, that have been raised by Partha that… in the, DevNet 4 runs.
+
+24
+00:09:33.140 --> 00:09:44.129
+Shariq Naiyer: We have implemented the DevNet 5 spec, and we are starting to test and drop with other clients. Some issues are being raised by the Zoom team that we are going to fix.
+
+25
+00:09:44.130 --> 00:09:55.749
+Shariq Naiyer: On the high front, we have added a progress bar for the current tests that are being run at this moment, as well as we have split that out by DevNet 4 and DevNet 5 for clients.
+
+26
+00:09:55.750 --> 00:10:04.060
+Shariq Naiyer: and on the spec front, we're adding, some text vectors for aggregation and proofs.
+
+27
+00:10:04.690 --> 00:10:06.169
+Shariq Naiyer: That's all from the LinkedIn.
+
+28
+00:10:11.370 --> 00:10:15.749
+Thomas Coratger: Great, thanks a lot for… for the update. Clean.
+
+29
+00:10:23.850 --> 00:10:26.140
+Thomas Coratger: London?
+
+30
+00:10:26.950 --> 00:10:40.259
+Mihir Faujdar: Yep, hi Thomas, hi everyone. So, on the DevNet5 side, we have, police and image, and we've been able to interop with Ethlambda clients, based on our local testing,
+
+31
+00:10:40.310 --> 00:10:54.260
+Mihir Faujdar: still, need to test with Zeam and REAM clients. On the DevNet4 side, we're, like, basically investigating an issue on the snappy decoding, and we'll provide an update once there's a fix available.
+
+32
+00:10:54.440 --> 00:10:55.350
+Mihir Faujdar: Thanks.
+
+33
+00:10:58.780 --> 00:11:01.800
+Thomas Coratger: Thanks, that's great. It's Lambda?
+
+34
+00:11:02.900 --> 00:11:04.020
+Pablo Deymo | Lambda: Hello, hello.
+
+35
+00:11:04.560 --> 00:11:10.389
+Pablo Deymo | Lambda: So, we merged a fix for a clock discrepancy that we have.
+
+36
+00:11:11.270 --> 00:11:15.710
+Pablo Deymo | Lambda: We implemented lean spec PR, the 802.
+
+37
+00:11:15.880 --> 00:11:19.600
+Pablo Deymo | Lambda: To skip finalization advance for state finalized policies.
+
+38
+00:11:20.020 --> 00:11:25.270
+Pablo Deymo | Lambda: We added the station aggregate coverage metric, For the Oscar?
+
+39
+00:11:25.790 --> 00:11:33.099
+Pablo Deymo | Lambda: We bumped the LMCM version in our .NET 5 branch and shared some performance comparisons.
+
+40
+00:11:33.820 --> 00:11:38.670
+Pablo Deymo | Lambda: And we are still, working on enabling, ZK dialogue.
+
+41
+00:11:39.030 --> 00:11:45.270
+Pablo Deymo | Lambda: And we are currently looking into the slow and invalid agora right back.
+
+42
+00:11:45.740 --> 00:11:51.940
+Pablo Deymo | Lambda: As part of reported on Telegram, we are spinning up our DevNet to reproduce that issue.
+
+43
+00:11:53.120 --> 00:11:54.500
+Pablo Deymo | Lambda: That's it. Thank you.
+
+44
+00:11:56.190 --> 00:11:58.660
+Thomas Coratger: Great, thanks a lot.
+
+45
+00:11:58.770 --> 00:11:59.830
+Thomas Coratger: Guin?
+
+46
+00:12:02.790 --> 00:12:16.449
+Bankat | gean: Hello, everyone. So, just a quick update from the Gean side. So, over the past stretch, we've taken opportunity to do a bit of housekeeping on our own ends, and run some,
+
+47
+00:12:16.460 --> 00:12:32.599
+Bankat | gean: performance checks before we build… begin building towards DevNet 5 at the moment. So, alongside that, we've been able to carry along some of the fixes for the issue… issues, Partha raised on the Telegram group.
+
+48
+00:12:32.600 --> 00:12:39.020
+Bankat | gean: So, currently, we're just trying to validate some checks on our own end. Nothing is blocking us. Before, we just…
+
+49
+00:12:39.020 --> 00:12:44.859
+Bankat | gean: reviewed our template for image. So, once that is done…
+
+50
+00:12:44.860 --> 00:12:45.640
+Kamshak Lucky| gean: Oh, zoom.
+
+51
+00:12:45.640 --> 00:12:46.490
+Bankat | gean: Good.
+
+52
+00:12:48.800 --> 00:13:01.839
+Bankat | gean: So once that is done, I think we'll be rebuilding a new DevNet 4 image for Gean before we proceed to, DevNet 5 runs. So basically, that's just the update on the Gean side. Thank you.
+
+53
+00:13:04.480 --> 00:13:07.890
+Thomas Coratger: Great, thanks a lot. Grandine?
+
+54
+00:13:10.160 --> 00:13:21.590
+Mercy Boma Naps-Nkari: Hello, so we updated our tag, we had an… we started doing a profiler, and also we bumped the multi-sync, commit hash. We also made some changes on…
+
+55
+00:13:21.750 --> 00:13:26.889
+Mercy Boma Naps-Nkari: lean spec, which has to do with PR781 and 802, I think.
+
+56
+00:13:27.280 --> 00:13:29.490
+Mercy Boma Naps-Nkari: And also,
+
+57
+00:13:30.240 --> 00:13:38.129
+Mercy Boma Naps-Nkari: The Snipey published side fingerprinting, and then the inboard pair, we included that in our current image tab.
+
+58
+00:13:38.290 --> 00:13:41.380
+Mercy Boma Naps-Nkari: And we are currently testing DevNet 5 locally.
+
+59
+00:13:41.760 --> 00:13:42.730
+Mercy Boma Naps-Nkari: Thank you.
+
+60
+00:13:45.690 --> 00:13:51.970
+Thomas Coratger: Great. Thanks, everyone, like, for the update. Did I miss anyone?
+
+61
+00:13:56.190 --> 00:14:03.829
+Thomas Coratger: Okay, cool, so… yeah, I think it would be a pretty quick call, since we didn't…
+
+62
+00:14:04.250 --> 00:14:10.200
+Thomas Coratger: evolved that much since last time. Just to give you a brief update on the…
+
+63
+00:14:10.510 --> 00:14:20.169
+Thomas Coratger: lean specification. I am trying to refactor it as much as I can before the end of the month, in order, like, to present that.
+
+64
+00:14:20.340 --> 00:14:22.789
+Thomas Coratger: Internally at DEF.
+
+65
+00:14:22.900 --> 00:14:27.630
+Thomas Coratger: So… I have made pretty nice progress there.
+
+66
+00:14:27.800 --> 00:14:37.850
+Thomas Coratger: I have removed a lot of used less stuff, I have simplified some tests, indeed, like, the RIM team have added, like, some…
+
+67
+00:14:38.010 --> 00:14:44.119
+Thomas Coratger: proof verification test in terms of test vectors, so I think that can help a lot to you guys as well.
+
+68
+00:14:44.330 --> 00:14:54.150
+Thomas Coratger: We have done some splitting of concerns inside the spec. We have reordered a bit, like, the folders, we have, like.
+
+69
+00:14:54.730 --> 00:14:58.939
+Thomas Coratger: fine-tune a bit the documentation, and I am continuing to do this.
+
+70
+00:14:59.110 --> 00:15:04.839
+Thomas Coratger: We have also changed, like, the name of Type 1 and Type 2 messages to have, like,
+
+71
+00:15:06.290 --> 00:15:18.990
+Thomas Coratger: some… something more, like, readable and understandable. I have refactored also, like, the post-Saton spec as well, a bit, using some nice Python feature.
+
+72
+00:15:19.060 --> 00:15:35.200
+Thomas Coratger: If you look at… we are, like, a PR from Leo, who is in the Steel team, beginning of this week, in order to split the concern of the big spec file, because before that, the spec.py file was super huge.
+
+73
+00:15:35.200 --> 00:15:40.319
+Thomas Coratger: With pretty much all of the functions there, so we split it there, the concerns.
+
+74
+00:15:40.350 --> 00:15:47.870
+Thomas Coratger: with different, mixing stuff that you can explore. I can link there, like, the…
+
+75
+00:15:48.510 --> 00:15:57.380
+Thomas Coratger: the PR, let me do that right now, so that you can split, like, you can see the split of this file as a concern. I am trying to…
+
+76
+00:15:57.390 --> 00:16:13.790
+Thomas Coratger: bid on top of that, to make something clear. I have tried to remove abbreviations as much as possible, so that we are very… even if sometimes this is more verbose, like, we are really, like.
+
+77
+00:16:14.440 --> 00:16:23.840
+Thomas Coratger: Easy to read in terms of specification, so pretty much no abbreviation and some stuff that are very explicit in terms of behavior.
+
+78
+00:16:26.350 --> 00:16:34.529
+Thomas Coratger: We have also simplified some folders to put more stuff into the containers file instead of splitting between folder 2.
+
+79
+00:16:35.120 --> 00:16:54.160
+Thomas Coratger: to have something a bit more readable, and yeah, we have simplified some primitives, increased the test coverage, so that it's basically all. You can check the history of PRs, I am doing that, a lot right now, in order to simplify as much as I can.
+
+80
+00:16:54.530 --> 00:17:13.869
+Thomas Coratger: I have other PRs that will come. In terms of research, we continue doing continuous development, let's say, on Plonky3, where we are improving some performances, adding some small stuff, adding more tests, all of this. So…
+
+81
+00:17:14.079 --> 00:17:23.390
+Thomas Coratger: in terms of, research that is eats, in terms of, lean VM, so as I mentioned, like, Amit can join today.
+
+82
+00:17:23.500 --> 00:17:33.869
+Thomas Coratger: And so, he is working on a bunch of things right now to simplify the codebase, to simplify the compiler.
+
+83
+00:17:34.250 --> 00:17:35.460
+Thomas Coratger: Hmm…
+
+84
+00:17:35.820 --> 00:17:48.790
+Thomas Coratger: improve some performances, measures, and all of this. Something that he wanted to share, and he told me to say, is that he's working on a branch that he will soon merge
+
+85
+00:17:48.920 --> 00:18:02.370
+Thomas Coratger: inside LeanVM to replace Rayon. So Rayon is a parallelization library that we have in Rust to parallelize things, so you can natively do some parallelization loops and stuff like this.
+
+86
+00:18:02.520 --> 00:18:04.340
+Thomas Coratger: With a custom thread pool.
+
+87
+00:18:04.680 --> 00:18:14.649
+Thomas Coratger: In order to stabilize… to stabilize the ZK analog syncs, that is a way to save memory, and so to increase the performance indirectly.
+
+88
+00:18:14.690 --> 00:18:30.860
+Thomas Coratger: So he's working on that, because previously he had some strange bugs and instabilities, depending on the architecture or depending on the run, and so he's working on this kind of custom thread pool to replace Rayon, and to have more stability with this memory stuff.
+
+89
+00:18:31.540 --> 00:18:35.350
+Thomas Coratger: That's it in terms of LeanVM.
+
+90
+00:18:35.860 --> 00:18:45.119
+Thomas Coratger: Now, as I mentioned, like, at the beginning, we published, beginning of the week, an each research post.
+
+91
+00:18:46.230 --> 00:18:51.180
+Thomas Coratger: Let me check where this is… there.
+
+92
+00:18:55.700 --> 00:18:58.519
+Thomas Coratger: So, yeah, we have this EATH Research Post.
+
+93
+00:18:59.110 --> 00:19:09.370
+Thomas Coratger: So, that was quite long to publish, because we iterated a lot on this internally, to propose something that is pretty decent.
+
+94
+00:19:09.510 --> 00:19:13.600
+Thomas Coratger: So, maybe, since we have time, let me…
+
+95
+00:19:17.860 --> 00:19:21.550
+Thomas Coratger: Share my screen, so that you can see.
+
+96
+00:19:24.480 --> 00:19:30.420
+Thomas Coratger: Okay… Okay… Can you see my screen?
+
+97
+00:19:30.850 --> 00:19:31.970
+Shariq Naiyer: Yep.
+
+98
+00:19:32.200 --> 00:19:43.929
+Thomas Coratger: Perfect. So, yeah, we published this first, so I think this may be interesting for you, because, like, this concern directly, of course, like, the post-quantum efforts.
+
+99
+00:19:44.160 --> 00:19:49.710
+Thomas Coratger: So yeah, we have a bit of an intro there with a strawmap and that, but you know that.
+
+100
+00:19:49.840 --> 00:20:01.739
+Thomas Coratger: a part of context and stuff. This is decoupled into two parts, so in the first part, we have the foundation, so this was important in this post to present, like, the XMSS
+
+101
+00:20:01.830 --> 00:20:13.319
+Thomas Coratger: Signatures that you are all pretty familiar with, so… but in a very educative and didactic way, so that you can read the paper that is linked
+
+102
+00:20:13.340 --> 00:20:25.389
+Thomas Coratger: There, if you are interested into the cryptographic primitives and analysis and proofs, but if you want just a brief intro with some drawings and some explanation, this is there.
+
+103
+00:20:25.540 --> 00:20:34.310
+Thomas Coratger: So, yeah, we introduced the XMSS paper, why we have chosen this one, why hash-based signatures and not something else.
+
+104
+00:20:34.480 --> 00:20:46.590
+Thomas Coratger: everything else. Then we present how XMSS works, so the principle of hash chains, the fact that we have multiple parallels hash chains for security.
+
+105
+00:20:47.080 --> 00:20:49.259
+Thomas Coratger: Why this prevent forgery?
+
+106
+00:20:50.660 --> 00:21:04.629
+Thomas Coratger: Then we have, like, the… we present the scaling to many-time signature, where we have the concept of a tree, of one-time signature. Then the… how do we sign, what is the process for signing, what is transmitted between, like, the…
+
+107
+00:21:04.630 --> 00:21:17.110
+Thomas Coratger: the prover and the verifier, then we present it a bit what should be registered, so this means that when we have, like, the event of the public key registry, what we should do.
+
+108
+00:21:17.330 --> 00:21:22.570
+Thomas Coratger: What should be registers, so we have all of the size of things with explanation.
+
+109
+00:21:22.730 --> 00:21:27.470
+Thomas Coratger: Also the signatures, with explanation as well, of all of the parameters.
+
+110
+00:21:28.850 --> 00:21:43.460
+Thomas Coratger: The secret key, how do we try to save a bit of memory, by using, like, some kind of bottom tree plus top tree, so that we just store two of them, two of bottom tree, and then we Geanrate the other one on the fly.
+
+111
+00:21:45.460 --> 00:21:57.649
+Thomas Coratger: Then, we speak about, like, koala Bear and all of the field stuff, why, why we are choosing this, what is the advantage, and all of this.
+
+112
+00:21:58.190 --> 00:22:03.730
+Thomas Coratger: all of our production parameters. So, yeah, everything like this.
+
+113
+00:22:04.000 --> 00:22:13.390
+Thomas Coratger: all of the different parameters of XMSS, so the number of hash chains, the target sum, all of these, so that people can check that.
+
+114
+00:22:13.860 --> 00:22:21.029
+Thomas Coratger: Yeah, also about the hash function, why we are using Poseidon one, why not another one?
+
+115
+00:22:22.340 --> 00:22:27.149
+Thomas Coratger: the… the parameters of Poseidon as well,
+
+116
+00:22:27.390 --> 00:22:36.899
+Thomas Coratger: Yeah, that's all. Then we present a bit of context about signature aggregation and VM, why we are choosing SNARKs for now.
+
+117
+00:22:37.910 --> 00:22:49.349
+Thomas Coratger: all of this, why we need to aggregate all of this. We say that the hash function is on a point design space, because in case Poseidon is broken, we should find, like, a replacement.
+
+118
+00:22:49.350 --> 00:22:58.349
+Thomas Coratger: So we propose some replacement there, especially it's Cheyenne Blake. We say that Poseidon has been subjected to recent attacks.
+
+119
+00:22:58.410 --> 00:23:07.930
+Thomas Coratger: And then we have these second parts about, like, the design consideration for the registry, so how we should be authorized to register.
+
+120
+00:23:08.140 --> 00:23:22.969
+Thomas Coratger: what would be the cap of number of processing per block, and about the stray growth, all of this, so the different options. We present also the hash function of GDT. What does it mean? It means that in case Poseidon or
+
+121
+00:23:22.970 --> 00:23:38.039
+Thomas Coratger: or Poseidon in Geanral is broken, what should we do? So we propose to Geanrate a public key for different hash functions, so then the validators have the choice, and we can just switch from Poseidon to another hash function in case this is broken.
+
+122
+00:23:38.330 --> 00:23:43.939
+Thomas Coratger: Yeah, a couple of, MISC stuff, for serialization and theft.
+
+123
+00:23:44.270 --> 00:23:56.180
+Thomas Coratger: some practical consideration for the validators. So, for example, like, what we should expect in terms of memory for the validators and things like this.
+
+124
+00:23:56.500 --> 00:24:07.990
+Thomas Coratger: Yeah, community tooling, and we have, like, this, also this final section about, like, open question and future work, so we draw a bunch of open questions.
+
+125
+00:24:08.390 --> 00:24:22.280
+Thomas Coratger: So that we can discuss with the community, such as, like, the hash functions, some fancy cryptographic proof about, like, XMSS standard model, VS, like, random oracle model.
+
+126
+00:24:22.360 --> 00:24:41.010
+Thomas Coratger: the finite field also, KoalaBear VS Goldilocks, VS something else, potentially. So, yeah. So this is very open in terms of discussion, so that you can check, and you can comment on this post. The goal of this was to, at the end, to have an EIP,
+
+127
+00:24:41.350 --> 00:24:56.269
+Thomas Coratger: And so right now, we have this post as a discussion starter, let us say, so that people can start to interact and to discuss. We already had, like, a couple of responses to the post, so feel free to check, feel free to read, feel free to post any answer.
+
+128
+00:24:56.490 --> 00:25:01.020
+Thomas Coratger: So yeah, that's it in terms of feedback for this week.
+
+129
+00:25:02.260 --> 00:25:15.259
+Thomas Coratger: Do you have any specific other things to discuss? I guess that right now, we are in a position where we are consolidating everything from the feedback that I heard at the beginning of the talk.
+
+130
+00:25:15.270 --> 00:25:29.090
+Thomas Coratger: you are all, consolidating, debugging, trying to implement DevNet 5 for most of you, trying to interrupt with DevNet 5, so… yeah, I guess we are at this point, so yeah. Yeah, Camille?
+
+131
+00:25:30.010 --> 00:25:41.089
+Kamil Salakhiev: Yeah, hey everyone, just, want to get some alignment on, what is current priorities. So, I see that people… well, it seems to be implementing DevNet 5.
+
+132
+00:25:41.310 --> 00:25:50.100
+Kamil Salakhiev: Are we trying to implement DevNet 5, or are we trying to stabilize DevNet 4? I'm asking because, like, what I should be focused on for the.
+
+133
+00:25:50.100 --> 00:25:50.420
+Parthasarathy Ramanujam: Hello.
+
+134
+00:25:50.420 --> 00:26:00.669
+Kamil Salakhiev: tests. Currently, I'm using, yeah, DevNet 4 branches, but I hear that, yeah, Zeam and ETHLambda and maybe some other teams already have DevNet 5.
+
+135
+00:26:00.830 --> 00:26:02.719
+Kamil Salakhiev: Yeah, so I can switch from that.
+
+136
+00:26:02.720 --> 00:26:03.170
+Parthasarathy Ramanujam: So.
+
+137
+00:26:03.170 --> 00:26:03.630
+Kamil Salakhiev: Because in the.
+
+138
+00:26:03.630 --> 00:26:18.729
+Parthasarathy Ramanujam: That is probably one of… something that I wanted to raise as well. In the past two calls, we agreed that we have to set some, I mean, acceptance criteria for DevNet 4, but we never defined them. So I was hoping we could do that in this call.
+
+139
+00:26:18.730 --> 00:26:26.919
+Parthasarathy Ramanujam: Before we start, testing DevNet 5 on the servers rather than on local machines.
+
+140
+00:26:26.920 --> 00:26:43.390
+Parthasarathy Ramanujam: We still don't have stability on DevNet 4, so if everybody are in agreement that if we can probably say that a stable DevNet4 is something that runs and progresses well for at least 24 hours, is an acceptable acceptance criteria.
+
+141
+00:26:43.510 --> 00:26:47.939
+Parthasarathy Ramanujam: And then probably we can work towards that, and then start testing the network.
+
+142
+00:26:50.730 --> 00:26:53.159
+Parthasarathy Ramanujam: Is that agreeable to all teams?
+
+143
+00:26:53.410 --> 00:26:58.480
+Gajinder Singh: In my belief, I think DevNet 4, as such, I think
+
+144
+00:26:58.960 --> 00:27:15.860
+Gajinder Singh: we are stable enough, apart from the new issues that we are seeing, which does not seem to be related to DevNet 4, for the snappy encoding error that we are seeing, which is causing all the issues. And if we basically run in sanitized
+
+145
+00:27:16.010 --> 00:27:25.900
+Gajinder Singh: all Zoom, for example, all Zoom network, we, we, for example, are able to run for a long time. So we are also trying a mix of
+
+146
+00:27:26.280 --> 00:27:45.199
+Gajinder Singh: the clients to see where we don't see that snappy encoding issue, so that we can basically pinpoint the client from where it is originating from. But all that is not really, I think, is something that is different from spec. And in that sense, I would basically like us to just move to DevNet 5.
+
+147
+00:27:45.330 --> 00:27:49.250
+Gajinder Singh: Spec, because right now,
+
+148
+00:27:49.430 --> 00:28:06.279
+Gajinder Singh: we have DevNet 5 implementation, and other clients also now have DevNet 5 implementation, and basically, it makes no sense to not shift towards DevNet 5 testing, because that is the spec that we want to target.
+
+149
+00:28:06.380 --> 00:28:08.719
+Gajinder Singh: And shows scale and stability on.
+
+150
+00:28:08.840 --> 00:28:13.220
+Gajinder Singh: So I don't see a reason why… why we should not move to .NET 5.
+
+151
+00:28:21.130 --> 00:28:27.909
+Kamil Salakhiev: Okay, yeah, for now, from what I see, so I've been, at least on my side, I've been testing,
+
+152
+00:28:28.470 --> 00:28:32.869
+Kamil Salakhiev: Yeah, the shadow branch of Zeam, I think it's DevNet 4.
+
+153
+00:28:33.180 --> 00:28:42.210
+Kamil Salakhiev: Yeah, I didn't try DevNet5 yet, branch. Yeah, but what I saw, I think I shared the link to the simulations in…
+
+154
+00:28:42.470 --> 00:28:56.760
+Kamil Salakhiev: In a channel. Basically 32 nodes, they work relatively stable. I mean, well, they finalize and everything. When I tried 64, they are not stable. I mean, they are…
+
+155
+00:28:57.330 --> 00:29:06.819
+Kamil Salakhiev: Yeah, we see that the chain is finalizing not every block. I mean, there are gaps, like, 20, 30 blocks sometimes.
+
+156
+00:29:07.950 --> 00:29:14.620
+Kamil Salakhiev: Yeah, that's only Zeam. For Qlean, I think it also was not super stable.
+
+157
+00:29:14.780 --> 00:29:16.550
+Kamil Salakhiev: I don't remember all details.
+
+158
+00:29:17.130 --> 00:29:31.259
+Kamil Salakhiev: I'm trying to test more clients. Yeah, I kind of I-coded East Lambda support for the Shadow, because, yeah, for them to work in Shadow, we need to disable Gemma Lock, and,
+
+159
+00:29:31.570 --> 00:29:40.840
+Kamil Salakhiev: I think there might be some patch required for the P2P. Anyway, I can create a branch to Ethlambda if they want to take a look.
+
+160
+00:29:40.990 --> 00:29:54.100
+Kamil Salakhiev: Yeah, and that's… and that simulations, they do not have any artificial slips for the aggregation times, so they kind of ignore all the compute overhead that we have when we aggregate.
+
+161
+00:29:54.480 --> 00:30:08.410
+Kamil Salakhiev: signatures or snarks. So, in reality, yeah, the situation might be even worse. So, yeah, just saying that for 32 nodes, when we assume, like, aggregation is instant, yeah, at least for Zeam, yeah, we're good.
+
+162
+00:30:08.590 --> 00:30:12.940
+Kamil Salakhiev: For more notes, yeah, it's getting worse.
+
+163
+00:30:13.450 --> 00:30:14.730
+Kamil Salakhiev: Yeah.
+
+164
+00:30:14.730 --> 00:30:27.809
+Gajinder Singh: Yeah, so I think scale… yes, so scale is definitely, one of the focus areas, and that is why, basically, we started scaling. But, again, I guess from…
+
+165
+00:30:28.420 --> 00:30:33.879
+Gajinder Singh: So, from what we started noting was that now the optimizations that we are trying to do, basically.
+
+166
+00:30:34.000 --> 00:30:36.260
+Gajinder Singh: Some of them are like, okay, you know.
+
+167
+00:30:36.430 --> 00:30:45.250
+Gajinder Singh: this optimization… optimization is not needed, because this won't happen in DevNet 5, right? So those… so now, to basically not…
+
+168
+00:30:45.710 --> 00:30:54.359
+Gajinder Singh: Do extra optimizations, which won't be needing in future, and not to, invest effort in something that is…
+
+169
+00:30:54.780 --> 00:31:00.429
+Gajinder Singh: that we are not targeting. I don't… I don't see any reason, so that is why I'm like, let's just…
+
+170
+00:31:00.630 --> 00:31:06.500
+Gajinder Singh: moved to DevNet 5Spec, and… Let's just… let's totally focus on that now.
+
+171
+00:31:08.660 --> 00:31:25.769
+Parthasarathy Ramanujam: Can we target at least one stable run of DevNet 4 before, probably switching over to DevNet 5? Because, I mean, if we have isolated that Lantern, is the one that is having the issue, then we could attempt to, probably achieve,
+
+172
+00:31:25.800 --> 00:31:37.779
+Parthasarathy Ramanujam: finalization with other clients, and if that progresses, then we can switch over to DevNet 5. But having said that, we still have that concern with the servers that we are using for
+
+173
+00:31:37.850 --> 00:31:40.480
+Parthasarathy Ramanujam: running these DevNets.
+
+174
+00:31:40.560 --> 00:31:46.539
+Parthasarathy Ramanujam: If, I mean, DevNet Phi's hardware requirements are,
+
+175
+00:31:46.970 --> 00:32:03.350
+Parthasarathy Ramanujam: I mean, more, or matches that of the aggregator configuration we are using in DevNet 4, then we need to procure new servers, or probably not run such a massive DevNet, probably just a single subnet DevNet 5 testing. That's another thing we'd have to agree on.
+
+176
+00:32:12.020 --> 00:32:14.030
+Thomas Coratger: Yeah, just a word, and…
+
+177
+00:32:14.030 --> 00:32:24.220
+Gajinder Singh: just confirm this, that the error is finally coming from over there or not. If it's not coming, then let's just move, right? If it's coming from a particular issue, and let's just move to…
+
+178
+00:32:24.520 --> 00:32:27.419
+Gajinder Singh: I mean, it shouldn't take too much time to confirm this particular thing.
+
+179
+00:32:28.850 --> 00:32:42.659
+Parthasarathy Ramanujam: Yeah, as of now, with our local testing, I've identified it's probably Lantern, but if other teams can run their own localized test as well, with each client, like how Anshal and I have been doing, it would be great, so that we ensure we have not missed something.
+
+180
+00:32:42.720 --> 00:32:55.950
+Parthasarathy Ramanujam: And, because it occurs at random, I mean, I'd probably, give you an update as I was, like… I mean, what I've noticed over the past week is that the snappy issue during a snappy decode error,
+
+181
+00:32:55.950 --> 00:33:07.069
+Parthasarathy Ramanujam: especially occurs on the gossip side, and it is not deterministic. It occurs at random times. Sometimes in the very first slot, sometimes after 100 slots is progressed, so I can't…
+
+182
+00:33:07.070 --> 00:33:14.630
+Parthasarathy Ramanujam: really tell you when, or what causes this error. It's only just before this call, when we were running,
+
+183
+00:33:14.630 --> 00:33:27.300
+Parthasarathy Ramanujam: two, individual clients and testing it against them. Did I discover the problem happened when Zeeam was interacting with Lantern? But I don't know. I would probably request every team to
+
+184
+00:33:27.300 --> 00:33:46.349
+Parthasarathy Ramanujam: run similar tests with their own clients being stable and compliant against other ones. Leave the, I mean, the DevNet running for at least 15-20 minutes, because it's not… we are not sure when exactly the error occurs. And if this stabilization or the finalization occurs, then maybe you can stop and retry with another client.
+
+185
+00:33:46.350 --> 00:34:02.950
+Parthasarathy Ramanujam: So, that's one thing, and the other… I shared the aggregation metrics. Thanks for everyone who responded and added the necessary metrics there. It's much better I'm able to view for all teams, but one thing I would like to point out, that although eTlambda's timing appears a bit off.
+
+186
+00:34:02.950 --> 00:34:19.889
+Parthasarathy Ramanujam: If Lambda processes more aggregations than compared to other clients, so that's the reason why I've added a new metric there. If a particular client is missing an aggregation, we need to know what is causing that aggregation slot to be missed.
+
+187
+00:34:19.889 --> 00:34:26.959
+Parthasarathy Ramanujam: So, that would help us determine where we are going wrong, or where the… what's the health of the network.
+
+188
+00:34:26.960 --> 00:34:43.129
+Parthasarathy Ramanujam: I just needed to understand, is it because aggregators don't have enough attestations to aggregate, or there is a… it's still catching up or syncing, not synced up, so that would help us determine where we focus our efforts to improve and scale the network.
+
+189
+00:34:43.130 --> 00:34:55.009
+Parthasarathy Ramanujam: So if you can implement those metrics, then let me know. I would probably use that in the next run, and yeah, and then once we agree on when we start testing DevNet5, we can start using that.
+
+190
+00:34:55.010 --> 00:34:57.100
+Parthasarathy Ramanujam: So that, that, that was my update as well.
+
+191
+00:34:57.320 --> 00:34:58.060
+Parthasarathy Ramanujam: Thank you.
+
+192
+00:34:58.710 --> 00:35:16.709
+Gajinder Singh: So, as I understand, this particular part is not going to go away in DevNet 5, right? This particular mechanism is going to work in the same way, so all the things that you mentioned will just carry over there. And the only concern that I hear is that… of the machine configuration.
+
+193
+00:35:16.730 --> 00:35:19.899
+Gajinder Singh: And that is something, yes, that we can think and discuss.
+
+194
+00:35:20.010 --> 00:35:26.830
+Gajinder Singh: But I don't want to wait another week to start DevNet 5 testing. I just want to start it, like.
+
+195
+00:35:27.110 --> 00:35:28.430
+Gajinder Singh: On Friday itself.
+
+196
+00:35:28.650 --> 00:35:30.040
+Gajinder Singh: So, maybe…
+
+197
+00:35:30.970 --> 00:35:39.759
+Gajinder Singh: till Friday, we have some time to figure this out. If we can figure this out, then all good else, let's just move to DevNet 5 and start testing over there.
+
+198
+00:35:44.520 --> 00:35:49.720
+Thomas Coratger: Yeah, just a few words, and then maybe Mercy. Yeah…
+
+199
+00:35:49.780 --> 00:36:04.810
+Thomas Coratger: I agree, like, for me, this is really as you prefer, because this doesn't change anything, like, at least from my perspective. If you prefer, and you feel more comfortable going to DevN5, I agree, this is a good choice.
+
+200
+00:36:04.910 --> 00:36:14.260
+Thomas Coratger: Because at the end, the point where we want to stabilize a bit and consolidate is for DevNet 5, because this is where we will have, kind of.
+
+201
+00:36:14.570 --> 00:36:30.799
+Thomas Coratger: let's say, more realistic settings, because we will have, like, a single proof on-chain, and so if we want to present that to the community, for example, this is a much more realistic setting than having multiple proofs on-chain, because everyone knows that
+
+202
+00:36:31.260 --> 00:36:36.690
+Thomas Coratger: Multiple proof on-chain for one block is not something that will be final design.
+
+203
+00:36:36.790 --> 00:36:40.219
+Thomas Coratger: So, this is much better to propose.
+
+204
+00:36:40.240 --> 00:36:57.809
+Thomas Coratger: So, yeah, this is also where I am consolidating the spec right now. I am iterating on DevNet 5. So, yeah, if you are already, this is totally fine for me to move like this, and we will… we don't plan to add new features to the spec.
+
+205
+00:36:58.360 --> 00:37:05.339
+Thomas Coratger: we are pretty stable in terms of the spec. I think that we are far from stable in terms of,
+
+206
+00:37:06.290 --> 00:37:21.540
+Thomas Coratger: Of, like, the spec being perfect, being beautiful, being usable, being compact as we want, being documented as we want, but in terms of feature, at least, we are pretty complete, so this is a good way to go.
+
+207
+00:37:22.060 --> 00:37:23.240
+Thomas Coratger: Yeah, mercy.
+
+208
+00:37:24.550 --> 00:37:41.290
+Mercy Boma Naps-Nkari: Yeah, so Partha did mention about, running each client, running the DevNets individually, so we tried doing that on our internal servers, and we discovered that the difference in multi-sync commit hash is causing an error, so…
+
+209
+00:37:41.590 --> 00:37:48.730
+Mercy Boma Naps-Nkari: which commit harsh are we supposed to focus on? Because, rim and, grinding is on the same commit hash. Ethlambda.
+
+210
+00:37:48.890 --> 00:37:56.079
+Mercy Boma Naps-Nkari: is on a different committage. So, that also is… could contribute to the issue we are currently seeing.
+
+211
+00:37:56.190 --> 00:37:59.359
+Mercy Boma Naps-Nkari: So how do we… which of the committers should we target?
+
+212
+00:38:06.120 --> 00:38:08.950
+Thomas Coratger: You mean in term… in term of suspect?
+
+213
+00:38:10.010 --> 00:38:10.310
+Thomas Coratger: Oh.
+
+214
+00:38:10.610 --> 00:38:17.129
+Mercy Boma Naps-Nkari: Yeah, the lean more to sing, the… what's it called? The… the Commit Hash. Remy's on,
+
+215
+00:38:17.350 --> 00:38:18.020
+Mercy Boma Naps-Nkari: 5, 6…
+
+216
+00:38:18.020 --> 00:38:18.760
+Thomas Coratger: Six…
+
+217
+00:38:18.760 --> 00:38:24.390
+Mercy Boma Naps-Nkari: Grandine is on 566, then Eat Lamba is on, I think, 5EBA.
+
+218
+00:38:24.630 --> 00:38:25.690
+Mercy Boma Naps-Nkari: thereabout.
+
+219
+00:38:26.110 --> 00:38:36.520
+Thomas Coratger: I think this has been, yeah, this has been bumped by Angel yesterday. You can find, like, the commit there. I think this is the right commit to target.
+
+220
+00:38:36.630 --> 00:38:38.530
+Thomas Coratger: This is the latest one, at least.
+
+221
+00:38:50.970 --> 00:38:58.090
+Anshal Shukla: Also, like, the issues that we were facing while trying to interrupt with Grandine were more on the P2P side.
+
+222
+00:38:58.220 --> 00:39:05.309
+Anshal Shukla: not on the lean multi-sync side. I'm not sure, if this is, like, the right
+
+223
+00:39:05.510 --> 00:39:09.949
+Anshal Shukla: There has been a separate conversation between R&D.
+
+224
+00:39:10.370 --> 00:39:10.800
+Anshal Shukla: That'd be cool.
+
+225
+00:39:10.800 --> 00:39:13.329
+Mercy Boma Naps-Nkari: Are you sorry. What did you say Grandine happened?
+
+226
+00:39:14.660 --> 00:39:15.989
+Anshal Shukla: Yeah, so,
+
+227
+00:39:16.630 --> 00:39:30.339
+Anshal Shukla: I think I tried interoping with Ream and Grandine, and there, the issue was more on the P2P side, not on the, aggregation side as such. So, like, I couldn't reach that stage itself, so,
+
+228
+00:39:30.490 --> 00:39:42.150
+Anshal Shukla: Can't comment there, but I think right now the issue is more on the P2C side, when I try to run, like, a single… like, a Zeam plus brand Zeam setup, but…
+
+229
+00:39:42.220 --> 00:39:51.739
+Anshal Shukla: I'm not… I'm not sure if this is something you were referring to when you said, so I'm not sure, but while doing these single…
+
+230
+00:39:51.850 --> 00:39:53.600
+Anshal Shukla: Like a…
+
+231
+00:39:54.300 --> 00:40:09.739
+Anshal Shukla: like, two, two client runs, I faced an issue, with Grandine on the P2P side. There were, like, a few errors, I can share them, but, like, it is just a basic run. I didn't even run it for, like.
+
+232
+00:40:09.840 --> 00:40:11.130
+Anshal Shukla: 5 minutes. That is…
+
+233
+00:40:11.130 --> 00:40:15.659
+Mercy Boma Naps-Nkari: That is what I'm saying. That issue is happening because of the multi-sync
+
+234
+00:40:15.680 --> 00:40:24.219
+Mercy Boma Naps-Nkari: Commitage difference. I did run Zoom, grinding. There was no colonization, that was an issue, but it wasn't on the P2P front.
+
+235
+00:40:24.220 --> 00:40:36.989
+Mercy Boma Naps-Nkari: then on… on… grinding rim works well, and then the other clients on the same commiss with us works well. But with Ethlambda, it was the same issue I had with Zeam. That's the same issue I'm saying.
+
+236
+00:40:38.080 --> 00:40:47.129
+Anshal Shukla: So that is what I'm trying to point out. Uma mentioned, like, I updated it to the latest commit pass yesterday on the lean spec. I'll look at.
+
+237
+00:40:47.130 --> 00:40:47.769
+Mercy Boma Naps-Nkari: Do you know…
+
+238
+00:40:51.100 --> 00:40:57.300
+Mercy Boma Naps-Nkari: Sorry, let me get the message, Emil sent on the group chat, let me… so that I can point the committash I'm talking about.
+
+239
+00:40:57.690 --> 00:40:58.260
+Anshal Shukla: integral.
+
+240
+00:41:31.630 --> 00:41:34.980
+Thomas Coratger: Yeah, I think, like, the right commit is this one.
+
+241
+00:41:53.400 --> 00:41:57.319
+Gajinder Singh: I mean, on, can we basically just update this?
+
+242
+00:41:58.060 --> 00:41:59.000
+Gajinder Singh: I've not.
+
+243
+00:41:59.000 --> 00:42:09.210
+Mercy Boma Naps-Nkari: the issue I'm talking about, the… the… I just pasted the message I got, that Mew sent earlier on, on the Komi Hash, which is…
+
+244
+00:42:09.880 --> 00:42:12.310
+Mercy Boma Naps-Nkari: 5, 6… something.
+
+245
+00:42:12.980 --> 00:42:15.760
+Mercy Boma Naps-Nkari: That's the commit harsh I'm referring to.
+
+246
+00:42:16.280 --> 00:42:21.260
+Thomas Coratger: I think that we can… maybe we can sort that async on the group.
+
+247
+00:42:21.550 --> 00:42:22.529
+Thomas Coratger: For sure.
+
+248
+00:42:24.290 --> 00:42:24.760
+Thomas Coratger: Yeah.
+
+249
+00:42:24.760 --> 00:42:31.269
+Gajinder Singh: I think this is just a communication issue, right? So can we just maintain the commit hash that we are using on…
+
+250
+00:42:31.680 --> 00:42:38.519
+Gajinder Singh: Wherever is our DevNet specs page, so that… It's just straight to everyone.
+
+251
+00:42:39.250 --> 00:42:42.580
+Gajinder Singh: And so it is a PR that people will say that, okay.
+
+252
+00:42:42.750 --> 00:42:46.250
+Gajinder Singh: Yes, are we on this PR or not? I mean, it is as simple as that.
+
+253
+00:42:47.280 --> 00:43:00.649
+Thomas Coratger: I am pretty sure, like, Mercy, that the commit that is referred into the message that you put there, A66 something, it's a DevNet 4,
+
+254
+00:43:00.920 --> 00:43:15.379
+Thomas Coratger: commit, and then we had an even more recent new commit that was just done yesterday, that is 8FCBD something, and I think that should be the one for DevNet 5, but let's solve that async.
+
+255
+00:43:16.950 --> 00:43:18.359
+Shariq Naiyer: Amazing, amazing.
+
+256
+00:43:21.180 --> 00:43:30.110
+Parthasarathy Ramanujam: So, can I just check, those who have tested, the DevNet 5, image, does it work well with an 8-core, 16GB machine?
+
+257
+00:43:32.720 --> 00:43:35.500
+Parthasarathy Ramanujam: Is that a sufficient configuration?
+
+258
+00:43:37.240 --> 00:43:40.390
+Gajinder Singh: And this is a normal validator, not an aggregator, right?
+
+259
+00:43:41.110 --> 00:43:41.730
+Parthasarathy Ramanujam: Correct.
+
+260
+00:43:42.230 --> 00:44:00.149
+Parthasarathy Ramanujam: Now, I think we can reuse the existing validator configurations as it is, but the regular validator is what I'm asking. Instead of using a shared server, if we decide to go ahead with DevNetify testing, we could probably use one container per server, and…
+
+261
+00:44:00.330 --> 00:44:07.269
+Parthasarathy Ramanujam: target maybe a 32-node DevNet, or DevNet 5 testing.
+
+262
+00:44:07.600 --> 00:44:15.879
+Parthasarathy Ramanujam: Assuming, 8 gig… 8-core 16GB is sufficient enough machine to run the regular validator.
+
+263
+00:44:21.710 --> 00:44:27.090
+Gajinder Singh: I mean, 16 GB sounds more than enough. You are just wondering on how many cores is required.
+
+264
+00:44:29.150 --> 00:44:45.980
+Parthasarathy Ramanujam: Yeah, but I thought, the, I mean, aggregation for block production was time-consuming, or it took a lot of time. I don't know. I mean, I'm looking at Anshil, Kai, or anybody from Ethlambda, Sharik, since you guys tested DevNet 5.
+
+265
+00:44:48.630 --> 00:45:01.670
+Shariq Naiyer: So, I ran it on a single machine, but it's, like, it's M4 Max, I don't know how many cores it has, like, 36 gigs of RAM, so I don't think that's, like, super relevant. But I ran, 3 nodes, 3D nodes.
+
+266
+00:45:02.730 --> 00:45:10.190
+Parthasarathy Ramanujam: 3 nodes on the same machine, so assuming, each container had access to at least 10GB of memory, right?
+
+267
+00:45:10.510 --> 00:45:11.160
+Shariq Naiyer: Yep.
+
+268
+00:45:12.240 --> 00:45:12.910
+Parthasarathy Ramanujam: Okay.
+
+269
+00:45:13.920 --> 00:45:19.930
+Parthasarathy Ramanujam: But it's more CPU-intensive, right? RAM really doesn't matter, or is RAM the… Major factor here.
+
+270
+00:45:20.480 --> 00:45:24.579
+Shariq Naiyer: Yeah, I agree with that, you would have to just run some tests and find out.
+
+271
+00:45:24.910 --> 00:45:25.470
+Shariq Naiyer: dead.
+
+272
+00:45:26.320 --> 00:45:42.720
+Mihir Faujdar: Yep, I… I guess on the Definite 5 side, I also did testing on the M4 Mac chip, and basically, Docker application itself, it had 10GB of RAM. One thing I noticed that,
+
+273
+00:45:43.130 --> 00:45:46.840
+Mihir Faujdar: when running for lantern noise, basically.
+
+274
+00:45:46.990 --> 00:45:59.120
+Mihir Faujdar: when… like, basically, if it had 7 attestations to aggregate, it would run out of memory, so, I would see, like, those kinds of cases, but,
+
+275
+00:45:59.310 --> 00:46:08.409
+Mihir Faujdar: I have been experimenting with the new, lean multi-seq commits, and have been noticing it improves, proof Geanration time.
+
+276
+00:46:08.530 --> 00:46:11.610
+Mihir Faujdar: Which has been helping, but yeah, I'll have to do more testing.
+
+277
+00:46:15.320 --> 00:46:25.829
+Mercy Boma Naps-Nkari: So, on our own end, we are using 128GB, and then sometimes there's, like, a slow, the last round, the block production was slow.
+
+278
+00:46:25.990 --> 00:46:32.409
+Mercy Boma Naps-Nkari: A little bit, but I still need to, like, do some testing and also update the multi-sync, the hash.
+
+279
+00:46:39.900 --> 00:46:40.470
+Parthasarathy Ramanujam: Okay.
+
+280
+00:46:41.070 --> 00:46:42.400
+Parthasarathy Ramanujam: Thanks for that, Tim.
+
+281
+00:46:42.570 --> 00:46:51.280
+Parthasarathy Ramanujam: Probably we have some information. We can give one a try once we've run another DevNet for one last run.
+
+282
+00:46:51.910 --> 00:46:54.290
+Gajinder Singh: There is something that can be done.
+
+283
+00:46:54.570 --> 00:46:58.130
+Gajinder Singh: While… when we basically, in the last,
+
+284
+00:46:58.260 --> 00:47:04.859
+Gajinder Singh: Interval of the previous slot, when we are… basically, we are accepting new votes into non-votes.
+
+285
+00:47:05.080 --> 00:47:09.160
+Gajinder Singh: that… That basically seems like a very light…
+
+286
+00:47:09.620 --> 00:47:14.299
+Gajinder Singh: Work, and even without that, basically, you can start aggregation
+
+287
+00:47:14.650 --> 00:47:20.300
+Gajinder Singh: On something that you think, will most likely show up.
+
+288
+00:47:20.590 --> 00:47:22.910
+Gajinder Singh: In the block, right? So…
+
+289
+00:47:23.180 --> 00:47:29.180
+Gajinder Singh: On optimistic levels, you can… you can do a multi… you can do, basically,
+
+290
+00:47:30.030 --> 00:47:35.129
+Gajinder Singh: Data, multi-payload aggregation, for the same
+
+291
+00:47:35.490 --> 00:47:43.730
+Gajinder Singh: administration data, right? So… so we… we have… actually have more than one… we have basically one interval to prepare for it.
+
+292
+00:47:43.910 --> 00:47:50.549
+Gajinder Singh: So this is something I think we can add in spec, as well as we can first test it out in clients, and
+
+293
+00:47:50.950 --> 00:47:56.119
+Gajinder Singh: If this works well, then basically we can also add it in the spec, although this seems more like…
+
+294
+00:47:56.500 --> 00:48:02.100
+Gajinder Singh: a client optimization, then a spec optimization, but I basically leave it to Toma if he wants.
+
+295
+00:48:02.370 --> 00:48:04.340
+Gajinder Singh: Search and optimization in the spec.
+
+296
+00:48:10.500 --> 00:48:19.179
+Thomas Coratger: Yeah, let's see, after the consolidation a bit of the spec, we can… we can check for this kind of optimization to see if we want that.
+
+297
+00:48:21.500 --> 00:48:25.910
+Thomas Coratger: Anything else, like, to discuss for you guys?
+
+298
+00:48:30.380 --> 00:48:34.569
+Thomas Coratger: Okay, that's great. Then see you next week.
+
+299
+00:48:34.750 --> 00:48:36.410
+Shariq Naiyer: Amazing. Have a good one, guys.
+
+300
+00:48:36.750 --> 00:48:37.740
+Thomas Coratger: Bye-bye.
+
+301
+00:48:38.110 --> 00:48:39.460
+Mihir Faujdar: Thanks, everyone.
+
+302
+00:48:39.460 --> 00:48:40.190
+Gajinder Singh: Everyone.
+
+303
+00:48:40.190 --> 00:48:40.970
+Pablo Deymo | Lambda: Highlight.
+
