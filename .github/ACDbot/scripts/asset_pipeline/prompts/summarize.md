@@ -49,6 +49,7 @@ Use these standard categories for highlights (add others as needed):
 - testing_progress - devnets, test results, compatibility updates
 - documentation - Blog posts, specs, guides being created/updated
 - organizational - Process changes, communication updates, meeting schedules
+- eip_proposals_[fork] - EIPs presented for inclusion in an upcoming fork (e.g., eip_proposals_hegota)
 ## Extraction Rules
 ### Highlights
 Be highly selective. Include only what a core developer **must know** if they missed the call.
@@ -106,11 +107,19 @@ Focus on **cross-team coordination and ecosystem-wide awareness** rather than in
 
 If all answers are "no", exclude the item.
 ### Decisions Made
-Only formal decisions with clear consensus:
+Target 0-5 decisions per meeting. Err on the side of inclusion. Only formal decisions with clear consensus:
 - "We decided to..." → Include
 - "Will be shut down by [date]" → Include
 - "Keeping [feature] as currently specified" → Include
 - Proposals or suggestions → Exclude
+
+#### EIP Inclusion Decisions (PFI / CFI / DFI)
+These are high-priority decisions — always capture them. Three statuses exist:
+- **PFI (Pending for Inclusion)**: EIP is proposed for the next fork. During a headliner proposal window (e.g., Hegota), **any EIP presented without explicit rejection is implicitly PFI'd**. There will often be no verbal "PFI" declaration — the act of presenting is the decision. Capture all PFI'd EIPs as a single consolidated decision entry at the timestamp when the last EIP presentation ends (or when the facilitator closes the EIP section). Cross-reference the chat log, which often contains EIP numbers not clearly stated in the transcript.
+- **CFI (Considered for Inclusion)**: Usually stated explicitly. Capture verbatim.
+- **DFI (Deferred for Inclusion)**: Usually stated explicitly. Capture verbatim.
+
+Format: `"PFI for [Fork]: EIP-XXXX (description), EIP-YYYY (description), ..."`
 ### Notable Targets
 Scheduled events and confirmed milestones:
 - Fork dates
@@ -147,6 +156,8 @@ When reviewing the transcript, prioritize capturing:
 - "The consensus is..."
 - "We're keeping/changing..."
 - "It will be [specific outcome]"
+- EIP presented in headliner window without rejection → implicit PFI (no verbal cue required)
+- "CFI: EIP-XXXX" / "DFI: EIP-XXXX" → explicit inclusion/deferral decision
 **Commitment Patterns:**
 - "Scheduled for [date]"
 - "Will happen on [date]"
