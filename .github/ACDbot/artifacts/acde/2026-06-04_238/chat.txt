@@ -1,0 +1,393 @@
+00:05:50	Justin Traglia:	Gm
+00:05:56	mushow:	Gmgm
+00:06:02	Matteo Vicari:	Gm
+00:06:33	read.ai meeting notes:	Red added read.ai meeting notes to the meeting.
+
+Read provides AI generated meeting summaries to make meetings more effective and efficient. View our Privacy Policy at https://www.read.ai/pp
+
+Type "read stop" to disable, or "opt out" to delete meeting data.
+00:07:38	Christine Kim:	gm
+00:08:23	Ansgar Dietrichs:	https://github.com/ethereum/pm/issues/2076
+00:09:57	Barnabas:	Due to the config drift, I’d prefer if we just had one track going forward
+00:10:29	Barnabas:	https://dora.glamsterdam-devnet-5.ethpandaops.io
+00:11:24	Barnabas:	Engine API change: https://github.com/ethereum/execution-apis/pull/796
+00:12:45	Nico Flaig:	also make sure you have https://github.com/ethereum/execution-apis/pull/786
+00:13:01	Parithosh Jayanthi:	+1 for merged devnets now 😄
+00:13:30	Barnabas:	Bal-devnet-7 is good for benchmarking
+00:13:33	Barnabas:	So we can keep it around for that
+00:13:53	Justin Traglia:	Reacted to "+1 for merged devnet..." with 👍
+00:13:56	Toni Wahrstätter:	Will we have the deterministic deployer factory (Arachnid using Nick's method) on glam devnet 6? @pk910 
+I assume we won't have it in devnet 5?
+00:14:14	Parithosh Jayanthi:	IMO we should just bite the bullet now and move that over too. One branch everyone works on so we can focus on shipping glammy.
+00:14:17	Barnabas:	Yeah we haven’t added in devnet 5 as agreed on the acdt
+00:14:25	Toni Wahrstätter:	Replying to "Will we have the det..."
+
+cool!
+00:14:25	Justin Florentine (Besu):	Reacted to "IMO we should just b..." with ➕
+00:14:36	Justin Traglia:	Reacted to "IMO we should just b..." with ➕
+00:14:39	Toni Wahrstätter:	Replying to "Will we have the det..."
+
+Thanks
+00:14:48	Justin Florentine (Besu):	Replying to "IMO we should just b..."
+
+max pain, max gain
+00:15:59	Barnabas:	https://github.com/ethereum/execution-specs/issues/2915
+00:16:08	Toni Wahrstätter:	I think no time yet
+00:16:31	Ben Adams:	Everything :)
+00:19:05	Barnabas:	8246
+00:19:16	Justin Florentine (Besu):	if we are going to a single devnet, did we set a date for that?
+00:20:08	Barnabas:	Replying to "if we are going to a..."
+
+±2w
+00:20:22	CPerezz:	https://github.com/misilva73/evm-gas-repricings/blob/main/reports/eip-8038/runtime_estimation/2026-05-01_2026-05-08_interop/new_gas_proposal.md 
+
+Latest numbers from Maria for 8038 here. But we still need to re-take them with the latest optimizations. I’d not include in any glam devnet so far
+00:21:01	Christine Kim:	glamsterdam eip list in case helpful: https://docs.google.com/spreadsheets/d/1ifXjsiFFzQW8s1gl4Gz3kVDKE2pvTMkPslHuE3U7Nqk/edit?usp=sharing
+00:22:35	Barnabas:	Sparse blob pool is optional afaik so we can mark it as is
+00:22:58	Toni Wahrstätter:	how big is it on the EL?
+00:23:10	marc | wolovim:	Replying to "glamsterdam eip list..."
+
++ https://forkcast.org/upgrade/glamsterdam/devnet-inclusion
+00:23:28	Potuz:	Also I want to add that we are very very far away from Blobs propagation being an issue
+00:23:30	Potuz:	On mainnet
+00:23:36	Barnabas:	Reacted to "Also I want to add that we are very very far away from Blobs propagation being an issue" with 👍
+00:24:27	Barnabas:	I think epbs security >> blob optimizations right now
+00:25:03	Toni Wahrstätter:	wait for numbers and then include them in the next devnet, likely 6, I'd say
+00:25:09	Luca Donno | L2BEAT:	Reacted to "I think epbs securit..." with 👍
+00:25:15	jochem-brouwer:	Heeft gereageerd op "wait for numbers a..." met ➕
+00:25:43	CPerezz:	8058 you mean?
+00:25:59	Potuz:	Reacted to "I think epbs security >> blob optimizations right now" with 👍
+00:26:10	Parithosh Jayanthi:	Would also be nice to see what tooling breaks
+00:26:15	CPerezz:	Reacted to "Would also be nice t..." with 👍
+00:26:38	Barnabas:	Reacted to "Would also be nice to see what tooling breaks" with 👍
+00:26:52	Nico Flaig:	Reacted to "I think epbs securit..." with 👍
+00:27:24	Barnabas:	I’m sure Maria and jochem can come up with non crazy wrong values
+00:27:49	jochem-brouwer:	Antwoord verzenden naar "I’m sure Maria an..."
+
+tx gas to 1? :D
+00:28:02	CPerezz:	Replying to "https://github.com/m..."
+
+@Barnabas the latest values are here. And it’s a 15line change PR.
+00:28:09	CPerezz:	Reacted to "tx gas to 1? :D" with 👀
+00:28:59	jochem-brouwer:	Antwoord verzenden naar "I’m sure Maria an..."
+
+RE: preliminary values and tooling breaking, if the numbers are not final we cannot conclude if tooling breaks or not
+00:29:16	Justin Traglia:	Reacted to "I think epbs securit..." with 👍
+00:29:56	Barnabas:	Ok so conclusion:
+
+glam-Devnet-6:
+8038 + 2780 + 8246 + 7997 + 8070 (as optional tip) ~~7610~~
+00:30:27	Justin Traglia:	Replying to "Ok so conclusion:
+
+g..."
+
+What about on the CL side? Are we wanting to include 7688 (stable containers)?
+00:30:28	CPerezz:	Replying to "I’m sure Maria and j..."
+
+https://github.com/CarlBeek/reth/pull/10 
+
+Gathering the data atm
+00:30:52	Barnabas:	Replying to "Ok so conclusion:
+
+g..."
+
+I think that’s a call to be made acdt or acdc
+00:31:01	Barnabas:	Reacted to "tx gas to 1? :D" with 👀
+00:32:06	Toni Wahrstätter:	Data repricing EIPs:
+https://nerolation.github.io/hegota-eip-presentations/eip-8131_eip-8279.html
+00:48:52	lightclient:	small nit: magic should be 0xef02 or something like that because 7702 using 0xef01
+00:49:02	jochem-brouwer:	Heeft gereageerd op "small nit: magic s..." met ➕
+00:49:11	Ansgar Dietrichs:	questions I see around using an onchain contract for validation are on access logic of that contract (BAL, pricing, warming, etc)
+00:50:52	Justin Florentine (Besu):	PREACH BROTHER
+00:50:58	Ben Adams:	Reacted to "PREACH BROTHER" with 👍
+00:51:02	Parithosh Jayanthi:	Reacted to "PREACH BROTHER" with 😂
+00:51:04	mo (@mmjahanara):	Reacted to "PREACH BROTHER" with 😂
+00:51:30	Josh Davis:	We (PS) will be helping Greg schedule a call
+00:53:57	marc | wolovim:	For the bot, Greg referencing: 
+https://eips.ethereum.org/EIPS/eip-7979
+https://eips.ethereum.org/EIPS/eip-8173
+00:54:15	jochem-brouwer:	Antwoord verzenden naar "small nit: magic s..."
+
+could you post this on ethmag?
+00:56:13	mo (@mmjahanara):	https://docs.google.com/presentation/d/1RwAwNkC21oGBYy_VHFahiHT4kvjxx67uOL2arWTwuiY/edit?usp=sharing
+00:56:24	Pierre:	https://ethereum-magicians.org/t/eip-8222-lean-staking/28196
+00:58:07	Barnabas:	Isn’t this an ACDC topic instead of EL?
+01:00:37	Potuz:	Why do we do this at the beacon contract level instead of just do it an any application level, make you money private to a new account and then deposit from that account
+01:00:47	Potuz:	Why do we need to change the beacon deposit flow?
+01:01:07	Luca Donno | L2BEAT:	Reacted to "Why do we do this at..." with ➕
+01:01:31	Parithosh Jayanthi:	Reacted to "Why do we do this at the beacon contract level instead of just do it an any application level, make you money private to a new account and then deposit from that account" with ➕
+01:02:21	Toni Wahrstätter:	I like the push for privacy, but this feels like an unecessary step towards full privacy on L1. Why would a validator not just use a privacy protocol (railway, tc, privacy pools etc) afterwards instead of the protcol doing the mixing?
+Also, it still feels early to enshrine zk proofs minting eth.
+01:02:40	Luis Pinto | Besu:	Replying to "Why do we do this at..." 
+
+ I guess the staking pool is so big now but reducing it might reduce power of privacy
+01:02:52	jochem-brouwer:	Heeft gereageerd op "I like the push fo..." met ➕
+01:02:53	Barnabas:	Reacted to "I like the push for privacy, but this feels like an unecessary step towards full privacy on L1. Why would a validator not just use a privacy protocol (railway, tc, privacy pools etc) afterwards instead of the protcol doing the mixing?
+Also, it still feels early to enshrine zk proofs minting eth." with 💯
+01:02:56	jochem-brouwer:	Heeft gereageerd op "Why do we do this ..." met ➕
+01:02:56	Luca Donno | L2BEAT:	Reacted to "I like the push for ..." with ➕
+01:03:03	Potuz:	Replying to "Why do we do this at..."
+
+But any privacy pool solves this issue on the app layer
+01:03:09	Potuz:	Replying to "Why do we do this at..."
+
+Don’t see the point of this EIP
+01:03:14	Potuz:	Replying to "Why do we do this at..."
+
+I must be missing something
+01:03:33	Luis Pinto | Besu:	Replying to "Why do we do this at..." 
+
+ Yeah staking pool is built for staking not privacy
+01:03:57	Barnabas:	Replying to "Why do we do this at..."
+
+Can’t you use privacy pools to make deposits into staking pools?
+01:04:57	Nico C:	Reacted to "I like the push fo..." with ➕
+01:05:06	lightclient:	This eip makes zero sense to me
+01:05:10	Trent Van Epps:	Reacted to "Isn’t this an ACDC t..." with 👍
+01:05:20	Potuz:	Yeah I don’t get it at all
+01:05:23	Tamaghna Chourdhuri:	Reacted to "This eip makes zero ..." with ➕
+01:05:25	Barnabas:	Reacted to "This eip makes zero sense to me" with ➕
+01:05:27	marc | wolovim:	Process Q: are you PFI’ing 8222 in hegota or only seeking feedback at this phase?
+01:05:39	Ansgar Dietrichs:	Reacted to "Process Q: are you PFI’ing 8222 in hegota or only seeking feedback at this phase?" with ➕
+01:05:40	Greg K | Lido:	Replying to "Process Q: are you..."
+
+seeking feedback I guess
+01:06:33	Luca Donno | L2BEAT:	I don’t understand the plausible deniability part, an authority will ask me to give proof what I have used the pool for. Are you saying that it would not be possible to provide this proof?
+01:06:57	Luis Pinto | Besu:	Reacted to This eip makes zero ... with "➕"
+01:07:29	Potuz:	You can deposit just 1 ETH
+01:07:33	CPerezz:	exactly
+01:07:37	CPerezz:	Reacted to "You can deposit just..." with 👍
+01:07:38	Potuz:	I think this is just trying to enshrine a privacy pool
+01:08:04	lightclient:	If we were to enshrine a privacy pool, we should enshrine one that doesn’t require you to stake as part of it
+01:08:06	CPerezz:	Replying to "I think this is just..."
+
+But one that has “legitimate, non-mixing-goal” traffic
+01:08:15	Pierre:	Replying to "I don’t understand t..."
+
+Pretty much yes, you can plausibly say that you are using it for staking
+01:08:29	CPerezz:	Replying to "I think this is just..."
+
+That is in my view the key part. 
+You can’t just ban/mark address of this pool as you can with TC
+01:08:43	Luca Donno | L2BEAT:	Replying to "I don’t understand t..."
+
+But can I prove it? Because if I can then there is no plausible deniability
+01:08:47	Potuz:	Replying to "If we were to enshri..."
+
+I read the proposal in a different way and it starts making some sense: 1) we enshrine 1 privacy pool that can be used for anything. 2) if you want to stake you MUST send to that privacy pool.
+01:08:51	Pierre:	Reacted to "That is in my view t..." with 👍
+01:09:01	Potuz:	Replying to "If we were to enshri..."
+
+This way your enshrined privacy pool is guaranteed to have a lot of liquidity
+01:09:02	CPerezz:	Replying to "If we were to enshri..."
+
+Mixing staking with the fund transfer/mixing is the sauce of this no?
+01:09:04	Luca Donno | L2BEAT:	Replying to "I don’t understand t..."
+
+Since an authority will treat no proof as me lying
+01:09:23	Potuz:	Replying to "If we were to enshri..."
+
+At least it would make sense to me this way, but still is kinda crazy to push this to L1 right now
+01:09:40	Luca Donno | L2BEAT:	Replying to "I don’t understand t..."
+
+Tornado cash has no plausible deniability afaik
+01:09:56	Pierre:	Reacted to "Tornado cash has no ..." with 👍
+01:10:25	Potuz:	Replying to "I don’t understand t..."
+
+You can prove that you sent your TC money to a particular account, and that account deposited to the beacon contract
+01:10:52	Pierre:	Replying to "I don’t understand t..."
+
+Yes, this is mixing funds seeking TC functionality with those seeking staking functionality
+01:10:52	CPerezz:	Replying to "If we were to enshri..."
+
+Is the timing the issue? Or is it the privacy pool enshrining?
+01:10:59	CPerezz:	Reacted to "Yes, this is mixing ..." with 👍
+01:11:22	Toni Wahrstätter:	Thanks for clarifying, @mo (@mmjahanara) . So churn might be fine, I was wrong.
+I still think it's fine to just use privacy protocols and we focus on making it more simple/cheap/secure/trustless to use those, instead of making so big changes for a very small set of "users", which are validators.
+01:12:05	Potuz:	Replying to "If we were to enshri..."
+
+I am fine with enshrining a privacy pool on L1 early, I think forcing validators to use it is crazy
+01:12:38	Ahmad Bitar | Nethermind:	I think we need to decide first if we want to enshrine a privacy pool in protocol or not. Once the answer is yes, we can then discuss the different mechanisms.
+01:12:45	mo (@mmjahanara):	Thanks everyone for the comments/discussion
+01:12:50	Parithosh Jayanthi:	Reacted to "I think we need to decide first if we want to enshrine a privacy pool in protocol or not. Once the answer is yes, we can then discuss the different mechanisms. " with 👍
+01:12:58	Potuz:	Reacted to "I think we need to decide first if we want to enshrine a privacy pool in protocol or not. Once the answer is yes, we can then discuss the different mechanisms. " with 👍
+01:13:09	mo (@mmjahanara):	Reacted to "I think we need to d..." with 👍
+01:13:10	Barnabas:	Reacted to "I think we need to decide first if we want to enshrine a privacy pool in protocol or not. Once the answer is yes, we can then discuss the different mechanisms. " with 👍
+01:13:12	Toni Wahrstätter:	yes, and the actual question is when.
+hegota feels early.
+01:13:14	mo (@mmjahanara):	Replying to "I think we need to d..."
+
+I agree.
+01:13:21	mo (@mmjahanara):	Reacted to "yes, and the actual ..." with 👍
+01:13:35	Ahmad Bitar | Nethermind:	Reacted to yes, and the actual ... with "🔥"
+01:13:51	mo (@mmjahanara):	Reacted to "That is in my view t..." with 👍
+01:13:56	mo (@mmjahanara):	Reacted to "But one that has “le..." with 👍
+01:14:01	Potuz:	I do not want to move away from my EOA, I trust my key management more than contracts 🙂
+01:14:15	marc | wolovim:	Reacted to "Thanks everyone for ..." with 💙
+01:14:22	Nico C:	Replying to "I do not want to m..."
+
+Then you are free to stay with the EOA !
+01:14:25	mo (@mmjahanara):	Reacted to "Yes, this is mixing ..." with 👍
+01:14:34	Ahmad Bitar | Nethermind:	Reacted to Then you are free to... with "💯"
+01:14:36	Potuz:	Reacted to "Then you are free to stay with the EOA !" with 💯
+01:14:36	CPerezz:	Reacted to "I do not want to mov..." with 😂
+01:14:42	mo (@mmjahanara):	Reacted to "I read the proposal ..." with 👍
+01:14:47	mo (@mmjahanara):	Reacted to "This way your enshri..." with 👍
+01:14:51	Pierre:	Reacted to "Thanks everyone for ..." with 💙
+01:14:55	Parithosh Jayanthi:	Reacted to "I do not want to move away from my EOA, I trust my key management more than contracts 🙂" with 😂
+01:14:59	Luca Donno | L2BEAT:	Reacted to "I do not want to mov..." with 😂
+01:15:08	Pierre:	Reacted to "I read the proposal ..." with 👍
+01:15:13	Toni Wahrstätter:	Reacted to "Thanks everyone for ..." with 💙
+01:15:53	Nico C:	Replying to "I do not want to m..."
+
+It's an opt-in flag. If you believe that it's fine with ECDSA you can sit on your EOA forever
+01:15:55	Matteo Vicari:	Reacted to "Then you are free to..." with 💯
+01:15:55	Barnabas:	Replying to "I do not want to mov..."
+
+How, if you disable the legacy contract?
+01:16:38	marc | wolovim:	Lightclient referencing:
+https://eips.ethereum.org/EIPS/eip-7851
+https://eips.ethereum.org/EIPS/eip-8151
+01:16:43	Gary Schulte:	Reacted to "Lightclient referenc..." with 🙏
+01:16:50	Matteo Vicari:	Reacted to "Lightclient referenc..." with 🙏
+01:17:56	CPerezz:	SETCODEFROM would also allow for extremely-cheap deployments for duplicated code that already exists on chain
+01:18:16	pk910:	it feels like the permanent delegations will be abused to permanently take over wallets in phishing / blind signing attacks?
+01:18:20	Potuz:	Reacted to "SETCODEFROM would also allow for extremely-cheap deployments for duplicated code that already exists on chain" with ❤️
+01:18:25	Ben Adams:	Reacted to "SETCODEFROM would al..." with 👍
+01:18:37	CPerezz:	SETCODEFROM FTW!
+01:19:19	Nico C:	Replying to "it feels like the ..."
+
+At this point the attacker is signing a crated transaction with your keys he swippes your account. On an EOA this means you are done for anyway
+01:20:31	Nico C:	Replying to "it feels like the ..."
+
+Same attack surface as a 7702 delegation basically
+01:20:40	pk910:	Replying to "it feels like the pe..."
+
+Yea, if you loose your key you're lost anyway.
+But right now there are already phishing attempts on 7702 delegations.   having a way to make those permanent afterwards increases the problem?
+01:21:00	lightclient:	Reacted to "At this point the at..." with 👍
+01:21:07	lightclient:	Replying to "it feels like the pe..."
+
+I recommend not losing your key
+01:21:11	Nico C:	Reacted to "I recommend not lo..." with 👍
+01:21:24	Luca Donno | L2BEAT:	Reacted to "I recommend not losi..." with 👍
+01:21:28	jochem-brouwer:	Heeft gereageerd op "SETCODEFROM FTW!" met 😍
+01:21:49	jochem-brouwer:	Antwoord verzenden naar "SETCODEFROM FTW!"
+
+this would also make the deployment cheaper as code exists on chain (must require selfdestruct disable though). is there an EIP on this one?
+01:21:52	Ansgar Dietrichs:	Reacted to "I recommend not losing your key" with 👍
+01:22:10	spencer:	Reacted to "I recommend not lo..." with 👍
+01:22:30	pk910:	Replying to "it feels like the pe..."
+
+I'm thinking about users that blidly sign a untrusted delegation. That's not revertable anymore with the permanent delegation, so the phished wallet is permanently lost - even without loosing the key
+01:22:41	jochem-brouwer:	Antwoord verzenden naar "SETCODEFROM FTW!"
+
+or do you mean the SETSELFDELEGATE_OPCODE
+01:22:45	lightclient:	Replying to "it feels like the pe..."
+
+I also recommend not signing transactions blind
+01:22:56	Ahmad Bitar | Nethermind:	Reacted to I also recommend not... with "❤️"
+01:23:11	Luca Donno | L2BEAT:	Reacted to "I also recommend not..." with ❤️
+01:23:11	CPerezz:	Replying to "SETCODEFROM FTW!"
+
+I had 8058. But it was using ALs.
+01:23:25	pk910:	Replying to "it feels like the pe..."
+
+Yea,  would recommend that too :D
+But that's what is unfortunately happening a lot :D
+01:23:27	CPerezz:	Replying to "SETCODEFROM FTW!"
+
+We can either refactor that one which targeted deployments only. Or just create a new one
+01:23:27	Parithosh Jayanthi:	Reacted to "I also recommend not signing transactions blind" with ❤️
+01:23:45	CPerezz:	Replying to "SETCODEFROM FTW!"
+
+I meant the new opcode mentioned by Ben basically
+01:23:46	jochem-brouwer:	Antwoord verzenden naar "SETCODEFROM FTW!"
+
+new one seems the right way tbh, so we preserve the access list idea
+01:23:50	CPerezz:	Reacted to "new one seems the ri..." with 👍
+01:24:07	Nico C:	Replying to "it feels like the ..."
+
+It's really the same attack model as we had before. Even before 7702 guys
+01:24:18	Luca Donno | L2BEAT:	Reacted to "It's really the same..." with 💯
+01:24:26	lightclient:	Replying to "it feels like the pe..."
+
+Is it happening a lot?
+01:25:17	CPerezz:	8058
+01:25:23	Nico C:	Replying to "it feels like the ..."
+
+Nope 7702 is not enabling much sweeping. Dead accounts are delegated to sweepers but no sweep is actually happening ...
+01:25:48	mo (@mmjahanara):	Reacted to "Thanks for clarifyin..." with 👀
+01:25:51	CPerezz:	Replying to "8058"
+
+8058 would be superseded by Ben’s proposal
+01:26:23	jochem-brouwer:	I would introduce new EIP for this idea
+01:26:28	Ben Adams:	Reacted to "I would introduce ne..." with 👍
+01:26:35	CPerezz:	Reacted to "I would introduce ne..." with 👍
+01:27:40	CPerezz:	It’s specially interesting because deployments will become super expensive. Yet clients do no extra work nor increase DB size for already existing code.
+01:27:43	CPerezz:	So would be nice UX
+01:27:51	jochem-brouwer:	Antwoord verzenden naar "It’s specially in..."
+
+yes plus 8037
+01:27:53	jochem-brouwer:	Heeft gereageerd op "So would be nice UX" met 👍
+01:28:02	jochem-brouwer:	Love both EIPs :D
+01:28:12	lightclient:	Start planning I star?
+01:28:17	Ahmad Bitar | Nethermind:	These two eips feel like the natural follow up in hegota for account abstraction.
+01:28:21	Ben Adams:	Reacted to "Start planning I sta..." with 😅
+01:28:23	jochem-brouwer:	Heeft gereageerd op "Start planning I s..." met 😍
+01:28:30	Ben Edgington:	Reacted to "Start planning I sta..." with 😅
+01:28:35	kevaundray wedderburn:	Reacted to "Start planning I star?" with 😅
+01:28:43	Nico C:	Reacted to "Love both EIPs :D" with ❤️
+01:28:55	jochem-brouwer:	could you link the proposal?
+01:29:00	Justin Florentine (Besu):	Replying to "Start planning I sta..."
+
+quick schedule more features before the market tanks further i need job security
+01:29:06	Nico C:	https://eips.ethereum.org/EIPS/eip-7851
+01:29:13	Nico C:	https://eips.ethereum.org/EIPS/eip-8151
+01:29:14	Ahmad Bitar | Nethermind:	Reacted to quick schedule more ... with "😂"
+01:29:49	Ansgar Dietrichs:	I thought for a sec Barnabas was trying to use the opportunity to have Marius not on the call today to reverse the deicision :-)
+01:29:56	Parithosh Jayanthi:	Reacted to "I thought for a sec Barnabas was trying to use the opportunity to have Marius not on the call today to reverse the deicision :-)" with 😂
+01:29:58	jochem-brouwer:	Heeft gereageerd op "I thought for a se..." met 😂
+01:30:04	Parithosh Jayanthi:	Or we set the deposit field to like uint max
+01:30:09	Parithosh Jayanthi:	Or whatever high number
+01:30:16	felix (eest):	Reacted to "I thought for a se..." with 😂
+01:30:37	Mega | ethrex:	Reacted to "I thought for a sec ..." with 😂
+01:31:00	Barnabas:	Marius’s pr: https://github.com/ethereum/execution-apis/pull/793
+01:31:24	jochem-brouwer:	Heeft gereageerd op "Marius’s pr: http..." met 👍
+01:32:07	Justin Traglia:	A few clients have demonstrated that they can handle lots of deposits (at least 8k per slot).
+01:32:22	Tamaghna Chourdhuri:	Reacted to "A few clients have d..." with 👀
+01:32:41	Nico Flaig:	not sure Cayman is here, but yes, that would be an alternative
+01:32:55	Nico Flaig:	see https://github.com/ethereum/EIPs/pull/11760 would be good if EL devs can take a look
+01:33:07	Barnabas:	You are assuming that eth doesn’t drop to $8, where the cost of attack is significantly less 🥦
+01:33:08	Potuz:	Reacted to "A few clients have demonstrated that they can handle lots of deposits (at least 8k per slot)." with ❤️
+01:33:15	Potuz:	loool
+01:33:15	CPerezz:	Reacted to "Start planning I sta..." with 😅
+01:33:18	Justin Traglia:	Reacted to "You are assuming tha..." with 😅
+01:33:20	Potuz:	Reacted to "You are assuming that eth doesn’t drop to $8, where the cost of attack is significantly less 🥦" with 😂
+01:33:21	jochem-brouwer:	Heeft gereageerd op "You are assuming t..." met 😆
+01:33:22	Parithosh Jayanthi:	Reacted to "You are assuming that eth doesn’t drop to $8, where the cost of attack is significantly less 🥦" with 😅
+01:33:23	Jihoon:	To get the sense of how many new validator deposits can be included in a single transaction, block and IL: https://hackmd.io/@jihoonsong/SJWAnFakMg
+01:33:24	Nico C:	Reacted to "You are assuming t..." with 😅
+01:33:25	Ben Adams:	Reacted to "You are assuming tha..." with 😭
+01:33:28	felix (eest):	Reacted to "You are assuming t..." with 😭
+01:33:33	Justin Traglia:	Reacted to "To get the sense of ..." with 🙏
+01:33:38	Luca Donno | L2BEAT:	Reacted to "You are assuming tha..." with 😅
+01:33:39	Luca Donno | L2BEAT:	Reacted to "You are assuming tha..." with 😂
+01:33:39	Luca Donno | L2BEAT:	Reacted to "You are assuming tha..." with 😆
+01:33:40	Luca Donno | L2BEAT:	Reacted to "You are assuming tha..." with 😭
+01:33:43	jochem-brouwer:	Heeft gereageerd op "To get the sense o..." met 🙏
+01:33:46	jochem-brouwer:	Heeft gereageerd op "To get the sense o..." met 😍
+01:34:04	Justin Traglia:	11:00 UTC
+01:34:19	Parithosh Jayanthi:	Reacted to "Screenshot2026_06_04_092747.jpg" with ❤️
+01:34:19	Nico Flaig:	Reacted to "You are assuming tha..." with 😅
+01:34:19	Justin Traglia:	Reacted to "Screenshot2026_06_04_092747.jpg" with 😄
+01:34:21	Potuz:	Reacted to "Screenshot2026_06_04_092747.jpg" with 😄
+01:34:22	Mario Vega:	Reacted to "Screenshot2026_06_04_092747.jpg" with 😄
+01:34:22	lightclient:	North Americans computing the UTC to USA time
+01:34:23	Ahmad Bitar | Nethermind:	Reacted to Screenshot2026_06_04_092747.jpg with "😂"
+01:34:24	jochem-brouwer:	Heeft gereageerd op "Screenshot2026_06_..." met ❤️
+01:34:26	Justin Traglia:	Reacted to "North Americans comp..." with 😅
+01:34:27	Greg K | Lido:	nightmare for California
+01:34:28	CPerezz:	Reacted to "North Americans comp..." with 😂
+01:34:30	Justin Traglia:	Reacted to "nightmare for Califo..." with 👍
+01:34:31	Barnabas:	Reacted to "North Americans computing the UTC to USA time" with 😅
