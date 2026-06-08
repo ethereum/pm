@@ -34,6 +34,9 @@ VTT_CUE_PATTERN = re.compile(
     r"(?P<start>\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})\s+-->\s+"
     r"(?P<end>\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})"
 )
+# Prefer speaker-with-share because it keeps shared content plus speaker context
+# while producing smaller files than gallery-with-share. Zoom gallery tiles active
+# camera feeds, not camera-off participants' profile icons.
 PREFERRED_VIDEO_LAYOUT = "shared_screen_with_speaker_view"
 VIDEO_LAYOUT_PRIORITY = [
     PREFERRED_VIDEO_LAYOUT,
