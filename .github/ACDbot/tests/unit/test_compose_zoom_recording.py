@@ -6,6 +6,7 @@ import pytest
 from scripts.compose_zoom_recording import (
     ZoomTrimWindow,
     build_ffmpeg_command,
+    composed_recording_sync_from_transcript,
     extract_peak_level_db,
     select_recording_target,
     select_recording_files,
@@ -249,3 +250,29 @@ Speaker: bye
     window = transcript_speech_window(transcript, duration_seconds=1000, padding_seconds=10)
 
     assert window == ZoomTrimWindow(start_seconds=8, end_seconds=922.5)
+
+
+def test_composed_recording_sync_uses_bumper_and_transcript_trim():
+    transcript = """WEBVTT
+
+00:00:43.940 --> 00:00:45.659
+Speaker: hello
+"""
+
+    assert composed_recording_sync_from_transcript(transcript) == {
+        "transcriptStartTime": "00:00:43",
+        "videoStartTime": "00:00:54",
+    }
+
+
+def test_composed_recording_sync_can_have_video_before_transcript():
+    transcript = """WEBVTT
+
+00:04:47.490 --> 00:04:50.980
+Speaker: started
+"""
+
+    assert composed_recording_sync_from_transcript(transcript) == {
+        "transcriptStartTime": "00:04:47",
+        "videoStartTime": "00:00:55",
+    }

@@ -26,14 +26,16 @@ from typing import Any
 
 import requests
 
+from scripts.asset_pipeline.composed_recording_sync import (
+    DEFAULT_BUMPER_CLIP_SECONDS,
+    ZoomTrimWindow,
+    composed_recording_sync_from_transcript,
+    transcript_speech_window,
+)
 from scripts.asset_pipeline.meeting_identity import get_occurrence_call_number
 
 
 PEAK_LEVEL_PATTERN = re.compile(r"Peak level dB:\s+(-inf|[-0-9.]+)")
-VTT_CUE_PATTERN = re.compile(
-    r"(?P<start>\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})\s+-->\s+"
-    r"(?P<end>\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})"
-)
 # Prefer speaker-with-share because it keeps shared content plus speaker context
 # while producing smaller files than gallery-with-share. Zoom gallery tiles active
 # camera feeds, not camera-off participants' profile icons.
@@ -45,7 +47,6 @@ VIDEO_LAYOUT_PRIORITY = [
     "gallery_view",
     "shared_screen",
 ]
-DEFAULT_BUMPER_CLIP_SECONDS = 45.0
 ACDBOT_DIR = Path(__file__).resolve().parents[1]
 MAPPING_FILE_PATH = ACDBOT_DIR / "meeting_topic_mapping.json"
 
@@ -66,12 +67,6 @@ class SelectedRecordingFiles:
     video_file: dict[str, Any]
     audio_file: dict[str, Any] | None
     transcript_file: dict[str, Any] | None
-
-
-@dataclass(frozen=True)
-class ZoomTrimWindow:
-    start_seconds: float
-    end_seconds: float | None
 
 
 def parse_utc_timestamp(value: str | None) -> datetime | None:
@@ -316,38 +311,6 @@ def select_recording_files(recording_info: dict[str, Any]) -> SelectedRecordingF
         print("[WARN] No Zoom transcript found; dead-air trimming will be skipped")
 
     return SelectedRecordingFiles(video_file=video_file, audio_file=audio_file, transcript_file=transcript_file)
-
-
-def parse_vtt_timestamp(value: str) -> float:
-    parts = value.split(":")
-    if len(parts) == 2:
-        minutes, seconds = parts
-        return int(minutes) * 60 + float(seconds)
-    if len(parts) == 3:
-        hours, minutes, seconds = parts
-        return int(hours) * 3600 + int(minutes) * 60 + float(seconds)
-    raise ValueError(f"Unsupported VTT timestamp: {value}")
-
-
-def transcript_speech_window(
-    transcript_text: str,
-    duration_seconds: float,
-    padding_seconds: float = 10,
-) -> ZoomTrimWindow | None:
-    cue_times = [
-        (parse_vtt_timestamp(match.group("start")), parse_vtt_timestamp(match.group("end")))
-        for match in VTT_CUE_PATTERN.finditer(transcript_text)
-    ]
-    if not cue_times:
-        return None
-
-    first_start = min(start for start, _ in cue_times)
-    last_end = max(end for _, end in cue_times)
-    start_seconds = max(0, first_start - padding_seconds)
-    end_seconds = min(duration_seconds, last_end + padding_seconds)
-    if end_seconds <= start_seconds:
-        return None
-    return ZoomTrimWindow(start_seconds=start_seconds, end_seconds=end_seconds)
 
 
 def download_zoom_file(file_info: dict[str, Any], access_token: str, suffix: str) -> Path:
