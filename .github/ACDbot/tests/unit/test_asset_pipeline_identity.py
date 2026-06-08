@@ -526,3 +526,77 @@ call_series:
         match="artifact directory has no mapped occurrence: sample/2026-05-20_040",
     ):
         generate_manifest.generate_manifest()
+
+
+def test_manifest_includes_sync_only_for_composed_recording_uploads(tmp_path, monkeypatch):
+    generate_manifest = load_asset_pipeline_module("generate_manifest")
+
+    artifacts_dir = tmp_path / "artifacts"
+    upload_call_dir = artifacts_dir / "acdt" / "2026-06-08_082"
+    stream_call_dir = artifacts_dir / "acdt" / "2026-06-01_081"
+    upload_call_dir.mkdir(parents=True)
+    stream_call_dir.mkdir(parents=True)
+    transcript_text = """WEBVTT
+
+00:00:43.940 --> 00:00:45.659
+Justin: Good morning.
+"""
+    (upload_call_dir / "transcript.vtt").write_text(transcript_text, encoding="utf-8")
+    (stream_call_dir / "transcript.vtt").write_text(transcript_text, encoding="utf-8")
+
+    config_path = tmp_path / "call_series_config.yml"
+    config_path.write_text(
+        """
+call_series:
+  acdt:
+    display_name: "All Core Devs - Testing"
+    youtube_playlist_id: "PLJqWcTqh_zKSample"
+    recording_publication_mode: "composed_zoom_recording"
+""",
+        encoding="utf-8",
+    )
+
+    mapping_path = tmp_path / "meeting_topic_mapping.json"
+    mapping_path.write_text(
+        json.dumps(
+            {
+                "acdt": {
+                    "occurrences": [
+                        {
+                            "issue_number": 2103,
+                            "issue_title": "All Core Devs - Testing (ACDT) #82, June 8, 2026",
+                            "start_time": "2026-06-08T14:00:00Z",
+                            "occurrence_number": 82,
+                            "youtube_video_id": "sampleVideoId",
+                        },
+                        {
+                            "issue_number": 2098,
+                            "issue_title": "All Core Devs - Testing (ACDT) #81, June 1, 2026",
+                            "start_time": "2026-06-01T14:00:00Z",
+                            "occurrence_number": 81,
+                            "youtube_streams": [
+                                {
+                                    "stream_url": "https://www.youtube.com/watch?v=streamVideoId",
+                                },
+                            ],
+                        },
+                    ],
+                },
+            },
+        ),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(generate_manifest, "ARTIFACTS_DIR", artifacts_dir)
+    monkeypatch.setattr(generate_manifest, "CALL_SERIES_CONFIG", config_path)
+    monkeypatch.setattr(generate_manifest, "MAPPING_FILE", mapping_path)
+
+    manifest = generate_manifest.generate_manifest()
+
+    calls_by_number = {call["number"]: call for call in manifest["series"]["acdt"]["calls"]}
+    assert calls_by_number[82]["sync"] == {
+        "transcriptStartTime": "00:00:43",
+        "videoStartTime": "00:00:54",
+    }
+    assert "sync" not in calls_by_number[81]
+    assert calls_by_number[81]["videoUrl"] == "https://www.youtube.com/watch?v=streamVideoId"

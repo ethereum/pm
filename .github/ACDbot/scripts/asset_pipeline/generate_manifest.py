@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 import yaml
+from composed_recording_sync import composed_recording_sync_from_transcript
 from meeting_identity import get_occurrence_call_number
 
 SCRIPT_DIR = Path(__file__).parent
@@ -109,6 +110,26 @@ def get_call_resources(call_dir: Path) -> dict[str, str]:
     return resources
 
 
+def get_composed_recording_sync(
+    series_config: dict,
+    occurrence: dict | None,
+    call_dir: Path,
+    resources: dict[str, str],
+) -> dict[str, str] | None:
+    if series_config.get("recording_publication_mode") != "composed_zoom_recording":
+        return None
+    if not occurrence or not occurrence.get("youtube_video_id"):
+        return None
+
+    transcript_filename = resources.get("transcript_corrected") or resources.get("transcript")
+    if not transcript_filename:
+        return None
+
+    transcript_path = call_dir / transcript_filename
+    transcript_text = transcript_path.read_text(encoding="utf-8", errors="replace")
+    return composed_recording_sync_from_transcript(transcript_text)
+
+
 def generate_manifest() -> dict:
     """Generate the complete manifest."""
     call_series_config = load_call_series_config()
@@ -171,6 +192,10 @@ def generate_manifest() -> dict:
                 video_url = get_youtube_video_url(occurrence)
                 if video_url:
                     call_entry["videoUrl"] = video_url
+
+            sync = get_composed_recording_sync(series_config, occurrence, call_dir, resources)
+            if sync:
+                call_entry["sync"] = sync
 
             calls.append(call_entry)
 
