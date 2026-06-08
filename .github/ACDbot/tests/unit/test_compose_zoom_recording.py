@@ -185,21 +185,39 @@ def test_select_recording_files_prefers_required_caption_layout_and_largest_audi
     assert selected.audio_file["download_url"] == "https://example.com/audio.m4a"
 
 
-def test_select_recording_files_rejects_non_speaker_composite_layouts():
+def test_select_recording_files_falls_back_to_active_speaker_without_shared_screen():
     selected = select_recording_files(
         {
             "recording_files": [
                 {
                     "file_type": "MP4",
-                    "recording_type": "speaker_view",
-                    "download_url": "https://example.com/speaker.mp4",
+                    "recording_type": "active_speaker",
+                    "download_url": "https://example.com/active-speaker.mp4",
                     "file_size": 100_000_000,
                 },
                 {
                     "file_type": "MP4",
-                    "recording_type": "shared_screen",
-                    "download_url": "https://example.com/screen.mp4",
+                    "recording_type": "gallery_view",
+                    "download_url": "https://example.com/gallery.mp4",
                     "file_size": 9_000,
+                },
+            ]
+        }
+    )
+
+    assert selected is not None
+    assert selected.video_file["download_url"] == "https://example.com/active-speaker.mp4"
+
+
+def test_select_recording_files_rejects_unknown_video_layouts():
+    selected = select_recording_files(
+        {
+            "recording_files": [
+                {
+                    "file_type": "MP4",
+                    "recording_type": "unknown_layout",
+                    "download_url": "https://example.com/unknown.mp4",
+                    "file_size": 100_000_000,
                 },
             ]
         }
