@@ -34,7 +34,14 @@ VTT_CUE_PATTERN = re.compile(
     r"(?P<start>\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})\s+-->\s+"
     r"(?P<end>\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})"
 )
-REQUIRED_VIDEO_LAYOUT = "shared_screen_with_speaker_view"
+PREFERRED_VIDEO_LAYOUT = "shared_screen_with_speaker_view"
+VIDEO_LAYOUT_PRIORITY = [
+    PREFERRED_VIDEO_LAYOUT,
+    "shared_screen_with_gallery_view",
+    "active_speaker",
+    "gallery_view",
+    "shared_screen",
+]
 DEFAULT_BUMPER_CLIP_SECONDS = 45.0
 ACDBOT_DIR = Path(__file__).resolve().parents[1]
 MAPPING_FILE_PATH = ACDBOT_DIR / "meeting_topic_mapping.json"
@@ -228,10 +235,15 @@ def normalize_recording_type(recording_type: str) -> str:
     return recording_type.removesuffix("(CC)")
 
 
-def required_video_rank(file_info: dict[str, Any]) -> tuple[int, int]:
+def video_layout_rank(file_info: dict[str, Any]) -> tuple[int, int, int]:
     recording_type = file_info.get("recording_type", "")
-    is_not_caption_variant = int(recording_type != f"{REQUIRED_VIDEO_LAYOUT}(CC)")
-    return is_not_caption_variant, -(file_info.get("file_size") or 0)
+    normalized_recording_type = normalize_recording_type(recording_type)
+    try:
+        layout_rank = VIDEO_LAYOUT_PRIORITY.index(normalized_recording_type)
+    except ValueError:
+        layout_rank = len(VIDEO_LAYOUT_PRIORITY)
+    is_not_caption_variant = int(not recording_type.endswith("(CC)"))
+    return layout_rank, is_not_caption_variant, -(file_info.get("file_size") or 0)
 
 
 def select_recording_files(recording_info: dict[str, Any]) -> SelectedRecordingFiles | None:
@@ -249,20 +261,26 @@ def select_recording_files(recording_info: dict[str, Any]) -> SelectedRecordingF
         )
         print(f"[INFO] Available Zoom MP4 layouts: {available}")
 
-    required_video_files = [
+    ranked_video_files = [
         file_info
         for file_info in video_files
-        if normalize_recording_type(file_info.get("recording_type", "")) == REQUIRED_VIDEO_LAYOUT
+        if normalize_recording_type(file_info.get("recording_type", "")) in VIDEO_LAYOUT_PRIORITY
     ]
-    video_file = min(required_video_files, key=required_video_rank) if required_video_files else None
+    video_file = min(ranked_video_files, key=video_layout_rank) if ranked_video_files else None
     if video_file is None:
-        print(f"[WARN] Recording had no required MP4 video layout: {REQUIRED_VIDEO_LAYOUT}")
+        print(f"[WARN] Recording had no supported MP4 video layout: {', '.join(VIDEO_LAYOUT_PRIORITY)}")
         return None
 
+    selected_layout = normalize_recording_type(video_file.get("recording_type", ""))
     print(
-        "[DEBUG] Selected required video layout: "
+        "[DEBUG] Selected Zoom video layout: "
         f"{video_file.get('recording_type', 'unknown')} size={video_file.get('file_size', 'unknown')}"
     )
+    if selected_layout != PREFERRED_VIDEO_LAYOUT:
+        print(
+            "[WARN] Preferred Zoom video layout was unavailable; "
+            f"using fallback layout: {video_file.get('recording_type', 'unknown')}"
+        )
 
     audio_candidates = [
         file_info
@@ -390,8 +408,8 @@ def compose_zoom_recording(
     selected_files = select_recording_files(recording_info)
     if not selected_files:
         raise RuntimeError(
-            "Zoom recording exists but does not include required video layout "
-            f"{REQUIRED_VIDEO_LAYOUT}. Check the host's Zoom cloud recording settings."
+            "Zoom recording exists but does not include a supported MP4 video layout. "
+            "Check the host's Zoom cloud recording settings."
         )
 
     zoom_path = download_zoom_file(selected_files.video_file, access_token, ".mp4")
