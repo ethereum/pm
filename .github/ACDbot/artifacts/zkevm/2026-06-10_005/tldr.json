@@ -1,0 +1,88 @@
+{
+  "meeting": "L1-zkEVM Breakout #05 - June 10, 2026",
+  "highlights": {
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:06:23",
+        "highlight": "EIP-8025 (Optional ZK Proofs) formally proposed for Hegota by Ignacio and Francesco; YouTube and slides linked"
+      }
+    ],
+    "protocol_spec_and_standards": [
+      {
+        "timestamp": "00:22:54",
+        "highlight": "zkEVM guest API: 7 standards accepted; static library/linker script standard moving to merge (ZISK agreed); 3 new drafts open for review: ELF loading, accelerated memory ops (memcpy/memmove/memset/memcmp), and write_log diagnostic"
+      },
+      {
+        "timestamp": "00:34:04",
+        "highlight": "Francesco: block IR (ELIR) proposed as intermediate representation of EL host behaviors to aid formal verification; presented to FV group"
+      },
+      {
+        "timestamp": "00:34:08",
+        "highlight": "Recursive proof scheme proposed for weak subjectivity sync: reduces proof download from ~54 GB to K proofs for head block; PR open for review"
+      }
+    ],
+    "security_and_compliance": [
+      {
+        "timestamp": "00:43:33",
+        "highlight": "Blog post published on SP1 formal verification effort: 11 base RV64IM instructions lack compliance coverage; RISC-V spec compliance now fully met by LambdaVM; ZISK near-compliant (fence edge case); OpenVM compliant release imminent"
+      },
+      {
+        "timestamp": "00:15:44",
+        "highlight": "Ignacio found two security bugs while auditing codebases: soundness bug in ZISK (fixed in v0.18), and potential OOM critical bug in libSSE from lambdaclass"
+      }
+    ],
+    "testing_and_infrastructure": [
+      {
+        "timestamp": "00:08:39",
+        "highlight": "Execution witness spec: releases 040+ include schema ID prefix, enriched chain config, and properly filled public key hints; Hive dashboard now running execution witness compliance tests; only ethrex integrated so far"
+      },
+      {
+        "timestamp": "00:40:41",
+        "highlight": "EF proving cluster live; RISC-V distributed prover benchmark tools set up; initial mainnet and EST block benchmarks running; concrete numbers deferred to next call"
+      },
+      {
+        "timestamp": "01:04:19",
+        "highlight": "Blocking Blobs (EIP-8025-adjacent): prototype underway in ethrex and Lighthouse by Peter (Scroll); spec issues found, draft PR submitted; DevNet end-to-end flow targeted; ethrex team (Ivan) also planning near-term contribution"
+      }
+    ],
+    "evm_formal_verification": [
+      {
+        "timestamp": "00:57:25",
+        "highlight": "EVMASM (EVM in Lean4 assembly): 110 opcodes formally proved; STF modeling in progress (accounts, storage, EIP-1559 tx, call frames); targeting ZISK emulator for full ELF extraction; round-trip RISC-V tests in CI"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:23:14",
+      "action": "Review three open zkEVM guest API standard PRs: ELF loading, accelerated memory ops, write_log",
+      "owner": "All zkEVM teams"
+    },
+    {
+      "timestamp": "00:13:55",
+      "action": "Integrate engine_newPayloadWithWitness v5 on an official EL repo branch to join Hive execution witness dashboard",
+      "owner": "EL client teams"
+    },
+    {
+      "timestamp": "00:35:08",
+      "action": "Review recursive proof / weak subjectivity sync PR and write-up; provide feedback",
+      "owner": "CL client teams and zkEVM contributors"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:07:01",
+      "decision": "EIP-8025 (Optional ZK Proofs for Hegota) formally entered into the Hegota proposal process; PFI for Hegota"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:12:50",
+      "target": "Next execution witness spec release based on Glamsterdam devnet-5 or devnet-6"
+    },
+    {
+      "timestamp": "01:06:36",
+      "target": "Blocking Blobs DevNet (ethrex + Lighthouse prototype) \u2014 timeline TBD, targeted as soon as spec issues resolved"
+    }
+  ]
+}
