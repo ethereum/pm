@@ -1,0 +1,81 @@
+{
+  "meeting": "Post Quantum Transaction Signature #10 - (date not specified)",
+  "highlights": {
+    "presentations_overview": [
+      {
+        "timestamp": "00:08:51",
+        "highlight": "Two demos: Riva Labs (post-quantum multisig via SAFE) and Silence Laboratories (threshold MLDSA MPC)"
+      }
+    ],
+    "riva_labs_ephemeral_keys": [
+      {
+        "timestamp": "00:11:10",
+        "highlight": "Ephemeral Keys Protocol: rotation every tx, next-signer stored on-chain, SPHINCS+ backup, ERC-4337 AA; multi-chain and multisig now supported"
+      },
+      {
+        "timestamp": "00:15:29",
+        "highlight": "SAFE multisig demo on Sepolia: 2-of-3 setup mixing post-quantum (Riva) and ECDSA signers; no SAFE changes required"
+      },
+      {
+        "timestamp": "00:20:19",
+        "highlight": "Protocol targets ERC standardization; team to draft ERC and share with this call series for community comment"
+      }
+    ],
+    "silence_labs_mldsa_mpc": [
+      {
+        "timestamp": "00:30:57",
+        "highlight": "Threshold MLDSA (Dilithium) MPC: 2-of-3 cloud-hosted T-share wallet demo; ~150ms signing; scales to ~10 parties before blow-up"
+      },
+      {
+        "timestamp": "00:32:47",
+        "highlight": "On-chain verification uses ZKnox Dilithium smart contract (EIP-7702 / ERC-4337); signature indistinguishable from single-signer MLDSA on-chain"
+      },
+      {
+        "timestamp": "00:36:11",
+        "highlight": "Protocol adds optional Signer Reveal feature; 3 rounds of off-chain communication required; paper and open-source code pending audit"
+      },
+      {
+        "timestamp": "00:43:19",
+        "highlight": "7702 revert-to-ECDSA attack vector acknowledged; mitigated by EIP-7851 (EOA deactivation) once adopted"
+      }
+    ],
+    "gas_and_precompile_discussion": [
+      {
+        "timestamp": "00:41:46",
+        "highlight": "SHAKE-based MLDSA smart contract costs ~5M+ gas; Keccak variant drops to ~3M; MLDSA precompile estimated at ~6,000 gas \u2014 not ruled out for execution layer"
+      },
+      {
+        "timestamp": "00:46:08",
+        "highlight": "Reno (ZKnox): MLDSA is already in TLS; hash-based-only path risks non-compliance with HSMs and Web2 infrastructure; challenges consensus-driven direction"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:21:55",
+      "action": "Draft ERC for Ephemeral Keys Protocol; share with call series for community review",
+      "owner": "Riva Labs (Antonio Sanso as potential co-author)"
+    },
+    {
+      "timestamp": "00:37:29",
+      "action": "Share e-print links for MLDSA-MPC paper and hash-based MPC impossibility result paper",
+      "owner": "Silence Laboratories (Jay)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:51:18",
+      "decision": "MLDSA precompile for execution layer is not ruled out; door remains open alongside hash-based approach"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:24:08",
+      "target": "Riva Labs hash-based MPC working demo \u2014 ~1 month"
+    },
+    {
+      "timestamp": "00:37:29",
+      "target": "Silence Laboratories MLDSA-MPC academic paper \u2014 expected April (to be confirmed)"
+    }
+  ]
+}
