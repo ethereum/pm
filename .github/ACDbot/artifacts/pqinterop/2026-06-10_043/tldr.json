@@ -1,0 +1,105 @@
+{
+  "meeting": "Post-Quantum (PQ) Interop #43 - June 10, 2026",
+  "highlights": {
+    "testing_progress": [
+      {
+        "timestamp": "00:10:44",
+        "highlight": "devnet-4 multi-subnet interop abandoned; all teams now focused on devnet-5"
+      },
+      {
+        "timestamp": "00:11:32",
+        "highlight": "Zeam: devnet-5 single-subnet finalization confirmed; 4-subnet runs in progress with late message publishing under investigation"
+      },
+      {
+        "timestamp": "00:12:30",
+        "highlight": "Ream: 24-node/4-aggregator/6-node-per-subnet devnet-4 infra running; memory growth resolved; finalization still bursty"
+      },
+      {
+        "timestamp": "00:31:47",
+        "highlight": "Pata: 32-node Zeam-only 4-subnet devnet-5 run progressing; several issues already reported to teams"
+      }
+    ],
+    "client_updates": [
+      {
+        "timestamp": "00:14:00",
+        "highlight": "Qlean: devnet-5 image released; Qlean-to-Qlean finalization not yet achieved"
+      },
+      {
+        "timestamp": "00:15:00",
+        "highlight": "Ethlambda: RocksDB descriptor-limit fix, LeanVM bumped to devnet-4 latest, invalid attestation bit rejection added; EL integration with ethrex ongoing"
+      },
+      {
+        "timestamp": "00:16:14",
+        "highlight": "Gean: LeanVM bump merged; devnet-5 stabilization in progress against Pata's reported issues"
+      },
+      {
+        "timestamp": "00:18:03",
+        "highlight": "Grandine: devnet-5 changes under local testing; image publish imminent"
+      },
+      {
+        "timestamp": "00:14:29",
+        "highlight": "Lantern (chat): devnet-5 image on commit 8fcd; locally updated to 3f2116d; gossip decoding error (reported by Pata) root-cause investigation underway"
+      }
+    ],
+    "lean_spec_and_leanvm": [
+      {
+        "timestamp": "00:18:22",
+        "highlight": "lean spec refactored: internal py tests removed, replaced by consumable test vectors with uniform given/when/then structure"
+      },
+      {
+        "timestamp": "00:23:09",
+        "highlight": "CI time cut from ~40 min to ~4 min by mocking proofs/verification in non-crypto tests; real crypto tests isolated to dedicated folder"
+      },
+      {
+        "timestamp": "00:25:50",
+        "highlight": "Monolithic spec.py split into separate files: state transition, fork choice, etc."
+      },
+      {
+        "timestamp": "00:28:10",
+        "highlight": "LeanVM: ZK allocator now available without manual global-allocator setup; work begun on making LeanVM genuinely ZK"
+      },
+      {
+        "timestamp": "00:27:15",
+        "highlight": "SHA-256 arithmetization for LeanVM underway (grant contributor Onyur); targeting precompile with lookup constraints"
+      }
+    ],
+    "network_performance": [
+      {
+        "timestamp": "00:34:21",
+        "highlight": "64-node single-subnet sim: aggregation topic generating ~60 MB/slot per node due to GossipSub duplicates; tuning needed"
+      },
+      {
+        "timestamp": "00:36:04",
+        "highlight": "Block propagation P95 ~2 s at 50 Mbps bandwidth cap (EIP-7870 baseline); slot duration increase (4 s \u2192 6 s) or interval rebalancing proposed"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:30:29",
+      "action": "All client teams: include aggregator-slot metric from leanMetrics PR #36 in next devnet-5 images",
+      "owner": "All lean client teams"
+    },
+    {
+      "timestamp": "00:32:50",
+      "action": "Test locally with 12 GB container RAM limit to match devnet server constraints",
+      "owner": "All lean client teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:35:42",
+      "decision": "devnet-4 public interop runs discontinued; devnet-5 is the active target for all multiclient testing"
+    },
+    {
+      "timestamp": "00:30:58",
+      "decision": "8-attestation-data entries per block is a maximum, not a requirement; proposers may include fewer to meet proof deadline"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:33:47",
+      "target": "Lantern devnet-5 image with leanMetrics PR #36 metric \u2014 next image release (imminent)"
+    }
+  ]
+}
