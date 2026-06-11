@@ -1,0 +1,88 @@
+{
+  "meeting": "ACDC #180 - June 11, 2026",
+  "highlights": {
+    "testing_progress": [
+      {
+        "timestamp": "00:17:25",
+        "highlight": "glamsterdam-devnet-5 unstable: Prysm peering bug (fix rolling out) + Grandine fork-choice bug (unfixed); triggered by Nico's malicious Lodestar client building on empty"
+      },
+      {
+        "timestamp": "00:18:38",
+        "highlight": "Prysm was broadcasting invalid PTC attestations across shuffling boundaries during long forks; lazy fix deployed \u2014 skip PTC duty if not in committee on seen block's shuffling"
+      },
+      {
+        "timestamp": "00:23:56",
+        "highlight": "All clients currently use canonical head only for PTC duties; Potuz flags serious liveness risk if multiple branches exist with no cross-branch PTC attestations"
+      }
+    ],
+    "glamsterdam_spec_and_api": [
+      {
+        "timestamp": "00:33:34",
+        "highlight": "Gloas Proposer Preference API PR (beacon-APIs #608): adds POST/GET endpoints + SSE; deprecates prepare-beacon-proposer and register-validator; no objections, left to maintainers to merge"
+      },
+      {
+        "timestamp": "00:36:09",
+        "highlight": "QUIC-as-primary-transport PR: consensus to keep MPLEX as fallback for now; Lighthouse to drop MPLEX ~Gloas+2months; Teku and Nimbus need more time; Nimbus has implementation but not default"
+      },
+      {
+        "timestamp": "00:49:53",
+        "highlight": "Beacon API: validator pending states need renaming post-EIP-6110/EIP-7251 (pending-queued no longer reflects reality); PR open, breaking change \u2014 would require API version bump"
+      },
+      {
+        "timestamp": "00:53:15",
+        "highlight": "Beacon API PR #606: extend /eth/v1/node/peers with optional peer scoring + disconnect reasons; non-breaking; no objections"
+      }
+    ],
+    "epbs_builder": [
+      {
+        "timestamp": "00:57:07",
+        "highlight": "EIP-8282 (separate builder deposit contract): routes around DOS attack surface on shared validator/builder deposit contract; ~copy of EIP-7002/7251 contract; right solution but would delay fork; revisit Monday at ACDT"
+      },
+      {
+        "timestamp": "01:11:21",
+        "highlight": "Staked Builder API (builder-specs #138): Parithosh merging after call; can iterate via follow-up PRs"
+      },
+      {
+        "timestamp": "01:12:42",
+        "highlight": "submitBeaconBlock builder API (builder-specs #162): stateful mapping concern raised \u2014 beacon node must track which builder URL supplied each bid; deferred pending more client implementation experience"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "01:21:36",
+        "highlight": "EIP-8243 (Pre-aggregating Attestations at Source): operators with co-scheduled validators send one pre-aggregated attestation via batcher + batch-seal; estimated 2x wire reduction; spam capped at 2\u00d7 committee size; questions raised about benefit vs. just increasing aggregator count"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:57:07",
+      "action": "Client teams review EIP-8282 attack scenarios (S1\u2013S9+) and estimate caching effort vs. new contract cost; bring Justin to ACDT Monday",
+      "owner": "All CL/EL client teams + Parithosh"
+    },
+    {
+      "timestamp": "00:49:25",
+      "action": "Client teams engage on beacon-APIs #618 (validator state rename PR); consider tooling breakage and version bump",
+      "owner": "CL client teams + ecosystem tooling authors"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:35:28",
+      "decision": "Gloas Proposer Preference API (beacon-APIs #608) approved; maintainers to merge"
+    },
+    {
+      "timestamp": "00:46:51",
+      "decision": "QUIC: keep MPLEX as fallback; target MPLEX removal ~Gloas+2 months; no MPLEX removal bundled with Gloas itself"
+    },
+    {
+      "timestamp": "01:04:57",
+      "decision": "EIP-8282 (builder deposit contract) deferred; revisit at ACDT Monday with attack severity quantification and Justin present"
+    },
+    {
+      "timestamp": "01:11:21",
+      "decision": "Staked Builder API (builder-specs #138) to be merged by Parithosh after call; iterate via follow-up PRs"
+    }
+  ],
+  "targets": []
+}
