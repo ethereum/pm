@@ -1,0 +1,1438 @@
+WEBVTT
+
+1
+00:05:25.500 --> 00:05:27.110
+dan (danceratopz): Good morning, everyone.
+
+2
+00:05:35.730 --> 00:05:38.180
+Berlin People: Good morning. Can you hear it? Morning!
+
+3
+00:05:38.360 --> 00:05:39.959
+Berlin People: Good morning!
+
+4
+00:05:40.230 --> 00:05:41.110
+Louis: Good morning!
+
+5
+00:05:42.850 --> 00:05:44.669
+nixo: Yes, Berlin people, we can hear you.
+
+6
+00:06:00.570 --> 00:06:05.120
+dan (danceratopz): Alright, I'll just give it a few more moments to let other people roll in.
+
+7
+00:07:17.080 --> 00:07:19.670
+dan (danceratopz): Alright, I think we can get started.
+
+8
+00:07:20.320 --> 00:07:30.339
+dan (danceratopz): Good morning, everybody, and welcome to ACDT. It's June the 15th of 2026, and this is ACDT issue number 83.
+
+9
+00:07:30.720 --> 00:07:37.509
+dan (danceratopz): I will just drop the agenda in the chat. We've got a pretty packed agenda today.
+
+10
+00:07:37.630 --> 00:07:43.240
+dan (danceratopz): With a somewhat larger, last-minute topic emerging.
+
+11
+00:07:43.670 --> 00:07:52.380
+dan (danceratopz): About adding, builder deposit, system contracts and, and execution requests.
+
+12
+00:07:53.480 --> 00:07:56.020
+dan (danceratopz): Engine API extension.
+
+13
+00:07:56.240 --> 00:08:03.689
+dan (danceratopz): To handle that, and then we have a lot of repricing topics, which we will hand out in an EL breakout, so we're gonna have breakouts today.
+
+14
+00:08:06.350 --> 00:08:16.030
+dan (danceratopz): let's get to it. First off, I think we're gonna talk about the 80-82 proposal that was, flagged in ACDC last week.
+
+15
+00:08:16.820 --> 00:08:21.720
+dan (danceratopz): And I'll just drop some relative links in the chat for you all to have a look at.
+
+16
+00:08:23.840 --> 00:08:32.649
+dan (danceratopz): And perhaps, is Justin in the call, and would he like to give an overview of this proposal, and say why he thinks it's necessary?
+
+17
+00:08:33.270 --> 00:08:35.080
+Berlin People: Sure, yeah, I am here.
+
+18
+00:08:35.190 --> 00:08:42.280
+Berlin People: So 8282 is just, so it's builder execution requests. Instead of…
+
+19
+00:08:42.580 --> 00:08:52.300
+Berlin People: verifying the builder deposit signatures, like, at the slot. Like, up to, like, 8,000 or even 16,000 with 400 million gas.
+
+20
+00:08:52.590 --> 00:08:58.300
+Berlin People: We'd introduce a new system contract, which would work like consolidations and withdrawals.
+
+21
+00:08:58.780 --> 00:09:07.320
+Berlin People: And essentially, deposits would be queued there. So we wouldn't have to do… That many signature verifications.
+
+22
+00:09:08.530 --> 00:09:09.860
+Berlin People: like, per slot.
+
+23
+00:09:10.760 --> 00:09:14.319
+Berlin People: Regular… validated deposits would be handled just like they are now.
+
+24
+00:09:14.890 --> 00:09:19.179
+Berlin People: Maybe someone else can give more details. Like, Nico.
+
+25
+00:09:23.050 --> 00:09:43.450
+Nico Flaig: Yeah, I think that covers it mostly. I mean, the one thing we avoid is basically the commingling between validator and builder deposits, so you… there's a lot of scenarios where you don't need to validate the public key of a validator deposit just to check that it's not a… that the builder deposit isn't front-running that.
+
+26
+00:09:43.780 --> 00:10:00.559
+Nico Flaig: So that's… that's the big thing there. So we avoid a lot of… there was… shared this previously, Justin has a list where there are a lot of scenarios clients need to handle, and most of them go away, with this EIP.
+
+27
+00:10:01.380 --> 00:10:15.850
+Nico Flaig: So… and we put up, so I linked the PRs. We have the system contracts. It's mostly just a copy of the existing contracts that we already have for consolidations and withdrawals.
+
+28
+00:10:16.070 --> 00:10:35.769
+Nico Flaig: And then there's… Justin already did the spec PR. We did the POC in Lodestar, so it's… from the outside, it's really minimal, I would say. Maybe Justin can acknowledge that, but it's mostly wiring code from the EL, like, extending the existing execution requests.
+
+29
+00:10:36.030 --> 00:10:43.190
+Nico Flaig: So I don't even think the effort is that big, it's just the coordination between EL and CR that's mostly the effort.
+
+30
+00:10:43.830 --> 00:10:47.490
+Berlin People: I agree, and I should… it's worth noting that I think
+
+31
+00:10:47.810 --> 00:10:53.940
+Berlin People: 8282 is easier to implement than all of the optimizations that we would have to implement otherwise.
+
+32
+00:10:56.010 --> 00:11:03.720
+dan (danceratopz): Alright, thank you very much, Justin and Nico, for the explanation and the motivation. Terrence, did you want to add something there?
+
+33
+00:11:04.410 --> 00:11:23.820
+terence: Yeah, so, I guess questions, I guess we are promoting this for, the Net Health Workforce. I, I think the CO side, I can handle it quite well. I don't really see much, like… I mean, there's complexity, but, like, it's… it's very much…
+
+34
+00:11:23.870 --> 00:11:37.899
+terence: doable, but on the EL side, which is… I lack knowledge on that, and, like, just question, like, how difficult it is to essentially do this right now on the EL side, meaning, like.
+
+35
+00:11:37.900 --> 00:11:44.619
+terence: update the system contract, making sure the system contract is right, and getting the EL support.
+
+36
+00:11:44.620 --> 00:11:49.649
+terence: I guess the question is, like, how aggressive can we be in that front?
+
+37
+00:11:54.040 --> 00:11:57.899
+dan (danceratopz): Thank you, Terrence. So, I think…
+
+38
+00:11:58.010 --> 00:12:10.239
+dan (danceratopz): We probably need some, feedback from the EL side about the extent of this change and the delay. Tony's asking how many delaying weeks this would approximately add to Glamsterdam.
+
+39
+00:12:10.960 --> 00:12:14.880
+dan (danceratopz): And Spencer's adding whether there was a solution without system contracts.
+
+40
+00:12:15.000 --> 00:12:25.430
+dan (danceratopz): Lewis and Spencer discussed That, in our chat, that basically, the system contract is quite complicated.
+
+41
+00:12:25.720 --> 00:12:30.519
+dan (danceratopz): And will require quite some testing in order to get that covered.
+
+42
+00:12:30.630 --> 00:12:36.409
+dan (danceratopz): So that would be the concerns from the steel side. If anyone else wants to chime in there, please do.
+
+43
+00:12:36.660 --> 00:12:42.199
+dan (danceratopz): Otherwise, I'd be very interested to hear from EL devs what they would have to say about this.
+
+44
+00:12:42.880 --> 00:12:43.590
+dan (danceratopz): Interesting.
+
+45
+00:12:43.730 --> 00:12:57.300
+Berlin People: I can give a quick input. So, the system contract is complex in the sense that it has a bunch of opcodes, but basically it's very, very similar to the existing system contract, so it is not like it has new logic, it's just the same type of queue that we already have.
+
+46
+00:12:57.450 --> 00:13:01.099
+Berlin People: Just… With a different record size.
+
+47
+00:13:01.410 --> 00:13:05.050
+Berlin People: So, is this the queue that is broken?
+
+48
+00:13:05.300 --> 00:13:09.750
+Berlin People: A broken as in what? As in the fig exponential doesn't work.
+
+49
+00:13:11.090 --> 00:13:12.749
+Berlin People: I am not aware of that.
+
+50
+00:13:12.880 --> 00:13:16.689
+Berlin People: Like, there was this issue with the Swan system contract that you could…
+
+51
+00:13:17.340 --> 00:13:28.740
+Berlin People: some requests, you could send the request, and it would only ever update the cost for the request at the end of the block. Yeah, it has this. And this is…
+
+52
+00:13:28.740 --> 00:13:38.029
+Berlin People: broken, because you can fill up the block with a bunch of requests. Yeah, this was never fixed on the original one, but it was decided that it's not a big deal for some reason.
+
+53
+00:13:38.170 --> 00:13:41.709
+Berlin People: There were some arguments why this is acceptable.
+
+54
+00:13:41.830 --> 00:13:50.030
+Berlin People: we could change this. It… the main reason we didn't change it last time is because we would have driven up the gas costs of adding
+
+55
+00:13:51.290 --> 00:14:03.379
+Berlin People: Right now, the thing is that this… it would just mean, like, more storage writes and more computation on every single request, which just means it's more expensive to submit such a request to the chain, but…
+
+56
+00:14:03.380 --> 00:14:20.830
+Berlin People: we might just be fine with that. I mean, in the end of the day, it's just the builders having to pay a bit more fee to get themselves registered in the system, so I guess that's acceptable. But it does mean we would have to apply changes to the contract and also re-verify the contract, so yeah, that's…
+
+57
+00:14:21.820 --> 00:14:30.070
+Berlin People: something to keep in mind. But I don't think, fundamentally, this contract is very complicated. It's just a queue storing stuff to the storage, and we have to…
+
+58
+00:14:30.520 --> 00:14:31.869
+Berlin People: Check it, but, you know.
+
+59
+00:14:36.610 --> 00:14:43.080
+dan (danceratopz): Alright, thank you, Felix, for the input. Would anyone else like to speak up from Execution layer clients?
+
+60
+00:14:53.180 --> 00:15:05.840
+dan (danceratopz): Respectively, I see that Tony mentioned in the chat that we're going to need one solution or the other, and that this does feel like a right solution. Tony, did you want to elaborate in the call?
+
+61
+00:15:07.560 --> 00:15:15.960
+Toni Wahrstätter: I don't really have that much to say. I very much agree with what Justin said. It feels like splitting builders from validators.
+
+62
+00:15:16.440 --> 00:15:24.560
+Toni Wahrstätter: solves the problem. Of course, we have to also bump the SSZ limit for validators, in parallel, but this is… this should be easily doable.
+
+63
+00:15:25.080 --> 00:15:31.659
+Toni Wahrstätter: And it allows us to scale up, beyond 190 million. So, to me, it feels like this is the…
+
+64
+00:15:32.190 --> 00:15:34.130
+Toni Wahrstätter: The best solution we have right now.
+
+65
+00:15:36.910 --> 00:15:38.960
+dan (danceratopz): Okay, perfect. Thanks a lot, Tony.
+
+66
+00:15:39.070 --> 00:15:41.519
+dan (danceratopz): So I think…
+
+67
+00:15:42.080 --> 00:15:48.929
+dan (danceratopz): most people seem… I mean, the people that have spoken up seem to think this is a reasonable change, and that,
+
+68
+00:15:50.020 --> 00:15:55.010
+dan (danceratopz): it does seem to make sense to do that for Glamsterdam.
+
+69
+00:15:55.150 --> 00:16:03.720
+dan (danceratopz): The main motivation of this discussion is really just to try and get rough consensus so that we can ratify the decision in ACDE on Thursday.
+
+70
+00:16:04.290 --> 00:16:07.590
+dan (danceratopz): In the meantime.
+
+71
+00:16:08.130 --> 00:16:14.820
+dan (danceratopz): On the steel side, we can make a better effort at estimating the testing cost as we see it.
+
+72
+00:16:14.990 --> 00:16:22.040
+dan (danceratopz): Does anyone else want to… Add anything to this topic?
+
+73
+00:16:25.530 --> 00:16:28.420
+dan (danceratopz): Before we go to the DevNet discussion, sorry.
+
+74
+00:16:31.570 --> 00:16:44.630
+Enrico Del Fante (tbenr): I just want to ask one thing. So, to me, this makes, sense, and this is the cleanest solution, seems like. So, on the, performance issue that,
+
+75
+00:16:44.630 --> 00:16:52.000
+Enrico Del Fante (tbenr): we had on the processing of the signatures from the CL site. I was wondering if
+
+76
+00:16:52.500 --> 00:17:08.069
+Enrico Del Fante (tbenr): is… is… any client has its own problems, and are we… are we… do we agree that there is no perfect solution if we don't adopt this, and there will be, anyway, a DOS vector potential for any possible
+
+77
+00:17:08.270 --> 00:17:14.050
+Enrico Del Fante (tbenr): So it's actually impossible to have a client that perfectly handles the edge cases.
+
+78
+00:17:15.640 --> 00:17:21.909
+Enrico Del Fante (tbenr): Because I feel like tech is… we are improving and making our…
+
+79
+00:17:22.099 --> 00:17:32.610
+Enrico Del Fante (tbenr): our validation faster, but I heard that Prysm is doing a better job compared to us, but I feel like Prysm has its own
+
+80
+00:17:32.840 --> 00:17:34.790
+Enrico Del Fante (tbenr): Potential issues anyway.
+
+81
+00:17:34.940 --> 00:17:37.030
+Enrico Del Fante (tbenr): So… Yeah.
+
+82
+00:17:41.150 --> 00:17:42.040
+dan (danceratopz): Terrence?
+
+83
+00:17:42.800 --> 00:17:53.160
+terence: I think I can speak on that. So, I think we can handle all the cases, except the cases that, like, the attackers are willing to, like, burn, like.
+
+84
+00:17:53.160 --> 00:18:18.109
+terence: lots of ETH. I'm speaking on the scale of, like, thousands of ETH, right? But in that case, like, the question is, like, what's the difference with the attacker doing that versus, like, the attacker just buys empty block and starts spending them? So, like, I guess the fundamental question is that, like, what is the economic modeling we are willing to accept here, right? I mean, like, a lot of the attack that we are testing make it up here.
+
+85
+00:18:18.870 --> 00:18:33.060
+terence: may not just be… I mean… I mean… I mean, like, I mean, it is realistic on mainnet, but the attacker has… has a… has a cost to such an attack.
+
+86
+00:18:33.440 --> 00:18:38.600
+Enrico Del Fante (tbenr): I… I see, so probably the good… the correct framing is…
+
+87
+00:18:39.030 --> 00:18:47.739
+Enrico Del Fante (tbenr): mostly simplicity, because having this, this solution, you don't need to think about
+
+88
+00:18:47.980 --> 00:18:58.949
+Enrico Del Fante (tbenr): Those cases, and you don't need to add a special, optimization for handling this condition to make this thing behave like an…
+
+89
+00:18:59.120 --> 00:19:07.470
+Enrico Del Fante (tbenr): It can ramp up these conditions into economically feasible things.
+
+90
+00:19:07.770 --> 00:19:08.710
+Enrico Del Fante (tbenr): So…
+
+91
+00:19:09.270 --> 00:19:19.579
+Enrico Del Fante (tbenr): Maybe if we had designed this from the beginning, assuming more time, we could… we would have landed in this situation… in this solution anyway.
+
+92
+00:19:19.840 --> 00:19:25.030
+Enrico Del Fante (tbenr): And it… just because it's… The most natural things to do.
+
+93
+00:19:29.480 --> 00:19:36.979
+dan (danceratopz): Thanks a lot, Terence and Enrico for the… for the thoughts on that. I agree, it does seem like the clean solution.
+
+94
+00:19:37.340 --> 00:19:39.919
+dan (danceratopz): Berlin people, would you like to speak up?
+
+95
+00:19:40.070 --> 00:19:43.309
+Berlin People: Oh yeah, that's me. One more thing to mention is that…
+
+96
+00:19:43.410 --> 00:19:49.589
+Berlin People: Prysm can, like, handle the case where it's… the gas limit's $200 million, but it might not be able to handle the…
+
+97
+00:19:49.700 --> 00:19:53.059
+Berlin People: When the gas limit's, like, 400 million, because the…
+
+98
+00:19:53.240 --> 00:19:57.689
+Berlin People: Number of builder deposits you would be able to submit per slot would double.
+
+99
+00:19:58.220 --> 00:20:00.950
+Berlin People: I'm just saying, it'll be more difficult as the gas limit.
+
+100
+00:20:01.110 --> 00:20:02.160
+Berlin People: is raised.
+
+101
+00:20:08.280 --> 00:20:16.869
+dan (danceratopz): So, sorry, can you just say it… say again, Justin? So basically, with the current gas limit, it's not really an issue, but as the grass limit increases.
+
+102
+00:20:17.150 --> 00:20:25.769
+Berlin People: Oh, I'm saying that we did all of our testing with, like, 193 million guests, like, the current, limit within the SFC limit.
+
+103
+00:20:26.490 --> 00:20:27.470
+Berlin People: But,
+
+104
+00:20:27.780 --> 00:20:36.509
+Berlin People: Meaning that we only tested where, like, per slot, the maximum was, like, 8,000 new builder deposits per slot. Someone could submit…
+
+105
+00:20:37.000 --> 00:20:43.640
+Berlin People: A transaction with 16,000 builder deposits in a single spot, and that would probably cause a bunch of issues.
+
+106
+00:20:45.230 --> 00:20:46.070
+dan (danceratopz): Okay.
+
+107
+00:20:46.990 --> 00:20:53.400
+dan (danceratopz): So this is… this attack is basically a 16,000 ETH attack per slot, right? Is that correct?
+
+108
+00:20:53.400 --> 00:20:58.770
+Berlin People: No, I'm just saying that it depends on the gas limit. Like, it gets worse as the gas limit is raised, is all.
+
+109
+00:20:59.050 --> 00:21:02.330
+dan (danceratopz): Got it, okay, yeah, thanks. Tony?
+
+110
+00:21:03.100 --> 00:21:07.259
+Toni Wahrstätter: Yeah, does the attacker cost also get worse with the gas limit?
+
+111
+00:21:07.520 --> 00:21:20.930
+Toni Wahrstätter: Because this is then, like, going back to what Terrence was saying, like, I think this was an actual very good point, that what is the risk we are taking here? If someone would actually submit that many deposits, are we risking a few missed slots?
+
+112
+00:21:21.040 --> 00:21:27.630
+Toni Wahrstätter: Which, Terrence is right, if you have that money to attack, you can just literally buy empty blocks.
+
+113
+00:21:39.220 --> 00:21:41.430
+dan (danceratopz): Maybe Potuz has the answer?
+
+114
+00:21:41.720 --> 00:21:43.810
+dan (danceratopz): Did you want to bring up another topic?
+
+115
+00:21:44.240 --> 00:21:48.479
+Potuz: No, it's on the same topic, but it's not an answer to that.
+
+116
+00:21:48.680 --> 00:21:56.440
+Potuz: But, I mean, if you want an answer to that, no, the attack is about… the worst kind of attack is you upfront a lot of money.
+
+117
+00:21:56.640 --> 00:22:01.249
+Potuz: You spend a lot of money, and then you keep the attack by just sending a single transaction per block.
+
+118
+00:22:01.820 --> 00:22:04.969
+Potuz: So the cost is just the upfront that you have.
+
+119
+00:22:05.440 --> 00:22:14.879
+Potuz: as long as you upfront enough money that no CL client can handle that blog, then you're good. And that implies that no client will have a cache, but
+
+120
+00:22:15.150 --> 00:22:24.360
+Potuz: what I want to stress out is that perhaps this discussion would be better taken in a different setting. Instead of, like, talking about this particular attack.
+
+121
+00:22:25.320 --> 00:22:40.179
+Potuz: I think it makes more sense, at least to me, to decide whether or not we want to have this solution, we want to have this design or not. The design seems, completely reasonable to me. It should have been the right design from the beginning.
+
+122
+00:22:40.360 --> 00:22:52.749
+Potuz: For the way Ethereum governance works, this could not have been proposed with the IP, but it's clearly the right way of doing things. It removes an attack from the consensus layer.
+
+123
+00:22:53.160 --> 00:22:57.749
+Potuz: And this is the clean design. This is the right solution.
+
+124
+00:22:57.940 --> 00:23:03.170
+Potuz: And not for this problem. This is just the right design, to have these two paths separated.
+
+125
+00:23:03.730 --> 00:23:04.760
+Potuz: Now…
+
+126
+00:23:04.920 --> 00:23:13.329
+Potuz: If you want to conflate this with this attack, I think we're just wasting time thinking on this particular attack. This attack is not really an attack.
+
+127
+00:23:13.770 --> 00:23:30.349
+Potuz: We already have much, much worse ways of causing liveness issues on Ethereum. We're talking about up-fronting money enough to buy the next 20 years of worth of blocks. And I kid you not, just do the arithmetics.
+
+128
+00:23:30.630 --> 00:23:38.820
+Potuz: And… and as… for each block that passes, we only need one player to submit a block that is actually executable.
+
+129
+00:23:38.930 --> 00:23:52.200
+Potuz: or one player to wait until the blocks are executed, and that's it. The chain recovers, and the attacker lost all of their funds for 19 years worth of blocks. So this is an attack that we're just wasting time arguing about.
+
+130
+00:23:52.200 --> 00:24:08.210
+Potuz: We should phrase the discussion on whether or not we want this design or not, in which case, I think this is the right design, and I think no one here disagrees with this statement. The disagreement might be on whether or not we want to put the time, we want to delay the fork, this will delay the fork.
+
+131
+00:24:08.420 --> 00:24:16.829
+Potuz: It's false that we would need more time to implement the mitigations. The mitigations took less than a couple of days, Terence, to implement on PRISM.
+
+132
+00:24:17.070 --> 00:24:31.879
+Potuz: So, it's a reality. We are going to delay the fork, because it needs coordination across different layers, testing the EL and the CL, we're going to change the API. The question is, do we want to do this right now or not? It's not a question about this particular attack.
+
+133
+00:24:35.810 --> 00:24:39.910
+dan (danceratopz): Thanks a lot, Potus, for the perspective. Yeah.
+
+134
+00:24:40.100 --> 00:24:42.120
+dan (danceratopz): I think that makes a lot of sense.
+
+135
+00:24:42.700 --> 00:24:45.649
+dan (danceratopz): About the time discussion?
+
+136
+00:24:46.560 --> 00:24:49.460
+dan (danceratopz): These contracts will need to be audited.
+
+137
+00:24:51.050 --> 00:24:55.550
+dan (danceratopz): as brought up by, Justin in the chat, and…
+
+138
+00:24:55.960 --> 00:25:05.750
+dan (danceratopz): That is probably one of the factors which will cause the largest delay, to glamsterdam, but not necessarily for definite testing. That can be done in parallel.
+
+139
+00:25:09.460 --> 00:25:16.230
+dan (danceratopz): Is… is anyone against, just to get a temperature check, is anyone really against, making this change?
+
+140
+00:25:18.000 --> 00:25:22.399
+dan (danceratopz): would people prefer correctness in Glamsterdam over Delane?
+
+141
+00:25:29.310 --> 00:25:30.380
+dan (danceratopz): Okay.
+
+142
+00:25:30.640 --> 00:25:39.989
+dan (danceratopz): then… I would say that we're in quite a good position for… to make a decision in ACDE.
+
+143
+00:25:40.210 --> 00:25:43.500
+dan (danceratopz): On Thursday.
+
+144
+00:25:43.800 --> 00:25:50.859
+dan (danceratopz): But just before we move on to the definite discussion, people are chiming in with correctness in the chat, which is…
+
+145
+00:25:51.480 --> 00:25:54.350
+dan (danceratopz): Obviously, the correct answer.
+
+146
+00:25:54.780 --> 00:26:05.320
+dan (danceratopz): But just before we move on, is there anything we need to do, or in the mean, before with Thursday, in order to expedite this? Is there something that we need to know or prepare, before Thursday?
+
+147
+00:26:05.680 --> 00:26:06.660
+dan (danceratopz): Nico?
+
+148
+00:26:07.820 --> 00:26:24.169
+Nico Flaig: Yeah, just one thing to point out, because I'm not sure, how this can be done, but… so we will deploy the contract before the fork, I'm guessing, and then, there's the scenario where you already have builder deposits coming in, so I'm…
+
+149
+00:26:24.170 --> 00:26:39.450
+Nico Flaig: curious how the EL would handle that, because I think there was an idea from Potuz in the chat in ePBS, I think, where there was a mention we could use this mechanism to onboard builders at the fork, but I don't think, that works.
+
+150
+00:26:39.930 --> 00:26:46.349
+Nico Flaig: to do at the fore, but just curious if ELs can take a look at this, and…
+
+151
+00:26:46.590 --> 00:26:48.989
+Nico Flaig: Yeah, just think about how that could work.
+
+152
+00:26:52.580 --> 00:26:55.560
+dan (danceratopz): That's a good point, Nico, thank you very much. Does…
+
+153
+00:26:55.770 --> 00:27:01.900
+dan (danceratopz): Someone have an answer on the spot for that now, or any… any thoughts on that that they want to bring up?
+
+154
+00:27:07.330 --> 00:27:12.590
+dan (danceratopz): Okay, then that's definitely something we can pick up for ACDE on Thursday.
+
+155
+00:27:12.920 --> 00:27:22.769
+dan (danceratopz): Otherwise, yeah, please put your thinking caps on and comment on the ACDE issue, if you have any other reservations or…
+
+156
+00:27:23.130 --> 00:27:25.829
+dan (danceratopz): what we… what we need to do? Potus?
+
+157
+00:27:26.790 --> 00:27:41.660
+Potuz: Yeah, so this is not something to take lightly, what Nico just said. One of the arguments to ship this EIP is to prevent having cached on clients, but clients will need a cache to deal with the fork.
+
+158
+00:27:42.380 --> 00:27:45.839
+Potuz: Even with the CIP, unless we change that.
+
+159
+00:27:46.080 --> 00:28:00.769
+Potuz: So, DCIP is not preventing a cache that we need to handle at the fork. You need to validate the signatures of the pending queue of deposits at the fork, otherwise you're also not… you're gonna be facing the exact same attack, just at the fork.
+
+160
+00:28:06.060 --> 00:28:07.830
+dan (danceratopz): Thank you, Potuz Dragon.
+
+161
+00:28:09.040 --> 00:28:14.640
+Dragan Rakita: A different topic. If the CL is going to take additional 3 months.
+
+162
+00:28:14.900 --> 00:28:23.759
+Dragan Rakita: Let's ship EL before that. We are kinda at the finishing line on the EL changes, and we don't have a lot to do there.
+
+163
+00:28:23.990 --> 00:28:31.650
+Dragan Rakita: We are basically… we'll be ready in, like, a few months, that's… Assumption here, and… The best guess.
+
+164
+00:28:32.040 --> 00:28:37.729
+Dragan Rakita: So we could ship CL without CL, and then CL can have its own fork.
+
+165
+00:28:37.960 --> 00:28:40.450
+Dragan Rakita: In, yeah, January, February, whatever.
+
+166
+00:28:40.450 --> 00:28:41.240
+Berlin People: Well, but…
+
+167
+00:28:41.240 --> 00:28:41.910
+Dragan Rakita: It is.
+
+168
+00:28:42.230 --> 00:28:45.789
+Berlin People: this… this thing impacts CEL, right?
+
+169
+00:28:46.170 --> 00:28:46.920
+Berlin People: Oh.
+
+170
+00:28:47.400 --> 00:28:50.739
+Berlin People: Well, we need to ship the contracts, and
+
+171
+00:28:51.010 --> 00:28:54.969
+Berlin People: And we cannot increase the gas limit unless we have this.
+
+172
+00:28:56.390 --> 00:29:03.829
+Dragan Rakita: You can increase gas limit by some amount, because the split between the state gas and the regular gas is basically there.
+
+173
+00:29:04.570 --> 00:29:08.639
+Dragan Rakita: I do agree that probably you cannot ship it, increase it by…
+
+174
+00:29:08.850 --> 00:29:19.030
+Dragan Rakita: like, 5 times that we, like, want to do, but you can at least do something, basically unblock EL from CL in this form.
+
+175
+00:29:19.390 --> 00:29:27.500
+Berlin People: Yeah, PK calculated that, I think, and what he ended up with is, like, you can do a bit more than 200,
+
+176
+00:29:27.760 --> 00:29:34.439
+Berlin People: If, with 8037, or, like, the, the gas changes and… Yep.
+
+177
+00:29:38.410 --> 00:29:43.419
+Dragan Rakita: Yeah, we cannot… we don't even need to, like, go to 200, we can go to, like.
+
+178
+00:29:44.180 --> 00:29:52.949
+Dragan Rakita: 100. That would be, like, big bump, and we will have all… all the things that we are basically working on will be basically deployed.
+
+179
+00:29:55.480 --> 00:29:59.089
+Dragan Rakita: I think it's a good idea if, basically, CL needs more time.
+
+180
+00:29:59.770 --> 00:30:02.959
+Dragan Rakita: But yeah, this is, like, for discussion for all code devs.
+
+181
+00:30:04.270 --> 00:30:08.179
+dan (danceratopz): Okay, yeah, thanks, Dragan. Perhaps…
+
+182
+00:30:08.340 --> 00:30:17.879
+dan (danceratopz): this can be discussed async in the meantime before Thursday, if people have strong thoughts on that, and then we reconvene on Thursday to discuss that aspect.
+
+183
+00:30:18.250 --> 00:30:19.240
+dan (danceratopz): Potuz?
+
+184
+00:30:20.440 --> 00:30:34.509
+Potuz: Yeah, probably we have a disagreement with Maria's that's talking about numbers, but I think you guys are out of your head. Balls would increase the block size between 50% and 100%,
+
+185
+00:30:34.880 --> 00:30:51.629
+Potuz: And even at today's block sizes. And it's not what we're going to be broadcasting just the CL block, we're going to continue broadcasting the full block. Today, we have 2 seconds for both propagations and execution. If we increase the gas limit, we're still going to be working on that.
+
+186
+00:30:51.630 --> 00:31:07.719
+Potuz: the same 2 seconds for propagation plus execution, and on top of that, we're going to be broadcasting a block that is not 90% smaller, it's going to be twice as large as today. So I think it's just crazy to try to ship any gas limit now without EPBS.
+
+187
+00:31:13.130 --> 00:31:15.699
+dan (danceratopz): Thank you, Potus. Yeah, I mean…
+
+188
+00:31:15.910 --> 00:31:22.509
+dan (danceratopz): The other… on the other side, the other question that Terrence raises is, would this really delay EPBS by 3 months?
+
+189
+00:31:23.670 --> 00:31:25.770
+dan (danceratopz): And, yeah, that's…
+
+190
+00:31:26.380 --> 00:31:33.519
+Berlin People: Sorry, porters, I don't really get it. Why can we not just increase the gas limit?
+
+191
+00:31:33.640 --> 00:31:35.840
+Berlin People: The…
+
+192
+00:31:35.940 --> 00:31:46.360
+Berlin People: Yes, the payload will be roughly 2X of what we have right now, but we still have 3 seconds. We're targeting…
+
+193
+00:31:47.180 --> 00:31:51.500
+Potuz: No, you shouldn't be targeting 3 seconds. We don't have 3 seconds today.
+
+194
+00:31:52.340 --> 00:31:59.569
+Berlin People: That's including timing games, quotas, but timing games is elastic demand. If the block is bigger, they don't want it orphaned, so they reduce the amount of timing games.
+
+195
+00:31:59.570 --> 00:32:10.620
+Potuz: I think now you're talking about something that we don't understand. I mean, why the blocks would be bigger if I can extract more MEV by delaying the block auction?
+
+196
+00:32:11.260 --> 00:32:11.820
+Berlin People: Sure.
+
+197
+00:32:11.820 --> 00:32:13.180
+Potuz: This is out of our hands.
+
+198
+00:32:13.470 --> 00:32:27.170
+Berlin People: Okay, but we're still targeting about 100 megas… 100 million gas per second from benchmarking and ring pricing. So even assuming 2 seconds, that means we should be able to handle 200 million blocks, and let's forget even that, let's just increase the gas limit to.
+
+199
+00:32:27.170 --> 00:32:38.169
+Potuz: That again, that again is without the propagation. So it's not about execution, it's execution plus propagation. We don't get the decoupling if we don't ship EPBS.
+
+200
+00:32:38.500 --> 00:32:50.509
+Berlin People: Yeah, but don't… Don't need it for smaller gas increases, is the claim. There's a lot of things happening in lock-level access lists and repricing that has other benefits besides just increasing the gas lift.
+
+201
+00:32:52.150 --> 00:32:58.070
+Berlin People: Don't we have, like, 4 seconds for… until attestation deadline right now?
+
+202
+00:32:58.070 --> 00:33:04.159
+Potuz: Well, but… That's not what's happening in reality. We have 2 seconds. The blocks are coming after 2 seconds.
+
+203
+00:33:06.440 --> 00:33:07.080
+Berlin People: Beautiful.
+
+204
+00:33:07.860 --> 00:33:08.530
+Berlin People: Yeah, and then you'.
+
+205
+00:33:08.530 --> 00:33:09.690
+Dragan Rakita: I've done a…
+
+206
+00:33:09.690 --> 00:33:10.120
+Berlin People: Good weekend.
+
+207
+00:33:10.120 --> 00:33:23.059
+Dragan Rakita: We can… we can even be real, like, conservative and just leave it at 50 million increase, and even if that's not enough, we can decrease it at 20 million for a few months until, like, CL.
+
+208
+00:33:23.610 --> 00:33:31.830
+Dragan Rakita: comes. But I don't see the point, basically, that we need… we need EPBS to increase the gas
+
+209
+00:33:32.230 --> 00:33:37.660
+Dragan Rakita: For any match. Even if block is bigger, there's a lot of time to, like, propagate and everything to do.
+
+210
+00:33:37.660 --> 00:33:45.719
+Berlin People: There's maybe an additional point. Even if we don't increase the gas limit, repricing and block-level access lists stand on their own. They're still good features to ship.
+
+211
+00:33:46.450 --> 00:33:55.000
+Berlin People: It reduces the amount of computation a node has to do, it makes ZK proving easier, there's a lot of other topics in there, even if we don't touch the gas limit.
+
+212
+00:34:02.300 --> 00:34:12.470
+dan (danceratopz): Alright, thanks a lot, everyone, for the debate and expressing your opinions on that. I don't think we're gonna get to a conclusion on that today.
+
+213
+00:34:12.659 --> 00:34:15.259
+dan (danceratopz): That's something that we can follow up on Thursday.
+
+214
+00:34:15.860 --> 00:34:22.670
+dan (danceratopz): Perhaps… someone… we can make a proposal on Thursday for the two routes?
+
+215
+00:34:22.940 --> 00:34:28.609
+dan (danceratopz): Obviously splitting the… EL and CL at this stage is,
+
+216
+00:34:30.199 --> 00:34:32.739
+dan (danceratopz): it's quite a big change.
+
+217
+00:34:33.370 --> 00:34:35.990
+dan (danceratopz): Barnabas, did you have something to say on that?
+
+218
+00:34:37.050 --> 00:34:43.559
+Barnabas: Yeah, so there's still proposals in changing AD37, as of today, so…
+
+219
+00:34:44.070 --> 00:34:51.530
+Barnabas: saying that the EL is, right at the finish line is maybe… Yeah.
+
+220
+00:34:52.710 --> 00:34:54.599
+Barnabas: Not quite right yet.
+
+221
+00:34:54.770 --> 00:35:02.639
+Barnabas: So I, I would just… I would still default to shipping ePBS with Amsterdam, for now, and…
+
+222
+00:35:02.940 --> 00:35:07.700
+Barnabas: really only if the ELs feel like they're like, being,
+
+223
+00:35:07.910 --> 00:35:11.270
+Barnabas: Hardpacked by literally multiple months of,
+
+224
+00:35:12.420 --> 00:35:16.740
+Barnabas: shipping, where I would consider splitting out the two.
+
+225
+00:35:17.860 --> 00:35:19.500
+Dragan Rakita: Just to add to that.
+
+226
+00:35:19.500 --> 00:35:20.930
+Barnabas: The government has more chaos.
+
+227
+00:35:20.930 --> 00:35:29.619
+Dragan Rakita: we from EL side, we are planning, just one additional DevNet.
+
+228
+00:35:30.100 --> 00:35:33.320
+Dragan Rakita: And we are finished with all the changes.
+
+229
+00:35:33.620 --> 00:35:39.349
+Dragan Rakita: There are a few padding things, yes, that's correct, but that is for the last demo that we planned.
+
+230
+00:35:39.890 --> 00:35:45.009
+Dragan Rakita: This is not months of the work. This is something that's going to happen in the next few weeks.
+
+231
+00:35:45.790 --> 00:35:47.769
+Dragan Rakita: Just, like, information.
+
+232
+00:35:55.760 --> 00:35:58.779
+dan (danceratopz): Thanks, Barnabas. Thanks, Dragon.
+
+233
+00:35:59.870 --> 00:36:06.870
+dan (danceratopz): just to talk about DevNets, basically, I mean, before 8282 came up, the plan was
+
+234
+00:36:07.440 --> 00:36:10.169
+dan (danceratopz): to launch Glamsterdam DevNet 6.
+
+235
+00:36:11.050 --> 00:36:13.800
+dan (danceratopz): Bal DevNet 7 is ongoing.
+
+236
+00:36:14.030 --> 00:36:17.579
+dan (danceratopz): Glamsterdam DevNet 5 is also ongoing,
+
+237
+00:36:18.280 --> 00:36:29.089
+dan (danceratopz): there was an issue there, but the net has been rescued, so the next, canonical Glamsterdam DevNet would be DevNet 6, and that was initially the target for the larger EL EIP.
+
+238
+00:36:29.390 --> 00:36:35.160
+dan (danceratopz): changes to get in. The new… the remaining repricing EIPs,
+
+239
+00:36:35.490 --> 00:36:39.379
+dan (danceratopz): the removal of the self-destruct Burn EIP, and
+
+240
+00:36:39.580 --> 00:36:44.350
+dan (danceratopz): and some other, spec changes across a couple of other EIPs.
+
+241
+00:36:45.360 --> 00:36:53.560
+dan (danceratopz): So, I think… regardless of this larger discussion, that would be still the plan.
+
+242
+00:36:53.840 --> 00:36:58.160
+dan (danceratopz): that makes sense, at least to me. Happy to hear other opinions.
+
+243
+00:36:58.450 --> 00:37:04.409
+dan (danceratopz): And then an 8282 DevNet, or 8282 could be added to the subsequent DevNet from that.
+
+244
+00:37:09.950 --> 00:37:18.649
+dan (danceratopz): Otherwise, I don't know if it makes a lot of sense to go into definite planning detail right now, since we have, much bigger discussions in the air.
+
+245
+00:37:19.600 --> 00:37:27.889
+dan (danceratopz): I would… consider sandboxing this for now, as we have to move to the breakouts in a few minutes.
+
+246
+00:37:28.390 --> 00:37:30.860
+dan (danceratopz): Is there anyone who wanted to add something?
+
+247
+00:37:31.510 --> 00:37:38.199
+dan (danceratopz): Before we move on, something that would still be relevant to know now before Thursday?
+
+248
+00:37:42.270 --> 00:37:50.240
+Berlin People: Yep, sorry, the, REST SSZ, maybe, because that is, impacting both layers.
+
+249
+00:37:50.440 --> 00:37:53.550
+Berlin People: We have some changes to the spec.
+
+250
+00:37:53.890 --> 00:38:03.840
+Berlin People: There's implementations in… At least 3 clients now, so,
+
+251
+00:38:04.280 --> 00:38:18.410
+Berlin People: Yeah, it would be… what's really missing, I think, is a CL to… to really implement this, so we can start doing some testing. But, yeah, this is kind of…
+
+252
+00:38:18.580 --> 00:38:28.809
+Berlin People: it's not really fork work, so it's kind of… I don't… I don't want to take off too many resources from… from things that are more pressing, so, yeah, once…
+
+253
+00:38:29.050 --> 00:38:32.130
+Berlin People: I would hope once we are on,
+
+254
+00:38:32.670 --> 00:38:42.090
+Berlin People: on tests, on the first testnets, or on, on, like, the last dev nets, we can put more resources onto shipping this thing.
+
+255
+00:38:42.780 --> 00:38:46.510
+Berlin People: June?
+
+256
+00:38:46.860 --> 00:38:47.690
+Berlin People: Yoon?
+
+257
+00:38:48.480 --> 00:39:04.479
+Jun Song: Yeah, so, I guess Prysm is almost ready for, testing. One thing I have to, do more is the, the SSZ format of request and response that, we, wrap
+
+258
+00:39:04.480 --> 00:39:19.980
+Jun Song: entries as SSZ containers, but, currently Prysm follows what Erigon and, ethrex, did a few days ago. So, yeah, I guess that's only one more commit.
+
+259
+00:39:19.980 --> 00:39:25.219
+Jun Song: are needed to, communicate with gas and the spec right now.
+
+260
+00:39:29.250 --> 00:39:32.590
+dan (danceratopz): Thanks for the update, June.
+
+261
+00:39:32.840 --> 00:39:40.009
+dan (danceratopz): Marius, to your… yeah, we didn't… I didn't want to forget that for the breakout. A quick question is,
+
+262
+00:39:40.410 --> 00:39:48.539
+dan (danceratopz): What is it that you need on your PR to get it over the edge? I'll drop a link in the chat. This is the execution APIs PR793.
+
+263
+00:39:49.200 --> 00:39:53.400
+dan (danceratopz): I think you're… you would need some reviews on that, right?
+
+264
+00:39:55.570 --> 00:39:56.680
+dan (danceratopz): It's not good.
+
+265
+00:39:56.680 --> 00:40:07.620
+Berlin People: Yeah, there are multiple implementations, and based on those implementations and the reviews from that, I did change the spec again, so everyone should
+
+266
+00:40:07.740 --> 00:40:16.330
+Berlin People: Review the spec again, and see if, and also adapt their implementations to the new spec, which…
+
+267
+00:40:16.620 --> 00:40:33.800
+Berlin People: for example, contains what, June just said, the, the, the change that we are, packing, the… well, like, an outer layer of SSZ packing, and so, yeah, just look at it.
+
+268
+00:40:33.910 --> 00:40:38.800
+Berlin People: Again, I don't want to take too many resources away from the fork, so…
+
+269
+00:40:39.180 --> 00:40:42.349
+Berlin People: It is not super high priority right now.
+
+270
+00:40:43.510 --> 00:40:50.729
+dan (danceratopz): Okay, thank you, Marius. It looks like Andrew left a question on the PR, following from your comment yesterday.
+
+271
+00:40:50.880 --> 00:40:57.769
+dan (danceratopz): And otherwise, I think, Lukash… And I think Yasik,
+
+272
+00:40:58.440 --> 00:41:00.370
+dan (danceratopz): You asked them to have a quick look at it.
+
+273
+00:41:00.510 --> 00:41:02.459
+dan (danceratopz): Okay, thanks a lot, Maris.
+
+274
+00:41:04.860 --> 00:41:11.490
+dan (danceratopz): Alright, just before we move to the breakouts, I think those were the last topics,
+
+275
+00:41:11.680 --> 00:41:17.919
+dan (danceratopz): I just wondered if someone wanted to give a quick update for everyone what the situation was on DevNet 5?
+
+276
+00:41:18.510 --> 00:41:25.710
+dan (danceratopz): And whether there's, any, any vague sort of idea about the timeline for DevNet 6?
+
+277
+00:41:25.950 --> 00:41:30.289
+dan (danceratopz): Does someone want to give an update on DevNet 5 quickly? Glamsterdam DevNet 5?
+
+278
+00:41:30.610 --> 00:41:40.769
+Barnabas: Yeah, sure. Definitely 5 has been sort of stable. Prysm been having some peering issues, and also Grandinee had,
+
+279
+00:41:41.550 --> 00:41:42.950
+Barnabas: some issues,
+
+280
+00:41:43.490 --> 00:41:48.670
+Barnabas: I'm not sure if anyone from Grandine and Prysm could speak up of what the issues were.
+
+281
+00:41:59.050 --> 00:42:08.480
+Saulius Grigaitis | Grandinee: On Grandinee's side, we had a few, bugs, and I think we're still fixing some edge cases, so yeah.
+
+282
+00:42:12.430 --> 00:42:17.759
+Barnabas: Yeah, and I think from Prysm side, it was a peering-related bug.
+
+283
+00:42:18.490 --> 00:42:29.139
+Potuz: It's… it's not clear. There's a conflict… I mean, there are a bunch of things that are coming together. For some reason, we're not getting DA on time over gossip.
+
+284
+00:42:29.310 --> 00:42:34.340
+Potuz: So whenever we can recover the blobs from the EL, we just sync the blob quickly, and that's it.
+
+285
+00:42:34.390 --> 00:42:49.910
+Potuz: But from time to time, we do not get enough data columns of our gossip. We request them, we get them from the peers, and we sync the block, and sometimes we are in that path, and the peer doesn't reply with the data columns, and then we're stuck.
+
+286
+00:42:50.030 --> 00:43:00.040
+Potuz: So then we go back to initial sync. So that's one bug that we do not know what it is, we do not know if it's our bug or if it's just peering, but we're not getting the data columns of our gossip from time to time.
+
+287
+00:43:00.140 --> 00:43:11.649
+Potuz: So we fall back to initial sync because we… we can't sync those blocks, and on initial sync, we seem to be having a different bug, in which we request columns for blocks that weren't canonical.
+
+288
+00:43:11.760 --> 00:43:13.350
+Potuz: And then peers just…
+
+289
+00:43:13.530 --> 00:43:20.329
+Potuz: reply saying we… we don't have them. And that's… that's definitely our bug. We're requesting columns that we shouldn't be requesting.
+
+290
+00:43:25.210 --> 00:43:34.080
+dan (danceratopz): Okay, thanks for the updates. I think we should probably go light on the details here, because we need to move to the breakouts any minute now.
+
+291
+00:43:34.380 --> 00:43:44.450
+dan (danceratopz): Glamsterdam DevNet6, I'm guessing that this will be a topic for next week, but,
+
+292
+00:43:44.580 --> 00:43:53.220
+dan (danceratopz): I think on the steel side, we still need time to, to… so I can drop the tracker. We have a tracker for,
+
+293
+00:43:53.710 --> 00:43:54.920
+dan (danceratopz): DevNet 6.
+
+294
+00:43:55.370 --> 00:43:56.720
+dan (danceratopz): And,
+
+295
+00:43:56.880 --> 00:44:05.380
+dan (danceratopz): I should think we probably need at least the rest of this week, and probably early next week to get ready. I don't know if anyone else from the team wants to jump in there.
+
+296
+00:44:07.000 --> 00:44:10.849
+dan (danceratopz): Or does anyone have any ambition of when this devnet should be launched?
+
+297
+00:44:15.310 --> 00:44:19.930
+Barnabas: Do we have data spaces for, all the remaining EIPs?
+
+298
+00:44:20.310 --> 00:44:22.320
+dan (danceratopz): No, ex… no, we do not.
+
+299
+00:44:22.320 --> 00:44:23.090
+Barnabas: Okay.
+
+300
+00:44:23.090 --> 00:44:23.600
+dan (danceratopz): He brought up.
+
+301
+00:44:23.600 --> 00:44:25.709
+Barnabas: What was the timeline for that?
+
+302
+00:44:27.370 --> 00:44:32.430
+dan (danceratopz): I would say at least, this week, Spencer's aiming for next Monday.
+
+303
+00:44:33.520 --> 00:44:37.520
+Barnabas: Okay. Then I would suggest, next Wednesday?
+
+304
+00:44:38.770 --> 00:44:40.100
+Potuz: Amsterdam DevNet?
+
+305
+00:44:41.220 --> 00:44:41.960
+Barnabas: Yep.
+
+306
+00:44:42.460 --> 00:44:45.439
+Potuz: What is the change on the… on the CL side?
+
+307
+00:44:46.130 --> 00:44:51.109
+dan (danceratopz): Let me drop… On the EL side, sorry? Or on the EL side?
+
+308
+00:44:51.430 --> 00:44:54.359
+Potuz: On the CL side, is there any braking change? Is there any change?
+
+309
+00:44:54.360 --> 00:44:54.870
+Barnabas: No.
+
+310
+00:44:55.250 --> 00:45:00.589
+Potuz: then why are we going to do a new glamster than DevNets? I mean, you can just deal with this on the Yale DevNets.
+
+311
+00:45:02.200 --> 00:45:04.600
+dan (danceratopz): to test the integration, I guess?
+
+312
+00:45:04.600 --> 00:45:05.190
+Barnabas: Yeah.
+
+313
+00:45:05.430 --> 00:45:07.479
+Barnabas: But if it's no changes on the CF…
+
+314
+00:45:07.480 --> 00:45:12.460
+Potuz: side, then that can be handled completely on an EL DevNet.
+
+315
+00:45:16.460 --> 00:45:21.990
+Stefan Starflinger: When we merge them together, there is no ELDF notes. That's the idea, to keep everything attached to them.
+
+316
+00:45:23.030 --> 00:45:25.300
+dan (danceratopz): I'm sorry, Stefan, but you're a bit…
+
+317
+00:45:25.890 --> 00:45:29.860
+Potuz: Yeah, that we're merging them, but… but aren't there, like, ball dev nets?
+
+318
+00:45:33.260 --> 00:45:36.389
+Dragan Rakita: Potuz, we basically…
+
+319
+00:45:36.950 --> 00:45:46.649
+Dragan Rakita: Finishing up the work, and basically, we don't have a lot of changes that we want, new changes or big changes that we want to push on the separate debit.
+
+320
+00:45:46.800 --> 00:45:49.570
+Dragan Rakita: That's why the reason was to merge those.
+
+321
+00:45:49.960 --> 00:45:54.589
+Dragan Rakita: Because, as I said previously, ELside is kind of finalizing things.
+
+322
+00:45:55.020 --> 00:45:57.820
+Dragan Rakita: So we don't have a lot of big change that we expect.
+
+323
+00:45:58.070 --> 00:45:59.709
+Dragan Rakita: But if we wait…
+
+324
+00:46:00.030 --> 00:46:13.200
+Potuz: If we wait, say, just a couple of days more, then we… I mean, we are now at Monday. If we just ship it instead of this Wednesday, we ship it next Monday, we can do also a, we can also do these requests, and then test the full sale.
+
+325
+00:46:13.780 --> 00:46:16.290
+Barnabas: The target is next week, Wednesday, not this Wednesday.
+
+326
+00:46:16.290 --> 00:46:26.170
+Potuz: Oh, next week's Wednesday, yeah, we can… then probably we should add also, I mean, if it's agreed that we're gonna go with the new request, we can just start testing that.
+
+327
+00:46:26.800 --> 00:46:32.390
+Barnabas: I mean, we were, yeah. I think we already agreed to ship 828, too, right?
+
+328
+00:46:34.160 --> 00:46:46.289
+dan (danceratopz): I mean, pending disc… pending a decision in ACD on Thursday, I think pretty… people are pretty much keen to get it shipped, yeah. But I would… I mean, I would just add quickly, sorry, that I think the 8282
+
+329
+00:46:46.490 --> 00:46:51.140
+dan (danceratopz): on top of the other EL changes is probably a bit heavy for the next devnet.
+
+330
+00:46:52.590 --> 00:46:56.999
+dan (danceratopz): If anyone else wants to chime in, but that would be my feeling.
+
+331
+00:46:57.000 --> 00:47:03.360
+Potuz: I don't know, on the CL side, I think even without merging the PR, it should be simple.
+
+332
+00:47:10.400 --> 00:47:11.280
+dan (danceratopz): Mario?
+
+333
+00:47:11.990 --> 00:47:18.739
+Mario Vega: I think we can basically just, take the template for the previous test for the system contracts, and we can…
+
+334
+00:47:18.900 --> 00:47:23.049
+Mario Vega: Yeah, I do agree that we should, like, put 8282 in the statement.
+
+335
+00:47:25.330 --> 00:47:26.590
+Berlin People: Implementation? Yep.
+
+336
+00:47:26.780 --> 00:47:27.990
+Berlin People: on the…
+
+337
+00:47:28.240 --> 00:47:38.959
+Berlin People: guest site, should only take, like, I don't know, a day or at least, because the… we have the… the same structure for the other contracts.
+
+338
+00:47:39.110 --> 00:47:42.040
+Berlin People: So we just need to pass the,
+
+339
+00:47:42.590 --> 00:47:56.079
+Berlin People: pass the logs and… and figure out what… what was happening. So, yeah, the big thing for 8282 is… is the… the reviews by… by some security people.
+
+340
+00:48:01.660 --> 00:48:04.749
+dan (danceratopz): Okay, I like it, I hear the ambition.
+
+341
+00:48:04.930 --> 00:48:10.340
+dan (danceratopz): then it looks like we'll try and get 82.82 in the next step now as well.
+
+342
+00:48:10.570 --> 00:48:12.849
+dan (danceratopz): Alright, then, Spencer…
+
+343
+00:48:12.850 --> 00:48:19.259
+Potuz: on the engine API, then? Someone needs to put up a PR for the engine API changes, or is it already in the AIP?
+
+344
+00:48:20.330 --> 00:48:23.300
+Berlin People: There are no API changes in this.
+
+345
+00:48:23.510 --> 00:48:24.010
+Berlin People: Right?
+
+346
+00:48:24.010 --> 00:48:25.949
+Potuz: What do you mean? We have new requests.
+
+347
+00:48:25.950 --> 00:48:35.089
+Berlin People: Yeah, but the requests are generic. That's… you don't have to specify it, you just receive those requests alongside all the… that's the whole point of the.
+
+348
+00:48:35.090 --> 00:48:38.330
+Potuz: Oh, so we just changed the prefix, okay, that's perfect.
+
+349
+00:48:38.670 --> 00:48:45.040
+Berlin People: it just adds another type of request, but that doesn't have to be specified. That was why we added the generic mechanism.
+
+350
+00:48:51.090 --> 00:48:52.050
+dan (danceratopz): Alright.
+
+351
+00:48:52.360 --> 00:48:53.590
+dan (danceratopz): Okay.
+
+352
+00:48:54.420 --> 00:49:02.030
+dan (danceratopz): Thanks everyone for chiming in on that. It looks like we're upping the ante for Glamsterdam Definite 6.
+
+353
+00:49:02.510 --> 00:49:06.000
+dan (danceratopz): Let's take the conversation about the changes required to async.
+
+354
+00:49:06.290 --> 00:49:13.069
+dan (danceratopz): And then I would ask if someone with magic breakout capabilities could create the breakout rooms.
+
+355
+00:49:29.930 --> 00:49:37.110
+dan (danceratopz): Is there someone here who can create breakout rooms? Is, Barnabas or Pari, can you do it? Or can Mark maybe do it?
+
+356
+00:49:41.000 --> 00:49:41.790
+Barnabas: It should be done.
+
+357
+00:49:43.550 --> 00:49:49.770
+dan (danceratopz): Amazing. Thank you very much. Thanks a lot, everyone. See you on Thursday, respectively, next week.
+
+358
+00:49:56.140 --> 00:50:00.140
+Barnabas: If someone's having issues, getting themselves assigned, let me know.
+
+359
+00:50:55.210 --> 00:51:00.010
+Barnabas: Is anyone still struggling to get, into their breakout room?
+

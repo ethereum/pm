@@ -1,0 +1,310 @@
+00:05:33	nixo:	gm
+00:05:34	Mario Vega:	gm
+00:05:35	Louis:	gmgm
+00:05:38	Daniel Knopik:	gm
+00:05:39	marc | wolovim:	gm
+00:06:34	Barnabas:	Pandas rolling in
+[Full message cannot be displayed on this version]
+00:06:50	Enrico Del Fante (tbenr):	Reacted to "Pandas rolling in" with 🥹
+00:06:54	dan (danceratopz):	Reacted to "Pandas rolling in
+[F..." with 💌
+00:06:58	spencer:	ga! 🌊
+00:07:02	Bharath:	Reacted to "Pandas rolling in" with 🥹
+00:07:04	Jun Song:	gm
+00:07:15	Jun Song:	Reacted to "Pandas rolling in" with ❤️
+00:07:33	dan (danceratopz):	ACDT #83
+https://github.com/ethereum/pm/issues/2116
+00:08:23	dan (danceratopz):	🗳️ EIP-8282 builder deposits - go/no-go for Gloas (separate deposit path)
+https://github.com/ethereum/EIPs/pull/11760
+https://github.com/ethereum/consensus-specs/pull/5359
+https://github.com/ethereum/sys-asm/pull/43
+https://github.com/ChainSafe/lodestar/pull/9507
+https://eips.ethereum.org/EIPS/eip-8254
+@jtraglia @wemeetagain @ensi321 @markolazic01 @potuz @nerolation
+00:09:55	Nico Flaig:	https://github.com/jtraglia/kurtosis-devnets/tree/master/gloas-deposits
+00:10:09	Barnabas:	Can client teams pls estimate implementation of this change of logic? I assume most of the heavy lifting will need to be done on the CL side. 
+
+Also would like to hear how much extra work needs to be done on the EL side.
+00:10:18	spencer:	Was there a solution that didn't involve sys contracts and why is the latter preferred here?
+00:11:07	Toni Wahrstätter:	How much delay (in weeks) will 8282 approx be?
+00:11:29	Dustin:	Yeah, that relative point is key for me, regarding that this ... (hi Toni) delay narrative I don't buy because getting the caching right needs a lot of testing too
+00:11:59	Dustin:	there's this implicit assumption that there's a base amount of time in the status quo, and it's that plus just extra effort for this EIP
+00:12:50	Barnabas:	Could “quite complicated” have a time factor attached to it?
+00:12:50	Enrico Del Fante (tbenr):	I hope this is mostly testing overhead
+00:13:49	Toni Wahrstätter:	Agree with dustin - we have to do one or the other solution anyway.
+I also agree this feels like the right solution to the deposit/scaling problem:
+* split validator and builder deposits
+* bump the SSZ limit for validators (not builders)
+00:15:08	Berlin People:	I also don”t think its super complex (Marius)
+00:15:27	Dustin:	SSZ limit: EIP-7688
+00:15:32	Nico Flaig:	Reacted to "SSZ limit: EIP-7688" with 🔥
+00:15:43	Barnabas:	I still believe 7688 >> bumping ssz limit
+00:16:11	lightclient:	what’s the timeline for this change?
+00:16:19	lightclient:	typically we audit the system contracts
+00:16:19	Mario Vega:	Which devnet are we targetting for this?
+00:16:21	Barnabas:	I’d propose glam-devnet-7
+00:16:30	spencer:	Reacted to "I’d propose glam-..." with 🔥
+00:16:44	Berlin People:	I think we will have to audit the contract (Marius)
+00:17:00	Barnabas:	Shouldn’t be a blocker for devnet testing ?
+00:17:02	lightclient:	Reacted to "I think we will have to audit the contract (Marius)" with 👍
+00:17:08	Mario Vega:	Reacted to "I think we will have..." with 👍
+00:17:18	Berlin People:	Reacted to "Shouldn’t be a block..." with 👍
+00:17:21	Dustin:	Yeah, especially with invalid sigs, the fallbacks get tricky
+00:17:24	lightclient:	Replying to "I think we will have to audit the contract (Marius)"
+
+no, just something we should expedite if ACD wants to do it
+00:17:35	Dustin:	There are only heuristics
+00:17:39	lightclient:	Replying to "I think we will have to audit the contract (Marius)"
+
+and accept it will add some time
+00:17:41	Dustin:	and pathological cases thereof
+00:17:52	Berlin People:	Replying to "I think we will have..."
+
+According to Justin and Pari, it takes 1-2 months to get an audit
+00:17:55	Barnabas:	Yeah agreed. We need to have it audited before we ship it to first testnet
+00:18:36	Louis:	Replying to "Could “quite complic..."
+
+I mentioned it in the STEEL channel but I only reviewed the system contract part, so I cannot represent the team's full perspective. Also, I am not very familiar with the testing of past system contract, there may already be mature testing framework support that I'm not aware of.
+00:19:29	Potuz:	To put numbers on what Terence’s saying: the attacks that are being mentioned cost the attacker the same that would cost him to buy ALL blocks in Ethereum for the next 19 years.
+00:19:59	spencer:	Reacted to "To put numbers on ..." with 💸
+00:20:06	Stefan Starflinger:	Reacted to "To put numbers on wh..." with 💸
+00:20:10	Potuz:	Then it’ll be 38 years worth of blocks
+00:20:19	Nico Flaig:	we have to include CLs in the gas limit benchmarking if we don't go with 8282
+00:20:34	Enrico Del Fante (tbenr):	Reacted to "To put numbers on wh..." with 👍
+00:20:35	Dustin:	Replying to "To put numbers on ..."
+
+This only matters if it means the caching doesn't need to be tested and implemented
+00:20:48	Potuz:	Replying to "we have to include C..."
+
+We already do, propagation timing is now part of the limit
+00:20:51	Dustin:	Replying to "To put numbers on ..."
+
+Just ignore it is not a solution
+00:23:19	Berlin People:	Agreed, I’m just trying to sell the eip (convince you all why it’s necessary) — justin
+00:24:42	Berlin People:	I vote to do it right now
+00:24:48	Dustin:	Reacted to "I vote to do it ri..." with 👍
+00:25:08	Mario Vega:	Reacted to "I vote to do it righ..." with 👍
+00:25:27	Mario Vega:	Correctness pls
+00:25:29	Enrico Del Fante (tbenr):	Reacted to "I vote to do it righ..." with 👍
+00:25:29	Barnabas:	This will likely push the fork to dec this year btw
+00:25:33	Nico Flaig:	Reacted to "I vote to do it righ..." with 👍
+00:25:37	lightclient:	always correctness
+00:25:39	Dustin:	Correctness
+00:25:42	Potuz:	I think it’ll mostly go to 2027
+00:25:43	Stefan Starflinger:	correctness
+00:25:47	lightclient:	🫩
+00:25:55	Berlin People:	Replying to "This will likely pus..."
+
+I don’t think so… (m)
+00:25:59	Potuz:	And I’m happy to hear people prefer to do the right thing instead of the fast one
+00:26:00	Dragan Rakita:	Can we ship EL before this?
+00:26:01	Matthew Keil:	Reacted to "I vote to do it right now" with 👍
+00:26:05	Berlin People:	Replying to "This will likely pus..."
+
+I think so (pari)
+00:26:11	Barnabas:	Reacted to "Can we ship EL before this?" with 👀
+00:26:13	Mario Vega:	Reacted to "Can we ship EL befor..." with 👀
+00:26:14	Potuz:	Replying to "Can we ship EL befor..."
+
+No, pricing depends on the scaling
+00:26:19	Potuz:	Replying to "Can we ship EL befor..."
+
+That you get from ePBS
+00:26:31	Berlin People:	Replying to "This will likely pus..."
+
+The verification can be done in parallel to the other testing that we need to do (M)
+00:26:31	Maria Silva:	Replying to "Can we ship EL befor..."
+
+Not really
+00:26:33	spencer:	2 forks per year 🧐
+00:26:46	Maria Silva:	Replying to "Can we ship EL befor..."
+
+We could ship the EIP changes assuming 3s execution
+00:26:47	Barnabas:	Replying to "2 forks per year 🧐"
+
+0 == 2
+00:26:50	Potuz:	Replying to "Can we ship EL befor..."
+
+You’re already increasing the block size by 50–100%
+00:26:51	Enrico Del Fante (tbenr):	Replying to "I think it’ll mostly..."
+
+What’s the most delay coming from from your perspective?
+00:26:52	spencer:	Reacted to "0 == 2" with 😆
+00:26:59	Gary Rong:	已使用😆回应"0 == 2"
+00:27:04	Mario Vega:	if it works like the withdrawals+consolidations, they will stay queued until the fork right>
+00:27:06	Potuz:	Replying to "Can we ship EL befor..."
+
+It’s not only execution, the bottleneck is broadcast
+00:27:10	Potuz:	Replying to "Can we ship EL befor..."
+
+And you now have 2 seconds not 3
+00:27:16	Barnabas:	Replying to "I think it’ll mostly..."
+
+history
+00:27:17	Dragan Rakita:	We can tweak data if needed for smaller block but lets not wait for ePBS
+00:27:23	Mario Vega:	Replying to "if it works like the..."
+
+?
+00:27:25	Nico Flaig:	Replying to "if it works like the..."
+
+yes
+00:27:30	Nico Flaig:	Replying to "if it works like the..."
+
+should work exactly the same
+00:27:32	Barnabas:	Replying to "I think it’ll mostly..."
+
+Fulu first testnet was launched in September
+00:28:07	Toni Wahrstätter:	maybe we could avoid deploying in advance and instead do it with the fork?
+00:28:20	pk910:	you're not getting queued deposits before the fork.  they're unqueued by the system call from the fork onwards
+00:28:33	pk910:	earlier deposits would be queued on the EL side.  CL has no access
+00:28:37	terence:	Does this really delay epbs by 3 months?
+00:28:38	Dustin:	Erigon appears to be creating invalid BALs blocks. today.
+00:28:56	Dustin:	(re "finishing line")
+00:29:10	Barnabas:	are we really starving for more gas today/this year?
+00:30:05	Maria Silva:	Replying to "Can we ship EL befor..."
+
+150M should be feasible without CL changes
+00:30:14	Dragan Rakita:	Reacted to "150M should be feasi..." with 🛳️
+00:30:19	pk910:	yea, with the gas adjustments I got to 216M gas for 8192 deposits
+00:30:57	Berlin People:	Replying to "Can we ship EL befor..."
+
+I thought 200m is feasible without CL changes (m) 100mgas per 2s ish
+00:31:15	Barnabas:	I agree with potuz
+00:33:26	terence:	I think we need better understanding of timing game elastic demand
+00:33:55	Potuz:	I completely agree with this
+00:34:00	Potuz:	Just not the gas limit increase
+00:34:08	Dustin:	is zk proving that time-critical to ship asap?
+00:34:33	Dustin:	(i.e. in X months)
+00:34:52	Potuz:	There’s also invalid blocks
+00:35:07	Dustin:	Reacted to "There’s also inva..." with 👍
+00:36:08	Berlin People:	I don’t think 8282 is going to add 3 months to glamsterdam btw, maybe 3-4 weeks. — justin
+00:36:18	terence:	Does anyone have a good estimate for the timeline impact of EIP-8282 from the EL perspective? From the CL side, I don’t think this is too bad, but I understand EL may be different
+00:36:35	Barnabas:	Replying to "Does anyone have a g..."
+
+ELs are saying they are ready almost
+00:36:37	Nico Flaig:	Reacted to "I don’t think 8282 i..." with 👍
+00:36:39	Barnabas:	Replying to "Does anyone have a g..."
+
+so shouldn’t matter?
+00:36:57	Potuz:	I don’t think the CL side is easy, last time we changed and rushed to merge these changes in the CL-spec repo a ton of bugs were introduced in the spec
+00:37:08	Berlin People:	Replying to "Does anyone have a g..."
+
+Almost none the only impact would be because of the security review
+00:37:11	Enrico Del Fante (tbenr):	Is auditing a big part of the whole thing?
+00:37:13	Potuz:	This needs o be reviewed and Justin’s branch has thousands of lines of changes
+00:37:29	Potuz:	This will delay the fork in a non-trivial way
+00:37:37	Barnabas:	Replying to "Does anyone have a g..."
+
+1-2 mo
+00:37:37	Berlin People:	Replying to "This needs o be revi..."
+
+Thousands of lines??
+00:37:44	Toni Wahrstätter:	Blocks would on avg be bigger. Worst-case blocks would also be bigger and an increasing gas limit would contribute to that. Note, that the data repricing would improve the situation again because data will be 60% more expensive too.
+I think we can do 200-300M blocks with today's attestation deadline.
+00:37:44	terence:	Replying to "Does anyone have a g..."
+
+Sure but if it’s a few weeks then id say just wait. Hard fork itself has a coordination cost as well
+00:37:48	Potuz:	Replying to "This needs o be revi..."
+
+Your PR was +1K when you opened it
+00:37:57	Berlin People:	Replying to "This needs o be revi..."
+
+testing
+00:38:02	dan (danceratopz):	📦 SSZ-ify the Engine API (EL) - status + unblock Marius's PR, get client teams implementing
+https://github.com/ethereum/execution-apis/pull/793
+@barnabasbusa @MariusVanDerWijden
+00:38:03	Nico Flaig:	Replying to "This needs o be revi..."
+
+the cl spec side is simple/minimal
+00:38:18	Potuz:	Replying to "This needs o be revi..."
+
+Needs to be reviewed, whatever it is
+00:38:32	Barnabas:	prysm: ethpandaops/prysm-beacon-chain:syjn99-prototype-ssz-over-http
+00:38:50	terence:	Replying to "This needs o be revi..."
+
+Ya but that’s weeks not months right
+00:39:13	Maria Silva:	Replying to "Can we ship EL befor..."
+
+Another important point to this decision is that we want to give the community enough time to adapt repricings. So, even though the client dev work may be done, we should give for the ecosystem to work through the impact
+00:39:19	Potuz:	Replying to "This needs o be revi..."
+
+Yeah I don’t think this will delay months the fork
+00:39:35	Potuz:	Replying to "This needs o be revi..."
+
+But it’s a non-trivial amount and yeah I also think it’s of the order of weeks
+00:39:53	Jun Song:	Reacted to "prysm: ethpandaops/prysm-beacon-chain:syjn99-prototype-ssz-over-http" with 👍
+00:40:48	terence:	Replying to "This needs o be revi..."
+
+If it’s “weeks” then EL should just wait. Forking itself has a coordination and testing cost. They will spend more on that rather ship together (I think)
+00:40:57	dan (danceratopz):	https://github.com/ethereum/execution-apis/pull/793#issuecomment-4706520975
+00:41:16	FLCL:	Why fork names should be mentioned there
+00:41:28	Mario Vega:	Reacted to "Why fork names shoul..." with 👍🏼
+00:41:55	dan (danceratopz):	🔧 glamsterdam-devnet-5 - salvaged; bugs fixed, net recovered
+https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-5
+@barnabasbusa
+00:42:01	Potuz:	I kept trying to understand why Justin signs his messages given that his picture is there and only now read the name Berlin People.
+00:42:06	Dragan Rakita:	Replying to "Can we ship EL befor..."
+
+Ecosystem mostly learn about features when it hit the testiest, when EIP is under development they don’t know if EIP is going to be removed or not.
+00:42:12	Berlin People:	Reacted to "I kept trying to und..." with 😄
+00:42:13	Mario Vega:	Replying to "Why fork names shoul..."
+
+I don’t like this either but not I hill I would die on
+00:42:14	Jun Song:	Reacted to "I kept trying to understand why Justin signs his messages given that his picture is there and only now read the name Berlin People." with 😄
+00:42:56	Barnabas:	wasn’t it for a payload that was missing?
+00:43:18	terence:	Are we getting the data columns before the block and pending queue is not working as expected?
+00:43:26	Berlin People:	Reacted to "If it’s “weeks” then..." with 👍
+00:43:35	Nico Flaig:	Reacted to "If it’s “weeks” then..." with 👍
+00:43:55	Potuz:	Replying to "wasn’t it for a payl..."
+
+Over gossip we get the payload and then we fail to get the columns
+00:44:08	Potuz:	Replying to "wasn’t it for a payl..."
+
+That drops us from syncing cause the chain advances over that payload
+00:44:10	Barnabas:	do we want ssz engine changes for all forks or only for amsterdam forward?
+00:44:26	spencer:	we should aim for next monday
+00:44:27	spencer:	imo
+00:45:05	Dustin:	unify the devnets
+00:45:10	Stefan Starflinger:	there are no EL devnets
+00:46:05	dan (danceratopz):	EL tracker for glamsterdam-devnet-76
+https://github.com/ethereum/execution-specs/issues/2915
+00:46:19	spencer:	Replying to "EL tracker for gla..."
+
+6*
+00:46:22	Jun Song:	Replying to "do we want ssz engin..."
+
+I think it’d be great to support from fusaka, just because we have stable codebase running on rn and it seems like orthogonal with forks.
+00:47:29	Barnabas:	can we make the call for 8282?
+00:47:38	Enrico Del Fante (tbenr):	Let’s put it in
+00:47:38	dan (danceratopz):	Replying to "EL tracker for glams..."
+
+lulz
+00:47:39	Stefan Starflinger:	Reacted to "can we make the call..." with 🛳️
+00:47:42	Nico Flaig:	Reacted to "can we make the call..." with 🛳️
+00:47:45	Barnabas:	Replying to "can we make the call..."
+
+Don’t wanna wait till thursday for this
+00:47:58	Potuz:	We can start working on it even if there’s no call on it
+00:48:07	spencer:	Sure lets add it! haha
+00:48:14	Justin Florentine (Besu):	Replying to "can we make the call..."
+
+are we clear on how much of a threat the dos is?
+00:48:34	terence:	It’s just replacing the current one
+00:48:52	Barnabas:	Replying to "can we make the call..."
+
+yeah pretty clear at this point I’d say
+00:49:10	Potuz:	Replying to "can we make the call..."
+
+There’s no threat justin
+00:49:15	Potuz:	Replying to "can we make the call..."
+
+The attack does not really exist
+00:49:24	Potuz:	Replying to "can we make the call..."
+
+But it’s a good EIP nonetheless
+00:49:34	Berlin People:	Replying to "can we make the call..."
+
+lol
+00:49:51	FLCL:	Reacted to "I don’t like this ei..." with 🤷
+00:50:01	Potuz:	Is there a breakout on the CL side?
+00:50:03	Eitan Seri-Levi:	Can u throw me in cl breakout pls
