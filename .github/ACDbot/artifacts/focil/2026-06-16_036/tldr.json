@@ -1,0 +1,60 @@
+{
+  "meeting": "FOCIL Breakout #36 - June 16, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:05:23",
+        "highlight": "Lodestar rebased on Glamsterdam devnet-5; bit serialization bug (Gloas version) confirmed fixed"
+      },
+      {
+        "timestamp": "00:05:44",
+        "highlight": "Censoring builder branch works; Bharath to retest against latest Lodestar branch tomorrow"
+      },
+      {
+        "timestamp": "00:07:23",
+        "highlight": "Lighthouse rebased on Glamsterdam devnet-5; FOCIL implementation still being tested"
+      }
+    ],
+    "focil_spec_changes": [
+      {
+        "timestamp": "00:09:43",
+        "highlight": "IL bitlists decided for removal: can be faked by builders; no enforcement mechanism; engine API unchanged for now"
+      },
+      {
+        "timestamp": "00:20:37",
+        "highlight": "Payload status V2 proposed: adds 'latest IL-satisfied hash' field to clarify IL compliance across branches"
+      },
+      {
+        "timestamp": "00:22:03",
+        "highlight": "Accepted payloads (non-canonical branch) treated as IL-compliant by CL; EL must cache IELTs for head (and possibly parent) payload only"
+      },
+      {
+        "timestamp": "00:47:03",
+        "highlight": "Non-finality circuit breaker: rough consensus to turn off IL enforcement after 1 epoch without finality (down from current 2-epoch threshold); to be confirmed via Discord"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:52:40",
+      "action": "Open Discord thread on 1-epoch vs 2-epoch non-finality threshold for IL enforcement; gather broader input from client teams",
+      "owner": "Jihoon"
+    },
+    {
+      "timestamp": "00:57:28",
+      "action": "Prepare write-up and spec PR covering: payload status V2, accepted-payload IL handling, and non-finality circuit breaker; coordinate test case changes with Felix",
+      "owner": "Jihoon"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:20:23",
+      "decision": "IL bitlists removed from spec; engine API kept as-is; EL deduplication of IELTs deferred to future change"
+    },
+    {
+      "timestamp": "00:47:03",
+      "decision": "IL enforcement turned off during non-finality (circuit breaker); 1-epoch threshold preferred over 2; final value to be confirmed after broader review"
+    }
+  ],
+  "targets": []
+}
