@@ -1,0 +1,72 @@
+{
+  "meeting": "Post-Quantum (PQ) Interop #44 - June 17, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:10:51",
+        "highlight": "Zeam: proof merging taking too long on normal hardware; i7 (20-core/28-thread) meets 0.4\u20130.5s target; optimizations and early type-1 aggregation in previous slot being explored"
+      },
+      {
+        "timestamp": "00:15:52",
+        "highlight": "Ream: excessive memory usage (up to 28 GB) on DevNet 4; new allocator, improved pruning, and block processing fixes underway before moving to DevNet 5"
+      },
+      {
+        "timestamp": "00:17:29",
+        "highlight": "Lantern: snappy decoding error root cause found and fixed; block building averages 0.9s (aggregation only, excludes final block proof)"
+      },
+      {
+        "timestamp": "00:21:08",
+        "highlight": "Ethlambda: unified branch sync, fork-choice/finality alignment with lean spec; Gloas prototype started for DevNet 6 proposal"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:24:10",
+        "highlight": "DevNet 5: type-2 final block proof taking 2.5\u20132.6s on normal machines; exceeds 4s slot budget for 35% of Grandine's builds, causing late proposals and bumpy finalization"
+      },
+      {
+        "timestamp": "00:26:07",
+        "highlight": "Three options discussed to address proof timing: bump machine specs to i7-class, increase slot time to 12s, or optimize type-2 proving; optimization headroom uncertain"
+      },
+      {
+        "timestamp": "00:29:12",
+        "highlight": "Current DevNet 5 branch uses full-size XMSS signatures; smaller XMSS variant in progress may improve proving times"
+      }
+    ],
+    "documentation": [
+      {
+        "timestamp": "00:30:36",
+        "highlight": "lean spec simplification nearly complete: unused functions removed, documentation condensed, more tests added; slides being prepared to share with EF this week"
+      },
+      {
+        "timestamp": "00:32:43",
+        "highlight": "Plonky3: multilinear proving system skeleton merged; incremental push toward multilinear backend alongside existing univariate FRI system"
+      }
+    ],
+    "eip_proposals_devnet6": [
+      {
+        "timestamp": "00:22:00",
+        "highlight": "Ethlambda proposing Gloas prototype for DevNet 6 consideration"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:35:10",
+      "action": "Client teams review lean spec PR #791 (block building algorithm) for implementation guidance on attestation scoring and proof-aware block construction",
+      "owner": "All lean client teams"
+    },
+    {
+      "timestamp": "00:29:53",
+      "action": "Post async message to channel for Emil on type-2 proof optimization headroom and slot timing options",
+      "owner": "Thomas Coratger"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:37:30",
+      "decision": "lean spec PR #791 (optimized block building) will not be merged into spec as-is; clients encouraged to use it as implementation guidance; may be added as a separate named optional function"
+    }
+  ],
+  "targets": []
+}

@@ -1,0 +1,1022 @@
+WEBVTT
+
+1
+00:09:04.570 --> 00:09:06.270
+Thomas Coratger: Hello, everyone.
+
+2
+00:09:16.070 --> 00:09:18.590
+Thomas Coratger: So, let's start…
+
+3
+00:09:22.810 --> 00:09:30.630
+Thomas Coratger: So today, I think that what we can do is, as usual, like, a client update, then…
+
+4
+00:09:30.880 --> 00:09:36.709
+Thomas Coratger: I will talk briefly about, like, lean spec simplification,
+
+5
+00:09:37.220 --> 00:09:45.990
+Thomas Coratger: I have moved quite fast on this, and I am preparing, like, now… between now and the end of the week, some slides.
+
+6
+00:09:46.460 --> 00:09:49.840
+Thomas Coratger: to share with the other, within the EF.
+
+7
+00:09:50.190 --> 00:09:55.480
+Thomas Coratger: about the progress that we recently had about the inspec,
+
+8
+00:09:56.310 --> 00:10:02.590
+Thomas Coratger: and the future of the inspect, maybe. So I am preparing that, with some…
+
+9
+00:10:02.870 --> 00:10:07.399
+Thomas Coratger: upcoming… upcoming simplification, but I think that we are pretty good right now.
+
+10
+00:10:07.490 --> 00:10:25.440
+Thomas Coratger: So we can talk about this, and then we can finish with some DevNet 5 discussions around, like, maybe your debugging issues, or stability issues, or anything you feel is important. I have seen a couple of messages in the chat that we can discuss.
+
+11
+00:10:25.820 --> 00:10:37.750
+Thomas Coratger: I think that a couple of people are not there from the EF, because there is, like, some events around the world this week.
+
+12
+00:10:37.980 --> 00:10:43.850
+Thomas Coratger: But let's get started, with first client updates. So, the Zoom team first.
+
+13
+00:10:46.560 --> 00:10:51.039
+Gajinder Singh: Thanks, Tomar. Yeah, so we have been working on,
+
+14
+00:10:51.480 --> 00:11:05.770
+Gajinder Singh: DevNet5, making our client more stable, fixing issues that we are seeing across. We ran shadow sims in which we were getting stalled, so we fixed some issues around that. And then, while running,
+
+15
+00:11:06.120 --> 00:11:11.020
+Gajinder Singh: Zoom or normal… normal clients, on normal machines, we noticed that
+
+16
+00:11:11.310 --> 00:11:23.370
+Gajinder Singh: roof merging is taking a whole lot of time, so we tried to run on different machines, and we noticed that on a heavy machine like i7,
+
+17
+00:11:26.750 --> 00:11:34.800
+Gajinder Singh: But in Jen, we were able to get the proof merged, like, in the required amount of time, like, in .4 seconds or 0.5 seconds.
+
+18
+00:11:34.950 --> 00:11:49.129
+Gajinder Singh: So basically, we… we need to really, work on the efficiency of proof merging. We also intend to deep debug into scenarios
+
+19
+00:11:49.390 --> 00:11:54.689
+Gajinder Singh: There, where splitting is required, and, measure its.
+
+20
+00:11:55.090 --> 00:12:01.319
+Thomas Coratger: when you mean proof merging, you mean when you have two proofs, and you aggregate the two proofs? This is what you mean?
+
+21
+00:12:01.320 --> 00:12:11.729
+Gajinder Singh: Yes, so… so the proposer, after basically, you know, it signs the block, it needs to aggregate the multi-message proof into the final block proof.
+
+22
+00:12:11.730 --> 00:12:12.910
+Thomas Coratger: So that's…
+
+23
+00:12:12.910 --> 00:12:16.580
+Gajinder Singh: That is a proof that I'm talking about, and…
+
+24
+00:12:16.580 --> 00:12:30.079
+Thomas Coratger: This is the aggregation layer, like, the recursive aggregation layer. Not when you… not when you produce a proof of row signatures, when you produce a proof from two proofs, right?
+
+25
+00:12:30.660 --> 00:12:42.300
+Gajinder Singh: Correct. So in recursive, right, so there is… there are two types, of things that are running, right? There is type 1 recursion, which is happening for… where the data message is same.
+
+26
+00:12:42.390 --> 00:12:51.690
+Gajinder Singh: And, we basically need to scale and see what are the metrics that are over there, but even before that, we need to basically make sure that
+
+27
+00:12:51.870 --> 00:12:56.889
+Gajinder Singh: We are able to prove, to, have a multi-message,
+
+28
+00:12:57.360 --> 00:13:06.289
+Gajinder Singh: block proof in the right amount of time, because otherwise, for example, the block proposal is getting pushed to the last interval.
+
+29
+00:13:06.440 --> 00:13:19.709
+Gajinder Singh: Of a particular slot, which basically means that everything is late for everybody, even though, people, even though nodes are able to attest and justifications are able to move, but everybody's voting late.
+
+30
+00:13:19.860 --> 00:13:30.110
+Gajinder Singh: And, it might basically lead to instability in the network. So… so we… we basically noticed that on a machine like Core i7,
+
+31
+00:13:30.360 --> 00:13:38.329
+Gajinder Singh: Basically, which is… which is 20-core machine with 28 threads, you are able to produce that proof in time.
+
+32
+00:13:38.540 --> 00:13:42.000
+Gajinder Singh: And, so… so we need to basically work on that.
+
+33
+00:13:42.070 --> 00:13:55.199
+Gajinder Singh: And what we also already have started working on is what I discussed last time as well, is to also start type 1 aggregation beforehand, right? So, in the last interval of the previous slot.
+
+34
+00:13:55.240 --> 00:14:04.019
+Gajinder Singh: So if you know that you are a proposer, next lot, then you start early, and you start basically working on at least
+
+35
+00:14:04.280 --> 00:14:10.590
+Gajinder Singh: at least the type, at least the aggregate… aggregation of…
+
+36
+00:14:10.730 --> 00:14:19.559
+Gajinder Singh: attestations, right? So… so we… we are working on those optimizations, and the PR is up, and we basically need to
+
+37
+00:14:19.850 --> 00:14:29.399
+Gajinder Singh: test it, debug it, and then we also need to, as I said, test and debug the split-proof mechanism, because
+
+38
+00:14:29.500 --> 00:14:35.390
+Gajinder Singh: If there is a movement on… On a, branch.
+
+39
+00:14:35.570 --> 00:14:41.700
+Gajinder Singh: Which is basically not the main branch, then we need to also include its
+
+40
+00:14:41.970 --> 00:14:44.820
+Gajinder Singh: At restrications on the main branch.
+
+41
+00:14:44.930 --> 00:14:49.369
+Gajinder Singh: So, we basically also need to figure out and test and run those scenarios.
+
+42
+00:14:49.680 --> 00:14:54.679
+Gajinder Singh: Apart from that, we are working on integrating
+
+43
+00:14:54.790 --> 00:15:11.669
+Gajinder Singh: ZigglyP2P, so there is that, track of work and debugging is also going on. So we have achieved some success in integrating a Ziggly P2P version, and we are figuring out what the issues are coming up on that.
+
+44
+00:15:12.000 --> 00:15:23.029
+Gajinder Singh: And, so… so that we can basically then have a stable interop. It won't be a full Ziggly P2P, because we are only concerned about, what…
+
+45
+00:15:23.130 --> 00:15:27.990
+Gajinder Singh: is required in Zeam and Lean, Ethereum as of now.
+
+46
+00:15:28.230 --> 00:15:31.589
+Gajinder Singh: And we will basically keep adding the features as we go along.
+
+47
+00:15:32.170 --> 00:15:35.770
+Gajinder Singh: Apart from that, we also,
+
+48
+00:15:36.050 --> 00:15:40.949
+Gajinder Singh: updated our client with the spec improvement PRs that have been happening.
+
+49
+00:15:41.210 --> 00:15:45.260
+Gajinder Singh: So… Yeah, it's bus… been a busy week.
+
+50
+00:15:48.550 --> 00:15:51.569
+Thomas Coratger: Okay, great. Thanks a lot, Ream.
+
+51
+00:15:52.100 --> 00:15:54.270
+Shariq Naiyer: tweet. How's it going, guys?
+
+52
+00:15:54.270 --> 00:16:13.679
+Shariq Naiyer: So, on the… on the Ream front, we have been keeping up to date with the spec, stability fixes that have been brought up. On the DevNet 5… on the DevNet 5 front, we're doing some local testing, but from what we find, it's, slightly more resource-intensive than DevNet 4. So we have been taking the time
+
+53
+00:16:13.760 --> 00:16:14.600
+Shariq Naiyer: to…
+
+54
+00:16:15.070 --> 00:16:32.949
+Shariq Naiyer: to run 24 validator deemed DevNets, and what we found… DevNet 4 DevNets, because I want to fix out some of the issues that we were having with excessive memory usage, like, finalization delays, justification delays,
+
+55
+00:16:32.950 --> 00:16:57.939
+Shariq Naiyer: because we know, off the resources usage of DevNet 4, I want to fix these issues on Ream in DevNet 4 before we start, because, like, the… I would see sometimes that the RAM usage would grow up to, like, 28 GBs. So these are things I want to fix in DevNet 4 before we move over to DevNet 5. And yeah, that's what we have been… so, we put a new memory app
+
+56
+00:16:57.940 --> 00:17:02.210
+Shariq Naiyer: allocator, that has, that has, we've improved pruning.
+
+57
+00:17:02.520 --> 00:17:13.750
+Shariq Naiyer: And we've improved, like, block processing times and minor fixes here and there that have improved the performance quite a bit. So I aim to be moving to DevNet 5, pretty soon now.
+
+58
+00:17:17.540 --> 00:17:20.170
+Thomas Coratger: Okay, great. Clean.
+
+59
+00:17:28.010 --> 00:17:29.420
+Thomas Coratger: London?
+
+60
+00:17:29.990 --> 00:17:48.909
+Mihir Faujdar: Yep, thanks, Thomas. Hi, everyone. So for last week, I found the likely root cause, for the snappy decoding error that was, being reported in Zeam, and have implemented, those fixes, and then published the image last week.
+
+61
+00:17:49.100 --> 00:18:06.089
+Mihir Faujdar: And as well as added support for the aggregator skipped metric, that was… that'll be helpful for debugging. And for this week, I've just been, working on small optimizations for block building. Basically,
+
+62
+00:18:06.180 --> 00:18:19.090
+Mihir Faujdar: in order to measure that, I've been running the DevNet locally with just, 3 other clients, with Lantern being the aggregator, but, on average, you know, it would take
+
+63
+00:18:19.390 --> 00:18:26.870
+Mihir Faujdar: 0.9 seconds, so any improvements I add, outside of the…
+
+64
+00:18:27.130 --> 00:18:42.150
+Mihir Faujdar: the cryptographic library, like, if I'm blowing optimization lantern, it's hard to measure, so basically I'm planning to test with larger number of valid… like, increasing the valid account and the nodes,
+
+65
+00:18:42.440 --> 00:18:51.669
+Mihir Faujdar: And, as well as, I'm still currently exploring pathways to speed up the aggregation duties. Thank you.
+
+66
+00:18:53.410 --> 00:18:55.709
+Mihir Faujdar: Yep, this is for depth at 5, sorry.
+
+67
+00:18:58.330 --> 00:19:00.889
+Thomas Coratger: Okay, great. Eat Thunder.
+
+68
+00:19:00.890 --> 00:19:05.329
+Gajinder Singh: In DevNet… in DevNet 5, you are getting about,
+
+69
+00:19:05.460 --> 00:19:08.419
+Gajinder Singh: 0.9 seconds to do a block proposal?
+
+70
+00:19:08.870 --> 00:19:15.929
+Mihir Faujdar: Yes, basically the metric that I'm measuring Just one second…
+
+71
+00:19:18.280 --> 00:19:21.850
+Mihir Faujdar: Yeah, so there's a… in Lean, we have,
+
+72
+00:19:22.040 --> 00:19:24.489
+Mihir Faujdar: Lean metrics, we have lean block building.
+
+73
+00:19:24.900 --> 00:19:28.720
+Mihir Faujdar: time seconds. So that's the metric I'm measuring, yeah.
+
+74
+00:19:30.530 --> 00:19:37.820
+Gajinder Singh: block building time could just be without the final block proof. So, does that include the final block proof, or not?
+
+75
+00:19:40.330 --> 00:19:52.909
+Mihir Faujdar: So currently it's just, so currently I have, you know, Zeam, Lambda, and Lantern. So those are the clients I'm running. This is for DevNet5.
+
+76
+00:19:53.060 --> 00:19:57.580
+Mihir Faujdar: Basically, it measures the… so it basically starts the clock,
+
+77
+00:19:58.210 --> 00:20:03.819
+Mihir Faujdar: And then it calls the, you know, the C leanVM bindings library.
+
+78
+00:20:04.090 --> 00:20:08.369
+Mihir Faujdar: Which calls the function to, you know, create the…
+
+79
+00:20:08.940 --> 00:20:19.649
+Mihir Faujdar: like, merge the proofs, and then basically return the bytes, and it stops the timer. I guess that's what the, lean block building time seconds is measuring.
+
+80
+00:20:20.820 --> 00:20:26.209
+Gajinder Singh: So, there are two kind of things that are happening. One is, basically, you are aggregating
+
+81
+00:20:26.340 --> 00:20:35.800
+Gajinder Singh: the aggregation, payloads, right? And the second thing is then you create a final block proof. So, does that include the final block proof or not?
+
+82
+00:20:35.800 --> 00:20:39.430
+Mihir Faujdar: No, it's only for block, block building, yeah.
+
+83
+00:20:40.100 --> 00:20:42.919
+Mihir Faujdar: Yeah, so as I mentioned earlier, I'm still…
+
+84
+00:20:43.040 --> 00:20:56.750
+Mihir Faujdar: So, like, primarily focus was block building. I am still currently exploring optimizations for just aggregator duty, yeah, which just includes the, you know, the single message aggregates, yeah.
+
+85
+00:21:03.450 --> 00:21:07.040
+Thomas Coratger: Okay, thanks, guys. Ethlambda.
+
+86
+00:21:08.210 --> 00:21:09.239
+Pablo Deymo | Lambda: Hello, hello.
+
+87
+00:21:09.760 --> 00:21:14.219
+Pablo Deymo | Lambda: We… we merged the Unified Support for Membrance.
+
+88
+00:21:14.780 --> 00:21:24.219
+Pablo Deymo | Lambda: We align, fourth choice finality and aggregate validation, sync status heuristic with lean spec.
+
+89
+00:21:25.270 --> 00:21:32.619
+Pablo Deymo | Lambda: Long Branch Sync now uses blocks by branch instead of one block at a time request.
+
+90
+00:21:33.230 --> 00:21:44.160
+Pablo Deymo | Lambda: In the metric side, we implemented the cross-plane lean agroator skid total counter, attributes.
+
+91
+00:21:44.800 --> 00:21:46.800
+Pablo Deymo | Lambda: They said?
+
+92
+00:21:47.980 --> 00:21:50.349
+Pablo Deymo | Lambda: Missing aggravation by reason, sorry.
+
+93
+00:21:50.600 --> 00:21:52.990
+Pablo Deymo | Lambda: That we talked last week.
+
+94
+00:21:53.410 --> 00:22:00.590
+Pablo Deymo | Lambda: And we also started working on something related, or some kind of proposal for DevNet 6.
+
+95
+00:22:00.740 --> 00:22:04.190
+Pablo Deymo | Lambda: We are implementing a Gloas prototype.
+
+96
+00:22:04.460 --> 00:22:06.220
+Pablo Deymo | Lambda: To propose it for us.
+
+97
+00:22:06.480 --> 00:22:09.250
+Pablo Deymo | Lambda: Maybe for W6, or for a future deadlines.
+
+98
+00:22:10.270 --> 00:22:12.589
+Pablo Deymo | Lambda: So that's it for our side. Thank you.
+
+99
+00:22:15.590 --> 00:22:17.820
+Thomas Coratger: Great, thank you.
+
+100
+00:22:18.570 --> 00:22:19.570
+Thomas Coratger: Gean?
+
+101
+00:22:21.260 --> 00:22:24.650
+bankat: Thank you. Hello, everyone.
+
+102
+00:22:24.780 --> 00:22:27.930
+bankat: So, this week on DevNet 5,
+
+103
+00:22:28.480 --> 00:22:35.200
+bankat: we focused on bringing Gean up to date with the latest lean spec changes.
+
+104
+00:22:35.520 --> 00:22:50.860
+bankat: So, while most of those updates were more of documentation, improvements, and internal refactoring, I guess the review process helped us to identify and address a couple of areas where…
+
+105
+00:22:50.990 --> 00:23:00.240
+bankat: our behavior could diverge from the specification. So, based on the review, we've now…
+
+106
+00:23:01.030 --> 00:23:05.320
+bankat: Align those cases with the expected behavior.
+
+107
+00:23:05.820 --> 00:23:17.269
+bankat: So, this will help to ensure that Gean remains consistent with other implementations, and reducing any risk of interoperability issues.
+
+108
+00:23:17.470 --> 00:23:31.449
+bankat: So, for the leanVM side, everything is still stable, and we don't anticipate any impact from recent, reference implementation updates we've made.
+
+109
+00:23:31.450 --> 00:23:40.619
+bankat: So, looking ahead, immediate focus for DevNet 5 is to continue testing against the live, multi-client interop.
+
+110
+00:23:40.640 --> 00:23:52.430
+bankat: while we keep tracking specification updates, and also stay aligned with development as we move forward. So that is it from Gean's side. Thank you.
+
+111
+00:23:56.390 --> 00:23:59.250
+Thomas Coratger: Great, Grandine?
+
+112
+00:24:01.920 --> 00:24:04.379
+Boma: Hi, good afternoon. I don't know if I'm huggable.
+
+113
+00:24:06.770 --> 00:24:07.829
+Boma: Sorry, am I audible?
+
+114
+00:24:07.830 --> 00:24:10.040
+Thomas Coratger: Yeah, yeah, sure. Yeah, sure.
+
+115
+00:24:10.040 --> 00:24:11.930
+Boma: Sorry. So,
+
+116
+00:24:12.450 --> 00:24:21.460
+Boma: last week, we bumped our gossips of MQFix, and then, we noticed some things while running the demo locally. For example, the…
+
+117
+00:24:21.800 --> 00:24:22.500
+Boma: Oh.
+
+118
+00:24:23.790 --> 00:24:30.749
+Boma: The, type 2 final block proof stack, like, it's up more than the, 4 second, time slot.
+
+119
+00:24:31.040 --> 00:24:41.739
+Boma: So, we currently have, 30… 35% of builds, and then the fourth second slot budget on every block we proposed, which is pushing late,
+
+120
+00:24:42.210 --> 00:24:48.649
+Boma: Proposals, and then… the finalization was sort of bumpy because of this, so I…
+
+121
+00:24:49.070 --> 00:24:53.520
+Boma: although, Camille did mention that we need to look, sort of, like, look into,
+
+122
+00:24:53.880 --> 00:24:56.170
+Boma: Bumping up the timing a little bit.
+
+123
+00:24:56.280 --> 00:25:01.219
+Boma: I don't know what… that's another question I want to ask.
+
+124
+00:25:02.090 --> 00:25:06.440
+Boma: If that is something we're trying to consider also.
+
+125
+00:25:13.390 --> 00:25:16.950
+Thomas Coratger: Sorry, can you repeat the end of your point?
+
+126
+00:25:17.280 --> 00:25:25.279
+Boma: So, I was trying to say, while running the DevNet5, we noticed some things with, the type 2, proofs.
+
+127
+00:25:25.380 --> 00:25:26.870
+Boma: It's sort of like…
+
+128
+00:25:27.050 --> 00:25:32.449
+Boma: eats up some time, so finalization is a lot of, sort of bumpy. It doesn't happen…
+
+129
+00:25:32.600 --> 00:25:35.800
+Boma: The… on the normal way it should happen, so…
+
+130
+00:25:35.950 --> 00:25:42.080
+Boma: I'm asking, do we kind of, like, bump the timing a little bit? Because Camille did mention about it last week.
+
+131
+00:25:42.650 --> 00:25:48.779
+Boma: he did say, we need to look into bumping either the 800MX or the 4 seconds time slot.
+
+132
+00:25:51.950 --> 00:26:00.100
+Thomas Coratger: like, I am not sure, but the gender, is it not related to the problem you mentioned when you say that this is kind of type 2 proof?
+
+133
+00:26:00.680 --> 00:26:04.520
+Thomas Coratger: take a long time to… to be aggregated.
+
+134
+00:26:05.190 --> 00:26:07.440
+Gajinder Singh: It is the same problem, and
+
+135
+00:26:07.620 --> 00:26:09.980
+Gajinder Singh: Either we bump up the specs.
+
+136
+00:26:10.260 --> 00:26:15.860
+Gajinder Singh: of the machine to something like, Core i7, which is, I mean.
+
+137
+00:26:15.990 --> 00:26:25.040
+Gajinder Singh: On a very high site… on a very high site, or we improve the efficiency of type 2 proofs, or we basically increase
+
+138
+00:26:25.290 --> 00:26:34.330
+Gajinder Singh: So we will have to increase the slot all the way to 12 seconds, because on a normal machine, it is taking, like, 2.6 seconds of
+
+139
+00:26:34.780 --> 00:26:36.860
+Gajinder Singh: Type, 2…
+
+140
+00:26:37.080 --> 00:26:44.969
+Gajinder Singh: Proof… proofing, and if we basically say that, we will just… so if neither the optimization and nor…
+
+141
+00:26:45.300 --> 00:26:48.709
+Gajinder Singh: The hardware bump is to be expected, then we will have to bump up
+
+142
+00:26:49.280 --> 00:26:51.660
+Gajinder Singh: The time to 12-second slot.
+
+143
+00:26:51.850 --> 00:26:58.149
+Gajinder Singh: But I think, I'm assuming that there is a lot of optimization juice that can be squeezed out.
+
+144
+00:26:58.480 --> 00:27:06.150
+Gajinder Singh: For the type, 2 proof, and since Type 1 can also, start
+
+145
+00:27:06.630 --> 00:27:11.100
+Gajinder Singh: In the previous interval, typhoon aggregation can also start in the previous interval itself.
+
+146
+00:27:11.220 --> 00:27:20.609
+Gajinder Singh: So, that will give a whole lot of breathing space for type 2 proof. But again, it is currently at 2.5, 2.6 seconds, and…
+
+147
+00:27:20.950 --> 00:27:28.309
+Gajinder Singh: Squeezing it to less than 0.8 second, On a normal… machine is, I'm assuming.
+
+148
+00:27:28.640 --> 00:27:30.690
+Gajinder Singh: It's going to be hard as…
+
+149
+00:27:37.110 --> 00:27:38.639
+Thomas Coratger: Yeah, please, mercy.
+
+150
+00:27:40.170 --> 00:27:45.189
+Boma: Yeah, okay, I just wanted to also mention that we are actually not doing the it's,
+
+151
+00:27:45.940 --> 00:27:59.180
+Boma: as a station park entrance, we were only going with 4, because that was the reason why we had to, like, reduce this to… instead of 8, we went with 4. But, the deadline is still, like, the proof is still, like, surpassing the deadline, so…
+
+152
+00:28:00.380 --> 00:28:02.089
+Boma: Just wanted to add to that.
+
+153
+00:28:09.640 --> 00:28:14.999
+Gajinder Singh: So, I think the primary question is that, what kind of…
+
+154
+00:28:15.520 --> 00:28:19.030
+Gajinder Singh: speedup slash optimization do we expect in Type 2?
+
+155
+00:28:19.560 --> 00:28:20.440
+Gajinder Singh: Proving.
+
+156
+00:28:20.740 --> 00:28:25.569
+Gajinder Singh: So, I guess that would basically tell us what path to follow on.
+
+157
+00:28:28.810 --> 00:28:36.849
+Thomas Coratger: I think Amy is not here, because he's at some event right now, but I think that he's the one,
+
+158
+00:28:37.090 --> 00:28:39.870
+Thomas Coratger: With the most answers about this topic.
+
+159
+00:28:40.770 --> 00:28:46.020
+Thomas Coratger: I don't know exactly,
+
+160
+00:28:46.650 --> 00:28:55.229
+Thomas Coratger: the margin that we have in terms of improvement, but I think that, for example, this is not a 2X. If you expect a 2X, this will not be a 2X.
+
+161
+00:28:55.890 --> 00:29:01.029
+Thomas Coratger: so yeah, we should probably ask him.
+
+162
+00:29:01.710 --> 00:29:12.199
+Thomas Coratger: Also, this is important, like, the branch that we are using right now, I think this is the branch of the proven, like, XMSS.
+
+163
+00:29:12.730 --> 00:29:19.219
+Thomas Coratger: which is the EV XMSS, but right now is working on some smaller XMSS signature.
+
+164
+00:29:19.480 --> 00:29:22.789
+Thomas Coratger: And so, this may improve as well.
+
+165
+00:29:23.130 --> 00:29:24.939
+Thomas Coratger: our results, yeah?
+
+166
+00:29:25.260 --> 00:29:28.110
+Thomas Coratger: But we have no proof for now.
+
+167
+00:29:29.420 --> 00:29:32.589
+Thomas Coratger: So yeah, this is something that we can discuss async.
+
+168
+00:29:33.880 --> 00:29:45.279
+Thomas Coratger: I heard you, like, we have a couple of staff to discuss, either increasing the machine requirements, or maybe increasing the time,
+
+169
+00:29:45.590 --> 00:29:49.160
+Thomas Coratger: For a slot inside the spec, or maybe,
+
+170
+00:29:49.310 --> 00:29:52.040
+Thomas Coratger: Having a better efficiency on the proof.
+
+171
+00:29:52.280 --> 00:29:53.170
+Thomas Coratger: So, yeah.
+
+172
+00:29:53.980 --> 00:29:58.150
+Thomas Coratger: Let me note to that point, and we can discuss that async.
+
+173
+00:30:06.240 --> 00:30:07.270
+Thomas Coratger: But yes.
+
+174
+00:30:07.990 --> 00:30:14.880
+Thomas Coratger: I will post a message async on the channel so that Emil can see it later.
+
+175
+00:30:15.090 --> 00:30:15.970
+Thomas Coratger: Mmm…
+
+176
+00:30:17.100 --> 00:30:29.660
+Thomas Coratger: about, like, some follow-up discussions. So, let me first, talk a bit about the spec and our research client update and stuff like this. Spec update, sorry.
+
+177
+00:30:30.240 --> 00:30:36.360
+Thomas Coratger: So, as mentioned, and I have worked a lot on the lean spec simplification.
+
+178
+00:30:36.720 --> 00:30:39.310
+Thomas Coratger: Because we want to showcase that to…
+
+179
+00:30:39.430 --> 00:30:48.840
+Thomas Coratger: to some people, and so I am preparing right now some slides. After polishing a bit the spec, I think that I am… now this is quite polished, and so…
+
+180
+00:30:49.340 --> 00:31:04.399
+Thomas Coratger: I am able to prepare some slides to showcase what we are doing. I have done, like, a couple of audits of the spec, trying myself to find bugs, plus some agents, plus some other stuff, plus some testing, plus some other…
+
+181
+00:31:04.530 --> 00:31:06.770
+Thomas Coratger: some other tunings.
+
+182
+00:31:07.050 --> 00:31:12.799
+Thomas Coratger: So that I think that right now, this is pretty much ready.
+
+183
+00:31:13.370 --> 00:31:21.759
+Thomas Coratger: even if we can improve it a lot, I feel like for, let's say,
+
+184
+00:31:21.900 --> 00:31:27.440
+Thomas Coratger: a project where we have a small number of people interacting with. This is pretty cool.
+
+185
+00:31:27.660 --> 00:31:39.199
+Thomas Coratger: So, I will prepare some slides. I can share the slides later this week or beginning of next week with you on the channel, so that you can see what we are discussing.
+
+186
+00:31:39.470 --> 00:31:43.570
+Thomas Coratger: But mostly I have conducting, like, some…
+
+187
+00:31:43.840 --> 00:31:56.090
+Thomas Coratger: audits about the Python aspect of the spec. For example, if we can use any standard library function instead of 10 lines of code, then I have replaced that.
+
+188
+00:31:56.120 --> 00:32:04.639
+Thomas Coratger: or if some functions are unused, or useless, or badly typed, I have removed that as well.
+
+189
+00:32:04.740 --> 00:32:16.249
+Thomas Coratger: sometimes we had big blocks of documentation that we generated on the fly with AI and stuff like this. I have tried to make this…
+
+190
+00:32:16.770 --> 00:32:26.759
+Thomas Coratger: quite condensate in order to be readable and everything like this, while keeping all of the details of the papers and the justifications and stuff.
+
+191
+00:32:27.040 --> 00:32:37.879
+Thomas Coratger: I have also tried to add more… more tests, so that you guys can consume these tests and be sure that all of your things are correct.
+
+192
+00:32:38.190 --> 00:32:43.100
+Thomas Coratger: We had, like, quite a,
+
+193
+00:32:43.850 --> 00:32:52.990
+Thomas Coratger: also strong past weeks with the Plonky3, because in Plonky3, we merged, like, a couple of different stuff. We received also some…
+
+194
+00:32:53.150 --> 00:33:00.589
+Thomas Coratger: bugs reports or stuff like this from external people, so we solved a lot of them within Weir and outside of WEIR.
+
+195
+00:33:00.690 --> 00:33:05.570
+Thomas Coratger: Right now, also, we merged yesterday the skeleton of,
+
+196
+00:33:05.790 --> 00:33:13.580
+Thomas Coratger: multilinear proving system within Plonky3, because before, we just had a univariate fry-based
+
+197
+00:33:14.720 --> 00:33:33.680
+Thomas Coratger: proving system within Plonky3 only, and no multilinear stuff, end-to-end. We just had WIR, which is only the PCS, but not the world proving system with the constraints and stuff like this. So yesterday, we had the skeleton for this, and we are incrementally,
+
+198
+00:33:33.730 --> 00:33:37.599
+Thomas Coratger: pushing this into Plonky3 so that we will be able to have this kind of…
+
+199
+00:33:37.750 --> 00:33:42.570
+Thomas Coratger: multi-linear proving backend a little bit like LeanVM within Project 3.
+
+200
+00:33:42.760 --> 00:33:55.999
+Thomas Coratger: Regarding leanVM, Amy is not there, as mentioned, but he's working on continuous improvements and thinking about maybe the future of proving system and stuff like this.
+
+201
+00:33:56.230 --> 00:34:01.179
+Thomas Coratger: With different branches, different source of optimization, different steps.
+
+202
+00:34:01.510 --> 00:34:05.239
+Thomas Coratger: That we are discussing right now internally.
+
+203
+00:34:05.890 --> 00:34:11.250
+Thomas Coratger: So yeah, that is all about the research topic and stuff like this.
+
+204
+00:34:11.730 --> 00:34:17.679
+Thomas Coratger: So yeah, this is pretty much all what I have in my plate right now.
+
+205
+00:34:18.050 --> 00:34:21.939
+Thomas Coratger: I think that we have discussed a couple of stuff about DevNet 5,
+
+206
+00:34:22.239 --> 00:34:29.320
+Thomas Coratger: So, if I understand correctly, the principal stuff that we should have in mind for DevNet 5 is
+
+207
+00:34:29.550 --> 00:34:33.520
+Thomas Coratger: proof… Timing.
+
+208
+00:34:33.639 --> 00:34:35.640
+Thomas Coratger: If I understand correctly.
+
+209
+00:34:35.880 --> 00:34:48.579
+Thomas Coratger: you observed, you guys, that doing the DevNets in DevNet 5, like, the fact of generating proofs takes a huge amount of time, and so we should find a solution about this.
+
+210
+00:34:48.610 --> 00:35:00.919
+Thomas Coratger: Either, like, bumping a bit, the slot time, or using fancier machine, or squeezing some juice within the proof constriction, but we should find some stuff there.
+
+211
+00:35:01.520 --> 00:35:07.039
+Thomas Coratger: So yeah, if there is anything else to discuss, Mega, yeah, yeah.
+
+212
+00:35:08.000 --> 00:35:09.990
+Mega | Lambda: Yeah, it's just…
+
+213
+00:35:10.110 --> 00:35:29.060
+Mega | Lambda: I just wanted to get into attention that I think you, Toma, already mentioned this in Telegram, but we got PR from Lambda on the spec, changing the block building algorithm. We made this, I think, already on DevNet 4.
+
+214
+00:35:29.060 --> 00:35:45.999
+Mega | Lambda: I think it's relevant for DevNet 5, for the, this, problem you're mentioning, the… well, I think every… everyone saw that, Type 2, or our agent in general, when proposing the blocks, is taking too long.
+
+215
+00:35:46.510 --> 00:35:54.420
+Mega | Lambda: Part of the block building algorithm, the change of the block building algorithm, basically.
+
+216
+00:35:55.110 --> 00:36:03.660
+Mega | Lambda: splits the… changes the way that the blog building is structured. We basically have, like, a…
+
+217
+00:36:03.880 --> 00:36:10.529
+Mega | Lambda: A simulated state from which we score the different attestations, and we pick
+
+218
+00:36:10.800 --> 00:36:22.829
+Mega | Lambda: the best one each time. I think with that, we can maybe cap, from the block building side, the amount of attestation data that we include in the block.
+
+219
+00:36:22.830 --> 00:36:32.279
+Mega | Lambda: Also, taking into account if any of those attestation data is needed proofs to be compacted, like with type 1 aggregation.
+
+220
+00:36:32.570 --> 00:36:46.399
+Mega | Lambda: and take all of that into account when building a block to minimize the amount of time we perform migration during block building. I think that's something that needs to be explored also.
+
+221
+00:36:46.760 --> 00:36:48.670
+Mega | Lambda: And we look…
+
+222
+00:36:48.670 --> 00:36:52.719
+Thomas Coratger: PR791, correct?
+
+223
+00:36:52.980 --> 00:37:06.079
+Mega | Lambda: Yeah, we, like, the algorithm, the current algorithm doesn't have into account the… all of this. It just takes into account justification and finality.
+
+224
+00:37:06.460 --> 00:37:12.180
+Mega | Lambda: And the PR doesn't, the… the… the…
+
+225
+00:37:13.840 --> 00:37:28.829
+Mega | Lambda: it's mostly for clients to, like, see the structure and see if it's… if it works for them. It's maybe a little too complex for the… for the spec. I don't think it… it needs to be merged.
+
+226
+00:37:28.950 --> 00:37:30.640
+Mega | Lambda: But, I think…
+
+227
+00:37:30.640 --> 00:37:31.020
+Thomas Coratger: Yeah.
+
+228
+00:37:31.020 --> 00:37:33.380
+Mega | Lambda: Might be useful for clients to…
+
+229
+00:37:33.380 --> 00:37:41.800
+Thomas Coratger: Yeah, that was a bit my point, when I have seen the PR, yeah, indeed, I think that this is useful for the client, I agree.
+
+230
+00:37:42.180 --> 00:37:58.679
+Thomas Coratger: Because I have seen this new structure, but I was a bit afraid of merging this into the spec, because it had a bunch of complexity into the spec, and as we are trying to simplify a lot the spec, it adds…
+
+231
+00:37:58.840 --> 00:38:02.969
+Thomas Coratger: A lot of complexity, but maybe, yeah, we can flag this.
+
+232
+00:38:03.220 --> 00:38:09.100
+Thomas Coratger: In some sort, so that you, you client teams can explore this idea.
+
+233
+00:38:09.970 --> 00:38:14.990
+Thomas Coratger: And maybe we can check if we merge it or not in the spec, not sure, but…
+
+234
+00:38:15.090 --> 00:38:20.569
+Thomas Coratger: Yeah, maybe first you client teams can explore this idea.
+
+235
+00:38:21.120 --> 00:38:26.480
+Mega | Lambda: Yeah, I just wanted to get the PR invitations on client teams. Client teams can take a look.
+
+236
+00:38:28.810 --> 00:38:40.509
+Gajinder Singh: Yeah, I think it's worthwhile to take a look, but again, as Thomas said, that you might want spec to be a little easier slash cleaner, and all these optimizations
+
+237
+00:38:40.780 --> 00:38:45.960
+Gajinder Singh: Can basically sit at clients… in the clients. And,
+
+238
+00:38:46.090 --> 00:38:51.850
+Gajinder Singh: I think what we basically need is that, basically, for any node.
+
+239
+00:38:51.990 --> 00:38:55.929
+Gajinder Singh: To prioritize its work, and then have a timeout
+
+240
+00:38:56.150 --> 00:39:09.419
+Gajinder Singh: have strict timeouts when basically it will say that, okay, you know, I can… I can't do it, I can only do 4, or I can only do four… two right now, and make sure that the block proposal goes through. So, we need… we need all these kind of strategies.
+
+241
+00:39:09.600 --> 00:39:17.649
+Gajinder Singh: That will make a client… an efficient client. And, yeah, these strategies could be a bit…
+
+242
+00:39:18.080 --> 00:39:28.810
+Gajinder Singh: difficult slash complicated for the spec, because spec should be cleaner, in my opinion. But as such, yes, it's a good idea to spread this knowledge around.
+
+243
+00:39:28.950 --> 00:39:40.110
+Gajinder Singh: And, we, as a team, also have some strategies, and we'll also share it, or improve this PR, or maybe we can keep this, block building as a separate
+
+244
+00:39:40.350 --> 00:39:46.559
+Gajinder Singh: optimized function, right? We can have a name as optimized block building in the spec itself, so that
+
+245
+00:39:46.810 --> 00:39:53.020
+Gajinder Singh: This knowledge is there to share, as well as… The normal spec reads simpler.
+
+246
+00:39:55.640 --> 00:39:58.070
+Mega | Lambda: Yeah, that's a weird idea, I think.
+
+247
+00:39:59.380 --> 00:40:00.480
+Thomas Coratger: Yeah, I agree.
+
+248
+00:40:00.940 --> 00:40:06.659
+Thomas Coratger: Mmm… Yeah, I, I definitely agree.
+
+249
+00:40:10.810 --> 00:40:17.150
+Thomas Coratger: Anything else to discuss, to mention, or, like, yeah.
+
+250
+00:40:24.370 --> 00:40:31.520
+Thomas Coratger: Okay, perfect, guys. Then, see you next week, and we can discuss all of that async.
+
+251
+00:40:32.780 --> 00:40:33.650
+Parthasarathy Ramanujam: Thank you.
+
+252
+00:40:34.050 --> 00:40:35.170
+Gajinder Singh: Alright, guys.
+
+253
+00:40:35.170 --> 00:40:35.609
+Mihir Faujdar: Thanks so much.
+
+254
+00:40:35.610 --> 00:40:36.989
+Shariq Naiyer: Alright, have a good one.
+
+255
+00:40:36.990 --> 00:40:38.410
+Leo Lara: Bye, bye, bye.
+
