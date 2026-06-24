@@ -1,0 +1,59 @@
+{
+  "meeting": "Post Quantum Transaction Signature #11 - Formal Verification",
+  "highlights": {
+    "formal_verification_progress": [
+      {
+        "timestamp": "00:18:39",
+        "highlight": "Ricardo (EPFL student) formally verified Riva Labs' FORS+ verifier contract in Lean4 via EVMYulLean (Nethermind tool), proving correct address recovery for all possible inputs"
+      },
+      {
+        "timestamp": "00:21:39",
+        "highlight": "Proof runs on optimized Yul IR, not EVM bytecode \u2014 Solidity compiler backend (Yul\u2192bytecode) remains trusted but unverified"
+      },
+      {
+        "timestamp": "00:26:46",
+        "highlight": "AI used to write Lean4 proofs and reference model; correctness relies on Lean kernel, not AI output. Riva Labs' reference Lean model also AI-assisted from Solidity + FORS+ context"
+      },
+      {
+        "timestamp": "00:44:55",
+        "highlight": "Verity team reportedly achieved full formal refinement of SPHINCS+; separate effort to formally verify SLH-DSA wallet integration is in progress"
+      }
+    ],
+    "verification_scope_and_limitations": [
+      {
+        "timestamp": "00:20:09",
+        "highlight": "Contract proves which address signed \u2014 validity check (recovered address == expected address) must be done by the calling contract; unforgeability not claimed"
+      },
+      {
+        "timestamp": "00:34:00",
+        "highlight": "keccak assumed correct (long-standing EVM primitive); not formally verified in this work"
+      },
+      {
+        "timestamp": "00:35:09",
+        "highlight": "Ground truth risk: Lean reference model derived from Solidity+AI; manual review needed to confirm it matches NIST/FIPS specification intent"
+      },
+      {
+        "timestamp": "00:46:19",
+        "highlight": "Yoichi: security proof anchoring recover function to hash pre-image hardness would strengthen confidence in Lean spec independent of PDF comparison"
+      },
+      {
+        "timestamp": "00:47:21",
+        "highlight": "Benedikt: CryptHOL framework (Lean4) enables formalizing asymptotic and concrete security proofs for hash-based signatures; security definition itself still needs human review"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:50:24",
+      "action": "Extend verification to cover EVM bytecode (not just optimized Yul), and add security reduction proof (breaking FORS+ implies breaking keccak pre-image)",
+      "owner": "Ricardo Perello / Riva Labs"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:51:07",
+      "decision": "Priority: proving security assumptions (ground truth strength) ranked higher than completing Yul\u2192bytecode verification gap"
+    }
+  ],
+  "targets": []
+}

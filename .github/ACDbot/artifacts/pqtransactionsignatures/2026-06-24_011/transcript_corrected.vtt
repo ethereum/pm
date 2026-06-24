@@ -1,0 +1,1294 @@
+WEBVTT
+
+1
+00:09:59.050 --> 00:09:59.910
+Antonio Sanso: Hi, Ellen.
+
+2
+00:14:26.100 --> 00:14:28.830
+Antonio Sanso: Hi, OHE, Ricardo, Alessandro.
+
+3
+00:14:29.130 --> 00:14:31.579
+Yoichi: Hi. Thank you for the invitation.
+
+4
+00:14:31.970 --> 00:14:39.220
+Antonio Sanso: Sure. It's, just for your… today's topic, it's really near your heart, UHG, but in case you're interested about the post-quantum.
+
+5
+00:14:39.640 --> 00:14:49.979
+Yoichi: So I am, I am, you know, at JK Security, we have been reading about the latest crypto schemes, and also, like, of course, hash things, so yeah, I'm interested.
+
+6
+00:14:50.450 --> 00:15:00.950
+Antonio Sanso: It's every two weeks happens. Now, maybe we might have some little break in the summer, but otherwise, like, this is the 11th call.
+
+7
+00:15:02.310 --> 00:15:08.759
+Antonio Sanso: Every Wednesday, Every two weeks, and just in case there is a,
+
+8
+00:15:09.070 --> 00:15:11.959
+Antonio Sanso: They're… it's recorded, so it's on the…
+
+9
+00:15:12.490 --> 00:15:14.290
+Yoichi: promos. Thank you.
+
+10
+00:15:16.310 --> 00:15:18.769
+Antonio Sanso: Just try to do some progress,
+
+11
+00:15:19.010 --> 00:15:25.230
+Antonio Sanso: Every week, let's see where this will bring. It's a… It's a challenging topic.
+
+12
+00:15:26.970 --> 00:15:27.670
+Antonio Sanso: If it suits.
+
+13
+00:15:27.670 --> 00:15:43.689
+Yoichi: Let's see, like, you know, I don't want to, like, interrupt so much, but, like, I will, you know, somehow indicate, like, how far I followed, and we can start from there. Like, you can recommend me to read some syndata or stuff like that.
+
+14
+00:15:43.930 --> 00:15:52.329
+Antonio Sanso: For sure. Today, again, like, actually, after the presentation, since you're a kind of leading expert in the topic, I'm really, like, keen to hear your opinion.
+
+15
+00:15:52.660 --> 00:15:58.020
+Antonio Sanso: We wait a couple of more minutes, and we'll start. My… a few more people might join.
+
+16
+00:15:58.020 --> 00:16:06.910
+Yoichi: There can be some kind of miracul about formal verification, like, that's difficult, that, you know, everyone is saying that, but nobody's doing it, or whatever, yes.
+
+17
+00:16:07.260 --> 00:16:11.400
+Antonio Sanso: Oh, no. Anyway, let's wait for the presentation. Ricard is here. We'll present it.
+
+18
+00:16:11.400 --> 00:16:11.960
+ricardoperello: Hey, everyone.
+
+19
+00:16:11.960 --> 00:16:18.190
+Antonio Sanso: Usually, I start with a quick presentation, two, three slides, and then we'll see. One more minute, we'll start.
+
+20
+00:16:25.720 --> 00:16:27.809
+Antonio Sanso: Do you see my screen, right? Just in case.
+
+21
+00:16:30.550 --> 00:16:31.090
+Gustavo Frederico: Yes, we do.
+
+22
+00:16:31.090 --> 00:16:32.280
+Alessandro Baiocchi: Yep. Yes, yeah, yeah.
+
+23
+00:16:52.820 --> 00:16:54.360
+Antonio Sanso: Alright, let's start.
+
+24
+00:16:54.970 --> 00:16:59.410
+Antonio Sanso: Today's the 11th occurrence of post-conduct transaction signatures.
+
+25
+00:17:03.390 --> 00:17:18.040
+Antonio Sanso: This is a little bit of recap of what happened in the previous. They're not all covered, but the team of some of the most important calls. Previous one was about MPC Multisig, today is about formal verification.
+
+26
+00:17:18.180 --> 00:17:28.639
+Antonio Sanso: In the agenda, we have only one presentation today, and hopefully we have some interesting discussion. There's Yoichi in the crowd, that is one of the
+
+27
+00:17:28.760 --> 00:17:34.299
+Antonio Sanso: expert, word expert on formal verification, so I'm really, really keen to hear his opinion.
+
+28
+00:17:34.760 --> 00:17:40.880
+Antonio Sanso: But the… Before having the open discussion, I'm happy to have here Ricardo Perello.
+
+29
+00:17:40.990 --> 00:17:50.279
+Antonio Sanso: that is gonna show his attempt, or successful attempt, I must say, to formally verify the first contract done by Riva Labs.
+
+30
+00:17:50.570 --> 00:17:56.369
+Antonio Sanso: And really, without any further ado… I'll give you the stage.
+
+31
+00:17:56.500 --> 00:17:59.709
+Antonio Sanso: To Ricardo, thanks a lot for joining, Ricardo.
+
+32
+00:18:01.570 --> 00:18:07.459
+ricardoperello: Hi everyone. Let me share my screen, because I have a presentation.
+
+33
+00:18:11.490 --> 00:18:18.259
+ricardoperello: Alright, so… let me introduce myself first. I'm Ricardo, I'm a student at EPFL.
+
+34
+00:18:18.770 --> 00:18:25.300
+ricardoperello: And I, I was introduced to formal verification a few months ago, and
+
+35
+00:18:25.710 --> 00:18:28.530
+ricardoperello: after ZK Proof, I decided to…
+
+36
+00:18:28.750 --> 00:18:33.240
+ricardoperello: Give it a go, and try to do some formal verification on some interesting stuff.
+
+37
+00:18:33.350 --> 00:18:41.890
+ricardoperello: So I decided to try and verify the… the verifier, like, the FORS+ verifier that,
+
+38
+00:18:42.220 --> 00:18:44.720
+ricardoperello: Riva Labs, developed.
+
+39
+00:18:45.250 --> 00:18:54.770
+ricardoperello: Let me start by saying that the concrete result is that we have formally verified that the Contract.
+
+40
+00:18:55.030 --> 00:18:59.079
+ricardoperello: Recovers the signature for every possible input.
+
+41
+00:18:59.780 --> 00:19:05.570
+ricardoperello: And also by saying that I am still quite new to this formal verification world, so…
+
+42
+00:19:06.250 --> 00:19:08.790
+ricardoperello: No hard questions, please.
+
+43
+00:19:10.790 --> 00:19:14.870
+ricardoperello: So… Let's,
+
+44
+00:19:17.010 --> 00:19:27.390
+ricardoperello: Let's go, by starting on the two options that we had to formally verify this. There was a contract that was deployed by Riva Labs.
+
+45
+00:19:27.520 --> 00:19:32.060
+ricardoperello: Which is quite efficient, but it utilizes inline assembly.
+
+46
+00:19:33.120 --> 00:19:38.589
+ricardoperello: So it's quite hard to, like, check just by looking at it.
+
+47
+00:19:39.610 --> 00:19:49.370
+ricardoperello: And the other option was to go the other way, which is, there's a… Lean model for a…
+
+48
+00:19:49.910 --> 00:19:57.460
+ricardoperello: forest verifier, and using Verity, we have the opportunity to compile that into Yule, but that isn't…
+
+49
+00:19:57.630 --> 00:20:02.370
+ricardoperello: too efficient, so I decided to just try to formally verify the efficient one.
+
+50
+00:20:02.720 --> 00:20:09.609
+ricardoperello: Now… Before that, let's look at what the contract does.
+
+51
+00:20:09.720 --> 00:20:12.430
+ricardoperello: The main, function is called recover.
+
+52
+00:20:12.590 --> 00:20:16.169
+ricardoperello: And it gives you, given a signature and a digest.
+
+53
+00:20:16.470 --> 00:20:25.550
+ricardoperello: it returns which signature, which signer, made the signature. It doesn't say whether the signature is correct or wrong, so…
+
+54
+00:20:25.720 --> 00:20:32.039
+ricardoperello: Just remember for later, we have to check that the address is the expected address.
+
+55
+00:20:33.320 --> 00:20:35.790
+ricardoperello: This is a…
+
+56
+00:20:36.410 --> 00:20:45.639
+ricardoperello: this constructs 25 Miracle trees, and it's done in inline assembly, so the class of bugs that we're trying to formally
+
+57
+00:20:45.850 --> 00:20:52.710
+ricardoperello: Proofs that don't exist are, like, Mistakes in,
+
+58
+00:20:52.990 --> 00:20:58.270
+ricardoperello: how we recover the trees, and how we build stuff up. It's not necessarily
+
+59
+00:20:58.460 --> 00:21:02.329
+ricardoperello: We're not trying to prove that the hash-based scheme works.
+
+60
+00:21:02.570 --> 00:21:05.419
+ricardoperello: Per se, we're just trying to prove that it's implemented correctly.
+
+61
+00:21:06.490 --> 00:21:14.059
+ricardoperello: Yeah, so here I was explaining the type of tests that we are looking for, so…
+
+62
+00:21:14.340 --> 00:21:20.890
+ricardoperello: for example, wrong offsets, or swapped Merkle trees, or… basically
+
+63
+00:21:21.140 --> 00:21:26.790
+ricardoperello: We want to show that for every possible signature, we return the correct output.
+
+64
+00:21:29.810 --> 00:21:39.599
+ricardoperello: Here is essentially the big picture. The horizontal line is, the Solidity compiler pipeline, so you give it…
+
+65
+00:21:40.120 --> 00:21:46.129
+ricardoperello: a Solidity source code, and it turns that into an intermediate representation in Yule.
+
+66
+00:21:46.540 --> 00:21:51.359
+ricardoperello: Then it goes in a loop, trying to optimize the fuel.
+
+67
+00:21:52.350 --> 00:21:56.070
+ricardoperello: When it's convinced, though, that it's optimized, then it,
+
+68
+00:21:56.420 --> 00:22:00.590
+ricardoperello: compiles that into EVM bytecode, and that's what essentially gets put on-chain.
+
+69
+00:22:01.190 --> 00:22:09.069
+ricardoperello: Now, our proof, runs on the optimized UL, not on the EVM bytecode.
+
+70
+00:22:09.490 --> 00:22:24.370
+ricardoperello: Which means that we have to trust the Solidity backend, the Solidity compiler backend, sorry, to… we have to trust that it is able to compile from, Yule to bytecode correctly.
+
+71
+00:22:24.570 --> 00:22:28.000
+ricardoperello: But our proof shows that
+
+72
+00:22:28.800 --> 00:22:32.409
+ricardoperello: The assembly was constructed correctly, and that it's the correct implementation.
+
+73
+00:22:33.430 --> 00:22:38.399
+ricardoperello: So the way we are going to do this is we are going to…
+
+74
+00:22:38.960 --> 00:22:46.640
+ricardoperello: take this Yule artifact, and we're going to put it into something called EVMYul, which we're going to see later.
+
+75
+00:22:47.000 --> 00:22:49.729
+ricardoperello: And we're going to compare how that works.
+
+76
+00:22:49.900 --> 00:22:56.189
+ricardoperello: Versus a… clean model in Verity, or sorry, in, lean,
+
+77
+00:22:56.640 --> 00:22:59.849
+ricardoperello: It's our reference of how force is supposed to behave.
+
+78
+00:23:00.460 --> 00:23:02.530
+ricardoperello: So…
+
+79
+00:23:03.090 --> 00:23:14.559
+ricardoperello: The tool… the most important tool here is EVMYulLean, which is a product that Nethermind, made, which allows us to run a UL contract inside
+
+80
+00:23:14.690 --> 00:23:19.869
+ricardoperello: lean, and it gives us semantics to reason over what the EVM state is going to be.
+
+81
+00:23:20.090 --> 00:23:22.850
+ricardoperello: After each iteration.
+
+82
+00:23:23.510 --> 00:23:32.499
+ricardoperello: And what we're trying to do is compare this, lean… Implementation of the EVM with…
+
+83
+00:23:32.810 --> 00:23:37.429
+ricardoperello: The reference, which is, like, a clean model of the scheme.
+
+84
+00:23:41.820 --> 00:23:50.849
+ricardoperello: I understand that all of these, proofs can be hard to read sometimes, so I tried to make one really easy statement.
+
+85
+00:23:54.010 --> 00:24:03.880
+ricardoperello: So that we can understand what we're going for. So the first line says that the contract that we are looking at, so the optimization.
+
+86
+00:24:04.240 --> 00:24:10.349
+ricardoperello: is… Parse to exactly what lives inside the EVMU Lean runtime.
+
+87
+00:24:10.940 --> 00:24:13.290
+ricardoperello: So it just means that we're looking at the correct thing.
+
+88
+00:24:13.590 --> 00:24:22.839
+ricardoperello: The second line says that for every representable signature and digest, the runtime will return The reference is address.
+
+89
+00:24:23.120 --> 00:24:27.769
+ricardoperello: And the last line shows that we are…
+
+90
+00:24:28.560 --> 00:24:35.170
+ricardoperello: Modeling correctly, that if… if the signature is bad, then we return the zero address.
+
+91
+00:24:36.350 --> 00:24:39.729
+ricardoperello: So let's go through it a bit… oh, sorry.
+
+92
+00:24:40.130 --> 00:24:40.930
+ricardoperello: Here.
+
+93
+00:24:41.180 --> 00:24:47.539
+ricardoperello: Now, if anyone wanted to review this, the idea would be to first review this,
+
+94
+00:24:47.680 --> 00:24:51.279
+ricardoperello: Theorem, then look at the reference that we are using.
+
+95
+00:24:51.720 --> 00:25:00.220
+ricardoperello: And, look at the actual boundaries of… How this is, all connected together.
+
+96
+00:25:00.650 --> 00:25:10.489
+ricardoperello: And finally, Look at the… bridge between, like, what Solidity compiler outputs and what's being
+
+97
+00:25:10.770 --> 00:25:12.709
+ricardoperello: ran inside the EVM Unit.
+
+98
+00:25:14.230 --> 00:25:20.860
+ricardoperello: I've also made a little script that runs every… Proof, and
+
+99
+00:25:21.140 --> 00:25:25.879
+ricardoperello: There's also a second script that allows us to check
+
+100
+00:25:26.060 --> 00:25:30.210
+ricardoperello: a, contract on chain to see if it has a…
+
+101
+00:25:30.920 --> 00:25:34.709
+ricardoperello: Same, Yule. That's the one thing we're checking right now.
+
+102
+00:25:36.020 --> 00:25:42.009
+ricardoperello: So, to summarize, What we are checking in Lean is the…
+
+103
+00:25:43.970 --> 00:25:51.660
+ricardoperello: EVM, behavior for this, assembly, reconstruction of the signature.
+
+104
+00:25:52.710 --> 00:26:03.729
+ricardoperello: And, we are trusting the Solidity, like, the last part of the Solidity compiler pipeline, which turns Yule into bytecode.
+
+105
+00:26:04.210 --> 00:26:12.730
+ricardoperello: We're also assuming that the wallet is going to do correct Key rotation, and
+
+106
+00:26:13.450 --> 00:26:18.200
+ricardoperello: You know, you'd be checking that the address is exactly what I'm expecting.
+
+107
+00:26:18.470 --> 00:26:23.559
+ricardoperello: And finally, what we're not claiming at all is a proof-of-care check.
+
+108
+00:26:23.910 --> 00:26:30.959
+ricardoperello: We're not claiming… Unforgeability of the signature, which is showing that it's a correct implementation of the signature.
+
+109
+00:26:31.800 --> 00:26:37.459
+ricardoperello: And that the wallet itself is good.
+
+110
+00:26:38.960 --> 00:26:45.729
+ricardoperello: So, the way I did all of this was basically using AI to write the proofs.
+
+111
+00:26:46.240 --> 00:26:49.700
+ricardoperello: But as some of you may know already,
+
+112
+00:26:50.040 --> 00:26:55.169
+ricardoperello: We don't trust the AI, we just trust the… Lean, kernel.
+
+113
+00:26:56.480 --> 00:27:04.410
+ricardoperello: And yeah, the next steps for us are going to be to try to
+
+114
+00:27:05.560 --> 00:27:11.730
+ricardoperello: prove that the actual bytecode that will live on-chain is, exactly…
+
+115
+00:27:12.160 --> 00:27:15.200
+ricardoperello: what we expect, that the Solidity compiler doesn't…
+
+116
+00:27:15.580 --> 00:27:18.200
+ricardoperello: Mess up and introduce any bugs.
+
+117
+00:27:18.660 --> 00:27:27.909
+ricardoperello: Which should be fine, because EVMYulLean also provides us some tools to work with pipe code instead of lean… instead of Yule, sorry.
+
+118
+00:27:28.850 --> 00:27:33.460
+ricardoperello: But that's a bit in the future. We'll see when I am able to do that.
+
+119
+00:27:34.890 --> 00:27:38.440
+ricardoperello: Yeah, that's exactly what I just said.
+
+120
+00:27:40.670 --> 00:27:47.960
+ricardoperello: Yeah, so… There's also another…
+
+121
+00:27:48.110 --> 00:27:52.010
+ricardoperello: Question to be asked, which is…
+
+122
+00:27:52.970 --> 00:28:00.949
+ricardoperello: At the beginning of this whole, idea, we were considering the two options, which were to proof the,
+
+123
+00:28:01.940 --> 00:28:07.969
+ricardoperello: the efficient contract in lean, or to derive a contract from a lean model.
+
+124
+00:28:08.170 --> 00:28:13.690
+ricardoperello: And, it remains to be seen whether we are able to produce an efficient contract
+
+125
+00:28:13.880 --> 00:28:19.090
+ricardoperello: an efficient code from the lean, so from Verity, basically.
+
+126
+00:28:21.470 --> 00:28:24.550
+ricardoperello: And that's it, so thank you for…
+
+127
+00:28:24.680 --> 00:28:30.069
+ricardoperello: listening, if you have any more questions, or if you have any questions, I have some…
+
+128
+00:28:30.220 --> 00:28:34.229
+ricardoperello: Slides about the axioms that we're using, and the…
+
+129
+00:28:35.610 --> 00:28:41.839
+ricardoperello: And our surface for theorems and stuff like that, but if… If not, then that's it.
+
+130
+00:28:44.220 --> 00:28:45.090
+Antonio Sanso: Any question?
+
+131
+00:28:47.720 --> 00:28:51.640
+Antonio Sanso: If not, if you don't want to talk, the slide and the chat is open as well.
+
+132
+00:28:55.970 --> 00:29:00.099
+Yoichi: So, I have a basic question so that I could…
+
+133
+00:29:00.250 --> 00:29:15.230
+Yoichi: So this one is for recovering the address, and there's… there's a separate thing for, like, checking the validity of the signature, and the intended use is to call post, like, when you are trying to
+
+134
+00:29:15.850 --> 00:29:19.470
+Yoichi: Check signature that you received, and…
+
+135
+00:29:19.960 --> 00:29:22.779
+Yoichi: Then you have to use both of these primitives.
+
+136
+00:29:24.130 --> 00:29:28.709
+ricardoperello: So, what am I…
+
+137
+00:29:28.920 --> 00:29:36.880
+ricardoperello: The point I was trying to make is that the recover function doesn't just say, yes, this is valid, or no, this is valid. Recover only tells you
+
+138
+00:29:37.310 --> 00:29:43.670
+ricardoperello: the address that signed. So, in your contract, you have to basically call Recover and then say.
+
+139
+00:29:44.480 --> 00:29:59.630
+ricardoperello: recovered address equals the expected address, and then that's your Boolean for yes or no. And this work, what we're trying to prove is that the recover function works as expected, or the assembly code that we wrote.
+
+140
+00:30:00.200 --> 00:30:01.040
+ricardoperello: Hmm.
+
+141
+00:30:01.130 --> 00:30:20.080
+Yoichi: Yeah, I was wondering about this, because maybe this is a malleability thing, like, once you see a valid signature, you can create another very valid-looking signature, or that's why you won't, like, accept only the canonical thing. Is that the…
+
+142
+00:30:20.220 --> 00:30:29.340
+Yoichi: Yeah, it's valid. I am still a bit confused about why it is to… Operations exist.
+
+143
+00:30:30.660 --> 00:30:32.499
+ricardoperello: Sorry, which operation? Like, check…
+
+144
+00:30:32.500 --> 00:30:33.029
+Yoichi: Yeah, this…
+
+145
+00:30:33.030 --> 00:30:33.800
+ricardoperello: The address?
+
+146
+00:30:33.800 --> 00:30:36.939
+Yoichi: Recover, and it's valid sync.
+
+147
+00:30:40.010 --> 00:30:40.960
+ricardoperello: I'm not sure what visitor.
+
+148
+00:30:40.960 --> 00:30:47.540
+Matteo Vicari: Okay, yeah, we try to explain, because it is our contract, so it's better to explain.
+
+149
+00:30:47.730 --> 00:30:53.370
+Matteo Vicari: So, it's like a chira cover for,
+
+150
+00:30:53.710 --> 00:31:00.529
+Matteo Vicari: for each EDSA. So, you can recover a public address from a message.
+
+151
+00:31:00.760 --> 00:31:16.989
+Matteo Vicari: We do this because we have to confirm this address with what is stored inside our smart contract forward that say, okay, if you try to make a message using the next designer that it can sign the transaction.
+
+152
+00:31:17.000 --> 00:31:22.460
+Matteo Vicari: Okay, we are good, and the transaction is approved and executed inside the wallet.
+
+153
+00:31:22.670 --> 00:31:23.890
+Matteo Vicari: This is the idea.
+
+154
+00:31:25.310 --> 00:31:29.420
+Matteo Vicari: Oh, it's work. It's like, EC Recover for,
+
+155
+00:31:29.650 --> 00:31:36.339
+Matteo Vicari: for HDSCA, but it's do with a PQ sign, for make the wallet PQ.
+
+156
+00:31:36.840 --> 00:31:37.610
+Yoichi: Okay.
+
+157
+00:31:39.230 --> 00:31:39.950
+Yoichi: Oh…
+
+158
+00:31:40.340 --> 00:31:56.329
+Yoichi: Yeah, so, like, I guess, you know, this work uses, like, two very defined boundaries. One boundary is the eulosemantics, and the other boundary is this, specification of force C.
+
+159
+00:31:56.660 --> 00:31:58.480
+Yoichi: And,
+
+160
+00:31:59.090 --> 00:32:16.949
+Yoichi: So, yeah, I'm… but I'm guessing, like, yeah, how much of a bigger picture you want to cover using formal verification? At the end, like, there's a property of the wallet.
+
+161
+00:32:17.630 --> 00:32:19.450
+Yoichi: That they want a guarantee.
+
+162
+00:32:20.220 --> 00:32:31.530
+Yoichi: And, there's, yes, this primitive about the recovery in the address, and… So…
+
+163
+00:32:31.860 --> 00:32:42.480
+Yoichi: Yes, and then, like, I… yeah, I guess the bigger challenges remain in this gap between the molec property
+
+164
+00:32:42.600 --> 00:32:44.229
+Yoichi: And this primitive.
+
+165
+00:32:45.360 --> 00:32:50.050
+Yoichi: Do you have some plan or ideas how to tackle these kinds of things?
+
+166
+00:32:50.720 --> 00:32:57.990
+ricardoperello: So, as far as I understand, there's a separate effort to try to prove the whole signature scheme with, SLH-DSA.
+
+167
+00:32:58.510 --> 00:33:00.710
+ricardoperello: And that's a work in progress right now.
+
+168
+00:33:01.060 --> 00:33:10.389
+ricardoperello: And then… The next step on top of that would be to integrate the wallet, that uses SLH-DSA.
+
+169
+00:33:11.270 --> 00:33:14.890
+ricardoperello: But that's… Also in the future.
+
+170
+00:33:15.150 --> 00:33:16.859
+Yoichi: Yeah, I see, I understand.
+
+171
+00:33:17.150 --> 00:33:23.530
+Yoichi: About, this work itself, how… Hmm…
+
+172
+00:33:23.640 --> 00:33:41.260
+Yoichi: Like, I want to kind of get a feeling of how complicated it is, like, in terms of, say, like, how complicated is the case analysis? Like, is the… does the code contain lots of case analysis, or is it more like a straight line code, or…
+
+173
+00:33:41.370 --> 00:33:56.680
+Yoichi: Another metric would be, of course, like, you know, how many lines of proofs got generated by AI, so another thing is, like, yeah, well, so I guess you didn't have to assume anything about K-Check, is that correct? I mean, I…
+
+174
+00:33:56.680 --> 00:34:00.639
+ricardoperello: I did have to assume that check was working correctly.
+
+175
+00:34:00.640 --> 00:34:01.730
+Yoichi: Okay.
+
+176
+00:34:01.730 --> 00:34:02.580
+ricardoperello: Hmm. Yep.
+
+177
+00:34:02.780 --> 00:34:14.549
+Antonio Sanso: This kind of… I mean, the KC has been inside the AVM for years, so, I mean, I can't say it's back free, but I'm not too much concerned about this layer of availability.
+
+178
+00:34:14.980 --> 00:34:15.650
+Yoichi: Okay.
+
+179
+00:34:17.520 --> 00:34:23.979
+Antonio Sanso: A good question for you, Yoichi, actually. I mean, and it's the same question I actually asked privately, you know?
+
+180
+00:34:24.050 --> 00:34:41.369
+Antonio Sanso: Do you think that the flow… I mean, probably you're the most experienced in this call about formal verification buying it up. Do you think the flow that Ricardo followed is the… is a legit one? I mean, like, he's starting to compare, width and lean implementation
+
+181
+00:34:41.850 --> 00:34:45.030
+Antonio Sanso: written… I don't know, probably by hand.
+
+182
+00:34:45.340 --> 00:34:50.310
+Antonio Sanso: So, in this kind of situation, I always wonder myself, this is the…
+
+183
+00:34:50.489 --> 00:34:57.579
+Antonio Sanso: that, let's say, the ground truths you compare against. But what about if death has a bag?
+
+184
+00:34:57.800 --> 00:35:00.849
+Antonio Sanso: You know what I mean? I mean, how… how is really, like…
+
+185
+00:35:03.120 --> 00:35:09.509
+Yoichi: I see. I mean, so in the end, you know, in the end, like.
+
+186
+00:35:09.900 --> 00:35:13.349
+Yoichi: What is correct, like, I mean, in the end, like,
+
+187
+00:35:13.430 --> 00:35:25.510
+Yoichi: Okay, so maybe you want to anchor this against a document or a paper written by somebody? Like, I mean, what happens in other places, like, they… people look at, like.
+
+188
+00:35:25.510 --> 00:35:34.510
+Yoichi: NIST document, like, fibs, and then try to argue this is the correct thing, but in the end, like, when you're, like.
+
+189
+00:35:34.940 --> 00:35:48.270
+Yoichi: trust… when your anka is an English-written document, then, like, somebody needs to read and, like, yeah, everybody who is concerned needs to, like, read and compare the English document against the link code.
+
+190
+00:35:48.270 --> 00:35:56.320
+Yoichi: So, I mean, that gap always exists as long as the official, like, canonical document is
+
+191
+00:35:56.320 --> 00:36:09.540
+Yoichi: not in a formal language, like, if the official thing is in English, then, like, people need to, like, keep comparing the English thing against the formal thing. That's the…
+
+192
+00:36:09.740 --> 00:36:15.630
+Yoichi: That's not avoidable. Unless, like, you know, you somehow convince the official source.
+
+193
+00:36:15.970 --> 00:36:34.970
+Yoichi: of truth, to use the Lin or other formal languages to, like, describe their definitions. The demonstration kind of improves for formal verification people, but usually, like, the definition is written somewhere else in English or something, so, like, you really need to compare things.
+
+194
+00:36:34.970 --> 00:36:41.459
+Antonio Sanso: And this is the next question for the Riva Labs guys. How did you actually code this Solidity
+
+195
+00:36:41.810 --> 00:36:47.170
+Antonio Sanso: stuff, manually, or you made the AI generate the… the…
+
+196
+00:36:48.250 --> 00:36:51.440
+Antonio Sanso: The contract… no, sorry, the lien implementation.
+
+197
+00:36:51.630 --> 00:37:00.239
+Antonio Sanso: from the… from the PDF. So you give a PDF, the AI spits the solidity… sorry, no, the lean, the lean.
+
+198
+00:37:00.350 --> 00:37:05.310
+Antonio Sanso: equivalent of the PDF, or you brought manually the lean… Stuff.
+
+199
+00:37:06.860 --> 00:37:07.625
+ricardoperello: Well…
+
+200
+00:37:08.390 --> 00:37:12.939
+Alessandro Baiocchi: I can answer a little bit, regarding the, the, the…
+
+201
+00:37:12.940 --> 00:37:15.239
+Antonio Sanso: Question for Matt, probably, because you…
+
+202
+00:37:15.970 --> 00:37:17.960
+Antonio Sanso: But yeah, for Mateo, for Alessandro.
+
+203
+00:37:18.560 --> 00:37:21.830
+Matteo Vicari: Yeah, yeah, he's speaking Alessandro, yeah. It's Alessandro.
+
+204
+00:37:21.830 --> 00:37:25.969
+Antonio Sanso: Sorry, Alessandro.
+
+205
+00:37:26.020 --> 00:37:44.630
+Alessandro Baiocchi: No, okay, so, actually, the… we did a little bit of lean, but not that much. Actually, we just… we… the… our main implementation was written directly in Solidity. The, the little bit of lean that we wrote.
+
+206
+00:37:44.700 --> 00:37:51.969
+Alessandro Baiocchi: was mainly done by, like, AI-assisted. That's to be admitted.
+
+207
+00:37:52.920 --> 00:38:01.020
+Alessandro Baiocchi: And when you said, like, the implementation of the… Solid Vilifier was, I'd say…
+
+208
+00:38:01.360 --> 00:38:08.719
+Alessandro Baiocchi: like, half and half, maybe? Like, it was AI-optimized, but, written.
+
+209
+00:38:08.890 --> 00:38:16.099
+Antonio Sanso: Because what I understood is, like, that eventually Ricardo, what did Ricardo is, like, said that the…
+
+210
+00:38:16.280 --> 00:38:26.920
+Antonio Sanso: Solidity, or the Yule, is equivalent to a handwritten LIN that… I guess, the handwritten LIN, or, like, machine-generated lean, was written by you, no?
+
+211
+00:38:29.770 --> 00:38:32.639
+Antonio Sanso: Is it for C3? I think so.
+
+212
+00:38:33.580 --> 00:38:44.459
+Alessandro Baiocchi: Okay, so wait, we have… we had some vague tryouts in the repository. I don't know if Kikatu was referring to those ones, maybe? Yes?
+
+213
+00:38:44.460 --> 00:38:52.250
+ricardoperello: No, so I think what we're saying here is that my reference for which I'm comparing, the Yule is basically
+
+214
+00:38:52.630 --> 00:38:58.160
+ricardoperello: this one, the reference that we're talking about, and I think Antonio's saying.
+
+215
+00:38:58.340 --> 00:39:06.420
+ricardoperello: If we're checking, something against a reference that is also written by AI, we have to manually check it.
+
+216
+00:39:06.550 --> 00:39:08.029
+ricardoperello: Before we trust it.
+
+217
+00:39:09.770 --> 00:39:11.550
+ricardoperello: Is there a warrant anything?
+
+218
+00:39:11.900 --> 00:39:26.350
+Antonio Sanso: Yeah, I mean, at the end of the day, it's like, Ricardo, you say that the UL spitted by the contract is, like, equivalent to a lean version, and if I remember correctly, the lean version was in the Riva Labs repo, no? Or I'm confused.
+
+219
+00:39:26.350 --> 00:39:28.120
+ricardoperello: Yes. Yeah, yeah.
+
+220
+00:39:28.560 --> 00:39:30.859
+Antonio Sanso: I'm asking, I didn't realize, guys, how do you ride this lien?
+
+221
+00:39:32.400 --> 00:39:44.940
+Alessandro Baiocchi: Yeah, okay, so I think that's the… yeah, this lean version was part of our experimentation with Verity, and it was, yeah, mainly written by AI, yes.
+
+222
+00:39:45.390 --> 00:39:50.579
+Antonio Sanso: But how do you do it? Like, you gave today a PDF, and they spit Lynn, or…
+
+223
+00:39:51.780 --> 00:39:56.790
+Alessandro Baiocchi: When we do… when we did that, I think we… we gave them the,
+
+224
+00:39:57.310 --> 00:40:06.629
+Alessandro Baiocchi: like, a lot of context about, FORS+, like, standard decisions, like, yeah,
+
+225
+00:40:07.300 --> 00:40:18.040
+Alessandro Baiocchi: what the signature is, and then we gave them the… the verifier, and the… in Solidity, and then the… the goal was to have, like,
+
+226
+00:40:18.330 --> 00:40:21.289
+Alessandro Baiocchi: The goal that we gave the model was
+
+227
+00:40:21.470 --> 00:40:29.859
+Alessandro Baiocchi: try to build, a lean version of this, of this implementation. That's just the…
+
+228
+00:40:30.080 --> 00:40:33.310
+Alessandro Baiocchi: That was the goal, I think. Yeah.
+
+229
+00:40:33.310 --> 00:40:46.469
+Matteo Vicari: Yeah, and this, and when we start doing this, we don't use the optimized version right in UL, because it's hard for LLM to retry, to try to
+
+230
+00:40:46.890 --> 00:41:04.669
+Matteo Vicari: to the lean, the lean for something is, written in Yule, like, Ricardo do. He do a very good job, expert of us. We try just to have, a simplified version right in, pure solidity.
+
+231
+00:41:04.720 --> 00:41:12.580
+Matteo Vicari: That are not optimized, so, follow better step, and it's also easy to read.
+
+232
+00:41:12.810 --> 00:41:15.680
+Matteo Vicari: For, for us, for,
+
+233
+00:41:15.820 --> 00:41:22.679
+Matteo Vicari: have a check on the lean spec, we try to do, also using LLM.
+
+234
+00:41:22.840 --> 00:41:33.849
+Matteo Vicari: And then we arrived there. The problem is, we can't, have a way to match, the,
+
+235
+00:41:35.660 --> 00:41:54.359
+Matteo Vicari: the bytecode of our implementation, because the goal, but we don't achieve this, and we are far from this, is have, the contract, that we call in our system is, 100%, to…
+
+236
+00:41:54.790 --> 00:41:57.970
+Matteo Vicari: what is the bike code that we verify with LINA?
+
+237
+00:41:58.330 --> 00:42:00.450
+Matteo Vicari: This is our goal, but…
+
+238
+00:42:00.690 --> 00:42:10.609
+Matteo Vicari: there is a lot of time, there is a lot of stuff going on. For example, all the complexity behind to have the LIN also for the compiler stuff.
+
+239
+00:42:10.750 --> 00:42:16.650
+Matteo Vicari: This is really hard, and Verity tried to build, something that do this.
+
+240
+00:42:16.990 --> 00:42:21.340
+Matteo Vicari: But we… we not, arrived yet on this.
+
+241
+00:42:22.690 --> 00:42:24.130
+Matteo Vicari: So… yeah.
+
+242
+00:42:24.130 --> 00:42:29.410
+ricardoperello: I had a… I had a look at different ways that we could prove the CVM bytecode.
+
+243
+00:42:29.740 --> 00:42:36.330
+ricardoperello: And… To me, the simplest option was either,
+
+244
+00:42:36.670 --> 00:42:41.899
+ricardoperello: try to directly prove that EVM bytecode inside
+
+245
+00:42:42.420 --> 00:42:46.850
+ricardoperello: the EVMYulLean, which is possible.
+
+246
+00:42:47.250 --> 00:42:49.559
+ricardoperello: Matches the reference.
+
+247
+00:42:50.070 --> 00:42:56.940
+ricardoperello: Or we can try to say that EVM bytecode inside EVMYulLean equals
+
+248
+00:42:57.360 --> 00:43:02.960
+ricardoperello: optimize Yule inside EVMYulLean, and then down the proof path.
+
+249
+00:43:03.640 --> 00:43:07.620
+ricardoperello: But I think it's much more complicated to formally verify
+
+250
+00:43:08.170 --> 00:43:11.379
+ricardoperello: The last part of the compilation, like.
+
+251
+00:43:11.540 --> 00:43:17.120
+ricardoperello: Formally verifying this part would be… Like, a lot of work.
+
+252
+00:43:17.570 --> 00:43:19.910
+ricardoperello: Yeah, yeah. It's much easier to prove this.
+
+253
+00:43:20.490 --> 00:43:29.819
+Matteo Vicari: Another stuff that Verity tried to do is have, deploy bytecode that is come from LIN directly.
+
+254
+00:43:30.180 --> 00:43:33.900
+Matteo Vicari: And then you can use on-chain this bytecode directly.
+
+255
+00:43:34.130 --> 00:43:36.390
+Matteo Vicari: So, this is another way to do.
+
+256
+00:43:36.540 --> 00:43:44.990
+Matteo Vicari: This can be helpful, because you can have your code written directly in LIN.
+
+257
+00:43:45.240 --> 00:43:57.940
+Matteo Vicari: But, it's a little different for Tiz, you have to use a very specific form of LIN that is from Verity, I don't remember Alessandro, it's called.
+
+258
+00:43:58.060 --> 00:44:07.169
+Alessandro Baiocchi: It's not… it's, it's just a relatively lean CDSL. It's basically just a sub… sub-language of… but it's…
+
+259
+00:44:07.700 --> 00:44:11.320
+Alessandro Baiocchi: So, basically, Verity… validity superhum.
+
+260
+00:44:11.920 --> 00:44:21.069
+Matteo Vicari: And then you just deploy, the bytecode that are… come from the verity, the validity implementation.
+
+261
+00:44:21.140 --> 00:44:38.259
+Matteo Vicari: our, our contract of the FORS are simple, because the FORS are not much harder. Doing all this stuff, for, SLH-DSA, it's really hard, so, we are also…
+
+262
+00:44:38.260 --> 00:44:43.420
+Antonio Sanso: This has been done. This has been done already by… I think by the Verity guys, actually.
+
+263
+00:44:43.850 --> 00:44:47.870
+Matteo Vicari: there is some assumption on this,
+
+264
+00:44:48.050 --> 00:44:51.099
+Matteo Vicari: Ricardo, I think I have a look.
+
+265
+00:44:55.780 --> 00:45:02.260
+Antonio Sanso: I'm gonna say, like, the last information I got from Nico is that they managed to actually formally refine the full sphinx.
+
+266
+00:45:02.500 --> 00:45:03.480
+Antonio Sanso: Boom.
+
+267
+00:45:04.320 --> 00:45:06.750
+Antonio Sanso: But it's, again…
+
+268
+00:45:06.920 --> 00:45:22.659
+Antonio Sanso: great stuff so far, guys. I still… me, I'm still, like, having some perplexity in general, not about this work, this work is fantastic. We still really need to be careful. When are we gonna do this, for the final version?
+
+269
+00:45:22.810 --> 00:45:35.470
+Antonio Sanso: willing to pay attention to the ground truth, because, I mean, if the ground truth is wrong, then, like, it invalidates everything, you know what I mean? Like, really, at a certain point, we really need to understand, or someone needs to, you know.
+
+270
+00:45:36.680 --> 00:45:42.800
+Antonio Sanso: Try to figure out If the source of truth is true or not, somehow, right?
+
+271
+00:45:42.800 --> 00:45:54.429
+Yoichi: Yeah, for this, you know, one thing I can point out is, like, it's kind of easier to… I hope it's easier to read the specification of the recover function.
+
+272
+00:45:54.600 --> 00:45:59.439
+Yoichi: than to read the URL code, or than to read the EVM byte code.
+
+273
+00:45:59.580 --> 00:46:05.199
+Yoichi: I mean, so instead of reading the error code, you can read the int function, that's a progress already.
+
+274
+00:46:05.560 --> 00:46:19.220
+Yoichi: And another thing is, like, there has to be some security proof about this scheme. Like, if somebody can forward your signature, then they can also do the, like, pre-image or whatever.
+
+275
+00:46:19.670 --> 00:46:28.009
+Yoichi: And once you do this kind of proof, using this recoverRAW function indeed.
+
+276
+00:46:28.140 --> 00:46:43.710
+Yoichi: Then, like, you don't worry so much about, you know, if this DIN function is exactly the same described in the PDF, because, like, now you have… you get confidence from another source, like, this DIN function.
+
+277
+00:46:43.710 --> 00:46:51.060
+Yoichi: That is, this dean function has a very good property. If you break it, you break the pre-image of a check, or whatever. So…
+
+278
+00:46:51.120 --> 00:46:58.480
+Yoichi: Then, like, you know, that's another way to get confidence about this lean specification.
+
+279
+00:46:59.540 --> 00:47:00.540
+Antonio Sanso: It,
+
+280
+00:47:00.760 --> 00:47:06.360
+Antonio Sanso: Bandit, I see you in the crowd. I mean, we have this kind of stuff, right? For force.
+
+281
+00:47:06.360 --> 00:47:10.559
+Benedikt Wagner: I mean, we have this for hash-based signatures, yes. The question is.
+
+282
+00:47:10.560 --> 00:47:26.719
+Benedikt Wagner: what level of detail do you care about? Because you can have a security proof that just shows asymptotic security, and then maybe we are happy with that, but if you want concrete security levels, it's a bit more complicated, but I think even that can be formalized in lean.
+
+283
+00:47:26.830 --> 00:47:43.749
+Benedikt Wagner: So I think there's this new CryptHOL paper by Alex and co-authors, where they give, like, a framework to formalize security definitions and security proofs of signature schemes in Lean.
+
+284
+00:47:44.460 --> 00:47:49.589
+Benedikt Wagner: So I think this can be very helpful. And then I… at that point, then I totally agree.
+
+285
+00:47:50.720 --> 00:48:06.890
+Antonio Sanso: Nice. Now it makes sense. Thanks, Eugene. This is actually a really good thing. So, you're saying, now we have this, this lean signature of Britain in… I mean, this, this, this, sorry, this fourth signature of written in LIN, that is our ground truth. We can actually expand it
+
+286
+00:48:06.930 --> 00:48:21.000
+Antonio Sanso: with some proof of the security assumptions in Lean that will make our ground truth even stronger. That's what you want.
+
+287
+00:48:21.000 --> 00:48:23.720
+Benedikt Wagner: There's… there's still, there's still,
+
+288
+00:48:24.040 --> 00:48:35.079
+Benedikt Wagner: something to be checked, because, of course, you can prove security of a scheme that you formalize in lean if the security notion, the definition of security.
+
+289
+00:48:35.140 --> 00:48:48.979
+Benedikt Wagner: is meaningless, for example. So, we still have to check as sort of a crowd truth that the security definition that is formalized in lean matches what is current… what is accepted as a valid definition of security.
+
+290
+00:48:49.140 --> 00:48:57.599
+Antonio Sanso: But as far as I understood this, all this formal verification path is that to have the manual inspection as
+
+291
+00:48:57.870 --> 00:49:06.120
+Antonio Sanso: small as possible. So, the thing that people need to actually inspect and visualize, like, manually should be as
+
+292
+00:49:06.260 --> 00:49:11.430
+Antonio Sanso: short as possible, so it's easy to verify. This is my understanding of all this formal verification game.
+
+293
+00:49:12.040 --> 00:49:16.019
+Antonio Sanso: Maybe it's the wrong one, but this is what I… how I depict this in my mind.
+
+294
+00:49:17.630 --> 00:49:34.690
+Yoichi: Yeah, so how I depict it is, like, you know, there's a rare implementation that's used in the Morit, and the Moret has a user, and maybe the more it has an off-chain component, on-chain component, and so on, and that whole thing needs to, like, correspond to, like, the game.
+
+295
+00:49:34.800 --> 00:49:38.240
+Yoichi: That's defining the security property.
+
+296
+00:49:39.190 --> 00:49:57.520
+Yoichi: Otherwise, the, you know, your statement of the security property doesn't correspond to what people are doing, and that's very problematic. So, like, yeah, getting, getting more powerful and… more powerful statements in the end.
+
+297
+00:49:57.810 --> 00:50:05.040
+Yoichi: That's closer and closer to what people are actually doing is another dimension, I think.
+
+298
+00:50:05.040 --> 00:50:06.750
+Antonio Sanso: Okay, cool.
+
+299
+00:50:07.200 --> 00:50:24.000
+Antonio Sanso: Pretty cool. Now, now it makes even more sense. So, Ricardo, just like, to recap, again, great stuff so far, a lot of what I've seen. Probably, if you still have some cycle to spend on this project, then we can be in touch, later.
+
+300
+00:50:24.180 --> 00:50:28.479
+Antonio Sanso: The addition on this will be, like, to…
+
+301
+00:50:29.190 --> 00:50:35.090
+Antonio Sanso: to do a… add this new dimension of proving the assumptions. Does that make sense to you?
+
+302
+00:50:35.620 --> 00:50:42.680
+ricardoperello: Yeah, so it's… it's two things, it's… Proving some security…
+
+303
+00:50:42.900 --> 00:50:47.000
+ricardoperello: assumptions about this, like, if I… if I break force, that means…
+
+304
+00:50:47.460 --> 00:50:52.979
+ricardoperello: I broke a check, and also trying to get the EVM bytecode
+
+305
+00:50:53.710 --> 00:50:56.680
+ricardoperello: And not just the optimize your verified.
+
+306
+00:50:58.390 --> 00:51:03.410
+Antonio Sanso: Right. I… for some reason, at the moment, I even more…
+
+307
+00:51:03.800 --> 00:51:07.290
+Antonio Sanso: Keen on the first one, then the second, somehow.
+
+308
+00:51:07.560 --> 00:51:08.840
+ricardoperello: Okay.
+
+309
+00:51:09.130 --> 00:51:23.909
+Antonio Sanso: Because I think that, you know, again, for me, like, having a strong ground… ground truth is really the thing, you know, like, if that stuff is… if you don't have confidence in this, you can prove everything, basically, right?
+
+310
+00:51:24.040 --> 00:51:32.179
+Antonio Sanso: So, I think, like, the first thing you mentioned is, like, having a strong basement to build on top, you know what I mean?
+
+311
+00:51:34.750 --> 00:51:40.159
+Antonio Sanso: But great progress so far. I'm pretty pleased to see what we've seen today.
+
+312
+00:51:42.090 --> 00:51:45.390
+Antonio Sanso: Right. Anyone has any other question?
+
+313
+00:51:50.850 --> 00:51:53.949
+Antonio Sanso: Alright, if I take, like, a note, so I will…
+
+314
+00:51:54.230 --> 00:51:59.190
+Antonio Sanso: I'll give you back 20 minutes of your time, if it's the case, and
+
+315
+00:51:59.570 --> 00:52:08.509
+Antonio Sanso: We're gonna see in two weeks. I will thank again Ricardo for representing the Riva Labs guys that, gave the…
+
+316
+00:52:08.750 --> 00:52:16.110
+Antonio Sanso: the basis of this work, and Yoichi, thanks a lot for… for swing by and give a suggestion. Benedict as well, thank you for…
+
+317
+00:52:16.470 --> 00:52:17.310
+Antonio Sanso: Prompt.
+
+318
+00:52:17.690 --> 00:52:20.219
+Antonio Sanso: answering the question. See you in two weeks!
+
+319
+00:52:21.560 --> 00:52:23.010
+Benedikt Wagner: Thank you, see you.
+
+320
+00:52:23.010 --> 00:52:23.690
+Antonio Sanso: Alright.
+
+321
+00:52:24.300 --> 00:52:25.760
+ricardoperello: Right, goodbye, everyone.
+
+322
+00:52:26.030 --> 00:52:27.149
+Matteo Vena | Riva Labs: Bye, everyone, see you.
+
+323
+00:52:27.150 --> 00:52:28.260
+Alessandro Baiocchi: Thank you, see you.
+
