@@ -1,0 +1,108 @@
+{
+  "meeting": "Encrypt The Mempool #6 - Jun 24, 2026",
+  "highlights": {
+    "cl_spec_progress": [
+      {
+        "timestamp": "00:02:41",
+        "highlight": "Matt from Lodestar interested in joining; targeting next call in two weeks"
+      },
+      {
+        "timestamp": "00:03:12",
+        "highlight": "Lucid PM repo created (jflo/lucid-pm) to track missing CL specs, PRs, and implementation gaps"
+      },
+      {
+        "timestamp": "00:04:36",
+        "highlight": "Boma to draft CL spec skeleton: SSZ containers, inclusion list, payload bid extension, LucidKey votes \u2014 standalone pieces only, pending EL decryption flow stabilization"
+      },
+      {
+        "timestamp": "00:09:38",
+        "highlight": "Erigon (Mark) willing to review CL spec drafts and attempt implementation given Erigon 3 runs both EL and CL"
+      }
+    ],
+    "kurtosis_devenv": [
+      {
+        "timestamp": "00:16:05",
+        "highlight": "Kurtosis sandwich-attack demo stack built against Fusaka; Glamsterdam/ePBS not yet stable enough to target"
+      }
+    ],
+    "key_release_fee_design": [
+      {
+        "timestamp": "00:19:08",
+        "highlight": "Key publication fee mechanics unclear in spec: fee reduces gas headroom but is not itself a gas fee; needs cleaner separation and documentation"
+      },
+      {
+        "timestamp": "00:23:31",
+        "highlight": "Consensus: treat key release fee as a separate object from gas; wallets responsible for accounting, may require new RPC for estimation"
+      },
+      {
+        "timestamp": "00:29:51",
+        "highlight": "Key release fee is orthogonal to bundling; factoring out bundles to a separate EIP won't simplify key publication fee handling"
+      }
+    ],
+    "optionality_and_lucid_design": [
+      {
+        "timestamp": "00:33:03",
+        "highlight": "Probabilistic front-running via self-key withholding is unsolvable without threshold encryption; top-of-block fees and bundling are the only current mitigations"
+      },
+      {
+        "timestamp": "00:37:50",
+        "highlight": "Builder optionality (via FOCIL-style PTC vote wiggle room) is partially addressable: penalizing equivocating PTC votes would reduce exploitability"
+      },
+      {
+        "timestamp": "00:36:39",
+        "highlight": "Whether optionality is a deal-breaker for Lucid CFI is a question that must go to ACD"
+      },
+      {
+        "timestamp": "00:48:58",
+        "highlight": "Lucid cannot be upgraded to threshold encryption if/when it matures \u2014 a new scheme would be required from scratch"
+      }
+    ],
+    "threshold_encryption_readiness": [
+      {
+        "timestamp": "00:51:22",
+        "highlight": "No threshold encryption scheme currently meets Ethereum's requirements: post-quantum security, low setup cost, scalable committee size, bulk decryption support"
+      },
+      {
+        "timestamp": "00:53:21",
+        "highlight": "Ethereum Foundation cryptography team monitoring threshold encryption research; Benedict's requirements list exists and will be shared"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:13:09",
+      "action": "Explore up to $10K ShutterDAO0X36 bounty for CL spec work; need help defining success criteria",
+      "owner": "Loring + CL contributors"
+    },
+    {
+      "timestamp": "00:30:32",
+      "action": "Rewrite key publication fee section of EIP-8184 for clarity; coordinate with Anders",
+      "owner": "Justin Florentine"
+    },
+    {
+      "timestamp": "00:43:19",
+      "action": "Discuss builder optionality and PTC equivocation penalties with Potuz",
+      "owner": "Justin Florentine"
+    },
+    {
+      "timestamp": "00:53:21",
+      "action": "Share Benedict's Ethereum threshold encryption requirements list in Telegram",
+      "owner": "Gottfried Herold"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:23:31",
+      "decision": "Key release fee to be treated as separate from gas in the spec; wallet-layer responsibility for fee accounting"
+    },
+    {
+      "timestamp": "00:33:03",
+      "decision": "Probabilistic front-running optionality accepted as out-of-scope for Lucid; no protocol-level fix possible without threshold encryption"
+    },
+    {
+      "timestamp": "00:36:39",
+      "decision": "Optionality deal-breaker question to be escalated to ACD for CFI determination"
+    }
+  ],
+  "targets": []
+}

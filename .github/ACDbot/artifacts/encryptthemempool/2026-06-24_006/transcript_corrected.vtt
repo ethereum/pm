@@ -1,0 +1,1978 @@
+WEBVTT
+
+1
+00:00:08.910 --> 00:00:10.230
+Justin Florentine (Besu): Eureka!
+
+2
+00:00:12.310 --> 00:00:13.660
+Loring: Hey!
+
+3
+00:00:13.660 --> 00:00:14.210
+Justin Florentine (Besu): What happened?
+
+4
+00:00:14.210 --> 00:00:15.510
+Loring: I didn't turn it out.
+
+5
+00:00:16.570 --> 00:00:22.220
+Justin Florentine (Besu): I don't know. I… I don't know what happened there. I… I messaged Pooja.
+
+6
+00:00:22.480 --> 00:00:28.570
+Justin Florentine (Besu): And complained, maybe she just fixed it out, fixed it on the, on the… on her own there.
+
+7
+00:00:31.950 --> 00:00:36.800
+Gottfried Herold: I mean, the error message I got was that you were in another meeting, which is kind of weird.
+
+8
+00:00:37.480 --> 00:00:38.510
+Justin Florentine (Besu): Yep.
+
+9
+00:00:38.990 --> 00:00:45.600
+Justin Florentine (Besu): Yep, I got that message too, which is weird, because it… I guess I'm not the host.
+
+10
+00:00:47.880 --> 00:00:51.800
+Justin Florentine (Besu): Hello, everyone! Welcome to Encrypted Mempool number 6.
+
+11
+00:00:52.180 --> 00:00:53.960
+Justin Florentine (Besu): Thank you for…
+
+12
+00:00:54.070 --> 00:00:55.380
+Mark Holt: Or… control.
+
+13
+00:00:55.880 --> 00:01:09.000
+Justin Florentine (Besu): thank you for, putting up with the waiting room, and, I'm gonna talk to some EF cat herders about that, figure out if we can get a little bit more of a reliable startup to our meetings.
+
+14
+00:01:09.380 --> 00:01:17.650
+Justin Florentine (Besu): I'm your host, as ever, Justin Florentine. Thank you, everybody, for joining us. We have a fun agenda,
+
+15
+00:01:17.720 --> 00:01:32.959
+Justin Florentine (Besu): Cued up. I see a lot of new faces, so welcome, everybody. Welcome to EncryptoMempool. Post the… let's see, let's see, let's see… EncryptoMempool number 6. Here we go. Issue 2118…
+
+16
+00:01:35.900 --> 00:01:38.650
+Justin Florentine (Besu): Posted the link to the agenda in the chat.
+
+17
+00:01:38.820 --> 00:01:43.120
+Justin Florentine (Besu): We can just get right to it.
+
+18
+00:01:49.170 --> 00:01:53.729
+Justin Florentine (Besu): Mercy, you are in the right place. It's not just you, buddy.
+
+19
+00:01:54.840 --> 00:02:09.380
+Justin Florentine (Besu): Alright, let's see… Yannick, I'd like to briefly introduce post-inclusion ordering, a research idea we're explaining. Fun! Okay, great. We'll tack that onto the agenda. So, for starters, CL dubs. We don't have any CL dubs, we still need CL dubs.
+
+20
+00:02:10.090 --> 00:02:18.139
+Justin Florentine (Besu): They're real busy with ePBS right now, so I have, I have talked to some.
+
+21
+00:02:18.650 --> 00:02:29.550
+Justin Florentine (Besu): And, yeah, they're just kind of busy right now, so, you know, keep your eyes peeled for anybody that wants to contribute on that front. We specifically have…
+
+22
+00:02:29.640 --> 00:02:41.449
+Justin Florentine (Besu): needs as far as writing CL specs and getting them, added to reference implementations. On that subject… Oh, Lori! Hi! Go ahead. You have your hand up, sorry.
+
+23
+00:02:41.920 --> 00:03:00.010
+Loring: Yeah, on the topic of consensus client teams joining the call, I was just DMing with Matt from Lodestar. He said he would love to join, but he is on a plane at the moment, and he'll try to join, in two weeks for our next call.
+
+24
+00:03:00.500 --> 00:03:01.360
+Justin Florentine (Besu): Awesome.
+
+25
+00:03:01.590 --> 00:03:06.609
+Justin Florentine (Besu): Feel free to put us, in touch via telegram or otherwise.
+
+26
+00:03:07.050 --> 00:03:08.650
+Justin Florentine (Besu): Matt at Lodestar.
+
+27
+00:03:12.450 --> 00:03:25.120
+Justin Florentine (Besu): Cool, cool, cool. Speaking of things that we need from a CL perspective, I created the Lucid PM repo, which, was pretty vibe-coded, but, you know.
+
+28
+00:03:25.120 --> 00:03:44.219
+Justin Florentine (Besu): There's a link to it in the agenda, it's in my own personal repo for now, we'll move it somewhere else once it becomes… once we scrape some of the clot off of it. But it kind of collects, it's basically a documentation repo that has collections of, you know, pointers to PRs and specs and things that we're missing.
+
+29
+00:03:44.220 --> 00:03:48.259
+Justin Florentine (Besu): So, if you take a look at it, maybe I should share my screen.
+
+30
+00:03:53.690 --> 00:03:57.939
+Justin Florentine (Besu): So here it is. It's just JFLO, Lucid PM for now.
+
+31
+00:04:00.390 --> 00:04:09.179
+Justin Florentine (Besu): Right here is kind of our status at a glance. We have an EAP and a draft PR for execution specs, and that's about it.
+
+32
+00:04:09.560 --> 00:04:16.670
+Justin Florentine (Besu): You can see a bunch of things right there for consensus specs that are missing. So…
+
+33
+00:04:17.200 --> 00:04:35.699
+Justin Florentine (Besu): Open to feedback on this. This is just a very loose, like I said, Claude helped me get this organized. Feel free to open PRs into it, comments, issues, whatever you think we need as far as coordinating the real technical work that needs to happen to get us to SFI.
+
+34
+00:04:35.810 --> 00:04:37.629
+Justin Florentine (Besu): Any questions on that?
+
+35
+00:04:39.810 --> 00:04:42.230
+Justin Florentine (Besu): comments, concerns? Mercy, do you have your hand up?
+
+36
+00:04:43.270 --> 00:04:48.590
+Boma: Yeah, sorry, good afternoon. Good evening. I wanted to comment on the sales spec.
+
+37
+00:04:49.020 --> 00:04:57.830
+Boma: Because I was looking at the spec, and then the current, the, the, the, the parent is his, which is… which provides us with FOCIL inclusion list. Why?
+
+38
+00:04:58.090 --> 00:05:09.319
+Boma: glowers, which is under it provides BTS, and then the execution pill would be it. So, I wanted to know if it is okay for me to, like, scaffold this CL spec under EIP81…
+
+39
+00:05:09.660 --> 00:05:10.970
+Boma: It's full.
+
+40
+00:05:11.960 --> 00:05:12.560
+Justin Florentine (Besu): Yeah.
+
+41
+00:05:13.240 --> 00:05:14.480
+Boma: And then…
+
+42
+00:05:14.680 --> 00:05:21.060
+Boma: Another thing I also want to ask is about, I want to first, like, work on the standalone pieces, like.
+
+43
+00:05:21.690 --> 00:05:28.160
+Boma: without the EL, co-design. Like, the SSZ, the standalone pieces, I…
+
+44
+00:05:28.670 --> 00:05:32.140
+Boma: was able to, like, map out is the SSZ container, the…
+
+45
+00:05:32.290 --> 00:05:38.739
+Boma: inclusion list, and then the payload, extensions, and then the Lucid Key, votes. So…
+
+46
+00:05:39.270 --> 00:05:41.920
+Boma: what… I feel like,
+
+47
+00:05:42.650 --> 00:05:53.420
+Boma: the pieces that generally requires, like, a co-design with the EL spec, which you're currently working on, is the engine API V2 shape, and then the recovery, flow setup. So, I would like to know…
+
+48
+00:05:53.550 --> 00:06:08.089
+Boma: if I can start the standalone half while in parallel with the PR you're currently working on, or should I just hold off until the EL ticket, decryption flow and fee surface are stable?
+
+49
+00:06:09.770 --> 00:06:21.550
+Justin Florentine (Besu): I think that… I don't see a problem with that. I mean, a lot of that stuff doesn't require specs, right? That was your… that's kind of your point, right? Like, a lot of this stuff doesn't require specs, and it can be worked on. What client were you going to do the work in?
+
+50
+00:06:22.880 --> 00:06:36.859
+Boma: So, I wanted to map out the spec… the PR on the spec, the Skeletal path, then I will kind of, like, pick a client to make the implementation, and just… I just wanted to know if it's okay to work on the standalone first, or wait till your own PR gets…
+
+51
+00:06:36.970 --> 00:06:39.250
+Boma: Most solid, sort of.
+
+52
+00:06:40.390 --> 00:06:43.959
+Justin Florentine (Besu): Oh, I see. Are you talking about on the EL side, or on the CL side?
+
+53
+00:06:44.480 --> 00:06:45.730
+Boma: The CO side, yeah.
+
+54
+00:06:45.730 --> 00:07:02.199
+Justin Florentine (Besu): Oh, the CL side, I… I would defer to your judgment on that, honestly, and this is kind of why I've been asking for CL judges… for CL devs to participate, is like, I don't really know how those specs work, or what the best practice is, so I would just say go for it, you know, if you don't mind.
+
+55
+00:07:02.360 --> 00:07:12.880
+Justin Florentine (Besu): I think we're so early in the process, we kind of have to be willing to not be precious with our code and throw stuff out. So, you know, if you're comfortable with doing work that…
+
+56
+00:07:13.120 --> 00:07:16.489
+Justin Florentine (Besu): Might not, you know, might not be kept.
+
+57
+00:07:17.170 --> 00:07:20.749
+Justin Florentine (Besu): I am unfortunately not qualified to coach that.
+
+58
+00:07:21.410 --> 00:07:23.590
+Justin Florentine (Besu): I'm sorry, that's not a great answer.
+
+59
+00:07:25.510 --> 00:07:35.610
+Justin Florentine (Besu): But I guess what I can say is that I'm not planning on doing the work that you're talking about on the CL side yet, and I don't know of anybody else, so if you want to go first, go for it.
+
+60
+00:07:36.630 --> 00:07:37.880
+Boma: Okay, thank you.
+
+61
+00:07:38.520 --> 00:07:42.189
+Justin Florentine (Besu): Yeah, sorry, I know that's not a great answer, but,
+
+62
+00:07:43.140 --> 00:07:47.059
+Justin Florentine (Besu): Let me know how I can be better. Loring?
+
+63
+00:07:48.240 --> 00:08:04.790
+Loring: Two questions on different topics, and we'll take them one at a time. Two weeks ago, Justin, you said that Erigon may have a, unique ability to play a role in writing the client specs.
+
+64
+00:08:04.790 --> 00:08:14.809
+Loring: Because Erigon 3 is both, execution and consensus. I noticed Mark from Erigon is on the call.
+
+65
+00:08:15.060 --> 00:08:19.160
+Loring: Is it worth you guys jamming on that, for just a second?
+
+66
+00:08:20.540 --> 00:08:24.909
+Mark Holt: Yeah, yeah, yeah, yeah, yeah, yeah, no, no.
+
+67
+00:08:27.730 --> 00:08:29.639
+Loring: Literally jamming on that.
+
+68
+00:08:29.640 --> 00:08:31.920
+Mark Holt: Yeah, that was… I mean.
+
+69
+00:08:37.549 --> 00:08:38.659
+Justin Florentine (Besu): Try again, Mark.
+
+70
+00:08:41.010 --> 00:08:43.830
+Mark Holt: Can you, can you, can you, can you, can you, hold on.
+
+71
+00:08:55.280 --> 00:08:57.330
+Mark Holt: Can you… can you hear me now?
+
+72
+00:08:57.330 --> 00:08:58.130
+Justin Florentine (Besu): Yes.
+
+73
+00:08:58.420 --> 00:09:04.779
+Mark Holt: Yeah, so I managed to have the browser and a, and a Zoom session open at the same time.
+
+74
+00:09:06.340 --> 00:09:08.869
+Mark Holt: Yeah, I mean…
+
+75
+00:09:09.380 --> 00:09:13.959
+Mark Holt: we can… we can get… I'm a little bit reluctant to get involved in the CL…
+
+76
+00:09:14.090 --> 00:09:21.219
+Mark Holt: speccing stuff, just because… we're not… We're not,
+
+77
+00:09:22.190 --> 00:09:30.049
+Mark Holt: we've… we've not… our general approach to the CL is wait for the specs to appear, and then,
+
+78
+00:09:30.410 --> 00:09:32.660
+Mark Holt: And then try and implement them.
+
+79
+00:09:32.850 --> 00:09:33.710
+Mark Holt: Now…
+
+80
+00:09:34.120 --> 00:09:40.040
+Mark Holt: It… it would be… I mean, maybe this is a good opportunity for us to try and get a bit more involved earlier on.
+
+81
+00:09:40.440 --> 00:09:45.940
+Mark Holt: Because actually, yeah, we will… we can do the EL and the CL both at the same time.
+
+82
+00:09:47.800 --> 00:09:53.730
+Mark Holt: But it's a bit like the previous answer, because I haven't got… because I've got a lot…
+
+83
+00:09:54.590 --> 00:10:06.390
+Mark Holt: I don't think anybody in Erigon has been particularly involved in the CL specking process, so it's… we can start trying to do it, but I can guarantee that we won't be following best practice, I think.
+
+84
+00:10:06.860 --> 00:10:08.330
+Mark Holt: Well, if you see what I mean.
+
+85
+00:10:08.330 --> 00:10:10.730
+Justin Florentine (Besu): I see what you mean, because I'm in the same boat, buddy.
+
+86
+00:10:11.220 --> 00:10:11.840
+Mark Holt: Yay.
+
+87
+00:10:12.040 --> 00:10:12.970
+Mark Holt: So…
+
+88
+00:10:13.130 --> 00:10:21.670
+Mark Holt: Happy… happy… I mean, because it would be good to get this going, and I think we can't get the mempulse… we can't get this working without a CL implementation.
+
+89
+00:10:21.830 --> 00:10:23.990
+Mark Holt: So…
+
+90
+00:10:24.670 --> 00:10:34.169
+Mark Holt: I can… I can try and bastardize the protocol, or get somebody else to. I'll talk to our CL guys, try and persuade them to, to get involved.
+
+91
+00:10:35.240 --> 00:10:39.869
+Mark Holt: So… But yeah, I mean…
+
+92
+00:10:39.870 --> 00:10:43.220
+Boma: So, I think I just have to, like, come in a little bit.
+
+93
+00:10:44.650 --> 00:10:45.360
+Mark Holt: Sure.
+
+94
+00:10:47.040 --> 00:10:59.160
+Boma: So that was why I was asking if it's okay for me to start, start the SSZ containers, and then the inclusion list, and then the payload bid extension, then the LucidKey, timeless vote.
+
+95
+00:10:59.160 --> 00:11:07.859
+Boma: Because all these are CL spec. I feel like it makes more sense to have a spec on the CL side, then the CL clients can know what actually they want to implement.
+
+96
+00:11:09.360 --> 00:11:20.719
+Justin Florentine (Besu): Yeah, so you're saying you would get some of the low-hanging fruit, as it were, out of the way, and so that when the CL devs do need to come in, they won't have to think about those smaller, self-contained things? Is that what you're saying, Mercy?
+
+97
+00:11:22.390 --> 00:11:23.110
+Boma: Yeah.
+
+98
+00:11:23.370 --> 00:11:25.130
+Justin Florentine (Besu): Yeah, I like, I like that approach.
+
+99
+00:11:25.590 --> 00:11:32.129
+Mark Holt: Yeah, and if you're gonna do that, I'm happy to get involved with looking at it from a, how would we… how would we stick it into our CL?
+
+100
+00:11:32.660 --> 00:11:33.220
+Mark Holt: Eventually.
+
+101
+00:11:33.220 --> 00:11:40.600
+Boma: Yes, that would be really helpful, because if I get it out, I will need someone from the CL to actually, like, review it, and then make some.
+
+102
+00:11:40.600 --> 00:11:45.960
+Mark Holt: Yeah, yeah, yeah. So, I mean, if you're going to spec stuff out, I'm happy to look at it and try and implement it.
+
+103
+00:11:46.140 --> 00:11:51.940
+Mark Holt: As I say, with the caveat that probably…
+
+104
+00:11:52.700 --> 00:11:57.739
+Mark Holt: when a real CL developer with more experience, they'll probably point out
+
+105
+00:11:57.900 --> 00:12:08.260
+Mark Holt: stuff that I've not quite got right. But, I mean, what I will be able to do is to say, right, here's our implementation, if we do this, it looks like it'll work. And it'll work for both the CO and the EL side.
+
+106
+00:12:09.570 --> 00:12:16.820
+Mark Holt: So, yeah, I mean, happy to get involved with that. So maybe, if you can just,
+
+107
+00:12:17.420 --> 00:12:24.859
+Mark Holt: As you get specs, get in touch, and I'll start looking at the implementation of it.
+
+108
+00:12:28.340 --> 00:12:32.639
+Mark Holt: Because I'm guessing where we are with this at the moment is we just need to try and get something working.
+
+109
+00:12:32.750 --> 00:12:40.100
+Mark Holt: Even if it kind of… even if it morphs into something completely different over the course of time, which is kind of the expected process, I think.
+
+110
+00:12:40.270 --> 00:12:41.200
+Justin Florentine (Besu): Sure is.
+
+111
+00:12:42.030 --> 00:12:46.930
+Justin Florentine (Besu): Happy to, so there's a number of places where y'all can stay in touch.
+
+112
+00:12:47.190 --> 00:12:58.960
+Justin Florentine (Besu): We can… there is the, Encrypted MedPools channel and Discord, and there's also a couple telegrams. We'll make sure that both of you are invited to those.
+
+113
+00:12:59.630 --> 00:13:03.840
+Justin Florentine (Besu): Maybe… Yeah, great.
+
+114
+00:13:05.210 --> 00:13:08.159
+Justin Florentine (Besu): Lauren, your hand is still up. You had another follow-up question?
+
+115
+00:13:09.240 --> 00:13:10.669
+Loring: Yeah,
+
+116
+00:13:12.140 --> 00:13:30.660
+Loring: There may be the possibility to unlock up to $10,000 for some type of incentive, possibly a bounty to kickstart this consensus spec.
+
+117
+00:13:30.770 --> 00:13:33.139
+Loring: And,
+
+118
+00:13:33.490 --> 00:13:42.650
+Loring: It's something that I would need to work together with someone else on in the next week, but if anyone would be interested in
+
+119
+00:13:42.850 --> 00:13:48.659
+Loring: Helping me outline a bounty so that, It's kind of…
+
+120
+00:13:48.860 --> 00:14:07.129
+Loring: pointed in the right direction, I would be very interested in doing that, and I can't guarantee the funding, but, we can work on a proposal, and if it's accepted by ShutterDAO0X36, then that could be some money to incentivize some action.
+
+121
+00:14:07.400 --> 00:14:12.530
+Justin Florentine (Besu): I think, I love that, first of all. Yes and.
+
+122
+00:14:13.420 --> 00:14:31.040
+Justin Florentine (Besu): We kind of have the same problem that we have elsewhere, though, where none of us are quite authoritative in judging the results of a bounty to determine that it should be paid out, right? Like, I don't… I wouldn't know how to correctly define the success criteria for the bounty.
+
+123
+00:14:31.380 --> 00:14:44.260
+Justin Florentine (Besu): Because, again, I don't, I don't, dabble in CL specs. But this is another thing that we can run by the CL people that we're gonna harass to help fill in these gaps.
+
+124
+00:14:46.150 --> 00:14:47.540
+Loring: Sounds good. Thanks.
+
+125
+00:14:49.870 --> 00:14:51.030
+Justin Florentine (Besu): Cool stuff.
+
+126
+00:14:51.390 --> 00:14:52.330
+Justin Florentine (Besu): Cool stuff.
+
+127
+00:14:52.880 --> 00:14:58.099
+Mark Holt: I think in general, if we could get something that just flows, it'll make it easier to also
+
+128
+00:14:58.480 --> 00:15:02.439
+Mark Holt: For people to figure out the various timing things that are involved in this?
+
+129
+00:15:03.430 --> 00:15:07.190
+Mark Holt: Because it just… it feels to me like this is something that if we can make
+
+130
+00:15:07.420 --> 00:15:13.899
+Mark Holt: Whether it's right or wrong, if we can make a flow work, then it becomes a lot easier for people to reason about what the
+
+131
+00:15:14.120 --> 00:15:15.660
+Mark Holt: What the preferred option is.
+
+132
+00:15:17.690 --> 00:15:18.690
+Mark Holt: So…
+
+133
+00:15:21.160 --> 00:15:30.350
+Justin Florentine (Besu): Okay, I lost my agenda here… Do-do, too many…
+
+134
+00:15:38.420 --> 00:15:41.459
+Justin Florentine (Besu): Sorry, y'all? Okay, cool.
+
+135
+00:15:42.520 --> 00:15:44.120
+Justin Florentine (Besu): Cool, cool, cool, cool, cool.
+
+136
+00:15:49.180 --> 00:15:50.220
+Justin Florentine (Besu): Next up.
+
+137
+00:15:54.310 --> 00:16:00.499
+Justin Florentine (Besu): Okay, so we showed off the PM thing, we talked about sealed up. Kurtosis stack for sandwiching! Yes, that's right.
+
+138
+00:16:02.390 --> 00:16:05.280
+Justin Florentine (Besu): We vibed up a thing.
+
+139
+00:16:05.530 --> 00:16:17.650
+Justin Florentine (Besu): For those of you that are familiar with Kurtosis, it is a Docker suite for building a complete network and being able to deploy stuff to it. I made one that does sandwich attacks.
+
+140
+00:16:18.630 --> 00:16:25.039
+Justin Florentine (Besu): So, this could be, like, our little test bed that does stuff. Unfortunately…
+
+141
+00:16:25.120 --> 00:16:34.739
+Justin Florentine (Besu): I did it on Fusaka, because the Glamsterdam stuff is so in flux right now that I wasn't able to really get,
+
+142
+00:16:34.740 --> 00:16:49.229
+Justin Florentine (Besu): up-to-date consensus layer running and activating Glamsterdam and operating. So, that's kind of a big deal, actually, because we really need to develop,
+
+143
+00:16:50.820 --> 00:16:55.210
+Justin Florentine (Besu): We really need to develop against ePBS, because it's a critical part of the design.
+
+144
+00:16:55.500 --> 00:17:13.560
+Justin Florentine (Besu): And so, you know, this is, this is, good for kind of demonstrating sandwich Attacks and how it works, for Fusaka, but this will need to be maintained and updated as soon as Glass starts becoming, available.
+
+145
+00:17:13.940 --> 00:17:21.719
+Justin Florentine (Besu): Again, this is in my own private fork. It is very rough draft. You can see…
+
+146
+00:17:21.880 --> 00:17:37.900
+Justin Florentine (Besu): that it's been very heavily vibe-coded, but that's… that's our reality in 2026. So, encourage people to check it out, pull it, play with it, break it, open PRs, tell me I suck at Python, all that fun stuff.
+
+147
+00:17:39.050 --> 00:17:42.230
+Justin Florentine (Besu): Questions, comments, concerns?
+
+148
+00:17:42.230 --> 00:17:43.190
+Boma: private.
+
+149
+00:17:43.500 --> 00:17:44.949
+Justin Florentine (Besu): Oh, no!
+
+150
+00:17:45.840 --> 00:17:50.899
+Justin Florentine (Besu): Good comment! Alright, I should probably make it public. I'll do that.
+
+151
+00:17:59.740 --> 00:18:04.630
+Justin Florentine (Besu): Danger zone, yeah. Yeah.
+
+152
+00:18:12.280 --> 00:18:13.100
+Justin Florentine (Besu): Good.
+
+153
+00:18:19.040 --> 00:18:20.080
+Justin Florentine (Besu): Please hold.
+
+154
+00:18:22.610 --> 00:18:31.000
+Justin Florentine (Besu): Anyway, moving on. I'll get this, I'll get this unlocked and shared with, shared with folks later. Thank you for checking my work, Mercy.
+
+155
+00:18:35.130 --> 00:18:44.660
+Justin Florentine (Besu): Next up in the agenda, though… is…
+
+156
+00:18:44.770 --> 00:18:47.039
+Justin Florentine (Besu): Nope. Alright, that should be public now.
+
+157
+00:18:50.120 --> 00:18:53.530
+Justin Florentine (Besu): Oh, here we go, I can start sharing again…
+
+158
+00:18:53.940 --> 00:18:55.810
+Gottfried Herold: No, key release fees.
+
+159
+00:18:56.080 --> 00:18:57.159
+Justin Florentine (Besu): Can you see it?
+
+160
+00:18:59.950 --> 00:19:00.830
+Boma: Yes.
+
+161
+00:19:01.550 --> 00:19:02.470
+Justin Florentine (Besu): Alright.
+
+162
+00:19:03.910 --> 00:19:08.339
+Justin Florentine (Besu): Your weapon's free, Mercy, go get it. Alright,
+
+163
+00:19:08.790 --> 00:19:14.650
+Justin Florentine (Besu): Kurtosis, da-da-da-da-da. Next up, actual design discussion points here.
+
+164
+00:19:15.160 --> 00:19:23.770
+Justin Florentine (Besu): I don't have a… so let's open the discussion here, talking about key release fees.
+
+165
+00:19:24.590 --> 00:19:30.619
+Justin Florentine (Besu): Mercy had some questions, actually. Thank you for looking at the implementation.
+
+166
+00:19:31.790 --> 00:19:33.370
+Justin Florentine (Besu): First of all…
+
+167
+00:19:38.070 --> 00:19:42.860
+Justin Florentine (Besu): And we had a question about… oh, it's over here. Yep.
+
+168
+00:19:42.970 --> 00:19:48.119
+Justin Florentine (Besu): We had a question about… How key publication fees are billed.
+
+169
+00:19:49.070 --> 00:19:56.740
+Justin Florentine (Besu): I asked Anders to join. I don't know if he's going to be able to. Let me see if he actually had a chance to comment.
+
+170
+00:19:56.740 --> 00:19:59.620
+Gottfried Herold: I wrote on Telegram that he wouldn't be able to join.
+
+171
+00:19:59.800 --> 00:20:00.550
+Justin Florentine (Besu): Okay.
+
+172
+00:20:01.290 --> 00:20:02.220
+Justin Florentine (Besu): Okay.
+
+173
+00:20:04.150 --> 00:20:09.700
+Justin Florentine (Besu): So, the key publication fee is intended, essentially, for,
+
+174
+00:20:09.830 --> 00:20:13.010
+Justin Florentine (Besu): Other people that want to serve as decryptors.
+
+175
+00:20:14.770 --> 00:20:19.100
+Justin Florentine (Besu): It also overlaps with the bundling functionality a little bit.
+
+176
+00:20:19.270 --> 00:20:20.160
+Justin Florentine (Besu): Right.
+
+177
+00:20:20.320 --> 00:20:27.189
+Justin Florentine (Besu): So a bunch of us could get together and say, hey, we agreed to let, this decor provide the key for us.
+
+178
+00:20:27.580 --> 00:20:32.580
+Justin Florentine (Besu): And they'll provide a key that covers all of these messages in the bundle.
+
+179
+00:20:33.540 --> 00:20:34.840
+Justin Florentine (Besu): And so…
+
+180
+00:20:35.420 --> 00:20:42.399
+Justin Florentine (Besu): When it comes down to the spec here, we need to figure out exactly… how does that get… get built?
+
+181
+00:20:42.590 --> 00:20:51.099
+Justin Florentine (Besu): And Mercy brought up some pretty good, some pretty good questions here that I don't know that I have a great answer for. I think…
+
+182
+00:20:52.670 --> 00:20:54.859
+Justin Florentine (Besu): The key publication fee…
+
+183
+00:20:58.130 --> 00:21:03.300
+Justin Florentine (Besu): Needs to be paid out of…
+
+184
+00:21:03.400 --> 00:21:08.940
+Justin Florentine (Besu): I guess the question is, is does it impact the headroom for the gas, right? And I think it must.
+
+185
+00:21:09.950 --> 00:21:13.589
+Justin Florentine (Besu): But I'm not quite sure how to express that in the spec.
+
+186
+00:21:15.510 --> 00:21:22.260
+Justin Florentine (Besu): So I guess for starters, is anybody else confused about key publication fee and how it's…
+
+187
+00:21:22.660 --> 00:21:25.459
+Justin Florentine (Besu): represented in the Lucid spec.
+
+188
+00:21:26.520 --> 00:21:36.829
+Gottfried Herold: I mean, you have this kind of different kinds of fees, and this kind of if, this maximum taking, and so on, which is kind of confusingly written, I think. I mean…
+
+189
+00:21:37.360 --> 00:21:43.380
+Gottfried Herold: Because you sort of add a lot of variables that are sort of, if you just look at them in isolation, it's kind of a
+
+190
+00:21:43.950 --> 00:21:47.629
+Gottfried Herold: Looks like… It's redundant in some sense?
+
+191
+00:21:47.910 --> 00:21:48.380
+Justin Florentine (Besu): Okay.
+
+192
+00:21:48.460 --> 00:21:53.840
+Gottfried Herold: weird logic that, sort of, this max fee, and sort of… it's just a bit of a weird…
+
+193
+00:21:53.950 --> 00:22:04.979
+Gottfried Herold: It's just not always clear whether this max fee, I mean, what this even means, like, the maximum fee you pay for what, and so on. It's more of… it's more about a writing issue. I think it's more of a writing style issue, personally.
+
+194
+00:22:06.240 --> 00:22:08.470
+Gottfried Herold: Just as a field, some kind of feedback, but…
+
+195
+00:22:08.470 --> 00:22:15.100
+Justin Florentine (Besu): I think that's correct, and I think I agree with that, and I'm just not quite sure how to,
+
+196
+00:22:15.690 --> 00:22:19.799
+Justin Florentine (Besu): Simplify it in such a way that it answers the question here.
+
+197
+00:22:42.470 --> 00:22:46.369
+Mark Holt: Sorry, can I just ask a dumb question? Is this intended to be…
+
+198
+00:22:46.830 --> 00:22:50.579
+Mark Holt: It'll get taken out of gas somehow, it's a gas fee.
+
+199
+00:22:52.450 --> 00:22:59.040
+Justin Florentine (Besu): Yeah, it needs to come off the top, right? Because we're not introducing a new… Fee.
+
+200
+00:22:59.540 --> 00:23:05.549
+Gottfried Herold: Yeah. I mean, it's an extra payment mechanism. It's kind of unrelated to gas.
+
+201
+00:23:05.730 --> 00:23:10.660
+Gottfried Herold: I mean, you could also denominate it directly in ETH, I guess?
+
+202
+00:23:10.850 --> 00:23:17.949
+Justin Florentine (Besu): I mean, it is and it isn't, though, because to Mercy's point is that, like, it needs to be subtracted at some point to figure out, like, how much gas did you actually pay for as you.
+
+203
+00:23:18.670 --> 00:23:22.490
+Justin Florentine (Besu): you're calculating, right? And that's, I think, the confusion here.
+
+204
+00:23:22.680 --> 00:23:25.970
+Justin Florentine (Besu): Am I summarizing this correctly, Mercy?
+
+205
+00:23:26.660 --> 00:23:27.680
+Boma: Yeah, yeah.
+
+206
+00:23:27.890 --> 00:23:28.670
+Justin Florentine (Besu): Okay.
+
+207
+00:23:31.190 --> 00:23:38.160
+Gottfried Herold: I mean, it sort of, to me, it would make sense to sort of treat it as some kind of separate object, in a way, from the gas.
+
+208
+00:23:41.390 --> 00:23:42.090
+Justin Florentine (Besu): Hmm…
+
+209
+00:23:47.770 --> 00:23:51.290
+Justin Florentine (Besu): Yeah, yes.
+
+210
+00:23:52.750 --> 00:24:01.099
+Gottfried Herold: Sort of not… sort of just not conflated with the gas fee at all, because, kind of, it's not really… it serves… it serves a completely different purpose.
+
+211
+00:24:01.230 --> 00:24:06.449
+Gottfried Herold: It's more of a transfer of ETH conditional on something than a gas fee.
+
+212
+00:24:06.910 --> 00:24:11.519
+Justin Florentine (Besu): Right, because it's not actually paying for gas, but it's impacting how much gas you have, right?
+
+213
+00:24:11.810 --> 00:24:12.610
+Gottfried Herold: Yes.
+
+214
+00:24:12.610 --> 00:24:16.469
+Justin Florentine (Besu): So, so, so the, the… huh.
+
+215
+00:24:17.480 --> 00:24:20.270
+Justin Florentine (Besu): The amount that you're paying your key release
+
+216
+00:24:20.560 --> 00:24:28.949
+Justin Florentine (Besu): person could potentially threaten whether or not your transaction goes through. Like, if you're cutting it, if you're cutting it really close.
+
+217
+00:24:29.160 --> 00:24:30.070
+Gottfried Herold: Yeah, exactly.
+
+218
+00:24:30.380 --> 00:24:34.150
+Mark Holt: Because you've basically not got enough money to pay for the gas, because you've taken…
+
+219
+00:24:34.800 --> 00:24:35.490
+Gottfried Herold: Yes.
+
+220
+00:24:36.210 --> 00:24:36.900
+Justin Florentine (Besu): Yep.
+
+221
+00:24:37.980 --> 00:24:45.990
+Justin Florentine (Besu): And if we carve out a separate field for a new fee, I… 8.
+
+222
+00:24:47.720 --> 00:24:51.089
+Justin Florentine (Besu): I haven't thought through, like, the cryptoeconomics of that.
+
+223
+00:24:52.140 --> 00:24:55.020
+Justin Florentine (Besu): Right? Like, you… when you do that.
+
+224
+00:24:57.250 --> 00:25:00.929
+Justin Florentine (Besu): You're formally describing, effectively, another market, right?
+
+225
+00:25:01.080 --> 00:25:01.720
+Mark Holt: Yep.
+
+226
+00:25:01.990 --> 00:25:04.210
+Justin Florentine (Besu): But the market already kind of exists!
+
+227
+00:25:07.090 --> 00:25:14.329
+Justin Florentine (Besu): Like, the market exists as soon as people start offering to do this. Whether we're taking it out of max fee for gas.
+
+228
+00:25:14.570 --> 00:25:16.439
+Justin Florentine (Besu): Or a different field.
+
+229
+00:25:16.960 --> 00:25:22.450
+Gottfried Herold: I mean, it doesn't change anything, really, in who pays what, it's just a matter of how it's represented.
+
+230
+00:25:25.200 --> 00:25:25.850
+Justin Florentine (Besu): Yeah.
+
+231
+00:25:29.320 --> 00:25:33.889
+Mark Holt: Well, yeah, and the spec's clear enough, so as a client author, you can work out how to charge it.
+
+232
+00:25:34.510 --> 00:25:35.020
+Gottfried Herold: Yeah.
+
+233
+00:25:41.180 --> 00:25:48.440
+Justin Florentine (Besu): So, maybe what we should just do is rewrite this a little bit more clearer, so that it…
+
+234
+00:25:49.530 --> 00:25:54.949
+Justin Florentine (Besu): Answers the question as to whether or not we're overshooting by top-of-block fee plus the keep-up fee.
+
+235
+00:25:59.220 --> 00:26:05.190
+Justin Florentine (Besu): And we should just write it so that, look, all these things come off the top right from the beginning.
+
+236
+00:26:06.740 --> 00:26:09.360
+Justin Florentine (Besu): And, yes, they impact the gas.
+
+237
+00:26:11.000 --> 00:26:17.109
+Justin Florentine (Besu): And… Dealing with that as a exercise for the wallets.
+
+238
+00:26:18.930 --> 00:26:23.209
+Justin Florentine (Besu): And if we don't like that, then we treat that as a design decision that we have to iterate on.
+
+239
+00:26:23.730 --> 00:26:30.529
+Mark Holt: Yeah, well, it will become a thing for the walls, which will then… will then mean we'll need an RPC for estimating it.
+
+240
+00:26:31.530 --> 00:26:34.000
+Justin Florentine (Besu): Right.
+
+241
+00:26:35.240 --> 00:26:40.800
+Mark Holt: So, it'll go around, and that's my… looking at this, I'm thinking, yeah, this is another estimating RPC.
+
+242
+00:26:41.100 --> 00:26:42.310
+Mark Holt: So, it'll end up.
+
+243
+00:26:42.310 --> 00:26:47.319
+Gottfried Herold: why… why would you estimate anything here? I mean, the fee you pay for the Kiri will…
+
+244
+00:26:47.320 --> 00:26:47.750
+Mark Holt: Whoa.
+
+245
+00:26:47.880 --> 00:26:51.809
+Gottfried Herold: It means there's nothing… it's basically given, there's no uncertainty about it.
+
+246
+00:26:52.040 --> 00:26:56.350
+Mark Holt: No, no, but what it means is if it becomes a wallet responsibility to calculate it.
+
+247
+00:26:56.550 --> 00:26:59.579
+Mark Holt: They'll likely want to call an RPC to know what the number is.
+
+248
+00:27:01.980 --> 00:27:06.280
+Mark Holt: Because they're really, you know, the thing that they're doing is asking.
+
+249
+00:27:07.190 --> 00:27:10.350
+Mark Holt: is this fee enough to cover my gas, is what they do.
+
+250
+00:27:10.350 --> 00:27:12.319
+Justin Florentine (Besu): Will you reveal my key if I pay X?
+
+251
+00:27:12.630 --> 00:27:13.180
+Mark Holt: Yeah.
+
+252
+00:27:13.830 --> 00:27:15.040
+Justin Florentine (Besu): So, like, you have…
+
+253
+00:27:15.040 --> 00:27:18.639
+Gottfried Herold: You mean, oh, you mean for the, for the release, for the release,
+
+254
+00:27:19.990 --> 00:27:21.720
+Justin Florentine (Besu): Yeah, the key pump fee, right?
+
+255
+00:27:22.800 --> 00:27:31.630
+Justin Florentine (Besu): But wallets need to know to include that, which means they need to know how much it is, which means they need to have some way of communicating across the network to the people that are going to be doing the key release, so…
+
+256
+00:27:31.630 --> 00:27:32.240
+Gottfried Herold: Damn.
+
+257
+00:27:33.980 --> 00:27:42.100
+Gottfried Herold: But at the end of the day, this is more of a question about how to communicate with, sort of… I mean, in some senses, those key release entities are completely off protocol.
+
+258
+00:27:42.620 --> 00:27:43.930
+Gottfried Herold: By design.
+
+259
+00:27:44.570 --> 00:27:48.900
+Justin Florentine (Besu): Yes, but the key… the amount to charge for it could be on-chain.
+
+260
+00:27:49.650 --> 00:27:51.829
+Justin Florentine (Besu): Other protocol, but on-chain and available.
+
+261
+00:27:51.830 --> 00:27:57.029
+Gottfried Herold: I'm not… yeah, I'm not sure… Sure about that, actually.
+
+262
+00:27:58.140 --> 00:28:04.199
+Gottfried Herold: Because, I mean, it's not even clear whether this kind of carrying lease thing should even be a public service.
+
+263
+00:28:10.580 --> 00:28:15.619
+Justin Florentine (Besu): So, okay, hot take here. This is another thing that I wanted to run by the room anyway.
+
+264
+00:28:16.950 --> 00:28:20.129
+Justin Florentine (Besu): Key… the key release fee?
+
+265
+00:28:21.200 --> 00:28:25.030
+Justin Florentine (Besu): It is kind of, a feature of bundling.
+
+266
+00:28:26.010 --> 00:28:27.069
+Justin Florentine (Besu): Is that true?
+
+267
+00:28:27.830 --> 00:28:41.290
+Gottfried Herold: not necessarily… it's not reliant, it's not tied to bundles either. You could just have a single key, I mean, and sort of ask anybody else to sort of release it for you. I think it's actually kind of orthogonal to bundles.
+
+268
+00:28:42.100 --> 00:28:51.390
+Gottfried Herold: Because even in a bundle, even in a bundle case, you don't have one key for the whole bundle, and you still, in the bundle case, you still use separate keys for each individual transaction.
+
+269
+00:28:51.390 --> 00:28:54.839
+Justin Florentine (Besu): Okay, good, good, good, good. Okay, so it's orthogonal to bundling.
+
+270
+00:28:56.630 --> 00:28:58.789
+Justin Florentine (Besu): But it's also a necessary feature.
+
+271
+00:29:01.120 --> 00:29:13.870
+Gottfried Herold: I mean, otherwise you just don't have incentive for it, and, I mean, there is a nice application, actually, which is described, I think, in some of the rational, I think, where you basically use,
+
+272
+00:29:17.370 --> 00:29:32.969
+Gottfried Herold: And I think it's the top of block fee… yeah, no, no, let's not forget about it. I think in the… I think in the bundling case, you could, in some theory, even get around it by basically setting the top of block… by basically using the top of block fee to sort of…
+
+273
+00:29:33.920 --> 00:29:36.969
+Gottfried Herold: Use the payback from the post-block fee to pay the bundler.
+
+274
+00:29:42.130 --> 00:29:48.420
+Gottfried Herold: There's some kind of weird things you can play, but yeah, no, it's kind of orthogonal to… it's basically, it's largely orthogonal to bundling.
+
+275
+00:29:48.800 --> 00:29:51.069
+Justin Florentine (Besu): Okay, so we need to sort this out, though.
+
+276
+00:29:51.330 --> 00:30:10.100
+Justin Florentine (Besu): The reason I brought that up is because I was wondering if we factored out bundles to a separate EIP, if that could give us a lot more room to slim this down and simplify, you know, 8184 as it seems. That may still be true for bundling, but it doesn't help us for key publication fees.
+
+277
+00:30:10.330 --> 00:30:11.980
+Gottfried Herold: As far as I can see.
+
+278
+00:30:11.980 --> 00:30:14.210
+Justin Florentine (Besu): Great. Okay.
+
+279
+00:30:26.150 --> 00:30:31.789
+Justin Florentine (Besu): So, I think I, I think this is maybe as, like, a offline action item.
+
+280
+00:30:32.310 --> 00:30:36.949
+Justin Florentine (Besu): Who… does anybody want to work on simplifying this language?
+
+281
+00:30:37.300 --> 00:30:42.320
+Justin Florentine (Besu): With me and or Anders, if he's… if he's available.
+
+282
+00:30:44.760 --> 00:30:48.360
+Justin Florentine (Besu): If no one's ready to volunteer now, that's fine.
+
+283
+00:30:49.400 --> 00:30:51.969
+Justin Florentine (Besu): But hit me up.
+
+284
+00:30:52.150 --> 00:30:56.230
+Justin Florentine (Besu): Out of band, to contribute.
+
+285
+00:31:04.060 --> 00:31:06.219
+Justin Florentine (Besu): key publishing…
+
+286
+00:31:13.210 --> 00:31:14.010
+Justin Florentine (Besu): Okay.
+
+287
+00:31:21.230 --> 00:31:25.860
+Justin Florentine (Besu): Alright, that was unsatisfying, but you know what? That's… that's design.
+
+288
+00:31:26.480 --> 00:31:27.910
+Justin Florentine (Besu): It's gonna happen, you know?
+
+289
+00:31:28.490 --> 00:31:33.509
+Justin Florentine (Besu): you're gonna find a design gap and go, okay, I guess I gotta work on that. Speaking of which…
+
+290
+00:31:34.470 --> 00:31:39.140
+Justin Florentine (Besu): Optionality. We talked about this a little bit last session.
+
+291
+00:31:40.000 --> 00:31:45.009
+Justin Florentine (Besu): And, Gottfried, thank you for… I don't think you had published your piece yet.
+
+292
+00:31:45.290 --> 00:31:47.469
+Justin Florentine (Besu): During our last meeting.
+
+293
+00:31:47.470 --> 00:31:48.310
+Gottfried Herold: That's correct, yes.
+
+294
+00:31:48.310 --> 00:31:54.389
+Justin Florentine (Besu): For those that had not seen this, this is really good. This is, Gottfried… nope, that's not it.
+
+295
+00:31:56.320 --> 00:31:58.660
+Gottfried Herold: It's on East Research, it's on East Research.
+
+296
+00:31:58.660 --> 00:31:59.709
+Justin Florentine (Besu): There it is.
+
+297
+00:32:00.590 --> 00:32:01.430
+Justin Florentine (Besu): Thank you.
+
+298
+00:32:01.430 --> 00:32:07.440
+Gottfried Herold: Just a… just a bit of a… just a write-up of all of the kind of criticism, just to collect everything in one place.
+
+299
+00:32:07.440 --> 00:32:08.740
+Justin Florentine (Besu): Yes, and it's very…
+
+300
+00:32:08.740 --> 00:32:16.870
+Gottfried Herold: and some aspects, I think, were kind of not really that in front of mind for some people, so it was probably a good thing.
+
+301
+00:32:19.810 --> 00:32:20.690
+Justin Florentine (Besu): Yes.
+
+302
+00:32:22.160 --> 00:32:27.140
+Justin Florentine (Besu): And one of the subjects that you mentioned here was optionality, I think.
+
+303
+00:32:27.140 --> 00:32:27.720
+Gottfried Herold: Honey?
+
+304
+00:32:27.720 --> 00:32:51.199
+Gottfried Herold: I mean, yeah, there's various ways of optionality. I mean, there's the optionality that we all know and love, or hate, or that is kind of unavoidable, given the current state of the art, which is that the key releaser, which, in case you want to exercise optionality, is typically yourself, so… in the main case, we talk about self-key release, where basically you just refuse to release your key. And you can do that depending on whether other people
+
+305
+00:32:51.200 --> 00:32:54.900
+Gottfried Herold: boots, release your key or not, or after seeing other skis.
+
+306
+00:32:56.280 --> 00:33:03.529
+Justin Florentine (Besu): Yes. I think one of the things I want to discuss with the group is probabilistic front-running as a form of optionality, right?
+
+307
+00:33:03.990 --> 00:33:18.570
+Gottfried Herold: This, yeah, this is an implication of, yes, this is one way of utilizing this to still extract MEV. I mean, it's discussed in the Lucid EIP to a great extent, this is just much more, with formulas and probabilities and everything.
+
+308
+00:33:18.570 --> 00:33:29.389
+Justin Florentine (Besu): Yes. So, I wanted to talk to us about, maybe reframing this not as a criticism of Lucid, but actually just, this is a spam problem.
+
+309
+00:33:30.170 --> 00:33:41.590
+Justin Florentine (Besu): I think… I think this… this could happen for lots of reasons and lots of ways, and we actually see this on optimistic networks like Base, right? And Solana.
+
+310
+00:33:42.000 --> 00:33:44.800
+Justin Florentine (Besu): We see this probabilistic front-running
+
+311
+00:33:46.100 --> 00:33:49.730
+Justin Florentine (Besu): As it is kind of a known thing, so,
+
+312
+00:33:51.280 --> 00:34:02.840
+Justin Florentine (Besu): How should we prioritize this as a design problem to fix within Lucid, as opposed to treating it like a spam problem and pumping on it, to use an Americanism?
+
+313
+00:34:03.390 --> 00:34:12.130
+Gottfried Herold: I'm not sure what you mean by spam problem. I mean, it's not… I mean, to be fair, I mean, I think Andres is not here, so probably could answer it better, but,
+
+314
+00:34:12.620 --> 00:34:23.890
+Gottfried Herold: Essentially, due to the fact that we do not have encrypted mempools, this optionality is just there, it's basically the best we can do for now, so I think we cannot solve it, simply put.
+
+315
+00:34:24.030 --> 00:34:25.810
+Gottfried Herold: This will be just an issue.
+
+316
+00:34:26.290 --> 00:34:43.480
+Gottfried Herold: There are certain mitigations you can do, and the main mitigation that Lucid does is, top of block fees, so basically you punish people who sort of do not reveal, in a way, and you can sort of amplify the punishment, or try to amplify the punishment via bundling. Those are basically the…
+
+317
+00:34:43.480 --> 00:34:48.899
+Gottfried Herold: The mechanisms that we have in place to sort of disincentivize this, and…
+
+318
+00:34:49.110 --> 00:34:51.040
+Gottfried Herold: I don't think there is much more we can do.
+
+319
+00:34:51.449 --> 00:34:52.029
+Justin Florentine (Besu): Okay.
+
+320
+00:34:52.030 --> 00:35:08.010
+Gottfried Herold: Viewing it as a spam thing, basically, would just mean… I don't think… I don't like it sort of treating it as a spam thing, because treating it as a spam thing would just mean that, yeah, we have more transactions that do not do anything, that… or maybe some people sort of reserve gas, and
+
+321
+00:35:08.010 --> 00:35:16.299
+Gottfried Herold: And they don't actually put out transactions, or it's kind of wasteful for the chain itself, so spam sort of treated like a problem for the chain.
+
+322
+00:35:16.410 --> 00:35:26.000
+Gottfried Herold: And that's kind of not true, in a way, because they pay gas. In fact, they overpay gas. The problem really is that it still allows MEV extractions.
+
+323
+00:35:26.690 --> 00:35:32.930
+Gottfried Herold: Which is precisely what you want to sort of avoid. So, it's kind of… I think phrasing it as a spam thing is not…
+
+324
+00:35:33.650 --> 00:35:34.850
+Gottfried Herold: Not terribly helpful.
+
+325
+00:35:38.460 --> 00:35:39.360
+Justin Florentine (Besu): Okay.
+
+326
+00:35:39.660 --> 00:35:41.119
+Justin Florentine (Besu): I see your point.
+
+327
+00:35:44.270 --> 00:35:56.319
+Justin Florentine (Besu): Okay. Well, I think if we're gonna accept this as kind of just not, you know, out of scope for Lucid, I don't really care if we cast fighters spam or not, because it's out of scope, so…
+
+328
+00:35:56.320 --> 00:35:56.880
+Gottfried Herold: No.
+
+329
+00:35:56.880 --> 00:35:58.950
+Justin Florentine (Besu): I'm gonna concede that.
+
+330
+00:35:58.950 --> 00:36:01.739
+Gottfried Herold: anything. We can't do anything about it anyway. Right.
+
+331
+00:36:01.870 --> 00:36:02.510
+Justin Florentine (Besu): Yes.
+
+332
+00:36:02.510 --> 00:36:04.120
+Gottfried Herold: Realistically.
+
+333
+00:36:04.120 --> 00:36:10.930
+Justin Florentine (Besu): So what other forms of optionality, did we want to… discuss, I guess.
+
+334
+00:36:12.590 --> 00:36:15.510
+Gottfried Herold: I did not put it on the account, I don't know.
+
+335
+00:36:16.690 --> 00:36:23.609
+Justin Florentine (Besu): No. No, no, I just wanted to present… I just wanted to present it as a broader discussion.
+
+336
+00:36:23.610 --> 00:36:23.980
+Gottfried Herold: Yeah.
+
+337
+00:36:23.980 --> 00:36:40.240
+Justin Florentine (Besu): Because there is optionality in Lucid, and I don't know that we're… and I think probabilistic farming is a good example of it, but anytime you can withhold a key, you're going to have that optionality, so… Yeah. Is this a deal-breaker, right?
+
+338
+00:36:40.880 --> 00:36:49.140
+Gottfried Herold: I mean, this is the basic question that, in the end of the day, ACD has to answer, whether Lucid gets CFI or not. Because this is really the…
+
+339
+00:36:50.820 --> 00:36:59.009
+Gottfried Herold: the issue with Lucid, and that's something we cannot solve. I mean, the main sort of starting point for Lucid, or sort of the design rationale for Lucid is
+
+340
+00:36:59.010 --> 00:37:16.789
+Gottfried Herold: I mean, we do not have threshold encryption, that is good enough, so, we will always have some kind of optionality without these cryptographic tools. Those it is kind of the best we can do, but it has this optionality issue. Whether, sort of, this is a deal-breaker, then, well, then, well, then there we are, and we won't have anything.
+
+341
+00:37:16.790 --> 00:37:19.589
+Gottfried Herold: That's basically just the reality of the situation.
+
+342
+00:37:19.740 --> 00:37:24.940
+Justin Florentine (Besu): Okay, so I can actually take that to ACD, and we can get some clarity on that.
+
+343
+00:37:24.940 --> 00:37:28.379
+Gottfried Herold: Yeah. So, this is… at the end of the day, this is really…
+
+344
+00:37:28.900 --> 00:37:32.269
+Gottfried Herold: The main… that's the main issue, and it's always been kind of…
+
+345
+00:37:32.970 --> 00:37:43.210
+Gottfried Herold: there, and kind of open and everything. It's not… it's just that it's something where… just something… it's just a downside of Lucy that we have to accept if we want anything.
+
+346
+00:37:43.510 --> 00:37:44.310
+Justin Florentine (Besu): Okay.
+
+347
+00:37:44.900 --> 00:37:45.570
+Justin Florentine (Besu): Cool.
+
+348
+00:37:46.770 --> 00:37:51.139
+Justin Florentine (Besu): We'll talk to people about that, and we'll see, we'll see what the vibes are.
+
+349
+00:37:51.490 --> 00:37:52.060
+Gottfried Herold: No.
+
+350
+00:37:52.480 --> 00:38:10.019
+Gottfried Herold: The more interesting kind of aspects of the… where we could potentially do something are actually the other option… the other optionality things. I mean, this kind of classification of optionality into probabilistic frontrunning, I mean, this probabilistic frontrunning is just a way to exploit optionality.
+
+351
+00:38:10.020 --> 00:38:22.229
+Gottfried Herold: On the design side, there is, like, the other sort of optionality things, which is called builder optionality, which is a bit more interesting, interesting, not in the sense that it's as bad as the reveal optionality, where the
+
+352
+00:38:22.510 --> 00:38:28.250
+Gottfried Herold: Key Provider basically fails to reveal, but this kind of builder optionality, which is something that at least
+
+353
+00:38:28.600 --> 00:38:32.100
+Gottfried Herold: may be amenable, or where the design
+
+354
+00:38:32.440 --> 00:38:40.480
+Gottfried Herold: may actually be able to do something about it, which is essentially related to these PTC tie-style votes.
+
+355
+00:38:41.520 --> 00:38:45.130
+Gottfried Herold: I mean, bear…
+
+356
+00:38:45.770 --> 00:39:05.339
+Gottfried Herold: in some sense, I mean, the problem is, to some extent, that we are using, just to explain to those who did not read this, I mean, we are basically using a FOCIL-style mechanism to force inclusion, so basically, once you reveal your keys, we…
+
+357
+00:39:05.460 --> 00:39:09.729
+Gottfried Herold: force inclusion into the next block. We have to do that because the…
+
+358
+00:39:09.840 --> 00:39:23.579
+Gottfried Herold: the transactions are not decryptable by anyone, so we have to actually now execute them. Yes. Obviously. And in some sense, this, we use Fossil, and Fossil is a mechanism that basically ensures that if the
+
+359
+00:39:23.770 --> 00:39:37.089
+Gottfried Herold: On a ski provider basically makes it widely available, then the PTC votes will all say, hey, this was available, and so we can reasonably force the next included to sort of include it, provided everything works out, that things decrypt correctly, and whatnot.
+
+360
+00:39:37.220 --> 00:39:47.060
+Gottfried Herold: Now, the problem is that, the FOCIL as a mechanism itself only makes sure that if you provide everything, then
+
+361
+00:39:47.060 --> 00:40:04.949
+Gottfried Herold: you also get included. It does not say anything about the converse. And the converse in this case would be, if you do not make everything available, you do not include it. But observe that, for Lucid, which, for Fossil, which is purely a censorship resistance mechanism, this doesn't matter.
+
+362
+00:40:05.180 --> 00:40:13.639
+Gottfried Herold: However, for Lucid, this means the following. Let's say you have some key that you never release, except to the builder.
+
+363
+00:40:14.300 --> 00:40:28.809
+Gottfried Herold: then the builder could, if you do not have any kind of thing for the converse, could just say, hey, look at what the other keys are released, and depending on that, yeah, I have seen it, so I can just include it. So you have to basically constrain the builder in some way.
+
+364
+00:40:29.060 --> 00:40:33.909
+Gottfried Herold: To make sure that, sort of, whether you must not
+
+365
+00:40:34.090 --> 00:40:44.370
+Gottfried Herold: release keys that you have… must not include transactions for which you… for which the keys were not, sort of, made widely available. The problem is that you…
+
+366
+00:40:44.370 --> 00:40:55.490
+Gottfried Herold: Basically, would need to have, in order to make this kind of, in a really secure and safe way, which leaves the builder no free choice, essentially would need to run some kind of consensus protocol on
+
+367
+00:40:55.900 --> 00:41:10.579
+Gottfried Herold: which keys were released and which were not. Either you add another extra round, or you basically, accept the fact that there will be some wiggle room. So basically, if some keys are sort of made
+
+368
+00:41:10.790 --> 00:41:17.119
+Gottfried Herold: sort of only somewhat available, then the builder has a choice. And this, in fact, yeah, this gives you…
+
+369
+00:41:17.560 --> 00:41:19.280
+Gottfried Herold: Some choice for the builder.
+
+370
+00:41:19.470 --> 00:41:27.800
+Gottfried Herold: And this choice for the builder is another form of optionality, which has other applications that you can sort of use them. They are probably not as bad.
+
+371
+00:41:28.770 --> 00:41:30.349
+Gottfried Herold: But they are still there.
+
+372
+00:41:30.700 --> 00:41:45.520
+Gottfried Herold: And there are ways to sort of mitigate this problem, at least, which would be, to, in particular for the PTC, case, would be to actually punish, equivocations of the PTC vote.
+
+373
+00:41:45.730 --> 00:41:50.449
+Gottfried Herold: Well, maybe vocations in the PTC boat, sort of excavate the problem.
+
+374
+00:41:50.660 --> 00:41:51.310
+Gottfried Herold: Or…
+
+375
+00:41:51.310 --> 00:41:57.850
+Justin Florentine (Besu): And this punishment would be because they exploited that, equivocation leniency, is what you're saying, right?
+
+376
+00:41:57.850 --> 00:42:22.459
+Gottfried Herold: Yeah, I mean, this is one… I mean, you do not really need the vocations, but if revocations make it easier. Because what you can do is, in some sense, what the current Lucid proposal basically says is that if more than 50% of the PTC voted for it, then you must include, and if less than 50%, if more than 50% voted that they did not see it, you must not see it, roughly speaking.
+
+377
+00:42:22.540 --> 00:42:40.280
+Gottfried Herold: The problem is there's some leeway, there's two sources of leeway. One leeway is that, there is sort of a distinction between they've seen it early and they've seen it late, which is sort of enough to actually already give you some builder optionality, and the other leeway comes from
+
+378
+00:42:40.350 --> 00:42:46.179
+Gottfried Herold: PTC members who actually advocate, so they vote for both, they have seen it and they have not seen it.
+
+379
+00:42:46.210 --> 00:43:03.209
+Gottfried Herold: And those evocation votes basically count towards both options, and there's no punishment for it. And this makes better optionality easier to exploit and worse, and we could… we could simply at least disincentivize it easily by adding some kind of penalty for evocations.
+
+380
+00:43:05.180 --> 00:43:06.030
+Justin Florentine (Besu): Okay.
+
+381
+00:43:06.610 --> 00:43:14.419
+Gottfried Herold: So, this is a bit more interesting than the other optionality, not because it's worse, but it's because there is actually some things we can do about it.
+
+382
+00:43:14.420 --> 00:43:15.040
+Justin Florentine (Besu): Nope.
+
+383
+00:43:15.250 --> 00:43:16.530
+Gottfried Herold: On the design side.
+
+384
+00:43:17.740 --> 00:43:19.590
+Justin Florentine (Besu): I'm gonna talk to Potuz about this.
+
+385
+00:43:21.250 --> 00:43:25.899
+Justin Florentine (Besu): But I'm gonna talk to POTUS about this, get his thoughts on it, since he's needy in Wonderland.
+
+386
+00:43:25.900 --> 00:43:29.429
+Gottfried Herold: Yeah. I mean, the fundamental problem really is that, I mean.
+
+387
+00:43:29.680 --> 00:43:38.519
+Gottfried Herold: It's not… it's not 100% solvable, just to be clear, because of lateness of votes, and because there's inherently some kind of,
+
+388
+00:43:38.720 --> 00:43:43.799
+Gottfried Herold: mini consensus protocol, but, I mean, you can sort of make it less exploitable.
+
+389
+00:43:47.510 --> 00:43:48.690
+Justin Florentine (Besu): Cool.
+
+390
+00:43:52.210 --> 00:43:52.900
+Justin Florentine (Besu): Okay.
+
+391
+00:43:55.790 --> 00:43:59.349
+Justin Florentine (Besu): Anybody else want to chime in on that one? It's an interesting one.
+
+392
+00:44:05.440 --> 00:44:06.390
+Justin Florentine (Besu): Okay.
+
+393
+00:44:10.810 --> 00:44:18.540
+Justin Florentine (Besu): Alright, we're getting, we're getting down to the end here, we only got 9 minutes left on time, so…
+
+394
+00:44:19.770 --> 00:44:25.010
+Justin Florentine (Besu): One of the things that was an interesting point here was over-agnosticism of the lucid design, meaning that
+
+395
+00:44:25.440 --> 00:44:43.600
+Justin Florentine (Besu): We don't… we do spec out, like, okay, here's a, you know, symmetric means of doing stuff with the Cha-Cha Poly stuff, but we don't necessarily commit to it, and we try to keep it kind of agnostic as far as, like, how the cryptography ever, how the cryptography works.
+
+396
+00:44:45.360 --> 00:44:48.470
+Justin Florentine (Besu): One of the things that I was thinking was that
+
+397
+00:44:48.770 --> 00:44:53.480
+Justin Florentine (Besu): We keep the agnosticism, but we, constrain it.
+
+398
+00:44:54.150 --> 00:44:58.800
+Justin Florentine (Besu): Meaning that… Yes, we allow basically anything.
+
+399
+00:44:59.330 --> 00:45:10.669
+Justin Florentine (Besu): But we prescribe specific forms of symmetric encryption, and then add to it later on as we need to.
+
+400
+00:45:11.230 --> 00:45:13.290
+Gottfried Herold: What do you mean by symmetric encryption?
+
+401
+00:45:13.610 --> 00:45:21.909
+Justin Florentine (Besu): Sorry, not symmetric, the, the actual decryption mechanism, the cha-cha poly stuff, I think that was what we were referring to.
+
+402
+00:45:21.910 --> 00:45:26.859
+Gottfried Herold: Oh, yeah, the touch-up poly stuff, yeah, but the… oh, yeah, okay, so you want the…
+
+403
+00:45:27.430 --> 00:45:32.919
+Gottfried Herold: But the cha-Chauly stuff is kind of… not the… is not the problematic part, to start with.
+
+404
+00:45:34.150 --> 00:45:42.429
+Justin Florentine (Besu): Well, right, but I thought we were saying that we want to be a little bit more opinionated about, like, which…
+
+405
+00:45:42.580 --> 00:45:44.740
+Justin Florentine (Besu): Algorithms that we allow for that.
+
+406
+00:45:46.030 --> 00:45:49.870
+Gottfried Herold: I mean, currently, we only allow cha-cha, some cha-cha poly.
+
+407
+00:45:52.010 --> 00:45:52.530
+Justin Florentine (Besu): Yes.
+
+408
+00:45:52.530 --> 00:46:11.369
+Gottfried Herold: I mean, okay, so a bit of a clarity. I mean, this Chacha poly algorithm has only… I mean, okay, so basically what you have, you have these kind of key revealers, right? But what these key revealers basically do is, or how you should think about it from a cryptographic point of view, is they actually reveal not the key bit, they reveal the full message.
+
+409
+00:46:12.350 --> 00:46:16.150
+Gottfried Herold: So there is no encryption going on in Lucid whatsoever.
+
+410
+00:46:16.150 --> 00:46:18.809
+Justin Florentine (Besu): You could use this as just a commit reveal scheme, yeah.
+
+411
+00:46:18.810 --> 00:46:42.239
+Gottfried Herold: Exactly, you can use this as a committed review scheme, and this structure poly thing is basically an optimization, a network optimization, because it allows you to sort of, send your ciphertext committed under the symmetry key up front, and then later you only have to use the Lucid mechanism for the actual decryption key. But as far as cryptography, for the interesting part of Lucid is concerned, basically, this decryption key is your message.
+
+412
+00:46:42.810 --> 00:46:43.720
+Justin Florentine (Besu): Yep.
+
+413
+00:46:44.870 --> 00:46:48.130
+Gottfried Herold: And it shouldn't think… you shouldn't think about it as a key, in a way.
+
+414
+00:46:48.500 --> 00:47:02.639
+Gottfried Herold: Yeah, and the agnosticism basically is just… the interesting part of the agnosticism is just… which mechanism do we have that ensures that this key or this message actually gets eventually released?
+
+415
+00:47:02.830 --> 00:47:11.789
+Gottfried Herold: And the fact that it's a cha-cha, whatever key, well, is not really, relevant for the agnosticism.
+
+416
+00:47:13.300 --> 00:47:15.910
+Justin Florentine (Besu): So how is it different than the optionality issue?
+
+417
+00:47:17.690 --> 00:47:20.490
+Gottfried Herold: I think what you mean by the optionality issue?
+
+418
+00:47:22.680 --> 00:47:33.689
+Justin Florentine (Besu): So, let me just… maybe I'm not… maybe I'm misremembering the talking point here. Over-agnosticism of the Lucid design. Can we keep it, but constrain it? So, the problem… the problem with…
+
+419
+00:47:34.620 --> 00:47:38.700
+Justin Florentine (Besu): This being overly agnostic, was…
+
+420
+00:47:38.700 --> 00:47:39.310
+Gottfried Herold: the…
+
+421
+00:47:39.930 --> 00:47:59.809
+Gottfried Herold: Yeah, the problem is, in some sense, that you, can sort of self-decrypt, or self-release, or self-reveal. The problem with the agnosticism is, and this is what leads to optionality in a way, is that we do not prescribe a mechanism that,
+
+422
+00:47:59.810 --> 00:48:06.640
+Gottfried Herold: Make sure that the key gets revealed, or the message gets revealed, even if the original sender doesn't want it to.
+
+423
+00:48:09.320 --> 00:48:10.330
+Justin Florentine (Besu): I see.
+
+424
+00:48:10.700 --> 00:48:11.230
+Gottfried Herold: Nice.
+
+425
+00:48:11.550 --> 00:48:14.980
+Gottfried Herold: It's completely orthogonal to the cha-cha pulley, whatever.
+
+426
+00:48:14.980 --> 00:48:24.090
+Justin Florentine (Besu): Yes, I see what you're saying, right. And that's… that is the agnosticism, and that actually is… if we were less agnostic about it.
+
+427
+00:48:25.010 --> 00:48:28.430
+Justin Florentine (Besu): We might have some mechanisms for reducing that optionality.
+
+428
+00:48:28.430 --> 00:48:46.839
+Gottfried Herold: Exactly, because you could sort of prescribe… you could basically prescribe that, yeah, you have to actually rather… you have to actually encrypt it towards some, I don't know, towards some, trusted execution environment, or to some threshold encryption committee, or whatever, that will, as long…
+
+429
+00:48:47.100 --> 00:48:50.689
+Gottfried Herold: That will eventually decrypt, whether you want it or not.
+
+430
+00:48:50.690 --> 00:48:51.500
+Justin Florentine (Besu): Got it.
+
+431
+00:48:53.590 --> 00:48:58.659
+Justin Florentine (Besu): Okay, so that's a design theme that we should further entertain, I think.
+
+432
+00:48:58.890 --> 00:49:22.260
+Gottfried Herold: I mean… I mean, in a way, the point about Lucid was always that we do not have such a scheme, and so we do without, or we can do the best we can do without. The question that, sort of, I was raising in the criticism was just that, hey, and this is kind of the problem, and I really don't see much of a way around it, is can you take Lucid as is, maybe implement it, and get it on-chain, and then later change it
+
+433
+00:49:22.260 --> 00:49:29.399
+Gottfried Herold: If we eventually, have some kind of cryptography that would allow us to do without this optionality, and.
+
+434
+00:49:29.400 --> 00:49:30.000
+Justin Florentine (Besu): Yeah.
+
+435
+00:49:30.000 --> 00:49:30.750
+Gottfried Herold: Yeah.
+
+436
+00:49:31.010 --> 00:49:36.479
+Gottfried Herold: Sort of, is it upgradable to a future where we may have a good enough threshold encryption?
+
+437
+00:49:36.480 --> 00:49:41.979
+Justin Florentine (Besu): That's a great segue to the thing I wanted to talk about, which is because… and I think you're right here, I think, like.
+
+438
+00:49:42.300 --> 00:49:44.950
+Justin Florentine (Besu): If threshold encryption gets good enough.
+
+439
+00:49:44.950 --> 00:49:45.430
+Gottfried Herold: Yes.
+
+440
+00:49:45.430 --> 00:49:47.540
+Justin Florentine (Besu): Then this is broken.
+
+441
+00:49:48.450 --> 00:49:49.449
+Gottfried Herold: What do you mean, broken?
+
+442
+00:49:49.450 --> 00:49:53.800
+Justin Florentine (Besu): Well, the, the, kind of, kind of… I shouldn't say broken.
+
+443
+00:49:54.800 --> 00:49:55.429
+Justin Florentine (Besu): I think…
+
+444
+00:49:55.430 --> 00:49:56.810
+Gottfried Herold: It's superfluous.
+
+445
+00:49:56.810 --> 00:49:57.770
+Justin Florentine (Besu): Yes, yes.
+
+446
+00:49:57.770 --> 00:50:00.060
+Gottfried Herold: Supersede. It was superseded, in a way.
+
+447
+00:50:00.060 --> 00:50:01.179
+Justin Florentine (Besu): Yes, it would be a complete…
+
+448
+00:50:01.180 --> 00:50:01.670
+Gottfried Herold: better.
+
+449
+00:50:01.670 --> 00:50:06.110
+Justin Florentine (Besu): You could not plug it into… you could not plug it into Lucid, you would build a whole new design.
+
+450
+00:50:06.700 --> 00:50:08.050
+Gottfried Herold: Unfortunately.
+
+451
+00:50:08.050 --> 00:50:08.740
+Justin Florentine (Besu): Yeah.
+
+452
+00:50:10.880 --> 00:50:15.670
+Gottfried Herold: And I see very little way around this.
+
+453
+00:50:15.770 --> 00:50:34.200
+Gottfried Herold: One reason being that, depending on details of the threshold, I mean, there is various flavors of threshold encryption, with slightly different functionality, and depending on which one you use, you would use a different scheme, and we wouldn't… we cannot know at the moment if
+
+454
+00:50:34.220 --> 00:50:36.810
+Gottfried Herold: If we ever get one, which flavor it would be.
+
+455
+00:50:37.450 --> 00:50:41.769
+Gottfried Herold: And the… The, sort of, the maple design would basically have to account for that.
+
+456
+00:50:42.900 --> 00:50:57.189
+Justin Florentine (Besu): Okay, so we're guarding up on time here. The last bullet point that we had on here, let's just skip it, because I don't think we did any of this exploration. Did anybody explore using frame transactions and account abstraction for anonymous paymasters?
+
+457
+00:50:58.110 --> 00:50:59.799
+Justin Florentine (Besu): I did not. I did not get to this.
+
+458
+00:50:59.800 --> 00:51:12.099
+Gottfried Herold: I know, I didn't know. I mean, I just… I brought it up, essentially, but in the blog post, but, yeah. I mean, I have no idea about it, just wanted to make people aware of that. This would be something that we would need, essentially.
+
+459
+00:51:12.100 --> 00:51:16.189
+Justin Florentine (Besu): Same here. So that'll get kicked down the road. Now…
+
+460
+00:51:16.360 --> 00:51:22.360
+Justin Florentine (Besu): Threshold encryption. We keep talking about how Lucid exists because threshold encryption isn't ready yet.
+
+461
+00:51:22.480 --> 00:51:32.030
+Justin Florentine (Besu): I am not a cryptographer, and is that a true statement, and is that a thing that I should be more open-minded about?
+
+462
+00:51:32.600 --> 00:51:34.919
+Gottfried Herold: I mean, it is essentially a true statement.
+
+463
+00:51:35.760 --> 00:51:43.500
+Andrei Lapets: I mean, it depends on who… it depends on who you ask, right? I mean, there's obviously threshold encryption is being used in production for, you know.
+
+464
+00:51:43.850 --> 00:52:02.000
+Andrei Lapets: tens of millions and hundreds of millions of dollars right now by, you know, I mean, defense, other wallet providers. I don't think that there… I think you can make the argument for other applications like this, there's no production deployment of threshold encryption, so that's the argument you would have to make if you want to make that argument.
+
+465
+00:52:02.700 --> 00:52:16.689
+Gottfried Herold: I mean, to be fair, also, you have to be aware that we have very unique, or very… we have, kind of, design constraints that other applications do not have, and there is a bit more… a bit more clear statement would be we have nothing that is good enough for our purpose.
+
+466
+00:52:16.730 --> 00:52:35.609
+Gottfried Herold: Which, includes, in particular, the problem that you want something that is post-quantum secure. This is a big, big, big issue, because almost all threshold encryption solutions that are… that exist right now in the literature are basically based on pair… pairings, which are not post-quantum secure, so any kind of… they are basically not future-safe.
+
+467
+00:52:35.660 --> 00:52:59.589
+Gottfried Herold: And among those, that are not, you have the other problem that there is usually a very high setup cost involved, oftentimes, or large keys, or much communication that scales with the committee size, or with… that is with the size of the people who sort of need to decrypt, or how often the decryption committee changes, and whatnot. So, if you have a kind of a small number of participants to it.
+
+468
+00:52:59.890 --> 00:53:19.480
+Gottfried Herold: it would… it might even work, and that's the other question, is do you sort of decrypt every transaction individually? Do you decrypt them in bulk? There is a lot of things you can do. I mean, Benedict actually wrote some notes about, sort of, the requirement list. It's long, and we basically have nothing that fits our requirements. Other applications do have
+
+469
+00:53:19.490 --> 00:53:25.400
+Gottfried Herold: Other requirements, and the existing schemes might fit for them.
+
+470
+00:53:25.590 --> 00:53:27.839
+Gottfried Herold: But we do not, unfortunately.
+
+471
+00:53:28.770 --> 00:53:29.700
+Justin Florentine (Besu): Okay.
+
+472
+00:53:30.990 --> 00:53:33.230
+Justin Florentine (Besu): Can I just keep asking that every week?
+
+473
+00:53:35.580 --> 00:53:37.959
+Justin Florentine (Besu): Is it ready yet? Is it ready yet? Is it ready yet?
+
+474
+00:53:37.960 --> 00:53:40.420
+Gottfried Herold: I think if you had something, we would tell…
+
+475
+00:53:40.420 --> 00:53:41.110
+Justin Florentine (Besu): I mean, the crypto.
+
+476
+00:53:41.110 --> 00:53:45.289
+Gottfried Herold: team would basically tell you and actually design something.
+
+477
+00:53:45.690 --> 00:53:46.360
+Justin Florentine (Besu): Okay.
+
+478
+00:53:46.610 --> 00:53:47.110
+Justin Florentine (Besu): is…
+
+479
+00:53:47.110 --> 00:54:01.959
+Gottfried Herold: We are monitoring this, not for Lucid, for one thing, and we are actually also working on things related to this question, and I mean, good enough threshold scheme would, in fact, be extremely useful for Ethereum, not just for encrypted members.
+
+480
+00:54:01.960 --> 00:54:03.010
+Justin Florentine (Besu): Yeah, yeah.
+
+481
+00:54:03.010 --> 00:54:05.420
+Gottfried Herold: There's other… parts of the protocol.
+
+482
+00:54:05.980 --> 00:54:12.570
+luis: Would it be good to have the list of all the requirements from the Lucid perspective, and then we can share that around with photographers?
+
+483
+00:54:12.570 --> 00:54:21.390
+Gottfried Herold: I mean, not from the Lucid, but from the encryptor, from the Ethereum perspective. Yes, I think Benedict has written down some, has… I can… let me just…
+
+484
+00:54:21.900 --> 00:54:28.389
+Gottfried Herold: I put the link into the Telegram chat, because we actually have such a thing.
+
+485
+00:54:29.210 --> 00:54:30.660
+luis: Great. Excellent.
+
+486
+00:54:30.740 --> 00:54:33.730
+Justin Florentine (Besu): And if anybody, needs help.
+
+487
+00:54:33.980 --> 00:54:47.209
+Justin Florentine (Besu): connecting with anybody else, either me or Loring, would be happy to help facilitate that. We are at time. Thank you so much. This was great turnout today. I think we got a lot done. See you around the internet.
+
+488
+00:54:47.810 --> 00:54:48.370
+Mark Holt: Good.
+
+489
+00:54:48.830 --> 00:54:50.399
+Gottfried Herold: But, yeah.
+
+490
+00:54:50.400 --> 00:54:50.950
+luis: John?
+
+491
+00:54:50.950 --> 00:54:51.580
+Andrei Lapets: Yep.
+
+492
+00:54:52.340 --> 00:54:53.399
+Anthony: Thanks, everyone!
+
+493
+00:54:53.810 --> 00:54:54.540
+Boma: Bye.
+
+494
+00:54:55.630 --> 00:54:57.340
+Loring: Thanks, guys. Bye.
+

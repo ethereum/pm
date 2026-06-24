@@ -1,0 +1,95 @@
+{
+  "meeting": "Post-Quantum (PQ) Interop #45 - June 24, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:16:31",
+        "highlight": "Zeam: 32-node, 4-subnet all-Zeam Shadow network running to finality; QUIC P2P multi-threaded, stabilization expected in 1-2 days"
+      },
+      {
+        "timestamp": "00:23:30",
+        "highlight": "Ream: interoping successfully with Ethlambda on one subnet; plan to add Zeam, Lantern, and Grandine for 24-validator DevNet 5 runs"
+      },
+      {
+        "timestamp": "00:24:09",
+        "highlight": "Lantern: avg Type 2 proof generation ~2.8s on Xeon/8-core; finality gaps when block building exceeds 10s; adding subnets and clients next"
+      },
+      {
+        "timestamp": "00:26:12",
+        "highlight": "Ethlambda: updated attestations to use current head's latest justified as source; added flag to disable Syngate mechanism that caused non-finality; working on pre-build optimization"
+      },
+      {
+        "timestamp": "00:27:58",
+        "highlight": "Gean: stable multi-client runs with no SSZ regressions; Shadow Network Simulator integration in progress"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:40:28",
+        "highlight": "Ethlambda: finality lags observed (~30 slots at a time) with 16 nodes on a 32-thread machine; CPU is the primary bottleneck"
+      },
+      {
+        "timestamp": "00:36:33",
+        "highlight": "Ethlambda confirmed Shadow-compatible; Zeam will begin interop Shadow sims with Ethlambda before next call"
+      },
+      {
+        "timestamp": "00:40:30",
+        "highlight": "Lantern confirmed its new libp2p library is Shadow-compatible; will submit a PR for Shadow simulator support"
+      },
+      {
+        "timestamp": "00:42:04",
+        "highlight": "Root cause of finality lag identified as recursive proof aggregation during block proposal, not XMSS row signatures"
+      }
+    ],
+    "spec_and_cryptography": [
+      {
+        "timestamp": "00:30:04",
+        "highlight": "Lean spec cleanup complete; no major changes expected; internal EF spec review meeting planned for next week"
+      },
+      {
+        "timestamp": "00:30:54",
+        "highlight": "Zeam to PR revert of Ethlambda's earlier vote-packing optimization (now redundant after latest-justified store PR merge)"
+      },
+      {
+        "timestamp": "00:31:09",
+        "highlight": "EF team exploring binary fields as proving system to potentially replace Poseidon in the future"
+      },
+      {
+        "timestamp": "00:48:27",
+        "highlight": "Proposed path: increase slot time in spec (from 4s to 6-8s) to unblock scaling on commodity hardware; revisit in a few months as performance improves"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:49:12",
+      "action": "Post a DevNet 5 issues list to the DevNet 5 channel: include interop blockers, finality problems, validator counts, and proof aggregation status",
+      "owner": "All client teams"
+    },
+    {
+      "timestamp": "00:39:00",
+      "action": "Client teams wishing to join Shadow sims should implement sleep/simulated-time config at heavy computation points; contact Zeam (Parthasarathy/Kai) for config details",
+      "owner": "Lantern, Ethlambda, other client teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:20:43",
+      "decision": "Zeam (Anshal) will PR to revert Ethlambda's earlier vote-packing spec change, as it is now redundant following the latest-justified store PR merge"
+    },
+    {
+      "timestamp": "00:48:27",
+      "decision": "Increase DevNet 5 slot time in the lean spec (currently 4s) to resolve proof aggregation bottleneck on commodity hardware; exact value TBD"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:19:34",
+      "target": "Zeam: begin multi-client DevNets by end of this week"
+    },
+    {
+      "timestamp": "00:35:14",
+      "target": "Goal: run a month-long stable DevNet with 100+ (ideally 1000+) validators before end of year"
+    }
+  ]
+}
