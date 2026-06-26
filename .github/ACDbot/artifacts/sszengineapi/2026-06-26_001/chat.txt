@@ -1,0 +1,90 @@
+00:04:03	Tamaghna Chourdhuri:	https://github.com/ethereum/pm/issues/2132#issuecomment-4807547691
+00:07:29	Jun Song:	gm
+00:07:33	Justin Traglia:	Gm!
+00:07:42	Soubhik:	gm!
+00:07:49	Barnabas:	Friday call 💀
+00:07:49	Tamaghna Chourdhuri:	gm
+00:07:54	Justin Traglia:	Reacted to "Friday call 💀" with 😄
+00:07:59	Sameer Agarwal:	gm
+00:07:59	Tamaghna Chourdhuri:	Reacted to "Friday call 💀" with ☠️
+00:08:21	Rimeeeeee:	gm :)
+00:10:37	Tamaghna Chourdhuri:	https://github.com/ethereum/pm/issues/2132
+00:10:42	Jun Song:	Are we recording this meeting?
+00:10:48	Justin Traglia:	Replying to "Are we recording thi..."
+
+Yes it is recording.
+00:10:55	Jun Song:	Reacted to "Yes it is recording." with 👍
+00:11:10	Soubhik:	Reacted to "Yes it is recording." with 👍
+00:11:59	Iván | ethrex:	Sorry I have bad connection. We took a look at the spec and have a current implementation of it https://github.com/lambdaclass/ethrex/pull/6770
+00:12:24	Tamaghna Chourdhuri:	Moving from engine/v2/ down to engine/v1/
+00:12:28	Jun Song:	I support for /eth/v1/engine/XYZ
+00:12:37	Barnabas:	Replying to "Sorry I have bad con..."
+
+do client teams enable ssz default if both sides support it?
+00:12:41	Barnabas:	Replying to "Sorry I have bad con..."
+
+or everyone needs a flag?
+00:13:56	Tamaghna Chourdhuri:	https://github.com/ethereum/execution-apis/pull/793#discussion_r3435464266
+00:14:31	Lucas | ethrex:	Replying to "Sorry I have bad con..."
+
+ethrex always accepts it, prysm needs a flag
+00:15:05	Soubhik:	for now reth needs a flag to enable the ssz, this acts like a wrapper over the existing engine api
+00:16:21	Łukasz Rozmej:	IMO this is temporary
+00:16:27	Łukasz Rozmej:	we can make it mandatory in Hegota
+00:16:31	Soubhik:	Reacted to "we can make it mandatory in Hegota" with 👍
+00:16:36	Justin Traglia:	Reacted to "we can make it manda..." with 👍
+00:16:56	Jun Song:	Yeah I also think we should have a transition window btw G-fork and H-fork and mandate this in h-fork
+00:17:15	Jun Song:	Yeah it’s orthogonal to fork schedule TBH
+00:17:45	Iván | ethrex:	Reacted to "we can make it mandatory in Hegota" with 👍
+00:18:04	Dustin:	Reacted to "we can make it man..." with 👍
+00:18:51	Tamaghna Chourdhuri:	https://github.com/ethereum/execution-apis/pull/793#discussion_r3435225563
+00:20:13	Tamaghna Chourdhuri:	https://github.com/ethereum/execution-apis/pull/773
+00:20:23	Developer Uche:	https://github.com/ethereum/execution-apis/pull/773#issuecomment-4799078539
+00:22:00	Łukasz Rozmej:	this is a POST call
+00:22:57	Tamaghna Chourdhuri:	/engine/v2/{fork}/payloads/witness
+00:23:42	Soubhik:	arent we getting rid of the fork in the url?
+00:23:56	Jun Song:	Replying to "arent we getting rid..."
+
+I guess yes
+00:23:59	Tamaghna Chourdhuri:	Replying to "arent we getting rid..."
+
+yes
+00:24:07	Soubhik:	Reacted to "I guess yes" with 👍
+00:24:09	Soubhik:	Reacted to "yes" with 👍
+00:25:11	Tamaghna Chourdhuri:	https://drive.google.com/drive/folders/1_aZhpnfQZFEXZAtZy4sFWtanIleZIy3x?usp=drive_link
+00:25:28	Soubhik:	are you doing full random values? or values that would be a valid container?
+00:28:18	Iván | ethrex:	We are also ready. We have some micro benchmarks and we are currently running ones in mainnet with prysm
+00:28:22	Łukasz Rozmej:	Try Nethermind please!
+00:28:26	Jun Song:	Reacted to "Try Nethermind please!" with 👍
+00:28:30	Jun Song:	Reacted to "We are also ready. We have some micro benchmarks and we are currently running ones in mainnet with prysm" with 👍
+00:28:58	Soubhik:	I think the problem is on my side
+00:29:15	Soubhik:	i will do more testing and let you guys know
+00:29:41	Barnabas:	we don’t need a dedicated devnet for this
+00:29:46	Jun Song:	Reacted to "we don’t need a dedicated devnet for this" with 👍
+00:29:49	Tamaghna Chourdhuri:	Reacted to "we don’t need a dedi..." with 👍
+00:29:50	Barnabas:	We can just add this to glam devnets
+00:29:53	Justin Traglia:	Reacted to "we don’t need a dedi..." with 👍
+00:30:02	Barnabas:	as soon as clients are ready
+00:30:10	Soubhik:	Reacted to "we don’t need a dedicated devnet for this" with 👍
+00:30:20	Dustin:	Reacted to "we don’t need a d..." with 👍
+00:30:29	Barnabas:	I’m happy to enable whatever flags you need, but I’d prefer if all clients would just default enable and negotiate
+00:31:04	Jun Song:	For prysm, it’s opt-in feature with a single flag in my local branch. But I think it should take few days to merge in devnet branch
+00:31:31	Dustin:	it's in https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-7
+00:32:20	Dustin:	As long as it doesn't become a point of, 7688 was a fine idea but too late, sorry
+00:32:27	Dustin:	this has happened to other EIPs
+00:33:23	Barnabas:	could someone pls give me a quick tldr on why progressive lists would help here?
+00:41:14	Tamaghna Chourdhuri:	https://github.com/ethereum/execution-apis/pull/793#issuecomment-4454204579
+00:41:17	Tamaghna Chourdhuri:	This one right?
+00:41:38	Dustin:	Replying to "https://github.com..."
+
+yes
+00:41:49	Iván | ethrex:	Works for me!
+00:42:19	Tamaghna Chourdhuri:	weekly
+00:42:22	Tamaghna Chourdhuri:	biweekly
+00:42:28	Jun Song:	Reacted to "biweekly" with 👍
+00:42:31	Soubhik:	Reacted to "biweekly" with 👍
+00:42:36	Dustin:	Reacted to "biweekly" with 👍
+00:42:37	Barnabas:	Reacted to "biweekly" with 👍
+00:43:05	Iván | ethrex:	Reacted to "biweekly" with 👍
+00:43:17	Sameer Agarwal:	Reacted to "biweekly" with 👍
+00:43:25	Justin Traglia:	Reacted to "biweekly" with 👍
