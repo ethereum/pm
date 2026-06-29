@@ -1,0 +1,98 @@
+00:03:50	danceratopz:	ACDT #85 agenda
+https://github.com/ethereum/pm/issues/2133
+00:06:39	Barnabas:	everyone having fun outside sunbathing probably
+00:06:45	Justin Traglia:	Reacted to "everyone having fun ..." with 🔥
+00:06:53	Barnabas:	And here I am with a closed blinds to keep the light and heat out 😂
+00:07:09	Edgar | ethrex:	36C here
+00:07:12	danceratopz:	same here!
+00:07:17	Felix (Geth):	who is here in their underpants
+00:07:18	Barnabas:	just hit 41 here
+00:07:53	danceratopz:	ACDT #85 agenda
+https://github.com/ethereum/pm/issues/2133
+00:08:26	danceratopz:	🧪 glamsterdam-devnet-6 status
+https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-6
+https://hive.ethpandaops.io/#/group/glamsterdam-quick
+Launched 06-25 with the Gloas fork
+00:08:35	Justin Traglia:	Reacted to "who is here in their..." with 😅
+00:08:45	Ben Adams:	Reacted to "who is here in their underpants" with 😅
+00:09:11	potuz:	We need to test pre-fork though
+00:09:31	danceratopz:	Reacted to "who is here in their..." with 😅
+00:09:33	potuz:	We need to reach the fork with a bunch of enough slashed Vals so that we can check
+00:10:45	Barnabas:	Reacted to "who is here in their underpants" with 😅
+00:11:08	Barnabas:	Replying to "We need to reach the..."
+
+think this could be tested more reliably on kurtosis
+00:11:17	Guru:	Reacted to "who is here in their..." with 😅
+00:11:25	Barnabas:	Replying to "We need to reach the..."
+
+would you want n-2 slashings?
+00:11:28	Barnabas:	Replying to "We need to reach the..."
+
+or n-1?
+00:11:31	Barnabas:	Replying to "We need to reach the..."
+
+where n is fork epoch
+00:13:11	potuz:	Replying to "We need to reach the..."
+
+We want the state to have a ton of already slashed validators it doesn’t matter when they were slashed
+00:13:21	potuz:	Replying to "We need to reach the..."
+
+The point is that they need to be proposers in the first epoch post-fork
+00:13:29	Barnabas:	Replying to "We need to reach the..."
+
+ok
+00:13:35	potuz:	Replying to "We need to reach the..."
+
+So that we check that they are removed at the “upgrade to Gloas” part
+00:13:41	danceratopz:	🏗️ EIP-8282 builder deposit contract (devnet-7 + audit) [optional]
+https://github.com/ethereum/sys-asm/pull/43
+https://github.com/ethereum/sys-asm/pull/48
+Per-tx fee merged; open: pass target/max/rate via calldata + final constants, then freeze for the audit.
+00:13:45	Barnabas:	Replying to "We need to reach the..."
+
+this still feels like a sort of deadend devnet scenario
+00:13:55	Barnabas:	Replying to "We need to reach the..."
+
+can totally do this locally.
+00:14:10	potuz:	Replying to "We need to reach the..."
+
+Sure, I’m happy if this is tested in KT
+00:14:35	Barnabas:	btw nimbus still doesn’t seem to use builder’s to build blocks
+00:17:07	Barnabas:	Should we do a new contract if we wanna tweak the numbers?
+00:17:24	Barnabas:	Feels like a lot more disposable contract vs the validator contract tbh
+00:18:50	Felix (Geth):	Regarding 'disposable contract', one big thing with 8282 is that the contract stores the actual deposits
+00:19:28	Felix (Geth):	So if we would launch another contract later, the builders might deposit to the old contract that we are not polling anymore, and their deposit would be lost forever
+00:19:43	Barnabas:	Replying to "Regarding 'disposabl..."
+
+right but when builders would just exit, it would create the eth from beacon chain no?
+00:20:02	Justin Florentine (Besu):	Replying to "So if we would launc..."
+
+makes sense to decouple the queue from the depositing account, but it will complicate and lengthen the audit
+00:20:03	Felix (Geth):	If we want to upgrade to another contract later, then I think we should add a logic into the contract that disables it
+00:20:35	Barnabas:	self destruct? (joke btw)
+00:21:00	Nico Flaig:	target=8,max=64 instead of target=32, max=256 on the builder deposit contract, that's all my change does, we can then reduce withdrawal delay for builders on the CL side further without opening up a dos of the validator withdrawal sweep
+00:21:44	Justin Traglia:	Reacted to "target=8,max=64 inst..." with 👍
+00:24:25	Toni Wahrstätter:	lowering the target should make it cheaper no?
+00:24:41	Felix (Geth):	here is my PR for reading params from system call: https://github.com/ethereum/sys-asm/pull/48
+00:25:05	pk910:	I get that the dynamic fee might be too complex.   but I thinks it's very bad to change the public contract address at a later fork.
+Disabling deposits on the old contract helps a bit,  but still breaks downstream toolings and needs dev work.
+Could we make the depsoit contract a proxy where we can change the implementation via a system call? :D (kinda joking as it's likely more complex,  but would solve it too)
+00:25:08	potuz:	Replying to "lowering the target ..."
+
+I think lowering it should make it more expensive
+00:25:26	Felix (Geth):	proxy is ok too
+00:26:36	pk910:	Announcing a deposit contract address once is something else than changing the contract address later imo
+00:27:42	potuz:	We don’t expect to have builder churn on that contract, we shouldn’t spend too much time on this, deploying new contracts is absolutely fine
+00:28:35	Stefan Starflinger:	Reacted to "Announcing a deposit..." with 👍
+00:29:00	Felix (Geth):	we can also do a thing where we pull from both contracts in the fork N -> N+1 window
+00:29:18	Felix (Geth):	and then stop pulling from it at fork N+1
+00:30:35	Toni Wahrstätter:	Let's keep it with using constants (instead of dynamic) but try avoid needing a new contract by chosing the constants well
+00:31:35	Toni Wahrstätter:	Is there anything still open on the EL?
+00:31:50	spencer:	Any new EL spec changes for devnet 7? Not devnet 6?
+00:33:47	Felix (Geth):	Replying to "Let's keep it with..."
+
+I'll still put in the disable switch
+00:33:55	Felix (Geth):	Replying to "Let's keep it with..."
+
+it's pretty easy to do and we can use it later
+00:33:57	Alexey:	Reacted to "Any new EL spec changes for devnet 7? Not devnet 6?" with ➖

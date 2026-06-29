@@ -1,0 +1,66 @@
+{
+  "meeting": "RPC Standards #29 - June 29, 2026",
+  "highlights": {
+    "pr_reviews": [
+      {
+        "timestamp": "00:23:13",
+        "highlight": "execution-apis PR #814 (eth_getRawTransaction endpoints): all clients merged except ethrex (PR approved, not merged); CI spell-check failure is upstream noise \u2014 rerun to green, ready to merge"
+      },
+      {
+        "timestamp": "00:24:43",
+        "highlight": "PR adding slot number to block header schema (Glamsterdam): marked for Amsterdam label; needs tests deferred until fork spec is final"
+      },
+      {
+        "timestamp": "00:33:28",
+        "highlight": "PR adding 3 missing eth_getRaw* endpoints (by hash/block): all EL clients already implement these; blocked on Go Ethereum PR #35227 merge + test regeneration"
+      },
+      {
+        "timestamp": "00:37:22",
+        "highlight": "Regex fix for single-byte type (PR #81415): change to allow single zero in decimal numbers is correct; uppercase hex oddity in byte type resolved \u2014 approved to merge"
+      }
+    ],
+    "error_codes": [
+      {
+        "timestamp": "00:55:58",
+        "highlight": "New error code direction: define all new codes as strictly positive integers; positive = reliable/new, negative = legacy/fuzzy; Go Ethereum considering a legacy-mode mapper for transition period"
+      },
+      {
+        "timestamp": "01:00:16",
+        "highlight": "Sina's updated proposal pending; grouping debate: user-friendly categories (gas errors, nonce errors) vs. implementation-layer categories (execution, simulation, validation); to be brought to ACD for broader input"
+      }
+    ],
+    "debug_execution_witness": [
+      {
+        "timestamp": "01:06:07",
+        "highlight": "debug_executionWitness has no cross-client spec agreement: Geth uses JSON header with empty key; Reth/Nethermind/Erigon use RLP bytes with populated key; Geth and Reth also expose a separate by-hash method \u2014 needs spec decision"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:33:52",
+      "action": "Merge Go Ethereum PR #35227, cut new release, regenerate execution-apis I/O tests for eth_getRaw* PR",
+      "owner": "Geth (Felix)"
+    },
+    {
+      "timestamp": "01:08:45",
+      "action": "Open a tracked issue for debug_executionWitness wire format disagreement; tag relevant stakeholders (Kev)",
+      "owner": "Boma"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:27:52",
+      "decision": "Glamsterdam/Amsterdam spec changes without tests will use a tracking issue or long-running branch; tests backfilled once fork spec is final"
+    },
+    {
+      "timestamp": "00:39:32",
+      "decision": "Byte-type regex PR (#81415) approved to merge \u2014 restricting to lowercase aligns with all other byte types in spec"
+    },
+    {
+      "timestamp": "01:00:07",
+      "decision": "Error code rework still in progress; no merge of current PR until Sina's updated positive-number proposal is ready; broader ACD discussion planned"
+    }
+  ],
+  "targets": []
+}
