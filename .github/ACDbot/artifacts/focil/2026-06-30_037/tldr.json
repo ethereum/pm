@@ -1,0 +1,81 @@
+{
+  "meeting": "FOCIL Breakout #37 - June 30, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:05:21",
+        "highlight": "Teku integrated latest Glamsterdam changes into FOCIL branch but couldn't interop with Lodestar due to builder execution requests; old docker image left in place"
+      },
+      {
+        "timestamp": "00:06:06",
+        "highlight": "Lighthouse and ethrex both need to rebase on Glamsterdam devnet 6; Lodestar PR #9541 pending merge to unblock rebase"
+      }
+    ],
+    "spec_updates": [
+      {
+        "timestamp": "00:07:40",
+        "highlight": "Engine API PR #609 (payload status V2): replaces latest-IL-satisfied hash with a Boolean IL-satisfied flag; EL must retain ILs for accepted payloads to support branch switching; near-final, targeting merge this week or next"
+      },
+      {
+        "timestamp": "00:10:58",
+        "highlight": "Consensus spec will add comment clarifying that is_payload_il_satisfied returns true for non-validated payloads; small change, Jihoon to add"
+      },
+      {
+        "timestamp": "00:11:26",
+        "highlight": "Payload attributes SSE event: three options discussed for exposing IL bit list to builders; tentatively going with option 3 (add inclusion-list bits as top-level field in the event) as least-invasive CL-only change"
+      },
+      {
+        "timestamp": "00:15:03",
+        "highlight": "IL bit list being restored to block container (previously removed); fork choice enforcement deferred pending design exploration of two options: (1) reorg the block, or (2) suppress trustless payment without reorging the block"
+      }
+    ],
+    "protocol_design": [
+      {
+        "timestamp": "00:16:07",
+        "highlight": "Bit list rationale: prevents honest builders from being penalized when they missed an IL due to network conditions under trustless payment; also aligns proposer incentive to select non-censoring payloads"
+      },
+      {
+        "timestamp": "00:32:12",
+        "highlight": "No consensus yet on fork choice enforcement of bit list; near-term plan is proposer SHOULD pick a bit list that is a superset of their local IL view, but this is not checked in fork choice"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:48:39",
+        "highlight": "Next FOCIL breakout pushed one week to July 21 (Jihoon OOO around July 14)"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:09:55",
+      "action": "Merge engine API PR #609 (payload status V2); then source execution spec test resources from Stihl",
+      "owner": "Jihoon"
+    },
+    {
+      "timestamp": "00:37:06",
+      "action": "Explore candidate spec implementations for bit list in fork choice; present options at next breakout",
+      "owner": "Jihoon"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:14:42",
+      "decision": "Payload attributes SSE event: tentatively adopt option 3 \u2014 add IL bits as a top-level field; revisit if Engine API changes direction"
+    },
+    {
+      "timestamp": "00:36:23",
+      "decision": "IL bit list restored to block container but NOT enforced in fork choice for now; fork choice treatment to be determined after further design work"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:09:55",
+      "target": "Engine API PR #609 merge \u2014 week of June 30 or following week"
+    },
+    {
+      "timestamp": "00:48:39",
+      "target": "FOCIL Breakout #38 \u2014 July 21, 2026"
+    }
+  ]
+}

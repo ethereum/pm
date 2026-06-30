@@ -1,0 +1,1706 @@
+WEBVTT
+
+1
+00:00:10.120 --> 00:00:11.330
+Justin Traglia: Hello!
+
+2
+00:00:14.200 --> 00:00:15.570
+Jihoon: Hello, hello.
+
+3
+00:00:21.520 --> 00:00:26.489
+Justin Traglia: I am just waking up again. I've been trying to sleep in more. I've been so tired recently.
+
+4
+00:00:30.430 --> 00:00:31.340
+Jihoon: Oh.
+
+5
+00:00:31.650 --> 00:00:34.470
+Justin Traglia: I mean, it's just 8 A Oh, yeah.
+
+6
+00:00:35.580 --> 00:00:36.700
+Jihoon: What time is there?
+
+7
+00:00:37.230 --> 00:00:38.619
+Justin Traglia: 8 AM?
+
+8
+00:00:40.300 --> 00:00:43.830
+Jihoon: Not bad. And… How's your flip cycle?
+
+9
+00:00:45.540 --> 00:00:47.780
+Justin Traglia: I mean, it's fine. Going to bed around.
+
+10
+00:00:48.630 --> 00:00:49.570
+Justin Traglia: 11.
+
+11
+00:00:50.470 --> 00:00:51.140
+Justin Traglia: Yep.
+
+12
+00:00:51.910 --> 00:00:53.520
+Jihoon: Not bad. Hey, Matthew.
+
+13
+00:00:53.870 --> 00:00:54.450
+Mehdi Aouadi: Hi, guys.
+
+14
+00:00:54.450 --> 00:00:55.200
+Justin Traglia: Hey, Madd.
+
+15
+00:03:00.530 --> 00:03:02.870
+Jihoon: Hello guys, I think we can wait 3 more minutes.
+
+16
+00:04:48.340 --> 00:04:51.719
+Jihoon: All right. Seems like we have enough people here.
+
+17
+00:04:58.080 --> 00:05:05.059
+Jihoon: Right. Let's get started. Hello, everyone. Welcome to FOCIL Breakout 37.
+
+18
+00:05:05.420 --> 00:05:10.080
+Jihoon: Today we can share development updates and spec updates.
+
+19
+00:05:10.720 --> 00:05:15.209
+Jihoon: Yeah. Do we have any client updates?
+
+20
+00:05:21.760 --> 00:05:25.669
+Mehdi Aouadi: Yeah, I can give an update for… From the tech side.
+
+21
+00:05:25.960 --> 00:05:30.999
+Mehdi Aouadi: Yeah. Recently I integrated our latest Glamsterdam changes.
+
+22
+00:05:31.420 --> 00:05:38.020
+Mehdi Aouadi: into our FOCIL branch, but I wasn't able to interrupt with Lodestar.
+
+23
+00:05:38.310 --> 00:05:44.740
+Mehdi Aouadi: I think it was because of the builder execution requests that have been added recently.
+
+24
+00:05:45.080 --> 00:05:51.589
+Mehdi Aouadi: So yeah, I didn't publish a new docker image. I left the old one which was working.
+
+25
+00:05:52.110 --> 00:05:57.380
+Mehdi Aouadi: So, I guess, once, the builder execution request,
+
+26
+00:05:57.860 --> 00:06:02.810
+Mehdi Aouadi: would be implemented in other clients, I'd be able to interrupt again.
+
+27
+00:06:04.620 --> 00:06:05.470
+Jihoon: That's that.
+
+28
+00:06:21.090 --> 00:06:23.830
+Jihoon: No updates from Lodestar.
+
+29
+00:06:25.990 --> 00:06:29.769
+Jihoon: Need to replace and clamp 6 on ethrex as well.
+
+30
+00:06:31.970 --> 00:06:35.509
+Jihoon: Yeah, we don't have anyone from Lighthouse, so I guess…
+
+31
+00:06:35.660 --> 00:06:38.119
+Jihoon: This is it for client updates.
+
+32
+00:06:42.140 --> 00:06:43.300
+Jihoon: 6.
+
+33
+00:06:43.610 --> 00:06:44.510
+Jihoon: Okay.
+
+34
+00:06:46.050 --> 00:06:47.410
+Jihoon: Right.
+
+35
+00:06:48.570 --> 00:06:52.879
+Jihoon: I think we can move on to the spec updates.
+
+36
+00:06:57.320 --> 00:07:00.120
+Jihoon: Yeah, let me share my screen.
+
+37
+00:07:11.890 --> 00:07:13.279
+Jihoon: Is the screen good?
+
+38
+00:07:14.830 --> 00:07:15.420
+Justin Traglia: Yep.
+
+39
+00:07:16.290 --> 00:07:17.100
+Jihoon: Thank you.
+
+40
+00:07:17.730 --> 00:07:21.929
+Jihoon: Yeah. So, today I want to introduce.
+
+41
+00:07:22.150 --> 00:07:34.389
+Jihoon: three changes. One is about execution APIs, which is quite mature, and we expect to merge it this week or next week. The second is
+
+42
+00:07:34.550 --> 00:07:43.830
+Jihoon: payload attributes event. And the last one is having a little bit of Q&A session on adding IL bit list back.
+
+43
+00:07:43.930 --> 00:07:46.969
+Jihoon: So let's start with.
+
+44
+00:07:48.460 --> 00:07:54.899
+Jihoon: Sorry. Yeah, I was just checking on chat. Sorry. How can I go?
+
+45
+00:07:58.260 --> 00:08:01.569
+Jihoon: My bad. Yeah, so,
+
+46
+00:08:03.210 --> 00:08:16.909
+Jihoon: Let's start with payload status V2. So previously it had latest IL satisfied hash, but given the fact that we are interested in the IL compliance of the tip.
+
+47
+00:08:17.770 --> 00:08:25.339
+Jihoon: It is enough to use a Boolean flag indicating whether the tips satisfy the IL constraints.
+
+48
+00:08:26.710 --> 00:08:40.679
+Jihoon: accordingly, new payload and FCU are changed. Let's start with new payload. It specifies, to set IL satisfied as follows. If the payload is valid, then
+
+49
+00:08:40.840 --> 00:08:53.860
+Jihoon: the flag should be either true or false, depending on its IL compliance. Otherwise, it must be null, because IL-compliant payloads are a subset of valid payloads.
+
+50
+00:08:54.310 --> 00:09:03.109
+Jihoon: And… I think this is the important part. The EL must retain ILs for an accepted payload.
+
+51
+00:09:03.360 --> 00:09:05.490
+Jihoon: This is to make sure…
+
+52
+00:09:05.930 --> 00:09:18.279
+Jihoon: to have the same IL view after moving to a different branch. So when you receive a new payload called with a block from a different branch, you store the corresponding ILs.
+
+53
+00:09:18.320 --> 00:09:27.969
+Jihoon: And later, when you receive an FCU call picking up that branch, you must return whether the tip of the branch is IL compliant.
+
+54
+00:09:29.790 --> 00:09:32.239
+Jihoon: So this was the new payload.
+
+55
+00:09:32.440 --> 00:09:38.319
+Jihoon: And for FCU, sorry for small letters, what it asks is.
+
+56
+00:09:39.060 --> 00:09:48.869
+Jihoon: it's the, IL check for the block with head block cache. So it's just the same. So if the head block is valid, then…
+
+57
+00:09:49.140 --> 00:09:53.949
+Jihoon: You're going to run the IL check for the block and return the result.
+
+58
+00:09:55.490 --> 00:10:13.319
+Jihoon: Oh, sorry, I forgot to mention this. We are interested in the tip of a block, so if the EL… so the EL can drop ILs for accepted payloads that are not at the tip anymore, and the EL also doesn't have to run the IL check for intermediate payloads.
+
+59
+00:10:16.210 --> 00:10:35.669
+Jihoon: So this is the engine API changes. Mikhail and I have been working on this and we believe it's in a final stage. We plan to merge it this week or next week, as I said earlier. And once it's merged, I will try to find some resources from Stihl to help us with execution spec tests.
+
+60
+00:10:37.990 --> 00:10:39.000
+Jihoon: So.
+
+61
+00:10:39.210 --> 00:10:45.760
+Jihoon: Before we move on to the next topic, do we have any questions or is it all clear?
+
+62
+00:10:52.850 --> 00:10:54.640
+Jihoon: Guess it's fine.
+
+63
+00:10:55.180 --> 00:10:56.010
+Jihoon: Oh.
+
+64
+00:10:56.390 --> 00:10:57.840
+Jihoon: Yeah, so…
+
+65
+00:10:58.990 --> 00:11:15.559
+Jihoon: Now we have execution spec handling different branches. In the same vein, consensus spec will have a comment somewhere saying that is payloading clausally satisfied will return true for not validated payloads.
+
+66
+00:11:15.700 --> 00:11:21.940
+Jihoon: This is currently missing, and I'm gonna add this. It will be a simple change, at least at the spec.
+
+67
+00:11:24.120 --> 00:11:25.790
+Jihoon: And…
+
+68
+00:11:26.210 --> 00:11:34.850
+Jihoon: We can also discuss about payload attributes event. So there were a few options that we had in our mind.
+
+69
+00:11:35.130 --> 00:11:51.409
+Jihoon: The first one is changing the Engine API to send a list of ILs, not IL transactions. And then a builder can retrieve IL bit list by decoding payload attributes v whatever.
+
+70
+00:11:51.870 --> 00:12:00.730
+Jihoon: The second option is leave everything as is and just modify the payload attributes event to include IL bits.
+
+71
+00:12:00.910 --> 00:12:05.089
+Jihoon: So… And the last option…
+
+72
+00:12:05.320 --> 00:12:13.530
+Jihoon: which was proposed by Indigo yesterday, is adding enclosure list bits to the event as a top-level field.
+
+73
+00:12:13.920 --> 00:12:14.890
+Jihoon: So.
+
+74
+00:12:15.420 --> 00:12:16.280
+Jihoon: Yep.
+
+75
+00:12:18.350 --> 00:12:21.409
+Jihoon: Do we… can we have, like, some input?
+
+76
+00:12:21.930 --> 00:12:24.949
+Jihoon: On which direction we want to go.
+
+77
+00:12:41.340 --> 00:12:46.790
+Jihoon: I think this is related to setting up Builder, because Builder…
+
+78
+00:12:47.690 --> 00:12:51.460
+Jihoon: Need to set this IL bit lace.
+
+79
+00:12:51.630 --> 00:13:01.020
+Jihoon: It doesn't have to be perfect in first few DevNets, but down the road, we need to agree on
+
+80
+00:13:01.340 --> 00:13:04.019
+Jihoon: This SSE event.
+
+81
+00:13:11.630 --> 00:13:14.800
+Nico Flaig: So we definitely keep the bits now.
+
+82
+00:13:15.510 --> 00:13:18.770
+Nico Flaig: Because right now the spec has them still removed, right?
+
+83
+00:13:19.070 --> 00:13:25.580
+Jihoon: Yeah, I haven't added it back, because… We need to…
+
+84
+00:13:25.880 --> 00:13:32.800
+Jihoon: Consider it, I mean, consider the bit list in fork choice, and I haven't had enough time to think about.
+
+85
+00:13:33.000 --> 00:13:40.580
+Jihoon: what would be the best way to implement it, but it's on my to-do list, and yeah, we will not have it back. And we can…
+
+86
+00:13:41.150 --> 00:13:46.009
+Jihoon: Discuss why we're adding it back after this topic.
+
+87
+00:13:56.170 --> 00:14:05.130
+Nico Flaig: Yeah, I mean, from my side, I think three would be the simplest. For one, I guess we need more discussion. That's something we want to do.
+
+88
+00:14:05.350 --> 00:14:12.339
+Nico Flaig: And would need EL and CL changes, so yeah, like, you're gonna add some delay in the testing.
+
+89
+00:14:12.970 --> 00:14:13.800
+Jihoon: Right.
+
+90
+00:14:14.620 --> 00:14:25.409
+Jihoon: So… we might end up changing Engine API to send ILs, because… for whatever reason, but still…
+
+91
+00:14:25.610 --> 00:14:33.460
+Jihoon: If we were to go with the third option, then it will be the least invasive change, because
+
+92
+00:14:33.800 --> 00:14:39.609
+Jihoon: We can just change it in the CL and Bill Dorff can adapt it.
+
+93
+00:14:40.830 --> 00:14:42.440
+Jihoon: Yeah.
+
+94
+00:14:42.690 --> 00:14:49.470
+Jihoon: So I'll say we can tentatively go with the option three and then revisit this later.
+
+95
+00:14:58.830 --> 00:14:59.760
+Jihoon: Right.
+
+96
+00:15:03.660 --> 00:15:06.840
+Jihoon: Let's move on then.
+
+97
+00:15:07.140 --> 00:15:18.270
+Jihoon: So, let's talk about why we are adding back IL bitlays. There were some lengthy discussion in Discord, but it might not be…
+
+98
+00:15:18.640 --> 00:15:22.850
+Jihoon: easy enough to grasp.
+
+99
+00:15:23.200 --> 00:15:25.040
+Jihoon: The reason, so…
+
+100
+00:15:26.580 --> 00:15:38.840
+Jihoon: Let's imagine this case. Let's say the winning builder didn't listen to some IL and they used trustless payment and somehow that missing IL.
+
+101
+00:15:38.950 --> 00:15:44.399
+Jihoon: contained some unique transaction, which causes a payload reorg.
+
+102
+00:15:45.020 --> 00:15:49.960
+Jihoon: Then, the builder… is enforced to pay.
+
+103
+00:15:50.170 --> 00:15:59.049
+Jihoon: And in this case, if… The first condition is because of some network failure or whatever, then.
+
+104
+00:16:00.320 --> 00:16:03.029
+Jihoon: The builder is forced to pay.
+
+105
+00:16:03.650 --> 00:16:07.559
+Jihoon: When it follow the protocol honestly.
+
+106
+00:16:07.790 --> 00:16:11.230
+Jihoon: So this is what the bit list can prevent.
+
+107
+00:16:12.850 --> 00:16:15.660
+Jihoon: I think there was a chat.
+
+108
+00:16:22.950 --> 00:16:23.740
+Jihoon: Yep.
+
+109
+00:16:25.160 --> 00:16:29.670
+Jihoon: Yeah, so, this was the reason and
+
+110
+00:16:30.350 --> 00:16:35.989
+Jihoon: We can ask a few more questions to understand what is the implication of this change.
+
+111
+00:16:36.230 --> 00:16:37.330
+Jihoon: So…
+
+112
+00:16:37.660 --> 00:16:46.400
+Jihoon: The first question could be, does the bid list align incentive for proposers? Then I think it is helpful to
+
+113
+00:16:46.720 --> 00:16:49.109
+Jihoon: Explore…
+
+114
+00:16:49.230 --> 00:17:01.710
+Jihoon: trustless and trusted payment cases separately. For trustless payment, it is yes, because otherwise their block will not get accepted by the payload… by the protocol.
+
+115
+00:17:01.710 --> 00:17:09.570
+Jihoon: And for trusted payment, it is also yes, because it doesn't change the fact that their block
+
+116
+00:17:09.569 --> 00:17:13.470
+Jihoon: Might be reorged if it contains.
+
+117
+00:17:13.589 --> 00:17:16.379
+Jihoon: Not a super sad bit list.
+
+118
+00:17:16.380 --> 00:17:37.460
+Jihoon: But it is noteworthy that it is still a bad step for a proposer because they will never know whether the payload is actually IL compliant until it's revealed. But still, from proposer's perspective, it is their incentive to choose non-sensing payload.
+
+119
+00:17:38.230 --> 00:17:39.130
+Jihoon: And.
+
+120
+00:17:40.480 --> 00:17:41.630
+Jihoon: Yes, Nico.
+
+121
+00:17:41.940 --> 00:17:49.139
+Nico Flaig: Just one question. What do you mean by the block would not be accepted? What's the accept condition where this is not the case?
+
+122
+00:17:49.540 --> 00:17:50.960
+Jihoon: Right, so, this…
+
+123
+00:17:51.650 --> 00:18:00.020
+Jihoon: That's what I've been thinking about. I think there are at least two ways to implement this. One is quite simple, but…
+
+124
+00:18:00.130 --> 00:18:01.650
+Jihoon: Strong, which is.
+
+125
+00:18:02.590 --> 00:18:07.170
+Jihoon: We can make a testers to vote for a parent.
+
+126
+00:18:07.320 --> 00:18:10.590
+Jihoon: If the block has a,
+
+127
+00:18:10.770 --> 00:18:18.190
+Jihoon: If the blocks bit contains a bit list that is not superset to their local IL view.
+
+128
+00:18:19.290 --> 00:18:21.429
+Jihoon: So, there will be no blog.
+
+129
+00:18:21.770 --> 00:18:24.589
+Jihoon: And hence, no payload for that slot.
+
+130
+00:18:25.710 --> 00:18:29.060
+Jihoon: The second… option is…
+
+131
+00:18:31.210 --> 00:18:43.039
+Jihoon: we don't reorg a block, we just reorg a payload, but if the block, sorry, if the builder used Trustless Payment, and if
+
+132
+00:18:43.400 --> 00:18:46.590
+Jihoon: The builder's missing IL caused…
+
+133
+00:18:46.830 --> 00:18:53.209
+Jihoon: the payload reorg, then we do not enforce the trustless payment.
+
+134
+00:18:53.450 --> 00:18:57.069
+Jihoon: Even if it received enough attestations.
+
+135
+00:18:58.000 --> 00:18:59.359
+Jihoon: I'm not sure if…
+
+136
+00:19:00.160 --> 00:19:19.029
+Jihoon: If this is feasible because it kind of entangles fork choice and state transition. I doubled it a bit before this call, but it doesn't look like pretty. I'm not sure which one is the best, but like, yeah, it depends on the design, I think. So.
+
+137
+00:19:20.380 --> 00:19:25.940
+Jihoon: In here, I just wanted to, explain, saying that, like, that
+
+138
+00:19:27.920 --> 00:19:32.900
+Jihoon: The testers were going to reorg a block. We're not going to accept a block.
+
+139
+00:19:33.020 --> 00:19:35.379
+Jihoon: If it if the beta lead is not good.
+
+140
+00:19:40.190 --> 00:19:49.499
+Nico Flaig: Yeah, I guess the concern would be if the proposer and the builder have a bad view of the ILs, then you orphan the block, right?
+
+141
+00:19:49.760 --> 00:19:52.880
+Nico Flaig: While before you would just orphan the payload.
+
+142
+00:19:54.170 --> 00:19:57.259
+Jihoon: Yes, if you were to go with this design.
+
+143
+00:20:11.790 --> 00:20:12.640
+Jihoon: Yep.
+
+144
+00:20:17.330 --> 00:20:28.960
+Jihoon: So what changes here before and after the bitlist for Proposer is before bitlist, Proposer doesn't care whether the payload is
+
+145
+00:20:29.070 --> 00:20:35.000
+Jihoon: Censoring or not if it's trustless payment because they will get gonna get paid anyway.
+
+146
+00:20:35.200 --> 00:20:38.290
+Jihoon: If it… if their blog is timely.
+
+147
+00:20:39.370 --> 00:20:46.860
+Jihoon: But with bit lace, they want to care about whether the bit lace is a superset. So yeah.
+
+148
+00:20:51.130 --> 00:21:07.910
+Jihoon: So for, but for builders it's different because from their perspective, if they are using trusted payment, then they can just ignore this bit.ly, just set it to all ones and then just try to compare it only with base value.
+
+149
+00:21:08.120 --> 00:21:13.759
+Jihoon: And this could be… The case…
+
+150
+00:21:14.660 --> 00:21:19.979
+Jihoon: Where builders are confident that they have a good infra.
+
+151
+00:21:20.180 --> 00:21:27.019
+Jihoon: to listen all available ILs in the network by… I don't know, fetching…
+
+152
+00:21:27.370 --> 00:21:38.590
+Jihoon: IL from peers using request response or over the P2P or whatever, even when network is diverging, then they might go with this.
+
+153
+00:21:39.070 --> 00:21:50.509
+Jihoon: Competing with only bits value strategy. So, it doesn't really change for builders, but it might change incentive for proposers.
+
+154
+00:21:51.780 --> 00:22:09.689
+Jihoon: So, another argument that it will gonna improve liveness, and does it improve liveness? Then, my opinion is yes, but when certain conditions are met. So, this is the condition that, we can improve liveness, which…
+
+155
+00:22:11.450 --> 00:22:23.060
+Jihoon: the protocol would have reorged the payload without bitless. So it is just a case that we just covered before, when the winning builder
+
+156
+00:22:23.060 --> 00:22:34.780
+Jihoon: couldn't listen to some IL, and that IL caused the payload to reorg, and somehow a proposer and the majority of our testers received that IL.
+
+157
+00:22:35.560 --> 00:22:53.380
+Jihoon: And we also need to know whether the bidder list was honest or not. And in this case, the proposer will fall back to the next bidder, and it can go down to local building. So, if we go to local building, we will gonna still have some…
+
+158
+00:22:54.120 --> 00:22:56.550
+Jihoon: Beacon block and payload.
+
+159
+00:22:58.270 --> 00:22:59.400
+Jihoon: So yeah.
+
+160
+00:22:59.620 --> 00:23:00.550
+Jihoon: So.
+
+161
+00:23:00.920 --> 00:23:11.819
+Jihoon: this is my understanding of the benefits of having Bitlys, and how much does it make sense is depending on like, what is the
+
+162
+00:23:12.150 --> 00:23:18.289
+Jihoon: probabilistic of this conditions are met.
+
+163
+00:23:18.990 --> 00:23:33.300
+Jihoon: And… So it has multiple facets and my main understanding is it can prevent this Case, which is…
+
+164
+00:23:33.490 --> 00:23:42.370
+Jihoon: an honest actor shouldn't be foolish by acting honestly, so I think this is more about correctness or soundness.
+
+165
+00:23:43.390 --> 00:23:46.949
+Jihoon: So yeah, I'm happy to answer any questions.
+
+166
+00:23:55.700 --> 00:23:59.769
+Jihoon: Or any just concerns. It doesn't have to be like perfect.
+
+167
+00:24:06.450 --> 00:24:15.629
+Nico Flaig: Yeah, I guess my only feedback there would be, how likely really is this that a builder doesn't observe an IL while a proposal did?
+
+168
+00:24:16.000 --> 00:24:20.540
+Nico Flaig: That scenario seems to be zero, probably, on mainnet.
+
+169
+00:24:20.760 --> 00:24:24.870
+Nico Flaig: Because you also assume, right, it's a builder that wanted a bit, so…
+
+170
+00:24:25.050 --> 00:24:33.800
+Nico Flaig: It's not. It's gonna be a sophisticated builder, and usually relays and builders today are way better connected than proposals.
+
+171
+00:24:35.180 --> 00:24:41.370
+Jihoon: That's true. That's true So it doesn't really matter if there is no trustless payment.
+
+172
+00:24:41.610 --> 00:24:47.140
+Jihoon: But there's a trustless payment and This scenario…
+
+173
+00:24:47.500 --> 00:24:55.229
+Jihoon: might happen. So if you're asking me, like, how many slots will this gonna happen, then…
+
+174
+00:24:55.840 --> 00:24:59.409
+Jihoon: I don't know, I cannot predict, but yeah.
+
+175
+00:25:00.760 --> 00:25:06.109
+Jihoon: From protocol's perspective, I think this is just about, like, correctness or soundness.
+
+176
+00:25:06.820 --> 00:25:14.030
+Jihoon: Of course, it can improve liveness, it can align incentive for proposer.
+
+177
+00:25:15.190 --> 00:25:23.420
+Jihoon: More research is needed if you were to provide some numbers on each argument, like how compelling they are.
+
+178
+00:25:24.280 --> 00:25:26.180
+Jihoon: So, yeah.
+
+179
+00:25:26.770 --> 00:25:28.669
+Jihoon: Yeah, it's multiple reasons.
+
+180
+00:25:29.110 --> 00:25:30.340
+Jihoon: to have it.
+
+181
+00:25:30.610 --> 00:25:31.590
+Jihoon: I think.
+
+182
+00:25:33.410 --> 00:25:38.640
+Jihoon: But the trade-off here is… This will be part of fork choice.
+
+183
+00:25:38.920 --> 00:25:44.799
+Jihoon: And… So yeah, it adds some complexity to the protocol.
+
+184
+00:25:56.060 --> 00:26:05.759
+Nico Flaig: I guess the minimal useful thing is, if we assume both proposer and builders honest, then we don't need anything in Focus, right? And you get the same benefits.
+
+185
+00:26:06.580 --> 00:26:09.630
+Jihoon: Yeah. So in the happy case.
+
+186
+00:26:10.300 --> 00:26:19.670
+Jihoon: where… Payload is good and Vitalist is also good or whatever. It doesn't really change anything.
+
+187
+00:26:20.320 --> 00:26:27.319
+Jihoon: It comes into play when things go wrong in this, like, weird case.
+
+188
+00:26:47.000 --> 00:26:49.629
+Jihoon: Alright, do we have any…
+
+189
+00:26:50.320 --> 00:26:55.659
+Justin Florentine (Besu): Can I just try to parrot something back here? Tell me if I'm oversimplifying this.
+
+190
+00:26:55.970 --> 00:26:59.779
+Justin Florentine (Besu): This sounds to me like the winning builder.
+
+191
+00:27:01.090 --> 00:27:03.350
+Justin Florentine (Besu): Lied about their bid?
+
+192
+00:27:03.960 --> 00:27:12.290
+Justin Florentine (Besu): Isn't this saying that the wedding builder said they could satisfy an IL that the proposer required, but didn't?
+
+193
+00:27:14.880 --> 00:27:19.249
+Jihoon: You mean in trustless payment or trusted payment?
+
+194
+00:27:19.250 --> 00:27:20.580
+Justin Florentine (Besu): Trustless.
+
+195
+00:27:20.580 --> 00:27:25.349
+Jihoon: Trustless. And are we assuming the payload is good?
+
+196
+00:27:27.850 --> 00:27:28.610
+Justin Florentine (Besu): Hmm.
+
+197
+00:27:29.100 --> 00:27:32.210
+Justin Florentine (Besu): Yes, outside of IL compliance.
+
+198
+00:27:33.050 --> 00:27:36.349
+Jihoon: Yeah, so if, as long as payload is good.
+
+199
+00:27:37.330 --> 00:27:41.530
+Jihoon: Builder is free to lie about BitList, because…
+
+200
+00:27:42.120 --> 00:27:44.540
+Jihoon: Yeah, it doesn't really hurt anything.
+
+201
+00:27:44.740 --> 00:27:51.499
+Jihoon: But if Builder lied about bit list, like setting to all ones.
+
+202
+00:27:52.270 --> 00:27:59.089
+Jihoon: even when they didn't listen to all IELTS, and if their payload turns out to be
+
+203
+00:27:59.470 --> 00:28:05.040
+Jihoon: Not IL compliant, then… They will have to pay for the cost.
+
+204
+00:28:05.530 --> 00:28:08.960
+Jihoon: But for… if it's trusted payment.
+
+205
+00:28:09.200 --> 00:28:12.550
+Jihoon: It doesn't really change anything, because they were not gonna pay anyway.
+
+206
+00:28:12.550 --> 00:28:14.019
+Justin Florentine (Besu): Right, that's the risk you take.
+
+207
+00:28:14.390 --> 00:28:16.850
+Jihoon: Yeah, so if you are a proposer.
+
+208
+00:28:17.170 --> 00:28:21.079
+Jihoon: And if you want to use trusted payment, then…
+
+209
+00:28:21.540 --> 00:28:30.820
+Jihoon: You want to know there's a risk that you are accepting a bid that might come with censoring payload.
+
+210
+00:28:36.110 --> 00:28:43.549
+Jihoon: But then the next question is, what would be the reason for a builder to produce a censoring payload, if it's not a bug or whatever reason?
+
+211
+00:28:46.400 --> 00:28:47.120
+Justin Florentine (Besu): Okay, thanks.
+
+212
+00:28:47.120 --> 00:28:47.650
+Justin Traglia: It.
+
+213
+00:28:48.130 --> 00:28:53.770
+Justin Traglia: I still don't really see the value in the bit list because, I mean, they can still just lie in either case.
+
+214
+00:28:54.480 --> 00:28:59.770
+Justin Traglia: Like, couldn't you assume honest behavior in the first place? And then if they submit a.
+
+215
+00:29:00.010 --> 00:29:04.740
+Justin Traglia: a payload that's non-IO compliant. It would just be reorged out anyway.
+
+216
+00:29:05.600 --> 00:29:05.980
+Jihoon: Exactly.
+
+217
+00:29:05.980 --> 00:29:07.070
+Justin Traglia: Nothing would happen either.
+
+218
+00:29:07.960 --> 00:29:11.690
+Jihoon: Yes, but with trust lease payment, you are gonna pay for it.
+
+219
+00:29:14.510 --> 00:29:16.180
+Justin Traglia: Wouldn't they pay for it?
+
+220
+00:29:16.700 --> 00:29:17.819
+Justin Traglia: And the current.
+
+221
+00:29:18.280 --> 00:29:19.969
+Justin Traglia: Why are you two?
+
+222
+00:29:21.990 --> 00:29:25.010
+Jihoon: Oh, sorry. Yeah, I, I mixed about.
+
+223
+00:29:25.740 --> 00:29:29.500
+Jihoon: To possible implementation, so yeah,
+
+224
+00:29:31.140 --> 00:29:45.340
+Jihoon: So, if we… if we are gonna reorg a block, then they were not gonna pay anyway, because, yeah, their block is gone. But if we don't reorg a block, if we just somehow find a way to not enforce
+
+225
+00:29:45.460 --> 00:29:50.939
+Jihoon: The payment, then… Yeah, they were gonna have to pay…
+
+226
+00:29:51.100 --> 00:29:54.509
+Jihoon: But we will gonna just reorg a payload.
+
+227
+00:29:54.950 --> 00:30:09.070
+Jihoon: So that's why I think reorging a payload and just not reinforcing a trustless payment in this specific case is the ideal way, but I'm not sure about its feasibility and complexity.
+
+228
+00:30:09.670 --> 00:30:12.450
+Justin Traglia: But that wouldn't hurt the proposer, no? Like…
+
+229
+00:30:14.010 --> 00:30:19.940
+Justin Traglia: I feel that it should be on the builder to be I/O compliant and not on the proposer.
+
+230
+00:30:22.000 --> 00:30:22.770
+Jihoon: Mmhm.
+
+231
+00:30:22.770 --> 00:30:26.180
+Justin Traglia: Like, we shouldn't, financially harm.
+
+232
+00:30:26.180 --> 00:30:26.609
+Justin Florentine (Besu): I think that.
+
+233
+00:30:26.610 --> 00:30:26.930
+Justin Traglia: Yeah.
+
+234
+00:30:26.930 --> 00:30:30.379
+Justin Florentine (Besu): Right? Because the builders don't see the block until it's too late.
+
+235
+00:30:30.750 --> 00:30:32.570
+Justin Florentine (Besu): It's already been signed and everything, right.
+
+236
+00:30:35.470 --> 00:30:38.459
+Justin Traglia: What do you mean? It has to be. It has to be on the proposer.
+
+237
+00:30:39.800 --> 00:30:48.209
+Justin Florentine (Besu): No, it has to be on the builder. Like, the proposer has no input or decision about what goes into the block anyway, because…
+
+238
+00:30:48.480 --> 00:30:50.760
+Justin Florentine (Besu): You know, they're signing blinded bids.
+
+239
+00:30:55.290 --> 00:30:56.460
+Justin Traglia: Yeah, sort of.
+
+240
+00:31:06.610 --> 00:31:10.289
+Justin Florentine (Besu): So we're trying to figure out the penalty really, right?
+
+241
+00:31:12.200 --> 00:31:13.219
+Jihoon: Yeah, that's fair.
+
+242
+00:31:13.810 --> 00:31:14.530
+Justin Florentine (Besu): Okay.
+
+243
+00:31:22.320 --> 00:31:29.430
+Jihoon: Yeah, I think… We can have more productive discussion if we have some.
+
+244
+00:31:31.360 --> 00:31:35.239
+Jihoon: candidate spec implementation.
+
+245
+00:31:35.370 --> 00:31:39.409
+Jihoon: Sorry, I just didn't have the luxury of preparing.
+
+246
+00:31:39.660 --> 00:31:40.400
+Jihoon: Okay.
+
+247
+00:31:40.400 --> 00:31:47.030
+Justin Florentine (Besu): Okay, I think what we're… this is helpful to me, at least, because what we're doing is we're…
+
+248
+00:31:47.660 --> 00:31:52.580
+Justin Florentine (Besu): Adding utility to the difference between trusted and trustless payments, right?
+
+249
+00:31:53.340 --> 00:31:53.730
+Jihoon: Yes.
+
+250
+00:31:53.730 --> 00:31:56.960
+Justin Florentine (Besu): We're just creating more reason to not use trusted payments.
+
+251
+00:32:00.280 --> 00:32:02.530
+Justin Florentine (Besu): To me, I think that's a feature, right?
+
+252
+00:32:02.760 --> 00:32:05.889
+Jihoon: Yeah, you can frame it that way.
+
+253
+00:32:06.750 --> 00:32:08.350
+Jihoon: Yeah.
+
+254
+00:32:08.530 --> 00:32:09.220
+Justin Florentine (Besu): Okay.
+
+255
+00:32:09.750 --> 00:32:10.560
+Jihoon: Could be.
+
+256
+00:32:12.290 --> 00:32:16.100
+Jihoon: So it's funny that this bit list was proposed.
+
+257
+00:32:16.370 --> 00:32:30.739
+Jihoon: even before we have the spec, and now we are discovering the pros and cons of this bit list. The cons is, protocol complexity, and I think we're just mainly focusing on what we can do with this bit list and what is it for.
+
+258
+00:32:35.530 --> 00:32:45.959
+Nico Flaig: Yeah, but I think we could just do a minimal approach first, maybe, where we… so the proposer just picks bits that is a superset of their IL view, and then…
+
+259
+00:32:46.320 --> 00:32:55.050
+Nico Flaig: We do nothing on the fork choice level. So you assume the proposers honest and basically has interest in picking a bit that is non censoring.
+
+260
+00:32:55.360 --> 00:33:06.890
+Nico Flaig: And then you also assume the builder's honest in that case, right? So the proposer only looks at the bit list basically to protect the builder from getting its payload reorged.
+
+261
+00:33:07.800 --> 00:33:10.789
+Nico Flaig: So that would be minimal, right?
+
+262
+00:33:12.140 --> 00:33:19.430
+Jihoon: In trustless payment, right? In trusted payment, you don't get, you don't have any guarantee.
+
+263
+00:33:21.960 --> 00:33:28.290
+Jihoon: that's a catch, but I agree that that would be the minimal approach while we are
+
+264
+00:33:28.700 --> 00:33:31.150
+Jihoon: discussing how to implement this.
+
+265
+00:33:33.940 --> 00:33:53.670
+Nico Flaig: Yeah, I mean, because that is pretty simple from the complexity, right? We just need to update the event. We need to add this to the container and then how we select bids from the pool is also basically we just also check the bid list instead of just the bid value or whatever clients use to select bids.
+
+266
+00:33:54.170 --> 00:33:57.059
+Jihoon: Yeah, yeah, yeah, absolutely.
+
+267
+00:33:57.220 --> 00:33:59.510
+Jihoon: So Yeah, okay.
+
+268
+00:34:01.090 --> 00:34:01.800
+Jihoon: We have…
+
+269
+00:34:01.800 --> 00:34:07.850
+soispoke: Sorry, I'm late, but would it be a step forward, like, a step towards then?
+
+270
+00:34:07.850 --> 00:34:08.400
+Jihoon: Oh, weird.
+
+271
+00:34:08.400 --> 00:34:14.340
+soispoke: Enforcing the fork choice, or would it just be… Like, keeping it minimal.
+
+272
+00:34:14.340 --> 00:34:19.689
+Jihoon: mainly discussing… I think we are mainly discussing how to…
+
+273
+00:34:20.429 --> 00:34:31.499
+Jihoon: consider BitList in the fork choice, because there are multiple possible options, and each option brings with different meaning.
+
+274
+00:34:31.630 --> 00:34:32.380
+Jihoon: And…
+
+275
+00:34:32.380 --> 00:34:39.929
+soispoke: Right, right. I was just, I was just wondering if, you know, like the minimal approach of just
+
+276
+00:34:40.389 --> 00:34:41.080
+soispoke: I'm…
+
+277
+00:34:42.949 --> 00:34:50.519
+soispoke: the bit list in there and sort of a first sort of like step forward then including it in the four choice or is it
+
+278
+00:34:50.639 --> 00:34:53.020
+soispoke: Or do people want to keep it this way?
+
+279
+00:34:54.540 --> 00:34:59.850
+Jihoon: What is this way, sorry? I think you're, you're sound cutting out now.
+
+280
+00:35:00.050 --> 00:35:01.390
+soispoke: Not enforced.
+
+281
+00:35:01.630 --> 00:35:03.210
+soispoke: In the folk choice at all.
+
+282
+00:35:04.010 --> 00:35:16.240
+soispoke: My question is, like, do people generally agree we should enforce it in the fork choice eventually, and is it just more like, right now, let's test it, without it, because it's easier, or…
+
+283
+00:35:16.370 --> 00:35:20.579
+soispoke: Or do people actually think, like, we shouldn't enforce it in the fork choice?
+
+284
+00:35:20.950 --> 00:35:31.420
+Jihoon: I think it is not decided yet. I think we haven't reached to a rough consensus on whether to not include this bit lace in fork choice.
+
+285
+00:35:31.540 --> 00:35:33.869
+Jihoon: or included in Fork Choice.
+
+286
+00:35:34.010 --> 00:35:40.020
+Jihoon: That's why we were just discussing having the bit list.
+
+287
+00:35:40.850 --> 00:35:52.029
+Jihoon: In container, but not in fork choice as the first step, while we are figuring out, yeah, its implication and how to… what would be the best way to implement it.
+
+288
+00:35:53.740 --> 00:35:54.490
+soispoke: That makes sense.
+
+289
+00:36:04.200 --> 00:36:07.370
+Jihoon: All right, any more questions or comments?
+
+290
+00:36:18.090 --> 00:36:22.220
+Jihoon: Right. To sum up,
+
+291
+00:36:23.690 --> 00:36:38.700
+Jihoon: The engine API spec 619, sorry, 609 is expected to be merged very soon. And then I'm going to get some resources from Steel to work on execution spec tests.
+
+292
+00:36:38.710 --> 00:36:55.719
+Jihoon: And consensus specs, we'll have a little bit of change to specify how it should behave for not validating payloads. And for this payload attributes event for build door, we will gonna go for tentatively
+
+293
+00:36:55.720 --> 00:37:06.089
+Jihoon: go for the third option. And for the bit list, we're gonna bring it back to the container, but not yet in the fork choice. And…
+
+294
+00:37:06.640 --> 00:37:17.209
+Jihoon: Regarding having bit lace in the fork choice, I'm going to explore possible implementations and then maybe we can
+
+295
+00:37:17.440 --> 00:37:20.980
+Jihoon: Discussing in the next breakouts.
+
+296
+00:37:26.470 --> 00:37:30.340
+Jihoon: Right, does it sound good?
+
+297
+00:37:32.950 --> 00:37:33.580
+Justin Florentine (Besu): Yes, sir.
+
+298
+00:37:33.580 --> 00:37:40.580
+soispoke: When you say different implementations, do you also mean sort of like…
+
+299
+00:37:42.210 --> 00:37:47.799
+soispoke: Like, do you feel like we should also sort of, like, high-level agree on whether it's
+
+300
+00:37:48.420 --> 00:37:54.540
+soispoke: Necessary in the fork choice first, and then sort of, like, go into the implementations, or was that sort of, like, included in what you meant?
+
+301
+00:37:54.980 --> 00:37:56.890
+Jihoon: I think it depends on
+
+302
+00:37:57.970 --> 00:38:07.999
+Jihoon: The complexity and what does the protocol works? How does the protocol works? Because. Yeah, because like.
+
+303
+00:38:08.390 --> 00:38:16.479
+Jihoon: we need to Figure out how the protocol will behave to, to, like, discuss, like, okay.
+
+304
+00:38:18.550 --> 00:38:26.819
+Jihoon: How does it make sense to have bitlays in the fork choice and what is its implication, so on and so forth.
+
+305
+00:38:26.820 --> 00:38:44.809
+Jihoon: So for now, we are just, we are at the stage where, we might have bit-wise in the fork choice, but we haven't really, found good answers when it comes to how that protocol works exactly, so that's why,
+
+306
+00:38:45.210 --> 00:38:48.409
+Jihoon: Discussions were like a bit up in the air.
+
+307
+00:38:49.860 --> 00:38:59.420
+Justin Florentine (Besu): Are you… are you thinking that… so, for example, like, maybe, you know, the bit list weighs fork choice differently, depending on how complete it is, right?
+
+308
+00:39:00.380 --> 00:39:01.909
+Jihoon: Yes, like…
+
+309
+00:39:02.050 --> 00:39:02.640
+Justin Florentine (Besu): Yep.
+
+310
+00:39:03.040 --> 00:39:08.860
+Jihoon: We might reorg a block or we might not and then just like not enforce trust payment.
+
+311
+00:39:08.980 --> 00:39:26.449
+Jihoon: if it makes sense, and there might be some… some other option that we haven't really thought about at the moment. So, yeah. And, like, trade-off here is, in my opinion, it could be, like, aligning incentive, or liveness, or…
+
+312
+00:39:26.760 --> 00:39:31.859
+Jihoon: improving correctness or soundness versus adding
+
+313
+00:39:32.040 --> 00:39:44.549
+Jihoon: complexity to the protocol. So, yeah. And I don't think this is, like, a blocker for making a progress, so we can take more time to find the best solution ahead of us.
+
+314
+00:39:48.620 --> 00:40:04.929
+Justin Florentine (Besu): So, for example, you, you know, for starters, we just say, okay, it's a superset of what the views, the, the, the merge view of the committee, or sorry, yeah, superset of what the merge view committee saw, it's valid, great, but maybe in the future, we start preferring, you know, more thorough
+
+315
+00:40:05.130 --> 00:40:08.069
+Justin Florentine (Besu): Arrays of the bid list, right?
+
+316
+00:40:08.620 --> 00:40:12.469
+Jihoon: Yes, yes, makes sense. So, like, in the beginning, we can just…
+
+317
+00:40:13.110 --> 00:40:16.830
+Jihoon: Say that the spec we're gonna say that proposer.
+
+318
+00:40:17.050 --> 00:40:20.200
+Jihoon: Should pick up bits.
+
+319
+00:40:20.340 --> 00:40:37.329
+Jihoon: that has a superset IL view to their local IL view, but it is something that we don't really check in the fork choice, so Procoser can choose whatever they want, and in the meantime, we can figure out what would be the best way to have, you know…
+
+320
+00:40:38.160 --> 00:40:43.159
+Jihoon: Consider this beta laser in the protocol. And what, what, what is that meaning?
+
+321
+00:40:52.740 --> 00:41:04.730
+Justin Florentine (Besu): So I'm not a CL dev, so I can't really speak to whether or not this is liveness. On the surface, it doesn't speak to liveness, but it certainly leaves room for micro-censorship, right?
+
+322
+00:41:06.340 --> 00:41:09.439
+Jihoon: Could you expand on microcensorship?
+
+323
+00:41:09.440 --> 00:41:20.970
+Justin Florentine (Besu): Well, just the idea that, like, a proposer is looking at, it has a fork choice, maybe, between two chains, and they each have compliant ILs, but one is bigger than the other. Something's getting censored.
+
+324
+00:41:21.540 --> 00:41:26.819
+Justin Florentine (Besu): And maybe it's gonna get delayed, or maybe not censored is the wrong way to put it, but it might get delayed
+
+325
+00:41:28.740 --> 00:41:33.909
+Justin Florentine (Besu): Like, there's a Venn diagram there when you're looking at these two bit lists, if they differ.
+
+326
+00:41:37.720 --> 00:41:39.090
+Jihoon: When they're choosing.
+
+327
+00:41:42.140 --> 00:41:45.390
+Justin Florentine (Besu): No, later during pork choice.
+
+328
+00:41:46.460 --> 00:41:48.480
+Jihoon: Okay.
+
+329
+00:41:51.820 --> 00:42:00.340
+Jihoon: But… Assuming both payloads are… Good. I mean, both are IL compliant.
+
+330
+00:42:00.340 --> 00:42:01.080
+Justin Florentine (Besu): Yep.
+
+331
+00:42:04.450 --> 00:42:08.940
+Jihoon: What does it mean that… One has…
+
+332
+00:42:09.270 --> 00:42:15.689
+Jihoon: more, I mean, how to put this, like… more, more…
+
+333
+00:42:16.170 --> 00:42:18.459
+Jihoon: One, and they're a bit less than the other.
+
+334
+00:42:23.650 --> 00:42:27.169
+Justin Florentine (Besu): So, if I'm understanding the bit list correctly, right?
+
+335
+00:42:27.440 --> 00:42:28.230
+Jihoon: Yep.
+
+336
+00:42:28.390 --> 00:42:30.769
+Justin Florentine (Besu): It's an array of IOs, right?
+
+337
+00:42:31.650 --> 00:42:34.710
+Justin Florentine (Besu): And… It's bigger than…
+
+338
+00:42:34.710 --> 00:42:35.970
+Jihoon: Sections.
+
+339
+00:42:36.270 --> 00:42:40.159
+Justin Florentine (Besu): It's bigger than the, what the committee is requiring, right?
+
+340
+00:42:42.000 --> 00:42:43.089
+Jihoon: Could be, yeah.
+
+341
+00:42:44.480 --> 00:42:49.010
+Justin Florentine (Besu): Well, it should be for the bid to have gotten through the bid, right?
+
+342
+00:42:51.140 --> 00:42:51.500
+Jihoon: Yes.
+
+343
+00:42:51.500 --> 00:42:54.880
+Justin Florentine (Besu): In a… in a trustless… in a trustless setup, right?
+
+344
+00:42:55.080 --> 00:42:56.330
+Jihoon: Yes.
+
+345
+00:42:56.330 --> 00:42:57.220
+Justin Florentine (Besu): Okay.
+
+346
+00:42:58.780 --> 00:43:04.019
+Justin Florentine (Besu): So when you get down to fork choice, you could be looking at two different heads.
+
+347
+00:43:04.990 --> 00:43:11.510
+Justin Florentine (Besu): that each have… A bit list that is a superset of… What the committee saw.
+
+348
+00:43:12.980 --> 00:43:13.790
+Jihoon: Yes.
+
+349
+00:43:15.060 --> 00:43:16.349
+Justin Florentine (Besu): in different ways.
+
+350
+00:43:19.150 --> 00:43:28.509
+Justin Florentine (Besu): And so now the fork choice could choose one that is effectively censoring some of the ILs. They have some optionality here, I guess is what I'm trying to say.
+
+351
+00:43:29.020 --> 00:43:30.150
+Jihoon: Go with your man, I think.
+
+352
+00:43:31.370 --> 00:43:36.230
+Justin Florentine (Besu): And if all we ask for is compliance with what the committee saw, that optionality exists.
+
+353
+00:43:36.730 --> 00:43:42.000
+Justin Florentine (Besu): If WorkChoice is updated to be more thorough and prefer the maximally inclusive.
+
+354
+00:43:42.690 --> 00:43:45.649
+Justin Florentine (Besu): Of the two choices at the head?
+
+355
+00:43:46.280 --> 00:43:48.149
+Justin Florentine (Besu): Then the optionality goes away.
+
+356
+00:43:50.740 --> 00:43:51.320
+Jihoon: Mmm.
+
+357
+00:43:55.690 --> 00:43:59.019
+Justin Florentine (Besu): My head is in the optionality space because of lucid work right now.
+
+358
+00:43:59.520 --> 00:44:08.290
+Justin Florentine (Besu): But I would ask that those blinders be considered by people that understand the fork choice protocol a lot better than I do.
+
+359
+00:44:08.820 --> 00:44:11.150
+Jihoon: Hmm, I see. Yeah.
+
+360
+00:44:13.810 --> 00:44:22.689
+Nico Flaig: Yeah, I mean, the thing is, we already lock in ahead before we even look at the bits for that parent root and parent hash, right? So…
+
+361
+00:44:25.050 --> 00:44:29.609
+Nico Flaig: I'm not sure what you… if that, like, what two competing branches you meant.
+
+362
+00:44:30.310 --> 00:44:34.289
+Nico Flaig: But yeah, we would pick the branch we build on before that.
+
+363
+00:44:34.900 --> 00:44:45.749
+Jihoon: I guess Justin is saying… He was describing some possible behavior when we are tie breaking.
+
+364
+00:44:46.300 --> 00:44:47.020
+Justin Florentine (Besu): Yep.
+
+365
+00:44:49.970 --> 00:44:53.280
+soispoke: But that's in cases where the proposal equivocates, no?
+
+366
+00:44:53.630 --> 00:44:59.730
+Jihoon: No, not necessarily.
+
+367
+00:45:00.160 --> 00:45:05.309
+Jihoon: It's just a tie-breaking between two branches, so they will have
+
+368
+00:45:06.460 --> 00:45:09.819
+Jihoon: They might have different proposers.
+
+369
+00:45:10.500 --> 00:45:13.229
+Jihoon: Or they might from different slots.
+
+370
+00:45:13.770 --> 00:45:17.590
+Jihoon: Although it is not likely, but still, like, if it's like.
+
+371
+00:45:18.410 --> 00:45:24.590
+Jihoon: non-finality or whatever then, yeah, maybe it is possible.
+
+372
+00:45:25.040 --> 00:45:28.079
+Jihoon: So it is not always proposals equivocation.
+
+373
+00:45:30.160 --> 00:45:31.180
+soispoke: Yeah, okay.
+
+374
+00:45:31.790 --> 00:45:45.859
+Nico Flaig: Yeah, but essentially, you call getHead, right? Then you get your head you want to build on, so you have the parent root locked in, and then you run shouldExtendPayload on that, right? Whether to build on empty or full.
+
+375
+00:45:46.910 --> 00:45:53.630
+Nico Flaig: Or whether to build on, like, if there's a… another block that build on empty, right? But at that point.
+
+376
+00:45:53.800 --> 00:46:00.150
+Nico Flaig: Does that mean we would consider the IELTS there? That's not really… I'm not really sure how that would work.
+
+377
+00:46:00.310 --> 00:46:02.410
+Jihoon: This.
+
+378
+00:46:02.700 --> 00:46:08.939
+Jihoon: Part is before that. So like it is during get head call.
+
+379
+00:46:13.640 --> 00:46:15.949
+Jihoon: So after you choose your hat, then.
+
+380
+00:46:16.550 --> 00:46:19.719
+Jihoon: Yeah, things just go as we…
+
+381
+00:46:19.850 --> 00:46:24.079
+Jihoon: have today, but when we are choosing GitHub.
+
+382
+00:46:25.320 --> 00:46:31.840
+Nico Flaig: But in that case, you already, the EL already verified, right? If the payload satisfied the IL.
+
+383
+00:46:32.120 --> 00:46:34.550
+Jihoon: Yeah, so both payloads are good.
+
+384
+00:46:35.160 --> 00:46:49.380
+Jihoon: And in this case, somehow you have two competing block with good payload. And in this case, Justin is suggesting to consider
+
+385
+00:46:49.840 --> 00:46:57.250
+Jihoon: picking a block with more thorough bit list. But then the next question is.
+
+386
+00:46:57.630 --> 00:47:10.950
+Jihoon: What does that mean? Like what? What? What does it mean to have, like, more ones in your bit list like that? If you miss somebody else, does it always mean censorship?
+
+387
+00:47:11.180 --> 00:47:12.670
+Jihoon: Maybe not.
+
+388
+00:47:15.490 --> 00:47:18.319
+Justin Florentine (Besu): No, there's no way to know. There's no way to know that
+
+389
+00:47:18.460 --> 00:47:26.549
+Justin Florentine (Besu): whether it's censorship or not, I guess my question is just like, you know, is that a thing we should prefer?
+
+390
+00:47:26.550 --> 00:47:27.330
+Jihoon: Mmhm.
+
+391
+00:47:28.250 --> 00:47:31.030
+Justin Florentine (Besu): Because somebody had a better view of the network, right?
+
+392
+00:47:34.210 --> 00:47:40.209
+Jihoon: Yes, and do we want to… Put more weight on that.
+
+393
+00:47:40.470 --> 00:47:41.520
+Jihoon: Better view.
+
+394
+00:47:46.640 --> 00:47:55.869
+Jihoon: Not sure, like, this looks like something new to me, because, like, when you, when you're choosing a hat.
+
+395
+00:47:56.160 --> 00:48:01.949
+Jihoon: We just counted… How many attestations it accrued.
+
+396
+00:48:02.150 --> 00:48:05.399
+Jihoon: And we, I don't know, like.
+
+397
+00:48:06.660 --> 00:48:14.530
+Jihoon: this is something new to me. I need to think more about this, whether this is a good idea or not. But it's I don't know. It's just new.
+
+398
+00:48:33.700 --> 00:48:35.210
+Jihoon: Right,
+
+399
+00:48:39.290 --> 00:48:49.040
+Jihoon: Regarding the next breakout, can we push it back by a week? Because I will be out of office around the 14th, so can we…
+
+400
+00:48:49.910 --> 00:48:52.779
+Jihoon: Have the next breakout on the 21st.
+
+401
+00:48:55.090 --> 00:48:57.720
+Jihoon: I got many a thumbs up. So
+
+402
+00:48:58.990 --> 00:49:04.280
+Jihoon: Thank you, guys. The next breakout will be held on the 21st.
+
+403
+00:49:04.850 --> 00:49:12.580
+Jihoon: Before we wrap up the call, do we have any more comments? It doesn't have to be on bit list.
+
+404
+00:49:16.070 --> 00:49:23.619
+NC: Sorry, so to summarize, there's an updated execution API, and it reintroduced the bit list.
+
+405
+00:49:24.250 --> 00:49:30.950
+NC: And then… Probably, we update Lodestar and some other clients, and we do another round of interop.
+
+406
+00:49:34.620 --> 00:49:38.700
+Jihoon: Do we believe that Clem 6 is good?
+
+407
+00:49:43.990 --> 00:49:48.259
+NC: I mean, for Lodestar side, we do have some capacity for FOCIL.
+
+408
+00:49:49.270 --> 00:49:50.210
+Jihoon: Oh, nice.
+
+409
+00:49:51.570 --> 00:49:59.830
+Jihoon: Yeah, we need… 2x2 to launch the first DevNet, but we can always
+
+410
+00:50:00.020 --> 00:50:14.519
+Jihoon: try local interop. We are basing on the latest Glamsterdam devnet, whatever that is, which is 6 at the moment, so if you guys can rebase your implementation on top of Glamsterdam devnet 6,
+
+411
+00:50:15.100 --> 00:50:24.099
+Jihoon: and have some bandwidth to apply new changes on the spec, then yeah, we can try the local interop.
+
+412
+00:50:25.540 --> 00:50:27.670
+Jihoon: Yeah, of course.
+
+413
+00:50:28.050 --> 00:50:35.839
+Jihoon: Yeah, I… think the engine API change will affect both EL and CL?
+
+414
+00:50:38.210 --> 00:50:41.510
+Jihoon: So yeah, I think it will take some time.
+
+415
+00:50:51.900 --> 00:50:54.819
+Jihoon: Any more questions or comments?
+
+416
+00:51:06.630 --> 00:51:10.669
+Jihoon: Otherwise, I think we can go ahead and wrap up this call.
+
+417
+00:51:13.220 --> 00:51:14.290
+Justin Florentine (Besu): Thanks everyone.
+
+418
+00:51:14.950 --> 00:51:15.740
+soispoke: Thank you.
+
+419
+00:51:15.810 --> 00:51:16.570
+Mehdi Aouadi: Thank you guys.
+
+420
+00:51:16.570 --> 00:51:17.730
+Jihoon: Bye. See you at the.
+
+421
+00:51:17.730 --> 00:51:18.110
+Justin Traglia: Throw.
+
+422
+00:51:18.110 --> 00:51:18.810
+Jihoon: First.
+
+423
+00:51:18.810 --> 00:51:19.160
+NC: See y.
+
+424
+00:51:19.160 --> 00:51:19.899
+Jihoon: Thank you.
+
+425
+00:51:20.070 --> 00:51:20.500
+Justin Traglia: See you then.
+
+426
+00:51:20.500 --> 00:51:21.240
+Jihoon: Bye bye.
+
