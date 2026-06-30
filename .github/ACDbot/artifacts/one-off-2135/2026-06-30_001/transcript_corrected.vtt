@@ -1,0 +1,2294 @@
+WEBVTT
+
+1
+00:01:30.130 --> 00:01:31.420
+Greg Colvin: Good morning!
+
+2
+00:01:34.980 --> 00:01:35.720
+Ben Adams: Hey.
+
+3
+00:01:49.780 --> 00:01:50.670
+Paweł Bylica: Okay.
+
+4
+00:01:58.780 --> 00:02:00.859
+Greg Colvin: Hello, kids note-taker.
+
+5
+00:02:03.090 --> 00:02:04.489
+Greg Colvin: I assume there's a.
+
+6
+00:02:04.770 --> 00:02:06.940
+Paweł Bylica: I assume… Bye.
+
+7
+00:02:27.350 --> 00:02:30.820
+Ben Adams: I'll drop a link in ACD in there.
+
+8
+00:04:37.900 --> 00:04:39.709
+Greg: Can people hear me?
+
+9
+00:04:43.500 --> 00:04:44.020
+Ben Adams: Yep.
+
+10
+00:04:45.010 --> 00:04:47.920
+Greg: I just switch computers.
+
+11
+00:04:49.390 --> 00:04:51.650
+Greg: The one seems flaky.
+
+12
+00:05:19.750 --> 00:05:24.710
+Greg: I wish Tesla had figured out how to fill the air with electricity.
+
+13
+00:05:25.210 --> 00:05:30.519
+Greg: and I didn't have a huge collection of dongles and power supplies.
+
+14
+00:05:41.970 --> 00:05:45.139
+Greg: I guess. Wait just a few minutes.
+
+15
+00:06:50.440 --> 00:06:57.170
+Greg: No, I guess we want… we might as well start, mail
+
+16
+00:06:58.380 --> 00:07:01.499
+Greg: Mainly, I'm here to answer questions.
+
+17
+00:07:01.750 --> 00:07:06.309
+Greg: And the main thing I have.
+
+18
+00:07:06.470 --> 00:07:22.290
+Greg: Questions about… We'll just… Generally, what people think And the specific… The specific things are,
+
+19
+00:07:23.720 --> 00:07:35.460
+Greg: Since John Max passed the validation code, I'm not as sure of as I would like to be.
+
+20
+00:07:35.740 --> 00:07:42.210
+Greg: Cause… The proof that it works was his work.
+
+21
+00:07:42.340 --> 00:07:50.939
+Greg: Yeah, and, the effect on, on ZK work.
+
+22
+00:07:51.110 --> 00:07:57.519
+Greg: I'm not sure that section is right, because I don't under… I don't understand ZK like he did.
+
+23
+00:07:57.710 --> 00:08:00.379
+Greg: So I had to lean on…
+
+24
+00:08:00.480 --> 00:08:08.180
+Greg: I had to lean on Claude to produce the Vyper code and, for some of the ZK discussion.
+
+25
+00:08:08.310 --> 00:08:09.370
+Greg: No, I'm good.
+
+26
+00:08:09.640 --> 00:08:18.509
+Greg: And Kev, you might be the right person to tell me if the ZK stuff makes sense.
+
+27
+00:08:18.870 --> 00:08:24.049
+Greg: It made sense to me, but every time I turn around, there's been more progress.
+
+28
+00:08:31.190 --> 00:08:39.049
+Ben Adams: I think it's just the AI note-taker, so… He wouldn't respond.
+
+29
+00:08:42.380 --> 00:08:45.269
+Greg: So there's nobody here but Kev's note-taker.
+
+30
+00:08:47.730 --> 00:08:50.560
+Ben Adams: No, no, no. I mean, Kev's not here.
+
+31
+00:08:53.200 --> 00:08:56.470
+Greg: Okay, so Kev's note-taker is here, but not Kev.
+
+32
+00:08:57.090 --> 00:08:58.290
+Ben Adams: Yeah, yeah.
+
+33
+00:08:58.800 --> 00:08:59.220
+Greg: Okay.
+
+34
+00:08:59.220 --> 00:09:02.850
+Ben Adams: So he'll, he'll probably see Oh.
+
+35
+00:09:03.580 --> 00:09:04.489
+Ben Adams: After the call.
+
+36
+00:09:05.330 --> 00:09:07.250
+Greg: Okay, well, well.
+
+37
+00:09:07.730 --> 00:09:24.909
+Greg: I'll ping him afterwards. And a question for… Yeah, more for client devs. Yeah.
+
+38
+00:09:26.030 --> 00:09:28.300
+Greg: is,
+
+39
+00:09:30.450 --> 00:09:42.109
+Greg: One notion there was to get the validation code out of the clients to go ahead and put it on the blockchain.
+
+40
+00:09:42.120 --> 00:09:54.949
+Greg: I noticed Vitalik has suggested putting the identity pre-compiled on the blockchain, and researchers have suggested that for other
+
+41
+00:09:54.970 --> 00:10:12.260
+Greg: for other things that are currently pre-compiles. And the notion is, if we get it on the blockchain, we only need to get it right once. Then it makes client jobs really easy. If a contract
+
+42
+00:10:12.430 --> 00:10:27.170
+Greg: has a magic header, then the header will point at the address of the validation code. It's not any harder than running the init code, and if it doesn't pass validation, then it
+
+43
+00:10:27.530 --> 00:10:30.059
+Greg: Then it fails and doesn't get run.
+
+44
+00:10:30.350 --> 00:10:36.430
+Greg: So this is… This is an answer to…
+
+45
+00:10:36.550 --> 00:10:42.070
+Greg: To Marius's continuous… continuing concern about technical debt.
+
+46
+00:10:42.220 --> 00:10:52.700
+Greg: To try and get it down to… all the clients need to do is to add a return stack, and the… the opcodes amount to,
+
+47
+00:10:53.360 --> 00:11:03.220
+Greg: a little bit of instruction, decoding, push the return, push the return address and to return, pop the return address.
+
+48
+00:11:03.540 --> 00:11:04.490
+Greg: Oh.
+
+49
+00:11:04.760 --> 00:11:05.840
+Greg: So…
+
+50
+00:11:06.020 --> 00:11:21.720
+Greg: Try and make it as simple as possible and if it turns out nobody in the world ever uses this, we're carrying on a very tiny amount of debt and it will get used.
+
+51
+00:11:22.010 --> 00:11:30.269
+Greg: and I don't have a whole lot to say about it until
+
+52
+00:11:30.370 --> 00:11:37.189
+Greg: I know what what it is people want to do, what questions they have, what comments.
+
+53
+00:11:37.550 --> 00:11:42.900
+Greg: and just speak. I'm not gonna deal with with people's hands being up.
+
+54
+00:11:44.560 --> 00:11:47.119
+Ben Adams: Okay, so.
+
+55
+00:11:48.740 --> 00:11:55.200
+Ben Adams: As I understand it, only… These opcodes will only be valid.
+
+56
+00:11:55.430 --> 00:12:04.089
+Ben Adams: Inside, A contract that starts with the magic header and to deploy that.
+
+57
+00:12:04.780 --> 00:12:10.780
+Ben Adams: If your contract starts with the magic header, it will be validated at create time.
+
+58
+00:12:11.170 --> 00:12:15.630
+Ben Adams: And then, after that, It's sort of like your life.
+
+59
+00:12:18.070 --> 00:12:21.960
+Greg: The opcodes are valid whether or not.
+
+60
+00:12:22.310 --> 00:12:29.169
+Greg: They're in magic code. The opcodes are simply being added, so they're backwards compatible.
+
+61
+00:12:29.530 --> 00:12:37.690
+Greg: If they're in, if they're in code that's labeled, that's valid, that's magic.
+
+62
+00:12:38.360 --> 00:12:48.420
+Greg: then they have to obey the rules. But if they're not in Magic Cove, they don't have to obey the rules. But they're still there and can be used.
+
+63
+00:12:48.840 --> 00:12:49.930
+Greg: Oh.
+
+64
+00:12:53.200 --> 00:13:12.420
+Greg: And this is important that this is genuine backwards compatibility. It's not hand waving that just says, well, yeah, we've we've got a tag here. So it's it's really a different interpreter. So it's it's backwards compatible in that sense. And I don't think that's
+
+65
+00:13:12.530 --> 00:13:13.990
+Greg: I don't think that's…
+
+66
+00:13:14.660 --> 00:13:23.459
+Greg: the level of compatibility we want. We want the interpreter itself not to care whether it's validated.
+
+67
+00:13:23.980 --> 00:13:24.890
+Greg: So…
+
+68
+00:13:25.470 --> 00:13:28.460
+lightclient: What's the point of the validation?
+
+69
+00:13:29.610 --> 00:13:30.740
+Greg: Umm.
+
+70
+00:13:32.460 --> 00:13:34.300
+Greg: Basically…
+
+71
+00:13:34.940 --> 00:13:51.079
+Greg: A client can check it. Luke's not here, but he was trying to actually write a compiler for his client and discovered he just could not do it.
+
+72
+00:13:51.300 --> 00:14:08.489
+Greg: Could not do it efficiently. Could not optimize what he had. So it will affect clients that are trying to optimize the code. That was my initial motivation. I set out to
+
+73
+00:14:08.980 --> 00:14:16.869
+Greg: to do what I'd done for a JVM at Oracle, which was simply make one pass over the
+
+74
+00:14:16.880 --> 00:14:30.560
+Greg: one pass over the byte code and translate it to register code, which would make it run faster, and then one pass over the register code and convert it to machine code. And it turned out to be
+
+75
+00:14:30.660 --> 00:14:31.840
+Greg: Impossible.
+
+76
+00:14:32.120 --> 00:14:33.100
+Greg: Yeah.
+
+77
+00:14:33.260 --> 00:14:35.450
+Greg: And it was… oh!
+
+78
+00:14:35.610 --> 00:14:53.460
+Greg: put in these 2 instructions and arrange that the instructions be used properly, and it becomes possible, just like it is for the Jvm. Just like it is for Wasm, just like it is for cli, and I'm scratching my head and going.
+
+79
+00:14:53.690 --> 00:14:56.290
+Greg: You know. Why?
+
+80
+00:14:57.820 --> 00:15:17.280
+Greg: And it's too late to fix legacy code, but at least we can have a marker that says at least this code, you know that you can traverse it in one pass and therefore you can do all kinds of nice things.
+
+81
+00:15:17.460 --> 00:15:18.510
+Greg: Oh.
+
+82
+00:15:18.810 --> 00:15:21.200
+lightclient: I guess I'm just trying to understand, like, how…
+
+83
+00:15:21.590 --> 00:15:33.310
+lightclient: required it is to do the validation in the protocol with the introduction of these opcodes, because I think most clients won't implement these optimizations from the get-go.
+
+84
+00:15:34.270 --> 00:15:39.490
+lightclient: And the validation is probably the most contentious point of this, these proposals.
+
+85
+00:15:41.110 --> 00:15:46.730
+Greg: Well, not having it was a contentious point in 2315.
+
+86
+00:15:46.880 --> 00:15:52.329
+Greg: Some devs specifically objected that it wasn't there.
+
+87
+00:15:52.860 --> 00:15:53.840
+Greg: Yeah.
+
+88
+00:15:54.090 --> 00:15:56.499
+Greg: and then for EOF.
+
+89
+00:15:56.660 --> 00:16:10.729
+Greg: The other devs objected that the code would only run in EOF, so EOF essentially marked a whole new interpreter.
+
+90
+00:16:10.910 --> 00:16:21.579
+Greg: And I don't know that all clients will want to take advantage of this right away. They're going to need to wait for compilers to catch up.
+
+91
+00:16:21.710 --> 00:16:30.160
+Greg: you know, you know, it's… it's not gonna be possible to get everything to land all at once.
+
+92
+00:16:30.330 --> 00:16:31.430
+Greg: Yeah,
+
+93
+00:16:32.630 --> 00:16:33.180
+Ben Adams: So, yeah.
+
+94
+00:16:33.390 --> 00:16:41.020
+Ben Adams: So… As I understand it, the magic header guarantees that the code is well behaved.
+
+95
+00:16:41.820 --> 00:16:43.890
+Ben Adams: But you can use the up codes.
+
+96
+00:16:44.860 --> 00:16:50.999
+Ben Adams: Without the header, but it doesn't necessarily, it's not necessarily well structured.
+
+97
+00:16:51.590 --> 00:16:54.390
+Ben Adams: Right. So if you put the magic pedal, you deploy it.
+
+98
+00:16:54.930 --> 00:16:57.439
+Ben Adams: You… you guarantee at deployment time.
+
+99
+00:16:57.970 --> 00:17:01.150
+Ben Adams: It's valid. Never have to check it again.
+
+100
+00:17:01.700 --> 00:17:02.430
+Greg: Right.
+
+101
+00:17:04.380 --> 00:17:07.000
+Ben Adams: And then you can optimize it.
+
+102
+00:17:07.490 --> 00:17:11.900
+Luis Pinto | Besu: What's the benefit of having that
+
+103
+00:17:12.480 --> 00:17:17.490
+Luis Pinto | Besu: Because if we want to use these new opcodes, and there's no guarantees what is…
+
+104
+00:17:17.869 --> 00:17:22.969
+Luis Pinto | Besu: What do we gain with that? Can we not just restrict those opcodes to that magic?
+
+105
+00:17:23.300 --> 00:17:24.460
+Luis Pinto | Besu: But…
+
+106
+00:17:26.230 --> 00:17:27.369
+Greg: Yeah.
+
+107
+00:17:30.160 --> 00:17:32.439
+Greg: I'm a little confused here.
+
+108
+00:17:32.650 --> 00:17:42.060
+Greg: the alternative is is simply to do the check every time you
+
+109
+00:17:42.270 --> 00:17:44.839
+Greg: Every time you want to run the code.
+
+110
+00:17:53.230 --> 00:17:57.389
+lightclient: I think he was just asking, like, why allow this backwards compatibility?
+
+111
+00:17:58.980 --> 00:18:05.639
+Greg: Well, one, just because backwards compelled, it's a good thing to have it.
+
+112
+00:18:05.740 --> 00:18:19.429
+Greg: If you don't have it, there will be objections that, gee, you know, I wind up needing two interpreters here. One… one for the new code, and one for the old code.
+
+113
+00:18:19.430 --> 00:18:31.929
+Greg: Not that I can choose to have two interpreters so that I can interpret the new code in a faster way or a different way, but I'm forced to.
+
+114
+00:18:31.970 --> 00:18:34.930
+Greg: You know, I can't just use a simple interpreter.
+
+115
+00:18:35.200 --> 00:18:49.270
+Greg: Another reason to have it is the opcodes are useful in their own right. There's useful ways to use them that won't pass that that validation algorithm.
+
+116
+00:18:49.440 --> 00:19:07.790
+Greg: that can still be traversed in one pass. The EOF validation algorithm was a more complicated algorithm. It required that the code be organized in blocks, that the blocks be in a certain order.
+
+117
+00:19:07.830 --> 00:19:15.469
+Greg: So… You could… you can do the code in different ways that are still
+
+118
+00:19:15.660 --> 00:19:32.460
+Greg: you know, still useful. So I don't want to upfront. Just say there's only one way to use these new opcodes when, in fact, there's useful things you can do with them that are not going to pass that validation.
+
+119
+00:19:32.830 --> 00:19:42.369
+Greg: and the validation isn't fixed for all time. It's…
+
+120
+00:19:42.750 --> 00:19:55.849
+Greg: The header points to a function on the blockchain and over time different validation can be put in there.
+
+121
+00:19:55.900 --> 00:20:12.999
+Greg: It can both be less restrictive with fewer constraints. With fewer constraints, with better algorithms, we can prove more. With more constraints, we can prove more.
+
+122
+00:20:13.460 --> 00:20:16.450
+Greg: That's completely open to the future.
+
+123
+00:20:16.720 --> 00:20:18.730
+Greg: But…
+
+124
+00:20:19.540 --> 00:20:28.649
+Greg: As core devs, we long since lost the opportunity to drive this. That was something we could have done 10 years ago.
+
+125
+00:20:28.800 --> 00:20:34.569
+Greg: But now we have a huge ecosystem, and it's it's gonna be a market, basically.
+
+126
+00:20:34.980 --> 00:20:35.870
+Greg: Okay.
+
+127
+00:20:37.000 --> 00:20:37.760
+Greg: Okay.
+
+128
+00:20:38.310 --> 00:20:43.609
+Greg: And most of the advantage is downstream of the clients.
+
+129
+00:20:43.660 --> 00:20:58.960
+Greg: It's people who've got the bytecode that need to do things with it. They might need to compile it, they might need to do proofs of correctness, any number of things you can do downstream of the bytecode.
+
+130
+00:20:59.470 --> 00:21:00.440
+Greg: And…
+
+131
+00:21:00.650 --> 00:21:10.199
+Greg: Those aren't very visible to the core devs. It's a lot of people. Lots of them are very small shops doing auditing.
+
+132
+00:21:10.340 --> 00:21:17.959
+Greg: And for the most part they've given up talking to us.
+
+133
+00:21:18.580 --> 00:21:26.730
+Greg: They've they've got work to do, and fighting with the core devs to get something to change doesn't.
+
+134
+00:21:26.900 --> 00:21:29.000
+Greg: Doesn't make them any money.
+
+135
+00:21:31.470 --> 00:21:40.579
+Greg: and the academics. They spend their time writing papers to get just a few percent gain, and how many programs they can analyze.
+
+136
+00:21:42.330 --> 00:21:49.030
+Greg: So, we're creating a huge amount of technical debt downstream of us. It's mostly invisible.
+
+137
+00:21:55.290 --> 00:22:05.250
+Greg: For years, I meet people at conferences that just say, please, get rid of dynamic jump. We don't care how, just get rid of it.
+
+138
+00:22:05.930 --> 00:22:06.620
+Greg: Oh.
+
+139
+00:22:14.650 --> 00:22:25.659
+Łukasz Rozmej: How useful would that be? Well, this is the first step, definitely, because it's just introducing static jumps, but we won't get reading of dynamic jumps, right? So this is only partially useful.
+
+140
+00:22:27.000 --> 00:22:34.409
+Greg: Invalidated code. The form is still there, but.
+
+141
+00:22:34.770 --> 00:22:40.750
+Greg: You know, we insist that… that the jump Address be a constant.
+
+142
+00:22:40.860 --> 00:22:52.330
+Greg: I don't try to introduce a new kind of jump instruction. EOF tried to do that.
+
+143
+00:22:52.820 --> 00:23:02.620
+Greg: but then you've gotta figure out how to put the immediates in, you know, without breaking other things.
+
+144
+00:23:02.770 --> 00:23:09.149
+Greg: there's an eip to do that, but I think it's currently stalled.
+
+145
+00:23:09.650 --> 00:23:10.670
+Greg: All right.
+
+146
+00:23:10.920 --> 00:23:13.650
+Greg: Don't want to wait around on that.
+
+147
+00:23:15.630 --> 00:23:19.589
+Greg: Last time I talked to Martin, he was just going…
+
+148
+00:23:19.700 --> 00:23:23.979
+Greg: What's the point? Just to to maybe save a bite.
+
+149
+00:23:26.480 --> 00:23:28.369
+Ben Adams: So we,
+
+150
+00:23:31.280 --> 00:23:39.210
+Ben Adams: The constraint that the jump and the call sub, et cetera, must be preceded by the push makes it.
+
+151
+00:23:39.710 --> 00:23:40.620
+Ben Adams: Started.
+
+152
+00:23:40.860 --> 00:23:41.500
+Ben Adams: Is that correct?
+
+153
+00:23:41.500 --> 00:23:43.050
+Greg: Right, right.
+
+154
+00:23:48.840 --> 00:23:58.849
+Luis Pinto | Besu: About the validation phase and the performance, I think Light Client is worried about that. Yeah, I think the disk write for…
+
+155
+00:23:58.980 --> 00:24:08.690
+Luis Pinto | Besu: The contract creation might actually be, though, the most overhead part of it, and that the validation in itself might not really be
+
+156
+00:24:09.010 --> 00:24:14.840
+Luis Pinto | Besu: That much overhead, added on top of the contract creation.
+
+157
+00:24:15.530 --> 00:24:16.190
+Luis Pinto | Besu: So…
+
+158
+00:24:16.190 --> 00:24:18.699
+Greg: No, it's very fast and easy.
+
+159
+00:24:19.260 --> 00:24:26.190
+Luis Pinto | Besu: Yeah, for 64 kilobyte contracts. I don't think we're gonna go much higher than that, soon.
+
+160
+00:24:27.450 --> 00:24:34.700
+Greg: Yeah, it's… it's a one-pass algorithm that doesn't do… Very much work, first step.
+
+161
+00:24:35.050 --> 00:24:36.050
+Greg: Mmhm.
+
+162
+00:24:39.360 --> 00:24:45.179
+Luis Pinto | Besu: Regarding the deployed contracts, I guess in the…
+
+163
+00:24:45.280 --> 00:25:00.430
+Luis Pinto | Besu: most clients, since there's such a performance concern about having them being performant, I think most clients will eventually have their own baked-in validation, which just avoids the EVM interpreter altogether.
+
+164
+00:25:00.700 --> 00:25:04.339
+Luis Pinto | Besu: I think that that will happen.
+
+165
+00:25:05.130 --> 00:25:10.799
+Luis Pinto | Besu: So I'm not sure. I feel a bit neutral about having that deployed on-chain.
+
+166
+00:25:11.390 --> 00:25:12.220
+Greg: Mmhm.
+
+167
+00:25:13.710 --> 00:25:15.879
+Ben Adams: I mean, we can measure.
+
+168
+00:25:16.090 --> 00:25:17.130
+Ben Adams: the EVM.
+
+169
+00:25:17.290 --> 00:25:18.090
+Ben Adams: And.
+
+170
+00:25:18.220 --> 00:25:20.520
+Ben Adams: the… How long it takes.
+
+171
+00:25:25.670 --> 00:25:27.760
+Ben Adams: Maybe it's faster.
+
+172
+00:25:30.760 --> 00:25:36.189
+Greg: It gets done, you know, once at create time.
+
+173
+00:25:36.540 --> 00:25:46.400
+Greg: and it substitutes for jump test analysis. You don't need to do jump test analysis.
+
+174
+00:25:50.070 --> 00:25:59.909
+Greg: So I… I just don't… I don't see that it's a big deal, and clients are free to put their own in, for better performance.
+
+175
+00:26:00.070 --> 00:26:01.170
+Greg: Yum.
+
+176
+00:26:02.080 --> 00:26:08.360
+Greg: But it makes it possible to write a simple client that's a simple interpreter.
+
+177
+00:26:08.570 --> 00:26:12.010
+Greg: And pulls.
+
+178
+00:26:12.150 --> 00:26:23.720
+Greg: Pulls the algorithm off the chain, runs it after the init code, and otherwise… otherwise, it's just a very simple interpreter that you can write right now.
+
+179
+00:26:23.950 --> 00:26:24.950
+Greg: Yum.
+
+180
+00:26:30.000 --> 00:26:31.170
+Greg: And.
+
+181
+00:26:31.570 --> 00:26:38.309
+Greg: The validation is… You know, it's a one-pass algorithm, but it's a bit tricky.
+
+182
+00:26:52.920 --> 00:26:55.770
+Luis Pinto | Besu: I had a question about call sub.
+
+183
+00:26:56.010 --> 00:27:00.610
+Luis Pinto | Besu: So, from what I'm understanding, the call sub, can…
+
+184
+00:27:00.980 --> 00:27:10.880
+Luis Pinto | Besu: see the operand stack before it, right? It's not like the… like in programming languages, when you jump to,
+
+185
+00:27:11.140 --> 00:27:16.650
+Luis Pinto | Besu: A function, you have your own, operand stack.
+
+186
+00:27:17.100 --> 00:27:20.369
+Luis Pinto | Besu: I don't have access to the ones previously.
+
+187
+00:27:20.560 --> 00:27:29.910
+Luis Pinto | Besu: Have you given any thought to that? Are there any security concerns about… And that case, or…
+
+188
+00:27:30.930 --> 00:27:38.639
+Luis Pinto | Besu: I guess we have call… we have call, that does not have previous information about operand stacks.
+
+189
+00:27:38.830 --> 00:27:41.150
+Luis Pinto | Besu: From previous frames. But, yeah.
+
+190
+00:27:42.820 --> 00:27:51.230
+Greg: Higher level languages make it look as if it has its own operand stack.
+
+191
+00:27:51.810 --> 00:27:52.880
+Greg: Oh.
+
+192
+00:27:53.260 --> 00:27:57.089
+Greg: It may or may not be a separate piece of memory.
+
+193
+00:27:57.260 --> 00:28:03.549
+Greg: It's not easy to get at anything higher up.
+
+194
+00:28:04.130 --> 00:28:09.169
+Greg: I'd have to think as to whether it's even possible.
+
+195
+00:28:09.520 --> 00:28:14.929
+Greg: But… There's an EIP that would make it possible, but it stalled.
+
+196
+00:28:18.300 --> 00:28:22.930
+Ben Adams: It's… All within the same contract, though, so… You.
+
+197
+00:28:24.060 --> 00:28:27.089
+Ben Adams: You'd be worrying about the security of the code group.
+
+198
+00:28:27.380 --> 00:28:29.320
+Ben Adams: I don't see that would be a problem.
+
+199
+00:28:31.530 --> 00:28:35.589
+Ben Adams: It's not… it's not a call into a different contract.
+
+200
+00:28:35.590 --> 00:28:36.180
+Luis Pinto | Besu: Yep.
+
+201
+00:28:37.900 --> 00:28:42.330
+Greg: Yeah, you're just… if you can even do it,
+
+202
+00:28:44.790 --> 00:28:50.100
+Greg: Yeah, I mean, I guess you could use a duper swap to reach up higher.
+
+203
+00:28:50.260 --> 00:28:52.999
+Greg: Grab some data.
+
+204
+00:28:53.300 --> 00:28:56.840
+Greg: From the contra… from the function that called you.
+
+205
+00:28:57.150 --> 00:29:02.029
+Greg: But the validation is, is still gonna catch.
+
+206
+00:29:02.490 --> 00:29:08.620
+Greg: catch whether that's causing a problem, at least within the constraints we're validating.
+
+207
+00:29:13.740 --> 00:29:19.450
+Greg: I mean, the validation is weaker than the type checking for a higher level language.
+
+208
+00:29:38.060 --> 00:29:51.890
+Greg: EOF puts enough information in the header that it's pretty much as strong as a higher level language, but it meant that it cost 14 bytes to create a function at all.
+
+209
+00:29:52.110 --> 00:29:53.200
+Greg: Yeah,
+
+210
+00:29:54.010 --> 00:30:04.890
+Greg: So they paid a price for being able to prove more things. And then they needed special opcodes to do jumps between routines.
+
+211
+00:30:05.170 --> 00:30:13.580
+Greg: so… There's no free lunch here. It's engineering. You make compromises.
+
+212
+00:30:16.000 --> 00:30:21.529
+Greg: sort of in the end. It doesn't matter one way or the other. We need to get these in.
+
+213
+00:30:21.720 --> 00:30:22.720
+Greg: come.
+
+214
+00:30:24.290 --> 00:30:31.549
+Greg: And we've been bouncing back and forth between this is too simple, and this is too complicated for years.
+
+215
+00:30:32.290 --> 00:30:43.890
+Greg: To me it makes sense to just get the simplest thing in, and then we can build on that. The mechanism is the same as every proposal we've had.
+
+216
+00:30:44.350 --> 00:30:45.140
+Greg: time.
+
+217
+00:30:58.060 --> 00:31:12.820
+Luis Pinto | Besu: Yeah, still on that on-prem stack, like you may not have security concerns, but I wonder if the compilers could not benefit from the restriction of not accessing variables outside of its scope.
+
+218
+00:31:13.100 --> 00:31:17.490
+Luis Pinto | Besu: Like, better escape… escape analysis,
+
+219
+00:31:18.380 --> 00:31:20.740
+Luis Pinto | Besu: But, yeah, I'm not sure.
+
+220
+00:31:22.490 --> 00:31:23.320
+Greg: I mean.
+
+221
+00:31:24.780 --> 00:31:30.180
+Greg: Compilers are free to… Put more restrictions on themself.
+
+222
+00:31:30.300 --> 00:31:33.529
+Greg: Compilers do fine without this.
+
+223
+00:31:33.870 --> 00:31:35.340
+Greg: Mmhm.
+
+224
+00:31:35.590 --> 00:31:38.550
+Greg: They're… they're compilers. They're…
+
+225
+00:31:38.970 --> 00:31:49.170
+Greg: they can target pretty much anything. Solidity is highly optimized for dealing with jumps. So implementing
+
+226
+00:31:49.420 --> 00:31:56.399
+Greg: Implementing subroutines with jumps costs them just a little bit more, and then they optimize it all the way.
+
+227
+00:31:56.880 --> 00:31:57.670
+Greg: Okay.
+
+228
+00:31:57.970 --> 00:32:13.429
+Greg: So this really isn't a huge advantage for compilers. It's probably more of an imposition on compilers. They have to be able to generate code that meets certain structural
+
+229
+00:32:13.990 --> 00:32:19.040
+Greg: that meets these rules that otherwise they wouldn't have to follow.
+
+230
+00:32:19.240 --> 00:32:27.479
+Greg: And it's not to their advantage to doing it. It's to the advantage of people downstream of them.
+
+231
+00:32:30.340 --> 00:32:34.830
+Greg: And that's a very diffuse,
+
+232
+00:32:35.210 --> 00:32:40.300
+Greg: Very diffuse effect downstream. Affects a lot of people.
+
+233
+00:32:40.530 --> 00:32:42.630
+Greg: But… Yep.
+
+234
+00:32:43.390 --> 00:32:45.469
+Greg: A lot of very quiet people.
+
+235
+00:32:47.070 --> 00:32:52.900
+Greg: They were more involved way back in the six EIP 615 days.
+
+236
+00:32:53.300 --> 00:32:55.940
+Greg: and have pretty much wandered off.
+
+237
+00:32:56.240 --> 00:32:59.919
+Greg: They're no longer working for the foundation.
+
+238
+00:33:10.770 --> 00:33:13.390
+Greg: What? I'm forgetting the name now.
+
+239
+00:33:13.970 --> 00:33:23.859
+Greg: and I'm forgetting if we still supported the foundation was supporting a a static analysis tool.
+
+240
+00:33:24.070 --> 00:33:25.969
+Greg: whose name I forget.
+
+241
+00:33:26.620 --> 00:33:28.769
+Greg: If anyone remembers.
+
+242
+00:33:30.130 --> 00:33:36.100
+Greg: and one of the restrictions in that tool is that it would not analyze jump statements.
+
+243
+00:33:37.970 --> 00:33:52.730
+Greg: That seemed a pretty severe restriction. It wasn't just that it wouldn't analyze inter-contract calls, it wouldn't analyze jump statements, which are, of course, very common.
+
+244
+00:33:53.060 --> 00:33:53.900
+Greg: Oh.
+
+245
+00:33:56.880 --> 00:33:57.870
+Greg: So.
+
+246
+00:34:01.500 --> 00:34:08.970
+Ben Adams: We did try and implement an AOT compiler in Nethermind.
+
+247
+00:34:09.090 --> 00:34:10.770
+Ben Adams: Well, we did.
+
+248
+00:34:10.900 --> 00:34:15.120
+Ben Adams: But when it was working on… Current contract.
+
+249
+00:34:15.570 --> 00:34:22.590
+Ben Adams: you would… commonly come across ones that just exploded. So.
+
+250
+00:34:23.130 --> 00:34:26.429
+Ben Adams: this would hopefully… Results of it.
+
+251
+00:34:31.659 --> 00:34:32.379
+Greg: Sorry.
+
+252
+00:34:32.380 --> 00:34:32.980
+Ben Adams: Anyway.
+
+253
+00:34:34.770 --> 00:34:37.120
+Greg: So it would be a matter of.
+
+254
+00:34:37.230 --> 00:34:40.170
+Greg: Convincing compilers to produce.
+
+255
+00:34:40.400 --> 00:34:42.590
+Greg: To produce valid code.
+
+256
+00:34:42.800 --> 00:34:49.359
+Greg: And trying to get it… trying to get a compiler to promise to do that up front.
+
+257
+00:34:51.290 --> 00:35:07.519
+Greg: I know… I know Bryant at VIPERS has just said he's… he's not going to devote resources to it. He devoted a lot of resource to EIP615, and we decided to go with WASM instead.
+
+258
+00:35:07.640 --> 00:35:15.709
+Greg: He put some more resources into EIP-615 when it was reintroduced after WASM failed.
+
+259
+00:35:15.920 --> 00:35:17.030
+Greg: And…
+
+260
+00:35:17.460 --> 00:35:26.550
+Greg: Yeah, his attitude is he's just not going to waste company resources on things that take a lot of work and then fail in the end.
+
+261
+00:35:26.820 --> 00:35:27.940
+Greg: Oh.
+
+262
+00:35:28.110 --> 00:35:34.190
+Greg: Yeah, the solidity team eip 6, 1, 5 was actually
+
+263
+00:35:34.880 --> 00:35:41.290
+Greg: authored by the team lead, was a co-author.
+
+264
+00:35:41.410 --> 00:35:50.620
+Greg: and EOF was partially offered by Solidity Team people.
+
+265
+00:35:50.830 --> 00:35:55.410
+Greg: And I don't think any of those people are still there, even.
+
+266
+00:35:56.130 --> 00:36:00.850
+Greg: and,
+
+267
+00:36:01.480 --> 00:36:09.060
+Ben Adams: Do you think this… EIP… Is enough to… Umm.
+
+268
+00:36:09.340 --> 00:36:11.770
+Ben Adams: Provide what? Static.
+
+269
+00:36:12.030 --> 00:36:16.810
+Ben Adams: analysis, and… Aotd.
+
+270
+00:36:18.610 --> 00:36:21.990
+Greg: If compilers implement it, it's enough.
+
+271
+00:36:22.320 --> 00:36:23.330
+Greg: Yeah,
+
+272
+00:36:23.750 --> 00:36:27.660
+Greg: I'd implement a compiler myself if I could.
+
+273
+00:36:28.200 --> 00:36:33.250
+Greg: but for for 10 years I haven't been able to.
+
+274
+00:36:35.770 --> 00:36:37.629
+Ben Adams: Well, I mean, if we…
+
+275
+00:36:38.130 --> 00:36:46.349
+Ben Adams: If we ignore the compilers, but if a contract is marked as magic and is validated as such.
+
+276
+00:36:46.740 --> 00:36:51.690
+Ben Adams: could the bike… is it enough to…
+
+277
+00:36:52.750 --> 00:36:56.819
+Ben Adams: Then be able to rely on the bytecode for static analysis.
+
+278
+00:36:57.630 --> 00:36:58.430
+Greg: Yes.
+
+279
+00:36:58.860 --> 00:37:13.949
+Greg: it becomes possible to extract the control flow graph in one pass. It becomes possible to extract the abstract syntax tree in one pass. It becomes possible to do
+
+280
+00:37:14.570 --> 00:37:20.640
+Greg: any sort of analysis that requires traversing the control flow in one pass.
+
+281
+00:37:20.960 --> 00:37:22.390
+Greg: And,
+
+282
+00:37:23.430 --> 00:37:35.139
+Greg: it's easy to… it's easy to understand, I think, that if you cannot traverse the control flow in one pass, all kinds of things get more difficult, if not impossible.
+
+283
+00:37:35.910 --> 00:37:36.720
+Greg: Oh.
+
+284
+00:37:39.020 --> 00:37:40.140
+Greg: and
+
+285
+00:37:40.250 --> 00:37:49.500
+Greg: my understanding and everyone I talk to. It just says any way of getting rid of them is enough.
+
+286
+00:37:49.730 --> 00:37:50.730
+Greg: Oh, man.
+
+287
+00:37:50.910 --> 00:37:55.790
+Greg: There's many ways to do it, and it doesn't matter how just do it.
+
+288
+00:37:56.180 --> 00:37:56.870
+Greg: So.
+
+289
+00:38:00.850 --> 00:38:06.380
+Ben Adams: I mean, for the compilers, because of… how…
+
+290
+00:38:06.510 --> 00:38:09.859
+Ben Adams: Things haven't landed before. I assume they might.
+
+291
+00:38:12.950 --> 00:38:19.310
+Ben Adams: put the work in after the EIP last, but I don't think that's necessarily a problem.
+
+292
+00:38:21.210 --> 00:38:24.490
+Greg: I don't see an alternative. I don't.
+
+293
+00:38:24.820 --> 00:38:32.970
+Greg: At this point I don't see why anybody would bother until it actually exists.
+
+294
+00:38:33.460 --> 00:38:43.620
+Greg: Too many times people have put in the work, sometimes years of work, to have it die in the very end.
+
+295
+00:38:43.750 --> 00:38:49.070
+Greg: often for reasons that aren't even clear.
+
+296
+00:38:49.430 --> 00:38:56.469
+Greg: In most cases, I'm not sure if anyone could actually articulate why things died.
+
+297
+00:38:56.720 --> 00:39:00.290
+Greg: Ask different people. You'll get different reasons.
+
+298
+00:39:00.490 --> 00:39:05.320
+Greg: so it's just too risky to to put the work in.
+
+299
+00:39:08.270 --> 00:39:09.180
+Ben Adams: Only.
+
+300
+00:39:14.220 --> 00:39:14.610
+Greg: Go on.
+
+301
+00:39:14.610 --> 00:39:18.460
+Ben Adams: On the backwards compatibility side.
+
+302
+00:39:18.570 --> 00:39:22.300
+Ben Adams: Does it… Complicate.
+
+303
+00:39:23.280 --> 00:39:26.280
+Ben Adams: dump best analysis, so I'm wondering about…
+
+304
+00:39:27.860 --> 00:39:32.870
+Ben Adams: If the constraint should still apply, so, like, a call sub should…
+
+305
+00:39:33.070 --> 00:39:35.750
+Ben Adams: Colon and to sub, that kind of thing.
+
+306
+00:39:35.900 --> 00:39:42.780
+Ben Adams: when… when you're not in… not in validated code.
+
+307
+00:39:44.170 --> 00:39:46.000
+Greg: I'm not quite following.
+
+308
+00:39:47.010 --> 00:39:53.360
+Ben Adams: In validated code, you're saying a call sub must call and enter sub.
+
+309
+00:39:54.020 --> 00:39:57.250
+Ben Adams: And it has to be preceded by a push.
+
+310
+00:39:57.640 --> 00:39:59.800
+Ben Adams: In non-validated code.
+
+311
+00:40:00.330 --> 00:40:02.679
+Ben Adams: Do those constraints still apply?
+
+312
+00:40:03.040 --> 00:40:03.690
+Greg: No.
+
+313
+00:40:06.010 --> 00:40:08.539
+Ben Adams: Okay, so you could pull anywhere around them.
+
+314
+00:40:09.090 --> 00:40:09.870
+Greg: Yes.
+
+315
+00:40:12.120 --> 00:40:16.749
+Luis Pinto | Besu: But for those cases, they will fail on execution, is that right?
+
+316
+00:40:17.570 --> 00:40:19.850
+Greg: They may or may not just.
+
+317
+00:40:20.140 --> 00:40:22.029
+Greg: Just like current code.
+
+318
+00:40:28.390 --> 00:40:38.459
+Luis Pinto | Besu: Yeah, so if there's a call sub and there's no enter sub following, what would an EVM interpreter, what should it do? Should it fail?
+
+319
+00:40:39.420 --> 00:40:40.319
+Luis Pinto | Besu: A halt.
+
+320
+00:40:41.790 --> 00:40:42.730
+Greg: Okay.
+
+321
+00:40:44.190 --> 00:40:53.689
+Greg: Some some of it will get caught by jump test analysis as far as preventing it from from jumping into immediate data.
+
+322
+00:40:53.830 --> 00:40:55.630
+Greg: Otherwise, it'll…
+
+323
+00:40:55.920 --> 00:41:05.730
+Greg: If it hits a valid instruction, it'll it'll implement it, and it'll keep running until it hits a stop, or it hits an invalid instruction.
+
+324
+00:41:05.980 --> 00:41:12.690
+Greg: So no different than current legacy code that that's wrong.
+
+325
+00:41:13.020 --> 00:41:15.269
+Greg: It'll do the wrong thing.
+
+326
+00:41:21.860 --> 00:41:28.100
+Greg: So arguably, you've you've added some other ways to go wrong. But
+
+327
+00:41:28.470 --> 00:41:33.410
+Greg: There's so many ways to go wrong now. So what?
+
+328
+00:41:35.990 --> 00:41:42.059
+Greg: because you've also introduced some op codes that are that are useful in their own right.
+
+329
+00:41:48.540 --> 00:41:56.420
+Ben Adams: So… I suppose… what Return Sub does.
+
+330
+00:41:57.640 --> 00:42:04.919
+Ben Adams: in, A non-validated perk might.
+
+331
+00:42:08.290 --> 00:42:09.179
+Ben Adams: He's gone.
+
+332
+00:42:09.390 --> 00:42:11.080
+Ben Adams: Hello. You still here?
+
+333
+00:42:11.750 --> 00:42:12.530
+Greg: Yeah, okay.
+
+334
+00:42:12.940 --> 00:42:19.490
+Ben Adams: Oh, sorry, your other… So, return stub.
+
+335
+00:42:22.090 --> 00:42:29.430
+Ben Adams: What that would do in backwards compatible code, if you hadn't called Cool, so…
+
+336
+00:42:36.030 --> 00:42:37.120
+Ben Adams: If that makes sense.
+
+337
+00:42:38.150 --> 00:42:40.289
+Greg: It would be.
+
+338
+00:42:40.290 --> 00:42:41.200
+Ben Adams: Would that would…
+
+339
+00:42:41.720 --> 00:42:46.810
+Greg: It would be the same as a jump into immediate data or a jump.
+
+340
+00:42:46.980 --> 00:42:49.820
+Greg: Outside of the… Yep.
+
+341
+00:42:49.930 --> 00:42:53.089
+Greg: To a destination outside of the contract.
+
+342
+00:42:56.420 --> 00:42:59.629
+Ben Adams: OK, so like return or fault.
+
+343
+00:43:02.120 --> 00:43:07.349
+Greg: A return is just a jump to the address on the return stack.
+
+344
+00:43:10.010 --> 00:43:15.229
+Greg: so it can. It can go wrong in any of the ways that a jump can go wrong.
+
+345
+00:43:16.180 --> 00:43:16.780
+Ben Adams: Okay.
+
+346
+00:43:18.730 --> 00:43:19.570
+Ben Adams: That's fine.
+
+347
+00:43:30.200 --> 00:43:30.980
+Greg: Okay.
+
+348
+00:43:31.100 --> 00:43:34.289
+Greg: That might be something I need to clarify.
+
+349
+00:43:34.820 --> 00:43:37.740
+Greg: Precisely in the proposal.
+
+350
+00:43:41.030 --> 00:43:44.590
+Ben Adams: Yeah, whether it's like, and exit.
+
+351
+00:43:45.230 --> 00:43:47.000
+Ben Adams: Oh, I suppose.
+
+352
+00:43:51.500 --> 00:43:54.870
+Ben Adams: For exit, contract, or… Or a sweat.
+
+353
+00:43:55.410 --> 00:43:56.399
+Ben Adams: I'm not sure.
+
+354
+00:43:57.200 --> 00:44:01.730
+Greg: It's… It's a constraint that things have to…
+
+355
+00:44:02.550 --> 00:44:07.209
+Greg: be valid, but that's a constraint on validated code.
+
+356
+00:44:07.360 --> 00:44:14.440
+Greg: It's it's also a constraint on legacy code.
+
+357
+00:44:14.880 --> 00:44:21.309
+Greg: But it's it's You can point at the yellow paper.
+
+358
+00:44:21.560 --> 00:44:28.700
+Greg: I don't know how we're supposed to refer to constraints in the executable specification.
+
+359
+00:44:29.120 --> 00:44:33.720
+Greg: It's not really a spec… it's not really a specification.
+
+360
+00:44:40.500 --> 00:44:41.430
+Greg: But
+
+361
+00:44:48.590 --> 00:44:49.480
+Greg: But.
+
+362
+00:44:49.880 --> 00:44:59.409
+Greg: Yeah, pretty much. It will either land in immediate data. It will land on an instruction that's not valid. or it will land on a good instruction.
+
+363
+00:44:59.510 --> 00:45:10.439
+Greg: And the first two cases, it's an exceptional halting state, and if it hits a valid instruction, it will execute it.
+
+364
+00:45:10.880 --> 00:45:19.300
+Greg: because the machine does not know the intent of the programmer. So
+
+365
+00:45:30.810 --> 00:45:33.090
+Greg: It's really.
+
+366
+00:45:33.690 --> 00:45:42.280
+Greg: If you don't have the backwards compatibility, it becomes like EOF. You're really introducing a whole new machine.
+
+367
+00:45:42.750 --> 00:45:43.520
+Greg: So.
+
+368
+00:45:45.830 --> 00:45:54.729
+Greg: And… With it, the simplest way to implement it, if it's on-chain, is simply to add a
+
+369
+00:45:54.860 --> 00:46:02.789
+Greg: add a little bit of code that says if it's marked call the… Call what's on the chain.
+
+370
+00:46:03.000 --> 00:46:04.010
+Greg: So.
+
+371
+00:46:04.280 --> 00:46:08.109
+Greg: Everything else can stay just the same about your client.
+
+372
+00:46:08.740 --> 00:46:15.920
+Greg: If you need to write a new client, you can write the interpreter in the totally straightforward way.
+
+373
+00:46:16.540 --> 00:46:17.340
+Greg: That's fine.
+
+374
+00:46:40.690 --> 00:46:41.560
+Greg: alright.
+
+375
+00:46:41.840 --> 00:46:44.039
+Greg: Are people satisfied?
+
+376
+00:46:44.200 --> 00:46:49.450
+Greg: with satisfied that your questions are answered here.
+
+377
+00:47:03.510 --> 00:47:06.319
+Greg: I guess I see thumbs going up.
+
+378
+00:47:13.410 --> 00:47:17.860
+Greg: Then, if there's nothing else, I guess we're done.
+
+379
+00:47:19.850 --> 00:47:20.760
+Ben Adams: Okay.
+
+380
+00:47:21.060 --> 00:47:26.189
+Ben Adams: I just think some… it needs a little bit more clarity on…
+
+381
+00:47:27.640 --> 00:47:31.350
+Ben Adams: Like what happens in the.
+
+382
+00:47:31.850 --> 00:47:39.350
+Ben Adams: Legacy, for instance, like, the return sub one, there's no… returns pointer.
+
+383
+00:47:40.000 --> 00:47:46.190
+Ben Adams: I can… I can make a PR for that, if you want, or… It's up to.
+
+384
+00:47:47.430 --> 00:47:48.620
+Greg: Let me see.
+
+385
+00:47:49.810 --> 00:47:52.229
+Greg: Yeah, a small Pr. Would help.
+
+386
+00:47:52.380 --> 00:48:01.239
+Greg: it might already be implied either by what's there or by rules that already exist.
+
+387
+00:48:01.480 --> 00:48:04.560
+Greg: But to make that clear.
+
+388
+00:48:12.470 --> 00:48:17.570
+Greg: that pretty much the return obeys the same rules as a jump.
+
+389
+00:48:17.960 --> 00:48:22.859
+Greg: and the jump desk would get expanded to include.
+
+390
+00:48:23.090 --> 00:48:37.470
+Greg: to include, to include return subs and call subs in the jump test analysis the same as
+
+391
+00:48:38.030 --> 00:48:41.330
+Greg: the same as jump tests and jumps.
+
+392
+00:48:41.880 --> 00:48:42.650
+Greg: Damn.
+
+393
+00:48:51.830 --> 00:48:58.969
+Greg: And yeah, that could be done with references to the yellow paper, because nothing has changed about that.
+
+394
+00:49:09.050 --> 00:49:14.859
+Greg: So I didn't. I didn't plan another one of these for a month, probably.
+
+395
+00:49:15.030 --> 00:49:20.969
+Greg: What I'd like to do is is push this towards CFI.
+
+396
+00:49:21.080 --> 00:49:24.300
+Greg: As soon as possible.
+
+397
+00:49:24.560 --> 00:49:30.419
+Greg: Because the list of PFIs is just going to keep getting longer.
+
+398
+00:49:30.710 --> 00:49:31.520
+Greg: Umm.
+
+399
+00:49:40.560 --> 00:49:47.530
+Greg: And, if it's going to fail, the sooner the better, so I can get on with my life.
+
+400
+00:49:51.160 --> 00:49:53.589
+Ben Adams: Is it on the Hegota?
+
+401
+00:49:53.990 --> 00:49:56.760
+Ben Adams: here, if I…
+
+402
+00:49:57.750 --> 00:50:00.500
+Greg: It's proposed, yeah, it's proposed for inclusion.
+
+403
+00:50:01.150 --> 00:50:01.800
+Ben Adams: Okay.
+
+404
+00:50:04.060 --> 00:50:07.789
+Greg: I don't… I don't know what the next step is to…
+
+405
+00:50:08.300 --> 00:50:12.170
+Greg: to get it to CFI. And
+
+406
+00:50:13.630 --> 00:50:18.529
+Greg: The people helping with that have left the foundation.
+
+407
+00:50:19.130 --> 00:50:23.510
+Greg: And when I asked them why,
+
+408
+00:50:24.100 --> 00:50:26.970
+Greg: One just said, it's a shitshow.
+
+409
+00:50:27.130 --> 00:50:28.560
+Greg: So…
+
+410
+00:50:36.440 --> 00:50:41.940
+Greg: So I'm I'm not even sure who to push on anymore to make that happen.
+
+411
+00:50:42.240 --> 00:50:48.000
+Greg: but I'll… I will try to find out.
+
+412
+00:50:48.640 --> 00:50:57.760
+Greg: Hopefully I won't get told that I have to put it on Twitter and deal with all the abuse there.
+
+413
+00:50:58.180 --> 00:50:59.409
+Greg: Be cut, sorry.
+
+414
+00:50:59.740 --> 00:51:05.449
+Greg: I simply refuse… I refuse to interact on Twitter whatsoever.
+
+415
+00:51:07.170 --> 00:51:13.410
+Greg: If I'm mentioned, I might reply, but… Otherwise, I won't.
+
+416
+00:51:13.810 --> 00:51:14.560
+Greg: Oh.
+
+417
+00:51:15.350 --> 00:51:16.340
+Greg: So…
+
+418
+00:51:20.610 --> 00:51:23.259
+Ben Adams: I can… I can put it on Twitter for you.
+
+419
+00:51:23.870 --> 00:51:25.700
+Ben Adams: I'd take that abuse.
+
+420
+00:51:30.520 --> 00:51:31.590
+Greg: Okay.
+
+421
+00:51:31.910 --> 00:51:34.980
+Greg: If.
+
+422
+00:51:36.500 --> 00:51:39.479
+Greg: So the main thing I need is.
+
+423
+00:51:39.720 --> 00:51:59.640
+Greg: as far as volunteers is renewing, reviewing, What… oh gosh… 8173…
+
+424
+00:52:01.440 --> 00:52:04.350
+Greg: I don't have the numbers right in front of me.
+
+425
+00:52:04.460 --> 00:52:13.089
+Greg: 8173, the the higher level explanation goes into advantages for
+
+426
+00:52:13.270 --> 00:52:17.910
+Greg: For roll-ups and such, and I just don't know if it's true.
+
+427
+00:52:18.260 --> 00:52:24.020
+Greg: And then, the.
+
+428
+00:52:24.130 --> 00:52:28.109
+Greg: Validation algorithm took some pseudo-python.
+
+429
+00:52:28.250 --> 00:52:33.080
+Greg: And turned it into an actual Vyper contract.
+
+430
+00:52:35.630 --> 00:52:43.490
+Greg: And I think it got it right. First, it had to teach itself Vyper. It did that amazingly quickly.
+
+431
+00:52:43.710 --> 00:52:50.279
+Greg: And then I had to kick it a few times to get it from the 3-pass algorithm into the 1-pass algorithm.
+
+432
+00:52:50.770 --> 00:52:56.849
+Greg: And it looks right to me, but I'm not a Vyper reader.
+
+433
+00:52:57.220 --> 00:53:00.090
+Greg: So, let alone a Vyper Rider.
+
+434
+00:53:00.400 --> 00:53:04.839
+Greg: It's enough like Python, I can follow it.
+
+435
+00:53:05.180 --> 00:53:05.990
+Greg: Go.
+
+436
+00:53:06.210 --> 00:53:11.690
+Greg: But I… I thought it would be good to have an actual contract and not just pseudocode.
+
+437
+00:53:13.810 --> 00:53:20.769
+Greg: And I guess the steel group is there to help me, get it into the…
+
+438
+00:53:21.680 --> 00:53:27.170
+Greg: Get it into the, executable spec. I don't…
+
+439
+00:53:27.380 --> 00:53:30.950
+Greg: I don't know if they're still in operation or not.
+
+440
+00:53:31.080 --> 00:53:32.110
+Greg: So…
+
+441
+00:53:34.240 --> 00:53:36.550
+Ben Adams: Yeah, there's still groups still there.
+
+442
+00:53:37.100 --> 00:53:44.489
+Greg: Okay, so I'll contact them and see if it's a point that they're able to help.
+
+443
+00:53:45.300 --> 00:53:46.230
+Greg: Get them.
+
+444
+00:53:48.020 --> 00:53:54.490
+Greg: And I'll contact Kev directly. He wasn't sure if he could make it, and apparently couldn't.
+
+445
+00:53:54.980 --> 00:53:55.860
+Greg: Oh.
+
+446
+00:53:58.240 --> 00:54:00.360
+Greg: Okay,
+
+447
+00:54:03.020 --> 00:54:09.290
+Luis Pinto | Besu: Just one last remark. I guess one benefit of subroutines is also…
+
+448
+00:54:09.480 --> 00:54:28.239
+Luis Pinto | Besu: deduplication of codes, where you can reuse code as well, in smart contracts, because there's some cases where people just, redeploy the same smart contracts. They don't make use of the same codes, or deployed, but redeploy the same.
+
+449
+00:54:29.570 --> 00:54:33.329
+Luis Pinto | Besu: contract with slightly… slight modifications.
+
+450
+00:54:33.840 --> 00:54:40.410
+Luis Pinto | Besu: And, I think that could help also on the, Code load side of things.
+
+451
+00:54:40.690 --> 00:54:44.530
+Luis Pinto | Besu: I'm not sure if you added that on your motivation section.
+
+452
+00:54:44.990 --> 00:54:47.580
+Greg: It would help a little.
+
+453
+00:54:48.070 --> 00:54:52.619
+Greg: EOF was more helpful for that, or even a stage.
+
+454
+00:54:52.970 --> 00:54:56.310
+Greg: I suggested a stage past that.
+
+455
+00:54:57.060 --> 00:55:05.580
+Greg: with actual modules with sort of multiple EOF code sections inside of them.
+
+456
+00:55:05.770 --> 00:55:13.860
+Greg: You know, and then you can have actual packages with… here's a module, multiple functions that it wraps up.
+
+457
+00:55:14.040 --> 00:55:20.549
+Greg: And, you know, then more have, like, something that's ready to be reused.
+
+458
+00:55:20.670 --> 00:55:23.300
+Greg: This would help, but…
+
+459
+00:55:23.630 --> 00:55:32.480
+Greg: you know, I can't do all that much work, and it was a whole team of people that did EOF, and they're all gone.
+
+460
+00:55:32.940 --> 00:55:35.239
+Greg: Almost all gone.
+
+461
+00:55:35.520 --> 00:55:36.030
+Greg: Oh.
+
+462
+00:55:36.030 --> 00:55:36.660
+Luis Pinto | Besu: Okay.
+
+463
+00:55:37.200 --> 00:55:42.350
+Greg: Axic is here, but I don't think he's interested in doing that kind of work anymore.
+
+464
+00:55:44.710 --> 00:55:51.210
+Ben Adams: There is another EIP that's being worked on for that.
+
+465
+00:55:52.690 --> 00:55:57.569
+Ben Adams: deploying existing… Contracts to deal with that.
+
+466
+00:55:59.060 --> 00:55:59.920
+Ben Adams: And.
+
+467
+00:56:01.640 --> 00:56:02.920
+Ben Adams: Different.
+
+468
+00:56:04.430 --> 00:56:08.480
+Ben Adams: Covering it, it covers a different… aspect from it.
+
+469
+00:56:09.660 --> 00:56:11.110
+Greg: What is that?
+
+470
+00:56:12.090 --> 00:56:14.599
+Ben Adams: It's… You have a number.
+
+471
+00:56:14.820 --> 00:56:15.540
+Ben Adams: Yep.
+
+472
+00:56:16.560 --> 00:56:17.700
+Ben Adams: And.
+
+473
+00:56:20.320 --> 00:56:21.420
+Ben Adams: Let me find it.
+
+474
+00:56:24.800 --> 00:56:27.840
+Greg: a number or a name to look up.
+
+475
+00:56:32.980 --> 00:56:34.750
+Ben Adams: Alright.
+
+476
+00:56:34.970 --> 00:56:37.559
+Ben Adams: He'll be in… here. I don't know.
+
+477
+00:56:40.940 --> 00:56:43.370
+Greg: So it would be a core draft here.
+
+478
+00:56:44.210 --> 00:56:44.860
+Ben Adams: Yep.
+
+479
+00:56:46.470 --> 00:56:46.880
+Greg: Okay.
+
+480
+00:56:46.880 --> 00:56:50.820
+Ben Adams: It's like set code from maybe.
+
+481
+00:56:56.910 --> 00:56:58.929
+Ben Adams: Yeah, okay,
+
+482
+00:57:00.500 --> 00:57:01.680
+Greg: You found it.
+
+483
+00:57:02.020 --> 00:57:03.619
+Ben Adams: Yeah, I'll put it in chat.
+
+484
+00:57:05.490 --> 00:57:09.320
+Greg: If you could tell me the number, I'm on that page right now.
+
+485
+00:57:09.320 --> 00:57:13.220
+Ben Adams: Okay, it's one… oh, it's in PR.
+
+486
+00:57:13.690 --> 00:57:17.110
+Ben Adams: as 11800.
+
+487
+00:57:18.160 --> 00:57:20.490
+Greg: 11800.
+
+488
+00:57:21.260 --> 00:57:29.150
+Ben Adams: Yeah, so it's not, it's not a lot… it would be… It would be EIP.
+
+489
+00:57:30.520 --> 00:57:33.070
+Ben Adams: It's not been reviewed yet, so it's not been mer.
+
+490
+00:57:36.800 --> 00:57:37.760
+Greg: Okay.
+
+491
+00:57:41.030 --> 00:57:43.249
+Ben Adams: The the idea is you can.
+
+492
+00:57:44.700 --> 00:57:49.740
+Ben Adams: You could either… at the moment, you can reuse… Headfire.
+
+493
+00:57:49.960 --> 00:57:58.020
+Ben Adams: Delegate call. But that adds overhead, so…
+
+494
+00:57:58.400 --> 00:58:03.490
+Ben Adams: So instead, you can deploy a contract saying, copy this
+
+495
+00:58:03.890 --> 00:58:06.770
+Ben Adams: Addresses code hash to my code hash.
+
+496
+00:58:06.880 --> 00:58:10.610
+Ben Adams: Essentially. So then you could build up libraries on chain.
+
+497
+00:58:10.990 --> 00:58:14.979
+Ben Adams: that way.
+
+498
+00:58:15.110 --> 00:58:16.899
+Ben Adams: And not have to use delegate.
+
+499
+00:58:18.840 --> 00:58:19.860
+Greg: Okay.
+
+500
+00:58:21.150 --> 00:58:23.950
+Greg: That sounds like a whole nother thing.
+
+501
+00:58:24.450 --> 00:58:32.870
+Ben Adams: Yeah, yeah, it's different, but so it'd still be… Libraries via call.
+
+502
+00:58:33.720 --> 00:58:35.259
+Ben Adams: Rather than,
+
+503
+00:58:40.100 --> 00:58:41.270
+Ben Adams: Okay.
+
+504
+00:58:41.420 --> 00:58:43.599
+Greg: I'll have to look at this.
+
+505
+00:58:49.760 --> 00:58:55.100
+Ben Adams: But at the moment, if you were trying to reuse deployed code.
+
+506
+00:58:55.380 --> 00:59:00.280
+Ben Adams: In a different address, you'd have to do, cool.
+
+507
+00:59:01.030 --> 00:59:02.630
+Ben Adams: You've had a proxy.
+
+508
+00:59:03.350 --> 00:59:07.539
+Ben Adams: And then you do delegate call, which is, like, quite inefficient.
+
+509
+00:59:08.190 --> 00:59:08.830
+Greg: Orbit.
+
+510
+00:59:08.830 --> 00:59:15.700
+Ben Adams: All people deployed it. I think 90% of contracts are duplicates on check.
+
+511
+00:59:16.360 --> 00:59:21.090
+Ben Adams: But each of them pay for… the cost of…
+
+512
+00:59:21.410 --> 00:59:25.540
+Ben Adams: Putting all the code on chain, even though they just…
+
+513
+00:59:25.850 --> 00:59:35.960
+Ben Adams: how that happens is, I go, oh, the clients go, oh, this code's already deployed, I'll just do this code hash. So, the fact you had
+
+514
+00:59:36.690 --> 00:59:39.780
+Ben Adams: All the code in the transaction is irrelevant.
+
+515
+00:59:40.390 --> 00:59:45.049
+Ben Adams: So it's just trying to make an efficient way to say.
+
+516
+00:59:46.510 --> 00:59:51.459
+Ben Adams: I want this address to have the code from this other address.
+
+517
+00:59:53.570 --> 00:59:59.379
+Ben Adams: And then you could… you could start deploying libraries on chain, and you could say.
+
+518
+01:00:00.020 --> 01:00:01.830
+Ben Adams: I want to use that library.
+
+519
+01:00:02.180 --> 01:00:04.050
+Ben Adams: At this address.
+
+520
+01:00:05.130 --> 01:00:06.040
+Greg: Okay.
+
+521
+01:00:08.390 --> 01:00:12.430
+Ben Adams: But yeah, it's orthogonal to this subroutine.
+
+522
+01:00:18.220 --> 01:00:20.850
+Greg: It seems independently useful.
+
+523
+01:00:21.180 --> 01:00:22.440
+Greg: you know.
+
+524
+01:00:26.440 --> 01:00:27.700
+Greg: So.
+
+525
+01:00:28.320 --> 01:00:34.250
+Ben Adams: So hopefully… If we did both of them, hopefully we could, we could start having.
+
+526
+01:00:34.950 --> 01:00:44.680
+Ben Adams: Libraries, and well-structured code, and… You know, we'd move into a new… More enlightened.
+
+527
+01:00:45.770 --> 01:00:46.790
+Ben Adams: Okay, there.
+
+528
+01:00:55.550 --> 01:00:57.060
+Greg: Oh, no, the whole…
+
+529
+01:01:03.320 --> 01:01:07.620
+Greg: Zoom has completely disappeared from my screen.
+
+530
+01:01:10.410 --> 01:01:13.720
+Greg: It's the 21st century, why don't things work?
+
+531
+01:01:17.420 --> 01:01:21.450
+Greg: Anyway, it's worth quickly bringing up…
+
+532
+01:01:21.990 --> 01:01:31.500
+Greg: And there was a huge objection about jumping in and out of subroutines. It was brought up as if it was a curse or something.
+
+533
+01:01:31.880 --> 01:01:37.310
+Greg: And… that has not been fixed. It's a feature. It is not a bug.
+
+534
+01:01:37.770 --> 01:01:44.170
+Greg: And I don't… I don't know if I'm going to be running into that again.
+
+535
+01:01:44.300 --> 01:01:45.490
+Greg: Yeah, I don't.
+
+536
+01:01:45.800 --> 01:01:51.760
+Greg: I'm not sure how to explain sometimes that it's a feature, it's not a bug.
+
+537
+01:01:54.710 --> 01:01:58.220
+Ben Adams: It shouldn't be much more overhead than…
+
+538
+01:01:58.780 --> 01:02:00.969
+Ben Adams: Just jumping all over the place.
+
+539
+01:02:02.510 --> 01:02:14.939
+Greg: Well… Because it's validated, the subroutines don't need to be a continued contiguous stretch of code.
+
+540
+01:02:16.630 --> 01:02:28.850
+Greg: In structured computer languages, you do that, and the argument is, well, it's okay because the compiler is free to rip it all apart and do something more efficient.
+
+541
+01:02:29.340 --> 01:02:38.739
+Greg: And this is machine code, so the compiler should be free to rip it all apart and do something more efficient.
+
+542
+01:02:38.850 --> 01:02:39.910
+Greg: Yeah,
+
+543
+01:02:40.110 --> 01:02:51.279
+Greg: And the validation indicates that even though you've taken the subroutine and thrown parts of it in different places, it's… the stacks are still going to align.
+
+544
+01:02:51.390 --> 01:02:56.640
+Greg: So, that's one thing I might run into.
+
+545
+01:02:56.750 --> 01:03:02.330
+Greg: Because when it was pulled out, people were just very unhappy about that.
+
+546
+01:03:07.240 --> 01:03:14.269
+Greg: And, DOF did keep code sections.
+
+547
+01:03:15.220 --> 01:03:17.890
+Greg: Intact that way.
+
+548
+01:03:18.190 --> 01:03:22.980
+Greg: And then ran into the fact that,
+
+549
+01:03:23.220 --> 01:03:33.959
+Greg: the V. 8. The V. 8. Compiler they were using, partly because of that, and for other reasons, was a huge attack surface. Yeah, would go quadratic.
+
+550
+01:03:34.180 --> 01:03:35.220
+Greg: So.
+
+551
+01:03:35.620 --> 01:03:43.370
+Greg: In fact, the register allocator could actually go polynomial at higher degrees.
+
+552
+01:03:43.670 --> 01:03:46.279
+Greg: Quadratic, so it was great fun.
+
+553
+01:03:47.980 --> 01:03:56.819
+Greg: And then they had to introduce specific instructions to handle particular kinds of jumping in and out of subroutines.
+
+554
+01:03:57.230 --> 01:03:58.000
+Greg: Okay.
+
+555
+01:04:02.090 --> 01:04:03.060
+Greg: There we go.
+
+556
+01:04:03.190 --> 01:04:04.880
+Greg: A quick comment.
+
+557
+01:04:05.310 --> 01:04:08.749
+Greg: When I was on the C++ committee.
+
+558
+01:04:09.070 --> 01:04:15.840
+Greg: which included a number of compiler vendors who were competitors. Yeah.
+
+559
+01:04:16.050 --> 01:04:27.899
+Greg: The argument that a language change was going to make it more difficult for your compiler was simply not an argument. Nobody was going to listen to that argument.
+
+560
+01:04:28.280 --> 01:04:36.169
+Greg: The competitive advantage of one compiler over the other was simply not the committee's concern.
+
+561
+01:04:36.450 --> 01:04:37.480
+Greg: come.
+
+562
+01:04:37.700 --> 01:04:40.849
+Greg: So here the concern is to have.
+
+563
+01:04:41.000 --> 01:04:45.450
+Greg: is to have a An up-to-date, good virtual machine.
+
+564
+01:04:45.580 --> 01:04:52.140
+Greg: And if a compiler has to do a little work to take advantage of it, well, then it does.
+
+565
+01:04:52.420 --> 01:04:58.870
+Greg: so… And it's after 10, so…
+
+566
+01:04:59.030 --> 01:05:01.969
+Greg: Thank you all very much for being here.
+
+567
+01:05:02.170 --> 01:05:12.100
+Greg: And, there are discussion threads on magicians, so we can carry on there.
+
+568
+01:05:12.770 --> 01:05:14.099
+Greg: Thank you. Yeah.
+
+569
+01:05:16.530 --> 01:05:18.050
+Luis Pinto | Besu: Thanks for your time, Greg.
+
+570
+01:05:20.240 --> 01:05:22.929
+Greg: Thank you. My my time is
+
+571
+01:05:23.490 --> 01:05:27.400
+Greg: I'm supposedly retired, so I supposedly have lots of time.
+
+572
+01:05:33.220 --> 01:05:33.760
+Ben Adams: Okay, bye.
+
+573
+01:05:34.490 --> 01:05:35.360
+Greg: Very well.
+

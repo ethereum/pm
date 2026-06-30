@@ -1,0 +1,67 @@
+{
+  "meeting": "Subroutines for the EVM #1 - June 30, 2026",
+  "highlights": {
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:06:50",
+        "highlight": "Greg Colvin presenting subroutines EIP (CALLSUB/RETURNSUB/ENTERSUB): adds return stack, minimal client debt; opcodes backwards-compatible outside validated magic-header contracts"
+      },
+      {
+        "timestamp": "00:09:39",
+        "highlight": "Validation runs once at create time via on-chain Vyper contract; replaces per-call jumpdest analysis; one-pass algorithm on 64KB contracts is negligible overhead"
+      },
+      {
+        "timestamp": "00:19:32",
+        "highlight": "Magic header points to on-chain validation function, enabling simple client interpreters without bespoke validation logic; validation algorithm is upgradeable over time"
+      },
+      {
+        "timestamp": "00:36:58",
+        "highlight": "Validated contracts enable one-pass CFG/AST extraction and static analysis; key downstream benefit for auditors and formal verification tools that currently cannot handle dynamic jumps"
+      },
+      {
+        "timestamp": "00:49:14",
+        "highlight": "EIP currently PFI for Hegota; Greg seeking path to CFI and unsure of current process owners after EF departures"
+      }
+    ],
+    "documentation": [
+      {
+        "timestamp": "00:47:21",
+        "highlight": "EIP needs clarification: behavior of RETURNSUB with empty return stack in non-validated (legacy) code; Ben Adams offered to open a PR"
+      },
+      {
+        "timestamp": "00:51:39",
+        "highlight": "EIP-8173 rollup/ZK advantages section flagged as uncertain; Vyper validation contract (AI-generated) needs review by a Vyper reader"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "01:00:55",
+        "highlight": "Related PR #11800 (set-code-from) proposed: lets a new contract inherit an existing contract's code hash, enabling on-chain libraries without delegatecall overhead"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:47:21",
+      "action": "Open PR clarifying RETURNSUB/CALLSUB behavior in non-validated legacy code (treat as jump per yellow paper rules)",
+      "owner": "Ben Adams"
+    },
+    {
+      "timestamp": "00:51:39",
+      "action": "Review EIP-8173 Vyper validation contract and ZK/rollup advantages section for correctness",
+      "owner": "Kev (async, via note-taker summary)"
+    },
+    {
+      "timestamp": "00:53:20",
+      "action": "Contact EELS/steel group to integrate validation algorithm into executable spec",
+      "owner": "Greg Colvin"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:49:14",
+      "decision": "Subroutines EIP (EIP-8173) is PFI for Hegota; Greg to identify current CFI process owners and pursue next step"
+    }
+  ],
+  "targets": []
+}
