@@ -1,0 +1,99 @@
+{
+  "meeting": "Post-Quantum (PQ) Interop #46 - July 1, 2026",
+  "highlights": {
+    "devnet_status": [
+      {
+        "timestamp": "00:49:10",
+        "highlight": "6-client public devnet (32 nodes, 12h run) achieved consistent justification; finality gaps up to 45 min due to divergent recursive aggregation strategies across clients"
+      },
+      {
+        "timestamp": "00:26:47",
+        "highlight": "12 Ethlambda + 12 Ream 24-validator devnet finalized up to 90,000 slots; ~30-slot finalization lag observed"
+      },
+      {
+        "timestamp": "00:49:55",
+        "highlight": "Ream ARM compatibility issue and Zeam/Lantern Ziglip P2P interop bug identified; fix applied, devnet restart underway"
+      }
+    ],
+    "aggregation_proposals": [
+      {
+        "timestamp": "00:17:50",
+        "highlight": "Zeam proposes two-level aggregation: Level 1 aggregates raw XMSS only (for safe-target calc); Level 2 aids proposers; removes Type 1 recursive aggregation from proposal pipeline"
+      },
+      {
+        "timestamp": "00:21:30",
+        "highlight": "Zeam proposal increases slot intervals from 5 to 8 (\u00d70.8s = 6.4s slots); 4 intervals reserved for block building and Type 2 aggregation"
+      },
+      {
+        "timestamp": "00:47:16",
+        "highlight": "Ethlambda doc: first two optimizations are client-side only; third changes SignedBlock format and requires spec update if adopted; achieved 200ms publish time with 3 attestations"
+      }
+    ],
+    "fast_finalization": [
+      {
+        "timestamp": "00:35:41",
+        "highlight": "Anshal proposes implicit vote propagation: validators who voted for block B implicitly voted for ancestor A; modifies process_attestations to credit ancestor targets, reducing finalization gaps"
+      },
+      {
+        "timestamp": "00:37:48",
+        "highlight": "Memory tradeoff: accumulating implicit votes scales with justifiable slots (bounded ~O(sqrt)) \u00d7 validator count; block size impact needs evaluation"
+      }
+    ],
+    "cryptography_binary_fields": [
+      {
+        "timestamp": "00:43:07",
+        "highlight": "New 'Flock' paper (Starkware + Benedict Bunz/Espresso): binary field proving system, ~600 Blake3 hashes/sec proved, ~2\u00d7 slowdown vs Poseidon; candidate to replace Poseidon entirely"
+      },
+      {
+        "timestamp": "00:44:58",
+        "highlight": "Thomas working on XMSS circuit throughput in Binius64 repo; Emil working on LeanVM-b (LeanVM with binary fields + Blake3)"
+      }
+    ],
+    "client_updates": [
+      {
+        "timestamp": "00:27:55",
+        "highlight": "Lantern: early block-build optimization (build in final interval of previous slot) live in public image; shadow simulator image compatible with Camille's lean shadow fuzzer"
+      },
+      {
+        "timestamp": "00:29:01",
+        "highlight": "Ethlambda: history pruning reworked (statediff + snapshots every 1,000 blocks); P2P ported to Rust; proposal proof computation disabled to reduce latency"
+      },
+      {
+        "timestamp": "00:30:33",
+        "highlight": "Gean: fixed configurable attestation committee count rejection bug; spec synced to lean spec head including attestation source and vote filtering changes"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:51:23",
+      "action": "Investigate and update Hive \u2014 currently failing due to old spec version",
+      "owner": "Eric (kolby's team)"
+    },
+    {
+      "timestamp": "00:50:10",
+      "action": "Confirm availability of official Ream ARM-compatible image for multi-client devnet",
+      "owner": "Ream team"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:41:03",
+      "decision": "Spec to remain stable (no new features); only bug fixes and performance improvements targeting DevNet 5 readiness"
+    },
+    {
+      "timestamp": "00:50:37",
+      "decision": "Continue long-running multi-client devnets (targeting week+ duration) while testing Zeam and Ethlambda aggregation optimizations in coming weeks"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:26:13",
+      "target": "Zeam: shadow sim analysis with 16\u201332 node network + Camille's visualization tool \u2014 presented next call"
+    },
+    {
+      "timestamp": "00:46:59",
+      "target": "Zeam two-level aggregation proposal: tested and results shared by next call"
+    }
+  ]
+}

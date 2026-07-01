@@ -1,0 +1,1154 @@
+WEBVTT
+
+1
+00:16:43.460 --> 00:16:45.660
+Thomas Coratger: Hello, hello everyone.
+
+2
+00:17:01.240 --> 00:17:10.139
+Thomas Coratger: So yeah, let's get started. So today we will just make like the classical round of updates.
+
+3
+00:17:10.930 --> 00:17:15.279
+Thomas Coratger: Then we can talk again about DevNet 5 and blocking stuff.
+
+4
+00:17:15.560 --> 00:17:19.240
+Thomas Coratger: And then we'll give, like, very short updates on…
+
+5
+00:17:19.560 --> 00:17:25.049
+Thomas Coratger: What we are doing on the cryptographic front with binary fields techniques, especially.
+
+6
+00:17:26.609 --> 00:17:32.429
+Thomas Coratger: So yeah, let's get started with the client updates Zeam first.
+
+7
+00:17:34.350 --> 00:17:35.549
+Gajinder Singh: Thanks, Toma.
+
+8
+00:17:35.830 --> 00:17:49.810
+Gajinder Singh: So, we have been working on fixing issues that we uncovered during interrupt runs, as well as shadow runs, and we have now reached a point where we can say that Zeam is
+
+9
+00:17:50.010 --> 00:17:53.400
+Gajinder Singh: robust and stable to participate.
+
+10
+00:17:53.520 --> 00:17:57.159
+Gajinder Singh: With other clients on, multi-devnet.
+
+11
+00:17:57.350 --> 00:18:02.490
+Gajinder Singh: A multi-subnet network, and we have already been running Oh.
+
+12
+00:18:02.630 --> 00:18:04.100
+Gajinder Singh: few of these
+
+13
+00:18:04.310 --> 00:18:18.300
+Gajinder Singh: interrupt runs, and with 4 clients and 8 subnets we were able to. So we were able to demonstrate a long duration network with
+
+14
+00:18:18.620 --> 00:18:30.880
+Gajinder Singh: with justification happening frequently and finalization happening intermittently. And the reason for that is obviously some of
+
+15
+00:18:31.130 --> 00:18:35.130
+Gajinder Singh: The aggregators, they're providing attestation state and
+
+16
+00:18:35.250 --> 00:18:38.170
+Gajinder Singh: There is a delay in…
+
+17
+00:18:38.470 --> 00:18:46.370
+Gajinder Singh: block proposal. So these are basically 2 of the major reasons why why things happen with delay.
+
+18
+00:18:46.500 --> 00:18:49.100
+Gajinder Singh: And, so we have…
+
+19
+00:18:49.330 --> 00:18:57.120
+Gajinder Singh: a proposal for which would solve both of these issues. One of the issues is that other clients
+
+20
+00:18:57.160 --> 00:19:14.720
+Gajinder Singh: while they are publishing the aggregates, they are trying to not only do recursion on, not only do aggregation on ROG XMS gossip messages, but also include the aggregates produced by other aggregators, which is
+
+21
+00:19:14.830 --> 00:19:20.669
+Gajinder Singh: Although a better aggregate, but they are doing with a delay, which is not good for the network, so…
+
+22
+00:19:20.880 --> 00:19:26.189
+Gajinder Singh: So other clients should basically prioritize first publishing,
+
+23
+00:19:26.450 --> 00:19:34.780
+Gajinder Singh: the first level of aggregate, and then improving it and working on it further. So we have
+
+24
+00:19:35.030 --> 00:19:39.019
+Gajinder Singh: So in our proposal that we have shared.
+
+25
+00:19:41.020 --> 00:19:44.170
+Gajinder Singh: I think on the GitHub issue, and I can share it over here.
+
+26
+00:19:48.150 --> 00:20:05.919
+Gajinder Singh: So we basically propose that we introduce two level of aggregation where there is first level of aggregation in which only raw XMS messages are aggregated and they are basically consumed.
+
+27
+00:20:06.020 --> 00:20:17.340
+Gajinder Singh: by the validators to calculate their safe targeted sector, while at the same time, at the same interval. There is a second round of aggregation that is primarily happening
+
+28
+00:20:17.420 --> 00:20:27.569
+Gajinder Singh: to to basically aid aid the proposers so that they don't actually have to do a type one recursive aggregation.
+
+29
+00:20:27.660 --> 00:20:37.559
+Gajinder Singh: and then basically removing the type, one recursive aggregation totally from the proposal pipeline which basically leaves
+
+30
+00:20:38.040 --> 00:20:44.090
+Gajinder Singh: proposer to only deal with type 2 aggregation. And even for that, basically, we
+
+31
+00:20:44.460 --> 00:20:54.349
+Gajinder Singh: We are proposing to add 3 intervals through the block proposal itself of 0 point 8 s. So now we have total 8 intervals and 0 2.
+
+32
+00:20:54.650 --> 00:21:08.870
+Gajinder Singh: 4 intervals will be for block proposer and to build a block and to publish it, and then followed by other things which you can find in this particular proposal. Apart from that, we
+
+33
+00:21:09.000 --> 00:21:17.950
+Gajinder Singh: Also, are working on 2 optimizations PRs for… to optimizations. We are basically
+
+34
+00:21:18.230 --> 00:21:29.370
+Gajinder Singh: which is a smart deconstruction and fast finalization. But we are basically working a bit on it. Again, those are mentioned in this particular proposal.
+
+35
+00:21:29.670 --> 00:21:30.170
+Gajinder Singh: Oh.
+
+36
+00:21:30.170 --> 00:21:35.729
+Thomas Coratger: You mean like, you mean eight interval instead of five right now, right?
+
+37
+00:21:36.090 --> 00:21:37.100
+Gajinder Singh: Yes, correct.
+
+38
+00:21:37.960 --> 00:21:42.390
+Thomas Coratger: And so it gives like 6.4 seconds, right?
+
+39
+00:21:42.390 --> 00:21:42.840
+Gajinder Singh: Correct.
+
+40
+00:21:42.840 --> 00:21:43.820
+Thomas Coratger: False logs.
+
+41
+00:21:44.280 --> 00:21:50.670
+Thomas Coratger: Yes. And so, I guess that you have tested this idea, or not? Yes, I guess so.
+
+42
+00:21:50.670 --> 00:21:57.979
+Gajinder Singh: No, we have not tested this idea, but I don't… so we can test this idea in this coming week.
+
+43
+00:21:58.510 --> 00:21:59.420
+Gajinder Singh: Oh.
+
+44
+00:21:59.550 --> 00:22:03.179
+Gajinder Singh: If more or less people are aligned on this particular front.
+
+45
+00:22:03.520 --> 00:22:16.209
+Gajinder Singh: But I don't basically see any challenge in it because about 90 percentile of the book proposals like happen in 2.4, 2.6 seconds.
+
+46
+00:22:16.530 --> 00:22:27.250
+Gajinder Singh: And basically, given this time for type 2 aggregation, I think this 4 intervals of 0.8 is sufficient.
+
+47
+00:22:27.380 --> 00:22:29.910
+Gajinder Singh: For a block to… No.
+
+48
+00:22:30.140 --> 00:22:32.559
+Gajinder Singh: For… for block building and proposal.
+
+49
+00:22:32.660 --> 00:22:33.659
+Gajinder Singh: So, I am…
+
+50
+00:22:33.660 --> 00:22:39.489
+Thomas Coratger: I'm not sure, like, to understand, because in your table, like, in the after colon, you mentioned that
+
+51
+00:22:39.850 --> 00:22:43.570
+Thomas Coratger: After you only have type, you only have type two.
+
+52
+00:22:43.960 --> 00:22:49.340
+Thomas Coratger: for the proposal aggregation while before we had type one plus type two.
+
+53
+00:22:49.670 --> 00:22:56.899
+Thomas Coratger: But I was thinking that in the previous call, you mentioned that for you, Type 2 is a big slowdown.
+
+54
+00:22:57.500 --> 00:22:57.970
+Gajinder Singh: Yes.
+
+55
+00:22:57.970 --> 00:22:58.999
+Thomas Coratger: It's in your test.
+
+56
+00:22:59.000 --> 00:22:59.520
+Gajinder Singh: So.
+
+57
+00:22:59.870 --> 00:23:16.569
+Gajinder Singh: Correct. So type type 2 only is a big store slowdown, which is why we are proposing to increase the interval time type one recursive aggregation. We are now, for example, proposing to happen at the same interval in which safe target calculation is happening, so that
+
+58
+00:23:16.600 --> 00:23:22.599
+Gajinder Singh: Proposer does not have to do a recursive aggregation, and we are also removing
+
+59
+00:23:22.790 --> 00:23:32.119
+Gajinder Singh: the constraint that attestation data has to be unique. So basically, if we remove the constraint, then the aim of doing recursive aggregation was to do
+
+60
+00:23:32.450 --> 00:23:41.280
+Gajinder Singh: less and less of signatures. Right? And with the with type 2 aggregation, we already have just one
+
+61
+00:23:41.280 --> 00:23:53.509
+Gajinder Singh: single block signature. So, there is no need for us to do a Type 1 aggregation, enforcing the Type 1 aggregation on the proposal. What we basically need is for very good
+
+62
+00:23:53.620 --> 00:23:59.789
+Gajinder Singh: aggregated type, one signatures. And for that we basically need to do a 2 round
+
+63
+00:23:59.870 --> 00:24:16.649
+Gajinder Singh: of aggregation. First round is just upon the raw, so that other clients also they don't try to mix in other signatures with the raw signatures, and they basically publish their signatures on time. That is very important, and that is a thing that we have learned from running our interrupt runs.
+
+64
+00:24:16.650 --> 00:24:28.520
+Gajinder Singh: is that, other clients are basically trying to make a better aggregate, but they are sending it quite late, and this is why everything's, so this is why Finality
+
+65
+00:24:28.560 --> 00:24:42.510
+Gajinder Singh: happen in intermittent bouts, and and and the aim of type. One aggregation is to just produce better aggregates, and if we have better aggregates already, that means that most of the times
+
+66
+00:24:42.510 --> 00:24:54.789
+Gajinder Singh: the aggregations that… the attestation data that will be packed in the block are going to be unique, because they are packed in a greedy manner. And in that sense, type 2 aggregation
+
+67
+00:24:55.000 --> 00:25:04.700
+Gajinder Singh: is sufficient to cover everything. Our assumption that type 2 aggregation over time will become more and more efficient to basically
+
+68
+00:25:04.810 --> 00:25:13.150
+Gajinder Singh: make sure that it can be performed under 0 point 4 s. Which is, I think, what
+
+69
+00:25:13.490 --> 00:25:31.670
+Gajinder Singh: the target for type 2 aggregation should be. But till that happens, or till or to avoid using a stronger hardware for Devnets and for testing runs, we basically increase the time
+
+70
+00:25:31.830 --> 00:25:35.779
+Gajinder Singh: For block building itself, just for the right to aggregation.
+
+71
+00:25:40.820 --> 00:25:41.610
+Thomas Coratger: Okay, thank you.
+
+72
+00:25:42.180 --> 00:25:44.939
+Thomas Coratger: Thanks for the, the recap.
+
+73
+00:25:44.940 --> 00:25:45.380
+Gajinder Singh: I don'.
+
+74
+00:25:45.380 --> 00:25:46.020
+Thomas Coratger: Awesome.
+
+75
+00:25:46.570 --> 00:25:50.070
+Gajinder Singh: Yeah, on one last front on the shuttle Sims. Yeah, we have.
+
+76
+00:25:50.130 --> 00:26:04.880
+Gajinder Singh: also got some stability over there after various fixes we we did. Now, what we are trying to do is basically run a 32 node or a 16 node network, and then we will use
+
+77
+00:26:04.940 --> 00:26:12.949
+Gajinder Singh: Camille's visualization tool. So basically to analyze the shadow Sims and present it.
+
+78
+00:26:13.080 --> 00:26:16.290
+Gajinder Singh: present our analysis in the next call.
+
+79
+00:26:17.190 --> 00:26:18.690
+Gajinder Singh: Yeah, that's beyond.
+
+80
+00:26:20.810 --> 00:26:21.830
+Thomas Coratger: Okay, great.
+
+81
+00:26:22.000 --> 00:26:22.989
+Thomas Coratger: Ring?
+
+82
+00:26:27.700 --> 00:26:33.190
+unnawut: I, I don't see Sharik on the list, so maybe I can give a quick update. So…
+
+83
+00:26:33.400 --> 00:26:47.160
+unnawut: We are mostly focusing on just testing the PQ interop with all the clients, so we managed to do a 24-validator, DevNet, it's 12 Eve Lambda and 12 Ream.
+
+84
+00:26:47.160 --> 00:27:10.989
+unnawut: We were able to finalize up to 90,000 slots. But again, with the attestation time, I think we are expecting to experience something like 30 slots behind for finalization or something like that. But they are finalizing. And our next step for that is mostly just for a PQN trial for now. So we will be adding.
+
+85
+00:27:10.990 --> 00:27:21.640
+unnawut: other clients, we'll be testing with other clients, going forward. And then apart from that, we are, yeah, so as usual, making improvements to Hive, and so on.
+
+86
+00:27:25.800 --> 00:27:26.880
+Thomas Coratger: Okay, great.
+
+87
+00:27:27.820 --> 00:27:28.920
+Thomas Coratger: Qlean.
+
+88
+00:27:31.500 --> 00:27:32.340
+Ruslan Tushov: Hello.
+
+89
+00:27:32.530 --> 00:27:45.349
+Ruslan Tushov: We didn't have much time, working on clean. Still catching up on high tests. Not all tests are green yet for clean.
+
+90
+00:27:45.590 --> 00:27:48.709
+Ruslan Tushov: Currently, that's all. Thank you.
+
+91
+00:27:52.360 --> 00:27:54.859
+Thomas Coratger: Okay, thanks. Lantern?
+
+92
+00:27:55.280 --> 00:27:58.719
+Mihir Faujdar: Yep, thanks, Thomas. Hi, everyone. So
+
+93
+00:27:58.900 --> 00:28:16.009
+Mihir Faujdar: Yeah, basically, since last week, we added an optimization similar to Eth lambda, where basically build a block earlier in the into like, basically build a block in the final interval of the previous slot.
+
+94
+00:28:16.170 --> 00:28:19.570
+Mihir Faujdar: So that optimization is enabled in the.
+
+95
+00:28:19.680 --> 00:28:29.180
+Mihir Faujdar: current public image and as well as added support for the simplified block building. Pr, that was submitted to lean spec.
+
+96
+00:28:29.310 --> 00:28:45.889
+Mihir Faujdar: and as well as have released a new image for shadow simulator. the image. This image is compatible with the lean shadow fuzzer tool that is built by Camille. So thanks, Camille, for merging that and yeah, I will be working with same team
+
+97
+00:28:46.220 --> 00:28:51.980
+Mihir Faujdar: to just fix the interrupt issues that were surfaced recently. Thank you.
+
+98
+00:28:56.150 --> 00:28:59.039
+Thomas Coratger: Great, thank you. Ethlambda?
+
+99
+00:29:01.720 --> 00:29:07.509
+Pablo Deymo | Lambda: We changed our history pruning to give all the Chinese state with minimal disk usage.
+
+100
+00:29:07.760 --> 00:29:17.840
+Pablo Deymo | Lambda: We now store stdiff with snapshots every 1,000 blocks and discard block signatures only instead of the whole block for finalized blocks.
+
+101
+00:29:18.560 --> 00:29:24.379
+Pablo Deymo | Lambda: As a research side quest, we ported its P2P to Rust.
+
+102
+00:29:25.110 --> 00:29:29.190
+Pablo Deymo | Lambda: And integrated this to Ethlambda for gossip.
+
+103
+00:29:29.940 --> 00:29:33.790
+Pablo Deymo | Lambda: We implemented the privatization,
+
+104
+00:29:33.900 --> 00:29:38.089
+Pablo Deymo | Lambda: That was just mentioned the bill one interval early.
+
+105
+00:29:38.380 --> 00:29:41.440
+Pablo Deymo | Lambda: And disabled proposal proof combustion.
+
+106
+00:29:41.610 --> 00:29:47.499
+Pablo Deymo | Lambda: to reduce proposal load and to ensure more consistent blog publish latency.
+
+107
+00:29:48.630 --> 00:29:55.199
+Pablo Deymo | Lambda: And also yesterday we shared a document explaining our stance regarding bumping the celebration.
+
+108
+00:29:56.570 --> 00:30:04.459
+Pablo Deymo | Lambda: And… And we are currently looking into the results that Partha shared yesterday.
+
+109
+00:30:04.650 --> 00:30:07.310
+Pablo Deymo | Lambda: running internal devnets and debugging issues.
+
+110
+00:30:07.810 --> 00:30:16.750
+Pablo Deymo | Lambda: And we are working on changing the aggregator logic to ensure we prioritize raw signature aggregation for the current slots.
+
+111
+00:30:17.540 --> 00:30:20.159
+Pablo Deymo | Lambda: So that's for our week. Thank you.
+
+112
+00:30:23.060 --> 00:30:27.340
+Thomas Coratger: Great. Thanks for sharing the document as well.
+
+113
+00:30:27.820 --> 00:30:28.940
+Thomas Coratger: Gean?
+
+114
+00:30:30.250 --> 00:30:33.150
+Bankat | gean: Thanks, Tomas. Hi, everyone.
+
+115
+00:30:33.270 --> 00:30:41.040
+Bankat | gean: So, on Gean's side, we shipped two things recently. The first was a fix.
+
+116
+00:30:41.560 --> 00:30:51.219
+Bankat | gean: So that Gean accepts a configurable attestation committee count, because previously it was rejecting anything other than its default.
+
+117
+00:30:51.620 --> 00:31:10.110
+Bankat | gean: So any higher attestation, attestation committee count was blocked on Gean, so thanks to Partha who flagged that, we've fixed that. And on the spec side, we've caught up with the current head of LeanSpec, including the attestation source from HN.
+
+118
+00:31:10.140 --> 00:31:16.579
+Bankat | gean: And still vote filtering changes. For now, all spec changes are green.
+
+119
+00:31:16.640 --> 00:31:18.789
+Bankat | gean: And then on shadow.
+
+120
+00:31:19.170 --> 00:31:34.329
+Bankat | gean: The NS has matured from last week's report into something we are now running real experiments on. We are currently driving towards single client, multi-client, and multi-subnet topologies.
+
+121
+00:31:34.650 --> 00:31:52.640
+Bankat | gean: We added a prover cost model that charges our XMSS aggregates and verify work as configurable signatures per second reads. So that will let us reproduce slow proving regimes deterministically.
+
+122
+00:31:52.640 --> 00:32:04.330
+Bankat | gean: So looking ahead, we'll keep tracking spec changes closely while improving performance on gene and also making progress on shadow. So that's the update on gene. Thank you.
+
+123
+00:32:08.200 --> 00:32:12.159
+Thomas Coratger: Great. Amazing. Grandine?
+
+124
+00:32:14.490 --> 00:32:17.260
+Boma: Hello! Good afternoon. So
+
+125
+00:32:17.490 --> 00:32:24.629
+Boma: We did some clean up peers, and we're currently working on supporting shadow, and that should be ready by
+
+126
+00:32:24.900 --> 00:32:29.949
+Boma: end of today. And then, on the proposal, I have a question, because there's a place that
+
+127
+00:32:30.210 --> 00:32:37.040
+Boma: I'm not sure if I'm reading it correctly, based on the first finalization, which is, the…
+
+128
+00:32:37.330 --> 00:32:44.180
+Boma: split target scenario. So Is it, like, how does,
+
+129
+00:32:44.630 --> 00:32:47.699
+Boma: It triggers a shared, source recognition.
+
+130
+00:32:47.810 --> 00:32:49.460
+Boma: That's the part I don't get.
+
+131
+00:32:59.610 --> 00:33:03.119
+Thomas Coratger: Sorry, I think I missed the last…
+
+132
+00:33:03.320 --> 00:33:05.650
+Thomas Coratger: 10 seconds of your… of your talk.
+
+133
+00:33:06.140 --> 00:33:08.140
+Thomas Coratger: Can you just repeat, maybe?
+
+134
+00:33:13.080 --> 00:33:18.910
+Boma: Yeah, so I'm talking about the hack empty that was just shared. So the fast finalization.
+
+135
+00:33:19.240 --> 00:33:26.359
+Boma: Right up, so… There is no rule of how the source target should be.
+
+136
+00:33:29.600 --> 00:33:36.120
+Gajinder Singh: So, in SDF, there is no rule of what source and what target is. Basically, you just…
+
+137
+00:33:36.560 --> 00:33:46.980
+Gajinder Singh: apply the STF rules, right? And… and fork choice is basically there to help you select what source and target is.
+
+138
+00:33:47.170 --> 00:33:51.919
+Gajinder Singh: And, what, what Anshul's PR is suggesting is that
+
+139
+00:33:52.260 --> 00:33:56.740
+Gajinder Singh: So currently, if you are, you have some target.
+
+140
+00:33:56.930 --> 00:34:03.219
+Gajinder Singh: And, other validators are voting onto some target, which is ancestor of your target.
+
+141
+00:34:03.360 --> 00:34:07.809
+Gajinder Singh: You should be able to propagate your vote to your…
+
+142
+00:34:08.000 --> 00:34:13.489
+Gajinder Singh: Ancestral target, so that you can then have a justification over that.
+
+143
+00:34:13.620 --> 00:34:18.500
+Gajinder Singh: So I think this is what the fast finalization is about.
+
+144
+00:34:18.780 --> 00:34:21.559
+Gajinder Singh: Angel, if you wanna clarify for that.
+
+145
+00:34:22.030 --> 00:34:29.550
+Boma: Sorry, I think maybe I did not put my question correctly. I mean, it doesn't, like, say what triggers the shared source recognition, so, like, how…
+
+146
+00:34:29.870 --> 00:34:35.099
+Boma: it fits into, like, an existing justification logic. That's what I'm trying to understand.
+
+147
+00:34:36.519 --> 00:34:37.999
+Gajinder Singh: So, it is…
+
+148
+00:34:38.000 --> 00:34:41.079
+Boma: Like, if it stays safe under Byzantine votes, like…
+
+149
+00:34:41.400 --> 00:34:49.409
+Boma: Won't a consensus change without an algorithm? Can it be implemented consistently, like across all clients? That's where I'm coming from.
+
+150
+00:34:50.190 --> 00:34:55.459
+Gajinder Singh: Yeah, so it is not really a big change, it is just a change in SDF.
+
+151
+00:34:55.590 --> 00:34:59.279
+Gajinder Singh: Where you will basically propagate your vote.
+
+152
+00:34:59.420 --> 00:35:01.220
+Gajinder Singh: up the ancestral chain as well.
+
+153
+00:35:01.320 --> 00:35:05.700
+Gajinder Singh: To… Help the foster justification.
+
+154
+00:35:07.060 --> 00:35:12.910
+Gajinder Singh: Some, target which could be the ancestor of The votes of some.
+
+155
+00:35:13.250 --> 00:35:21.780
+Gajinder Singh: of some validators, right? So, it should not, in theory, really be a big change.
+
+156
+00:35:22.010 --> 00:35:26.859
+Gajinder Singh: Across… The client code base is just an SDF base changed.
+
+157
+00:35:28.530 --> 00:35:41.590
+Anshal: Yeah, so it just changes the process attestations function, so right now, what I have proposed is that, suppose there's a chain with source target 1, like, a block A and a block B, so there can be
+
+158
+00:35:41.590 --> 00:35:49.339
+Anshal: a bunch of attestations which target A, which have, like, targeted A, and a bunch of attestations that have
+
+159
+00:35:49.360 --> 00:36:07.910
+Anshal: target as B, so we individually see that the target should have two-thirds of the vote to move the finalization and justification ahead, but suppose, if, the source A and B all lie on the same chain, so, validators who have voted for B
+
+160
+00:36:07.920 --> 00:36:10.640
+Anshal: have implicitly voted for A as well.
+
+161
+00:36:10.840 --> 00:36:24.779
+Anshal: we don't incorporate that, and due to that, we saw yesterday that, on the… on the data that Partha shared, that we were seeing, long delays and finalizations and justifications. So, if… if we,
+
+162
+00:36:24.860 --> 00:36:34.909
+Anshal: if we consider these implicit words, we'll be able to move A ahead, even though we didn't explicitly receive these attestations there.
+
+163
+00:36:35.020 --> 00:36:44.880
+Anshal: The only downside of this is that on the long… when there are long hauls in finalization and attestations, when we try to do the…
+
+164
+00:36:45.090 --> 00:36:51.099
+Anshal: When we try to basically, get votes on all these, different blocks.
+
+165
+00:36:51.260 --> 00:37:07.859
+Anshal: then we'll have, like, a huge, huge data structure that will lay around in the memory that we'll have to accumulate our votes over. Because we'll… and it will be, like, fun… it will be proportional to, like, the number of…
+
+166
+00:37:08.130 --> 00:37:13.529
+Anshal: Justifiable slots, which is plus 5, and then we have targets as,
+
+167
+00:37:13.870 --> 00:37:23.180
+Anshal: Tag it as pronic in a square root number, so, shouldn't be very huge, but it will, it will grow, and it will be some…
+
+168
+00:37:23.550 --> 00:37:27.700
+Anshal: Function of that into, like, the number of validators that we have.
+
+169
+00:37:30.660 --> 00:37:37.390
+Gajinder Singh: Yeah, since justifiable slots become Exponentially sparse as we go.
+
+170
+00:37:37.840 --> 00:37:40.509
+Gajinder Singh: further down, so I think, yes, it would not
+
+171
+00:37:40.620 --> 00:37:47.799
+Gajinder Singh: lead to too many candidates, where you will have to propagate the WhatsApp. But yes, we… we basically need to…
+
+172
+00:37:48.100 --> 00:37:49.550
+Gajinder Singh: check whether…
+
+173
+00:37:50.380 --> 00:38:05.630
+Gajinder Singh: This basically is computationally not heavy as well as does not generate bigger blocks because finally justification justifications needs to be serialized in the block as a big factor. So there is that factor as well.
+
+174
+00:38:07.300 --> 00:38:16.819
+Boma: Okay, thank you. That's what I was trying to figure out, the bigger block issue. The… sorry, one last thing. On the new block, size cap, it's…
+
+175
+00:38:16.990 --> 00:38:23.539
+Boma: The proofs per data are allowed. What bounds, like, is there, like, a new bound to mass attestation data?
+
+176
+00:38:23.820 --> 00:38:24.540
+Boma: Like,
+
+177
+00:38:33.010 --> 00:38:35.090
+Gajinder Singh: I didn't really get the question.
+
+178
+00:38:39.380 --> 00:38:46.980
+Boma: I mean, on the new, block size cap, if multiple proofs per data are allowed, what sort of bounds, the block?
+
+179
+00:38:47.380 --> 00:38:49.590
+Boma: in terms of mass attestation data.
+
+180
+00:38:50.780 --> 00:38:51.650
+Gajinder Singh: So, I think…
+
+181
+00:38:51.650 --> 00:38:52.010
+Boma: Dick.
+
+182
+00:38:52.010 --> 00:38:52.410
+Gajinder Singh: They're.
+
+183
+00:38:52.410 --> 00:38:54.310
+Boma: Current one no longer holds.
+
+184
+00:38:54.950 --> 00:38:57.779
+Gajinder Singh: There is still only one signature in the hand, so…
+
+185
+00:38:57.900 --> 00:39:03.620
+Gajinder Singh: There is no blow-up in the size, and there are still 8 max attestations.
+
+186
+00:39:03.900 --> 00:39:07.729
+Gajinder Singh: Extra attestations that you can pack, so basically that gives you…
+
+187
+00:39:07.850 --> 00:39:12.630
+Gajinder Singh: only 8 Max slots, even when you are trying to fill it.
+
+188
+00:39:12.910 --> 00:39:14.749
+Gajinder Singh: With the same attestation data.
+
+189
+00:39:18.830 --> 00:39:29.370
+Boma: The reason I'm asking is that in grinding, we had to, like, reduce Max's decision data to four instead of eight in order to accommodate the timing and everything. So I was trying to see if this.
+
+190
+00:39:29.370 --> 00:39:31.670
+Gajinder Singh: That is fine. It's going to be a little problem.
+
+191
+00:39:31.900 --> 00:39:39.679
+Gajinder Singh: So, any cla… so… so you will not have the problem now, because you don't need to do type 1 recursion, right? So…
+
+192
+00:39:40.120 --> 00:39:43.019
+Gajinder Singh: only Type 2,
+
+193
+00:39:43.080 --> 00:40:01.940
+Gajinder Singh: Type 2 proof is what will take time and it will stay constant for. For your rate slots or if you have less than 8 slots then it will. Be less than that but yes it is sort of bounded in that manner. And as a client you can optimize for your own client.
+
+194
+00:40:02.180 --> 00:40:16.829
+Gajinder Singh: whatever strategy you want to pack right? You want to just go with 4. Just go with 4 you want to go with 8 to go with it, or whatever time based strategy you want to do for packing the test stations, knowing that
+
+195
+00:40:16.910 --> 00:40:27.720
+Gajinder Singh: Packing more attestations make your block more canonical, so that that is this particular, you know, self-interest.
+
+196
+00:40:28.710 --> 00:40:34.130
+Gajinder Singh: for the block proposal to pack as as much as destinations as possible. And
+
+197
+00:40:34.340 --> 00:40:41.940
+Gajinder Singh: And basically REST, it is up to clients to figure out whatever strategies they want to apply in.
+
+198
+00:40:42.050 --> 00:40:51.430
+Gajinder Singh: an ideal world, I think, where we have Type 2 aggregation, Happening in 0.4 second.
+
+199
+00:40:51.560 --> 00:40:59.199
+Gajinder Singh: Basically, the problem totally goes away. So REST depends upon your client entirely.
+
+200
+00:41:00.660 --> 00:41:03.169
+Thomas Coratger: When you mean that, you mean that…
+
+201
+00:41:03.430 --> 00:41:11.219
+Thomas Coratger: this should not be specified into the spec. This is, like, just an implementation choice from the client.
+
+202
+00:41:12.440 --> 00:41:13.950
+Gajinder Singh: Yeah, I think if…
+
+203
+00:41:14.240 --> 00:41:21.489
+Gajinder Singh: for example, Grandine wants to just pack 4 attestations out of 8 attestation slots, then it is
+
+204
+00:41:21.700 --> 00:41:34.529
+Gajinder Singh: It doesn't need to be in spec. It's basically a client optimization as such. But the total overall bound for type 2 verification type 2 proof generation is anyway bounded.
+
+205
+00:41:40.590 --> 00:41:41.219
+Thomas Coratger: It, yeah.
+
+206
+00:41:41.990 --> 00:41:47.080
+Thomas Coratger: I can give a brief update on what we are doing.
+
+207
+00:41:47.510 --> 00:41:56.290
+Thomas Coratger: And then we can go back to the question of DevNet 5. I have seen, like, so you guys proposing, like, basically the…
+
+208
+00:41:57.110 --> 00:42:02.049
+Thomas Coratger: the two ACMD staff, one from East London, and one from the Zeam team.
+
+209
+00:42:02.290 --> 00:42:14.040
+Thomas Coratger: Like, probably they make sense, and we should test them. I have seen, for example, in Ethlambda, I think the Ethlambda proposal has been tested, because there are numbers and graphics.
+
+210
+00:42:14.390 --> 00:42:22.169
+Thomas Coratger: So… yeah, they run a node with nice performance and stuff, so probably this should be tested if this can help.
+
+211
+00:42:22.770 --> 00:42:27.290
+Thomas Coratger: On the… on the spec front, I haven't touched anything.
+
+212
+00:42:27.520 --> 00:42:33.439
+Thomas Coratger: Because, as I mentioned last time, and with many of you individually, like.
+
+213
+00:42:34.700 --> 00:42:53.520
+Thomas Coratger: The goal there is to stabilize a bit on the spec. Of course, we should fix bug and we should target like performance improvements when possible, including like block building and all of this stuff, but not adding new feature, because what we want there is to stabilize a bit on PQ.
+
+214
+00:42:53.650 --> 00:43:02.900
+Thomas Coratger: So, yeah, this is as planned, but on the other side, we have done, like, quite a lot of work on the binary fields, so, as you may have known.
+
+215
+00:43:03.010 --> 00:43:07.270
+Thomas Coratger: Last week was published a new paper that is called Flock.
+
+216
+00:43:07.700 --> 00:43:15.519
+Thomas Coratger: By the authors of, so mainly, like, a collaboration between Starkware and some
+
+217
+00:43:15.720 --> 00:43:21.979
+Thomas Coratger: University staff and Benedict Bunz from Espresso.
+
+218
+00:43:22.140 --> 00:43:26.700
+Thomas Coratger: Flock basically is a binary field new proving system.
+
+219
+00:43:26.900 --> 00:43:40.929
+Thomas Coratger: That is kind of taking existing stuff from Binius and existing term check technique plus on top of that implements a bunch of new optimizations on different stuff.
+
+220
+00:43:41.210 --> 00:43:44.529
+Thomas Coratger: Not going into the details, but…
+
+221
+00:43:44.980 --> 00:43:56.069
+Thomas Coratger: it implements some optimization at the sum-check level, at the IOP level, also on the fact that now you are proving batch stuff.
+
+222
+00:43:56.450 --> 00:44:00.359
+Thomas Coratger: Which can help also with performance, so we have very nice numbers.
+
+223
+00:44:00.540 --> 00:44:02.540
+Thomas Coratger: On the paper.
+
+224
+00:44:03.070 --> 00:44:09.740
+Thomas Coratger: So basically, it can prove around 600 Blake3 hash functions per second.
+
+225
+00:44:10.000 --> 00:44:17.519
+Thomas Coratger: So this is very big. This is approximately only a 2x slowdown when compared to Poseidon.
+
+226
+00:44:17.730 --> 00:44:26.179
+Thomas Coratger: So this is great because we want to test this in order to know if we can get rid of post-hidden completely via this new technique.
+
+227
+00:44:26.770 --> 00:44:42.710
+Thomas Coratger: This includes a lot of additional complexity because binary field proving systems by nature are much more complex than the existing one with PLONK and the prime fields that we all know.
+
+228
+00:44:43.020 --> 00:44:48.669
+Thomas Coratger: So this is a lot more complexity, so right now we are working basically on two fronts.
+
+229
+00:44:48.870 --> 00:44:57.660
+Thomas Coratger: So… I am personally working on the Binius64 repo with Jim from, irreducible, X irreducible.
+
+230
+00:44:58.030 --> 00:45:02.499
+Thomas Coratger: On checking how many XMSs
+
+231
+00:45:02.660 --> 00:45:10.260
+Thomas Coratger: we can prove per second as a circuit, because there is already a XMSS circuit inside BNU's 64 repo.
+
+232
+00:45:10.430 --> 00:45:15.079
+Thomas Coratger: And Emil, on his side, is working on how to adapt LeanVM.
+
+233
+00:45:15.260 --> 00:45:20.550
+Thomas Coratger: Using binary feeds, so maybe, Emil, you want to say a few words about this?
+
+234
+00:45:21.550 --> 00:45:27.679
+T. Wambsgans: Hi, no, it's really just working on binary LeanVM. That's it. Thanks.
+
+235
+00:45:30.180 --> 00:45:35.969
+Thomas Coratger: So yeah, this is the work that we are doing right now, full time.
+
+236
+00:45:36.340 --> 00:45:40.999
+Thomas Coratger: We will keep you updated if we have, like, novelties or stuff like this.
+
+237
+00:45:41.240 --> 00:45:41.930
+Thomas Coratger: And.
+
+238
+00:45:43.180 --> 00:45:56.439
+Thomas Coratger: I will check a bit more in the… in the future week as well, but maybe to redesign a bit this PQ interrupt call to add a bit more of cryptography, maybe.
+
+239
+00:45:56.930 --> 00:46:13.679
+Thomas Coratger: And maybe we can… since we can debug all of the… all of the client stuff async, maybe we can get rid of the client updates and just do important presentation involving, for example, today this could have been, like.
+
+240
+00:46:13.740 --> 00:46:24.069
+Thomas Coratger: One small go through the two proposals, plus some present… some short presentation about, like, binary fields or anything like this.
+
+241
+00:46:24.810 --> 00:46:26.160
+Thomas Coratger: So,
+
+242
+00:46:26.370 --> 00:46:38.170
+Thomas Coratger: Yeah, maybe we can… we will do like this. I will check, I need to think a bit more. But this is the work that we have done. Then my proposal, since…
+
+243
+00:46:38.290 --> 00:46:45.509
+Thomas Coratger: an important point of this call is DevNet 5, is that in the future days, we can test both of the optimization.
+
+244
+00:46:46.390 --> 00:46:59.099
+Thomas Coratger: Since the Ethlambda optimization is already tested, maybe it's worth implementing it. I don't know, maybe you want to comment, Ethlambda folks, on this attendee that you shared.
+
+245
+00:46:59.280 --> 00:47:05.649
+Thomas Coratger: Do you think it should go into the specification, or do you think this is a, like,
+
+246
+00:47:05.890 --> 00:47:09.469
+Thomas Coratger: A client optimization? What is your opinion?
+
+247
+00:47:10.680 --> 00:47:16.120
+Mega | Lambda: Yeah, we, in the doc we share, we share three optimizations, the first two.
+
+248
+00:47:16.120 --> 00:47:16.510
+Thomas Coratger: Yeah.
+
+249
+00:47:16.510 --> 00:47:21.739
+Mega | Lambda: We don't think they're needed in the spec. They are more like client…
+
+250
+00:47:21.870 --> 00:47:32.990
+Mega | Lambda: implement a client side optimizations. The 3rd one is a is a concept. It changes the the format of the block type. So of the
+
+251
+00:47:33.140 --> 00:47:37.609
+Mega | Lambda: sign block type, so it would need to be on the spec.
+
+252
+00:47:38.190 --> 00:47:39.530
+Mega | Lambda: If we adopt it.
+
+253
+00:47:40.270 --> 00:47:46.339
+Thomas Coratger: Yeah, and you didn't increase the slot time, right? I am not sure, I am reading on the fly, but…
+
+254
+00:47:46.470 --> 00:47:49.319
+Mega | Lambda: You know, we managed to reach, like, I think.
+
+255
+00:47:49.320 --> 00:47:49.660
+Thomas Coratger: Okay.
+
+256
+00:47:49.660 --> 00:47:56.789
+Mega | Lambda: and publish time of 200 milliseconds into the slot with three attestations in a block.
+
+257
+00:48:02.450 --> 00:48:11.420
+Thomas Coratger: Okay, great. And yeah, we already mentioned, like, the ZIM proposal as well.
+
+258
+00:48:11.680 --> 00:48:16.860
+Thomas Coratger: So, yeah, maybe we can check these two type of optimizations.
+
+259
+00:48:17.180 --> 00:48:18.150
+Thomas Coratger: And.
+
+260
+00:48:18.960 --> 00:48:25.320
+Thomas Coratger: So yeah, this is up to you guys, since a lot of them are, like, client-side optimizations.
+
+261
+00:48:25.430 --> 00:48:27.639
+Thomas Coratger: To just test it and stuff like this.
+
+262
+00:48:28.120 --> 00:48:38.169
+Thomas Coratger: like… Gajinder, I think that you mentioned that you tested, like, a DevNet running, like,
+
+263
+00:48:39.140 --> 00:48:47.000
+Thomas Coratger: Running right now, do you know how many validators do you have right now? And what do you expect in, let's say, the coming weeks?
+
+264
+00:48:48.270 --> 00:48:52.960
+Gajinder Singh: Yeah, I think Partha will be able to provide with the latest stats. Partha?
+
+265
+00:48:53.460 --> 00:49:10.370
+Parthasarathy Ramanujam: Yeah, so the public DevNet, we tested with 32 nodes. We ran 12-hour DevNet with 4 clients yesterday, and, there were no issues with, justification of finalization. The only issue observed was, occasionally, or,
+
+266
+00:49:10.540 --> 00:49:16.989
+Parthasarathy Ramanujam: We did not have finality for up to 45 minutes, and then suddenly it jumped.
+
+267
+00:49:17.160 --> 00:49:29.989
+Parthasarathy Ramanujam: Which is probably expected, because different clients had different methods in which they were performing the aggregates. Recursive aggregation actually delays achieving the two-third vote, so
+
+268
+00:49:30.110 --> 00:49:36.579
+Parthasarathy Ramanujam: When, occasionally, when the chain grows, it starts, the finality starts to take time.
+
+269
+00:49:36.740 --> 00:49:55.860
+Parthasarathy Ramanujam: I restarted the DevNet today with all six clients, but we've run into some issues because, Ream's image that I was using was… did not support, ARM, machines. When I used their official image, the Ream subnet alone could not keep up with the…
+
+270
+00:49:55.900 --> 00:50:10.599
+Parthasarathy Ramanujam: chain, and was continuously catching up. So, and, I also identified an interop issue between Zeam's latest Ziglip P2P and, Lantern, which I fixed right now, so I'm going to do another, restart shortly.
+
+271
+00:50:10.670 --> 00:50:16.880
+Parthasarathy Ramanujam: And if, I mean, if or anybody else from the VM team can confirm the availability of,
+
+272
+00:50:17.050 --> 00:50:20.070
+Parthasarathy Ramanujam: or the official REAM image, we can include that also.
+
+273
+00:50:20.880 --> 00:50:37.960
+Parthasarathy Ramanujam: Hopefully, I think we are pretty stable now, at least justification is happening, even though it's a bit delayed. So we are ready for long-running DevNets. If required, we can probably start doing it for a week or maybe longer and see how things go.
+
+274
+00:50:43.060 --> 00:50:56.039
+Thomas Coratger: Okay, great. So let us test these optimizations in the coming weeks, and let us continue to debug the devnets and increase the number of validators as long as we debug.
+
+275
+00:50:56.210 --> 00:51:02.499
+Thomas Coratger: If there is nothing else from you guys, this is okay for me, and we can…
+
+276
+00:51:03.380 --> 00:51:08.469
+Thomas Coratger: Just, like, do the work async, and share updates.
+
+277
+00:51:12.410 --> 00:51:16.650
+Thomas Coratger: Great. Thanks a lot, guys. See you next week. Yeah, yeah.
+
+278
+00:51:16.650 --> 00:51:23.640
+Mega | Lambda: I just wanted to add that Hive is failing, I think, since the last time I saw it.
+
+279
+00:51:24.050 --> 00:51:31.859
+Mega | Lambda: I believe it's using an old version of the spec, and that's what causes it to fail.
+
+280
+00:51:32.190 --> 00:51:39.470
+Mega | Lambda: I'm not sure who's who has access to it, but It would be nice to… to check that.
+
+281
+00:51:40.330 --> 00:51:41.390
+Mega | Lambda: Me too.
+
+282
+00:51:41.390 --> 00:51:43.040
+kolby: Eric can look into it today.
+
+283
+00:51:44.240 --> 00:51:44.930
+Mega | Lambda: Thank you.
+
+284
+00:51:49.410 --> 00:51:51.910
+Thomas Coratger: Great. Thanks a lot, guys.
+
+285
+00:51:54.020 --> 00:51:55.750
+Thomas Coratger: See you next week, bye-bye.
+
+286
+00:51:55.870 --> 00:51:56.420
+Parthasarathy Ramanujam: Thank you.
+
+287
+00:51:56.630 --> 00:51:57.790
+Mihir Faujdar: Thanks, everyone. Bye.
+
+288
+00:51:57.790 --> 00:51:58.650
+Gajinder Singh: Oh, good one.
+

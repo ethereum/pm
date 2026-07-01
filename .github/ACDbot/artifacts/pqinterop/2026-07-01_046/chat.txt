@@ -1,0 +1,82 @@
+00:18:48	grapebaba:	Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+00:19:48	Gajinder Singh:	https://hackmd.io/@qYrlZEprQ1iz7NjiiEmDNQ/HytzBiWmzx
+00:23:58	T. Wambsgans:	but by default (when there are no divergent heads), you don't need Type2 right ?
+00:24:29	alan xu:	If proof aggregation is already an issue on devnet, will it become an even greater issue on mainnet, where the number of validators is significantly larger?
+00:25:04	Anshal:	Replying to "but by default (wh..."
+
+no we always need type2 because we fold the block signature as well in block proof, so even without any divergent heads and sync network there are atleast 2 messages
+00:27:09	Gajinder Singh:	Replying to "If proof aggregation..."
+
+type2 aggregation is just limited to max 8 payloads doesn't matter number of validators
+00:27:24	Anshal:	Replying to "If proof aggregati..."
+
+we will have more committees so should not get linearly worse atleast. Plus the current aggregator nodes are also not very buffed and ofc we are not considering eventual improvements that we get on aggregation side and client improvements
+00:27:37	Gajinder Singh:	Replying to "If proof aggregation..."
+
+type1 recursive aggregation in second stage by aggregators will make it feasible  to handle a huge number of validators
+00:28:20	Gajinder Singh:	Replying to "If proof aggregation..."
+
+this is whyy two stage layeer aggregation removes the complexity/compute away from the proposers/normal validators to the specialized aggregators
+00:28:32	T. Wambsgans:	Replying to "but by default (when..."
+
+Not sure to understand. You mean you also aggregate the XMSS coming from block producer to sign its block, with the rest of the signatures (from attesters) ?
+00:29:46	Kamil Salakhiev:	do you have a repo with ethp2p rust?
+00:29:52	Kamil Salakhiev:	@Pablo Deymo | Lambda
+00:30:25	Mega | Lambda:	Replying to "@Pablo Deymo | Lambd..."
+
+It’s private for now
+00:30:30	Kamil Salakhiev:	Reacted to "It’s private for now" with 👍
+00:30:33	Pablo Deymo | Lambda:	Replying to "@Pablo Deymo | Lambd..."
+
+I will make it public ASAP
+00:30:49	Gajinder Singh:	Reacted to "I will make it publi..." with 👏🏾
+00:31:04	Gajinder Singh:	Replying to "@Pablo Deymo | Lambd..."
+
+@Parthasarathy Ramanujam for zig implementation
+00:31:32	Parthasarathy Ramanujam:	Replying to "@Pablo Deymo | Lambd..."
+
+We have one ready with the spec that was 2 weeks ago.https://github.com/blockblaz/zig-ethp2p
+00:31:36	Kamil Salakhiev:	Replying to "@Pablo Deymo | Lambd..."
+
+I am just doing some rust simulations, where EC broadcast would be useful.
+Also curious how you plan to have both ethp2p and libp2p. E.g. will they plan on a single port
+00:32:03	Gajinder Singh:	Replying to "@Pablo Deymo | Lambd..."
+
+can we then validate it on shadow sims and may be interop with ethlambda on it
+00:32:20	Parthasarathy Ramanujam:	Replying to "@Pablo Deymo | Lambd..."
+
+Yes, I’ll ensure its spec complete.
+00:32:58	Kamil Salakhiev:	Replying to "@Pablo Deymo | Lambd..."
+
+just FYI, ethp2p is WIP. So stuff will 100% change
+00:33:20	Pablo Deymo | Lambda:	Replying to "@Pablo Deymo | Lambd..."
+
+We should include Raul to talk about that
+00:35:00	alan xu:	Replying to "If proof aggregation..."
+
+Sorry, where can I find the definition of type1 and type2 aggregation?
+00:35:11	Kamil Salakhiev:	Replying to "@Pablo Deymo | Lambd..."
+
+overall we definetely will need EC broadcast for leanvm proofs propagation. These are numbers for EC broadcast vs gossipsub for 128KB payload
+[Full message cannot be displayed on this version]
+00:41:46	Mega | Lambda:	Reacted to "overall we definetel..." with 🔥
+00:44:26	T. Wambsgans:	on my side I am working on leanVM-b (leanVM with binary field + blake3) https://github.com/leanEthereum/leanVM-b
+00:44:29	Gajinder Singh:	Reacted to "overall we definetel..." with 🔥
+00:44:36	Mihir Faujdar:	Reacted to "on my side I am working on leanVM-b (leanVM with binary field + blake3) https://github.com/leanEthereum/leanVM-b" with 👍
+00:45:15	Gajinder Singh:	Replying to "@Pablo Deymo | Lambd..."
+
+what is the size of the payloads in this
+00:45:26	Mega | Lambda:	Reacted to "on my side I am work..." with 🔥
+00:45:29	Anshal:	Reacted to "on my side I am wo..." with 🔥
+00:45:39	Mihir Faujdar:	Reacted to "on my side I am working on leanVM-b (leanVM with binary field + blake3) https://github.com/leanEthereum/leanVM-b" with 🔥
+00:45:47	Gajinder Singh:	Reacted to "on my side I am work..." with 🔥
+00:46:19	T. Wambsgans:	I recommand (for those interested in binary field snark) binius64 doc: https://www.binius.xyz/blueprint/ (Warnig: it's hardcore)
+00:46:59	Gajinder Singh:	we will be able to test our psoposal by next call
+00:47:07	Kamil Salakhiev:	Replying to "@Pablo Deymo | Lambd..."
+
+128KB
+00:48:25	Gajinder Singh:	tradeoff is the bandwidth
+00:51:23	Gajinder Singh:	Replying to "tradeoff is the band..."
+
+today beacom block size excluding the execution payload is just 2KB so its a huge tradeoff
+00:51:33	Kamil Salakhiev:	Reacted to "I recommand (for tho..." with 🔥
