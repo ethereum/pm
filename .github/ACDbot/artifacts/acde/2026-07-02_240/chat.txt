@@ -1,0 +1,411 @@
+00:03:42	read.ai meeting notes:	Red added read.ai meeting notes to the meeting.
+
+Read provides AI generated meeting summaries to make meetings more effective and efficient. View our Privacy Policy at https://www.read.ai/pp
+
+Type "read stop" to disable, or "opt out" to delete meeting data.
+00:03:57	Justin Traglia:	Gm
+00:04:02	Pooja Ranjan:	gm
+00:04:32	Mario Vega:	GM!
+00:04:54	Ansgar Dietrichs:	not that I am speaking on behalf of Ethereum, that was a personal gm :-)
+00:05:30	Justin Florentine (Besu):	Reacted to "not that I am speaking on behalf of Ethereum, that was a personal gm :-)" with 👍
+00:08:43	Barnabas:	could we paste the prs that we are currently discussing pls
+00:08:55	Mario Vega:	https://github.com/ethereum/EIPs/pull/11778
+00:08:57	Iván | ethrex:	For us is ok too
+00:08:58	Mario Vega:	Is this one?
+00:09:08	Ansgar Dietrichs:	Replying to "https://github.com/e..."
+
+I think this is for the second item
+00:09:12	Barnabas:	its 8038 not 8037
+00:09:25	Mario Vega:	Reacted to "its 8038 not 8037" with 👍🏼
+00:09:54	Maria Silva:	I would say on the BAL EIP
+00:10:37	Luis Pinto | Besu:	Replying to "https://github.com/e..."
+
+Yup not this one
+00:10:48	Stefan Starflinger:	Reacted to "For us is ok too" with 👍
+00:11:28	Stefan Starflinger:	https://github.com/ethereum/EIPs/pull/11778
+00:11:54	Stefan Starflinger:	Mario*
+00:12:49	Stefan Starflinger:	do we already have a PR for this, can we close 11778?
+00:12:51	Dragan Rakita:	Here is PR about that https://github.com/ethereum/EIPs/pull/11844
+00:12:55	Stefan Starflinger:	Reacted to "Here is PR about tha..." with 👍
+00:13:01	Gary Rong (GETH):	已使用👍回应"Here is PR about t..."
+00:13:36	Ansgar Dietrichs:	third item: https://github.com/ethereum/execution-specs/pull/3045
+00:14:19	Stefan Starflinger:	So we can close 11778 and 3045 both in favor of 11844?
+00:14:57	Stefan Starflinger:	https://github.com/ethereum/EIPs/pull/11838
+00:15:02	Toni Wahrstätter:	https://github.com/ethereum/EIPs/pull/11838
+00:15:14	Dragan Rakita:	Reacted to "So we can close 11778 and 3045 both in favor of 11844?" with 👍
+00:15:20	Stefan Starflinger:	Reacted to "https://github.com/e..." with 👍
+00:16:09	Barnabas:	I want everything merged by EOW
+00:16:24	Iván | ethrex:	Reacted to "I want everything me..." with 🔥
+00:16:24	Barnabas:	and we should aim to launch devnet 7 next week
+00:16:29	Iván | ethrex:	Reacted to "and we should aim to..." with 🚢
+00:16:36	Guru:	Reacted to "So we can close 11778 and 3045 both in favor of 11844?" with 👍
+00:16:38	Dragan Rakita:	Reacted to "I want everything merged by EOW" with 🔥
+00:16:41	Dragan Rakita:	Reacted to "and we should aim to launch devnet 7 next week" with 🚢
+00:16:42	Edgar | ethrex:	Se ha reaccionado a "I want everything ..." con 🔥
+00:16:43	Edgar | ethrex:	Se ha reaccionado a "and we should aim ..." con 🚢
+00:17:13	Barnabas:	https://github.com/ethereum/sys-asm/pull/50
+00:17:23	Guru:	Reacted to "and we should aim to launch devnet 7 next week" with 🚢
+00:17:52	Iván | ethrex:	Reacted to "https://github.com/e..." with ✅
+00:17:54	Barnabas:	https://github.com/ethpandaops/ethereum-genesis-generator/commit/7cc307c718e04427c1bc75223518c31d05b23c75
+00:18:07	Nico Flaig:	I don't think the byte code is final
+00:18:09	Barnabas:	0x00006AE84ed173D4394de5E28F9ED56b28008282
+00:18:31	Barnabas:	Replying to "I don't think the by..."
+
+final enough for devnet 7?
+00:19:01	Nico Flaig:	Replying to "I don't think the by..."
+
+I let @Felix (Geth) decide that but I think we wanted final version for devnet 7 to start audits
+00:19:05	Felix (Geth):	https://github.com/ethereum/sys-asm/pull/49
+00:19:16	Barnabas:	Replying to "I don't think the by..."
+
+I do agree.
+00:19:32	pk910:	I'm in favor for the disableability, just in case of future updates.
+should we do the disable logic to the exit contract too?  just in case
+00:19:44	Felix (Geth):	I can also add it in exit
+00:19:46	Barnabas:	why would we ever not wanna be able to exit?
+00:20:17	Toni Wahrstätter:	why would we want to be able to pause it?
+00:20:46	pk910:	Replying to "I'm in favor for the..."
+
+It's not about disallowing exits.  It's a way to disable the old contract if we move to a new contract in future
+00:21:11	Mario Vega:	It should be decided here I guess?
+00:21:17	Justin Traglia:	Reacted to "It should be decided..." with 👍
+00:21:19	Barnabas:	Reacted to "It should be decided here I guess?" with 👍
+00:21:28	Felix (Geth):	Replying to "why would we want ..."
+
+like if there is a bug with ePBS
+00:21:34	Felix (Geth):	Replying to "why would we want ..."
+
+or for later upgrades
+00:21:43	Felix (Geth):	Replying to "why would we want ..."
+
+I can explain in more detail in Discord
+00:23:04	Potuz:	Let's just ship the immutable simple contract, the parameters are fine and they will never change
+00:23:07	Barnabas:	how would we be able to handle fork transition ?
+00:23:10	Toni Wahrstätter:	@Gary Rong (GETH) had the changes locally, created the PR:
+https://github.com/ethereum/EIPs/pull/11854
+00:24:04	Potuz:	We're overengineering the thing that will be barely used by a few very professional players
+00:24:33	Potuz:	this started from an attack that cannot happen and now moved into a nightmarish new contract without any reason
+00:24:35	Nico Flaig:	Reacted to "and we should aim to..." with 🚢
+00:24:41	Ansgar Dietrichs:	seems like a nice-to-have to me, if it’s easy to do, I’d lean towards doing it. but also should not block on it
+00:25:01	Ansgar Dietrichs:	Replying to "this started from an..."
+
+right but now that we already have a new contract, might as well put care into it, no?
+00:25:10	Marius Van Der Wijden (M):	Can we have 15 min later in the call for a short discussion about some 8037 behavior we found today?
+00:25:22	Justin Traglia:	Replying to "seems like a nice-to..."
+
+I agree. It sounds reasonable to me.
+00:25:23	Gary Rong (GETH):	已使用👍回应"Can we have 15 min..."
+00:25:30	Ansgar Dietrichs:	Replying to "Can we have 15 min l..."
+
+would that possibly have devnet-7 implications?
+00:25:31	lightclient:	we should ship it
+00:25:37	Potuz:	Replying to "this started from an..."
+
+the most complicated the contract the more likely to have bugs, the longer to audit it, etc
+00:25:38	Justin Traglia:	Reacted to "we should ship it" with 👍
+00:25:43	pk910:	Reacted to "we should ship it" with 👍
+00:25:44	Nico Flaig:	I am fine with the change from Felix
+00:25:49	lightclient:	no no default is ship
+00:25:52	Marius Van Der Wijden (M):	Replying to "Can we have 15 min l..." 
+
+ Ish
+00:26:22	Dragan Rakita:	Replying to "Can we have 15 min l..."
+
+Could we do this in discord?
+00:28:38	Mario Vega:	We still would have to test it though, I would not feel comfortable if we had no tests for this scenario
+00:28:39	Potuz:	@matt is it easy and safe to add the assembly for this?
+00:28:39	Nico Flaig:	if @lightclient and @Felix (Geth) think it's simple just put it in
+00:28:40	Barnabas:	@Felix (Geth) what about https://github.com/ethereum/sys-asm/pull/48  ?
+00:29:04	Barnabas:	Replying to "@Felix (Geth) what a..."
+
+I guess this should be closed
+00:29:05	Felix (Geth):	About #48, we decided against it ACDT
+00:29:06	pk910:	Replying to "@Felix (Geth) what a..."
+
+this is out with 49 then.
+00:29:28	Barnabas:	Reacted to "About #48, we decided against it ACDT" with 👍
+00:29:33	Marius Van Der Wijden (M):	Replying to "Can we have 15 min l..." 
+
+ Nvm its basically what you and @Luis Pinto | Besu also found out
+00:29:36	pk910:	Reacted to "About #48, we decide..." with 👍
+00:29:48	Mario Vega:	Reacted to "About #48, we decided against it ACDT" with 👍
+00:29:53	Barnabas:	Replying to "@Felix (Geth) what a..."
+
+right exactly, so would expect to see it closed
+00:30:01	Luis Pinto | Besu:	Reacted to "Nvm its basically what you and @Luis Pinto | Besu also found out" with 👍
+00:30:05	Mario Vega:	Replying to "About #48, we decide..."
+
+Could we close it to avoid confusion pls
+00:30:09	Ansgar Dietrichs:	Replying to "Can we have 15 min l..."
+
+so @Marius Van Der Wijden (M) does it need attention on the call?
+00:30:12	Stefan Starflinger:	Reacted to "Nvm its basically wh..." with 👍
+00:30:15	Dragan Rakita:	Reacted to "Nvm its basically what you and @Luis Pinto | Besu also found out" with 👍
+00:30:16	Marius Van Der Wijden (M):	Replying to "Can we have 15 min l..." 
+
+ No
+00:30:20	Ansgar Dietrichs:	Reacted to "No" with 👍
+00:30:26	Marius Van Der Wijden (M):	Replying to "Can we have 15 min l..." 
+
+ Sorry about that!
+00:30:34	Felix (Geth):	Replying to "About #48, we deci..."
+
+I closed
+00:30:42	Mario Vega:	Reacted to "I closed" with 🙏🏼
+00:30:46	Ansgar Dietrichs:	Replying to "Can we have 15 min l..."
+
+no worries, that’s what we hired Dragan as ACDE bouncer for!
+00:30:47	Dragan Rakita:	Replying to "Can we have 15 min l..."
+
+Take a look at proposal in discord, it still has some discussion points open
+00:31:36	Dragan Rakita:	Replying to "Can we have 15 min l..."
+
+⁠2780-intrin-tx-gas⁠ chat
+00:32:15	Ansgar Dietrichs:	Replying to "Can we have 15 min l..."
+
+@Dragan Rakita and do we need to bring anything from that chat up now? or is it tracking towards final decisions by tomorrow?
+00:33:33	Barnabas:	Reacted to "no worries, that’s what we hired Dragan as ACDE bouncer for!" with 😂
+00:33:38	Dragan Rakita:	Replying to "Can we have 15 min l..."
+
+I think it is already mentioned, but Guru gave good summary here of alternative here: https://discord.com/channels/595666850260713488/1504670887851327648/1522247438969081876
+00:33:47	Dragan Rakita:	Replying to "Can we have 15 min l..."
+
+Mostly for client to take a look and give opinion on it
+00:33:51	spencer:	Reacted to "I closed" with 🙏🏼
+00:34:24	Iván | ethrex:	@Maria Silva will you need new snapshots for running these new benches? Just asking so we can start generating them in advance
+00:34:41	Mario Vega:	Reacted to "no worries, that’s what we hired Dragan as ACDE bouncer for!" with 😂
+00:35:45	CPerezz:	https://ethresear.ch/t/is-the-slot-0-reorg-cost-fixable-epbs-attestation-deadline-study/25338 
+
+Justification and research on att. deadline reasoning
+00:36:00	Barnabas:	Proposed:
+attestation at 2
+payload deadline 6
+ptc at 9
+00:36:05	Maria Silva:	Replying to "@Maria Silva will yo..."
+
+Yes, we will generate new snapshots. But we will be using State Actor to generated the snapshots directly on bencharmakoor
+00:36:13	Louis:	Replying to "@Maria Silva will yo..."
+
+I think we will try to use state-actor to generate the state.
+00:37:54	Toni Wahrstätter:	Replying to "Proposed:
+attestation at 2
+ptc at 6"
+
+if 2s are too aggressive, we could start with 3s, observe the network after glamsterdam, and then see if we can go to 2s.
+00:38:09	Toni Wahrstätter:	Replying to "Proposed:
+attestation at 2
+ptc at 6"
+
+ptc at 9 but payload deadline at 6
+00:38:23	Barnabas:	devnet 6 is pretty stable
+00:38:45	Iván | ethrex:	Replying to "@Maria Silva will yo..."
+
+Ah ok, then we should be ok then since we are integrated, right?
+00:38:45	Dragan Rakita:	Reacted to "devnet 6 is pretty stable" with 🎩
+00:39:03	Potuz:	Replying to "devnet 6 is pretty s..."
+
+we've had invalid blocks, clients stuck, etc.
+00:39:12	Marius Van Der Wijden (M):	Also doing devnet 7 gives us branches to work with
+00:39:16	Toni Wahrstätter:	3, 6, 9
+00:39:25	Louis:	Replying to "@Maria Silva will yo..."
+
+Yes, I will let you know if anything could be done in advance, thank you
+00:39:36	Iván | ethrex:	Reacted to "Yes, I will let you ..." with 🙏
+00:39:47	CPerezz:	Replying to "https://ethresear.ch..."
+
+@Barnabas
+00:39:47	Iván | ethrex:	Reacted to "devnet 6 is pretty s..." with 🎩
+00:40:09	Barnabas:	Reacted to "https://ethresear.ch/t/is-the-slot-0-reorg-cost-fixable-epbs-attestation-deadline-study/25338 
+
+Justification and research on att. deadline reasoning" with 👍
+00:41:08	Marius Van Der Wijden (M):	To be precise 3 also helps local builders to build a decebt payload
+00:41:36	Potuz:	already on it
+00:41:40	Barnabas:	Reacted to "already on it" with 👍
+00:41:47	Justin Traglia:	Reacted to "already on it" with 👍
+00:42:00	Edgar | ethrex:	Se ha reaccionado a "devnet 6 is pretty..." con 🎩
+00:42:27	Luis Pinto | Besu:	Paste a link plz
+00:42:37	Ansgar Dietrichs:	https://discord.com/channels/595666850260713488/1504670887851327648/1522247438969081876
+00:42:57	Luis Pinto | Besu:	Reacted to "https://discord.com/channels/595666850260713488/1504670887851327648/1522247438969081876" with 👍
+00:43:03	Barnabas:	I think ACDT deadline is more sane
+00:43:10	Stefan Starflinger:	Reacted to "I think ACDT deadlin..." with 👍
+00:43:11	Dragan Rakita:	Reacted to "I think ACDT deadline is more sane" with 👍
+00:43:49	Luis Pinto | Besu:	Reacted to "I think ACDT deadline is more sane" with ➕
+00:43:50	CPerezz:	Reacted to "To be precise 3 also..." with 👍
+00:43:53	CPerezz:	Reacted to "To be precise 3 also..." with 💯
+00:44:05	Ansgar Dietrichs:	https://github.com/ethereum/pm/issues/2140#issuecomment-4805184883
+00:44:08	Justin Florentine (Besu):	CRITICAL DECISION FOLKS
+00:44:20	Barnabas:	Ice ice baby
+00:44:49	CPerezz:	Replying to "To be precise 3 also..."
+
+Can’t we improve building decently-enough with some engineering such that we don’t need to loose this 1 extra second? 
+
+I agree that we can’t forget about local builders and in fact, we should probably build for them so that they have less reasons to go to MEVboost
+00:45:11	Ansgar Dietrichs:	August 6 deadline Hegota
+00:45:15	Barnabas:	Reacted to "August 6 deadline Hegota" with 🔥
+00:45:18	soispoke:	A réagi à "August 6 deadline ..." avec 🔥
+00:45:19	Iván | ethrex:	Reacted to "August 6 deadline He..." with 🔥
+00:45:33	Mario Vega:	Reacted to "CRITICAL DECISION FOLKS" with 🦩
+00:45:43	Luis Pinto | Besu:	Reacted to "CRITICAL DECISION FOLKS" with 🐻‍❄️
+00:45:59	nixo:	Reacted to "August 6 deadline Hegota" with 🔥
+00:46:16	Pooja Ranjan:	Reacted to "August 6 deadline Hegota" with 🔥
+00:46:49	Barnabas:	Reacted to "CRITICAL DECISION FOLKS" with 🐻‍❄️
+00:47:40	Simon (@siladu) | Besu:	Reacted to "CRITICAL DECISION FOLKS" with 🐻‍❄️
+00:48:37	Nico Flaig:	Reacted to "CRITICAL DECISION FO..." with 🐻‍❄️
+00:48:56	spencer:	Reacted to "August 6 deadline ..." with 🔥
+00:49:00	spencer:	Reacted to "CRITICAL DECISION ..." with 🐻❄️
+00:49:13	Iván | ethrex:	Reacted to "CRITICAL DECISION FO..." with 🐻‍❄️
+00:49:22	Potuz:	@Justin Traglia it seems to me that this is all that's needed right? https://github.com/ethereum/consensus-specs/pull/5414
+00:49:58	Dragan Rakita:	Reacted to "CRITICAL DECISION FOLKS" with 🐻‍❄️
+00:50:03	Edgar | ethrex:	Se ha reaccionado a "CRITICAL DECISION ..." con 🐻❄️
+00:50:25	Potuz:	it would be very nice to bench less than 3 seconds into the slot for attestations, I'd love if we could go to at least 2500ms and then reduce the deadline for Bid calling from 1 second to 300ms or similar
+00:51:10	Nico Flaig:	Reacted to "it would be very nic..." with 👍
+00:51:11	Justin Traglia:	Replying to "@Justin Traglia it s..."
+
+Yes,
+
+Attestation deadline = 3 seconds
+Payload deadline = 6 seconds
+PTC attestation = 9 seconds
+00:51:11	Barnabas:	Replying to "it would be very nic..."
+
+would expect that we would need to have mainnet with epbs enabled before we could evaluate this. I’d propose such changes for hegota.
+00:51:27	Potuz:	Replying to "it would be very nic..."
+
+we do not need a hard fork for this
+00:52:03	Marius Van Der Wijden (M):	Replying to "To be precise 3 also..." 
+
+ If that would be easy, we would've done it already, the problem is that you can't parallelize building and now with bals it becomes even harder
+00:52:09	Potuz:	Replying to "it would be very nic..."
+
+if clients ship with lowering the default deadlinde for bid selection and after a release we release with the 2500ms attestation, there shouldn't be splits
+00:52:38	Dustin:	Replying to "it would be very n..."
+
+has this been measured with some trickier regions of the world?
+00:52:41	Potuz:	Replying to "To be precise 3 also..."
+
+@Marius Van Der Wijden (M) the 3 seconds is irrelevant for local builders to build a decent payload
+00:52:48	Potuz:	Replying to "To be precise 3 also..."
+
+the payload is built way in advance
+00:52:55	Potuz:	Replying to "To be precise 3 also..."
+
+in fact the lower the deadline is better for local builders
+00:53:09	Ansgar Dietrichs:	now is it a privacy dapp sender, or a privacyd app sender
+00:53:17	Dustin:	Replying to "it would be very n..."
+
+devnets don't count, they're all datacenter nodes
+00:53:26	Potuz:	Replying to "To be precise 3 also..."
+
+Carlos' point on slot 0 for local builders I believe is gone with ePBS that local builders don't need to broadcast blobs in 2 seconds
+00:53:43	Potuz:	Replying to "To be precise 3 also..."
+
+and just for clarity: the payload is built before the slot even starts
+00:53:59	Nico Flaig:	Replying to "it would be very nic..."
+
+I do think this should be changed only at a hard fork, users are slow to upgrade outside of it
+00:54:22	Potuz:	Replying to "it would be very nic..."
+
+yes, we've had previously tested geographically separated nodes with very large blocks, and ePBS will have very small blocks
+00:55:04	Potuz:	Replying to "it would be very nic..."
+
+@Nico Flaig users delaying the upgrade also does not lead to split views
+00:55:14	Toni Wahrstätter:	Replying to "To be precise 3 also helps local builders to build a decebt payload "
+
+agree with potuz but would say that we should not assume that the payload is built before the slot starts. With epbs, having the full slot for execution, we scale such that weak nodes finish execution just before the next slot (which is the earliest they can start building if they don't build optimistically using/trusting the BAL)
+00:55:49	Toni Wahrstätter:	Replying to "To be precise 3 also helps local builders to build a decebt payload "
+
+the slowest (executing) nodes shouldn't build locally if they want to build decent blocks
+00:56:12	Potuz:	Replying to "To be precise 3 also..."
+
+that is really the total edge case of a local builder that won't take a bid and that is weak enough that just finished executing at second 0
+00:56:51	Potuz:	Replying to "To be precise 3 also..."
+
+giving out a full second of timing games for every single block just for this case seems crazy.
+00:57:50	Toni Wahrstätter:	Replying to "To be precise 3 also helps local builders to build a decebt payload "
+
+agree but the delta between slowest and fastest nodes will always end up allowing timing games
+00:58:12	Potuz:	Replying to "To be precise 3 also..."
+
+yeah that one I give to you.
+00:58:52	Toni Wahrstätter:	Also, shipping those two EIPs together (on top of frame) is nice for dapps as they won't need to redesign they contract another time but only once.
+00:59:11	Iván | ethrex:	Reacted to "Also, shipping those..." with 🔥
+00:59:28	CPerezz:	Replying to "To be precise 3 also..."
+
+@Marius Van Der Wijden (M) Geth improved drastically when with Bloatnet we realized block production performance was terrible.
+
+So not really sure I agree with your premise
+00:59:42	soispoke:	A réagi à "Also, shipping tho..." avec 🔥
+01:00:04	Nico Flaig:	Replying to "it would be very nic..."
+
+but a node that didn't update votes differently, so you lose the head vote reward, the bid deadline is not relevant if operators run modified clients to play timing games
+01:00:07	CPerezz:	Replying to "To be precise 3 also..."
+
+Though true the more work we put on the prover, the harder it is.. that is undeniable
+01:00:20	soispoke:	link to today's presentation: https://docs.google.com/presentation/d/12HAIc8F0u5Rt3XGG9l_C-JK8h_BuSoERvOLXIGPLu9c/edit?usp=sharing
+ 
+link to 8250: https://eips.ethereum.org/EIPS/eip-8250
+link to 8272: https://eips.ethereum.org/EIPS/eip-8272
+01:00:20	lightclient:	it’s not for the block root
+01:00:30	soispoke:	it's for the privacy protocol merkle root
+01:01:03	ignacio:	Unless there is a standard about that merkle root being in a particular storage slot in these kind of contracts, I think you can't link them in an MPT yea
+01:01:18	frangio:	there is a roots system contract
+01:01:34	Ansgar Dietrichs:	is it not about VOPS?
+01:01:41	Felix (Geth):	I think what Guillaume is asking is, why can't we prove against a block root
+01:02:05	Francesco Risitano (Tau):	Why not just have an MMR over block roots
+01:02:07	ignacio:	Replying to "Unless there is a st..."
+
+Maybe not a standard but clearly defined per contract
+01:02:19	CPerezz:	Reacted to "Why not just have an..." with 👀
+01:02:27	Toni Wahrstätter:	https://nerolation.github.io/hegota-eip-presentations/hegota-pfi-proposal.html#1
+01:04:29	Dustin:	why is this something to cater to? zk yes, sure, but specifically try building 10k or whatever blocks
+01:04:54	Justin Florentine (Besu):	Replying to "why is this somethin..."
+
+it's a ton less hashing
+01:05:19	Dustin:	the usecase as pitched is, make MEV builders' jobs easier
+01:05:20	Dustin:	I mean.
+01:07:25	Dragan Rakita:	Replying to "the usecase as pitch..."
+
+What is bottlenecks on reducing block times from 12s to something like 6s or 3s?
+01:08:49	Jihoon:	Just a nit, it will be newPayloadV6
+01:09:44	Kamil Salakhiev:	if these sidecars are large, might make sense to consider EC broadcast instead of gossipsub (assuming EC broadcast also lands on Hegota)
+01:10:35	Kamil Salakhiev:	Replying to "if these sidecars ar..."
+
+1MB is really large message for gossipsub
+01:10:37	ignacio:	Provers can separate the provingo of post-state root of previous block, from subsequent block execution. Still unsure what this means reg potentially having to aggregate the proof. But worth creating some doc were we can explore this in more detail and we can share tradeoffs.
+01:11:36	Ben Adams:	https://eips.ethereum.org/EIPS/eip-8298
+01:11:36	Karim T. (matkt):	If we calculate the state root of the previous block, we can start without waiting the BAL of the new block it seems @Toni Wahrstätter  , so do that between two blocks
+01:12:28	Toni Wahrstätter:	Replying to "the usecase as pitched is, make MEV builders' jobs easier"
+
+builders are also part of the ecosystem and simplifying things for them also reduces entry barriers for new builders
+01:13:00	Toni Wahrstätter:	Replying to "the usecase as pitched is, make MEV builders' jobs easier"
+
+The big builders care less about delaying the state root bc they invested a lot of time and resources in optimizing that. New builders struggle catching up.
+01:13:23	CPerezz:	Propagation? We can div by 2 the gas limit and the block time. And do it as much as we want. What we don’t get a linear reduction on might be on bandwidth capacity and propagation speed. @Dragan Rakita
+01:13:42	Toni Wahrstätter:	Replying to "If we calculate the state root of the previous block, we can start without waiting the BAL of the new block it seems @Toni Wahrstätter  , so do that between two blocks"
+
+right yeah, you could use the BAL of the prev slot. This means, also block builders can now profit from it
+01:14:08	Justin Florentine (Besu):	Replying to "the usecase as pitch..."
+
+the thing with optimizing for building is the value yielded only ever accrues back to the builder
+01:15:14	Luis Pinto | Besu:	Seems interesting at a glance
+01:15:28	Toni Wahrstätter:	Replying to "the usecase as pitched is, make MEV builders' jobs easier"
+
+Are you sure? One could also argue that making building simpler, creating a more leveled playingfield, allows for more smaller builders that are less sophisticated to enter, thus making things more competetitve and being beneficial for proposers
+01:16:33	Karim T. (matkt):	Reacted to "right yeah, you coul..." with 👍
+01:16:42	Barnabas:	which one?
+01:17:02	Pooja Ranjan:	https://eips.ethereum.org/EIPS/eip-7610
+01:17:43	Barnabas:	Will add it on our list
+01:17:43	Justin Florentine (Besu):	Replying to "the usecase as pitch..."
+
+i'm mostly sure, but just mostly. in order for that value to manifest as a more diverse market of buidlers, it would have to help smaller builders more than established builders, otherwise its a wash. seems like consolidation is only affected evenly here.
+01:17:56	Mario Vega:	We do have it in the execution-specs list: https://github.com/ethereum/execution-specs/issues/2915
+01:17:56	Barnabas:	it shoudl be sfi it its been included for a while?
+01:18:16	nixo:	i can take care of that (the meta)
+01:18:21	nixo:	Reacted to "it shoudl be sfi it its been included for a while?" with 👍
+01:18:39	Nico Flaig:	will let Cayman know to fix eip 8282
+01:18:47	Justin Traglia:	Reacted to "will let Cayman know..." with 🙏
+01:18:59	Pooja Ranjan:	Replying to "i can take care of t..."
+
+Here is the PR https://github.com/ethereum/EIPs/pull/11853
+01:19:03	Barnabas:	which was teh EIP we DFI-ed?
+01:19:05	Barnabas:	repricing one
