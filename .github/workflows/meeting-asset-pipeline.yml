@@ -195,15 +195,3 @@ jobs:
             echo "has_changes=true" >> $GITHUB_OUTPUT
             echo "Committed all changes"
           fi
-
-      - name: Notify Forkcast
-        if: steps.commit.outputs.has_changes == 'true'
-        uses: actions/github-script@v8
-        with:
-          github-token: ${{ secrets.FORKCAST_DISPATCH_TOKEN }}
-          script: |
-            await github.rest.repos.createDispatchEvent({
-              owner: 'ethereum',
-              repo: 'forkcast',
-              event_type: 'pm-assets-updated'
-            });
