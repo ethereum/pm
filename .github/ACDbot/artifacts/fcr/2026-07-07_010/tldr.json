@@ -1,0 +1,93 @@
+{
+  "meeting": "Fast Confirmation Rule (FCR) #10 - July 7, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:05:00",
+        "highlight": "Grandine: FCR-specific tests passing; PR pending review from Thomas"
+      },
+      {
+        "timestamp": "00:06:05",
+        "highlight": "Lodestar: FCR shipped in v1.44.0 (experimental flag); epoch-boundary reset fix deployed Friday, no resets since"
+      },
+      {
+        "timestamp": "00:16:42",
+        "highlight": "Lighthouse: regression from prior call resolved; fix in progress, mainnet runs show no resets"
+      },
+      {
+        "timestamp": "00:17:44",
+        "highlight": "Teku: production-ready FCR implementation underway; Prysm blocked on human review"
+      }
+    ],
+    "fcr_behavior_and_gloas": [
+      {
+        "timestamp": "00:14:27",
+        "highlight": "Decision: FCR should not trigger during node sync; only activate once fully caught up with head"
+      },
+      {
+        "timestamp": "00:19:35",
+        "highlight": "FCR on Gloas: confirmed payload from two slots prior (not one) due to Gloas timing change"
+      },
+      {
+        "timestamp": "00:22:10",
+        "highlight": "Some clients (e.g., Nimbus) enable FCR by default; others require a feature flag"
+      },
+      {
+        "timestamp": "00:23:52",
+        "highlight": "Barnabas: FCR should be tested on Gloas devnet 7; Dora visualization of FCR event stream planned"
+      }
+    ],
+    "spec_and_testing": [
+      {
+        "timestamp": "00:28:21",
+        "highlight": "FCR manual test suite complete; all planned cases covered (PR merged)"
+      },
+      {
+        "timestamp": "00:29:02",
+        "highlight": "Mainnet-config test vector generation took ~3 hours per test; minimal preset deemed sufficient"
+      },
+      {
+        "timestamp": "00:30:10",
+        "highlight": "FCR metrics PR merged; teams encouraged to implement across all clients"
+      }
+    ],
+    "research_updates": [
+      {
+        "timestamp": "00:31:02",
+        "highlight": "Proof review complete; pseudocode differences from Python spec to be addressed in paper appendix \u2014 last blocker before publication"
+      },
+      {
+        "timestamp": "00:32:23",
+        "highlight": "Late-block recovery optimization (~1\u20131.5% more single-slot confirmations, prototyped in Teku) under consideration; proof work costly and may conflict with Casper research"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:07:46",
+      "action": "Nazar to share epoch-boundary reset analysis and fix details in FCR Telegram group",
+      "owner": "Nazar Hussain (Lodestar)"
+    },
+    {
+      "timestamp": "00:35:05",
+      "action": "Mikhail to share Teku late-block optimization code reference in FCR Telegram group",
+      "owner": "Mikhail Kalinin"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:14:27",
+      "decision": "FCR must not trigger during node sync; activation deferred until node is fully synced with head (agreed with Nimbus and Lodestar)"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:27:13",
+      "target": "Cross-client FCR compatibility testing to be coordinated on next FCR breakout call (~2 weeks)"
+    },
+    {
+      "timestamp": "00:31:53",
+      "target": "FCR paper publication pending appendix clarifying pseudocode vs. Python spec differences"
+    }
+  ]
+}
