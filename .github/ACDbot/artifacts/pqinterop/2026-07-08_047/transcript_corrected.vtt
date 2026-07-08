@@ -1,0 +1,582 @@
+WEBVTT
+
+1
+00:05:43.900 --> 00:05:45.610
+Thomas Coratger: Hello, everyone.
+
+2
+00:05:46.510 --> 00:05:47.850
+Shariq Naiyer: Hi, Tomas, how you.
+
+3
+00:05:48.460 --> 00:05:49.950
+Thomas Coratger: Yeah, fine. And you?
+
+4
+00:05:49.950 --> 00:05:51.760
+Shariq Naiyer: Nice. Very good, very good.
+
+5
+00:05:55.300 --> 00:06:07.510
+Thomas Coratger: So let's get started. So today we're going to just mention like team updates and a bit of the broker and improvement we have made over simulations.
+
+6
+00:06:07.740 --> 00:06:12.790
+Thomas Coratger: So let's get started with the team update, Zeam first.
+
+7
+00:06:13.840 --> 00:06:33.040
+Parthasarathy Ramanujam: Hey, since Gajendra is not there, I'm giving the update on behalf of Zeam. So, over the past week, we've been working on, the couple of, suggestions that were proposed both by, the Zeam team, ourselves, and ETH Lambda. We've released a new image, and we've been testing that out locally.
+
+8
+00:06:33.110 --> 00:06:48.919
+Parthasarathy Ramanujam: We are yet to address all of the spec issues that were raised over the past week, which we'll be doing and hopefully releasing a new image later today or early tomorrow. Once that's done, we'll run another round of interrupt testing.
+
+9
+00:06:49.020 --> 00:07:01.520
+Parthasarathy Ramanujam: And, keep you posted. Parallelly, I've also been running, long-running DevNet, on the servers. No issue has been identified apart from what was already raised last week.
+
+10
+00:07:02.240 --> 00:07:05.870
+Parthasarathy Ramanujam: Yeah, that's the update from Zeam's side. Thank you.
+
+11
+00:07:08.230 --> 00:07:09.680
+Thomas Coratger: Great, thanks.
+
+12
+00:07:10.150 --> 00:07:11.169
+Thomas Coratger: Ream?
+
+13
+00:07:12.950 --> 00:07:35.030
+Shariq Naiyer: All right. On the Ream side, we've also been experimenting with the optimizations proposed in both the documents by Lambda and Zeam. We found skipping the type 1 aggregation to have a drastic impact. And we tried the 8-second optimization, 8-second slots, which works as well.
+
+14
+00:07:35.030 --> 00:07:39.470
+Shariq Naiyer: But… so I'm running a… currently running a DevNet on,
+
+15
+00:07:40.860 --> 00:07:42.660
+Shariq Naiyer: I'm gonna share the link here.
+
+16
+00:07:43.970 --> 00:08:08.570
+Shariq Naiyer: Here with Ream and Ethlambda, and we have the optimizations proposed, the skipping the, removing the proposers, moving the proposer signature and skipping the type one aggregation and the early bird optimization. And we find it to be running quite stable and quite like the head and finalization differences are quite low.
+
+17
+00:08:08.570 --> 00:08:22.969
+Shariq Naiyer: It's 14 to 15 most of the time, but I don't think we have aligned on which path we want to take forward, so if we align on that on the call, we can push this into master.
+
+18
+00:08:23.360 --> 00:08:35.860
+Shariq Naiyer: on… on the, on the scaling side, Hetzner… Hetzner prices have gone up by quite a bit. They doubled their prices, and…
+
+19
+00:08:35.860 --> 00:09:00.680
+Shariq Naiyer: They haven't approved us for additional servers. So we are looking into other options for hosting our DevNets. And on the Hive side, we saw that the Hive instance was getting full. So we restarted it and we are looking into better ways to improve its to like purge old historical data from it. That's all from the team side. And we are also trying to integrate with
+
+20
+00:09:00.680 --> 00:09:02.020
+Shariq Naiyer: shadow fuzzer.
+
+21
+00:09:04.660 --> 00:09:05.400
+Thomas Coratger: Thanks.
+
+22
+00:09:05.990 --> 00:09:07.100
+Thomas Coratger: Qlean?
+
+23
+00:09:14.580 --> 00:09:16.510
+Thomas Coratger: Okay, London? Okay.
+
+24
+00:09:17.050 --> 00:09:18.940
+Mihir Faujdar: Yep. Thanks, Thomas. I have one
+
+25
+00:09:18.970 --> 00:09:34.749
+Mihir Faujdar: So yeah, we've just been focusing on making the code base of Lantern more maintainable to just implementing refactorings and have just been testing a 5 node devnet on a single server.
+
+26
+00:09:34.750 --> 00:09:44.700
+Mihir Faujdar: and have just been trying to resolve the interrupt issues. We noticed that we were still tracking an old commit for lean spec.
+
+27
+00:09:44.760 --> 00:09:49.420
+Mihir Faujdar: And have recently, you know, updated, you know.
+
+28
+00:09:49.470 --> 00:10:01.679
+Mihir Faujdar: or commit to the latest version. So thanks, Ethlambda, the team, for, suggesting the fix. But yeah, we're still debugGeang some additional issues, and we'll…
+
+29
+00:10:01.680 --> 00:10:09.770
+Mihir Faujdar: post an update in the Telegram chat once we have a new image available. And as well as we found out that,
+
+30
+00:10:09.940 --> 00:10:21.529
+Mihir Faujdar: the images that we were publishing, we were building images with cache enabled, in the Git workflow. So, basically, the optimization that we were working on
+
+31
+00:10:21.630 --> 00:10:28.420
+Mihir Faujdar: didn't actually translate unless the image was built on the server from source. But we've disabled that. And
+
+32
+00:10:28.600 --> 00:10:32.280
+Mihir Faujdar: It should notice there should be no improvements in in the.
+
+33
+00:10:32.720 --> 00:10:35.220
+Mihir Faujdar: aggregations and block building.
+
+34
+00:10:35.320 --> 00:10:38.420
+Mihir Faujdar: So yeah, that's the update from our side. Thanks.
+
+35
+00:10:41.680 --> 00:10:42.560
+Thomas Coratger: Thank you.
+
+36
+00:10:43.130 --> 00:10:44.480
+Thomas Coratger: It's Lambda.
+
+37
+00:10:46.060 --> 00:10:47.020
+Pablo Deymo | Lambda: Hello, hello.
+
+38
+00:10:47.310 --> 00:10:58.239
+Pablo Deymo | Lambda: We continue running Interop DevNets and recently made our Grafana public, which shows metrics and logs of all the DevNets we run in our servers.
+
+39
+00:10:58.460 --> 00:11:06.370
+Pablo Deymo | Lambda: We shared the link in the Telegram channel. We fixed a block building issue where we didn't necessarily include the best payload.
+
+40
+00:11:06.510 --> 00:11:13.570
+Pablo Deymo | Lambda: We temporarily disable regression aggregation in the aggregator while we work on other aggregation optimizations.
+
+41
+00:11:13.870 --> 00:11:22.989
+Pablo Deymo | Lambda: And we implemented an optimization for signature aggregation, where we now start aggregating during the attestation interval if we collect enough signatures.
+
+42
+00:11:23.430 --> 00:11:29.040
+Pablo Deymo | Lambda: We're working on doing a second run of aggregation during the safe target computation interval.
+
+43
+00:11:30.150 --> 00:11:36.069
+Pablo Deymo | Lambda: We also implemented the recent spec changes sharing the general channel.
+
+44
+00:11:36.540 --> 00:11:44.230
+Pablo Deymo | Lambda: And we made some fixes to our Hive test driver, and we are currently passing all spec tests in Hive.
+
+45
+00:11:44.610 --> 00:11:52.119
+Pablo Deymo | Lambda: And we, in the ETH P2P RS front, we are adding fuzzing.
+
+46
+00:11:52.370 --> 00:11:54.749
+Pablo Deymo | Lambda: To our library, to our port.
+
+47
+00:11:55.000 --> 00:12:02.709
+Pablo Deymo | Lambda: We will share an image of his Lambda that we'll be able to run with his P2P soon.
+
+48
+00:12:02.830 --> 00:12:03.710
+Pablo Deymo | Lambda: Thank you.
+
+49
+00:12:06.400 --> 00:12:07.960
+Thomas Coratger: Great, thanks.
+
+50
+00:12:08.440 --> 00:12:09.380
+Thomas Coratger: Gean?
+
+51
+00:12:15.940 --> 00:12:17.280
+Thomas Coratger: Grandine.
+
+52
+00:12:20.530 --> 00:12:21.160
+Boma: Hello.
+
+53
+00:12:21.310 --> 00:12:22.510
+Boma: Good afternoon.
+
+54
+00:12:22.710 --> 00:12:33.789
+Boma: So we worked on Ethlambda proposal on optimization, the option one and option 2, and then we also made some lean spec fixes. So we are currently testing locally to
+
+55
+00:12:34.620 --> 00:12:41.569
+Boma: We'll release a new image once our local testing is done, and also release a shadow image for shadow testing also.
+
+56
+00:12:41.800 --> 00:12:42.780
+Boma: Thank you. Bye.
+
+57
+00:12:46.570 --> 00:12:48.300
+Thomas Coratger: Great.
+
+58
+00:12:48.650 --> 00:13:01.100
+Thomas Coratger: So, on the side of spec, I didn't update that much on spec, just small fixes, especially the one
+
+59
+00:13:01.430 --> 00:13:02.750
+Thomas Coratger: No.
+
+60
+00:13:02.980 --> 00:13:09.089
+Thomas Coratger: as well, like, mentioned by some issues with formal verification. This was very helpful.
+
+61
+00:13:09.270 --> 00:13:16.430
+Thomas Coratger: I think this was done by Shuki or something, I think, if I remember correctly. So, yeah, this was very useful.
+
+62
+00:13:16.540 --> 00:13:25.350
+Thomas Coratger: some small bugs, and, like, this is the first time that I see some bugs, like, detected by formal verification, so that's cool.
+
+63
+00:13:26.480 --> 00:13:35.649
+Thomas Coratger: It allowed us, like, to… to fix some… some stuff that are either minor or… or medium, let us say.
+
+64
+00:13:36.000 --> 00:13:45.900
+Thomas Coratger: We also discussed with the content specification team about this repo, so we are extracting right now, SSZ
+
+65
+00:13:45.900 --> 00:13:56.440
+Thomas Coratger: specification that was done in LeanSpec into a specific repo that is currently under test within the official, like, consensus beacon spec.
+
+66
+00:13:57.010 --> 00:14:11.530
+Thomas Coratger: with Justin Traglia and his team. And once that is okay, this will be transferred into the official Ethereum GitHub organization. And we will be able to import that directly into the spec.
+
+67
+00:14:11.950 --> 00:14:14.459
+Thomas Coratger: removing all of the SSZ code.
+
+68
+00:14:14.830 --> 00:14:19.999
+Thomas Coratger: So that is a good synergy that we have right now with the Content Respect team.
+
+69
+00:14:20.530 --> 00:14:22.690
+Thomas Coratger: So this is about the spec.
+
+70
+00:14:23.230 --> 00:14:41.810
+Thomas Coratger: About the cryptography, we are continuing working on binary fields. We are making several improvements, technical discussions, and stuff like this, especially on BN254 and on…
+
+71
+00:14:42.790 --> 00:14:49.160
+Thomas Coratger: on LeanVM binary, like, Emil, feel free to say a few words about your work.
+
+72
+00:14:49.160 --> 00:14:54.789
+T. Wambsgans: Yes, hello, everyone. So essentially, we can now do above
+
+73
+00:14:55.050 --> 00:15:01.160
+T. Wambsgans: 500 XMSS aggregated per second with scenario fields, and so like 3.
+
+74
+00:15:01.490 --> 00:15:02.840
+T. Wambsgans: That's it. Thanks.
+
+75
+00:15:06.440 --> 00:15:16.330
+Thomas Coratger: Yeah, great. And so we are also working on BN254 with Jim in order also to have like comparison with circuit-based approach.
+
+76
+00:15:17.150 --> 00:15:22.870
+Thomas Coratger: We are also making good progress there, so that's pretty much it.
+
+77
+00:15:24.210 --> 00:15:38.789
+Thomas Coratger: About like DevNet implementation, I think that the next logical step will be like to simulate with the two new improvements that I've been proposed last week by Zeam and
+
+78
+00:15:39.090 --> 00:15:41.140
+Thomas Coratger: And, it's Lambda.
+
+79
+00:15:41.510 --> 00:15:47.319
+Thomas Coratger: so, I think that all of you, most of you guys have experimented with that.
+
+80
+00:15:49.110 --> 00:15:56.179
+Thomas Coratger: So yeah, I think this is what we should do and observe some results with this. Yeah, Mercy.
+
+81
+00:15:58.770 --> 00:16:11.329
+Boma: Yeah, sorry, I have… I have a question for, Shariq, because the… during his update, he mentioned about the ZIM proposal. I was trying to understand which of the optimization did he…
+
+82
+00:16:11.580 --> 00:16:14.050
+Boma: Is running currently with the link he shared.
+
+83
+00:16:14.850 --> 00:16:26.020
+Shariq Naiyer: We're skipping compaction, so skipping the type 1 application, and we're doing the early bird, early bird block building, and
+
+84
+00:16:26.230 --> 00:16:35.979
+Shariq Naiyer: The third optimization that was shared by ETH Lambda, which is removing the block, the proposal signature from
+
+85
+00:16:36.450 --> 00:16:47.040
+Shariq Naiyer: from the proof or something. Yeah. Yeah. So so those those 3, they're implemented in ETH Lambda as well as in Teams. So we're just testing it out against ETH Lambda.
+
+86
+00:16:47.820 --> 00:16:53.759
+Boma: Sorry, if I go, if lambda had 3 M optimization, which one did you skip?
+
+87
+00:16:54.630 --> 00:17:01.140
+Shariq Naiyer: No, we didn't skip any. We implemented all three, and that's the one I'm testing on the, on the metrics page that I sent.
+
+88
+00:17:01.910 --> 00:17:09.290
+Boma: Okay, what about the proposal from Zeam, the interval time increase? Did you, is that also part of it?
+
+89
+00:17:09.290 --> 00:17:20.389
+Shariq Naiyer: We done a quick test with it, but we haven't been running like large because that's like the last resort. So we are testing everything else out before we resolve to eight second slots.
+
+90
+00:17:21.069 --> 00:17:22.869
+Boma: Oh, okay, okay, thank you.
+
+91
+00:17:28.560 --> 00:17:38.290
+Thomas Coratger: So yeah, I haven't much else like to say. I think that this is important that you guys are experimenting with these optimizations.
+
+92
+00:17:38.470 --> 00:17:50.609
+Thomas Coratger: and to have, like, numbers. So, if I… like, just as an update, it's Lambda. I have seen that in the… in the Telegram channel, you mentioned that you did some experimentations.
+
+93
+00:17:50.870 --> 00:18:01.470
+Thomas Coratger: And you published some Grafana. I didn't have time to look at it. How many validators do you render these simulations with?
+
+94
+00:18:03.330 --> 00:18:09.460
+Mega | Lambda: We are running currently with I think 16 validators on.
+
+95
+00:18:10.090 --> 00:18:10.510
+Thomas Coratger: We'll get.
+
+96
+00:18:10.510 --> 00:18:19.019
+Mega | Lambda: And on 2 of our Devnets they are the each each one of those 16 node Devnets is running on a single server.
+
+97
+00:18:19.600 --> 00:18:24.080
+Mega | Lambda: So there's some CPU contention and such.
+
+98
+00:18:25.590 --> 00:18:34.150
+Mega | Lambda: We are also running, then… a single egg node devnet with only lambdas.
+
+99
+00:18:34.870 --> 00:18:42.479
+Mega | Lambda: That's one more like a smoke test. It's also a single subnet, that one.
+
+100
+00:18:42.680 --> 00:18:50.659
+Mega | Lambda: The 16 node evidence I mentioned before are, each runs in with… I think 4 subnets. Yeah.
+
+101
+00:18:51.940 --> 00:19:04.199
+Mega | Lambda: And, we are also running a fourth 7… a fourth DevNet with 32, only Lambda nodes, and four subnets, just to, like, see how it…
+
+102
+00:19:04.810 --> 00:19:06.439
+Mega | Lambda: goes with,
+
+103
+00:19:06.790 --> 00:19:15.259
+Mega | Lambda: the most extreme configuration. I think we, if we go to 64, which the like, the server doesn't have the resources, I think.
+
+104
+00:19:15.430 --> 00:19:16.050
+Thomas Coratger: Yes.
+
+105
+00:19:18.910 --> 00:19:36.849
+Thomas Coratger: Okay, and so what you guys think, are the blockers right now to scale a bit more the number of validators? Do you have an idea, or like, are the proposals that you made last week sufficient, or we need more?
+
+106
+00:19:36.850 --> 00:19:37.700
+Parthasarathy Ramanujam: Stop.
+
+107
+00:19:38.010 --> 00:19:48.439
+Parthasarathy Ramanujam: I wanted clarity on this. What are we defining as the acceptance criteria here? Are we okay for justification and finalization to
+
+108
+00:19:48.470 --> 00:20:01.109
+Parthasarathy Ramanujam: increase in bursts, sometimes up to 30 minutes, we don't have finality, and then suddenly it jumps up? Or do you… do we want a regular, I mean,
+
+109
+00:20:02.490 --> 00:20:09.760
+Parthasarathy Ramanujam: increase. Say, there should be a finality every, say, for 12 seconds or some… I mean, 12 minutes or so.
+
+110
+00:20:10.200 --> 00:20:12.550
+Parthasarathy Ramanujam: Because at the moment,
+
+111
+00:20:12.730 --> 00:20:17.420
+Parthasarathy Ramanujam: Whatever optimizations we have done, we still have this
+
+112
+00:20:17.560 --> 00:20:21.880
+Parthasarathy Ramanujam: Jump every 30 minutes, 45 minutes, sometimes even longer.
+
+113
+00:20:22.360 --> 00:20:24.669
+Parthasarathy Ramanujam: So that's something we'd have to agree on.
+
+114
+00:20:25.620 --> 00:20:36.660
+Thomas Coratger: I think that we need some kind of stability, otherwise this is not realistic with what we want to show, but are you able, like, to…
+
+115
+00:20:37.570 --> 00:20:43.590
+Thomas Coratger: like, to find what are the root causes of these jumps. Is it some.
+
+116
+00:20:43.590 --> 00:20:44.140
+Parthasarathy Ramanujam: Yes.
+
+117
+00:20:44.140 --> 00:20:45.829
+Thomas Coratger: How do we have stuff, or like…
+
+118
+00:20:46.160 --> 00:21:05.610
+Parthasarathy Ramanujam: Hardware is definitely one of the causes. The other is most of the aggregates and block production gets delayed because of the configuration of the servers that we are running in. If you look at the logs right now, aggregates from most of the subnets are almost always delayed.
+
+119
+00:21:05.900 --> 00:21:12.280
+Parthasarathy Ramanujam: So, I mean, although, justification and finalizations are happening, but they are always late.
+
+120
+00:21:16.460 --> 00:21:17.290
+Thomas Coratger: Okay.
+
+121
+00:21:17.510 --> 00:21:23.179
+Thomas Coratger: And so this is due to, like, the hardware plus the configuration of the server, right?
+
+122
+00:21:23.440 --> 00:21:24.050
+Parthasarathy Ramanujam: Yes.
+
+123
+00:21:25.440 --> 00:21:27.820
+Thomas Coratger: Okay. Anchal, yeah?
+
+124
+00:21:30.290 --> 00:21:48.880
+Anshal Shukla: Yeah, so I had added, one optimi- one workaround for this in the proposal doc that was shared earlier last week. So in that, like, right now, how we do finalization and justification is that we want to have a two-thirds majority,
+
+125
+00:21:48.880 --> 00:21:52.540
+Anshal Shukla: Aggregation… aggregated payload over a particular source of information.
+
+126
+00:21:53.240 --> 00:22:02.350
+Anshal Shukla: If we can, if we have, like, aggregate that already justifies
+
+127
+00:22:02.480 --> 00:22:11.449
+Anshal Shukla: something of a future slot. We don't add them to the aggregates that haven't been justified, but we have, like, a
+
+128
+00:22:11.450 --> 00:22:24.769
+Anshal Shukla: Suppose we have from A to B, and from A to C. So, A to B should have two-thirds of the votes, and A to proceed, but this can be additive. We don't add them,
+
+129
+00:22:24.990 --> 00:22:26.669
+Anshal Shukla: So, we can…
+
+130
+00:22:27.500 --> 00:22:40.180
+Anshal Shukla: implement this, and this should improve, like, the time it takes to justify and finalize. But the only downside of this is that if we still don't finalize for…
+
+131
+00:22:40.310 --> 00:22:47.490
+Anshal Shukla: Long time, then calculating this will, have, like, huge memory allocations.
+
+132
+00:22:51.310 --> 00:22:52.120
+Thomas Coratger: Okay.
+
+133
+00:22:55.910 --> 00:22:57.200
+Thomas Coratger: Okay, yes, since.
+
+134
+00:22:58.010 --> 00:23:02.219
+Thomas Coratger: So… Yeah, Mercia?
+
+135
+00:23:02.900 --> 00:23:17.420
+Boma: Sorry. I wanted to ask, is there, like, a Zeam, node running somewhere with this optimization that we can actually see? Because it's more like a speculation, and then we need to, like, have a data to back this up.
+
+136
+00:23:20.880 --> 00:23:27.019
+Parthasarathy Ramanujam: We don't have an image ready yet for this, optimization. We'll release one and let you know once it's available.
+
+137
+00:23:29.630 --> 00:23:37.969
+Parthasarathy Ramanujam: Excluding the, the longest slot, right? Everything else, I think is already merged to master, but we'll release an official invention later.
+
+138
+00:23:47.040 --> 00:23:58.430
+Thomas Coratger: Okay, so at least on my side, I haven't much to say more, like, next week, we will not have this call because we are, like, traveling and stuff.
+
+139
+00:23:58.760 --> 00:24:00.070
+Thomas Coratger: And.
+
+140
+00:24:00.470 --> 00:24:10.700
+Thomas Coratger: So, yeah, if this is okay to you guys, let us sync, like, everything async, and let's go back to this call in two weeks.
+
+141
+00:24:14.980 --> 00:24:18.510
+Thomas Coratger: Thanks a lot, guys. See you. Bye-bye.
+
+142
+00:24:18.510 --> 00:24:19.380
+T. Wambsgans: Bye bye.
+
+143
+00:24:19.380 --> 00:24:20.020
+Mihir Faujdar: It was.
+
+144
+00:24:20.330 --> 00:24:22.190
+Shariq Naiyer: Thank you, guys.
+
+145
+00:24:22.190 --> 00:24:22.990
+Pablo Deymo | Lambda: My living.
+
