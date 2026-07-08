@@ -1,0 +1,126 @@
+{
+  "meeting": "L1-zkEVM breakout #06 - July 8, 2026",
+  "highlights": {
+    "spec_and_test_updates": [
+      {
+        "timestamp": "00:07:21",
+        "highlight": "zkEVM spec v0.50 released: rebased on Glamsterdam and devnet 6; supports external transition tools (Geth) for benchmark fixture filling"
+      },
+      {
+        "timestamp": "00:08:43",
+        "highlight": "SSZ max-length refinements in guest input will change hash tree root calculations \u2014 all implementers must review and adjust"
+      },
+      {
+        "timestamp": "00:13:11",
+        "highlight": "Hive dashboard now tracks ethrex and Besu execution-witness compliance plus first guest program test runs in a single view"
+      },
+      {
+        "timestamp": "00:14:04",
+        "highlight": "Bug fixed in Geth execution-witness generation (merged); benchmark fixtures refilled and looking correct"
+      }
+    ],
+    "guest_api_standardization": [
+      {
+        "timestamp": "00:19:13",
+        "highlight": "8 guest API standards accepted (ISA I/O, crypto accelerators, termination, memory, static library, linker script); ELF loading and accelerated memory operations open for review"
+      },
+      {
+        "timestamp": "00:20:13",
+        "highlight": "ELF loading standard: recommendation is execute-and-read semantics for executable segments; execute-only (Zisk current) is discouraged as no toolchain guarantees instruction-only text sections"
+      },
+      {
+        "timestamp": "00:24:14",
+        "highlight": "Precompiles in static libraries must not allocate on the guest heap; a separate isolated scratch region is required \u2014 other vendors should audit for this collision"
+      },
+      {
+        "timestamp": "00:24:59",
+        "highlight": "Direction flagged: Ethereum guest programs should be built with stock unmodified toolchains to minimize trusted computing base"
+      }
+    ],
+    "sync_protocol_and_recursive_proofs": [
+      {
+        "timestamp": "00:26:56",
+        "highlight": "Weak-subjectivity sync can require up to 113,000 slots (~26.9 GB of proof content); recursive execution proofs (SSZ Merkle tree or MMR) proposed to enable gossip-based chain-prefix authentication"
+      },
+      {
+        "timestamp": "00:31:44",
+        "highlight": "Recursive proof approach would simplify consensus clients by eliminating complex request-response sync; proof-of-concept spec and implementation planned imminently"
+      }
+    ],
+    "prover_infrastructure_and_benchmarking": [
+      {
+        "timestamp": "00:34:16",
+        "highlight": "EF cluster scalability: GPU proving scales near-linearly from 1 to full machine on large blocks; CPU-bound bottleneck observed between 2 and 4 GPUs"
+      },
+      {
+        "timestamp": "00:35:04",
+        "highlight": "OOM kills still observed on mainnet EST 6M-gas blocks; root cause under investigation"
+      },
+      {
+        "timestamp": "00:35:58",
+        "highlight": "New ZK-Boost release adapts to current compatible input format; proof-request and verification APIs updated to require chain config as public input"
+      }
+    ],
+    "allocator_safety": [
+      {
+        "timestamp": "00:53:07",
+        "highlight": "Bump allocator (BAM) is fastest but causes OOM at current ~0.5 GB limit for high-gas blocks; increasing to 1.5 GB bypasses failures but leaves little headroom \u2014 sophisticated allocators (e.g., DLmalloc) recommended for safety"
+      },
+      {
+        "timestamp": "00:57:10",
+        "highlight": "OpenVM 2.1 will support 4 GB of guest memory (chat: Yi Sun); most other zkVMs may not exceed 1 GB (Marcin)"
+      }
+    ],
+    "evm_formal_specification": [
+      {
+        "timestamp": "00:41:44",
+        "highlight": "EVM SAIL spec (evm-sail) achieves 100% EAST test compliance; enables extraction to Lean, Isleris/Iris for binary compliance proofs and RISC-V guest program verification"
+      },
+      {
+        "timestamp": "00:43:01",
+        "highlight": "Goal: SAIL spec reaches feature parity with Python execution specs, allowing core devs to contribute directly to a single formal specification"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:08:43",
+      "action": "Review zkEVM spec v0.50 SSZ max-length changes and update hash tree root calculations accordingly",
+      "owner": "All guest program implementers"
+    },
+    {
+      "timestamp": "00:18:29",
+      "action": "Add Nethermind (and other clients) to execution-witness Hive dashboard by adding a branch entry to the dashboard repo JSON",
+      "owner": "Nethermind and other EL teams"
+    },
+    {
+      "timestamp": "00:24:14",
+      "action": "Audit precompile static libraries for guest-heap allocation collisions; add isolated scratch region if affected",
+      "owner": "zkVM vendors"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:21:31",
+      "decision": "ELF loading standard adopts execute-and-read semantics for executable segments; execute-only interpretation is discouraged"
+    },
+    {
+      "timestamp": "00:24:59",
+      "decision": "Direction adopted: Ethereum guest programs must be built with unmodified stock toolchains to limit trusted computing base"
+    },
+    {
+      "timestamp": "00:57:10",
+      "decision": "Bump allocator not recommended for production guest programs due to OOM liveness risk at higher gas limits; sophisticated allocators preferred"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:31:52",
+      "target": "Recursive proof chain-prefix PoC spec and implementation \u2014 Francesco, coming days"
+    },
+    {
+      "timestamp": "00:15:08",
+      "target": "Next zkEVM release to include both test fixtures and Geth-filled benchmark fixtures"
+    }
+  ]
+}
