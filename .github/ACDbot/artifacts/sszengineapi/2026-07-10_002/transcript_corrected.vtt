@@ -1,0 +1,1838 @@
+WEBVTT
+
+1
+00:03:00.070 --> 00:03:01.570
+Tamaghna Chourdhuri: GMGM.
+
+2
+00:03:19.420 --> 00:03:24.930
+Marius Van Der Wijden (M): Hey, it's the same people I've been talking to all day, just in a different call.
+
+3
+00:04:30.060 --> 00:04:36.820
+Tamaghna Chourdhuri: Yep, then I guess we can start. So, welcome everyone to the SSZ Engine Breakout.
+
+4
+00:04:36.890 --> 00:04:51.309
+Tamaghna Chourdhuri: room number two. So basically, there should be a lighter call, because not much in the agenda items. Maybe we can do some client, updates, and then also testing updates, and if,
+
+5
+00:04:51.310 --> 00:05:05.540
+Tamaghna Chourdhuri: the people from Nimbus are here, maybe we can go through whatever the asset growth in the comments. So, I'll start from my side. So, on the testing side, basically, we have decided on how, let's say, the
+
+6
+00:05:05.680 --> 00:05:09.069
+Tamaghna Chourdhuri: Vectors are going to be, so,
+
+7
+00:05:09.320 --> 00:05:13.200
+Tamaghna Chourdhuri: Majorly, first will be, like, the steps is…
+
+8
+00:05:13.380 --> 00:05:28.360
+Tamaghna Chourdhuri: Majorly, we'll be starting with, integrating all of the SSIL support which exists in the project ZKEVM into the EELS, Amsterdam branch, and then from there, we'll be taking it forward. We'll be adding the reference vectors and…
+
+9
+00:05:28.360 --> 00:05:36.539
+Tamaghna Chourdhuri: Also, we'll be starting work on the REST, and, like, we… the idea is to have something abstract, so we can have both REST and everything there.
+
+10
+00:05:36.540 --> 00:05:48.070
+Tamaghna Chourdhuri: And in due time, we'd also, like, this is more of a directional thing that we discussed over the calls, that in due time, we'd also like the eels to maybe serve all of the
+
+11
+00:05:48.520 --> 00:06:08.379
+Tamaghna Chourdhuri: engine requests and such, and, like, maybe have it as a temporary… like, the temp EL current is high for the CL to work against, and that would also… the CL spec would also be like that. In this regard, something that I would like to bring to
+
+12
+00:06:09.170 --> 00:06:16.110
+Tamaghna Chourdhuri: attention is, one of the Yasek's comments was basically that we should be moving towards,
+
+13
+00:06:16.150 --> 00:06:33.360
+Tamaghna Chourdhuri: FastAPI OpenRPC, so, like, that's something that I do have in mind for the short term, because, yeah, so, like, that's something that is… I have planned in the short term, and in the longer term, we'll be integrating the majority of the execution API-related…
+
+14
+00:06:33.380 --> 00:06:42.399
+Tamaghna Chourdhuri: all of the testing and everything inside EOS, but, like, that's also something a bit farther out. So, like, that's on the testing side, maybe…
+
+15
+00:06:42.500 --> 00:06:44.680
+Tamaghna Chourdhuri: Others can drop the updates.
+
+16
+00:07:01.360 --> 00:07:11.709
+Dustin: I can comment on the Jacek stuff if you want, I don't know. He is not going to be able to be here right on this meeting, and so I'm the…
+
+17
+00:07:12.350 --> 00:07:15.260
+Dustin: Nimbus representative, I guess, on this one, so I don.
+
+18
+00:07:16.680 --> 00:07:21.689
+Tamaghna Chourdhuri: I mean, sure, like, I don't… yeah, sure, like, I guess I don't think anyone else would be…
+
+19
+00:07:21.920 --> 00:07:25.019
+Tamaghna Chourdhuri: Taking this day, so it's free for you to discuss regarding that.
+
+20
+00:07:25.890 --> 00:07:27.290
+Dustin: Okay, okay, great.
+
+21
+00:07:27.460 --> 00:07:28.400
+Dustin: So…
+
+22
+00:07:28.990 --> 00:07:37.169
+Dustin: So, Jacek, and I will say that in this case, I kind of independently agree with him. I've looked at his things, and I've
+
+23
+00:07:37.570 --> 00:07:45.359
+Dustin: I think he's right. No, I mean, at that, so he has 2 broad points. 1 of them is that
+
+24
+00:07:46.040 --> 00:07:47.070
+Dustin: Okay.
+
+25
+00:07:47.210 --> 00:07:55.149
+Dustin: is this sort of path thing. And so, right now, we have the… actually, I don't know if people have seen this in… I'll link in a moment in,
+
+26
+00:07:55.480 --> 00:08:04.320
+Dustin: Here in Discord, as well, we'll keep talking, is that they're… they are,
+
+27
+00:08:04.580 --> 00:08:07.320
+Dustin: the REST API has a sort of path setup.
+
+28
+00:08:07.600 --> 00:08:10.620
+Dustin: And a convenient property of like the.
+
+29
+00:08:11.240 --> 00:08:24.050
+Dustin: what's called a quasi-paths, like HTTP paths, like for REST, is that they can be… they can coexist. So you could have the same kind of server, or they can be…
+
+30
+00:08:24.200 --> 00:08:37.479
+Dustin: that they can exist on the same port. And in particular, for example, Nimbus, as people may be aware, has a unified client, for example, and it would be really convenient to be able to use the same REST port.
+
+31
+00:08:37.720 --> 00:08:46.749
+Dustin: and have… and serve both on the same REST port, just as… as one example, but… but in general, it's… it's a nice design to have them be able to close it, so that's one point.
+
+32
+00:08:46.890 --> 00:08:57.050
+Dustin: So, another point is that this is related to what is called this top-up sync, and it's essentially this capability that
+
+33
+00:08:57.950 --> 00:09:17.069
+Dustin: current… the current Engine API doesn't really have, and I can… if people think it does, I can, you know, address those points and why those things don't, in fact, solve the problem. But the current Engine API does not really address, which is to say, a way of
+
+34
+00:09:17.120 --> 00:09:25.099
+Dustin: finding out if a… if a CL wants to, kind of, sit back… Backfill, or…
+
+35
+00:09:25.650 --> 00:09:35.979
+Dustin: Fill anyway, a, the gap between the EL's, head, a current head, and sort of the chain tip, then it doesn't know where to start.
+
+36
+00:09:35.980 --> 00:09:47.139
+Dustin: And there is no reliable way for it to find out where to start, because it can't get enough information, because if the EL is not synced, it will just say, syncing, syncing, syncing, accept it, accept it, accept it, something of this sort.
+
+37
+00:09:47.510 --> 00:09:52.360
+Dustin: But it will… but it will not really tell you you know, and…
+
+38
+00:09:52.760 --> 00:10:02.389
+Dustin: you know, where the CL should start, and it will not give a hint in that regard. So, those are the two things Jasper mentioned, and I'm happy to…
+
+39
+00:10:02.520 --> 00:10:05.040
+Dustin: Talk about that on his and Vanessa's behalf
+
+40
+00:10:19.640 --> 00:10:20.320
+Dustin: City.
+
+41
+00:10:21.780 --> 00:10:23.729
+Dustin: I would wonder… oh.
+
+42
+00:10:25.900 --> 00:10:30.700
+Dustin: Well, it's… one port is not a requirement. It's not as if… If you don't
+
+43
+00:10:30.890 --> 00:10:33.959
+Dustin: This works for 90 to 5 clients too, it works fine.
+
+44
+00:10:34.160 --> 00:10:35.960
+Dustin: But it's just… it's…
+
+45
+00:10:36.220 --> 00:10:42.970
+Dustin: Right now, it creates more opportunity, it creates an opportunity for a unified client that doesn't otherwise exist.
+
+46
+00:10:48.650 --> 00:10:49.590
+Dustin: Well…
+
+47
+00:10:50.080 --> 00:10:58.210
+Marius Van Der Wijden (M): Yeah, it's one part for the EL REST API and the CL REST API, right?
+
+48
+00:10:59.740 --> 00:11:00.609
+Marius Van Der Wijden (M): That's your idea.
+
+49
+00:11:00.610 --> 00:11:03.410
+Dustin: Yes, yeah, yeah, yeah, yeah, that's the idea.
+
+50
+00:11:03.730 --> 00:11:04.950
+Marius Van Der Wijden (M): Yeah, the thing is, like.
+
+51
+00:11:04.950 --> 00:11:05.430
+Dustin: It was.
+
+52
+00:11:05.430 --> 00:11:09.529
+Marius Van Der Wijden (M): I can, I can, I can see this with the.
+
+53
+00:11:09.660 --> 00:11:18.289
+Marius Van Der Wijden (M): like, non-engine API? Like, the JSON… like, the normal JSON-RPC API, not the engine JSON-RPC API?
+
+54
+00:11:18.470 --> 00:11:27.999
+Marius Van Der Wijden (M): like, the user APIs, I could totally see us unifying them, but the, the, the engine API is like,
+
+55
+00:11:28.540 --> 00:11:30.589
+Marius Van Der Wijden (M): Like an internal thing, right?
+
+56
+00:11:30.690 --> 00:11:37.249
+Marius Van Der Wijden (M): Like, you don't want to expose it to the internet. You don't want… you don't want it to live in the same…
+
+57
+00:11:38.130 --> 00:11:38.660
+Dustin: Okay.
+
+58
+00:11:38.660 --> 00:11:39.940
+Marius Van Der Wijden (M): There we go, yes.
+
+59
+00:11:40.090 --> 00:11:42.640
+Marius Van Der Wijden (M): as, like, the user APIs.
+
+60
+00:11:43.630 --> 00:11:49.009
+Dustin: Well, I… Regard both the REST Beacon API and
+
+61
+00:11:49.210 --> 00:11:54.730
+Dustin: this thing as actually very similar in that regard. I mean, I'm not sure, you know, If that's…
+
+62
+00:11:56.200 --> 00:12:08.630
+Dustin: They don't need to be unified, no. No, it's not, like, on… this is an option. I'm not saying this is a… they don't… they don't need to. But, like, the… but as… as far as…
+
+63
+00:12:09.450 --> 00:12:14.430
+Dustin: The… the… to me, both… neither is internet appropriate.
+
+64
+00:12:15.070 --> 00:12:20.080
+Dustin: Like the beacon API is a DOS vector, it's just a clear and obvious DOS vector in a lot
+
+65
+00:12:20.400 --> 00:12:25.350
+Dustin: Anybody exposing it on the internet has to be doing some filtering, proxy, or caching.
+
+66
+00:12:28.060 --> 00:12:31.560
+Dustin: So… And the same would be true for the engine API.
+
+67
+00:12:32.000 --> 00:12:37.840
+Dustin: And, and no matter what kind of NJ they are. So I don't, I don't, I regard them as actually at the same level of sensitivity
+
+68
+00:12:38.730 --> 00:12:39.640
+Dustin: Personally.
+
+69
+00:12:49.590 --> 00:12:56.379
+Marius Van Der Wijden (M): Yeah, I think it… It kind of makes sense to me, now that you're talking about it, because the…
+
+70
+00:12:56.830 --> 00:12:59.830
+Marius Van Der Wijden (M): As far as I know, also, the… the…
+
+71
+00:13:00.070 --> 00:13:04.469
+Marius Van Der Wijden (M): Where the validator node talks to the…
+
+72
+00:13:04.810 --> 00:13:10.250
+Marius Van Der Wijden (M): to the, CL node is also via this Beacon API, right?
+
+73
+00:13:11.890 --> 00:13:12.310
+Marius Van Der Wijden (M): Certainly.
+
+74
+00:13:12.310 --> 00:13:15.260
+Dustin: Yes, yeah, yes, that is how that works, yeah.
+
+75
+00:13:15.660 --> 00:13:19.770
+Marius Van Der Wijden (M): Yeah, so it is, yeah, okay, then it's a, then it is an internal API.
+
+76
+00:13:19.900 --> 00:13:21.080
+Dustin: Yes.
+
+77
+00:13:21.150 --> 00:13:28.539
+Marius Van Der Wijden (M): The question still to me is, like, how would we spec that? Like, it's fine for us to spec, like, okay.
+
+78
+00:13:28.690 --> 00:13:31.629
+Marius Van Der Wijden (M): It should be exposed on XYZ port.
+
+79
+00:13:32.070 --> 00:13:34.920
+Marius Van Der Wijden (M): But that would only work for unifieds.
+
+80
+00:13:35.260 --> 00:13:36.140
+Marius Van Der Wijden (M): Binaries, yeah.
+
+81
+00:13:36.140 --> 00:13:36.490
+Dustin: Bye.
+
+82
+00:13:36.490 --> 00:13:37.100
+Marius Van Der Wijden (M): Morning.
+
+83
+00:13:38.030 --> 00:13:39.629
+Dustin: Whoa. Oh, I see.
+
+84
+00:13:41.040 --> 00:13:46.300
+Marius Van Der Wijden (M): Yeah, how would my server know that, hey,
+
+85
+00:13:46.670 --> 00:13:54.340
+Marius Van Der Wijden (M): These routes, you don't have them in your thing, so you need to… Forward them to the…
+
+86
+00:13:55.000 --> 00:13:58.980
+Marius Van Der Wijden (M): to the CL or something, like, you would need some kind of proxy in front.
+
+87
+00:14:00.360 --> 00:14:11.779
+Dustin: I'm not sure I understand what you're getting at. No, I mean, there… the… I… I guess the port thing to me is just, like, I… I don't want to overemphasize that. Maybe it was a, you know, I don't know, to… to… I
+
+88
+00:14:11.960 --> 00:14:20.890
+Dustin: Foreground that too much except to say that it's an interesting, like, thing one might do. Obviously, I, most people, I mean
+
+89
+00:14:21.230 --> 00:14:30.949
+Dustin: the Nimbus Unified Client is not production-ready yet, so, like, borderline 0% of people are using Unified Client. No, no, but it works just as well separately, and that's…
+
+90
+00:14:31.040 --> 00:14:41.870
+Dustin: fine, but I also don't get… know what your talk… what you're getting at, I guess, with the, like, needing a proxy to get things from one to the other. This doesn't affect that either way.
+
+91
+00:14:42.170 --> 00:14:49.410
+Dustin: Or, or are you, or do you mean the, the sync, the, the thing where it asks about the, the block that you would start syncing from?
+
+92
+00:14:50.240 --> 00:14:51.400
+Dustin: Which, which one?
+
+93
+00:14:51.870 --> 00:14:53.509
+Dustin: Because they're two different things.
+
+94
+00:14:58.970 --> 00:15:03.829
+Marius Van Der Wijden (M): Sorry, I didn't really quite understand this.
+
+95
+00:15:06.030 --> 00:15:06.590
+Dustin: Whoa.
+
+96
+00:15:07.740 --> 00:15:09.930
+Dustin: Oh, okay, Sierra, I'm gonna…
+
+97
+00:15:10.180 --> 00:15:19.210
+Dustin: I'm gonna I have the first so so so a a a a written ex first a written explanation that from this is what
+
+98
+00:15:19.940 --> 00:15:20.620
+Dustin: Here.
+
+99
+00:15:21.280 --> 00:15:22.040
+Dustin: Okay.
+
+100
+00:15:24.170 --> 00:15:24.990
+Dustin: Reversed?
+
+101
+00:15:26.550 --> 00:15:27.460
+Dustin: Okay.
+
+102
+00:15:28.260 --> 00:15:39.009
+Dustin: Yeah, yeah, I understand, I understand what a reverse proxy… this is Gossack's comment, so this is where he summarizes it. I understand that the idea of reverse proxy, but I'm trying to think, why is this intrinsically…
+
+103
+00:15:39.420 --> 00:15:55.260
+Dustin: Yes, of course, you can use a reverse proxy to do things like make access to these things a little bit safer if you add filtering to it. This is, I assume, what some of the big providers for the API, et cetera, do. But that's sort of beside the point. I don't understand how the reverse proxy is coming up.
+
+104
+00:15:56.520 --> 00:15:59.740
+Dustin: Either Marius from you or from FOCIL.
+
+105
+00:16:00.300 --> 00:16:02.710
+Dustin: Like, what is the… angle.
+
+106
+00:16:20.140 --> 00:16:21.000
+Dustin: Okay.
+
+107
+00:16:21.320 --> 00:16:26.660
+FOCIL: Is… is it, somehow obligating? I mean…
+
+108
+00:16:26.970 --> 00:16:35.619
+FOCIL: Some people, some implementations can do so, or not do so, and… Yes, that's it.
+
+109
+00:16:36.380 --> 00:16:46.219
+Dustin: Yeah, the point here is that there's an existing way. If you wanted to get a bit more abstractly or conceptually, there's a way we divide this namespace, this REST
+
+110
+00:16:46.920 --> 00:16:50.130
+Dustin: Namespace of services, of endpoints.
+
+111
+00:16:50.430 --> 00:16:53.039
+Dustin: And, and the Beacon API does this today.
+
+112
+00:16:54.060 --> 00:17:01.299
+FOCIL: Yeah, we just need isolation, yes, for this feature, and we need to account for that.
+
+113
+00:17:04.510 --> 00:17:06.089
+Dustin: the isolation, but…
+
+114
+00:17:06.410 --> 00:17:09.039
+FOCIL: Namespace resolution, so REST,
+
+115
+00:17:09.040 --> 00:17:16.060
+Dustin: Yes, yes, but it provides a systematic hierarchical way of doing this, which is consistent with
+
+116
+00:17:16.160 --> 00:17:18.950
+Dustin: Kind of namespace isolation we have today.
+
+117
+00:17:20.079 --> 00:17:20.800
+Dustin: Right.
+
+118
+00:17:23.750 --> 00:17:24.470
+Dustin: Yeah.
+
+119
+00:17:28.960 --> 00:17:33.530
+Dustin: And, and, and, and part of it is also, it comes bundled with sort of.
+
+120
+00:17:33.860 --> 00:17:47.769
+Dustin: practices that we found have worked pretty well in the, and this is not, per se, part of what Jacek wrote, but it's part of the same bundle of things that I don't… is that, like, to specify version on the Beacon API, we use headers.
+
+121
+00:17:48.200 --> 00:17:58.759
+Dustin: For example, as opposed to putting it on the path. Now, one can argue one way or the other, I suppose, but I, again, I actually think the header thing works pretty well for a number of
+
+122
+00:17:59.230 --> 00:18:03.720
+Dustin: Of reasons, but also it's, it's, it's a kind of consistency.
+
+123
+00:18:04.450 --> 00:18:05.260
+Dustin: Oh.
+
+124
+00:18:05.690 --> 00:18:15.280
+Dustin: both on the client and server end. So we can talk about an Ethereum REST API as a unified concept, rather than having these completely disparate things.
+
+125
+00:18:40.260 --> 00:18:46.859
+Marius Van Der Wijden (M): Yeah, I have to think a bit more about it. What was your second point again that you were trying to make?
+
+126
+00:18:47.070 --> 00:18:50.110
+Dustin: Okay, yeah, yeah, the second point is…
+
+127
+00:18:50.910 --> 00:18:59.559
+Dustin: This is what Jacek is calling the top-up sync, and he talked about this also, in a bit in Svalbard, for, for anybody who is
+
+128
+00:19:00.110 --> 00:19:04.779
+Dustin: Who is there? But in any case, so it's… the idea is that
+
+129
+00:19:04.910 --> 00:19:12.630
+Dustin: his, and he summarized it in the comment I linked as well, if people want to see the written form of that, but it's like.
+
+130
+00:19:13.350 --> 00:19:14.190
+Dustin: You know.
+
+131
+00:19:14.730 --> 00:19:29.199
+Dustin: he wants to treat the EL as largely a library. And this actually, by the way, yes, of course, he cares about the unified client thing, but this works just as well conceptually unified client or not unified client, it doesn't really matter.
+
+132
+00:19:29.410 --> 00:19:41.500
+Dustin: The idea being that the EL in this conception of things is at least capable of running without very much of its own peer-to-peer.
+
+133
+00:19:41.970 --> 00:19:56.520
+Dustin: Now, there are… there are reasons… engineering reasons for this, there are aesthetic reasons for this. Like, right now, we often kind of duplicate. We think about getblobs and… and sort of the blobs gossip in… in CCL. There's a lot of duplication of this.
+
+134
+00:19:56.540 --> 00:20:15.499
+Dustin: kind of traffic and of course one can take careful steps to avoid it, but it's kind of tricky as a general principle. So if one moves all the gossip to one side, that is on average more efficient. So the number of general arguments, I don't want to belabor those here, but the point is that
+
+135
+00:20:15.570 --> 00:20:21.779
+Dustin: This is, this is where this is coming from. It's a desire to have all the CL do all of the gossip.
+
+136
+00:20:21.980 --> 00:20:24.149
+Dustin: Or as much of it as possible.
+
+137
+00:20:24.330 --> 00:20:26.770
+Dustin: And the ELP,
+
+138
+00:20:27.860 --> 00:20:39.539
+Dustin: he'll phrase it as a library, but as some kind of local service, let's say. It could be via RPC, it could be within the same process, it doesn't really matter, that the CL drives.
+
+139
+00:20:39.950 --> 00:20:48.149
+Dustin: And one of the challenges here is that right now, this doesn't work very well because this EL…
+
+140
+00:20:48.420 --> 00:20:54.010
+Dustin: The optimistic sync protocol we have now relies on the EL ability to
+
+141
+00:20:54.770 --> 00:20:57.689
+Dustin: to pull its own blocks from the network, from W2P.
+
+142
+00:20:59.090 --> 00:21:05.920
+Dustin: And it is basically not — and the point here is it's not feasible in the current engine API to avoid that.
+
+143
+00:21:06.220 --> 00:21:15.170
+Dustin: Like, like the, the API support does not exist. There is, this is a point I will strongly defend. There is no sane way to use the current engine API.
+
+144
+00:21:15.330 --> 00:21:20.850
+Dustin: As for anything but optimistic saying, I have tried. It does not work. It cannot work.
+
+145
+00:21:21.040 --> 00:21:26.180
+Dustin: So, that… It would be nice.
+
+146
+00:21:26.390 --> 00:21:27.600
+Dustin: What?
+
+147
+00:21:27.600 --> 00:21:28.860
+Marius Van Der Wijden (M): So,
+
+148
+00:21:29.100 --> 00:21:29.810
+Marius Van Der Wijden (M): Why?
+
+149
+00:21:29.810 --> 00:21:30.260
+Dustin: Yeah.
+
+150
+00:21:30.380 --> 00:21:31.960
+Marius Van Der Wijden (M): You can't, you can't just.
+
+151
+00:21:31.960 --> 00:21:32.510
+Dustin: But…
+
+152
+00:21:32.830 --> 00:21:44.350
+Dustin: No, because you cannot get an unambiguous signal from the EL that tells you, it will tell you syncing, but syncing just means it doesn't have that state record.
+
+153
+00:21:44.900 --> 00:21:54.409
+Marius Van Der Wijden (M): No, no, like you can, you can just, you take, give it to the NSS, you give it block one, you give it block two, you give it block three, and it will always tell you.
+
+154
+00:21:55.160 --> 00:22:04.299
+Dustin: If you start at Genesis, yes, but if you want to start at anything but Genesis, this doesn't work. So what you could imagine, what if you shut off your node for a while?
+
+155
+00:22:04.460 --> 00:22:16.530
+Dustin: a week or two, I don't know. Keep it within a good subjectivity period for this, right? So it's legitimate to kind of sync back up in that way.
+
+156
+00:22:16.810 --> 00:22:17.880
+Dustin: Then…
+
+157
+00:22:18.050 --> 00:22:25.060
+Dustin: the EL, in fact, is synced, but it's not synced from… we shouldn't have to go back to Genesis, that's…
+
+158
+00:22:26.230 --> 00:22:37.310
+Dustin: Inefficient. So… The idea is, right now, there is not, let's say an Engine API
+
+159
+00:22:37.770 --> 00:22:52.910
+Dustin: compatible way to read out the, like, as an NGINI API consistent way, across the ecosystem to read out the head block, or the head block, yeah, from which one should sync, up to, you know.
+
+160
+00:22:53.610 --> 00:23:10.179
+Dustin: up to the tip. And part of the issue here is that like the ELs, it's the state versus block existence. The ELs typically will just report sinking unless they have an actual state, because it's meant for validating.
+
+161
+00:23:10.480 --> 00:23:11.400
+Dustin: Not syncing.
+
+162
+00:23:12.090 --> 00:23:13.989
+Dustin: So… But, yeah.
+
+163
+00:23:14.580 --> 00:23:19.169
+Dustin: That's… not going to be very useful as a general point. So…
+
+164
+00:23:19.170 --> 00:23:19.779
+Marius Van Der Wijden (M): I would…
+
+165
+00:23:19.780 --> 00:23:22.120
+Dustin: Prefer for a synch So, yeah.
+
+166
+00:23:22.420 --> 00:23:24.530
+Marius Van Der Wijden (M): I don't know if that is…
+
+167
+00:23:25.360 --> 00:23:30.659
+Marius Van Der Wijden (M): Correct for Guest. Like, correct, Guest tells you via each get block
+
+168
+00:23:30.840 --> 00:23:35.089
+Marius Van Der Wijden (M): Latest, it will tell you the latest block that it has the state for.
+
+169
+00:23:35.600 --> 00:23:43.020
+Marius Van Der Wijden (M): And so what you would do in this scenario would be, okay, like, Death Note is shut down for 2 weeks, it has
+
+170
+00:23:43.400 --> 00:23:52.900
+Marius Van Der Wijden (M): I don't know, block A as its latest block, and then you start your CL node.
+
+171
+00:23:53.010 --> 00:24:04.159
+Marius Van Der Wijden (M): And then, instead of giving it the newest block, which you would do right now, you would first ask the EL, hey, what's your current head? EL would tell you A.
+
+172
+00:24:04.950 --> 00:24:07.800
+Marius Van Der Wijden (M): you would see, okay, I'm at F now.
+
+173
+00:24:08.030 --> 00:24:19.319
+Marius Van Der Wijden (M): Or like the chain is at F, I need to provide B through the EL, I give it B, I do focus updated, EL chain advances, I give it…
+
+174
+00:24:19.830 --> 00:24:26.270
+Marius Van Der Wijden (M): C, I give it D, I give it E, and I give it F. And what CLs right now do is they give us
+
+175
+00:24:26.400 --> 00:24:27.190
+Marius Van Der Wijden (M): F?
+
+176
+00:24:27.740 --> 00:24:37.930
+Marius Van Der Wijden (M): And then they, they expect us to, to go to the network and, and find out, okay, F is the ancestor of,
+
+177
+00:24:38.390 --> 00:24:56.449
+Marius Van Der Wijden (M): E, E is the ancestor of, D, E is the anc- no, is, is the child of, of D, E is the child of C, C is the child of B, E is the child of A, and A is the block that we have in the chain. And then we, we know, okay, this current head.
+
+178
+00:24:56.520 --> 00:25:03.279
+Marius Van Der Wijden (M): connects to… or this head that the CL gives us connects to our EL head.
+
+179
+00:25:03.700 --> 00:25:10.119
+Marius Van Der Wijden (M): And then, what we do is we fetch all of those blocks from the network, and then we execute them one by one.
+
+180
+00:25:10.370 --> 00:25:12.399
+Marius Van Der Wijden (M): And what you want to get rid of is.
+
+181
+00:25:12.970 --> 00:25:16.760
+Marius Van Der Wijden (M): Which is a not a bad idea is to get rid of this.
+
+182
+00:25:16.910 --> 00:25:20.290
+Marius Van Der Wijden (M): Having to fetch the block of the network, but…
+
+183
+00:25:20.600 --> 00:25:22.750
+Marius Van Der Wijden (M): I don't… I don't really see…
+
+184
+00:25:23.050 --> 00:25:26.329
+Marius Van Der Wijden (M): How this is not possible right now. At least for Geth.
+
+185
+00:25:29.030 --> 00:25:32.999
+Dustin: So, the challenge with the… is…
+
+186
+00:25:34.240 --> 00:25:40.800
+Dustin: There's… oh, I guess there are… there's two things there… there's two gaps here.
+
+187
+00:25:40.970 --> 00:25:53.840
+Dustin: one of them is it's the existence of the blocks versus the existence of the states. So, for syncing purposes, it actually doesn't matter whether the state exists. It's nice, I guess, but,
+
+188
+00:25:54.110 --> 00:25:57.819
+Dustin: But what matters is whether the blocks are synced to this.
+
+189
+00:25:57.900 --> 00:26:14.630
+Dustin: So this is one. Now, I admit, actually, Jacek's message is not super clear, and I haven't actually talked to them lately, what he personally thinks. So this is, you know, my view is that, like, they are — the state is kind of too much of a requirement.
+
+190
+00:26:14.940 --> 00:26:17.580
+Dustin: For this. For this… for syncing purposes.
+
+191
+00:26:18.030 --> 00:26:19.810
+Dustin: The second thing is that.
+
+192
+00:26:20.040 --> 00:26:38.609
+Dustin: When at least there's an ecosystem consistency point, which is that at least a couple of years ago when I last looked at this, yes, things change quickly and all the time, but there are also more ELs than there used to be. And there's no strong spec on this.
+
+193
+00:26:38.610 --> 00:26:43.509
+Dustin: In terms of, like, ETH, get latest block, you know, so…
+
+194
+00:26:43.840 --> 00:26:52.060
+Dustin: What one thing routinely I would see is it would be zero if the state didn't exist at all.
+
+195
+00:26:52.870 --> 00:26:58.840
+Dustin: So if, if, if I had been feeding this, the EL, the, the.
+
+196
+00:26:59.020 --> 00:27:02.199
+Dustin: Box, and it, for whatever reason, decided to not
+
+197
+00:27:03.300 --> 00:27:08.100
+Dustin: construct states on that. It would just tell me that it was zero, and that's… that is not useful for syncing.
+
+198
+00:27:08.770 --> 00:27:13.380
+Marius Van Der Wijden (M): Well, that's, I think it.
+
+199
+00:27:13.930 --> 00:27:32.700
+Marius Van Der Wijden (M): You can spin the argument either way, whether like you can say, hey, the blocks are not useful for syncing or the state is not useful for syncing. Like if I have the state and you feed me the block plus like from, I don't have any blocks, I only have the state at point A and you feed me the block B.
+
+200
+00:27:32.700 --> 00:27:34.300
+Marius Van Der Wijden (M): Then I can still verify it.
+
+201
+00:27:34.310 --> 00:27:47.590
+Marius Van Der Wijden (M): If I don't have the block at state… if I don't have the state at block A, and you feed me block B, I have no idea, because my state might be A-15.
+
+202
+00:27:47.590 --> 00:27:57.169
+Marius Van Der Wijden (M): So, then again, I have to go and execute from… because I have the blocks, I don't have to find them from the network, but I have to…
+
+203
+00:27:57.180 --> 00:28:00.610
+Marius Van Der Wijden (M): re-execute from a minus 10 to a.
+
+204
+00:28:00.920 --> 00:28:05.760
+Marius Van Der Wijden (M): So… I I you can define it either way.
+
+205
+00:28:05.960 --> 00:28:08.360
+Marius Van Der Wijden (M): I… Dude.
+
+206
+00:28:08.720 --> 00:28:14.089
+Marius Van Der Wijden (M): I can understand that the the it's frustrating on the seal side to see block 0.
+
+207
+00:28:14.420 --> 00:28:17.020
+Marius Van Der Wijden (M): But this is how we do it.
+
+208
+00:28:17.450 --> 00:28:27.929
+Marius Van Der Wijden (M): We tell you the block that we have the current state for. And if we're not synced during snap sync, for example, we will tell you 0.
+
+209
+00:28:29.830 --> 00:28:34.929
+Marius Van Der Wijden (M): I can see the advantage of saying, hey, I want to know
+
+210
+00:28:35.050 --> 00:28:38.619
+Marius Van Der Wijden (M): the block height, because I can feed you more blocks.
+
+211
+00:28:40.330 --> 00:28:54.799
+Marius Van Der Wijden (M): in if we're snap syncing but most of the time like we're not snap syncing right? And so this this example breaks down where where you have where you have a note that is shut off for 2, 2, 2 months, and then
+
+212
+00:28:54.920 --> 00:29:03.280
+Marius Van Der Wijden (M): you start syncing it again, because it will always force you to to full sync. You can never like you. We will never force you to snap sync.
+
+213
+00:29:03.520 --> 00:29:08.670
+Marius Van Der Wijden (M): Anything, after you have been initially synced with.
+
+214
+00:29:09.170 --> 00:29:10.940
+Marius Van Der Wijden (M): Because that would be in the tech vector.
+
+215
+00:29:14.660 --> 00:29:17.390
+Dustin: Okay, so another…
+
+216
+00:29:17.520 --> 00:29:24.090
+Dustin: a scenario I would in general like to point out that, or sort of suggest, is…
+
+217
+00:29:24.190 --> 00:29:43.330
+Dustin: And we've discussed this, is it so that the Helvetica scenario, one of the actually, we found it very challenging. We Nimbus had a sinker, which was able on the CL side was actually able to navigate all those forks, somewhat adroitly, it mostly worked.
+
+218
+00:29:43.670 --> 00:29:47.759
+Dustin: maybe other CLs did too, I don't know. But the…
+
+219
+00:29:48.940 --> 00:29:51.949
+Dustin: And the thing is that the ELs often couldn't follow along.
+
+220
+00:29:53.110 --> 00:30:03.660
+Dustin: And so this is a case where, like, no matter what the CLs did, and the CLs would try to kind of go from fork to fork to find the canonical fork.
+
+221
+00:30:05.220 --> 00:30:08.600
+Dustin: And it didn't, and they would get stuck anyway.
+
+222
+00:30:09.190 --> 00:30:14.659
+Dustin: And so this is… this is… the other advantage of this, this is a way of… so the…
+
+223
+00:30:14.890 --> 00:30:28.830
+Dustin: if the CL can get into… even with EPBS, like, because, yes, it's now separate, but it's still gossiped over… over the CL gossip channels, you'll… you'll get the same kind of, like.
+
+224
+00:30:29.280 --> 00:30:35.169
+Dustin: if the CL can follow the forks, then it can tell the EL how to follow the forks, too.
+
+225
+00:30:35.290 --> 00:30:39.390
+Dustin: And this is a particular chain liveness.
+
+226
+00:30:40.650 --> 00:30:42.270
+Dustin: Yeah. Challenge.
+
+227
+00:30:42.270 --> 00:30:59.300
+Marius Van Der Wijden (M): Yes, like we have. We, as in guest, have improved a lot of things there, like, for example, we can reorg 90,000 blocks or more than 90,000 blocks. Now, 2 weeks now, in I think, about 30 seconds, where it was like
+
+228
+00:30:59.690 --> 00:31:06.250
+Marius Van Der Wijden (M): tens of minutes before. And, and we have also…
+
+229
+00:31:06.400 --> 00:31:09.789
+Marius Van Der Wijden (M): improved our ability to fetch blocks from the network.
+
+230
+00:31:09.960 --> 00:31:22.600
+Marius Van Der Wijden (M): The problem, yes, if you have a CL block that is connected to some CL chain and we don't have EL peers that have these blocks, then we cannot get them.
+
+231
+00:31:22.650 --> 00:31:36.399
+Marius Van Der Wijden (M): And so, yeah, it… I agree in those cases, a unified stack makes sense, because, you on the CL made sure that you had these blocks, and then the ERL couldn't fight it.
+
+232
+00:31:39.050 --> 00:31:40.510
+Dustin: Yeah,
+
+233
+00:31:41.820 --> 00:31:43.270
+Dustin: I mean, I…
+
+234
+00:31:43.580 --> 00:31:54.069
+Dustin: I would tend to say agree that a lot of cases people are broadly. Mostly, the existing syncing approach works well in a lot of situations.
+
+235
+00:31:54.210 --> 00:32:06.589
+Dustin: And obviously, it can continue to be used. Like, the goal here is not to prohibit it, or say you shouldn't use it, like what Guest or Nethermind or any of the yellows are doing.
+
+236
+00:32:06.690 --> 00:32:15.059
+Dustin: whether it's SnapSync or anything else, is to say that right now, the… there's a relatively easily filled gap
+
+237
+00:32:15.420 --> 00:32:16.940
+Dustin: In the, in the spec.
+
+238
+00:32:17.560 --> 00:32:23.640
+Dustin: that… I mean, sure, you've got the block height, or, that is…
+
+239
+00:32:23.940 --> 00:32:27.900
+Dustin: This makes it very difficult to do anything but this one style of syncing.
+
+240
+00:32:28.650 --> 00:32:31.959
+Dustin: And and the goal is to fill that gap.
+
+241
+00:32:32.810 --> 00:32:36.999
+Dustin: Not not to force people to to not everyone to use that.
+
+242
+00:32:37.000 --> 00:32:49.969
+Marius Van Der Wijden (M): Yeah, I, I don't know if we need to do that via the REST SSZ API though. Like we could just do it via the normal JSON RPC API to say, Hey, we have.
+
+243
+00:32:50.240 --> 00:32:53.070
+Marius Van Der Wijden (M): get blocked by number latest.
+
+244
+00:32:53.270 --> 00:32:55.859
+Marius Van Der Wijden (M): And we have something like…
+
+245
+00:32:57.910 --> 00:33:00.510
+Marius Van Der Wijden (M): most recently seen block or something.
+
+246
+00:33:01.470 --> 00:33:10.430
+Marius Van Der Wijden (M): Or, but even even even that even then the like it gets kind of murky because like.
+
+247
+00:33:10.680 --> 00:33:16.629
+Marius Van Der Wijden (M): I don't know, if someone feeds us a block with, I don't know, block number 1 million.
+
+248
+00:33:16.760 --> 00:33:25.709
+Marius Van Der Wijden (M): And we have no state for it. We don't know if it's part of the canonical block chain or whatever, and we can just, like, return, hey.
+
+249
+00:33:25.840 --> 00:33:30.089
+Marius Van Der Wijden (M): The highest block that we've seen is block 1 million.
+
+250
+00:33:31.030 --> 00:33:46.789
+Marius Van Der Wijden (M): 1 million is not that high, actually, in today's blocks, but, like, 1 trillion, and so you would always get, like, the block 1 trillion, but the block 1 trillion isn't really the one that you
+
+251
+00:33:46.980 --> 00:33:51.250
+Marius Van Der Wijden (M): that you wanted. We could give you the latest
+
+252
+00:33:51.640 --> 00:33:54.059
+Marius Van Der Wijden (M): block that we marked as canonical.
+
+253
+00:33:55.160 --> 00:33:56.460
+Marius Van Der Wijden (M): Probably, yeah.
+
+254
+00:33:56.990 --> 00:33:58.860
+Marius Van Der Wijden (M): That might actually be an idea.
+
+255
+00:33:59.640 --> 00:34:03.829
+Marius Van Der Wijden (M): Yeah. Get latest canonical block or something like this.
+
+256
+00:34:04.630 --> 00:34:11.260
+Dustin: And there's also a middle ground of checking, like, contiguousness of the chain, so, like, block hash.
+
+257
+00:34:11.510 --> 00:34:13.349
+Dustin: And does it… is there a…
+
+258
+00:34:13.510 --> 00:34:19.419
+Dustin: Yeah, is there a contiguous chain to a unknown, whether it's Genesis or some other kind of
+
+259
+00:34:19.550 --> 00:34:24.330
+Dustin: So a pivot, a trusted pivot, whatever it is, that…
+
+260
+00:34:25.139 --> 00:34:30.759
+Dustin: You know, one can, without necessarily having to have a state.
+
+261
+00:34:31.909 --> 00:34:37.469
+Dustin: So… I do understand what you're saying, like, but I think the 1 trillion thing is pretty easy to…
+
+262
+00:34:37.800 --> 00:34:46.489
+Dustin: avoid. It's simply not valid if there's not some kind of lineage to a known To a known block.
+
+263
+00:34:54.980 --> 00:34:56.599
+Dustin: No, but that's my…
+
+264
+00:34:57.900 --> 00:35:06.559
+Dustin: the pivot is, in this case, trusting as functioning as an, to address FOCIL. A trusted… a block who's,
+
+265
+00:35:08.000 --> 00:35:10.040
+Dustin: A canonicalness is trusted.
+
+266
+00:35:13.250 --> 00:35:15.529
+Dustin: Like, it's trusted that it's on the chain.
+
+267
+00:35:16.140 --> 00:35:17.780
+Dustin: Whether you have the state or not.
+
+268
+00:35:19.600 --> 00:35:20.340
+Dustin: Yeah, okay.
+
+269
+00:35:20.700 --> 00:35:24.279
+Dustin: Like, the idea is it's anchoring you to the chain that you think is real.
+
+270
+00:35:38.860 --> 00:35:40.700
+Dustin: Sure, that works too.
+
+271
+00:35:40.870 --> 00:35:47.800
+Dustin: We've previously gotten FCU for it. That, yeah, sure, because that's a CL saying this is the case, asserting that's the case.
+
+272
+00:35:48.130 --> 00:35:49.870
+Dustin: That's actually not a bad idea.
+
+273
+00:35:50.540 --> 00:35:54.239
+Marius Van Der Wijden (M): Yeah, yeah, this is, like, this is kind of what canonical means for us.
+
+274
+00:35:54.390 --> 00:36:00.839
+Marius Van Der Wijden (M): It's like… to see how that's like the most recent.
+
+275
+00:36:01.150 --> 00:36:04.069
+Marius Van Der Wijden (M): a block where the Cl. Said, this is the head.
+
+276
+00:36:04.320 --> 00:36:12.819
+Marius Van Der Wijden (M): Or, like, this is the canonical chain, and all of those blocks in this chain,
+
+277
+00:36:13.590 --> 00:36:14.920
+Marius Van Der Wijden (M): And.
+
+278
+00:36:16.140 --> 00:36:25.399
+Marius Van Der Wijden (M): are thought of as, like, the canonical blocks. So something like ETH gets… Latest canonical block or something.
+
+279
+00:36:25.590 --> 00:36:30.620
+Marius Van Der Wijden (M): would probably solve this. But then, like, Okay.
+
+280
+00:36:30.830 --> 00:36:37.939
+Marius Van Der Wijden (M): I'm kind of hesitant to add this to the to the engine Api, because it doesn't really have any, doesn't have
+
+281
+00:36:38.100 --> 00:36:41.209
+Marius Van Der Wijden (M): that much to do with the engine API, it's more of…
+
+282
+00:36:41.630 --> 00:36:47.450
+Marius Van Der Wijden (M): yeah, another like a normal Jason Rpc. Api.
+
+283
+00:36:47.950 --> 00:36:54.859
+Dustin: Well, this becomes a challenge, at least exactly that dichotomy or delineation.
+
+284
+00:36:55.290 --> 00:37:12.869
+Dustin: the Engine API has lived in its own world to some extent, and… and this… there's a couple of aspects here. One is that, at least with the JSON-RPC version of the Engine API, there is an explicit list of APIs, and it's in the spec, that is, like.
+
+285
+00:37:13.070 --> 00:37:18.179
+Dustin: of the ETH namespace APIs that are guaranteed to be there.
+
+286
+00:37:18.420 --> 00:37:25.109
+Dustin: I believe you have, like, ChainID and a few others, but it's… it is not the full Web3 API.
+
+287
+00:37:25.460 --> 00:37:37.060
+Dustin: I mean, some ELs may or may not choose to serve it on the same ports, or… sure, that's a different, you know… but… but from a spec perspective, from a CL,
+
+288
+00:37:37.120 --> 00:37:49.000
+Dustin: compatibility with all, like, a spec following EL, they can only assume about a half dozen of these APIs. So even if, like, the very minimal version of this is
+
+289
+00:37:49.130 --> 00:37:52.700
+Dustin: Is something like it's, it's on this list in the
+
+290
+00:37:54.150 --> 00:38:04.039
+Dustin: in the engine… in… whether it's SSE or… or JSON-RPC engine API specs to say that, it's… it's available on the same…
+
+291
+00:38:04.670 --> 00:38:16.820
+Dustin: port, or as part of the same thing. The other part is, though, also, the having, sort of sharing, how to put it, just sharing the standards.
+
+292
+00:38:17.540 --> 00:38:29.829
+Dustin: for what counts as a full block. So… so the idea is, like, the Engine API is very specific about blocks being, like, the semantics of invalid blocks and, things like this.
+
+293
+00:38:30.470 --> 00:38:41.699
+Dustin: Right? That the other parts of the ETH namespace APIs are not necessarily… they do not specify this. And if they do not specify this, one cannot rely on it across ELs.
+
+294
+00:38:41.940 --> 00:38:43.580
+Dustin: Whatever Geth happens to do.
+
+295
+00:38:44.890 --> 00:38:49.180
+Dustin: So… I mean, it doesn't have to be, and they…
+
+296
+00:38:49.340 --> 00:38:59.110
+Dustin: specifically in the sort of engine namespace, potentially, but it does need to be semantically linked in an explicit way, both to be present
+
+297
+00:38:59.240 --> 00:39:02.100
+Dustin: On the same sort of set of services.
+
+298
+00:39:02.700 --> 00:39:12.109
+Dustin: And that it shares a semantic definition of what counts as this, whether it's the latest block or…
+
+299
+00:39:12.730 --> 00:39:14.420
+Dustin: Final, or… yeah.
+
+300
+00:39:15.300 --> 00:39:15.960
+Dustin: Walk.
+
+301
+00:39:17.180 --> 00:39:19.369
+Dustin: So it can't just float unspecified.
+
+302
+00:39:20.450 --> 00:39:23.880
+Marius Van Der Wijden (M): Yeah, but the that is something that
+
+303
+00:39:24.710 --> 00:39:36.010
+Marius Van Der Wijden (M): that the folks over at the normal Jason Rpc. Call have have been working on quite a lot to cut down these methods where where you have like.
+
+304
+00:39:36.260 --> 00:39:38.850
+Marius Van Der Wijden (M): Different clients behave behaving differently.
+
+305
+00:39:39.480 --> 00:39:47.809
+Marius Van Der Wijden (M): So it would be clear that if we add this method, then everyone has to. There's a spec that's test for it, and everyone has to behave the same.
+
+306
+00:39:48.710 --> 00:39:57.080
+Dustin: Okay, but that solves… that would resolve half of what I'm saying, sure, but the other half is still this point about…
+
+307
+00:39:57.260 --> 00:40:00.020
+Dustin: that the Engine API
+
+308
+00:40:01.030 --> 00:40:13.980
+Dustin: support, it only specifies that, again, I think it's a half dozen to a dozen or so of these non-engine, endpoints exist. This is the JSON-RPC one.
+
+309
+00:40:14.430 --> 00:40:23.359
+Dustin: I think… I don't know that the SSZ1 specifies anything one way or the other, nor… I mean, hard to see… hard to see how it could, but… but for the…
+
+310
+00:40:24.440 --> 00:40:26.210
+Dustin: But yeah, so that's…
+
+311
+00:40:27.930 --> 00:40:42.630
+Dustin: so it means that a CL has to then be connecting to an EL on two different ports, and that's a configuration issue. That's… are the two ports even open? On both sides, CL and EL side, they… you can usually enable or disable them independently. So…
+
+312
+00:40:42.770 --> 00:40:45.960
+Dustin: I mean that that that is the.
+
+313
+00:40:47.830 --> 00:40:51.589
+Dustin: And that is firmly an Engine API concern. That is not something that people.
+
+314
+00:40:51.590 --> 00:40:51.980
+Marius Van Der Wijden (M): More.
+
+315
+00:40:51.980 --> 00:40:53.590
+Dustin: We're in the JSON R.
+
+316
+00:40:54.780 --> 00:40:58.629
+Marius Van Der Wijden (M): But for each… He's thinking, for example.
+
+317
+00:40:59.240 --> 00:41:01.070
+Marius Van Der Wijden (M): We need to do that anyway.
+
+318
+00:41:03.630 --> 00:41:05.070
+Dustin: To do what anyway?
+
+319
+00:41:05.350 --> 00:41:08.120
+Marius Van Der Wijden (M): Like connect to the normal.
+
+320
+00:41:08.290 --> 00:41:09.620
+Marius Van Der Wijden (M): Rpc. Api.
+
+321
+00:41:10.070 --> 00:41:11.170
+Marius Van Der Wijden (M): On a different port.
+
+322
+00:41:11.170 --> 00:41:11.910
+Dustin: Hmm, okay.
+
+323
+00:41:12.100 --> 00:41:12.630
+Marius Van Der Wijden (M): No?
+
+324
+00:41:12.970 --> 00:41:13.410
+Dustin: How, how.
+
+325
+00:41:13.410 --> 00:41:14.440
+Marius Van Der Wijden (M): Very cool.
+
+326
+00:41:15.090 --> 00:41:15.760
+Dustin: No.
+
+327
+00:41:16.020 --> 00:41:18.939
+Marius Van Der Wijden (M): Are we serving it on the same port?
+
+328
+00:41:19.850 --> 00:41:26.760
+Dustin: Oh, wait, serving… which endpoint do you mean? Like, I thought we could validate…
+
+329
+00:41:26.760 --> 00:41:27.200
+Marius Van Der Wijden (M): Thank you.
+
+330
+00:41:27.200 --> 00:41:27.960
+Dustin: The steel can go.
+
+331
+00:41:27.960 --> 00:41:28.400
+Marius Van Der Wijden (M): I need…
+
+332
+00:41:28.400 --> 00:41:29.070
+Dustin: Without.
+
+333
+00:41:29.280 --> 00:41:32.360
+Marius Van Der Wijden (M): No, I mean ETH.sinking. ETH.sinking.
+
+334
+00:41:32.360 --> 00:41:32.810
+Dustin: Oh, oh.
+
+335
+00:41:32.810 --> 00:41:33.240
+Marius Van Der Wijden (M): Eastern.
+
+336
+00:41:33.240 --> 00:41:33.819
+Dustin: Oh, that.
+
+337
+00:41:33.820 --> 00:41:36.549
+Marius Van Der Wijden (M): I'll Get receipts or something.
+
+338
+00:41:37.080 --> 00:41:39.170
+Dustin: Oh, okay, well, those are two different things.
+
+339
+00:41:39.170 --> 00:41:39.559
+Marius Van Der Wijden (M): You too.
+
+340
+00:41:39.560 --> 00:41:40.130
+Dustin: So.
+
+341
+00:41:40.410 --> 00:41:43.859
+Marius Van Der Wijden (M): Yeah, no, but those… Oh, we haven't…
+
+342
+00:41:44.110 --> 00:41:53.509
+Marius Van Der Wijden (M): Ether syncing is is a is a bad example, but get receipts as something that you needed right in the past.
+
+343
+00:41:54.480 --> 00:41:56.000
+Dustin: Yeah, I mean…
+
+344
+00:41:56.000 --> 00:41:56.399
+Marius Van Der Wijden (M): Me ne.
+
+345
+00:41:56.400 --> 00:41:57.360
+Dustin: if… yeah.
+
+346
+00:41:57.970 --> 00:42:08.500
+Dustin: Yeah, yeah, yeah, to get the… it was a… the deposit… there was a… there was a log monitoring, ETHGAT logs, for the deposit monitoring. We don't… we don't need any more, but we used to.
+
+347
+00:42:08.500 --> 00:42:12.010
+Marius Van Der Wijden (M): Yeah, but this is served on a different port, right?
+
+348
+00:42:13.810 --> 00:42:17.009
+Dustin: Well, so it…
+
+349
+00:42:18.230 --> 00:42:28.070
+Dustin: It varies here. I'll link to it in a moment, actually, because I just found it where this… in the spec. It's very specific about this, and
+
+350
+00:42:28.900 --> 00:42:32.290
+Dustin: here there's wait.
+
+351
+00:42:33.050 --> 00:42:36.900
+Dustin: Oh, where's my… Okay.
+
+352
+00:42:39.070 --> 00:42:40.290
+Dustin: This.
+
+353
+00:42:40.570 --> 00:42:41.210
+Marius Van Der Wijden (M): Yes.
+
+354
+00:42:41.710 --> 00:42:47.259
+Dustin: So, so if you look at that, that, that's a link to, that's, that is in the Engine API specs today.
+
+355
+00:42:47.500 --> 00:42:48.790
+Dustin: And at least.
+
+356
+00:42:48.790 --> 00:42:49.210
+Marius Van Der Wijden (M): Mmh.
+
+357
+00:42:49.210 --> 00:42:59.480
+Dustin: for specific things. And there are, yeah, I remember, so it's about 10, 9 or 10. And ETH syncing actually is there, it's on there.
+
+358
+00:42:59.480 --> 00:43:00.050
+Marius Van Der Wijden (M): I don'.
+
+359
+00:43:00.050 --> 00:43:01.030
+Dustin: Also on there.
+
+360
+00:43:01.170 --> 00:43:06.460
+Dustin: That's why that worked, because this was explicit. So this was not a random chance.
+
+361
+00:43:06.460 --> 00:43:08.719
+Marius Van Der Wijden (M): And this is what I'm saying.
+
+362
+00:43:09.190 --> 00:43:15.890
+Marius Van Der Wijden (M): Yeah, I get it. But yeah, but nothing really stops us from doing the same thing, right?
+
+363
+00:43:16.620 --> 00:43:20.279
+Marius Van Der Wijden (M): With each get canonical. Yes.
+
+364
+00:43:20.430 --> 00:43:29.009
+Dustin: Right, so that is absolutely a way of achieving a similar goal, or the same goal, yes, is to have it be standardized and specified by.
+
+365
+00:43:29.010 --> 00:43:29.480
+Marius Van Der Wijden (M): Okay.
+
+366
+00:43:29.480 --> 00:43:43.539
+Dustin: another entity, and then incorporated by reference the way these things are here. That, that, that, that can work as well. Now, the challenge then becomes the JSON, the JSON RPC, the Web3 API,
+
+367
+00:43:43.540 --> 00:43:54.000
+Dustin: that brings back the two different ports, because this is a… it's REST versus… I don't know how ELs intend to serve this in general, but, like.
+
+368
+00:43:54.260 --> 00:43:55.280
+Marius Van Der Wijden (M): You know, like.
+
+369
+00:43:55.280 --> 00:43:55.800
+Dustin: Thank you.
+
+370
+00:43:55.800 --> 00:44:08.420
+Marius Van Der Wijden (M): You're making, you're making a good, you're making a good point that this is something that the, the, the SSZ spec, right, the REST SSZ spec right now doesn't, doesn't have at all.
+
+371
+00:44:08.730 --> 00:44:09.560
+Marius Van Der Wijden (M): Right?
+
+372
+00:44:09.830 --> 00:44:11.090
+Dustin: Yeah, yeah, indeed.
+
+373
+00:44:11.090 --> 00:44:19.060
+Marius Van Der Wijden (M): This notion of these these calls, we we are also exposing the our namespace.
+
+374
+00:44:20.550 --> 00:44:21.490
+Dustin: Y-yeah.
+
+375
+00:44:21.490 --> 00:44:29.700
+Marius Van Der Wijden (M): Like, this is something that we need to specify anyway. It's like, how are we getting these things?
+
+376
+00:44:30.450 --> 00:44:49.830
+Dustin: Yes, that's a good point actually. Like this top up sync stuff aside entirely, we need a way to, now get logs has probably fallen out of use. I think we can safely say 6110 is not going to vanish tomorrow, but a lot of the others are like each chain ID is useful.
+
+377
+00:44:49.830 --> 00:45:01.250
+Dustin: for, obviously, checking compatibility with an EL, or are they CL and EL on the same chain? Obviously, e-syncing is useful, etc. So, yeah.
+
+378
+00:45:02.040 --> 00:45:15.889
+Marius Van Der Wijden (M): Yeah, I never, I never thought about it when, when I, when I started designing the, the REST SSZ API that, that we, that we still need these. I always thought that they, that you guys would just go to the different port where we expose those.
+
+379
+00:45:16.580 --> 00:45:23.159
+Marius Van Der Wijden (M): I didn't know that they were, like, also exposed on the, on the, on the engine port.
+
+380
+00:45:24.310 --> 00:45:26.830
+Marius Van Der Wijden (M): And on the, like, on the authentication port.
+
+381
+00:45:27.460 --> 00:45:29.640
+Marius Van Der Wijden (M): Yeah, no, that makes sense. Yeah, yeah.
+
+382
+00:45:30.800 --> 00:45:37.630
+Marius Van Der Wijden (M): That's a… yeah, that's a good to-do to figure out how we… How we do this?
+
+383
+00:45:38.970 --> 00:45:44.150
+Marius Van Der Wijden (M): Probably it would make sense to move them to SSZ as well.
+
+384
+00:45:45.070 --> 00:45:45.780
+Marius Van Der Wijden (M): Okay.
+
+385
+00:45:45.780 --> 00:45:55.740
+Dustin: I think that makes… yeah, it should be a consistent encoding, and that's a point in general, by the way, that, like, to try to make sure that
+
+386
+00:45:55.850 --> 00:46:08.350
+Dustin: again, we have, aside from the namespace, you know, or using this sort of similar kind of, you know, or consistent namespace, also, like, the REST encoding, there's, like, these little differences in how, like.
+
+387
+00:46:08.350 --> 00:46:18.939
+Dustin: do, do numbers come with like zero X before them or like all sorts of just little, these, you know, between the, to the two different JSON encodings we have now.
+
+388
+00:46:19.050 --> 00:46:27.100
+Dustin: And it would be good if we had to really make sure consistent that the…
+
+389
+00:46:27.790 --> 00:46:40.959
+Dustin: the syntax was consistent. Of course, SSE is SSE, but there's all sorts of other choices that are semi-arbitrary, and to make the same semi-arbitrary choices as the Beacon API, unless otherwise…
+
+390
+00:46:41.140 --> 00:46:43.139
+Dustin: like, pretty compelling.
+
+391
+00:46:43.700 --> 00:46:44.310
+Marius Van Der Wijden (M): Yep.
+
+392
+00:46:44.520 --> 00:46:45.979
+Marius Van Der Wijden (M): Yeah, that makes sense.
+
+393
+00:46:52.170 --> 00:46:56.689
+Marius Van Der Wijden (M): We have, like, we have the call recorded, right? And there's, like, a transcript or something.
+
+394
+00:46:56.690 --> 00:46:58.440
+Dustin: I believe so, yeah.
+
+395
+00:46:58.590 --> 00:47:00.120
+Marius Van Der Wijden (M): Yeah, okay, I can make sure.
+
+396
+00:47:00.120 --> 00:47:03.200
+Dustin: Magna would know. Sorry, go ahead, yeah.
+
+397
+00:47:03.810 --> 00:47:12.259
+Tamaghna Chourdhuri: Yeah, so, like, yeah, the call's recorded, we'll have the transcript, and we'll also have the other podcast for everybody to maybe watch it later, so that's all good.
+
+398
+00:47:12.830 --> 00:47:21.630
+Marius Van Der Wijden (M): Amazing. Amazing. Yeah. So, yeah, I think it's it's a good it's a good to do to for us to figure out what what what we have to do there.
+
+399
+00:47:22.980 --> 00:47:37.810
+Dustin: Yeah, and I think one of the first useful things is to go through and even scoping it because I'm looking at that and I can tell you about half of these have to be obvious utility from a CL, specifically engine type perspective.
+
+400
+00:47:38.010 --> 00:47:44.039
+Dustin: No. But some of them, I honestly don't know. Why is ETHGET code there?
+
+401
+00:47:44.590 --> 00:47:46.440
+Dustin: Personally, I can't say.
+
+402
+00:47:46.740 --> 00:47:47.740
+Dustin: I'm sure.
+
+403
+00:47:47.740 --> 00:47:48.080
+Marius Van Der Wijden (M): Anyway.
+
+404
+00:47:48.080 --> 00:47:48.800
+Dustin: You know.
+
+405
+00:47:48.800 --> 00:47:55.920
+Marius Van Der Wijden (M): Yeah, probably to make sure that the… probably to make sure that the deposit contract is, is,
+
+406
+00:47:56.400 --> 00:47:59.650
+Marius Van Der Wijden (M): It's deployed or something… Thanks.
+
+407
+00:47:59.650 --> 00:48:12.159
+Dustin: Oh, that's good, that's a good point, yeah. That's probably… that's probably… oh, yeah, the other… oh, I know, right, because… hmm… it was… it was… yeah, so the… yeah, it was to find the deposit contract. I at least didn't… that's why…
+
+408
+00:48:12.160 --> 00:48:22.829
+Dustin: and I think Nimbus did something like this. I, I, I remember this code a long time ago, but I mean, where it would kind of scan for, it would scan for the logs, but it would also scan for the deposit contract.
+
+409
+00:48:22.920 --> 00:48:26.200
+Dustin: itself, and… okay, yes, okay.
+
+410
+00:48:26.550 --> 00:48:29.939
+Marius Van Der Wijden (M): You guys, you guys are just, yeah, you guys are just crazy.
+
+411
+00:48:30.250 --> 00:48:31.440
+Marius Van Der Wijden (M): Sometimes.
+
+412
+00:48:31.580 --> 00:48:32.600
+Marius Van Der Wijden (M): Right.
+
+413
+00:48:32.600 --> 00:48:33.230
+Dustin: Sad.
+
+414
+00:48:34.500 --> 00:48:54.049
+Dustin: This necessity, in that particular case, it was the only way to do certain things. We're much happier with 6110. But get block by hash and by number are pretty useful. ETH call is kind of mysterious to me. I mean, I know what it is in general, but I know…
+
+415
+00:48:54.230 --> 00:48:55.160
+Dustin: Like, why?
+
+416
+00:48:55.160 --> 00:48:55.690
+Marius Van Der Wijden (M): Yeah, yeah.
+
+417
+00:48:55.690 --> 00:48:57.840
+Dustin: An engine API would need it.
+
+418
+00:48:57.840 --> 00:48:58.870
+Marius Van Der Wijden (M): No idea.
+
+419
+00:48:59.640 --> 00:49:11.660
+Marius Van Der Wijden (M): In any case, yeah, I will, I will, I will take care of it. I will make sure to, to get, to get this into ACDC, or, like, both ACD.
+
+420
+00:49:11.870 --> 00:49:14.100
+Marius Van Der Wijden (M): And, and, and make sure, hey.
+
+421
+00:49:14.320 --> 00:49:19.099
+Marius Van Der Wijden (M): We need input into what methods are still useful.
+
+422
+00:49:19.670 --> 00:49:22.479
+Marius Van Der Wijden (M): And what method we can just remove.
+
+423
+00:49:23.520 --> 00:49:24.330
+Marius Van Der Wijden (M): And so on.
+
+424
+00:49:24.330 --> 00:49:24.930
+Dustin: Correct.
+
+425
+00:49:25.370 --> 00:49:26.640
+Dustin: Yeah, that makes sense.
+
+426
+00:49:26.990 --> 00:49:31.580
+Dustin: Yeah, and I think it's just as important not to add Things, because we'll have.
+
+427
+00:49:31.580 --> 00:49:31.900
+Marius Van Der Wijden (M): Yeah.
+
+428
+00:49:31.900 --> 00:49:43.289
+Dustin: SSZ versions of them specially, like, they don't, like, just exist right now, to not add things just because they're here. If… if nobody needs Ethernet logs anymore, then don't add it for the sake of…
+
+429
+00:49:43.660 --> 00:49:47.420
+Marius Van Der Wijden (M): Yeah, no, that's clear.
+
+430
+00:49:47.940 --> 00:49:50.399
+Marius Van Der Wijden (M): This should be as minimal as possible, anyway.
+
+431
+00:49:51.320 --> 00:49:56.750
+Dustin: Yeah, exactly. Okay. Alright. Anyway, I think that that's…
+
+432
+00:49:57.240 --> 00:49:59.200
+Dustin: on what I wanted to say.
+
+433
+00:50:08.830 --> 00:50:26.900
+Tamaghna Chourdhuri: Yeah, that was a long discussion, so, maybe, like, what I'd say is maybe from the transcript, maybe, and, like, also we can maybe get up a public document regarding this, because what I see, it would be good to also have, the clients which are not on the call, their opinion, because,
+
+434
+00:50:26.900 --> 00:50:27.590
+Marius Van Der Wijden (M): Yeah, dude.
+
+435
+00:50:28.580 --> 00:50:30.350
+Tamaghna Chourdhuri: That's… that becomes important.
+
+436
+00:50:30.850 --> 00:50:35.079
+Marius Van Der Wijden (M): Yeah, I will, I will prepare a document explaining,
+
+437
+00:50:36.400 --> 00:50:44.670
+Marius Van Der Wijden (M): What choices we need to make, why we made them in the past the way we did, and what things we could potentially get rid of.
+
+438
+00:50:45.340 --> 00:50:55.710
+Marius Van Der Wijden (M): Yeah, yeah, and then I will, I will send it in the groups and then also discuss it on ACDE, to get, like, the opinions of the people that are not here yet.
+
+439
+00:50:58.090 --> 00:51:03.800
+Tamaghna Chourdhuri: Yeah, that would be good. So, like, these discussions regarding what would we need, and also maybe,
+
+440
+00:51:04.120 --> 00:51:17.440
+Tamaghna Chourdhuri: the explainer on the, thing that, the asset growth might also be a good point, so, like, that we can maybe have these two documents up, and maybe we can ask everyone to have a look.
+
+441
+00:51:18.430 --> 00:51:29.409
+Tamaghna Chourdhuri: Yeah, so, like, other than that, is there any other thing that, let's say, we want to discuss today or right now? Or, like, would that be the end of it, and maybe we'd be…
+
+442
+00:51:29.610 --> 00:51:32.890
+Tamaghna Chourdhuri: Giving it some time, and
+
+443
+00:51:34.450 --> 00:51:47.919
+Tamaghna Chourdhuri: Maybe we can give it some time, and then meet on the next call, that's in 2 weeks, and also maybe drop this off in ACDEC. I guess it would be good to bring it up in both of the calls, because
+
+444
+00:51:48.030 --> 00:51:51.219
+Tamaghna Chourdhuri: We'll be getting more visibility then, but like, yeah.
+
+445
+00:52:00.040 --> 00:52:04.249
+Dustin: Yeah, I mean, I think it would make sense to kind of bundle with what…
+
+446
+00:52:04.490 --> 00:52:10.720
+Dustin: Marius is talking about, putting together Jacek, you know, he has this, this, this markdown
+
+447
+00:52:11.520 --> 00:52:16.600
+Dustin: document, or that, or this HackMD document, I guess not, that,
+
+448
+00:52:16.880 --> 00:52:23.909
+Dustin: That, I think, explains actually pretty well, like the motivations for for this.
+
+449
+00:52:24.690 --> 00:52:29.390
+Dustin: So, it doesn't cover the chain foe in case I described.
+
+450
+00:52:29.700 --> 00:52:34.320
+Dustin: Doesn't — yeah, anyway. But it covers the mechanics he's looking for.
+
+451
+00:52:39.510 --> 00:52:54.639
+Tamaghna Chourdhuri: Alright, then I guess then, yup, then maybe we can just add that change-following mechanism into this, one that Yasek already has, and, the new ones. Other than that, is there any other thing we'd like to talk about, or then maybe…
+
+452
+00:52:55.210 --> 00:52:59.109
+Tamaghna Chourdhuri: we can maybe end the call. Maybe it's 10 minutes to spare.
+
+453
+00:53:24.210 --> 00:53:28.130
+Marius Van Der Wijden (M): Sounds like a no, I guess. See you guys next call.
+
+454
+00:53:29.440 --> 00:53:31.619
+Tamaghna Chourdhuri: Yep, see you guys in the next call. Bye.
+
+455
+00:53:31.620 --> 00:53:32.080
+Dustin: Yep.
+
+456
+00:53:33.310 --> 00:53:33.750
+Justin Traglia: I forgot.
+
+457
+00:53:33.750 --> 00:53:34.200
+Dustin: Bye.
+
+458
+00:53:34.200 --> 00:53:36.440
+Tamaghna Chourdhuri: Next Friday… next to next Friday.
+
+459
+00:53:36.670 --> 00:53:37.770
+Tamaghna Chourdhuri: Bye, guys!
+

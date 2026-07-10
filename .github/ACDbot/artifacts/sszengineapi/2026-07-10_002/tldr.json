@@ -1,0 +1,61 @@
+{
+  "meeting": "SSZ Engine API #2 - July 10, 2026",
+  "highlights": {
+    "testing_updates": [
+      {
+        "timestamp": "00:05:05",
+        "highlight": "SSZ support from project ZKEVM being integrated into EELS Amsterdam branch; reference vectors and REST abstraction to follow"
+      },
+      {
+        "timestamp": "00:05:36",
+        "highlight": "EELS planned to eventually serve engine requests as a temporary EL for CL testing; FastAPI/OpenRPC targeted short-term"
+      }
+    ],
+    "ssz_engine_api_design": [
+      {
+        "timestamp": "00:07:46",
+        "highlight": "Jacek (Nimbus) proposes REST path alignment with Beacon API namespace for coexistence on same port; especially relevant for unified clients"
+      },
+      {
+        "timestamp": "00:08:56",
+        "highlight": "Top-up sync gap identified: current Engine API has no reliable way for a CL to determine where to begin backfilling to an out-of-sync EL head"
+      },
+      {
+        "timestamp": "00:36:30",
+        "highlight": "Proposal: expose ETH get-latest-canonical-block (FCU-marked head) on engine port to enable CL-driven top-up sync without EL p2p"
+      },
+      {
+        "timestamp": "00:43:54",
+        "highlight": "SSZ REST Engine API currently lacks equivalents for ETH-namespace methods (chainID, syncing, etc.) that existing JSON-RPC engine spec guarantees; needs explicit scoping"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:49:11",
+      "action": "Prepare document explaining current ETH-namespace method list on engine port, rationale, and candidates for removal; bring to ACDE and ACDC for broader input",
+      "owner": "Marius Van Der Wijden"
+    },
+    {
+      "timestamp": "00:50:08",
+      "action": "Publish public document on top-up sync design (incorporating Jacek's HackMD and chain-following mechanism) to gather input from absent clients",
+      "owner": "Tamaghna Chourdhuri / Dustin"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:43:54",
+      "decision": "Agreed SSZ Engine API must specify which ETH-namespace endpoints are available on the engine port, consistent with Beacon API encoding conventions"
+    },
+    {
+      "timestamp": "00:49:50",
+      "decision": "ETH-namespace method list for SSZ Engine API should be as minimal as possible; no automatic carry-over from JSON-RPC engine spec"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:51:29",
+      "target": "Next SSZ Engine API call in 2 weeks (approx. July 24, 2026); top-up sync and namespace scoping documents to be circulated beforehand"
+    }
+  ]
+}
