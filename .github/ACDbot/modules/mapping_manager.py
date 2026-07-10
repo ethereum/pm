@@ -289,4 +289,24 @@ class MappingManager:
                         if field not in occurrence:
                             issues.append(f"call series '{call_series}' occurrence {i} missing required field: {field}")
 
+                    breakout_youtube = occurrence.get("breakout_youtube")
+                    if breakout_youtube is not None:
+                        if not isinstance(breakout_youtube, dict):
+                            issues.append(
+                                f"call series '{call_series}' occurrence {i} "
+                                "breakout_youtube is not a dictionary"
+                            )
+                        else:
+                            for label, state in breakout_youtube.items():
+                                if not isinstance(label, str) or not label:
+                                    issues.append(
+                                        f"call series '{call_series}' occurrence {i} "
+                                        "has an invalid breakout_youtube label"
+                                    )
+                                if not isinstance(state, dict):
+                                    issues.append(
+                                        f"call series '{call_series}' occurrence {i} "
+                                        f"breakout_youtube '{label}' is not a dictionary"
+                                    )
+
         return issues

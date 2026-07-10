@@ -258,9 +258,9 @@ class TestAutopilotConfig:
         assert get_recording_publication_mode("acdc") == "raw_zoom_recording"
         assert get_recording_publication_mode("nonexistent") == "raw_zoom_recording"
 
-    def test_get_recording_publication_mode_for_acdt_uses_composed_uploads(self):
-        """Test that ACDT uploads the composed bumper plus Zoom recording."""
-        assert get_recording_publication_mode("acdt") == "composed_zoom_recording"
+    def test_get_recording_publication_mode_for_acdt_uses_raw_uploads(self):
+        """Test that ACDT uses the standard raw Zoom recording upload."""
+        assert get_recording_publication_mode("acdt") == "raw_zoom_recording"
 
     def test_get_autopilot_defaults_for_one_off(self):
         """Test that one-off calls have no autopilot defaults."""

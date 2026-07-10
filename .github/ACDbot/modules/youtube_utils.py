@@ -22,6 +22,20 @@ def add_video_to_playlist(video_id, playlist_id):
     try:
         youtube = get_youtube_service()
 
+        existing = youtube.playlistItems().list(
+            part="id",
+            playlistId=playlist_id,
+            videoId=video_id,
+            maxResults=1,
+        ).execute()
+        if existing.get("items"):
+            print(f"[INFO] Video {video_id} is already in playlist {playlist_id}")
+            return {
+                "already_present": True,
+                "video_id": video_id,
+                "playlist_id": playlist_id,
+            }
+
         print(f"[DEBUG] Adding video {video_id} to playlist {playlist_id}")
         body = {
             'snippet': {

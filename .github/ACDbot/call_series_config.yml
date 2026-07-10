@@ -19,6 +19,18 @@
 #   recording_publication_mode: How post-call recordings are uploaded to YouTube.
 #     raw_zoom_recording: Upload the selected Zoom MP4 directly.
 #     composed_zoom_recording: Compose bumper + Zoom recording + bumper with ffmpeg before upload.
+#
+# Breakout rooms held in a separate Zoom meeting (e.g., the ACDT "CL" breakout)
+# are NOT separate call series. Instead, link the breakout's recurring Zoom
+# meeting id via "breakout_meeting_ids" on the parent series entry in
+# meeting_topic_mapping.json, e.g.:
+#   "breakout_meeting_ids": { "cl": "<zoom_meeting_id>" }
+# The asset pipeline downloads the breakout transcript into the same occurrence
+# directory as the parent call (as transcript_<label>.vtt / chat_<label>.txt)
+# and summarizes it into its own tldr_<label>.json, since the breakout's
+# timestamps refer to a different recording than the parent call's tldr.json.
+# Breakout recordings are uploaded separately to the parent series' YouTube
+# playlists and tracked per occurrence under breakout_youtube.<label>.
 
 # Default autopilot settings used when a call series doesn't have specific configuration
 default_autopilot_settings:
@@ -64,7 +76,6 @@ call_series:
     display_name: "All Core Devs - Testing"
     youtube_playlist_id: "PLJqWcTqh_zKFE51VgNZmgT5SGYTKnyY6Y"
     discord_webhook_env: "DISCORD_ACD_WEBHOOK"
-    recording_publication_mode: "composed_zoom_recording"
     autopilot_defaults:
       duration: 60
       occurrence_rate: "weekly"

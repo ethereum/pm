@@ -8,9 +8,44 @@ where keys are call series names instead of Zoom IDs.
 import json
 import os
 from pathlib import Path
-from typing import Dict, Optional, List, Any, Tuple
+from typing import Dict, Iterator, Optional, List, Any, Tuple
 
 MAPPING_FILE_PATH = Path(__file__).resolve().parent.parent / "meeting_topic_mapping.json"
+
+
+def iter_breakout_meetings(series_data: Optional[Dict]) -> Iterator[Tuple[str, str]]:
+    """Yield ``(label, meeting_id)`` for each linked breakout meeting on a series.
+
+    Breakout rooms held in a separate Zoom meeting (e.g. the ACDT "CL" breakout)
+    are linked via the ``breakout_meeting_ids`` field on a series entry. Entries
+    without a usable Zoom meeting id are skipped: a valid Zoom meeting id is
+    numeric, so empty values and not-yet-filled placeholders are ignored.
+    """
+    breakout_meeting_ids = (series_data or {}).get("breakout_meeting_ids") or {}
+    for label, meeting_id in breakout_meeting_ids.items():
+        meeting_id_str = str(meeting_id).strip()
+        if meeting_id_str.isdigit():
+            yield label, meeting_id_str
+
+
+def get_breakout_youtube_state(occurrence: Dict, breakout_label: str) -> Dict:
+    """Return upload state for one breakout without mutating the occurrence."""
+    breakout_youtube = occurrence.get("breakout_youtube")
+    if not isinstance(breakout_youtube, dict):
+        return {}
+    state = breakout_youtube.get(breakout_label)
+    return state if isinstance(state, dict) else {}
+
+
+def ensure_breakout_youtube_state(occurrence: Dict, breakout_label: str) -> Dict:
+    """Create and return upload state for one breakout label."""
+    breakout_youtube = occurrence.setdefault("breakout_youtube", {})
+    if not isinstance(breakout_youtube, dict):
+        raise ValueError("breakout_youtube must be an object")
+    state = breakout_youtube.setdefault(breakout_label, {})
+    if not isinstance(state, dict):
+        raise ValueError(f"breakout_youtube.{breakout_label} must be an object")
+    return state
 
 
 def load_mapping(mapping_file_path: str | os.PathLike = MAPPING_FILE_PATH) -> Dict:
@@ -162,7 +197,8 @@ def update_occurrence_entry(call_series: str, issue_number: int, updates: Dict, 
             "skip_transcript_processing", "youtube_upload_processed", "transcript_processed",
             "upload_attempt_count", "transcript_attempt_count", "telegram_message_id",
             "youtube_streams_posted_to_discourse", "youtube_streams", "discourse_topic_id",
-            "calendar_event_id", "occurrence_number", "youtube_video_id"
+            "calendar_event_id", "occurrence_number", "youtube_video_id", "breakout_youtube",
+            "recording_publication_mode"
         }
 
         # Filter updates to only include allowed fields
