@@ -20,6 +20,10 @@ on:
   schedule:
     - cron: "0 * * * *" # Run every hour at minute 0
 
+concurrency:
+  group: meeting-asset-pipeline
+  cancel-in-progress: false
+
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest

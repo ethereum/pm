@@ -41,6 +41,10 @@ Generate a JSON structure with the following schema:
 }
 ```
 
+## Breakout Rooms
+- A breakout may continue in the SAME meeting after the main call concludes (e.g. the ACDT EL breakout appears in the later portion of transcript.vtt). Treat its content as part of the meeting and merge it into the same flat structure; when origin is useful context, prefix the highlight category name with the breakout label (e.g. el_gas_limit).
+- Breakouts held in a separate Zoom meeting are summarized in a separate run of this prompt (producing their own tldr file), because their timestamps refer to a different recording. If the meeting title indicates a breakout (e.g. "... (CL breakout)"), summarize only the provided transcript.
+
 ## Category Guidelines
 Use these standard categories for highlights (add others as needed):
 - fork_status_and_schedule - Hard forks, BPOs, network upgrades

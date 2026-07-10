@@ -551,7 +551,6 @@ call_series:
   acdt:
     display_name: "All Core Devs - Testing"
     youtube_playlist_id: "PLJqWcTqh_zKSample"
-    recording_publication_mode: "composed_zoom_recording"
 """,
         encoding="utf-8",
     )
@@ -568,6 +567,13 @@ call_series:
                             "start_time": "2026-06-08T14:00:00Z",
                             "occurrence_number": 82,
                             "youtube_video_id": "sampleVideoId",
+                            "recording_publication_mode": "composed_zoom_recording",
+                            "breakout_youtube": {
+                                "cl": {
+                                    "youtube_video_id": "clVideoId",
+                                    "youtube_upload_processed": True,
+                                }
+                            },
                         },
                         {
                             "issue_number": 2098,
@@ -597,6 +603,9 @@ call_series:
     assert calls_by_number[82]["sync"] == {
         "transcriptStartTime": "00:00:43",
         "videoStartTime": "00:00:54",
+    }
+    assert calls_by_number[82]["breakoutVideoUrls"] == {
+        "cl": "https://www.youtube.com/watch?v=clVideoId"
     }
     assert "sync" not in calls_by_number[81]
     assert calls_by_number[81]["videoUrl"] == "https://www.youtube.com/watch?v=streamVideoId"

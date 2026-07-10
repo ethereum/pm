@@ -15,10 +15,11 @@ from datetime import datetime, timezone
 
 from modules.form_parser import FormParser
 from modules.mapping_manager import MappingManager
+from modules.mapping_utils import iter_breakout_meetings
+from modules.breakout_utils import derive_breakout_topic
 from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display
 from modules.logging_config import get_logger, log_success, log_resource_status, log_api_call, should_log_debug
 from modules.call_series_config import get_autopilot_defaults, has_autopilot_support, get_default_autopilot_settings, get_one_off_autopilot_settings
-
 
 class ProtocolCallHandler:
     """Main handler for protocol calls using the new form-based workflow."""
@@ -785,6 +786,7 @@ The bot will automatically process your issue once you've selected a valid call 
                 join_url = update_result.get("join_url", "https://zoom.us (updated meeting)")
                 zoom_id = existing_meeting_id
                 print(f"[DEBUG] Updated existing Zoom meeting with ID: {zoom_id}")
+                self._sync_breakout_meeting_topics(call_series, topic)
             else:
                 # Create new meeting based on type
                 print(f"[DEBUG] Creating new meeting...")
@@ -840,6 +842,27 @@ The bot will automatically process your issue once you've selected a valid call 
         """Get the appropriate Zoom meeting title based on call type."""
         # Always use the specific issue title to keep Zoom meetings current
         return call_data["issue_title"]
+
+    def _sync_breakout_meeting_topics(self, call_series: str, parent_topic: str) -> None:
+        """Keep linked breakout meeting titles in sync with the parent call's title.
+
+        Breakout rooms held in a separate Zoom meeting (e.g. the ACDT CL
+        breakout) are linked via "breakout_meeting_ids" on the series entry.
+        Only the topic is updated; the breakout keeps its own schedule.
+        """
+        series_entry = self.mapping_manager.load_mapping().get(call_series) or {}
+        breakouts = list(iter_breakout_meetings(series_entry))
+        if not breakouts:
+            return
+
+        from modules import zoom
+        for breakout_label, breakout_meeting_id in breakouts:
+            breakout_topic = derive_breakout_topic(parent_topic, breakout_label)
+            try:
+                zoom.update_meeting(breakout_meeting_id, breakout_topic)
+                print(f"[SUCCESS] Synced breakout '{breakout_label}' meeting {breakout_meeting_id} title: {breakout_topic}")
+            except Exception as e:
+                print(f"[WARN] Could not update breakout '{breakout_label}' meeting title: {e}")
 
     def _update_zoom_meeting(self, call_data: Dict) -> Dict:
         """Update existing Zoom meeting."""
@@ -911,6 +934,9 @@ The bot will automatically process your issue once you've selected a valid call 
                             call_data["duration"],
                         )
                         print(f"[SUCCESS] Updated Zoom meeting {existing_meeting_id}")
+
+                    # Keep breakout meeting titles in sync with the parent title
+                    self._sync_breakout_meeting_topics(call_data["call_series"], topic)
 
                     # Use the official join_url from API response, or construct fallback
                     result["zoom_url"] = update_result.get("join_url") or f"https://zoom.us/j/{existing_meeting_id}"
@@ -1564,6 +1590,20 @@ The bot will automatically process your issue once you've selected a valid call 
                 comment_lines.append("🔗 **Zoom**: Custom meeting link (see issue description)")
             else:
                 comment_lines.append("❌ **Zoom**: No meeting link available")
+
+            # Breakout meetings held in a separate Zoom meeting (e.g. ACDT CL)
+            for breakout_label, breakout_meeting_id in iter_breakout_meetings(series_data):
+                breakout_url = f"https://zoom.us/j/{breakout_meeting_id}"
+                try:
+                    from modules import zoom
+                    enhanced_breakout_url = zoom.get_meeting_url_with_passcode(breakout_meeting_id)
+                    if enhanced_breakout_url:
+                        breakout_url = enhanced_breakout_url
+                except Exception as e:
+                    print(f"[WARN] Could not fetch enhanced URL for '{breakout_label}' breakout: {e}")
+                comment_lines.append(
+                    f"✅ **Zoom ({breakout_label.upper()} Breakout)**: [Join Meeting]({breakout_url})"
+                )
 
             # Calendar links
             from modules.gcal import render_calendar_comment_line

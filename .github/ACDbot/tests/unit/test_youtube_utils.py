@@ -25,6 +25,25 @@ from modules import youtube_utils
 class TestYouTubeUtilsModule:
     """Test cases for youtube_utils.py module."""
 
+    def test_add_video_to_playlist_skips_existing_membership(self):
+        youtube = MagicMock()
+        playlist_items = youtube.playlistItems.return_value
+        playlist_items.list.return_value.execute.return_value = {
+            "items": [{"id": "existing-item"}]
+        }
+
+        with patch(
+            "modules.youtube_utils.get_youtube_service",
+            return_value=youtube,
+        ):
+            result = youtube_utils.add_video_to_playlist(
+                "test_video_id",
+                "test_playlist_id",
+            )
+
+        assert result["already_present"] is True
+        playlist_items.insert.assert_not_called()
+
     def test_add_video_to_appropriate_playlist_specific_series(self):
         """Test adding video to specific playlist based on call series."""
         with patch('modules.youtube_utils.add_video_to_playlist') as mock_add_video:

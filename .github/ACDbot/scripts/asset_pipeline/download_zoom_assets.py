@@ -30,9 +30,10 @@ load_dotenv(ACDBOT_DIR / ".env")
 sys.path.insert(0, str(ACDBOT_DIR / "modules"))
 
 import zoom
+from breakout_utils import select_breakout_recording
 from mapping_manager import MappingManager
+from mapping_utils import iter_breakout_meetings
 from meeting_identity import extract_public_call_number, get_occurrence_call_number
-
 
 def download_file(url: str, token: str, path: Path) -> bool:
     """Download a file from a URL with authentication."""
@@ -198,16 +199,20 @@ def download_assets_for_meeting(
     access_token: str,
     include_summary: bool = False,
     occurrence: dict | None = None
-) -> None:
-    """Downloads assets from recording data for a single meeting instance."""
+) -> Path | None:
+    """Downloads assets from recording data for a single meeting instance.
+
+    Returns the meeting directory the assets were saved to, or None if the
+    recording could not be processed.
+    """
     if not recording_data or not recording_data.get('recording_files'):
         print("   No recording files found for this meeting instance.")
-        return
+        return None
 
     start_time = recording_data.get('start_time')
     if not start_time:
         print("   ❌ Could not determine meeting start time. Cannot create directory.")
-        return
+        return None
 
     if occurrence and occurrence.get('start_time'):
         date_part = occurrence['start_time'].split('T')[0]
@@ -314,6 +319,98 @@ def download_assets_for_meeting(
         print(f"   ✅ Downloaded {download_count} asset(s) for meeting on {date_part}.")
     else:
         print("   No new assets found to download for this instance.")
+
+    return meeting_dir
+
+
+def download_breakout_assets(
+    occurrence: dict,
+    breakout_label: str,
+    breakout_meeting_id: str,
+    meeting_dir: Path,
+    access_token: str,
+    min_duration_minutes: int,
+) -> None:
+    """Download a breakout room's transcript/chat into the parent occurrence dir.
+
+    Breakout rooms held in a separate Zoom meeting (linked via the series-level
+    "breakout_meeting_ids" mapping field) are matched to the parent occurrence
+    by date and saved with suffixed filenames (e.g. transcript_cl.vtt) so they
+    never collide with the parent call's assets.
+    """
+    occurrence_start = occurrence.get('start_time', '')
+    if not occurrence_start:
+        print(f"   ⚠️  No occurrence start time; skipping '{breakout_label}' breakout download")
+        return
+
+    target_date = occurrence_start.split('T')[0]
+
+    asset_map = {
+        'TRANSCRIPT': f'transcript_{breakout_label}.vtt',
+        'CHAT': f'chat_{breakout_label}.txt',
+    }
+
+    # Skip Zoom API calls entirely if all breakout assets already exist
+    if all((meeting_dir / filename).exists() for filename in asset_map.values()):
+        print(f"   ⏭️  Breakout '{breakout_label}' assets already exist")
+        return
+
+    print(f"   📋 Checking '{breakout_label}' breakout meeting {breakout_meeting_id} for {target_date}...")
+
+    recording_data = select_breakout_recording(
+        zoom,
+        occurrence,
+        breakout_meeting_id,
+        min_duration_minutes,
+    )
+    if not recording_data:
+        print(
+            f"   ⏭️  No unambiguous '{breakout_label}' breakout recording "
+            f">= {min_duration_minutes} min on {target_date}"
+        )
+        return
+
+    download_count = 0
+    for file_info in recording_data.get('recording_files', []):
+        filename = asset_map.get(file_info.get('file_type'))
+        if not filename:
+            continue
+        filepath = meeting_dir / filename
+        if filepath.exists():
+            continue
+        download_url = file_info.get('download_url')
+        if download_url and download_file(download_url, access_token, filepath):
+            download_count += 1
+
+    if download_count > 0:
+        print(f"   ✅ Downloaded {download_count} '{breakout_label}' breakout asset(s)")
+    else:
+        print(f"   No new '{breakout_label}' breakout assets to download")
+
+
+def download_all_breakout_assets(
+    series_data: dict,
+    occurrence: dict,
+    meeting_dir: Path | None,
+    access_token: str,
+    min_duration_minutes: int,
+) -> None:
+    """Download assets for every breakout meeting linked to a series."""
+    if not meeting_dir:
+        return
+
+    for breakout_label, breakout_meeting_id in iter_breakout_meetings(series_data):
+        try:
+            download_breakout_assets(
+                occurrence,
+                breakout_label,
+                breakout_meeting_id,
+                meeting_dir,
+                access_token,
+                min_duration_minutes,
+            )
+        except Exception as e:
+            print(f"   ⚠️  Failed to download '{breakout_label}' breakout assets: {e}")
 
 
 def process_single_meeting(
@@ -446,7 +543,14 @@ def process_recent_meetings(
         duration = recording_data.get('duration', 0)
         date_part = start_time.split('T')[0] if start_time != 'N/A' else 'Unknown'
         print(f"\nProcessing meeting {i+1}/{len(valid_meetings)} from {date_part} (UUID: {uuid}, Duration: {duration} min)")
-        download_assets_for_meeting(recording_data, series_name, access_token, include_summary, occurrence)
+        meeting_dir = download_assets_for_meeting(recording_data, series_name, access_token, include_summary, occurrence)
+        download_all_breakout_assets(
+            series_data,
+            occurrence,
+            meeting_dir,
+            access_token,
+            min_duration_minutes,
+        )
 
 
 def process_meeting_by_date(
@@ -546,7 +650,14 @@ def process_meeting_by_date(
 
     # Download assets for the matched meeting
     print(f"\n📋 Processing meeting from {target_date} (Duration: {matching_recording.get('duration', 0)} min)")
-    download_assets_for_meeting(matching_recording, series_name, access_token, include_summary, occurrence)
+    meeting_dir = download_assets_for_meeting(matching_recording, series_name, access_token, include_summary, occurrence)
+    download_all_breakout_assets(
+        series_data,
+        occurrence,
+        meeting_dir,
+        access_token,
+        min_duration_minutes,
+    )
 
 
 if __name__ == '__main__':

@@ -117,6 +117,78 @@ def test_recent_run_uses_newest_mapped_occurrence_not_existing_artifact(tmp_path
     assert "2026-05-19" not in download_cmd
 
 
+def setup_breakout_pipeline_run(tmp_path, monkeypatch, run_pipeline):
+    """Mapping + complete artifacts + breakout transcript for a sample call."""
+    mapping_path = tmp_path / "meeting_topic_mapping.json"
+    artifacts_dir = tmp_path / "artifacts"
+    write_mapping(
+        mapping_path,
+        "sample",
+        [
+            {
+                "issue_title": "Sample Call #2",
+                "start_time": "2026-05-20T15:00:00Z",
+                "occurrence_number": 2,
+            },
+        ],
+    )
+    call_dir = artifacts_dir / "sample" / "2026-05-20_002"
+    write_complete_artifacts(call_dir)
+    (call_dir / "transcript_cl.vtt").write_text("WEBVTT\n", encoding="utf-8")
+
+    monkeypatch.setattr(run_pipeline, "MAPPING_FILE", mapping_path)
+    monkeypatch.setattr(run_pipeline, "ARTIFACTS_DIR", artifacts_dir)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "run_pipeline.py",
+            "-c",
+            "sample",
+            "-n",
+            "2",
+            "--auto-approve",
+            "--summarize",
+        ],
+    )
+    return call_dir
+
+
+def test_auto_approve_early_exit_requires_breakout_tldr(tmp_path, monkeypatch, capsys):
+    """With all artifacts including tldr_cl.json present, the pipeline exits early."""
+    run_pipeline = load_run_pipeline_module()
+    call_dir = setup_breakout_pipeline_run(tmp_path, monkeypatch, run_pipeline)
+    (call_dir / "tldr_cl.json").write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(run_pipeline, "run_step", lambda *args, **kwargs: True)
+
+    with pytest.raises(SystemExit) as exit_info:
+        run_pipeline.main()
+
+    assert exit_info.value.code == 0
+    output = capsys.readouterr().out
+    assert "transcript_cl.vtt" in output
+    assert "All artifacts already exist" in output
+
+
+def test_auto_approve_runs_summary_when_breakout_tldr_missing(tmp_path, monkeypatch):
+    """A breakout transcript without its tldr_<label>.json must not early-exit."""
+    run_pipeline = load_run_pipeline_module()
+    setup_breakout_pipeline_run(tmp_path, monkeypatch, run_pipeline)
+
+    commands = []
+
+    def fake_run_step(name, cmd, check=True):
+        commands.append(cmd)
+        return True
+
+    monkeypatch.setattr(run_pipeline, "run_step", fake_run_step)
+
+    run_pipeline.main()
+
+    summary_cmds = [cmd for cmd in commands if "generate_summary.py" in cmd[1]]
+    assert summary_cmds, "summary step should run when tldr_cl.json is missing"
+
+
 def test_number_only_run_fails_when_public_number_is_ambiguous(tmp_path, monkeypatch, capsys):
     run_pipeline = load_run_pipeline_module()
 

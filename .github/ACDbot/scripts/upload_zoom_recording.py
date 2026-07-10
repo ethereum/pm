@@ -15,6 +15,7 @@ from googleapiclient.errors import HttpError
 from modules import zoom, transcript, discourse, tg, mattermost_notify
 from modules.call_series_config import get_recording_publication_mode
 from modules.youtube_utils import add_video_to_appropriate_playlist
+from modules.breakout_utils import derive_breakout_youtube_title, select_breakout_recording
 from modules.mapping_utils import (
     load_mapping as load_meeting_topic_mapping,
     save_mapping as save_meeting_topic_mapping,
@@ -22,6 +23,9 @@ from modules.mapping_utils import (
     find_meeting_by_issue_number,
     find_call_series_by_meeting_id,
     find_occurrence_with_index,
+    ensure_breakout_youtube_state,
+    get_breakout_youtube_state,
+    iter_breakout_meetings,
 )
 from google.auth.transport.requests import Request
 import json
@@ -53,6 +57,7 @@ UPLOAD_THUMBNAIL_PATH = str(Path(__file__).resolve().parent.parent / "thumbnails
 DEFAULT_ACD_BUMPER_URL = "https://github.com/ethereum/pm/releases/download/acd-video-bumper-v1/ev.mp4"
 RAW_ZOOM_RECORDING_MODE = "raw_zoom_recording"
 COMPOSED_ZOOM_RECORDING_MODE = "composed_zoom_recording"
+BREAKOUT_UPLOAD_LOOKBACK_DAYS = 14
 
 def get_authenticated_service():
     # Initialize credentials from environment variables
@@ -369,6 +374,265 @@ def prepare_upload_video(
 
     raise ValueError(f"Unsupported recording publication mode for {call_series_key}: {mode}")
 
+
+def assign_breakout_playlists(video_id, call_series_key):
+    """Assign a breakout video to all playlists configured for its parent series."""
+    results = add_video_to_appropriate_playlist(video_id, call_series_key)
+    return bool(results) and all(result is not None for result in results)
+
+
+def upload_breakout_recording(
+    call_series_key,
+    occurrence_issue_number,
+    breakout_label,
+    breakout_meeting_id,
+    error_collector=None,
+    min_duration=15,
+):
+    """Upload one breakout recording as a separate raw YouTube video."""
+    mapping = load_meeting_topic_mapping()
+    matched_occurrence, occurrence_index = find_occurrence_with_index(
+        call_series_key,
+        occurrence_issue_number,
+        mapping,
+    )
+    if matched_occurrence is None:
+        print(
+            f"[ERROR] Occurrence #{occurrence_issue_number} not found "
+            f"for breakout '{breakout_label}'"
+        )
+        return False
+
+    if matched_occurrence.get("skip_youtube_upload", False):
+        print(
+            f"  -> Skipping '{breakout_label}' breakout: occurrence marked "
+            "skip_youtube_upload"
+        )
+        return None
+
+    state = get_breakout_youtube_state(matched_occurrence, breakout_label)
+    existing_video_id = state.get("youtube_video_id")
+    if (
+        existing_video_id
+        and state.get("playlist_assignment_processed") is False
+    ):
+        if assign_breakout_playlists(existing_video_id, call_series_key):
+            state["playlist_assignment_processed"] = True
+            save_meeting_topic_mapping(mapping)
+            return True
+        error_message = (
+            f"❌ Playlist assignment failed for '{breakout_label}' breakout "
+            f"video {existing_video_id}."
+        )
+        if error_collector is not None:
+            error_collector.append(error_message)
+        return False
+
+    if state.get("youtube_upload_processed") or existing_video_id:
+        print(f"  -> Skipping '{breakout_label}' breakout: already uploaded")
+        return None
+
+    attempt_count = state.get("upload_attempt_count", 0)
+    if attempt_count >= 10:
+        print(f"  -> Skipping '{breakout_label}' breakout: max upload attempts reached")
+        return None
+
+    recording_info = select_breakout_recording(
+        zoom,
+        matched_occurrence,
+        str(breakout_meeting_id),
+        min_duration,
+        required_file_types={"MP4"},
+    )
+    if not recording_info:
+        print(
+            f"[SKIP] No unambiguous '{breakout_label}' breakout MP4 "
+            f"with minimum {min_duration} minutes"
+        )
+        return None
+
+    video_path = download_zoom_recording(
+        str(breakout_meeting_id),
+        min_duration_minutes=min_duration,
+        recording_info=recording_info,
+    )
+    if not video_path:
+        print(f"[SKIP] No MP4 available for '{breakout_label}' breakout")
+        return None
+
+    occurrence_state = mapping[call_series_key]["occurrences"][occurrence_index]
+    state = ensure_breakout_youtube_state(occurrence_state, breakout_label)
+    state["upload_attempt_count"] = attempt_count + 1
+    state["recording_publication_mode"] = RAW_ZOOM_RECORDING_MODE
+    state["playlist_assignment_processed"] = False
+    save_meeting_topic_mapping(mapping)
+
+    parent_title = matched_occurrence.get(
+        "issue_title",
+        f"Meeting issue {occurrence_issue_number}",
+    )
+    video_title = derive_breakout_youtube_title(
+        call_series_key, parent_title, breakout_label
+    )
+
+    try:
+        youtube = get_authenticated_service()
+        media = googleapiclient.http.MediaFileUpload(
+            video_path,
+            chunksize=-1,
+            resumable=True,
+        )
+        response = youtube.videos().insert(
+            part="snippet,status",
+            body={
+                "snippet": {
+                    "title": video_title,
+                    "categoryId": "28",
+                },
+                "status": {"privacyStatus": "public"},
+            },
+            media_body=media,
+        ).execute()
+
+        video_id = response["id"]
+        state["youtube_video_id"] = video_id
+        state["youtube_upload_processed"] = True
+        save_meeting_topic_mapping(mapping)
+
+        youtube_link = f"https://youtu.be/{video_id}"
+        print(f"Uploaded '{breakout_label}' breakout to YouTube: {youtube_link}")
+
+        if os.path.exists(UPLOAD_THUMBNAIL_PATH):
+            try:
+                youtube.thumbnails().set(
+                    videoId=video_id,
+                    media_body=googleapiclient.http.MediaFileUpload(
+                        UPLOAD_THUMBNAIL_PATH
+                    ),
+                ).execute()
+            except Exception as thumbnail_error:
+                print(f"[WARN] Failed to set breakout thumbnail: {thumbnail_error}")
+
+        if assign_breakout_playlists(video_id, call_series_key):
+            state["playlist_assignment_processed"] = True
+            save_meeting_topic_mapping(mapping)
+        else:
+            print(
+                f"[WARN] Failed to add '{breakout_label}' breakout video "
+                f"to playlists for {call_series_key}"
+            )
+
+        discourse_topic_id = matched_occurrence.get("discourse_topic_id")
+        if discourse_topic_id:
+            discourse.create_post(
+                topic_id=discourse_topic_id,
+                body=(
+                    f"{breakout_label.upper()} breakout YouTube recording "
+                    f"available: {youtube_link}"
+                ),
+            )
+
+        if rss_utils:
+            try:
+                # rss_utils currently resolves the series by its mapping key.
+                rss_utils.add_notification_to_meeting(
+                    call_series_key,
+                    occurrence_issue_number,
+                    "youtube_upload",
+                    f"{breakout_label.upper()} breakout recording uploaded: {video_title}",
+                    youtube_link,
+                )
+            except Exception as rss_error:
+                print(f"Failed to update RSS feed for breakout: {rss_error}")
+
+        notification = (
+            f"✅ YouTube Upload Successful!\n\n"
+            f"Title: {video_title}\n"
+            f"URL: {youtube_link}"
+        )
+        try:
+            telegram_message_id = matched_occurrence.get("telegram_message_id")
+            if telegram_message_id:
+                tg.send_message(notification, reply_to_message_id=telegram_message_id)
+            else:
+                tg.send_message(notification)
+        except Exception as telegram_error:
+            print(f"Error sending Telegram breakout notification: {telegram_error}")
+
+        try:
+            mattermost_notify.send_mattermost_notification(notification)
+        except Exception as mattermost_error:
+            print(f"Error sending Mattermost breakout notification: {mattermost_error}")
+
+        return True
+    except HttpError as error:
+        error_text = getattr(error, "content", None) or str(error)
+        error_message = (
+            f"❌ YouTube upload failed for '{breakout_label}' breakout meeting "
+            f"{breakout_meeting_id} (issue #{occurrence_issue_number}).\n"
+            f"Error: {error_text}"
+        )
+        if error_collector is not None:
+            error_collector.append(error_message)
+        else:
+            tg.send_message(error_message)
+        return False
+    finally:
+        try:
+            os.unlink(video_path)
+        except FileNotFoundError:
+            pass
+
+
+def upload_breakouts_for_occurrence(
+    call_series_key,
+    occurrence_issue_number,
+    error_collector=None,
+    min_duration=15,
+):
+    """Attempt every configured breakout upload for one parent occurrence."""
+    mapping = load_meeting_topic_mapping()
+    series_entry = mapping.get(call_series_key) or {}
+    results = []
+    for breakout_label, breakout_meeting_id in iter_breakout_meetings(series_entry):
+        result = upload_breakout_recording(
+            call_series_key,
+            occurrence_issue_number,
+            breakout_label,
+            breakout_meeting_id,
+            error_collector=error_collector,
+            min_duration=min_duration,
+        )
+        results.append(result)
+    return results
+
+
+def get_latest_past_occurrence(occurrences, now=None):
+    """Return the latest occurrence whose scheduled start is not in the future."""
+    now = now or datetime.now(timezone.utc)
+    past_occurrences = []
+    for occurrence in occurrences:
+        start_time = parse_zoom_time(occurrence.get("start_time"))
+        if start_time is not None and start_time <= now:
+            past_occurrences.append((start_time, occurrence))
+    if not past_occurrences:
+        return None
+    return max(past_occurrences, key=lambda item: item[0])[1]
+
+
+def is_recent_past_occurrence(
+    occurrence,
+    now=None,
+    lookback_days=BREAKOUT_UPLOAD_LOOKBACK_DAYS,
+):
+    """Return whether an occurrence is eligible for automatic breakout retries."""
+    now = now or datetime.now(timezone.utc)
+    start_time = parse_zoom_time(occurrence.get("start_time"))
+    if start_time is None or start_time > now:
+        return False
+    return start_time >= now - timedelta(days=lookback_days)
+
+
 def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=None, min_duration=15):
     """Uploads Zoom recording to YouTube for a specific occurrence.
 
@@ -525,6 +789,9 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
         # --- Update occurrence flags in mapping ---
         mapping[call_series_key]["occurrences"][occurrence_index]["youtube_video_id"] = response['id']
         mapping[call_series_key]["occurrences"][occurrence_index]["youtube_upload_processed"] = True
+        mapping[call_series_key]["occurrences"][occurrence_index][
+            "recording_publication_mode"
+        ] = get_recording_publication_mode(call_series_key)
         # Reset attempt count on success
         # mapping[call_series_key]["occurrences"][occurrence_index]["upload_attempt_count"] = 0 # Optional reset
 
@@ -634,6 +901,24 @@ def main():
             upload_recording(args.meeting_id, args.occurrence_issue_number, min_duration=args.min_duration)
         except Exception as e:
             print(f"Failed to process specific occurrence {args.meeting_id} / {args.occurrence_issue_number}: {e}")
+        try:
+            mapping = load_meeting_topic_mapping()
+            call_series_key = find_call_series_by_meeting_id(
+                str(args.meeting_id),
+                args.occurrence_issue_number,
+                mapping,
+            )
+            if call_series_key:
+                upload_breakouts_for_occurrence(
+                    call_series_key,
+                    args.occurrence_issue_number,
+                    min_duration=args.min_duration,
+                )
+        except Exception as e:
+            print(
+                f"Failed to process breakouts for {args.meeting_id} / "
+                f"{args.occurrence_issue_number}: {e}"
+            )
         return # Exit after processing specific occurrence
 
     # Handle case where only meeting_id is provided (legacy or manual run?)
@@ -643,6 +928,29 @@ def main():
             upload_recording(args.meeting_id, min_duration=args.min_duration) # Will try latest occurrence by default
         except Exception as e:
             print(f"Failed to process latest occurrence for {args.meeting_id}: {e}")
+        try:
+            mapping = load_meeting_topic_mapping()
+            call_series_key = find_call_series_by_meeting_id(
+                str(args.meeting_id),
+                0,
+                mapping,
+            )
+            series_entry = mapping.get(call_series_key, {}) if call_series_key else {}
+            occurrences = series_entry.get("occurrences", [])
+            if call_series_key and occurrences:
+                latest_occurrence = get_latest_past_occurrence(occurrences)
+                latest_issue_number = (
+                    latest_occurrence.get("issue_number")
+                    if latest_occurrence else None
+                )
+                if latest_issue_number:
+                    upload_breakouts_for_occurrence(
+                        call_series_key,
+                        latest_issue_number,
+                        min_duration=args.min_duration,
+                    )
+        except Exception as e:
+            print(f"Failed to process latest breakouts for {args.meeting_id}: {e}")
         return
 
     # Handle case where NO arguments are provided (check mapping)
@@ -655,8 +963,9 @@ def main():
         success_count = 0
         processed_count = 0
 
-        for _, series_data in mapping.items():
+        for call_series_key, series_data in mapping.items():
             if "occurrences" in series_data:
+                has_breakouts = any(iter_breakout_meetings(series_data))
                 for occurrence in series_data["occurrences"]:
                     occ_issue_num = occurrence.get("issue_number")
                     yt_processed = occurrence.get("youtube_upload_processed", False)
@@ -711,6 +1020,40 @@ def main():
                         except Exception as e:
                             print(f"Failed to process {effective_meeting_id} / {occ_issue_num}: {e}")
                             error_messages.append(f"❌ YouTube upload failed for meeting {effective_meeting_id} (issue #{occ_issue_num}): {str(e)}")
+                            processed_count += 1
+
+                    # Breakout uploads are independent of parent upload state.
+                    # Keep retrying recent occurrences so a Zoom processing
+                    # delay or brief outage does not strand the prior week's
+                    # breakout when a newer parent occurrence starts.
+                    if (
+                        not yt_skipped
+                        and has_breakouts
+                        and is_recent_past_occurrence(occurrence)
+                        and occ_issue_num
+                    ):
+                        try:
+                            breakout_results = upload_breakouts_for_occurrence(
+                                call_series_key,
+                                occ_issue_num,
+                                error_collector=error_messages,
+                                min_duration=args.min_duration,
+                            )
+                            success_count += sum(
+                                result is True for result in breakout_results
+                            )
+                            processed_count += sum(
+                                result is not None for result in breakout_results
+                            )
+                        except Exception as e:
+                            print(
+                                f"Failed to process breakouts for "
+                                f"{call_series_key} / {occ_issue_num}: {e}"
+                            )
+                            error_messages.append(
+                                f"❌ YouTube breakout upload failed for "
+                                f"{call_series_key} (issue #{occ_issue_num}): {e}"
+                            )
                             processed_count += 1
 
         # Send aggregated message only if there were successes or real errors

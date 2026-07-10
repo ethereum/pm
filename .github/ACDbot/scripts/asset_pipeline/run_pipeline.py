@@ -358,11 +358,28 @@ def main():
     corrected_path = meeting_dir / "transcript_corrected.vtt"
     tldr_path = meeting_dir / "tldr.json"
 
-    # Early exit if all artifacts already exist (in auto-approve/CI mode)
+    # Breakout transcripts (e.g. transcript_cl.vtt) are optional extra inputs.
+    # They skip changelog correction and are fed raw to the summarizer.
+    breakout_transcripts = sorted(
+        p for p in meeting_dir.glob("transcript_*.vtt")
+        if p.name not in ("transcript_corrected.vtt",)
+    )
+    if breakout_transcripts:
+        names = ", ".join(p.name for p in breakout_transcripts)
+        print(f"📎 Found breakout transcript(s): {names}")
+
+    # Early exit if all artifacts already exist (in auto-approve/CI mode).
+    # Breakout transcripts are intentionally optional: their absence must never
+    # block the pipeline. But when one is present, its own tldr_<label>.json is
+    # required before skipping (each breakout has its own recording timeline,
+    # so it gets a separate summary file).
     if args.auto_approve:
         required_artifacts = [transcript_path, changelog_path, corrected_path]
         if args.summarize:
             required_artifacts.append(tldr_path)
+            for breakout_path in breakout_transcripts:
+                breakout_label = breakout_path.stem.removeprefix("transcript_")
+                required_artifacts.append(meeting_dir / f"tldr_{breakout_label}.json")
 
         if all(p.exists() for p in required_artifacts):
             print(f"⏭️  All artifacts already exist for {call} #{number}")
@@ -441,6 +458,8 @@ def main():
     print(f"   - transcript.vtt (original)")
     if corrected_path.exists():
         print(f"   - transcript_corrected.vtt (corrected)")
+    for breakout_path in breakout_transcripts:
+        print(f"   - {breakout_path.name} (breakout, uncorrected)")
     print(f"   - transcript_changelog.tsv (corrections)")
     if (meeting_dir / "chat.txt").exists():
         print(f"   - chat.txt")
@@ -450,6 +469,11 @@ def main():
         print(f"   - config.json")
     if tldr_path.exists():
         print(f"   - tldr.json (structured summary)")
+    for breakout_path in breakout_transcripts:
+        breakout_label = breakout_path.stem.removeprefix("transcript_")
+        breakout_tldr = meeting_dir / f"tldr_{breakout_label}.json"
+        if breakout_tldr.exists():
+            print(f"   - {breakout_tldr.name} (breakout structured summary)")
 
 
 if __name__ == '__main__':

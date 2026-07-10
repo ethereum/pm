@@ -10,6 +10,8 @@ from modules.mapping_utils import (
     find_meeting_by_issue_number,
     find_call_series_by_meeting_id,
     find_occurrence_with_index,
+    ensure_breakout_youtube_state,
+    get_breakout_youtube_state,
 )
 
 
@@ -227,3 +229,19 @@ class TestMappingUtils:
         occ, idx = find_occurrence_with_index("nonexistent-series", 1462, {})
         assert occ is None
         assert idx == -1
+
+    def test_breakout_youtube_state_is_created_lazily(self):
+        occurrence = {"issue_number": 1}
+
+        assert get_breakout_youtube_state(occurrence, "cl") == {}
+        state = ensure_breakout_youtube_state(occurrence, "cl")
+        state["upload_attempt_count"] = 1
+
+        assert occurrence["breakout_youtube"]["cl"] == {"upload_attempt_count": 1}
+        assert get_breakout_youtube_state(occurrence, "cl") is state
+
+    def test_breakout_youtube_state_rejects_invalid_shape(self):
+        occurrence = {"breakout_youtube": []}
+
+        with pytest.raises(ValueError, match="must be an object"):
+            ensure_breakout_youtube_state(occurrence, "cl")

@@ -29,6 +29,10 @@ RESOURCE_FILES = {
     "chat.txt": "chat",
     "summary.json": "summary",
     "tldr.json": "tldr",
+    # Breakout rooms held in a separate Zoom meeting (e.g. the ACDT CL breakout)
+    "transcript_cl.vtt": "transcript_cl",
+    "chat_cl.txt": "chat_cl",
+    "tldr_cl.json": "tldr_cl",
 }
 
 
@@ -69,6 +73,22 @@ def get_youtube_video_url(occurrence: dict) -> str | None:
             return stream_url
 
     return None
+
+
+def get_breakout_youtube_video_urls(occurrence: dict) -> dict[str, str]:
+    """Extract uploaded breakout video URLs keyed by breakout label."""
+    breakout_youtube = occurrence.get("breakout_youtube")
+    if not isinstance(breakout_youtube, dict):
+        return {}
+
+    urls = {}
+    for label, state in sorted(breakout_youtube.items()):
+        if not isinstance(label, str) or not isinstance(state, dict):
+            continue
+        video_id = state.get("youtube_video_id")
+        if video_id:
+            urls[label] = f"https://www.youtube.com/watch?v={video_id}"
+    return urls
 
 
 def find_occurrence_in_mapping(mapping: dict, series_id: str, date: str, number: int | None = None) -> dict | None:
@@ -116,7 +136,11 @@ def get_composed_recording_sync(
     call_dir: Path,
     resources: dict[str, str],
 ) -> dict[str, str] | None:
-    if series_config.get("recording_publication_mode") != "composed_zoom_recording":
+    publication_mode = (
+        occurrence.get("recording_publication_mode")
+        if occurrence else None
+    ) or series_config.get("recording_publication_mode")
+    if publication_mode != "composed_zoom_recording":
         return None
     if not occurrence or not occurrence.get("youtube_video_id"):
         return None
@@ -192,6 +216,9 @@ def generate_manifest() -> dict:
                 video_url = get_youtube_video_url(occurrence)
                 if video_url:
                     call_entry["videoUrl"] = video_url
+                breakout_video_urls = get_breakout_youtube_video_urls(occurrence)
+                if breakout_video_urls:
+                    call_entry["breakoutVideoUrls"] = breakout_video_urls
 
             sync = get_composed_recording_sync(series_config, occurrence, call_dir, resources)
             if sync:
