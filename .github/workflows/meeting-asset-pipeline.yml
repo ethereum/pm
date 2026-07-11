@@ -41,11 +41,6 @@ jobs:
       - name: Set up ACDbot
         uses: ./.github/actions/setup-acdbot
 
-      - name: Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-
       - name: Resolve forced meeting
         if: env.INPUT_FORCE_SERIES != '' && env.INPUT_FORCE_NUMBER != ''
         run: |
@@ -144,7 +139,6 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
           MATTERMOST_BOT_WEBHOOK_URL: ${{ secrets.MATTERMOST_BOT_WEBHOOK_URL }}
-          ACD_BUMPER_URL: ${{ vars.ACD_BUMPER_URL || secrets.ACD_BUMPER_URL || 'https://github.com/ethereum/pm/releases/download/acd-video-bumper-v1/ev.mp4' }}
 
       - name: Run asset pipeline
         if: success()

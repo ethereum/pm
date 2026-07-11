@@ -528,7 +528,7 @@ call_series:
         generate_manifest.generate_manifest()
 
 
-def test_manifest_includes_sync_only_for_composed_recording_uploads(tmp_path, monkeypatch):
+def test_manifest_includes_breakout_video_urls(tmp_path, monkeypatch):
     generate_manifest = load_asset_pipeline_module("generate_manifest")
 
     artifacts_dir = tmp_path / "artifacts"
@@ -567,7 +567,6 @@ call_series:
                             "start_time": "2026-06-08T14:00:00Z",
                             "occurrence_number": 82,
                             "youtube_video_id": "sampleVideoId",
-                            "recording_publication_mode": "composed_zoom_recording",
                             "breakout_youtube": {
                                 "cl": {
                                     "youtube_video_id": "clVideoId",
@@ -600,10 +599,7 @@ call_series:
     manifest = generate_manifest.generate_manifest()
 
     calls_by_number = {call["number"]: call for call in manifest["series"]["acdt"]["calls"]}
-    assert calls_by_number[82]["sync"] == {
-        "transcriptStartTime": "00:00:43",
-        "videoStartTime": "00:00:54",
-    }
+    assert "sync" not in calls_by_number[82]
     assert calls_by_number[82]["breakoutVideoUrls"] == {
         "cl": "https://www.youtube.com/watch?v=clVideoId"
     }
