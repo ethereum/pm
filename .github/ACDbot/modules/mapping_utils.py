@@ -198,7 +198,6 @@ def update_occurrence_entry(call_series: str, issue_number: int, updates: Dict, 
             "upload_attempt_count", "transcript_attempt_count", "telegram_message_id",
             "youtube_streams_posted_to_discourse", "youtube_streams", "discourse_topic_id",
             "calendar_event_id", "occurrence_number", "youtube_video_id", "breakout_youtube",
-            "recording_publication_mode"
         }
 
         # Filter updates to only include allowed fields
