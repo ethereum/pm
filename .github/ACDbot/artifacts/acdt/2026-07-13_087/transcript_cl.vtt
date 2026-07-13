@@ -1,0 +1,638 @@
+WEBVTT
+
+1
+00:00:23.710 --> 00:00:26.980
+Justin Traglia: Hello! Just one minute. Don't get started.
+
+2
+00:00:29.760 --> 00:00:33.409
+Justin Traglia: We're doing a separate call, because it's easier to record.
+
+3
+00:00:34.440 --> 00:00:35.779
+Justin Traglia: It's all automated.
+
+4
+00:00:58.060 --> 00:00:59.190
+Justin Traglia: One more minute.
+
+5
+00:01:26.310 --> 00:01:34.970
+Justin Traglia: Alrighty, let's get started. Is there anything people want to discuss? I just had two PRs that I'd want to share, but they're fairly small.
+
+6
+00:01:37.060 --> 00:01:38.220
+Justin Traglia: It's not pressing.
+
+7
+00:01:44.110 --> 00:01:47.319
+Justin Traglia: How are DevNet 7 implementations going?
+
+8
+00:01:47.740 --> 00:01:49.290
+Justin Traglia: Yeah, it's a whole new meeting.
+
+9
+00:02:03.830 --> 00:02:11.780
+Enrico Del Fante (tbenr): Our branch is complete, but now we are in the process of Merging stuff from…
+
+10
+00:02:12.820 --> 00:02:18.300
+Enrico Del Fante (tbenr): The branch to master, so it will be… A little bit.
+
+11
+00:02:19.780 --> 00:02:22.079
+Enrico Del Fante (tbenr): Slow, but we will get there.
+
+12
+00:02:23.440 --> 00:02:32.820
+Justin Traglia: Okay, cool. How was… The stable containers changes, were they complicated to make in Teku or fairly trivial?
+
+13
+00:02:33.780 --> 00:02:40.280
+Enrico Del Fante (tbenr): Well, no, no trial, but I had this… POC… back then…
+
+14
+00:02:40.680 --> 00:02:47.340
+Enrico Del Fante (tbenr): So I just grabbed it, when I started, so it's not that I started from scratch.
+
+15
+00:02:47.790 --> 00:02:58.539
+Enrico Del Fante (tbenr): So… Yeah, there has been… Some… some considerations, some touching point with the current implementations.
+
+16
+00:02:58.800 --> 00:03:03.730
+Enrico Del Fante (tbenr): So… Yeah, it was not,
+
+17
+00:03:04.150 --> 00:03:07.120
+Enrico Del Fante (tbenr): Immediate, but we are good enough.
+
+18
+00:03:07.240 --> 00:03:24.029
+Enrico Del Fante (tbenr): I run some benchmarks, and the current implementation, we can say, is generally from 1.5 to 2x slower than the non-progressive.
+
+19
+00:03:24.550 --> 00:03:25.790
+Enrico Del Fante (tbenr): Counterpart?
+
+20
+00:03:26.470 --> 00:03:37.230
+Enrico Del Fante (tbenr): So… We will probably do an optimization round to understand if that's the… overhead,
+
+21
+00:03:37.330 --> 00:03:48.330
+Enrico Del Fante (tbenr): just because of the new data structure, or because it's a specific implementation overhead that we can remove. I don't know if other clients has run some…
+
+22
+00:03:48.960 --> 00:03:50.500
+Enrico Del Fante (tbenr): Benchmarking.
+
+23
+00:03:52.360 --> 00:03:53.850
+Eitan Seri-Levi: Yeah, we we saw.
+
+24
+00:03:54.190 --> 00:04:03.989
+Eitan Seri-Levi: similar slowdowns, and we have a POC with some optimizations that get us down to about, like, 20% slower than non-stable containers. I think that's maybe the best we can do.
+
+25
+00:04:04.400 --> 00:04:06.640
+Eitan Seri-Levi: but yeah.
+
+26
+00:04:09.810 --> 00:04:11.899
+Justin Traglia: Interesting. What size?
+
+27
+00:04:12.010 --> 00:04:18.389
+Justin Traglia: like, data structures are you testing with? Are they fairly small or large? Like, a million items.
+
+28
+00:04:19.970 --> 00:04:26.900
+Enrico Del Fante (tbenr): I have to bring back the benchmarks. As far as I remember, Well…
+
+29
+00:04:27.430 --> 00:04:32.700
+Enrico Del Fante (tbenr): Should have been not… not big data structure, so… Okay.
+
+30
+00:04:33.200 --> 00:04:39.499
+Enrico Del Fante (tbenr): But, yeah, I could take numbers back. Currently, I don't remember.
+
+31
+00:04:40.210 --> 00:04:47.880
+Justin Traglia: No worries. I'd be interested to see if it's the same results with very large structures, because if I recall correctly —
+
+32
+00:04:48.640 --> 00:04:49.540
+Justin Traglia: Okay.
+
+33
+00:04:49.890 --> 00:04:56.789
+Justin Traglia: there will be fewer hashes with large structures compared to small structures. Or, sorry, not that. I guess if the…
+
+34
+00:04:57.630 --> 00:05:04.400
+Justin Traglia: Well, maybe. I don't recall. But if the limits are very high, then it should be faster and progressive.
+
+35
+00:05:04.550 --> 00:05:07.180
+Justin Traglia: That's progressive loss, but maybe that's not true.
+
+36
+00:05:09.700 --> 00:05:10.460
+Justin Traglia: Okay.
+
+37
+00:05:12.400 --> 00:05:17.570
+Justin Traglia: Any other observations while making changes for Alpha 12.7?
+
+38
+00:05:20.350 --> 00:05:21.260
+Justin Traglia: from anyone.
+
+39
+00:05:44.510 --> 00:05:45.440
+Justin Traglia: Okay.
+
+40
+00:05:46.980 --> 00:05:56.879
+Justin Traglia: Well, there's just a couple of PRs I'd like to discuss, I guess. The first one is for something that Sproul reported a few weeks ago. There's a…
+
+41
+00:05:57.210 --> 00:06:00.480
+Justin Traglia: Mistake and get attestation participation flags.
+
+42
+00:06:01.250 --> 00:06:06.450
+Justin Traglia: Pretty much, I think if there's, like, a… if there's a skip slot, we, incor
+
+43
+00:06:06.560 --> 00:06:08.129
+Justin Traglia: compute the rewards.
+
+44
+00:06:09.030 --> 00:06:10.780
+Justin Traglia: Or, like… No.
+
+45
+00:06:11.950 --> 00:06:18.510
+Justin Traglia: Please take a moment to review it and approve. We can include this in the next DevNet, assuming that there will be a DevNet 8.
+
+46
+00:06:23.890 --> 00:06:29.380
+Justin Traglia: And an additional, gossip validation check.
+
+47
+00:06:31.500 --> 00:06:35.610
+Justin Traglia: Just another dependent route check for proposer preferences.
+
+48
+00:06:36.420 --> 00:06:40.019
+Justin Traglia: This is something that I added in the executable.
+
+49
+00:06:40.540 --> 00:06:46.680
+Justin Traglia: Validation spec, and I am backporting to the Natural language spec.
+
+50
+00:06:48.000 --> 00:06:50.139
+Justin Traglia: There's just, like, a gap that I noticed
+
+51
+00:06:54.690 --> 00:06:56.700
+Justin Traglia: Please take some time to review it as well.
+
+52
+00:07:04.630 --> 00:07:09.560
+Justin Traglia: Right, and that's it for me. Is there anything else you guys want to discuss?
+
+53
+00:07:23.680 --> 00:07:24.890
+potuz: Sorry.
+
+54
+00:07:25.730 --> 00:07:33.549
+potuz: Can you describe the sync of the dependent route that you linked? Or do you want to review async?
+
+55
+00:07:34.870 --> 00:07:39.360
+Justin Traglia: Async review is fine. I mean, it Fairly simple.
+
+56
+00:07:42.490 --> 00:07:44.050
+Justin Traglia: Let me look at it real quick.
+
+57
+00:07:52.070 --> 00:07:56.710
+Justin Traglia: I mean, I feel like the PR description explains it pretty well.
+
+58
+00:07:57.560 --> 00:08:02.360
+potuz: Yeah, so I think it's fine to reject If the…
+
+59
+00:08:02.730 --> 00:08:11.179
+potuz: I mean, if you have such a block with a dependent root and it's from a slot, that is not even possible because it's in the future.
+
+60
+00:08:11.330 --> 00:08:18.530
+potuz: But… Perhaps we could also just ignore if it's not… Dependent route?
+
+61
+00:08:20.570 --> 00:08:22.730
+Justin Traglia: You're saying, change the rejection to ignore.
+
+62
+00:08:23.050 --> 00:08:31.869
+potuz: Oh no, it's changed even the condition. Like if the block is not a dependent root in any branch that we know in four choice, just ignore.
+
+63
+00:08:33.230 --> 00:08:34.989
+potuz: The problem is that,
+
+64
+00:08:35.210 --> 00:08:45.179
+potuz: It's a problem that we see all the time with lagging clients. Lagging clients would send valid dependent routes, because they could just say, this canonical block
+
+65
+00:08:45.430 --> 00:08:50.250
+potuz: 3 months ago is my dependent root. My head is that canonical block.
+
+66
+00:08:51.560 --> 00:08:56.000
+potuz: No, so the the condition above says that you haven't seen it.
+
+67
+00:08:59.870 --> 00:09:00.760
+potuz: Nico.
+
+68
+00:09:03.740 --> 00:09:06.780
+Nico Flaig: So what's the difference that you mean? Sorry.
+
+69
+00:09:07.000 --> 00:09:14.130
+potuz: So a lagging client, it's always the same kind of problems that I'm pointing all the time. A lagging client can say.
+
+70
+00:09:14.680 --> 00:09:21.760
+potuz: My head is this blog from 3 months ago, and I have him just processing slots because no blogs exist.
+
+71
+00:09:21.860 --> 00:09:23.779
+potuz: So that's a valid dependent route.
+
+72
+00:09:24.750 --> 00:09:27.630
+potuz: And we would not,
+
+73
+00:09:27.960 --> 00:09:29.099
+potuz: Reject it.
+
+74
+00:09:30.190 --> 00:09:39.219
+potuz: It's a valid, well, it depends if we're finalizing or not, that's a different story. But the point is that those things are valid and still I think we should ignore.
+
+75
+00:09:39.330 --> 00:09:51.310
+potuz: We should ignore these blocks that are based in such about old blocks. We should ignore proposal preferences that tell us my dependent root is slot 14 of the previous epoch instead of 31.
+
+76
+00:09:52.000 --> 00:10:07.360
+potuz: Even though it's a valid dependent route, that node might be on a fork in which there has been no blocks. I still think that if our local view doesn't have that dependent route as a dependent route, we should just ignore those messages and stop propagating crap.
+
+77
+00:10:08.520 --> 00:10:09.520
+potuz: Early on.
+
+78
+00:10:12.390 --> 00:10:20.929
+potuz: The condition that Justin is writing is a rejection because it's an honest rejection. The block exists and it's not even from the epoch that it should be.
+
+79
+00:10:21.430 --> 00:10:29.969
+potuz: But I think it's easier to filter bad messages by just saying, if it's not a dependent root in your Fortress 3, just ignore it.
+
+80
+00:10:32.040 --> 00:10:36.270
+Justin Traglia: But how would I specify that? I mean, that's a bit complicated, at least in this spec.
+
+81
+00:10:36.870 --> 00:10:41.329
+Justin Traglia: I guess easier for me to say, like, Or the condition right here.
+
+82
+00:10:46.910 --> 00:10:50.150
+potuz: Yeah, I understand. I don't know. I don't know.
+
+83
+00:10:50.290 --> 00:10:53.569
+potuz: I mean, phrasing, writing it instead of.
+
+84
+00:10:53.750 --> 00:10:55.060
+potuz: Right? And it's easy.
+
+85
+00:10:55.590 --> 00:11:03.440
+potuz: If in the four-choice tree, this block is not a dependent root of any branch, Then, oh.
+
+86
+00:11:03.780 --> 00:11:08.159
+potuz: Oh, no, it's easy, actually. You… you ignore if…
+
+87
+00:11:08.770 --> 00:11:15.459
+potuz: If you don't have children of that, of that slot in the right epoch. I can write it if you want.
+
+88
+00:11:15.590 --> 00:11:17.930
+potuz: But it's a condition having children.
+
+89
+00:11:20.140 --> 00:11:20.740
+Justin Traglia: Hmmm.
+
+90
+00:11:22.190 --> 00:11:27.619
+Justin Traglia: OK. I mean, if you want to write it, please make a PR on top of the slide.
+
+91
+00:11:27.950 --> 00:11:31.429
+Justin Traglia: the executable gloss gossip foundation. Pr.
+
+92
+00:11:31.750 --> 00:11:32.629
+Justin Traglia: I'm out of.
+
+93
+00:11:32.630 --> 00:11:41.959
+potuz: This rejection is correct, though. This rejection, I think, is absolutely fine. It's one of the few things where rejection is fine because it's factually incorrect to send such a block.
+
+94
+00:11:42.350 --> 00:11:46.250
+potuz: But I think the ignore condition is going to ignore more, more bad messages.
+
+95
+00:11:49.240 --> 00:11:49.870
+Justin Traglia: Okay.
+
+96
+00:11:58.750 --> 00:12:00.869
+Justin Traglia: Anything else from anyone.
+
+97
+00:12:03.560 --> 00:12:04.320
+Mikhail Kalinin: And.
+
+98
+00:12:04.840 --> 00:12:09.050
+Mikhail Kalinin: I have a comment on the 5442 PR.
+
+99
+00:12:10.240 --> 00:12:11.849
+Mikhail Kalinin: So it…
+
+100
+00:12:12.340 --> 00:12:20.500
+Mikhail Kalinin: As it's currently spec'd out on every other station, there will be a lookup back if there is a gap.
+
+101
+00:12:20.990 --> 00:12:22.430
+Mikhail Kalinin: Right? Yeah.
+
+102
+00:12:23.730 --> 00:12:24.079
+Justin Traglia: Yep, that.
+
+103
+00:12:24.080 --> 00:12:38.010
+Mikhail Kalinin: So, yeah, so I'm just, the question to, CL client devs, will, will they basically implement it as is, or will they optimize and do this lookup just once?
+
+104
+00:12:38.220 --> 00:12:42.129
+Mikhail Kalinin: And then cache this value and, you know, read it every time.
+
+105
+00:12:42.600 --> 00:12:44.469
+Mikhail Kalinin: They process an attestation.
+
+106
+00:12:45.590 --> 00:12:53.160
+Mikhail Kalinin: From the attestation, basically, that involves this gap lookup, this gap recovery.
+
+107
+00:13:04.430 --> 00:13:09.520
+Justin Traglia: I would imagine that they do whatever's the most efficient and optimized.
+
+108
+00:13:10.100 --> 00:13:14.720
+Justin Traglia: We can leave a note in this PR if you want to, like above the function.
+
+109
+00:13:14.970 --> 00:13:18.180
+Justin Traglia: Saying that clients may optimize this XYZ.
+
+110
+00:13:18.340 --> 00:13:20.109
+Justin Traglia: But it is sort of implicit.
+
+111
+00:13:23.340 --> 00:13:38.100
+Mikhail Kalinin: Yeah, of course. Yeah, because I'm asking this because there is an alternative to that. It's a bit ugly in terms of semantics, but the alternative would be to basically set the payload availability flag.
+
+112
+00:13:38.390 --> 00:13:43.170
+Mikhail Kalinin: or… Just once for all the slots in the gap.
+
+113
+00:13:44.770 --> 00:13:46.960
+Mikhail Kalinin: Yeah, kind of this one.
+
+114
+00:13:47.730 --> 00:13:48.410
+Mikhail Kalinin: But.
+
+115
+00:13:49.500 --> 00:13:58.710
+Mikhail Kalinin: And then just, what would be necessary? Basically, you do this once you fill the gap and all further attestations.
+
+116
+00:13:58.820 --> 00:14:09.570
+Mikhail Kalinin: will be processed without. This won't look up because the flag will already be set for, you know, and just can be read from the previous slot.
+
+117
+00:14:09.980 --> 00:14:11.370
+Mikhail Kalinin: Something like that.
+
+118
+00:14:11.770 --> 00:14:14.220
+Mikhail Kalinin: I mean, like, from the slot of the attestation.
+
+119
+00:14:17.710 --> 00:14:18.620
+Justin Traglia: Otis.
+
+120
+00:14:19.190 --> 00:14:29.359
+potuz: this is known. I mean, this is… this was not an issue. This was discussed early when we designed this, and we decided that it was much simpler just to make those attestations
+
+121
+00:14:29.830 --> 00:14:32.269
+potuz: Fail the… the head reward.
+
+122
+00:14:33.130 --> 00:14:42.670
+potuz: You're… the heavy word is… There, so that we have consistency, we have… less short-term forks.
+
+123
+00:14:44.620 --> 00:14:55.129
+potuz: And it's when you attest to the current block that it's just arriving. If you're attesting for a previous block, then this head reward is less relevant. It seems much simpler not
+
+124
+00:14:55.310 --> 00:14:58.540
+potuz: To make this change, and just keep things as they are now.
+
+125
+00:15:03.310 --> 00:15:07.569
+Justin Traglia: Hmm, I was unaware that this was something that you guys have spoken about before.
+
+126
+00:15:07.790 --> 00:15:16.230
+potuz: I don't know if Francesco is in this call, but yeah, this, I mean, yeah, this, this was very early on decided even at the design decision.
+
+127
+00:15:16.950 --> 00:15:18.609
+potuz: at design stages.
+
+128
+00:15:21.950 --> 00:15:26.010
+Justin Traglia: Okay, I think we need more input from client teams then, and others.
+
+129
+00:15:26.300 --> 00:15:32.659
+Justin Traglia: I mean, the fix doesn't seem so complicated to me. Yeah, I mean, it requires you loop backwards, but yeah.
+
+130
+00:15:32.780 --> 00:15:34.850
+Justin Traglia: Yeah, I mean… Normally this won't be.
+
+131
+00:15:34.850 --> 00:15:40.920
+potuz: It is about like grabbing the roots and then it just, it's just unnecessary complication.
+
+132
+00:15:41.400 --> 00:15:47.559
+potuz: For applications that anyways… are not, like, so…
+
+133
+00:15:48.030 --> 00:15:50.110
+potuz: Important to have the head reward.
+
+134
+00:15:54.530 --> 00:16:00.889
+Justin Traglia: Okay, this isn't something I can make a decision on. It'll be up to you guys. So whatever you think is best.
+
+135
+00:16:06.350 --> 00:16:11.560
+Mikhail Kalinin: And today we have empty slots, the, this head reward will be empty.
+
+136
+00:16:12.020 --> 00:16:14.699
+Mikhail Kalinin: Will work, okay? I mean, like…
+
+137
+00:16:15.910 --> 00:16:17.980
+Mikhail Kalinin: And the stores will get rewarded.
+
+138
+00:16:18.900 --> 00:16:20.419
+Mikhail Kalinin: Close to the right hand.
+
+139
+00:16:27.320 --> 00:16:34.700
+Mikhail Kalinin: So if we're kind of changing the condition on when the head reward is paid, I think it should be reflected in this package.
+
+140
+00:16:39.850 --> 00:16:52.189
+potuz: But I mean, but the biggest issue is not like correctly voting for head. The thing is correctly and timely voting for head. The timely part is the part that is tricky with skipped slots.
+
+141
+00:17:11.220 --> 00:17:14.389
+Justin Traglia: I'll share the issue just for others to catch up on.
+
+142
+00:17:15.349 --> 00:17:17.200
+Justin Traglia: after this call.
+
+143
+00:17:18.420 --> 00:17:19.409
+Justin Traglia: It's quite a bit.
+
+144
+00:17:22.170 --> 00:17:28.860
+potuz: But just just to make sure the current like in in Deneb, they get attestation, participation, flag indices.
+
+145
+00:17:29.530 --> 00:17:33.320
+potuz: Reads that we get the block.
+
+146
+00:17:34.280 --> 00:17:36.649
+potuz: At the slot of the data slot.
+
+147
+00:17:37.700 --> 00:17:41.670
+potuz: And we just checked that we voted for the right head route at that slot.
+
+148
+00:17:44.020 --> 00:17:50.390
+potuz: And we just get that the target matches, which has to be automatic. That's it.
+
+149
+00:17:53.600 --> 00:17:59.430
+potuz: And then we check that the attestation is included one slot down.
+
+150
+00:17:59.800 --> 00:18:02.269
+potuz: with less than one slot difference.
+
+151
+00:18:09.700 --> 00:18:10.480
+Justin Traglia: Okay.
+
+152
+00:18:12.350 --> 00:18:19.290
+Justin Traglia: Protos, could you leave a comment on either the issue or the PR to allow Sprout to properly respond?
+
+153
+00:18:19.490 --> 00:18:20.050
+potuz: Sure.
+
+154
+00:18:25.030 --> 00:18:27.249
+Justin Traglia: Alright, anything else people want to talk about?
+
+155
+00:18:29.250 --> 00:18:30.609
+Justin Traglia: The floor is ours.
+
+156
+00:18:48.780 --> 00:18:51.570
+Justin Traglia: Okay. In that case, we can end the call early.
+
+157
+00:18:54.990 --> 00:18:55.830
+potuz: See you guys.
+
+158
+00:18:56.840 --> 00:18:57.790
+Justin Traglia: Bye, everyone.
+
+159
+00:18:57.930 --> 00:18:58.610
+Dmitrii Shmatko: Bye.
+

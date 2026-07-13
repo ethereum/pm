@@ -1,0 +1,68 @@
+{
+  "meeting": "ACDT #87 - CL Breakout - July 13, 2026",
+  "highlights": {
+    "devnet_progress": [
+      {
+        "timestamp": "00:01:47",
+        "highlight": "DevNet 7 implementations in progress; Teku branch complete, merging to master"
+      },
+      {
+        "timestamp": "00:06:18",
+        "highlight": "PR #5442 (attestation participation bug fix) targets DevNet 8 inclusion"
+      }
+    ],
+    "stable_containers_performance": [
+      {
+        "timestamp": "00:03:07",
+        "highlight": "Teku stable containers: 1.5\u20132x slower than non-progressive; optimization round planned"
+      },
+      {
+        "timestamp": "00:03:52",
+        "highlight": "Lodestar POC with optimizations achieves ~20% slowdown vs. non-stable containers"
+      }
+    ],
+    "spec_prs": [
+      {
+        "timestamp": "00:05:46",
+        "highlight": "PR #5442: bug fix in get_attestation_participation_flags for skip-slot reward miscalculation"
+      },
+      {
+        "timestamp": "00:06:29",
+        "highlight": "PR #5443: gossip validation check \u2014 dependent root proposer preference backport to natural language spec"
+      },
+      {
+        "timestamp": "00:08:57",
+        "highlight": "Potuz: reject condition in #5443 is correct, but an ignore condition (dependent root absent from fork-choice tree) would filter more bad messages from lagging clients"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:06:18",
+      "action": "Review and approve consensus-specs PRs #5442 and #5443",
+      "owner": "CL teams"
+    },
+    {
+      "timestamp": "00:11:22",
+      "action": "Open PR on top of #5443 adding ignore condition for dependent root not in fork-choice tree",
+      "owner": "Potuz"
+    },
+    {
+      "timestamp": "00:18:12",
+      "action": "Leave comment on issue #5399 / PR #5442 so Sproul can respond to design concerns",
+      "owner": "Potuz"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:14:19",
+      "decision": "Skip-slot head reward behavior kept as originally designed (attestations across gaps fail head reward); no spec change to reward propagation semantics"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:06:18",
+      "target": "PRs #5442 and #5443 to be included in DevNet 8 (if DevNet 8 proceeds)"
+    }
+  ]
+}
