@@ -1,0 +1,478 @@
+WEBVTT
+
+1
+00:06:00.690 --> 00:06:07.020
+Chase Wright: So I don't, I don't know if Boma or Felix are gonna be new any.
+
+2
+00:06:07.880 --> 00:06:16.650
+Chase Wright: There's, like… 3 items on the agenda, and 3… PRs?
+
+3
+00:06:16.800 --> 00:06:20.029
+Chase Wright: That would need Felix to merge.
+
+4
+00:06:20.710 --> 00:06:21.880
+Chase Wright: Okay.
+
+5
+00:06:23.040 --> 00:06:29.570
+Chase Wright: But if he's not here, then… Oh.
+
+6
+00:06:29.780 --> 00:06:34.979
+Chase Wright: Does anyone have anything that's… Not on the agenda, or want to talk about one of these…
+
+7
+00:06:35.150 --> 00:06:36.830
+Chase Wright: 3 discussion items.
+
+8
+00:06:41.730 --> 00:06:46.850
+Tullio | Erigon: Okay, yeah, I can say something about the Debug witness.
+
+9
+00:06:47.310 --> 00:06:49.680
+Tullio | Erigon: Draft spec?
+
+10
+00:06:50.040 --> 00:06:50.360
+Chase Wright: Yes.
+
+11
+00:06:50.360 --> 00:06:59.879
+Tullio | Erigon: Yeah, I'm gonna advocate for… keeping the… The key is filled.
+
+12
+00:07:00.240 --> 00:07:05.730
+Tullio | Erigon: I mean, not dropping it entirely, at least keeping it as optional.
+
+13
+00:07:06.060 --> 00:07:16.030
+Tullio | Erigon: Because, it gives a chance to the provers, to… optimize,
+
+14
+00:07:16.440 --> 00:07:18.590
+Tullio | Erigon: Even more, on the guest side.
+
+15
+00:07:18.780 --> 00:07:21.269
+Tullio | Erigon: And so, yeah, I would — yeah.
+
+16
+00:07:21.880 --> 00:07:26.420
+Tullio | Erigon: I'd like to have it at least as an optional field.
+
+17
+00:07:27.970 --> 00:07:32.220
+Chase Wright: Okay. So okay. Keep keep keys field optional. Alright.
+
+18
+00:07:33.000 --> 00:07:38.040
+Tullio | Erigon: Okay, yeah, I can write a comment on the issue as well, if you prefer.
+
+19
+00:07:38.040 --> 00:07:48.850
+Chase Wright: Yeah, yeah, sure. I'm going to be completely honest. I don't really have strong opinions either way because I'm not involved in the ZK stuff, but it makes sense to me.
+
+20
+00:07:50.080 --> 00:07:54.380
+Tullio | Erigon: Yeah, yeah. Because otherwise you, you must access.
+
+21
+00:07:54.670 --> 00:08:04.450
+Tullio | Erigon: The… the pre-state my… Hashing the… And… and it's…
+
+22
+00:08:04.600 --> 00:08:10.829
+Tullio | Erigon: must happen on the ZKVM side, so it basically costs…
+
+23
+00:08:11.510 --> 00:08:20.200
+Tullio | Erigon: cycles on the ZKVM, whilst you can avoid this if you pass to the guest.
+
+24
+00:08:20.480 --> 00:08:27.939
+Tullio | Erigon: the… pre pre images, basically. So yeah, I I write a comment in this.
+
+25
+00:08:29.150 --> 00:08:29.490
+Chase Wright: Okay.
+
+26
+00:08:29.490 --> 00:08:31.400
+Tullio | Erigon: But, of course, there are…
+
+27
+00:08:31.630 --> 00:08:40.549
+Tullio | Erigon: Then, I mean, pros and cons, because on the client side, maybe some client doesn't.
+
+28
+00:08:40.870 --> 00:08:45.620
+Tullio | Erigon: Want to keep the pre images and so it's a.
+
+29
+00:08:45.960 --> 00:08:49.949
+Tullio | Erigon: I mean, it's a balance, of course, it's…
+
+30
+00:08:51.030 --> 00:08:53.000
+Tullio | Erigon: It's not straightforward, in my opinion.
+
+31
+00:08:53.400 --> 00:09:03.639
+Chase Wright: Yeah, that makes sense. And I mean, if it is, if it is a balancing act, then, I guess it would make sense to just have it be optional then. Yeah.
+
+32
+00:09:03.640 --> 00:09:15.440
+Tullio | Erigon: Yeah, exactly, exactly. At least to not close the doors to guests to optimize, but at the same time not enforce the client to keep the pre-images.
+
+33
+00:09:16.770 --> 00:09:20.410
+Chase Wright: Okay. Yeah, that makes sense. If you… if you can leave a comment on it, then I'll.
+
+34
+00:09:20.410 --> 00:09:20.970
+Tullio | Erigon: Yeah, yeah.
+
+35
+00:09:20.970 --> 00:09:24.300
+Chase Wright: I'll update the spec to reflect that.
+
+36
+00:09:24.730 --> 00:09:27.339
+Chase Wright: I mean, it's all in draft anyway, so it's fine.
+
+37
+00:09:27.340 --> 00:09:29.070
+Tullio | Erigon: Okay, I'll do. Thanks.
+
+38
+00:09:29.460 --> 00:09:30.850
+Chase Wright: Yeah, sounds good.
+
+39
+00:09:32.230 --> 00:09:33.270
+Chase Wright: Hi, Boma.
+
+40
+00:09:35.010 --> 00:09:40.559
+Boma: Sorry, I joined late. My internet went down for a while.
+
+41
+00:09:41.610 --> 00:09:44.070
+Chase Wright: That's all right. So.
+
+42
+00:09:45.720 --> 00:09:55.399
+Chase Wright: We were talking about the debug execution witness. It seems there's desire for the keys field to remain and become an optional field.
+
+43
+00:09:55.690 --> 00:10:04.690
+Chase Wright: So… Tulio's gonna, add a comment to that, and then I'll update the spec for that.
+
+44
+00:10:05.240 --> 00:10:05.900
+Chase Wright: Yes.
+
+45
+00:10:06.380 --> 00:10:11.080
+Chase Wright: Unfortunately, Felix is not here. I think he is…
+
+46
+00:10:11.200 --> 00:10:14.090
+Chase Wright: Busy at an offsite or something.
+
+47
+00:10:14.510 --> 00:10:20.029
+Chase Wright: So I don't think we can make too much progress on getting things merged, but I can…
+
+48
+00:10:20.250 --> 00:10:23.200
+Chase Wright: Ping him offline, and see if he'll…
+
+49
+00:10:23.940 --> 00:10:26.959
+Chase Wright: He'll do it when he has a chance,
+
+50
+00:10:28.030 --> 00:10:35.890
+Chase Wright: And I don't… I don't know if we have anything else… To really discuss…
+
+51
+00:10:37.910 --> 00:10:43.369
+Boma: Mmm, just… we only just have a few, items on the agenda also.
+
+52
+00:10:43.460 --> 00:10:44.360
+Chase Wright: Yeah, sure.
+
+53
+00:10:45.330 --> 00:10:48.669
+Boma: They actually, like, need Felix to look at them.
+
+54
+00:10:49.170 --> 00:10:49.890
+Chase Wright: Yeah. Okay.
+
+55
+00:10:54.760 --> 00:11:01.500
+Chase Wright: I mean, they're almost all my stuff anyway. I get my feelings.
+
+56
+00:11:03.840 --> 00:11:13.259
+Chase Wright: Because, yeah, I mean, we agreed on the previous call, the PRs, the merge, like, we agreed on the previous call that they could be merged, so…
+
+57
+00:11:13.470 --> 00:11:16.489
+Chase Wright: I don't think we need to re-discuss it,
+
+58
+00:11:16.980 --> 00:11:21.750
+Chase Wright: And then, the only other thing is,
+
+59
+00:11:22.550 --> 00:11:28.720
+Chase Wright: Tests are failing. One test is failing for Geth because of a Geth change.
+
+60
+00:11:29.160 --> 00:11:35.110
+Chase Wright: And that change requires HiveChain to be upgraded to Osaka.
+
+61
+00:11:35.690 --> 00:11:44.480
+Chase Wright: And I have a poorly vibe-coded PR into Hive to bump the chain up to Osaka.
+
+62
+00:11:45.550 --> 00:11:52.979
+Chase Wright: But… And there's really not much to talk about there, unless someone is more familiar with
+
+63
+00:11:54.180 --> 00:11:58.859
+Chase Wright: that task of upgrading the Hive chain than I am, which is probably Felix.
+
+64
+00:11:59.830 --> 00:12:02.020
+Chase Wright: So I gotta bug him.
+
+65
+00:12:07.610 --> 00:12:10.499
+Chase Wright: I don't know if there's much else to talk about.
+
+66
+00:12:14.070 --> 00:12:19.029
+Boma: So, I don't really think there is anything much to talk about, apart from…
+
+67
+00:12:19.170 --> 00:12:23.680
+Boma: These peers that need to be merged, and then the ones that need to be reviewed.
+
+68
+00:12:24.360 --> 00:12:28.379
+Boma: Which Felix has, should do.
+
+69
+00:12:32.270 --> 00:12:34.210
+Boma: Apart from that, nothing else.
+
+70
+00:12:36.250 --> 00:12:44.400
+Chase Wright: Yeah, I really want to get the testing commit block stuff pushed, because that will fix some other errors in Nethermind.
+
+71
+00:12:45.010 --> 00:12:48.060
+Chase Wright: Because of the gas limit issue.
+
+72
+00:12:48.800 --> 00:12:49.589
+Chase Wright: Okay.
+
+73
+00:12:49.790 --> 00:12:50.450
+Chase Wright: Sorry, this.
+
+74
+00:12:50.450 --> 00:12:54.300
+Boma: What are what are what about like clients? I think he has.
+
+75
+00:12:55.390 --> 00:12:57.660
+Boma: Sort of imagine right to this.
+
+76
+00:12:58.820 --> 00:13:00.900
+Chase Wright: Yeah, he might, I can…
+
+77
+00:13:01.070 --> 00:13:03.350
+Chase Wright: I can ping him. I don't know.
+
+78
+00:13:05.750 --> 00:13:07.690
+Chase Wright: Either way, it'll be alright.
+
+79
+00:13:09.190 --> 00:13:10.630
+Chase Wright: Try to get these merged.
+
+80
+00:13:29.180 --> 00:13:32.440
+Chase Wright: I mean, unless… unless anybody has anything else, I don't…
+
+81
+00:13:33.000 --> 00:13:35.080
+Chase Wright: To talk about, like, we can…
+
+82
+00:13:35.390 --> 00:13:37.680
+Chase Wright: We can call this meeting short.
+
+83
+00:13:45.280 --> 00:13:46.600
+Boma: Nothing for me.
+
+84
+00:13:50.960 --> 00:13:51.579
+Chase Wright: Is there…
+
+85
+00:13:51.580 --> 00:13:55.029
+Boma: Now, the error code discussion.
+
+86
+00:13:56.340 --> 00:14:01.600
+Chase Wright: Yeah, I don't know. Sina is…
+
+87
+00:14:03.350 --> 00:14:12.879
+Chase Wright: I don't know if Sina's working on that particular aspect right now, so that's another conversation.
+
+88
+00:14:13.530 --> 00:14:15.680
+Simsonraj Easvarasakthi: The last update from…
+
+89
+00:14:16.600 --> 00:14:23.390
+Simsonraj Easvarasakthi: Felix was that he's working with Sina on that, and, they would get back after more discussions.
+
+90
+00:14:24.090 --> 00:14:26.829
+Simsonraj Easvarasakthi: Yeah, we need, Felix and Sina here.
+
+91
+00:14:28.870 --> 00:14:29.550
+Chase Wright: Yep.
+
+92
+00:14:29.700 --> 00:14:30.419
+Chase Wright: Oh, yeah.
+
+93
+00:14:30.960 --> 00:14:32.189
+Boma: Okay, thank you.
+
+94
+00:14:34.360 --> 00:14:35.070
+Boma: Hmm, okay.
+
+95
+00:14:37.580 --> 00:14:40.270
+Chase Wright: Is, what about the the release?
+
+96
+00:14:40.430 --> 00:14:44.190
+Chase Wright: pipeline stuff. Does anyone have any updates on that.
+
+97
+00:14:45.460 --> 00:14:49.329
+Boma: I think it should be, Kira, I think.
+
+98
+00:14:50.560 --> 00:14:51.369
+Chase Wright: Yeah, okay.
+
+99
+00:14:51.620 --> 00:14:54.980
+Boma: We talked about doing one release, like, one official one.
+
+100
+00:14:55.580 --> 00:14:56.420
+Boma: So…
+
+101
+00:14:56.880 --> 00:15:02.339
+Chase Wright: Yeah, I mean, we're on 1.0 beta 7. I'm just not entirely sure.
+
+102
+00:15:03.470 --> 00:15:05.169
+Chase Wright: What's left?
+
+103
+00:15:07.280 --> 00:15:14.029
+Boma: Yeah, there was a comment you made on, during that call. You wanted one PR to go in or something.
+
+104
+00:15:14.740 --> 00:15:21.040
+Boma: I can't recall the exact PR, but there was a PR you made, and you wanted it to go in, then we can now cut it.
+
+105
+00:15:21.400 --> 00:15:22.700
+Boma: They release.
+
+106
+00:15:23.110 --> 00:15:28.519
+Boma: Without PRN, so I'm not… And it's like, boom, I.
+
+107
+00:15:28.520 --> 00:15:33.990
+Chase Wright: That might make sense. So if we can get these three PRs merged, maybe we just move forward with the release.
+
+108
+00:15:34.630 --> 00:15:35.410
+Boma: Okay.
+
+109
+00:15:37.030 --> 00:15:44.710
+Boma: I think maybe we can ping Kira for that. She should have The rights to do that.
+
+110
+00:15:47.000 --> 00:15:48.400
+Chase Wright: Yeah, alright.
+
+111
+00:15:52.150 --> 00:15:59.030
+Boma: That's all. We don't have any other thing, unless someone else has something else to discuss, then we can call it a day. Okay.
+
+112
+00:16:09.670 --> 00:16:11.219
+Chase Wright: Silence is golden.
+
+113
+00:16:19.290 --> 00:16:21.679
+Boma: Okay, I guess that's it.
+
+114
+00:16:21.790 --> 00:16:24.940
+Boma: Thank you everyone for joining. Sorry for joining late.
+
+115
+00:16:25.440 --> 00:16:26.880
+Chase Wright: All right. Bye, everyone.
+
+116
+00:16:26.880 --> 00:16:27.510
+Tullio | Erigon: Thank you.
+
+117
+00:16:27.510 --> 00:16:28.010
+Stavros Vlachakis: My pleasure.
+
+118
+00:16:28.010 --> 00:16:28.950
+Tullio | Erigon: Bye everyone.
+
+119
+00:16:29.170 --> 00:16:30.080
+Stavros Vlachakis: Bye bye.
+
