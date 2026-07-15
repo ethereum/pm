@@ -1,0 +1,1286 @@
+WEBVTT
+
+1
+00:03:38.080 --> 00:03:39.080
+Sam: Hello, hello.
+
+2
+00:03:42.100 --> 00:03:43.340
+Pedro: Hello.
+
+3
+00:03:46.980 --> 00:03:48.480
+Sam: How's it going? Good.
+
+4
+00:03:49.510 --> 00:03:50.649
+Pedro: Oh, good.
+
+5
+00:03:52.320 --> 00:03:53.030
+Sam: Good.
+
+6
+00:03:58.340 --> 00:03:59.800
+Pedro: Where's the agenda?
+
+7
+00:04:00.720 --> 00:04:05.290
+Sam: It is on the Ethereum PM. I'll put a link in the chat.
+
+8
+00:04:17.140 --> 00:04:18.310
+Pedro: Okay, cool.
+
+9
+00:04:19.540 --> 00:04:22.670
+Pedro: So we got 8, 1 30 and 8, 2, 8, 6.
+
+10
+00:04:23.470 --> 00:04:24.700
+Sam: Exactly.
+
+11
+00:04:45.700 --> 00:04:51.649
+Sam: These calls usually have a fairly slow start, so probably start at 5 after.
+
+12
+00:04:55.470 --> 00:04:56.339
+Pedro: Of course.
+
+13
+00:07:25.460 --> 00:07:28.440
+Sam: Just gonna wait another three or four minutes before we get started.
+
+14
+00:09:51.840 --> 00:10:04.920
+Sam: All right, let's get started. So welcome everybody to this month's All Wallet Devs. We have two items on the agenda today. And if anybody else has anything they want to talk about, feel free to just jump in.
+
+15
+00:10:05.320 --> 00:10:12.199
+Sam: I guess let's get started with ERC8286, modular accounts for frame transactions.
+
+16
+00:10:17.210 --> 00:10:18.750
+Sam: Assuming you're here to talk.
+
+17
+00:10:19.180 --> 00:10:22.930
+Pedro: Yeah, I mean, I'll kick it off and, Shiran.
+
+18
+00:10:23.840 --> 00:10:40.099
+Pedro: Shiran will do most of the presentation since he has done the majority of the technical work. But basically, to kind of put into perspective, like 8141 is quite a substantial change in how wallets interact with Ethereum.
+
+19
+00:10:40.100 --> 00:10:52.140
+Pedro: 4237 has always tried to achieve account abstraction in a way that was completely off-chain, in a way made it optional for you to actually have account abstraction, and even with 7702,
+
+20
+00:10:52.140 --> 00:11:00.300
+Pedro: Like, being present on-chain with this new transaction type, it still means that you are not, by default.
+
+21
+00:11:00.590 --> 00:11:09.769
+Pedro: having this native account abstraction. So, it always had these different layers that you had to add, and it didn't really have this
+
+22
+00:11:09.970 --> 00:11:28.000
+Pedro: kind of default that you have account abstraction as an EOA. So, with H141, you're basically thinking as every wallet on Ethereum will be account abstracted by default, they just need to start using a new transaction type.
+
+23
+00:11:28.190 --> 00:11:38.549
+Pedro: But the problem with this is because 8141 is essentially a general pre-computation. Essentially, you can think of…
+
+24
+00:11:39.140 --> 00:11:56.959
+Pedro: Ethereum provides you with computation on settlements, and with 8.1.4.1, you have, like, this pre-execution computation. So you have these programmable accounts that can do some validation before the transaction actually gets settled on-chain.
+
+25
+00:11:57.160 --> 00:12:11.170
+Pedro: That meant that we need to have some sort of framework of how we can design this programmability, and how we can build smart accounts for all of these EOAs. And right now, there is a…
+
+26
+00:12:11.270 --> 00:12:23.220
+Pedro: a default for how we submit transactions, which they're being called frame transactions for native account abstraction, but there's no default for how you actually build your Smart Accounts.
+
+27
+00:12:23.300 --> 00:12:28.420
+Pedro: Fortunately, Fortune 3-7 is 3 years old, so there's been a lot of work being done on this.
+
+28
+00:12:28.480 --> 00:12:41.930
+Pedro: And in my opinion, and I think Shiran would share this as well, the best approach with actually building a smart account in a standardized way has been ERC7579.
+
+29
+00:12:41.930 --> 00:12:53.729
+Pedro: ERC779 is essentially a very minimal modular account system that allows you to essentially build your smart account programmability. However, 7579 has always been designed around
+
+30
+00:12:53.730 --> 00:13:05.829
+Pedro: the premise that it is to be designed with Fortune 3.7 account abstraction. So what it would look like if you build a minimal modular account for 8.1.4.1.
+
+31
+00:13:06.260 --> 00:13:23.310
+Pedro: And that's essentially what Shiran has created. He created a spec that if you are a 7579 compatible modular account, you can leverage the 8141 frame transactions for you to actually have the same…
+
+32
+00:13:23.490 --> 00:13:26.960
+Pedro: Modular account, but with a new transaction type.
+
+33
+00:13:27.380 --> 00:13:29.930
+Pedro: Shiran, do you want to share more on the technicals?
+
+34
+00:13:30.850 --> 00:13:37.849
+Chiranjeev Mishra: Yes, sure. I'll just keep the spec open as well, just for if everyone wants to see it.
+
+35
+00:13:38.440 --> 00:13:45.559
+Chiranjeev Mishra: So, with frames, we basically abstract away all the complexities of,
+
+36
+00:13:45.650 --> 00:14:01.779
+Chiranjeev Mishra: infrastructure, basically, like, the alternate mempool or the bundler service that we had, a separate one. Now it's all enshrined in the protocol, but 8141 still hasn't specified how would a smart account would look like, like, what would be the interface for
+
+37
+00:14:02.160 --> 00:14:06.280
+Chiranjeev Mishra: smart accounts. Like, in 4337, you had that iAccount set up.
+
+38
+00:14:06.370 --> 00:14:25.379
+Chiranjeev Mishra: But for frames, we don't have it yet. So this ERC basically discussed on how we can use the existing 7579 account standards, which basically has this whole ecosystem of modules and the whole modularity setup. So it's basically an extension to 7579.
+
+39
+00:14:25.730 --> 00:14:34.479
+Chiranjeev Mishra: On how you can use frame, transaction-based accounts, and still, have the modularity of 7579.
+
+40
+00:14:34.980 --> 00:14:42.939
+Chiranjeev Mishra: So… if the… if we discuss on, like, how it's different from, 7579, it's…
+
+41
+00:14:43.180 --> 00:15:00.819
+Chiranjeev Mishra: practically the same, but the validation and execution rules change a little bit, because the frame transactions act in a different way, with the new opcode called Approve, and the sender frames now being enshrined on the protocol level, rather on the contract level.
+
+42
+00:15:01.740 --> 00:15:05.540
+Chiranjeev Mishra: So, yeah, that's the premise of this whole, standard.
+
+43
+00:15:05.770 --> 00:15:09.979
+Chiranjeev Mishra: So, like, describing on how a frame account would look like.
+
+44
+00:15:11.140 --> 00:15:22.139
+Chiranjeev Mishra: So, basically, this one. Yeah. So, ERC8286 frame account, which basically implements the 7579 account config and the module config.
+
+45
+00:15:25.020 --> 00:15:36.309
+Chiranjeev Mishra: Yeah, so, we introduced something called, supports approval mode. So, in 7579, they just had supports execution mode.
+
+46
+00:15:36.410 --> 00:15:51.430
+Chiranjeev Mishra: Because the 4337 didn't have a concept of, like, approval lists or something, but Frame Transactions does. So they have a set of approvals, like, they can approve for execution if an account can be approved for payments.
+
+47
+00:15:51.450 --> 00:15:57.210
+Chiranjeev Mishra: So that's why, account need to determine, like, what all approval modes they want to support.
+
+48
+00:15:57.950 --> 00:16:01.920
+Chiranjeev Mishra: So, this is the main addition, I would say.
+
+49
+00:16:02.110 --> 00:16:05.560
+Chiranjeev Mishra: To… on top of 7579.
+
+50
+00:16:06.350 --> 00:16:13.260
+Chiranjeev Mishra: Yeah, and… We have specified the execution rules, the validation rules.
+
+51
+00:16:13.400 --> 00:16:16.260
+Chiranjeev Mishra: Like, like, how would a…
+
+52
+00:16:16.550 --> 00:16:28.540
+Chiranjeev Mishra: frame validator would look like, which is in here. Now, they would have this function called a validate frame, so any 7579 module, if they want to behave like a
+
+53
+00:16:28.610 --> 00:16:37.869
+Chiranjeev Mishra: like, a frame validator. So, we, Alex actually introduced a new module type here, a new module ID called
+
+54
+00:16:37.950 --> 00:16:44.950
+Chiranjeev Mishra: I mean, it's up to, like, the protocol and what to decide, what the module type would be.
+
+55
+00:16:45.160 --> 00:16:55.009
+Chiranjeev Mishra: But, yeah, so this 8141 frame validator is a module that basically decides the approval mode a transaction is entitled to.
+
+56
+00:16:56.260 --> 00:17:08.100
+Chiranjeev Mishra: So, yeah, any 7, any, module builder can basically implement this iframe validator, which in turn implement the 7579 model standards.
+
+57
+00:17:08.230 --> 00:17:15.450
+Chiranjeev Mishra: And then they can, create their whole, module system with respect to the frame transaction setup. Yeah.
+
+58
+00:17:19.970 --> 00:17:29.399
+Chiranjeev Mishra: Would I go into, like, the exact details of all the points, like, what we try to do, or, like, we can even discuss if you have some questions.
+
+59
+00:17:29.810 --> 00:17:33.029
+Pedro: Yeah, maybe leave some room for questions. Anyone?
+
+60
+00:17:34.260 --> 00:17:34.770
+Chiranjeev Mishra: Yeah, please do.
+
+61
+00:17:34.920 --> 00:17:47.360
+Pedro: try to scrutinize as much as possible. As you know, these standards are draft. We try to already get a lot of feedback across the ecosystem, but that's what these calls are for. We want to
+
+62
+00:17:47.460 --> 00:17:49.969
+Pedro: Please challenge our assumptions here and.
+
+63
+00:17:50.190 --> 00:17:52.739
+Pedro: Understand if this is the right approach.
+
+64
+00:18:00.860 --> 00:18:02.210
+Stavros Vlachakis: Hello guys.
+
+65
+00:18:03.050 --> 00:18:15.960
+Stavros Vlachakis: I'm from… Nethermind, I'm actually leading the effort of, 8141, together with Daniel, that's why we joined, and we were curious, actually, to hear,
+
+66
+00:18:16.260 --> 00:18:20.070
+Stavros Vlachakis: what you are thinking and what you are planning around this EIP.
+
+67
+00:18:20.790 --> 00:18:27.760
+Stavros Vlachakis: So, yeah, if you could elaborate more, it would be definitely beneficial.
+
+68
+00:18:29.980 --> 00:18:30.909
+Chiranjeev Mishra: Got it.
+
+69
+00:18:31.040 --> 00:18:39.150
+Chiranjeev Mishra: So what we describe here is, is that, are you familiar with the 7579, module standard?
+
+70
+00:18:43.940 --> 00:18:44.730
+Daniil Ankushin: Nope.
+
+71
+00:18:44.730 --> 00:18:45.450
+Chiranjeev Mishra: Oh, yeah.
+
+72
+00:18:45.630 --> 00:18:52.849
+Chiranjeev Mishra: like, if… Like, I will try to correlate things, so that would be beneficial, that's why I asked.
+
+73
+00:19:01.800 --> 00:19:06.170
+Chiranjeev Mishra: So anyways, so… In…
+
+74
+00:19:06.420 --> 00:19:21.560
+Chiranjeev Mishra: So, previous to 8141, we had 4337, and Rhinestone by Economy, all wallet teams, like, prominent wallet teams, came up with the standard of 7579, which basically introduced modules in top of smart accounts.
+
+75
+00:19:21.660 --> 00:19:40.810
+Chiranjeev Mishra: So they can have, like, the module lifecycle they want to install, they want to uninstall a certain module. They even left room for, like, new module types. So in their standard, they only had four module types. Now, in this, we are introducing a new module type called frame validator module.
+
+76
+00:19:41.290 --> 00:19:47.250
+Chiranjeev Mishra: So, yeah, so what we are trying to define in this ERC is that
+
+77
+00:19:47.380 --> 00:19:57.610
+Chiranjeev Mishra: It's basically the… how would a frame account would look like? Like, how would the approvals work? So, let's say in 8141, there is a verify frame.
+
+78
+00:19:57.660 --> 00:20:10.220
+Chiranjeev Mishra: Now, verify frame would have, like, flags, like, what approvals, modes it can support, like, if approval none, approve only payment, approve execution, or approve
+
+79
+00:20:10.250 --> 00:20:19.119
+Chiranjeev Mishra: execution and payment. So, these are all the modes that are defined by the 8141 standard, and it's on the account side.
+
+80
+00:20:19.790 --> 00:20:36.400
+Chiranjeev Mishra: to support what all approved modes they support. So, some accounts might say, we only want to support payments, or some accounts might say, we only want to support executions, and some might even support both. So, it's basically to give a modularity to the
+
+81
+00:20:36.450 --> 00:20:43.049
+Chiranjeev Mishra: To whatever frame, account implementations everyone is building, all the volatiles would build.
+
+82
+00:20:43.170 --> 00:20:48.830
+Chiranjeev Mishra: So, they would have this, Yeah, here.
+
+83
+00:20:49.130 --> 00:21:03.359
+Chiranjeev Mishra: this function called supports approval, so they would have a mapping of, like, what all approval modes they support. Like, if they only want… if my wallet only want to support execution, or it want to support both payment and execution.
+
+84
+00:21:03.360 --> 00:21:11.570
+Chiranjeev Mishra: Or it just wants to support payments. So, what I mean by payments is that if they only want to sponsor the transaction and not the execution rights.
+
+85
+00:21:11.650 --> 00:21:12.520
+Chiranjeev Mishra: And…
+
+86
+00:21:13.000 --> 00:21:22.060
+Chiranjeev Mishra: And, supports execution means that they only, approve, like, the execution part of it, but not the sponsor part of it.
+
+87
+00:21:22.360 --> 00:21:31.350
+Chiranjeev Mishra: So yeah, so we give, like, this option to smart account implementators to basically choose what they want to support.
+
+88
+00:21:31.750 --> 00:21:45.760
+Chiranjeev Mishra: And, yeah, now on the execution modes, so 7579 also had a execution mode support field, where accounts can describe on what type of calls they want to support.
+
+89
+00:21:46.210 --> 00:21:47.879
+Chiranjeev Mishra: And then,
+
+90
+00:21:48.120 --> 00:22:05.390
+Chiranjeev Mishra: So, in 4337, because it was a contract level, like, EIP4337, it works on the contract level stuff, like, the… everything is enshrined in the contract, the execution, the validation, but with 8141, it's on the protocol level, so we have a switch here.
+
+91
+00:22:05.610 --> 00:22:08.750
+Chiranjeev Mishra: So… The thing is that, you know.
+
+92
+00:22:08.960 --> 00:22:15.960
+Chiranjeev Mishra: Execution mode can be protocol dispatch or contract dispatch. So, in a sender frame,
+
+93
+00:22:16.360 --> 00:22:22.580
+Chiranjeev Mishra: no account code is taken into consideration. So the check should happen inside the validation phase.
+
+94
+00:22:22.870 --> 00:22:39.869
+Chiranjeev Mishra: So when the very validate frame occurs, so we need to also check if the execution modes, sorry, the frame that are present in the transactions are supported in the execution approval list the account has.
+
+95
+00:22:40.990 --> 00:22:56.700
+Chiranjeev Mishra: So, like, we defined it as these four modes, like a Standalone sender frame can be supported, or one sender frame, like, inside an atomic batch can be supported, or, like, multiple senders.
+
+96
+00:22:57.410 --> 00:23:15.099
+Chiranjeev Mishra: like, can be supported in a multiple batch, or, like, multiple centers in an atomic batch. So, atomic batch means either all those center frames would execute, or, like… and if one of them fails, nothing would get executed. So, these are the standards that 8141 has, and we are trying to port it into
+
+97
+00:23:15.280 --> 00:23:18.360
+Chiranjeev Mishra: The frame account side of things.
+
+98
+00:23:19.070 --> 00:23:20.220
+Chiranjeev Mishra: So, yeah.
+
+99
+00:23:22.010 --> 00:23:32.079
+Chiranjeev Mishra: So that's how… basically, it's like, account implementation for frame transactions. So we try to rely on existing 7579 module,
+
+100
+00:23:32.190 --> 00:23:39.430
+Chiranjeev Mishra: Standard, so that there is no, you know, vendor lock-in much, and, like, devs can easily build modules across
+
+101
+00:23:39.540 --> 00:23:41.380
+Chiranjeev Mishra: Protocol, so yeah.
+
+102
+00:23:44.510 --> 00:23:45.820
+Chiranjeev Mishra: Any questions.
+
+103
+00:23:46.060 --> 00:23:48.689
+Stavros Vlachakis: Yeah, I have one. So, actually.
+
+104
+00:23:50.220 --> 00:23:55.439
+Stavros Vlachakis: You want this to remain as NERC, right? You don't…
+
+105
+00:23:55.560 --> 00:23:58.689
+Stavros Vlachakis: You're not trying to move this to an EAP or something?
+
+106
+00:23:58.800 --> 00:24:04.069
+Stavros Vlachakis: And it's just, you know, just wallet, related logic, right?
+
+107
+00:24:04.070 --> 00:24:04.580
+Chiranjeev Mishra: Yes, yes.
+
+108
+00:24:04.580 --> 00:24:23.530
+Pedro: It doesn't need to be an AIP because the smart account is still a smart account interface. So this doesn't need… In fact, like when you actually interact with frame transactions, you have some new opcodes and you have some new…
+
+109
+00:24:23.840 --> 00:24:29.829
+Pedro: Transaction types, but technically it's not changing how smart accounts work.
+
+110
+00:24:30.140 --> 00:24:32.340
+Pedro: And that's why we need to essentially.
+
+111
+00:24:32.530 --> 00:24:41.089
+Pedro: evolve or upgrade the existing contracts to accept this. And one of the big assumptions of 7579 is this execution.
+
+112
+00:24:41.110 --> 00:24:59.710
+Pedro: happening through a 4237 relayer. But if the new transaction type makes the mempool essentially replacing the relayer and there's no entry point, you just need this change in the interface. And we try to make it as backwards compatible as possible with existing 7579.
+
+113
+00:25:01.150 --> 00:25:04.899
+Stavros Vlachakis: I see. I see. Makes sense. Okay. Yeah. Yeah. Makes sense.
+
+114
+00:25:05.120 --> 00:25:08.960
+Stavros Vlachakis: On my side, at least, it makes sense.
+
+115
+00:25:11.890 --> 00:25:14.799
+Chiranjeev Mishra: Got it. I'll stop presenting. Yeah.
+
+116
+00:25:21.040 --> 00:25:23.640
+Sam: Thank you very much. That was a great presentation.
+
+117
+00:25:24.640 --> 00:25:25.230
+Chiranjeev Mishra: Thank you.
+
+118
+00:25:26.400 --> 00:25:33.559
+Sam: I would expect to get a little bit more feedback asynchronously, so if you have anything you'd like to ask in the Discord, please do.
+
+119
+00:25:34.280 --> 00:25:38.829
+Sam: And with that, I suppose we can move on to the next item.
+
+120
+00:25:39.170 --> 00:25:41.280
+Sam: I lost my tab here.
+
+121
+00:25:45.230 --> 00:25:50.330
+Sam: Which is 8131, Account Abstraction by Account Configuration.
+
+122
+00:25:52.190 --> 00:25:53.580
+Chris - Base: Thanks, Sam.
+
+123
+00:25:53.810 --> 00:25:57.160
+Chris - Base: Yeah, so this is, sorry.
+
+124
+00:25:58.820 --> 00:26:05.089
+Chris - Base: Yeah, it's EIP8130. I guess it might be a little,
+
+125
+00:26:05.220 --> 00:26:08.369
+Chris - Base: Bit of radio silence for a little bit here, but
+
+126
+00:26:08.520 --> 00:26:19.109
+Chris - Base: we have announced, previously, so this is, like, you know, new news, but it does go under the radar sometimes, so, BASE is launching with VIP8130 in
+
+127
+00:26:19.450 --> 00:26:22.710
+Chris - Base: the next fork, which is scheduled for September.
+
+128
+00:26:22.850 --> 00:26:29.180
+Chris - Base: Tomorrow we are doing a, post.
+
+129
+00:26:29.470 --> 00:26:47.889
+Chris - Base: Just to announce that, and, as well as some other announcements for the fork, but I wanted to, basically just get ahead of, the announcement, and also, just as a call to action to try to get, basically, you know, eyes on the spec, and…
+
+130
+00:26:49.620 --> 00:27:02.850
+Chris - Base: call people to, make wallet implementations, try out the, you know, payer services and whatnot, and yeah, we would like to get as much feedback as we can.
+
+131
+00:27:03.030 --> 00:27:04.280
+Chris - Base: Which…
+
+132
+00:27:05.150 --> 00:27:13.249
+Chris - Base: So, yeah, that's kind of the, you know, the high-level, mini-announcement. I'm happy to go through, kind of the latest updates as well right now
+
+133
+00:27:13.470 --> 00:27:15.250
+Chris - Base: But,
+
+134
+00:27:15.600 --> 00:27:23.100
+Chris - Base: I'm not sure if everyone's up to date on 8130. I think 8141 gets a lot of the attention in the
+
+135
+00:27:23.350 --> 00:27:31.359
+Chris - Base: L1DF space, so… Happy to jump into that whenever, and answer any questions, so, yeah. Alex?
+
+136
+00:27:33.830 --> 00:27:35.589
+Alex Forshtat: Yeah, hi, can you hear me?
+
+137
+00:27:36.360 --> 00:27:37.080
+Chris - Base: Yes.
+
+138
+00:27:37.460 --> 00:27:46.049
+Alex Forshtat: Yeah, so my question is, do you plan to support both 8141 and 8130, or do you want to go, like, only 8130 or entirely?
+
+139
+00:27:46.330 --> 00:27:52.460
+Alex Forshtat: if you made the decision, like, in case Ethereum adopts 81414, you got it?
+
+140
+00:27:53.600 --> 00:28:00.170
+Chris - Base: Yeah, I'm not — I don't think we would ever say absolutely not or anything.
+
+141
+00:28:00.340 --> 00:28:04.810
+Chris - Base: We're, you know, we are following the spec closely.
+
+142
+00:28:05.080 --> 00:28:10.220
+Chris - Base: Our current stance is, like, we don't plan to,
+
+143
+00:28:10.220 --> 00:28:10.550
+Alex Forshtat: Thanks.
+
+144
+00:28:10.550 --> 00:28:12.689
+Chris - Base: But, of course, if there was…
+
+145
+00:28:12.970 --> 00:28:23.170
+Chris - Base: you know, adoption, or, you know, depending where things land, I feel like the spec is a little bit in flux. So we are watching the space closely, but, that's kind of where we are right now.
+
+146
+00:28:24.310 --> 00:28:26.180
+Alex Forshtat: Okay, thank you.
+
+147
+00:28:31.560 --> 00:28:39.430
+Chris - Base: Yeah, so… I'm happy to kind of jump into, where 8130's landed. I feel like,
+
+148
+00:28:39.800 --> 00:28:43.779
+Chris - Base: A while back, you know, 8130 and 8141.
+
+149
+00:28:43.880 --> 00:29:01.409
+Chris - Base: We're taking some good ideas from each other, which was good, and I can kind of show… we do have… I do have, like, a guide website to go through, but I don't want to take up too much time. It's obviously a big spec, it's like, you know, trying to go through, 8141 or something.
+
+150
+00:29:01.520 --> 00:29:03.620
+Chris - Base: In one call.
+
+151
+00:29:03.820 --> 00:29:06.139
+Chris - Base: But I think, like.
+
+152
+00:29:06.740 --> 00:29:25.410
+Chris - Base: What might be easiest, and I'm happy to go into a super quick overview of things, but just to keep an eye out for the end of this week for our announcements, there's going to be some feedback channels, some places to test everything out and to build on.
+
+153
+00:29:25.600 --> 00:29:30.130
+Chris - Base: That's kind of the call to action, and anytime you want to…
+
+154
+00:29:30.490 --> 00:29:35.960
+Chris - Base: speak with me directly, or, you know, give feedback, ask questions, I'm always available as well, so…
+
+155
+00:29:36.180 --> 00:29:44.479
+Chris - Base: I'll leave it there, and then, if there's no other questions, I'd have you do, like, a quick, super quick, you know, 10-minute, overview or something, if
+
+156
+00:29:44.600 --> 00:29:47.850
+Chris - Base: Or, we can leave it until…
+
+157
+00:29:48.000 --> 00:29:50.440
+Chris - Base: You know, post-announcement, I guess.
+
+158
+00:29:53.260 --> 00:29:55.309
+Sam: I think I'd be interested in a walkthrough.
+
+159
+00:29:58.420 --> 00:29:59.439
+Chris - Base: Yeah, sounds good.
+
+160
+00:30:00.420 --> 00:30:01.739
+Chris - Base: Okay.
+
+161
+00:30:02.880 --> 00:30:05.259
+Chris - Base: Find which tab I'm sharing here.
+
+162
+00:30:09.150 --> 00:30:15.209
+Chris - Base: I'm not a Zoom native sometimes, it's usually Google, so I've got to figure out where this is. Share, okay.
+
+163
+00:30:22.440 --> 00:30:25.570
+Chris - Base: Okay, so… is this…
+
+164
+00:30:26.690 --> 00:30:33.909
+Chris - Base: Oh, this is the… yeah, okay. We're the protocol, so… The overview of,
+
+165
+00:30:34.130 --> 00:30:37.989
+Chris - Base: 8130, we are also working on a new name,
+
+166
+00:30:38.330 --> 00:30:49.390
+Chris - Base: 8141 has, you know, a good name with frame transactions. Account configuration by, no, account abstraction by account configurations might be one of the worst names ever, so…
+
+167
+00:30:49.400 --> 00:31:00.329
+Chris - Base: working on figuring out, what works well there. 8130's better than… than that, but, also doesn't convey what… what it's all about, so…
+
+168
+00:31:00.890 --> 00:31:03.290
+Chris - Base: High level, we have these,
+
+169
+00:31:03.830 --> 00:31:14.049
+Chris - Base: I can… yeah, this is kind of the super high level, so we have, broken things into roles, authentication is done by authenticators, these are contracts deployed,
+
+170
+00:31:14.160 --> 00:31:20.090
+Chris - Base: On every chain, using a deterministic deployment method, so they have the same address everywhere.
+
+171
+00:31:20.480 --> 00:31:32.610
+Chris - Base: We have the account configuration contract, that's a singleton, same address on all chains, create two as well. It's a very simple contract, it just stores, basically, a mapping of account,
+
+172
+00:31:32.940 --> 00:31:36.279
+Chris - Base: account, actor ID, and it has an actor config.
+
+173
+00:31:36.400 --> 00:31:41.000
+Chris - Base: And basically what the ActorConvict does, It allows accounts.
+
+174
+00:31:41.110 --> 00:31:44.269
+Chris - Base: to manage, their ActiveConfig, so they would set
+
+175
+00:31:44.470 --> 00:31:52.979
+Chris - Base: an actor ID equal to the actor config, and that specifies the authenticator, the scopes, and the expiration of that authorization.
+
+176
+00:31:53.260 --> 00:32:01.760
+Chris - Base: And then basically, if a chain… so 8130 is also designed to be cross-chain, no EVM changes or upgrades needed.
+
+177
+00:32:02.000 --> 00:32:08.040
+Chris - Base: For your account, that doesn't mean the 8130 transaction type will work everywhere, of course, but the account itself
+
+178
+00:32:08.160 --> 00:32:24.450
+Chris - Base: will work on all chains for EVM, so you'll never be, you know, stuck with lost funds on a chain, and you can't, you know, recreate your account or something there. You can use your account backwards compatible with other standards, so it's designed to work with ERC437 as well.
+
+179
+00:32:26.640 --> 00:32:35.120
+Chris - Base: So, yeah, once you have these, basically in an 8130 transaction, which I can… maybe I'll fetch quickly that, so you can see the shape of it.
+
+180
+00:32:36.660 --> 00:32:48.709
+Chris - Base: these are what's kind of interesting here. Senders, just the sending account. We have our 2DNOT system, and which I'll get into in a second. Expires explains itself. Account changes are these…
+
+181
+00:32:48.940 --> 00:33:04.270
+Chris - Base: cross-chain account, changes basically allows you to create an account, do authorization changes, or do… This is also meant to replace 7702, so, the config changes
+
+182
+00:33:04.650 --> 00:33:09.270
+Chris - Base: These can all be bundled just in time in a transaction, and basically allows you to go to a new chain.
+
+183
+00:33:09.500 --> 00:33:13.759
+Chris - Base: And create your account, sync the account, and also
+
+184
+00:33:14.000 --> 00:33:19.219
+Chris - Base: transact in one transaction. So this applies prior to any calls being run.
+
+185
+00:33:19.840 --> 00:33:26.700
+Chris - Base: Calls is a 2D call array. There's no value in the…
+
+186
+00:33:27.300 --> 00:33:34.670
+Chris - Base: Sorry, in the sub call. And the 2D array is basically atomic batches.
+
+187
+00:33:35.090 --> 00:33:43.010
+Chris - Base: And this enables, a bunch of the, basically the payer methods that we'll get into later.
+
+188
+00:33:43.180 --> 00:33:54.639
+Chris - Base: And then basically payer just specifies who's paying for the transaction. Sender auth and payer auth are the, basically the signatures for payer or sender. Maybe payer is empty.
+
+189
+00:33:55.110 --> 00:33:57.949
+Chris - Base: Feel free to, like, put a hand up. I can't see.
+
+190
+00:33:58.090 --> 00:34:03.859
+Chris - Base: Or you can just interrupt me if there's anything, but the transaction flow is pretty, simple.
+
+191
+00:34:04.130 --> 00:34:07.200
+Chris - Base: 8130's, like, primary goal is to
+
+192
+00:34:07.270 --> 00:34:22.339
+Chris - Base: Well, you know, one of its primary goals… I would say its primary goal is to enable the powerful features of account abstraction that we've come to expect from 437, but in a cheap and performant way, so we don't want any
+
+193
+00:34:22.380 --> 00:34:30.680
+Chris - Base: denial of service risks to the chain. The base is very, concerned with performance, and we,
+
+194
+00:34:30.960 --> 00:34:34.369
+Chris - Base: You need to be able to, like, you know, scale up to transactions, you can'
+
+195
+00:34:34.530 --> 00:34:47.440
+Chris - Base: compute on transactions that arrive to the builder, in an invalid state. So, we can go into, like, policies and how, that stuff works later on for session keys and whatnot, but basically we're…
+
+196
+00:34:47.570 --> 00:34:56.050
+Chris - Base: we've made a really tight transaction pipeline that has, all the, like, invalidation services known up front.
+
+197
+00:34:56.400 --> 00:35:05.320
+Chris - Base: So when the 8130 transaction comes in, the authenticator is specified top level in the transaction, so…
+
+198
+00:35:05.670 --> 00:35:12.430
+Chris - Base: There's also this idea of We have here, like, the initial authenticator set.
+
+199
+00:35:12.950 --> 00:35:17.910
+Chris - Base: K1 P256 passkey delegate, which I can get into in a sec.
+
+200
+00:35:18.130 --> 00:35:25.950
+Chris - Base: Pq, we're not yet decided on what we'll include, but this is kind of the canonical set. These are available to use on the…
+
+201
+00:35:26.010 --> 00:35:38.620
+Chris - Base: 8130 transaction type rails. All other authenticators, the account configuration, contract is a contract accessible in the EBM, and you can register any,
+
+202
+00:35:38.780 --> 00:35:50.659
+Chris - Base: authenticator you need. So you could register a recovery verifier if you want, or some other thing, but the 8130 transaction rails only allow specific authenticators at this time.
+
+203
+00:35:51.040 --> 00:35:58.929
+Chris - Base: And so when this comes in, we can basically tell, OK, it's using a correct — an accepted validation method.
+
+204
+00:35:59.200 --> 00:36:05.219
+Chris - Base: We submit it to the authenticator, the authenticator will return an actor, ID,
+
+205
+00:36:05.320 --> 00:36:09.109
+Chris - Base: We do a lookup in the account config to get the
+
+206
+00:36:09.260 --> 00:36:15.439
+Chris - Base: After configuration, and then with the after configuration, we have,
+
+207
+00:36:15.540 --> 00:36:33.169
+Chris - Base: basically the scopes, its permissions, if it's expired, you know, if it exists, then that basically makes us know that the, transaction's, authenticated, authorized, and, like, ready to land. The other great thing is, if you do this once, you actually know the,
+
+208
+00:36:33.290 --> 00:36:42.130
+Chris - Base: complete state surface without simulation or tracing or anything, that invalidates the transaction. So, it's very easy to…
+
+209
+00:36:42.610 --> 00:36:48.260
+Chris - Base: You know, you can basically do the crypto, expensive crypto once, and you never have to run it again.
+
+210
+00:36:48.540 --> 00:36:49.680
+Chris - Base: Theoretically.
+
+211
+00:36:53.740 --> 00:37:00.300
+Chris - Base: Yeah, so authenticators, these are the, this is the kind of initial set we're thinking of,
+
+212
+00:37:00.640 --> 00:37:12.600
+Chris - Base: And we will extend this with a Companion ERC. One of the goals of 8130 as well is to ensure that it's opinionated enough to have, like, standards such that wallets can
+
+213
+00:37:12.630 --> 00:37:22.350
+Chris - Base: Be confident to build. They'll know, like, you know, hey, these, these authenticators are accepted everywhere. The mempool rules are easy.
+
+214
+00:37:24.130 --> 00:37:34.699
+Chris - Base: You know, the interfaces are all the same everywhere, so it's just… it's simple enough, but it's meant to be opinionated enough that, you know, wallets don't have any problems, you know, concerning themselves with an interface.
+
+215
+00:37:35.590 --> 00:37:45.040
+Chris - Base: Next up… so yeah, this is just what an authenticator looks like. Very simple, just pass a hash, the data spits out an actor ID,
+
+216
+00:37:46.070 --> 00:37:47.470
+Chris - Base: The,
+
+217
+00:37:47.750 --> 00:37:57.130
+Chris - Base: Yeah, and basically, like, you know, the protocol would be passing the transaction hash and the signature data. It spits out an actor ID, which we then look up and get scopes.
+
+218
+00:37:57.500 --> 00:38:06.960
+Chris - Base: Admin scope means, it's just nothing set, but we've broken it out into these scopes here. Sender just means it can send transactions.
+
+219
+00:38:07.250 --> 00:38:09.440
+Chris - Base: Or sign 1271.
+
+220
+00:38:10.020 --> 00:38:12.480
+Chris - Base: Policy means it's gated.
+
+221
+00:38:12.610 --> 00:38:23.499
+Chris - Base: We'll get into how policies work, but they're basically, like, the more intricate transaction validation, but it's post-inclusion, so it is paid for.
+
+222
+00:38:23.730 --> 00:38:30.000
+Chris - Base: Which is, one of the large, like, key differences from, A141.
+
+223
+00:38:30.200 --> 00:38:38.880
+Chris - Base: Nonce is basically just restricting the nonce keys, so if you… if you don't have this, you're restricted to only use the…
+
+224
+00:38:38.990 --> 00:38:46.549
+Chris - Base: nonceless transactions. So 8130 also enables nonceless transactions, which are basically
+
+225
+00:38:46.960 --> 00:38:53.510
+Chris - Base: require no coordination, and there's no state growth. So, 2D trend… the 2D NOTS pool
+
+226
+00:38:53.740 --> 00:39:01.180
+Chris - Base: Although, you know, it has its uses, we've seen on base that typically it's…
+
+227
+00:39:01.400 --> 00:39:12.079
+Chris - Base: The behavior is, if people want high throughput transactions for an account, they're basically just picking a random nonce, and that makes them write a new
+
+228
+00:39:12.190 --> 00:39:29.710
+Chris - Base: slot for each transaction, so it's just really bad for state growth. It's also more expensive for the account. The nonsense transaction approach basically fixes this, and this scope also protects against, basically, you know, a session key
+
+229
+00:39:29.890 --> 00:39:44.079
+Chris - Base: griefing a user by writing a transaction for their, like, pen… one of their pending transactions at the same time at… on their NOTs or something. So basically, it pushes them into the, NOT space where they can't collide,
+
+230
+00:39:45.930 --> 00:39:56.599
+Chris - Base: So, next up, yeah, self-pay and sponsor pay, these are pretty, straightforward, I think. It's just, if they can pay gas for themselves or others, admin has all privileges.
+
+231
+00:39:58.460 --> 00:40:05.320
+Chris - Base: I feel like there's a lot to go through, but I'll just power through the overview, and then that's probably good for today, but…
+
+232
+00:40:05.470 --> 00:40:10.129
+Chris - Base: so yeah, next up, policies…
+
+233
+00:40:11.990 --> 00:40:20.319
+Chris - Base: So yeah, policy scope that basically says you can only, send transactions to a single address.
+
+234
+00:40:20.770 --> 00:40:32.569
+Chris - Base: That address is considered your, like, policy manager. That policy manager could be your account itself, if you wanted to build that. Our, example… policy is not part… like, the policy manager is not…
+
+235
+00:40:33.170 --> 00:40:44.290
+Chris - Base: The only contract that's actually, like, in the protocol is the account configuration contract. These are technically just, like, rules, the canonical authenticators.
+
+236
+00:40:44.580 --> 00:40:51.590
+Chris - Base: Though we, you know, fast path them, because, we're able to do that in 8130 and make it really performant.
+
+237
+00:40:51.750 --> 00:40:58.450
+Chris - Base: They're technically not lightning protocol, and policies are the same thing, so you can, you can write any type of policy you want.
+
+238
+00:40:58.660 --> 00:41:06.009
+Chris - Base: And basically, the policy scope will restrict your…
+
+239
+00:41:06.200 --> 00:41:13.690
+Chris - Base: Call to only that address, and we have this policy commitment system, which basically, like, when you do your signed owner change.
+
+240
+00:41:14.390 --> 00:41:15.440
+Chris - Base: But…
+
+241
+00:41:16.260 --> 00:41:27.210
+Chris - Base: which is… you can add in here, which is assign owner change, like authorize, revoke. You basically authorize a session key, and you have a commitment, and then the flow is pretty much… let me try to zoom in here, I don't know, this is kind of small.
+
+242
+00:41:29.670 --> 00:41:38.479
+Chris - Base: The flow is, yeah, you would create and sign an after chain, so you're specifying, like, this is an app key, it only has the policy scope.
+
+243
+00:41:38.800 --> 00:41:45.220
+Chris - Base: The policy commitment hash is this, and the policy manager is this address.
+
+244
+00:41:45.550 --> 00:41:49.339
+Chris - Base: And here's my signature for my admin key. And then…
+
+245
+00:41:49.520 --> 00:41:55.189
+Chris - Base: Whenever the, you know, session key wants to be used, it basically would install its,
+
+246
+00:41:55.430 --> 00:42:06.070
+Chris - Base: let's say it's a, spend limit for, like, spending 5 USDC a month or something. This install contains, like, the actual, you know, larger,
+
+247
+00:42:06.670 --> 00:42:15.990
+Chris - Base: data on what that spend limit is. The policy manager would have to understand what that install means, but the policy manager just looks at the commitment on the
+
+248
+00:42:16.130 --> 00:42:31.599
+Chris - Base: on the key we've already added, and then it can see, like, okay, that is assigned, this is the correct policy that I'm supposed to install, and then afterwards, you can just call execute. And then from that, you know, day forward, you only have to call execute, the policy's already been installed.
+
+249
+00:42:31.950 --> 00:42:40.550
+Chris - Base: and that… that makes this kind of, you know, heavy logic of… Is the transaction valid?
+
+250
+00:42:41.050 --> 00:42:47.009
+Chris - Base: Like, doing, you know, Can it send its USDC?
+
+251
+00:42:47.400 --> 00:42:59.769
+Chris - Base: Moving that validity into execution and charging for it basically allows us to have this really tight transaction pipeline that we're really able to optimize in so many spots on the node.
+
+252
+00:43:00.390 --> 00:43:01.480
+Chris - Base: And…
+
+253
+00:43:04.740 --> 00:43:05.930
+Chris - Base: Sure.
+
+254
+00:43:06.510 --> 00:43:12.110
+Chris - Base: So those policies, yeah, signed after changes are, you know, again, 8130 is meant to be multi-chain, so…
+
+255
+00:43:12.160 --> 00:43:28.929
+Chris - Base: When you do a signed actor change, you specify the chain ID. Chain ID 0 means it can be replayed anywhere, and that basically enables you to take your account. Portability was a top concern, so it allows you to basically just, like, deploy and, like, sync your account on other chains whenever you want to use them.
+
+256
+00:43:30.350 --> 00:43:37.480
+Chris - Base: And it's meant to work in 437 as well, like, it's been built to do that. You'd need, you know, a 437 compatible
+
+257
+00:43:37.650 --> 00:43:39.780
+Chris - Base: Account code for that, but…
+
+258
+00:43:40.080 --> 00:43:43.240
+Chris - Base: Very possible to do, and
+
+259
+00:43:43.920 --> 00:43:48.840
+Chris - Base: we have example… examples for that. It's just basically…
+
+260
+00:43:50.440 --> 00:43:55.280
+Chris - Base: Supporting the 437, you know, methods on the account, and then…
+
+261
+00:43:56.790 --> 00:44:06.989
+Chris - Base: two last things for, like, and then I'll stop talking, but, so EOAs work out of the box, they don't have to take any action, they can just transact immediately.
+
+262
+00:44:07.170 --> 00:44:12.299
+Chris - Base: And then also, 437 accounts, like, existing accounts can,
+
+263
+00:44:12.650 --> 00:44:16.050
+Chris - Base: upgrade and use 8130 in one transaction.
+
+264
+00:44:17.430 --> 00:44:22.830
+Chris - Base: Well, I guess they just have to set up using 437, and then afterwards, they can,
+
+265
+00:44:23.150 --> 00:44:33.830
+Chris - Base: continue to start to use 8130. So, I'll leave it at that. Yeah, this week, will be kind of a push for announcements, but just calling for, feedback. There's also this
+
+266
+00:44:35.820 --> 00:44:43.970
+Chris - Base: there'll be, like, this payer service stuff that I want to get a bunch of feedback on for basically how transaction sponsorships done, token payments, etc.
+
+267
+00:44:44.130 --> 00:44:52.019
+Chris - Base: Yeah, excited to share this week and looking forward to any feedback we can get.
+
+268
+00:45:00.180 --> 00:45:09.909
+Chris - Base: I feel like that was a lot of talking for 20 minutes or something, however long I was going for, but, yeah, happy to answer any questions, if not, yeah, thanks a lot.
+
+269
+00:45:13.320 --> 00:45:16.249
+Pedro: What about the policies? Like…
+
+270
+00:45:16.360 --> 00:45:24.479
+Pedro: Like, how extensive can a policy be? Like, policies, like, if you see prior work with smart session standards.
+
+271
+00:45:24.660 --> 00:45:30.620
+Pedro: Ended up having a lot of unknowns and it became almost,
+
+272
+00:45:31.500 --> 00:45:36.310
+Pedro: Targets for addresses, specific balances.
+
+273
+00:45:36.440 --> 00:45:45.570
+Pedro: Specific assets, how granular is the or generic is the policies or is it quite restrictive?
+
+274
+00:45:46.510 --> 00:45:49.229
+Chris - Base: So… Our, like…
+
+275
+00:45:49.410 --> 00:46:02.000
+Chris - Base: We are including our policy manager contract in the audit, but technically wallets are free to write whatever they want, and they can make it as restricted as they want.
+
+276
+00:46:03.290 --> 00:46:19.549
+Chris - Base: Ours is meant to be more of a, the policy manager. So how this is very similar to, I don't have as good of a diagram as this will be, but it's based off of this system. And I think this has a good diagram here.
+
+277
+00:46:20.120 --> 00:46:21.369
+Chris - Base: where it is.
+
+278
+00:46:25.250 --> 00:46:30.960
+Chris - Base: This is a base account policy, and it's, like, very similar. But basically, there's a policy manager.
+
+279
+00:46:31.640 --> 00:46:33.510
+Chris - Base: Which…
+
+280
+00:46:33.880 --> 00:46:45.600
+Chris - Base: would be a singleton, not a variable. And basically you're doing these policy installations and these have the actual logic. The policy, okay.
+
+281
+00:46:46.680 --> 00:46:47.480
+Chris - Base: Oh.
+
+282
+00:46:50.480 --> 00:46:52.360
+Chris - Base: I can't see that further.
+
+283
+00:46:52.820 --> 00:47:04.300
+Chris - Base: The policy manager, is just integrated with the account, and it's very, light amount of logic, like, similar to the account configuration contract.
+
+284
+00:47:06.810 --> 00:47:07.480
+Pedro: Got it.
+
+285
+00:47:08.680 --> 00:47:10.070
+Chiranjeev Mishra: I have one question.
+
+286
+00:47:10.520 --> 00:47:18.610
+Chris - Base: Yeah, the policies themselves can be as expressive as they need or want to be.
+
+287
+00:47:19.170 --> 00:47:24.249
+Chris - Base: I… we're bucketing that under, like, you know, concern of the wallet.
+
+288
+00:47:27.240 --> 00:47:37.299
+Chris - Base: Yeah, interested if you think, you know, maybe that we should be more opinionated there, or try to restrict that more, but we're kind of in execution space at this point, and like.
+
+289
+00:47:37.440 --> 00:47:42.209
+Chris - Base: Restricting further, is… Not as clean.
+
+290
+00:47:44.720 --> 00:47:50.749
+Chiranjeev Mishra: I had a question here. How does, policy revocation works?
+
+291
+00:47:51.140 --> 00:47:52.280
+Chiranjeev Mishra: Oh, if…
+
+292
+00:47:52.510 --> 00:48:04.499
+Chris - Base: Yeah, so, with, when you register an actor, you can add an expiry on the actor ID itself, so you could pick an auto-expire if you wanted to have a deadline for it.
+
+293
+00:48:04.560 --> 00:48:17.459
+Chris - Base: But you can also just revoke the session key anytime you want, so authorize actor and revoke actor are, are, admin actions on the account, so anytime you want to remove the key, you can.
+
+294
+00:48:17.510 --> 00:48:25.859
+Chiranjeev Mishra: Is it, like, what do you say, like a state call, like, state change, like, transaction needs to happen for revocation?
+
+295
+00:48:26.550 --> 00:48:31.509
+Chris - Base: Yes. So, yeah. Unless you used expiry. Yep.
+
+296
+00:48:31.510 --> 00:48:41.339
+Chiranjeev Mishra: Yeah, so there is this vector that I was thinking, is that, let's say, somehow a malicious policy got installed, and it drains all your ETH.
+
+297
+00:48:41.890 --> 00:48:46.650
+Chiranjeev Mishra: I mean, now there is a deadlock, right? You can't even revoke that policy.
+
+298
+00:48:46.900 --> 00:48:48.350
+Chiranjeev Mishra: Because you won't have ETH.
+
+299
+00:48:49.770 --> 00:48:57.419
+Chris - Base: So, yeah, I mean, if it stole all your ETH or something, you'd have to find another way to, like, land a transaction.
+
+300
+00:48:57.720 --> 00:49:14.260
+Chris - Base: I don't think there's a, you know, a workaround there. I mean, 8130 provides sponsorship, so you could find… you could… you could… any… any wallet can sponsor any other wallet very easily. You could use another account to do a transaction or something, but yeah, I mean…
+
+301
+00:49:14.260 --> 00:49:24.880
+Chris - Base: you need to find a way to land the revoke on the policy. But, you know, if everything's working correctly, a policy should never be granted that much power. Of course, you know.
+
+302
+00:49:25.080 --> 00:49:29.460
+Chris - Base: I'm not… you're not saying that,
+
+303
+00:49:29.890 --> 00:49:31.999
+Chris - Base: Under the assumption that, yes, it did…
+
+304
+00:49:32.000 --> 00:49:32.649
+Chiranjeev Mishra: To differentiate.
+
+305
+00:49:32.650 --> 00:49:33.470
+Chris - Base: Okay.
+
+306
+00:49:33.470 --> 00:49:41.240
+Chiranjeev Mishra: Similar vectors existed with 7702, like… I'm not saying it's the same thing, it's just that… the…
+
+307
+00:49:41.490 --> 00:49:47.059
+Chiranjeev Mishra: 7702 also had this problem with delegation, and then you never had ETH in your account.
+
+308
+00:49:47.220 --> 00:49:49.790
+Chiranjeev Mishra: And you can't stop authorizations as well.
+
+309
+00:49:51.600 --> 00:50:01.370
+Chris - Base: So, you could easily make your account have the capability to, like, you know, never move ETH from a policy, if you wanted.
+
+310
+00:50:01.370 --> 00:50:02.260
+Chiranjeev Mishra: Brilliant.
+
+311
+00:50:02.260 --> 00:50:05.109
+Chris - Base: Remove that from the policy, like, the ability, yeah.
+
+312
+00:50:14.900 --> 00:50:15.570
+Chiranjeev Mishra: Thank you.
+
+313
+00:50:25.790 --> 00:50:28.709
+Sam: Awesome. Thanks so much for the presentation. Really appreciate it.
+
+314
+00:50:29.380 --> 00:50:30.390
+Sam: Okay.
+
+315
+00:50:31.690 --> 00:50:36.480
+Sam: Unless anybody else has something they want to chat about, that's everything from the agenda.
+
+316
+00:50:40.360 --> 00:50:45.570
+Sam: So it sounds like we can wrap up early. So thank you, everybody, for coming out. The recording should be up
+
+317
+00:50:45.820 --> 00:50:49.969
+Sam: When it gets put up, talk to y'all next.
+
+318
+00:50:51.510 --> 00:50:52.559
+Pedro: Thanks, everyone.
+
+319
+00:50:52.940 --> 00:50:53.830
+Chiranjeev Mishra: Thanks everyone.
+
+320
+00:50:54.540 --> 00:50:55.240
+Stavros Vlachakis: Thanks, James.
+
+321
+00:50:57.460 --> 00:50:58.050
+Alex Forshtat: Thank you.
+
