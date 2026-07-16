@@ -1,0 +1,82 @@
+00:04:41	potuz:	GM
+00:04:48	Jason Vranek:	gm
+00:05:22	read.ai meeting notes:	Red added read.ai meeting notes to the meeting.
+
+Read provides AI generated meeting summaries to make meetings more effective and efficient. View our Privacy Policy at https://www.read.ai/pp
+
+Type "read stop" to disable, or "opt out" to delete meeting data.
+00:06:24	Pooja Ranjan:	gm
+00:06:35	Daniel Knopik:	gm
+00:06:40	cayman:	gm
+00:06:46	Jun Song:	gm
+00:06:47	Satyajit:	gm
+00:07:14	Stefan Starflinger:	good afternoon
+00:07:21	Jun Song:	Reacted to "good afternoon" with 😂
+00:07:28	Daniel Knopik:	Reacted to "good afternoon" with 🔥
+00:08:09	Satyajit:	Reacted to "good afternoon" with 😂
+00:12:27	Nico Flaig:	what about the temporary public testnet?
+00:13:04	Stefan Starflinger:	https://ethpandaops.io/networks/glamsterdam-devnet-7
+00:14:25	Csaba:	Would be great to do devnet 8 without discv4, discv5 only
+00:14:55	Dustin:	people ignore devnets
+00:14:55	Satyajit:	https://forkcast.org/devnets/glamsterdam-devnet-7/
+00:15:13	Stefan Starflinger:	https://faucet.glamsterdam-devnet-7.ethpandaops.io/
+00:16:17	Dragan Rakita:	glamsterdam-devnet-final-final sounds final 🙂
+00:16:25	nixo:	Reacted to "glamsterdam-devnet-final-final sounds final 🙂" with 😅
+00:16:26	spencer:	Reacted to "glamsterdam-devnet..." with 😅
+00:16:41	spencer:	final-trust-me-bro-final-2
+00:17:03	Dragan Rakita:	Reacted to "final-trust-me-bro-final-2" with ➕
+00:17:46	Stefan Starflinger:	Reacted to "glamsterdam-devnet-f..." with 😅
+00:17:49	wolovim:	Reacted to "https://forkcast.org/devnets/glamsterdam-devnet-7/" with ❤️
+00:18:07	Dustin:	Reacted to "Would be great to ..." with 👍
+00:18:47	Stefan Starflinger:	Reacted to "Would be great to do..." with 👍
+00:18:48	Ansgar Dietrichs:	joined the call just in time for the most important topic :-)
+00:18:55	Jun Song:	Reacted to "joined the call just in time for the most important topic :-)" with 👍
+00:18:56	spencer:	Reacted to "joined the call ju..." with 🐻❄️
+00:18:59	Jun Song:	Reacted to "joined the call just in time for the most important topic :-)" with 🐻‍❄️
+00:19:01	Satyajit:	Reacted to "joined the call ju..." with 🐻❄️
+00:19:06	Stefan Starflinger:	Reacted to "joined the call just..." with 🐻‍❄️
+00:19:07	nixo:	https://github.com/ethereum/pm/issues/2157#issuecomment-4991803289
+00:19:16	Pooja Ranjan:	Reacted to "joined the call just in time for the most important topic :-)" with 👍
+00:19:36	nixo:	Reacted to "joined the call just in time for the most important topic :-)" with 🐻‍❄️
+00:19:44	Stefan Starflinger:	what about marius https://github.com/ethereum/pm/issues/2157#issuecomment-4981597977  rest ssz?
+00:19:52	Iván | ethrex:	Reacted to "joined the call just..." with 🐻‍❄️
+00:20:11	Dragan Rakita:	Reacted to "joined the call just in time for the most important topic :-)" with 🐻‍❄️
+00:20:31	potuz:	Reacted to "Would be great to do devnet 8 without discv4, discv5 only" with 👍
+00:20:58	Jun Song:	Regarding non-engine methods raised by Marius, Prysm status - mostly matching with Lighthouse:
+
+# Still used
+eth_getBlockByNumber
+eth_getBlockByHash
+eth_chainId
+# used in eth1 deposit path
+eth_call
+eth_getLogs
+# unused
+eth_blockNumber - using eth_getBlockByNumber instead
+eth_syncing
+eth_getCode
+eth_sendRawTransaction
+00:22:13	Mikhail Kalinin:	Replying to "Regarding non-engine..."
+
+Why eth_call, eth_getLogs are still used for the eth1 deposit path? That path was deprecated after Electra upgrade
+00:22:53	Nico Flaig:	Reacted to "glamsterdam-devnet-f..." with 😅
+00:23:24	Jun Song:	Replying to "Regarding non-engine..."
+
+This is one of the tech debt in our side, planning to remove them. Lighthouse is also using this according to https://github.com/ethereum/pm/issues/2157#issuecomment-4981597977
+00:24:41	potuz:	I am actively ignoring PRs that fix typos
+00:24:57	potuz:	Specially if I need to update the EIP once we finally freeze the spec (which I think it is finally frozen)
+00:25:07	FLCL (Nethermind):	are those used all absolutely necessary? used in eth1 deposit path ones?
+00:25:39	Daniel Knopik:	Replying to "Regarding non-engi..."
+
+Note that the eth1 ones listed there are not actually used in Lighthouse anymore
+00:25:55	Daniel Knopik:	Replying to "Regarding non-engi..."
+
+There is some dead code, but that can be removed
+00:26:33	Daniel Knopik:	Replying to "Regarding non-engi..."
+
+only the four listed under "Still used" are actually used.
+00:27:09	Jun Song:	Replying to "Regarding non-engine..."
+
+Yeah I’d say we (Prysm) are in the same phase, code exists but in production path it’s gated by a predicate including Electra.
+00:28:23	potuz:	Please please nothing else!
+00:28:49	wolovim:	Reacted to "Please please nothing else!" with 🫢
