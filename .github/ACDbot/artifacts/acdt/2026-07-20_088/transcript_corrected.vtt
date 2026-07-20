@@ -1,0 +1,978 @@
+WEBVTT
+
+1
+00:03:02.700 --> 00:03:08.019
+Justin Traglia: Good morning, everyone. Let's just give a few more minutes for people to join. Then we'll get started.
+
+2
+00:05:01.660 --> 00:05:05.040
+Justin Traglia: Good morning, everyone. One more minute and then we'll get started.
+
+3
+00:05:38.410 --> 00:05:43.919
+Justin Traglia: All right. Good morning, everyone. Welcome to All Core Devs Testing 88.
+
+4
+00:05:45.450 --> 00:05:51.050
+Justin Traglia: Let's get started. Stefan, are you able to give us updates on Glamsterdam DevNet 7?
+
+5
+00:05:52.340 --> 00:06:10.169
+Stefan Starflinger: Yeah, sure. So, overall, it seems that the dust has settled, and Glamsterdam DevNet7 is doing pretty well. I'm just in the process of onboarding Erigon, which is the last client, Grandine was before the weekend.
+
+6
+00:06:10.330 --> 00:06:23.180
+Stefan Starflinger: So we should have a full house. The only thing is that Erigon and Grandine, being the last, will have a few less validators until more deposits come in, so they might propose a little bit less.
+
+7
+00:06:23.450 --> 00:06:34.140
+Stefan Starflinger: We've also added the Death Star to Devnet 7. So there should be a little bit more chaos in the network.
+
+8
+00:06:34.370 --> 00:06:37.539
+Stefan Starflinger: And for the ConsensusLayer side.
+
+9
+00:06:37.880 --> 00:06:54.700
+Stefan Starflinger: Regarding more testing, I think I will look into adding more and more different testing scenarios and chaos scenarios to DevNet 7. Step by step to see how our clients perform.
+
+10
+00:06:55.050 --> 00:07:08.609
+Stefan Starflinger: And then looking at speccing DevNet 8, especially for some minor cleaning up changes that Maria wants to do to the repricing EIPs.
+
+11
+00:07:08.610 --> 00:07:17.450
+Stefan Starflinger: And also, like in the agenda, I think it's great if we have another test for the fork transition.
+
+12
+00:07:17.710 --> 00:07:25.889
+Stefan Starflinger: With DevNet 8, at least one more, or maybe we can fit in a few more, before we go to the testnets.
+
+13
+00:07:26.880 --> 00:07:28.920
+Stefan Starflinger: That would be my update.
+
+14
+00:07:30.420 --> 00:07:39.609
+Justin Traglia: Great, thank you. Do we know, or I noticed on DORA that Prysm and the Prysm-Erigon combo is missing slots. Do we know what's going on there?
+
+15
+00:07:40.540 --> 00:07:48.689
+Stefan Starflinger: I think it's still… some of the clients are still not quite done syncing. I'm still trying out full sync on all of the clients.
+
+16
+00:07:48.800 --> 00:07:52.379
+Stefan Starflinger: So, it might just be that it's not caught up quite yet.
+
+17
+00:07:54.130 --> 00:07:55.509
+Justin Traglia: Okay, thank you.
+
+18
+00:07:56.520 --> 00:08:01.860
+Justin Traglia: And do we have any expectations for when DevNet 8 will be? Do you think that maybe like
+
+19
+00:08:02.270 --> 00:08:05.570
+Justin Traglia: 2 weeks from now, or something, or sooner.
+
+20
+00:08:06.960 --> 00:08:19.160
+Stefan Starflinger: I think we can try to schedule it for next week, but there have been quite a few people on holiday or haven't been here yet because of
+
+21
+00:08:19.220 --> 00:08:29.680
+Stefan Starflinger: other reasons, so… I think it might make sense not to rush DevNet 8. I think we have a lot of testing ground, and it won't change too much with DevNet 7 already.
+
+22
+00:08:29.980 --> 00:08:44.409
+Stefan Starflinger: So I think next week or the week after would both be fine. I think it depends on when, the changes will be ready, and I think benchmarking also still needs some time to get ready.
+
+23
+00:08:45.950 --> 00:09:01.059
+Parithosh Jayanthi: We also have our malicious Prysm node. I've updated everything, but I need the Aussies to wake up to review and watch the codebase, but this week we should be having similar situations like Death Star, but…
+
+24
+00:09:01.360 --> 00:09:09.330
+Parithosh Jayanthi: kind of more degrees of freedom via our malicious node. So I think there's still a lot of testing around to cover in .NET 7.
+
+25
+00:09:11.460 --> 00:09:24.049
+Stefan Starflinger: Yeah, I'd also like to add, I don't want to go too hard on DefNet 7, because we said that it would be available for a broader audience, and so I think that we can, kind of,
+
+26
+00:09:24.110 --> 00:09:39.230
+Stefan Starflinger: to the beginnings of kind of doing some more chaos testing and make the network a little bit unstable. But I don't want it to crash. I think we can go full on definite 8 and try to to break it more.
+
+27
+00:09:41.590 --> 00:09:49.639
+Justin Traglia: Would it be feasible or possible or even a good idea to have a separate DevNet for trying to break things?
+
+28
+00:09:52.480 --> 00:10:00.700
+Stefan Starflinger: I think clients are doing pretty well. I think we can stress DevNet 7 more, since it's more than, like, 90%.
+
+29
+00:10:01.220 --> 00:10:09.189
+Stefan Starflinger: But I wouldn't want to break it completely. So I think that's something we should target .NET 8 for.
+
+30
+00:10:10.430 --> 00:10:22.349
+Parithosh Jayanthi: Yeah, I'd ideally like to have a DevNet 8, where we have a smooth transition with all the clients, and then a DevNet 9 that's a more non-finality-focused DevNet, and ideally that happens in, like, the next month.
+
+31
+00:10:27.310 --> 00:10:28.919
+Justin Traglia: Okay, yeah, that would be cool.
+
+32
+00:10:31.780 --> 00:10:34.370
+Justin Traglia: Any more updates on the DevNet?
+
+33
+00:10:34.680 --> 00:10:38.230
+Justin Traglia: Maybe from clients, or… general updates.
+
+34
+00:10:47.380 --> 00:10:48.170
+Justin Traglia: Toni?
+
+35
+00:10:49.440 --> 00:10:55.610
+Toni Wahrstätter: Yeah, I'd like to add that clients should please take a look at the Book Club Access List Discord.
+
+36
+00:10:55.810 --> 00:11:03.470
+Toni Wahrstätter: Because I… I think right now the BAL-specific JSON RPCs are still different across clients.
+
+37
+00:11:03.640 --> 00:11:05.279
+Toni Wahrstätter: And it would be great if…
+
+38
+00:11:05.380 --> 00:11:09.840
+Toni Wahrstätter: We get them aligned for, definite aid.
+
+39
+00:11:17.490 --> 00:11:20.569
+Justin Traglia: Would, CL Client Devs be able to give,
+
+40
+00:11:20.890 --> 00:11:26.930
+Justin Traglia: an overview of what the bugs were at the work transition like from Lodestar, and maybe Teku.
+
+41
+00:11:34.910 --> 00:11:43.010
+cayman: Yeah, from Lodestar side, we, had a bug in our, SSZ implementation.
+
+42
+00:11:43.660 --> 00:11:46.359
+cayman: Where, we were…
+
+43
+00:11:46.680 --> 00:11:53.690
+cayman: doing a spread operator, or using the spread operator to pass in a bunch of arguments for each of the Merkle nodes.
+
+44
+00:11:54.050 --> 00:12:00.669
+cayman: And when you use a spread operator with too many arguments, it can blow the stack. So this is kind of a…
+
+45
+00:12:01.470 --> 00:12:09.710
+cayman: pattern that we should avoid, but it snuck in. So we didn't see it when we were testing small trees.
+
+46
+00:12:10.070 --> 00:12:14.929
+cayman: But then when we got to the size of the DevNet with a bunch of trees, several hundreds of thousands of
+
+47
+00:12:15.210 --> 00:12:18.800
+cayman: Notes, and it, just air it out.
+
+48
+00:12:22.880 --> 00:12:23.650
+Justin Traglia: Tristan.
+
+49
+00:12:29.440 --> 00:12:32.789
+Enrico Del Fante (tbenr): On the. Our. We are. Oh, sorry.
+
+50
+00:12:33.150 --> 00:12:34.110
+Justin Traglia: No, you go. Thank.
+
+51
+00:12:34.110 --> 00:12:39.280
+Enrico Del Fante (tbenr): Okay. So on the tech side, we are, start merging…
+
+52
+00:12:40.310 --> 00:12:43.250
+Enrico Del Fante (tbenr): Stuff from Devon 7 to Master.
+
+53
+00:12:44.350 --> 00:12:47.780
+Enrico Del Fante (tbenr): We are closer to alignment.
+
+54
+00:12:48.030 --> 00:12:53.080
+Enrico Del Fante (tbenr): There is still… work in progress.
+
+55
+00:12:53.630 --> 00:12:59.199
+Enrico Del Fante (tbenr): barely started on builder API implementation, and probably we still have some
+
+56
+00:12:59.460 --> 00:13:02.120
+Enrico Del Fante (tbenr): Work to do on the…
+
+57
+00:13:02.880 --> 00:13:08.780
+Enrico Del Fante (tbenr): on the Beacon Api. Generally, these are the areas where we are.
+
+58
+00:13:09.100 --> 00:13:10.120
+Enrico Del Fante (tbenr): working on.
+
+59
+00:13:16.300 --> 00:13:23.320
+Justin Traglia: Has anyone performed more benchmarking for The SSD changes, stable containers.
+
+60
+00:13:24.010 --> 00:13:25.749
+Justin Traglia: Has it been impactful?
+
+61
+00:13:31.800 --> 00:13:37.970
+Parithosh Jayanthi: Would this imply rerunning the deposit tests that you had, Justin? Or is there a different benchmark, you mean?
+
+62
+00:13:38.520 --> 00:13:43.509
+Justin Traglia: I thought that some clients were working on just like a general benchmarking.
+
+63
+00:13:44.130 --> 00:13:49.570
+Justin Traglia: Not the situations that I came up with or that we came up with.
+
+64
+00:13:51.350 --> 00:13:55.500
+Parithosh Jayanthi: I'm not aware. Maybe clients can speak to that.
+
+65
+00:13:57.610 --> 00:14:04.330
+Saulius Grigaitis | Grandine: Yeah, so for Grandine, we did some benchmarks and we found that there is
+
+66
+00:14:04.970 --> 00:14:09.010
+Saulius Grigaitis | Grandine: In some places we have a significant slower.
+
+67
+00:14:09.840 --> 00:14:14.770
+Saulius Grigaitis | Grandine: performance. So yeah, we will… at some point, we will need to optimize because of,
+
+68
+00:14:15.370 --> 00:14:17.849
+Saulius Grigaitis | Grandine: Of this stable continuous feature.
+
+69
+00:14:32.920 --> 00:14:37.590
+Justin Traglia: Yeah, I've heard similar from other clients. It's a little bit slower.
+
+70
+00:14:37.800 --> 00:14:41.110
+Justin Traglia: like 10 to 20% slower with stable containers.
+
+71
+00:14:41.400 --> 00:14:44.000
+Enrico Del Fante (tbenr): Yeah, yeah, this is a thing that we…
+
+72
+00:14:44.570 --> 00:14:52.329
+Enrico Del Fante (tbenr): Talked about the last one of the last calls that take we we have.
+
+73
+00:14:53.280 --> 00:14:56.689
+Enrico Del Fante (tbenr): slow, slower implementation.
+
+74
+00:14:57.390 --> 00:15:05.950
+Enrico Del Fante (tbenr): Compared to the non-progressive one across the board, and yeah, it's still manageable, but we need to drill… probably have a…
+
+75
+00:15:06.160 --> 00:15:08.850
+Enrico Del Fante (tbenr): An optimization round at some point.
+
+76
+00:15:09.840 --> 00:15:13.199
+Enrico Del Fante (tbenr): At least we want to make sure that.
+
+77
+00:15:13.570 --> 00:15:23.680
+Enrico Del Fante (tbenr): bigger data… how… how… how big data structure actually behave? Because, we did the basic benchmarking.
+
+78
+00:15:24.070 --> 00:15:25.180
+Enrico Del Fante (tbenr): For now.
+
+79
+00:15:25.440 --> 00:15:30.690
+Enrico Del Fante (tbenr): Probably need to do… need to do a… another round.
+
+80
+00:15:35.630 --> 00:15:36.320
+Justin Traglia: Okay.
+
+81
+00:15:38.510 --> 00:15:44.990
+Justin Traglia: Were… were there any, EL issues during DevNet 7 that we would like to discuss, or… Oh.
+
+82
+00:15:45.100 --> 00:15:46.280
+Justin Traglia: Anything notable.
+
+83
+00:15:53.840 --> 00:16:01.400
+Stefan Starflinger: I think it was mainly just some inconsistencies with the gas accounting were the main ones. But
+
+84
+00:16:01.880 --> 00:16:03.800
+Stefan Starflinger: Nothing out of the ordinary.
+
+85
+00:16:03.910 --> 00:16:05.310
+Stefan Starflinger: On the L side.
+
+86
+00:16:06.240 --> 00:16:14.670
+Stefan Starflinger: I think it was mostly the SEC containers during the fork transition that were the big surprise, because we had so many exited validators.
+
+87
+00:16:16.710 --> 00:16:21.659
+Justin Traglia: Was it because of the exited validators or was it just because of the validator set size?
+
+88
+00:16:22.390 --> 00:16:24.729
+Stefan Starflinger: Mostly because of the validator set size.
+
+89
+00:16:26.340 --> 00:16:26.919
+Justin Traglia: Okay, thank you
+
+90
+00:16:31.340 --> 00:16:36.369
+Justin Traglia: Well, great. Is there anything else that we would like to discuss before jumping into the breakouts?
+
+91
+00:16:36.820 --> 00:16:39.189
+Justin Traglia: The agenda is very light today.
+
+92
+00:16:39.190 --> 00:16:42.379
+Csaba: No, just wanted to ask if there's any.
+
+93
+00:16:42.930 --> 00:16:48.080
+Csaba: blocker to make this, the Diamat 8 disk v5 only for DLs.
+
+94
+00:16:48.690 --> 00:16:52.770
+Csaba: We definitely support it on the guest side, and yeah.
+
+95
+00:16:53.380 --> 00:17:03.540
+Csaba: As far as I know, everyone else should support it, but I want to double check. But then it would be good to run DevNet 8 with diskv5 only.
+
+96
+00:17:04.650 --> 00:17:06.649
+Csaba: Should that we test also that?
+
+97
+00:17:12.890 --> 00:17:21.149
+Stefan Starflinger: Yeah, I think that's a great idea. Do clients have flags to disable diskv4 or to only enable diskv5?
+
+98
+00:17:23.520 --> 00:17:27.220
+Csaba: Yeah, I will do a small code to this testnet on it.
+
+99
+00:17:27.829 --> 00:17:33.640
+Csaba: to be sure, before we run the DevNet, but then it would be good to run the DevNet with that.
+
+100
+00:17:38.890 --> 00:17:43.880
+Justin Traglia: Similarly, are we using QUIC in the DevNet 7?
+
+101
+00:17:46.500 --> 00:17:47.529
+Justin Traglia: for the sales.
+
+102
+00:17:48.920 --> 00:17:54.110
+Parithosh Jayanthi: As far as I know, yes, we have CAIC enabled, but I could be wrong. I can check.
+
+103
+00:17:56.300 --> 00:17:56.860
+Justin Traglia: Cool.
+
+104
+00:18:08.920 --> 00:18:10.479
+Parithosh Jayanthi: Yeah, we have Quick enabled.
+
+105
+00:18:14.850 --> 00:18:16.160
+Justin Traglia: Amazing.
+
+106
+00:18:17.090 --> 00:18:19.950
+Justin Traglia: Anything else before the breakout calls, or breakout?
+
+107
+00:18:20.220 --> 00:18:21.230
+Justin Traglia: sessions.
+
+108
+00:18:23.070 --> 00:18:24.100
+Justin Traglia: Pooja.
+
+109
+00:18:25.160 --> 00:18:38.269
+Pooja Ranjan: Yeah, I quickly wanted to check on the status of EIPs which are in DevNet 7. Wanted to check if it is OK to upgrade the stage to SFI.
+
+110
+00:18:38.270 --> 00:18:49.169
+Pooja Ranjan: As per my understanding, all four SFI criteria defined in EIP 7723 appears to have been satisfied. So, yeah, where we are on that.
+
+111
+00:18:55.530 --> 00:18:58.170
+Justin Traglia: I have no idea. Maybe someone else can chime in.
+
+112
+00:19:00.400 --> 00:19:16.420
+Parithosh Jayanthi: Yeah, I think the idea is that we propose or we claim that we are ready to SFI it from the testing team perspective on ACDT, and then in the subsequent ACDC or E, they actually move it to official SFI.
+
+113
+00:19:16.530 --> 00:19:29.590
+Parithosh Jayanthi: At least from the PandaOps team, I think all the EIPs and DevNet7, we think it's okay to SFI. Maybe the testing team could have a similar statement once they look through everything?
+
+114
+00:19:38.550 --> 00:19:56.180
+Pooja Ranjan: All right, I see that there is a similar feeling from EL's perspective as well. So will it be safe to consider that all proposals may be moved to SFI stage pending the ratification in the ACD call, the next call on Thursday?
+
+115
+00:19:56.550 --> 00:19:58.610
+Parithosh Jayanthi: Yeah, that sounds reasonable to me, yeah.
+
+116
+00:19:58.850 --> 00:20:00.370
+Pooja Ranjan: All right.
+
+117
+00:20:01.740 --> 00:20:13.260
+Pooja Ranjan: Okay, last thing that I wanted to mention here is there are some proposals which are still waiting to be moved to review, so I wanted to check with, with the team here.
+
+118
+00:20:13.260 --> 00:20:30.069
+Pooja Ranjan: how comfortable they are feeling about moving EIP 7773 Meta EIP for Glamsterdam upgrade to review status. Of course, this will be pending on the author's approval for all other EIPs, which is part of the DevNet 7 right now.
+
+119
+00:20:31.350 --> 00:20:37.289
+Pooja Ranjan: or just to put it simple. Will anybody object to move this proposal to the review status.
+
+120
+00:20:45.680 --> 00:20:46.620
+Pooja Ranjan: Awesome.
+
+121
+00:20:46.700 --> 00:20:58.090
+Pooja Ranjan: In that case, authors, if you have PR, please go ahead and add it to the EIP editing office hour, which is there tomorrow, or if they are an existing
+
+122
+00:20:58.090 --> 00:21:07.810
+Pooja Ranjan: PR, please add your approval so it can be considered for the next office hour and be merged before the next ACD call on Thursday. Thank you, everyone.
+
+123
+00:21:13.350 --> 00:21:15.939
+Justin Traglia: Okay, anything else before the breakouts.
+
+124
+00:21:35.350 --> 00:21:41.719
+Justin Traglia: Oh, thank you. Everyone for attending the core ACDT session today.
+
+125
+00:21:42.180 --> 00:21:44.260
+Justin Traglia: I believe… Oh.
+
+126
+00:21:45.150 --> 00:21:50.010
+Justin Traglia: Toni will be leading the EL breakout if you decide to have one here.
+
+127
+00:21:50.910 --> 00:21:55.220
+Justin Traglia: And, CL Teams, there's a new Zoom,
+
+128
+00:21:58.760 --> 00:22:01.740
+Justin Traglia: So please join that link, and we'll continue there.
+
+129
+00:22:04.910 --> 00:22:05.820
+Justin Traglia: Hi, everyone.
+
+130
+00:22:06.800 --> 00:22:07.740
+Toni Wahrstätter: Thank you.
+
+131
+00:22:23.260 --> 00:22:25.249
+Toni Wahrstätter: Okay, I guess the EO.
+
+132
+00:22:25.720 --> 00:22:28.579
+Toni Wahrstätter: Site will also be very quick today.
+
+133
+00:22:29.950 --> 00:22:32.280
+Toni Wahrstätter: There were 2 items on the agenda.
+
+134
+00:22:33.250 --> 00:22:37.890
+Toni Wahrstätter: The first one, I wanted to discuss the JSONRPC.
+
+135
+00:22:40.250 --> 00:22:50.470
+Toni Wahrstätter: I already introduced the topic. So clients are doing things differently there, and it would be great if clients could have a look. I summarized all the
+
+136
+00:22:51.200 --> 00:22:55.340
+Toni Wahrstätter: all the points where clients diverge.
+
+137
+00:22:55.600 --> 00:22:59.660
+Toni Wahrstätter: in a HKMD, So please take a look.
+
+138
+00:23:00.750 --> 00:23:01.700
+Toni Wahrstätter: And.
+
+139
+00:23:02.170 --> 00:23:08.070
+Toni Wahrstätter: I agree with Karim, we also then need tests for the RPCs to make sure that
+
+140
+00:23:08.630 --> 00:23:15.059
+Toni Wahrstätter: In the future, we are certain that the responses are the same across clients.
+
+141
+00:23:16.010 --> 00:23:19.240
+Toni Wahrstätter: Is there anything someone would like to add to that?
+
+142
+00:23:23.910 --> 00:23:27.119
+Stefan Starflinger: I think we already have some JSON RPC tests.
+
+143
+00:23:27.250 --> 00:23:30.330
+Stefan Starflinger: I think Chase has been working on that.
+
+144
+00:23:30.560 --> 00:23:37.789
+Stefan Starflinger: So it would be good if we could get in touch with him. Maybe I can reach him to talk to him about this.
+
+145
+00:23:37.960 --> 00:23:41.529
+Stefan Starflinger: I think I already tagged him in the thread as well.
+
+146
+00:23:42.270 --> 00:23:45.669
+Toni Wahrstätter: Right. Are those tests just not merged yet?
+
+147
+00:23:47.030 --> 00:23:56.120
+Stefan Starflinger: I'm not sure if he has any tests on Amsterdam. I would have to look it up. But in general, he's working on…
+
+148
+00:23:56.590 --> 00:24:09.400
+Stefan Starflinger: tests for JSON RPC, because there are so many differences between the clients, he wants to have them all pass the same test suits, and it would make sense to add that there.
+
+149
+00:24:11.160 --> 00:24:12.130
+Toni Wahrstätter: Right? Yeah.
+
+150
+00:24:12.790 --> 00:24:24.170
+Toni Wahrstätter: Yeah. And it would be creative for box of access list if we get it like consistent from the beginning. So things like error codes.
+
+151
+00:24:24.510 --> 00:24:27.819
+Toni Wahrstätter: Returning empty lists versus not including them.
+
+152
+00:24:28.010 --> 00:24:31.869
+Toni Wahrstätter: Things like that is different right now, and I created
+
+153
+00:24:31.990 --> 00:24:41.039
+Toni Wahrstätter: A PR against execution APIs recently that, clarified all those points where clients diverge.
+
+154
+00:24:41.760 --> 00:24:45.349
+Toni Wahrstätter: And yeah, so please take a look at this one.
+
+155
+00:24:46.930 --> 00:24:51.659
+Toni Wahrstätter: It's in the Ball Discord Anything else on that?
+
+156
+00:24:53.360 --> 00:24:57.780
+Toni Wahrstätter: Any objections for doing this until definite 8?
+
+157
+00:24:58.360 --> 00:25:08.739
+Dragan Rakita: I'm not exactly on that, but on the traces, subcode traces, should we add gas, state gas reservoir?
+
+158
+00:25:09.120 --> 00:25:11.399
+Dragan Rakita: And… spilled gas.
+
+159
+00:25:11.660 --> 00:25:14.020
+Dragan Rakita: How to edit, I'm not even sure.
+
+160
+00:25:16.230 --> 00:25:21.200
+Toni Wahrstätter: This is independent now from the bile-specific JSNARPC methods, right?
+
+161
+00:25:21.710 --> 00:25:22.849
+Dragan Rakita: True, true, true.
+
+162
+00:25:22.850 --> 00:25:23.700
+Toni Wahrstätter: Okay.
+
+163
+00:25:25.610 --> 00:25:29.980
+Toni Wahrstätter: Yeah, I mean, I'm happy to have this discussion right now.
+
+164
+00:25:30.800 --> 00:25:35.020
+Toni Wahrstätter: Maybe clients might need some time to think through, but.
+
+165
+00:25:36.010 --> 00:25:39.209
+Dragan Rakita: Maybe. I think it's better to do it, I think.
+
+166
+00:25:39.960 --> 00:25:44.819
+Dragan Rakita: And just… Clients hope will be read and figure out something.
+
+167
+00:25:46.170 --> 00:25:50.120
+Toni Wahrstätter: Yeah, sounds good. But in general, it feels… Feels right.
+
+168
+00:25:50.270 --> 00:25:55.770
+Toni Wahrstätter: To have that information exposed in some… trace, method.
+
+169
+00:26:01.400 --> 00:26:03.489
+Toni Wahrstätter: Then let's discuss this async.
+
+170
+00:26:05.740 --> 00:26:17.909
+Toni Wahrstätter: And then finally, I created a PR right before the call. I will post it into the chat. And this is essentially around EIP 7997, the contracts factory.
+
+171
+00:26:18.600 --> 00:26:25.600
+Toni Wahrstätter: And the only thing this does is basically adding it, adding the factory to the EOS.
+
+172
+00:26:26.380 --> 00:26:37.079
+Toni Wahrstätter: via an irregular state transition. And, of course, on mainnet or on our DevNets, nothing would actually change, because the factory deployment is already there.
+
+173
+00:26:37.290 --> 00:26:43.360
+Toni Wahrstätter: and this PR aligns EELS with what, for example, Geth is doing.
+
+174
+00:26:43.610 --> 00:26:49.890
+Toni Wahrstätter: Where they check, does the contract exist? And if the factory pre-deploy is not existing.
+
+175
+00:26:50.190 --> 00:26:53.680
+Toni Wahrstätter: It writes it to the respective address.
+
+176
+00:26:55.300 --> 00:26:57.760
+Toni Wahrstätter: So… Yeah.
+
+177
+00:26:58.710 --> 00:27:01.830
+Toni Wahrstätter: Is there any objection to this?
+
+178
+00:27:06.360 --> 00:27:07.530
+Mario Vega: I mean, maybe some.
+
+179
+00:27:07.530 --> 00:27:08.080
+Toni Wahrstätter: Marius.
+
+180
+00:27:08.080 --> 00:27:09.099
+Mario Vega: Would help here.
+
+181
+00:27:09.230 --> 00:27:10.910
+Mario Vega: Can you? Can you guys hear me all right.
+
+182
+00:27:11.750 --> 00:27:12.340
+Toni Wahrstätter: Yep, ye.
+
+183
+00:27:13.100 --> 00:27:29.839
+Mario Vega: Okay, maybe some context, could help here. So this was an issue that was raised by Ignacio in some other thread and, in ETHR&D. The problem was that when you are accessing the account to check if the contract is already there.
+
+184
+00:27:29.950 --> 00:27:34.310
+Mario Vega: This adds something to the witness, to the execution witness.
+
+185
+00:27:34.770 --> 00:27:46.259
+Mario Vega: So we have to be careful where we check if the contract is there or not. That's… that's basically the reason why, the original PR that was raised to EIPs,
+
+186
+00:27:46.570 --> 00:27:48.830
+Mario Vega: Repository to remove this check.
+
+187
+00:27:49.000 --> 00:27:52.969
+Mario Vega: For existence of this of this contract was was was open.
+
+188
+00:27:53.370 --> 00:28:00.360
+Mario Vega: So yeah, basically my, my, my, my feelings that we may, perhaps we should not check.
+
+189
+00:28:00.550 --> 00:28:03.320
+Mario Vega: The contract at all, just, just to avoid.
+
+190
+00:28:03.570 --> 00:28:08.299
+Mario Vega: Having different or inconsistent behavior between clients.
+
+191
+00:28:08.900 --> 00:28:14.280
+Mario Vega: either a fork boundary or during block execution after Amsterdam.
+
+192
+00:28:15.000 --> 00:28:17.320
+Mario Vega: I don't know if that helps, but.
+
+193
+00:28:17.480 --> 00:28:19.269
+Mario Vega: But yeah, that's the context.
+
+194
+00:28:22.080 --> 00:28:33.249
+Toni Wahrstätter: Yeah, this is definitely helpful. I mean, the point I stumbled across this was testing the JSON RPCs and I compared, for example, Erigon with Geth.
+
+195
+00:28:33.550 --> 00:28:40.110
+Toni Wahrstätter: And there, I suddenly found, like, different paths, because One of them had the.
+
+196
+00:28:40.770 --> 00:28:45.079
+Toni Wahrstätter: Had the fork boundary, had the factory deployed, and the other didn't.
+
+197
+00:28:45.350 --> 00:28:51.949
+Toni Wahrstätter: So I'm wondering if this could have more of those side effects downstream somewhere.
+
+198
+00:28:52.320 --> 00:28:56.340
+Toni Wahrstätter: But I totally get the re… the rationale that you provide, like, this is an…
+
+199
+00:28:56.840 --> 00:29:03.550
+Toni Wahrstätter: useless state access that we don't need because we already know it's deployed.
+
+200
+00:29:04.320 --> 00:29:06.099
+Toni Wahrstätter: So yeah, yeah.
+
+201
+00:29:10.220 --> 00:29:10.900
+Toni Wahrstätter: Hmm.
+
+202
+00:29:12.320 --> 00:29:15.499
+Toni Wahrstätter: Because right now there is no trace of this,
+
+203
+00:29:16.220 --> 00:29:22.099
+Toni Wahrstätter: EIP in the specs, basically, because we know it's there, and we put it in the Genesis file.
+
+204
+00:29:23.230 --> 00:29:24.550
+Toni Wahrstätter: Maybe that's enough.
+
+205
+00:29:24.970 --> 00:29:28.620
+Toni Wahrstätter: Curious if I don't… if someone else has an opinion on this one.
+
+206
+00:29:33.130 --> 00:29:38.100
+Mario Vega: I also just shared the PR, the EIP PR And…
+
+207
+00:29:38.220 --> 00:29:44.830
+Mario Vega: In the, in the chat, please take a look. It's already merged, but I think it's, it helps to, like.
+
+208
+00:29:45.720 --> 00:29:56.649
+Mario Vega: understand the context here. And basically this thing, this PR removes the mention of any state transition, the regular state transition. And it's…
+
+209
+00:29:56.830 --> 00:30:05.449
+Mario Vega: It basically says that if the contract is not there, you should not verify if it's there or not, and you… and if…
+
+210
+00:30:07.080 --> 00:30:23.230
+Mario Vega: the gas schedule already makes it impossible to deploy the contract using the transaction that is described in the EIP, then you should rely on an irregular state transition, but the irregular state transition is itself not part of the EIP.
+
+211
+00:30:23.870 --> 00:30:31.460
+Mario Vega: So basically it says like you need another EIP, a theoretical other EIP.
+
+212
+00:30:31.570 --> 00:30:35.899
+Mario Vega: And this EIP doesn't describe the derivative transition.
+
+213
+00:30:36.500 --> 00:30:43.190
+Mario Vega: I don't think it's gonna be necessary because most of the chains already, have this contract there, so it's like…
+
+214
+00:30:43.730 --> 00:30:46.900
+Mario Vega: I don't know. Yep Marius, sorry.
+
+215
+00:30:48.510 --> 00:30:53.240
+Marius Van Der Wijden (M): Yeah, I just wanted to give some context where this is coming from.
+
+216
+00:30:53.730 --> 00:30:56.050
+Marius Van Der Wijden (M): We had the discussion as well.
+
+217
+00:30:57.020 --> 00:31:01.610
+Marius Van Der Wijden (M): I'm also of the opinion that we don't really need it,
+
+218
+00:31:02.250 --> 00:31:07.620
+Marius Van Der Wijden (M): But, like, they were specifying something here that we don't…
+
+219
+00:31:08.060 --> 00:31:13.940
+Marius Van Der Wijden (M): that is never going to happen on mainnet and it makes no sense to specify it.
+
+220
+00:31:14.350 --> 00:31:17.919
+Marius Van Der Wijden (M): But others in the team were,
+
+221
+00:31:19.000 --> 00:31:21.829
+Marius Van Der Wijden (M): Said that, like, we should do it this way,
+
+222
+00:31:22.420 --> 00:31:28.010
+Marius Van Der Wijden (M): But I think there were no, like, really, like, hard, this is important to do, so…
+
+223
+00:31:28.460 --> 00:31:32.889
+Marius Van Der Wijden (M): Yeah, I think… But at at least as far as I I.
+
+224
+00:31:33.100 --> 00:31:36.400
+Marius Van Der Wijden (M): The feeling in the room was like, this is something that we.
+
+225
+00:31:36.590 --> 00:31:39.769
+Marius Van Der Wijden (M): Might want to do, but it's not really important that we do it.
+
+226
+00:31:40.330 --> 00:31:45.640
+Marius Van Der Wijden (M): So, I'm happy to say, hey, this is… yeah, we're not going to change it.
+
+227
+00:31:46.120 --> 00:31:46.870
+Marius Van Der Wijden (M): Okay.
+
+228
+00:31:54.870 --> 00:31:56.589
+Toni Wahrstätter: Yeah, I think this is fair.
+
+229
+00:31:58.390 --> 00:32:09.769
+Toni Wahrstätter: of course, we might then have some differences among… across clients, but, Should be good.
+
+230
+00:32:10.090 --> 00:32:12.530
+Toni Wahrstätter: I guess I will then just close this PR.
+
+231
+00:32:12.810 --> 00:32:17.380
+Toni Wahrstätter: If people think we shouldn't include that in EELS.
+
+232
+00:32:18.550 --> 00:32:19.960
+Toni Wahrstätter: And, yeah.
+
+233
+00:32:22.260 --> 00:32:29.310
+Toni Wahrstätter: I would have to dig deeper where the actual where it actually surfaces.
+
+234
+00:32:29.580 --> 00:32:31.490
+Toni Wahrstätter: No, but I think it's fine.
+
+235
+00:32:32.220 --> 00:32:33.979
+Toni Wahrstätter: Definitely nothing critical.
+
+236
+00:32:35.490 --> 00:32:39.379
+Toni Wahrstätter: And this is already the last point of the agenda. Is there anything else to add to that?
+
+237
+00:32:58.960 --> 00:33:04.160
+Toni Wahrstätter: Perfect. If that's not the case, I think we can end it early.
+
+238
+00:33:05.760 --> 00:33:07.000
+Toni Wahrstätter: Thanks, everyone.
+
+239
+00:33:07.430 --> 00:33:08.300
+Toni Wahrstätter: Bye bye.
+
+240
+00:33:09.930 --> 00:33:10.640
+Marius Van Der Wijden (M): Bye bye.
+
+241
+00:33:10.880 --> 00:33:11.590
+Marius Van Der Wijden (M): Same.
+
+242
+00:33:11.590 --> 00:33:12.570
+Louis: Thank you.
+
+243
+00:33:13.220 --> 00:33:13.850
+Ameziane Hamlat: Thank you.
+
+244
+00:33:13.850 --> 00:33:14.570
+Stefan Starflinger: Thank you.
+
