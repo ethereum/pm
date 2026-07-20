@@ -1,0 +1,598 @@
+WEBVTT
+
+1
+00:00:35.960 --> 00:00:37.300
+Justin Traglia: Hello, everyone.
+
+2
+00:00:37.630 --> 00:00:39.610
+Justin Traglia: Just one minute, and then we'll get started.
+
+3
+00:00:54.610 --> 00:00:59.890
+Justin Traglia: So there is nothing on the CL breakout agenda, so I think we could just use this time to…
+
+4
+00:01:00.560 --> 00:01:05.319
+Justin Traglia: discuss how things are going, or any… just anything that comes to mind. So…
+
+5
+00:01:08.820 --> 00:01:10.040
+Justin Traglia: How are things going?
+
+6
+00:01:16.480 --> 00:01:19.340
+Saulius Grigaitis | Grandine: I have a question.
+
+7
+00:01:20.520 --> 00:01:29.869
+Saulius Grigaitis | Grandine: When are we going to have a bit… if you have a testing on the… on the…
+
+8
+00:01:30.020 --> 00:01:32.649
+Saulius Grigaitis | Grandine: Devin, that's, like, you know…
+
+9
+00:01:32.870 --> 00:01:43.889
+Saulius Grigaitis | Grandine: some more chaos. Previously, I think we had some blobs spamming and so on.
+
+10
+00:01:44.020 --> 00:01:49.009
+Saulius Grigaitis | Grandine: And maybe it's a good time to try to have more efforts on that.
+
+11
+00:01:49.290 --> 00:01:52.900
+Saulius Grigaitis | Grandine: I'm trying to break the… To them not.
+
+12
+00:01:54.490 --> 00:02:08.169
+Parithosh Jayanthi: Yeah, a lot of that is planned for this week. I just need the Aussies to wake up to merge in a few PRs for me, and once that's done, I can release our malicious CL on the network.
+
+13
+00:02:08.699 --> 00:02:13.840
+Parithosh Jayanthi: But yeah, until then, we can just do, like, basic spamming and stuff, that should be easy, we can start after the call.
+
+14
+00:02:14.470 --> 00:02:26.479
+Saulius Grigaitis | Grandine: Yeah, I think, you know, as the network is getting stable, more stable than it was before, I think it's a good start, a good time to start breaking it again.
+
+15
+00:02:30.060 --> 00:02:33.130
+Justin Traglia: Have we been testing the new 300 million cast on it?
+
+16
+00:02:36.160 --> 00:02:39.110
+Parithosh Jayanthi: Not acutely yet, but we can also do that.
+
+17
+00:02:41.280 --> 00:02:43.880
+Justin Traglia: Okay. Do you know if we've submitted a,
+
+18
+00:02:45.030 --> 00:02:50.580
+Justin Traglia: I should say a payload with more than 8,192 deposits.
+
+19
+00:02:51.070 --> 00:02:52.219
+Justin Traglia: To test that.
+
+20
+00:02:53.100 --> 00:02:57.039
+Parithosh Jayanthi: I actually don't think so. I can do that now, too.
+
+21
+00:03:00.860 --> 00:03:05.019
+Justin Traglia: And what is the blob limit on a StepNet? Is it 21, just like Mainnet?
+
+22
+00:03:05.610 --> 00:03:08.590
+Parithosh Jayanthi: Yep, we… I don't think we touched the block limit at all.
+
+23
+00:03:10.060 --> 00:03:18.350
+Justin Traglia: Understood And while you're talking, what does the malicious prism node do differently than Death Star?
+
+24
+00:03:20.380 --> 00:03:35.609
+Parithosh Jayanthi: It works along with the builder, so we have a different architecture now. Earlier, you just had one node that kind of had its local view of the network, and instead, we now have a malicious Prism node, but also a malicious orchestrator.
+
+25
+00:03:35.620 --> 00:03:45.970
+Parithosh Jayanthi: And the orchestrator has a more global view of what the builder's doing, what the Prism node's doing, and then it can control what each of these parties do to create more edge cases.
+
+26
+00:03:49.820 --> 00:03:50.530
+Justin Traglia: Okay, yeah.
+
+27
+00:03:54.980 --> 00:03:55.660
+Parithosh Jayanthi: Mmhm
+
+28
+00:03:55.910 --> 00:04:12.819
+Parithosh Jayanthi: The edge cases could be that the builder releases the payload later, but at the same time, the proposer is withholding some blobs, some weird situations like this, I guess. But besides this, I think a lot of edge cases are already covered by Death Star.
+
+29
+00:04:13.230 --> 00:04:16.090
+Parithosh Jayanthi: Just malformed payloads and stuff like that.
+
+30
+00:04:17.000 --> 00:04:31.919
+Nico Flaig: Yeah I was just thinking because I have some more features planned for Devstar but yeah maybe we can coordinate who implements what I mean all the late payload stuff block withholding egg relocation and stuff like this
+
+31
+00:04:32.500 --> 00:04:40.630
+Nico Flaig: For some, you need a proposal, I guess. In theory, the proposal can do everything, right? You don't really need a builder, but yeah.
+
+32
+00:04:42.070 --> 00:04:52.030
+Parithosh Jayanthi: Yeah, the main reason we wanted to add some of these topics in the builder is it's just new paths, so even if we don't find anything, we still want to assume that the builder can always be malicious.
+
+33
+00:05:08.920 --> 00:05:17.719
+Justin Traglia: Random sort of unrelated question. If we're planning on having a DevNet 8 and a DevNet 9, that would probably be, like, another month of DevNets.
+
+34
+00:05:17.930 --> 00:05:22.839
+Justin Traglia: When do you anticipate we'll start upgrading testnets?
+
+35
+00:05:26.860 --> 00:05:29.229
+Parithosh Jayanthi: I think my ideal would be September.
+
+36
+00:05:31.790 --> 00:05:36.339
+Parithosh Jayanthi: Okay. But it really depends on if we're finding anything in the next month.
+
+37
+00:05:36.410 --> 00:05:55.829
+Parithosh Jayanthi: It's also trying to align with the schedule that the ELs have for more final repricing numbers. So we need at least one large-ish, public-ish DevNet. So I'm hoping that can this be DevNet 8, and let's say we do that two weeks from now, so that's first-ish week of August.
+
+38
+00:05:55.980 --> 00:06:06.279
+Parithosh Jayanthi: We ask a bunch of people to deploy stuff on the DevNet, try and break stuff. I'm sure there's a bunch of contract developers who are going to hate it.
+
+39
+00:06:06.330 --> 00:06:22.870
+Parithosh Jayanthi: It'll take, let's say, roughly 2 weeks for us to process that information, and then collect a bunch of data on what the actual repricings would look like. Parallelly, we can have a non-finality DevNet. I think there's, like, 3 or 4 non-finality things we want to do, along with…
+
+40
+00:06:22.950 --> 00:06:25.999
+Parithosh Jayanthi: One potential decoupled consensus test.
+
+41
+00:06:26.110 --> 00:06:39.870
+Parithosh Jayanthi: And at that point, I think we've done all the testing that we normally do. We would have done malicious proposals, we would have done basic buzzing, we would have done benchmarking, we would have done non-finality.
+
+42
+00:06:42.160 --> 00:06:42.660
+Justin Traglia: Okay.
+
+43
+00:06:42.660 --> 00:06:46.770
+potuz: Christine, apologies, I can't raise my hand. Can you call me a little bit?
+
+44
+00:06:50.820 --> 00:06:53.270
+Justin Traglia: I'm sorry. Say it again. Can I call on you.
+
+45
+00:06:54.150 --> 00:06:56.240
+potuz: Yeah, I wanted to chime in on this.
+
+46
+00:06:57.260 --> 00:06:59.349
+Justin Traglia: Oh, yeah, I mean, you can chime in now.
+
+47
+00:07:00.630 --> 00:07:01.960
+potuz: Okay, great. So…
+
+48
+00:07:01.960 --> 00:07:21.619
+potuz: I would focus less on consensus. I mean, everything that Pari said is critical. That's fine. But the thing that we need and we need to test well before testnets is the builder API. We are not testing with external builders being called with signed authorizations, builders that care about authorizations, builders that don't, and so forth.
+
+49
+00:07:21.620 --> 00:07:26.469
+potuz: those paths of the validator client and the key manager API,
+
+50
+00:07:26.700 --> 00:07:31.159
+potuz: And all of these things about sidecars are the things that need to be tested.
+
+51
+00:07:33.750 --> 00:07:38.619
+Parithosh Jayanthi: Would, as far as I remember, on DevNet 7, the clients don't have that
+
+52
+00:07:38.850 --> 00:07:43.109
+Parithosh Jayanthi: code paths implemented, right? Is that something you guys can have for DevNet 8?
+
+53
+00:07:44.750 --> 00:07:46.449
+Parithosh Jayanthi: Okay, Prism has it cool.
+
+54
+00:07:46.950 --> 00:07:54.880
+potuz: It's not merged yet, so it's not really standardized. That's why we need to have at least the post version of ProduceBlock
+
+55
+00:07:55.430 --> 00:07:59.580
+potuz: And the builder API finally merged, I guess.
+
+56
+00:08:01.880 --> 00:08:14.819
+Parithosh Jayanthi: Okay, so there's, from the chat, I take that there's a Key Manager API PR that's probably not merged yet, or is there no candidate to begin with? And, the Builder API PR, that has to be merged, right?
+
+57
+00:08:16.730 --> 00:08:17.860
+terence: I'm gonna beat today for.
+
+58
+00:08:22.590 --> 00:08:24.820
+Parithosh Jayanthi: I'm guessing that's a beaten API here?
+
+59
+00:08:26.100 --> 00:08:26.850
+Justin Traglia: Yeah, so I think.
+
+60
+00:08:26.850 --> 00:08:28.669
+potuz: Yeah, there's a Beacon API.
+
+61
+00:08:37.850 --> 00:08:44.209
+Justin Traglia: so product… Notice related to testing with builders more.
+
+62
+00:08:44.930 --> 00:08:54.330
+Justin Traglia: Maybe a bit of an unpopular opinion from my side, but I'm not sure that we should be testing — or the EF should be testing the —
+
+63
+00:08:54.930 --> 00:08:57.070
+Justin Traglia: other builder flow.
+
+64
+00:08:57.260 --> 00:09:01.859
+Justin Traglia: Like, are all clients gonna implement this, and… Also, I mean, our…
+
+65
+00:09:02.240 --> 00:09:07.660
+Justin Traglia: We just need to ensure that the in-protocol P2P bidding works.
+
+66
+00:09:07.840 --> 00:09:09.189
+Justin Traglia: Mike Float works. Yeah.
+
+67
+00:09:16.250 --> 00:09:26.149
+Dustin: Yeah, wasn't there all this effort gone through to say, we'll get the peer-to-peer builders on, you know.
+
+68
+00:09:26.340 --> 00:09:29.899
+Dustin: epoch zero, so to say, of Amsterdam.
+
+69
+00:09:30.070 --> 00:09:33.049
+Dustin: I mean, I thought that was part of the point, is…
+
+70
+00:09:33.730 --> 00:09:35.589
+Dustin: To allow for this kind of thing.
+
+71
+00:09:37.340 --> 00:09:40.320
+Justin Traglia: I mean, I think that's separate. I mean, yes, we wanted to.
+
+72
+00:09:42.220 --> 00:09:51.219
+Dustin: No, I understand they're separate protocols, of course, but, I mean, to reduce the dependence in this kind of decision-making on saying.
+
+73
+00:09:51.570 --> 00:09:54.279
+Dustin: There's some builder API being there.
+
+74
+00:10:00.040 --> 00:10:01.369
+potuz: Like it or not.
+
+75
+00:10:01.540 --> 00:10:19.190
+potuz: 99% of our blocks come through builders. I don't want to go into the circuit breaker just because we haven't tested this. It's fine if the P2P stack works, we're not going to die, but we don't want to be failing and then falling back to the circuit breaker.
+
+76
+00:10:22.360 --> 00:10:26.380
+Justin Traglia: I mean, yeah, I understand that 99% of blocks come from builders.
+
+77
+00:10:26.930 --> 00:10:28.060
+Justin Traglia: But,
+
+78
+00:10:28.210 --> 00:10:35.700
+Justin Traglia: I'm talking about we should let builders test out the direct connections between proposers and builders and the whole builder API flow.
+
+79
+00:10:39.440 --> 00:10:40.210
+Justin Traglia: Let me do that.
+
+80
+00:10:40.210 --> 00:10:56.819
+terence: It's not so much about like testing in a way it's that we need the API to merge so we can start implementing it. It's because like if we just like keep delaying API merging, then like I feel like we're going to merge it pretty late.
+
+81
+00:10:56.820 --> 00:11:03.719
+terence: Even when the testnet is happening. So the earlier people review the API, the better it is.
+
+82
+00:11:10.240 --> 00:11:11.550
+Justin Traglia: Yep, that makes sense.
+
+83
+00:11:17.560 --> 00:11:24.260
+Parithosh Jayanthi: Does someone have a list that we can track? Does the Key Manager API post it there?
+
+84
+00:11:24.510 --> 00:11:28.440
+Parithosh Jayanthi: and a Beacon API here posted. Is there any other?
+
+85
+00:11:34.720 --> 00:11:40.589
+james: Wait, which Beacon API post? The one that Luca presented?
+
+86
+00:11:40.790 --> 00:11:45.649
+Parithosh Jayanthi: No, James posted one, BikiniPay address.
+
+87
+00:11:45.980 --> 00:11:50.950
+Parithosh Jayanthi: Oh, I guess it's just deprecate slash validator config. Okay, sorry.
+
+88
+00:11:51.330 --> 00:12:05.550
+potuz: There's a PR by me about adding a post or replacing the get to a post version of ProduceBlock before. I don't know if that's the PR that we're going with or some other PR that does the same thing, but we need that PR.
+
+89
+00:12:06.580 --> 00:12:11.909
+james: Yeah, so there is a key manager,
+
+90
+00:12:12.010 --> 00:12:17.879
+james: PR that's based on top of your PR, photos.
+
+91
+00:12:18.030 --> 00:12:26.599
+james: And then there's also another change on builder-specs, too, that's also related to… your your Pr.
+
+92
+00:12:39.870 --> 00:12:42.869
+Parithosh Jayanthi: Who are the people that need to review these PRs now?
+
+93
+00:12:48.830 --> 00:12:58.309
+terence: I think there were a bunch of comments from last week on POTUS's PR, so I think, like, yeah, I think now it's, like, waiting for POTUS to review those comments.
+
+94
+00:13:15.260 --> 00:13:20.870
+Justin Traglia: Terence, do you know if PBS Foundation is going to support Any of this like.
+
+95
+00:13:23.150 --> 00:13:41.940
+terence: I am not sure, but I know there is weekly… I don't know what the correct name is, they usually call MEV Boost Community Code every two weeks by the MEV Boost implementers. I haven't attended those in a while now, but those are hosted by PBS Foundation, and they're looking
+
+96
+00:13:42.230 --> 00:14:00.909
+terence: for, things to work on, so this would be nice to collab with them. I believe you're also in the MVBoost community on Telegram channel, so that would be good. I know CommitBoost, their team is very, willing to help testing as well, but they are all waiting for the API
+
+97
+00:14:00.990 --> 00:14:09.910
+terence: to, I will say, finalize and merge. So, yeah, so the… yeah, so I will say, the sooner we get more feedback, the better.
+
+98
+00:14:13.490 --> 00:14:14.180
+Justin Traglia: Okay.
+
+99
+00:14:14.360 --> 00:14:17.470
+Justin Traglia: Yeah, I also haven't attended those calls in a very long time.
+
+100
+00:14:17.880 --> 00:14:21.869
+Justin Traglia: But if you propose, if you bring this up eventually, that'd be great.
+
+101
+00:14:23.220 --> 00:14:24.060
+Justin Traglia: Thank you.
+
+102
+00:14:39.360 --> 00:14:46.429
+Justin Traglia: On this topic, are all clients going to add support for direct connections with builders? I'm just curious.
+
+103
+00:14:50.580 --> 00:14:52.520
+Enrico Del Fante (tbenr): I think we're not yet, we are…
+
+104
+00:14:52.930 --> 00:14:56.520
+Enrico Del Fante (tbenr): Just planning the implementations of those.
+
+105
+00:15:00.620 --> 00:15:03.330
+Justin Traglia: But you do intend to have that.
+
+106
+00:15:03.330 --> 00:15:07.910
+Enrico Del Fante (tbenr): Yeah, yeah, I think Stefan is… He's on it.
+
+107
+00:15:10.990 --> 00:15:11.570
+Justin Traglia: Okay.
+
+108
+00:15:32.490 --> 00:15:33.390
+Justin Traglia: Okay.
+
+109
+00:15:33.660 --> 00:15:36.999
+Parithosh Jayanthi: Could we target all of these changes for the next DevNet?
+
+110
+00:15:37.390 --> 00:15:41.220
+Parithosh Jayanthi: let's say ETA… Two weeks from now, latest.
+
+111
+00:15:53.030 --> 00:15:53.990
+Enrico Del Fante (tbenr): I don't know.
+
+112
+00:16:06.220 --> 00:16:09.379
+Justin Traglia: Yeah, it's not a question for me. It's for clients, but.
+
+113
+00:16:10.180 --> 00:16:19.330
+Nico Flaig: Also, there's still some uncertainty, right? Like the builder preferences, whether or not we send them ahead of time or just in time, and…
+
+114
+00:16:19.780 --> 00:16:32.860
+Nico Flaig: I don't know, there were, like, few builders saying they needed ahead of time, but then on Discord, I couldn't really explain why they needed, or there was not even… I think Alex just left a comment there, I haven't read that, but…
+
+115
+00:16:33.830 --> 00:16:42.490
+Nico Flaig: I would be in favor of, like, not adding too much complexity of things that we are not really certain are any useful, so…
+
+116
+00:16:43.200 --> 00:16:48.839
+Nico Flaig: If we can try to simplify the spec itself and avoid complexity, that would be good.
+
+117
+00:16:53.580 --> 00:17:00.220
+Dustin: I will say, as far as Alex's comment, which I know to what you're referring, I found that,
+
+118
+00:17:00.750 --> 00:17:02.419
+Dustin: Sort of un…
+
+119
+00:17:02.700 --> 00:17:12.580
+Dustin: convincing, I suppose. So, it's essentially a timing edge case of a proposer saying they want to,
+
+120
+00:17:12.930 --> 00:17:24.540
+Dustin: that they're willing to accept a certain sort of category of bid very late in the time process. And, like, I'm not sure why this is…
+
+121
+00:17:24.869 --> 00:17:28.079
+Dustin: And his comment didn't say why this is so…
+
+122
+00:17:28.780 --> 00:17:47.579
+Dustin: critical, I guess. Because it's like, the premise was before the builders had the idea that this proposer was not going to accept a certain kind of bid, and then they changed their mind very late. And now they have hundreds of milliseconds. I'm like, OK. But that seems to be on the proposer.
+
+123
+00:17:47.850 --> 00:17:51.129
+Dustin: At that point, more than anything else, in any case.
+
+124
+00:17:51.430 --> 00:17:58.819
+Dustin: I don't have hugely strong opinions on that, but if that's the strongest case for the ahead of time, I'm not sure I see it very well.
+
+125
+00:18:23.900 --> 00:18:26.120
+Justin Traglia: Is there anything else you'd like to discuss?
+
+126
+00:18:26.280 --> 00:18:29.379
+Justin Traglia: Otherwise we can end the breakout session.
+
+127
+00:18:33.110 --> 00:18:45.910
+potuz: So regarding testing, can you guys tell me what is Death Star doing now? Because I'm starting to run Kurtosis scenarios and I'm mostly focusing on how clients attest.
+
+128
+00:18:46.400 --> 00:18:49.240
+potuz: And I see that the stations are going everywhere.
+
+129
+00:18:49.500 --> 00:19:09.280
+potuz: So it's not clear to me that that clients are testing correctly. At least it's hard to pinpoint now. But but I think we should be focusing on 4 choice on those instead of like trying to get the chain to break, which would be like a chaos scenario, just trying to understand why clients are testing for the wrong block.
+
+130
+00:19:12.220 --> 00:19:22.899
+Nico Flaig: So I think one thing that makes it harder to understand on the DevNet right now is that we actually have late payloads, I think. So we started some honest reorgs, right? Payload reorgs.
+
+131
+00:19:23.040 --> 00:19:36.859
+Nico Flaig: So that's a bit weird, because DevStar basically always reorgs payloads, and then if the payload was actually late, it's, honest behavior. So I guess that thing, like, I would need to handle somehow.
+
+132
+00:19:36.860 --> 00:19:43.949
+Nico Flaig: But yeah, basically it just builds on empty, right? And then it also withholds the PTC votes in the block.
+
+133
+00:19:44.540 --> 00:19:48.840
+Nico Flaig: Which I guess make it even harder to analyze what what's happening.
+
+134
+00:19:49.840 --> 00:19:53.570
+Nico Flaig: But yeah, we should be able to have fork drill stumps as well, so…
+
+135
+00:19:58.650 --> 00:20:05.260
+potuz: Yeah, I believe that Cortosis is better for this kind of scenarios, because then I can actually track the attestations, and I know
+
+136
+00:20:05.450 --> 00:20:17.009
+potuz: what is the status of each payload, and the peering is controlled. So I can isolate the actual 4 choice issue instead of like trying to guess what what the hell is going on on the chain.
+
+137
+00:20:18.980 --> 00:20:22.649
+Nico Flaig: But you are testing late payloads, right? And honest re-orgs.
+
+138
+00:20:23.300 --> 00:20:27.250
+potuz: Yeah, I'm testing like all types of withholding.
+
+139
+00:20:28.690 --> 00:20:34.079
+potuz: And even long… and even long reorgs, like collusions between the builder and the proposer, and these kind of things.
+
+140
+00:20:40.460 --> 00:20:47.869
+potuz: But what I wanted to stress is that the… I mean, the results so far, it seems to be fine, because if I put, say.
+
+141
+00:20:48.490 --> 00:20:52.950
+potuz: An even distribution of clients, we seem to be working collectively correctly.
+
+142
+00:20:53.160 --> 00:20:57.730
+potuz: But I still see some random clients at the stations that I just don't understand.
+
+143
+00:21:32.750 --> 00:21:34.819
+Justin Traglia: Okay, anything else we want to discuss.
+
+144
+00:21:47.960 --> 00:21:50.859
+Justin Traglia: Okay, I propose we end the breakout session.
+
+145
+00:21:58.100 --> 00:21:59.370
+potuz: Bye-bye, guys.
+
+146
+00:22:00.250 --> 00:22:01.060
+Justin Traglia: Hi, everyone.
+
+147
+00:22:01.880 --> 00:22:02.660
+Nico Flaig: See you. Bye.
+
+148
+00:22:02.900 --> 00:22:03.360
+cayman: See ya.
+
+149
+00:22:03.360 --> 00:22:04.140
+Parithosh Jayanthi: Right.
+
