@@ -1,0 +1,88 @@
+{
+  "meeting": "Fast Confirmation Rule (FCR) #11 - July 21, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:06:06",
+        "highlight": "Lighthouse: FCR merged, not yet released; runs in ~30ms/slot; no reversions observed outside node restarts"
+      },
+      {
+        "timestamp": "00:23:28",
+        "highlight": "Teku: FCR implemented on branch, merging to master; ~150-200ms/slot (unoptimized); passes spec tests; mainnet tested"
+      },
+      {
+        "timestamp": "00:29:46",
+        "highlight": "Lodestar: performance improvement landed; FCR will be disabled during range sync to suppress spurious reversion metrics"
+      },
+      {
+        "timestamp": "00:34:19",
+        "highlight": "Prysm: FCR PR under review (Offchain Labs branch); performance improvements identified; not yet on mainnet"
+      },
+      {
+        "timestamp": "00:07:21",
+        "highlight": "Grandine: FCR PR awaiting review; devs returning from vacation"
+      }
+    ],
+    "spec_and_research": [
+      {
+        "timestamp": "00:38:36",
+        "highlight": "New spec PR #5449: adds edge-case test for total-active-balance source and adds safeExecutionBlockHash property to FCR checks"
+      },
+      {
+        "timestamp": "00:39:28",
+        "highlight": "Post-Gloas: safeExecutionBlockHash will reference parent's execution payload (not confirmed beacon block); FCR confirmation time doubles to two slots"
+      },
+      {
+        "timestamp": "00:42:29",
+        "highlight": "Updated FCR paper published: algorithm now matches implementation closely; formal proofs moved to appendix"
+      },
+      {
+        "timestamp": "00:43:29",
+        "highlight": "LLM-generated Lean formalization shared by Francesco; caution: link formalization must be verified before claiming formal verification"
+      }
+    ],
+    "open_issues": [
+      {
+        "timestamp": "00:11:34",
+        "highlight": "Lighthouse node restart resets FCR to finalized, causing apparent safe-hash regression in EL; persisting confirmed root to disk deemed unsafe under current synchrony assumptions"
+      },
+      {
+        "timestamp": "00:47:52",
+        "highlight": "Safe block hash defaults to justified when FCR is off, causing finalized\u2192justified flicker; proposal to default to finalized instead"
+      },
+      {
+        "timestamp": "00:44:57",
+        "highlight": "No one currently working on fuzzing FCR; differential fuzzing between implementation pairs proposed as practical approach"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:50:53",
+        "highlight": "Next FCR call (in ~2 weeks) tentatively the last; continuation to be decided then"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:09:40",
+      "action": "Share beacon-metrics standardized metrics repo link in FCR Telegram group",
+      "owner": "Mikhail Kalinin"
+    },
+    {
+      "timestamp": "00:36:05",
+      "action": "Coordinate with EthPandaOps to integrate Prysm into FCR simulator for mainnet-data backtesting",
+      "owner": "Mikhail Kalinin / Jun Song"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:30:58",
+      "decision": "Lodestar will disable FCR during range sync (keyed off gossip topic subscription state)"
+    },
+    {
+      "timestamp": "00:26:57",
+      "decision": "Reversion metric counts the initial fallback to finalized as one event, not once per subsequent slot remaining on finalized"
+    }
+  ],
+  "targets": []
+}

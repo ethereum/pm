@@ -1,0 +1,1954 @@
+WEBVTT
+
+1
+00:02:20.670 --> 00:02:23.200
+Mikhail Kalinin: Hey, Lion Dmitmitrii.
+
+2
+00:02:24.890 --> 00:02:25.410
+Dmitrii Shmatko: Haha.
+
+3
+00:02:26.300 --> 00:02:27.480
+Lion dapplion: Unlimited.
+
+4
+00:02:30.800 --> 00:02:31.710
+Mikhail Kalinin: Sorry.
+
+5
+00:02:50.020 --> 00:02:51.510
+Mikhail Kalinin: Morning, everyone.
+
+6
+00:02:53.630 --> 00:02:59.300
+Mikhail Kalinin: Let's give it, like, 2 to 3 minutes more for people to join, and then we'll start.
+
+7
+00:03:09.450 --> 00:03:10.589
+Lion dapplion: Is it better now?
+
+8
+00:03:16.560 --> 00:03:18.790
+Mikhail Kalinin: I can hear you well.
+
+9
+00:03:24.230 --> 00:03:25.930
+Mikhail Kalinin: Can you hear us?
+
+10
+00:03:27.530 --> 00:03:28.180
+Lion dapplion: Yeah.
+
+11
+00:03:29.140 --> 00:03:29.880
+Mikhail Kalinin: Great.
+
+12
+00:03:49.510 --> 00:03:50.550
+Lion dapplion: And now…
+
+13
+00:03:52.570 --> 00:03:56.769
+Mikhail Kalinin: Yeah, now I can recognize your… your voice. It's even better now.
+
+14
+00:03:57.830 --> 00:04:01.659
+Lion dapplion: Then there's… Headphones are pretty bad, likewise.
+
+15
+00:04:03.520 --> 00:04:04.460
+Mikhail Kalinin: I see.
+
+16
+00:04:09.640 --> 00:04:11.890
+Mikhail Kalinin: We don't have a Discord.
+
+17
+00:04:12.220 --> 00:04:17.610
+Mikhail Kalinin: channel, dedicated to FCR. We have a Telegram group.
+
+18
+00:04:17.779 --> 00:04:23.970
+Mikhail Kalinin: And if we want to discuss it on Discord, I would suggest to use
+
+19
+00:04:25.140 --> 00:04:28.100
+Mikhail Kalinin: One of the channels that we have. Maybe…
+
+20
+00:04:28.280 --> 00:04:31.599
+Mikhail Kalinin: We'll stay Consensus 1 is the best.
+
+21
+00:05:30.210 --> 00:05:33.520
+Mikhail Kalinin: Alright, let's go ahead and get started.
+
+22
+00:05:33.970 --> 00:05:39.950
+Mikhail Kalinin: Everyone, welcome to pass Confirmation Rule Breakout Number 11.
+
+23
+00:05:40.560 --> 00:05:42.349
+Mikhail Kalinin: Here is the agenda.
+
+24
+00:05:43.220 --> 00:05:52.849
+Mikhail Kalinin: So… We'll start as usual with client updates, and I will start from… Newcomers today, so…
+
+25
+00:05:53.510 --> 00:05:55.359
+Mikhail Kalinin: Let's start from Lighthouse.
+
+26
+00:05:59.780 --> 00:06:06.320
+Lion dapplion: I guess this is the first time I joined, so… well, we merged FCR.
+
+27
+00:06:07.160 --> 00:06:08.580
+Lion dapplion: So I guess we're done.
+
+28
+00:06:10.940 --> 00:06:14.710
+Lion dapplion: Not sure what else do you want?
+
+29
+00:06:14.940 --> 00:06:18.259
+Lion dapplion: I had some questions, but we can do them later.
+
+30
+00:06:19.590 --> 00:06:24.519
+Mikhail Kalinin: Yeah, do you want to share any, highlights, from…
+
+31
+00:06:24.920 --> 00:06:31.740
+Mikhail Kalinin: from your… I mean, like, from the work on your implementation, any… anything else related to the spec or whatever?
+
+32
+00:06:34.320 --> 00:06:40.059
+Lion dapplion: Yeah, so… I think that what took the most time was…
+
+33
+00:06:40.740 --> 00:06:44.040
+Lion dapplion: To get all the details right, like…
+
+34
+00:06:44.360 --> 00:06:53.170
+Lion dapplion: we were using the state at the wrong advance, then it's… it was a bit hard to, like, trace back where every balance source and state had to be
+
+35
+00:06:55.390 --> 00:07:03.929
+Lion dapplion: say, at the precise location, plus make it efficient, make it work with the caches. Like, the design we went for was
+
+36
+00:07:04.090 --> 00:07:06.130
+Lion dapplion: Maximum spec parity.
+
+37
+00:07:07.010 --> 00:07:13.159
+Lion dapplion: At least visually and conceptually, and trying to hide the abstractions away.
+
+38
+00:07:13.660 --> 00:07:19.809
+Lion dapplion: Sorry, like, the optimizations, abstract them away in the minimally invasive way possible.
+
+39
+00:07:20.110 --> 00:07:28.279
+Lion dapplion: So I think you look at the code, it looks pretty much identical to the source, but it's still very performant, like…
+
+40
+00:07:29.290 --> 00:07:32.170
+Lion dapplion: FCR runs in, like, 30 milliseconds.
+
+41
+00:07:32.490 --> 00:07:34.490
+Lion dapplion: On most slots.
+
+42
+00:07:35.220 --> 00:07:39.009
+Lion dapplion: Unless there's, like, some weird, like, reversion or something.
+
+43
+00:07:43.040 --> 00:07:48.289
+Mikhail Kalinin: Great, congratulations. So, did you already, have it in the release?
+
+44
+00:07:49.690 --> 00:07:50.780
+Lion dapplion: Not yet.
+
+45
+00:07:52.970 --> 00:07:59.119
+Mikhail Kalinin: Right, and yeah, I'll… There was, there was a kind of regression, or,
+
+46
+00:07:59.680 --> 00:08:09.620
+Mikhail Kalinin: whatever caused the reversal to finality a couple of weeks ago, so you have fixed that. Have you observed any
+
+47
+00:08:09.750 --> 00:08:12.089
+Mikhail Kalinin: reversions since that fix.
+
+48
+00:08:13.670 --> 00:08:15.880
+Lion dapplion: Yeah, so we want to clarify this,
+
+49
+00:08:15.980 --> 00:08:21.810
+Lion dapplion: higher ed metrics in the different loop points of execution of… the main FCR function.
+
+50
+00:08:22.510 --> 00:08:27.210
+Lion dapplion: So, I think the, like, the metric Roberto Finality is misleading.
+
+51
+00:08:27.590 --> 00:08:31.550
+Lion dapplion: Because that's not what's… so, the FCR was reverting to finality.
+
+52
+00:08:31.660 --> 00:08:35.170
+Lion dapplion: Like, that condition was heating. But then immediately.
+
+53
+00:08:35.590 --> 00:08:48.479
+Lion dapplion: restarting to justify, then re-verifying the root. So, from a POV of the user, there was no reversion. We want to add a new metric now that actually tracks if the confirmation route backtracks.
+
+54
+00:08:48.640 --> 00:08:54.040
+Lion dapplion: Which, that's what I understand it, reversion, right?
+
+55
+00:08:54.550 --> 00:09:02.099
+Lion dapplion: But yeah, the ones we reported, we fixed them, and the issue was that we were running state advance.
+
+56
+00:09:02.900 --> 00:09:04.479
+Lion dapplion: With the wrong slot.
+
+57
+00:09:05.130 --> 00:09:11.999
+Lion dapplion: So, Fortress State had advanced, but the FCR no, and that… Disagreement is what cost…
+
+58
+00:09:12.190 --> 00:09:15.130
+Lion dapplion: The reversions sometimes, if the boats were closed.
+
+59
+00:09:18.260 --> 00:09:20.730
+Mikhail Kalinin: Yeah, that's interesting. So,
+
+60
+00:09:21.170 --> 00:09:26.279
+Mikhail Kalinin: In terms of the metric, if you have a better idea of how to, actually
+
+61
+00:09:26.680 --> 00:09:32.030
+Mikhail Kalinin: better metrics, you know, yeah, please just don't hesitate to open the PR to EF
+
+62
+00:09:32.470 --> 00:09:34.709
+Mikhail Kalinin: To Beacon metrics,
+
+63
+00:09:36.110 --> 00:09:37.460
+Lion dapplion: Actually, I haven't checked this one.
+
+64
+00:09:37.460 --> 00:09:38.050
+Mikhail Kalinin: agree, yeah.
+
+65
+00:09:38.050 --> 00:09:43.770
+Lion dapplion: the standardized metrics at all, we just roll our own. Can you link them on the Telegram chat?
+
+66
+00:09:44.200 --> 00:09:53.019
+Mikhail Kalinin: Yeah, sure, I will do. But one thing to note here is that if you see a reversion to finality, you…
+
+67
+00:09:53.810 --> 00:10:01.249
+Mikhail Kalinin: It doesn't seem possible to, even if you're restarting from the most recent justified, at the same run.
+
+68
+00:10:01.420 --> 00:10:03.489
+Mikhail Kalinin: It doesn't seem possible to…
+
+69
+00:10:03.590 --> 00:10:18.840
+Mikhail Kalinin: You know, to confirm, to actually eventually, be at the confirmed block that was before, yeah, you got this version. So if you… if you can not, for instance, if you cannot reconfirm something.
+
+70
+00:10:19.160 --> 00:10:21.180
+Mikhail Kalinin: You will not be able to confirm it.
+
+71
+00:10:21.940 --> 00:10:22.840
+Lion dapplion: Hmm, right.
+
+72
+00:10:22.930 --> 00:10:31.579
+Mikhail Kalinin: That's kind of it. So you will have… if you revert a finality, they will be backtracking, at least for one block, you know.
+
+73
+00:10:34.030 --> 00:10:36.910
+Lion dapplion: So, something about the… in the main function.
+
+74
+00:10:38.230 --> 00:10:44.970
+Lion dapplion: The last step only… can only run If the current confirmed route
+
+75
+00:10:45.460 --> 00:10:52.069
+Lion dapplion: is… I don't remember if it's, like, one slot behind the current clock, Or in the current clock.
+
+76
+00:10:52.510 --> 00:10:53.670
+Lion dapplion: Is that correct?
+
+77
+00:10:58.140 --> 00:10:59.220
+Mikhail Kalinin: the…
+
+78
+00:10:59.900 --> 00:11:08.189
+Mikhail Kalinin: Right, so the one… yeah, so if you run in the current slot, you can confirm the block from the previous one, at most.
+
+79
+00:11:08.770 --> 00:11:09.330
+Lion dapplion: somewhere.
+
+80
+00:11:09.330 --> 00:11:10.010
+Mikhail Kalinin: asking.
+
+81
+00:11:10.240 --> 00:11:14.859
+Lion dapplion: Yeah, something we are debugging now. Whenever we… whenever Lighthouse restarts.
+
+82
+00:11:16.120 --> 00:11:19.000
+Lion dapplion: We cannot confirm the previously confirmed route.
+
+83
+00:11:22.900 --> 00:11:26.699
+Mikhail Kalinin: I mean, like, whenever it restarts after a reversion?
+
+84
+00:11:27.820 --> 00:11:30.859
+Lion dapplion: No, no, like, if the… if the Beacon node stops.
+
+85
+00:11:32.460 --> 00:11:33.689
+Lion dapplion: And then starts.
+
+86
+00:11:34.580 --> 00:11:44.690
+Lion dapplion: The issue is that we don't persist all the state in FCR, we only persist the four-choice state, so we start FCR from the finalized.
+
+87
+00:11:45.190 --> 00:11:50.369
+Lion dapplion: And then the algorithm is not able to reconfirm the same confirmed route that it had before.
+
+88
+00:11:50.520 --> 00:11:51.579
+Lion dapplion: Shutting down.
+
+89
+00:11:52.710 --> 00:11:54.619
+Mikhail Kalinin: I see, yeah, but…
+
+90
+00:11:56.510 --> 00:12:01.390
+Mikhail Kalinin: So you do… you do restart for a short time. I mean, like, the downtime is small, right?
+
+91
+00:12:02.300 --> 00:12:03.100
+Mikhail Kalinin: Yeah, but it's not…
+
+92
+00:12:03.100 --> 00:12:06.339
+Lion dapplion: Nice, because in the metrics, it looks like a reversion.
+
+93
+00:12:07.500 --> 00:12:08.399
+Mikhail Kalinin: Yeah, I see.
+
+94
+00:12:09.940 --> 00:12:12.030
+Mikhail Kalinin: I don't know if…
+
+95
+00:12:12.340 --> 00:12:17.529
+Mikhail Kalinin: I would expect that if you restarted a node, so you will… you will have to wait for…
+
+96
+00:12:18.300 --> 00:12:22.320
+Mikhail Kalinin: Or for the restart point, for the next starting point, which is…
+
+97
+00:12:22.710 --> 00:12:25.030
+Mikhail Kalinin: At least the next epoch boundary.
+
+98
+00:12:27.650 --> 00:12:32.680
+Lion dapplion: Yeah, I mean, if we can fix that, that would be nice, because otherwise it looks quite ugly.
+
+99
+00:12:32.860 --> 00:12:38.019
+Lion dapplion: So, okay, what I was asking is, in the function… Get latest confirm.
+
+100
+00:12:39.210 --> 00:12:46.770
+Lion dapplion: At the very end, We only run find latestConfirmDescendant if the block epoch.
+
+101
+00:12:47.740 --> 00:12:51.149
+Lion dapplion: is within one epoch of the Quran Epoch.
+
+102
+00:12:52.870 --> 00:12:53.490
+Mikhail Kalinin: Yep.
+
+103
+00:12:53.740 --> 00:12:54.700
+Lion dapplion: Why is that?
+
+104
+00:12:57.140 --> 00:13:04.250
+Mikhail Kalinin: Yeah, that's… that's to… that basically is, is coming from From the safety.
+
+105
+00:13:04.350 --> 00:13:05.240
+Mikhail Kalinin: Groups.
+
+106
+00:13:05.530 --> 00:13:08.010
+Mikhail Kalinin: Otherwise, we will not be able to prove some.
+
+107
+00:13:08.110 --> 00:13:13.729
+Mikhail Kalinin: To actually see the evidence that confirming blocks is being safe.
+
+108
+00:13:15.890 --> 00:13:17.439
+Lion dapplion: Right. So, what do we expect…
+
+109
+00:13:19.080 --> 00:13:24.369
+Lion dapplion: So in the restart condition, The… because that route is quite old.
+
+110
+00:13:26.350 --> 00:13:30.830
+Lion dapplion: the… We tripped the reversion to finalized.
+
+111
+00:13:34.020 --> 00:13:44.239
+Lion dapplion: Because there's a condition… yeah, because the block epoch is pretty old, but then the restart to justified does not trigger for some reason, which I need to debug.
+
+112
+00:13:44.370 --> 00:13:46.569
+Lion dapplion: Like, which of… which of these conditions is not…
+
+113
+00:13:50.620 --> 00:13:51.519
+Mikhail Kalinin: Yeah, I see.
+
+114
+00:13:52.060 --> 00:13:52.840
+Lion dapplion: So…
+
+115
+00:13:53.120 --> 00:13:53.440
+Mikhail Kalinin: Yep.
+
+116
+00:13:53.440 --> 00:13:56.080
+Lion dapplion: If we… so, question for you.
+
+117
+00:13:56.660 --> 00:14:01.470
+Lion dapplion: If we persist the confirmed route, to disk.
+
+118
+00:14:02.490 --> 00:14:08.869
+Lion dapplion: And then, when we boot Lighthouse, we start from the confirmed route instead of the finalized route. Is that unsafe?
+
+119
+00:14:14.430 --> 00:14:20.640
+Mikhail Kalinin: Yeah, it's a good question. It's… I believe that, in general case, it cannot be proofs that it is safe.
+
+120
+00:14:20.970 --> 00:14:25.039
+Mikhail Kalinin: That's how I would answer. I don't know, Roberto, if you have an opinion on that.
+
+121
+00:14:26.790 --> 00:14:31.170
+Roberto Saltini: Yeah, I mean, it wouldn't be safe under the assumption that we use.
+
+122
+00:14:32.110 --> 00:14:34.000
+Roberto Saltini: You could consider it safe.
+
+123
+00:14:35.030 --> 00:14:46.160
+Roberto Saltini: And the different synchrony assumptions. Assumption would be the synchrony, started… from Tweetbooks before you… denote, denote.
+
+124
+00:14:46.860 --> 00:14:48.270
+Roberto Saltini: shut down.
+
+125
+00:14:49.800 --> 00:14:54.080
+Roberto Saltini: So it wouldn't be safe according to the… yeah, to our assumptions.
+
+126
+00:14:56.290 --> 00:14:57.570
+Roberto Saltini: Does it make sense?
+
+127
+00:14:59.350 --> 00:15:01.060
+Lion dapplion: Can you, can you repeat again?
+
+128
+00:15:02.600 --> 00:15:08.140
+Roberto Saltini: So, say that you… The node, you switch… you switch off your node.
+
+129
+00:15:08.830 --> 00:15:18.789
+Roberto Saltini: Two days ago, and then you start today. If you use what was confirmed two days ago, it means that it is safe only under the assumption that the network has been good.
+
+130
+00:15:19.020 --> 00:15:20.320
+Roberto Saltini: For two days.
+
+131
+00:15:21.450 --> 00:15:22.190
+Lion dapplion: Right.
+
+132
+00:15:22.190 --> 00:15:27.419
+Roberto Saltini: Whereas the assumption that we have is that the network When you confirm something now.
+
+133
+00:15:27.620 --> 00:15:30.810
+Roberto Saltini: The only assumption we have is that network has been good for
+
+134
+00:15:31.540 --> 00:15:35.219
+Roberto Saltini: For 3 books, and they'll always be good in the future, but…
+
+135
+00:15:35.370 --> 00:15:38.219
+Roberto Saltini: We only assume that there's been good from two ebooks ago.
+
+136
+00:15:38.660 --> 00:15:40.270
+Roberto Saltini: Not from 2 days ago.
+
+137
+00:15:44.220 --> 00:15:44.980
+Lion dapplion: Got it.
+
+138
+00:15:51.890 --> 00:16:03.680
+Mikhail Kalinin: So, actually, what happens, what's missed here is that after you restart, you start from the confirmed route, but you missed some events that happened in the network during the time of… during the downtime.
+
+139
+00:16:03.720 --> 00:16:19.900
+Mikhail Kalinin: And this, all this information is lagged. The algorithm actually lacks this information to, ensure that the block, you will, you know, you have, you had before the restart, before the shutdown of your node.
+
+140
+00:16:19.950 --> 00:16:23.079
+Mikhail Kalinin: It's… it's been safe, still, now.
+
+141
+00:16:23.830 --> 00:16:26.570
+Mikhail Kalinin: You know, so that's, I think…
+
+142
+00:16:26.970 --> 00:16:32.080
+Lion dapplion: So, actually, conceptually, imagine… So…
+
+143
+00:16:32.450 --> 00:16:37.300
+Lion dapplion: if you run an exchange or something, you would probably consume information from the EL,
+
+144
+00:16:38.420 --> 00:16:41.300
+Lion dapplion: If you're running two processes, EL and CL,
+
+145
+00:16:41.970 --> 00:16:49.150
+Lion dapplion: then the CL sends the forchoice update with the confirmed route to the EL. Then you stop the CL,
+
+146
+00:16:49.850 --> 00:16:53.289
+Lion dapplion: the confirmed route is persisted in the EL.
+
+147
+00:16:54.580 --> 00:17:00.210
+Lion dapplion: So, the confirm route is sticky in the EL, but it's not in the CL, which is strange.
+
+148
+00:17:02.850 --> 00:17:04.280
+Mikhail Kalinin: Yeah, I see.
+
+149
+00:17:04.760 --> 00:17:17.680
+Lion dapplion: So in theory, like, if you persist the confirmed route in the CL, and then use it as a starting point, but then run the FCR once more before sending the FCU, that should be okay, right?
+
+150
+00:17:20.410 --> 00:17:28.480
+Mikhail Kalinin: Right, yeah, I see what you mean. Yeah, that's interesting. So EL will just basically keep it, it will not revert it back.
+
+151
+00:17:29.510 --> 00:17:32.220
+Mikhail Kalinin: Right. Okay.
+
+152
+00:17:33.020 --> 00:17:38.870
+Lion dapplion: I mean, if the… it depends on how long the restart is. Like, if the restart is… 3 slots.
+
+153
+00:17:39.500 --> 00:17:44.120
+Lion dapplion: I believe this would prevent the re- the… the rewards?
+
+154
+00:17:44.340 --> 00:17:46.430
+Lion dapplion: But if it's longer, the condition…
+
+155
+00:17:46.700 --> 00:17:52.920
+Lion dapplion: Getblockepoch plus 1 less than current epoch will trip, and then we will… Roberto finalize.
+
+156
+00:17:53.230 --> 00:17:55.059
+Lion dapplion: And then we'll probably get stuck again.
+
+157
+00:17:57.910 --> 00:18:00.090
+Mikhail Kalinin: Yeah, I see. Yeah, I need to think about it.
+
+158
+00:18:01.050 --> 00:18:04.480
+Roberto Saltini: What is the reason for the… for restarting a node?
+
+159
+00:18:05.090 --> 00:18:07.290
+Roberto Saltini: Is that something that the dapper known? No.
+
+160
+00:18:07.290 --> 00:18:13.680
+Lion dapplion: So, a version… could be a version update, could be a crash in the client, like an out-of-memory.
+
+161
+00:18:13.970 --> 00:18:19.069
+Lion dapplion: Could be… I don't know, updating Linux?
+
+162
+00:18:21.320 --> 00:18:21.960
+Roberto Saltini: Okay.
+
+163
+00:18:22.940 --> 00:18:24.320
+Roberto Saltini: In this case.
+
+164
+00:18:24.320 --> 00:18:25.909
+Lion dapplion: I'm changing configuration.
+
+165
+00:18:27.150 --> 00:18:27.660
+Roberto Saltini: You know?
+
+166
+00:18:27.990 --> 00:18:31.820
+Roberto Saltini: But then the ELD update the EL saying.
+
+167
+00:18:32.090 --> 00:18:34.700
+Roberto Saltini: Confirm block is now the finalized block, right?
+
+168
+00:18:36.500 --> 00:18:37.140
+Roberto Saltini: Buffalo.
+
+169
+00:18:37.550 --> 00:18:38.619
+Lion dapplion: Could you repeat?
+
+170
+00:18:39.860 --> 00:18:44.099
+Roberto Saltini: After the EL starts, it would tell to the EL.
+
+171
+00:18:44.310 --> 00:18:47.170
+Roberto Saltini: And now the confirm block is the finalized block.
+
+172
+00:18:47.650 --> 00:18:48.590
+Lion dapplion: Exactly.
+
+173
+00:18:49.570 --> 00:18:55.220
+Roberto Saltini: We'll say, until they see a… Doesn't restart the…
+
+174
+00:18:55.870 --> 00:18:58.220
+Roberto Saltini: the confirm block in the EL is thinking.
+
+175
+00:18:59.570 --> 00:19:00.270
+Lion dapplion: Yes.
+
+176
+00:19:00.810 --> 00:19:01.530
+Roberto Saltini: Yes.
+
+177
+00:19:03.930 --> 00:19:08.610
+Lion dapplion: And then from the EL point of view, it would look like a regression when there's no regression.
+
+178
+00:19:11.230 --> 00:19:15.029
+Lion dapplion: It's an Clients are starting.
+
+179
+00:19:15.760 --> 00:19:27.369
+Mikhail Kalinin: So the client restarted, and basically, you see backtracking, or… and for some period of time, your confirmed block is still on EL side, then you see backtracking, likely.
+
+180
+00:19:27.780 --> 00:19:29.940
+Mikhail Kalinin: That's the concern. Yeah, I see.
+
+181
+00:19:30.350 --> 00:19:33.600
+Mikhail Kalinin: Yeah, that's, that's a good, good point.
+
+182
+00:19:33.600 --> 00:19:38.950
+Lion dapplion: I mean, it's an edge case, but… Yep. You don't want to… Spook people, right?
+
+183
+00:19:43.120 --> 00:19:45.970
+Mikhail Kalinin: Yeah, right, that's something probably to think about.
+
+184
+00:19:46.530 --> 00:19:49.179
+Mikhail Kalinin: And, I don't know.
+
+185
+00:19:50.050 --> 00:19:54.090
+Mikhail Kalinin: I can't come up with a good solution to that.
+
+186
+00:19:54.800 --> 00:19:58.629
+Lion dapplion: Yeah, let's, let's sync, pink async on this.
+
+187
+00:19:58.630 --> 00:20:05.359
+Mikhail Kalinin: Right, right. Yeah, thanks a lot for sharing all of that. Anything else you want to add on top?
+
+188
+00:20:06.020 --> 00:20:07.009
+Lion dapplion: No, that's good.
+
+189
+00:20:07.940 --> 00:20:10.050
+Mikhail Kalinin: Great, and when do you expect…
+
+190
+00:20:10.050 --> 00:20:10.490
+Lion dapplion: Sorry.
+
+191
+00:20:10.490 --> 00:20:11.910
+Mikhail Kalinin: Oh, sorry.
+
+192
+00:20:13.280 --> 00:20:18.860
+Lion dapplion: I think you were talking that you had an optimization for empty slots. Is that… Released.
+
+193
+00:20:20.030 --> 00:20:24.759
+Mikhail Kalinin: For empty slots, yes, but for late blocks,
+
+194
+00:20:25.410 --> 00:20:32.020
+Mikhail Kalinin: We had a prototype for late blocks as well, it's not released. For empty slots, it is… it is in the algorithm.
+
+195
+00:20:33.560 --> 00:20:34.300
+Lion dapplion: Okay.
+
+196
+00:20:36.170 --> 00:20:42.760
+Roberto Saltini: The, the, like, The difficulty for the late blocks is…
+
+197
+00:20:43.070 --> 00:20:46.709
+Roberto Saltini: We need to prove that that is correct using different proofs strategy.
+
+198
+00:20:47.640 --> 00:20:52.300
+Roberto Saltini: So that would be quite time-consuming. But at the moment, I think…
+
+199
+00:20:53.890 --> 00:20:55.959
+Roberto Saltini: The decision is not to do it.
+
+200
+00:20:57.720 --> 00:21:00.209
+Roberto Saltini: To focus on other things.
+
+201
+00:21:01.260 --> 00:21:01.590
+Lion dapplion: Okay.
+
+202
+00:21:01.590 --> 00:21:04.530
+Roberto Saltini: Basically, not to implement this late block.
+
+203
+00:21:04.960 --> 00:21:06.140
+Roberto Saltini: Improvement.
+
+204
+00:21:09.380 --> 00:21:13.780
+Lion dapplion: Because I wonder for… the users of FCR?
+
+205
+00:21:14.690 --> 00:21:19.090
+Lion dapplion: This… the percentage we have now of 97% is good enough.
+
+206
+00:21:23.790 --> 00:21:26.749
+Mikhail Kalinin: Are you a question… are you asking that, or you're just…
+
+207
+00:21:26.750 --> 00:21:27.130
+Lion dapplion: Yes.
+
+208
+00:21:27.130 --> 00:21:27.720
+Mikhail Kalinin: Stay tuned.
+
+209
+00:21:27.720 --> 00:21:28.340
+Lion dapplion: I'm asking.
+
+210
+00:21:28.340 --> 00:21:38.010
+Mikhail Kalinin: Oh… I think it is, like, but yeah, maybe Julian can answer to that.
+
+211
+00:21:39.070 --> 00:21:46.729
+Julian Ma: Yeah, I would probably need to do a bit more digging, but I'd say probably yes. But yeah, I should do some more digging there.
+
+212
+00:21:56.730 --> 00:22:01.519
+Mikhail Kalinin: I have a question. When do you expect to release the, implementation?
+
+213
+00:22:04.020 --> 00:22:06.529
+Lion dapplion: That… I mean, that will depend on the release.
+
+214
+00:22:07.610 --> 00:22:09.879
+Lion dapplion: And I don't have approximations.
+
+215
+00:22:10.450 --> 00:22:13.539
+Mikhail Kalinin: Okay, so it will be in the next release, right?
+
+216
+00:22:13.730 --> 00:22:14.350
+Lion dapplion: Yes.
+
+217
+00:22:14.880 --> 00:22:16.849
+Mikhail Kalinin: Awesome, awesome. That's great.
+
+218
+00:22:17.220 --> 00:22:24.559
+Mikhail Kalinin: And, yeah, let's just follow up and chat about this, point you raised, and also…
+
+219
+00:22:24.780 --> 00:22:33.419
+Mikhail Kalinin: If you have any, statistics on… any statistics on the reversions that you currently observe, that would be also great to see.
+
+220
+00:22:35.140 --> 00:22:39.279
+Lion dapplion: you know, outside… The node restarting, we haven't seen anything.
+
+221
+00:22:41.330 --> 00:22:41.870
+Lion dapplion: All done.
+
+222
+00:22:41.870 --> 00:22:43.020
+Mikhail Kalinin: Oh, that's awesome.
+
+223
+00:22:43.470 --> 00:22:44.200
+Mikhail Kalinin: Cool.
+
+224
+00:22:45.550 --> 00:22:47.719
+Mikhail Kalinin: Alright, any questions to Lion?
+
+225
+00:22:54.420 --> 00:22:59.919
+Mikhail Kalinin: Great. Thanks, Lion for… for that great update, and congrats on the,
+
+226
+00:23:00.710 --> 00:23:03.100
+Mikhail Kalinin: On the release, on the soon release.
+
+227
+00:23:03.290 --> 00:23:06.850
+Mikhail Kalinin: And we will move on to… to tackle.
+
+228
+00:23:09.170 --> 00:23:28.600
+Dmitrii Shmatko: Hi. We have implemented FCR in Teku. Currently, it's a branch, but we have already started to merge it into master, splitting into smaller parts and reviewing it one by one, but this could take a few weeks, at least two weeks, I guess.
+
+229
+00:23:29.480 --> 00:23:34.389
+Dmitrii Shmatko: And we have, one issue,
+
+230
+00:23:34.520 --> 00:23:42.240
+Dmitrii Shmatko: It's slow, it's about 150 to 100 milliseconds per slot on my net.
+
+231
+00:23:42.660 --> 00:23:48.019
+Dmitrii Shmatko: But we did not focus on the speed, just the spec targeting.
+
+232
+00:23:48.290 --> 00:23:58.440
+Dmitrii Shmatko: And I have compared, I took December 2025, minor incident, when we were,
+
+233
+00:23:59.080 --> 00:24:01.160
+Dmitrii Shmatko: when we were switching to Fulo.
+
+234
+00:24:01.290 --> 00:24:04.079
+Dmitrii Shmatko: And… had some loss of power.
+
+235
+00:24:04.400 --> 00:24:13.539
+Dmitrii Shmatko: So I put around 40 EPACs in Tokyo and in Lighthouse to compare our confirming routes.
+
+236
+00:24:13.910 --> 00:24:22.580
+Dmitrii Shmatko: And it's, it's mostly, we get mostly the same numbers, but we have some diverge on
+
+237
+00:24:22.830 --> 00:24:24.200
+Dmitrii Shmatko: On free epochs.
+
+238
+00:24:24.880 --> 00:24:32.710
+Dmitrii Shmatko: But on every SLOADECU is more conservative, so it's… it's… It's acceptable.
+
+239
+00:24:32.970 --> 00:24:40.339
+Dmitrii Shmatko: But anyway, I'm trying to decanter it, and I still have not found why we had…
+
+240
+00:24:40.690 --> 00:24:48.070
+Dmitrii Shmatko: And as a Nimbus… And my current theory is that, that Harness itself, which calls the client.
+
+241
+00:24:49.690 --> 00:24:55.799
+Dmitrii Shmatko: that it has some time out, or maybe something like this, and I am investigating in this direction.
+
+242
+00:24:56.750 --> 00:25:01.530
+Dmitrii Shmatko: But it's definitely not a blocker, we started to merge it to the master.
+
+243
+00:25:02.620 --> 00:25:09.299
+Dmitrii Shmatko: And, and we have added it with experimental plug, plaque,
+
+244
+00:25:09.510 --> 00:25:16.850
+Dmitrii Shmatko: And after some testing, we will… we will definitely unhide it and start to advertise feature.
+
+245
+00:25:17.530 --> 00:25:18.850
+Dmitrii Shmatko: That's all.
+
+246
+00:25:21.640 --> 00:25:32.440
+Mikhail Kalinin: Great, thanks, Dmitrii. Thanks for the update. So, couple of questions. Do you pass, the spec test, and did you try to run it on mainnet?
+
+247
+00:25:32.860 --> 00:25:45.469
+Dmitrii Shmatko: Yeah, yeah, the password references, and, regarding my net, I have mentioned, it's, like, 150-200 milliseconds per slot.
+
+248
+00:25:45.590 --> 00:25:47.570
+Dmitrii Shmatko: For calculation.
+
+249
+00:25:48.200 --> 00:25:49.790
+Dmitrii Shmatko: Yeah.
+
+250
+00:25:50.660 --> 00:25:56.409
+Mikhail Kalinin: Have you seen any reversions on the mainnetron, or any other unusual behavior?
+
+251
+00:25:57.410 --> 00:25:58.050
+Dmitrii Shmatko: I…
+
+252
+00:25:58.300 --> 00:26:10.810
+Dmitrii Shmatko: I have… I did not see it on normal mainnet, and I have just added metrics. I probably could see it on… if I replace some… some stormy period in my net.
+
+253
+00:26:10.810 --> 00:26:22.970
+Dmitrii Shmatko: I will do it in the future, but currently not. I have just added this metrics, and I have a question regarding it. I have it in the chat.
+
+254
+00:26:23.590 --> 00:26:35.279
+Dmitrii Shmatko: If we… if we have fallback in two consecutive slot… slots, is it… do we need to count it as two, or is it one fallback?
+
+255
+00:26:37.650 --> 00:26:40.750
+Mikhail Kalinin: Sorry, what count is 2, or 1 fullback?
+
+256
+00:26:42.940 --> 00:26:47.450
+Dmitrii Shmatko: For example, in SLOT, we have fallback to finalize.
+
+257
+00:26:47.870 --> 00:26:57.950
+Dmitrii Shmatko: And in the next slide, we have the same. Do we need to count it as two events, or is it just one event?
+
+258
+00:27:00.030 --> 00:27:07.869
+Mikhail Kalinin: You mean, like, in the next slot, you're just not advanced, right? So, it's not like you have a… yeah. Oh, I think it's just one.
+
+259
+00:27:09.170 --> 00:27:13.450
+Dmitrii Shmatko: Okay… Okay.
+
+260
+00:27:15.990 --> 00:27:22.880
+Mikhail Kalinin: So, like, I would count the reversion itself, like, when you have to go… when you have to fall back to finalize.
+
+261
+00:27:23.010 --> 00:27:26.489
+Mikhail Kalinin: Even if, like, Finalized has updated after that.
+
+262
+00:27:26.890 --> 00:27:31.709
+Mikhail Kalinin: It's… yeah, it's still, like, the one accident of, you know, of reversion.
+
+263
+00:27:32.120 --> 00:27:39.250
+Dmitrii Shmatko: It will be more difficult to count metrics with such condition, but I will try to find a way.
+
+264
+00:27:39.900 --> 00:27:47.390
+Mikhail Kalinin: Yeah, I see. Okay. Any feedback to metrics is more than welcome, so just… yeah.
+
+265
+00:27:49.990 --> 00:27:55.260
+Mikhail Kalinin: We can… it's not, like, set in stone. It's just, like, a few metrics that are…
+
+266
+00:27:56.150 --> 00:28:04.550
+Mikhail Kalinin: Standardized, more or less, and that we would like to look at when we assess the performance of the fast Confirmation rule.
+
+267
+00:28:04.790 --> 00:28:06.290
+Mikhail Kalinin: Any feedback to that?
+
+268
+00:28:06.620 --> 00:28:07.769
+Mikhail Kalinin: That would be great.
+
+269
+00:28:08.550 --> 00:28:16.090
+Mikhail Kalinin: All right, so great, great to hear that you have started to work with the implementation, and good luck with,
+
+270
+00:28:16.530 --> 00:28:20.820
+Mikhail Kalinin: debugging and, you know, reviewing. Reviewing takes a lot of time.
+
+271
+00:28:20.940 --> 00:28:27.030
+Mikhail Kalinin: And by the way, what implementation you have used to compare yours? I mean, like, in terms of
+
+272
+00:28:27.550 --> 00:28:31.700
+Mikhail Kalinin: On, on that, on that tough mainnet period, after a full.
+
+273
+00:28:31.860 --> 00:28:42.389
+Dmitrii Shmatko: I have compared Vivis Lighthouse, But I'm not sure that it's… it is last Lighthouse implementation. I have started.
+
+274
+00:28:42.540 --> 00:28:52.680
+Dmitrii Shmatko: from, from orchestrator, from Harness, from testing harness, and whatever version was there.
+
+275
+00:28:52.820 --> 00:28:56.949
+Dmitrii Shmatko: I have used this… the one that Sam made.
+
+276
+00:28:57.600 --> 00:29:02.109
+Mikhail Kalinin: Oh, I see, I see. Yeah, maybe ask Sam about it. I mean, like…
+
+277
+00:29:02.130 --> 00:29:04.980
+Dmitrii Shmatko: It's… maybe it's salt, I'm not sure.
+
+278
+00:29:06.210 --> 00:29:11.509
+Mikhail Kalinin: I don't know. Yeah, you can also ask Lion about which one is…
+
+279
+00:29:12.080 --> 00:29:20.100
+Mikhail Kalinin: The most recent one. Alright, great. Anything else, Dmitri, to share, or any questions to Dmitri?
+
+280
+00:29:27.620 --> 00:29:30.380
+Mikhail Kalinin: Cool, then over to Lodestar.
+
+281
+00:29:34.410 --> 00:29:36.290
+Nazar Hussain: Hi, can you guys hear me?
+
+282
+00:29:37.120 --> 00:29:37.750
+Mikhail Kalinin: Yes.
+
+283
+00:29:38.420 --> 00:29:39.330
+Nazar Hussain: Smoke.
+
+284
+00:29:39.670 --> 00:29:46.049
+Nazar Hussain: I'm sorry if I was, like, driving right now, so my connection is very bad at the moment.
+
+285
+00:29:46.160 --> 00:29:48.170
+Nazar Hussain: But anyhow, there you go.
+
+286
+00:29:48.280 --> 00:29:53.360
+Nazar Hussain: We did a recent performance improvement in FCR implementation.
+
+287
+00:29:53.580 --> 00:29:56.880
+Nazar Hussain: Related surveillance calculation.
+
+288
+00:29:57.100 --> 00:30:01.330
+Nazar Hussain: And, the last incident which I shared earlier was
+
+289
+00:30:01.620 --> 00:30:04.529
+Nazar Hussain: That we seek to reverse our research.
+
+290
+00:30:04.790 --> 00:30:14.829
+Nazar Hussain: Because, Node was taking too much time at the info concrete. After this performance regression, like, improvement, I haven't seen that thing again.
+
+291
+00:30:15.000 --> 00:30:26.490
+Nazar Hussain: on our node, which I'm testing. But we will keep observing this thing, and during… last week, I was working on one scenario where a node…
+
+292
+00:30:26.990 --> 00:30:28.839
+Nazar Hussain: Start with the range sync.
+
+293
+00:30:29.020 --> 00:30:33.230
+Nazar Hussain: And during this ranging process,
+
+294
+00:30:33.450 --> 00:30:38.380
+Nazar Hussain: the FCR reset a lot of times.
+
+295
+00:30:39.250 --> 00:30:47.579
+Nazar Hussain: Which is fine, we know, because the node is same thing, but from the metrics perspective, it was looking very ugly, so I'm working on an implementation with
+
+296
+00:30:47.900 --> 00:30:57.149
+Nazar Hussain: We will disable the FCR during the syncing, and once the node is synced, then we will enable it back, so that we get the stable matrix out of it.
+
+297
+00:30:58.260 --> 00:31:03.850
+Nazar Hussain: This PR is, like, under review. Hopefully, we will get technology energies in the upcoming RPCs.
+
+298
+00:31:08.580 --> 00:31:10.580
+Mikhail Kalinin: Awesome, thanks, Nazar.
+
+299
+00:31:10.940 --> 00:31:17.419
+Mikhail Kalinin: Yeah, that sounds good, and especially that there are no reversions after the fix.
+
+300
+00:31:17.950 --> 00:31:25.689
+Mikhail Kalinin: I think it makes sense to disable FCR for… for the time, the notice being during the,
+
+301
+00:31:26.520 --> 00:31:28.979
+Mikhail Kalinin: And it's been done with, like, the arrange sync.
+
+302
+00:31:29.340 --> 00:31:31.350
+Mikhail Kalinin: And, yeah, thanks a lot.
+
+303
+00:31:32.960 --> 00:31:33.790
+Nazar Hussain: Thanks a lot.
+
+304
+00:31:33.790 --> 00:31:34.970
+Mikhail Kalinin: for… yeah, sir.
+
+305
+00:31:36.130 --> 00:31:42.000
+Nazar Hussain: We had this earlier, like, implementation where, we subscribed to the gossips,
+
+306
+00:31:42.150 --> 00:31:53.669
+Nazar Hussain: a subnet on a particular behavior, where we have, node is syncing, and there's one epoch, delay there, so I use the same logic.
+
+307
+00:31:53.930 --> 00:31:57.779
+Nazar Hussain: To implement the FCR, like, to disable the FCR as well.
+
+308
+00:31:57.940 --> 00:32:00.680
+Nazar Hussain: So, once the gossip topics are disabled.
+
+309
+00:32:00.850 --> 00:32:12.149
+Nazar Hussain: We are not receiving any traffic, so there's no need for FCR to be already computing. So, once the gossip topics are enabled, no async, then the FCR will trigger again.
+
+310
+00:32:15.190 --> 00:32:17.099
+Mikhail Kalinin: Yeah, sounds reasonable.
+
+311
+00:32:17.420 --> 00:32:22.850
+Mikhail Kalinin: I'm just curious if other clients handle it differently, I mean, the wrench thing.
+
+312
+00:32:23.000 --> 00:32:26.530
+Mikhail Kalinin: Do… do you disable FCR, or… yeah.
+
+313
+00:32:30.420 --> 00:32:32.960
+Nazar Hussain: You asked this question to me?
+
+314
+00:32:32.960 --> 00:32:39.800
+Mikhail Kalinin: No, no, I'm just, like, to all other clients, what's, what's the, behavior around the, during this, the range thing?
+
+315
+00:32:40.260 --> 00:32:43.069
+Mikhail Kalinin: Is FCR disabled, or not?
+
+316
+00:32:52.810 --> 00:32:55.470
+Mikhail Kalinin: Alright, I take it as… yeah.
+
+317
+00:32:56.120 --> 00:32:57.359
+Mikhail Kalinin: Sorry, Boma.
+
+318
+00:33:06.330 --> 00:33:07.989
+Mikhail Kalinin: Could you repeat, please?
+
+319
+00:33:09.210 --> 00:33:11.969
+Boma’s iPhone : On our end, it's not the same for January.
+
+320
+00:33:12.980 --> 00:33:13.810
+Mikhail Kalinin: I see.
+
+321
+00:33:15.310 --> 00:33:19.030
+Mikhail Kalinin: So it might be the case that you also,
+
+322
+00:33:19.550 --> 00:33:24.230
+Mikhail Kalinin: Could face with some reversions during the, range sync.
+
+323
+00:33:24.930 --> 00:33:27.370
+Mikhail Kalinin: So it probably makes sense to disable it.
+
+324
+00:33:28.550 --> 00:33:34.710
+Boma’s iPhone : Yeah, that's something I need to look into, because I'm not, like, donate. I have some consultant.
+
+325
+00:33:36.250 --> 00:33:37.150
+Boma’s iPhone : Sipper.
+
+326
+00:33:40.110 --> 00:33:40.860
+Mikhail Kalinin: Okay.
+
+327
+00:33:49.010 --> 00:33:49.950
+Mikhail Kalinin: Alright.
+
+328
+00:33:51.280 --> 00:33:52.800
+Mikhail Kalinin: And,
+
+329
+00:33:53.420 --> 00:34:00.609
+Mikhail Kalinin: Boma, do you want to provide any other update, other than you have posted in the chat, or asked any questions?
+
+330
+00:34:00.750 --> 00:34:02.370
+Mikhail Kalinin: On the implementation side.
+
+331
+00:34:03.910 --> 00:34:05.680
+Boma’s iPhone : No, no, thank you.
+
+332
+00:34:05.900 --> 00:34:07.140
+Boma’s iPhone : Nothing for now.
+
+333
+00:34:09.230 --> 00:34:13.280
+Mikhail Kalinin: Alright, yeah, hope that it will be reviewed soon, and merged as well.
+
+334
+00:34:14.889 --> 00:34:17.279
+Mikhail Kalinin: Yeah, then let's move over to Prysm.
+
+335
+00:34:17.400 --> 00:34:18.989
+Mikhail Kalinin: Jun, do you want to…
+
+336
+00:34:19.560 --> 00:34:22.760
+Mikhail Kalinin: Yeah, I, I see still, like.
+
+337
+00:34:23.300 --> 00:34:27.209
+Mikhail Kalinin: As you said in the chat, it's still under review.
+
+338
+00:34:27.870 --> 00:34:30.090
+Mikhail Kalinin: And, yeah.
+
+339
+00:34:30.730 --> 00:34:54.649
+Jun Song: Yep, so I guess this is his first time speaking in FCR call, so, nice to meet you, everyone. And, Terrence wrote most of the PR, and I'm currently reviewing, Terence's works, and it looks fine, mathematically, but I've found there can be some improvements in terms of performance, so…
+
+340
+00:34:54.650 --> 00:34:57.579
+Jun Song: We are still, reviewing
+
+341
+00:34:57.580 --> 00:35:11.100
+Jun Song: that works each other, and hopefully it will, get merged soon, but, I don't have any due date or a conviction about, the merging date. Yeah, so that's… that's the update.
+
+342
+00:35:14.040 --> 00:35:19.789
+Mikhail Kalinin: Great, thank you so much. Did you… did you try to run it on mainnet already?
+
+343
+00:35:20.420 --> 00:35:32.550
+Jun Song: from my side, no, but I should ask Terrence, and I can also, suggest, running, FCR in our Prysm cluster.
+
+344
+00:35:35.560 --> 00:35:42.669
+Mikhail Kalinin: Yeah, looking forward to the results of those runs. Yeah, thanks a lot for the update, and nice to meet you.
+
+345
+00:35:42.930 --> 00:36:01.389
+Jun Song: Just one quick question. So, I, as far as I know, there's a FCR simulator, developed by Sam in its Panda Ops. So, is there any room to, run those simulators at this moment?
+
+346
+00:36:04.080 --> 00:36:07.740
+Mikhail Kalinin: You mean, like, any room for, in…
+
+347
+00:36:07.870 --> 00:36:11.509
+Mikhail Kalinin: any resources in ETBA and the ops team to run them again?
+
+348
+00:36:11.510 --> 00:36:12.490
+Jun Song: Yes, yes.
+
+349
+00:36:12.760 --> 00:36:15.520
+Jun Song: Because, yeah.
+
+350
+00:36:16.880 --> 00:36:27.920
+Mikhail Kalinin: Yeah, I see what you mean, and I guess you want to run it with Prysm as well. I don't know if it's… if it's in the simulator. I mean, if it's integrated into it.
+
+351
+00:36:30.280 --> 00:36:37.070
+Jun Song: Yeah, so Prysm, as for, at this moment, it is not integrated in the simulators.
+
+352
+00:36:37.090 --> 00:36:46.309
+Jun Song: So, I think, the integration can be started, because we have a branch, passing this backtest.
+
+353
+00:36:46.320 --> 00:36:57.530
+Jun Song: So, apart from running on mainnet, it will be very helpful to see, the metrics or status, on the past, data.
+
+354
+00:36:59.000 --> 00:37:01.450
+Mikhail Kalinin: Yeah, I see. So, I…
+
+355
+00:37:01.670 --> 00:37:09.389
+Mikhail Kalinin: Yeah, I don't think anyone from ETH bundles is on this call, so I will just… yeah, let's… let's ask,
+
+356
+00:37:11.840 --> 00:37:17.169
+Mikhail Kalinin: ask those guys if they can do this. I mean, like, they probably will not,
+
+357
+00:37:17.380 --> 00:37:27.820
+Mikhail Kalinin: run this stuff, but probably integrating Prysm is one of the… one of the important things that we will need to do anyway, I mean, for… for this simulation.
+
+358
+00:37:28.410 --> 00:37:32.510
+Mikhail Kalinin: So… Probably, it could be that…
+
+359
+00:37:33.780 --> 00:37:41.110
+Mikhail Kalinin: If they have, spare cycles to integrate Prysm, and then you can run it and test your implementation.
+
+360
+00:37:42.250 --> 00:37:46.650
+Mikhail Kalinin: on… on some mainnet data. Does it sound good to you?
+
+361
+00:37:47.390 --> 00:37:48.510
+Mikhail Kalinin: Alright, cool.
+
+362
+00:37:48.690 --> 00:37:50.179
+Mikhail Kalinin: Let's follow up on that.
+
+363
+00:37:51.220 --> 00:37:56.569
+Mikhail Kalinin: Nice, thanks a lot, thanks again for the update. Yeah, that's great.
+
+364
+00:37:56.980 --> 00:37:59.580
+Mikhail Kalinin: Is it all for client updates today?
+
+365
+00:38:05.450 --> 00:38:14.730
+Mikhail Kalinin: Yeah, we spent a decent amount of time on this call for client updates, which is awesome, and I believe that all Minute clients are
+
+366
+00:38:15.360 --> 00:38:18.719
+Mikhail Kalinin: Had to… Great progress on…
+
+367
+00:38:18.940 --> 00:38:23.400
+Mikhail Kalinin: implementing the Fast Confirmation Rule, which is awesome. Congratulations to everyone.
+
+368
+00:38:23.690 --> 00:38:29.859
+Mikhail Kalinin: And now we will move over to… Spec and testing updates.
+
+369
+00:38:31.880 --> 00:38:36.249
+Mikhail Kalinin: So, there is just one PR to share.
+
+370
+00:38:36.370 --> 00:38:37.460
+Mikhail Kalinin: It is.
+
+371
+00:38:38.270 --> 00:38:46.980
+Mikhail Kalinin: first, it does two things. There is a small edge case test, which basically…
+
+372
+00:38:49.010 --> 00:38:56.629
+Mikhail Kalinin: For the case, for this scenario where, the total active balance will be affected by…
+
+373
+00:38:57.710 --> 00:39:04.340
+Mikhail Kalinin: If the total active balance is not used from the balance source, so that the confirmation will not…
+
+374
+00:39:04.560 --> 00:39:09.630
+Mikhail Kalinin: Will not pass, so this highlights this case, this edge case.
+
+375
+00:39:09.860 --> 00:39:17.010
+Mikhail Kalinin: And, also this, PR has a… Safe execution block hash.
+
+376
+00:39:18.930 --> 00:39:23.429
+Mikhail Kalinin: As a property, it adds this, property to the
+
+377
+00:39:24.140 --> 00:39:27.919
+Mikhail Kalinin: list of the checks, of the FCR checks.
+
+378
+00:39:28.260 --> 00:39:36.560
+Mikhail Kalinin: And, yeah, this property is important for… yeah, before Gloas, we should… Like, have,
+
+379
+00:39:36.790 --> 00:39:41.430
+Mikhail Kalinin: Safe execution block hash corresponding to the most recent confirmed block.
+
+380
+00:39:41.770 --> 00:39:57.820
+Mikhail Kalinin: Confirm BeaconBlock, but after, since Gloas, and after Gloas and the next cut works, it will be, at most, the, parent's execution payload. And, this property, is kind of, like, the main purpose of
+
+381
+00:39:57.940 --> 00:40:01.420
+Mikhail Kalinin: Having this property is to test this transition from
+
+382
+00:40:01.710 --> 00:40:13.790
+Mikhail Kalinin: from before Gloas to Gloss. That's… yeah, once these were merged, we can get tests, with that. So, just be a heads up on adding a new property there.
+
+383
+00:40:14.040 --> 00:40:21.090
+Mikhail Kalinin: That's on a new check that you might want to add to your test runners.
+
+384
+00:40:22.370 --> 00:40:29.919
+Mikhail Kalinin: And, I don't know if anyone wants to provide anything, any, any, results from…
+
+385
+00:40:30.300 --> 00:40:38.380
+Mikhail Kalinin: I know that Barnabas were… was running, some of the implementations of… on the Glamsterdam… Amsterdam DevNet.
+
+386
+00:40:38.560 --> 00:40:42.570
+Mikhail Kalinin: any… Anything, any updates on that?
+
+387
+00:40:58.360 --> 00:41:03.949
+Mikhail Kalinin: Alright, so, yeah, we'll follow up around us, after the call.
+
+388
+00:41:04.120 --> 00:41:08.280
+Mikhail Kalinin: Lion Post-glas Confirmation time doubles to two slots, right?
+
+389
+00:41:09.420 --> 00:41:12.670
+Mikhail Kalinin: So it's kind of like… Right…
+
+390
+00:41:14.680 --> 00:41:18.650
+Mikhail Kalinin: Yeah, probably need to take a look at Fast Confirm 8,
+
+391
+00:41:22.980 --> 00:41:29.380
+Mikhail Kalinin: Yeah, yeah, yeah, good. Yeah, that's, that's great, there is a fast confirmed.
+
+392
+00:41:29.930 --> 00:41:32.130
+Mikhail Kalinin: Badge in DORA.
+
+393
+00:41:33.700 --> 00:41:34.809
+Mikhail Kalinin: Which is nice.
+
+394
+00:41:34.990 --> 00:41:35.840
+Mikhail Kalinin: Really.
+
+395
+00:41:37.860 --> 00:41:44.150
+Mikhail Kalinin: And I believe there were some clients that, pointed out to… and incorrect.
+
+396
+00:41:44.990 --> 00:41:51.770
+Mikhail Kalinin: save block hash, in… in class, but I don't know, I don't know the statuses of… the status of that.
+
+397
+00:41:52.190 --> 00:42:01.259
+Mikhail Kalinin: Alright, yeah, the next, next thing… Anything on the spec-end testing?
+
+398
+00:42:13.280 --> 00:42:19.400
+Mikhail Kalinin: Okay, I don't know if there are any API or metrics updates, so we can skip this.
+
+399
+00:42:20.680 --> 00:42:22.709
+Mikhail Kalinin: And move to the research updates.
+
+400
+00:42:25.890 --> 00:42:28.650
+Roberto Saltini: Yeah, the… Same thing.
+
+401
+00:42:29.000 --> 00:42:34.040
+Roberto Saltini: Main update is the one that I posted on the… Telegram group that we…
+
+402
+00:42:34.680 --> 00:42:42.319
+Roberto Saltini: Last week, we released the updated paper that includes a definition
+
+403
+00:42:42.720 --> 00:42:50.169
+Roberto Saltini: basically present the algorithm in that paper, closely matches the one that is in the implementation. Also, we
+
+404
+00:42:51.240 --> 00:42:56.020
+Roberto Saltini: I've improved the presentation, we start with an intuition, try to
+
+405
+00:42:56.190 --> 00:43:01.720
+Roberto Saltini: You know, without… and basically removed all the super formal proofs to the appendix, and the idea is to…
+
+406
+00:43:02.220 --> 00:43:11.980
+Roberto Saltini: to provide a gentle… semi-genter introduction at the beginning, and then if one wants to…
+
+407
+00:43:12.140 --> 00:43:18.710
+Roberto Saltini: Yeah, to really check that everything is right, one can look at the proofs at the end in the appendix.
+
+408
+00:43:19.430 --> 00:43:20.999
+Roberto Saltini: The main update, yeah.
+
+409
+00:43:22.150 --> 00:43:28.400
+Roberto Saltini: And then, in the telegram group, Francesco, Francisco shared,
+
+410
+00:43:29.800 --> 00:43:34.259
+Roberto Saltini: it'll improve that, I think was understand… I understand mainly.
+
+411
+00:43:34.380 --> 00:43:36.439
+Roberto Saltini: Yeah, LLM generated.
+
+412
+00:43:36.920 --> 00:43:42.649
+Roberto Saltini: just, you know, one or need, really, to check that the model
+
+413
+00:43:43.010 --> 00:43:49.990
+Roberto Saltini: that the formalization of the model and the properties are correct. So, I mean, it's… it's good to see that
+
+414
+00:43:50.660 --> 00:43:51.950
+Roberto Saltini: That can be done.
+
+415
+00:43:52.240 --> 00:43:57.430
+Roberto Saltini: I just want to caution people that yeah, before.
+
+416
+00:43:57.530 --> 00:44:01.650
+Roberto Saltini: You know, for being able to say that we have a formal verification of the protocol.
+
+417
+00:44:02.110 --> 00:44:05.360
+Roberto Saltini: We really need to check the link formalization.
+
+418
+00:44:05.730 --> 00:44:13.320
+Roberto Saltini: Of the assumptions, and the… The overall environment and the protocol is… is correct.
+
+419
+00:44:16.790 --> 00:44:17.720
+Roberto Saltini: That's it.
+
+420
+00:44:17.910 --> 00:44:19.699
+Roberto Saltini: Don't know if there are questions.
+
+421
+00:44:34.820 --> 00:44:43.650
+Mikhail Kalinin: Awesome, thanks, Roberto. Congrats on the… publishing the paper, and yeah, to you and to everyone who has contributed to the paper.
+
+422
+00:44:43.880 --> 00:44:44.720
+Mikhail Kalinin: That's great.
+
+423
+00:44:44.720 --> 00:44:46.590
+Roberto Saltini: Which you go to?
+
+424
+00:44:48.290 --> 00:44:53.430
+Mikhail Kalinin: Nice. So… Yep.
+
+425
+00:44:54.030 --> 00:44:58.449
+Mikhail Kalinin: If there are no questions to Roberto?
+
+426
+00:45:00.560 --> 00:45:04.610
+Mikhail Kalinin: I have one thing I forgot to raise during the testing,
+
+427
+00:45:05.260 --> 00:45:18.950
+Mikhail Kalinin: item, action item, sorry, testing update. One topic that, Lion has, raised recently is basically about, fasting the fast Confirmation Rule implementation.
+
+428
+00:45:19.250 --> 00:45:23.639
+Mikhail Kalinin: Lion, do you want to expand on these, or…
+
+429
+00:45:24.990 --> 00:45:32.219
+Mikhail Kalinin: Do you think it makes sense to have a separate call dedicated to discussion of that fasting efforts?
+
+430
+00:45:37.200 --> 00:45:39.920
+Lion dapplion: One second, let me change mics.
+
+431
+00:45:42.840 --> 00:45:43.790
+Lion dapplion: Okay.
+
+432
+00:45:46.940 --> 00:45:54.729
+Lion dapplion: So we haven't done an exploration, to be honest. It's just… it's just something that should be possible to do, and we should do, now that we have implementations.
+
+433
+00:45:55.230 --> 00:45:56.999
+Lion dapplion: But that's as far as we got.
+
+434
+00:45:57.190 --> 00:46:00.010
+Lion dapplion: So we need to figure out the best setup.
+
+435
+00:46:03.360 --> 00:46:07.640
+Mikhail Kalinin: Okay, do you want to use, do you want to…
+
+436
+00:46:07.810 --> 00:46:13.159
+Mikhail Kalinin: utilize some tooling that is used for… by the Big and Fast project.
+
+437
+00:46:13.850 --> 00:46:17.090
+Mikhail Kalinin: Or do you want to build something from scratch?
+
+438
+00:46:18.860 --> 00:46:25.129
+Lion dapplion: Honest answer, I don't know, because I didn't work on the original BeaconFuzz implementation, so I'm not familiar with the details.
+
+439
+00:46:29.650 --> 00:46:30.810
+Mikhail Kalinin: Alright, I see.
+
+440
+00:46:30.970 --> 00:46:31.779
+Mikhail Kalinin: But yeah, yeah.
+
+441
+00:46:32.810 --> 00:46:40.509
+Lion dapplion: I just posted the message to deduplicate efforts, in case you guys were already looking into that, and just to signal interest.
+
+442
+00:46:42.490 --> 00:46:54.419
+Mikhail Kalinin: Yeah, see, in general, I think it's, it's a good idea. It would be great to have, to have these, but, yeah, as far as I'm concerned, nobody is currently working on it.
+
+443
+00:46:57.860 --> 00:47:05.129
+Mikhail Kalinin: So if anyone is interested, just rise your interest in the chat about, you know, fuzzing the false confirmation rule.
+
+444
+00:47:05.590 --> 00:47:15.100
+Mikhail Kalinin: I believe that it would be possible to have a fasting against the spec, but the problem with the spec is that the spec is quite slow.
+
+445
+00:47:15.310 --> 00:47:19.510
+Mikhail Kalinin: And, maybe because of that fasting.
+
+446
+00:47:19.660 --> 00:47:24.680
+Mikhail Kalinin: Differential fuzzing between pairs of implementation makes sense.
+
+447
+00:47:24.850 --> 00:47:25.510
+Mikhail Kalinin: As well.
+
+448
+00:47:27.330 --> 00:47:28.180
+Lion dapplion: Yep.
+
+449
+00:47:33.800 --> 00:47:35.050
+Mikhail Kalinin: Alright, cool.
+
+450
+00:47:35.440 --> 00:47:43.769
+Mikhail Kalinin: And yeah, before we wrap up, anything else?
+
+451
+00:47:44.100 --> 00:47:45.870
+Mikhail Kalinin: You wanna discuss today?
+
+452
+00:47:48.710 --> 00:47:52.580
+Lion dapplion: So, I wanted to mention, I asked in the chat, why…
+
+453
+00:47:52.860 --> 00:47:55.869
+Lion dapplion: The safe hash is set to justify it.
+
+454
+00:47:56.570 --> 00:48:01.650
+Lion dapplion: Because one… one oddity… So, as I mentioned, Lighthouse has this rule.
+
+455
+00:48:02.250 --> 00:48:08.979
+Lion dapplion: Where, if the head is lagging too far behind, we will stop computing FCR.
+
+456
+00:48:10.040 --> 00:48:17.140
+Lion dapplion: And then the effect would be that the save hash that we sent to FCU would default back to justified.
+
+457
+00:48:18.030 --> 00:48:23.749
+Lion dapplion: But the kind of… quote-unquote default of FCR is finalized.
+
+458
+00:48:24.130 --> 00:48:30.729
+Lion dapplion: So, from the point of view of the user, if the network stalls, or the node stalls, it could see…
+
+459
+00:48:31.050 --> 00:48:39.910
+Lion dapplion: A reversion of head into finalized, then into justified, then back to finalized, then back to head.
+
+460
+00:48:40.410 --> 00:48:41.559
+Lion dapplion: Which is weird.
+
+461
+00:48:42.820 --> 00:48:46.119
+Lion dapplion: So, at least conceptually, it would make sense.
+
+462
+00:48:46.530 --> 00:48:51.420
+Lion dapplion: To move… the off.
+
+463
+00:48:52.150 --> 00:48:53.170
+Lion dapplion: Status.
+
+464
+00:48:54.270 --> 00:48:56.419
+Lion dapplion: Of this hash into…
+
+465
+00:48:56.970 --> 00:49:03.879
+Lion dapplion: The finalized, so that we don't… you don't have to, like, flickering between finalized and justified, depending of… depending…
+
+466
+00:49:04.080 --> 00:49:07.299
+Lion dapplion: On the fast Confirmation rule being on or not.
+
+467
+00:49:13.390 --> 00:49:20.219
+Mikhail Kalinin: Yeah, I see. Yeah, I… I understand that. So, and I think it would be reasonable.
+
+468
+00:49:20.320 --> 00:49:25.290
+Mikhail Kalinin: Except for, yeah, I have just one… one concern here, is that…
+
+469
+00:49:25.580 --> 00:49:31.610
+Mikhail Kalinin: Somebody, we still don't know, but we've been asking this for several times, and got to know,
+
+470
+00:49:32.200 --> 00:49:37.940
+Mikhail Kalinin: No confirmation and no response from anyone who used Safe Block before.
+
+471
+00:49:38.200 --> 00:49:47.380
+Mikhail Kalinin: like, until now, as… as a… a tag for, you know, for… to query justified block hash. So we basically…
+
+472
+00:49:47.760 --> 00:49:53.590
+Mikhail Kalinin: Cannot be 100% sure that it's not used to query for a justified block.
+
+473
+00:49:53.750 --> 00:49:54.950
+Mikhail Kalinin: But,
+
+474
+00:49:55.560 --> 00:50:11.770
+Mikhail Kalinin: Yeah, I think, yeah, what you're suggesting is reasonable, so we either have a finalized block hash, or we have something that is closer to the head is given by the pass Confirmation rule, and there is no, other stuff, there is no other, semantics for the safe block hash.
+
+475
+00:50:12.470 --> 00:50:13.100
+Lion dapplion: Right.
+
+476
+00:50:14.270 --> 00:50:19.360
+Mikhail Kalinin: Right. I don't know if… yeah, what do other things on that?
+
+477
+00:50:21.130 --> 00:50:21.940
+Lion dapplion: No, that's it.
+
+478
+00:50:27.590 --> 00:50:36.359
+Mikhail Kalinin: Okay, are there any opinions on whether we should revert to finalized by default, if not enable the FCR?
+
+479
+00:50:47.340 --> 00:50:52.280
+Mikhail Kalinin: Alright, maybe we can follow up on this, after the call.
+
+480
+00:50:53.130 --> 00:51:01.099
+Mikhail Kalinin: Cool, nice. And, yeah, before we wrap up, one more thing. I think, like, the next, the next call will be,
+
+481
+00:51:01.530 --> 00:51:05.180
+Mikhail Kalinin: The last one, let's…
+
+482
+00:51:05.490 --> 00:51:14.980
+Mikhail Kalinin: Let's take it as a default, and decide on the next call, after 2 weeks from now, if we need to continue these breakout calls.
+
+483
+00:51:17.120 --> 00:51:18.849
+Mikhail Kalinin: Cool. Alright.
+
+484
+00:51:19.960 --> 00:51:28.209
+Mikhail Kalinin: Thanks, everyone, for coming. Thanks a lot for the great updates, and for a fruitful conversation.
+
+485
+00:51:28.340 --> 00:51:30.099
+Mikhail Kalinin: And see you in a couple of weeks.
+
+486
+00:51:30.840 --> 00:51:31.960
+Mikhail Kalinin: Bye-bye.
+
+487
+00:51:32.310 --> 00:51:33.350
+Dmitrii Shmatko: Kind of care by.
+
+488
+00:51:33.820 --> 00:51:35.089
+Roberto Saltini: Thank you, bud.
+
