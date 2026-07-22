@@ -1,0 +1,1066 @@
+WEBVTT
+
+1
+00:04:27.340 --> 00:04:28.720
+Thomas Coratger: Hello, guys.
+
+2
+00:04:30.520 --> 00:04:31.559
+Shariq Naiyer: How's it going, Thomas?
+
+3
+00:04:32.000 --> 00:04:33.809
+Thomas Coratger: Yeah, fine. And you?
+
+4
+00:04:34.060 --> 00:04:35.130
+Thomas Coratger: Very nice, man.
+
+5
+00:04:36.150 --> 00:04:36.770
+Thomas Coratger: Cool.
+
+6
+00:04:38.790 --> 00:04:41.520
+Thomas Coratger: So, yeah, let's get started.
+
+7
+00:04:42.380 --> 00:04:55.440
+Thomas Coratger: So, by the way, I think that maybe not last… next week, but just after, like, the small August break, maybe we'll change a bit the format of this, by…
+
+8
+00:04:55.600 --> 00:05:09.939
+Thomas Coratger: maybe doing more presentation and keeping the debugging stuff for async, so… I need to check, but I think this is beneficial for everyone, for us also to do some… sometimes some presentation, maybe on a bi-weekly basis.
+
+9
+00:05:10.320 --> 00:05:17.059
+Thomas Coratger: On anything that is new, for example, like binary field techniques, or… Anything like this.
+
+10
+00:05:17.200 --> 00:05:24.600
+Thomas Coratger: But yeah, for today we will keep the same format, so let us go for client updates first.
+
+11
+00:05:24.820 --> 00:05:27.100
+Thomas Coratger: For the Zoom team.
+
+12
+00:05:28.220 --> 00:05:34.839
+Parthasarathy Ramanujam: Thanks so much. So, last week, we spent most of the time fixing bugs that were discovered.
+
+13
+00:05:34.990 --> 00:05:41.379
+Parthasarathy Ramanujam: in both, are run, as well as the one, DevNet that is run by Ethlambda.
+
+14
+00:05:41.660 --> 00:05:50.589
+Parthasarathy Ramanujam: I believe that's addressed most of the outstanding issues that we had on Zeam. But, I mean, we are not able to.
+
+15
+00:05:51.310 --> 00:05:59.750
+Parthasarathy Ramanujam: achieve proper justification or finalization when we run a larger DevNet with all clients.
+
+16
+00:05:59.850 --> 00:06:06.129
+Parthasarathy Ramanujam: Justification stalls after 12,000 slots, and finalization around 9,000 slots, because,
+
+17
+00:06:06.330 --> 00:06:14.409
+Parthasarathy Ramanujam: The P95 for, most of the clients right now, apart from a couple, are still, probably 4 seconds.
+
+18
+00:06:14.530 --> 00:06:27.629
+Parthasarathy Ramanujam: For both block production as well as aggregation, and aggregation signatures are not getting delivered on time, which is, resulting in this stall once, the definite starts to progress beyond a certain time.
+
+19
+00:06:27.660 --> 00:06:39.919
+Parthasarathy Ramanujam: And yeah, we spent, the last week, implementing ETH P2P and doing an interop with Ethlambda as an additional transport layer, and it works fine.
+
+20
+00:06:40.100 --> 00:06:50.620
+Parthasarathy Ramanujam: Hopefully, once, Ethlambda is ready, we could probably replace, ETH P2P's gossip completely with, ETHP2P, and then do an Interop on that.
+
+21
+00:06:51.420 --> 00:06:54.820
+Parthasarathy Ramanujam: Yeah, that is what we've been working on.
+
+22
+00:06:55.740 --> 00:06:56.910
+Parthasarathy Ramanujam: Nutting ends.
+
+23
+00:06:57.200 --> 00:06:57.950
+Parthasarathy Ramanujam: Thank you.
+
+24
+00:07:00.370 --> 00:07:01.600
+Shariq Naiyer: suite.
+
+25
+00:07:03.140 --> 00:07:05.089
+Thomas Coratger: Cool, yeah, please go ahead, Ream.
+
+26
+00:07:06.130 --> 00:07:18.710
+Shariq Naiyer: Okay, so from our end, similarly, we have been focusing on the bugs, that were just covered on, our, our dev nets, as well as Parthas and Azeems and Etambles DevNets.
+
+27
+00:07:18.780 --> 00:07:30.379
+Shariq Naiyer: after all the optimizations, I suggest, Partha, we try running on your DeemZeneath Lambda DevNet, and see if, we're still getting…
+
+28
+00:07:30.380 --> 00:07:43.339
+Shariq Naiyer: Because on my needs LambdaDevnet, we finalized up to 45… roughly 45,000 slots, and the finalization gap is pretty tight from head. And…
+
+29
+00:07:43.340 --> 00:07:58.509
+Shariq Naiyer: And the only issue… the issues that was… the issue that was happening was the REAM nodes died because of out-of-memory issues. So, from our end, the issues we are seeing are out-of-memory issues on Ream that are something we are actively fixing, debugging and fixing.
+
+30
+00:07:58.510 --> 00:08:04.550
+Shariq Naiyer: But… but yeah, I suggest… but after the optimization, I find the DevNets to run fairly stable.
+
+31
+00:08:04.550 --> 00:08:22.109
+Parthasarathy Ramanujam: How many DevNets… I mean, how many subnets are you running your DevNet with? And it's just 3 clients, I think it's okay. It's mostly… I'm running 8 subnet DevNet, and as you say, just as you experienced, ream crashes with out-of-memory after running for some time.
+
+32
+00:08:22.110 --> 00:08:31.500
+Parthasarathy Ramanujam: But the Interop issue is not necessarily with just Ream now. We're having issues with other clients as well. So, just curious, how many subnet DevNet did you run?
+
+33
+00:08:31.890 --> 00:08:34.419
+Shariq Naiyer: So, it's 4 subnets, and…
+
+34
+00:08:34.429 --> 00:08:35.039
+Parthasarathy Ramanujam: Right.
+
+35
+00:08:35.230 --> 00:08:37.680
+Shariq Naiyer: 24 to 6, 6 clients per subnet.
+
+36
+00:08:38.230 --> 00:08:46.220
+Parthasarathy Ramanujam: Okay. I'm running an 8 subnet DevNet, and yeah, that's what happens. Probably a smaller one, it's progressing much longer.
+
+37
+00:08:47.120 --> 00:08:51.459
+Thomas Coratger: Can you repeat the numbers? Like, you said 6 DevNets?
+
+38
+00:08:51.810 --> 00:08:53.960
+Thomas Coratger: with… s… Can you repeat?
+
+39
+00:08:53.960 --> 00:08:55.060
+Shariq Naiyer: subnets,
+
+40
+00:08:55.060 --> 00:08:55.770
+Thomas Coratger: 16.
+
+41
+00:08:55.770 --> 00:09:07.869
+Shariq Naiyer: No, wait, no. 6 clients per subnet and 4 subnets. We ran 6 Eats… 12H Lambda nodes and 12 Ream nodes. I can… yeah, and we found…
+
+42
+00:09:07.870 --> 00:09:23.580
+Shariq Naiyer: Justification up to 44,946 slots, and finalization up to 44,941 slots. This is one of the longest DevNets I've run. The head slot is at 262,143, but all the nodes have
+
+43
+00:09:23.580 --> 00:09:28.690
+Shariq Naiyer: Died at this point. So, we… we still have to figure out the memory issues that we're having.
+
+44
+00:09:30.590 --> 00:09:49.009
+Shariq Naiyer: Apart from that, we integrated with Shadow, and we've been running some small shadow simulations. I wonder if other teams are having an effort of running shadow simulations? If so, I would love for them to include Ream, and we'll include you guys in our shadow simulation.
+
+45
+00:09:50.760 --> 00:09:52.610
+Shariq Naiyer: Oh, but that's about it for me.
+
+46
+00:09:56.960 --> 00:09:57.670
+Thomas Coratger: Pardon.
+
+47
+00:09:57.920 --> 00:10:08.629
+Thomas Coratger: Thanks, thanks a lot for… for the update. Zen, clean, I am not sure if you are here, because I have seen the messaging in the Telegram channel, so…
+
+48
+00:10:08.920 --> 00:10:10.410
+Thomas Coratger: Maybe not here.
+
+49
+00:10:11.010 --> 00:10:14.020
+Thomas Coratger: Lambda, then?
+
+50
+00:10:14.570 --> 00:10:27.860
+Mihir Faujdar: Yep. Thanks, Thomas. Hi, everyone. So, since the last update, we've just been focused on ensuring stability of Lambda in the DevNets being maintained by the Lambda and Zeam team. So…
+
+51
+00:10:28.140 --> 00:10:48.040
+Mihir Faujdar: Currently, our EMIT supports the two optimizations that were used by the Et Lambda team, which is, building the block an interval earlier, and avoiding proof compaction. But we're still looking at implementing other optimizations, provided that they don't break compatibility.
+
+52
+00:10:48.090 --> 00:10:50.150
+Mihir Faujdar: In the demos that are running.
+
+53
+00:10:51.470 --> 00:11:03.899
+Mihir Faujdar: And we're also looking at getting additional servers in the coming weeks, so we can start running multi-subnet DevNets, because currently we're still, have been running on a single server.
+
+54
+00:11:04.090 --> 00:11:07.310
+Mihir Faujdar: But yeah, that's our update from my side. Thanks.
+
+55
+00:11:10.400 --> 00:11:12.830
+Thomas Coratger: equal, East Lambda?
+
+56
+00:11:15.400 --> 00:11:20.039
+Pablo Deymo | Lambda: We were working on the aggregation improvements.
+
+57
+00:11:20.160 --> 00:11:26.370
+Pablo Deymo | Lambda: Our aggravators start, early, once it receives two-thirds of attestations.
+
+58
+00:11:26.580 --> 00:11:31.610
+Pablo Deymo | Lambda: And it uses a similar scoring algorithm as block building to prioritize
+
+59
+00:11:31.780 --> 00:11:35.130
+Pablo Deymo | Lambda: Which ones to aggregate recursible in a second round?
+
+60
+00:11:35.890 --> 00:11:42.970
+Pablo Deymo | Lambda: We fixed our tick duration, login port time, and validation count metrics.
+
+61
+00:11:43.690 --> 00:12:02.290
+Pablo Deymo | Lambda: On ETP2P compatibility, we are working on implementing the rest of things for the EP2PRS library. We port from the Go spec. We are implementing ALPN stream model.
+
+62
+00:12:03.070 --> 00:12:12.080
+Pablo Deymo | Lambda: frame length, peer identity. The goal is to have it interoper with the model… with the POC of, Zeam.
+
+63
+00:12:13.030 --> 00:12:19.200
+Pablo Deymo | Lambda: We… Are also working on an alternative execution client iteration.
+
+64
+00:12:19.390 --> 00:12:27.970
+Pablo Deymo | Lambda: that inverts ethrex, our execution client, into Ethlambda. That's an idea we took from RIM.
+
+65
+00:12:28.180 --> 00:12:35.530
+Pablo Deymo | Lambda: Instead of calling the… the Engine API with the JSON RPC.
+
+66
+00:12:36.620 --> 00:12:43.660
+Pablo Deymo | Lambda: And we have been fixing some type issues that were causing flaky or failed tests.
+
+67
+00:12:44.680 --> 00:12:46.430
+Pablo Deymo | Lambda: That's it. Thank you.
+
+68
+00:12:49.480 --> 00:12:51.400
+Thomas Coratger: And thanks a lot, Gean.
+
+69
+00:12:52.780 --> 00:12:55.640
+Bankat | Gean: Yeah, thank you. Hello, everyone.
+
+70
+00:12:55.780 --> 00:13:14.879
+Bankat | Gean: So, over this stretch, our main focus has been making sure Gean runs smoothly on DevNet 5 multi-client runs. So, a good part of that work involved, addressing a few rough edges that made Gean appear on LD during runs.
+
+71
+00:13:14.880 --> 00:13:28.259
+Bankat | Gean: And then digging deeper into why it wasn't keeping pace with other clients under certain conditions. I think one of the significant issues we identified was a nasty case where EIP
+
+72
+00:13:28.260 --> 00:13:40.959
+Bankat | Gean: stall a request indefinitely. And then, quietly killed in its block sync while the node still looked alive and kept, attesting, so we've worked on that.
+
+73
+00:13:41.110 --> 00:13:46.879
+Bankat | Gean: We've also improved, check, checkpoint sync behavior.
+
+74
+00:13:47.200 --> 00:14:04.069
+Bankat | Gean: So, nodes starting from checkpoint sources that are temporarily unavailable will now retry for a while instead of, immediately giving up. That was what was happening initially. So, alongside these fixes, we've…
+
+75
+00:14:04.070 --> 00:14:10.679
+Bankat | Gean: Consumer general, housekeeping and operational improvements.
+
+76
+00:14:10.850 --> 00:14:25.700
+Bankat | Gean: to make the clients more resilient and easier to, operate. So, other than that, we keep on, okay, we've been also keeping an eye on Hive, and making changes where necessary, and then pushing our updates.
+
+77
+00:14:25.870 --> 00:14:30.920
+Bankat | Gean: So, I think that is it from the gene side for now. Thank you.
+
+78
+00:14:34.640 --> 00:14:38.440
+Thomas Coratger: Cool. Thanks a lot, Ramdeen.
+
+79
+00:14:41.580 --> 00:14:43.460
+Boma: Hello, good afternoon, Chil.
+
+80
+00:14:43.730 --> 00:14:55.080
+Boma: on our side, we made some optimization to, our client, and then we also had some couple of EPF fellows who are currently contributing to grinding and
+
+81
+00:14:55.200 --> 00:15:02.189
+Boma: Their focus will be on DB, and then, the, high failures we've been saying.
+
+82
+00:15:02.500 --> 00:15:13.229
+Boma: Then, on releasing a new image by tomorrow, we should have a new image with, some optimization, and then the lean spec fixes that we made. Thank you.
+
+83
+00:15:16.660 --> 00:15:26.160
+Thomas Coratger: Great. So, like, on the general side, from a research and spec perspective, so, again, on the spec, I still didn't touch.
+
+84
+00:15:26.350 --> 00:15:28.769
+Thomas Coratger: anything so that you guys can…
+
+85
+00:15:29.030 --> 00:15:40.089
+Thomas Coratger: can still, like, do the job of debugging and improving and scaling things. In the meantime, we have worked quite a lot on binary feed techniques.
+
+86
+00:15:40.470 --> 00:15:45.799
+Thomas Coratger: And the proving system. So, basically, right now, we are not touching that much.
+
+87
+00:15:45.900 --> 00:16:03.949
+Thomas Coratger: the original LeanVM, that was with Postalian and Koala Bear, so this is, like, just on hold for now, because we are focusing on getting the performance right, from LeanVMB, that is the binary version.
+
+88
+00:16:04.510 --> 00:16:09.189
+Thomas Coratger: the binary field version of LeanVM, so Emil is working on that.
+
+89
+00:16:09.340 --> 00:16:16.299
+Thomas Coratger: He wasn't able to join today, but I can give a brief update of what we are doing.
+
+90
+00:16:16.580 --> 00:16:33.960
+Thomas Coratger: So, yeah, we are basically doing kind of parallel work in the sense that we have, like, one bucket of work on LeanVMV that is using binary fields plus, traditional hash functions, such as Blake right now.
+
+91
+00:16:34.100 --> 00:16:52.099
+Thomas Coratger: And we are also trying to improve, in the same time the BNU64 library of the ex-irreducible folks, in order… because this library is very laser-focused on binary field, and so we are trying to reach the same performance as Flock, and even to improve
+
+92
+00:16:52.150 --> 00:17:03.099
+Thomas Coratger: them, and to include also aggregation inside this proving system. So, it is in a very good shape, because we have a lot of open source participants there.
+
+93
+00:17:03.460 --> 00:17:18.580
+Thomas Coratger: we are still quite far from the target numbers, in the sense that, if I recall correctly, the latest numbers for the recursion, so the 2 to 1 proof with BLINVMB was, like.
+
+94
+00:17:18.579 --> 00:17:32.940
+Thomas Coratger: 2.5 seconds or something like that. Maybe it has improved a bit in the next couple of days, but last week it was in this order of magnitude, while on the classical LimVM it was, like.
+
+95
+00:17:33.450 --> 00:17:44.119
+Thomas Coratger: 500 milliseconds, I think, something like that. So, we have roughly, like, a 4X slowdown there for now. It keeps improving day after day.
+
+96
+00:17:44.340 --> 00:17:51.090
+Thomas Coratger: We have a lot of optimization in the pipeline, so we are mainly working on that. Also, like,
+
+97
+00:17:51.780 --> 00:17:57.399
+Thomas Coratger: Just, like, a note on the fact that binary field-proofing systems are much more complex.
+
+98
+00:17:57.530 --> 00:18:02.250
+Thomas Coratger: Than, the classical prime field proving system, in the sense that you…
+
+99
+00:18:02.360 --> 00:18:16.039
+Thomas Coratger: You manipulate a lot of different stuff with the bits, and so you are able to do much more fine-tuning optimizations, and so we manipulate bits everywhere, and so this leads to a very complex system at the end.
+
+100
+00:18:16.240 --> 00:18:29.169
+Thomas Coratger: from, like, a formal perspective, but of course, from an API perspective, this doesn't change anything. You will have, like, exactly the same function, like, just to prove and verify and things like this.
+
+101
+00:18:29.540 --> 00:18:33.540
+Thomas Coratger: So that is about the research topic.
+
+102
+00:18:33.770 --> 00:18:46.429
+Thomas Coratger: So, yeah, I am curious about what you guys think about, like, the potential, like, the improvements, blockers, and stuff like this.
+
+103
+00:18:46.740 --> 00:18:52.710
+Thomas Coratger: if I am pretty correct, right now you are simulating with, like.
+
+104
+00:18:53.310 --> 00:19:12.270
+Thomas Coratger: couple of subnets for the DevNets, and inside each of these subnets, you are simulating with just a handful of validators, so at the end, roughly, like, you are, for all of your simulations, less than 50 validators overall, or something like this.
+
+105
+00:19:12.670 --> 00:19:30.559
+Thomas Coratger: So, yeah, I don't know what's… what are the blockers for further skating, what are your thoughts, and all of this. From what I understood, going into the Telegram message, I can understand that basically the problems are kind of the same that we discussed in the past.
+
+106
+00:19:30.830 --> 00:19:46.199
+Thomas Coratger: Couple of weeks, in the sense that, the recursive aggregation is pretty slow, and so you have both hardware limitation, and also, like, algorithmic limitation in the sense that sometimes this does blow up.
+
+107
+00:19:46.200 --> 00:19:52.300
+Thomas Coratger: Due to this slowness, so do you guys have more thoughts about this, or steps that you want to share?
+
+108
+00:19:57.730 --> 00:20:03.829
+Mega | Lambda: We in Atlanta were, worked on some tooling to,
+
+109
+00:20:04.370 --> 00:20:13.820
+Mega | Lambda: To better measure the latency of block proposals and attestations, arrival, and all of that.
+
+110
+00:20:14.320 --> 00:20:17.349
+Mega | Lambda: M… I can show it.
+
+111
+00:20:17.610 --> 00:20:20.730
+Mega | Lambda: Here for a moment… Yeah.
+
+112
+00:20:23.430 --> 00:20:30.809
+Mega | Lambda: This is using an API that we ported from the Beacon… from the Beacon API.
+
+113
+00:20:31.280 --> 00:20:36.160
+Mega | Lambda: Yeah. It's the… I have this open here, the 8th V1 events.
+
+114
+00:20:37.400 --> 00:20:49.920
+Mega | Lambda: Basically, you subscribe to that endpoint, and the node starts sending you events. Here, we made a centralized collector that listens for these events and timestamps.
+
+115
+00:20:52.520 --> 00:20:53.740
+Mega | Lambda: each of those.
+
+116
+00:20:54.630 --> 00:21:00.540
+Mega | Lambda: And this front end here shows the arrival time. This is from…
+
+117
+00:21:01.530 --> 00:21:05.029
+Mega | Lambda: The start of a SLOT to the end, right here.
+
+118
+00:21:06.850 --> 00:21:12.039
+Mega | Lambda: And the colors are for blocks, attestations, and aggregations.
+
+119
+00:21:12.610 --> 00:21:21.100
+Mega | Lambda: These four are the aggregators, that's why they received it immediately, but… The rest of the notes…
+
+120
+00:21:21.230 --> 00:21:27.550
+Mega | Lambda: him receiving, like… Around that interval.
+
+121
+00:21:29.690 --> 00:21:40.040
+Thomas Coratger: Okay, so what you can… like, if I am correct, in this graph, like, on the left, in blue, you have, like, the block.
+
+122
+00:21:40.250 --> 00:21:40.780
+Mega | Lambda: Yeah.
+
+123
+00:21:40.780 --> 00:21:56.049
+Thomas Coratger: or in green, you have the attestation time, and in yellow, you have the aggregate time, and what is shown is that you have, like, kind of a big, big variations in aggregation. This is what it shows.
+
+124
+00:21:57.160 --> 00:22:03.470
+Mega | Lambda: Yes, there are some particularity, some particulars here in Lambda that
+
+125
+00:22:03.940 --> 00:22:19.289
+Mega | Lambda: Maybe some, like, the yellows you can see here at the end are probably second aggr… like, a second aggration from that aggregator, and the first one arrived on time here in this interval.
+
+126
+00:22:19.550 --> 00:22:22.220
+Mega | Lambda: But yeah, there's…
+
+127
+00:22:24.080 --> 00:22:35.359
+Mega | Lambda: some… there's some variants here. Also, with blocks here, you can see that there's a big group here that arrives on time, but then you have some that enter on the next interval.
+
+128
+00:22:35.460 --> 00:22:39.849
+Mega | Lambda: That's probably due to a high attestation count, or something like that.
+
+129
+00:22:40.800 --> 00:22:47.550
+Thomas Coratger: But this, like, this part that you just mentioned is not linked at all with the LeanVM, right?
+
+130
+00:22:51.210 --> 00:22:55.830
+Thomas Coratger: The, the blue, the blue dots that are in the green…
+
+131
+00:22:56.100 --> 00:23:04.770
+Mega | Lambda: This? Oh, yeah, yeah, probably, it's… it's probably, like, due to aggregation being slow.
+
+132
+00:23:05.240 --> 00:23:14.769
+Thomas Coratger: And so you mean aggregation is very slow, and so it delays the block production, and so it goes to the green? This is what you mean?
+
+133
+00:23:14.990 --> 00:23:24.099
+Mega | Lambda: the… I mean, the difference between the two groups is probably here's more… here there's more attestation, so there's more aggregation work.
+
+134
+00:23:26.180 --> 00:23:27.030
+Thomas Coratger: Okay.
+
+135
+00:23:27.030 --> 00:23:29.410
+Mega | Lambda: I have… I see.
+
+136
+00:23:29.910 --> 00:23:31.320
+Mega | Lambda: Just to…
+
+137
+00:23:31.740 --> 00:23:34.589
+Thomas Coratger: Just to be sure, like, on the yellow side.
+
+138
+00:23:35.510 --> 00:23:38.800
+Thomas Coratger: This means that you have a huge difference
+
+139
+00:23:39.050 --> 00:23:44.170
+Thomas Coratger: in terms of aggregation times, right? You have some aggregates that…
+
+140
+00:23:44.320 --> 00:23:53.000
+Thomas Coratger: take a reasonable amount of time that are on the left, while some other on the right are very, very slow. This is what it means.
+
+141
+00:23:53.000 --> 00:23:58.110
+Mega | Lambda: Yes, that's probably due to… Regulatory aggregation.
+
+142
+00:23:58.460 --> 00:24:03.959
+Thomas Coratger: Yeah, so basically all of the points on the right are a problem, right?
+
+143
+00:24:05.630 --> 00:24:09.540
+Mega | Lambda: Yeah, as I mentioned, some of these…
+
+144
+00:24:09.830 --> 00:24:13.229
+Mega | Lambda: I think… I think the answer is more nuanced.
+
+145
+00:24:13.360 --> 00:24:19.399
+Mega | Lambda: we still have… I still have to, like, differentiate here between,
+
+146
+00:24:20.160 --> 00:24:23.550
+Mega | Lambda: Agates for the current slot… slot votes.
+
+147
+00:24:23.800 --> 00:24:33.750
+Mega | Lambda: And maybe there weren't enough boats to upgrade, so we started doing emergency aggrations, or… Irrating attestation that…
+
+148
+00:24:34.160 --> 00:24:39.189
+Mega | Lambda: aren't… Like, the ones that have to arrive in this slot.
+
+149
+00:24:40.750 --> 00:24:49.339
+Mega | Lambda: Hmm… But yeah, the ones on the right, at first glance seem to be a problem.
+
+150
+00:24:50.630 --> 00:25:06.810
+Thomas Coratger: Because, yeah, I am thinking out loud here, but, like, we have different options for that. Basically, in LeanVM right now, if I am correct, like, on the DevNet, we are using the canonical branch of LeanVM, so that is basically…
+
+151
+00:25:06.830 --> 00:25:17.749
+Thomas Coratger: the branch with the canonical, Linux MSS signatures, so it's with the big signatures that is 3 kilobytes, approximately, if I remember correctly.
+
+152
+00:25:18.180 --> 00:25:21.079
+Thomas Coratger: But we have another branch of LeanVM.
+
+153
+00:25:21.410 --> 00:25:25.209
+Thomas Coratger: Not the LeanVM binary, but the classical leanVM.
+
+154
+00:25:25.450 --> 00:25:32.490
+Thomas Coratger: That is not using this canonical signature. It is a much more… a much smaller signature.
+
+155
+00:25:32.690 --> 00:25:49.919
+Thomas Coratger: something around 1KB or something like that, and we know that this one is much faster to prove. So, I am thinking that here it should, solve a lot of your problems that you observed there. But the problem that we had with this version is that there is no proof about this.
+
+156
+00:25:50.260 --> 00:26:00.180
+Thomas Coratger: And so, especially with Poseidon, we didn't want that much to use it, at least for our testing, before we had a theoretical proof from the cryptographers.
+
+157
+00:26:00.410 --> 00:26:05.229
+Thomas Coratger: So, that is the reason why we didn't use that up to now.
+
+158
+00:26:05.830 --> 00:26:25.379
+Thomas Coratger: In LeanVM, it will be much more friendly, because since we are using Blake, the trade-offs are completely different, and so it is much more acceptable to use the sub-MTU version of XMSS, that is a small XMSS, instead of the big one.
+
+159
+00:26:26.370 --> 00:26:33.010
+Thomas Coratger: But maybe if… All that being said, if all of your problems still exist.
+
+160
+00:26:33.170 --> 00:26:46.180
+Thomas Coratger: maybe we should check with, Emil in order to migrate to the smaller, to the smaller signature stuff, so that you will be able to use the other branch.
+
+161
+00:26:48.430 --> 00:26:55.699
+Thomas Coratger: the other branch of LeanVM, and so maybe this will solve a lot of your problems, not sure.
+
+162
+00:26:57.350 --> 00:27:02.249
+Mega | Lambda: Do you have any numbers for the, like, the speedup with that branch?
+
+163
+00:27:03.340 --> 00:27:11.549
+Thomas Coratger: I am not entirely sure, because we had a lot of evolution, and we should ask Emil precisely about the bench.
+
+164
+00:27:11.550 --> 00:27:24.330
+Thomas Coratger: But if I remember correctly, there was, like, a huge speedup. I think this is… because right now, we are… am I correct that you are not using the main branch of LeanVM? You are using a specific branch, right?
+
+165
+00:27:24.330 --> 00:27:32.660
+Mega | Lambda: Yeah, we are using Deb.5, but I believe it's just made with some… with some additions.
+
+166
+00:27:33.330 --> 00:27:40.909
+Thomas Coratger: I am not sure. Okay, we should… we should check that async with… with EL, the difference between the branches.
+
+167
+00:27:42.180 --> 00:27:48.459
+Thomas Coratger: But yeah, maybe this is also something that we can check, in order to see if
+
+168
+00:27:48.740 --> 00:27:50.399
+Thomas Coratger: Even if we don't have a proof.
+
+169
+00:27:50.600 --> 00:27:54.590
+Thomas Coratger: We can check this, in order to see if this improves a lot.
+
+170
+00:27:55.010 --> 00:27:55.910
+Thomas Coratger: on it.
+
+171
+00:27:57.550 --> 00:28:00.810
+Thomas Coratger: Mercy, yeah, you have your hand raised.
+
+172
+00:28:02.080 --> 00:28:09.310
+Boma: Yeah, so, I wanted to ask each client about the various optimizations that was, proposed.
+
+173
+00:28:09.470 --> 00:28:20.719
+Boma: to understand which ones they implemented, and then what the data point looks like. Although on each Lambda site, they already showed a data point for their own optimization proposal, which
+
+174
+00:28:20.870 --> 00:28:23.300
+Boma: We picked option 1 and option 2, so…
+
+175
+00:28:23.400 --> 00:28:31.280
+Boma: On our last call, we did… I did raise this up, and then the Zoom team said they will show, get a data point to…
+
+176
+00:28:31.880 --> 00:28:32.950
+Boma: Oh…
+
+177
+00:28:33.160 --> 00:28:45.750
+Boma: of their notes running the optimization they had. So, I want to know if client teams has already implemented the Zoom proposal, and, if there is any available data points to look into.
+
+178
+00:28:46.690 --> 00:29:03.540
+Parthasarathy Ramanujam: To answer your question, Macy, we didn't… on the Zeam side, we didn't implement the proposal to change the slot time. That proposal is not there, but everything else, that was already proposed by Ethlambda is there on Zoom. So that's the version I'm running on DevNex as well.
+
+179
+00:29:04.320 --> 00:29:13.950
+Parthasarathy Ramanujam: if… I mean, I don't have metrics to share based on this performance, because I don't have confirmation yet, apart from
+
+180
+00:29:14.190 --> 00:29:21.899
+Parthasarathy Ramanujam: Zeam and EAT Lambda, which other client has implemented these proposals. Once I have that confirmation from everyone.
+
+181
+00:29:22.100 --> 00:29:27.280
+Parthasarathy Ramanujam: I can run a DevNet and then share, How this optimization has helped.
+
+182
+00:29:31.630 --> 00:29:36.070
+Shariq Naiyer: We have, so… oh yeah, Marcy, go ahead.
+
+183
+00:29:36.870 --> 00:29:38.780
+Boma: No, sorry, go on, go on, sir.
+
+184
+00:29:39.110 --> 00:29:53.869
+Shariq Naiyer: So, from ReamSai, we have implemented the early bird optimization, and we have removed Type 1 proofs. If there's any… so if you run the DevNet with Reams E meet Lambda, we can benchmark those, those two optimizations.
+
+185
+00:29:53.970 --> 00:30:13.470
+Shariq Naiyer: And, if there's any one… any other minor ones you want us to include in this run, we can… just, like, shoot me a text, and we shall get that in. There is the proposer, skipping the proposer signature, I believe that was an optimization, but I don't know how much hold that waits, I don't know if the client teams have implemented that.
+
+186
+00:30:13.470 --> 00:30:17.880
+Shariq Naiyer: So those are the two, the early bird,
+
+187
+00:30:17.880 --> 00:30:27.109
+Shariq Naiyer: start building the block early, and the… removing the Type 1 compaction, the Type 1 proofs from, Ream has been implemented.
+
+188
+00:30:27.830 --> 00:30:32.010
+Boma: So, if I understand you correctly, you only implemented the Ethlambda proposal?
+
+189
+00:30:33.130 --> 00:30:36.110
+Shariq Naiyer: Yes, two of them from the Lambda proposal.
+
+190
+00:30:36.870 --> 00:30:39.759
+Boma: What about anyone from the, zinc proposal?
+
+191
+00:30:40.750 --> 00:30:47.600
+Shariq Naiyer: I think there was some overlap between some of them, and some of them was, like, 8-second slots.
+
+192
+00:30:47.840 --> 00:30:53.310
+Shariq Naiyer: we… we didn't… I looked into it, I tried them out, but, like, right now, I… we have…
+
+193
+00:30:53.680 --> 00:30:54.460
+Shariq Naiyer: So,
+
+194
+00:30:55.080 --> 00:31:10.000
+Shariq Naiyer: I ran a… I ran a workflow in AI to, benchmark stuff, given both the proposals, and what it found… what it found with the Ethlambda proposal had, better numbers, and I stuck with that.
+
+195
+00:31:11.880 --> 00:31:24.430
+KaydenML: We also made a PR, fixing our tick interval metric to be, continuous, and then, we made a fix for the 128-slot rearg issue Mega had mentioned.
+
+196
+00:31:27.660 --> 00:31:33.279
+Boma: Sorry, I'm going around. What about Eats Lambda? Do you… have you guys already implemented the, Zeam proposal?
+
+197
+00:31:34.090 --> 00:31:44.940
+Mega | Lambda: The part about, Increasing the slot… the slot time? No, but… We implemented,
+
+198
+00:31:45.550 --> 00:31:55.650
+Mega | Lambda: We changed our aviation algorithm to do more than one… aggregation per, during the…
+
+199
+00:31:55.990 --> 00:32:00.190
+Mega | Lambda: The aggregation interval, which would… is similar to the…
+
+200
+00:32:00.350 --> 00:32:05.880
+Mega | Lambda: to the, two rounds aggregation that, seemed proposed.
+
+201
+00:32:08.220 --> 00:32:13.510
+Boma: Okay, sorry I'm dragging this further, because looking at the proposal, I…
+
+202
+00:32:14.180 --> 00:32:18.300
+Boma: I have a theory of some gaps that hasn't been thoroughly mapped out.
+
+203
+00:32:18.520 --> 00:32:20.519
+Boma: Which has to do with,
+
+204
+00:32:21.540 --> 00:32:25.170
+Boma: past finalization idea of this split, target vote, so…
+
+205
+00:32:25.350 --> 00:32:31.489
+Boma: I think it's going to change 3FS meaning justification from a specific source target to,
+
+206
+00:32:32.370 --> 00:32:43.720
+Boma: a shared, source recognition. So, I don't see a safety argument for that yet, or how it should be implemented, or to avoid that. So, since
+
+207
+00:32:44.030 --> 00:32:46.090
+Boma: If we have a data point that
+
+208
+00:32:46.630 --> 00:32:57.720
+Boma: cancels out this year with these gaps, it would be nice to have, so that we can also start implementing it, because I think we are not really looking at how this is going to affect, 3FS Mini finalization.
+
+209
+00:33:03.050 --> 00:33:11.780
+Parthasarathy Ramanujam: I mean, VFS Mini, we are not achieving 3 EFS Mini anyway because of, late aggregates being costed, so…
+
+210
+00:33:13.110 --> 00:33:19.269
+Parthasarathy Ramanujam: I think unless we address the slow gossip of aggregates.
+
+211
+00:33:19.480 --> 00:33:24.040
+Parthasarathy Ramanujam: We won't be able to validate what view… you are…
+
+212
+00:33:24.040 --> 00:33:30.470
+Boma: Sorry, my, my point, my point is about the split targeted… target vote. It changes it.
+
+213
+00:33:31.090 --> 00:33:36.690
+Boma: from specific source targets to EIP shared recognition, that's what I'm trying to point out.
+
+214
+00:33:38.750 --> 00:33:45.030
+Parthasarathy Ramanujam: Can you post that on Telegram now? Because I'm not clear which proposal this is in reference to, and whether… I'm not sure.
+
+215
+00:33:45.030 --> 00:33:52.630
+Boma: This is the Zeam prop… one of, one of the Zeam… it's, it's on, the HackMD, IShell post-it. It's the, what's it called?
+
+216
+00:33:53.280 --> 00:33:57.520
+Boma: This split target foods, 1.
+
+217
+00:33:58.510 --> 00:34:00.609
+Boma: I don't have the link up.
+
+218
+00:34:00.610 --> 00:34:01.000
+Parthasarathy Ramanujam: Okay.
+
+219
+00:34:01.000 --> 00:34:02.979
+Boma: Yes, the one Ansha posted.
+
+220
+00:34:03.640 --> 00:34:06.259
+Boma: Or is that… we're not looking into that at all?
+
+221
+00:34:08.540 --> 00:34:17.499
+Thomas Coratger: Yeah, I think that you can, like, Partha, just as a reference, maybe… Two calls before this one.
+
+222
+00:34:17.639 --> 00:34:25.630
+Thomas Coratger: this was mentioned in the call issue on GitHub. We had, like, two improvement proposals, one from the East Lambda team, and one from.
+
+223
+00:34:25.639 --> 00:34:26.729
+Parthasarathy Ramanujam: Yeah,
+
+224
+00:34:26.969 --> 00:34:39.019
+Parthasarathy Ramanujam: I understand, but there were overlaps between both the proposals, and I believe all teams that I've heard till now have only implemented those that, where there is an overlap between the two.
+
+225
+00:34:39.069 --> 00:34:50.369
+Parthasarathy Ramanujam: So the 8 slot, one has not been implemented, and I'm not sure if the one that Mosi is referring to right now has been implemented, even on the Zeam side. I'll have to double-check, so…
+
+226
+00:34:50.779 --> 00:34:54.579
+Parthasarathy Ramanujam: I'll go back and verify the code and come back to you.
+
+227
+00:34:54.859 --> 00:35:00.569
+Parthasarathy Ramanujam: I see, but I'm fairly certain that, Ethlambda and Ream have not implemented that yet till…
+
+228
+00:35:03.750 --> 00:35:12.119
+Boma: But you just confirmed that you implemented it, but the only one you left out was the one that increased, this timing to 8 seconds slots.
+
+229
+00:35:13.190 --> 00:35:32.290
+Parthasarathy Ramanujam: Correct. So I was under… if it is an overlap with the one that Ethlambda has already proposed, then it has been implemented, but I was under presumption all the proposals from… by the Zeam team were already, proposed by Ethlambda, apart from the increasing, the time slot.
+
+230
+00:35:32.570 --> 00:35:36.510
+Parthasarathy Ramanujam: If it isn't the case, then I may be wrong, I'll have to look at the code and come back to you.
+
+231
+00:35:38.540 --> 00:35:39.599
+Boma: Oh, okay.
+
+232
+00:35:44.020 --> 00:35:52.890
+Thomas Coratger: our place like this. So, I… I will ask… I will pause the question on the… on the Telegram channel, so that Emil can see if we…
+
+233
+00:35:53.360 --> 00:35:57.909
+Thomas Coratger: maybe we can switch the branch of LeanVM
+
+234
+00:35:58.020 --> 00:36:08.319
+Thomas Coratger: just as an experiment to see if it solves some of your problems within the DevNet, just checking. Like, I have no confirmation for now, but I will check that.
+
+235
+00:36:08.640 --> 00:36:13.010
+Thomas Coratger: And, no, otherwise, like,
+
+236
+00:36:13.130 --> 00:36:27.399
+Thomas Coratger: we should continue simulating stuff and hopefully increasing the number of validators. In any case, please reach out on the Telegram channel if you have any issues or block error or stuff like this.
+
+237
+00:36:28.160 --> 00:36:35.250
+Thomas Coratger: And if we don't have any other question or topic to discuss, that's it for me.
+
+238
+00:36:37.710 --> 00:36:39.010
+Thomas Coratger: Yeah, I'm Mihir?
+
+239
+00:36:39.710 --> 00:36:43.359
+Mihir Faujdar: Yep, I… from my side, just have one quick question,
+
+240
+00:36:43.360 --> 00:36:43.990
+Thomas Coratger: Yeah, so…
+
+241
+00:36:43.990 --> 00:36:52.410
+Mihir Faujdar: for… ETH P2P implementation. It seems like we are replacing LIP2P with EP2P.
+
+242
+00:36:52.660 --> 00:36:54.950
+Mihir Faujdar: And it's the goal that…
+
+243
+00:36:55.720 --> 00:37:01.339
+Mihir Faujdar: Doing that will improve, stability of DevNets, or is that focused, performance?
+
+244
+00:37:02.700 --> 00:37:08.309
+Thomas Coratger: Yeah, this is a good question, like, indeed, like, we had, like, this,
+
+245
+00:37:08.430 --> 00:37:15.950
+Thomas Coratger: this proposal, I think that you mean the repo from Raul that is called ESP2P, this is what you mean, right?
+
+246
+00:37:15.950 --> 00:37:16.510
+Mihir Faujdar: Yeah.
+
+247
+00:37:17.110 --> 00:37:27.180
+Thomas Coratger: So, yeah, we had this that was presented in Cannes for ZCC, by the peer-to-peer team within the Ethereum Foundation.
+
+248
+00:37:27.590 --> 00:37:32.979
+Thomas Coratger: kind of as a potential future replacement of ETH P2P.
+
+249
+00:37:33.330 --> 00:37:41.219
+Thomas Coratger: But for now, like, the peer-to-peer team inside the EF is evolving a bit.
+
+250
+00:37:41.380 --> 00:37:46.829
+Thomas Coratger: So, yeah, I am pretty sure that we will have to change our peer-to-peer stack
+
+251
+00:37:47.040 --> 00:38:05.809
+Thomas Coratger: to take into account, like, the Post-Quantum size of objects and stuff, but I have no, like, perfect answer, nor, like, a timeline for this, so I don't really know, but I hope that we can experiment about this soon, yeah.
+
+252
+00:38:06.440 --> 00:38:23.679
+Parthasarathy Ramanujam: Yeah, so just to add on to what you said, Tama, at the moment, what Ethlambda and Zoom have done is that we have written our own code in both zig and Rust, respectively, of what, Raul has done, and we have this as a separate transport layer, so it's not a…
+
+253
+00:38:23.680 --> 00:38:27.360
+Parthasarathy Ramanujam: Original replacement for gossip sub completely.
+
+254
+00:38:27.360 --> 00:38:38.290
+Parthasarathy Ramanujam: But what zeem and Ethlambda does is it, transports the same, attestations and aggregations on two layers, both using lib p2P as well as ETH P2P.
+
+255
+00:38:38.360 --> 00:38:49.959
+Parthasarathy Ramanujam: One of the suggestions that, I shared in the group with Ethlambda was probably try out replacing gossip directly with ETH P2P instead of lib P2P.
+
+256
+00:38:50.180 --> 00:39:06.269
+Parthasarathy Ramanujam: And we don't know, I'm sure, the P2P team would have done a benchmark to see how, what's the performance improvement, but this is purely experimental, or just… I wanted to experiment with ETH P2P, so I built it, and I believe
+
+257
+00:39:06.270 --> 00:39:11.419
+Parthasarathy Ramanujam: Ethlambda want to do the same thing, and we've just interrupted between the two clients ourselves, and
+
+258
+00:39:11.460 --> 00:39:20.520
+Parthasarathy Ramanujam: It's working, but we have not compared it against, how… what's the improvement that it provides when compared to your P22.
+
+259
+00:39:22.480 --> 00:39:39.189
+Thomas Coratger: Okay, yeah, okay, okay. And I encourage you to reach out to Camille, for example, who is in ZF, and he's probably more familiar than me, for sure, about all of these topics, so I encourage you to reach out to him.
+
+260
+00:39:40.140 --> 00:39:42.770
+Mihir Faujdar: Yep, right, that's clear. Thanks so much.
+
+261
+00:39:45.120 --> 00:39:52.410
+Thomas Coratger: Okay, so, yeah, thanks a lot, guys, and see you next week.
+
+262
+00:39:53.500 --> 00:39:54.959
+Shariq Naiyer: Thank you guys, have a good one.
+
+263
+00:39:54.960 --> 00:39:55.390
+Parthasarathy Ramanujam: Thank you.
+
+264
+00:39:55.390 --> 00:39:56.070
+Thomas Coratger: Bye-bye.
+
+265
+00:39:56.070 --> 00:39:56.660
+Pablo Deymo | Lambda: new.
+
+266
+00:39:56.860 --> 00:39:58.050
+KaydenML: Bye-bye.
+

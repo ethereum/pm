@@ -1,0 +1,87 @@
+{
+  "meeting": "Post-Quantum (PQ) Interop #48 - July 22, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:05:34",
+        "highlight": "Zeam: bugs fixed but justification stalls at ~12,000 slots and finalization at ~9,000 slots; P95 block production and aggregation still ~4 seconds across most clients"
+      },
+      {
+        "timestamp": "00:07:06",
+        "highlight": "Ream: finalized to ~44,941 slots on 4-subnet/24-node DevNet with Ethlambda; nodes dying from out-of-memory issues under active investigation"
+      },
+      {
+        "timestamp": "00:10:50",
+        "highlight": "Ethlambda (Lambda CL): aggregation starts early at two-thirds attestation threshold; added ETH P2P as additional transport layer, interoping with Zeam"
+      },
+      {
+        "timestamp": "00:12:49",
+        "highlight": "Gean: fixed indefinite-stall bug in block sync; improved checkpoint sync retry behavior for unavailable sources"
+      }
+    ],
+    "proving_system_research": [
+      {
+        "timestamp": "00:15:40",
+        "highlight": "LeanVM binary field version (LeanVMB) in active development using Blake; 2-to-1 recursion currently ~2.5s vs ~500ms on classical LeanVM \u2014 ~4x slowdown, improving daily"
+      },
+      {
+        "timestamp": "00:25:06",
+        "highlight": "Smaller sub-MTU XMSS signature branch (~1KB vs ~3KB) exists and is faster to prove; held back pending cryptographic security proof, more acceptable in LeanVMB with Blake"
+      },
+      {
+        "timestamp": "00:35:53",
+        "highlight": "Thomas to ask Emil async about switching DevNet branch to smaller XMSS signatures to assess performance impact"
+      }
+    ],
+    "devnet_optimizations": [
+      {
+        "timestamp": "00:28:46",
+        "highlight": "Optimization adoption status: Ream and Ethlambda implemented early block build + removed Type 1 compaction proofs; 8-second slot proposal not implemented by any team"
+      },
+      {
+        "timestamp": "00:32:08",
+        "highlight": "Boma raised unresolved safety concern: Zeam's split-target-vote proposal changes 3-finality-slot source/target semantics; no safety argument documented yet"
+      }
+    ],
+    "networking": [
+      {
+        "timestamp": "00:36:52",
+        "highlight": "ETH P2P (ESP2P) explored as gossip replacement for PQ-sized objects; Zeam (Zig) and Ethlambda (Rust) have independent implementations interoping, but no benchmark vs libp2p yet"
+      },
+      {
+        "timestamp": "00:39:22",
+        "highlight": "Teams directed to reach out to Camille (EF P2P team) for guidance on PQ P2P stack evolution"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:04:42",
+        "highlight": "After August break, meeting format may shift to bi-weekly presentations (e.g., binary field techniques) with async debugging; no change today"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:35:53",
+      "action": "Thomas to post async question to Telegram for Emil: evaluate switching DevNet to smaller XMSS branch of LeanVM",
+      "owner": "Thomas Coratger / Emil"
+    },
+    {
+      "timestamp": "00:32:08",
+      "action": "Post Zeam split-target-vote HackMD link to Telegram; teams to assess safety implications before implementing",
+      "owner": "Boma / all lean client teams"
+    },
+    {
+      "timestamp": "00:39:22",
+      "action": "Teams exploring ETH P2P replacement to contact Camille (EF) for P2P stack guidance",
+      "owner": "Zeam, Ethlambda, Ream teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:28:46",
+      "decision": "No team has adopted the 8-second slot proposal; all implemented optimizations are the overlapping subset from the Ethlambda proposal only"
+    }
+  ],
+  "targets": []
+}

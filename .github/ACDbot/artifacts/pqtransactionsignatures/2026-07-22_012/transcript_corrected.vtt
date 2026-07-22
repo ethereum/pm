@@ -1,0 +1,1266 @@
+WEBVTT
+
+1
+00:18:24.320 --> 00:18:25.200
+Alessandro Baiocchi: Who?
+
+2
+00:18:27.560 --> 00:18:28.110
+Matteo Vicari RivaLabs: I…
+
+3
+00:21:04.470 --> 00:21:05.530
+Antonio Sanso: Hi, everyone.
+
+4
+00:21:08.150 --> 00:21:08.760
+Gianluca Felli: Hi.
+
+5
+00:21:08.990 --> 00:21:09.990
+Matteo Vicari RivaLabs: Hi, Antonio.
+
+6
+00:21:10.210 --> 00:21:19.140
+Antonio Sanso: As usually just a few minutes before I have a few slides, let me check that… Machinery works.
+
+7
+00:21:20.720 --> 00:21:22.640
+Antonio Sanso: And then we'll wait a couple of minutes.
+
+8
+00:21:23.820 --> 00:21:24.910
+Antonio Sanso: Sure…
+
+9
+00:21:39.400 --> 00:21:40.890
+Antonio Sanso: You see my PDF, right?
+
+10
+00:21:41.760 --> 00:21:42.260
+Matteo Vicari RivaLabs: Yep.
+
+11
+00:21:43.240 --> 00:21:43.790
+Alessandro Baiocchi: Yes.
+
+12
+00:21:46.110 --> 00:21:46.870
+Antonio Sanso: Alright.
+
+13
+00:21:47.070 --> 00:21:53.120
+Antonio Sanso: So we are… it's 3 o'clock. As usual, we start around 2 minutes after 3.
+
+14
+00:22:08.730 --> 00:22:12.519
+Antonio Sanso: For the people joining now, we'll wait a couple more minutes.
+
+15
+00:22:47.680 --> 00:22:52.459
+Antonio Sanso: Hi, Benedict. We're waiting a couple more minutes, too, for a new joiner. Hi, Fara.
+
+16
+00:23:16.000 --> 00:23:17.880
+Antonio Sanso: You still didn't see my PDF, right?
+
+17
+00:23:20.240 --> 00:23:20.790
+Gianluca Felli: Yep.
+
+18
+00:23:21.320 --> 00:23:21.940
+Antonio Sanso: Okay.
+
+19
+00:23:23.740 --> 00:23:28.280
+Antonio Sanso: I think we can start, and someone joins. It's, just…
+
+20
+00:23:28.760 --> 00:23:31.660
+Antonio Sanso: Skipping a few slides, and… okay.
+
+21
+00:23:32.010 --> 00:23:38.280
+Antonio Sanso: So, welcome, everyone, to Breakout Room Number 12. Team is Post Quantum Transaction Signatures.
+
+22
+00:23:38.760 --> 00:23:41.519
+Antonio Sanso: Today's Day, 22 of July.
+
+23
+00:23:44.770 --> 00:23:51.530
+Antonio Sanso: This is a quick recap of the previous calls. So, we covered a bit of ground so far.
+
+24
+00:23:53.140 --> 00:23:55.180
+Antonio Sanso: So, let's see what we can do next.
+
+25
+00:23:55.440 --> 00:23:59.159
+Antonio Sanso: Of course, the starting point for us is the straw map.
+
+26
+00:24:00.650 --> 00:24:09.639
+Antonio Sanso: we are still, like… our target, the main target is JSTAR, where there is post-quantum SPHINCS.
+
+27
+00:24:10.240 --> 00:24:16.990
+Antonio Sanso: So we still have 3 releases to go before to… to ship something, but yeah.
+
+28
+00:24:17.140 --> 00:24:24.429
+Antonio Sanso: For sure, we should not risk to go to some analysis paralysis situation, so we weren't really to start and…
+
+29
+00:24:25.380 --> 00:24:30.729
+Antonio Sanso: And… do something more real. So, so far we excluded a lot of stuff.
+
+30
+00:24:31.290 --> 00:24:34.769
+Antonio Sanso: And, we kind of came to the agreement, probably.
+
+31
+00:24:35.520 --> 00:24:42.979
+Antonio Sanso: Hash-based signatures is our target, so… and SPHINCS it looks appropriate. Of course, this doesn't exclude the
+
+32
+00:24:43.260 --> 00:24:48.999
+Antonio Sanso: The fact that we can still use ephemeral keys with FORS as well, in parallel.
+
+33
+00:24:51.880 --> 00:25:00.780
+Antonio Sanso: Let's see the agenda for today. We have only one presentation scheduled, then if someone has some topic they want to bring, there's some times.
+
+34
+00:25:01.260 --> 00:25:08.640
+Antonio Sanso: Today we have RivaLabs that, as far as understood, they are presenting some… SPHINCS+ variants.
+
+35
+00:25:10.440 --> 00:25:16.590
+Antonio Sanso: So, I don't know who's gonna present, give the stage to Matteo, I guess.
+
+36
+00:25:16.910 --> 00:25:19.710
+Matteo Vicari RivaLabs: Starting, starting Alessandro, and,
+
+37
+00:25:19.710 --> 00:25:20.489
+Alessandro Baiocchi: And start.
+
+38
+00:25:20.490 --> 00:25:21.649
+Matteo Vicari RivaLabs: You can check, yeah.
+
+39
+00:25:21.930 --> 00:25:22.400
+Antonio Sanso: Okay.
+
+40
+00:25:22.400 --> 00:25:23.839
+Alessandro Baiocchi: I'll share my screen.
+
+41
+00:25:23.840 --> 00:25:25.489
+Antonio Sanso: Yes, thank you.
+
+42
+00:25:25.920 --> 00:25:26.530
+Alessandro Baiocchi: Cute.
+
+43
+00:25:27.750 --> 00:25:32.450
+Alessandro Baiocchi: Okay, so Shaq… And this one.
+
+44
+00:25:34.510 --> 00:25:36.589
+Alessandro Baiocchi: You should see the slides.
+
+45
+00:25:38.600 --> 00:25:39.390
+Alessandro Baiocchi: Right?
+
+46
+00:25:39.390 --> 00:25:40.000
+Matteo Vicari RivaLabs: Yes?
+
+47
+00:25:40.570 --> 00:25:41.650
+Alessandro Baiocchi: Okay, good.
+
+48
+00:25:43.460 --> 00:25:59.499
+Alessandro Baiocchi: Okay, yeah. So, a quick introduction that we… on what we are working on… one of the things we're working on right now is, we… we've seen that there has been a lot of work around selecting the right parameters for SPHINCS+, and…
+
+49
+00:25:59.800 --> 00:26:11.660
+Alessandro Baiocchi: And of course, the, like, the features of the SPHINCS+ signal can vary a lot by changing… simply changing the parameters, as we have seen with, like, the really nice work with SPHINCS+ Minus.
+
+50
+00:26:11.870 --> 00:26:17.819
+Alessandro Baiocchi: And what we… what we are going to show is, like, what… what's our…
+
+51
+00:26:17.930 --> 00:26:20.980
+Alessandro Baiocchi: Like, angle on how are we working on this?
+
+52
+00:26:21.210 --> 00:26:38.880
+Alessandro Baiocchi: And, like, this is just a very brief recap, because I don't know if everyone here is how much everyone is familiar with SPHINCS+, I assume we are all very much familiar, but yeah, basically the parametix we are working with are these zcs, these three parameters.
+
+53
+00:26:39.030 --> 00:26:50.640
+Alessandro Baiocchi: And they… they each represent something in the signal. For example, N is the number of bytes that each hash value has in output.
+
+54
+00:26:50.700 --> 00:26:59.550
+Alessandro Baiocchi: And mainly, like, it decides the security level of the zk network, and H is the EIP of the
+
+55
+00:26:59.760 --> 00:27:15.460
+Alessandro Baiocchi: is the total hypertree length that contains the WOTS signing leaves, and D is how many hypertree layers are set in the signature, and K and A, instead, are about the fourth part of the sphinx.
+
+56
+00:27:15.460 --> 00:27:33.419
+Alessandro Baiocchi: They set it… they set, respectively, how many trees the FORS have, and how deep each tree is, and… and then W is just the WOTS param… interlinks parameter for the WOTS, for the WOTS signatures, and it's just how many hash steps are in each… in each… in each WOTS chain.
+
+57
+00:27:34.200 --> 00:27:38.220
+Alessandro Baiocchi: Well, once… now let's work done with this,
+
+58
+00:27:38.380 --> 00:27:42.710
+Alessandro Baiocchi: This is, like, the… our main thing, because…
+
+59
+00:27:43.040 --> 00:27:47.250
+Alessandro Baiocchi: There are a lot of possible paramedic sets, of course.
+
+60
+00:27:47.610 --> 00:27:52.410
+Alessandro Baiocchi: And… Each set, set of parameters
+
+61
+00:27:52.460 --> 00:28:08.730
+Alessandro Baiocchi: has its own strengths and weaknesses, because you can use, you can set parameters that, result in large signatures with low, like, verification costs, or, like, low signing work, and vice versa, and…
+
+62
+00:28:08.730 --> 00:28:23.080
+Alessandro Baiocchi: you should, like, choose, which parameters to use, depending on what you… what do you want. So, of course, if you want low verification cost, and you don't care about signal of time, the best parameter set for you will be 1.
+
+63
+00:28:23.100 --> 00:28:35.160
+Alessandro Baiocchi: And if instead you want a signature that is almost instant to sign, and you don't care about how much gas you're spending, then the program itself will be different.
+
+64
+00:28:35.200 --> 00:28:37.559
+Alessandro Baiocchi: And… one of the…
+
+65
+00:28:37.810 --> 00:28:55.740
+Alessandro Baiocchi: One of the metrics that we… that, of course, a lot of our works, cut on is the use budget, because as of the standardization for SPHINCS+ Plus in the NIST, there is a 2 to the 64 release budget for, for SPHINCS+.
+
+66
+00:28:55.740 --> 00:29:07.130
+Alessandro Baiocchi: But that's, like, extremely large for any real use case, so we, we… depending on the use case, you can tune it to be, like, in the range of 2 to 16 for, like.
+
+67
+00:29:07.130 --> 00:29:18.760
+Alessandro Baiocchi: for example, called storage applications, you don't want that many signal drugs to be… you don't need that many signal drugs, or 2 to the 32 should be more than enough for any real application.
+
+68
+00:29:19.480 --> 00:29:25.059
+Alessandro Baiocchi: And so, we… what we've done is, like, we…
+
+69
+00:29:25.420 --> 00:29:33.140
+Alessandro Baiocchi: Basically, we looked at a bit… a lot of configurations of parameters, and we've seen that
+
+70
+00:29:33.520 --> 00:29:44.399
+Alessandro Baiocchi: basically, we… this is… these are just some we selected. Of course, we are not limited to… to this exact parameter sets, but we just selected those.
+
+71
+00:29:44.570 --> 00:29:45.740
+Alessandro Baiocchi: And…
+
+72
+00:29:45.980 --> 00:29:56.189
+Alessandro Baiocchi: it's basically one for each main application that we could come up. So, if you want to optimize thickness of time, you should go with, like, with fast.
+
+73
+00:29:56.190 --> 00:30:11.229
+Alessandro Baiocchi: variant, if you want to, with, to optimize the gas cost of the verification, there is this gas ZVA variant. And, of course, it's compared with also the FORS Plus C and, SPHINCS+ Plus, standard, like, signet hooks.
+
+74
+00:30:11.520 --> 00:30:16.249
+Alessandro Baiocchi: And the standard, I think, is, yeah, it's the sphinx minus, parameter set.
+
+75
+00:30:17.120 --> 00:30:20.060
+Alessandro Baiocchi: This zinc, I think, yeah.
+
+76
+00:30:20.270 --> 00:30:21.250
+Alessandro Baiocchi: Okay, so…
+
+77
+00:30:21.940 --> 00:30:34.590
+Alessandro Baiocchi: to better understand what we… like, why each parameter set is suited to… to, different, use cases, like, this is a visualization of how SPHINCS+ Plus works.
+
+78
+00:30:34.800 --> 00:30:49.589
+Alessandro Baiocchi: And each hype tree, is, one layer of the total, like, hype tree that contains the WOTS. Each WOTS signature signs over one, the signs over the root of the layer.
+
+79
+00:30:49.690 --> 00:30:52.080
+Alessandro Baiocchi: Beneath it, And…
+
+80
+00:30:52.390 --> 00:31:02.260
+Alessandro Baiocchi: And then, at the end, we have the fourth layer, where each tree gets one leaf chosen to sign a part of the message.
+
+81
+00:31:02.630 --> 00:31:20.229
+Alessandro Baiocchi: And, yeah, that's the… the whole, SPHINCS+ structure. What we highlight here is that… is the, like, the whole construction is the blue nodes, like, these are all nodes that need to be, like, computed to… to sign… to sign the… yeah, a message.
+
+82
+00:31:20.330 --> 00:31:33.310
+Alessandro Baiocchi: And the orange path, instead, is basically what the verification needs. So, you… when you want to verify a message signed with SPHINCS+, you need to climb up,
+
+83
+00:31:33.330 --> 00:31:42.669
+Alessandro Baiocchi: With the… starting from the FORS leaves, and you are given the siblings of each node you are at, and you basically hash up
+
+84
+00:31:42.730 --> 00:31:58.000
+Alessandro Baiocchi: And verify that each signature is valid, by going all the way up to the root. So you don't actually need all the nodes that are printed here, but you only need, basically, to climb… you need only the orange part, like the siblings to the orange part.
+
+85
+00:31:58.670 --> 00:32:03.680
+Alessandro Baiocchi: And that matters because, for example, if you want to,
+
+86
+00:32:04.080 --> 00:32:07.369
+Alessandro Baiocchi: Like, here we see an example of a parameter set.
+
+87
+00:32:07.570 --> 00:32:09.809
+Alessandro Baiocchi: Like, this is…
+
+88
+00:32:10.080 --> 00:32:17.990
+Alessandro Baiocchi: it's always a SPHINCS+ signature, but by selecting, like, extremely lower parameters, for example, we have, instead of
+
+89
+00:32:18.190 --> 00:32:32.510
+Alessandro Baiocchi: 7 layers of EIP trees, with a total of 63, depth. We just have a total depth of 15 for the WOTS, with a split in 3 trees. And then the first two are, extremely light.
+
+90
+00:32:32.690 --> 00:32:34.359
+Alessandro Baiocchi: We get a signature that is…
+
+91
+00:32:34.840 --> 00:32:41.999
+Alessandro Baiocchi: Of course, it's faster to… this is the optimization for the signing part, so this is… this requires the least
+
+92
+00:32:42.200 --> 00:32:45.260
+Alessandro Baiocchi: Hash operations to build a signature.
+
+93
+00:32:45.720 --> 00:32:46.920
+Alessandro Baiocchi: And…
+
+94
+00:32:47.030 --> 00:33:03.849
+Alessandro Baiocchi: This is, for example, the, like, the main part that we cut on here is, if you see, this signal has, with these parameters, has a Qmax of 2 to the 16, so this can be safely used for about, like, I think it's about 64,000 times.
+
+95
+00:33:04.030 --> 00:33:14.979
+Alessandro Baiocchi: And, of course, that's not, it may be good for your use case, or it may be unacceptable, depending on what's your, what's your use case for this signature.
+
+96
+00:33:15.190 --> 00:33:33.530
+Alessandro Baiocchi: Another example is this set that's meant to be, like, the optimized set for gas saving, and you can see it's very different from this other one, because here, there are, like, a lot of leaves, both in the forest and in the WOTS part.
+
+97
+00:33:33.680 --> 00:33:36.029
+Alessandro Baiocchi: For example, the fork tree are…
+
+98
+00:33:36.290 --> 00:33:44.569
+Alessandro Baiocchi: very, very deep. They have to do the 20 leaves, which is, of course, very inefficient for signing, because you have to compute a lot of hashes.
+
+99
+00:33:44.570 --> 00:33:56.549
+Alessandro Baiocchi: But if you don't care about signing work for some reason, and you only want the verifier to be light, because you spend less in verification gas, and the signature also is smaller.
+
+100
+00:33:56.550 --> 00:34:01.960
+Alessandro Baiocchi: Here you just have, you can see here numbers, you have about, like.
+
+101
+00:34:02.000 --> 00:34:05.980
+Alessandro Baiocchi: Half the verification cost of the fast Signer.
+
+102
+00:34:06.100 --> 00:34:09.869
+Alessandro Baiocchi: And half the signal sites, indicatively.
+
+103
+00:34:10.040 --> 00:34:12.099
+Alessandro Baiocchi: So,
+
+104
+00:34:12.570 --> 00:34:28.429
+Alessandro Baiocchi: This, of course, this parameter set is not good for any use case either, because you have a lot of signing work, so if you have to do this on a constraint device, this probably won't work, or it will take an extremely long time. But it has some other use cases.
+
+105
+00:34:28.980 --> 00:34:37.479
+Alessandro Baiocchi: And this is basically our take, and the fact that you have different parameter sets that allow you to do different things.
+
+106
+00:34:37.610 --> 00:34:47.910
+Alessandro Baiocchi: Doesn't mean that you have to, like, to put, to, like, decide what's the use case that everyone needs to use, and decide the best parameter set, but…
+
+107
+00:34:48.100 --> 00:34:59.940
+Alessandro Baiocchi: Since we are, like, on the EVM, we can do account abstraction, and we think this is, like, a solution that's possible. And basically, by using smart accounts, you can have
+
+108
+00:35:00.290 --> 00:35:12.890
+Alessandro Baiocchi: multiple signers authorized per one user. So, what you can do is, one user can, basically add, for example, a gas saver signer and a fast signer.
+
+109
+00:35:13.140 --> 00:35:29.809
+Alessandro Baiocchi: They are both authorized for this account, and there need to be, of course, two verifiable contracts that… or at least a verifiable contract that's able to verify both the fast version and the gas server version, like, different parameters.
+
+110
+00:35:30.050 --> 00:35:33.119
+Alessandro Baiocchi: And… at this point, the user can…
+
+111
+00:35:33.390 --> 00:35:44.220
+Alessandro Baiocchi: For, depending on the use case that… on the situation that he's in, you can either sign with the fast signer, or the light signer for the… or the gas-saving signer.
+
+112
+00:35:44.320 --> 00:35:56.569
+Alessandro Baiocchi: And, like, this basically puts the least constraint possible on the parameter choice, because it basically leaves it open to the user to what it needs.
+
+113
+00:35:57.520 --> 00:36:04.180
+Alessandro Baiocchi: And we actually built something like this, so I'll leave it to Matteo to show the… the… to showcase.
+
+114
+00:36:04.180 --> 00:36:06.840
+Matteo Vicari RivaLabs: a request for,
+
+115
+00:36:06.840 --> 00:36:08.619
+Antonio Sanso: statement? I accepted it.
+
+116
+00:36:10.030 --> 00:36:10.750
+Matteo Vicari RivaLabs: Okay.
+
+117
+00:36:14.480 --> 00:36:16.490
+Matteo Vicari RivaLabs: Okay? You can see my skin?
+
+118
+00:36:17.190 --> 00:36:34.749
+Matteo Vicari RivaLabs: Okay, this is our implementation on our showcase wallet. We do the same wallet using the first, and we just implement with SPHINCS+. For example, what we can do now, we select the SPHINCS+ signing here in the menu.
+
+119
+00:36:34.750 --> 00:36:38.479
+Matteo Vicari RivaLabs: And then we can just, do a quick send, okay?
+
+120
+00:36:38.820 --> 00:36:40.650
+Matteo Vicari RivaLabs: This is Sepolia testnet.
+
+121
+00:36:41.610 --> 00:36:49.910
+Matteo Vicari RivaLabs: I just, take one address… Okay, this is a transaction.
+
+122
+00:36:50.440 --> 00:37:04.239
+Matteo Vicari RivaLabs: And then, when we, prepare the transaction, we can choose up, the setup of things. For example, in this case, we have first set up our, prepare inside our smart contract wallet. One is the standard.
+
+123
+00:37:04.260 --> 00:37:12.389
+Matteo Vicari RivaLabs: This, took on, my device, around 1-2 seconds for the signing time.
+
+124
+00:37:12.400 --> 00:37:36.550
+Matteo Vicari RivaLabs: And then, is, cool data and gas. Then we can choose, choose, for example, a gas saver parameter, and this takes a lot of time for, do the stuff, but, for choosing is really simple. We just click here, and we choose, like, a video game, or just have, the, the quick signer of, the fast, that is, really quick, but is more expensive in terms
+
+125
+00:37:36.550 --> 00:37:38.750
+Matteo Vicari RivaLabs: of cool data and the gas.
+
+126
+00:37:39.040 --> 00:37:46.989
+Matteo Vicari RivaLabs: Or we just use SPHINCS+ plus, parameter, but, for example, now we go with the gas saver.
+
+127
+00:37:47.720 --> 00:37:49.299
+Matteo Vicari RivaLabs: We make the transaction.
+
+128
+00:37:49.790 --> 00:38:02.959
+Matteo Vicari RivaLabs: We wait. This is take the time for signing, and send the transaction to account abstraction, user op. We don't have a setup for gas sponsoring really optimize, so it takes a lot of time.
+
+129
+00:38:03.140 --> 00:38:17.820
+Matteo Vicari RivaLabs: But the time is splitting from the approvation inside the blockchain, and also the signing part. So we are just waiting. And then when the transaction is complete, we can see inside the…
+
+130
+00:38:18.440 --> 00:38:22.919
+Matteo Vicari RivaLabs: ethers can always work. We're just waiting.
+
+131
+00:38:28.120 --> 00:38:47.310
+Matteo Vicari RivaLabs: So, we can, in this showcase, we have, for example, fork signing, different, and we use, in the same wallet, without changing nothing. It's really, simple to use, and the people can choose, like, the people chose for the gas they want to spend.
+
+132
+00:38:47.310 --> 00:39:04.799
+Matteo Vicari RivaLabs: For example, if I have to do a trade, I have a really tight time for the trade, like, for example, for the slippage or all this stuff, I can do the fast sign method, or if just I want to send ZoomMate to my friends, I can have
+
+133
+00:39:04.800 --> 00:39:08.389
+Matteo Vicari RivaLabs: more relaxed time, and I can take a lot of time to sign.
+
+134
+00:39:09.370 --> 00:39:15.270
+Antonio Sanso: Matteo, I have a question. Now you have, like, these five different, forks.
+
+135
+00:39:15.710 --> 00:39:20.959
+Antonio Sanso: 4, sorry. Well, 4 plus 1, that is the fourth. Let's say you have this.
+
+136
+00:39:20.960 --> 00:39:24.209
+Matteo Vicari RivaLabs: Oh, yeah, yeah, yeah, before, and then the fourth, yeah.
+
+137
+00:39:24.210 --> 00:39:28.219
+Antonio Sanso: So, I mean, is the FORS… since, like, you have these four configurations.
+
+138
+00:39:28.400 --> 00:39:32.349
+Antonio Sanso: Is the FORS still making sense, or will be overlap with…
+
+139
+00:39:32.350 --> 00:39:45.929
+Matteo Vicari RivaLabs: The FORS, the FORS are more, cheaper and more faster, in terms of sign, in terms of gas, so are, always better, for this kind of application, but we need to rotate, in any case, the…
+
+140
+00:39:45.930 --> 00:39:58.229
+Matteo Vicari RivaLabs: the next signer. This demo, we add this part. In normal use case on our wallet, the DI is using always FORS, and then there is some problem, use things.
+
+141
+00:39:58.890 --> 00:40:06.750
+Matteo Vicari RivaLabs: with this demo, we just want to highlight the possibility to use SPHINCS+ for a different use cases. Right, right.
+
+142
+00:40:07.260 --> 00:40:08.040
+Matteo Vicari RivaLabs: But I'm…
+
+143
+00:40:08.040 --> 00:40:09.770
+Antonio Sanso: In terms of, like, so the FORS…
+
+144
+00:40:09.900 --> 00:40:22.040
+Antonio Sanso: like, if you take this four-parameter configuration of today, if you instead use FORS, it's always winning in any axis compared to the SPHINCS+, or… Yeah.
+
+145
+00:40:22.170 --> 00:40:24.660
+Matteo Vicari RivaLabs: Yeah, Ford's always winning. There is…
+
+146
+00:40:24.660 --> 00:40:26.480
+Antonio Sanso: All the access, all the access. Yeah.
+
+147
+00:40:26.480 --> 00:40:34.140
+Matteo Vicari RivaLabs: all the axis… just one axis is not winning the budget. The budget of designing the FORS is,
+
+148
+00:40:34.140 --> 00:40:49.400
+Matteo Vicari RivaLabs: Around 3, 4. So it's, really different, but if we rotate the signing with the FORS every transaction, we keep up the budget growing. There is the only, the only limitation the FORS have now.
+
+149
+00:40:49.460 --> 00:41:07.970
+Matteo Vicari RivaLabs: In fact, Ali, if you can reshare the… this is the demo, I don't know if you want to see another signing with another thing, we can do. It's simple. Something nice to see, for example, in this case, for example, the signing with the…
+
+150
+00:41:08.100 --> 00:41:24.359
+Matteo Vicari RivaLabs: is this, and it's different. For example, if we use, the faster signing, the signature is more bigger, because, for example, we… with the faster signing, we try to optimize just for, go fast, with the signing time, and not the…
+
+151
+00:41:24.760 --> 00:41:33.269
+Matteo Vicari RivaLabs: designated size or verification. This is relevant, for example, because it can be a use case, for example, faster L2,
+
+152
+00:41:33.270 --> 00:41:53.040
+Matteo Vicari RivaLabs: they don't care about the Senior size, because the L2-level data costs less, and just the Senior speed is important. So, it's different also, depends on the chains, depends on the L2, all different. If Felli you can share the screen, we have…
+
+153
+00:41:53.040 --> 00:41:54.530
+Alessandro Baiocchi: I think I'm still sharing.
+
+154
+00:41:54.530 --> 00:42:00.280
+Matteo Vicari RivaLabs: Yeah, so I just, huh? Sorry?
+
+155
+00:42:01.710 --> 00:42:02.390
+Matteo Vicari RivaLabs: Okay?
+
+156
+00:42:03.680 --> 00:42:19.009
+Matteo Vicari RivaLabs: Okay, no? Okay, yeah, go up, in the… there is all the parameter, there also… there is the FORS. For example, you can see the last one on this slide is the FORS. It's faster, cheaper,
+
+157
+00:42:19.110 --> 00:42:30.450
+Matteo Vicari RivaLabs: there are more compact signers, all the parameter, but the only problem is the reuse, so this is why it's important to highlight the difference. We have this.
+
+158
+00:42:30.450 --> 00:42:38.050
+Antonio Sanso: Okay, indeed, like, I missed that, actually, that's why I was saying 5. Actually, in your slide, you were already having the 5 configuration because of the FORS.
+
+159
+00:42:38.050 --> 00:42:38.590
+Matteo Vicari RivaLabs: Yeah, yeah.
+
+160
+00:42:38.830 --> 00:42:39.540
+Antonio Sanso: Excellent.
+
+161
+00:42:39.540 --> 00:42:48.770
+Matteo Vicari RivaLabs: And then, just the final slide, just for some talking about our idea and all this stuff, by Galo.
+
+162
+00:42:49.140 --> 00:43:06.980
+Alessandro Baiocchi: Okay, yeah, basically, how Matteo was saying, the reason for this is there are a lot of possible use cases for, like, different things parameter sets, and these are just a few that we identified, like, for example, cold storage has very different needs from
+
+163
+00:43:06.980 --> 00:43:23.440
+Alessandro Baiocchi: normal day-to-day usage. For example, you… these are very, sparks transactions, so you don't care that much about, gas costs, and use budget too, because if you, like, if I say you can do maximum 32,000 transactions for cold storage, that's more than enough.
+
+164
+00:43:23.490 --> 00:43:32.889
+Alessandro Baiocchi: So you don't need, like, heavy things for that. And… but you maybe want to optimize for signal to work, because
+
+165
+00:43:32.890 --> 00:43:48.679
+Alessandro Baiocchi: If you… construct may be often done on constrained environments, so if you have to do a lot of hhashes on an actual wallet or MPC setup, you… you can actually facilitate the work if you choose a more lightweight signature.
+
+166
+00:43:48.810 --> 00:43:53.400
+Alessandro Baiocchi: Or, for example, you can completely change needs if you… if you use
+
+167
+00:43:53.480 --> 00:44:09.690
+Alessandro Baiocchi: If you go to, for example, a hot wallet of an exchange, you have to do a lot of transactions, you cannot bundle them, you have to, like, maybe you don't care that they are extremely fast, but you don't want to pay a lot of gas, so you optimize for the total gas cost of the transaction.
+
+168
+00:44:09.810 --> 00:44:13.929
+Alessandro Baiocchi: And another possible use case, if you, like.
+
+169
+00:44:14.050 --> 00:44:30.329
+Alessandro Baiocchi: it's your wallet, you decide you… you don't… you don't trust NIST level 1, you want NIST level 3, you can actually, like, if you… if there is a verifiable constrain, you can put a signer that uses a parameter set that gives you strings NIST at NIST level 3, and… and use it. So…
+
+170
+00:44:30.330 --> 00:44:30.700
+Matteo Vicari RivaLabs: Another.
+
+171
+00:44:30.700 --> 00:44:32.540
+Alessandro Baiocchi: He's like… Yep, yeah, that's.
+
+172
+00:44:32.540 --> 00:44:36.800
+Matteo Vicari RivaLabs: Another stuff to highlight is also if you want to use an MPC with SPHINCS+.
+
+173
+00:44:36.850 --> 00:44:54.950
+Matteo Vicari RivaLabs: have a really high budget is a lot of hashes, a lot of hashes in, MPCs is really hard to do, take a lot of time, but if you tweak the parameter around these needs, you can also do an MPC with SPHINCS+, really fast, sub-second.
+
+174
+00:44:55.010 --> 00:45:11.630
+Matteo Vicari RivaLabs: So, there is a lot of, a lot of combination that people can choose and, highlight and use. So, for us, our take is not one set of… one sphinx parameter that is good for all, but depends on the use case you want to use inside the chain.
+
+175
+00:45:11.970 --> 00:45:21.949
+Matteo Vicari RivaLabs: And, that's it. This is our idea, and thanks for, the attention. If you have questions, we can answer it, other way.
+
+176
+00:45:25.670 --> 00:45:27.380
+Antonio Sanso: I have one, actually.
+
+177
+00:45:28.880 --> 00:45:37.189
+Antonio Sanso: And… is, so, if we take in consideration the fact that the… for Ethereum, we will have
+
+178
+00:45:37.360 --> 00:45:39.710
+Antonio Sanso: aggregation.
+
+179
+00:45:39.990 --> 00:45:46.379
+Antonio Sanso: Probably the thing that works better with aggregation will be the fast verification, so having less
+
+180
+00:45:46.700 --> 00:45:52.309
+Antonio Sanso: hashing for verification, right? Because having less hash for verification means that the ZK proofs
+
+181
+00:45:52.640 --> 00:45:55.689
+Antonio Sanso: Will be… will be cheaper.
+
+182
+00:45:55.910 --> 00:45:56.430
+Matteo Vicari RivaLabs: Yeah.
+
+183
+00:45:57.160 --> 00:45:57.800
+Antonio Sanso: So we're…
+
+184
+00:45:58.340 --> 00:46:16.449
+Matteo Vicari RivaLabs: this is something, we can just have the gas saver, but for example, if you… the gas saver is also take less gas for verified, this kind of signature. The problem is, for example, this is take a lot of time for signing, so, maybe it's hard to…
+
+185
+00:46:17.460 --> 00:46:31.820
+Matteo Vicari RivaLabs: to use, because, for example, it's okay if I won't just send it to another person, or just send money, but if I want to trade or stuff that requires timing.
+
+186
+00:46:31.820 --> 00:46:39.399
+Matteo Vicari RivaLabs: it's hard to have, this, big, signature. For example, this, the gas saver parameter is,
+
+187
+00:46:39.490 --> 00:46:42.289
+Matteo Vicari RivaLabs: 100,
+
+188
+00:46:42.370 --> 00:46:59.709
+Matteo Vicari RivaLabs: 100 million of hashes that I have to do. And depends also, this capability depends also in the wallet you have to do. Because, for example, now we have, this number, 10, 50 seconds, inside our extension that have, a very.
+
+189
+00:46:59.710 --> 00:47:05.870
+Matteo Vicari RivaLabs: optimize Rust, signing method for make parallel lhashes.
+
+190
+00:47:05.890 --> 00:47:19.370
+Matteo Vicari RivaLabs: But, for example, if you have to do this inside a ledger, it's really hard to do all these dhashes. So, there is a lot of combination, and I think with the aggregation, it's more easy.
+
+191
+00:47:19.370 --> 00:47:26.730
+Matteo Vicari RivaLabs: to think, if, for example, I, I choose you, you can choose, for example,
+
+192
+00:47:27.110 --> 00:47:35.210
+Matteo Vicari RivaLabs: the… the set of parameter you want to use. It's like, like choosing, the… the… de…
+
+193
+00:47:35.430 --> 00:47:47.579
+Matteo Vicari RivaLabs: the fee you want to pay. So the idea is, if you have verification, you have aggregation, for example, if the prover have to do more hashes, you can pay more.
+
+194
+00:47:47.580 --> 00:47:56.620
+Matteo Vicari RivaLabs: But if you pay more, maybe the signer is faster. So, depends, also, these can adjust around, also, the aggregation.
+
+195
+00:47:56.630 --> 00:48:04.119
+Matteo Vicari RivaLabs: And another important stuff to highlight, all the stuff we have working now, is,
+
+196
+00:48:04.240 --> 00:48:17.090
+Matteo Vicari RivaLabs: working with SHAKE, SHAKE, sorry, but, you can swap and use another ash function. The number, remain the, the, the same, so,
+
+197
+00:48:17.090 --> 00:48:29.979
+Matteo Vicari RivaLabs: all the stuff is the same, just, change the, underlying, function that, we're using for the hashes. For example, the sphinx, plus parameter, go up.
+
+198
+00:48:30.350 --> 00:48:47.570
+Matteo Vicari RivaLabs: it's, what we implement is not, really SPHINCS+ Plus, because we, for example, use SHAKE, and I use SHA2, or, or the Rush function, because in, ethereum, for now, we have this, precompile. With aggregation, it's, different, so…
+
+199
+00:48:47.790 --> 00:48:51.829
+Matteo Vicari RivaLabs: VDIs have the flexibility to the user, and, for the work.
+
+200
+00:48:52.130 --> 00:49:03.149
+Antonio Sanso: Anyway, I have one comment and two questions. So the companies, like, in my opinion, when… if this will really fly, in my opinion, the default should be the one that is aggregated friendly.
+
+201
+00:49:03.420 --> 00:49:07.519
+Antonio Sanso: But then we can discuss this in the future. But my question is, like.
+
+202
+00:49:07.630 --> 00:49:16.280
+Antonio Sanso: I… you… you showed that you can change all these four different… Type of, situation.
+
+203
+00:49:16.390 --> 00:49:19.399
+Antonio Sanso: But is the public key the same?
+
+204
+00:49:20.110 --> 00:49:25.349
+Matteo Vicari RivaLabs: We, this is another important, stuff to highlight. We use account abstraction.
+
+205
+00:49:25.420 --> 00:49:45.299
+Matteo Vicari RivaLabs: So, we don't care about public key or all the stuff, for example, all, like, Shrimps does. Because we just, put inside our smart contract wallet another sign. It's another entry in our, mapping for the signing. So, we don't need to have the, the same,
+
+206
+00:49:45.430 --> 00:49:55.379
+Matteo Vicari RivaLabs: public key, because we have the same address. So, for… make the same address and have more signing, we just add more stuff inside our code.
+
+207
+00:49:55.380 --> 00:49:56.950
+Antonio Sanso: So, am I correct?
+
+208
+00:49:56.950 --> 00:49:57.710
+Matteo Vicari RivaLabs: AC.
+
+209
+00:49:57.710 --> 00:50:01.729
+Antonio Sanso: Am I correct to say that you actually don't know the private key of your address?
+
+210
+00:50:02.000 --> 00:50:02.590
+Matteo Vicari RivaLabs: Yeah.
+
+211
+00:50:02.750 --> 00:50:03.930
+Matteo Vicari RivaLabs: This is the idea.
+
+212
+00:50:04.470 --> 00:50:13.239
+Matteo Vicari RivaLabs: Okay. We never know, because we create our address, using crate2, it depends on the parameter. The parameter for us,
+
+213
+00:50:13.370 --> 00:50:27.600
+Matteo Vicari RivaLabs: a lot. We do, for example, a post, I think, 3 weeks ago, that also highlight, for example, to make this kind of architecture work in a different chain.
+
+214
+00:50:27.710 --> 00:50:29.950
+Matteo Vicari RivaLabs: I'm keeping the same address.
+
+215
+00:50:30.230 --> 00:50:33.489
+Antonio Sanso: So you really, you really don't know the private key of your address?
+
+216
+00:50:33.650 --> 00:50:36.559
+Matteo Vicari RivaLabs: Yeah, we don't know, because it's a smart contract.
+
+217
+00:50:36.750 --> 00:50:37.490
+Antonio Sanso: Yes.
+
+218
+00:50:37.550 --> 00:50:49.160
+Matteo Vicari RivaLabs: In other implementation, for example, what's happened inside the Bitcoin, you need. But also there, you can also have more stinks there.
+
+219
+00:50:49.160 --> 00:51:04.709
+Matteo Vicari RivaLabs: Because, for example, you can just make a big root using different route of these different things, and, like, you add more and say, okay, if there is one of these, I can use these or these.
+
+220
+00:51:04.750 --> 00:51:08.479
+Matteo Vicari RivaLabs: It's… it's like a multisig in Bitcoin.
+
+221
+00:51:08.480 --> 00:51:16.989
+Antonio Sanso: But, I mean, a stupid question here. If you start from a seat, you can always… I mean, if you have your seat, you can always, like, recover and… yeah, okay. Yeah.
+
+222
+00:51:16.990 --> 00:51:27.719
+Matteo Vicari RivaLabs: We… the seed, the entropy we used to generate this wallet, and also all the ephemeral FORS, the fourth, is a B44-like. We just have, tweaked the, for example, the zero.
+
+223
+00:51:27.720 --> 00:51:38.250
+Matteo Vicari RivaLabs: that use, for example, in Bitcoin, we use just for the SPHINCS+. So, the 01 is SPHINCS+, with this parameter, the 02 is SPHINCS+ with this parameter.
+
+224
+00:51:38.250 --> 00:51:47.919
+Matteo Vicari RivaLabs: the important stuff, they have to start with a different entropy. We can just derivate from the same, same,
+
+225
+00:51:48.180 --> 00:52:05.499
+Matteo Vicari RivaLabs: I can say private key, but it's not a private key, because then there is possibility to have collision. So, it's important to have different before, different things, but it is simple, and you can just, use for starting your wallet.
+
+226
+00:52:06.070 --> 00:52:17.059
+Antonio Sanso: And the last question, and then I open the stage if someone has another question, is… I'm not sure I've seen in your access the keygen time. Is that part of it, or…
+
+227
+00:52:17.490 --> 00:52:18.770
+Antonio Sanso: All the results.
+
+228
+00:52:19.480 --> 00:52:23.709
+Matteo Vicari RivaLabs: We… we don't put the… the keygen,
+
+229
+00:52:24.400 --> 00:52:30.590
+Matteo Vicari RivaLabs: We have to do, but it's similar, for, designing part.
+
+230
+00:52:30.920 --> 00:52:34.160
+Matteo Vicari RivaLabs: So, it's, something, similar.
+
+231
+00:52:35.800 --> 00:52:36.900
+Matteo Vicari RivaLabs: I don't know, if…
+
+232
+00:52:36.900 --> 00:52:39.929
+Antonio Sanso: You do a key gen every single time, you're telling.
+
+233
+00:52:39.930 --> 00:52:46.370
+Matteo Vicari RivaLabs: No, it's not, SPHINCS+, we're signing a transaction with SPHINCS+.
+
+234
+00:52:46.540 --> 00:52:50.079
+Matteo Vicari RivaLabs: Depends on the message you are, want to sign.
+
+235
+00:52:50.190 --> 00:52:56.190
+Matteo Vicari RivaLabs: For choose, the… the FORS underneath, okay?
+
+236
+00:52:56.770 --> 00:53:07.779
+Matteo Vicari RivaLabs: So, when you just do the signing part, you have to recompute all the stuff. I don't know, Alessandro is better, to… Oh, yeah.
+
+237
+00:53:07.780 --> 00:53:13.519
+Alessandro Baiocchi: I was just… yeah, sorry. I think the point is… Back for the FORS? FORS?
+
+238
+00:53:13.810 --> 00:53:20.890
+Alessandro Baiocchi: The… since we rotate each, like, each transaction, we rotate the signer, we need to…
+
+239
+00:53:21.160 --> 00:53:34.579
+Alessandro Baiocchi: do a full key gen of a new fork, for each transaction. For these things, we, like, we do not rotate the signer, of course, because it's not a few times. So, the key gen, like.
+
+240
+00:53:35.630 --> 00:53:43.129
+Alessandro Baiocchi: It's, yeah, I'd say it's the… the signing time is actually, like, it's…
+
+241
+00:53:43.450 --> 00:53:53.689
+Alessandro Baiocchi: It's the work required… what we here call, sorry, what we call here signing, like, if you see in the lower left corner, like, signing log.
+
+242
+00:53:53.910 --> 00:53:58.779
+Alessandro Baiocchi: These are the hhashes required to, like, to build the full tree.
+
+243
+00:53:59.350 --> 00:54:04.919
+Alessandro Baiocchi: So it's basically what we would call Kijan, I say, I'd say.
+
+244
+00:54:05.420 --> 00:54:08.319
+Alessandro Baiocchi: And… and then, like, if you, like…
+
+245
+00:54:08.940 --> 00:54:23.829
+Alessandro Baiocchi: if you already knew the whole tree, you actually wouldn't need to recompute it to sign, but we put it in signing time, because it's, we're assuming you don't store the tree, you need to compute it to sign. That's…
+
+246
+00:54:23.830 --> 00:54:42.360
+Matteo Vicari RivaLabs: because storing the tree is really hard and expensive, there is a lot of data, so it's better to just recompute the part of tree you use for signing this message. Because it's important, we don't put inside our slide, but in SPHINCS+.
+
+247
+00:54:42.430 --> 00:54:57.869
+Matteo Vicari RivaLabs: The fourth, you have opened the last part of the tree, it depends on the message, so it's like a random value on the message, so it depends on the message, so you can… if you… you have in memory all the tree.
+
+248
+00:54:57.920 --> 00:55:06.930
+Matteo Vicari RivaLabs: It's faster, but it's better for now, for what we know, to compute it every single part, every time you want to sign.
+
+249
+00:55:07.160 --> 00:55:10.260
+Antonio Sanso: I still… I still don't understand how the keygen will work.
+
+250
+00:55:11.500 --> 00:55:19.350
+Antonio Sanso: I mean, that's the thing, when you're actually… when you actually change between the four… the four combinations.
+
+251
+00:55:19.640 --> 00:55:24.990
+Antonio Sanso: I mean, what do you do? You, like, you generate… I mean, on the fly…
+
+252
+00:55:25.140 --> 00:55:33.149
+Matteo Vicari RivaLabs: Yeah, we, we put… you imagine, when we create the wallet, we put, the root of the SPHINCS+.
+
+253
+00:55:33.510 --> 00:55:37.819
+Matteo Vicari RivaLabs: Inside our smart contract, and this is something that is verified.
+
+254
+00:55:38.030 --> 00:55:43.820
+Matteo Vicari RivaLabs: So when we sign, we just change the signing part.
+
+255
+00:55:44.090 --> 00:55:49.080
+Matteo Vicari RivaLabs: It's all… this part is off-chain, so you can do really, really fast.
+
+256
+00:55:49.540 --> 00:55:56.319
+Matteo Vicari RivaLabs: And then you compute the signing, and you prepare the signing, and you… Put inside the chain.
+
+257
+00:55:56.320 --> 00:56:03.579
+Antonio Sanso: Isn't the keygen four times different? You have 4 key jets, no? I mean, you have four combinations.
+
+258
+00:56:03.580 --> 00:56:22.199
+Alessandro Baiocchi: And maybe, yeah, maybe I… maybe I see the confusing part here, like, the fact that, like, in the demo Matteo had, like, the four, modes on the same wallet, like, they are actually, like, yeah, they are four distinct signups, they… they do not share anything with each other. Like, for example, you, you may have
+
+259
+00:56:22.270 --> 00:56:29.119
+Alessandro Baiocchi: let's say you have an Augsburg wallet, you may have an Augsburg wallet with only one of those signers on it.
+
+260
+00:56:29.500 --> 00:56:37.580
+Alessandro Baiocchi: And you have only that mode on that wallet, and on your laptop, you have, like, the extension, which has
+
+261
+00:56:37.850 --> 00:56:40.079
+Alessandro Baiocchi: Other signals on it.
+
+262
+00:56:40.450 --> 00:56:49.569
+Alessandro Baiocchi: And each signal has its own, like, parameter set associated, so you… they are called distinct signers, yes.
+
+263
+00:56:49.570 --> 00:56:58.100
+Antonio Sanso: When do you do the key gen? Like, when you install the wallet, or on the fly, when do you do it? The first time you use it?
+
+264
+00:57:00.930 --> 00:57:12.699
+Matteo Vicari RivaLabs: The idea is, the keygen is something… you… you have, the stable… the stable part of, the process is, the entropy you use. So you start from the.
+
+265
+00:57:12.700 --> 00:57:26.989
+Alessandro Baiocchi: Yeah, sorry, it's, that's on the fly, because, yeah, in some cases, you may be able to store the whole, like, the whole data, but in some cases, it's a lot of data, so it's, yeah, you only store the secrets under the…
+
+266
+00:57:26.990 --> 00:57:30.319
+Antonio Sanso: So, what you actually do when you sign, you do keygen plus sign.
+
+267
+00:57:31.040 --> 00:57:35.100
+Alessandro Baiocchi: Yeah, in this case, yes, right?
+
+268
+00:57:35.100 --> 00:57:38.410
+Matteo Vicari RivaLabs: Yeah, the keygen's design, I can see.
+
+269
+00:57:39.310 --> 00:57:48.870
+Matteo Vicari RivaLabs: Because you have to think, when you film, you have signed with the FORS, you just open the leaf. So the signing part is really fast.
+
+270
+00:57:49.400 --> 00:57:53.510
+Matteo Vicari RivaLabs: The keygen is the stuff you have to recompute for all the parts.
+
+271
+00:57:53.510 --> 00:57:58.390
+Antonio Sanso: But I will imagine that the four public keys are in the smart contract.
+
+272
+00:57:58.580 --> 00:58:01.180
+Matteo Vicari RivaLabs: Yeah, they are in the smart contract.
+
+273
+00:58:01.180 --> 00:58:04.360
+Antonio Sanso: Okay, so probably when you deploy the smart contract.
+
+274
+00:58:04.360 --> 00:58:06.249
+Matteo Vicari RivaLabs: You have to complete it one time, yeah.
+
+275
+00:58:06.250 --> 00:58:10.369
+Alessandro Baiocchi: Yeah, of course, yeah, when you deploy, you need to do it once for each signer, yeah.
+
+276
+00:58:10.370 --> 00:58:14.970
+Antonio Sanso: Four times, four times. So the kijin, the real keygen, actually, it happens when you…
+
+277
+00:58:15.330 --> 00:58:18.289
+Antonio Sanso: The first time, you put the seed on your wallet.
+
+278
+00:58:18.760 --> 00:58:20.409
+Antonio Sanso: Yes. Because you have to create… okay.
+
+279
+00:58:20.800 --> 00:58:23.620
+Antonio Sanso: I mean, I think you should add that this as well, somehow, because
+
+280
+00:58:23.820 --> 00:58:32.360
+Antonio Sanso: I mean, not in the… I mean, at the end, you will level 4, so you have, like, 4K gen to do, basically.
+
+281
+00:58:33.030 --> 00:58:45.839
+Antonio Sanso: For the wallet you showed, you have four keygen. So, maybe installing the wallet might take a bit of time, but usually you install… you have the fork combination only on the desktop, and the problem is fast.
+
+282
+00:58:46.500 --> 00:59:02.310
+Matteo Vicari RivaLabs: Yeah, yeah, the more important part of this presentation is the flexibility. We don't want to say, okay, this is the best set of the parameter for us, because when we start working on MPC or other stuff, we see, okay, but…
+
+283
+00:59:02.310 --> 00:59:10.300
+Matteo Vicari RivaLabs: If we change the parameter, we can arrive at this implementation. If we want to just use a SPHINCS+ plus parameter.
+
+284
+00:59:10.440 --> 00:59:27.930
+Matteo Vicari RivaLabs: it's impossible. So, it's like, have the flexibility, and, we think about this when we see the NISTA, the NISTA… they also have four, for example, their two different set of parameters, fast signing and, cheaper,
+
+285
+00:59:28.160 --> 00:59:29.139
+Matteo Vicari RivaLabs: stuff, so…
+
+286
+00:59:29.140 --> 00:59:29.550
+Antonio Sanso: Okay.
+
+287
+00:59:29.550 --> 00:59:31.720
+Matteo Vicari RivaLabs: we're starting to have this idea.
+
+288
+00:59:32.360 --> 00:59:37.980
+Antonio Sanso: Thanks a lot for the demo. I was actually wondering if anyone in the crowd has some questions
+
+289
+00:59:38.170 --> 00:59:42.670
+Antonio Sanso: The chat is open, the mic, we can open.
+
+290
+00:59:45.380 --> 00:59:46.769
+Antonio Sanso: Comments, question?
+
+291
+00:59:50.500 --> 00:59:51.380
+Antonio Sanso: Okay.
+
+292
+00:59:51.630 --> 00:59:53.019
+Antonio Sanso: Looks like not.
+
+293
+00:59:53.200 --> 00:59:55.929
+Antonio Sanso: Alessandro, were you saying something?
+
+294
+00:59:56.180 --> 01:00:15.769
+Alessandro Baiocchi: Yeah, yeah, sorry, just… this was just one quick note about what you were saying about, like, the setup might take some time, yeah, of course, it's, that's possible, but, another thing to keep in mind is that you're not FORSd to, like, add, like, for example, in the whatnot I was showing, there were four modes.
+
+295
+01:00:15.900 --> 01:00:33.039
+Alessandro Baiocchi: But you're not FORSd to set them up at the same time. Like, this is just our demo implementation, but the fact that you're using a smart contract basically allows you to, like, if at some time you want to add a new signer.
+
+296
+01:00:33.170 --> 01:00:35.580
+Alessandro Baiocchi: you can do it. Like, you can just…
+
+297
+01:00:35.600 --> 01:00:54.479
+Alessandro Baiocchi: you can write a function on your smart contract that says add signer with its own dedicated parameter set, and then you can do it after the initial setup, anytime you want. Basically, you can add the new signer, or remove an old signer, or basically handle how you sign your transactions.
+
+298
+01:00:54.480 --> 01:01:01.329
+Antonio Sanso: Makes sense. No, I'm not too much worried. It was not part… since the keygen was not part of the slides, I was just wondering.
+
+299
+01:01:01.330 --> 01:01:02.059
+Alessandro Baiocchi: Yeah, yeah, you're fine.
+
+300
+01:01:02.060 --> 01:01:10.399
+Antonio Sanso: I really like your demo. If you don't have anything to add, then there are no questions. I have one more announcement to do, or same announcement.
+
+301
+01:01:10.400 --> 01:01:26.129
+Antonio Sanso: And it's basically, like, as I said, I want to avoid any analysis paralysis. I think it's not for now, time for now to start writing something. So, I'm gonna… The plan is to fork the ERC repository of Ethereum.
+
+302
+01:01:26.650 --> 01:01:28.880
+Antonio Sanso: And start a New Year's seed.
+
+303
+01:01:29.100 --> 01:01:32.909
+Antonio Sanso: That start to cover what we've seen so far.
+
+304
+01:01:33.140 --> 01:01:45.540
+Antonio Sanso: I will post the link on the Telegram channel. If anyone… I'll start this new ERC. If anyone wants to contribute, just ping me, and I cannot…
+
+305
+01:01:45.620 --> 01:01:53.519
+Antonio Sanso: to the… to the list, or we can go doing PRs and so on. The plan is, again, to start
+
+306
+01:01:53.840 --> 01:01:58.590
+Antonio Sanso: with, some version of, SPHINCS+, and,
+
+307
+01:01:58.870 --> 01:02:16.859
+Antonio Sanso: and cover all these details that are about, like, an abstraction, this, create tool, this potentially adding the key rotation thing, as an ERC, because as we are not doing EIP, we are not doing, any precompiles, all this should be covered
+
+308
+01:02:16.860 --> 01:02:24.079
+Antonio Sanso: by ERC, so we should really specify the details on how to sign and, you know, all these kind of things.
+
+309
+01:02:24.410 --> 01:02:27.779
+Antonio Sanso: And again, I will plan to start working on it
+
+310
+01:02:28.380 --> 01:02:33.879
+Antonio Sanso: Monday, and Monday will put, A link on the channel.
+
+311
+01:02:34.630 --> 01:02:35.320
+Antonio Sanso: Right.
+
+312
+01:02:38.410 --> 01:02:39.440
+Antonio Sanso: So…
+
+313
+01:02:39.720 --> 01:02:46.979
+Antonio Sanso: If no one has any more questions or comments, we can wrap it up and see you in two weeks.
+
+314
+01:02:47.440 --> 01:02:48.030
+Matteo Vicari RivaLabs: Yep.
+
+315
+01:02:48.630 --> 01:02:51.660
+Antonio Sanso: Cool, thanks a lot again for the demo, Alessandro and Matteo.
+
+316
+01:02:51.870 --> 01:02:53.740
+Antonio Sanso: Thank you, have a nice day. Bye-bye.
+

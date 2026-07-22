@@ -1,0 +1,72 @@
+{
+  "meeting": "Post Quantum Transaction Signatures (PQTS) Breakout #12 - July 22, 2025",
+  "highlights": {
+    "sphincs_parameter_exploration": [
+      {
+        "timestamp": "00:25:59",
+        "highlight": "RivaLabs presented tunable SPHINCS+ parameter sets: fast-signing, gas-saver, and standard variants with distinct size/verification/signing tradeoffs"
+      },
+      {
+        "timestamp": "00:28:55",
+        "highlight": "Use budget tunable: NIST standard allows 2^64 signatures; real use cases can target 2^16 (cold storage) to 2^32"
+      },
+      {
+        "timestamp": "00:33:15",
+        "highlight": "Gas-saver variant: ~half the verification cost and signature size of fast-signer, but ~100M hashes to sign; impractical on constrained devices"
+      },
+      {
+        "timestamp": "00:44:36",
+        "highlight": "Antonio noted: aggregation-friendly (fast-verification) parameter set should likely be the default, as fewer verification hashes reduces ZK proof cost"
+      }
+    ],
+    "account_abstraction_approach": [
+      {
+        "timestamp": "00:34:47",
+        "highlight": "RivaLabs demo uses ERC-4337 smart accounts to register multiple SPHINCS+ signers per address; user selects parameter set per transaction at runtime"
+      },
+      {
+        "timestamp": "00:49:25",
+        "highlight": "Public keys stored in smart contract; address has no classical private key \u2014 wallet derived via CREATE2 from entropy; BIP44-style derivation per parameter set"
+      },
+      {
+        "timestamp": "01:00:15",
+        "highlight": "Signers can be added/removed post-deploy via smart contract function; no requirement to set up all parameter sets at wallet creation"
+      }
+    ],
+    "fors_vs_sphincs_tradeoffs": [
+      {
+        "timestamp": "00:39:15",
+        "highlight": "FORS wins on all axes (speed, size, gas) vs. SPHINCS+ variants except signature budget: FORS budget ~2^3\u20132^4; key rotation required every transaction to manage budget"
+      }
+    ],
+    "erc_drafting": [
+      {
+        "timestamp": "01:01:10",
+        "highlight": "Antonio will fork the ERC repository and begin drafting a new ERC covering SPHINCS+ transaction signatures, account abstraction, CREATE2 derivation, and key rotation"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "01:01:26",
+      "action": "Fork ERC repo, draft new ERC for SPHINCS+-based PQTS; post link to Telegram channel by Monday",
+      "owner": "Antonio Sanso"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:23:55",
+      "decision": "Group maintains hash-based signatures (SPHINCS+) as primary target; FORS with ephemeral keys remains a parallel option"
+    },
+    {
+      "timestamp": "01:01:10",
+      "decision": "Proceeding to ERC drafting to avoid analysis paralysis; scope covers SPHINCS+ signing, account abstraction, CREATE2, and key rotation \u2014 no EIP/precompile required"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:02:28",
+      "target": "ERC draft link posted to Telegram \u2014 Monday, July 28, 2025"
+    }
+  ]
+}
