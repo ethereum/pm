@@ -1,0 +1,1869 @@
+WEBVTT
+
+1
+00:04:27.580 --> 00:04:29.250
+Parithosh Jayanthi: Hello, everyone.
+
+2
+00:04:38.840 --> 00:04:39.750
+Justin Traglia: Good morning.
+
+3
+00:04:59.650 --> 00:05:02.729
+Parithosh Jayanthi: Let's give people another minute to join, and then we can stop.
+
+4
+00:05:58.210 --> 00:06:01.250
+Parithosh Jayanthi: Okay, let's get started.
+
+5
+00:06:01.550 --> 00:06:04.679
+Parithosh Jayanthi: Can we get a confirmation that we're live?
+
+6
+00:06:06.680 --> 00:06:07.769
+Akash | ECH: Yeah, we are lying.
+
+7
+00:06:08.600 --> 00:06:09.940
+Parithosh Jayanthi: Alright, thank you.
+
+8
+00:06:11.210 --> 00:06:22.569
+Parithosh Jayanthi: First item on the agenda is DevNet updates. We had DevNet 7 launch, late last week, I think. Could we get an update from Stefan?
+
+9
+00:06:24.470 --> 00:06:25.339
+Stefan Starflinger: Yes, sure.
+
+10
+00:06:25.720 --> 00:06:36.910
+Stefan Starflinger: So, DevNet 7 has been going through different kinds of testing. One of the most recent ones that we are experimenting with is withholding payloads.
+
+11
+00:06:37.200 --> 00:06:41.959
+Stefan Starflinger: From the builder, so a lot of the blocks have been, orphaned.
+
+12
+00:06:42.090 --> 00:06:51.250
+Stefan Starflinger: And we've noticed, quite a few different issues, as well as, the builder has been,
+
+13
+00:06:51.520 --> 00:06:58.950
+Stefan Starflinger: Patched in a way that it overrides the gas limit header, which has caused some issues today.
+
+14
+00:06:59.270 --> 00:07:04.159
+Stefan Starflinger: In general, we noticed that the PTC votes for blobs
+
+15
+00:07:04.350 --> 00:07:22.119
+Stefan Starflinger: seem to be, not considered if the payload isn't there, and the PTC vote for blobs should always be considered as a liveness check, independent of the payload. I think that's something that clients are looking into.
+
+16
+00:07:22.130 --> 00:07:28.400
+Stefan Starflinger: Now, and otherwise, we have quite a few bugs across the board and improvements that we've…
+
+17
+00:07:28.500 --> 00:07:31.010
+Stefan Starflinger: Posted, in reports.
+
+18
+00:07:31.130 --> 00:07:41.710
+Stefan Starflinger: It would be good to maybe get some feedback if the reports have been helpful in the way that they are presented, or if there is something that we can do to improve them.
+
+19
+00:07:41.890 --> 00:07:43.879
+Stefan Starflinger: In the future, as well.
+
+20
+00:07:44.000 --> 00:07:46.239
+Stefan Starflinger: I don't know if you have anything to add, Perry.
+
+21
+00:07:49.340 --> 00:08:04.570
+Parithosh Jayanthi: I think the main thing to add is that we've been using two tools so far. So we have the builder itself, where we can delay some payloads, and the other one is TISM. I think TISM's scenarios have laid down in the Steel Discord.
+
+22
+00:08:04.830 --> 00:08:18.730
+Parithosh Jayanthi: it seems like we're causing more issues with Builder than with Prysm right now… with TISM right now, but, yeah, mostly intrigued to hear from client devs how the debugging is going, and if anything useful was found in the last days.
+
+23
+00:08:32.490 --> 00:08:37.150
+Parithosh Jayanthi: Terence mentioned they found some Beacon API performance issues.
+
+24
+00:08:38.030 --> 00:08:47.390
+terence: Yeah, we found some issues that builders were not actively trying to delay payload, but we received a payload late.
+
+25
+00:08:47.390 --> 00:09:07.390
+terence: Which is a little funny, because, it uses Prysm to propagate the payload, to broadcast over the network, but we had a performance issue such that even though it released on time, it still took 2 seconds for them to propagate it, and it showed up late, so we were able to fund that.
+
+26
+00:09:13.270 --> 00:09:19.109
+Parithosh Jayanthi: Nice. Did someone from Prysm have a chance to have a look at the double vote issue?
+
+27
+00:09:21.640 --> 00:09:23.259
+terence: I just saw it, I have not.
+
+28
+00:09:25.770 --> 00:09:35.480
+Parithosh Jayanthi: Okay, yeah, any other client teams? Anything worth mentioning from debugging efforts, or are people just basically heads down with still…
+
+29
+00:09:36.290 --> 00:09:37.760
+Parithosh Jayanthi: Triage unions.
+
+30
+00:09:40.970 --> 00:09:42.589
+Enrico Del Fante (tbenr): I have a question.
+
+31
+00:09:42.840 --> 00:09:51.290
+Enrico Del Fante (tbenr): about terence, what terence just said. Is, is the delay only, seen from…
+
+32
+00:09:51.740 --> 00:09:57.750
+Enrico Del Fante (tbenr): Prysm API, or there are other builders publishing using different
+
+33
+00:09:58.040 --> 00:10:00.939
+Enrico Del Fante (tbenr): A bigger node that doesn't have the same issue?
+
+34
+00:10:01.600 --> 00:10:20.100
+terence: Yeah, so to clarify, there was 3 builders total, and the only builder 0s, based on our, categorization, we look at all the logs, only in builder 0 are, are sending payload apparently revealed on time.
+
+35
+00:10:20.100 --> 00:10:38.319
+terence: But PTC sometimes voted majority late, but builder 1 and Builder 2 are always on time, so it turns out Builder Z… so that was a clear pattern, that only builder 0 had the issue, and builder 0 was only using,
+
+36
+00:10:38.320 --> 00:10:43.250
+terence: recent Beacon API implementation to propagate, payload.
+
+37
+00:10:56.240 --> 00:10:57.060
+Parithosh Jayanthi: Nice.
+
+38
+00:10:58.800 --> 00:11:12.110
+Parithosh Jayanthi: Anything else for Glamsterdam DevNet 7? Has, since we have the SSZ changes in, has anyone noticed any degradations in performance, or anything else worth mentioning?
+
+39
+00:11:12.320 --> 00:11:14.360
+Parithosh Jayanthi: With progressive stable containers?
+
+40
+00:11:27.820 --> 00:11:36.680
+Parithosh Jayanthi: Okay, cool. The next item on the agenda is, Glamsterdam… yeah, terence?
+
+41
+00:11:36.680 --> 00:11:56.049
+terence: Regarding stable container, we only have 3,000 active validators, and typically validators are the heaviest part in the Beacon state, so maybe it's not too… maybe it's not enough to see if there's, like, such perfume bottleneck with changes like stable container, right?
+
+42
+00:11:56.160 --> 00:12:00.659
+terence: We probably want to ramp the Validator kind of up and check again.
+
+43
+00:12:01.630 --> 00:12:08.129
+terence: we have… Yeah, yeah. I do mean the AC Validators, yeah.
+
+44
+00:12:09.190 --> 00:12:11.320
+terence: Oh, I see.
+
+45
+00:12:11.320 --> 00:12:18.569
+Parithosh Jayanthi: exited already, so we started doing this trick where in the Genesis state, we just shove a ton of exited validators.
+
+46
+00:12:18.900 --> 00:12:23.850
+terence: Okay, maybe we should let this run longer then, because I do have…
+
+47
+00:12:24.140 --> 00:12:29.339
+terence: Front jobs, they're actively capturing profiles.
+
+48
+00:12:29.460 --> 00:12:41.550
+terence: And so far, it hasn't been any bottleneck, but maybe I didn't capture them at the right time, when there are tons of validators in there. So maybe keep it longer or something.
+
+49
+00:12:41.980 --> 00:12:48.559
+Parithosh Jayanthi: Yeah, okay, sounds good. Also, DevNet8, we can just have more, active validators as well.
+
+50
+00:12:58.320 --> 00:13:10.479
+Parithosh Jayanthi: Yeah, next item on the agenda was, regarding the Beacon API changes that was brought up on ACDT on Monday. Can someone summarize the discussion or current status?
+
+51
+00:13:11.800 --> 00:13:21.260
+Parithosh Jayanthi: This was about Beacon API changes to produce block V4, as well as the key manager API changes, like, the whole topic in general.
+
+52
+00:13:34.050 --> 00:13:42.080
+Jason Vranek: Hi, I've been working on, yeah, 3 of those PRs, also for the builder API, just to keep them in sync.
+
+53
+00:13:42.550 --> 00:13:49.160
+Jason Vranek: I think there was some sort of divergence, and yesterday, some clarity around,
+
+54
+00:13:49.450 --> 00:13:53.980
+Jason Vranek: Adding proxies as more of a first-class thing, and removing that, and…
+
+55
+00:13:54.320 --> 00:13:58.309
+Jason Vranek: As of last night, the PRs are all updated to remove those.
+
+56
+00:13:58.970 --> 00:14:05.189
+Jason Vranek: I think what isn't added to it yet is discussion… there's been discussion around,
+
+57
+00:14:05.550 --> 00:14:08.190
+Jason Vranek: The timeouts and the headers and,
+
+58
+00:14:08.780 --> 00:14:20.870
+Jason Vranek: default values for the clients, which I guess wouldn't make it into… the headers would make it into the builder API, but the defaults would be up to the clients.
+
+59
+00:14:21.370 --> 00:14:30.290
+Jason Vranek: But I think there's been a lot of node operators, like dbt teams, looking at the specs, but I don't think there's still rough consensus.
+
+60
+00:14:32.880 --> 00:14:37.949
+Parithosh Jayanthi: Okay, nice. Is there, anything other than just a bit more…
+
+61
+00:14:38.080 --> 00:14:43.979
+Parithosh Jayanthi: Time required for rough Consensus to arrive, or is there a specific blocker, by any chance?
+
+62
+00:14:50.110 --> 00:14:55.980
+Shane Moore: I mean, from a SSV side, as one of the dbt clients, we at least checked out the six…
+
+63
+00:14:56.320 --> 00:15:12.259
+Shane Moore: 25 PR, and we're compatible with that, so happy for it to merge or whatever. Then, yeah, Jason's PR for, like, 6.30 would be also great to get more client teams looking at it. We're basically adding, like, an ahead-of-time submit builder preferences Beacon endpoint.
+
+64
+00:15:12.290 --> 00:15:16.479
+Shane Moore: And that would be cool for, dbt clusters, so we can do our, like.
+
+65
+00:15:16.740 --> 00:15:25.449
+Shane Moore: threshold signing and auto submission for this new request off V1, like, an epoch before the proposal, like, before the block proposal.
+
+66
+00:15:25.640 --> 00:15:31.080
+Shane Moore: So, that way, you know, it gets off of the hot path, which would be, you know, nice. I think so far.
+
+67
+00:15:31.330 --> 00:15:39.820
+Shane Moore: Let's say Losar and I think Prysm have taken a look at the 630 PR, but yeah, if we get more client teams on it, that would be great as well.
+
+68
+00:15:44.920 --> 00:15:59.639
+Parithosh Jayanthi: Nice, thank you. Yeah, I see there's a ton of discussion going on on the EPBS channel, so if anyone's interested, then please chime in. I think the relevant parties are mostly DVT providers, anyone relying on the Key Manager API, and so on.
+
+69
+00:16:00.480 --> 00:16:14.489
+Parithosh Jayanthi: And yeah, for… to Terence's point, maybe the soft deadline can be Monday, where we would merge in all the changes, let's say latest at ACDT, so we still get some synchronous time, and then we can merge immediately after.
+
+70
+00:16:14.730 --> 00:16:25.040
+Parithosh Jayanthi: The main reason for, let's say, Monday as the deadline is that once the mergers are done, clients can work on implementations, and we can target DevNet 8 the week after.
+
+71
+00:16:25.740 --> 00:16:29.689
+Parithosh Jayanthi: Does that feel like a reasonable timeline?
+
+72
+00:16:39.420 --> 00:16:41.140
+Parithosh Jayanthi: Okay,
+
+73
+00:16:41.840 --> 00:16:57.820
+Parithosh Jayanthi: Yes, and Nico's question is about the circuit breaker. Do all clients have circuit breaker implementations? Maybe could we go client by client and just talk again about where you guys are on implementation?
+
+74
+00:16:58.330 --> 00:17:00.069
+Parithosh Jayanthi: Do you want to start, Nico?
+
+75
+00:17:02.440 --> 00:17:18.560
+Nico Flaig: Yeah, I think our implementation is pretty much finalized. We had some more discussions, for example, if we should consider only our canonical branch or all branches. So right now, we consider all branches and track missed payloads there.
+
+76
+00:17:18.750 --> 00:17:23.490
+Nico Flaig: Yeah, but it's pretty much final, it's already on devnet 7.
+
+77
+00:17:24.160 --> 00:17:27.129
+Nico Flaig: So we are just ironing out some few details.
+
+78
+00:17:30.390 --> 00:17:33.479
+Parithosh Jayanthi: Okay, great. Anyone from Prysm?
+
+79
+00:17:36.710 --> 00:17:42.839
+terence: Otis was just looking at it, I think he just joined. So, Otis, any updates on the circuit breaker?
+
+80
+00:17:42.840 --> 00:17:53.500
+potuz: Oh, there is… there is… no, on the Rakuten node, on the DevNet, yes, there seems to be some peering problem again. Just a simple restart keeps the nodes in sync.
+
+81
+00:17:53.900 --> 00:17:58.320
+potuz: But, for some reason, and it's hard to see why.
+
+82
+00:17:58.490 --> 00:18:03.789
+potuz: We were isolated because there's a lot of invalid payloads floating around.
+
+83
+00:18:03.920 --> 00:18:13.989
+potuz: But yeah, Prysm nodes, fell out of sync when they were just isolated and they couldn't just sync anything because they didn't have any peers, and just a simple restart, like.
+
+84
+00:18:14.140 --> 00:18:25.460
+potuz: makes them catch up quickly. So, it seems to be, again, just a peering issue. I do… I haven't found the reason why we are downscoring our peers, but it's gonna be hard with all these invalid payloads.
+
+85
+00:18:28.470 --> 00:18:37.949
+Parithosh Jayanthi: Okay, that's fair. Thanks for the update, and yeah, I guess circuit breaker implementation stuff will… would it be done by DevNet 8, or what's the plan?
+
+86
+00:18:37.950 --> 00:18:42.309
+potuz: Yeah, yeah, yeah, it should be done. I'm sorry, I'm delaying that.
+
+87
+00:18:43.780 --> 00:18:49.589
+Parithosh Jayanthi: Okay, cool. Do we have someone from Teku, Enrico, or someone else?
+
+88
+00:18:52.310 --> 00:18:55.240
+Enrico Del Fante (tbenr): I'll leave it to Mehdi, who is… who implemented it.
+
+89
+00:18:59.750 --> 00:19:01.820
+Enrico Del Fante (tbenr): Maybe it's not…
+
+90
+00:19:01.940 --> 00:19:16.030
+Enrico Del Fante (tbenr): It's still in mute. I know we merged the… we merged the PR. I don't have specific details, so… yeah, we have something, I don't have much more details.
+
+91
+00:19:20.920 --> 00:19:23.770
+Parithosh Jayanthi: Okay, nimbus?
+
+92
+00:19:24.140 --> 00:19:27.100
+Parithosh Jayanthi: Do we have TerSec, or Etown, or someone else?
+
+93
+00:19:30.600 --> 00:19:42.700
+Dustin: Yeah, Nimbus does… I mean, we have our, our Fusaka, of course, version, but no, we do not have something yet for Grandine. It's, the, priority.
+
+94
+00:19:44.790 --> 00:19:46.900
+Parithosh Jayanthi: Okay. Lighthouse?
+
+95
+00:20:00.250 --> 00:20:03.920
+Parithosh Jayanthi: Okay, I don't know if someone from Lighthouse is on today.
+
+96
+00:20:04.030 --> 00:20:07.199
+Parithosh Jayanthi: Grandine, is there anyone there?
+
+97
+00:20:08.060 --> 00:20:13.189
+Saulius Grigaitis | Grandine: Yeah, we also don't have an updated version for the…
+
+98
+00:20:13.700 --> 00:20:23.610
+Saulius Grigaitis | Grandine: for the glass. We only have this previous Fusaka version, so we will work on that at some point, soon.
+
+99
+00:20:25.220 --> 00:20:37.339
+Parithosh Jayanthi: So I guess that we should add it to the spec sheet for DevNet 8, so that we have Beacon API changes, and hopefully, separate breakout changes as well before we launch DevNet 8.
+
+100
+00:20:44.170 --> 00:20:50.539
+Parithosh Jayanthi: Okay, any other builder API and or Web3 sign-up ERs to be discussed?
+
+101
+00:20:57.640 --> 00:21:02.210
+Parithosh Jayanthi: Great. I did want to leave a note that,
+
+102
+00:21:02.350 --> 00:21:13.530
+Parithosh Jayanthi: Toni has a message on the Block-level access list channel, mainly flagging it because there's some EnginePI changes. I don't necessarily think CL Devs need to engage on anything there, but…
+
+103
+00:21:13.680 --> 00:21:15.419
+Parithosh Jayanthi: Probably worth keeping an eye out.
+
+104
+00:21:21.070 --> 00:21:33.680
+Parithosh Jayanthi: And the last item on the agenda for Glamsterdam is, on ACDT on Monday, there was intent from the testing teams to SFI all the EIPs that have been at,
+
+105
+00:21:33.960 --> 00:21:36.690
+Parithosh Jayanthi: That, been included in devnet 7.
+
+106
+00:21:36.980 --> 00:21:39.869
+Parithosh Jayanthi: Is there any objection to this?
+
+107
+00:21:48.500 --> 00:21:59.190
+Parithosh Jayanthi: Okay, if that's the case, then we'll go ahead and start creating the EIPs to SFI the EIP. Yeah, we'll go, create the PRs to SFI the EIPs.
+
+108
+00:22:00.320 --> 00:22:03.860
+Parithosh Jayanthi: Anything else Glamsterdam related?
+
+109
+00:22:09.980 --> 00:22:17.729
+Stefan Starflinger: I created the DevNet 8 spec sheet. I shared it again if clients want to have a look, or people want to give some feedback.
+
+110
+00:22:19.060 --> 00:22:19.960
+Parithosh Jayanthi: Perfect.
+
+111
+00:22:20.270 --> 00:22:21.389
+Parithosh Jayanthi: Thank you.
+
+112
+00:22:23.370 --> 00:22:36.830
+Parithosh Jayanthi: Yeah, I think timeline-wise, we're still looking at DevNet 8 early August. We would want at least one public-ish DevNet, and a non-finality DevNet, both ideally in August.
+
+113
+00:22:36.970 --> 00:22:41.430
+Parithosh Jayanthi: And that should still allow us to potentially have the first testnet in September.
+
+114
+00:22:41.900 --> 00:22:44.039
+Parithosh Jayanthi: Just to have a view on…
+
+115
+00:22:45.010 --> 00:22:48.200
+Parithosh Jayanthi: In the know about the timelines we're trying to target, at least.
+
+116
+00:22:54.920 --> 00:22:59.449
+Parithosh Jayanthi: Okay, next item on the agenda is, Hegota.
+
+117
+00:22:59.860 --> 00:23:04.919
+Parithosh Jayanthi: Do we have Sukun to talk about, bundled attestation propagation?
+
+118
+00:23:09.500 --> 00:23:10.100
+Sukun Tarachandani: Pike.
+
+119
+00:23:10.990 --> 00:23:12.700
+Parithosh Jayanthi: Hey, yeah, you have the floor.
+
+120
+00:23:13.290 --> 00:23:18.490
+Sukun Tarachandani: Yeah, so I have the EIP. I have linked it in the…
+
+121
+00:23:19.440 --> 00:23:25.189
+Sukun Tarachandani: issue. I'll share it here in the chat. And I also have consensus facts related to it.
+
+122
+00:23:27.430 --> 00:23:31.250
+Sukun Tarachandani: And I have a draft implementation in Prysm as well.
+
+123
+00:23:31.370 --> 00:23:39.750
+Sukun Tarachandani: So, I basically talked about it a few ACDCs ago. The idea is to deduplicate attestation data, and so… to save bandwidth.
+
+124
+00:23:40.460 --> 00:23:43.659
+Sukun Tarachandani: This helps in the future with decoupled Consensus a lot.
+
+125
+00:23:43.850 --> 00:23:45.650
+Sukun Tarachandani: And,
+
+126
+00:23:46.030 --> 00:24:00.929
+Sukun Tarachandani: the nice thing here is that, basically, I've kept all the changes to a minimum, so… because anyway, the objects that we vote on will change for decoupled Consensus, so… I've not made such large-scale changes.
+
+127
+00:24:01.030 --> 00:24:10.080
+Sukun Tarachandani: And it should be fairly easy to implement, so I would like to propose it for Hegota, and, like, if people need any other information, I'm happy to provide them.
+
+128
+00:24:11.820 --> 00:24:16.059
+Sukun Tarachandani: But otherwise, we can keep discussing on the EIP or the Consensus bits.
+
+129
+00:24:20.360 --> 00:24:23.749
+Parithosh Jayanthi: Are there any open questions from the clients about this?
+
+130
+00:24:25.200 --> 00:24:36.049
+Sukun Tarachandani: Not yet. I would like… yeah, basically, I think I have 2 more weeks, so I'd like to highlight it to all the client teams, and they can reach out to me for any questions they have.
+
+131
+00:24:41.750 --> 00:24:48.069
+Parithosh Jayanthi: Okay, perfect. Any immediate questions from clients, or should we move to the next topic, then?
+
+132
+00:24:49.730 --> 00:24:54.850
+Sukun Tarachandani: Also, just to highlight, like, the change itself is backwards compatible, so…
+
+133
+00:24:55.200 --> 00:24:57.950
+Sukun Tarachandani: This does not need to be fork color.
+
+134
+00:24:58.240 --> 00:25:00.280
+Sukun Tarachandani: the post-k-out fine.
+
+135
+00:25:03.410 --> 00:25:11.560
+Parithosh Jayanthi: Nice. That also probably implies we don't need to necessarily ship this at a fork, right? If some client implements it beforehand, yeah.
+
+136
+00:25:12.220 --> 00:25:17.550
+Sukun Tarachandani: Yeah, yeah, it is fully backwards compatible, and it really should not impact
+
+137
+00:25:18.220 --> 00:25:25.719
+Sukun Tarachandani: If a client ships it before, also, it should be fine. So, it follows the same thing as the data columns work that we did.
+
+138
+00:25:26.230 --> 00:25:30.050
+Sukun Tarachandani: And, like, yeah, so that would also… we would also get some…
+
+139
+00:25:30.260 --> 00:25:35.400
+Sukun Tarachandani: Sort of confidence on the partial messages system by then, when we ship data columns.
+
+140
+00:25:37.490 --> 00:25:49.479
+Parithosh Jayanthi: Yeah, makes sense. And yeah, like Daniel mentioned, I guess we can make it required for, Hegota if we do intend to ship this, so that, worst case, we know on the networking level, everyone has it post-star.
+
+141
+00:25:50.570 --> 00:25:53.480
+Sukun Tarachandani: Yeah, awesome. Awesome.
+
+142
+00:25:55.990 --> 00:26:00.560
+Parithosh Jayanthi: Cool, yeah, please engage on the EIP if you have questions.
+
+143
+00:26:01.200 --> 00:26:08.680
+Sukun Tarachandani: I will also share the consensus bits, so yeah, look at the comments there as well.
+
+144
+00:26:12.920 --> 00:26:16.139
+Parithosh Jayanthi: Thank you. Anything else on this topic?
+
+145
+00:26:21.350 --> 00:26:23.600
+Daniel Knopik: Yeah, quick question from my side.
+
+146
+00:26:24.340 --> 00:26:34.140
+Daniel Knopik: This basically supersedes Roel's earlier proposal of, batching attestations at source, right?
+
+147
+00:26:35.290 --> 00:26:51.459
+Sukun Tarachandani: So that is an orthogonal change. If we do it, we'll have to change some of the data structures that we use here, but you can use both of them in conjunction. So, if you batch at source, you can still use this with the… there are orthogonal changes.
+
+148
+00:26:53.060 --> 00:27:04.219
+Sukun Tarachandani: Well, that's technically what Raoul's proposal was doing was pre-aggregating at source, and what this does is it just makes the network data structures more efficient, so that we save bandwidth.
+
+149
+00:27:04.720 --> 00:27:14.509
+Daniel Knopik: Yeah, I'm just wondering if there's still value to batching at source, if basically everyone can at least bundle them, but that we can discuss.
+
+150
+00:27:15.100 --> 00:27:20.579
+Sukun Tarachandani: Yeah, sure. I think that needs to come from simulations, so maybe we can take that up.
+
+151
+00:27:29.600 --> 00:27:34.779
+Parithosh Jayanthi: Awesome. Anything else? Any other comments or questions from client teams?
+
+152
+00:27:45.880 --> 00:27:48.029
+Parithosh Jayanthi: Okay, thanks. Thanks, Sukun.
+
+153
+00:27:49.230 --> 00:27:59.359
+Parithosh Jayanthi: Next item on the agenda is, partial execution payload commitments from, Toni. Are you on the call to speak?
+
+154
+00:28:00.110 --> 00:28:02.740
+Toni Wahrstätter: Yes, hello, Perry. Hello, everyone.
+
+155
+00:28:03.030 --> 00:28:08.309
+Toni Wahrstätter: So, this is a new EIP, I will post it into the chat, it's there right now.
+
+156
+00:28:08.510 --> 00:28:14.609
+Toni Wahrstätter: And this is an alternative to what I presented a few weeks ago on the… on ACDE.
+
+157
+00:28:14.770 --> 00:28:18.020
+Toni Wahrstätter: Namely, an alternative to the late-stage route.
+
+158
+00:28:18.870 --> 00:28:37.419
+Toni Wahrstätter: If you remember, the late-stage route EIP worked, where you basically replaced the post-stage route with the pre-stage route, and every block would not contain the post-state route and the header anymore, but instead you would commit to the output of the previous block, which is put into the header as the pre-state route.
+
+159
+00:28:37.450 --> 00:28:44.359
+Toni Wahrstätter: So, essentially, the earlier EIP, which was 7862, It's,
+
+160
+00:28:44.510 --> 00:28:50.060
+Toni Wahrstätter: did the original, the late-stage route, idea, but this new proposal
+
+161
+00:28:50.430 --> 00:28:52.970
+Toni Wahrstätter: Does it a little bit differently.
+
+162
+00:28:53.280 --> 00:29:03.260
+Toni Wahrstätter: Namely, if you look at the EPBS bid today, the bit commits to the block hash, and instead of the bit committing to the block hash, we would now
+
+163
+00:29:03.570 --> 00:29:12.630
+Toni Wahrstätter: unbundle the block hash, and commit in the bit to all the fields that the EL block header contains, except the state root.
+
+164
+00:29:13.090 --> 00:29:15.609
+Toni Wahrstätter: This means,
+
+165
+00:30:32.759 --> 00:30:35.798
+Toni Wahrstätter: Yeah, I guess we'll give people a minute.
+
+166
+00:30:38.019 --> 00:30:47.698
+Parithosh Jayanthi: Yeah, no idea what happened. I think we had multiple hosts, maybe one of the other hosts leaving, to get the call end?
+
+167
+00:30:48.989 --> 00:30:53.508
+Toni Wahrstätter: Yeah, it was… it was too much for them. Another delayed-stage proposal.
+
+168
+00:30:54.209 --> 00:30:56.198
+Toni Wahrstätter: Okay, let me quickly post the…
+
+169
+00:30:56.199 --> 00:30:57.689
+Parithosh Jayanthi: Just one too many.
+
+170
+00:30:58.029 --> 00:30:59.149
+Toni Wahrstätter: Exactly, exactly.
+
+171
+00:30:59.149 --> 00:31:00.179
+Parithosh Jayanthi: Are you just got a little flip.
+
+172
+00:31:01.389 --> 00:31:03.819
+Toni Wahrstätter: I will post a link into the chat again.
+
+173
+00:31:04.649 --> 00:31:10.828
+Toni Wahrstätter: So yeah, the second proposal replaces the block hash with the state root.
+
+174
+00:31:10.829 --> 00:31:12.319
+Parithosh Jayanthi: Hang on for a sec.
+
+175
+00:31:12.319 --> 00:31:13.028
+Pooja Ranjan: I just need to get my response.
+
+176
+00:31:13.029 --> 00:31:13.829
+nixo: Dreaming.
+
+177
+00:31:13.829 --> 00:31:21.208
+Pooja Ranjan: Yeah, I just want to mention that we may not be able to continue the same streaming, so let's continue recording, and at the end, I will upload the full recording.
+
+178
+00:31:22.029 --> 00:31:29.099
+Pooja Ranjan: Or, Akash if you can confirm. I don't think it is possible, like, technically. We can definitely go back and record the entire recording.
+
+179
+00:31:31.779 --> 00:31:35.878
+Parithosh Jayanthi: Yeah, let's just give them a minute to figure this out before we start back, Toni.
+
+180
+00:31:36.299 --> 00:31:37.659
+Toni Wahrstätter: Okay, I'm fine.
+
+181
+00:31:43.659 --> 00:31:51.119
+Pooja Ranjan: I think we can go ahead and continue. We are recording, and after the call, I will collect both of the recordings and upload it.
+
+182
+00:31:53.169 --> 00:31:55.649
+Parithosh Jayanthi: Thank you so much. Thank you very much.
+
+183
+00:31:56.099 --> 00:32:05.728
+Toni Wahrstätter: So yeah, TLDR, instead of committing to the block hash and the bit, we would commit to everything in the EL block header except the state root, which means…
+
+184
+00:32:05.839 --> 00:32:19.338
+Toni Wahrstätter: the builder would include a bit with all the EL header fields, so it's already a commitment to the content of the block, because of course, things like the transactions routes or the receipt routes are all committed in the bid.
+
+185
+00:32:19.839 --> 00:32:33.119
+Toni Wahrstätter: everything but the state route. So the builder would then have time until he reveals the payload to compute the state route. And this is an EIP, so the idea comes from Francesco from the… from EF ZKVM team.
+
+186
+00:32:33.199 --> 00:32:41.598
+Toni Wahrstätter: And the goal of the delayed state route EIPs is, of course, to give the builder-slash-the-prover more time to construct the proof.
+
+187
+00:32:42.109 --> 00:32:48.299
+Toni Wahrstätter: And we are still in the process of, figuring out, like, which EIP is actually the better one.
+
+188
+00:32:48.669 --> 00:32:54.299
+Toni Wahrstätter: And I am… I, myself, am not super clear, like, which one we actually want to do.
+
+189
+00:32:54.979 --> 00:33:05.469
+Toni Wahrstätter: This later EIP comes with no delay for light clients, which is very nice, but at the same time, it wouldn't give you the additional 12 seconds to generate the
+
+190
+00:33:05.609 --> 00:33:10.369
+Toni Wahrstätter: state proof of the ZKVM. So the ZKVM proof would be split in
+
+191
+00:33:10.539 --> 00:33:23.329
+Toni Wahrstätter: two logical parts, which is the execution proof and the state proof, and with the original state root, delayed state root EIP, you would have an additional slot for proof generation, at least for the state root part.
+
+192
+00:33:23.329 --> 00:33:32.989
+Toni Wahrstätter: And with this one, you wouldn't have that. But instead, you would have a little bit more time, because you don't need to calculate the state root for your bit, you only need to calculate it
+
+193
+00:33:32.989 --> 00:33:34.509
+Toni Wahrstätter: When you release the payload.
+
+194
+00:33:35.359 --> 00:33:46.669
+Toni Wahrstätter: And that's basically it. I think there's still more input needed. I proposed the two alternatives, and we would probably only pick one of them, especially because the earlier one, the late stage with EIP,
+
+195
+00:33:46.809 --> 00:33:53.648
+Toni Wahrstätter: would, consume the later one. And the later one is more like a trimmed-down version of it.
+
+196
+00:33:54.619 --> 00:33:59.868
+Toni Wahrstätter: And yeah, I'm very happy if there is any question. I saw Etan is asking, what about BlockHash?
+
+197
+00:34:00.299 --> 00:34:03.508
+Toni Wahrstätter: Potuz is asking something about the SSZ root.
+
+198
+00:34:04.199 --> 00:34:07.099
+Toni Wahrstätter: Could you guys quickly, clarify?
+
+199
+00:34:08.069 --> 00:34:19.878
+Etan (Nimbus): Yeah, just for the block hash, that spans over the state root, so if we remove the state route, we also have to remove the block hash, if it's there, even.
+
+200
+00:34:19.879 --> 00:34:37.298
+Toni Wahrstätter: Exactly. We would… we would, so today, the state root is not in the bit. The state is implicitly contained in the block hash, you could say, and now we would completely remove the block hash, and instead move all the fields that the block hash commits to in the bit, which means everything in the EL header.
+
+201
+00:34:37.299 --> 00:34:45.168
+Toni Wahrstätter: would move into the bit, but accept the state root. So the state root would be the only field that we wouldn't replace with the block hash.
+
+202
+00:34:47.569 --> 00:34:49.439
+Etan (Nimbus): What about the receipts route?
+
+203
+00:34:50.689 --> 00:35:00.578
+Toni Wahrstätter: receipts route and transactions route, so the two execution outputs, they would still be in the bid. So you would essentially commit to the contents of the block.
+
+204
+00:35:00.709 --> 00:35:03.038
+Toni Wahrstätter: But without committing to the state.
+
+205
+00:35:03.389 --> 00:35:06.468
+Toni Wahrstätter: So everything is deterministic, you can't change anything.
+
+206
+00:35:19.619 --> 00:35:23.979
+Toni Wahrstätter: And to answer Potuz question, it would probably just be a hash.
+
+207
+00:35:24.579 --> 00:35:27.838
+Toni Wahrstätter: I guess we could… we could make it the SSZ root.
+
+208
+00:35:28.219 --> 00:35:38.639
+Toni Wahrstätter: Like, I'm very open for that, but I think we… we can decide that as soon as we decided which variant of the late stage route we actually want to do.
+
+209
+00:35:38.879 --> 00:35:41.188
+Toni Wahrstätter: If we even want to do any of them.
+
+210
+00:35:56.699 --> 00:36:01.438
+Toni Wahrstätter: To answer Etan's question, this is a non-headliner proposal.
+
+211
+00:36:01.719 --> 00:36:07.668
+Toni Wahrstätter: It should be rather small, especially the one I presented today is, like, super small on the seal.
+
+212
+00:36:07.839 --> 00:36:10.719
+Toni Wahrstätter: The earlier one was only EL,
+
+213
+00:36:10.999 --> 00:36:20.039
+Toni Wahrstätter: And is a little bit more, involved, just because it adds some complexity around reorgs, but nothing that is actually,
+
+214
+00:36:20.439 --> 00:36:23.418
+Toni Wahrstätter: Like, nothing that isn't figured out already.
+
+215
+00:36:23.689 --> 00:36:24.739
+Toni Wahrstätter: Yeah, potuz?
+
+216
+00:36:25.599 --> 00:36:41.059
+potuz: Yeah, I have nothing against the CIP, it seems reasonable to me, but you'll want to have a little bit more detail on the CL side, on how this is going to be validated. I mean, processing the bid is absolutely fine if we have a hash, or if we have an SSZ root.
+
+217
+00:36:41.119 --> 00:36:45.969
+potuz: We can just check it. But, we use the block hash
+
+218
+00:36:46.029 --> 00:36:53.609
+potuz: On the bid, on implementations, to check when we're receiving a block, if it's based on full or on empty.
+
+219
+00:36:53.829 --> 00:37:11.619
+potuz: So, that information now, it's going to be off-chain, it's not going to be committed in the bid. So we will need to modify the paths on how we check if, when we receive a CL block, if it's billed on top of full or empty. Perhaps the easiest
+
+220
+00:37:11.749 --> 00:37:15.159
+potuz: Would be to just add that bit in the bid.
+
+221
+00:37:21.649 --> 00:37:28.489
+Toni Wahrstätter: Yes, this is a very good point, and I stumbled across exactly this, too. So my thinking was that maybe we could use the…
+
+222
+00:37:29.269 --> 00:37:32.758
+Toni Wahrstätter: The parent block hash for that,
+
+223
+00:37:33.159 --> 00:37:38.149
+Toni Wahrstätter: In order to still be able to tell if empty versus full.
+
+224
+00:37:38.419 --> 00:37:41.288
+Toni Wahrstätter: But just using the bit's parent block hash?
+
+225
+00:37:41.289 --> 00:37:42.309
+potuz: Yeah, but making sure…
+
+226
+00:37:42.999 --> 00:38:00.638
+potuz: you can always commit to the parent block hash in the bid. That's going to be… I guess that's… you're still committing to it. But the problem is that if you're building on top of full, then the parent block hash is a block hash that is not known from… purely from the CL side.
+
+227
+00:38:01.229 --> 00:38:15.088
+potuz: So we will need to get the block hash on the… so I assume that the easiest would be to have an Engine API, that when we send a new payload, it returns back what was the block hash, so that we can actually store it locally.
+
+228
+00:38:15.179 --> 00:38:23.668
+potuz: So when we're receiving the next block with apparent… indicating a parent block hash, we already have it in Fortress to see, and yeah, this is… this block is based on food.
+
+229
+00:38:26.699 --> 00:38:27.379
+Toni Wahrstätter: Right.
+
+230
+00:38:27.659 --> 00:38:29.488
+Toni Wahrstätter: Yeah, this is great input.
+
+231
+00:38:30.029 --> 00:38:36.789
+Francesco Risitano (Tau): Just on that point, would the execution payload envelope, not contain the block hash?
+
+232
+00:38:39.129 --> 00:38:48.069
+potuz: You can, and then… but then again, we will need to validate that the block hash on the payload envelope is the block hash computed on the EL.
+
+233
+00:38:48.069 --> 00:38:59.719
+potuz: So, either way, a new payload call should return the block hash, or should validate that the block hash that we provide is the block hash that is claimed in the… in the envelope.
+
+234
+00:39:01.759 --> 00:39:11.148
+Francesco Risitano (Tau): Correct, yep. If I'm not mistaken, I believe the engine API may already be doing that, but I'd need to… I'd need to double check.
+
+235
+00:39:14.569 --> 00:39:20.119
+Toni Wahrstätter: Yeah, this is great input. It would be also what Etan is, saying,
+
+236
+00:39:21.129 --> 00:39:38.189
+Toni Wahrstätter: something in the chat. It would be great if… if you could, look… look up the EIP. It's still not merged, but I put a section in there regarding exactly this problem, because I saw the BlockH was used for full versus empty decisions, so it would be great if you could take a look and
+
+237
+00:39:38.349 --> 00:39:46.439
+Toni Wahrstätter: see if it… what we are currently doing in the EIP makes sense, or if something would have to change to make this work.
+
+238
+00:40:11.559 --> 00:40:17.109
+Toni Wahrstätter: Awesome. I guess we can take everything else that is unclear async. Thanks a lot.
+
+239
+00:40:22.169 --> 00:40:23.579
+Parithosh Jayanthi: Okay,
+
+240
+00:40:23.899 --> 00:40:31.069
+Parithosh Jayanthi: Thank you very much. Yeah, just a little some more, maybe feedback about, debugging and tooling aspect.
+
+241
+00:40:35.179 --> 00:40:39.668
+Parithosh Jayanthi: Yeah, do you want to take these topics async, Toni, or do you want to continue?
+
+242
+00:40:41.119 --> 00:40:45.809
+Toni Wahrstätter: Just going through Dustin's question, see how being able to block hash today.
+
+243
+00:40:45.939 --> 00:40:48.489
+Toni Wahrstätter: Yeah, I think those are exactly some…
+
+244
+00:40:48.699 --> 00:40:54.739
+Toni Wahrstätter: Nitty-gritty details that we have to, like, iron out. Like, figure out, like, what would actually change.
+
+245
+00:40:55.159 --> 00:41:08.178
+Toni Wahrstätter: I guess the first decision we have to take is which of the two delayed statehood EIPs actually gives us the properties that we want in the future for ZKVMs, but of course, as well as builders today.
+
+246
+00:41:08.319 --> 00:41:16.798
+Toni Wahrstätter: Like, the goal is not only ZKVMs, but also to lower the barriers for new builders to enter, because building will become easier with that EIP.
+
+247
+00:41:17.259 --> 00:41:24.109
+Toni Wahrstätter: So yeah, there will be a few things to be figured out, exactly, as Dustin mentioned it, around debugging, around tooling.
+
+248
+00:41:24.979 --> 00:41:28.268
+Toni Wahrstätter: And yeah, we'll be figured out along the way, I guess.
+
+249
+00:41:32.579 --> 00:41:38.288
+Parithosh Jayanthi: Thank you. Yeah, please engage on Toni's, EIP, he's linked it in the chat.
+
+250
+00:41:38.609 --> 00:41:40.459
+Parithosh Jayanthi: And we have it in the agenda.
+
+251
+00:41:41.729 --> 00:41:51.479
+Parithosh Jayanthi: Next item on the agenda is, Kev's proposal for HashChain RANDAO. You have the floor, Kev?
+
+252
+00:41:52.949 --> 00:42:08.578
+Kevaundray Wedderburn: Great. Thanks, Perry. Yeah, so EIP8321, which replaces BLS… the BLS RANDAO contribution from each proposal with the pre-image of a published, hash chain.
+
+253
+00:42:08.579 --> 00:42:27.168
+Kevaundray Wedderburn: This, as far as I could tell, was the original proposal, but we chose to go with BLS signatures. And the TLDR is that the process for registering your hash chain is similar to the BLS2 execution change message that we had for withdrawal credentials.
+
+254
+00:42:27.489 --> 00:42:35.999
+Kevaundray Wedderburn: Yeah, so that's it. It's not a super complicated EIP, maybe famous last words. Yeah, any questions?
+
+255
+00:42:39.349 --> 00:42:43.298
+Parithosh Jayanthi: Could you maybe expand on why we need this EIP? Like, what is this.
+
+256
+00:42:44.719 --> 00:42:56.259
+Kevaundray Wedderburn: Right, yeah, so currently, BLS, is not post-quantum safe, so up… we're basically upgrading, the RANDAO mechanism to be, PQ safe.
+
+257
+00:43:05.179 --> 00:43:16.459
+T. Wambsgans: I would add that there are probably two ways I can see to do it in a post-quantum way. This is the simplest way. The alternative way would be to derive
+
+258
+00:43:16.489 --> 00:43:28.258
+T. Wambsgans: the RANDAO reveal from the epoch and some kind of private key in a deterministic way, typically via hash, and to prove in ZK
+
+259
+00:43:28.639 --> 00:43:33.978
+T. Wambsgans: That, each time you propose You reveal, you have to…
+
+260
+00:43:34.369 --> 00:43:44.678
+T. Wambsgans: you have to attach a ZK proof to your RANDAO reveal, but it's more complicated. This proposal is, in some sense, much, much simpler.
+
+261
+00:43:54.679 --> 00:43:57.958
+Parithosh Jayanthi: Yeah, it makes sense. This also seems like the…
+
+262
+00:43:58.059 --> 00:44:05.409
+Parithosh Jayanthi: straightforward proposal to startQifying stuff. Have any client teams had a look at this?
+
+263
+00:44:09.709 --> 00:44:15.888
+Kevaundray Wedderburn: I think I sent it to Potuz, Sproul, Enrico…
+
+264
+00:44:16.139 --> 00:44:20.219
+Kevaundray Wedderburn: I'm not sure if, Dustin, you've taken a look at it, just yet.
+
+265
+00:44:20.699 --> 00:44:24.788
+Dustin: Yeah, yeah, it's, intriguing, indeed.
+
+266
+00:44:26.549 --> 00:44:32.348
+Enrico Del Fante (tbenr): So my first impression on these, and I commented out there, is that we are introducing
+
+267
+00:44:32.509 --> 00:44:43.579
+Enrico Del Fante (tbenr): This mechanism that will, correct me if I'm wrong, and we allocate, like, 32MB in the state.
+
+268
+00:44:43.949 --> 00:44:47.549
+Enrico Del Fante (tbenr): Considering, like, 1 million validators.
+
+269
+00:44:48.199 --> 00:44:49.009
+Enrico Del Fante (tbenr): Yeesh.
+
+270
+00:44:49.769 --> 00:44:58.948
+Enrico Del Fante (tbenr): And then you need to handle… for each validator… each validator needs to handle these new secrets, and you have to pre-build this…
+
+271
+00:44:59.179 --> 00:45:05.439
+Enrico Del Fante (tbenr): this chain. So, there is a little bit of overhead in the state, plus in the…
+
+272
+00:45:05.559 --> 00:45:13.899
+Enrico Del Fante (tbenr): Cryptographic materials management for each validator, then you need to have an additional secret to generate.
+
+273
+00:45:14.979 --> 00:45:22.319
+Enrico Del Fante (tbenr): and everything just for… for… for… for the run… for the RANDAO, and…
+
+274
+00:45:23.369 --> 00:45:34.829
+Enrico Del Fante (tbenr): Yeah, it was, like, a little bit uncomfortable to say that this was just a specific super use… super specific use case to introduce a new… new security.
+
+275
+00:45:35.019 --> 00:45:41.018
+Enrico Del Fante (tbenr): A new, a new cryptographic,
+
+276
+00:45:41.289 --> 00:45:52.938
+Enrico Del Fante (tbenr): thing that will be only used in this situation, and if we want to introduce similar thing for a similar technique, we need to have a new,
+
+277
+00:45:53.149 --> 00:45:59.599
+Enrico Del Fante (tbenr): field in the state, holding another 32 megabytes of data for each
+
+278
+00:45:59.719 --> 00:46:02.228
+Enrico Del Fante (tbenr): For the whole Validator set to…
+
+279
+00:46:02.339 --> 00:46:06.129
+Enrico Del Fante (tbenr): To have the same feature, but on a different…
+
+280
+00:46:06.339 --> 00:46:10.349
+Enrico Del Fante (tbenr): On a different, protocol, feature.
+
+281
+00:46:10.849 --> 00:46:25.098
+Enrico Del Fante (tbenr): So I was thinking if there is a way to kind of leverage the same technique for multiple things, and introduce this new secret for Validator, and have a possibility to have multiple usage
+
+282
+00:46:25.439 --> 00:46:30.858
+Enrico Del Fante (tbenr): For, for the same… New state and new secret.
+
+283
+00:46:32.989 --> 00:46:50.928
+Kevaundray Wedderburn: Yeah, so it's definitely correct that, this will… we'll basically need to commit 32 bytes per validator, so it's like adding 32 megabytes to the state. We can reuse at least the secret that's being, created
+
+284
+00:46:50.929 --> 00:46:59.249
+Kevaundray Wedderburn: offline, for one-time signatures, which is the current, proposal for going PQ to replace BLS.
+
+285
+00:46:59.249 --> 00:47:02.378
+Kevaundray Wedderburn: I'm not super sure if we can…
+
+286
+00:47:02.709 --> 00:47:08.089
+Kevaundray Wedderburn: reuse it for anything… any other use cases. I haven't thought about that.
+
+287
+00:47:09.579 --> 00:47:18.639
+Enrico Del Fante (tbenr): I mean, if you have the same secret, and then you have two different domains in which you have the chain, so you… the chain will be… I haven't…
+
+288
+00:47:18.739 --> 00:47:37.579
+Enrico Del Fante (tbenr): studied much, the details of what would be, but I believe, anyway, the state… you should have two different… two different parallel chain from… for the same secret, but a different domain, so the secret is the same, but then on the state, you have double the 32MB.
+
+289
+00:47:37.879 --> 00:47:40.389
+Enrico Del Fante (tbenr): So, if we want to have, instead,
+
+290
+00:47:40.728 --> 00:47:58.089
+Enrico Del Fante (tbenr): a chain that is not… is no more a chain, but you have a mix of domains, you… yeah, maybe it becomes a lot of… much more complicated to hand… to make this state to be one, and be reusable in multiple domains.
+
+291
+00:48:00.349 --> 00:48:02.468
+Kevaundray Wedderburn: Right, yeah, yeah, I agree.
+
+292
+00:48:03.039 --> 00:48:21.349
+Kevaundray Wedderburn: I'm… yeah, I'm not super sure about the multiple domain aspect of things, but yeah, the way to reuse the actual secret offline is to hash it with some domain separator, but each one would introduce an extra 32MB, like, per use case that you have.
+
+293
+00:48:22.439 --> 00:48:23.379
+Kevaundray Wedderburn: M…
+
+294
+00:48:27.089 --> 00:48:32.978
+Parithosh Jayanthi: Yeah, maybe Poto's next, and there's, 2 or 3 comments for you, Kev.
+
+295
+00:48:33.649 --> 00:48:34.619
+potuz: So…
+
+296
+00:48:34.999 --> 00:48:48.108
+potuz: I haven't really looked into… in deep detail, but my first feeling about all of this moving to post quantum is that everything seems to be, like, still in flux.
+
+297
+00:48:48.299 --> 00:48:53.749
+potuz: And this particular change, changing RANDAO, seems… Random.
+
+298
+00:48:53.819 --> 00:49:00.879
+potuz: Randao… I mean, arguably, the best use of RANDAO is choosing the shuffling.
+
+299
+00:49:00.909 --> 00:49:14.189
+potuz: And if anyways, we're gonna keep BLS on the Validator keys, the shuffling is still going to be vulnerable. So it doesn't matter what… what we do with RANDAO, the Validator still can be cracked.
+
+300
+00:49:14.369 --> 00:49:25.299
+potuz: So, it seems to me that we're going to fix RANDAO making it post-quantum resistant, but anyways, the only usage of it is not going to be, safe, so…
+
+301
+00:49:25.599 --> 00:49:27.488
+potuz: It seems a bit premature.
+
+302
+00:49:27.689 --> 00:49:29.138
+potuz: In particular, one of…
+
+303
+00:49:29.649 --> 00:49:47.439
+potuz: one of my favorite things about, like, one of my favorite approaches to going to post-quantum would be to keep BLS, and just have those BLS keys being rotating, so that we can just aggregate. Again, this is a sidetrack, but the thing is that if there is an approach that is approachable to keep BLS
+
+304
+00:49:47.599 --> 00:49:52.588
+potuz: and make it post-quantum resistant, then we wouldn't need to modify RANDAO at all.
+
+305
+00:49:54.019 --> 00:49:55.858
+potuz: So this seems premature to me.
+
+306
+00:49:56.409 --> 00:50:13.058
+Kevaundray Wedderburn: Yeah, I can answer those questions. I think the first one is that you can't really make BLS post-quantum secure, right, or resistant. It's just not post-quantum safe. The question about why we should do it now.
+
+307
+00:50:13.169 --> 00:50:24.158
+Kevaundray Wedderburn: I think this is the open question as to whether we should do iterative changes to PQ, or if we should try to do it all at once. Yeah, this is a question that
+
+308
+00:50:24.329 --> 00:50:28.109
+Kevaundray Wedderburn: It'd be good to get more feedback on it to see how people are thinking about this.
+
+309
+00:50:33.739 --> 00:50:39.449
+Kevaundray Wedderburn: Gottfried has… yeah, I guess Gottfried's answered your question about rotating the BLS keys.
+
+310
+00:50:41.119 --> 00:50:48.148
+Kevaundray Wedderburn: Francesco also has a good point about if we can wait until the validator set is smaller.
+
+311
+00:50:51.159 --> 00:51:07.189
+Parithosh Jayanthi: Yeah, I think Francesco had a few questions, I guess. Why do this now when everything else is still vulnerable? Are we sure we'll be using RANDAO in 3 to 4 years? And, even if so, why don't we wait until the Validator set is much smaller?
+
+312
+00:51:11.809 --> 00:51:16.419
+Kevaundray Wedderburn: Yeah, I think it's a good point on waiting until the Validator set is smaller,
+
+313
+00:51:16.569 --> 00:51:29.509
+Kevaundray Wedderburn: I can't remember the number or how long it would take to migrate over to, migrate all of the validators over to using the hash chain RANDAO, but it wasn't a long time.
+
+314
+00:51:37.619 --> 00:51:44.769
+Parithosh Jayanthi: Okay, and just surfacing other sentiment-based comments, historically, iterative seems to have worked better.
+
+315
+00:51:45.089 --> 00:51:48.409
+Parithosh Jayanthi: But yeah,
+
+316
+00:51:49.719 --> 00:51:54.258
+Kevaundray Wedderburn: Oh, sorry, Potuz, you disagree with me on what statement? I didn't…
+
+317
+00:51:55.149 --> 00:51:58.359
+Parithosh Jayanthi: Yeah, Jung, I want to move out of chat and into the call.
+
+318
+00:52:07.979 --> 00:52:09.199
+Parithosh Jayanthi: on Pooja?
+
+319
+00:52:12.939 --> 00:52:14.709
+potuz: What is it? I heard my name.
+
+320
+00:52:14.989 --> 00:52:17.979
+Parithosh Jayanthi: Do you want to move out of chat into the call?
+
+321
+00:52:18.289 --> 00:52:19.129
+Parithosh Jayanthi: Or, like, somewhere.
+
+322
+00:52:19.129 --> 00:52:24.768
+potuz: Oh, no, no, no, this is… this is for a long… I mean, this is being discussed already in the post-quantum channel.
+
+323
+00:52:28.629 --> 00:52:32.739
+Parithosh Jayanthi: Okay, any other comments or questions for Kev?
+
+324
+00:52:42.269 --> 00:52:55.338
+Kevaundray Wedderburn: Yeah, maybe I'll just bring it up as a… again, that, yeah, the most important question, or one important question here, is whether we want to do this in an iterative manner, or whether we want to try to do it all at once.
+
+325
+00:52:58.829 --> 00:52:59.928
+T. Wambsgans: As a…
+
+326
+00:52:59.929 --> 00:53:00.489
+Dustin: Right?
+
+327
+00:53:02.409 --> 00:53:03.189
+T. Wambsgans: Please, please.
+
+328
+00:53:03.889 --> 00:53:07.669
+Dustin: Sorry. I, I, I guess, and I certainly, I'm…
+
+329
+00:53:08.189 --> 00:53:13.418
+Dustin: firmly believe the iterative approach is, I mean, I think along the lines of what,
+
+330
+00:53:13.529 --> 00:53:16.328
+Dustin: A couple of other people also mentioned, is…
+
+331
+00:53:16.429 --> 00:53:28.928
+Dustin: I'll just say better, subjectively. But I think the other dimension of this that's being brought up that is, I guess, in principle orthogonal is the question of,
+
+332
+00:53:28.989 --> 00:53:38.448
+Dustin: and I think Potuz has brought this up as well, but a couple other people have. Is this, how sure are we going to want something, let's say, RANDAO-like?
+
+333
+00:53:38.539 --> 00:53:43.478
+Dustin: In… going forward, And that's…
+
+334
+00:53:44.319 --> 00:54:01.228
+Dustin: I think a more… I mean, sort of regardless… right, regardless of the… and that's a separate question than iteratively. You can iteratively introduce, as we've seen many times in Ethereum, something that's sort of obsolete when it's created, and I'm not saying this is that, but…
+
+335
+00:54:01.939 --> 00:54:03.189
+Dustin: this iterative.
+
+336
+00:54:10.239 --> 00:54:16.879
+Kevaundray Wedderburn: Right. Yeah, that makes sense. So, I think more clarity on things like whether we will have RANDAO in the future.
+
+337
+00:54:22.419 --> 00:54:28.438
+Dustin: Yeah, exactly. I mean, this seems reasonable enough in terms of, given that's a goal.
+
+338
+00:54:30.449 --> 00:54:32.038
+Dustin: That's the conditionality.
+
+339
+00:54:41.359 --> 00:54:59.108
+Matthew Keil: I do wonder, to address Potuz' comment of enshrining before final approaches are decided, it might make sense to memorialize the straw map, or whatever the post-quantum vision is from a broader perspective, and that way it can make,
+
+340
+00:54:59.439 --> 00:55:05.759
+Matthew Keil: How we kind of finalize and narrow down the iterative components, for each iteration.
+
+341
+00:55:11.739 --> 00:55:22.068
+Parithosh Jayanthi: Yeah, maybe that's a good question for Kev, is… do you want to maybe speak to how the RANDAO change that you're proposing would fit into the bigger picture?
+
+342
+00:55:23.969 --> 00:55:35.018
+Kevaundray Wedderburn: Yeah, definitely. So, one way to iteratively do it is to do hash chain RANDAO in Hegota. In I-Star, we do the public key registry.
+
+343
+00:55:35.019 --> 00:55:53.649
+Kevaundray Wedderburn: In JSTAR, if we have decoupled Consensus, we could do PQ heartbeat, and then k-star or L star, we could do the PQ attestations. I split the heartbeat from attestations, because if you're familiar with decoupled Consensus, these are now separate things.
+
+344
+00:56:01.379 --> 00:56:03.099
+Kevaundray Wedderburn: Yeah, the… oh, sorry.
+
+345
+00:56:09.189 --> 00:56:12.369
+Kevaundray Wedderburn: Sorry, someone was speaking, you can go.
+
+346
+00:56:13.249 --> 00:56:26.668
+Matthew Keil: does it make sense from an ACD perspective, or just from a process perspective, to… Because we are very adamant about headliner selections and, doing a lot of that,
+
+347
+00:56:26.669 --> 00:56:44.529
+Matthew Keil: basically 142 fork ahead, and this feels like a very, an important and, I think, critical change that we probably should look towards in order to ensure timeliness of meeting Q Day. Do we… should we do, as a process perspective, a kind of a…
+
+348
+00:56:46.039 --> 00:56:49.558
+Matthew Keil: Straw map selection, or a headline
+
+349
+00:56:49.559 --> 00:57:13.758
+Matthew Keil: planning, or, you know, something we haven't really thought… thought through or done before, but, you know, keeping in, along the lines of what we did with picking Hegota before, you know, two forks ahead, do we want to start thinking more broadly about what PQ, looks like as a broad perspective, as an ecosystem? And then, using that as a…
+
+350
+00:57:14.129 --> 00:57:21.669
+Matthew Keil: An approved, quote-unquote, roadmap, that we can all kind of march to.
+
+351
+00:57:24.849 --> 00:57:40.998
+Kevaundray Wedderburn: Right? Yeah, I mean, for PQ, I do think we need to think a bit more in advance, like, it's not something that we can just do the fork before, so I definitely think some vision of how we're gonna get there, or what the end thing roughly looks like would make sense.
+
+352
+00:57:42.589 --> 00:57:43.849
+T. Wambsgans: one important
+
+353
+00:57:44.099 --> 00:58:02.828
+T. Wambsgans: question would be which hash function to use in the hash chain. In particular, potentially blank3, as it seems for post-quantum attestations, hash-based XMSS signatures with blank3 are a promising candidates.
+
+354
+00:58:26.569 --> 00:58:29.969
+Parithosh Jayanthi: Etan has a question about XMSS.
+
+355
+00:58:30.789 --> 00:58:38.678
+Etan (Nimbus): Yeah, like, isn't that a stateful scheme? Like, where you have to write to disk, every time you sign?
+
+356
+00:58:39.559 --> 00:58:50.598
+T. Wambsgans: Yes, it's stateful, but you can use the Ethereum slot as the nonce in your signature scheme. You only need a nonce that you know for sure will never
+
+357
+00:58:50.779 --> 00:58:54.309
+T. Wambsgans: Repeat itself, and this slot is perfect for this.
+
+358
+00:58:56.279 --> 00:58:57.559
+Etan (Nimbus): about 3 orcs.
+
+359
+00:59:02.199 --> 00:59:09.729
+T. Wambsgans: you can store it on… yes, you… I guess you can store it on state that you… Yeah.
+
+360
+00:59:10.479 --> 00:59:16.618
+potuz: You can always use as a seed the dependent route and the slot, for example.
+
+361
+00:59:17.189 --> 00:59:22.709
+potuz: So… so as long as you… if you're finalizing, you're fine. If you're not finalizing, you just keep track of each fork.
+
+362
+00:59:24.489 --> 00:59:25.259
+Etan (Nimbus): Okay.
+
+363
+00:59:36.409 --> 00:59:40.649
+Kevaundray Wedderburn: Are there any proposals to get rid of, RANDAO?
+
+364
+00:59:41.519 --> 00:59:45.299
+Kevaundray Wedderburn: Maybe Francesco…
+
+365
+00:59:49.819 --> 01:00:00.629
+Francesco D'Amato: I… well, definitely not for me, but I believe there had been in the past. Like, the cryptography team at the EF had worked on such things. I think Gottfried can say more, probably.
+
+366
+01:00:02.559 --> 01:00:14.228
+Gottfried Herold: I mean, there are options, but they all sort of use, either stuff that we don't have, like, or don't like, such as, time-based encryption schemes.
+
+367
+01:00:14.229 --> 01:00:30.588
+Gottfried Herold: which are questionable security, or threshold encryption-style things, which always have the problem that it really does not give us dynamic, availability, so… for the use case where we use it to shuffle things. So there is not really much of an alternative that we have right now.
+
+368
+01:00:30.699 --> 01:00:32.019
+Gottfried Herold: Unfortunately.
+
+369
+01:00:38.539 --> 01:00:48.039
+Kevaundray Wedderburn: Okay, makes sense. Yeah, so I think we can probably assume RANDAO will be here in… for a while.
+
+370
+01:00:49.989 --> 01:00:57.219
+Kevaundray Wedderburn: But yeah, the question about… Francesco, your previous question about whether we should wait until the validator set is decreased,
+
+371
+01:00:59.239 --> 01:01:07.859
+Kevaundray Wedderburn: Not sure… Yeah, definitely something I'd like to discuss more, maybe async would be better.
+
+372
+01:01:16.689 --> 01:01:19.719
+Parithosh Jayanthi: Yeah, that sounds like a good idea,
+
+373
+01:01:20.809 --> 01:01:27.918
+Parithosh Jayanthi: I would assume discussions happen on the post-quantum chat on ACD, or where would you want people to tune in?
+
+374
+01:01:29.359 --> 01:01:34.809
+Kevaundray Wedderburn: I don't know if there's a PQ channel in ACD, if there is, then we can… we can do it there.
+
+375
+01:01:37.469 --> 01:01:40.748
+Parithosh Jayanthi: I think we have some… We can check.
+
+376
+01:01:40.749 --> 01:01:42.619
+Kevaundray Wedderburn: Probably. Okay, cool. Thank you.
+
+377
+01:01:44.749 --> 01:01:46.988
+Parithosh Jayanthi: Yes, we have a channel called Post Quantum.
+
+378
+01:01:50.819 --> 01:01:53.748
+Parithosh Jayanthi: Awesome. Anything else on this topic?
+
+379
+01:01:56.919 --> 01:02:08.739
+Parithosh Jayanthi: Great. Next on the agenda is, EIP8015 from, Etan. He wants to remove deposit and ETH1 data fields. Do you have the floor, Etan?
+
+380
+01:02:08.939 --> 01:02:17.269
+Etan (Nimbus): Yeah, I mean, it's, Terence's EIP. I only updated it to, like, to be rebased on Glamsterdam.
+
+381
+01:02:17.379 --> 01:02:24.419
+Etan (Nimbus): So there is this old deposit mechanism that we used, before Electra.
+
+382
+01:02:25.169 --> 01:02:31.018
+Etan (Nimbus): Where we was… where we were monitoring ETH GetHead logs to get the deposit events.
+
+383
+01:02:31.269 --> 01:02:36.758
+Etan (Nimbus): That was just later replaced, like, with this request bus.
+
+384
+01:02:37.269 --> 01:02:43.009
+Etan (Nimbus): And now the proposal is to just get rid of the remnants of the old mechanism.
+
+385
+01:02:43.799 --> 01:02:48.978
+Etan (Nimbus): Like, the ETH1 data, the deposit index… And so on.
+
+386
+01:02:49.089 --> 01:02:50.839
+Etan (Nimbus): This is now possible.
+
+387
+01:02:51.049 --> 01:02:57.138
+Etan (Nimbus): Because we have the progressive container without messing with the generalized indices.
+
+388
+01:03:02.519 --> 01:03:06.858
+Parithosh Jayanthi: Nice. Does anyone have questions or comments for Etan?
+
+389
+01:03:17.659 --> 01:03:21.268
+Parithosh Jayanthi: Great. Yeah, in general, it seems like a nice simplification.
+
+390
+01:03:25.849 --> 01:03:30.728
+Parithosh Jayanthi: Yeah, Justin has a question for you, Etan. Would this reduce state growth?
+
+391
+01:03:31.519 --> 01:03:35.739
+Etan (Nimbus): It's, I mean, it removes fields from the state.
+
+392
+01:03:36.699 --> 01:03:45.519
+Etan (Nimbus): So… but it doesn't… like, it's like a fixed size, right? It has a fixed capacity, so…
+
+393
+01:03:45.759 --> 01:03:47.258
+Etan (Nimbus): It's not a lot of…
+
+394
+01:03:47.659 --> 01:03:52.859
+Etan (Nimbus): Like, it's like O , it's not something that scales with number of validators or something.
+
+395
+01:04:03.909 --> 01:04:04.799
+Parithosh Jayanthi: Thank you.
+
+396
+01:04:05.589 --> 01:04:08.509
+Parithosh Jayanthi: Anything else Hegota-related?
+
+397
+01:04:11.659 --> 01:04:20.198
+Parithosh Jayanthi: Otherwise, I do want to mention that the non-headliner submission window closes on the 6th of August, so that's still about 17 days.
+
+398
+01:04:20.529 --> 01:04:23.709
+Parithosh Jayanthi: So please get your submissions in by then.
+
+399
+01:04:24.899 --> 01:04:30.388
+Parithosh Jayanthi: Marius, you wanted to talk about the REST SSV spec, so please feel free now.
+
+400
+01:04:32.359 --> 01:04:43.768
+Marius Van Der Wijden (M): Yes, I posted a link in the chat to last week's ACDE. Unfortunately, I put it on the agenda, and I didn't attend.
+
+401
+01:04:45.049 --> 01:05:05.099
+Marius Van Der Wijden (M): So, yeah, and it's also mainly for the ACDC crowd anyway. The idea is we are rebuilding the Engine API, based on Reth, currently, and, there are a bunch of methods
+
+402
+01:05:05.529 --> 01:05:09.429
+Marius Van Der Wijden (M): That we are exposing over the same port.
+
+403
+01:05:09.729 --> 01:05:16.258
+Marius Van Der Wijden (M): that the CLs are using, that, we don't,
+
+404
+01:05:18.559 --> 01:05:28.899
+Marius Van Der Wijden (M): we would like to get rid of, because we have to, like, we have to provide their REST SSV equivalent for it.
+
+405
+01:05:29.299 --> 01:05:30.279
+Marius Van Der Wijden (M): So this…
+
+406
+01:05:31.289 --> 01:05:41.259
+Marius Van Der Wijden (M): Oh, yeah, just, it's easier to look at it in the, in the, in the issue. The idea is there are a few that,
+
+407
+01:05:41.399 --> 01:05:46.159
+Marius Van Der Wijden (M): I guess we will definitely have a replacement for?
+
+408
+01:05:46.549 --> 01:05:55.569
+Marius Van Der Wijden (M): like, syncing, get blocked by number or hash, and the CHAINID one, the…
+
+409
+01:05:56.179 --> 01:06:02.938
+Marius Van Der Wijden (M): There are a bunch that we could get rid of if we, decide not to support the…
+
+410
+01:06:03.119 --> 01:06:17.359
+Marius Van Der Wijden (M): old ETH1 deposit path, anymore, like, block number, call, and get logs. So that goes into the same direction that, that Etan just, just talked about. And,
+
+411
+01:06:17.509 --> 01:06:19.049
+Marius Van Der Wijden (M): There are some…
+
+412
+01:06:20.109 --> 01:06:34.318
+Marius Van Der Wijden (M): We have no idea why they are actually in. But those have been used by, like, they were referenced by Lighthouse in some capacity. So yeah, I would like to…
+
+413
+01:06:35.219 --> 01:06:37.909
+Marius Van Der Wijden (M): Invite all clients to,
+
+414
+01:06:38.899 --> 01:06:45.938
+Marius Van Der Wijden (M): To comment if there are any other methods that they really rely on over the Engine API path,
+
+415
+01:06:46.159 --> 01:06:52.769
+Marius Van Der Wijden (M): that we need to expose. If, there are things that they don't rely on that we can just get rid of.
+
+416
+01:06:52.899 --> 01:06:59.399
+Marius Van Der Wijden (M): And, yo.
+
+417
+01:07:00.799 --> 01:07:02.879
+Marius Van Der Wijden (M): That's… that's basically it.
+
+418
+01:07:03.639 --> 01:07:14.338
+Etan (Nimbus): I would recommend also reaching out to, like, Helios and the Nimbus Verified Proxy, folks, just to see what they need for the…
+
+419
+01:07:14.939 --> 01:07:16.979
+Etan (Nimbus): Like, for the wallets that verify.
+
+420
+01:07:16.979 --> 01:07:21.669
+Marius Van Der Wijden (M): Yeah, no, but this is… this is different, right? This is just on the Engine API.
+
+421
+01:07:24.559 --> 01:07:34.989
+Marius Van Der Wijden (M): this is… this is not the normal, JSON RPC API that is exposed to the wallets. This is… this is purely for the communication between EL and CL.
+
+422
+01:07:35.379 --> 01:07:46.078
+Marius Van Der Wijden (M): And, these, like, these methods are duplicated between the normal Engine API and the…
+
+423
+01:07:46.659 --> 01:07:52.269
+Marius Van Der Wijden (M): And the, the, the, the, the public REST API.
+
+424
+01:07:52.809 --> 01:07:54.048
+Marius Van Der Wijden (M): So…
+
+425
+01:07:54.049 --> 01:07:59.479
+Etan (Nimbus): Oh, I see. So the question is whether we can just drop them from the engine…
+
+426
+01:07:59.729 --> 01:08:09.169
+Etan (Nimbus): Exactly. So can we retire the ETH1 deposit path that's essentially the 8015 EIP that I just… Proposed.
+
+427
+01:08:25.129 --> 01:08:27.938
+Parithosh Jayanthi: Great. Any other questions for Marius?
+
+428
+01:08:34.639 --> 01:08:43.848
+Marius Van Der Wijden (M): Yeah, just to flag that the end state will also look… probably look different than what it is right now, but,
+
+429
+01:08:44.339 --> 01:08:56.019
+Marius Van Der Wijden (M): like, with ETH syncing, get blocked by number, get blocked by hash, and ETH CHAINID, I think those are the ones that we will probably keep. But they might be, called different.
+
+430
+01:08:56.369 --> 01:09:07.679
+Marius Van Der Wijden (M): differently, and they might have, different behavior. So, for example, we could… Think about… come.
+
+431
+01:09:08.169 --> 01:09:21.288
+Marius Van Der Wijden (M): providing some more sophisticated, result for syncing to tell the CL node what the EL is currently doing, which would be, nice for other use cases as well.
+
+432
+01:09:21.629 --> 01:09:32.209
+Marius Van Der Wijden (M): And so on. So, the question is less which methods, but more what functionality does the CL need?
+
+433
+01:09:34.629 --> 01:09:46.569
+Marius Van Der Wijden (M): Yeah, happy if you send me some messages about what your client uses, or we can discuss in the SSZ channel on the R&D Discord. Thank you.
+
+434
+01:09:54.439 --> 01:10:02.608
+Parithosh Jayanthi: Awesome, thank you very much. I think that was the last item on the agenda today. Does anyone else have topics they want to talk about?
+
+435
+01:10:05.309 --> 01:10:06.458
+Parithosh Jayanthi: Yeah, Pooja.
+
+436
+01:10:08.359 --> 01:10:25.719
+Pooja Ranjan: Thanks, Pari, and yes, this is the same item. I'm trying to bring it again for authors' attention. As it was mentioned earlier in the call, that testing team believes that all EIPs listed on Glamsterdam and Meta EIP are now considered to be SFI.
+
+437
+01:10:25.719 --> 01:10:31.449
+Pooja Ranjan: That means it is very close to the mainnet upgrade, the public testnet release.
+
+438
+01:10:31.499 --> 01:10:53.968
+Pooja Ranjan: all the proposals are definitely way past the draft status, so I would humbly request authors to kindly take a look at the PRs which are already open, and add your approval. Some of the EIP authors have already provided approvals, but because of the cyclic dependency on other EIPs, they are not being merged as review proposals.
+
+439
+01:10:53.969 --> 01:10:58.098
+Pooja Ranjan: So kindly take a look at the list, which is added on,
+
+440
+01:10:58.439 --> 01:11:14.019
+Pooja Ranjan: today's agenda, and add the approval. And one final question for the testing team. Is it okay to consider that whatever is there in CFI are all moving to SFI, and there is no removal from the present SFI list?
+
+441
+01:11:17.249 --> 01:11:19.889
+Parithosh Jayanthi: Do you mean everything that's in the DevNet?
+
+442
+01:11:20.189 --> 01:11:28.309
+Parithosh Jayanthi: And just cross-checking if there's something… We just have to cross-check if there's anything that's CFI, but not on the DevNet.
+
+443
+01:11:29.339 --> 01:11:44.079
+Pooja Ranjan: Yes, if that is the case, please do let me know. I have already listed the all CFI EIPs in the comment on the agenda, sharing the link right over here. Please do let me know
+
+444
+01:11:45.279 --> 01:11:50.118
+Pooja Ranjan: Oh, I'm sorry. That is, that is another.
+
+445
+01:11:50.839 --> 01:11:55.498
+Pooja Ranjan: Delete… I'm trying to share the right link, copy link.
+
+446
+01:11:57.299 --> 01:12:11.788
+Pooja Ranjan: Okay, so this is the right link. Cool. So, if there is any change, please do let me know. I am working with Johan to make sure that all SFIs and all EIPs in the MetaIP 7773 are up to date.
+
+447
+01:12:11.969 --> 01:12:16.228
+Pooja Ranjan: Thank you, authors, for your support. We really need it. Please, please add approvals.
+
+448
+01:12:19.189 --> 01:12:23.069
+Parithosh Jayanthi: Thank you. Potuz, did you want to say something at the end?
+
+449
+01:12:25.569 --> 01:12:28.468
+potuz: No, sorry, it was technical, I'm asking on interrupt.
+
+450
+01:12:29.889 --> 01:12:31.379
+Parithosh Jayanthi: Okay, perfect.
+
+451
+01:12:31.569 --> 01:12:34.208
+Parithosh Jayanthi: Yeah, Tama, go ahead.
+
+452
+01:12:35.739 --> 01:12:54.189
+Thomas Coratger: Yeah, just a question, potuz, like, maybe about, like, your proposition, about PQ, because I am reading, like, the chat conversation. I remember that on the Post Quantum channel, on Telegram, you mentioned some of your ideas about
+
+453
+01:12:54.279 --> 01:12:57.249
+Thomas Coratger: Pbs signature and stuff.
+
+454
+01:12:57.709 --> 01:13:12.638
+Thomas Coratger: our idea is maybe to formalize a bit more, like, a public key registry in a post-quantum way, EIP soonish, let us say. So, do we have, like, a document or a write-up
+
+455
+01:13:12.869 --> 01:13:23.758
+Thomas Coratger: of your ID somewhere, so that we can analyze it a bit more in depth. I have seen a bunch of messages in the post-quantum channel, but not sure I follow exactly.
+
+456
+01:13:23.949 --> 01:13:40.039
+potuz: Yeah, so the problem here is that the main idea relies on the existence of an algorithm to create, in a deterministic way, based on a post-quantum safe secret.
+
+457
+01:13:40.239 --> 01:13:43.748
+potuz: pairs of BLS keys.
+
+458
+01:13:44.049 --> 01:13:50.229
+potuz: On demand, in a way that is deterministic, so that the validator cannot equivocate on this.
+
+459
+01:13:50.579 --> 01:13:58.158
+potuz: And the existence of this system is based on a VRF, and of course, this is not my domain, so the…
+
+460
+01:13:58.429 --> 01:14:13.129
+potuz: core cryptographers at off-chain Labs are looking into this, and I believe they do have such a system in which the message is small enough that we can actually broadcast it essentially every few e-books.
+
+461
+01:14:13.229 --> 01:14:25.109
+potuz: So that will make it a way into having BLS keys for attestations that are still going to be aggregatable by everyone, and make them post-quantum safe, at least for a few minutes.
+
+462
+01:14:26.689 --> 01:14:32.929
+potuz: So, I'll ask them to make that research public, but I believe this is still part of the research.
+
+463
+01:14:35.649 --> 01:14:45.489
+Thomas Coratger: Okay, okay, thanks, thanks for the update. Please let us know if you have something, or some update, or some document, or anything for us to read. Thanks.
+
+464
+01:15:01.279 --> 01:15:06.709
+Parithosh Jayanthi: Right, if… is there anything else we want to talk about today?
+
+465
+01:15:12.619 --> 01:15:15.809
+Parithosh Jayanthi: Okay, thank you everyone for coming, and see you next time.
+
+466
+01:15:18.449 --> 01:15:19.809
+potuz: Thank you, bye-bye.
+
+467
+01:15:20.039 --> 01:15:21.159
+Marius Van Der Wijden (M): Thank you, bye.
