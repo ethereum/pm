@@ -1,0 +1,658 @@
+WEBVTT
+
+1
+00:04:27.580 --> 00:04:29.250
+Parithosh Jayanthi: Hello, everyone.
+
+2
+00:04:38.840 --> 00:04:39.750
+Justin Traglia: Good morning.
+
+3
+00:04:59.650 --> 00:05:02.729
+Parithosh Jayanthi: Let's give people another minute to join, and then we can stop.
+
+4
+00:05:58.210 --> 00:06:01.250
+Parithosh Jayanthi: Okay, let's get started.
+
+5
+00:06:01.550 --> 00:06:04.679
+Parithosh Jayanthi: Can we get a confirmation that we're live?
+
+6
+00:06:06.680 --> 00:06:07.769
+Akash | ECH: Yeah, we are lying.
+
+7
+00:06:08.600 --> 00:06:09.940
+Parithosh Jayanthi: Alright, thank you.
+
+8
+00:06:11.210 --> 00:06:22.569
+Parithosh Jayanthi: First item on the agenda is DevNet updates. We had DevNet 7 launch, late last week, I think. Could we get an update from Stefan?
+
+9
+00:06:24.470 --> 00:06:25.339
+Stefan Starflinger: Yes, sure.
+
+10
+00:06:25.720 --> 00:06:36.910
+Stefan Starflinger: So, DevNet 7 has been going through different kinds of testing. One of the most recent ones that we are experimenting with is withholding payloads.
+
+11
+00:06:37.200 --> 00:06:41.959
+Stefan Starflinger: From the builder, so a lot of the blocks have been, orphaned.
+
+12
+00:06:42.090 --> 00:06:51.250
+Stefan Starflinger: And we've noticed, quite a few different issues, as well as, the builder has been,
+
+13
+00:06:51.520 --> 00:06:58.950
+Stefan Starflinger: Patched in a way that it overrides the gas limit header, which has caused some issues today.
+
+14
+00:06:59.270 --> 00:07:04.159
+Stefan Starflinger: In general, we noticed that the PTC votes for blobs
+
+15
+00:07:04.350 --> 00:07:22.119
+Stefan Starflinger: seem to be, not considered if the payload isn't there, and the PTC vote for blobs should always be considered as a liveness check, independent of the payload. I think that's something that clients are looking into.
+
+16
+00:07:22.130 --> 00:07:28.400
+Stefan Starflinger: Now, and otherwise, we have quite a few bugs across the board and improvements that we've…
+
+17
+00:07:28.500 --> 00:07:31.010
+Stefan Starflinger: Posted, in reports.
+
+18
+00:07:31.130 --> 00:07:41.710
+Stefan Starflinger: It would be good to maybe get some feedback if the reports have been helpful in the way that they are presented, or if there is something that we can do to improve them.
+
+19
+00:07:41.890 --> 00:07:43.879
+Stefan Starflinger: In the future, as well.
+
+20
+00:07:44.000 --> 00:07:46.239
+Stefan Starflinger: I don't know if you have anything to add, Perry.
+
+21
+00:07:49.340 --> 00:08:04.570
+Parithosh Jayanthi: I think the main thing to add is that we've been using two tools so far. So we have the builder itself, where we can delay some payloads, and the other one is TISM. I think TISM's scenarios have laid down in the Steel Discord.
+
+22
+00:08:04.830 --> 00:08:18.730
+Parithosh Jayanthi: it seems like we're causing more issues with Builder than with Prysm right now… with TISM right now, but, yeah, mostly intrigued to hear from client devs how the debugging is going, and if anything useful was found in the last days.
+
+23
+00:08:32.490 --> 00:08:37.150
+Parithosh Jayanthi: Terence mentioned they found some Beacon API performance issues.
+
+24
+00:08:38.030 --> 00:08:47.390
+terence: Yeah, we found some issues that builders were not actively trying to delay payload, but we received a payload late.
+
+25
+00:08:47.390 --> 00:09:07.390
+terence: Which is a little funny, because, it uses Prysm to propagate the payload, to broadcast over the network, but we had a performance issue such that even though it released on time, it still took 2 seconds for them to propagate it, and it showed up late, so we were able to fund that.
+
+26
+00:09:13.270 --> 00:09:19.109
+Parithosh Jayanthi: Nice. Did someone from Prysm have a chance to have a look at the double vote issue?
+
+27
+00:09:21.640 --> 00:09:23.259
+terence: I just saw it, I have not.
+
+28
+00:09:25.770 --> 00:09:35.480
+Parithosh Jayanthi: Okay, yeah, any other client teams? Anything worth mentioning from debugging efforts, or are people just basically heads down with still…
+
+29
+00:09:36.290 --> 00:09:37.760
+Parithosh Jayanthi: Triage unions.
+
+30
+00:09:40.970 --> 00:09:42.589
+Enrico Del Fante (tbenr): I have a question.
+
+31
+00:09:42.840 --> 00:09:51.290
+Enrico Del Fante (tbenr): about terence, what terence just said. Is, is the delay only, seen from…
+
+32
+00:09:51.740 --> 00:09:57.750
+Enrico Del Fante (tbenr): Prysm API, or there are other builders publishing using different
+
+33
+00:09:58.040 --> 00:10:00.939
+Enrico Del Fante (tbenr): A bigger node that doesn't have the same issue?
+
+34
+00:10:01.600 --> 00:10:20.100
+terence: Yeah, so to clarify, there was 3 builders total, and the only builder 0s, based on our, categorization, we look at all the logs, only in builder 0 are, are sending payload apparently revealed on time.
+
+35
+00:10:20.100 --> 00:10:38.319
+terence: But PTC sometimes voted majority late, but builder 1 and Builder 2 are always on time, so it turns out Builder Z… so that was a clear pattern, that only builder 0 had the issue, and builder 0 was only using,
+
+36
+00:10:38.320 --> 00:10:43.250
+terence: recent Beacon API implementation to propagate, payload.
+
+37
+00:10:56.240 --> 00:10:57.060
+Parithosh Jayanthi: Nice.
+
+38
+00:10:58.800 --> 00:11:12.110
+Parithosh Jayanthi: Anything else for Glamsterdam DevNet 7? Has, since we have the SSZ changes in, has anyone noticed any degradations in performance, or anything else worth mentioning?
+
+39
+00:11:12.320 --> 00:11:14.360
+Parithosh Jayanthi: With progressive stable containers?
+
+40
+00:11:27.820 --> 00:11:36.680
+Parithosh Jayanthi: Okay, cool. The next item on the agenda is, Glamsterdam… yeah, terence?
+
+41
+00:11:36.680 --> 00:11:56.049
+terence: Regarding stable container, we only have 3,000 active validators, and typically validators are the heaviest part in the Beacon state, so maybe it's not too… maybe it's not enough to see if there's, like, such performance bottleneck with changes like stable container, right?
+
+42
+00:11:56.160 --> 00:12:00.659
+terence: We probably want to ramp the Validator kind of up and check again.
+
+43
+00:12:01.630 --> 00:12:08.129
+terence: we have… Yeah, yeah. I do mean the AC Validators, yeah.
+
+44
+00:12:09.190 --> 00:12:11.320
+terence: Oh, I see.
+
+45
+00:12:11.320 --> 00:12:18.569
+Parithosh Jayanthi: exited already, so we started doing this trick where in the Genesis state, we just shove a ton of exited validators.
+
+46
+00:12:18.900 --> 00:12:23.850
+terence: Okay, maybe we should let this run longer then, because I do have…
+
+47
+00:12:24.140 --> 00:12:29.339
+terence: Front jobs, they're actively capturing profiles.
+
+48
+00:12:29.460 --> 00:12:41.550
+terence: And so far, it hasn't been any bottleneck, but maybe I didn't capture them at the right time, when there are tons of validators in there. So maybe keep it longer or something.
+
+49
+00:12:41.980 --> 00:12:48.559
+Parithosh Jayanthi: Yeah, okay, sounds good. Also, DevNet8, we can just have more, active validators as well.
+
+50
+00:12:58.320 --> 00:13:10.479
+Parithosh Jayanthi: Yeah, next item on the agenda was, regarding the Beacon API changes that was brought up on ACDT on Monday. Can someone summarize the discussion or current status?
+
+51
+00:13:11.800 --> 00:13:21.260
+Parithosh Jayanthi: This was about Beacon API changes to produce block V4, as well as the key manager API changes, like, the whole topic in general.
+
+52
+00:13:34.050 --> 00:13:42.080
+Jason Vranek: Hi, I've been working on, yeah, 3 of those PRs, also for the builder API, just to keep them in sync.
+
+53
+00:13:42.550 --> 00:13:49.160
+Jason Vranek: I think there was some sort of divergence, and yesterday, some clarity around,
+
+54
+00:13:49.450 --> 00:13:53.980
+Jason Vranek: Adding proxies as more of a first-class thing, and removing that, and…
+
+55
+00:13:54.320 --> 00:13:58.309
+Jason Vranek: As of last night, the PRs are all updated to remove those.
+
+56
+00:13:58.970 --> 00:14:05.189
+Jason Vranek: I think what isn't added to it yet is discussion… there's been discussion around,
+
+57
+00:14:05.550 --> 00:14:08.190
+Jason Vranek: The timeouts and the headers and,
+
+58
+00:14:08.780 --> 00:14:20.870
+Jason Vranek: default values for the clients, which I guess wouldn't make it into… the headers would make it into the builder API, but the defaults would be up to the clients.
+
+59
+00:14:21.370 --> 00:14:30.290
+Jason Vranek: But I think there's been a lot of node operators, like dbt teams, looking at the specs, but I don't think there's still rough consensus.
+
+60
+00:14:32.880 --> 00:14:37.949
+Parithosh Jayanthi: Okay, nice. Is there, anything other than just a bit more…
+
+61
+00:14:38.080 --> 00:14:43.979
+Parithosh Jayanthi: Time required for rough Consensus to arrive, or is there a specific blocker, by any chance?
+
+62
+00:14:50.110 --> 00:14:55.980
+Shane Moore: I mean, from a SSV side, as one of the dbt clients, we at least checked out the six…
+
+63
+00:14:56.320 --> 00:15:12.259
+Shane Moore: 25 PR, and we're compatible with that, so happy for it to merge or whatever. Then, yeah, Jason's PR for, like, 6.30 would be also great to get more client teams looking at it. We're basically adding, like, an ahead-of-time submit builder preferences Beacon endpoint.
+
+64
+00:15:12.290 --> 00:15:16.479
+Shane Moore: And that would be cool for, dbt clusters, so we can do our, like.
+
+65
+00:15:16.740 --> 00:15:25.449
+Shane Moore: threshold signing and auto submission for this new request off V1, like, an epoch before the proposal, like, before the block proposal.
+
+66
+00:15:25.640 --> 00:15:31.080
+Shane Moore: So, that way, you know, it gets off of the hot path, which would be, you know, nice. I think so far.
+
+67
+00:15:31.330 --> 00:15:39.820
+Shane Moore: Let's say Losar and I think Prysm have taken a look at the 630 PR, but yeah, if we get more client teams on it, that would be great as well.
+
+68
+00:15:44.920 --> 00:15:59.639
+Parithosh Jayanthi: Nice, thank you. Yeah, I see there's a ton of discussion going on on the EPBS channel, so if anyone's interested, then please chime in. I think the relevant parties are mostly DVT providers, anyone relying on the Key Manager API, and so on.
+
+69
+00:16:00.480 --> 00:16:14.489
+Parithosh Jayanthi: And yeah, for… to Terence's point, maybe the soft deadline can be Monday, where we would merge in all the changes, let's say latest at ACDT, so we still get some synchronous time, and then we can merge immediately after.
+
+70
+00:16:14.730 --> 00:16:25.040
+Parithosh Jayanthi: The main reason for, let's say, Monday as the deadline is that once the mergers are done, clients can work on implementations, and we can target DevNet 8 the week after.
+
+71
+00:16:25.740 --> 00:16:29.689
+Parithosh Jayanthi: Does that feel like a reasonable timeline?
+
+72
+00:16:39.420 --> 00:16:41.140
+Parithosh Jayanthi: Okay,
+
+73
+00:16:41.840 --> 00:16:57.820
+Parithosh Jayanthi: Yes, and Nico's question is about the circuit breaker. Do all clients have circuit breaker implementations? Maybe could we go client by client and just talk again about where you guys are on implementation?
+
+74
+00:16:58.330 --> 00:17:00.069
+Parithosh Jayanthi: Do you want to start, Nico?
+
+75
+00:17:02.440 --> 00:17:18.560
+Nico Flaig: Yeah, I think our implementation is pretty much finalized. We had some more discussions, for example, if we should consider only our canonical branch or all branches. So right now, we consider all branches and track missed payloads there.
+
+76
+00:17:18.750 --> 00:17:23.490
+Nico Flaig: Yeah, but it's pretty much final, it's already on DevNet 7.
+
+77
+00:17:24.160 --> 00:17:27.129
+Nico Flaig: So we are just ironing out some few details.
+
+78
+00:17:30.390 --> 00:17:33.479
+Parithosh Jayanthi: Okay, great. Anyone from Prysm?
+
+79
+00:17:36.710 --> 00:17:42.839
+terence: Otis was just looking at it, I think he just joined. So, Otis, any updates on the circuit breaker?
+
+80
+00:17:42.840 --> 00:17:53.500
+potuz: Oh, there is… there is… no, on the Rakuten node, on the DevNet, yes, there seems to be some peering problem again. Just a simple restart keeps the nodes in sync.
+
+81
+00:17:53.900 --> 00:17:58.320
+potuz: But, for some reason, and it's hard to see why.
+
+82
+00:17:58.490 --> 00:18:03.789
+potuz: We were isolated because there's a lot of invalid payloads floating around.
+
+83
+00:18:03.920 --> 00:18:13.989
+potuz: But yeah, Prysm nodes, fell out of sync when they were just isolated and they couldn't just sync anything because they didn't have any peers, and just a simple restart, like.
+
+84
+00:18:14.140 --> 00:18:25.460
+potuz: makes them catch up quickly. So, it seems to be, again, just a peering issue. I do… I haven't found the reason why we are downscoring our peers, but it's gonna be hard with all these invalid payloads.
+
+85
+00:18:28.470 --> 00:18:37.949
+Parithosh Jayanthi: Okay, that's fair. Thanks for the update, and yeah, I guess circuit breaker implementation stuff will… would it be done by DevNet 8, or what's the plan?
+
+86
+00:18:37.950 --> 00:18:42.309
+potuz: Yeah, yeah, yeah, it should be done. I'm sorry, I'm delaying that.
+
+87
+00:18:43.780 --> 00:18:49.589
+Parithosh Jayanthi: Okay, cool. Do we have someone from Teku, Enrico, or someone else?
+
+88
+00:18:52.310 --> 00:18:55.240
+Enrico Del Fante (tbenr): I'll leave it to Mehdi, who is… who implemented it.
+
+89
+00:18:59.750 --> 00:19:01.820
+Enrico Del Fante (tbenr): Maybe it's not…
+
+90
+00:19:01.940 --> 00:19:16.030
+Enrico Del Fante (tbenr): It's still in mute. I know we merged the… we merged the PR. I don't have specific details, so… yeah, we have something, I don't have much more details.
+
+91
+00:19:20.920 --> 00:19:23.770
+Parithosh Jayanthi: Okay, nimbus?
+
+92
+00:19:24.140 --> 00:19:27.100
+Parithosh Jayanthi: Do we have TerSec, or Etown, or someone else?
+
+93
+00:19:30.600 --> 00:19:42.700
+Dustin: Yeah, Nimbus does… I mean, we have our, our Fusaka, of course, version, but no, we do not have something yet for Grandine. It's, the, priority.
+
+94
+00:19:44.790 --> 00:19:46.900
+Parithosh Jayanthi: Okay. Lighthouse?
+
+95
+00:20:00.250 --> 00:20:03.920
+Parithosh Jayanthi: Okay, I don't know if someone from Lighthouse is on today.
+
+96
+00:20:04.030 --> 00:20:07.199
+Parithosh Jayanthi: Grandine, is there anyone there?
+
+97
+00:20:08.060 --> 00:20:13.189
+Saulius Grigaitis | Grandine: Yeah, we also don't have an updated version for the…
+
+98
+00:20:13.700 --> 00:20:23.610
+Saulius Grigaitis | Grandine: for the glass. We only have this previous Fusaka version, so we will work on that at some point, soon.
+
+99
+00:20:25.220 --> 00:20:37.339
+Parithosh Jayanthi: So I guess that we should add it to the spec sheet for DevNet 8, so that we have Beacon API changes, and hopefully, separate breakout changes as well before we launch DevNet 8.
+
+100
+00:20:44.170 --> 00:20:50.539
+Parithosh Jayanthi: Okay, any other builder API and or Web3 sign-up ERs to be discussed?
+
+101
+00:20:57.640 --> 00:21:02.210
+Parithosh Jayanthi: Great. I did want to leave a note that,
+
+102
+00:21:02.350 --> 00:21:13.530
+Parithosh Jayanthi: Toni has a message on the Block-level access list channel, mainly flagging it because there's some Engine API changes. I don't necessarily think CL Devs need to engage on anything there, but…
+
+103
+00:21:13.680 --> 00:21:15.419
+Parithosh Jayanthi: Probably worth keeping an eye out.
+
+104
+00:21:21.070 --> 00:21:33.680
+Parithosh Jayanthi: And the last item on the agenda for Glamsterdam is, on ACDT on Monday, there was intent from the testing teams to SFI all the EIPs that have been at,
+
+105
+00:21:33.960 --> 00:21:36.690
+Parithosh Jayanthi: That, been included in DevNet 7.
+
+106
+00:21:36.980 --> 00:21:39.869
+Parithosh Jayanthi: Is there any objection to this?
+
+107
+00:21:48.500 --> 00:21:59.190
+Parithosh Jayanthi: Okay, if that's the case, then we'll go ahead and start creating the EIPs to SFI the EIP. Yeah, we'll go, create the PRs to SFI the EIPs.
+
+108
+00:22:00.320 --> 00:22:03.860
+Parithosh Jayanthi: Anything else Glamsterdam related?
+
+109
+00:22:09.980 --> 00:22:17.729
+Stefan Starflinger: I created the DevNet 8 spec sheet. I shared it again if clients want to have a look, or people want to give some feedback.
+
+110
+00:22:19.060 --> 00:22:19.960
+Parithosh Jayanthi: Perfect.
+
+111
+00:22:20.270 --> 00:22:21.389
+Parithosh Jayanthi: Thank you.
+
+112
+00:22:23.370 --> 00:22:36.830
+Parithosh Jayanthi: Yeah, I think timeline-wise, we're still looking at DevNet 8 early August. We would want at least one public-ish DevNet, and a non-finality DevNet, both ideally in August.
+
+113
+00:22:36.970 --> 00:22:41.430
+Parithosh Jayanthi: And that should still allow us to potentially have the first testnet in September.
+
+114
+00:22:41.900 --> 00:22:44.039
+Parithosh Jayanthi: Just to have a view on…
+
+115
+00:22:45.010 --> 00:22:48.200
+Parithosh Jayanthi: In the know about the timelines we're trying to target, at least.
+
+116
+00:22:54.920 --> 00:22:59.449
+Parithosh Jayanthi: Okay, next item on the agenda is, Hegota.
+
+117
+00:22:59.860 --> 00:23:04.919
+Parithosh Jayanthi: Do we have Sukun to talk about, bundled attestation propagation?
+
+118
+00:23:09.500 --> 00:23:10.100
+Sukun Tarachandani: Pike.
+
+119
+00:23:10.990 --> 00:23:12.700
+Parithosh Jayanthi: Hey, yeah, you have the floor.
+
+120
+00:23:13.290 --> 00:23:18.490
+Sukun Tarachandani: Yeah, so I have the EIP. I have linked it in the…
+
+121
+00:23:19.440 --> 00:23:25.189
+Sukun Tarachandani: issue. I'll share it here in the chat. And I also have consensus facts related to it.
+
+122
+00:23:27.430 --> 00:23:31.250
+Sukun Tarachandani: And I have a draft implementation in Prysm as well.
+
+123
+00:23:31.370 --> 00:23:39.750
+Sukun Tarachandani: So, I basically talked about it a few ACDCs ago. The idea is to deduplicate attestation data, and so… to save bandwidth.
+
+124
+00:23:40.460 --> 00:23:43.659
+Sukun Tarachandani: This helps in the future with decoupled Consensus a lot.
+
+125
+00:23:43.850 --> 00:23:45.650
+Sukun Tarachandani: And,
+
+126
+00:23:46.030 --> 00:24:00.929
+Sukun Tarachandani: the nice thing here is that, basically, I've kept all the changes to a minimum, so… because anyway, the objects that we vote on will change for decoupled Consensus, so… I've not made such large-scale changes.
+
+127
+00:24:01.030 --> 00:24:10.080
+Sukun Tarachandani: And it should be fairly easy to implement, so I would like to propose it for Hegota, and, like, if people need any other information, I'm happy to provide them.
+
+128
+00:24:11.820 --> 00:24:16.059
+Sukun Tarachandani: But otherwise, we can keep discussing on the EIP or the Consensus bits.
+
+129
+00:24:20.360 --> 00:24:23.749
+Parithosh Jayanthi: Are there any open questions from the clients about this?
+
+130
+00:24:25.200 --> 00:24:36.049
+Sukun Tarachandani: Not yet. I would like… yeah, basically, I think I have 2 more weeks, so I'd like to highlight it to all the client teams, and they can reach out to me for any questions they have.
+
+131
+00:24:41.750 --> 00:24:48.069
+Parithosh Jayanthi: Okay, perfect. Any immediate questions from clients, or should we move to the next topic, then?
+
+132
+00:24:49.730 --> 00:24:54.850
+Sukun Tarachandani: Also, just to highlight, like, the change itself is backwards compatible, so…
+
+133
+00:24:55.200 --> 00:24:57.950
+Sukun Tarachandani: This does not need to be fork color.
+
+134
+00:24:58.240 --> 00:25:00.280
+Sukun Tarachandani: the post-k-out fine.
+
+135
+00:25:03.410 --> 00:25:11.560
+Parithosh Jayanthi: Nice. That also probably implies we don't need to necessarily ship this at a fork, right? If some client implements it beforehand, yeah.
+
+136
+00:25:12.220 --> 00:25:17.550
+Sukun Tarachandani: Yeah, yeah, it is fully backwards compatible, and it really should not impact
+
+137
+00:25:18.220 --> 00:25:25.719
+Sukun Tarachandani: If a client ships it before, also, it should be fine. So, it follows the same thing as the data columns work that we did.
+
+138
+00:25:26.230 --> 00:25:30.050
+Sukun Tarachandani: And, like, yeah, so that would also… we would also get some…
+
+139
+00:25:30.260 --> 00:25:35.400
+Sukun Tarachandani: Sort of confidence on the partial messages system by then, when we ship data columns.
+
+140
+00:25:37.490 --> 00:25:49.479
+Parithosh Jayanthi: Yeah, makes sense. And yeah, like Daniel mentioned, I guess we can make it required for, Hegota if we do intend to ship this, so that, worst case, we know on the networking level, everyone has it post-star.
+
+141
+00:25:50.570 --> 00:25:53.480
+Sukun Tarachandani: Yeah, awesome. Awesome.
+
+142
+00:25:55.990 --> 00:26:00.560
+Parithosh Jayanthi: Cool, yeah, please engage on the EIP if you have questions.
+
+143
+00:26:01.200 --> 00:26:08.680
+Sukun Tarachandani: I will also share the consensus bits, so yeah, look at the comments there as well.
+
+144
+00:26:12.920 --> 00:26:16.139
+Parithosh Jayanthi: Thank you. Anything else on this topic?
+
+145
+00:26:21.350 --> 00:26:23.600
+Daniel Knopik: Yeah, quick question from my side.
+
+146
+00:26:24.340 --> 00:26:34.140
+Daniel Knopik: This basically supersedes Roel's earlier proposal of, batching attestations at source, right?
+
+147
+00:26:35.290 --> 00:26:51.459
+Sukun Tarachandani: So that is an orthogonal change. If we do it, we'll have to change some of the data structures that we use here, but you can use both of them in conjunction. So, if you batch at source, you can still use this with the… there are orthogonal changes.
+
+148
+00:26:53.060 --> 00:27:04.219
+Sukun Tarachandani: Well, that's technically what Raoul's proposal was doing was pre-aggregating at source, and what this does is it just makes the network data structures more efficient, so that we save bandwidth.
+
+149
+00:27:04.720 --> 00:27:14.509
+Daniel Knopik: Yeah, I'm just wondering if there's still value to batching at source, if basically everyone can at least bundle them, but that we can discuss.
+
+150
+00:27:15.100 --> 00:27:20.579
+Sukun Tarachandani: Yeah, sure. I think that needs to come from simulations, so maybe we can take that up.
+
+151
+00:27:29.600 --> 00:27:34.779
+Parithosh Jayanthi: Awesome. Anything else? Any other comments or questions from client teams?
+
+152
+00:27:45.880 --> 00:27:48.029
+Parithosh Jayanthi: Okay, thanks. Thanks, Sukun.
+
+153
+00:27:49.230 --> 00:27:59.359
+Parithosh Jayanthi: Next item on the agenda is, partial execution payload commitments from, Toni. Are you on the call to speak?
+
+154
+00:28:00.110 --> 00:28:02.740
+Toni Wahrstätter: Yes, hello, Perry. Hello, everyone.
+
+155
+00:28:03.030 --> 00:28:08.309
+Toni Wahrstätter: So, this is a new EIP, I will post it into the chat, it's there right now.
+
+156
+00:28:08.510 --> 00:28:14.609
+Toni Wahrstätter: And this is an alternative to what I presented a few weeks ago on the… on ACDE.
+
+157
+00:28:14.770 --> 00:28:18.020
+Toni Wahrstätter: Namely, an alternative to the late-stage route.
+
+158
+00:28:18.870 --> 00:28:37.419
+Toni Wahrstätter: If you remember, the late-stage route EIP worked, where you basically replaced the post-stage route with the pre-stage route, and every block would not contain the post-state route and the header anymore, but instead you would commit to the output of the previous block, which is put into the header as the pre-state route.
+
+159
+00:28:37.450 --> 00:28:44.359
+Toni Wahrstätter: So, essentially, the earlier EIP, which was 7862, It's,
+
+160
+00:28:44.510 --> 00:28:50.060
+Toni Wahrstätter: did the original, the late-stage route, idea, but this new proposal
+
+161
+00:28:50.430 --> 00:28:52.970
+Toni Wahrstätter: Does it a little bit differently.
+
+162
+00:28:53.280 --> 00:29:03.260
+Toni Wahrstätter: Namely, if you look at the EPBS bid today, the bit commits to the block hash, and instead of the bit committing to the block hash, we would now
+
+163
+00:29:03.570 --> 00:29:12.630
+Toni Wahrstätter: unbundle the block hash, and commit in the bit to all the fields that the EL block header contains, except the state root.
+
+164
+00:29:13.090 --> 00:29:15.609
+Toni Wahrstätter: This means,
+

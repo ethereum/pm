@@ -1,0 +1,82 @@
+00:04:36	Pooja Ranjan:	gm
+00:04:40	Kalo | Obol:	gmgm
+00:04:43	Jason Vranek:	gm
+00:04:53	Stefan Starflinger:	gm
+00:04:57	Akash | ECH:	gm gm
+00:08:29	terence:	We found some beacon api performance issues which are nice
+00:08:56	Justin Traglia:	Have we checked bid spamming? Eg sending 1000+ bids, each 1 gwei greater in value?
+00:09:12	Parithosh Jayanthi:	Replying to "Have we checked bid ..."
+
+Not yet afaik
+00:11:54	Stefan Starflinger:	we have 500k exited validators
+00:12:04	P:	Replying to "Have we checked bid ..." 
+
+ It's not easy because each builder can only bid once per slot.
+So we have to deposit a few thousand builders to stress test it
+00:12:35	Justin Traglia:	Replying to "Have we checked bid ..."
+
+Ah yeah that’s true.
+00:12:47	FLCL (Nethermind):	https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8  is not yet public, probably, intentionaly
+00:13:59	Stefan Starflinger:	Replying to "https://notes.ethere..."
+
+ah this is a bug when using the api
+00:14:01	Stefan Starflinger:	Replying to "https://notes.ethere..."
+
+will fix
+00:14:36	Luca | Vero:	Discussion is in the epbs channel, please chime in
+00:14:43	terence:	Can we set a soft deadline?
+00:14:43	Kalo | Obol:	Reacted to "Discussion is in the..." with 👍
+00:15:57	Kalo | Obol:	I have been OOO past week, but will get up to speed today and tomorrow.
+00:16:04	Justin Traglia:	Reacted to "Discussion is in the..." with 👍
+00:16:08	Shane Moore:	https://github.com/ethereum/beacon-APIs/pull/630 for more eyes
+00:16:14	FLCL (Nethermind):	Replying to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8  is not yet public, probably, intentionaly"
+
+ty! i see it
+00:16:41	Nico Flaig:	do clients have circuit breaker implementations? that seems higher prio than out of protocol stuff
+00:17:40	Stefan Starflinger:	Replying to "https://notes.ethere..."
+
+It should be public now
+00:19:11	P:	The invalid payloads should be fixed. Do you still see invalid payloads?
+00:21:04	Parithosh Jayanthi:	https://discord.com/channels/595666850260713488/1364000387195076608/1527979143881429153
+00:21:31	Daniel Knopik:	sorry, mic acted up. For LH, i dont think we ahve something wrt circuit breaker yet
+00:22:02	spencer:	🚢 🐻‍❄️ 🛳️
+00:22:11	Stefan Starflinger:	https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8
+00:22:16	spencer:	Reacted to "https://notes.ethe..." with 🔥
+00:22:36	Mario Vega:	Reacted to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8" with 🔥
+00:22:38	Iván | ethrex:	Reacted to "https://notes.ethere..." with 🔥
+00:22:41	Iván | ethrex:	Reacted to "https://notes.ethere..." with 🚢
+00:22:44	Mario Vega:	Reacted to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8" with 🚢
+00:22:49	Pooja Ranjan:	Request to add approval to move Glamsterdam EIP to  Review
+00:23:07	Kalo | Obol:	Reacted to "https://notes.ethere..." with 🔥
+00:23:10	Jun Song:	Reacted to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8" with 🔥
+00:23:10	Jun Song:	Reacted to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8" with 🚢
+00:23:23	Parithosh Jayanthi:	https://github.com/ethereum/EIPs/pull/11905
+00:23:26	Sukun Tarachandani:	https://github.com/ethereum/EIPs/pull/11905
+00:23:34	Marius Van Der Wijden (M):	Replying to "https://notes.ethere..." 
+
+ So just nw changes on el?
+00:24:02	Toni Wahrstätter:	Replying to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8"
+
+there should be the 7997 "change" (depending on the client)
+00:24:14	Toni Wahrstätter:	Replying to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8"
+
+we wanted to discuss this on acdt on monday
+00:24:38	Toni Wahrstätter:	Replying to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8"
+
+https://discord.com/channels/595666850260713488/688075293562503241/1529721797434671114
+00:25:17	Daniel Knopik:	think it would be good to couple it with the fork anyway
+00:25:22	Parithosh Jayanthi:	Reacted to "think it would be good to couple it with the fork anyway" with 👍
+00:25:27	Daniel Knopik:	at least make it required for heze
+00:25:41	Kamil Salakhiev:	Reacted to "think it would be good to couple it with the fork anyway" with 👍
+00:26:25	Sukun Tarachandani:	https://github.com/ethereum/consensus-specs/pull/5464
+00:27:57	Parithosh Jayanthi:	https://github.com/ethereum/EIPs/pull/11936
+00:28:07	Toni Wahrstätter:	New delayed state root alternative:
+https://github.com/ethereum/EIPs/pull/11936/changes
+00:28:27	potuz:	@Stefan Starflinger you’re here: are we withholding blobs? Slot 64824 Prysm was hung because we never got the columns
+00:28:43	Sukun Tarachandani:	Reacted to "think it would be good to couple it with the fork anyway" with 👍
+00:28:43	potuz:	It’s not clear it’s our fault or clients that aren’t replying to our requests
+00:29:10	Trent Van Epps:	Reacted to "New delayed state root alternative:
+https://github.com/ethereum/EIPs/pull/11936/changes" with 😃
+00:29:12	Stefan Starflinger:	Replying to "@Stefan Starflinger ..."
+
+No we are not actively witholding blobs
