@@ -9,7 +9,7 @@
 
 Not yet afaik
 00:11:54	Stefan Starflinger:	we have 500k exited validators
-00:12:04	P:	Replying to "Have we checked bid ..." 
+00:12:04	P:	Replying to "Have we checked bid ..."
 
  It's not easy because each builder can only bid once per slot.
 So we have to deposit a few thousand builders to stress test it
@@ -52,7 +52,7 @@ It should be public now
 00:23:10	Jun Song:	Reacted to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8" with 🚢
 00:23:23	Parithosh Jayanthi:	https://github.com/ethereum/EIPs/pull/11905
 00:23:26	Sukun Tarachandani:	https://github.com/ethereum/EIPs/pull/11905
-00:23:34	Marius Van Der Wijden (M):	Replying to "https://notes.ethere..." 
+00:23:34	Marius Van Der Wijden (M):	Replying to "https://notes.ethere..."
 
  So just nw changes on el?
 00:24:02	Toni Wahrstätter:	Replying to "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8"
@@ -80,3 +80,172 @@ https://github.com/ethereum/EIPs/pull/11936/changes" with 😃
 00:29:12	Stefan Starflinger:	Replying to "@Stefan Starflinger ..."
 
 No we are not actively witholding blobs
+00:30:27	Kalo | Obol:	oopsie
+00:30:33	Daniel Knopik:	gm
+00:30:42	Justin Traglia:	gm lol
+00:30:56	nixo:	LOL
+00:31:01	Ben Adams:	Someone didn't like Toni's proposal?
+00:31:04	Toni Wahrstätter:	https://github.com/ethereum/EIPs/pull/11936/changes
+00:31:35	wolovim:	Thanks for making asset processing a pain in the backside later 😛
+00:31:44	Stefan Starflinger:	we're just stress testing forkcast
+00:31:50	Justin Traglia:	Reacted to "we're just stress te..." with 😄
+00:31:53	Kalo | Obol:	Reacted to "we're just stress te..." with 😄
+00:31:54	Kevaundray Wedderburn:	Reacted to "we're just stress testing forkcast" with 😄
+00:31:59	Justin Traglia:	Reacted to "Thanks for making as..." with 😅
+00:32:17	nixo:	Reacted to "we're just stress testing forkcast" with 😄
+00:32:28	nixo:	Replying to "we're just stress te..."
+
+lol bad time for stress testing forkcast XD
+00:32:31	potuz:	Tx root is the ssd root?
+00:32:33	Etan (Nimbus):	what about block hash?
+00:32:37	potuz:	Ssz root?
+00:32:41	Etan (Nimbus):	Reacted to "Ssz root?" with ❤️
+00:32:51	wolovim:	forkcast also has bad habit of outsourcing all its stress to me
+00:32:52	Etan (Nimbus):	Replying to "Ssz root?"
+
+that's 7807 (PFI next week as non-headliner)
+00:35:42	Mario Vega:	Reacted to "Ssz root?" with ❤️
+00:35:50	Etan (Nimbus):	is that a non-headliner or headliner scope?
+00:35:51	Karim T. (matkt):	Could you share the link of the eip ?
+00:35:53	soispoke:	would you need to compute the state root before revealing the BAL?
+00:36:30	Dustin:	Quantitatively, how much of an optimization is this?
+00:36:47	Marius van der Wijden:	@pari if we have 5 min at the end, I would love to talk a bit about the rest-ssz spec
+00:36:53	Parithosh Jayanthi:	Reacted to "@pari if we have 5 min at the end, I would love to talk a bit about the rest-ssz spec" with ❤️
+00:36:58	Kevaundray Wedderburn:	Reacted to "@pari if we have 5 min at the end, I would love to talk a bit about the rest-ssz spec" with ❤️
+00:36:59	Dustin:	Reacted to "@pari if we have 5..." with ❤️
+00:37:37	Jun Song:	Reacted to "@pari if we have 5 min at the end, I would love to talk a bit about the rest-ssz spec" with ❤️
+00:37:47	Justin Traglia:	Reacted to "@pari if we have 5 m..." with ❤️
+00:38:45	Etan (Nimbus):	Replying to "Ssz root?"
+
+with SSZ block header we don't need the engine API to obtain it
+00:39:04	Etan (Nimbus):	newPayload already does this, though
+00:39:16	soispoke:	Répondre à "would you need to ..."
+
+if we assume we might want to separate the BAL and the payload
+00:39:16	Etan (Nimbus):	like, it has INVALID_BLOCK_HASH if it's wrong
+00:39:18	potuz:	Not for the hash it checks the consistency though
+00:39:52	Karim T. (matkt):	Could you share the link ?
+00:39:56	Toni Wahrstätter:	https://github.com/ethereum/EIPs/pull/11936/changes
+00:40:08	potuz:	But yeah, we can just check consistency on the receival of the envelope and that’s it…
+00:40:15	Dustin:	There's a sort of debugging/tooling aspect here of, CLs being able to log blockhash to identify unambiguously which block it's sending to newPayload etc
+00:40:23	jochem-brouwer (Fairphone):	I will leave editorial review on these EIPs asap
+00:40:31	potuz:	Problem is for blocks that arrive and the node doesn’t have the parent envelope yet
+00:40:43	Pooja Ranjan:	Reacted to "I will leave editorial review on these EIPs asap" with ❤️
+00:41:33	Toni Wahrstätter:	Reacted to "I will leave editorial review on these EIPs asap" with ❤️
+00:41:45	Parithosh Jayanthi:	https://github.com/ethereum/EIPs/pull/11861
+00:43:35	Marius van der Wijden:	Lol its succession today
+00:43:50	Justin Traglia:	Replying to "https://github.com/e..."
+
+I think this would be nice & simple start to PQ-ifying the protocol.
+00:43:53	T. Wambsgans:	Reacted to "Lol its succession today" with 😂
+00:43:55	Justin Traglia:	Reacted to "Lol its succession t..." with 😂
+00:45:19	Jun Song:	Reacted to "I think this would be nice & simple start to PQ-ifying the protocol." with 👍
+00:45:30	Ben Edgington:	The original hash onion: https://eth2book.info/capella/part2/building_blocks/randomness/#the-old-hash-onions
+00:45:51	Trent Van Epps:	Reacted to "The original hash onion: https://eth2book.info/capella/part2/building_blocks/randomness/#the-old-hash-onions" with 👀
+00:45:59	Greg K | Lido:	Reacted to "The original hash ..." with 👀
+00:47:10	Francesco D'Amato:	Few questions:
+Why do this now, when everything else is still quantum vulnerable?
+Are we even sure that we’ll be using RANDAO in 3-4 years?
+Even if so, why don’t we wait until the validator set is much smaller?
+00:47:35	Gottfried Herold:	The stored state changes with each usage, so this does not lend itself to reuse easily.
+00:47:54	Yann Vonlanthen:	Reacted to "The original hash on..." with 👀
+00:49:32	Luca Donno | L2BEAT:	Reacted to "Few questions:
+Why do this now, when everything else is still quantum vulnerable?
+Are we even sure that we’ll be using RANDAO in 3-4 years?
+Even if so, why don’t we wait until the validator set is much smaller?" with 👍
+00:50:05	Francesco D'Amato:	Another point is we might not even use committees in the future (though a shuffle could still be useful for the proposer selection)
+00:50:07	Gottfried Herold:	Potuz: rotating BLS keys with very small lifetime don't quite work for the RANDAO usage.
+00:50:30	Etan (Nimbus):	historically, iterative worked better
+00:50:39	lightclient:	Replying to "Potuz: rotating BLS keys with very small lifetime don't quite work for the RANDAO usage."
+
+why is that?
+00:50:42	Matthew Keil:	Iterative feels much better
+00:50:45	potuz:	I disagree with Kev on that statement, but @Gottfried Herold rotating per finalized epoch does
+00:50:49	Justin Traglia:	Reacted to "historically, iterat..." with 👍
+00:50:51	Justin Traglia:	Reacted to "Iterative feels much..." with 👍
+00:50:58	lightclient:	Reacted to "historically, iterative worked better" with 👍
+00:51:02	Gottfried Herold:	(because the users can choose the pubkey; you would need to have users choose pubkey with a delay, which is not good for the PQ use case)
+00:51:10	Dustin:	Reacted to "Iterative feels mu..." with 👍
+00:51:12	Dustin:	Reacted to "historically, iter..." with 👍
+00:51:18	Nico Flaig:	Reacted to "Iterative feels much..." with 👍
+00:51:21	Nico Flaig:	Reacted to "historically, iterat..." with 👍
+00:51:29	potuz:	@Gottfried Herold the point is that rotating is deterministic, the users cannot choose the key
+00:51:44	Gottfried Herold:	If deterministic, then it would work, yes.
+00:51:45	potuz:	That’s my proposal, the deterministic derivation depends on a committed PQ safe key
+00:51:49	Gottfried Herold:	Ah, OK.
+00:51:54	potuz:	Yes, this approach is my favorite,
+00:52:00	potuz:	That’s why I believe all this is premature
+00:53:17	Francesco D'Amato:	Generally agree with the iterative approach, but I agree it feels premature
+00:53:32	potuz:	Iterative makes sense once the final approach is established
+00:53:45	cayman:	Reacted to "Iterative makes sens..." with 👍
+00:53:54	potuz:	It doesn’t make sense to put us on a path enshrining the first iteration when the final approach is not decided
+00:54:13	Nico Flaig:	Reacted to "Iterative makes sens..." with 👍
+00:54:13	Etan (Nimbus):	Reacted to "It doesn’t make sense to put us on a path enshrining the first iteration when the final approach is not decided" with 👍
+00:54:25	Dustin:	Reacted to "It doesn’t make s..." with 👍
+00:54:26	Dustin:	Reacted to "Iterative makes se..." with 👍
+00:54:32	Etan (Nimbus):	Replying to "It doesn’t make sens..."
+
+still, having the EIP as a documentation of the current research makes sense, even if it doesn't go beyond H* PFI initially
+00:54:41	potuz:	Reacted to "still, having the EIP as a documentation of the current research makes sense, even if it doesn't go beyond H* PFI initially" with 👍
+00:55:02	Justin Traglia:	Reacted to "Iterative makes sens..." with 👍
+00:56:33	Gottfried Herold:	I mean, an alternative (just for RANDAO) would be signing the epoch number (like we do today) with a (static) pubkey of a determinstic signature scheme and authenticate the static pubkey with a fixed slote of the PQ signature scheme. The latter is a one-time scheme, but that is fine because you always authenticate the same static pubkey. This avoids adding data to state...
+00:57:33	Francesco Risitano (Tau):	Replying to "There's a sort of de..."
+
+I believe the execution payload already contains the block hash and the engine api validates it. I suppose the main change here is that in the time between the bid and the payload reveal the state root and block hash are unknown - instead there will be some other partial commitment digest that could be used.
+00:57:36	Matthew Keil:	exactly
+00:57:52	Francesco D'Amato:	Reacted to "still, having the EI..." with 👍
+00:57:59	potuz:	Replying to "I mean, an alternati..."
+
+Yes this is precisely what I want to do but even for attestations so that we keep attestations being aggregatable by everyone
+00:58:16	potuz:	Reacted to "I believe the execution payload already contains the block hash and the engine api validates it. I suppose the main change here is that in the time between the bid and the payload reveal the state root and block hash are unknown - instead there will be some other partial commitment digest that could be used." with 👍
+00:58:20	Etan (Nimbus):	xmss is stateful, signing requires writing to flash, no?
+00:58:56	Saulius Grigaitis | Grandine:	IMO It would be better to have all the PQ schemes finalised (including particular hash function etc) before including anything to the protocol.
+00:59:32	potuz:	Replying to "There's a sort of de..."
+
+Yes, I think this is the cleanest that we validate it on new payload, but the problem is that implementations do use the has committed and not necessarily revealed
+00:59:54	potuz:	Reacted to "IMO It would be better to have all the PQ schemes finalised (including particular hash function etc) before including anything to the protocol." with 👍
+00:59:55	Gottfried Herold:	Replying to "I mean, an alternati..."
+
+I mean, for the RANDAO usecase, we don't even have aggregatibility or efficiency as really critical requirements.
+01:00:00	Luca Donno | L2BEAT:	Reacted to "It doesn’t make sense to put us on a path enshrining the first iteration when the final approach is not decided" with 👍
+01:00:03	Luca Donno | L2BEAT:	Reacted to "still, having the EIP as a documentation of the current research makes sense, even if it doesn't go beyond H* PFI initially" with 👍
+01:00:35	potuz:	Replying to "I mean, an alternati..."
+
+Sure, but the same system described above: deterministically generating a BLS pair for example, would work for both
+01:01:56	Gottfried Herold:	Replying to "I mean, an alternati..."
+
+I agree. *If* we go for the BLS route, this seems the right thing. But the approach works with a non-BLS scheme even if we don't.
+01:01:59	Parithosh Jayanthi:	https://eips.ethereum.org/EIPS/eip-8015
+01:03:10	Francesco Risitano (Tau):	I see yes, in practice I guess this sort of introduces two “primary keys” / identifiers for a single payload which does add some complexity. My main motivation behind suggesting this change is that I think the 7862 delayed state root proposal is quite invasive and impacts state proof latency which could have practical implications for cross chain messages and light clients. I think the net complexity of this solution is lower. In regards to the prover stack the post state root contributes approximately ~10% of the proving workload - I don’t think the 7862 complexity justifies a 10% proving hot path reduction imo.
+01:03:23	Justin Traglia:	Technically, would this reduce state growth? 😄
+01:04:10	Etan (Nimbus):	Replying to "Technically, would t..."
+
+it reduces state size, it doesn't slow down future growth
+01:04:20	Justin Traglia:	Replying to "Technically, would t..."
+
+So yes, technically lol
+01:04:29	Greg the Egg:	https://github.com/ethereum/pm/issues/2157#issuecomment-4981597977
+01:04:38	Francesco Risitano (Tau):	Reacted to "Yes, I think this is the cleanest that we validate it on new payload, but the problem is that implementations do use the has committed and not necessarily revealed" with 👍
+01:05:26	wolovim:	Reacted to "https://github.com/ethereum/pm/issues/2157#issuecomment-4981597977" with 👍
+01:05:27	Greg the Egg:	# Still used (according to LH) - eth_syncing - eth_getBlockByNumber - eth_getBlockByHash - eth_chainId # used in eth1 deposit path - eth_blockNumber - eth_call - eth_getLogs # unused - eth_getCode - eth_sendRawTransaction
+01:06:51	Jun Song:	[Prysm]
+
+# Still used
+eth_getBlockByNumber
+eth_getBlockByHash
+eth_chainId
+# used in eth1 deposit path
+eth_call
+eth_getLogs
+# unused
+eth_blockNumber - using eth_getBlockByNumber instead
+eth_syncing
+eth_getCode
+eth_sendRawTransaction
+01:07:18	Daniel Knopik:	Replying to "# Still used (acco..."
+
+note that all listed under "used in eth1 deposit path" are already dead code for LH
+01:08:11	Jun Song:	Replying to "# Still used (accord..."
+
+^ same for Prysm
+01:11:58	Pooja Ranjan:	https://github.com/ethereum/pm/issues/2158#issuecomment-5059393845

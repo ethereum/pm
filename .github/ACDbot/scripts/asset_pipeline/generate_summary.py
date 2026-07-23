@@ -6,9 +6,9 @@ Uses Claude API with meeting transcript, chat, and GitHub issue agenda.
 
 import argparse
 import json
+import os
 import re
 import sys
-from html import unescape
 from pathlib import Path
 
 import anthropic
@@ -102,64 +102,45 @@ def get_example_summary(call_type: str) -> str:
 
 
 def fetch_github_issue_agenda(issue_number: int, repo: str = "ethereum/pm") -> str | None:
-    """Fetch the agenda section from a GitHub issue by scraping the public page."""
-    url = f"https://github.com/{repo}/issues/{issue_number}"
+    """Fetch the Agenda section from a GitHub issue via the REST API.
+
+    Reads the issue body markdown (stable) instead of scraping rendered HTML.
+    Uses GITHUB_TOKEN when available to avoid unauthenticated rate limits.
+    """
+    url = f"https://api.github.com/repos/{repo}/issues/{issue_number}"
+    base_headers = {"Accept": "application/vnd.github+json"}
+    token = os.environ.get("GITHUB_TOKEN")
 
     try:
-        response = requests.get(url)
+        response = requests.get(
+            url,
+            headers={**base_headers, "Authorization": f"Bearer {token}"} if token else base_headers,
+        )
+        # A stale/invalid token (e.g. from a local .env) should not block the
+        # public read; retry unauthenticated on auth failures.
+        if token and response.status_code in (401, 403):
+            print(f"  GITHUB_TOKEN rejected ({response.status_code}); retrying unauthenticated")
+            response = requests.get(url, headers=base_headers)
         if response.status_code != 200:
             print(f"  Failed to fetch GitHub issue #{issue_number}: {response.status_code}")
             return None
 
-        html_content = response.text
-
-        # Look for the markdown-body div which contains the rendered issue content
-        body_pattern = r'<div[^>]*class="[^"]*markdown-body[^"]*"[^>]*>(.*?)</div>\s*</div>\s*</div>\s*</div>\s*<div class="Box-sc'
-        body_match = re.search(body_pattern, html_content, re.DOTALL)
-
-        if not body_match:
-            # Try alternative pattern for the NewMarkdownViewer wrapper
-            body_pattern = r'class="Box-sc-[^"]*\s+markdown-body\s+NewMarkdownViewer[^"]*"[^>]*>(.*?)</div>'
-            body_match = re.search(body_pattern, html_content, re.DOTALL)
-
-        if body_match:
-            body_html = body_match.group(1)
-
-            # Try to find the "Agenda" heading and extract content after it
-            agenda_pattern = r'<h3[^>]*>.*?Agenda.*?</h3>(.*?)(?=<h3[^>]*>\s*Call Series\s*</h3>|$)'
-            agenda_match = re.search(agenda_pattern, body_html, re.DOTALL | re.IGNORECASE)
-
-            if agenda_match:
-                agenda_html = agenda_match.group(1)
-
-                # Convert HTML to text
-                agenda_html = re.sub(r'<script[^>]*>.*?</script>', '', agenda_html, flags=re.DOTALL)
-                agenda_html = re.sub(r'<style[^>]*>.*?</style>', '', agenda_html, flags=re.DOTALL)
-                agenda_html = re.sub(r'<br\s*/?>', '\n', agenda_html)
-                agenda_html = re.sub(r'</li>', '\n', agenda_html)
-                agenda_html = re.sub(r'<li[^>]*>', '- ', agenda_html)
-                agenda_html = re.sub(r'</p>', '\n\n', agenda_html)
-                agenda_html = re.sub(r'<p[^>]*>', '', agenda_html)
-                agenda_html = re.sub(r'</ul>', '\n', agenda_html)
-                agenda_html = re.sub(r'<ul[^>]*>', '\n', agenda_html)
-                agenda_html = re.sub(r'<[^>]+>', '', agenda_html)
-
-                agenda_text = unescape(agenda_html)
-                agenda_text = re.sub(r'\n\s*\n\s*\n+', '\n\n', agenda_text)
-                agenda_text = re.sub(r'^\s+', '', agenda_text, flags=re.MULTILINE)
-                return agenda_text.strip()
-            else:
-                print(f"  Could not find '### Agenda' section in issue #{issue_number}")
-                # Return full body as fallback
-                body_text = re.sub(r'<br\s*/?>', '\n', body_html)
-                body_text = re.sub(r'</li>', '\n', body_html)
-                body_text = re.sub(r'<li[^>]*>', '- ', body_html)
-                body_text = re.sub(r'<[^>]+>', '', body_text)
-                body_text = unescape(body_text)
-                return re.sub(r'\n\s*\n\s*\n+', '\n\n', body_text).strip()
-        else:
-            print(f"  Could not parse issue body from HTML")
+        body = (response.json().get("body") or "").replace("\r\n", "\n")
+        if not body.strip():
+            print(f"  Issue #{issue_number} has no body")
             return None
+
+        # Extract the "### Agenda" section up to the next markdown heading.
+        agenda_match = re.search(
+            r'^#{1,6}\s*Agenda\s*$\n(.*?)(?=^#{1,6}\s|\Z)',
+            body,
+            re.DOTALL | re.IGNORECASE | re.MULTILINE,
+        )
+        if not agenda_match:
+            print(f"  Could not find 'Agenda' section in issue #{issue_number}, using full body")
+            return body.strip()
+
+        return agenda_match.group(1).strip()
 
     except Exception as e:
         print(f"  Error fetching GitHub issue: {e}")
