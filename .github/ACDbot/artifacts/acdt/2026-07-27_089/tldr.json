@@ -1,0 +1,108 @@
+{
+  "meeting": "ACDT #89 - July 27, 2026",
+  "highlights": {
+    "testing_progress": [
+      {
+        "timestamp": "00:06:50",
+        "highlight": "Glamsterdam devnet-7 held up over weekend; ramping up load/chaos scenarios now"
+      },
+      {
+        "timestamp": "00:07:34",
+        "highlight": "Geth and Nethermind builders not winning bids on devnet-7; under investigation"
+      },
+      {
+        "timestamp": "00:11:42",
+        "highlight": "Teku favors local blocks over external bids ~90% of the time; logging improvements incoming"
+      },
+      {
+        "timestamp": "00:17:07",
+        "highlight": "Glamsterdam devnet-8 spec sheet shared; key focus: discv5-only (no V4 fallback), SSZ fork transition, increased chaos"
+      }
+    ],
+    "devnet_8_planning": [
+      {
+        "timestamp": "00:21:50",
+        "highlight": "devnet-8 launch tentatively early August; next Wednesday proposed but likely too tight pending repricing numbers"
+      },
+      {
+        "timestamp": "00:22:09",
+        "highlight": "Repricing analysis started Friday; final numbers not expected before next week \u2014 devnet-8 launch date to be revisited at next ACDT"
+      },
+      {
+        "timestamp": "00:24:50",
+        "highlight": "Sparse blob pool (EIP-8070) Engine API changes (GetBlobsV3/V4 + FCU custody_columns field) proposed mandatory for devnet-8"
+      },
+      {
+        "timestamp": "00:34:35",
+        "highlight": "EIP-8070 Engine API endpoints agreed for devnet-8; Besu, Geth, Nethermind, Reth, ethrex all confirmed; Lighthouse PRs ready"
+      }
+    ],
+    "el_breakout_eip_changes": [
+      {
+        "timestamp": "00:42:40",
+        "highlight": "EIP-2780 (log cost simplification for repricing): merged PR, no objections; going into devnet-8 spec release"
+      },
+      {
+        "timestamp": "00:45:25",
+        "highlight": "EIP-8037 (rename 'regular gas' to 'execution gas'): pure rename, no behavior change; no objections, going into devnet-8"
+      },
+      {
+        "timestamp": "00:51:32",
+        "highlight": "EIP-7997 fork-boundary behavior: spec already correct \u2014 client software must NOT check contract existence at fork block; two open PRs to be closed"
+      },
+      {
+        "timestamp": "01:00:17",
+        "highlight": "Geth uniquely reads/deploys EIP-7997 contract at fork boundary; safe for mainnet (already deployed), but diverges on chains without factory pre-deployed"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:10:37",
+      "action": "CL clients: review bid-selection logic and add logging for accepted/rejected bids and circuit breaker activation",
+      "owner": "CL teams"
+    },
+    {
+      "timestamp": "00:40:58",
+      "action": "Raise any Engine API implementation concerns for EIP-8070 promptly; revisit at next ACDT",
+      "owner": "All EL/CL teams"
+    },
+    {
+      "timestamp": "00:50:29",
+      "action": "Merge EIP-2780 and EIP-8037 into EL specs and include in devnet-8 spec release",
+      "owner": "Mario Vega / Spencer / Guru"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:34:35",
+      "decision": "EIP-8070 Engine API changes (GetBlobsV3/V4, FCU custody_columns) are mandatory for devnet-8; cell-level DAS deferred"
+    },
+    {
+      "timestamp": "00:44:05",
+      "decision": "EIP-2780 log cost simplification included in devnet-8 with no objections"
+    },
+    {
+      "timestamp": "00:49:49",
+      "decision": "EIP-8037 rename 'regular gas' to 'execution gas' included in devnet-8 with no objections"
+    },
+    {
+      "timestamp": "01:00:10",
+      "decision": "EIP-7997: close both open PRs; existing spec text is correct \u2014 no BAL read or contract check at fork boundary"
+    },
+    {
+      "timestamp": "00:24:08",
+      "decision": "devnet-8 launch date deferred; to be revisited at next ACDT once repricing numbers are available"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:22:23",
+      "target": "CL specs alpha.13 release for devnet-8 by end of this week (mid-week target)"
+    },
+    {
+      "timestamp": "00:21:50",
+      "target": "Glamsterdam devnet-8 launch: early August (exact date TBD at next ACDT)"
+    }
+  ]
+}

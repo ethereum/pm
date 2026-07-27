@@ -1,0 +1,1850 @@
+WEBVTT
+
+1
+00:04:26.690 --> 00:04:32.739
+Mario Vega: Hello, everyone. We're gonna give a couple more minutes, to give a chance to people to join, and we can start.
+
+2
+00:05:45.120 --> 00:05:47.590
+Mario Vega: Hi everyone, just one more minute, then we can start.
+
+3
+00:06:14.450 --> 00:06:21.430
+Mario Vega: All right, let's… let's get going. Welcome, everybody, to ACDT number 89.
+
+4
+00:06:21.550 --> 00:06:25.839
+Mario Vega: I'll post the chat in the agenda just now.
+
+5
+00:06:26.530 --> 00:06:29.470
+Mario Vega: Today is, July 27,
+
+6
+00:06:29.900 --> 00:06:41.219
+Mario Vega: 2026, we have an agenda consisting mainly of Glamsterdam DevNet topics, and we have a couple more topics for the EL breakout and the EL breakout today, so yeah, let's just get started.
+
+7
+00:06:41.360 --> 00:06:49.699
+Mario Vega: We can start with DevNet 7. Stefan, I see that you are in the call. Would you like to give us an update about DevNet 7?
+
+8
+00:06:50.900 --> 00:06:56.849
+Stefan Starflinger: Yeah, sure. So overall, the definite held up pretty well over the weekend.
+
+9
+00:06:57.090 --> 00:07:12.800
+Stefan Starflinger: But we were also not doing too much to it, and now we started adding some more scenarios again, so I ramped up the transaction count overall with different scenarios, and the network is under a much
+
+10
+00:07:12.890 --> 00:07:23.490
+Stefan Starflinger: bigger load, so we can do another analysis there, in case clients have changed anything yet and want to test anything. I think I will leave it running for
+
+11
+00:07:23.600 --> 00:07:30.529
+Stefan Starflinger: 24 hours, and then we can see if there's any change to the last spamming round.
+
+12
+00:07:30.770 --> 00:07:34.450
+Stefan Starflinger: We still have some issues with, Geth…
+
+13
+00:07:34.560 --> 00:07:37.550
+Stefan Starflinger: builder, so Geth is right now,
+
+14
+00:07:37.830 --> 00:07:46.939
+Stefan Starflinger: having some gas limit issues and not winning any bids. And also, the Nethermind builder is not winning any bids yet, where we're looking into that.
+
+15
+00:07:47.180 --> 00:07:54.459
+Stefan Starflinger: I think Perry has started, the TISM, scenarios as well. They should, be coming in.
+
+16
+00:07:54.610 --> 00:07:57.370
+Stefan Starflinger: Today and over the next few days.
+
+17
+00:07:57.660 --> 00:08:02.780
+Stefan Starflinger: And, we're gonna, I think, maybe look over DevNet 8.
+
+18
+00:08:02.950 --> 00:08:04.910
+Stefan Starflinger: A little bit, maybe, in this call.
+
+19
+00:08:05.140 --> 00:08:06.179
+Stefan Starflinger: as well.
+
+20
+00:08:06.320 --> 00:08:09.609
+Stefan Starflinger: I think there are some topics on the agenda for that.
+
+21
+00:08:09.850 --> 00:08:10.790
+Stefan Starflinger: as well.
+
+22
+00:08:11.100 --> 00:08:22.649
+Stefan Starflinger: I think that's pretty much it overall. I will link the kind of performance-related issue report that I found a few days ago in the chat as well, in case people want to look.
+
+23
+00:08:22.850 --> 00:08:27.319
+Stefan Starflinger: Again, at the last round of testing, lots of transactions.
+
+24
+00:08:30.070 --> 00:08:31.710
+Mario Vega: Thank you.
+
+25
+00:08:31.910 --> 00:08:38.340
+Mario Vega: Any comments from clients? Any behavior that has been found in DevNet 7 that needs to be discussed today?
+
+26
+00:08:43.820 --> 00:08:49.129
+Barnabas: Besu had some bug, this morning after they bumped their image. Maybe they can comment?
+
+27
+00:08:51.480 --> 00:09:01.400
+Daniel Lehrner (Besu): Yes, I can give a quick update. We were trying out some performance improvement, but then realized that this, also introduced,
+
+28
+00:09:01.680 --> 00:09:06.150
+Daniel Lehrner (Besu): Regression, and then we had some issues with estate handling.
+
+29
+00:09:06.690 --> 00:09:10.790
+Daniel Lehrner (Besu): we rolled back to a former comet.
+
+30
+00:09:11.030 --> 00:09:16.519
+Daniel Lehrner (Besu): And now it's fixed again, so we just need to investigate, why this happened.
+
+31
+00:09:17.030 --> 00:09:19.819
+Daniel Lehrner (Besu): And then we can do the performance improvements again.
+
+32
+00:09:25.930 --> 00:09:29.990
+Stefan Starflinger: I also have one more thing that came to mind, that I'm testing.
+
+33
+00:09:30.540 --> 00:09:41.159
+Stefan Starflinger: Is I'm adding a repetitive builder scenario, where I want to win the 31st slot, at the epoch transition.
+
+34
+00:09:41.410 --> 00:09:53.000
+Stefan Starflinger: Every time, and then withhold the block, which I'm currently trying out. But I'm noticing that I'm not winning every time, even though mostly I'm offering a higher bid.
+
+35
+00:09:53.160 --> 00:09:58.430
+Stefan Starflinger: And clients are still self-building, in some cases, and not taking the higher bid.
+
+36
+00:10:11.610 --> 00:10:18.440
+Mario Vega: Alright, any… Do you need feedback from clients or Stefan, regarding that, or…
+
+37
+00:10:19.270 --> 00:10:25.810
+Stefan Starflinger: It would be good if clients could have a look, at their, bid implementation, or to…
+
+38
+00:10:26.020 --> 00:10:29.419
+Stefan Starflinger: See if they always take the highest bid, or if there are some…
+
+39
+00:10:29.850 --> 00:10:32.790
+Stefan Starflinger: Reason they don't. It would be good if they could share.
+
+40
+00:10:33.260 --> 00:10:42.009
+Parithosh Jayanthi: It would also be nice to know when the circuit breaker's live, or if you have, specific logging lines that indicate the circuit breaker's live.
+
+41
+00:10:42.270 --> 00:10:45.179
+Parithosh Jayanthi: Because it just could be that we've triggered the scenario.
+
+42
+00:10:54.480 --> 00:10:59.749
+Mario Vega: Yeah, Nico mentions in the chat that it's difficult to know at the moment without much info.
+
+43
+00:10:59.940 --> 00:11:06.419
+Mario Vega: And also the circuit breaker. Nico, could you chime in on the circuit breaker, or…
+
+44
+00:11:06.950 --> 00:11:08.859
+Mario Vega: What's the status for…
+
+45
+00:11:10.140 --> 00:11:20.020
+Nico Flaig: So for loads that this is rolled out on the DevNet, so at least that could be one reason, but yeah, if the bid is really high, we should pick it by default right now.
+
+46
+00:11:20.500 --> 00:11:24.670
+Nico Flaig: Unless that one is active, which, yeah, I'm not sure.
+
+47
+00:11:24.990 --> 00:11:29.619
+Nico Flaig: Like, it depends on the missed payloads previously in the epoch.
+
+48
+00:11:34.960 --> 00:11:42.410
+Barnabas: So, diverse, client is Teku, by far. I think Teku favors local blocks over, bits.
+
+49
+00:11:42.650 --> 00:11:44.580
+Barnabas: At, like, 90% of the time.
+
+50
+00:11:55.260 --> 00:11:58.199
+Mario Vega: Okay, seems like more information needs to be gathered then.
+
+51
+00:11:58.270 --> 00:12:08.139
+Barnabas: It would be very good if we had, some log… logs about the bids that, have been coming in, and that has been rejected or accepted.
+
+52
+00:12:08.820 --> 00:12:14.209
+Barnabas: Right now, some clients, log nothing about the bits.
+
+53
+00:12:14.420 --> 00:12:15.460
+Barnabas: themselves.
+
+54
+00:12:26.590 --> 00:12:33.890
+Mario Vega: Okay, Prysm mentions that they log every time they ignore a bit, so I don't know if that's the case for the rest of the clients.
+
+55
+00:12:34.000 --> 00:12:36.690
+Mario Vega: But we should take a look, yep.
+
+56
+00:12:42.150 --> 00:12:43.760
+Mario Vega: Alright,
+
+57
+00:12:43.910 --> 00:12:50.810
+Mario Vega: Do we want to keep going in the discussion, or should we switch to… is there anything else on DevNet 7 that needs to be discussed?
+
+58
+00:12:51.010 --> 00:12:51.890
+Mario Vega: Today.
+
+59
+00:13:01.920 --> 00:13:15.009
+Maria Silva: Maybe, can I ask a question? If there are no more topics on the DevNet, I want to… so on, benchmarking, we are starting to run benchmarks on DevNet 7.
+
+60
+00:13:15.090 --> 00:13:20.500
+Maria Silva: And, to help me with the interpretation of the results, I just wanted to
+
+61
+00:13:20.510 --> 00:13:40.259
+Maria Silva: ask for each EL client, which of you have already pushed the optimizations to Paul DevNet 7, and which, are not yet there, so I can have a sense of, the numbers I've seen, if they are with optimizations or without optimizations.
+
+62
+00:13:48.080 --> 00:13:54.569
+Mario Vega: Get, I see, Nethermind and… or Besu, or any other EL client do you have?
+
+63
+00:13:54.760 --> 00:13:56.140
+Mario Vega: I want an opinion on this.
+
+64
+00:14:00.030 --> 00:14:04.880
+draganrakita: You mean… Glam, DevNet7?
+
+65
+00:14:05.720 --> 00:14:06.180
+Maria Silva: Yes.
+
+66
+00:14:06.180 --> 00:14:09.260
+draganrakita: Okay, right side, everything should be there.
+
+67
+00:14:10.210 --> 00:14:11.040
+Maria Silva: Okay.
+
+68
+00:14:12.110 --> 00:14:13.090
+Maria Silva: Thank you.
+
+69
+00:14:13.470 --> 00:14:15.270
+Maria Silva: And for the other clients.
+
+70
+00:14:17.380 --> 00:14:18.939
+Ben Adams: Yeah, everything's good.
+
+71
+00:14:20.620 --> 00:14:22.770
+Ben Adams: We had an issue with…
+
+72
+00:14:24.490 --> 00:14:30.130
+Ben Adams: Prior ones, because they didn't support the… Elcl change.
+
+73
+00:14:30.980 --> 00:14:32.100
+Ben Adams: Everything should do.
+
+74
+00:14:35.630 --> 00:14:42.310
+Maria Silva: I'm sorry, but I'm not sure I fully understood what you said it were breaking a bit. Is it merged or not?
+
+75
+00:14:42.920 --> 00:14:44.229
+Ben Adams: Yes, it's merged.
+
+76
+00:14:44.930 --> 00:14:46.580
+Maria Silva: Okay, perfect, thank you.
+
+77
+00:14:47.100 --> 00:14:50.359
+Maria Silva: And already have ethrex and Besu.
+
+78
+00:14:50.990 --> 00:14:53.789
+Maria Silva: For Erigon?
+
+79
+00:14:54.490 --> 00:15:03.599
+milen | Erigon: Yeah, hi. So, we should have most of them there, like, the branches should match, in terms of optimizations, but…
+
+80
+00:15:03.790 --> 00:15:15.940
+milen | Erigon: I noticed yesterday that there seems to be some regressions, which I wanted to look into, performance regressions, for things that we previously have fixed.
+
+81
+00:15:16.300 --> 00:15:25.150
+milen | Erigon: So, I think I might need to look what's happening. But, it's a bit unclear how to run the new…
+
+82
+00:15:25.710 --> 00:15:44.580
+milen | Erigon: the new benchmarks still. I tried to get some info from Louis, but I think he's away, so if someone can maybe share a bit… if there's, like, a link somewhere with the new instructions for how we run the benchmarks with State Actor and stuff like that, that would be useful.
+
+83
+00:15:45.420 --> 00:15:49.090
+jochem-brouwer: Yeah, I will do that after the call. Sorry about the wait.
+
+84
+00:15:49.600 --> 00:15:51.230
+milen | Erigon: Yeah, no worries, thank you.
+
+85
+00:15:54.510 --> 00:16:02.009
+Maria Silva: Thank you, thank you. And, for GetH, do we have any update there? Are you guys… have you merged already, or not yet?
+
+86
+00:16:05.460 --> 00:16:13.120
+Marius Van Der Wijden (M): We have everything we need on the master branch, except for the parallel execution.
+
+87
+00:16:13.220 --> 00:16:20.609
+Marius Van Der Wijden (M): The parallel execution will be merged today or tomorrow, and then we can…
+
+88
+00:16:21.590 --> 00:16:27.719
+Marius Van Der Wijden (M): Continue off of our muscle branch. With, devnetly.
+
+89
+00:16:27.720 --> 00:16:28.340
+Maria Silva: Perfect.
+
+90
+00:16:29.120 --> 00:16:29.940
+Maria Silva: Thank you.
+
+91
+00:16:33.580 --> 00:16:44.040
+Mario Vega: Awesome, thank you, Maria. Okay, I think there's no left topics on Glamsterdam devnet. Should we move to Glamsterdam devneten at 8?
+
+92
+00:16:44.260 --> 00:16:45.649
+Mario Vega: And planning?
+
+93
+00:16:46.080 --> 00:16:54.039
+Mario Vega: Should we start that today? I want to get your opinion on that, Stefan and other folks. What do you think the course of action should be?
+
+94
+00:16:54.480 --> 00:16:56.159
+Mario Vega: For Glamsterdam Devonne 8.
+
+95
+00:16:57.330 --> 00:17:03.899
+Stefan Starflinger: Yeah, sure, I can share the spec sheet, and I think you also have,
+
+96
+00:17:04.119 --> 00:17:07.589
+Stefan Starflinger: Testing tracker that I've linked as well.
+
+97
+00:17:07.869 --> 00:17:23.149
+Stefan Starflinger: In general, the DevNet should be as similar as possible to DevNet 7, with a few changes that have been suggested, for example, to try to have, disk V5 only on the EL side.
+
+98
+00:17:23.410 --> 00:17:30.160
+Stefan Starflinger: So that we can test that, and I've already listed a few of the clients that have, some flags.
+
+99
+00:17:30.440 --> 00:17:44.610
+Stefan Starflinger: With that regard, but it would be good in general if, clients could have a look, if it's possible on their end, with the current Glamsterdam branches to just enable, V5.
+
+100
+00:17:44.820 --> 00:17:55.730
+Stefan Starflinger: And to not have a V4 fallback that is hidden, so that we have, actual errors that get surfaced, pretty quickly, instead of hiding them.
+
+101
+00:17:56.300 --> 00:17:59.109
+Stefan Starflinger: That would be pretty nice.
+
+102
+00:17:59.340 --> 00:18:09.810
+Stefan Starflinger: And I think overall, I've added some, kind of testing focus scenarios that have been discussed, I think, last week in ACDE.
+
+103
+00:18:10.000 --> 00:18:12.280
+Stefan Starflinger: That we can, expand on.
+
+104
+00:18:12.590 --> 00:18:23.650
+Stefan Starflinger: But mostly, I would go over the, SSZ, especially the fork transition, was one of the more important things that didn't go well in devnet 7.
+
+105
+00:18:23.890 --> 00:18:26.280
+Stefan Starflinger: And then…
+
+106
+00:18:26.400 --> 00:18:41.630
+Stefan Starflinger: just try to introduce much more chaos into DevNet 8, because we also, guarantee that DevNet 7 is something that people will be able to use, as, the app developers as well.
+
+107
+00:18:51.710 --> 00:18:52.390
+Mario Vega: Okay,
+
+108
+00:18:52.390 --> 00:18:54.850
+Stefan Starflinger: So, like Perry said, the builder API.
+
+109
+00:18:57.590 --> 00:18:58.250
+Parithosh Jayanthi: Yeah,
+
+110
+00:18:58.250 --> 00:19:03.359
+Barnabas: Are any of these actual changes to the, consensus? So, like.
+
+111
+00:19:03.580 --> 00:19:06.610
+Barnabas: if we would change the builder API,
+
+112
+00:19:07.400 --> 00:19:10.699
+Barnabas: That would not be a consensus-breaking change, no?
+
+113
+00:19:12.470 --> 00:19:19.749
+Parithosh Jayanthi: I mean, it kind of is, because it depends on how the client's integrated into the client, and that's where you get the block from.
+
+114
+00:19:22.010 --> 00:19:24.270
+Barnabas: No, but the block looks the same.
+
+115
+00:19:24.680 --> 00:19:31.530
+Parithosh Jayanthi: Yeah, the block looks the same, for sure. Yeah, you could always roll it out later, but if we want to be feature complete, then this is something that has to go in.
+
+116
+00:19:31.950 --> 00:19:42.820
+Barnabas: Yeah, but why can't we do that in DevNet 7? So, like, my point is, are any of these changes in the DevNet 8 spec could not just be rolled out on DevNet 7?
+
+117
+00:19:45.940 --> 00:19:52.780
+Parithosh Jayanthi: Well, the argument is that we would still want at least one more DevNet where everything is done and we have a smooth transition.
+
+118
+00:19:52.970 --> 00:19:56.740
+Parithosh Jayanthi: And I guess to do the smooth transition, you'd want another DevNet at the very least.
+
+119
+00:19:59.910 --> 00:20:10.329
+Mario Vega: I see the point on Barnabas, just, sorry, you're just racing that, perhaps we could enable these… these, features in .NET 7, and then also, once we tested them truly.
+
+120
+00:20:10.590 --> 00:20:16.859
+Mario Vega: test the transition, and then these, features enabled in Demonade for more complete testing.
+
+121
+00:20:16.970 --> 00:20:18.869
+Mario Vega: Is that what you mean, Barnabas, or…
+
+122
+00:20:25.890 --> 00:20:32.599
+Barnabas: Yeah, I mean, I'm just looking at, the spec change sheet, and…
+
+123
+00:20:32.940 --> 00:20:38.319
+Barnabas: Yeah, I do see some consensus-breaking changes, so I guess we do need that.
+
+124
+00:20:41.290 --> 00:20:44.360
+Mario Vega: Got it, got it. Yeah, potuz, please, go ahead.
+
+125
+00:20:44.660 --> 00:20:59.640
+potuz: If I remember correctly, there's a fix to attestation, performance tracking… well, not performance, to attestation tracking that is, Consensus-breaking, so if that gets in, anyways, we need another DevNet for that.
+
+126
+00:21:03.860 --> 00:21:08.560
+Justin Traglia: Yeah, and I think it will be merged for DevNet8. I can share a link right now.
+
+127
+00:21:08.730 --> 00:21:12.399
+Justin Traglia: I am planning on talking about this in the EL breakout.
+
+128
+00:21:21.440 --> 00:21:29.010
+Mario Vega: Cool. Yeah, I think we can talk about the specific, EL and CL, changes in the respective
+
+129
+00:21:29.140 --> 00:21:40.969
+Mario Vega: breakouts. Perhaps a more overall discussion of definite date could be if we have a timeline. Does anybody have an idea of the timeline that we want to do for this? If we go ahead?
+
+130
+00:21:41.730 --> 00:21:47.039
+Mario Vega: Maybe we can agree on that, at the very least.
+
+131
+00:21:47.480 --> 00:21:48.460
+Mario Vega: For today.
+
+132
+00:21:50.090 --> 00:21:54.580
+Stefan Starflinger: I think right now we have early August, set for, devnet 8.
+
+133
+00:21:54.680 --> 00:22:01.900
+Stefan Starflinger: I think, around next week, Wednesday, would be my suggestion, but I'm happy to hear what others think.
+
+134
+00:22:09.800 --> 00:22:18.169
+Mario Vega: Yeah, Spencer raises an important point on DevNet8, is that we need, probably, the final repricing number, so that's,
+
+135
+00:22:18.520 --> 00:22:21.390
+Mario Vega: We need to see the status of that, perhaps.
+
+136
+00:22:22.520 --> 00:22:26.600
+Mario Vega: Maria, do you have, like, it's Wednesday…
+
+137
+00:22:26.830 --> 00:22:34.180
+Mario Vega: Next week, a good date, for the pricing numbers to be already available, or do we need more time?
+
+138
+00:22:34.770 --> 00:22:44.299
+Maria Silva: Yeah, I think we need more time, so the status is, we were updating everything for bowl… sorry, for Glamsterdam, Lehner at 7.
+
+139
+00:22:44.460 --> 00:22:59.589
+Maria Silva: And, we started to run the repricing analysis, since Friday, and I think now Luis is working on just doing a release for the whole benchmark suite.
+
+140
+00:22:59.700 --> 00:23:19.470
+Maria Silva: And I'm guessing we won't have numbers yet by Wednesday. Yeah, because there's still work there, and then, I mean, I would assume maybe next week we could start seeing some numbers. But yeah, I would also… some people out of office, it's been a bit slower.
+
+141
+00:23:25.040 --> 00:23:28.410
+Mario Vega: Also, from the spec side, if we are…
+
+142
+00:23:28.910 --> 00:23:35.589
+Mario Vega: we need to make another release with the new gas repricing numbers, and then let clients run them, so I think…
+
+143
+00:23:36.020 --> 00:23:39.250
+Mario Vega: Perhaps, next Wednesday is a little bit tight.
+
+144
+00:23:39.650 --> 00:23:42.970
+Mario Vega: Is,
+
+145
+00:23:43.280 --> 00:24:00.439
+Maria Silva: And, sorry, and to answer Stefan, I'd say DevNet 7 should be enough. I mean, I think I'll still like to do, DevNet 8 for the analysis, but I wouldn't expect the numbers to change, so I think with results from DevNet 7, it should be
+
+146
+00:24:00.440 --> 00:24:04.050
+Maria Silva: Strong enough evidence to lock the final numbers.
+
+147
+00:24:19.180 --> 00:24:20.680
+Mario Vega: Okay,
+
+148
+00:24:21.640 --> 00:24:31.869
+Mario Vega: Alright, yeah, I see your point. So yeah, Estefan, so perhaps we can revisit, as you say, launch date on next ACD and see how are things, standing?
+
+149
+00:24:32.050 --> 00:24:35.219
+Mario Vega: And then decide on the, on the… on the date next week.
+
+150
+00:24:36.770 --> 00:24:53.519
+Mario Vega: We have one last topic that I thought we should bring for DevNet 8, which is the sparse blob pool. I'm really not sure who is the person that posted this, but they mentioned that they want to make it mandatory, to some degree.
+
+151
+00:24:53.640 --> 00:25:02.340
+Mario Vega: Let me, put the comment on the chat. Just to check if there's any…
+
+152
+00:25:02.590 --> 00:25:03.970
+Mario Vega: Any opinion on this?
+
+153
+00:25:04.890 --> 00:25:05.550
+Bosul Mun: Hi.
+
+154
+00:25:05.550 --> 00:25:07.400
+Mario Vega: Or if the person… okay, yeah, Bosul.
+
+155
+00:25:07.400 --> 00:25:10.699
+Bosul Mun: Sorry, I should raise my hand, sorry.
+
+156
+00:25:11.020 --> 00:25:13.839
+Bosul Mun: So I am the person who posted this.
+
+157
+00:25:13.980 --> 00:25:22.949
+Bosul Mun: And… So my suggestion is to make the EIP8070 the dispersable pool.
+
+158
+00:25:23.120 --> 00:25:29.099
+Bosul Mun: at least is EnginePI changes mandatory for .NET 8?
+
+159
+00:25:29.670 --> 00:25:43.760
+Bosul Mun: So, right now, EIP8070 has two parts. One is the engine API changes, and the other is the actual cell exchange is 72.
+
+160
+00:25:43.890 --> 00:25:55.690
+Bosul Mun: And, yes, and… So, the Engine API is a relatively small change, and
+
+161
+00:25:55.860 --> 00:26:04.259
+Bosul Mun: I think it makes sense to make it mandatory for few reasons. First,
+
+162
+00:26:04.530 --> 00:26:14.450
+Bosul Mun: it's useful to have GetBlobsV3 and GetBlobsV4 available Both available, because
+
+163
+00:26:15.700 --> 00:26:25.600
+Bosul Mun: once client has Pars BlockQu, then Get blossomed 3 will be… very slow, so…
+
+164
+00:26:29.120 --> 00:26:40.800
+Bosul Mun: So, I think… and also, if we don't have Sparse blob pool, then Get Plus B4 would be slower, so I think having both APIs available
+
+165
+00:26:41.190 --> 00:26:46.920
+Bosul Mun: is, last client use, whichever.
+
+166
+00:26:47.170 --> 00:26:52.079
+Bosul Mun: It's more efficient for the current implementation, and also
+
+167
+00:26:52.410 --> 00:26:57.100
+Bosul Mun: Provides smoother transition to sparse blob pool, and…
+
+168
+00:26:57.300 --> 00:27:06.119
+Bosul Mun: Also, the fork choice update before with cost study field would be very helpful when we simulate
+
+169
+00:27:06.300 --> 00:27:09.660
+Bosul Mun: sparse local implementation on EL side, so…
+
+170
+00:27:10.830 --> 00:27:17.789
+Bosul Mun: if we implement these APIs, right now, then it will be…
+
+171
+00:27:18.370 --> 00:27:23.839
+Bosul Mun: It will make a better transition to Sparse blob pool.
+
+172
+00:27:24.000 --> 00:27:27.180
+Bosul Mun: That's… Right.
+
+173
+00:27:27.420 --> 00:27:31.290
+Bosul Mun: opinion. I think also the…
+
+174
+00:27:31.600 --> 00:27:35.970
+Bosul Mun: This execution… the Hive task for…
+
+175
+00:27:36.410 --> 00:27:40.960
+Bosul Mun: These engine APIs are also almost ready.
+
+176
+00:27:42.160 --> 00:27:42.830
+Bosul Mun: Yes.
+
+177
+00:27:44.150 --> 00:27:49.479
+Bosul Mun: But I'm curious about the other client's opinion. As far as I know, the…
+
+178
+00:27:51.160 --> 00:28:01.550
+Bosul Mun: Prysm writers already have a draft PR for this, and… Never mind ethrex.
+
+179
+00:28:01.800 --> 00:28:04.230
+Bosul Mun: DAS has implemented this.
+
+180
+00:28:06.170 --> 00:28:20.650
+Mario Vega: Yeah, I think it would be great to hear from the client teams if there's any opposition on implementing this. Thank you, Bosul for the explanation. Do we have any opposition on getting this implemented and ready for DevNet 8?
+
+181
+00:28:21.100 --> 00:28:24.000
+Mario Vega: From CL and ELD, dev clients?
+
+182
+00:28:30.800 --> 00:28:32.489
+Matthew Keil: Is the,
+
+183
+00:28:32.900 --> 00:28:43.729
+Matthew Keil: Is it just about the Get Engine API endpoints, or is the intention to do cell-level DAS as well? Because that would be a challenge.
+
+184
+00:28:44.790 --> 00:28:47.299
+Matthew Keil: The engine endpoints are pretty straightforward, though.
+
+185
+00:28:48.620 --> 00:28:54.790
+Bosul Mun: Yes, I meant only the engine API part's mandatory, and let…
+
+186
+00:28:55.180 --> 00:28:59.690
+Bosul Mun: The other part implemented later when we have enough bandwidth.
+
+187
+00:29:13.790 --> 00:29:21.269
+Mario Vega: There's a good question from Barnabas on the chat, and he asked, what's the point of the engine API if the feature is not there yet?
+
+188
+00:29:25.360 --> 00:29:35.769
+Bosul Mun: I think we can… test those engine APIs, And if… And we can make the…
+
+189
+00:29:36.150 --> 00:29:45.110
+Bosul Mun: the other things happen later. And also, right now, some clients has sparse blob pool, and some clients does not. And…
+
+190
+00:29:47.190 --> 00:29:54.879
+Bosul Mun: I think this… At least we… we have these engine APIs, and
+
+191
+00:29:55.590 --> 00:29:59.229
+Bosul Mun: Make them to choose which…
+
+192
+00:30:00.270 --> 00:30:07.319
+Bosul Mun: which API they will use is better. For example, DAS has possible COVID,
+
+193
+00:30:07.470 --> 00:30:19.920
+Bosul Mun: Since most ZR clients do not have capitalist B4, we are experiencing delay on… get… get blob's request.
+
+194
+00:30:34.240 --> 00:30:35.470
+Mario Vega: Okay,
+
+195
+00:30:35.900 --> 00:30:46.519
+Mario Vega: Do we have any comments from clients? This would mean that we only implement Engine API endpoints by devnet 8. Is that worth it? Should we commit to this?
+
+196
+00:30:47.330 --> 00:30:50.380
+Mario Vega: I would love to hear, clients' opinions on this.
+
+197
+00:31:08.810 --> 00:31:14.999
+Mario Vega: Okay, if not, I don't think, we can commit to this, because,
+
+198
+00:31:15.340 --> 00:31:20.850
+Mario Vega: Does anybody have any opinion, negative or positive, on this topic?
+
+199
+00:31:21.580 --> 00:31:25.740
+Mario Vega: If there's no opinion on this, we cannot commit or defer.
+
+200
+00:31:32.070 --> 00:31:35.559
+Fabio Di Fabio: Hey, on the Besu side, as I wrote.
+
+201
+00:31:36.000 --> 00:31:39.610
+Fabio Di Fabio: it's possible to implement the EnginePI.
+
+202
+00:31:40.790 --> 00:31:42.010
+Fabio Di Fabio: Oh, DevNet.
+
+203
+00:31:42.120 --> 00:31:42.920
+Fabio Di Fabio: 8th?
+
+204
+00:31:47.840 --> 00:31:51.069
+Mario Vega: Thank you. Any other EL client?
+
+205
+00:31:52.010 --> 00:31:52.830
+Mario Vega: Thank you.
+
+206
+00:31:53.060 --> 00:31:56.149
+Mario Vega: Any other EL client, GetH or Nethermind?
+
+207
+00:31:56.150 --> 00:31:58.300
+Marius Van Der Wijden (M): Yeah, yeah. So far, so far.
+
+208
+00:31:58.610 --> 00:32:01.729
+Marius Van Der Wijden (M): Forgets this, like, this proposal is…
+
+209
+00:32:02.030 --> 00:32:08.639
+Marius Van Der Wijden (M): I'm mainly coming from the GetHe team, so, as Bosul already said, like.
+
+210
+00:32:08.940 --> 00:32:13.170
+Marius Van Der Wijden (M): Like, we would be very happy to implement this.
+
+211
+00:32:16.090 --> 00:32:19.529
+Mario Vega: Alright, thank you. Never mind, Reth.
+
+212
+00:32:20.370 --> 00:32:21.460
+Mario Vega: Anybody else?
+
+213
+00:32:31.840 --> 00:32:34.540
+Mario Vega: Okay, ethrex mentioned no problem on their side.
+
+214
+00:32:34.660 --> 00:32:38.040
+Mario Vega: Erigon, another Mind Drive, do you have any opposition?
+
+215
+00:32:39.060 --> 00:32:40.949
+Ben Adams: Yeah, I think Netherlands, good at this.
+
+216
+00:32:45.440 --> 00:32:50.020
+milen | Erigon: Yeah, I personally don't really see this as a priority for…
+
+217
+00:32:50.180 --> 00:32:54.889
+milen | Erigon: Amsterdam, but if it's just the Engine API changes, then that's fine.
+
+218
+00:33:00.030 --> 00:33:02.620
+draganrakita: Yeah, from Redside, I think we already have it.
+
+219
+00:33:02.800 --> 00:33:04.630
+draganrakita: To be honest, I mean to track it.
+
+220
+00:33:05.220 --> 00:33:06.510
+draganrakita: But they shouldn't be filed.
+
+221
+00:33:10.100 --> 00:33:10.770
+Mario Vega: Alright.
+
+222
+00:33:11.350 --> 00:33:15.479
+Mario Vega: That sounds good. On the CL side, do we have to decide on this? I think,
+
+223
+00:33:15.890 --> 00:33:17.260
+Mario Vega: Are there any comments?
+
+224
+00:33:22.510 --> 00:33:28.880
+Mario Vega: would mean, basically, that we are using the Engine endpoint, from the CLs. That's the main use case.
+
+225
+00:33:34.100 --> 00:33:40.309
+Dustin: I guess you… using what… sets. I mean, this has not been…
+
+226
+00:33:41.640 --> 00:33:44.520
+Dustin: Yeah, I mean, it… use how?
+
+227
+00:33:46.290 --> 00:33:52.560
+Mario Vega: Yeah, well, that's my… but that's my question, basically. Do we need a SL consensus on this, or not? Maybe, perhaps not.
+
+228
+00:33:56.160 --> 00:34:03.560
+Dustin: Well, I'm not sure how it's going to be meaningfully tested unless there are at least… there's at least one or two CLs which will drive this, and… and…
+
+229
+00:34:03.840 --> 00:34:10.409
+Dustin: Maybe they're… I guess Prysm and Lighthouse have, I believe, been…
+
+230
+00:34:11.080 --> 00:34:17.169
+Dustin: more on the vanguard of this particular thing? Yeah, Lighthouse, sure. Okay, so…
+
+231
+00:34:21.989 --> 00:34:22.690
+Dustin: Yeah.
+
+232
+00:34:26.760 --> 00:34:29.449
+Mario Vega: Okay, and Justin mentions that they're…
+
+233
+00:34:30.719 --> 00:34:33.919
+Mario Vega: There's probably tests for this?
+
+234
+00:34:37.270 --> 00:34:45.819
+Mario Vega: Okay. Anyway, any other comments on this topic? I think we can agree that EnginePI is a go for DevN8.
+
+235
+00:34:46.280 --> 00:34:48.610
+Mario Vega: Any other comments?
+
+236
+00:34:48.719 --> 00:34:49.940
+Mario Vega: Daniel, please go ahead.
+
+237
+00:34:51.150 --> 00:34:52.980
+Daniel Knopik: Yeah, just…
+
+238
+00:34:53.760 --> 00:35:05.090
+Daniel Knopik: quick note on FCU v4, because… so I, I, so GetBlobsV4 is gated by capability, but for, FCU,
+
+239
+00:35:05.290 --> 00:35:16.340
+Daniel Knopik: V4? V5? I forget the version. But, yeah, it would be a shame if we got any issues, because only some, ELs understood the…
+
+240
+00:35:16.580 --> 00:35:22.360
+Daniel Knopik: Custody columns… Parameter, so… yeah.
+
+241
+00:35:22.480 --> 00:35:26.380
+Daniel Knopik: And also, like, maybe a wipe check.
+
+242
+00:35:26.720 --> 00:35:30.909
+Daniel Knopik: Because there have been some, Lighthouse internal…
+
+243
+00:35:31.120 --> 00:35:43.170
+Daniel Knopik: well, people that are unhappy that the custody columns parameter is embedded into fork choice update, because it's not really a related thing. It's kind of… the idea is
+
+244
+00:35:43.850 --> 00:35:48.549
+Daniel Knopik: I guess to piggyback on it, But it would be…
+
+245
+00:35:48.890 --> 00:35:57.300
+Daniel Knopik: Not as critical to, you know, support this all at once if this were a separate call, like, update custody columns or something.
+
+246
+00:35:58.350 --> 00:36:00.710
+Daniel Knopik: Yeah.
+
+247
+00:36:03.890 --> 00:36:08.940
+Daniel Knopik: So I guess the question is, do the…
+
+248
+00:36:09.060 --> 00:36:19.660
+Daniel Knopik: like, maybe, what is the rationale behind embedding it, and do any other clients share the view that we should not embed it in FCU4, but instead…
+
+249
+00:36:19.770 --> 00:36:21.159
+Daniel Knopik: Have a separate one.
+
+250
+00:36:23.760 --> 00:36:26.599
+Bosul Mun: We also considered having it as a…
+
+251
+00:36:27.020 --> 00:36:34.710
+Bosul Mun: separate Engine API, like, custody column… update custody column V1 or something, but…
+
+252
+00:36:35.790 --> 00:36:41.970
+Bosul Mun: the main benefit of moving it into FCU is…
+
+253
+00:36:42.610 --> 00:36:50.920
+Bosul Mun: As you said, just to piggyback this field, and this is anyway just one field, and it will be called
+
+254
+00:36:51.190 --> 00:36:56.040
+Bosul Mun: If it is changed, Donna, it will be called on…
+
+255
+00:36:56.780 --> 00:37:07.169
+Bosul Mun: on every slot, so… and we don't also have to think whether what it… what if this call fails? So, it is mostly for…
+
+256
+00:37:09.230 --> 00:37:16.569
+Bosul Mun: Not adding… additional Engine APIs and using the current one.
+
+257
+00:37:20.830 --> 00:37:33.279
+Daniel Knopik: Okay, so… What's currently running on devnet 7? I guess… the custody columns… parameter is not used, because…
+
+258
+00:37:33.940 --> 00:37:36.280
+Daniel Knopik: People seem to be confused about it in chat.
+
+259
+00:37:36.440 --> 00:37:42.189
+Daniel Knopik: So, I guess it's currently, like, that PR that is linked has not really been implemented at all.
+
+260
+00:37:42.550 --> 00:37:47.290
+Daniel Knopik: Or is it, like, an optional parameter, or how is it working?
+
+261
+00:37:55.660 --> 00:37:57.440
+Bosul Mun: I'm sorry, was the question?
+
+262
+00:37:57.620 --> 00:38:02.690
+Bosul Mun: Which FCU version is running on devnet?
+
+263
+00:38:03.360 --> 00:38:17.829
+Daniel Knopik: I mean, it is FCUV4, according to Stefan, but is it… is it FCUV4 with or without custody column? Because Lighthouse is… like, this is not merged yet, so it is not sending…
+
+264
+00:38:18.810 --> 00:38:26.010
+Daniel Knopik: custody column. So does GetH have it as kind of, like, an optional parameter when…
+
+265
+00:38:26.980 --> 00:38:28.750
+Daniel Knopik: you know, processing F34.
+
+266
+00:38:29.820 --> 00:38:30.530
+Bosul Mun: Yes.
+
+267
+00:38:31.600 --> 00:38:37.470
+Bosul Mun: It's… we merged FCU V4 with custody column, and it is optional.
+
+268
+00:38:46.780 --> 00:38:54.980
+Daniel Knopik: Okay, so… we have fine compatibility device if everyone implements it as an optional parameter. I'm not sure if this is specced that way?
+
+269
+00:38:55.190 --> 00:38:55.990
+Daniel Knopik: But…
+
+270
+00:39:00.200 --> 00:39:04.700
+Mario Vega: And potuz, I see your comment on the chat. Would you like to chime in on this?
+
+271
+00:39:05.990 --> 00:39:14.719
+potuz: No, not really. I don't have any clue about this. It just feels the wrong thing to send on FCU. We keep overloading these EnginePI methods.
+
+272
+00:39:18.270 --> 00:39:22.080
+Barnabas: That's why we're moving it to SSV, so we can keep overloading it.
+
+273
+00:39:32.460 --> 00:39:38.779
+Mario Vega: Alright, I think we should park this discussion and go to the breaknecks, but I would like to…
+
+274
+00:39:38.930 --> 00:39:47.659
+Mario Vega: revisit this. I mean, from EL clients, we have decided that we're gonna implement this, but it feels like there's other… there's still, like.
+
+275
+00:39:47.960 --> 00:39:57.159
+Mario Vega: unresolved problems with this PR. Is my sense that we should continue this discussion async before committing to it?
+
+276
+00:39:57.650 --> 00:39:59.170
+Mario Vega: Correct?
+
+277
+00:40:00.840 --> 00:40:02.130
+Mario Vega: Or,
+
+278
+00:40:11.100 --> 00:40:17.149
+Mario Vega: Yeah, Daniel, I see, I see your, your comment on, another, a different call for this, yeah.
+
+279
+00:40:19.670 --> 00:40:28.889
+Barnabas: I mean, if we're already… already here, we should just make the decision whether we want to include it or not, especially if it's just an EnginePI change,
+
+280
+00:40:31.430 --> 00:40:32.110
+Mario Vega: Yeah.
+
+281
+00:40:32.110 --> 00:40:40.720
+Barnabas: If it will unlock some people in testing the sparse block pool, then we should just do that.
+
+282
+00:40:40.860 --> 00:40:41.579
+Barnabas: Yeah, I agree.
+
+283
+00:40:41.580 --> 00:40:58.509
+Mario Vega: Okay, that sounds good. Okay, let's go with this. If there's any concerns about the EnginePI when clients start implementing it, please raise them as soon as possible so we can, like, pick up this discussion next week also, on the ACDT call, if there's any findings.
+
+284
+00:40:59.240 --> 00:41:19.140
+Mario Vega: Okay, sounds good. Perfect, thank you. Alright, let's continue into the breakouts for now. So we have the same format. Basically, there's gonna be a EL breakout on a separate call, and we're gonna continue the EL breakout in this call. Could anybody share the link to the CL breakout? I'm missing that.
+
+285
+00:41:21.480 --> 00:41:23.099
+Justin Traglia: Just one second.
+
+286
+00:41:27.230 --> 00:41:28.040
+Justin Traglia: There we go.
+
+287
+00:41:30.170 --> 00:41:37.189
+Mario Vega: Excellent, thank you. So, again, anyone on the EL stay here. We continue the discussion here. EL, please jump into the other call.
+
+288
+00:41:39.090 --> 00:41:39.909
+Justin Traglia: I, you know.
+
+289
+00:41:56.140 --> 00:41:58.260
+Mario Vega: Right,
+
+290
+00:41:58.560 --> 00:42:13.089
+Mario Vega: I guess, we can continue on the EL breakout. I listed 3 things, for today. Basically, two of them are merged EIPs, changes. Let me just post the first two.
+
+291
+00:42:13.210 --> 00:42:14.730
+Mario Vega: The first one, let's, let's…
+
+292
+00:42:17.560 --> 00:42:24.579
+Mario Vega: So here's the first one. Basically, this, the question is on DevNet 8, should be included.
+
+293
+00:42:24.660 --> 00:42:40.060
+Mario Vega: or not, so the EIPPR is already mesh, but I would like to, bring up the discussion, and perhaps, Maria, if you can, explain this change, and just for everyone to be in sync, that this is, going or not in the 8?
+
+294
+00:42:40.780 --> 00:42:45.669
+Mario Vega: Yes, just for… This is the EIP2780, yeah.
+
+295
+00:42:46.720 --> 00:42:54.599
+Maria Silva: Yeah, so this was something we discussed. I'm not sure if it was last ACDT or two ACDTs ago, I guess. We…
+
+296
+00:42:54.810 --> 00:43:03.460
+Maria Silva: chatted a bit about doing some changes to the repricing EIPs, and this was one of them.
+
+297
+00:43:03.580 --> 00:43:22.310
+Maria Silva: So the idea was we are not charging the log cost for other transfer events, and the… this specific call-out of the log transfer actually made the EIP a bit more complicated to
+
+298
+00:43:22.460 --> 00:43:36.930
+Maria Silva: understand, and where the values are coming from, and so on and so forth, and so this change is mostly, for the most case, doesn't change any pricing, and just makes things a bit easier to understand.
+
+299
+00:43:37.030 --> 00:43:50.390
+Maria Silva: The only exception is for the create transactions. Those do change a bit, and so that's why I pointed this out, so this will require, an update on how
+
+300
+00:43:50.390 --> 00:44:07.709
+Maria Silva: specs and implementations, but initially, when I shared these, I don't think there was any issues raised, and I think it should be included in DevNet 8. And my understanding is, like, they already are working on the specs for this.
+
+301
+00:44:07.870 --> 00:44:12.990
+Maria Silva: So I think there's no… big issues here.
+
+302
+00:44:23.060 --> 00:44:28.640
+Mario Vega: Spencer, do you know if we have a PR for this on the EL side? I'm not sure if I…
+
+303
+00:44:28.640 --> 00:44:32.130
+Guru: We… yeah, we do have a PR on the specs.
+
+304
+00:44:34.310 --> 00:44:38.850
+Mario Vega: Okay, sounds good. It's maybe just a matter of, like,
+
+305
+00:44:39.530 --> 00:44:43.839
+Mario Vega: Do we have any objections from this EL?
+
+306
+00:44:44.230 --> 00:44:47.530
+Mario Vega: Is this a good change or not? Does anybody have any opinions?
+
+307
+00:45:02.080 --> 00:45:05.629
+Mario Vega: Okay, if not, okay, this is…
+
+308
+00:45:06.630 --> 00:45:10.890
+Mario Vega: basically going in for DevNet 8, so, yeah.
+
+309
+00:45:12.460 --> 00:45:19.600
+Mario Vega: If there are no objections, we should probably merge this on the spec side, and we can make a release, add it to the .NET release.
+
+310
+00:45:20.050 --> 00:45:25.200
+Mario Vega: Okay, so next item is also yours, Maria, is this one.
+
+311
+00:45:25.890 --> 00:45:38.379
+Mario Vega: Let me see… this is for EIP8037, this is basically just renaming execution gas… no, sorry, regular gas to execution Gas. Could you give a little bit more context on this? This is already merged also, basically.
+
+312
+00:45:39.170 --> 00:45:53.680
+Maria Silva: Yeah, so this is something we discussed also at the same time we were discussing the other change, and I think this was a proposal from Joham to make the naming of, what was called regular gas to be a bit more forward compatible.
+
+313
+00:45:53.680 --> 00:46:11.590
+Maria Silva: And so the idea is, like, going forward, if we do more… if we separate more dimensions, I think what is now regular gas would start to become more like execution gas, so it's gas that encodes the actual execution time that a block takes to…
+
+314
+00:46:11.590 --> 00:46:24.839
+Maria Silva: execute. Sorry for saying it twice. But, but so the idea was just a rename. It doesn't change anything on behavior or consensus or anything, it's just a pure…
+
+315
+00:46:24.900 --> 00:46:35.330
+Maria Silva: variable naming change. Yeah, and my understanding is that Spencer also Already updated the specs, so… Yeah
+
+316
+00:46:35.810 --> 00:46:39.450
+Maria Silva: I think, if there's no…
+
+317
+00:46:39.670 --> 00:46:45.430
+Maria Silva: big reason why this naming doesn't make sense. I think we should… we should go with it.
+
+318
+00:46:46.840 --> 00:46:48.909
+Mario Vega: Thank you. Luis, go ahead.
+
+319
+00:46:50.240 --> 00:47:00.039
+Luis Pinto | Besu: Yeah, I have a question, because that cost also includes the networking aspect parts, so the blobs and all the… and the call data.
+
+320
+00:47:00.310 --> 00:47:04.539
+Luis Pinto | Besu: Is it fair to call it execution, Gus, in that case?
+
+321
+00:47:08.140 --> 00:47:11.340
+Maria Silva: So that is the part where the…
+
+322
+00:47:11.570 --> 00:47:16.870
+Maria Silva: The forward compatibility comes in, so if we were…
+
+323
+00:47:16.900 --> 00:47:31.940
+Maria Silva: to s- do something like a data resource, then, that would be its own thing, and then the execution guys would be execution guys. But I agree that right now, it's sort of…
+
+324
+00:47:32.020 --> 00:47:38.560
+Maria Silva: includes… The call data and these things,
+
+325
+00:47:39.100 --> 00:47:41.140
+Maria Silva: But… but I guess it's, like.
+
+326
+00:47:42.340 --> 00:47:47.479
+Maria Silva: It's… the trade-off is trying to make it a bit more forward-compatible.
+
+327
+00:47:51.300 --> 00:47:52.400
+Mario Vega: Damn.
+
+328
+00:47:52.770 --> 00:48:02.139
+jochem-brouwer: Yeah, I just want to add here, maybe also because I can understand the confusion, like, why are you calling this execute if there is also, like, blob hash opcode, call data opcode?
+
+329
+00:48:02.330 --> 00:48:10.629
+jochem-brouwer: But we have to realize that this data is actually in the intrinsic gest of the transaction. And this is also something that we want to
+
+330
+00:48:10.720 --> 00:48:21.800
+jochem-brouwer: explicitly priced in the future, but this is also explicitly not part of this fork, so, this is why. And just because I know that, from a software point.
+
+331
+00:48:21.800 --> 00:48:41.329
+jochem-brouwer: the naming, the naming of some constant is not, like, super important, but we have to realize that this is the document what the community is going to read, and this is also why it is so important that this is, that we do it right now, because we cannot change this EIP in the future, and this is also why I think this is, like, a super good change. So we just want to make also this point.
+
+332
+00:48:41.440 --> 00:48:42.150
+jochem-brouwer: Thanks.
+
+333
+00:48:48.310 --> 00:49:00.660
+Maria Silva: Yeah, sorry, I think that's a good point. So, everything on call data is actually intrinsic gas, even though it counts to the execution gas at the end,
+
+334
+00:49:01.330 --> 00:49:03.560
+Maria Silva: It's… Yeah.
+
+335
+00:49:04.080 --> 00:49:06.899
+Maria Silva: I don't know, I feel like it's still…
+
+336
+00:49:07.610 --> 00:49:12.640
+Maria Silva: better than what we had before. Regular gas is a bit,
+
+337
+00:49:12.840 --> 00:49:15.939
+Maria Silva: Like, a weird naming, but yeah.
+
+338
+00:49:22.630 --> 00:49:29.100
+Mario Vega: Yeah, so dragan, from Reth also says that it's, like, a little bit better.
+
+339
+00:49:29.770 --> 00:49:32.410
+Mario Vega: Do we have any other opinions?
+
+340
+00:49:47.220 --> 00:49:49.070
+Mario Vega: Alright,
+
+341
+00:49:49.190 --> 00:50:03.699
+Mario Vega: If not, also Luis also mentioned that he's fine with the changes, it's basically just a need. I think it's important, yes. But yeah, if there are no other comments, should we proceed to the next point?
+
+342
+00:50:03.750 --> 00:50:10.449
+Mario Vega: Oh, or, well, other… other EL… other person from other EL clients, do we have any oppositions on this?
+
+343
+00:50:20.500 --> 00:50:29.559
+Mario Vega: Okay. If not, I think we can… thank you, Maria, for raising this point. I think the next steps would be merging this on the ELS spec.
+
+344
+00:50:29.760 --> 00:50:37.350
+Mario Vega: And then also included… I mean, there's no… there's no actual changes on the… on the test, but we… we will include it in the… in the specs on the test.
+
+345
+00:50:37.540 --> 00:50:38.980
+Mario Vega: For, for next event.
+
+346
+00:50:39.310 --> 00:50:51.450
+Mario Vega: Alright, thank you. And last point for today is… this is a bigger topic, I would say, it's 7997. Basically, there are two open PRs at the moment. Let me just share…
+
+347
+00:50:51.560 --> 00:50:54.010
+Mario Vega: The links on the agenda…
+
+348
+00:50:57.050 --> 00:51:01.970
+Mario Vega: This is the first one by Toni, and the other one was raised by…
+
+349
+00:51:02.290 --> 00:51:09.600
+Mario Vega: Jocham, let me share this too… So, I think the…
+
+350
+00:51:09.970 --> 00:51:28.709
+Mario Vega: Yeah, so… but they are both shared in the chat. So Toni, would you mind, going over your PR first, and we can… I mean, I'm not entirely sure, but I think they are trying to change the same thing, so I think the decision this call would be to decide which one should we go with.
+
+351
+00:51:28.950 --> 00:51:31.220
+Mario Vega: Yep.
+
+352
+00:51:32.940 --> 00:51:41.109
+Toni Wahrstätter: Yeah, I will try to be quick, because this EIP7997 is a no-op on mainnet, and I would…
+
+353
+00:51:41.720 --> 00:51:45.989
+Toni Wahrstätter: I would say we shouldn't waste any more time on this, because,
+
+354
+00:51:46.680 --> 00:52:02.240
+Toni Wahrstätter: we're literally optimizing for other chains, but the problem here is that what do we do on other chains that have balls and also activate 7997? And then the question is, should the new contract be in the BAL or not?
+
+355
+00:52:02.440 --> 00:52:07.159
+Toni Wahrstätter: And also, when we are activating 7997, the factory.
+
+356
+00:52:07.440 --> 00:52:15.189
+Toni Wahrstätter: do we want to track this in the ball with state access? Right now, no client is doing that, and I would say we should
+
+357
+00:52:15.490 --> 00:52:19.990
+Toni Wahrstätter: just enshrine that behavior, because for mainnet, it's fine.
+
+358
+00:52:20.210 --> 00:52:24.089
+Toni Wahrstätter: Of course, other chains would have to think about this, like,
+
+359
+00:52:24.480 --> 00:52:35.130
+Toni Wahrstätter: in more detail, if it would make sense for them to add it to the bar or not. But for Ethereum mainnet, we are fine by just keeping all the client's implementations as they are.
+
+360
+00:52:35.820 --> 00:52:41.440
+Toni Wahrstätter: And right now, the last time I checked, I think no client team is actually,
+
+361
+00:52:42.140 --> 00:52:46.460
+Toni Wahrstätter: loading their account at the fork transition, except GetH.
+
+362
+00:52:47.300 --> 00:52:53.110
+Toni Wahrstätter: So, this would mean if a different chain would,
+
+363
+00:52:53.370 --> 00:53:00.040
+Toni Wahrstätter: also do the clamps that I'm fork, and the factory deployment is not yet there.
+
+364
+00:53:00.280 --> 00:53:09.930
+Toni Wahrstätter: then only Geth would, actually do the state read, whereas the other clients would not do it, which means they would, diverge when it comes to the bulk.
+
+365
+00:53:10.290 --> 00:53:12.280
+Toni Wahrstätter: And there would be a consensus issue.
+
+366
+00:53:12.750 --> 00:53:16.910
+Toni Wahrstätter: So this only affects genes that activate clompsodon.
+
+367
+00:53:17.410 --> 00:53:22.290
+Toni Wahrstätter: And have no pre… the factory not deployed yet.
+
+368
+00:53:22.730 --> 00:53:28.599
+Toni Wahrstätter: So, in my opinion, I think it would be best to just, take what clients are doing, say.
+
+369
+00:53:28.850 --> 00:53:38.020
+Toni Wahrstätter: If 7997 is happening in a fork, we don't put the address in the ball, and we don't generate a witness, and we don't access it.
+
+370
+00:53:38.770 --> 00:53:46.300
+Toni Wahrstätter: And this is, as far as I know, what all clients are doing, and what the specs are doing right now. So in my opinion, we might
+
+371
+00:53:46.640 --> 00:53:57.329
+Toni Wahrstätter: just be able to close the two PRs, or do a third PR that is, like, a very minimal follow-up, basically, clarifying what I just said.
+
+372
+00:53:57.590 --> 00:54:03.269
+Toni Wahrstätter: and enshining, in the EIP what the specs and the clients are doing, too.
+
+373
+00:54:03.640 --> 00:54:07.529
+Toni Wahrstätter: So this is more like a clarification. And I think this came up from…
+
+374
+00:54:07.720 --> 00:54:19.419
+Toni Wahrstätter: the ZK EVM side, I'm not sure if someone with CKVM knowledge is in this call, and could expand if this would cause any problems, because otherwise I would just say we proceed with that.
+
+375
+00:54:20.150 --> 00:54:22.709
+Toni Wahrstätter: But yeah, maybe, Jochem, do you want to add something?
+
+376
+00:54:24.550 --> 00:54:27.520
+jochem-brouwer: Yeah, from my side.
+
+377
+00:54:27.670 --> 00:54:37.310
+jochem-brouwer: it's about, like, what this EIP says it does, and what it should enforce at the specification. If we add a fork block.
+
+378
+00:54:37.760 --> 00:54:54.690
+jochem-brouwer: do this account read, and insert it into the block access list. This also complicates the protocol a bit, because in the block access list, if we have a maximum size, which is for all the other blocks except the fork block, then at the fork block, we have a block access list, which has a maximum size of actually
+
+379
+00:54:54.850 --> 00:55:02.210
+jochem-brouwer: The… well, that size of the blocks after the block, plus one, so this actually complicates the protocol.
+
+380
+00:55:02.360 --> 00:55:03.009
+jochem-brouwer: So I would say.
+
+381
+00:55:03.010 --> 00:55:08.519
+Toni Wahrstätter: Yeah, I wouldn't say so, because you add 20 bytes or something. I think this is completely negligible.
+
+382
+00:55:09.720 --> 00:55:16.509
+jochem-brouwer: Yes, but if we would have, like, an exact check, then this would be the exact boundary.
+
+383
+00:55:17.110 --> 00:55:25.550
+jochem-brouwer: And the other thing is that this is about, like, what to actually state in the EIPs. I don't think that we should
+
+384
+00:55:25.790 --> 00:55:38.719
+jochem-brouwer: But, yeah, that's, like, my opinion. I do not think that we should state anything in the EIPs for other chains, because this complicates the mainnet specification, because we also have to write code for other chains, and I think we should not do this.
+
+385
+00:55:39.900 --> 00:55:55.129
+Toni Wahrstätter: Yeah, this is also my opinion. Like, we shouldn't, like, optimizing for all variants of different chains that either have balls, or have no balls, or have the factory deployed or not. It feels like we can just do the most simple thing.
+
+386
+00:55:55.190 --> 00:56:09.100
+Toni Wahrstätter: And my goal would have been to, end up in a situation where clients don't have to change anything anymore. Maybe Geth could simplify their codebase, but even if we would do the glamsterdam fork now.
+
+387
+00:56:09.200 --> 00:56:19.100
+Toni Wahrstätter: no client would work all. So this is important to stress here that everything is fine for mainnet, and we have done the 7997,
+
+388
+00:56:19.470 --> 00:56:22.580
+Toni Wahrstätter: fork already on definites, so things are fine.
+
+389
+00:56:22.920 --> 00:56:28.620
+Toni Wahrstätter: And… yeah, so just for Kev, because you asked in the chat,
+
+390
+00:56:28.730 --> 00:56:35.650
+Toni Wahrstätter: If I remember it correctly, there was a demand to have a witness for the 7997 contract.
+
+391
+00:56:35.800 --> 00:56:43.700
+Toni Wahrstätter: The thing is, the 7997 contract exists already, so the witness for its generation is, like, long in the past.
+
+392
+00:56:44.030 --> 00:56:50.949
+Toni Wahrstätter: And with the clamson-Boke transition, we would not read that account. So you could think of
+
+393
+00:56:51.410 --> 00:57:07.410
+Toni Wahrstätter: at the consensus, what we could do would be we check the account, we check is the code already installed, and if not, we install it. And this would then generate a witness and put the address in the pulse. But instead, what we are saying now is we skip that part.
+
+394
+00:57:12.480 --> 00:57:15.200
+Kevaundray Wedderburn: Yeah, I think this is fine.
+
+395
+00:57:15.630 --> 00:57:24.570
+Kevaundray Wedderburn: It just means that I… I think it just means that the guest programs will come with, this contract, sort of, hard-coded inside of them.
+
+396
+00:57:25.380 --> 00:57:27.529
+Kevaundray Wedderburn: I believe is okay.
+
+397
+00:57:28.300 --> 00:57:29.040
+Toni Wahrstätter: Right.
+
+398
+00:57:29.630 --> 00:57:37.410
+Toni Wahrstätter: Exactly, yeah. Because, for example, for testing, we have it in the Genesis file, india.
+
+399
+00:57:37.700 --> 00:57:40.510
+Toni Wahrstätter: This was… this is more about the fork boundary.
+
+400
+00:57:49.600 --> 00:57:52.969
+Kevaundray Wedderburn: I guess one question, actually, I forget, so…
+
+401
+00:57:54.740 --> 00:58:00.469
+Kevaundray Wedderburn: On system contracts, do we include them in the ballot?
+
+402
+00:58:01.190 --> 00:58:01.720
+Toni Wahrstätter: Yup.
+
+403
+00:58:02.430 --> 00:58:17.769
+Toni Wahrstätter: So, system contracts are included in every block. Even blocks without transactions have system contract bul entries for, for example, the 2935 block hash, or the 4788 root.
+
+404
+00:58:22.400 --> 00:58:29.730
+Toni Wahrstätter: And yeah, if we wanted to be 100% precise, we could have a system call that deploys this account
+
+405
+00:58:29.960 --> 00:58:41.630
+Toni Wahrstätter: At the first block of the fork. This means we would have a new, special logic just for the first block of the bow, and yeah, this is what we are trying to avoid.
+
+406
+00:58:42.220 --> 00:58:46.360
+Toni Wahrstätter: To basically lock in what clients are doing today.
+
+407
+00:58:52.680 --> 00:58:54.440
+Kevaundray Wedderburn: Yeah, makes sense, yeah.
+
+408
+00:58:59.720 --> 00:59:05.419
+Mario Vega: Jochem, just, would you mind, expressing your comment on the chat?
+
+409
+00:59:05.620 --> 00:59:06.100
+Mario Vega: Yes.
+
+410
+00:59:06.100 --> 00:59:06.500
+jochem-brouwer: So.
+
+411
+00:59:06.500 --> 00:59:07.669
+Mario Vega: Just for everyone to hear.
+
+412
+00:59:07.920 --> 00:59:16.119
+jochem-brouwer: Yeah, yeah, so I currently think that, actually, the EF currently is actually correct, so I don't know why I opened it in my PR, but…
+
+413
+00:59:16.210 --> 00:59:22.309
+jochem-brouwer: So I think we can actually close the two PRIs off this, but I would just restate what the EIP currently says.
+
+414
+00:59:22.310 --> 00:59:40.319
+jochem-brouwer: So this is the live version of the EIP, without any merges of these above PRs. If the chain is already running with gas parameters that no longer allow deployment via the keyless transaction, the only way to add the contract at the expected address is a coordinated irregular state transition, which is outside the scope of this EIP.
+
+415
+00:59:40.450 --> 00:59:52.709
+jochem-brouwer: Client software must not check for the existence of the contract at the fork boundary. So this states both that the EIP is not going to state what the change should do, so it will not specify the behavior if the contract is not there.
+
+416
+00:59:52.720 --> 01:00:10.160
+jochem-brouwer: And it also explicitly says that the client software must not check for the existence of the conduct at the fork boundary, so that means that there is no ball read inserted at the bulk boundary, and I think this is perfect, because this explicitly says what I think we expressed here just now.
+
+417
+01:00:12.850 --> 01:00:26.750
+Toni Wahrstätter: Perfect. I would then just, suggest that we close the two PRs and just keep things as they are, and just as a heads up for the clients, so Geth is doing something different now, so there will be
+
+418
+01:00:26.970 --> 01:00:30.939
+Toni Wahrstätter: There could be a chain where basically guest workers of all
+
+419
+01:00:31.320 --> 01:00:46.039
+Toni Wahrstätter: depends on the perspective where all the other clients work off, because GF is actually the only one who has some logic installed there. But for mainnet, nothing will happen, so I would say we just close the two PRs, and… and things are fine. And if there is ever
+
+420
+01:00:46.080 --> 01:00:54.570
+Toni Wahrstätter: Geth being used on another chain that has no, factory deployed, and they have balls, and they want to do clumps to them.
+
+421
+01:00:54.760 --> 01:01:02.170
+Toni Wahrstätter: then they should look into this more carefully, because this would mean they would diverge. But for mainnet, we are.
+
+422
+01:01:07.110 --> 01:01:18.750
+Mario Vega: I would also raise that from tests, I mean, if Get is doing something different, and we cannot hit that different behavior, perhaps we have to expand testing on the EL specs, but I think that would be it.
+
+423
+01:01:18.750 --> 01:01:21.389
+Toni Wahrstätter: today. We don't have tests for that today.
+
+424
+01:01:21.690 --> 01:01:22.260
+Mario Vega: Yep.
+
+425
+01:01:22.660 --> 01:01:38.489
+Mario Vega: Okay. So yeah, I think we should dig a little bit deeper on the EL specs if there's a different behavior from Get and we're not catching that. Perhaps that's the only thing that we have to do on the specs, but I think that's a testing issue, and we should, like, just dedicate a little bit of time, but that's it.
+
+426
+01:01:38.970 --> 01:01:43.439
+Toni Wahrstätter: Yeah, the thing is, if you now write the tests properly, then all the other clients won't pass them.
+
+427
+01:01:44.050 --> 01:01:57.610
+Toni Wahrstätter: For example, all the clients pass the test when… where we just check, is the factory there? And this is the most important thing here. What we don't check is what happens on the chain if the factory is not there.
+
+428
+01:01:57.900 --> 01:01:59.919
+Toni Wahrstätter: And of course, we could test it.
+
+429
+01:02:00.030 --> 01:02:02.570
+Toni Wahrstätter: But, on the other hand, I was thinking…
+
+430
+01:02:03.000 --> 01:02:07.769
+Toni Wahrstätter: We have it on mainnet, so why would we even bother with writing a test for that?
+
+431
+01:02:08.770 --> 01:02:10.140
+Mario Vega: That is true, that is true.
+
+432
+01:02:10.360 --> 01:02:11.590
+Mario Vega: Okay.
+
+433
+01:02:11.590 --> 01:02:22.039
+jochem-brouwer: Sorry, because I just want to add that point then, because it is not part of the spec, we just also don't spec it, because it's not… well, it's not part of the specification, so we can't…
+
+434
+01:02:24.370 --> 01:02:25.790
+Mario Vega: Okay, dragan?
+
+435
+01:02:26.290 --> 01:02:32.110
+draganrakita: Maybe it's nuisance, but… Basically, we…
+
+436
+01:02:32.310 --> 01:02:40.109
+draganrakita: assume in AIP that we are not going to do deployment at the fork block, because it's already deployed.
+
+437
+01:02:41.210 --> 01:02:44.760
+draganrakita: That's basically the assumption that you're making for the minute, and that's perfect.
+
+438
+01:02:44.760 --> 01:02:46.309
+Toni Wahrstätter: Right, right, yeah.
+
+439
+01:02:46.440 --> 01:02:47.280
+Toni Wahrstätter: Makes sense.
+
+440
+01:02:53.240 --> 01:03:03.370
+Mario Vega: Right. I think we have agreement on this. Is there any other comments from other clients? I think maybe Get, if you guys want to chime in, because you do have different behavior at the moment.
+
+441
+01:03:06.150 --> 01:03:12.539
+Marius Van Der Wijden (M): Yeah, we're not… we're not married to that behavior. I think, like, we…
+
+442
+01:03:13.380 --> 01:03:25.949
+Marius Van Der Wijden (M): we implemented what we thought was most correct. If everyone else is, like, feeling differently, we can just change our behavior to align with everyone.
+
+443
+01:03:30.780 --> 01:03:41.080
+Toni Wahrstätter: Yeah, I think both are fine. To be honest, to me, it looks like Gett has implemented it in the most correct way, if there even exists a perfectly correct way.
+
+444
+01:03:41.150 --> 01:03:54.479
+Toni Wahrstätter: But if you wanna align with all the other clients, you would probably just remove that code again. I think it was called, like, Apply7997 or something at the fork boundary, and then you would do the same as all the other clients.
+
+445
+01:04:03.080 --> 01:04:03.860
+Mario Vega: Alright.
+
+446
+01:04:04.170 --> 01:04:07.840
+Mario Vega: But that sounds good. Alright, any final comments?
+
+447
+01:04:13.730 --> 01:04:22.549
+Mario Vega: Cool. Any final comments regarding the entire call? Is there anything else that we want to chat? I think we're out of time, but just final words or anything?
+
+448
+01:04:25.000 --> 01:04:27.779
+draganrakita: Are we considering devnet 8 as the last devnet?
+
+449
+01:04:29.510 --> 01:04:34.559
+draganrakita: Should we think about the timeline for the testnets and minutes.
+
+450
+01:04:36.530 --> 01:04:40.260
+Mario Vega: I think we need the SEAL class for that.
+
+451
+01:04:40.630 --> 01:04:43.260
+draganrakita: I don't know. They're the ketchup.
+
+452
+01:04:48.560 --> 01:04:49.810
+Mario Vega: Yeah, Toni?
+
+453
+01:04:50.490 --> 01:04:58.910
+Toni Wahrstätter: Yeah, just as a heads up regarding the repricing, there's also one or two tests, in Bals that also depend on the repricing.
+
+454
+01:04:59.220 --> 01:05:03.410
+Toni Wahrstätter: So, when we have the final replacing numbers, we also have to
+
+455
+01:05:03.870 --> 01:05:09.719
+Toni Wahrstätter: Update one constant when it comes to Bala again, which also still needs to be tested.
+
+456
+01:05:19.360 --> 01:05:20.340
+Mario Vega: Sounds good.
+
+457
+01:05:20.990 --> 01:05:21.950
+Mario Vega: Okay.
+
+458
+01:05:22.610 --> 01:05:27.529
+Mario Vega: Anything else? Last final comments? Maybe we're out of time already, but…
+
+459
+01:05:30.240 --> 01:05:35.369
+Mario Vega: If not, we can wrap it up today. Thanks, everyone, for joining. Have a nice week.
+
+460
+01:05:35.490 --> 01:05:36.620
+Mario Vega: Goodbye, everyone.
+
+461
+01:05:37.310 --> 01:05:38.609
+jochem-brouwer: Thank you all. Bye-bye.
+
+462
+01:05:38.610 --> 01:05:39.840
+Toni Wahrstätter: Q, blobby.
+

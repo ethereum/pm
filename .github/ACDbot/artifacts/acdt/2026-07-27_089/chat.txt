@@ -1,0 +1,166 @@
+00:04:47	Justin Traglia:	Gm
+00:04:58	Mario Vega:	gm
+00:06:30	Mario Vega:	https://github.com/ethereum/pm/issues/2170
+00:08:46	Parithosh Jayanthi:	Tysm scenarios are going on, right now epbs mutator flips bits in the bids and propagates them on the network
+00:09:02	Stefan Starflinger:	https://panda-uploads-production.devops-539.workers.dev/panda/uploads/20bd08/glamsterdam-devnet-7-self-built-blocks.html
+00:09:03	Parithosh Jayanthi:	Next one will perform targeted PTC vote drops
+00:09:08	Stefan Starflinger:	https://discord.com/channels/595666850260713488/892088344438255616/1529440070908510308
+00:10:05	Barnabas:	we might have some bid propagation issues
+00:10:14	Barnabas:	we are investigating
+00:10:31	Nico Flaig:	that seems hard to know without more info, we will take that bid unless the circuit breaker is active
+00:10:52	Barnabas:	you take the bid even if local is higher?
+00:11:00	Barnabas:	do you do any basic comparison in the value?
+00:11:04	Nico Flaig:	no, but Stefan said the bid is really high value
+00:11:26	Parithosh Jayanthi:	With circuit breaker then you’d local build anyway right? Even if the bid is high
+00:11:33	potuz:	Is the gas computation correct?
+00:11:34	terence:	Is the bid building on the right head?
+00:11:39	terence:	If the head changes last sec then
+00:11:39	potuz:	That’s the main suspect to not taking it
+00:11:57	terence:	Anyway prysm logs should be clear why we ignore such bid
+00:12:01	Nico Flaig:	Replying to "With circuit breaker..."
+
+yes with circuit breaker active we only use local payloads
+00:12:23	Barnabas:	Reacted to "Anyway prysm logs should be clear why we ignore such bid" with 👍
+00:12:39	Nico Flaig:	lodestar should alos have a debug log for this
+00:12:55	Parithosh Jayanthi:	Yeah please let us know what the log line looks like, just something with “circuit breaker live” in it?
+00:13:27	Nico Flaig:	Replying to "Yeah please let us k..."
+
+there is a log for that too
+00:13:48	Parithosh Jayanthi:	Reacted to "there is a log for that too" with ❤️
+00:14:14	Iván | ethrex:	We will add optimizations to devnet-7 today
+00:14:15	Daniel Lehrner (Besu):	I need to check with the other people on the team working on performance
+00:14:30	Nico Flaig:	Replying to "Yeah please let us k..."
+
+it's a warning log as following: "Builder circuit breaker activated, ignoring builder bids"
+00:15:10	Dmitrii Shmatko:	(Teku) We are merging a lot of bid reprocessing improvements today/tomorrow, it will also add debug logging with reasons
+00:15:45	Parithosh Jayanthi:	Reacted to "it's a warning log as following: "Builder circuit breaker activated, ignoring builder bids"" with ❤️
+00:16:40	Dmitrii Shmatko:	Replying to "Yeah please let us k..."
+
+(Teku) LOG.debug(
+    "Builder circuit breaker engaged: slot:
+00:17:00	Stefan Starflinger:	https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8
+00:17:26	Mario Vega:	EELS: https://github.com/ethereum/execution-specs/issues/3167
+00:18:21	Parithosh Jayanthi:	Could we get an update on the builder API?
+00:18:25	Parithosh Jayanthi:	That was a big change afaik
+00:18:29	Justin Traglia:	Reacted to "That was a big chang..." with 👍
+00:18:33	potuz:	Reacted to "That was a big change afaik" with 👍
+00:18:36	Ahmad:	Reacted to "That was a big cha..." with 👍
+00:18:40	Justin Traglia:	Reacted to "Could we get an upda..." with ➕
+00:18:43	Mario Vega:	Reacted to "That was a big change afaik" with 👍
+00:18:45	Daniel Lehrner (Besu):	Regarding the Besu performance improvements: The changes we tested today and needed to roll back should be the last ones. We just need to fix the bugs those improvements have introduced and then merge them again into our devnet branch
+00:18:58	Stefan Starflinger:	Reacted to "That was a big chang..." with 👍
+00:19:11	Guru:	Reacted to "EELS: https://github..." with 👍
+00:19:17	Nico Flaig:	0 consensus changes and also optional
+00:19:19	Maria Silva:	Reacted to "Regarding the Besu p..." with 👍
+00:19:40	Justin Traglia:	Reacted to "0 consensus changes ..." with 👍
+00:20:20	Justin Traglia:	Replying to "0 consensus changes ..."
+
+If it were critical (to the core protocol) it would be included in consensus-specs 🙂
+00:20:28	Nico Flaig:	Reacted to "If it were critical ..." with 👍
+00:21:08	Justin Traglia:	https://github.com/ethereum/consensus-specs/pull/5473
+00:22:02	spencer:	Do we need repricing numbers for devnet 8?
+00:22:11	spencer:	Updates^^
+00:22:23	Justin Traglia:	The CL specs team will make an alpha.13 release for devnet-8 by the end of this week.
+00:22:51	Justin Traglia:	Replying to "The CL specs team wi..."
+
+Hopefully mid-week.
+00:23:03	Stefan Starflinger:	Do we need benchmarks for final numbers on devnet-8? Is devnet-7 enough?
+00:23:17	jochem-brouwer:	We also need the optimizations
+00:24:11	Stefan Starflinger:	lets revisit devnet-8 launch date on ACDT next week?
+00:24:56	Mario Vega:	https://github.com/ethereum/pm/issues/2170#issuecomment-5091899084
+00:25:12	Justin Traglia:	That’s Bosul from the networking team 🙂
+00:25:18	Mario Vega:	Reacted to "That’s Bosul from the networking team 🙂" with 🙏🏼
+00:25:37	Will Corcoran:	Reacted to "That’s Bosul from the networking team 🙂" with ❤️
+00:25:41	Parithosh Jayanthi:	I think if we intend to ship this for Glamsterdam, we should have it in a devnet
+00:26:14	spencer:	Replying to "I think if we inte..."
+
+Big agree!
+00:26:20	Mario Vega:	Reacted to "I think if we intend to ship this for Glamsterdam, we should have it in a devnet" with 👍🏼
+00:26:23	Mario Vega:	Reacted to "Big agree!" with 👍🏼
+00:26:38	Guru:	Reacted to "I think if we intend..." with 👍🏼
+00:27:41	Stefan Starflinger:	Reacted to "I think if we intend..." with 👍🏼
+00:27:46	Barnabas:	imo this is a non priority: https://dune.com/queries/3757544/6319515 
+Would propose delaying it to h*. Most CL clients don’t have the partial cells implementation complete yet, so this is a major lift for them.
+00:28:39	Parithosh Jayanthi:	What timelines are we looking at with this?
+00:29:05	Barnabas:	whats the point of the engine api if the feature is not there?
+00:29:46	Daniel Knopik:	Replying to "whats the point of..."
+
+do you mean partial data columns or sparse blobpool?
+00:30:02	Mario Vega:	Replying to "What timelines are w..."
+
+Launch alongside devnet-8 is what I understand
+00:30:38	Barnabas:	Replying to "whats the point of t..."
+
+isn’t partial data columns a prerequisite for sparse blobpool?
+00:31:02	Daniel Knopik:	Replying to "whats the point of..."
+
+no, both have benefits by themselves afaik
+00:31:05	Fabio Di Fabio:	for Besu should be fine to implement only Engine API part
+00:31:15	Marius Van Der Wijden (M):	Reacted to no, both have benefi... with "👍"
+00:31:20	Bosul Mun:	Reacted to "no, both have benefits by themselves afaik" with 👍
+00:31:35	Parithosh Jayanthi:	Maybe worth going client to client?
+00:31:42	Mario Vega:	Reacted to "Maybe worth going client to client?" with 👍🏼
+00:31:52	Barnabas:	Replying to "whats the point of t..."
+
+okay so one could have sparse blobpool implementation but have 0 partial data column impl?
+00:32:27	Iván | ethrex:	No problem on our side
+00:32:33	Bosul Mun:	Replying to "whats the point of t..."
+
+^ yes it is possible
+00:32:45	Daniel Knopik:	IMO, for getBlobsV4 it is fine to not support it as it is gated by capability. I am just worried about only some clients understanding the custody_columns parameter in fcu
+00:32:46	spencer:	We have engine api tests in EELS for this - thanks to Louis (that we can run in hive), Geth is passing all of them (with small change), have vibed it in Nethermind too (all passing)!
+00:33:08	Ben Adams:	Nethermind is good; have PR for it
+00:33:17	spencer:	Reacted to "Nethermind is good..." with 🔥
+00:33:41	Stefan Starflinger:	Reacted to "Nethermind is good; ..." with 🔥
+00:33:45	draganrakita:	Yeah, reth already have it merged on main
+00:33:50	spencer:	Reacted to "Yeah, reth already..." with 🔥
+00:34:06	Justin Traglia:	I’m not sure. I’d need to look into it.
+00:34:12	Daniel Knopik:	LH has PRs ready to go
+00:35:34	Mario Vega:	Reacted to "LH has PRs ready to go" with 🙏🏼
+00:35:40	Barnabas:	where is the execution api pr for this btw?
+00:35:55	spencer:	Are we using fcuV3 atm on the devnets? Or fcuV4 without the custody field
+00:36:07	Barnabas:	Replying to "where is the executi..."
+
+https://github.com/ethereum/execution-apis/pull/774
+00:36:19	Stefan Starflinger:	lighthouse still uses fcuV3 and only fcuV4 when they are proposers
+00:36:24	potuz:	Ohh man I should’ve followed this discussion, it doesn’t make any sense to send this on FCU
+00:37:01	Mario Vega:	Reacted to "https://github.com/ethereum/execution-apis/pull/774" with 🙏🏼
+00:37:01	Ben Adams:	Nethermind already running sparse blob pool in devnet-7
+00:38:41	Marius Van Der Wijden (M):	Yep, its optional
+00:39:41	Daniel Knopik:	personally, i also would prefer a separate call, but do not feel tooo strongly about it
+00:39:55	Daniel Knopik:	(especally because we are quite ahead)
+00:40:19	Daniel Knopik:	call as in RPC method
+00:40:49	spencer:	Reacted to "call as in RPC met..." with 📞
+00:41:06	Parithosh Jayanthi:	Reacted to "call as in RPC method" with 📞
+00:41:27	Justin Traglia:	https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1
+00:41:33	Will Corcoran:	Reacted to "https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1" with 🫡
+00:41:35	wolovim:	Reacted to "https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1" with 🫡
+00:41:38	Nico Flaig:	Reacted to "https://ethereumfoun..." with 🫡
+00:42:17	Mario Vega:	https://github.com/ethereum/EIPs/pull/11997
+00:44:15	Mario Vega:	@spencer do you know if there’s a specs PR for this?
+00:45:12	spencer:	Replying to "@spencer do you kn..."
+
+Guru's PR: https://github.com/ethereum/execution-specs/pull/3214
+00:45:23	Mario Vega:	https://github.com/ethereum/EIPs/pull/11998
+00:45:29	spencer:	Replying to "https://github.com..."
+
+EELS PR: https://github.com/ethereum/execution-specs/pull/3238
+00:48:14	Luis Pinto | Besu:	I also don’t want to hang on in naming issues 😅 so fine for me, just a nit
+00:48:25	draganrakita:	Reacted to "I also don’t want to hang on in naming issues 😅 so fine for me, just a nit" with 😂
+00:49:10	draganrakita:	It is hard to name it as it covers both execution and block bytes/size. Execution gas sgtm, it is nicer.
+00:49:18	jochem-brouwer:	Antwoord verzenden naar "I also don’t want..."
+
+from a software point it is just a name, for the community it is easier to understand :)
+00:49:29	jochem-brouwer:	Heeft gereageerd op "It is hard to name..." met ❤️
+00:49:33	spencer:	Reacted to "from a software po..." with 💯
+00:49:35	Mario Vega:	Reacted to "It is hard to name it as it covers both execution and block bytes/size. Execution gas sgtm, it is nicer." with ❤️
+00:49:39	Luis Pinto | Besu:	Reacted to "It is hard to name it as it covers both execution and block bytes/size. Execution gas sgtm, it is nicer." with 👍
+00:50:48	Ahmad:	Reacted to "It is hard to name..." with ❤️
+00:50:57	Mario Vega:	https://github.com/ethereum/EIPs/pull/11991
+00:51:10	Mario Vega:	https://github.com/ethereum/EIPs/pull/12009
+00:55:03	Kevaundray Wedderburn:	Sorry didn’t read it before the call
+00:55:58	Kevaundray Wedderburn:	I don’t think this affects zkVM
+00:56:10	jochem-brouwer:	The EIP now says;
+If the chain is already running with gas parameters that no longer allow deployment via the keyless transaction, the only way to add the contract at the expected address is a coordinated irregular state transition, which is outside the scope of this EIP. Client software MUST NOT check for the existence of the contract at the fork boundary.
+I think this is fine and we should not change
+01:05:21	wolovim:	pari has advocated for chaos/adversarial testing on a devnet 9. not sure the impact on testnet scheduling

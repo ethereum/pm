@@ -1,0 +1,52 @@
+{
+  "meeting": "ACDT #89 (CL Breakout) - July 27, 2026",
+  "highlights": {
+    "epbs_p2p_bids": [
+      {
+        "timestamp": "00:01:37",
+        "highlight": "PR proposes allowing up to 3 bids per builder over P2P (empty, full, parent)"
+      },
+      {
+        "timestamp": "00:06:43",
+        "highlight": "Potuz argues against: current spec already allows DOS via non-head bids; prefers propagating only the best bid matching local head"
+      },
+      {
+        "timestamp": "00:17:34",
+        "highlight": "No consensus reached; discussion deferred to Discord; Justin to draft alternative PR based on Potuz's head-filtering approach"
+      }
+    ],
+    "epbs_attestation_reward_bug": [
+      {
+        "timestamp": "00:18:00",
+        "highlight": "Bug: attestation rewards computed incorrectly when missed slots precede a proposal (flagged by Sproul)"
+      },
+      {
+        "timestamp": "00:18:29",
+        "highlight": "Fix: return parent slot from process_execution_payload_bid and propagate to process_attestation; Potuz approved, deemed spec bug"
+      },
+      {
+        "timestamp": "00:22:10",
+        "highlight": "process_operations signature changes but individual operation tests unaffected; no test runner breakage expected"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:17:34",
+      "action": "Open PR implementing head-only bid filtering as alternative to multi-bid PR; discuss on Discord",
+      "owner": "Justin Traglia"
+    },
+    {
+      "timestamp": "00:22:37",
+      "action": "Review consensus-specs PR #5473 (attestation reward bug fix); merge after 24-hour review window",
+      "owner": "CL teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:20:31",
+      "decision": "Attestation reward missed-slot bug (consensus-specs PR #5473) confirmed as spec bug; will be merged after 24-hour review"
+    }
+  ],
+  "targets": []
+}

@@ -1,0 +1,910 @@
+WEBVTT
+
+1
+00:00:19.720 --> 00:00:22.650
+Justin Traglia: Hello, just one second, we'll let people join.
+
+2
+00:00:47.180 --> 00:00:49.769
+Justin Traglia: Alright, I think that's everyone.
+
+3
+00:00:52.270 --> 00:00:56.450
+Justin Traglia: Alright. There were just two PRs which I wanted to discuss.
+
+4
+00:00:57.830 --> 00:01:01.420
+Justin Traglia: One from Nico and one from myself.
+
+5
+00:01:03.110 --> 00:01:05.870
+Justin Traglia: I'll share my screen, just one second.
+
+6
+00:01:14.920 --> 00:01:15.730
+Justin Traglia: Alright.
+
+7
+00:01:20.650 --> 00:01:25.399
+Justin Traglia: Nico, if you're here, you can chat about this. If not, I can.
+
+8
+00:01:27.550 --> 00:01:37.449
+Nico Flaig: Yeah, I can quickly mention the main purpose of the PR. So, as the title says, we want to allow multiple bits from a single builder over P2P.
+
+9
+00:01:37.860 --> 00:01:44.260
+Nico Flaig: Specifically, I highlighted that in the PR, why going with the number 3?
+
+10
+00:01:44.450 --> 00:01:50.390
+Nico Flaig: Which is, basically, the builder doesn't know what the proposal will end up proposing on.
+
+11
+00:01:50.710 --> 00:02:05.149
+Nico Flaig: So, to cover all cases, especially if there's, like, a PTC split view or WCAT, you basically have to provide the bid for empty, and if there's a payload also, you need to provide one for full.
+
+12
+00:02:05.270 --> 00:02:11.879
+Nico Flaig: And then, also, in case of an honest proposal reorg, you would also need to supply a bid for the parent.
+
+13
+00:02:12.060 --> 00:02:17.449
+Nico Flaig: Which has, like, the payload status resolved already, so in that case, you only need one.
+
+14
+00:02:18.080 --> 00:02:24.730
+Nico Flaig: I previously had this to even cover at least two branches with a different head.
+
+15
+00:02:25.150 --> 00:02:29.369
+Nico Flaig: But Portus was not so happy with that, so I removed that. I think.
+
+16
+00:02:30.110 --> 00:02:33.409
+Nico Flaig: Having just 3 is probably enough.
+
+17
+00:02:35.400 --> 00:02:44.690
+Nico Flaig: I think the only… I mean, the consideration is, like, implementation complexity, but we already have the, sync… No, sorry, the…
+
+18
+00:02:44.980 --> 00:02:56.269
+Nico Flaig: the high-value, tracking via slot, parent root, and parent hash, so I think… yeah, I also saw in Prism, it seemed pretty simple to implement this.
+
+19
+00:02:56.480 --> 00:02:59.310
+Nico Flaig: Also, Lordstart was trivia,
+
+20
+00:02:59.810 --> 00:03:06.459
+Nico Flaig: And the other consideration is just the DOS vector, but I really don't see how that's a problem.
+
+21
+00:03:06.730 --> 00:03:15.379
+Nico Flaig: Also, there's another question related to that, which is, we have this node in the spec to prevent, like, DOS. It's only a node on the spec.
+
+22
+00:03:15.590 --> 00:03:18.869
+Nico Flaig: I was just curious if clients implemented that.
+
+23
+00:03:19.740 --> 00:03:21.689
+Nico Flaig: At all right now.
+
+24
+00:03:23.100 --> 00:03:32.029
+Justin Traglia: If in the future we needed to increase max bids per builder to a higher value, we could do that at any time, because it's not consensus-breaking, is that correct?
+
+25
+00:03:33.830 --> 00:03:51.090
+Nico Flaig: Yeah, right. So that's the other good thing, so even that change is completely backward compatible. You can even release that if we had the other spec on mainnet, because it's an ignore rule, and also, yeah, it allows more bits to go through, so… yeah, you can basically always increase that.
+
+26
+00:03:52.860 --> 00:03:56.769
+Barnabas: Could we also just disable EPBS if we just set this to zero?
+
+27
+00:04:01.760 --> 00:04:06.670
+Justin Traglia: I mean, theoretically, yeah. I don't know why you would, but… Yes.
+
+28
+00:04:07.010 --> 00:04:13.559
+Barnabas: I mean, Portos has been joking that his next, fork idea is to rip out TPBS.
+
+29
+00:04:15.200 --> 00:04:17.219
+Barnabas: I don't like change, basically.
+
+30
+00:04:19.660 --> 00:04:22.680
+Justin Traglia: I haven't heard that, but… funny.
+
+31
+00:04:23.480 --> 00:04:29.469
+Justin Traglia: Nico, in general, I support this because I think it makes, P2P builders more competitive.
+
+32
+00:04:30.420 --> 00:04:32.749
+Justin Traglia: And I think that's the only rationale needed.
+
+33
+00:04:36.000 --> 00:04:51.519
+Nico Flaig: Yeah, just to give some more context, so, I have an EPF project that builds a Lodestar Builder, and I realized this, basically, that we, like, to make it properly, like, to… I'm not sure Builder does this currently, but…
+
+34
+00:04:51.620 --> 00:05:02.859
+Nico Flaig: you really wanna support multiple branches on P2Pits, and then I realized, oh, current spec kinda requires you to at least have 3 builders on-chain.
+
+35
+00:05:03.240 --> 00:05:08.910
+Nico Flaig: To cover these cases, because we have this bit rule, to only allow one bit.
+
+36
+00:05:12.230 --> 00:05:12.950
+Justin Traglia: Yeah.
+
+37
+00:05:16.600 --> 00:05:22.260
+Justin Traglia: I was also thinking, like, what if we relaxed that rule so that builders could just submit three different
+
+38
+00:05:22.420 --> 00:05:29.250
+Justin Traglia: Or, sorry, so builders could just submit 3 bids, regardless of the… parent block hash.
+
+39
+00:05:30.370 --> 00:05:31.669
+Justin Traglia: And parent block route.
+
+40
+00:05:35.340 --> 00:05:40.260
+Justin Traglia: But, I think this is a bit more restrictive and probably in a good way.
+
+41
+00:05:46.070 --> 00:05:48.189
+Justin Traglia: How do other clients feel about this change?
+
+42
+00:06:00.400 --> 00:06:01.230
+Justin Traglia: Produce?
+
+43
+00:06:03.260 --> 00:06:11.459
+potuz: So, I want to give an argument against this change, but also, it's not really against this change, but actually against the current spec.
+
+44
+00:06:12.120 --> 00:06:13.040
+potuz: Oh.
+
+45
+00:06:13.730 --> 00:06:21.999
+potuz: The way we have our cash now is that we… we keep a highest value for a pair of
+
+46
+00:06:22.180 --> 00:06:23.729
+potuz: Block and hash.
+
+47
+00:06:24.740 --> 00:06:32.809
+potuz: And already this is bad enough that it allows builders to propagate beds
+
+48
+00:06:33.260 --> 00:06:40.010
+potuz: And keep increasing the value without the fear of them being included, because if there's an overwhelming
+
+49
+00:06:40.140 --> 00:06:43.749
+potuz: Already decision on the chain on what's the head view.
+
+50
+00:06:43.880 --> 00:06:51.050
+potuz: Then they can keep increasing the bid value on the non-head blog.
+
+51
+00:06:51.170 --> 00:06:55.690
+potuz: And try to bid on that, and those bits will propagate because of the cache.
+
+52
+00:06:56.150 --> 00:07:06.189
+potuz: So this PR makes this strictly worse, in that a builder might just keep increasing the value and keep DOSsing the P2P stack with bids.
+
+53
+00:07:06.330 --> 00:07:10.800
+potuz: For blocks that can never be proposed by an honest proposer.
+
+54
+00:07:12.000 --> 00:07:14.280
+potuz: And we won't stop this.
+
+55
+00:07:14.610 --> 00:07:24.359
+potuz: I believe that the easiest, safe way of dealing with the P2P stack for bids would be that you propagate the best bid that you have seen
+
+56
+00:07:24.520 --> 00:07:26.430
+potuz: Compatible with your head.
+
+57
+00:07:26.780 --> 00:07:28.129
+potuz: And nothing else.
+
+58
+00:07:28.650 --> 00:07:36.679
+potuz: So this already takes care of multiple bids on multiple branches, and multiple bids on cases where you're reorging.
+
+59
+00:07:36.680 --> 00:07:50.189
+potuz: I know that there's a subtlety between honest… get proposer head and your head, but again, this… this, I think, is much safer than allowing builders to keep increasing the bid on a bid that will not be selected by proposers.
+
+60
+00:07:56.550 --> 00:07:58.930
+Justin Traglia: I actually agree, and POTUS.
+
+61
+00:08:00.730 --> 00:08:02.940
+Justin Traglia: Er. Sorry, your hand is still up.
+
+62
+00:08:04.790 --> 00:08:08.090
+potuz: Oh, I'm sorry, it's this damn client, I need to lower it myself.
+
+63
+00:08:09.780 --> 00:08:10.799
+Justin Traglia: No worries.
+
+64
+00:08:11.840 --> 00:08:15.319
+Justin Traglia: I mean, what you said actually makes sense to me.
+
+65
+00:08:15.760 --> 00:08:18.890
+Justin Traglia: But they should just keep track of builds, or sorry, bids.
+
+66
+00:08:19.250 --> 00:08:21.090
+Justin Traglia: That work for their head.
+
+67
+00:08:24.830 --> 00:08:26.580
+Justin Traglia: How do others feel?
+
+68
+00:08:39.140 --> 00:08:43.400
+Justin Traglia: Nico, would you see an issue with that? Or would this also work?
+
+69
+00:08:44.220 --> 00:08:55.910
+Nico Flaig: So it's basically saying instead of using the parent state of the parent block route, I guess, you… in the bit, you use always the headset, right? And ignore if it doesn't match.
+
+70
+00:08:59.210 --> 00:09:02.670
+potuz: Right, so probably the best
+
+71
+00:09:02.780 --> 00:09:15.279
+potuz: the best way would be, but that I think it's actually more complex than implementing your PR, but the best way would be, to check if the bid is building on top of your GetProposer head.
+
+72
+00:09:32.380 --> 00:09:33.330
+Justin Traglia: Okay.
+
+73
+00:09:34.390 --> 00:09:36.890
+Dustin: Question-with this? Oh, sorry.
+
+74
+00:09:37.500 --> 00:09:38.480
+Justin Traglia: There you go, please.
+
+75
+00:09:39.540 --> 00:09:50.340
+Dustin: Okay. What… I'm not sure if I'm understanding this correctly exactly, if… would this, apropos, the, you know, on… on proposer head, or on the builder's bidding on multiple… on top of multiple, or…
+
+76
+00:09:50.580 --> 00:09:51.929
+Dustin: Right, whatever, I'll…
+
+77
+00:09:52.320 --> 00:09:58.710
+Dustin: clarify if I need to on that phrasing, but, builders building on top of, multiple branches.
+
+78
+00:09:59.750 --> 00:10:13.900
+Dustin: in general, it seems to sort of invert, the sort of control a bit, I guess. The… the… for everything else, like, the general flow of control has been towards the proposer deciding, like, the…
+
+79
+00:10:13.920 --> 00:10:21.619
+Dustin: well, the fork choice, I guess, most literally, but this is an example of that. It seems a little odd for builders to suggest
+
+80
+00:10:21.900 --> 00:10:23.180
+Dustin: something else.
+
+81
+00:10:23.740 --> 00:10:29.379
+potuz: No, I think it's… it's… it's… this is not changing, even with this PR, so…
+
+82
+00:10:29.380 --> 00:10:47.770
+potuz: builders don't really know what the proposer's view of head is. It might be different from them. So it does make sense for builders to already produce blocks on top of different heads, because the proposer, when they call them and say, I want to be… I want to get a bid, give me a bid for now, this is for direct connections.
+
+83
+00:10:47.770 --> 00:10:55.070
+potuz: Then the builder would already have all of the possible questions that the proposer would ask already answered.
+
+84
+00:10:55.120 --> 00:11:03.790
+potuz: So the proposer is the one that decides over what is proposing, and the builder needs to sort of, like, prepare different blocks in parallel to be able to
+
+85
+00:11:03.900 --> 00:11:05.620
+potuz: To provide those blocks.
+
+86
+00:11:05.810 --> 00:11:10.920
+potuz: Now, over P2P, we already allow the builder to submit different bits.
+
+87
+00:11:11.570 --> 00:11:24.680
+potuz: And if there are proposers, if there are peers that have different views of head, they will propagate different bits. So that's why I prefer this, just propagate one.
+
+88
+00:11:25.040 --> 00:11:40.329
+potuz: your best bit, just one, don't allow multiple bits, but you propagate the best bit that is compatible with your current head. So if there are viable heads, then bits will be propagated for different, for different, blocks.
+
+89
+00:11:40.850 --> 00:11:50.990
+potuz: This PR takes a different instance in saying, even if it's not the best bid, you should propagate it, because the proposer might find it more useful.
+
+90
+00:11:51.580 --> 00:12:00.389
+potuz: So this makes… makes it such a way that you are allowing more traffic over the P2P stack, which I think is inherently less safe.
+
+91
+00:12:03.770 --> 00:12:05.599
+Justin Traglia: I do agree with you?
+
+92
+00:12:07.270 --> 00:12:10.670
+Justin Traglia: But I do think we should allow a single builder.
+
+93
+00:12:10.860 --> 00:12:14.849
+Justin Traglia: To submit multiple bids. So I think we'd still need to keep the max bid.
+
+94
+00:12:15.180 --> 00:12:15.530
+Justin Traglia: So then…
+
+95
+00:12:15.530 --> 00:12:21.730
+potuz: But that's allowed already, Justin. There's no… nothing that prevents a builder from submitting different bits.
+
+96
+00:12:22.210 --> 00:12:26.559
+potuz: This is not forbidden in our… not forbidden in our BDP stack.
+
+97
+00:12:27.200 --> 00:12:33.689
+Justin Traglia: I mean, it is, it's the… this is the first signed bid seen with a valid signature from the given builder for this lot.
+
+98
+00:12:34.040 --> 00:12:42.539
+potuz: Yes, but the thing is that you will not… so, different peers would see different beats. That's the whole point.
+
+99
+00:12:44.310 --> 00:12:44.929
+potuz: You see?
+
+100
+00:12:44.930 --> 00:12:45.429
+Justin Traglia: I know for…
+
+101
+00:12:45.430 --> 00:12:53.360
+potuz: I only propagate my head, I can only have a single valid bid from this builder, because I only have a single head.
+
+102
+00:12:53.820 --> 00:12:59.639
+potuz: But different peers will have different heads, and those two different piers would propagate different bits.
+
+103
+00:13:00.000 --> 00:13:03.839
+Justin Traglia: Yes, I agree with you. But the builder would only be able to submit one.
+
+104
+00:13:04.250 --> 00:13:09.990
+potuz: No, the builder would submit different ones to different peers, and then the different peers will choose the right one.
+
+105
+00:13:12.910 --> 00:13:20.660
+Justin Traglia: Oh, wait, I think I understand what you're saying. Are you saying that they would ignore it because it doesn't match their head, and therefore it wouldn't be a valid bid?
+
+106
+00:13:20.660 --> 00:13:21.410
+potuz: Yes.
+
+107
+00:13:21.890 --> 00:13:23.330
+Justin Traglia: Okay, so they were just never…
+
+108
+00:13:23.330 --> 00:13:25.330
+potuz: nor before this one of the.
+
+109
+00:13:25.330 --> 00:13:30.740
+Nico Flaig: Yeah, but you don't know the head the proposal's gonna pick, right? Like…
+
+110
+00:13:30.740 --> 00:13:35.959
+potuz: No, you do it by your head. You're a peer in the network, and you do it with your head.
+
+111
+00:13:36.280 --> 00:13:50.629
+potuz: If the proposer has… agrees with you on your head, then eventually we'll just get your bid. But if the proposer doesn't, and that head was actually viable, then the proposer will get it from a different set of peers. The point is that…
+
+112
+00:13:50.630 --> 00:13:51.230
+Nico Flaig: even if.
+
+113
+00:13:51.230 --> 00:13:56.240
+potuz: If heads are viable, then beads should propagate across different paths.
+
+114
+00:13:57.240 --> 00:14:10.969
+Nico Flaig: Yeah, but the problem is, even if every node agrees at slot N, and they have the same head at slot N, you still cannot cover all paths the proposal can take at slot N plus 1, so you cannot cover everything.
+
+115
+00:14:10.970 --> 00:14:21.830
+potuz: Well, you can, because if there's a complete agreement on slot N on what the head is going to be at N plus 1, then the proposal cannot just change the head of the view of the whole chain.
+
+116
+00:14:22.610 --> 00:14:26.669
+Nico Flaig: that relies on proposal boosts and stuff like this, like…
+
+117
+00:14:26.860 --> 00:14:32.219
+potuz: Yes, that's the proposer… that's the… that is what I mean by GetProposerHead.
+
+118
+00:14:33.110 --> 00:14:40.950
+potuz: By the time that… by the time that the bid is being propagated, then the view of the chain is already set.
+
+119
+00:14:41.920 --> 00:14:53.149
+potuz: If only one head is actually viable, then it's fine that we only propagate on that only head. If there are two heads that are viable, we will have peers that have that other head as head.
+
+120
+00:15:01.190 --> 00:15:04.409
+potuz: And I agree with you that there is this subtlety that
+
+121
+00:15:04.600 --> 00:15:14.560
+potuz: If the block is very weak, and everyone has seen it, but no one has attested, and then everyone already has seen the block, then…
+
+122
+00:15:14.840 --> 00:15:23.690
+potuz: It's not really clear what would be, because GetProposerHead for some people would be the parent, and GetProposerHead for some people would be the current block.
+
+123
+00:15:24.930 --> 00:15:30.690
+potuz: I mean, I don't particularly dislike this PR, it's just that I feel that we're going
+
+124
+00:15:30.910 --> 00:15:40.700
+potuz: We're adding complexity and adding this attack, in which builders can increase the bid, knowing that that bid will never be chosen.
+
+125
+00:15:43.090 --> 00:15:48.190
+potuz: So this provides a DOS that I don't see why would… why would we take it?
+
+126
+00:15:48.190 --> 00:15:52.440
+Justin Traglia: There's not really a denial of service. I mean, they're limited at 3 bits.
+
+127
+00:15:53.310 --> 00:16:07.769
+potuz: No, I can just, like, I can open a ton of builders. Anyways, I know that none of this… none of this money is going to be a problem, because this bid will be very large, and… and I… I know that they're not going to be included.
+
+128
+00:16:08.730 --> 00:16:13.039
+Justin Traglia: I mean, you could do that now. It's just, it would be scaled by 3X with this PR.
+
+129
+00:16:13.080 --> 00:16:26.180
+potuz: you cannot do this now if you only get one bid, and you're bidding on the head. Like, the right thing to do is to only accept bids that are for your head, so that bid is actually risking being included.
+
+130
+00:16:26.360 --> 00:16:33.409
+potuz: If you accept bids for something that is not your head, then you're allowing traffic that might never be included.
+
+131
+00:16:40.580 --> 00:16:43.329
+Justin Traglia: Nico, you're unmuted. Do you want to say something?
+
+132
+00:16:43.850 --> 00:16:51.659
+Nico Flaig: Yeah, I still don't get why every node in the network should be forced to precompute the proposal head, like, that's not what we do today, right?
+
+133
+00:16:51.660 --> 00:17:06.259
+potuz: Yeah, yeah, I agree. I agree that this is a downward, and instead, I think the simplest solution that is the best trade-off is to only propagate bits that are based on your current head.
+
+134
+00:17:06.280 --> 00:17:12.190
+potuz: And in the case of an honest proposal, reorg, or whatever it is, let's just not ignore this case.
+
+135
+00:17:12.630 --> 00:17:17.329
+potuz: I think it's safer than allowing traffic that might not be included.
+
+136
+00:17:23.319 --> 00:17:32.639
+potuz: And yeah, for Prism, it would be even impossible to do the GetPROP… I think, I'm not sure. I think it would be very hard to do it with GetProposerHead. I would implement this with head.
+
+137
+00:17:34.430 --> 00:17:40.179
+Justin Traglia: Alright, let's discuss this more on Discord. I would like to spend the remaining 5 minutes discussing the other PR.
+
+138
+00:17:41.760 --> 00:17:42.970
+Justin Traglia: Does that sound fine?
+
+139
+00:17:49.670 --> 00:17:50.340
+Justin Traglia: Mark.
+
+140
+00:17:52.450 --> 00:17:56.050
+Justin Traglia: The other one is,
+
+141
+00:17:56.430 --> 00:18:00.049
+Justin Traglia: how should I say it? A bug that Sproul pointed out, pretty much.
+
+142
+00:18:00.440 --> 00:18:05.490
+Justin Traglia: If there's missed slots, I believe the attestation rewards are incorrect.
+
+143
+00:18:06.230 --> 00:18:16.119
+Justin Traglia: There was a debate between how to fix this, whether or not to add a loop and fork choice, which would pretty much bind, or, like, skip over the missing slots.
+
+144
+00:18:16.850 --> 00:18:19.820
+Justin Traglia: And, whatever.
+
+145
+00:18:20.190 --> 00:18:25.590
+Justin Traglia: I think POTUS was the one that suggested we instead just return the,
+
+146
+00:18:25.810 --> 00:18:29.139
+Justin Traglia: The parent slot from process execution payload bid.
+
+147
+00:18:29.740 --> 00:18:35.520
+Justin Traglia: And then propagate that to… process attestation.
+
+148
+00:18:36.310 --> 00:18:42.290
+Justin Traglia: And then, also to, I guess, get attestation participation flag indices.
+
+149
+00:18:43.650 --> 00:18:50.220
+Justin Traglia: This is a bug fix, we should include it, or it's just whether or not we want to do it which way, with the loop or with this.
+
+150
+00:18:50.370 --> 00:18:57.280
+Justin Traglia: I'm in slight preference towards doing this change, this PR,
+
+151
+00:18:57.600 --> 00:18:59.350
+Justin Traglia: Just because I think it's a bit…
+
+152
+00:18:59.910 --> 00:19:02.990
+Justin Traglia: More elegant, even though it changes more…
+
+153
+00:19:03.480 --> 00:19:07.289
+Justin Traglia: functions. It does feel like the better fix, in my opinion.
+
+154
+00:19:08.140 --> 00:19:10.820
+Justin Traglia: I'm… I'd be very curious to hear what others think.
+
+155
+00:19:27.420 --> 00:19:29.080
+Justin Traglia: Yes, I can, sorry.
+
+156
+00:20:12.460 --> 00:20:14.420
+Justin Traglia: Any opinions?
+
+157
+00:20:14.970 --> 00:20:15.930
+Justin Traglia: Thoughts?
+
+158
+00:20:31.560 --> 00:20:38.220
+Justin Traglia: Yeah, I guess so. Alright, if there's no further feedback, I'll probably just merge this PR in, like, a day.
+
+159
+00:20:39.060 --> 00:20:42.570
+Justin Traglia: So if… if you have feelings about this, please leave a review.
+
+160
+00:20:45.000 --> 00:20:54.969
+potuz: I have one question, though. Will this change the spec test runner? Because I haven't implemented this, but my guess is if we implement this
+
+161
+00:20:55.130 --> 00:20:58.770
+potuz: We will not be changing the signature of process operations?
+
+162
+00:20:59.070 --> 00:21:02.390
+potuz: We will be just, like, saving that slot somewhere else.
+
+163
+00:21:03.960 --> 00:21:07.629
+Justin Traglia: Now that you mention it, yeah, I think this would actually change the test runner.
+
+164
+00:21:10.840 --> 00:21:19.670
+potuz: Well, not in the spec itself. I wonder if we need to change our spec test runner to, like, so that process operation takes something different, or…
+
+165
+00:21:20.620 --> 00:21:24.559
+potuz: Yeah, I don't know. I don't know how the spec test will look after this change.
+
+166
+00:21:35.670 --> 00:21:37.240
+potuz: terence all.
+
+167
+00:21:38.100 --> 00:21:40.240
+Justin Traglia: Oh, it's just the first one to process attestation.
+
+168
+00:21:40.240 --> 00:21:42.309
+terence: Yeah, I think we should change it.
+
+169
+00:21:43.020 --> 00:21:43.600
+Justin Traglia: Yeah.
+
+170
+00:21:47.980 --> 00:21:54.670
+potuz: So for process attestation, sure, we need to have that slot, but for process operations, it's the one that bugs me.
+
+171
+00:21:56.940 --> 00:22:05.200
+potuz: The ugly thing of this PR is that, is that it changes the signature of process operations when that SLOT is only needed in one of them.
+
+172
+00:22:05.930 --> 00:22:10.270
+Justin Traglia: I don't think we have process operation tests, we have individual operation tests.
+
+173
+00:22:10.270 --> 00:22:12.509
+potuz: Then that's… then that's… that's perfect for us.
+
+174
+00:22:13.790 --> 00:22:14.320
+Justin Traglia: Yeah.
+
+175
+00:22:15.040 --> 00:22:16.990
+Justin Traglia: I'll handle that, thank you for mentioning it.
+
+176
+00:22:25.240 --> 00:22:37.460
+Justin Traglia: Okay, before the call's over, I'll make a PR with the idea that, potu said about the bits, and then from there we can judge it on Discord, and then please take some time to review.
+
+177
+00:22:37.830 --> 00:22:40.679
+Justin Traglia: this other, PR, the second one.
+
+178
+00:22:41.070 --> 00:22:44.800
+Justin Traglia: And we can merge that tomorrow, if all seems fine.
+
+179
+00:22:47.500 --> 00:22:52.929
+Justin Traglia: Other than that, we are at time. Thank you guys so much for joining. Talk to you.
+
+180
+00:22:53.610 --> 00:22:56.289
+Justin Traglia: And, sorry, talk to you later.
+
+181
+00:22:56.850 --> 00:22:59.559
+Justin Traglia: For the first PR, can't we just have multiple builders?
+
+182
+00:23:00.100 --> 00:23:03.020
+Justin Traglia: Yeah, we could, but… I don't know.
+
+183
+00:23:05.820 --> 00:23:07.260
+Justin Traglia: Like, that's an option, too.
+
+184
+00:23:09.750 --> 00:23:11.499
+Barnabas: And doesn't keep this back.
+
+185
+00:23:12.070 --> 00:23:15.149
+potuz: I'll repeat the same, Barnabas, it doesn't solve the problem, so…
+
+186
+00:23:16.330 --> 00:23:24.760
+potuz: I think we should limit traffic to things that can't be included. Even if you have multiple builders, you shouldn't be able to submit many bids.
+
+187
+00:23:24.800 --> 00:23:40.730
+potuz: Because, unless you submit bits for the same head, that is the includeable one, and in that case, only your most valuable one would propagate anyways. So that's the beauty of filtering by head, in that there's only one bit that propagates.
+
+188
+00:23:42.090 --> 00:23:46.070
+potuz: Otherwise, we have this global topic that can be dosed by anyone.
+
+189
+00:23:51.220 --> 00:23:52.990
+Justin Traglia: Yeah, I… I mostly agree.
+
+190
+00:23:56.080 --> 00:23:57.500
+Justin Traglia: Alright, I'll make a PR.
+
+191
+00:23:57.830 --> 00:24:00.450
+Justin Traglia: Let's see what it looks like. Bye, everyone.
+
+192
+00:24:01.760 --> 00:24:02.510
+potuz: Bye-bye.
+
+193
+00:24:03.260 --> 00:24:03.860
+Dmitrii Shmatko: Bye.
+
+194
+00:24:13.320 --> 00:24:16.049
+Barnabas: Justin, are you still here?
+
+195
+00:24:16.320 --> 00:24:18.410
+Justin Traglia: Yeah, I am. It won't.
+
+196
+00:24:18.410 --> 00:24:19.090
+Barnabas: Let me stop.
+
+197
+00:24:19.090 --> 00:24:19.929
+Justin Traglia: Brying my screen.
+
+198
+00:24:21.990 --> 00:24:23.859
+Barnabas: Can I just have a quick question?
+
+199
+00:24:24.200 --> 00:24:25.010
+Justin Traglia: What's up?
+
+200
+00:24:25.400 --> 00:24:40.590
+Barnabas: Yeah, with the… with the second one, why do we want to fix this bug, actually? Wouldn't it make sense to just pay the Validator only if it is able to propose a block for the payload?
+
+201
+00:24:42.410 --> 00:24:45.920
+Justin Traglia: Well, I mean, we should fix this. I…
+
+202
+00:24:48.010 --> 00:24:50.930
+Justin Traglia: I… I heard that argument before.
+
+203
+00:24:51.070 --> 00:24:53.059
+Justin Traglia: I mean, yeah.
+
+204
+00:24:53.060 --> 00:24:54.310
+Barnabas: Because, like, the chain…
+
+205
+00:24:54.310 --> 00:24:56.220
+Justin Traglia: Really. It's not for builders.
+
+206
+00:24:56.220 --> 00:24:56.560
+Barnabas: Yeah.
+
+207
+00:24:56.560 --> 00:24:58.820
+Justin Traglia: It's not for proposers, it's for our testers.
+
+208
+00:25:02.590 --> 00:25:04.700
+Barnabas: See if you're attesting to the wrong thing.
+
+209
+00:25:04.880 --> 00:25:05.699
+Barnabas: Yeah, because.
+
+210
+00:25:05.700 --> 00:25:11.419
+Justin Traglia: I believe… actually, Ugh, I just don't remember. I thought it was a few attest.
+
+211
+00:25:12.420 --> 00:25:14.150
+Justin Traglia: Er. Mmm.
+
+212
+00:25:15.470 --> 00:25:21.589
+Justin Traglia: If there's a missed slot before your proposal, And you attest to that.
+
+213
+00:25:22.710 --> 00:25:29.219
+Justin Traglia: none of the validators would… none of the attesters would be rewarded appropriately, or something along those lines. Like, it is…
+
+214
+00:25:29.550 --> 00:25:30.650
+Justin Traglia: It's wrong.
+
+215
+00:25:31.270 --> 00:25:32.090
+Barnabas: Okay.
+
+216
+00:25:33.560 --> 00:25:40.269
+Justin Traglia: And just, like, not rewarding them appropriately would be incorrect, in my opinion. And it's fairly simple to just fix.
+
+217
+00:25:40.760 --> 00:25:42.030
+Justin Traglia: It was a mistake.
+
+218
+00:25:42.670 --> 00:25:43.810
+Barnabas: Okay.
+
+219
+00:25:45.870 --> 00:25:48.660
+Barnabas: Alright, send it to… Thanks.
+
+220
+00:25:48.660 --> 00:25:50.769
+Justin Traglia: Yep, will do. I'll wait 24 hours.
+
+221
+00:25:51.420 --> 00:25:52.040
+Barnabas: Yep.
+
+222
+00:25:52.570 --> 00:25:53.250
+Justin Traglia: Yep.
+
+223
+00:25:53.760 --> 00:25:55.739
+Justin Traglia: Alright, happy you're back, Barnabas, by the way.
+
+224
+00:25:56.230 --> 00:25:57.350
+Barnabas: Yeah, thanks.
+
+225
+00:25:57.560 --> 00:25:58.780
+Justin Traglia: Yeah, just… alright.
+
+226
+00:25:59.330 --> 00:26:00.110
+Barnabas: Bye-bye.
+
+227
+00:26:00.670 --> 00:26:01.260
+Justin Traglia: Bye.
+
