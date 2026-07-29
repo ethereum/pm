@@ -456,11 +456,7 @@ def upload_breakout_recording(
             f"URL: {youtube_link}"
         )
         try:
-            telegram_message_id = matched_occurrence.get("telegram_message_id")
-            if telegram_message_id:
-                tg.send_message(notification, reply_to_message_id=telegram_message_id)
-            else:
-                tg.send_message(notification)
+            tg.send_message(notification)
         except Exception as telegram_error:
             print(f"Error sending Telegram breakout notification: {telegram_error}")
 
@@ -627,8 +623,7 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
     video_title = matched_occurrence.get("issue_title", f"Meeting {meeting_id} - Issue {occurrence_issue_number}")
     video_description = (
         f"Recording of {video_title}\n\n"
-        f"Original Zoom Meeting ID: {meeting_id}"
-        f"\nGitHub Issue: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{occurrence_issue_number}" # Add link to specific issue
+        f"GitHub Issue: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/issues/{occurrence_issue_number}" # Add link to specific issue
     )
 
     # Get the occurrence's expected start time for filtering recordings
@@ -753,19 +748,12 @@ def upload_recording(meeting_id, occurrence_issue_number=None, error_collector=N
 
         # Send Telegram notification similar to handle_issue
         try:
-            # Find the specific occurrence to get the telegram message ID
-            occurrence_telegram_message_id = matched_occurrence.get("telegram_message_id")
-
             telegram_message = (
                 f"✅ YouTube Upload Successful!\n\n"
                 f"Title: {video_title}\n"
                 f"URL: {youtube_link}"
             )
-            # Reply to the original occurrence announcement if possible
-            if occurrence_telegram_message_id:
-                tg.send_message(telegram_message, reply_to_message_id=occurrence_telegram_message_id)
-            else:
-                tg.send_message(telegram_message)
+            tg.send_message(telegram_message)
             print("Telegram notification sent for YouTube upload.")
         except Exception as e:
             print(f"Error sending Telegram message for YouTube upload: {e}")

@@ -1,0 +1,132 @@
+name: "Manual Video Upload"
+
+# Uploads a meeting recording that was captured outside the org Zoom account
+# (e.g. a personal Zoom) to YouTube, as if it had been pulled by the normal
+# pipeline. The video is fetched from a public Google Drive link so the large
+# file never has to live in git.
+
+on:
+  workflow_dispatch:
+    inputs:
+      SERIES:
+        description: "Series code (e.g., 'encryptthemempool')"
+        required: true
+        type: string
+      NUMBER:
+        description: "Public call number (e.g., 7)"
+        required: true
+        type: string
+      DRIVE_URL:
+        description: "Public Google Drive file link (or file ID) for the recording"
+        required: true
+        type: string
+
+concurrency:
+  group: manual-video-upload
+  cancel-in-progress: false
+
+# Least privilege: only need to push the mapping commit. All other side effects
+# (YouTube, Discourse, Telegram, Mattermost) authenticate with their own secrets.
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
+
+      - name: Resolve target occurrence
+        env:
+          SERIES: ${{ inputs.SERIES }}
+          NUMBER: ${{ inputs.NUMBER }}
+        run: |
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/asset_pipeline/resolve_forced_target.py" \
+            --series "$SERIES" \
+            --number "$NUMBER" \
+            --github-env "$GITHUB_ENV"
+
+      - name: Refresh YouTube Token
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        run: |
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/refresh_youtube_token.py"
+
+      - name: Download video from Google Drive
+        env:
+          DRIVE_URL: ${{ inputs.DRIVE_URL }}
+        run: |
+          # This input must point at the specific video file, not a folder.
+          case "$DRIVE_URL" in
+            */folders/*)
+              echo "::error::DRIVE_URL must link to a specific video file, not a folder. In Drive, right-click the video > Share > Copy link (looks like https://drive.google.com/file/d/FILE_ID/view)."
+              exit 1
+              ;;
+          esac
+
+          # Accept a full Drive share link or a bare file ID; extract the longest id-like token.
+          FILE_ID=$(printf '%s' "$DRIVE_URL" | grep -oE '[a-zA-Z0-9_-]{25,}' | head -1)
+          if [ -z "$FILE_ID" ]; then
+            echo "::error::Could not extract a Google Drive file ID from '$DRIVE_URL'"
+            exit 1
+          fi
+          echo "Resolved Drive file ID: $FILE_ID"
+          uvx gdown@6.1.0 "$FILE_ID" -O /tmp/video.mp4
+
+          # gdown writes Drive's HTML error/permission page on failure; never hand that to YouTube.
+          if [ ! -s /tmp/video.mp4 ]; then
+            echo "::error::Download produced an empty file."
+            exit 1
+          fi
+          MIME=$(file -b --mime-type /tmp/video.mp4)
+          echo "Downloaded MIME type: $MIME"
+          case "$MIME" in
+            video/*|application/octet-stream) ;;
+            *)
+              echo "::error::Downloaded file is not a video (got '$MIME'). Confirm the link points to the video file and that it is shared publicly."
+              exit 1
+              ;;
+          esac
+          ls -lh /tmp/video.mp4
+
+      - name: Upload to YouTube
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          DISCOURSE_API_KEY: ${{ secrets.DISCOURSE_API_KEY }}
+          DISCOURSE_API_USERNAME: ${{ secrets.DISCOURSE_API_USERNAME }}
+          DISCOURSE_BASE_URL: ${{ vars.DISCOURSE_BASE_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+          MATTERMOST_BOT_WEBHOOK_URL: ${{ secrets.MATTERMOST_BOT_WEBHOOK_URL }}
+        run: |
+          uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/upload_manual_recording.py" \
+            --meeting_id "$FORCED_MEETING_ID" \
+            --occurrence_issue_number "$FORCED_ISSUE_NUMBER" \
+            --video-file /tmp/video.mp4
+
+      - name: Commit mapping update
+        if: always()
+        env:
+          SERIES: ${{ inputs.SERIES }}
+          NUMBER: ${{ inputs.NUMBER }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add .github/ACDbot/meeting_topic_mapping.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "acdbot: manual video upload for $SERIES #$NUMBER"
+            git pull --rebase
+            git push
+          fi
