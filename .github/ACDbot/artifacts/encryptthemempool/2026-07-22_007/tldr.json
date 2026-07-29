@@ -1,0 +1,84 @@
+{
+  "meeting": "Encrypt The Mempool #7 - July 22, 2026",
+  "highlights": {
+    "key_reveal_optionality": [
+      {
+        "timestamp": "00:04:29",
+        "highlight": "Lucid's market-based key-reveal deterrence deemed insufficient given MEV payoff variance; seeking protocol-level enforcement"
+      },
+      {
+        "timestamp": "00:43:27",
+        "highlight": "Jannik: skeptical of enshrining a specific threshold scheme; cryptographic development still active, small validator committees are bribable/unobservably misbehaving"
+      },
+      {
+        "timestamp": "01:00:13",
+        "highlight": "Consensus: Lucid's financial penalty for key withholding is probably not strong enough; stronger optionality protections needed"
+      }
+    ],
+    "threshold_encryption_naive_scheme": [
+      {
+        "timestamp": "00:09:23",
+        "highlight": "Benedikt: for small N parties, naive scheme (secret-share symmetric key, encrypt one share per party) is viable; ciphertext size linear in N"
+      },
+      {
+        "timestamp": "00:15:47",
+        "highlight": "CCA2 security mandatory for encrypted mempools (committee acts as decryption oracle); naive scheme can be made CCA2 via hybrid encryption + one-time signature"
+      },
+      {
+        "timestamp": "00:22:13",
+        "highlight": "Reusing validator BLS keys for encryption is non-PQ and problematic; future hash-based validator keys cannot serve as threshold encryption keys"
+      },
+      {
+        "timestamp": "00:39:31",
+        "highlight": "With PQ, nothing materially better than the naive scheme currently exists; non-PQ silent/batching schemes require a CRS ceremony"
+      }
+    ],
+    "crs_ceremony_approach": [
+      {
+        "timestamp": "00:26:07",
+        "highlight": "Jan: CRS-based silent scheme preferred over DKG \u2014 avoids fixing party set, allows validators to join non-interactively by publishing per-key group elements"
+      },
+      {
+        "timestamp": "00:31:54",
+        "highlight": "Gottfried: CRS ceremony complexity varies greatly; powers-of-tau is uniquely composable/low-interaction; not all CRS types share that property"
+      },
+      {
+        "timestamp": "00:34:27",
+        "highlight": "Benedikt: CRS ceremony for a non-PQ solution is high effort for something likely replaced soon; naive scheme more realistic to ship"
+      }
+    ],
+    "validator_whitelisted_key_publishers": [
+      {
+        "timestamp": "00:43:27",
+        "highlight": "Jannik: alternative to enshrined crypto \u2014 Lucid as-is but validators vote to whitelist trusted key-publisher entities"
+      },
+      {
+        "timestamp": "00:49:58",
+        "highlight": "Gottfried: whitelist risks ossification \u2014 newcomers face chicken-and-egg problem gaining validator votes before proving reliability"
+      },
+      {
+        "timestamp": "00:50:07",
+        "highlight": "Anders: validator voting on external entities creates cartelization pressure within the validator set; prior per-user trust model felt safer"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:17:02",
+      "action": "Investigate how to achieve CCA2 security on the naive threshold scheme (hybrid encryption + one-time signature approach)",
+      "owner": "Benedikt Wagner / research"
+    },
+    {
+      "timestamp": "00:58:20",
+      "action": "Further analyze validator-whitelisted key-publisher proposal: game theory, cartelization risk, builder behavior",
+      "owner": "Jannik Luhn"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:00:13",
+      "decision": "Two research directions confirmed: (1) naive PQ threshold encryption with CCA2, (2) Lucid + validator-whitelisted key publishers with cartelization analysis"
+    }
+  ],
+  "targets": []
+}

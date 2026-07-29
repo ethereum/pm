@@ -1,0 +1,1994 @@
+WEBVTT
+
+1
+00:01:32.730 --> 00:01:34.070
+Justin Florentine (Besu): Hi, Anders.
+
+2
+00:01:36.930 --> 00:01:45.430
+Justin Florentine (Besu): I just realized that the calendar has the wrong invite on it. Again. This bot is very… Troublesome.
+
+3
+00:01:49.360 --> 00:01:50.130
+Anthony: Hello!
+
+4
+00:01:50.870 --> 00:01:51.910
+Justin Florentine (Besu): Hi, Anthony.
+
+5
+00:01:52.360 --> 00:01:54.030
+Anthony: Hey guys, how's it going?
+
+6
+00:01:54.480 --> 00:01:56.200
+Justin Florentine (Besu): It's okay.
+
+7
+00:01:58.930 --> 00:02:01.009
+Anthony: Sounds good!
+
+8
+00:02:04.650 --> 00:02:05.360
+Anthony: Wow.
+
+9
+00:02:13.100 --> 00:02:16.380
+Anthony: You guys, watch any of the football matches?
+
+10
+00:02:17.910 --> 00:02:20.420
+Justin Florentine (Besu): I did not…
+
+11
+00:02:23.250 --> 00:02:32.240
+Anthony: Yeah, I didn't get any, unfortunately, as well. Unfortunately, in Singapore, they play at, very early in the morning, like, 3-4am, so…
+
+12
+00:02:36.500 --> 00:02:41.920
+Anthony: But, I was… But if I was in the US, I would be very tempted to go.
+
+13
+00:02:45.520 --> 00:02:47.250
+Justin Florentine (Besu): Hey, Loring, hey Mercy.
+
+14
+00:02:47.420 --> 00:02:48.670
+Loring: Hey, everyone.
+
+15
+00:02:49.710 --> 00:02:50.380
+Anthony: Dale.
+
+16
+00:02:56.000 --> 00:02:59.389
+Justin Florentine (Besu): Jannik, excellent, excellent, excellent, good, good, good.
+
+17
+00:03:02.240 --> 00:03:13.009
+Justin Florentine (Besu): Alright, let's give people some time to trickle in. Apologies if you went to the Zoom invite on the calendar and were disappointed. The bot really
+
+18
+00:03:13.350 --> 00:03:15.770
+Justin Florentine (Besu): is… Yeah.
+
+19
+00:03:18.710 --> 00:03:23.380
+Justin Florentine (Besu): It insists on, maintaining its calendar.
+
+20
+00:03:25.260 --> 00:03:33.279
+Justin Florentine (Besu): Anywho, yeah, so this is being recorded. We have a little bit of an agenda today.
+
+21
+00:03:33.570 --> 00:03:35.299
+Justin Florentine (Besu): We're gonna be doing some brainstorming.
+
+22
+00:03:35.690 --> 00:03:39.240
+Justin Florentine (Besu): Thinking about key reveal optionality.
+
+23
+00:03:39.500 --> 00:03:41.599
+Justin Florentine (Besu): How we can eliminate that.
+
+24
+00:03:43.670 --> 00:03:53.669
+Justin Florentine (Besu): there was a paper, that I was looking at. It's from November of last year or so, maybe a little earlier than that.
+
+25
+00:03:55.260 --> 00:04:04.809
+Justin Florentine (Besu): Titled Silent One-Shot Threshold Encryption. A link to that is included in the agenda. Here, I'll post a link to the agenda in chat for everybody.
+
+26
+00:04:09.500 --> 00:04:10.370
+Justin Florentine (Besu): Okay?
+
+27
+00:04:12.370 --> 00:04:18.620
+Justin Florentine (Besu): And, I think, Jannik, you had an idea that you wanted to float as well.
+
+28
+00:04:19.750 --> 00:04:23.580
+Justin Florentine (Besu): So we'll make sure that we do have some time for that.
+
+29
+00:04:24.150 --> 00:04:28.999
+Justin Florentine (Besu): So, just to reiterate,
+
+30
+00:04:29.480 --> 00:04:43.410
+Justin Florentine (Besu): The first link in the agenda is a link to Gottfried's paper, or, you know, ETH research post on, specifically the key reveal optionality portion of his critique of Lucid.
+
+31
+00:04:43.640 --> 00:05:03.469
+Justin Florentine (Besu): For those of you that are familiar with the strawmap, you may have noticed that Encrypted Mempool has been pushed back on it, and this optionality is one of the major reasons why. Currently in Lucid, we take a market approach to deterring people from withholding keys.
+
+32
+00:05:03.660 --> 00:05:12.539
+Justin Florentine (Besu): And that may not be strong enough, considering how widely MEV payoffs can fluctuate. So…
+
+33
+00:05:12.860 --> 00:05:21.079
+Justin Florentine (Besu): We want to kind of take a little bit of a pivot, a little bit of a revisit of Lucid, and try to figure out, well, what are…
+
+34
+00:05:21.080 --> 00:05:34.139
+Justin Florentine (Besu): Some ways that we can maybe enshrine key reveal a little bit more in the protocol, as opposed to leaving it up to the senders or a sender-selected key provider to reveal.
+
+35
+00:05:37.260 --> 00:05:39.059
+Justin Florentine (Besu): Any questions on that?
+
+36
+00:05:47.090 --> 00:05:47.890
+Justin Florentine (Besu): Okay.
+
+37
+00:05:48.250 --> 00:05:53.140
+Justin Florentine (Besu): Did anybody have a chance to look at the silent one-shot threshold Encryption paper?
+
+38
+00:05:57.600 --> 00:05:58.440
+Justin Florentine (Besu): Okay.
+
+39
+00:05:58.830 --> 00:06:13.699
+Justin Florentine (Besu): I am not a cryptographer by trade, so I, you know, I don't want to speak as an authority on it. I understand maybe about a third of it. But I understand enough to be dangerous, and so I took that and
+
+40
+00:06:13.700 --> 00:06:20.110
+Justin Florentine (Besu): Wanted to consider how we could maybe use that as a threshold encryption approach.
+
+41
+00:06:20.770 --> 00:06:24.759
+Justin Florentine (Besu): So, the idea is… let me just pull my notes up here to make sure that…
+
+42
+00:06:25.910 --> 00:06:45.389
+Justin Florentine (Besu): Yeah, great. So the idea is that instead of allowing users or key providers to reveal their key, there's something enshrined in the protocol that will reveal it, and whether they want to reveal it or not, you remove the option.
+
+43
+00:06:45.850 --> 00:06:48.159
+Justin Florentine (Besu): And the way that this would work…
+
+44
+00:06:48.300 --> 00:06:50.500
+Justin Florentine (Besu): Via the paper, is that
+
+45
+00:06:51.330 --> 00:07:04.269
+Justin Florentine (Besu): A user could generate a key, a key pair, rather, right? And they could encrypt the private half of that key towards a random sample of all of the validators.
+
+46
+00:07:05.880 --> 00:07:14.419
+Justin Florentine (Besu): And what would then happen is, using Lucid as it stands, after commitment.
+
+47
+00:07:15.710 --> 00:07:26.809
+Justin Florentine (Besu): The random sample would then reveal that key, and the builder would be able to use it to decrypt the transaction and include it as a build.
+
+48
+00:07:27.150 --> 00:07:38.570
+Justin Florentine (Besu): The underlying techniques for this carry with it a couple of different problems. I think the biggest one is that the ciphertext size balloons up.
+
+49
+00:07:39.620 --> 00:07:52.280
+Justin Florentine (Besu): And so, right now I'm currently kicking around ideas, and I say me, and I actually mean me just kind of talking to different AIs and other cryptographers and things like that, like I said.
+
+50
+00:07:52.740 --> 00:07:54.269
+Justin Florentine (Besu): I'm not an expert on this stuff.
+
+51
+00:07:56.620 --> 00:08:06.079
+Justin Florentine (Besu): But were we to take an approach that used a threshold encryption, we're kind of trading problems out, and then we, are introducing
+
+52
+00:08:07.770 --> 00:08:12.979
+Justin Florentine (Besu): Yes, Benedict's… There are people on the other call? Okay.
+
+53
+00:08:14.200 --> 00:08:14.820
+Benedikt Wagner: Yes.
+
+54
+00:08:16.280 --> 00:08:24.210
+Justin Florentine (Besu): So, there is a message on the agenda there that should have switched to Zoom.
+
+55
+00:08:25.830 --> 00:08:32.690
+Justin Florentine (Besu): Sure, the one time the other call works is designed is the one time we try not to use it. That's great.
+
+56
+00:08:35.039 --> 00:08:37.420
+Justin Florentine (Besu): Oh, here they come.
+
+57
+00:08:37.690 --> 00:08:38.530
+Justin Florentine (Besu): Great.
+
+58
+00:08:40.200 --> 00:08:48.499
+Justin Florentine (Besu): Benedict, I'm glad you're here. We were just talking about the paper. And I was just explaining how I'm not a cryptographer, and I,
+
+59
+00:08:48.690 --> 00:08:56.550
+Justin Florentine (Besu): you know, more of an engineer. And so, what we were getting to was some of the trade-offs
+
+60
+00:08:56.710 --> 00:08:59.480
+Justin Florentine (Besu): With regard to ciphertext size.
+
+61
+00:08:59.590 --> 00:09:05.690
+Justin Florentine (Besu): Were we to adopt a threshold encryption mechanism as described in the paper?
+
+62
+00:09:06.170 --> 00:09:17.100
+Justin Florentine (Besu): Ciphertext sizes balloon up to such a degree that even with 300 gas… 300 megagas blocks, we have a very limited capacity for them.
+
+63
+00:09:17.100 --> 00:09:23.150
+Benedikt Wagner: Just to be clear, what… when you say, scheme-like in the paper, I mean…
+
+64
+00:09:23.280 --> 00:09:30.440
+Benedikt Wagner: Do you mean literally scheming the paper? Because I think no one ever suggested that for encrypted Mempools.
+
+65
+00:09:31.480 --> 00:09:33.070
+Benedikt Wagner: Are you referring to…
+
+66
+00:09:33.580 --> 00:09:42.109
+Benedikt Wagner: What was written in some chats as the naive scheme, which is the starting point of the scheme in that paper, which makes sense for a small number of parties.
+
+67
+00:09:42.790 --> 00:09:46.230
+Justin Florentine (Besu): Yes, for, like, 40 to 50 parties, yes.
+
+68
+00:09:47.800 --> 00:09:50.010
+Benedikt Wagner: Yeah, so…
+
+69
+00:09:51.360 --> 00:10:03.040
+Benedikt Wagner: My understanding was that some people wanted to have a scheme maybe better than no scheme, a scheme with just a small number of parties, and if you have a small number of parties.
+
+70
+00:10:03.620 --> 00:10:05.839
+Benedikt Wagner: Probably the best option is to do…
+
+71
+00:10:06.060 --> 00:10:09.790
+Benedikt Wagner: some sort of naive scheme? I mean, the naive scheme is just…
+
+72
+00:10:10.440 --> 00:10:14.040
+Benedikt Wagner: a linear ciphertext size, so if you,
+
+73
+00:10:14.840 --> 00:10:20.999
+Benedikt Wagner: If you want to encrypt to N parties, you would have something like n public key encryption ciphertexts.
+
+74
+00:10:21.920 --> 00:10:24.490
+Benedikt Wagner: Plus some small overhead,
+
+75
+00:10:24.490 --> 00:10:27.460
+Justin Florentine (Besu): So not, so not doing the random sampling.
+
+76
+00:10:27.460 --> 00:10:37.240
+Benedikt Wagner: No, exactly, yeah. You just take your… I mean, the random sampling of a comedy from that paper only makes sense if you have a very large number of parties.
+
+77
+00:10:37.630 --> 00:10:43.270
+Benedikt Wagner: But if you say we want a small number of parties.
+
+78
+00:10:43.450 --> 00:10:59.289
+Benedikt Wagner: then you can just take your message, secret share it, send one share in an encrypted form to each party. And then, of course, you can optimize this, right? You don't share your message, you share a small symmetric key,
+
+79
+00:10:59.460 --> 00:11:01.770
+Benedikt Wagner: Send that to every party.
+
+80
+00:11:02.220 --> 00:11:06.390
+Benedikt Wagner: And then you need to be careful a little bit with CCA security, but essentially.
+
+81
+00:11:06.390 --> 00:11:06.730
+Justin Florentine (Besu): Yeah.
+
+82
+00:11:06.730 --> 00:11:08.280
+Benedikt Wagner: That's… that's the scheme.
+
+83
+00:11:08.650 --> 00:11:16.650
+Justin Florentine (Besu): Right, so I think, I think one of the concerns that we had with that was… Adaptive…
+
+84
+00:11:17.260 --> 00:11:27.139
+Justin Florentine (Besu): the adaptive security as opposed to, like, the static definitions of it. And one of the things we liked about the random sampling approach was that you don't need to schedule a committee.
+
+85
+00:11:28.080 --> 00:11:35.540
+Justin Florentine (Besu): So, I mean, maybe that's not a big deal. Like, maybe scheduling a committee is… It's…
+
+86
+00:11:35.540 --> 00:11:44.659
+Benedikt Wagner: Okay, so why is adaptive security such a big thing that the rest of the Ethereum protocol never cares about adaptive security?
+
+87
+00:11:46.380 --> 00:11:50.410
+Justin Florentine (Besu): Anders, I heard you trying to weigh in on this. Would you like to?
+
+88
+00:11:51.400 --> 00:12:03.920
+Anders Elowsson: Yeah, well, I think that we always want to have, you know, the protocol itself will select which validators that we do the reveal, so to speak.
+
+89
+00:12:04.150 --> 00:12:19.629
+Anders Elowsson: I don't know if that's what we are discussing here. We can never let the key publisher, or, for example, the sender can never be allowed to select which validators that we do the reveal. So I just wanted to emphasize that.
+
+90
+00:12:25.390 --> 00:12:38.029
+Jan Bormet: like, in the naive scheme that Benedict described, you can just, like, whenever you encrypt, you can decide from the set of all the metadata, let's say, you can just pick 40 of them, 30 of them, whatever, and decide to encrypt to them.
+
+91
+00:12:38.470 --> 00:12:48.459
+Jan Bormet: I mean, if you want it to be more efficient that not all the validators maybe need to be online to decrypt, then you would have to do some kind of mechanism that, let's say, every block,
+
+92
+00:12:48.590 --> 00:12:56.580
+Jan Bormet: There's some type of selections which validators are selected, are selected, that kind of everybody chooses the same one, that only these need to send something.
+
+93
+00:12:57.000 --> 00:13:02.230
+Jan Bormet: But, in general, like, this committee sampling thing is only…
+
+94
+00:13:02.510 --> 00:13:12.949
+Jan Bormet: like, essentially, it's an optimization that for large N, the ciphertext scale… the ciphertext size doesn't scale with N anymore, but it's constant instead. It can stay constant when n is large.
+
+95
+00:13:13.800 --> 00:13:18.929
+Jan Bormet: So in that sense, you have this committee center, and you always have it with the naive scheme already.
+
+96
+00:13:19.030 --> 00:13:30.309
+Jan Bormet: only this, like, kind of subcommittee of the large committee stuff that is the optimizations that happen after the starting point in this paper. Only this is… like, this is then not relevant for a small number of parties, kind of.
+
+97
+00:13:31.090 --> 00:13:33.490
+Jan Bormet: I don't know if that made sense to you guys.
+
+98
+00:13:33.750 --> 00:13:37.009
+Justin Florentine (Besu): I think it makes a little bit of sense. I think…
+
+99
+00:13:37.810 --> 00:13:44.469
+Justin Florentine (Besu): We have been using the naive scheme as shorthand, and I don't know that I have a clear definition of
+
+100
+00:13:44.720 --> 00:13:50.929
+Justin Florentine (Besu): of what that is. It sounds to me like, from what you just described.
+
+101
+00:13:51.750 --> 00:13:56.230
+Justin Florentine (Besu): The sender needs to know Who it's going to send it to.
+
+102
+00:13:56.230 --> 00:14:05.999
+Benedikt Wagner: Yeah, but that's always the case, right? You always need some representation of the decrypt… the set of decrypting parties. That can be a public key, or that can be
+
+103
+00:14:06.120 --> 00:14:14.170
+Benedikt Wagner: a list of public keys. In this case, it would be a list of public keys, because if you want a single public key, then you need a DKG.
+
+104
+00:14:15.400 --> 00:14:29.339
+Benedikt Wagner: if you… okay, so let me maybe recall what the naive scheme is, because I think it's actually so trivial that it's never been written down. So if you want to have threshold encryption, and you don't care about the ciphertext size.
+
+105
+00:14:29.340 --> 00:14:40.319
+Benedikt Wagner: Then there's a very simple way of building it, just using public key encryption. You take your message, you secret share it, and you encrypt one share to each party.
+
+106
+00:14:41.950 --> 00:14:49.339
+Benedikt Wagner: So, if you have N parties, this is a ciphertext size of n public key encryption ciphertexts.
+
+107
+00:14:50.510 --> 00:14:54.020
+Benedikt Wagner: But if n is small, this is actually a good solution.
+
+108
+00:14:54.260 --> 00:15:05.610
+Benedikt Wagner: Because it uses, well, just black box public key encryption, so you can just use whatever Kyber library you want, and have, and have post-quantum security.
+
+109
+00:15:07.380 --> 00:15:20.119
+Benedikt Wagner: You need to be a little bit careful with CCA security, though, but that's… I think you can add that. I think no one ever did that, because just from a theory perspective, the scheme is so boring.
+
+110
+00:15:20.610 --> 00:15:26.770
+Benedikt Wagner: But, yeah, you can use it if you are okay with just having a small number of parties.
+
+111
+00:15:26.870 --> 00:15:28.820
+Benedikt Wagner: Which I'm not sure if we are.
+
+112
+00:15:30.640 --> 00:15:35.480
+Justin Florentine (Besu): So, one thing worth talking about with CCA is…
+
+113
+00:15:36.220 --> 00:15:39.789
+Justin Florentine (Besu): how important is it, right? Like, CC…
+
+114
+00:15:39.790 --> 00:15:47.739
+Benedikt Wagner: It's really important. It's… like, for Encrypted Mempools, it's very important, because essentially what we give to the user is,
+
+115
+00:15:47.980 --> 00:15:56.980
+Benedikt Wagner: is a decryption service, right? So the user can submit cybertext, and the committee will decrypt them. So this is exactly
+
+116
+00:15:57.230 --> 00:16:02.189
+Benedikt Wagner: what you have in a CCA security game, you have a decryption oracle.
+
+117
+00:16:02.190 --> 00:16:04.769
+Justin Florentine (Besu): Okay, so you would describe the naive…
+
+118
+00:16:05.100 --> 00:16:07.700
+Justin Florentine (Besu): Design as a decryption article, right?
+
+119
+00:16:08.600 --> 00:16:21.169
+Benedikt Wagner: No, no, the set of parties who decrypt every slot, for example, this is a decryption oracle. So, if you are malicious, you can just send cyphertexts, and then they will decrypt it. So, that's why it's…
+
+120
+00:16:21.650 --> 00:16:27.230
+Benedikt Wagner: pretty obvious that you need CCA security, because in weaker notions, you just don't…
+
+121
+00:16:27.380 --> 00:16:31.629
+Benedikt Wagner: Give the adversary the power to send ciphertexts and get them decrypted.
+
+122
+00:16:33.510 --> 00:16:43.840
+Benedikt Wagner: So I think CCA security is not… to me, this is not debatable. Like, any scheme that we use for encrypted mempools should provide some form of CCA security.
+
+123
+00:16:43.840 --> 00:16:46.730
+Justin Florentine (Besu): And you think that's CCA2, right?
+
+124
+00:16:46.730 --> 00:16:47.440
+Benedikt Wagner: Yes.
+
+125
+00:16:48.400 --> 00:16:51.359
+Benedikt Wagner: And the scheme in the paper only has CCA1.
+
+126
+00:16:51.360 --> 00:16:52.130
+Justin Florentine (Besu): Right.
+
+127
+00:16:52.900 --> 00:16:54.530
+Benedikt Wagner: But the naive scheme.
+
+128
+00:16:54.630 --> 00:16:57.920
+Benedikt Wagner: can be made CCA2 secure, I'm pretty, pretty sure.
+
+129
+00:17:00.060 --> 00:17:01.020
+Justin Florentine (Besu): Okay.
+
+130
+00:17:02.900 --> 00:17:07.920
+Justin Florentine (Besu): Great. So that's an action item here. How would we get the naive scheme to CCA2?
+
+131
+00:17:12.960 --> 00:17:18.139
+Justin Florentine (Besu): I'm sorry, I interrupted you. Would you mind continuing your description of the naive scheme, or were you done?
+
+132
+00:17:18.910 --> 00:17:32.130
+Benedikt Wagner: I mean, depends on where you stop with naive. Like, this… what I described was very, very naive. Of course, now you can start optimizing it, right? You can just, instead of encrypting a share of your message, which may be large.
+
+133
+00:17:32.260 --> 00:17:41.549
+Benedikt Wagner: To each party, you encrypt… you take a symmetric key, you encrypt your message under a symmetric key, and then you share that symmetric key.
+
+134
+00:17:41.720 --> 00:17:47.260
+Benedikt Wagner: and Encrypt the shares of the symmetry key. So that's essentially hybrid encryption,
+
+135
+00:17:47.700 --> 00:17:55.219
+Benedikt Wagner: And then if you want to have CCA security, I guess what you would do is you would add some sort of one-time signature to it.
+
+136
+00:17:55.610 --> 00:18:03.019
+Benedikt Wagner: And… I guess you would hash the symmetric key with the one-time public key together.
+
+137
+00:18:03.230 --> 00:18:08.510
+Benedikt Wagner: before you use it to encrypt the message or something. So there's for sure a way to do it.
+
+138
+00:18:10.050 --> 00:18:10.980
+Benedikt Wagner: So, yeah.
+
+139
+00:18:10.980 --> 00:18:17.879
+Justin Florentine (Besu): Okay. I thought that somebody had written something recently with regard to a hybrid scheme kind of like this.
+
+140
+00:18:19.510 --> 00:18:25.610
+Jan Bormet: And of all the schemes are hybrid schemes. Because you're not, like, all the literature on the threshold encryption stuff.
+
+141
+00:18:25.860 --> 00:18:31.389
+Jan Bormet: Basically, all of it is hybrid encryption, in a sense that they only care about encrypting, like, at least in the…
+
+142
+00:18:31.500 --> 00:18:40.950
+Jan Bormet: in the groups world, they only usually encrypt group elements, and then you just assume, okay, I'm going to encrypt the random group element and hash it to derive some…
+
+143
+00:18:42.160 --> 00:18:44.240
+Jan Bormet: Symmetrically afterwards, like…
+
+144
+00:18:45.120 --> 00:18:45.770
+Justin Florentine (Besu): Hmm.
+
+145
+00:18:46.110 --> 00:18:53.050
+Jan Bormet: Like, it's kind of… I mean, there's some, especially Benedict, you know, right, there's some…
+
+146
+00:18:53.520 --> 00:18:58.670
+Jan Bormet: some things that you need to be careful with respect also to CCA2 security, but,
+
+147
+00:18:58.910 --> 00:19:02.289
+Jan Bormet: You can treat it essentially like these key encapsulation mechanisms.
+
+148
+00:19:02.590 --> 00:19:04.950
+Jan Bormet: Where you, like, just…
+
+149
+00:19:05.060 --> 00:19:13.419
+Jan Bormet: Encrypt a random key, and this is the KEM part, and this is usually what you target with the, threshold, silent, batched, whatever scheme.
+
+150
+00:19:13.690 --> 00:19:17.369
+Jan Bormet: And then this hybrid transform, you will just put it on the end of it.
+
+151
+00:19:19.430 --> 00:19:20.060
+Justin Florentine (Besu): Crap.
+
+152
+00:19:24.690 --> 00:19:33.009
+Anders Elowsson: Can we discuss, multi-message public key encryption? We had a little discussion about that also. Is that something to add?
+
+153
+00:19:33.300 --> 00:19:34.600
+Anders Elowsson: To this, or…
+
+154
+00:19:34.600 --> 00:19:35.390
+Justin Florentine (Besu): Yeah?
+
+155
+00:19:35.640 --> 00:19:40.670
+Benedikt Wagner: I mean, sure, you can edit, I'm not sure if it makes things so much better, to be honest.
+
+156
+00:19:42.650 --> 00:19:48.529
+Benedikt Wagner: And it's also, you need to be very careful about the security notions that you get, because…
+
+157
+00:19:50.350 --> 00:19:56.709
+Benedikt Wagner: again, this is a question of CCA versus not, and then if you just take a random paper that
+
+158
+00:19:57.780 --> 00:20:02.600
+Benedikt Wagner: Implements this, and most likely it's not the appropriate security notion.
+
+159
+00:20:03.110 --> 00:20:09.580
+Benedikt Wagner: But yeah, in general, this is, of course, something you can do. You encrypt multiple messages to multiple receivers.
+
+160
+00:20:10.250 --> 00:20:18.159
+Benedikt Wagner: Of course, you can try to share, like, a large part of these cybertexts, to amortize it, to use it for all of them.
+
+161
+00:20:18.460 --> 00:20:23.030
+Benedikt Wagner: Instead of having one completely independent ciphertext for everyone.
+
+162
+00:20:28.800 --> 00:20:45.320
+Anders Elowsson: Another thing that maybe… I think that we didn't… we dropped in the conversation here was that the idea with this has been that we can do both PQ and non-PQ at the same time. So that's something we can mention there.
+
+163
+00:20:45.520 --> 00:21:02.040
+Anders Elowsson: I'm still not sure if this is a good solution, but it's just something that we could start with, having people use the non-PQ version of this naive scheme, and then they can have the PQ version available for them, and just switch over when they want to.
+
+164
+00:21:03.930 --> 00:21:08.519
+Benedikt Wagner: But in… okay, in this case, why would anyone use the non-PQ?
+
+165
+00:21:09.260 --> 00:21:10.280
+Benedikt Wagner: Solution?
+
+166
+00:21:10.960 --> 00:21:11.590
+Anders Elowsson: It's…
+
+167
+00:21:12.060 --> 00:21:28.750
+Anders Elowsson: it's the… with the reasons that we discussed previously. They will have to pay for the data. So, if you do the PQ solution, I assume that we would have to implement it in such a way that we put these in blobs.
+
+168
+00:21:28.750 --> 00:21:34.390
+Anders Elowsson: And try to… because otherwise it just gets too expensive, probably. And so…
+
+169
+00:21:37.610 --> 00:21:45.760
+Justin Florentine (Besu): But it doesn't grow… it doesn't grow with regard to any of the sharing size, right? It's… it's… it's overhead that's introduced
+
+170
+00:21:45.890 --> 00:21:51.629
+Justin Florentine (Besu): linearly, but larger, because of the PQ… the difference between the PQ and the classical crypto, right?
+
+171
+00:21:54.280 --> 00:21:55.510
+Anders Elowsson: It's linear, yeah.
+
+172
+00:21:56.230 --> 00:21:57.429
+Justin Florentine (Besu): Okay. Yep.
+
+173
+00:21:58.140 --> 00:22:03.270
+Jan Bormet: But is it a point that you guys want to reuse the, like, the validator keys?
+
+174
+00:22:04.210 --> 00:22:05.800
+Jan Bormet: For this encryption thing?
+
+175
+00:22:08.160 --> 00:22:08.730
+Anders Elowsson: Yeah.
+
+176
+00:22:11.050 --> 00:22:11.830
+Jan Bormet: I could have done it yet.
+
+177
+00:22:11.830 --> 00:22:14.330
+Benedikt Wagner: There's no way to do it PQ.
+
+178
+00:22:14.610 --> 00:22:15.100
+Benedikt Wagner: Okay.
+
+179
+00:22:15.100 --> 00:22:19.540
+Jan Bormet: Yeah, because then the point, that's the advantage of the non-PQ, that you can do it now, right?
+
+180
+00:22:19.910 --> 00:22:26.049
+Jan Bormet: Assuming that your validators are fine with reusing the keys for this, right? So, whenever you reuse…
+
+181
+00:22:26.050 --> 00:22:36.340
+Benedikt Wagner: But even then, like, the scheme… the numbers that you got from, maybe from the paper are then no longer accurate, right? Because the…
+
+182
+00:22:37.020 --> 00:22:46.470
+Benedikt Wagner: what was assumed in the paper is some sort of just LDamal over pairing-free group, but we have now pairings, and then LDamal is not secure, so you just…
+
+183
+00:22:46.810 --> 00:22:51.919
+Benedikt Wagner: We'll have some… Some overhead that is small, but…
+
+184
+00:23:00.790 --> 00:23:08.259
+Benedikt Wagner: But I mean, for the future, if you want to reuse validator keys, I think it's gonna be pretty hard, because the validator keys in the future…
+
+185
+00:23:08.910 --> 00:23:12.919
+Benedikt Wagner: will most likely not be letters-based keys, right? So,
+
+186
+00:23:14.320 --> 00:23:22.429
+Benedikt Wagner: Let's say the validator keys in the future are keys of a hash-based signature scheme, so then there's no way that you can use them for threshold encryption.
+
+187
+00:23:27.010 --> 00:23:41.250
+Justin Florentine (Besu): I, yeah, I think that's a thing that we kind of had to plan for anyway, you know, some type of additional purpose, specific purpose keys being issued to validators, or validators generating them and registering them somewhere.
+
+188
+00:23:49.620 --> 00:23:53.490
+Justin Florentine (Besu): But I think they have that problem anyway with any type of PQ transition, so…
+
+189
+00:24:06.300 --> 00:24:07.770
+Justin Florentine (Besu): Okay.
+
+190
+00:24:09.140 --> 00:24:13.139
+Justin Florentine (Besu): Brainstorming. Anybody else have anything that they want to throw out?
+
+191
+00:24:17.120 --> 00:24:29.849
+Jannik Luhn: I have one question, maybe, for the scheme. The non-PQ version, how does it compare to other non-PQ protocols? Is it worse?
+
+192
+00:24:29.930 --> 00:24:44.280
+Jannik Luhn: like, assuming people don't need, or don't care about PQ for a while, would it be better to enshrine at, like, the optimal non-PQ thread encryption protocol, if there's something like that at the moment?
+
+193
+00:24:45.580 --> 00:24:50.080
+Jan Bormet: there's, like, no optimal protocol if you, like, there's always some issue, right? So…
+
+194
+00:24:50.500 --> 00:24:53.339
+Jan Bormet: If you want to do a… if you're fine with doing a DKG,
+
+195
+00:24:53.520 --> 00:24:57.890
+Jan Bormet: or, like, a ZRA ceremony, and have people publish something, then,
+
+196
+00:24:58.540 --> 00:25:01.859
+Jan Bormet: Yeah, you can… you can do that, but this is, like…
+
+197
+00:25:02.270 --> 00:25:09.630
+Jan Bormet: Assuming you want to do non-Q, then the question is, do you want to do a DKG? Do you want to do a CRS, do you want better data to publish some additional information?
+
+198
+00:25:10.130 --> 00:25:15.100
+Jan Bormet: And if that's the case, then, yeah, you can… that's then more the trade-off, right?
+
+199
+00:25:15.710 --> 00:25:20.050
+Jan Bormet: It's not… Yeah, the ciphertext size will be more efficient if you do batching than the…
+
+200
+00:25:20.530 --> 00:25:37.429
+Jan Bormet: kind of the decryption will be more efficient, or the decryption communication, but then you always have to do either DKG or some CRS for silent setup, and maybe have validators publish additional keys. I think the cool thing about your naive scheme and doing it now, kind of the big advantage is that
+
+201
+00:25:37.530 --> 00:25:42.340
+Jan Bormet: You can more or less reuse all the existing key infrastructure, and you just…
+
+202
+00:25:42.980 --> 00:25:45.660
+Jan Bormet: I kind of use them in a slightly different way.
+
+203
+00:25:47.190 --> 00:25:54.409
+Jan Bormet: That's the best, like, you don't need to do any setups, any ceremonies, any, Anything like that.
+
+204
+00:25:55.870 --> 00:25:57.680
+Jannik Luhn: I see. Yeah, makes sense.
+
+205
+00:25:58.230 --> 00:26:01.230
+Jannik Luhn: I mean, personally, I think DKG…
+
+206
+00:26:01.450 --> 00:26:13.399
+Jannik Luhn: would be acceptable, maybe? I guess it depends. It would probably mean that the, committees would have to be, like, used for longer periods of time, because otherwise it's too much overhead.
+
+207
+00:26:14.330 --> 00:26:17.500
+Jan Bormet: So, I was thinking about this more, let's say,
+
+208
+00:26:17.610 --> 00:26:31.660
+Jan Bormet: let's say we… we were fine with doing non-PQ, and if you want to do, like, what about, for example, let's do threshold model, or one of the silent schemes, or even one of the silent batching schemes, and kind of my… my view is that…
+
+209
+00:26:31.870 --> 00:26:37.940
+Jan Bormet: probably it would be better, like, probably would be better not to do a DKG. Let's say, if you do a DKG, you're always kind of…
+
+210
+00:26:38.180 --> 00:26:50.420
+Jan Bormet: fixing the num… fixing the parties for all of the future, right? Let's say I do DKG with 100 parties, then these will have to be the parties, and when somebody goes offline, suddenly you only have 99 parties, right?
+
+211
+00:26:51.910 --> 00:26:59.249
+Jan Bormet: nobody can join, essentially, without rerunning a DKG. So, kind of, my view on that, that probably the best way to explore there, in this
+
+212
+00:26:59.650 --> 00:27:09.679
+Jan Bormet: kind of with these constraints is that you do a CRS with a small ceremony, like, you use the 100 parties that you would have done the DKG with to set up a CRS, and then
+
+213
+00:27:09.790 --> 00:27:12.019
+Jan Bormet: you have… you kind of…
+
+214
+00:27:12.160 --> 00:27:22.210
+Jan Bormet: enable that from this point, with the caveat that now you have this kind of strong assumption that these 100 parties really generated the CRS faithfully.
+
+215
+00:27:22.360 --> 00:27:26.659
+Jan Bormet: Then you have, then you can use, kind of, the silent properties.
+
+216
+00:27:27.440 --> 00:27:30.210
+Jan Bormet: And still avoid doing another large terminal, right?
+
+217
+00:27:33.630 --> 00:27:38.270
+Jan Bormet: Because then afterwards, like, you have the CRS, now you assume it's trusted, and then…
+
+218
+00:27:38.480 --> 00:27:45.009
+Jan Bormet: Anybody can just, let's say, publish some public information for their keys and be a committee member at that point.
+
+219
+00:27:47.660 --> 00:27:52.360
+Jan Bormet: And people can also leave, you can change the committee every few epochs if you want.
+
+220
+00:27:55.350 --> 00:27:57.809
+Jannik Luhn: I'm not sure if I understood this correctly.
+
+221
+00:27:58.330 --> 00:28:14.889
+Jannik Luhn: this setup ceremony, CRS, I don't know what that stands for, but would it basically mean that only a subset has to do that, and as long as we're trusted, then everything is fine, but then the whole validator set could participate, or would it then only be these 100,
+
+222
+00:28:15.000 --> 00:28:16.409
+Jannik Luhn: Entities we can participate.
+
+223
+00:28:16.410 --> 00:28:23.769
+Jan Bormet: it works like many, like, basically all of the schemes with a silent setup, and I think also all of the batching schemes, even if they don't have silent setup.
+
+224
+00:28:24.380 --> 00:28:29.050
+Jan Bormet: Oh, no, sorry, not all of them. Yeah, I think all of them. They need a, like,
+
+225
+00:28:29.510 --> 00:28:34.650
+Jan Bormet: CRS, and the CRS is essentially, like, a trusted, structured reference string.
+
+226
+00:28:34.810 --> 00:28:36.150
+Jan Bormet: And this usually…
+
+227
+00:28:36.150 --> 00:28:40.260
+Benedikt Wagner: hours of Tao thing that we had for KCG commitments.
+
+228
+00:28:40.490 --> 00:28:41.720
+Benedikt Wagner: A similar thing.
+
+229
+00:28:42.220 --> 00:28:42.840
+Jan Bormet: Yes.
+
+230
+00:28:43.780 --> 00:29:00.669
+Jan Bormet: And basically, you can… there's ceremonies for generating these. Like, for the KCG from Ethereum, there was some huge ceremony where many people participated, and organizing it is quite difficult. It's a pain, at least that's what Benedict told me. So…
+
+231
+00:29:00.780 --> 00:29:06.570
+Jan Bormet: Like, maybe organizing it with just 100 participants is, like, a trade-off that you can do for now.
+
+232
+00:29:06.740 --> 00:29:09.770
+Jan Bormet: It means that you have kind of a trust assumption that says.
+
+233
+00:29:10.010 --> 00:29:13.720
+Jan Bormet: You need to be sure that at least one of the 100 parties is…
+
+234
+00:29:14.240 --> 00:29:18.480
+Jan Bormet: Honest, and destroyed their secret information after the ceremony.
+
+235
+00:29:18.790 --> 00:29:21.800
+Jan Bormet: And then you can run such a ceremony.
+
+236
+00:29:22.310 --> 00:29:36.839
+Jan Bormet: And from that point then, okay, if you now… if you're, like, keeping in mind this trust assumption, any party can basically join. The only thing is that usually, as, like, the individual public keys, if you want to do the silent scheme, silent stuff.
+
+237
+00:29:36.910 --> 00:29:49.539
+Jan Bormet: as the individual public keys, you kind of need to publish some information with, like, some function of your secret key in the CRS, like, some individual public key again, so you cannot just use the validator public keys now,
+
+238
+00:29:49.540 --> 00:30:07.620
+Jan Bormet: like, you need to… the validator needs to still publish something, but that's non-interactive at this point. Like, I… like, I as a validator… like, the 100 people do the CRS once, then there's some public information on that, people start trusting it, and then I, as a validator, I see the public information, I publish some group elements, and then I can be a committee member.
+
+239
+00:30:08.370 --> 00:30:09.450
+Jan Bormet: Essentially.
+
+240
+00:30:11.000 --> 00:30:14.610
+Jannik Luhn: Okay, cool. That doesn't sound too bad to me, to be honest, so…
+
+241
+00:30:14.870 --> 00:30:16.759
+Jannik Luhn: Wouldn't agree with that out as well.
+
+242
+00:30:17.080 --> 00:30:18.149
+Jan Bormet: And the, the issue…
+
+243
+00:30:18.150 --> 00:30:19.920
+Justin Florentine (Besu): I find that interesting, yeah.
+
+244
+00:30:20.360 --> 00:30:28.960
+Justin Florentine (Besu): I think scheduling it, coordinating it, is a challenge, but it also doesn't have to impact any of the current consensus layer duties.
+
+245
+00:30:31.140 --> 00:30:32.670
+Jan Bormet: Yeah, essentially, like.
+
+246
+00:30:34.490 --> 00:30:43.589
+Jan Bormet: you can also have a trusted part, you can tell me to generate one, I will generate one for you, but then you need to trust me, right? Like, there's some,
+
+247
+00:30:44.400 --> 00:31:01.870
+Jan Bormet: you can, like, if you want to play with something, then this is also some option that you have here, like, play with how do I generate the CRS, because aside from, like, additional cryptographic assumption, pre-quantum stuff, and some idealized models, this, these silent schemes are otherwise, otherwise quite performant.
+
+248
+00:31:01.890 --> 00:31:13.529
+Jan Bormet: Like, some issue that you have with them, that these individual public key, if you now want everybody's data to be a potential committee member, then everybody, let's say, per, per blog, the committee is size 100 or something.
+
+249
+00:31:13.590 --> 00:31:14.990
+Jan Bormet: Then everybody would…
+
+250
+00:31:15.170 --> 00:31:22.210
+Jan Bormet: kind of have to publish order of 100 group elements, so having, like, hundreds of thousands validators publish that is…
+
+251
+00:31:22.760 --> 00:31:27.650
+Jan Bormet: by far… way too large, right? So that's a problem.
+
+252
+00:31:27.960 --> 00:31:47.759
+Jan Bormet: And also, whenever you want to, the later… let's say the system works, and after a year you start to realize, oh no, this… maybe we need to fix this trust assumption, this CSS that we had generated by, like, some small committee only, then you need to run a new and larger ceremony, and then also everybody has to publish new individual public information, right? And you can… to reset the system.
+
+253
+00:31:48.480 --> 00:31:58.670
+Jan Bormet: But I think if you want to get something running fast, this is still much better than doing a DKG, because it's somewhat scalable, except that you have to keep in mind this trust assumption.
+
+254
+00:31:59.520 --> 00:32:14.150
+Gottfried Herold: just one thing to add here is that, I mean, we have this experience with our parts of Tao ceremony, and it just needs to be… I mean… I mean, there's, of course, the trust assumption, the coordination issue to actually get these, say, 100 people sort of work on this CRS generation setup.
+
+255
+00:32:14.150 --> 00:32:19.659
+Gottfried Herold: One thing to keep in mind here is that, sort of the… it's not just, sort of, the coordination issue, but actually, sort of.
+
+256
+00:32:19.660 --> 00:32:30.169
+Gottfried Herold: writing the software to run this distributed protocol. This is actually quite non-trivial, and it depends very strongly on what actually the shape of the CRS is.
+
+257
+00:32:30.170 --> 00:32:43.290
+Gottfried Herold: The powers of Tao is actually a particularly nice case, in the sense that the amount of interaction needed between the parties during the ceremony is very, very benign, and not necessarily every CRS is as nice as the powers of Tao one.
+
+258
+00:32:43.370 --> 00:32:47.949
+Gottfried Herold: So there is maybe vast differences in how hard it is to actually implement this.
+
+259
+00:32:48.650 --> 00:32:57.919
+Jan Bormet: So, from my experience, there's kind of three types of CRS. There's the powers of tau stuff, depending, like, then there's… it's, like, a small difference in which type… is it only in the… in which of the source group it is when you have pairings?
+
+260
+00:32:57.920 --> 00:32:58.460
+Gottfried Herold: Yeah.
+
+261
+00:32:58.720 --> 00:33:01.000
+Jan Bormet: Then there's the pose of Tao Withholds.
+
+262
+00:33:01.310 --> 00:33:03.859
+Jan Bormet: I'm assuming this also would be easy, right?
+
+263
+00:33:04.330 --> 00:33:07.770
+Gottfried Herold: Not so sure, but I didn't think about it.
+
+264
+00:33:07.990 --> 00:33:12.730
+Jan Bormet: Because you can… I thought that you can just not publish one element, probably, and then it should be fine.
+
+265
+00:33:12.730 --> 00:33:32.409
+Gottfried Herold: Yeah, the point is in the powers of tau ceremony, is that, basically, if you have some powers of tau ceremony for one particular value of tau, then I have another tau prime, then I can basically produce, basically the result for G to the… for tau plus tau prime, and sort of… if I want to sort of get G to the tau plus
+
+266
+00:33:32.410 --> 00:33:40.569
+Gottfried Herold: power prime in brackets to the alpha, whatever, for every value of alpha, I can basically use the other values to sort of do the updating.
+
+267
+00:33:40.780 --> 00:33:50.699
+Gottfried Herold: So there's actually extremely little interaction possible, and as soon as I have holes, this nice strategy doesn't work any longer. So I'm not sure whether, sort of, the niceness carries over.
+
+268
+00:33:51.150 --> 00:33:53.560
+Jan Bormet: Yes, okay, and then there's the cross-terms versions, like the…
+
+269
+00:33:53.560 --> 00:33:53.880
+Gottfried Herold: this game.
+
+270
+00:33:53.880 --> 00:33:57.719
+Jan Bormet: that have cross terms, and they're… I mean, I didn't check, like,
+
+271
+00:33:57.720 --> 00:33:58.430
+Gottfried Herold: Yes.
+
+272
+00:33:58.430 --> 00:34:01.709
+Jan Bormet: one would have to check which CRS is easiest to generate with.
+
+273
+00:34:01.710 --> 00:34:02.480
+Gottfried Herold: Yeah, yeah.
+
+274
+00:34:02.480 --> 00:34:07.200
+Jan Bormet: Maybe, which can reuse the most part of the software, if one wanted to do that.
+
+275
+00:34:07.200 --> 00:34:16.489
+Gottfried Herold: Yeah, just… which is interesting, I mean, in general, of course, with general NPC, you can do it always, but, I mean, powers of Tao is really, really nice, in that there's very little interaction needed.
+
+276
+00:34:18.510 --> 00:34:24.049
+Gottfried Herold: And I'm not sure to what extent that carries over. This… we would need to have to check.
+
+277
+00:34:25.480 --> 00:34:27.570
+Benedikt Wagner: I mean, I fully agree that…
+
+278
+00:34:28.770 --> 00:34:31.189
+Benedikt Wagner: This is much better than a DKG.
+
+279
+00:34:31.360 --> 00:34:32.270
+Gottfried Herold: Yeah.
+
+280
+00:34:32.270 --> 00:34:36.349
+Benedikt Wagner: And… But I… for me, this is like a…
+
+281
+00:34:36.949 --> 00:34:47.839
+Benedikt Wagner: it sounds completely unrealistic to do that, which is a lot of, as Gothi says, is a lot of work, like, doing it properly, just because it's an interactive protocol.
+
+282
+00:34:48.190 --> 00:34:51.020
+Benedikt Wagner: to do that for a non-PQ solution.
+
+283
+00:34:51.170 --> 00:34:58.280
+Benedikt Wagner: I'm not sure. I think this sounds like a lot of effort for something that you will completely change
+
+284
+00:34:59.060 --> 00:35:00.190
+Benedikt Wagner: Pretty soon.
+
+285
+00:35:01.520 --> 00:35:09.299
+Benedikt Wagner: And if you use something with less effort, then I think it's much more likely that
+
+286
+00:35:09.650 --> 00:35:11.460
+Benedikt Wagner: People will actually do it.
+
+287
+00:35:12.080 --> 00:35:12.770
+Jan Bormet: Hmm.
+
+288
+00:35:12.770 --> 00:35:13.310
+Benedikt Wagner: Yeah.
+
+289
+00:35:15.890 --> 00:35:25.350
+Jan Bormet: like, something nice to keep in mind about the ceremonies is how I understand it, that you can continue computing on them, right? You can just add… like, you can start with something scrappy and small now.
+
+290
+00:35:25.510 --> 00:35:36.570
+Jan Bormet: with 10 people, right? And get it going, let's say, as a prototype. I still agree with you, Benedict, overall, by the way, that probably the best way to really get it quickly would be the naive thing.
+
+291
+00:35:36.970 --> 00:35:50.829
+Jan Bormet: But if you want to do the CRS thing, then I think you can start with 10 people, and then the system grows, and now you think we need to revisit this trust assumption, so then you can use 100 people and kind of continue calculating where the 10 people left off, right? So you can always.
+
+292
+00:35:50.830 --> 00:36:02.770
+Gottfried Herold: Is that possible? Is that possible for all TRS ceremonies? I mean, for the powers of Tao, yes, but I'm not sure… this is exactly the property that I've mentioned before. I'm not sure whether for the other version, this is also possible.
+
+293
+00:36:03.270 --> 00:36:09.389
+Jan Bormet: Yeah, yeah, I was… I was… I only know about the, like, kind of the rough idea of what the Ethereum ceremony, I don't… I'm not sure.
+
+294
+00:36:09.390 --> 00:36:16.590
+Gottfried Herold: Yeah, yeah, yeah. I mean, this… I think, I mean, this is pretty much related to this kind of complexity issue that… where you basically use
+
+295
+00:36:16.790 --> 00:36:21.959
+Gottfried Herold: Let's see, I fear this may be only possible for parts of Tao, specifically.
+
+296
+00:36:23.260 --> 00:36:23.850
+Jan Bormet: Yep.
+
+297
+00:36:24.680 --> 00:36:26.380
+Jan Bormet: Where the schemes… yeah, okay.
+
+298
+00:36:27.290 --> 00:36:31.799
+Jan Bormet: Well, this kind of limits which type of schemes you can… could then instantiate such a thing, right?
+
+299
+00:36:31.800 --> 00:36:32.530
+Gottfried Herold: Hmm.
+
+300
+00:36:33.190 --> 00:36:39.799
+Jan Bormet: Some, schemes, they need powers of tau in different gen… with different… with respect to the same tau, but different generators for, like, optimal stuff.
+
+301
+00:36:40.150 --> 00:36:42.209
+Jan Bormet: I think that should be fine, though, right?
+
+302
+00:36:42.840 --> 00:36:48.659
+Gottfried Herold: I mean, the ideal way would, of course, if you could just reuse our powers of tau that you already have.
+
+303
+00:36:48.660 --> 00:36:51.559
+Jan Bormet: That kills batching, I think. I think you can do that, but that kills batching.
+
+304
+00:36:51.730 --> 00:36:52.580
+Gottfried Herold: Yeah.
+
+305
+00:36:53.160 --> 00:36:59.720
+Jan Bormet: And it limits the committee size probably to 64. I don't know, and to what extent the silence schemes need the G2.
+
+306
+00:37:00.970 --> 00:37:02.190
+Jan Bormet: Rose of time.
+
+307
+00:37:06.080 --> 00:37:17.800
+Gottfried Herold: I mean, it's… I mean, if you do… I mean, there's this thing in the pipeline that I haven't will probably write to you on today anyway. I mean, we can probably do without batching. There's this kind of idea, we just use threshold IBE.
+
+308
+00:37:19.580 --> 00:37:27.990
+Jan Bormet: Yeah. I think then the only silencheim that uses this type of CRS, and has competitive ciphertext size is still from Gag at I.
+
+309
+00:37:28.260 --> 00:37:28.830
+Gottfried Herold: Hmm.
+
+310
+00:37:29.790 --> 00:37:33.299
+Jan Bormet: But they said, I mean, it has, for example, only GGM proofs, right?
+
+311
+00:37:33.880 --> 00:37:34.740
+Jan Bormet: Look.
+
+312
+00:37:35.590 --> 00:37:39.819
+Benedikt Wagner: Yeah, threshold IPE, right, for Cotti's approach, really.
+
+313
+00:37:40.180 --> 00:37:41.650
+Gottfried Herold: Maybe special diaby.
+
+314
+00:37:41.650 --> 00:37:43.760
+Jan Bormet: It says threshold ID, so I don't threshold ID, right?
+
+315
+00:37:44.260 --> 00:37:50.219
+Gottfried Herold: A silent threshold IB was exactly… I mean, a silent threshold IB, but exactly what the scheme that I'm bringing up…
+
+316
+00:37:50.220 --> 00:37:56.539
+Benedikt Wagner: You mean SunJam's… SunJam's first scheme with silent strategy encryption? That was not IBE, no?
+
+317
+00:37:56.540 --> 00:38:00.050
+Jan Bormet: Yeah, you can do IBE if you choose the gamma to be a hash of some ID.
+
+318
+00:38:00.380 --> 00:38:01.060
+Benedikt Wagner: I see.
+
+319
+00:38:02.350 --> 00:38:05.310
+Jan Bormet: I mean, okay, what is Gamma? Gamma? Is this essentially the…
+
+320
+00:38:05.720 --> 00:38:08.410
+Jan Bormet: thing that you do the BLS signature on, right?
+
+321
+00:38:10.610 --> 00:38:11.940
+Benedikt Wagner: Yeah, I think I see it.
+
+322
+00:38:12.460 --> 00:38:13.093
+Gottfried Herold: Yeah.
+
+323
+00:38:14.450 --> 00:38:25.170
+Jan Bormet: then it's an IBE. I mean, it's not proven as IBE, but I think, since it's… essentially, it works like Bunny Franklin's IBE with some additional verification equations, like, for this witness thing, but…
+
+324
+00:38:26.370 --> 00:38:30.150
+Jan Bormet: I think it should… be… I'd be straightforward.
+
+325
+00:38:30.830 --> 00:38:32.380
+Justin Florentine (Besu): Okay, let's…
+
+326
+00:38:32.640 --> 00:38:44.639
+Justin Florentine (Besu): I'll slow down here for a second. We're moving kind of fast, and we're throwing around a lot of ideas here. But the CRS sounds like a very promising area that we should, we should pursue.
+
+327
+00:38:44.790 --> 00:38:52.379
+Justin Florentine (Besu): If we do, we need to reconsider…
+
+328
+00:38:52.890 --> 00:38:55.989
+Justin Florentine (Besu): maybe going straight to PQ, right?
+
+329
+00:38:56.170 --> 00:39:02.859
+Justin Florentine (Besu): it might be too much work to actually try to entertain doing it both pre- and post-quantum.
+
+330
+00:39:02.860 --> 00:39:07.480
+Benedikt Wagner: post-quantum CRS, I don't know if there's a solution.
+
+331
+00:39:07.970 --> 00:39:18.799
+Gottfried Herold: Yeah, because the protocols we have, I mean, if you want to make a post-quantum CRS ceremony, you basically, I mean, you basically end up doing a fully-fledged MPC protocol.
+
+332
+00:39:18.800 --> 00:39:26.780
+Benedikt Wagner: It's also not even clear what the CRS would be and which threshold Encrypt… post-quantum threshold Encryption protocol would use such a CRS.
+
+333
+00:39:26.780 --> 00:39:27.800
+Gottfried Herold: Yeah, yeah.
+
+334
+00:39:28.030 --> 00:39:31.260
+Jan Bormet: I think with PQ, there's basically nothing better than a naive scheme right now.
+
+335
+00:39:31.780 --> 00:39:32.270
+Jan Bormet: Right.
+
+336
+00:39:33.670 --> 00:39:34.510
+Benedikt Wagner: Yeah, pretty much.
+
+337
+00:39:34.510 --> 00:39:35.170
+Jan Bormet: Bill?
+
+338
+00:39:35.170 --> 00:39:38.379
+Gottfried Herold: Yeah, a little bit of things, but not much, you know?
+
+339
+00:39:40.650 --> 00:39:46.639
+Justin Florentine (Besu): So, is it safe to say that with the naive scheme and post-quantum, it's really a committee scheduling problem?
+
+340
+00:39:48.260 --> 00:40:02.880
+Justin Florentine (Besu): Like, it's really figuring out who you need to target, how do you break up your shares, how you deliver them, and then they need to decide when to reveal, and the protocol needs to decide how to punish them if they, you know, collude or fail to reveal.
+
+341
+00:40:03.380 --> 00:40:07.410
+Gottfried Herold: I mean, there's also the problem that the data sizes grow quite a lot.
+
+342
+00:40:07.770 --> 00:40:11.019
+Gottfried Herold: And, I mean, it's just the scaling of the data complexities.
+
+343
+00:40:11.020 --> 00:40:14.420
+Justin Florentine (Besu): I mean, they do, but they're linear, we said, right?
+
+344
+00:40:16.350 --> 00:40:18.070
+Jan Bormet: I mean, linear in the number of parties, right?
+
+345
+00:40:18.070 --> 00:40:29.650
+Gottfried Herold: number of parties, and you have to… and there's… I mean, if you do it naively, unless you do some threshold IBE scheme, there's also sort of… you have to do that for every… for every encrypted transaction.
+
+346
+00:40:30.620 --> 00:40:39.680
+Gottfried Herold: And the base size of the individual ciphertex also grows quite a lot. I mean, this linear growth is… that's kind of the problem. Just the concrete numbers are probably gonna be bad.
+
+347
+00:40:43.900 --> 00:40:46.420
+Justin Florentine (Besu): So it's gonna punish bandwidth pretty hard.
+
+348
+00:40:46.630 --> 00:40:47.180
+Gottfried Herold: Yeah.
+
+349
+00:40:47.280 --> 00:40:49.460
+Gottfried Herold: That, yeah, it's mostly a vendor's problem.
+
+350
+00:40:52.530 --> 00:40:58.110
+Anders Elowsson: Yeah, it would be… we would have to charge the transaction… the senders quite a lot.
+
+351
+00:40:59.970 --> 00:41:03.040
+Anders Elowsson: You cannot do many per block.
+
+352
+00:41:03.810 --> 00:41:20.850
+Gottfried Herold: Yeah, it's not just the centers, it's also the problem that the committee, if you sort of select a committee randomly from the validators, and those validators who are selected actually have a much… have a huge bandwidth requirement spike, because they have to basically send out decryptions for every single encrypted trans… every single encrypted Mempool transaction.
+
+353
+00:41:20.850 --> 00:41:21.500
+Benedikt Wagner: But that's not.
+
+354
+00:41:21.500 --> 00:41:22.099
+Gottfried Herold: On this one.
+
+355
+00:41:22.100 --> 00:41:31.450
+Benedikt Wagner: I mean, that's not the main drawback of a naive scheme. This is… this is a drawback that you have with every scheme that is not doing batching.
+
+356
+00:41:31.910 --> 00:41:35.360
+Gottfried Herold: Yeah, or threshold, yeah, or threshold IP, yeah.
+
+357
+00:41:36.570 --> 00:41:48.300
+Justin Florentine (Besu): Can we better define what we mean by batching? When I hear batching, I think, okay, everybody that's participating, in maybe this, or wants to participate in this block.
+
+358
+00:41:48.500 --> 00:41:55.309
+Justin Florentine (Besu): batches their transactions together, and they're all, you know, encrypted with the same key. Is that an oversimplification?
+
+359
+00:41:55.310 --> 00:42:03.390
+Gottfried Herold: Yeah, it's a bit of a simplification. I mean, this is one way to achieve it. In general, but batching, I mean, more generally, the point is what you want to achieve, is that sort of the…
+
+360
+00:42:03.680 --> 00:42:12.389
+Gottfried Herold: The bandwidth complexity does not, for the decryption part, actually does not grow linearly with the number of, encrypted transactions.
+
+361
+00:42:13.280 --> 00:42:26.430
+Jan Bormet: Yeah, it's kind of the opposite, what you said, like, the encryption should be the same. Like, you should not really know… I mean, yeah, you notice because you run a different protocol, but you should not have to coordinate with other encryptors, let's say. But, the… instead of sending, let's say you have
+
+362
+00:42:26.830 --> 00:42:42.669
+Jan Bormet: B transactions in the ciphertext, and in the normal threshold encryption scheme, if I'm a validator that is scheduled to decrypt, then I need to send, let's say, 100 individual decrypts, like, every single ciphertext, I need to have to send an individual partial decryption.
+
+363
+00:42:42.890 --> 00:42:50.990
+Jan Bormet: And if it's a batching schema, I can just compress this to one. So it's kind of about the succinctness of the partial decryption when trying to decrypt many transactions at once.
+
+364
+00:42:50.990 --> 00:42:55.920
+Justin Florentine (Besu): Oh, so it's batching the shares, not so much the participants, okay.
+
+365
+00:42:56.330 --> 00:42:56.840
+Jan Bormet: Yep.
+
+366
+00:43:02.120 --> 00:43:07.319
+Justin Florentine (Besu): Okay. Wow, I said we were gonna brainstorm, and you guys gave me quite the storm.
+
+367
+00:43:07.380 --> 00:43:23.120
+Justin Florentine (Besu): We have a lot to think about. We're coming up on, about 3 quarters of the way through the meeting, and we do have another agenda item that Jannik wanted to cover, so I want to reserve a little bit of time for that. Do you want to get into it, Jannik?
+
+368
+00:43:24.460 --> 00:43:27.630
+Jannik Luhn: Sure. So basically…
+
+369
+00:43:27.720 --> 00:43:37.590
+Jannik Luhn: it's motivated by, the fact that I'm not really convinced that enshrining a specific server encryption scheme is,
+
+370
+00:43:37.620 --> 00:43:50.119
+Jannik Luhn: So the best solution? First of all, because, as we've just discussed, there's still lots of cryptographic development to be had, hopefully, so if we try and find something now, we probably won't end up with the best scheme.
+
+371
+00:43:50.310 --> 00:44:00.500
+Jannik Luhn: And… but even if we had the best scheme, then, we will probably only be able to have a small committee, sampled from the value dataset, and I'm not sure how much I would…
+
+372
+00:44:00.550 --> 00:44:15.069
+Jannik Luhn: how trustworthy that actually is, especially because there is misbehavior in… that is not punishable, because it's unobservable. Basically, if they decrypt messages early, and then,
+
+373
+00:44:15.070 --> 00:44:28.750
+Jannik Luhn: yeah, peek and see what happens, and then, depending on that, send additional transactions or something like that. That's, nothing that would be visible from the outside. And, it's also bribable in a way that's potentially,
+
+374
+00:44:29.860 --> 00:44:37.790
+Jannik Luhn: Trustless, so you could maybe set up some sort of, bribery smart contract.
+
+375
+00:44:37.920 --> 00:44:55.720
+Jannik Luhn: So, yeah, in general, not too excited about this. And Lucid doesn't really have these issues at the moment, because the key publishers can choose their own scheme, and they can switch very quickly. And also, the key publishers are known entities, and they have reputation.
+
+376
+00:44:56.210 --> 00:45:05.729
+Jannik Luhn: Which kind of factors in into these attacks. I'd rather trust a small committee that I know, that I know the names of of the people, or the users can basically decide on that.
+
+377
+00:45:06.660 --> 00:45:21.439
+Jannik Luhn: So I was thinking maybe a compromise that we could do between Lucid, that has this optionality problem that we're trying to solve by enshrining, and enshrining one scheme, would be to, have kind of a whitelist of, of…
+
+378
+00:45:21.490 --> 00:45:37.059
+Jannik Luhn: key publishers. Basically, do Lucid as it is, but whitelist the set of key publishers, so that… and only key publishers who are trusted to release their keys would, yeah, would get under that whitelist.
+
+379
+00:45:37.350 --> 00:45:46.789
+Jannik Luhn: And now the main question is, of course, is how to come up with the whitelist, and one solution might be to let the validators vote on that list.
+
+380
+00:45:47.300 --> 00:46:00.029
+Jannik Luhn: Which is… I think, should work. It's maybe a bit unusual in Ethereum, but there is already a little bit of voting by validators, one on the block S limit.
+
+381
+00:46:00.430 --> 00:46:17.809
+Jannik Luhn: which maybe is just one parameter, so it's maybe much easier to decide on it. But also, arguably, they vote on the set of block builders of the protocol, but that's maybe a different decision. But yeah, just wanted to put that out there and, yeah, see if you guys have thoughts about it.
+
+382
+00:46:23.170 --> 00:46:28.969
+Jan Bormet: So it's basically Lucid plus, there's, like, kind of a restriction which services can be used, right?
+
+383
+00:46:29.480 --> 00:46:30.360
+Jannik Luhn: Exactly.
+
+384
+00:46:32.870 --> 00:46:47.670
+Gottfried Herold: I mean, and you would use this Lucid with an actual threshold scheme, or just a sort of a prescribed set of decryptors, and, I mean, some of them may be threshold, or maybe multiple ones, and some of them are thresholdized, some of them are different, or what.
+
+385
+00:46:48.540 --> 00:47:00.520
+Jannik Luhn: Yeah, it wouldn't be prescribed by the protocol, but the validators would only accept entities that they think will release their keys, which basically means some sort of threshold committee, I would assume.
+
+386
+00:47:05.370 --> 00:47:10.030
+Justin Florentine (Besu): Is this a new role that we would be enshrining? It sounds to me like we could take an approach…
+
+387
+00:47:10.420 --> 00:47:17.809
+Justin Florentine (Besu): out of the ePBS book, right? Where we introduced builders as a new staked entity, that…
+
+388
+00:47:17.960 --> 00:47:21.110
+Justin Florentine (Besu): You know, had responsibilities and could be punished.
+
+389
+00:47:21.750 --> 00:47:26.990
+Justin Florentine (Besu): Would that… be necessary.
+
+390
+00:47:31.180 --> 00:47:38.629
+Jannik Luhn: I'm not sure. I guess in Lucid there is already a little bit of punishment. I'm not sure how easy it is to add additional ones.
+
+391
+00:47:43.480 --> 00:47:55.700
+Jannik Luhn: I guess you could think of letting the Valley dataset, like, socially slash the key publisher initials, but that probably opens up a different kind of rooms. It's even more difficult.
+
+392
+00:48:04.590 --> 00:48:24.789
+Gottfried Herold: I mean, my main concern about this is more like, sort of that… a certain set of, sort of entities who provide such a service, which might be some threshold committees, maybe it's even somebody who just says, hey, I will publish, sort of, your keys, trust me, and I'm just a single entity, I just won't steal your data. Trust me, basically something like a trusted broker.
+
+393
+00:48:26.360 --> 00:48:39.920
+Gottfried Herold: which, I mean, from the protocol's point of view, it's okay. If you use it as a user, that's your problem. It's just a question whether you want to protect the user, or whether you want to protect the protocol. You have to make a bit of a distinction, because this kind of…
+
+394
+00:48:39.920 --> 00:48:52.429
+Gottfried Herold: And trust mechanism is actually supposed to protect a protocol, and not the user who's actually sending the encrypted transaction. So, different… so you could actually have some…
+
+395
+00:48:52.740 --> 00:48:58.779
+Gottfried Herold: Multiple entities with different trust relationships to the actual user who uses their service.
+
+396
+00:48:58.820 --> 00:49:16.029
+Gottfried Herold: My main concern here would be that, I mean, if you sort of have this, and I mean, it's actually, actually, they get fees from their users who use their service, it will probably lead to certain entities, starting up such a service, then maybe they sort of…
+
+397
+00:49:16.030 --> 00:49:33.339
+Gottfried Herold: get voted in by the protocol, by the other validators, but at some point, you might have some kind of ossification process going on here, and it will be very difficult for new entities, for newcomers, to sort of make a better scheme, maybe a better threshold encryption scheme or whatnot, to actually,
+
+398
+00:49:34.290 --> 00:49:44.670
+Gottfried Herold: get in into their scheme, because basically the protocol or the validators vote for a sort of a curated list, and now if you're sort of are a newcomer, I mean, you have to basically
+
+399
+00:49:44.670 --> 00:49:58.599
+Gottfried Herold: socially reach out to this whole set of validators, hey, please add me to the list, and I am good, and I'm a good guy, but, I mean, you cannot really show that you're a good guy, because nobody can use your services until actually the other people have voted on it.
+
+400
+00:49:58.630 --> 00:50:02.780
+Gottfried Herold: So, you've actually run into a bit of a chicken and egg problem here.
+
+401
+00:50:05.720 --> 00:50:12.949
+Anders Elowsson: So, one thing we can say about this is that we can always allow,
+
+402
+00:50:13.650 --> 00:50:19.169
+Anders Elowsson: These non-whitelisted entities to go after the whitelisted entities.
+
+403
+00:50:19.600 --> 00:50:25.919
+Anders Elowsson: In this case. But I still think that the idea as such might be interested.
+
+404
+00:50:26.190 --> 00:50:33.719
+Anders Elowsson: Well, being interesting is sort of… you have to be wary about it being sort of a stratum for cartridization within.
+
+405
+00:50:33.720 --> 00:50:34.360
+Gottfried Herold: the…
+
+406
+00:50:34.540 --> 00:50:40.040
+Anders Elowsson: the valid data set, so that with this mechanism, we would sort of
+
+407
+00:50:40.340 --> 00:50:52.190
+Anders Elowsson: over time, perhaps, you know, compromise… like, the big overhanging risk is that we compromise Ethereum as a whole, because we bring this pressure
+
+408
+00:50:52.360 --> 00:50:59.249
+Anders Elowsson: for… for validators to sync with each other and cartilize with each other. And, and, and, and…
+
+409
+00:50:59.390 --> 00:51:11.260
+Anders Elowsson: This becomes sort of a, like, a brewing ground for them to start and collaborate with each other and decide between each other who they're going to vote for.
+
+410
+00:51:11.700 --> 00:51:22.780
+Anders Elowsson: So that's something that… if we… if I compare it to the previous version of this Jannik that you had in the ERP,
+
+411
+00:51:22.960 --> 00:51:37.629
+Anders Elowsson: Where the transactors instead indicate which entities they trust. In this way, in such a mechanism, we are sort of safeguarding the protocol from this whole game theory in a way that felt
+
+412
+00:51:37.810 --> 00:51:40.570
+Anders Elowsson: More safe from that one perspective.
+
+413
+00:51:42.500 --> 00:51:56.589
+Gottfried Herold: Yeah, and I'm not sure to what extent the validators actually have to coordinate, because, I mean… I mean, the validators would not have to vote on the list of allowed entities, but you could have a separate vote for each potential entity candidate.
+
+414
+00:51:56.590 --> 00:52:03.010
+Gottfried Herold: So, there seems not much, because it's basically a… it's basically an individual vote for each
+
+415
+00:52:03.010 --> 00:52:07.570
+Gottfried Herold: Candidate, so there's not much coordination, actually, that is needed.
+
+416
+00:52:09.140 --> 00:52:09.910
+Gottfried Herold: I don't need to.
+
+417
+00:52:09.910 --> 00:52:11.760
+Anders Elowsson: Or they have to… I mean…
+
+418
+00:52:11.910 --> 00:52:14.290
+Anders Elowsson: If you are just at the thresholds.
+
+419
+00:52:18.960 --> 00:52:34.810
+Gottfried Herold: I mean, I would envision this, basically, to be that, basically, validators can sort of send out a message, hey, I want this validator to be added to the trusted list. They can send out a message.
+
+420
+00:52:34.830 --> 00:52:51.639
+Gottfried Herold: It doesn't even have to go on-chain, and basically, once such a service wants to basically be included into this list, they basically have to provide a special message where they basically produce sufficiently many signed messages from sufficiently many aggregators to be included into this list.
+
+421
+00:52:51.790 --> 00:53:03.399
+Gottfried Herold: And in particular, there is no… not much, well, coordination issue. Basically, the one who needs to coordinate is that the… the new entity has to basically reach out to each validator.
+
+422
+00:53:04.080 --> 00:53:12.329
+Gottfried Herold: But not, that the validators don't actually have to talk with each other. At least on the… I mean, at least from a… as far as the mechanism is concerned.
+
+423
+00:53:16.820 --> 00:53:20.380
+Anders Elowsson: Yeah, but I mean, it's just the…
+
+424
+00:53:21.620 --> 00:53:22.750
+Gottfried Herold: I, I, I agree that.
+
+425
+00:53:22.750 --> 00:53:23.389
+Anders Elowsson: Yeah, I…
+
+426
+00:53:23.390 --> 00:53:24.890
+Gottfried Herold: Dangerous, totally agree.
+
+427
+00:53:24.890 --> 00:53:25.410
+Anders Elowsson: that.
+
+428
+00:53:27.270 --> 00:53:30.029
+Anders Elowsson: I think that, that's still,
+
+429
+00:53:30.940 --> 00:53:38.640
+Anders Elowsson: I don't know, you give the validators this… This option to…
+
+430
+00:53:39.220 --> 00:53:43.789
+Anders Elowsson: Bring profit to various entities outside of the mechanism, and then
+
+431
+00:53:44.010 --> 00:53:47.880
+Anders Elowsson: Do you need a minority of the validators to vote in a certain direction? I don't know.
+
+432
+00:53:48.290 --> 00:53:48.889
+Anders Elowsson: I used to…
+
+433
+00:53:48.890 --> 00:53:49.230
+Gottfried Herold: I mean.
+
+434
+00:53:49.230 --> 00:53:55.090
+Anders Elowsson: bit… like, I like the idea, it's innerative, but I've still felt a little bit wary.
+
+435
+00:53:55.090 --> 00:54:08.470
+Gottfried Herold: Yeah, I'm just saying that, sort of, compared to other, sort of, similar proposals where also financial incentives, like, I don't know, trying to, sort of, direct, rewards to, to research, I mean, it's a bit different, because, sort of, the…
+
+436
+00:54:08.820 --> 00:54:16.169
+Gottfried Herold: the options to vote for are not… are not pooled. That makes it easier from a mechanism design point of view.
+
+437
+00:54:16.690 --> 00:54:17.880
+Jan Bormet: Can you repeat me?
+
+438
+00:54:17.880 --> 00:54:18.490
+Gottfried Herold: Agree.
+
+439
+00:54:18.960 --> 00:54:27.600
+Jan Bormet: Can you remind me why this optionality actually is such a big deal? Can I not just… let's say there's, like, say, some exchange or something, there's some trading going on, can I not just…
+
+440
+00:54:28.280 --> 00:54:31.210
+Jan Bormet: let's say I want to do front-running or something.
+
+441
+00:54:31.460 --> 00:54:34.759
+Jan Bormet: So, Anil, because I want to…
+
+442
+00:54:35.280 --> 00:54:36.230
+Gottfried Herold: The problem…
+
+443
+00:54:36.230 --> 00:54:38.090
+Jan Bormet: I mean.
+
+444
+00:54:38.090 --> 00:54:44.730
+Gottfried Herold: The problem with the optionality is that I can sort of exercise my optionality or not after I know other encrypted transaction.
+
+445
+00:54:44.730 --> 00:54:56.510
+Jan Bormet: Yeah, after you know transaction after you, right? I think the one before is not so bad, because anybody can observe the state and, like, revert the transaction, right? But the after ones that are bad, that I didn't think about.
+
+446
+00:54:56.510 --> 00:55:09.180
+Gottfried Herold: Yeah, exactly. That's the reason why, sort of, this other idea by Jannik, that they basically make some ordering that basically your encrypted transactions come with ordering constraints, would also work, but sort of has very bad UX.
+
+447
+00:55:18.780 --> 00:55:27.719
+Jan Bormet: Is there some, like… is there some, let's say, data of how many transactions per block or per e-book would be currently affected, or, like.
+
+448
+00:55:28.690 --> 00:55:31.000
+Jan Bormet: With current Layer 1 activity?
+
+449
+00:55:31.970 --> 00:55:42.610
+Gottfried Herold: very hard to say, because, I mean, to be fair, if we had such a feature, maybe we would see more usage, so there's not… it's absolutely unclear how big the induced demand is.
+
+450
+00:55:43.950 --> 00:55:54.820
+Jan Bormet: And what is the current demand? Like, what is the current, without the feature? Essentially, does it mean that trading on… I mean, you could argue, okay, trading on Layer 1 is not happening because there can be an MEV, right?
+
+451
+00:55:57.380 --> 00:56:00.810
+Jan Bormet: But it's not much, because I don't know the actual number, right? It's not too much.
+
+452
+00:56:01.780 --> 00:56:04.280
+Jan Bormet: Layer 1 MEV right now, or is there?
+
+453
+00:56:05.440 --> 00:56:12.009
+Justin Florentine (Besu): It's… it's hard to detect. I think our number's around 65 million a year.
+
+454
+00:56:12.720 --> 00:56:14.090
+Jan Bormet: Okay.
+
+455
+00:56:14.090 --> 00:56:19.240
+Justin Florentine (Besu): Well, I would say in losses, if you look at it from the other.
+
+456
+00:56:26.130 --> 00:56:34.419
+Gottfried Herold: And, of course, I mean, as I said, I mean, the big trades… the big, sort of, vulnerable trades are probably not even settled by a L1 because of that reason, so…
+
+457
+00:56:34.970 --> 00:56:35.410
+Justin Florentine (Besu): Exactly.
+
+458
+00:56:36.520 --> 00:56:46.629
+Loring: Yeah, I think the demand is probably most represented, by the volume passing through private Mempools rather than through the public Mempool.
+
+459
+00:56:52.470 --> 00:57:03.000
+Jan Bormet: Because then, if we, like, introduce a Mempool now, and then the scaling, like, we just move the bottleneck from MEV to scaling, then, I mean, you pay the cost some way or another, right?
+
+460
+00:57:03.430 --> 00:57:10.700
+Jan Bormet: The only way, like, you need to look at the extraction site then. Like, maybe you say if this… if you have an MEP protocol, the extraction is kind of more fair?
+
+461
+00:57:11.110 --> 00:57:12.620
+Jan Bormet: And not so centralized.
+
+462
+00:57:13.320 --> 00:57:16.590
+Jan Bormet: Like, because the fees have to be larger, right, and so on, then…
+
+463
+00:57:27.420 --> 00:57:30.090
+Justin Florentine (Besu): Okay, we are, go ahead.
+
+464
+00:57:32.300 --> 00:57:35.369
+Anders Elowsson: Yeah, I think one thing that could be interesting for
+
+465
+00:57:35.560 --> 00:57:40.340
+Anders Elowsson: Jannik, if you wanted to look into it, is perhaps…
+
+466
+00:57:40.870 --> 00:57:44.459
+Anders Elowsson: Like, some sort of assumption about if we do this
+
+467
+00:57:44.610 --> 00:57:50.170
+Anders Elowsson: Trust… trust assumption, but on the… At the transaction level instead.
+
+468
+00:57:51.940 --> 00:58:00.370
+Anders Elowsson: might it look like? We haven't… we… we are worried about various things, and we are worried about how it can be implemented, etc, and what… what
+
+469
+00:58:00.580 --> 00:58:13.689
+Anders Elowsson: How it will lead to some entities monopolysing, but maybe it can be analyzed a little bit deeper, and like, how will the builder… builder will construct a set based on the options it has available to it?
+
+470
+00:58:14.130 --> 00:58:17.490
+Anders Elowsson: I don't know. Maybe there's something there to… to think about.
+
+471
+00:58:20.650 --> 00:58:24.079
+Jannik Luhn: Yeah, I will definitely think about it a little bit more.
+
+472
+00:58:24.840 --> 00:58:32.190
+Jannik Luhn: But yeah, I see kind of the main argument against it, that it's… Yep.
+
+473
+00:58:32.470 --> 00:58:35.319
+Jannik Luhn: But we'll… we'll consider it again.
+
+474
+00:58:37.540 --> 00:58:38.270
+Justin Florentine (Besu): Okay.
+
+475
+00:58:38.870 --> 00:58:47.930
+Justin Florentine (Besu): Great. Very, very busy, lively call, everyone. Thank you. I think the main two things that we want to take away from this,
+
+476
+00:58:47.940 --> 00:59:11.880
+Justin Florentine (Besu): I did record this, by the way. I will post an AI summary on the meeting agenda once it's made available. I think as far as next steps, we kind of have two directions that we want to go into. I think we want to look into the naive scheme, threshold Encryption, naive scheme, consider how we can get that to CCA2, and if that remains a research direction we want to continue in.
+
+477
+00:59:12.000 --> 00:59:20.289
+Justin Florentine (Besu): And then the opposite, you know, stick with Lucid as is, and consider validator whitelisted key publishers.
+
+478
+00:59:20.990 --> 00:59:26.269
+Justin Florentine (Besu): We need to consider the game theory around that, so the markets and tokenomics around that.
+
+479
+00:59:26.390 --> 00:59:35.300
+Justin Florentine (Besu): And figure out whether or not that could be acceptable, and try to quantify the cartelization and centralization risks that come with that.
+
+480
+00:59:37.590 --> 00:59:41.399
+Justin Florentine (Besu): Questions, comments, concerns, refutations?
+
+481
+00:59:41.650 --> 00:59:43.550
+Justin Florentine (Besu): Criticisms.
+
+482
+00:59:46.560 --> 00:59:49.899
+Anders Elowsson: Yeah, and maybe we can mention that we are also, sort of.
+
+483
+00:59:50.600 --> 00:59:57.669
+Anders Elowsson: Yeah. Like, there's a… there's a risk. We have these two options, but there's also a risk that none of these options will be good enough.
+
+484
+00:59:57.990 --> 00:59:59.449
+Anders Elowsson: At least for enshrine.
+
+485
+00:59:59.570 --> 01:00:00.860
+Anders Elowsson: Good to mention that.
+
+486
+01:00:01.390 --> 01:00:12.640
+Justin Florentine (Besu): Sure. Yeah, I think that's worth reiterating, like, the optionality problem is a real one, and if we can't get around it… let me rephrase that.
+
+487
+01:00:13.180 --> 01:00:20.040
+Justin Florentine (Besu): Lucid, as it stands right now, acknowledges the optionality problem and charges people a financial penalty for it.
+
+488
+01:00:20.910 --> 01:00:26.909
+Justin Florentine (Besu): I think we can conclusively say that that's not good enough, and we need some stronger protections from optionality.
+
+489
+01:00:28.370 --> 01:00:29.120
+Justin Florentine (Besu): Fair?
+
+490
+01:00:32.060 --> 01:00:32.860
+Anders Elowsson: Maybe.
+
+491
+01:00:33.050 --> 01:00:34.849
+Justin Florentine (Besu): Maybe. Okay.
+
+492
+01:00:34.850 --> 01:00:35.390
+Anders Elowsson: Probably.
+
+493
+01:00:35.530 --> 01:00:36.250
+Justin Florentine (Besu): Good enough.
+
+494
+01:00:36.650 --> 01:00:37.830
+Justin Florentine (Besu): Take maybe.
+
+495
+01:00:39.080 --> 01:00:44.939
+Justin Florentine (Besu): Great. Alright, thanks everybody, appreciate your time, great turnout. Thanks again.
+
+496
+01:00:46.090 --> 01:00:47.539
+Benedikt Wagner: Thank you. Bye.
+
+497
+01:00:47.540 --> 01:00:48.580
+Jan Bormet: Thanks, Billy.
+
+498
+01:00:49.180 --> 01:00:50.309
+Jannik Luhn: Thank you, bye-bye.
+
