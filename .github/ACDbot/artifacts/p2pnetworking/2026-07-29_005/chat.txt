@@ -1,0 +1,133 @@
+00:02:17	Raúl Kripalani:	hello!
+00:05:02	Kamil Salakhiev:	https://github.com/libp2p/rust-libp2p/pull/6568
+00:05:36	jxs:	will take a look Kamil
+00:05:42	Kamil Salakhiev:	Reacted to "will take a look Kamil" with ❤️
+00:08:35	Bosul Mun:	https://github.com/ethereum/devp2p/pull/276
+00:15:23	Raúl Kripalani:	ordering doesn't really matter within a topic either
+but causal order between control messages and data messages does
+however, gossipsub has no notion of that
+00:18:48	Raúl Kripalani:	how does this solve HoL with mplex or yamux? (or i might have misunderstood what you said?)
+00:18:57	Sukun Tarachandani:	This (shadow test) requires yamux / mplex interleaving?
+00:19:47	Raúl Kripalani:	i don't think either does?
+00:19:51	jxs:	Replying to "how does this solv..."
+
+solves HoL at the gs level, due to gs using only a single stream by the original spec AFAIU
+00:20:32	Raúl Kripalani:	or yamux does unless a stream is backlogged
+00:22:33	FLCL (Nethermind):	which layer shoud be potentially aware of topic priority?
+00:23:03	Csaba:	Yamux implementation I remember does RR
+00:23:19	Csaba:	At least this is how I remember.
+00:24:11	marco:	github.com/libp2p/specs/pull/729
+00:25:09	kasey:	Could topics be as granular as a block hash within a logical topic (block, attestation etc)? That would be interesting from a priority perspective, eg I want data columns for the block root I already believe will be canonical.
+00:25:10	Raúl Kripalani:	fun fact: ethp2p broadcast separates control, session, and chunk streams: https://github.com/ethp2p/ethp2p/blob/main/specs/002-ec-broadcast.md
+00:29:24	kasey:	I think to Marco’s point, the partial message serves this role, although it’s replicated across multiple topics.
+00:30:22	marco:	My slides: https://gist.github.com/MarcoPolo/3cecb65486eb1321ce1c277421adbc93
+00:31:03	marco:	more simulators == better obviously
+00:31:28	Raúl Kripalani:	Replying to "I think to Marco’s p..."
+
+i didn't get this part, but i'm a fan of simple solutions
+00:31:41	marco:	especially for the JVM, having a JVM process per node is crazy overhead relative to a single JVM for many nodes.
+00:32:55	Kamil Salakhiev:	wish I also had m3 ultra🙂
+00:33:00	Sukun Tarachandani:	Reacted to "wish I also had m3 ultra🙂" with 😂
+00:33:09	yiannisbot:	Reacted to "wish I also had m3 u..." with 😂
+00:33:15	marco:	that's awesome. I've thought about this experiment too
+00:33:18	Csaba:	Reacted to "wish I also had m3 ultra🙂" with 😂
+00:33:19	marco:	Reacted to "wish I also had m3 u..." with 😂
+00:33:33	marco:	That's enough ram to buy a house!
+00:33:46	FLCL (Nethermind):	Unrelated q: bbrv3 is must have for ethp2p?
+00:34:03	marco:	I wouldn't think so?
+00:34:38	FLCL (Nethermind):	Reacted to "I wouldn't think so?" with 👍
+00:34:43	marco:	bbrv3 could help, but probably not the lowest hanging fruit.
+00:36:00	marco:	Q: Did you profile the many nodes test? If so, what was the bottleneck?
+00:37:11	marco:	Q: could you explain a bit more on the latency -> parallel execution a bit? I didn't catch the details
+00:37:21	FLCL (Nethermind):	Reacted to "wish I also had m3 ultra🙂" with 😂
+00:38:02	marco:	I think Quinn supports passing in time.
+00:38:34	marco:	Q: what is breaking determinism?
+00:39:13	marco:	Q: Is this multithreaded? Is scheduling deterministic?
+00:39:38	marco:	Thought: Run this within Shadow to get determinism
+00:42:01	Sukun Tarachandani:	Does it not depend on who else sends it (node A) data?
+00:44:13	Raúl Kripalani:	@Anton Nashatyrev btw, you can force deterministic randomness in that 3rd party lib by instrumenting the bytecode, it's not very hard
+00:46:38	kasey:	For instance Node A and Node B are both writing to Node C. Node C buffer fills, A or B could be blocked which changes the timing of things.
+00:47:30	marco:	Reacted to "For instance Node A ..." with 👍
+00:47:46	Raúl Kripalani:	then take it one level deeper: eBPF ftw 😄
+00:49:09	marco:	Reacted to "then take it one lev..." with 🐢
+00:49:38	Raúl Kripalani:	yeah we can see your seed phrase
+00:49:45	Kamil Salakhiev:	Reacted to "yeah we can see your seed phrase" with 😂
+00:49:47	Daniel Knopik:	Reacted to "yeah we can see yo..." with 😂
+00:50:23	Anton Nashatyrev:	Reacted to "For instance Node A and Node B are both writing to Node C. Node C buffer fills, A or B could be blocked which changes the timing of things." with 👍
+00:51:32	Anton Nashatyrev:	Replying to "wish I also had m3 u..."
+
+It’s actually my colleague’s Alex beast
+00:51:35	Anton Nashatyrev:	Reacted to "wish I also had m3 ultra🙂" with 😂
+00:52:10	Anton Nashatyrev:	Reacted to "especially for the JVM, having a JVM process per node is crazy overhead relative to a single JVM for many nodes." with 👍
+00:55:26	kasey:	What is bor?
+00:56:20	Kamil Salakhiev:	I see frozen screen
+00:56:28	Sukun Tarachandani:	Reacted to "I see frozen screen" with 👍
+00:56:34	Daniel Knopik:	Reacted to "I see frozen screen" with 👍
+00:56:34	yiannisbot:	Reacted to "I see frozen screen" with 👍
+00:56:44	Anton Nashatyrev:	Reacted to "yeah we can see your seed phrase" with 😂
+00:58:04	Kamil Salakhiev:	didn’t know that polygon has more nodes than mainnet
+01:08:32	Sukun Tarachandani:	How do you estimate BW?
+01:12:07	Raúl Kripalani:	Replying to "How do you estimate ..."
+
+probably inferred from ASN?
+01:13:09	Anton Nashatyrev:	Reacted to "That's enough ram to buy a house!" with 😃
+01:13:40	marco:	wow, that's quite high!
+01:13:42	yiannisbot:	Incredible tool! Super interesting! Well done! 👏 👏
+01:14:03	marco:	Reacted to "Incredible tool! Sup..." with 💯
+01:14:11	Daniel Knopik:	i can haz access?
+01:14:38	yiannisbot:	Replying to "i can haz access?"
+
+Yes, that’s also my question. Is it live online?
+01:16:05	Daniel Knopik:	Reacted to "Incredible tool! S..." with 💯
+01:17:02	Daniel Knopik:	Replying to "wow, that's quite ..."
+
+i assume this was on partial message support. note that advertised partial message support is not the same as also advertising support for partial columns
+01:18:36	Csaba:	Much better. Remember to use this mic next time :-)
+01:19:04	marco:	unrelated, did you use typst for this?
+01:21:20	Csaba:	Replying to "wow, that's quite hi..."
+
+Yes, this is just advertising the extension support
+01:21:54	Csaba:	Replying to "didn’t know that pol..."
+
+It goes head-to-head, depends on the day :-)
+01:22:51	Csaba:	Replying to "What is bor?"
+
+Bor is a Geth fork, running Polygon.
+01:22:59	kasey:	Reacted to "Bor is a Geth fork, running Polygon." with 👍
+01:23:28	Sukun Tarachandani:	https://github.com/ethereum/consensus-specs/pull/5464 
+
+https://github.com/ethereum/EIPs/pull/11905
+01:23:54	Csaba:	I measure packet size and inter-packet time of FINDNODE responses. Very rough estimate, and also debatable what it measures …. but it is actually measured.
+01:24:51	marco:	Replying to "How do you estimate ..."
+
+is this not just measuring slow start?
+01:25:08	Sukun Tarachandani:	Replying to "How do you estimate ..."
+
+Isn’t it all UDP?
+01:25:48	marco:	Replying to "How do you estimate ..."
+
+then measuring their slow start equivalent and pacing
+01:26:29	Csaba:	Replying to "How do you estimate ..."
+
+It is UDP only, no slow-start in the way. But it depends on many factors, including UDP stack, discv5 stack, FINDNODE response composition pipeline, … and then the packets flowing in the network through bottleneck bw to us.
+01:27:52	marco:	Replying to "How do you estimate ..."
+
+does discv5 have any congestion control?
+01:28:18	Csaba:	Replying to "How do you estimate ..."
+
+If I measure someone e.g. 100Mbps, then a pipe that is at least 100Mbps is most probably there between us.
+But that’s the most you can say, it is not an exact measurement.
+01:29:26	Sukun Tarachandani:	This helps a lot with gossip
+01:29:31	Csaba:	Replying to "How do you estimate ..."
+
+On congestion control: not at the level of a FINDNODE response, and also not defined in the protocol, just in implementations (and even part of that is only in a branch of mine, not yet merged).
+01:30:45	kasey:	You could still do the same thing with the ids, for instance organize them into a binary tree by their validator index.
+01:31:25	Sukun Tarachandani:	But in this case we can also send the aggregated signature in reply to gossip, thus getting multiple attestations via 1 signature.
+01:32:20	kasey:	Replying to "You could still do t..."
+
+I think the idea of the tree is that you can walk up until you find a disjoint set. You can do the same thing with a binary tree, I think?
+01:32:31	kasey:	Replying to "You could still do t..."
+
+*walk down
+01:39:53	Raúl Kripalani:	yep
+01:47:57	kasey:	To the point about index adjacency - if the tree is organized such that the high order bits are closer to the root, left hand nodes are older than right hand nodes, so there could be a nice logical partitioning of which paths need to get de-aggregated (there would be more churn as you go right vs left because newer vals are more active).

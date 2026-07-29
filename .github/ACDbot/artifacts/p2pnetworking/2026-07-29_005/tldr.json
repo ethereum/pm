@@ -1,0 +1,107 @@
+{
+  "meeting": "P2P Networking #5 - July 29, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:04:18",
+        "highlight": "Lighthouse: Gloas partial data columns support deployed to PeerDAS devnet-7"
+      },
+      {
+        "timestamp": "00:05:43",
+        "highlight": "Prysm: Gloas support implemented + internal review done; revamping peer scoring for observability"
+      },
+      {
+        "timestamp": "00:07:37",
+        "highlight": "Geth: sparse blob pool merged; bug fixed in Kurtosis cross-client testing with Nethermind"
+      },
+      {
+        "timestamp": "00:10:52",
+        "highlight": "Geth: peer quality protection (builder/pool metrics) merged; V5-only migration Kurtosis testing complete \u2014 V4 shutdown feasible"
+      },
+      {
+        "timestamp": "00:11:54",
+        "highlight": "Nethermind: V4+V5 dual activation planned for mainnet; topic-based discovery + bot-node test harness in progress"
+      }
+    ],
+    "topic_streams_extension": [
+      {
+        "timestamp": "00:13:14",
+        "highlight": "GossipSub topic streams extension (spec PR #729): each topic gets a long-lived stream; topic name sent once as header, eliminating per-message overhead"
+      },
+      {
+        "timestamp": "00:13:53",
+        "highlight": "Solves head-of-line blocking across topics; works with yamux/MPLEX interleaving and QUIC; backwards-compatible extension"
+      },
+      {
+        "timestamp": "00:18:02",
+        "highlight": "Go implementation complete with Shadow interop test; seeking second implementation for interop validation"
+      }
+    ],
+    "networking_simulator": [
+      {
+        "timestamp": "00:30:25",
+        "highlight": "JVM QUIC-based simulator (Anton/Consensys): mainnet-scale gossip simulation \u2014 8,000 nodes, 16,000 messages in ~20 min, ~500 GB RAM"
+      },
+      {
+        "timestamp": "00:33:13",
+        "highlight": "Validated against Shadow with ~1% cumulative error; parallelized via per-component local simulated time"
+      },
+      {
+        "timestamp": "00:38:00",
+        "highlight": "Currently non-deterministic due to Quiche TLS internals; pure-JVM QUIC impl considered for future determinism"
+      }
+    ],
+    "chainscope": [
+      {
+        "timestamp": "00:49:04",
+        "highlight": "Chainscope: continuous Ethereum network scanner \u2014 120+ chains, 80K reachable nodes, client distribution, latency, bandwidth, churn, protocol version matrices"
+      },
+      {
+        "timestamp": "01:12:59",
+        "highlight": "Chainscope shows partial messages extension adoption level on mainnet; execution payload envelope protocol already visible"
+      },
+      {
+        "timestamp": "01:16:27",
+        "highlight": "Chainscope public URL coming soon; ping Csaba for early access"
+      }
+    ],
+    "attestation_bundling": [
+      {
+        "timestamp": "01:17:30",
+        "highlight": "EIP PR #11905: attestation bundling via partial messages \u2014 deduplicates attestation data, ~45-50% bandwidth saving, bundles up to ~10 attestations; no fork required, independently deployable"
+      },
+      {
+        "timestamp": "01:21:42",
+        "highlight": "Daniel (Lighthouse): tree-structured in-network aggregation explored \u2014 ~70% bandwidth saving in simulation; compatible with bundling EIP"
+      },
+      {
+        "timestamp": "01:29:42",
+        "highlight": "Raul's EIP-8243 (pre-aggregated attestations at source) discussed as complementary; SEAL mechanism enables privacy-preserving validator channeling"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:29:46",
+      "action": "Implement topic streams extension (spec PR #729) for interop testing against Go reference impl",
+      "owner": "All CL client teams"
+    },
+    {
+      "timestamp": "01:47:57",
+      "action": "Collaborate on attestation bundling EIP (PR #11905) to incorporate in-network aggregation and batching-at-source compatibility",
+      "owner": "Sukun, Daniel, Ra\u00fal"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:11:23",
+      "decision": "Geth V4 discovery shutdown considered viable pending broader client V5 migration confirmation"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:16:27",
+      "target": "Chainscope public URL \u2014 within days of July 29, 2026"
+    }
+  ]
+}
