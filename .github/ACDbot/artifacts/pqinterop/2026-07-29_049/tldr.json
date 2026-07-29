@@ -1,0 +1,83 @@
+{
+  "meeting": "Post-Quantum (PQ) Interop #49 - July 29, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:17:27",
+        "highlight": "Zeam: multi-client devnet stalled after ~8k slots; delayed aggregated signatures identified as root cause"
+      },
+      {
+        "timestamp": "00:18:51",
+        "highlight": "Ream: aggregation time ~2s vs. Ethlambda's ~500ms; optimizing; integrating LeanVM main branch (not yet interop-tested)"
+      },
+      {
+        "timestamp": "00:19:45",
+        "highlight": "Lantern: syncing issues fixed; LeanVM main branch cuts finality lag from double-digits to ~3 slots behind head"
+      },
+      {
+        "timestamp": "00:20:54",
+        "highlight": "Ethlambda: 64-node devnet with latest LeanVM image shows time-to-finality <20\u201325 slots; 3% reorg rate remains"
+      },
+      {
+        "timestamp": "00:22:43",
+        "highlight": "Gean: LeanVM signing/aggregation flow integrated on experimental branch; seeking agreed canonical LeanVM version"
+      },
+      {
+        "timestamp": "00:24:37",
+        "highlight": "Grandine: optimization/metrics image released; testing updated LeanVM commit locally for ~3 days; official image planned this week"
+      }
+    ],
+    "leanvm_and_research": [
+      {
+        "timestamp": "00:25:38",
+        "highlight": "LeanVM binary field branch (big extension field, small proofs) not yet on main; targeting 3\u00d7 performance improvement"
+      },
+      {
+        "timestamp": "00:26:34",
+        "highlight": "SSZ spec transferred to ethereum org (github.com/ethereum/ssz-specs); replaces lean spec copy as canonical reference"
+      },
+      {
+        "timestamp": "00:27:53",
+        "highlight": "BNUS project underway: direct circuit interaction (no VM) to iterate proving system faster with binary fields expert"
+      },
+      {
+        "timestamp": "00:30:58",
+        "highlight": "LeanVM main branch uses sub-MTU XMSS (smaller signatures, faster proving); clients must switch signing from lean-sig repo to LeanVM-internal implementation or compatibility will break"
+      },
+      {
+        "timestamp": "00:33:02",
+        "highlight": "bump-arena allocator (setup-prover) improves speed but requires ~16 GB RAM; API low/high memory mode planned"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:16:24",
+        "highlight": "No calls for the next two weeks; post-holiday cadence/format will be reorganized (more async debugging)"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:31:13",
+      "action": "All client teams: migrate to LeanVM main branch XMSS signing (drop lean-sig repo); test single-client devnet first before multi-client interop",
+      "owner": "All lean client teams"
+    },
+    {
+      "timestamp": "00:34:22",
+      "action": "Add low/high memory mode toggle to LeanVM prover API for bump-arena allocator",
+      "owner": "Emil (LeanVM / T. Wambsgans)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:26:34",
+      "decision": "SSZ specification transferred from lean spec to official Ethereum org repo (ethereum/ssz-specs) as canonical reference"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:24:37",
+      "target": "Grandine official LeanVM-updated image release \u2014 this week"
+    }
+  ]
+}
