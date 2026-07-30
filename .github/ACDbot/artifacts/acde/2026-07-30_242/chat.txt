@@ -1,0 +1,465 @@
+00:05:09	Stefan Starflinger:	hello
+00:06:59	Ansgar Dietrichs:	agenda: https://github.com/ethereum/pm/issues/2166
+00:07:39	Enrico Del Fante (tbenr):	We are actively looking at those bids issues
+00:07:48	Stefan Starflinger:	also worth looking into second round of spamming report https://panda-uploads-production.devops-539.workers.dev/panda/uploads/c761e4/glamsterdam-devnet-7-self-built-blocks-round-2.html
+00:07:57	Ameziane Hamlat:	All besu regressions are fixed on glam devnet 7
+00:08:44	Stefan Starflinger:	https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8
+00:17:10	Iván | ethrex:	I need to double check but we should have all optimizations ported to glam-7
+
+EDIT: We do 🙂
+00:17:43	Louis:	Benchmarkoor run:
+https://benchmarkoor.core.ethpandaops.io/suites/3f6a0898955dff4f
+00:19:04	jochem-brouwer:	Yes, this is a problem for the tooling side, sorry about that for lagging so long behind the spec
+00:22:00	Maria Silva:	The key thing to check is this one: https://misilva73.github.io/eip-2780-repricing/index.html
+00:22:23	jochem-brouwer:	Reacted to "The key thing to c..." with 👍
+00:22:32	Gary:	已使用👍回应"The key thing to c..."
+00:22:40	draganrakita:	Reacted to "The key thing to check is this one: https://misilva73.github.io/eip-2780-repricing/index.html" with 👍
+00:25:02	Barnabas:	for the next named testnet we can start using trunk branches
+00:25:39	Barnabas:	Now that we migrating everything over from discv4 to 5, it would be great if admin_nodeInfo rpc endpoint would return enr fields instead of enode fields.
+00:28:36	Csaba:	Reacted to "Now that we migrating everything over from discv4 to 5, it would be great if admin_nodeInfo rpc endpoint would return enr fields instead of enode fields." with 👍
+00:29:30	Parithosh Jayanthi:	Name hard to pronounce on purpose <3
+00:29:38	nixo:	Reacted to "Name hard to pronounce on purpose <3" with 💙
+00:29:44	Kevaundray Wedderburn:	Reacted to "Name hard to pronounce on purpose <3" with 💙
+00:29:51	Jun Song:	Reacted to "Name hard to pronounce on purpose <3" with 💙
+00:29:57	nixo:	do we know how much community testing there was on devnet-7?
+00:30:15	Parithosh Jayanthi:	Replying to "do we know how much ..."
+
+Very little, the faucet was broken and no one raised a flag :/
+00:30:16	Nico Flaig:	do we keep another more internal devnet around that we try to break?
+00:30:24	nixo:	Reacted to "Very little, the faucet was broken and no one raised a flag :/" with 👍
+00:30:27	Barnabas:	Replying to "do we keep another m..."
+
+yes
+00:30:29	Parithosh Jayanthi:	Replying to "do we keep another m..."
+
+Yes we’ll have a NFT devnet
+00:30:29	Barnabas:	Replying to "do we keep another m..."
+
+nft devnets
+00:30:36	jochem-brouwer:	Replying to "do we know how muc..."
+
+Heh, its a good test if someone public tests it :P
+00:30:36	nixo:	Replying to "do we know how much ..."
+
+okay, good - so not much expectation of keeping it running
+00:30:36	Nico Flaig:	Reacted to "Yes we’ll have a NFT..." with 👍
+00:31:12	Chris Berry:	Replying to "do we know how much ..."
+
+Tbh we were going to wait for something that would be closer to mainnet spec (devnet-8 or a testnet)
+00:31:16	jochem-brouwer:	Reacted to "Yes we’ll have a ..." with 👍
+00:31:21	jochem-brouwer:	Reacted to "Name hard to prono..." with 💙
+00:31:26	Parithosh Jayanthi:	Reacted to "Tbh we were going to wait for something that would be closer to mainnet spec (devnet-8 or a testnet)" with 👍
+00:31:32	Luca | Vero:	Reacted to "Tbh we were going to wait for something that would be closer to mainnet spec (devnet-8 or a testnet)" with 👍
+00:31:46	jochem-brouwer:	Can someone write down this testnet name here? For ref
+00:32:11	Parithosh Jayanthi:	plataberget
+00:32:16	Mario Vega:	Reacted to " plataberget " with 👍
+00:32:19	Parithosh Jayanthi:	But devnet-8 will also work for the insiders 😛
+00:32:24	Parithosh Jayanthi:	plataberget is just a CNAME
+00:32:25	jochem-brouwer:	Replying to "plataberget"
+
+ty, otherwise we get differently spelled testnet names and we dont want that
+00:32:28	Iván | ethrex:	Reacted to " plataberget " with 🐻‍❄️
+00:32:29	Barnabas:	Reacted to "plataberget is just a CNAME" with 😂
+00:32:32	Chris Berry:	Have mainnet mev relays been contacted for the testnet - it would be good to get actual relays running in there for integrated tests
+00:32:35	Kevaundray Wedderburn:	Reacted to "plataberget is just a CNAME" with 😂
+00:32:38	jochem-brouwer:	Reacted to "plataberget is jus..." with 😂
+00:32:47	jochem-brouwer:	Reacted to "plataberget" with 👍
+00:32:57	Stefan Starflinger:	for devnet-8 rpc-compat progress would be great heres a current update from chase who is working on this:
+
+Hivechain PR is here:
+https://github.com/ethereum/hive/pull/1589
+
+But it's blocked by this section:
+Known blocker: clients disagree on EIP-7928 BAL contents at block 57
+
+I think its time to bring hivechain up to speed with glamsterdam
+00:33:00	Barnabas:	Replying to "Have mainnet mev rel..."
+
+right now 😄
+00:33:05	Simon (@siladu) | Besu:	Reacted to " plataberget " with 🐻‍❄️
+00:33:23	terence:	Replying to "Have mainnet mev rel..."
+
+Will be more builders for gloas
+00:33:49	Chris Berry:	Replying to "Have mainnet mev rel..."
+
+Would be good to get a mix of both builders and mev relays.
+00:35:06	spencer:	Reacted to "for devnet-8 rpc-c..." with 💯
+00:35:35	Iván | ethrex:	Reacted to "for devnet-8 rpc-com..." with 💯
+00:35:39	Miguel Tenorio:	Reacted to "Would be good to get a mix of both builders and mev relays." with ➕
+00:35:48	Mario Vega:	Reacted to "for devnet-8 rpc-compat progress would be great heres a current update from chase who is working on this:
+
+Hivechain PR is here:
+https://github.com/ethereum/hive/pull/1589
+
+But it's blocked by this section:
+Known blocker: clients disagree on EIP-7928 BAL contents at block 57
+
+I think its time to bring hivechain up to speed with glamsterdam" with 💯
+00:36:47	Barnabas:	Reacted to "Would be good to get a mix of both builders and mev relays." with ➕
+00:36:59	Mario Vega:	Replying to "for devnet-8 rpc-com..."
+
+This disagreement looks concerning
+00:37:02	Barnabas:	Replying to "Have mainnet mev rel..."
+
+yup we are intending to make a blog post with this announcement
+00:37:33	Miguel Tenorio:	Reacted to "yup we are intending to make a blog post with this announcement" with 🙏
+00:37:38	Chris Berry:	Reacted to "yup we are intending..." with 🙏
+00:37:50	Ansgar Dietrichs:	Etan first EIP: https://eips.ethereum.org/EIPS/eip-8115
+00:38:14	Ansgar Dietrichs:	Etan second EIP: https://eips.ethereum.org/EIPS/eip-8116
+00:38:35	Parithosh Jayanthi:	Reacted to "for devnet-8 rpc-compat progress would be great heres a current update from chase who is working on this:
+
+Hivechain PR is here:
+https://github.com/ethereum/hive/pull/1589
+
+But it's blocked by this section:
+Known blocker: clients disagree on EIP-7928 BAL contents at block 57
+
+I think its time to bring hivechain up to speed with glamsterdam" with 💯
+00:39:20	Ansgar Dietrichs:	Etan third EIP: https://eips.ethereum.org/EIPS/eip-7807
+00:39:28	draganrakita:	Replying to "Etan first EIP: http..."
+
+There is some similar EIP, problem is if you want to use priority fee to send it somewhere else. Alternative is to set priority fee before last tx, so last tx can send it somewhere else.
+00:39:35	jochem-brouwer:	This should take into account we now have state gas and execution gas (EIP-8037) re: changing cumulative gas in EIP-8116
+00:39:50	jochem-brouwer:	Replying to "This should take i..."
+
+(in receipts)
+00:40:11	Simon (@siladu) | Besu:	Individual tx gasUsed already in the api spec so this is already handled by the ethereum clients? It is in besu at least
+https://github.com/ethereum/execution-apis/blob/e5d1bb60e6c064e4b15080da07b4370d0baadf92/src/schemas/receipt.yaml#L86-L89
+00:41:55	FLCL (Nethermind):	Reacted to "Etan third EIP: https://eips.ethereum.org/EIPS/eip-7807" with 🔥
+00:42:06	Toni Wahrstätter:	Would you also put other fields like the state gas refund in the receipt?
+00:42:45	Ansgar Dietrichs:	it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)
+00:42:57	draganrakita:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 😂
+00:43:07	Csaba:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with ⛱️
+00:43:15	milen | Erigon:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 😂
+00:43:27	Iván | ethrex:	Reacted to "it’s great, Etan is ..." with ⛱️
+00:43:32	Luca Donno | L2BEAT:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 😂
+00:43:32	Luca Donno | L2BEAT:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with ⛱️
+00:43:33	jochem-brouwer:	Reacted to "it’s great, Etan ..." with 💙
+00:43:53	Simon (@siladu) | Besu:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 🍿
+00:44:08	Etan (Nimbus):	Replying to "it’s great, Etan is ..."
+
+haha
+00:44:11	Iván | ethrex:	Reacted to "it’s great, Etan is ..." with 🍿
+00:44:30	Edgar | ethrex:	Se ha reaccionado a "it’s great, Etan ..." con ⛱️
+00:44:40	Jun Song:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 🍿
+00:44:47	Barnabas:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 😂
+00:44:57	Enrico Del Fante (tbenr):	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 🍿
+00:44:58	Ansgar Dietrichs:	Derek / Hadrien EIP: https://eips.ethereum.org/EIPS/eip-7819
+00:45:07	Parithosh Jayanthi:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 😂
+00:45:14	nixo:	Reacted to "it’s great, Etan is reading out the question and answering them - I can just sit back and enjoy :-)" with 🍿
+00:45:39	Etan (Nimbus):	Replying to "Etan first EIP: http..."
+
+not sure if it's necessary. with ePBS the builder already has to have enough balance in advance on the beacon chain to pay the proposer
+00:45:51	nixo:	Reacted to "Tbh we were going to wait for something that would be closer to mainnet spec (devnet-8 or a testnet)" with 👍
+00:46:48	terence:	Replying to "Etan first EIP: http..."
+
+The thing is builder <> proposer may still prefer trusted bid. That’s still supported in epbs.
+I’m not sure if this is a blocker though
+00:46:56	Luis Pinto | Besu:	What’s the difference between this and DELEGATECALL?
+00:47:04	jochem-brouwer:	Reacted to "Would you also put..." with 👍
+00:47:44	jochem-brouwer:	love this EIP
+00:47:56	Barnabas:	Replying to "Derek / Hadrien EIP:..."
+
+does 7819 makes sense if we do frames?
+00:47:56	Derek Chiang:	https://eips.ethereum.org/EIPS/eip-7819
+00:48:34	jochem-brouwer:	Replying to "love this EIP"
+
+(EIP-7819)
+00:48:37	jochem-brouwer:	Reacted to "https://eips.ether..." with 💙
+00:48:45	Derek Chiang:	Replying to "Derek / Hadrien EIP:..."
+
+For sure, frames don’t say anything about how the account implements the proxy logic.  7819 just makes it really cheap for accounts to proxy
+00:48:50	Simon (@siladu) | Besu:	Reacted to "does 7819 makes sense if we do frames?" with ➕
+00:48:53	FLCL (Nethermind):	Replying to "Etan third EIP: https://eips.ethereum.org/EIPS/eip-7807"
+
+@Etan (Nimbus) is it preferred to have it along with ssz txs/receipts?
+00:48:58	Derek Chiang:	Replying to "Derek / Hadrien EIP:..."
+
+So it’s purely orthogonal to frames
+00:49:48	Etan (Nimbus):	Replying to "Etan third EIP: http..."
+
+back when it was proposed to do txs/receipt in the same it was deemed as too big (headliner scope), so now we just do the block hash first, and then can do tx/receipt a fork later
+00:50:05	Ansgar Dietrichs:	Alex’ EIP: https://eips.ethereum.org/EIPS/eip-7906
+00:50:28	jochem-brouwer:	Replying to "https://eips.ether..."
+
+Great EIP, these current way of deploying delegate proxies will be more expensive (in terms of gas units) in Glamsterdam and this solves this problem elegantly, thanks a lot!
+00:50:30	Etan (Nimbus):	Replying to "Etan third EIP: http..."
+
+so yes, would be preferred, but it's okay to do block hash first 🙂
+00:50:38	FLCL (Nethermind):	Reacted to "so yes, would be preferred, but it's okay to do block hash first 🙂" with 👍
+00:51:16	Gary:	正在回复 "https://eips.ether..."
+
+My main concern is how to validate the pending txs in the mempool. With 7702, we have an explicit list of auths and we can make apply some restrictions in the mempool so that one tx will not invalidate all the pending txs of certain account
+00:51:52	Gary:	正在回复 "https://eips.ether..."
+
+With contract-style auth, it's harder to figure out the auths and easier to mess up the mempool
+00:52:01	lightclient:	hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum
+00:52:04	Luis Pinto | Besu:	Replying to "What’s the differenc..."
+
+Ok argument that it’s cheaper may be valid, but can’t understand that you don’t have to create the code with SETDELEGATE. I guess the code needs to exist on chain first (deployed somehow) before you can do SETDELEGATE.
+00:52:28	Iván | ethrex:	Reacted to "hard to underscore h..." with ❤️
+00:52:34	Csaba:	Reacted to "hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum" with 👍
+00:52:46	Hester Bruikman:	Reacted to "hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum" with ❤️
+00:52:49	Edgar | ethrex:	Se ha reaccionado a "hard to underscore..." con ❤️
+00:52:50	Barnabas:	Reacted to "hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum" with ❤️
+00:52:52	Barnabas:	Reacted to "hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum" with 👍
+00:52:53	Joss:	Reacted to "hard to underscore..." with 👍
+00:52:54	Joss:	Reacted to "hard to underscore..." with ❤️
+00:53:04	Edgar | ethrex:	Se ha reaccionado a "hard to underscore..." con 👍
+00:53:11	wolovim:	Reacted to "hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum" with ❤️
+00:53:13	Jun Song:	Reacted to "hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum" with ❤️
+00:53:31	Hadrien Croubois (OpenZeppelin):	Replying to "What’s the difference between this and DELEGATECALL?"
+
+The implementation code has to exist. That is the code that proxy delegate call to, or that 7702 accounts point to. No difference.
+00:53:33	jochem-brouwer:	Replying to "https://eips.ether..."
+
+This is a good point, but the EIP-7702 note that clients should only allow one EIP-7702 tx in mempool wouldnt this directly mitigate this problem? As EIP-7702 can mass-invalidate txs in mempool
+00:54:33	Hadrien Croubois (OpenZeppelin):	Replying to "What’s the difference between this and DELEGATECALL?"
+
+The difference is that currently the delegate call is done by a clone / proxy. That is a piece of code that represent the instance (it holds the storage). It usually a few hundreds of bytes long.
+00:54:50	Iván | ethrex:	Reacted to "hard to underscore h..." with 👍
+00:54:53	Marius Van Der Wijden (M):	I don't like 7906, I prefer the idea of exposing access to the journal
+00:55:04	Gary:	正在回复 "https://eips.ether..."
+
+It's exactly my point. With opcode, it's easier to set auths with a small contract and how can you know if it's an authorization tx without executing it?
+00:55:15	Hadrien Croubois (OpenZeppelin):	Replying to "What’s the difference between this and DELEGATECALL?"
+
+(And that is the piece of code that, if you want proxy upgradeability, needs to do an SLOAD)
+00:56:07	Luca Donno | L2BEAT:	Reacted to "hard to underscore how valuable 7906 assertions are for the community. 
+
+we have talked to tons of users since earlier last year from small users to large enterprise and being able to assert what is happening in the tx at end was overwelming answer when asked what would make them feel safer transacting on ethereum" with ❤️
+00:56:26	Toni Wahrstätter:	Reacted to hard to underscore h... with "❤️"
+00:56:27	jochem-brouwer:	Replying to "https://eips.ether..."
+
+Yes good point, I should first read this EIP more carefully before engaging here 😄👍
+00:56:38	Hadrien Croubois (OpenZeppelin):	Replying to "What’s the difference between this and DELEGATECALL?"
+
+This is the piece of code we don’t want to deploy anymore. We want to have a factory use SETDELEGATE to create « eip-7702-like » delegations (instead of using create or create2)
+00:57:14	jochem-brouwer:	Replying to "I don't like 7906,..."
+
+Is there a (draft) EIP somewhere regarding direct journal access?
+00:57:15	lightclient:	Replying to "https://eips.ethereu..."
+
+i think the designator should be changed slightly so that you can differentiate 7702 accounts vs contracts?
+00:57:32	Hester Bruikman:	Reacted to "Is there a (draft) EIP somewhere regarding direct journal access?" with 👀
+00:58:07	Hadrien Croubois (OpenZeppelin):	Replying to "What’s the difference between this and DELEGATECALL?"
+
+Basically: setdelegate sets a 23 bytes code instead of using create(2) to deploy significantly larger code. And you get upgradeability for free (if the factory decides to support it) without having to pay an sload every time
+00:58:10	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ There was a draft iirc. Tyler from the security team wrote it up
+00:58:16	jochem-brouwer:	Replying to "I don't like 7906,..."
+
+If we dont have it we should draft it and "propose it for PFI" (lol) before next week ACDC
+00:58:21	lightclient:	Replying to "I don't like 7906, I..."
+
+how would that be different from 7906?
+00:58:39	jochem-brouwer:	Replying to "I don't like 7906,..."
+
+Idk, Marius says he does not like EIP-7906, which seems to imply EIP-7906 does not have the journal access
+00:58:40	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ Not a frame and different api
+00:58:47	FLCL (Nethermind):	Replying to "Etan third EIP: https://eips.ethereum.org/EIPS/eip-7807"
+
+if block is handleable, at least receipts seem to be too
+00:58:57	Nico Flaig:	Reacted to "hard to underscore h..." with ❤️
+00:59:18	lightclient:	Replying to "I don't like 7906, I..."
+
+you want the frame, or similar controlled env, so that people don’t raw dog get internal state of contracts instead of using public abi
+00:59:23	Etan (Nimbus):	Replying to "Etan third EIP: http..."
+
+receipts are kinda tied to transactions, both follow this "typed envelope" format
+00:59:34	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ Also 7906 seems to have changed quite significantly from when we last discussed it in BA
+01:00:26	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ Its just very convoluted and creates a headache for benchmarking imo
+01:01:00	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ Its very much against the idea of making the evm simple and easy to reason about
+01:01:18	lightclient:	Replying to "I don't like 7906, I..."
+
+we’re pretty far past that 😅
+01:01:26	Gary:	已使用👍回应"Its very much agai..."
+01:01:27	lightclient:	Replying to "I don't like 7906, I..."
+
+i’m not sure what other info you would want from something like this though? TXDIFF is basically the journal right?
+01:01:47	draganrakita:	Replying to "I don't like 7906, I..."
+
+What was idea to expose journals? Sounds invasive
+01:01:51	FLCL (Nethermind):	Replying to "Etan third EIP: https://eips.ethereum.org/EIPS/eip-7807"
+
+but they are still simpler as we don't need to sign it and manage in tx pool. Not like I'm pushing a lot for that but might be cool to do. Receipts will require ssz-way hashing support on EL side as an additional difficulty
+01:02:20	sl:	Replying to "I don't like 7906, I..." 
+
+ Isn't 7906 exactly exposing the journal via solidity/evm api?
+01:02:21	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ Yes, txdiff is basically what I proposed in BA
+01:02:34	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ It just does much more than that
+01:02:48	lightclient:	Replying to "I don't like 7906, I..."
+
+yeah i’m not sure we need the TXTRACE suite
+01:02:50	Alex Forshtat:	Implemented in Ethrex today:
+https://github.com/lambdaclass/ethrex/pull/6891
+
+
+Public devnet info:
+https://github.com/lambdaclass/ethrex/blob/hegota-devnet/scripts/hegota-devnet/USER-GUIDE.md
+
+
+Playground demo (WIP):
+https://eip7906.forshtat.com/
+
+
+Architecture overview:
+ https://x.com/forshtat/status/2082434836589948942
+ https://forshtat.com/posts/trustless-clear-signing-architecture/ (mirror)
+01:02:54	Marius Van Der Wijden (M):	Reacted to yeah i’m not sure we... with "👍"
+01:02:59	Iván | ethrex:	Reacted to "Implemented in Ethre..." with 🔥
+01:03:05	Hester Bruikman:	Reacted to "Implemented in Ethrex today:
+https://github.com/lambdaclass/ethrex/pull/6891
+
+
+Public devnet info:
+https://github.com/lambdaclass/ethrex/blob/hegota-devnet/scripts/hegota-devnet/USER-GUIDE.md
+
+
+Playground demo (WIP):
+https://eip7906.forshtat.com/
+
+
+Architecture overview:
+ https://x.com/forshtat/status/2082434836589948942
+ https://forshtat.com/posts/trustless-clear-signing-architecture/ (mirror)" with 🔥
+01:03:09	Mate Soos:	Thanks for the presentation, actually quite nice!
+01:03:13	lightclient:	Replying to "I don't like 7906, I..."
+
+IMO just TXDIFF is fairly straight forward
+01:03:16	Iván | ethrex:	Reacted to "Thanks for the prese..." with ☝️
+01:03:35	Ahmad Wilson:	Reacted to Implemented in Ethre... with "🔥"
+01:03:45	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ I think we can do txdiff with a better interface (that was my proposal back then)
+01:03:45	Mate Soos:	Looking forward to declarative requirements so users can express their wishes in a declarative, simple way :)
+01:04:10	Csaba:	Replying to "I don't like 7906, I..."
+
++1 on TXDIFF, handling atomic what’s atomic
+01:04:21	Hadrien Croubois (OpenZeppelin):	Replying to "What’s the difference between this and DELEGATECALL?"
+
+A thing to understand is that SETDELEGATE is a « factory opcode » (like create and create2)
+01:04:55	jochem-brouwer:	https://eips.ethereum.org/EIPS/eip-7668 (remove bloom filters)
+01:05:15	Ansgar Dietrichs:	Replying to "https://eips.ethereu..."
+
+had it typed out already, 1s frontrun
+01:05:23	Toni Wahrstätter:	Would this eip be consumed by etan's header change?
+01:05:34	Edgar | ethrex:	Se ha reaccionado a "Implemented in Eth..." con 🔥
+01:05:44	Etan (Nimbus):	Replying to "Would this eip be co..."
+
+not 100%, there's another bloom filter in the receipt
+01:06:03	jochem-brouwer:	https://eips.ethereum.org/EIPS/eip-8304
+01:06:06	Etan (Nimbus):	Replying to "Would this eip be co..."
+
+mine only removes the one from the block header (and replaces JSON-RPC with 1111111..1)
+01:06:09	sl:	Reacted to Implemented in Ethre... with "🔥"
+01:06:24	Toni Wahrstätter:	Replying to "Would this eip be co..." 
+
+ I see! Makes sense
+01:06:43	Sixto Antonio Palacios Quinto:	Thanks
+01:07:01	Kevaundray Wedderburn:	https://eips.ethereum.org/EIPS/eip-8200
+01:07:15	Iván | ethrex:	Reacted to "https://eips.ethereu..." with 🔥
+01:07:15	jochem-brouwer:	Reacted to "had it typed out a..." with 💙
+01:07:16	Kevaundray Wedderburn:	https://eth-act.github.io/evmification-data/index.html
+01:07:27	Luca Donno | L2BEAT:	Reacted to "https://eips.ethereum.org/EIPS/eip-8200" with 🔥
+01:07:37	Toni Wahrstätter:	Replying to "Would this eip be co..." 
+
+ One thing to clarify is the 7778 interaction with the gas_used in receipt. Should be fine but should clarify that the gas used is the user-facing one, after refunds. @Etan (Nimbus)
+01:07:38	jochem-brouwer:	Replying to "https://eips.ether..."
+
+it would be funny me claiming the frontrun, and you being first, then you frontran the frontrun 😍
+01:08:23	spencer:	Reacted to "https://eips.ether..." with 🔥
+01:08:34	Toni Wahrstätter:	What is the difference to just repricing the precompilies when we roll out zkevms?
+01:08:34	Edgar | ethrex:	Se ha reaccionado a "https://eips.ether..." con 🔥
+01:09:05	Toni Wahrstätter:	Based on evm code
+01:09:22	jochem-brouwer:	We should also PFI https://eips.ethereum.org/EIPS/eip-7666 (EVMIfy IDENTITY precompile) for Hegota, which is not PFId
+01:09:53	jochem-brouwer:	Replying to "We should also PFI..."
+
+(together with EIP-8200)
+01:11:13	Gary:	正在回复 "https://eips.ether..."
+
+What I meant is: for 7702, it's very easy to detect the authorizations and then do some validations in the mempool;
+
+with this EIP, all the contracts can do the auths with the opcode, it's very hard to detect these operations without the execution, making the mempool validation even harder
+01:12:25	Iván | ethrex:	Reacted to "We should also PFI h..." with ➕
+01:12:43	Alex Forshtat:	Replying to "I don't like 7906, I..."
+
+In defense of the TXTRACE, despite its obvious issues, it is what allows the open-ended "negative constraint" (`nothing except A, B, and C changed in this transaction`).
+WIth TXDIFF the wallet needs to know where to look one way or another.
+I've heard some positive feedback about being able to express "negative constraints" when talking about EIP-7906 in the past.
+01:14:12	Marius Van Der Wijden (M):	Replying to "I don't like 7906, I..." 
+
+ You can do that with txdiff? E.g. there should not be any touched storage slots besides the ones we want touched and they should have the following values/live in the following ranges
+01:14:59	Marius Van Der Wijden (M):	Lol who would've thought that the 19 bls precompiles aren't really used 😂
+01:15:07	spencer:	Reacted to "Lol who would've t..." with 😅
+01:15:29	Luca Donno | L2BEAT:	Reacted to "Lol who would've thought that the 19 bls precompiles aren't really used 😂 " with 😅
+01:15:37	jochem-brouwer:	If we intent to remove BLS precompiles then should we make them more expensive in Hegota? Or explicitly signal we deprecate them?
+01:15:55	Barnabas:	Replying to "If we intent to remo..."
+
+why can’t we just remove them?
+01:16:20	lightclient:	Reacted to "Lol who would've thought that the 19 bls precompiles aren't really used 😂 " with 😅
+01:16:24	spencer:	Reacted to "We should also PFI..." with ➕
+01:16:26	Kevaundray Wedderburn:	Its a bit like being able to remove dedicated libraries for precompiles
+01:17:21	spencer:	lol, there were some scary bugs too for bls
+01:17:28	jochem-brouwer:	Yup, its a new EIP, we can discuss it regarding that EIP and PFI it now and DFI it later
+01:17:42	jochem-brouwer:	Replying to "Yup, its a new EIP..."
+
+(this proposed BLS reprice)
+01:18:14	jochem-brouwer:	Replying to "Yup, its a new EIP..."
+
+And yes I also know this is contentious as we just added BLS
+01:18:40	jochem-brouwer:	Replying to "Yup, its a new EIP..."
+
+So such EIP being "frowned upon" would be an understatement 😂
+01:18:42	Iván | ethrex:	Reacted to "Lol who would've tho..." with 😅
+01:18:55	Kevaundray Wedderburn:	Reacted to "So such EIP being "frowned upon" would be an understatement 😂" with 😁
+01:19:04	Barnabas:	also go and vote 🐻‍❄️ https://ethereum-magicians.org/t/mascot-needed-for-glamsterdam-upgrade/26008
+01:19:16	Barnabas:	only 1 more day left from the end of the poll
+01:19:36	Iván | ethrex:	Reacted to "also go and vote 🐻‍..." with 🐻‍❄️
+01:20:01	Justin Traglia:	Reacted to "also go and vote 🐻‍..." with 🐻‍❄️
+01:20:05	jochem-brouwer:	Check out Pooja's comment on ACD so we can move these EIPs forward: https://github.com/ethereum/pm/issues/2166#issuecomment-5108689733
+01:20:16	spencer:	Replying to "also go and vote �..."
+
+a polar bear is an artic panda right?
+01:20:22	spencer:	Reacted to "Check out Pooja's ..." with 🔥
+01:20:28	Maria Silva:	Repricings eips were updated here: https://github.com/ethereum/EIPs/pull/12038 
+
+The individual PRs had issues that I fixed here
+01:20:39	Alex Forshtat:	Replying to "I don't like 7906, I..."
+
+Basically yes, it will need to adopt some fields from TXTRACE but it is possible to have a single opcode to return a list of "touched storage slots" and the changes.
+01:21:18	Toni Wahrstätter:	Inspiring call
+01:21:22	Parithosh Jayanthi:	Reacted to "Inspiring call" with ❤️
+01:21:24	Trent Van Epps:	Reacted to "Inspiring call" with ❤️
+01:21:25	Barnabas:	Ansgar sing please
+01:21:29	Iván | ethrex:	Reacted to "Inspiring call" with ❤️
+01:21:30	Barnabas:	happy birthday song?
+01:21:33	Mario Vega:	Reacted to "happy birthday song?" with ❤️
+01:21:34	Parithosh Jayanthi:	Reacted to "happy birthday song?" with 😂
