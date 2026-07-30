@@ -1,0 +1,118 @@
+{
+  "meeting": "ACDE #242 - July 30, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:06:27",
+        "highlight": "glamsterdam-devnet-7 running stable; 100% participation; Teku self-building blocks, not using public bids"
+      },
+      {
+        "timestamp": "00:12:01",
+        "highlight": "glamsterdam-devnet-8 / Plat\u00e5berget testnet launch blocked on repricing finalization; devnet-8 intended as last devnet before mainnet"
+      },
+      {
+        "timestamp": "00:29:35",
+        "highlight": "Plat\u00e5berget testnet: public-facing named testnet (CNAME for devnet-8); ~1 week after launch before fork; separate NFT devnets for internal testing continue"
+      },
+      {
+        "timestamp": "00:31:01",
+        "highlight": "Plat\u00e5berget launch timing TBD; decision expected at next week's ACDT"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:08:59",
+        "highlight": "Repricing analysis ongoing on devnet-7; new state actor tool shows potentially worse numbers; full benchmark suite results expected next week"
+      },
+      {
+        "timestamp": "00:22:35",
+        "highlight": "discv5-only mode ready for devnet-8; two clients still need flag to disable discv4; ENR fields not yet returned by admin_nodeInfo on any client \u2014 all EL teams should add ENR alongside eNode"
+      },
+      {
+        "timestamp": "00:33:00",
+        "highlight": "Hive chain PR (#1589) blocked: clients disagree on EIP-7928 BAL contents at block 57; needs extra eyes to unblock"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:36:40",
+        "highlight": "EIP-8115: Batch priority fees at end of block; benefits parallel execution and UX; downside \u2014 priority fee only spendable next block"
+      },
+      {
+        "timestamp": "00:38:07",
+        "highlight": "EIP-8116: Replace cumulative receipt gas field with per-tx gas; enables trust-minimized Merkle proofs without downloading two receipts"
+      },
+      {
+        "timestamp": "00:38:25",
+        "highlight": "EIP-7807 (scoped-down): SSZ block hash only (no txs/receipts); lets CL compute block hash locally; removes logs bloom from header"
+      },
+      {
+        "timestamp": "00:44:28",
+        "highlight": "EIP-7819 (SETDELEGATE): factory opcode creating 7702-style delegate pointers on-chain; makes proxy account creation composable and ~5x cheaper post-Glamsterdam repricing"
+      },
+      {
+        "timestamp": "00:49:41",
+        "highlight": "EIP-7906 (Transaction Assertions via State Diff Opcode): post-tx frame with TXTRACE/TXDIFF opcodes to expose full state diff; allows wallets to enforce transaction outcomes on-chain; implemented in ethrex; Marius prefers a simpler TXDIFF-only interface"
+      },
+      {
+        "timestamp": "01:04:49",
+        "highlight": "EIP-7668: Remove logs bloom filters; standalone EIP complementing EIP-8304 and EIP-7807; all clients still compute bloom unnecessarily"
+      },
+      {
+        "timestamp": "01:06:41",
+        "highlight": "EIP-8200 (EVMification): replace unused precompiles with equivalent EVM bytecode; ~50% of precompiles barely used; BLS12 precompiles excluded from initial scope due to lack of optimized bytecode; EIP-7666 (EVMify IDENTITY) flagged as companion PFI"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:35:04",
+        "highlight": "Hegota proposal deadline: submissions due by start of ACDC call next Thursday (via GitHub comment on ACDE agenda or PR against meta EIP)"
+      },
+      {
+        "timestamp": "01:18:14",
+        "highlight": "Pooja: Glamsterdam EIPs need author approval on open PRs to move to Review; EIP-7773 meta EIP moves to Review only after all listed EIPs are in Review"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:19:37",
+      "action": "EL client teams: finalize repricing optimizations and confirm benchmark numbers by early next week",
+      "owner": "EL client teams"
+    },
+    {
+      "timestamp": "00:27:28",
+      "action": "All EL clients: return ENR fields (not just eNode) in admin_nodeInfo RPC endpoint for discv5-only support",
+      "owner": "EL client teams"
+    },
+    {
+      "timestamp": "00:33:00",
+      "action": "Review and unblock Hive chain PR #1589; resolve EIP-7928 BAL disagreement at block 57",
+      "owner": "EL client teams / Chase Wright"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:13:16",
+      "decision": "devnet-8 / Plat\u00e5berget testnet launch held until repricing numbers are finalized; public-facing spec should not change post-launch"
+    },
+    {
+      "timestamp": "00:29:35",
+      "decision": "devnet-8 will be named Plat\u00e5berget testnet; internal NFT devnets continue in parallel for chaos testing"
+    },
+    {
+      "timestamp": "01:15:30",
+      "decision": "PFI for Hegota: EIP-8115 (batch priority fees), EIP-8116 (replace cumulative receipt fields), EIP-7807 (SSZ block hash), EIP-7819 (SETDELEGATE), EIP-7906 (transaction assertions), EIP-7668 (remove bloom filters), EIP-8200 (EVMification)"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:31:38",
+      "target": "Plat\u00e5berget testnet launch timing \u2014 decision expected at ACDT next week"
+    },
+    {
+      "timestamp": "00:35:21",
+      "target": "Hegota proposal deadline \u2014 before ACDC call, ~August 7, 2026"
+    }
+  ]
+}
