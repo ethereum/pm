@@ -1,0 +1,77 @@
+{
+  "meeting": "ACDT #90 - August 3, 2026 (CL breakout)",
+  "highlights": {
+    "epbs_builder_api": [
+      {
+        "timestamp": "00:01:10",
+        "highlight": "Three open PRs: Key Manager API, Beacon API produce-block endpoint, builder spec (PR #165)"
+      },
+      {
+        "timestamp": "00:04:02",
+        "highlight": "Per-builder P2P bid boosting/min-bid is technically broken \u2014 P2P propagates on raw value, not boosted factor"
+      },
+      {
+        "timestamp": "00:09:06",
+        "highlight": "Consensus to remove per-builder P2P boost/min-bid config; global P2P boost factor retained"
+      }
+    ],
+    "epbs_gossip_validation": [
+      {
+        "timestamp": "00:13:04",
+        "highlight": "Potuz: bid validation against non-head state should remain IGNORE, not REJECT \u2014 changing to REJECT would cause Prysm to drop all non-head bids, killing multi-bid functionality"
+      },
+      {
+        "timestamp": "00:16:07",
+        "highlight": "Consensus to keep balance-check as IGNORE; Lodestar will still use correct state locally"
+      }
+    ],
+    "epbs_epoch_boundary": [
+      {
+        "timestamp": "00:16:28",
+        "highlight": "Lodestar seeing double epoch transitions from bids built on parent at epoch boundary; Nico added a guard in Lodestar (PR #9756)"
+      },
+      {
+        "timestamp": "00:17:32",
+        "highlight": "Potuz's spec PR removes epoch-boundary shuffling-stability check \u2014 Lighthouse and Prysm already behave this way on mainnet"
+      }
+    ],
+    "sparse_blob_pool_engine_api": [
+      {
+        "timestamp": "00:19:35",
+        "highlight": "Bosul: sparse blob pool Engine API discussed at last ACD; Lighthouse raised design concerns but no counter-proposal submitted; other clients already implemented; proceed unless significant objections raised async"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:09:28",
+      "action": "Remove per-builder P2P boost/min-bid config from Key Manager API and Beacon API PRs",
+      "owner": "Jason Vranek"
+    },
+    {
+      "timestamp": "00:19:01",
+      "action": "Add rationale paragraph to epoch-boundary shuffling-stability spec PR",
+      "owner": "Potuz"
+    },
+    {
+      "timestamp": "00:19:35",
+      "action": "Review sparse blob pool Engine API proposal async; share objections if any",
+      "owner": "CL teams (esp. Lighthouse)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:09:28",
+      "decision": "Per-builder P2P bid boosting and min-bid config removed from ePBS specs"
+    },
+    {
+      "timestamp": "00:16:07",
+      "decision": "Builder bid balance-check kept as IGNORE (not REJECT) on gossip path"
+    },
+    {
+      "timestamp": "00:11:46",
+      "decision": "ePBS API PRs to be implemented by clients before merging; merge after successful devnet validation"
+    }
+  ],
+  "targets": []
+}

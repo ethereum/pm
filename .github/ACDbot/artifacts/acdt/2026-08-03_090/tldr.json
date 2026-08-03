@@ -1,0 +1,118 @@
+{
+  "meeting": "ACDT #90 - August 3, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:03:47",
+        "highlight": "Glamsterdam devnet 7 stable for 20 days; 90%+ participation, minor disk/node issues"
+      },
+      {
+        "timestamp": "00:06:16",
+        "highlight": "Glamsterdam devnet 8 targets new CSpec release; should be short-lived named testnet with updated repricing"
+      }
+    ],
+    "repricing_updates": [
+      {
+        "timestamp": "00:07:21",
+        "highlight": "New anchor lowered from 100 to 75 Mgas/s due to costlier account test cases; 21K ETH transfer is hard ceiling"
+      },
+      {
+        "timestamp": "00:11:09",
+        "highlight": "EIP-8038: account writes increase 8K\u21929K; SLOAD stays at 2,100 (no increase from current); ETransfers EIP unchanged"
+      },
+      {
+        "timestamp": "00:13:31",
+        "highlight": "At 75 Mgas/s anchor: Erigon still red/yellow (optimizations pending); ethrex has one cold-access gap; Besu/Geth at edge but expected to improve"
+      },
+      {
+        "timestamp": "00:18:49",
+        "highlight": "At 75 Mgas/s, theoretical max block limit ~450M gas; 300M considered safely reachable if all clients reach green"
+      }
+    ],
+    "epbs_attestation_deadline": [
+      {
+        "timestamp": "00:23:22",
+        "highlight": "ePBS makes worst-case slow blocks an automatic reorg attack; worst-case sizing must be respected, not average"
+      },
+      {
+        "timestamp": "00:37:00",
+        "highlight": "Attestation deadline lowering to 2s: main blocker was one operator combining high min-bid with timing games on Prysm"
+      },
+      {
+        "timestamp": "00:44:00",
+        "highlight": "Decision: keep attestation deadline at 3s for fork; gather hard numbers post-fork, revisit lowering to 2s without a hard fork"
+      }
+    ],
+    "el_breakout_discv5": [
+      {
+        "timestamp": "00:45:24",
+        "highlight": "discv5-only mode confirmed for devnet 8; all clients passing on at least one branch; fallback must be disabled"
+      },
+      {
+        "timestamp": "00:46:36",
+        "highlight": "Two clients lacked a flag to disable discv4 fallback (Nimbus EL confirmed); teams asked to add the flag before devnet 8"
+      }
+    ],
+    "el_breakout_block_access_lists": [
+      {
+        "timestamp": "00:49:50",
+        "highlight": "Block Access Lists (EIP-8189) enable hot-booting SnapSync: pre-loading last N blocks' access items into cache cuts cold-read penalty"
+      },
+      {
+        "timestamp": "00:53:25",
+        "highlight": "Snap2 healing phase can replace trie healing with BAL execution; ~79% of first-touch items touched in prior 256 blocks"
+      },
+      {
+        "timestamp": "00:58:02",
+        "highlight": "Consensus: BAL hot-boot is a nice-to-have post-release optimization; does not affect worst-case benchmark numbers"
+      }
+    ],
+    "el_breakout_eip_7702": [
+      {
+        "timestamp": "00:59:57",
+        "highlight": "EIP-7702 engine API mandatory endpoints raised; Geth and Nethermind passing Hive simulator; concerns about FCU placement unresolved"
+      },
+      {
+        "timestamp": "01:01:56",
+        "highlight": "Action: check with potuz on spec changes, then agenda EIP-7702 engine API discussion for ACDC"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:34:22",
+      "action": "Update EIP-8038 repricing numbers; publish new execution-specs release",
+      "owner": "Maria Silva / SEAL"
+    },
+    {
+      "timestamp": "00:43:02",
+      "action": "EthPandaOps: gather hard block-propagation and state-transition timing numbers at fork for 2s attestation deadline analysis",
+      "owner": "EthPandaOps"
+    },
+    {
+      "timestamp": "01:01:56",
+      "action": "Confirm EIP-7702 engine API spec changes with potuz; bring to ACDC agenda",
+      "owner": "jochem-brouwer / Mario Vega"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:34:15",
+      "decision": "Repricing numbers frozen: SLOAD stays at 2,100; account writes set to 9K; anchor fixed at 75 Mgas/s; all EL clients approved"
+    },
+    {
+      "timestamp": "00:44:00",
+      "decision": "Attestation deadline stays at 3s for Glamsterdam fork; 2s lowering deferred post-fork via coordinated client release"
+    },
+    {
+      "timestamp": "00:45:24",
+      "decision": "discv5-only (no discv4 fallback) adopted for devnet 8 and targeted for mainnet"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:06:16",
+      "target": "Glamsterdam devnet 8: short-lived named testnet, dependent on repricing finalization this week"
+    }
+  ]
+}

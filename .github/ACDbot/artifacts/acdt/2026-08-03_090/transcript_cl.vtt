@@ -1,0 +1,678 @@
+WEBVTT
+
+1
+00:00:17.050 --> 00:00:18.320
+Justin Traglia: Hello again.
+
+2
+00:00:18.530 --> 00:00:20.109
+Justin Traglia: One second, we'll get started.
+
+3
+00:00:22.040 --> 00:00:24.809
+Justin Traglia: Or… maybe, like, 30 seconds, actually.
+
+4
+00:00:37.930 --> 00:00:48.770
+Justin Traglia: Okay, let's jump into it, I guess. Nico, would you like to lead the discussion on the open questions around specs for direct builders? I think there were the three PRs that you listed in your comment.
+
+5
+00:00:49.240 --> 00:01:08.009
+Nico Flaig: Yeah, so maybe even Jason can do that, but just want to point out it's not only for direct builders, so it's also just bringing all the MeV boost logic into clients, so even without direct builders, you still have the option for min build and boost factor for, like, P2P builds.
+
+6
+00:01:10.050 --> 00:01:10.510
+Justin Traglia: Okay.
+
+7
+00:01:10.510 --> 00:01:16.620
+Nico Flaig: But yeah, do you want to talk about it, Jason, or should I? I think you know it a bit better, so…
+
+8
+00:01:16.620 --> 00:01:25.089
+Jason Vranek: Well, maybe I can give just a big… or, like, an overview, and then you have, kind of, the open questions, because as of the last ones, I'm not too opinionated.
+
+9
+00:01:25.260 --> 00:01:34.630
+Jason Vranek: But yeah, so there's kind of 3 PRs here, starting from the bottom, like the Key Manager API,
+
+10
+00:01:34.950 --> 00:01:46.610
+Jason Vranek: Now that the Beacon node's going to be doing a lot of the auctioning logic, you have to do all these configurations around, peer-to-peer bids, direct bids, and
+
+11
+00:01:46.980 --> 00:02:06.709
+Jason Vranek: who you can talk to, and it starts to look like this N by M matrix, where each key could potentially have different preferences for different builders, and so the motivation of the Key Manager API was to make it programmatic, to, yeah, configure your client, so you don't have to…
+
+12
+00:02:06.810 --> 00:02:11.099
+Jason Vranek: Deal with these, really error-prone large configs.
+
+13
+00:02:11.430 --> 00:02:23.020
+Jason Vranek: And that sort of starts to flow the necessary data we need into the Beacon API, so there's this produce block before endpoint.
+
+14
+00:02:23.430 --> 00:02:34.479
+Jason Vranek: And, we basically need to send enough information from the Validator client to the Beacon node to be able to facilitate the auction and fan out these requests to the…
+
+15
+00:02:34.600 --> 00:02:37.700
+Jason Vranek: builder API endpoints.
+
+16
+00:02:38.930 --> 00:02:55.929
+Jason Vranek: And then, once you get all the bids, you need to, you know, run the auction yourself, and there's, like, these… there's a min bid, there's a builder-boost factor, there's also this max execution payment value that constrains the builder API trusted bids.
+
+17
+00:02:56.340 --> 00:03:04.090
+Jason Vranek: And yeah, so finally, at the rest… top of the stack, there's the 165 is the PR to update.
+
+18
+00:03:04.090 --> 00:03:17.799
+Jason Vranek: the builder specs, and I'd say this one has probably changed the least. It's mostly trying to clarify things, and get it more, up to, sort of, standard with the other PRs, after
+
+19
+00:03:18.070 --> 00:03:19.810
+Jason Vranek: What Brath had left.
+
+20
+00:03:20.440 --> 00:03:25.589
+Jason Vranek: So, I guess with that, there's… there's some open questions. I guess I'll let Nico take the…
+
+21
+00:03:29.080 --> 00:03:36.020
+Nico Flaig: Yeah, so, in the current shape, or the current state, we still support
+
+22
+00:03:36.150 --> 00:03:50.640
+Nico Flaig: Well, let me quickly say how it… I think it should work. So, we have a global parameter today, right, with the boost factor for builders, or basically you can de-boost the builder block, which is, like, how we use it on mainnet.
+
+23
+00:03:50.890 --> 00:04:02.510
+Nico Flaig: This is global, so it's applied to all the builder blocks, in a sense, because, I mean, MEV Boost just gives you one, but it already selects the highest one, or Commit Boost, or whatever sidecar.
+
+24
+00:04:02.720 --> 00:04:17.820
+Nico Flaig: Now with clause, we could apply this to the builder API, which we already, like, the current spec does this. And there was also the question if we want this for P2P builders too, so bits you get over P2P.
+
+25
+00:04:17.820 --> 00:04:27.579
+Nico Flaig: The problem there was that the current P2P rules don't really allow this, so neither min-bit nor boost factor, work properly.
+
+26
+00:04:27.840 --> 00:04:41.799
+Nico Flaig: Because on P2P, we, like, other nodes in the network will not propagate or consider these values, because they are local only, so the outcome is kind of random, based on how bits are propagated on the network.
+
+27
+00:04:42.260 --> 00:04:49.980
+Nico Flaig: And, adding this for P2P bits, the per-builder config adds some complexity,
+
+28
+00:04:50.150 --> 00:05:02.139
+Nico Flaig: And I think mostly from configuration side, it's not that nice. So just curious if people have strong opinions to keep it… keep this possibility to boost a specific P2P builder.
+
+29
+00:05:08.210 --> 00:05:13.720
+Justin Traglia: For simplicity, I don't think that we should have any builder… sorry, any boost for P2P bits.
+
+30
+00:05:14.090 --> 00:05:15.290
+Justin Traglia: Just my opinion.
+
+31
+00:05:16.400 --> 00:05:20.270
+Nico Flaig: Oh, we still have that, by the way, but it's a global value.
+
+32
+00:05:21.060 --> 00:05:25.639
+Nico Flaig: Not… not specific for… by builder index or pub key.
+
+33
+00:05:29.890 --> 00:05:38.449
+Justin Traglia: I mean, I should look into that. I should… we should… we could consider removing it, I think, for P2P bits, then. I… I mean, I… I think there should be a…
+
+34
+00:05:39.000 --> 00:05:45.560
+Justin Traglia: you should be able to compare your local payload to a P2P bid directly, and only go with the local if it's
+
+35
+00:05:45.900 --> 00:05:47.070
+Justin Traglia: one way.
+
+36
+00:05:47.340 --> 00:05:48.390
+Justin Traglia: Or greater.
+
+37
+00:05:48.950 --> 00:05:49.930
+Justin Traglia: And value.
+
+38
+00:05:53.780 --> 00:06:05.030
+Nico Flaig: Oh yeah, but that would remove stuff we can do today, because today we say we boost the local payload by 10% by default, I think many clients do this, so I think this should still be done.
+
+39
+00:06:05.700 --> 00:06:11.189
+Nico Flaig: And this is simple, the complex part is if you want to do this per build or on P2P.
+
+40
+00:06:13.590 --> 00:06:15.179
+Justin Traglia: Okay, how do other clients feel?
+
+41
+00:06:50.340 --> 00:06:53.139
+Justin Traglia: Okay, there aren't really any thoughts.
+
+42
+00:06:56.030 --> 00:07:00.239
+Jason Vranek: Or, just to answer your question, Justin, so this is, like.
+
+43
+00:07:00.550 --> 00:07:04.439
+Jason Vranek: We have a global, min bid and builder-boost.
+
+44
+00:07:04.540 --> 00:07:19.820
+Jason Vranek: for the peer-to-peer bids, and then we also have it where you can configure it per builder. And so I think there's a decision to cut per builder, there's also the discussion to cut global, which I don't think anyone wants to do, and then there's the
+
+45
+00:07:20.140 --> 00:07:24.460
+Jason Vranek: discussion to, like, I guess, remove builder-boost…
+
+46
+00:07:25.290 --> 00:07:32.790
+Jason Vranek: From the global, because it could potentially not be useful with the consensus rules for bids.
+
+47
+00:07:36.390 --> 00:07:39.150
+Nico Flaig: Now wait, why is the global one not useful?
+
+48
+00:07:40.270 --> 00:07:44.629
+Jason Vranek: Or wasn't the idea, like, you don't have control over what bids end up…
+
+49
+00:07:45.050 --> 00:08:02.550
+Nico Flaig: Oh yeah, that is the per builder, right? Like, even if you currently would say you 1000x boost some specific builder's bit, that one might never reach your node, because on P2P, we only propagate the highest bid based on, like, the actual bit.value, not, like, some boosted factor, right?
+
+50
+00:08:02.840 --> 00:08:16.509
+Nico Flaig: So that's just the weirdness of the P2P bit boosting, or even min-bit, it just doesn't work, deterministically. So I think even if a user sets this, it's like a random outcome, which I don't like.
+
+51
+00:08:25.560 --> 00:08:30.370
+Justin Traglia: Okay, so where do we go from here for these PRs? What are you guys, requesting?
+
+52
+00:08:31.930 --> 00:08:32.980
+Justin Traglia: Reviews?
+
+53
+00:08:35.650 --> 00:08:38.429
+Justin Traglia: Or… do we need to make any decisions here?
+
+54
+00:08:39.510 --> 00:08:47.080
+Nico Flaig: I mean, that would be nice if we can decide on that one, because then I think the PRs are mostly in a good shape to review them.
+
+55
+00:08:48.310 --> 00:08:54.070
+Nico Flaig: Because, right, Jason, right now it adds this option to boost and minbid per P2P builder.
+
+56
+00:08:56.420 --> 00:09:01.679
+Jason Vranek: Yeah, it's currently in the specs, I'm happy to, you know, take them out.
+
+57
+00:09:05.960 --> 00:09:09.239
+Justin Traglia: Is there anyone here that wants per- builder P2P?
+
+58
+00:09:09.360 --> 00:09:10.580
+Justin Traglia: That boosting.
+
+59
+00:09:12.720 --> 00:09:15.510
+Justin Traglia: Eitan says, I don't want this.
+
+60
+00:09:15.910 --> 00:09:20.840
+Justin Traglia: I think Nico's… Doesn't want them either. Nico doesn't want them either.
+
+61
+00:09:21.070 --> 00:09:25.509
+Justin Traglia: And then… Bot is the first is vote to Nico and Terrence.
+
+62
+00:09:26.030 --> 00:09:28.610
+Justin Traglia: So, Jason, I think we should just take him out.
+
+63
+00:09:28.930 --> 00:09:36.270
+Nico Flaig: Yeah, I mean, it just doesn't work technically in a proper way, so… I think it's just bad to have such a design.
+
+64
+00:09:38.720 --> 00:09:39.620
+Justin Traglia: Makes sense.
+
+65
+00:09:40.600 --> 00:09:43.979
+Justin Traglia: Are there any other open questions that we need to answer here?
+
+66
+00:09:44.150 --> 00:09:45.339
+Justin Traglia: Or should answer?
+
+67
+00:09:47.790 --> 00:10:07.629
+Nico Flaig: I think we can do it async. I guess the ask would be, once the PRs… I think once Jason applies these updates, it would be good to just have people look at it, see if they… if, like, something they want to have is missing, like some config option, or whatever, like, just to get more feedback.
+
+68
+00:10:08.500 --> 00:10:12.170
+Nico Flaig: There was, like, one… Sorry, go ahead.
+
+69
+00:10:12.430 --> 00:10:17.520
+Justin Traglia: I'm sorry, do we need to merge the PR before this is implemented in clients?
+
+70
+00:10:18.480 --> 00:10:20.119
+Justin Traglia: For, like, a DevNet 8.
+
+71
+00:10:20.360 --> 00:10:25.560
+Justin Traglia: Or could we wait for them to implement it, and let's test it, and then we agree to merge the PR?
+
+72
+00:10:27.430 --> 00:10:31.729
+Nico Flaig: I mean, does any client besides Lodestar run spec tests on the API?
+
+73
+00:10:33.170 --> 00:10:39.599
+Nico Flaig: If the answer is no, then there's zero reason to merge this. You can allow more feedback.
+
+74
+00:10:53.680 --> 00:10:58.790
+Justin Traglia: Yeah, I mean, if it were up to me, I feel like we should have more clients implement this before merging it.
+
+75
+00:10:59.390 --> 00:11:02.430
+Justin Traglia: Otis.
+
+76
+00:11:02.770 --> 00:11:10.410
+Justin Traglia: Potus, are you fine with waiting to merge the PRs until, Client teams have implemented.
+
+77
+00:11:10.640 --> 00:11:13.119
+potuz: We're still on the APIs, right?
+
+78
+00:11:13.520 --> 00:11:14.379
+Justin Traglia: Yeah, we are.
+
+79
+00:11:14.380 --> 00:11:17.980
+potuz: I think it's fine, as long as we sort of, like.
+
+80
+00:11:18.610 --> 00:11:23.689
+potuz: At least signal that this is… the current status is the right one or not.
+
+81
+00:11:24.090 --> 00:11:29.619
+potuz: I was the one that was suggesting pair builder, so… and I'm fine with the removing the per builder.
+
+82
+00:11:29.890 --> 00:11:35.029
+potuz: on the P2P side, if the people that are actually writing the PRs think that it's best.
+
+83
+00:11:35.590 --> 00:11:40.719
+potuz: If we signal that it's fine now, we start implementing it, then we agree on merging.
+
+84
+00:11:41.170 --> 00:11:42.160
+potuz: As they are.
+
+85
+00:11:46.610 --> 00:11:51.320
+Justin Traglia: Assuming that the implementations go well, and it works on DevNet? Yeah, sure.
+
+86
+00:11:51.320 --> 00:11:52.290
+potuz: Of course.
+
+87
+00:11:54.100 --> 00:12:03.899
+Justin Traglia: Okay, I think… so the action items are JSON, or JSON removes the P2P bid-boosting config.
+
+88
+00:12:05.030 --> 00:12:10.330
+Justin Traglia: And then, from then it… from there, it should be fine, right? Like, that's what we believe is,
+
+89
+00:12:11.320 --> 00:12:13.349
+Justin Traglia: Good to be implemented, Nico?
+
+90
+00:12:14.620 --> 00:12:15.390
+Justin Traglia: Yep.
+
+91
+00:12:15.980 --> 00:12:22.819
+Justin Traglia: Okay, so then clients will implement that, version of the PRs, or PR.
+
+92
+00:12:23.300 --> 00:12:27.529
+Justin Traglia: And then after there's a few implementations, we'll merge the PR.
+
+93
+00:12:30.070 --> 00:12:31.620
+Justin Traglia: Does that sound fine for everyone?
+
+94
+00:12:37.770 --> 00:12:38.560
+Justin Traglia: Alright.
+
+95
+00:12:39.690 --> 00:12:47.689
+Justin Traglia: We have 5 minutes left. Let's move on to the next breakout item. There was a question in Discord about,
+
+96
+00:12:49.450 --> 00:12:53.099
+Justin Traglia: This check being changed from ignore to reject.
+
+97
+00:12:53.790 --> 00:12:58.920
+Justin Traglia: I believe it was Nico that mentioned, or like, that said that it doesn't make sense for it to be an ignore.
+
+98
+00:12:59.580 --> 00:13:03.600
+Justin Traglia: I believe I agree, there is not a valid
+
+99
+00:13:04.940 --> 00:13:06.870
+Justin Traglia: Like, how should I say it?
+
+100
+00:13:07.850 --> 00:13:12.020
+Justin Traglia: It's invalid for a builder to submit a bid for
+
+101
+00:13:12.930 --> 00:13:17.939
+Justin Traglia: A balance, or sorry, with a great… a bid value greater than their balance.
+
+102
+00:13:18.630 --> 00:13:22.560
+Justin Traglia: How do other clients feel about this?
+
+103
+00:13:28.570 --> 00:13:29.460
+Justin Traglia: Cotus?
+
+104
+00:13:30.330 --> 00:13:45.080
+potuz: I disagree, and the reason is that we should not force clients to, use a state that is not head to validate things. So this is not about what the builder sends, it's about what my peer is forwarding me.
+
+105
+00:13:45.440 --> 00:13:46.340
+potuz: And…
+
+106
+00:13:47.120 --> 00:14:00.600
+potuz: on most objects, we don't require the peer to have a specific state to validate the object. To validate this bid, you need to have a specific state that most clients might not need to have it.
+
+107
+00:14:01.150 --> 00:14:04.019
+potuz: If it's the head state, then it's fine.
+
+108
+00:14:04.230 --> 00:14:12.909
+potuz: And this is the reason why I think this was an ignore early on, because we're assuming that clients will validate the bid with the head state.
+
+109
+00:14:13.090 --> 00:14:20.919
+potuz: And if the head state is not the right state to validate it, then they might get a different answer than what you would get from the right state.
+
+110
+00:14:21.070 --> 00:14:40.129
+potuz: We don't want to spend resources on this. So if we move to a reject, what I think is going to happen is that at least present will just ignore most of the bids that come for anything that is not head, which means that we just removed what the feature of this PR was adding, which is allowing for multiple bids.
+
+111
+00:14:40.130 --> 00:14:44.720
+potuz: Definitely, Prism will not validate anything that is not built on head.
+
+112
+00:14:53.890 --> 00:14:56.050
+Justin Traglia: Nico, would you like to respond to that?
+
+113
+00:14:57.480 --> 00:15:09.180
+Nico Flaig: Yeah, I mean, in my opinion, this is still a recheck, because you can always guarantee that you use the right state. It's not timing-dependent, or not dependent on another message.
+
+114
+00:15:09.790 --> 00:15:16.369
+Nico Flaig: So not, like… So, for example, can't Prism just say, if it doesn't match your head, you ignore it anyway?
+
+115
+00:15:19.930 --> 00:15:28.690
+potuz: Yes, which is the reason why I'm saying that we lose functionality, because instead of forwarding this bid that we wrote a specific PR to allow those…
+
+116
+00:15:28.690 --> 00:15:32.410
+Nico Flaig: Ignore it anyway, right? In any case, you would ignore it.
+
+117
+00:15:32.410 --> 00:15:38.439
+potuz: No, that's the point. If I… with my head state, I see that the balance is good, I will just forward it.
+
+118
+00:15:38.440 --> 00:15:39.369
+Nico Flaig: Oh, okay, yeah, yeah.
+
+119
+00:15:39.370 --> 00:15:45.849
+potuz: But now, with your request of saying, no, I might be rejected, then I'm not going to forward anything, I'm just going to ignore those bits.
+
+120
+00:15:45.990 --> 00:15:54.210
+potuz: And we lost function… we lost functionality, and we risk downscoring just for this stupid gossip path.
+
+121
+00:15:57.870 --> 00:16:01.549
+Nico Flaig: Yeah, I think that is good rational to keep it ignored, I would say.
+
+122
+00:16:05.890 --> 00:16:07.719
+Justin Traglia: Yeah, it makes sense to me as well.
+
+123
+00:16:07.920 --> 00:16:08.890
+Justin Traglia: Okay.
+
+124
+00:16:09.460 --> 00:16:11.230
+Justin Traglia: Should we just keep it as is, then?
+
+125
+00:16:15.930 --> 00:16:17.840
+Justin Traglia: Or does anyone else have feelings?
+
+126
+00:16:25.240 --> 00:16:28.050
+Justin Traglia: Alright, I mean, we just have one minute left, but
+
+127
+00:16:28.390 --> 00:16:34.600
+Justin Traglia: Nico, would you like to discuss your PR on Epoch boundaries, or would you like to do it another time?
+
+128
+00:16:35.630 --> 00:16:51.550
+Nico Flaig: I can quickly… I mean, it's related a bit to this, so we noticed on the definet that we are kind of getting DOSED by bits at the epoch boundary, so we see a lot of the time that we do two epoch transitions, and that is because we get a bit for our parent.
+
+129
+00:16:52.310 --> 00:17:01.169
+Nico Flaig: So that's why I added this to Lodestar. I think it's not good to have bits force us to do two epoch transitions.
+
+130
+00:17:01.680 --> 00:17:05.160
+Nico Flaig: So I'm just wondering, is that something…
+
+131
+00:17:05.550 --> 00:17:10.890
+Nico Flaig: I mean, this is a bit conflicting with the Lighthouse Epoch Boundary reorg.
+
+132
+00:17:11.030 --> 00:17:16.129
+Nico Flaig: And there's a PR from potuz that even, allows this on the spec level.
+
+133
+00:17:17.140 --> 00:17:24.810
+potuz: I think these are not contradictory, right? So, it's fine, if you don't have this data and you can't validate it, then it's fine, you just don't, and you ignore.
+
+134
+00:17:25.060 --> 00:17:32.369
+potuz: But we are also producing… we will be producing those bids, and we… we are also reorging those blocks.
+
+135
+00:17:32.790 --> 00:17:40.870
+potuz: And I think Prism will have it. If the last block came late, Prism will have this in the cache.
+
+136
+00:17:41.090 --> 00:17:43.809
+potuz: So we would validate those bids anyways.
+
+137
+00:17:50.560 --> 00:17:54.240
+potuz: I think it's fine for Lodestar to ignore those.
+
+138
+00:17:54.430 --> 00:18:02.310
+potuz: I think we should keep in the spec that, the simplification of just not caring about the epoch boundary.
+
+139
+00:18:05.600 --> 00:18:07.650
+Nico Flaig: Yeah, I think I would be fine with that.
+
+140
+00:18:08.660 --> 00:18:11.030
+Justin Traglia: So I could be clear, so,
+
+141
+00:18:11.450 --> 00:18:14.350
+Justin Traglia: we should remove that check, like your PR does.
+
+142
+00:18:15.800 --> 00:18:23.530
+potuz: Right, so my PR… my PR just makes explicit something that I think both Lighthouse and Prism are doing now on Mainnet.
+
+143
+00:18:25.110 --> 00:18:25.820
+Justin Traglia: Okay.
+
+144
+00:18:26.100 --> 00:18:31.250
+Justin Traglia: Could you, provide your rationale in that PR? It's currently empty.
+
+145
+00:18:31.250 --> 00:18:44.649
+potuz: Oh, but it's… oh, yeah, sure, I can… I can add it. It's just the fact that the look-ahead already removed the… I mean, this check is called, something about the shuffling being stable, and the shuffling is stable because of the look-ahead.
+
+146
+00:18:46.470 --> 00:18:48.429
+Justin Traglia: I thought it was an epoch boundary.
+
+147
+00:18:48.940 --> 00:18:54.629
+potuz: Yeah, but the epoch boundary is because of this. So the name of the constant was, isShufflingStable?
+
+148
+00:18:56.170 --> 00:18:57.130
+Justin Traglia: Yeah, okay.
+
+149
+00:18:58.160 --> 00:19:01.900
+Justin Traglia: Okay, anyway, yeah, thanks. Just, like, a single paragraph.
+
+150
+00:19:02.050 --> 00:19:03.120
+Justin Traglia: Concise.
+
+151
+00:19:03.260 --> 00:19:06.780
+Justin Traglia: Something that, we can… Understand.
+
+152
+00:19:07.970 --> 00:19:11.609
+Justin Traglia: Okay, anything else before we end this breakout?
+
+153
+00:19:12.640 --> 00:19:13.370
+Bosul Mun: Hi!
+
+154
+00:19:14.440 --> 00:19:15.120
+Justin Traglia: Hey.
+
+155
+00:19:17.870 --> 00:19:20.140
+Justin Traglia: Oh, I'm sorry, did you say hey or bye? Alright.
+
+156
+00:19:20.470 --> 00:19:23.820
+potuz: In Bosul was saying, oh, she has a rice…
+
+157
+00:19:25.160 --> 00:19:25.900
+Justin Traglia: Go for.
+
+158
+00:19:26.520 --> 00:19:27.430
+Bosul Mun: Yay.
+
+159
+00:19:27.630 --> 00:19:35.630
+Bosul Mun: So, since we are short on time, I will just briefly mention this now, and… Suggest that we…
+
+160
+00:19:35.760 --> 00:19:50.790
+Bosul Mun: continue this discussion asynchronously. So, at the last ACD meeting, we discussed making this per-spool Pool Engine API mandatory for the Glamster .NET 8.
+
+161
+00:19:50.930 --> 00:20:00.940
+Bosul Mun: And Lighthouse team raised some concerns about how these APIs are designed, so we agreed to revisit this topic today.
+
+162
+00:20:01.340 --> 00:20:15.060
+Bosul Mun: there has not been a counter-proposal yet, and her client teams have already implemented the current proposal, and I think the general view is that we…
+
+163
+00:20:15.710 --> 00:20:19.269
+Bosul Mun: You should pros… proceed with… with this if…
+
+164
+00:20:19.920 --> 00:20:32.370
+Bosul Mun: Unless other client team has, like, significant object… objections. So, please take a look and share your feedback asynchronously for me… to me.
+
+165
+00:20:32.610 --> 00:20:34.400
+Bosul Mun: Yes. Thank you!
+
+166
+00:20:36.320 --> 00:20:37.050
+Justin Traglia: Right.
+
+167
+00:20:37.840 --> 00:20:43.000
+Justin Traglia: Thank you, and thank you everyone else, for joining. Alright.
+
+168
+00:20:43.920 --> 00:20:45.340
+Mikhail Kalinin: I think so. Bye.
+
+169
+00:20:45.560 --> 00:20:46.010
+potuz: Bye-bye.
+
