@@ -1,0 +1,606 @@
+WEBVTT
+
+1
+00:02:39.080 --> 00:02:40.400
+Justin Traglia: Good morning.
+
+2
+00:02:43.620 --> 00:02:44.590
+Jihoon: Hello, guys.
+
+3
+00:03:11.160 --> 00:03:13.350
+Jihoon: Let's just wait for a few more minutes.
+
+4
+00:05:52.890 --> 00:05:55.919
+Jihoon: Alright, I think we can start.
+
+5
+00:05:58.030 --> 00:06:06.719
+Jihoon: Hello, everyone. Welcome to FOCILL Breakout 39. I think we can talk about client development and spec changes.
+
+6
+00:06:08.600 --> 00:06:12.030
+Jihoon: Can we start with client status updates?
+
+7
+00:06:22.140 --> 00:06:24.539
+Nico Flaig: No update from Lutzer said.
+
+8
+00:06:29.900 --> 00:06:38.870
+Fabio Di Fabio: Yeah, also on the Besu side, I… And FOCIL on… other Amsterdam priorities, so…
+
+9
+00:06:39.670 --> 00:06:43.940
+Fabio Di Fabio: I still need to implement the storage side.
+
+10
+00:06:44.050 --> 00:06:48.550
+Fabio Di Fabio: on the EL… Schedule.
+
+11
+00:06:48.550 --> 00:06:49.080
+Jihoon: No worries.
+
+12
+00:06:53.600 --> 00:06:59.360
+Mehdi Aouadi: Yeah, Teku's FOCILL branch is rebased on top of, DevNet 7, so…
+
+13
+00:06:59.730 --> 00:07:04.799
+Mehdi Aouadi: If anyone, want to test, they should use,
+
+14
+00:07:04.970 --> 00:07:08.859
+Mehdi Aouadi: branch the rebate on top of, difference.
+
+15
+00:07:15.700 --> 00:07:18.500
+Jihoon: Nice. Do we also have anyone from Lighthouse?
+
+16
+00:07:32.040 --> 00:07:33.219
+Jihoon: I guess not.
+
+17
+00:07:36.910 --> 00:07:42.229
+Marc: For Nethermind, we're also based on DevNet 7.
+
+18
+00:07:42.510 --> 00:07:47.149
+Marc: And last I checked, it seemed like all the tests were passing, but…
+
+19
+00:07:47.510 --> 00:07:52.970
+Marc: I'm not sure if they've been updated to the latest specs, so… need to check that again once they're updated.
+
+20
+00:07:55.790 --> 00:08:00.830
+Jihoon: Right, so that's… that… I mean… ACDE WISE.
+
+21
+00:08:01.870 --> 00:08:06.709
+Jihoon: The ELS is currently rebased on top of…
+
+22
+00:08:06.840 --> 00:08:09.539
+Jihoon: I think it's closer than Devna7.
+
+23
+00:08:09.920 --> 00:08:19.100
+Jihoon: But… it hasn't… reflected the latest spec changes, especially EnginePIs one.
+
+24
+00:08:19.500 --> 00:08:26.760
+Jihoon: So… I'm gonna bring this up again so that we can have the latest, spec test for ELs.
+
+25
+00:08:39.039 --> 00:08:42.789
+Jihoon: Gotcha. Do you have any more client updates?
+
+26
+00:08:54.690 --> 00:08:58.000
+Jihoon: Alright, I think we can move on to spec changes.
+
+27
+00:08:58.540 --> 00:09:04.409
+Jihoon: First off, The EnginePIPR has finally merged.
+
+28
+00:09:04.650 --> 00:09:09.799
+Jihoon: Okay, it's right from there, and thank you everyone who helped merging the PR.
+
+29
+00:09:10.510 --> 00:09:15.469
+Jihoon: Next, there have been a bunch of changes made to the IELT store.
+
+30
+00:09:21.340 --> 00:09:35.479
+Jihoon: So this is the PR. So the name of the size limit constant is changed. It was max bytes per inclusion list, but now it's changed to max Transaction Bytes per enclosure list.
+
+31
+00:09:35.710 --> 00:09:47.839
+Jihoon: This is because the previous name was a bit ambiguous. People asked how the size is defined several times, so I hope the new name removes the ambiguity.
+
+32
+00:09:52.580 --> 00:09:55.209
+Jihoon: I'm just gonna keep iterating.
+
+33
+00:09:55.260 --> 00:10:13.320
+Jihoon: The EL store functions are also improved. They were written in a Pythonic way, which might be not super readable for non-Python developers. So 55.7 aims to improve its readability.
+
+34
+00:10:13.450 --> 00:10:16.920
+Jihoon: By using typical if statements and for loops.
+
+35
+00:10:17.310 --> 00:10:21.020
+Jihoon: We can, of course, iterate more whenever we find a better way.
+
+36
+00:10:23.450 --> 00:10:32.339
+Jihoon: If you have any questions, feel free to just interrupt me. I'm gonna just drop the link to the PR, and then explain what the changes is.
+
+37
+00:10:33.570 --> 00:10:42.890
+Jihoon: So, next PRs are gonna… be related to request and response. If I remember correctly, Nico pointed out that
+
+38
+00:10:43.130 --> 00:10:59.179
+Jihoon: IELTS store cannot respond to requests and response, because it stores just the message, not its signature, so this 5487 addresses that issue by storing signed intelligent list.
+
+39
+00:11:03.530 --> 00:11:04.910
+Jihoon: Also
+
+40
+00:11:06.640 --> 00:11:21.289
+Jihoon: This PR is based on NSS findings. NC found that IELTS obtained via request and response should be fed to on-in collision list, and on-in collision list doesn't have
+
+41
+00:11:21.440 --> 00:11:26.509
+Jihoon: sanity checks for the IELs, so he was solely relying on PRB checks.
+
+42
+00:11:29.920 --> 00:11:33.360
+Jihoon: Regarding these changes,
+
+43
+00:11:37.400 --> 00:11:45.590
+Jihoon: No, except… but this constant name changes, because I think EL also share the same constant name.
+
+44
+00:11:46.380 --> 00:11:49.850
+Jihoon: I think I need to check…
+
+45
+00:11:50.620 --> 00:12:01.679
+Jihoon: I don't remember correctly whether ELs use this consensant name, but I can check it. So, for EL, the change is just name changes.
+
+46
+00:12:06.150 --> 00:12:10.570
+Jihoon: So, going back to this… 55.
+
+47
+00:12:10.940 --> 00:12:12.110
+Jihoon: 13.
+
+48
+00:12:13.830 --> 00:12:25.070
+Jihoon: This pure adds some basic checks, and it also replaces the IL committee root field inside IL with dependent route.
+
+49
+00:12:25.320 --> 00:12:30.630
+Jihoon: This is because you should be able to check whether this IL is coming from
+
+50
+00:12:31.180 --> 00:12:36.320
+Jihoon: I'm sorry, you should be able to check process ILs coming from different branches.
+
+51
+00:12:36.630 --> 00:12:47.260
+Jihoon: then you should be able to tell whether this validator is actually an encoder. So you need to get the shuffling, so…
+
+52
+00:12:48.310 --> 00:12:52.009
+Jihoon: You can fetch the state using dependent route.
+
+53
+00:12:52.860 --> 00:12:59.789
+Jihoon: This PR is not merged yet, so if we have time, please give it a review.
+
+54
+00:13:00.780 --> 00:13:06.930
+Jihoon: And then, next PR… is… 5512.
+
+55
+00:13:07.810 --> 00:13:11.510
+Jihoon: This is the last pair that I'd like to introduce.
+
+56
+00:13:11.880 --> 00:13:24.530
+Jihoon: This combines timeliness and inclusionliness into one field in the IELT store. The RAN is because they are always coupled.
+
+57
+00:13:25.940 --> 00:13:35.259
+Jihoon: I guess, and since… Not here… So… Yeah, I also…
+
+58
+00:13:35.660 --> 00:13:38.470
+Jihoon: Just want to ask people here.
+
+59
+00:13:39.780 --> 00:13:44.530
+Jihoon: About, like, what people think about this proposed to change.
+
+60
+00:14:04.870 --> 00:14:08.640
+Jihoon: Maybe it's easier if I… Join my screen.
+
+61
+00:14:52.650 --> 00:14:56.489
+Nico Flaig: Yeah, so don't we store for blocks and, like.
+
+62
+00:14:56.830 --> 00:15:00.029
+Nico Flaig: Other stuff, the… it's a separate field, right?
+
+63
+00:15:00.170 --> 00:15:04.450
+Nico Flaig: That would be my only thing. But I would need to double-check.
+
+64
+00:15:06.650 --> 00:15:08.369
+Jihoon: You mean in the fork choice store?
+
+65
+00:15:09.810 --> 00:15:17.860
+Nico Flaig: Yeah, why do we fold it in here into one thing, and then for blocks, we have, like, a separate field, right? Tracker?
+
+66
+00:15:18.620 --> 00:15:29.649
+Jihoon: Yeah, I also had that question, and from my understanding is that in the fork choice store, there are some cases that we fetch
+
+67
+00:15:30.410 --> 00:15:36.030
+Jihoon: Like, time linear payload time lineage, work block time linear separately.
+
+68
+00:15:36.190 --> 00:15:38.690
+Jihoon: But in the EL store.
+
+69
+00:15:39.300 --> 00:15:52.290
+Jihoon: at least with the use cases that we have today, we always fetch inclusion list and its timeliness together. Like, when we are calling Get InCollectionList transactions, or…
+
+70
+00:15:53.070 --> 00:15:57.789
+Jihoon: Like, whatever. Like, we always handle them together.
+
+71
+00:15:58.200 --> 00:16:02.609
+Jihoon: Not sure if this is gonna be changed in the future, but that's the main…
+
+72
+00:16:02.990 --> 00:16:05.610
+Jihoon: Reason of this proposed change.
+
+73
+00:16:23.740 --> 00:16:28.120
+Nico Flaig: I mean, it's probably fine, right? Like, it's just a refactoring, so…
+
+74
+00:16:28.870 --> 00:16:29.610
+Jihoon: Yeah.
+
+75
+00:16:31.960 --> 00:16:39.170
+Jihoon: Of course, we don't have to make a decision today, so… Just wanted to introduce…
+
+76
+00:16:39.420 --> 00:16:42.500
+Jihoon: What are being changed, and why, so…
+
+77
+00:16:43.710 --> 00:16:52.879
+Jihoon: We don't have many CL devs here, so probably it's better to just leave this PR open and ask for more feedback.
+
+78
+00:17:15.609 --> 00:17:28.290
+Jihoon: Yeah, so… That was… Yeah, that was it for… merged and open PRs.
+
+79
+00:17:30.650 --> 00:17:35.380
+Jihoon: I have one question that I wanted to ask, but before…
+
+80
+00:17:36.400 --> 00:17:40.549
+Jihoon: We move on. Do we have any questions or comments?
+
+81
+00:17:59.250 --> 00:18:00.659
+Jihoon: Right,
+
+82
+00:18:02.300 --> 00:18:11.950
+Jihoon: The question that I wanted to ask is about how clients, I mean, CL clients implement the ILT store, so…
+
+83
+00:18:12.370 --> 00:18:16.609
+Jihoon: EL doesn't need to retain IELTS more than two slots.
+
+84
+00:18:17.650 --> 00:18:27.299
+Jihoon: And currently, the key is IL commit root, and you can derive this from a pair of slot and dependent route.
+
+85
+00:18:28.270 --> 00:18:31.019
+Jihoon: But, in terms of pruning.
+
+86
+00:18:32.830 --> 00:18:39.570
+Jihoon: I wonder if it's going to align the spec-in implementation more if we change it to
+
+87
+00:18:40.300 --> 00:18:49.359
+Jihoon: SLOT and dependent route. So, for instance, if IELTs are accessed by slot, and then dependent route.
+
+88
+00:18:49.470 --> 00:18:55.130
+Jihoon: Then you can easily prune all values accessed by current SLOT minus 2.
+
+89
+00:19:08.370 --> 00:19:15.900
+Nico Flaig: Yeah, I'm pretty sure we do something like this for proposal preferences, so… Opinion makes sense.
+
+90
+00:19:19.360 --> 00:19:31.389
+Jihoon: We don't have… like, pro-poser preferences were in the spec, right? That's, like, open for implementation.
+
+91
+00:19:31.390 --> 00:19:35.240
+Nico Flaig: Oh, yeah, yeah, that's like a scene cache we have on the client.
+
+92
+00:19:36.600 --> 00:19:37.360
+Jihoon: Right.
+
+93
+00:19:40.500 --> 00:19:42.189
+Jihoon: I think my question is.
+
+94
+00:19:47.700 --> 00:19:54.610
+Jihoon: if you were to implement the IELTS tour, I guess, you were gonna make it somehow accessed by SLOT.
+
+95
+00:19:56.410 --> 00:19:59.029
+Jihoon: For printing purpose.
+
+96
+00:20:00.000 --> 00:20:02.590
+Jihoon: Because we… we had SLOT.
+
+97
+00:20:03.690 --> 00:20:11.529
+Jihoon: I was too full of SLOT and EL coming the road, rather than… Two layers indexing.
+
+98
+00:20:12.120 --> 00:20:22.620
+Jihoon: But we removed SLOT, thanks to ANSI again, because it is very not likely to have a coalition between IL committees within an epoch.
+
+99
+00:20:22.920 --> 00:20:23.690
+Jihoon: But…
+
+100
+00:20:23.820 --> 00:20:33.570
+Jihoon: I was thinking, like, how this pruning can be actually implemented, and just having it keyed by IR commuter Road is…
+
+101
+00:20:33.880 --> 00:20:37.369
+Jihoon: Probably not the way that it's gonna be implemented.
+
+102
+00:20:46.950 --> 00:20:48.270
+Jihoon: Yeah, okay.
+
+103
+00:20:48.540 --> 00:20:56.540
+Jihoon: I think I can… open up a PR, and then just ask people to chime in later.
+
+104
+00:20:58.890 --> 00:21:00.350
+Jihoon: So…
+
+105
+00:21:03.840 --> 00:21:07.399
+Jihoon: This is it for the spec changes that I have.
+
+106
+00:21:07.980 --> 00:21:10.150
+Jihoon: That was the top end.
+
+107
+00:21:18.550 --> 00:21:24.349
+Jihoon: Is it a… Is it a tuple, or…
+
+108
+00:21:25.280 --> 00:21:27.919
+Jihoon: SLOT and the pender group is like a…
+
+109
+00:21:29.250 --> 00:21:32.090
+Jihoon: Do you have, like, two indices, or just one?
+
+110
+00:21:36.010 --> 00:21:37.420
+Jihoon: bad. Yeah, so…
+
+111
+00:21:37.420 --> 00:21:44.960
+Nico Flaig: Always, you look it up by slot, and then you have another map, which is, like, the dependent route to the proposal preference.
+
+112
+00:21:45.370 --> 00:21:54.290
+Nico Flaig: And then, when you prune, you just… I mean, then you… it's indexed by SLOT, right? So you can just do this. Not sure if that helps.
+
+113
+00:21:54.870 --> 00:21:55.859
+Nico Flaig: My dear.
+
+114
+00:21:56.110 --> 00:21:56.700
+Nico Flaig: Finger to move.
+
+115
+00:21:56.700 --> 00:21:57.170
+Jihoon: guests?
+
+116
+00:21:57.170 --> 00:21:57.810
+Nico Flaig: development.
+
+117
+00:21:58.200 --> 00:22:01.370
+Jihoon: Yeah, I guess this is better than just…
+
+118
+00:22:01.990 --> 00:22:06.020
+Jihoon: Adding some kind of, like, a timer or a listener.
+
+119
+00:22:06.170 --> 00:22:11.670
+Jihoon: are in college at least, to… Get called after two floods.
+
+120
+00:22:25.680 --> 00:22:38.889
+Nico Flaig: Yeah, I mean, for us here, we just call this array slot, right, and then we check if it's below, I mean, in this case, if it's below the current slot, proposed references are basically useless, so we delete them.
+
+121
+00:22:40.600 --> 00:22:47.480
+Nico Flaig: I mean, the logic is for… I guess you want to keep two slots, right? So… so slot minus 2?
+
+122
+00:22:47.700 --> 00:22:50.480
+Nico Flaig: If it's smaller than current slot, you can prune.
+
+123
+00:22:53.600 --> 00:23:01.150
+Jihoon: Gotcha. I'm gonna take a look into how other clients handle proposer preferences, just for reference, and then…
+
+124
+00:23:01.480 --> 00:23:03.120
+Jihoon: I cannot put up a PR.
+
+125
+00:23:03.820 --> 00:23:04.860
+Jihoon: Right.
+
+126
+00:23:05.210 --> 00:23:06.969
+Jihoon: Thanks for sharing.
+
+127
+00:23:07.960 --> 00:23:16.000
+Jihoon: Hmm… Yeah, so do we have any other comments or questions?
+
+128
+00:23:43.800 --> 00:23:49.659
+Jihoon: or… the first… Arsenal-only DevNet.
+
+129
+00:23:50.340 --> 00:23:54.530
+Jihoon: as we discussed before, I think we can just, based off
+
+130
+00:23:55.590 --> 00:24:02.059
+Jihoon: whatever the latest stable claims for DevNet or Testnet, and…
+
+131
+00:24:02.320 --> 00:24:05.500
+Jihoon: Whatever the latest FOCIL spec we have.
+
+132
+00:24:06.130 --> 00:24:11.299
+Jihoon: Not sure when we were gonna… work on this FOCILLDEFNet.
+
+133
+00:24:12.040 --> 00:24:16.179
+Jihoon: actively, But, yeah.
+
+134
+00:24:18.880 --> 00:24:22.259
+Jihoon: Which version is the latest spec release?
+
+135
+00:24:22.920 --> 00:24:24.449
+Jihoon: Is it Alpha 12?
+
+136
+00:24:25.340 --> 00:24:27.159
+Justin Traglia: What's, Alpha 13?
+
+137
+00:24:31.110 --> 00:24:33.940
+Jihoon: So we're already on Alpha 13.
+
+138
+00:24:34.200 --> 00:24:40.900
+Jihoon: I think we can make another release, because we already have some changes made after Alpha 13.
+
+139
+00:24:43.080 --> 00:24:45.570
+Justin Traglia: Yep, we could make another release.
+
+140
+00:24:46.430 --> 00:24:47.080
+Jihoon: Yep.
+
+141
+00:24:53.250 --> 00:24:55.410
+Jihoon: Right, thanks for sharing this.
+
+142
+00:24:56.340 --> 00:24:59.369
+Jihoon: References? Mehdi? An Nico?
+
+143
+00:25:09.420 --> 00:25:10.330
+Jihoon: Right?
+
+144
+00:25:11.230 --> 00:25:14.209
+Jihoon: That's it for me from my end.
+
+145
+00:25:15.170 --> 00:25:17.660
+Jihoon: Do we have anything else to discuss?
+
+146
+00:25:41.250 --> 00:25:41.970
+Jihoon: There.
+
+147
+00:25:42.210 --> 00:25:44.810
+Jihoon: I think we can go ahead and wrap up this call.
+
+148
+00:25:45.200 --> 00:25:51.359
+Jihoon: Thanks for joining, everyone. Have a great rest of your day, and see you in two weeks!
+
+149
+00:25:53.300 --> 00:25:54.140
+Marc: But…
+
+150
+00:25:54.140 --> 00:25:54.910
+Mehdi Aouadi: Thank you, Ben.
+
+151
+00:25:56.170 --> 00:25:56.819
+Jihoon: that beta.
+

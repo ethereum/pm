@@ -1,0 +1,37 @@
+00:02:56	Mehdi Aouadi:	gm gn
+00:03:00	Justin Traglia:	Reacted to "gm gn" with 😄
+00:07:49	Nico Flaig:	we can interop with teku but we are on devnet-8 now :D
+00:08:15	Mehdi Aouadi:	Reacted to "we can interop with teku but we are on devnet-8 now :D" with 🙈
+00:08:42	Mehdi Aouadi:	Replying to "we can interop with ..."
+
+we don’t have a devnet-8 branch yet 😄
+00:09:21	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5508
+00:09:33	Nico Flaig:	Replying to "we can interop with ..."
+
+our trunk branch is on devnet-8 so rebasing focil against devnet-7 is hard now and probably not worth it
+00:09:53	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5507
+00:10:00	Justin Traglia:	Reacted to "our trunk branch is ..." with 👍
+00:10:33	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5487
+00:11:05	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5513
+00:11:22	Marc:	do any of these need EL changes?
+00:12:47	Mehdi Aouadi:	Reacted to "our trunk branch is on devnet-8 so rebasing focil against devnet-7 is hard now and probably not worth it" with 💯
+00:13:04	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5512
+00:13:10	Mehdi Aouadi:	Replying to "we can interop with ..."
+
+I’ll rebase our focil branch once we have devnet-8 branch out
+00:13:17	Nico Flaig:	Reacted to "I’ll rebase our foci..." with 👍
+00:20:56	Nico Flaig:	(slot, dependent_root) is how we cache proposer preferences
+00:21:33	Nico Flaig:	private readonly bySlot = new Map<Slot, Map<RootHex, gloas.SignedProposerPreferences>>();
+00:21:52	Nico Flaig:	prune(currentSlot: Slot): void {
+for (const slot of this.bySlot.keys()) {
+if (slot < currentSlot) this.bySlot.delete(slot);
+}
+}
+00:23:27	Nico Flaig:	for ref https://github.com/ChainSafe/lodestar/blob/unstable/packages/beacon-node/src/chain/opPools/proposerPreferencesPool.ts
+00:23:32	Jihoon:	Reacted to "for ref https://github.com/ChainSafe/lodestar/blob/unstable/packages/beacon-node/src/chain/opPools/proposerPreferencesPool.ts" with 👍
+00:23:54	Mehdi Aouadi:	in Teku we do (Bytes32 dependentRoot, UInt64 proposalSlot, UInt64 validatorIndex) for proposer preferences
+00:24:12	Barnabas:	on top of alpha 13 pls
+00:24:45	Jihoon:	Reacted to "in Teku we do (Bytes32 dependentRoot, UInt64 proposalSlot, UInt64 validatorIndex) for proposer preferences" with 👍
+00:24:54	Mehdi Aouadi:	Replying to "in Teku we do (Bytes..."
+
+https://github.com/Consensys/teku/blob/a6dd6502d73c740c6f3fd30db35da7fbb230fc57/ethereum/statetransition/src/main/java/tech/pegasys/teku/statetransition/validation/ProposerPreferencesGossipValidator.java#L232
