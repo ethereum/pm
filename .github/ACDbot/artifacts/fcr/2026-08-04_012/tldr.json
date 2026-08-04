@@ -1,0 +1,104 @@
+{
+  "meeting": "Fast Confirmation Rule (FCR) #12 - August 4, 2026",
+  "highlights": {
+    "organizational": [
+      {
+        "timestamp": "00:06:14",
+        "highlight": "This is the last recurring FCR breakout call; future calls will be ad hoc as needed"
+      }
+    ],
+    "client_updates": [
+      {
+        "timestamp": "00:07:25",
+        "highlight": "Grandine: PR ready, 3 failing tests due to known spec issue; awaiting fixed test vectors"
+      },
+      {
+        "timestamp": "00:09:03",
+        "highlight": "Lodestar: FCR implementation working on mainnet; a few spec tests disabled in CI pending updated vectors"
+      },
+      {
+        "timestamp": "00:11:00",
+        "highlight": "Prysm: FCR branch passing latest nightly spec tests; not yet run on mainnet or devnet; deeper review still needed"
+      },
+      {
+        "timestamp": "00:12:10",
+        "highlight": "Teku: Merging FCR feature branch to master in smaller chunks; ~2\u20133 weeks remaining; investigating Lighthouse comparison failure"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:14:22",
+        "highlight": "Glamsterdam devnet FCR report published by EthPandaOps; waiting on Prysm and Teku for full client comparison run"
+      },
+      {
+        "timestamp": "00:16:01",
+        "highlight": "Client comparison on historical data via FCR simulator deferred until Prysm and Teku are production-ready"
+      },
+      {
+        "timestamp": "00:16:46",
+        "highlight": "Several consensus-specs PRs merged (#5449, #5489, #5498, #5499): fix safe execution block hash bug and disabled-BLS test issues"
+      }
+    ],
+    "fcr_safe_block_hash": [
+      {
+        "timestamp": "00:21:20",
+        "highlight": "Proposal: set safeBlockHash to finalizedBlockHash (not justified) when FCR is disabled; safety of justified is questionable"
+      },
+      {
+        "timestamp": "00:29:56",
+        "highlight": "Potuz: Arbitrum was using SAFE for deposits; likely runs own nodes so probably unaffected by this change"
+      },
+      {
+        "timestamp": "00:31:16",
+        "highlight": "Only Nimbus enables FCR by default; all other clients use a feature flag, so operators opting in understand the implications"
+      }
+    ],
+    "fcr_node_restart_behavior": [
+      {
+        "timestamp": "00:32:16",
+        "highlight": "On CL restart, safeBlockHash may reset to finalized; behavior is implementation-dependent (Lighthouse persists fork choice to disk; Prysm does not)"
+      },
+      {
+        "timestamp": "00:41:25",
+        "highlight": "Consensus: caching the confirmed root across restarts is safe provided it is not older than 2 epochs; EL could perform this fallback itself"
+      }
+    ],
+    "fcr_post_gloas": [
+      {
+        "timestamp": "00:46:25",
+        "highlight": "Post-Gloas: FCR confirms payload from 2 slots ago due to new slot structure; using PTC votes to recover the previous slot's payload is under consideration but deemed complex and risky"
+      },
+      {
+        "timestamp": "00:53:36",
+        "highlight": "Decoupled Consensus will ship its own confirmation rule, likely deprecating current FCR; improvement work may not be warranted given this roadmap"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:18:42",
+      "action": "Post thoughts on fuzzing FCR implementations to the Telegram group; contact Nikos (EF security team) re: agent-swarm review",
+      "owner": "Mikhail Kalinin / Justin Traglia"
+    },
+    {
+      "timestamp": "00:16:01",
+      "action": "Once Prysm and Teku FCR implementations are production-ready, ask EthPandaOps to re-run cross-client historical comparison simulations",
+      "owner": "Mikhail Kalinin"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:06:14",
+      "decision": "FCR recurring breakout call series concluded; future coordination via ad hoc calls and Telegram"
+    },
+    {
+      "timestamp": "00:27:12",
+      "decision": "No change made to safeBlockHash fallback behavior (FCR disabled \u2192 justified); deferred pending clarity on who relies on justified block hash"
+    },
+    {
+      "timestamp": "00:53:36",
+      "decision": "PTC-based improvement to FCR for post-Gloas slot structure not pursued now; decoupled Consensus will supersede current FCR"
+    }
+  ],
+  "targets": []
+}
