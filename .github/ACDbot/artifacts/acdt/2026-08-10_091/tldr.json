@@ -1,0 +1,99 @@
+{
+  "meeting": "ACDT #91 - August 10, 2026",
+  "highlights": {
+    "devnet_7_status": [
+      {
+        "timestamp": "00:08:43",
+        "highlight": "DevNet 7 stable; no finality stalls recently; Prysm sync stall being investigated/fixed"
+      },
+      {
+        "timestamp": "00:09:36",
+        "highlight": "Toni's attack: flooding network with thousands of 9.5 MB signed payloads causes missed slots; Lighthouse repropagating envelopes it already saw (fix incoming for DevNet 8)"
+      },
+      {
+        "timestamp": "00:20:07",
+        "highlight": "Root cause: missing IGNORE rule for duplicate SignedExecutionPayloadEnvelope per builder; in spec but not implemented by all clients"
+      }
+    ],
+    "devnet_8_planning": [
+      {
+        "timestamp": "00:23:44",
+        "highlight": "Repricing numbers for DevNet 8 not yet confirmed final; running benchmarks on mainnet-representative state to verify; decision expected by ACDE"
+      },
+      {
+        "timestamp": "00:31:48",
+        "highlight": "DevNet 8 (Plat\u00e5berget) is public-facing testnet; repricing must be final before launch to avoid second repricing on public network"
+      },
+      {
+        "timestamp": "00:33:01",
+        "highlight": "Stefan proposes ~70 MB genesis SSZ state in DevNet 8 to retest SSZ encoding issues from DevNet 7; general consensus to proceed"
+      },
+      {
+        "timestamp": "00:59:07",
+        "highlight": "Barnabas requests optional SNAP2 and stateful deltas testing on DevNet 8; EIP-8136 and EIP-8189 shared in chat"
+      }
+    ],
+    "gas_limit_bump": [
+      {
+        "timestamp": "00:42:39",
+        "highlight": "Proposal: bump default gas limit to 200M at Glamsterdam fork to prevent pre-fork transactions failing post-repricing"
+      },
+      {
+        "timestamp": "00:46:14",
+        "highlight": "CL clients pushed back: enabling 200M in Glamsterdam release risks triggering pre-fork; requires effectively two gas limit flags"
+      },
+      {
+        "timestamp": "00:55:37",
+        "highlight": "No resolution; Barnabas to draft a proposal that avoids requiring two client releases without dual-flag complexity"
+      }
+    ],
+    "eip_8070": [
+      {
+        "timestamp": "00:56:07",
+        "highlight": "EIP-8070 last-call for objections; none raised; confirmed mandatory for DevNet 8"
+      }
+    ],
+    "circuit_breaker_updates": [
+      {
+        "timestamp": "01:00:20",
+        "highlight": "Teku circuit breaker implemented and in DevNet 8 branch; enabled by default but values too permissive; Mehdi to share tighter config flags"
+      },
+      {
+        "timestamp": "01:02:09",
+        "highlight": "Nimbus circuit breaker: porting existing Fusaka design to payloads; no Lighthouse rep present to give update"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:17:52",
+      "action": "Toni to write up payload-flooding attack and retest on DevNet 8; notify all clients when starting so they can capture live profiles",
+      "owner": "Toni Wahrst\u00e4tter / all clients"
+    },
+    {
+      "timestamp": "01:03:29",
+      "action": "Approve EIPs/pull/12021 to unblock EIP-8282 updates for Glamsterdam",
+      "owner": "lightclient (EIP editor)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:21:22",
+      "decision": "Payload-flooding retest deferred to DevNet 8 (not DevNet 7); spec fix for duplicate envelope IGNORE rule to be implemented by affected clients"
+    },
+    {
+      "timestamp": "00:31:18",
+      "decision": "Delay DevNet 8 launch until ACDE; repricing numbers must be confirmed final first"
+    },
+    {
+      "timestamp": "00:58:30",
+      "decision": "EIP-8070 mandatory for DevNet 8; no objections raised"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:25:03",
+      "target": "ACDE (this week): confirm or revise Glamsterdam repricing numbers"
+    }
+  ]
+}

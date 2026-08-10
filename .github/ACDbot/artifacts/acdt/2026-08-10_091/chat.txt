@@ -1,0 +1,279 @@
+00:06:48	jochem-brouwer:	gm gm!!
+00:06:54	Justin Traglia:	Gm!
+00:06:57	Daniel Knopik:	gm
+00:06:58	Mehdi Aouadi:	gm gn
+00:08:04	Justin Traglia:	Agenda: https://github.com/ethereum/pm/issues/2181
+00:08:16	draganrakita:	Reacted to "Agenda: https://github.com/ethereum/pm/issues/2181" with ❤️
+00:08:19	Marcos A. Maceo:	Reacted to "Agenda: https://github.com/ethereum/pm/issues/2181" with ❤️
+00:08:39	Mario Vega:	Reacted to "Agenda: https://github.com/ethereum/pm/issues/2181" with ❤️
+00:08:58	terence:	fixed
+00:09:00	Parithosh Jayanthi:	Should be fixed
+00:09:11	Mario Vega:	Reacted to "fixed" with 🚀
+00:09:14	Justin Traglia:	Reacted to "fixed" with 🚀
+00:09:15	Parithosh Jayanthi:	(Tested fix on like 4 nodes today when swapping back from tysm)
+00:09:16	Barnabas:	lighthouse-nimbusel seems to have struggled from toni’s attack
+00:09:28	spencer:	Reacted to "fixed" with 🚀
+00:09:31	terence:	What’s Toni’s attacK
+00:09:33	Iván | ethrex:	Reacted to "fixed" with 🚀
+00:10:02	Iván | ethrex:	Reacted to "What’s Toni’s attacK" with 🥷
+00:10:05	spencer:	Reacted to "What’s Toni’s at..." with 🥷
+00:10:22	Justin Traglia:	Reacted to "What’s Toni’s attacK" with 🥷
+00:11:01	draganrakita:	Reacted to "What’s Toni’s attacK" with 🥷
+00:11:06	jochem-brouwer:	Great attack Toni 😃👍
+00:11:17	jochem-brouwer:	Heeft gereageerd op "What’s Toni’s at..." met 🥷
+00:11:25	Rimeeeeee:	Reacted to "What’s Toni’s at..." with 🥷
+00:11:33	Edgar | ethrex:	Se ha reaccionado a "What’s Toni’s at..." con 🥷
+00:11:47	Mario Vega:	Reacted to "What’s Toni’s attacK" with 🥷
+00:12:31	Parithosh Jayanthi:	Reacted to "What’s Toni’s attacK" with 🥷
+00:12:31	jochem-brouwer:	Is there a way how we can add this to benchmarks? I think I understand that this is a CL+EL benchmark, so not a pure EL one (cannot add this to execution-specs benchmarks / benchmarkoor)?
+00:14:51	Dustin:	CLs don't know this really
+00:15:43	Stefan Starflinger:	how does the block hash stay the same when the payload changes?
+00:16:58	Stefan Starflinger:	Reacted to "What’s Toni’s attacK" with 🥷
+00:17:13	Kevaundray Wedderburn:	Is there a writeup of this issue?
+00:17:41	Kevaundray Wedderburn:	Replying to "Is there a writeup o..."
+
+Was having audio issues, so didn’t hear it entirely
+00:17:44	Mehdi Aouadi:	Reacted to "Is there a writeup of this issue?" with ➕
+00:17:47	Mario Vega:	Reacted to "Is there a writeup of this issue?" with ➕
+00:17:56	jochem-brouwer:	We should add this to some kind of CL benchmark infrastructure / test infrastructure if possible
+00:18:15	Nico Flaig:	why doesn't `[IGNORE] The node has not seen another valid `SignedExecutionPayloadEnvelope` for this block root from this builder` cover the re-propagation?
+00:18:24	Mehdi Aouadi:	Reacted to "why doesn't `[IGNORE] The node has not seen another valid `SignedExecutionPayloadEnvelope` for this block root from this builder` cover the re-propagation?" with ➕
+00:18:40	jochem-brouwer:	Antwoord verzenden naar "We should add this..."
+
+I think we can add this to a hive test?
+00:18:46	terence:	Replying to "why doesn't `[IGNORE..."
+
+Is there a bug with re propagation here?
+00:19:13	Nico Flaig:	Replying to "why doesn't `[IGNORE..."
+
+lodestar only propagates the first signed envelope from a builder for block root
+00:19:27	terence:	How does a large payload affect BLS?
+00:19:37	Mehdi Aouadi:	Replying to "why doesn't `[IGNORE..."
+
+Teku does the same
+00:19:49	Eitan Seri-Levi:	Replying to "why doesn't `[IGNORE] The node has not seen another valid `SignedExecutionPayloadEnvelope` for this block root from this builder` cover the re-propagation?"
+
+We are repropogating envelopes we’ve already seen. We are fixing this in the coming days it will be ready for devnet 8
+00:20:31	Toni Wahrstätter:	yeah not having the IGNORE might be the bug here
+00:20:40	Justin Traglia:	Reacted to "yeah not having the IGNORE might be the bug here" with 👍
+00:20:41	Mehdi Aouadi:	Reacted to "yeah not having the IGNORE might be the bug here" with 👍
+00:20:48	Mario Vega:	Reacted to "yeah not having the IGNORE might be the bug here" with 👍
+00:20:59	Justin Traglia:	Replying to "yeah not having the ..."
+
+To be clear, it is in the spec.
+00:21:07	Stefan Starflinger:	Reacted to "To be clear, it is i..." with 👍
+00:21:16	Mehdi Aouadi:	Reacted to "To be clear, it is in the spec." with 👍
+00:21:19	Nico Flaig:	Reacted to "To be clear, it is i..." with 👍
+00:21:22	jochem-brouwer:	Hive test?
+00:22:39	Justin Traglia:	Replying to "yeah not having the ..."
+
+And in the next release, there will be reference tests for Gloas gossip validation functions. Here is the test for that check.
+00:23:10	Barnabas:	geth reth still failing 50ish tests
+00:23:16	Barnabas:	others failing under 10
+00:24:01	Eitan Seri-Levi:	Reacted to "yeah not having the IGNORE might be the bug here" with 👍
+00:24:11	Dustin:	public devnet or public testnet?
+00:24:15	Stefan Starflinger:	devnet-8 is currently planned to be public
+00:24:27	Dustin:	i.e. is there going to be a "devnet 9" of any form at all
+00:24:27	Barnabas:	public testnet
+00:24:28	Mario Vega:	Replying to "public devnet or pub..."
+
+public devnet, before public testnets iiuc
+00:24:32	Justin Traglia:	Replying to "devnet-8 is currentl..."
+
+Aren’t they all technically public 😅
+00:24:38	Barnabas:	devnet 8 == public testnet
+00:24:38	Stefan Starflinger:	Replying to "devnet-8 is currentl..."
+
+yes
+00:24:47	Justin Traglia:	Reacted to "yes" with 😄
+00:24:47	Barnabas:	devnet 8 timeline is whenever you guys are done
+00:25:45	FLCL:	might be cool to have a copy paste to share on twitter about the most affected parties, who use this or that
+00:26:34	Nico Flaig:	Reacted to "yeah not having the ..." with 👍
+00:27:53	Chris Berry:	Is Platåberget just another name for devnet 8?
+00:27:58	Barnabas:	Reacted to "Is Platåberget just another name for devnet 8?" with 👍
+00:27:58	nixo:	Replying to "Is Platåberget just ..."
+
+yes
+00:28:01	Mario Vega:	Reacted to "Is Platåberget just another name for devnet 8?" with 👍
+00:28:05	Stefan Starflinger:	Reacted to "Is Platåberget just ..." with 👍
+00:28:12	Barnabas:	Replying to "Is Platåberget just ..."
+
+devnet 8 is just easier to spell lol
+00:28:23	Stefan Starflinger:	Reacted to "might be cool to hav..." with 👍
+00:28:26	Chris Berry:	Replying to "Is Platåberget just ..."
+
+I’ve been referring to it as PB as it’s unpronounceable
+00:28:32	nixo:	Reacted to "I’ve been referring to it as PB as it’s unpronounceable" with 😂
+00:28:40	Justin Traglia:	Reacted to "devnet 8 is just easier to spell lol" with 😄
+00:28:43	Marius Van Der Wijden (M):	The numbers haven't changed drastically between 7 and 8 though
+00:28:45	nixo:	Replying to "Is Platåberget just ..."
+
+the peanut butter devnet
+00:28:56	Chris Berry:	Replying to "Is Platåberget just ..."
+
+I support this name change
+00:28:57	Miguel Tenorio:	Reacted to "the peanut butter devnet" with 😂
+00:29:03	Chris Berry:	Replying to "Is Platåberget just ..."
+
+Will supply jelly.
+00:29:04	Miguel Tenorio:	Reacted to "I support this name change" with ➕
+00:29:06	Parithosh Jayanthi:	Reacted to "the peanut butter devnet" with 😂
+00:29:07	Marius Van Der Wijden (M):	So I wouldn't expect large changes going forward
+00:29:16	Justin Traglia:	Reacted to "Will supply jelly." with 🪼
+00:29:18	FLCL:	Reacted to "I’ve been referring to it as PB as it’s unpronounceable" with 😂
+00:29:25	FLCL:	Reacted to "the peanut butter devnet" with 😂
+00:29:31	nixo:	Reacted to "Will supply jelly." with 🪼
+00:29:31	Justin Traglia:	Reacted to "the peanut butter devnet" with 😂
+00:29:32	Dustin:	what's the scope of remaining changes in terms of, is there convergence to prices and it's figuring out +/- the last few %?
+00:29:34	cayman:	Reacted to "the peanut butter de..." with 😂
+00:29:42	Parithosh Jayanthi:	Replying to "Is Platåberget just ..."
+
+Someone redo this song with “peanut butter devnet time” pls 
+https://www.youtube.com/watch?v=eRBOgtp0Hac
+00:29:47	Dustin:	or is it possible some are still 50% off
+00:30:16	Chris Berry:	Reacted to "the peanut butter de..." with 😂
+00:30:39	spencer:	Reacted to "the peanut butter ..." with 😂
+00:31:29	Barnabas:	does security team would have an update on the audit progress of the builder system contracts?
+00:31:42	jochem-brouwer:	Heeft gereageerd op "does security team..." met ➕
+00:31:44	Marius Van Der Wijden (M):	Delaying 8, yes
+00:31:47	Parithosh Jayanthi:	Reacted to "does security team would have an update on the audit progress of the builder system contracts?" with ➕
+00:32:04	Justin Traglia:	Replying to "does security team w..."
+
+I believe Felix is the one handling this. Not the security team.
+00:32:16	Justin Traglia:	Replying to "does security team w..."
+
+Like the one coordinating with the auditors.
+00:32:25	jochem-brouwer:	Heeft gereageerd op "Delaying 8, yes" met ❤️
+00:32:27	Stefan Starflinger:	Reacted to "Delaying 8, yes" with ❤️
+00:33:11	spencer:	Reacted to "Delaying 8, yes" with ❤️
+00:33:34	terence:	For prysm, I don’t think we put genesis state in binary
+00:33:40	Stefan Starflinger:	https://github.com/ethereum/pm/issues/2181#issuecomment-5241502214
+00:33:42	cayman:	17MB is fine, we don't put any state in the binary
+00:33:48	Parithosh Jayanthi:	70mb
+00:34:04	Eitan Seri-Levi:	yeah same with us
+00:34:40	terence:	Fetch it from GitHub previous, we just provide a example cmd
+00:34:50	Dustin:	for the devnets yeah we use the ethclients repo version of these. we do by default include it in the binaries, would have to see what makes the most sense here
+00:34:58	Dustin:	70MB would be large for that
+00:35:07	Parithosh Jayanthi:	Is this via git Lfs? (Ill have to make sure our billing limits are appropriate if so)
+00:35:31	Parithosh Jayanthi:	S3 = cheap, git ifs == cheap-ish
+00:36:11	jochem-brouwer:	For EIP editors in the call, please approve https://github.com/ethereum/ERCs/pull/1917 and https://github.com/ethereum/EIPs/pull/12021 due to approval of https://github.com/ethcatherders/EIPIP/issues/411
+
+It blocks moving an EIP to Review for Glamsterdam, thanks 😃
+00:37:40	Nico Flaig:	Reacted to "the peanut butter de..." with 😂
+00:38:44	Barnabas:	hoodi genesis.ssz is 145MB
+00:40:57	Stefan Starflinger:	Sounds to me generally it should be fine and I would prefer not to forgo this test vector
+00:43:55	Justin Traglia:	Can CL’s “schedule” a default gas target value? I wouldn’t want 200m enabled whenever glamsterdam releases are made.
+00:44:25	Nico Flaig:	we can just do another release and bump the default incrementally
+00:44:30	draganrakita:	Reacted to "we can just do another release and bump the default incrementally" with 👍
+00:44:33	terence:	Couldn’t you set it in the EL ?
+00:44:51	Dustin:	CLs do drive it via builder API
+00:45:54	Toni Wahrstätter:	just let the gas limit naturally ramp up
+00:46:20	Justin Traglia:	Dragan’s suggestion is my preference. I would prefer to bump the gas target in CL clients in the release after the upgrade.
+00:46:21	Toni Wahrstätter:	for a few blocks, a few transactions that are heavy on state creation might fail and work again a bit later
+00:46:34	Nico Flaig:	Reacted to "Dragan’s suggestion ..." with 👍
+00:47:22	Justin Traglia:	Reacted to "we can just do another release and bump the default incrementally" with 👍
+00:47:29	Toni Wahrstätter:	Why doing it in a separate release though?
+00:48:08	Toni Wahrstätter:	This wastes having more granular controll over it at the hardfork. It makes things messier, requiring coordination, pushing validators to upgrade
+00:48:17	draganrakita:	Only downside is that blocks would gradually increase over time, and would hit 200M only after few months when all validators update to newest client version.
+00:49:45	terence:	Why can’t client set it with 2 gas limits. One pre gloss and one post gloas
+00:49:51	Justin Traglia:	What percentage of the network needs to bump their gas targets in order for the network to reach 200m? 51%?
+00:50:03	Nico Flaig:	you can't do that Toni
+00:51:00	Nico Flaig:	would need to be epoch/slot aware
+00:51:01	Barnabas:	can’t we have a gas_limit -> fulu_gas_limit, and a new flag like gloas_gas_limit, that will be the new gas_limit post gloas ?
+00:51:10	draganrakita:	Replying to "What percentage of t..."
+
+With 51% it would levitate over ~130M, half would decrease it and other half would increase it by 12%
+00:51:33	Justin Traglia:	Reacted to "With 51% it would levitate over ~130M, half would decrease it and other half would increase it by 12%" with 🙏
+00:51:52	Chase Wright:	Call it “next fork” then it doesn’t have to disappear
+00:51:56	Daniel Knopik:	Reacted to "Call it “next fork..." with 👍
+00:51:58	Barnabas:	Reacted to "Call it “next fork” then it doesn’t have to disappear" with 👍
+00:52:02	Barnabas:	Replying to "Call it “next fork” ..."
+
+or that
+00:52:17	Ben Adams:	gloas calls a different engine api that has the gaslimit; can't use same switch?
+00:52:40	Nico Flaig:	the gas limit it supposed to be controlled by operators, not client devs, so this feature goes into the other direction
+00:52:40	jochem-brouwer:	Can someone EIP this idea?
+00:52:42	Barnabas:	Replying to "gloas calls a differ..."
+
+cl teams could introduce a new flag for this.
+00:52:45	Mario Vega:	Reacted to "Can someone EIP this idea?" with 👍🏼
+00:52:54	Barnabas:	Replying to "gloas calls a differ..."
+
+but they wanted to override the existing flag
+00:53:03	Dustin:	"deprecated" flags in production never really disappear
+00:53:07	jochem-brouwer:	Antwoord verzenden naar "Can someone EIP th..."
+
+This is non-Core as it should not require (?) any protocol changes. So we can "just" add this to Hegota for instance
+00:53:07	Dustin:	it's quite bad
+00:53:38	spencer:	why do we need 200M at the fork boundary?
+00:53:44	terence:	One flag for pre gloss becomes no op after gloas
+One flag for post gloss
+00:53:51	Barnabas:	Replying to "why do we need 200M ..."
+
+we don’t, but we need to start signaling towards 200M
+00:53:52	Mario Vega:	Does it have to be a flag? Is there any other way to bake a default for a specific fork?
+00:53:53	draganrakita:	Replying to "why do we need 200M ..."
+
+We don’t need it
+00:54:11	Simon (@siladu) | Besu:	Replying to ""deprecated" flags i..."
+
+Can’t the existing override flag just override both defaults?
+00:54:31	Nico Flaig:	Replying to "why do we need 200M ..."
+
+I don't think we should have 200M at the fork, seems risky
+00:54:33	spencer:	does it take a while to get to 200M? ahh its more a people wont update it either
+00:54:38	terence:	To Barnabas point we can always pressure the professional node operator set
+00:54:59	spencer:	Reacted to "To Barnabas point ..." with 🙏
+00:55:07	terence:	Replying to "To Barnabas point we..."
+
+We just need a few of them, but it will be slow
+00:55:15	terence:	Replying to "To Barnabas point we..."
+
+Because of the ramp up
+00:55:31	spencer:	Replying to "To Barnabas point ..."
+
+"we promise no issuance changes in the future"
+00:55:37	Chase Wright:	Reacted to ""we promise no issuance changes in the future"" with 😂
+00:55:55	Chris Berry:	Reacted to ""we promise no issua..." with 😂
+00:56:00	Ben Adams:	Issue is state gas is getting much higher so needs higher gaslimit; or txs pre fork will fail post fork
+00:56:08	Edgar | ethrex:	Se ha reaccionado a ""we promise no iss..." con 😂
+00:56:13	Barnabas:	Reacted to "Issue is state gas is getting much higher so needs higher gaslimit" with 💯
+00:56:55	Barnabas:	yes mandatory, we delaying the launch anyway, so get to it
+00:56:58	Mario Vega:	https://eips.ethereum.org/EIPS/eip-8070
+00:57:08	FLCL:	btw does it make sense to have both sparse + non sparse nodes?
+00:57:12	draganrakita:	Reacted to "Issue is state gas is getting much higher so needs higher gaslimit" with 💯
+00:57:27	spencer:	Reacted to "Issue is state gas..." with 💯
+00:57:32	spencer:	Reacted to "yes mandatory, we ..." with ❤️
+00:57:52	FLCL:	i mean do you guys want a flag?
+00:58:02	Barnabas:	Replying to "btw does it make sen..."
+
+if its mandatory, then it should all be sparse
+00:58:17	FLCL:	Replying to "btw does it make sense to have both sparse + non sparse nodes?"
+
+some time network will contain both
+00:58:31	FLCL:	Replying to "btw does it make sense to have both sparse + non sparse nodes?"
+
+i mean mainnet and so on
+00:59:45	Chris Berry:	Reacted to "Someone redo this so..." with 😂
+00:59:50	Barnabas:	https://eips.ethereum.org/EIPS/eip-8136 
+https://eips.ethereum.org/EIPS/eip-8189
+00:59:53	jochem-brouwer:	Heeft gereageerd op "https://eips.ether..." met 🚀
+01:00:00	Justin Traglia:	Reacted to "https://eips.ethereum.org/EIPS/eip-8136 
+https://eips.ethereum.org/EIPS/eip-8189" with 🚀
+01:00:37	Mario Vega:	Reacted to "https://eips.ethereum.org/EIPS/eip-8136 
+https://eips.ethereum.org/EIPS/eip-8189" with 🚀
+01:00:44	Barnabas:	potuz’s post: https://www.potuz.net/posts/gloas-circuit-breaker/
+01:01:23	terence:	Our first part (just to deal with builder) has been approved, we haven’t merged it. We can cherry pick it to devnet7 if you guys want to test
+01:01:24	wolovim:	Unrelated psa: will be scheduling a bi-weekly frame tx breakout call, lead by lightclient, starting tuesday 18th @ 2pm utc (right after FOCIL breakout). Will also announce on discord.
+01:01:27	Barnabas:	could we trigger it ?
+01:01:34	jochem-brouwer:	Heeft gereageerd op "Unrelated psa: wil..." met ❤️
+01:01:40	Justin Traglia:	Reacted to "Unrelated psa: will be scheduling a bi-weekly frame tx breakout call, lead by lightclient, starting tuesday 18th @ 2pm utc (right after FOCIL breakout). Will also announce on discord." with ❤️
+01:02:04	Barnabas:	Replying to "Our first part (just..."
+
+if its gnna be in devnet 8 branch  then its fine?
+01:02:16	jochem-brouwer:	@lightclient could you approve https://github.com/ethereum/EIPs/pull/12021 as EIP editor? This unblocks updates to EIP-8282 (https://github.com/ethereum/EIPs/pull/11869 ), thanks 😃
+01:03:29	Mehdi Aouadi:	Replying to "could we trigger it ..."
+
+Teku CB uses the same existing (blocks) circuit breaker options (the default values are too permissive for Gloas) so we should reduce them to trigger it. I’ll share stricter values to configure
+01:04:13	cayman:	Reacted to "@lightclient could y..." with 😍
+01:04:19	Nico Flaig:	Reacted to "@lightclient could y..." with 😍
