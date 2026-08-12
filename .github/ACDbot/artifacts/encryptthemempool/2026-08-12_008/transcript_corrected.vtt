@@ -1,0 +1,2014 @@
+WEBVTT
+
+1
+00:00:07.330 --> 00:00:09.310
+Justin Florentine (Besu): Thank you, Wolvi.
+
+2
+00:00:26.190 --> 00:00:29.099
+Justin Florentine (Besu): Alright. Nice save.
+
+3
+00:00:29.280 --> 00:00:30.790
+Justin Florentine (Besu): EF Zoom Bot.
+
+4
+00:00:43.630 --> 00:00:49.479
+Jannik Luhn: When I joined, I think it told me that the meeting is scheduled for next week, or something like that.
+
+5
+00:00:49.480 --> 00:00:55.299
+Justin Florentine (Besu): That is correct. I also saw that as well. Sorry, that is incorrect, but I did see that.
+
+6
+00:00:57.170 --> 00:00:59.220
+Jannik Luhn: I mean, it worked out in the end, so I guess it's fine.
+
+7
+00:01:16.880 --> 00:01:18.890
+Justin Florentine (Besu): Hooray!
+
+8
+00:01:23.060 --> 00:01:24.639
+Justin Florentine (Besu): Thanks, Wolby.
+
+9
+00:01:29.720 --> 00:01:34.769
+Justin Florentine (Besu): I'll talk to you after this, there may be some other changes to the schedule. I will be out next week.
+
+10
+00:01:35.560 --> 00:01:42.020
+Justin Florentine (Besu): Please have this meeting without me, though. I don't see any reason why you… Couldn't?
+
+11
+00:01:42.860 --> 00:01:47.610
+Justin Florentine (Besu): But, we can talk about that, Telegram, or we can talk about it at the end of this meeting.
+
+12
+00:01:48.120 --> 00:02:01.800
+Justin Florentine (Besu): However you want to handle it. Hello, everybody! Welcome to Encrypt the Mempool number 8. Let's rock and roll. Folks are starting to trickle in. We're 2 minutes past. I got some interesting stuff to talk about.
+
+13
+00:02:03.560 --> 00:02:15.369
+Justin Florentine (Besu): I think we definitely want to spend a little time looking at the notes that Jannik put together with regard to, you know, a allow list for key publishing.
+
+14
+00:02:15.900 --> 00:02:19.219
+Justin Florentine (Besu): Reminder, where we're at. We're trying to address
+
+15
+00:02:19.810 --> 00:02:31.280
+Justin Florentine (Besu): two things that are in tension right now. Post-quantum protection and key reveal optionality. I think those are the major problems that we have to deal with.
+
+16
+00:02:32.010 --> 00:02:43.750
+Justin Florentine (Besu): I'm gonna throw to Jannik in a little bit. I just want to give a little bit of an outline of some of the writing and thinking that I did, with my usual disclaimer that I'm not a cryptographer, and…
+
+17
+00:02:44.430 --> 00:02:57.100
+Justin Florentine (Besu): LLMs are typically spitting out crap that I am cutting through and not really understanding. So I will be consulting with other folks like Benedict and Gottfried on that.
+
+18
+00:02:57.720 --> 00:03:02.390
+Justin Florentine (Besu): Here's… here's what I kind of thought about this week, was…
+
+19
+00:03:03.560 --> 00:03:20.910
+Justin Florentine (Besu): DKGs, right? Specifically focusing on the key optionality problem, we can… a DKG seems to be, like, the route to go. Looking into building a DKG around the existing KZG ceremony.
+
+20
+00:03:21.220 --> 00:03:27.169
+Justin Florentine (Besu): Seems viable? I don't know if you did any thinking on this, Gottfried or Benedict.
+
+21
+00:03:27.300 --> 00:03:40.490
+Justin Florentine (Besu): But from what I can tell, it seems like that could be a useful way, to reduce the amount of communication members of the committee need to do as far as validating each other's shares.
+
+22
+00:03:40.740 --> 00:03:44.959
+Justin Florentine (Besu): So that's… Good, and promising.
+
+23
+00:03:47.750 --> 00:03:57.300
+Justin Florentine (Besu): The downside is when it comes then to quantum protection, right? So my understanding is that KZG is pretty directly threatened
+
+24
+00:03:57.470 --> 00:04:02.679
+Justin Florentine (Besu): By, you know, a sufficient quantum computer.
+
+25
+00:04:04.860 --> 00:04:09.019
+Justin Florentine (Besu): Gottfried, I see you're not on mute, but I can't hear you.
+
+26
+00:04:09.020 --> 00:04:17.730
+Gottfried Herold: No, no, it was just what Benedict said. Yeah, it completely breaks under quantum computers. A single… you can basically do one attack, and then everything's broken.
+
+27
+00:04:18.370 --> 00:04:23.240
+Justin Florentine (Besu): Right. So, that breaks the DKG itself.
+
+28
+00:04:23.810 --> 00:04:29.209
+Justin Florentine (Besu): And it also breaks, you know, the DKG publishes a BLS key, that's gonna break as well.
+
+29
+00:04:29.610 --> 00:04:38.010
+Justin Florentine (Besu): So the system kind of collapses. The question then becomes, like, well… Attack window time.
+
+30
+00:04:38.210 --> 00:04:46.900
+Justin Florentine (Besu): Right? If… if… The KZG ceremony is a one-time break thing, so once that breaks, You now…
+
+31
+00:04:47.160 --> 00:04:53.500
+Justin Florentine (Besu): have to fall back to something else for key share… for the key share validation in the DKG,
+
+32
+00:04:54.200 --> 00:04:57.770
+Justin Florentine (Besu): Which balloons up the size of the shares.
+
+33
+00:04:58.890 --> 00:05:08.120
+Justin Florentine (Besu): You know, so I was kind of of a mind that it's worth going down the pre-quantum path.
+
+34
+00:05:09.390 --> 00:05:12.120
+Justin Florentine (Besu): And I think I've changed my mind on that.
+
+35
+00:05:13.750 --> 00:05:15.920
+Justin Florentine (Besu): The reason being that…
+
+36
+00:05:16.440 --> 00:05:27.059
+Justin Florentine (Besu): If you were to roll out pre-quantum and then cut over to post-quantum, the post-quantum stuff is gonna come with all kinds of sizing issues that you have to solve anyway.
+
+37
+00:05:27.850 --> 00:05:40.580
+Justin Florentine (Besu): And from a project management perspective, I don't know that the money saved from mitigating MEV in the short term between, you know, when that's delivered and when PQ day happens.
+
+38
+00:05:42.070 --> 00:05:52.590
+Justin Florentine (Besu): is more valuable than preparing for PQ day and solving all of these very difficult sizing problems that get introduced by adopting post-quantum crypto.
+
+39
+00:05:53.560 --> 00:05:58.379
+Justin Florentine (Besu): Also, the post-quantum crypto doesn't really exist. Like, it's there.
+
+40
+00:05:58.830 --> 00:06:02.020
+Justin Florentine (Besu): But it's kind of still in the lab and hasn't really been vetted.
+
+41
+00:06:03.290 --> 00:06:13.750
+Justin Florentine (Besu): So, I mean, what do people think? How open are people to a non-quantum-safe interim solution?
+
+42
+00:06:21.910 --> 00:06:31.640
+Justin Florentine (Besu): Considering that, you know, these things are ephemeral, you have to protect them as long as they're in the Mempool, and once they're committed and they're on-chain.
+
+43
+00:06:31.750 --> 00:06:37.820
+Justin Florentine (Besu): You don't really have a harvest now, decrypt later problem, because everything becomes
+
+44
+00:06:37.990 --> 00:06:41.039
+Justin Florentine (Besu): Revealed when it goes on chain.
+
+45
+00:06:46.740 --> 00:06:55.259
+Benedikt Wagner: I think, I mean, you have some points, but I think the engineering effort to… or, like, generally the development effort.
+
+46
+00:06:55.380 --> 00:07:00.020
+Benedikt Wagner: of such a DKG solution, Seems a bit too high.
+
+47
+00:07:00.720 --> 00:07:05.240
+Benedikt Wagner: To use it just for a short amount of time, so…
+
+48
+00:07:05.730 --> 00:07:09.550
+Benedikt Wagner: Because, I mean, you have to spec it, you have to…
+
+49
+00:07:10.470 --> 00:07:24.360
+Benedikt Wagner: analyze security on paper, you have to make sure that the implementation matches the spec, you have to, you know, do all of these things. It's kind of a complicated protocol compared to, I don't know, a signature scheme.
+
+50
+00:07:25.030 --> 00:07:27.930
+Benedikt Wagner: So, yeah, I think this is a huge effort.
+
+51
+00:07:30.410 --> 00:07:42.349
+Justin Florentine (Besu): I pretty much agree with that. The one counter to that is, like, well, Shutter does it. Like, they have an open source Keeper model, I haven't looked into it yet.
+
+52
+00:07:42.640 --> 00:07:52.890
+Justin Florentine (Besu): That could speed up that development, right? And treat it more like porting their keeper framework into the consensus layer and using it… using it from there.
+
+53
+00:07:53.000 --> 00:07:55.989
+Justin Florentine (Besu): But all of the PQ issues remain.
+
+54
+00:07:56.450 --> 00:08:05.850
+Gottfried Herold: what kind of, well, secret key, public key infrastructure are they using? I mean, apart from using a DKG, what are they actually using to decrypt.
+
+55
+00:08:08.130 --> 00:08:09.319
+Justin Florentine (Besu): I don't know.
+
+56
+00:08:09.320 --> 00:08:11.080
+Jan: It's, born in Franklin, IB.
+
+57
+00:08:11.290 --> 00:08:12.240
+Gottfried Herold: Okay, thanks.
+
+58
+00:08:12.550 --> 00:08:12.920
+Justin Florentine (Besu): Say that again?
+
+59
+00:08:12.920 --> 00:08:16.609
+Jan: And they don't do badging. It's Boney Franklin ABI, they don't do badging, so it's…
+
+60
+00:08:16.610 --> 00:08:17.010
+Gottfried Herold: Yeah, yeah.
+
+61
+00:08:17.010 --> 00:08:22.319
+Jan: I just was looking into that. It's, essentially… Everybody samples their own identity.
+
+62
+00:08:23.340 --> 00:08:33.139
+Jan: And to get CCA security, you do something where the keepers, they actually check which address sent this, and prefix the identity with the address. I think there's some, like.
+
+63
+00:08:34.260 --> 00:08:36.399
+Jan: Like, if you really want to make this, like.
+
+64
+00:08:36.940 --> 00:08:41.009
+Jan: work for everything. There's some issues to take care of, but
+
+65
+00:08:41.220 --> 00:08:43.090
+Jan: Looks at least secure to me.
+
+66
+00:08:43.440 --> 00:08:47.420
+Gottfried Herold: Okay, so just an IPE, so just a threshold IVE, basically.
+
+67
+00:08:47.420 --> 00:09:06.249
+Jan: I think there's maybe some concerns if you make… if you, like, encrypt the ciphertext or, like, the payload yourself, and then send it to somebody else to send the transactions, because then the kind of the identity spaces could be no longer separated, but… I mean, that's not the point now, right?
+
+68
+00:09:06.610 --> 00:09:07.120
+Gottfried Herold: Nope.
+
+69
+00:09:11.160 --> 00:09:21.789
+Justin Florentine (Besu): So then the strategy would be, okay, maybe we propose a… a dedicated just DKG facility, right? Like a… like a… an EIP?
+
+70
+00:09:21.930 --> 00:09:29.460
+Justin Florentine (Besu): that introduces just the DKG part. It's implemented Relatively quickly? By…
+
+71
+00:09:29.460 --> 00:09:34.949
+Gottfried Herold: about… But, I mean, the DKG depends on what keys for what scheme you want to share.
+
+72
+00:09:35.640 --> 00:09:38.690
+Gottfried Herold: It's highly specific to the type of key.
+
+73
+00:09:38.900 --> 00:09:41.889
+Benedikt Wagner: Yes. I mean, the DKG without the…
+
+74
+00:09:42.340 --> 00:09:45.769
+Benedikt Wagner: Scheme that uses the keys is kind of pointless.
+
+75
+00:09:46.350 --> 00:09:51.650
+Benedikt Wagner: But of course, there's, like, a, let's say, standard D-Log-based
+
+76
+00:09:51.980 --> 00:09:57.549
+Benedikt Wagner: key, right? If you go to Franklin, for example, you can just use that.
+
+77
+00:09:58.360 --> 00:10:04.769
+Justin Florentine (Besu): Right, but I mean, do we have any constraints on that? I mean, we're kind of… we're kind of blue sky here, like, we could… we could use whatever…
+
+78
+00:10:05.060 --> 00:10:07.859
+Justin Florentine (Besu): Key they want us to use, right?
+
+79
+00:10:11.310 --> 00:10:29.699
+Benedikt Wagner: Things have to match, right? There's the threshold Encryption scheme, or threshold IBE, and it has a certain structure of secret keys and public keys, and then there's the DKG that should generate that. These two things have to match. Sure. So it's very… you cannot really isolate them.
+
+80
+00:10:30.760 --> 00:10:35.279
+Justin Florentine (Besu): I understand that, but I guess what I'm saying is that we would have to introduce both anyway, so we could align them.
+
+81
+00:10:36.090 --> 00:10:37.520
+Benedikt Wagner: Yes, that's true.
+
+82
+00:10:40.090 --> 00:10:55.170
+Justin Florentine (Besu): for instance, the committee members are going to have to have some sort of registrar somewhere, which still needs to be built, so, you know, we can… we could say that that's whatever key mechanism that the DKG, the keeper, already uses, is compatible with.
+
+83
+00:11:03.700 --> 00:11:06.200
+Justin Florentine (Besu): The question then becomes, though, alright, well.
+
+84
+00:11:07.320 --> 00:11:09.790
+Justin Florentine (Besu): Either way, we still have the post-quantum problems.
+
+85
+00:11:17.720 --> 00:11:28.769
+Justin Florentine (Besu): And so, like, can we maybe talk out what the post-quantum problems are in the context of just DKGs in general? My understanding is that if I have a quantum computer.
+
+86
+00:11:29.080 --> 00:11:31.980
+Justin Florentine (Besu): The attack surface is kind of twofold.
+
+87
+00:11:32.280 --> 00:11:43.030
+Justin Florentine (Besu): One, it's whatever the underlying trusted setup is being used by the… by the, committee to validate their shares.
+
+88
+00:11:43.720 --> 00:11:45.009
+Justin Florentine (Besu): Is that correct?
+
+89
+00:11:46.430 --> 00:12:04.370
+Gottfried Herold: Yeah, I mean, the point is that, yes, I mean, at least for those group-based things, I mean, you have the… basically, the reference string is sort of… it's sort of vulnerable, but the main issue, actually, is that whatever threshold IBE or threshold decryption scheme you use, of course, if this scheme is not secure against quantum computers.
+
+90
+00:12:04.500 --> 00:12:11.680
+Gottfried Herold: Well, then, of course, it doesn't make sense to sort of use a secure DKG to generate insecure keys.
+
+91
+00:12:12.630 --> 00:12:16.220
+Justin Florentine (Besu): Sure, but the keys rotate and we can manipulate the window.
+
+92
+00:12:16.220 --> 00:12:18.669
+Benedikt Wagner: I think we also have to…
+
+93
+00:12:18.670 --> 00:12:19.320
+Gottfried Herold: Honestly.
+
+94
+00:12:19.320 --> 00:12:28.110
+Benedikt Wagner: Realistically see, like, There's a difference between this thing being quantum vulnerable and, for example.
+
+95
+00:12:28.360 --> 00:12:34.479
+Benedikt Wagner: Transaction signatures being quantum vulnerable, right? Because if you… for example, if the threshold
+
+96
+00:12:34.640 --> 00:12:45.130
+Benedikt Wagner: Encryption scheme that you use can be broken by a quantum computer, that then it essentially means that for a quantum computer, there is no encrypted Mempool, but everything else is…
+
+97
+00:12:45.130 --> 00:12:56.650
+Benedikt Wagner: the same as before. So it's not really a big issue, it's for sure an issue, but it's not as big as, you know, you can forge transaction signatures.
+
+98
+00:12:56.820 --> 00:13:05.209
+Benedikt Wagner: And for the DKG, I think that this is a little bit more subtle, because it could be, I mean, there are tons of DKGs, but it could be that,
+
+99
+00:13:06.340 --> 00:13:15.900
+Benedikt Wagner: the DKG has multiple security properties, in a sense, right? The encryption scheme just has privacy of the message that you encrypt, but the DKG has…
+
+100
+00:13:15.920 --> 00:13:28.190
+Benedikt Wagner: you know, your secret keys should be private, and at the same time, everyone should agree on a public key, so that's already two security properties. Now we need to think about what happens if
+
+101
+00:13:28.420 --> 00:13:34.319
+Benedikt Wagner: A quantum computer can violate can violate those.
+
+102
+00:13:34.790 --> 00:13:36.099
+Benedikt Wagner: Right? So…
+
+103
+00:13:36.710 --> 00:13:52.960
+Benedikt Wagner: I'm not entirely sure, but let's say we don't agree on a public key, then it could be that some, some people think that this is the public key that they encrypt to, and other people think that they should encrypt to another public key, and then maybe we get back the…
+
+104
+00:13:53.490 --> 00:13:55.959
+Benedikt Wagner: Reveal optionality, or something like that.
+
+105
+00:13:56.530 --> 00:13:57.319
+Gottfried Herold: Yeah.
+
+106
+00:13:57.320 --> 00:14:03.220
+Benedikt Wagner: So I think we really need to be careful about which aspects, which security aspects of the DKG
+
+107
+00:14:03.740 --> 00:14:08.639
+Benedikt Wagner: Are vulnerable to a quantum computer, because sometimes one of them is…
+
+108
+00:14:08.980 --> 00:14:12.590
+Benedikt Wagner: Statistical, and it's even secure against a quantum computer.
+
+109
+00:14:13.520 --> 00:14:21.099
+Justin Florentine (Besu): Okay, so this is a good question that I'm asking, then, is what I'm hearing, because I was also a little unclear on that. I was thinking that
+
+110
+00:14:21.500 --> 00:14:25.309
+Justin Florentine (Besu): The quantum security threat to the actual key…
+
+111
+00:14:25.740 --> 00:14:36.270
+Justin Florentine (Besu): could be mitigated by the time… the length of the key and the time… the rotation time of it. Whereas the validating that we all got to the same public key
+
+112
+00:14:36.530 --> 00:14:42.929
+Justin Florentine (Besu): If we base that on the KZG ceremony, Is broken once and forever.
+
+113
+00:14:43.610 --> 00:14:50.970
+Benedikt Wagner: I mean, I'm not entirely sure what you mean by basing the ZKG on the KCG ceremony, because there are…
+
+114
+00:14:51.120 --> 00:15:01.059
+Benedikt Wagner: much simpler DKGs for, for example, for generating a D-Lock kind of public key pair, where you don't need KCG.
+
+115
+00:15:01.360 --> 00:15:06.470
+Benedikt Wagner: But there, I would assume that the agreement on the public key
+
+116
+00:15:07.870 --> 00:15:11.769
+Benedikt Wagner: Well, it depends on in which model you are, but it should be statistical, and then…
+
+117
+00:15:12.250 --> 00:15:13.579
+Benedikt Wagner: Of course, there's a…
+
+118
+00:15:14.420 --> 00:15:26.490
+Benedikt Wagner: Usually, you implement these kind of protocols over a certain channel, like, for example, you need a broadcast channel, and then when you implement that broadcast channel, the question is, do you implement it
+
+119
+00:15:26.560 --> 00:15:34.820
+Benedikt Wagner: with signatures, and then what are… what are these signatures? Are they secure? And, like, there are tons of these detailed questions, and I think it's…
+
+120
+00:15:34.820 --> 00:15:35.490
+Justin Florentine (Besu): Yeah.
+
+121
+00:15:35.490 --> 00:15:39.570
+Benedikt Wagner: not that easy to just say DKG works, or DKG does not work.
+
+122
+00:15:39.570 --> 00:15:42.040
+Justin Florentine (Besu): So, the KZG part of it was…
+
+123
+00:15:42.820 --> 00:15:49.260
+Justin Florentine (Besu): Pursued as one way to reduce the size of the messages.
+
+124
+00:15:49.660 --> 00:15:55.100
+Justin Florentine (Besu): That the committee members would have to use to validate their shares.
+
+125
+00:15:56.260 --> 00:16:11.949
+Justin Florentine (Besu): I didn't bring that in, because there were no other options. I brought that in, and I, and I, again, I am at the limits of my crypto knowledge, okay? So please, bear with me. But doing it otherwise,
+
+126
+00:16:12.650 --> 00:16:24.299
+Justin Florentine (Besu): seem to balloon up the message and create a terrible amount of traffic. When you, you know, have a committee size of, like, 512, and everybody needs to talk to everybody, and they need to, you know.
+
+127
+00:16:24.510 --> 00:16:28.020
+Justin Florentine (Besu): Specifically address shares to multiple members, etc.
+
+128
+00:16:28.440 --> 00:16:29.700
+Justin Florentine (Besu): So…
+
+129
+00:16:30.200 --> 00:16:37.919
+Justin Florentine (Besu): Yeah, that was a thing that was breaking for protocol reasons, and for, like, scalability reasons. Does that make sense?
+
+130
+00:16:40.190 --> 00:16:42.889
+Benedikt Wagner: Yeah, so if you use dead, then…
+
+131
+00:16:43.250 --> 00:16:53.960
+Benedikt Wagner: if I have a quantum computer, I can… I can recover the tau from the powers of tau from the kg thing, and at that point, I break binding of the kg commitment.
+
+132
+00:16:54.260 --> 00:17:03.319
+Benedikt Wagner: even classically. So I just have this one quantum preprocessing thing, and then I break it very fast and classically, so I don't think,
+
+133
+00:17:04.180 --> 00:17:12.329
+Benedikt Wagner: like, a timing-based solution with, like, rerunning a DKG over and over again, Is a good solution, because
+
+134
+00:17:12.680 --> 00:17:17.210
+Benedikt Wagner: Essentially, you can break it classically, once you have broken it once.
+
+135
+00:17:19.339 --> 00:17:22.630
+Justin Florentine (Besu): Okay, I see what you're saying.
+
+136
+00:17:24.829 --> 00:17:28.219
+Gottfried Herold: Well, unless you basically recreate the new tau every time, or something.
+
+137
+00:17:28.220 --> 00:17:29.210
+Benedikt Wagner: Yeah, true.
+
+138
+00:17:29.210 --> 00:17:30.580
+Gottfried Herold: Yeah, I don't…
+
+139
+00:17:30.580 --> 00:17:31.399
+Benedikt Wagner: So when we do…
+
+140
+00:17:32.900 --> 00:17:33.810
+Gottfried Herold: I mean…
+
+141
+00:17:34.330 --> 00:17:40.460
+Justin Florentine (Besu): But even then, you have to recreate the new Tao, and like, you know, if it really is that quick to break it.
+
+142
+00:17:40.860 --> 00:17:43.469
+Justin Florentine (Besu): You're never gonna have a window that's long enough.
+
+143
+00:17:44.280 --> 00:17:51.940
+Gottfried Herold: How often do you imagine re-running the ZKG anyway? So what is the lifetime of your piece? Just a protocol, sorry.
+
+144
+00:17:52.440 --> 00:17:54.270
+Jan: Yeah, go, no, go yoga first.
+
+145
+00:17:55.550 --> 00:17:58.310
+Jan: I didn't hear you, it cut out, so…
+
+146
+00:17:59.580 --> 00:18:04.829
+Gottfried Herold: I was just wondering what sort of the envisioned timeframe of those keys would be, I mean…
+
+147
+00:18:06.470 --> 00:18:15.789
+Justin Florentine (Besu): I was thinking it had to be as short as possible that's viable, right? In the face of a quantum adversary. I came up with a day.
+
+148
+00:18:16.100 --> 00:18:23.289
+Justin Florentine (Besu): Based on, you know, a thousand error-correcting qubits and BLS381, but…
+
+149
+00:18:24.940 --> 00:18:37.319
+Gottfried Herold: Well, the current estimates for breaking a D-Log with a quantum computer, I mean, there's various numbers being pushed around and timeframes being pushed around, is something between… is more like 10 minutes and below.
+
+150
+00:18:41.100 --> 00:18:42.580
+Justin Florentine (Besu): Wow. Okay.
+
+151
+00:18:42.690 --> 00:18:46.350
+Justin Florentine (Besu): But that's… is that with, like, error-correcting qubits? And, like, you're talking about.
+
+152
+00:18:46.350 --> 00:18:49.689
+Gottfried Herold: Yeah, yeah, yeah, that's the thing that works, so…
+
+153
+00:18:51.580 --> 00:19:00.429
+Jan: But, like, are we trying now to design, like, a pre-quantum Mempool that works in post-quantum world, because it's just, like, faster?
+
+154
+00:19:00.630 --> 00:19:04.039
+Jan: then, like, it evolves kind of faster, I don't think that makes much sense.
+
+155
+00:19:04.260 --> 00:19:11.180
+Jan: I think, like, you're just going… raising… I think at the point where then they're, like, you just need to accept that now the Mempool is…
+
+156
+00:19:11.340 --> 00:19:22.610
+Jan: they're no longer encrypted when there's quantum computers. The only… I think the only difficulty with this is, of course, you might not know from day one that there's a quantum computer now, right? But I think we can, like…
+
+157
+00:19:22.810 --> 00:19:28.750
+Jan: kind of… you can be kind of conservative that you will know that there's a quantum computer before it's used to attack the…
+
+158
+00:19:28.750 --> 00:19:30.390
+Gottfried Herold: The Mempool is like.
+
+159
+00:19:30.390 --> 00:19:38.490
+Jan: more… more valuable targets, even on the blockchain setting. Like, it's not the first time… like, if I had a quantum computer, I would not attack the mem… like, the encrypted Mempool first.
+
+160
+00:19:38.630 --> 00:19:47.669
+Justin Florentine (Besu): Right, right. So, that's actually another thing that I was thinking about, is like, when it was used to attack the Mempool, wouldn't you see evidence of that? Like…
+
+161
+00:19:47.830 --> 00:19:53.680
+Justin Florentine (Besu): You'd have out-of-order blocks. Like, with a Lucid-based design.
+
+162
+00:19:53.920 --> 00:20:03.559
+Justin Florentine (Besu): You would basically have, okay, if it was used to attack the Mempool, that means somebody, you know, decrypted it and resequenced it out of sequence from the prior commitments.
+
+163
+00:20:04.220 --> 00:20:04.750
+Justin Florentine (Besu): Right?
+
+164
+00:20:05.700 --> 00:20:10.259
+Gottfried Herold: Well, no, not necessarily. You would just decrypt first, and you front-run transactions.
+
+165
+00:20:12.280 --> 00:20:19.099
+Jan: you would not decrypt, you would just break the keys of the validators, and then just use their secret key to decrypt, right? You would get the D-Log.
+
+166
+00:20:19.510 --> 00:20:29.050
+Jan: Of whatever is the public key, and then you just decrypt all the… like, you break it once, and then you can decrypt. At this time, you don't need to have… you don't have 10 minutes… what we just said is 10 minutes.
+
+167
+00:20:29.300 --> 00:20:31.360
+Jan: It's just the price once, right? Then…
+
+168
+00:20:31.800 --> 00:20:36.149
+Jan: But I don't think it makes any sense to try to… Well, it's just, like…
+
+169
+00:20:37.070 --> 00:20:44.919
+Jan: I think just, we need to consider it broken once there's a quantum computer, and just, if we want to do pre-quantum, we need to kind of evaluate the risk of
+
+170
+00:20:44.920 --> 00:20:57.659
+Jan: okay, what if somebody has a quantum… what if somebody was all-powerful to break it for a while? Like, would he use it on an encrypted Mempool? Are we… do we have any other systems that rely on the encrypted Mempool somehow that are even more high value?
+
+171
+00:20:57.740 --> 00:21:02.170
+Jan: I think it's just a risk that you… that you always now need to take when you do.
+
+172
+00:21:02.330 --> 00:21:08.150
+Jan: something pre-quantum, right? When you… do that. I think just… Keeping it faster, changing.
+
+173
+00:21:08.740 --> 00:21:11.690
+Jan: It makes no… not much sense.
+
+174
+00:21:11.890 --> 00:21:18.150
+Jan: And since we're not really caring so much about the long term, if we just take out the long-term.
+
+175
+00:21:18.380 --> 00:21:23.880
+Jan: let's say, secrecy of the, the encrypted transactions. If you, let's say, only care about
+
+176
+00:21:24.260 --> 00:21:33.099
+Jan: to keep them secret for 10 blocks or something, or maybe for an hour, then we can just disregard that for now, and then I think it's just how much can you extract if you were
+
+177
+00:21:33.340 --> 00:21:39.240
+Jan: within… How long we expect to, to notice that there's a quantum computer.
+
+178
+00:21:39.630 --> 00:21:43.509
+Jan: Right, and how much is that, and how much is this compared to other systems?
+
+179
+00:21:46.440 --> 00:21:47.640
+Jan: If it's, like…
+
+180
+00:21:49.850 --> 00:21:53.720
+Gottfried Herold: In a way, I think it's also a juicy target, in a way.
+
+181
+00:21:53.830 --> 00:22:03.939
+Gottfried Herold: Because you can still front-run, and it's sort of not really easy to detect that you get frontrun, or why you get frontrun. Whereas if you break keys, people will sort of detect it.
+
+182
+00:22:06.230 --> 00:22:11.270
+Jan: Yeah, well, you can break keys and use them to decrypt, and then front-run like this, right? That's what I'm saying.
+
+183
+00:22:11.590 --> 00:22:12.230
+Gottfried Herold: Hmm.
+
+184
+00:22:14.080 --> 00:22:20.520
+Jan: Like, you wouldn't try to decrypt the transaction, you would try to break the secret… I think you would try to break the public, like, the D-Log of the public key.
+
+185
+00:22:20.680 --> 00:22:23.489
+Jan: And then, decrypt, and then you can…
+
+186
+00:22:23.900 --> 00:22:26.869
+Jan: Just from Tron classically at this point, right?
+
+187
+00:22:26.870 --> 00:22:27.410
+Gottfried Herold: Yeah.
+
+188
+00:22:28.690 --> 00:22:45.220
+Jan: But it's juicy in the sense that, yeah, okay, if I want to… if I can keep secret for a month, then I can make… maybe make a lot of money, and we also need to consider that when there's an encrypted BIM pool, people might have, like, much more risky or, like, like, front-running… front-run risky trades.
+
+189
+00:22:45.250 --> 00:22:51.199
+Jan: Because they feel protected by the Mempool, right? So the value that can be extracted in that time frame can go up, right?
+
+190
+00:22:51.690 --> 00:22:52.060
+Gottfried Herold: Yep.
+
+191
+00:22:52.060 --> 00:22:52.799
+Justin Florentine (Besu): Good point.
+
+192
+00:22:58.840 --> 00:23:05.999
+Jan: But I, like, I still think that, like, the main blocker not to do pre-quantum is just, is it worth the effort?
+
+193
+00:23:06.320 --> 00:23:09.490
+Jan: Is it worth the effort, to have
+
+194
+00:23:10.100 --> 00:23:24.790
+Jan: to, like, do it now, when we, anyway, at some point, like, how long can we live with this? Like, if we do it now, we can have, let's say, 10 years, 5 years, whatever, of encrypted Mempool, and it's some resources that we need to pull to make it work, right?
+
+195
+00:23:24.960 --> 00:23:30.070
+Jan: And, we already have, like, right now we have… you can break, within…
+
+196
+00:23:30.290 --> 00:23:36.889
+Jan: like, we're not considering this for the normal keys now, right? I think this transition period is not so important right now. I think it's rather…
+
+197
+00:23:37.930 --> 00:23:43.080
+Jan: Like, are the existing schemes good enough that we really get something meaningful for long enough?
+
+198
+00:23:43.290 --> 00:23:46.680
+Jan: That it's worth to pull the effort into.
+
+199
+00:23:47.240 --> 00:23:48.809
+Jan: Doing a classical Mempool.
+
+200
+00:23:49.560 --> 00:23:50.780
+Jan: Like, encrypted notebook.
+
+201
+00:23:59.730 --> 00:24:02.879
+Jan: But also, I think it's… it's just… we don't really have…
+
+202
+00:24:03.240 --> 00:24:12.120
+Jan: like, I don't see any post-quantum option, except doing something naive, and there… it's just, does it scale to what we want the Mempool to be, right?
+
+203
+00:24:12.770 --> 00:24:18.299
+Jan: like, all of the post-quantum schemes I don't see as efficient enough right now.
+
+204
+00:24:20.030 --> 00:24:21.399
+Justin Florentine (Besu): Yeah, they're pretty rough.
+
+205
+00:24:28.460 --> 00:24:31.459
+Jan: Or maybe I'm missing a scheme now.
+
+206
+00:24:31.970 --> 00:24:37.600
+Justin Florentine (Besu): I haven't found anything. I mean, MLDSA signatures go up to 2.5K.
+
+207
+00:24:38.270 --> 00:24:39.969
+Justin Florentine (Besu): Oops, that's bad.
+
+208
+00:24:42.870 --> 00:24:47.379
+Justin Florentine (Besu): ML Chem ciphertext have, like, a K and a half of overhead?
+
+209
+00:24:47.660 --> 00:24:48.820
+Justin Florentine (Besu): That's bad.
+
+210
+00:24:52.860 --> 00:24:56.590
+Justin Florentine (Besu): This is what I mean when I was talking about, like, the space issue, right? Like, it's like…
+
+211
+00:24:57.000 --> 00:25:06.920
+Justin Florentine (Besu): Does the time that we would spend building and implementing a pre-quantum or classical encrypted mempool an opportunity cost
+
+212
+00:25:07.790 --> 00:25:17.059
+Justin Florentine (Besu): Towards sorting out all of the space issues that are going to be triggered by switching to post-quantum algorithms.
+
+213
+00:25:19.360 --> 00:25:23.829
+Justin Florentine (Besu): And I think the only way you can avoid that is by saying, we're never gonna switch to post-quantum.
+
+214
+00:25:25.080 --> 00:25:29.109
+Justin Florentine (Besu): Like, there's never, there's never gonna be, there's never gonna be an economic reason
+
+215
+00:25:29.490 --> 00:25:33.790
+Justin Florentine (Besu): That you need that level of protection for 12 seconds.
+
+216
+00:25:37.790 --> 00:25:40.910
+Jan: I don't know, I don't think that there's an option for that, right? Like…
+
+217
+00:25:41.420 --> 00:25:45.789
+Gottfried Herold: I mean, economically, I'm not so sure…
+
+218
+00:25:47.380 --> 00:25:48.900
+Justin Florentine (Besu): Yeah, because the…
+
+219
+00:25:49.330 --> 00:25:50.519
+Gottfried Herold: I mean, you can make it…
+
+220
+00:25:50.520 --> 00:25:51.460
+Justin Florentine (Besu): protection.
+
+221
+00:25:51.650 --> 00:25:57.310
+Gottfried Herold: I mean, you can make things… you can design things in a way where basically the cost does not scale per transaction.
+
+222
+00:25:57.730 --> 00:26:00.660
+Gottfried Herold: In a way, you could basically outscale that.
+
+223
+00:26:06.230 --> 00:26:08.739
+Gottfried Herold: Basically, everybody's using it, sort of…
+
+224
+00:26:10.550 --> 00:26:15.140
+Gottfried Herold: And if you have a huge throughput, it would become viable, even with large keys.
+
+225
+00:26:19.430 --> 00:26:29.590
+Justin Florentine (Besu): So, do we need to kind of maybe spend some time with this decision and get past that before we design further? Like, I feel like not having a clear stance on…
+
+226
+00:26:30.040 --> 00:26:34.340
+Justin Florentine (Besu): Pre- classical, post-quantum, or hybrid.
+
+227
+00:26:35.240 --> 00:26:38.609
+Justin Florentine (Besu): Or maybe not hybrid's a good way to call it.
+
+228
+00:26:39.020 --> 00:26:55.100
+Justin Florentine (Besu): failover? Like, a design where you fail over from classical to post-quantum? Like, we probably need to kind of sit down and write, actually, like, here's our stance on this and how we should do that before we move forward, because…
+
+229
+00:26:55.780 --> 00:27:00.770
+Justin Florentine (Besu): Maybe it is the case that classical is fine, and we have to make that case.
+
+230
+00:27:01.140 --> 00:27:07.999
+Justin Florentine (Besu): And if it's not the case, and we say, no, we need to go to pre… to post-quantum right from the start.
+
+231
+00:27:09.540 --> 00:27:13.659
+Justin Florentine (Besu): Then, we kind of need to put this on the shelf, and…
+
+232
+00:27:13.880 --> 00:27:28.869
+Justin Florentine (Besu): do some very fundamental crypto research, or have people do some very fundamental crypto research before we're gonna have any type of secret sharing mechanism that would allow you to build a DKG for this. Or design something where you don't even need a DKG,
+
+233
+00:27:29.100 --> 00:27:34.490
+Justin Florentine (Besu): In the face of acceptable optionality, I… I don't know.
+
+234
+00:27:34.780 --> 00:27:54.319
+Jan: I think classical is completely fine, like, everything essentially right now is classical. The problem is just now, do we have a classical system that's good enough? Like, we're kind of facing two problems at once. Do we want to, like, focus on the classical? Do maybe some research there, some development there? Because even classically, this problem is, like, kind of…
+
+235
+00:27:54.550 --> 00:28:01.470
+Jan: Like, research-wise, there was only recently, like, much work on it, and still topic of ongoing research, and it's…
+
+236
+00:28:01.650 --> 00:28:04.979
+Jan: Does not write the, like, the optimal, the perfect scheme yet.
+
+237
+00:28:05.290 --> 00:28:06.060
+Jan: Right?
+
+238
+00:28:06.230 --> 00:28:08.000
+Jan: So,
+
+239
+00:28:08.710 --> 00:28:09.460
+Gottfried Herold: You know, there's also.
+
+240
+00:28:09.460 --> 00:28:10.470
+Jan: And that's…
+
+241
+00:28:11.060 --> 00:28:26.190
+Gottfried Herold: there's also the question how you use it in protocol, so basically, do you sort of build upon Lucid, or, I mean, there's this other scheme that I was building on, there's other options, like, like what Flash was doing, so basically even… even how you would use it inside the protocol is sort of…
+
+242
+00:28:26.940 --> 00:28:27.820
+Jan: Oh, yeah.
+
+243
+00:28:27.820 --> 00:28:32.379
+Gottfried Herold: There's various options you can do, and there's some research to be done here.
+
+244
+00:28:32.760 --> 00:28:40.960
+Jan: So, but this part, I think this largely would carry over to, like, a quantum work then, but then the risk is that you do it for classical, with guarantees that you get from classical.
+
+245
+00:28:41.050 --> 00:28:41.690
+Gottfried Herold: And…
+
+246
+00:28:41.690 --> 00:28:52.679
+Jan: that are hard to achieve from quantum. Like, for quantum, you would ideally want to have, like, maybe a different encrypted Mempool that can use more relaxed guarantees, right?
+
+247
+00:28:52.680 --> 00:28:58.540
+Gottfried Herold: Yeah, exactly. I mean, also the question whether you use an IBE or a decryption scheme, right? I mean, it's one other thing.
+
+248
+00:29:00.650 --> 00:29:02.679
+Justin Florentine (Besu): Interesting, so multiple pools.
+
+249
+00:29:03.470 --> 00:29:06.300
+Justin Florentine (Besu): And you could escalate from one to another?
+
+250
+00:29:07.860 --> 00:29:13.980
+Justin Florentine (Besu): I don't know if I want to have users having to make that decision, but… I might just…
+
+251
+00:29:13.980 --> 00:29:26.069
+Jan: No, I think it will just largely be… I kind of have the feeling, like, if you now… if we now spend the time to… and found a scheme that works classically, and you can just, let's say, you can just vote to turn it off, right?
+
+252
+00:29:26.330 --> 00:29:41.550
+Jan: And if there's really… I kind of have the intuition that, yeah, if there was really then quantum computers, like, we would notice before somebody would exploit it for weeks or months within the Mempool. Like, it's just a risk that you can accept, in my opinion.
+
+253
+00:29:42.250 --> 00:29:46.679
+Jan: That's… you can then turn it off, right? It's then…
+
+254
+00:29:46.680 --> 00:29:52.609
+Justin Florentine (Besu): Yeah, and there's enough time to spread the word that says, like, hey, guess what? This is not really viable.
+
+255
+00:29:52.880 --> 00:29:54.590
+Justin Florentine (Besu): Stop using it.
+
+256
+00:29:54.590 --> 00:29:55.940
+Jan: The social consensus.
+
+257
+00:29:55.940 --> 00:29:57.850
+Justin Florentine (Besu): Boat, turn it off, yeah.
+
+258
+00:29:58.040 --> 00:30:13.000
+Jan: like, if somebody had a quantum computer, and their proof of concept, like, let's say they make it public, their proof of concept is to encrypt the Mempool, like, break the encrypted Mempool, like, it would be a huge deal. Like, it's not something that nobody would notice.
+
+259
+00:30:13.080 --> 00:30:20.370
+Jan: if it got, like, it wouldn't spread, right? The only risk is that they can do it, maybe, without anybody noticing for a while.
+
+260
+00:30:20.700 --> 00:30:32.399
+Jan: But I just feel that it's not a realistic setting, because there's, like, if you had such a quantum computer, there's, like, so much infrastructure and things that you could attack that are so much more high-value target, right?
+
+261
+00:30:32.590 --> 00:30:39.169
+Jan: than… than Encrypted Mempool. Like, even with outside of blockchain, do you have, like, PKIs and things that you can attack?
+
+262
+00:30:39.590 --> 00:30:41.560
+Jan: Maybe…
+
+263
+00:30:44.680 --> 00:30:47.469
+Jan: I just feel it's not, like, if we, like.
+
+264
+00:30:47.660 --> 00:31:02.990
+Jan: doing… putting this type of constraint that, okay, if we can… if we were able to have a good system classically, and we… and we wouldn't put the effort to implement it, because, yeah, there might be a time where some… where we don't know there's a quantum computer yet, the same goes for, like, it could happen
+
+265
+00:31:03.000 --> 00:31:09.900
+Jan: that somebody secretly tries to break, like, signatures now, right? And starts kind of emptying some wallets.
+
+266
+00:31:11.550 --> 00:31:14.639
+Jan: I feel it's, like, a bit too much of a constraint to think about that.
+
+267
+00:31:14.640 --> 00:31:30.559
+Gottfried Herold: Yeah, I mean, the other question is, sort of, I mean, okay, let's say we build something pre-quantum, and then, I mean, how much, sort of, work that we put into… how much effort we put into this, could we basically carry over to a post-quantum solution? I like what you said, Jan.
+
+268
+00:31:30.660 --> 00:31:32.930
+Gottfried Herold: Now, this is very unclear, actually.
+
+269
+00:31:33.640 --> 00:31:40.379
+Jan: That's the one thing that's nice about Lucid, right? That's, basically all of it could carry over, but then it has the downsides.
+
+270
+00:31:40.770 --> 00:31:44.050
+Justin Florentine (Besu): Yeah. No, a large part of this does…
+
+271
+00:31:44.960 --> 00:31:54.549
+Justin Florentine (Besu): does carry over. The problem is, is that there's new, unique stuff that gets introduced when you swap it out, right? All this space ballooning.
+
+272
+00:31:54.550 --> 00:31:55.080
+Gottfried Herold: Yeah…
+
+273
+00:31:55.080 --> 00:31:56.470
+Justin Florentine (Besu): Manage that stuff.
+
+274
+00:31:56.470 --> 00:32:13.830
+Jan: I mean, I can give you an example. Let's say you have, let's say you have a perfect scheme now, you have silent and batching, right? And then, kind of, the Encrypted Mempool is engineered around this, right? And then suddenly there's a scare, and you want to switch to quantum, and it's very unlike… like, we might have
+
+275
+00:32:14.100 --> 00:32:29.260
+Jan: post-quantum threshold encryption by then, but it's very unlikely that it's maybe adaptively secure, it has probably no silence set up, you need to run DKG, the committee needs to be smaller, the ciphertext size will be bigger, there will be no batching, so just the system would, like, slow down massively.
+
+276
+00:32:29.260 --> 00:32:41.850
+Jan: And maybe some guarantees that you rely on for the Mempool to be secure. Like, even if… even if you have a scheme like Lucid, probably, likely it will kind of move in a direction by itself, where it's sort of everybody uses the same scheme, I think.
+
+277
+00:32:42.430 --> 00:32:45.500
+Jan: Or one or two schemes. And then,
+
+278
+00:32:46.850 --> 00:32:47.779
+Gottfried Herold: Yeah, I mean, in fact.
+
+279
+00:32:47.780 --> 00:32:48.550
+Jan: technically an issue.
+
+280
+00:32:48.550 --> 00:32:58.969
+Gottfried Herold: I mean, in fact, if you work on Lucid, I mean, if you basically work on Lucid, the way you would basically use Lucid with such a scheme would be, A, you need to enshrine a particular Mempool.
+
+281
+00:32:59.250 --> 00:33:15.529
+Gottfried Herold: Because if you enshrine 2, basically you get the security of the least secure of the two. So, I mean, you could do that, but also the way Lucid works is it basically decrypts every message individually. So basically, if you go with Lucid, you don't use batching.
+
+282
+00:33:16.050 --> 00:33:24.139
+Gottfried Herold: which maybe you would want with a… I mean, with the current post-quantum… with the current pre-quantum solutions, you would actually want the matching solution.
+
+283
+00:33:24.150 --> 00:33:37.840
+Gottfried Herold: If you now have some post-quantum solution, maybe if there is something that, well, I don't know, does not have batching, you would actually need to design a protocol on the Consensus layer in a different way to work around that. You can do it, but you have to work around it.
+
+284
+00:33:44.220 --> 00:33:49.629
+Gottfried Herold: So it's not just swapping out a single piece of, cryptography for another.
+
+285
+00:33:51.800 --> 00:34:03.369
+Jan: But I do agree that much of the engineering questions that, like, much of it will also be similar, right? So the experience will kind of carry over, like, it will be faster to design a Mempool Mempool the second time around, right?
+
+286
+00:34:03.640 --> 00:34:04.400
+Gottfried Herold: Yeah.
+
+287
+00:34:05.000 --> 00:34:06.449
+Jan: I guess, at least.
+
+288
+00:34:06.450 --> 00:34:15.129
+Justin Florentine (Besu): So, I do want to leave some space and some time for Jannik to go over, what you submitted. I'm sorry that this is… this is… this is…
+
+289
+00:34:15.420 --> 00:34:20.110
+Justin Florentine (Besu): significant discussion, though, that we need to keep having. I think…
+
+290
+00:34:20.989 --> 00:34:27.440
+Justin Florentine (Besu): Our stance on… on post-quantum protection, we don't care, is actually…
+
+291
+00:34:28.449 --> 00:34:44.169
+Justin Florentine (Besu): a possibility. And that's gonna be real hard to make the case that we don't care about an angle of security. So, let's think about that, maybe do some writing on that. Thanks, Benedict, talk to you later.
+
+292
+00:34:44.170 --> 00:34:49.580
+Justin Florentine (Besu): But I do want to pass it off to Jannik if you want to talk about the,
+
+293
+00:34:49.580 --> 00:34:54.070
+Justin Florentine (Besu): The writing that you posted on the issue with regard to these allow lists?
+
+294
+00:34:55.440 --> 00:35:12.299
+Jannik Luhn: Yeah, thank you. I mean, it's okay if we focus on the post-quantum stuff. I do think it's a very important discussion. Also, not too much has changed since the last time I presented. I just wrote it down, so maybe it's easier to read than to listen to me, to understand it.
+
+295
+00:35:12.300 --> 00:35:12.990
+Justin Florentine (Besu): Got it.
+
+296
+00:35:13.490 --> 00:35:20.070
+Jannik Luhn: I, I think it is… It kind of fits into the debate, though, a little bit, because,
+
+297
+00:35:20.330 --> 00:35:37.800
+Jannik Luhn: The idea is to not enshrine a, a threshold encryption protocol, and if we don't do that, then we don't need to have this whole debate, because then all of it can be done out of protocol, and then we have, like, much…
+
+298
+00:35:38.710 --> 00:35:58.469
+Jannik Luhn: I guess less, less strict rules of what can be adopted and what can't be adopted. And one more point that I wanted to make is that maybe I, was a little bit confusing last time I presented, is that, it is different from the trust graph, in EIP 8105.
+
+299
+00:35:58.710 --> 00:36:04.240
+Jannik Luhn: Conceptually different, because the trust graph is basically a user saying which,
+
+300
+00:36:04.810 --> 00:36:08.989
+Jannik Luhn: Which key providers they trust, whereas in,
+
+301
+00:36:09.100 --> 00:36:15.890
+Jannik Luhn: in the whitelist, it would be, or law list, it would be the, yeah, the belly data set, or whoever votes.
+
+302
+00:36:16.140 --> 00:36:29.169
+Jannik Luhn: And the trust graph does not, fully solve optionality. This whitelist, approach arguably does, if you, yeah, trust that the voting mechanism is, works well.
+
+303
+00:36:29.260 --> 00:36:46.580
+Jannik Luhn: And then, besides that, I also posted in, some Telegram, group a, kind of an attack that I also hinted at in the last, call, which is the reason why I don't really trust Validator,
+
+304
+00:36:47.290 --> 00:37:01.199
+Jannik Luhn: sampled committees in general for this, because it's easy to bribe them, basically, and I think we would need a new security assumption that we don't currently have for validators.
+
+305
+00:37:01.740 --> 00:37:13.179
+Jannik Luhn: Yeah, because I think it would be, like, purely economically rational to participate in this bribing attacks, and there is a clear financial incentive for someone to set up one of these bribing attacks, because you can front-run.
+
+306
+00:37:13.280 --> 00:37:29.580
+Jannik Luhn: Yeah, and I just… as an example, I wrote this, short document that I think… I mean, it's not, like, clearly specified, but I think it, yeah, kind of outlines how such an attack could work in general, and I think it's very practical.
+
+307
+00:37:29.850 --> 00:37:33.649
+Jannik Luhn: Yeah, which is also another reason why I don't think Enshrined
+
+308
+00:37:33.860 --> 00:37:36.670
+Jannik Luhn: And Finement is the best solution we have.
+
+309
+00:37:37.160 --> 00:37:38.209
+Jannik Luhn: At the moment.
+
+310
+00:37:39.960 --> 00:37:46.060
+Justin Florentine (Besu): Okay. So, so in the case where, we essentially outsource key reveal.
+
+311
+00:37:46.970 --> 00:37:51.789
+Justin Florentine (Besu): And the community votes on who's trusted to reveal and who's not trusted to reveal.
+
+312
+00:37:52.170 --> 00:38:03.020
+Justin Florentine (Besu): Why does the bribery problem go away? Because we can detect failures to key reveal somehow, right? Like, that's… that's an important part of this.
+
+313
+00:38:04.060 --> 00:38:13.189
+Jannik Luhn: I would say that the same attack still works in external committees.
+
+314
+00:38:13.360 --> 00:38:25.220
+Jannik Luhn: And the difference is that external committees can have, more secure assumptions. In particular, we can have, trusted, sets, or, with social reputation.
+
+315
+00:38:25.450 --> 00:38:42.479
+Jannik Luhn: or something like that, that the community trusts, and I think these security assumptions are valid, I think that works in practice in the real world, but it's, of course, nothing we want to have in the Ethereum core protocol. We don't want to enshrine a socially trusted set in the core protocol, but outside of the protocol, it's a valid
+
+316
+00:38:43.610 --> 00:38:44.659
+Jannik Luhn: to take, I think.
+
+317
+00:38:46.930 --> 00:38:51.679
+Justin Florentine (Besu): Is there any way to automate the oversight? I think is what I'm interested in.
+
+318
+00:39:00.500 --> 00:39:01.710
+Jannik Luhn: Mmm…
+
+319
+00:39:02.990 --> 00:39:19.550
+Jannik Luhn: I think it's difficult. I mean, it's, I guess you would have to do the same thing, like, trying to detect front-running attacks, which is, sometimes possible, but in general difficult, and also probably too late when it happens. Ideally, you would want to try to find it.
+
+320
+00:39:19.720 --> 00:39:21.760
+Jannik Luhn: Or, notice it beforehand.
+
+321
+00:39:29.360 --> 00:39:35.890
+Jannik Luhn: Oh, and another, sorry, another argument I had why, having the… no.
+
+322
+00:39:36.620 --> 00:39:42.030
+Jannik Luhn: So, you could argue that It doesn't really matter if you sample the…
+
+323
+00:39:42.270 --> 00:40:00.000
+Jannik Luhn: committee directly from the Valley dataset, or you make the Valley dataset vote on a committee, but I think the difference is that the size is much larger, of course, so if you want to bribe the voting mechanism, you have to pay much more, so it's much more expensive than bribing on the committee. But that's, yeah, that's a different thing to,
+
+324
+00:40:00.640 --> 00:40:01.360
+Jannik Luhn: For you.
+
+325
+00:40:01.360 --> 00:40:11.499
+Justin Florentine (Besu): Can we… can we build some sort of accountability trail? Because really, it's… what we… what we need the off-chain… effectively, keepers, right?
+
+326
+00:40:11.720 --> 00:40:15.940
+Justin Florentine (Besu): To be held accountable for is the optionality, right?
+
+327
+00:40:16.200 --> 00:40:23.200
+Justin Florentine (Besu): Can we… can we build, an optionality I'm sorry, an accountability trail.
+
+328
+00:40:23.780 --> 00:40:29.260
+Justin Florentine (Besu): That we can account for and use to hold them responsible for.
+
+329
+00:40:31.010 --> 00:40:32.409
+Justin Florentine (Besu): Anders? Sorry, you have your hand?
+
+330
+00:40:32.410 --> 00:40:36.629
+Anders Elowsson: Can I… Yeah,
+
+331
+00:40:36.980 --> 00:40:50.100
+Anders Elowsson: I don't quite get the discussion here, because the way I see it is that if you are… if you… if we talk about the whitelist, the latest idea with the whitelist, then it's obviously very clear if someone has,
+
+332
+00:40:50.410 --> 00:40:52.049
+Anders Elowsson: I mean…
+
+333
+00:40:52.200 --> 00:41:07.219
+Anders Elowsson: you can vote on the whitelist, you can vote, like, vote in someone that may not… may still front-run, but then they have to, withhold their… their commitment, right? So it's gonna be publicly done, everything.
+
+334
+00:41:08.170 --> 00:41:12.459
+Anders Elowsson: This is completely separate than the attack on the threshold committed.
+
+335
+00:41:12.790 --> 00:41:14.920
+Anders Elowsson: Where you can do it in secret, right?
+
+336
+00:41:15.800 --> 00:41:27.300
+Anders Elowsson: Essentially. It's not clear exactly, because the failure in the threshold committee scenario is that it can be so easily confused with
+
+337
+00:41:27.730 --> 00:41:35.820
+Anders Elowsson: A fault from the validators, that they were, available.
+
+338
+00:41:36.560 --> 00:41:41.040
+Anders Elowsson: Right, but in this case, it's instead the key publisher that was not available.
+
+339
+00:41:41.380 --> 00:41:45.509
+Anders Elowsson: And so it's… Because they withheld the ruby.
+
+340
+00:41:46.470 --> 00:41:47.789
+Anders Elowsson: Which is very different.
+
+341
+00:41:49.270 --> 00:41:56.120
+Gottfried Herold: I mean, it's two different failure cases, right? I mean, one is that they fail to reveal, and the other is that they basically sell out the keys beforehand.
+
+342
+00:42:00.360 --> 00:42:03.420
+Anders Elowsson: But… in which scenario? Yeah, yeah.
+
+343
+00:42:04.150 --> 00:42:07.809
+Anders Elowsson: Yeah, exactly. That's my point, that we are… they are very different.
+
+344
+00:42:10.000 --> 00:42:23.310
+Jannik Luhn: And it's also different who's affected. If they sell out the keys, then it's not really an optionality problem anymore. It's just the users who trusted them not to get frontrun. They are affected, but no one else is.
+
+345
+00:42:24.290 --> 00:42:28.739
+Jannik Luhn: Whereas in the optionality problem, arguably the protocol as a whole is, affected.
+
+346
+00:42:38.080 --> 00:42:39.420
+Anders Elowsson: I don't know.
+
+347
+00:42:42.150 --> 00:42:44.929
+Anders Elowsson: I guess my point was just that it's very different.
+
+348
+00:42:51.840 --> 00:43:02.949
+Gottfried Herold: Yeah, and I mean, for the… for the… for failure to release keys, we already have, I mean, at least in the Lucid design, the PTC was, essentially, are the detection mechanism, right? We have that already.
+
+349
+00:43:03.120 --> 00:43:09.849
+Gottfried Herold: I'm specced out. Just for the selling out keys, I think there is a little chance to automate the detection.
+
+350
+00:43:16.220 --> 00:43:17.730
+Anders Elowsson: How could you automate it?
+
+351
+00:43:18.280 --> 00:43:21.059
+Gottfried Herold: Which one? Yeah. I think you can't, really.
+
+352
+00:43:21.060 --> 00:43:23.040
+Anders Elowsson: The, the, the selling of the keys.
+
+353
+00:43:23.040 --> 00:43:24.469
+Gottfried Herold: The selling of the kids, yeah, yeah.
+
+354
+00:43:32.760 --> 00:43:37.530
+Anders Elowsson: Yeah, yeah, exactly, yeah. You cannot, you cannot automate it, yeah, totally agree.
+
+355
+00:43:44.120 --> 00:43:56.830
+Loring: Definitely not a cryptographer here, but listening in to some cryptography conversations in different contexts, the topic of cryptographic snitching has been brought up.
+
+356
+00:43:57.510 --> 00:44:03.949
+Loring: Where if one of the keepers does try to collude with other keepers.
+
+357
+00:44:04.310 --> 00:44:13.350
+Loring: someone receiving an invitation to collude can snitch and receive a bounty for doing so. I wonder if that's a…
+
+358
+00:44:13.640 --> 00:44:19.829
+Loring: somewhat of a safeguard against, hole keeper sets selling the keys.
+
+359
+00:44:20.290 --> 00:44:25.160
+Justin Florentine (Besu): People would have to spread their shares across keeper sets.
+
+360
+00:44:26.110 --> 00:44:28.279
+Justin Florentine (Besu): For a design like that to work.
+
+361
+00:44:33.650 --> 00:44:35.059
+Justin Florentine (Besu): Maybe that's okay.
+
+362
+00:44:38.400 --> 00:44:44.919
+Jannik Luhn: So I never fully understood how these snitching protocols work, or anti-snitching protocols work, I guess.
+
+363
+00:44:45.160 --> 00:44:56.580
+Jannik Luhn: And the… so what I outlined in my tag document is that they sent the… The…
+
+364
+00:44:56.820 --> 00:45:04.410
+Jannik Luhn: Share not publicly, or not… they basically send it encrypted to a TE, And then…
+
+365
+00:45:04.670 --> 00:45:10.219
+Jannik Luhn: as long as the TEE can be trusted not to, Snitch, than…
+
+366
+00:45:10.570 --> 00:45:12.310
+Jannik Luhn: I don't think that's detectable.
+
+367
+00:45:13.230 --> 00:45:17.539
+Jan: Are you, so, are you talking about the secretary messaging approach?
+
+368
+00:45:18.520 --> 00:45:19.749
+Jannik Luhn: Yes, I think so.
+
+369
+00:45:19.750 --> 00:45:25.679
+Jan: Yeah, I was actually working on that, so, essentially with TEs, it makes no sense. Like, TEs break this.
+
+370
+00:45:26.070 --> 00:45:30.649
+Jan: See, Chung was niching Like, roughly speaking, of course, there's nuances, but…
+
+371
+00:45:31.020 --> 00:45:33.819
+Jan: If you have access to a TEE,
+
+372
+00:45:34.310 --> 00:45:37.060
+Jan: Or trusted, like, fully trusted party, let's say.
+
+373
+00:45:37.180 --> 00:45:41.600
+Jan: Then the snitching is broken, as soon as there's one party that doesn't snitch.
+
+374
+00:45:44.690 --> 00:45:48.769
+Justin Florentine (Besu): Yeah, you need to have, like, a defined set of people that can kind of snitch on each other.
+
+375
+00:45:49.100 --> 00:45:54.629
+Jan: Yeah, also, I want to say that this secret sharing with snitching stuff, it's like… Very, very theoretical.
+
+376
+00:45:55.640 --> 00:46:07.669
+Jan: And I would not advise relying on that for now. Like, it's very theory, and also the constructions are not in any way, like, efficient. Like, if you… like, I got… I had to get the door quickly.
+
+377
+00:46:07.830 --> 00:46:14.020
+Jan: earlier, so maybe I didn't pick up something, but we were talking still about the, like, secret sharing the keys for encrypted Mempool.
+
+378
+00:46:14.480 --> 00:46:17.160
+Jan: then you cannot do that with Secret Chernization.
+
+379
+00:46:21.220 --> 00:46:31.259
+Justin Florentine (Besu): Yeah, we kind of moved on to a world where we outsource the keeper activities to different trusted entities, and then…
+
+380
+00:46:31.660 --> 00:46:38.440
+Justin Florentine (Besu): Build in an accountability and voting mechanic where people can
+
+381
+00:46:39.260 --> 00:46:42.460
+Justin Florentine (Besu): You know, accused them of revealing early.
+
+382
+00:46:42.790 --> 00:46:47.389
+Jan: Oh, I see. Now then, maybe it's not so much related, I just heard the snitching.
+
+383
+00:46:47.910 --> 00:46:50.220
+Justin Florentine (Besu): No, but the snitching is… is…
+
+384
+00:46:50.450 --> 00:47:04.959
+Justin Florentine (Besu): I feel like the snitching is really just for proving that, hey, you did see this and you didn't reveal it, what's up? What we're really threatened by is… I'm gonna reveal it on time just fine, but also I'm gonna send it to this builder over here so they can…
+
+385
+00:47:05.440 --> 00:47:06.310
+Justin Florentine (Besu): abuse it.
+
+386
+00:47:06.310 --> 00:47:14.929
+Jan: Yeah, this, yeah, there's also another sub… there's something in the literature called traceability. Like, essentially it's called collusion resilience, this whole field.
+
+387
+00:47:15.360 --> 00:47:19.680
+Jan: And, it's also not very practical yet.
+
+388
+00:47:20.280 --> 00:47:31.569
+Jan: But essentially it guarantees that, okay, if somebody sells me a box, like some type of algorithm that I can use to decrypt early or something like that, then I can identify who made this box.
+
+389
+00:47:33.510 --> 00:47:38.420
+Jan: But it has very strong assumptions on what this box can do. For example, it assumes that this box is stateless.
+
+390
+00:47:39.020 --> 00:47:44.649
+Jan: Like, in a sense, I cannot… I cannot, like…
+
+391
+00:47:44.870 --> 00:47:50.619
+Jan: If instead there's no box but the servers and details me every time, and, then it might not work.
+
+392
+00:47:51.720 --> 00:48:01.680
+Jan: Like, then there's no guarantee, essentially. So all of this collusion resilience, I think it's very, very relevant, and there's a bunch of literature on it, and it's also usually motivated by encrypted Mempools.
+
+393
+00:48:01.910 --> 00:48:12.680
+Jan: But it's not near too practical enough for… to giving, like, really meaningful guarantees, and also constructions are more… and snitching, like, completely theoretic, and…
+
+394
+00:48:13.000 --> 00:48:18.109
+Jan: an encrypted Mempool, as or in trader tracing, this box thing, it's…
+
+395
+00:48:19.070 --> 00:48:20.950
+Jan: Still not very effective, let's say.
+
+396
+00:48:21.720 --> 00:48:23.920
+Jan: Regarding, like, efficiency and so on.
+
+397
+00:48:26.690 --> 00:48:27.540
+Justin Florentine (Besu): Thank you, Jan.
+
+398
+00:48:43.590 --> 00:48:55.730
+Jan: Something interesting, actually, this naive scheme that we've been talking about, like, I don't want to promise too much, but this scheme, actually, you can get some level of trader tracing there. Like, if there's, like, some service that sells you their keys.
+
+399
+00:48:56.170 --> 00:49:09.690
+Jan: And then you can kind of figure out who was the key. But then there's also problems there of, like, trying to prove, like, it's maybe easy for me to know, okay, this is… this guy made this box, right? But I need to prove it, otherwise I could just accuse, right?
+
+400
+00:49:10.410 --> 00:49:17.319
+Jan: So it's really, but something, I think is all of this collusion stuff is…
+
+401
+00:49:17.580 --> 00:49:29.479
+Jan: like, super interesting for threshold encryption, because for… for other stuff, like signatures and so on, there's always a proof, like, when I do a signature… like, when I forge a signature, then the signature itself is kind of proof of collusion, right?
+
+402
+00:49:30.400 --> 00:49:35.060
+Jan: And whenever you have some secret that is protected, like.
+
+403
+00:49:35.310 --> 00:49:45.380
+Jan: in this case, the transactions, like, I can just collude secretly and do the… Do the… like, frontrunning.
+
+404
+00:49:46.540 --> 00:49:49.309
+Jan: So it's very, very, like, also very relevant there.
+
+405
+00:49:50.320 --> 00:49:58.119
+Gottfried Herold: Yeah, I mean, at the end of the day, I mean, the transaction gets decrypted, so the fact that the decryption gets decrypted is not approved for anything, right?
+
+406
+00:49:58.570 --> 00:50:00.070
+Jan: Yes, exactly, yeah.
+
+407
+00:50:00.350 --> 00:50:02.800
+Jan: And, it's also, like…
+
+408
+00:50:03.340 --> 00:50:10.399
+Jan: let's say, for example, somebody does now front running, and even I can prove that he did frontrunning, I don't know which key he used to do frontrunning.
+
+409
+00:50:11.060 --> 00:50:21.040
+Jan: Like, who, like, if there's a committee of maybe thousands of people, then I don't know. It was this guy and this guy that sold the key, or that used the key, and trailer tracing tries to kind of
+
+410
+00:50:21.410 --> 00:50:23.769
+Jan: Get there, but it's not there yet.
+
+411
+00:50:27.580 --> 00:50:42.809
+Gottfried Herold: I mean, at the end of the day, you can always claim, hey, I did the front-running by installing a, I don't know, some spyware on whoever sent out the transaction. I mean, assume someone basically uses a hardware wallet, but his computer basically has spyware, then you can frontrun them.
+
+412
+00:50:43.000 --> 00:50:45.389
+Gottfried Herold: It's basically indistinguishable from the outside world.
+
+413
+00:50:45.560 --> 00:50:49.350
+Jan: Yeah, and try to tracing, the guarantee is cryptographic, like, you have this algorithm, and then you.
+
+414
+00:50:49.350 --> 00:50:50.270
+Gottfried Herold: Definitely.
+
+415
+00:50:50.270 --> 00:51:08.810
+Jan: I can kind of… it works based on different stuff, like, for example, there's these fingerprint… fingerprinting codes and so on, so usually I inject some type of mail-form ciphertext into the system or into the box, and then I observe how this illegal decryption mechanism answers, and from that I can infer information of who used their key to decrypt.
+
+416
+00:51:09.720 --> 00:51:11.459
+Gottfried Herold: Yeah, but that's not an option here.
+
+417
+00:51:11.460 --> 00:51:16.299
+Jan: Yeah, for sure, it's not really relevant. It's much too fast-paced, and also it's not stateless.
+
+418
+00:51:16.880 --> 00:51:17.430
+Gottfried Herold: Mmm.
+
+419
+00:51:17.620 --> 00:51:19.780
+Jan: Like, the statefulness is, like, the…
+
+420
+00:51:20.260 --> 00:51:23.660
+Jan: The biggest requirement, or, like, the biggest… Cheerie.
+
+421
+00:51:24.130 --> 00:51:25.000
+Justin Florentine (Besu): Okay.
+
+422
+00:51:25.360 --> 00:51:31.210
+Justin Florentine (Besu): Alright, we're coming up on time here, we got 8 minutes left, I want to be mindful of that.
+
+423
+00:51:31.340 --> 00:51:36.590
+Justin Florentine (Besu): Does anybody have anything else they want to bring up or discuss?
+
+424
+00:51:39.380 --> 00:51:44.299
+Loring: I saw Jannik take himself off mute momentarily just a second ago.
+
+425
+00:51:45.240 --> 00:51:46.839
+Justin Florentine (Besu): Speaking of snitches…
+
+426
+00:51:47.850 --> 00:51:49.179
+Loring: Yeah, I'm pro-snitching.
+
+427
+00:51:52.020 --> 00:51:58.239
+Jannik Luhn: Just wanted to, again, highlight what Anders said, because I felt like we kind of forgot about this.
+
+428
+00:51:58.650 --> 00:52:01.870
+Jannik Luhn: There are these two different kinds of tags. One is,
+
+429
+00:52:03.030 --> 00:52:14.479
+Jannik Luhn: revealing the keys and decrypting early, and the other one is, not revealing or not decrypting, and only not decrypting is optionality, so if we're talking about now preventing this,
+
+430
+00:52:14.950 --> 00:52:21.710
+Jannik Luhn: decrypting early, then we already kind of made a step forward, because now we already, solved optionality in some sense.
+
+431
+00:52:22.590 --> 00:52:23.360
+Justin Florentine (Besu): Got it.
+
+432
+00:52:26.390 --> 00:52:27.780
+Justin Florentine (Besu): Got it. Okay.
+
+433
+00:52:28.320 --> 00:52:32.699
+Justin Florentine (Besu): So, that's a good segue, actually, to how I want to wrap things up.
+
+434
+00:52:33.530 --> 00:52:35.390
+Justin Florentine (Besu): Areas of research…
+
+435
+00:52:36.060 --> 00:52:42.439
+Justin Florentine (Besu): should we be working on next? I think… I think we kind of just blew everything up in this discussion.
+
+436
+00:52:42.970 --> 00:52:47.249
+Justin Florentine (Besu): And I'm not sure what our next discussion is going to look like.
+
+437
+00:52:47.770 --> 00:52:50.759
+Justin Florentine (Besu): So, two, two questions.
+
+438
+00:52:51.670 --> 00:53:02.639
+Justin Florentine (Besu): what are the research areas that we want to work on next? And also, when do we want to have the next meeting? We're actually scheduled for next week. I won't be around, but I think people should still have it.
+
+439
+00:53:02.800 --> 00:53:08.289
+Justin Florentine (Besu): Without me, if not, I'll see you in 3 weeks.
+
+440
+00:53:09.320 --> 00:53:15.729
+Justin Florentine (Besu): So, what do, what do, what do folks want to, to direct…
+
+441
+00:53:17.260 --> 00:53:26.069
+Justin Florentine (Besu): our next moves forward. For instance, do we need to answer the post-quantum versus classical discussion? Should we put together a paper on
+
+442
+00:53:26.840 --> 00:53:28.090
+Justin Florentine (Besu): on that.
+
+443
+00:53:39.180 --> 00:53:41.040
+Gottfried Herold: I mean, what do you mean by paper?
+
+444
+00:53:42.110 --> 00:53:49.089
+Justin Florentine (Besu): Not a formal report, just a position, just so we can kind of circulate a design, say, we are…
+
+445
+00:53:49.470 --> 00:53:52.969
+Justin Florentine (Besu): Here's how we feel about quantum computing in this design.
+
+446
+00:53:52.970 --> 00:53:57.129
+Gottfried Herold: Like, I think this will be hard to even reach agreement among ourselves here.
+
+447
+00:53:57.710 --> 00:53:59.700
+Gottfried Herold: Just realistically speaking.
+
+448
+00:54:00.200 --> 00:54:13.679
+Justin Florentine (Besu): I think that's true and fair, but also important, because, you know, there's so much research and engineering to be done on either path, we can't… I don't… if we need to do both, we need to scale up.
+
+449
+00:54:14.710 --> 00:54:15.450
+Gottfried Herold: Yes.
+
+450
+00:54:15.700 --> 00:54:28.739
+Gottfried Herold: I mean, the primary question is, are we even okay with a non-post quantum secure solution? As an interim, or temporarily, or maybe for as long as it sort of goes? This is an interesting question.
+
+451
+00:54:31.100 --> 00:54:32.880
+Gottfried Herold: I… think…
+
+452
+00:54:33.820 --> 00:54:44.519
+Gottfried Herold: I think it's not us who sort of should answer this question, because, I mean, at the end of the day, it's the question about whether the engineering effort… I mean, the spec… I think from the speccing effort, it's kind of…
+
+453
+00:54:44.870 --> 00:55:03.069
+Gottfried Herold: it's not a bottleneck, in a way. I think the main thing is, sort of, are people, sort of, fine as implementing this, or it's mostly the client teams who may implement this, because it sort of would need to be enshrined in some way? I mean, if you go for the enshrined path. I think it's some question that needs to be put to client teams.
+
+454
+00:55:03.090 --> 00:55:16.290
+Gottfried Herold: And to the wider ecosystem also, because, I mean, this also means… I mean, eventually you want whatever solution, whatever pre-quantum solution we would put up with, would need to be basically put into hardware wallets and so on.
+
+455
+00:55:16.320 --> 00:55:18.380
+Gottfried Herold: So…
+
+456
+00:55:18.640 --> 00:55:37.910
+Gottfried Herold: Or into hardware devices, at least? Probably? Yeah, maybe not. Maybe you can avoid it, but… I mean, it's still, I mean, it's sort of… the question is, how do, sort of, the people who implement this feel about this? Whether they want to implement something that may, sort of, not last for very long. I think those are the people who want to… who need to answer this question.
+
+457
+00:55:38.510 --> 00:55:43.019
+Gottfried Herold: First and foremost. Because if they say no, then, well…
+
+458
+00:55:46.580 --> 00:55:49.949
+Gottfried Herold: Then whether we are fine with it or not is sort of a moot point.
+
+459
+00:55:50.280 --> 00:55:52.309
+Justin Florentine (Besu): That is a great…
+
+460
+00:55:52.940 --> 00:55:58.740
+Justin Florentine (Besu): point. I'm pretty sure I know the answer to that, but I will ask around.
+
+461
+00:56:08.960 --> 00:56:09.920
+Justin Florentine (Besu): Huh.
+
+462
+00:56:10.460 --> 00:56:15.729
+Justin Florentine (Besu): Thank you for that. That's actually a nice lens to look at this through, and kind of makes everything a lot simpler.
+
+463
+00:56:18.620 --> 00:56:21.059
+Justin Florentine (Besu): Alright, anything else? Anybody else?
+
+464
+00:56:26.780 --> 00:56:32.830
+Loring: I think going back to… This question of non-enshrined
+
+465
+00:56:33.250 --> 00:56:40.859
+Loring: Validator whitelisted approaches. The key questions are, Is it possible to…
+
+466
+00:56:41.110 --> 00:56:48.160
+Loring: Generate proofs of bad behavior regarding optionality and early key reveals.
+
+467
+00:56:49.080 --> 00:56:53.830
+Loring: And to what extent can that be automated?
+
+468
+00:57:04.050 --> 00:57:07.320
+Justin Florentine (Besu): Okay. Collusions. Collusion resilience.
+
+469
+00:57:16.290 --> 00:57:17.160
+Justin Florentine (Besu): Okay?
+
+470
+00:57:17.800 --> 00:57:19.000
+Justin Florentine (Besu): Thank you, Lauren.
+
+471
+00:57:25.170 --> 00:57:40.730
+Gottfried Herold: Yeah, I mean, there's other moonshotty ideas that maybe… but that's… I'm not sure it should take into account, but I mean, there are solutions to sort of solve encrypted Mempools using not… doing without any kind of threshold committees, if you have some kind of time-based encryptions or TEEs.
+
+472
+00:57:41.150 --> 00:57:43.389
+Gottfried Herold: Not in front of the crypto team, but…
+
+473
+00:57:43.390 --> 00:57:44.170
+Justin Florentine (Besu): Yeah. For compliance.
+
+474
+00:57:44.170 --> 00:57:44.900
+Gottfried Herold: People are sick.
+
+475
+00:57:44.900 --> 00:57:46.810
+Justin Florentine (Besu): Next time, yeah. Anders?
+
+476
+00:57:50.400 --> 00:58:02.059
+Anders Elowsson: Yeah, yeah, I just wanted to mention, so there's, like, two different trusted set designs that Jannik has presented. There is the one from 81.05,
+
+477
+00:58:02.250 --> 00:58:05.140
+Anders Elowsson: And then there's this new whitelist design.
+
+478
+00:58:05.340 --> 00:58:11.780
+Anders Elowsson: And so, a problem that has been with the old design is that it's very difficult to
+
+479
+00:58:11.920 --> 00:58:15.800
+Anders Elowsson: provide censorship resistance via, for example, FOCIL.
+
+480
+00:58:15.920 --> 00:58:35.309
+Anders Elowsson: Because you don't get… it's very difficult to… you can just throw in one spoiler transaction that doesn't accept the other transactions, and then you can censor all the… all the transactions. So you cannot get censorship to the… to these Encrypted Mempool transactions. So I just brought up and shared in the…
+
+481
+00:58:35.460 --> 00:58:36.769
+Anders Elowsson: in the issue.
+
+482
+00:58:38.460 --> 00:58:46.640
+Anders Elowsson: one design where you can get censorship resistance from the old trusted set design of EIP8105.
+
+483
+00:58:47.110 --> 00:58:48.789
+Anders Elowsson: And you get it by…
+
+484
+00:58:48.910 --> 00:59:04.150
+Anders Elowsson: having to construct an direct graph, where you, sort of calculate the, the, the, the set that, provides the highest, top-block fee.
+
+485
+00:59:04.510 --> 00:59:08.180
+Anders Elowsson: And that is the set, the Canonica set, that the builder must include.
+
+486
+00:59:08.980 --> 00:59:18.580
+Anders Elowsson: There's some complexity to doing it, but I just wanted to do it because, you know, the whitelist design, the latest whitelist design, that's very simple, then you get censorship resistance, very simple.
+
+487
+00:59:19.230 --> 00:59:25.470
+Anders Elowsson: But I wanted to see if we can do it with the older design also, because I sort of like the older…
+
+488
+00:59:25.630 --> 00:59:26.990
+Anders Elowsson: Trusted set design.
+
+489
+00:59:27.550 --> 00:59:31.850
+Anders Elowsson: In the sense that you have transactors doing it, you don't involve the validators.
+
+490
+00:59:31.850 --> 00:59:34.260
+Justin Florentine (Besu): Okay, did you post that on 8105?
+
+491
+00:59:36.400 --> 00:59:43.489
+Anders Elowsson: I didn't. I can post it as a comment on Ethereum Magicians for their EIP, for example.
+
+492
+00:59:43.660 --> 00:59:47.520
+Justin Florentine (Besu): Yeah, just maybe socialize that on Telegram for folks to take a look at.
+
+493
+00:59:49.720 --> 00:59:51.590
+Justin Florentine (Besu): Thank you, Anders.
+
+494
+00:59:52.850 --> 00:59:53.920
+Justin Florentine (Besu): Boom!
+
+495
+00:59:54.440 --> 00:59:55.540
+Justin Florentine (Besu): One hour.
+
+496
+00:59:56.510 --> 00:59:57.730
+Justin Florentine (Besu): We're at time.
+
+497
+00:59:57.850 --> 01:00:02.080
+Justin Florentine (Besu): Thank you, everybody. I will not see you next week. I hope you meet without me.
+
+498
+01:00:03.240 --> 01:00:07.699
+Justin Florentine (Besu): I'm gonna come back from vacation, all the Mempools will be encrypted, it's gonna be awesome.
+
+499
+01:00:08.110 --> 01:00:09.310
+Gottfried Herold: Let me just…
+
+500
+01:00:09.310 --> 01:00:12.960
+Justin Florentine (Besu): Let's get out of the way and let you guys do the real work. Alright, thanks everybody.
+
+501
+01:00:14.980 --> 01:00:15.970
+Jan: Thanks, Chloe.
+
+502
+01:00:16.880 --> 01:00:17.650
+Jannik Luhn: Thank you.
+
+503
+01:00:18.040 --> 01:00:19.989
+Loring: Have a good day, everyone. Bye-bye.
+

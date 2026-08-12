@@ -1,0 +1,93 @@
+{
+  "meeting": "Encrypt The Mempool #8 - August 12, 2026",
+  "highlights": {
+    "post_quantum_vs_classical": [
+      {
+        "timestamp": "00:03:47",
+        "highlight": "KZG-based DKG breaks entirely under quantum attack; single preprocessing step breaks binding classically thereafter"
+      },
+      {
+        "timestamp": "00:06:03",
+        "highlight": "Post-quantum schemes (MLDSA ~2.5KB sigs, ML-KEM ~1.5KB ciphertext overhead) too large for practical mempool use today"
+      },
+      {
+        "timestamp": "00:12:16",
+        "highlight": "Consensus: quantum break of threshold encryption removes mempool privacy only; does not enable signature forgery \u2014 lower severity than other quantum threats"
+      },
+      {
+        "timestamp": "00:29:26",
+        "highlight": "Jan argues classical-only is acceptable risk: quantum computers would attack higher-value targets first; encrypted mempool can be voted off if threat materializes"
+      },
+      {
+        "timestamp": "00:54:33",
+        "highlight": "Gottfried: client teams (implementers) should decide if they're willing to build a non-post-quantum-secure interim solution \u2014 their answer gates the entire path"
+      }
+    ],
+    "dkg_and_committee_design": [
+      {
+        "timestamp": "00:08:11",
+        "highlight": "Shutter uses Boneh-Franklin IBE (threshold IBE, no batching); keepers prefix identity with sender address for CCA security"
+      },
+      {
+        "timestamp": "00:09:34",
+        "highlight": "DKG scheme and threshold encryption scheme must be co-designed \u2014 cannot isolate or swap independently"
+      },
+      {
+        "timestamp": "00:36:29",
+        "highlight": "Jannik: validator-sampled committees are easily bribed (purely rational economically); external committees with social reputation are viable outside the core protocol but not enshrined"
+      },
+      {
+        "timestamp": "00:42:50",
+        "highlight": "Two distinct failure modes: (1) selling/leaking keys early (front-running, hard to detect); (2) withholding keys (optionality, detectable via PTC in Lucid design)"
+      }
+    ],
+    "collusion_resilience_and_accountability": [
+      {
+        "timestamp": "00:45:55",
+        "highlight": "Cryptographic snitching and traitor-tracing schemes exist in literature but are highly theoretical, inefficient, and not practical for mempool use"
+      },
+      {
+        "timestamp": "00:48:43",
+        "highlight": "Jan: naive classical scheme may offer some traitor-tracing; proving collusion to others remains the hard unsolved problem"
+      }
+    ],
+    "whitelist_and_enshrined_design": [
+      {
+        "timestamp": "00:35:12",
+        "highlight": "Jannik: non-enshrined approach (out-of-protocol threshold encryption) sidesteps post-quantum debate entirely; allows faster iteration"
+      },
+      {
+        "timestamp": "00:57:50",
+        "highlight": "Anders: EIP-8105 trusted-set design extended with directed-graph construction to achieve censorship resistance via highest top-block-fee canonical set"
+      },
+      {
+        "timestamp": "00:58:19",
+        "highlight": "Whitelist (validator-voted) design achieves censorship resistance simply; optionality solved once early-decrypt problem is addressed"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:54:33",
+      "action": "Poll client teams on willingness to implement a non-post-quantum-secure interim encrypted mempool solution",
+      "owner": "Justin Florentine (Besu)"
+    },
+    {
+      "timestamp": "00:59:43",
+      "action": "Post directed-graph censorship-resistance design for EIP-8105 to Ethereum Magicians and socialize on Telegram",
+      "owner": "Anders Elowsson"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:29:26",
+      "decision": "No decision yet on classical vs. post-quantum path; question escalated to client teams as primary gate"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:53:02",
+      "target": "Encrypt The Mempool #9 \u2014 August 19, 2026 (without Justin; or skipped to #9 in 3 weeks)"
+    }
+  ]
+}
