@@ -1,0 +1,127 @@
+{
+  "meeting": "L1-zkEVM breakout #07 - August 12, 2026",
+  "highlights": {
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:05:38",
+        "highlight": "EIP-8025 spec refreshed (led by Francesco + Jochem review); CFI for Hegota targeted; much more complete than prior draft"
+      },
+      {
+        "timestamp": "00:06:15",
+        "highlight": "EIP-7709 merged: BlockHash resolved via EIP-2935 system contract (SLOAD); simplifies stateless input; CFI-ready"
+      }
+    ],
+    "guest_program_and_spec_updates": [
+      {
+        "timestamp": "00:08:02",
+        "highlight": "Three releases (B060\u2013B062) on Glamsterdam devnet 7; upcoming V070 targets Glamsterdam devnet 8 (today/tomorrow)"
+      },
+      {
+        "timestamp": "00:09:47",
+        "highlight": "Chain config simplified: schema ID added to public input, chain config removed (only CHAINID retained); Progressive SSZ for state/public keys eliminates gas-limit-dependent list sizing"
+      },
+      {
+        "timestamp": "00:13:54",
+        "highlight": "Guest program handbook published: defines expectations for guest teams (licensing, ELF ownership, CI, dashboards)"
+      },
+      {
+        "timestamp": "00:14:51",
+        "highlight": "ELF generation ownership shifting to each guest program team (Besu, ethrex, Reth, Nethermind in progress); aria/airguest provides tooling only"
+      }
+    ],
+    "hive_dashboard_and_tooling": [
+      {
+        "timestamp": "00:11:32",
+        "highlight": "Hive dashboard now covers Besu, ethrex, Geth, Nethermind, Nimbus (stateful ELs) + guest program/zkVM combos (stateless validators) in one view"
+      },
+      {
+        "timestamp": "00:16:25",
+        "highlight": "Single EEST fixture format now used for tests, benchmarks, devnet blocks, and mainnet blocks across all tooling"
+      },
+      {
+        "timestamp": "00:17:27",
+        "highlight": "opcode count metadata added to benchmark results; feeds directly into EVM gas repricing regression models (EVM Gasfit)"
+      }
+    ],
+    "prover_infrastructure": [
+      {
+        "timestamp": "00:35:31",
+        "highlight": "OpenVM 2.1 benchmarked on mainnet + EEST blocks; reproduces ~2.4s mean proving time for same 1,000-block set"
+      },
+      {
+        "timestamp": "00:36:26",
+        "highlight": "Prover implemented as a target client for benchmarker; forwards requests to distributed proving cluster; supports OpenVM and SP1; results published to GitHub Pages via Benchmarker UI"
+      },
+      {
+        "timestamp": "00:38:15",
+        "highlight": "Cost estimator integration into airguest planned; dashboard for guest performance tracking + correlation analysis with cluster proving times"
+      }
+    ],
+    "zkvm_standards": [
+      {
+        "timestamp": "00:20:38",
+        "highlight": "10 standards accepted; new draft: proving cost estimation (single metric C, linear to proving time; cost scopes for sub-region measurement)"
+      },
+      {
+        "timestamp": "00:23:29",
+        "highlight": "Marcin Bugaj leaving EF end of August; zkVM guest API standards ownership transfers to Cody"
+      }
+    ],
+    "security_and_compliance": [
+      {
+        "timestamp": "00:39:56",
+        "highlight": "OpenVM 2.1 fully compliant on compliance testing dashboard; SP1 proving support added; zk upgraded to 1.0.0-alpha (one gap, next release)"
+      },
+      {
+        "timestamp": "00:41:03",
+        "highlight": "RISC-V fuzzer (Stefanos, Martin, Varun EF grant) released publicly; found multiple bugs; covers GPU proving across several zkVM provers"
+      },
+      {
+        "timestamp": "00:42:43",
+        "highlight": "Formal RISC-V compliance verification of ZSK: 5 circuit bugs found (6th peripheral); all constraints now confirmed in use"
+      }
+    ],
+    "recursive_guest_program": [
+      {
+        "timestamp": "00:28:55",
+        "highlight": "Francesco: recursive guest client design \u2014 execution proof attests to full chain from weak-subjectivity origin to head; eliminates P2P request-response protocol for proofs"
+      },
+      {
+        "timestamp": "00:34:12",
+        "highlight": "Initial implementation in airguest for ethrex and Reth; CI not yet green; early research, subject to rapid change"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:07:15",
+      "action": "Review UX impact analysis for EIP-7709 (BLOCKHASH via SLOAD); ping affected projects re: hard-coded gas",
+      "owner": "EL client teams / EIP stakeholders"
+    },
+    {
+      "timestamp": "00:23:14",
+      "action": "Review proving cost estimation standard (large, significant zkVM implementation burden)",
+      "owner": "zkVM teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:05:38",
+      "decision": "EIP-8025 refreshed spec to be CFI'd for Hegota"
+    },
+    {
+      "timestamp": "00:06:15",
+      "decision": "EIP-7709 (BlockHash via EIP-2935 system contract) merged and CFI-ready for Hegota"
+    },
+    {
+      "timestamp": "00:23:29",
+      "decision": "zkVM guest API standards ownership transfers from Marcin Bugaj to Cody upon Marcin's departure end of August"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:10:24",
+      "target": "V070 guest program release supporting Glamsterdam devnet 8 \u2014 today or tomorrow (Aug 12\u201313, 2026)"
+    }
+  ]
+}

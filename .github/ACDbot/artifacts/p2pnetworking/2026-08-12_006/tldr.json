@@ -1,0 +1,97 @@
+{
+  "meeting": "P2P networking #6 - August 12, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:05:08",
+        "highlight": "Lighthouse: partial data columns for Gloas in final review; sparse blob pool FCU V4 / Get blobs V4 branches ready"
+      },
+      {
+        "timestamp": "00:06:02",
+        "highlight": "Prysm: Gloas partial columns nearly merged to glamsterdam-devnet-7 branch; interop tested on Kurtosis (green)"
+      },
+      {
+        "timestamp": "00:08:57",
+        "highlight": "Prysm bug: when Get blobs V3 and has-blobs both return empty, node must still push request bitmap of all-ones; Lighthouse asked to verify same edge case"
+      },
+      {
+        "timestamp": "00:12:59",
+        "highlight": "Nethermind (chat): snap/2 sparse blob pool on devnets"
+      },
+      {
+        "timestamp": "00:12:59",
+        "highlight": "Besu/Geth (Csaba): sparse blob pool fixes landing today; current impl focuses on first 64 cells \u2014 edge cases being resolved with Bosul; expect changes today if testing PeerDAS upper-custody columns"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:15:06",
+        "highlight": "New EIP-8C71 (Distributed Block Construction / RowDAS) proposed for Hegota: uses column subnets + bitmaps to reduce supernode CPU load, speed reconstruction, and enable supernode-free reconstruction"
+      }
+    ],
+    "waggle_protocol": [
+      {
+        "timestamp": "00:20:25",
+        "highlight": "Waggle: proposed ETH-native gossip PubSub replacing gossip-sub; drops fixed mesh, adds first-class partial messages, EC-broadcast, per-topic QUIC streams with priority (stream.SetPriority); spec at hackmd link shared in chat"
+      },
+      {
+        "timestamp": "00:07:05",
+        "highlight": "Prysm excited about Waggle; willing to co-implement Go library with Sukun; key open questions: client consensus, timeline, hard-fork vs. soft upgrade path"
+      },
+      {
+        "timestamp": "00:38:06",
+        "highlight": "Upgrade path: ENR flag to signal Waggle support; dual gossip-sub + Waggle period risks doubling bandwidth unless gossip-sub mesh size reduced \u2014 acknowledged as complex"
+      },
+      {
+        "timestamp": "00:39:57",
+        "highlight": "Csaba: prefer single high-quality implementation tested in distributed settings before interop; favours hard-fork switch-over rather than prolonged dual-stack"
+      },
+      {
+        "timestamp": "00:41:00",
+        "highlight": "QUIC stream priority: no QUIC RFC; most libraries expose HTTP/3 RFC 9218 API (stream.SetPriority); go-quic now supports it; rust QUIC ecosystem already does"
+      }
+    ],
+    "payload_distribution_and_lindia": [
+      {
+        "timestamp": "00:43:46",
+        "highlight": "Proposal: distribute execution payloads via column subnets using Merkle-root commitments instead of KZG, enabling partial messages per cell; no EL changes required \u2014 CL only"
+      },
+      {
+        "timestamp": "00:46:00",
+        "highlight": "Merkle commitment aligns with Leanda design (ethresear.ch post linked in chat); message format would be identical to future Leanda data-column sidecars, easing future transition"
+      },
+      {
+        "timestamp": "00:49:32",
+        "highlight": "Csaba (chat): Merkle tree does NOT prove RS extension correctness \u2014 acceptable for distribution, insufficient for sampling without ZK proof"
+      },
+      {
+        "timestamp": "00:56:26",
+        "highlight": "Leanda snark proofs estimated at 128\u2013512 KB and seconds of compute on 16\u201332 core machines; builder latency concern if payload committed via snark on slot deadline"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:08:57",
+      "action": "All CL teams: verify empty-mempool edge case \u2014 push request bitmap of all-ones when Get blobs and has-blobs both return empty",
+      "owner": "CL client teams (flagged to Lighthouse explicitly)"
+    },
+    {
+      "timestamp": "00:37:11",
+      "action": "Engage Waggle spec (hackmd + libp2p specs PR #732); other CL teams (Teku, Nimbus, Lodestar, Grandine) to review and signal interest before next call",
+      "owner": "All CL client teams"
+    },
+    {
+      "timestamp": "00:50:42",
+      "action": "Kamil to update payload-distribution EIP with Merkle-commitment approach and share slides to group post-call",
+      "owner": "Kamil Salakhiev"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:39:57",
+      "decision": "Waggle rollout strategy: build one high-quality implementation first, test extensively in distributed settings, then hard-fork switch-over rather than prolonged dual gossip-sub/Waggle period"
+    }
+  ],
+  "targets": []
+}

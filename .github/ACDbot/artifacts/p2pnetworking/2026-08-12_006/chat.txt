@@ -1,0 +1,51 @@
+00:00:17	FLCL (Nethermind):	gm
+00:07:34	Sukun Tarachandani:	https://github.com/libp2p/specs/pull/732
+00:13:59	FLCL (Nethermind):	no spec change?
+00:14:11	FLCL (Nethermind):	just you used first half of the cells?
+00:18:56	FLCL (Nethermind):	snap/2 sparse on devnets
+00:19:19	FLCL (Nethermind):	Do you guys still discuss ethp2p/ discv5 topics? What's the most active path rn?
+00:19:35	Daniel Knopik:	there is no demand :(
+00:20:10	Daniel Knopik:	Reacted to "Do you guys still ..." with 👍
+00:20:43	Sukun Tarachandani:	https://hackmd.io/@sukunrt/rkaAZAeUfx
+00:32:47	FLCL (Nethermind):	is there like stream priority in quic defined somewhere?
+00:33:09	Sukun Tarachandani:	^no. but there’s an rfc for http3, most quic libraries give you that api for quic
+00:35:51	FLCL (Nethermind):	Replying to "^no. but there’s an rfc for http3, most quic libraries give you that api for quic"
+
+I guess we don't use exactly http3? Just quic+tls+quic streams?
+00:36:26	Sukun Tarachandani:	Replying to "^no. but there’s an ..."
+
+steam.SetPriority
+00:36:26	FLCL (Nethermind):	Replying to "^no. but there’s an rfc for http3, most quic libraries give you that api for quic"
+
+that's cool, jsut could not find any rfc
+00:36:32	Sukun Tarachandani:	Replying to "^no. but there’s an ..."
+
+stream.SetPriority(int)
+00:36:36	FLCL (Nethermind):	Reacted to "steam.SetPriority" with 👍
+00:36:48	Sukun Tarachandani:	Replying to "^no. but there’s an ..."
+
+https://datatracker.ietf.org/doc/rfc9218/
+00:36:54	FLCL (Nethermind):	Replying to "^no. but there’s an rfc for http3, most quic libraries give you that api for quic"
+
+ty!
+00:40:47	kasey:	In the case of partial messages we have plenty of other topics for peers to maintain score, it gets more dangerous as we move more objects off legacy.
+00:43:38	Sukun Tarachandani:	Reacted to "In the case of partial messages we have plenty of other topics for peers to maintain score, it gets more dangerous as we move more objects off legacy." with 👍
+00:43:56	Aarsh Shah:	Reacted to "In the case of partial messages we have plenty of other topics for peers to maintain score, it gets more dangerous as we move more objects off legacy." with 👍
+00:46:13	kasey:	Outside of kzg being overkill, the other concern was that the slot timing of payload and blobs is different.
+00:46:22	Daniel Knopik:	Reacted to "Outside of kzg bei..." with 👍
+00:48:14	kasey:	Looks like this is the post referenced https://ethresear.ch/t/leanda-design-and-benchmark/25642
+00:49:32	Csaba:	Just a note: the merkle tree is not proving the RS extension’s correctness.
+00:49:47	FLCL (Nethermind):	Reacted to "Just a note: the merkle tree is not proving the RS extension’s correctness." with 👍
+00:49:52	Daniel Knopik:	Reacted to "Just a note: the m..." with 👍
+00:50:08	Csaba:	Replying to "Just a note: the mer..."
+
+Which is fine until we use it for dsitribution, less if we use it for sampling
+00:51:10	Aarsh Shah:	@Kamil Salakhiev Do you have a link to the ppt ?
+00:51:42	Kamil Salakhiev:	Replying to "@Kamil Salakhiev Do ..."
+
+I will share it to the group after the call
+00:53:52	FLCL (Nethermind):	merkle for rows too?
+00:54:45	FLCL (Nethermind):	probably it's because cell level splitting will be there
+00:56:26	FLCL (Nethermind):	what's size of merkle proof vs data size?
+00:58:12	kasey:	We’re talking order of magnitude of seconds to compute the proofs described in leanDA right?
+01:01:02	Kamil Salakhiev:	https://ethresear.ch/t/leanda-design-and-benchmark/25642
