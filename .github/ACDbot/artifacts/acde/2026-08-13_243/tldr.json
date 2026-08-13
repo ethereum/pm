@@ -1,0 +1,137 @@
+{
+  "meeting": "ACDE #243 - August 13, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:08:12",
+        "highlight": "glamsterdam-devnet-8 (Plat\u00e5berget) launched; Gloas activates ~1 week out (Thursday 7:50 AM UTC)"
+      },
+      {
+        "timestamp": "00:11:34",
+        "highlight": "Gas repricing numbers final: EIP-2780/8037/8038 specs unchanged; 200M gas limit confirmed safe for Glamsterdam (>3x current 60M)"
+      },
+      {
+        "timestamp": "00:20:18",
+        "highlight": "EIP-8261 (in-client gas limit schedule via CL config): majority of CL clients approved; moves forward as optional parameter"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:31:24",
+        "highlight": "EIP-7923 (Linear Page-Based Memory Costing): replaces quadratic memory pricing; jochem championing; spec update + max-memory report in 2 weeks"
+      },
+      {
+        "timestamp": "00:34:21",
+        "highlight": "EIP-3298 (Remove Refunds): proposal to remove storage-clearing refund only; EIP-7702 refund handling to be discussed async"
+      },
+      {
+        "timestamp": "00:39:44",
+        "highlight": "EIP-5920 (PAY opcode): send ETH without executing foreign code; jochem will champion if no existing champion"
+      },
+      {
+        "timestamp": "00:42:17",
+        "highlight": "EIP-8358 (Net Gas Metering for Account Changes) and EIP-8374 (Persist Warm Access Sets Across Reverts): both PFI'd by draganrakita; Danno flags 8374 implementation complexity"
+      },
+      {
+        "timestamp": "00:47:49",
+        "highlight": "EIP-8368 (CPSB Recalibration): small constant adjustment to EIP-8037 needed when scaling gas limit toward 600M; Toni presenting on Maria's behalf"
+      },
+      {
+        "timestamp": "00:53:43",
+        "highlight": "EIP-8355 (ML-DSA precompile): FIPS 204, all 3 security levels, compressed keys; widely supported in client languages by Hegota ship date"
+      },
+      {
+        "timestamp": "01:02:22",
+        "highlight": "EIP-8372 (Normalized State Gas Limit): one-time fork-boundary calibration of state gas cost/limit to correct over/under-demand after Glamsterdam"
+      },
+      {
+        "timestamp": "01:06:44",
+        "highlight": "EIP-8375 (eMBER, ePBS Mandatory Burn): burns % of execution rewards via priority fee floor + PBS observer floor; lightclient flags ePBS adoption uncertainty"
+      },
+      {
+        "timestamp": "01:11:41",
+        "highlight": "EIP-8219 (Checked Arithmetic Opcodes): safe add/sub/mul/div opcodes reverting on overflow; reduces Solidity safe-math from ~79 gas to ~5 gas; alternative single-opcode+immediate proposed"
+      },
+      {
+        "timestamp": "00:29:32",
+        "highlight": "EIPs 7971, 8058, 7609, 7973, 8360 (proposed by helkomine): no champion present; nixo to contact helkomine for next ACDE or PRs will be closed"
+      }
+    ],
+    "history_expiry": [
+      {
+        "timestamp": "00:20:29",
+        "highlight": "History expiry needed for 2TB node operators at Hegota given 200M gas limit; no consensus on cutoff \u2014 Nethermind targets ~6 months, Erigon ~1 year, Geth fork-minus-100K blocks, Besu 5 months"
+      },
+      {
+        "timestamp": "00:24:34",
+        "highlight": "Ben Adams: clients must coordinate on same expiry window or history syncing breaks; discussion deferred to ETH R&D history-expiry channel"
+      }
+    ],
+    "native_aa": [
+      {
+        "timestamp": "01:17:19",
+        "highlight": "Frames (EIP-8141) status: Geth, Nethermind, ethrex support; Besu not opposed; Reth no stance; Erigon supportive; strong pushback from Base/OP (EIP-8130) and Arbitrum on L2 DoS/TPS concerns"
+      },
+      {
+        "timestamp": "01:23:04",
+        "highlight": "Offchain Labs: static/pure-function validation frames mode would resolve L2 DoS concern; static frames workstream already in progress per Derek (Ethlabs)"
+      },
+      {
+        "timestamp": "01:34:59",
+        "highlight": "Decision deferred: AA breakout on Aug 25 (14:00 UTC) to compare 8141 vs 8130 and surface required modifications; ACDE #244 (Aug 27) to make final implementation decision"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:26:09",
+      "action": "Converge on single history expiry window number and decide where to spec it",
+      "owner": "EL client teams via ETH R&D history-expiry channel"
+    },
+    {
+      "timestamp": "01:34:59",
+      "action": "Bring concrete 8141 vs 8130 comparison and required-modification list to AA breakout Aug 25",
+      "owner": "L2 teams (Base, Offchain Labs) and Frames authors"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:11:34",
+      "decision": "Gas repricing numbers final; no spec changes needed; 200M gas limit confirmed for Glamsterdam"
+    },
+    {
+      "timestamp": "00:20:18",
+      "decision": "EIP-8261 (in-client gas limit schedule) moves forward as optional CL config parameter"
+    },
+    {
+      "timestamp": "01:17:19",
+      "decision": "PFI for Hegota: EIP-7923 (Linear Memory Costing), EIP-3298 (Remove Refunds), EIP-5920 (PAY opcode), EIP-8358 (Net Gas Metering for Account Changes), EIP-8374 (Persist Warm Access Sets), EIP-8368 (CPSB Recalibration), EIP-8077 (announce txs with nonce), EIP-8094 (blob-aware mempool), EIP-8355 (ML-DSA precompile), EIP-8372 (Normalized State Gas Limit), EIP-8375 (eMBER), EIP-8219 (Checked Arithmetic Opcodes)"
+    },
+    {
+      "timestamp": "00:30:37",
+      "decision": "EIPs 7971, 8058, 7609, 7973, 8360 not PFI'd; nixo to contact helkomine for next ACDE opportunity, otherwise PRs closed"
+    },
+    {
+      "timestamp": "01:34:59",
+      "decision": "Native AA implementation decision (Frames/8141 vs 8130) deferred to AA breakout Aug 25 + ACDE Aug 27"
+    },
+    {
+      "timestamp": "00:28:10",
+      "decision": "EL client preference lists for Hegota PFIs due by September 10th (ACDE #245)"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:09:04",
+      "target": "glamsterdam-devnet-8 (Plat\u00e5berget): live as of Aug 13; Gloas fork Thursday ~7:50 AM UTC"
+    },
+    {
+      "timestamp": "01:19:12",
+      "target": "AA breakout call: August 25, 14:00 UTC"
+    },
+    {
+      "timestamp": "00:28:10",
+      "target": "Hegota EL client preference lists due: September 10, 2026"
+    }
+  ]
+}
