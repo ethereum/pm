@@ -1,0 +1,72 @@
+00:01:08	Justin Traglia:	https://github.com/ethereum/consensus-specs/pull/5543
+00:01:33	Nico Flaig:	it's consensus breaking
+00:01:54	Eitan Seri-Levi:	we can include
+00:02:38	Stefan Bratanov:	will include for Teku after the call, happy with it
+00:03:33	Eitan Seri-Levi:	we don’t need another release I think
+00:09:28	Justin Traglia:	https://github.com/ethereum/consensus-specs/pull/5492
+00:14:06	Mikhail Kalinin:	I think we should introduce this change in gloas/fork_choice if there is a decision to have it at all
+00:14:42	Nico Flaig:	it will become better in gloas fwiw since no more columsn etc.
+00:16:08	Nico Flaig:	there is MIN_EPOCHS_FOR_BLOCK_REQUESTS which is ~5 months, pretty sure that's the current time CL need to serve blocks?
+00:17:31	Luca | Vero:	Is there a target date by which we want to have all Beacon API changes merged in? Any blockers or open questions left for https://github.com/ethereum/beacon-APIs/pull/630 ?
+00:18:28	Justin Traglia:	Replying to "Is there a target da..."
+
+Will chat about this after this topic
+00:18:29	Nico Flaig:	Replying to "Is there a target da..."
+
+need to give a final pass, just did some more review over the weekend but seems getting close to being mergable
+00:19:05	Luca | Vero:	Replying to "Is there a target da..."
+
+ok thanks
+00:19:31	Nico Flaig:	Replying to "Is there a target da..."
+
+but we reworked the pr like 5 times since it was opened so would be good if people can give it a final pass
+00:19:50	Nico Flaig:	Replying to "Is there a target da..."
+
+(if github works again)
+00:19:54	Justin Traglia:	Reacted to "(if github works again)" with 😅
+00:20:30	Kevaundray Wedderburn:	Prysm: https://github.com/OffchainLabs/prysm/blob/462e52404e3965fc0ed4bc1bf7717812d9dd3ef7/cmd/beacon-chain/sync/backfill/flags/flags.go#L12,
+
+Lodestar: https://github.com/ChainSafe/lodestar/blob/ec596194e2b909e30e3c6b095fb836427af0c4fb/packages/beacon-node/src/sync/options.ts#L42,
+
+Grandine: https://github.com/grandinetech/grandine/blob/eaf220e60699cd63d4223ad2481e42fd15f67802/runtime/src/grandine_args.rs#L2027
+00:20:58	Nico Flaig:	yeah we are not
+00:21:29	Luca | Vero:	Reacted to "but we reworked the pr like 5 times since it was opened so would be good if people can give it a final pass" with 👍
+00:22:55	Mikhail Kalinin:	Might be worth taking into account the worst case of non-finality
+00:24:05	Jason Vranek:	#88 keymanagre has one open question https://github.com/ethereum/keymanager-APIs/pull/88#discussion_r3789665268
+00:24:21	Kevaundray Wedderburn:	Replying to "Might be worth takin..."
+
+Yeah this is a good point, I think 8252 implicitly puts it as around a month
+00:24:33	Kevaundray Wedderburn:	Replying to "Might be worth takin..."
+
+https://eips.ethereum.org/EIPS/eip-8252
+00:24:34	Mikhail Kalinin:	Reacted to "Yeah this is a good point, I think 8252 implicitly puts it as around a month" with 👍
+00:25:29	Jason Vranek:	will keep as is then 🙂
+00:25:40	Kevaundray Wedderburn:	Replying to "Might be worth takin..."
+
+Though I guess one of them is related to the inactivity leak (non-finality and reorg window) whereas the other is related to the weak subjectivity period (historical block retention)
+00:25:57	james:	Not yet e2e
+00:26:04	james:	Km88 is implemented
+00:26:10	james:	But not 630
+00:26:16	james:	For prysm
+00:26:25	Eitan Seri-Levi:	Mark did a full impl, we just haven’t reviewed/merged it yet
+00:27:41	Mikhail Kalinin:	Replying to "Might be worth takin..."
+
+There is just one parameter in that EIP, where is the other one?
+00:28:35	Kevaundray Wedderburn:	Replying to "Might be worth takin..."
+
+Ah I was thinking that the reorg retention window would implicitly define the worse case of non-finality
+00:28:42	Kevaundray Wedderburn:	Replying to "Might be worth takin..."
+
+Or maybe I misunderstand?
+00:29:08	Nico Flaig:	I need approvals from implementers on the 3 prs so we can merge it
+00:29:10	Mikhail Kalinin:	Replying to "Might be worth takin..."
+
+Oh, yeah, according to that EIP it does so
+00:29:24	Stefan Bratanov:	Reacted to "I need approvals from implementers on the 3 prs so we can merge it" with 👍
+00:30:05	Kevaundray Wedderburn:	Replying to "Might be worth takin..."
+
+Though its definitely possible to only have the EL reorg say one week back, and then anything further than that would require maybe checkpoint syncing and re-executing blocks
+00:30:08	Mikhail Kalinin:	Replying to "Might be worth takin..."
+
+But this EIP sets the lower boundary for reorg capability, not a number of blocks to retain
+00:30:17	Kevaundray Wedderburn:	Reacted to "But this EIP sets the lower boundary for reorg capability, not a number of blocks to retain" with 👍

@@ -1,0 +1,1030 @@
+WEBVTT
+
+1
+00:00:34.030 --> 00:00:35.560
+Justin Traglia: Hello again.
+
+2
+00:00:36.180 --> 00:00:37.600
+Justin Traglia: Just one second.
+
+3
+00:00:37.700 --> 00:00:38.860
+Justin Traglia: Not concerning.
+
+4
+00:00:47.780 --> 00:00:54.619
+Justin Traglia: So, I don't think Barnabas is here to discuss it, but he wanted us to make a decision on whether or not to include
+
+5
+00:00:54.820 --> 00:01:03.689
+Justin Traglia: the, bug fix, called Fix Builder Payment Double… sorry, Fixed Payment Weight Double Count Under Target Equivocation.
+
+6
+00:01:04.840 --> 00:01:06.480
+Justin Traglia: That was the one by Luca.
+
+7
+00:01:07.760 --> 00:01:14.480
+Justin Traglia: How do we… we merged the PR, end of last week, or yesterday, I forget, whenever.
+
+8
+00:01:15.010 --> 00:01:17.060
+Justin Traglia: How do we feel about including this?
+
+9
+00:01:17.770 --> 00:01:19.450
+Justin Traglia: Indefinitely.
+
+10
+00:01:24.960 --> 00:01:28.270
+Justin Traglia: Like, it's not consensus-breaking, and it's unlikely to be triggered.
+
+11
+00:01:31.100 --> 00:01:32.650
+Justin Traglia: Does anyone have an opinion?
+
+12
+00:01:33.290 --> 00:01:36.680
+Justin Traglia: Oh, I'm sorry, it is consensus-breaking, but it's… Yeah.
+
+13
+00:01:38.390 --> 00:01:39.739
+Justin Traglia: But it's hard to trigger.
+
+14
+00:01:49.810 --> 00:01:54.840
+Nico Flaig: Yeah, I mean, for loads that we already merged the change, and it's deployed on the DevNet.
+
+15
+00:01:58.010 --> 00:02:01.820
+Nico Flaig: So I guess if someone triggers that, that would be a consensus split.
+
+16
+00:02:01.990 --> 00:02:04.009
+Nico Flaig: But others don't deploy it.
+
+17
+00:02:05.460 --> 00:02:07.949
+Justin Traglia: Yeah. I think as long as,
+
+18
+00:02:08.520 --> 00:02:20.870
+Justin Traglia: ETH PandaOps. As long as all the client teams provided the updated DevNet 8 image, and ETH PandaOps updates their, like, stable set of nodes to use those images, that would probably be fine.
+
+19
+00:02:27.580 --> 00:02:30.349
+Justin Traglia: Eitan from Lighthouse says that we can't include it.
+
+20
+00:02:31.530 --> 00:02:33.130
+Justin Traglia: Do others have opinions?
+
+21
+00:02:40.090 --> 00:02:44.700
+Justin Traglia: Stefan from TechU says that… They'll include it after the call, happy with it.
+
+22
+00:02:47.240 --> 00:02:54.160
+Justin Traglia: That's great. Would you guys like for us to make an Alpha 14 release with this change?
+
+23
+00:02:54.390 --> 00:02:56.400
+Justin Traglia: The other little changes we've made.
+
+24
+00:03:00.650 --> 00:03:05.050
+Justin Traglia: Like, would it make it easier to include this in DevNet 8 if we did that?
+
+25
+00:03:25.130 --> 00:03:26.070
+Justin Traglia: Okay.
+
+26
+00:03:31.430 --> 00:03:38.630
+Justin Traglia: Any other concerns on… okay. Eitan says that he doesn't think that we need another release. Okay.
+
+27
+00:03:40.870 --> 00:03:47.940
+Justin Traglia: I guess this, point is dealt with. We will add it to the images for DevNet8.
+
+28
+00:03:48.700 --> 00:03:52.880
+Justin Traglia: So, just do it whenever you can, and then we'll let ETH PandaOps know to update images.
+
+29
+00:03:53.780 --> 00:03:55.470
+Justin Traglia: on the notes.
+
+30
+00:03:55.980 --> 00:03:59.969
+Justin Traglia: Mikhail, are you here to give us an update on compliance tests for Gloss?
+
+31
+00:04:00.620 --> 00:04:02.490
+Mikhail Kalinin: Yes, can you hear me?
+
+32
+00:04:03.530 --> 00:04:04.989
+Justin Traglia: Yeah, I can hear you just fine.
+
+33
+00:04:05.880 --> 00:04:07.620
+Mikhail Kalinin: Great. Hey everyone.
+
+34
+00:04:07.780 --> 00:04:11.490
+Mikhail Kalinin: Quick status updates on the compliance testing for gloves.
+
+35
+00:04:11.640 --> 00:04:18.289
+Mikhail Kalinin: As, as you all know, we had this fork choice compliance testing suit.
+
+36
+00:04:18.720 --> 00:04:25.270
+Mikhail Kalinin: And yeah, we're currently working on the state transition suite,
+
+37
+00:04:25.880 --> 00:04:35.240
+Mikhail Kalinin: And, the approach to generate those tests are basically similar. It's model-based.
+
+38
+00:04:35.920 --> 00:04:40.480
+Mikhail Kalinin: Kind of describe, outline a model of… of a builder, of a…
+
+39
+00:04:41.000 --> 00:04:51.759
+Mikhail Kalinin: Execution payload bid, and whatever we have in the state transition, we outline it, with constraints, and then transpile to
+
+40
+00:04:52.270 --> 00:04:59.330
+Mikhail Kalinin: to the mini-sync, then we kind of ask a constraint solver to produce
+
+41
+00:04:59.820 --> 00:05:05.250
+Mikhail Kalinin: All the potential… all the possible outputs for… for a given model.
+
+42
+00:05:06.220 --> 00:05:13.269
+Mikhail Kalinin: So, it's all combined as inputs to, say, process execution payload bid, as an example.
+
+43
+00:05:13.610 --> 00:05:30.720
+Mikhail Kalinin: And, yeah, after that, this, all these solutions and all these combinations of, of inputs, they are materialized to a real, Beacon state and, real execution payload bid. And, this is how we actually get, one test case.
+
+44
+00:05:30.870 --> 00:05:35.440
+Mikhail Kalinin: And, yeah, by doing this exercise,
+
+45
+00:05:35.670 --> 00:05:41.779
+Mikhail Kalinin: How many times for all of the inputs, we get the tests viewed for
+
+46
+00:05:42.010 --> 00:05:57.080
+Mikhail Kalinin: for, say, for the process execution period, and the same for all the operations. So this is kind of in progress. We already have a subset of tests, that we will have at the end.
+
+47
+00:05:57.200 --> 00:06:06.529
+Mikhail Kalinin: So there is, like, a small sweet witch where currently run in… with Deku, just to…
+
+48
+00:06:07.590 --> 00:06:13.259
+Mikhail Kalinin: Understand how it looks like, how those tests run, what potential problems and issues.
+
+49
+00:06:13.430 --> 00:06:16.700
+Mikhail Kalinin: With the test generation itself, we can find there.
+
+50
+00:06:16.850 --> 00:06:26.029
+Mikhail Kalinin: We don't expect any change to the Testing format, so we'll use process operation, test format for all the operations in the state transition.
+
+51
+00:06:26.220 --> 00:06:29.080
+Mikhail Kalinin: Same for… for the EPOC processing.
+
+52
+00:06:29.760 --> 00:06:36.500
+Mikhail Kalinin: And, once we've finished with, like, each operation as a standalone thing.
+
+53
+00:06:36.650 --> 00:06:41.469
+Mikhail Kalinin: We plan to have, tests with multiple operations per block.
+
+54
+00:06:41.580 --> 00:06:47.730
+Mikhail Kalinin: Or per… per, sequence of blocks, that may affect each other. Like,
+
+55
+00:06:48.100 --> 00:06:52.239
+Mikhail Kalinin: Builder deposit and builder top-up, they are dependent.
+
+56
+00:06:52.610 --> 00:06:59.959
+Mikhail Kalinin: On each other, so… Yeah, that's the, the update on the State Transition Compliance Testing.
+
+57
+00:07:00.530 --> 00:07:04.449
+Mikhail Kalinin: What else I would like to,
+
+58
+00:07:04.720 --> 00:07:12.659
+Mikhail Kalinin: ask, here, those clients that, tried, to run fork choice compliance testing.
+
+59
+00:07:12.800 --> 00:07:15.490
+Mikhail Kalinin: Tests that we have, already.
+
+60
+00:07:15.600 --> 00:07:18.629
+Mikhail Kalinin: Would be great to get your feedback.
+
+61
+00:07:18.970 --> 00:07:25.849
+Mikhail Kalinin: Any blockers, if you don't run them, then just applying blockers that prevents you from doing that.
+
+62
+00:07:25.920 --> 00:07:39.759
+Mikhail Kalinin: Any issues with the output, with running them as well, would be very valuable, or any potential ideas on how we can improve the test generation, that would be really, really very much appreciated.
+
+63
+00:07:40.540 --> 00:07:43.269
+Mikhail Kalinin: So please, just reach out on Discord.
+
+64
+00:07:43.490 --> 00:07:51.569
+Mikhail Kalinin: I believe that… I… yeah, the process of, like, the state transition compliance testing generation is…
+
+65
+00:07:52.710 --> 00:07:59.249
+Mikhail Kalinin: Kind of a bit slow, because there are many, entities in the state transition, and
+
+66
+00:07:59.370 --> 00:08:04.740
+Mikhail Kalinin: It's quite… not… it's quite a sophisticated task to, you know, to model them all.
+
+67
+00:08:05.040 --> 00:08:08.930
+Mikhail Kalinin: But we expect something to have, like, in mid-September.
+
+68
+00:08:10.050 --> 00:08:13.200
+Mikhail Kalinin: That's rough, estimation.
+
+69
+00:08:15.210 --> 00:08:17.819
+Mikhail Kalinin: Alright, thanks for your attention.
+
+70
+00:08:18.360 --> 00:08:20.930
+Mikhail Kalinin: Happy to answer any questions if you have.
+
+71
+00:08:25.410 --> 00:08:30.789
+Justin Traglia: Thank you, Mikhail. Are there any questions regarding compliance testing from clients?
+
+72
+00:08:48.900 --> 00:08:49.800
+Justin Traglia: Okay.
+
+73
+00:08:50.740 --> 00:09:00.799
+Justin Traglia: There was a discussion item from Kev about the safety decay parameters for historical block retention, but he's not here.
+
+74
+00:09:01.340 --> 00:09:03.479
+Justin Traglia: I think he might still be in the EL call.
+
+75
+00:09:03.850 --> 00:09:05.770
+Justin Traglia: I could have misunderstood, butch.
+
+76
+00:09:06.480 --> 00:09:08.590
+Justin Traglia: Or, sorry, which layer this was for.
+
+77
+00:09:10.970 --> 00:09:15.130
+Justin Traglia: I'll give him time to join later, I guess.
+
+78
+00:09:16.630 --> 00:09:23.959
+Justin Traglia: And then I just had a question about POTUS's PR on allowing EPOC boundary reorgs and gloss.
+
+79
+00:09:24.640 --> 00:09:26.250
+Justin Traglia: It was this PR.
+
+80
+00:09:28.210 --> 00:09:37.410
+Justin Traglia: At ACDT, like, 84 or something, we, we discussed this, and
+
+81
+00:09:37.630 --> 00:09:41.240
+Justin Traglia: At the moment, we decided to… just rename it.
+
+82
+00:09:41.350 --> 00:09:42.890
+Justin Traglia: From a different function.
+
+83
+00:09:43.030 --> 00:09:46.529
+Justin Traglia: Perform a different name to this, and keep it as a check.
+
+84
+00:09:47.120 --> 00:09:50.830
+Justin Traglia: But it seems that POTUS is suggesting we just simply remove it.
+
+85
+00:09:52.190 --> 00:09:56.549
+Justin Traglia: At the time, Nico, you had thoughts and opinions,
+
+86
+00:09:57.660 --> 00:10:02.209
+Justin Traglia: What do you think about this? I was really hoping POTUS would be here to provide more justification.
+
+87
+00:10:05.500 --> 00:10:17.020
+Nico Flaig: Yeah, I mean, the original PR was more or less a refactoring, right? So I guess, yeah, we can discuss it more explicitly if we want this reorg behavior or not.
+
+88
+00:10:18.420 --> 00:10:27.209
+Nico Flaig: I mean, my main concern was, right, that it harms the proposal more than anyone else, or it also harms the attesters, but yeah.
+
+89
+00:10:30.390 --> 00:10:41.929
+Nico Flaig: I'm not sure, like, if Lighthouse is already doing that on mainnet, then it doesn't matter, like, every client can just do it as well, because the proposal itself will already prepare on the right,
+
+90
+00:10:42.360 --> 00:10:51.609
+Nico Flaig: On the right head, and do the epoch transition, but attesters will not, and when they see the block, they will have to recompute the epoch transition, so…
+
+91
+00:10:52.700 --> 00:11:01.749
+Nico Flaig: So if one client does it, and especially if Lighthouse does it, which… because they have a lot of network share, right, I think everyone should just do it.
+
+92
+00:11:05.200 --> 00:11:05.930
+Justin Traglia: Mikhail.
+
+93
+00:11:07.340 --> 00:11:13.179
+Mikhail Kalinin: I think that, what Bot was meant in the PR
+
+94
+00:11:13.430 --> 00:11:19.559
+Mikhail Kalinin: is basically that, after full, we have a stable proposer look ahead.
+
+95
+00:11:19.970 --> 00:11:24.289
+Mikhail Kalinin: And, this, EPOC boundary work,
+
+96
+00:11:24.670 --> 00:11:30.170
+Mikhail Kalinin: If it happens, it would affect the, proposer, shuffling.
+
+97
+00:11:30.680 --> 00:11:31.820
+Mikhail Kalinin: And, yeah.
+
+98
+00:11:31.990 --> 00:11:36.840
+Mikhail Kalinin: That's why post… post-fulloit, this check doesn't make sense.
+
+99
+00:11:37.040 --> 00:11:39.310
+Mikhail Kalinin: But that's just my… my understanding.
+
+100
+00:11:40.960 --> 00:11:50.449
+Mikhail Kalinin: I… I don't… because the dependent route for attesters, is not the current EPOC boundary, it's the EPOC boundary, the previous one, so…
+
+101
+00:11:51.130 --> 00:11:54.549
+Mikhail Kalinin: Should be fine to remove these, as far as I can see.
+
+102
+00:11:58.410 --> 00:12:02.419
+Justin Traglia: Nico or Eitan, could you clarify, does Lighthouse…
+
+103
+00:12:02.580 --> 00:12:05.500
+Justin Traglia: Have this checked, or did they remove it already?
+
+104
+00:12:09.890 --> 00:12:12.440
+Eitan Seri-Levi: We can reorg at Epoch Foundries.
+
+105
+00:12:13.800 --> 00:12:19.290
+Justin Traglia: Okay, I see. So you do not have this check. Like, you do… you follow what POTUS is suggesting?
+
+106
+00:12:21.140 --> 00:12:21.960
+Eitan Seri-Levi: Yeah.
+
+107
+00:12:22.680 --> 00:12:24.170
+Justin Traglia: Okay. Thank you.
+
+108
+00:12:27.810 --> 00:12:33.340
+Justin Traglia: Okay. Others, please take a look at the PR and leave a review if you have time.
+
+109
+00:12:33.950 --> 00:12:40.900
+Justin Traglia: We'll probably… we'll probably merge it, unless there's…
+
+110
+00:12:41.670 --> 00:12:45.559
+Justin Traglia: Sorry, we'll probably merge it unless a client or two say that they don't like it.
+
+111
+00:12:48.180 --> 00:12:56.430
+Nico Flaig: Yeah, the misleading part is just, in Chloa's part. I guess it's not really relevant, like, maybe you should state after Fulu or something.
+
+112
+00:12:57.560 --> 00:13:03.350
+Nico Flaig: But yeah, every network, as far as I know, is on Fulu, so it doesn't really matter, I think.
+
+113
+00:13:07.820 --> 00:13:09.159
+Justin Traglia: Okay, can do.
+
+114
+00:13:10.640 --> 00:13:11.529
+Justin Traglia: Is there anything?
+
+115
+00:13:11.530 --> 00:13:16.170
+Jihoon: concern, coming from other… EIP processing operations.
+
+116
+00:13:25.130 --> 00:13:37.959
+Jihoon: Because I removed this shuffling check in the previous PR, but I added it back because there was a feedback that it is not just about shuffling, but it's also about epoch processing.
+
+117
+00:13:38.280 --> 00:13:41.499
+Jihoon: Just going to double check if there's a problem.
+
+118
+00:13:45.970 --> 00:13:59.389
+Nico Flaig: I mean, right currently on mainnet, we already have a lot of missed SLOT0 blocks, and this just increases it more, so I'm pretty sure if Lighthouse does this reorg on mainnet, they will just orphan the block anyway.
+
+119
+00:13:59.960 --> 00:14:02.580
+Nico Flaig: So it's just self-harming the proposal.
+
+120
+00:14:23.590 --> 00:14:28.839
+Justin Traglia: Okay. Other clients, please take a look at that PR when you have time in whatever GitHub.
+
+121
+00:14:29.030 --> 00:14:30.780
+Justin Traglia: Starts working again.
+
+122
+00:14:37.560 --> 00:14:42.090
+Justin Traglia: Alright, I guess that's the end of that discussion. I see that Kev is here.
+
+123
+00:14:42.660 --> 00:14:48.420
+Justin Traglia: Would you like to discuss the safety decay parameters for historical block retention, Kev?
+
+124
+00:14:49.400 --> 00:15:03.769
+Kevaundray Wedderburn: Yep, hey guys, yeah, so I was looking into this constant because, we agreed on the EL side that they will just copy whatever the CL does for historical block retention.
+
+125
+00:15:03.770 --> 00:15:11.749
+Kevaundray Wedderburn: And this is mainly because some of the CLs rely on the EL to have the execution payload.
+
+126
+00:15:11.800 --> 00:15:13.829
+Kevaundray Wedderburn: So when I look at this…
+
+127
+00:15:14.110 --> 00:15:23.970
+Kevaundray Wedderburn: constant. For checkpoint syncing, we've… we've made the safety decay 10, but for historical blocks, we've made the safety decay 100.
+
+128
+00:15:24.550 --> 00:15:34.300
+Kevaundray Wedderburn: And, I was trying to go through the rationale for this, but it seems like this is overly conservative, and it just means that we're storing, like.
+
+129
+00:15:34.580 --> 00:15:38.869
+Kevaundray Wedderburn: Four times the amount of, historical blocks than we need.
+
+130
+00:15:39.290 --> 00:15:49.920
+Kevaundray Wedderburn: And yeah, if you… I don't know if you guys saw the message, but after 33, if I understand correctly, there was actually no extra security that's, added.
+
+131
+00:15:50.390 --> 00:15:59.289
+Kevaundray Wedderburn: So I was wondering, does anyone know why we chose 100, and is… are folks against just making it match what we have for checkpoint syncing?
+
+132
+00:16:00.530 --> 00:16:05.630
+Kevaundray Wedderburn: Or just, like, double it, like, for operational purposes, I think that was what I proposed.
+
+133
+00:16:13.360 --> 00:16:21.370
+Kevaundray Wedderburn: Right, so the min-epochs for, block requests, that's based on the safety decay, of 100.
+
+134
+00:16:25.140 --> 00:16:30.990
+Kevaundray Wedderburn: But after 33, there's, like, no… Actual… actual benefits.
+
+135
+00:16:31.150 --> 00:16:41.289
+Kevaundray Wedderburn: And if you're only ever gonna checkpoint sync, for a safety decay of 10, it means that your checkpoint syncing, like, file is only ever gonna be, like, 2 weeks old.
+
+136
+00:16:42.360 --> 00:16:47.009
+Kevaundray Wedderburn: So you only… Ever would need to be,
+
+137
+00:16:47.130 --> 00:16:52.250
+Kevaundray Wedderburn: Serving blocks that are, like, 2 weeks old, but you can just say 4 months, or whatever… sorry, 1 month, or whatever.
+
+138
+00:16:55.260 --> 00:16:56.500
+Kevaundray Wedderburn: Mmm…
+
+139
+00:16:59.850 --> 00:17:01.010
+Kevaundray Wedderburn: Mikhail?
+
+140
+00:17:01.930 --> 00:17:12.780
+Mikhail Kalinin: A question, Kev, are you asking from the CL perspective only, or maybe there is another reason from the EL side, or from the user side, or whatever?
+
+141
+00:17:12.880 --> 00:17:17.930
+Mikhail Kalinin: That's… Actually results in these 5 months.
+
+142
+00:17:19.000 --> 00:17:22.209
+Kevaundray Wedderburn: Yeah, I was just auction from the CL perspective.
+
+143
+00:17:23.109 --> 00:17:25.730
+Kevaundray Wedderburn: Sorry.
+
+144
+00:17:26.020 --> 00:17:32.360
+Kevaundray Wedderburn: From the EL side, it's, the EL is just gonna copy what the CL does, that's what we agreed.
+
+145
+00:17:38.710 --> 00:17:46.079
+Kevaundray Wedderburn: But is the… yeah, is the… I don't know if anyone has any questions about safety decay, or,
+
+146
+00:17:51.230 --> 00:17:55.440
+Kevaundray Wedderburn: Or like, yeah, what it's, for, or whatever, yeah, can explain some more.
+
+147
+00:17:56.120 --> 00:18:05.779
+Kevaundray Wedderburn: And yeah, I had a second question, which is that some clients seem to actually not be backfilling to this 5 months,
+
+148
+00:18:06.460 --> 00:18:08.350
+Kevaundray Wedderburn: But, yeah, I first wanted to…
+
+149
+00:18:08.560 --> 00:18:13.390
+Kevaundray Wedderburn: Ask about this safety decay, if anyone has any opinions on it or whatever.
+
+150
+00:18:14.050 --> 00:18:18.809
+Kevaundray Wedderburn: Or maybe the CL Devs who usually look at it are not in this particular call.
+
+151
+00:18:32.360 --> 00:18:37.729
+Kevaundray Wedderburn: Mmm… Okay, I can move on to the next, oh, sorry.
+
+152
+00:18:38.510 --> 00:18:45.920
+Mikhail Kalinin: Yeah, just a quick thing. I think that from the security perspective, 100% decay doesn't make sense.
+
+153
+00:18:46.850 --> 00:18:47.180
+Mikhail Kalinin: So.
+
+154
+00:18:47.180 --> 00:18:47.800
+Kevaundray Wedderburn: Right?
+
+155
+00:18:47.810 --> 00:18:52.570
+Mikhail Kalinin: If you're a checkpoint sinking from 5 months ago, it's gonna be…
+
+156
+00:18:52.770 --> 00:18:55.430
+Mikhail Kalinin: Likely insecure, unless you trust the
+
+157
+00:18:56.410 --> 00:19:11.810
+Mikhail Kalinin: Actually, yeah, it's… anyway, it's kind of insecure, so… but maybe there are some… I'm just trying to… to guess, mate. Maybe there are some sync modes, that some clients support, or whatever.
+
+158
+00:19:11.970 --> 00:19:14.169
+Mikhail Kalinin: That's actually do lockstep.
+
+159
+00:19:16.810 --> 00:19:24.009
+Mikhail Kalinin: That's just, like, the only thing that comes to my mind, why we would need these, you know, number of blocks.
+
+160
+00:19:24.510 --> 00:19:37.580
+Mikhail Kalinin: served by a network. So it's like lock-stepping from, you know, I don't know, from some point in time, and if you have, like, error files or whatever, so you can do that and, you know, get all these 5 months of history.
+
+161
+00:19:38.240 --> 00:19:45.220
+Mikhail Kalinin: from… From the network, yeah, but… Sounds like… quite unlikely.
+
+162
+00:19:46.770 --> 00:19:50.569
+Kevaundray Wedderburn: Yeah, I'm not, not sure. Hmm.
+
+163
+00:19:51.240 --> 00:20:08.880
+Kevaundray Wedderburn: Yeah, I guess if it was, even to do with that, I would probably say it makes sense to have two constants then, like, one for the safety decay, and then add, like, a plus four months, or whatever for whatever this other thing we're trying to account for. But yeah, I'm not sure it's that dear.
+
+164
+00:20:11.650 --> 00:20:21.080
+Kevaundray Wedderburn: Yeah, and I gave some links, but I think Prism, Lodestar, and Grandine don't actually do this by default.
+
+165
+00:20:21.290 --> 00:20:26.550
+Kevaundray Wedderburn: If I just copy this… Mmm…
+
+166
+00:20:26.780 --> 00:20:29.070
+Kevaundray Wedderburn: Paste it in here from GitHub.
+
+167
+00:20:31.750 --> 00:20:43.960
+Kevaundray Wedderburn: So I think the Prism one, unless the comment is outdated and I've just not read it properly, is kind of self-explanatory. But yeah, it also seems that Lodestar doesn't do it, and Grandine…
+
+168
+00:20:44.230 --> 00:20:48.119
+Kevaundray Wedderburn: I'm guessing because you don't… you don't really need to, right?
+
+169
+00:20:48.240 --> 00:20:50.260
+Kevaundray Wedderburn: Like, backfill that much.
+
+170
+00:20:58.510 --> 00:21:06.659
+Kevaundray Wedderburn: Yeah, I guess if you don't do it by default, then I don't know if it makes sense for the EL to now be storing 5 months.
+
+171
+00:21:07.320 --> 00:21:09.800
+Kevaundray Wedderburn: Worth of blocks, like,
+
+172
+00:21:09.980 --> 00:21:14.459
+Kevaundray Wedderburn: Yeah, which is why I'm trying to… trying to change this constant, if possible.
+
+173
+00:21:21.220 --> 00:21:23.320
+Kevaundray Wedderburn: Right?
+
+174
+00:21:24.110 --> 00:21:32.389
+Kevaundray Wedderburn: Okay, cool. Yeah, I can make an EIP, just to codify this, to see if… it'll probably be informational, I guess, see if anyone…
+
+175
+00:21:32.670 --> 00:21:52.070
+Kevaundray Wedderburn: has any issues, but, essentially, I was proposing to make it 8192 epochs. I just took the safety decay of 10, doubled it for, like, operational purposes, because in case someone can't make a checkpoint every two weeks or whatever.
+
+176
+00:21:52.460 --> 00:21:55.360
+Kevaundray Wedderburn: And made it a power of two, just…
+
+177
+00:21:55.710 --> 00:22:03.829
+Kevaundray Wedderburn: It's a bit easier to think about, but happy to change it to whatever, but just that 100 doesn't really make any sense.
+
+178
+00:22:05.420 --> 00:22:12.019
+Kevaundray Wedderburn: So it'll be, like, the retention policy would be just 2 times whatever the blob retention policy is, like, one way to think about it.
+
+179
+00:22:13.250 --> 00:22:22.140
+Kevaundray Wedderburn: And the blob retention is, like, roughly around safety decay of 10, but that's not really why we chose it. In retrospect, we could say… we could say it.
+
+180
+00:22:27.870 --> 00:22:28.485
+Kevaundray Wedderburn: Hmm…
+
+181
+00:22:32.640 --> 00:22:33.460
+Kevaundray Wedderburn: Okay.
+
+182
+00:22:33.870 --> 00:22:37.249
+Kevaundray Wedderburn: Cool, yeah, I'll make the EIP, and then,
+
+183
+00:22:37.760 --> 00:22:44.769
+Kevaundray Wedderburn: try to pass it around, and if CLs agree, then we can just have the ELs go down to this constant instead of
+
+184
+00:22:44.990 --> 00:22:48.759
+Kevaundray Wedderburn: Using the safety decay of 10 Consulates that we have.
+
+185
+00:22:49.260 --> 00:22:52.510
+Kevaundray Wedderburn: Which means, yeah, just storing less blocks for, yeah.
+
+186
+00:22:55.480 --> 00:22:57.290
+Justin Traglia: Okay, great, thank you, Kev.
+
+187
+00:22:57.790 --> 00:23:00.440
+Justin Traglia: Yeah, please show the EIP whenever it's ready.
+
+188
+00:23:01.820 --> 00:23:10.050
+Justin Traglia: Luca had a question in the chat about, when we should merge the Beacon API changes.
+
+189
+00:23:10.710 --> 00:23:14.079
+Justin Traglia: Or are there any blockers or open questions left for 6.30?
+
+190
+00:23:14.560 --> 00:23:19.460
+Justin Traglia: nico, would you like to chat about this, or I could just read your comments?
+
+191
+00:23:20.010 --> 00:23:27.020
+Nico Flaig: Yeah, I mean, there was some… so, the major redesign, the last one was last week, I guess.
+
+192
+00:23:27.150 --> 00:23:38.419
+Nico Flaig: But yeah, I'm not sure anyone besides me even reviewed the latest, and I guess Jason, but it would be good if people agree on the… or can have a look at the latest state.
+
+193
+00:23:39.140 --> 00:23:50.969
+Nico Flaig: So I implemented, like, there's the other two PRs, which is… one is on the builder spec, the other one is on the key manager, so I have this fully implemented end-to-end.
+
+194
+00:23:51.540 --> 00:23:59.829
+Nico Flaig: So it seems to check out the whole flow. There's also an implementation guide that Jason has written.
+
+195
+00:24:00.070 --> 00:24:03.290
+Nico Flaig: Which is also helpful in case someone is implementing that.
+
+196
+00:24:03.860 --> 00:24:10.339
+Nico Flaig: So yeah, yeah, once GitHub loads, I guess, we can look into…
+
+197
+00:24:10.710 --> 00:24:13.259
+Nico Flaig: Getting this merged, this week.
+
+198
+00:24:14.030 --> 00:24:19.430
+Nico Flaig: Yeah, I don't… I think they're in a good shape, chasing, right?
+
+199
+00:24:19.790 --> 00:24:22.900
+Nico Flaig: I would have to give it another pass, though.
+
+200
+00:24:23.810 --> 00:24:35.119
+Jason Vranek: Yeah, I think the only outstanding one is on 88. You asked a question if the Get endpoint should return the pub key or not to be consistent with the previous endpoints.
+
+201
+00:24:41.750 --> 00:24:50.540
+Nico Flaig: Yeah, maybe James has an opinion on this. I don't even know why the current APIs do this, to be honest. It's a bit redundant, but yeah.
+
+202
+00:24:52.420 --> 00:24:54.270
+james: Yeah, I, I responded.
+
+203
+00:24:54.650 --> 00:25:03.149
+james: No strong opinions. I think when we first started doing this, PRISM had some restrictions because of…
+
+204
+00:25:03.620 --> 00:25:08.059
+james: this gRPC gateway thing, but it doesn't matter anymore.
+
+205
+00:25:15.270 --> 00:25:19.010
+james: So… so we can include it or not include it?
+
+206
+00:25:20.200 --> 00:25:22.630
+james: J- I guess Jason can make the call.
+
+207
+00:25:31.540 --> 00:25:33.920
+Justin Traglia: Jason says we'll keep it as is, then.
+
+208
+00:25:34.660 --> 00:25:41.890
+Justin Traglia: Cool. On this topic, how are… how are implementations of the DirectBuilder API in clients going?
+
+209
+00:25:42.050 --> 00:25:43.920
+Justin Traglia: Mike, does anyone have this yet?
+
+210
+00:25:48.580 --> 00:25:55.240
+Nico Flaig: Yeah, so in Lodza, I have it implemented end-to-end now, based on the latest spec from Jason.
+
+211
+00:25:56.870 --> 00:26:06.129
+Nico Flaig: I found a few issues with Builder, so there was some outdated API… yeah, I guess nothing… I cannot share anything. It's not loading, but
+
+212
+00:26:06.570 --> 00:26:15.840
+Nico Flaig: So there was some stuff in Builder, the submit Block API, which is now fixed, so it used some stale URL that was there previously.
+
+213
+00:26:16.100 --> 00:26:23.200
+Nico Flaig: So if you use the latest builder image, everything should work if you have it implemented correctly.
+
+214
+00:26:25.420 --> 00:26:26.120
+Justin Traglia: Cool.
+
+215
+00:26:26.750 --> 00:26:30.980
+Justin Traglia: Thanks for the update. James says not end-to-end yet.
+
+216
+00:26:32.250 --> 00:26:38.040
+Justin Traglia: Yeah. Implemented KeyManager 88, but not… 630 Beacon APIs.
+
+217
+00:26:39.070 --> 00:26:45.729
+Justin Traglia: Eitan says that Mark did a full implementation, we just haven't reviewed and merged it yet for Lighthouse.
+
+218
+00:26:46.230 --> 00:26:47.240
+Justin Traglia: That's great.
+
+219
+00:26:48.390 --> 00:26:51.539
+Justin Traglia: Are we gonna try to test this in DevNet 8? I assume we are.
+
+220
+00:26:52.190 --> 00:26:52.960
+Justin Traglia: Right?
+
+221
+00:26:55.930 --> 00:26:58.890
+Justin Traglia: Have we chatted with builders about this as well?
+
+222
+00:27:01.870 --> 00:27:03.799
+Justin Traglia: Or, Nico, you were gonna say something?
+
+223
+00:27:05.010 --> 00:27:17.870
+Nico Flaig: I mean, I at least plan to have this before the fork, so I can see if the transition works around the fork boundary, but also, yeah, I'm not sure there's any builder that is exposing an API to test.
+
+224
+00:27:18.130 --> 00:27:18.670
+Nico Flaig: some…
+
+225
+00:27:18.670 --> 00:27:19.020
+Justin Traglia: Yep.
+
+226
+00:27:19.020 --> 00:27:20.500
+Nico Flaig: Yeah, not sure.
+
+227
+00:27:20.930 --> 00:27:28.640
+Nico Flaig: Ideally, what we want to see is that, there's continuous blocks via the API, and I guess with clause then starting…
+
+228
+00:27:28.990 --> 00:27:32.720
+Nico Flaig: Ideally at clua SLOT 0, I suppose.
+
+229
+00:27:34.250 --> 00:27:35.690
+Justin Traglia: You're hoping to do it.
+
+230
+00:27:36.010 --> 00:27:40.810
+Justin Traglia: Sorry, to be clear, you're hoping to have a direct… Sorry.
+
+231
+00:27:41.300 --> 00:27:46.630
+Justin Traglia: how do I say it? A bid from a direct builder for slot zero after the glass upgrade.
+
+232
+00:27:47.500 --> 00:27:52.610
+Nico Flaig: Yeah, exactly, yeah. So we can test if that works smoothly.
+
+233
+00:27:53.160 --> 00:27:55.850
+Nico Flaig: But yeah, I also noticed there's some, like…
+
+234
+00:27:55.980 --> 00:28:11.470
+Nico Flaig: you need to… like, SLOT 0 will be maybe a bit hard, I'm not sure, because you also need to discover your builder right at the fork boundary, like, you need to see what index you get assigned, so you need to be really quick to submit a bit for slot zero.
+
+235
+00:28:13.420 --> 00:28:19.880
+Nico Flaig: Maybe we are fine with having a local block there, I guess. DFI needs to wait 12 seconds.
+
+236
+00:28:20.990 --> 00:28:24.520
+Justin Traglia: I mean, I would at least like to see a… like a…
+
+237
+00:28:24.660 --> 00:28:30.850
+Justin Traglia: a builder bid for Sot Zero after the upgrade. I'm not sure if it would be direct or… P2P.
+
+238
+00:28:31.780 --> 00:28:33.590
+Justin Traglia: Yeah, that'll be fun to test.
+
+239
+00:28:34.180 --> 00:28:35.289
+Justin Traglia: Or to figure out.
+
+240
+00:28:38.820 --> 00:28:42.640
+Justin Traglia: Sorry to call out names, but, like, Teku, have you guys worked on this at all?
+
+241
+00:28:45.610 --> 00:28:47.179
+Justin Traglia: The DirectBuilder API?
+
+242
+00:28:49.750 --> 00:28:54.640
+Stefan Bratanov: Yeah, a little bit, we're still in progress.
+
+243
+00:28:56.040 --> 00:29:01.030
+Stefan Bratanov: Hopefully… this week or something, we may have some workshop.
+
+244
+00:29:02.360 --> 00:29:03.060
+Justin Traglia: Okay.
+
+245
+00:29:05.050 --> 00:29:07.869
+Justin Traglia: Sounds good. Given…
+
+246
+00:29:08.010 --> 00:29:15.430
+Justin Traglia: So, Nico, given that you've implemented it in Lodestar, do we feel comfortable merging the builder-specs PR related to this?
+
+247
+00:29:15.620 --> 00:29:20.140
+Justin Traglia: Or should we wait, like, another week or two for other clients to implement?
+
+248
+00:29:22.490 --> 00:29:27.300
+Nico Flaig: Yeah, I still need maybe one day to review our implementation.
+
+249
+00:29:27.530 --> 00:29:30.480
+Nico Flaig: A bit more, to feel, like, comfortable.
+
+250
+00:29:30.970 --> 00:29:39.870
+Nico Flaig: But yeah, I think it's in a good shape, so just seeing if there's, like, from others, just some approvals would be nice.
+
+251
+00:29:42.700 --> 00:29:43.280
+Justin Traglia: Yeah.
+
+252
+00:29:47.920 --> 00:29:49.679
+Justin Traglia: Okay, cool,
+
+253
+00:29:50.090 --> 00:29:54.840
+Justin Traglia: That's it for the agenda. Is there anything that we'd like to discuss that's not on the agenda?
+
+254
+00:30:09.280 --> 00:30:14.679
+Justin Traglia: Alright, it was great to chat with you guys, talk to you guys next time.
+
+255
+00:30:14.890 --> 00:30:15.770
+Justin Traglia: I have none.
+
+256
+00:30:19.560 --> 00:30:20.160
+Eitan Seri-Levi: Right.
+
+257
+00:30:20.580 --> 00:30:21.109
+Nico Flaig: See you.
+

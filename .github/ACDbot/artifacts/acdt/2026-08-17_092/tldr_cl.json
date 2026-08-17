@@ -1,0 +1,91 @@
+{
+  "meeting": "ACDT #92 (CL Breakout) - August 17, 2026",
+  "highlights": {
+    "gloas_bug_fix": [
+      {
+        "timestamp": "00:00:47",
+        "highlight": "Fix Builder Payment Weight Double Count bug merged; consensus-breaking but hard to trigger"
+      },
+      {
+        "timestamp": "00:03:27",
+        "highlight": "Bug fix to be included in DevNet 8 images; no new alpha release needed"
+      }
+    ],
+    "gloas_compliance_testing": [
+      {
+        "timestamp": "00:04:07",
+        "highlight": "State transition compliance test suite in progress; model-based, same approach as fork choice suite"
+      },
+      {
+        "timestamp": "00:06:07",
+        "highlight": "Small subset currently running with Teku; full suite expected mid-September"
+      },
+      {
+        "timestamp": "00:07:12",
+        "highlight": "Client teams asked to run existing fork choice compliance tests and report blockers on Discord"
+      }
+    ],
+    "epoch_boundary_reorg": [
+      {
+        "timestamp": "00:09:24",
+        "highlight": "Potuz PR proposes removing epoch-boundary reorg check post-Fulu; Lighthouse already allows such reorgs on mainnet"
+      }
+    ],
+    "historical_block_retention": [
+      {
+        "timestamp": "00:14:49",
+        "highlight": "MIN_EPOCHS_FOR_BLOCK_REQUESTS safety decay of 100 (~5 months) questioned; no clear rationale found"
+      },
+      {
+        "timestamp": "00:21:24",
+        "highlight": "Kev proposes 8192 epochs (2x safety decay of 10) to align with blob retention; Prysm, Lodestar, Grandine don't backfill to 5 months by default"
+      }
+    ],
+    "direct_builder_api": [
+      {
+        "timestamp": "00:23:10",
+        "highlight": "beacon-APIs PR #630 near mergeable; reworked 5 times, needs final review from implementers"
+      },
+      {
+        "timestamp": "00:25:34",
+        "highlight": "Lodestar has DirectBuilder API implemented end-to-end; Lighthouse impl done but unreviewed; Teku in progress; Prysm KeyManager #88 done but not #630"
+      },
+      {
+        "timestamp": "00:27:05",
+        "highlight": "Goal: test direct builder bid at Gloas SLOT 0 on DevNet 8"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:22:37",
+      "action": "Write EIP to codify reduced historical block retention constant (8192 epochs)",
+      "owner": "Kevaundray Wedderburn"
+    },
+    {
+      "timestamp": "00:29:08",
+      "action": "Review and approve beacon-APIs PR #630, builder-spec, and keymanager-APIs PRs so they can merge",
+      "owner": "CL teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:03:27",
+      "decision": "Bug fix (payment weight double count) included in DevNet 8 images; no new spec release required"
+    },
+    {
+      "timestamp": "00:12:33",
+      "decision": "Epoch boundary reorg PR likely to be merged unless client objections raised async"
+    },
+    {
+      "timestamp": "00:25:31",
+      "decision": "beacon-APIs PR #630 Get endpoint keeps pub key in response (as-is)"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:08:07",
+      "target": "Mid-September: Gloas state transition compliance test suite available"
+    }
+  ]
+}
