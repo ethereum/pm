@@ -1,0 +1,1034 @@
+WEBVTT
+
+1
+00:01:46.370 --> 00:01:47.690
+Loring: Hey, everyone.
+
+2
+00:01:54.220 --> 00:01:54.800
+Jannik Luhn: Nope.
+
+3
+00:01:58.830 --> 00:01:59.570
+Gottfried Herold: Hello.
+
+4
+00:02:08.979 --> 00:02:17.229
+Loring: Is EF ZoomBot an actual bot, or is it… A person with a… acute handle.
+
+5
+00:02:20.880 --> 00:02:26.990
+EF Zoom Bot: Hey, this is, Mark, or Woolobim. You're now the host. Just wanted to make sure you could kick it off smoothly.
+
+6
+00:02:27.310 --> 00:02:28.869
+Loring: Oh, wonderful, thank you.
+
+7
+00:02:30.260 --> 00:02:31.629
+EF Zoom Bot: Alright, have a good meeting, y'all.
+
+8
+00:02:50.060 --> 00:02:55.970
+Loring: I know, Justin and Anders are both on holiday.
+
+9
+00:02:56.100 --> 00:03:06.820
+Loring: This week, so the meeting may be a little bit smaller than normal, but we thought
+
+10
+00:03:08.560 --> 00:03:11.859
+Loring: It was important to keep the conversation going.
+
+11
+00:03:12.340 --> 00:03:19.690
+Loring: So we'll wait, just a couple minutes for some folks to join, and then we'll start…
+
+12
+00:03:19.810 --> 00:03:22.479
+Loring: At latest, at 5 past the hour.
+
+13
+00:03:24.660 --> 00:03:30.929
+Loring: And I'll be recording So others can catch up, even if they're not on the call.
+
+14
+00:04:38.790 --> 00:04:39.860
+Loring: What role?
+
+15
+00:04:56.050 --> 00:04:56.455
+Loring: Bye.
+
+16
+00:05:00.010 --> 00:05:01.339
+Loring: Thanks for your time.
+
+17
+00:05:29.680 --> 00:05:30.480
+Loring: What time?
+
+18
+00:05:32.540 --> 00:05:33.000
+Loring: What about
+
+19
+00:05:38.410 --> 00:05:39.219
+Loring: Are you real fun.
+
+20
+00:05:50.700 --> 00:05:53.459
+Loring: I guess we are already recording.
+
+21
+00:05:53.770 --> 00:06:03.600
+Loring: I guess our… friendly EF Bot, started that, so… Let's go ahead.
+
+22
+00:06:03.740 --> 00:06:09.989
+Loring: My name is Loring, and this is Encrypt the Mempool number 9.
+
+23
+00:06:10.420 --> 00:06:23.049
+Loring: As mentioned earlier, some of the regular contributors are not with us this week, so it's a little bit smaller group, but we wanted to keep the conversation going in their absence.
+
+24
+00:06:23.400 --> 00:06:30.339
+Loring: We had a wonderful discussion, last week, particularly about
+
+25
+00:06:30.630 --> 00:06:41.040
+Loring: Enshrinement and about the Validator whitelist approach, and so we wanted to continue on both of those topics.
+
+26
+00:06:41.820 --> 00:06:59.099
+Loring: As you can see, we have 3 points on the agenda. The first two are open questions from last week's call. The first, enshrinement. Are we okay with a non-PQ temporary solution?
+
+27
+00:06:59.450 --> 00:07:07.519
+Loring: Number two, regarding the validator whitelist approach, how do we prove, number one, withholding?
+
+28
+00:07:07.800 --> 00:07:14.210
+Loring: And number two, key selling, and can these proofs be automated?
+
+29
+00:07:14.390 --> 00:07:18.610
+Loring: And then there was a third point added.
+
+30
+00:07:18.930 --> 00:07:27.770
+Loring: About achieving censorship resistance for the original EIP-8105 trusted set, and…
+
+31
+00:07:28.010 --> 00:07:36.819
+Loring: Anders briefly mentions at the end that that also has some implications for the Validator whitelist approach.
+
+32
+00:07:37.700 --> 00:07:45.940
+Loring: Does anyone else have something they'd like to add to the agenda?
+
+33
+00:07:53.280 --> 00:08:02.809
+Loring: Okay, then we will dive in. Starting off with enshrinement, are we okay with a non-PQ temporary solution?
+
+34
+00:08:03.170 --> 00:08:11.869
+Loring: There was a robust conversation last week among some of the cryptographers,
+
+35
+00:08:13.740 --> 00:08:25.500
+Loring: Does anyone have, either a summary of that conversation they could provide, or, some comments regarding the question itself?
+
+36
+00:08:26.570 --> 00:08:40.400
+Gottfried Herold: Well, I mean, I'm not… I don't 100% recall all of the argument that we basically made last time, so this is a bit more on a more personal take. I mean, even to the question itself, I mean…
+
+37
+00:08:40.780 --> 00:08:52.870
+Gottfried Herold: I think it roughly… it very, very strongly depends on what kind of temporary solution you have. I mean, you can have a solution where all of the non-PQ stuff happens essentially off-chain.
+
+38
+00:08:52.910 --> 00:09:08.579
+Gottfried Herold: And, sort of, the protocol itself is not strongly aware of, sort of, one of it, or one where it's very, very strongly enshrined. So, in a way, it depends. I mean, you could have a solution where you say, hey, you have this kind of scheme.
+
+39
+00:09:08.580 --> 00:09:19.300
+Gottfried Herold: And then you basically flip one switch, and then you change to maybe some kind of future PQ-safe scheme, and then everything will work out fine, and the required change is minimal.
+
+40
+00:09:19.300 --> 00:09:24.849
+Gottfried Herold: This is very strongly in contrast if you sort of have to build the whole system up from scratch.
+
+41
+00:09:24.960 --> 00:09:37.370
+Gottfried Herold: a new, with a potentially completely different design for a PQ-safe scheme. And so, I think this kind of question cannot really be decoupled from the question, what design you want at all.
+
+42
+00:09:38.020 --> 00:09:43.669
+Gottfried Herold: That's… that's the unfortunate, well, take on this.
+
+43
+00:09:44.040 --> 00:09:51.089
+Gottfried Herold: Because some schemes are very, very much, much more easy to upgrade to a PQ-safe solution than others.
+
+44
+00:10:05.340 --> 00:10:08.009
+Gottfried Herold: So, I mean, for a more… on a more…
+
+45
+00:10:08.370 --> 00:10:23.610
+Gottfried Herold: Well, well, a bit of a more… put it on the more action-level side. I mean, the question is more, okay, what kind of design do we even want, and sort of how bad is sort of optionality? Do we want to avoid it? Do we even want to use threshold encryption or not?
+
+46
+00:10:23.610 --> 00:10:48.040
+Gottfried Herold: Like, I mean, if you sort of go for some Lucid-style design, which essentially does not strongly have all of this kind of threshold encryption in protocol, or if you do something else which does it, then it sort of very, very strongly depends, and I mean, at the end of the day, what we would need is a security analysis that basically states very precisely what sort of the requirements on the actual encryption scheme, or not encryption scheme, but on the cryptographic
+
+47
+00:10:48.040 --> 00:10:49.500
+Gottfried Herold: Parts of it has.
+
+48
+00:10:49.500 --> 00:10:53.760
+Gottfried Herold: Then you can evaluate, okay, what are the post-quantum alternatives?
+
+49
+00:10:54.820 --> 00:11:12.629
+Gottfried Herold: And how likely do we believe such an alternative to exist at some point in the future? I mean, if it's just that, okay, we have some alternatives in principle, but they are maybe not efficient enough, then it's a very different picture than if we had no idea at all how to build such a thing in a post-quantum secure way.
+
+50
+00:11:13.620 --> 00:11:24.640
+Gottfried Herold: That's… that's basically kind of what it boils down to, I think. So, I think this is sort of a question that should be asked after the design, not sort of in advance.
+
+51
+00:11:27.640 --> 00:11:29.370
+Gottfried Herold: No, that's just my take.
+
+52
+00:11:31.530 --> 00:11:37.310
+Loring: Yeah, as… Jannik, go ahead, I saw you took yourself on… off mute.
+
+53
+00:11:37.310 --> 00:11:49.879
+Jannik Luhn: No, I just wanted to, like, from what I remember from last week, we did discuss that it might make sense to ask the broader Ethereum community first as well, because if…
+
+54
+00:11:50.230 --> 00:12:08.410
+Jannik Luhn: they could say that having anything that's not PQ in the protocol is, like, not an option at all, then that already constrains us a lot, so that might already be valuable information to get even before we start designing anything.
+
+55
+00:12:15.650 --> 00:12:28.649
+Gottfried Herold: Yeah, I mean, the thing is that designing anything sort of… I mean, usually when you design anything, you sort of design, hey, we have this kind of magic black box cryptography, and then you ask later what the, like, how to actually instantiate the black box, so it's kind of…
+
+56
+00:12:29.710 --> 00:12:35.460
+Gottfried Herold: sort of the position. The PQ safety comes light in the design process anyway, but I agree with Jannik.
+
+57
+00:12:35.850 --> 00:12:36.700
+Gottfried Herold: Always.
+
+58
+00:12:40.160 --> 00:12:52.610
+Loring: as a non-cryptographer and as a non-protocol developer, it was a really interesting conversation, and, I would say my summary was
+
+59
+00:12:52.800 --> 00:12:56.189
+Loring: There were kind of 3 questions which are…
+
+60
+00:12:56.370 --> 00:12:58.869
+Loring: would help us answer this question.
+
+61
+00:12:59.260 --> 00:13:11.449
+Loring: And Gottfried, I think you mentioned the last on my list, but the other two are, how much time and effort would it take Ethereum core developers to implement
+
+62
+00:13:11.640 --> 00:13:15.219
+Loring: the non-PQ temporary solution.
+
+63
+00:13:15.870 --> 00:13:24.509
+Loring: The second question is, how long will that non-PQ temporary solution remain effective?
+
+64
+00:13:24.800 --> 00:13:33.780
+Loring: And there was a lot of interesting conversation there about how soon can we expect PQ,
+
+65
+00:13:34.320 --> 00:13:46.759
+Loring: whether, the public Mempool would be a juicy, target for someone with that computing power. And if it was attacked,
+
+66
+00:13:47.010 --> 00:14:04.899
+Loring: would an attack be detectable, and what would be the fallback, in case of attack? And I think those are all interesting questions which, we probably just scratched the surface on and did not reach any conclusions on. And then, the third
+
+67
+00:14:05.140 --> 00:14:23.689
+Loring: question, which Gottfried mentioned, is how difficult would it be to transition from a non-PQ temporary solution to a PQ, more permanent solution? And I think there's both a technical question there, but also
+
+68
+00:14:23.710 --> 00:14:41.040
+Loring: an experience and learning question there as well. Maybe some of the work done on the non-PQ temporary solution would be relevant and informative, for implementing the PQ more permanent solution.
+
+69
+00:14:42.240 --> 00:14:49.500
+Loring: Feel free to correct me if I got anything wrong, but… For a layperson's summary,
+
+70
+00:14:50.260 --> 00:14:51.790
+Loring: That's what I took away.
+
+71
+00:14:52.070 --> 00:14:53.620
+Gottfried Herold: Yeah, that's perfectly correct.
+
+72
+00:14:57.890 --> 00:15:00.440
+Gottfried Herold: But I mean, all of these questions depend on the scheme.
+
+73
+00:15:00.800 --> 00:15:05.969
+Gottfried Herold: There are the answers to all of… most of these questions depend on the scheme, of course, or how you use
+
+74
+00:15:06.130 --> 00:15:07.829
+Gottfried Herold: Sort of the encryption.
+
+75
+00:15:19.020 --> 00:15:24.979
+Loring: Any additional comments regarding that before we move on to the next topic?
+
+76
+00:15:30.690 --> 00:15:37.639
+Loring: Okay, next we'll, pick up on the conversation regarding the Validator whitelist.
+
+77
+00:15:39.170 --> 00:15:52.280
+Loring: Jannik has prepared some additional, information, which begins to tackle the questions, how do we prove withholding and key selling, and can these proofs be automated?
+
+78
+00:15:52.750 --> 00:15:55.559
+Loring: So I'll hand it over to Jannik.
+
+79
+00:15:56.750 --> 00:16:00.050
+Jannik Luhn: Yeah, so,
+
+80
+00:16:00.530 --> 00:16:05.970
+Jannik Luhn: Loring is showing the table here I created after the discussion we had in the previous call.
+
+81
+00:16:07.420 --> 00:16:15.770
+Jannik Luhn: I try to understand them better for myself and organize it a little bit better for me, and maybe it's helpful for others too. I split it…
+
+82
+00:16:15.770 --> 00:16:28.840
+Jannik Luhn: I call them now confidentiality and availability attacks, instead of, key selling and withholding attacks. Confidentiality, because it's more broad than just key selling,
+
+83
+00:16:28.970 --> 00:16:31.939
+Jannik Luhn: I mean, the point is that the key is then not,
+
+84
+00:16:31.980 --> 00:16:50.419
+Jannik Luhn: yeah, secret anymore. It could be the committee itself that's, that's using the key. They could sell the key as a whole, they could sell key shares, they could sell even individual decrypted transactions, and I think confidentiality is, yeah, covers that a little bit better. And then withholding, I think, is a fine name, but…
+
+85
+00:16:50.630 --> 00:16:52.720
+Jannik Luhn: In… to keep it, kind of…
+
+86
+00:16:52.820 --> 00:17:00.879
+Jannik Luhn: analogous to confidentiality, I called it availability attack, basically meaning that the key is not available at the time when it's supposed to.
+
+87
+00:17:00.950 --> 00:17:19.000
+Jannik Luhn: Yeah, and to the two questions, how to detect it and what to do about it, there's two, rows in the bottom. I think the content we already discussed in the previous call, basically, availability is detected by the protocol itself via timeless committees, so we can do…
+
+88
+00:17:19.060 --> 00:17:24.899
+Jannik Luhn: Yeah, slashing economic penalties, we can remove the,
+
+89
+00:17:25.099 --> 00:17:33.579
+Jannik Luhn: the mechanism automatically, or the publisher automatically, if you want to. So that's relatively easy.
+
+90
+00:17:33.810 --> 00:17:42.479
+Jannik Luhn: the confidentiality attack is in general, I think, yeah, undetectable. Maybe in some cases, depending on the protocol, there are…
+
+91
+00:17:42.590 --> 00:17:58.429
+Jannik Luhn: like, things like snitching proofs, or, maybe you can slash them for… if you get ahold of someone's key share, but in general, these don't really work, or as circumventable by, using TEs, for example, or other mechanisms.
+
+92
+00:17:58.730 --> 00:18:10.300
+Jannik Luhn: So, I think we just have to live with them, basically, and then mitigate them via, yeah, social accountability, reputation, and large setups.
+
+93
+00:18:10.340 --> 00:18:27.460
+Jannik Luhn: But also, it's not that big of a deal, because the victims of confidentiality in this one-line affected parties there is basically only the user who explicitly chose, this particular key publisher, so it's bounded the, kind of.
+
+94
+00:18:27.850 --> 00:18:39.140
+Jannik Luhn: the risk, whereas the availability attack is much, much larger. A set of people are affected, even people who did not choose this key publisher.
+
+95
+00:18:39.310 --> 00:18:48.499
+Jannik Luhn: For instance, transactions that come afterwards, in a block, or arguably even the protocol as a whole, because, the…
+
+96
+00:18:49.030 --> 00:18:52.930
+Jannik Luhn: Yeah, the chain gets spammed a little bit, because…
+
+97
+00:18:53.130 --> 00:19:02.799
+Jannik Luhn: People want to make use of the optionality they get from running this availability tech, but they can only do this very inefficiently, so a lot of space is wasted by that.
+
+98
+00:19:02.810 --> 00:19:18.609
+Jannik Luhn: But yeah, fortunately, since we can detect it automatically in the protocol, this is much easier to mitigate. So, yeah, nothing new there, just basically the summary of the, of what I took away from the conversation we had in the previous
+
+99
+00:19:18.880 --> 00:19:19.949
+Jannik Luhn: previous time.
+
+100
+00:19:25.660 --> 00:19:31.379
+Loring: And would it be correct to say that, kind of, the ultimate mitigation would be
+
+101
+00:19:31.620 --> 00:19:34.910
+Loring: Exclusion from the whitelist.
+
+102
+00:19:35.370 --> 00:19:39.130
+Loring: Thus preventing them from providing keys?
+
+103
+00:19:41.250 --> 00:19:58.199
+Jannik Luhn: Yes, yeah. I mean, ideally, you prevent it in advance, that's kind of the idea of slashing, right? That you make it expensive so that it doesn't happen in the first place. If you have to exclude them after the fact, it's arguably already too late, depending on the,
+
+104
+00:19:58.380 --> 00:20:03.170
+Jannik Luhn: the impact the attack had. But yeah,
+
+105
+00:20:04.220 --> 00:20:10.539
+Jannik Luhn: That's kind of the idea of the whitelist, that they only select, key publishers that are,
+
+106
+00:20:10.970 --> 00:20:20.060
+Jannik Luhn: Yeah, expected to behave correctly, and if they behaved incorrectly in the past, that's a good sign that they won't do that in the future and should be removed.
+
+107
+00:20:21.830 --> 00:20:37.030
+Jannik Luhn: either manually, via the whitelist mechanism that the validators just say, remove them, like, they don't vote on them anymore, or, as I said, in that case of availability attacks, that might even be automated if,
+
+108
+00:20:37.820 --> 00:20:49.180
+Jannik Luhn: yeah, I guess we would still need some sort of threshold there that a single, accidental non-reveal, or even maybe censorship by some committee doesn't lead to that, but…
+
+109
+00:20:50.670 --> 00:20:53.070
+Jannik Luhn: Yeah, in theory, it could be automated.
+
+110
+00:21:08.320 --> 00:21:18.490
+Jannik Luhn: Personally, I'm quite happy with that, state so far. The main question I have for the whitelist is, is it acceptable by the community to,
+
+111
+00:21:18.890 --> 00:21:29.070
+Jannik Luhn: put this responsibility on the belly data set to vote on… to either vote directly on key publishers and select them, or to, select a committee that does that.
+
+112
+00:21:29.820 --> 00:21:38.530
+Jannik Luhn: Both might be… Yeah, there's arguments against either of these, you know, options.
+
+113
+00:21:49.200 --> 00:21:49.950
+Loring: Oh, wow.
+
+114
+00:21:54.560 --> 00:22:10.640
+Loring: Does anyone have thoughts on… this table on the acceptability of the mitigation strategies, or… giving…
+
+115
+00:22:10.880 --> 00:22:13.760
+Loring: That additional role to validators.
+
+116
+00:22:21.760 --> 00:22:24.530
+Gottfried Herold: I mean, who else should have that role, right?
+
+117
+00:22:28.830 --> 00:22:34.099
+Jannik Luhn: So it could be, in theory, also, ETH holders. We could do,
+
+118
+00:22:35.680 --> 00:22:40.949
+Jannik Luhn: kind of a coin vote, but I think that's way worse, to be honest.
+
+119
+00:22:40.950 --> 00:22:43.600
+Gottfried Herold: Yeah, yeah, it's much harder to sort of do…
+
+120
+00:22:43.930 --> 00:22:54.110
+Gottfried Herold: do in practice. I mean, you need, in order to, sort of, for the deterrent to be meaningful, you need to be… it needs to be kind of somewhat hard to get into the whitelist.
+
+121
+00:22:56.340 --> 00:22:57.580
+Gottfried Herold: So, yeah.
+
+122
+00:22:58.820 --> 00:23:07.269
+Gottfried Herold: And at any rate, I mean, most of our… most of all ETHIN circulation is staked anyway, or not most, but a significant fraction is staked anyway.
+
+123
+00:23:08.270 --> 00:23:10.890
+Jannik Luhn: So the difference is not… not as big.
+
+124
+00:23:10.940 --> 00:23:11.640
+Gottfried Herold: Yeah.
+
+125
+00:23:16.490 --> 00:23:22.509
+Jannik Luhn: I mean, briefly, I also thought about could we just let each, proposer make that choice?
+
+126
+00:23:22.860 --> 00:23:26.169
+Jannik Luhn: But that's also very annoying, because, then…
+
+127
+00:23:26.730 --> 00:23:31.020
+Jannik Luhn: You have, like, potentially very differing, sets of…
+
+128
+00:23:31.730 --> 00:23:45.930
+Jannik Luhn: key publishers, and maybe if you choose the wrong one, it takes a long time for you to get accepted. And if you're a key publisher, you need to convince every individual Validator, basically, to accept you. So, I think that's also impractical, and I think Validator voting's the…
+
+129
+00:23:46.170 --> 00:23:48.020
+Jannik Luhn: By far the most sensible choice.
+
+130
+00:23:49.990 --> 00:23:50.750
+Loring: Oh, boy.
+
+131
+00:24:08.370 --> 00:24:15.630
+Loring: Jannik, you said regarding confidentiality attacks that the…
+
+132
+00:24:17.830 --> 00:24:25.170
+Loring: Damage is bounded because users can choose which of the whitelisted
+
+133
+00:24:25.330 --> 00:24:30.919
+Loring: Key publishers they would like to use, and…
+
+134
+00:24:31.140 --> 00:24:44.460
+Loring: by choosing a particular key publisher, they are kind of accepting the risks which come with that key publisher and their stated model and their track record.
+
+135
+00:24:45.130 --> 00:24:47.469
+Loring: We know that a lot of the
+
+136
+00:24:48.180 --> 00:24:55.090
+Loring: users do not do their own research and go more on vibes alone.
+
+137
+00:24:55.220 --> 00:25:01.529
+Loring: Could you imagine a situation where a…
+
+138
+00:25:01.850 --> 00:25:11.090
+Loring: Key publisher regularly engaged in confidentiality attacks, allowing them to frontrun or sandwich.
+
+139
+00:25:11.330 --> 00:25:18.460
+Loring: But because they had sufficiently good marketing, or maybe,
+
+140
+00:25:19.350 --> 00:25:25.450
+Loring: Connections to, popular, players.
+
+141
+00:25:26.170 --> 00:25:33.229
+Loring: that… They would not, have that social accountability.
+
+142
+00:25:36.500 --> 00:25:40.919
+Gottfried Herold: I mean, it's kind of what happened in what's usually called Encatification, right?
+
+143
+00:25:41.340 --> 00:25:58.039
+Gottfried Herold: outside of the Ethereum world. Something… somebody used to be reputable, but I don't know, business models change, and then they basically drop out of their… of their game and sort of try to take some profit with them, as they basically drop out from being socially reputable.
+
+144
+00:26:02.300 --> 00:26:04.159
+Jannik Luhn: Yeah, I mean, true, can happen.
+
+145
+00:26:04.860 --> 00:26:05.420
+Gottfried Herold: Yeah.
+
+146
+00:26:06.140 --> 00:26:27.010
+Gottfried Herold: I mean, my expectation would be for the choice of, sort of, provider, would be that wallets come basically pre-configured with a set of… with a default set. That would be the expectation they would see in reality. Probably wallet providers, maybe hardware wallets or whatever, would pro… might actually do such a service themselves.
+
+147
+00:26:27.010 --> 00:26:35.790
+Gottfried Herold: And sort of hardwire their own provider into their sold… into the wallets they sell, into their products, in particular for hardware wallets.
+
+148
+00:26:35.840 --> 00:26:38.760
+Gottfried Herold: It's kind of a reasonable business model, actually.
+
+149
+00:26:38.930 --> 00:26:45.210
+Gottfried Herold: To sort of default or nudge people into this… into using their services this way.
+
+150
+00:26:49.530 --> 00:26:57.620
+Jannik Luhn: you could make the same argument, Loring what you said about, private Mempools as well. They kind of…
+
+151
+00:26:58.210 --> 00:27:09.619
+Jannik Luhn: their value propositions that you don't get Frontrun if you use them. They already achieved pretty big, I'm not sure if monopoly is the right term, but,
+
+152
+00:27:09.620 --> 00:27:11.459
+Gottfried Herold: You know, legal police policies.
+
+153
+00:27:11.460 --> 00:27:18.330
+Jannik Luhn: So they would be in a position to do that, to kind of, I don't know, front-run every 10th transaction, or…
+
+154
+00:27:18.560 --> 00:27:26.040
+Jannik Luhn: front-run 10% of their, yeah, extract 10% of their front-running potential, and they won't do that.
+
+155
+00:27:26.040 --> 00:27:30.449
+Gottfried Herold: Yeah, I mean, the question is, in some sense, very, very strongly tied to the… I think.
+
+156
+00:27:30.480 --> 00:27:47.339
+Gottfried Herold: to the, moating or to the market design to sort of enter the whitelist. Because the question is, I mean, okay, if things go down, how easy is it for a newcomer to enter the market in case a legally of, sort of, bad, decryption services actually goes rogue?
+
+157
+00:27:47.990 --> 00:28:04.649
+Gottfried Herold: And this is strongly tied to how the actual market or the voting mechanism for whitelist inclusion works. I mean, do you vote on each individual whitelist participant individually, or do you vote on sets of them? And there is a lot of questions, actually, for this design, and I think
+
+158
+00:28:04.760 --> 00:28:06.030
+Gottfried Herold: It matters a lot.
+
+159
+00:28:08.660 --> 00:28:13.930
+Jannik Luhn: Okay, interesting. I always thought the voting mechanism, like, the details don't matter too much, but…
+
+160
+00:28:14.340 --> 00:28:38.750
+Gottfried Herold: Yeah, I mean, if you say you vote on a whole set of things… I mean, the problem is if you vote on… this is the set of whitelisted addresses, then the problem is that if you have, I don't know, 20 different candidates, you have 2 to the 20 different options, which means that a single mo… if you sort of go with a single minority, or a simple minority, then actually, basically you don't… you might not need a whole… a big fraction of total
+
+161
+00:28:38.750 --> 00:28:43.150
+Gottfried Herold: Each stake to get your wish… your wish set in, for instance.
+
+162
+00:28:44.460 --> 00:28:44.960
+Jannik Luhn: Cool.
+
+163
+00:28:44.960 --> 00:29:02.070
+Gottfried Herold: So, yeah, you have to sort of… or you do some kind of ranked voting, you want… I mean, what's the threshold? Do you want… you don't… it's not clear you want the best of those to get in. I mean, how do you do it? You propose something, and if at least 50% of E sort of says, hey, yeah, this is a good… a good, sort of set, then yes, I get in.
+
+164
+00:29:02.410 --> 00:29:15.880
+Gottfried Herold: But that also means that most… since most validators might not care about this, and I mean, a lot of these validators run actually in some automated stuff, I mean, I don't know, an at-home staker, maybe you get a future where at-home staking becomes much more…
+
+165
+00:29:15.880 --> 00:29:29.950
+Gottfried Herold: present, let's say we do change issuance or whatever happens, the whole sort of staking, landscape might change in the future. You have a lot of home stakers, and I mean, your regular home staker does not want to care about, hey, there is this new, I don't know.
+
+166
+00:29:29.950 --> 00:29:37.360
+Gottfried Herold: company which provides decryption services, hey, please vote for us, all of this needs to be done manually, they just want their hardware to run, and…
+
+167
+00:29:37.370 --> 00:29:51.929
+Gottfried Herold: And not deal with it manually. So it's kind of hard to get people to vote at all. Not so much to vote pro or con, it's hard to sort of get people to vote at all. So how do you actually do your set quora for this? Do you not do… there's a lot of questions, actually, here.
+
+168
+00:29:52.920 --> 00:29:55.549
+Jannik Luhn: Yeah, so maybe I should, try to…
+
+169
+00:29:57.240 --> 00:30:05.780
+Jannik Luhn: write this down a little bit, to the options we have there. Intuitively, I would say, yes, we do want to have delegation to avoid this, so that home stickers don't have to make that choice.
+
+170
+00:30:07.280 --> 00:30:25.109
+Jannik Luhn: And for the voting mechanism itself, I would have said, each vote is independent, and there can be an infinite number of publishers, so… and as long as one key publisher, or each one gets more than 50%, they get accepted. Because I don't really see,
+
+171
+00:30:25.110 --> 00:30:32.589
+Gottfried Herold: 50% of… okay, so you just have yes votes or no vote, and you want… you need a 50% of all. You don't have… you don't have against votes.
+
+172
+00:30:32.900 --> 00:30:34.570
+Gottfried Herold: And not war room.
+
+173
+00:30:34.570 --> 00:30:38.800
+Jannik Luhn: No, like, no vote is against… Okay. Always.
+
+174
+00:30:39.370 --> 00:30:40.630
+Jannik Luhn: To keep it simple.
+
+175
+00:30:40.630 --> 00:30:45.839
+Gottfried Herold: So, but this means you cannot, sort of, remove people from the whitelist, right?
+
+176
+00:30:46.510 --> 00:30:50.190
+Jannik Luhn: You can buy… I mean, it has to be, kind of,
+
+177
+00:30:51.780 --> 00:31:02.699
+Jannik Luhn: I mean, the Validator set potentially changes, so it always has to be updated anyways, right? So, kind of, the past N validators, are the set of voters.
+
+178
+00:31:03.090 --> 00:31:09.460
+Jannik Luhn: And in that, they… maybe they're more with every blog that they publish.
+
+179
+00:31:11.200 --> 00:31:15.910
+Gottfried Herold: Well, so you mean you re-vote, so you basically keep voting?
+
+180
+00:31:15.910 --> 00:31:16.410
+Jannik Luhn: Yeah.
+
+181
+00:31:16.410 --> 00:31:20.460
+Gottfried Herold: Not just for changes. Now, that's a lot of bandwidth, potentially, but okay.
+
+182
+00:31:20.630 --> 00:31:21.550
+Jannik Luhn: That's true.
+
+183
+00:31:22.300 --> 00:31:27.130
+Jannik Luhn: Okay, yeah, I see that's a good point. I should, think more about this, and…
+
+184
+00:31:28.550 --> 00:31:31.400
+Jannik Luhn: Yeah, write something down for the next call.
+
+185
+00:31:33.120 --> 00:31:35.080
+Loring: Couple of related questions.
+
+186
+00:31:35.920 --> 00:31:48.709
+Loring: Jannik, did you have… A ideal number of key publishers, or a maximum number of key publishers in mind?
+
+187
+00:31:50.930 --> 00:32:10.180
+Jannik Luhn: So, I don't think there should be a maximum number, I don't see why there should be, as long as… I mean, the only, like, from the protocol perspective, the only thing that matters is, that the key publishers don't engage in these availability attacks, and any, key publisher that doesn't do that can be accepted.
+
+188
+00:32:11.560 --> 00:32:14.020
+Jannik Luhn: I don't see a reason why that should be limited.
+
+189
+00:32:15.210 --> 00:32:19.310
+Jannik Luhn: Yeah, from a pers… like…
+
+190
+00:32:19.420 --> 00:32:25.260
+Jannik Luhn: Competition is always good, so the more the merrier. How many it's going to be in practice.
+
+191
+00:32:25.530 --> 00:32:26.539
+Jannik Luhn: I don't know.
+
+192
+00:32:27.870 --> 00:32:30.299
+Jannik Luhn: Probably not too many, maybe 5.
+
+193
+00:32:35.930 --> 00:32:37.530
+Loring: and would…
+
+194
+00:32:41.670 --> 00:32:51.030
+Loring: I'm not sure exactly how to phrase this, but the gist of it is, should the validators have…
+
+195
+00:32:51.480 --> 00:32:57.360
+Loring: preferences about… Who should…
+
+196
+00:32:57.460 --> 00:33:03.620
+Loring: Be a key provider, or what type of key provider should be accepted above and beyond
+
+197
+00:33:03.820 --> 00:33:12.310
+Loring: just a commitment not to engage in availability or withholding of tax. For example,
+
+198
+00:33:13.040 --> 00:33:15.669
+Loring: Should there be a preference for…
+
+199
+00:33:16.290 --> 00:33:25.279
+Loring: Key providers which provide the service as a public good, as opposed to, doing it on a commercial basis.
+
+200
+00:33:25.710 --> 00:33:32.159
+Loring: Should there be a preference against key provider or key publishers?
+
+201
+00:33:32.500 --> 00:33:33.900
+Loring: Which are…
+
+202
+00:33:34.250 --> 00:33:45.769
+Loring: also run by a wallet which has a tight coupling? Or do you see that, validators should just kind of certify
+
+203
+00:33:46.440 --> 00:33:51.430
+Loring: They don't engage in availability attacks, that's good enough, we don't think about anything else.
+
+204
+00:33:53.060 --> 00:34:01.860
+Jannik Luhn: I would say the latter, to make it as easy as possible for them, and that's already difficult enough, I think, to predict in the first place.
+
+205
+00:34:02.180 --> 00:34:03.290
+Jannik Luhn: In advance.
+
+206
+00:34:08.320 --> 00:34:17.160
+Gottfried Herold: I mean, from a protocol perspective, the thing that we want to defend the protocol against is essentially someone basically just making a new
+
+207
+00:34:17.350 --> 00:34:30.260
+Gottfried Herold: basically decryption service for each individual transaction, and then withholding or not, basically doing an optionality attack. That's basically the attack that you want to defend against. So the barriers can and should be actually very low.
+
+208
+00:34:34.420 --> 00:34:35.620
+Jannik Luhn: Yeah, I agree.
+
+209
+00:34:41.639 --> 00:34:47.859
+Gottfried Herold: And then selection of the actual, sort of, service providers, you know, done by economic… Means.
+
+210
+00:34:50.420 --> 00:34:52.699
+Jannik Luhn: I mean, there could even be, an…
+
+211
+00:34:53.110 --> 00:35:00.489
+Jannik Luhn: like I mentioned, slashing is possible for, for recording.
+
+212
+00:35:00.990 --> 00:35:14.779
+Jannik Luhn: And there could be an optional stake, and new key publishers might have to put a lot of stake up there so that… to convince validators, which can then be reduced over time once they've gained trust by the validator set.
+
+213
+00:35:15.520 --> 00:35:18.210
+Jannik Luhn: So that might be another parameter to take into account.
+
+214
+00:35:19.360 --> 00:35:27.639
+Gottfried Herold: Yeah, slashing for withholding is a bit problematic, because then, basically some kind of blackout, or some internet outage, or this is sort of…
+
+215
+00:35:28.080 --> 00:35:30.919
+Gottfried Herold: Sort of puts a high operational risk.
+
+216
+00:35:33.150 --> 00:35:36.800
+Jannik Luhn: Yeah, but I mean, these are supposed to be professional, it's not like,
+
+217
+00:35:36.800 --> 00:35:37.300
+Gottfried Herold: That's.
+
+218
+00:35:37.300 --> 00:35:39.359
+Jannik Luhn: Not the equivalent of a homestaker.
+
+219
+00:35:39.620 --> 00:35:40.660
+Gottfried Herold: True, true.
+
+220
+00:35:50.130 --> 00:35:52.959
+Loring: Any other questions or comments?
+
+221
+00:35:53.680 --> 00:35:54.960
+Loring: on this topic.
+
+222
+00:36:02.320 --> 00:36:16.820
+Loring: So the final agenda item for today is achieving censorship resistance for the original EIP-8105, trusted set, and Anders provided this
+
+223
+00:36:17.980 --> 00:36:23.919
+Loring: Note… Looks like it was last edited a week ago.
+
+224
+00:36:26.210 --> 00:36:33.370
+Loring: I have not actually had the time to review it, so I can't provide a summary.
+
+225
+00:36:33.890 --> 00:36:37.639
+Loring: But if anyone on the call has reviewed it.
+
+226
+00:36:37.980 --> 00:36:46.630
+Loring: and would like to give a summary, that would be wonderful. Unfortunately, Andres is on holiday this week, so he's not here to share it himself.
+
+227
+00:36:53.270 --> 00:36:58.020
+Jannik Luhn: Yeah, maybe we can do that next story, next time, when he's back, to…
+
+228
+00:36:58.670 --> 00:37:01.860
+Jannik Luhn: Give him the opportunity to, to present it.
+
+229
+00:37:09.970 --> 00:37:18.979
+Loring: In that case, I will just point out that the link is here in the GitHub issue, and invite all of you to take a look
+
+230
+00:37:19.250 --> 00:37:22.900
+Loring: And reply… here.
+
+231
+00:37:26.030 --> 00:37:31.339
+Loring: Did any additional topics come to mind during the course of the discussion?
+
+232
+00:37:44.190 --> 00:37:49.160
+Loring: In that case, I think we'll… we will keep the meeting short for today.
+
+233
+00:37:49.290 --> 00:38:02.119
+Loring: Thank you to everyone who joined us, and, if you are interested in joining the Encrypt the Mempool, MarComms working group.
+
+234
+00:38:02.120 --> 00:38:13.239
+Loring: That will happen one week from today, at the same time, and if you are interested in joining the next Encrypt the Mempool tech working group.
+
+235
+00:38:13.340 --> 00:38:19.309
+Loring: That will happen in, 2 weeks from today at the same time.
+
+236
+00:38:19.750 --> 00:38:23.089
+Loring: mercy, I see you have your hand up, please.
+
+237
+00:38:23.440 --> 00:38:28.649
+Boma: Yeah, sorry, sorry I joined late. I wanted to also point out about the SL spec.
+
+238
+00:38:29.200 --> 00:38:33.329
+Boma: In case anyone wants to review that also.
+
+239
+00:38:39.290 --> 00:38:41.459
+Gottfried Herold: Can you point to what exactly you mean?
+
+240
+00:38:42.080 --> 00:38:43.690
+Boma: Okay, let me gather link.
+
+241
+00:38:44.930 --> 00:38:46.300
+Loring: Is it this one?
+
+242
+00:38:54.180 --> 00:38:58.640
+Boma: No, it's, the EEO spec I opened,
+
+243
+00:38:59.790 --> 00:39:00.570
+Loring: Oh.
+
+244
+00:39:02.440 --> 00:39:04.210
+Loring: Yes, wonderful.
+
+245
+00:39:18.320 --> 00:39:20.509
+Boma: Yeah, I shared the link in the chat.
+
+246
+00:39:21.270 --> 00:39:25.900
+Loring: Wonderful. Let me just copy that and bring it up for everyone to see.
+
+247
+00:39:33.000 --> 00:39:34.729
+Loring: Yes, go ahead.
+
+248
+00:39:41.570 --> 00:39:51.889
+Boma: No, I just wanted to point it out that it's still open, in case maybe it's… there is… should be an update so that I can update it or anything, or someone wants to review it in general.
+
+249
+00:39:53.550 --> 00:39:55.799
+Boma: It's still in basic trough.
+
+250
+00:40:03.100 --> 00:40:06.399
+Loring: Does anyone have a comment or an update?
+
+251
+00:40:20.060 --> 00:40:32.970
+Loring: Okay, I think that it's probably best to bring this up as part of the next call, when Justin is back, since he has been doing a lot of the project management aspects
+
+252
+00:40:33.070 --> 00:40:44.470
+Loring: for the Encrypt the Mempool, but it's wonderful to see that, Justin Traglia, has been contributing, alongside you, Mercy.
+
+253
+00:40:44.920 --> 00:40:49.149
+Loring: It's great to see that this is advancing.
+
+254
+00:41:05.920 --> 00:41:11.530
+Loring: Is there anything else anyone would like to share or discuss on the call?
+
+255
+00:41:20.470 --> 00:41:32.070
+Loring: In that case, have a wonderful Wednesday, and see you all in one week for the MarComms Working Group, and in two weeks for the next Tech Working Group.
+
+256
+00:41:33.110 --> 00:41:35.459
+Loring: Have a great day. Thank you for joining.
+
+257
+00:41:36.260 --> 00:41:37.270
+Anthony: Thank you.
+
+258
+00:41:37.690 --> 00:41:38.870
+Jannik Luhn: Bye-bye, thank you.
+
