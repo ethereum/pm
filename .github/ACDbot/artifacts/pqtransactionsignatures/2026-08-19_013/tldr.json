@@ -1,0 +1,71 @@
+{
+  "meeting": "Post Quantum Transaction Signature (PQTS) Breakout #13 - August 19, 2026",
+  "highlights": {
+    "circle_pq_transition_concerns": [
+      {
+        "timestamp": "00:05:47",
+        "highlight": "Circle's primary concern: ecosystem fragmentation across 30 blockchains leading to incompatible PQ signature schemes"
+      },
+      {
+        "timestamp": "00:08:23",
+        "highlight": "Hot wallets sign 30K\u201370K tx/day; stateful schemes (e.g. XMSS) require key rotation and are operationally unacceptable"
+      },
+      {
+        "timestamp": "00:09:52",
+        "highlight": "SLH-DSA preferred (stateless); 200K gas cost is concern but can be mitigated via ERC-3009 batching"
+      },
+      {
+        "timestamp": "00:15:01",
+        "highlight": "Circle deployed SLH-DSA (SHA-2) precompile on ARC testnet; deferring parameter choices pending Ethereum alignment"
+      }
+    ],
+    "ec_recover_hotfix_proposal": [
+      {
+        "timestamp": "00:10:52",
+        "highlight": "Proposal: repurpose EC Recover's V byte as a version number; use R/S (64 bytes) as pointers to PQ pubkey/signature in a registry contract"
+      },
+      {
+        "timestamp": "00:12:44",
+        "highlight": "Maintains existing ABI; deployed contracts accepting ECDSA could transition to PQ without code changes"
+      },
+      {
+        "timestamp": "00:21:01",
+        "highlight": "Frame transactions could carry the PQ signature inline, replacing need to pre-register signatures in a table"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:27:33",
+        "highlight": "Antonio to present 13-call PQTS recap at next Thursday's ACDE; will note community leaning toward hash-based over lattice/precompile approach"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:23:21",
+      "action": "Mira to draft EIP formalizing EC Recover hotfix / PQ registry approach, incorporating frame transactions",
+      "owner": "Mira Belenkiy (Circle Research)"
+    },
+    {
+      "timestamp": "00:27:33",
+      "action": "Present PQTS 13-call summary at ACDE; flag shift away from lattice/precompile toward hash-based signatures",
+      "owner": "Antonio Sanso"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:27:59",
+      "decision": "Community sentiment across 13 PQTS calls has moved away from lattice-based schemes and precompiles toward hash-based (stateless) transaction signatures; no formal protocol decision yet \u2014 governance remains with ACDE"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:06:12",
+      "target": "ARC (Circle L1) mainnet launch \u2014 mid-September 2026"
+    },
+    {
+      "timestamp": "00:27:33",
+      "target": "PQTS recap presentation at ACDE \u2014 next Thursday (approx. August 28, 2026)"
+    }
+  ]
+}
