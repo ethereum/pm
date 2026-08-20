@@ -1,0 +1,116 @@
+{
+  "meeting": "ACDC #185 - August 20, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:07:13",
+        "highlight": "DevNet 8 Gloas activation (6h ago) caused non-finality; finalization just recovered; root cause: client caching bug for builder deposits at fork transition (Lighthouse, Prysm, Teku affected)"
+      },
+      {
+        "timestamp": "00:27:29",
+        "highlight": "Sepolia Glamsterdam fork proposed: epoch 351232, slot 11239424, Sep 28 2026 \u2014 no objections raised; decision deferred to next ACDC"
+      },
+      {
+        "timestamp": "00:28:57",
+        "highlight": "Hoodi Glamsterdam fork proposed: epoch 132352, slot 4235264, Oct 26 2026 \u2014 contingent on stable DevNets"
+      },
+      {
+        "timestamp": "00:20:43",
+        "highlight": "Non-finality DevNet targeting week after next; all clients should be on trunk/unstable branches by next week"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:10:34",
+        "highlight": "Lido needs \u22651 day (preferably 2) on a stable DevNet before Glamsterdam activation to test oracles/tooling; Optimism also requested similar testing window"
+      },
+      {
+        "timestamp": "00:23:28",
+        "highlight": "Non-finality DevNet (~1000 nodes) cost-constrained; likely 1\u20131.5 days max; pk910 will repeat mass-deposit stress test there"
+      }
+    ],
+    "client_updates": [
+      {
+        "timestamp": "00:16:07",
+        "highlight": "Lodestar: deposit preprocessing optimization reduced fork-transition time from ~20s to ~500ms; already on trunk"
+      },
+      {
+        "timestamp": "00:14:58",
+        "highlight": "Prysm: builder-deposit cache was removed from branch pre-fork; Bastin's optimization reduces recovery even without cache to one slot"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:33:39",
+        "highlight": "EIP-833 (Align Checkpoint with Epoch Boundary Block): fixes off-by-one in checkpoint root calculation; improves target-vote accuracy; pairs well with quicker slots"
+      },
+      {
+        "timestamp": "00:36:28",
+        "highlight": "EIP-8379 (Engine API Sync Status): lets CL become sole sync source; reduces duplicate block gossip; narrows devp2p scope long-term; optionality rejected as impractical for Engine API"
+      },
+      {
+        "timestamp": "00:42:28",
+        "highlight": "EIP-12188 (Reduced CL Block Retention Window): halves retention constant due to EIP-8061 in Glamsterdam; discussion ongoing \u2014 potuz questions motivation; Dustin mildly open; thread to continue on ETH R&D"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:30:21",
+        "highlight": "EIP-7610 formally cancelled from Glamsterdam (not postponed); superseded by EIP-8253 (PFI Hegota); authors asked to withdraw EIP-7610"
+      },
+      {
+        "timestamp": "00:54:44",
+        "highlight": "Hegota EIP tiering: all client teams to publish first-pass S/A/B/D rankings by mid-September; aim to reach rough consensus before DevCon; use Forkcast ranking tool"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:32:01",
+      "action": "Review and approve Glamsterdam Meta EIP PR (move status draft\u2192review) before merging EIP-7610 removal PR",
+      "owner": "Parithosh Jayanthi (EIP officer)"
+    },
+    {
+      "timestamp": "00:26:15",
+      "action": "Review remote-signing-api PR #28; implement signed auth request for builder API",
+      "owner": "CL client teams"
+    },
+    {
+      "timestamp": "00:54:44",
+      "action": "Publish Hegota EIP tier rankings (S/A/B/D) with rationale by mid-September",
+      "owner": "All client teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:30:21",
+      "decision": "EIP-7610 cancelled from Glamsterdam; not postponed \u2014 superseded by EIP-8253 targeting Hegota"
+    },
+    {
+      "timestamp": "00:23:04",
+      "decision": "Non-finality DevNet targeted for the week after next; all clients must be on trunk/unstable branches first"
+    },
+    {
+      "timestamp": "00:54:23",
+      "decision": "PFI for Hegota: EIP-833 (Align Checkpoint with Epoch Boundary Block), EIP-8379 (Engine API Sync Status); EIP-12188 (Reduced CL Block Retention Window) deferred to ETH R&D discussion"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:27:50",
+      "target": "Sepolia Glamsterdam fork \u2014 Sep 28, 2026 (epoch 351232); pending confirmation at next ACDC"
+    },
+    {
+      "timestamp": "00:28:57",
+      "target": "Hoodi Glamsterdam fork \u2014 Oct 26, 2026 (epoch 132352); contingent on stable DevNets"
+    },
+    {
+      "timestamp": "00:54:44",
+      "target": "Hegota EIP tier rankings from all client teams \u2014 mid-September 2026"
+    },
+    {
+      "timestamp": "00:55:36",
+      "target": "Hegota rough consensus on EIP scope \u2014 before DevCon"
+    }
+  ]
+}

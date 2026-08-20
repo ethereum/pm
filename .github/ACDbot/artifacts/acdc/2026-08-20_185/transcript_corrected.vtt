@@ -1,0 +1,1454 @@
+WEBVTT
+
+1
+00:04:08.730 --> 00:04:09.800
+Parithosh Jayanthi: Blue.
+
+2
+00:04:12.980 --> 00:04:14.100
+Pooja Ranjan: Good morning.
+
+3
+00:05:37.130 --> 00:05:40.030
+Parithosh Jayanthi: We will wait another minute, and then we can start.
+
+4
+00:05:43.830 --> 00:05:46.230
+Pooja Ranjan: Just let us know whenever.
+
+5
+00:05:46.380 --> 00:05:48.319
+Pooja Ranjan: We need to move the stream.
+
+6
+00:06:23.480 --> 00:06:27.430
+Parithosh Jayanthi: Okay, yeah, could you start the stream, and we can get started?
+
+7
+00:06:30.750 --> 00:06:32.020
+Akash | ECH: Yeah, VLA.
+
+8
+00:06:33.100 --> 00:06:34.289
+Parithosh Jayanthi: Awesome, thank you.
+
+9
+00:06:35.610 --> 00:06:51.889
+Parithosh Jayanthi: So, high level, we're gonna talk about, DevNet 8 today, start preparing for testnet, decisions, and then talk about Hegota afterwards, because we didn't get to a couple of EIPs that, were submitted before the…
+
+10
+00:06:51.890 --> 00:06:55.930
+Parithosh Jayanthi: Deadline, so we want to give them a chance to present their EIPs.
+
+11
+00:06:56.420 --> 00:07:06.639
+Parithosh Jayanthi: Yeah, so let's get started. First item on the agenda is, DevNet 8 status. Barnabas or Stefan, do you want to give us an update?
+
+12
+00:07:07.890 --> 00:07:13.589
+Barnabas: Sure. So, dominate was very stable till this morning.
+
+13
+00:07:14.160 --> 00:07:25.300
+Barnabas: when we activated Gloas just a few hours ago, I think about 6 hours ago, and we just have gained back finalization, just a few minutes ago.
+
+14
+00:07:27.180 --> 00:07:35.210
+Barnabas: the… Major issue was that some clients didn't, or, or Heather…
+
+15
+00:07:35.480 --> 00:07:38.969
+Barnabas: Bad implementation of caching of builder deposits,
+
+16
+00:07:39.510 --> 00:07:45.789
+Barnabas: to process them during the fork transition. So, we saw this with Lighthouse, Prysm, and Teku.
+
+17
+00:07:45.970 --> 00:07:54.270
+Barnabas: They all struggled to process the first slot right after we activated glass, because we had about 16,000
+
+18
+00:07:55.210 --> 00:07:56.680
+Barnabas: Builder deposits queued up.
+
+19
+00:07:57.200 --> 00:07:59.999
+Barnabas: to be dequeued on the first lot.
+
+20
+00:08:00.210 --> 00:08:09.020
+Barnabas: So the other client actually managed to process it successfully, and so we only had, like, 50% Issues.
+
+21
+00:08:12.740 --> 00:08:19.520
+Barnabas: Well, Grandine also seemed to have a bug, where they were sending the proposal preferences
+
+22
+00:08:19.620 --> 00:08:22.879
+Barnabas: Before the fork, which triggered a load store bug.
+
+23
+00:08:23.770 --> 00:08:27.560
+Barnabas: Maybe someone from Lodestar can chime in for that?
+
+24
+00:08:31.380 --> 00:08:42.450
+Nico Flaig: Yeah, so for the Grandine one, I think that one, is confirmed. But, so on the Lodestar side, we processed them, and it broke our event stream.
+
+25
+00:08:42.669 --> 00:08:50.610
+Nico Flaig: Which triggered, or which caused us to not submit any bits, at least, like, the builder that was connected to Lodestar.
+
+26
+00:08:50.760 --> 00:09:00.369
+Nico Flaig: And, I think there might be a gossip condition missing where we should check that the proposal preference is not for a precluse proposal slot.
+
+27
+00:09:00.660 --> 00:09:02.310
+Nico Flaig: And just ignore them.
+
+28
+00:09:14.270 --> 00:09:20.999
+Parithosh Jayanthi: Great. Is there any other updates or anything we should discuss right now?
+
+29
+00:09:21.140 --> 00:09:23.580
+Parithosh Jayanthi: For those interested, potuz…
+
+30
+00:09:23.740 --> 00:09:30.579
+Parithosh Jayanthi: Wrote down, put us and Nico both wrote down a bunch of rationale for, why the circuit breaker works the way it does.
+
+31
+00:09:30.760 --> 00:09:37.250
+Parithosh Jayanthi: Besides that, I think fixes are slowly being merged in, so… that
+
+32
+00:09:37.400 --> 00:09:40.129
+Parithosh Jayanthi: Largely addresses the problem for now, right?
+
+33
+00:09:40.530 --> 00:09:43.390
+Parithosh Jayanthi: Are there still any other open topics on Decket 8?
+
+34
+00:09:54.440 --> 00:10:06.780
+Parithosh Jayanthi: Okay, and to address, Dima's point, his concern was that Lido wasn't able to properly test how their oracles and tooling passes, part fork.
+
+35
+00:10:07.420 --> 00:10:21.160
+Parithosh Jayanthi: This is true. So, one thing we're going to plan, in the next weeks is a non-finality network, but what we could do is only start non-finality after the,
+
+36
+00:10:21.540 --> 00:10:31.419
+Parithosh Jayanthi: after the fork. So, maybe, would that work for you guys? Would you be able to deploy Oracle and other tooling on another DevNet?
+
+37
+00:10:32.260 --> 00:10:45.740
+Dima Gusakov | Lido: Yeah, for sure we will. The only question is for how long the DevNet will be live before Glamsterdam. So, we usually need, like, a day or so in the best-case scenario, provided that we…
+
+38
+00:10:46.090 --> 00:11:01.529
+Dima Gusakov | Lido: have available Dev resources, we can arrange for that, but we will need at least a day, preferably maybe two days, before the Glamsterdam would be activated, so that we will have enough time to seed some validators and to run all of this stuff and deploy the protocol, for sure.
+
+39
+00:11:02.320 --> 00:11:10.670
+Parithosh Jayanthi: Okay, yes, we can do that. Optimism also reached out to ask for another location to test before DevNet, so…
+
+40
+00:11:10.890 --> 00:11:14.249
+Parithosh Jayanthi: Yeah, we might be looking at a similar timeline there.
+
+41
+00:11:14.860 --> 00:11:32.720
+Parithosh Jayanthi: Cool, we'll keep you in the loop. We won't, shock announce it or anything. The main downside might just be that this would be a very big network, so there will be a lot of validators. We might have to do Genesis deposit, we might need to include you in the Genesis state, but we can chat about that.
+
+42
+00:11:36.520 --> 00:11:39.720
+Parithosh Jayanthi: Anything else?
+
+43
+00:11:39.930 --> 00:11:42.050
+Parithosh Jayanthi: What do I need at night.
+
+44
+00:11:42.410 --> 00:11:49.939
+Parithosh Jayanthi: Yeah, I mean, the new DevNet would be open, it'll be a regular public DevNet, but yes.
+
+45
+00:11:50.260 --> 00:11:54.490
+Parithosh Jayanthi: We would also like to see a successful fork before we head to test nets.
+
+46
+00:12:01.640 --> 00:12:04.530
+Parithosh Jayanthi: Anything else DevNet 8 related?
+
+47
+00:12:12.460 --> 00:12:13.240
+Parithosh Jayanthi: Okay.
+
+48
+00:12:13.240 --> 00:12:13.640
+Barnabas: Good Vega.
+
+49
+00:12:14.090 --> 00:12:18.320
+Barnabas: To give us an update, or… Why did they fail?
+
+50
+00:12:22.040 --> 00:12:28.929
+Parithosh Jayanthi: Yeah. Do we want to go client by client? Is someone from Prysm or Lighthouse available to start?
+
+51
+00:12:31.990 --> 00:12:36.959
+Eitan Seri-Levi: Yeah, on Lighthouse's side, we had implemented the…
+
+52
+00:12:37.100 --> 00:12:42.909
+Eitan Seri-Levi: Optimizations for builder deposits before the fork, but we merged that change
+
+53
+00:12:43.180 --> 00:12:47.160
+Eitan Seri-Levi: Like, a few hours before the… the network forked, and we…
+
+54
+00:12:47.710 --> 00:12:52.210
+Eitan Seri-Levi: Had a implementation issue where deposits that came in
+
+55
+00:12:52.350 --> 00:12:55.289
+Eitan Seri-Levi: Before this feature was added to the fork weren't getting cached.
+
+56
+00:12:55.450 --> 00:13:05.279
+Eitan Seri-Levi: So that's what screwed us. And then right now, I noticed that we have some nodes that are still, taking a while to sync, and we had Optimistic Sync disabled, so I just…
+
+57
+00:13:05.400 --> 00:13:08.850
+Eitan Seri-Levi: Enabled it, and hopefully that will speed things up there.
+
+58
+00:13:14.690 --> 00:13:17.420
+Parithosh Jayanthi: Awesome. Prysm next?
+
+59
+00:13:17.930 --> 00:13:18.980
+Parithosh Jayanthi: Or Teku?
+
+60
+00:13:25.460 --> 00:13:27.330
+Stefan Bratanov: I can go for Teku.
+
+61
+00:13:27.780 --> 00:13:28.910
+Parithosh Jayanthi: Yeah, please do.
+
+62
+00:13:29.220 --> 00:13:33.510
+Stefan Bratanov: Yeah, so basically, we had an issue where…
+
+63
+00:13:33.910 --> 00:13:38.299
+Stefan Bratanov: We're still investigating that, but for some reason, one block was taking…
+
+64
+00:13:38.490 --> 00:13:41.690
+Stefan Bratanov: Very long time to do the DHX.
+
+65
+00:13:42.080 --> 00:13:44.809
+Stefan Bratanov: And in the background, we also have a…
+
+66
+00:13:45.410 --> 00:13:51.369
+Stefan Bratanov: Like, a running, thing which checks, basically, if sync has stored.
+
+67
+00:13:51.620 --> 00:14:07.499
+Stefan Bratanov: And it detected the truth, like, we were importing a couple of blocks, and it took a very long time, so we abort this batch of blocks, and then it was just… the same DI check took a long time, and we have, like, a queue of this DI check, so…
+
+68
+00:14:07.730 --> 00:14:15.260
+Stefan Bratanov: every DHX takes longer and longer, because there's still one in progress, which was aborted earlier, so…
+
+69
+00:14:15.630 --> 00:14:33.649
+Stefan Bratanov: Yeah, we're working on a fix now, but essentially, from what I saw, I saw a couple of notes which basically recover after 3-4 hours, so… that's why I asked Barnabas to restart all the tech notes, which hopefully should fix things, but at the same time, we're working on a fix.
+
+70
+00:14:38.270 --> 00:14:58.439
+potuz: So I think Terrence is not here, so I'll just mention a few things that he said elsewhere. One is that the cash for the builder deposit, this was something that was taken out of the branch, so it didn't have it. I don't really understand why. It was one of these things that we were measuring whether or not it was worth it.
+
+71
+00:14:58.440 --> 00:15:13.019
+potuz: to keep that cache. The idea of having this extra deposit would just avoid this type of caches, and I think that was the reason why it was removed. But anyways, we had the branch, we just pushed it. But also, there was an optimization that,
+
+72
+00:15:13.020 --> 00:15:13.810
+potuz: that…
+
+73
+00:15:13.810 --> 00:15:29.050
+potuz: even without the cache, it should have taken just one slot to recover, instead of almost an hour. Like, we finished processing these things in over an hour, and Bastin just put out an optimization that just reduced that, even without the cache, to just one slot.
+
+74
+00:15:29.220 --> 00:15:37.519
+potuz: I think the nodes are stable now, and they're working. It also didn't help that, because of the spec changes at the last moment.
+
+75
+00:15:37.520 --> 00:15:49.610
+potuz: then branches were being pushed right before the fork, and this was after the deposits already entered in, so that's essentially what affected the lighthouse, and I think also present.
+
+76
+00:15:56.610 --> 00:16:03.259
+Parithosh Jayanthi: Awesome, thank you. Do we have, Lodestar or Nimbus want to say anything else?
+
+77
+00:16:07.190 --> 00:16:26.060
+Nico Flaig: So for Lodestar, it was… I didn't see any issue. There was some optimization I pushed yesterday, which, I had not updated all nodes. Some I ran myself, I didn't update. That… that optimization got us down to, like, 500 MS,
+
+78
+00:16:26.420 --> 00:16:35.719
+Nico Flaig: From, like, 20 seconds, so all the PandaOps nodes had the optimization, so the fork transition for us took, like, half a second, basically.
+
+79
+00:16:40.080 --> 00:16:45.050
+Dustin: Yeah, I'll, I'll, I'll… Nimbus, similarly…
+
+80
+00:16:45.150 --> 00:16:49.809
+Dustin: Have, no real issues throughout, and…
+
+81
+00:16:50.510 --> 00:16:59.339
+Dustin: when I measured the cache, I used, Dustin Traglia's, Sort of scenarios, ketosis.
+
+82
+00:16:59.580 --> 00:17:05.059
+Dustin: At a larger scale, and it ended up being still that the state transition was sub…
+
+83
+00:17:05.240 --> 00:17:12.249
+Dustin: was something like a half a second, on the more stress test cases. I would imagine it was not more than that here.
+
+84
+00:17:19.530 --> 00:17:26.679
+Parithosh Jayanthi: Awesome. Thank you, PK, do you want to speak to what you talked about?
+
+85
+00:17:27.920 --> 00:17:45.340
+pk910: Yeah, just to the thing that was mentioned, on mainnet, we won't see all the deposits coming in right before the fork. I would expect them in the weeks, or, yeah, months before the fork. So, relying on hot caches inside the processes
+
+86
+00:17:45.980 --> 00:17:48.079
+pk910: Shouldn't work that way, I think.
+
+87
+00:17:57.920 --> 00:17:58.940
+pk910: Yeah, photos?
+
+88
+00:17:59.580 --> 00:18:17.240
+potuz: I don't think we will have months, right? And definitely not… I mean, definitely not months, and I don't think we will have weeks. The timing is such that builders that want to be onboarded at the fork, they need to… relatively closer to the fork deposit.
+
+89
+00:18:17.470 --> 00:18:34.369
+potuz: However, what we don't expect is nodes restarting right before the fork, and essentially not all nodes at the same time restarting right before the fork. So, even this thing of, like, that could be considered a bug, the fact that you don't recache
+
+90
+00:18:34.480 --> 00:18:39.860
+potuz: on startup, I think even that should never happen, so…
+
+91
+00:18:40.270 --> 00:18:44.250
+potuz: Because we don't expect the whole chain to be restarting right before the fork.
+
+92
+00:18:49.270 --> 00:18:50.490
+Parithosh Jayanthi: Alright, Yann Nico?
+
+93
+00:18:52.140 --> 00:19:04.510
+Nico Flaig: Yeah, just regarding the deposits on Mainnet, we have a very long deposit due, so you can… I think even 2 months, almost, before the fork happens, you can already do your builder deposits.
+
+94
+00:19:04.640 --> 00:19:08.230
+Nico Flaig: Maybe PK has better numbers, but yeah, we should not rely on…
+
+95
+00:19:08.230 --> 00:19:09.709
+potuz: It's long right now?
+
+96
+00:19:10.880 --> 00:19:20.079
+Nico Flaig: Yeah, it's like 30… it's like 40,000, right? So, I think… so what Lodestar does is just two epochs before the fork we start preprocessing.
+
+97
+00:19:20.260 --> 00:19:28.999
+Nico Flaig: So… because you're also right, like, users will, restart their clients quite, like, maybe 2 weeks before the fork, so…
+
+98
+00:19:29.120 --> 00:19:31.879
+Nico Flaig: I wouldn't rely on that timing, to be honest.
+
+99
+00:19:31.880 --> 00:19:45.689
+potuz: Yeah, so that's… that's what we do. We also, like, processed them before, now with this cache, but… and I think it's just kind of use… useless to try to recache on startup, because we don't expect all nodes to be starting right before the fork.
+
+100
+00:19:46.970 --> 00:19:49.160
+Barnabas: Well, but it wasn't right before the fork.
+
+101
+00:19:49.400 --> 00:19:54.069
+Barnabas: Like, Prysm was restarted maybe 8 hours before the fork. That's not, like, right.
+
+102
+00:19:54.070 --> 00:19:56.900
+potuz: No, we didn't… in this branch, we didn't even have the cache.
+
+103
+00:19:57.030 --> 00:20:05.839
+potuz: But but the notes that didn't have the recaching is because they just started after the deposits were coming in.
+
+104
+00:20:06.760 --> 00:20:10.119
+potuz: The deposits came in, like, 10 hours before the fork, right?
+
+105
+00:20:23.520 --> 00:20:29.960
+Parithosh Jayanthi: Okay, anything else to add to this discussion? If not, I guess we're gonna take it on ETH R&D?
+
+106
+00:20:35.660 --> 00:20:36.370
+Parithosh Jayanthi: Okay.
+
+107
+00:20:36.600 --> 00:20:43.450
+Parithosh Jayanthi: Next item on the agenda was, when we had the non-finality DevNet,
+
+108
+00:20:43.640 --> 00:20:53.889
+Parithosh Jayanthi: Are there untriage things left on this network that we should wait for, or does it feel like all the fixes, the cache fixes, etc, are what people want for the non-finality network?
+
+109
+00:20:54.920 --> 00:21:01.879
+Parithosh Jayanthi: Do clients have an opinion on that? Like, if we were to have a non-finality network next week, would that be too early?
+
+110
+00:21:17.780 --> 00:21:28.719
+Parithosh Jayanthi: Can we just go client by client? I'm gonna give, let's say, two, options. One is, next week, and the one, next option's the week after.
+
+111
+00:21:29.060 --> 00:21:42.310
+Parithosh Jayanthi: And yeah, to Barnabas' point, I guess stable cache implementations, as well as, ideally trunk branches would be perfect, so that we're already testing what would go out to the public later next month.
+
+112
+00:21:43.280 --> 00:21:46.020
+Parithosh Jayanthi: Maybe we start with Lighthouse, Prysm.
+
+113
+00:21:46.590 --> 00:21:48.719
+Parithosh Jayanthi: And then go to the other plants.
+
+114
+00:22:03.940 --> 00:22:13.030
+Parithosh Jayanthi: Lighthouse or Prysm. Would you have all of the changes for DevNet 8 implemented in your unstable branches by next week, or the week after?
+
+115
+00:22:13.810 --> 00:22:16.400
+Eitan Seri-Levi: Yeah, we'll have it by next week.
+
+116
+00:22:17.520 --> 00:22:18.639
+Parithosh Jayanthi: Prison?
+
+117
+00:22:19.600 --> 00:22:20.509
+potuz: We have them.
+
+118
+00:22:22.200 --> 00:22:23.750
+Parithosh Jayanthi: Okay, Teku?
+
+119
+00:22:23.910 --> 00:22:26.219
+Parithosh Jayanthi: Nimbus, Lodestar?
+
+120
+00:22:28.170 --> 00:22:30.699
+Stefan Bratanov: Yeah, we're already on master for…
+
+121
+00:22:30.920 --> 00:22:35.519
+Stefan Bratanov: Currently, so we should be… we should be good for next week.
+
+122
+00:22:37.880 --> 00:22:45.429
+Nico Flaig: Yeah, we have it merged, and it was tested on DevNet 8, so right now, I don't think we need to do any further optimizations.
+
+123
+00:22:48.370 --> 00:22:53.770
+Dustin: Nimbus is already on its, trunk branch, unstable for definite aid.
+
+124
+00:22:55.420 --> 00:23:04.360
+Parithosh Jayanthi: Awesome. So, let's try and target next week, and if not, yeah, Grandine, what about you guys? Are you on your unstable branch, or not?
+
+125
+00:23:04.520 --> 00:23:16.130
+Saulius Grigaitis | Grandine: Not yet. Yeah, we are, we are still on dedicated branch, but, next week, hopefully, we will merge it to the main branch.
+
+126
+00:23:21.080 --> 00:23:28.549
+Parithosh Jayanthi: Okay, perfect. So, ideally, by next week, everyone's got their trunk branches, and then we have,
+
+127
+00:23:30.860 --> 00:23:34.099
+Parithosh Jayanthi: Yeah, and then the week after, we could have the DevNet.
+
+128
+00:23:35.590 --> 00:23:36.320
+Parithosh Jayanthi: Just…
+
+129
+00:23:38.520 --> 00:23:51.119
+Parithosh Jayanthi: To Chris's point, I think on the non-dev… non-finality DevNet, that's going to be extremely hard. The main reason is because we're going to run roughly a thousand nodes on this network.
+
+130
+00:23:51.810 --> 00:24:01.990
+Parithosh Jayanthi: we just can't run it for a period of one, two weeks before we finish all the testing, purely due to the cost of it. But it sounds like
+
+131
+00:24:02.690 --> 00:24:07.200
+Parithosh Jayanthi: there might be some space for just another DevNet that…
+
+132
+00:24:07.400 --> 00:24:14.539
+Parithosh Jayanthi: It's not non-finality and basically small, that everyone can deploy stuff and we can let it run for a while.
+
+133
+00:24:23.450 --> 00:24:27.860
+Parithosh Jayanthi: Is there, some specific thing that,
+
+134
+00:24:28.960 --> 00:24:34.679
+Parithosh Jayanthi: That you want to check? Okay, I guess it's just, about the happy path with finality.
+
+135
+00:24:42.790 --> 00:24:43.520
+Parithosh Jayanthi: Okay.
+
+136
+00:24:44.050 --> 00:24:52.010
+Parithosh Jayanthi: I think we'll have to discuss this and come up with a plan. We'll… we'll let you know, what the approach is. Either…
+
+137
+00:24:52.030 --> 00:25:06.640
+Parithosh Jayanthi: We keep a slightly longer non-finality network, but we'd have to check if we can spend that kind of money on it. I don't think in any world it'll be a week, but, yeah, we could probably do a day or a day and a half.
+
+138
+00:25:07.090 --> 00:25:12.220
+Parithosh Jayanthi: If not, we might have to do a smaller network, so everyone gets to test their happy path as well.
+
+139
+00:25:19.660 --> 00:25:25.570
+Parithosh Jayanthi: Okay, does the plan work for everyone? Maybe to potuz's point,
+
+140
+00:25:26.780 --> 00:25:35.700
+Parithosh Jayanthi: Yeah, but I think the non-finality network is also meant as a way to give us some confidence that we can start scheduling testnets.
+
+141
+00:25:36.020 --> 00:25:41.479
+Parithosh Jayanthi: And start our progress towards MeanNet. So, the longer we just use DevNet branches, the less it's…
+
+142
+00:25:41.980 --> 00:25:44.359
+Parithosh Jayanthi: Code that we intend to ship on mainnet.
+
+143
+00:26:01.010 --> 00:26:08.310
+Parithosh Jayanthi: Okay, please keep an eye on ETH R&D, and then we can, send some timelines and calendar.
+
+144
+00:26:09.290 --> 00:26:11.430
+Parithosh Jayanthi: There was one,
+
+145
+00:26:11.540 --> 00:26:21.560
+Parithosh Jayanthi: API change that, Patches asked if we can get merged in. It's the Glamsterdam changes for the remote signing API.
+
+146
+00:26:21.980 --> 00:26:28.490
+Parithosh Jayanthi: Are there any big blockers, or has any client team got a chance to… Look into this?
+
+147
+00:26:45.260 --> 00:26:49.689
+Parithosh Jayanthi: Okay, seems like it's still missing stuff,
+
+148
+00:26:49.930 --> 00:26:53.599
+Parithosh Jayanthi: But yeah, would be nice if client teams can…
+
+149
+00:26:53.850 --> 00:26:57.169
+Parithosh Jayanthi: Review and start implementing remote sign-off stuff, too.
+
+150
+00:27:01.940 --> 00:27:02.700
+Parithosh Jayanthi: Awesome.
+
+151
+00:27:04.100 --> 00:27:20.609
+Parithosh Jayanthi: Next item on the agenda was, trying to see if we can start aligning on dates for testnets. I know that the DevNet today didn't necessarily go as expected, but it's still a really nice edge case test. We have a bunch of plans for,
+
+152
+00:27:20.790 --> 00:27:29.070
+Parithosh Jayanthi: other networks we're going to test on as well, and we don't have to decide the date today, but I wanted to at least float an idea of a date that we can start aligning on.
+
+153
+00:27:29.260 --> 00:27:43.280
+Parithosh Jayanthi: The proposal was to potentially do Sepolia first. The main reason is that the really public-facing change that would affect a lot of users on Ethereum today is repricings, and Sepolia is a DAP
+
+154
+00:27:43.440 --> 00:27:49.629
+Parithosh Jayanthi: focused DevNet, TestNet, so it would actually help a lot of people to test their repricing changes on.
+
+155
+00:27:49.890 --> 00:27:59.000
+Parithosh Jayanthi: The proposal is to do, the fork on 28th of September, so basically over a month from now.
+
+156
+00:27:59.950 --> 00:28:07.230
+Parithosh Jayanthi: At least process-wise, we want to keep plenty of time from choosing the date to actually having the release, so…
+
+157
+00:28:07.340 --> 00:28:14.850
+Parithosh Jayanthi: wanted to at least start aligning on a date. Are there any initial concerns to proposing this date, or…
+
+158
+00:28:15.000 --> 00:28:19.110
+Parithosh Jayanthi: Are clients more or less okay with aligning on this and deciding in, like, 2 weeks?
+
+159
+00:28:20.540 --> 00:28:22.599
+Parithosh Jayanthi: So, basically, at the next ACDC.
+
+160
+00:28:40.260 --> 00:28:44.430
+Parithosh Jayanthi: Okay, if anyone has objections, then…
+
+161
+00:28:44.580 --> 00:28:53.480
+Parithosh Jayanthi: please bring them on ET R&D, or, next week at ACDE, or the week after ACDC, we'd like to make the decisions.
+
+162
+00:28:53.660 --> 00:29:06.409
+Parithosh Jayanthi: It's also extremely early to choose this, but the proposal was to then have Hoodi, end of October, so that would still give us plenty of time to see how Sepolia pans out.
+
+163
+00:29:06.410 --> 00:29:21.139
+Parithosh Jayanthi: If there's any, changes that we want to make in, we would be able to make changes and then schedule Hoodi for end of October. Also a date we don't really have to decide right now, but I wanted to at least start aligning us on a shipping timeline.
+
+164
+00:29:23.290 --> 00:29:28.449
+Parithosh Jayanthi: And yes, agreed with, Kingy that all of this depends on, like, getting stable dev nets and…
+
+165
+00:29:28.570 --> 00:29:31.849
+Parithosh Jayanthi: All the Devs being happy with their trunk branches and so on.
+
+166
+00:29:38.040 --> 00:29:41.780
+Parithosh Jayanthi: Okay, are there any comments,
+
+167
+00:29:46.050 --> 00:29:55.099
+Parithosh Jayanthi: Okay, there's a comment from Dima that he would like to have both, dates a bit later, like a week or so, to have more time for the pending Detna testing.
+
+168
+00:29:55.560 --> 00:29:59.400
+Parithosh Jayanthi: Yeah, I can find what the proposed…
+
+169
+00:30:00.180 --> 00:30:07.050
+Parithosh Jayanthi: Epochs might be if it's a week later, but yeah, we don't have to make the decision today. We can still see how DevNets go in the next two weeks.
+
+170
+00:30:11.620 --> 00:30:12.430
+Parithosh Jayanthi: Awesome.
+
+171
+00:30:12.700 --> 00:30:21.300
+Parithosh Jayanthi: There is, of course, one still, open item for Glamsterdam. Jocham, do you want to talk about EIP7610 removal?
+
+172
+00:30:21.920 --> 00:30:31.409
+jochem-brouwer: Yes, so on the ACDT of Monday, we talked in the EL record call about EIP 7610.
+
+173
+00:30:31.610 --> 00:30:36.970
+jochem-brouwer: So, this EIP is about… Let me find the title.
+
+174
+00:30:37.270 --> 00:30:53.159
+jochem-brouwer: This EIP is about to revert the creation in case of non-empty storage. This is… yeah, but I don't have to go into details. We decided to remove this from Glamsterdam. This is not a spec change, because this specifies behavior, but…
+
+175
+00:30:53.290 --> 00:30:55.530
+jochem-brouwer: Can impact this never happen?
+
+176
+00:30:55.690 --> 00:31:13.610
+jochem-brouwer: And after many debates, we settled that we don't want to do this, because implementing this thing leads to, well, performance… well, I would not say performance issues, but clients have to implement something which affects the performance of clients, and it's not necessary.
+
+177
+00:31:13.610 --> 00:31:21.320
+jochem-brouwer: So, to, to answer FOCIL's question, is it excluded? Yes, but postponed
+
+178
+00:31:21.340 --> 00:31:27.680
+jochem-brouwer: No, because we have EIP8283, PFI is
+
+179
+00:31:27.990 --> 00:31:30.609
+jochem-brouwer: Wait, so let me find the correct one. Is it this one?
+
+180
+00:31:30.940 --> 00:31:31.870
+jochem-brouwer: Sorry.
+
+181
+00:31:32.460 --> 00:31:43.949
+jochem-brouwer: Yes, we have EIP8253 for PFI via Hegota, and this directly solves this problem, because this ensures that no accounts
+
+182
+00:31:44.110 --> 00:31:48.150
+jochem-brouwer: of the type which EIP7610 targets are into the state tree.
+
+183
+00:31:48.330 --> 00:31:52.879
+jochem-brouwer: So, well, this, that removes that entire concept.
+
+184
+00:31:53.050 --> 00:32:01.959
+jochem-brouwer: So I wanted to signal that, and I also wanted to bring it up here, because we need to formally sign this off here to remove it. But again, this is not a spec change.
+
+185
+00:32:04.760 --> 00:32:08.609
+Parithosh Jayanthi: Great. Does anyone have any objection to removing the EIP?
+
+186
+00:32:15.240 --> 00:32:24.750
+Parithosh Jayanthi: Okay, then, I've seen that there's already a draft PR, we should be able to approve it and officially remove the EIP from Amsterdam.
+
+187
+00:32:24.980 --> 00:32:38.520
+jochem-brouwer: Yes. Sorry, one final thing, because before you approve that PR, because you can approve that because you are one of the officers of the Gemstone Meta EIP, please first, review
+
+188
+00:32:38.630 --> 00:32:48.920
+jochem-brouwer: And if all looks fine, approve this PR, which I just, opposed, because this moves the, status of the Glamsterdam EIP from draft to review.
+
+189
+00:32:48.980 --> 00:33:00.199
+jochem-brouwer: And it needs an offer of the EIP sign-off, but we need that approval, so please check the EIP, and if all looks fine, please approve it, because then we can move this EIP to review. Thank you.
+
+190
+00:33:01.390 --> 00:33:03.480
+Parithosh Jayanthi: Okay, perfect. Thank you so much.
+
+191
+00:33:04.910 --> 00:33:08.350
+Parithosh Jayanthi: Do we have any other Glamsterdam topics for today?
+
+192
+00:33:14.390 --> 00:33:15.230
+Parithosh Jayanthi: Okay.
+
+193
+00:33:15.620 --> 00:33:34.899
+Parithosh Jayanthi: Then let's move on to Hegota. We have a couple of proposals that we didn't get to at the last call. So the first one is EIP833 from WeMeetAgain. Do you want to talk about a line checkpoint with EPOC boundary block?
+
+194
+00:33:36.440 --> 00:33:37.380
+cayman: Yeah, sure.
+
+195
+00:33:38.340 --> 00:33:39.680
+Parithosh Jayanthi: Yeah, go ahead, cayman.
+
+196
+00:33:39.980 --> 00:33:44.719
+cayman: Okay, I posted a little slide in the chat, but I'll keep it brief.
+
+197
+00:33:45.050 --> 00:33:48.329
+cayman: So basically this EIP moves the checkpoint route
+
+198
+00:33:49.060 --> 00:33:55.879
+cayman: The calculation for the checkpoint route to the boundary block leading up to the checkpoint epoch, instead of the
+
+199
+00:33:56.290 --> 00:33:58.509
+cayman: First block of the epoch.
+
+200
+00:33:58.800 --> 00:34:03.000
+cayman: This fixes, like, a long-standing off-by-one error.
+
+201
+00:34:03.290 --> 00:34:17.739
+cayman: in the checkpoint calculation. So if you think about, like, what is finalizing, or what… which epoch is finalizing in the protocol, it actually currently means we're finalizing only the first block of the epoch, just based on…
+
+202
+00:34:18.500 --> 00:34:23.960
+cayman: How we currently do things, it's… it's a little… it's a little confusing, and
+
+203
+00:34:24.090 --> 00:34:29.560
+cayman: There's a practical benefit to the CIP. It can help improve the target vote accuracy.
+
+204
+00:34:30.050 --> 00:34:34.870
+cayman: So, this suffers on the first slot of an epoch, because when a late block arrives.
+
+205
+00:34:35.030 --> 00:34:37.250
+cayman: Not only does the… is the head
+
+206
+00:34:37.730 --> 00:34:41.289
+cayman: Vote impacted, the target vote is also impacted.
+
+207
+00:34:41.719 --> 00:34:48.879
+cayman: So I think this EIP might pair nicely with the quicker slots, since it relaxes the timing for target voting.
+
+208
+00:34:50.510 --> 00:34:51.610
+cayman: That's it.
+
+209
+00:34:57.060 --> 00:34:58.389
+Parithosh Jayanthi: Awesome. Thank you.
+
+210
+00:34:58.890 --> 00:35:03.120
+Parithosh Jayanthi: Are there any questions or comments?
+
+211
+00:35:15.400 --> 00:35:16.150
+Parithosh Jayanthi: Okay.
+
+212
+00:35:17.200 --> 00:35:19.290
+Parithosh Jayanthi: Thank you very much,
+
+213
+00:35:21.460 --> 00:35:26.039
+Parithosh Jayanthi: Yeah, if there's no comments, then we can move on to the next EIP.
+
+214
+00:35:27.200 --> 00:35:31.280
+Parithosh Jayanthi: The next one being proposed is,
+
+215
+00:35:31.750 --> 00:35:34.750
+Parithosh Jayanthi: Engine API sync status from TerSec.
+
+216
+00:35:40.690 --> 00:35:47.859
+Dustin: Hi, yeah, yeah. So, I have, I have a… slide, A…
+
+217
+00:35:49.050 --> 00:35:54.359
+Dustin: slide that I can hopefully, Put up here,
+
+218
+00:35:54.920 --> 00:35:58.249
+Dustin: We'll see, but, but, like, I'll, I'll, I'll,
+
+219
+00:35:59.580 --> 00:36:02.660
+Dustin: I'll put it somewhere otherwise, if not.
+
+220
+00:36:02.820 --> 00:36:09.910
+Dustin: But in any case… Oh, I can share, window…
+
+221
+00:36:11.080 --> 00:36:17.210
+Dustin: Yeah, okay, sorry, I'm sorry, I'm… Hopefully people see this.
+
+222
+00:36:17.530 --> 00:36:19.940
+Dustin: I don't know, it's a… Resolution?
+
+223
+00:36:19.940 --> 00:36:24.249
+Parithosh Jayanthi: It's… it's a bit smaller… yeah, okay, this is perfect. Thank you.
+
+224
+00:36:24.250 --> 00:36:27.880
+Dustin: Okay, great, yeah. Great. Alright.
+
+225
+00:36:28.940 --> 00:36:34.109
+Dustin: So… This addresses a bit of a…
+
+226
+00:36:35.020 --> 00:36:42.159
+Dustin: So this has a couple of broad purposes, and one of them is that, sort of, in the mean…
+
+227
+00:36:42.410 --> 00:36:59.999
+Dustin: it both fixes some… some issue where, for example, on unstable, networks, and obviously we've just seen an example of that today, but also, especially more highly forked networks. So today, we didn't see that as much. It was not finalizing, but it was not very forked.
+
+228
+00:37:00.090 --> 00:37:19.170
+Dustin: But on Hoeshky, on some other highly fork networks, for the network to recover, both the CL and EL have to find peers on their fork. So, this has proven problematic with many forks, because you only need one of those to fail, and then neither can fully recover.
+
+229
+00:37:19.440 --> 00:37:20.480
+Dustin: for example.
+
+230
+00:37:21.130 --> 00:37:24.120
+Dustin: The other aspect is that it also…
+
+231
+00:37:24.640 --> 00:37:36.860
+Dustin: more, sort of, constructively, it means that there's only one sort of gossip of… there's only one sort of block gossip, for example. Right now, it's duplicative.
+
+232
+00:37:37.420 --> 00:37:45.009
+Dustin: and redundant. And yes, it's less, given the, sort of, EPBS, but it's still there.
+
+233
+00:37:45.890 --> 00:37:49.739
+Dustin: There's… there's other advantages, so we have…
+
+234
+00:37:50.820 --> 00:38:00.330
+Dustin: I… in particular, devp2p, right? So… so this is… so Ethereum keeps kind of adding protocols, and… and… and…
+
+235
+00:38:00.450 --> 00:38:03.680
+Dustin: It's been difficult to, kind of.
+
+236
+00:38:03.680 --> 00:38:23.770
+Dustin: simplify the stack overall, and as a longer term, this one can be very clear, adopt this EIP and do nothing with devp2p. I mean, it can just be exactly what it is now, but it opens up the option to kind of start narrowing the scope of what devp2p is relied on for. So, this has a number of aspects,
+
+237
+00:38:23.830 --> 00:38:27.090
+Dustin: And essentially, what it does, it allows a CL to…
+
+238
+00:38:28.810 --> 00:38:35.399
+Dustin: Be the, sort of, sole… sort of be the, the source of truth for the sync in a more holistic way.
+
+239
+00:38:36.310 --> 00:38:49.599
+Dustin: by, essentially distinguishing between… right now, so ELs make it difficult to tell if anything that's not… they don't have pre-state for, they don't have very much information about. Well, if you have,
+
+240
+00:38:50.080 --> 00:39:07.920
+Dustin: And there are other… I want to acknowledge, there are other ETH, etc, ETH Get BlockBy, etc. These are not spec'd very carefully, and the semantics are sometimes a little conflicting. So this, and so this sort of keeps this within the…
+
+241
+00:39:07.920 --> 00:39:10.390
+Dustin: Engine API semantic set.
+
+242
+00:39:10.390 --> 00:39:18.580
+Dustin: And… Makes it, possible for the CL then to… Kind of become…
+
+243
+00:39:19.390 --> 00:39:20.619
+Dustin: The source of…
+
+244
+00:39:21.640 --> 00:39:32.520
+Dustin: of syncing. It doesn't address… you still need something like SnapSick, and I want to say this, it does not, so there's a lot of… this… Yelts has to do SnapSicking regardless. It's not going to sync from Genesis, typically.
+
+245
+00:39:32.870 --> 00:39:39.050
+Dustin: But it can, it can fill gaps. So yeah, that's,
+
+246
+00:39:40.220 --> 00:39:41.620
+Dustin: That's the proposal.
+
+247
+00:39:42.640 --> 00:39:49.810
+Parithosh Jayanthi: Thank you. Barnabas has a question if this could be an optional EIP, similar to a lot of other networking EIPs?
+
+248
+00:39:51.190 --> 00:39:52.070
+Dustin: So…
+
+249
+00:39:52.770 --> 00:40:01.810
+Dustin: the challenge, to some extent, with optional EIPs, specifically in the engine EIPI space, optional anything in the Engine API space.
+
+250
+00:40:01.920 --> 00:40:09.800
+Dustin: Is that the, exchange capability… sorry, exchange capabilities is a talk-to by construction.
+
+251
+00:40:10.050 --> 00:40:17.549
+Dustin: I understand that, that… It has some utility, but at some level, if, if,
+
+252
+00:40:18.050 --> 00:40:24.370
+Dustin: Engine API endpoints are going to be… useful…
+
+253
+00:40:24.370 --> 00:40:45.590
+Dustin: at all, they need to be mandatory. And I'm making this point much more broadly, by the way. I mean, people don't have to agree or disagree beyond this EIP for the purpose of this EIP, but from my perspective, I'm not merely just commenting on this EIP in this regard. The other point I would make here is that
+
+254
+00:40:46.520 --> 00:41:01.809
+Dustin: we are going to be transitioning, and this is not stated in the EIP per se, because the SSZ Engine API is not itself an EIP, so there's a weird dependency ordering there, like, how can you build an EIP on a not-spec, not EIP, so…
+
+255
+00:41:01.980 --> 00:41:03.939
+Dustin: Yep, but…
+
+256
+00:41:04.160 --> 00:41:13.049
+Dustin: realistically, by deployment time, probably, I mean, Hagota, right? We're talking… like, we will probably be using the SSZ Engine API.
+
+257
+00:41:14.120 --> 00:41:25.680
+Dustin: And part of the goal is to have that much more integrated, to simply be part of that Engine API in a way. So, I'm not quite sure… and the… so…
+
+258
+00:41:26.410 --> 00:41:29.029
+Dustin: The optionality seems of limited value to me.
+
+259
+00:41:33.820 --> 00:41:36.759
+Parithosh Jayanthi: Okay, yeah, that makes sense. Thank you.
+
+260
+00:41:38.090 --> 00:41:40.849
+Parithosh Jayanthi: Any other questions or comments for Dustin?
+
+261
+00:41:48.620 --> 00:41:50.910
+Parithosh Jayanthi: Okay, that's perfect. Thank you so much.
+
+262
+00:41:51.460 --> 00:41:53.569
+Parithosh Jayanthi: Could you stop sharing your screen?
+
+263
+00:41:55.910 --> 00:41:58.240
+Dustin: Sorry, yes, moment.
+
+264
+00:41:58.750 --> 00:42:03.579
+Dustin: Let's see here… Sorry. Wait, is it still sharing?
+
+265
+00:42:03.770 --> 00:42:05.360
+Parithosh Jayanthi: No, this is good. Thanks.
+
+266
+00:42:05.360 --> 00:42:06.829
+Dustin: Oh, okay, great, great.
+
+267
+00:42:08.250 --> 00:42:13.810
+Parithosh Jayanthi: Next item on the agenda is, EIP…
+
+268
+00:42:14.030 --> 00:42:21.560
+Parithosh Jayanthi: A3, A3 reduced CL block retention window, from Kev. Do you want to speak to it, Kev?
+
+269
+00:42:23.800 --> 00:42:27.840
+Kevaundray Wedderburn: Yes, let me paste, okay, you've already pasted it.
+
+270
+00:42:28.090 --> 00:42:42.630
+Kevaundray Wedderburn: Oof. Yeah, so this, EIP reduces the CL Brock retention window. The original constant was based on, max safety decay, so basically a safety decay of 100.
+
+271
+00:42:42.650 --> 00:42:55.429
+Kevaundray Wedderburn: Which, if we follow the derivation of this constant faithfully, we actually need to halve the CL block retention window, because we've just introduced 8061 in Glamsterdam.
+
+272
+00:42:55.990 --> 00:43:12.880
+Kevaundray Wedderburn: I try to check what each client was doing with respects to the CL block retention window, and it sort of varies depending on the client. Some clients store more, some clients store less, some clients don't actually have it on by default.
+
+273
+00:43:13.200 --> 00:43:14.130
+Kevaundray Wedderburn: M…
+
+274
+00:43:15.610 --> 00:43:32.589
+Kevaundray Wedderburn: I think it was Prysm Lodestar, and Grandine, but I think Pro just said that PRISM should be backfilling all the way back to the CL Block retention window. So this EIP is just, it's currently informational, to basically standardize on this, the epoch number.
+
+275
+00:43:32.780 --> 00:43:39.369
+Kevaundray Wedderburn: It does match with the epoch number for 8252, which is the reorg retention window.
+
+276
+00:43:40.270 --> 00:43:53.499
+Kevaundray Wedderburn: And I also suggest inside of it that the CL and ELs should store all non-finalized blocks, because there was some feedback that we were using this constant to also store
+
+277
+00:43:53.640 --> 00:43:57.119
+Kevaundray Wedderburn: some backfill of non-finalized block, but I think this is…
+
+278
+00:43:57.410 --> 00:44:05.750
+Kevaundray Wedderburn: A bit footgunny, because if you don't… if you have a finality window that's more than, like, 4 to 5 months, then you just don't have any blocks left.
+
+279
+00:44:08.510 --> 00:44:14.909
+Kevaundray Wedderburn: So that's about it, it's just, it's not a… Super heavy change.
+
+280
+00:44:18.250 --> 00:44:34.060
+Kevaundray Wedderburn: One thing to also note is that the ELs are also using this constant, because some CLs do not store EL data, so they'll… they rely on the EL to store… to store enough blocks for the execution payload.
+
+281
+00:44:41.860 --> 00:44:52.000
+Parithosh Jayanthi: Okay, perfect. Any questions or comments? I think Barnabas also says, he would prefer if we added to any non-finality period.
+
+282
+00:44:55.540 --> 00:44:56.650
+Kevaundray Wedderburn: Right, yeah.
+
+283
+00:45:00.010 --> 00:45:03.030
+Parithosh Jayanthi: Dustin, do you want to expand on your concern?
+
+284
+00:45:03.620 --> 00:45:04.490
+Kevaundray Wedderburn: Consensus.
+
+285
+00:45:04.780 --> 00:45:14.229
+Dustin: Oh, so, yeah, sure. So right now, like, there's a trade-off between, sort of, I mean, I understand we're kind of largely storing a lot of
+
+286
+00:45:14.510 --> 00:45:25.060
+Dustin: old, not very useful blocks from 3, 4, 5 months ago, and even long non-finality periods, or, like, yeah. But…
+
+287
+00:45:25.390 --> 00:45:26.910
+Dustin: in general.
+
+288
+00:45:27.120 --> 00:45:43.520
+Dustin: It's… it's possible to almost statically say that a chain that goes… is non-finalized that long is dead, and what that means is the implementations don't have to have these kind of multi… multiply-gated, sort of, but this is…
+
+289
+00:45:43.580 --> 00:45:49.819
+Dustin: Expire or prune this thing up, but only if it's finalizing.
+
+290
+00:45:50.340 --> 00:45:53.510
+Dustin: And it makes it more predictable,
+
+291
+00:45:53.510 --> 00:46:17.179
+Dustin: And this was actually one thing that was brought up, for example, in terms of… on the EL side, that people liked the idea of a predictable kind of window. So, because one of the… one of the considerations there, because Kev mentioned this, right, was that it's, like, alternative ideas, which was decided against. I personally agree… agree more with the fixed window, sure, but was, like, fork-based. So, you know, you saw the last two forks.
+
+292
+00:46:17.180 --> 00:46:34.460
+Dustin: And people didn't like that. It was very spiky, so, you know, it would go… you would go and then drop all of Elektra all at once, or Pektra all at once, that kind of thing. So, this seems like this would risk bringing some of that back, as opposed to a very smooth window, and so there's maybe a trade-off here?
+
+293
+00:46:36.740 --> 00:46:54.249
+Kevaundray Wedderburn: Right, yeah, so I think the constant is being overloaded right now, right? Because originally, if it's based on the safety decay, it just needs to be a little bit more than, or, I mean, if you want to risk it to be the same as the week's subjectivity period, if we start talking about finality, there is…
+
+294
+00:46:54.460 --> 00:47:04.320
+Kevaundray Wedderburn: this seems like a separate thing. Like, we can say that we'll store 3 months of blocks for finality, or we can say all non-finalized blocks, we store them.
+
+295
+00:47:11.550 --> 00:47:14.449
+Dustin: True, yeah. I mean, it's… it's,
+
+296
+00:47:14.960 --> 00:47:19.879
+Dustin: That's certainly an option. I'm just saying, the trade-off, though, is that it is… it is…
+
+297
+00:47:20.270 --> 00:47:23.030
+Dustin: More… it is more complicated than we have today.
+
+298
+00:47:23.220 --> 00:47:30.960
+Dustin: It is, as far as I know, and again, I'm, you know, I certainly haven't read all the client source code here, but,
+
+299
+00:47:31.300 --> 00:47:35.429
+Dustin: There is no specific finality handling, and it decouples the two.
+
+300
+00:47:35.880 --> 00:47:46.369
+Dustin: And you can say, well, we're kind of mixing the two, but the reason that the two are getting mixed is because you're proposing making this retention period much shorter. One of the advantages, one of the
+
+301
+00:47:46.590 --> 00:47:51.590
+Dustin: Things we get from having a very conservative retention period is not having to care.
+
+302
+00:47:51.840 --> 00:47:57.260
+Dustin: That was my, you know, comment about, you know, at that point, the chain is dead, so it doesn't matter anymore.
+
+303
+00:48:00.470 --> 00:48:17.599
+Kevaundray Wedderburn: Right, yes, I'm okay with having, like, let's say two constants then, is what I was saying. Like, if we want a long retention window, then I don't think it should be based on the safety decay of 100, because that… even that also gets halved, due to AD61.
+
+304
+00:48:19.640 --> 00:48:22.790
+Kevaundray Wedderburn: So, like, we can't just say, yeah, 4 months,
+
+305
+00:48:24.430 --> 00:48:24.950
+Dustin: Okay.
+
+306
+00:48:26.580 --> 00:48:28.040
+Toni Wahrstätter: I don't… I don't think this.
+
+307
+00:48:28.040 --> 00:48:28.570
+Dustin: That's alright.
+
+308
+00:48:28.570 --> 00:48:29.770
+Toni Wahrstätter: It will be halved.
+
+309
+00:48:30.220 --> 00:48:37.779
+Toni Wahrstätter: So I think we're talking about very different constants here. The week's subjectivity period is, as of Glamsterdam, 6 days or something, and…
+
+310
+00:48:38.200 --> 00:48:59.669
+Toni Wahrstätter: the constant we use with the safety decay is 36 days. So this would be on the EL side, this would be the time that we would want ELs to be able to re-og back in case there is no finality. And it feels like we should do something similar on the EL side, so probably my feeling is, like, we should use this safety decay number there.
+
+311
+00:49:10.180 --> 00:49:11.110
+Parithosh Jayanthi: Yeah, apologies.
+
+312
+00:49:13.400 --> 00:49:18.489
+potuz: So on the last point, reorgan on the CL is actually very simple.
+
+313
+00:49:18.680 --> 00:49:25.589
+potuz: What blows up for us when we're not finalizing is constantly reorging.
+
+314
+00:49:26.000 --> 00:49:35.610
+potuz: and jumping from one port to another one constantly. This is what really makes the EL blow up. But making a very long reorg.
+
+315
+00:49:35.610 --> 00:49:47.589
+potuz: just because it happened that there's… there was no synchrony, and then suddenly another chain appeared, and that becomes canonical. That's very simple on our side, and it seems to be more complicated on the EL side.
+
+316
+00:49:47.690 --> 00:49:51.980
+potuz: So… so these two paths are fine to be separated.
+
+317
+00:49:52.440 --> 00:50:02.950
+potuz: Also, I agree with Dustin that the current scenario is we just keep blocks for a very long time, and we set up that long time to be long enough so that we don't worry about
+
+318
+00:50:02.950 --> 00:50:16.680
+potuz: We don't expect not to be finalizing for that long, and we expect that that long time already covers the non-finalizing period, otherwise we anyways would have need the community to get together and solve the problem.
+
+319
+00:50:17.010 --> 00:50:30.159
+potuz: So what I would ask about this proposal is why. I mean, what do we gain by lowering the number of blocks that we will keep on the CL side? Space is not really an issue, we're not really talking about a much disk.
+
+320
+00:50:30.440 --> 00:50:34.170
+potuz: I just don't understand the purpose of this EIP.
+
+321
+00:50:34.280 --> 00:50:41.240
+potuz: Even though it's… it's probably fine, it's probably fine if we just move to 8,000, blocks.
+
+322
+00:50:42.960 --> 00:50:51.719
+potuz: But… I'm sorry, it was an epochs, I think. But still, like, why? Is this… why do we really need to change this?
+
+323
+00:50:55.440 --> 00:51:02.469
+Kevaundray Wedderburn: Yeah, so the original motivation was because the ELs were using it for history expiry, so I was looking at where…
+
+324
+00:51:02.900 --> 00:51:06.100
+Kevaundray Wedderburn: Why it's ready for you, or 4 to 5 months?
+
+325
+00:51:08.500 --> 00:51:16.129
+Kevaundray Wedderburn: And currently, it's… everyone uses a different number either way, or… actually, everyone just doesn't have a default behavior for this.
+
+326
+00:51:16.280 --> 00:51:29.860
+potuz: Yeah, then I will target the EL side of this, and just leave the CL as it is, because it's working now, and it doesn't occupy space, and there's no reason to change the clients for this.
+
+327
+00:51:31.120 --> 00:51:35.429
+potuz: On the EL side, of course. On the EL side, yeah, that's a different story.
+
+328
+00:51:37.200 --> 00:51:47.019
+Kevaundray Wedderburn: The ELs are copying the block retention window for the CLs, because some CLs just don't store the execution payload.
+
+329
+00:52:01.720 --> 00:52:17.910
+Dustin: this is actually one of the stronger points, like, why I do find it at least somewhat motivated, like, and sort of some tolerance for it introduces some complexity because we have to care about the finalization. I think, because it has the,
+
+330
+00:52:18.000 --> 00:52:31.850
+Dustin: compensating, decreasing complexity for having to care about edge cases where the retention is differing between the CL and EL for a number of cases, both the ones Kev has talked about and some others.
+
+331
+00:52:39.940 --> 00:52:52.240
+Kevaundray Wedderburn: But I mean, just to bring up, one previous point, if we say that it's Freddy 3000 epochs, then we're also implicitly saying it's fine that if…
+
+332
+00:52:53.510 --> 00:52:59.389
+Kevaundray Wedderburn: If the period of non-finality goes beyond 4-5 months, then it's just, like, we're done.
+
+333
+00:53:02.200 --> 00:53:14.819
+Toni Wahrstätter: Yeah, but this shouldn't happen, right? That's why we have the safety decay. Like, we exactly know, like, if 75% go offline, we know that after 36 days, we will restore finality.
+
+334
+00:53:23.560 --> 00:53:26.579
+Kevaundray Wedderburn: So then, why are we storing…
+
+335
+00:53:27.030 --> 00:53:33.530
+Kevaundray Wedderburn: 4 to 5 months. I mean, yeah, I agree with… I agree with that the safety decay at 100 just doesn't make any sense.
+
+336
+00:53:34.630 --> 00:53:35.710
+Kevaundray Wedderburn: M…
+
+337
+00:53:58.660 --> 00:54:08.840
+Parithosh Jayanthi: Okay, is there anything else here that we have to discuss synchronously? If not, I'd suggest maybe a thread on ETH R&D that people could follow.
+
+338
+00:54:16.160 --> 00:54:17.510
+Parithosh Jayanthi: Perfect. Thank you.
+
+339
+00:54:18.210 --> 00:54:23.220
+Parithosh Jayanthi: Any other Hegota-related topics that we've missed out on?
+
+340
+00:54:23.420 --> 00:54:30.029
+Parithosh Jayanthi: I think this means… this should be all the proposals that came in in time, but in case we're wrong, then…
+
+341
+00:54:30.570 --> 00:54:32.130
+Parithosh Jayanthi: Now's the time to speak up.
+
+342
+00:54:38.100 --> 00:54:38.940
+Parithosh Jayanthi: Okay.
+
+343
+00:54:39.290 --> 00:54:43.789
+Parithosh Jayanthi: Next thing I briefly wanted to touch upon is, next steps.
+
+344
+00:54:44.140 --> 00:54:53.339
+Parithosh Jayanthi: So, Andrew's written down some nice, information there as to how to start scaling, the EIPs, as to which tier it goes into.
+
+345
+00:54:53.580 --> 00:55:11.290
+Parithosh Jayanthi: One proposal was that all clients have at least the first version of that tier list by mid-September. This, let's say, roughly a month from now. They should give most teams time to go through all of the EIPs, put them into different buckets.
+
+346
+00:55:11.360 --> 00:55:25.210
+Parithosh Jayanthi: And the way we would want to start is go with the obvious DFI and obvious CFI options, so if every client team agrees on an EIP or disagrees on an EIP, let's get that out of the way first.
+
+347
+00:55:25.210 --> 00:55:36.519
+Parithosh Jayanthi: And once that's done, I think we start the long tail of, actually going through rough consensus and coming up with what the EIPs were actually going to SFI in the end.
+
+348
+00:55:36.800 --> 00:55:52.329
+Parithosh Jayanthi: Of course, with rough Consensus, there's no final deadline, but I think one target is we would like to try and finish the process by DEVCON, just so that we all go into DevCon with a shared understanding of what would go into Hegota, or what could go into Hegota.
+
+349
+00:55:55.500 --> 00:56:05.000
+Parithosh Jayanthi: You don't have to use Forecaster, but Forecaster does have a ranking option that makes it quite easy to put buckets into different tiers.
+
+350
+00:56:06.590 --> 00:56:08.260
+Parithosh Jayanthi: Yeah, Jocham?
+
+351
+00:56:09.080 --> 00:56:23.740
+jochem-brouwer: Yes, one thing I wanted to state here, it might be obvious, but I still want to state it, these rankings, like, so we first had this SABCD ranking, now it is S, A, B, C, DFI ranking.
+
+352
+00:56:23.800 --> 00:56:30.110
+jochem-brouwer: But these rankings themselves are, like, open for interpretation, because my A is not going to be your A.
+
+353
+00:56:30.340 --> 00:56:33.779
+jochem-brouwer: So, to give an example, like, my A's are the things I really, really like.
+
+354
+00:56:33.950 --> 00:56:51.109
+jochem-brouwer: But some people could say, like, it should definitely go get in, but then S is, like, even better. So, I would say that if you publish these rankings, then at least state what is your S, A, B, C, D, what do you mean with these rankings? Because then you can interpret these rankings better.
+
+355
+00:56:51.690 --> 00:57:03.539
+Parithosh Jayanthi: Yes, definitely. Also, we more than welcome client teams also publishing rationale for why they chose things. That also helps navigate some differences, that different client teams would have.
+
+356
+00:57:10.870 --> 00:57:12.500
+Parithosh Jayanthi: Okay,
+
+357
+00:57:13.010 --> 00:57:20.030
+Parithosh Jayanthi: I think that was the entire agenda for today. Do we have, any other topics that should be discussed?
+
+358
+00:57:25.730 --> 00:57:27.910
+Parithosh Jayanthi: Great, then see you guys next time.
+
+359
+00:57:28.210 --> 00:57:28.940
+Parithosh Jayanthi: Ben?
+
+360
+00:57:31.440 --> 00:57:32.330
+potuz: Here, guys?
+
+361
+00:57:33.430 --> 00:57:33.770
+cayman: VDF.
+
+362
+00:57:34.590 --> 00:57:36.050
+Toni Wahrstätter: Thank you, bye-bye.
+
+363
+00:57:36.770 --> 00:57:37.660
+Barnabé + Francesco 🚗: Bye, bye.
+
