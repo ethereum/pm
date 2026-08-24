@@ -14,6 +14,7 @@ Gloas + Amsterdam
 |-------------|---------------------|--------------------|
 | Besu |  | |
 | Erigon | | |
+| Ethrex | | |
 | Geth | | |
 | Grandine | | |
 | Lighthouse | | |
