@@ -1,0 +1,89 @@
+{
+  "meeting": "ACDT #93 - August 24, 2026",
+  "highlights": {
+    "testing_progress": [
+      {
+        "timestamp": "00:05:17",
+        "highlight": "Glamsterdam devnet-8 near 100% participation; head vote correctness degraded to 65\u201380%, suspected Grandine attestation timing issue"
+      },
+      {
+        "timestamp": "00:06:47",
+        "highlight": "Toni's malicious-strategy tests caused a Nethermind/Prysm fork and a Besu/Teku missed slot; posted to interrupt channel"
+      },
+      {
+        "timestamp": "00:08:03",
+        "highlight": "Stefan's RPC interoperability report for devnet-8 highlights inconsistencies in eth_estimateGas; clients asked to review"
+      },
+      {
+        "timestamp": "00:34:24",
+        "highlight": "Pawel's fuzzing of Glamsterdam spec surfaced bugs in blob access list and EL gas repricings; some fixes merged, remaining issues are partial blockers to continued fuzzing"
+      }
+    ],
+    "devnet_planning": [
+      {
+        "timestamp": "00:11:57",
+        "highlight": "devnet-9 proposed as the non-finality chaos network; fork transition testing to be batched in before chaos phase"
+      },
+      {
+        "timestamp": "00:13:46",
+        "highlight": "Teku and Lodestar trunk branches ready; Nimbus likely ready; Prysm and Lighthouse still pending"
+      },
+      {
+        "timestamp": "00:14:05",
+        "highlight": "Deadline set: all clients must have trunk branches merged by Thursday (ACDE) to target devnet-9 launch early next week"
+      }
+    ],
+    "el_breakout_hivechain_blocker": [
+      {
+        "timestamp": "00:27:09",
+        "highlight": "HiveChain (GoEthereum-backed test chain generator) not updated for Glamsterdam; blocks writing and merging all RPC compat tests"
+      },
+      {
+        "timestamp": "00:29:45",
+        "highlight": "eth_createAccessList blocked separately: GoEthereum uses a different default gas value than all other clients; fix PR open against GoEthereum (#35397)"
+      },
+      {
+        "timestamp": "00:32:39",
+        "highlight": "Discussion on removing GoEthereum dependency from HiveChain; EELS RPC endpoint proposed as long-term alternative but not feasible before this fork"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:10:58",
+        "highlight": "Pooja requests EIP authors approve PR #11855 to move Glamsterdam Meta EIP to review status"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:21:42",
+      "action": "Review and unblock HiveChain Glamsterdam PRs (#1589, #1585) so RPC compat tests can be written",
+      "owner": "lightclient"
+    },
+    {
+      "timestamp": "00:37:29",
+      "action": "Cut new execution-specs release containing Pawel's fuzzing bug fixes (EIP-37 bug + 2610 removal)",
+      "owner": "spencer / execution-specs team"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:14:50",
+      "decision": "Thursday deadline for all CL clients to have trunk branches ready; devnet-9 targets launch early next week"
+    },
+    {
+      "timestamp": "00:11:57",
+      "decision": "devnet-9 will serve as the non-finality network, with fork transition tested before chaos begins"
+    },
+    {
+      "timestamp": "00:41:04",
+      "decision": "HiveChain GoEthereum dependency will not be replaced before Glamsterdam; EELS RPC support to be prioritized for future forks"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:14:05",
+      "target": "Thursday (ACDE week) - all CL client trunk branches merged; devnet-9 launch targeting early following week"
+    }
+  ]
+}

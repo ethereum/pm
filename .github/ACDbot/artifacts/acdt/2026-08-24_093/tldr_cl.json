@@ -1,0 +1,69 @@
+{
+  "meeting": "ACDT #93 - August 24, 2026 (CL breakout)",
+  "highlights": {
+    "builder_specs_and_beacon_api": [
+      {
+        "timestamp": "00:01:43",
+        "highlight": "builder-specs PR 165 and Beacon API PR merged; Key Manager API merged last week"
+      },
+      {
+        "timestamp": "00:02:16",
+        "highlight": "Lodestar tested direct bids with CommitBoost on Kurtosis; not yet on devnet"
+      },
+      {
+        "timestamp": "00:04:18",
+        "highlight": "Beacon API PR 627 to be rebased today; key open question is separate vs. merged produce-block endpoint"
+      },
+      {
+        "timestamp": "00:09:44",
+        "highlight": "Consensus: Beacon node should retain all decision-making (circuit breaker, validity); VC signs and submits whatever Beacon node returns"
+      },
+      {
+        "timestamp": "00:12:56",
+        "highlight": "Beacon node should validate incoming bid before signing; can fall back to local block if bid is invalid"
+      }
+    ],
+    "circuit_breaker_status": [
+      {
+        "timestamp": "00:17:44",
+        "highlight": "Circuit breaker discussed but no clean test completed; non-finality on devnet triggered informal discussion"
+      },
+      {
+        "timestamp": "00:18:10",
+        "highlight": "Nimbus, Lodestar (global, not per-builder), and Lighthouse have circuit breakers; Lodestar needs ~2 weeks to polish"
+      }
+    ],
+    "trustless_builder_support": [
+      {
+        "timestamp": "00:19:23",
+        "highlight": "Lighthouse has closed-source trusted builder for devnet testing; trustless builder not yet implemented"
+      },
+      {
+        "timestamp": "00:20:06",
+        "highlight": "Lodestar currently rejects non-HEAD-compatible bids via gossip rules; flood-publish approach proposed to cover reorg branches"
+      },
+      {
+        "timestamp": "00:21:20",
+        "highlight": "Public builder (PK910) builds payloads for parent and grandparent, with empty and full payload variants; bids observed on devnet 8"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:04:18",
+      "action": "Update Beacon API PR 627: rebase, clarify separate endpoint behavior, document VC vs. Beacon node decision responsibilities",
+      "owner": "Luca (Vero)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:09:44",
+      "decision": "Beacon node retains final block selection authority; VC signs and submits whatever Beacon node returns, regardless of bid source"
+    },
+    {
+      "timestamp": "00:04:38",
+      "decision": "Separate endpoint preferred over merged produce-block endpoint for direct-bid API (PR 627)"
+    }
+  ],
+  "targets": []
+}

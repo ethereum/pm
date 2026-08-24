@@ -1,0 +1,770 @@
+WEBVTT
+
+1
+00:00:20.830 --> 00:00:23.559
+Justin Traglia: Hello, just one minute, and we'll get started.
+
+2
+00:00:55.120 --> 00:00:59.870
+Justin Traglia: Alright, let's get into it. The first item on our agenda is,
+
+3
+00:01:00.010 --> 00:01:08.720
+Justin Traglia: just… we're gonna discuss the builder specs and, builder… sorry, not builder… builder specs and the Beacon API.
+
+4
+00:01:08.960 --> 00:01:10.540
+Justin Traglia: So, the R's.
+
+5
+00:01:10.970 --> 00:01:16.550
+Justin Traglia: Jason, are you here to give us an update on, builder-specs 165?
+
+6
+00:01:16.920 --> 00:01:20.040
+Justin Traglia: Yeah, I see that they're merged. That's great.
+
+7
+00:01:20.040 --> 00:01:29.129
+Jason Vranek: Yeah, like Nico said, I haven't had a chance to review the changes he pushed this morning, but it looked like some… just nitpicks, but it's been merged now.
+
+8
+00:01:30.570 --> 00:01:31.370
+Justin Traglia: Awesome.
+
+9
+00:01:32.440 --> 00:01:36.239
+Justin Traglia: Remind me, is this the… like, the…
+
+10
+00:01:36.500 --> 00:01:40.970
+Justin Traglia: the big builder specs PR? Or, like, BNs and stuff?
+
+11
+00:01:41.800 --> 00:01:42.440
+Jason Vranek: Yeah, this is…
+
+12
+00:01:43.680 --> 00:01:50.369
+Jason Vranek: Yeah, completing all three. So, last week the Key Manager API was merged, and this week it's Beacon API and builder-specs.
+
+13
+00:01:52.420 --> 00:01:53.090
+Justin Traglia: Got it.
+
+14
+00:01:58.850 --> 00:02:07.390
+Justin Traglia: Okay, out of curiosity, how are clients doing regarding, direct bids? Have you guys tested this on DevNet 8 yet?
+
+15
+00:02:08.150 --> 00:02:09.930
+Justin Traglia: Are you able to test it?
+
+16
+00:02:16.290 --> 00:02:22.740
+Nico Flaig: So for Loadstar, I didn't test it on a DevNet yet, but on Kurtosis with Builder.
+
+17
+00:02:23.520 --> 00:02:28.429
+Nico Flaig: Yeah, not sure anyone tested it on the definite. Maybe Brism, I don't know.
+
+18
+00:02:32.790 --> 00:02:38.390
+james: No, definitely not us. We're still missing a couple PRs on it.
+
+19
+00:02:40.490 --> 00:02:41.180
+Justin Traglia: Crap.
+
+20
+00:02:42.280 --> 00:02:43.910
+james: It's in the works.
+
+21
+00:02:45.900 --> 00:02:57.109
+Justin Traglia: Eitan says that Jimmy's been testing it in Lighthouse, and they've uncovered a few small bugs on our end. Eitan, are those bugs in Lighthouse, or are any of them bugs in the spec? Do you know?
+
+22
+00:02:57.410 --> 00:02:59.369
+Eitan Seri-Levi: They're Bucks and Lighthouse.
+
+23
+00:02:59.770 --> 00:03:01.470
+Eitan Seri-Levi: Not, not speculated.
+
+24
+00:03:02.870 --> 00:03:03.700
+Justin Traglia: That's good.
+
+25
+00:03:07.800 --> 00:03:08.760
+Justin Traglia: Nice.
+
+26
+00:03:12.720 --> 00:03:15.410
+Justin Traglia: Yeah, PK Shader linked to the public builders.
+
+27
+00:03:19.560 --> 00:03:21.089
+Justin Traglia: Okay,
+
+28
+00:03:21.770 --> 00:03:29.650
+Justin Traglia: Jason, would you like to give on… I mean, are there any updates you'd like to give on the next PR, the Beacon APIs one, or just the same?
+
+29
+00:03:30.280 --> 00:03:31.819
+Justin Traglia: Like, it's already been merged.
+
+30
+00:03:35.460 --> 00:03:42.600
+Jason Vranek: Yeah, no big updates. The latest changes, since the last batch of people approved last week was just some…
+
+31
+00:03:42.660 --> 00:03:56.750
+Jason Vranek: renamings across both. Like, signed request auths make sense in the builder-spec repo in isolation, but across clients generally, it was confusing, so it became…
+
+32
+00:03:57.050 --> 00:04:03.180
+Jason Vranek: builder-signed Requista, or assigned builder request auth, so just a little more, clarity on the naming.
+
+33
+00:04:04.000 --> 00:04:04.620
+Justin Traglia: Got it.
+
+34
+00:04:05.700 --> 00:04:07.029
+Justin Traglia: Alright, thank you.
+
+35
+00:04:07.730 --> 00:04:14.999
+Justin Traglia: And, lastly, Luca, are you here to give us an update on BeaconIPIs 627, and what needs to be done to get it merged?
+
+36
+00:04:16.769 --> 00:04:17.859
+Luca | Vero: Yeah, sure.
+
+37
+00:04:18.229 --> 00:04:25.559
+Luca | Vero: 6.30 was merged just now, so I'm gonna update 627, just to get rid of the conflicts, and…
+
+38
+00:04:26.079 --> 00:04:34.599
+Luca | Vero: I'm gonna do that today, and then, well, basically, the only thing that needs to be decided is whether we want to have it as a separate endpoint, as it's proposed now.
+
+39
+00:04:35.259 --> 00:04:40.789
+Luca | Vero: Or if we wanna… make it part of the normal produce platform.
+
+40
+00:04:43.629 --> 00:04:51.069
+Luca | Vero: My personal opinion is the separate endpoint is much… more, elegant, simple, Teresa?
+
+41
+00:04:54.800 --> 00:04:56.890
+Justin Traglia: Alright, how do others feel about this?
+
+42
+00:04:58.060 --> 00:05:04.239
+Justin Traglia: Do clients have opinions on whether it should be separate or… The existing one, Nico?
+
+43
+00:05:04.450 --> 00:05:13.620
+Nico Flaig: Yeah, there's just… so we made the builder-config required in Produce Block before, so maybe that's an argument for having it separate also.
+
+44
+00:05:13.720 --> 00:05:25.630
+Nico Flaig: But besides that one thing, so how does that work if you weight the bit that Vero selects, for example, against the local payload?
+
+45
+00:05:26.560 --> 00:05:31.229
+Nico Flaig: Right, you would pass a boost factor to the Beacon node, I think, right?
+
+46
+00:05:33.490 --> 00:05:36.329
+Luca | Vero: I'm not sure if there's a boost factor right now, but…
+
+47
+00:05:36.510 --> 00:05:43.299
+Luca | Vero: If there would be, you would just, yeah, boost the local value, and if it's higher, then you could override it.
+
+48
+00:05:48.670 --> 00:05:49.300
+Nico Flaig: Yeah, so…
+
+49
+00:05:49.300 --> 00:05:50.040
+Luca | Vero: So it's.
+
+50
+00:05:50.040 --> 00:05:50.490
+Nico Flaig: the…
+
+51
+00:05:50.510 --> 00:05:52.660
+Luca | Vero: Makes sense for this endpoint, actually.
+
+52
+00:05:53.490 --> 00:05:57.490
+Nico Flaig: But you select a bit, right, and then you pass it…
+
+53
+00:05:58.420 --> 00:06:03.080
+Nico Flaig: to the Beacon, how would you ever pick a local payload in that case?
+
+54
+00:06:04.010 --> 00:06:09.740
+Luca | Vero: You wouldn't. The only time you would expect… a local payload?
+
+55
+00:06:09.980 --> 00:06:16.030
+Luca | Vero: is if the circuit breaker is active, or something like that. In that case, the Beaconaut can use the local one.
+
+56
+00:06:16.500 --> 00:06:24.189
+Luca | Vero: But if you are bringing your own bid, then you expect to include that bit in a blog in most cases.
+
+57
+00:06:27.660 --> 00:06:36.859
+Nico Flaig: Yeah, I'm thinking functionality-wise, you should probably pass the boost factor, or the… maybe it's enough if the Beacon node applies some default, yeah.
+
+58
+00:06:38.500 --> 00:06:47.950
+Nico Flaig: I guess I'm not sure, is anyone gonna implement that, besides, like, Vero or Vouch? Maybe Nimbus? I'm not sure.
+
+59
+00:06:49.030 --> 00:06:56.450
+Nico Flaig: I think there are not many valid clients that behave like this, where they query all connected Beacon nodes.
+
+60
+00:07:00.800 --> 00:07:04.060
+Dustin: Interesting question, we haven't really…
+
+61
+00:07:04.300 --> 00:07:10.199
+Dustin: approach this, but obviously Nimbus does, in general, have that behavior, and might exploit that.
+
+62
+00:07:13.770 --> 00:07:15.640
+Luca | Vero: The question is more about if…
+
+63
+00:07:15.920 --> 00:07:22.720
+Luca | Vero: The Validator client wants to, fetch bits directly instead of letting the Beacon do it.
+
+64
+00:07:24.810 --> 00:07:25.640
+Dustin: Yep.
+
+65
+00:07:26.520 --> 00:07:33.839
+Dustin: So far, Nimbus has not tended to have that approach. It's a pretty… it's much more, kind of, lightweight.
+
+66
+00:07:34.050 --> 00:07:34.810
+Dustin: Thing.
+
+67
+00:07:39.380 --> 00:07:49.669
+Chris Berry: Just on this, so how do we intend to switch between trusted and trustless bids from the multi-client side?
+
+68
+00:07:49.890 --> 00:07:58.329
+Chris Berry: Because if we're getting bids from the relays, and we propose a bid, dire, however it works, whichever endpoint we use.
+
+69
+00:07:58.500 --> 00:08:06.909
+Chris Berry: How do we know that the trustless bids are not better than the MEV one that we've received via the relays? And who makes that decision?
+
+70
+00:08:09.090 --> 00:08:16.689
+Luca | Vero: Well, as a Validator client, you can subscribe to the trustless bids over SSE, so that's one way
+
+71
+00:08:17.810 --> 00:08:19.029
+Luca | Vero: To approach this.
+
+72
+00:08:20.820 --> 00:08:24.699
+Chris Berry: Right, okay, so you're basically in a world where you're gonna ignore…
+
+73
+00:08:24.940 --> 00:08:38.339
+Chris Berry: the local block, whatever it's worth, and it's up to the Validator client to differentiate between anything that comes over the gossip Trust Plus path, or the Web2 MEV Relay path.
+
+74
+00:08:38.460 --> 00:08:43.729
+Chris Berry: And essentially offer up one to the… To the Beacon node.
+
+75
+00:08:44.260 --> 00:08:45.489
+Chris Berry: That makes sense.
+
+76
+00:08:49.420 --> 00:09:00.900
+Nico Flaig: Yeah, but I think that's another detail, maybe, worth to define on the spec in your PR Luca, because it's not clear whether the beacon node should bring in the P2P bit, or…
+
+77
+00:09:01.420 --> 00:09:07.519
+Nico Flaig: Like, we expect the Validator client to consider them by using the SSE event instead.
+
+78
+00:09:08.920 --> 00:09:11.409
+Luca | Vero: Yeah, that makes sense, I'll edit, I think.
+
+79
+00:09:11.600 --> 00:09:16.230
+Luca | Vero: In this case, the Validator client should take those trusted bits into account as well.
+
+80
+00:09:18.130 --> 00:09:38.119
+Chris Berry: Because it's… it really is… it really is dependent on who is deciding which to choose. If we take the path that the… the Validator client knows what it's doing, and whatever it sends up, that's what you have to choose. Ignore any local, ignore anything else, that's what's going to be used, then yeah, fine, you don't need to add any kind of…
+
+81
+00:09:38.210 --> 00:09:44.030
+Chris Berry: Boost factor or something similar to help guide the Beacon node to make the decision you want.
+
+82
+00:09:44.420 --> 00:09:48.180
+Chris Berry: And that works, I think that's a reasonable path to take, it's just that
+
+83
+00:09:48.380 --> 00:10:00.639
+Chris Berry: as Nico said, we should be explicit that that's the intended behavior, that you're basically gonna throw away any decision-making from the Beacon node side, and it's basically gonna take what the Validator client offers up.
+
+84
+00:10:00.690 --> 00:10:11.849
+Chris Berry: And ignore the rest. I think that… it makes sense in that use case. It's just a shame that you can't really consider the local block, but I think in today's world, you can't really consider the local block either.
+
+85
+00:10:12.000 --> 00:10:25.319
+Chris Berry: well, it's something that happens on the Beacon node side, right? It looks at what comes on the external builder endpoint, and obviously could build a local block, but I don't think any decision making is made today. I think if one's on the builder endpoint, it is what's selected.
+
+86
+00:10:28.170 --> 00:10:36.210
+Luca | Vero: Yeah, unless we would want the local payloads also to be broadcast over SSE or something like that.
+
+87
+00:10:38.620 --> 00:10:48.520
+Chris Berry: I don't know who would do that, because presumably right now, that's only done if a valid proposer asks the Beacon node to build them a blog.
+
+88
+00:10:53.380 --> 00:10:53.970
+Luca | Vero: Yeah.
+
+89
+00:10:54.940 --> 00:10:58.049
+Luca | Vero: Well, maybe one more thing is, since…
+
+90
+00:10:58.660 --> 00:11:06.720
+Luca | Vero: The bit that the Validator client brings could be invalid on one of the Beacon nodes it's connected to, because it's…
+
+91
+00:11:06.860 --> 00:11:09.080
+Luca | Vero: On a different head, or something like that.
+
+92
+00:11:09.570 --> 00:11:13.800
+Luca | Vero: So, it may be good to clarify what the Beaconode should do in that case.
+
+93
+00:11:15.670 --> 00:11:33.710
+Chris Berry: I mean, that's a good point, right? Because, like, what we just talked about, offering up a bid, and that's what the Beacon node takes regardless, you basically say you're not allowed to do a check, right? But I think it does make sense to say, hey, if this is an invalid block in our view, in the Beacon node's view, throw it away and build a local one.
+
+94
+00:11:34.020 --> 00:11:38.020
+Chris Berry: But, oh, hang on a minute, you can't do that because you've already signed the blog.
+
+95
+00:11:38.140 --> 00:11:39.349
+Chris Berry: At this stage.
+
+96
+00:11:41.270 --> 00:11:48.710
+Luca | Vero: Yeah, no, I think the BR actually says something like, if the Beacon considers the bid invalid, it should disregard it.
+
+97
+00:11:50.200 --> 00:11:54.359
+Chris Berry: Right, but then it can't replace it with a local block, right? It's just, you've missed the slot.
+
+98
+00:11:57.130 --> 00:11:58.240
+Luca | Vero: Well, that's gone.
+
+99
+00:11:58.420 --> 00:12:00.849
+Chris Berry: Because you've already signed the block at that stage.
+
+100
+00:12:01.070 --> 00:12:01.979
+Chris Berry: Have you not?
+
+101
+00:12:02.470 --> 00:12:03.310
+Luca | Vero: I don't think so.
+
+102
+00:12:04.070 --> 00:12:06.919
+Luca | Vero: This is during the Block production, before the signing.
+
+103
+00:12:08.770 --> 00:12:15.469
+Chris Berry: Right, so we take the bid, we offer it to the Beacon node, then the Beacon node returns a block with that.
+
+104
+00:12:16.050 --> 00:12:18.829
+Chris Berry: A proposal to sign based on that.
+
+105
+00:12:19.810 --> 00:12:27.080
+Luca | Vero: Yeah, but before the Beaconaut returns the block, it can validate the bit, and if it's not valid in its…
+
+106
+00:12:27.550 --> 00:12:31.190
+Luca | Vero: viewed, and it can return a block with a different bin.
+
+107
+00:12:31.500 --> 00:12:45.360
+Chris Berry: Okay. Well, as long as that's the behavior of the PR, then great, that works well, so it could actually ignore the… whatever the validator selects and send back a local one, and that's because it's failed validation. That makes sense, if that's how it works.
+
+108
+00:12:47.060 --> 00:12:51.950
+Luca | Vero: Yeah, that's how I imagine it would work. It has to have some leeway, too.
+
+109
+00:12:52.410 --> 00:12:54.109
+Luca | Vero: Replace it if necessary.
+
+110
+00:12:56.650 --> 00:13:06.289
+Nico Flaig: I think one more concern could be also the timing of the API call, because I'm guessing you will not call this at the start of the slot right away, right?
+
+111
+00:13:08.210 --> 00:13:09.139
+Luca | Vero: Right, yeah.
+
+112
+00:13:09.420 --> 00:13:26.920
+Nico Flaig: And, at least how CL clients behave right now, they will only start building the CL block site, or most clients do this. They start this only when the API is called to produce a block. So if that is laid on the slot, that could be potentially problematic.
+
+113
+00:13:31.960 --> 00:13:32.860
+Luca | Vero: Good point.
+
+114
+00:13:34.350 --> 00:13:36.690
+Luca | Vero: There's no easy way to solve that, right?
+
+115
+00:13:42.350 --> 00:13:54.149
+Chris Berry: Well, I think you just have to control it on the Validator side, right? And just make sure you have a deadline of something sensible, and then you definitely call the API within that time to make sure that it's…
+
+116
+00:13:54.330 --> 00:13:57.860
+Chris Berry: got enough. I don't know if we have an idea of how long that is. I think…
+
+117
+00:13:58.160 --> 00:14:04.820
+Chris Berry: I think on production today, we generally make that… our deadline is about one and a half seconds into the slot, I think.
+
+118
+00:14:05.320 --> 00:14:07.900
+Chris Berry: I don't know if that would need to change for this.
+
+119
+00:14:11.570 --> 00:14:20.950
+Luca | Vero: Yeah. Do we have any idea if the time that it takes to produce a block is dominated by the EL payload, or is it the attestation packing, or…
+
+120
+00:14:22.740 --> 00:14:24.600
+Luca | Vero: Because obviously, yeah.
+
+121
+00:14:24.940 --> 00:14:28.240
+Nico Flaig: Yeah, I think the packing is probably the bottleneck here.
+
+122
+00:14:28.880 --> 00:14:34.640
+Nico Flaig: at least there's some worst cases, at least in Lodestar, where it can take, like, 800 MS.
+
+123
+00:14:34.890 --> 00:14:37.980
+Nico Flaig: I think Teku mentioned something earlier about this, too.
+
+124
+00:14:40.710 --> 00:14:46.060
+Luca | Vero: Okay, but I think this is not such a huge deal, because it's… It's…
+
+125
+00:14:46.680 --> 00:14:53.269
+Luca | Vero: kind of an advanced Beacon API endpoint, so the callers will just need to make sure that they're calling it on time.
+
+126
+00:14:55.290 --> 00:15:05.760
+Nico Flaig: Well, what was the issue of you just calling this on every Beacon node, and you just, sell, like, just get the local payload that the Beacon node produces?
+
+127
+00:15:07.250 --> 00:15:10.699
+Nico Flaig: And then, only Vero calls the builders.
+
+128
+00:15:11.140 --> 00:15:14.639
+Luca | Vero: Oh, that you replace the bid directly in that block that is returned?
+
+129
+00:15:15.020 --> 00:15:18.070
+Nico Flaig: Yeah, and then you… Let me see…
+
+130
+00:15:18.290 --> 00:15:21.949
+Luca | Vero: It affected the block's state rule, so that didn't work.
+
+131
+00:15:23.070 --> 00:15:27.190
+Nico Flaig: Alright, and also it would not work with the circuit breaker.
+
+132
+00:15:32.890 --> 00:15:47.219
+Chris Berry: Is the circuit breaker designed to be within the Beacon node, such that if we call it with, whatever, a MEV bid, but the circuit breaker's on, then we always get back the local block instead, regardless of how valid the bid is?
+
+133
+00:15:49.360 --> 00:16:05.620
+Nico Flaig: Yeah, I mean, that should be on the Beacon node side, I think. There's also, another factor, which is, we have this EL flag today, which says, like, should override builder, which is, if the EL detects censorship, it will also use the local payload.
+
+134
+00:16:07.910 --> 00:16:15.160
+Nico Flaig: But yeah, I think it's hard for you guys to implement a circuit breaker, because you need the full review of fork choice and stuff, so…
+
+135
+00:16:17.750 --> 00:16:32.179
+Chris Berry: Yeah, I think, as it is today, we should retain this logic where it's the Beacon node giving the validator client which block to use, and then circuit breakers, validity, everything else can remain in the beacon node.
+
+136
+00:16:32.190 --> 00:16:44.239
+Chris Berry: And it's always… then it's a simple path for the Validator client once we get something back from the Beacon nodes themselves, that it's basically whatever we get, we sign it, we submit it, and that's… that's kind of done.
+
+137
+00:16:44.500 --> 00:16:53.609
+Chris Berry: So it would make sense in my head to preserve that, that everything… essentially, the last steps for the Validator client are, whatever you get back, sign it and send it.
+
+138
+00:17:02.730 --> 00:17:04.730
+Luca | Vero: Yep, agreed on my side as well.
+
+139
+00:17:09.730 --> 00:17:14.460
+Luca | Vero: So, yeah, like I said, I'll update the PR today, and I think we can move on to the next topic.
+
+140
+00:17:17.089 --> 00:17:18.569
+Justin Traglia: Okay. Thank you, Luca.
+
+141
+00:17:18.739 --> 00:17:25.159
+Justin Traglia: That was very interesting to listen to. There are no other topics, officially. I'd be curious to hear.
+
+142
+00:17:25.929 --> 00:17:30.849
+Justin Traglia: updates on circuit breakers within clients, maybe? Like…
+
+143
+00:17:31.619 --> 00:17:38.839
+Justin Traglia: Have we tested this on the DevNet, or are the implementations Merged into those branches.
+
+144
+00:17:44.650 --> 00:17:53.810
+Parithosh Jayanthi: We had a bunch of discussions about the Circuit Breaker, on Discord last week, when we had non-finality on the DevNet.
+
+145
+00:17:54.120 --> 00:17:57.750
+Parithosh Jayanthi: But we haven't gotten, like, a clean test yet.
+
+146
+00:18:00.360 --> 00:18:01.070
+Justin Traglia: Okay.
+
+147
+00:18:01.450 --> 00:18:03.669
+Justin Traglia: Are you aware if,
+
+148
+00:18:04.040 --> 00:18:08.619
+Justin Traglia: all of the clients have a circuit breaker, which could be used on the DevNet.
+
+149
+00:18:08.800 --> 00:18:10.209
+Justin Traglia: Like, have they been merged?
+
+150
+00:18:10.930 --> 00:18:14.979
+Parithosh Jayanthi: I think Nimbus and Grandine might be attending?
+
+151
+00:18:15.240 --> 00:18:17.079
+Parithosh Jayanthi: But the other should have something.
+
+152
+00:18:18.560 --> 00:18:19.180
+Justin Traglia: Okay.
+
+153
+00:18:20.360 --> 00:18:25.860
+Justin Traglia: Cool, that'll be fun to test here soon. Oh, Nimbus does have a circuit breaker, they said.
+
+154
+00:18:28.460 --> 00:18:32.280
+Parithosh Jayanthi: I got it, okay. Then, oh, oh.
+
+155
+00:18:32.810 --> 00:18:35.070
+Parithosh Jayanthi: Yeah, Be Nico says not the builder.
+
+156
+00:18:42.450 --> 00:18:45.939
+Justin Traglia: Oh, okay. I guess that's it for that.
+
+157
+00:18:46.370 --> 00:18:49.569
+Justin Traglia: I'm also curious if clients are providing
+
+158
+00:18:49.740 --> 00:18:51.879
+Justin Traglia: Like, a way to operate a builder.
+
+159
+00:18:52.530 --> 00:18:55.740
+Justin Traglia: That's not build OR by PK.
+
+160
+00:18:56.140 --> 00:19:02.210
+Justin Traglia: I believe Nico's been working on the Summon Lodestar, and I'm curious to hear if other client… if clients are doing something
+
+161
+00:19:02.930 --> 00:19:04.170
+Justin Traglia: Similar.
+
+162
+00:19:14.680 --> 00:19:19.080
+Justin Traglia: says that Lighthouse has one too, as far as he's aware.
+
+163
+00:19:21.520 --> 00:19:24.169
+Eitan Seri-Levi: Are you talking about, like, a trustless builder?
+
+164
+00:19:24.950 --> 00:19:26.079
+Justin Traglia: Yes, exactly.
+
+165
+00:19:26.080 --> 00:19:29.500
+Eitan Seri-Levi: Oh, yeah, we don't have that. We do have, like, a closed source.
+
+166
+00:19:29.770 --> 00:19:36.000
+Eitan Seri-Levi: like, trusted builder-client thing that we've been testing on the DevNets, but the trustless client, we haven't implemented yet.
+
+167
+00:19:36.630 --> 00:19:37.949
+Justin Traglia: Okay.
+
+168
+00:19:38.200 --> 00:19:42.270
+Justin Traglia: Do you know if there's an intention to provide that, or out of scope?
+
+169
+00:19:42.270 --> 00:19:46.699
+Eitan Seri-Levi: Yeah, it's on our list, we just, haven't started it yet.
+
+170
+00:19:47.640 --> 00:19:48.270
+Justin Traglia: Okay.
+
+171
+00:19:48.550 --> 00:19:49.610
+Justin Traglia: No worries.
+
+172
+00:19:50.160 --> 00:19:53.549
+Justin Traglia: Is anyone else gonna work on this, too? I'm just curious.
+
+173
+00:20:06.680 --> 00:20:25.599
+Nico Flaig: As a side note to that, I noticed something, at least in Lodestar, how our bit publishing validation works. So, as it is right now, you cannot even publish any bits that are not HAT compatible, because we apply the same gossip rules as for normal gossip validation on the API.
+
+174
+00:20:26.210 --> 00:20:40.449
+Nico Flaig: that's maybe something we need to fix, because I noticed if there are reorgs, there are sometimes no bits. Maybe that's also builder not doing it correctly, but I think Lodestar would also ignore these and not publish them.
+
+175
+00:20:41.370 --> 00:20:56.580
+Nico Flaig: So I guess I'm not sure what clients should be doing, so my idea is just skip the… only basically run reject rules, and all the ignore rules, you can basically not do them, and then you can also flood publish the bits.
+
+176
+00:20:56.580 --> 00:21:02.490
+Nico Flaig: So that, you basically cover more branches, even those that are not HET compatible.
+
+177
+00:21:06.670 --> 00:21:08.990
+Justin Traglia: Okay, yeah, we should test this more.
+
+178
+00:21:09.140 --> 00:21:15.020
+Justin Traglia: And determine what the actual… Ugh, problem or change needs to be.
+
+179
+00:21:16.250 --> 00:21:20.850
+Nico Flaig: So does Builder already do multi-branch bidding now, or…
+
+180
+00:21:21.340 --> 00:21:24.480
+Nico Flaig: Because that's kind of something we need to test this.
+
+181
+00:21:24.900 --> 00:21:30.879
+pk910: Yes, it's true. It builds payloads for the immediate parent and the grandparent, basically.
+
+182
+00:21:31.600 --> 00:21:32.820
+pk910: So it tries both.
+
+183
+00:21:33.270 --> 00:21:39.199
+pk910: And also variances with, An empty payload and a full payload, basically.
+
+184
+00:21:42.960 --> 00:21:45.509
+Justin Traglia: Have you seen this working on .NET 8?
+
+185
+00:21:46.580 --> 00:21:51.590
+pk910: I have seen bits for these, but it's hard to…
+
+186
+00:21:52.280 --> 00:21:57.259
+pk910: have them included afterwards. I mean, we need such a situation to have that bit included.
+
+187
+00:21:57.430 --> 00:22:01.260
+pk910: But there are bits for all four situations I've seen.
+
+188
+00:22:04.480 --> 00:22:05.460
+Justin Traglia: Okay, cool.
+
+189
+00:22:08.390 --> 00:22:14.629
+Justin Traglia: That's all from my side. Is there any other topics we'd like to discuss before ending?
+
+190
+00:22:30.420 --> 00:22:36.729
+Justin Traglia: All right. Well, thank you everyone for joining ACD Consensus Breakout. Talk to you guys next week.
+
+191
+00:22:38.670 --> 00:22:39.540
+Justin Traglia: Bye, everyone.
+
+192
+00:22:41.290 --> 00:22:42.000
+Eitan Seri-Levi: I see.
+
