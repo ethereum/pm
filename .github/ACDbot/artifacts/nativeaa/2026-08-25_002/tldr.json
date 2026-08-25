@@ -1,0 +1,93 @@
+{
+  "meeting": "Frame Transaction Breakout #2 - August 25, 2026",
+  "highlights": {
+    "eip8141_frames_status": [
+      {
+        "timestamp": "00:10:23",
+        "highlight": "EIP-8141 CFI'd for Hegota; devnet-zero in progress; question is whether to elevate to headliner"
+      },
+      {
+        "timestamp": "00:12:27",
+        "highlight": "Recent 8141 changes: Glamsterdam integration (2D gas, state gas as explicit second dimension), spec clarifications; signature list unchanged since May"
+      },
+      {
+        "timestamp": "00:16:54",
+        "highlight": "ethrex has two live testnets: privacy-only (Frames + FOCIL + recent roots) and Hegota-like playground (post-tx assertions, native UTXOs)"
+      }
+    ],
+    "eip8130_proposal": [
+      {
+        "timestamp": "00:18:44",
+        "highlight": "EIP-8130 launching on Base (late September); OP Stack and Arbitrum also committing; decoupled authenticator-based account model"
+      },
+      {
+        "timestamp": "00:21:47",
+        "highlight": "8130 thesis: no capability gap vs. 8141, but lower cost; 8141's coupled account model is the core objection"
+      },
+      {
+        "timestamp": "00:31:28",
+        "highlight": "Key 8130 advantage: authenticator declared top-level in tx \u2014 dependencies inspectable without tracing; enables permissionless payer innovation"
+      },
+      {
+        "timestamp": "00:31:38",
+        "highlight": "Conceded 8130 gap: cannot support post-execution gas payment (e.g., pay with ETH acquired during execution); 8141 supports this"
+      }
+    ],
+    "technical_debate": [
+      {
+        "timestamp": "00:43:10",
+        "highlight": "Felix (Geth): pure-function authenticators reduce DOS risk, but recent roots requires storage and cannot be truly pure"
+      },
+      {
+        "timestamp": "01:11:28",
+        "highlight": "Nicolas (cryptography): 8141 STARK aggregation of hash-based sigs is the L1 scaling path; enshrined 8130 authenticator set creates permanent governance burden as PQ landscape shifts"
+      },
+      {
+        "timestamp": "01:20:34",
+        "highlight": "Tsahi (Offchain Labs): 8130 authenticator-as-contract-address avoids coordination overhead for new signature schemes; wants 8141 to adopt this extensibility"
+      }
+    ],
+    "convergence_discussion": [
+      {
+        "timestamp": "01:01:35",
+        "highlight": "Nethermind: L1 should not enshrine any specific account model; generic primitives preferred, adapters choose their model"
+      },
+      {
+        "timestamp": "01:27:57",
+        "highlight": "lightclient: no client team supports 8130 as-is on L1; proposal to draft a companion EIP adding keystore to 8141 as the path forward"
+      },
+      {
+        "timestamp": "01:38:49",
+        "highlight": "Felix (Geth): keystore companion EIP for 8141 could enable account portability and satisfy L2 interop without enshrining full 8130 actor model"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "01:38:49",
+      "action": "Draft companion EIP adding keystore concept to EIP-8141 for cross-team review",
+      "owner": "lightclient + interested stakeholders (Geth, Base, Ethlabs)"
+    },
+    {
+      "timestamp": "01:38:46",
+      "action": "Base/8130 team to sync with L1 core devs before shipping 8130; commit to collab window before September fork",
+      "owner": "Chris (Base) + Derek (Ethlabs)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:34:06",
+      "decision": "Default path confirmed: EIP-8141 proceeds on L1; EIP-8130 proceeds on L2s (Base, OP Stack, Arbitrum); convergence to be attempted in a timeboxed collab session"
+    },
+    {
+      "timestamp": "01:27:57",
+      "decision": "No client team supports adopting EIP-8130 as-is on L1; enshrined keystore/actor model considered out of scope for L1 protocol"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:18:44",
+      "target": "EIP-8130 launch on Base \u2014 late September 2026"
+    }
+  ]
+}

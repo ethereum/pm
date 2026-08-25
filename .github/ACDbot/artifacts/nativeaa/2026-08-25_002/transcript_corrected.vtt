@@ -1,0 +1,2714 @@
+WEBVTT
+
+1
+00:04:35.370 --> 00:04:37.050
+Toni Wahrstätter: Hello!
+
+2
+00:04:40.650 --> 00:04:41.750
+Stavros Vlachakis: Loan, long.
+
+3
+00:04:43.190 --> 00:04:44.020
+Daniil Ankushin | Nethermind: Hello, guys.
+
+4
+00:04:48.080 --> 00:04:49.160
+Pedro (WalletConnect): Hello, everyone.
+
+5
+00:05:08.410 --> 00:05:09.190
+marc | wolovim: Hey, y'all.
+
+6
+00:05:09.790 --> 00:05:15.760
+marc | wolovim: I will help moderate today's call, but we're gonna wait for, maybe 3 minutes.
+
+7
+00:05:16.390 --> 00:05:18.190
+marc | wolovim: Before we get jumping in here.
+
+8
+00:07:43.110 --> 00:07:50.290
+marc | wolovim: Alright, everyone, I'm gonna kick this thing off now. Welcome, everyone, to,
+
+9
+00:07:51.130 --> 00:08:04.729
+marc | wolovim: what is the second call in the native account abstraction Breakout Series? Bit of context is warranted here. When I scheduled this call originally, I believed we were,
+
+10
+00:08:04.910 --> 00:08:19.210
+marc | wolovim: ready for the first, sort of, implementation-style call for Frames, and therefore it has that name. But there has been a flurry of activity recently, so we've got more to chat about, it seems.
+
+11
+00:08:19.430 --> 00:08:26.469
+marc | wolovim: I'm gonna… Set some… maybe a couple simple goals for this call, and then share the agenda.
+
+12
+00:08:27.020 --> 00:08:36.839
+marc | wolovim: The… the… the goals… I think our,
+
+13
+00:08:38.080 --> 00:08:54.769
+marc | wolovim: to have both proposals very well understood. So, 8141 Frame transactions and 8130 is, the account abstraction proposal that is going live on base and being adopted by some other chains, potentially.
+
+14
+00:08:55.140 --> 00:09:03.799
+marc | wolovim: And, there's been a flurry of activity describing exactly how both works, recent developments in Frame.
+
+15
+00:09:04.310 --> 00:09:16.030
+marc | wolovim: And 8130, so I think this is a good, sort of moment to pause and make sure that everybody gets back to the same page and understands what's in both of these proposals.
+
+16
+00:09:18.550 --> 00:09:30.200
+marc | wolovim: by the end of today, if we don't have sort of clear next steps, then I would suggest the goal is to at least identify the right set of next questions that need answering.
+
+17
+00:09:31.110 --> 00:09:38.220
+marc | wolovim: And… with that, the agenda for today, also gonna keep it simple,
+
+18
+00:09:38.590 --> 00:09:44.360
+marc | wolovim: The first is just to quickly provide context to where we are today.
+
+19
+00:09:44.740 --> 00:09:55.679
+marc | wolovim: leave a few minutes for Matt to chat about any recent Frame developments, and then Chris will have the floor to present on 8130.
+
+20
+00:09:56.090 --> 00:10:06.790
+marc | wolovim: So I'm hoping that takes, only the first half of the call, if that, and leaves the rest open for discussion, because I think that's where the real value is gonna come from.
+
+21
+00:10:07.320 --> 00:10:11.970
+marc | wolovim: When we get into… Problem-solving mode, and…
+
+22
+00:10:12.570 --> 00:10:15.140
+marc | wolovim: Being able to ask those questions that need asking.
+
+23
+00:10:16.500 --> 00:10:24.519
+marc | wolovim: Okay, so brief context, Frames 8141 is CFI'd into Hegota.
+
+24
+00:10:24.880 --> 00:10:27.480
+marc | wolovim: There's been a lot of momentum.
+
+25
+00:10:27.950 --> 00:10:34.319
+marc | wolovim: Getting to this point, we've now… the question being asked is, do we elevate it to headliner status?
+
+26
+00:10:35.100 --> 00:10:40.210
+marc | wolovim: Many client teams have invested real resources in
+
+27
+00:10:40.320 --> 00:10:45.580
+marc | wolovim: Debating and hardening the spec and writing implementations, and we're…
+
+28
+00:10:45.850 --> 00:10:50.249
+marc | wolovim: At this point, well on our way to a Frame DevNet, DevNet Zero.
+
+29
+00:10:51.210 --> 00:10:57.570
+marc | wolovim: More recently, 8130 has been…
+
+30
+00:10:57.750 --> 00:11:01.279
+marc | wolovim: selected to go live on… on, bases
+
+31
+00:11:01.810 --> 00:11:05.010
+marc | wolovim: next deployment in September, I believe.
+
+32
+00:11:05.230 --> 00:11:13.429
+marc | wolovim: With, with other support from additional chains, so that opens, the door to ask some of these questions.
+
+33
+00:11:13.780 --> 00:11:18.139
+marc | wolovim: About what is… what is most important that lands on… on each of these chains?
+
+34
+00:11:18.440 --> 00:11:19.270
+marc | wolovim: So…
+
+35
+00:11:19.740 --> 00:11:25.900
+marc | wolovim: Let's start with frames. Matt, you've got the floor if you'd like to discuss the latest in Frame Land.
+
+36
+00:11:27.840 --> 00:11:28.770
+lightclient: Thanks, Mark.
+
+37
+00:11:30.500 --> 00:11:42.910
+lightclient: So, I just wanted to give a quick thanks and shout-out to the people over the last couple months who have helped on the Frame spec. Nethermind has been pretty instrumental and, you know.
+
+38
+00:11:43.030 --> 00:11:59.850
+lightclient: helping finalize a lot of these, like, details of the spec, and making a lot of clarifications. Ethrex has made numerous contributions. The Steel team doing the implementation in ELs, and the clarifications, and…
+
+39
+00:12:00.180 --> 00:12:05.940
+lightclient: changes that came from that, and also Tomas, who's been working on recent routes, and…
+
+40
+00:12:06.390 --> 00:12:14.049
+lightclient: the 2D nonce proposal on top of frames, and has helped provide a lot of feedback on frames.
+
+41
+00:12:14.470 --> 00:12:20.310
+lightclient: To get to where it is now. So, thank you guys for all of your contributions.
+
+42
+00:12:20.760 --> 00:12:27.510
+lightclient: Over the past 2 months, most of the changes to frames have…
+
+43
+00:12:27.610 --> 00:12:30.599
+lightclient: fallen into two categories. The first is…
+
+44
+00:12:31.010 --> 00:12:42.449
+lightclient: you know, basically just clarifications, really things that don't change the actual implementation of frames, but more about ensuring that the EIP
+
+45
+00:12:42.820 --> 00:12:45.400
+lightclient: Correctly defines the behavior.
+
+46
+00:12:45.600 --> 00:12:49.150
+lightclient: And there's been a lot of these things, and in some cases, like.
+
+47
+00:12:49.320 --> 00:12:58.300
+lightclient: You know, it really was very unclear what the correct behavior was, and so we can say that these are also, like, small changes to the frame spec.
+
+48
+00:12:58.610 --> 00:13:00.739
+lightclient: So a lot of work has been done in this.
+
+49
+00:13:00.860 --> 00:13:08.559
+lightclient: And then the other main bucket, which is maybe the more substantial bucket, is the work to integrate the Glamsterdam changes into frames.
+
+50
+00:13:09.230 --> 00:13:15.060
+lightclient: when we wrote the original Spectra frames, obviously, like, we were aware that these types of changes were coming, and…
+
+51
+00:13:15.160 --> 00:13:26.030
+lightclient: The reason that the Frame spec until now, or until the last couple months, didn't have the Glamsterdam changes is we were really just waiting for Glamsterdam to get into a bit more of a finalized state.
+
+52
+00:13:26.140 --> 00:13:32.579
+lightclient: That way we could be confident that the changes that we were adding weren't going to have to be reworked 3, 4, 5 times.
+
+53
+00:13:32.700 --> 00:13:51.990
+lightclient: So at this point, like, Amsterdam is kind of on its way towards the testnets, and we're pretty happy with, you know, going through with the integration. So most of that work to integrate, and, you know, most of the, like, visible changes to frames now is around this explicit two-dimensional gas support in frames.
+
+54
+00:13:52.710 --> 00:14:03.550
+lightclient: The reason we added it is because with the Glamsterdam change 8037, we are adding a second, you know, state gas dimension, and the way that it's done in…
+
+55
+00:14:04.010 --> 00:14:22.810
+lightclient: you know, 8037 on the existing transaction types is we're sort of hacking it into this, like, one-dimensional, you know, numeric gas value that transactions have, and we're kind of, you know, taking advantage of a few EIPs, such as the 16 million gas limit.
+
+56
+00:14:22.810 --> 00:14:25.619
+lightclient: To, you know.
+
+57
+00:14:25.620 --> 00:14:41.489
+lightclient: allow users to specify state gases beyond the 16 million limit that they would normally have. And so with frames, we wanted to kind of do the right thing with respect to supporting the state gas.
+
+58
+00:14:41.620 --> 00:14:52.409
+lightclient: So now, you know, in the receipts and the transaction object and the handling, we have added the state gas as an official second dimension. And…
+
+59
+00:14:52.870 --> 00:15:01.130
+lightclient: By doing that, it obviously has lots of, like, small areas of undefined behavior that we needed to define.
+
+60
+00:15:01.460 --> 00:15:05.250
+lightclient: And we've kind of got that to the point where I think it…
+
+61
+00:15:05.380 --> 00:15:22.979
+lightclient: is mostly clear what the behavior should be. There's also a lot of small EIPs in Glamsterdam, things like removing the block refunds that need to be correctly integrated, the data-flow pricing, even from, you know, the previous fork, things that we hadn't
+
+62
+00:15:22.980 --> 00:15:33.550
+lightclient: perfectly integrated into the FrameSpec originally, and, you know, change a bit now with the, other integrations of Atlantic Amsterdam pricing.
+
+63
+00:15:33.550 --> 00:15:49.540
+lightclient: the storage refund, the counting in frames. All of this stuff is in this bucket of, like, kind of integrating Glamsterdam, making sure that the gas that we're charging with our frames is correct with respect to, like, all of the EIPs that have existed over the last couple of forks.
+
+64
+00:15:50.450 --> 00:16:04.100
+lightclient: So yeah, Frames, for the most part, hasn't changed substantially since we added the signature list back in May. The 2D gas is probably the most obvious thing, and then there's lots of these, like, small clarifications. So that's kind of where Frames is at right now.
+
+65
+00:16:12.490 --> 00:16:15.900
+marc | wolovim: Thanks, Matt. Added a couple links in there that…
+
+66
+00:16:16.130 --> 00:16:26.099
+marc | wolovim: Might make it easier to see what the new commits are and, EIPs that are building on top of 8141. Would anybody like to add any,
+
+67
+00:16:26.500 --> 00:16:31.519
+marc | wolovim: context about the evolution of frames, any work that's gone in recently?
+
+68
+00:16:38.210 --> 00:16:39.990
+marc | wolovim: Or ask questions about it.
+
+69
+00:16:42.940 --> 00:16:54.400
+Toni Wahrstätter: Maybe… maybe let me just add one quick point, because Tomas is out of office right now, and I guess he would otherwise add it. So we have been working a lot on building
+
+70
+00:16:54.400 --> 00:17:03.719
+Toni Wahrstätter: like, a privacy protocol, or building, like, proof of concepts of privacy protocols on top of frames. And there is also an Ethrex definite already.
+
+71
+00:17:03.980 --> 00:17:15.150
+Toni Wahrstätter: where people can, explore that already. So basically, what it allows you is, like, having, like, a TornadoCash railway, like, privacy protocol where you can withdraw
+
+72
+00:17:15.500 --> 00:17:25.840
+Toni Wahrstätter: And be sponsored by the pool itself. So you don't need a relayer anymore, which completely cuts out all the intermediaries, and…
+
+73
+00:17:26.450 --> 00:17:32.109
+Toni Wahrstätter: Yeah, just to add that we have been exploring what can be done on top of frames.
+
+74
+00:17:44.110 --> 00:17:45.420
+marc | wolovim: Great, thank you, Toni.
+
+75
+00:17:47.360 --> 00:17:53.480
+marc | wolovim: One last call for any… Frame-related Updates.
+
+76
+00:18:01.420 --> 00:18:04.460
+marc | wolovim: Okay, I'm gonna hand the mic then to Chris.
+
+77
+00:18:04.670 --> 00:18:05.620
+marc | wolovim: for,
+
+78
+00:18:06.460 --> 00:18:16.240
+marc | wolovim: the rebuttal, so to speak, 8130, to give us more information about what is, shipping, and I guess to address some of the
+
+79
+00:18:16.440 --> 00:18:25.690
+marc | wolovim: The questions that, has been asked of frames, how 8130 takes a different approach.
+
+80
+00:18:26.310 --> 00:18:31.199
+marc | wolovim: To achieving some of the same ends. So, Chris, are you ready?
+
+81
+00:18:39.910 --> 00:18:42.700
+Chris - Base: Sorry, I think… there we go. Thanks, Mark.
+
+82
+00:18:42.700 --> 00:18:43.280
+marc | wolovim: Yep.
+
+83
+00:18:44.970 --> 00:18:53.600
+Chris - Base: Okay, so yeah, 8130, is launching on base, planned late September, as you mentioned,
+
+84
+00:18:53.750 --> 00:18:56.760
+Chris - Base: We have, OP stack, also…
+
+85
+00:18:57.100 --> 00:19:12.789
+Chris - Base: committing to deploy, at a later point, and then Arbitrum has announced that they will propose, 8130 as their account abstraction standard as well, so it is moving forward, towards, a growing set of adopters.
+
+86
+00:19:13.060 --> 00:19:32.590
+Chris - Base: In terms of the spec, I did share the slides, and video, that I just recorded, this morning. We're going through the same slides here. Basically the, I call it the, like, 8130 thesis, so I'll just go through that now, and obviously the audience is,
+
+87
+00:19:33.060 --> 00:19:42.429
+Chris - Base: much more familiar with a lot of the concepts here, so I can kind of jump through, much faster in the video. The video ended up at 35 minutes or so, so…
+
+88
+00:19:42.540 --> 00:19:47.939
+Chris - Base: I'll just… Yeah, try to get through, the whole thing quickly.
+
+89
+00:19:48.150 --> 00:19:50.819
+Chris - Base: Yeah, but first, so…
+
+90
+00:19:50.940 --> 00:19:58.190
+Chris - Base: First, yeah, thank you, everyone, for, you know, listening. This is, you know, why we're here is to give Ethereum the best future we can.
+
+91
+00:19:58.290 --> 00:20:12.159
+Chris - Base: Raising concerns, putting forward proposals is all part of the process. And if we didn't work towards finding the best solution together and having conversation, that would be a disservice to everyone building on Ethereum. We're all on the same team, so let's discuss together. This is how…
+
+92
+00:20:12.360 --> 00:20:17.289
+Chris - Base: 8130 design evolved into where it is today, so…
+
+93
+00:20:17.650 --> 00:20:34.779
+Chris - Base: The goals for 8130 was really to build for the whole EVM. Took L1 goals, you know, with, like, privacy protocols, et cetera, permissionless innovation, L2 goals at L2 EVM for, high performance. Different profiles for different chain goals, but the same foundation underneath.
+
+94
+00:20:35.020 --> 00:20:46.369
+Chris - Base: And, you know, we're seeing that, based on the L2 adoption, this story as well. Some other important things, all accounts could migrate, obviously there's a bunch of, like, 437 accounts hanging around.
+
+95
+00:20:46.990 --> 00:20:53.100
+Chris - Base: VOAs, and, you know, creating new accounts, that is all, super important. Hi…
+
+96
+00:20:53.450 --> 00:20:57.550
+Chris - Base: a goal is basically, like, portability of an EOA. I think,
+
+97
+00:20:58.030 --> 00:21:04.300
+Chris - Base: we… like, the experience of an ELA was always, you know, the best, because it just worked everywhere. Trying to get back to that.
+
+98
+00:21:06.140 --> 00:21:21.170
+Chris - Base: also build for end-user features, so definitely taking into account, like, you know, high-throughput senders, Agentic, commerce, or Agentic use cases, X402, etc. These all need high-throughput, senders, just for example.
+
+99
+00:21:21.420 --> 00:21:24.719
+Chris - Base: And always building for chain performance. This was,
+
+100
+00:21:25.180 --> 00:21:27.750
+Chris - Base: Extremely important, during the development,
+
+101
+00:21:28.520 --> 00:21:30.680
+Chris - Base: And was a chief consideration.
+
+102
+00:21:31.040 --> 00:21:47.120
+Chris - Base: So for the presentation, the takeaways I hope to convey here is that there's no meaningful capability gap between 8141 and 8130. There is, however, a meaningful gap in how much it costs to get those capabilities, and 8130 being the clear winner here.
+
+103
+00:21:47.380 --> 00:21:57.059
+Chris - Base: 8141 and previous native account abstraction attempts have the same underlying issue, which is their account model, which is what I'll try to… This is the 8130 thesis, I guess, so…
+
+104
+00:21:57.300 --> 00:21:59.620
+Chris - Base: If we look at,
+
+105
+00:22:01.770 --> 00:22:03.720
+Chris - Base: I am sharing my screen, right?
+
+106
+00:22:04.310 --> 00:22:05.280
+Chris - Base: Yeah.
+
+107
+00:22:05.280 --> 00:22:05.910
+marc | wolovim: Yes.
+
+108
+00:22:07.280 --> 00:22:17.059
+Chris - Base: Yeah, if we look at Ethereum today, of course, you know, this is just an EOA, so if we look at this architecture, we have authentication, authority, and the account itself.
+
+109
+00:22:17.230 --> 00:22:23.920
+Chris - Base: this is a decoupled architecture of responsibilities. You can see the authority is the protocol.
+
+110
+00:22:23.930 --> 00:22:39.330
+Chris - Base: The DC Recover over K1 is the, authentication scheme, which returns an address, authority, basically just gives the admin power over the EOA, that gives it its name. The mapping itself is one-to-one.
+
+111
+00:22:39.830 --> 00:22:45.419
+Chris - Base: You know, one, authentication address controls the address, obviously.
+
+112
+00:22:45.640 --> 00:22:54.359
+Chris - Base: I think we can skip 7702s, just showing, like, as we work towards, you know, adding more features towards native AA, this is just…
+
+113
+00:22:54.530 --> 00:23:04.470
+Chris - Base: the updated 7702 transaction to kind of see how we move to the 8130 transaction. So, here we just added code in the,
+
+114
+00:23:04.690 --> 00:23:08.630
+Chris - Base: Account address, and that is now, execution code.
+
+115
+00:23:08.820 --> 00:23:13.090
+Chris - Base: But it still maintains the, decoupled architecture.
+
+116
+00:23:13.410 --> 00:23:15.620
+Chris - Base: So we moved towards 81.30.
+
+117
+00:23:15.730 --> 00:23:26.829
+Chris - Base: Ultimately, the only, change that we do is we make that, authority mapping, not one-to-one, it's now updatable. You update it via assigned payload.
+
+118
+00:23:26.960 --> 00:23:39.209
+Chris - Base: You… what do you update it to? You can actually update it to any contract-defined logic. So the old K1, authenticator, or sorry, the old, EC Recover is just a contract-defined EC Recover.
+
+119
+00:23:39.530 --> 00:23:45.719
+Chris - Base: This means you can, you know, have any sort of authentication scheme you want.
+
+120
+00:23:46.170 --> 00:24:03.419
+Chris - Base: keeping the parallels here, after ID is returned instead of address, these, basically, the key store stores the mapping now, but it's just a mapping layer. It's the same, idea, and, and no, like, large changes. It's just instead of one-to-one, we have this, you know, one-to-end
+
+121
+00:24:03.670 --> 00:24:08.580
+Chris - Base: mapping to any contract-defined logic. And we also have…
+
+122
+00:24:08.930 --> 00:24:20.169
+Chris - Base: authorization capabilities just add scope. So now, you know, instead of it being an admin only, we add the ability to have, scoped access to the account. I'm calling this a key store authorized account.
+
+123
+00:24:20.600 --> 00:24:35.130
+Chris - Base: Now that we… we still have this, decoupled architecture that we wanted to keep, from Ethereum's existing, architecture, and now we'll just start updating the 8130 transaction, to use this.
+
+124
+00:24:35.430 --> 00:24:36.530
+Chris - Base: So…
+
+125
+00:24:36.880 --> 00:24:47.840
+Chris - Base: basically, you know, signature and payer signature, we're going to update to sender and sender auth. We lost the one-to-one mapping, so we need to be explicit about the addresses, that these are controlled.
+
+126
+00:24:47.960 --> 00:24:57.979
+Chris - Base: The, payer auth and sender auth are, this is their encoding, which is an explicit authenticator address, and then the data, passed to that.
+
+127
+00:25:00.850 --> 00:25:13.740
+Chris - Base: Then we'll see, like, ultimately, yeah, I'll, I'll get, move on a bit, but, like, the authenticator address being explicit, explicitly declared in the transaction, is the fundamental goal here.
+
+128
+00:25:13.740 --> 00:25:24.970
+Chris - Base: And we'll see why that's so important. So, just some other changes, quickly. Authorization moves to account changes. We now have to update these mappings, obviously. Like, that's a new potential. We…
+
+129
+00:25:25.020 --> 00:25:37.280
+Chris - Base: Make account changes, which has the 7702 delegation still, the account changes, so you can update the mappings on the key store, and, account creation for deploying bytecode.
+
+130
+00:25:37.580 --> 00:25:48.400
+Chris - Base: Delegation itself isn't like delegation, the same authorization object as 77702, it's been simplified to just be for the sender, so you only have to sign once.
+
+131
+00:25:48.950 --> 00:25:57.710
+Chris - Base: Going through calls, the single call becomes calls, and we add, the call phases, so it's a 2D array of,
+
+132
+00:25:57.930 --> 00:26:02.389
+Chris - Base: I think 8141 calls it atomic call batches.
+
+133
+00:26:02.420 --> 00:26:20.480
+Chris - Base: And then, continuing on, nonce becomes nonce key and non-sequence, so, we add the 2D nonce you're familiar with from 4337. We saw issues with 437 2D nonces. Basically, they're used when, coordination issues become a problem.
+
+134
+00:26:20.560 --> 00:26:32.859
+Chris - Base: And then a lot of state is written to, the chain, as, you know, you're trying to send a lot of transactions through, and you're just picking random nonces, and, you know, state growth, happens fast. So we had an additional,
+
+135
+00:26:33.310 --> 00:26:38.570
+Chris - Base: Sentinel on non-sequence, which allows, non-SLIST transactions, and…
+
+136
+00:26:38.580 --> 00:26:56.989
+Chris - Base: That is basically a replay ID over, the calls, essentially. Like, there's… it includes, kind of, all the fields that, would be important for, a replay ID, so what bounds that after is that there's a ring buffer, we store that in there for, you know, a guaranteed.
+
+137
+00:26:56.990 --> 00:27:01.720
+Chris - Base: Amount of blocks, and then basically after that, the expiry.
+
+138
+00:27:01.730 --> 00:27:14.160
+Chris - Base: prevents it from landing later on. Valid after and valid before are also good UX for the transaction to have. Again, it's always about lifting dependencies to the top level of the transaction.
+
+139
+00:27:14.220 --> 00:27:18.650
+Chris - Base: That is the… a key part of the 8130 thesis.
+
+140
+00:27:18.820 --> 00:27:26.450
+Chris - Base: And then for the last piece here, metadata, we just add that because, people are adding, what is it, data suffix, in the…
+
+141
+00:27:26.940 --> 00:27:32.710
+Chris - Base: Basically, yeah, they just… appending call data to the end of,
+
+142
+00:27:32.940 --> 00:27:38.730
+Chris - Base: a call isn't a great experience, so we just promote this to top level. And our 8130 transaction is done.
+
+143
+00:27:39.560 --> 00:27:50.430
+Chris - Base: So, at the end of all that, we've maintained a decoupled setup of an EOA, which is what we want. Authority is external to the account. Authentication is external to the account, so we have, as I said.
+
+144
+00:27:50.550 --> 00:27:53.420
+Chris - Base: Authenticator code is,
+
+145
+00:27:53.530 --> 00:28:00.590
+Chris - Base: The authentication of the authority is the key store mapping layer, which is the same layer it always had in Ethereum, it's just now can be updated.
+
+146
+00:28:00.740 --> 00:28:03.119
+Chris - Base: Execution code is wallet code.
+
+147
+00:28:03.460 --> 00:28:12.580
+Chris - Base: And this separation allows us to have a declarative transaction type, which explicitly has the authenticator top level. This is key, as we'll see.
+
+148
+00:28:14.170 --> 00:28:32.029
+Chris - Base: This is just some of the words, that I'll be saying here and there, so just to go over one more time. Keystore is just the mapping layer, it has their auth, so you can see the, after config here, has the authenticator, the scopes, and the expiration, and this keystore contract is updated by assigned payloads.
+
+149
+00:28:32.080 --> 00:28:35.319
+Chris - Base: Authenticators authenticate and return an actor ID,
+
+150
+00:28:35.390 --> 00:28:47.590
+Chris - Base: an actor is specified by an actor ID, but it's in the key store with scope, exploration, authenticator, as you said. And accounts just manage actors in the key store, and all accounts can, migrate over.
+
+151
+00:28:47.760 --> 00:28:57.189
+Chris - Base: Or just use it as is. A empty key store is just the normal state of Ethereum. All ELAs are just mapped one-to-one to, EC Recover.
+
+152
+00:28:58.460 --> 00:29:15.279
+Chris - Base: So if we look at a 8130 transaction, again, we have the authenticator, top level visible, we know, that this is, DC Recover. Pass in the 65 byte sig, it'll return the address A as the actor ID, and then we just look up in the key store
+
+153
+00:29:15.280 --> 00:29:21.939
+Chris - Base: If it has, the right scope. We're sending a transaction, so can it send a transaction and can't pay for the gas?
+
+154
+00:29:23.210 --> 00:29:35.599
+Chris - Base: Yeah, again, the authenticator is explicit, therefore we can know dependencies and swap for native code easily. For example, base is, fully native, validation.
+
+155
+00:29:36.490 --> 00:29:44.600
+Chris - Base: Coming back to portability, so, yeah, account portability and great UX was, first-class consideration, as we said. Ultimately, we want
+
+156
+00:29:44.730 --> 00:29:59.149
+Chris - Base: an EOA to feel like… sorry, a smart account to feel like an EOA. So, whatever chain you go to, we want the experience that you can deploy, sync, and act all on a single transaction. So you could create an account, rotate a key, and, you know.
+
+157
+00:29:59.270 --> 00:30:03.620
+Chris - Base: authorizing session key, I guess, where this session key is doing a swap.
+
+158
+00:30:04.150 --> 00:30:11.100
+Chris - Base: And then there's, you know, chain local things, typically for session keys, and global changes, which is typically for admin.
+
+159
+00:30:15.090 --> 00:30:31.679
+Chris - Base: So, key concepts here. Again, 8130 CAP model maintains decoupled code, which means we have execution, authentication, and authorization in different places. This enables us to have a transaction type that is declarative, which therefore means dependencies can be known from inspection of the transaction itself.
+
+160
+00:30:31.980 --> 00:30:42.160
+Chris - Base: Coming back to, you know, sender auth, having authenticator and data. And then we enshrine just a single thing, which is the mapping system, which is the key store, and it's updatable by signed payloads.
+
+161
+00:30:44.340 --> 00:30:59.670
+Chris - Base: So 8141, the account model requires coupled code. So execution, authentication, authorization, are all in the same, account model. So this is just kind of trying to use the same diagram as before,
+
+162
+00:31:00.190 --> 00:31:06.189
+Chris - Base: in their own account, which is calling, like, an internally owned account. The authority, is the account.
+
+163
+00:31:06.200 --> 00:31:25.130
+Chris - Base: And the problems it's caused, basically, like, only the account knows, who is authorized, and then only the account knows the dependencies, and authority is trapped inside an opaque box to the protocol. So, the coupled account means the 8141 transaction type cannot be declarative.
+
+164
+00:31:25.390 --> 00:31:28.209
+Chris - Base: And dependencies must be discovered, i.e. traced.
+
+165
+00:31:28.660 --> 00:31:38.070
+Chris - Base: 8141 enshrines this broken account model, along with new opcodes, trace requirements that can never be removed, and layers of mitigations due to the fundamental issue, the account model.
+
+166
+00:31:39.530 --> 00:31:40.930
+Chris - Base: So…
+
+167
+00:31:41.740 --> 00:31:54.249
+Chris - Base: Moving on, I know there was, you know, a comment saying, do the EIPs people worked on transfer over to 8130? Happy to say that they do. I'll be sharing this slide, I think it's kind of, you know, a lot of work to go into
+
+168
+00:31:54.250 --> 00:32:06.239
+Chris - Base: each of these, but I think you'll see the, pattern, if you look at them, and we're going to go into a case study on the next slide, but, many of the EIP ports have the same difference, frames
+
+169
+00:32:06.240 --> 00:32:11.890
+Chris - Base: defines new behavior by a protocol envelope change. 8130 defines new behavior by contract.
+
+170
+00:32:11.980 --> 00:32:26.040
+Chris - Base: So yeah, I encourage you to try, you know, porting your thing over to 8130 to see how natural it feels. Again, it is, like, there's no actual significant changes to Ethereum, it's just this new map… we're just updating the mapping system to enable,
+
+171
+00:32:26.580 --> 00:32:29.440
+Chris - Base: Any contract to find authentication scheme.
+
+172
+00:32:29.950 --> 00:32:36.999
+Chris - Base: So, recent roots case study. The ring buffer of recent roots is a great idea, and both proposals can use that. If we compare the integration.
+
+173
+00:32:37.100 --> 00:32:53.230
+Chris - Base: frames, this EIP… I'm just reading it from the EIP itself. This EIP inserts recent root references immediately after blob version hashes in the 8141 frame TransactionType Payload. So we have an envelope change, and ultimately what it's trying to do is declare its dependencies.
+
+174
+00:32:53.390 --> 00:33:02.959
+Chris - Base: 8141, you know, I've heard it said, like, oh, it can be the last transaction type, and it's already, you know, requiring, updates that break RLP encoding, etc.
+
+175
+00:33:03.230 --> 00:33:13.910
+Chris - Base: Compare that to 8130. No payload changes needed. 8130 authenticator is declared. Its dependency list can be known from the top-level transaction, and no changes are needed.
+
+176
+00:33:14.230 --> 00:33:25.989
+Chris - Base: We define the new authenticator, recent root auth, and basically we have this encoding, which has, everything needed for the recent root references. RecentRootAuth, I mean, I guess you could code,
+
+177
+00:33:26.390 --> 00:33:42.480
+Chris - Base: have the schema be whatever you want, but the protocol can see recent root auth as the authenticator, and then go, okay, I know how to speak this language. Okay, and there's a sub-authenticator here, which is like the pool zk auth. So, I'll do my, you know, recent root tracking, and then just call the
+
+178
+00:33:42.570 --> 00:33:54.610
+Chris - Base: cool zk authenticator, at a later time, or once I'm, like, once I need to, or whatever. So, again, 8130, no change, it's contract definition, with the protocol integration.
+
+179
+00:33:55.310 --> 00:33:58.180
+Chris - Base: Which is, the ideal system we want.
+
+180
+00:33:58.500 --> 00:34:07.840
+Chris - Base: Going into post-quantum, 8130 speaks the right language, so there's an example of an EIP not needed, we'll see that comment as well.
+
+181
+00:34:08.130 --> 00:34:18.480
+Chris - Base: That's just because we updated the mapping layer over the theorem, and obviously you can just map so the ELA K1 address doesn't work anymore.
+
+182
+00:34:18.620 --> 00:34:31.300
+Chris - Base: The 8355, quantum, algorithm is, naturally 8130 shaped and converts very well. So I'll… you can share that link here, but,
+
+183
+00:34:31.489 --> 00:34:34.519
+Chris - Base: We have, like, the aggregation scheme and everything, set up.
+
+184
+00:34:34.929 --> 00:34:42.230
+Chris - Base: Aggregation's also very easy in 8130. Everything's explicit, or, yeah.
+
+185
+00:34:43.010 --> 00:34:58.670
+Chris - Base: And then, yeah, all old transaction types can be migrated to post-quantum. Again, it speaks, you know, the same language, 1559, 4844. Obviously, we don't have, blob, information in 8130, coming back to it being a,
+
+186
+00:34:58.690 --> 00:35:08.079
+Chris - Base: EVM standard, and not, like, L1's, you know, all the blob… all their use cases for L1, and not trying to consider, like, the whole EVM ecosystem.
+
+187
+00:35:08.680 --> 00:35:12.050
+Chris - Base: A130 is the obvious post-quantum choice.
+
+188
+00:35:12.170 --> 00:35:13.910
+Chris - Base: statelessness.
+
+189
+00:35:14.220 --> 00:35:22.240
+Chris - Base: Another 8130 advantage. So, 8130 is bound to just the key store and world state. It's easy to extend to additional ones, again, because it's declarative.
+
+190
+00:35:22.360 --> 00:35:24.510
+Chris - Base: We just did that with Recent Roots.
+
+191
+00:35:24.660 --> 00:35:31.149
+Chris - Base: 8141, all storage and its discovered dependencies again, and that gap matters for Ethereum's goals like Fossil.
+
+192
+00:35:31.840 --> 00:35:40.220
+Chris - Base: EIP8369 is another thing that tries to mitigate frame issues for validation-only partial statelessness.
+
+193
+00:35:40.350 --> 00:35:42.289
+Chris - Base: Not needed again for 8130.
+
+194
+00:35:42.560 --> 00:35:58.829
+Chris - Base: Other wins of having the authority, live with the protocol, or it's always been, is basically since we have, you know, the protocol can speak keystore, obviously, it can collect, it can garbage collect, expired, authorizations.
+
+195
+00:35:58.960 --> 00:36:02.640
+Chris - Base: So for session keys, for example, you know, I imagine in the future.
+
+196
+00:36:03.020 --> 00:36:08.310
+Chris - Base: there's… I'm gonna have a lot of expired session keys. You can just run, like, a,
+
+197
+00:36:08.670 --> 00:36:27.880
+Chris - Base: pseudo-random periodic suite over the keystore and just clean up, these. So this, this also helps statelessness, keeping the key store, storage growth, more bound to only, you know, active actors. Not possible when the, account model, is the one defining that, authority.
+
+198
+00:36:28.570 --> 00:36:43.780
+Chris - Base: So, stateless or ephemeral accounts are also easy in AD130. Ephemeral ones are important for privacy applications, which I'm using for a segue here. stateless accounts, I have a link here, which is kind of a cool thing to check out, just an idea, but,
+
+199
+00:36:43.780 --> 00:36:51.230
+Chris - Base: It's… when the protocol speaks the, you know, account and authorization, and authority, you can,
+
+200
+00:36:51.490 --> 00:36:53.650
+Chris - Base: Have some, interesting properties.
+
+201
+00:36:54.240 --> 00:36:56.429
+Chris - Base: So using that segue now.
+
+202
+00:36:56.900 --> 00:36:59.780
+Chris - Base: L1 Privacy Protocol goals are first class, so…
+
+203
+00:36:59.950 --> 00:37:08.439
+Chris - Base: Privacy requirements, what do you need for a private transaction? Untraceable sender account, so ephemeral, that's the… what I just mentioned, or a single entry point.
+
+204
+00:37:08.770 --> 00:37:24.850
+Chris - Base: Untraceable, permissionless, no intermediary gas sponsorship. And 8130, gas payment, requires paying for a transaction invalidation pre-execution. So it needs the tools, to be certain that at the end state of a transaction, it is one where it is repaid.
+
+205
+00:37:25.220 --> 00:37:30.150
+Chris - Base: So you need 4 things to do this. It's just a proof via a state transition function.
+
+206
+00:37:32.320 --> 00:37:36.450
+Chris - Base: So you need to know the initial state, which, you…
+
+207
+00:37:36.510 --> 00:37:46.500
+Chris - Base: you do know, because an authenticator is a contract, you can look around. You need to know the state transition function, which you do, because it's the EVM, and it can… it knows the code it cares about.
+
+208
+00:37:46.550 --> 00:37:57.370
+Chris - Base: You need to know the state inputs, which you do have, because the Transaction Context precompile has, calls and CAS, so you know, what calls will execute, and they'll have enough gas to do what they need.
+
+209
+00:37:57.490 --> 00:38:08.729
+Chris - Base: And then finally, so that kind of gets you to, you know, the state that you care about as the first state, as the first call in a Transact, the first call, you know, the first call phase of an 8130 transaction.
+
+210
+00:38:09.190 --> 00:38:21.530
+Chris - Base: And then basically, you need to know anything that occurs after, won't revert your repayment. So, that's the, AD130 call phases, guarantee that call phases are committed.
+
+211
+00:38:21.790 --> 00:38:26.899
+Chris - Base: So we have all four of those, and basically you're guaranteed that
+
+212
+00:38:27.060 --> 00:38:30.120
+Chris - Base: You can pay for gas up front and get repaid.
+
+213
+00:38:30.230 --> 00:38:38.150
+Chris - Base: So authenticators can support any permissionless on-chain pay for repayment flow. Privacy ERC20, and we have some contract examples there.
+
+214
+00:38:40.090 --> 00:38:43.359
+Chris - Base: Okay, yeah, and there's a fifth condition on…
+
+215
+00:38:43.490 --> 00:38:58.089
+Chris - Base: what a permissionless payer needs, that's what we just built here, is that it needs a high number of transactions in the mempool to be useful. For the protocol to grant this, it needs two guarantees. The signature surface is stable, or trackable.
+
+216
+00:38:58.140 --> 00:39:05.560
+Chris - Base: So the transaction won't become invalid due to, you know, an invalid signature or an invalid, check somewhere.
+
+217
+00:39:05.680 --> 00:39:13.500
+Chris - Base: And then, basically, the ETH won't just go to zero for the account, so it can hold, like, thousands of transactions, and there's no mass invalidation risk.
+
+218
+00:39:13.760 --> 00:39:25.480
+Chris - Base: So if we just compare the two here, Frames has a high rate pair, which is canonical bytecode. 8130 has a high rate pair, which is canonical bytecode. But again, execution validation code is coupled
+
+219
+00:39:25.670 --> 00:39:34.169
+Chris - Base: So, mempools need to keep and allow this management for new payers. So if I wanted to write a, new privacy payer integration.
+
+220
+00:39:34.230 --> 00:39:49.819
+Chris - Base: It's up to, you know, the mempool to update to allow that. So it's either permissionless, innovation suffers, mempools have to have… allow this management, or ultimately, you may write… end up writing some key store-looking, like, canonical bytecode.
+
+221
+00:39:49.900 --> 00:39:55.789
+Chris - Base: And that's kind of, you know, maybe should have used the keystore in the first place, and then…
+
+222
+00:39:56.120 --> 00:40:01.629
+Chris - Base: for 8130, Execution, authorization, and authentication is decoupled.
+
+223
+00:40:01.760 --> 00:40:10.769
+Chris - Base: So if you want to permissionlessly write a new permissionless hybrid pair, just go ahead, just write an authenticator, no allow this management needed by any of the nodes. One bytecode can support any flow.
+
+224
+00:40:12.710 --> 00:40:13.540
+Chris - Base: Hey, Chris.
+
+225
+00:40:13.630 --> 00:40:19.799
+marc | wolovim: We're running a little late on time here, so I'll encourage you, if there's any,
+
+226
+00:40:20.200 --> 00:40:21.660
+marc | wolovim: Yeah, I can…
+
+227
+00:40:21.660 --> 00:40:22.180
+Chris - Base: And he's last time.
+
+228
+00:40:22.180 --> 00:40:23.030
+marc | wolovim: center points.
+
+229
+00:40:23.170 --> 00:40:25.180
+Chris - Base: Yeah, so we have performance…
+
+230
+00:40:25.320 --> 00:40:41.549
+Chris - Base: As we've gone through. I know people often say, run 8130 on frames, doesn't actually work. We instantly lose our benefits as we've lost visibility into the decoupled setup due to the frame transaction type. I usually counter with run frames on 8130. It's not great either, but for a different reason.
+
+231
+00:40:41.670 --> 00:40:55.350
+Chris - Base: Basically, if you want your account code to be the sole authority, you're always free to do so. The entire system supports you making any account type you like, so you just implement iAuthenticator on your account.
+
+232
+00:40:55.350 --> 00:41:04.090
+Chris - Base: And have this whole actor use the account address. But now we've just lost the benefits again, because we're using… we're back in the Frame account model, and we've recoupled our decoupled architecture.
+
+233
+00:41:04.140 --> 00:41:04.970
+Chris - Base: So…
+
+234
+00:41:05.490 --> 00:41:13.079
+Chris - Base: Either way, frames is forcing, stuff on the account model. So, how to fix frames. If you fix the account model, you can
+
+235
+00:41:13.230 --> 00:41:19.200
+Chris - Base: Adjust the transaction type to then be declarative. You can drop a signature list of codes, modes, flags, and approvals.
+
+236
+00:41:19.360 --> 00:41:22.310
+Chris - Base: And the only thing that remains is, like, the…
+
+237
+00:41:22.550 --> 00:41:28.120
+Chris - Base: frames themselves, which is, like, call phases. That's not frames, that's 8130 at the end of the day.
+
+238
+00:41:28.230 --> 00:41:33.760
+Chris - Base: And then closing thoughts, I mean, this is the same thing as we've gone through, which is just coupled accounts, decoupled.
+
+239
+00:41:33.950 --> 00:41:37.399
+Chris - Base: Envelope behavior versus contract defined.
+
+240
+00:41:37.620 --> 00:41:42.120
+Chris - Base: And I guess the…
+
+241
+00:41:42.310 --> 00:41:45.209
+Chris - Base: This is the last slide before moving on, but…
+
+242
+00:41:45.500 --> 00:41:51.790
+Chris - Base: So yeah, EOAs felt good for a reason. They just worked because the protocol managed the authority mapping. It was, rigid but universal.
+
+243
+00:41:52.110 --> 00:42:07.040
+Chris - Base: Smart accounts broke when that authority tried to move into wallet bytecoding coupled with everything else. 8141 would enshrine that break. Mitigations will persist forever. 8130 keeps the job where it belongs and simply generalizes the mapping. It enshrines only the exact piece that's needed.
+
+244
+00:42:07.140 --> 00:42:22.029
+Chris - Base: 8130 doesn't, take implementation details from wallets. It enables VOA portability for smart accounts as a protocol feature. We believe it's the right foundation for L1, L2s, and VVM, because it's the same foundation that's always been there. We just couldn't see it.
+
+245
+00:42:22.540 --> 00:42:24.699
+Chris - Base: Thank you, yeah, that's everything, so…
+
+246
+00:42:24.920 --> 00:42:28.289
+Chris - Base: You know, please, yeah, here to discuss.
+
+247
+00:42:28.540 --> 00:42:31.249
+Chris - Base: Anything, and thank you for your time.
+
+248
+00:42:34.760 --> 00:42:37.340
+marc | wolovim: Big thank you for presenting, Chris.
+
+249
+00:42:39.560 --> 00:42:55.649
+marc | wolovim: Gonna open the floor now. I see there's already one hand raised. Felix, you'll start first. I'll just make a general encouragement that from here, we've got about 20 minutes left. If folks can try to channel their energy into figuring out,
+
+250
+00:42:55.730 --> 00:43:02.879
+marc | wolovim: some solutions-oriented, or how to spin your question in that direction. Basically how we can…
+
+251
+00:43:03.020 --> 00:43:05.660
+marc | wolovim: think about taking next steps from here. Go ahead, Felix.
+
+252
+00:43:06.730 --> 00:43:12.419
+Felix: Yeah, I just have a quick question. So, in your slides, you presented this
+
+253
+00:43:12.970 --> 00:43:17.569
+Felix: Argument that the permissionless innovation is…
+
+254
+00:43:18.900 --> 00:43:35.540
+Felix: enabled by your proposal, because you can just implement an authenticator, and then it will automatically be enabled everywhere, but does that not also introduce similar DOS risks and mempool considerations as Frames does?
+
+255
+00:43:35.660 --> 00:43:38.349
+Felix: Because, I mean, you still ultimately have to…
+
+256
+00:43:41.080 --> 00:43:47.240
+Chris - Base: So, with the, like, with the decoupled architecture, I mean, ultimately with…
+
+257
+00:43:48.290 --> 00:44:01.630
+Chris - Base: with authenticators, a lot of them can be made pure. I think the argument for a permissionless payer isn't one that is necessarily pure, but with recent… the recent Roots work, which I think is great, it can be made pure.
+
+258
+00:44:01.630 --> 00:44:11.130
+Chris - Base: And when pure, or, the protocol has visibility into, you know, invalidation easily, and at that point, the mempool can manage it.
+
+259
+00:44:11.140 --> 00:44:11.980
+Chris - Base: But…
+
+260
+00:44:12.120 --> 00:44:31.429
+Chris - Base: that's not true. Yeah, the argument is that if I wanted to use recent routes for my high-rate payer, I just write an authenticator, and it's automatically a high rate payer, because the protocol knows how to speak that. With 8141, the bytecode, has everything coupled, so you…
+
+261
+00:44:31.710 --> 00:44:42.090
+Chris - Base: there's no way to, you know, pull out just that, behavior you want. And if you write a high rate payer in that scenario, you're stuck at one transaction in Medpool.
+
+262
+00:44:43.310 --> 00:45:01.239
+Felix: I am still… sorry to interject a second time, I just have some trouble understanding the argument still, but what I'm hearing is that this is mostly about the pure execution then, so it's about avoiding state access from inside of the validation code.
+
+263
+00:45:03.380 --> 00:45:08.559
+Chris - Base: Well, it depends. I think, like, we're trying to compare, you know, the same things. Like, obviously, if…
+
+264
+00:45:08.880 --> 00:45:20.670
+Chris - Base: It depends on what the trace rules are. The one thing that 8130 has as an advantage is, like, things are cleanly decoupled, so it's much easier to just have a pure function authenticator.
+
+265
+00:45:20.750 --> 00:45:30.440
+Chris - Base: In terms of, you know, if we're both using recent roots, we can write pure functions here, and…
+
+266
+00:45:31.500 --> 00:45:44.660
+Chris - Base: 8130 makes that, like, I can use that and write a permissionless payer, and it can be a high-rate permissionless payer immediately. Not the same in, on 8141, because of the, coupled bytecode for the mempool allow list.
+
+267
+00:45:45.300 --> 00:46:01.169
+Felix: Okay, so I understand. But so the way I see it is that, bytecode can execute in a pure way, even if technically the same bytecode contains code paths which would access the state. So I think it's more like, for the way we see it, it's just that
+
+268
+00:46:01.750 --> 00:46:04.959
+Felix: How you run the thing doesn't necessarily mean that, like.
+
+269
+00:46:05.100 --> 00:46:18.840
+Felix: you know, the code has to be pre-validated to never access the state, it's just more like it cannot hit the state access while it's actually executing. So I feel that this is just a distinction I want to raise, but I'll shut up now, and thank you for your answers.
+
+270
+00:46:20.780 --> 00:46:30.929
+Chris - Base: Yeah, yeah, I think that comes back to, like, discovered dependencies versus declared. Like, execution is kind of the thing that we… we don't want to execute to… to know what,
+
+271
+00:46:31.300 --> 00:46:33.659
+Chris - Base: will invalid… invalidate, I guess.
+
+272
+00:46:33.860 --> 00:46:38.699
+Chris - Base: And when everything's coupled, you can't do, like, you know, a static analysis to determine a pure function.
+
+273
+00:46:39.180 --> 00:46:40.820
+Chris - Base: Yep.
+
+274
+00:46:45.320 --> 00:46:46.050
+marc | wolovim: Official?
+
+275
+00:46:48.610 --> 00:46:59.710
+Kushal Babel: Hey, Chris, thanks for the presentation. I just had one quick question. Did you consider, kind of, modifying the account right itself, so that some of the authenticators can be put
+
+276
+00:46:59.900 --> 00:47:07.429
+Kushal Babel: In the account, prior, because anywhere that is accessed when you want to validate balances and so on in the mempool layer.
+
+277
+00:47:07.730 --> 00:47:11.559
+Kushal Babel: Plus, it seems like… You would have less contention.
+
+278
+00:47:11.740 --> 00:47:17.449
+Kushal Babel: Because the account objects are already segregated compared to, like, a common key store contract.
+
+279
+00:47:19.680 --> 00:47:27.849
+Chris - Base: If I understood correctly, then it is a… like, the common keystore contract does have a lot of advantages, like, we do want that, location.
+
+280
+00:47:28.080 --> 00:47:42.550
+Chris - Base: We can… in terms of, like, also promoting… I mean, if we were doing this, like, on L1, we wanted to, like, modify the EVM to… and re-mercalize everything and have the account leaf have some… some data there, I'm not sure if that's what you were asking.
+
+281
+00:47:46.970 --> 00:48:03.560
+Kushal Babel: I'm just wondering why is the authentication information not stored along with the account object itself? Just like right now, we have, say, you know, balances, nonsense, and public keys stored in the account track, why not store the authentication information there as well?
+
+282
+00:48:04.780 --> 00:48:10.079
+Chris - Base: The, the, like, the mappings that will likely occur is, like, you know.
+
+283
+00:48:10.260 --> 00:48:17.560
+Chris - Base: a million accounts pointing at, a certain, authenticator. Are you, are you saying, like.
+
+284
+00:48:17.680 --> 00:48:24.279
+Chris - Base: Why not hold, like, an array in the account top-level leaf, to… Yeah, all three of them.
+
+285
+00:48:24.280 --> 00:48:26.650
+Kushal Babel: Wrapping the configuration itself there.
+
+286
+00:48:29.720 --> 00:48:39.019
+Chris - Base: Maybe happy to discuss, like, the, you know, lower-level details. I did think about, you know, where the best place to put this is.
+
+287
+00:48:39.020 --> 00:48:51.169
+Chris - Base: landed on a contract for, you know, not only… portability reasons, definitely, included. In terms of, like, you know, a larger modification to the EVM was definitely something I was trying to avoid.
+
+288
+00:48:51.180 --> 00:48:53.030
+Chris - Base: yep.
+
+289
+00:48:55.150 --> 00:48:55.920
+Kushal Babel: Thanks.
+
+290
+00:48:57.470 --> 00:48:57.950
+marc | wolovim: Ben?
+
+291
+00:49:01.360 --> 00:49:02.940
+Ben Adams: Hey,
+
+292
+00:49:03.640 --> 00:49:13.910
+Ben Adams: So, with the… you're saying the dependencies are pre-declared, but aren't you only declaring a… an address? So, if you're using arbitrary…
+
+293
+00:49:14.130 --> 00:49:16.640
+Ben Adams: Authenticators, etc.
+
+294
+00:49:17.030 --> 00:49:19.469
+Ben Adams: They could just be doing random things.
+
+295
+00:49:19.870 --> 00:49:23.379
+Ben Adams: And you still have to trace them to find out what the hell they're doing.
+
+296
+00:49:23.790 --> 00:49:40.540
+Chris - Base: You don't have to trace, so you can operate a traceless profile, again, everything is decoupled, and you can actually, statically analyze for, like, pure functions, just see if there's any, calls, it just has to be to precompile, and if there's no other
+
+297
+00:49:41.790 --> 00:49:48.270
+Chris - Base: You can basically, yeah, like, on Transaction Ingress, for example, you could see, okay, this fits the, you know, and…
+
+298
+00:49:48.390 --> 00:49:58.790
+Chris - Base: You can write it in such a way that you remove the false negatives, but maybe it doesn't cover the whole space, you just have to have certain rules when you write the contract. That's, possible.
+
+299
+00:49:59.000 --> 00:50:05.659
+Chris - Base: But in turn, like, I'm not trying to claim that, You know, the setup…
+
+300
+00:50:06.040 --> 00:50:12.400
+Chris - Base: would, like, never require tracing. Like, ultimately, if you would have an authenticator that you want to be stateful.
+
+301
+00:50:12.560 --> 00:50:24.609
+Chris - Base: It can be, but then we're back to the trace rules of 8141. That's everywhere. 8130, they're kind of, you know, this is how I've outlined, like, chain profiles. Like, a lot of chains don't want to do tracing.
+
+302
+00:50:24.690 --> 00:50:38.120
+Chris - Base: L1 might not want to do tracing with these kind of new capabilities here, and just do pure function rules. There's a lot more freedom having things, you know, able to turn up the dial on exactly what you want.
+
+303
+00:50:45.270 --> 00:50:49.249
+marc | wolovim: Chris, could you drop your slides in the chat? There's been some requests for that.
+
+304
+00:50:52.510 --> 00:50:53.410
+Chris - Base: Yeah, I can do.
+
+305
+00:50:58.810 --> 00:51:16.110
+Chris - Base: So, I see, recent routes require storage, so it can't be pure. So, this is where the protocol integration actually comes in. I believe that was one of the reasons for, the EIP, recent routes. So, if you, if the protocol is aware of it and is tracking it, it can just, you know.
+
+306
+00:51:16.460 --> 00:51:26.809
+Chris - Base: keep that in the mempool as a dependency. So, the dependency is explicit, the sub-authenticator is the one that would be stateless, and we just pass the recent root to it.
+
+307
+00:51:26.920 --> 00:51:37.040
+Chris - Base: It can also see, like, for example, if you're using a 2D nonce for the nullifier, therefore, you know, we have everything we need to, only be using pure functions again there.
+
+308
+00:51:50.270 --> 00:52:01.200
+marc | wolovim: a separate question I've seen, maybe you covered in your presentation, and I could have missed it, but is, something like 7906 possible in 8130? The transaction assertions?
+
+309
+00:52:06.810 --> 00:52:12.649
+Chris - Base: Yeah, so Transaction Insurance, I mean, they have… I think that's an interesting one.
+
+310
+00:52:13.140 --> 00:52:21.549
+Chris - Base: That one is, like, you know, Frame, and it has, like, a kind of a DSL for what defines a valid transaction or not.
+
+311
+00:52:21.920 --> 00:52:33.209
+Chris - Base: ultimately, like, 8130 is contract-defined, so the, like, equivalent thing to build, would be a precompile that you would call with whatever. The proposal for the
+
+312
+00:52:33.500 --> 00:52:46.099
+Chris - Base: that I ended with for, like, 8130's, transaction assertions was actually just allowing, events to be seen on the transaction context precompile as they were made. And the argument there is just that
+
+313
+00:52:46.210 --> 00:53:00.039
+Chris - Base: The things that you care about, like, should be well-written contracts, and well-written contracts should probably have events. Maybe that doesn't apply everywhere, but I think that's, like, open for discussion. So those are kind of the two options there for 8130, which is,
+
+314
+00:53:00.930 --> 00:53:08.660
+Chris - Base: Yeah, add Transaction, events view, or, data precompile with that, with that capability.
+
+315
+00:53:11.560 --> 00:53:20.190
+Chris - Base: Is the registry key store system a contract? Yes. Would it require a hard fork to update it? Yes, but the,
+
+316
+00:53:20.660 --> 00:53:24.020
+Chris - Base: the mapping is very simple, right? Like, it's,
+
+317
+00:53:24.230 --> 00:53:31.920
+Chris - Base: just a signed payload that says, you know, add this after ID with this verifier, with this scope, with this expiration.
+
+318
+00:53:33.480 --> 00:53:35.629
+Chris - Base: There's not much else there.
+
+319
+00:53:35.800 --> 00:53:44.650
+Chris - Base: Then there's the, like, you know, is this a multi-chain, after change, or is it a local after change?
+
+320
+00:53:44.810 --> 00:53:53.669
+Chris - Base: And the only last thing on the keystore is the ability to make sure that a key is not revoked, and that enables the high rate payers.
+
+321
+00:53:55.160 --> 00:54:03.450
+Chris - Base: But if you… if you needed to make an update on the key store, that would be a fork for, like, it has no… it's obviously, like, not upgradable or whatever.
+
+322
+00:54:08.110 --> 00:54:11.789
+marc | wolovim: I see a comment by Matt that's getting a lot of reactions,
+
+323
+00:54:12.390 --> 00:54:19.660
+marc | wolovim: I was gonna encourage him to step up and bring that chat into this space, but, Derek, would you like to say something first?
+
+324
+00:54:21.940 --> 00:54:32.520
+Derek Chiang | Ethlabs: Yeah, you know, I was actually also going to just circle back to Matt's comments. I don't know if you saw it, Chris, you know, but basically, it's basically like the comment that I shared with you in DM as well, basically.
+
+325
+00:54:32.520 --> 00:54:48.709
+Derek Chiang | Ethlabs: You know, I think, like, me personally, I see a lot of really good technical arguments for L130, and I know that a lot of, like, the other L1 core devs, you know, share my thoughts as well. You know, so… but I guess, like, the, question for you,
+
+326
+00:54:48.710 --> 00:54:56.599
+Derek Chiang | Ethlabs: It's basically, like, whether BASE would be willing to essentially work with the L1 in terms of, like, not,
+
+327
+00:54:56.600 --> 00:55:03.199
+Derek Chiang | Ethlabs: essentially forcing the L1's hands by shipping A130 as is.
+
+328
+00:55:03.200 --> 00:55:18.990
+Derek Chiang | Ethlabs: basically, like, before it's able to incorporate feedback from the OR, you know, because, like, if base makes that committal step, then it means that we are now essentially, do not, like, essentially, like, yeah, sorry, like, did you want to chime in? Yeah.
+
+329
+00:55:19.740 --> 00:55:21.310
+Chris - Base: Yeah, I… so…
+
+330
+00:55:21.500 --> 00:55:35.360
+Chris - Base: I mean, like, you know, the starting principle of 8130 was always built for every EVM, and, like, L1 is, you know, the most important thing. Like, base would be happy to delay its fork,
+
+331
+00:55:35.460 --> 00:55:47.549
+Chris - Base: and get feedback from client teams and final changes, etc. You know, we don't… we do want to, you know, keep, moving quickly, so, like, you know, I don't think that's, like, a, move at the speed of.
+
+332
+00:55:47.590 --> 00:55:58.239
+Chris - Base: you know, half a year or whatever, but, you know, would be very excited to work with, everyone on making sure this is, like, absolutely the best spec, possible. So…
+
+333
+00:56:03.310 --> 00:56:09.209
+Derek Chiang | Ethlabs: Yeah, you know, that's my… that's my only question, you know. So, to me, like, that sounds like a really great news, you know, you know, if BASE is willing to…
+
+334
+00:56:09.420 --> 00:56:12.030
+Derek Chiang | Ethlabs: Delay going in life, in order to…
+
+335
+00:56:12.030 --> 00:56:35.489
+Derek Chiang | Ethlabs: you know, for us to keep the possibility open of reaching a spec that can actually be implemented across L and L2s. Yeah, so, yeah, so I would personally recommend that we try to work towards the outcome. You know, to me, like, the final EIP number that we settle on is significantly less consequential than the technical substance, meaning that, like, I really don't care if, like, the number is
+
+336
+00:56:35.490 --> 00:56:49.369
+Derek Chiang | Ethlabs: A130, A141, or anything. I think it's really just about, like, reaching a technical design that works across chains and meets the needs of both L1 and L tools, you know? So, you know, I know people tend to get emotionally attached with, like, the EIP numbers, but…
+
+337
+00:56:49.370 --> 00:57:09.249
+Derek Chiang | Ethlabs: I even want to float the possibility that perhaps we can even, you know, if people feel super attached to numbers, that we can even try to arrive at a new EIP that's, I guess, like, synthesizes the best part of both specs, but I guess that's more like a tactical discussion that we can save for later.
+
+338
+00:57:18.510 --> 00:57:26.560
+marc | wolovim: I've got a couple more hands and only 8 minutes left, so, let's try to keep it constructive and brief. Ivan?
+
+339
+00:57:27.260 --> 00:57:27.840
+marc | wolovim: Or Ivan?
+
+340
+00:57:28.440 --> 00:57:29.360
+Iván | ethrex: Hello.
+
+341
+00:57:29.680 --> 00:57:45.119
+Iván | ethrex: Speaking on behalf of Ethrex, I'd like to say that we've been… to say that we've been working on frames for a couple of months so far. We found that implementing it isn't that complex, and that the flexibility allows.
+
+342
+00:57:45.300 --> 00:57:49.370
+Iván | ethrex: For building impactful features on top of it is very great.
+
+343
+00:57:49.470 --> 00:57:56.470
+Iván | ethrex: We don't have any strong opinion against 8130, but the arguments in favor of it
+
+344
+00:57:56.560 --> 00:57:59.530
+Iván | ethrex: Are not very convincing to us, so…
+
+345
+00:57:59.560 --> 00:58:19.550
+Iván | ethrex: We are still supporting Frames. We'll actually do a proper announcement later this week, or early next week, but we have a couple of… we have exactly two networks, one permissioned privacy-only testnet, including Frames, Keith Nonsense, recent roots, and FOCIL, and also another one more like a kyota-like playground.
+
+346
+00:58:20.020 --> 00:58:27.399
+Iván | ethrex: including DCIPs and also post-transaction assertions, and a proof of concept of native UDXOs.
+
+347
+00:58:27.620 --> 00:58:38.989
+Iván | ethrex: I'd like for people to look up into the implementations to find themselves if it's complex enough, or if it's easy, and also to play around with the features to see if
+
+348
+00:58:39.090 --> 00:58:40.700
+Iván | ethrex: It's what they want.
+
+349
+00:58:47.220 --> 00:58:49.330
+marc | wolovim: That's exciting, thank you. Pedro?
+
+350
+00:58:52.600 --> 00:59:10.669
+Pedro (WalletConnect): I would like to bring back what Derek said, to not get caught up with EIP numbers, because realistically, we're not comparing 8130 and 8141. What we're comparing is a decision whether or not the protocol should own the account model
+
+351
+00:59:10.820 --> 00:59:11.860
+Pedro (WalletConnect): or not.
+
+352
+00:59:12.020 --> 00:59:30.709
+Pedro (WalletConnect): I think the history of Ethereum has shown that it was preferred that the protocol does not own the account model, and it provides the primitives for wallets to actually own the account model. But having spent so much time working with wallets.
+
+353
+00:59:31.210 --> 00:59:48.200
+Pedro (WalletConnect): innovating the account model is essentially just repackaging and rewriting the same transaction batching, gas sponsorship, and key rotation over and over again. It doesn't actually give any competitive advantage, it just provides a burden for wallet implementers.
+
+354
+00:59:48.210 --> 00:59:58.080
+Pedro (WalletConnect): When realistically, we want the same experience for smart accounts as we want for UAs, where it has instant portability across chains.
+
+355
+00:59:58.100 --> 01:00:00.929
+Pedro (WalletConnect): And that means the account model must be the same.
+
+356
+01:00:00.960 --> 01:00:05.069
+Pedro (WalletConnect): That ownership of the account model to move to the protocol.
+
+357
+01:00:05.210 --> 01:00:08.370
+Pedro (WalletConnect): Means that we do not have to…
+
+358
+01:00:08.670 --> 01:00:21.319
+Pedro (WalletConnect): dictate that one implementer or another has chosen a particular caveat of how to do key rotation, of how to do gas sponsorship. It provides no benefit for anyone.
+
+359
+01:00:21.600 --> 01:00:25.570
+Pedro (WalletConnect): And I think the divide here is, are we…
+
+360
+01:00:26.140 --> 01:00:33.750
+Pedro (WalletConnect): Being bold enough to say the protocol will own the account model or not, independent of which approach.
+
+361
+01:00:34.280 --> 01:00:35.800
+Pedro (WalletConnect): Or we're taking.
+
+362
+01:00:39.360 --> 01:00:42.709
+lightclient: I mean, does any clients want to…
+
+363
+01:00:43.090 --> 01:00:48.100
+lightclient: want to stand up and say that the L1 needs to own this aspect of accounts?
+
+364
+01:01:01.780 --> 01:01:06.890
+lightclient: Any clients want to say that they don't want to stand up and own this aspect of accounts on L1?
+
+365
+01:01:13.650 --> 01:01:17.020
+marc | wolovim: Can you, state that,
+
+366
+01:01:17.520 --> 01:01:23.520
+marc | wolovim: another way, like, I know everybody's splitting attention between reading and participating in chat comments, too.
+
+367
+01:01:23.750 --> 01:01:35.430
+lightclient: I mean, half of 8130 is defining a full account system, you know, the portability of how do you migrate these accounts, the access controls for these accounts with the actors.
+
+368
+01:01:35.540 --> 01:01:43.089
+lightclient: You know, all of the things that we typically think live at the, like, kind of user layer of the protocol.
+
+369
+01:01:43.460 --> 01:01:49.199
+lightclient: You know, Pedro is saying that he thinks that the L1 needs to…
+
+370
+01:01:49.330 --> 01:01:55.210
+lightclient: Take responsibility for those aspects of accounts, and we need to start enshrining that logic into the protocol.
+
+371
+01:01:55.460 --> 01:01:57.550
+lightclient: And I'm just asking, like.
+
+372
+01:01:58.070 --> 01:02:07.010
+lightclient: I mean, we need to make a decision on this. Is this something that we're going to be building for or not building for? And I just want to know, like, do any client teams want to support building for…
+
+373
+01:02:07.370 --> 01:02:15.000
+lightclient: you know, that world where we enshrine that behavior into the protocol? Or do any client teams, like, think we should not be doing that?
+
+374
+01:02:17.760 --> 01:02:22.300
+Derek Chiang | Ethlabs: So, not to speak for clients, you know, and I know that I'm kind of, like, front-running.
+
+375
+01:02:22.300 --> 01:02:25.410
+lightclient: Jeremy, can we just hear from the clients first?
+
+376
+01:02:25.950 --> 01:02:39.810
+Derek Chiang | Ethlabs: Yeah, but I do think that, like, this point is, like, confusing enough that it's worth some clarification, you know, before the clients chime in, right? You know, because, to me, the… like, A130 is not, like.
+
+377
+01:02:39.810 --> 01:02:51.610
+lightclient: We're not talking about A130. We're talking about a general question first. We're not getting hung up on EIP numbers. This is just a generic question, like, should L1 own this logic?
+
+378
+01:02:53.180 --> 01:02:53.630
+Derek Chiang | Ethlabs: Okay.
+
+379
+01:02:53.630 --> 01:02:54.529
+Chris - Base: It already does, though.
+
+380
+01:02:54.530 --> 01:02:56.559
+Derek Chiang | Ethlabs: fans speak first, and EL would come in.
+
+381
+01:03:00.120 --> 01:03:05.000
+Mislav | Ethlabs: So… If I may, I think this might be a…
+
+382
+01:03:05.550 --> 01:03:25.130
+Mislav | Ethlabs: place that's easier to solve outside of the core clients, and this is one of the reasons why I am intending to support Frames. I believe that, like, there is a divide between what focuses for the client teams and what the focus is for wallet, and then tooling teams, and otherwise.
+
+383
+01:03:25.530 --> 01:03:36.609
+Mislav | Ethlabs: Frames makes this, sort of, elegant divide, where the core protocol clients don't have to work on this anymore after the frames are merged.
+
+384
+01:03:36.610 --> 01:03:46.579
+Mislav | Ethlabs: What I think is missing in this discussion is this idea that we're gonna have, 7702 again, where every wallet's gonna develop their own implementation. I think
+
+385
+01:03:46.690 --> 01:03:54.180
+Mislav | Ethlabs: that neutral… institutions, maybe the EF, maybe ETH Labs, maybe the wallets, maybe we make a new consortium.
+
+386
+01:03:54.320 --> 01:04:02.310
+Mislav | Ethlabs: Should have a separate governance process, not for a reference implementation, but for a default implementation that everyone uses.
+
+387
+01:04:02.420 --> 01:04:14.200
+Mislav | Ethlabs: Basically, the idea is that you can standardize on top of the protocol, not just within the protocol. I think 8130 is an amazing example of the…
+
+388
+01:04:14.270 --> 01:04:29.609
+Mislav | Ethlabs: good, feature set that might be, given on this, layer, but yeah, I kind of… if wallets don't like something, enshrining it into the protocol is not gonna make them use it. I don't think that's,
+
+389
+01:04:29.780 --> 01:04:35.480
+Mislav | Ethlabs: that's… yeah, I genuinely don't think that it works in that way. So, yeah, that's just my two cents.
+
+390
+01:04:41.460 --> 01:04:54.349
+marc | wolovim: Real quickly, we're at the top of the hour. If anybody needs to run, thanks for coming and your participation. We're gonna keep this going, though, since we've got, a lot of the right voices in the room.
+
+391
+01:04:55.470 --> 01:04:57.109
+marc | wolovim: Okay, I see,
+
+392
+01:04:58.440 --> 01:05:02.470
+marc | wolovim: Mislav, you still have a hand up? I don't know if that's from, your previous point.
+
+393
+01:05:02.470 --> 01:05:03.550
+Mislav | Ethlabs: Sorry, sorry.
+
+394
+01:05:03.870 --> 01:05:06.040
+marc | wolovim: You're good. Tomas?
+
+395
+01:05:07.870 --> 01:05:23.269
+Tomás Arjovsky | Lambda | Ethrex: Hey, so to address what, like I had said a couple of minutes ago about, like, owning or not owning these kind of decisions, I think that in general, one of the philosophies that we agree the most is that the EVM should support
+
+396
+01:05:23.500 --> 01:05:31.369
+Tomás Arjovsky | Lambda | Ethrex: I wouldn't say the bare minimum, but the lowest level possible in order for everyone to build whatever they need on top of it.
+
+397
+01:05:31.380 --> 01:05:46.660
+Tomás Arjovsky | Lambda | Ethrex: In general, you don't want something as basic as the OS or a hardware like the CPU to have very specific things that then you don't know if they will be used, especially if the cost of upgrading is very high.
+
+398
+01:05:46.850 --> 01:05:54.519
+Tomás Arjovsky | Lambda | Ethrex: So, one of the things we… for instance, in the last interop, we tended to agree on, hey, you should try to make
+
+399
+01:05:54.720 --> 01:06:10.159
+Tomás Arjovsky | Lambda | Ethrex: whatever is needed so that they can build their own account models, their own signature systems. If they need precompiles, then you can have precompiles for the most performance-impactful operations.
+
+400
+01:06:10.420 --> 01:06:25.999
+Tomás Arjovsky | Lambda | Ethrex: But then you should probably not try to all get fixed on one account model, or something that makes flexibility very difficult in the future. I think that's one of the reasons why we are supporting frames over 8130.
+
+401
+01:06:28.530 --> 01:06:30.510
+marc | wolovim: Chris, did you want to correct any…
+
+402
+01:06:31.690 --> 01:06:45.039
+Chris - Base: Yeah, so I keep hearing, like, account model bringing the wallet features into the protocol. Like, I think this was basically coming back to what I was trying to say in my slides, which is.
+
+403
+01:06:45.150 --> 01:06:47.260
+Chris - Base: The existing,
+
+404
+01:06:48.090 --> 01:07:07.139
+Chris - Base: like, the existing, setup today is that the protocol does manage the authority. Externally owned account is an externally owned account, and the mapping is controlled by the protocol. All we're doing in 8130 is allowing that mapping to be updated.
+
+405
+01:07:07.390 --> 01:07:14.040
+Chris - Base: the model… the account model of 8141 is definable at 8130. Just deploy an account with its,
+
+406
+01:07:14.410 --> 01:07:15.990
+Chris - Base: Actor as itself.
+
+407
+01:07:16.120 --> 01:07:18.939
+Chris - Base: As its own authenticator.
+
+408
+01:07:19.180 --> 01:07:23.349
+Chris - Base: There you go, you now have brought authority back into the account.
+
+409
+01:07:23.550 --> 01:07:31.750
+Chris - Base: And you can define, you know, any kind of logic you want, and that's also multi-chain. What 8130 is actually doing is just…
+
+410
+01:07:32.110 --> 01:07:49.959
+Chris - Base: enabling that, generalizing that mapping layer that already exists today, it's just one-to-one. But, again, since it's decoupled, it's easy to recouple again to the 8141 account model, which we went through, like, on the slides, which is, you know, causes all of those, follow-up problems, basically.
+
+411
+01:07:54.210 --> 01:07:59.739
+marc | wolovim: Chance for Tomas, if you wanted to get a last word in, otherwise I'm gonna move on to Nico.
+
+412
+01:07:59.740 --> 01:08:10.860
+Chris - Base: Oh, sorry, one… it says both proposals are training complete. You can define the logic of, each and another. So that's, like, the last slide, which is, like, oh, run 81.30 on,
+
+413
+01:08:11.090 --> 01:08:14.339
+Chris - Base: On frames, which, again, you…
+
+414
+01:08:14.550 --> 01:08:19.060
+Chris - Base: the Frame TransactionType is not, declarative, so…
+
+415
+01:08:19.080 --> 01:08:36.039
+Chris - Base: running 8130's account model means it's all… it is, you know, you could set it up contract-wise that way, but ultimately, it's being forced through an 8141 view of the account model, and we lose all the benefits. That's like the… in the slides.
+
+416
+01:08:38.899 --> 01:08:42.459
+lightclient: But you can recreate that through contracts in 8141.
+
+417
+01:08:44.429 --> 01:08:59.599
+Chris - Base: So, you can create… recreate, like, 8130 is portable across accounts, but if you look at the Frame TransactionType, it is only calling the account. Like, you know, it calls the sender to get it approved, so we were trying to execute the account code, which has.
+
+418
+01:08:59.899 --> 01:09:04.389
+lightclient: Yeah, but the account code can be an enshrined code that implements 8130.
+
+419
+01:09:07.600 --> 01:09:11.149
+Chris - Base: That, so the account code could be a keystore-based system.
+
+420
+01:09:11.430 --> 01:09:12.090
+lightclient: Yes.
+
+421
+01:09:12.660 --> 01:09:26.659
+Chris - Base: Right. And that's fair. I'm arguing that the key store is the, like, the existing ethereum is a key store, but it's only one-to-one and updatable mappings. And all we're doing in 8130 is generalizing that.
+
+422
+01:09:26.830 --> 01:09:27.680
+Chris - Base: So…
+
+423
+01:09:27.689 --> 01:09:39.279
+lightclient: Yeah, but you're saying a lot of stuff. You're saying, like, 8130 is more expressive, you're saying that you can't, like, define these, like, you can absolutely define 8130 with 8141, and you can create…
+
+424
+01:09:39.279 --> 01:09:43.499
+Chris - Base: These are… A key store is not A141. You said define a key.
+
+425
+01:09:43.500 --> 01:09:52.299
+lightclient: I'm saying you… you can define a key store account system with Frame transactions, if that's what your L2 wants to do.
+
+426
+01:09:52.700 --> 01:09:58.369
+lightclient: Like, Frames does not stop you from doing these things. Frame allows you a superset of behavior beyond
+
+427
+01:09:58.770 --> 01:10:01.570
+lightclient: what 8130 provides.
+
+428
+01:10:02.680 --> 01:10:18.109
+Chris - Base: If you have, like, the pointer to an account being external, we can always point it to the account again. So, like, I believe the superset is 8130, because we can go back to… like, if you wanted, we could be external, and, you know, call the…
+
+429
+01:10:18.110 --> 01:10:21.569
+lightclient: We can just agree to disagree on that, because I don't agree at all.
+
+430
+01:10:22.850 --> 01:10:25.840
+Chris - Base: Yeah, down to discuss offline, or whatever.
+
+431
+01:10:28.560 --> 01:10:31.969
+marc | wolovim: Okay, let's move on to another point. Nico, you wanna jump in?
+
+432
+01:10:34.540 --> 01:10:35.420
+Nicolas Consigny: Thank you.
+
+433
+01:10:35.860 --> 01:10:55.409
+Nicolas Consigny: So, one quick point around the aggregation and 8141. So, Frame has been designed with a forward-syncing signature that lives in a typed after list, validated outside of the EVM, and so this gives us, like, agility, and it allows to have the feature
+
+434
+01:10:55.670 --> 01:10:58.430
+Nicolas Consigny: Aggregation that we've been working, so…
+
+435
+01:10:58.990 --> 01:11:05.640
+Nicolas Consigny: This is the best way to scale the L1. After years of research, this is the best we have.
+
+436
+01:11:05.750 --> 01:11:12.470
+Nicolas Consigny: And I do feel like, 81.30 is trying to sacrifice everything for, like, L2.
+
+437
+01:11:12.820 --> 01:11:17.709
+Nicolas Consigny: Scaling and some efficiency that we're,
+
+438
+01:11:17.890 --> 01:11:27.800
+Nicolas Consigny: Yeah, we're simply not gonna get the same scaling. If you take the global picture, the one start amortizing thousands of sphinx and XMSS verifications.
+
+439
+01:11:28.170 --> 01:11:35.599
+Nicolas Consigny: is simply the best way that we have to scale the L1, and the frame has been designed exactly for this.
+
+440
+01:11:36.900 --> 01:11:42.419
+Nicolas Consigny: So I just do want to point that if we go another way, we are just, you know,
+
+441
+01:11:43.410 --> 01:12:03.199
+Nicolas Consigny: losing months of research, and I simply don't know where we are going. And then on the crypto agility and the schemes, if we go with the enshrined account model, we will be creating a forever governance debate.
+
+442
+01:12:03.430 --> 01:12:10.960
+Nicolas Consigny: On post-quantum schemes, and what we've just learned in the last 6 months is that the space is moving very, very fast.
+
+443
+01:12:11.100 --> 01:12:16.810
+Nicolas Consigny: I was myself the, one of the first person to push for the lattice-based,
+
+444
+01:12:16.810 --> 01:12:32.470
+Nicolas Consigny: schemes to go on Ethereum. We worked with external teams, and we created EIPs for this, the first version of the precompliance for Falcon and MLDSA. And yeah, recently we learned, thanks to the entropic attack team, that the,
+
+445
+01:12:32.650 --> 01:12:35.990
+Nicolas Consigny: Security boundaries are moving very fast on lattices, so…
+
+446
+01:12:36.900 --> 01:12:53.430
+Nicolas Consigny: Not only would we introduce a infinite, governance game that is… that is going to be very, very challenging to manage, but also, we're gonna enter the emergency hot fork, every time, a new,
+
+447
+01:12:54.000 --> 01:12:56.530
+Nicolas Consigny: AI company, post the paper.
+
+448
+01:12:57.470 --> 01:13:11.800
+Nicolas Consigny: So, just from a cryptography point of view, I think Frame is way stronger and much more forward-thinking. And then there is the entire privacy rabbit hole that I would just drop for the sake of time.
+
+449
+01:13:17.310 --> 01:13:18.330
+marc | wolovim: Thanks, Nico.
+
+450
+01:13:18.630 --> 01:13:20.179
+marc | wolovim: Go ahead, Chris, if you can…
+
+451
+01:13:20.740 --> 01:13:40.069
+Chris - Base: Super quick. Like, ultimately, you can… L1 can decide to run any sort of, rule set it wants to do on the authenticator set, so you can have yours, be completely, you know, permissionless deployment and follow whatever rules you want, similar to 8141, if that's what you prefer.
+
+452
+01:13:41.170 --> 01:13:56.699
+Chris - Base: the restrictions, that, like, the other, you know, L2 profile is defined in the, spec is just so that there is some standards for wallets, to know that this implementation is everywhere, and,
+
+453
+01:13:56.940 --> 01:14:16.690
+Chris - Base: basically, those are only for, like, admin keys. Agree on, like, post-quantum moving quickly, so that's a little bit of something, but at the end of the day, there's not going to be, like, you know, a hundred algorithms that we need to support, I think, on that set. So, even adding, you know, more post-quantum to the set for L2s or whatever.
+
+454
+01:14:16.730 --> 01:14:19.209
+Chris - Base: Isn't, shouldn't be an issue.
+
+455
+01:14:22.290 --> 01:14:34.229
+Nicolas Consigny: But then we would also need to spend a lot of time removing the non-post quantum ones, and discussing which one we remove, and all of this becomes a lot of politics, isn't it?
+
+456
+01:14:34.380 --> 01:14:37.209
+Nicolas Consigny: But, agree with Serpo. Thanks for the answers.
+
+457
+01:14:42.020 --> 01:14:43.330
+marc | wolovim: Okay, Stavros.
+
+458
+01:14:45.240 --> 01:14:47.070
+Stavros Vlachakis: Yeah, hello guys.
+
+459
+01:14:47.170 --> 01:14:53.739
+Stavros Vlachakis: wanted to chime in a bit, in behalf of Nethermind in order to actually answer what
+
+460
+01:14:54.060 --> 01:15:12.070
+Stavros Vlachakis: Matt asked a few times ago, many discussions since then. So, actually, in Nethermind, I don't think we want to own it, Matt. And actually, what we don't want is to limit L1 on any specific account model.
+
+461
+01:15:12.200 --> 01:15:19.209
+Stavros Vlachakis: whether that's 8130 or whatever other number. We feel that…
+
+462
+01:15:19.990 --> 01:15:26.050
+Stavros Vlachakis: A loan behavior should be generic, and marketing adapters of it should decide
+
+463
+01:15:26.430 --> 01:15:33.940
+Stavros Vlachakis: what to use and how, and it shouldn't be coupled to any L1 governance and needing
+
+464
+01:15:34.200 --> 01:15:42.069
+Stavros Vlachakis: add hard forks in order to change something. Yeah, that's what I want to say, Nethermind. I don't know if Bono wants to add something.
+
+465
+01:15:44.530 --> 01:15:46.629
+Ben Adams: Yeah, it's… it's,
+
+466
+01:15:46.980 --> 01:15:56.740
+Ben Adams: So, more important is giving the tools to create, these things. One of the things that 8130 doesn't allow you to do is
+
+467
+01:15:56.950 --> 01:16:01.580
+Ben Adams: post… Transaction payment, so you can't…
+
+468
+01:16:01.930 --> 01:16:05.449
+Ben Adams: You can't pay the transaction afterwards.
+
+469
+01:16:05.630 --> 01:16:14.600
+Ben Adams: For instance, withdrawal from a privacy pool, the transaction that is… the person doing the transaction can't pay for their own transaction.
+
+470
+01:16:14.800 --> 01:16:18.359
+Ben Adams: from the withdrawal, you'd need, like, the privacy bull to…
+
+471
+01:16:18.860 --> 01:16:29.859
+Ben Adams: sponsor it with 81 through 0, which could have legal implications, in that, you know, now everything in that privacy pool is smeared to
+
+472
+01:16:30.030 --> 01:16:37.140
+Ben Adams: The pool, because the pool's paying for them, versus, well, it's the individual who did the withdrawal.
+
+473
+01:16:37.700 --> 01:16:42.490
+Ben Adams: that's their responsibility. It's isolated to them. So there could be,
+
+474
+01:16:43.060 --> 01:16:47.350
+Ben Adams: sort of legal implications, depending on jurisdictions.
+
+475
+01:16:48.140 --> 01:17:04.690
+Ben Adams: But also, yeah, it's more about giving the tools, rather than saying, this is the opinionated account model, and if you want changes to that, that has to go through ACDE, and we have to do a regular state transition on the smart contracts.
+
+476
+01:17:05.070 --> 01:17:12.780
+Ben Adams: All that sort of stuff, rather than the market, you know, if this is… if 8130 is the best.
+
+477
+01:17:12.980 --> 01:17:17.490
+Ben Adams: thing. You can implement it on top of frames,
+
+478
+01:17:17.630 --> 01:17:26.310
+Ben Adams: And, you know, the market can agree with you, or somebody else can innovate, come up with a different one, and that can…
+
+479
+01:17:26.610 --> 01:17:27.900
+Ben Adams: Can replace it.
+
+480
+01:17:28.060 --> 01:17:37.950
+Ben Adams: Whereas enshrining an account model, a very specific… particular form of smart contracts, essentially is putting it on
+
+481
+01:17:38.060 --> 01:17:44.789
+Ben Adams: ACDE… of… You know, what's this gonna be for the next 100 years?
+
+482
+01:17:50.250 --> 01:18:05.999
+Chris - Base: I don't know if you want me to do rebuttals for each of these, but yes, so that is, the, like, only kind of, capability I concede for 8141 that 8130 can't do, which is that frame ordering. You can put approval of a transaction at the end of a
+
+483
+01:18:06.000 --> 01:18:10.580
+Chris - Base: a transaction. So, 8130, everything's, you know, it's validated up front.
+
+484
+01:18:10.680 --> 01:18:12.800
+Chris - Base: that's…
+
+485
+01:18:13.600 --> 01:18:27.620
+Chris - Base: So, yeah, we can't support that flow. I would argue, and the privacy pool case is maybe interesting, but that we want to pay up front, but I think that's fair to concede that that is a 141 capability.
+
+486
+01:18:27.770 --> 01:18:43.339
+Chris - Base: That we don't have. In terms of coming back to, like, this, you know, the canonical thing, like, I don't think, L1 should be concerned about that. If you want fully permissionless innovation, deploy your authenticator, have your account do whatever you want, that's fine.
+
+487
+01:18:43.470 --> 01:18:44.780
+Chris - Base: But…
+
+488
+01:18:44.830 --> 01:19:00.669
+Chris - Base: L2s and other EVMs need these standards, so there should be a reliable set that is shared, and that's ultimately what that's trying to do. It doesn't define… like, ultimately, you know, if all the L2s are on 8130 and L1's on
+
+489
+01:19:00.670 --> 01:19:07.400
+Chris - Base: 8141, we're gonna be in the same state anyway, so it's better that everything speaks the same language.
+
+490
+01:19:07.560 --> 01:19:16.389
+Ben Adams: I mean, there is a fundamental difference there, in that, L2s are… there is a certain degree of centralization.
+
+491
+01:19:16.690 --> 01:19:26.110
+Ben Adams: And deployment of… you know, they are controlled to a greater degree than L1 in terms of
+
+492
+01:19:26.320 --> 01:19:29.730
+Ben Adams: Decentralization and permissions.
+
+493
+01:19:31.830 --> 01:19:36.600
+Ben Adams: So I'm not sure the, the, the… I mean…
+
+494
+01:19:36.850 --> 01:19:44.789
+Ben Adams: L2s can do whatever they want. I'm not saying it's a bad thing to… You know, to do.
+
+495
+01:19:45.090 --> 01:19:49.030
+Ben Adams: Something more controlled? But…
+
+496
+01:19:49.770 --> 01:19:56.659
+Ben Adams: Do you understand there's a… there's a… a difference in terms of… How the governance works.
+
+497
+01:19:59.890 --> 01:20:08.679
+Chris - Base: Yeah, for sure. I'm just saying, you could define identical, like, trace rules for validation as, 8141 for L1.
+
+498
+01:20:09.350 --> 01:20:12.480
+Chris - Base: And never consider yourself with the rest of the standards.
+
+499
+01:20:20.450 --> 01:20:24.920
+marc | wolovim: I think this is a good thread here, but, I'll invite Sahi to jump in.
+
+500
+01:20:27.630 --> 01:20:34.700
+Tsahi Zidenberg: Yeah, hi. I… I think that a very good point is, right.
+
+501
+01:20:35.230 --> 01:20:45.010
+Tsahi Zidenberg: what can we do without a hard fork? It's a point that many people raised, and And I think…
+
+502
+01:20:45.490 --> 01:20:56.550
+Tsahi Zidenberg: I don't… I don't really have a horse in the game, right? I want to… I'm from Offchain. I want to see the best…
+
+503
+01:20:56.700 --> 01:21:06.409
+Tsahi Zidenberg: if it's a new EIP or a fix to whatever, but there are things that ABI 130 does very well, and I think that,
+
+504
+01:21:06.730 --> 01:21:12.809
+Tsahi Zidenberg: 8141, when it added the signatures, it took a great step in the correct direction.
+
+505
+01:21:13.490 --> 01:21:30.010
+Tsahi Zidenberg: But there are things it, we should… it should improve on, and should possibly even learn from, 8130. Like, the fact that in 8130,
+
+506
+01:21:30.330 --> 01:21:35.589
+Tsahi Zidenberg: Signature schemes are basically… Contract addresses.
+
+507
+01:21:36.110 --> 01:21:44.200
+Tsahi Zidenberg: And what that means is, if I go… if today we're in China 8141, at least as I have read it two weeks ago.
+
+508
+01:21:44.310 --> 01:21:48.259
+Tsahi Zidenberg: And tomorrow someone wants to add a new signature scheme.
+
+509
+01:21:48.770 --> 01:22:00.830
+Tsahi Zidenberg: then that someone needs to decide, right, will my new signature scheme be number 4, or number 0X100, or something like that? And that requires coordination.
+
+510
+01:22:01.570 --> 01:22:10.570
+Tsahi Zidenberg: AB130, because the signature scheme is just a contract address, there is no need for coordination, right? As long as I can deploy the same contract
+
+511
+01:22:11.130 --> 01:22:20.269
+Tsahi Zidenberg: On more chains, then more chains can easily make the choice to, to, accept that.
+
+512
+01:22:20.510 --> 01:22:26.969
+Tsahi Zidenberg: So, there are many things that I really like about 8130.
+
+513
+01:22:27.180 --> 01:22:32.519
+Tsahi Zidenberg: And… And if it's not taken as a whole, but just
+
+514
+01:22:32.820 --> 01:22:37.959
+Tsahi Zidenberg: the correct bits of it are taken, I'm… I'm happy.
+
+515
+01:22:38.630 --> 01:22:54.450
+Tsahi Zidenberg: So, mostly it's around that ability to define new signatures, to define them as contracts, and to be as stateless as possible, so that anything, stateful that happens…
+
+516
+01:22:54.680 --> 01:23:01.409
+Tsahi Zidenberg: Can be really, really, really kept down to a very small,
+
+517
+01:23:02.550 --> 01:23:06.149
+Tsahi Zidenberg: Like, not be a part of a verification that
+
+518
+01:23:06.260 --> 01:23:12.850
+Tsahi Zidenberg: that, as far as I understand, the current idea is for verification to mostly do
+
+519
+01:23:13.950 --> 01:23:24.859
+Tsahi Zidenberg: Something around signatures, but they're not stateless enough, so it's very hard to know what a verification frame is doing just from outside the transaction.
+
+520
+01:23:25.270 --> 01:23:27.429
+Tsahi Zidenberg: Where, if we can push
+
+521
+01:23:27.540 --> 01:23:35.409
+Tsahi Zidenberg: more and more and more logic into the signature frames. More and more ways for signature frames to do
+
+522
+01:23:36.270 --> 01:23:42.440
+Tsahi Zidenberg: to, to be able to add, to, to allow signature frames to use
+
+523
+01:23:42.550 --> 01:23:54.680
+Tsahi Zidenberg: weirder signatures defined by a smart contract or whatever, and possibly a verify frame or something else that has very, very limited
+
+524
+01:23:55.280 --> 01:24:02.869
+Tsahi Zidenberg: I'm going to do something stateful, but it's very limited, right? All I'm going to do is check a few things in state.
+
+525
+01:24:03.030 --> 01:24:05.570
+Tsahi Zidenberg: That gets me to a very good position.
+
+526
+01:24:06.380 --> 01:24:14.310
+Tsahi Zidenberg: And, yeah, and I think these are the main ideas that we are pushing.
+
+527
+01:24:14.520 --> 01:24:18.460
+Tsahi Zidenberg: We also tried talking about the guarantor, which…
+
+528
+01:24:18.950 --> 01:24:25.580
+Tsahi Zidenberg: The idea of a guarantor for me is allowing someone to take risk away from the sequencer.
+
+529
+01:24:25.880 --> 01:24:29.719
+Tsahi Zidenberg: Someone can say, I want a different…
+
+530
+01:24:30.050 --> 01:24:40.660
+Tsahi Zidenberg: I believe in this, I don't know, new scheme and that… and it requires more verification gas than the sequencer is willing to pay. That's okay, I support it.
+
+531
+01:24:40.830 --> 01:24:46.140
+Tsahi Zidenberg: I front… I take away risk from the sequencer.
+
+532
+01:24:46.500 --> 01:24:49.730
+Tsahi Zidenberg: And,
+
+533
+01:24:50.140 --> 01:25:01.000
+Tsahi Zidenberg: and now the sequencer can include things easily and know that it doesn't have as much risk. But really, having as much stateless
+
+534
+01:25:01.480 --> 01:25:05.610
+Tsahi Zidenberg: Validation, keeping, and allowing us to
+
+535
+01:25:05.740 --> 01:25:15.559
+Tsahi Zidenberg: really keep stateful to a very, very small thing, I think is the way to go. And if it goes with 8130 or with…
+
+536
+01:25:15.970 --> 01:25:20.849
+Tsahi Zidenberg: 8141, modifications, then wonderful.
+
+537
+01:25:26.450 --> 01:25:27.250
+marc | wolovim: Thanks, honey.
+
+538
+01:25:27.750 --> 01:25:28.960
+marc | wolovim: Eric, your time has come.
+
+539
+01:25:28.960 --> 01:25:37.020
+Derek Chiang | Ethlabs: Sure. Yeah, yeah, you know, so I think I just really want to echo what Sahi just said about how we are not forced to adopt
+
+540
+01:25:37.020 --> 01:25:52.630
+Derek Chiang | Ethlabs: EIP as a whole, right? You know, so that's why I keep saying that we should focus on, like, the technical aspects of the EIP, as opposed to getting attached to the numbers. So, regarding A130 specifically, I think, if I may say to Chris that, like, I think it's, like, important to concede
+
+541
+01:25:52.630 --> 01:25:58.689
+Derek Chiang | Ethlabs: that the L1 will simply not adopt a lot of, like, the more opinionated
+
+542
+01:25:58.690 --> 01:26:19.340
+Derek Chiang | Ethlabs: aspects and functionalities of the accounts, right? Things like the, you know, the actor model, the session keys, the, you know, you know, like, the logs. So I think, like, those are just, like, too opinionated to be forced onto, like, every chain. But the… to me, like, the core… the core technical aspects of A130, that's really, really interesting, and that's why, like, all the L2s like it.
+
+543
+01:26:19.340 --> 01:26:32.730
+Derek Chiang | Ethlabs: is the authenticator-based authentication model, right? You know, because like Tahi said, it allows the sequences, as well as, like, element nodes, to very easily tell what the authentication logic is, right? You know, so then it allows you to
+
+544
+01:26:32.730 --> 01:26:42.499
+Derek Chiang | Ethlabs: optimize the authentication logic with native codes. It allows you to, you know, easily gate particular authentication logic. Yeah, you know, so my proposal is for us to
+
+545
+01:26:42.500 --> 01:26:50.119
+Derek Chiang | Ethlabs: like, just regardless of, like, the EIP number, just for us to seriously consider whether that model may be…
+
+546
+01:26:50.940 --> 01:27:08.719
+Derek Chiang | Ethlabs: the best foundation for, you know, for, you know, for a validation model, you know, for, like, all chats, right? You know, because, you know, like Ben said earlier, you know, he's definitely correct that the frames validation model in which you have, like, all these frames where, like, the validation frame can be in arbitrary position.
+
+547
+01:27:08.740 --> 01:27:18.090
+Derek Chiang | Ethlabs: in the transaction, that model is more flexible and capable than the A130 model, right? You know, like, with the Frame's model, you can pay gas
+
+548
+01:27:18.090 --> 01:27:30.439
+Derek Chiang | Ethlabs: with the ETH you acquired during execution. And like Chris said, like, Chris also conceded that, like, that's a real capability gap. So I think, like, the question is basically, do we prioritize that capability gap?
+
+549
+01:27:30.740 --> 01:27:50.130
+Derek Chiang | Ethlabs: Or do we think that it's more important to have a, you know, a simpler and more, I would say, legible, safer, authentication model that can be easily implemented and safely implemented across L1s and L2s? So I think, like, that's what the decision comes down to, you know, like, just regardless of the EIP numbers.
+
+550
+01:27:54.960 --> 01:27:57.309
+marc | wolovim: So this enshrined key store is coming up.
+
+551
+01:27:57.480 --> 01:27:59.139
+marc | wolovim: Regularly.
+
+552
+01:27:59.320 --> 01:28:01.990
+marc | wolovim: Is this a good time to temp check on…
+
+553
+01:28:02.620 --> 01:28:05.259
+marc | wolovim: Clients' appetite for just that component of
+
+554
+01:28:05.560 --> 01:28:08.220
+marc | wolovim: Accounts being owned in the LM.
+
+555
+01:28:14.370 --> 01:28:18.310
+Stavros Vlachakis: I think Nethermind's opinion and, Ethrex.
+
+556
+01:28:18.750 --> 01:28:24.219
+Stavros Vlachakis: from my one, it's already expressed, so I don't know, maybe… Matt, can you speak on behalf of Jeff?
+
+557
+01:28:26.050 --> 01:28:33.900
+Felix: So, I can give a quick comment on this. I am not inherently against having this kind of functionality, but I also feel that
+
+558
+01:28:34.250 --> 01:28:40.460
+Felix: It has to be… somewhat optional. Like, if you wanna…
+
+559
+01:28:41.100 --> 01:28:48.019
+Felix: Registering account in the system, it's a… it's a good thing, and it can be encouraged, and it has some advantages.
+
+560
+01:28:48.460 --> 01:28:57.999
+Felix: But it shouldn't be the only way, because it has these governance pitfalls, like we were saying, like, if we have a tried registry of these
+
+561
+01:29:00.660 --> 01:29:13.679
+Felix: keys and their schemes, it does mean that we have to come to an agreement on them every time. And actually, if this is to be shared, we have to come to an agreement on this across all the chains.
+
+562
+01:29:14.500 --> 01:29:18.290
+Felix: So it does add a significant… Or didn't.
+
+563
+01:29:21.310 --> 01:29:22.760
+Felix: Matt St. Justice.
+
+564
+01:29:23.090 --> 01:29:25.929
+marc | wolovim: this could be an ERC is… I mean.
+
+565
+01:29:26.950 --> 01:29:31.200
+marc | wolovim: If we want this to be utilized, I think it needs to be packaged. Go ahead.
+
+566
+01:29:31.760 --> 01:29:36.270
+Felix: this was kind of our position from the start on this, I think that… Technically.
+
+567
+01:29:37.170 --> 01:29:54.849
+Felix: it can be an ERC. But the problem with just saying it can't be an ERC is that ERCs have not seen widespread success in some cases, because if you really want to agree on something, it does require a strong signal from the actual
+
+568
+01:29:55.000 --> 01:30:10.439
+Felix: developers of the chain. It's like, yeah, you can make any ERC, but then it's just gonna sit in this pool with thousands of others, and the adoption will really only come if it is pushed from the top. And so this is, like, the downside of having it as an ERC, I guess.
+
+569
+01:30:10.700 --> 01:30:17.509
+Felix: I do think that the idea itself was pretty sensible, to say, yeah, these are the
+
+570
+01:30:18.240 --> 01:30:25.730
+Felix: recommended and universally supported signature schemes, and as far as I understand, 8141 also now
+
+571
+01:30:26.440 --> 01:30:42.179
+Felix: has moved toward that direction by declaring, ever since we added the signature list to the transaction, there is also a way to specify what type of signature it is. So I think it is somewhat of a concession to this idea that, like, we really should agree
+
+572
+01:30:42.280 --> 01:30:47.170
+Felix: On some signatures, but as long as there's always the option for the user to
+
+573
+01:30:47.210 --> 01:31:04.560
+Felix: use a different one. And this is kind of the escape patch that 8141 provides, that you can use another signature scheme that you have defined yourself, and for us, this is the thing that enables users to then prototype, or even wallets to prototype
+
+574
+01:31:07.650 --> 01:31:14.189
+Felix: signature schemes that are not supported by the protocol natively. And we really, really want to keep this functionality
+
+575
+01:31:14.540 --> 01:31:24.930
+Felix: Which is why we think that, in general, we… we see that, like, 8141 has very good extensibility, because
+
+576
+01:31:25.450 --> 01:31:30.099
+Felix: It is possible to bootstrap a completely different account system on top of it.
+
+577
+01:31:30.260 --> 01:31:33.860
+Felix: And… If this turns out to be successful, it…
+
+578
+01:31:34.140 --> 01:31:37.019
+Felix: Can sort of get the blessing
+
+579
+01:31:37.350 --> 01:31:43.340
+Felix: from the core development community as well. But the advantage is you can already deploy the system
+
+580
+01:31:43.390 --> 01:31:53.499
+Felix: even without any coordination, and we feel like this is very important to maintain. But I do also agree that it is good that we have an ability to
+
+581
+01:31:53.500 --> 01:32:04.029
+Felix: agree on specific types of signatures and what they mean. We don't want to leave it fully open, because then it gets very difficult to do the aggregation, and as everyone mentioned.
+
+582
+01:32:04.280 --> 01:32:06.320
+Felix: There are some downsides with that.
+
+583
+01:32:10.220 --> 01:32:15.939
+marc | wolovim: Okay, we've got 3 minutes to the end of the… First extra half hour,
+
+584
+01:32:16.370 --> 01:32:21.390
+marc | wolovim: Derek suggesting, and I, sympathize that we…
+
+585
+01:32:21.630 --> 01:32:30.720
+marc | wolovim: try to wrap up around here, and maybe the best way to do that is, to solicit some next steps and bonus points if,
+
+586
+01:32:31.210 --> 01:32:36.779
+marc | wolovim: You are the person volunteering to execute on any of these next steps.
+
+587
+01:32:41.380 --> 01:32:51.749
+lightclient: I mean, I'm mostly just, like, trying to figure out, you know, who are we trying to convince, and, like, what really needs to happen, because, like, in some ways, a lot of core devs, like, already…
+
+588
+01:32:51.990 --> 01:32:57.570
+lightclient: are happy with the direction the Frames is moving, and there's some, like, discussion points we can keep
+
+589
+01:32:58.160 --> 01:33:04.129
+lightclient: You know, trying to figure out… But, like…
+
+590
+01:33:04.790 --> 01:33:07.590
+lightclient: Broadly, like, who do we need to convince?
+
+591
+01:33:07.990 --> 01:33:18.390
+lightclient: of, like, certain decisions. Like, some people just won't be happy at the end of this. Like, that's just how it is, especially with the count abstracture, where there's so many different decisions that can be made.
+
+592
+01:33:18.660 --> 01:33:28.320
+lightclient: And so I don't really know, like, what is the decision framework? Like, if we want to, you know, actually commit to doing something as SFI in Hagota, like.
+
+593
+01:33:29.120 --> 01:33:31.569
+lightclient: That's usually a decision that the core devs make.
+
+594
+01:33:31.880 --> 01:33:38.539
+lightclient: Obviously, we want, you know, all of the stakeholders to be somewhat… Happy and accepting of this.
+
+595
+01:33:38.940 --> 01:33:53.020
+lightclient: change that we're going to make to Ethereum. But, like, in some ways, we're also… I don't know, you know, a lot of this is, like, Q&A with base about 81.30, and we need to move away from that, and we need to move to Ethereum adopting account abstraction.
+
+596
+01:33:56.790 --> 01:34:01.389
+Stavros Vlachakis: On top of what, actually Matt said,
+
+597
+01:34:01.840 --> 01:34:05.289
+Stavros Vlachakis: I also would want to clarify, let's say.
+
+598
+01:34:05.890 --> 01:34:22.279
+Stavros Vlachakis: what are we trying to achieve here, and what we should do as core devs, for the best of Ethereum, let's say. It's our job to define, which account modular abstraction is gonna be used, or to just…
+
+599
+01:34:22.910 --> 01:34:25.380
+Stavros Vlachakis: give to ethereum adapters.
+
+600
+01:34:26.180 --> 01:34:29.750
+Stavros Vlachakis: The tools and the functionality to… do whatever.
+
+601
+01:34:29.890 --> 01:34:35.970
+Stavros Vlachakis: they think it's better for their use cases. I think that's the question that needs to be answered in order to move on.
+
+602
+01:34:38.560 --> 01:34:41.119
+marc | wolovim: As… as for this meeting,
+
+603
+01:34:41.520 --> 01:34:46.100
+marc | wolovim: The default path is that 8141 proceeds,
+
+604
+01:34:46.610 --> 01:35:05.120
+marc | wolovim: in its current course on Mainnet, and 8130 proceeds in its current course on… with the L2s. But this is specifically an opportunity to, hear feedback from the wider stakeholder, range about what would be impactful for them, or at least,
+
+605
+01:35:05.490 --> 01:35:12.100
+marc | wolovim: perhaps get in the way the least about, helping them achieve their goals as well, so… I…
+
+606
+01:35:12.570 --> 01:35:15.120
+marc | wolovim: I think it has been effective in… in…
+
+607
+01:35:15.570 --> 01:35:20.750
+marc | wolovim: Unveiling some motivations and some of the specifics underneath.
+
+608
+01:35:21.160 --> 01:35:27.520
+marc | wolovim: So I'd say one opportunity is… is… To ask the question, what can…
+
+609
+01:35:27.850 --> 01:35:32.090
+marc | wolovim: Like, what would be the biggest difference makers in… in…
+
+610
+01:35:32.720 --> 01:35:39.670
+marc | wolovim: Small or large tweaks to 8141 that would, make everyone's lives meaningfully better.
+
+611
+01:35:40.030 --> 01:35:45.480
+marc | wolovim: And then,
+
+612
+01:35:46.050 --> 01:35:51.300
+marc | wolovim: Yeah, I lost that train of thought, but I'll let Ansgar pick it up from here.
+
+613
+01:35:51.300 --> 01:35:54.300
+Ansgar Dietrichs: Yeah, I mean, I just wanted to briefly say, I think…
+
+614
+01:35:54.470 --> 01:36:12.159
+Ansgar Dietrichs: the framing of who do we need to convince, I think it's too much from the lens of the L1 decision-making process. Ultimately, yes, the decision is with the CREFs, and I don't think anyone is contesting this, and I don't think the argument here is that L2s now should basically be able to vote in… on the L1 governance process.
+
+615
+01:36:12.160 --> 01:36:16.239
+Ansgar Dietrichs: I think the point is more we overall are trying to
+
+616
+01:36:16.270 --> 01:36:20.410
+Ansgar Dietrichs: Bring in more stakeholders, make these decisions more with the actual…
+
+617
+01:36:20.650 --> 01:36:36.129
+Ansgar Dietrichs: needs and interests of the community at hand. Of course, it's more clear-cut with, say, just application developers on there one, but I think for many years now, we've encouraged the use of the EVM as a technology platform across the Ethereum L2 ecosystem.
+
+618
+01:36:36.140 --> 01:36:43.639
+Ansgar Dietrichs: I think it's possible that we are reaching a point where, not just with accounts, but with several topics, we are…
+
+619
+01:36:43.650 --> 01:37:00.749
+Ansgar Dietrichs: we will see some branching, and maybe L2s will use a different kind of, like, standard going forward than the L1, but I don't think it's inevitable, and I don't know that we should just be cavalier about it, and should just, like, treat that as something trivial that we should just let happen. So I think it's at least clear that we should
+
+620
+01:37:00.750 --> 01:37:13.179
+Ansgar Dietrichs: try our hardest here to see, is there something that we can do that actually satisfies all the needs from all sides? Ultimately, the L1 will go ahead with whatever is best for the L1. That has always been the case, that will be the case, but I do think
+
+621
+01:37:13.210 --> 01:37:21.060
+Ansgar Dietrichs: it's really, really, really important that we have these very active stakeholder engagements and try hard to find common ground here. So that's all I want to say.
+
+622
+01:37:25.820 --> 01:37:32.030
+marc | wolovim: The end of my… train of thought there, too, was, that I think
+
+623
+01:37:32.470 --> 01:37:38.510
+marc | wolovim: Many of 8130's, proponents are perhaps most worried about,
+
+624
+01:37:38.860 --> 01:37:42.800
+marc | wolovim: Frames being adopted, widely and in a…
+
+625
+01:37:43.140 --> 01:37:46.860
+marc | wolovim: timely manner, so I think that, concern is… is…
+
+626
+01:37:47.090 --> 01:37:50.910
+marc | wolovim: Worth, more cycles on figuring out precisely how
+
+627
+01:37:51.520 --> 01:37:54.649
+marc | wolovim: Any of these schemes are,
+
+628
+01:37:54.840 --> 01:37:57.520
+marc | wolovim: Actually get into the hands of users.
+
+629
+01:37:58.670 --> 01:38:02.779
+marc | wolovim: And that's a separate topic that we… Don't have time for today.
+
+630
+01:38:04.090 --> 01:38:13.420
+marc | wolovim: Okay, oh, I maybe would have liked more, like, specific next steps to happen here,
+
+631
+01:38:14.470 --> 01:38:17.979
+marc | wolovim: But I think it's about time to close this thing out.
+
+632
+01:38:19.040 --> 01:38:24.820
+marc | wolovim: Before… this is kind of a last chance, would anybody, like to…
+
+633
+01:38:25.140 --> 01:38:36.430
+marc | wolovim: commit to any specific next steps themselves, whether it be a proposal to tweak one of, for example, frames to add a specific set of functionality? Is there a next
+
+634
+01:38:37.010 --> 01:38:41.969
+marc | wolovim: A very next step, or a specific question.
+
+635
+01:38:42.230 --> 01:38:47.350
+marc | wolovim: That we can, seek to… to address to keep moving this forward?
+
+636
+01:38:49.970 --> 01:38:55.600
+lightclient: I mean, I think if somebody wants to make a proposal to add key stores to frames, that's…
+
+637
+01:38:55.820 --> 01:39:03.420
+lightclient: To me, the obvious way… the obvious place that we can, you know, really… understand the…
+
+638
+01:39:03.650 --> 01:39:08.970
+lightclient: The proposal, and decide if… That's something that we want to do on mainnet.
+
+639
+01:39:09.210 --> 01:39:12.580
+lightclient: I think that, you know, a lot of us have spent the last…
+
+640
+01:39:12.880 --> 01:39:17.800
+lightclient: I mean, I've looked at 8130 for a while, I think a lot of people spent the last week looking at 8130,
+
+641
+01:39:17.990 --> 01:39:27.399
+lightclient: I don't think any client team right now feels that 8130, you know, in its current form, is something that is going to make sense on L1.
+
+642
+01:39:28.540 --> 01:39:32.270
+lightclient: And so I think that we should focus on
+
+643
+01:39:32.610 --> 01:39:40.940
+lightclient: These, like, specific points of contention and see if there are ways to integrate that into this, like, frame structure that we've been working on.
+
+644
+01:39:41.130 --> 01:39:44.120
+lightclient: With 8141.
+
+645
+01:39:45.960 --> 01:39:51.570
+Felix: Is it… I mean, the way I see it is, if we make a, like, an…
+
+646
+01:39:51.770 --> 01:39:57.450
+Felix: companion EIP that just focuses on the key stored, then I think that could be a good start.
+
+647
+01:39:58.330 --> 01:39:59.270
+Felix: Because…
+
+648
+01:39:59.270 --> 01:40:02.300
+lightclient: Yeah, that's also a good… a good way, probably.
+
+649
+01:40:02.300 --> 01:40:12.359
+Felix: We will probably need to do this anyways, because we were saying, like, I mean, if base is gonna have the key stored, then, I mean, there has to be some kind of interoperability between that one and…
+
+650
+01:40:12.500 --> 01:40:25.430
+Felix: So, we have to kind of come to a… the way we typically resolve such debates is then just to say, well, if there's some kind of interface that we can both use, and…
+
+651
+01:40:25.500 --> 01:40:33.959
+Felix: then it's actually kind of fine, because ultimately, if we… we don't really want to sacrifice the account portability. So if people deploy…
+
+652
+01:40:34.200 --> 01:40:40.640
+Felix: if there is a keystore on L1, and people deploy their accounts there, typically, then it's kind of fine if…
+
+653
+01:40:40.900 --> 01:40:42.699
+Felix: If, if we,
+
+654
+01:40:44.730 --> 01:40:55.210
+Felix: If we disagree on the transaction encoding, because de facto, we disagree on the transaction encoding even now with the L2s. There's no kind of universal transaction.
+
+655
+01:40:55.320 --> 01:41:03.659
+Felix: At least not with most L2s. So you, anyway, have to create a specific transaction for each L2, but if you can at least share
+
+656
+01:41:03.860 --> 01:41:07.310
+Felix: The… the keys, then that'd be good.
+
+657
+01:41:07.620 --> 01:41:26.120
+Felix: So I think that's… that would be the way forward. And, to Chris's point there in the chat, so, the way it works with 8141 and the mempool is just that we just need the guarantee that a single action on the contract cannot invalidate many
+
+658
+01:41:27.190 --> 01:41:36.420
+Felix: transactions that are currently queued up in the mempool. So as long as we can uphold this guarantee, so as long as we can have a model of this contract in the mempool that
+
+659
+01:41:36.590 --> 01:41:43.270
+Felix: basically proves that this is not possible. The contract can totally be… added.
+
+660
+01:41:43.480 --> 01:42:01.559
+Felix: to the allow list for public manpool processing. So it's just that the only reason why we don't support completely arbitrary validations and completely arbitrary paymasters in the 8141 is because it could have these DOS risks.
+
+661
+01:42:01.660 --> 01:42:18.560
+Felix: But I think with the key store, that doesn't really exist, because you need to send a specific transaction or a specific account to remove or add one key, in which case only one transaction can be invalidated. It does, however, mean that in the long run, we have to make sure the
+
+662
+01:42:19.250 --> 01:42:29.740
+Felix: The Manpool kind of can act on these events as well, and then remove transactions that have been invalidated by keystore updates, things like that.
+
+663
+01:42:29.990 --> 01:42:33.469
+Felix: But this is anyway something that's more for the long run.
+
+664
+01:42:37.460 --> 01:42:42.880
+Stavros Vlachakis: Yeah, yeah, sorry, Felix. I would also want to add that…
+
+665
+01:42:43.110 --> 01:42:51.170
+Stavros Vlachakis: Whatever improvement, anybody sees, either on frames or… Even something, possibly.
+
+666
+01:42:51.320 --> 01:42:58.559
+Stavros Vlachakis: better than Frames that is generic and allows all these, let's say…
+
+667
+01:42:59.010 --> 01:43:05.270
+Stavros Vlachakis: Account abstractions, and allowing everyone to use whatever he likes, and adapt it.
+
+668
+01:43:05.470 --> 01:43:13.330
+Stavros Vlachakis: is very more than welcome, in this EIP or in another EIP, it doesn't matter, it doesn't matter the numbers or the names.
+
+669
+01:43:13.490 --> 01:43:19.210
+Stavros Vlachakis: I think… Personally, that's… what is gonna…
+
+670
+01:43:19.470 --> 01:43:23.630
+Stavros Vlachakis: move Ethereum further, and make it bigger and stronger.
+
+671
+01:43:26.670 --> 01:43:29.019
+marc | wolovim: I think that's a great point to end on.
+
+672
+01:43:29.130 --> 01:43:31.930
+marc | wolovim: Thank you, everybody, for coming.
+
+673
+01:43:32.040 --> 01:43:37.159
+marc | wolovim: I feel like we got to a much nicer landing spot there in the last couple minutes.
+
+674
+01:43:37.450 --> 01:43:41.860
+marc | wolovim: See everybody on, Thursday for ACDE.
+
+675
+01:43:41.960 --> 01:43:44.080
+marc | wolovim: And, have a great rest of your week.
+
+676
+01:43:47.110 --> 01:43:47.840
+Chris - Base: Next up.
+
+677
+01:43:48.960 --> 01:43:49.800
+Stavros Vlachakis: Oh, mate.
+
+678
+01:43:52.940 --> 01:43:53.580
+Kevaundray Wedderburn: Thanks.
+
