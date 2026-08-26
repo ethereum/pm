@@ -1,0 +1,1530 @@
+WEBVTT
+
+1
+00:00:38.260 --> 00:00:40.060
+Kamil Salakhiev: Hey, Daniel. Hey, Jiaheng.
+
+2
+00:00:41.320 --> 00:00:42.070
+Jiaheng Li: Hello.
+
+3
+00:00:42.560 --> 00:00:43.190
+Daniel Knopik: Hey.
+
+4
+00:00:51.110 --> 00:00:52.849
+Kamil Salakhiev: Yeah, let's wait for others.
+
+5
+00:00:59.220 --> 00:01:00.950
+Kamil Salakhiev: Hey, Raul.
+
+6
+00:01:03.960 --> 00:01:04.629
+Raúl Kripalani: Nope.
+
+7
+00:01:04.819 --> 00:01:05.519
+Raúl Kripalani: Stop.
+
+8
+00:01:50.220 --> 00:01:51.109
+Anton Nashatyrev: Hey, guys.
+
+9
+00:01:53.270 --> 00:01:54.420
+Kamil Salakhiev: Yeah, everyone.
+
+10
+00:02:19.410 --> 00:02:20.150
+Kamil Salakhiev: Absolutely.
+
+11
+00:02:28.250 --> 00:02:33.549
+Kamil Salakhiev: Alright, I think we… Ready? So, yeah, let's get started.
+
+12
+00:02:33.670 --> 00:02:36.999
+Kamil Salakhiev: Yeah, as usual, yeah, welcome everyone. So…
+
+13
+00:02:37.530 --> 00:02:48.119
+Kamil Salakhiev: Yeah, today we have, debut clients updates, and also, yeah, Jiaheng will speak about his work on gossip-sub, so yeah, should be good.
+
+14
+00:02:48.300 --> 00:02:51.270
+Kamil Salakhiev: an interesting photo, and hopefully.
+
+15
+00:02:51.390 --> 00:02:58.419
+Kamil Salakhiev: Yeah, let's start with client updates. So, yeah, maybe with Prysm this time.
+
+16
+00:02:59.410 --> 00:03:00.090
+Kamil Salakhiev: Nope.
+
+17
+00:03:00.320 --> 00:03:03.329
+Kamil Salakhiev: Who do we have from Prysm's side? Maybe Casey?
+
+18
+00:03:04.080 --> 00:03:04.650
+kasey: First up here.
+
+19
+00:03:06.650 --> 00:03:08.189
+Kamil Salakhiev: Pars also here, yeah.
+
+20
+00:03:08.190 --> 00:03:09.440
+ashah: Yeah, so…
+
+21
+00:03:10.760 --> 00:03:21.140
+ashah: On the partial column side, just our Gloas partial column work is dev-complete. We've tested… done interop testing with, Lighthouse on…
+
+22
+00:03:21.310 --> 00:03:34.559
+ashah: Gloas, it looks good. Now we're just in the process of rebasing it against our other GLAS work, and I'm hoping this week or next week, we'll land it in the developed branch. So…
+
+23
+00:03:34.890 --> 00:03:45.019
+ashah: And the other important workstream that we've started now is revamping peer scoring in Prysm. You know, there have been some issues lately
+
+24
+00:03:45.270 --> 00:03:51.069
+ashah: With peer… Prysm disconnecting peers on Glamsterdam 78 because of some…
+
+25
+00:03:51.300 --> 00:03:58.150
+ashah: problems in… in how Prysm does gossip-sub-scoring, and there's a… And,
+
+26
+00:03:58.590 --> 00:04:07.820
+ashah: Yeah, it's basically time to revamp and refactor the entire peer scoring layer in Prysm, so that's what I'm working on.
+
+27
+00:04:08.160 --> 00:04:25.430
+ashah: The idea is to make peer scoring more observable, have a nice audit trail, make it easy to debug why we are banning or disconnecting certain peers, why we are bumping up or down the score of certain peers, so it should be easy to introspect and simplify the algorithm a little bit.
+
+28
+00:04:26.860 --> 00:04:32.969
+ashah: My goal is to… yeah. My goal is to have a design… like, I'm in… right now in the process of…
+
+29
+00:04:33.380 --> 00:04:37.580
+ashah: writing a lot of code and testing it on Hoodi and…
+
+30
+00:04:37.820 --> 00:04:41.989
+ashah: Yeah, I'm hoping to have a design doc ready once I'm done with this
+
+31
+00:04:42.370 --> 00:04:56.470
+ashah: dev phase, so that it's easy for other people to understand the changes that we are making, and I'll… I'm hoping… I'll definitely have it ready before our next P2P call. So I'll share it with everyone here if they're interested to just take a look.
+
+32
+00:04:56.760 --> 00:05:00.739
+ashah: Yeah, that's it on… on Prysm's side. I'd like to know if you have questions.
+
+33
+00:05:04.550 --> 00:05:06.810
+Kamil Salakhiev: Okay, interesting. Thanks, Marge.
+
+34
+00:05:08.120 --> 00:05:11.810
+Kamil Salakhiev: Yeah, let's proceed with Lighthouse, daniel?
+
+35
+00:05:12.430 --> 00:05:23.439
+Daniel Knopik: Yeah, no big news, but we are considering enable partial columns on mainnet with our next release. I think I posted about that in the channel already, but yeah.
+
+36
+00:05:24.050 --> 00:05:27.420
+Daniel Knopik: Beyond that, yeah, just some…
+
+37
+00:05:28.390 --> 00:05:37.390
+Daniel Knopik: research, around Waggle. I've been thinking about possible API, for it.
+
+38
+00:05:37.900 --> 00:05:41.659
+Daniel Knopik: And miscellaneous, smaller, other stuff.
+
+39
+00:05:44.710 --> 00:05:46.140
+Kamil Salakhiev: Okay, good, thanks.
+
+40
+00:05:46.400 --> 00:05:51.990
+Kamil Salakhiev: Yeah, Anton, do you have to share anything, maybe from tech side?
+
+41
+00:05:52.640 --> 00:05:59.629
+Anton Nashatyrev: Yeah, no, no, sorry, I'm not aware of any major, things and tickle.
+
+42
+00:06:00.510 --> 00:06:02.339
+Kamil Salakhiev: Okay, no problems.
+
+43
+00:06:02.590 --> 00:06:09.659
+Kamil Salakhiev: Okay, yeah, let's proceed maybe with EL subdates. Geth?
+
+44
+00:06:10.490 --> 00:06:13.030
+Kamil Salakhiev: I don't know, Cabo, do you want to speak?
+
+45
+00:06:14.060 --> 00:06:22.609
+Csaba: Yeah, so… One guess, I was working a lot on, on Spa's pool, last week.
+
+46
+00:06:23.950 --> 00:06:30.659
+Csaba: the… we did a few changes to how we are doing Galisial recovery,
+
+47
+00:06:31.190 --> 00:06:43.769
+Csaba: And not using Azure when we not needed, so we were speeding up a bunch of operations. The previous implementation, we sometimes were doing recovery when we had all the systematic cells, so we could just basically
+
+48
+00:06:44.730 --> 00:06:49.530
+Csaba: Copy them together, and have the blob, so that's fixed.
+
+49
+00:06:49.990 --> 00:06:57.000
+Csaba: And then, there is another one, which is, typical lead sermon zk, which is…
+
+50
+00:06:57.350 --> 00:07:05.580
+Csaba: If you have the systematic cells, you are not doing recovery, but you are encoding, so that also brings down operations from…
+
+51
+00:07:06.220 --> 00:07:08.999
+Csaba: 50 milliseconds to 4 milliseconds.
+
+52
+00:07:09.660 --> 00:07:14.819
+Csaba: So lots of speedup in… in that, and also fixed…
+
+53
+00:07:15.310 --> 00:07:25.700
+Csaba: serving, spas-Bapur, so we had… Optimizations in the…
+
+54
+00:07:26.330 --> 00:07:30.910
+Csaba: So whenever, you are basically… needing…
+
+55
+00:07:31.090 --> 00:07:39.689
+Csaba: More than 64 columns, 64 or more columns. Then on the vial, we would send the systematic, so the first 64.
+
+56
+00:07:40.230 --> 00:07:46.180
+Csaba: But then we were not able to serve, actually, the,
+
+57
+00:07:46.480 --> 00:07:54.500
+Csaba: the custodied columns, because you had the first 64, and you might need something else. And this was…
+
+58
+00:07:54.850 --> 00:08:13.799
+Csaba: was distorting the network side, so serving on the network, and also serving Towards before, so I was fixing that. Now the new version is… is basically recovering on the fly, stalling the full,
+
+59
+00:08:13.840 --> 00:08:15.140
+Csaba: as it's recorded.
+
+60
+00:08:15.210 --> 00:08:27.990
+Csaba: version on disk. It is not modifying how… what's happening on the network, so bandwidth-wise is still the same, but it's storing the full, and then it's serving fast, both to network and GetRePS v4.
+
+61
+00:08:28.660 --> 00:08:30.949
+Csaba: So these should be in.
+
+62
+00:08:31.290 --> 00:08:39.699
+Csaba: Then, by doing this work, I was also looking into the… because I was doing these changes in the ELS recording, I was checking
+
+63
+00:08:40.240 --> 00:08:50.190
+Csaba: what the underlying libels are doing. So what to know there is that we have… we… by default, we are operating with GoCzG, but we also have a…
+
+64
+00:08:50.720 --> 00:08:52.830
+Csaba: way to operate with ZKZG.
+
+65
+00:08:52.950 --> 00:09:04.490
+Csaba: And, both Go KZG and ZKZG is not just KZG, but it's also the lead sermon encoding, so it's… it's GoCG lead sermon and zkZG lead sermon over the BNS curve.
+
+66
+00:09:05.270 --> 00:09:14.639
+Csaba: So I was looking into those and, found… A number of ways to… Speed those up,
+
+67
+00:09:14.840 --> 00:09:18.750
+Csaba: Speedups are huge on GoKZG. We are speaking of…
+
+68
+00:09:19.020 --> 00:09:29.219
+Csaba: full-time speed increases in some cases. ZKZG is much less, because it already had some of the things that I was putting to go kzg.
+
+69
+00:09:31.130 --> 00:09:39.509
+Csaba: no KZG has an edge in some cases, because it's parallelizing in itself, so if you have just one
+
+70
+00:09:39.590 --> 00:09:52.979
+Csaba: blob to deal with, and you have the CPU resources to parallelize, then Go KZG, the operations which take 14 millisecond Go KZG and 200 on, on, ZKZG,
+
+71
+00:09:53.660 --> 00:10:05.730
+Csaba: This vanishes, disadvantage vanishes if you have, like, 8 blobs to work on in parallel, and you have 8 CPU cores, because then you can parallelize the other way. Anyway, a bunch of implements there,
+
+72
+00:10:06.330 --> 00:10:09.539
+Csaba: In PRs, not in production, definitely.
+
+73
+00:10:10.390 --> 00:10:14.660
+Csaba: So that's that. Then what else?
+
+74
+00:10:15.380 --> 00:10:25.490
+Csaba: The protected pillippers is now on… on… on, Master?
+
+75
+00:10:27.130 --> 00:10:37.499
+Csaba: I think it's also now in our last studies, but, so it means that our PLs are now checking the quality of pills and protecting some of them from being dubbed.
+
+76
+00:10:38.630 --> 00:10:48.759
+Csaba: So that's… Good. And then… yeah. And then I did, a bunch of… Exploratory work on…
+
+77
+00:10:49.120 --> 00:10:52.080
+Csaba: Going back to the topic of sending
+
+78
+00:10:53.050 --> 00:11:04.249
+Csaba: things fast over the gossip sub, and related things. So I was doing a huge exploration on fast block diffusion.
+
+79
+00:11:04.960 --> 00:11:10.029
+Csaba: Exploring the design space, working with…
+
+80
+00:11:10.380 --> 00:11:28.609
+Csaba: the PLISP code base, exploring, what if we do a really simple segmentation? What if we do, ledger coding? What if we do multiple topics, topics per segment, and so on and so forth? What if we do batch publishing? What if we do.
+
+81
+00:11:28.800 --> 00:11:35.870
+Csaba: Push, lazy, and non-lazy. So, push and pull, basically.
+
+82
+00:11:36.310 --> 00:11:40.580
+Csaba: So, exploring all these kind of things, and I'm preparing a Bright upon diffs.
+
+83
+00:11:40.940 --> 00:11:45.979
+Csaba: Having left, if anyone is interested, ping me and I can share.
+
+84
+00:11:46.680 --> 00:11:53.560
+Csaba: where I am with that. Yeah, but things are looking good, in the sense that it seems we can
+
+85
+00:11:53.980 --> 00:12:02.509
+Csaba: Speed up, block diffusion with the primitives we have, quite a lot compared to what we are doing today.
+
+86
+00:12:06.050 --> 00:12:07.069
+Csaba: That's it.
+
+87
+00:12:11.140 --> 00:12:13.119
+Kamil Salakhiev: Okay, thanks, Caba.
+
+88
+00:12:13.450 --> 00:12:20.339
+Kamil Salakhiev: Yeah, I think you pretty much covered almost everything, I think, I guess. I don't know, Bosul, do you want to add anything, or are we good?
+
+89
+00:12:24.360 --> 00:12:27.569
+Bosul Mun: I think Trevor imagined most of it.
+
+90
+00:12:27.730 --> 00:12:35.000
+Bosul Mun: We have some security issues, referred from AI, and…
+
+91
+00:12:35.910 --> 00:12:38.820
+Bosul Mun: I, I, I'm planning to…
+
+92
+00:12:38.950 --> 00:12:45.540
+Bosul Mun: summarize this, and one of them is, what Caba mentioned. The peer can…
+
+93
+00:12:45.920 --> 00:12:58.190
+Bosul Mun: force us to compute, recover, or compute cells and blobs by recasting multiple, get transactions.
+
+94
+00:12:58.390 --> 00:13:12.300
+Bosul Mun: Messages on the… like, including that, I will make some… some document that… summarizes those. Yes, thank you.
+
+95
+00:13:14.580 --> 00:13:15.770
+Kamil Salakhiev: Good. Thank you.
+
+96
+00:13:16.770 --> 00:13:21.489
+Kamil Salakhiev: Flcl, would you like to report for another mind?
+
+97
+00:13:29.200 --> 00:13:32.359
+Kamil Salakhiev: Oh, I guess your mic is not working again.
+
+98
+00:13:32.360 --> 00:13:33.959
+FLCL: Can you hear me?
+
+99
+00:13:33.960 --> 00:13:34.869
+Kamil Salakhiev: Now, your fear.
+
+100
+00:13:34.870 --> 00:13:40.690
+FLCL: If you're asking about status, so… Oh, we're…
+
+101
+00:13:40.960 --> 00:13:47.559
+FLCL: Trying to improve IPv6, support, across, the stack.
+
+102
+00:13:48.630 --> 00:13:55.559
+FLCL: Well, we are trying to merge sparse and Snap2, hope it will appear in Master soon, in days.
+
+103
+00:13:56.280 --> 00:13:58.790
+FLCL: What bills?
+
+104
+00:13:59.210 --> 00:14:07.720
+FLCL: I really won't try to include a boot node release, in the next, the Mind release, but maybe it will be…
+
+105
+00:14:07.950 --> 00:14:13.789
+FLCL: Available is, as an official emission soon, later.
+
+106
+00:14:13.940 --> 00:14:15.340
+FLCL: Yup.
+
+107
+00:14:15.820 --> 00:14:17.099
+FLCL: What, what, what, what?
+
+108
+00:14:21.840 --> 00:14:22.870
+Kamil Salakhiev: Okay, great.
+
+109
+00:14:23.310 --> 00:14:28.529
+Kamil Salakhiev: Yeah, any other, client that I missed?
+
+110
+00:14:29.210 --> 00:14:37.379
+Kamil Salakhiev: Okay, great, if… Nothing else? Yeah, let's proceed with presentation, so…
+
+111
+00:14:38.020 --> 00:14:40.649
+Kamil Salakhiev: Yeah, Jiaheng, if you,
+
+112
+00:14:40.980 --> 00:14:43.369
+Kamil Salakhiev: Here, yeah, we can get started.
+
+113
+00:14:43.920 --> 00:14:44.510
+Jiaheng Li: Yep.
+
+114
+00:14:44.700 --> 00:14:45.620
+Jiaheng Li: Thank you.
+
+115
+00:14:46.280 --> 00:14:48.480
+Jiaheng Li: And I will share my slides.
+
+116
+00:14:53.510 --> 00:14:54.820
+Jiaheng Li: Yeah, can you see it?
+
+117
+00:14:56.350 --> 00:14:56.900
+Kamil Salakhiev: Yep.
+
+118
+00:14:57.760 --> 00:15:15.439
+Jiaheng Li: Okay, thank you. Okay, I'm Jiaheng, I'm a master's student at ETH Zurich, and we worked on this project with Anton also at ETH Zurich, Yann and our professor. We were studying about the security of P2P networks, and specifically the liveness of gossiping protocols.
+
+119
+00:15:16.060 --> 00:15:16.820
+Jiaheng Li: Yep.
+
+120
+00:15:19.540 --> 00:15:31.049
+Jiaheng Li: Yeah, so P2P network serves as a communication layer for the large decentralized systems, such as Ethereum, and gossip protocols are there to spread the messages
+
+121
+00:15:31.210 --> 00:15:32.889
+Jiaheng Li: BNs those systems.
+
+122
+00:15:33.020 --> 00:15:36.780
+Jiaheng Li: And, for example, for the Consensus of the ethereum.
+
+123
+00:15:36.940 --> 00:15:46.890
+Jiaheng Li: While the consensus mechanism itself has been extensively studied by the community, the underlying gossip layer has been far less rigorously understood.
+
+124
+00:15:46.960 --> 00:16:00.219
+Jiaheng Li: And the analysis of the consensus mechanism assumes a timely delivery of the underlying gossip layer, so the security study of the underlying gossip protocols is also important.
+
+125
+00:16:01.450 --> 00:16:07.449
+Jiaheng Li: So, we can model the network as a graph with nodes and links between peers.
+
+126
+00:16:07.490 --> 00:16:22.270
+Jiaheng Li: And gossiping is a problem to spread the message published by some notes to the others in this graph. And the most naive method is flooding, that every node forwards everything they received to every other
+
+127
+00:16:22.310 --> 00:16:33.840
+Jiaheng Li: peers, and this is robust because it utilizes every edge in the network, but it could be highly redundant, because many of the forwarding could be duplicates.
+
+128
+00:16:34.230 --> 00:16:45.150
+Jiaheng Li: There are many practical optimizations to this, trying to reduce the redundancy by selectively forwarding the messages. They may select
+
+129
+00:16:45.150 --> 00:16:57.269
+Jiaheng Li: which messages they may forward, or, like, which peers they forward to. And the question here is, are these optimizations really secure under an adversary scenario?
+
+130
+00:16:58.990 --> 00:17:05.640
+Jiaheng Li: So one possible object… objective of the adversary could be to break the liveness of the gossiping.
+
+131
+00:17:05.780 --> 00:17:12.070
+Jiaheng Li: So, if the… adversary targets one node, they may try to
+
+132
+00:17:12.069 --> 00:17:28.040
+Jiaheng Li: cut all the fresh messages to this node, so that no new messages could be delivered to that. Or if they targeted the full network, they could cause a partition of the network. So… so, like, they could not proceed with the message forwarding.
+
+133
+00:17:28.410 --> 00:17:42.859
+Jiaheng Li: And one adversary strategy here is to utilize the previously mentioned selection mechanism of optimization. So, because the mechanism will try to select which
+
+134
+00:17:43.210 --> 00:17:58.609
+Jiaheng Li: which nodes they talk to, or which messages they forward. The adversary may manage to occupy all of these, so that the honest links will be filtered out, and all the preserved ones are controlled by the adversary, actually.
+
+135
+00:17:58.720 --> 00:18:02.230
+Jiaheng Li: And we want to study whether this could happen.
+
+136
+00:18:04.140 --> 00:18:14.199
+Jiaheng Li: So, we study two concrete gossiping protocols, DOC, which is designed to be used for common BFT, and also gossip-sub, which is used by Ethereum.
+
+137
+00:18:14.360 --> 00:18:21.320
+Jiaheng Li: For Doc, we identified a pretty practical attack with only
+
+138
+00:18:21.380 --> 00:18:37.990
+Jiaheng Li: one physical node required, running a few instances, and the adversary result could be all the forwarding routes being disabled, which means no one in this network is forwarding any messages. So message could only reach their direct neighbors.
+
+139
+00:18:37.990 --> 00:18:52.900
+Jiaheng Li: And in addition, we find the DAC protocol itself is not, like, safe in theory, that we find a counterexample, even without an adversary, that the connectivity may not be secured.
+
+140
+00:18:53.260 --> 00:19:09.539
+Jiaheng Li: And for gossip sub, it is more robust, and we assume a geometrical model for the latency, and also some other assumptions. And under these assumptions, it may still be possible for the adversary to cause
+
+141
+00:19:09.540 --> 00:19:15.880
+Jiaheng Li: To cause a separation of the constant fraction of the network with a constant number of
+
+142
+00:19:15.880 --> 00:19:27.370
+Jiaheng Li: adversary nodes, plus the advantage on latency, targeting the main mechanism. Well, for the additional mechanisms, like the off-bound quota, it requires some additional
+
+143
+00:19:27.470 --> 00:19:31.880
+Jiaheng Li: requirements, and I have… I want mechanism is not considered here.
+
+144
+00:19:32.970 --> 00:19:36.340
+Jiaheng Li: So let's move to the technical part of the doc.
+
+145
+00:19:36.690 --> 00:19:45.169
+Jiaheng Li: So, reminds the goal of the gossiping algorithm is to try to reduce redundancy in this forwarding, and, like.
+
+146
+00:19:45.320 --> 00:19:53.889
+Jiaheng Li: Ideally, one potential goal could be to get something like a spending tree, because that is the most efficient way to get connectivity.
+
+147
+00:19:54.270 --> 00:20:06.140
+Jiaheng Li: And the… the method of doc to achieve this is root filtering. So it… when it finds one root is duplicate, it will filter it out, and that root will not be used again.
+
+148
+00:20:06.600 --> 00:20:23.999
+Jiaheng Li: So, a root here is a basic forwarding unit for an intermediate node U. A root is a pair from P2 to T that U will forward messages it received from P2 to another neighbor T.
+
+149
+00:20:25.140 --> 00:20:26.100
+Jiaheng Li: And…
+
+150
+00:20:26.480 --> 00:20:40.550
+Jiaheng Li: And if T finds this route to be duplicate, if T receives a duplicate method from U2, and it will ask U2 to filter this route out, so next time, U2 will not forward this.
+
+151
+00:20:40.660 --> 00:20:50.419
+Jiaheng Li: forward via this redundant routes. So, for example, if S1 published some message here, and it could be propagated like this.
+
+152
+00:20:50.560 --> 00:21:05.310
+Jiaheng Li: And… but also, U2 will also try to propagate this message from… it's received from P2 to T, but this one is duplicate, and T will find this to be duplicate, and this root will be filtered out by U2.
+
+153
+00:21:05.520 --> 00:21:10.429
+Jiaheng Li: So next… so next time, YouTube will not forward messages from P2 to T.
+
+154
+00:21:11.160 --> 00:21:17.839
+Jiaheng Li: if… If someone publishes some other message, this… this duplicate message will not be there again.
+
+155
+00:21:18.400 --> 00:21:30.910
+Jiaheng Li: And there is also a redundancy control mechanism, which allows some duplicates for robustness, and it will adjust the… the filtering to make the…
+
+156
+00:21:31.180 --> 00:21:38.170
+Jiaheng Li: A redundancy level between a range, but we see this mechanism does not make much difference here.
+
+157
+00:21:40.310 --> 00:21:41.260
+Jiaheng Li: And…
+
+158
+00:21:41.450 --> 00:21:56.809
+Jiaheng Li: We study from the adversary's perspective, and we find an adversary construction that the adversary may be able to filter out any route in the network. For example, if the adversary targets a route F to P to T, and they
+
+159
+00:21:56.920 --> 00:22:15.110
+Jiaheng Li: themselves could also control, like, one node in the network. They could publish one message M itself, and they can deliberately control the latency to S and to T to make sure that this message first reached T directly, and then…
+
+160
+00:22:15.310 --> 00:22:33.440
+Jiaheng Li: that it can also reach T where this route asks P to T later. And in this case, this route will be redundant, and it will be filtered out. And this could be achieved by the adversary deliberately control the latencies and publish its own message.
+
+161
+00:22:34.760 --> 00:22:40.540
+Jiaheng Li: And the redundancy control mechanism could also be addressed with some additional messages involved here.
+
+162
+00:22:41.470 --> 00:22:44.500
+Jiaheng Li: So, if the adversary repeats this.
+
+163
+00:22:44.900 --> 00:22:51.080
+Jiaheng Li: this attack per route for… for one target node. It could filter out all the…
+
+164
+00:22:51.740 --> 00:23:08.399
+Jiaheng Li: forwarding those to that target, and then that target will be separated, that no one will forward any messages to it. And they could even repeat this per node throughout the network, and the result is the full network will be disconnected, that no one will forward any messages.
+
+165
+00:23:10.080 --> 00:23:18.230
+Jiaheng Li: And also, while the theoretical aim of the… of dog is…
+
+166
+00:23:18.230 --> 00:23:33.159
+Jiaheng Li: of the root filtering of stock is to get something like a spanning tree, but we find this is not really the case in theory, and we also identify a small counterexample even without adversary notes. So, in this
+
+167
+00:23:33.160 --> 00:23:44.029
+Jiaheng Li: RANDA 5 nodes. If M… if they will publish a method M1, it could be propagated like this, and as a result, these two routes will be redundant and filtered out.
+
+168
+00:23:44.590 --> 00:23:48.590
+Jiaheng Li: The same could happen again if one published some messages.
+
+169
+00:23:48.690 --> 00:23:51.670
+Jiaheng Li: And so far, it's still working, but…
+
+170
+00:23:51.830 --> 00:24:00.350
+Jiaheng Li: If we put it together, we could see all the four routes are filtered out. And if node 2 publish another method now.
+
+171
+00:24:00.350 --> 00:24:14.810
+Jiaheng Li: Nether of 0 and 1 will forward this message, because all of the two routes are filtered out, and basically the network is not connected at this time, even without an active adversary here.
+
+172
+00:24:17.400 --> 00:24:23.839
+Jiaheng Li: So, to summarize for Doc, we identified an adversary attack that
+
+173
+00:24:24.110 --> 00:24:40.800
+Jiaheng Li: only requires a constant number of attackers, and the result could be all the forwarding routes are disabled in the network, and no one is forwarding any message. The only thing is the message could only reach their direct neighbor of the publisher.
+
+174
+00:24:41.000 --> 00:24:47.580
+Jiaheng Li: And the adversary can even maintain this separation indefinitely with some additional methods.
+
+175
+00:24:47.920 --> 00:24:50.350
+Jiaheng Li: And we implemented this.
+
+176
+00:24:50.760 --> 00:25:01.189
+Jiaheng Li: attack, and simulate it with Shadow, and in a small… in a small, like, in a small network, and the result is all the routes are filtered.
+
+177
+00:25:01.880 --> 00:25:05.280
+Jiaheng Li: So the resulting network is not connected.
+
+178
+00:25:06.850 --> 00:25:10.749
+Jiaheng Li: And let's move to the second part of the gossip sub.
+
+179
+00:25:11.040 --> 00:25:15.380
+Jiaheng Li: So gossip sub is another, gossiping protocol.
+
+180
+00:25:15.560 --> 00:25:17.659
+Jiaheng Li: Our model is, like, it's…
+
+181
+00:25:17.850 --> 00:25:25.249
+Jiaheng Li: It maintains a mesh that each node has around a constant number of deep peers, and it will…
+
+182
+00:25:25.600 --> 00:25:34.609
+Jiaheng Li: maintain this level of degree that's between 6 and 12, for example, if it has less
+
+183
+00:25:34.920 --> 00:25:52.189
+Jiaheng Li: If it has fewer peers than this range, it will try to get some new peers, and if it has more peers than this range, it will try to remove some to the mesh. And in the mesh, a node will forward everything that they received to the other mesh peers.
+
+184
+00:25:52.850 --> 00:26:04.319
+Jiaheng Li: And when the node tries to remove some peers, it needs to select the subset of peers that it wants to preserve. This is done by a mix of mechanisms.
+
+185
+00:26:04.520 --> 00:26:08.979
+Jiaheng Li: So it's… they may select the top four
+
+186
+00:26:09.250 --> 00:26:24.090
+Jiaheng Li: So let me select four of them by score, so it will preserve the top four by the local peer scoring, and the others may be selected randomly. And there are also additional mechanisms here, the outbound connection quota.
+
+187
+00:26:24.170 --> 00:26:40.350
+Jiaheng Li: And a simplified model of peer scoring is the first message delivery. It's, like, measuring how useful and how good a peer is to a target node locally. So, this score is basically
+
+188
+00:26:40.750 --> 00:26:47.940
+Jiaheng Li: how many new messages that peer could deliver to me, and they are the first one, so it is useful.
+
+189
+00:26:50.060 --> 00:26:59.610
+Jiaheng Li: And this mechanism is more robust than DOC, so we need to assume some model for the adversarial analysis. So we assume the…
+
+190
+00:26:59.780 --> 00:27:18.260
+Jiaheng Li: honest nodes are in points on a, like, square, or, like, on a plane, and to approximate the geographical latency, we assume the latency between two nodes is the Euclidean distance of those two points, and we assume the message's originates from
+
+191
+00:27:18.370 --> 00:27:20.439
+Jiaheng Li: All the sources uniformly.
+
+192
+00:27:21.350 --> 00:27:37.020
+Jiaheng Li: And we also assume the adversary may control a small number of K adversary notes also in this square, and we assume they can have a slight benefit in the latency, that they, for example, only have 80% of latency.
+
+193
+00:27:37.480 --> 00:27:39.759
+Jiaheng Li: Of the regular one.
+
+194
+00:27:39.870 --> 00:27:49.059
+Jiaheng Li: And this may be achieved by, for example, using some low-latency satellite network, which is not widely used by the full network.
+
+195
+00:27:50.450 --> 00:28:01.060
+Jiaheng Li: And there are additional assumptions required to address the Auton quota, and this could also be extended to consider some dense clusters, like data centers.
+
+196
+00:28:02.650 --> 00:28:21.120
+Jiaheng Li: So, again, the adversary goal is to separate the network or separate the node. What it could do is to occupy all of the 8 mesh positions of one target node. Well, four of them are selected randomly, and the other four are selected by score.
+
+197
+00:28:22.130 --> 00:28:32.009
+Jiaheng Li: For the random one, it may be easier as long as the attacker has enough, like, IP addresses or identities that they can…
+
+198
+00:28:32.520 --> 00:28:52.219
+Jiaheng Li: repeatedly grabbed you to make a new connection to you, and you will be oversubscribed. It will try to remove some peers, and it will resample those four peers among all, and the adversary could repeatedly do this until they control all of the four positions here.
+
+199
+00:28:53.880 --> 00:28:54.790
+Jiaheng Li: And…
+
+200
+00:28:54.970 --> 00:29:00.930
+Jiaheng Li: The other four of them will be selected by a peer score, which will be the focus of our study.
+
+201
+00:29:01.260 --> 00:29:12.689
+Jiaheng Li: And there is also the additional outbound quota that each node will maintain at least two outbound connections selected by themselves, which cannot be
+
+202
+00:29:12.820 --> 00:29:17.940
+Jiaheng Li: Manipulated by the inbound connections, and we will consider this later.
+
+203
+00:29:19.550 --> 00:29:34.960
+Jiaheng Li: So, the key here to take over the four score-based positions is to get high peer scores, and for the first message delivery, it means the adversary need to control more messages delivered to one target U.
+
+204
+00:29:35.090 --> 00:29:44.419
+Jiaheng Li: So we could compare the two propagation rules, the regular one, via honest PRP, or via the…
+
+205
+00:29:44.990 --> 00:29:50.569
+Jiaheng Li: the adversary network. Like, remind they have a slightly better latency here.
+
+206
+00:29:50.810 --> 00:29:53.520
+Jiaheng Li: And we… And with
+
+207
+00:29:53.680 --> 00:30:11.859
+Jiaheng Li: when comparing the two latencies, we could find the adversary may control some rate of all the messages to one node, and if it controls a sufficiently large rate, then it may manage to occupy all the positions and cause a separation of U.
+
+208
+00:30:12.100 --> 00:30:26.870
+Jiaheng Li: And with a constant threshold here, and if we assume the nodes are distributed uniformly, the probability of this being satisfied is a constant, independent of the actual number of nodes in the old network.
+
+209
+00:30:29.220 --> 00:30:48.880
+Jiaheng Li: So the sufficient condition of this is the message control rate is over this ratio. If the adversary can't control this many messages, it could make, for example, 4 adversary connections to a target U, and each of them can deliver a lot of new messages, which is higher than the
+
+210
+00:30:49.110 --> 00:31:04.580
+Jiaheng Li: than the capability of any other honest peers. And as a result, these… these honest peers will be removed based on score, and all the score-based positions will be controlled by the adversary. And this could also be…
+
+211
+00:31:04.970 --> 00:31:21.300
+Jiaheng Li: extended to target one single link instead of fully separated a node U, and that is substantially easier than achieving this rate for the… for all the, like, against all the honest peers.
+
+212
+00:31:23.350 --> 00:31:30.819
+Jiaheng Li: So, we did some simulation of this… of this probability that when…
+
+213
+00:31:30.990 --> 00:31:36.259
+Jiaheng Li: Thus, the adversary could control this… the enough ratio of all the honest messages.
+
+214
+00:31:36.510 --> 00:31:44.130
+Jiaheng Li: And we… we did this sampling with a thousand nodes, but the converge number should be independent of the…
+
+215
+00:31:44.470 --> 00:32:02.939
+Jiaheng Li: number of samples. So we could see if we target to get over 4 or 5 of the all messages for the adversary, they could achieve this on 40% of all the nodes, which means they could basically separate 40% of the network.
+
+216
+00:32:03.150 --> 00:32:12.040
+Jiaheng Li: And if the target is only one single link, it means that over 99% of all the links may be
+
+217
+00:32:12.170 --> 00:32:16.229
+Jiaheng Li: Vulnerable to be removed by the attacker with the same method.
+
+218
+00:32:18.410 --> 00:32:40.010
+Jiaheng Li: And this rate could even be boosted by doing this attack iteratively, because once the adversary separates one node, it can also get their messages as fresh messages to earn higher peer score on the other nodes for free. They don't need even to win the race of the latency there.
+
+219
+00:32:40.010 --> 00:32:45.410
+Jiaheng Li: They… this could boost the original… 40%,
+
+220
+00:32:45.660 --> 00:32:54.320
+Jiaheng Li: rate probability to a much higher one, but, like, this is just an extra, we don't consider this as a core analysis.
+
+221
+00:32:54.880 --> 00:32:55.960
+Jiaheng Li: And…
+
+222
+00:32:56.360 --> 00:33:06.629
+Jiaheng Li: And yeah, that's for the main mechanism, which is the peer scoring. We also consider the outbound connection quota in the selection, that each node U
+
+223
+00:33:07.000 --> 00:33:08.340
+Jiaheng Li: will maintain
+
+224
+00:33:08.340 --> 00:33:28.859
+Jiaheng Li: at least two self-selected outbound PRP, and this could not be manipulated by, for example, the adversary made a lot of connections to you. That will not kick this link out, because only these are outbound connections, so they will also be… so they will always be preserved by the…
+
+225
+00:33:28.860 --> 00:33:30.609
+Jiaheng Li: Ultimately, connection quota.
+
+226
+00:33:30.640 --> 00:33:33.359
+Jiaheng Li: However, this is still addressable.
+
+227
+00:33:34.050 --> 00:33:50.110
+Jiaheng Li: Because an outbound connection at this side is an inbound connection on the other side, so the adversary may still target this link on the other… on the inbound side with the same method, so they still have a high probability of removing this link.
+
+228
+00:33:50.640 --> 00:33:59.090
+Jiaheng Li: And once this link is removed, you will redraw another outbound link uniformly from a candidate's pool.
+
+229
+00:33:59.460 --> 00:34:09.510
+Jiaheng Li: And if the adversary controls a small rate in this candidate pool, then there is still a constant probability of succeed.
+
+230
+00:34:09.780 --> 00:34:12.840
+Jiaheng Li: for the adversary to take over. So…
+
+231
+00:34:12.960 --> 00:34:24.780
+Jiaheng Li: A remind, in the simulation, the adversary have a 99% probability of chance to remove a uniformly random link in the network.
+
+232
+00:34:24.880 --> 00:34:38.509
+Jiaheng Li: If they also consist of 1% of the candidates in the replacement pool, then there is a constant probability for it to finally take over all the two outbound connections.
+
+233
+00:34:39.850 --> 00:34:58.499
+Jiaheng Li: So, to summarize for gossip-sub, it is more robust, but under these assumptions, the adversary may still be able to cause a constant fraction of the nodes to be separated from the mesh, with a constant number, for example, 100 nodes in the network.
+
+234
+00:34:58.520 --> 00:35:07.439
+Jiaheng Li: And plus the, for example, 80% latency advantage. To address the ultimate corner, there is additional assumptions, so instead of
+
+235
+00:35:07.610 --> 00:35:14.350
+Jiaheng Li: 100 nodes, they also need to consist of 1% of all the identities in the replacement pool.
+
+236
+00:35:14.960 --> 00:35:29.160
+Jiaheng Li: But the I have, I want mechanism here is not considered, and it's also probably more robust in this scenario, because the adversary with this method has no way to alter it.
+
+237
+00:35:29.260 --> 00:35:31.590
+Jiaheng Li: Because, like, they don't do this.
+
+238
+00:35:31.750 --> 00:35:34.030
+Jiaheng Li: A selection based on heuristics.
+
+239
+00:35:35.930 --> 00:35:40.369
+Jiaheng Li: And, yeah. So, to conclude, we started to…
+
+240
+00:35:41.000 --> 00:35:55.400
+Jiaheng Li: two gossiping protocols, dog and gossip stuff. Dog is more vulnerable, that adversary could cause the full network to be separated, and there is also even a replica counterexample without adversary.
+
+241
+00:35:55.400 --> 00:36:10.110
+Jiaheng Li: gossip sub is more robust, but still under some assumptions, the adversity is possible to cause a constant fraction of separation with a small number of nodes, while the I have, I want mechanism is not addressed here.
+
+242
+00:36:11.110 --> 00:36:13.359
+Jiaheng Li: And that's how it works, thank you.
+
+243
+00:36:17.840 --> 00:36:19.950
+Kamil Salakhiev: Okay, yeah, thank you.
+
+244
+00:36:20.570 --> 00:36:24.319
+Kamil Salakhiev: Any questions? Yeah, I see we have a lot of discussions in chat.
+
+245
+00:36:24.510 --> 00:36:26.810
+Kamil Salakhiev: Other thing.
+
+246
+00:36:28.580 --> 00:36:30.929
+Kamil Salakhiev: Questions there were mostly addressed.
+
+247
+00:36:31.230 --> 00:36:32.830
+Csaba: I would have a question.
+
+248
+00:36:34.330 --> 00:36:34.840
+Kamil Salakhiev: Okay.
+
+249
+00:36:36.230 --> 00:36:36.820
+Kamil Salakhiev: You have trouble?
+
+250
+00:36:37.960 --> 00:36:43.700
+Csaba: Yeah, I just didn't miss the part, whether you have a published paper on this or not, that's one.
+
+251
+00:36:43.700 --> 00:36:48.909
+Jiaheng Li: No, this is, like, a semester project I just finished.
+
+252
+00:36:49.480 --> 00:36:51.930
+Csaba: The other part is, did you evaluate
+
+253
+00:36:52.630 --> 00:36:59.130
+Csaba: time horizon for which an adversary has to play this game until it gets into position.
+
+254
+00:36:59.440 --> 00:37:01.090
+Csaba: Well, so basically.
+
+255
+00:37:01.450 --> 00:37:02.020
+Jiaheng Li: Yep.
+
+256
+00:37:02.320 --> 00:37:12.330
+Csaba: My understanding is that your adversary has to play the good guy for quite long, and the question is, how long is this? Until it's basically paying,
+
+257
+00:37:12.980 --> 00:37:13.700
+Csaba: Please.
+
+258
+00:37:13.700 --> 00:37:14.280
+Jiaheng Li: Yes.
+
+259
+00:37:14.550 --> 00:37:16.840
+Csaba: As a good pill, serving.
+
+260
+00:37:16.840 --> 00:37:17.580
+Jiaheng Li: Yay.
+
+261
+00:37:17.700 --> 00:37:23.319
+Csaba: Like, because your adversary is busy leading the network, so… Yeah.
+
+262
+00:37:23.570 --> 00:37:25.120
+Jiaheng Li: Yeah.
+
+263
+00:37:25.690 --> 00:37:40.080
+Jiaheng Li: Yeah, yeah, so for that, the adversary need to deliver a lot of fresh messages so that they could get a high peer score. If we only consider the first message delivery peer scoring, it could be, like.
+
+264
+00:37:40.660 --> 00:37:57.929
+Jiaheng Li: a few minutes, based on the default, Ethereum configuration of the peer scoring, like, based on the ZK parameters. If they have, like, the threshold is, like, 4 over 5. If they could control, like, 6 over 7 of the…
+
+265
+00:37:58.410 --> 00:38:05.389
+Jiaheng Li: the race, they could gradually get a higher peer score than any other honest
+
+266
+00:38:05.800 --> 00:38:15.520
+Jiaheng Li: node, another honest peer, and with the default decay parameters, this process could be a few minutes, like 3 minutes or something.
+
+267
+00:38:15.990 --> 00:38:19.330
+Jiaheng Li: Well, if we also consider some other…
+
+268
+00:38:19.650 --> 00:38:35.980
+Jiaheng Li: Some other, like, metrics in the peer scoring, especially the timing in mesh 1, this could be longer, because the target one may have a long time in the mesh, so the adversary needs to gradually,
+
+269
+00:38:36.350 --> 00:38:55.499
+Jiaheng Li: gradually also accumulated on this factor until they could kick everyone out. But this is only for the initial attack. For the… once they get their positions, the later joined nodes will not have an initial advantage on the peer scoring, and that could be pretty quick, like…
+
+270
+00:38:55.520 --> 00:38:58.479
+Jiaheng Li: A thousandth of a second, or something like that.
+
+271
+00:38:59.040 --> 00:38:59.900
+Csaba: Yeah, I was listening.
+
+272
+00:38:59.900 --> 00:39:10.569
+Jiaheng Li: We didn't… yeah, but we didn't do… do the, like, we didn't run this in the reality, it is just calculation based on the default parameters we get from the REPL.
+
+273
+00:39:11.430 --> 00:39:15.300
+Csaba: But this is for the baseline, but then if you go into the… into the outbound.
+
+274
+00:39:15.900 --> 00:39:28.700
+Csaba: Yeah. The place is running with 70 peels, so until you are kicking them out, one by one, and making sure all 74s, or half of it falls on your,
+
+275
+00:39:29.310 --> 00:39:29.950
+Csaba: You're concerning.
+
+276
+00:39:29.950 --> 00:39:30.650
+Jiaheng Li: Yes.
+
+277
+00:39:31.020 --> 00:39:32.389
+Csaba: That will take things…
+
+278
+00:39:32.580 --> 00:39:38.340
+Csaba: And peeling is not as this slow in this network, so it's not like,
+
+279
+00:39:38.340 --> 00:39:50.560
+Jiaheng Li: Yes, this one will be… take longer, because they need to do this repeatedly, and for example, if they consens 1%, they need to kick a new link out, like, 100 times.
+
+280
+00:39:50.740 --> 00:39:56.519
+Jiaheng Li: And, well, the good thing here is each time that their target is not a…
+
+281
+00:39:56.720 --> 00:40:10.460
+Jiaheng Li: appear initially there, but a newly grafted one, so that could be faster than the few minutes one, it could be, like, 10 seconds each time, and you will expect to do this, like, a hundred times, or something like that.
+
+282
+00:40:16.920 --> 00:40:20.750
+Kamil Salakhiev: Hey, Mikel, I saw your hand raised.
+
+283
+00:40:22.690 --> 00:40:25.640
+Mikel Cortes: Yep, yeah, just a small comment, like, sometimes…
+
+284
+00:40:25.870 --> 00:40:30.599
+Mikel Cortes: We focus on, kind of, raising up issues on protocols when messages
+
+285
+00:40:31.510 --> 00:40:38.280
+Mikel Cortes: get broadcasted to the entire network. Just want to make the emphasis that, at least for the… for Ethereum.
+
+286
+00:40:38.710 --> 00:40:45.110
+Mikel Cortes: only if you just delay it by 4 seconds, that's already critical. Like, beyond those 4 seconds, for example, of luck.
+
+287
+00:40:45.610 --> 00:40:50.440
+Mikel Cortes: You can just create noise in the network, and it's already as harmful as not seeing the block at all.
+
+288
+00:40:50.730 --> 00:40:54.410
+Mikel Cortes: So, it's probably worth saying it again.
+
+289
+00:40:55.240 --> 00:41:00.580
+Mikel Cortes: And also, yeah, like, I would like to, like, like to know, or…
+
+290
+00:41:00.880 --> 00:41:06.080
+Mikel Cortes: I would like to have clear ideas of how many notes would you like to, or would you need to
+
+291
+00:41:06.440 --> 00:41:08.950
+Mikel Cortes: Like, you mentioned 1% of the network.
+
+292
+00:41:09.440 --> 00:41:13.740
+Mikel Cortes: But also, like, we have to keep in mind that there are correlations between IPs, like, there are…
+
+293
+00:41:14.050 --> 00:41:17.590
+Mikel Cortes: like, decisions when you're building your Pierce peer store.
+
+294
+00:41:18.080 --> 00:41:23.569
+Mikel Cortes: It prevents you to, I don't know, overlap IPs and some other stuff that are also taken into account.
+
+295
+00:41:25.180 --> 00:41:31.059
+Jiaheng Li: Yeah. So, first one, for… for our study, we…
+
+296
+00:41:31.150 --> 00:41:47.790
+Jiaheng Li: like, we don't really, like, involve, like, the 4-second thing. The method we do is try to cause separation, because, like, I think causing delay is, like, another… will be another method, because, like, we just manually… like.
+
+297
+00:41:47.820 --> 00:41:55.030
+Jiaheng Li: core for us is to manipulate the peer score to get them to kick it out. So, we… like, we don't really…
+
+298
+00:41:55.490 --> 00:42:03.790
+Jiaheng Li: have a way to only easier manipulate the delay here. And then for your question about the number of
+
+299
+00:42:04.030 --> 00:42:22.170
+Jiaheng Li: nodes, there are two parts. The first part is to get high peer scores. For this, it's like a constant number of nulls, so if we have 100 nodes uniformly separated in the space, then it will be able to separate 40% of
+
+300
+00:42:22.170 --> 00:42:39.170
+Jiaheng Li: all the nodes in the network, that's for the targeting the main peer scoring, and the 1% is for the additional outbound quota, and this one does not require some geographical distribution. Like, you could even have, like, 1% of all the…
+
+301
+00:42:39.170 --> 00:42:44.189
+Jiaheng Li: identities on one machine, if you can, like, have that many IPs or…
+
+302
+00:42:44.390 --> 00:43:02.820
+Jiaheng Li: anything about identities. So… so the… so, like, there are 100 nodes need to be physically distributed in the space, and the 1% identities is… could be, like, virtual ones, only needs… the only goal is to pop in in the replacement pool.
+
+303
+00:43:08.760 --> 00:43:09.610
+Kamil Salakhiev: Raul?
+
+304
+00:43:10.640 --> 00:43:16.860
+Raúl Kripalani: Yeah, so one fault handling technique that I've been meaning to experiment with for a while is…
+
+305
+00:43:17.280 --> 00:43:25.140
+Raúl Kripalani: Basically, doing statistical, correlation on your… previous,
+
+306
+00:43:25.730 --> 00:43:32.089
+Raúl Kripalani: Delivery rates and delivery latencies, and adjusting for whatever your
+
+307
+00:43:32.090 --> 00:43:49.869
+Raúl Kripalani: whatever is happening right now, right? So this is, like Mikel was saying, the protocol is strictly timed, and we expect to receive specific payloads at specific points in time, so you don't even have to wait for an actual fault, delivery fault, to happen. You can actually just start detecting a trend.
+
+308
+00:43:49.870 --> 00:44:04.600
+Raúl Kripalani: Which indicates that, you know, if you consistently see blocks arriving at a particular point in time, or a particular, a particular offset from the slot start, of course, this depends on, the actual block.
+
+309
+00:44:04.600 --> 00:44:15.779
+Raúl Kripalani: publishing time, which we know, is subject to timing games and so on. So maybe blobs is not, like, specifically the best, example of this, in terms of, like.
+
+310
+00:44:15.780 --> 00:44:29.649
+Raúl Kripalani: you know, perceive latency from the slot start, but attestations definitely are. For blocks, for example, if you start seeing a miss, an actual miss, a binary miss, within the deadline, you know that you have to
+
+311
+00:44:29.800 --> 00:44:46.450
+Raúl Kripalani: refresh your mesh, so… or kind of like your peer set, right? So I think, there are very simple mechanisms that are kind of like small feedback loops that the protocol creates for us, and that puts them… we can… we just have to kind of, like, you know, connect the dots.
+
+312
+00:44:46.450 --> 00:44:50.980
+Raúl Kripalani: And… and I think these could, like, mechanisms like this could definitely…
+
+313
+00:44:50.980 --> 00:44:57.910
+Raúl Kripalani: allow you to detect when you are in a pathological condition and take a mitigation, on the spot. And…
+
+314
+00:44:58.030 --> 00:45:10.069
+Raúl Kripalani: things like… it's a little bit harder with Libby2B right now, but with… with quick, going forward and zero RTT, you could have, very quick ways, so…
+
+315
+00:45:10.070 --> 00:45:19.840
+Raúl Kripalani: Pun not intended, to start a connection, to kind of, like, maintain a broad view of the network and decide to peer,
+
+316
+00:45:19.840 --> 00:45:35.710
+Raúl Kripalani: with… or, like, bond, or kind of, like, graft a connection with a peer that you have a session resumption token with. And you can just kind of, like, you know, when you're in this pathological place, you can just, like, reestablish, resume connections with other peers, and just get out of it.
+
+317
+00:45:35.790 --> 00:45:45.720
+Raúl Kripalani: So I think, like, probably these fault handling techniques are good for us to think about more generally, and probably experiment with.
+
+318
+00:45:46.580 --> 00:45:54.910
+Jiaheng Li: Yeah, yeah, yeah, that's kind of, like, smart detection is what we didn't take into account, and yes, I think they will be better than the
+
+319
+00:45:55.010 --> 00:46:12.480
+Jiaheng Li: original one, like, currently what we considered is only the default thing in the gossip sub, that they have some mechanism that if a current peer score is too low, or… or something, or, like, you are, like, delivering, like, too… too few messages, then it will see.
+
+320
+00:46:12.480 --> 00:46:13.140
+Raúl Kripalani: Yeah.
+
+321
+00:46:13.140 --> 00:46:15.119
+Jiaheng Li: They see you at an anniversary, but that's why.
+
+322
+00:46:15.120 --> 00:46:15.560
+Raúl Kripalani: Yeah.
+
+323
+00:46:15.560 --> 00:46:17.109
+Jiaheng Li: you to move on the lowest level.
+
+324
+00:46:17.110 --> 00:46:18.090
+Raúl Kripalani: Problem, yeah.
+
+325
+00:46:18.090 --> 00:46:18.819
+Jiaheng Li: proper, yeah.
+
+326
+00:46:18.820 --> 00:46:19.180
+Raúl Kripalani: Yeah.
+
+327
+00:46:19.180 --> 00:46:19.620
+Jiaheng Li: I think…
+
+328
+00:46:19.620 --> 00:46:33.180
+Raúl Kripalani: And the problem with Gossip Sub is that it does peer Y scoring, right? But it does not ever evaluate its own health, like, the health of the self-node, which is really what we care about here. And it's hard to…
+
+329
+00:46:33.180 --> 00:46:47.610
+Raúl Kripalani: Like, do this in any other protocol than just, like, a peer-to-peer network, because any other peer-to-peer, or kind of like, you know, non… like, non-predictable peer-to-peer networks, because you generally just don't know what to expect, but in a strictly timed protocol, like…
+
+330
+00:46:47.610 --> 00:46:55.510
+Raúl Kripalani: ethereum, you know what to expect, so you can definitely detect any divergence and react to it.
+
+331
+00:46:56.340 --> 00:46:56.920
+Jiaheng Li: Yep.
+
+332
+00:46:57.350 --> 00:46:58.190
+Jiaheng Li: Thank you.
+
+333
+00:47:01.750 --> 00:47:02.719
+Kamil Salakhiev: Caba?
+
+334
+00:47:09.470 --> 00:47:12.629
+Kamil Salakhiev: Caba, you're muted if you're speaking?
+
+335
+00:47:13.990 --> 00:47:18.530
+Csaba: I'm a bit skeptical about the, kind of, the statistics-based evaluation.
+
+336
+00:47:19.510 --> 00:47:22.170
+Csaba: the way you were describing it, Raul?
+
+337
+00:47:22.330 --> 00:47:25.380
+Csaba: because of… It's… it's…
+
+338
+00:47:25.380 --> 00:47:28.690
+Jiaheng Li: Sorry, can I repeat? I didn't hear the first sentence.
+
+339
+00:47:29.270 --> 00:47:35.279
+Csaba: I'm saying, I was saying about… about the effectiveness of the… of the statistical evaluation of the…
+
+340
+00:47:36.050 --> 00:47:37.340
+Jiaheng Li: Yeah.
+
+341
+00:47:37.820 --> 00:47:40.130
+Csaba: That, that Zahor was describing. Yeah, thank you.
+
+342
+00:47:40.130 --> 00:47:42.560
+Raúl Kripalani: It sounds… he's responding to my guide.
+
+343
+00:47:42.560 --> 00:47:44.279
+Csaba: Wait for that one to the end.
+
+344
+00:47:44.280 --> 00:47:45.340
+Raúl Kripalani: on the slide.
+
+345
+00:47:46.230 --> 00:48:00.559
+Csaba: Well, because I think you would… you would have a hard time differentiating between, like, general network-level issues from… from you being attacked, from… there's so many scenarios that you would… you would see noise.
+
+346
+00:48:00.730 --> 00:48:02.100
+Csaba: easily.
+
+347
+00:48:02.690 --> 00:48:03.230
+Csaba: Plus.
+
+348
+00:48:06.690 --> 00:48:11.919
+Csaba: Yeah, plus your kind of statistical variation could be bad attacked because it's known.
+
+349
+00:48:12.950 --> 00:48:20.209
+Jiaheng Li: Yeah, this one is only based on the theoretical model, it's not… it's not, like, in any real network, it's only…
+
+350
+00:48:20.850 --> 00:48:21.780
+Jiaheng Li: geometrical model.
+
+351
+00:48:21.780 --> 00:48:27.880
+Csaba: I was speaking about what Zelle was saying about the, kind of…
+
+352
+00:48:28.280 --> 00:48:53.250
+Raúl Kripalani: I mean, there's… there's a bunch of… for sure, it's not as simple as, like, you know, if I stop receiving messages, they're kind of, like, it deviates. You do have to, like, be aware of your links data, so you could potentially be pinging, or, like, you know, conducting network diagnostics against, hosts that are not even Ethereum, right, to know if your network is healthy and your reachability is healthy in the first place. So there's, like, a lot of correlations that we can do.
+
+353
+00:48:53.250 --> 00:48:57.270
+Raúl Kripalani: To become, like, More resilient, and ultimately it's about…
+
+354
+00:48:57.330 --> 00:49:01.410
+Raúl Kripalani: Simple, simple, simple connections that we can do, right?
+
+355
+00:49:01.620 --> 00:49:13.429
+Csaba: So I think the idea which we could explore there, is… that I was playing with, for the DAS distribution, actually, is the… I was calling the idea the secret body.
+
+356
+00:49:13.550 --> 00:49:14.959
+Csaba: So you would…
+
+357
+00:49:15.240 --> 00:49:31.420
+Csaba: You would basically have one secret body with which you, which, unfortunately, you have to trust it, but that's solvable in many instances. And… and then you would have comparable statistics, hidden from… to the outside world.
+
+358
+00:49:31.540 --> 00:49:41.130
+Csaba: Which would allow you to identify if you are under the tech. So that's kind of the direction I would… if you, if you are interested.
+
+359
+00:49:41.360 --> 00:49:52.610
+Raúl Kripalani: Yeah, that's… that's… I mean, that's one thing. I mean, the problem with picking one buddy is that you either have to trust the buddy, or you could pick the wrong buddy, and… and, like, they could be malicious in themselves.
+
+360
+00:49:52.610 --> 00:50:10.000
+Raúl Kripalani: So that's… yeah, so that's the problem of, like, picking one party. Like, there's definitely a lot to explore here, a lot of ideas to explore. The other thing while we're on this, maybe, is another interesting idea is kind of, like, the opposite of this, which is
+
+361
+00:50:10.000 --> 00:50:25.330
+Raúl Kripalani: not just for inbounds, but for outbounds. Specifically, when you're signing attestations and emitting attestations, you could be constantly measuring how quickly they land on chain, or even if they don't land… if they land on chain or not.
+
+362
+00:50:25.490 --> 00:50:36.870
+Raúl Kripalani: And… and that would give you kind of, like, a sense of your outbound… like, the quality of your outbound mesh, for the time that you are,
+
+363
+00:50:37.580 --> 00:50:45.040
+Raúl Kripalani: That you're gonna be attesting on a particular subred. Of course, these rotate very quickly, so maybe it doesn't make a lot of sense.
+
+364
+00:50:45.040 --> 00:50:58.530
+Csaba: That's kind of also the… so the feedback loop that we are using in the EL now is feedback from Consensus. So we are… we are measuring quality on things which… which get on-chain, and… and… and we can use the same…
+
+365
+00:50:58.530 --> 00:51:01.449
+Raúl Kripalani: There's a bunch of feedback loops in the protocol that we need to close at the networking.
+
+366
+00:51:01.450 --> 00:51:01.859
+Csaba: Glad you.
+
+367
+00:51:02.140 --> 00:51:03.260
+Raúl Kripalani: Steph, you're good.
+
+368
+00:51:03.430 --> 00:51:04.220
+Csaba: I'll be…
+
+369
+00:51:04.640 --> 00:51:18.200
+Csaba: I mean, we have easier ones, but also fewer ones. On the CR, we have many of them, and maybe more noisy, but I think we can find feedback loops which are protecting you by feeding back from concerns.
+
+370
+00:51:19.000 --> 00:51:19.910
+Csaba: Yep, yo.
+
+371
+00:51:26.150 --> 00:51:28.959
+Kamil Salakhiev: Alright, yeah, any other questions?
+
+372
+00:51:33.690 --> 00:51:37.480
+Kamil Salakhiev: Okay, if not, then, yeah, thanks, Jiaheng.
+
+373
+00:51:37.480 --> 00:51:38.179
+Jiaheng Li: Thank you.
+
+374
+00:51:38.180 --> 00:51:38.890
+Kamil Salakhiev: patients.
+
+375
+00:51:39.220 --> 00:51:46.170
+Kamil Salakhiev: Good discussions. Yeah, any other discussion items we have for today, if anyone wants to bring up anything?
+
+376
+00:51:50.480 --> 00:51:53.449
+Kamil Salakhiev: Right, nice. Yeah, I think…
+
+377
+00:51:53.980 --> 00:52:01.089
+Kamil Salakhiev: If not, yeah, we can, just drop up here, so then, yeah, thanks everyone for joining. See you in two weeks.
+
+378
+00:52:03.910 --> 00:52:04.520
+Anton Nashatyrev: Yeah, thanks.
+
+379
+00:52:04.520 --> 00:52:06.850
+Daniel Knopik: Yeah, bye. Thanks for the presentation.
+
+380
+00:52:07.360 --> 00:52:08.510
+Yann Vonlanthen: Bye-bye.
+
+381
+00:52:09.990 --> 00:52:10.899
+Yann Vonlanthen: That's so cool.
+
+382
+00:52:12.360 --> 00:52:13.560
+Yann Vonlanthen: Looks like this one.
+
