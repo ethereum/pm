@@ -1,0 +1,588 @@
+00:06:18	wolovim:	Worked too well 😵‍💫
+00:06:22	nixo:	Reacted to "Worked too well 😵‍💫" with 😂
+00:07:09	wolovim:	Ill debug what went wrong with the link
+00:07:18	Pooja Ranjan:	Reacted to "Ill debug what went wrong with the link" with 👍
+00:08:36	Justin Traglia:	Reacted to "Ill debug what went wrong with the link" with 🙏
+00:08:39	Justin Traglia:	Reacted to "Worked too well 😵‍💫" with 😂
+00:08:57	FLCL (Nethermind):	gm!
+00:09:24	wolovim:	Invalid zoom refresh token in the pipeline 🫠 will sort it before next round
+00:09:39	Justin Traglia:	Gm
+00:11:23	Justin Traglia:	Boring is great!
+00:11:35	Mario Vega:	Reacted to "Boring is great!" with ❤️
+00:11:41	Pooja Ranjan:	Reacted to "Boring is great!" with ❤️
+00:11:55	nixo:	Reacted to "Boring is great!" with ❤️
+00:11:58	Iván | ethrex:	Reacted to "Boring is great!" with ❤️
+00:12:08	Nico Flaig:	Reacted to "Boring is great!" with ❤️
+00:12:11	Miguel Tenorio:	Reacted to "Boring is great!" with ❤️
+00:13:07	Luca Donno | L2BEAT:	Reacted to "Boring is great!" with ❤️
+00:13:43	potuz:	+1 to Toni
+00:13:48	Parithosh Jayanthi:	Reacted to "Boring is great!" with ❤️
+00:14:01	Dustin:	yeah  these are separate tests, agree with Toni that they're distinct goals
+00:14:06	Satyajit:	Reacted to "+1 to Toni" with 👍
+00:14:09	Dustin:	Reacted to "+1 to Toni" with 👍
+00:14:12	Justin Traglia:	Reacted to "+1 to Toni" with 👍
+00:14:26	nixo:	toni very confident he can break things XD
+00:14:32	Mario Vega:	Reacted to "toni very confident he can break things XD" with 🔥
+00:14:35	Barnabas:	Reacted to "toni very confident he can break things XD" with 😂
+00:14:40	Toni Wahrstätter:	Replying to "toni very confident he can break things XD"
+
+now the pressure is up
+00:14:44	Parithosh Jayanthi:	Reacted to "now the pressure is up" with ❤️
+00:14:53	Justin Traglia:	Reacted to "toni very confident he can break things XD" with 🔥
+00:14:55	Justin Traglia:	Reacted to "now the pressure is up" with ❤️
+00:14:57	Luca Donno | L2BEAT:	Reacted to "toni very confident he can break things XD" with 🔥
+00:16:43	Barnabas:	I think we are good for sepolia, unless we find something really bad on devnet 9.
+00:16:48	Dustin:	Lido I think? was asking for a few more days for Sepolia, to give some time after the preceding devnet(s)
+00:16:56	Dustin:	But they'd have to comment if they care
+00:17:12	Barnabas:	I don’t think lido runs validators on sepolia?
+00:17:30	Dustin:	Yeah I can't speak to their motivation in a precise way
+00:18:34	Stavros Vlachakis:	Nethermind has also implemented it @Kevaundray Wedderburn
+00:18:45	nixo:	Reacted to "now the pressure is up" with ❤️
+00:19:11	FLCL (Nethermind):	Reacted to "Nethermind has also implemented it @Kevaundray Wedderburn" with 🔥
+00:19:14	Iván | ethrex:	We finished implementing it, currently testing
+00:19:22	Iván | ethrex:	Reacted to "Nethermind has also ..." with 🔥
+00:19:40	FLCL (Nethermind):	Reacted to "We finished implementing it, currently testing" with 🔥
+00:20:21	Barnabas:	I do see @lightclient 😂
+00:20:28	Mario Vega:	Reacted to "now the pressure is up" with ❤️
+00:21:15	Csaba:	Replying to "I do see @lightclien..."
+
+But you didn’t see me ;-)
+00:21:24	nixo:	Reacted to "But you didn’t see me ;-)" with 😁
+00:21:42	Iván | ethrex:	I couldn’t take a look at it yet
+00:23:18	Csaba:	Replying to "I do see @lightclien..."
+
+We can follow up with Kev offline. Atm I’m not up-to-date on this one
+00:24:18	Dustin:	At some point isn't there bound to be some time during which people have to switch to PQ signatures/etc, otherwise they'll lose access regardless? That seems pretty intrinsic to idea of the PQ transition
+00:24:50	potuz:	Replying to "At some point isn't ..."
+
+Yeah I believe protecting this is just overplaying this
+00:25:01	Mario Vega:	Do we have a rough idea on how updating to different deposit address would look like?
+00:25:06	lightclient:	nice we get PBT and to rewrite contracts!
+00:25:30	vitalik:	Reacted to "nice we get PBT an..." with ❤️
+00:25:36	CPerezz:	Reacted to "nice we get PBT and ..." with 👀
+00:25:41	potuz:	Only problem I can see is that I would rather not do anything for this issue. But then if we don’t do anything we need to ban BLS before Q-day cause otherwise dead ETH will be happily taken
+00:26:16	Ben Adams:	Replying to "Only problem I can see is that I would rather not do anything for this issue. But then if we don’t do anything we need to ban BLS before Q-day cause otherwise dead ETH will be happily taken"
+
+We changing trie before Q-day?
+00:27:11	Ben Adams:	As at that point we are rewriting all the hashes, so is a one off event that opens the door to sort it out in a very constrained, non repeatable way
+00:27:34	Milos Costantini:	https://github.com/ethereum/EIPs/pull/12249
+00:28:38	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+To clarify, there are two different cases:
+
+Existing validators need to switch to PQ at the PQ fork or they lose access.
+New validators need to deposit in order to onboard
+
+For the second point, if we have two contracts (old deposit contract and the new pq deposit contract), there will be a fork where the old one is no longer supported and the new one is 
+
+(without revert functionality for the old one, people would lose money)
+00:29:11	Kevaundray Wedderburn:	Replying to "Do we have a rough i..."
+
+You mean for the ecosystem?
+00:29:48	Kevaundray Wedderburn:	Reacted to "We can follow up with Kev offline. Atm I’m not up-to-date on this one" with 👍
+00:33:20	Mario Vega:	Replying to "Do we have a rough i..."
+
+in the sense of, do we have a period deposits to both addresses are processed, then eventually one is deprecated, or should it be immediate?
+00:34:04	potuz:	Replying to "At some point isn't ..."
+
+Yeah and I think it’s fine to let them lose money if the soak period is of the order of months/years… we’re not talking about just a day and there are many many ways of screwing up and losing money on chain to grant this one an irregular state transition
+00:35:29	Kevaundray Wedderburn:	Replying to "Do we have a rough i..."
+
+Ah this was in the design space, if we are okay with an irregular state transition function, then we can do this.
+
+If we are not okay with an irregular stf, then we would need a new deposit address that processes both BLS and PQ, have the ecosystem move to this new contract, then make all BLS deposits revert at the PQ fork
+00:35:37	potuz:	Replying to "At some point isn't ..."
+
+There are tons of things that can be done downstream: remove UI on the launchpad/ethstaker. Remove wallet supports to send BLS deposits, censor at the builder, etc.
+00:35:57	potuz:	Replying to "At some point isn't ..."
+
+If you bypass all of that you really want to lose money
+00:37:45	Ben Adams:	SETCODEFROM ;)
+00:37:51	CPerezz:	Reacted to "SETCODEFROM ;)" with ❤️
+00:37:56	Mario Vega:	Reacted to "SETCODEFROM ;)" with 🚀
+00:38:00	Justin Traglia:	Reacted to "Yeah and I think it’s fine to let them lose money if the soak period is of the order of months/years… we’re not talking about just a day and there are many many ways of screwing up and losing money on chain to grant this one an irregular state transition" with ➕
+00:38:08	spencer:	some of us want to remove SD in hegota btw :)
+maybe tcreate op code could help here (its pfi'd)
+00:38:25	Guru:	Reacted to "SETCODEFROM ;)" with ❤️
+00:38:36	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+Are you proposing here that we deploy a new PQ contract that is only usable at the PQ fork; but we tell the ecosystem in advance to integrate it into their tooling without enabling it?
+00:39:16	Ansgar Dietrichs:	and by “ideally” nixo means there will be public shaming otherwise
+00:39:25	Justin Traglia:	Replying to "At some point isn't ..."
+
+No, if we do this, we should be able to use the new deposit contract before PQ too.
+00:39:58	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+Right, in that case the new deposit contract would also work for BLS
+00:41:27	potuz:	Replying to "At some point isn't ..."
+
+Yes, the new contract should work for BLS and we need to do it in two forks
+00:41:42	Milos Costantini:	well, still imo it's should be either have tcreate and selfdestruct removed OR gas refills meanwhile.
+
+And def there's not enough time for tcreate
+00:41:51	Justin Traglia:	Reacted to "Right, in that case the new deposit contract would also work for BLS" with 👍
+00:42:08	Justin Traglia:	Replying to "At some point isn't ..."
+
+To be clear, what does “do it” mean here?
+00:42:16	vitalik:	BTW the current PBT proposal changes the way code is stored, from address -> code to codehash -> code
+
+which opens up a lot more opportunities for how to think about changing code and making code cheaper
+
+(eg. I think there will be no point in the whole concept of delegation at that point)
+00:42:34	Milos Costantini:	it will impact ours and other people products making it very expensive on ethereum
+00:43:12	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+I think he means:
+
+First deploy it, so folks have enough time to switch to this new contract with BLS
+Then disable BLS and enable the PQ one
+00:45:01	Parithosh Jayanthi:	Reacted to "and by “ideally” nixo means there will be public shaming otherwise" with 😂
+00:45:04	Csaba:	Replying to "At some point isn't ..."
+
+Why you need the 2 forks? You can hardcode the deadline of the BLS path in the contract, right?
+00:45:14	Fredrik:	Reacted to "Yeah and I think it’s fine to let them lose money if the soak period is of the order of months/years… we’re not talking about just a day and there are many many ways of screwing up and losing money on chain to grant this one an irregular state transition" with ➕
+00:45:52	CPerezz:	Replying to "BTW the current PBT ..."
+
+Current EIP has a delegation marker. Which signals whether code is delegation or contract code itself. 
+
+How would we get rid of delegations overall? Do you have this written down somewhere?
+Or you mean instead of delegation we just store the ref to the code always and we get rid of 0xef..
+00:46:14	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+Yeah this is also possible, though if we get it wrong then we would need to redeploy
+00:46:24	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+so we would only be able to deploy the new contract once we are 100% certain about PQ deadlines
+00:46:51	Csaba:	You just have to hit a date before, and not after ;-)
+00:47:05	Kevaundray Wedderburn:	Reacted to "You just have to hit a date before, and not after ;-)" with 😁
+00:47:17	Mario Vega:	Reacted to "and by “ideally” nixo means there will be public shaming otherwise" with 😂
+00:48:20	Csaba:	But a fork saying you have 6 months (just an example) from now to do it seems quite clean messaging.
+00:48:29	Danno Ferrin (shemnon:	Replying to "it will impact ours ..."
+
+SELFDESTRUCT was deprecated Shanghai https://eips.ethereum.org/EIPS/eip-6049 including a warning not to use it.
+
+https://github.com/ethereum/execution-specs/blob/8dbde99b132ff8d8fcc9cfb015a9947ccc8b12d6/network-upgrades/mainnet-upgrades/shanghai.md
+00:49:10	Barnabas:	Replying to "At some point isn't ..."
+
+is the idea that everyone should exit/re-enter in the PQ contract? If thats the case, its gonna lead to years of exit/deposits queues.
+00:49:15	Danno Ferrin (shemnon:	Replying to "it will impact ours ..."
+
+This was almost 4 years ago.  We should not be accommodating new uses.
+00:50:17	Csaba:	Replying to "At some point isn't ..."
+
+Why could’t we migrate fork-time?
+00:50:24	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+@Csaba I guess having it done via a system call, is not that bad/complex; also the hardcoded number would be dependent on the slot time of when we set it I guess?
+00:50:41	felipe:	Reacted to "This was almost 4 ..." with ➕
+00:50:42	Csaba:	Replying to "At some point isn't ..."
+
+It is just the new PQ contract should also have a BLS part that times out, preferably before Q-day hits
+00:50:43	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+@Barnabas they wouldn’t need to exit/enter
+00:50:44	Barnabas:	Replying to "At some point isn't ..."
+
+how would migration work?
+00:50:49	Mario Vega:	Reacted to "This was almost 4 years ago.  We should not be accommodating new uses." with ➕
+00:51:07	Luca Donno | L2BEAT:	Reacted to "This was almost 4 years ago.  We should not be accommodating new uses." with ➕
+00:51:59	Ben Adams:	Replying to "it will impact ours and other people products making it very expensive on ethereum"
+
+https://eips.ethereum.org/EIPS/eip-8298 would mean not paying the cost for deploying code at an address (if that code already exists on chain); and not having proxy cost to use
+00:52:19	Csaba:	Replying to "At some point isn't ..."
+
+Do you see some specific blocker, or just a generic question?
+00:52:19	Fredrik:	I’m fairly sure wallets, staking guides, launchpad and such will also provide big blinking warnings against depositing using BLS once people can start deposit using PQ
+
+another question is what happens with the validators who are using BLS keys, they should be exited asap to avoid them being compromised and used by an attacker
+00:52:59	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+Migration for the irregular stf:
+
+Users continue like today and when we hit the pq fork, their bls deposits revert and they will need to call the same contract but a different function “deposit_pq”
+
+Migration for new contract:
+
+Users will migrate today to the new deposit contract and will be given N months to do so
+When we hit the pq fork, bls deposits will be reverted and they will need to use the pq equivalent method
+00:53:29	CPerezz:	Replying to "it will impact ours ..."
+
+Doesn’t the account creation cost increase significantly impact more the gas count than self-destruct price changes?
+00:53:37	spencer:	Reacted to "This was almost 4 ..." with ➕
+00:54:16	Barnabas:	Reacted to "This was almost 4 years ago.  We should not be accommodating new uses." with ➕
+00:54:37	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+I think we would have to exit validators that have not switched to PQ by the pq fork unless we try to support both PQ and BLS signatures at the same time
+00:57:14	Kevaundray Wedderburn:	Reacted to "I’m fairly sure wallets, staking guides, launchpad and such will also provide big blinking warnings against depositing using BLS once people can start deposit using PQ
+
+another question is what happens with the validators who are using BLS keys, from a security pov it feels like they should be exited in the hard fork after PQ deposits are possible to avoid them being compromised and used by an attacker" with 👍
+00:57:35	Barnabas:	Replying to "At some point isn't ..."
+
+yeah we shouldn’t do that
+00:57:41	Barnabas:	Replying to "At some point isn't ..."
+
+We should exit bls by that time
+00:58:00	lightclient:	we like the trustless log index!
+00:58:57	Pooja Ranjan:	https://github.com/ethereum/pm/issues/2197#issuecomment-5440015938
+00:59:07	Kevaundray Wedderburn:	Replying to "At some point isn't ..."
+
+I think once we exit bls validators, we would need to enable pq on the CL
+00:59:16	Kevaundray Wedderburn:	To me, this is what I’m referring to as the pq fork
+00:59:45	Barnabas:	Could we keep these updates off the call, and just DM these guys directly ?
+00:59:51	lightclient:	Reacted to "Could we keep these updates off the call, and just DM these guys directly ?" with 🔥
+00:59:53	Iván | ethrex:	Reacted to "Could we keep these ..." with 🔥
+00:59:58	lightclient:	Replying to "Could we keep these ..."
+
+WHIP.jpg
+01:00:03	Derek Chiang | Ethlabs:	@nixo I can give an update on the 8130<>8141 collab status
+01:00:20	nixo:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🙏
+01:00:22	Luca Donno | L2BEAT:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🙏
+01:00:23	Lean Ferrigno | ethrex:	Reacted to "Could we keep these ..." with 🔥
+01:00:53	Kevaundray Wedderburn:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🙏
+01:00:56	lightclient:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🙏
+01:01:10	Matthias Geihs:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🚀
+01:01:26	Rene:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🚀
+01:01:29	Lean Ferrigno | ethrex:	There was a pretty heated breakout room for AA, can’t we do some follow up on that topic 🐘
+01:01:47	Luca Donno | L2BEAT:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🚀
+01:02:18	Zsolt Felföldi:	Reacted to "we like the trustles..." with 😍
+01:02:34	Didier Le Floch:	Reacted to "@nixo I can give an update on the 8130<>8141 collab status" with 🚀
+01:02:39	lightclient:	Replying to "There was a pretty h..."
+
+you thought that was heated? 😅
+01:02:49	Derek Chiang | Ethlabs:	Reacted to "you thought that was heated? 😅" with 🤣
+01:02:51	Luca Donno | L2BEAT:	Reacted to "you thought that was heated? 😅" with 🤣
+01:02:53	Barnabas:	Reacted to "you thought that was heated? 😅" with 🤣
+01:02:53	Matthias Geihs:	Reacted to "you thought that was heated? 😅" with 🤣
+01:03:14	FLCL (Nethermind):	Reacted to "you thought that was heated? 😅" with 🤣
+01:03:15	Łukasz Rozmej:	Replying to "There was a pretty heated breakout room for AA, can’t we do some follow up on that topic 🐘"
+
+We need good old days heated :P
+01:03:20	Lean Ferrigno | ethrex:	Replying to "There was a pretty h..."
+
+😄
+01:03:27	Matthias Geihs:	Reacted to "We need good old days heated :P" with 🔥
+01:03:40	Lean Ferrigno | ethrex:	Reacted to "We need good old day..." with 🔥
+01:03:46	nixo:	Reacted to "you thought that was heated? 😅" with 🤣
+01:04:10	taek:	Reacted to "you thought that was heated? 😅" with 🤣
+01:05:21	Trent Van Epps:	Replying to "There was a pretty h..."
+
+Lol yeah the discussion was pretty balanced tbh
+01:06:02	Csaba:	Reacted to "you thought that was heated? 😅" with 🤣
+01:06:58	Chris - Base:	I think that was a good summary
+01:07:41	Ansgar Dietrichs:	if we think there is a chance we can converge here, would be good to have weekly until decision, no?
+01:07:57	Derek Chiang | Ethlabs:	Reacted to "I think that was a good summary" with ❤️
+01:07:58	taek:	Reacted to "if we think there is a chance we can converge here, would be good to have weekly until decision, no?" with 👍
+01:07:59	Derek Chiang | Ethlabs:	Reacted to "if we think there is a chance we can converge here, would be good to have weekly until decision, no?" with 👍
+01:08:02	nixo:	Reacted to "if we think there is a chance we can converge here, would be good to have weekly until decision, no?" with 👍
+01:08:03	Didier Le Floch:	Reacted to "if we think there is a chance we can converge here, would be good to have weekly until decision, no?" with 👍
+01:08:04	Ansgar Dietrichs:	Replying to "if we think there is..."
+
+it feels like stakes are relatively high, we want a decision soon
+01:08:12	Didier Le Floch:	Reacted to "it feels like stakes are relatively high, we want a decision soon" with 👍
+01:08:14	Iván | ethrex:	Weekly is fine for now
+01:08:21	Luca Donno | L2BEAT:	Reacted to "if we think there is a chance we can converge here, would be good to have weekly until decision, no?" with 👍
+01:08:22	Luca Donno | L2BEAT:	Reacted to "it feels like stakes are relatively high, we want a decision soon" with 👍
+01:08:42	Justin Traglia:	Reacted to "Could we keep these updates off the call, and just DM these guys directly ?" with 🔥
+01:09:17	CPerezz:	Should we set some deadline or target date to decide on this topic? We are loosing imps time for Frames or whatever we end up at
+01:09:21	bono | ethrex:	Reacted to "it feels like stakes are relatively high, we want a decision soon" with 👍
+01:09:31	taek:	Reacted to "Should we set some deadline or target date to decide on this topic? We are loosing imps time for Frames or whatever we end up at" with 👍
+01:09:41	Rene:	Reacted to "if we think there is a chance we can converge here, would be good to have weekly until decision, no?" with 👍
+01:09:51	Derek Chiang | Ethlabs:	Replying to "Should we set some d..."
+
+I think ~4 weeks is about the maximum that people are OK with
+01:10:22	Barnabas:	Reacted to "Should we set some deadline or target date to decide on this topic? We are loosing imps time for Frames or whatever we end up at" with 👍
+01:10:44	Matthias Geihs:	wise words
+01:10:49	Barnabas:	not spending time more on frames discussion today would be a waste of a very important week imo
+01:10:55	lightclient:	Reacted to "not spending time more on frames discussion today would be a waste of a very important week imo" with 🔥
+01:10:59	lightclient:	Replying to "not spending time mo..."
+
+LFG
+01:11:02	Luca Donno | L2BEAT:	Reacted to "not spending time more on frames discussion today would be a waste of a very important week imo" with 💯
+01:11:06	Guru:	Reacted to "not spending time mo..." with 💯
+01:11:24	Kevaundray Wedderburn:	@Chris - Base was the main ask from 8141 to add keystone functionality?
+01:11:27	Luca Donno | L2BEAT:	im not sure I understand the need of a new tx type as said by Derek that can support both, i thought 8130 can be implemented by L2s as a stricter 8141?
+01:11:45	Chris - Base:	Replying to "@Chris - Base was ..."
+
+A simplified model of it yes
+01:12:03	taek:	Reacted to "im not sure I understand the need of a new tx type as said by Derek that can support both, i thought 8130 can be implemented as a stricter 8141?" with ➕
+01:12:09	Chris - Base:	Replying to "@Chris - Base was ..."
+
+But that may be not what they want - We are still discussing
+01:12:13	Ansgar Dietrichs:	there are no “blockers”, right? just the hope to have a better proposal that works for both sides
+01:12:19	Iván | ethrex:	Replying to "@Chris - Base was th..."
+
+So frames is to go and we just need to adapt it for the “simplified model of it”?
+01:12:24	Didier Le Floch:	Reacted to "A simplified model of it yes" with 👍
+01:13:00	Ansgar Dietrichs:	Replying to "there are no “blocke..."
+
+I e.g. heard from Vitalik as well that he is actively working on trying to find a more principled synthesis between the two proposals
+01:13:15	Derek Chiang | Ethlabs:	Replying to "im not sure I unders..."
+
+The outcome is not necessarily to create a “new” transaction type, but rather just to converge on 1 transaction type, which could be frames like you said, but also may not be if it turns out that it’s not possible to get the desired 8130 experience on top of frame txns as spec-ed today
+01:13:25	lightclient:	which things don’t you want? 🙂
+01:13:26	Matthias Geihs:	Reacted to "I e.g. heard from Vitalik as well that he is actively working on trying to find a more principled synthesis between the two proposals" with 👀
+01:13:28	Ansgar Dietrichs:	Replying to "there are no “blocke..."
+
+so the cost of a decision now is to lock in something now that might not be the ideal outcome
+01:13:51	taek:	Can we at least list out what are needed and what things they want to avoid from both sides
+01:14:14	Lean Ferrigno | ethrex:	Reacted to "not spending time mo..." with 💯
+01:14:31	Ansgar Dietrichs:	Replying to "there are no “blocke..."
+
+ah wait @vitalik is on the call, I’d be curious about your take
+01:14:34	Fredrik:	Reacted to "To me, this is what I’m referring to as the pq fork" with 👍
+01:14:46	Luca Donno | L2BEAT:	Replying to "im not sure I unders..."
+
+What’s an example where just a stricter frame model (i.e. sequencer censoring more) doesn’t work?
+01:15:22	Barnabas:	what is the base’s timeline?
+01:16:39	Tomás Arjovsky | Lambda | Ethrex:	Hey, we’ve developed the frames devnets for hegota  at ethrex for each iteration. Please include us in the separate discussion
+01:17:03	Derek Chiang | Ethlabs:	Want to shout out both L1 client devs and Base for being willing to be flexible with their timelines in order to reach a common ground
+01:17:05	Tomás Arjovsky | Lambda | Ethrex:	We’ve been at the breakout room, but we have not been included in the discussion to try to reach a common tx type
+01:17:22	Iván | ethrex:	Reacted to "Hey, we’ve developed..." with ☝️
+01:17:23	Didier Le Floch:	Reacted to "Want to shout out both L1 client devs and Base for being willing to be flexible with their timelines in order to reach a common ground" with ➕
+01:17:25	Matthias Geihs:	unite, not fight ❤️
+01:17:46	taek | Offchain(ZeroDev):	Reacted to "Want to shout out both L1 client devs and Base for being willing to be flexible with their timelines in order to reach a common ground" with ➕
+01:18:01	Chris - Base:	Account header for sure is best
+01:18:08	taek | Offchain(ZeroDev):	Reacted to "We’ve been at the breakout room, but we have not been included in the discussion to try to reach a common tx type" with ➕
+01:18:18	Chris - Base:	Contract was portable
+01:18:19	nixo:	Reacted to "Want to shout out both L1 client devs and Base for being willing to be flexible with their timelines in order to reach a common ground" with ➕
+01:18:33	lightclient:	Replying to "We’ve been at the br..."
+
+added u to the telegram chat
+01:18:39	Iván | ethrex:	Replying to "We’ve been at the br..."
+
+Please add me too
+01:18:54	taek | Offchain(ZeroDev):	Replying to "We’ve been at the br..."
+
+Can I be added too?
+01:19:00	Barnabas:	Replying to "We’ve been at the br..."
+
+why not eth r&d?
+01:20:01	Iván | ethrex:	Reacted to "why not eth r&d?" with ☝️
+01:20:02	Lean Ferrigno | ethrex:	Reacted to "why not eth r&d?" with 🤷‍♂️
+01:20:05	Iván | ethrex:	Reacted to "why not eth r&d?" with 🤷‍♂️
+01:20:06	Lean Ferrigno | ethrex:	Reacted to "why not eth r&d?" with ☝️
+01:20:21	Tomás Arjovsky | Lambda | Ethrex:	Reacted to "why not eth r&d?" with ☝️
+01:20:22	Tomás Arjovsky | Lambda | Ethrex:	Reacted to "why not eth r&d?" with 🤷‍♂️
+01:20:44	lightclient:	Replying to "We’ve been at the br..."
+
+idk guys i didnt make this chat 😭
+01:21:03	taek | Offchain(ZeroDev):	Reacted to "idk guys i didnt make this chat 😭" with 😂
+01:21:09	Mario Vega:	Reacted to "why not eth r&d?" with ☝️
+01:21:26	Luca Donno | L2BEAT:	Reacted to "why not eth r&d?" with ☝️
+01:21:40	Luca Donno | L2BEAT:	Reacted to "why not eth r&d?" with ➕
+01:21:44	Iván | ethrex:	Reacted to "why not eth r&d?" with ➕
+01:22:07	Chris - Base:	Lets ensure it works together at the very least. End users P0
+01:22:17	felipe:	Reacted to "why not eth r&d?" with ☝️
+01:22:19	felipe:	Reacted to "why not eth r&d?" with ➕
+01:22:23	Matthias Geihs:	It has benefits for the ecosystem overall, no?
+01:23:25	lightclient:	my take is: if you allow frame tx from default account in 8141 and then modify the default account in 8141 to use the keystore (on L2s) to read the authenticator, determine actor policies, etc. if you only allow the default account in frames and it uses the keystore with canonical authenticators you can reason about it statically and that should address the concerns raised
+01:23:52	Chris - Base:	I do have to run, talk soon! Cheers
+01:24:06	lightclient:	Reacted to "I do have to run, talk soon! Cheers" with 😅
+01:24:21	Didier Le Floch:	Reacted to "my take is: if you allow frame tx from default account in 8141 and then modify the default account in 8141 to use the keystore (on L2s) to read the authenticator, determine actor policies, etc. if you only allow the default account in frames and it uses the keystore with canonical authenticators you can reason about it statically and that should address the concerns raised" with ➕
+01:24:25	Matthias Geihs:	Reacted to "I do have to run, talk soon! Cheers" with 😅
+01:24:32	Luca Donno | L2BEAT:	Reacted to "my take is: if you allow frame tx from default account in 8141 and then modify the default account in 8141 to use the keystore (on L2s) to read the authenticator, determine actor policies, etc. if you only allow the default account in frames and it uses the keystore with canonical authenticators you can reason about it statically and that should address the concerns raised" with ➕
+01:24:35	taek | Offchain(ZeroDev):	Reacted to "my take is: if you allow frame tx from default account in 8141 and then modify the default account in 8141 to use the keystore (on L2s) to read the authenticator, determine actor policies, etc. if you only allow the default account in frames and it uses the keystore with canonical authenticators you can reason about it statically and that should address the concerns raised" with ➕
+01:24:46	Didier Le Floch:	Reacted to "I do have to run, talk soon! Cheers" with 🏃‍♂️‍➡️
+01:24:47	Iván | ethrex:	Reacted to "I do have to run, ta..." with 😐
+01:24:56	Luca Donno | L2BEAT:	Reacted to "I do have to run, talk soon! Cheers" with 😅
+01:25:03	nixo:	Reacted to "I do have to run, talk soon! Cheers" with 🏃‍♂️‍➡️
+01:25:08	Justin Traglia:	Reacted to "I do have to run, talk soon! Cheers" with 🏃‍♂️‍➡️
+01:25:15	Stavros Vlachakis:	Reacted to "I do have to run, talk soon! Cheers" with 😅
+01:25:30	Marc:	None of this really blocks us from SFI’ing 8141 though? Can still make tweaks after
+01:25:38	lightclient:	Reacted to "None of this really blocks us from SFI’ing 8141 though? Can still make tweaks after" with 👍
+01:25:43	Lean Ferrigno | ethrex:	Reacted to "None of this really ..." with 👍
+01:25:46	Alex Forshtat:	Reacted to "None of this really blocks us from SFI’ing 8141 though? Can still make tweaks after" with 👍
+01:25:48	Iván | ethrex:	Replying to "None of this really ..."
+
+This is true
+01:25:52	Guru:	Reacted to "None of this really ..." with 👍
+01:25:55	lightclient:	Replying to "None of this really ..."
+
+🚢
+01:25:56	Luca Donno | L2BEAT:	Reacted to "None of this really blocks us from SFI’ing 8141 though? Can still make tweaks after" with 👍
+01:26:24	Iván | ethrex:	Replying to "None of this really ..."
+
+@nixo
+01:26:30	Iván | ethrex:	Reacted to "None of this really ..." with 👍
+01:26:48	Derek Chiang | Ethlabs:	Replying to "None of this really ..."
+
+But if the transaction type may change, what are we actually SFI-ing?  I think we should first de-risk the outcome that there won’t be significant changes to the Frame txns type, which is probably going to be true, but can’t say for certain until we at least give this collab exercise another week or two
+01:27:20	nixo:	Replying to "None of this really ..."
+
+is it still possible that another EIP is being written that converges on a solution?
+01:27:25	lightclient:	Replying to "None of this really ..."
+
+the same thing we always SFI?
+01:27:38	lightclient:	Replying to "None of this really ..."
+
+the general concept and framework for solving
+01:27:39	Ansgar Dietrichs:	Replying to "None of this really ..."
+
+right, I am a bit unsure what specifically the decision here would be? I think we as a group already decided that AA will be the major EL side Hegota focus, right?
+01:27:47	Derek Chiang | Ethlabs:	Replying to "None of this really ..."
+
+is it still possible that another EIP is being written that converges on a solution?
+
+That’s within the realm of possibility, yes
+01:28:10	Derek Chiang | Ethlabs:	Replying to "None of this really ..."
+
+That said even in that world, I think 8141 will exist; it just would refer to this new EIP for the base transaction type
+01:28:38	lightclient:	Reacted to "That said even in that world, I think 8141 will exist; it just would refer to this new EIP for the base transaction type" with 👍
+01:28:46	nixo:	Replying to "None of this really ..."
+
+so it seems to me SFI'ing wouldn't meaningfully impact either the outcome or speed things up, it may confuse the ecosystem though if the specific implementation is likely to change
+01:28:58	Derek Chiang | Ethlabs:	Reacted to "so it seems to me SFI'ing wouldn't meaningfully impact either the outcome or speed things up, it may confuse the ecosystem though if the specific implementation is likely to change" with 👍
+01:29:04	Luca Donno | L2BEAT:	Replying to "my take is: if you a..."
+
+This sounds very simple to me… I struggle to understand why this doesn’t settle the debate already
+01:29:13	Iván | ethrex:	Replying to "None of this really ..."
+
+SFIing frames will set a clear path and then we can put more efforts on sorting out what needs to be done to satisfy the majority
+01:29:23	Derek Chiang | Ethlabs:	Replying to "None of this really ..."
+
+Yeah not sure what we lose by waiting at least till the next ACDE, just so we can have more clarity from this collab exercise
+01:29:28	lightclient:	Replying to "my take is: if you a..."
+
+yeah i agree
+01:29:52	Luca Donno | L2BEAT:	Replying to "my take is: if you a..."
+
+@Derek Chiang | Ethlabs you know maybe?
+01:29:58	Trent Van Epps:	Reacted to "This sounds very simple to me… I struggle to understand why this doesn’t settle the debate already" with 👀
+01:30:01	Trent Van Epps:	Reacted to "my take is: if you allow frame tx from default account in 8141 and then modify the default account in 8141 to use the keystore (on L2s) to read the authenticator, determine actor policies, etc. if you only allow the default account in frames and it uses the keystore with canonical authenticators you can reason about it statically and that should address the concerns raised" with 👀
+01:30:02	potuz:	Yeah this really smells EOF all over again lol
+01:30:07	taek | Offchain(ZeroDev):	Reacted to "Yeah this really smells EOF all over again lol" with ➕
+01:30:09	potuz:	+1 on Tomás
+01:30:17	Iván | ethrex:	Reacted to "+1 on Tomás" with ➕
+01:30:20	Fredrik:	Reacted to "+1 on Tomás" with ➕
+01:30:21	lightclient:	Replying to "Yeah this really sme..."
+
+nooo don’t say that 😭
+01:30:26	Iván | ethrex:	Reacted to "Yeah this really sme..." with ➕
+01:30:31	Toni Wahrstätter:	Reacted to "my take is: if you allow frame tx from default account in 8141 and then modify the default account in 8141 to use the keystore (on L2s) to read the authenticator, determine actor policies, etc. if you only allow the default account in frames and it uses the keystore with canonical authenticators you can reason about it statically and that should address the concerns raised" with ➕
+01:30:35	Mario Vega:	Reacted to "+1 on Tomás" with ➕
+01:30:46	Trent Van Epps:	Replying to "Yeah this really sme..."
+
+Far from it
+01:30:49	Guru:	Reacted to "+1 on Tomás" with ➕
+01:30:56	taek | Offchain(ZeroDev):	Reacted to "nooo don’t say that 😭" with 😂
+01:31:05	potuz:	Replying to "Yeah this really sme..."
+
+Got no clue what was discussed as I was not on either room, but if there’s ACD + regular breakouts, and then on the next ACD the results of a private meeting are brought up, it’s really a failure of governance
+01:31:13	Ansgar Dietrichs:	I think it’s pretty normal that on active collaboration topics, there are a lot of side conversations in small groups, no? I agree that the default should be public comms channels, but realistically people DM all the time
+01:31:23	Justin Traglia:	Reacted to "nooo don’t say that 😭" with 😂
+01:31:27	Derek Chiang | Ethlabs:	Reacted to "I think it’s pretty normal that on active collaboration topics, there are a lot of side conversations in small groups, no? I agree that the default should be public comms channels, but realistically people DM all the time" with 👍
+01:31:40	lightclient:	if everyone would just chat on eth r&d it’s better 😅
+01:31:50	potuz:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 💯
+01:31:53	Fredrik:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 💯
+01:31:55	felipe:	Reacted to "if everyone would ..." with 💯
+01:31:56	Guru:	Reacted to "if everyone would ju..." with 💯
+01:31:56	Derek Chiang | Ethlabs:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 💯
+01:31:59	Iván | ethrex:	Reacted to "if everyone would ju..." with 💯
+01:32:01	Justin Traglia:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 💯
+01:32:03	Luca Donno | L2BEAT:	Reacted to "nooo don’t say that 😭" with 😂
+01:32:04	Mario Vega:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 💯
+01:32:07	Luca Donno | L2BEAT:	Reacted to "Far from it" with 👍
+01:32:14	felipe:	Reacted to "nooo don’t say th..." with 😂
+01:32:17	Luca Donno | L2BEAT:	Reacted to "Got no clue what was discussed as I was not on either room, but if there’s ACD + regular breakouts, and then on the next ACD the results of a private meeting are brought up, it’s really a failure of governance" with 👍
+01:32:28	Dustin:	Wasn't there just someone 10-20 minutes ago who did not agree with this?
+01:32:30	Luca Donno | L2BEAT:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 💯
+01:32:33	Luca Donno | L2BEAT:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 👍
+01:32:41	Tomás Arjovsky | Lambda | Ethrex:	Replying to "I think it’s pretty ..."
+
+For sure, I’m not forbidding people from talking in their own channels, just against people presenting the outcomes of those channels as the outcomes of the public discussion, when they are different
+01:32:44	lightclient:	we can just update 8141
+01:32:50	Barnabas:	Reacted to "we can just update 8141" with 👍
+01:32:53	vitalik:	Reacted to "we can just update..." with 👍
+01:32:53	Iván | ethrex:	We cannot base our decisions on hypothetical scenarios
+01:32:55	Marc:	Reacted to "we can just update 8141" with 👍
+01:33:08	Iván | ethrex:	Reacted to "we can just update 8..." with 👍
+01:33:12	Luca Donno | L2BEAT:	Reacted to "we can just update 8141" with 👍
+01:33:12	Toni Wahrstätter:	Reacted to "we can just update 8141" with 👍
+01:33:18	Barnabas:	yeah lets just adjust the spec of 8141 to whatever L2s are happy with too
+01:33:22	Luca Donno | L2BEAT:	Reacted to "yeah lets just adjust the spec of 8141" with 👍
+01:33:23	Iván | ethrex:	Reacted to "yeah lets just adjus..." with 👍
+01:33:23	Alex Forshtat:	Reacted to "yeah lets just adjust the spec of 8141" with 👍
+01:33:30	lightclient:	Reacted to "yeah lets just adjust the spec of 8141 to whatever L2s are happy with too" with 👍
+01:33:32	Iván | ethrex:	Reacted to "yeah lets just adjus..." with ☝️
+01:33:34	Toni Wahrstätter:	Reacted to "yeah lets just adjust the spec of 8141 to whatever L2s are happy with too" with 👍
+01:33:44	Barnabas:	and lets SFI 8141 and lets get to work
+01:33:47	Ben Edgington:	Reacted to "if everyone would just chat on eth r&d it’s better 😅" with 💯
+01:33:50	lightclient:	Reacted to "and lets SFI 8141 and lets get to work" with 🚢
+01:33:52	Tomás Arjovsky | Lambda | Ethrex:	Reacted to "and lets SFI 8141 and lets get to work" with 🚢
+01:33:55	Iván | ethrex:	Reacted to "and lets SFI 8141 an..." with 🚢
+01:33:56	Alex Forshtat:	Reacted to "and lets SFI 8141 and lets get to work" with 🚢
+01:34:04	Marc:	Reacted to "and lets SFI 8141 and lets get to work" with 🚢
+01:34:18	Iván | ethrex:	SFI
+01:34:20	lightclient:	SFI
+01:34:24	Toni Wahrstätter:	We should try everything to make sure 8141 is fine with L2s. Independently, we should give L1 devs and users certainty as early as possible.
+01:34:29	Luca Donno | L2BEAT:	Reacted to "and lets SFI 8141 and lets get to work" with 🚢
+01:34:33	Iván | ethrex:	Reacted to "We should try everyt..." with 👍
+01:34:43	Derek Chiang | Ethlabs:	Let’s not make emotional decisions at the last 3 min of the meeting
+01:34:50	taek | Offchain(ZeroDev):	Reacted to "Let’s not make emotional decisions at the last 3 min of the meeting" with 👍
+01:34:53	Parithosh Jayanthi:	Reacted to "Let’s not make emotional decisions at the last 3 min of the meeting" with 👍
+01:34:58	Fredrik:	Reacted to "and lets SFI 8141 and lets get to work" with 🚢
+01:35:04	lightclient:	Replying to "Let’s not make emoti..."
+
+let’s stop wasting time with this discussions
+01:35:05	Tomás Arjovsky | Lambda | Ethrex:	Replying to "Let’s not make emoti..."
+
+Let’s not call people’s arguments emotional
+01:35:13	Iván | ethrex:	They are not emotional, is not that frames appeared from out of nowhere
+01:35:16	Fredrik:	Reacted to "we can just update 8141" with 👍
+01:35:18	lightclient:	we’re going to keep improving 8141
+01:35:18	Fredrik:	Reacted to "yeah lets just adjust the spec of 8141 to whatever L2s are happy with too" with 👍
+01:35:20	Ansgar Dietrichs:	I don’t think L2s are ultimately decision makers here. I will say I am very confused by this intention to make the decision now, but if the core devs want to make the decision, nothing is stopping them from doing so today
+01:35:27	Stavros Vlachakis:	Replying to "Let’s not make emoti..."
+
+It’s not about emotions, we need to move on and do actual work
+01:35:33	lightclient:	Reacted to "It’s not about emotions, we need to move on and do actual work" with 👍
+01:35:37	Luca Donno | L2BEAT:	Reacted to "It’s not about emotions, we need to move on and do actual work" with 👍
+01:35:40	Justin Traglia:	Reacted to "It’s not about emotions, we need to move on and do actual work" with 👍
+01:35:45	Iván | ethrex:	Replying to "Let’s not make emoti..."
+
+@Stavros Vlachakis agreed, we need to ship 🚢
+01:35:49	bono | ethrex:	Reacted to "It’s not about emotions, we need to move on and do actual work" with 👍
+01:35:53	Didier Le Floch:	Reacted to "Let’s not make emotional decisions at the last 3 min of the meeting" with 👍
+01:35:58	Ansgar Dietrichs:	Replying to "I don’t think L2s ar..."
+
+personally I’d still prefer to make that decision 2 weeks from now, but seems like clients all want to do that today
+01:35:58	Barnabas:	Reacted to "let’s stop wasting time with this discussions" with 💯
+01:35:59	Fredrik:	Reacted to "@Stavros Vlachakis agreed, we need to ship 🚢" with 🚢
+01:36:02	Luca Donno | L2BEAT:	Reacted to "let’s stop wasting time with this discussions" with 💯
+01:36:05	lightclient:	a lot of clients feel it is pretty valuable to SFI it ?
+01:36:13	bono | ethrex:	Reacted to "@Stavros Vlachakis agreed, we need to ship 🚢" with 🚢
+01:36:24	Csaba:	Replying to "I think it’s pretty ..."
+
+I think the failure mode here is thinking the group was “large enough”. IMHO that’s what creates the most misunderstanding. Not speaking of this case specifically, but more in general
+01:36:24	Iván | ethrex:	Reacted to "a lot of clients fee..." with 🤝
+01:36:36	Didier Le Floch:	Reacted to "personally I’d still prefer to make that decision 2 weeks from now, but seems like clients all want to do that today" with ➕
+01:37:18	Justin Florentine (Besu):	EIPs don't even leave draft after they are on mainnet, i really don't think thats a concern
+01:37:19	Toni Wahrstätter:	We delayed the decission weeks ago. Let's decide. Things will still change but this is independent from locking it in.
+Spec changes will happen. no matter what
+01:37:22	Barnabas:	epbs had radical spec changes like 1 month ago 😂
+01:37:27	Ben Adams:	8037 shows can make radical spec changes ;)
+01:37:28	lightclient:	Reacted to "epbs had radical spec changes like 1 month ago 😂" with 😂
+01:37:37	nixo:	Reacted to "8037 shows can make radical spec changes ;)" with 😁
+01:37:38	Ansgar Dietrichs:	Replying to "epbs had radical spe..."
+
+yes and was that a great outcome?
+01:37:40	Maria Silva:	Reacted to "epbs had radical spec changes like 1 month ago 😂" with 😂
+01:37:43	Iván | ethrex:	Reacted to "8037 shows can make ..." with 😁
+01:37:46	Guru:	Reacted to "epbs had radical spe..." with 😂
+01:37:48	Luca Donno | L2BEAT:	Reacted to "epbs had radical spec changes like 1 month ago 😂" with 😂
+01:37:51	Barnabas:	Replying to "epbs had radical spe..."
+
+it had to be done.
+01:37:52	Iván | ethrex:	Reacted to "8037 shows can make ..." with 🐻‍❄️
+01:37:56	Maria Silva:	Reacted to "8037 shows can make radical spec changes ;)" with 🥲
+01:37:59	Iván | ethrex:	Reacted to "8037 shows can make ..." with 🥲
+01:38:12	felipe:	Reacted to "8037 shows can mak..." with 🥲
+01:38:17	Luca Donno | L2BEAT:	Reacted to "We delayed the decission weeks ago. Let's decide. Things will still change but this is independent from locking it in.
+Spec changes will happen. no matter what" with 👍
+01:38:19	Barnabas:	Replying to "epbs had radical spe..."
+
+I’m sure we gonna do the best to make sure frames will be compatible with L2s too, and won’t ship somethign that L2s don’t like.
+01:38:30	Matthias Geihs:	Chris will be surprised
+01:38:35	Ansgar Dietrichs:	I don’t think SFI makes any difference for “knowing what L1 will do”, we already knew L1 would ship something for native AA in Hegota, and now after the decision we still don’t know which variant we will ship
+01:38:38	taek | Offchain(ZeroDev):	Reacted to "Chris will be surprised" with ➕
+01:38:42	Christine Kim:	Reacted to "I don’t think SFI makes any difference for “knowing what L1 will do”, we already knew L1 would ship something for native AA in Hegota, and now after the decision we still don’t know which variant we will ship" with 👍
