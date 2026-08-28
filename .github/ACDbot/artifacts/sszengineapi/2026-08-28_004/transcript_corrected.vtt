@@ -1,0 +1,930 @@
+WEBVTT
+
+1
+00:04:47.690 --> 00:04:53.119
+Tamaghna Chourdhuri: Hi guys, why it's less 15 today, and it's…
+
+2
+00:05:17.660 --> 00:05:20.609
+Dustin: Let's see, is there a…
+
+3
+00:05:21.550 --> 00:05:28.500
+Dustin: I just didn't check if there was an agenda, is there… but also, I don't see a lot of…
+
+4
+00:05:29.330 --> 00:05:31.710
+Dustin: The usual people here.
+
+5
+00:05:32.260 --> 00:05:37.010
+Tamaghna Chourdhuri: Yeah, I got you. Like, the basic agenda would be basically, like,
+
+6
+00:05:37.110 --> 00:05:56.299
+Tamaghna Chourdhuri: getting the PR merge and the reviews in, and basically, like, the… like, the idea is basically to get this PR merge, and then maybe a follow-up PR for the progressive types. Like, that's just the basic thing, and maybe the HTTP2 or 1.1 discussion, but, like, I don't see the people who generally discuss
+
+7
+00:05:56.660 --> 00:05:58.110
+Tamaghna Chourdhuri: That's here today.
+
+8
+00:05:59.740 --> 00:06:01.040
+Tamaghna Chourdhuri: That's a problem.
+
+9
+00:06:01.800 --> 00:06:07.369
+Dustin: Right, right. Neither Geth nor Nethermind is represented, I think.
+
+10
+00:06:07.650 --> 00:06:08.880
+Dustin: I,
+
+11
+00:06:10.700 --> 00:06:22.129
+Tamaghna Chourdhuri: Yeah, like, Morris is basically out of office, I had texted him, and no one from Nethermind, so, like, the thing is, like, would we, like, even want to keep the call, or, like.
+
+12
+00:06:22.190 --> 00:06:38.719
+Tamaghna Chourdhuri: would we do it maybe next week with, me DMing everybody just to send somebody, because, like, it's the end parts of this call, so, like, I basically just want everyone to have an opinion, and then maybe we can get the PR in March, so, like, that's just the basic idea of what remains.
+
+13
+00:06:40.220 --> 00:06:46.409
+Dustin: Right. Yeah, I, I don't think that with the people… oh, okay, well, there's another mine.
+
+14
+00:06:47.290 --> 00:06:56.749
+Dustin: I… I… I don't think… well, actually, it's a good one. So, that… I agree that it… the question is, does that help achieve this goal of…
+
+15
+00:06:57.120 --> 00:06:59.419
+Dustin: of getting,
+
+16
+00:06:59.630 --> 00:07:10.700
+Dustin: PR, merged? I… I understand also that Barnabas is kind of pushing on this, and I… I would like… it would be great to get a merged, all sequel.
+
+17
+00:07:11.880 --> 00:07:16.680
+Dustin: There's all… it is also so clearly kind of…
+
+18
+00:07:17.100 --> 00:07:31.700
+Dustin: how to put this? It's a draft that Marius, self-admittedly, like, hacked together with an LLM, prompted, whatever, probably more or less one-shot, and,
+
+19
+00:07:31.950 --> 00:07:47.059
+Dustin: I mean, to be fair, his… the dueling PR from Barnabas was the same, in that regard, and… and has not been touched very much. There's been a lot of feedback, to it in various forms, but the actual core PR has been…
+
+20
+00:07:47.230 --> 00:07:54.490
+Dustin: not actually updated in response to some of this, so I'd be a little concerned about just, like, you know.
+
+21
+00:07:54.790 --> 00:07:58.419
+Dustin: push it in ASAP in that… in that sense.
+
+22
+00:08:00.380 --> 00:08:07.169
+Tamaghna Chourdhuri: Yeah, that makes sense. Like, the basic idea would be, like, to ask every client team to have a look, but, like, because…
+
+23
+00:08:07.560 --> 00:08:12.369
+Tamaghna Chourdhuri: Most of them somebody has, but, like, because ears off or something, like.
+
+24
+00:08:12.560 --> 00:08:31.889
+Tamaghna Chourdhuri: Also, the progressive types remain, but, like, what I basically want to do is at least get, let's say, another new branch on execution API known as SSZ, merge, more years SPR in, then put another PR for the progressive types, get that merge, and maybe then have one final PR from that branch to
+
+25
+00:08:31.890 --> 00:08:35.979
+Tamaghna Chourdhuri: the master browser, like, that's the basic idea, like, what I have for now.
+
+26
+00:08:36.370 --> 00:08:37.169
+Tamaghna Chourdhuri: late.
+
+27
+00:08:41.090 --> 00:08:54.190
+Dustin: Okay, I mean, I guess my question then would be, procedurally, in terms of how baked in would this be, and… right, I mean, I don't know if you were there, like, yesterday's… I mean.
+
+28
+00:08:54.300 --> 00:09:17.080
+Dustin: ACDECO, but in the… for example, in the context of the 8141, in terms of people wanted to SFI something, right? And my understanding is it ended up SFI'd. But the reason was, and the caveat was, and I promise this is directly salient here, is, like, there was a lot of uncertainty because, you know, the 8130, 8141, all that stuff.
+
+29
+00:09:17.110 --> 00:09:19.610
+Dustin: Fine. So people just wanted it in.
+
+30
+00:09:20.040 --> 00:09:34.540
+Dustin: And then figure out the details later. But the trade-off was, well, the thing being that there was an agreement among all, sort of publicly agreed to, that the thing being merged was not necessarily,
+
+31
+00:09:34.600 --> 00:09:47.769
+Dustin: precisely what was going to be, gone with, in the end. Like, a couple of people mentioned that what they did not want as an outcome is it gets merged.
+
+32
+00:09:47.770 --> 00:09:54.940
+Dustin: like, and this is there, but I would say the same thing applies here, based on how you're framing this, as it were, no pun intended.
+
+33
+00:09:55.700 --> 00:10:05.730
+Dustin: Is that… that, okay, well, there was a lot of uncertainty, there was a lot of, like, open threads, but… but there was some pressure to merge, so we merged.
+
+34
+00:10:06.020 --> 00:10:11.609
+Dustin: And then… now, oops, it's a spec, you can't change it anymore, and Hegota's closed.
+
+35
+00:10:13.040 --> 00:10:15.300
+Dustin: I see a hand raised, so I'll stop talking.
+
+36
+00:10:16.040 --> 00:10:26.360
+Łukasz Rozmej: So, I would prefer having some momentum behind this, either merging the spec.
+
+37
+00:10:26.530 --> 00:10:31.919
+Łukasz Rozmej: and we can refine the spec later. It's like… it's an optional spec, so…
+
+38
+00:10:32.090 --> 00:10:36.549
+Łukasz Rozmej: It's, optional in this way that you can use,
+
+39
+00:10:36.910 --> 00:10:42.470
+Łukasz Rozmej: JSON RPC, if there's something you haven't implemented yet.
+
+40
+00:10:42.720 --> 00:10:49.579
+Łukasz Rozmej: You can potentially fall back to JSON RPC if there's any issue, but I would prefer…
+
+41
+00:10:50.240 --> 00:10:55.380
+Łukasz Rozmej: Either merging the spec, or having some kind of…
+
+42
+00:10:55.520 --> 00:11:01.649
+Łukasz Rozmej: DevNet, that, with the current spec, that there's some kind of testing.
+
+43
+00:11:01.900 --> 00:11:03.300
+Łukasz Rozmej: Going on.
+
+44
+00:11:04.310 --> 00:11:09.549
+Łukasz Rozmej: That we can, polish, the potential
+
+45
+00:11:09.760 --> 00:11:14.929
+Łukasz Rozmej: Bugs and, compatibility between clients.
+
+46
+00:11:19.530 --> 00:11:31.819
+Tamaghna Chourdhuri: Alright, on the DevNet part, so, like, the basic idea was when, Barnabas was on the call, so, like, we not have a separate DevNet, like, towards the end of, let's say, this fork, we would maybe push…
+
+47
+00:11:31.880 --> 00:11:47.579
+Tamaghna Chourdhuri: all of this into the DevNet for that one. Like, that sounds okay, but, like, then, let's say, I guess we need to coordinate that on ACDT, and I can maybe bring it up on Monday. And, like, yeah, like, I agree, like, having something merged in that momentum would be better than…
+
+48
+00:11:47.580 --> 00:11:56.799
+Tamaghna Chourdhuri: keeping it as it is, because, like, it's just, like, it's just stale for a long period of time, because there hasn't been that kind of momentum. So, like, I agree that, yeah.
+
+49
+00:12:02.300 --> 00:12:05.200
+Łukasz Rozmej: Yeah, basically, this is, like,
+
+50
+00:12:05.830 --> 00:12:19.260
+Łukasz Rozmej: you know, backward compatible, right? Because we still have JSON RPC, it's still there, but I would start, you know, having this, any momentum, right? So… I agree that maybe we should have a…
+
+51
+00:12:19.560 --> 00:12:30.520
+Łukasz Rozmej: some kind of verification first before we merge the spec, but if we have a DevNet and it works for some client pairs, we can merge the spec, in my opinion, and…
+
+52
+00:12:30.830 --> 00:12:34.380
+Łukasz Rozmej: Go farther, and we can refine the spec later if needed.
+
+53
+00:12:35.050 --> 00:12:41.260
+Łukasz Rozmej: Again, this is… We can call it an experimental path for now.
+
+54
+00:12:41.460 --> 00:12:48.940
+Łukasz Rozmej: Until… you know… it works on, I don't know, DevNets, or whatever.
+
+55
+00:12:55.830 --> 00:12:58.239
+Dustin: I mean, seems reasonable, to me.
+
+56
+00:13:00.000 --> 00:13:07.780
+Dustin: I still would, I, I would say, point to… and I, I wanna, as I'm saying this, I'm… I wanna kind of,
+
+57
+00:13:08.480 --> 00:13:16.580
+Dustin: double-check that I'm not, sort of, hallucinating these things, but I had thought that there was, Let's see…
+
+58
+00:13:16.840 --> 00:13:22.209
+Dustin: as I said, there had been some feedback, and it would be…
+
+59
+00:13:23.660 --> 00:13:36.630
+Dustin: I am… I am a little concerned with saying… I mean, I agree with the idea we… momentum is good, and getting the DevNets are good, although I'll say, honestly, I don't think Nimbus is…
+
+60
+00:13:36.890 --> 00:13:47.270
+Dustin: quite, quite ready for the DevNets, but I'm… I'm… I support them anyway, or, or access, or, or start… or starting to set up, use, existing DevNets for this purpose.
+
+61
+00:13:47.310 --> 00:14:06.369
+Dustin: But regardless, that to the degree that there is this even existing feedback, even let's say we don't want to wait for unspecified further feedback, which may or may not come, or etc, to the degree there was existing feedback on this that has simply not been…
+
+62
+00:14:08.080 --> 00:14:09.759
+Łukasz Rozmej: So, looking at the…
+
+63
+00:14:10.760 --> 00:14:19.819
+Łukasz Rozmej: PR, last comment from Marius was on July 10th, and I don't see any feedback after, and it was about…
+
+64
+00:14:20.650 --> 00:14:29.089
+Łukasz Rozmej: That's… feedback was addressed, oh, even June 29th, really, and so I don't really see much feedback after.
+
+65
+00:14:29.520 --> 00:14:33.410
+Łukasz Rozmej: So, I think, like, this is mostly updated.
+
+66
+00:14:33.570 --> 00:14:41.979
+Łukasz Rozmej: Maybe there are some small details there, but I don't really see anything big. Maybe there's another place when there's some discussion that I'm not aware.
+
+67
+00:14:46.540 --> 00:14:48.000
+Dustin: Here, where, where'd I?
+
+68
+00:14:48.480 --> 00:14:53.779
+Dustin: They're right, okay. Yeah, I'm… I'm actually looking at this again, I agree with you, I… I… I had…
+
+69
+00:14:53.920 --> 00:14:57.180
+Dustin: sort of misremembered a little about it on this. I thought that we're…
+
+70
+00:14:57.420 --> 00:15:03.110
+Dustin: But… but they… there… there is a lot of feedback, but it has been, as you say.
+
+71
+00:15:04.110 --> 00:15:07.690
+Dustin: addressed. Obviously, there's more stuff that
+
+72
+00:15:08.020 --> 00:15:11.179
+Dustin: Might be done, but sure, okay, fine.
+
+73
+00:15:16.780 --> 00:15:18.450
+Łukasz Rozmej: Shipped is better than perfect.
+
+74
+00:15:19.280 --> 00:15:20.859
+Dustin: Yeah, yeah, indeed.
+
+75
+00:15:25.620 --> 00:15:29.840
+Tamaghna Chourdhuri: Alright, because, like, like, like, you just said, like.
+
+76
+00:15:29.840 --> 00:15:47.779
+Tamaghna Chourdhuri: A few features are basically waiting for, like, a few follow-up peers are basically waiting for this to get merged, so, like, they can add, let's say, whatever they want for the payload witness, etc, but, like, that would depend on this getting merged. Or also, like, the OpenAPI thing, so, like, that would also depend on this getting merged, that's what I'm waiting for.
+
+77
+00:15:47.780 --> 00:15:56.360
+Tamaghna Chourdhuri: So, maybe here's the best part, like, let's bring it up on Monday, and let's, see… push for, the…
+
+78
+00:15:56.750 --> 00:16:16.060
+Tamaghna Chourdhuri: reviews and the final, let's say, reviews getting in from every client, the basic idea would be one from every client, and then we'd also, let's say, talk with one of us and try to figure out the DevNet, or, like, the DevNet schedule, or the compatibility for that, and, like, that's all I can think of. Any other things I'm missing, maybe?
+
+79
+00:16:20.590 --> 00:16:39.900
+Tamaghna Chourdhuri: Also, this is apart from, Dustin's idea of the drop-off sync, like, there has been an EIP, like, that should be there, so, like, that's also, like, it's following its own procedure, but, like, it's just another, I think just another, method to the existing RPC that we're having with Materio, so, like.
+
+80
+00:16:39.900 --> 00:16:42.309
+Tamaghna Chourdhuri: That should be covering also, like.
+
+81
+00:16:42.350 --> 00:16:46.320
+Tamaghna Chourdhuri: Any other things, and then maybe I can… I guess we can concentrate to do.
+
+82
+00:16:50.800 --> 00:16:55.780
+Dustin: Sure, I mean, ACDT… sorry, ACDT certainly sounds like an appropriate
+
+83
+00:16:56.330 --> 00:16:59.080
+Dustin: venue for this, the right…
+
+84
+00:16:59.330 --> 00:17:03.219
+Dustin: People, or enough of the right people, will be there, certainly including
+
+85
+00:17:03.680 --> 00:17:11.509
+Dustin: Barnabas, I guess, and people from the various… ELs and CLs.
+
+86
+00:17:11.780 --> 00:17:20.679
+Dustin: So Hmm… And it's, it's better than the ACDC slash E in terms of,
+
+87
+00:17:21.410 --> 00:17:26.119
+Dustin: How to phrase it, not formality, but…
+
+88
+00:17:27.390 --> 00:17:38.689
+Dustin: kind of topic choice, and I mean, this is a… probably too small a topic to… to discuss in the two big meetings, but… but the ACDT is good.
+
+89
+00:17:40.300 --> 00:17:47.040
+Łukasz Rozmej: And I think this… this… Yeah, ACDT is fine, because we also have ELs and CLs there, right? This is cross…
+
+90
+00:17:47.740 --> 00:17:49.960
+Łukasz Rozmej: Yeah, yeah, yeah.
+
+91
+00:17:49.960 --> 00:17:56.449
+Dustin: Well, yeah, well, yes, although, obviously there's the breakout room set up, but the…
+
+92
+00:17:56.660 --> 00:18:04.699
+Dustin: At least lately, I guess, I… they've… the first half of the meeting has been everybody in the CL and EL devs in the same…
+
+93
+00:18:05.140 --> 00:18:16.329
+Dustin: Yeah, so that's… so as long as we make sure that it comes up in the… that part of the… and… and not as a breakout item, because this is obviously cross-layer, so…
+
+94
+00:18:19.550 --> 00:18:20.460
+Dustin: But I…
+
+95
+00:18:20.460 --> 00:18:22.900
+Łukasz Rozmej: One other thing, though, tests.
+
+96
+00:18:24.870 --> 00:18:27.430
+Łukasz Rozmej: We are missing tests for that, right?
+
+97
+00:18:27.430 --> 00:18:40.010
+Tamaghna Chourdhuri: Yeah, yeah, yeah. Yeah, like, I have worked on the test, like, basically what's remaining is the PRs and, like, for the follow-up, like, the tests, it has been going slower than I'd expected, but, like, it's, it's, it's there, like,
+
+98
+00:18:40.220 --> 00:18:43.080
+Tamaghna Chourdhuri: Maybe… give me another week, I'll try to…
+
+99
+00:18:43.080 --> 00:19:01.169
+Tamaghna Chourdhuri: merge them in, because, like, what happens is, if I put a PR in, it takes a minimum of 3-4 days for Mario to have a look and then get it more, so, like, it's basically one PR a week, so that's the problem that has been there with the march. Like, it's landing in execution, specs, but, like, it's going to take a bit longer
+
+100
+00:19:01.230 --> 00:19:03.129
+Tamaghna Chourdhuri: Like, maybe one a week or two.
+
+101
+00:19:03.790 --> 00:19:05.460
+Łukasz Rozmej: Yeah, yeah, sure, sure.
+
+102
+00:19:05.820 --> 00:19:07.010
+Łukasz Rozmej: Oh…
+
+103
+00:19:11.080 --> 00:19:17.739
+Łukasz Rozmej: Would you have a separate test suit for EL and CL, or how that would be?
+
+104
+00:19:18.340 --> 00:19:29.830
+Tamaghna Chourdhuri: For now, it's just for the EL suit, and for CL, there's no other suit, because, like, there is no engine testing for CL as it exists, like, just, like, for now, no.
+
+105
+00:19:29.830 --> 00:19:39.819
+Tamaghna Chourdhuri: the future plan is to have this testing, but, like, that would be also coming in a later date, and, like, for the entirety, the basic idea is to use the CL
+
+106
+00:19:39.880 --> 00:19:48.919
+Tamaghna Chourdhuri: for all ELs and that thing, but, like, that's coming a bit later, and, like, that's a bit farther. So, for CL, nothing. For ELC, yes, it's coming.
+
+107
+00:19:48.920 --> 00:19:50.340
+Łukasz Rozmej: Okay.
+
+108
+00:19:51.880 --> 00:19:53.330
+Łukasz Rozmej: Yeah, can't wait.
+
+109
+00:19:57.880 --> 00:20:05.090
+Dustin: I think if one big advantage, obviously, to merging is, I mean, from the perspective of, for example, the…
+
+110
+00:20:05.390 --> 00:20:10.669
+Dustin: Top-up sync aspect, although as,
+
+111
+00:20:11.190 --> 00:20:23.080
+Dustin: as Tamaghna mentioned, I mean, it's… it is sort of on its own track procedurally. It's sort of procedurally also awkward to build on something that isn't even… it's just a PR. It has no…
+
+112
+00:20:23.110 --> 00:20:34.589
+Dustin: formal status beyond that right now. And it is easier, for sure, to kind of refer back to a merged part of the Engine API.
+
+113
+00:20:34.730 --> 00:20:41.110
+Dustin: or execution API, then… Either way, than, than, sort of, some mid-PR.
+
+114
+00:20:43.160 --> 00:20:43.690
+Łukasz Rozmej: Yep.
+
+115
+00:20:44.450 --> 00:20:46.589
+Łukasz Rozmej: It's even PR draft.
+
+116
+00:20:46.700 --> 00:20:49.610
+Łukasz Rozmej: So not even a… PR, that is…
+
+117
+00:20:51.220 --> 00:20:57.219
+Łukasz Rozmej: Considered finished. We generally have this in master, so,
+
+118
+00:20:57.390 --> 00:21:11.410
+Łukasz Rozmej: I make… I'm making my agent review this… our implementation against the spec. It found some inconsistencies, so I will post it, both on the spec and some small… small update on our PR.
+
+119
+00:21:11.570 --> 00:21:15.410
+Łukasz Rozmej: To fix those inconsistencies, but… yeah.
+
+120
+00:21:15.860 --> 00:21:22.580
+Łukasz Rozmej: It's something where the test would help, definitely, and polishing and merging the spec will also help.
+
+121
+00:21:24.550 --> 00:21:25.390
+Łukasz Rozmej: Hence?
+
+122
+00:21:25.830 --> 00:21:27.999
+Łukasz Rozmej: Testing, and we're done, right?
+
+123
+00:21:28.160 --> 00:21:35.880
+Łukasz Rozmej: Let's… let's go. This is… This is an… I would call it a low-hanging fruit in terms of,
+
+124
+00:21:37.740 --> 00:21:40.440
+Łukasz Rozmej: In terms of… a win?
+
+125
+00:21:40.730 --> 00:21:48.939
+Łukasz Rozmej: Definitely also helping with scaling, helping with, Glamsterdam larger blocks.
+
+126
+00:21:49.340 --> 00:21:50.020
+Łukasz Rozmej: So…
+
+127
+00:21:52.880 --> 00:21:57.729
+Tamaghna Chourdhuri: Yeah, yeah, like you just said, like, it's a low-hanging fruit, and, like, everyone wants it, but, like.
+
+128
+00:21:57.850 --> 00:22:03.759
+Tamaghna Chourdhuri: not enough, like, it's not that high of a priority, so that's another reason it's just lagging, so, like, having.
+
+129
+00:22:03.760 --> 00:22:07.229
+Łukasz Rozmej: Yeah, but the thing is optionality, right? In my opinion.
+
+130
+00:22:07.230 --> 00:22:07.860
+Tamaghna Chourdhuri: Yeah, yeah, yeah.
+
+131
+00:22:07.860 --> 00:22:21.789
+Łukasz Rozmej: Each client should have a flag to disable SSZ if it implements it, so it won't announce it as a capability, and CL can then default to JSON RPC.
+
+132
+00:22:21.970 --> 00:22:38.999
+Łukasz Rozmej: If it's… then that's it, right? So even if there's… we can… we can even, like, kind of release it as experimental feature first, that is even opt-in, or we can release it, you know, whatever. Or if CL is coded
+
+133
+00:22:39.200 --> 00:22:40.620
+Łukasz Rozmej: But that's okay.
+
+134
+00:22:40.870 --> 00:22:47.099
+Łukasz Rozmej: With some kind of circuit breaker, it can… it can actually… do it…
+
+135
+00:22:47.250 --> 00:22:54.060
+Łukasz Rozmej: smartly, fall back to JSON RPC, but that's a bigger… a bigger… You know
+
+136
+00:22:54.360 --> 00:22:59.119
+Łukasz Rozmej: a bigger… problem to do on CL, so maybe let's not do that, but…
+
+137
+00:22:59.520 --> 00:23:06.129
+Łukasz Rozmej: We can erase it as opt-in first, we can, then make it default.
+
+138
+00:23:07.430 --> 00:23:09.429
+Łukasz Rozmej: No problems there, in my opinion.
+
+139
+00:23:12.080 --> 00:23:29.980
+Dustin: For sure, opt-in initially makes sense. I would generally stand by my view, and I recognize it's maybe niche, I don't know, and I know I've mentioned also in the ACDC slash E calls as well, once or twice, but the…
+
+140
+00:23:30.470 --> 00:23:43.230
+Dustin: the talk-to issue of… of something like Get Exchange Capabilities, or… or… or, sorry, Exchange, just not get, not, just exchange capabilities, or, or the like, the fact that
+
+141
+00:23:44.650 --> 00:23:49.759
+Dustin: there's no stable identity for ELs, or CLs, I suppose.
+
+142
+00:23:49.890 --> 00:23:54.080
+Dustin: But from a… the EL sort of knows what they're serving, and they're kind of…
+
+143
+00:23:54.180 --> 00:24:04.970
+Dustin: kind of, in theory, can respond to either one. They just have that open. But the CL has to sort of make a decision on which protocol to use, and…
+
+144
+00:24:05.620 --> 00:24:07.579
+Dustin: And, and then from the s…
+
+145
+00:24:08.770 --> 00:24:13.929
+Dustin: the fact that a moment ago, an SSZ-capable
+
+146
+00:24:14.330 --> 00:24:20.459
+Dustin: sort of EL was there doesn't mean that now it's… you know,
+
+147
+00:24:20.880 --> 00:24:23.240
+Dustin: It's still there, or vice versa.
+
+148
+00:24:23.530 --> 00:24:29.749
+Dustin: And one could say this is kind of a pathological case, but this is exactly the kind of,
+
+149
+00:24:30.420 --> 00:24:49.890
+Dustin: I guess the word that the EF uses to refer to this part of this sort of process is hardening, I guess, you know, in terms of the hard forks and such. But here, the idea of saying, well, yeah, you can make a basic implementation that does some kind of fallback, but it's going to have a lot of edge cases, a lot of race conditions.
+
+150
+00:24:50.940 --> 00:25:00.160
+Łukasz Rozmej: Yeah, I would leave it to unload operators, but just having it disabled on EL in case of any issues, right? This is an experimental feature.
+
+151
+00:25:00.580 --> 00:25:11.089
+Dustin: Yeah, initially. But I guess what I'm saying is, it should be… my… what my goal would be for… is for it, eventually, for it to become…
+
+152
+00:25:11.300 --> 00:25:12.620
+Dustin: required.
+
+153
+00:25:12.780 --> 00:25:17.720
+Dustin: I mean, not… Sure. Not in… not in… okay, okay, sure, sure. Okay, and that…
+
+154
+00:25:17.720 --> 00:25:20.010
+Łukasz Rozmej: Or at least default, yeah, the fault required.
+
+155
+00:25:20.010 --> 00:25:36.090
+Dustin: Yeah, at least default. I mean, yeah, there's a… there's a little bit of a gray area where there's a… I mean, even… there are features even now in both the CL and EL that have been default for years, but technically you can still kind of disable them and see how that goes. And…
+
+156
+00:25:36.280 --> 00:25:37.540
+Dustin: You know, but, but…
+
+157
+00:25:37.690 --> 00:25:43.590
+Dustin: for the most part, it's not tested with or assumed. But yes, at least a fault.
+
+158
+00:25:44.310 --> 00:25:46.990
+Dustin: In that case, I think we agree, but…
+
+159
+00:25:47.440 --> 00:25:52.249
+Łukasz Rozmej: Yeah, even though… we can deprecate JSON RPC and even remove it, right?
+
+160
+00:25:52.250 --> 00:25:52.590
+Dustin: Yeah.
+
+161
+00:25:52.590 --> 00:25:54.249
+Łukasz Rozmej: Underneath the… Yeah, that's… Yeah.
+
+162
+00:25:54.250 --> 00:26:03.139
+Dustin: Well, exactly. I mean, that… I guess that's part of it, and the thing is, as long as we have the JSON RPC api, its constraints have to be designed around…
+
+163
+00:26:03.700 --> 00:26:23.010
+Dustin: and also the… and maintaining a parity between them. So, as one just general example of this, in terms of JSON versus SSZ, we've seen this in, like, Beacon API stuff. Anytime, which I guess is, you know, another REST API, people will have a temptation to…
+
+164
+00:26:23.170 --> 00:26:28.429
+Dustin: create if they're primarily focusing, just for example, on a JSON
+
+165
+00:26:28.620 --> 00:26:47.709
+Dustin: version of the API, things that are expressible relatively easily in JSON structurally, like, optional stuff, or just kind of variable structure, let's call it. Like, things which are… JSON is a little bit self-describing, not schema-wise, but, you know, the… at least syntactically.
+
+166
+00:26:48.090 --> 00:27:06.059
+Dustin: SSZ obviously is not, in the same way, and… and so there are API, shapes that are… do not work in SSZ, and we've had to, like, when… point this out, we collectively, people who are involved in the, Beacon API,
+
+167
+00:27:06.420 --> 00:27:12.629
+Dustin: maintenance, that when somebody proposes one of these, like, how does this work for SSE? So…
+
+168
+00:27:12.860 --> 00:27:14.839
+Dustin: that my consens… so…
+
+169
+00:27:15.440 --> 00:27:35.389
+Dustin: And, of course, that can be handled and managed, but the more… but both there's a cost to managing… to keeping both at parity, at par… on par with each other. And also, if… if the… as long as the SSZ is considered kind of optional and secondary, there's absolutely going to be this temptation
+
+170
+00:27:35.390 --> 00:27:41.700
+Dustin: to do something that's convenient and expedient on the JSON side that is actually really hard.
+
+171
+00:27:41.920 --> 00:27:51.789
+Dustin: to encode in SSZ. And so these are the kinds of concerns I have with treating it as purely some optional side project.
+
+172
+00:27:52.690 --> 00:28:02.540
+Łukasz Rozmej: Yeah, sure, but I would do something like treat it optional for, glamsterdam, make it mandatory for Hegota, something like that, because…
+
+173
+00:28:04.230 --> 00:28:11.280
+Łukasz Rozmej: This… doesn't affect… Fork schedule for any people?
+
+174
+00:28:13.110 --> 00:28:20.410
+Łukasz Rozmej: And, because in the middle between one and the other, they can… they can pick up that work.
+
+175
+00:28:20.870 --> 00:28:24.210
+Łukasz Rozmej: Yeah, I would do something like that.
+
+176
+00:28:26.070 --> 00:28:43.269
+Dustin: Yeah, no, that sounds good to me. And, I mean, I… hopefully what that will allow us to do is, as you say, you know, in terms of, you know, shipping is better than perfect, to ship something that plausibly might be, even if it's experimental, we can claim that it's
+
+177
+00:28:43.480 --> 00:28:45.440
+Dustin: it exists for Question.
+
+178
+00:28:47.130 --> 00:28:51.670
+Dustin: At some level, and… and… and I think even as a…
+
+179
+00:28:52.180 --> 00:29:01.329
+Dustin: sort of publicity point, that's probably good. And… but… but from my perspective, the practical target is… is…
+
+180
+00:29:01.860 --> 00:29:07.540
+Dustin: probably Hegota for a number, like, just in terms of also the implementation support.
+
+181
+00:29:07.670 --> 00:29:19.890
+Dustin: I don't… yes, I partly mean Nimbus because that's what I'm familiar with, and I can say Nimbus is not gonna be able… I mean, we'll see what we can do for Glamsterdam, but… But I mean, I think in general, the CLs and the ELs do not…
+
+182
+00:29:20.120 --> 00:29:24.210
+Dustin: Widely support in their shipping release branch versions.
+
+183
+00:29:24.520 --> 00:29:29.810
+Dustin: the SSZ Engine API, and I'm not sure how many will by… by Glamsterdam Shipping.
+
+184
+00:29:30.130 --> 00:29:30.990
+Dustin: So…
+
+185
+00:29:31.590 --> 00:29:38.230
+Dustin: I mean, so my… my assumption the whole time had been that Hegota, or at least, let's say, post-Glamsterdam.
+
+186
+00:29:38.840 --> 00:29:39.350
+Łukasz Rozmej: Hmm?
+
+187
+00:29:39.350 --> 00:29:42.350
+Dustin: Would be… would be, when…
+
+188
+00:29:42.820 --> 00:29:45.439
+Dustin: Support would actually appear in the ecosystem.
+
+189
+00:29:46.610 --> 00:29:53.560
+Łukasz Rozmej: Yeah, like, proper one, yeah. But, again, we can, for example, ship it, in the next release.
+
+190
+00:29:54.000 --> 00:30:02.490
+Łukasz Rozmej: It's not a big deal for us. It's more of a big deal of testing, right? To be sure that it works with CLs, and that we are…
+
+191
+00:30:02.850 --> 00:30:06.810
+Łukasz Rozmej: Oh… To be sure that we are,
+
+192
+00:30:07.740 --> 00:30:10.300
+Łukasz Rozmej: Spec compliant, so we passed the test.
+
+193
+00:30:11.440 --> 00:30:15.389
+Łukasz Rozmej: That's the kind of big thing for us, and…
+
+194
+00:30:16.260 --> 00:30:19.340
+Łukasz Rozmej: I'm not sure if we will have…
+
+195
+00:30:20.030 --> 00:30:27.110
+Łukasz Rozmej: direct clients at the moment that I would actually benefit much from it, but… Maybe?
+
+196
+00:30:30.550 --> 00:30:39.470
+Łukasz Rozmej: I don't know That's always a cherry on top. Yeah, you can enable this, and… Your…
+
+197
+00:30:40.600 --> 00:30:48.059
+Łukasz Rozmej: communication cuts by half, and communication times cuts cut by, I don't know, half, or two, or more.
+
+198
+00:30:50.000 --> 00:30:50.970
+Dustin: Sure.
+
+199
+00:30:50.970 --> 00:30:55.559
+Łukasz Rozmej: All that are performance, a performance, you know, critical might want to use that.
+
+200
+00:30:56.700 --> 00:30:57.490
+Dustin: Right.
+
+201
+00:30:57.580 --> 00:31:11.759
+Dustin: And I think we've seen some motivation here, I don't know how much you followed this, but on the CL Beacon API side, in terms of that performance concern, the Produce BlockV4 API has a couple of… well, there's the
+
+202
+00:31:11.800 --> 00:31:19.740
+Dustin: with bid version. But there's also, in terms of, basically, does the…
+
+203
+00:31:20.020 --> 00:31:28.460
+Dustin: VC have to communicate the blobs to the BN or not? Like, through the… I mean, and…
+
+204
+00:31:28.690 --> 00:31:44.499
+Dustin: there, I mean, this exact kind of, and the same network objects, I guess, the blobs, concern has come up in terms of, like, if one assumes SSZ, then this whole… the performance aspect of that question is a lot less…
+
+205
+00:31:44.560 --> 00:31:52.609
+Dustin: critical, because obviously it is faster and more efficient in all of the usual things. And here, I would imagine that we might have a
+
+206
+00:31:52.740 --> 00:31:59.180
+Dustin: a similar… Similar sort of outcome, where, and where the…
+
+207
+00:32:00.490 --> 00:32:06.669
+Dustin: Basically, my concern is that if we don't have this, that people will start trying to have workarounds.
+
+208
+00:32:07.040 --> 00:32:16.880
+Dustin: Because, you know, 10 megabytes or whatever of JSON-encoded blobs is just takes, you know, is, is, is,
+
+209
+00:32:17.570 --> 00:32:26.310
+Dustin: let's say, intense, in a time-constrained way to code and process. And so people try to find ways to work around it.
+
+210
+00:32:26.850 --> 00:32:33.690
+Dustin: And my hope is that one outcome of SSZ is that that temptation is significantly reduced.
+
+211
+00:32:40.020 --> 00:32:40.660
+Łukasz Rozmej: Bye.
+
+212
+00:32:40.840 --> 00:32:42.600
+Łukasz Rozmej: That's it? Anything else?
+
+213
+00:32:44.930 --> 00:32:45.580
+Dustin: Hmm?
+
+214
+00:32:46.350 --> 00:32:47.620
+Dustin: Not for me.
+
+215
+00:32:48.010 --> 00:32:49.140
+Łukasz Rozmej: Not for me either.
+
+216
+00:32:51.060 --> 00:32:52.790
+Dustin: Tamaghna? Yeah, I don't know.
+
+217
+00:32:54.200 --> 00:33:11.559
+Tamaghna Chourdhuri: Not for me, like, like, for us, the best thing would be to bring it up in ACD, see the deduction there, I'll be doing that. Maybe I can even… I'll ask, whoever is hosting if we can maybe have a small presentation or something. I'll take over that, sure. Other than that, nothing.
+
+218
+00:33:13.870 --> 00:33:27.019
+Sameer Agarwal: Yeah, I'll just like to add that I'm implementing this for Lighthouse, and, like, just in general, just giving an update on the implementation is that, I've gotten working on Fulu with, and I've tested out with, Erigon on,
+
+219
+00:33:27.100 --> 00:33:34.410
+Sameer Agarwal: Local Kurtosis devnet, so… Everything's working fine, so at this point, I'm just waiting for next steps on the spec, and…
+
+220
+00:33:34.550 --> 00:33:40.190
+Sameer Agarwal: For the testing, as in when it's… Done in the next ACDT.
+
+221
+00:33:41.440 --> 00:33:59.499
+Łukasz Rozmej: So, one comment from me, if you're, like, picking with one EL, there might be two differences between ELs, and that's the problem, right? That's why we want the spec end, that's why we want the test end, because it doesn't mean that what you're implementing will actually be completely compatible.
+
+222
+00:34:00.330 --> 00:34:01.410
+Łukasz Rozmej: With the rest.
+
+223
+00:34:01.900 --> 00:34:03.270
+Sameer Agarwal: Oh, yes.
+
+224
+00:34:03.270 --> 00:34:08.560
+Łukasz Rozmej: Implementing its own Probably very small differences in flavor, but still.
+
+225
+00:34:08.840 --> 00:34:10.300
+Łukasz Rozmej: That we need to iron out.
+
+226
+00:34:12.359 --> 00:34:21.289
+Sameer Agarwal: Yeah, correct. I actually just started, testing with ethrex as well, since the last, it's been working.
+
+227
+00:34:21.669 --> 00:34:29.449
+Sameer Agarwal: decent enough, essentially, but I still don't want to make any comments on that. I want to run it for some more time with ethrex.
+
+228
+00:34:29.869 --> 00:34:31.649
+Sameer Agarwal: But it's looking good initially.
+
+229
+00:34:45.309 --> 00:34:52.279
+Tamaghna Chourdhuri: Alright, and then that does it. See you guys on Monday. Have a nice weekly. Bye, guys!
+
+230
+00:34:53.469 --> 00:34:54.229
+Łukasz Rozmej: Bye.
+
+231
+00:34:54.649 --> 00:34:55.249
+Sameer Agarwal: Bye.
+
+232
+00:34:55.250 --> 00:34:55.790
+Dustin: Yay.
+
