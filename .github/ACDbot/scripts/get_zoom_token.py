@@ -2,14 +2,61 @@
 """
 Zoom OAuth 2.0 Authorization Tool
 
-This script helps set up the initial OAuth 2.0 tokens for a Zoom General (User Managed) app.
-It will guide you through the process of:
-1. Setting up a local HTTP server to receive the authorization code
-2. Opening a browser to authorize your app
-3. Exchanging the authorization code for access and refresh tokens
+Mints a refresh token for the ACDbot Zoom General (User Managed) app. Starts a
+local HTTP server, opens a browser to authorize, and exchanges the returned
+authorization code for access + refresh tokens.
 
-Usage:
-  python get_zoom_token.py --client-id CLIENT_ID --client-secret CLIENT_SECRET --redirect-uri REDIRECT_URI
+Setup (Zoom Marketplace -> your app):
+
+  1. Zoom requires an HTTPS redirect URI. `http://localhost:8000/callback` is
+     rejected with "4700 Invalid redirect url" even though the UI accepts it and
+     shows it in the generated Authorization URL. Start a tunnel and leave it
+     running: `ngrok http 8000`
+  2. Register `https://<sub>.ngrok-free.app/callback` in BOTH the "OAuth
+     Redirect URL" field AND the "OAuth Allow List" - different parts of Zoom
+     validate against each, and setting only one fails at step 3.
+  3. Click "Add app" to install the app on your account. This is a required
+     one-time prerequisite. It may finish on an `invalid_grant` error page, which
+     is expected and harmless - the install still succeeds. That button builds
+     its own authorize request, so it can't mint a usable token; the script
+     below does that.
+
+Free ngrok URLs change on restart, so don't restart the tunnel mid-flow.
+
+Run it - let this script open the browser:
+
+  set -a && . .github/ACDbot/.env && set +a
+  python get_zoom_token.py \
+    --client-id "$ZOOM_CLIENT_ID" \
+    --client-secret "$ZOOM_CLIENT_SECRET" \
+    --ngrok-url https://<sub>.ngrok-free.app \
+    --scopes "meeting:write:meeting meeting:update:meeting meeting:read:meeting \
+meeting:read:past_meeting meeting:read:list_past_instances meeting:read:summary \
+cloud_recording:read:list_user_recordings cloud_recording:read:list_recording_files \
+cloud_recording:read:meeting_transcript user:read:user"
+
+`--scopes` has no default and must use Zoom's granular names; classic scopes
+like `meeting:write` are not valid for this app. Auth codes are single-use and
+short-lived, so click through the ngrok interstitial promptly, and rerun the
+script rather than refreshing an error page.
+
+Answer "n" at the save prompt - it opens the target file with mode 'w' and
+writes only three keys, so pointing it at .env would drop the rest. Copy the
+refresh token from stdout into the ZOOM_REFRESH_TOKEN GitHub Actions secret.
+
+Testing a redirect URI without a browser: /oauth/authorize 302s to
+/oauth/signin, which returns JSON.
+
+  curl -s -L "https://zoom.us/oauth/authorize?response_type=code\
+&client_id=$CID&redirect_uri=<urlencoded>"
+
+  errorCode 4702  -> client_id unrecognized
+  errorCode 4700  -> client_id valid, redirect rejected
+  no error JSON   -> redirect accepted
+
+Redirect is validated before scope, so a 4700 is never a scope problem. This
+probe is unauthenticated and more permissive than the real consent step, so use
+it to rule things out rather than to confirm success.
 """
 
 import argparse
@@ -18,7 +65,6 @@ import http.server
 import socketserver
 import urllib.parse
 import requests
-import json
 import os
 import sys
 from urllib.parse import urlparse, parse_qs
