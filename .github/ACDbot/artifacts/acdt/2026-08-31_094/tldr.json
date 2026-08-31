@@ -1,0 +1,107 @@
+{
+  "meeting": "ACDT #94 - August 31, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:06:09",
+        "highlight": "Glamsterdam devnet-8 running well; minor orphan blocks, builders/validators onboarded"
+      },
+      {
+        "timestamp": "00:07:15",
+        "highlight": "Nimbus EL, Reth, and Grandine still need to move to trunk branches before devnet-9"
+      },
+      {
+        "timestamp": "00:08:05",
+        "highlight": "Devnet-9 (non-finality network, ~1,000 nodes) smoke-testing now; targets launch tomorrow morning EU time"
+      },
+      {
+        "timestamp": "00:28:16",
+        "highlight": "EIP-8037 spec bug (cross-frame state gas refill) could be consensus-breaking; risks ~1-month delay to Sepolia if a new devnet cycle is required"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:09:10",
+        "highlight": "Sepolia shadow fork planned after devnet-9 stabilizes and client releases are ready; mid-to-end September target"
+      },
+      {
+        "timestamp": "00:09:57",
+        "highlight": "Mainnet shadow fork to follow Sepolia; needed for Snap2 block-access-list healing and heavy EL state ePBS testing"
+      },
+      {
+        "timestamp": "00:11:05",
+        "highlight": "Besu has first Snap2 implementation ready to test on shadow fork; ethrex also ready"
+      }
+    ],
+    "eip_8037_issues": [
+      {
+        "timestamp": "00:37:33",
+        "highlight": "EIP-8037 self-destruct refund (EIPs/PR#12249): majority opposes adding state refund for ephemeral create+self-destruct pattern; decided no-go for Glamsterdam"
+      },
+      {
+        "timestamp": "01:02:06",
+        "highlight": "EIP-8037 cross-frame state gas bug (EIPs/PR#12265): fix prevents regular-gas-to-state-gas laundering across call frames; consensus-breaking spec change, decision deferred to ACDC"
+      }
+    ],
+    "focil_updates": [
+      {
+        "timestamp": "00:13:55",
+        "highlight": "Barnabas proposes raising signed inclusion list P2P message size bound from 8 KB to 41 KB to account for dynamic transaction list; no decision yet"
+      },
+      {
+        "timestamp": "00:18:06",
+        "highlight": "Barnabas proposes new gossip rule rejecting inclusion lists with empty transactions; to be discussed in CL breakout"
+      },
+      {
+        "timestamp": "00:19:00",
+        "highlight": "Engine API GetInclusionList endpoint: minor change to ensure it never returns empty transactions; EL teams asked to review"
+      }
+    ],
+    "rest_ssz_engine_api": [
+      {
+        "timestamp": "00:19:39",
+        "highlight": "REST SSZ Engine API PR (execution-apis #793) is spec-complete; needs client reviews to unblock merge into SSZ branch"
+      },
+      {
+        "timestamp": "00:22:14",
+        "highlight": "PR still in Draft because Marius is on vacation; Justin to contact repo maintainers to promote status"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:22:39",
+      "action": "Review and approve execution-apis PR #793 (REST SSZ Engine API) to unblock merge",
+      "owner": "All EL teams"
+    },
+    {
+      "timestamp": "01:13:01",
+      "action": "Post EIP-8037 PR #12265 discussion to Discord EIP-8037 R&D channel; gather async opinions before ACDC",
+      "owner": "Maria Silva"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:01:26",
+      "decision": "DFI for Glamsterdam: EIP-8037 self-destruct ephemeral refund (PR #12249) \u2014 no-go; complexity and self-destruct deprecation trajectory cited"
+    },
+    {
+      "timestamp": "00:13:22",
+      "decision": "Snap2 shadow fork starts on Sepolia (not mainnet); mainnet shadow fork follows later"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:08:05",
+      "target": "Glamsterdam devnet-9 (non-finality) launches September 1, 2026 (tomorrow)"
+    },
+    {
+      "timestamp": "00:13:22",
+      "target": "Sepolia shadow fork: mid-to-end September 2026 (contingent on client releases)"
+    },
+    {
+      "timestamp": "00:28:16",
+      "target": "EIP-8037 cross-frame bug (PR #12265) decision: ACDC call, September 4, 2026"
+    }
+  ]
+}

@@ -1,0 +1,902 @@
+WEBVTT
+
+1
+00:00:08.450 --> 00:00:12.390
+Justin Traglia: Hello, hello. Just one second, and then we'll get started.
+
+2
+00:00:32.570 --> 00:00:35.539
+Justin Traglia: Maybe 15 more seconds, and then we'll get started.
+
+3
+00:00:59.010 --> 00:01:06.499
+Justin Traglia: All right, the first item on this… on our agenda is this PR, which I just shared. Oh, actually, I shared the wrong one.
+
+4
+00:01:09.760 --> 00:01:13.460
+Justin Traglia: This one, which adds a new,
+
+5
+00:01:14.690 --> 00:01:23.870
+Justin Traglia: gossip check to the bid, gossip validation function. This is… the issue is that
+
+6
+00:01:23.980 --> 00:01:26.159
+Justin Traglia: A builder which has an exit.
+
+7
+00:01:26.470 --> 00:01:29.860
+Justin Traglia: In, like, the previous slot, which is, like, the parent's payload.
+
+8
+00:01:30.240 --> 00:01:36.060
+Justin Traglia: Will only be applied like… After the beginning of…
+
+9
+00:01:36.180 --> 00:01:38.969
+Justin Traglia: The current slot, or however you define it.
+
+10
+00:01:39.510 --> 00:01:45.029
+Justin Traglia: And therefore is, like, unknown at the time of bid gossip checks.
+
+11
+00:01:45.710 --> 00:01:53.989
+Justin Traglia: This would lead to a missed proposal if a proposer were to select this bid, which would be considered invalid in the state Transition function.
+
+12
+00:01:55.200 --> 00:02:01.940
+Justin Traglia: I, just in the PR I made, I applied builder exits, which,
+
+13
+00:02:02.160 --> 00:02:11.120
+Justin Traglia: were forbids from that builder. Nico had a suggestion to… Simply ignore bids.
+
+14
+00:02:11.940 --> 00:02:14.310
+Justin Traglia: Where there exists a builder exit.
+
+15
+00:02:14.590 --> 00:02:16.599
+Justin Traglia: In the previous slide.
+
+16
+00:02:17.840 --> 00:02:23.310
+Justin Traglia: Nico, you say you don't miss the proposal, though, you just fall back to local. Oh, is that true?
+
+17
+00:02:25.300 --> 00:02:42.850
+Nico Flaig: Yeah, I mean, at least in Lodestar, we run the state transition on both blocks, and then we would just determine the builder block is invalid, and then pour back to local. But yeah, you would not consider any other bits, I guess, if that bit, was the highest one.
+
+18
+00:02:44.690 --> 00:02:45.990
+Justin Traglia: Yep, that's true.
+
+19
+00:02:46.810 --> 00:02:52.659
+Justin Traglia: And your suggestion, I'm trying to recall, is…
+
+20
+00:02:53.840 --> 00:03:02.659
+Justin Traglia: Sorry, if you were to just ignore bids from builders which have an exit, is there a way that someone else could submit an exit which is invalid?
+
+21
+00:03:04.010 --> 00:03:04.790
+Justin Traglia: Mike.
+
+22
+00:03:06.990 --> 00:03:10.539
+Justin Traglia: Could you prevent another builder from being selected?
+
+23
+00:03:11.850 --> 00:03:12.860
+Justin Traglia: I recall.
+
+24
+00:03:15.880 --> 00:03:25.279
+Nico Flaig: Yeah, that… that might be right, yeah. We… I think we do the source address check on the, in the process builder exit, right?
+
+25
+00:03:25.730 --> 00:03:32.239
+Justin Traglia: Yes, we do. If builder execution address equals… or, sorry, does not equal request source address return.
+
+26
+00:03:33.380 --> 00:03:35.740
+Justin Traglia: So we would have to add that, too.
+
+27
+00:03:46.440 --> 00:03:48.140
+Potuz: I'm sorry, what was the concern?
+
+28
+00:03:50.370 --> 00:03:53.119
+Justin Traglia: I can… let me share my screen and I can talk about it.
+
+29
+00:03:58.930 --> 00:04:00.300
+Justin Traglia: Can you see it?
+
+30
+00:04:01.590 --> 00:04:02.320
+Potuz: Yep.
+
+31
+00:04:02.630 --> 00:04:08.210
+Justin Traglia: Okay, so the concern is that if a builder submits a bid,
+
+32
+00:04:08.650 --> 00:04:14.050
+Justin Traglia: And… and they have an exit in the pre… in, like, the parent's full payload.
+
+33
+00:04:14.500 --> 00:04:17.650
+Justin Traglia: It would be accepted by the proposer.
+
+34
+00:04:18.190 --> 00:04:20.570
+Justin Traglia: But then when the proposer tries to use it.
+
+35
+00:04:20.670 --> 00:04:28.000
+Justin Traglia: It wouldn't actually be considered valid, because the builder will have exited, because apply parent execution payload envelope
+
+36
+00:04:28.480 --> 00:04:30.010
+Justin Traglia: It's done after.
+
+37
+00:04:30.180 --> 00:04:38.010
+Potuz: Yeah, so that's the issue that Michael, like, raised today, I think, on the email, but I didn't understand what was your concern about
+
+38
+00:04:38.150 --> 00:04:48.220
+Potuz: like, what is the greeting scenario here? Like, the builder exiting so that it prevents another builder from landing a bid in the next block?
+
+39
+00:04:49.120 --> 00:04:52.299
+Justin Traglia: Well, you could prevent another builder from… yes.
+
+40
+00:04:52.480 --> 00:04:55.050
+Justin Traglia: I'm getting the bid. You could submit a…
+
+41
+00:04:55.830 --> 00:05:03.619
+Justin Traglia: Okay, so say… how do I say it? Like, you could submit a bid for 100 ETH to prevent all other builders from getting that.
+
+42
+00:05:04.890 --> 00:05:08.480
+Justin Traglia: Or from winning the bid Does that make sense?
+
+43
+00:05:09.860 --> 00:05:10.600
+Potuz: Yep.
+
+44
+00:05:15.770 --> 00:05:18.830
+Justin Traglia: Yeah, I mean, I think it's important that we fix it. It's not really a…
+
+45
+00:05:18.940 --> 00:05:24.919
+Justin Traglia: breaking change, since it's only gossip. I guess it's just a matter of how to do it. Like, are we okay with
+
+46
+00:05:25.800 --> 00:05:29.789
+Justin Traglia: Simply applying builder exit requests to the state.
+
+47
+00:05:30.230 --> 00:05:37.139
+Justin Traglia: Or should we do something a bit simpler, where we just ignore all, Exits for that builder.
+
+48
+00:05:37.310 --> 00:05:47.030
+Potuz: I don't understand, so… so what you want to do is to fix it at the propagation level of the VD itself? You want to avoid this bit from propagating?
+
+49
+00:05:48.540 --> 00:05:53.469
+Justin Traglia: Yeah, I would like to avoid this bit from propagating, but also just… I mean, it would,
+
+50
+00:05:54.350 --> 00:05:55.650
+Justin Traglia: Video, sorry.
+
+51
+00:05:56.010 --> 00:06:06.860
+Potuz: done a lot of complexity for an attack that is… again, I feel that we're over-complex… making complex a topic that is barely used.
+
+52
+00:06:07.140 --> 00:06:20.440
+Potuz: we can just handle this at the client level. Direct connections will keep the bids, you can keep more bids than one. There's a bunch of things that you can do, and… yeah, I don't know, it seems silly to try to fix this stack.
+
+53
+00:06:22.730 --> 00:06:26.260
+Justin Traglia: I mean, it's so simple to fix, though. Like, it's really not that complicated.
+
+54
+00:06:27.090 --> 00:06:29.789
+Justin Traglia: We shouldn't leave a… a mistake.
+
+55
+00:06:29.950 --> 00:06:32.740
+Justin Traglia: Earned oversight and, gossip checks.
+
+56
+00:06:37.440 --> 00:06:43.660
+Potuz: But, I mean, the point is that you can fix it by… Just keeping the bids.
+
+57
+00:06:44.380 --> 00:06:52.679
+Potuz: Like, you… when you are about… so you keep the pool of bids, and you make a selection of bids at the time of proposal.
+
+58
+00:06:55.920 --> 00:07:01.150
+Potuz: It's true that this will prevent some other P2P bids from propagating.
+
+59
+00:07:01.540 --> 00:07:02.660
+Justin Traglia: And… Yeah.
+
+60
+00:07:03.990 --> 00:07:10.389
+Potuz: Yeah, okay, so I think we're always going to be on the… on different ends of the complexity that this
+
+61
+00:07:10.600 --> 00:07:12.710
+Potuz: Path should satisfy.
+
+62
+00:07:16.640 --> 00:07:19.470
+Potuz: So what is the fix that you guys are proposing?
+
+63
+00:07:21.330 --> 00:07:23.520
+Justin Traglia: Either ignore,
+
+64
+00:07:23.910 --> 00:07:32.259
+Justin Traglia: Bids from builders that have an exit in the previous full payload, or just to apply builder exits from the previous full payload.
+
+65
+00:07:32.580 --> 00:07:35.619
+Justin Traglia: Before, checking to see if the builder is active.
+
+66
+00:07:35.800 --> 00:07:36.900
+Potuz: No, booth.
+
+67
+00:07:37.080 --> 00:07:44.809
+Potuz: So, the first one is not so bad, because the payload, we… we should have it anyways in memory, and we can, like, run a loop over every bit.
+
+68
+00:07:45.160 --> 00:07:53.400
+Potuz: Or at least write a map on the payload and just check existence on the map. Like, applying the… applying the… the pre…
+
+69
+00:07:53.940 --> 00:08:05.930
+Potuz: I mean, the request from the previous payload would be essentially, like, having to deal with the caches that we had pre-5094. Like, if we go to pre-5094 over this, that would be crazy.
+
+70
+00:08:07.020 --> 00:08:15.009
+Potuz: I think it's fine, probably, to have a map. Most probably, I don't know, probably Terrence will implement this. Most probably we would just not care about this.
+
+71
+00:08:17.220 --> 00:08:24.699
+Justin Traglia: I think I'm gonna change this so that we don't mutate the state, and just, at this check.
+
+72
+00:08:25.300 --> 00:08:26.250
+Justin Traglia: Pretty much.
+
+73
+00:08:27.090 --> 00:08:28.120
+Justin Traglia: Like,
+
+74
+00:08:28.740 --> 00:08:37.710
+Justin Traglia: Check to see if the builder hub key is the same, and check to see if the execution address matches. And then ignore, like Nico suggested.
+
+75
+00:08:38.299 --> 00:08:40.509
+Justin Traglia: I think that would be simpler, and you don't have to keep, like.
+
+76
+00:08:40.510 --> 00:08:43.970
+Potuz: No, no, so you want to change the state Transition function over this?
+
+77
+00:08:44.210 --> 00:08:46.030
+Justin Traglia: No, no, I don't. No, I don't.
+
+78
+00:08:46.030 --> 00:08:46.560
+Potuz: Prevent…
+
+79
+00:08:46.560 --> 00:08:47.119
+Justin Traglia: Got it.
+
+80
+00:08:47.570 --> 00:08:56.950
+Justin Traglia: I'm adding… this to… here instead. So, like, if the pub key matches and the source address matches, ignore.
+
+81
+00:08:57.530 --> 00:09:06.480
+Potuz: Yeah, so that means… so you're adding this change within something that is on the state Transaction function, right? So this is on processing the previous payload's requests.
+
+82
+00:09:06.810 --> 00:09:11.790
+Justin Traglia: No, this isn't… Gossip, the gossip validation function for bids.
+
+83
+00:09:13.430 --> 00:09:20.300
+Potuz: The gossip validation function for beds, let me see, oh, shit, I need my glasses. So, what they have to say?
+
+84
+00:09:28.460 --> 00:09:29.600
+Potuz: Sorry.
+
+85
+00:09:29.770 --> 00:09:31.300
+Potuz: Correct, impressive.
+
+86
+00:09:33.750 --> 00:09:35.970
+Potuz: Oh, okay, so you're, you're taking…
+
+87
+00:09:36.800 --> 00:09:40.499
+Potuz: So you're ignoring the bid that has an exit in the previous payload.
+
+88
+00:09:41.650 --> 00:09:42.499
+Justin Traglia: Pretty much, yep.
+
+89
+00:09:42.950 --> 00:09:47.960
+Potuz: Yeah, yeah, that's… so that, I think, is the easiest solution. We can write a map
+
+90
+00:09:48.330 --> 00:09:49.739
+Potuz: And keep a map.
+
+91
+00:09:50.640 --> 00:09:53.550
+Potuz: Of the… of the addresses in the previous payload.
+
+92
+00:09:54.460 --> 00:09:57.890
+Potuz: I still think it's a bad idea to do this, but anyways.
+
+93
+00:09:58.430 --> 00:09:59.460
+Justin Traglia: Okay.
+
+94
+00:10:00.430 --> 00:10:01.270
+Justin Traglia: Alright.
+
+95
+00:10:01.940 --> 00:10:06.509
+Justin Traglia: Do other clients have feelings on this, before moving on to the next agenda item?
+
+96
+00:10:20.080 --> 00:10:20.990
+Justin Traglia: Okay.
+
+97
+00:10:21.350 --> 00:10:23.379
+Justin Traglia: Moving on,
+
+98
+00:10:24.680 --> 00:10:31.540
+Justin Traglia: Sorry, I would like to discuss with you guys a way of just… sorry, that we should, or how to test on DevNet 8.
+
+99
+00:10:32.070 --> 00:10:36.790
+Justin Traglia: A payload with more than 8,192 deposits.
+
+100
+00:10:36.970 --> 00:10:41.850
+Justin Traglia: PK? Is this something that you'd be interested in doing? It's a… it might not be so easy.
+
+101
+00:10:42.850 --> 00:10:47.279
+pk910: I think we have a sort of playbook for that.
+
+102
+00:10:48.090 --> 00:10:50.239
+pk910: Should already work with tournet.
+
+103
+00:10:50.400 --> 00:10:56.830
+pk910: Million gas. Oh, no, this gas schedule has changed it again. I can try, however big I can get it.
+
+104
+00:10:57.090 --> 00:11:02.129
+pk910: It has a batching contract and everything inside, so it's pretty much maximum that we can get.
+
+105
+00:11:03.620 --> 00:11:04.220
+Justin Traglia: Okay.
+
+106
+00:11:04.360 --> 00:11:05.210
+Justin Traglia: Awesome.
+
+107
+00:11:06.040 --> 00:11:10.279
+Justin Traglia: And I mean, I would be interested in doing it myself, but I don't think I have enough ETH anymore.
+
+108
+00:11:10.380 --> 00:11:13.369
+Justin Traglia: I would need more than 8,000 ETH to do top-ups, right?
+
+109
+00:11:13.680 --> 00:11:15.810
+pk910: Oh yeah, I can send you some for sure.
+
+110
+00:11:16.910 --> 00:11:18.700
+pk910: Just drop me an address.
+
+111
+00:11:19.400 --> 00:11:21.120
+Justin Traglia: Yeah, will do. Thank you.
+
+112
+00:11:24.200 --> 00:11:33.690
+Justin Traglia: All right, cool. I'm excited to see that. Jihoon, we… we said that we were gonna… that we were gonna discuss the HESI,
+
+113
+00:11:34.430 --> 00:11:36.899
+Justin Traglia: Gossip condition? Are you still here?
+
+114
+00:11:38.730 --> 00:11:42.059
+Jihoon: Yeah, could you remind me what the gossip condition was?
+
+115
+00:11:43.170 --> 00:11:48.240
+Justin Traglia: And the CL checking that there are no empty transactions.
+
+116
+00:11:48.800 --> 00:11:57.680
+Jihoon: Right, so, in EL gossip rules, we check whether
+
+117
+00:11:58.200 --> 00:12:10.560
+Jihoon: the list of transactions exceed 8 kilobytes, but in addition to that, we're thinking about… I mean, we are entertaining the possibility of adding a new gossip track that
+
+118
+00:12:10.980 --> 00:12:14.910
+Jihoon: See if any transaction is empty.
+
+119
+00:12:16.140 --> 00:12:22.930
+Jihoon: Yeah, thanks, Justin. Deadline, even without the check.
+
+120
+00:12:24.040 --> 00:12:34.090
+Jihoon: EL will kind of just filter out empty transactions, so nothing's really changing, but yeah, we can add that condition in the gossip rule if people like it.
+
+121
+00:12:45.600 --> 00:12:57.150
+Justin Traglia: I have a dumb question for clients. So we have the defined list of checks for gossip messages. Do you… do you essentially buy the same checks to request in response?
+
+122
+00:12:57.430 --> 00:12:58.800
+Justin Traglia: Messages as well.
+
+123
+00:13:06.940 --> 00:13:11.280
+Jihoon: I look into this… duplicate before?
+
+124
+00:13:11.520 --> 00:13:12.480
+Jihoon: And…
+
+125
+00:13:12.750 --> 00:13:23.239
+Jihoon: we have, like, not exactly the same, but many overlapping conditions for… if I'm not wrong, it was a PTC message, because… no, it's not a PTC message, it was…
+
+126
+00:13:24.080 --> 00:13:25.850
+Jihoon: I forgot.
+
+127
+00:13:26.330 --> 00:13:31.779
+Jihoon: There's one object that you can get via requested response.
+
+128
+00:13:33.320 --> 00:13:36.110
+Jihoon: and or over pay-to-peer.
+
+129
+00:13:36.250 --> 00:13:38.449
+Jihoon: Then, you need to have a check
+
+130
+00:13:38.760 --> 00:13:42.159
+Jihoon: For that object that you received.
+
+131
+00:13:42.290 --> 00:13:47.049
+Jihoon: Via request response, so we have to write the same check over again.
+
+132
+00:13:47.680 --> 00:13:51.480
+Jihoon: Because you were gonna pass that object to the handler.
+
+133
+00:13:51.910 --> 00:13:55.689
+Jihoon: Whether you got it from rust-response or P2P,
+
+134
+00:13:55.990 --> 00:14:06.359
+Jihoon: And Inclotential List is in that situation. That's why we need to kind of duplicate certain… This… this checks.
+
+135
+00:14:10.360 --> 00:14:11.020
+Justin Traglia: Okay.
+
+136
+00:14:15.110 --> 00:14:20.510
+Justin Traglia: clients that, have worked on HESI, are we fine with adding such a check?
+
+137
+00:14:25.760 --> 00:14:27.209
+Justin Traglia: I mean, it's very basic.
+
+138
+00:14:28.000 --> 00:14:34.049
+Jihoon: I just checked, and it's, it's executed by another envelope. So we checked some…
+
+139
+00:14:34.910 --> 00:14:37.999
+Jihoon: We have some checks that we…
+
+140
+00:14:39.440 --> 00:14:49.410
+Jihoon: applying P2P in verify execution payload envelope function, so if you look into that function, you can see some… some overlapping checks.
+
+141
+00:14:54.160 --> 00:14:57.150
+Justin Traglia: Okay. I mean, you don't want me to do that right now, correct?
+
+142
+00:14:57.580 --> 00:14:59.470
+Jihoon: Yeah, we don't need to.
+
+143
+00:15:01.730 --> 00:15:05.899
+Jihoon: It's just for me to explain why we need to duplicate some of this.
+
+144
+00:15:06.460 --> 00:15:07.800
+Jihoon: gossip checks.
+
+145
+00:15:08.610 --> 00:15:09.180
+Justin Traglia: Yep.
+
+146
+00:15:15.110 --> 00:15:18.650
+Justin Traglia: Any comments or thoughts on any of this from clients?
+
+147
+00:15:26.130 --> 00:15:32.779
+Justin Traglia: Do we need to talk… do we need to talk more about this new inclusion, or sorry, the updated inclusion list max size?
+
+148
+00:15:33.880 --> 00:15:34.740
+Justin Traglia: Variable.
+
+149
+00:15:43.460 --> 00:15:47.930
+Justin Traglia: Okay, Jihoon, I think we can… we can handle this. We have enough information.
+
+150
+00:15:50.210 --> 00:15:53.029
+Jihoon: Yeah, I think we can just add states.
+
+151
+00:15:53.550 --> 00:16:02.990
+Jihoon: non-empty assertion, it's not really a big of a deal. And then we can just start with this 4112 limit.
+
+152
+00:16:03.980 --> 00:16:09.930
+Jihoon: And, yeah, I can… I can clean up this PR, I'm a salespec PR, but I cannot…
+
+153
+00:16:10.240 --> 00:16:16.690
+Jihoon: clean up, enginePIPR, I don't have permissions, I'm probably gonna open a new one.
+
+154
+00:16:17.600 --> 00:16:19.510
+Jihoon: And… yeah.
+
+155
+00:16:20.150 --> 00:16:23.889
+Jihoon: It is not part of Alpha 14, but…
+
+156
+00:16:24.880 --> 00:16:30.099
+Jihoon: If you are working on Fossil Tembinate Zero, please also include these changes.
+
+157
+00:16:30.430 --> 00:16:33.899
+Jihoon: For fossil 11 at zero, and then…
+
+158
+00:16:34.160 --> 00:16:39.320
+Jihoon: Yeah, let's discuss how that definite went tomorrow in our breakout.
+
+159
+00:16:41.360 --> 00:16:46.649
+Justin Traglia: Yep, thank you, Jihoon. And remind me, you were not a fan of this, fork choice.
+
+160
+00:16:46.950 --> 00:16:50.740
+Justin Traglia: assert, correct? We can delete this, it's not necessary.
+
+161
+00:16:56.300 --> 00:16:56.739
+Justin Traglia: Keep it just…
+
+162
+00:16:56.740 --> 00:16:57.590
+Jihoon: stage?
+
+163
+00:16:58.620 --> 00:17:07.859
+Jihoon: I think it doesn't matter, I need to… I need to think more about this if we were to remove it, but I think it is correct to include it if we were to have that
+
+164
+00:17:08.109 --> 00:17:11.469
+Jihoon: Non-empty check and peer-to-peer rule.
+
+165
+00:17:14.530 --> 00:17:17.139
+Jihoon: I'm fine with having a fork choice.
+
+166
+00:17:17.349 --> 00:17:19.190
+Jihoon: If you weren't to end it in peer-to-peer.
+
+167
+00:17:20.970 --> 00:17:24.409
+Justin Traglia: Okay, sounds good. Yeah, we can discuss this more after the call.
+
+168
+00:17:24.859 --> 00:17:34.049
+Justin Traglia: There is another topic that I would like to discuss. Otis, on Discord, you said that Prism is using, like, or 60% of Prism's time is spent.
+
+169
+00:17:34.400 --> 00:17:36.040
+Potuz: No, no, don't listen to prison.
+
+170
+00:17:37.090 --> 00:17:40.590
+Potuz: That was my personal node running a different client.
+
+171
+00:17:41.710 --> 00:17:43.309
+Justin Traglia: Oh, it was not present.
+
+172
+00:17:43.490 --> 00:17:46.649
+Justin Traglia: Do you feel comfortable saying which client it was, or is this…
+
+173
+00:17:46.980 --> 00:17:50.719
+Potuz: It's just a C++… branch that I have.
+
+174
+00:17:51.200 --> 00:17:58.669
+Potuz: It's a very good branch, it's performing very well, but it's led me to find a bunch of issues
+
+175
+00:17:58.980 --> 00:18:01.049
+Potuz: with Lighthouse, for example.
+
+176
+00:18:01.360 --> 00:18:13.229
+Potuz: banning peers that don't consume faster messages. That forces me to, like, move from a one thread to several threads to deal with gossip messages.
+
+177
+00:18:14.000 --> 00:18:16.930
+Potuz: I wasn't aware of that condition from Lighthouse.
+
+178
+00:18:17.460 --> 00:18:34.939
+Potuz: And this is another one, which I'm pretty sure that should be true for most clients. Like, there's a burst of PTC messages that you get to see, and it's surprisingly large. I don't spend that much time validating attestations.
+
+179
+00:18:34.990 --> 00:18:47.080
+Potuz: The biggest time that my CPU is spending in validating things over gossip is A KCG from data columns, and B, PTC attestations.
+
+180
+00:18:56.270 --> 00:18:59.079
+Justin Traglia: Have any other… I'm sorry, have any other clients looked into this?
+
+181
+00:18:59.440 --> 00:19:02.799
+Justin Traglia: Is this using a lot of resources on their client as well?
+
+182
+00:19:04.430 --> 00:19:06.480
+Justin Traglia: PTC, message handling.
+
+183
+00:19:18.390 --> 00:19:19.459
+Potuz: Just to be clear.
+
+184
+00:19:19.460 --> 00:19:19.980
+Enrico Del Fante (tbenr): buddy, Dave.
+
+185
+00:19:19.980 --> 00:19:32.520
+Potuz: The problem is that this is in the… so, I had this on the foreground, because I dismissed it at something that should be very fast, and it wasn't, so that forced me to move it in the background.
+
+186
+00:19:33.030 --> 00:19:39.829
+Potuz: And again, this is perhaps a technical point, but the thing is that if we manage to have things single-threaded.
+
+187
+00:19:39.970 --> 00:19:46.969
+Potuz: then we don't need to lock for choice at all. We can just deal with the single thread that manages 4Choice.
+
+188
+00:19:47.340 --> 00:19:53.550
+Potuz: And that takes away a lot of complexity from the client. That was my design decision for this particular client.
+
+189
+00:19:53.730 --> 00:20:01.739
+Potuz: And I could not take it because I could not handle PTC attestations on time to drain the gossip socket
+
+190
+00:20:01.900 --> 00:20:04.480
+Potuz: From my peers that would otherwise ban me.
+
+191
+00:20:04.730 --> 00:20:15.890
+Potuz: So, I knew that data columns needed to be removed, and that was fine, because it's easy. That requires just a little copy of a little piece of fork choice.
+
+192
+00:20:16.030 --> 00:20:22.899
+Potuz: And that's fine, but PTC is more complicated because it requires to know which are the PTC members.
+
+193
+00:20:22.980 --> 00:20:38.360
+Potuz: And I wasn't happy locking purchase to remove that from the foreground and move this in a separate thread. Once you have PTC attestation's validation on a separate thread, then it doesn't really matter. As long as you have more than one core, your computer would just, like, validate fine.
+
+194
+00:20:42.850 --> 00:20:46.389
+Justin Traglia: Okay, thank you. Enrico, you were about to say something?
+
+195
+00:20:46.930 --> 00:20:49.350
+Enrico Del Fante (tbenr): Yeah, I was about to ask if…
+
+196
+00:20:50.010 --> 00:20:54.499
+Enrico Del Fante (tbenr): So it's pure fork choice, internal,
+
+197
+00:20:54.620 --> 00:21:02.080
+Enrico Del Fante (tbenr): validation of the PTC was not just, I don't know, I don't know, BLS… Senior verifications…
+
+198
+00:21:02.080 --> 00:21:11.529
+Potuz: No, no, no, it is BLS, so the most… most of it is BLS. The thing is, you get a message over gossip, and you need to do gossip validation to rebroadcast it or not.
+
+199
+00:21:11.880 --> 00:21:12.480
+Enrico Del Fante (tbenr): Yeah.
+
+200
+00:21:12.910 --> 00:21:21.799
+Potuz: And the question is, do you want to do the validation before you release the socket from your peer, or you do it in the background and you just consume the message from your peer?
+
+201
+00:21:28.010 --> 00:21:34.629
+Enrico Del Fante (tbenr): Why is it not happening, like, in attestation aggregations for you?
+
+202
+00:21:35.850 --> 00:21:40.860
+Potuz: So this happened at PTC, not an aggregation, so validating PTC messages.
+
+203
+00:21:40.860 --> 00:21:48.060
+Enrico Del Fante (tbenr): Yeah, yeah, yeah, but why you are not seeing the same behavior on, like, attestation messages, which should.
+
+204
+00:21:48.060 --> 00:21:49.490
+Potuz: Oh, because they're less.
+
+205
+00:21:49.910 --> 00:21:58.030
+Potuz: It's surprising, but they're less. So you're registered only to a couple of subnets, so you don't get many single attestations.
+
+206
+00:21:58.130 --> 00:22:01.590
+Potuz: And you do get a lot of BTC attestations.
+
+207
+00:22:02.640 --> 00:22:06.009
+Potuz: Okay. So subnets is actually doing its job
+
+208
+00:22:06.320 --> 00:22:10.330
+Potuz: for attestations, but we don't have subnets for PTC attestations.
+
+209
+00:22:14.330 --> 00:22:19.919
+Enrico Del Fante (tbenr): And the global, aggregated attestation are still less.
+
+210
+00:22:20.160 --> 00:22:33.620
+Potuz: Yeah, because we are… so this might be an issue just on the DevNet. I think we're just very effective on the DevNet. You see most blocks, except Prism, that has a bug that is already fixed, we see most blocks with only one attestation.
+
+211
+00:22:33.820 --> 00:22:34.749
+Enrico Del Fante (tbenr): Oh, okay, okay.
+
+212
+00:22:35.010 --> 00:22:49.010
+Potuz: So, so the aggregates are really good, and yeah, so they don't consume time. I actually, I only fork away, crypto, to the, to the background, so BLS, and KCG,
+
+213
+00:22:49.590 --> 00:22:54.819
+Potuz: And it's performing much better, and it's a much simpler client than having to deal with threats.
+
+214
+00:22:57.620 --> 00:23:02.420
+Enrico Del Fante (tbenr): Yeah, we should do, our own… Check, for sure.
+
+215
+00:23:02.790 --> 00:23:05.040
+Enrico Del Fante (tbenr): How are we… are we performing there?
+
+216
+00:23:05.370 --> 00:23:07.349
+Enrico Del Fante (tbenr): We don't have these high defects.
+
+217
+00:23:07.550 --> 00:23:11.399
+Enrico Del Fante (tbenr): You have in your client, for sure, but, checking…
+
+218
+00:23:11.990 --> 00:23:16.569
+Enrico Del Fante (tbenr): Checking how are we behaving should be… Good to check.
+
+219
+00:23:22.210 --> 00:23:30.360
+Justin Traglia: At Potus, you mentioned that KCG is using a bunch of time on your CPU. I just wanted to share a project I was… I made, like, 2 weeks ago, where,
+
+220
+00:23:30.580 --> 00:23:35.249
+Justin Traglia: the GPU does the proof computations and whatnot. It's been pretty neat.
+
+221
+00:23:45.940 --> 00:23:50.169
+Justin Traglia: Okay, anything else we'd like to discuss? We have 6 more minutes left.
+
+222
+00:24:05.070 --> 00:24:09.610
+Justin Traglia: All right, thank you everyone for joining. I'll… back to you guys on Thursday.
+
+223
+00:24:13.680 --> 00:24:14.800
+Justin Traglia: Bye, everyone.
+
+224
+00:24:14.800 --> 00:24:15.670
+Enrico Del Fante (tbenr): Bye.
+
+225
+00:24:16.180 --> 00:24:16.730
+Luca | Vero: Bye.
+

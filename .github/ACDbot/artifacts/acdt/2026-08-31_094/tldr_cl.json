@@ -1,0 +1,89 @@
+{
+  "meeting": "ACDT #94 (CL Breakout) - August 31, 2026",
+  "highlights": {
+    "epbs_bid_gossip_validation": [
+      {
+        "timestamp": "00:01:06",
+        "highlight": "Bug: builder with exit in parent payload can submit invalid bid, blocking other builders"
+      },
+      {
+        "timestamp": "00:07:21",
+        "highlight": "Agreed fix: ignore bids from builders with an exit in the previous full payload (Nico's suggestion)"
+      },
+      {
+        "timestamp": "00:08:27",
+        "highlight": "Implementation: keep a map of exited builder addresses from previous payload; check pub key + source address match before rejecting"
+      }
+    ],
+    "epbs_devnet_testing": [
+      {
+        "timestamp": "00:10:24",
+        "highlight": "Plan to test payloads with >8,192 deposits on DevNet 8; pk910 has tooling (batching contract) ready"
+      },
+      {
+        "timestamp": "00:11:06",
+        "highlight": "Justin needs >8,000 ETH for top-ups; pk910 will supply testnet ETH"
+      }
+    ],
+    "focil_gossip_checks": [
+      {
+        "timestamp": "00:11:33",
+        "highlight": "Proposal to add gossip check rejecting empty transactions in inclusion lists (FOCIL)"
+      },
+      {
+        "timestamp": "00:15:38",
+        "highlight": "Teku already has this in their DevNet 0 branch (per chat)"
+      },
+      {
+        "timestamp": "00:16:03",
+        "highlight": "Starting with 4,112 max inclusion list size; Jihoon to clean up consensus-specs PR and open new engine API PR"
+      }
+    ],
+    "ptc_attestation_performance": [
+      {
+        "timestamp": "00:17:34",
+        "highlight": "Potuz: PTC attestation validation is a surprising CPU bottleneck alongside KZG data column checks"
+      },
+      {
+        "timestamp": "00:21:49",
+        "highlight": "Root cause: no subnets for PTC attestations, so all messages are received by all nodes"
+      },
+      {
+        "timestamp": "00:19:39",
+        "highlight": "Mitigation: move PTC validation to background thread; BLS and KZG offloaded to background improves performance significantly"
+      },
+      {
+        "timestamp": "00:23:22",
+        "highlight": "Justin shared vkzg side project: offloads KZG cell recovery and proof computation to GPU via Vulkan"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:16:09",
+      "action": "Open new engine API PR for FOCIL empty-transaction gossip check and 4,112 max size limit",
+      "owner": "Jihoon"
+    },
+    {
+      "timestamp": "00:16:29",
+      "action": "Include FOCIL devnet 0 changes in client DevNet 0 branches",
+      "owner": "All CL teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:07:21",
+      "decision": "ePBS bid gossip fix: ignore bids from builders with an exit in the previous full payload (address map check, no state mutation)"
+    },
+    {
+      "timestamp": "00:15:50",
+      "decision": "Add non-empty transaction assertion to FOCIL gossip rule; start with 4,112 inclusion list size limit"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:16:38",
+      "target": "FOCIL DevNet 0 \u2014 discuss devnet results in tomorrow's FOCIL breakout"
+    }
+  ]
+}
