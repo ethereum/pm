@@ -1,0 +1,22 @@
+00:11:30	Nico Flaig:	did anyone test the unhappy case yet?
+00:12:51	Iván | ethrex:	Devnet requires 3x3 clients?
+00:13:02	Iván | ethrex:	Okok
+00:14:59	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5544
+00:15:19	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5576
+00:17:26	Justin Traglia:	8192 1 bytes txs + 8192 * 4 byte offsets in SSZ = 41112
+00:19:15	Justin Traglia:	For example. If there were 128 txs in the full IL, it would be 8192 + 128 * 4 = 8704, which is greater than the previous maximum.
+00:20:49	NC:	if an ILC doesn’t see any transactions that are worth including (or at all), then it would rather not send anything vs sending an empty IL?
+00:25:41	Fabio Di Fabio:	https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#engine_newpayloadv1 
+
+Client software MUST validate that all transactions have non-zero length (at least 1 byte). Client software MUST run this validation in all cases even if this branch or any other branches of the block tree are in an active sync process.
+00:26:44	Iván | ethrex:	+1
+00:32:04	Nico Flaig:	do any ELs here in the call implement shouldOverrideBuilder we have today? I know nethermind does, but unsure about others
+00:32:40	Fabio Di Fabio:	Replying to "do any ELs here in the call implement shouldOverrideBuilder we have today? I know nethermind does, but unsure about others"
+
+no
+00:34:45	Nico Flaig:	@Justin Florentine (Besu) we have this since 3 years in the spec and nobody implements it yet it seems
+00:34:54	Nico Flaig:	my nethermind never fired on mainnet
+00:36:41	Nico Flaig:	https://github.com/ethereum/execution-apis/pull/425
+00:38:05	Nico Flaig:	I wonder if even all CLs have this wired up to today to act similar to the ciructi breaker, at least in lodestar it does
+00:44:41	Justin Florentine (Besu):	activity leakage for IL cmte members?
+00:48:48	soispoke:	EIP-8369: https://github.com/ethereum/EIPs/pull/12110
