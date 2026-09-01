@@ -1,0 +1,93 @@
+{
+  "meeting": "FOCIL Breakout #41 - September 1, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:05:06",
+        "highlight": "ethrex: passing latest spec tests; PRs opened to execution-specs for fixture/harness issues"
+      },
+      {
+        "timestamp": "00:06:04",
+        "highlight": "Teku: devnet-0 branch ready with signed IL max size + emptiness check; local Kurtosis interop with Lodestar, ethrex, Besu succeeded"
+      },
+      {
+        "timestamp": "00:08:44",
+        "highlight": "Reth: reth-focil-devnet-0 branch ready; basic interop and hive tests run, ~most of the way"
+      },
+      {
+        "timestamp": "00:09:54",
+        "highlight": "Nethermind: FOCIL merged to focil-devnet-0 branch, all tests passing; no cross-client interop yet"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:12:47",
+        "highlight": "Devnet-0 tentatively 2\u00d72 client minimum; Jihoon to attempt local interop (Teku/Lodestar + ethrex/Besu) before setting launch date"
+      },
+      {
+        "timestamp": "00:14:21",
+        "highlight": "Unhappy-path testing deferred to later devnets; happy-path focus for devnet-0"
+      }
+    ],
+    "spec_updates": [
+      {
+        "timestamp": "00:14:49",
+        "highlight": "consensus-specs PR #5544 (IL fork key \u2192 slot-independent root) merged into alpha 14"
+      },
+      {
+        "timestamp": "00:15:08",
+        "highlight": "PR #5576: raises gossip size limit to ~40 KB (derived from max 8192 \u00d7 1-byte txs + SSZ offsets); consensus reached to merge"
+      },
+      {
+        "timestamp": "00:16:06",
+        "highlight": "New gossip rule agreed: reject ILTs containing empty transactions; ignore entirely empty ILs"
+      },
+      {
+        "timestamp": "00:23:48",
+        "highlight": "EL engine API spec (getInclusionList) should explicitly require non-zero-length transactions, consistent with newPayloadV1 wording"
+      }
+    ],
+    "focil_frames_interaction": [
+      {
+        "timestamp": "00:48:48",
+        "highlight": "EIP-8369 (FOCIL + Frames interaction) shared for review; ethrex prototyping; discussion deferred to next FOCIL breakout"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:25:54",
+      "action": "Open PR to execution-apis adding explicit non-empty transaction requirement to getInclusionList, mirroring newPayloadV1 spec language",
+      "owner": "Jihoon"
+    },
+    {
+      "timestamp": "00:37:26",
+      "action": "Discuss standardized censorship-detection heuristics at next ACD call to determine whether Hive testing is feasible",
+      "owner": "Jihoon"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:43:13",
+      "decision": "Gossip rules: reject ILs containing empty transactions; ignore empty ILs entirely"
+    },
+    {
+      "timestamp": "00:23:48",
+      "decision": "Spec getInclusionList to explicitly require transactions be at least 1 byte, consistent with other engine API methods"
+    },
+    {
+      "timestamp": "00:14:21",
+      "decision": "Unhappy-path testing deferred; devnet-0 focuses on happy paths only"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:12:47",
+      "target": "FOCIL devnet-0 launch \u2014 pending successful local interop (Jihoon to attempt imminently)"
+    },
+    {
+      "timestamp": "00:51:37",
+      "target": "EIP-8369 (FOCIL + Frames) Q&A \u2014 next FOCIL breakout (2 weeks)"
+    }
+  ]
+}

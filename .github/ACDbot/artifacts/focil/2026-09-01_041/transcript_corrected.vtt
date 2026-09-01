@@ -1,0 +1,1826 @@
+WEBVTT
+
+1
+00:00:06.190 --> 00:00:07.590
+Justin Traglia: Good morning.
+
+2
+00:00:11.440 --> 00:00:13.040
+Jihoon: Hello, Justin, Justin.
+
+3
+00:00:13.040 --> 00:00:16.470
+Justin Florentine (Besu): Good morning! Justin Party!
+
+4
+00:04:36.150 --> 00:04:37.829
+Jihoon: Yeah, I guess we can start.
+
+5
+00:04:37.930 --> 00:04:41.739
+Jihoon: Hello everyone, welcome to FOCIL Breakout 41.
+
+6
+00:04:42.350 --> 00:04:50.070
+Jihoon: Today, we can share diff… Part of the DevNet, And discuss spec changes.
+
+7
+00:04:51.480 --> 00:04:55.649
+Jihoon: Let's start with FOCIL devnet Status Update. Who wants to go first?
+
+8
+00:05:00.570 --> 00:05:02.140
+Iván | ethrex: I can go first, Steve.
+
+9
+00:05:02.900 --> 00:05:03.949
+Iván | ethrex: It's okay.
+
+10
+00:05:04.330 --> 00:05:05.619
+Jihoon: Yep, please go ahead.
+
+11
+00:05:06.770 --> 00:05:08.220
+Iván | ethrex: Okay,
+
+12
+00:05:08.330 --> 00:05:21.690
+Iván | ethrex: we updated our implementation to the latest spec tests. We are passing all of them, but some of them are failing, based on my investigation.
+
+13
+00:05:22.140 --> 00:05:33.479
+Iván | ethrex: not… not for a client issue, but something with the fixtures and also the harness. I opened a couple of PRs to the execution specs repo.
+
+14
+00:05:34.020 --> 00:05:38.799
+Iván | ethrex: That might fix it. I tested locally the changes.
+
+15
+00:05:48.610 --> 00:05:50.629
+Jihoon: Awesome, and thanks for the PRs.
+
+16
+00:05:52.710 --> 00:05:54.740
+Jihoon: Any other updates?
+
+17
+00:05:55.230 --> 00:05:56.299
+Jihoon: Yes, Mehdi?
+
+18
+00:05:56.990 --> 00:06:04.449
+Mehdi Aouadi: Yep. For Teku, we have a, DevNet Zero, branch ready.
+
+19
+00:06:05.020 --> 00:06:05.940
+Mehdi Aouadi: Hmm…
+
+20
+00:06:06.040 --> 00:06:17.860
+Mehdi Aouadi: It also contains the, recent, discussed spec changes, mainly the, signed inclusion list max, max size, and,
+
+21
+00:06:18.730 --> 00:06:27.980
+Mehdi Aouadi: And, yeah, the Transaction's emptiness check proposed by Barnabas, so those are, addressed in our branch.
+
+22
+00:06:28.220 --> 00:06:35.129
+Mehdi Aouadi: And, I managed to run some local interop using Kurtosis with Lodestar, ethrex, and BESU.
+
+23
+00:06:35.930 --> 00:06:41.570
+Mehdi Aouadi: they all work fine, so… yeah. I already published a, a Docker image.
+
+24
+00:06:42.160 --> 00:06:51.330
+Mehdi Aouadi: And, yeah, I'm still noticing a couple of issues, but really small issues, timing issues, so I'm checking those, and I'm gonna keep updating our branch.
+
+25
+00:06:55.430 --> 00:06:57.350
+Jihoon: Great Fabio?
+
+26
+00:06:58.880 --> 00:07:05.869
+Fabio Di Fabio: Yeah, for Besu, So we have the… DevNet Zero branch.
+
+27
+00:07:06.470 --> 00:07:08.540
+Fabio Di Fabio: should be ready.
+
+28
+00:07:10.220 --> 00:07:17.819
+Fabio Di Fabio: I'm not sure now, since we are already passing all the EIP tests, I'm not sure if…
+
+29
+00:07:20.460 --> 00:07:24.810
+Fabio Di Fabio: Since there would be some changes there, Maybe there is…
+
+30
+00:07:25.040 --> 00:07:31.060
+Fabio Di Fabio: There are some issues that would be discovered in the next run.
+
+31
+00:07:31.570 --> 00:07:42.060
+Fabio Di Fabio: and, I need to double check, the Barnabas spec change does, affect also EL.
+
+32
+00:07:42.700 --> 00:07:45.510
+Fabio Di Fabio: Because I went through… Intuit.
+
+33
+00:07:45.790 --> 00:07:46.510
+Fabio Di Fabio: Yet.
+
+34
+00:07:47.150 --> 00:07:54.300
+Jihoon: We still have to discuss, decide on which…
+
+35
+00:07:54.960 --> 00:08:00.700
+Jihoon: gossip rules we want to add, but still, no matter what we decide,
+
+36
+00:08:02.070 --> 00:08:04.240
+Jihoon: I don't think we're gonna affect EL at all.
+
+37
+00:08:07.460 --> 00:08:08.200
+Fabio Di Fabio: Okay
+
+38
+00:08:11.950 --> 00:08:16.349
+Fabio Di Fabio: Okay, anyway, we should be ready, so… if there is something…
+
+39
+00:08:18.010 --> 00:08:24.109
+Fabio Di Fabio: Neither that I will, keep an eye on, on EIP test, and
+
+40
+00:08:24.880 --> 00:08:27.830
+Fabio Di Fabio: On the chat to see if there is something.
+
+41
+00:08:28.130 --> 00:08:29.669
+Fabio Di Fabio: That need to be fixed.
+
+42
+00:08:32.950 --> 00:08:33.930
+Jihoon: Okay, cool.
+
+43
+00:08:34.230 --> 00:08:35.590
+Jihoon: Thanks for the update.
+
+44
+00:08:40.600 --> 00:08:42.140
+Jihoon: Any other clients?
+
+45
+00:08:44.110 --> 00:08:50.920
+Pelle Krabbenhoeft: Yeah, I can give a quick update for Reth. We… Updating…
+
+46
+00:08:52.010 --> 00:08:56.040
+Pelle Krabbenhoeft: Would be updated to a non-stale branch, so we have…
+
+47
+00:08:56.750 --> 00:09:02.020
+Pelle Krabbenhoeft: Reth-fossil-devnet-0, should be ready.
+
+48
+00:09:02.260 --> 00:09:07.299
+Pelle Krabbenhoeft: I ran some basic interop with other clients and hive tests, so…
+
+49
+00:09:07.430 --> 00:09:11.729
+Pelle Krabbenhoeft: It's definitely not 100%, but it's most of the way.
+
+50
+00:09:16.410 --> 00:09:20.670
+Jihoon: Awesome. I'm just curious…
+
+51
+00:09:20.910 --> 00:09:26.880
+Jihoon: Have you discussed with Reth team with your effort? Like, are they aware that you are working on this?
+
+52
+00:09:27.360 --> 00:09:33.430
+Pelle Krabbenhoeft: Yeah, Matt made the branch for me and just merged everything in, so, it's out there.
+
+53
+00:09:33.840 --> 00:09:35.390
+Pelle Krabbenhoeft: They're aware of it now.
+
+54
+00:09:37.730 --> 00:09:38.700
+Jihoon: Great, great.
+
+55
+00:09:45.820 --> 00:09:52.009
+Jihoon: So Mark told me that he won't be able to join us today, but… That the… wait a minute.
+
+56
+00:09:54.150 --> 00:09:55.920
+Jihoon: Simple as time.
+
+57
+00:09:56.660 --> 00:10:00.109
+Jihoon: Yeah, so… He just told me that…
+
+58
+00:10:02.010 --> 00:10:04.770
+Jihoon: That their mind has merged the FOCIL.
+
+59
+00:10:05.760 --> 00:10:14.819
+Jihoon: And it's on FOCIL devnet-0 branch, so it should be ready for DevNet, but he hasn't tried interop with other clients yet.
+
+60
+00:10:15.020 --> 00:10:18.650
+Jihoon: But they are passing all the tests.
+
+61
+00:10:18.820 --> 00:10:21.689
+Jihoon: So, yeah, that's another mind.
+
+62
+00:10:32.310 --> 00:10:35.819
+Jihoon: Do we have any updates from, perhaps, Lodestar?
+
+63
+00:10:42.150 --> 00:10:47.250
+NC: Yeah, so a while ago, of FOCIL devnet-0 branch was based on
+
+64
+00:10:47.940 --> 00:10:52.420
+NC: Of other 13, and I think…
+
+65
+00:10:53.870 --> 00:10:56.380
+NC: I think Mehdi was doing something interrupt below Star.
+
+66
+00:10:56.670 --> 00:11:02.430
+NC: I realized it was on to data 14, and I think Barnabas opened the PR Just update it.
+
+67
+00:11:02.800 --> 00:11:07.459
+NC: So, the FOCIL branch, is now 14.
+
+68
+00:11:08.220 --> 00:11:13.950
+NC: And… I did run some, simple kurtosis.
+
+69
+00:11:14.260 --> 00:11:16.260
+NC: The Teku, as well.
+
+70
+00:11:16.420 --> 00:11:18.580
+NC: I don't find any problem yet.
+
+71
+00:11:21.050 --> 00:11:23.010
+NC: Yeah, that's it from me.
+
+72
+00:11:27.130 --> 00:11:28.190
+Jihoon: Awesome, thank you.
+
+73
+00:11:28.390 --> 00:11:31.780
+Jihoon: Cristian, I guess you wanted to share some updates for Lodestar?
+
+74
+00:11:32.950 --> 00:11:34.470
+Cristian Conache: Yeah, sorry.
+
+75
+00:11:34.470 --> 00:11:35.120
+Jihoon: Yeah.
+
+76
+00:11:35.120 --> 00:11:40.420
+Cristian Conache: Yeah, yeah. So, yeah, quick update, we're still in development.
+
+77
+00:11:40.490 --> 00:11:58.829
+Cristian Conache: With March, a couple of PRs that we had, adding inclusion list or committee derivation and signature verification. Most of our FOCIL-related work is still in review, and, yeah, that's, the current status.
+
+78
+00:12:06.090 --> 00:12:13.740
+Jihoon: Got it, so I guess… We have Teku and Lodestar.
+
+79
+00:12:14.700 --> 00:12:24.169
+Jihoon: And on the EL and on the EL, we have ethrex, Besu, and possibly Nethermind that we can try and drop.
+
+80
+00:12:24.280 --> 00:12:31.060
+Jihoon: And we can also have Lighthouse as well, if it's ready.
+
+81
+00:12:31.160 --> 00:12:33.220
+Jihoon: So… yeah.
+
+82
+00:12:34.880 --> 00:12:41.539
+Jihoon: I think I can try… go call Introp, and if it's good, then we can move on for,
+
+83
+00:12:41.880 --> 00:12:44.350
+Jihoon: DevNet, but it seems like…
+
+84
+00:12:47.620 --> 00:12:57.820
+Jihoon: We have to set a new launch date for DevNet 0… 343? Not really, my understanding is 2x2.
+
+85
+00:12:58.400 --> 00:13:05.319
+Jihoon: It's sufficient. So, as long as we can start… yeah, as long as we can.
+
+86
+00:13:05.910 --> 00:13:14.900
+Jihoon: I mean, if local intro success… succeeds, then we can… Lunch Definite Zero,
+
+87
+00:13:19.620 --> 00:13:20.450
+Jihoon: Okay.
+
+88
+00:13:20.580 --> 00:13:23.429
+Jihoon: Let me try it and see how it goes.
+
+89
+00:13:24.970 --> 00:13:26.660
+Jihoon: Okay.
+
+90
+00:13:27.250 --> 00:13:31.690
+Jihoon: Do we have any… comments.
+
+91
+00:13:32.720 --> 00:13:35.559
+Jihoon: For client development, before we move on.
+
+92
+00:13:42.330 --> 00:13:44.189
+Jihoon: Nico adds in the chat.
+
+93
+00:13:44.390 --> 00:13:47.270
+Jihoon: Did anyone test the unhappy case yet?
+
+94
+00:14:15.220 --> 00:14:17.379
+Jihoon: Maybe the one yet?
+
+95
+00:14:21.630 --> 00:14:30.469
+Jihoon: I think we can focus on happy paths for the first few dev notes, and then… Test unhappy cases.
+
+96
+00:14:30.590 --> 00:14:32.289
+Jihoon: And the following debits.
+
+97
+00:14:44.100 --> 00:14:45.970
+Jihoon: Alright, I think we can move on.
+
+98
+00:14:46.130 --> 00:14:47.640
+Jihoon: prospect changes.
+
+99
+00:14:49.630 --> 00:14:58.489
+Jihoon: Just as a reminder, PR55… it's on… it's all on the SL. PR5544…
+
+100
+00:14:58.940 --> 00:15:07.869
+Jihoon: That changes IL force key to SLOT-independent Root was merged and included in alpha 14.
+
+101
+00:15:08.860 --> 00:15:18.610
+Jihoon: And following yesterday's ACDE, I would like to ask for feedback on 5575.
+
+102
+00:15:20.160 --> 00:15:21.890
+Jihoon: Sorry, 76.
+
+103
+00:15:22.110 --> 00:15:30.750
+Jihoon: So, we can go with 40, roughly 40 kibabytes for the build-to-peer limit, but I want to double-click
+
+104
+00:15:31.580 --> 00:15:34.480
+Jihoon: And the gossip-sip rules that it adds.
+
+105
+00:15:35.590 --> 00:15:42.910
+Jihoon: So, it adds conditions that check whether any transaction is empty, And…
+
+106
+00:15:44.290 --> 00:15:51.560
+Jihoon: it's not in the code, but it's in the… in the task, it checks whether the transaction list is empty. So…
+
+107
+00:15:52.130 --> 00:15:58.340
+Jihoon: I'm not sure about its practicality, but technically, it might reduce network bandwidth, but
+
+108
+00:15:59.450 --> 00:16:06.789
+Jihoon: One thing that I want to emphasize is that this affects how we define valid inclusion list.
+
+109
+00:16:07.180 --> 00:16:16.820
+Jihoon: So previously, any collection list that has transactions not exceeding 8KB with a valid signature was valid.
+
+110
+00:16:17.620 --> 00:16:27.049
+Jihoon: But these checks will consider any IELs that has empty Transaction or empty TransactionList invalid.
+
+111
+00:16:27.160 --> 00:16:28.030
+Jihoon: So…
+
+112
+00:16:29.550 --> 00:16:37.040
+Jihoon: I'm not so convinced by these new validity rules, but I would love to hear what others think about this.
+
+113
+00:16:48.630 --> 00:16:57.759
+Justin Florentine (Besu): Did we, where did the 40K number come from? It's, like, 5X, why do we think that's the right multiplier?
+
+114
+00:16:58.430 --> 00:17:01.380
+Jihoon: Yeah, just for the context.
+
+115
+00:17:01.790 --> 00:17:10.980
+Jihoon: The max transaction size remains the same, 8KB, but on the CL, we need to impose some
+
+116
+00:17:11.250 --> 00:17:13.859
+Jihoon: limit on period object.
+
+117
+00:17:14.579 --> 00:17:21.909
+Jihoon: So, for example, for payload, we impose 10 megabytes limit, which is fairly high enough.
+
+118
+00:17:22.119 --> 00:17:24.210
+Jihoon: And… it is just a…
+
+119
+00:17:24.589 --> 00:17:34.450
+Jihoon: this very high upper bound, because payload size is dynamic. It varies depending on how many transactions you have in the payload.
+
+120
+00:17:35.860 --> 00:17:39.190
+Jihoon: And similar to that, inclusion-based size.
+
+121
+00:17:39.980 --> 00:17:44.170
+Jihoon: I mean… The period objects of inclusive size.
+
+122
+00:17:45.120 --> 00:17:48.919
+Jihoon: Varies depending on how many transactions you have.
+
+123
+00:17:49.400 --> 00:17:54.320
+Jihoon: So, that's why we need to put some limit on inconvenience as well.
+
+124
+00:17:55.440 --> 00:18:09.299
+Jihoon: And that 40-ish gigabyt bytes come from the assumption that the minimum transaction size is 1 byte. I'm not sure whether this is technically correct, but if you calculate
+
+125
+00:18:09.520 --> 00:18:15.170
+Jihoon: the possible… Serialized in collateralist science.
+
+126
+00:18:15.840 --> 00:18:19.630
+Jihoon: You will get, like, 40-ish kilobytes.
+
+127
+00:18:22.910 --> 00:18:26.570
+Jihoon: Yeah, thanks, Justin. The calculation is in the chat.
+
+128
+00:18:26.570 --> 00:18:28.879
+Justin Florentine (Besu): I see it, yeah. Thank you.
+
+129
+00:18:38.910 --> 00:18:45.080
+Justin Florentine (Besu): I don't really see anything controversial here, I guess this just kind of looks like a minor oversight that we're correcting?
+
+130
+00:18:46.420 --> 00:18:48.960
+Jihoon: Yes, previously we just said…
+
+131
+00:18:50.630 --> 00:18:56.489
+Jihoon: We just assumed that there will be just one transaction in the list. It's just an oversight, yeah.
+
+132
+00:18:56.690 --> 00:19:02.899
+Jihoon: So, we can also bike-shed that number, but it seems like just using 40KB is fine.
+
+133
+00:19:03.380 --> 00:19:06.070
+Justin Florentine (Besu): We forgot that lists were lists, that's all.
+
+134
+00:19:06.640 --> 00:19:13.200
+Jihoon: Yeah, but my question is, there's a… the PR wants to add a new check, Which is…
+
+135
+00:19:13.760 --> 00:19:18.650
+Jihoon: Which is a condition that IELT should not contain any empty transaction.
+
+136
+00:19:22.930 --> 00:19:25.770
+Jihoon: And… I wanna ask, like.
+
+137
+00:19:26.960 --> 00:19:33.950
+Jihoon: what do we feel about adding this new task? I mean, sorry, adding this new… cousin rules.
+
+138
+00:19:46.460 --> 00:19:50.389
+Justin Traglia: Is there a path from which we can get an EL from an untrusted source?
+
+139
+00:19:50.590 --> 00:19:53.350
+Justin Traglia: Which may provide an empty transaction.
+
+140
+00:19:55.460 --> 00:20:05.439
+Jihoon: But, you know, CL doesn't really… opine on… Transaction content. Like, we don't…
+
+141
+00:20:05.600 --> 00:20:08.590
+Jihoon: the EL doesn't really see whether
+
+142
+00:20:08.830 --> 00:20:13.050
+Jihoon: This transaction bytes is intrinsically valid.
+
+143
+00:20:13.800 --> 00:20:18.920
+Jihoon: Of course, we're just checking whether it is non-zero, but… Yeah.
+
+144
+00:20:24.070 --> 00:20:32.029
+Justin Florentine (Besu): I'm having a hard time imagining a case where an EL would be correct, saying that this empty transaction should be included.
+
+145
+00:20:38.660 --> 00:20:43.920
+Justin Florentine (Besu): I think… I think this seems like a… Correct filter.
+
+146
+00:20:46.670 --> 00:20:51.370
+Justin Traglia: I think June's trying to say that it's not the CL's responsibility to check this, right?
+
+147
+00:20:52.050 --> 00:20:53.950
+Justin Traglia: Will this be caught elsewhere?
+
+148
+00:20:53.950 --> 00:20:56.210
+Justin Florentine (Besu): Yeah, that's fair, I have an EL bias.
+
+149
+00:20:59.310 --> 00:21:06.239
+Mehdi Aouadi: I personally see it as a defensive mechanism, right? It's not… I'm not strongly…
+
+150
+00:21:07.800 --> 00:21:12.279
+Mehdi Aouadi: against it, but I simply see it as a defensive mechanism, and it's okay.
+
+151
+00:21:12.620 --> 00:21:13.510
+Mehdi Aouadi: Got it.
+
+152
+00:21:18.010 --> 00:21:22.559
+Justin Florentine (Besu): Is… Jihoon… did you have a steel man in mind for including the empty transactions?
+
+153
+00:21:25.150 --> 00:21:27.680
+Jihoon: I think we need to distinguish two cases.
+
+154
+00:21:27.990 --> 00:21:28.660
+Jihoon: Oh.
+
+155
+00:21:28.780 --> 00:21:33.489
+Jihoon: Either it is empty Transaction or empty Transaction List.
+
+156
+00:21:35.920 --> 00:21:42.149
+Jihoon: So the prior is, like, you have valid list of transactions, and you put
+
+157
+00:21:42.500 --> 00:21:44.590
+Jihoon: An empty transaction in the list.
+
+158
+00:21:45.010 --> 00:21:46.200
+Jihoon: On top of that.
+
+159
+00:21:49.430 --> 00:21:52.800
+Jihoon: The letter is just… Empty enclosure list.
+
+160
+00:21:59.560 --> 00:22:09.979
+Justin Traglia: My opinion is that we should keep this empty transaction check for every transaction. Like, I think I agree with Mehdi that this is just a nice-to-have, and
+
+161
+00:22:10.360 --> 00:22:14.600
+Justin Traglia: Transaction is opaque to us, the EL.
+
+162
+00:22:14.860 --> 00:22:16.459
+Justin Traglia: So, like, this check is fine.
+
+163
+00:22:16.690 --> 00:22:17.880
+Justin Traglia: In my opinion.
+
+164
+00:22:20.070 --> 00:22:21.059
+Justin Florentine (Besu): I agree with that.
+
+165
+00:22:27.530 --> 00:22:30.960
+Justin Florentine (Besu): Fabio, you got an opinion on this? You spend a lot of time in transaction pools.
+
+166
+00:22:33.530 --> 00:22:35.249
+Fabio Di Fabio: I'm thinking this.
+
+167
+00:22:35.760 --> 00:22:40.750
+Fabio Di Fabio: A transaction with zero bytes Doesn't seem to make sense.
+
+168
+00:22:41.190 --> 00:22:46.159
+Fabio Di Fabio: So… It's… It's not that we are…
+
+169
+00:22:46.330 --> 00:22:51.509
+Fabio Di Fabio: Excluding some kind of use cases that could appear in the future.
+
+170
+00:22:52.270 --> 00:22:54.490
+Fabio Di Fabio: So, it seems safe.
+
+171
+00:22:54.730 --> 00:22:57.730
+Fabio Di Fabio: For me to have this track.
+
+172
+00:22:59.130 --> 00:23:01.720
+Fabio Di Fabio: We could also see in the spec that…
+
+173
+00:23:02.310 --> 00:23:04.989
+Fabio Di Fabio: Transaction should be at least one byte.
+
+174
+00:23:06.670 --> 00:23:11.950
+Fabio Di Fabio: in the Get Inclusion List, EnginePI method.
+
+175
+00:23:14.390 --> 00:23:16.839
+Fabio Di Fabio: If this is not yet the case.
+
+176
+00:23:19.650 --> 00:23:22.379
+Fabio Di Fabio: So, in my opinion, I don't see an issue.
+
+177
+00:23:23.150 --> 00:23:26.960
+Fabio Di Fabio: Checking that there are non-empty transactions.
+
+178
+00:23:29.580 --> 00:23:34.600
+Jihoon: I say, it seems like… We wanna add this.
+
+179
+00:23:34.820 --> 00:23:36.880
+Jihoon: Empty Transaction Check.
+
+180
+00:23:37.240 --> 00:23:42.480
+Jihoon: to add to that,
+
+181
+00:23:43.550 --> 00:23:48.389
+Jihoon: Do we think that we also need to specify this in EnginePI spec?
+
+182
+00:23:48.910 --> 00:23:52.410
+Jihoon: Like, the EL should return non-empty transactions.
+
+183
+00:23:53.530 --> 00:23:55.199
+Jihoon: As Fabio mentioned.
+
+184
+00:23:57.850 --> 00:24:07.700
+Fabio Di Fabio: I… I suggest, too, because… Also, another… S… another EnginePI method.
+
+185
+00:24:07.850 --> 00:24:10.779
+Fabio Di Fabio: There is something that say the…
+
+186
+00:24:11.430 --> 00:24:14.950
+Fabio Di Fabio: Transaction to be valid should be at least 1 byte.
+
+187
+00:24:18.120 --> 00:24:23.260
+Fabio Di Fabio: So it seems consistent with also other, methods.
+
+188
+00:24:26.130 --> 00:24:27.949
+Justin Florentine (Besu): Yeah, given the state of the…
+
+189
+00:24:28.080 --> 00:24:32.150
+Justin Florentine (Besu): RPC stuff, I would err on the side of overspecifying it.
+
+190
+00:24:38.670 --> 00:24:42.680
+Justin Traglia: That makes sense. I… I mean, I can try to argue against it, like.
+
+191
+00:24:43.000 --> 00:24:50.209
+Justin Traglia: shouldn't it be implied that a ZRAB transaction will always be invalid? So, like, do you always say.
+
+192
+00:24:50.400 --> 00:24:57.860
+Justin Traglia: the EL must not return an invalid execution payload, or an invalid transaction, or an invalid XYZ.
+
+193
+00:25:05.700 --> 00:25:13.560
+Justin Florentine (Besu): I think, though, this is… this would actually be carrying forward underlying specifications, right? So from a domain model perspective.
+
+194
+00:25:13.700 --> 00:25:16.189
+Justin Florentine (Besu): I think it makes more sense to keep it…
+
+195
+00:25:16.460 --> 00:25:34.909
+Justin Florentine (Besu): rigidly defined all through the different layers, right? Now, we're getting into API design aesthetics, so, I mean, I'm not gonna go to the mat on it, but, seeing how Hive tests, can be very, very subtle and nuanced in how they pass or fail on different clients.
+
+196
+00:25:35.340 --> 00:25:42.439
+Justin Florentine (Besu): I would… I would just go through the, you know, two sentences that it takes to actually specify this on the RPC spec.
+
+197
+00:25:44.560 --> 00:25:47.940
+Justin Traglia: Yep, I mean, for what it's worth, I agree with you. When in doubt, be explicit.
+
+198
+00:25:54.720 --> 00:25:56.479
+Jihoon: Yeah, I can open a PR ad.
+
+199
+00:25:57.940 --> 00:26:00.690
+Jihoon: Add some specifications.
+
+200
+00:26:01.060 --> 00:26:06.949
+Jihoon: that are similar to other, like, new payload V1, as Fabio shared in the chat, that
+
+201
+00:26:07.220 --> 00:26:12.019
+Jihoon: the EL should return, like, valid trans… enclosure transactions.
+
+202
+00:26:17.710 --> 00:26:20.219
+Jihoon: do… do the EL people think that
+
+203
+00:26:21.250 --> 00:26:27.280
+Jihoon: It's worth to have high tasks for… Get Enclosure list.
+
+204
+00:26:31.640 --> 00:26:36.959
+Fabio Di Fabio: Yeah, I think it's worth, because… Besu had an issue.
+
+205
+00:26:38.060 --> 00:26:40.930
+Fabio Di Fabio: with the Get Inclusion List and point.
+
+206
+00:26:41.420 --> 00:26:43.309
+Fabio Di Fabio: that Mehdi discovered.
+
+207
+00:26:44.580 --> 00:26:49.080
+Fabio Di Fabio: But not the EF test. We were passing EF tests.
+
+208
+00:26:49.250 --> 00:26:52.489
+Fabio Di Fabio: Even if we're at this bulk. So, yes.
+
+209
+00:26:53.620 --> 00:26:59.539
+Fabio Di Fabio: I suggest to include Crush on this test purpose.
+
+210
+00:27:02.610 --> 00:27:06.579
+Jihoon: Ivan is also supportive in the chat, but the thing is…
+
+211
+00:27:07.360 --> 00:27:13.549
+Jihoon: GetIL is non-deterministic, so you cannot say that, given this.
+
+212
+00:27:14.720 --> 00:27:26.870
+Jihoon: input, like, these transactions in the mempool, you cannot say this IL is expected, because technically, you can produce just empty IL. Of course, we can,
+
+213
+00:27:27.240 --> 00:27:31.289
+Jihoon: Discuss this a bit later, but… Yeah, you can't… you just…
+
+214
+00:27:31.690 --> 00:27:36.730
+Jihoon: Free to include just one transaction out of 10, for example.
+
+215
+00:27:39.520 --> 00:27:42.229
+Fabio Di Fabio: Yeah, I see your point.
+
+216
+00:27:44.180 --> 00:27:50.830
+Fabio Di Fabio: Indeed, so we cannot check the… content, fully?
+
+217
+00:27:53.030 --> 00:27:58.380
+Fabio Di Fabio: Maybe some, the syntax, or… some…
+
+218
+00:27:58.800 --> 00:28:03.260
+Fabio Di Fabio: Degenerate cases like the empty transaction.
+
+219
+00:28:04.920 --> 00:28:09.319
+Fabio Di Fabio: Without having to… Go and check.
+
+220
+00:28:10.860 --> 00:28:14.019
+Fabio Di Fabio: Which transactions are included or not, so…
+
+221
+00:28:15.840 --> 00:28:21.190
+Fabio Di Fabio: Because every client can choose their own implementation on this.
+
+222
+00:28:24.140 --> 00:28:30.440
+Justin Florentine (Besu): The other option would be to add a debug namespace method for…
+
+223
+00:28:31.320 --> 00:28:33.700
+Justin Florentine (Besu): Actually, we have a test space, don't we?
+
+224
+00:28:33.930 --> 00:28:40.509
+Justin Florentine (Besu): We have, like, a test space in the API? But the point is, is that the Hive test could actually explicitly
+
+225
+00:28:40.790 --> 00:28:46.420
+Justin Florentine (Besu): Add a transaction to the mempool and say, hey, this is going to be, censored.
+
+226
+00:28:48.350 --> 00:28:52.870
+Justin Florentine (Besu): Right? Like, you would kind of have to be constructing a debug-only path
+
+227
+00:28:53.160 --> 00:28:59.660
+Justin Florentine (Besu): If you don't want to cover the underlying heuristics.
+
+228
+00:28:59.990 --> 00:29:03.720
+Justin Florentine (Besu): with the clients, and I don't think that we do, right? I think…
+
+229
+00:29:03.900 --> 00:29:09.090
+Justin Florentine (Besu): We intentionally want clients to have different censorship detection heuristics, right?
+
+230
+00:29:11.930 --> 00:29:13.490
+Jihoon: Yes, you're right.
+
+231
+00:29:16.770 --> 00:29:22.100
+Fabio Di Fabio: I'm not sure about the debug endpoint, because this…
+
+232
+00:29:23.590 --> 00:29:28.559
+Fabio Di Fabio: Possibly will not, cover the production code?
+
+233
+00:29:31.000 --> 00:29:33.640
+Fabio Di Fabio: Or at least, will not cover.
+
+234
+00:29:33.970 --> 00:29:39.939
+Fabio Di Fabio: All the production code, so… Could not be so effective.
+
+235
+00:29:47.050 --> 00:29:52.060
+Jihoon: I'm not super familiar with IF test code, but maybe we can…
+
+236
+00:29:52.910 --> 00:29:57.309
+Jihoon: Have it, like, test whether it has valid transactions.
+
+237
+00:29:58.270 --> 00:30:06.699
+Jihoon: But… is it… useful. Like, if you have this, then it might be…
+
+238
+00:30:07.660 --> 00:30:14.380
+Jihoon: Flaky. Flaky as in, sometimes it might pass, sometimes it might fail if there's fog, so my point is…
+
+239
+00:30:14.500 --> 00:30:16.979
+Jihoon: It could pass, even if there's a bug.
+
+240
+00:30:17.410 --> 00:30:18.140
+Justin Florentine (Besu): Yup.
+
+241
+00:30:20.590 --> 00:30:27.020
+Justin Florentine (Besu): You know, if you modularize the censorship detection, that would be a good argument for allowing this.
+
+242
+00:30:30.360 --> 00:30:33.289
+Justin Florentine (Besu): I don't know that that's realistic, but…
+
+243
+00:30:41.770 --> 00:30:43.939
+Jihoon: Could you expand a bit on the…
+
+244
+00:30:43.940 --> 00:30:52.950
+Justin Florentine (Besu): Yeah, so, like, you could have, you could… potentially clients could design it in such a way that something provides the censorship detection?
+
+245
+00:30:54.310 --> 00:31:00.880
+Justin Florentine (Besu): Imagine, imagine a client that's actually not connected to the mempool, but is connected to, like, a private mempool.
+
+246
+00:31:01.390 --> 00:31:03.040
+Justin Florentine (Besu): Right? That…
+
+247
+00:31:03.150 --> 00:31:08.629
+Justin Florentine (Besu): private mempool needs a way to tell the execution engine, it says, hey, I see something that's being… being censored.
+
+248
+00:31:08.790 --> 00:31:19.829
+Justin Florentine (Besu): And once you have that modularity, then your testing framework can abstract it out and say, for testing, I'm gonna use this, you know, silly blanket, but consistent across all clients.
+
+249
+00:31:20.100 --> 00:31:22.919
+Justin Florentine (Besu): Heuristic for detecting censorship.
+
+250
+00:31:24.070 --> 00:31:29.590
+Justin Florentine (Besu): Now, is that good enough for production?
+
+251
+00:31:29.700 --> 00:31:33.959
+Justin Florentine (Besu): I think from a Hyatt perspective, it is.
+
+252
+00:31:37.810 --> 00:31:41.780
+Jihoon: So if I understood correctly, the test.
+
+253
+00:31:41.990 --> 00:31:51.469
+Jihoon: speech the memo with certain transactions, and you're gonna specify you expect, like, transaction XYZ must be included.
+
+254
+00:31:54.770 --> 00:32:02.399
+Justin Florentine (Besu): Yes, or… You tell… you actually tell the client to censor that.
+
+255
+00:32:04.700 --> 00:32:05.820
+Jihoon: Interesting.
+
+256
+00:32:07.150 --> 00:32:10.590
+Jihoon: Using some, like, debug API?
+
+257
+00:32:10.590 --> 00:32:11.650
+Justin Florentine (Besu): Yeah.
+
+258
+00:32:11.910 --> 00:32:15.320
+Justin Florentine (Besu): I don't know. It seems like a lot of work to cover, like…
+
+259
+00:32:15.870 --> 00:32:19.470
+Justin Florentine (Besu): Something that we're never actually gonna cover in production, right?
+
+260
+00:32:21.840 --> 00:32:22.650
+Jihoon: Yeah.
+
+261
+00:32:25.650 --> 00:32:31.390
+Justin Florentine (Besu): This is a good question, Jihoon. I thought it was a slam dunk, but yeah, obviously we would cover it in a hive test, but now I'm not so certain.
+
+262
+00:32:35.000 --> 00:32:39.260
+Jihoon: Yeah, I think… you know, this…
+
+263
+00:32:39.760 --> 00:32:49.949
+Jihoon: Hive Test Simulator for IL. It's a… I heard that this is a new thing for… From,
+
+264
+00:32:50.150 --> 00:33:00.389
+Jihoon: the EL… I mean, stills perspective. So, we were… actually, we were having this kind of discussion, like, do we really need this EIP test for IL?
+
+265
+00:33:03.220 --> 00:33:09.810
+Jihoon: I don't think we need to conclude this today, but this is something we need to figure out down the road.
+
+266
+00:33:10.600 --> 00:33:13.100
+Jihoon: I can relay some of his opinions.
+
+267
+00:33:13.690 --> 00:33:19.429
+Jihoon: Distill, and maybe we can continue discussing this.
+
+268
+00:33:19.640 --> 00:33:27.550
+Justin Florentine (Besu): Yeah, along those lines, could we maybe run by ACD, you know, do we want to try to have…
+
+269
+00:33:27.900 --> 00:33:30.100
+Justin Florentine (Besu): more deterministic rules
+
+270
+00:33:30.900 --> 00:33:45.690
+Justin Florentine (Besu): Because I understand that the mempool itself is non-deterministic, right? You're never going to be able to view it, but if the heuristic itself was standardized, and I know that Marius and some other people on GetH have suggested that there's a very simple censorship detection algorithm.
+
+271
+00:33:45.860 --> 00:33:55.049
+Justin Florentine (Besu): Right? That everybody could implement the same way. And if they did that, then you would at least have enough reliability in a hive test that you could deterministically test over it, right?
+
+272
+00:33:55.280 --> 00:34:03.549
+Justin Florentine (Besu): Really, the only non-deterministic part of that scenario is, you know, mempool propagation, which we don't really care about in a Hive test.
+
+273
+00:34:07.460 --> 00:34:16.159
+Justin Florentine (Besu): So, a TLDR… How committed are we to having all the clients implement different heuristics for censorship detection?
+
+274
+00:34:22.710 --> 00:34:23.670
+Jihoon: Yeah, come on.
+
+275
+00:34:25.409 --> 00:34:30.759
+soispoke: Yeah, I think it's a good question. I think it's worth, like, discussing maybe a bit more, but…
+
+276
+00:34:31.049 --> 00:34:40.379
+soispoke: at the end of the day, I really don't think there is an objective function that actually allows to detect censorship, like, it's…
+
+277
+00:34:40.859 --> 00:34:43.989
+soispoke: It's always been heuristics, like, how…
+
+278
+00:34:44.259 --> 00:34:47.149
+soispoke: How many slots do you wait to basically…
+
+279
+00:34:47.379 --> 00:34:49.619
+soispoke: Say whether or not a transaction that's…
+
+280
+00:34:49.879 --> 00:34:55.769
+soispoke: been propagated is actually censored, like, I don't… I don't actually think there is, like, a… an exact metric
+
+281
+00:34:55.939 --> 00:35:00.029
+soispoke: Even, you know, where… when we had, like, the…
+
+282
+00:35:00.149 --> 00:35:09.629
+soispoke: OFAC sanctions and everything, and dashboards and everything, like, everyone was… it was actually a mess, because everyone was using their own metrics, so it was very hard to sort of, like.
+
+283
+00:35:09.879 --> 00:35:15.749
+soispoke: know exactly what was going on, and I think it's always gonna be the case, so…
+
+284
+00:35:16.629 --> 00:35:20.269
+soispoke: For me, like, different clients having different rules.
+
+285
+00:35:20.629 --> 00:35:23.309
+soispoke: Has the advantage of, like.
+
+286
+00:35:24.609 --> 00:35:39.599
+soispoke: yeah, it's just, like, a bit more difficult to try to game it. Like, when you really have, like, the same heuristic across clients, then it's easier to sort of, like, try to design around it. But, you know, in the future, we might move
+
+287
+00:35:39.769 --> 00:35:42.199
+soispoke: Towards some more coordination.
+
+288
+00:35:42.369 --> 00:35:48.079
+soispoke: Or more shared rules across clients, because we might want to deal with, you know.
+
+289
+00:35:48.379 --> 00:36:03.999
+soispoke: overlap explicitly, like, have, have, like, you know, certain… certain committee members look at certain transactions, and, and, like, so we want… we might want to sort of, like, move towards this, but, like, as a first sort of, like, safe heuristic, safe…
+
+290
+00:36:04.139 --> 00:36:05.229
+soispoke: first.
+
+291
+00:36:05.649 --> 00:36:15.669
+soispoke: try, I think, like, having slightly different rules makes sense. I'm not, like, against anything else, it's more, like, this was the thinking around it.
+
+292
+00:36:17.460 --> 00:36:23.110
+Justin Florentine (Besu): So why don't we just not cover it in the hive test, and make sure that it's covered elsewhere?
+
+293
+00:36:23.700 --> 00:36:26.780
+Justin Florentine (Besu): I don't know, I think that's potentially reasonable.
+
+294
+00:36:28.230 --> 00:36:31.179
+Justin Florentine (Besu): We'll see what PandaOps thinks about that, our testers.
+
+295
+00:36:32.150 --> 00:36:38.989
+Justin Florentine (Besu): Nico, I see you tagged me in chat, I'm… what are you referring to? You're referring to the override builder flag?
+
+296
+00:36:40.080 --> 00:36:51.049
+Nico Flaig: Yeah, so this is quite old, right? It's, like, 2 years ago. I looked at the back references, and it seems like only Nethermind has had the PR for this.
+
+297
+00:36:51.110 --> 00:37:03.350
+Nico Flaig: So I'm not even sure how useful this heuristic would be, or whether, like, ELs should just be kept simple, and you just put in based on priority fee, or whatever.
+
+298
+00:37:04.240 --> 00:37:09.780
+Nico Flaig: Because this is something ELs could already be doing, right? To override the builder.
+
+299
+00:37:18.570 --> 00:37:20.190
+Justin Florentine (Besu): I think I see it. Thank you.
+
+300
+00:37:26.240 --> 00:37:32.780
+Jihoon: Yeah, I'm gonna discuss this with Steele, and then bring this up in…
+
+301
+00:37:33.530 --> 00:37:37.439
+Jihoon: next All Core Devs call, so that we can get more input.
+
+302
+00:37:38.030 --> 00:37:38.830
+Jihoon: Yeah.
+
+303
+00:37:41.420 --> 00:37:42.830
+Jihoon: I wanna…
+
+304
+00:37:45.420 --> 00:37:55.240
+Jihoon: Ask about the empty transaction list. I mean, it is basically empty IL. Do we want to also filter out empty IL?
+
+305
+00:38:04.660 --> 00:38:06.399
+Fabio Di Fabio: What do you mean by filter out?
+
+306
+00:38:06.900 --> 00:38:13.429
+Fabio Di Fabio: That is not a valid… Output for Get Inclusion List.
+
+307
+00:38:14.710 --> 00:38:16.030
+Jihoon: on… oh, sorry.
+
+308
+00:38:16.280 --> 00:38:23.929
+Jihoon: On the SL, do you want to add a gossip rule that ignores any empty commercial list?
+
+309
+00:38:26.410 --> 00:38:27.769
+Justin Traglia: Right now, I'm thinking no.
+
+310
+00:38:28.190 --> 00:38:28.890
+Justin Traglia: Done.
+
+311
+00:38:29.670 --> 00:38:32.039
+Justin Traglia: That is a valid inclusion list, isn't it?
+
+312
+00:38:33.360 --> 00:38:35.229
+Justin Traglia: They just don't have any opinions.
+
+313
+00:38:39.560 --> 00:38:41.620
+Justin Florentine (Besu): Which seems like spam to me, but…
+
+314
+00:38:42.950 --> 00:38:47.430
+Justin Traglia: Yeah, I sort of agree. Er, sorry, it's… I'm a bit… I'm a little on the fence.
+
+315
+00:38:47.730 --> 00:38:48.490
+Justin Florentine (Besu): Okay.
+
+316
+00:38:48.940 --> 00:38:50.249
+Jihoon: Yeah, it might be a bug.
+
+317
+00:38:50.250 --> 00:38:59.700
+soispoke: It's spam, but it's… it's spam, but it's limited spam, right? Like, you can only, sort of, like, spam with 16 hires that…
+
+318
+00:39:01.270 --> 00:39:02.160
+soispoke: Max.
+
+319
+00:39:02.330 --> 00:39:03.790
+soispoke: Is that right?
+
+320
+00:39:05.170 --> 00:39:09.499
+Jihoon: Yeah, and you can spam it only if you're an encoder.
+
+321
+00:39:10.350 --> 00:39:11.080
+soispoke: Yeah, exactly.
+
+322
+00:39:14.600 --> 00:39:18.820
+soispoke: But it's… I mean, I agree, it's still a spam at the end of the day, it's not like…
+
+323
+00:39:19.030 --> 00:39:26.250
+soispoke: But it's… and maybe we want to be… it to be very clean, sort of, like, filter it out, so it just, like, never happens, but
+
+324
+00:39:26.430 --> 00:39:34.339
+soispoke: I'm just saying, it's like, it's not like it's a huge DAS risk for the network or anything, like, you would need, like, the 16 included to somehow
+
+325
+00:39:34.470 --> 00:39:35.930
+soispoke: all submit.
+
+326
+00:39:36.530 --> 00:39:40.300
+soispoke: Like, empty inclusion lists that are probably, like, if…
+
+327
+00:39:40.670 --> 00:39:45.660
+soispoke: Very light, in terms of bandwidth consumption, and…
+
+328
+00:39:46.140 --> 00:39:51.920
+soispoke: So, yeah, just trying to say it's not a huge risk, not that we… Don't need to…
+
+329
+00:39:52.230 --> 00:39:58.109
+Justin Florentine (Besu): And it's not terribly actionable either, right? Like, you're not gonna disconnect an IL committee member.
+
+330
+00:39:58.820 --> 00:40:03.489
+soispoke: Yeah. It doesn't really do anything.
+
+331
+00:40:05.550 --> 00:40:15.689
+Jihoon: How about from… approaching from… validity perspective, like NC said in the chat, the EL might…
+
+332
+00:40:16.610 --> 00:40:22.149
+Jihoon: if EL doesn't want to include any EL transaction, then it might send
+
+333
+00:40:22.380 --> 00:40:25.389
+Jihoon: an MTIL, or just send nothing.
+
+334
+00:40:25.700 --> 00:40:26.600
+Jihoon: So…
+
+335
+00:40:28.120 --> 00:40:36.029
+Jihoon: an empty… an IL being empty doesn't mean that it is invalid as of today, unless we add this new rule.
+
+336
+00:40:36.610 --> 00:40:44.920
+Jihoon: to put it differently, if an encoder sends an empty IL?
+
+337
+00:40:46.840 --> 00:40:55.069
+Jihoon: Technically, it did its duty, It's just… at… no value.
+
+338
+00:40:55.650 --> 00:41:00.139
+Jihoon: to… Do they have transactions?
+
+339
+00:41:00.690 --> 00:41:05.520
+Justin Florentine (Besu): But now you're building, like, a censorship watchdog, which… Maybe it's okay.
+
+340
+00:41:05.770 --> 00:41:11.959
+Justin Florentine (Besu): But you're taking the overhead of, like, a heartbeat that's kind of going out, saying, all good, all good, all good.
+
+341
+00:41:16.000 --> 00:41:18.179
+soispoke: I mean, I… I think it's…
+
+342
+00:41:18.450 --> 00:41:21.290
+soispoke: Yeah, you have two ways to look at it, I guess, like…
+
+343
+00:41:21.580 --> 00:41:28.289
+soispoke: First way is, like, it's worse for the network if you send something that's empty than not send anything, just because…
+
+344
+00:41:28.700 --> 00:41:36.800
+soispoke: I mean, the network still has to, like, process it and send it around, even if it's very light and doesn't really cause a lot of trouble.
+
+345
+00:41:37.510 --> 00:41:40.470
+soispoke: Meow.
+
+346
+00:41:40.570 --> 00:41:41.830
+soispoke: Like…
+
+347
+00:41:42.400 --> 00:41:49.020
+soispoke: I don't know. I would rather, like, people not sending anything if they just, like, don't want to do their duty, and we can flag it.
+
+348
+00:41:49.150 --> 00:41:54.979
+soispoke: And, like, use that to sort of, like, know who's censoring or not anyways, like, because it's very…
+
+349
+00:41:55.300 --> 00:41:57.160
+soispoke: obvious,
+
+350
+00:41:58.900 --> 00:42:17.039
+soispoke: Yeah, I guess, like, the only sort of, like, use case is, like, someone wanting to actually, sort of, like, signal that they are censoring. Like, there is no… there is no way there was a bug, and I was actually offline, and I couldn't do my duty, but I was, like… I actually advocate
+
+351
+00:42:17.190 --> 00:42:27.890
+soispoke: For… and I want to sort of, like, signal I'm censoring by sending empty inclusion lists all the time, but, yeah, it feels pretty niche.
+
+352
+00:42:30.640 --> 00:42:36.049
+Justin Traglia: I was thinking they would signal that there just aren't any transactions at the moment, but I'm still doing my duty.
+
+353
+00:42:37.980 --> 00:42:38.660
+Justin Traglia: different.
+
+354
+00:42:39.250 --> 00:42:40.059
+soispoke: Yeah, maybe.
+
+355
+00:42:40.060 --> 00:42:44.779
+Justin Traglia: It's not like it's recorded anywhere in the protocol, so what does it matter?
+
+356
+00:42:45.600 --> 00:42:46.170
+soispoke: Yeah.
+
+357
+00:42:52.770 --> 00:42:56.280
+Justin Traglia: If I need to give an opinion, I think I would…
+
+358
+00:42:56.440 --> 00:43:01.860
+Justin Traglia: lean towards adding an ignore statement for empty inclusion lists, June.
+
+359
+00:43:02.040 --> 00:43:02.820
+Justin Traglia: That would be mine.
+
+360
+00:43:05.760 --> 00:43:07.269
+Jihoon: I see. So…
+
+361
+00:43:13.330 --> 00:43:15.389
+Jihoon: We're gonna add to…
+
+362
+00:43:15.620 --> 00:43:23.399
+Jihoon: you gossip rules. One is checking whether any transaction is empty, and the second one is checking whether this enclosure list is empty.
+
+363
+00:43:24.600 --> 00:43:31.220
+Justin Traglia: Yep. To be clear, we would reject MT transactions and ignore MT inclusion lists. One is…
+
+364
+00:43:31.980 --> 00:43:35.379
+Justin Traglia: Feasibly valid, and the other is never valid.
+
+365
+00:43:35.970 --> 00:43:36.710
+Jihoon: Right.
+
+366
+00:43:36.710 --> 00:43:38.840
+Justin Florentine (Besu): Yeah, I'd say it's malformed, right?
+
+367
+00:43:40.040 --> 00:43:40.640
+Jihoon: Yep.
+
+368
+00:43:40.780 --> 00:43:41.500
+Jihoon: Yeah.
+
+369
+00:43:43.140 --> 00:43:44.630
+Jihoon: It's like, yeah.
+
+370
+00:43:44.820 --> 00:43:52.389
+Jihoon: easy… easy check that EL can do regarding transactions, validity.
+
+371
+00:43:57.080 --> 00:43:57.630
+Justin Traglia: Yep.
+
+372
+00:43:59.320 --> 00:44:05.039
+soispoke: I think it's maybe more of a high-level comment, so I'm not sure how actionable it is, but, like.
+
+373
+00:44:05.390 --> 00:44:09.690
+soispoke: One… maybe one design…
+
+374
+00:44:09.870 --> 00:44:14.709
+soispoke: Philosophy we would have here is, like, just trying to design it as if we had
+
+375
+00:44:14.870 --> 00:44:18.729
+soispoke: Rewards or penalties for… for inclus.
+
+376
+00:44:20.470 --> 00:44:28.739
+soispoke: Like, obviously, like, There is a world in which you could have penalties for not submitting
+
+377
+00:44:28.860 --> 00:44:31.860
+soispoke: A valid inclusion list, or something like this.
+
+378
+00:44:31.980 --> 00:44:33.850
+soispoke: So it feels nice to maybe, like.
+
+379
+00:44:34.010 --> 00:44:37.470
+soispoke: Even if we never end up doing this, but, like,
+
+380
+00:44:38.280 --> 00:44:40.379
+soispoke: Design with this in mind, so…
+
+381
+00:44:40.850 --> 00:44:44.459
+soispoke: If we need to plug it in later, like, we need to plug in…
+
+382
+00:44:44.780 --> 00:44:51.499
+soispoke: rewards and penalties later. We have, like, the sort of, like, infrastructure underlying it that is, like, sort of, like, clean and…
+
+383
+00:44:51.620 --> 00:44:54.410
+soispoke: And easy to build on for, for things.
+
+384
+00:44:57.370 --> 00:44:58.939
+Jihoon: That's really a good point.
+
+385
+00:45:00.540 --> 00:45:04.010
+Jihoon: But… In my opinion.
+
+386
+00:45:04.500 --> 00:45:07.470
+Jihoon: If you were to consider…
+
+387
+00:45:08.310 --> 00:45:16.320
+Jihoon: some incentive mechanism for encoder, then maybe we… it's better to accept empty encoder list?
+
+388
+00:45:18.670 --> 00:45:19.610
+Jihoon: Of course.
+
+389
+00:45:20.530 --> 00:45:28.860
+Jihoon: I don't know. It depends on how we design it. Like, if… if we distribute some incentive.
+
+390
+00:45:29.690 --> 00:45:40.230
+Jihoon: proportional to how many transactions in the IL is included in the payload, and how many other includeers also put it in there, so on and so forth.
+
+391
+00:45:40.550 --> 00:45:45.190
+Jihoon: Then maybe FDIL is, like… Yeah, go ahead.
+
+392
+00:45:45.650 --> 00:45:48.980
+Justin Traglia: That creates weird incentives, like, they may just,
+
+393
+00:45:49.570 --> 00:45:57.559
+Justin Traglia: Detect that they are an included in an upcoming slot, and then spam transactions, which they can then include themselves or something.
+
+394
+00:45:58.190 --> 00:45:59.040
+Justin Traglia: Right.
+
+395
+00:45:59.190 --> 00:45:59.930
+soispoke: Yeah, yeah.
+
+396
+00:46:00.080 --> 00:46:16.829
+soispoke: Yeah, I think, yeah, I really didn't want to get into the incentives question, I think it's very, very hard, but I guess my high-level take was more, like, if we need to sort of somehow design something on top of it, like, maybe that can be a guideline for how to sort of, like.
+
+397
+00:46:16.900 --> 00:46:28.159
+soispoke: implement these things, but I also agree, like, it… ultimately, it also very much depends on the exact type of rewards and penalties we want to get in. It was more like.
+
+398
+00:46:28.200 --> 00:46:29.110
+Justin Traglia: Yeah.
+
+399
+00:46:29.440 --> 00:46:31.540
+Justin Traglia: It's a good point to make.
+
+400
+00:46:31.580 --> 00:46:37.590
+Justin Florentine (Besu): I'm all for, like, designing towards something, which I think is how I would describe what Tama is suggesting.
+
+401
+00:46:37.850 --> 00:46:42.799
+Justin Florentine (Besu): However, in this particular problem space, I find it very difficult to imagine
+
+402
+00:46:43.800 --> 00:46:47.950
+Justin Florentine (Besu): Ways to accommodate incentives or punishments.
+
+403
+00:46:48.560 --> 00:46:53.580
+Justin Florentine (Besu): For a lot of these things, because there's so many… there's so many cases where we have to prove negatives.
+
+404
+00:46:53.740 --> 00:46:59.399
+Justin Florentine (Besu): And the thing that we're proving over is also non-deterministic, the memorable, right?
+
+405
+00:46:59.650 --> 00:47:04.410
+Justin Florentine (Besu): So I'm a little on the skeptical side that…
+
+406
+00:47:05.210 --> 00:47:11.189
+Justin Florentine (Besu): We will know in advance how to color our designs to move them toward
+
+407
+00:47:11.440 --> 00:47:16.110
+Justin Florentine (Besu): A world where we can reward or punish inclusors.
+
+408
+00:47:19.610 --> 00:47:23.250
+Jihoon: I see. Justin, do you want to add something?
+
+409
+00:47:24.110 --> 00:47:26.680
+Justin Traglia: Shh, sure, I mean, I was gonna say…
+
+410
+00:47:28.270 --> 00:47:39.100
+Justin Traglia: I mean, yeah, what you guys are saying makes sense, but I don't think that there are gonna be rewards for includeers in the foreseeable future, and if there are, we could just,
+
+411
+00:47:39.640 --> 00:47:44.570
+Justin Traglia: remove an empty inclusion list check in the future. Like, that's not too hard.
+
+412
+00:47:50.380 --> 00:47:52.510
+Jihoon: Yeah, that also makes sense. So,
+
+413
+00:47:57.140 --> 00:48:03.090
+Jihoon: Can I summarize that we are okay with adding this to emptiness checks?
+
+414
+00:48:03.370 --> 00:48:09.760
+Jihoon: Reject for empty transaction, and ignore for empty IL.
+
+415
+00:48:17.220 --> 00:48:18.640
+Justin Traglia: Yep, for me.
+
+416
+00:48:19.550 --> 00:48:20.620
+Jihoon: Thumbs ups.
+
+417
+00:48:22.300 --> 00:48:23.849
+Jihoon: Right. Cool.
+
+418
+00:48:24.230 --> 00:48:26.050
+Jihoon: Thank you very much,
+
+419
+00:48:27.470 --> 00:48:33.520
+Jihoon: This is all I had for spec discussion. Do we have any other comments or questions?
+
+420
+00:48:38.840 --> 00:48:39.840
+Jihoon: Yeah, Tala.
+
+421
+00:48:40.780 --> 00:48:46.540
+soispoke: Yeah, sorry, it wasn't in the agenda, but it's gonna be very fast. I just wanted to…
+
+422
+00:48:47.100 --> 00:48:55.340
+soispoke: flag this sort of, like, EIP that's still not merged, but, like, and there is a lot of you that have already sort of, like, looked at it and contributed.
+
+423
+00:48:55.710 --> 00:48:59.010
+soispoke: But, yeah, it will benefit from…
+
+424
+00:48:59.140 --> 00:49:06.349
+soispoke: more eyes from FOCIL experts, so for anyone that hasn't, sort of, like, seen it or looked at it, it's,
+
+425
+00:49:06.730 --> 00:49:08.840
+soispoke: It's an AP…
+
+426
+00:49:08.990 --> 00:49:21.750
+soispoke: that is mostly targeted at understanding how FOCIL and frames interact, and now that they are SFI'd, I think it would be nice to sort of, like, get input
+
+427
+00:49:23.340 --> 00:49:27.730
+soispoke: on… on that one. So, yeah, just, like…
+
+428
+00:49:35.300 --> 00:49:41.120
+Jihoon: Yep, awesome. Thanks for sharing. So, assuming that…
+
+429
+00:49:42.240 --> 00:49:48.890
+Jihoon: frame Transaction is gonna get SFI'd. We need to figure out… how…
+
+430
+00:49:49.330 --> 00:49:52.240
+Jihoon: Frame Transaction, and FOCIL we're gonna track.
+
+431
+00:49:52.470 --> 00:49:58.990
+Jihoon: And this is, proposed solution to enable the interaction.
+
+432
+00:49:59.520 --> 00:50:10.710
+Jihoon: As far as I know, ethrex is actively working on prototyping and… Back in this effort.
+
+433
+00:50:10.830 --> 00:50:16.699
+Jihoon: So… Please take a look if you are also interested.
+
+434
+00:50:17.340 --> 00:50:22.019
+Jihoon: And maybe we can also discuss it in, like, featured, breakouts.
+
+435
+00:50:22.610 --> 00:50:29.030
+Jihoon: Possible they have… Fossil and Frames, DevNet, like, a couple of months or something.
+
+436
+00:50:33.160 --> 00:50:35.799
+Justin Florentine (Besu): Frames, Breakout calls right after this one.
+
+437
+00:50:39.550 --> 00:50:41.609
+Jihoon: Indeed, in 10 minutes.
+
+438
+00:50:41.610 --> 00:50:50.549
+Justin Florentine (Besu): Is this VOPS thing? Is this, what we're using to refer to trying to not break the mempool with frames?
+
+439
+00:50:52.120 --> 00:50:55.939
+soispoke: No. VOPS is a validity-only partial state.
+
+440
+00:50:56.430 --> 00:51:11.019
+soispoke: So… yeah, it's basically the part of the state that will… that mempool… that mempool nodes will need to keep storing, just to make sure they can evaluate whether transactions are valid or not.
+
+441
+00:51:11.020 --> 00:51:11.500
+Justin Florentine (Besu): Yeah.
+
+442
+00:51:11.500 --> 00:51:24.009
+soispoke: So, with regular transactions, it's obviously quite easy, it's, like, basically non-s and balance. But, you know, with frames, it gets way, way more difficult. So it's trying to sort of, like, get around it, yeah.
+
+443
+00:51:24.010 --> 00:51:27.520
+Justin Florentine (Besu): Yeah, that's what I meant, okay. Yeah, this is a whole problem space.
+
+444
+00:51:28.160 --> 00:51:29.740
+soispoke: Yes, yes.
+
+445
+00:51:31.130 --> 00:51:31.900
+Justin Florentine (Besu): Huh?
+
+446
+00:51:37.240 --> 00:51:43.740
+Jihoon: Yeah, I guess… Frame Transaction Breakout might be busy with discussing with,
+
+447
+00:51:43.870 --> 00:51:48.879
+Jihoon: 81.30, so maybe we could use next Breakout to, you know.
+
+448
+00:51:50.560 --> 00:51:57.350
+Jihoon: go over this 8369, if Tom has some time, and maybe we can have some Q&A.
+
+449
+00:52:03.840 --> 00:52:06.549
+soispoke: Yeah, definitely, happy to.
+
+450
+00:52:08.350 --> 00:52:11.249
+Jihoon: Okay, great. Any other comments, or…
+
+451
+00:52:12.470 --> 00:52:13.540
+Jihoon: Questions?
+
+452
+00:52:30.030 --> 00:52:35.950
+Jihoon: All right, thank you everyone for joining. I'm gonna try local interop and see how it goes.
+
+453
+00:52:36.380 --> 00:52:43.380
+Jihoon: And, yeah, have a great rest of your day, and see you in two weeks.
+
+454
+00:52:44.960 --> 00:52:46.240
+soispoke: Thank you. Bye.
+
+455
+00:52:46.240 --> 00:52:47.110
+Mehdi Aouadi: Hi, everyone.
+
+456
+00:52:47.110 --> 00:52:48.160
+Fabio Di Fabio: Bye.
+
