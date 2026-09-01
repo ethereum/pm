@@ -1,0 +1,77 @@
+{
+  "meeting": "Frame Transaction Breakout #3 - September 1, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:05:31",
+        "highlight": "EIP-8141 SFI'd at last ACDE; native AA is absolute priority for Hegota fork"
+      },
+      {
+        "timestamp": "00:06:33",
+        "highlight": "Call moving to weekly cadence, then dialing back to bi-weekly as needed"
+      }
+    ],
+    "client_updates": [
+      {
+        "timestamp": "00:07:40",
+        "highlight": "Spec considered stable enough to target Frame DevNet 0 within ~1 week; Nethermind and ethrex ready now, Geth ready next week, Besu not ready (no ETA)"
+      },
+      {
+        "timestamp": "00:23:32",
+        "highlight": "ethrex launched permissioned public Frame Transactions testnet (faucet.frames.ethrex.xyz) and closed ethrex-only Hegota devnet (faucet.hegota.ethrex.xyz) with EIP-8250, EIP-8272, EIP-7805, EIP-7906, native UTXOs PoC, EIP-8369"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:13:19",
+        "highlight": "EIP-8272 (Recent Roots): lightclient proposes moving out of transaction envelope into a canonical frame/mempool rule, avoiding protocol change; gas cost and reorg safety discussed; no decision, offline follow-up requested"
+      },
+      {
+        "timestamp": "00:47:40",
+        "highlight": "Signature list removal proposed: replace outer signature list with a SIGNATURE frame mode pointing to a precompile; downside is 20 bytes per tx vs. 1 byte for scheme ID; community asked to weigh in async"
+      },
+      {
+        "timestamp": "00:58:43",
+        "highlight": "Max verified gas limit of 100K flagged as too low for ZK privacy use cases; Nethermind measured 236K needed for a single private pool withdrawal; 350K estimated for 4 nullifiers; limit is mempool-only and can be raised without an EIP"
+      }
+    ],
+    "eip_proposals_discussion": [
+      {
+        "timestamp": "00:26:18",
+        "highlight": "Chris (Base/8130) presented unified transaction type exploration: contract/precompile-first, frame-mode verify, selector handling to align 8130 keystore auth with 8141 code-as-authority; no concrete proposal, directional brainstorm"
+      },
+      {
+        "timestamp": "00:51:00",
+        "highlight": "EIP-8288 (STARK frame / LeanVM aggregation) discussed for PQ private txs; lightclient cautions against gating signature aggregation on ZK-EVM readiness; XMSS aggregation via LeanVM considered the near-term path"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:22:15",
+      "action": "Think offline on whether EIP-8272 Recent Roots should stay in the transaction envelope or move to a canonical frame/mempool rule; post findings to EIP-8141 R&D Discord channel",
+      "owner": "All teams (soispoke, Toni Wahrst\u00e4tter, lightclient)"
+    },
+    {
+      "timestamp": "01:03:37",
+      "action": "Review spec PRs linked in the PM issue (agenda); Nethermind running benchmarks to determine safe max verified gas limit above 100K",
+      "owner": "All teams; Nethermind"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:08:32",
+      "decision": "Frame DevNet 0 to launch within approximately one week, without waiting for Besu"
+    },
+    {
+      "timestamp": "01:02:04",
+      "decision": "100K max verified gas cap is a conservative starting point only; will be raised experimentally once devnets are running \u2014 no EIP required to adjust"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:03:04",
+      "target": "Frame DevNet 0 \u2014 targeting launch within ~1 week of September 1, 2026"
+    }
+  ]
+}

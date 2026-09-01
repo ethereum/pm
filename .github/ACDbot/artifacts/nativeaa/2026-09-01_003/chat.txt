@@ -1,0 +1,194 @@
+00:02:16	butta:	hello chat
+00:02:28	Stefan Starflinger:	hello
+00:02:32	marc | wolovim:	gm
+00:02:36	Chris - Base:	gm
+00:02:39	lightclient:	gm
+00:02:43	Iván | ethrex:	gm
+00:04:15	marc | wolovim:	https://github.com/ethereum/pm/issues/2206
+00:04:58	Derek Chiang | Ethlabs:	I believe Chris has some updates?
+00:05:17	Chris - Base:	Yes have a bit to share but wont need too much time
+00:11:36	lightclient:	i would be interested also in dropping eip-8250 in favor of just a canonical frame like we have for expiry
+00:11:45	Iván | ethrex:	Reacted to "i would be intereste..." with 👀
+00:12:31	Luca Donno | L2BEAT:	Reacted to "i would be interested also in dropping eip-8250 in favor of just a canonical frame like we have for expiry" with 👀
+00:12:54	lightclient:	Replying to "i would be intereste..."
+
+could stay in the eip, but just not be a core protocol change
+00:14:15	Toni Wahrstätter:	you meant eip-8272 (recent roots)
+00:14:19	Toni Wahrstätter:	8250 is keyed nonces
+00:18:01	Stefan Starflinger:	Reacted to "i would be intereste..." with 👀
+00:20:22	Robert MacWha:	It shouldn't be updated in the verify frame afaik
+00:20:27	Luca Donno | L2BEAT:	Reacted to "It shouldn't be updated in the verify frame afaik" with 👍
+00:20:32	Mo Jahanara:	Reacted to "It shouldn't be updated in the verify frame afaik" with 👍
+00:20:46	Chris - Base:	Reacted to "It shouldn't be up..." with 👍
+00:20:48	Robert MacWha:	Since updating requires additional storage access to recompute the root
+00:23:52	Iván | ethrex:	We've deployed a permissioned frames transactions testnet for people to test the feature and for clients to join permissionlessly (contact us for deposit tokens). We plan to maintain it until there's an EthPandaOps official devnet. All info in https://faucet.frames.ethrex.xyz
+We also have a Hegota devnet which includes more EIP implementations (EIP-8250, EIP-8272, EIP-7805, EIP-7906, a Native UTXOs PoC, and EIP-8369). This is currently a closed only-ethrex devnet. All info in https://faucet.hegota.ethrex.xyz
+00:24:10	Derek Chiang | Ethlabs:	Reacted to "We've deployed a permissioned frames transactions testnet for people to test the feature and for clients to join permissionlessly (contact us for deposit tokens). We plan to maintain it until there's an EthPandaOps official devnet. All info in https://faucet.frames.ethrex.xyz
+We also have a Hegota devnet which includes more EIP implementations (EIP-8250, EIP-8272, EIP-7805, EIP-7906, a Native UTXOs PoC, and EIP-8369). This is currently a closed only-ethrex devnet. All info in https://faucet.hegota.ethrex.xyz" with ❤️
+00:24:44	Luca Donno | L2BEAT:	Reacted to "We've deployed a permissioned frames transactions testnet for people to test the feature and for clients to join permissionlessly (contact us for deposit tokens). We plan to maintain it until there's an EthPandaOps official devnet. All info in https://faucet.frames.ethrex.xyz
+We also have a Hegota devnet which includes more EIP implementations (EIP-8250, EIP-8272, EIP-7805, EIP-7906, a Native UTXOs PoC, and EIP-8369). This is currently a closed only-ethrex devnet. All info in https://faucet.hegota.ethrex.xyz" with ❤️
+00:24:48	Sahil Vasava:	Reacted to "We've deployed a p..." with ❤️
+00:24:54	Kevaundray Wedderburn:	Reacted to "We've deployed a permissioned frames transactions testnet for people to test the feature and for clients to join permissionlessly (contact us for deposit tokens). We plan to maintain it until there's an EthPandaOps official devnet. All info in https://faucet.frames.ethrex.xyz
+We also have a Hegota devnet which includes more EIP implementations (EIP-8250, EIP-8272, EIP-7805, EIP-7906, a Native UTXOs PoC, and EIP-8369). This is currently a closed only-ethrex devnet. All info in https://faucet.hegota.ethrex.xyz" with ❤️
+00:24:58	Stefan Starflinger:	Reacted to "We've deployed a per..." with ❤️
+00:25:53	soispoke:	A réagi à "We've deployed a p..." avec ❤️
+00:26:00	Robert MacWha:	Reacted to We've deployed a per... with "❤️"
+00:26:39	soispoke:	A réagi à "It shouldn't be up..." avec 👍
+00:28:12	butta:	@Chris - Base could you share the excalidraw?
+00:31:07	Luca Donno | L2BEAT:	Is 7851 intended to go with 8141?
+00:31:17	soispoke:	ok just to clarify the 16 recent roots just mean a given txn can reference up to 16 already published roots (so what I said earlier wasn't correct) 
+
+and each referenced root must be checked against contract storage, which consumes gas
+
+but if we do a separate accounting for this so that it's not part of the verify gas it sounds good to me
+00:31:59	lightclient:	Replying to "Is 7851 intended to ..."
+
+right now i’m hoping for this instead of 7851, but principle is similar https://eips.ethereum.org/EIPS/eip-8298
+00:32:08	lightclient:	Reacted to "ok just to clarify the 16 recent roots just mean a given txn can reference up to 16 already published roots (so what I said earlier wasn't correct) 
+
+and each referenced root must be checked against contract storage, which consumes gas
+
+but if we do a separate accounting for this so that it's not part of the verify gas it sounds good to me" with 👍
+00:32:13	Luca Donno | L2BEAT:	Reacted to "right now i’m hoping for this instead of 7851, but principle is similar https://eips.ethereum.org/EIPS/eip-8298" with 🙏
+00:33:22	Mo Jahanara:	Reacted to "ok just to clarify the 16 recent roots just mean a given txn can reference up to 16 already published roots (so what I said earlier wasn't correct) 
+
+and each referenced root must be checked against contract storage, which consumes gas
+
+but if we do a separate accounting for this so that it's not part of the verify gas it sounds good to me" with 👍
+00:33:37	lightclient:	wait we can’t remove nonce
+00:35:09	lightclient:	Replying to "wait we can’t remove..."
+
+hmm i guess if you require the call in the frame to a system contract to handle it
+00:36:02	Luca Donno | L2BEAT:	Reacted to "ok just to clarify the 16 recent roots just mean a given txn can reference up to 16 already published roots (so what I said earlier wasn't correct) 
+
+and each referenced root must be checked against contract storage, which consumes gas
+
+but if we do a separate accounting for this so that it's not part of the verify gas it sounds good to me" with 👍
+00:36:49	Derek Chiang | Ethlabs:	@Chris - Base do you mind explaining again the purpose of:
+
+ selector 
+The AA precompile
+00:37:17	Kevaundray Wedderburn:	Reacted to "@Chris - Base do you mind explaining again the purpose of:
+
+ selector 
+The AA precompile" with 👍
+00:37:27	Derek Chiang | Ethlabs:	Can you share your screen?
+00:37:29	Derek Chiang | Ethlabs:	The excalidraw
+00:37:38	Taek Lee:	Reacted to "The excalidraw" with ❤️
+00:38:06	Derek Chiang | Ethlabs:	But isn’t the first 4 bytes of  frame.data  the selector?
+00:38:18	Taek Lee:	Reacted to "But isn’t the first 4 bytes of  frame.data  the selector?" with ➕
+00:38:21	Luca Donno | L2BEAT:	Reacted to "But isn’t the first 4 bytes of  frame.data  the selector?" with ➕
+00:43:05	lightclient:	how do clients feel about removing the signature list and instead having a frame mode SIGNATURE which can point to a precompile? i think ultimately the behavior will be quite similar, it should clean up the ARBITRARY handling. the main downside is every tx will need 20 bytes to select the signature scheme instead of 1
+00:43:43	Taek Lee:	Afaik SLOAD outside of tx.sender is blocked on VERIFY on public mempools we might need to waive that requirement to be compliant?
+00:44:05	Derek Chiang | Ethlabs:	Yeah we would need to relax that to also allowing associated storage, so account keys can be loaded from the keystore contract
+00:44:22	Guru:	Reacted to "Yeah we would need t..." with 👍
+00:44:25	Taek Lee:	Reacted to "Yeah we would need to relax that to also allowing associated storage" with 👍
+00:45:11	Kevaundray Wedderburn:	Replying to "@Chris - Base do you..."
+
+Nudge on the second point 🙂
+00:45:18	Taek Lee:	Reacted to "Nudge on the second point 🙂" with ➕
+00:47:21	Luca Donno | L2BEAT:	Replying to "how do clients feel ..."
+
+What would be the difference with a VERIFY frame? That it is pure?
+00:48:02	lightclient:	Replying to "how do clients feel ..."
+
+the difference is that we would elide the calldata in certain circumstances
+00:50:03	Luca Donno | L2BEAT:	Replying to "how do clients feel ..."
+
+Similarly to 8288? Maybe there is a way to unify it with the STARK frame?
+00:51:47	marc | wolovim:	Replying to "how do clients feel ..."
+
+8288: https://github.com/ethereum/EIPs/pull/11772
+00:52:16	soispoke:	we need something like 8288 for PQ private txns though
+00:52:23	Iván | ethrex:	Reacted to "we need something li..." with 👍
+00:52:50	Mo Jahanara:	I am not aware of any non-STARK-based aggregation for PQ-signatures that is practical, do you have any anything specific in mind?
+00:53:04	Luca Donno | L2BEAT:	Reacted to "I am not aware of any non-STARK-based aggregation for PQ-signatures that is practical, do you have any anything specific in mind?" with ➕
+00:53:19	Mo Jahanara:	Reacted to "we need something like 8288 for PQ private txns though" with 👍
+00:53:34	lightclient:	https://github.com/leanEthereum/leanVM
+00:53:58	Mega | Lambda:	https://github.com/leanEthereum/leanVM-b for the non-Poseidon version
+00:54:31	Mo Jahanara:	Makes sense.
+00:55:24	Chris - Base:	https://excalidraw.com/#json=RFLiIvDMfjJBbWARoJB9I,TjZXEhjMq_TdX6h0tJ1d6A
+00:55:38	Justin Zen:	Reacted to "https://excalidraw.com/#json=RFLiIvDMfjJBbWARoJB9I,TjZXEhjMq_TdX6h0tJ1d6A" with ❤️
+00:55:46	Guru:	Reacted to "https://excalidraw.c..." with ❤️
+00:55:50	lightclient:	Reacted to "https://excalidraw.com/#json=RFLiIvDMfjJBbWARoJB9I,TjZXEhjMq_TdX6h0tJ1d6A" with ❤️
+00:56:18	Derek Chiang | Ethlabs:	Yeah we will keep jamming on the collab ideas and post public updates
+00:56:19	Kevaundray Wedderburn:	leanVM is a zkVM so I think you can do general compute fwiw. Agree that currently it is purpose built for xmss which is the signature scheme being used on the CL, but it may not be efficient for the signature schemes being used on the EL
+00:56:39	kass:	Reacted to "leanVM is a zkVM so I think you can do general compute fwiw. Agree that currently it is purpose built for xmss which is the signature scheme being used on the CL, but it may not be efficient for the signature schemes being used on the EL" with 👍
+00:56:42	Luca Donno | L2BEAT:	Reacted to "leanVM is a zkVM so I think you can do general compute fwiw. Agree that currently it is purpose built for xmss which is the signature scheme being used on the CL, but it may not be efficient for the signature schemes being used on the EL" with 👍
+00:56:52	soispoke:	A réagi à "leanVM is a zkVM s..." avec 👍
+00:56:52	Mo Jahanara:	Reacted to "leanVM is a zkVM so I think you can do general compute fwiw. Agree that currently it is purpose built for xmss which is the signature scheme being used on the CL, but it may not be efficient for the signature schemes being used on the EL" with 👍
+00:57:06	Pablo Deymo | Lambda:	Reacted to "https://github.com/leanEthereum/leanVM-b for the non-Poseidon version" with ❤️
+00:57:32	Luca Donno | L2BEAT:	Replying to "leanVM is a zkVM so ..."
+
+Let’s say the zkEVM is “risky”, 8288 could ship just with leanVM too right?
+00:57:34	lightclient:	Replying to "leanVM is a zkVM so ..."
+
+not a zkEVM though, so wouldn’t be able to compress the frame
+00:58:20	Mo Jahanara:	Is there time for one misc. question?
+00:58:35	Kevaundray Wedderburn:	Replying to "leanVM is a zkVM so ..."
+
+I usually define a zkEVM as “zkVM + program” at least thats the modern definition
+00:58:57	Kevaundray Wedderburn:	Replying to "leanVM is a zkVM so ..."
+
+Yep @Luca Donno | L2BEAT but we are looking to make leanVM use RISC-V ISA
+00:59:07	soispoke:	can you share the analysis?
+00:59:12	Iván | ethrex:	Reacted to "Yep @Luca Donno | L2..." with 👀
+00:59:26	lightclient:	Replying to "leanVM is a zkVM so ..."
+
+but the program for evm is quite complicated?
+00:59:29	Robert MacWha:	300k would be great
+00:59:54	Iván | ethrex:	We opted to do it configurable, but 100k by default
+01:00:14	soispoke:	we need benchmarks basically but this is a known issue
+01:00:14	Luca Donno | L2BEAT:	Replying to "leanVM is a zkVM so ..."
+
+To me the zkEVM is the stateless EVM program that runs on the zkVM. But any program + zkVM could also exist without the native EVM program being available
+01:00:22	lightclient:	i dont think people should build alt mempools 😅
+01:00:32	Luca Donno | L2BEAT:	Replying to "leanVM is a zkVM so ..."
+
+For privacy pools, rollups etc
+01:00:48	Luca Donno | L2BEAT:	Reacted to "Yep @Luca Donno | L2BEAT but we are looking to make leanVM use RISC-V ISA" with 🔥
+01:01:02	Derek Chiang | Ethlabs:	Replying to "https://excalidraw.c..."
+
+Hmm this is empty for me
+01:01:03	Iván | ethrex:	Replying to "i dont think people ..."
+
+Agreed, it is a temporary solution to test stuff
+01:01:08	lightclient:	Reacted to "Agreed, it is a temporary solution to test stuff" with 👍
+01:01:15	soispoke:	it doesn't require other EIPs to adjust a parameter
+01:01:18	soispoke:	A réagi à "Agreed, it is a te..." avec 👍
+01:01:20	Taek Lee:	It tries to override your existing diagram so you should accept that
+01:01:24	kass:	if 100k is exceedingly conservative, 250k + means we can do private tx use cases — how hard would it be to consider that
+01:01:27	Toni Wahrstätter:	It wouldn't require and EIP to adjust and can be done stepwise
+01:01:30	Derek Chiang | Ethlabs:	Replying to "https://excalidraw.c..."
+
+Ok I got it to work I think; thanks
+01:01:38	Iván | ethrex:	Reacted to "if 100k is exceeding..." with 🤝
+01:01:42	Kevaundray Wedderburn:	Replying to "leanVM is a zkVM so ..."
+
+Yep agree, was mainly just separating the two concepts.
+
+Ie we have the zkVMs: leanVM, SP1, ZisK etc
+
+Then we have the thing that they are proving, if this program is the EL STF, then we call it a zkEVM.
+
+So leanVM + EL STF = zkEVM and SP1 + EL STF = zkEVM
+01:01:57	kass:	Reacted to "It wouldn't require and EIP to adjust and can be done stepwise" with 👍
+01:02:20	Kevaundray Wedderburn:	Replying to "leanVM is a zkVM so ..."
+
+Its a bit confusing because what we have been calling leanVM so far is the VM + the signature aggregation program
+01:02:30	Luca Donno | L2BEAT:	Reacted to "Its a bit confusing because what we have been calling leanVM so far is the VM + the signature aggregation program" with 😁
+01:02:41	Kevaundray Wedderburn:	Reacted to "To me the zkEVM is the stateless EVM program that runs on the zkVM. But any program + zkVM could also exist without the native EVM program being available" with 👍
+01:02:42	Luca Donno | L2BEAT:	Replying to "leanVM is a zkVM so ..."
+
+TIL
+01:02:43	Kevaundray Wedderburn:	Reacted to "For privacy pools, rollups etc" with 👍
+01:02:50	Kevaundray Wedderburn:	Reacted to "TIL" with 😁
+01:02:57	Daniil Ankushin | Nethermind:	For us 236k is minimum gas required for verification frame for private pool withdrawal
+01:03:14	soispoke:	A réagi à "For us 236k is min..." avec 👍
+01:03:14	Taek Lee:	Reacted to "For us 236k is minimum gas required for verification frame for private pool withdrawal" with 🫢
+01:03:24	kass:	Reacted to "For us 236k is minimum gas required for verification frame for private pool withdrawal" with 👍
+01:03:25	Mo Jahanara:	Reacted to "For us 236k is minimum gas required for verification frame for private pool withdrawal" with 👍
+01:03:29	Luca Donno | L2BEAT:	Reacted to "For us 236k is minimum gas required for verification frame for private pool withdrawal" with 🙏
+01:03:41	Mo Jahanara:	Realistically 350 is required if we have up to 4 nullifiers
+01:03:52	Chris - Base:	Thanks all!
+01:03:54	kass:	Reacted to "Realistically 350 is required if we have up to 4 nullifiers" with 👍
