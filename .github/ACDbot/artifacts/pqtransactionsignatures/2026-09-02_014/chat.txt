@@ -1,0 +1,36 @@
+00:02:37	Antonio Sanso:	TG channel
+https://t.me/+ozVdiAeQleBhZDg0
+00:09:49	soispoke:	it's SFI'd now :)
+00:10:21	soispoke:	so "scheduled", not "considered" (CFI'd)
+00:15:49	Justin Florentine (Besu):	proof of work is back baby
+00:16:31	T. Wambsgans:	I would say the main drawback is keygen. Caching the intermediate nodes in the Merkle tree can drastically reduce signing
+00:19:42	Simon Masson:	the main cost in a ledger implementation is in the key generation. what is the benchmark in this case?
+00:23:53	Manuel Arto:	is SPHINC (minus) non-FIPS compliant? Could this be a problem for instituion smart wallet migration to PQ?
+00:25:05	ooooooo [OKX]:	Secp256k1 was nvr fips compliant either
+00:29:21	Matteo Vena | Riva Labs:	What’s the signature budget?
+00:29:58	Nico:	So actually yes k1 was never fips
+00:30:29	Nico:	But I do have a FIPS compliant variant in the spgincs minus repo. It requires a big signer tho, like an HSM
+00:31:00	Matteo Vena | Riva Labs:	thanks
+00:31:06	Nico:	But FIPS compliance means you are using a FIPS compliant signer and no hardware is FIPS you need industrial grade HSM
+00:31:24	Post Quantum FBI:	This is not how it works. Ledger rederives key material at each power up from the seed.
+
+This mean that switching profiles would require this amount of time.
+00:31:47	Nico:	So chasing FIPS compliance is much harder than expected and probably not something for regular consumers
+00:33:35	ooooooo [OKX]:	There is Hax for Rust iirc
+00:35:15	Simon Masson:	Agreed with Post Quantum FBI, that's why I was asking the keygen benchmark because its 'kind of included' in the signing time in practice.
+00:36:26	Simon Masson:	So this number should be included in the signing time (in practice), if keygen is done at every signing step.
+00:37:34	Nico:	Amazing thanks a loot
+00:37:35	Post Quantum FBI:	Nice (test boards) !
+00:38:26	T. Wambsgans:	you can cache (1 KiB) is enough the Merkle intermediate nodes. Cache is not secret
+00:38:36	Justin Florentine (Besu):	so it stores the seed and re-derives on demand?
+00:39:10	Simon Masson:	yes Justin
+00:39:19	Justin Florentine (Besu):	Reacted to "yes Justin" with 🙏
+00:39:20	Post Quantum FBI:	how do you manage your 10 profiles in Rabby ? All precomputed ?
+00:39:39	Nico:	You can indeed use the persistent ram to store the merkle in cache
+00:43:14	Nico:	Fable for the win
+00:44:00	Simon Masson:	Reacted to "Fable for the win" with 😂
+00:45:31	Post Quantum FBI:	This is AMAZING.
+00:46:17	Simon Masson:	22 cents
+00:47:12	Simon Masson:	Do you have gas cost for a full verification including the expansion of the key?
+00:49:33	Simon Masson:	yes, agreed on this :-)
+00:49:59	Stefano:	Thank you everyone! See you in w2
