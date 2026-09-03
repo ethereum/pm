@@ -1,0 +1,786 @@
+WEBVTT
+
+1
+00:01:04.560 --> 00:01:06.060
+Toni Wahrstätter: GM, GM.
+
+2
+00:04:58.870 --> 00:05:00.250
+Parithosh Jayanthi: Hello, everyone.
+
+3
+00:05:22.600 --> 00:05:26.629
+Parithosh Jayanthi: Let's give people another minute to join, and then we can start.
+
+4
+00:06:09.120 --> 00:06:12.150
+Parithosh Jayanthi: Okay, let's get started.
+
+5
+00:06:12.400 --> 00:06:15.930
+Parithosh Jayanthi: We don't have a crazy agenda today, so…
+
+6
+00:06:16.200 --> 00:06:20.779
+Parithosh Jayanthi: Let's get, the first point on the agendas.
+
+7
+00:06:21.210 --> 00:06:22.690
+Parithosh Jayanthi: DevNet updates?
+
+8
+00:06:23.140 --> 00:06:31.689
+Parithosh Jayanthi: Do we have… maybe, Stefan, do you want to talk about, the non-finality DevNets, or DevNet 9 and status right now?
+
+9
+00:06:32.410 --> 00:06:35.980
+Stefan Starflinger: Yesher, so we had yesterday
+
+10
+00:06:36.170 --> 00:06:40.379
+Stefan Starflinger: The fork on the non-finality definite with a thousand nodes.
+
+11
+00:06:40.580 --> 00:06:48.000
+Stefan Starflinger: Where we had, some clients that didn't do too well, and the net is currently not finalizing.
+
+12
+00:06:48.260 --> 00:06:52.560
+Stefan Starflinger: So we had, Prysm that failed the state transition.
+
+13
+00:06:52.920 --> 00:06:55.089
+Stefan Starflinger: For Gloas.
+
+14
+00:06:55.250 --> 00:07:02.820
+Stefan Starflinger: We also had, Grandine, that had some, live lock, and it went out of memory.
+
+15
+00:07:03.180 --> 00:07:08.649
+Stefan Starflinger: We also had Teku, which, had a memory, starvation.
+
+16
+00:07:08.820 --> 00:07:13.890
+Stefan Starflinger: Where then canonical blocks were marked, as bad.
+
+17
+00:07:14.110 --> 00:07:20.120
+Stefan Starflinger: Which also then caused, subsequent issues with dropping attestations.
+
+18
+00:07:20.470 --> 00:07:25.109
+Stefan Starflinger: We also had some issues on our side, so we had,
+
+19
+00:07:25.300 --> 00:07:29.580
+Stefan Starflinger: builder nodes, because they're subscribed to all, DevNets.
+
+20
+00:07:29.790 --> 00:07:41.110
+Stefan Starflinger: that they also ran out of memory, so right now I'm looking either to bump the builder nodes or to reduce the subnet subscriptions for them.
+
+21
+00:07:41.510 --> 00:07:45.480
+Stefan Starflinger: But, in general, I think…
+
+22
+00:07:45.600 --> 00:07:51.130
+Stefan Starflinger: Having such a big network, really showed that there are still quite a few
+
+23
+00:07:51.280 --> 00:07:54.380
+Stefan Starflinger: Edge cases and issues that we need to address.
+
+24
+00:07:55.960 --> 00:07:58.400
+Stefan Starflinger: That's for the NFF.net.
+
+25
+00:07:58.980 --> 00:08:03.239
+Stefan Starflinger: And for definite AIDS, there was a big finding
+
+26
+00:08:03.500 --> 00:08:13.480
+Stefan Starflinger: As well, where if you would, propose a block with the same hash as the parent.
+
+27
+00:08:13.770 --> 00:08:17.399
+Stefan Starflinger: You could get the whole network to stop.
+
+28
+00:08:17.810 --> 00:08:26.390
+Stefan Starflinger: Which I think Lodestarr already fixed, but I think, Lighthouse and some other clients, they don't have the exact same issue, but they do have
+
+29
+00:08:26.950 --> 00:08:32.150
+Stefan Starflinger: Something to look at there, and we also have a spec Change for it already.
+
+30
+00:08:33.650 --> 00:08:49.980
+Parithosh Jayanthi: Yeah, do we maybe want to take it, step by step? I'm not sure if there's anything to be discussed with the Nethermind. I don't Prism, is that something you guys want to discuss, or should we just first figure out what's going on, and then…
+
+31
+00:08:50.730 --> 00:08:51.840
+Parithosh Jayanthi: Do a desync.
+
+32
+00:08:51.840 --> 00:09:01.339
+potuz: I think on our side, it's kind of clear. We are running a branch that shouldn't be run. We don't have the latest spec changes in develop if we run either
+
+33
+00:09:01.960 --> 00:09:10.180
+potuz: Either Trent' branch or the DevNet 8 branch, that would work. Develop doesn't work until it needs a PR to be approved and merged.
+
+34
+00:09:10.530 --> 00:09:14.399
+Parithosh Jayanthi: Yeah, but did you check my Kurtosis config? It works.
+
+35
+00:09:14.400 --> 00:09:30.689
+potuz: No, I just got it a few minutes ago, and I just don't believe that Develop can work. Develop actively does not have the latest changes to Alpha 14. I… we never expected Develop to fork at no point.
+
+36
+00:09:33.850 --> 00:09:35.460
+Parithosh Jayanthi: Okay,
+
+37
+00:09:36.400 --> 00:09:48.619
+Parithosh Jayanthi: How do we now proceed? What do we do here? Should I wipe the node, run DevNet 8? What's the… what's the strategy we use to recover it? And do we just want to get rid of the network and start fresh, or what's the plan?
+
+38
+00:09:49.040 --> 00:09:50.840
+potuz: Booth, I mean…
+
+39
+00:09:51.080 --> 00:10:08.040
+potuz: I don't believe that Prism alone would prevent finality, right? So we're not 33% of the network, so the network should finalize without Prism. If you want to get Prism in, you can either, spin up a DevNet 8, image, and it should catch up.
+
+40
+00:10:08.560 --> 00:10:19.159
+potuz: Or, just keep it as is, not finalizing, it's a small network, and until… and wait until Trent SPR merges and just been developed.
+
+41
+00:10:19.270 --> 00:10:25.640
+potuz: Both of them should work. Even Terrence's branch on the pull request also should work.
+
+42
+00:10:26.780 --> 00:10:28.860
+potuz: It's just that develop itself.
+
+43
+00:10:29.250 --> 00:10:31.440
+potuz: Doesn't really have those changes.
+
+44
+00:10:34.380 --> 00:10:39.080
+Parithosh Jayanthi: Okay, I'll, I guess, decide after, should we…
+
+45
+00:10:39.210 --> 00:10:43.700
+Parithosh Jayanthi: Okay, we can… we can take a call on how we want to proceed on the network once it's fixed, I guess.
+
+46
+00:10:44.560 --> 00:10:50.800
+Parithosh Jayanthi: Next item on the agenda, should we discuss the consensus specs change?
+
+47
+00:10:51.040 --> 00:10:55.849
+Parithosh Jayanthi: Does someone want to introduce what this fixes? I guess Nico, if it's your PR?
+
+48
+00:11:01.750 --> 00:11:09.040
+Nico Flaig: Yeah, so it just adds a simple check, to make sure the block hash doesn't match the parent block hash.
+
+49
+00:11:09.270 --> 00:11:10.640
+Nico Flaig: That's basically it.
+
+50
+00:11:16.330 --> 00:11:20.359
+Parithosh Jayanthi: Okay, I guess this means there'll be another spec release, right?
+
+51
+00:11:22.070 --> 00:11:24.029
+Justin Traglia: Yep, sometime this week.
+
+52
+00:11:26.570 --> 00:11:34.439
+Parithosh Jayanthi: Is the implementation of that easy for clients, or, I guess, how do we… how do you want to proceed with this change?
+
+53
+00:11:48.600 --> 00:11:56.330
+Parithosh Jayanthi: Okay, cool. That seems like it's not a big blocker. As soon as the changes are in, just let us know and we can,
+
+54
+00:11:56.830 --> 00:12:02.129
+Parithosh Jayanthi: We can merge it in on the DevNet 8 releases, or the DevNet 8 images as well.
+
+55
+00:12:03.910 --> 00:12:11.199
+Parithosh Jayanthi: Anything else on the CL side that we need to discuss, DevNet 8 or DevNet 9 related?
+
+56
+00:12:21.760 --> 00:12:33.859
+Parithosh Jayanthi: Okay, just maybe as a side note, I do think we'd probably need a DevNet 10, also because we would want to see at least one stable transition without any clients having any issues.
+
+57
+00:12:34.090 --> 00:12:53.240
+Parithosh Jayanthi: We'd probably plan that sometime next week if the images work out for everyone. We also wanted, Optimism to test on DevNet9, but yeah, with the non-finality, the test is kind of not useful for them. And I'm assuming Lido would also like to join if we have another DevNet next week.
+
+58
+00:12:57.330 --> 00:13:19.630
+Parithosh Jayanthi: Cool. Do we have Maria on the call? There was a topic, that she brought up on ACDT about a couple of EIPs that could still change AD37. It's off-band for ACDC, of course, but just because of the critical timing of things, we wanted to ratify a decision today, rather than waiting for the next ACDE
+
+59
+00:13:20.230 --> 00:13:21.690
+Parithosh Jayanthi: Yeah, Maria?
+
+60
+00:13:22.610 --> 00:13:38.830
+Maria Silva: Hi, hello. So very quickly, this was something that was initially discussed in ACDT. The context is Pavel found a bug in, AD37, so the state's, growth EIP
+
+61
+00:13:39.170 --> 00:13:47.770
+Maria Silva: And there was the question of, should we fix it or not? And since then, we…
+
+62
+00:13:48.360 --> 00:13:57.950
+Maria Silva: had GetH and Erigon implementing a fix, and it was tested on DevNet 8, so, Stefan was able to
+
+63
+00:13:58.210 --> 00:14:06.269
+Maria Silva: add these to clients and have them sync. So it should be safe to deploy on DevNet 8 and shouldn't lead us to…
+
+64
+00:14:06.500 --> 00:14:08.679
+Maria Silva: A fork delay.
+
+65
+00:14:08.870 --> 00:14:19.159
+Maria Silva: so, with this, I asked, all clients, in Discord, and, essentially the results were…
+
+66
+00:14:19.290 --> 00:14:27.720
+Maria Silva: everyone was okay with moving on with the change, so Erigon and Geth supported.
+
+67
+00:14:27.790 --> 00:14:47.690
+Maria Silva: Reth and Nethermind said they would not oppose the majority and eat Reth, and, Besu, they are also, in support. And so I think the… the final decision is to go with this change, so the next steps would be merging the spec change that,
+
+68
+00:14:48.270 --> 00:14:54.560
+Maria Silva: That's, Sorry, I'm having a blank, so, merging the
+
+69
+00:14:54.690 --> 00:15:00.510
+Maria Silva: The new spec change, and then having clients, implement their fixes, and having
+
+70
+00:15:00.710 --> 00:15:04.649
+Maria Silva: everyone deploying on DevNet 8.
+
+71
+00:15:05.330 --> 00:15:07.660
+Maria Silva: Am I missing anything, or…
+
+72
+00:15:08.440 --> 00:15:10.340
+Maria Silva: Does this look good?
+
+73
+00:15:14.450 --> 00:15:23.739
+Parithosh Jayanthi: That looks good on my end. Is there any objection from EL teams, or everyone's in agreement? It seems like a yes from…
+
+74
+00:15:24.120 --> 00:15:26.529
+Parithosh Jayanthi: Ket, for sure, and ethrex?
+
+75
+00:15:27.120 --> 00:15:31.320
+Ben Adams: Sorry, what would be the date we'd need this change ready for?
+
+76
+00:15:35.750 --> 00:15:41.449
+Parithosh Jayanthi: I guess it would just… if it doesn't break on the DevNet, we can roll it out as soon as every client has it.
+
+77
+00:15:41.990 --> 00:15:48.280
+Parithosh Jayanthi: We would probably want to just sequence it such that it happens roughly in the same Epochs or so.
+
+78
+00:15:48.960 --> 00:15:50.340
+Ben Adams: Okay, no problem.
+
+79
+00:15:50.340 --> 00:15:50.880
+Parithosh Jayanthi: Yeah.
+
+80
+00:15:52.710 --> 00:15:55.789
+Parithosh Jayanthi: But yeah, you'd probably want to wait for the release anyway, so…
+
+81
+00:16:04.270 --> 00:16:07.139
+Parithosh Jayanthi: Okay, perfect. Thank you so much.
+
+82
+00:16:09.550 --> 00:16:18.199
+Parithosh Jayanthi: Yeah, okay, I think that should be good. Thanks, Maria. Is there anything else for the EIP change, or the 8037 change?
+
+83
+00:16:22.470 --> 00:16:24.259
+Maria Silva: Not from my side.
+
+84
+00:16:27.510 --> 00:16:31.540
+Parithosh Jayanthi: Okay, yeah, thank you for coordinating everything on short notice.
+
+85
+00:16:31.830 --> 00:16:33.899
+Parithosh Jayanthi: And thanks to the client teams as well.
+
+86
+00:16:34.660 --> 00:16:45.630
+Parithosh Jayanthi: Next item on the agenda was, EnginePI SSZ migration. Do we have… Marius, maybe you want to give an update on how that's going?
+
+87
+00:16:46.040 --> 00:16:46.869
+Marius Van Der Wijden (M): Nope.
+
+88
+00:16:47.120 --> 00:16:55.970
+Marius Van Der Wijden (M): We, merged the spec, yesterday, so it's now an upstream,
+
+89
+00:16:56.730 --> 00:17:01.339
+Marius Van Der Wijden (M): master of the execution APIs.
+
+90
+00:17:01.700 --> 00:17:08.250
+Marius Van Der Wijden (M): So, yeah, we decided to merge the specification so we can start iterating on it.
+
+91
+00:17:08.650 --> 00:17:19.160
+Marius Van Der Wijden (M): If we need to, but, yeah, now we have a shared spec that everyone can implement, and see if there are…
+
+92
+00:17:19.430 --> 00:17:23.560
+Marius Van Der Wijden (M): smaller changes that we should do to the spec.
+
+93
+00:17:25.390 --> 00:17:36.779
+Marius Van Der Wijden (M): Yeah, I think that's kind of the state. I don't really see the urgency why this was pushed so hard, over the last couple of weeks, but,
+
+94
+00:17:36.970 --> 00:17:37.840
+Marius Van Der Wijden (M): Yeah.
+
+95
+00:17:44.810 --> 00:17:48.639
+Parithosh Jayanthi: Okay, thanks for the update.
+
+96
+00:17:50.020 --> 00:17:54.410
+Parithosh Jayanthi: I think the… Do we have anything else Glamsterdam-related?
+
+97
+00:17:55.400 --> 00:17:58.850
+Parithosh Jayanthi: I don't think we had anything else on the agenda, at least right now.
+
+98
+00:18:08.150 --> 00:18:08.980
+Parithosh Jayanthi: Okay.
+
+99
+00:18:09.190 --> 00:18:17.719
+Parithosh Jayanthi: Yeah, sorry, Kev is asking if the SSZ specs are implementable by clients.
+
+100
+00:18:23.610 --> 00:18:24.270
+Marius Van Der Wijden (M): Sure.
+
+101
+00:18:25.520 --> 00:18:27.380
+Marius Van Der Wijden (M): No, no, it's implementable.
+
+102
+00:18:29.510 --> 00:18:32.840
+Marius Van Der Wijden (M): It's implementable, and maybe there will be something
+
+103
+00:18:33.280 --> 00:18:39.160
+Marius Van Der Wijden (M): like, smaller changes coming up, but I think the bigger picture looks pretty okay.
+
+104
+00:18:46.650 --> 00:18:47.639
+Parithosh Jayanthi: Okay, awesome.
+
+105
+00:18:48.510 --> 00:18:51.630
+Parithosh Jayanthi: Anything else for Glamsterdam? Last call?
+
+106
+00:18:55.490 --> 00:19:00.019
+Parithosh Jayanthi: Okay, next item on the agenda was, Hegota.
+
+107
+00:19:00.680 --> 00:19:05.599
+Parithosh Jayanthi: We just have one… comment, from…
+
+108
+00:19:06.340 --> 00:19:15.069
+Parithosh Jayanthi: I'm not sure who this is, about, execution spec PRs, EIP rewrite, and some validation for quick slots.
+
+109
+00:19:15.450 --> 00:19:16.960
+Parithosh Jayanthi: It's…
+
+110
+00:19:17.120 --> 00:19:26.440
+Parithosh Jayanthi: already been PFI'd, so I'm not sure it's worth discussing, implementation changes right now, so I will just leave the…
+
+111
+00:19:26.760 --> 00:19:33.319
+Parithosh Jayanthi: link to the comment in case someone wants to engage with it. I guess Ether and D is the right place to engage that.
+
+112
+00:19:35.800 --> 00:19:48.450
+Parithosh Jayanthi: And there's also an update from another account, also not sure who this is, about updates to EIP8148 and EIP8205.
+
+113
+00:19:49.010 --> 00:19:54.630
+Parithosh Jayanthi: They also have a website for it. I would assume…
+
+114
+00:19:56.450 --> 00:20:03.980
+Greg K | Lido: Yeah, this is from me. Yeah, is that okay just to provide an update on this, like, for 2 minutes?
+
+115
+00:20:03.980 --> 00:20:04.989
+Parithosh Jayanthi: Okay, please go.
+
+116
+00:20:04.990 --> 00:20:12.019
+Greg K | Lido: Yeah, so those, two EIPs are both, proposed for inclusion for, Hegota.
+
+117
+00:20:12.030 --> 00:20:31.800
+Greg K | Lido: So yeah, the only thing that I wanted to give an update, since we are, during the window of, you know, considering, the proposed EIPs, so that, just to give an update here, that, like, on the status, for both of them.
+
+118
+00:20:32.890 --> 00:20:51.759
+Greg K | Lido: So, for, EIP… so, yeah, I will also paste here, actually, this text from the agenda, but, so EIP8148 is about having custom sweep thresholds for 002 validators, meaning, the validators will not be forced to use
+
+119
+00:20:51.760 --> 00:21:16.709
+Greg K | Lido: 2,048 ETH as their script threshold, but they can be flexible on that. So, about this EIP, the EIP is updated. The specs are on a featured brand, like, on a feature folder on the Ethereum Consensus specs, and we also have, a draft POC implementation
+
+120
+00:21:16.710 --> 00:21:31.029
+Greg K | Lido: from Prysm, and also the tests are ready, the PR is there, but it was closed because it's not yet CFI. So, in case the EIP gets considered for inclusion, then the tests are already there.
+
+121
+00:21:32.160 --> 00:21:49.600
+Greg K | Lido: And, so, yeah, any… basically, any question or any kind of comment here, is welcome. And similarly for, EIP8205, which is introducing, withdrawal credential pre-registration for, validators.
+
+122
+00:21:49.600 --> 00:21:59.819
+Greg K | Lido: So similarly, there is an updated version of the EIP, and there is also a feature, next spec on the Consensus specs.
+
+123
+00:21:59.820 --> 00:22:01.280
+Greg K | Lido: available.
+
+124
+00:22:01.280 --> 00:22:09.029
+Greg K | Lido: And, similarly, like, a system contract, PR is already open. So…
+
+125
+00:22:09.260 --> 00:22:17.620
+Greg K | Lido: Again, like, whatever comment you have, so most of the work has been already done, and yeah, client teams are welcome.
+
+126
+00:22:17.620 --> 00:22:31.849
+Greg K | Lido: To take a look and give feedback and make estimations, like, on the complexity, or, like, reach out to us, with any comments or questions for the next two weeks, since, like, in two weeks we expect to have this kind of first discussion on the…
+
+127
+00:22:31.850 --> 00:22:36.789
+Greg K | Lido: CFI or, DFI, decisions.
+
+128
+00:22:36.880 --> 00:22:46.800
+Greg K | Lido: And, yeah, I'm pasting here, actually, all the links, they are also, on the agenda as well. But, so yeah, everyone can take a look.
+
+129
+00:22:53.080 --> 00:23:05.449
+Parithosh Jayanthi: Perfect, thank you. Yeah, we had, like Rick said, we had one more, item on the agenda that's, setting the testnet, testnet times.
+
+130
+00:23:06.010 --> 00:23:18.319
+Parithosh Jayanthi: I have a PR open to discuss it. I was kind of hoping that we would have had a successful NFF DevNet before doing this, so I just added another proposal date now.
+
+131
+00:23:18.320 --> 00:23:27.279
+Parithosh Jayanthi: There's a proposal for Sepolia on the 28th of September, or the 6th of October, so basically, like, a week after that.
+
+132
+00:23:27.610 --> 00:23:34.860
+Parithosh Jayanthi: And support, Hoodi being the 26th of October. If cloud…
+
+133
+00:23:35.100 --> 00:23:48.820
+Parithosh Jayanthi: A, maybe we want to discuss that. Do clients feel comfortable setting a fork date right now? Do we want to delay the decision to two more weeks so that we've had DevNet 10, and then we can, finish the non-finality testing and then decide then?
+
+134
+00:23:49.090 --> 00:23:51.020
+Parithosh Jayanthi: What's the current preference?
+
+135
+00:24:00.750 --> 00:24:07.560
+Parithosh Jayanthi: To Dima's point, the only reason not to move Hoodi is a week after that is, DEF CON.
+
+136
+00:24:07.910 --> 00:24:13.449
+Parithosh Jayanthi: And typically, cutting releases, etc, pre-Devcon is going to be difficult, so…
+
+137
+00:24:14.300 --> 00:24:23.910
+Parithosh Jayanthi: proposal would be to try and keep it then plus-minus a few days. It's just that the timings get a bit weird if you want to match the accumulator boundary,
+
+138
+00:24:24.530 --> 00:24:28.200
+Parithosh Jayanthi: It changes… it's hard to get a nice time slot for the fork.
+
+139
+00:24:29.170 --> 00:24:44.019
+Dima Gusakov | Lido: Yeah, I know that. What scares me here is explicitly the fact that 26th of October is right before DEF CON, and most of the plan Devs will be traveling after that.
+
+140
+00:24:44.040 --> 00:24:56.310
+Dima Gusakov | Lido: So, provided that, the… we still want to have yet another DevNet, maybe it is worth moving it to, like, November 11, when we all be here.
+
+141
+00:24:56.580 --> 00:25:12.450
+Dima Gusakov | Lido: So… I don't know. Again, if we move Sepoli, I would really like to have, like, one week of… one month of Sepoli, and not earlier than that, Hoodi, just to make sure that everything goes smooth, especially given the size of the hard fork.
+
+142
+00:25:14.530 --> 00:25:26.719
+Parithosh Jayanthi: That's a fair ask. Maybe one way to do it is also that we can first set Sepolia time, and then we don't have to decide Hoodi, especially if there's appetite to decide something today, and we can still,
+
+143
+00:25:27.220 --> 00:25:30.839
+Parithosh Jayanthi: see when we decide Hoodi in the next couple of weeks.
+
+144
+00:25:32.030 --> 00:25:46.469
+Parithosh Jayanthi: Justin mentioned on chat he would like to try setting a date today. Do CL teams have an opinion? I'm just gonna go across the room, maybe start with Lighthouse, then Prism, Techu, and so on?
+
+145
+00:25:53.170 --> 00:26:02.060
+Parithosh Jayanthi: I guess the explicit question is, A, do you want to set a fork date today? And B, if you want to set a fork date, would you prefer September 28th or October 6th?
+
+146
+00:26:14.350 --> 00:26:16.319
+Parithosh Jayanthi: Prism, do you guys want to start?
+
+147
+00:26:16.570 --> 00:26:17.890
+Parithosh Jayanthi: Or Lighthouse?
+
+148
+00:26:26.400 --> 00:26:31.189
+Eitan Seri-Levi: For Lighthouse, I think September 28th is reasonable.
+
+149
+00:26:32.060 --> 00:26:32.810
+Eitan Seri-Levi: Boom.
+
+150
+00:26:33.000 --> 00:26:37.020
+Eitan Seri-Levi: But, I mean, we're okay with October 6th as well, but I think those are both reasonable dates.
+
+151
+00:26:39.960 --> 00:26:43.380
+Parithosh Jayanthi: Okay, prism, and then Teku.
+
+152
+00:26:47.190 --> 00:26:54.330
+Enrico Del Fante (tbenr): Yeah, to… I feel like… having just Sepolia and waiting, and waiting for…
+
+153
+00:26:54.780 --> 00:27:00.750
+Enrico Del Fante (tbenr): couple of weeks more to set Hoodi in stone would be wise, considering…
+
+154
+00:27:01.820 --> 00:27:09.190
+Enrico Del Fante (tbenr): We had some issues lately with NFF and stuff like that, so… yeah, it could be a good balance to…
+
+155
+00:27:09.190 --> 00:27:14.870
+Parithosh Jayanthi: Yeah, we can just set Sepolia today, or agree on a Sepolia date, and we can do Hoodi later, yeah.
+
+156
+00:27:14.870 --> 00:27:18.160
+Enrico Del Fante (tbenr): Yeah, I, I'm leaning to this.
+
+157
+00:27:20.740 --> 00:27:25.169
+Parithosh Jayanthi: That's fair. Do you have a preference for September 28th or October 6th?
+
+158
+00:27:27.140 --> 00:27:31.520
+Enrico Del Fante (tbenr): I mean, September is reasonable,
+
+159
+00:27:32.890 --> 00:27:36.610
+Enrico Del Fante (tbenr): Yeah, it could be… it could be that date.
+
+160
+00:27:40.010 --> 00:27:45.450
+Parithosh Jayanthi: Okay, Prism, we have James, who, prefers October.
+
+161
+00:27:47.720 --> 00:27:51.770
+Parithosh Jayanthi: But, is there anyone else from Prysm who has a preference?
+
+162
+00:28:00.920 --> 00:28:06.219
+Parithosh Jayanthi: Okay, Nimbus, Lodestarr, Grandine, do you guys want to speak up?
+
+163
+00:28:10.390 --> 00:28:14.600
+Saulius Grigaitis | Grandine: For us, for Grandine, I think the later, the better.
+
+164
+00:28:22.230 --> 00:28:28.259
+Nico Flaig: So for Lodestar, I don't mind either way. We can just go with what other clients decide.
+
+165
+00:28:31.910 --> 00:28:33.519
+Parithosh Jayanthi: Okay, what about Nimbus?
+
+166
+00:28:45.940 --> 00:28:58.249
+Matthew Keil: you know, not to be a Debbie Downer, but it does feel prudent to push to at least the October date to give us a chance to run, hopefully, a successful fork transition on a DevNet
+
+167
+00:28:58.400 --> 00:29:00.589
+Matthew Keil: Before we do Sepolia.
+
+168
+00:29:02.450 --> 00:29:06.449
+Parithosh Jayanthi: Yeah, I think I'm also leaning towards that right now.
+
+169
+00:29:06.990 --> 00:29:11.610
+Parithosh Jayanthi: So, maybe if… yeah, if every client is already in agreement, and…
+
+170
+00:29:12.130 --> 00:29:16.840
+Parithosh Jayanthi: We're fine delaying by a week. I think October 6th is probably the safest date to set.
+
+171
+00:29:21.400 --> 00:29:26.949
+Parithosh Jayanthi: Is that okay for everyone, or is there any aggressive push to have 28th of September?
+
+172
+00:29:35.870 --> 00:29:41.840
+Parithosh Jayanthi: Okay, let's set, October 6th as the date for Sepolia, then.
+
+173
+00:29:42.100 --> 00:29:53.099
+Parithosh Jayanthi: There's a… I can update the PR, with the October 6th dates, but it would be nice if, clients can also comment on the pull request. I can link it here.
+
+174
+00:29:53.310 --> 00:29:58.579
+Parithosh Jayanthi: React, comment, whatever, approve, so that we can, merge in the data.
+
+175
+00:29:59.820 --> 00:30:02.829
+Parithosh Jayanthi: I think we'd ideally want,
+
+176
+00:30:04.560 --> 00:30:18.569
+Parithosh Jayanthi: Yeah, Chris, I think if DevNet10 fails, then we'd have to take it case by case, but yeah, I doubt any client would make a release in the next week, so worst case, we can discuss it on ACDT or ACDE about not doing the fork at that time.
+
+177
+00:30:19.800 --> 00:30:24.180
+Parithosh Jayanthi: Especially if we find particular issues that would take longer to resolve.
+
+178
+00:30:26.810 --> 00:30:35.750
+Parithosh Jayanthi: Okay, yeah, please engage on the PR, we'll bring it up on ACDE next week as well, and, yeah, confirm it there.
+
+179
+00:30:38.570 --> 00:30:50.209
+Parithosh Jayanthi: There's maybe one other agenda item for Higota. The EIP tier rankings are due by, 10th of September, so that's roughly another week.
+
+180
+00:30:50.250 --> 00:31:04.749
+Parithosh Jayanthi: As far as I know, ACDE next week start, plans on starting to discuss, tier lists, so it would be amazing if latest by the week after, all the CL teams have their tier lists ready.
+
+181
+00:31:04.750 --> 00:31:10.490
+Parithosh Jayanthi: You don't have to use it, but forecast has a beautiful way to organize your tier lists and share it.
+
+182
+00:31:10.490 --> 00:31:15.900
+Parithosh Jayanthi: But… If you use something else, that's perfectly fine as well.
+
+183
+00:31:16.000 --> 00:31:34.460
+Parithosh Jayanthi: Whichever approach you go with, it would be nice if it also was accompanied by some sort of write-up that explains the rationale that would help us decide what… what the team perceives as S, A, B, C, and so on. So, rationale as well as tier list would be amazing.
+
+184
+00:31:36.120 --> 00:31:37.390
+Parithosh Jayanthi: And yet,
+
+185
+00:31:37.670 --> 00:31:47.740
+Parithosh Jayanthi: before, like, at least a day before ACDC would definitely be useful, so that we have some time to prepare. There's at least a lot of preparation we want to do for… for the tier lists.
+
+186
+00:31:51.490 --> 00:31:54.469
+Parithosh Jayanthi: Any questions, comments, statements?
+
+187
+00:32:00.280 --> 00:32:08.500
+Parithosh Jayanthi: Justin, it isn't important that you opine on all EIPs, but maybe there's a version of this where you
+
+188
+00:32:08.740 --> 00:32:13.180
+Parithosh Jayanthi: Also, say, if you don't have an opinion on something, it's kind of the same as DFI-ing it.
+
+189
+00:32:14.590 --> 00:32:25.710
+Parithosh Jayanthi: Especially… I mean, yeah, EL Devs don't need to have strict opinions on CL EIPs, of course, but if it's an EL EIP and you don't have an opinion, that indicates that you don't really intend to work on it.
+
+190
+00:32:38.260 --> 00:32:39.740
+Parithosh Jayanthi: Okay, perfect.
+
+191
+00:32:39.870 --> 00:32:44.439
+Parithosh Jayanthi: Then, see you guys, next time, and hope you have a nice week.
+
+192
+00:32:45.950 --> 00:32:46.800
+Parithosh Jayanthi: Bye.
+
+193
+00:32:47.140 --> 00:32:47.940
+potuz: Bye-bye.
+
+194
+00:32:49.210 --> 00:32:50.040
+Marius Van Der Wijden (M): Bye. Bye.
+
+195
+00:32:50.040 --> 00:32:50.430
+Justin Traglia: everyone.
+
+196
+00:32:50.430 --> 00:32:51.070
+Eitan Seri-Levi: Aye.
+
