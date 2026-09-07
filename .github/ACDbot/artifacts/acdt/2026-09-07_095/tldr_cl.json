@@ -1,0 +1,82 @@
+{
+  "meeting": "ACDT #95 (CL Breakout) - September 7th, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:01:06",
+        "highlight": "Lodestar: passing all tests including fork choice compliance on Beta 0"
+      },
+      {
+        "timestamp": "00:01:21",
+        "highlight": "Teku: still implementing Delta spec; compliance test integration pending"
+      },
+      {
+        "timestamp": "00:03:01",
+        "highlight": "Prysm: Beta 0 work only on feature branch; trunk missing Alpha 13/14 SSZ container changes"
+      },
+      {
+        "timestamp": "00:04:14",
+        "highlight": "Nimbus: Beta 0 compliant; fork choice issues resolved"
+      },
+      {
+        "timestamp": "00:03:30",
+        "highlight": "Grandine: Beta 0 implementation started, not yet complete"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:04:00",
+        "highlight": "Nico: clients must pass basic fork choice reference tests before next devnet testing round"
+      },
+      {
+        "timestamp": "00:06:29",
+        "highlight": "Last devnet showed Grandine and Nimbus with incorrect attestation modes due to missing PTC; status unclear now"
+      },
+      {
+        "timestamp": "00:05:52",
+        "highlight": "Gloas state transition compliance tests coming soon (consensus-specs PR #5573)"
+      },
+      {
+        "timestamp": "00:12:35",
+        "highlight": "Devnet 9 sync issues: clients served orphaned payloads from finalized chain during Gloas fork transition"
+      }
+    ],
+    "spec_changes": [
+      {
+        "timestamp": "00:07:10",
+        "highlight": "PR #5598: bounding bid gas limit against parent payload \u2014 consensus is to close; unnecessary and risky in CL state transition"
+      },
+      {
+        "timestamp": "00:12:32",
+        "highlight": "PR #5608: serve only canonical payload envelopes by range \u2014 clarifies spec to prevent orphaned payloads being served during sync"
+      },
+      {
+        "timestamp": "00:16:05",
+        "highlight": "Column gossip message size limit (~8 MB) is excessively large; proposal to derive it dynamically from blob schedule max"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:15:42",
+      "action": "Review and approve consensus-specs PR #5608 (canonical payload envelopes by range)",
+      "owner": "CL teams"
+    },
+    {
+      "timestamp": "00:20:57",
+      "action": "Draft spec PR to set column gossip size limit dynamically from blob schedule maximum",
+      "owner": "Justin Traglia"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:12:16",
+      "decision": "Close PR #5598 (bound bid gas limit against parent payload); not needed in CL consensus rules"
+    },
+    {
+      "timestamp": "00:19:35",
+      "decision": "Column gossip message size limit should be derived from the largest value in the blob schedule, not a static max"
+    }
+  ],
+  "targets": []
+}
