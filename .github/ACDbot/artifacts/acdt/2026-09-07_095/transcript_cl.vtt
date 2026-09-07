@@ -1,0 +1,918 @@
+WEBVTT
+
+1
+00:00:10.800 --> 00:00:14.119
+Justin Traglia: Hello, hello, just one more minute, and then we'll get started.
+
+2
+00:00:42.430 --> 00:00:44.829
+Justin Traglia: Alright, this should be just about everyone.
+
+3
+00:00:46.040 --> 00:00:52.039
+Justin Traglia: I'd like to go around the room real quick and just get updates, from client teams on, like.
+
+4
+00:00:52.330 --> 00:00:54.159
+Justin Traglia: Where they are regarding…
+
+5
+00:00:54.820 --> 00:01:01.470
+Justin Traglia: spec and testing, like, have you all updated to the Beta 0 release, and are you running all of the tests there?
+
+6
+00:01:07.180 --> 00:01:12.350
+Justin Traglia: Lodestar is running all the tests, even the fork compliance tests, awesome.
+
+7
+00:01:13.780 --> 00:01:21.280
+Enrico Del Fante (tbenr): Ekko, we are still, implementing Deltas, Delta spec, so we are in the process of…
+
+8
+00:01:21.490 --> 00:01:27.890
+Enrico Del Fante (tbenr): Implementing everything, we will enable, reference test running, Hopefully soon.
+
+9
+00:01:29.390 --> 00:01:38.080
+Enrico Del Fante (tbenr): And I believe there is also, some work on running more, frequently the…
+
+10
+00:01:38.930 --> 00:01:46.589
+Enrico Del Fante (tbenr): the reference test for… for… for choice. It was com… compliance check, yes, compliance testing.
+
+11
+00:01:47.220 --> 00:01:49.879
+Enrico Del Fante (tbenr): Not yet fully integrated.
+
+12
+00:01:50.200 --> 00:01:52.349
+Enrico Del Fante (tbenr): But yeah, work in progress there as well.
+
+13
+00:01:53.990 --> 00:01:55.290
+Justin Traglia: Okay, cool, thank you.
+
+14
+00:02:00.320 --> 00:02:06.680
+Justin Traglia: I guess James, James shared the PR for PRISM earlier, so I know that's a work in progress, and they haven't merged it yet.
+
+15
+00:02:07.990 --> 00:02:12.690
+Justin Traglia: I'm surprised to see that there are some things from Alpha 13 and Alpha 14 there, too.
+
+16
+00:02:14.860 --> 00:02:18.910
+Justin Traglia: Why, just out of curiosity, why weren't those there before?
+
+17
+00:02:19.110 --> 00:02:21.710
+Justin Traglia: James Or Terrence.
+
+18
+00:02:23.040 --> 00:02:24.110
+Justin Traglia: If he's here.
+
+19
+00:02:38.230 --> 00:02:39.040
+Justin Traglia: Okay.
+
+20
+00:02:39.480 --> 00:02:42.770
+Justin Traglia: I guess, James, you don't feel comfortable speaking about this, or…
+
+21
+00:02:45.730 --> 00:02:46.510
+Justin Traglia: Alright.
+
+22
+00:02:51.190 --> 00:02:55.250
+Justin Traglia: Is there someone from Lighthouse here? Maybe… Daniel?
+
+23
+00:02:57.210 --> 00:02:59.250
+Daniel Knopik: Yeah, but I'm actually unsure.
+
+24
+00:02:59.370 --> 00:03:01.699
+Daniel Knopik: how far along we are at Eton.
+
+25
+00:03:01.810 --> 00:03:04.690
+Daniel Knopik: That's probably the one… I'll ping him, maybe he'll respond.
+
+26
+00:03:05.140 --> 00:03:06.759
+Justin Traglia: Okay. Thank you.
+
+27
+00:03:09.400 --> 00:03:12.900
+Justin Traglia: Grandine? Saulius?
+
+28
+00:03:14.800 --> 00:03:18.910
+Saulius Grigaitis | Grandine: Yeah, sorry, I joined later. Could you repeat the question?
+
+29
+00:03:19.200 --> 00:03:28.760
+Justin Traglia: Oh yeah, I'm just asking for, client updates on specs and testing. Have you implemented everything for the Beta Zero release, and are you running all of the tests?
+
+30
+00:03:30.100 --> 00:03:39.259
+Saulius Grigaitis | Grandine: I think Wangleng started to work on that, but I doubt that it's completed, but we started.
+
+31
+00:03:44.970 --> 00:03:50.880
+Justin Traglia: Cool. Any other implementation or testing updates before moving on to the other agenda items?
+
+32
+00:03:52.220 --> 00:03:57.709
+Justin Traglia: Does every… Nico's asking, does every client run the basic fork choice tests and pass them?
+
+33
+00:04:01.900 --> 00:04:06.899
+Saulius Grigaitis | Grandine: Do you mean compliance tests that have photo choice?
+
+34
+00:04:07.020 --> 00:04:07.889
+Saulius Grigaitis | Grandine: This is what I think he…
+
+35
+00:04:08.720 --> 00:04:11.679
+Nico Flaig: They're really just the basic one, yeah.
+
+36
+00:04:13.510 --> 00:04:25.510
+Saulius Grigaitis | Grandine: Yeah, the basic one that I'm actually interested in the compliant tests, suit. Is everyone running, and everything is passing, or this is still…
+
+37
+00:04:25.870 --> 00:04:27.929
+Saulius Grigaitis | Grandine: And, not fully adopted.
+
+38
+00:04:28.890 --> 00:04:37.789
+Nico Flaig: Yeah, I mean, we pass all of them now. There were some bugs in the spec, so Beta 0 has everything fixed now. Or should have everything fixed.
+
+39
+00:04:39.290 --> 00:04:39.860
+Saulius Grigaitis | Grandine: Okay.
+
+40
+00:04:40.530 --> 00:04:53.430
+Nico Flaig: Yeah, I'm just asking for the basic tests, because, like, the last time I was running Death Star, there was still a lot of attestation modes that were incorrect, due to, like, PTC stuff missing in clients.
+
+41
+00:04:53.570 --> 00:05:01.659
+Nico Flaig: And before clients have the basic tests and pass them, I don't think it's worth to do another testing round. On the definite, at least.
+
+42
+00:05:01.660 --> 00:05:12.610
+Enrico Del Fante (tbenr): I mean, so you're saying… you're saying that the… the… with… with, so you're referring to not the compliance test, but the normal reference test.
+
+43
+00:05:13.690 --> 00:05:16.770
+Nico Flaig: Yeah, really, just the bare minimum, yeah.
+
+44
+00:05:16.770 --> 00:05:18.150
+Enrico Del Fante (tbenr): Yeah, yeah.
+
+45
+00:05:18.150 --> 00:05:20.089
+Nico Flaig: import, like, Arteku is fine.
+
+46
+00:05:20.090 --> 00:05:28.189
+Enrico Del Fante (tbenr): We were using… we were, yeah, we were passing them for a while. Now Beta Zero is still a work in progress, so we have several things to…
+
+47
+00:05:28.710 --> 00:05:30.510
+Enrico Del Fante (tbenr): Fix, but we should,
+
+48
+00:05:30.510 --> 00:05:35.060
+Nico Flaig: Yeah, I mean, for the compliance, you need also a lot of other stuff, right? Like, should I.
+
+49
+00:05:35.060 --> 00:05:35.760
+Enrico Del Fante (tbenr): Yeah.
+
+50
+00:05:35.760 --> 00:05:38.529
+Nico Flaig: also boost and stuff like this. I'm not sure everyone.
+
+51
+00:05:38.530 --> 00:05:39.990
+Enrico Del Fante (tbenr): We did,
+
+52
+00:05:41.360 --> 00:05:48.859
+Enrico Del Fante (tbenr): Historically, there was a consensus team working on the compliance, so we were running them earlier, so…
+
+53
+00:05:49.440 --> 00:06:07.799
+Enrico Del Fante (tbenr): basically, I remember we were… we were passing all of them, but probably, currently, we have some problem in integrating with the latest version, and there is, our colleague… colleague of us is working on that, so I don't know if it is something just an integration, or…
+
+54
+00:06:07.880 --> 00:06:09.780
+Enrico Del Fante (tbenr): some weird case.
+
+55
+00:06:10.330 --> 00:06:11.720
+Enrico Del Fante (tbenr): Not sure yet.
+
+56
+00:06:23.560 --> 00:06:28.890
+Justin Traglia: Nico, which complaint… which clients do you have complaints about regarding WorkChoice?
+
+57
+00:06:29.360 --> 00:06:35.389
+Nico Flaig: So last time we tested this on the DevNet, it was, Grandine and Nimbus.
+
+58
+00:06:35.940 --> 00:06:41.560
+Nico Flaig: But it's a while ago, so I really can't tell if those issues are still there or not.
+
+59
+00:06:44.770 --> 00:06:45.480
+Justin Traglia: Got it.
+
+60
+00:06:53.400 --> 00:07:02.430
+Justin Traglia: Okay, let's move on to the next agenda item. Nico or Stefan, would you like to talk about…
+
+61
+00:07:02.790 --> 00:07:09.410
+Justin Traglia: Your PR, bound the bid's gas limit against the parent execution payload. I'll share a link in the chat.
+
+62
+00:07:10.510 --> 00:07:11.560
+Justin Traglia: Why should…
+
+63
+00:07:11.560 --> 00:07:14.159
+Nico Flaig: We do this not in the core, by the way.
+
+64
+00:07:14.620 --> 00:07:15.880
+Justin Traglia: Oh, oops.
+
+65
+00:07:16.130 --> 00:07:19.610
+Justin Traglia: Okay, well, Nico, would you like to discuss why we should not do this?
+
+66
+00:07:23.350 --> 00:07:29.160
+Nico Flaig: I mean, is anyone in favor of doing this? I don't think it's worth arguing why we shouldn't do this.
+
+67
+00:07:29.340 --> 00:07:31.150
+Nico Flaig: Just doesn't make any sense.
+
+68
+00:07:31.980 --> 00:07:44.580
+Nico Flaig: I already left a comment on the PR, but initially, right, when we added this, if you look at POTUS's initial PR, we had, like, 3 options. If we want to make this part of consensus or not.
+
+69
+00:07:44.810 --> 00:07:48.509
+Nico Flaig: like, on the CL side, part of the consensus rules,
+
+70
+00:07:48.810 --> 00:07:51.710
+Nico Flaig: But we decided to not do this,
+
+71
+00:07:52.320 --> 00:07:59.300
+Nico Flaig: Because also it encodes, like, the EIP1559 transition stuff, and it's just unnecessary, like…
+
+72
+00:08:00.160 --> 00:08:09.400
+Nico Flaig: I would like to, I guess, know why we should do this. Is POTUS here? I mean, if POTUS is here, he definitely doesn't like this.
+
+73
+00:08:09.810 --> 00:08:11.240
+Justin Traglia: No, he's not here.
+
+74
+00:08:11.240 --> 00:08:16.330
+Nico Flaig: If there's nobody else, I mean, if nobody's in favor, I guess, to do this.
+
+75
+00:08:18.320 --> 00:08:20.269
+Justin Traglia: Is there anyone that's in favor of doing this?
+
+76
+00:08:22.250 --> 00:08:28.709
+Nico Flaig: I mean, have you read the PR description? Even what's noted there doesn't make any sense, so… I don't…
+
+77
+00:08:28.940 --> 00:08:29.700
+Nico Flaig: Yeah, let me skip.
+
+78
+00:08:29.700 --> 00:08:30.330
+Justin Traglia: unit.
+
+79
+00:08:31.200 --> 00:08:32.390
+Justin Traglia: Proper chance.
+
+80
+00:08:33.400 --> 00:08:37.010
+Justin Traglia: I'm probably just gonna close the PR, unless someone here speaks up.
+
+81
+00:08:38.530 --> 00:08:43.480
+Nico Flaig: So just to, the issue came up initially because,
+
+82
+00:08:43.659 --> 00:08:52.530
+Nico Flaig: Stefan did some testing where, basically the same node that was used for proposals also was used by the builder.
+
+83
+00:08:52.830 --> 00:08:59.849
+Nico Flaig: So the builder submitted, basically, these bits to the Beacon node, and then it picked it up.
+
+84
+00:08:59.990 --> 00:09:06.530
+Nico Flaig: Because we intentionally don't do those checks on the API, because we want to publish early.
+
+85
+00:09:07.220 --> 00:09:15.110
+Nico Flaig: And in Lodestar, initially, I still submitted them to the pool, just for debugging purpose.
+
+86
+00:09:15.290 --> 00:09:24.650
+Nico Flaig: Because, I mean, for mainnet, it's not relevant, right? If you're the same entity, a proposer and a builder, then whatever, you don't care about a bit submitted via API.
+
+87
+00:09:25.100 --> 00:09:29.470
+Nico Flaig: But this code path is now also removed, so…
+
+88
+00:09:29.690 --> 00:09:32.540
+Nico Flaig: This cannot be flagged by AI anymore.
+
+89
+00:09:33.130 --> 00:09:41.750
+Enrico Del Fante (tbenr): So, I haven't read the discussion, so it's possible that we could have a bid on-chain with…
+
+90
+00:09:41.900 --> 00:09:44.300
+Enrico Del Fante (tbenr): The wrong gas limit?
+
+91
+00:09:46.350 --> 00:09:47.949
+Nico Flaig: So, essentially, it's just…
+
+92
+00:09:47.950 --> 00:09:48.610
+Enrico Del Fante (tbenr): problem?
+
+93
+00:09:49.470 --> 00:09:55.220
+Nico Flaig: So it just says you put a bit into a block that has an impossible gas limit.
+
+94
+00:09:55.820 --> 00:09:56.570
+Enrico Del Fante (tbenr): Right, so…
+
+95
+00:09:56.570 --> 00:09:57.709
+Nico Flaig: Mark Steel and success.
+
+96
+00:09:57.710 --> 00:10:04.700
+Enrico Del Fante (tbenr): will be a… You will be… you will have the corresponding payload, invalid.
+
+97
+00:10:05.300 --> 00:10:06.750
+Enrico Del Fante (tbenr): For sure, correct?
+
+98
+00:10:06.750 --> 00:10:10.119
+Nico Flaig: Yeah, you cannot produce a payload that would pass that.
+
+99
+00:10:10.120 --> 00:10:22.799
+Enrico Del Fante (tbenr): Exactly, so you are guaranteed to have an on-chain, a Beacon block with a wrong bid, and you will know in advance that it will not… it will be orphaned, so it will be an empty one.
+
+100
+00:10:23.440 --> 00:10:24.699
+Enrico Del Fante (tbenr): And move on.
+
+101
+00:10:24.930 --> 00:10:31.239
+Enrico Del Fante (tbenr): Yeah, it's… I don't see this thing to be super nice, necessarily, at the moment.
+
+102
+00:10:31.390 --> 00:10:31.970
+Enrico Del Fante (tbenr): I agree.
+
+103
+00:10:31.970 --> 00:10:47.740
+Nico Flaig: Yeah, I mean, the gas limit check, we only added that on the CL side to make sure the builders follow the preference of the proposal, right, in terms of, like, where they move the gas limit? Yes. And to filter out, like, bits that do not go in that direction, yeah.
+
+104
+00:10:48.530 --> 00:10:49.310
+Enrico Del Fante (tbenr): Hmm…
+
+105
+00:10:50.170 --> 00:10:50.950
+Justin Traglia: Yep.
+
+106
+00:10:51.350 --> 00:10:54.339
+Justin Traglia: Submit a very high bid with an invalid gas limit.
+
+107
+00:10:55.200 --> 00:11:04.950
+Nico Flaig: I mean, a proposal would even be incentivized to take that, right? I mean, no client should include such a bit by default, because you should validate that it follows, like, the…
+
+108
+00:11:05.840 --> 00:11:06.690
+Nico Flaig: Yeah.
+
+109
+00:11:06.980 --> 00:11:12.650
+Nico Flaig: But I think it's more of a risk to validate this in the CL state transition.
+
+110
+00:11:13.510 --> 00:11:17.839
+Nico Flaig: Like, then a bug could cause a missed BeaconBlock for no good reason.
+
+111
+00:11:18.160 --> 00:11:19.020
+Nico Flaig: So…
+
+112
+00:11:20.430 --> 00:11:29.519
+Enrico Del Fante (tbenr): Yep, we don't need to… Yeah, we are risking the Beacon… the Beacon chain moving forward.
+
+113
+00:11:29.940 --> 00:11:33.049
+Enrico Del Fante (tbenr): Just for something that makes the payload invalid.
+
+114
+00:11:35.030 --> 00:11:42.960
+Nico Flaig: One example, yeah, exactly. One example we can also never verify is, for example, impossible hash, right?
+
+115
+00:11:43.240 --> 00:11:52.949
+Nico Flaig: Like, if someone, a builder, wants to do this impossible bid, they can just put in a zero hash, or whatever. You can never produce such a payload, right?
+
+116
+00:11:53.470 --> 00:11:56.249
+Enrico Del Fante (tbenr): Sure. So, yeah, there are several paths in which…
+
+117
+00:11:56.950 --> 00:12:01.559
+Enrico Del Fante (tbenr): You're guaranteed to have something at that end in the payload.
+
+118
+00:12:01.740 --> 00:12:06.869
+Enrico Del Fante (tbenr): But still, the BeaconBlock is valid, and we can move on with the CL.
+
+119
+00:12:07.440 --> 00:12:09.360
+Enrico Del Fante (tbenr): Consensus, yeah.
+
+120
+00:12:10.360 --> 00:12:11.110
+Enrico Del Fante (tbenr): Okay.
+
+121
+00:12:11.550 --> 00:12:16.209
+Justin Traglia: Yep, let's move on. I'll close the PR after this call. I agree with you guys.
+
+122
+00:12:17.360 --> 00:12:26.559
+Justin Traglia: We agreed on Discord that we don't need to discuss the build or producing an invalid payload topic that was handled async.
+
+123
+00:12:27.360 --> 00:12:34.600
+Justin Traglia: Nico, would you like to talk about your other PR, titled Only Seracanonical Payload Envelopes by Range?
+
+124
+00:12:35.620 --> 00:12:48.769
+Nico Flaig: Yeah, so that one is a really old topic, that was earlier discussed on Discord, that caused a lot of trouble syncing, because clients basically served payloads they shouldn't serve.
+
+125
+00:12:49.350 --> 00:13:00.279
+Nico Flaig: I thought we kinda addressed this, but on Defnet 9, when syncing through the unfinaled period, there were a lot of invalid payloads being served that shouldn't be served.
+
+126
+00:13:00.880 --> 00:13:10.089
+Nico Flaig: So this was all in the finalized part of the chain, so my guess is that clients don't filter correctly when they archive payloads.
+
+127
+00:13:12.670 --> 00:13:18.209
+Nico Flaig: I mean, this just clarifies it on the spec side, just adds a note.
+
+128
+00:13:18.610 --> 00:13:26.490
+Enrico Del Fante (tbenr): Yeah, did you double-check that on the… for… for the nodes serving those orphaned…
+
+129
+00:13:27.160 --> 00:13:32.490
+Enrico Del Fante (tbenr): Payload, though those nodes were actually up to date.
+
+130
+00:13:32.690 --> 00:13:50.570
+Enrico Del Fante (tbenr): Because our initial thought was maybe… we served very few of them, so, since DevNet 9 were DevNet pretty… pretty struggling pretty a lot, there were probably several technodes on…
+
+131
+00:13:50.980 --> 00:13:56.700
+Enrico Del Fante (tbenr): in difficulty, so maybe you got those orphaned from those?
+
+132
+00:13:56.840 --> 00:13:57.760
+Enrico Del Fante (tbenr): nodes.
+
+133
+00:13:59.380 --> 00:14:03.560
+Nico Flaig: So you mean those nodes were sync… syncing themselves, or…
+
+134
+00:14:03.560 --> 00:14:15.440
+Enrico Del Fante (tbenr): Kind of thinking, or not thinking, but super struggling, yeah, far from… from the head, and maybe kind of, struggling thinking, and following the chain.
+
+135
+00:14:15.440 --> 00:14:25.839
+Nico Flaig: But at least the data I collected, because that was pretty early in, like, the sync, it was maybe a few epochs even just after the glorious fork transition.
+
+136
+00:14:25.960 --> 00:14:26.370
+Enrico Del Fante (tbenr): Okay.
+
+137
+00:14:26.370 --> 00:14:31.220
+Nico Flaig: I didn't even… they shut down the DevNet before I got to HAT, so…
+
+138
+00:14:32.030 --> 00:14:36.920
+Enrico Del Fante (tbenr): So, you're saying that those blocks were, I mean, prior lead blocks.
+
+139
+00:14:36.920 --> 00:14:41.489
+Nico Flaig: Yeah, they were, like, really old, like, one day or something old, so…
+
+140
+00:14:41.490 --> 00:14:42.180
+Enrico Del Fante (tbenr): Yeah.
+
+141
+00:14:42.570 --> 00:14:54.070
+Enrico Del Fante (tbenr): We should have… yeah, probably they should be low, but anyway, we got problems very early in the… in the gloss transition, so yeah, probably worth having.
+
+142
+00:14:54.180 --> 00:15:01.350
+Enrico Del Fante (tbenr): A double… another test on a much stable… Much stable network, I believe.
+
+143
+00:15:05.650 --> 00:15:12.970
+Justin Traglia: Nico, did I see criticisms of this PR from Botus on Discord? I seem to recall that, but I don't recall.
+
+144
+00:15:13.860 --> 00:15:19.179
+Nico Flaig: I mean, he just said he wants to get rid of the whole payload topic, so…
+
+145
+00:15:19.510 --> 00:15:20.170
+Justin Traglia: -Oh.
+
+146
+00:15:20.170 --> 00:15:25.440
+Nico Flaig: But that's his, other CL zync EIP, right? So, we are not doing that, so…
+
+147
+00:15:25.440 --> 00:15:27.119
+Justin Traglia: Yeah, not right now.
+
+148
+00:15:27.120 --> 00:15:28.610
+Nico Flaig: I mean, he said he doesn't…
+
+149
+00:15:29.040 --> 00:15:33.310
+Nico Flaig: He doesn't want to review it, so I don't know, I guess someone else needs to review it.
+
+150
+00:15:35.600 --> 00:15:42.089
+Justin Traglia: Yep, okay, others, please take a look at this PR and approve it, or review it.
+
+151
+00:15:43.040 --> 00:15:48.309
+Justin Traglia: We can get that merged soon, if there's… If enough clients approve.
+
+152
+00:15:50.970 --> 00:15:55.150
+Justin Traglia: Okay, I think that was it for the agenda. Is there anything else that we would like to discuss?
+
+153
+00:15:55.500 --> 00:15:57.179
+Justin Traglia: Any random topics?
+
+154
+00:16:01.270 --> 00:16:05.210
+Daniel Knopik: I recently stumbled upon the fact that
+
+155
+00:16:05.560 --> 00:16:10.570
+Daniel Knopik: The new limit for, like, gossip limit for…
+
+156
+00:16:10.810 --> 00:16:14.599
+Daniel Knopik: Columns is, like, 8 point something megabytes, which…
+
+157
+00:16:14.810 --> 00:16:32.260
+Daniel Knopik: seems… like, I get that it was probably just, you know, the old cell limit, multiplied by cell size, but with, like, the current blob limit, it seems, like, ridiculously large, and yeah. I was wondering if there's any history that I missed, why they, you know, it was picked up.
+
+158
+00:16:32.840 --> 00:16:39.109
+Justin Traglia: Yeah, I think I know what you're talking about. That's the maximum, like, P2P message size of the encoded SSC.
+
+159
+00:16:39.110 --> 00:16:39.680
+Daniel Knopik: Right.
+
+160
+00:16:40.100 --> 00:16:47.299
+Justin Traglia: That's gonna be whatever the absolute maximum is, so it's probably assuming, like, a max of 4096 blobs.
+
+161
+00:16:47.640 --> 00:16:48.440
+Daniel Knopik: Yeah.
+
+162
+00:16:49.140 --> 00:16:51.980
+Justin Traglia: Which, yes, I totally agree, it's like,
+
+163
+00:16:52.410 --> 00:16:59.530
+Daniel Knopik: I don't think it makes sense to set that limit right now, like, we can just, like, even accounting for 100 blobs.
+
+164
+00:16:59.640 --> 00:17:03.370
+Daniel Knopik: It's… it's larger than needed, but we can, like…
+
+165
+00:17:03.820 --> 00:17:06.819
+Daniel Knopik: I'm considering, like, proposing to lower it.
+
+166
+00:17:07.030 --> 00:17:14.069
+Daniel Knopik: And, like, if we later need more space, then we can just change it in a future fork.
+
+167
+00:17:15.420 --> 00:17:17.610
+Justin Traglia: Okay, how do others feel about this?
+
+168
+00:17:21.000 --> 00:17:22.019
+Enrico Del Fante (tbenr): I feel like…
+
+169
+00:17:22.599 --> 00:17:30.760
+Enrico Del Fante (tbenr): That's a case in which we should have something more dynamic based on current BPO, do you feel?
+
+170
+00:17:31.940 --> 00:17:37.030
+Enrico Del Fante (tbenr): Seems like a very hard, hard limit, which doesn't take…
+
+171
+00:17:37.390 --> 00:17:41.370
+Enrico Del Fante (tbenr): Doesn't care about the actual network configuration.
+
+172
+00:17:41.820 --> 00:17:44.480
+Enrico Del Fante (tbenr): So, maybe we should, shouldn't he?
+
+173
+00:17:44.720 --> 00:17:48.040
+Enrico Del Fante (tbenr): Shouldn't it add to… we should add something more.
+
+174
+00:17:48.660 --> 00:17:50.670
+Enrico Del Fante (tbenr): Specific.
+
+175
+00:17:51.880 --> 00:17:53.089
+Daniel Knopik: I'm fine with that as well.
+
+176
+00:17:53.090 --> 00:17:53.810
+Enrico Del Fante (tbenr): Mmm.
+
+177
+00:17:53.920 --> 00:18:06.790
+Enrico Del Fante (tbenr): So if you want to have something that works no matter BPO we decide to have, well, it's fair that the current BPO doesn't even consider those large numbers.
+
+178
+00:18:07.810 --> 00:18:16.770
+Enrico Del Fante (tbenr): But whenever you change that, you need to always think twice, and are we going more than the SSD max configuration?
+
+179
+00:18:16.950 --> 00:18:29.299
+Enrico Del Fante (tbenr): Otherwise, we need to just have that theoretical limit, and have instead something more dynamic based on the current BPO. That are just my thoughts.
+
+180
+00:18:30.310 --> 00:18:33.059
+Daniel Knopik: Yeah… I just want to avoid, like.
+
+181
+00:18:33.510 --> 00:18:41.269
+Daniel Knopik: Like, having this limit in the spec, and then every client sets another limit to, like, try to mitigate some…
+
+182
+00:18:41.410 --> 00:18:51.200
+Daniel Knopik: Possible attacks or something. Because this is just, you know, way, way too large, and… Yeah…
+
+183
+00:18:51.830 --> 00:18:52.720
+Justin Traglia: I see what you're saying.
+
+184
+00:18:54.260 --> 00:18:59.159
+Enrico Del Fante (tbenr): It's a more practical way of dealing with it right now, before having something different.
+
+185
+00:19:00.030 --> 00:19:00.790
+Enrico Del Fante (tbenr): Yeah.
+
+186
+00:19:02.270 --> 00:19:08.079
+Justin Traglia: Yeah, I just don't want to have a limit that we have to adjust, like, every other fork, or every fork.
+
+187
+00:19:11.000 --> 00:19:11.690
+Justin Traglia: Not me.
+
+188
+00:19:12.280 --> 00:19:24.250
+Daniel Knopik: Sure, but… I mean, if we're adjusting the max blob count anyway, I don't think there's much harm in having to adjust that one constant as well.
+
+189
+00:19:24.560 --> 00:19:33.050
+Daniel Knopik: I mean, I don't… I don't really… we can make a, like, define a function in the spec and… and just do right.
+
+190
+00:19:33.470 --> 00:19:35.369
+Daniel Knopik: that or something. I'm good with that.
+
+191
+00:19:35.370 --> 00:19:37.940
+Justin Traglia: Probably what I would do. I'd probably just,
+
+192
+00:19:39.700 --> 00:19:43.600
+Justin Traglia: Set it to whatever the largest value in the blob schedule is.
+
+193
+00:19:44.040 --> 00:19:44.880
+Justin Traglia: blank.
+
+194
+00:19:45.500 --> 00:19:46.300
+Enrico Del Fante (tbenr): Yeah.
+
+195
+00:19:46.780 --> 00:19:48.470
+Enrico Del Fante (tbenr): That could make sense.
+
+196
+00:19:50.880 --> 00:20:00.650
+Justin Traglia: Is it possible… or sorry, this is maybe, like, an implementation question, but I know, like, gossip topics have their own, like, message size limit.
+
+197
+00:20:00.950 --> 00:20:06.860
+Justin Traglia: If the limit changes, do you have to, like, reinitialize the topic handler?
+
+198
+00:20:07.680 --> 00:20:13.150
+Enrico Del Fante (tbenr): Yeah, that's definitely another technical problem. I guess that…
+
+199
+00:20:13.150 --> 00:20:19.059
+Justin Traglia: That actually might not be an issue, because if you change the blob schedule, you're probably gonna restart.
+
+200
+00:20:19.200 --> 00:20:20.620
+Justin Traglia: The note, right?
+
+201
+00:20:21.100 --> 00:20:29.520
+Daniel Knopik: We just pick, like, the limit for the largest block, parameter change that's scheduled, and pick… take that one.
+
+202
+00:20:29.520 --> 00:20:30.170
+Enrico Del Fante (tbenr): Yeah.
+
+203
+00:20:31.250 --> 00:20:34.069
+Justin Traglia: Okay. I mean, I like my idea.
+
+204
+00:20:34.740 --> 00:20:36.060
+Justin Traglia: Of course.
+
+205
+00:20:36.060 --> 00:20:45.710
+Enrico Del Fante (tbenr): Definitely, it will signal the problem, and then a client will chime in and double-check and say if that's technically…
+
+206
+00:20:46.240 --> 00:20:53.939
+Enrico Del Fante (tbenr): an issue to implement, or not. I would… I would suggest you, yeah, go in that direction, and then we can refine.
+
+207
+00:20:54.960 --> 00:20:57.699
+Justin Traglia: Okay, sounds good to me. I can… I can work on that.
+
+208
+00:21:00.200 --> 00:21:05.049
+Justin Traglia: Thank you, Daniel. Is there anything else we'd like to discuss?
+
+209
+00:21:13.540 --> 00:21:17.920
+Justin Traglia: I have a random question. PK, did we ever test a…
+
+210
+00:21:18.350 --> 00:21:22.539
+Justin Traglia: A block with more than 8,192 deposits.
+
+211
+00:21:24.250 --> 00:21:28.019
+pk910: I think it's no longer possible with the, guest limits.
+
+212
+00:21:29.130 --> 00:21:30.580
+pk910: Do we have right now?
+
+213
+00:21:30.930 --> 00:21:32.339
+pk910: Or with the gas price.
+
+214
+00:21:32.820 --> 00:21:35.119
+pk910: It was possible before, but
+
+215
+00:21:35.360 --> 00:21:38.259
+pk910: I've tested, and I didn't get to 8,000.
+
+216
+00:21:45.030 --> 00:21:45.840
+Justin Traglia: Okay.
+
+217
+00:21:46.130 --> 00:21:47.300
+Justin Traglia: I guess that's fine.
+
+218
+00:21:47.710 --> 00:21:51.599
+pk910: It was somewhere below 7… 7,900 or something.
+
+219
+00:21:53.390 --> 00:21:55.740
+Justin Traglia: It would be nice to see one with more.
+
+220
+00:21:57.630 --> 00:21:59.060
+Justin Traglia: We can handle that later.
+
+221
+00:22:01.120 --> 00:22:03.930
+Justin Traglia: We could just test this on kurtosis, too, yeah.
+
+222
+00:22:05.590 --> 00:22:08.020
+Justin Traglia: As suggested by Nico in the chat.
+
+223
+00:22:10.140 --> 00:22:18.479
+pk910: Yeah, there is also a spammer scenario included in SpamR that, basically spams the presets via a batching contract.
+
+224
+00:22:22.320 --> 00:22:30.660
+Justin Traglia: I don't think I was able… ever able to get it to be above 8,000, at least on my computer. I don't know if it was just, like, a performance thing or what.
+
+225
+00:22:37.310 --> 00:22:39.410
+Justin Traglia: Okay, anything else?
+
+226
+00:22:50.710 --> 00:22:53.070
+Justin Traglia: Alright, let's wrap it up.
+
+227
+00:22:53.340 --> 00:22:55.510
+Justin Traglia: Thank you for joining. Bye, everyone.
+
+228
+00:22:57.340 --> 00:22:58.130
+Enrico Del Fante (tbenr): Bye.
+
+229
+00:22:59.480 --> 00:23:00.080
+Nico Flaig: Bye. Yep.
+

@@ -1,0 +1,286 @@
+00:01:15	Iván | ethrex:	gm
+00:03:00	spencer:	The cool (cl) kids leave us!
+00:03:24	Justin Traglia:	Reacted to "The cool (cl) kids leave us!" with 😆
+00:03:39	CPerezz:	Reacted to "The cool (cl) kids l..." with 😆
+00:03:51	jochem-brouwer:	gm gm😄
+00:04:04	Justin Traglia:	https://github.com/ethereum/pm/issues/2209#issuecomment-5483605197
+00:05:00	Stefan Starflinger:	gm gm
+00:05:17	danceratopz:	📋 Agenda for today
+https://github.com/ethereum/pm/issues/2209
+00:06:24	Pooja Ranjan:	Reacted to "📋 Agenda for today
+https://github.com/ethereum/pm/issues/2209" with 👍
+00:06:27	danceratopz:	-> glamsterdam-devnet-8 (Platåberget) updates - led by @qu0b
+Platåberget test case knocked out 12/13 Besu nodes and lagged Erigon + Ethrex: https://github.com/ethereum/pm/issues/2209#issuecomment-5568033889
+https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-8
+00:06:29	Pooja Ranjan:	Reacted to "https://github.com/ethereum/pm/issues/2209#issuecomment-5483605197" with 👍
+00:06:37	Toni Wahrstätter:	Payloads missing is also me
+00:08:37	CPerezz:	What hardware are nodes running on? Recommended, more, or less?
+00:09:49	Stefan Starflinger:	8 cores 16 GB RAM
+00:09:53	Stefan Starflinger:	digital ocean
+00:11:01	CPerezz:	Seems a bit below recommended hardware specs? https://eips.ethereum.org/EIPS/eip-7870 
+
+Not saying is not important to tackle ofc. But trying to understand severity
+00:11:24	Marius Van Der Wijden (M):	Do nodes have tracing enabled on these nodes?
+00:11:34	Stefan Starflinger:	Replying to "Do nodes have tracin..."
+
+yes
+00:11:46	Marius Van Der Wijden (M):	Replying to "Do nodes have tracin..." 
+
+ That will make things much harder tbh
+00:11:55	Stefan Starflinger:	Replying to "Do nodes have tracin..."
+
+i've now disabled traces and debug on some of the besu nodes
+00:12:00	pk910:	Replying to "Do nodes have tracin..."
+
+tracoor is requesting traces from every node
+00:12:32	Marius Van Der Wijden (M):	Replying to "Do nodes have tracin..." 
+
+ You guys really hate us :(
+00:13:07	Stefan Starflinger:	Reacted to "You guys really hate..." with 🥶
+00:13:25	spencer:	Do we have a shared place where we document all these devnet "attacks"? Just so we can add them to future devnets automatically, similar for some of Toni's etc
+00:13:33	pk910:	Reacted to "You guys really hate..." with 🥶
+00:14:24	jochem-brouwer:	Antwoord verzenden naar "Do we have a share..."
+
+We should move these spamoor files to a specific places so we can take those "attacks" from there. I am not sure where to put those though
+00:14:37	jochem-brouwer:	Otherwise they are scattered over different folders/repos
+00:14:43	CPerezz:	Replying to "Do we have a shared ..."
+
+Maybe a plugins repo or similar?
+00:15:13	Nico Flaig:	nimbus seems fine to me
+00:15:19	pk910:	Replying to "Do we have a shared ..."
+
+there are spammer configs included in the repo that are accessible from the frontend.   sounds like a good place - but public
+00:15:31	spencer:	Reacted to "there are spammer ..." with 🙏
+00:15:33	jochem-brouwer:	Antwoord verzenden naar "Do we have a share..."
+
+Ok great, I will add these attacks there :)
+00:15:44	jochem-brouwer:	Heeft gereageerd op "there are spammer ..." met 🙏
+00:15:52	Toni Wahrstätter:	Replying to "Do we have a shared ..." 
+
+ Spamoor is not flexible enough
+00:15:58	Justin Traglia:	Reacted to "Spamoor is not flexible enough" with 👍
+00:16:41	Maria Silva:	@jochem-brouwer , how many accounts have you deployed for this attack?
+00:16:44	CPerezz:	Replying to "Do we have a shared ..."
+
+For EL it is no? What are u missing there?
+00:16:51	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+100k
+00:16:56	Toni Wahrstätter:	Replying to "Do we have a shared ..." 
+
+ Attacks are cross layer
+00:17:05	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+Effectively I only target 66.667 accounts
+00:17:27	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+This is the spamoor attack: 
+
+Deploys a JUMPDEST-contract caller that cycles through indices 4000..70678 only, then hits it with full-block zero-calldata txs that keeps loop-calling these contracts and saves where it ended up at, such that the next tx can pick that up. Targets contracts were created by spamoor ID 100. Signed off by Jochem.
+00:17:37	Marius Van Der Wijden (M):	Replying to "Do we have a shared ..." 
+
+ Problem is that they are multiple gbs
+00:17:41	Maria Silva:	Replying to "@jochem-brouwer , ho..."
+
+Ok, so clients should be using their cache for later blocks, right?
+00:17:43	CPerezz:	Replying to "Do we have a shared ..."
+
+Jochem’s one wasn’t. 
+I agree it doesn’t solve everything. But covers a decent range of EL stuff with plugins.
+
+We can try supporting BALs. 
+CL is ofc hard
+00:17:45	Caleb:	there was something about Nimbus? missed it sorry
+00:17:47	danceratopz:	🩹 glamsterdam-devnet-9 (the planned non-finality devnet) updates + post-mortems - led by @qu0b
+Planned non-finality trigger not reached; ~28 h of unplanned non-finality then recovery on Sep 3 tested it anyway.
+https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-9
+00:17:49	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+Yes, which makes this even more scary :)
+00:18:22	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+So we loop over the same 66.667 ceil(200_000_000 / 3000) accounts and most clients struggle with this (after a while)
+00:18:39	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+So this seems to indicate this is not an IO or state problem
+00:18:40	Toni Wahrstätter:	Replying to "Do we have a shared ..." 
+
+ Yeah jochem one works fine but mine are morw CL level that affect the EL. E.g. publishing a heavy payload into a different slot.
+00:19:07	Louis:	Replying to "@jochem-brouwer , ho..."
+
+memory issue?
+00:19:08	jochem-brouwer:	I just mentioned I dumped stuff in benchmark channel, it is in the all-el channel
+00:19:23	CPerezz:	Reacted to "Yeah jochem one work..." with 👍
+00:19:38	Maria Silva:	Interesting. We should definitely do this in the mainnet fork devnet as well
+00:19:44	danceratopz:	Replying to "🩹 glamsterdam-devne..."
+
+Lighthouse OOM RCA: <https://panda-uploads-production.devops-539.workers.dev/panda/uploads/724a20/devnet-9-lighthouse-oom-rca-2026-09-04.html>
+00:19:45	Maria Silva:	Reacted to "memory issue?" with 🤔
+00:20:12	danceratopz:	Reacted to "I just mentioned I d..." with 👍
+00:20:23	Maria Silva:	Does the scenario trigger a write to the account? Or just the loading and jumpdest?
+00:21:09	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+Only loading jumpdest :) CALLVALUE=0. Let me ping you on discord also
+00:21:19	Maria Silva:	Reacted to "Only loading jumpdest :) CALLVALUE=0. Let me ping you on discord also" with 👍
+00:21:28	Justin Traglia:	Has the prysm issue been fixed?
+00:22:11	james:	https://github.com/OffchainLabs/prysm/pull/17382  it’s not merged in yet
+00:22:16	pk910:	feedback from anyone from prysm side would be really helpful :D
+We'Re waiting for prysm for devnet-11 too...
+00:22:17	james:	So it’s still not in trunk
+00:22:21	Enrico Del Fante (tbenr):	Replying to "Has the prysm issue ..."
+
+ASAIK it was just that they where not up to date on alpha.14 on their trunk
+00:22:27	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+Pinged you on discord. The similar benchmark test is: `benchmark/stateful/bloatnet/test_account_query.py::test_account_access[fork_Amsterdam-blockchain_test_stateful_engine-code_size_65536-opcode_CALL-value_sent_0-account_mode_AccountMode.EXISTING_CONTRACT_JUMPDEST-overhead_baseline_False-cache_strategy_CacheStrategy.NO_CACHE-benchmark-gas-value_200M]`
+There might be slight differences in the way the caller attack is setup, but the target accounts are all the same
+00:22:46	james:	Replying to "Has the prysm issue ..."
+
+https://github.com/OffchainLabs/prysm/pull/17382  this needs to merge in to trunk
+00:22:49	james:	Replying to "Has the prysm issue ..."
+
+Sorry I can’t talk
+00:22:57	Ameziane Hamlat:	Reacted to "I just mentioned I dumped stuff in benchmark channel, it is in the all-el channel" with 👍
+00:22:59	james:	Replying to "Has the prysm issue ..."
+
+Yes
+00:22:59	jochem-brouwer:	Antwoord verzenden naar "@jochem-brouwer , ..."
+
+Maybe worth noting: this also creates a somewhat big BAL, I recall something like 1.3 MiB pulling a large block (with lots of these txs in it) from the nodes
+00:23:03	danceratopz:	Reacted to "Yes" with 👍
+00:23:05	james:	Replying to "Has the prysm issue ..."
+
+It updates to alpha 14
+00:23:13	james:	Replying to "Has the prysm issue ..."
+
+But there’s still review feedback I believe
+00:23:37	james:	Replying to "Has the prysm issue ..."
+
+Should be merged in soon
+00:23:42	danceratopz:	🚀 glamsterdam-devnet-11 launch readiness - led by @qu0b
+EL client Checklist:
+- 7610 removed in tests-glamsterdam-devnet@v8.1.3 + tests@v20.0.2;
+- 8037 merge-time state-gas repayment (EIPs#12265) in tests-glamsterdam-devnet@v8.1.4
+00:24:37	Nico Flaig:	Replying to "feedback from anyone..."
+
+does someone from pandaops do the deposit attack there, or should i do it?
+00:24:48	Nico Flaig:	Replying to "feedback from anyone..."
+
+I can share my scripts privately
+00:24:56	pk910:	Replying to "feedback from anyone..."
+
+please don'T do on this network.  L2s want to test the happy path
+00:24:58	Toni Wahrstätter:	How many days from genesis until gloas?
+00:25:06	jochem-brouwer:	Antwoord verzenden naar "🚀 glamsterdam-d..."
+
+Are you here? :)
+00:25:07	Nico Flaig:	Replying to "feedback from anyone..."
+
+ok ok 😂
+00:25:44	danceratopz:	Reacted to "Are you here? :)" with 👋
+00:25:55	jochem-brouwer:	Antwoord verzenden naar "🚀 glamsterdam-d..."
+
+Ok cool, was getting slighty worried :)
+00:26:26	james:	https://github.com/OffchainLabs/prysm/pull/17440  needs to merge in develop too if you are trying builder deposits
+00:26:48	james:	There’s a few other ones depending on the testing ..
+00:28:07	Justin Traglia:	CL breakout: https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1
+00:28:15	danceratopz:	🔀 Splitting into breakouts now.
+EL stays here.
+CL with @jtraglia: <https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1>
+00:28:15	wolovim:	Reacted to "CL breakout: https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1" with 👆
+00:28:28	spencer:	Reacted to "CL breakout: https..." with 👆
+00:29:14	jochem-brouwer:	https://gist.github.com/jochem-brouwer/72b97452ba440da909e5da5bdf876817
+00:29:28	danceratopz:	Ship EIP-8253 (bump nonce of zero-nonce storage accounts) with Glamsterdam? Companion to the EIP-7610 removal / BAL edge case
+<https://eips.ethereum.org/EIPS/eip-8253>
+Jochem's TL;DR gist: <https://gist.github.com/jochem-brouwer/72b97452ba440da909e5da5bdf876817>
+00:32:18	Pooja Ranjan:	Reacted to "Ship EIP-8253 (bump nonce of zero-nonce storage accounts) with Glamsterdam? Companion to the EIP-7610 removal / BAL edge case
+<https://eips.ethereum.org/EIPS/eip-8253>
+Jochem's TL;DR gist: <https://gist.github.com/jochem-brouwer/72b97452ba440da909e5da5bdf876817>" with 👍
+00:33:23	CPerezz:	We hit that actually with PBT
+00:35:29	jochem-brouwer:	I have draft PR open for spec+tests in EELS https://github.com/ethereum/execution-specs/pull/3535
+00:36:34	FLCL (Nethermind):	May it be someone tracks such state transition? Should it be reflected in BALs?
+00:36:40	jochem-brouwer:	This BAL change is in EIP-8253
+00:37:33	Iván | ethrex:	-> hegota
+00:37:37	FLCL (Nethermind):	It seems too late
+00:37:45	Dragan Rakita:	Reacted to "-> hegota" with 👍
+00:37:46	Karim T. (matkt):	Reacted to "It seems to late" with ➕
+00:37:49	Dragan Rakita:	Reacted to "It seems to late" with 👍
+00:38:04	Ben Adams:	Reacted to "It seems to late" with 👍
+00:38:05	Ben Adams:	Reacted to "It seems to late" with ➕
+00:40:53	Dragan Rakita:	It is fine to do it in hegota. Imo this would work in Glamsterdam only if all (or most) clients prefer it.
+00:41:00	CPerezz:	Reacted to "It is fine to do it ..." with 👍
+00:41:04	spencer:	Reacted to "It is fine to do i..." with 👍
+00:41:10	danceratopz:	Reacted to "It is fine to do it ..." with 🙏
+00:41:28	jochem-brouwer:	Pre-fork EIP-8253 before Glamsterdam? :) (joking)
+00:41:33	jochem-brouwer:	Oh lol
+00:41:37	CPerezz:	Reacted to "Oh lol" with 😂
+00:41:41	Iván | ethrex:	Reacted to "Oh lol" with 😂
+00:41:41	Dragan Rakita:	Reacted to "Oh lol" with 😂
+00:41:48	danceratopz:	Reacted to "Oh lol" with 😂
+00:42:21	Dragan Rakita:	Replying to "Oh lol"
+
+Creative thinking 😄
+00:42:42	Stefan Starflinger:	Reacted to "It seems too late" with ➕
+00:42:43	Ben Adams:	Reacted to "Pre-fork EIP-8253 before Glamsterdam? :) (joking)" with 👍
+00:44:01	jochem-brouwer:	Btw, there are no storage changes into the BAL added. It is only nonce changes. I might have messed this up by saying something differently (implying storage changes to BAL) earlier
+00:44:24	jochem-brouwer:	So we bump nonce 0->1 for 28 accounts, see: https://eips.ethereum.org/EIPS/eip-8253
+00:44:56	Ben Adams:	Replying to "Btw, there are no storage changes into the BAL added. It is only nonce changes. I might have messed this up by saying something differently (implying storage changes to BAL) earlier"
+
+I just mean if we go either way, the worst case isn't terrible for the BAL
+00:45:09	danceratopz:	🗂️ Close EIPs#12249 (EIP-8037 SELFDESTRUCT state-gas refill)? Declined at ACDT #94
+<https://github.com/ethereum/EIPs/pull/12249>
+<https://forkcast.org/calls/acdt/094/>
+00:47:58	milen | Erigon:	Sorry joined late and likely missed the discussion about EIP-8253. I would be in favour of doing it in Glamsterdam if there is bandwidth on the testing side (it is mostly more effort to set up the testing in a shadow fork), but wouldn’t mind if that gets done in Hegota either. Happy with both, slight preference to just get it done now so we don’t have to talk about this again.
+00:48:13	danceratopz:	Reacted to "Sorry joined late an..." with 👍
+00:48:15	jochem-brouwer:	Heeft gereageerd op "Sorry joined late ..." met 👍
+00:48:16	spencer:	Reacted to "Sorry joined late ..." with 🙏
+00:48:19	jochem-brouwer:	Heeft gereageerd op "Sorry joined late ..." met 🙏
+00:49:21	jochem-brouwer:	Antwoord verzenden naar "Sorry joined late ..."
+
+Lets discuss async. If you could take a look of adding these changes in your code, we are taking care of the test side of this (not shadow fork itself but the EELS tests+spec: https://github.com/ethereum/execution-specs/pull/3535 )
+00:49:22	danceratopz:	Reorg testing for ELs - brought up by @CPerezz
+<https://github.com/ethereum/pm/issues/2209#issuecomment-5567858868>
+<https://discord.com/channels/1359927674746835211/1538923536356352072/1538923541498695681>
+00:49:24	CPerezz:	https://discord.com/channels/1359927674746835211/1538923536356352072/1538923541498695681
+00:50:51	wolovim:	Friendly reminder that the next frame tx breakout call is also tmrw. Add to the agenda if you like: https://github.com/ethereum/pm/issues/2212
+00:51:00	Toni Wahrstätter:	We wanted to work towards this reorg window:
+https://eips.ethereum.org/EIPS/eip-8252
+00:51:02	spencer:	Reacted to "Friendly reminder ..." with ❤️
+00:51:57	Toni Wahrstätter:	This might help, @CPerezz
+00:52:17	CPerezz:	So Neth and Lukasz are for Hive IIUC. 
+
+This means no other EL has any preferences I assume.
+
+So we will start building such a suite in hive most likely then. And trying to add all PBT reorg testing there as well as MPT
+
+Awesome. Thanks!
+00:52:17	Karim T. (matkt):	Hive seems to make sense
+00:52:40	CPerezz:	Reacted to "Hive seems to make s..." with 👍
+00:53:00	CPerezz:	Reacted to "This might help, @CP..." with ❤️
+00:53:16	CPerezz:	Replying to "This might help, @CP..."
+
+Ye I know! I wanted to have perf tests for that too
+00:54:28	danceratopz:	🌐 eth/72 txsize is ambiguous for type-3 transactions (carried over from ACDT #94)
+<https://github.com/ethereum/devp2p/pull/281>
+<https://github.com/ethereum/pm/issues/2204#issuecomment-5479074806>
+EIP-8070 size_i follow-up: <https://github.com/ethereum/EIPs/pull/12275>
+Besu fix merged: <https://github.com/besu-eth/besu/pull/11203>
+00:55:04	FLCL (Nethermind):	What's cool about eels is that any fixture can be run outside hive using a cli per client, if we could have genesis/payload dump from hive that might speedup reproducing the issues.
+00:55:19	Stefan Starflinger:	https://github.com/ethereum/devp2p/pull/281
+00:55:19	milen | Erigon:	Reacted to "Lets discuss async. If you could take a look of adding these changes in your code, we are taking care of the test side of this (not shadow fork itself but the EELS tests+spec: https://github.com/ethereum/execution-specs/pull/3535 )" with 👍
+00:55:28	spencer:	Reacted to "https://github.com..." with 🙏
+00:55:50	milen | Erigon:	Replying to "Sorry joined late an..."
+
+Sounds good, feel free to ping if you need help with anything. I’ll try to prep a branch for it tomorrow
+00:56:24	danceratopz:	🔍 Heads up: EIP-8037 state gas in debug traces (execution-apis#852) is on the RPC Standards Call today 15:00 UTC
+<https://github.com/ethereum/execution-apis/pull/852>
+<https://github.com/ethereum/pm/issues/2213>
+00:57:27	Marius Van Der Wijden (M):	I like making it a <stategas, execution  >  vector
+00:58:13	danceratopz:	Reacted to "I like making it a <..." with 👍
+00:58:15	danceratopz:	Reacted to "I like making it a <..." with 🙏
+00:59:02	jochem-brouwer:	Antwoord verzenden naar "Sorry joined late ..."
+
+Thanks! Any test case we should include please send them to me so we directly include it in the first release of these tests. For instance the balance should not change, so things coming to mind is poking this balance, sending balance in the prior block, sending withdrawal to this account, etc etc
+00:59:13	jochem-brouwer:	Antwoord verzenden naar "Sorry joined late ..."
+
+Or directly write them
