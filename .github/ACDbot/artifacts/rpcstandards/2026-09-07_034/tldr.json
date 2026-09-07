@@ -1,0 +1,81 @@
+{
+  "meeting": "RPC Standards #34 - September 7, 2026",
+  "highlights": {
+    "pr_status_and_blockers": [
+      {
+        "timestamp": "00:05:35",
+        "highlight": "PR #867 (eth_simulateV1 Amsterdam update) blocked; new PR opened this morning to fix slot number, blob fields, and deprecate transfer log for Amsterdam blocks"
+      },
+      {
+        "timestamp": "00:09:02",
+        "highlight": "PR #855 (log index in Call Tracer): Erigon and Reth emit per-tx; spec will follow Geth's block-level log index; needs update before merge"
+      },
+      {
+        "timestamp": "00:21:18",
+        "highlight": "PR #847 (null for missing raw transactions) blocked on unreviewed Geth PR open since June 26; comment needed to surface priority"
+      },
+      {
+        "timestamp": "00:27:07",
+        "highlight": "PR #877 (eth_getHeaderByHash / eth_getHeaderByNumber): Erigon fix submitted, Besu needs implementation; awaiting spec thumbs-up to undraft client PRs"
+      },
+      {
+        "timestamp": "00:30:15",
+        "highlight": "PR #875 (error code -39001 removal): all clients except Besu/Erigon already omit it; ready to merge pending Geth + Nethermind approval"
+      }
+    ],
+    "eth_getlogs_issue": [
+      {
+        "timestamp": "00:36:20",
+        "highlight": "Issue #876 (eth_getLogs improvements): reorg handling exists only via eth_subscribe; pagination requires a new endpoint; 'latest' ambiguity unsolvable without pinning block number"
+      }
+    ],
+    "hive_testing": [
+      {
+        "timestamp": "00:43:14",
+        "highlight": "Hive PR #1588: without the change, named-tracer schema validation falls through to match-any, making all Call Tracer tests green regardless of correctness; blocked pending LightClient/Felix review"
+      }
+    ],
+    "release": [
+      {
+        "timestamp": "00:53:24",
+        "highlight": "v1.0.0-beta.8 release deferred until Amsterdam spec work lands; meta-issue for release contents not yet created"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:22:04",
+      "action": "Add blocking comment to Geth PR for null raw transactions to surface review priority",
+      "owner": "Chase Wright"
+    },
+    {
+      "timestamp": "00:42:23",
+      "action": "Leave detailed comment on issue #876 (eth_getLogs) covering reorg handling, pagination, and 'latest' limitations",
+      "owner": "\u0141ukasz Rozmej (Nethermind)"
+    },
+    {
+      "timestamp": "00:53:48",
+      "action": "Create meta-issue listing what should be in v1.0.0-beta.8 release",
+      "owner": "Chase Wright"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:30:56",
+      "decision": "PR #875 (remove error code -39001): merge after call; Geth and Nethermind approved on call"
+    },
+    {
+      "timestamp": "00:33:10",
+      "decision": "PR #873 (clarify fee recipient vs Coinbase in eth_simulate payload): merge; minor clarification, no objections"
+    },
+    {
+      "timestamp": "00:35:43",
+      "decision": "PR #872 (add legacy 'data' alias to schema): close; legacy aliasing should not be enshrined in spec"
+    },
+    {
+      "timestamp": "00:53:24",
+      "decision": "v1.0.0-beta.8 release deferred until Amsterdam spec (eth_simulateV1) is finalized"
+    }
+  ],
+  "targets": []
+}
