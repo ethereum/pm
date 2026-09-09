@@ -1,0 +1,89 @@
+{
+  "meeting": "L1-zkEVM breakout #08 - September 09, 2026",
+  "highlights": {
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:04:49",
+        "highlight": "EF blog post tier-list: EIP-8025 (stateless guest spec) scored A-ish; EVMification EIP scored C; BlockHash-via-EIP-2935 storage EIP ranked if capacity allows"
+      },
+      {
+        "timestamp": "00:09:34",
+        "highlight": "EIP-8025 repo published: ACDMD rationale doc, Q&A, and progress.md engineering landing page; clarifies 8025 \u2260 mandatory proofs"
+      }
+    ],
+    "standardization_and_specs": [
+      {
+        "timestamp": "00:13:08",
+        "highlight": "test-zkVM v0.8x released: simplified stateless input, external transition tool (Geth) filling, stateless input/output bytes in transition tool"
+      },
+      {
+        "timestamp": "00:13:57",
+        "highlight": "First official benchmark fixtures released: 10, 30, 60 M gas; ethrex can now also fill benchmarks"
+      },
+      {
+        "timestamp": "00:17:08",
+        "highlight": "DoS vector raised (Lukasz/Nethermind): HashMap seeds in pure guest functions exploitable via FOCIL; Cody drafted new precompile proposal; open for comment"
+      },
+      {
+        "timestamp": "00:19:38",
+        "highlight": "era-guests now pulls ELFs from guest-team CI releases (ethrex + Reth joined Besu); teams fully own the proven ELF"
+      }
+    ],
+    "proving_infrastructure": [
+      {
+        "timestamp": "00:22:05",
+        "highlight": "Benchmarks run with OpenVM v2.1 + zkV1.2; new prover front-end shows per-proof GPU metrics, pipeline traces, and cost composition by category"
+      },
+      {
+        "timestamp": "00:27:21",
+        "highlight": "Chetany (EthPandaOps internship): 72-hour unattended mainnet run with 16\u00d7RTX 5090s; 99.4% of blocks proved within 12-second slot budget; median 6.26 s, P99 11.15 s end-to-end"
+      },
+      {
+        "timestamp": "00:29:08",
+        "highlight": "Cancellation race left workers stuck 21.5 hours undetected; recovery handling + min-worker enforcement reduced same failure class to 72 seconds"
+      },
+      {
+        "timestamp": "00:32:25",
+        "highlight": "Witness fetch was primary tail bottleneck (63% of median\u2192P99 increase); worst-case fetch 9\u201311 s; old debug method used, not SSZ flat witness"
+      }
+    ],
+    "cl_spec_updates": [
+      {
+        "timestamp": "00:48:25",
+        "highlight": "New execution-proof-envelope type keyed on beacon block root (not payload); merged to consensus-specs master"
+      },
+      {
+        "timestamp": "00:49:02",
+        "highlight": "Gossip handler now performs full proof-engine verification before propagation (not just signature) to prevent invalid-proof spam; ~80 ms verification overhead; benchmarks pending"
+      },
+      {
+        "timestamp": "00:53:59",
+        "highlight": "For EIP-8025 devnet participation: CL teams only required to implement proof verification; proof generation is optional (Tau/Lighthouse fork will cover it)"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:17:08",
+      "action": "Review DoS/randomness-seed issue for guest programs and comment on Cody's precompile proposal",
+      "owner": "All zkVM / guest-program teams"
+    },
+    {
+      "timestamp": "00:51:05",
+      "action": "Benchmark proof-engine gossip-verification overhead (~80 ms) and share results before committing to approach",
+      "owner": "Tau / Francesco"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:53:59",
+      "decision": "CL client teams only required to implement proof verification for 8025 devnet; proof generation support is optional"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:52:30",
+      "target": "EIP-8025 CL integration targets Gloas devnet-8 or the following devnet"
+    }
+  ]
+}
