@@ -1,0 +1,3758 @@
+WEBVTT
+
+1
+00:01:49.050 --> 00:01:50.380
+Potuz: Hello, coating.
+
+2
+00:01:56.330 --> 00:01:57.090
+Gottfried Herold: Hello.
+
+3
+00:01:58.650 --> 00:02:06.409
+Potuz: Have you been following the… OpenAI stealing the Navier Stokes results.
+
+4
+00:02:07.020 --> 00:02:12.510
+Gottfried Herold: Yeah, I mean, I've been following it, I mean, I'm waiting for the dust to settle, I guess.
+
+5
+00:02:12.910 --> 00:02:13.500
+Potuz: It's…
+
+6
+00:02:13.500 --> 00:02:13.970
+Gottfried Herold: It's…
+
+7
+00:02:13.970 --> 00:02:25.879
+Potuz: the community is going crazy here. Yeah, everyone… everyone is, like, canceling… canceling OpenAI subscriptions, everyone is afraid of, like, losing all of their papers. It's crazy.
+
+8
+00:02:25.880 --> 00:02:41.989
+Gottfried Herold: Yeah, I mean, to be fair, I mean, I'm only using it for not-so-high-profile stuff, for copy editing so far, but yeah, and it was just joking today. I mean, maybe Alexandre Grotenthik was right, and we should just all go into the Ardennes and raise codes.
+
+9
+00:02:42.840 --> 00:02:56.159
+Potuz: It's just crazy. Yeah, I have been using it on a conjecture I have for the last 15 years, and it has been useful, but I switched to, like, having agents communicating with themselves, and now I kind of regret this.
+
+10
+00:02:57.250 --> 00:03:00.160
+Potuz: Everyone is… Breaking out.
+
+11
+00:03:06.100 --> 00:03:10.859
+Potuz: Oh, and I just got a message here that people are recording this on AI.
+
+12
+00:03:13.240 --> 00:03:14.420
+Gottfried Herold: Yeah.
+
+13
+00:03:46.110 --> 00:03:46.970
+Anton Nashatyrev: Hey, guys.
+
+14
+00:03:52.310 --> 00:03:53.050
+Yann Vonlanthen: Hello.
+
+15
+00:04:51.390 --> 00:04:52.280
+Kamil Salakhiev: Hello, everyone.
+
+16
+00:05:04.240 --> 00:05:08.400
+Kamil Salakhiev: Can you just give me a second, I will ping everyone, then we'll start in a minute.
+
+17
+00:05:28.950 --> 00:05:30.839
+Daniel Knopik: Brick microphone check, can you hear me?
+
+18
+00:05:32.040 --> 00:05:33.830
+Kamil Salakhiev: Yes, we can hear you, Daniel.
+
+19
+00:05:35.970 --> 00:05:36.970
+Kamil Salakhiev: Okay, great.
+
+20
+00:05:37.660 --> 00:05:42.120
+Kamil Salakhiev: Yeah, I think we have a quorum, so yeah, let's just get started.
+
+21
+00:05:42.330 --> 00:05:47.970
+Kamil Salakhiev: So, hello everyone. Welcome to P2P breakout call number 8.
+
+22
+00:05:48.210 --> 00:05:52.939
+Kamil Salakhiev: So, we have a pretty packed agenda today, so we'll start with client updates, and then
+
+23
+00:05:53.050 --> 00:06:00.500
+Kamil Salakhiev: Yeah, we will discuss, RowDAS proposal, by Caba, then… We discussed,
+
+24
+00:06:00.720 --> 00:06:06.309
+Kamil Salakhiev: his ETH Research post about faster Pablo broadcast, and then… Yeah,
+
+25
+00:06:07.050 --> 00:06:11.869
+Kamil Salakhiev: talk about the new EIP, about this Pablo broadcast, and then, yeah,
+
+26
+00:06:12.660 --> 00:06:16.940
+Kamil Salakhiev: We will give some updates on EIP2P. So yeah, let's get started.
+
+27
+00:06:17.190 --> 00:06:26.370
+Kamil Salakhiev: So… yeah, let's proceed with client updates. Yeah, maybe let's start with Prysm this time.
+
+28
+00:06:26.800 --> 00:06:29.970
+Kamil Salakhiev: Do we have anyone?
+
+29
+00:06:30.450 --> 00:06:31.850
+Kamil Salakhiev: March, maybe.
+
+30
+00:06:34.190 --> 00:06:43.319
+ashah: Yeah, so, good progress on the Prysm's side. The PR for partial columns for Gloas, I'll put it in the Zoom chat.
+
+31
+00:06:43.550 --> 00:06:52.840
+ashah: is, ready to go. We're just waiting… it's fully reviewed, fully tested, we're just waiting for one of the PR to land, and then we'll merge this in our release branch.
+
+32
+00:06:52.910 --> 00:07:11.010
+ashah: On… last time, I mentioned that Prysm is working on an overhaul and refactor of its peer scoring system, so that has also made a good progress. Here's the design… like, here's a doc explaining the changes we are making at a high level.
+
+33
+00:07:11.210 --> 00:07:15.879
+ashah: also sort of a design doc, I put in the Zoom chat, and…
+
+34
+00:07:16.280 --> 00:07:20.540
+ashah: Here's the PR for it, if anyone is interested.
+
+35
+00:07:20.600 --> 00:07:27.740
+ashah: We… it's dev complete, we finished testing it on our Hoodi node for a week, it looks good.
+
+36
+00:07:27.740 --> 00:07:42.900
+ashah: No noticeable regressions, now we're gonna… it's gonna go through a round of review before we merge it to a release branch, but this PR changes how Prysm ranks PRs for pruning when it's at capacity in terms of max connection.
+
+37
+00:07:43.250 --> 00:07:49.870
+ashah: it adds a lot of observability to RPC APIs and metrics into why…
+
+38
+00:07:50.010 --> 00:08:05.710
+ashah: Prysm is disconnecting certain peers, why it's blacklisting or graylisting certain peers, what are the errors that is causing that? So yeah, like, the main overhaul is an overhaul of the scoring system, which decides how Prysm
+
+39
+00:08:05.740 --> 00:08:10.959
+ashah: Prune spheres, and also a lot more observability and matrix.
+
+40
+00:08:11.390 --> 00:08:22.030
+ashah: into why Prysm is disconnecting peers, banning peers, relisting peers, what are the gossip rejections that we are seeing for… across topics.
+
+41
+00:08:22.580 --> 00:08:27.860
+ashah: what are some invalid RPC responses we are seeing across,
+
+42
+00:08:27.980 --> 00:08:37.990
+ashah: peers, it also allows us to filter at an agent level, like, you know, why are we banning Lighthouse peers, or why are we banning a certain
+
+43
+00:08:38.120 --> 00:08:40.479
+ashah: Deco beers, etc.
+
+44
+00:08:40.600 --> 00:08:47.079
+ashah: So, we gotta start an internal review of this PR tomorrow, and yeah, once this lands.
+
+45
+00:08:47.300 --> 00:08:58.360
+ashah: Yeah, once the review is complete, we're gonna merge it to our release branch. And like I said, I've been testing it on my own Hoodi node with a lot of validators attached since a week, and it's looking good.
+
+46
+00:08:58.500 --> 00:09:10.180
+ashah: Please go through the PR, please go to the design doc. I mean, PR, I don't know, yeah, please, like, please go through both if you have questions, and they're on Discord, Telegram, anything. Thank you.
+
+47
+00:09:12.640 --> 00:09:14.460
+Kamil Salakhiev: Nice. Yeah, looks good.
+
+48
+00:09:17.200 --> 00:09:19.880
+Kamil Salakhiev: Is there maybe any questions, ash about this?
+
+49
+00:09:23.660 --> 00:09:28.740
+Kamil Salakhiev: Okay, if not… cool, yeah, let's proceed with, Lighthouse.
+
+50
+00:09:29.200 --> 00:09:30.470
+Kamil Salakhiev: Maybe Daniel?
+
+51
+00:09:31.650 --> 00:09:32.470
+Daniel Knopik: Sure.
+
+52
+00:09:32.760 --> 00:09:39.209
+Daniel Knopik: So, from our side, actually, not too much to report.
+
+53
+00:09:39.470 --> 00:09:52.110
+Daniel Knopik: We fixed the… Incorrectly ordered fields, thanks, Arsh. We also… are, looking…
+
+54
+00:09:52.520 --> 00:10:00.609
+Daniel Knopik: to hopefully soon enable puzzles on all networks. I think there's just some nuance outstanding, but there isn't there.
+
+55
+00:10:00.840 --> 00:10:08.400
+Daniel Knopik: Yeah, and also, which is kind of related, which came up during ACDC last week,
+
+56
+00:10:09.110 --> 00:10:11.370
+Daniel Knopik: I… I basically asked.
+
+57
+00:10:11.930 --> 00:10:19.980
+Daniel Knopik: why the Gloas limit for columns is so high, it was, like, 8 point something megabytes.
+
+58
+00:10:20.390 --> 00:10:24.280
+Daniel Knopik: Which is, thousands of clubs, and…
+
+59
+00:10:24.510 --> 00:10:29.789
+Daniel Knopik: It seems it's now going to be replaced by a dynamic limit, so that's kind of,
+
+60
+00:10:30.060 --> 00:10:36.210
+Daniel Knopik: then I'm making a sense of, like, take the highest thing in the blob schedule and consider that the limit.
+
+61
+00:10:36.480 --> 00:10:37.460
+Daniel Knopik: Which is…
+
+62
+00:10:37.820 --> 00:10:44.150
+Daniel Knopik: Makes more sense than, like, a really high limit. So, yeah, makes sense to check that out, probably, if…
+
+63
+00:10:45.000 --> 00:10:45.970
+Daniel Knopik: Yeah.
+
+64
+00:10:46.230 --> 00:10:53.479
+Daniel Knopik: should be adjusted, in your implementations, I guess. But yeah, otherwise than that, a lot of work on
+
+65
+00:10:53.860 --> 00:11:00.750
+Daniel Knopik: Waggle, so I've, started working on…
+
+66
+00:11:01.010 --> 00:11:09.599
+Daniel Knopik: Yeah, attestation broadcast, so it's also Quinn's proposal, using it, so that is ongoing.
+
+67
+00:11:09.860 --> 00:11:10.960
+Daniel Knopik: Yeah.
+
+68
+00:11:11.710 --> 00:11:13.810
+Daniel Knopik: Ash, you have your hand raised.
+
+69
+00:11:14.440 --> 00:11:21.800
+ashah: Sorry, just one quick question, Danielle. So, when do you think you'll have the… have the fix for the…
+
+70
+00:11:21.860 --> 00:11:35.019
+ashah: group ID container in your Docker image, so, like, I want to do one more round of kurtosis testing and ensure the interrupt works fine before I turn it on in Lambda and DevNet 8, you know, so we don't end up breaking the DevNet.
+
+71
+00:11:35.610 --> 00:11:44.970
+Daniel Knopik: which Docker image? It's in Unstable, so it should be in unstable, I'm not sure what tag specifically you mean.
+
+72
+00:11:45.990 --> 00:11:50.300
+ashah: Yeah, like, so I'm saying that, you know, the group ID…
+
+73
+00:11:50.710 --> 00:11:55.619
+ashah: We had a bug where the, right, we had the group ID, the order of the fields was reversed.
+
+74
+00:11:56.120 --> 00:11:56.949
+ashah: Which would.
+
+75
+00:11:56.950 --> 00:12:11.020
+Daniel Knopik: That's merged, that's merged. So, I'm not sure what exact image you are building from, but, I mean, Definite 8 image is built from Unstable, so it should be on Definite 8, and it should be also on the corresponding
+
+76
+00:12:11.200 --> 00:12:14.590
+Daniel Knopik: Image, as far as I'm aware. Yeah, thanks for reporting that.
+
+77
+00:12:20.070 --> 00:12:22.840
+Kamil Salakhiev: Yeah, cool, nice. Thanks, Daniel.
+
+78
+00:12:23.850 --> 00:12:27.709
+Kamil Salakhiev: Anton, do we have anything from Teku, or… or Grandine?
+
+79
+00:12:30.330 --> 00:12:40.070
+Anton Nashatyrev: Yeah, hi, sorry, yeah, I have no, again, I have no information about Teku, I just know, like, lately you guys, were fixing some.
+
+80
+00:12:40.580 --> 00:12:44.970
+Anton Nashatyrev: vulnerabilities Yeah, that's probably it.
+
+81
+00:12:45.740 --> 00:12:51.269
+Kamil Salakhiev: I heard Teku was also working on partial messages, if I'm not mistaken. Do you know any updates on that, maybe?
+
+82
+00:12:52.070 --> 00:12:54.450
+Anton Nashatyrev: - no, to be honest.
+
+83
+00:12:55.650 --> 00:12:57.700
+Kamil Salakhiev: Maybe I am mistaken, maybe I'm confusing.
+
+84
+00:12:57.700 --> 00:13:02.459
+Anton Nashatyrev: I… at least I… yeah, at least I didn't, aware of it.
+
+85
+00:13:03.740 --> 00:13:05.529
+Kamil Salakhiev: Yeah, okay, no worries, thanks.
+
+86
+00:13:05.870 --> 00:13:08.580
+Kamil Salakhiev: Cool, yeah, let's proceed then…
+
+87
+00:13:09.940 --> 00:13:12.589
+Kamil Salakhiev: Yeah, do you have any other seals? If…
+
+88
+00:13:14.690 --> 00:13:17.599
+Kamil Salakhiev: Yeah, let's proceed with the EL site,
+
+89
+00:13:18.910 --> 00:13:23.440
+Kamil Salakhiev: Okay, Arsh, do you have a question, or you just did not lower your hand?
+
+90
+00:13:24.270 --> 00:13:26.570
+ashah: Sorry, I think it's an earlier hand, my bad.
+
+91
+00:13:26.860 --> 00:13:32.189
+Kamil Salakhiev: Okay, notice. Yeah, yeah, Caba, anything from GIF?
+
+92
+00:13:34.790 --> 00:13:40.460
+Csaba: Not much update on… at least on my side. I was working on not only P2P and…
+
+93
+00:13:41.100 --> 00:13:46.699
+Csaba: and RowDAS and, segmented broadcast, so…
+
+94
+00:13:47.580 --> 00:13:59.550
+Csaba: We are making changes to this passport pool. I have a few branches on that, which are in plugless. And then, we are also making plugless with the protected pill pools.
+
+95
+00:13:59.970 --> 00:14:04.779
+Csaba: Which I mentioned in the last call, so the latency-based…
+
+96
+00:14:05.040 --> 00:14:11.129
+Csaba: Protection, but yeah, there's a… Proceeding on the appeal pass.
+
+97
+00:14:11.500 --> 00:14:12.970
+Csaba: But not yet merged.
+
+98
+00:14:15.510 --> 00:14:16.840
+Kamil Salakhiev: Okay, cool, thanks.
+
+99
+00:14:17.540 --> 00:14:21.600
+Kamil Salakhiev: Yeah, FLCL… Never mind.
+
+100
+00:14:21.980 --> 00:14:32.039
+FLCL (Nethermind): Hello. No news, related to Glamsterdam, as possible pool. We just have it, in master, and
+
+101
+00:14:32.350 --> 00:14:48.179
+FLCL (Nethermind): Did not update it, recently, but we are working on improvements, related to IPv6 support. Need a couple of pairs, and, we can call it, done.
+
+102
+00:14:49.010 --> 00:14:50.470
+FLCL (Nethermind): Potentially, yeah.
+
+103
+00:14:52.460 --> 00:14:53.750
+Kamil Salakhiev: Okay, thanks.
+
+104
+00:14:54.460 --> 00:14:57.639
+Kamil Salakhiev: Yeah, any other team that I missed?
+
+105
+00:15:04.300 --> 00:15:05.419
+Kamil Salakhiev: Okay, whoop.
+
+106
+00:15:05.780 --> 00:15:14.319
+Kamil Salakhiev: Yeah, then let's proceed with other topics, and yeah, let's start with RowDAS.
+
+107
+00:15:14.440 --> 00:15:15.190
+Kamil Salakhiev: Inshallah.
+
+108
+00:15:19.980 --> 00:15:26.220
+Csaba: Let me share… Let me first find it and then share it.
+
+109
+00:15:34.970 --> 00:15:37.499
+Csaba: She is clean, hello.
+
+110
+00:15:44.020 --> 00:15:48.540
+Csaba: Yeah, so I have some slides, I will just go through them quickly.
+
+111
+00:15:49.220 --> 00:15:58.690
+Csaba: Yeah, so RowDAS, which is in the Heritage list, it's about distributed… globally construction.
+
+112
+00:15:59.300 --> 00:16:01.079
+Csaba: Which we don't have now.
+
+113
+00:16:01.470 --> 00:16:04.590
+Csaba: So, a quick history, behind it, let me just…
+
+114
+00:16:04.730 --> 00:16:07.700
+Csaba: Change my screen so that I see my own slides.
+
+115
+00:16:08.730 --> 00:16:26.439
+Csaba: Yeah, so, quick history behind this. So, the 4 DAS, which has… was 2 years ago, and then it had a version 2. It had a few things, but, what's interesting here is… is three features, which it introduced compared to… to PeerDAS. One was,
+
+116
+00:16:26.660 --> 00:16:38.419
+Csaba: that we can do a distributed reconstruction in the network, and then there was, the block level, so the vertical coding, and then the subdinal sampling.
+
+117
+00:16:39.150 --> 00:16:47.270
+Csaba: And RowDAS is basically there to bring the first one to the mainnet. So, distributed reconstruction.
+
+118
+00:16:47.520 --> 00:16:54.930
+Csaba: PeerDAS also had a bunch of other things, bitmap-based messaging,
+
+119
+00:16:55.160 --> 00:17:07.270
+Csaba: structured segment IDs, et cetera, et cetera, and we have now the PSO messages in gossip sub, so what I was building for Ludas is kind of using that and building on top of that.
+
+120
+00:17:08.200 --> 00:17:10.889
+Csaba: So when I say distributed reconstruction.
+
+121
+00:17:11.020 --> 00:17:15.200
+Csaba: That kind of means two things.
+
+122
+00:17:15.810 --> 00:17:18.989
+Csaba: So one is the vertical distribution?
+
+123
+00:17:19.540 --> 00:17:32.410
+Csaba: And I typically introduced it in that direction. So that means what you have now is every supernet node has the duty to do the reconstruction, so it has the columns, and then it has to calculate
+
+124
+00:17:32.580 --> 00:17:38.469
+Csaba: The thing that it has to calculate it for every single blob, that it doesn't have some card blobs.
+
+125
+00:17:39.340 --> 00:17:57.720
+Csaba: So they just repeat this work. And the aim of RowDAS in this regard, is to… to change that, change that by assigning duties, basically, to, to, to Sprints, and then they know which one is the duty, and they… they first act on that.
+
+126
+00:17:58.220 --> 00:18:06.150
+Csaba: So by this, they are distributing loading network. And the other one is the horizontal, distributed reconstruction.
+
+127
+00:18:06.230 --> 00:18:21.330
+Csaba: Which is more about, what ethereum should be. So, that's the, the supernodeless reconstruction. So you don't need, super nodes, but we have them, but you don't need them, and the protocol can still reconstruct,
+
+128
+00:18:22.180 --> 00:18:31.850
+Csaba: blobs… blob content in the… in the distribution, so making the distribution more robust, even if you don't have these data centers, super nodes which are supporting it.
+
+129
+00:18:34.040 --> 00:18:37.900
+Csaba: Yeah, a bit about numbers.
+
+130
+00:18:38.520 --> 00:18:45.180
+Csaba: So… currently in the… in mainnet, we have more than 2,000 super nodes. It's kind of…
+
+131
+00:18:45.680 --> 00:18:47.629
+Csaba: They're coming from different…
+
+132
+00:18:48.410 --> 00:18:58.199
+Csaba: parts. Part of them is, is, is high custody, high custody. They were high custody. Part of them is high-stake notes, another one is… is Layer 2 notes, which needs the blobs.
+
+133
+00:18:58.700 --> 00:19:10.490
+Csaba: And then each one of them has to do with the construction. The construction is expensive because of the construction of the k commitments. It's like 160 milliseconds, ballpark number.
+
+134
+00:19:10.950 --> 00:19:22.219
+Csaba: And then you do it on every blob, let's say on 32 blobs, then you are spending a bunch of CPU time and everyone is spending it, and by distributing it among the nodes, you can just reduce that spend at the network level.
+
+135
+00:19:23.150 --> 00:19:38.010
+Csaba: There is already something in PeerDAS, I was adding it to the specification, so it's… it has this kind of allowed random delay, and that can help mitigate this, but it's not to the level of kind of dedicated reconstruction.
+
+136
+00:19:39.650 --> 00:19:58.339
+Csaba: So what you have in RowDAS is basically everyone has a dedicated law. It's kind of the custody law, but it's not custody requirement. I didn't want to make it custody requirement, because that would change too many things, and that would be too big of a change, I guess. So, no custody law, just an add-on law.
+
+137
+00:19:58.570 --> 00:20:00.490
+Csaba: Which you should care about.
+
+138
+00:20:01.050 --> 00:20:04.549
+Csaba: And that kind of designates which… what you do first.
+
+139
+00:20:04.760 --> 00:20:09.619
+Csaba: And then you have the low topic, on which you can actually send out that data.
+
+140
+00:20:11.090 --> 00:20:18.069
+Csaba: So you are super node, ID something, based on that, you know that you are responsible for, low…
+
+141
+00:20:18.180 --> 00:20:31.050
+Csaba: 58, and those 58 maps to blob number 3, and then there's a blob number 3, then you are reconstructing it. There's this mapping click, between blobs and… and those, where I'm keeping
+
+142
+00:20:31.050 --> 00:20:45.909
+Csaba: 128 lows, we can discuss that constant, it can be different. But the number of lows, and there is a mapping between, blocks in the block and loads, so that we are evening out load in the network, on the…
+
+143
+00:20:46.210 --> 00:20:47.540
+Csaba: On the longer term.
+
+144
+00:20:48.720 --> 00:20:55.600
+Csaba: So this is how… how the construction works. Basically, you have your, you're, you assigned.
+
+145
+00:20:56.600 --> 00:21:14.790
+Csaba: And then, that's kind of your duty, and you should, if you see that you have to deconstruct, you are deconstructing that, you are sharing, the result of that along the row, and then, if you still see that there's nothing else deconstructed, then you do reconstruct the other things.
+
+146
+00:21:14.790 --> 00:21:18.079
+Csaba: And then, actually, other nodes can chip in even later.
+
+147
+00:21:20.010 --> 00:21:22.360
+Csaba: Yeah.
+
+148
+00:21:22.710 --> 00:21:37.169
+Csaba: So the… on the deconstruction node, this means basically the two others of magnitude, improvement. So instead of deconstructing everything, you are just reconstructing 128, if you have a supernode, 128…
+
+149
+00:21:37.670 --> 00:21:47.110
+Csaba: Of that, so you just spend much less CPU time doing this reconstruction work. And if the network has, enough nodes.
+
+150
+00:21:47.260 --> 00:21:53.470
+Csaba: Which we have, then everything that's deconstructed by this, by this, deconstruction.
+
+151
+00:21:54.540 --> 00:22:05.350
+Csaba: If the network doesn't have enough loads, or things are delayed, then the thing is falling back, basically, to what we have in PBS. So then you are falling back to deconstructing other things as well.
+
+152
+00:22:05.910 --> 00:22:15.260
+Csaba: And then there is one more fallback step, which is falling back to nodes are reconstructing without relying on zipper notes.
+
+153
+00:22:17.780 --> 00:22:21.990
+Csaba: Okay. I tried to go fast, but feel free to ask.
+
+154
+00:22:25.380 --> 00:22:35.789
+Csaba: Yeah, so the whole thing is designed in a way that kind of the column pass distribution becomes the… stays the canonical distribution.
+
+155
+00:22:35.790 --> 00:22:47.339
+Csaba: And the low pass is just chipping in when things are not working. So, I was trying to design it in a way that, that the column pass
+
+156
+00:22:47.350 --> 00:22:50.209
+Csaba: Remains as performant as it was before.
+
+157
+00:22:51.280 --> 00:23:09.240
+Csaba: It's ballpark there, so I was measuring a few milliseconds up and down, measuring it over a bunch of network shapes and, network sizes and topologies, and the way, which is how it is implemented now, it…
+
+158
+00:23:09.620 --> 00:23:16.940
+Csaba: achieves this. So we are not giving up on… on the performance, what we have, to…
+
+159
+00:23:17.520 --> 00:23:24.290
+Csaba: to make the lows work. In my first naive implementation, the lows were just basically doubling the,
+
+160
+00:23:24.440 --> 00:23:32.690
+Csaba: the, the data mount, and that's obviously not good, so… so I had to tune the implementation a lot, to do that.
+
+161
+00:23:33.680 --> 00:23:51.990
+Csaba: But I tuned it, and now I have that. Yeah, this is kind of… that's an interesting figure, but, testing that the low-wise deconstruction happens, actually, which PBS is not doing it, and RowDAS is doing it, so it is just testing if
+
+162
+00:23:52.140 --> 00:23:58.880
+Csaba: if there are the only notes… if there are no super nodes in the system, I was testing the reconstruction is working, and it's working.
+
+163
+00:23:59.040 --> 00:24:07.980
+Csaba: Depending on the number of nodes, the, the custody's distribution, etc, maybe not at the 64 limit, but, at 65, it does.
+
+164
+00:24:10.190 --> 00:24:14.860
+Csaba: And then I was doing a bunch of measurements,
+
+165
+00:24:16.190 --> 00:24:18.870
+Csaba: I was writing under the tech, obviously it is not
+
+166
+00:24:18.950 --> 00:24:36.579
+Csaba: the kind of mapping up all the attacks, but trying to do a few things that can happen, evaluating under different scenarios, PeerDAS against RowDAS, without super nodes, with 10% of super nodes, with 20% of super nodes, in the network.
+
+167
+00:24:37.230 --> 00:24:44.070
+Csaba: And then evaluating, different sized consumptions. So, evaluating, basically how much
+
+168
+00:24:44.350 --> 00:24:49.820
+Csaba: CPU time is spent, and then, how much
+
+169
+00:24:49.960 --> 00:24:56.570
+Csaba: What was kind of the completion time, so the latency, and then the bytes sent on the network.
+
+170
+00:24:56.910 --> 00:25:02.540
+Csaba: With… with an… with… Piotas and Envy RowDAS, and the…
+
+171
+00:25:04.910 --> 00:25:15.140
+Csaba: the essence is that against Hardel, if under nasty situations, it's kind of degrading to PBS levels, but, but usually we are gaining a lot.
+
+172
+00:25:17.720 --> 00:25:29.590
+Csaba: Yeah, in this call, I wanted to arrive to this slide. So, while I was doing it, I was doing a bunch of work on the partial message, implementation.
+
+173
+00:25:30.320 --> 00:25:31.200
+Csaba: So…
+
+174
+00:25:31.750 --> 00:25:42.099
+Csaba: Yeah, this is just kind of a list of, of things that I was porting from, from my earlier works and, from other works to,
+
+175
+00:25:42.290 --> 00:25:43.890
+Csaba: To pass some messages.
+
+176
+00:25:44.200 --> 00:25:50.819
+Csaba: And, things are about, how we are doing the announcements.
+
+177
+00:25:50.960 --> 00:25:58.020
+Csaba: How we are doing requests, whether we kind of handle the fact that we…
+
+178
+00:25:58.400 --> 00:26:02.219
+Csaba: We give comms a higher priority,
+
+179
+00:26:03.480 --> 00:26:12.450
+Csaba: Then, the, the phase available forwarding is… is what comes from the, from my, push-pull.
+
+180
+00:26:12.990 --> 00:26:15.570
+Csaba: Phases light up.
+
+181
+00:26:16.460 --> 00:26:22.269
+Csaba: And then, I did change how requests are working, so…
+
+182
+00:26:22.550 --> 00:26:32.669
+Csaba: the goal EP2 implementations had a request policy where basically whenever there was an I want, and I have, went out, and I was working on changing that.
+
+183
+00:26:33.190 --> 00:26:38.300
+Csaba: And then… a few interesting changes.
+
+184
+00:26:39.110 --> 00:26:48.909
+Csaba: So adding things where you can… you understand, that a node is interested in a given cell.
+
+185
+00:26:49.120 --> 00:26:54.930
+Csaba: So, it's, it's not on your law, but it's… It's…
+
+186
+00:26:55.150 --> 00:27:00.770
+Csaba: It's having something that you have, because you have it on the column, something that you need, so you are kind of not…
+
+187
+00:27:01.720 --> 00:27:12.060
+Csaba: you are not on the same topic, but you know it needs it. And then, the default gossip-sub-messages filtering, so the kind of the default implementation is
+
+188
+00:27:12.060 --> 00:27:21.850
+Csaba: It's basically, I have the information, but I'm not telling you that I have this information, and I was flipping that over. I understand that you need this information, and I actually…
+
+189
+00:27:22.180 --> 00:27:33.759
+Csaba: in the gossip, in the HerdBit-based gossip, I do send the information saying, you know, I have that cell that you need, if you want it, and then you can actually ask for it.
+
+190
+00:27:35.110 --> 00:27:41.170
+Csaba: Yeah, and then cost forwarding. So the implementation changes… quite specific.
+
+191
+00:27:41.440 --> 00:27:44.210
+Csaba: Which bring the performance to a good level.
+
+192
+00:27:45.120 --> 00:27:51.220
+Csaba: More or less, that's it. Yeah, let me stop here.
+
+193
+00:27:54.230 --> 00:28:06.349
+Csaba: it's in PLISMA, so you can add this RowDAS, and I mean, it's on my branch of PLISMA, obviously. So you can use RowDAS, and then you can run experiments with RowDAS.
+
+194
+00:28:07.800 --> 00:28:12.169
+Csaba: is, an implementation, which is definitely not,
+
+195
+00:28:12.330 --> 00:28:16.900
+Csaba: High-quality implementation, but it implements lots of the small tweaks.
+
+196
+00:28:17.210 --> 00:28:18.689
+Csaba: That are useful here.
+
+197
+00:28:20.600 --> 00:28:22.640
+Csaba: And I think I stop stop here.
+
+198
+00:28:24.540 --> 00:28:26.460
+Csaba: And wait for questions.
+
+199
+00:28:34.800 --> 00:28:37.529
+Kamil Salakhiev: Nice. Thanks, Caba. Any questions?
+
+200
+00:28:40.090 --> 00:28:40.990
+Kamil Salakhiev: Okay, kasey.
+
+201
+00:28:41.560 --> 00:28:47.809
+kasey: Could you go back to the slide detailing the… changes to, Gossip Sub.
+
+202
+00:28:48.600 --> 00:28:51.869
+Csaba: Absolutely. I'm not sharing it anymore, right? I think I still.
+
+203
+00:28:51.870 --> 00:28:58.650
+kasey: Or, yeah, if you could… if you could… if there's a way for you to share that in chat, I just wanted to look at… look at that a little more closely.
+
+204
+00:28:59.030 --> 00:29:02.990
+Csaba: Yeah, I will also do that, it's just not online, so let me just go back now.
+
+205
+00:29:03.630 --> 00:29:04.759
+Csaba: This one, right?
+
+206
+00:29:05.560 --> 00:29:06.190
+kasey: Yes.
+
+207
+00:29:07.040 --> 00:29:08.699
+Csaba: Yeah, so…
+
+208
+00:29:10.140 --> 00:29:17.559
+Csaba: Any specific you are interested in, or… or just want to see it? So the… the thing is, the… the way…
+
+209
+00:29:18.330 --> 00:29:21.809
+Csaba: I did a bunch of changes, both in the partial messages.
+
+210
+00:29:22.070 --> 00:29:32.109
+Csaba: and in the normal gossip sub, and then I was porting changes back and forth between the two. But the… the policy message changes I did,
+
+211
+00:29:33.600 --> 00:29:43.039
+Csaba: one… one of… So, yeah, so there were a few things that were important. The IHEVE
+
+212
+00:29:44.030 --> 00:29:49.379
+Csaba: The reaction to IH is definitely, important.
+
+213
+00:29:49.620 --> 00:29:51.550
+Csaba: And then,
+
+214
+00:29:54.050 --> 00:30:04.620
+Csaba: many things related to what we are announcing on a Herdbeit. So, the Herdbeit announcements is… is… goes… goes kind of with a very strict interpretation of
+
+215
+00:30:05.190 --> 00:30:07.020
+Csaba: Of what the others need.
+
+216
+00:30:07.560 --> 00:30:11.760
+Csaba: And then we are not even contacting nodes, which… which are…
+
+217
+00:30:12.140 --> 00:30:17.170
+Csaba: Don't need something that we think They would, but we are…
+
+218
+00:30:18.890 --> 00:30:28.569
+Csaba: we are not looking at it the right way in the default implementation. So, I know what topics they are subscribed to, and based on that, I actually know that they need stuff
+
+219
+00:30:28.970 --> 00:30:31.940
+Csaba: that I have is just not…
+
+220
+00:30:32.650 --> 00:30:38.690
+Csaba: on the… on the topic that connects us. And then we were… we were skipping them in the… Indeed.
+
+221
+00:30:40.000 --> 00:30:42.770
+Csaba: In the… Right.
+
+222
+00:30:42.770 --> 00:30:46.090
+kasey: pushing the metadata to them if you weren't subscribed to a common topic?
+
+223
+00:30:46.430 --> 00:30:53.500
+Csaba: Yeah, so I'm pushing metadata to them. If I have… Yeah, yeah.
+
+224
+00:30:53.650 --> 00:30:54.360
+Csaba: Right. I should make…
+
+225
+00:30:54.360 --> 00:30:58.910
+kasey: your knowledge of their subscriptions, based on their, ENR?
+
+226
+00:30:59.750 --> 00:31:10.549
+Csaba: We actually have to make a drawing of that. But we were basically not… not pushing stuff, because they were kind of interested in the low dimension while we had it in the column dimension, but it was the same
+
+227
+00:31:10.890 --> 00:31:17.820
+Csaba: And it's the same cell, it's the same data. So I'm handling that kind of two-dimensional space in the…
+
+228
+00:31:18.090 --> 00:31:28.699
+kasey: Yeah, that makes sense. One thing I was curious about is if you could talk more about, this concept of phase-aware forwarding, and, like, what the… I guess… I'm guessing the phases are to do with the heartbeat, like, you have…
+
+229
+00:31:28.860 --> 00:31:32.619
+kasey: Some notion of the number of cycle… heartbeat cycles within a slot.
+
+230
+00:31:33.000 --> 00:31:44.520
+Csaba: No, no, no, so the phase will… I will speak about it in the next presentation, but I can only speak about it. It's… it's based on… the phase is based on… on basically seeing, how many have
+
+231
+00:31:44.960 --> 00:31:50.620
+Csaba: the thing. So if I see that something is diffused in the network, I switch phase.
+
+232
+00:31:50.740 --> 00:32:04.179
+Csaba: And the phase is basically how much I push and how much I pull, how much I advertise. So I start by aggressively pushing, actually not that aggressively, but I start by pushing, and then as I see that
+
+233
+00:32:04.450 --> 00:32:12.060
+Csaba: nodes tend to have that segment in the network, I switch to more and more of that advertisement and less and less pushing.
+
+234
+00:32:13.560 --> 00:32:24.850
+Csaba: And it's based on, on the feedback that I'm getting from, from, from advertisements. So, from bitmaps here, in the normal Valiant, it's from, from IHs.
+
+235
+00:32:25.130 --> 00:32:29.150
+Csaba: And… and hardware BSI halves. And I don't want…
+
+236
+00:32:29.440 --> 00:32:41.540
+kasey: I see. So you're inferring that a reconstruction cycle, this amount of time is how long it's taking my peers to reconstruct a row, and now I should update my view?
+
+237
+00:32:42.400 --> 00:32:49.740
+Csaba: Yeah, it's not even… so there's the deconstruction part, but even without the construction, if you just think of individual segments.
+
+238
+00:32:49.880 --> 00:32:54.120
+Csaba: Then if I see that something is already diffused in the network.
+
+239
+00:32:54.620 --> 00:32:59.519
+Csaba: If I would still push it, I would just generate duplicates with a high probability.
+
+240
+00:32:59.720 --> 00:33:04.069
+Csaba: So… Instead of pushing it, I announce.
+
+241
+00:33:07.330 --> 00:33:14.170
+Csaba: And then by announcing I, I reduced the duplicate count.
+
+242
+00:33:25.950 --> 00:33:26.840
+Kamil Salakhiev: Okay.
+
+243
+00:33:27.210 --> 00:33:30.789
+Kamil Salakhiev: May I ask to go to slide number 4?
+
+244
+00:33:30.890 --> 00:33:33.069
+Kamil Salakhiev: Just wanna check some numbers.
+
+245
+00:33:33.350 --> 00:33:34.360
+Kamil Salakhiev: Pretty quick.
+
+246
+00:33:39.350 --> 00:33:43.450
+Kamil Salakhiev: Yeah, I'm just reading, one blob recovery is 162 milliseconds.
+
+247
+00:33:43.840 --> 00:33:44.220
+Csaba: Yep.
+
+248
+00:33:44.310 --> 00:33:47.460
+Kamil Salakhiev: This includes, kzgrew proofs, right?
+
+249
+00:33:48.420 --> 00:33:55.250
+Csaba: Yeah, so that's, that's, together with the, with the calculation of the, the calculation of the, of the kzg proofs.
+
+250
+00:33:56.330 --> 00:34:03.220
+Kamil Salakhiev: Yeah, and I also think this, this is done per core, so I mean, this is like…
+
+251
+00:34:03.500 --> 00:34:11.159
+Csaba: Yeah. Yeah, so it's a single call. So, so you can… and I was also doing work on… on optimizing this, going down to…
+
+252
+00:34:11.330 --> 00:34:14.969
+Csaba: 45 milliseconds. If you are not on single call.
+
+253
+00:34:15.060 --> 00:34:29.590
+Csaba: But you just need one, but that's a different work. But you can parallelize these. So it's not, it's not about, like, not about absolute time, it's about burning CPU and defining what's the minimum hardware requirement that you need.
+
+254
+00:34:29.639 --> 00:34:36.219
+Csaba: And you need a beefy machine. So if you don't want that you need a beefy machine, then we can do those things.
+
+255
+00:34:37.510 --> 00:34:43.020
+Csaba: And if you don't want to burn CPU on this, but maybe you want to use it for something else.
+
+256
+00:34:43.130 --> 00:34:54.230
+Csaba: Because another thing that we should, spend CP on, to name a few, soon we will have to proof stuff, and verify proofs and everything.
+
+257
+00:34:54.380 --> 00:34:57.370
+Csaba: Then, you know, it's just…
+
+258
+00:34:57.620 --> 00:35:00.149
+Csaba: Let's not burn CPU well, you don't have to.
+
+259
+00:35:01.690 --> 00:35:10.349
+Kamil Salakhiev: Yeah, yeah, I just… I would be careful saying that 32 blobs takes 5.2 seconds, because in reality, I mean, we have more than one.
+
+260
+00:35:10.580 --> 00:35:11.660
+Kamil Salakhiev: CPU core, but…
+
+261
+00:35:11.660 --> 00:35:14.959
+Csaba: In the light-up, I was detailing that, like.
+
+262
+00:35:14.960 --> 00:35:16.120
+Kamil Salakhiev: Yeah, yeah, okay.
+
+263
+00:35:16.670 --> 00:35:22.150
+Csaba: Yeah, extensively, he died not. I didn't. But that's… that's CPU call time.
+
+264
+00:35:22.640 --> 00:35:26.929
+Csaba: It's not, 5.2 seconds of the 12-second slot.
+
+265
+00:35:26.930 --> 00:35:27.950
+Kamil Salakhiev: Yep, yep.
+
+266
+00:35:28.970 --> 00:35:29.530
+Csaba: No clue that.
+
+267
+00:35:32.030 --> 00:35:34.189
+Kamil Salakhiev: Okay, good. Any other questions?
+
+268
+00:35:38.010 --> 00:35:40.350
+Csaba: Oh, I didn't arrive today, did I?
+
+269
+00:35:40.830 --> 00:35:44.109
+Csaba: To my last slide. Wait, where did I put it?
+
+270
+00:35:44.790 --> 00:35:47.209
+Csaba: I lost my last slide. Yeah, so this one.
+
+271
+00:35:48.530 --> 00:36:00.050
+Csaba: Oh, I just jumped over it, basically, sorry. So, I was writing this whole thing, and then I, said, okay, but why do this whole complicated thingy?
+
+272
+00:36:01.180 --> 00:36:05.539
+Csaba: So we have these two objective side. Let me go back here…
+
+273
+00:36:06.010 --> 00:36:08.429
+Csaba: We have these two objectives. One is the…
+
+274
+00:36:08.730 --> 00:36:18.410
+Csaba: vertical distribution was the horizontal distribution, and I always wanted to do both. But if you just say, I don't want to do the horizontal, I don't care about supernodeless, we have super nodes.
+
+275
+00:36:18.660 --> 00:36:22.420
+Csaba: Just the vertical one. I can do the low assignment.
+
+276
+00:36:23.540 --> 00:36:31.459
+Csaba: And, and use, use the column topics to… To… to distribute the load.
+
+277
+00:36:31.940 --> 00:36:41.060
+Csaba: So I have a reliant in which, I still call it RowDAS, but there are no laws. There's just a low assignment. There are no low topics. But we do low assignment.
+
+278
+00:36:41.180 --> 00:36:47.429
+Csaba: And that is this coordination, basically, of the construction duty between the supernodes.
+
+279
+00:36:48.540 --> 00:36:56.519
+Csaba: So, it was the last thing that came to my mind, so I left it to the end, in my light-up, and also…
+
+280
+00:36:56.800 --> 00:37:04.720
+Csaba: It's not in the EIP, and also, I've lost it in my slides. But this is what I call the duty sharded PBS.
+
+281
+00:37:06.120 --> 00:37:14.450
+Csaba: Which has no low topics. It has the assignments, And then, basically, what it does is…
+
+282
+00:37:16.840 --> 00:37:32.820
+Csaba: at one point, you have your low assignment, you are reconstructing that. If you don't have the columns, then you are deconstructing based on your LU assignment, and yet you are sharing that to the column distribution. To do that, you need this improved version of,
+
+283
+00:37:32.990 --> 00:37:42.180
+Csaba: Of partial messages, because the, kind of, the current PowerShell Messages implementation is very much focused on the single source, sending out
+
+284
+00:37:42.370 --> 00:37:46.230
+Csaba: the, the bitmaps use case.
+
+285
+00:37:46.360 --> 00:37:50.680
+Csaba: And here, bitmaps are kind of popping up in the system, so…
+
+286
+00:37:51.430 --> 00:37:56.849
+Csaba: So you need a bit of… bit of tuning there. But basically, you get this…
+
+287
+00:37:57.230 --> 00:38:01.860
+Csaba: distributed super nodes deconstruction CPU saving property.
+
+288
+00:38:02.280 --> 00:38:04.389
+Csaba: But you still need super nodes.
+
+289
+00:38:04.890 --> 00:38:10.889
+Csaba: So that is this thing, and we can do this as a kind of a first stage of implementation.
+
+290
+00:38:11.530 --> 00:38:18.640
+Csaba: We just do the low assignment, and… we do the…
+
+291
+00:38:18.800 --> 00:38:24.550
+Csaba: The low-based deconstruction, and we sell it to the columns, and we are not doing… low topics.
+
+292
+00:38:24.730 --> 00:38:27.529
+Csaba: If people are afraid of the little topics.
+
+293
+00:38:27.760 --> 00:38:31.400
+Csaba: Which are more complex than not having the world topics, that's for sure.
+
+294
+00:38:38.660 --> 00:38:39.940
+Csaba: Was that clear?
+
+295
+00:38:46.010 --> 00:38:46.929
+Kamil Salakhiev: Do you see?
+
+296
+00:38:47.420 --> 00:38:53.359
+kasey: Was this on top of… did you do this for Glow Ass, or, only for Fulu?
+
+297
+00:38:54.750 --> 00:38:55.460
+Csaba: Pardon?
+
+298
+00:38:55.790 --> 00:38:59.100
+kasey: Was this, I'm just curious what… what point on…
+
+299
+00:38:59.820 --> 00:39:02.250
+kasey: In Prysm, commit history you based this on?
+
+300
+00:39:03.120 --> 00:39:07.369
+Csaba: This was, like, one week ago, developed Blanche.
+
+301
+00:39:07.590 --> 00:39:08.190
+kasey: Okay.
+
+302
+00:39:09.460 --> 00:39:11.840
+Csaba: Yeah, I think one week or two weeks.
+
+303
+00:39:12.030 --> 00:39:14.869
+Csaba: I think I was debasing it at one point.
+
+304
+00:39:15.210 --> 00:39:17.050
+Csaba: I'm not entirely sure.
+
+305
+00:39:17.420 --> 00:39:21.070
+Csaba: I was debasing something, but I'm not sure it was this one.
+
+306
+00:39:26.260 --> 00:39:31.910
+kasey: I'm asking because I've been out sick, so things could have moved forward, but I know that, we had the…
+
+307
+00:39:32.110 --> 00:39:36.899
+kasey: Arsh would know we had the Glowass stuff in a branch for a little bit on the DevNet branch.
+
+308
+00:39:37.120 --> 00:39:39.220
+kasey: So some… some things might be drifted.
+
+309
+00:39:40.900 --> 00:39:45.030
+Csaba: Yeah, so first I started to build it on the partial messages.
+
+310
+00:39:45.240 --> 00:39:47.510
+Csaba: Blanche, I think it was called like this.
+
+311
+00:39:49.140 --> 00:39:56.049
+Csaba: And then I think, in the meantime, that was merged into Development, and then I kind of migrated it to a developer.
+
+312
+00:39:56.770 --> 00:39:58.389
+Csaba: That's how I remember.
+
+313
+00:40:04.990 --> 00:40:07.200
+ashah: Yeah, like, I just shared a…
+
+314
+00:40:07.370 --> 00:40:10.399
+ashah: link in the Zoom chat, Caba, that is the…
+
+315
+00:40:10.550 --> 00:40:13.910
+ashah: Branch that has all the latest clue as partial columns work.
+
+316
+00:40:14.230 --> 00:40:19.050
+ashah: And it is targeted… yeah, it's… it will soon be targeted against developed.
+
+317
+00:40:21.200 --> 00:40:22.800
+Csaba: Let me see which one…
+
+318
+00:40:27.600 --> 00:40:35.680
+Csaba: Yeah, I didn't use this… this long name branch, and mine was partial messages, or something.
+
+319
+00:40:36.820 --> 00:40:40.420
+Csaba: I think… Thank you.
+
+320
+00:40:46.740 --> 00:40:49.540
+Kamil Salakhiev: Yeah, maybe just a last question, then. Oh, sorry, yeah.
+
+321
+00:40:50.020 --> 00:40:51.860
+Daniel Knopik: Oh, no, Connie, you can go ahead.
+
+322
+00:40:52.590 --> 00:40:56.780
+Kamil Salakhiev: No, just to have a quick one, just with regards to scoping.
+
+323
+00:40:57.050 --> 00:41:00.679
+Kamil Salakhiev: got it because there is an EIP that we VFI'd.
+
+324
+00:41:01.170 --> 00:41:10.609
+Kamil Salakhiev: so you made these 10 commits on top of goaliePTP, are they, like, mandatory for this EIP, or, like…
+
+325
+00:41:11.160 --> 00:41:13.349
+Kamil Salakhiev: We can just make some changes on CL.
+
+326
+00:41:13.720 --> 00:41:18.220
+Kamil Salakhiev: To make it work. I understand there is a fix, for I Want, I have, which is…
+
+327
+00:41:18.970 --> 00:41:23.270
+Kamil Salakhiev: I believe we should merge, and there are also a bunch of optimizations.
+
+328
+00:41:23.930 --> 00:41:24.890
+Kamil Salakhiev: like,
+
+329
+00:41:24.890 --> 00:41:25.280
+Csaba: It is…
+
+330
+00:41:25.280 --> 00:41:27.320
+Kamil Salakhiev: I mean, that doesn't… Yeah.
+
+331
+00:41:27.320 --> 00:41:28.209
+Csaba: When I went tired.
+
+332
+00:41:28.710 --> 00:41:30.740
+Csaba: And then,
+
+333
+00:41:31.230 --> 00:41:41.440
+Csaba: Yeah, I kind of… I was just going ahead with these changes, because these are protocore optimizations,
+
+334
+00:41:41.610 --> 00:41:47.609
+Csaba: That do not need… To be in the EIPI sync.
+
+335
+00:41:48.670 --> 00:41:56.250
+Csaba: But yeah, we can kind of evaluate one by one, what's… what's kind of needed, what's the price we pay if… if they are not there.
+
+336
+00:41:56.800 --> 00:42:02.209
+Csaba: I don't have the… Top of my head. I have the numbers for the… for the next one.
+
+337
+00:42:02.380 --> 00:42:06.440
+Csaba: But here I don't have the numbers, but I can… I kind of divide them one by one.
+
+338
+00:42:06.940 --> 00:42:11.849
+Csaba: I was a bit, you know, changing… many things, so…
+
+339
+00:42:17.370 --> 00:42:21.010
+Csaba: Most of them are generalization of the, of the current…
+
+340
+00:42:21.460 --> 00:42:36.459
+Csaba: code, which might not be the current code, as I learned. So the code that I have seen had been purpose-built for that specific use case, and if we are using it for other things, we need to generalize a little bit.
+
+341
+00:42:40.380 --> 00:42:41.260
+Daniel Knopik: So…
+
+342
+00:42:41.260 --> 00:42:43.210
+Kamil Salakhiev: Please, daniel?
+
+343
+00:42:43.510 --> 00:42:52.580
+Daniel Knopik: Yeah, so you need to make some adjustments to partial messages, if I got you, if I understood you correctly, like, on protocol level.
+
+344
+00:42:53.070 --> 00:43:00.579
+Daniel Knopik: I need to look into those, because I'm curious on what exactly they were, so I'm… I'll check that. But I'm curious,
+
+345
+00:43:00.690 --> 00:43:17.360
+Daniel Knopik: if, like, taking those, maybe, generalizations you applied to partial messages would, you know, also be good inspiration for, Waggle to support these, this use case, maybe. So I'm curious if you have
+
+346
+00:43:17.830 --> 00:43:23.030
+Daniel Knopik: Any thoughts about, using Waggle instead of partial messages for this?
+
+347
+00:43:24.200 --> 00:43:30.490
+Csaba: Yeah, so… Absolutely, they could be, so these are, these are very genetic in the nature.
+
+348
+00:43:32.070 --> 00:43:40.110
+Csaba: partial messages we use as, kind of having the bitmaps. You can, you can see this. Having the bitmaps, having the structured,
+
+349
+00:43:40.380 --> 00:43:50.520
+Csaba: segment ID context, and so having the structured context, and what else? Being more pool available.
+
+350
+00:43:51.040 --> 00:43:52.160
+Csaba: D…
+
+351
+00:43:53.390 --> 00:44:10.580
+Csaba: in the next presentation, I was building out things without partial messages, and then comparing it with the partial messages, and on the partial messages, I couldn't email each the same performance, even if, in some sense, it should be better. So we do have to fight, kind of, these implementation differences at the moment.
+
+352
+00:44:11.510 --> 00:44:26.940
+Csaba: we have to separate, kind of, what's the technical changes that we want, the metadata that we are sending, who we are sending to, what's the underlying mechanism at the protocol level, and then how we are mapping it into this and that, and on top of REGO, maybe.
+
+353
+00:44:27.060 --> 00:44:31.089
+Csaba: But I have to look into Waggle for that to be more specific.
+
+354
+00:44:31.860 --> 00:44:38.770
+Daniel Knopik: Yeah, yeah, RANDAO gives a bunch of more freedom, in my opinion, because it's… yeah.
+
+355
+00:44:39.560 --> 00:44:51.570
+Csaba: I will do a… I'll do a better description of the… of the changes that I did, because it was a very… very fast description, so I will describe them one by one, and then… then it's… it's just much more specific.
+
+356
+00:44:55.500 --> 00:45:05.500
+kasey: Hey, sorry, if partial messages is the baseline you're comparing to, what is the alternative here? Just using more base, LibP2P without gossip sub?
+
+357
+00:45:07.500 --> 00:45:08.130
+Csaba: Because of it.
+
+358
+00:45:08.350 --> 00:45:10.050
+kasey: the PT protocol, or…
+
+359
+00:45:10.230 --> 00:45:19.039
+Csaba: Next word that I will present, will be, on, on fast, large message diffusion, and then I was using CBS lines. One was,
+
+360
+00:45:19.400 --> 00:45:30.710
+Csaba: I'm anticipating my slides. So one was just normal gossip sub, tuned and, and, abused. One was partial messages, and one was, the multi-topic, as we are doing it in DAS.
+
+361
+00:45:32.680 --> 00:45:41.350
+Csaba: So that's kind of the three baseline side, but that's kind of a different study, so I was not doing it for this heal, I was just building on top of partial messages implementation.
+
+362
+00:45:42.670 --> 00:45:54.169
+Csaba: Thanks. The partial messages with the bitmaps should be the light one in TLE. It's just, I think it's not yet there as, kind of, implementation maturity.
+
+363
+00:46:00.280 --> 00:46:03.580
+Kamil Salakhiev: Okay, I think it's time to move to the next presentation.
+
+364
+00:46:04.250 --> 00:46:08.370
+Kamil Salakhiev: I think you already covered some parts of it, but yeah.
+
+365
+00:46:09.310 --> 00:46:11.869
+Kamil Salakhiev: When fast payload broadcasts.
+
+366
+00:46:13.020 --> 00:46:18.690
+Csaba: Oh, wait, I should switch presentations. Yeah, just let me… Find the other one.
+
+367
+00:46:50.290 --> 00:46:53.099
+Csaba: Almost that, just changing to single page?
+
+368
+00:46:56.710 --> 00:46:57.950
+Csaba: And then sharing.
+
+369
+00:47:08.000 --> 00:47:08.980
+Csaba: Okay.
+
+370
+00:47:11.820 --> 00:47:15.529
+Csaba: So… So the next one is about…
+
+371
+00:47:16.070 --> 00:47:19.020
+Csaba: We can call it many names. I mean, the…
+
+372
+00:47:19.940 --> 00:47:32.060
+Csaba: The urgency is on segmented payload diffusion, is on fast payload diffusion, actually, so we just want the payload to go and be broadcasted and upload fast.
+
+373
+00:47:32.990 --> 00:47:37.010
+Csaba: But it is basically about large messages, in many sense.
+
+374
+00:47:37.910 --> 00:47:45.060
+Csaba: And… Kind of… this is the essence, in some sense. So…
+
+375
+00:47:46.050 --> 00:47:49.069
+Csaba: I was measuring things as we do it now.
+
+376
+00:47:49.880 --> 00:47:51.300
+Csaba: Visa one megabyte.
+
+377
+00:47:51.580 --> 00:48:02.550
+Csaba: payload. So, assuming a large block, and we can argue whether that's a good assumption or not, and we should do other things, but I was taking 1MB as the baseline number.
+
+378
+00:48:03.120 --> 00:48:07.069
+Csaba: And then checking how it would be, distributed.
+
+379
+00:48:07.250 --> 00:48:12.970
+Csaba: And I was taking… my baseline is when we have a home builder, and we have…
+
+380
+00:48:13.380 --> 00:48:32.959
+Csaba: home nodes, so we don't have data center assistance. And what is data center is… so, I had notes which had 50 megabit uplink, and notes which had 1 gigabit uplink. And my goal is for things to work without the 1 gigabit uplink. Now, we have homes with 1 gigabit uplink, so… so we can argue which one is the right one.
+
+381
+00:48:33.180 --> 00:48:41.240
+Csaba: Anyway… So distributing a 1MB block, as we do it now,
+
+382
+00:48:42.170 --> 00:48:49.350
+Csaba: Without having a data center builder, the data center nodes helping, just the baseline
+
+383
+00:48:49.460 --> 00:48:54.020
+Csaba: by the minimum requirement specification nodes with 50Mbit uplink.
+
+384
+00:48:54.400 --> 00:48:57.090
+Csaba: What we are doing is slow.
+
+385
+00:48:58.570 --> 00:49:07.970
+Csaba: But you don't have that on the network, so it's not a problem in that sense. The problem is that our protocol is kind of not supporting our minimum requirements.
+
+386
+00:49:08.550 --> 00:49:12.409
+Csaba: So if you, if you would do it, that's the, kind of the… do you see my EL?
+
+387
+00:49:13.780 --> 00:49:14.400
+Kamil Salakhiev: Yes.
+
+388
+00:49:14.670 --> 00:49:21.040
+Csaba: my pointer. So this is a distribution from a 15 megabit uplink node to a
+
+389
+00:49:22.960 --> 00:49:26.889
+Csaba: Through 50 megabit uplink nodes, 100 megabit downlink.
+
+390
+00:49:27.000 --> 00:49:45.339
+Csaba: to the whole network, and you don't see the P50 is somewhere here, but it's here, but then the last node is getting it after 5 seconds, so it's super slow. And then if you are distributing from a faster node, then you are getting faster, and then if you're distributing from a faster node, and you have the
+
+391
+00:49:45.340 --> 00:49:57.879
+Csaba: 20% of the notes are fast notes, you are getting… everyone is getting it below 3 seconds. And yeah, that's kind of the deadline, the 3 seconds in EPBS that we have, so… so…
+
+392
+00:49:58.520 --> 00:50:03.039
+Csaba: In some sense, we would barely make it without declared minimum requirements, and that's not good.
+
+393
+00:50:03.700 --> 00:50:11.250
+Csaba: So… Just have to let the cat out. So the… the…
+
+394
+00:50:12.500 --> 00:50:19.270
+Csaba: the thing that I did is I was running, a bunch of variants, of… S…
+
+395
+00:50:19.720 --> 00:50:25.890
+Csaba: So the baseline was that I was segmenting the message, and I just took a random number, segmented to 32,
+
+396
+00:50:26.080 --> 00:50:27.930
+Csaba: 32 kilobyte species.
+
+397
+00:50:28.240 --> 00:50:39.750
+Csaba: And then I was playing with different protocol implementations. So one is just a simple P2P segments and messages, with a few tweaks. That's the development A.
+
+398
+00:50:40.730 --> 00:50:59.749
+Csaba: one topic, and then B is, using PowerShell messages. So now the… the big one is called the message, and the small ones are called segments, and we have bitmaps. And then C is what we do in DAS, so this is, each segment has its own topic, assigned.
+
+399
+00:51:00.810 --> 00:51:10.329
+Csaba: And then… and then I was also adding lead someone and coding. But the important thing is that all these improvements are here in this range.
+
+400
+00:51:10.960 --> 00:51:12.919
+Csaba: And around 1 second.
+
+401
+00:51:13.250 --> 00:51:21.649
+Csaba: a bit better, a bit worse, depending on the quality of the implementation, the reliant, and different factors. All of them are better than this.
+
+402
+00:51:22.490 --> 00:51:26.030
+Csaba: So, kind of the message is, let's just do something.
+
+403
+00:51:29.030 --> 00:51:33.809
+Csaba: And then, yeah, I think you all know this, so the whole problem is that,
+
+404
+00:51:34.120 --> 00:51:39.620
+Csaba: We are doing store and forward, and with a 1MB message, that means you're sending, and then the other is…
+
+405
+00:51:40.130 --> 00:51:49.640
+Csaba: Receiving, and then verifying, and then descending, and if you have multiple hops, what you have in a multi-hop network, in a mesh, then you're accumulating delay.
+
+406
+00:51:50.010 --> 00:51:52.090
+Csaba: If you are segmenting your pipelining.
+
+407
+00:51:52.260 --> 00:51:56.690
+Csaba: If you can verify the segments. So… If…
+
+408
+00:51:57.040 --> 00:52:02.419
+Csaba: There's this asterisk that you can verify these segments, then you can go much faster and…
+
+409
+00:52:02.540 --> 00:52:06.840
+Csaba: Kind of here, you show that with different implementation, we can just go much faster.
+
+410
+00:52:07.620 --> 00:52:08.490
+Csaba: Okay.
+
+411
+00:52:08.820 --> 00:52:10.789
+Csaba: So, how we validate,
+
+412
+00:52:11.530 --> 00:52:20.380
+Csaba: these things. This is where, we were discussing a lot, with Kamil and Potuz and others,
+
+413
+00:52:20.990 --> 00:52:30.239
+Csaba: And basically, what we need is this, one field in the bid, which is the vector commitment, where we use a medical commitment.
+
+414
+00:52:30.650 --> 00:52:36.770
+Csaba: the root of that commitment, the commitment. So if… if we have… if you have that,
+
+415
+00:52:37.340 --> 00:52:39.580
+Csaba: Then when you,
+
+416
+00:52:40.440 --> 00:52:58.429
+Csaba: If it's in the bid, then it's in the Consensus block, and if it's in the Consensus block, when you receive the Consensus block, and you verify that it's fine, and you kind of install it, then it has the bid, and then it has this committed descriptor, and then when you receive a segment which has the proof, the medical proof.
+
+417
+00:52:58.600 --> 00:53:04.360
+Csaba: Then you can verify that segment, and then that segment is good, and then you can forward it.
+
+418
+00:53:04.960 --> 00:53:05.960
+Csaba: Sue.
+
+419
+00:53:06.080 --> 00:53:11.539
+Csaba: this is what you need. What you basically need is that
+
+420
+00:53:15.930 --> 00:53:21.479
+Csaba: you have to figure out what to do when segments are live before the block arrives. So you have these two…
+
+421
+00:53:21.650 --> 00:53:23.629
+Csaba: I think I have it in the next slide, yeah.
+
+422
+00:53:23.970 --> 00:53:31.110
+Csaba: So you have these two solices, one is the… Is the,
+
+423
+00:53:31.670 --> 00:53:34.420
+Csaba: Proposal, sending out the consensus block.
+
+424
+00:53:35.220 --> 00:53:43.380
+Csaba: And then, that contains the bid, that contains the, the medical commitment, and then you have… the…
+
+425
+00:53:44.020 --> 00:53:50.020
+Csaba: The other side, which is the builder, If it's not self-built.
+
+426
+00:53:50.230 --> 00:54:00.699
+Csaba: But even if it's self-built, you have the builder which might send it out on a different topic, but it's typically also from a different place. You have the…
+
+427
+00:54:01.540 --> 00:54:05.339
+Csaba: The payload, coming with the segments.
+
+428
+00:54:05.740 --> 00:54:11.470
+Csaba: And, I was playing, a little bit about how to handle this.
+
+429
+00:54:11.810 --> 00:54:17.350
+Csaba: And I came to this rule where you are not allowed to push a segment.
+
+430
+00:54:17.610 --> 00:54:25.239
+Csaba: If you don't know that the other one has the the consensus block. So…
+
+431
+00:54:25.370 --> 00:54:31.240
+Csaba: kind of this coupling between the Consensus block distribution and the…
+
+432
+00:54:32.880 --> 00:54:41.870
+Csaba: And the, the segment distribution. Well, there is a rule which basically doesn't allow you to do this push, when,
+
+433
+00:54:43.390 --> 00:54:49.450
+Csaba: If you don't know that the other one… others is ready to receive it. And,
+
+434
+00:54:49.740 --> 00:54:58.540
+Csaba: Even without these rules, things would work, you just have to buffer them all, but with this, we can reduce the buffering requirement, and I think the attack surface.
+
+435
+00:54:59.250 --> 00:55:01.550
+Csaba: So that's one thing.
+
+436
+00:55:02.670 --> 00:55:08.580
+Csaba: But the other thing is… is… is… that I want to speak about… Is… is really just the…
+
+437
+00:55:08.900 --> 00:55:17.559
+Csaba: the networking machinery. So this is not the networking machinery, this is kind of the coupling between these two diffusions, which are starting, from
+
+438
+00:55:18.390 --> 00:55:20.590
+Csaba: From different points in the network.
+
+439
+00:55:21.070 --> 00:55:25.239
+Csaba: And then I was playing with different ideas, for example.
+
+440
+00:55:26.180 --> 00:55:39.730
+Csaba: topics which are sharing a topology, or one topic which are… with two types of messages. So there are different things that we can do there to couple these two distributions, one which is gating, the other.
+
+441
+00:55:41.000 --> 00:55:47.629
+Csaba: But even if we don't do this, things are working, so I'll take this as a side note. And let's go to this one.
+
+442
+00:55:49.170 --> 00:55:53.180
+Csaba: So, as I said, I was adding, segments.
+
+443
+00:55:53.710 --> 00:55:58.160
+Csaba: But I was not just adding segments, but we have other techniques, so…
+
+444
+00:55:58.700 --> 00:56:06.229
+Csaba: I was… I was looking at what segmenting ads, and Valiant A means I just take a normal gossip sub, a normal topic.
+
+445
+00:56:06.380 --> 00:56:07.390
+Csaba: And I'm just…
+
+446
+00:56:07.500 --> 00:56:17.619
+Csaba: instead of sending out one message, I have now 32, smaller messages, each one having a small header which contains the medical proof, and maybe some
+
+447
+00:56:18.360 --> 00:56:19.829
+Csaba: Smaller to metadata.
+
+448
+00:56:21.060 --> 00:56:32.380
+Csaba: And if I just segment it, and just use the usual full mesh push that we were using for the whole message, we are already down to 1.7 seconds from 4 point something.
+
+449
+00:56:33.820 --> 00:56:35.870
+Csaba: Then if we use batch publishing.
+
+450
+00:56:36.860 --> 00:56:45.640
+Csaba: Which we all started to use already for a bunch of things. Then we are down to 1 second, and then we are… if we are adding face forwarding, which is the,
+
+451
+00:56:46.460 --> 00:56:47.780
+Csaba: I'm just saying…
+
+452
+00:56:48.630 --> 00:57:00.410
+Csaba: I was speaking about, previously, that is, we are pushing… at the beginning, we are pushing and announcing, and then later we are switching to only announce.
+
+453
+00:57:00.990 --> 00:57:03.760
+Csaba: To free up bandwidth, basically.
+
+454
+00:57:04.240 --> 00:57:13.450
+Csaba: Then we are down even more. And then, as last, I have this discipline pool. This is changing the policy where whenever then I have
+
+455
+00:57:13.790 --> 00:57:16.510
+Csaba: arrived for the segment that I didn't have.
+
+456
+00:57:16.740 --> 00:57:23.859
+Csaba: I was just asking for it, even if I was asking for it from 5 other notes. Here I have,
+
+457
+00:57:24.260 --> 00:57:26.589
+Csaba: I'm asking it from… only from one.
+
+458
+00:57:27.720 --> 00:57:46.330
+Csaba: But that, is not that simple, because asking it only from one is opening an attack surface, because you could just declare having syncs, and then notes are asking only from you, and then they are waiting for a timeout. So I had to work on the discipline pool, quite a lot, to make it,
+
+459
+00:57:46.740 --> 00:57:53.350
+Csaba: Smaller timeout and a rolling window, and so there are some delay… details to that to not make it.
+
+460
+00:57:53.910 --> 00:57:55.229
+Csaba: Have another amazing thing.
+
+461
+00:57:55.620 --> 00:57:57.310
+Csaba: Anyway, adding all these.
+
+462
+00:57:57.980 --> 00:57:59.050
+Csaba: VR.
+
+463
+00:57:59.860 --> 00:58:09.079
+Csaba: we are going down a lot, in time. And this is my ValiantA, which is using the normal gossip substrate, basically.
+
+464
+00:58:11.690 --> 00:58:21.140
+Csaba: And the… the change that it does, so it's not really doing any of the P2P changes, in many sands, it is using structured IDs.
+
+465
+00:58:23.690 --> 00:58:28.840
+Csaba: And then what I did… okay, I also played with, with, Azure Coding.
+
+466
+00:58:29.370 --> 00:58:34.410
+Csaba: I think we discussed it many times, edge recording is good, we like it.
+
+467
+00:58:35.870 --> 00:58:53.619
+Csaba: the essence is I'm not adding it in my baseline version, because this is the performance difference between the two, and some think that there is recording is difficult. So, if you don't think it's difficult, then let's just add it. If it…
+
+468
+00:58:53.850 --> 00:59:00.529
+Csaba: if it seems to be the… the difficult part, then we can just keep it and we still have lots of gain. So…
+
+469
+00:59:01.030 --> 00:59:14.919
+Csaba: But if we have LG coding, then, it's cutting the distribution… tailor the distribution, so that's what we discussed many times. If you have… need every K of k segments, then if you have one
+
+470
+00:59:16.300 --> 00:59:21.060
+Csaba: This held omitted, or just left behind, because it's not,
+
+471
+00:59:21.230 --> 00:59:25.660
+Csaba: Because it's unlucky, then everyone has late completion.
+
+472
+00:59:26.260 --> 00:59:37.440
+Csaba: You can play with different scheduling rules to, to do that, so the scheduling rules which are balancing this, like, the DAS first scheduling, and I started to play with these.
+
+473
+00:59:38.280 --> 00:59:50.969
+Csaba: But coding is just a malaron solution to this. So… so we can do coding, and then we are… we are getting, performance gains, it becomes more resistance withholding, and… and all other kind of things, so it's… it's… it's good.
+
+474
+00:59:52.340 --> 00:59:58.049
+Csaba: One more note for coding. First I was doing segmenting, and then coding, and then,
+
+475
+00:59:58.260 --> 01:00:01.499
+Csaba: Compressing the pieces, if they're compressible.
+
+476
+01:00:02.560 --> 01:00:08.170
+Csaba: And that gives you, with my assumptions around the compressibility of the block,
+
+477
+01:00:08.310 --> 01:00:24.430
+Csaba: That just gives you an unbalanced distribution, because you have these small segments which are compressible, and then you have the pallet segments which are not compressible, and that's not good. So, what I'm doing now is I'm having complex first, then segment and code variant, which is…
+
+478
+01:00:24.820 --> 01:00:26.380
+Csaba: Giving some advantages.
+
+479
+01:00:27.580 --> 01:00:31.969
+Csaba: Just a side note on, kind of, complexities which Azure Coding brings in.
+
+480
+01:00:32.900 --> 01:00:39.620
+Csaba: And then, last slide, very messy, and I'm working on preparing a write-up on this.
+
+481
+01:00:40.340 --> 01:00:51.890
+Csaba: But basically what I did, I was taking this baseline scenario, and taking my baseline solution, and then I started to change things. Change parameters, change,
+
+482
+01:00:52.830 --> 01:00:57.750
+Csaba: reliance, change, whether I'm using coding or not using coding.
+
+483
+01:00:58.270 --> 01:01:04.120
+Csaba: So this is just… Different variants of A…
+
+484
+01:01:04.730 --> 01:01:12.730
+Csaba: My, my baseline variant, and their performance under one scenario, on a two-dimensional performance.
+
+485
+01:01:13.920 --> 01:01:19.400
+Csaba: scale, basically. This is how much bytes we use. This is how much time.
+
+486
+01:01:19.980 --> 01:01:23.670
+Csaba: We need to do the B99 of the diffusion.
+
+487
+01:01:25.080 --> 01:01:37.409
+Csaba: It looks interesting because there are huge differences between 0.9 and 1.3, but if you remember that the original was 4. Something, it just really doesn't matter, we just need to do something.
+
+488
+01:01:37.540 --> 01:01:48.789
+Csaba: But we can, I think, for us networking people, this is very important to kind of understand the details here, and fill out which one is the best, and which one is the most robust, and still good enough.
+
+489
+01:01:49.500 --> 01:01:51.000
+Csaba: And I'm working on that.
+
+490
+01:01:51.580 --> 01:01:56.699
+Csaba: I don't have the figure for the compilation of the heel of the…
+
+491
+01:01:57.540 --> 01:02:10.179
+Csaba: ABC Valiant. Sorry, let me go back here. So I have the Avaliant, which is normal gossip sub, the B, which is using partial messages, the C, which is the multiple topics. They have structural differences, they have performance differences.
+
+492
+01:02:10.230 --> 01:02:25.019
+Csaba: But many of… I was measuring performance differences, but many of the differences are basically down to, like, which part is implemented how. So, by aligning implementations, we can also kind of align them to some extent.
+
+493
+01:02:26.320 --> 01:02:27.200
+Csaba: That's it.
+
+494
+01:02:27.510 --> 01:02:29.150
+Csaba: more or less, I think.
+
+495
+01:02:30.340 --> 01:02:31.110
+Csaba: Yep.
+
+496
+01:02:40.920 --> 01:02:44.180
+Kamil Salakhiev: Do you want to address some questions from chat, maybe?
+
+497
+01:02:44.450 --> 01:02:45.330
+Kamil Salakhiev: I think…
+
+498
+01:02:45.690 --> 01:02:47.040
+Csaba: Absolutely.
+
+499
+01:02:50.580 --> 01:02:54.840
+Kamil Salakhiev: Yeah, I think, Raul, you were talking about this push-pull phase transition when you were saying that
+
+500
+01:02:55.010 --> 01:02:57.619
+Kamil Salakhiev: We have same thing in ETP2P broadcast.
+
+501
+01:02:57.880 --> 01:02:59.150
+Kamil Salakhiev: What's something?
+
+502
+01:02:59.150 --> 01:03:08.729
+Raúl Kripalani: Yeah, a lot of… a lot of this is already implemented in EP2P broadcast, and EP2BP broadcast is, specifically designed to
+
+503
+01:03:08.900 --> 01:03:25.280
+Raúl Kripalani: be able to inject a nil coder, so literally you could just run this on top of EP2BP. Even if we ship it originally in… sorry, I mean, EP2BP, yeah, even if we, like, it originally ships in… as in Libby2P kind of, like, mechanism.
+
+504
+01:03:25.280 --> 01:03:33.060
+Raúl Kripalani: on top of, like, B2BP rails or whatever, the simulations and kind of, like, the work, and… and I think the… that's… that's, like…
+
+505
+01:03:33.190 --> 01:03:50.670
+Raúl Kripalani: there's a lot of this that has already been implemented, and it's been tested, and it's been benchmarked, and so on. So I feel like, ideally, we would not be, like, we would be kind of, like, you know, perhaps aligning a little bit more, and inventorizing.
+
+506
+01:03:50.820 --> 01:03:58.969
+Raúl Kripalani: But… but that's… that's totally fine. I'm happy to give a presentation specifically on this, and how ETHP2P has…
+
+507
+01:03:59.410 --> 01:04:16.829
+Raúl Kripalani: like, how the chunking works, and how the preamble works, and how this, like, the parameters that are broadcast, and, like, the threshold. Specifically, what ETHP2P does is, you can configure a threshold, at which point, peers will start gossiping.
+
+508
+01:04:17.010 --> 01:04:37.239
+Raúl Kripalani: And originally, kind of like, it's a two-phase protocol. It's like this diverged face and converge phase. In the diverge phase, peers are just chaotically dispatching chunks around, which in the case of this protocol that Caba presented, that you presented, Caba would not be coded chunks, would just be, the raw data.
+
+509
+01:04:37.240 --> 01:04:43.550
+Raúl Kripalani: And then at one point, every peer locally decides when it begins, transmitting
+
+510
+01:04:43.590 --> 01:04:49.450
+Raúl Kripalani: That metadata and that gossip about their availability and what they request, and that is kind of like the converge phase.
+
+511
+01:04:49.470 --> 01:05:03.529
+Raúl Kripalani: This is… I also posted a link to NetVis. We… like, there's extensive tooling here that we can actually use to visualize this protocol live, including gossip Sub, because gossip Sub has been instrumented, so we can actually look at and kind of, like.
+
+512
+01:05:03.530 --> 01:05:18.850
+Raúl Kripalani: see what is the intuition, because it's great to see, like… in my… in, like, my work, personally, kind of, like, it's great to see the aggregator stats, but I personally, like, you know, feel it a lot more and kind of, like, get better intuition about, like, the edge cases and the tails and so on, once I start seeing
+
+513
+01:05:18.850 --> 01:05:25.690
+Raúl Kripalani: Like, how the graph arranges and the diffusion graph arranges under, like, different parameters and so on.
+
+514
+01:05:25.690 --> 01:05:49.279
+Raúl Kripalani: We also did have a fuzzer, but, like, by the way, all of this work was kind of, like, a little bit interrupted when I left the foundation, but I'm really resuming it now, so that's why I'm, like, available if we want to connect again on this topic. There's also a fuzzer that is constantly in the background. I think it might still be active, actually. It's not public yet, because it's kind of still running. We kind of got interrupted.
+
+515
+01:05:50.460 --> 01:06:03.849
+Raúl Kripalani: when I left, as I said, but… but that's a fuzzer, that's constantly fuzzing the parameter space and giving you results, and then those… the idea was to aggregate those results in a continuous basis, and over time accumulate, like, really good intuition of what parameters make sense.
+
+516
+01:06:03.850 --> 01:06:13.190
+Raúl Kripalani: And the simulations that we have conducted here are up until, I think, 2,000 nodes? 4,000 nodes, I think there were, in a shadow simulation. So it's…
+
+517
+01:06:13.190 --> 01:06:30.660
+Raúl Kripalani: can be a very realistic, profile of the Ethereum mainnet. But yeah, just putting it out there. I know, I'm happy to, like, give another specific, like, presentation on, like, all of the inventory of stuff that, you know, we as, like, a peer-to-peer community can use.
+
+518
+01:06:31.770 --> 01:06:38.019
+Csaba: Yeah, I think the… One thing that we should do is kind of compare these odds between frameworks.
+
+519
+01:06:38.570 --> 01:06:46.549
+Csaba: as a, as a sanity check. Then on the, on the, on the mechanics, I think we are, we are kind of aligned, so,
+
+520
+01:06:46.550 --> 01:07:00.329
+Csaba: I'm in the phase transition, I'm doing it as a transition, so I'm doing a smooth transition from, from push to pull. That was kind of the one I was lighting up in the… when I was publishing the PPPT, so I… I stick to that.
+
+521
+01:07:00.390 --> 01:07:04.749
+Csaba: But it can be a sharp transition as well, like, it's not that,
+
+522
+01:07:05.690 --> 01:07:11.830
+Csaba: I don't have any theoretical results or ideas to say one is better than the other,
+
+523
+01:07:11.830 --> 01:07:14.530
+Raúl Kripalani: And you said a shared trans… a shared transition?
+
+524
+01:07:15.040 --> 01:07:17.229
+Csaba: So you have the two phases?
+
+525
+01:07:17.230 --> 01:07:18.520
+Raúl Kripalani: Bright, yeah.
+
+526
+01:07:18.540 --> 01:07:19.950
+Csaba: In the, in the…
+
+527
+01:07:19.950 --> 01:07:23.799
+Raúl Kripalani: Are there… are they network-wide transitions, or are they local transitions?
+
+528
+01:07:24.170 --> 01:07:30.489
+Csaba: So, so, if you check my post that I was playing.
+
+529
+01:07:31.220 --> 01:07:37.390
+Csaba: Is the idea of, of making,
+
+530
+01:07:37.770 --> 01:07:40.709
+Csaba: a continuous transition. Also, because… Yeah.
+
+531
+01:07:40.960 --> 01:07:44.299
+Csaba: It's not easy to have an indicator for that.
+
+532
+01:07:44.840 --> 01:07:48.469
+Csaba: But many politicals in the… due to health transition.
+
+533
+01:07:48.470 --> 01:07:54.780
+Raúl Kripalani: But yeah, it's gonna… yeah, it's, like, my intuition, at least what I saw when I worked with this, is,
+
+534
+01:07:54.780 --> 01:08:15.870
+Raúl Kripalani: it smooths out over the network, so even if every peer locally has a particular threshold, because they receive chunks at different points in time, and they receive different chunks, because the first phase is designed to be stochastic, right? Then, like, they all will try… like, it will smoothen out in the network. So it's not going to be, like, an abrupt thing,
+
+535
+01:08:15.870 --> 01:08:18.539
+Raúl Kripalani: But yeah, that was kind of, like, what I observed.
+
+536
+01:08:19.020 --> 01:08:20.639
+Raúl Kripalani: The other thing…
+
+537
+01:08:20.649 --> 01:08:26.089
+Csaba: The difference is that you need a transition,
+
+538
+01:08:26.899 --> 01:08:30.209
+Csaba: It should be based on local inflammation, and
+
+539
+01:08:30.210 --> 01:08:31.479
+Raúl Kripalani: Yeah, exactly.
+
+540
+01:08:31.670 --> 01:08:34.770
+Csaba: And then you need a transition function, which can be a…
+
+541
+01:08:35.390 --> 01:08:37.259
+Raúl Kripalani: Yeah, number of chunks received, yeah.
+
+542
+01:08:37.260 --> 01:08:38.390
+Csaba: Yeah, it's gonna be a step further.
+
+543
+01:08:38.390 --> 01:08:42.129
+Raúl Kripalani: Yeah, exactly, it could be you. Exactly, exactly.
+
+544
+01:08:42.130 --> 01:08:43.430
+Csaba: Thanks, Pace quite a lot, I think.
+
+545
+01:08:43.430 --> 01:08:46.150
+Raúl Kripalani: The other thing that…
+
+546
+01:08:46.270 --> 01:08:58.110
+Raúl Kripalani: I thought a lot about as well, and that it's already in… I think some ideas are implemented in EP2B, in case you want to take a look, is the parking of unauthenticat- or,
+
+547
+01:08:58.450 --> 01:09:10.670
+Raúl Kripalani: chunks that we cannot yet authenticate because of the race condition that happens in the network. The idea is that, obviously, there's kind of, like, the top-level object that initiates the broadcast of a payload is the block
+
+548
+01:09:10.710 --> 01:09:25.530
+Raúl Kripalani: the consensus block. Without that, you can't validate anything that comes in, because that's what contains the bit. So basically, this feeds into it, and in the meantime, you can park, like, a number of chunks and… or…
+
+549
+01:09:25.560 --> 01:09:35.580
+Raúl Kripalani: kind of, like, decide what you do with that. And also, there's, like, some good heuristics that you can apply to, like, decide whether these chunks are possibly valid, and kind of, like, you know, classify them into, like.
+
+550
+01:09:36.210 --> 01:09:39.469
+Raúl Kripalani: Probably good, and, like, definitely bad, so…
+
+551
+01:09:39.470 --> 01:09:52.749
+Csaba: Yeah, but that's where we should be very careful, actually, because that's… well, we have an attack surface, potentially. I think we can easily solve it, but that's where I was also with this kind of policy.
+
+552
+01:09:52.939 --> 01:10:03.769
+Csaba: So I was starting from the, you know, let's change little kind of things, where two messages are traveling on two different topics.
+
+553
+01:10:04.190 --> 01:10:13.299
+Csaba: But I was playing with the idea and exploring the, colluting, basically, of the two topics, because that, that allows me, if they are telling them…
+
+554
+01:10:13.750 --> 01:10:19.820
+Csaba: that allows me to install policies like the one I was describing, so that I should know that you have
+
+555
+01:10:20.230 --> 01:10:24.990
+Csaba: the… the gate, and I can only push to you, so I can only…
+
+556
+01:10:25.380 --> 01:10:36.070
+Csaba: send larger amount of data, a whole segment, and in my case, it was set to be 32 kilobytes, if I know that. And if I push without that.
+
+557
+01:10:36.230 --> 01:10:39.009
+Csaba: I'm violating protocol, and you can drop me.
+
+558
+01:10:39.010 --> 01:10:40.000
+Raúl Kripalani: Yeah, right, yeah.
+
+559
+01:10:40.190 --> 01:10:49.980
+Csaba: That's a powerful talent, basically, because without that, until you can push, you can't respond by these pushes, and…
+
+560
+01:10:50.530 --> 01:11:04.750
+Raúl Kripalani: Yeah, definitely. Just one more consideration that I think, like, as probably, like, some of this work on top of B2BP kind of, like, you know, goes further, I think one thing that will be noticed is
+
+561
+01:11:04.830 --> 01:11:20.210
+Raúl Kripalani: the scheduling of chunks and the network, like, the mapping to kind of, like, the stream architecture is really important here. So, what ETHP2P does is it dispatches every chunk as a stream, as an independent stream, which also allows us to
+
+562
+01:11:20.310 --> 01:11:22.379
+Raúl Kripalani: Interrupt chunks
+
+563
+01:11:22.660 --> 01:11:31.969
+Raúl Kripalani: Or reject chunks without consuming them in the application, because of the way that the chunk is, like, laid out, and the data model of the chunk.
+
+564
+01:11:31.970 --> 01:11:42.710
+Raúl Kripalani: There's also a header, so you can inspect the header, decide, do I still want this chunk as a receiver? And if not, just dispose of the stream, which just at the quick stack, wouldn't say…
+
+565
+01:11:42.710 --> 01:11:47.949
+Raúl Kripalani: even at the OS level, it would just, like, dispose of that frame.
+
+566
+01:11:47.950 --> 01:12:02.390
+Raúl Kripalani: So that's one thing, and it's really beneficial, and it also, like, this particular mapping to stream architecture allows us to, like, be a lot smarter when we, like, are dealing with races, of when we're sending a chunk to a peer that then, like.
+
+567
+01:12:02.640 --> 01:12:22.139
+Raúl Kripalani: simultaneously tells us that they already have it. This was, like, really traditionally really difficult in gossip sub, just because of, you know, the stream architecture, and it becomes way simpler once you… once you have per, per chunk streams, ethereal streams. And Quick makes that, like, free. It's not even cheap, it's free.
+
+568
+01:12:22.810 --> 01:12:24.310
+Csaba: Yeah, yeah. Yeah.
+
+569
+01:12:25.710 --> 01:12:27.270
+Raúl Kripalani: Oops. But anyway…
+
+570
+01:12:27.700 --> 01:12:33.130
+Csaba: One thing I have is the… so I have the structured ID, so that… so that you can interpret the,
+
+571
+01:12:33.130 --> 01:12:33.760
+Raúl Kripalani: Yup.
+
+572
+01:12:34.270 --> 01:12:35.389
+Raúl Kripalani: Yeah, that's good, yeah.
+
+573
+01:12:35.390 --> 01:12:37.520
+Csaba: That's kind of neat.
+
+574
+01:12:37.520 --> 01:12:44.089
+Raúl Kripalani: Oh, another thing we, we discussed, just, kind of, like, maybe to, to, to wrap at least my…
+
+575
+01:12:44.280 --> 01:12:51.380
+Raúl Kripalani: my thoughts here, is the authentication scheme, so… and I actually… there's…
+
+576
+01:12:52.480 --> 01:12:59.899
+Raúl Kripalani: there were, like, I think the Merkel, route was kind of, like, the preferred in the last… the last time we chatted.
+
+577
+01:13:00.110 --> 01:13:13.630
+Raúl Kripalani: This would be, like, very easily… I think we have an EP2P right now, kind of like a global hash, and that's it, a hash of the chunk or a list of hash, something stupid, because it can be replaced, very easily. But yeah, the Merk
+
+578
+01:13:13.630 --> 01:13:21.450
+Raúl Kripalani: path can be very easy to implement as well, so that would be a small addition to EP2B, but it's kind of like that part is… is just pluggable as well, so…
+
+579
+01:13:21.450 --> 01:13:24.610
+Csaba: I have the medical implemented, but, it's like…
+
+580
+01:13:24.610 --> 01:13:25.150
+Raúl Kripalani: Yes.
+
+581
+01:13:25.440 --> 01:13:31.460
+Csaba: It's, it's a placement, it's, like, for the other, I have it implemented with a, with a baseline.
+
+582
+01:13:31.630 --> 01:13:33.760
+Csaba: Yeah. Not the fast one.
+
+583
+01:13:33.910 --> 01:13:36.600
+Csaba: So, that's enough. Yes.
+
+584
+01:13:36.600 --> 01:13:50.870
+Raúl Kripalani: By the way, if you wanna… if you wanna experiment with EP2P, I'm very happy to onboard anybody. I know that I haven't, like, you know, things came happening at a very weird sequence, and, like, some of the work got interrupted, so I'm very happy to kind of, like, now that I'm resuming, to… to, like, give…
+
+585
+01:13:50.870 --> 01:13:56.740
+Raúl Kripalani: A long session, or a context transfer to anybody that wants to collaborate as well on this.
+
+586
+01:13:57.060 --> 01:14:02.520
+Csaba: Yeah, I think we… we should need… we should do this… this kind of close… Implementation.
+
+587
+01:14:02.750 --> 01:14:03.970
+Csaba: I…
+
+588
+01:14:04.580 --> 01:14:10.729
+Csaba: brainstorming. So I was… as I said, I was… I was doing a lot of close… close…
+
+589
+01:14:10.730 --> 01:14:11.240
+Raúl Kripalani: Yeah.
+
+590
+01:14:11.240 --> 01:14:19.149
+Csaba: posting features from… from one to the other. I implemented it in… in… in normal one, and then I posted it to the… to the partial messages.
+
+591
+01:14:19.270 --> 01:14:27.020
+Csaba: with this transition, I had it on paper, then I printed one, then I figured out I needed it in the other one, and then just, just this.
+
+592
+01:14:27.830 --> 01:14:28.530
+Raúl Kripalani: Yep.
+
+593
+01:14:28.790 --> 01:14:33.109
+Csaba: The other techniques transfer, the code as well.
+
+594
+01:14:38.740 --> 01:14:47.610
+Kamil Salakhiev: Okay, nice, yeah, if that's so, yeah, let's proceed with the next topic.
+
+595
+01:14:47.800 --> 01:14:49.169
+Kamil Salakhiev: Thanks a lot, Caba.
+
+596
+01:14:49.430 --> 01:14:52.840
+Kamil Salakhiev: I think you've been talking for almost an hour or so.
+
+597
+01:14:53.680 --> 01:15:05.269
+Kamil Salakhiev: Good work. Yeah, let's… so yeah, I just wanted briefly to bring up the EIP. It basically covers what?
+
+598
+01:15:05.770 --> 01:15:11.580
+Kamil Salakhiev: Caba just, presented, just let me try to… Yep.
+
+599
+01:15:13.390 --> 01:15:16.539
+Kamil Salakhiev: Oh, sorry. Oh, where is that? Where did it disappear?
+
+600
+01:15:17.090 --> 01:15:18.009
+Kamil Salakhiev: You can see them.
+
+601
+01:15:20.170 --> 01:15:26.739
+Kamil Salakhiev: Give me a second, I have this thing going, which really struggles things.
+
+602
+01:15:34.300 --> 01:15:35.960
+Kamil Salakhiev: Yep, can you see it now?
+
+603
+01:15:39.410 --> 01:15:43.510
+Kamil Salakhiev: Yeah, great. So yeah, basically…
+
+604
+01:15:44.410 --> 01:15:56.379
+Kamil Salakhiev: Yeah, we're discussing that in one form or another for a very long time, but in the end of the day, we need to ship it somehow. So yeah, we basically started these discussions
+
+605
+01:15:56.650 --> 01:16:00.479
+Kamil Salakhiev: Well, I started, I mean, there was a proposal, as you know.
+
+606
+01:16:00.850 --> 01:16:10.630
+Kamil Salakhiev: to distribute blocks using some pure DAS machinery. Initially, we purified it to just be a part of Blocks in blobs proposal.
+
+607
+01:16:10.900 --> 01:16:15.339
+Kamil Salakhiev: We went through a lot of iterations just to, like, how to…
+
+608
+01:16:15.890 --> 01:16:24.130
+Kamil Salakhiev: just address some concerns, for example, like, not to do this kzidil proving on a critical path, and…
+
+609
+01:16:24.670 --> 01:16:43.720
+Kamil Salakhiev: yeah, just not to introduce too much complexities with, like, subscribing to all, dedicated common topics, even, like, with using partial messages. So, yeah, the idea is… and we will discuss politics, I think, tomorrow on ACD call, but yeah, just to have something concrete on top of which we can iterate.
+
+610
+01:16:43.840 --> 01:16:53.529
+Kamil Salakhiev: Yeah, we decided just to submit this EIP, and propose to PFI for Hegota, kind of replace this already PFI proposal for
+
+611
+01:16:53.720 --> 01:17:10.619
+Kamil Salakhiev: blobs and blobs, and yeah, if ACD kind of allows us to do that, because, like, the deadline already passed, yeah, we'll do this. It's basically… it's… the EIP itself is kind of simple. The main idea is just, yeah, replace the execution payload topic with
+
+612
+01:17:11.210 --> 01:17:25.070
+Kamil Salakhiev: the execution payload chunks topic, where we're just basically segmenting the payload and distributing the chunks instead of the full message, and we're kind of gaining all these advantages that Cabo just presented.
+
+613
+01:17:25.570 --> 01:17:40.889
+Kamil Salakhiev: all this pipelining, and other stuff, so… But to be concrete here, yeah, I just listed some parameters, for example, like, we're splitting into 64 chunks. I chose 64 just because it's kind of the number that we have in pure DAS.
+
+614
+01:17:41.690 --> 01:17:47.190
+Kamil Salakhiev: And in the future, like, if we would like to maybe iterate and
+
+615
+01:17:47.370 --> 01:17:53.519
+Kamil Salakhiev: Yeah, I should say, like, there is no error coding here, we are not, like, extending the message.
+
+616
+01:17:53.740 --> 01:17:58.680
+Kamil Salakhiev: Again, for simplicity, but I left it in open questions that, yeah, we might consider that.
+
+617
+01:17:58.800 --> 01:18:05.999
+Kamil Salakhiev: So anyways, so 64, just a number that we have in PIR DAS, and yeah, if we just want to iterate, yeah, I think it would be convenient.
+
+618
+01:18:06.290 --> 01:18:25.249
+Kamil Salakhiev: Then there will be some changes needed, as already Caba described, and yeah, we discussed before. Yeah, we're kind of extending the payload bid by introducing payload chunk's root, field. Yeah, we do that so that we, like, whenever we receive a chunk, we're actually able to…
+
+619
+01:18:25.610 --> 01:18:30.820
+Kamil Salakhiev: Yeah, just, assuming we already have the bid,
+
+620
+01:18:31.900 --> 01:18:36.010
+Kamil Salakhiev: the signed bit, yeah, we can just, yeah, verify the Merco pass, which should be very cheap.
+
+621
+01:18:36.400 --> 01:18:37.469
+Kamil Salakhiev: And… yeah.
+
+622
+01:18:37.580 --> 01:18:49.229
+Kamil Salakhiev: By the way, yeah, we will… I will extend this EIP, I think, today, maybe early tomorrow. Yeah, there is a suggestion, and yeah, things already described, I think, by Caba briefly, like.
+
+623
+01:18:49.920 --> 01:18:51.680
+Kamil Salakhiev: Just to…
+
+624
+01:18:52.780 --> 01:18:59.820
+Kamil Salakhiev: Yeah, like, how… just addressing some cases, like, for example, when we receive chunks before we receive the bid.
+
+625
+01:19:00.230 --> 01:19:18.939
+Kamil Salakhiev: And, yeah, in that case, I think for today, like, when we execute… when we receive the execution payload, if I'm not mistaken, we just, do not propagate it, but we put it in a queue, and once we actually receive the bid… yeah, the Beacon block containing the bid, yeah, we kind of, like, consider this,
+
+626
+01:19:19.250 --> 01:19:33.050
+Kamil Salakhiev: payload to be valid, and then, yeah, we actually can propagate it. That's… if I'm not mistaken, Prysma Lighthouse doing that. So basically, there would be the same logic, so we can basically just, yeah, if we receive a chunk, but we did not receive,
+
+627
+01:19:33.050 --> 01:19:45.570
+Kamil Salakhiev: like, some confirmations that this chunk is correct. I mean, like, we do not have the signed roots, so that means we didn't either receive the bid, or we can block containing the bid, and then, yeah, we just do not propagate them.
+
+628
+01:19:45.820 --> 01:19:48.690
+Kamil Salakhiev: Yeah, I will extend this EIP a bit later today.
+
+629
+01:19:49.370 --> 01:19:52.090
+Kamil Salakhiev: Yeah, the builder chunk method itself…
+
+630
+01:19:52.250 --> 01:19:56.189
+Kamil Salakhiev: will look like that. Yeah, in addition, there will be maybe a payload chunk
+
+631
+01:19:56.540 --> 01:20:07.510
+Kamil Salakhiev: route, yeah, it's not there, but it should appear later today. Just so that, yeah, we can verify the Pablo against the bid that we received previously.
+
+632
+01:20:08.430 --> 01:20:22.290
+Kamil Salakhiev: Yeah, anything interesting here? I think, yeah, it's pretty straightforward. Yeah, we just contain… it contains the data itself, yeah, the index of the chunk, and inclusion proof, as well as the slot, and yeah.
+
+633
+01:20:22.420 --> 01:20:24.089
+Kamil Salakhiev: The BeaconBlock route.
+
+634
+01:20:24.490 --> 01:20:39.330
+Kamil Salakhiev: And, yeah, by the way, yeah, we are not, like, segmenting the only execution payload itself, but we're actually segmenting the execution payload envelope message, because, like, yeah, that's what goes into the execution payload topic today.
+
+635
+01:20:40.800 --> 01:20:48.049
+Kamil Salakhiev: It contains execution payload itself, plus, I think, execution requests and some other fields.
+
+636
+01:20:48.570 --> 01:20:56.829
+Kamil Salakhiev: And we'll need to modify the structure by removing, for example, BeaconBlockRoot, because well, at the moment.
+
+637
+01:20:57.350 --> 01:21:06.200
+Kamil Salakhiev: Because, yeah, we have this BeaconBlock root in the payload chunk, and yeah, in order to compute the payload chunk's root.
+
+638
+01:21:08.660 --> 01:21:09.600
+Kamil Salakhiev: Yeah.
+
+639
+01:21:09.970 --> 01:21:11.430
+Kamil Salakhiev: It would kinda need to be…
+
+640
+01:21:11.960 --> 01:21:21.670
+Kamil Salakhiev: Well, I mean, yeah, the problem is, yeah, we might not be aware of BeaconBlockRoot at the moment.
+
+641
+01:21:22.310 --> 01:21:24.100
+Kamil Salakhiev: when we…
+
+642
+01:21:25.220 --> 01:21:38.210
+Kamil Salakhiev: Oh, yeah, I need to… I'm always, like, need to refresh myself about this chain of thoughts. But yeah, basically, at the moment of chunking the execution payload envelope, we might not be aware of the beacon block route.
+
+643
+01:21:38.530 --> 01:21:44.919
+Kamil Salakhiev: Because, like, the Beacon lock itself, like, we… the builder, did not observe it yet.
+
+644
+01:21:45.030 --> 01:21:53.839
+Kamil Salakhiev: So, yeah, we kind of need to remove this, field there, and… but it's fine, I mean, because, like, yeah, we… anyway, we'll attach it to, below chunk.
+
+645
+01:21:54.380 --> 01:22:03.410
+Kamil Salakhiev: Later. Yeah, basically, that's the EIP. Yeah, feel free to go and read it.
+
+646
+01:22:04.220 --> 01:22:09.800
+Kamil Salakhiev: And, yeah, that sounds… Yeah, that's basically it.
+
+647
+01:22:10.090 --> 01:22:26.849
+Kamil Salakhiev: On top of that, yeah, as I said, like, the EIP itself is pretty simple. Actually, a few optimization strategies, for example, that Caba described, like, maybe push-pull phase transition, and some other stuff, like batching, yeah, I think we can… they could be just some kind of implementation details.
+
+648
+01:22:26.880 --> 01:22:39.700
+Kamil Salakhiev: So the protocol itself, could be as described. For example, in EIP, then, yeah, we can iterate on top of that, or just clients can iterate that, because this is not a consensus change, they can… yeah, so we can work on that.
+
+649
+01:22:40.120 --> 01:22:43.499
+Kamil Salakhiev: In parallel, so I don't think there should be an issue with that.
+
+650
+01:22:44.150 --> 01:22:49.450
+Kamil Salakhiev: Yeah, I think that's all I wanted to cover.
+
+651
+01:22:50.180 --> 01:22:52.210
+Kamil Salakhiev: I see a bunch of discussions going…
+
+652
+01:22:56.020 --> 01:23:00.340
+Csaba: Yeah, for the EIP, I think the main thing we need is the bid.
+
+653
+01:23:03.040 --> 01:23:10.420
+Csaba: Which is… which buys our life a lot, because… it just does.
+
+654
+01:23:10.420 --> 01:23:15.499
+Kamil Salakhiev: Yeah, ideally, if we had this bit change already in gloss, yeah, we would be able to, actually.
+
+655
+01:23:15.660 --> 01:23:22.310
+Kamil Salakhiev: start iterating that, or, I mean, start implementing that even, like, in parallel, without requiring any consens change.
+
+656
+01:23:22.750 --> 01:23:28.770
+Kamil Salakhiev: But yeah, then we kind of end up with mixed network situation, where, like, some peers they support.
+
+657
+01:23:29.220 --> 01:23:32.460
+Kamil Salakhiev: The segmented broadcast and others don't.
+
+658
+01:23:32.800 --> 01:23:34.479
+Kamil Salakhiev: So yeah, it's go- it's both…
+
+659
+01:23:34.710 --> 01:23:37.509
+Kamil Salakhiev: I don't know, maybe good and bad, yeah, anyways.
+
+660
+01:23:38.260 --> 01:23:43.760
+Kamil Salakhiev: At the end of the day, I think the cleanest solution is just have this EIP
+
+661
+01:23:44.710 --> 01:23:49.669
+Kamil Salakhiev: PFI'd, and then, yeah, considered for Hoodi. So, yeah.
+
+662
+01:23:51.050 --> 01:23:54.610
+Kamil Salakhiev: Let me just quickly go through some discussions, if I need to comment on something…
+
+663
+01:23:59.090 --> 01:23:59.820
+Kamil Salakhiev: Yeah.
+
+664
+01:24:00.010 --> 01:24:01.550
+Kamil Salakhiev: Yes, that's it.
+
+665
+01:24:05.630 --> 01:24:06.490
+Kamil Salakhiev: Yeah.
+
+666
+01:24:06.650 --> 01:24:11.109
+Kamil Salakhiev: Yeah, in theory, it could be soup, by the way, yeah, exactly, like, maybe…
+
+667
+01:24:11.340 --> 01:24:15.559
+Kamil Salakhiev: Without, yeah, we can think about it,
+
+668
+01:24:15.840 --> 01:24:19.100
+Kamil Salakhiev: Like, if we decide to, like, for example, if it's not…
+
+669
+01:24:19.950 --> 01:24:23.730
+Kamil Salakhiev: PFI for Hegota, yeah, in theory, yeah…
+
+670
+01:24:24.030 --> 01:24:27.860
+Kamil Salakhiev: Yeah, we couldn't implement it, maybe, anyways, without…
+
+671
+01:24:28.170 --> 01:24:34.530
+Kamil Salakhiev: consensus change, it would be a bit more complicated, I think, and maybe, mmm…
+
+672
+01:24:35.150 --> 01:24:42.620
+Kamil Salakhiev: Yeah, so each chunk would need to… Contain the signature… For example.
+
+673
+01:24:44.530 --> 01:24:51.669
+Csaba: Yeah, we can find ways, but it remains more attackable, I think, so at least…
+
+674
+01:24:52.580 --> 01:25:02.600
+Csaba: this is what I kind of arrive to, that, that the attack surface… So, basically, the buffering, that you have to do is more, because you have
+
+675
+01:25:02.780 --> 01:25:04.959
+Csaba: You missed that… that link.
+
+676
+01:25:05.600 --> 01:25:06.310
+Csaba: Yeah.
+
+677
+01:25:06.310 --> 01:25:21.299
+Kamil Salakhiev: In theory, I think it might work, and some peers, they, for example, they support segmented broadcasts, and others don't, and those who support, they can help others to kind of get the… once they, for example, reconstructed the payload, they just, yeah, propagate it to the payload topic.
+
+678
+01:25:22.790 --> 01:25:29.709
+Csaba: We can… we could do… we could do the mixed mode, I think, and we could do it without the bid, change.
+
+679
+01:25:29.860 --> 01:25:32.030
+Csaba: Both of them would be…
+
+680
+01:25:35.600 --> 01:25:46.369
+Csaba: bad choices from the… from ACD, I think, in the sense that they would complicate and, and, implementation and… and make,
+
+681
+01:25:46.830 --> 01:25:58.480
+Csaba: the… It's less sufficient, and… Yeah, just… just less resistant for… For some reasons.
+
+682
+01:25:58.620 --> 01:25:59.930
+Csaba: Yep.
+
+683
+01:26:01.420 --> 01:26:07.020
+Kamil Salakhiev: Yeah, cool. Anyways, if no other questions here, we'll…
+
+684
+01:26:07.210 --> 01:26:13.160
+Kamil Salakhiev: bring this up tomorrow as well. We'll discuss less technical stuff and more politics, I believe, so…
+
+685
+01:26:13.550 --> 01:26:16.490
+Kamil Salakhiev: So yeah, let's leave politics for tomorrow.
+
+686
+01:26:16.760 --> 01:26:18.679
+Kamil Salakhiev: Good, yeah.
+
+687
+01:26:19.640 --> 01:26:25.239
+Kamil Salakhiev: So, if no other comments or questions, yeah, Raul, we can… yeah.
+
+688
+01:26:25.720 --> 01:26:29.950
+Kamil Salakhiev: forward with your presentation at EPIPI Progress.
+
+689
+01:26:33.930 --> 01:26:35.940
+Raúl Kripalani: Oh, do you see my… do you see my screen?
+
+690
+01:26:37.000 --> 01:26:37.400
+Csaba: Yep.
+
+691
+01:26:37.400 --> 01:26:38.090
+Kamil Salakhiev: Yes.
+
+692
+01:26:38.310 --> 01:26:54.220
+Raúl Kripalani: Okay, cool. Alright, so I wanted to… I want to start integrating… well, I already started, but I want to integrate ETB into clients so that we can run DevNets, and we can run simulations with Prysm, for example, which is, you know.
+
+693
+01:26:54.270 --> 01:27:13.639
+Raúl Kripalani: the thing… the most accessible one, given that ETH P2P is currently implemented in Go, but I… I'm a Rust person, so I would be very happy to implement it in Rust as well, with the help of my agents. So, the… what I wanted to present today was how we're going to make this happen. The key… the key point here
+
+694
+01:27:13.720 --> 01:27:29.739
+Raúl Kripalani: is… well, it's… it's a design, so I'm very happy to, like, take… take input, and… and see, like, what other considerations I haven't thought about here. But basically, the idea is, given that the EL has already standardized on QUIC, and that
+
+695
+01:27:29.740 --> 01:27:37.099
+Raúl Kripalani: I think all clients by now are supporting QUIC, hopefully. At least, I know that the major wants to.
+
+696
+01:27:38.320 --> 01:27:49.070
+Raúl Kripalani: the question is, how can we take a single quick endpoint and actually use it across EIP2P and BebP2P, and what is the stream dispatch policy, and kind of, like, what is the…
+
+697
+01:27:49.070 --> 01:27:59.179
+Raúl Kripalani: Lifecycle policy for things like, for example, opening a transport or dialing, where does the stack need to behave depending on where the dial comes from, and so on.
+
+698
+01:27:59.180 --> 01:28:06.820
+Raúl Kripalani: The design is actually really simple, and it is quite, I think, quite elegant.
+
+699
+01:28:06.920 --> 01:28:15.869
+Raúl Kripalani: it is… it does have a few, kind of, like, cases that we need to consider, so… and I put this very, like, quickly to get… put this together very quickly.
+
+700
+01:28:15.870 --> 01:28:31.579
+Raúl Kripalani: So, I'm happy to kind of, like, after we've… I finalized this design, to kind of, like, give another… another update. But basically, the design targets for how we're going to do this is, first of all, we want to use a single quick transfer and endpoint for both, EIP2P and EIP2P.
+
+701
+01:28:31.740 --> 01:28:41.619
+Raúl Kripalani: We want to make sure that every connection that arrives or that we make, through that transport can serve both ETH B2B2P and ETH B2P streams.
+
+702
+01:28:41.750 --> 01:28:49.619
+Raúl Kripalani: We want to make sure that we remain fully backwards compatible, so that EIP2Bonly peers notice nothing, absolutely nothing.
+
+703
+01:28:49.630 --> 01:29:02.350
+Raúl Kripalani: And we want to make sure that it's non-invasive for existing CL code, or, like, minimally and contained at specifically the networking layer and nothing else, right? So it shouldn't percolate back up into the application. So…
+
+704
+01:29:02.680 --> 01:29:18.740
+Raúl Kripalani: just to kind of give you an overview of how, for example, Prysm enables quick today, so we all know there's a host in the B2B that is fed options, and if enable QUIC, which is a flag in… a configuration flag if Prysm is enabled, which by default is true.
+
+705
+01:29:18.740 --> 01:29:22.829
+Raúl Kripalani: then it adds the transport. Now, if you notice, qua…
+
+706
+01:29:22.830 --> 01:29:27.289
+Raúl Kripalani: Prysm is never constructing the quick transport, and that is what needs to change here.
+
+707
+01:29:27.290 --> 01:29:34.630
+Raúl Kripalani: So, what we need to do is, the application needs to own the transport and then inject it into both
+
+708
+01:29:34.660 --> 01:29:50.359
+Raúl Kripalani: LIPI2P and ETHP2P. And we can add sugar so that it's, like, very, very simple, but kind of like the… the mechanics would be something like this. So, you have… this is ETHP2P, by the way, so this, you call… is already implemented, you get
+
+709
+01:29:50.390 --> 01:29:57.799
+Raúl Kripalani: the… you call newShared on the transport, with the node key, and so on, and the connection that you've already created, and then from the shared.
+
+710
+01:29:58.080 --> 01:30:01.510
+Raúl Kripalani: transport, you take the ETH P2P view.
+
+711
+01:30:01.630 --> 01:30:04.640
+Raúl Kripalani: And that you would pass through EP2P.
+
+712
+01:30:04.710 --> 01:30:23.080
+Raúl Kripalani: And then you take the lip E2P view, which is, somewhere around here, because the code is a little bit verbose. Yeah, here. Should have probably put it in a variable at the top so it was easier to follow. You take that, and you use this lent transport. In the case of GoLIPI2P, the… there is…
+
+713
+01:30:23.130 --> 01:30:32.910
+Raúl Kripalani: This option that already allows the application to inject a transport into the quick transport through this, like, weird, quick reuse thing.
+
+714
+01:30:32.910 --> 01:30:46.409
+Raúl Kripalani: That exists, and it's a little bit unergonomic to use. If this bothers us, we can change it. But there's only, like, one tiny patch needed, which is already sitting in this branch. I haven't opened a PR for it, because it is…
+
+715
+01:30:46.420 --> 01:30:50.550
+Raúl Kripalani: built on the version of GoPTP that Prysm uses today.
+
+716
+01:30:50.570 --> 01:31:01.380
+Raúl Kripalani: which is no longer, like, what exists on master and go B2BP, so it's… I don't think anybody's gonna care about this, but I can submit a patch, and I don't… I can't remember if there's a release
+
+717
+01:31:01.460 --> 01:31:11.510
+Raúl Kripalani: like, a release branch for this lineage, or this… this… this old release, so I wouldn't know what the target would be of that PR. So it's just currently sitting, sitting there.
+
+718
+01:31:11.720 --> 01:31:17.819
+Raúl Kripalani: And then, from the transport weekend, like, ETP2P can already, like, accept and dial, so…
+
+719
+01:31:17.950 --> 01:31:23.770
+Raúl Kripalani: Now, how… what does this do behind the scenes? It solves the problem of…
+
+720
+01:31:23.770 --> 01:31:39.329
+Raúl Kripalani: We can't just take a single quick transport and just give that raw transport to both stacks, because they're gonna collide and they're gonna conflict when they're listening, because they will both try to listen for connections, and then for every connection, they will try to accept streams.
+
+721
+01:31:39.330 --> 01:31:48.129
+Raúl Kripalani: So they're… they're gonna conflict, and they're gonna race with one another. So what we need to do is, we need to identify the capabilities of the remote host.
+
+722
+01:31:48.140 --> 01:31:54.450
+Raúl Kripalani: And, route incoming streams to the right listener when we get incoming streams, right?
+
+723
+01:31:54.690 --> 01:32:13.639
+Raúl Kripalani: So, just to kind of, like, set the stage for how this works, and this, like, dispatching, and routing works, it's actually very simple, and it's based on… on a few… on a few facts that all come together. So, first of all, every ETP2P peer will also be a B2P peer.
+
+724
+01:32:14.070 --> 01:32:28.859
+Raúl Kripalani: It's an Ethereum client. Therefore, at the time that parts of EIP2P begin to be adopted, lipid will still be there, right? So, it's not like it's gonna be a swap, it's gonna be a progressive… it would be a progressive upgrade, right?
+
+725
+01:32:29.070 --> 01:32:34.290
+Raúl Kripalani: So, both… so an ETH P2P peer will also be a P2P peer.
+
+726
+01:32:35.050 --> 01:32:42.640
+Raúl Kripalani: a legacy B2Bonly peer will never advertise ETH B2B, so we know that it's legacy.
+
+727
+01:32:43.290 --> 01:32:51.049
+Raúl Kripalani: Now, the LIPI2P handshake is pretty… the TLS handshake is pretty straightforward, and it's very easy to extract.
+
+728
+01:32:51.300 --> 01:32:55.499
+Raúl Kripalani: It's a single file. I've extracted it into a single file, so it's very easy.
+
+729
+01:32:55.930 --> 01:32:57.910
+Raúl Kripalani: And,
+
+730
+01:32:58.370 --> 01:33:07.780
+Raúl Kripalani: the idea… well, this should not go here, this is part of the design, but the, the other fact is that Libby2P does not support unidirectional streams.
+
+731
+01:33:09.200 --> 01:33:16.859
+Raúl Kripalani: And it doesn't have any API at the B2BP level to do that. All streams are bi-directional. And in quick.
+
+732
+01:33:17.140 --> 01:33:25.250
+Raúl Kripalani: streams… the directionality of the stream is determined, or is signaled, by the ID of the stream.
+
+733
+01:33:25.430 --> 01:33:41.749
+Raúl Kripalani: So you apply a bit mask, and you know what kind of stream it is, and the Golet B2BP does this for you. QuickGo does this for you, so you don't need to do any of this parsing. But the point is that we know that if a unidirectional stream arrives, we know it's for EIP, but we don't want to depend only on that.
+
+734
+01:33:42.130 --> 01:33:52.389
+Raúl Kripalani: Because, even though EP2P today only uses a unidirectional stream to prevent the… to deal with the simultaneous open problem at the stream level,
+
+735
+01:33:53.250 --> 01:33:56.929
+Raúl Kripalani: But we don't want to deal with that. Like, we don't want to rely only on that.
+
+736
+01:33:57.160 --> 01:34:03.980
+Raúl Kripalani: The most robust way is to actually peek at the first byte of every stream.
+
+737
+01:34:04.180 --> 01:34:06.680
+Raúl Kripalani: And they're gonna be structured exactly this way.
+
+738
+01:34:07.080 --> 01:34:22.370
+Raúl Kripalani: So with… for libi2P, we're gonna have a UVARINT, which is a length-limited prefix pull-up protocol selector, and then after that, the next… the next byte is gonna be a slash, because that's how multi-stream select protocols, start.
+
+739
+01:34:22.820 --> 01:34:32.799
+Raúl Kripalani: So then what we do is we reserve this character and say, well, the first effective payload, or the first effective byte of a stream, is a slash.
+
+740
+01:34:32.920 --> 01:34:38.640
+Raúl Kripalani: then we know it's lip, and the slash is reserved, so it can never be used in a neat P2P.
+
+741
+01:34:39.730 --> 01:34:44.370
+Raúl Kripalani: So that is at the… at the stream level, at the stream dispatching level.
+
+742
+01:34:45.240 --> 01:34:56.590
+Raúl Kripalani: The other thing that we need to know is whether the other party supports… if we are an EF P2P peer, does the other party support, support EF P2P or not?
+
+743
+01:34:56.890 --> 01:35:03.640
+Raúl Kripalani: So with that, we're using, basically in the TLS 1.3 handshake, we advertise a new ELPN,
+
+744
+01:35:03.750 --> 01:35:09.209
+Raúl Kripalani: We put it first, so that it takes precedence in the negotiation.
+
+745
+01:35:09.450 --> 01:35:18.070
+Raúl Kripalani: And, both quick endpoints will agree on the first shared ALPM.
+
+746
+01:35:18.260 --> 01:35:22.360
+Raúl Kripalani: So, if they both support ETH P2P, then that would be…
+
+747
+01:35:22.680 --> 01:35:29.400
+Raúl Kripalani: A peer link, basically, that supports both stacks.
+
+748
+01:35:29.520 --> 01:35:36.630
+Raúl Kripalani: if the… if we settle on Libby2P, then we know that we're just… it's just Libby2P, so…
+
+749
+01:35:36.750 --> 01:35:45.480
+Raúl Kripalani: In the case of… in this one, in this case, in theIPI2P case, we take the raw quick connection and just get it to lip E2P, that's the end of it.
+
+750
+01:35:46.230 --> 01:35:52.849
+Raúl Kripalani: In the case that we agree on ETHB2P, then we split the connection into two views.
+
+751
+01:35:53.200 --> 01:35:58.629
+Raúl Kripalani: So, we split it into the ETH P2P view, which will handle only ETH P2P streams.
+
+752
+01:35:58.750 --> 01:36:02.939
+Raúl Kripalani: by the EF B2BP stack, And into the E2P view.
+
+753
+01:36:03.080 --> 01:36:05.140
+Raúl Kripalani: which is then given to the B2B,
+
+754
+01:36:05.600 --> 01:36:10.530
+Raúl Kripalani: And it, it is managed by the B2BP stack.
+
+755
+01:36:11.340 --> 01:36:17.590
+Raúl Kripalani: So, just kind of, like, recapping, that's… The… the capability discovery?
+
+756
+01:36:18.010 --> 01:36:20.689
+Raúl Kripalani: The other thing is the stream routing.
+
+757
+01:36:21.280 --> 01:36:26.700
+Raúl Kripalani: So, already kind of, like, went through this, but… This is basically…
+
+758
+01:36:26.980 --> 01:36:40.580
+Raúl Kripalani: What it looks like, so we look at the direction, if it's unidirectional, then we know it's EP2P. If it's bi-directional, then we evaluate, is it lip B2P or EP2P? If it contains the… if it starts with a slash after the U variant.
+
+759
+01:36:41.510 --> 01:36:48.880
+Raúl Kripalani: And, yeah, this is how it all looks together. It is very simple in terms of code.
+
+760
+01:36:49.960 --> 01:36:54.780
+Raúl Kripalani: As I said, the slash is reserved, it's a reserved character, and then the… the…
+
+761
+01:36:55.220 --> 01:37:10.539
+Raúl Kripalani: So this is kind of, like, when it… this is… describes… what I've described so far is the connection management, so the connection creation, right? Listening a connection, and listening for a stream, right? So these are the list… what I've described are kind of, like, the listening side, the inbound side.
+
+762
+01:37:12.350 --> 01:37:19.600
+Raúl Kripalani: And I wanted to go through some other things that we need to make… that we need to do, to make sure that the whole solution is sound.
+
+763
+01:37:19.930 --> 01:37:26.659
+Raúl Kripalani: So… on one end, The listening, the management of the life cycle of the listener.
+
+764
+01:37:27.340 --> 01:37:29.140
+Raúl Kripalani: the Transport Listen.
+
+765
+01:37:29.420 --> 01:37:44.839
+Raúl Kripalani: is gonna be called by both sides, so Libby2P will get a quick transport, and then it will call listen on that transport, it will get a quick listener, and then it will start listening for streams. I don't know if rust does something similar, and what the rust
+
+766
+01:37:44.880 --> 01:37:51.119
+Raúl Kripalani: do, but this is kind of, like, the thing that I'm familiar with, and it can be used kind of, like, as a point of reference.
+
+767
+01:37:51.640 --> 01:37:58.819
+Raúl Kripalani: So, the idea here is… As soon as you get the first listen from one end.
+
+768
+01:37:59.370 --> 01:38:11.260
+Raúl Kripalani: The shared transport is going to return an immediate listener, but it only begins actually listening on the underlying quick connection when both of them have attached, so that none… no side actually misses.
+
+769
+01:38:11.390 --> 01:38:17.429
+Raúl Kripalani: any… any… any connections, any internet connections that might be for them. That's the way we remove
+
+770
+01:38:17.680 --> 01:38:19.699
+Raúl Kripalani: The… the race, right?
+
+771
+01:38:20.250 --> 01:38:25.589
+Raúl Kripalani: On the other side, we need to think about dials. So, both stacks are gonna dial.
+
+772
+01:38:25.940 --> 01:38:27.910
+Raúl Kripalani: If Libby2P is dialing.
+
+773
+01:38:28.340 --> 01:38:38.589
+Raúl Kripalani: then we're gonna do a handshake, we're gonna learn if the other party supports ETH B2B. If it does, we deliver the connection to both stacks.
+
+774
+01:38:40.320 --> 01:38:57.139
+Raúl Kripalani: If ETHP2P is dialing, this is the interesting case, because ETHP2P wants to establish a connection with a peer, and the peer… say the peer supports ETH P2P, we just split the connection, and we get the… we do the same thing, as here, we give it to the P2P, and also to ETHP2P.
+
+775
+01:38:57.550 --> 01:39:01.659
+Raúl Kripalani: But if the peer does not support EF B2BP, we have an opportunity.
+
+776
+01:39:02.090 --> 01:39:11.789
+Raúl Kripalani: we can still deliver the raw B2P connection, given that we've gone through the handshake, and we've established a connection, we can offer it to the B2P side.
+
+777
+01:39:11.940 --> 01:39:20.499
+Raúl Kripalani: But, so far, I've implemented it as only best effort, so if the Libby2P side is backlogged, it will…
+
+778
+01:39:20.900 --> 01:39:23.940
+Raúl Kripalani: we simply drop it, and that's it. Nothing happened.
+
+779
+01:39:24.170 --> 01:39:25.050
+Raúl Kripalani: Right?
+
+780
+01:39:26.370 --> 01:39:32.200
+Raúl Kripalani: What do we do on connection close? Both of these tags can… might want to close their… their connection.
+
+781
+01:39:32.590 --> 01:39:36.019
+Raúl Kripalani: So, closing only one side leaves the other one alive.
+
+782
+01:39:37.640 --> 01:39:41.210
+Raúl Kripalani: And this is not implemented yet, but it's an idea.
+
+783
+01:39:41.550 --> 01:39:53.910
+Raúl Kripalani: we could send an advisory to EP2P. We cannot do this with EIP2P, because, as we said, we want to… we don't wanna… don't wanna break APIs or impose new… new, requirements to clients. We want it to be completely transparent.
+
+784
+01:39:54.370 --> 01:39:59.870
+Raúl Kripalani: So, but EP2P can get an advisory of, hey, this connection,
+
+785
+01:40:00.000 --> 01:40:06.080
+Raúl Kripalani: It might, like, might be deprioritized or something like that, and then it can decide what it does.
+
+786
+01:40:06.210 --> 01:40:14.769
+Raúl Kripalani: well, it can ask the application what it does, because that's the point of ETH B2BP as a design principle. It's not autonomous. It is always delegating to the application.
+
+787
+01:40:17.050 --> 01:40:34.219
+Raúl Kripalani: And, yeah, so the connection… otherwise, the connection closes when both views are released, on the connection. And then the last gauge that we need to think about is what happens when listener… listener close. So, you got a listener from Transport Listen, and now you close it.
+
+788
+01:40:34.600 --> 01:40:36.940
+Raúl Kripalani: So, what we've…
+
+789
+01:40:37.040 --> 01:40:43.210
+Raúl Kripalani: what I decided here, after kind of, like, playing with different designs, is that I'm going to take the simplest path.
+
+790
+01:40:43.500 --> 01:40:48.680
+Raúl Kripalani: And that is, I'm gonna make… a listen from GoP2P.
+
+791
+01:40:49.280 --> 01:40:50.890
+Raúl Kripalani: Sorry, from EIPIP.
+
+792
+01:40:51.200 --> 01:40:56.390
+Raúl Kripalani: illegal, a close… illegal, and also from EFP to B.
+
+793
+01:40:57.150 --> 01:41:02.079
+Raúl Kripalani: Why? Because… A… closing a listener.
+
+794
+01:41:02.390 --> 01:41:09.100
+Raúl Kripalani: is not done dynamically. It is done… it is part of the client life cycle.
+
+795
+01:41:09.270 --> 01:41:21.309
+Raúl Kripalani: Right? So, when a client is staring down, is shutting down, it's going to tear down all its services, and one of them is going to be networking, probably the first one that it turns down, that it, that it tears down.
+
+796
+01:41:21.530 --> 01:41:25.269
+Raúl Kripalani: So, the client actually controls the sequence, the shutdown sequence.
+
+797
+01:41:25.760 --> 01:41:34.360
+Raúl Kripalani: So, what the client can do is just simply close the shared transport, And only then.
+
+798
+01:41:34.640 --> 01:41:37.810
+Raúl Kripalani: send a close to the B2B and to EF B2B.
+
+799
+01:41:38.430 --> 01:41:42.599
+Raúl Kripalani: Who will then go and close their listeners, and it's all clean.
+
+800
+01:41:43.030 --> 01:41:58.269
+Raúl Kripalani: The other alternative added, in my opinion, a lot of complexity, because… and we have to think about, like, if you allow this, then the listener could be half closed, we need to detach the queue from the listener, and then…
+
+801
+01:41:58.510 --> 01:42:16.439
+Raúl Kripalani: Like, you need to deal with, I've announced this capability, two other peers, peers are expecting something of me, but I'm really not listening. It just doesn't make sense, because it's never going to happen in reality at runtime, that you only want to close one part without closing the other. Or, also, what cannot happen, and what is not going to happen in reality.
+
+802
+01:42:16.440 --> 01:42:20.319
+Raúl Kripalani: is a re-listen. There's no… as far as I know, there is no…
+
+803
+01:42:20.880 --> 01:42:30.329
+Raúl Kripalani: happening inside a ETH client, or any, like, circumstance, where they would want to close a listener, and then reopen it later.
+
+804
+01:42:30.450 --> 01:42:36.819
+Raúl Kripalani: it just simply… simply doesn't… as far as I know, I'm not… I'm not aware, so… so let me know if, like, you know, if… if I…
+
+805
+01:42:36.930 --> 01:42:42.440
+Raúl Kripalani: If I've got wrong information here, because that would be… that would be valuable.
+
+806
+01:42:42.930 --> 01:42:52.350
+Raúl Kripalani: And finally, ideally, eventually, the transport, the connection, and the handshakes should… should also be shared with the EL. The EL has this,
+
+807
+01:42:52.680 --> 01:43:08.279
+Raúl Kripalani: in the Deputy REPL, there is this effort to also standardize QUIC as a… or to introduce support for QUIC. The handshake works a little different there, because the EL wants to support, web transport connections, so, in some
+
+808
+01:43:08.500 --> 01:43:10.180
+Raúl Kripalani: And, and the…
+
+809
+01:43:10.290 --> 01:43:23.119
+Raúl Kripalani: and the… and the extension, so the X509 extension that Libby2B uses to certify the peer's identity, to send a peer ID certificate, or to send a peer pump key certificate.
+
+810
+01:43:23.300 --> 01:43:26.269
+Raúl Kripalani: Is not something that a…
+
+811
+01:43:26.380 --> 01:43:30.750
+Raúl Kripalani: browser that a website could read, so it kind of, like.
+
+812
+01:43:30.920 --> 01:43:45.439
+Raúl Kripalani: Yeah, it becomes a little bit tricky there, so they… they've gone a different way, and they are exchanging the peer certificate as a requirement on the first screen that each side opens, which I think is valid.
+
+813
+01:43:45.440 --> 01:43:54.479
+Raúl Kripalani: But we just need to, like, figure out a compatibility, here, a compatibility path here, because LibI2P is,
+
+814
+01:43:54.620 --> 01:44:02.120
+Raúl Kripalani: It's like, suddenly it's, like, doing the handshake this way. I think, the other thing that I was a little bit worried about is that…
+
+815
+01:44:02.200 --> 01:44:16.450
+Raúl Kripalani: with that approach is that it kind of, like, creates some weird states when it comes to quick resumption or connection resumption. So you might have exchanged a token, but then your certificate might change if your ENR… like, if your peer ID rotates, or something like that.
+
+816
+01:44:16.550 --> 01:44:27.469
+Raúl Kripalani: Yeah, it becomes… it becomes a little bit tricky, so then you don't know what to do with a resumption token if you preserve it or you don't. Yeah, it's just kind of like some match cases that we need to think about.
+
+817
+01:44:27.750 --> 01:44:31.149
+Raúl Kripalani: But yeah, it would be nice to converge efforts here. And that's…
+
+818
+01:44:31.710 --> 01:44:35.889
+Raúl Kripalani: all from my side. I do want to say that I do have a branch,
+
+819
+01:44:36.030 --> 01:44:39.930
+Raúl Kripalani: that I need to, like, continue working on for…
+
+820
+01:44:40.370 --> 01:44:48.779
+Raúl Kripalani: integrating EFP2P into Prysm, broadcast into Prysm. As far as I know, I think DevNet is working.
+
+821
+01:44:48.950 --> 01:44:58.309
+Raúl Kripalani: For payload broadcast, it's already hooked into Glamsterdam, payload broadcast. So yeah, so yeah, so we could start testing this in a DevNet.
+
+822
+01:44:58.850 --> 01:45:02.859
+Raúl Kripalani: And then, perhaps the other thing that I wanted to show…
+
+823
+01:45:03.000 --> 01:45:05.210
+Raúl Kripalani: Like, something I've been putting together.
+
+824
+01:45:06.680 --> 01:45:09.510
+Raúl Kripalani: CFI. Yeah.
+
+825
+01:45:10.130 --> 01:45:18.280
+Raúl Kripalani: So, let me share my other screen, and I know that we're over, so bear with me, it's just one minute. I hope you're gonna like this.
+
+826
+01:45:19.960 --> 01:45:39.320
+Raúl Kripalani: Right, so one thing has become apparent, and we have a lot of networking specs, and they're dispersed in a lot of places. So there's the W2P REPL, there is the Consensus specs, where the networking piece is in this fork-based
+
+827
+01:45:39.670 --> 01:45:43.409
+Raúl Kripalani: Incremental, kind of, like, thing, format.
+
+828
+01:45:43.510 --> 01:45:50.010
+Raúl Kripalani: There are EIPs, there's… it's kind of, like, spread out in a number of places, so…
+
+829
+01:45:50.130 --> 01:45:56.729
+Raúl Kripalani: what I wanted to do a while ago, and Felix and I aligned on this, was to create a single
+
+830
+01:45:56.850 --> 01:46:02.920
+Raúl Kripalani: Single… a single site to view all of these specs, and we know that, you know, we're not going to shift specs
+
+831
+01:46:03.040 --> 01:46:11.710
+Raúl Kripalani: to a single repo. Ideally, we would be having a unified repo, so there's the idea of creating networking specs as a unified repo,
+
+832
+01:46:12.150 --> 01:46:16.839
+Raúl Kripalani: the… But we know we're not going to move content immediately,
+
+833
+01:46:16.950 --> 01:46:22.060
+Raúl Kripalani: So the… so we can solve this with… At the app level.
+
+834
+01:46:22.360 --> 01:46:25.879
+Raúl Kripalani: So the idea here is we create pages.
+
+835
+01:46:26.060 --> 01:46:41.219
+Raúl Kripalani: Where we aggregate content from other sources, and we very clearly indicate, like, what content is aggregated from what source, and so on, so that we can view everything in a single place, and we can reason about the stack, about the whole stack in a single place.
+
+836
+01:46:41.350 --> 01:46:47.150
+Raúl Kripalani: And then, for specs, like, for example, EIP2P for newer specs, like EIP2P,
+
+837
+01:46:47.170 --> 01:47:03.409
+Raúl Kripalani: and, Waggle, and, like, you know, Caba's broadcast, work as well, we can directly submit it and just incubate it inside the network specs repo, and just kind of, like, this can be our unified place to.
+
+838
+01:47:03.550 --> 01:47:16.980
+Raúl Kripalani: evolve the networking stack of Ethereum as kind of like, you know, yes, two… two stacks that ideally, hopefully, should convert in the future, but the first step for that is kind of like, we need to start viewing these things as a single
+
+839
+01:47:17.010 --> 01:47:35.510
+Raúl Kripalani: body, and not as kind of like, yeah, it's the rep over there, and another rep over there, and it's, like, super fragmented. I think the first step, towards, like, eventually unifying these things is to kind of, like, unify where they sit, and hopefully this is an… this is an effort, like, that… that people will like, in doing that.
+
+840
+01:47:35.560 --> 01:47:36.800
+Raúl Kripalani: This is…
+
+841
+01:47:37.000 --> 01:47:47.689
+Raúl Kripalani: still, like, I haven't published it because I need to work on the content and kind of, like, the sources and everything, but the idea is that you can view the entirety of the networking protocols here.
+
+842
+01:47:48.160 --> 01:47:53.640
+Raúl Kripalani: I deliberately didn't, like, strongly separate between execution and consensus.
+
+843
+01:47:53.740 --> 01:48:09.189
+Raúl Kripalani: it's kind of, like, all one… one thing, it's not, like, top-level separation, but I did add filters. So if you do, for example, if you go into execution, then you'll see the stuff that is only relevant to execution. And similarly with Consensus.
+
+844
+01:48:09.630 --> 01:48:12.800
+Raúl Kripalani: For some things, like, for example, that are cross-layer.
+
+845
+01:48:13.120 --> 01:48:17.279
+Raúl Kripalani: I actually just, like, my preference was to just kind of, like.
+
+846
+01:48:17.880 --> 01:48:34.970
+Raúl Kripalani: for us to be able to understand the whole flow of how things are actually moving through the… through the network, through the Ethereum network, no matter which stack it is, it's great to kind of, like, have just a page and a section on data availability, and all of the… like, all of the objects.
+
+847
+01:48:35.080 --> 01:48:41.880
+Raúl Kripalani: regardless of where they sit, and then the content itself can tell you. So this is kind of, like, the top-level classification.
+
+848
+01:48:42.160 --> 01:48:44.149
+Raúl Kripalani: The top-level taxonomy.
+
+849
+01:48:44.390 --> 01:48:50.230
+Raúl Kripalani: So you would be having fundamentals here, with kind of like, you know, the basics that are shared between both
+
+850
+01:48:50.460 --> 01:48:56.760
+Raúl Kripalani: both pieces… both parts, then a definition of the… of the stacks, right? There's a bug there.
+
+851
+01:48:57.010 --> 01:49:00.190
+Raúl Kripalani: Reopened my closed nodes on the tree.
+
+852
+01:49:00.390 --> 01:49:07.879
+Raúl Kripalani: The… Yeah, the definition of a stack, and the fundamentals of each stack, and so on.
+
+853
+01:49:08.260 --> 01:49:13.819
+Raúl Kripalani: And then I deliberately separated protocols from features.
+
+854
+01:49:13.940 --> 01:49:16.950
+Raúl Kripalani: And this might be a little bit controversial, but…
+
+855
+01:49:17.110 --> 01:49:23.180
+Raúl Kripalani: For example, gossip should be defined first, or in my opinion, should be defined first as a protocol.
+
+856
+01:49:23.570 --> 01:49:28.220
+Raúl Kripalani: And then, you should be having objects, Right?
+
+857
+01:49:28.360 --> 01:49:33.319
+Raúl Kripalani: that are… Handled by the Ethereum protocol.
+
+858
+01:49:33.820 --> 01:49:43.200
+Raúl Kripalani: with the exact flow, that then kind of, like, references and says, this flows over Gossip Sub, and this is the topic definition, and, like, whatever, right?
+
+859
+01:49:43.400 --> 01:50:05.179
+Raúl Kripalani: So… so yeah, I've separated these things. I'm very happy to take feedback. This was kind of, like, a first flush, and… well, not flush, first flush, this has been, like, the third version of, like, how I wanted to, like, I've pivoted a bunch of times on, like, what the taxonomy should be here, but this is what I eventually ended up, like, really liking as I saw it, kind of, like, you know, take form.
+
+860
+01:50:05.220 --> 01:50:09.529
+Raúl Kripalani: So yeah, very curious about, like, first… first thought.
+
+861
+01:50:09.680 --> 01:50:20.100
+Raúl Kripalani: This is unreleased yet, so hopefully I'll release it this week, and people can start paying with a B0 of this. But yeah, very curious for first thoughts, if people are still…
+
+862
+01:50:20.470 --> 01:50:22.459
+Raúl Kripalani: Still a week.
+
+863
+01:50:27.980 --> 01:50:29.850
+Kamil Salakhiev: Yeah, nice. Thanks, Raul.
+
+864
+01:50:30.130 --> 01:50:38.540
+Kamil Salakhiev: Yeah, maybe you can start by addressing some questions from chat. I see Anton is asking if we can just upgrade EIP to what if PTP provides?
+
+865
+01:50:39.670 --> 01:50:43.320
+Kamil Salakhiev: G… U direction, you need the rooms…
+
+866
+01:50:43.870 --> 01:50:54.399
+Raúl Kripalani: Yeah, no, I mean, that's one… one thing. So, ETP2P is quite native, so it does not put any abstractions in between… in the middle.
+
+867
+01:50:54.680 --> 01:51:04.140
+Raúl Kripalani: So it basically… you can get, like, all of the congestion control stats, and you can decide to route smartly
+
+868
+01:51:04.260 --> 01:51:06.289
+Raúl Kripalani: Across… across peers.
+
+869
+01:51:06.400 --> 01:51:26.100
+Raúl Kripalani: You get datagrams as well, which Libby2B does not expose. Of course, it can be exposed, but this, like, that's the problem. It's a lot of work to, like, you know, for a feature that only Ethereum needs, if you need to snake it through, now, all of the Libby2B implementations, right? So, it does not expose datagrams, which, you know, are very nice, for example, for attestations.
+
+870
+01:51:26.250 --> 01:51:30.580
+Raúl Kripalani: And… so that's at the transport level, right?
+
+871
+01:51:30.740 --> 01:51:37.650
+Raúl Kripalani: at the… there's more, right? There is, zero RTT, which Libby2BP does not trans…
+
+872
+01:51:37.790 --> 01:51:48.459
+Raúl Kripalani: also exposed nicely. We can add these things in the B2B, but the question is, do you want to work on B2B, or do we want to work on Ethereum networking, right? Because, like, we anyway need to…
+
+873
+01:51:48.740 --> 01:52:02.240
+Raúl Kripalani: add these to the transport support. So if now we need to add it to a transport support, and then also to, like, another layer, and then we need to, like, come to consensus in another community about that, when it's just us that need… that needs this, then, like, you know, is it a good
+
+874
+01:52:02.450 --> 01:52:07.060
+Raúl Kripalani: Good, investment of time, that's kind of, like, the thinking.
+
+875
+01:52:07.330 --> 01:52:14.080
+Raúl Kripalani: So, yeah, zero RTT, session presumption is really nice. You can, like, discover all peers.
+
+876
+01:52:14.260 --> 01:52:32.080
+Raúl Kripalani: all peers in the network, handshake with them, and then save a resumption token, and then send a message to that peer without having to renegotiate or re-handhake. That's really nice, and it's very nice for, like, things like when you become a builder, when you… sorry, when you're the builder, when you're a proposer, like.
+
+877
+01:52:32.260 --> 01:52:47.869
+Raúl Kripalani: when there comes a time where you need to, like, really fan out to a lot of peers, then you… like, you want to do it on the spot at that moment. There's a lot of flexibility once you start using what Quick gives you without it being blocked by, like, this middle layer, right?
+
+878
+01:52:48.010 --> 01:53:02.550
+Raúl Kripalani: And then there is, the whole set of, like, discovery, and peering side of things as well, and protocol awareness, so the idea is that you, as a client, you tell ETH B2B
+
+879
+01:53:02.710 --> 01:53:09.219
+Raúl Kripalani: When a slot starts and when a slot ends, and then all of the object propagation that happens within a slot.
+
+880
+01:53:09.420 --> 01:53:18.279
+Raúl Kripalani: Just like all of the caches are cleared at that point in time, when the slot ends, because this propagation is no longer relevant, there is…
+
+881
+01:53:18.640 --> 01:53:23.130
+Raúl Kripalani: when the SLOD ends, right, then you fall back to RPCs if you need to fetch that data.
+
+882
+01:53:23.310 --> 01:53:24.370
+Raúl Kripalani: So…
+
+883
+01:53:24.480 --> 01:53:36.270
+Raúl Kripalani: That's kind of, like, you know, this session… this, like, time window demarcation, right? Is… is a… and then the scoping of things under it. It's kind of, like, really valuable for a…
+
+884
+01:53:36.430 --> 01:53:37.640
+Raúl Kripalani: Protocol to have.
+
+885
+01:53:37.740 --> 01:53:54.299
+Raúl Kripalani: which Libby2B doesn't give you, and, like, we've had many problems with caches in the past, and lifetime of caches, and, like, repropagation. We just had… like, Prysm took, like, 6 months to resolve something like that in… in… when attestation- when aggregates were bleeding through from one slot to another, right? And that's because you…
+
+886
+01:53:54.300 --> 01:54:00.130
+Raúl Kripalani: It's, like, yeah, a window, you configure it for 30 seconds, right? And, like, you're still bleeding through to the next slot.
+
+887
+01:54:00.340 --> 01:54:15.950
+Raúl Kripalani: So that's another thing, the discovery as well, and the discovery view. So you discover very rapidly all peers in the network, and then, like, save assumption tokens for them, and then connect when you need to change your attestation, your ad nets, and so on, very quickly.
+
+888
+01:54:15.990 --> 01:54:22.610
+Raúl Kripalani: Like, there's a lot. I'm happy to give another presentation. I think you might have missed Anton the…
+
+889
+01:54:23.530 --> 01:54:28.289
+Raúl Kripalani: the, the 3-hour session that we had in Svalbard.
+
+890
+01:54:28.920 --> 01:54:34.289
+Raúl Kripalani: So that could have been useful, but I'm happy to give a dedicated presentation of this.
+
+891
+01:54:35.150 --> 01:54:47.060
+Raúl Kripalani: more, like, on… on this, I know it's, like, very dense, because it's kind of like a feature dump, and, like, you look at that, and it's like, holy crap, that's… there's a lot to build here, but really, it's not… it's not that…
+
+892
+01:54:47.270 --> 01:54:51.660
+Raúl Kripalani: And my view is, like, really not that complicated.
+
+893
+01:54:53.850 --> 01:54:56.860
+Raúl Kripalani: Yeah, Dataground Streams, the PR for it, yeah.
+
+894
+01:54:57.170 --> 01:54:59.359
+Raúl Kripalani: Since when? That PR?
+
+895
+01:55:02.090 --> 01:55:07.960
+Raúl Kripalani: Yeah, a year ago. I mean, if somebody wants to push that through in the B2B, be my guest. Like, I… you know?
+
+896
+01:55:09.430 --> 01:55:17.049
+Raúl Kripalani: happy to do that, and then, like, get all other implementations, you know, in line with that, and then, like, figure out how you want to use it, but I think it's…
+
+897
+01:55:17.460 --> 01:55:25.219
+Raúl Kripalani: Honestly, I think… I think it's… I'd rather focus on what Ethereum needs than on kind of, like, you know, exposing APIs through, like, middle layers.
+
+898
+01:55:32.770 --> 01:55:43.150
+Raúl Kripalani: But there's many other things, like multi-path as well, but, once you… once you get access to… to the… to the connection, it's… like, that's just so much.
+
+899
+01:55:43.790 --> 01:55:49.160
+Raúl Kripalani: Quicken itself is… is… is a very nice… Protocol suite, honestly.
+
+900
+01:55:58.700 --> 01:55:59.750
+Kamil Salakhiev: Okay…
+
+901
+01:56:02.850 --> 01:56:05.270
+Kamil Salakhiev: Yannis, anything else? Any other questions?
+
+902
+01:56:11.700 --> 01:56:15.730
+Kamil Salakhiev: The book is not… Cool, yeah, nice.
+
+903
+01:56:19.900 --> 01:56:28.560
+Kamil Salakhiev: Yeah, if nothing else… yeah, let's just… yeah, I guess, yeah, we'll have, like, more discussions in future about that. It's like…
+
+904
+01:56:30.550 --> 01:56:41.479
+Kamil Salakhiev: I feel like we have many directions, I mean, it's P2P, WAGO, so it's like, you might think, like, whether we want them coexist, whether, like, we prefer one or another, so there will be…
+
+905
+01:56:43.240 --> 01:56:50.960
+Kamil Salakhiev: I mean, these new protocols, as we… for example, this Sukun attestation protocol, or for example, this segmented broadcast, like.
+
+906
+01:56:51.170 --> 01:56:52.789
+Kamil Salakhiev: Yeah, considering…
+
+907
+01:56:53.270 --> 01:57:00.170
+Kamil Salakhiev: they are scheduled for Hegota, like, how exactly they will be implemented, whether we stick to gossip-sub or something new.
+
+908
+01:57:00.380 --> 01:57:06.479
+Kamil Salakhiev: Like, yeah, yeah, kind of curious also, like, how… how to eventually…
+
+909
+01:57:07.030 --> 01:57:11.380
+Kamil Salakhiev: Turns out to be, like, yeah, what exactly we will adopt.
+
+910
+01:57:11.760 --> 01:57:12.890
+Kamil Salakhiev: Nice.
+
+911
+01:57:14.310 --> 01:57:20.230
+Raúl Kripalani: Yeah, I mean, I do want to say that my understanding is that Hegota is, like, 15 months out.
+
+912
+01:57:21.000 --> 01:57:22.020
+Raúl Kripalani: Is that right?
+
+913
+01:57:23.180 --> 01:57:28.680
+Kamil Salakhiev: Yeah, somewhere next year, considering… yeah, no one knows exactly when it's to be shipped, but yeah.
+
+914
+01:57:29.420 --> 01:57:29.800
+Raúl Kripalani: Yeah.
+
+915
+01:57:29.800 --> 01:57:33.530
+Kamil Salakhiev: Maybe tentatively, maybe third or fourth quarter next year.
+
+916
+01:57:33.530 --> 01:57:44.640
+Raúl Kripalani: Yeah. The other point that I want to bring up is that a lot of… like, it depends on the clients, but I am… the one that I'm most familiar with is, as I say, Prysm.
+
+917
+01:57:45.100 --> 01:57:52.960
+Raúl Kripalani: And Prysm is an interesting one, because it has had to work around a lot of Gole B2BP quirks.
+
+918
+01:57:53.380 --> 01:58:10.389
+Raúl Kripalani: by adding its own, like, peer manager, scoring, and so on. So really, it's kind of like already using GoLit P2P as purely the transport, because all of this… some of the… gossip-sub is an exception there, right? But…
+
+919
+01:58:10.610 --> 01:58:16.040
+Raúl Kripalani: gossip-sub is, like, we know it's extremely complex for what we need anyway, and, like, we're fighting it all the time.
+
+920
+01:58:16.320 --> 01:58:31.879
+Raúl Kripalani: So then the question… and we already specialize in gossip sub for… let's add this mechanism here, because we want attestations to propagate this way, so now, because we're using gossip sub, we need to add this mechanism in gossip sub, and spend a year working on a particular mechanism, right?
+
+921
+01:58:32.050 --> 01:58:45.190
+Raúl Kripalani: Because, like, and make it, like, super andergic, because we need to expose it through this, like, very particular API and way of doing things. I think it's just, honestly, like, you know, having taken a fresh view, like, this was harder for me in the EF.
+
+922
+01:58:46.660 --> 01:58:57.920
+Raúl Kripalani: But, like, seeing a fresh view, I think, honestly, it's just… you know that time could be spent on actually building the stuff that really matters. I really want to see a really good reconciliation protocols, because we're talking about
+
+923
+01:58:57.920 --> 01:59:06.689
+Raúl Kripalani: Bitmap swapping and, like, you know, bitmap, and kind of, like, pushing and pulling, depending on, you know, presence of particular
+
+924
+01:59:06.690 --> 01:59:18.470
+Raúl Kripalani: or advertisement of particular payloads, or partial payloads, and so on. Really, like, what matters there is the reconciliation protocol. It's not so much the format of the bitmap when it's sent. Like, what matters is, like, given
+
+925
+01:59:18.470 --> 01:59:31.319
+Raúl Kripalani: 10 peers, and given, like, all of your… your current rate of receive… of receive, right? Your receive rate, your transmit rate to each of these peers, your RTT to each of these peers, what they're sending you, like.
+
+926
+01:59:31.320 --> 01:59:38.929
+Raúl Kripalani: is this information outdated? Like, all the speculative of, like, let me… that's what really matters, and I think we're spending the time in the wrong place.
+
+927
+01:59:38.930 --> 01:59:48.360
+Raúl Kripalani: When we are, like, you know, working to, like, adapt specific APIs that were pre-existing to, like, the stuff that we need, and nobody else needs, because nobody else is gonna adopt it.
+
+928
+01:59:50.010 --> 02:00:04.769
+Raúl Kripalani: Yeah, it's just kind of like, sorry for the rant, it's like, I see us building and building and building on something that, like, you know, is gonna take us a lot of time, because it's proven to take a lot of time to just simply use that, evolve that stack.
+
+929
+02:00:04.930 --> 02:00:11.869
+Raúl Kripalani: I think, like, I… yeah, we should just be thinking bigger, and, like, be a little bit more braver.
+
+930
+02:00:12.160 --> 02:00:13.689
+Raúl Kripalani: Yeah.
+
+931
+02:00:14.980 --> 02:00:18.109
+Raúl Kripalani: Anyway, I was not… I was not there.
+
+932
+02:00:21.050 --> 02:00:21.950
+Kamil Salakhiev: Okay.
+
+933
+02:00:22.760 --> 02:00:25.120
+Kamil Salakhiev: Yeah, excited.
+
+934
+02:00:25.330 --> 02:00:26.420
+Kamil Salakhiev: Future-like.
+
+935
+02:00:26.810 --> 02:00:40.980
+Kamil Salakhiev: how eventually, like, look like. Okay, nice, thanks, everyone. If no other questions, yeah, yeah, let's wrap up here, it was almost 2 hours, so thanks to everyone who seated at the end of the… the end of the meeting, so…
+
+936
+02:00:41.280 --> 02:00:44.470
+Kamil Salakhiev: Cool, yeah, see you in two weeks. Bye.
+
+937
+02:00:45.640 --> 02:00:46.569
+Pablo Deymo | Lambda: to you, like.
+
+938
+02:00:47.760 --> 02:00:48.570
+Csaba: Goodbye.
+
+939
+02:00:48.920 --> 02:00:50.090
+Bosul Mun: Hi, Yanni.
+

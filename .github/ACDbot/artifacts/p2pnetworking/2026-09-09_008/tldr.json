@@ -1,0 +1,120 @@
+{
+  "meeting": "P2P networking #8 - September 09, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:06:30",
+        "highlight": "Prysm: partial columns PR for Gloas fully reviewed/tested, awaiting one upstream PR before merge to release branch"
+      },
+      {
+        "timestamp": "00:07:11",
+        "highlight": "Prysm: peer scoring overhaul dev-complete; tested on Hoodi for one week, no regressions; adds per-agent observability and pruning metrics"
+      },
+      {
+        "timestamp": "00:09:52",
+        "highlight": "Lighthouse: fixing incorrectly ordered fields in partial messages; Gloas column gossip limit replacing static 8MB cap with dynamic limit based on blob schedule max"
+      },
+      {
+        "timestamp": "00:14:00",
+        "highlight": "Nethermind: sparse blob pool in master; working on IPv6 support, near completion"
+      }
+    ],
+    "rowdas_proposal": [
+      {
+        "timestamp": "00:15:44",
+        "highlight": "RowDAS adds row-based reconstruction duties to PeerDAS: vertical (distributed CPU across supernodes) and horizontal (supernodeless fallback) reconstruction"
+      },
+      {
+        "timestamp": "00:19:38",
+        "highlight": "Each supernode assigned a row duty (no custody requirement); duty-sharded variant skips row topics entirely, using only column topics \u2014 simpler first-stage option"
+      },
+      {
+        "timestamp": "00:22:51",
+        "highlight": "KZG reconstruction per blob ~162ms single-core; RowDAS reduces per-node CPU ~2 orders of magnitude; degrades to PeerDAS levels under adversarial conditions"
+      },
+      {
+        "timestamp": "00:23:52",
+        "highlight": "Implemented on Csaba's Prysm branch (on top of partial messages); row-based reconstruction without supernodes confirmed working at 65+ nodes"
+      }
+    ],
+    "fast_payload_broadcast": [
+      {
+        "timestamp": "00:47:11",
+        "highlight": "1MB payload over 50 Mbit uplink nodes (min-spec): current gossip-sub delivers last node in ~5s; all segmentation variants (A/B/C) converge near ~1s"
+      },
+      {
+        "timestamp": "00:50:13",
+        "highlight": "Variant A (normal gossip-sub + 32KB segments): 1.7s \u2192 1.0s with batch publishing \u2192 further gains with phase-aware forwarding and disciplined pull (one requester per segment)"
+      },
+      {
+        "timestamp": "00:52:09",
+        "highlight": "Merkle commitment in the bid required to authenticate segments without full block; enables immediate per-segment forwarding upon receipt of signed beacon block"
+      },
+      {
+        "timestamp": "01:03:02",
+        "highlight": "ETHP2P broadcast already implements chunking, push\u2192pull phase transition, and pluggable nil encoder; Ra\u00fal offers to onboard collaborators and align with Csaba's work"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "01:14:44",
+        "highlight": "EIP-8411 (fast payload broadcast): replaces execution-payload topic with execution-payload-chunks; 64 segments, Merkle inclusion proof per chunk, payload-chunks-root added to bid; no erasure coding in v1 for simplicity"
+      },
+      {
+        "timestamp": "01:16:00",
+        "highlight": "EIP-8411 requires consensus change (bid field extension); without it, mixed-mode operation is possible but increases attack surface and buffering burden"
+      }
+    ],
+    "ethp2p_progress": [
+      {
+        "timestamp": "01:26:38",
+        "highlight": "Ra\u00fal implementing shared QUIC transport for Prysm: single endpoint serves both LibP2P and ETHP2P streams; stream routing via ALPN negotiation + first-byte slash detection; backwards-compatible with LibP2P-only peers"
+      },
+      {
+        "timestamp": "01:44:35",
+        "highlight": "ETHP2P payload broadcast branch hooked into Glamsterdam in Prysm; ready for DevNet testing"
+      },
+      {
+        "timestamp": "01:45:19",
+        "highlight": "Ra\u00fal previewed unified Ethereum networking specs site aggregating consensus-specs, EIPs, and ETHP2P/Waggle specs in one taxonomy; unreleased, targeting this week"
+      },
+      {
+        "timestamp": "01:51:06",
+        "highlight": "ETHP2P advantages over LibP2P: unidirectional streams, datagrams, zero-RTT, session resumption, per-chunk stream interruption, slot-scoped cache lifetimes; lambdaclass has WIP Rust implementation"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:41:56",
+      "action": "Csaba to document partial-messages changes one-by-one for cross-team review and Waggle/ETHP2P alignment",
+      "owner": "Csaba"
+    },
+    {
+      "timestamp": "01:06:18",
+      "action": "Csaba and Ra\u00fal to align benchmarks and share code between simulation frameworks (Plisma vs ETHP2P)",
+      "owner": "Csaba, Ra\u00fal Kripalani"
+    },
+    {
+      "timestamp": "01:18:49",
+      "action": "Kamil to extend EIP-8411 with chunk-before-bid handling rules and payload-chunks-root field",
+      "owner": "Kamil Salakhiev"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:16:43",
+      "decision": "EIP-8411 (fast payload broadcast / execution payload segmentation) submitted for PFI for Hegota; to be discussed at ACDC the following day"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:56:57",
+      "target": "Hegota tentatively Q3/Q4 2027 (~15 months out); EIP-8411 targeting PFI at that fork"
+    },
+    {
+      "timestamp": "01:44:48",
+      "target": "ETHP2P broadcast integration into Prysm: DevNet testing imminent on Glamsterdam payload broadcast"
+    }
+  ]
+}

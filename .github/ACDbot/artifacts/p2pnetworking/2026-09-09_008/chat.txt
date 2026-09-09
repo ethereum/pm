@@ -1,0 +1,67 @@
+00:03:00	read.ai meeting notes:	Sergi added read.ai meeting notes to the meeting.
+
+Read provides AI generated meeting summaries to make meetings more effective and efficient. View our Privacy Policy at https://www.read.ai/pp
+
+Type "read stop" to disable, or "opt out" to delete meeting data.
+00:06:00	read.ai meeting notes:	Read isn't recording yet. The Zoom host needs to grant recording permission in the meeting dialog.
+00:06:42	ashah:	https://github.com/OffchainLabs/prysm/pull/17348
+00:07:05	ashah:	https://hackmd.io/@aarshshah/rkZTUeVdGe
+00:07:18	ashah:	https://github.com/OffchainLabs/prysm/pull/17410
+00:08:43	Raúl Kripalani:	great work Aarsh!
+00:09:29	ashah:	Reacted to "great work Aarsh!" with ❤️
+00:09:33	ashah:	Thanks Raul !
+00:13:00	read.ai meeting notes:	Read wasn't granted recording permission, so no part of this meeting was recorded. Read is now leaving.
+00:32:15	Raúl Kripalani:	this is how ethp2p broadcast works btw
+00:40:01	ashah:	https://github.com/OffchainLabs/prysm/pull/17348
+00:44:55	Kamil Salakhiev:	Also curious to see waggle branch once it is public🙂
+00:46:01	Daniel Knopik:	I'd be really happy to discuss and help with a waggle impl for this once i made more progress with batched attestations :)
+00:46:29	Kamil Salakhiev:	Reacted to "I'd be really happy to discuss and help with a waggle impl for this once i made more progress with batched attestations :)" with 🔥
+00:48:12	Raúl Kripalani:	@Csaba did you try visualizing this in https://netviz.ethp2p.dev/ ?
+00:48:20	Raúl Kripalani:	if not i can help with that
+00:54:24	Raúl Kripalani:	Csaba, i've thought a lot about exactly these points when designing ethp2p broadcast, and a lot of what you've presented is already implemented. in fact, you can easily plug in a noop Encoder/Decoder to simply chunk without EC.
+
+how can we align going forward?
+01:14:29	Yann Vonlanthen:	Would be happy to learn more about both :)
+01:14:51	Mikel Cortes:	What is the current roadmap atm? Waggle? Ethp2p? is there any clear direction?
+01:15:03	Pablo Deymo | Lambda:	We are also interested on ethp2p (Lambdaclass)
+01:15:51	Csaba:	Replying to "@Csaba did you try v..."
+
+Not yet. But I should try :-)
+01:16:19	Raúl Kripalani:	Replying to "@Csaba did you try v..."
+
+this was made with claude 4.6 😄 maybe i should clean it up
+01:16:40	Csaba:	Replying to "Csaba, i've thought ..."
+
+Just to be clear, I also think we want EC, but I can sacrifice it if that’s a blocker for Hegota
+01:16:57	Raúl Kripalani:	Replying to "@Csaba did you try v..."
+
+but the trace schema is stack agnostic
+you can create decoder that maps the trace to the visual language (and agents are great at that)
+01:17:52	Raúl Kripalani:	i would like to think that Hegotá, being over 15mo out, can adopt ethp2p broadcast
+01:18:21	Raúl Kripalani:	the risk is also extremely contained (and i'll explain why next)
+01:18:41	Raúl Kripalani:	but there was no EIP submitted before the deadline (i missed it because i was looking at an old post 🙁)
+01:19:04	Csaba:	Replying to "the risk is also ext..."
+
+I agree, fully. It is the “if others think that’s too much” part :-)
+01:20:06	Raúl Kripalani:	that said, there's a world in which it is non-breaking for consensus (therefore technically no EIP needed)
+01:21:17	Raúl Kripalani:	tbd
+
+honestly i'm not super plugged into Eth politics and red tape these days
+01:25:43	Raúl Kripalani:	i have a quick presentation too on some ethp2p stuff
+01:28:06	Pablo Deymo | Lambda:	We have a WIP implementation in Rust:
+https://github.com/lambdaclass/ethp2p-rs
+01:28:19	Kamil Salakhiev:	Reacted to "We have a WIP implementation in Rust:
+https://github.com/lambdaclass/ethp2p-rs" with 👀
+01:33:56	Daniel Knopik:	I have to leave on time today. Thanks for the presentations everyone!
+01:35:28	Csaba:	This is the stream equivalent of what we do for discv4/discv5 dispatch at the datagram level … streams definitely sound more complex  ;-)
+01:38:48	Yann Vonlanthen:	Apologies, I have to head out too, thanks everyone!
+01:40:33	Csaba:	I think we could evaluate one-by-one where breaking the existing API is worthwhile.
+01:43:01	Anton Nashatyrev:	Can’t we just upgrade libp2p to what ethp2p provides? I.e. unidirectional streams, what else?
+01:43:58	Anton Nashatyrev:	Replying to "Can’t we just upgrad..."
+
+I guess also datagram streams?
+01:45:46	jxs:	Replying to "Can’t we just upg..."
+
+there's a PR for it: https://github.com/libp2p/specs/pull/680
+01:47:42	Anton Nashatyrev:	Reacted to "there's a PR for it: https://github.com/libp2p/specs/pull/680" with 👍
+01:54:36	Raúl Kripalani:	https://github.com/ethp2p/ethp2p
