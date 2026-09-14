@@ -1,0 +1,101 @@
+00:02:52	Potuz:	gm
+00:03:15	Justin Traglia:	gm
+00:03:47	Marcos A. Maceo:	gm
+00:04:50	jochem-brouwer:	gm gm
+00:05:04	Pooja Ranjan:	gm
+00:05:11	jochem-brouwer:	Heeft gereageerd op "gm" met 🙏
+00:05:50	Justin Traglia:	Agenda: https://github.com/ethereum/pm/issues/2217
+00:11:02	Daniel Lehrner:	Fine for Besu
+00:11:02	milen | Erigon:	yes
+00:11:04	Marius Van Der Wijden (M):	Sgtm
+00:11:23	Luca | Vero:	not super important for Sepolia but full Beacon API support a few weeks ahead of Hoodi would be nice
+00:11:56	Pawan Dhananjay:	Replying to "not super important ..."
+
+What’s not supported?
+00:12:27	Luca | Vero:	Replying to "not super important ..."
+
+POST produceBlockV4, SSE events, v2 proposer duties … it varies by client
+00:12:47	Pawan Dhananjay:	Replying to "not super important ..."
+
+Will double check, thanks!
+00:13:42	Nico Flaig:	sync also seems ot take forever for EL, is that related to Jochem's testing?
+00:13:43	Luca | Vero:	Replying to "not super important ..."
+
+there’s also this endpoint still being discussed - https://github.com/ethereum/beacon-APIs/pull/627  . Feel free to reach out, I can give more details
+00:14:27	Pawan Dhananjay:	Reacted to "there’s also this endpoint still being discussed - https://github.com/ethereum/beacon-APIs/pull/627  . Feel free to reach out, I can give more details" with 👍
+00:14:29	jochem-brouwer:	Antwoord verzenden naar "sync also seems ot..."
+
+I do not inject any new state (except required prestate to execute the attack, which was done ~2 weeks ago). So state should not be a problem regarding the attack scenarios
+00:14:48	jochem-brouwer:	Antwoord verzenden naar "sync also seems ot..."
+
+(this specific scenario, there is of course more network load)
+00:17:09	pk910:	Can we jump back to shadow forks for a moment?
+00:18:24	Pawan Dhananjay:	Maybe wait one more acdt before doing it? Given we need to handle a few bugs on lighthouse
+00:18:50	Dragan Rakita:	Leave a heads up in discord so people can see it
+00:18:57	Jihoon:	FYI, here are discussion links to which EIPs may add tests:
+
+CL spec issue: https://github.com/ethereum/consensus-specs/issues/5618
+EthR&D thread: https://discord.com/channels/595666850260713488/1548032466487611392/1548032471914778644
+00:19:06	Justin Traglia:	Reacted to "FYI, here are discussion links to which EIPs may add tests:
+
+CL spec issue: https://github.com/ethereum/consensus-specs/issues/5618
+EthR&D thread: https://discord.com/channels/595666850260713488/1548032466487611392/1548032471914778644" with 🙏
+00:19:07	jochem-brouwer:	RE: CFI to add tests, this itself is fine to me to end up in the trunk branch of the repository, but it should not be a signal to not work on tests when an EIP is in PFI stage. The tests should ideally be prepared, so once the EIP moves to CFI then it can directly be merged to the repo trunk branch
+00:19:46	Jihoon:	Replying to "RE: CFI to add tests..."
+
+Agree. People can put tests in a PR or their forked repo.
+00:19:51	Justin Traglia:	Reacted to "Agree. People can put tests in a PR or their forked repo." with 👍
+00:20:00	felipe:	Reacted to "Agree. People can ..." with 👍
+00:20:40	Jun Song:	Reacted to "Agree. People can put tests in a PR or their forked repo." with 👍
+00:20:42	jochem-brouwer:	Heeft gereageerd op "Agree. People can ..." met 👍
+00:20:49	Enrico Del Fante (tbenr):	Replying to "RE: CFI to add tests..."
+
+I agree. It is important to have early tests for clients
+00:21:49	jochem-brouwer:	Heeft gereageerd op "I agree. It is imp..." met 👍
+00:22:15	Justin Traglia:	CL breakout: https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1
+00:23:25	spencer:	Reacted to "Agree. People can ..." with 👍
+00:26:17	Fabio Di Fabio:	haven't looked at it yet
+00:29:22	Maria Silva:	https://github.com/ethereum/devp2p/pull/281
+00:30:02	Maria Silva:	Restore pre-EIP-7610 legacy test expectations legacytests#18
+00:30:57	jochem-brouwer:	There is also this one, what is the difference?
+https://github.com/ethereum/legacytests/pull/17
+00:31:26	milen | Erigon:	Replying to "There is also this o..."
+
+The first reverts to Yellow Paper + EIP-684
+00:31:38	milen | Erigon:	Replying to "There is also this o..."
+
+These tests were existing prior to EIP-7610
+00:31:45	milen | Erigon:	Replying to "There is also this o..."
+
+The 2nd removes them completely
+00:31:55	jochem-brouwer:	Antwoord verzenden naar "There is also this..."
+
+For clarity which PR is first and which is 2nd?
+00:32:18	milen | Erigon:	Replying to "There is also this o..."
+
+1st - https://github.com/ethereum/legacytests/pull/18
+00:36:02	Karim Taam:	Also for snapsync, we use it for healing
+00:41:09	felipe:	we could `fill_until(Osaka)`?
+00:41:46	jochem-brouwer:	Antwoord verzenden naar "we could `fill_unt..."
+
+Right so we mark the tests as unavailable in Amsterdam. I think this works
+00:41:52	felipe:	Reacted to "Right so we mark t..." with 👍
+00:44:19	jochem-brouwer:	I see
+00:45:42	FLCL (Nethermind):	Maybe we can make a single fixture that people can test and compare then in the chat to be sure and close the topic
+00:45:54	spencer:	Reacted to "Maybe we can make ..." with 👍
+00:46:03	spencer:	Replying to "Maybe we can make ..."
+
+yeah lets do that!
+00:46:20	spencer:	Replying to "Maybe we can make ..."
+
+we can have this ready for tmo
+00:47:22	FLCL (Nethermind):	Reacted to "we can have this ready for tmo" with ❤️
+00:49:04	jochem-brouwer:	This is a text change, not spec change, right?
+00:49:08	Dragan Rakita:	Reacted to "This is a text change, not spec change, right?" with 👍
+00:49:10	FLCL (Nethermind):	Reacted to "This is a text change, not spec change, right?" with 👍
+00:49:10	felipe:	Reacted to "This is a text cha..." with 👍
+00:49:19	spencer:	Reacted to "This is a text cha..." with 👍
+00:50:08	spencer:	can try add a test for this now too!
+00:50:14	jochem-brouwer:	Heeft gereageerd op "can try add a test..." met 👍
+00:51:50	jochem-brouwer:	Thanks all :D
+00:51:52	FLCL (Nethermind):	Ty!
