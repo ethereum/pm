@@ -1,0 +1,40 @@
+00:04:35	Nico Flaig:	problem is deposit_requests has no limit so you can just dos using those, so having limits on ther fields doesn't buy you that much in case of an attack
+00:05:17	james:	Kasey would know more on this but we have this pr https://github.com/OffchainLabs/prysm/pull/17412
+00:06:31	Daniel Knopik:	I am wondering why size bounds (https://github.com/ethereum/consensus-specs/blob/master/specs/gloas/p2p-interface.md#type-specific-ssz-bounds are not sufficient to prevent abuse. is deserialization able to inflate memory used that much?
+00:07:28	Nico Flaig:	Replying to "I am wondering why s..."
+
+problem is the bound of beacon block is 10mib
+00:11:25	Potuz:	Replying to "I am wondering why s..."
+
+the solution to this is to have the max size computed from gas limit and provable, so these limits are irrelevant in that case
+00:12:09	Daniel Knopik:	Replying to "I am wondering why..."
+
+Is the 10mib limit retained from pre-gloas? does it need to be that high in gloas?
+00:13:04	Nico Flaig:	Replying to "I am wondering why s..."
+
+deposits are only bound by gas limit which is theoretically unlimited
+00:13:12	Pawan Dhananjay:	Replying to "I am wondering why s..."
+
+10mb is just general limit for anything over the wire
+00:13:55	Daniel Knopik:	Reacted to "deposits are only ..." with 🙏
+00:16:12	Nico Flaig:	that's what I did in lodestar, we can't deserialize a block above 0 deposits anymore, it fails early
+00:18:14	Enrico Del Fante:	Reacted to "that's what I did in lodestar, we can't deserialize a block with 0 deposits anymore, it fails early" with 👍
+00:19:03	Justin Traglia:	Reacted to "10mb is just general limit for anything over the wire" with 👍
+00:22:51	Justin Traglia:	Maximum allowed size of uncompressed payload in gossipsub messages and RPC chunks
+00:23:19	Daniel Knopik:	Reacted to "Maximum allowed si..." with 🙏
+00:23:44	Justin Traglia:	Replying to "Maximum allowed size..."
+
+Also this: https://github.com/ethereum/consensus-specs/blob/f21dac06e99743b1e98bb80297897b96520c942b/specs/phase0/p2p-interface.md?plain=1#L492-L512
+00:27:56	Nico Flaig:	to be clear, the checks where this matters is `should_apply_proposer_boost` and `is_proposer_equivocation`, right?
+00:29:18	Justin Traglia:	Replying to "to be clear, the che..."
+
+https://ethereum.github.io/spec-viewer/#consensus/nightly/functions-should_apply_proposer_boost-gloas 
+
+https://ethereum.github.io/spec-viewer/#consensus/nightly/functions-is_proposer_equivocation-phase0
+00:29:59	Nico Flaig:	I think prysm code is correct, easy to adapt for us
+00:37:07	Justin Traglia:	https://github.com/ethereum/consensus-specs/pull/3866
+00:37:56	jxs:	https://github.com/sigp/lighthouse/pull/9522
+00:38:04	jxs:	we've merged it last week as arranged
+00:38:18	Justin Traglia:	Reacted to "https://github.com/sigp/lighthouse/pull/9522" with 🔥
+00:42:02	Potuz:	we want to get rid of yamux as well
+00:42:54	jxs:	Reacted to "we want to get rid..." with 👍

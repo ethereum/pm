@@ -1,0 +1,1506 @@
+WEBVTT
+
+1
+00:00:10.480 --> 00:00:11.910
+Justin Traglia: Hello again.
+
+2
+00:00:12.260 --> 00:00:14.399
+Justin Traglia: Just one minute, and then we'll get started.
+
+3
+00:00:37.850 --> 00:00:43.549
+Justin Traglia: Alright, hello, everyone. The first item on the agenda right now is
+
+4
+00:00:43.660 --> 00:00:47.929
+Justin Traglia: The progressive container deserialization implementation.
+
+5
+00:00:48.180 --> 00:00:49.330
+Justin Traglia: Whatever.
+
+6
+00:00:49.640 --> 00:00:57.399
+Justin Traglia: I'm curious to hear what all clients are doing, and if you plan on changing anything, and any concerns you might have.
+
+7
+00:00:58.280 --> 00:01:00.670
+Justin Traglia: Who would like to get started on this?
+
+8
+00:01:00.790 --> 00:01:02.549
+Justin Traglia: Or, like, start talking.
+
+9
+00:01:05.260 --> 00:01:07.369
+Enrico Del Fante: Again, if you want, then…
+
+10
+00:01:07.370 --> 00:01:08.159
+Justin Traglia: Yep, go for it.
+
+11
+00:01:08.160 --> 00:01:09.160
+Enrico Del Fante: Everyone can.
+
+12
+00:01:09.750 --> 00:01:19.950
+Enrico Del Fante: So my… my current, ideas around that is… I feel like we are moving
+
+13
+00:01:20.180 --> 00:01:28.280
+Enrico Del Fante: back to having hard limits closer to the SSD layer.
+
+14
+00:01:28.660 --> 00:01:39.680
+Enrico Del Fante: Which means that, to me, sounds like those fields that now really wants to have a limit, that on the
+
+15
+00:01:40.380 --> 00:01:49.409
+Enrico Del Fante: SSC type potentially could have been unbounded, but… so the limit becomes kind of an optional thing, but when you
+
+16
+00:01:49.960 --> 00:02:07.650
+Enrico Del Fante: decided that a limit must be there, then at SSV level… at SSD level, we want the data structure to be invalid, so we will be back to the pre-progressive list situation. There are few, few exceptions to that.
+
+17
+00:02:08.740 --> 00:02:13.580
+Enrico Del Fante: In some cases, we keep the optionality, but now…
+
+18
+00:02:13.830 --> 00:02:21.140
+Enrico Del Fante: most of the time, we still want to have a limit. So what will be the difference is always
+
+19
+00:02:21.410 --> 00:02:26.569
+Enrico Del Fante: That when we want to change that limit in the future fork, that will not be…
+
+20
+00:02:26.860 --> 00:02:33.540
+Enrico Del Fante: breaking any, any, any prover, and no big changes on the SSV.
+
+21
+00:02:33.920 --> 00:02:34.990
+Enrico Del Fante: Layer.
+
+22
+00:02:35.850 --> 00:02:49.249
+Enrico Del Fante: layout. So, to me, from… from… if we want to interpret this… the situation this way, it means that on the reference test side, we need to go backward.
+
+23
+00:02:49.950 --> 00:03:00.950
+Enrico Del Fante: And, even potentially remove some of these checks from the state transition function, because those… those… those limits are…
+
+24
+00:03:01.250 --> 00:03:08.720
+Enrico Del Fante: no more visible from the satisfaction function, there will be just SSD validation thing.
+
+25
+00:03:08.930 --> 00:03:14.290
+Enrico Del Fante: So, it means that all the SSV tests need to take into account this.
+
+26
+00:03:14.330 --> 00:03:36.749
+Enrico Del Fante: Otherwise, if we keep those, those checks in the function, we need to have a reference test that breaks the definition of the SSD, puts something which is invalid from the SSV perspective in the definition, so everything becomes optional, and then you feed those, the structure into the function, and you get to the
+
+27
+00:03:37.490 --> 00:03:43.150
+Enrico Del Fante: the… the check… So, everything will become a little bit messy, so…
+
+28
+00:03:45.420 --> 00:03:54.180
+Enrico Del Fante: I believe that should be the direction, but I don't know how our client feels about this.
+
+29
+00:03:54.980 --> 00:04:00.519
+Justin Traglia: I can say one or two things about this. So we did alter the SSC static tests.
+
+30
+00:04:00.840 --> 00:04:02.649
+Justin Traglia: to remove,
+
+31
+00:04:03.830 --> 00:04:13.880
+Justin Traglia: tests, which had more elements than the soft limit for progressive containers. But we did leave the state transition function tests
+
+32
+00:04:14.730 --> 00:04:18.840
+Justin Traglia: Which had, like, 1 plus the limit, or 1 over the limit.
+
+33
+00:04:19.920 --> 00:04:20.779
+Justin Traglia: Oh.
+
+34
+00:04:21.850 --> 00:04:25.559
+Justin Traglia: It's… it is a bit awkward to handle, like you're saying.
+
+35
+00:04:26.260 --> 00:04:27.190
+Justin Traglia: Like,
+
+36
+00:04:27.190 --> 00:04:41.820
+Enrico Del Fante: Yeah, for a tech, it would be very awkward, because it means that we can't use what is supposed to be used in the schema, the definition of the structure, we need to have
+
+37
+00:04:42.740 --> 00:04:46.010
+Enrico Del Fante: There's a structures that are not in production.
+
+38
+00:04:46.640 --> 00:04:52.949
+Enrico Del Fante: Data structure when we run state transition function for… to match those tests.
+
+39
+00:04:53.860 --> 00:04:55.590
+Justin Traglia: I think you just have to say if…
+
+40
+00:04:55.950 --> 00:05:01.810
+Justin Traglia: If deserialization fails, and the post state for the test was null.
+
+41
+00:05:02.650 --> 00:05:05.609
+Justin Traglia: Treat the test as a success.
+
+42
+00:05:06.280 --> 00:05:07.700
+Justin Traglia: Or something like that.
+
+43
+00:05:12.000 --> 00:05:16.649
+Justin Traglia: For the tests that have, list over the limit.
+
+44
+00:05:16.980 --> 00:05:28.880
+Enrico Del Fante: Yeah, it means that for tech, the test won't even run, because whenever we try to get the SSV from the test, this…
+
+45
+00:05:29.180 --> 00:05:36.109
+Enrico Del Fante: Even if the materialization of that data structure fails, so we don't even run the, say, Transaction function at all.
+
+46
+00:05:37.650 --> 00:05:38.230
+Justin Traglia: Yeah.
+
+47
+00:05:39.670 --> 00:05:50.160
+Justin Traglia: I mean… Yeah. How are other clients planning on handling this, or have handled this? I know, Nico and Casey have worked on this some.
+
+48
+00:05:52.300 --> 00:06:04.569
+Nico Flaig: Yeah, on the spec test side, we have a separate, or we added a handler, which basically throws an error, so this case is handled. So we fail the invalid tests that test the limit.
+
+49
+00:06:08.840 --> 00:06:12.480
+Justin Traglia: Could you clarify what you mean, like, they're currently failing those tests?
+
+50
+00:06:12.810 --> 00:06:14.010
+Justin Traglia: And you have to, like.
+
+51
+00:06:14.010 --> 00:06:19.320
+Nico Flaig: Yes, they are expected to fail, right? It's like the invalid request limit tests.
+
+52
+00:06:19.750 --> 00:06:20.330
+Justin Traglia: Yep.
+
+53
+00:06:20.680 --> 00:06:26.729
+Nico Flaig: So, basically, we just updated our test harness. It was not a lot of changes.
+
+54
+00:06:27.950 --> 00:06:28.640
+Justin Traglia: Okay, cool.
+
+55
+00:06:28.920 --> 00:06:34.919
+Nico Flaig: But basically… Yeah, so it just failed… Sorry, I trust failed…
+
+56
+00:06:34.920 --> 00:06:36.759
+Enrico Del Fante: Failing, yeah. Yeah, yeah.
+
+57
+00:06:36.760 --> 00:06:40.350
+Nico Flaig: Sorry, I mean failed them correctly, I guess.
+
+58
+00:06:41.120 --> 00:06:43.090
+Nico Flaig: Got it. Right, right, Tom.
+
+59
+00:06:47.360 --> 00:06:53.210
+Justin Traglia: Enrico, is that something that Taiku could do, or is it just something you don't really want to do?
+
+60
+00:06:57.030 --> 00:07:00.350
+Enrico Del Fante: Yeah, I mean, we can do that,
+
+61
+00:07:03.350 --> 00:07:07.120
+Enrico Del Fante: Yeah, yeah, I believe we can, we can introduce,
+
+62
+00:07:08.550 --> 00:07:22.280
+Enrico Del Fante: I believe, generally, those things could become a little bit, less… Trustworthy.
+
+63
+00:07:24.040 --> 00:07:24.790
+Enrico Del Fante: Hmm.
+
+64
+00:07:25.530 --> 00:07:43.480
+Enrico Del Fante: Because in those cases, whatever… if you have something different, a problem that is completely different, you're not running the say Transistorian function at all, and you can just have problems in supporting that data structure for some reason, and the failure will be just…
+
+65
+00:07:43.890 --> 00:07:47.090
+Enrico Del Fante: We failed in loading the SSD.
+
+66
+00:07:47.260 --> 00:07:50.879
+Enrico Del Fante: from… from… Perform the test, and…
+
+67
+00:07:51.700 --> 00:07:52.230
+Justin Traglia: is…
+
+68
+00:07:52.230 --> 00:07:57.220
+Enrico Del Fante: Like, it's good, but… It's… It's less,
+
+69
+00:07:58.350 --> 00:07:59.919
+Justin Traglia: Is Takers,
+
+70
+00:08:00.230 --> 00:08:06.629
+Justin Traglia: SSE library is sophisticated enough to print out why exactly it failed to serialization? Could it say that, like.
+
+71
+00:08:07.040 --> 00:08:10.060
+Justin Traglia: The number of withdrawals was over the limit.
+
+72
+00:08:10.690 --> 00:08:13.249
+Justin Traglia: And then look for that specific error condition.
+
+73
+00:08:14.950 --> 00:08:23.039
+Enrico Del Fante: Yeah, but then we need to have a specific, checks on the…
+
+74
+00:08:23.460 --> 00:08:27.760
+Enrico Del Fante: On the test. So we have a general test executor there, and then for each
+
+75
+00:08:27.850 --> 00:08:45.199
+Enrico Del Fante: particular test, you need to understand how this test is supposed to fail, and yeah, I have to check… I have to check, but I believe it could become a little bit bad-looking.
+
+76
+00:08:46.320 --> 00:08:46.970
+Justin Traglia: Yeah.
+
+77
+00:08:48.860 --> 00:08:50.169
+Justin Traglia: I agree, it's a bit…
+
+78
+00:08:50.170 --> 00:08:59.370
+Enrico Del Fante: Kind of a hard-coding test name, saying, I'm su… I suppose this to fail.
+
+79
+00:09:00.340 --> 00:09:05.520
+Justin Traglia: Yeah, it's not great. I mean, if you want a general rule, you can say, like I said before, like.
+
+80
+00:09:06.050 --> 00:09:10.410
+Justin Traglia: If SSE deserialization fails, and the post state is null.
+
+81
+00:09:10.640 --> 00:09:14.369
+Justin Traglia: treated as a… I'm sorry, as a success.
+
+82
+00:09:16.620 --> 00:09:25.429
+Enrico Del Fante: I mean, the post state from the test, because you're expecting the Transaction function to not run, and you've got no…
+
+83
+00:09:25.590 --> 00:09:33.639
+Enrico Del Fante: Yeah, yeah, it could be a general rule, for sure. It could catch, maybe it's good enough.
+
+84
+00:09:34.140 --> 00:09:35.300
+Enrico Del Fante: Not ideal.
+
+85
+00:09:37.270 --> 00:09:38.560
+Justin Traglia: Yeah, it's not ideal.
+
+86
+00:09:40.690 --> 00:09:45.960
+Justin Traglia: And I was thinking about whether or not the specs could…
+
+87
+00:09:47.240 --> 00:09:50.969
+Justin Traglia: Define the limits and have the SSV deserialization.
+
+88
+00:09:51.190 --> 00:09:52.909
+Justin Traglia: Bail and des… sorry.
+
+89
+00:09:53.320 --> 00:09:55.360
+Justin Traglia: Have the soft limits be defined.
+
+90
+00:09:56.040 --> 00:09:57.610
+Justin Traglia: Like, in the types…
+
+91
+00:09:57.750 --> 00:10:07.039
+Justin Traglia: And, fail when deserializing as well, but I think that might not be great either. So I'm unsure if the specs can do the same thing that clients are wanting to do.
+
+92
+00:10:07.850 --> 00:10:17.929
+Enrico Del Fante: If we want… to be honest, if we want to go in that direction, I feel like this optionality should be introduced in the
+
+93
+00:10:18.590 --> 00:10:24.189
+Enrico Del Fante: in the, progressive list library, Python library as well.
+
+94
+00:10:24.370 --> 00:10:32.000
+Enrico Del Fante: So, you have this optional limit there, and also in the reference test code, you have this…
+
+95
+00:10:32.540 --> 00:10:44.920
+Enrico Del Fante: optional limit going there, so you don't even consider them into gossip rules anywhere. We are back into non-progressive era, essentially.
+
+96
+00:10:45.370 --> 00:10:50.790
+Justin Traglia: Well, it's not non-progressive error. I mean, the generalized indices would still remain constant.
+
+97
+00:10:50.790 --> 00:10:54.719
+Enrico Del Fante: I mean, but from the limit perspective.
+
+98
+00:10:54.900 --> 00:10:59.540
+Enrico Del Fante: It becomes something that is handled by the SSD.
+
+99
+00:10:59.990 --> 00:11:07.540
+Enrico Del Fante: And we don't care about it in those cases, in the gossip rules, and even in state transition, I believe.
+
+100
+00:11:08.180 --> 00:11:08.840
+Justin Traglia: Yeah.
+
+101
+00:11:09.410 --> 00:11:13.220
+Justin Traglia: I'm not super… sorry, I'm not opposed to going that route.
+
+102
+00:11:13.420 --> 00:11:15.729
+Justin Traglia: I would just need to think about it more.
+
+103
+00:11:16.700 --> 00:11:17.970
+Justin Traglia: Is there anyone that's…
+
+104
+00:11:17.970 --> 00:11:20.760
+Enrico Del Fante: And Eitan probably should be in this call.
+
+105
+00:11:21.290 --> 00:11:24.269
+Justin Traglia: Yeah, I would want him to be included in the decision as well.
+
+106
+00:11:30.020 --> 00:11:35.519
+Justin Traglia: I would… I would like to hear from other clients on if they've made any changes regarding
+
+107
+00:11:35.620 --> 00:11:40.890
+Justin Traglia: These limit checks, or if they plan on making changes, or anything.
+
+108
+00:12:03.020 --> 00:12:13.189
+Justin Traglia: Okay, I know Lodestar has already done this, I know… Prism has a, a PR open,
+
+109
+00:12:13.980 --> 00:12:18.419
+Justin Traglia: Do you know what the state of that PR is? Anyone? Otis or James?
+
+110
+00:12:18.680 --> 00:12:32.279
+Potuz: It seems very simple. I do agree with Enrico that this is just a bad thing to have limits back. I mean, why in the hell are we going with progressive if we're gonna hard-code those limits anyways on our machine library?
+
+111
+00:12:32.610 --> 00:12:37.829
+Potuz: But that seems… it's a simple PR to… it seems simple to… to merge.
+
+112
+00:12:40.380 --> 00:12:40.900
+james: 8.
+
+113
+00:12:41.150 --> 00:12:47.829
+james: I think, casey said that he needed to update some more spec tests or something.
+
+114
+00:12:47.830 --> 00:12:58.249
+Potuz: Yeah, there are some other structures. I think Justin left that in the review. There were some more structures that we needed to add the limits, but these limits are hard-coded there. It's simple.
+
+115
+00:12:58.840 --> 00:13:02.949
+Potuz: It feels like a bug waiting to happen whenever we change those limits.
+
+116
+00:13:04.290 --> 00:13:09.669
+Potuz: And it's going to be a consensus bug just because of a hardcore number that we're going to forget to update.
+
+117
+00:13:12.000 --> 00:13:13.729
+Justin Traglia: I mean, it would be a consensus bug.
+
+118
+00:13:13.960 --> 00:13:18.080
+Justin Traglia: If you forgot to update the limit, and a gossip checker in the state transition.
+
+119
+00:13:18.220 --> 00:13:25.690
+Potuz: No, it's in the unmarshalling, right? So this is not… so Casey's not touching the stateless function, we're just…
+
+120
+00:13:26.040 --> 00:13:28.259
+Potuz: Enforcing those limits at unmarshalling.
+
+121
+00:13:28.380 --> 00:13:46.229
+Potuz: So, the problem is that if we ever forget about these limits, and the limits change on the state transition function, and… which is don't change on the R-Marshalling this hard-coded number that is there, then pressing suddenly is going to be treated as invalid some blocks that were valid.
+
+122
+00:13:47.270 --> 00:13:52.280
+Enrico Del Fante: But I hope that SSD reference test at this point should.
+
+123
+00:13:52.280 --> 00:14:03.339
+Potuz: Yeah, I understand, but again, I mean, all of these things point towards the failure, which is we wanted to have this, as I said, without the limits, and now we're adding them back by hand.
+
+124
+00:14:07.190 --> 00:14:10.810
+Justin Traglia: I… I mean, I get what you're saying.
+
+125
+00:14:11.050 --> 00:14:16.900
+Justin Traglia: I thought the primary motivation was, like, Not breaking contracts every upgrade.
+
+126
+00:14:17.710 --> 00:14:19.789
+Justin Traglia: Like, the generalized indices thing.
+
+127
+00:14:21.100 --> 00:14:37.209
+Enrico Del Fante: I feel like if we introduce those limits back into the SSD, I believe we should be in the… should be getting the good thing from both worlds, which I believe it should be the right design. It probably is just… it's a little bit late.
+
+128
+00:14:39.510 --> 00:14:53.250
+Enrico Del Fante: That's my feeling. I mean, I feel okay to have SSV libraries that accept optional limits with the progressive list structure, which is the right thing.
+
+129
+00:14:58.740 --> 00:15:00.310
+Justin Traglia: I also feel the same way.
+
+130
+00:15:02.530 --> 00:15:06.409
+Potuz: Yeah, it sounds to me to also be the right solution, and then we can just…
+
+131
+00:15:06.550 --> 00:15:09.739
+Potuz: Pass those optionals in the spec.
+
+132
+00:15:10.030 --> 00:15:13.399
+Potuz: And then our library takes them, instead of we hardcoding them.
+
+133
+00:15:19.600 --> 00:15:20.410
+Enrico Del Fante: Okay.
+
+134
+00:15:20.860 --> 00:15:23.520
+Enrico Del Fante: So, there is just one thing,
+
+135
+00:15:23.680 --> 00:15:31.169
+Enrico Del Fante: They come up later, yeah, this morning, which is the deposit in the Beacon block
+
+136
+00:15:31.330 --> 00:15:39.109
+Enrico Del Fante: for gloss should be zeroed Now, zero land, and this is only enforced at gossip.
+
+137
+00:15:39.510 --> 00:15:47.280
+Enrico Del Fante: rules plus the transition function, so I believe this needs to be updated as well with a zero
+
+138
+00:15:47.450 --> 00:15:48.300
+Enrico Del Fante: Live.
+
+139
+00:15:50.120 --> 00:15:50.890
+Enrico Del Fante: Correct?
+
+140
+00:15:53.560 --> 00:15:56.080
+Justin Traglia: Possibly. I know what you're talking about.
+
+141
+00:15:57.340 --> 00:15:58.590
+Justin Traglia: I can look into it.
+
+142
+00:15:58.960 --> 00:16:03.030
+Enrico Del Fante: Yeah, it's been a discussion happening at the very last.
+
+143
+00:16:03.230 --> 00:16:08.750
+Enrico Del Fante: moment in the same Discord thread. I believe it's, it's another…
+
+144
+00:16:09.290 --> 00:16:14.530
+Enrico Del Fante: Ugly situation in which you could start deserializing and considering
+
+145
+00:16:15.340 --> 00:16:22.609
+Enrico Del Fante: good, block containing… glass, Beacon block containing deposits, and then…
+
+146
+00:16:22.740 --> 00:16:27.580
+Enrico Del Fante: Too late, consider it invalid because it has deposits.
+
+147
+00:16:28.000 --> 00:16:33.360
+Enrico Del Fante: And since it's a progressive list, you can stuff things in there.
+
+148
+00:16:37.340 --> 00:16:41.999
+Justin Traglia: Nico, to clarify, you say that you can't deserialize a block of zero deposits?
+
+149
+00:16:42.780 --> 00:16:43.699
+Justin Traglia: Or do you mean, like, no?
+
+150
+00:16:43.700 --> 00:16:46.879
+Nico Flaig: That is the legacy deposit.
+
+151
+00:16:47.540 --> 00:16:50.839
+Enrico Del Fante: Yeah, it means that currently we…
+
+152
+00:16:51.240 --> 00:16:59.379
+Enrico Del Fante: there is no, soft limit currently applied to that field in the gloss Beacon block.
+
+153
+00:16:59.940 --> 00:17:04.130
+Enrico Del Fante: We are addressing all the fields, except… That one
+
+154
+00:17:05.240 --> 00:17:09.660
+Enrico Del Fante: So I believe it need… it needs to be included in the…
+
+155
+00:17:10.579 --> 00:17:16.819
+Enrico Del Fante: A set of fields we are focusing on, with a zero limit.
+
+156
+00:17:19.190 --> 00:17:20.639
+Justin Traglia: Yeah, I see. I mean, I'm just…
+
+157
+00:17:20.980 --> 00:17:25.879
+Justin Traglia: init or a clarification? Are you saying you can't deserialize with zero? I mean, isn't it expected to.
+
+158
+00:17:25.880 --> 00:17:33.330
+Enrico Del Fante: We can, because there is no soft limit defined in that field currently.
+
+159
+00:17:33.510 --> 00:17:38.970
+Enrico Del Fante: So, it's a full progressive list with an unbounded list.
+
+160
+00:17:39.760 --> 00:17:41.839
+Enrico Del Fante: So we can decode it now.
+
+161
+00:17:42.120 --> 00:17:45.939
+Enrico Del Fante: Even with your latest change addressing the…
+
+162
+00:17:46.250 --> 00:17:50.450
+Enrico Del Fante: the limits for the other 12 fields, I believe.
+
+163
+00:17:51.460 --> 00:17:54.260
+Justin Traglia: Yeah, sorry, I feel like I'm not getting my point across. It's alright.
+
+164
+00:18:03.780 --> 00:18:08.560
+Justin Traglia: Any other… comments on this, Mike?
+
+165
+00:18:10.010 --> 00:18:12.060
+Justin Traglia: the whole SSD thing.
+
+166
+00:18:15.000 --> 00:18:18.690
+Nico Flaig: Yeah, how do we deal with the deposit requests?
+
+167
+00:18:19.220 --> 00:18:28.470
+Nico Flaig: Like, the problem is you can limit all of these fields, but in the case of an attack or a DOS, the deposit request keeps it basically unbounded.
+
+168
+00:18:30.070 --> 00:18:33.150
+Enrico Del Fante: How are we back to the 10MB limit there.
+
+169
+00:18:33.590 --> 00:18:40.799
+Nico Flaig: Yeah, that's the problem. And it's mostly… maybe it's an issue how our queue works and the network processor, but
+
+170
+00:18:41.070 --> 00:18:45.090
+Nico Flaig: Yeah, I feel like these limits don't buy us anything in case of an attack.
+
+171
+00:18:51.630 --> 00:18:58.099
+Enrico Del Fante: We had a bite budget in some of other pending blocks.
+
+172
+00:18:58.850 --> 00:19:01.490
+Enrico Del Fante: But the point is, we haven't,
+
+173
+00:19:01.610 --> 00:19:04.499
+Enrico Del Fante: Added this byte budget everywhere.
+
+174
+00:19:04.880 --> 00:19:12.429
+Enrico Del Fante: like… Few… Future blocks, like with upcoming SLOT, are not covered by that.
+
+175
+00:19:13.820 --> 00:19:25.170
+Enrico Del Fante: But, blocks… with a known… parent, root… Pass that… Mmm, but… Yeah.
+
+176
+00:19:49.660 --> 00:19:52.430
+Enrico Del Fante: But is this anyway a problem for…
+
+177
+00:19:52.830 --> 00:20:02.030
+Enrico Del Fante: Payload… transactions in payload, in which we don't have Anyway, a limit there, so… We cover
+
+178
+00:20:02.410 --> 00:20:09.440
+Enrico Del Fante: The request, but transaction… Still relying on… 10MB limit.
+
+179
+00:20:16.700 --> 00:20:19.680
+Nico Flaig: Yeah, I think it's already a problem today, right?
+
+180
+00:20:20.280 --> 00:20:22.079
+Nico Flaig: Especially brick laws.
+
+181
+00:20:24.360 --> 00:20:30.609
+Saulius Grigaitis | Grandine: the one thing for this 10MB limit, if I remember correctly.
+
+182
+00:20:30.900 --> 00:20:37.539
+Saulius Grigaitis | Grandine: the discussions we had, I think it was a few years ago, The problem is that…
+
+183
+00:20:38.120 --> 00:20:46.439
+Saulius Grigaitis | Grandine: This 10MB limit works, because… No one intentionally I mean it.
+
+184
+00:20:47.950 --> 00:20:54.409
+Saulius Grigaitis | Grandine: the blocks are not going to be that large. I mean, the key problem is that
+
+185
+00:20:54.510 --> 00:21:07.789
+Saulius Grigaitis | Grandine: everyone has a different understanding what is the exact limit of this 10MB. So, some, some clients, take, like.
+
+186
+00:21:07.790 --> 00:21:26.389
+Saulius Grigaitis | Grandine: the whole size, including various metadata or headers, or whatever there is, and some measures without the headers or metadata, so… so we cannot rely on this 10MB limit that we have.
+
+187
+00:21:26.390 --> 00:21:33.429
+Saulius Grigaitis | Grandine: Because it seems it's possible to craft, Around the 10MB blocker.
+
+188
+00:21:33.780 --> 00:21:47.359
+Saulius Grigaitis | Grandine: which some clients will accept, because it will be within the limit, and some clients will say that it's outside of the limit. So, this was not fully sold back then when we had this discussion.
+
+189
+00:21:58.940 --> 00:22:04.390
+Saulius Grigaitis | Grandine: maybe somebody who remembers can… can extend what I said.
+
+190
+00:22:10.240 --> 00:22:17.039
+Daniel Knopik: I don't remember the discussion, I think this was before my time, but I'm pretty sure the 10MB is just…
+
+191
+00:22:17.390 --> 00:22:24.449
+Daniel Knopik: the P2P message, like… And, like, with snappy compression, or something?
+
+192
+00:22:24.830 --> 00:22:30.260
+Daniel Knopik: I think… it is news to me that is apparently ambiguous, because…
+
+193
+00:22:30.930 --> 00:22:36.519
+Daniel Knopik: Yeah, so I'm also curious if there's anyone who has a different interpretation from that.
+
+194
+00:22:37.420 --> 00:22:47.400
+Saulius Grigaitis | Grandine: So, I remember that there were multiple clients that had different interpretation of what exactly is this megabytes, and I mean.
+
+195
+00:22:47.860 --> 00:22:57.380
+Saulius Grigaitis | Grandine: The interpretation is not just discussion, but actual, the code, measures differently in different clients.
+
+196
+00:22:57.710 --> 00:23:14.799
+Pawan Dhananjay: I think we clarified it to be the maximum uncompressed snap, uncompressed size. Before, like, there was some confusion if it was, like, the compressed snappy limit or the uncompressed one, and I think we clarified it at that time to be the uncompressed.
+
+197
+00:23:14.980 --> 00:23:16.250
+Pawan Dhananjay: tailored size.
+
+198
+00:23:16.720 --> 00:23:25.519
+Enrico Del Fante: Yeah, I believe, there has been effort to unify most of the client on the… to be on the same page, to avoid…
+
+199
+00:23:26.100 --> 00:23:28.589
+Enrico Del Fante: network splits, I remember that.
+
+200
+00:23:29.130 --> 00:23:33.559
+Saulius Grigaitis | Grandine: But was it actually checked and, you know, like…
+
+201
+00:23:33.750 --> 00:23:39.049
+Saulius Grigaitis | Grandine: Are we 100% sure that all the clients are aligned?
+
+202
+00:23:40.420 --> 00:23:41.179
+Pawan Dhananjay: I think it was a cut.
+
+203
+00:23:41.180 --> 00:23:42.190
+Enrico Del Fante: consensus behind.
+
+204
+00:23:42.480 --> 00:23:48.049
+Enrico Del Fante: Yeah, sorry, but I believe all the clients did… did some… spent some time to… to fix that.
+
+205
+00:23:48.390 --> 00:23:53.440
+Pawan Dhananjay: Yeah, I think we fixed that as well, because it was, like, a consensus-backed PR as well at that point.
+
+206
+00:23:58.190 --> 00:23:58.920
+Saulius Grigaitis | Grandine: Okay.
+
+207
+00:24:10.680 --> 00:24:11.230
+Justin Traglia: Yep.
+
+208
+00:24:12.530 --> 00:24:22.210
+Justin Traglia: Okay, anything else on… SOC, deserialization, or, gossip… stuff.
+
+209
+00:24:22.970 --> 00:24:28.559
+Justin Traglia: Otherwise, we'll move on to POTUS's topic of… Enquivocations and fork choice.
+
+210
+00:24:31.130 --> 00:24:46.220
+Enrico Del Fante: Just one final wrap-up. So, we decide to cover everything with a limit, with the expect of the execution requests and transactions. Is this…
+
+211
+00:24:47.280 --> 00:24:56.720
+Enrico Del Fante: the overall… Situation, and we rely on gas limits and… And 10 megabytes.
+
+212
+00:24:58.560 --> 00:24:59.620
+Enrico Del Fante: We're limiting.
+
+213
+00:25:05.220 --> 00:25:06.669
+Justin Traglia: I think so.
+
+214
+00:25:07.470 --> 00:25:14.329
+Justin Traglia: would someone else be willing to open a PR for this? Because it's not exactly clear to me what will be changed.
+
+215
+00:25:32.830 --> 00:25:39.820
+Enrico Del Fante: Yeah, I believe we need to, anyway, have a discussion with Eitan, because the underlining library should…
+
+216
+00:25:40.120 --> 00:25:45.959
+Enrico Del Fante: Handle that, so… Maybe we can have a subsequent discussion with him as well?
+
+217
+00:25:47.770 --> 00:25:51.039
+Justin Traglia: Yep, I can do that. And I'm sorry, I was thinking of the…
+
+218
+00:25:51.360 --> 00:25:54.369
+Justin Traglia: The other thing that you said about, like, the deposit.
+
+219
+00:25:54.370 --> 00:25:55.040
+Enrico Del Fante: Checking the deposit.
+
+220
+00:25:55.040 --> 00:25:55.720
+Justin Traglia: it's…
+
+221
+00:25:55.720 --> 00:26:00.230
+Enrico Del Fante: Yeah, yeah, okay, maybe I can… I can open a BR for… for that one.
+
+222
+00:26:00.870 --> 00:26:02.120
+Justin Traglia: Okay, thank you.
+
+223
+00:26:02.300 --> 00:26:09.090
+Justin Traglia: Yes, regarding SSC deserialization, I'll… I'll chat with Eitan, and tama, C.
+
+224
+00:26:09.620 --> 00:26:12.540
+Justin Traglia: Who's, working on the SSC Specs library.
+
+225
+00:26:20.660 --> 00:26:24.909
+Justin Traglia: Okay, let's move on to the next agenda item. Otis, I see that you're here.
+
+226
+00:26:25.080 --> 00:26:26.260
+Justin Traglia: You gonna leave this one?
+
+227
+00:26:26.800 --> 00:26:32.070
+Potuz: It's a very simple observation. We count locations
+
+228
+00:26:32.310 --> 00:26:38.539
+Potuz: informed choice, when we need to apply or not proposer boost.
+
+229
+00:26:39.150 --> 00:26:40.290
+Potuz: And…
+
+230
+00:26:40.520 --> 00:26:58.760
+Potuz: there is a problem with fork choice itself, in that fork choice is aware of blocks only when you call on block, which only happens after the block has passed validation. So this was already present when we were worried about DHX,
+
+231
+00:26:59.090 --> 00:27:12.840
+Potuz: because we won't count for, GA, for example, so Fortress needs to be aware of certain… of GA, votes for C, for example. And, but we want to make sure
+
+232
+00:27:12.850 --> 00:27:22.339
+Potuz: We need to act on this information that… where the block itself is not in for choice, because clients do not add the block to fork choice until it's passed by Validation.
+
+233
+00:27:22.520 --> 00:27:40.939
+Potuz: And equivocations is a nice one, because we don't put equivocating blocks in port choice. We only put them when we're forced to, like, when we do an RPC request, and then we add… we are forced to import a block, because we're syncing a branch that has equated.
+
+234
+00:27:40.940 --> 00:27:43.559
+Potuz: But over gossip, we would never do that.
+
+235
+00:27:43.560 --> 00:27:55.100
+Potuz: So, we need to make a decision as to whether, act or not with proposer boost, and this is a decision over the gossip, not over the RPC path. And we never import blocks that are cubicated.
+
+236
+00:27:55.330 --> 00:27:56.490
+Potuz: So…
+
+237
+00:27:56.770 --> 00:28:04.810
+Potuz: The problem is that it's… it's an awkward position on the Python spec, but… and this is the issue of being aware of
+
+238
+00:28:05.070 --> 00:28:09.760
+Potuz: How people make decisions of a purchase, and then how they actually
+
+239
+00:28:10.050 --> 00:28:19.370
+Potuz: specified in the specs. Prism doesn't really follow the spec in those things that we know that… what the… what the specification was meant to be.
+
+240
+00:28:19.580 --> 00:28:29.189
+Potuz: And when Francisco coded this, I didn't really pay attention, because we… I didn't care, right? I was going to implement the thing that I know was right, and that was…
+
+241
+00:28:29.220 --> 00:28:39.989
+Potuz: not to care about if the equocating block was valid or not. As soon as we see a signature, and we know that there is an evocation, we're just signaling for choice that there is an evocation.
+
+242
+00:28:40.060 --> 00:28:52.639
+Potuz: And we even keep track of the timeliness of these equations, because that is actually important, to keep track of, and the order of equations that we get is also important if we want to protect the builder.
+
+243
+00:28:53.020 --> 00:29:06.119
+Potuz: Anyways, so the long story short, Prism counts non-valid equations in fork choice, and other clients only count valid equations in fork choice because that's what the spec does.
+
+244
+00:29:06.420 --> 00:29:11.980
+Potuz: And I think… I don't care who's gonna rewrite the spec, I know that this is an awkward situation, and I…
+
+245
+00:29:12.030 --> 00:29:30.539
+Potuz: I am happy to have the things that are off-chain, things that are not in the Beacon state, that are not part of the state transition function, particular things that are in Fortress, I'm happy to, like, have them written down somewhere, and not in a Python executable spec, because I think these things leak into clients, as this scenario.
+
+246
+00:29:30.570 --> 00:29:33.170
+Potuz: So I'm happy to just write a comment.
+
+247
+00:29:33.250 --> 00:29:42.239
+Potuz: But… and I don't know how this is going to be solved in the spec, but I think we should agree that we should count invalid applications as implications for chips.
+
+248
+00:29:42.840 --> 00:29:45.299
+Potuz: So I don't want to modify Prism on this.
+
+249
+00:29:54.930 --> 00:30:00.460
+Enrico Del Fante: I also believe it will be the easiest way for… Teku?
+
+250
+00:30:02.640 --> 00:30:04.390
+Enrico Del Fante: Currently we don't.
+
+251
+00:30:05.270 --> 00:30:11.810
+Enrico Del Fante: have… Revocating detection in that situation.
+
+252
+00:30:12.640 --> 00:30:30.560
+Enrico Del Fante: even in fork choice, we don't have the code looking into fork choice, searching for equivocation. We don't even have that signaling from gossip that there is an equivocation, so we are a little bit off on that. Oh, and…
+
+253
+00:30:30.880 --> 00:30:34.549
+Enrico Del Fante: And the timeliness of that will be even another thing.
+
+254
+00:30:34.550 --> 00:30:39.390
+Potuz: Wait, but aren't you… I mean, I think there are four-choice spec tests over… for this.
+
+255
+00:30:40.520 --> 00:30:40.960
+Enrico Del Fante: Yay.
+
+256
+00:30:40.960 --> 00:30:44.580
+Potuz: I didn't even want to add this, because I thought it was just something.
+
+257
+00:30:44.580 --> 00:30:46.270
+Enrico Del Fante: Compliance? Compliance?
+
+258
+00:30:46.270 --> 00:30:51.850
+Potuz: No, no, no. Actually, just the usual spec test. We are not passing compliant tests yet.
+
+259
+00:30:51.980 --> 00:30:54.949
+Potuz: I think just glow aspect has covered already this.
+
+260
+00:30:55.150 --> 00:30:57.400
+Potuz: It should apply proposer-boost tests.
+
+261
+00:31:00.050 --> 00:31:05.680
+Enrico Del Fante: Yeah, I need to check, because this happens… Multiple places, but…
+
+262
+00:31:05.680 --> 00:31:09.220
+Potuz: I think I was forced to add this just to pass spectests.
+
+263
+00:31:09.400 --> 00:31:12.089
+Potuz: Because I didn't want to add this either.
+
+264
+00:31:12.280 --> 00:31:13.150
+Enrico Del Fante: Yum.
+
+265
+00:31:13.650 --> 00:31:17.129
+Enrico Del Fante: Actually, I need to refresh my mind over what we have.
+
+266
+00:31:18.640 --> 00:31:24.720
+Enrico Del Fante: But I believe there are some additional things happening for compliance tests, I remember.
+
+267
+00:31:25.100 --> 00:31:29.270
+Enrico Del Fante: Forces us… forces us to consider additional checks.
+
+268
+00:31:32.230 --> 00:31:33.480
+Enrico Del Fante: Wow, yeah.
+
+269
+00:31:40.330 --> 00:31:45.880
+Justin Traglia: Potus, would you be willing to open a PR for this? And I can help you, like, if there's any…
+
+270
+00:31:46.380 --> 00:31:52.129
+Justin Traglia: Test changes, or, the little details that you don't really care about.
+
+271
+00:31:54.430 --> 00:31:57.290
+Justin Traglia: I think it would be good for you to be the one to open this, at least.
+
+272
+00:32:01.220 --> 00:32:06.360
+Potuz: I'll give it a thought. I'm not really sure how… I mean, probably I'll…
+
+273
+00:32:06.470 --> 00:32:16.409
+Potuz: I'd be kind of radical on these things, but yeah, I can do that. I thought Francesco might want to take it, but he's not here.
+
+274
+00:32:18.140 --> 00:32:19.090
+Justin Traglia: Okay.
+
+275
+00:32:19.090 --> 00:32:21.630
+Potuz: Yeah, I can take a look at it.
+
+276
+00:32:22.240 --> 00:32:23.369
+Justin Traglia: Okay, and if…
+
+277
+00:32:23.960 --> 00:32:32.530
+Justin Traglia: You don't want to, or whatever, maybe, Nico, you could. I'm just hesitant to do it myself, because I'm really not an expert with fork choice.
+
+278
+00:32:32.640 --> 00:32:38.990
+Potuz: I can do it, but the thing is, most probably my preference would be to have it underspecified.
+
+279
+00:32:39.270 --> 00:32:44.680
+Potuz: And have an external thing that just counts the publications.
+
+280
+00:32:45.270 --> 00:32:49.830
+Potuz: Instead of having this actually Python executable.
+
+281
+00:32:50.140 --> 00:33:05.619
+Potuz: I think we're over-specifying things, both on P2P and on poor choice. Things that are not core state transition functions, my personal opinion is we should underspecify and leave clients to do whatever they want.
+
+282
+00:33:09.050 --> 00:33:09.640
+Justin Traglia: Okay.
+
+283
+00:33:11.500 --> 00:33:17.810
+Nico Flaig: Related to that, does PRISM look at more than the two first proposals you observe?
+
+284
+00:33:21.890 --> 00:33:22.980
+Nico Flaig: Are you muted, Paul?
+
+285
+00:33:22.980 --> 00:33:30.529
+Potuz: I'm muted. Yeah, so I think we validate the signature of any block that comes in.
+
+286
+00:33:30.680 --> 00:33:34.669
+Potuz: Probably this is a no-wop on… because we only count
+
+287
+00:33:34.750 --> 00:33:50.799
+Potuz: timely, aggregations, so if we already have one, then another one that comes also is going to be. What I don't remember is if we keep the map of… of BlockFruits, in fork choice that I co-located. I… this I don't actually remember.
+
+288
+00:33:50.870 --> 00:33:55.979
+Potuz: Because for should… should apply proposer boost requires you to… to know
+
+289
+00:33:56.140 --> 00:34:00.260
+Potuz: But if you only have two, I think that's good enough, because,
+
+290
+00:34:00.420 --> 00:34:11.259
+Potuz: Because no matter which order you get, you're guaranteed to have, one of… I mean, if there is a timely one, you're guaranteed to have one of the bad blocks already in a timely
+
+291
+00:34:11.400 --> 00:34:15.150
+Potuz: In the timely, evocation list.
+
+292
+00:34:15.270 --> 00:34:22.510
+Potuz: So I think what Lowestar does, if you have 3 blocks, I think you're guaranteed to be right. Like, one valid, and then the other two.
+
+293
+00:34:22.770 --> 00:34:32.100
+Potuz: But, but I have to think about… I have to look at… I have to look it up. What I do know is that Prism would just validate the signature of any provocation that comes.
+
+294
+00:34:33.360 --> 00:34:38.940
+Nico Flaig: Yeah, that was my concern, that you could DOS the node by forcing it to verify signatures.
+
+295
+00:34:38.949 --> 00:34:43.239
+Potuz: Well, but the thing is that you drop… so… yeah, so…
+
+296
+00:34:43.619 --> 00:34:49.609
+Potuz: Actually, it might be the case, although for verifying signatures.
+
+297
+00:34:50.689 --> 00:35:03.769
+Potuz: Yeah, so I actually don't know what, if P2P would just drop them early. I don't know, actually, but if a proposal prepares a thousand blocks and signs them differently, and it sends it to us.
+
+298
+00:35:04.219 --> 00:35:07.119
+Potuz: It might even doss us, I'm not sure.
+
+299
+00:35:07.330 --> 00:35:10.860
+Pawan Dhananjay: It would, because I think the message IDF would be different, but, like.
+
+300
+00:35:10.860 --> 00:35:22.580
+Potuz: Yeah, yeah, so… so overly P2P, the hash would be different, but I don't remember if… and I think we… I think we verified the signature. I think we do not drop… we drop them over gossip, perhaps?
+
+301
+00:35:23.240 --> 00:35:27.219
+Potuz: if we've seen… no, we don't. We…
+
+302
+00:35:27.370 --> 00:35:39.380
+Potuz: We don't drop blocks over gossip if they come from the right professor and the right slot, because we prepared the slashing event. So we never drop them. I think we verify the signature, if they're valid, we just broadcast the slashing.
+
+303
+00:35:40.310 --> 00:35:45.920
+Potuz: I can add code to… to stop verifying after the third block.
+
+304
+00:36:10.150 --> 00:36:15.720
+Justin Traglia: Okay, anything else we want to discuss? I've decided not to talk about deprecating NPLEX. I don't think that…
+
+305
+00:36:17.770 --> 00:36:20.930
+Justin Traglia: I don't think the people that want to discuss it are here.
+
+306
+00:36:22.160 --> 00:36:24.520
+Justin Traglia: Casey, Paul, Jasik.
+
+307
+00:36:25.230 --> 00:36:27.750
+Justin Traglia: If you guys want to, we can talk about it if not.
+
+308
+00:36:27.750 --> 00:36:30.359
+Potuz: Is there anyone that doesn't want to deprecate it?
+
+309
+00:36:31.250 --> 00:36:32.980
+jxs: Yeah, I was curious about the same.
+
+310
+00:36:35.230 --> 00:36:43.129
+Justin Traglia: I don't… I mean, I think most people are supportive of it. I… there was a comment on the PR recently saying that, like.
+
+311
+00:36:44.040 --> 00:36:45.949
+Justin Traglia: I forget what it said, I'll have to find it.
+
+312
+00:36:46.960 --> 00:36:49.660
+Justin Traglia: That's saying that we don't… we shouldn't rush into this.
+
+313
+00:36:51.710 --> 00:37:01.990
+Pawan Dhananjay: I think last time we mentioned, Deku didn't have, like, Yamix or Quick, one of those, but now it seems like they do have it, so…
+
+314
+00:37:02.200 --> 00:37:09.950
+Enrico Del Fante: We have Quake, but… Yeah, it's… it's working in production, we have a couple of things to fix.
+
+315
+00:37:11.040 --> 00:37:15.399
+Enrico Del Fante: There as well, because… Orientation is relatively young.
+
+316
+00:37:15.710 --> 00:37:22.129
+Enrico Del Fante: But I believe we are on the good track to be… fully… Was it working?
+
+317
+00:37:22.930 --> 00:37:30.440
+Pawan Dhananjay: So, like, in your connection establishment, you still, prioritize TCP and Plex over WIC?
+
+318
+00:37:32.120 --> 00:37:34.720
+Enrico Del Fante: No, I don't believe so.
+
+319
+00:37:36.290 --> 00:37:43.809
+Enrico Del Fante: In terms of prioritization, I don't remember when booths have available, if we'd go quick first, maybe?
+
+320
+00:37:46.110 --> 00:37:53.099
+Pawan Dhananjay: The prioritization is… like, quick, then, like, probably MPlex is not being used at all at this.
+
+321
+00:37:53.100 --> 00:38:00.130
+Enrico Del Fante: Yeah, well, it's not currently a node that's… a default-configured node.
+
+322
+00:38:00.310 --> 00:38:05.670
+Enrico Del Fante: It's getting, like, 70%, 75% quick.
+
+323
+00:38:06.000 --> 00:38:14.960
+Enrico Del Fante: Connections, and, like, 20%-ish, the address in TCP currently in Daegu.
+
+324
+00:38:15.370 --> 00:38:18.669
+Enrico Del Fante: So it's getting more quick than TCP.
+
+325
+00:38:22.390 --> 00:38:26.100
+Justin Traglia: Enrico Luca was the one that left a comment on the PR.
+
+326
+00:38:26.100 --> 00:38:27.450
+Enrico Del Fante: Yeah, yeah, he said that.
+
+327
+00:38:27.450 --> 00:38:32.360
+Justin Traglia: But some nodes were having issues with QUIC, and were forced to disable it, or something.
+
+328
+00:38:33.600 --> 00:38:37.859
+Enrico Del Fante: Yeah, we haven't… we have had the issues, and
+
+329
+00:38:38.220 --> 00:38:41.480
+Enrico Del Fante: some… some memory leaks on the quick side.
+
+330
+00:38:42.790 --> 00:38:51.050
+Enrico Del Fante: We are fixing things, currently on the week, so I would, wait a little bit to…
+
+331
+00:38:52.040 --> 00:39:02.769
+Enrico Del Fante: Have the implementation fully tested and with no issues for a while, to say… to signal less… to signal, let's depregate it.
+
+332
+00:39:04.790 --> 00:39:07.030
+Enrico Del Fante: That's my current… View.
+
+333
+00:39:07.680 --> 00:39:13.030
+Justin Traglia: Is this something that we'd be interested in doing before the… Amsterdam may not upgrade.
+
+334
+00:39:14.140 --> 00:39:15.180
+Justin Traglia: Or after.
+
+335
+00:39:19.750 --> 00:39:22.369
+Justin Traglia: To be clear, it is deprecating Inplex.
+
+336
+00:39:32.400 --> 00:39:34.659
+Justin Traglia: And that was a question for all clients.
+
+337
+00:39:34.660 --> 00:39:41.010
+Enrico Del Fante: Yeah, I mean, I mean, I believe we are on the… on the… On the right path to…
+
+338
+00:39:41.130 --> 00:39:42.970
+Enrico Del Fante: Together that way.
+
+339
+00:39:47.440 --> 00:39:53.020
+Justin Traglia: There's also some, I don't know how to phrase it, but you don't want to be the last one.
+
+340
+00:39:53.320 --> 00:39:55.310
+Justin Traglia: Which depends on,
+
+341
+00:39:55.490 --> 00:40:01.319
+Justin Traglia: MPlex, right? Like, if you have… if there are some nodes, which user clients, which depend on
+
+342
+00:40:02.490 --> 00:40:08.279
+Justin Traglia: NPLEX, they might… Be unable to speak without everyone else.
+
+343
+00:40:10.110 --> 00:40:11.190
+Justin Traglia: Praising it right.
+
+344
+00:40:15.160 --> 00:40:19.490
+Justin Traglia: Does it make sense to do this out of hard fork? Deprecating impacts?
+
+345
+00:40:19.910 --> 00:40:22.040
+Justin Traglia: Or, I mean, maybe it just doesn't really matter.
+
+346
+00:40:24.650 --> 00:40:29.480
+jxs: I can come in, but I'm surprised. We've been this… Again.
+
+347
+00:40:29.830 --> 00:40:39.330
+jxs: It's been years, and I think it's been months, Since… This situation… we tackle… appeared, cause…
+
+348
+00:40:39.700 --> 00:40:43.770
+jxs: We are exposed. MPLEX is being deprecated as a protocol.
+
+349
+00:40:43.950 --> 00:40:46.690
+jxs: the Rust version is being unmaintained?
+
+350
+00:40:47.120 --> 00:40:51.270
+jxs: Hmm… as Polytech vectors.
+
+351
+00:40:51.600 --> 00:40:57.729
+jxs: we've been… Trying to deprecate it for so long, and it keeps dragging and dragging and dragging.
+
+352
+00:40:58.010 --> 00:41:02.310
+jxs: Like, I was surprised by this, I thought Teko was already supporting it, and…
+
+353
+00:41:02.530 --> 00:41:14.000
+jxs: we could finally merge this PR. We've been… we've merged this PR before, we reverted it, and now we… we merged it again. I don't think it makes sense to revert again.
+
+354
+00:41:14.480 --> 00:41:16.780
+jxs: And keep… keep doing this.
+
+355
+00:41:18.070 --> 00:41:19.659
+jxs: We don't want to speak NPLEX.
+
+356
+00:41:20.680 --> 00:41:28.440
+jxs: And Teku, I've told this many times, Teku… enable Yamooks, would… We speak Yamooks.
+
+357
+00:41:29.260 --> 00:41:29.899
+Enrico Del Fante: We don't.
+
+358
+00:41:30.860 --> 00:41:32.769
+jxs: No, I mean, Lighthouse speaks Yamooks.
+
+359
+00:41:32.880 --> 00:41:39.079
+jxs: Teku has support via JVM with P2P of Yamooks. You went through the harder route to try to enable.
+
+360
+00:41:39.080 --> 00:41:41.550
+Enrico Del Fante: It's not production-ready, Yamos.
+
+361
+00:41:41.930 --> 00:41:44.180
+jxs: Yeah, that's what I've been hearing for 3 years.
+
+362
+00:41:52.860 --> 00:41:54.630
+Justin Traglia: Yeah.
+
+363
+00:41:55.460 --> 00:42:00.719
+Justin Traglia: Enrico, do you think that TyQu has bandwidth to work on this over the next, like, month or two at all?
+
+364
+00:42:01.060 --> 00:42:07.300
+Enrico Del Fante: It's actively under implementation, and we are refining our implementation to get it better.
+
+365
+00:42:08.180 --> 00:42:15.509
+Enrico Del Fante: So, I don't see, currently, a blocker to say no to deprecate buying.
+
+366
+00:42:16.460 --> 00:42:17.990
+Enrico Del Fante: gloss mainnet.
+
+367
+00:42:18.840 --> 00:42:21.560
+Enrico Del Fante: I believe it's… it's a good timing.
+
+368
+00:42:22.410 --> 00:42:29.099
+Enrico Del Fante: But if you ask currently, we need to do some additional refinement.
+
+369
+00:42:29.300 --> 00:42:37.809
+Enrico Del Fante: even if the current implementation is fully working, I disabled TCP on my personal node.
+
+370
+00:42:43.550 --> 00:42:44.210
+Justin Traglia: Okay.
+
+371
+00:42:45.190 --> 00:42:49.069
+Justin Traglia: so we're currently at time. Any last comments on this?
+
+372
+00:42:50.410 --> 00:42:51.830
+Justin Traglia: Or anything else.
+
+373
+00:42:58.080 --> 00:42:58.860
+Justin Traglia: Right.
+
+374
+00:42:59.050 --> 00:43:01.890
+Justin Traglia: Thank you, everyone. Talk to you guys on Thursday.
+
+375
+00:43:02.450 --> 00:43:03.270
+Potuz: Thank you, guys.
+
+376
+00:43:03.710 --> 00:43:04.740
+Daniel Knopik: Thank you, bye.
+

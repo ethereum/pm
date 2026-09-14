@@ -1,0 +1,80 @@
+{
+  "meeting": "ACDT #96 - September 14, 2026 (CL breakout)",
+  "highlights": {
+    "ssz_progressive_container_deserialization": [
+      {
+        "timestamp": "00:00:43",
+        "highlight": "Progressive containers: consensus moving toward reinstating hard limits at SSZ layer, not state transition function"
+      },
+      {
+        "timestamp": "00:10:47",
+        "highlight": "Proposed fix: SSZ libraries should accept optional limits natively so clients don't hard-code them manually"
+      },
+      {
+        "timestamp": "00:13:02",
+        "highlight": "Potuz: hard-coded limits in unmarshalling risk consensus bug if limits change in spec but not in client code"
+      },
+      {
+        "timestamp": "00:15:23",
+        "highlight": "Gloas beacon block legacy deposit field currently has no soft limit applied; needs zero-limit added"
+      }
+    ],
+    "fork_choice_equivocations": [
+      {
+        "timestamp": "00:26:27",
+        "highlight": "Prysm counts equivocating blocks in fork choice before full validation; other clients only count valid ones per spec"
+      },
+      {
+        "timestamp": "00:29:06",
+        "highlight": "Consensus: clients should count invalid equivocations in fork choice \u2014 Prysm behavior is correct, spec should be updated"
+      },
+      {
+        "timestamp": "00:33:36",
+        "highlight": "DOS risk: a proposer sending many differently-signed blocks could force signature verification on each; Potuz may cap at 3"
+      }
+    ],
+    "mplex_deprecation": [
+      {
+        "timestamp": "00:36:10",
+        "highlight": "Lighthouse merged MPlex deprecation PR last week; Teku QUIC has memory leaks being fixed, not yet production-stable"
+      },
+      {
+        "timestamp": "00:41:18",
+        "highlight": "Target: deprecate MPlex before Gloas mainnet; Teku signals no blocker in principle but needs further refinement"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:25:32",
+      "action": "Discuss optional SSZ limits in progressive list library with Eitan and spec team",
+      "owner": "Justin Traglia"
+    },
+    {
+      "timestamp": "00:26:00",
+      "action": "Open PR to add zero-limit for legacy deposit field in Gloas beacon block",
+      "owner": "Enrico Del Fante"
+    },
+    {
+      "timestamp": "00:31:40",
+      "action": "Open PR to clarify fork choice equivocation counting (invalid equivocations should count)",
+      "owner": "Potuz"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:29:06",
+      "decision": "Clients should count invalid equivocations in fork choice; Prysm behavior is correct reference"
+    },
+    {
+      "timestamp": "00:41:55",
+      "decision": "MPlex deprecation proceeds; target before Gloas mainnet, no team blocking in principle"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:41:55",
+      "target": "MPlex deprecated before Gloas mainnet upgrade"
+    }
+  ]
+}
