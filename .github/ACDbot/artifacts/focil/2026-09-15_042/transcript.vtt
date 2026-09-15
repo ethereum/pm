@@ -1,0 +1,1422 @@
+WEBVTT
+
+1
+00:00:11.720 --> 00:00:13.629
+Justin Traglia: Hey, how's it going?
+
+2
+00:00:14.590 --> 00:00:16.430
+Jihoon: Doing great.
+
+3
+00:00:16.820 --> 00:00:17.980
+Jihoon: GM?
+
+4
+00:00:19.380 --> 00:00:21.130
+Justin Traglia: GM, indeed.
+
+5
+00:00:45.990 --> 00:00:51.400
+Justin Traglia: Before other people join, so I'll let you know I'm taking Wednesday, Thursday, Friday off, so…
+
+6
+00:00:51.970 --> 00:00:53.949
+Justin Traglia: You'll be holding down the fort.
+
+7
+00:00:54.240 --> 00:00:55.419
+Justin Traglia: If that's okay?
+
+8
+00:00:57.870 --> 00:00:59.590
+Jihoon: Yeah, sounds great.
+
+9
+00:01:02.070 --> 00:01:09.050
+Jihoon: Hope you have a great vacation, and I think nothing will hold me back, so you can just enjoy your time.
+
+10
+00:01:09.560 --> 00:01:10.380
+Jihoon: Off.
+
+11
+00:01:10.380 --> 00:01:10.820
+Justin Traglia: Sounds good.
+
+12
+00:01:11.600 --> 00:01:12.360
+Jihoon: Great.
+
+13
+00:01:12.360 --> 00:01:13.360
+Justin Traglia: Thank you, thank you.
+
+14
+00:01:15.690 --> 00:01:16.810
+Jihoon: Hello, guys.
+
+15
+00:01:17.230 --> 00:01:19.479
+Jihoon: I think we can wait for a few more minutes.
+
+16
+00:01:32.920 --> 00:01:37.449
+Justin Florentine (Besu): Good morning, censorship resistors!
+
+17
+00:01:39.940 --> 00:01:41.250
+Jihoon: Welcome, Justin.
+
+18
+00:04:05.220 --> 00:04:09.409
+Jihoon: Welcome, Pella. Welcome, NC. I think we can kick this off.
+
+19
+00:04:10.160 --> 00:04:14.290
+Jihoon: Hello everyone, welcome to Fossil Breakout 42.
+
+20
+00:04:15.490 --> 00:04:23.749
+Jihoon: Today's agenda are definite updates and the interaction between fossil and frames.
+
+21
+00:04:24.200 --> 00:04:34.559
+Jihoon: Let's start with debit updates. I've tried local interop between clients, and it seemed Taekw and Luthor were not happy for some reason.
+
+22
+00:04:35.380 --> 00:04:41.170
+Jihoon: NC did some debugging, maybe Mehdi as well, so… Shall we start from there?
+
+23
+00:04:46.720 --> 00:04:57.470
+NC: Yeah, as I said on the Discord, it's basically… Teku is batching… All the,
+
+24
+00:04:58.430 --> 00:05:02.599
+NC: the gossip objects into one single RPC,
+
+25
+00:05:02.740 --> 00:05:07.219
+NC: That exceeds, LOSTAR's incoming limits.
+
+26
+00:05:07.590 --> 00:05:10.360
+NC: So that's why Low Star just dropped.
+
+27
+00:05:10.500 --> 00:05:13.760
+NC: Taeku as a peer when Taeku proposes.
+
+28
+00:05:14.010 --> 00:05:20.690
+NC: So… I have a PR, it's just trying to increase that limits.
+
+29
+00:05:21.000 --> 00:05:24.489
+NC: From 4MB to 10 megabytes.
+
+30
+00:05:25.360 --> 00:05:32.420
+NC: But, in the meanwhile, you can also play around not having, like, 50-50 lowest star and Deku.
+
+31
+00:05:32.830 --> 00:05:39.909
+NC: But… Yes, play around on the ratio.
+
+32
+00:05:40.040 --> 00:05:43.220
+NC: And it should, work as well.
+
+33
+00:05:46.930 --> 00:05:50.009
+Jihoon: Is it related to the therapy object limit?
+
+34
+00:05:54.130 --> 00:05:55.750
+NC: Sorry, what was the question?
+
+35
+00:05:56.410 --> 00:06:05.229
+Jihoon: So we… S&PRs raising… peer-to-peer objects for Engine the other day.
+
+36
+00:06:05.370 --> 00:06:08.149
+Jihoon: And I wonder if this issue is related.
+
+37
+00:06:09.660 --> 00:06:12.189
+NC: No, it's a… it's a… it's a different…
+
+38
+00:06:12.510 --> 00:06:16.750
+NC: It's totally different, and it's irrelevant to, the inclusion of this.
+
+39
+00:06:19.720 --> 00:06:20.910
+Jihoon: I see.
+
+40
+00:06:22.480 --> 00:06:26.679
+Jihoon: In the meantime, it'd be nice if we could share the link to the PR.
+
+41
+00:06:27.680 --> 00:06:31.259
+Jihoon: Yeah, thanks for sharing the updates.
+
+42
+00:06:33.420 --> 00:06:36.120
+Jihoon: Do other clients also have any updates?
+
+43
+00:06:41.600 --> 00:06:59.839
+Iván | ethrex: We don't have any update for this couple of weeks, but I would like to remark that there's still a couple of PRs on the execution specs repo that are meant to fix some test cases that are still fairly hype.
+
+44
+00:07:00.130 --> 00:07:04.500
+Iván | ethrex: No rush on that, but just wanted to remark it in case it got lost.
+
+45
+00:07:08.990 --> 00:07:12.219
+Jihoon: Great, could you also share the links to the…
+
+46
+00:07:12.220 --> 00:07:12.730
+Iván | ethrex: Yeah.
+
+47
+00:07:12.730 --> 00:07:14.190
+Jihoon: PRs? Yeah, thank you.
+
+48
+00:07:19.000 --> 00:07:23.830
+Marc: On Nevermind's side, I guess not updates, but we're ready for the DevNut.
+
+49
+00:07:28.310 --> 00:07:34.250
+Fabio Di Fabio: On Beacon's side, I just rebasted everything on the main branch.
+
+50
+00:07:34.720 --> 00:07:40.509
+Fabio Di Fabio: And I discovered that we are now failing one EIP test.
+
+51
+00:07:41.920 --> 00:07:47.750
+Fabio Di Fabio: For Rizzo, that doesn't seem related to… Focil.
+
+52
+00:07:48.420 --> 00:07:56.039
+Fabio Di Fabio: I checked, and also another mind is failing the same test, seems for similar reason.
+
+53
+00:07:56.400 --> 00:08:01.549
+Fabio Di Fabio: So, I suspect Maybe the tests should be updated.
+
+54
+00:08:01.770 --> 00:08:05.619
+Fabio Di Fabio: Due to the latest Glamsterdam changes.
+
+55
+00:08:08.130 --> 00:08:12.600
+Fabio Di Fabio: I posted the name of the tester in the Discord channel.
+
+56
+00:08:16.840 --> 00:08:20.600
+Fabio Di Fabio: And, yeah, well, we are also ready for the death.
+
+57
+00:08:24.390 --> 00:08:25.480
+Jihoon: Awesome, thank you.
+
+58
+00:08:29.290 --> 00:08:36.499
+Cristian Conache: On the Lighthouse side, overall, we're not yet ready for DevNet, but we're making good progress.
+
+59
+00:08:36.770 --> 00:08:50.279
+Cristian Conache: Since the last call, we've been merging a few PRs, adjusting the hazard block production, as well as, doing some work on the EnginePI integration.
+
+60
+00:08:50.560 --> 00:09:04.779
+Cristian Conache: We're progressing, with a few more PRs, which are in the review process, and we're focusing now on, working on the gossip verification side.
+
+61
+00:09:04.790 --> 00:09:11.080
+Cristian Conache: And fork choice enforcement logic, and the bit-bits inclusivity checks.
+
+62
+00:09:11.470 --> 00:09:14.479
+Cristian Conache: And, yeah, that's, pretty much it.
+
+63
+00:09:19.100 --> 00:09:20.090
+Jihoon: Great, thank you.
+
+64
+00:09:21.110 --> 00:09:22.570
+Jihoon: Zero.
+
+65
+00:09:27.950 --> 00:09:36.630
+Pellekrab: Yeah, and then I guess on the rest side, pretty much just got added to EF Pandop, so we're up on there, pushed a few PRs to fix them.
+
+66
+00:09:36.870 --> 00:09:50.339
+Pellekrab: failing tests, and then we still have the 12 failing on the Consume RPL, but those, I believe, are all for EIP7610, which isn't slated to be included anymore, so…
+
+67
+00:09:50.460 --> 00:09:55.840
+Pellekrab: I don't know if that needs to be removed as well, but their mind's also failing those, I believe.
+
+68
+00:10:08.770 --> 00:10:12.150
+Jihoon: Great, do we have any more clients?
+
+69
+00:10:23.150 --> 00:10:25.019
+Jihoon: Seems like that's it.
+
+70
+00:10:25.300 --> 00:10:28.260
+Jihoon: Yeah, thanks for hearing update, guys.
+
+71
+00:10:32.920 --> 00:10:44.070
+Jihoon: Yeah, Taeko is not here. Sometimes we can… Finalize local definite zero.
+
+72
+00:10:44.220 --> 00:10:46.799
+Jihoon: I think we can't kick this off. I mean…
+
+73
+00:10:47.630 --> 00:10:50.290
+Jihoon: A FOCIL Devon is zero,
+
+74
+00:10:50.770 --> 00:10:54.520
+Jihoon: I still believe that our first priority is shipping to Amsterdam.
+
+75
+00:10:54.980 --> 00:10:57.780
+Jihoon: So, we don't need to rush on this, but…
+
+76
+00:10:58.070 --> 00:11:03.509
+Jihoon: If clients have some spare resources, then please feel free to work on FOCIL.
+
+77
+00:11:04.320 --> 00:11:15.659
+Jihoon: And… Before we jump into FOCIL and frames, I'd like to share a quick update on Get Enclosure-based testing.
+
+78
+00:11:16.850 --> 00:11:21.099
+Jihoon: The thing about getting collateralist was that it's not deterministic.
+
+79
+00:11:21.600 --> 00:11:26.220
+Jihoon: I brought this up in our weekly, And Jihoon pointed out that
+
+80
+00:11:26.480 --> 00:11:33.250
+Jihoon: There are also other methods that we want to test, but don't require a specific output.
+
+81
+00:11:34.510 --> 00:11:37.399
+Jihoon: EF estimate guess is a good example.
+
+82
+00:11:38.630 --> 00:11:46.380
+Jihoon: And Felix told us that we would likely end up adding a testing framework for defining post-conditions.
+
+83
+00:11:46.870 --> 00:11:50.020
+Jihoon: So that's where we are at. I'm gonna…
+
+84
+00:11:50.180 --> 00:11:54.979
+Jihoon: Keep collaborating with people on this, and share updates as we go.
+
+85
+00:11:56.990 --> 00:12:00.210
+Jihoon: Any questions or comments before we move on?
+
+86
+00:12:07.460 --> 00:12:11.100
+soispoke: Yeah, I… Yeah, I put it in my head.
+
+87
+00:12:12.860 --> 00:12:17.000
+Jihoon: Is it to my ask, what's… what's the blocker for DevNet Zero?
+
+88
+00:12:17.180 --> 00:12:23.590
+Jihoon: We had some issue between CL clients, and…
+
+89
+00:12:24.080 --> 00:12:26.990
+Jihoon: We are currently fixing it,
+
+90
+00:12:27.730 --> 00:12:35.670
+Jihoon: I think the problem, I mean, the phenomenon was that Lostar and… Beku, who are…
+
+91
+00:12:36.390 --> 00:12:38.290
+Jihoon: Making their own chains.
+
+92
+00:12:39.760 --> 00:12:47.500
+Jihoon: Once we figure that out, I think we can go ahead and try Lunch 7 at 0.
+
+93
+00:12:47.840 --> 00:12:50.209
+Jihoon: Please correct me if I'm wrong, NC.
+
+94
+00:12:56.920 --> 00:12:58.260
+NC: Yeah, I think you're right.
+
+95
+00:13:00.310 --> 00:13:02.030
+Jihoon: Yeah. Thank you.
+
+96
+00:13:03.540 --> 00:13:05.759
+Jihoon: Any other questions or comments?
+
+97
+00:13:07.270 --> 00:13:11.860
+soispoke: So we are waiting for every client to be ready before it's launched.
+
+98
+00:13:13.310 --> 00:13:15.729
+soispoke: Rather than just, like, launching it
+
+99
+00:13:16.070 --> 00:13:19.450
+soispoke: And then people join when they are ready.
+
+100
+00:13:19.450 --> 00:13:25.149
+Jihoon: No, we are not waiting for all clients. I think the minimum
+
+101
+00:13:25.590 --> 00:13:33.329
+Jihoon: bar is 2x2. We have 3 EL clients ready. Of course, we have to test it.
+
+102
+00:13:33.710 --> 00:13:46.250
+Jihoon: But I believe they are ready, and on the CL, we have Teku and Lowstar working on this, so once we have two CL clients working, then we have 2x3, so I think we are good to go.
+
+103
+00:13:48.140 --> 00:13:52.550
+Jihoon: I mean, if Lighthouse… Make a progress before then.
+
+104
+00:13:52.890 --> 00:13:57.179
+Jihoon: Of course, we can have, like, 3x3, which is great, but…
+
+105
+00:13:58.150 --> 00:14:03.389
+Jihoon: As soon as we have to CFI clients, we can go ahead and launch DevNet Zero.
+
+106
+00:14:06.480 --> 00:14:07.500
+soispoke: Nice, okay.
+
+107
+00:14:08.540 --> 00:14:09.350
+Jihoon: Cool.
+
+108
+00:14:14.380 --> 00:14:15.900
+Jihoon: Any more questions?
+
+109
+00:14:31.240 --> 00:14:36.930
+Jihoon: Otherwise, our next item is the interaction between FOCIL and frames. Tamar, you ready?
+
+110
+00:14:38.460 --> 00:14:41.089
+soispoke: Yes, yes, I'm ready.
+
+111
+00:14:41.090 --> 00:14:41.810
+Jihoon: Nice.
+
+112
+00:14:42.420 --> 00:14:52.180
+soispoke: I don't have, like, a slide, unfortunately, I don't think it would have been super, super useful for you guys, because you have a lot of context, but…
+
+113
+00:14:52.560 --> 00:14:59.320
+soispoke: Yeah, I do think that now that, you know, FOCIL and Frames are both headliners and both
+
+114
+00:14:59.530 --> 00:15:08.190
+soispoke: SFI'd, it would be very, very nice to sort of, like, start making progress on the interaction between the two.
+
+115
+00:15:08.740 --> 00:15:12.920
+soispoke: I think most of, what I…
+
+116
+00:15:13.560 --> 00:15:20.409
+soispoke: Most of what my thoughts are, are, like, in this sort of, like, informational EIP for now.
+
+117
+00:15:20.770 --> 00:15:24.490
+soispoke: So it's, EIP8369.
+
+118
+00:15:25.190 --> 00:15:44.910
+soispoke: With the title that I maybe should have changed, it's called VOPS Profiles for FOCIL Eligibility, but, like, I think the crux of the CIP is to define what the interaction should be between fossil and prime transactions, really. Like, that's… the rest is mostly…
+
+119
+00:15:44.930 --> 00:15:59.319
+soispoke: well known, like, so you have two profiles… two profiles. Profile one is, like, Fossil as we know it, with, with sort of, like, regular transactions, and then profile two is, like, friend transactions, and how to sort of, like, dig with it.
+
+120
+00:16:00.860 --> 00:16:13.060
+soispoke: And it does change, like, a ton of things, because instead of just, like, checking the notes and the balance now, all, you know, from transactions are much more expressive, and so…
+
+121
+00:16:13.160 --> 00:16:15.700
+soispoke: You need to…
+
+122
+00:16:15.970 --> 00:16:25.620
+soispoke: Yeah, sort of, like, check a lot more stuff than you need to, if you, if you have, regular transactions.
+
+123
+00:16:26.050 --> 00:16:37.340
+soispoke: And… so the whole EIP, that's why it's, like, informational, and, like, it's… it sits in a bit of a weird place for now, because it's trying to describe interactions between,
+
+124
+00:16:37.950 --> 00:16:57.750
+soispoke: You know, frame transactions and their shapes, and basically, it's all about the verify frame, and what is the load, inside the verifying frames, as it… as in, like, what state, it can read, what's the max verify guess limit, and all these things.
+
+125
+00:16:57.940 --> 00:17:05.240
+soispoke: Then, you know, FOCIL, of course, and then VUPS, which is, like.
+
+126
+00:17:05.540 --> 00:17:12.930
+soispoke: validity, only partial statelessness, and I think the easiest way to think about blaps is just, like.
+
+127
+00:17:13.300 --> 00:17:19.989
+soispoke: If we move towards a world in which we have any sort of, like, any kind of, like, partial statelessness.
+
+128
+00:17:20.170 --> 00:17:23.250
+soispoke: And, you know, some nodes can drop.
+
+129
+00:17:23.380 --> 00:17:36.620
+soispoke: most of the state and just keep the state that's needed to make sure, like, transactions are valid when you are, like, looking at them in the public mempool. Then we need to define
+
+130
+00:17:36.860 --> 00:17:45.080
+soispoke: what, should be in that state. And we need to do it now, rather than later, I think, because
+
+131
+00:17:45.380 --> 00:17:51.799
+soispoke: Applications that are building that are sort of, like, built on Ethereum now.
+
+132
+00:17:52.100 --> 00:18:07.809
+soispoke: If… the idea is, like, if they build using state that is gonna be in VOPS, it is also gonna be… it's also gonna mean their transactions, are gonna benefit from FOCIL inclusion guarantees.
+
+133
+00:18:07.870 --> 00:18:27.489
+soispoke: And so we need to give, you know, apps this sort of, like, guarantee, almost, that their transactions will be supported by FOCIL, because that's sort of, like, the minimal state we will ask Mempool nodes to hold, and that means, you know, transactions can go through the public mempool and benefit from FOCIL.
+
+134
+00:18:27.660 --> 00:18:32.360
+soispoke: And so, yeah, in the EIP, we try to define,
+
+135
+00:18:32.570 --> 00:18:36.169
+soispoke: The boundaries of that state,
+
+136
+00:18:36.980 --> 00:18:46.589
+soispoke: It also ties in the privacy EIPs we've been working on, right? Because, for example, I would really want private transactions to be,
+
+137
+00:18:46.590 --> 00:18:57.829
+soispoke: part of VOPS, and to benefit from FOCIL guarantees. So you have kid nunces in there, you have recent routines in there, so it's a very important part of the problem.
+
+138
+00:18:59.780 --> 00:19:16.560
+soispoke: And so, yeah, defining that boundary is, like, very important, and I think it needs to be, like, a collaboration between client teams, right? Like, it can't just be sort of, like, arbitrarily determined by, just, like, an informational EIP, so I would really love, like, everyone
+
+139
+00:19:16.560 --> 00:19:20.789
+soispoke: Of you guys to sort of, like, look into it if you have time, and…
+
+140
+00:19:20.790 --> 00:19:24.060
+soispoke: And tell everyone if that makes sense or not, like…
+
+141
+00:19:24.080 --> 00:19:28.720
+soispoke: You know, to include, like, these states in it, or not.
+
+142
+00:19:29.390 --> 00:19:35.880
+soispoke: So, yeah, I think the state boundary is, like, very important, because… and the trade-off here is very obvious, right? It's, like.
+
+143
+00:19:36.130 --> 00:19:43.770
+soispoke: Either include more states into WAPs, and then a broader range of transactions benefit from FOCIL,
+
+144
+00:19:44.070 --> 00:20:00.520
+soispoke: which is great, of course, but that also means more state to hold 4 nodes, right? So that's the very obvious trade-off we have to sort of, like, deal with here. And so, depending on what we want for the network, we can either, like.
+
+145
+00:20:00.970 --> 00:20:08.919
+soispoke: have a big VOPS, and then that means, you know, nodes will need to store weighted off state, but…
+
+146
+00:20:08.950 --> 00:20:25.990
+soispoke: they can probably, sort of, like, accept, like, a lot more transactions can benefit from FOCL, basically. Or you have a very small box, which is nice for… nice for decentralization, I guess, like, it's just, like, easier to run nodes, but, it means less, less transactions benefit from FOCIL.
+
+147
+00:20:26.850 --> 00:20:32.050
+soispoke: So that's one key dimension I wanted to talk about, and then…
+
+148
+00:20:32.800 --> 00:20:39.289
+soispoke: I think the second important dimension is, like, the whole mechanics of how to
+
+149
+00:20:39.650 --> 00:20:57.399
+soispoke: check, you know, how to do the FOCIL checks, basically, like, in the normal FOCIL, like a regular FOCIL, let's say, let's call it, like, you just happen the transaction at the end of the payload to… to see if it's valid, and… and here you can't really do that with SRAM transactions, so…
+
+150
+00:20:57.680 --> 00:21:17.309
+soispoke: we thought of the builder index sort of, like, mechanism, and that's, that's also something I would love to have some more feedback on, like, does it make sense? And… and I think we also need to get into the technicalities of, like, you know, how that builder index is communicated, and,
+
+151
+00:21:17.680 --> 00:21:18.650
+soispoke: what…
+
+152
+00:21:19.010 --> 00:21:30.720
+soispoke: like, yeah, is it part of, like, an existing object? Is it, like, an object on its own? And so, yeah, we'll probably need to settle on this.
+
+153
+00:21:31.020 --> 00:21:36.849
+soispoke: So I guess that's, like, the other sort of, like, important part, for me, and then…
+
+154
+00:21:37.530 --> 00:21:49.559
+soispoke: Yeah, more generally, I think, like, as a coordination objective, like, it would be really nice to settle towards, like, some kind of specs for certain frames.
+
+155
+00:21:50.150 --> 00:22:03.200
+soispoke: And then there's this sort of, like, yeah, thing we also need to settle of, like, whether that lives in existing Forsol and prime EIPs. I think it should, I think it actually should live in both.
+
+156
+00:22:03.480 --> 00:22:18.610
+soispoke: But, you know, we need, like, to… that means we need to update FOCL itself, we need to update, frame transactions, probably as well, and… and so there… there will need to be quite a lot of coordination around this interaction, and…
+
+157
+00:22:18.760 --> 00:22:28.330
+soispoke: And, I think, like, the whole… all the concepts are sort of, like, settled. Like, I don't feel like there is any sort of, like, huge questions that are, like, we haven't solved or anything.
+
+158
+00:22:28.490 --> 00:22:33.619
+soispoke: But now, you know, when we… when we go from concepts to implementations, we…
+
+159
+00:22:33.970 --> 00:22:43.899
+soispoke: we get into, like, a lot of, technical things we need to discuss and sort of, so… yeah, I want to… I would want to bring this up, basically.
+
+160
+00:22:44.370 --> 00:22:46.890
+soispoke: What more can I say?
+
+161
+00:22:49.380 --> 00:22:56.069
+soispoke: Yeah, that's most of it. I think, yeah, it would be even better if it's just, like, an open discussion as well. Like, if anyone has questions, or…
+
+162
+00:22:56.540 --> 00:23:06.350
+soispoke: I also assumed a bit of knowledge from the AIP, so maybe there was a lot of assumptions on my end, so yeah, if anyone has questions or wants to…
+
+163
+00:23:06.390 --> 00:23:17.680
+soispoke: discuss how we can sort of, like, progress, on next steps. I know some clients, including ethrex, has already sort of, like, worked on false swollen frames,
+
+164
+00:23:18.000 --> 00:23:23.689
+soispoke: So, yeah, just want to, to know what, what you guys think.
+
+165
+00:23:24.720 --> 00:23:33.220
+Justin Florentine (Besu): I got a quick question, Tama. What… what do you imagine is… Like, an upper limit.
+
+166
+00:23:33.380 --> 00:23:36.280
+Justin Florentine (Besu): For validation.
+
+167
+00:23:36.470 --> 00:23:38.260
+Justin Florentine (Besu): Invops.
+
+168
+00:23:39.360 --> 00:23:43.549
+Justin Florentine (Besu): Like, he… Can you imagine a world where, like…
+
+169
+00:23:46.950 --> 00:23:56.009
+Justin Florentine (Besu): Sorry, I'm not sure how to conclude that part of the thought, but I guess what I'm just wondering is, like, in a perfect world, you know, your VOPS profile would be maximal.
+
+170
+00:23:58.430 --> 00:24:08.290
+Justin Florentine (Besu): And… we don't want that, right? So, like, are you imagining that there's, like, an upper limit somewhere where we say, like, please don't do any more validation than this because…
+
+171
+00:24:08.570 --> 00:24:10.070
+Justin Florentine (Besu): it's excessive.
+
+172
+00:24:11.790 --> 00:24:14.190
+soispoke: So I think the limit…
+
+173
+00:24:14.710 --> 00:24:17.680
+soispoke: Is… can either be in terms of…
+
+174
+00:24:18.250 --> 00:24:31.839
+soispoke: you know, state or compute, and those are, like, two separate dimensions, I would say. Like, for the state part, like, and, like, what needs to be involved versus what needs to be out, I think it's very…
+
+175
+00:24:31.960 --> 00:24:37.569
+soispoke: It's almost arbitrary, like, it also, like, needs to sort of, like, match onto…
+
+176
+00:24:37.930 --> 00:24:48.520
+soispoke: You know, what users with computers today or, like, running nodes have in terms of storage, and what they could drop if they switch to a
+
+177
+00:24:48.600 --> 00:25:04.680
+soispoke: two verbs instead of, like, storing all state, and I guess, like, the only thing that's very obvious is, like, that gap needs to be significant, like, otherwise we can just, like, keep the whole state and we stop, caring about this. So in terms of state, I would say, like.
+
+178
+00:25:05.130 --> 00:25:19.779
+soispoke: for me, framing it as, like, the minimal amount of state needed for Mempool to validate transactions is a good proxy, like, it's a good mental model, but then, you know, what we want to accept in this,
+
+179
+00:25:20.170 --> 00:25:21.949
+soispoke: In this,
+
+180
+00:25:22.660 --> 00:25:30.400
+soispoke: in this sort of, like, minimal, verbs profile is, is up for discussion. I think it should be quite minimal, but yeah, we can…
+
+181
+00:25:30.670 --> 00:25:38.549
+soispoke: there's… there's many interpretations, and then the second dimension of the validation part is, like, the compute, right? I guess, and…
+
+182
+00:25:40.550 --> 00:25:50.710
+soispoke: And I think, yeah, it's also encapsulated in, sort of, like, all the discussions we have around the max verified gas limit for frames, how much that should be.
+
+183
+00:25:51.110 --> 00:26:09.699
+soispoke: And of course, here my take is, like, I want it to be more than 100K, because otherwise it can't, support private transactions. I think we… I think it's definitely doable, but we need benchmarks, and we haven't… we don't have this yet, so… so we…
+
+184
+00:26:12.310 --> 00:26:23.079
+Justin Florentine (Besu): Okay, so that was gonna be my next question, is then, what's the minimum? And it sounds to me like, if I'm guessing the minimum here, it's, like, signature validity, nonce placement, and…
+
+185
+00:26:24.280 --> 00:26:26.689
+Justin Florentine (Besu): Root recency.
+
+186
+00:26:28.260 --> 00:26:41.489
+soispoke: Yeah, and cadences, and, you know, we might add, like, one, two storage slots if we… or, like, two to four storage slots is what I suggested in 2vOps. But the minimum, minimum will be…
+
+187
+00:26:41.850 --> 00:26:46.280
+soispoke: well, depending on what EIPs ship, right? But, like, I think…
+
+188
+00:26:46.280 --> 00:26:46.920
+Justin Florentine (Besu): Right.
+
+189
+00:26:46.920 --> 00:26:52.290
+soispoke: Nuns, nunces, and… Yep.
+
+190
+00:26:53.080 --> 00:26:53.770
+Justin Florentine (Besu): Thanks.
+
+191
+00:27:03.300 --> 00:27:10.650
+Justin Florentine (Besu): And, Jihoon, can we just quickly review, like, FOCIL's current, validity requirements?
+
+192
+00:27:10.790 --> 00:27:14.620
+Justin Florentine (Besu): Just real quick, so like, you know, hey, somebody says, hey, you have to include this.
+
+193
+00:27:14.840 --> 00:27:25.889
+Justin Florentine (Besu): And we say, okay, great, we'll try to include it, but, like, what other validity requirements do we have with regard to, like, you know, the transaction success or anything like that? Can we just summarize that real quick?
+
+194
+00:27:28.530 --> 00:27:30.630
+Jihoon: Without friends, or with friends?
+
+195
+00:27:30.630 --> 00:27:31.840
+Justin Florentine (Besu): Haha!
+
+196
+00:27:33.700 --> 00:27:34.760
+Justin Florentine (Besu): Without.
+
+197
+00:27:35.370 --> 00:27:36.260
+Jihoon: without.
+
+198
+00:27:36.440 --> 00:27:47.790
+Jihoon: Without frames, the, the EL were gonna check whether The transaction is successfully… Decoded.
+
+199
+00:27:48.070 --> 00:27:51.279
+Jihoon: And we're gonna check if it's intrinsically valid.
+
+200
+00:27:51.420 --> 00:27:55.389
+Jihoon: And then we're gonna also check whether it has the right notes and balance.
+
+201
+00:27:55.970 --> 00:28:00.910
+Jihoon: And if there is enough gas left in the block, so on and so forth.
+
+202
+00:28:01.750 --> 00:28:09.449
+Jihoon: But if the transaction is missing, you're gonna check if the transaction can be placed at the end of the block.
+
+203
+00:28:10.210 --> 00:28:12.360
+Jihoon: And I think that's pretty much it.
+
+204
+00:28:16.080 --> 00:28:16.920
+Justin Florentine (Besu): Thank you.
+
+205
+00:28:21.800 --> 00:28:34.570
+soispoke: And so, this is basically just for people that haven't, like, really looked into it. It matches, like, the sort of, like, Profile 1, Profile 2 in the informational EIP, like, profile 1 is…
+
+206
+00:28:34.980 --> 00:28:39.999
+soispoke: profile, like, for Seoul now, and Profile 2 is, like, what do we do for Sol and Frames?
+
+207
+00:28:40.230 --> 00:28:48.110
+soispoke: And I think that's… you can really see the diff, in the IP of what would need to, sort of, like, be included in VOPS.
+
+208
+00:29:02.700 --> 00:29:08.269
+Jihoon: So we are still unsure about our… future DevNet plans?
+
+209
+00:29:08.840 --> 00:29:18.180
+Jihoon: like, whether we want to have CL and EL-only DevNets, and then go to Agora DevNet, or try…
+
+210
+00:29:18.380 --> 00:29:21.360
+Jihoon: Bonsai Frame DevNet first, and then…
+
+211
+00:29:21.800 --> 00:29:30.469
+Jihoon: have CLN EL at DevNets, and then go for Agora DevNet. We're still not sure about it, but maybe it's a good time to…
+
+212
+00:29:30.970 --> 00:29:36.189
+Jihoon: Discuss how do we want to go about this, like, figuring
+
+213
+00:29:36.490 --> 00:29:42.839
+Jihoon: out how we were gonna implement this interaction between FOCIL and frames, and…
+
+214
+00:29:47.090 --> 00:29:48.099
+Jihoon: There you go.
+
+215
+00:29:49.320 --> 00:29:59.200
+Jihoon: Breakout regarding Hagar DevNet, once we figure out frame and fossils,
+
+216
+00:30:01.650 --> 00:30:13.759
+Jihoon: I'll need to discuss this more with pandas, their preferences, as far as I know. They want to have this regular DevNet at the end of the DevNet cycle.
+
+217
+00:30:14.170 --> 00:30:18.109
+Jihoon: yeah, it's still TBD.
+
+218
+00:30:19.600 --> 00:30:27.439
+Jihoon: But… Now that ethrex, as far as I know, ethrex already have
+
+219
+00:30:28.110 --> 00:30:31.329
+Jihoon: I've also had frame dampness, so maybe…
+
+220
+00:30:31.860 --> 00:30:36.810
+Jihoon: we can learn from that effort. It'd be nice if we can have
+
+221
+00:30:37.110 --> 00:30:45.379
+Jihoon: I mean, invite ethrex or Nethermine to share some insights. Maybe we can start from there. This could be one approach.
+
+222
+00:30:48.390 --> 00:30:55.649
+soispoke: I think my preference would be to… Move… As fast as we can.
+
+223
+00:30:55.900 --> 00:31:04.980
+soispoke: To figure out the interactions between FOL and frames, because… Yeah, I think it's, like…
+
+224
+00:31:05.660 --> 00:31:12.129
+soispoke: Well, my feeling is, like, once we figure out FOCIL and frames, we can basically not touch FOCIL anymore, because…
+
+225
+00:31:12.500 --> 00:31:26.620
+soispoke: it's there, and the mechanics to support frames is there, and then the EL side can sort of, like, focus on figuring out everything that needs to be figured out with frames on the mempool side of things. And so…
+
+226
+00:31:27.030 --> 00:31:29.789
+soispoke: Yeah, for me, it does feel like…
+
+227
+00:31:30.090 --> 00:31:32.960
+soispoke: A sort of, like, early…
+
+228
+00:31:33.290 --> 00:31:37.439
+soispoke: for Solen Frames DevNet is very valuable.
+
+229
+00:31:38.020 --> 00:31:45.979
+soispoke: Also, it makes sense, like, there are the two headliners that need to… they really need to sort of, like.
+
+230
+00:31:46.340 --> 00:31:49.560
+soispoke: Come together, and those are, like.
+
+231
+00:31:49.710 --> 00:31:58.069
+soispoke: I guess, you know, if you see headliners as, like, okay, yeah, big features, but also, like, features without which, like, the fork isn't shipping.
+
+232
+00:31:58.180 --> 00:32:14.449
+soispoke: I think it's… for me, it makes sense to sort of, like, start early. And we have, you know, progress from both ethrex and Netherland on this, so I would… I would maybe favor, like, an approach that sort of, like, moves quite fast instead of, like,
+
+233
+00:32:14.800 --> 00:32:21.049
+soispoke: Not prioritizing it.
+
+234
+00:32:24.110 --> 00:32:32.309
+Jihoon: Can anyone help us to understand where we are at, what we've learned from FOCIL and frame dev nets, and what we are trying to do next?
+
+235
+00:32:41.470 --> 00:32:48.520
+Marc: At the moment, Ethrex and NetherMinder are working together on Frames DevNet.
+
+236
+00:32:48.730 --> 00:32:54.240
+Marc: But I haven't tested out Interop with Fossil and frames enabled.
+
+237
+00:32:54.690 --> 00:32:56.870
+Marc: But, yeah, I can try that out.
+
+238
+00:33:14.360 --> 00:33:21.770
+soispoke: I think… okay, one other question I had is, I think…
+
+239
+00:33:22.340 --> 00:33:27.349
+soispoke: ethrex was working on specs for Solen Frames,
+
+240
+00:33:28.250 --> 00:33:35.240
+soispoke: But I'm not sure that I saw it, and I… we also had a call with, you know.
+
+241
+00:33:35.560 --> 00:33:41.710
+soispoke: Jihoon and Steel, and we said it would be important to start, like, with the duck.
+
+242
+00:33:41.860 --> 00:33:56.870
+soispoke: So… and now I know, like, that, you know, Nethermind has also sort of, like, worked on it, like, a good start will, you know, the DevNet will be nice, but, like, a good start will also be to have, like, a common doc that we can sort of, like, all agree on.
+
+243
+00:33:56.970 --> 00:34:04.669
+soispoke: What, like… To talk about, the mechanism itself.
+
+244
+00:34:04.850 --> 00:34:20.289
+soispoke: And see if that, like, everyone sort of, like, agrees on the specs. I think that would be, like, a really good start as well. Like, doesn't have to, you know, it can be in parallel, but, like, it does feel like an important thing we need to do.
+
+245
+00:34:20.469 --> 00:34:33.299
+soispoke: Because that would also sort of, like, answer the question of, like, you know, where do these changes live? Do they… do they live in FOCIL and frames, and where, and how, and yeah, I feel like that's important.
+
+246
+00:34:37.130 --> 00:34:43.010
+Jihoon: Great, like, having a PR will be definitely a huge win for everyone.
+
+247
+00:34:43.690 --> 00:34:47.800
+Jihoon: Does the EL use some kind of witness for…
+
+248
+00:34:48.300 --> 00:34:55.770
+Jihoon: omission validation, like the builder tried to place this IL frame transaction at this index.
+
+249
+00:35:02.070 --> 00:35:03.800
+Jihoon: And if so, I wonder…
+
+250
+00:35:07.760 --> 00:35:10.830
+Jihoon: How does EL expect a witness look like?
+
+251
+00:35:16.280 --> 00:35:18.380
+soispoke: You mean the builder index?
+
+252
+00:35:20.950 --> 00:35:31.930
+Jihoon: I mean, the witness for… Transaction… commission?
+
+253
+00:35:32.410 --> 00:35:39.690
+Jihoon: Like, you can provide the witness that you try to include this frames, a certain index.
+
+254
+00:35:43.820 --> 00:35:47.840
+Jihoon: Like, Transaction Hash and Transaction Index, for example.
+
+255
+00:35:48.510 --> 00:35:52.310
+soispoke: Yes. Yeah, so the builder… yeah, that's what I call the builder index, but yeah.
+
+256
+00:35:52.770 --> 00:36:07.989
+soispoke: Yeah, I don't know how… how you guys have thought about this. I think it would be good to ask… ask Nethermind and ethrex, like, is it now a separate object that the builder sends, along with its payload, or does… where does it live?
+
+257
+00:36:20.370 --> 00:36:28.780
+soispoke: if you guys need to also check back on the code or whatever, I think it's complete. We can circle back on this.
+
+258
+00:36:29.730 --> 00:36:33.139
+Jihoon: Yeah. Another way to put this is, how do you…
+
+259
+00:36:34.420 --> 00:36:39.440
+Jihoon: validate the omission of some I.O. frame transaction.
+
+260
+00:36:39.800 --> 00:36:45.600
+Jihoon: Because on the sales side,
+
+261
+00:36:45.820 --> 00:36:48.470
+Jihoon: I think we need to specify this.
+
+262
+00:36:48.700 --> 00:36:56.009
+Jihoon: somehow… But I'm not sure if you wanna have it on-chain?
+
+263
+00:36:57.200 --> 00:37:00.939
+Jihoon: But also, Don't have a good idea.
+
+264
+00:37:02.730 --> 00:37:05.849
+Jihoon: We're not putting it on-chain, so… yeah.
+
+265
+00:37:12.220 --> 00:37:18.219
+soispoke: I mean, I don't think it needs to be on-chain, but, cause there, there is no…
+
+266
+00:37:19.040 --> 00:37:23.440
+soispoke: It just needs to be available, but I don't think we need to keep records of…
+
+267
+00:37:24.060 --> 00:37:29.989
+soispoke: this on-chain. But yeah, that's, like, one of the key questions to… to sort out
+
+268
+00:37:30.870 --> 00:37:34.340
+soispoke: And we also need to rethink about propagation, right? Like…
+
+269
+00:37:35.930 --> 00:37:51.769
+soispoke: Just, like, in terms of, like, do we want to propagate this, sort of, like, another small object, or… you know, it's gonna be very small, so it can just, like, be fit with, like, an existing one. All these queues are, like, more implementation details, but it would be sort of, like, nice to align on this.
+
+270
+00:37:53.390 --> 00:38:00.399
+Jihoon: Yeah, to clarify, The builders will now need to provide this witness.
+
+271
+00:38:00.940 --> 00:38:10.349
+Jihoon: It could be in B2B objects, or it could be in envelope, but if you put it in envelope, then it will gonna stay there for at least, like, 3,000…
+
+272
+00:38:10.460 --> 00:38:14.179
+Jihoon: 33,024 epochs or something at minimum.
+
+273
+00:38:15.240 --> 00:38:16.930
+Jihoon: Is it…
+
+274
+00:38:17.480 --> 00:38:25.140
+Jihoon: Is it a blocker? Then maybe not, because it is ephemeral at the end of the day, after, like, a few months, but still…
+
+275
+00:38:26.210 --> 00:38:29.259
+Jihoon: I wonder if there's a better idea?
+
+276
+00:38:30.480 --> 00:38:35.630
+Jihoon: So, yeah, I just wanted to ask, like, how this is being handled.
+
+277
+00:38:35.770 --> 00:38:37.170
+Jihoon: In a prototype.
+
+278
+00:38:42.360 --> 00:38:52.590
+soispoke: Yeah, I mean, if… if, you know, if you guys also, like, need to check back the implementation, maybe that's just a good, good thing to follow up in the, in the next,
+
+279
+00:38:52.900 --> 00:38:57.470
+soispoke: Breakout room, if there is enough time for it.
+
+280
+00:38:58.180 --> 00:39:00.229
+soispoke: You know, it would be nice to sort of, like.
+
+281
+00:39:00.820 --> 00:39:06.580
+soispoke: Come back to it also, and, and be, and, and sort of, like, see,
+
+282
+00:39:07.220 --> 00:39:13.419
+soispoke: See how it's been implemented, and if it just, like, makes sense as a first draft, and maybe…
+
+283
+00:39:13.920 --> 00:39:18.759
+soispoke: Try to align from there, like, we don't necessarily need to have, like, exact answers now.
+
+284
+00:39:23.520 --> 00:39:25.300
+Jihoon: Yep, we don't need to settle in.
+
+285
+00:39:26.190 --> 00:39:30.309
+Jihoon: Can we, like, list up what we need to do for…
+
+286
+00:39:31.030 --> 00:39:39.769
+Jihoon: the upcoming month or two, like, I think we need… we were gonna work on spec PR in both EL and CL.
+
+287
+00:39:39.900 --> 00:39:48.910
+Jihoon: I think we are also gonna do some benchmarks regarding verified MEX gas, Sorry, Max Verify Gas.
+
+288
+00:39:49.420 --> 00:39:52.959
+Jihoon: And did I miss anything?
+
+289
+00:40:02.820 --> 00:40:12.980
+soispoke: No, I think it's good. But, like, the max verified gas benchmark are also… I think, like, ultimately we'll need to get it from all clients, no? Because I feel like it's…
+
+290
+00:40:13.990 --> 00:40:19.979
+soispoke: the resources it consumes and everything, like, is gonna be probably client-dependent.
+
+291
+00:40:20.360 --> 00:40:28.220
+soispoke: Yeah, I don't know if you know, Marc, like, I think you guys have been doing some benchmarking already, right?
+
+292
+00:40:28.990 --> 00:40:30.889
+soispoke: Is that true?
+
+293
+00:40:31.040 --> 00:40:34.619
+Marc: Yeah, we've been developing the benchmarks,
+
+294
+00:40:34.940 --> 00:40:37.980
+Marc: I'm not sure about the, like, concrete numbers yet.
+
+295
+00:40:38.660 --> 00:40:39.430
+soispoke: Okay, okay.
+
+296
+00:40:41.420 --> 00:40:46.610
+Jihoon: Do we need… Any other benchmarks other than MEX verified DAS?
+
+297
+00:40:48.060 --> 00:40:51.360
+soispoke: I think also, like, the max verified gas is, like, not…
+
+298
+00:40:51.940 --> 00:40:55.650
+soispoke: you know, FOCIL-specific. It's very much…
+
+299
+00:40:56.700 --> 00:41:04.369
+soispoke: I mean, it ties into the whole thing, I guess, so… maybe. But, like, it, we need it anyways for frames.
+
+300
+00:41:05.130 --> 00:41:07.380
+soispoke: On its own, so…
+
+301
+00:41:08.400 --> 00:41:15.389
+soispoke: So, so even that benchmark is maybe just, like, can be separated a bit from
+
+302
+00:41:15.670 --> 00:41:17.309
+soispoke: The call for solar.
+
+303
+00:41:19.470 --> 00:41:20.190
+Jihoon: I see.
+
+304
+00:41:25.650 --> 00:41:30.390
+Jihoon: Ivan, do we have any expected timeline for the PR?
+
+305
+00:41:36.110 --> 00:41:40.440
+Iván | ethrex: I'll try to have it, this week.
+
+306
+00:41:40.670 --> 00:41:44.500
+Iván | ethrex: If I get some delay, maybe next week?
+
+307
+00:41:44.730 --> 00:41:50.400
+Iván | ethrex: But… I'll try to have something before next breakout, for sure.
+
+308
+00:41:51.690 --> 00:41:52.320
+Jihoon: Right.
+
+309
+00:41:53.680 --> 00:42:05.510
+Jihoon: Right, I think… We can say that we can discuss the spec changes, and…
+
+310
+00:42:06.450 --> 00:42:10.870
+Jihoon: hopefully the benchmarks for next verified DAS in the next breakout call.
+
+311
+00:42:12.630 --> 00:42:21.619
+Jihoon: Just trying to set up some kind of structural approach to… Mitigate this issue.
+
+312
+00:42:28.270 --> 00:42:31.729
+soispoke: Yeah, I think that makes sense. Again, I do…
+
+313
+00:42:32.480 --> 00:42:43.519
+soispoke: Yeah, I mean, we can discuss it as well here, I think it's completely fine to… it's gonna be redundant anyways, like, I feel like that conversation will take quite a lot of space at some point, but
+
+314
+00:42:43.670 --> 00:42:46.730
+soispoke: I'm talking about the max roof, I guess, but,
+
+315
+00:42:47.370 --> 00:42:54.599
+soispoke: Yeah, that's not specific to… to FOCI. I feel like that… that will also sort of, like, happen in the frame Transactions Breakout.
+
+316
+00:42:54.720 --> 00:42:58.480
+soispoke: What… what would have been very nice to discuss here is this,
+
+317
+00:42:58.990 --> 00:43:09.090
+soispoke: this, Forestolen Frames spec. I feel like, that's, like, the… definitely the good group of people to discuss it with and to start efforts there.
+
+318
+00:43:09.180 --> 00:43:27.619
+soispoke: And, yeah. I mean, that also maybe tells us that at some point, not now, I feel like that's way too early, but at some point, you know, bridging the gap between the FOCIL people and the frames group will be also very good and interesting.
+
+319
+00:43:28.410 --> 00:43:32.970
+soispoke: But but yeah, for now, keeping it separate is really good.
+
+320
+00:43:39.020 --> 00:43:43.269
+Jihoon: Yeah, sounds great. So we can…
+
+321
+00:43:44.350 --> 00:43:47.300
+Jihoon: Take a two-track approach, like, we can still…
+
+322
+00:43:48.090 --> 00:43:55.330
+Jihoon: kept working on Fossil Devon at Zero, and at the same time, we can also…
+
+323
+00:43:57.440 --> 00:43:59.669
+Jihoon: Figure out how there's…
+
+324
+00:44:00.060 --> 00:44:08.280
+Jihoon: Interaction will gonna affect FOCIL and frame specs, and discuss the interaction in the next breakout.
+
+325
+00:44:11.440 --> 00:44:11.970
+soispoke: Yep.
+
+326
+00:44:11.970 --> 00:44:12.360
+Jihoon: Cool.
+
+327
+00:44:12.360 --> 00:44:16.150
+soispoke: I think, a prompt for people is to…
+
+328
+00:44:16.890 --> 00:44:21.439
+soispoke: Which is, like, an exercise I've been trying to do a lot, but, like, yeah, I think it's a good…
+
+329
+00:44:21.680 --> 00:44:28.280
+soispoke: Good prompt is… To think about, like, what transactions do I absolutely want?
+
+330
+00:44:28.860 --> 00:44:33.049
+soispoke: To benefit from FOCIL?
+
+331
+00:44:33.170 --> 00:44:36.550
+soispoke: Like, what are the sort of, like, use cases
+
+332
+00:44:37.200 --> 00:44:44.959
+soispoke: I really care about when it comes to, sort of, like, being able to… to get these extremely good inclusion guarantees.
+
+333
+00:44:47.190 --> 00:44:57.890
+soispoke: And yeah, I think that's important, because if you think back from use cases, then, you know, that tells you basically what you would need to include in 2vOps.
+
+334
+00:44:58.320 --> 00:45:03.220
+soispoke: And I think there, you know, I've obviously thought about,
+
+335
+00:45:03.770 --> 00:45:09.770
+soispoke: private transactions a lot, so it's why I want recent roots and kidnapses in two verbs.
+
+336
+00:45:09.930 --> 00:45:19.029
+soispoke: I feel like it would be crazy not to have good inclusion guarantees for privacy. It's a really good use case, but…
+
+337
+00:45:19.330 --> 00:45:25.829
+soispoke: I feel like, you know, there is potentially a lot of other use cases that we can discuss as well, and so…
+
+338
+00:45:27.060 --> 00:45:29.479
+soispoke: Thinking about what use cases
+
+339
+00:45:29.660 --> 00:45:40.620
+soispoke: come to mind, and how you would want… like, why you would want them to be supported by FOCIL, like, I think makes a lot of sense, and maybe that can drive discussions into
+
+340
+00:45:40.620 --> 00:45:55.620
+soispoke: should we just, like, add this into WAPS, and that actually sort of, like, unlocks a bunch of stuff that, I don't know, individuals or institutions or whoever else, like, really wants to do or, like, really cares about. So, yeah, if anyone
+
+341
+00:45:55.890 --> 00:46:02.550
+soispoke: things about new use cases that should be supported, I think. It would be nice to discuss in the next…
+
+342
+00:46:05.060 --> 00:46:08.970
+Jihoon: Awesome, we can also talk about potential use cases.
+
+343
+00:46:10.570 --> 00:46:15.729
+Jihoon: Mark and Ivan, could you guys also share links to your work so others can also take a look?
+
+344
+00:46:19.760 --> 00:46:21.679
+Marc: Sure, I can share it in the Discord.
+
+345
+00:46:22.670 --> 00:46:23.389
+Jihoon: Thank you.
+
+346
+00:46:32.980 --> 00:46:39.789
+Jihoon: Right, before we wrap up this call, does anyone have any more questions or comments?
+
+347
+00:46:58.800 --> 00:47:10.329
+Jihoon: Alright, to summarize… We can keep working on FOCIL definite zero and specs for FOCILN frames.
+
+348
+00:47:11.020 --> 00:47:15.529
+Jihoon: And… we can discuss the spec changes.
+
+349
+00:47:16.290 --> 00:47:23.039
+Jihoon: For FOCIL and Frame, and maybe benchmarks, and some potential use cases in the next breakout call.
+
+350
+00:47:24.430 --> 00:47:29.960
+Jihoon: If anyone has anything to discuss, please use the Discord channel, and…
+
+351
+00:47:30.640 --> 00:47:36.890
+Jihoon: Yeah, thanks for joining, guys. I think we can go ahead and wrap up this call. See you in two weeks. Thank you.
+
+352
+00:47:37.640 --> 00:47:38.590
+soispoke: Thank you.
+
+353
+00:47:38.800 --> 00:47:39.490
+Justin Traglia: Hi, everyone.
+
+354
+00:47:39.710 --> 00:47:40.740
+Marc: is, but…
+
+355
+00:47:40.960 --> 00:47:41.920
+Fabio Di Fabio: Mother.
+
