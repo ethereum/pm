@@ -104,3 +104,77 @@ def test_update_recurring_event_restores_cancelled_instance_without_rebasing_ser
         "id": "series",
         "action_detail": "cancelled_instance_restored",
     }
+
+
+class _CadenceChangeEvents:
+    """Weekly series that started 2026-09-01, with instances on every Tuesday since."""
+
+    def __init__(self):
+        self.patch_calls = []
+        self.insert_calls = []
+
+    def get(self, **kwargs):
+        return _CalendarCall({
+            "id": kwargs["eventId"],
+            "recurrence": ["RRULE:FREQ=WEEKLY"],
+            "start": {"dateTime": "2026-09-01T14:00:00Z", "timeZone": "UTC"},
+        })
+
+    def patch(self, **kwargs):
+        self.patch_calls.append(kwargs)
+        return _CalendarCall({**kwargs["body"], "id": kwargs["eventId"]})
+
+    def insert(self, **kwargs):
+        self.insert_calls.append(kwargs)
+        return _CalendarCall({
+            **kwargs["body"],
+            "id": "new_series",
+            "htmlLink": "https://calendar.google.com/event?eid=new_series",
+        })
+
+
+class _CadenceChangeService:
+    def __init__(self):
+        self.events_resource = _CadenceChangeEvents()
+
+    def events(self):
+        return self.events_resource
+
+
+def test_update_recurring_event_switches_cadence_keeping_past_instances():
+    service = _CadenceChangeService()
+    start_dt = datetime(2026, 9, 22, 14, 0, tzinfo=timezone.utc)
+    now = datetime(2026, 9, 10, 12, 0, tzinfo=timezone.utc)
+
+    with patch("modules.gcal.get_calendar_service", return_value=service), \
+            patch("modules.gcal._utcnow", return_value=now):
+        result = update_recurring_event(
+            event_id="series",
+            summary="Frame Transaction Breakout",
+            start_dt=start_dt,
+            duration_minutes=60,
+            calendar_id="calendar",
+            occurrence_rate="bi-weekly",
+            description="Issue: https://github.com/ethereum/pm/issues/2221",
+        )
+
+    events = service.events_resource
+
+    # Old weekly series is capped at "now", so Sep 1 and Sep 8 survive but Sep 15 does not.
+    assert len(events.patch_calls) == 1
+    assert events.patch_calls[0]["eventId"] == "series"
+    assert events.patch_calls[0]["body"] == {
+        "recurrence": ["RRULE:FREQ=WEEKLY;UNTIL=20260910T120000Z"]
+    }
+
+    # A bi-weekly series takes over from the target date.
+    assert len(events.insert_calls) == 1
+    new_body = events.insert_calls[0]["body"]
+    assert new_body["recurrence"] == ["RRULE:FREQ=WEEKLY;INTERVAL=2"]
+    assert new_body["start"]["dateTime"] == "2026-09-22T14:00:00+00:00"
+
+    assert result == {
+        "htmlLink": "https://calendar.google.com/event?eid=new_series",
+        "id": "new_series",
+        "action_detail": "cadence_changed_series_split",
+    }

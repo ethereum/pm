@@ -2,28 +2,14 @@
 """Tests for gcal calendar link builder functions."""
 
 import unittest
-import sys
 import os
-from unittest.mock import MagicMock
 from unittest.mock import patch
 from urllib.parse import urlparse, parse_qs
 
-# Mock heavy dependencies before importing gcal
-_gcal_mock_keys = (
-    'google.oauth2.service_account',
-    'google.oauth2',
-    'googleapiclient.discovery',
-    'googleapiclient',
-    'pytz',
-)
-for _key in _gcal_mock_keys:
-    sys.modules[_key] = MagicMock()
-
+# google-api-python-client and pytz are declared dependencies, so gcal imports directly.
+# Stubbing them in sys.modules would leak: modules.gcal keeps the stub it imported even
+# after sys.modules is restored, breaking every later test that hits those libraries.
 from modules.gcal import build_calendar_view_link, build_calendar_add_link, PROTOCOL_CALENDAR_ID
-
-# Do not leave mocked google/pytz in sys.modules: other test modules import real libraries.
-for _key in _gcal_mock_keys:
-    sys.modules.pop(_key, None)
 
 
 class TestBuildCalendarViewLink(unittest.TestCase):

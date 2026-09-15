@@ -327,9 +327,130 @@ def update_event(event_id: str, summary: str, start_dt, duration_minutes: int, c
         print(f"::error::{error_msg}")
         raise
 
+def _utcnow():
+    """Current UTC time, as a seam for tests."""
+    return datetime.now(pytz.utc)
+
+
+def _build_recurrence_rules(occurrence_rate: str, start_dt: datetime):
+    """Build the Google Calendar RRULEs for an occurrence rate, or None if unsupported.
+
+    Monthly recurrence keeps the same weekday-of-month as start_dt (e.g. the second
+    Wednesday), using -1 when start_dt is the last such weekday of its month.
+    """
+    if occurrence_rate == "weekly":
+        return ['RRULE:FREQ=WEEKLY']
+    if occurrence_rate == "bi-weekly":
+        return ['RRULE:FREQ=WEEKLY;INTERVAL=2']
+    if occurrence_rate == "monthly":
+        week_of_month = (start_dt.day - 1) // 7 + 1
+        days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
+        if start_dt.day + 7 > days_in_month:
+            week_of_month = -1
+        day_shortname = {1: "MO", 2: "TU", 3: "WE", 4: "TH", 5: "FR", 6: "SA", 7: "SU"}[start_dt.isoweekday()]
+        return [f'RRULE:FREQ=MONTHLY;BYDAY={week_of_month}{day_shortname}']
+    return None
+
+
+def _rrule_cadence(rule: str):
+    """Extract (FREQ, INTERVAL) from an RRULE line. A missing INTERVAL means 1."""
+    parts = dict(p.split('=', 1) for p in rule.split(':', 1)[-1].split(';') if '=' in p)
+    return parts.get('FREQ'), int(parts.get('INTERVAL', 1))
+
+
+def _recurrence_cadence_matches(recurrence_rules, occurrence_rate: str, start_dt: datetime) -> bool:
+    """Whether a series' RRULE frequency/interval already matches occurrence_rate.
+
+    BYDAY is deliberately ignored: a monthly call landing on a different week of the
+    month is a schedule shift, not a cadence change.
+    """
+    desired = _build_recurrence_rules(occurrence_rate, start_dt)
+    if not desired:
+        print(f"[WARN] Unsupported occurrence_rate: {occurrence_rate}, leaving recurrence unchanged")
+        return True
+
+    existing = next((rule for rule in recurrence_rules if rule.startswith('RRULE')), None)
+    if not existing:
+        return True
+
+    return _rrule_cadence(existing) == _rrule_cadence(desired[0])
+
+
+def _apply_new_cadence(service, existing_event, event_id: str, summary: str, start_dt, duration_minutes: int,
+                       calendar_id: str, occurrence_rate: str, description: str):
+    """Move a series onto a new recurrence cadence, keeping instances that already happened.
+
+    The existing series is capped with UNTIL at the cutoff (now, or the target date if
+    that is sooner) and a fresh series is created at the target date. Capping drops the
+    old cadence's remaining future instances, including any that fall between the cutoff
+    and the target date. When the series has no instances before the cutoff there is
+    nothing to preserve, so it is rebased in place and keeps its event id.
+    """
+    cutoff = min(_utcnow(), start_dt)
+    master_start = parse_iso_datetime(existing_event.get('start', {}).get('dateTime'))
+    if master_start and not master_start.tzinfo:
+        master_start = master_start.replace(tzinfo=pytz.utc)
+
+    end_dt = start_dt + timedelta(minutes=duration_minutes)
+    new_recurrence = _build_recurrence_rules(occurrence_rate, start_dt)
+
+    if master_start is None or master_start >= cutoff:
+        print(f"[DEBUG] No past instances to preserve, rebasing series onto {start_dt.date()} as {occurrence_rate}")
+        event = service.events().update(
+            calendarId=calendar_id,
+            eventId=event_id,
+            body={
+                'summary': summary,
+                'description': description,
+                'start': {'dateTime': start_dt.isoformat(), 'timeZone': 'UTC'},
+                'end': {'dateTime': end_dt.isoformat(), 'timeZone': 'UTC'},
+                'recurrence': new_recurrence,
+            }
+        ).execute()
+
+        return {
+            'htmlLink': event.get('htmlLink'),
+            'id': event_id,
+            'action_detail': 'pattern_updated'
+        }
+
+    until_str = cutoff.astimezone(pytz.utc).strftime('%Y%m%dT%H%M%SZ')
+    capped_recurrence = [
+        re.sub(r';(UNTIL|COUNT)=[^;]*', '', rule) + f';UNTIL={until_str}' if rule.startswith('RRULE') else rule
+        for rule in existing_event.get('recurrence', [])
+    ]
+
+    print(f"[DEBUG] Capping old series {event_id} at {until_str} to preserve past instances")
+    service.events().patch(
+        calendarId=calendar_id,
+        eventId=event_id,
+        body={'recurrence': capped_recurrence}
+    ).execute()
+
+    new_event = create_recurring_event(
+        summary=summary,
+        start_dt=start_dt,
+        duration_minutes=duration_minutes,
+        calendar_id=calendar_id,
+        occurrence_rate=occurrence_rate,
+        description=description
+    )
+    print(f"[DEBUG] Started {occurrence_rate} series {new_event.get('id')} on {start_dt.date()}")
+
+    return {
+        'htmlLink': new_event.get('htmlLink'),
+        'id': new_event.get('id'),
+        'action_detail': 'cadence_changed_series_split'
+    }
+
+
 def update_recurring_event(event_id: str, summary: str, start_dt, duration_minutes: int, calendar_id: str, occurrence_rate: str, description=""):
     """
     Update an existing recurring Google Calendar event, preserving recurrence settings
+
+    The series' recurrence cadence is reconciled with occurrence_rate first, because a
+    cadence change is invisible to the per-instance logic below: every bi-weekly date is
+    also a weekly date, so the target instance is found and the stale RRULE would survive.
 
     Strategy for handling missing instances:
     - First check whether the target instance exists but is cancelled. Google Calendar hides
@@ -404,6 +525,22 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
             error_msg = f"Failed to find existing event: {str(e)}"
             print(f"[DEBUG] {error_msg}")
             raise ValueError(error_msg)
+
+        recurrence_rules = existing_event.get('recurrence', [])
+
+        if not _recurrence_cadence_matches(recurrence_rules, occurrence_rate, start_dt):
+            print(f"[DEBUG] Series recurrence {recurrence_rules} no longer matches {occurrence_rate}")
+            return _apply_new_cadence(
+                service=service,
+                existing_event=existing_event,
+                event_id=event_id,
+                summary=summary,
+                start_dt=start_dt,
+                duration_minutes=duration_minutes,
+                calendar_id=calendar_id,
+                occurrence_rate=occurrence_rate,
+                description=description
+            )
 
         # Get instances of the recurring event around the target date
         # Must use explicit timeMin/timeMax - without them, the API may exclude
@@ -537,21 +674,10 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                 print(f"[DEBUG]   {i+1}. {future_date}")
 
             # Check if the recurrence has ended before our target date
-            recurrence_rules = existing_event.get('recurrence', [])
+            # (the cadence itself already matches; that is reconciled before the instance lookup)
             recurrence_ended = False
-            needs_pattern_update = False
 
-            # Check if the occurrence rate has changed (e.g., bi-weekly to weekly)
             for rule in recurrence_rules:
-                if 'FREQ=WEEKLY' in rule:
-                    if 'INTERVAL=2' in rule:
-                        if occurrence_rate == "weekly":
-                            needs_pattern_update = True
-                            print(f"[DEBUG] Need to update recurrence from bi-weekly to weekly")
-                    elif occurrence_rate == "bi-weekly":
-                        needs_pattern_update = True
-                        print(f"[DEBUG] Need to update recurrence from weekly to bi-weekly")
-
                 if 'UNTIL=' in rule:
                     # Extract the UNTIL date
                     until_match = re.search(r'UNTIL=(\d{8}T\d{6}Z?)', rule)
@@ -569,48 +695,20 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                             print(f"[DEBUG] Recurrence ended on {until_dt.date()}, before target date {start_dt.date()}")
                             break
 
-            # If recurrence pattern needs updating
-            if needs_pattern_update or recurrence_ended:
-                print(f"[DEBUG] Updating recurrence pattern to match {occurrence_rate} schedule")
+            # If the recurrence ended before the target date, restart it there
+            if recurrence_ended:
+                print(f"[DEBUG] Restarting {occurrence_rate} recurrence from {start_dt.date()}")
 
-                # Generate new recurrence rules based on occurrence_rate
-                if occurrence_rate == "weekly":
-                    new_recurrence = ['RRULE:FREQ=WEEKLY']
-                elif occurrence_rate == "bi-weekly":
-                    new_recurrence = ['RRULE:FREQ=WEEKLY;INTERVAL=2']
-                elif occurrence_rate == "monthly":
-                    # For monthly recurrence, we want to maintain the same day of the week
-                    day_of_week = start_dt.isoweekday()
-                    day_of_month = start_dt.day
-                    week_of_month = (day_of_month - 1) // 7 + 1
+                new_recurrence = _build_recurrence_rules(occurrence_rate, start_dt) or recurrence_rules
 
-                    # Check if this is the last occurrence of this weekday in the month
-                    days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
-                    if day_of_month + 7 > days_in_month:
-                        week_of_month = -1
-
-                    day_map = {1: "MO", 2: "TU", 3: "WE", 4: "TH", 5: "FR", 6: "SA", 7: "SU"}
-                    day_shortname = day_map[day_of_week]
-                    byday = f"{week_of_month}{day_shortname}"
-                    new_recurrence = [f'RRULE:FREQ=MONTHLY;BYDAY={byday}']
-                else:
-                    # Keep existing recurrence if unsupported
-                    new_recurrence = recurrence_rules
-                    print(f"[WARN] Unsupported occurrence_rate: {occurrence_rate}, keeping existing recurrence")
-
-                # If recurrence ended, extend the UNTIL date
-                if recurrence_ended:
-                    new_until = start_dt + timedelta(days=180)
-                    new_until_str = new_until.strftime('%Y%m%dT%H%M%SZ')
-
-                    # Add UNTIL to the new recurrence
-                    updated_recurrence = []
-                    for rule in new_recurrence:
-                        if 'RRULE:' in rule:
-                            rule = rule + f';UNTIL={new_until_str}'
-                        updated_recurrence.append(rule)
-                    new_recurrence = updated_recurrence
-                    print(f"[DEBUG] Extended recurrence until {new_until.date()}")
+                # Extend the UNTIL date past the target date
+                new_until = start_dt + timedelta(days=180)
+                new_until_str = new_until.strftime('%Y%m%dT%H%M%SZ')
+                new_recurrence = [
+                    re.sub(r';UNTIL=[^;]*', '', rule) + f';UNTIL={new_until_str}' if rule.startswith('RRULE') else rule
+                    for rule in new_recurrence
+                ]
+                print(f"[DEBUG] Extended recurrence until {new_until.date()}")
 
                 print(f"[DEBUG] New recurrence rules: {new_recurrence}")
 
@@ -640,7 +738,7 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
                 return {
                     'htmlLink': event.get('htmlLink'),
                     'id': event_id,
-                    'action_detail': 'pattern_updated' if needs_pattern_update else 'recurrence_extended'
+                    'action_detail': 'recurrence_extended'
                 }
             else:
                 # No matching instance found - check if we should create a one-time event instead of shifting
@@ -859,45 +957,10 @@ def create_recurring_event(summary: str, start_dt, duration_minutes: int, calend
     end_dt = start_dt + timedelta(minutes=duration_minutes)
 
     # Set up recurrence rule
-    if occurrence_rate == "weekly":
-        recurrence = ['RRULE:FREQ=WEEKLY']
-    elif occurrence_rate == "bi-weekly":
-        recurrence = ['RRULE:FREQ=WEEKLY;INTERVAL=2']
-    elif occurrence_rate == "monthly":
-        # For monthly recurrence, we want to maintain the same day of the week
-        # (e.g., the second Wednesday of each month)
-
-        # Get the day of the week (1=Monday, 7=Sunday in iCalendar format)
-        day_of_week = start_dt.isoweekday()
-
-        # Calculate which week of the month this day falls on (1-based)
-        day_of_month = start_dt.day
-        week_of_month = (day_of_month - 1) // 7 + 1
-
-        # Check if this is the last occurrence of this weekday in the month
-        days_in_month = calendar.monthrange(start_dt.year, start_dt.month)[1]
-        if day_of_month + 7 > days_in_month:
-            # This is the last occurrence of this weekday in the month
-            # Use -1 to indicate the last occurrence
-            week_of_month = -1
-
-        # Format for iCalendar:
-        # FREQ=MONTHLY;BYDAY={week_of_month}{day_of_week_shortname}
-        # Week of month is numeric (1, 2, 3, 4 or -1 for last)
-        # Day of week shortname is MO, TU, WE, TH, FR, SA, SU
-
-        # Map day of week to shortname
-        day_map = {1: "MO", 2: "TU", 3: "WE", 4: "TH", 5: "FR", 6: "SA", 7: "SU"}
-        day_shortname = day_map[day_of_week]
-
-        # Create the BYDAY value
-        byday = f"{week_of_month}{day_shortname}"
-
-        recurrence = [f'RRULE:FREQ=MONTHLY;BYDAY={byday}']
-
-        print(f"[DEBUG] Setting up monthly calendar recurrence on the {week_of_month if week_of_month != -1 else 'last'} {day_shortname} of each month")
-    else:
+    recurrence = _build_recurrence_rules(occurrence_rate, start_dt)
+    if not recurrence:
         raise ValueError(f"Unsupported occurrence rate: {occurrence_rate}")
+    print(f"[DEBUG] Setting up {occurrence_rate} calendar recurrence: {recurrence}")
 
     event_body = {
         'summary': summary,
