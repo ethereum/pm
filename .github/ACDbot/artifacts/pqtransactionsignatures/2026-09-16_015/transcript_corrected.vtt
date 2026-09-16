@@ -1,0 +1,1482 @@
+WEBVTT
+
+1
+00:00:20.350 --> 00:00:21.449
+Antonio Sanso: Hi, Matteo?
+
+2
+00:00:24.320 --> 00:00:25.550
+Matteo Vena | Riva Labs: Hey, Antonio.
+
+3
+00:00:35.680 --> 00:00:36.660
+Matteo Vena | Riva Labs: Okay.
+
+4
+00:00:38.350 --> 00:00:39.530
+Antonio Sanso: I Wolfgang.
+
+5
+00:00:45.000 --> 00:00:46.810
+Antonio Sanso: to Gianluca.
+
+6
+00:00:51.180 --> 00:00:52.180
+Gianluca Felli: Hi, everyone.
+
+7
+00:00:52.760 --> 00:00:53.430
+Antonio Sanso: Alessandro…
+
+8
+00:00:53.430 --> 00:00:54.000
+Alessandro Baiocchi: Hi.
+
+9
+00:01:01.560 --> 00:01:04.049
+Antonio Sanso: My students will wait a couple more minutes,
+
+10
+00:01:04.709 --> 00:01:09.449
+Antonio Sanso: Especially because Stefano is still not here, and he's supposed to present.
+
+11
+00:01:30.070 --> 00:01:31.490
+Antonio Sanso: Gustavo.
+
+12
+00:01:31.720 --> 00:01:32.900
+Antonio Sanso: Hey, Justin.
+
+13
+00:01:33.920 --> 00:01:35.180
+Antonio Sanso: Ham is love.
+
+14
+00:01:36.490 --> 00:01:38.659
+Mislav: Hey, everyone. Glad to be here.
+
+15
+00:01:40.950 --> 00:01:44.520
+Antonio Sanso: As usual, Justin. As usual, we wait a few more minutes.
+
+16
+00:01:45.430 --> 00:01:51.219
+Antonio Sanso: Before to start, I'll try to show my stride in the meantime, sure.
+
+17
+00:02:00.330 --> 00:02:03.020
+Antonio Sanso: Do you see my slides, right? I hope.
+
+18
+00:02:04.760 --> 00:02:05.360
+Alessandro Baiocchi: Yes.
+
+19
+00:02:25.080 --> 00:02:26.870
+Antonio Sanso: Okay, Stefano's here.
+
+20
+00:02:27.110 --> 00:02:29.409
+Antonio Sanso: If one more minute, so we'll start.
+
+21
+00:03:22.830 --> 00:03:32.699
+Antonio Sanso: Right, let's do it. Hello, everyone, to the post- Quantum Transaction Signature Breakout Room Number 15, to the 16th of September 2026.
+
+22
+00:03:33.320 --> 00:03:42.239
+Antonio Sanso: the agenda today is pretty clean. We'll have, one presentation, and I, I think, and a demo from Stefano.
+
+23
+00:03:43.020 --> 00:03:56.219
+Antonio Sanso: And this basically is… we already seen the beginning of this project towards the beginning of this series, so months ago, I think it was March, and I think Stefano, after many months of
+
+24
+00:03:56.490 --> 00:04:03.730
+Antonio Sanso: Work is able to actually Demo and give more information about the zero-knowledge proof of seed.
+
+25
+00:04:04.140 --> 00:04:12.129
+Antonio Sanso: And… After this, we'll have a presentation of the testnet for this post-quantum signatures.
+
+26
+00:04:12.540 --> 00:04:24.740
+Antonio Sanso: Really big thanks to Julio, that put all the infrastructure for the testnet. At the moment, it's only a testnet with a non-native account abstraction, and we'll have the revolaps
+
+27
+00:04:25.090 --> 00:04:29.149
+Antonio Sanso: team, I don't know which one of the guys will do some demo.
+
+28
+00:04:29.610 --> 00:04:34.259
+Antonio Sanso: On the network with some SPHINCS+, like signatures.
+
+29
+00:04:34.910 --> 00:04:41.570
+Antonio Sanso: And yeah, this is really all for me. Here is the… if you still are not subscribed, there's the Telegram channel.
+
+30
+00:04:42.330 --> 00:04:44.999
+Antonio Sanso: And, yeah, Stefan, the stage is yours.
+
+31
+00:04:50.660 --> 00:04:55.190
+Stefano Gogioso: Excellent, thank you. Let me just, share my screen so that…
+
+32
+00:04:55.870 --> 00:04:58.770
+Stefano Gogioso: I can, show the presentation.
+
+33
+00:04:59.450 --> 00:05:07.980
+Stefano Gogioso: Yeah, I have collected, all the details into Slice. I don't think I will go through a demo today.
+
+34
+00:05:08.170 --> 00:05:17.770
+Stefano Gogioso: Because it just… I mean, I can, but it takes a bit of time for these statements to actually run in practice, so it's not necessarily more informative than seeing a ledger.
+
+35
+00:05:18.120 --> 00:05:23.830
+Stefano Gogioso: With a little bit of a spinning wheel on it, nonetheless.
+
+36
+00:05:24.310 --> 00:05:27.360
+Stefano Gogioso: Hi, can you see me? But not my screen?
+
+37
+00:05:27.610 --> 00:05:28.699
+Antonio Sanso: Yeah, we see you.
+
+38
+00:05:28.700 --> 00:05:32.399
+Stefano Gogioso: Can you see the slides now? Hopefully?
+
+39
+00:05:32.970 --> 00:05:36.559
+Antonio Sanso: Soon, you're sharing the screen? Yeah, we'll see that, yeah.
+
+40
+00:05:36.560 --> 00:05:38.220
+Stefano Gogioso: Yeah, alright, great.
+
+41
+00:05:39.120 --> 00:05:57.350
+Stefano Gogioso: Cool! So, just a leaf of data, but I will obviously not cover everything, and I will go quick. If you're interested, you can, like, we can talk and discuss it after. There's a leaf more information about this, but because it's a leaf of work, I try to pick the
+
+42
+00:05:57.350 --> 00:06:05.969
+Stefano Gogioso: selling points. Just a brief recap of where we started. This is a proposal for an emergency mitigation.
+
+43
+00:06:05.970 --> 00:06:24.449
+Stefano Gogioso: for a quantum break, an unexpected quantum break, so something that happens without any real notice, and before we can finish our transition. There are some ziderata. The key ones are that this should work on hardware wallets today. It should not force users to
+
+44
+00:06:24.600 --> 00:06:31.770
+Stefano Gogioso: relinquished security for their holdings, and that it should be a solution that works
+
+45
+00:06:31.770 --> 00:06:54.870
+Stefano Gogioso: after the emergency has become apparent, so it can't require user action prior to an emergency. So it's something which has to be a recovery, in a sense, not just a pre-planning in case something goes wrong, in the presumption that most users wouldn't actually believe this is necessary, and so they wouldn't take action. So it's a way to protect everybody and recover in case something unexpected happens.
+
+46
+00:06:54.930 --> 00:07:01.640
+Stefano Gogioso: And the question was, can this be done compatibly with, a bunch of constraints? One of them is, of course, hardware wallets.
+
+47
+00:07:01.910 --> 00:07:16.980
+Stefano Gogioso: But the general idea, the general plan comes from a proposal by Vitalik in 2024, which is to, perform what is known as proof lifting. This is all set up.
+
+48
+00:07:17.160 --> 00:07:22.499
+Stefano Gogioso: In a paper just maybe a few weeks, concurrent to the 2024 proposal.
+
+49
+00:07:22.740 --> 00:07:26.720
+Stefano Gogioso: And the… the idea is to lift
+
+50
+00:07:26.750 --> 00:07:40.990
+Stefano Gogioso: the weak part, so the ECDSA, to some quantum-resistant scheme by taking a zero-knowledge proof of a hard-to-invert pre-image, so a preimage of a hash step in the key derivation.
+
+51
+00:07:40.990 --> 00:08:02.069
+Stefano Gogioso: and then use account obstruction or other delegation features to actually derive authority on-chain from the zero-knowledge proof of seed. So you do the lifting by essentially sacrificing or proving that you are the legitimate owner of your account, and then you operate through account obstruction, so you don't operate through the EOA anymore.
+
+52
+00:08:02.460 --> 00:08:06.099
+Stefano Gogioso: And this talk is really about step one, and a good
+
+53
+00:08:06.150 --> 00:08:24.509
+Stefano Gogioso: amount of progress on Step 2. I think mostly it's account abstraction itself, which is not particularly hard to do, but it's the feasibility of the lifting statements and CHAIN Today, which is… which still requires some work. But I will present some, some estimates for what… what we could implement and test.
+
+54
+00:08:25.080 --> 00:08:41.750
+Stefano Gogioso: And the focus is on hierarchical deterministic wallets, so mostly statements about child keys from parent keys, the master key can be lifted to the master seat, and the master seat itself can, in principle, be lifted all the way to the seed phrase bytes, or intermediate stages if they are exposed.
+
+55
+00:08:42.000 --> 00:08:51.780
+Stefano Gogioso: There are other key generation schemes that have similar properties. If your key generation scheme doesn't have that property, then it's probably unsalvable anyway.
+
+56
+00:08:51.850 --> 00:09:02.230
+Stefano Gogioso: But… because it could be just that you have the private key randomly generated, and that's broken, and then you can… you have no other way of proving that you generated that, other than you rolled some dice.
+
+57
+00:09:02.350 --> 00:09:17.770
+Stefano Gogioso: But many schemes have this kind of sort of deterministic or pseudo-random generation, and those can… they're typically hash-based, and therefore they typically have a hard-to-invert stat that can be used for lifting. So it's more than just deterministic wallets, but that's what we focused on.
+
+58
+00:09:18.340 --> 00:09:32.109
+Stefano Gogioso: The main challenge for this project was to make it work on hardware wallets, and hardware wallets are extremely constrained devices, memory constrained. The solution was to use a technique that's not succinct.
+
+59
+00:09:32.400 --> 00:09:47.629
+Stefano Gogioso: But is very, contained in its memory requirements, so this is stream the NPC in the head on the secure element, so on the hardware wallet, and then use recursive verification outside of the hardware wallet.
+
+60
+00:09:47.630 --> 00:10:00.519
+Stefano Gogioso: to provide the on-chain verification feasibility. The status today is that we do run all of this on device, everything fits, everything has been optimized to the point where it is realistic to do this.
+
+61
+00:10:00.800 --> 00:10:20.360
+Stefano Gogioso: We do have 3 lifters implemented. We have Fry plus Blocky, we have SP1 and FLOC. Really, SP1 and FLOC are the ones that would be affordable on L1 today, but nonetheless, we have figures for, like, cost… like, gas estimates for all of them, and roughly also performance estimates and memory estimates for the prover side of things.
+
+62
+00:10:21.000 --> 00:10:29.070
+Stefano Gogioso: The other challenge is that lifting child keys to master, sort of ancestor keys or master key is fine, it can be done on device.
+
+63
+00:10:29.070 --> 00:10:52.360
+Stefano Gogioso: So, on a stock ledger today, but if you have a compromised master key or a compromised seed, which you shouldn't in practical applications, but, you know, it's still interesting to consider, then you'd need access to secure OS internals. The current, the stock ledger OS does not expose the necessary information, so that would require additional integration to be actually implemented.
+
+64
+00:10:52.360 --> 00:10:54.799
+Stefano Gogioso: Nonetheless, we did this with mock
+
+65
+00:10:55.120 --> 00:11:09.780
+Stefano Gogioso: with a mock pre-image on device to test that it would run, and indeed it does run. So it is feasible from a hardware perspective, it's just a limitation of what secure OS exposes, and it would require further integration to be actually implemented. But it is technically feasible.
+
+66
+00:11:10.910 --> 00:11:29.849
+Stefano Gogioso: Statements that we considered, these are the ones that are relevant to Ethereum. There are also Solana and Bitcoin statements that we considered and implemented and benchmarked. The master private key has the master seat as witness, the hardened child keys have the parent key as witness.
+
+67
+00:11:30.140 --> 00:11:39.710
+Stefano Gogioso: and the BIP39 seed has the mnemonic and technically passphrases witness, and none of these require, elliptic curve.
+
+68
+00:11:40.230 --> 00:11:56.839
+Stefano Gogioso: cryptography. So, that makes a difference for us, because secp256k1 is THE elephant in the room. It's the thing that makes it very hard to prove these things. You'll see the size of the proofs is, like, a thousand-fold, something like that. 500-fold.
+
+69
+00:11:56.840 --> 00:12:00.360
+Stefano Gogioso: Because of all these operations, that need to be arithmetized.
+
+70
+00:12:00.700 --> 00:12:05.519
+Stefano Gogioso: No, actually, not a RTMS, that need to be put into the MCP net.
+
+71
+00:12:06.190 --> 00:12:19.179
+Stefano Gogioso: The public key statement, the non-hardened child key statements, and the ethereum address, which is really just a public key statement, those require this sort of elephant element, and they are harder to prove.
+
+72
+00:12:19.180 --> 00:12:29.830
+Stefano Gogioso: everything can be proved on stock ledger without secure OS access, except for the master private key, because the master seat is not exposed, and the seat itself, because the mnemonic is not exposed.
+
+73
+00:12:29.830 --> 00:12:33.340
+Stefano Gogioso: But if you integrate it with a secure device, in principle, this could be proved as well.
+
+74
+00:12:34.610 --> 00:12:38.690
+Stefano Gogioso: what did we do since EthCC, which is the last time we presented this?
+
+75
+00:12:38.940 --> 00:12:41.010
+Stefano Gogioso: We…
+
+76
+00:12:41.160 --> 00:12:58.309
+Stefano Gogioso: made it so that the prover runs on Ledger Flex in user app space, so we have Ledger Flex applications that have been, like, tested and benchmarked, and we proved all six statements and verified them on device. We reached full soundness on hardware for the hardened
+
+77
+00:12:58.420 --> 00:13:10.680
+Stefano Gogioso: for the hardened child key statement, which is the interesting one in practice, it's about 22 megabytes, and it takes about 3 hours to generate 438 responses.
+
+78
+00:13:10.810 --> 00:13:24.669
+Stefano Gogioso: The elephant statements, so the elliptic curve statements, have been optimized about 350 times, 350X, sorry, since the April, and can now run on device in a few days, so that's also realistic, although a leaf slower.
+
+79
+00:13:24.680 --> 00:13:39.949
+Stefano Gogioso: we did… we built 3 succeed liftings for the Stage 2, so one is Stark, one is SP1, and one is FLOC. And we did full-on change verification for the SP1 lift, and calculated that it takes about 280K gas to verify
+
+80
+00:13:39.950 --> 00:13:53.310
+Stefano Gogioso: one of these proofs, one of the SP1 lifts. So that… that at least is a full-stack, end-to-end verification that this, in principle, could be done. Now, of course, SP1 is not quantum, so that's not really
+
+81
+00:13:53.390 --> 00:13:58.330
+Stefano Gogioso: That's not the endpoint, but nonetheless, it's a full run, all the way through.
+
+82
+00:13:58.490 --> 00:14:05.839
+Stefano Gogioso: The architecture is two-stage. It's a secure element zkBoo that is…
+
+83
+00:14:05.970 --> 00:14:12.190
+Stefano Gogioso: ZK, but not succeed. It runs in time, which is linear in the trace length.
+
+84
+00:14:12.550 --> 00:14:23.500
+Stefano Gogioso: It also has memory, which is proportional with a small factor to the required memory, and so if you have a statement that can be run on the device with enough headroom, then you can run zkBoo on that statement on the device as well.
+
+85
+00:14:23.500 --> 00:14:36.869
+Stefano Gogioso: It is also streamable, it can be streamed to a host machine. The host machine does not need to be trusted, because the zero knowledge is on a per-response basis, and so each response can just be sent through. It doesn't reveal anything about the secret on the device.
+
+86
+00:14:36.870 --> 00:14:50.919
+Stefano Gogioso: But the host machine can have a leaf more horsepower, and can be used to re-verify the proof, and then wrap it into a succinct proof system, which, by the way, doesn't need to be zero-knowledge, so you don't have to ask for zK on the host.
+
+87
+00:14:51.140 --> 00:15:08.509
+Stefano Gogioso: It can be parallelized over responses, it can be fully entrusted, it can be outsourced to third party, so that's an interesting division, but that's also where the challenges lie, because this, the wrapped, lifted proof, if you will, it becomes quite complicated, because it has to wrap the entire zkBoo, proof statement.
+
+88
+00:15:09.110 --> 00:15:10.660
+Stefano Gogioso: zkBoo itself.
+
+89
+00:15:11.180 --> 00:15:17.870
+Stefano Gogioso: It's NBC in the head, it has linear… well, XORA fine gates, is what it considers.
+
+90
+00:15:17.900 --> 00:15:34.999
+Stefano Gogioso: ends with constants, source with constants, NOC, source, all of that is free, essentially. The only things you pay are the ends and the carries, which are ends. So that's… the size of the proof is really proportional to the number of end gates and carry gates in your circuit and nothing else, which is good.
+
+91
+00:15:35.330 --> 00:15:45.870
+Stefano Gogioso: You then take independent responses, which you could, in principle parallelize, and then you run, sort of, you wrap them through Fiat Shamir, and you bind the message into that, and that is the proof.
+
+92
+00:15:45.910 --> 00:16:02.149
+Stefano Gogioso: So the proof is the fact that the responses were ultimately computed for challenges which are derived from the absorbed, sort of the hashed, absorbed state at the end of the proofs, which is how this works. You absorb everything first, and then you derive the challenges along the way.
+
+93
+00:16:02.380 --> 00:16:04.280
+Stefano Gogioso: Or that's… that's the trick.
+
+94
+00:16:04.630 --> 00:16:13.530
+Stefano Gogioso: there are 3… there was a leaf of engineering that went into fitting this into LedgerFlex. It was hard.
+
+95
+00:16:13.960 --> 00:16:28.150
+Stefano Gogioso: We had to improve quite significantly on implementation, so zkBoo. In fact, we had to build an entire zkBoo, crate ecosystem targeted to, sort of, non-standard, low-memory environments with all this optimization.
+
+96
+00:16:28.150 --> 00:16:41.760
+Stefano Gogioso: Not going through all the details, but the basic sort of points. We don't actually store the trace at all, we just go through the computation, and you only need the registers for the largest intermediate state, so that's what you need to allocate, and that's it, so you can predict
+
+97
+00:16:41.760 --> 00:16:55.679
+Stefano Gogioso: by a dry run, how much memory you will need for the entire proof. You never materialize any circuit, it's basically just the Rust program that runs through the gates, but you don't actually write the circuit in its extent. That would not fit on a ledger.
+
+98
+00:16:55.980 --> 00:17:12.010
+Stefano Gogioso: There is, you regenerate the seed from a master secret, so the challenge phase does not have any buffering. You pay a little bit of extra time, but you reduce memory very significantly to the point that you can actually fit it on Ledger Flex.
+
+99
+00:17:12.150 --> 00:17:14.480
+Stefano Gogioso: And you stream everything.
+
+100
+00:17:14.520 --> 00:17:26.389
+Stefano Gogioso: you don't keep any of the responses in memory, you don't keep any of the… only the single message that you have computed, you stream it down out of the device as soon as it's produced, and then it's for the host to collect and assemble.
+
+101
+00:17:26.390 --> 00:17:41.240
+Stefano Gogioso: And this means that the RAM required is around 3 times the largest circuit state, which makes it feasible, and the verifier RAM is actually two times the circuit state, because in principle, you can also do stream verification, which is something that we did implement as well.
+
+102
+00:17:42.390 --> 00:17:59.570
+Stefano Gogioso: There are two soundness levels that we consider. We work with 438 responses, because that's the 128-bit post-quantum that's taking into account the possibility of Grover. But in principle, you… if you want just classical 128-bit, that is 219, so you could make this quite a leaf.
+
+103
+00:17:59.630 --> 00:18:19.620
+Stefano Gogioso: faster. The verifier does not really care about this. It's completely independent of the chosen soundness level. The soundness level is just something that you check at the end. You just check that the proof has the right number of responses in it for your choice of… so, for your own threshold. There is no… it doesn't have any impact on the verification, because it's essentially massively parallel over the responses anyway.
+
+104
+00:18:20.280 --> 00:18:35.459
+Stefano Gogioso: The secure element itself, we did a leaf of work on trying to figure out how the Ledger Flex and other Ledger devices behave. It is about 334K,
+
+105
+00:18:35.730 --> 00:18:48.759
+Stefano Gogioso: of a stack plus heap that needs to be split and allocated depending on the application, so there's a… there's a level that you need to choose beforehand when you compile, and you have to respect that. There is…
+
+106
+00:18:48.970 --> 00:19:04.429
+Stefano Gogioso: We did this on Ketchak, so that doesn't have any hardware acceleration, and that makes it slightly sore, but it doesn't really… I mean, at this point, the biggest constraint is not really the hashing, the biggest constraint is the fact that the I.O. of the device is quite limited.
+
+107
+00:19:05.140 --> 00:19:11.679
+Stefano Gogioso: The… these are the results in terms of response sizes and timing.
+
+108
+00:19:11.950 --> 00:19:18.230
+Stefano Gogioso: For a master private key, the response size is about 50, kilobytes.
+
+109
+00:19:18.630 --> 00:19:24.980
+Stefano Gogioso: And it takes about 30 seconds per response on the device. That's the same for a hardened child.
+
+110
+00:19:25.330 --> 00:19:30.260
+Stefano Gogioso: And it's similar for one or two rounds of the seed derivation.
+
+111
+00:19:30.380 --> 00:19:49.330
+Stefano Gogioso: If you go to the public key and ethereum address and the normal non-Hargon child key, then that involves elliptic curve operations, and as I said, it becomes much, much, much, much larger to do so. But nonetheless, it's something that you can do within a few days. So it takes days to generate a proof for just the public.
+
+112
+00:19:49.400 --> 00:19:59.700
+Stefano Gogioso: key, rather than a private key that you can burn. And the argument for why you would not want to do that in a real emergency is that your private key in an emergency is worthless anyway.
+
+113
+00:20:00.170 --> 00:20:12.519
+Stefano Gogioso: So, once you have a situation where anybody can derive your private key and pretend to be you, then that private key doesn't really hold any secrecy anymore, and you might as well burn it in exchange for,
+
+114
+00:20:12.520 --> 00:20:23.950
+Stefano Gogioso: cheaper on-chain proof and for a faster proof generation on-device, but nonetheless, we wanted to benchmark the case where you wouldn't want to derive that. For example, you want to create a proof today.
+
+115
+00:20:24.000 --> 00:20:29.349
+Stefano Gogioso: not necessarily commit… you could create one today, commit a hash of the, of the…
+
+116
+00:20:29.390 --> 00:20:39.560
+Stefano Gogioso: of the private key, and then unlock the smart contract, the account structure, by revealing the family key and burning it, start the private key and burning it. You could do that, in principle.
+
+117
+00:20:39.560 --> 00:20:49.749
+Stefano Gogioso: But, if you wanted to instead just do a direct proof that you are the owner of a public address, that's also of interest, then we did that. But it's much larger because of these operations.
+
+118
+00:20:50.910 --> 00:21:09.669
+Stefano Gogioso: The… yeah, it takes about 3 hours to do a master key of hardened child statement on device. That's about 22 megabytes of proof. We did projections for shorter runs for the full curve statements and the BIP39 statements. The curve statements take about a week.
+
+119
+00:21:09.980 --> 00:21:27.710
+Stefano Gogioso: And they are one gigabyte of proof. Again, this can be stream aggregated, so it's not that big of a deal that it's 1 gig, but it does take more than 7 days to stream it out of the device, because the I.O. is constrained. If you want to derive the seed from the
+
+120
+00:21:27.710 --> 00:21:33.389
+Stefano Gogioso: Well, if you want to write the master entropy from the seed phrase, which is what gives the name to this project.
+
+121
+00:21:33.390 --> 00:21:48.419
+Stefano Gogioso: at the full 2048 rounds, that is 150 days. So that is hard. But, it's still feasible in principle. It does fit the memory, it's just a matter of time. You just have to be very, very patient. But in a pinch, you could do that.
+
+122
+00:21:49.020 --> 00:22:06.439
+Stefano Gogioso: the per response, changed quite a leaf. We did a leaf of work on this. We went from, 1 gig per response on, when we presented at EthCC, that's when I called these things, like, elephants. They were really impractical.
+
+123
+00:22:06.440 --> 00:22:19.270
+Stefano Gogioso: We applied quite a leaf of optimizations in, sort of, like, some… during the summer, and it turns out that once you do it the smart way, the per response size is actually 3 megabits.
+
+124
+00:22:19.330 --> 00:22:39.229
+Stefano Gogioso: So that's 300 times smaller. So it was just that I said it in its ZCC when I was presented this, I said, yeah, okay, it looks huge, but I'm pretty sure it can be optimized, and yes, it can be optimized 300X, so that's great. It's still big, but better than… one gig per response was absolutely unfeasible. It was, like, 438 weeks to do the entire thing.
+
+125
+00:22:39.230 --> 00:22:42.940
+Stefano Gogioso: now it takes about a week. So that's… that's a nice input.
+
+126
+00:22:44.290 --> 00:22:47.199
+Stefano Gogioso: Memory itself, it was the main challenge.
+
+127
+00:22:47.620 --> 00:23:03.939
+Stefano Gogioso: at the beginning, it's the reason why we had to re-implement everything. It turns out it is not a constraint for any of these. All of them fit within the maximum heap that we could afford for it, and heap plus stack fit within the memory. We tested all of them, that's fine.
+
+128
+00:23:03.940 --> 00:23:07.809
+Stefano Gogioso: the only thing that I want to mention there is
+
+129
+00:23:07.910 --> 00:23:21.360
+Stefano Gogioso: That this was a bit irritating to do, because the typical consequence of getting the memory allocation wrong is not that the application fails, but it's that the device gets wiped.
+
+130
+00:23:22.310 --> 00:23:40.950
+Stefano Gogioso: And this was done about 4 times. It says factory reset on the slides, I should have been precise. It's not factory reset. It's the hard back off, wait for an hour, then factory reset that the ledger does. So it's… it's… what is it, E6, I think it's called, the code? That was very irritating.
+
+131
+00:23:40.950 --> 00:23:46.350
+Stefano Gogioso: And it is… it was, something which we found, out the…
+
+132
+00:23:46.770 --> 00:23:59.040
+Stefano Gogioso: the hard way. Anyway, there's a leaf of… there's a leaf of failure modes for these devices. They are finicky, but… but you can… you can ultimately, essentially, predict where the threshold is, and do a good split, and it's tight, but it fits.
+
+133
+00:23:59.230 --> 00:24:12.149
+Stefano Gogioso: the time to stream the proof out of the device is the real problem. The maximum throughput we got was around 3 kilobytes per second, coming out of the
+
+134
+00:24:12.310 --> 00:24:18.970
+Stefano Gogioso: coming out of device. There is a maximum which is about 20 kilobytes per second, but that wasn't on these
+
+135
+00:24:19.090 --> 00:24:32.460
+Stefano Gogioso: on these proving statements, so the fact that you can reach 25 kilobytes is without anything else, burdening the device. If you are also doing computation at the same time, it's slower.
+
+136
+00:24:32.700 --> 00:24:46.469
+Stefano Gogioso: And so that sets an upper bound on really how quickly you can get the proof out. That is a… that is a big… the throughput ceiling is a big part of why it takes so long to get these proofs written out.
+
+137
+00:24:46.860 --> 00:25:05.490
+Stefano Gogioso: That's that, and this is roughly the profiles for the proofs, just as an overall summary. They go from… the practical ones are about 50 kilobytes per response, so a proof is about 20… 22, 23 megabytes.
+
+138
+00:25:06.170 --> 00:25:18.970
+Stefano Gogioso: And everything which involves any kind of ECC is one gig or more, 1, 2 gigs. All measured, all fine, they all stream out, it's just a matter of waiting, essentially.
+
+139
+00:25:20.590 --> 00:25:36.859
+Stefano Gogioso: Going quickly through the stage two, which is the lifting, so once you have the zkBoo proofs, you stream them out of the device, you wait patiently, how do you actually get them into a succinct state, which can be stored reasonably, or communicated, or it can be verified on-chain?
+
+140
+00:25:36.860 --> 00:25:45.169
+Stefano Gogioso: What you do is you lift the verifier itself, so the verifier is the program that you have to embed into the
+
+141
+00:25:45.250 --> 00:25:48.959
+Stefano Gogioso: Into your succinct, proof system.
+
+142
+00:25:48.960 --> 00:26:12.979
+Stefano Gogioso: That involves a bunch of things. The actual circuit execution itself is the smallest part of it. Most of the complexity goes into the fact that you have hashes every time. Yeah, like, every time you have a nonlinear gate, you have to absorb state into a… you have to absorb it into a hash state, and that is what ultimately gives you the Fiat Shamir commitment, and all of that is what's expensive.
+
+143
+00:26:13.030 --> 00:26:16.590
+Stefano Gogioso: So, proof systems that are friendly towards
+
+144
+00:26:16.710 --> 00:26:26.609
+Stefano Gogioso: the hashes that you would use are the ones that perform better, and indeed, FLOC performs significantly better than SP1, for various reasons, but this is one of the reasons.
+
+145
+00:26:27.220 --> 00:26:46.310
+Stefano Gogioso: We did 3 of these. We did a Stark sort of post-quantum version that could, in principle, be verifiable on-chain, which is Plonk… a fork of Plonky tree and Fry. We did SP1, which does actually get verified all the way at 280K gas, but it's not post-quantum.
+
+146
+00:26:46.440 --> 00:27:03.579
+Stefano Gogioso: And we did FLOC, which is the one that performs the best, to be honest, but we did not do the on-chain verification yet, so that's… that's still open work, because we only did it recently. So that's something… we don't have figures for exactly how much gas it would, in principle, take to verify one of these flock proofs, but we know how big they are.
+
+147
+00:27:03.930 --> 00:27:08.559
+Stefano Gogioso: The SP1 proving time is around now.
+
+148
+00:27:08.950 --> 00:27:18.330
+Stefano Gogioso: With 356 bytes of proof, which takes 280K gas to verify. The flock lifter takes 12 seconds.
+
+149
+00:27:18.900 --> 00:27:25.940
+Stefano Gogioso: The proof size, though, is 1.2 megs, and it does take nothing to verify.
+
+150
+00:27:26.170 --> 00:27:42.119
+Stefano Gogioso: on the host, so on Harbor, but we did not have on-chain verification yet. Yes, and I should say that SP1 is… is on a, on a metal, on a metal fork of the… on a metal fork of the SP1 prover.
+
+151
+00:27:42.260 --> 00:27:47.899
+Stefano Gogioso: which we built for this, to make it slightly faster. The FLOC one is on CPU, like, multi-threaded.
+
+152
+00:27:49.080 --> 00:27:55.340
+Stefano Gogioso: the… Difference, really, is that you need to…
+
+153
+00:27:55.510 --> 00:28:01.199
+Stefano Gogioso: both in Stark and in SP1, what we do is we do a first step, which is
+
+154
+00:28:01.690 --> 00:28:14.280
+Stefano Gogioso: The, creating a proof of the responses and the transcript at the end, and then there's an aggregation step afterwards, so there's a second recursive step that makes it possible to create a fully succinct proof.
+
+155
+00:28:14.490 --> 00:28:18.319
+Stefano Gogioso: That is what, That is what takes…
+
+156
+00:28:18.430 --> 00:28:25.329
+Stefano Gogioso: I think the most of time in this, it's sort of this end, this end aggregation recursion part.
+
+157
+00:28:26.120 --> 00:28:35.950
+Stefano Gogioso: The Stark lifter, we built it. It is, challenging, to say the least. It's a leaf of gas.
+
+158
+00:28:36.130 --> 00:28:36.830
+Stefano Gogioso: And…
+
+159
+00:28:36.830 --> 00:28:58.959
+Stefano Gogioso: You can make recursion, it makes it 10,000 times cheaper. You can't do much better on this particular design than that. Maybe you could grind a factor of 2 or 3 more, but it's still, like, a ridiculous amount of gas, and it wouldn't fit on a one today. But it's mostly because we… there's no precompile for it, and
+
+160
+00:28:58.960 --> 00:29:05.380
+Stefano Gogioso: there is certainly a little bit of re-architecturing to be done. In principle, it could be done on Starknet.
+
+161
+00:29:06.110 --> 00:29:15.910
+Stefano Gogioso: So that's… it shows that it's feasible, it's just that on Ethereum, this wouldn't be friendly in any sense. It is unrealistic to run this particular lifter on L1.
+
+162
+00:29:17.950 --> 00:29:33.930
+Stefano Gogioso: Some details about what we did that I don't think is necessarily worth going over, but if you're interested, I can tell you more about the specifics of the various lifters and how we implemented them. The verification off-chain is ridiculously cheap.
+
+163
+00:29:34.120 --> 00:29:43.349
+Stefano Gogioso: it takes really, really little to do zkBoo verification, because it can be done in constant memory. So it's, like, a few… a few seconds for,
+
+164
+00:29:43.600 --> 00:29:45.629
+Stefano Gogioso: For a 1GB proof.
+
+165
+00:29:45.790 --> 00:29:49.839
+Stefano Gogioso: Maybe 20 seconds, or up to a couple of minutes, depending on how you split it.
+
+166
+00:29:50.170 --> 00:30:02.499
+Stefano Gogioso: So that's… that's an interesting aspect of, like, zkBoo, is the idea that you can do both stream proving and stream verification, but ultimately not what we care about if we want to use this in… paired with account abstraction constrain.
+
+167
+00:30:02.880 --> 00:30:19.499
+Stefano Gogioso: where we stand today, and what is left to be done. We did all the on-device proving, we have all the statements, we did not yet do any AA, although that's, at this point, really just conditional on making the on-chain verifiers viable.
+
+168
+00:30:19.520 --> 00:30:28.640
+Stefano Gogioso: We have sponsored provers, software provers, for host proofs, so people who don't care about hardware wallets, but might not have very…
+
+169
+00:30:29.120 --> 00:30:47.649
+Stefano Gogioso: powerful devices on the left, or people who are not as constrained as flex, but might have other secure elements that have more power on them. We have 3 lifters, but we need to finish doing the aggregation step, and the batching, because the batching would significantly reduce the cost for this, and in an emergency, it would be
+
+170
+00:30:47.700 --> 00:30:53.530
+Stefano Gogioso: Reasonable to believe that you might want to do this for hundreds or thousands or tens of thousands of accounts in parallel.
+
+171
+00:30:53.790 --> 00:30:55.430
+Stefano Gogioso: We do have…
+
+172
+00:30:55.800 --> 00:31:03.850
+Stefano Gogioso: the Bitcoin and Solana statements, but we did not lift those, and those are not really relevant for this particular conversation.
+
+173
+00:31:04.430 --> 00:31:15.570
+Stefano Gogioso: We have some other problems. The post-quantum lifting with Stark is really, really, really expensive. That's not doable. The elephant proofs are viable.
+
+174
+00:31:15.940 --> 00:31:28.379
+Stefano Gogioso: And can be lifted, but we did not run the full lifting, beyond 96 responses, because that takes, like, 80 hours, 70 hours to run the full test.
+
+175
+00:31:28.490 --> 00:31:30.240
+Stefano Gogioso: Matrix, but we will do that.
+
+176
+00:31:30.590 --> 00:31:44.050
+Stefano Gogioso: And really, secure OS access is required if we want to prove anything about master keys or seed entropy. Those would not really be on-chain concerns, they would be more like…
+
+177
+00:31:44.090 --> 00:32:01.559
+Stefano Gogioso: forensic concerns. Say that you want to… you are in a dispute, and you want to prove that you're the legitimate owner of a compromised master key, you might be able to do this, but you would have to have secure OS access if you wanted to avoid putting your… like, taking your secrets out of the hardware world, nonetheless.
+
+178
+00:32:03.650 --> 00:32:07.369
+Stefano Gogioso: There's nothing really, nothing really…
+
+179
+00:32:07.670 --> 00:32:17.780
+Stefano Gogioso: Impossible, it's just a matter of engineering and improving the, sort of, recursive side of the lifter, which is… which has been the recent challenge, let's say.
+
+180
+00:32:18.800 --> 00:32:36.589
+Stefano Gogioso: So, what do we do? In summary, since we last spoke, we do have ZK proofs that run inside wallets, hardwares that exist today without additional memory, without additional compute. They are… they do so within absolutely reasonable times for this kind of applications.
+
+181
+00:32:36.610 --> 00:32:41.740
+Stefano Gogioso: They… we can demonstrate that the…
+
+182
+00:32:41.780 --> 00:33:01.709
+Stefano Gogioso: proofs can be wrapped, they can be lifted, and aggregated, and they can be verified on L1, just not yet with a full post-quantum system, but the flock implementation is so performant that we will most likely focus our attention on that for the next step.
+
+183
+00:33:02.170 --> 00:33:13.269
+Stefano Gogioso: That said, I am done. Thank you for the opportunity to present this update to our work. I hope it was interesting, and if you have questions, I'm here.
+
+184
+00:33:13.760 --> 00:33:22.749
+Antonio Sanso: Thanks a leaf, Stefano. This was a great talk. Actually, it's pretty impressive, this update. I remember your talk at,
+
+185
+00:33:23.100 --> 00:33:26.739
+Antonio Sanso: at ZCC, so huge progress in STEM.
+
+186
+00:33:27.030 --> 00:33:31.710
+Antonio Sanso: And I have time for a question before moving… Forward.
+
+187
+00:33:32.100 --> 00:33:34.300
+Antonio Sanso: If anyone has a question, otherwise I have one?
+
+188
+00:33:36.770 --> 00:33:38.909
+Antonio Sanso: All right, is there any questions in the chat? I have one.
+
+189
+00:33:38.910 --> 00:33:39.580
+Gustavo Frederico: Yes.
+
+190
+00:33:39.580 --> 00:33:49.470
+Antonio Sanso: I've seen that the, like, the cheapest time to prove is, like, 3 hours, not on the 11th proof, right? I think it was one of your first slides.
+
+191
+00:33:50.330 --> 00:33:54.209
+Stefano Gogioso: So it takes 3 hours to stream it out, yes.
+
+192
+00:33:54.680 --> 00:33:55.660
+Antonio Sanso: trimming up.
+
+193
+00:33:55.840 --> 00:33:56.760
+Stefano Gogioso: Yeah, this.
+
+194
+00:33:57.720 --> 00:33:58.540
+Antonio Sanso: Okay.
+
+195
+00:33:58.820 --> 00:33:59.830
+Antonio Sanso: So you…
+
+196
+00:33:59.830 --> 00:34:00.480
+Stefano Gogioso: problem.
+
+197
+00:34:00.660 --> 00:34:01.480
+Antonio Sanso: Right.
+
+198
+00:34:01.740 --> 00:34:09.830
+Antonio Sanso: I see a question here. Was there any major difference between the flex and Nano S devices? I mean, in terms of performance? This is Matteo asking.
+
+199
+00:34:10.409 --> 00:34:14.569
+Stefano Gogioso: As the baseline intended as the host device.
+
+200
+00:34:14.769 --> 00:34:15.869
+Stefano Gogioso: Or the…
+
+201
+00:34:16.590 --> 00:34:23.810
+Stefano Gogioso: Oh, okay. That is a… that is a different… some of these statements don't fit on an Nano S Plus.
+
+202
+00:34:25.320 --> 00:34:26.150
+Antonio Sanso: Okay.
+
+203
+00:34:26.340 --> 00:34:31.109
+Antonio Sanso: Do you think it is a major, like, compelling constraint, or…
+
+204
+00:34:31.409 --> 00:34:32.080
+Antonio Sanso: You can be solving.
+
+205
+00:34:32.080 --> 00:34:43.659
+Stefano Gogioso: No, I think it's mostly that all of the tuning that we did on the Flex are rather flex-specific, and Nano S Plus is even less cooperative than the Flex.
+
+206
+00:34:44.010 --> 00:34:49.300
+Stefano Gogioso: But it is just a matter of getting, like, convincing Claude to
+
+207
+00:34:49.510 --> 00:35:01.219
+Stefano Gogioso: patch it, and not… we just didn't dedicate a leaf of time, because we focused on the flex, but it is… I think most of them would ultimately fit on the S+. The hardened child one does, and that's the one that we really care about.
+
+208
+00:35:04.700 --> 00:35:13.999
+Antonio Sanso: All right, I see another question there, and this is the last one, because then I need to move on to the next items if you want to answer, Gustavo, and then Alessandro chat.
+
+209
+00:35:14.150 --> 00:35:24.740
+Stefano Gogioso: Yeah, I can see the chart. So, what do you mean by secureOS? Is it that the private key and your algorithm must live and run within some form of hardware wallet enclave? So, the hardware is this one.
+
+210
+00:35:26.910 --> 00:35:28.000
+Stefano Gogioso: It's one of these.
+
+211
+00:35:30.330 --> 00:35:37.200
+Stefano Gogioso: The… the point is indeed that you want to be able to service users that
+
+212
+00:35:37.720 --> 00:35:40.600
+Stefano Gogioso: their funds secured by hardware wallets.
+
+213
+00:35:40.930 --> 00:35:57.580
+Stefano Gogioso: And the way that we did this was to not change the firmware of the wallet, but to build applications that run within BOLOS, so within the secure OS that Ledger provides, the stock version, not the custom version.
+
+214
+00:35:57.580 --> 00:36:01.100
+Stefano Gogioso: So, we made an application in Rust, and we loaded it.
+
+215
+00:36:01.100 --> 00:36:08.959
+Stefano Gogioso: The Secure OS exposes certain things, but not everything. And in particular, it does not give you access to the master entropy.
+
+216
+00:36:09.650 --> 00:36:17.210
+Stefano Gogioso: And that would be needed to, prove… to create a proof of seed for the compromised master key.
+
+217
+00:36:17.700 --> 00:36:31.540
+Stefano Gogioso: would require master entropy, and compromised master entropy would require the seed phrase bytes, and neither of those are exposed by the US, for, I presume, security reasons, although I'm not entirely sure.
+
+218
+00:36:32.680 --> 00:36:33.270
+Antonio Sanso: Correct.
+
+219
+00:36:33.650 --> 00:36:36.050
+Stefano Gogioso: I don't think that it makes much of a…
+
+220
+00:36:36.610 --> 00:36:44.719
+Stefano Gogioso: I don't know, we'd have to ask the ledger people about this, but I don't know what the rationale was to not expose that particular side of the entry.
+
+221
+00:36:45.950 --> 00:36:56.880
+Antonio Sanso: Thanks a leaf, Stefano, for your presentation and being answering questions. And I will move on to… I don't know which person of Riva Apps is presenting the testnet.
+
+222
+00:36:56.970 --> 00:37:06.579
+Antonio Sanso: demo, and again, I take the chance to thank Julio, who's not here, but he spent some days taking care of, putting the testnet
+
+223
+00:37:06.720 --> 00:37:09.409
+Antonio Sanso: Up and running.
+
+224
+00:37:11.060 --> 00:37:14.840
+Antonio Sanso: Who's presenting now? Matteo? Any of you, or Alessandro? Yeah.
+
+225
+00:37:14.840 --> 00:37:20.809
+Alessandro Baiocchi: I think we'll do, like, I'll do a brief intro, and then Matteo will showcase the demo, the main demo.
+
+226
+00:37:20.810 --> 00:37:21.300
+Antonio Sanso: Cool.
+
+227
+00:37:21.700 --> 00:37:26.789
+Alessandro Baiocchi: I'll show… I'll share my screen, give me one second.
+
+228
+00:37:26.790 --> 00:37:37.259
+Antonio Sanso: In the meantime that, Alessandro is spinning this, I just spent two, two words on it. This, I intend to stay… this, this, this URL, so daisy.
+
+229
+00:37:37.430 --> 00:37:47.340
+Antonio Sanso: FEYI is gonna stay and be our testnet, starting from today. We already did a few months ago, then we dismissed, but…
+
+230
+00:37:47.460 --> 00:38:00.110
+Antonio Sanso: Now we're gonna keep this address table, and we'll add more and more futures in the future, and one of the things that we're gonna start experimenting already in the next weeks is gonna be signature aggregation.
+
+231
+00:38:00.540 --> 00:38:11.260
+Antonio Sanso: But today, we're… the Riva Labs, Alessandro Matteo showing just normal SPHINCS+ verification, but soon we're gonna really experiment with the… with the…
+
+232
+00:38:11.580 --> 00:38:19.080
+Antonio Sanso: thing that will end up in production, basically, like, aggregating and verifying with Stark the signatures.
+
+233
+00:38:20.090 --> 00:38:21.100
+Antonio Sanso: Yeah.
+
+234
+00:38:21.100 --> 00:38:22.659
+Alessandro Baiocchi: So, thanks, thanks, Antonio.
+
+235
+00:38:22.680 --> 00:38:42.620
+Alessandro Baiocchi: And, yeah. So, our example today will be, like, regarding, SPHINCS+ plus signing, and what we're going to show you is the, basically, comparison on what we achieved today, between the software wallet signing that I will show you, and then Matteo will show you the same signator.
+
+236
+00:38:42.620 --> 00:38:48.070
+Alessandro Baiocchi: on, Trezor Safe3 and, ledger known as Pass.
+
+237
+00:38:48.170 --> 00:39:02.410
+Alessandro Baiocchi: And all three signal docs will go through the nice track extension, will be… which is our extension that we built for this, and then they will reach the DAS daisy test that Antonio was talking about, so,
+
+238
+00:39:02.590 --> 00:39:14.819
+Alessandro Baiocchi: And for now, it's going through, like, non-native account abstraction with EXC467, and they all go through the same zkSNARK verifier. So that's one… one important thing.
+
+239
+00:39:15.090 --> 00:39:31.940
+Alessandro Baiocchi: And for reference, this, like, I don't know if you ever saw this, tool, these are the parameters that we are using for this experiment, like, and the budget is 2 to the 20 signatures for this, these things that we are using.
+
+240
+00:39:32.330 --> 00:39:43.730
+Alessandro Baiocchi: So, to get into the… into the showcase, I'll show you, like, the, A second.
+
+241
+00:39:43.930 --> 00:39:54.469
+Alessandro Baiocchi: Okay, the soft sign, I'll just… this is connected to the daisy testnet, I'll just send a little one ATH to myself, let's say.
+
+242
+00:39:56.120 --> 00:39:57.250
+Alessandro Baiocchi: And…
+
+243
+00:39:58.860 --> 00:40:18.349
+Alessandro Baiocchi: And that's the time it takes, and then it's propagating. So the… as I… as you see here, like, it's about 60 milliseconds. The signal on, retail, computer, it's extremely fast. You see here, it's the transaction, so it shows as confirmed, and… yeah, that's basically it.
+
+244
+00:40:18.570 --> 00:40:19.540
+Alessandro Baiocchi: So…
+
+245
+00:40:19.540 --> 00:40:23.619
+Antonio Sanso: Do we know anything about gas? How much gas it costs, and
+
+246
+00:40:23.620 --> 00:40:24.900
+Alessandro Baiocchi: I think…
+
+247
+00:40:25.300 --> 00:40:39.680
+Alessandro Baiocchi: Yeah, he shows this 571, but, I'm… I don't know if, like, the Explorer, like, actually shows, like, as you were saying, it's a really work in progress,
+
+248
+00:40:39.680 --> 00:40:43.660
+Antonio Sanso: It's a miracle, it's a miracle we did this.
+
+249
+00:40:44.000 --> 00:40:50.719
+Alessandro Baiocchi: Yeah, exactly. So, as Matteo says it's Julie is still working on showing the whole, like, trace log of the.
+
+250
+00:40:50.720 --> 00:40:53.409
+Antonio Sanso: But when you go to the… to the…
+
+251
+00:40:53.980 --> 00:41:00.990
+Antonio Sanso: the other website were the Explorer… not Explore the Explorer, the… the comparators between, Hash.
+
+252
+00:41:01.390 --> 00:41:02.330
+Antonio Sanso: No, no.
+
+253
+00:41:02.330 --> 00:41:03.789
+Alessandro Baiocchi: No, no, this one, yeah.
+
+254
+00:41:03.790 --> 00:41:05.370
+Antonio Sanso: Right. Oh, he…
+
+255
+00:41:05.630 --> 00:41:11.890
+Alessandro Baiocchi: This estimate was done based on some measurements that we had with our qualifier, with other parameters.
+
+256
+00:41:11.890 --> 00:41:23.309
+Antonio Sanso: But does it take into consideration, as well, the… only the gas taken to verify, or as well, the signature size and the gas cost for her… for the signature?
+
+257
+00:41:23.310 --> 00:41:36.149
+Alessandro Baiocchi: Yeah, it, it also calls, uses, takes, takes into account the cold data, gas. So, yeah, this is, this should be the total, but, I mean, take it with a grain of salt, because it's a rough estimate done on other
+
+258
+00:41:36.550 --> 00:41:37.480
+Alessandro Baiocchi: that we have.
+
+259
+00:41:37.810 --> 00:41:38.450
+Alessandro Baiocchi: the bus.
+
+260
+00:41:38.890 --> 00:41:44.700
+Antonio Sanso: All right, so we'll ask Julia to put more information on the testnet about the guy. All right.
+
+261
+00:41:45.010 --> 00:41:45.680
+Antonio Sanso: assumption.
+
+262
+00:41:45.680 --> 00:41:57.750
+Alessandro Baiocchi: And then I'll… okay, so that's it for the software part, and I'll leave it to Matteo to show you the same signature on both a transfer and a Ledger hardware wallet.
+
+263
+00:41:58.440 --> 00:42:01.219
+Alessandro Baiocchi: So I'll stop sharing so that you see his screen.
+
+264
+00:42:01.220 --> 00:42:01.870
+Antonio Sanso: Okay.
+
+265
+00:42:02.520 --> 00:42:06.300
+Alessandro Baiocchi: Okay.
+
+266
+00:42:17.500 --> 00:42:18.500
+Antonio Sanso: Matteo?
+
+267
+00:42:20.040 --> 00:42:21.360
+Matteo Vicari: Okay, you can hear me.
+
+268
+00:42:21.360 --> 00:42:21.750
+Alessandro Baiocchi: Okay.
+
+269
+00:42:21.790 --> 00:42:33.550
+Matteo Vicari: I have… with the setup, it's a little hard to show all the stuff that happens for this, so I… give me a second, okay…
+
+270
+00:42:43.420 --> 00:42:44.800
+Matteo Vicari: No.
+
+271
+00:42:47.140 --> 00:42:58.190
+Alessandro Baiocchi: Yes, okay. The complicated part-to-face is, like, showing theChallet screen together with the software interface, so that you see the whole thing going around.
+
+272
+00:42:58.430 --> 00:42:59.120
+Alessandro Baiocchi: Okay.
+
+273
+00:42:59.120 --> 00:42:59.450
+Matteo Vicari: Okay.
+
+274
+00:42:59.450 --> 00:43:00.130
+Alessandro Baiocchi: You should see it.
+
+275
+00:43:00.130 --> 00:43:07.780
+Matteo Vicari: Okay. Sorry, there is a little input lag, but I try to do my best. This is RNAS.
+
+276
+00:43:08.940 --> 00:43:11.460
+Matteo Vicari: And what we try to do…
+
+277
+00:43:12.220 --> 00:43:23.540
+Alessandro Baiocchi: Yeah. So, I'll… we'll go on seeing what's going on, like we… Okay, so basically now you'll see, the same signal that we did on the DNS+.
+
+278
+00:43:23.690 --> 00:43:27.850
+Alessandro Baiocchi: And the, like, the interface is going through the…
+
+279
+00:43:27.970 --> 00:43:32.690
+Alessandro Baiocchi: Nice try a web extension, and the, like.
+
+280
+00:43:33.060 --> 00:43:39.530
+Alessandro Baiocchi: One very imposter thing that we focused on is that the… like…
+
+281
+00:43:39.830 --> 00:43:46.130
+Alessandro Baiocchi: all of these signals that you're gonna see go through the, like, same zkSNARK verifier on-chain.
+
+282
+00:43:46.250 --> 00:43:52.980
+Alessandro Baiocchi: And that's really important, because, like, the… Zoom in some more.
+
+283
+00:43:56.860 --> 00:43:57.530
+Alessandro Baiocchi: Yeah.
+
+284
+00:44:00.240 --> 00:44:00.990
+Matteo Vicari: Now, I…
+
+285
+00:44:00.990 --> 00:44:02.490
+Alessandro Baiocchi: Now it's tacted signing?
+
+286
+00:44:03.560 --> 00:44:04.760
+Alessandro Baiocchi: And…
+
+287
+00:44:10.640 --> 00:44:11.969
+Antonio Sanso: This is Beacon.
+
+288
+00:44:12.470 --> 00:44:17.860
+Matteo Vicari: Beyond Ledger, and take, around, 10 seconds. All the time, yeah?
+
+289
+00:44:17.860 --> 00:44:20.510
+Alessandro Baiocchi: Okay, done. Right? Yeah. Yeah.
+
+290
+00:44:20.830 --> 00:44:29.460
+Alessandro Baiocchi: Okay, so it's about… around, like, between… around 10-12 seconds. The, like, the one thing that we noticed
+
+291
+00:44:29.460 --> 00:44:47.340
+Alessandro Baiocchi: while doing these things, is that the main… one of the main, time-consuming parts is basically, like, as Stefano also pointed out in the previous presentation, it's, I.O. input-output of the data on these devices is, a constraint also for us.
+
+292
+00:44:47.580 --> 00:45:03.739
+Alessandro Baiocchi: And this also means that, basically the assignments that we recorded can be… can… we… we presume can be optimized by… by the… by the hardware wallet, producers, right, if they want to…
+
+293
+00:45:04.130 --> 00:45:08.189
+Antonio Sanso: let me actually put some, words on this. So…
+
+294
+00:45:08.190 --> 00:45:25.199
+Antonio Sanso: It was a question that then I'll clarify. What is this demo with the… already with the stark proof of the grinder? Okay. So, I don't know if any of you have been seeing that in the past, the signature was taking about 1.5 seconds, and this time it took about
+
+295
+00:45:25.260 --> 00:45:42.129
+Antonio Sanso: 10, and the reason, yeah, the reason is basically that we've been formalizing, we'll come with an imprint soon, about the formalization of, cryptographic, formalization of this work, and that we strengthened the, the, the, the…
+
+296
+00:45:42.390 --> 00:45:51.709
+Antonio Sanso: the proof of concept that was presented last time with the… with the… with some proof of… on this grander, this will be clear on… on… on the…
+
+297
+00:45:52.070 --> 00:45:58.939
+Antonio Sanso: On the paper. So, I was actually wondering why this time took about 10 seconds rather than 1.5 seconds. Okay.
+
+298
+00:45:58.940 --> 00:46:15.419
+Alessandro Baiocchi: Yeah, exactly, like, almost all of the time that you… that you see, like, the device is, is working, it's basically… it's… it's not actually producing the signal, it's checking a proof that comes from the… from the… from the software.
+
+299
+00:46:16.430 --> 00:46:38.870
+Antonio Sanso: And this will be probably… I mean, at the moment, the Riva Labs is doing some of their wallet, it's a nice try, but actually, when this is gonna be in production, by Ledger and so on, it probably will not… will not hit the limit of the communicating the proof to the… from the software to Ledger, and the limits of… of…
+
+300
+00:46:39.200 --> 00:46:44.210
+Antonio Sanso: of transmitting the proof is low, is… I mean, the limits are higher.
+
+301
+00:46:44.550 --> 00:46:51.870
+Matteo Vicari: Yeah, the proof, that, we use for this, it's, meanwhile, to achieve one thing.
+
+302
+00:46:51.980 --> 00:47:05.599
+Matteo Vicari: we have to prove to the ledger that the grinding on the hypertree of these things we do, we do in a canonical way. So, the ledger, when the process starts, sends us a seed.
+
+303
+00:47:05.650 --> 00:47:12.499
+Matteo Vicari: that we use for, grinding on the Mac. Because, do the ashes on the Mac is more faster, they do the ashes,
+
+304
+00:47:12.530 --> 00:47:26.199
+Matteo Vicari: On the… on the… on the ledger. So then, what we have to do is, okay, we have to prove that the work the Mac does for this is legit. So, we have to create a proof.
+
+305
+00:47:26.500 --> 00:47:46.410
+Matteo Vicari: that say, okay, we try this number, this segments number, and all the numbers are non-it, and only one is a need. And then we prepare a proof. For aggregating this proof, we use Groth16 for now, but we'll see if we find something better. And then we create this proof that is around,
+
+306
+00:47:46.740 --> 00:47:55.020
+Matteo Vicari: 100 kilobytes, and we stream inside the ledger that process the proof, and then,
+
+307
+00:47:55.330 --> 00:48:08.180
+Matteo Vicari: say, okay, I can trust the work is done in a correct way, and I sign the transaction using this leaf that the ledger told me to use.
+
+308
+00:48:08.400 --> 00:48:17.710
+Matteo Vicari: for this specific, number of wear. Now, we do the same, with the, dresser. The dresser is a little faster.
+
+309
+00:48:17.710 --> 00:48:28.779
+Matteo Vicari: Not because it's more patent or stuff like this, but because the I.O. of the sending this proof more bigger, so we can stream the proof more faster.
+
+310
+00:48:31.730 --> 00:48:34.339
+Matteo Vicari: Yeah, there is another question. I…
+
+311
+00:48:35.200 --> 00:48:39.769
+Matteo Vicari: There is a leaf of manual showcases.
+
+312
+00:48:39.920 --> 00:48:44.120
+Matteo Vicari: like a streamer, I am not a streamer, so it's really hard to use OBS.
+
+313
+00:48:46.700 --> 00:48:48.070
+Matteo Vicari: Okay.
+
+314
+00:48:48.070 --> 00:48:51.810
+Alessandro Baiocchi: I think we can see for the question about the MPC.
+
+315
+00:48:51.920 --> 00:49:07.269
+Alessandro Baiocchi: Like, the… I also, like, if you noticed in the scheme, there was, like, an MPC box dashed around. Yeah, we have this same scheme, works also on an MPC… an MPC setup.
+
+316
+00:49:07.610 --> 00:49:16.480
+Alessandro Baiocchi: And it goes through the same verifier, basically, and the signing process on the MPC takes zero interactive rounds, so that's one…
+
+317
+00:49:21.610 --> 00:49:25.140
+Matteo Vicari: He's, different setup.
+
+318
+00:49:25.890 --> 00:49:26.620
+Matteo Vicari: Okay?
+
+319
+00:49:27.210 --> 00:49:28.380
+Matteo Vicari: We do the sign.
+
+320
+00:49:30.290 --> 00:49:32.560
+Matteo Vicari: We, we have, to check
+
+321
+00:49:35.510 --> 00:49:38.559
+Matteo Vicari: Sorry, for the pure setup, and the transaction is done.
+
+322
+00:49:38.690 --> 00:49:48.189
+Matteo Vicari: It's more faster just because we can stream more of the proof together. This is something, can help us to do this.
+
+323
+00:49:48.940 --> 00:49:51.950
+Matteo Vicari: And I don't know if there is other question we can answer.
+
+324
+00:49:51.950 --> 00:49:55.779
+Antonio Sanso: There's a question for, for, from, Simon.
+
+325
+00:49:56.130 --> 00:50:00.165
+Antonio Sanso: And it's asking… let me check, was here… 2…
+
+326
+00:50:01.060 --> 00:50:08.750
+Antonio Sanso: Is this computing the keygen when signing? I think not. I think that… I think you asked already this last time.
+
+327
+00:50:09.290 --> 00:50:11.620
+Antonio Sanso: But I think, like, the… no.
+
+328
+00:50:12.410 --> 00:50:32.399
+Matteo Vicari: The key gen is doing one time, and then we store inside the smart contract, but what we do, for example, now we have a budget of WOTS that also we call hypertree in the future, but all the stuff we are working on, also the naming, all this stuff.
+
+329
+00:50:32.730 --> 00:50:34.170
+Matteo Vicari: That is,
+
+330
+00:50:34.380 --> 00:50:45.260
+Matteo Vicari: it's like, okay, I have a budget of SPHINCS+ is, at, 20, and what I can do is I prepare some sleafs.
+
+331
+00:50:46.090 --> 00:50:50.739
+Matteo Vicari: So, I can, sign really fast, because I have prepared this leaf.
+
+332
+00:50:50.850 --> 00:51:10.560
+Matteo Vicari: This is the idea of all this process. So, for now, I spend a sleaf, and now I recompute. But this recompute sleaf, I can do whatever I want, not a near design, I can do another transaction. It takes a leaf of more time, not a leaf of time, if I don't refill the pool of the sleaf.
+
+333
+00:51:10.730 --> 00:51:13.899
+Matteo Vicari: But, Something like this.
+
+334
+00:51:14.150 --> 00:51:18.270
+Matteo Vicari: Yeah. So, if I have to refill the sleaf, it's something like that.
+
+335
+00:51:18.270 --> 00:51:22.890
+Alessandro Baiocchi: There is a question, so, like, how long is the keygen to the 20s, right?
+
+336
+00:51:23.200 --> 00:51:34.739
+Matteo Vicari: The 20 is around 7 seconds, depends on the hardware, but is 5-7 seconds, depends, on, on the hardware.
+
+337
+00:51:35.680 --> 00:51:38.689
+Alessandro Baiocchi: On the… on which hardware wallet are you using? Yeah, yeah.
+
+338
+00:51:39.560 --> 00:51:44.409
+Antonio Sanso: But this going from the seed to the… to the… to the key, right? Yeah.
+
+339
+00:51:44.410 --> 00:51:44.830
+Alessandro Baiocchi: Yeah.
+
+340
+00:51:44.830 --> 00:51:49.370
+Antonio Sanso: I mean, it's because it's stateless, right? You don't need to, like, the XMSS.
+
+341
+00:51:49.770 --> 00:51:50.150
+Matteo Vicari: No, no.
+
+342
+00:51:50.150 --> 00:51:53.480
+Antonio Sanso: Because, I mean, there's all the virtual tree. For SPHINCS+, there's all the virtual tree.
+
+343
+00:51:53.750 --> 00:51:54.480
+Antonio Sanso: Okay.
+
+344
+00:51:54.480 --> 00:52:01.660
+Alessandro Baiocchi: Yeah, in 6, you just need to compute, like, the top 3, and then you have the public key, and then, yeah, that's the key.
+
+345
+00:52:02.220 --> 00:52:09.930
+Antonio Sanso: So, the thing is, as well, many of these things are… I mean, thanks a leaf for the demo, first of all, Matteo and Alessandro.
+
+346
+00:52:10.030 --> 00:52:28.840
+Antonio Sanso: Many things… I realize that many things for people that don't know what's happening in the background are a bit foggy. I promise, to come with the presentation, hopefully, either to the next, or to the… between the next and the… the next next.
+
+347
+00:52:29.420 --> 00:52:36.049
+Antonio Sanso: meetings. I think we will be… we'll have something to… to present, and hopefully, a paper
+
+348
+00:52:36.170 --> 00:52:39.090
+Antonio Sanso: That will formalize the security of all the stuff.
+
+349
+00:52:39.710 --> 00:52:41.680
+Antonio Sanso: But, thanks a leaf for the demo,
+
+350
+00:52:41.940 --> 00:52:51.620
+Matteo Vicari: the most important, the most important stuff that happens in this kind of setup, we use a, I can say, stock SPHINCS+ verifier.
+
+351
+00:52:51.740 --> 00:52:58.260
+Matteo Vicari: Because the… what we change is only the signing part. The verification part is the same.
+
+352
+00:52:58.420 --> 00:53:11.330
+Matteo Vicari: So, a verifier can, see if, this, sign is due on, hardware, hardware wallet.
+
+353
+00:53:11.390 --> 00:53:20.760
+Matteo Vicari: have constraint, and we have to do this precompute, or it's come from, I don't know, a wallet that, more capability?
+
+354
+00:53:20.760 --> 00:53:34.910
+Matteo Vicari: This is important, because, we can also, say, okay, but also we can create a verifier that, allow more parameter, or we can create, aggregation that require, have more,
+
+355
+00:53:35.500 --> 00:53:52.909
+Matteo Vicari: more parameter also to aggregate and create different things, different forms, but all these things are the same. So we non… we have not just created as things that work for a ledger, or for other devices that have constraints, or as things that work only in MPC.
+
+356
+00:53:53.050 --> 00:54:00.639
+Matteo Vicari: With this kind of setup, we can have this stock verifier for all, and then change a little when we sign.
+
+357
+00:54:00.970 --> 00:54:04.510
+Matteo Vicari: This is the main idea of all this process.
+
+358
+00:54:05.400 --> 00:54:10.570
+Antonio Sanso: There's as well a question about Gustavo Frederico that is commenting on the MPC part.
+
+359
+00:54:10.950 --> 00:54:14.820
+Matteo Vena | Riva Labs: Yeah, I'll take the question on this. So there's…
+
+360
+00:54:15.110 --> 00:54:30.080
+Matteo Vena | Riva Labs: No, there wasn't one, this is our own original design, first of all. MPC designs are definitely talking to each other at every step, so we have a working implementation that runs on Linux servers.
+
+361
+00:54:30.190 --> 00:54:34.560
+Matteo Vena | Riva Labs: And you have, obviously, devices talking to each other for every possible
+
+362
+00:54:34.710 --> 00:54:45.829
+Matteo Vena | Riva Labs: In every possible step of this process, so producing the material, and then signing transactions, and we did it end-to-end, so it can already go on-chain.
+
+363
+00:54:45.930 --> 00:54:57.770
+Matteo Vena | Riva Labs: But there's no paper, there's currently no public information on the MPC itself. Hopefully, in the future, we'll be in a position to share more, but right now, it's more just in development.
+
+364
+00:55:04.760 --> 00:55:12.009
+Antonio Sanso: Alright, if anyone questions, let's chat… let's chat again. I think… We don't have any questions.
+
+365
+00:55:12.420 --> 00:55:19.130
+Antonio Sanso: And we are, in any case, towards the end of this… Occurrence of the call.
+
+366
+00:55:19.890 --> 00:55:23.720
+Antonio Sanso: Thanks a leaf to the speakers and people doing the demo.
+
+367
+00:55:23.920 --> 00:55:27.470
+Antonio Sanso: And yeah, I'll see you in 2 weeks.
+
+368
+00:55:28.280 --> 00:55:29.160
+Antonio Sanso: Bye-bye.
+
+369
+00:55:29.680 --> 00:55:30.040
+Matteo Vicari: Thank you.
+
+370
+00:55:30.040 --> 00:55:31.680
+Alessandro Baiocchi: Thank you, everyone. Thank you. Goodbye.
+
