@@ -1,0 +1,97 @@
+{
+  "meeting": "Encrypt The Mempool #10 - September 16, 2026",
+  "highlights": {
+    "organizational": [
+      {
+        "timestamp": "00:13:43",
+        "highlight": "Justin taking lead for Besu on Hegota; call cadence moving from bi-weekly to monthly"
+      }
+    ],
+    "pq_and_threshold": [
+      {
+        "timestamp": "00:15:02",
+        "highlight": "PQ threshold encryption off the table: no efficient silent-setup scheme exists; won't be ready for years"
+      },
+      {
+        "timestamp": "00:17:40",
+        "highlight": "Lucid remains PQ-secure but has the optionality problem; focus shifts to mitigating optionality via allowlist"
+      }
+    ],
+    "lucid_allowlist_design": [
+      {
+        "timestamp": "00:20:33",
+        "highlight": "Proposal: validator set votes (by effective balance, 50% threshold) to allowlist trusted key publishers; implemented as EL voting contract"
+      },
+      {
+        "timestamp": "00:22:03",
+        "highlight": "Delegation supported: validators can follow a curated list managed by a delegate rather than maintaining their own"
+      },
+      {
+        "timestamp": "00:46:58",
+        "highlight": "New idea: top-of-block ordering prioritizes allowlisted key publishers over unknown ones (two tiers, not hard rejection); self-reveal still permitted"
+      },
+      {
+        "timestamp": "00:51:00",
+        "highlight": "Two-tier top-of-block lowers market-entry barrier: newcomers can build track record and earn revenue before hitting 50% threshold"
+      },
+      {
+        "timestamp": "00:56:47",
+        "highlight": "Reminder: one commitment in the Lucid EIP must be hiding (needs randomness added); 128x penalty may be reducible if allowlist provides sufficient abuse prevention"
+      }
+    ],
+    "eip_updates": [
+      {
+        "timestamp": "00:55:21",
+        "highlight": "Question raised whether allowlist warrants a separate EIP; consensus is keep as one document for now, split later if needed"
+      },
+      {
+        "timestamp": "00:59:44",
+        "highlight": "Bundles (batching) under reconsideration in Lucid EIP \u2014 adds complexity; capital burden may fall on key publishers instead"
+      },
+      {
+        "timestamp": "01:04:35",
+        "highlight": "Hold merge of CL draft spec PR (consensus-specs#5403) until allowlist/in-protocol key publisher decision settles"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "01:02:34",
+      "action": "Open a PR to EIP-8184 capturing allowlist/voting design; Jannik to be added as author",
+      "owner": "Jannik Luhn"
+    },
+    {
+      "timestamp": "00:56:47",
+      "action": "Update Lucid EIP: add randomness to the commitment that must be hiding; review 128x penalty given allowlist mechanism",
+      "owner": "Justin Florentine / Anders Elowsson"
+    },
+    {
+      "timestamp": "00:35:21",
+      "action": "Leave comment on consensus-specs PR #5403 \u2014 hold merge until in-protocol key publisher question is resolved",
+      "owner": "Meeting participants"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:14:37",
+      "decision": "Encrypt The Mempool call cadence changed from bi-weekly to monthly"
+    },
+    {
+      "timestamp": "00:17:34",
+      "decision": "PQ threshold encryption deferred indefinitely; crypto not mature enough"
+    },
+    {
+      "timestamp": "00:49:32",
+      "decision": "50% of total effective stake as allowlist admission threshold (Schelling point); negative votes not added due to complexity"
+    },
+    {
+      "timestamp": "01:03:17",
+      "decision": "Allowlist spec kept in one EIP (EIP-8184) for now; split only if it becomes unwieldy"
+    },
+    {
+      "timestamp": "00:35:52",
+      "decision": "Hold merge of consensus-specs CL draft PR #5403 until allowlist design settles"
+    }
+  ],
+  "targets": []
+}
