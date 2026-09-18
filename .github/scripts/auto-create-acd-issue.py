@@ -19,14 +19,12 @@ import argparse
 import json
 import os
 import re
+import urllib.error
+import urllib.request
 from datetime import datetime, timedelta, timezone
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "ethereum/pm")
 GITHUB_TOKEN = os.environ.get("PAT_TOKEN") or os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN", "")
-
-# Anchors: the most recent known calls
-# ACDE #246 = Sep 24, 2026 (open), ACDC #187 = Sep 17, 2026 (open)
-# These are used only as fallback if the API query fails
 
 # Series configuration
 SERIES_CONFIG = {
@@ -54,8 +52,7 @@ CADENCE_DAYS = 14  # bi-weekly
 
 
 def api_call(endpoint, method="GET", payload=None):
-    """Call GitHub REST API via curl."""
-    import urllib.request
+    """Call the GitHub REST API."""
     url = f"https://api.github.com/repos/{REPO}/{endpoint}"
     headers = {
         "Accept": "application/vnd.github+json",
@@ -78,20 +75,13 @@ def api_call(endpoint, method="GET", payload=None):
         print(f"  API error: {e}")
         return None
 
-def gh_api(endpoint, method="GET", fields=None):
-    """Compatibility wrapper — calls api_call."""
-    if fields and method == "POST":
-        return api_call(endpoint, method=method, payload=fields)
-    return api_call(endpoint, method=method)
-
-
 def get_recent_issues(series_key):
     """Get the most recent issues for a series, sorted by call number."""
     config = SERIES_CONFIG[series_key]
     label = config["layer_label"]
 
     # Query issues with ACD + layer label, all states
-    result = gh_api(f"issues?labels=ACD,{label}&state=all&per_page=10&sort=created&direction=desc")
+    result = api_call(f"issues?labels=ACD,{label}&state=all&per_page=10&sort=created&direction=desc")
     if not result:
         print(f"  WARNING: Could not fetch issues for {series_key}")
         return []
@@ -209,17 +199,27 @@ def build_issue_body(call_date, series_key):
 def check_issue_exists(call_number, series_key):
     """Check if an issue already exists for this call number."""
     config = SERIES_CONFIG[series_key]
-    expected_title_fragment = f"{config['title_prefix']} #{call_number}"
-    result = gh_api(f"issues?labels=ACD,{config['layer_label']}&state=all&per_page=100")
-    if not result:
-        return False
-    issues = result if isinstance(result, list) else []
-    if isinstance(result, dict) and "items" in result:
-        issues = result["items"]
-    for issue in issues:
-        if expected_title_fragment in issue.get("title", ""):
-            return True
-    return False
+    # Anchor on a non-digit boundary so "#24" cannot match "#245"
+    title_re = re.compile(
+        re.escape(f"{config['title_prefix']} #{call_number}") + r"(?!\d)"
+    )
+    page = 1
+    while True:
+        result = api_call(
+            f"issues?labels=ACD,{config['layer_label']}&state=all"
+            f"&per_page=100&page={page}"
+        )
+        if not result:
+            return False
+        issues = result if isinstance(result, list) else result.get("items", [])
+        if not issues:
+            return False
+        for issue in issues:
+            if title_re.search(issue.get("title", "")):
+                return True
+        if len(issues) < 100:
+            return False
+        page += 1
 
 
 def create_issue(call_number, call_date, series_key, dry_run=False):
@@ -236,7 +236,6 @@ def create_issue(call_number, call_date, series_key, dry_run=False):
         print(f"    Body preview: {body[:100]}...")
         return True
 
-    # Build gh api command manually for proper label array handling
     payload = {"title": title, "body": body, "labels": config["labels"]}
     result_data = api_call("issues", method="POST", payload=payload)
 
@@ -284,12 +283,17 @@ def process_series(series_key, dry_run=False):
     # Next date = last date + 14 days
     next_date = last_date + timedelta(days=CADENCE_DAYS)
 
-    # If next date is in the past, keep adding 14 days until it's a future Thursday
+    # If the next date is in the past (missed/cancelled cycle, bot outage), keep
+    # advancing by the cadence until it lands in the future.
+    #
+    # The call number is deliberately NOT advanced here: ACD call numbers
+    # increment only when a call actually happens. Bumping the number per
+    # skipped cycle would permanently burn numbers for calls that never
+    # occurred and desync the series from every downstream consumer.
     today = datetime.now(timezone.utc).date()
     while next_date <= today:
         next_date += timedelta(days=CADENCE_DAYS)
-        next_num += 1  # Skip missed calls
-        print(f"  Date was in past, advancing to #{next_num} on {next_date}")
+        print(f"  Date was in the past, advancing to {next_date} (still #{next_num})")
 
     # Verify it's a Thursday
     if next_date.weekday() != 3:  # 3 = Thursday

@@ -21,6 +21,12 @@ on:
         type: boolean
         default: false
 
+# Issue creation is authenticated with PAT_TOKEN (a GITHUB_TOKEN-created issue
+# does not trigger downstream workflows), so the job itself only needs read
+# access to check out the script.
+permissions:
+  contents: read
+
 jobs:
   auto-create:
     runs-on: ubuntu-latest
@@ -46,7 +52,3 @@ jobs:
             ARGS="$ARGS --type ${{ inputs.call_type }}"
           fi
           python3 .github/scripts/auto-create-acd-issue.py $ARGS
-
-permissions:
-  issues: write
-  contents: read
