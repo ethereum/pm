@@ -351,8 +351,16 @@ def main():
     series_to_check = [args.type] if args.type else ["acde", "acdc"]
 
     created = []
+    failures = []
     for series_key in series_to_check:
-        issue_number = process_series(series_key, dry_run=args.dry_run)
+        # One series failing must not prevent the other from being processed,
+        # and must not lose the issue numbers already created above.
+        try:
+            issue_number = process_series(series_key, dry_run=args.dry_run)
+        except Exception as exc:
+            print(f"  ❌ {series_key.upper()} failed: {exc}")
+            failures.append(f"{series_key}: {exc}")
+            continue
         if issue_number:
             created.append(issue_number)
 
@@ -364,6 +372,14 @@ def main():
             f.write(f"created_issues={','.join(str(n) for n in created)}\n")
 
     print(f"\nDone. Created {len(created)} issue(s).")
+
+    if failures:
+        # Non-zero exit so the Actions run goes red, but only after the
+        # successfully created issues have been handed off for scheduling.
+        print(f"\n{len(failures)} series failed:")
+        for f in failures:
+            print(f"  - {f}")
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

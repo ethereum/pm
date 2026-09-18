@@ -61,8 +61,10 @@ jobs:
           fi
           python3 .github/scripts/auto-create-acd-issue.py "${ARGS[@]}"
 
+      # Runs even if the previous step exited non-zero: one series can fail
+      # while the other created an issue that still needs scheduling.
       - name: Handle protocol calls
-        if: steps.create.outputs.created_issues != ''
+        if: ${{ !cancelled() && steps.create.outputs.created_issues != '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
