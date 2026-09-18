@@ -21,35 +21,98 @@ on:
         type: boolean
         default: false
 
-# Issue creation is authenticated with ACD_ISSUE_CREATION_TOKEN, a PAT with
-# `repo` scope (an issue created via GITHUB_TOKEN does not trigger downstream
-# workflows, so ACDbot would never pick it up). The job itself therefore only
-# needs read access to check out the script.
+# Issues are created with GITHUB_TOKEN, so they are authored by
+# github-actions[bot] and no issues.opened event is emitted. This workflow
+# therefore invokes ACDbot's handler directly instead of relying on
+# protocol-call-workflow.yml being triggered by the event.
 permissions:
-  contents: read
+  contents: write
+  issues: write
+
+# Never let two runs create issues for the same call concurrently
+concurrency:
+  group: auto-create-acd-issues
+  cancel-in-progress: false
 
 jobs:
   auto-create:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
 
-      - name: Run auto-create script
+      - name: Create issues for upcoming calls
+        id: create
         env:
-          ACD_ISSUE_CREATION_TOKEN: ${{ secrets.ACD_ISSUE_CREATION_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          CALL_TYPE: ${{ inputs.call_type }}
         run: |
-          ARGS=""
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            ARGS="--dry-run"
+          ARGS=()
+          if [ "$DRY_RUN" = "true" ]; then
+            ARGS+=(--dry-run)
           fi
-          if [ -n "${{ inputs.call_type }}" ]; then
-            ARGS="$ARGS --type ${{ inputs.call_type }}"
+          if [ -n "$CALL_TYPE" ]; then
+            ARGS+=(--type "$CALL_TYPE")
           fi
-          python3 .github/scripts/auto-create-acd-issue.py $ARGS
+          python3 .github/scripts/auto-create-acd-issue.py "${ARGS[@]}"
+
+      - name: Handle protocol calls
+        if: steps.create.outputs.created_issues != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          ZOOM_ACCOUNT_ID: ${{ secrets.ZOOM_ACCOUNT_ID }}
+          ZOOM_ALTERNATIVE_HOSTS: ${{ secrets.ZOOM_ALTERNATIVE_HOSTS }}
+          ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
+          DISCOURSE_API_KEY: ${{ secrets.DISCOURSE_API_KEY }}
+          DISCOURSE_API_USERNAME: ${{ secrets.DISCOURSE_API_USERNAME }}
+          DISCOURSE_BASE_URL: ${{ vars.DISCOURSE_BASE_URL }}
+          GCAL_ID: ${{ vars.GCAL_ID }}
+          GCAL_SERVICE_ACCOUNT_KEY: ${{ secrets.GCAL_SERVICE_ACCOUNT_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+          MATTERMOST_BOT_WEBHOOK_URL: ${{ secrets.MATTERMOST_BOT_WEBHOOK_URL }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_EMAIL_PASSWORD: ${{ secrets.SENDER_EMAIL_PASSWORD }}
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          CREATED_ISSUES: ${{ steps.create.outputs.created_issues }}
+        run: |
+          IFS=',' read -ra ISSUES <<< "$CREATED_ISSUES"
+          for issue in "${ISSUES[@]}"; do
+            echo "::group::Handling protocol call issue #${issue}"
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked \
+              "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/handle_protocol_call.py" \
+              --issue_number "${issue}" \
+              --repo "${{ github.repository }}"
+            echo "::endgroup::"
+          done
+
+      - name: Commit mapping file
+        if: always() && steps.create.outputs.created_issues != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CREATED_ISSUES: ${{ steps.create.outputs.created_issues }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          if git diff --quiet .github/ACDbot/meeting_topic_mapping.json; then
+            echo "No changes to mapping file"
+          else
+            git add .github/ACDbot/meeting_topic_mapping.json
+            git commit -m "Update mapping for issue(s) $CREATED_ISSUES"
+            git pull --rebase
+            git push
+            echo "Committed mapping file changes"
+          fi

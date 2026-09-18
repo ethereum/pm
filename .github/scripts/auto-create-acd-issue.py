@@ -9,9 +9,13 @@ Runs every Saturday at 09:00 UTC via GitHub Actions.
 Can also be triggered manually via workflow_dispatch.
 
 Auth:
-  ACD_ISSUE_CREATION_TOKEN — repo-scoped PAT used to open the issue. A PAT is
-  required because issues created with GITHUB_TOKEN do not trigger downstream
-  workflows, so ACDbot would never process the new issue.
+  GITHUB_TOKEN — the per-run token provided by GitHub Actions. Issues created
+  with it are authored by github-actions[bot] and do NOT emit an issues.opened
+  event, so the workflow invokes handle_protocol_call.py directly afterwards
+  rather than relying on the event-driven protocol-call-workflow.
+
+  The number of each created issue is written to $GITHUB_OUTPUT as
+  `created_issues` (comma-separated) for that follow-up step.
 
 Usage:
   python3 auto-create-acd-issue.py                    # auto mode (check both ACDE and ACDC)
@@ -29,11 +33,7 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "ethereum/pm")
-GITHUB_TOKEN = (
-    os.environ.get("ACD_ISSUE_CREATION_TOKEN")
-    or os.environ.get("GITHUB_TOKEN")
-    or os.environ.get("GH_TOKEN", "")
-)
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN", "")
 
 # Series configuration
 SERIES_CONFIG = {
@@ -243,18 +243,31 @@ def create_issue(call_number, call_date, series_key, dry_run=False):
         print(f"    Title: {title}")
         print(f"    Labels: {labels}")
         print(f"    Body preview: {body[:100]}...")
-        return True
+        return None
 
     payload = {"title": title, "body": body, "labels": config["labels"]}
     result_data = api_call("issues", method="POST", payload=payload)
 
-    if result_data and result_data.get("number"):
-        print(f"  ✅ Created issue #{result_data['number']}: {title}")
-        print(f"     {result_data.get('html_url', '')}")
-        return True
-    else:
-        print(f"  ❌ Failed to create issue")
-        return False
+    if not (result_data and result_data.get("number")):
+        raise RuntimeError(f"Failed to create issue: {title}")
+
+    issue_number = result_data["number"]
+    print(f"  ✅ Created issue #{issue_number}: {title}")
+    print(f"     {result_data.get('html_url', '')}")
+
+    # Labels are required for the dedup query (issues?labels=ACD,<layer>) to
+    # find this issue on later runs. If they were silently dropped we would
+    # create a duplicate every week, so fail loudly instead.
+    applied = {lbl.get("name") for lbl in result_data.get("labels", [])}
+    missing = [lbl for lbl in config["labels"] if lbl not in applied]
+    if missing:
+        raise RuntimeError(
+            f"Issue #{issue_number} created without label(s) {missing}. "
+            "The token lacks permission to apply labels; the next run would "
+            "not find this issue and would create a duplicate."
+        )
+
+    return issue_number
 
 
 def process_series(series_key, dry_run=False):
@@ -321,7 +334,7 @@ def process_series(series_key, dry_run=False):
 
     # Create the issue
     print(f"  Next call: #{next_num} on {next_date.strftime('%B %-d, %Y')}")
-    create_issue(next_num, next_date, series_key, dry_run=dry_run)
+    return create_issue(next_num, next_date, series_key, dry_run=dry_run)
 
 
 def main():
@@ -337,10 +350,20 @@ def main():
 
     series_to_check = [args.type] if args.type else ["acde", "acdc"]
 
+    created = []
     for series_key in series_to_check:
-        process_series(series_key, dry_run=args.dry_run)
+        issue_number = process_series(series_key, dry_run=args.dry_run)
+        if issue_number:
+            created.append(issue_number)
 
-    print("\nDone.")
+    # Hand the new issue numbers to the workflow so it can run ACDbot's
+    # handler on them (no issues.opened event fires for GITHUB_TOKEN).
+    output_file = os.environ.get("GITHUB_OUTPUT")
+    if output_file:
+        with open(output_file, "a") as f:
+            f.write(f"created_issues={','.join(str(n) for n in created)}\n")
+
+    print(f"\nDone. Created {len(created)} issue(s).")
 
 
 if __name__ == "__main__":
