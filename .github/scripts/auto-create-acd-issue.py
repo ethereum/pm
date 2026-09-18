@@ -8,6 +8,11 @@ that the ACDbot expects.
 Runs every Saturday at 09:00 UTC via GitHub Actions.
 Can also be triggered manually via workflow_dispatch.
 
+Auth:
+  ACD_ISSUE_CREATION_TOKEN — repo-scoped PAT used to open the issue. A PAT is
+  required because issues created with GITHUB_TOKEN do not trigger downstream
+  workflows, so ACDbot would never process the new issue.
+
 Usage:
   python3 auto-create-acd-issue.py                    # auto mode (check both ACDE and ACDC)
   python3 auto-create-acd-issue.py --dry-run          # print what would be created, don't create
@@ -24,7 +29,11 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "ethereum/pm")
-GITHUB_TOKEN = os.environ.get("PAT_TOKEN") or os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN", "")
+GITHUB_TOKEN = (
+    os.environ.get("ACD_ISSUE_CREATION_TOKEN")
+    or os.environ.get("GITHUB_TOKEN")
+    or os.environ.get("GH_TOKEN", "")
+)
 
 # Series configuration
 SERIES_CONFIG = {

@@ -21,9 +21,10 @@ on:
         type: boolean
         default: false
 
-# Issue creation is authenticated with PAT_TOKEN (a GITHUB_TOKEN-created issue
-# does not trigger downstream workflows), so the job itself only needs read
-# access to check out the script.
+# Issue creation is authenticated with ACD_ISSUE_CREATION_TOKEN, a PAT with
+# `repo` scope (an issue created via GITHUB_TOKEN does not trigger downstream
+# workflows, so ACDbot would never pick it up). The job itself therefore only
+# needs read access to check out the script.
 permissions:
   contents: read
 
@@ -41,7 +42,7 @@ jobs:
 
       - name: Run auto-create script
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          ACD_ISSUE_CREATION_TOKEN: ${{ secrets.ACD_ISSUE_CREATION_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           ARGS=""
