@@ -1,0 +1,192 @@
+00:02:05	Justin Traglia:	Lol. Gm.
+00:02:12	jochem-brouwer (backup):	gm gm
+00:02:25	danceratopz:	<https://github.com/ethereum/pm/issues/2225>
+00:02:39	Potuz:	GM
+00:02:45	danceratopz:	gm!
+00:03:01	emma (reth):	gm
+00:03:43	Will Corcoran:	Gm Dan!
+00:03:48	Kevaundray Wedderburn:	gm
+00:03:49	Mehdi Aouadi:	gm gn
+00:03:50	danceratopz:	📋 ACDT #97 agenda:
+<https://github.com/ethereum/pm/issues/2225>
+00:03:53	Stefan Starflinger:	gm
+00:06:16	Potuz:	we're getting bids from them
+00:06:30	Potuz:	but not tested much as they were plenty of bugs early on
+00:07:30	danceratopz:	⏳ Reduce compute_min_epochs_for_block_requests() after EIP-8061? (jihoonsong)
+
+EIP-8061: <https://eips.ethereum.org/EIPS/eip-8061#configuration>
+Gloas WSP table: <https://github.com/ethereum/consensus-specs/pull/5629>
+EIP-8383 proposal, fixed 8192 epochs: <https://github.com/ethereum/EIPs/pull/12188>
+Thread: <https://discord.com/channels/595666850260713488/1549841282652971111>
+
+TLDR: the serving window is still 33024 epochs (about 5 months) while the WSP it was derived from has halved.
+
+What should do with the serving window in Glamsterdam:
+
+- Keep 33024,
+- Reduce to 14299 (EIP-8061; same derivation),
+- Reduce to 8192 (EIP-8383, PFI for Hegota).
+00:07:46	Toni Wahrstätter:	We would only need such large windows under non-finality?
+Otherwise check pointa are much fresher?
+00:08:06	Nico Flaig:	Replying to "We would only need s..."
+
+clients should never prune non-finalized blocks
+00:08:21	Toni Wahrstätter:	Replying to "We would only need s..." 
+
+ Right, so yes?
+00:08:42	Nico Flaig:	Replying to "We would only need s..."
+
+no this retention is for happy path sync if your node is offline for a while
+00:09:02	Toni Wahrstätter:	Replying to "We would only need s..." 
+
+ I see!
+Offline but not requesting a trusted checkpoint?
+00:09:34	Nico Flaig:	Replying to "We would only need s..."
+
+yeah and depending on what safety decay you use or think is safe
+00:10:16	Nico Flaig:	the cl retention determines the el retention, though?
+00:10:30	cayman:	we can make a recommendation for ACD?
+00:12:02	Jihoon:	Replying to "we can make a recomm..."
+
+ACDE or ACDC or both?
+00:12:26	Jihoon:	Replying to "we can make a recomm..."
+
+I thought ACDT is also an ACD call though lol
+00:12:43	cayman:	BAL retention should match or else deduping payloads becomes fraught
+00:12:44	danceratopz:	💾 EIP-7928 BAL retention, 3533 -> 33024 epochs (nflaig)
+Update EIP-7928: align BAL retention with the history expiry window:
+
+- <https://github.com/ethereum/EIPs/pull/12347>
+
+EIP-4444 HISTORY_PRUNE_EPOCHS for comparison:
+
+- <https://eips.ethereum.org/EIPS/eip-4444>
+00:14:29	Kevaundray Wedderburn:	This is at 10% safety decay?
+00:15:14	jochem-brouwer (backup):	can snap sync also to catch up, right?
+00:17:47	Kevaundray Wedderburn:	Whats the number for archive nodes?
+00:18:02	Karim Taam:	Replying to "can snap sync also t..."
+
+We need BAL for snapsync healing, but could be some days only. In general it take less than a day to do a snapsync
+00:19:01	Kevaundray Wedderburn:	Replying to "Whats the number for..."
+
+If its the max safety decay number (5 months), then this seems arbitrary
+00:19:33	Toni Wahrstätter:	Replying to "can snap sync also t..." 
+
+ Snap anchors on the head block and we will def have the bal for head-64
+00:21:57	Karim Taam:	Replying to "can snap sync also t..."
+
+We are also thinking to use BAL for PBT migration and to update the snapshot every n blocks depending on the BAL retention period @Kevaundray Wedderburn
+00:23:49	Marius:	Yep as tony said, we don't prune them at all atm
+00:23:55	Marius:	snap sync
+00:24:28	Kevaundray Wedderburn:	Snap sync won’t be that old?
+00:24:40	Karim Taam:	We need it for healing
+00:25:14	Karim Taam:	We download using a pivot and we need to fix all the changes from the pivot block to the next one
+00:28:14	cayman:	I don't think we want to force checkpoint sync? We want offline nodes to catch up via forward sync?
+00:29:27	Nico Flaig:	I don't think we should force the spec in that direction, checkpoint sync is not needed if last state is safe to sync from
+00:30:16	Kevaundray Wedderburn:	Reacted to "I don't think we should force the spec in that direction, checkpoint sync is not needed if last state is safe to sync from" with 👍
+00:30:25	Csaba:	How is trusting a state checkpoint different from trusting a state diff (BAL)?
+00:30:32	danceratopz:	🗓️ Glamsterdam testnet quick check
+Sepolia Oct 6 (epoch 353024, 13:53:36 UTC), client releases due Sep 29: <https://github.com/ethereum/pm/pull/2205> and <https://github.com/ethereum/EIPs/pull/12355>
+
+
+Please review if you haven't, Schedule Sepolia Glamsterdam activation: <https://github.com/eth-clients/sepolia/pull/126>
+00:30:50	danceratopz:	ACDC #187 recap (Hoodi tentatively Oct 27, go/no-go Oct 8): <https://forkcast.org/calls/acdc/187/>
+Sepolia shadow fork date?
+00:31:13	cayman:	Reacted to "I don't think we sho..." with 👍
+00:32:08	Łukasz Rozmej:	On a decent machine we should be able to process 2 weeks of blocks faster than we would snap sync (~1h) fresh head.On EL there is a problem of continuity of state, we cannot snap sync past state, only get it through processing.
+00:32:26	Toni Wahrstätter:	I wouldn't block testnets for it
+00:32:35	Kevaundray Wedderburn:	Continuing on this thread here: https://discord.com/channels/595666850260713488/1549841282652971111
+00:32:36	Stefan Starflinger:	Reacted to "I wouldn't block testnets for it" with 👍
+00:34:47	danceratopz:	🚀 Preliminary Hegota devnet schedule (spencer-tb)
+frames-devnet-0 exists (lightclient), frames test releases: <https://github.com/ethereum/execution-specs/releases>
+00:36:37	Dragan Rakita:	Eip8037 was worth it! 🙂
+00:36:49	danceratopz:	Reacted to "Eip8037 was worth it..." with 💙
+00:36:58	Marius:	Reacted to "Eip8037 was worth ..." with 👍
+00:37:01	Kevaundray Wedderburn:	Reacted to "Eip8037 was worth it! 🙂" with 💙
+00:37:06	Maria Silva:	Reacted to "Eip8037 was worth it! 🙂" with ♥️
+00:37:06	danceratopz:	Reacted to "Eip8037 was worth it..." with ⛽
+00:37:13	lightclient:	when should we do a frames decent 0? the ethers has been going for a while now, i think we could get started with frames only devnet then oct work on frames x focus
+00:37:35	Parithosh Jayanthi:	Yeah sorry a few of us were on vacation and we’re just catching up 🙂
+Happy to chat on the thread!
+00:37:35	jochem-brouwer (backup):	eip-8253 on devnet-0?
+00:37:41	lightclient:	Reacted to "Yeah sorry a few of us were on vacation and we’re just catching up 🙂
+Happy to chat on the thread!" with ❤️
+00:37:44	danceratopz:	Reacted to "Yeah sorry a few of ..." with ❤️
+00:37:53	lightclient:	Replying to "Yeah sorry a few of us were on vacation and we’re just catching up 🙂
+Happy to chat on the thread!"
+
+no worries :)
+00:38:02	Iván | ethrex:	Replying to "when should we do a ..."
+
+IMO frames only and focil only at the beginning
+00:38:28	lightclient:	Replying to "when should we do a frames decent 0? the ethers has been going for a while now, i think we could get started with frames only devnet then oct work on frames x focus"
+
+sorry had a lot of auto corrects on this 😂
+00:38:39	Potuz:	+1 Stefan, it seems that AA and FOCIL only interact abstractly through the Engine API, so on the CL side at least, it would be much easier to test FOCIL alone without waiting for Frame complete branches
+00:38:42	Toni Wahrstätter:	Epbs and BALs had not much interaction, almost 0.
+This is different for focil and frames, esp wrt mempool.
+00:38:42	Iván | ethrex:	Reacted to "sorry had a lot of a..." with 👍
+00:38:44	lightclient:	Replying to "when should we do a frames decent 0? the ethers has been going for a while now, i think we could get started with frames only devnet then oct work on frames x focus"
+
+*devnet *ethrex
+00:41:21	Iván | ethrex:	I wouldn’t delay starting a devnet if there are enough implementations ready.
+
+For ELs we have 3 clients with frame transactions implementations already, while for FOCIL we are still trying to make 2 CLs agree
+00:41:32	Kevaundray Wedderburn:	Reacted to "I wouldn’t delay starting a devnet if there are enough implementations ready.
+
+For ELs we have 3 clients with frame transactions implementations already, while for FOCIL we are still trying to make 2 CLs agree" with 👍
+00:41:33	Stefan Starflinger:	Reacted to "I wouldn’t delay starting a devnet if there are enough implementations ready.
+
+For ELs we have 3 clients with frame transactions implementations already, while for FOCIL we are still trying to make 2 CLs agree" with 👍
+00:41:39	lightclient:	Reacted to "I wouldn’t delay starting a devnet if there are enough implementations ready.
+
+For ELs we have 3 clients with frame transactions implementations already, while for FOCIL we are still trying to make 2 CLs agree" with 👍
+00:42:53	Pablo Deymo | Lambda:	Reacted to "I wouldn’t delay starting a devnet if there are enough implementations ready.
+
+For ELs we have 3 clients with frame transactions implementations already, while for FOCIL we are still trying to make 2 CLs agree" with 👍
+00:44:24	danceratopz:	Reacted to "I wouldn’t delay sta..." with 👍
+00:45:03	danceratopz:	📋 CL Breakout:
+<https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1>
+
+Hegota PSA: EIP-8142 (BiB) is being withdrawn/DFI by its champion, @kamilsa: https://github.com/ethereum/EIPs/pull/12072#issuecomment-5757125260. 8411 (fast execution broadcast) replaces it and requires CL team ratings ahead of next ACDC.
+00:45:42	Kevaundray Wedderburn:	@Jihoon 
+
+So we would have a FOCIL only branch which includes a modified EL that includes ILs.
+
+Then a FOCIL + Frames branch where the EL adds ILs and frame tx type
+00:46:21	Jihoon:	Replying to "@Jihoon 
+
+So we woul..."
+
+Yes and for FOCIL + Frames branch, we also need to modify CL a bit to support the interaction
+00:46:22	marc | wolovim:	Reacted to "📋 CL Breakout:
+<https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1>
+
+Hegota PSA: EIP-8142 (BiB) is being withdrawn/DFI by its champion, @kamilsa: https://github.com/ethereum/EIPs/pull/12072#issuecomment-5757125260. 8411 (fast execution broadcast) replaces it and requires CL team ratings ahead of next ACDC." with 👆
+00:46:28	Kevaundray Wedderburn:	Reacted to "Yes and for FOCIL + Frames branch, we also need to modify CL a bit to support the interaction" with 👍
+00:46:50	Jihoon:	Replying to "@Jihoon 
+
+So we woul..."
+
+So FOCIL only devnet on the CL is  preliminary to Frames and FOCIL devnet on the EL
+00:46:56	Toni Wahrstätter:	Replying to "@Jihoon 
+
+So we woul..." 
+
+ ELs should design the frame mempool in a way to make building valid ILs easy later on
+00:47:13	Louis:	Reacted to "📋 CL Breakout:
+<https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1>
+
+Hegota PSA: EIP-8142 (BiB) is being withdrawn/DFI by its champion, @kamilsa: https://github.com/ethereum/EIPs/pull/12072#issuecomment-5757125260. 8411 (fast execution broadcast) replaces it and requires CL team ratings ahead of next ACDC." with 👆
+00:47:14	Jihoon:	Reacted to "ELs should design the frame mempool in a way to make building valid ILs easy later on" with 💯
+00:47:28	spencer:	Reacted to "Eip8037 was worth ..." with 💙
+00:48:24	danceratopz:	🫧 EL breakout: BPO test schedules for Amsterdam
+
+TLDR: Osaka-based BPO3/BPO4 stay until the fork; new Amsterdam-based BPOIncrease/BPODecrease test schedules; running them in hive needs clients to accept a BPO slot after Amsterdam
+00:49:38	Toni Wahrstätter:	Are we considering increasing blob counts?
+00:49:45	Toni Wahrstätter:	Or just for testing?
+00:51:07	Maria Silva:	Not from my side
+00:51:08	Louis:	No from my side
+00:52:14	Louis:	Ben, could you add the topic here: https://github.com/ethpandaops/gas-lighting-tracker/issues/83 , thank you
+00:55:21	Ben Adams:	Reacted to "Ben, could you add the topic here: https://github.com/ethpandaops/gas-lighting-tracker/issues/83 , thank you" with 👍
+00:56:14	marc | wolovim:	reminder: next frame breakout call is tmrw, if anyone wants to get something on the agenda: https://github.com/ethereum/pm/issues/2221
