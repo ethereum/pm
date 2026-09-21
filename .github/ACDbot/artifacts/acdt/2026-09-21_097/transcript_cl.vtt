@@ -1,0 +1,722 @@
+WEBVTT
+
+1
+00:00:37.280 --> 00:00:40.669
+Justin Traglia: Hello, hello, just another minute or two.
+
+2
+00:01:01.720 --> 00:01:05.549
+Justin Traglia: Hello, everyone. Maybe 15, 20 more seconds, then we'll get started.
+
+3
+00:01:19.630 --> 00:01:20.490
+Justin Traglia: Alright.
+
+4
+00:01:20.750 --> 00:01:29.819
+Justin Traglia: So it's not on the agenda, but I think we should very quickly discuss, the issue that Michael Sproul raised yesterday regarding,
+
+5
+00:01:30.750 --> 00:01:34.210
+Justin Traglia: Possible edge case at the CLOS fork transition.
+
+6
+00:01:34.720 --> 00:01:38.470
+Justin Traglia: With Validator 0 indices. Have you guys seen this issue?
+
+7
+00:01:44.590 --> 00:01:48.210
+Justin Traglia: Happy.
+
+8
+00:01:48.310 --> 00:01:51.109
+Justin Traglia: Yeah, she describes it pretty well, but
+
+9
+00:01:51.760 --> 00:01:56.960
+Justin Traglia: There could be a split, a consensus split, if Validator is 0.
+
+10
+00:01:58.810 --> 00:02:01.090
+Justin Traglia: Voted in the first epoch.
+
+11
+00:02:01.620 --> 00:02:02.780
+Justin Traglia: After the fork.
+
+12
+00:02:03.500 --> 00:02:05.689
+Justin Traglia: Because technically, it's part of the PTC.
+
+13
+00:02:08.949 --> 00:02:14.999
+Justin Traglia: So anyway, there was a… there was a suggestion to just initialize the PTC with,
+
+14
+00:02:15.780 --> 00:02:21.280
+Justin Traglia: Instead of using ValidatorIndex 0, you just use a higher value, which isn't active, it's assigned.
+
+15
+00:02:23.000 --> 00:02:26.330
+Justin Traglia: That's probably the fix I would do. It was suggested by Kyle.
+
+16
+00:02:27.380 --> 00:02:35.560
+Justin Traglia: Would that be an issue for anyone? I'm planning to just use the value he suggested, which is 2 to the 22, which is approximately 4 million.
+
+17
+00:02:45.220 --> 00:02:47.870
+Potuz: Why is it a consensus split? Because…
+
+18
+00:02:48.040 --> 00:02:52.430
+Potuz: Because people would treat them as invalid, some clients would treat them as invalid.
+
+19
+00:02:58.880 --> 00:03:00.219
+Justin Traglia: I don't recall.
+
+20
+00:03:03.460 --> 00:03:04.950
+Justin Traglia: Let me check the issue.
+
+21
+00:03:17.080 --> 00:03:17.520
+Potuz: Howdy.
+
+22
+00:03:17.900 --> 00:03:23.339
+Potuz: that the Lighthouse treats them as invalid, which is… Yep, I don't…
+
+23
+00:03:28.420 --> 00:03:32.600
+Justin Traglia: So yeah, I mean, this is something we should probably fix. I know it's just, like, a stupid edge case, but…
+
+24
+00:03:34.870 --> 00:03:37.600
+Justin Traglia: What do you guys think about the potential solutions?
+
+25
+00:03:52.400 --> 00:03:55.949
+Justin Traglia: Also, I can just propose a PR after this call.
+
+26
+00:03:56.080 --> 00:03:57.809
+Justin Traglia: And share it with you guys.
+
+27
+00:04:05.550 --> 00:04:08.679
+Justin Traglia: Just be aware of that, and I'll… I'll…
+
+28
+00:04:09.140 --> 00:04:10.950
+Justin Traglia: Contact you guys more about it later.
+
+29
+00:04:12.040 --> 00:04:21.489
+Justin Traglia: Mehdi, there… the first agenda item is for you. You proposed two PRs related to, gossip tests. Would you like to discuss those?
+
+30
+00:04:23.750 --> 00:04:38.939
+Mehdi Aouadi: Yep, I just needed to bring some attention to those PARs, because there were basically, two failing tests in TECU. First one is for the gossip proposal preferences, and the other one was the BNS2 execution change.
+
+31
+00:04:39.490 --> 00:04:47.350
+Mehdi Aouadi: yeah, I managed to merge the first PR, I got some reviews this morning, and the other ones too, I got some reviews from Jihoon, so I'm working on it.
+
+32
+00:04:47.620 --> 00:04:53.780
+Mehdi Aouadi: So guess, I guess, yeah, that's all I needed to… to have. Thanks.
+
+33
+00:04:54.710 --> 00:05:01.369
+Justin Traglia: Okay. Thank you. And I believe, yeah, Jihoon suggested swapping those two checks. I think that also makes sense.
+
+34
+00:05:01.700 --> 00:05:12.030
+Mehdi Aouadi: Yeah, definitely. Yeah, I already pushed a commit with, swapping, I'm, swapping those changes, those, checks, and I'm, checking the second, review, yeah.
+
+35
+00:05:12.620 --> 00:05:15.210
+Justin Traglia: Okay, cool. Yeah, I'll take a look at that later, too.
+
+36
+00:05:15.210 --> 00:05:16.100
+Mehdi Aouadi: Cool, thanks.
+
+37
+00:05:16.630 --> 00:05:24.020
+Jihoon: But there is another test that swapping to checks didn't really solve it's about…
+
+38
+00:05:25.170 --> 00:05:29.690
+Jihoon: what's it called? The Cloud Disparity check?
+
+39
+00:05:31.390 --> 00:05:35.870
+Jihoon: It's a bit weird edge case that we're testing and swapping to
+
+40
+00:05:36.130 --> 00:05:40.299
+Jihoon: You know, two checks doesn't really actually solve the problem, so…
+
+41
+00:05:40.530 --> 00:05:42.879
+Jihoon: I found it a bit weird to use
+
+42
+00:05:43.860 --> 00:05:56.739
+Jihoon: Capella scene when we are still at Bellatrix, but at the same time, I'm also not sure that whether this is actually worth to test, because we're already past Capella.
+
+43
+00:05:59.020 --> 00:06:00.780
+Mehdi Aouadi: Yeah,
+
+44
+00:06:09.400 --> 00:06:13.910
+Justin Traglia: no strong feelings for me. It doesn't really matter, this is just a great edge case.
+
+45
+00:06:15.810 --> 00:06:17.839
+Justin Traglia: Not weird, but annoying, edge case.
+
+46
+00:06:18.770 --> 00:06:27.720
+Jihoon: Yeah, so if it's not a big of a deal, maybe we can swap those two checks and remove the clock disparity check, but…
+
+47
+00:06:28.970 --> 00:06:31.549
+Jihoon: I don't know, what do other people think about this?
+
+48
+00:06:32.890 --> 00:06:39.289
+Mehdi Aouadi: Yeah, honestly, that was one of the options I was thinking of, but yeah, I didn't know if…
+
+49
+00:06:39.480 --> 00:06:45.680
+Mehdi Aouadi: Would be okay, for… to reduce the coverage, even though it's, yeah, it's a weird edge case, but…
+
+50
+00:06:47.440 --> 00:06:49.159
+Mehdi Aouadi: I'd say yes for that.
+
+51
+00:06:52.910 --> 00:06:55.139
+Justin Traglia: I'll think about it and leave your comments on the PR.
+
+52
+00:06:55.830 --> 00:06:56.720
+Mehdi Aouadi: Okay, cool.
+
+53
+00:07:00.350 --> 00:07:09.950
+Justin Traglia: Okay, moving on, Jihoon, you wanted to discuss merging that PR. Only return viable payload status variants from GitHead.
+
+54
+00:07:11.970 --> 00:07:15.060
+Jihoon: Yeah, yeah, thanks.
+
+55
+00:07:15.340 --> 00:07:22.220
+Jihoon: James. I want to ask, what do you want to do with 55… 9?
+
+56
+00:07:22.690 --> 00:07:30.479
+Jihoon: What the PR does is it updates GetHead to traverse only nodes that filter 3 returns.
+
+57
+00:07:30.670 --> 00:07:34.450
+Jihoon: Several people, including myself, reviewed the PR,
+
+58
+00:07:34.610 --> 00:07:42.180
+Jihoon: So, assuming the PR is good, the last thing we need to discuss is March timing, because we are close to Sepolia.
+
+59
+00:07:43.440 --> 00:07:47.620
+Jihoon: I saw a few people discussing the GitHub issue, but I figure…
+
+60
+00:07:47.750 --> 00:07:52.109
+Jihoon: It doesn't hurt to bring this to ACD and socialize it with more people.
+
+61
+00:08:02.230 --> 00:08:08.929
+Justin Traglia: Is this a consensus-breaking change? Like, could we merge it, and then clients wouldn't actually have to do anything?
+
+62
+00:08:09.330 --> 00:08:22.960
+Potuz: Well, it depends. There might be a weird edge case that can trigger a consensus split, but if that happens, it already exists, because FRISM already implements that logic.
+
+63
+00:08:23.660 --> 00:08:31.140
+Potuz: Having said so, Michael. Michael Sproul said that there would be implementation churn.
+
+64
+00:08:31.520 --> 00:08:35.590
+Potuz: So I don't know what that means. Perhaps Lighthouse needs to make changes.
+
+65
+00:08:35.750 --> 00:08:40.529
+Potuz: And he suggests not merging it before the… the fork.
+
+66
+00:08:40.710 --> 00:08:46.290
+Potuz: at any rate, if there is a consensus split, it already happens. Prism already implements this.
+
+67
+00:08:46.440 --> 00:08:55.040
+Potuz: Before this came in, so… So, which also leads me to check that there's no test for this.
+
+68
+00:08:56.500 --> 00:08:59.350
+Potuz: Having said so on, so it's impossible to trigger.
+
+69
+00:08:59.470 --> 00:09:00.300
+Potuz: Oops.
+
+70
+00:09:00.550 --> 00:09:01.850
+Potuz: Just not gonna happen.
+
+71
+00:09:01.850 --> 00:09:05.870
+Nico Flaig: I think there are tests for this. The compliance tests cover this.
+
+72
+00:09:05.870 --> 00:09:11.320
+Potuz: Yeah, so we are… we are not passing compliant tests. We only have four-choice tests, but not compliant tests.
+
+73
+00:09:13.990 --> 00:09:17.200
+Jihoon: Yeah, so… Regarding this issue,
+
+74
+00:09:18.910 --> 00:09:26.900
+Jihoon: we can stick to the PR or the spec without the PR, but I think we should decide which one we want to stick to.
+
+75
+00:09:28.430 --> 00:09:31.450
+Jihoon: And that's also… What, because…
+
+76
+00:09:31.450 --> 00:09:31.949
+Potuz: I'm not gonna…
+
+77
+00:09:31.950 --> 00:09:32.610
+Jihoon: Testing.
+
+78
+00:09:32.610 --> 00:09:35.220
+Potuz: and fork choice, so regardless.
+
+79
+00:09:35.220 --> 00:09:35.860
+Jihoon: I mean, yes.
+
+80
+00:09:35.860 --> 00:09:36.639
+Potuz: merge it or not.
+
+81
+00:09:36.640 --> 00:09:37.390
+Jihoon: Oh my goodness.
+
+82
+00:09:38.290 --> 00:09:45.259
+Jihoon: can remain specimen compliant, but we have other clients, so yeah, what other clients do want to…
+
+83
+00:09:45.540 --> 00:09:47.000
+Jihoon: do with SPR.
+
+84
+00:10:11.900 --> 00:10:15.850
+Jihoon: It seems like Lighthouse is okay with going with the PR.
+
+85
+00:10:17.440 --> 00:10:18.990
+Potuz: Well, Michael says no.
+
+86
+00:10:19.090 --> 00:10:21.769
+Potuz: Michael explicitly says not to merge it.
+
+87
+00:10:22.300 --> 00:10:27.029
+Jihoon: In the issue, he said, He's okay with it.
+
+88
+00:10:28.060 --> 00:10:28.730
+Jihoon: Am I wrong?
+
+89
+00:10:28.730 --> 00:10:30.590
+Justin Traglia: He did approve it.
+
+90
+00:10:31.800 --> 00:10:32.470
+Jihoon: Yeah.
+
+91
+00:10:34.530 --> 00:10:37.800
+Justin Traglia: I mean, he is concerned with, implementation churn, but…
+
+92
+00:10:46.860 --> 00:10:48.839
+Justin Traglia: Yeah, that's his last comment.
+
+93
+00:11:01.000 --> 00:11:04.780
+Jihoon: Yeah, but in the issue, He's sad.
+
+94
+00:11:05.520 --> 00:11:06.480
+Jihoon: There's…
+
+95
+00:11:12.700 --> 00:11:14.690
+Jihoon: This is a link to the issue.
+
+96
+00:11:20.900 --> 00:11:28.769
+Jihoon: So, assuming Lighthouse, we're gonna implement this, we're gonna have Lighthouse, Prism, and Lone Star implemented this PR.
+
+97
+00:11:29.660 --> 00:11:30.870
+Jihoon: Sounds like.
+
+98
+00:11:33.680 --> 00:11:35.260
+Jihoon: We're gonna go merge it.
+
+99
+00:11:54.280 --> 00:11:58.880
+Justin Traglia: I don't have any stronger opinions on this. I think I'm fine with merging it as well, but if…
+
+100
+00:11:59.420 --> 00:12:02.079
+Justin Traglia: If clients want to save this until after.
+
+101
+00:12:02.300 --> 00:12:06.729
+Justin Traglia: The fork. That's also perfectly acceptable to me. I don't care.
+
+102
+00:12:06.730 --> 00:12:16.470
+Jihoon: I'm also not… I also don't have a strong opinion whether we should merge this or not, but I just think that we should decide which implementation we wanna go with.
+
+103
+00:12:18.010 --> 00:12:22.390
+Jihoon: It could be this PR, it could be the spec without this PR,
+
+104
+00:12:26.720 --> 00:12:28.669
+Jihoon: But yeah, I think we just need to pick one.
+
+105
+00:12:32.680 --> 00:12:37.029
+Justin Traglia: Nico asked, when else… oh, yeah, when else do you want to ship this change?
+
+106
+00:12:37.520 --> 00:12:39.979
+Jihoon: I guess, after we ship Sepolia.
+
+107
+00:12:45.370 --> 00:12:48.609
+Justin Traglia: I'm not sure I'd want to ask clients to change anything principally.
+
+108
+00:12:49.270 --> 00:12:49.820
+Jihoon: I mean…
+
+109
+00:12:50.500 --> 00:12:53.910
+Justin Traglia: And it's already a bit too late to include this for Sepolia.
+
+110
+00:13:00.580 --> 00:13:02.790
+Enrico Del Fante: Yeah, I believe the same.
+
+111
+00:13:03.830 --> 00:13:07.619
+Enrico Del Fante: Is this, something that we can postpone later.
+
+112
+00:13:10.550 --> 00:13:14.969
+Enrico Del Fante: Actually, I don't even know if Tech will… does that already.
+
+113
+00:13:15.560 --> 00:13:17.520
+Enrico Del Fante: We need to check.
+
+114
+00:13:20.030 --> 00:13:23.340
+Potuz: I think it can be triggered anyway, so it doesn't really matter.
+
+115
+00:13:25.070 --> 00:13:30.949
+Enrico Del Fante: Which turns out that we can just… Leave it open.
+
+116
+00:13:31.740 --> 00:13:38.150
+Potuz: It doesn't really matter. You're not going to justify a checkpoint, and then… sync.
+
+117
+00:13:38.280 --> 00:13:46.430
+Potuz: and change your justification to a branch that wasn't FFG compatible before. It's just not going to happen.
+
+118
+00:13:53.370 --> 00:13:56.229
+Justin Traglia: If it were up to me, I would just delay until after the work.
+
+119
+00:13:56.660 --> 00:13:57.530
+Justin Traglia: June.
+
+120
+00:14:01.500 --> 00:14:04.010
+Jihoon: I'm okay with that, but I just wanna…
+
+121
+00:14:05.010 --> 00:14:07.899
+Jihoon: Confirm that doesn't mean that we're gonna…
+
+122
+00:14:08.500 --> 00:14:15.729
+Jihoon: Embrace the possibility of split, because some clients already implemented this, some clients might not.
+
+123
+00:14:25.020 --> 00:14:30.360
+Justin Traglia: Something like Potus is saying is pretty impossible. Or not impossible, just very, very unlikely, right?
+
+124
+00:14:38.920 --> 00:14:44.840
+Nico Flaig: So at least on the loadestar side, we have a few hacks due to this in our compliance test runner.
+
+125
+00:14:45.610 --> 00:14:50.079
+Nico Flaig: So, I guess, I mean, you can compliance test this, right?
+
+126
+00:14:51.150 --> 00:14:58.039
+Nico Flaig: I'm not sure where Lighthouse is there, but at least we could test it properly if we merge this.
+
+127
+00:14:58.720 --> 00:15:01.310
+Enrico Del Fante: So that's theoretically testable.
+
+128
+00:15:01.810 --> 00:15:05.540
+Enrico Del Fante: Even if practically… Not possible.
+
+129
+00:15:07.040 --> 00:15:12.229
+Nico Flaig: I think this is impossible to even trigger on kurtosis, probably. I wouldn't know how to do it.
+
+130
+00:15:15.760 --> 00:15:16.460
+Enrico Del Fante: Okay.
+
+131
+00:15:22.640 --> 00:15:30.990
+Nico Flaig: But I think the concern from Michael is that they don't want to touch their code at all, right? Like, introduce different bugs unrelated to that, maybe.
+
+132
+00:15:31.450 --> 00:15:39.459
+Enrico Del Fante: Yeah, but if this, that actually doesn't affect anything into the standard reference test generation.
+
+133
+00:15:40.130 --> 00:15:47.390
+Enrico Del Fante: It's just a misalignment that… It's temporary, or…
+
+134
+00:15:49.900 --> 00:15:50.850
+Enrico Del Fante: Yeah.
+
+135
+00:15:51.440 --> 00:15:51.790
+Justin Traglia: June.
+
+136
+00:15:51.790 --> 00:15:52.140
+Enrico Del Fante: Do you know.
+
+137
+00:15:52.140 --> 00:15:52.890
+Justin Traglia: if this…
+
+138
+00:15:52.890 --> 00:15:57.680
+Enrico Del Fante: If you leave it open, you probably need to maintain that PR for…
+
+139
+00:15:58.220 --> 00:16:02.460
+Enrico Del Fante: For a long time, until we… we go on mainnet with Gloss.
+
+140
+00:16:04.120 --> 00:16:06.249
+Enrico Del Fante: Well, assuming the spec are kind of…
+
+141
+00:16:07.390 --> 00:16:10.070
+Enrico Del Fante: Stabilized now, probably it's not a big deal.
+
+142
+00:16:14.850 --> 00:16:19.219
+Justin Traglia: I mean, maintaining it's not a big deal. We can do that. It's just whatever clients want.
+
+143
+00:16:25.960 --> 00:16:27.920
+Jihoon: Yep, Justin, you wanted to ask me something?
+
+144
+00:16:28.930 --> 00:16:35.720
+Justin Traglia: Oh, I was gonna ask, do you know if this changes any of the reference tests for gloss? Does it have an impact on it?
+
+145
+00:16:38.470 --> 00:16:39.440
+Jihoon: I have to check.
+
+146
+00:16:41.410 --> 00:16:48.509
+Justin Traglia: I think that's worth checking. Like, if it would force clients to make a change, that would be a good reason not to merge it.
+
+147
+00:16:49.190 --> 00:16:51.659
+Justin Traglia: What if it doesn't change anything?
+
+148
+00:16:51.870 --> 00:16:57.520
+Nico Flaig: Yeah, I mean, it should, right? It changes the fork choice compliance tests for bloons.
+
+149
+00:16:58.460 --> 00:17:01.829
+Enrico Del Fante: Disregarding the classes. Yeah, because they're not really…
+
+150
+00:17:02.440 --> 00:17:07.349
+Enrico Del Fante: not all clients are passing them. I believe Freedom and his tech is still…
+
+151
+00:17:07.569 --> 00:17:11.030
+Enrico Del Fante: Partially failing a lot of them, so…
+
+152
+00:17:12.440 --> 00:17:16.059
+Enrico Del Fante: I don't know if Lighthouse is full green, probably, maybe, maybe Lodestarry is?
+
+153
+00:17:19.569 --> 00:17:24.879
+Nico Flaig: Yeah, we are agreeing with HEX to pass these tests related to that PR.
+
+154
+00:17:32.330 --> 00:17:39.699
+Jihoon: If you were to ship this after Gloss, are we gonna ship it with ESI, or… Before, Hzzy.
+
+155
+00:17:43.240 --> 00:17:46.140
+Potuz: This is not a part for change.
+
+156
+00:17:46.640 --> 00:17:48.710
+Potuz: This can be shipped anytime.
+
+157
+00:17:50.680 --> 00:17:52.989
+Justin Traglia: Yeah, I mean, just immediately after the glasswork.
+
+158
+00:17:53.880 --> 00:17:57.349
+Justin Traglia: Like, even we could do version 1.7.1.
+
+159
+00:17:57.960 --> 00:18:04.519
+Justin Traglia: I can… or… Or 1.8.alpha0, it doesn't really matter.
+
+160
+00:18:04.650 --> 00:18:06.920
+Justin Traglia: Just as soon as the fork is over.
+
+161
+00:18:11.180 --> 00:18:14.909
+Enrico Del Fante: Yeah, it'll be fine for me, probably better.
+
+162
+00:18:19.480 --> 00:18:24.230
+Jihoon: Yeah, it seems like We don't have enough consensus to merge this, so…
+
+163
+00:18:25.070 --> 00:18:27.440
+Jihoon: But then we can put this PR open.
+
+164
+00:18:28.680 --> 00:18:35.650
+Jihoon: And… and I guess what we're gonna let clients to do…
+
+165
+00:18:36.090 --> 00:18:44.639
+Jihoon: like, clients to implement at their preferences when it comes to this issue, but after we ship Glas, we can ship, margin SPR, and then…
+
+166
+00:18:45.180 --> 00:18:48.459
+Jihoon: Yeah, change, reference this, or whatever.
+
+167
+00:18:51.070 --> 00:18:58.270
+Justin Traglia: And worth mentioning that we're doing the exact same thing for the enforcing progressive list limits in the SSV library PR.
+
+168
+00:18:58.490 --> 00:19:02.409
+Justin Traglia: Like, we're also gonna… Delay merging that until after the fork.
+
+169
+00:19:04.240 --> 00:19:06.610
+Potuz: If there's no reference desk that…
+
+170
+00:19:07.010 --> 00:19:13.740
+Potuz: gets added, or, I mean, that changes because of this PR, this PR should add such tests.
+
+171
+00:19:15.680 --> 00:19:22.209
+Potuz: Or… the compliance test needs to be forced compliance, which, as far as I know, it's not forced.
+
+172
+00:19:24.020 --> 00:19:30.409
+Potuz: But there's no regression, as far as I can see on that, on that, on that, on that PR.
+
+173
+00:19:34.120 --> 00:19:37.249
+Justin Traglia: Do you want us to force clients to pass the compliance test?
+
+174
+00:19:37.250 --> 00:19:44.390
+Potuz: No, I… Well, you can, but then… then we're not going to be passing spec tests, and
+
+175
+00:19:44.740 --> 00:19:53.599
+Potuz: And, this… this particular one, Prism is not failing anything, and Prism definitely already implements that logic.
+
+176
+00:20:05.150 --> 00:20:11.500
+Justin Traglia: Yeah. Alright, let's just discuss this more on Discord, or at the next ACD.
+
+177
+00:20:13.200 --> 00:20:14.640
+Justin Traglia: We're already past time.
+
+178
+00:20:17.030 --> 00:20:19.749
+Justin Traglia: So, bye everyone, I'm gonna jump off.
+
+179
+00:20:23.190 --> 00:20:23.950
+Nico Flaig: See ya.
+
+180
+00:20:24.560 --> 00:20:25.290
+Enrico Del Fante: Right.
+
