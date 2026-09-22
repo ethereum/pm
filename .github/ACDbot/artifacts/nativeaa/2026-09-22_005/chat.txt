@@ -1,0 +1,68 @@
+00:04:50	lightclient:	heyo
+00:04:56	Mega | Lambda:	gm
+00:05:11	Anders Elowsson:	hi
+00:05:16	Pablo Deymo | Lambda:	gm
+00:05:20	marc | wolovim:	gm all, getting started 3 mins after the hour
+00:06:02	lightclient:	sorry im text only today, booked a flight a couple months ago before we scheduled the breakouts 🙃
+00:06:12	marc | wolovim:	Reacted to "sorry im text only today, booked a flight a couple months ago before we scheduled the breakouts 🙃" with 🤝
+00:06:19	Justin Florentine:	do we have a "main page" that collects links to latest resources like faucets/kurtosis configs/hive tests etc?
+00:07:00	lightclient:	Replying to "do we have a "main page" that collects links to latest resources like faucets/kurtosis configs/hive tests etc?"
+
+not one from pandaops yet
+00:07:09	marc | wolovim:	https://github.com/ethereum/pm/issues/2221
+00:07:13	lightclient:	Replying to "do we have a "main page" that collects links to latest resources like faucets/kurtosis configs/hive tests etc?"
+
+but ethrex has one for their devnet
+00:07:52	marc | wolovim:	https://forkcast.org/eips/8141/?tab=history
+00:09:04	marc | wolovim:	Shoot I have no audio >.<,
+00:09:13	marc | wolovim:	Now I do, switched headphones
+00:10:51	Mega | Lambda:	Replying to "do we have a "main p..."
+
+https://faucet.privacy.ethrex.xyz/
+00:11:04	spencer:	When is frames devnet 0 going to be launched?
+00:11:37	lightclient:	Replying to "When is frames devnet 0 going to be launched?"
+
+im waiting for availability from the pandas :)
+00:11:43	lightclient:	i reviewed the execution-apis pr from Ivan, but i domt think eth_simulateFrameTx is the right way. in general, simulateV1 already supports call batching, i think we can make a simulateV2 that adds the frame modes and multidim gas info. The one from Ivan also takes the frame tx RLP which i dont think we should do
+00:11:49	spencer:	Reacted to "im waiting for ava..." with 💙
+00:14:02	Justin Florentine:	https://github.com/ethereum/execution-specs/tree/eips/amsterdam/eip-8141
+00:14:19	spencer:	https://github.com/ethereum/execution-specs/releases#release-tests-frames-devnet@v0.3.0
+00:14:45	Daniil Ankushin | Nethermind:	https://github.com/ethereum/execution-specs/releases/tag/tests-frames-devnet@v0.3.0
+00:14:58	spencer:	Reacted to "https://github.com..." with 💙
+00:17:06	Mislav | Ethlabs:	I can go next - have a reasonably big update with regards to 8130<>8141 harmonization efforts
+00:17:12	lightclient:	Reacted to "I can go next - have a reasonably big update with regards to 8130<>8141 harmonization efforts" with 😍
+00:17:30	marc | wolovim:	Reacted to "I can go next - have a reasonably big update with regards to 8130<>8141 harmonization efforts" with 👍
+00:21:14	lightclient:	i generally like this, my only fear is that there may be unexpected situations as a result of this change? is this too tin foil hat?
+00:23:10	Chris - Base:	On max_fee - we are interested (and like it) for 8130 tx type, but we want to have parity with frames here.
+
+Today on L2 we already have multi dim fee (L1 data fee) but its a hidden fee (user can't specify a limit)
+00:23:37	Chris - Base:	^ thats under 1559
+00:23:59	lightclient:	Reacted to "On max_fee - we are interested (and like it) for 8130 tx type, but we want to have parity with frames here.
+
+Today on L2 we already have multi dim fee (L1 data fee) but its a hidden fee (user can't specify a limit)" with 👍
+00:25:05	marc | wolovim:	Anders’ ethmag comment that this presentation stems from: https://ethereum-magicians.org/t/eip-8141-frame-transaction/27617/172
+00:25:14	lightclient:	Reacted to "Anders’ ethmag comment that this presentation stems from: https://ethereum-magicians.org/t/eip-8141-frame-transaction/27617/172" with ❤️
+00:27:28	Daniil Ankushin | Nethermind:	@Anders Elowsson where can I read this presentation? 🙏
+00:27:51	Pooja Ranjan:	Reacted to "Anders’ ethmag comment that this presentation stems from: https://ethereum-magicians.org/t/eip-8141-frame-transaction/27617/172" with ❤️
+00:28:54	lightclient:	sorry we can discuss more later when i have voice. im just afraid to somehow make things worse with max_fee in a way we dont fully understand today
+00:30:27	spencer:	could you comment on the main differences between multi dim on frames tx and other txs?
+
+how does multi dim fee change with 8037 in both frames vs other txs?
+
+i can look in my own time also :)
+00:31:32	Daniil Ankushin | Nethermind:	I like it, but need to dive deeper into the topic. At the first glance it works for frames
+00:34:04	Maria Silva:	The reservoir would be needed for the legacy transactions that don’t have separate gas limits, I think
+00:34:17	spencer:	Reacted to "The reservoir woul..." with 👍
+00:35:36	spencer:	multi dim will be proposed for I* right?
+00:35:50	Maria Silva:	Replying to "multi dim will be pr..."
+
+This is the plan, yes
+00:35:53	spencer:	Reacted to "This is the plan, ..." with 💙
+00:37:34	Maria Silva:	As a general note, I think it will be great to involve the devs that were working on the gas accounting for 8037 in the frames discussion related to gas accounting. I expect they will have opinions on this
+00:38:02	marc | wolovim:	Viem feedback: https://github.com/ethereum/pm/issues/2221#issuecomment-5770817575
+00:38:06	Anders Elowsson:	Reacted to "As a general note, I think it will be great to involve the devs that were working on the gas accounting for 8037 in the frames discussion related to gas accounting. I expect they will have opinions on this" with 👍
+00:38:10	marc | wolovim:	Ivan’s eth_simulateFrameTransaction proposal: https://github.com/ethereum/execution-apis/pull/894/changes
+00:42:15	Daniil Ankushin | Nethermind:	https://github.com/ethereum/ERCs/pull/1979
+00:42:20	lightclient:	cool stuff
+00:50:15	lightclient:	thats fine to me
+00:51:20	lightclient:	thanks all! thanks marc
