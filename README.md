@@ -40,7 +40,7 @@ Current facilitators (date started):
 - **Testing**: coleads [EF EthPandaOps team](https://github.com/ethpandaops/) & [EF STEEL team](https://steel.ethereum.foundation/team/)
 
 Past facilitators:
-- Paritosh Jayanthi (interim ACDC)
+- Parithosh Jayanthi (interim ACDC)
 - Tim Beiko (ACDE)
 - Danny Ryan (ACDC)
 - Hudson Jameson
