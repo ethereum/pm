@@ -36,12 +36,13 @@ Sometimes non-core contributors with particular expertise on a topic are invited
 
 Current facilitators (date started):
 - **Execution**: coleads [Ansgar Dietrichs](https://github.com/adietrichs) (Oct '25) & [Nixo](https://github.com/nixorokish/) (Apr '26)
-- **Consensus**: [Parithosh Jayanthi](https://github.com/parithosh) (interim, May '26), ~~[Alex Stokes](https://github.com/ralexstokes)~~ (Sep '24, currently out of office)
+- **Consensus**: [Alex Stokes](https://github.com/ralexstokes) (Sep '24)
 - **Testing**: coleads [EF EthPandaOps team](https://github.com/ethpandaops/) & [EF STEEL team](https://steel.ethereum.foundation/team/)
 
 Past facilitators:
-- Tim Beiko
-- Danny Ryan
+- Parithosh Jayanthi (interim ACDC)
+- Tim Beiko (ACDE)
+- Danny Ryan (ACDC)
 - Hudson Jameson
 - Lane Rettig
 - George Hallam
