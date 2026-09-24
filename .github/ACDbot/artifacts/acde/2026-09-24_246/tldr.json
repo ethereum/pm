@@ -1,0 +1,146 @@
+{
+  "meeting": "ACDE #246 - September 24, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:11:55",
+        "highlight": "Gloas fork transition tested successfully with Lido and Optimism; devnet torn down"
+      },
+      {
+        "timestamp": "00:12:41",
+        "highlight": "Besu investigating performance issue on glamsterdam-devnet-8; improvements in progress"
+      },
+      {
+        "timestamp": "00:13:04",
+        "highlight": "Sepolia fork confirmed October 6th; client releases due by Monday September 29th. Nethermind released, Geth released, Besu ETA tomorrow, Reth next week, ethrex today/tomorrow"
+      },
+      {
+        "timestamp": "00:30:08",
+        "highlight": "200M gas limit at Glamsterdam fork approved for Sepolia; JUMPDEST attack causes 9\u201313s block execution times \u2014 reorg risk identified but deemed expensive/non-persistent"
+      }
+    ],
+    "glamsterdam_gas_limit": [
+      {
+        "timestamp": "00:15:31",
+        "highlight": "JUMPDEST analysis attack via pre-deployed contract triggers valid blocks taking 8\u201313s to execute across all clients on glamsterdam-devnet-8"
+      },
+      {
+        "timestamp": "00:21:00",
+        "highlight": "Maria: state creation gas increase (EIP-8037) makes <150M gas limit dangerous \u2014 some txs require ~90M gas alone, risking base fee volatility"
+      },
+      {
+        "timestamp": "00:29:32",
+        "highlight": "Ansgar: testnets should stress-test aggressively; being gentle on Sepolia risks mainnet surprises"
+      }
+    ],
+    "cl_block_retention_window": [
+      {
+        "timestamp": "00:31:53",
+        "highlight": "EIP-8061 changed exit/consolidation churn but block retention window wasn't updated; needs alignment. Related: EIP-8383 (Hegota PFI) would reduce it further"
+      },
+      {
+        "timestamp": "00:35:16",
+        "highlight": "BAL retention window should equal CL block retention window; current CL window ~5 months (33k epochs), EIP-8061 would halve it to ~2 months (14k epochs)"
+      },
+      {
+        "timestamp": "00:38:32",
+        "highlight": "Marius: too-short blob retention makes full sync impossible as sequential block execution exceeds slot time at higher gas limits"
+      },
+      {
+        "timestamp": "00:41:42",
+        "highlight": "Potuz: if EL doesn't keep payloads/BALs, CL must \u2014 duplicating data; EL must keep at minimum what CL requires"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "00:48:22",
+        "highlight": "EIP-8304 (Trustless Log Index): DFI for Hegota; author will continue work independently"
+      },
+      {
+        "timestamp": "01:01:27",
+        "highlight": "EIP-7979 (Call and Return Opcodes for EVM): CFI \u2014 Solidity confirmed support, Nethermind/Besu/Nethermind upgraded ratings; ethrex soft DFI but non-blocking"
+      },
+      {
+        "timestamp": "01:05:17",
+        "highlight": "EIP-8163 (Reserve EXTENSION 0xae opcode): CFI \u2014 low-cost no-op on L1; Arbitrum Nitro, Tron, Rootstock demand cited"
+      },
+      {
+        "timestamp": "01:09:43",
+        "highlight": "EIP-8360 (TCREATE opcode): deferred \u2014 Glamsterdam removes gas refunds for ephemeral contracts; decision linked to self-destruct deprecation discussion"
+      },
+      {
+        "timestamp": "01:16:13",
+        "highlight": "EIP-8368 and EIP-8372: remain PFI pending \u226530 days of mainnet Glamsterdam data before decision"
+      },
+      {
+        "timestamp": "01:18:04",
+        "highlight": "CFI batch: EIP-7906 (State Diff Assertions), EIP-8250 (Keyed Nonces/Frames), EIP-8272 (Recent Roots/Frames), EIP-7668 (Remove Bloom Filters), EIP-8253 (Bump Zero-Nonce Storage Accounts), EIP-3298 (Remove Storage Refunds), EIP-8131 (Unified Tx Content Floor)"
+      },
+      {
+        "timestamp": "01:25:47",
+        "highlight": "EIP-8131 (Unified Tx Content Floor) and BAL block access list byte floor EIP CFI'd as a bundle \u2014 pricing all payload bytes at floor requires both together"
+      },
+      {
+        "timestamp": "01:28:23",
+        "highlight": "EIP-8298 (SETCODEFROM): strong CFI interest from most clients; Besu wants 2 more weeks; punted to next call"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:45:30",
+      "action": "Open ETH R&D Discord thread to align on CL block retention window reduction and BAL window alignment; not blocking for Gloas",
+      "owner": "Kevaundray, Jihoon, or Toni"
+    },
+    {
+      "timestamp": "01:10:44",
+      "action": "EIP-8360 champion (Milos) to engage clients; clients to review before next call for decision alongside self-destruct deprecation",
+      "owner": "Milos, all EL client teams"
+    },
+    {
+      "timestamp": "01:36:38",
+      "action": "nixo to post list of remaining ~10 Hegota EIPs (incl. EIP-8298) to ExecutionDev and EthRD channels before next call",
+      "owner": "nixo"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:30:08",
+      "decision": "200M gas limit signaled at Glamsterdam fork for Sepolia (not phased; starts trending up via 1/1024 voting post-fork)"
+    },
+    {
+      "timestamp": "00:46:53",
+      "decision": "CL block retention window reduction is not a hard fork change and not blocking Gloas; to be resolved async"
+    },
+    {
+      "timestamp": "00:49:54",
+      "decision": "DFI for Hegota: EIP-8304 (Trustless Log Index)"
+    },
+    {
+      "timestamp": "01:02:43",
+      "decision": "CFI for Hegota: EIP-7979 (Call and Return Opcodes for EVM)"
+    },
+    {
+      "timestamp": "01:05:57",
+      "decision": "CFI for Hegota: EIP-8163 (Reserve EXTENSION 0xae opcode)"
+    },
+    {
+      "timestamp": "01:16:57",
+      "decision": "EIP-8368 and EIP-8372 remain PFI pending mainnet Glamsterdam data (\u226530 days post-fork)"
+    },
+    {
+      "timestamp": "01:18:04",
+      "decision": "CFI for Hegota: EIP-7906, EIP-8250, EIP-8272, EIP-7668, EIP-8253, EIP-3298, EIP-8131, and BAL byte floor EIP (bundled with EIP-8131)"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:13:04",
+      "target": "Sepolia Glamsterdam fork \u2014 October 6, 2026"
+    },
+    {
+      "timestamp": "00:13:25",
+      "target": "Client releases for Sepolia fork \u2014 Monday September 29, 2026"
+    }
+  ]
+}

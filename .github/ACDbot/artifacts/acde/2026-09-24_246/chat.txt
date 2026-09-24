@@ -1,0 +1,875 @@
+00:09:19	soispoke:	gm
+00:09:24	Pooja Ranjan:	gm
+00:10:51	lightclient:	gm
+00:11:01	Radek | solidity:	Hi all
+00:11:02	jochem-brouwer:	gm
+00:12:54	marc | wolovim:	agenda: https://github.com/ethereum/pm/issues/2223 
+
+(If shared above, not visible to late joiners like me :))
+00:13:42	stokes:	just waiting on client releases
+00:13:45	Marius Van Der Wijden (M):	Geth also found a bug on devnet8 related to catchup full sync. Tldr. Cachting up to the head will be faster soon
+00:13:47	Łukasz Rozmej:	Nethermind 2.0 released
+00:13:56	Stefan Starflinger:	Reacted to "Geth also found a bu..." with 🔥
+00:13:57	marek:	Reacted to "Nethermind 2.0 relea..." with 🚀
+00:13:57	Justin Florentine:	ETA tomorrow
+00:13:59	Marius Van Der Wijden (M):	Geth released
+00:14:00	marc | wolovim:	Reacted to "Nethermind 2.0 released" with 🚀
+00:14:05	emma (reth):	Reth release coming next week
+00:14:09	emma (reth):	Probs monday
+00:14:09	Iván | ethrex:	Ethrex will release today/tomorrow
+00:14:16	Toni Wahrstätter:	Reacted to Nethermind 2.0 relea... with "🚀"
+00:14:22	Toni Wahrstätter:	Reacted to Geth also found a bu... with "🔥"
+00:14:24	Luca Donno | L2BEAT:	Reacted to "Nethermind 2.0 released" with 🚀
+00:14:25	Justin Traglia:	https://github.com/eth-clients/sepolia/pull/130
+00:14:29	Luca Donno | L2BEAT:	Reacted to "Geth also found a bug on devnet8 related to catchup full sync. Tldr. Cachting up to the head will be faster soon" with 🔥
+00:14:31	Iván | ethrex:	Replying to "Ethrex will release ..."
+
+We have a release candidate that we are testing
+00:15:04	potuz:	Is it safe given what Pawel triggered on devnet 8?
+00:15:04	Toni Wahrstätter:	200M seems reasonable
+00:15:16	Milos | enso.build:	Reacted to "200M seems reasona..." with 👍
+00:15:22	Stefan Starflinger:	Reacted to "200M seems reasonabl..." with 👍
+00:15:30	Parithosh Jayanthi:	Reacted to "200M seems reasonable" with 👍
+00:15:31	Maria Silva:	From the benchmarking results so far, the 200M is looking safe
+00:15:38	Toni Wahrstätter:	Replying to "Is it safe given wha..." 
+
+ Is this something we're missing benchmark tests for?
+00:15:39	Iván | ethrex:	Reacted to "200M seems reasonabl..." with 👍
+00:15:40	Csaba:	I don’t think it is a good idea to do it immedate
+00:15:44	Luca Donno | L2BEAT:	Reacted to "200M seems reasonable" with 👍
+00:15:45	Csaba:	It mixes signals
+00:16:07	Nico Flaig:	how is 200M safe if we see ex-ante reorgs on devnet-8?
+00:16:11	Toni Wahrstätter:	Valid payloads that take that long, or invalid ones?
+00:16:17	Maria Silva:	Was this the tstore thing?
+00:16:28	Ben Adams:	jumpdst attack
+00:16:43	Radek | solidity:	paweł cannot join today.
+00:16:54	Iván | ethrex:	Reacted to "paweł cannot join to..." with 👍
+00:17:14	nixo:	which clients are struggling? all?
+00:17:15	Csaba:	benchmarks have no actual network
+00:17:22	Toni Wahrstätter:	Seems like next step should be to write benchmark tests for it and then set the gas limit based on that.
+00:17:45	Justin Florentine:	did we find a floor under this attack?
+00:17:53	Stefan Starflinger:	https://github.com/ethereum/execution-specs/pull/3637
+00:18:00	Stefan Starflinger:	this is what hes been testing afaik
+00:18:40	Stefan Starflinger:	or was it this? https://github.com/ethereum/execution-specs/pull/3631
+00:19:04	potuz:	@Maria Silva  here’s the link https://discord.com/channels/595666850260713488/1552294799401553963
+00:19:09	potuz:	The contract is posted there
+00:19:19	Satyajit:	Is there a benchmark repo ?
+00:19:21	potuz:	Is JUMPDEST and Pawel said that the benchmark has changed
+00:19:27	Nico Flaig:	geth took 9 seconds to execute a block on my server too
+00:19:29	Parithosh Jayanthi:	8core 32gb ram machines
+00:19:34	potuz:	https://github.com/ethereum/execution-specs/pull/3631
+00:19:36	potuz:	That’s the repo
+00:19:45	Satyajit:	Reacted to "That’s the repo" with 👍
+00:19:46	Toni Wahrstätter:	Overprovisioned but we run multiple nodes on thoses machines, even for multiple different devnets?
+00:19:48	Marius Van Der Wijden (M):	Replying to "geth took 9 seconds ..." 
+
+ At the head?
+00:20:05	Ansgar Dietrichs:	I think we need to be really precise about whether this is an isolated client issue or imply our confidence in test coverage was wrong generally and we should halt fork rollout.
+00:20:08	Toni Wahrstätter:	Replying to "geth took 9 seconds ..." 
+
+ Valid payload or invalid?
+00:20:15	Nico Flaig:	Replying to "geth took 9 seconds ..."
+
+yes I shared the slots on discord here https://discord.com/channels/595666850260713488/1552294799401553963
+00:20:27	Parithosh Jayanthi:	Replying to "Overprovisioned but we run multiple nodes on thoses machines, even for multiple different devnets?"
+
+No no, its just for one network and it has el+cl and some tooling
+00:20:34	Toni Wahrstätter:	Reacted to No no, its just for ... with "👍"
+00:20:34	Nico Flaig:	Replying to "geth took 9 seconds ..."
+
+the block was valid, next proposer got reorged because couldn't process the block in time
+00:20:38	potuz:	It wen’t on every client and on different nodes @Ansgar Dietrichs my  MacBook Pro is quite potent and also took over 8 seconds with geth
+00:20:51	Stefan Starflinger:	Reacted to "No no, its just for ..." with 👍
+00:20:53	Radek | solidity:	Reacted to "It wen’t on every cl..." with 🍿
+00:21:12	Marius Van Der Wijden (M):	Maybe 64kb contracts aren't safe after all...
+00:21:19	potuz:	Reacted to "Maybe 64kb contracts aren't safe after all..." with 😃
+00:21:21	Parithosh Jayanthi:	Reacted to "Maybe 64kb contracts aren't safe after all..." with 😃
+00:21:24	Csaba:	Reacted to "Maybe 64kb contracts aren't safe after all..." with 😃
+00:21:24	jochem-brouwer:	its create initcode, this should have been fixed long ago by initcode pricing
+00:21:24	Iván | ethrex:	Reacted to "Maybe 64kb contracts..." with 😃
+00:21:30	Radek | solidity:	Reacted to "Maybe 64kb contracts..." with 🍿
+00:21:45	Stefan Starflinger:	Reacted to "Maybe 64kb contracts..." with 🍿
+00:21:46	Toni Wahrstätter:	Replying to "geth took 9 seconds ..." 
+
+ Did the next proposer try to build on empty?
+00:21:50	Luis Pinto:	Reacted to "Maybe 64kb contracts aren't safe after all..." with 🍿
+00:22:00	jochem-brouwer:	Antwoord verzenden naar "its create initcod..."
+
+this eip https://eips.ethereum.org/EIPS/eip-3860
+00:22:08	Toni Wahrstätter:	Replying to "geth took 9 seconds ..." 
+
+ Or what does the proposer do if the payload of the most recent slot isn't executedin time?
+00:22:17	Nico Flaig:	Replying to "geth took 9 seconds ..."
+
+yes but failed and ptc votes full, so next proposer would be reorged, but reth just blew up completely and couldn't produce a block in time
+00:22:26	Toni Wahrstätter:	Reacted to Maybe 64kb contracts... with "🍿"
+00:23:10	Milos | enso.build:	agree should be set at fork, given all the costs increases would be ideal to have at least the 200m bump
+00:23:12	Maria Silva:	https://ethresear.ch/t/from-60m-to-200m-simulating-glamsterdam-s-fee-market/25957
+00:24:24	Łukasz Rozmej:	we are looking into optimizing for this scenario
+00:24:51	Milos | enso.build:	it should come with the fork
+00:24:54	jochem-brouwer:	Didnt Barnabas have an EIP for this?
+00:24:54	Ansgar Dietrichs:	I thought Maria’s argument was specifically that it should happen right at the fork
+00:24:56	Csaba:	I also don’t think it is a good idea to do it at the fork, or close to it
+00:25:01	potuz:	Oh wow
+00:25:18	Parithosh Jayanthi:	Yeah with repricing if we don’t increase it then we wont be able to do some actions post fork until increase right?
+00:25:27	Milos | enso.build:	Reacted to "Yeah with repricin..." with 👍
+00:25:29	Maria Silva:	right
+00:25:31	felipe:	Reacted to "Yeah with repricin..." with 👍
+00:25:36	Stefan Starflinger:	but then state heavy transactions that previously worked will fail if we don't do it at the fork
+00:25:52	Stefan Starflinger:	Reacted to "Yeah with repricing ..." with 👍
+00:25:56	potuz:	Anyway even if we hit it at the fork it’ll take some time right?
+00:25:57	Stefan Starflinger:	what pari said
+00:26:04	Toni Wahrstätter:	When we say "at the fork", we mean "start bumping it". It's not like we'd circumvent the 1/1024 rule
+00:26:07	Dragan Rakita:	Lets have a test, send it to benchmarkoor and see what is going on.
+00:26:48	jochem-brouwer:	Antwoord verzenden naar "Didnt Barnabas hav..."
+
+https://eips.ethereum.org/EIPS/eip-8261
+00:26:54	Parithosh Jayanthi:	Also the gas wont go up immediately, it’ll only trend upward
+00:27:20	Ansgar Dietrichs:	I will say I am still quite confused about this issue - at the stated values, it should already be an issue on mainnet today? (lower gas limit, but also lower processing time)
+00:27:39	Milos | enso.build:	to add on this, defi apps that leverage smart wallets and stuff like this will be a huge cost increase, if doesnt come with the gas bump is quite a hit
+00:27:40	potuz:	Replying to "I will say I am stil..."
+
+No, the problem is specific to Gloas
+00:27:49	Suyash Shandilya:	Replying to "I will say I am stil..."
+
+^^
+00:27:51	potuz:	Replying to "I will say I am stil..."
+
+If you send a payload today that takes long to execute you reorg yourself
+00:27:54	Ameziane Hamlat:	Replying to "I will say I am stil..."
+
+This is accelerated with 64 KiB contracts
+00:28:18	Maria Silva:	Isn’t that the goal of the mainnet fork testing?
+00:28:22	Ameziane Hamlat:	This shows a clear under pricing of the attack use case, as all clients are having issues in processing the block in time.
+00:29:52	nixo:	Reacted to "Isn’t that the goal of the mainnet fork testing?" with 💯
+00:29:57	Toni Wahrstätter:	Bumping the gas limit by 1/1024 is something we've done before and shouldn't complicate the fork transition at all.
+00:29:58	Toni Wahrstätter:	The question is more, is 200M safe
+00:29:59	Justin Traglia:	Reacted to "Isn’t that the goal of the mainnet fork testing?" with 💯
+00:29:59	Ben Adams:	Reacted to "Isn’t that the goal of the mainnet fork testing?" with 💯
+00:30:01	jochem-brouwer:	Is Pawel on the call? This attack what I see linked is initcode jumpdest analysis, which is already priced 2 gas/word since EIP-3860. Is this the attack we are talking about?
+00:30:07	Maria Silva:	Replying to "This shows a clear u..."
+
+I am trying to understand how this is different from the jumpiest analysis tests we already had
+00:30:07	Marius Van Der Wijden (M):	Yes, break the testnets
+00:30:18	Ansgar Dietrichs:	Replying to "Yes, break the testn..."
+
+I mean ideally not
+00:30:23	Ansgar Dietrichs:	Replying to "Yes, break the testn..."
+
+but better than breaking mainnet
+00:30:23	Milos | enso.build:	yes
+00:30:26	Francesco D'Amato:	Replying to "Is Pawel on the call..."
+
+(It was said before that he can’t be on the call)
+00:30:32	jochem-brouwer:	Heeft gereageerd op "(It was said befor..." met 👍
+00:30:34	Ansgar Dietrichs:	I’d be in favor of that, yes
+00:30:37	jochem-brouwer:	Antwoord verzenden naar "Is Pawel on the ca..."
+
+ah ok thanks
+00:30:38	Toni Wahrstätter:	Replying to "Is Pawel on the call..." 
+
+ Couldn't make it
+00:30:45	Ben Adams:	yes
+00:30:46	CPerezz:	Replying to "The question is more..."
+
+We’ve proven it is right? We just need to see that this mantained through time doesn’t actually worsen. Which we can’t see from benchmarks alone
+00:30:53	Ben Adams:	Reacted to "Yes, break the testnets" with 👍
+00:30:55	Justin Traglia:	Thanks!
+00:31:01	felipe:	Reacted to "Yes, break the tes..." with 👍
+00:31:10	Suyash Shandilya:	Reacted to "Yes, break the testn..." with 👍
+00:31:10	Toni Wahrstätter:	Replying to "The question is more..." 
+
+ I'm talking about this new attack here
+00:31:20	Justin Traglia:	Reacted to "Yes, break the testnets" with 👍
+00:31:20	lightclient:	I think Toni is OOO
+00:31:33	Pb:	Replying to "Is Pawel on the call..." 
+
+ Yes, but I can't talk right now. 2 was too give it any price per byte back then.
+00:31:40	potuz:	Replying to "The question is more..."
+
+I don’t think this is proven Carlos, if there are blocks that take 9-12 seconds to execute then we definitely benched incorrectly
+00:31:49	Francesco D'Amato:	Replying to "I think Toni is OOO"
+
+He is all over the chat 🤔
+00:31:53	soispoke:	A réagi à "He is all over the..." avec 👍
+00:31:56	lightclient:	Replying to "I think Toni is OOO"
+
+<3
+00:31:56	potuz:	Replying to "I think Toni is OOO"
+
+lol
+00:31:57	Satyajit:	Reacted to "I don’t think thi..." with 👍
+00:32:03	nixo:	Reacted to "He is all over the chat 🤔" with 😂
+00:32:03	Justin Traglia:	Reacted to "He is all over the chat 🤔" with 👍
+00:32:10	Iván | ethrex:	Reacted to "He is all over the c..." with 😂
+00:32:15	jochem-brouwer:	Heeft gereageerd op "He is all over the..." met 😂
+00:32:16	Satyajit:	Reacted to "He is all over the..." with 😂
+00:32:18	felipe:	Reacted to "He is all over the..." with 😂
+00:32:20	nixo:	Reacted to "I think Toni is OOO" with 🏇
+00:32:23	Suyash Shandilya:	Reacted to "He is all over the c..." with 😂
+00:32:40	Toni Wahrstätter:	@Nico Flaig has context too
+00:32:42	Luca Donno | L2BEAT:	Reacted to "He is all over the chat 🤔" with 😂
+00:32:44	Dragan Rakita:	Jumpdest analysis attack is needed to see what is going on. Would not exclude last minute change to gas (for jumptable creation) or contract size to mitigate it.
+00:32:56	Ameziane Hamlat:	Reacted to "Jumpdest analysis attack is needed to see what is going on. Would not exclude last minute change to gas or contract size to mitigate it." with 👍
+00:33:02	potuz:	Replying to "This shows a clear u..."
+
+Pawel said that the pricing changes had made the attack cheaper
+00:33:09	jochem-brouwer:	Antwoord verzenden naar "Is Pawel on the ca..."
+
+ok interesting, so 2 is too low?
+00:33:58	Kevaundray Wedderburn:	I think all questions are:
+
+Should EL window equals CL window?
+Should BAL window equal CL window?
+Should we reduce the CL window according to 8061?
+If changed, should we reduce the EL window to match?
+00:34:08	felipe:	Reacted to "I think all questi..." with ❤️
+00:34:09	Kevaundray Wedderburn:	Replying to "I think all question..."
+
+I think for (1) we said yep
+00:34:16	jochem-brouwer:	Antwoord verzenden naar "Is Pawel on the ca..."
+
+in retrospect this should already be in benchmarks, but i feel it already was, because i recall you opened a kind of this test pr a while ago (atleast half a year 🤔)
+00:34:22	Iván | ethrex:	Reacted to "I think for (1) we s..." with 👍
+00:34:38	potuz:	@Maria Silva this is Pawel’s comment:
+This is jumpdest analysis attack. The old benchmark was wrong so I updated it.
+Amsterdam makes it actually a bit easier because you can pre-pay the CREATE cost.
+00:34:39	Enrico Del Fante:	Replying to "I think all question..."
+
+WRT equality: yes!
+00:34:43	Dragan Rakita:	Replying to "This shows a clear u..."
+
+State gas allows creation of more contracts, I guess this means jumpdest analysis is underpriced (Big assumption).
+00:34:54	Ameziane Hamlat:	Replying to "This shows a clear u..."
+
+I thought personally some were the same (the one affecting besu), and he added the worst case for clients having different algorithm (random_stop_jumpdest_push1 for nethermind)
+00:34:58	cayman:	Replying to "I think all question..."
+
+first three especially yes
+00:35:21	Maria Silva:	Reacted to "@Maria Silva this is Pawel’s comment:
+This is jumpdest analysis attack. The old benchmark was wrong so I updated it.
+Amsterdam makes it actually a bit easier because you can pre-pay the CREATE cost." with 👍
+00:35:27	potuz:	Replying to "This shows a clear u..."
+
+Oh this is the thread I was looking for:
+This is jumpdest analysis attack. The old benchmark was wrong so I updated it.
+Amsterdam makes it actually a bit easier because you can pre-pay the CREATE cost.
+00:35:54	Toni Wahrstätter:	It's 3533 epochs
+00:36:02	Pb:	Replying to "Is Pawel on the call..." 
+
+ You increased limit 3x and didn't benchmark. How did it matter what was 5 years ago?
+00:36:04	cayman:	Replying to "I think all question..."
+
+for some context, rationale for (1) CL devs want BAL retention to match CL block retention so we can dedupe payloads from the CL side
+00:36:45	Nico Flaig:	https://github.com/ethereum/EIPs/pull/12347#issuecomment-5800873241  for rationale why we need (2)
+00:37:04	jochem-brouwer:	Antwoord verzenden naar "Is Pawel on the ca..."
+
+fair point
+00:37:06	Enrico Del Fante:	So you suggest that on CL side the envelop might have bals as optional?
+00:37:11	Toni Wahrstätter:	Agree with lukasz.
+Would love to understand when CLs would need such old BALs? Is it only for CL archieve nodes?
+00:37:17	cayman:	(3) just seems like a bugfix (so we should do it)
+00:37:29	Enrico Del Fante:	Replying to "So you suggest that ..."
+
+When serving payloads over RPC
+00:37:56	jochem-brouwer:	Heeft gereageerd op "@Maria Silva this ..." met 👍
+00:38:25	Toni Wahrstätter:	Replying to "So you suggest that ..." 
+
+ Or can CLs send payloads with blinded BALs to peers and peers accept that
+00:38:39	Toni Wahrstätter:	Can CLs send payloads with blinded BALs to peers and peers accept that?
+00:39:27	Łukasz Rozmej:	you need to be able to sync without BAL
+00:39:28	cayman:	Replying to "Can CLs send payload..."
+
+would require some decent changes to p2p. new containers, etc
+00:39:37	Iván | ethrex:	Reacted to "you need to be able ..." with 👍
+00:39:39	Enrico Del Fante:	Replying to "So you suggest that ..."
+
+That would be more complicated IMO
+00:39:44	jochem-brouwer:	Antwoord verzenden naar "Is Pawel on the ca..."
+
+thanks for the pr, the way it was benchmarked is indeed not optimized for glamsterdam
+00:40:12	Łukasz Rozmej:	nuke and sync at the top?
+00:40:23	felipe:	Reacted to "you need to be abl..." with 👍
+00:40:38	cayman:	Replying to "nuke and sync at the..."
+
+thats not the current behavioral contract we have tho :(
+00:41:03	Toni Wahrstätter:	Being offline for >2 weeks might need a fall-back to snap (instead of full sync) if the BALs are then unavailable. Not sure that's good enough. The alternative is extending the BAL retention window at the cost of needing more disk space.
+00:41:13	Łukasz Rozmej:	we need to check how fast we sync without BAL's
+00:41:15	potuz:	Why is no-one mentioning that if the EL does not keep them then anyway the CL will need to keep them, what’s the point of duplicating them then?
+00:41:57	Toni Wahrstätter:	Replying to "Why is no-one mentio..." 
+
+ Can you just keep the blinded one?
+00:42:04	Toni Wahrstätter:	Replying to "Why is no-one mentio..." 
+
+ ELs should keep them, not CLs
+00:42:11	Justin Florentine:	Reacted to "ELs should keep them, not CLs" with ➕
+00:42:21	felipe:	Reacted to "ELs should keep th..." with ➕
+00:42:38	Enrico Del Fante:	Reacted to "ELs should keep them, not CLs" with ➕
+00:42:43	Justin Florentine:	so min 4 weeks of duplication?
+00:43:12	Toni Wahrstätter:	I'm happy with extending the BAL retention window. How long would it need to be? ~33k epochs?
+00:43:51	Nico Flaig:	for reference https://github.com/ethereum/EIPs/pull/12347 explains all of this
+00:44:13	potuz:	loool
+00:44:15	Toni Wahrstätter:	The specs are overly conservative here. This is a lot of data we keep for....what?
+00:44:18	nixo:	dad joke
+00:44:19	Justin Florentine:	Honorary Dad
+00:44:27	potuz:	He was waiting the whole call to say that
+00:44:31	nixo:	Reacted to "He was waiting the whole call to say that" with 😂
+00:44:33	Toni Wahrstätter:	Reacted to He was waiting the w... with "😂"
+00:44:34	felipe:	Reacted to "He was waiting the..." with 😂
+00:44:36	Toni Wahrstätter:	Reacted to Honorary Dad with "😂"
+00:44:39	Radek | solidity:	Reacted to "He was waiting the w..." with 😂
+00:44:56	Iván | ethrex:	Reacted to "He was waiting the w..." with 😂
+00:44:59	Marc:	Reacted to "He was waiting the whole call to say that" with 😂
+00:45:06	cayman:	Reacted to "He was waiting the w..." with 😂
+00:45:10	Pablo Deymo | Lambda:	Reacted to "He was waiting the whole call to say that" with 😂
+00:45:34	Nico Flaig:	EL retention just needs to be longer than CL, you are free to retain data for longer
+00:45:35	cayman:	Reacted to "for reference https:..." with 👍
+00:45:57	Mega | Lambda:	Reacted to "He was waiting the whole call to say that" with 😂
+00:46:02	cayman:	Replying to "for reference https:..."
+
+summary here?
+00:46:08	potuz:	Every day I say “I told you so”… we should not have DFId 8237  that would make all these questions mute cause then I don’t care how long you keep the payloads/bals
+00:46:18	Justin Florentine:	we need worst case storage expectation
+00:46:22	Toni Wahrstätter:	Reacted to Every day I say “I t... with "👍"
+00:46:26	Francesco Risitano (Tau):	Replying to "Every day I say “I t..."
+
++1
+00:46:53	Kevaundray Wedderburn:	I think its a CL question?
+00:47:05	Toni Wahrstätter:	I'd not rush reducing it. Better sometime after gloas
+00:47:26	Jihoon:	Replying to "I think its a CL que..."
+
+It might also affect EL, isn't it?
+00:48:00	Karim Taam:	Replying to "I'd not rush reducin..."
+
+Also for PBT migration I think we need a big enough retention period
+00:48:39	Toni Wahrstätter:	Yeah it would work with 2 weeks, from what I heard from maria and carlos but longer rentention might make thinga simpler yeah
+00:49:11	marc | wolovim:	Client rankings: https://forkcast.org/upgrade/hegota/client-priority/?quick=el
+00:49:17	Kevaundray Wedderburn:	Replying to "I'd not rush reducin..."
+
+I would probably want to know what the storage requirements will be, assuming 2TB nodes
+00:49:26	Ansgar Dietrichs:	would it make sense to have screen shared to look at the EIPs in question?
+00:49:27	nixo:	https://eips.ethereum.org/EIPS/eip-8304
+00:49:37	nixo:	Replying to "would it make sense ..."
+
+oh ya sorry
+00:50:30	Radek | solidity:	Solidity opinion on 7979 https://ethereum-magicians.org/t/eip-7979-call-and-return-opcodes-for-the-evm/24615/35
+00:50:37	Karim Taam:	Replying to "I'd not rush reducin..."
+
+So maybe keep it like that and after Glamsterdam fork we will have more info regarding the size need for BALs
+00:51:01	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ At 200M, and 300kib BALs, and 33k epochs, 310 mib of storage
+00:51:07	Łukasz Rozmej:	I am for 8304 and 7979
+00:51:33	Radek | solidity:	Reacted to "I am for 8304 and 79..." with 👍
+00:52:17	Karim Taam:	Reacted to "At 200M, and 300kib BALs, and 33k epochs, 310 mib of storage " with 👍
+00:52:17	cayman:	Reacted to "I would probably wan..." with 👍
+00:52:20	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ But keeping that many BALs around feels overly conservative. CLs should deal with blinded BALs (e.g. make them optional in the payload).
+00:52:35	Justin Florentine:	besu team wants to hear from compiler teams
+00:52:43	nixo:	Reacted to "besu team wants to hear from compiler teams" with 👍
+00:52:44	Kevaundray Wedderburn:	Replying to "I'd not rush reducin..."
+
+310mib?
+00:53:15	Kevaundray Wedderburn:	Replying to "I'd not rush reducin..."
+
+I might be missing something
+00:53:30	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ 33k*32 slots *300kib
+00:53:57	Jihoon:	Replying to "I'd not rush reducin..."
+
+What if we halven that period? Should CLs still be able to handle blinded BALs?
+00:54:41	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ Halven the CL retention?
+If so, I feel like "yes"
+00:55:12	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ But I haven't yet understood when CL clients ever need a 33k old payload, and why this would need to have the BAL.
+00:55:32	Łukasz Rozmej:	IMO potential gas optimizations can be figured out during implementation/benchmarking
+00:55:58	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ Like 33k epoch old payloads - fine, but why does it need the BAL.
+Simplest solution might be making the BAL optional in the payload?
+00:56:04	jochem-brouwer:	Antwoord verzenden naar "IMO potential gas ..."
+
+its an engineering opportunity at compiler side
+00:56:16	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ @Enrico Del Fante @potuz
+00:57:04	Kevaundray Wedderburn:	Replying to "I'd not rush reducin..."
+
+Hmm I thought it would be gib not mib
+00:57:55	Luis Pinto:	I am for 7979
+00:58:06	Jihoon:	Reacted to "Hmm I thought it would be gib not mib" with 👍
+00:58:11	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ Confused thousand-separator in my calculator yeah. It's 300 gib
+00:58:26	Kevaundray Wedderburn:	Reacted to "Confused thousand-separator in my calculator yeah. It's 300 gib" with 👍
+00:58:48	Dragan Rakita:	Reacted to "I am for 7979" with 👍
+00:59:02	jochem-brouwer:	Heeft gereageerd op "I am for 7979" met 👍
+00:59:26	Iván | ethrex:	For us is still DFI, not so strong DFI, so if majority wants to go for it it’s fine
+00:59:36	Łukasz Rozmej:	Nethermind is also open for an A grade
+00:59:42	Ben Adams:	Reacted to "Nethermind is also open for an A grade" with 👍
+01:00:03	cayman:	Replying to "I'd not rush reducin..."
+
+I doubt other CL devs would want to adjust p2p at this stage of the fork development? @Toni Wahrstätter 
+01:00:07	Łukasz Rozmej:	Ethrex?
+01:00:12	Łukasz Rozmej:	They DFI'ed
+01:00:43	Ansgar Dietrichs:	I don’t think it’s a super strong CFI candidate still
+01:00:49	potuz:	In the Glamsterdam section I forgot to mention this, perhaps not critical for Sepolia, but I think we need this for Hoodi: a way for CL clients to blacklist all the P2P builders if the operator wanted. @nixo this does not need to be mentioned in the call, just posting here that other CL devs are around.
+01:00:51	Ben Adams:	I do :)
+01:00:58	Dragan Rakita:	It looks good to include it
+01:01:07	Ben Adams:	Replying to "I don’t think it’s a super strong CFI candidate still"
+
+I do :)dev UX
+01:01:22	Ben Adams:	Reacted to "It looks good to include it" with 👍
+01:01:45	lightclient:	CFI just means we are considering seriously to include it
+01:01:50	lightclient:	7979 definitely seems CFI
+01:01:54	Dragan Rakita:	Reacted to "7979 definitely seems CFI" with ➕
+01:01:54	Łukasz Rozmej:	CCFI (considered for consider for inclusion) then
+01:01:56	jochem-brouwer:	Heeft gereageerd op "7979 definitely se..." met ➕
+01:01:59	Radek | solidity:	Reacted to "7979 definitely seem..." with ➕
+01:02:01	lightclient:	Reacted to "CCFI (considered for consider for inclusion) then" with 🤣
+01:02:01	jochem-brouwer:	CFI
+01:02:03	Greg K | Lido:	Reacted to "CCFI (considered for consider for inclusion) then" with 😀
+01:02:03	Fabio Di Fabio:	Reacted to "CCFI (considered for consider for inclusion) then" with 😄
+01:02:04	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ Yeah I can see that.
+In which scenarios are CL clients sending around such old payloads, @cayman ? And what would they do with the BAL? Just store it, or pass it to the EL?
+01:02:14	Dragan Rakita:	Reacted to "CCFI (considered for consider for inclusion) then" with 🤣
+01:02:15	Fabio Di Fabio:	Reacted to "CFI" with 👍
+01:02:19	Suyash Shandilya:	Reacted to "7979 definitely seem..." with ➕
+01:02:20	Łukasz Rozmej:	Reacted to "CFI" with 👍
+01:02:23	Radek | solidity:	Solidity is for CFIed it
+01:02:29	Marc:	Reacted to "7979 definitely seems CFI" with ➕
+01:02:30	lightclient:	Reacted to "Solidity is for CFIed it" with ❤️
+01:02:30	jochem-brouwer:	Antwoord verzenden naar "CCFI (considered f..."
+
+CCCFI :D
+01:02:30	Łukasz Rozmej:	CFI and move forward!
+01:02:32	felipe:	seems green to CFI
+01:02:32	Pooja Ranjan:	Reacted to "Solidity is for CFIed it" with ❤️
+01:02:32	Fabio Di Fabio:	Reacted to "Solidity is for CFIed it" with 👍
+01:02:34	Ben Adams:	Reacted to "Solidity is for CFIed it" with ❤️
+01:02:35	Suyash Shandilya:	Reacted to "CCFI (considered for..." with 🤣
+01:02:35	Ben Adams:	Reacted to "Solidity is for CFIed it" with 👍
+01:02:40	jochem-brouwer:	Heeft gereageerd op "Solidity is for CF..." met ❤️
+01:02:41	Fabio Di Fabio:	Reacted to "CFI and move forward!" with 👍
+01:02:42	Ben Adams:	Reacted to "CFI and move forward!" with 👍
+01:02:43	jochem-brouwer:	Heeft gereageerd op "CFI and move forwa..." met 👍
+01:02:44	felipe:	Reacted to "7979 definitely se..." with ➕
+01:02:45	Toni Wahrstätter:	Reacted to CCFI (considered for... with "🤣"
+01:02:45	jochem-brouwer:	Heeft gereageerd op "seems green to CFI" met 🔥
+01:02:45	Łukasz Rozmej:	CFI is not SFI
+01:02:47	Suyash Shandilya:	Reacted to "CFI and move forward..." with 👍
+01:02:48	Fabio Di Fabio:	Reacted to "seems green to CFI" with 🔥
+01:02:50	Toni Wahrstätter:	Reacted to CFI and move forward... with "👍"
+01:02:51	Lea Na:	Reacted to "seems green to CFI" with 🔥
+01:02:52	Justin Florentine:	CFI from besu
+01:02:52	Toni Wahrstätter:	Reacted to seems green to CFI with "🔥"
+01:02:58	Fabio Di Fabio:	Reacted to "CFI from besu" with 👍
+01:03:16	Dragan Rakita:	Reacted to "CFI and move forward!" with 👍
+01:03:31	cayman:	Replying to "I'd not rush reducin..."
+
+afaik the purpose for the big retention window is to support finalizing-network syncing for nodes that have been offline
+01:03:42	potuz:	Replying to "I'd not rush reducin..."
+
+But I haven't yet understood when CL clients ever need a 33k old payload, and why this would need to have the BAL.
+Because we can’t sync blocks without the payloads and we can’t serve the payloads without the BALs…
+01:04:08	felipe:	Reacted to "CFI" with 👍
+01:04:11	felipe:	Reacted to "CFI and move forwa..." with 👍
+01:04:30	Toni Wahrstätter:	No need to have eips to reserve names, imo.
+01:04:42	cayman:	Replying to "I'd not rush reducin..."
+
+So serving old payloads would happen when peering with nodes who have been offline and are trying to forward sync w/o restarting from a recent checkpoint.
+01:04:43	lightclient:	Was there a post somewhere with the support from different parties?
+01:04:55	potuz:	Replying to "I'd not rush reducin..."
+
+Of course if we had 8237 then we wouldn’t care at all about any of this.
+01:05:06	Łukasz Rozmej:	I don't care much except the number of 1-byte opcodes is quickly reducing
+01:05:10	cayman:	Reacted to "Of course if we had ..." with 😃
+01:05:12	Stefan Starflinger:	Reacted to "seems green to CFI" with 🔥
+01:05:14	lightclient:	Reacted to "I don't care much except the number of 1-byte opcodes is quickly reducing" with ❤️
+01:05:38	lightclient:	Be friendly with others <3
+01:05:42	Iván | ethrex:	We left it TBD, now we can do a C for it
+01:05:45	Radek | solidity:	Reacted to "Be friendly with oth..." with ❤️
+01:05:46	emma (reth):	Reacted to "Be friendly with others <3" with ❤️
+01:05:48	Dragan Rakita:	Reacted to "Be friendly with others <3" with ❤️
+01:05:50	Kevaundray Wedderburn:	Reacted to "Be friendly with others <3" with ❤️
+01:06:05	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ But at 33k epochs you're outside the wsp and would need a checkpoint anyway?
+01:06:08	Lea Na:	Reacted to "Be friendly with o..." with ❤️
+01:06:19	Luis Pinto:	We could possibly extend L1 to multi-byte opcodes with a reserved opcode too
+01:07:14	cayman:	Replying to "I'd not rush reducin..."
+
+yes, this is why the 33k should be adjusted w 8061
+01:07:15	Milos | enso.build:	https://eips.ethereum.org/EIPS/eip-8360
+01:07:54	lightclient:	I don’t really understand what the point of TCREATE is TBH. Why is initcode not sufficient?
+01:07:56	Marius Van Der Wijden (M):	I'm against tcreate for hegota. I think the idea is okay, but it creates a lot of new codepaths that need to be tested for very little gain
+01:08:04	Iván | ethrex:	Reacted to "I'm against tstore f..." with 👍
+01:08:21	cayman:	Replying to "I'd not rush reducin..."
+
+keeping 33k just seems like a bug / oversight imo
+01:08:30	Ben Adams:	Replying to "I don’t really understand what the point of TCREATE is TBH. Why is initcode not sufficient?"
+
+initcode leaves contract behind without additionally using selfdestruct?
+01:08:35	Maria Silva:	Replying to "I'm against tstore f..."
+
+Do you mean tcreate?
+01:08:36	Luis Pinto:	Replying to "I'm against tstore f..."
+
+You mean tcreate
+01:08:40	nixo:	Replying to "I'm against tstore f..."
+
+maybe stupid question but tstore is part of this?
+01:09:10	Marius Van Der Wijden (M):	Replying to "I'm against tstore f..." 
+
+ Lol tcreate
+01:09:18	Marius Van Der Wijden (M):	Replying to "I'm against tstore f..." 
+
+ No its not @nixo
+01:09:25	Iván | ethrex:	Replying to "I'm against tstore f..."
+
+I agree with Marius here
+01:09:28	nixo:	Reacted to "No its not @nixo" with 🙏
+01:09:35	felipe:	Reacted to "Lol tcreate" with 😄
+01:09:54	Jihoon:	Replying to "I'd not rush reducin..."
+
+33k was the worst case of WSP before 8061. You can read more here: https://github.com/ethereum/consensus-specs/blob/master/specs/phase0/p2p-interface.md?plain=1#L2432 
+
+Set in this PR: https://github.com/ethereum/consensus-specs/pull/2131
+01:10:00	jochem-brouwer:	sstore behaves as tstore in tcreate contract
+01:10:26	jochem-brouwer:	Antwoord verzenden naar "I'm against tstore..."
+
+whoops meant to reply that here: sstore behaves as tstore in tcreate contract
+01:10:44	potuz:	Replying to "I'd not rush reducin..."
+
+I think it’s fine to reduce this to the WSP as long as EL devs are happy to reduce it this much
+01:10:55	potuz:	Replying to "I'd not rush reducin..."
+
+The point is that we should reduce it to the max of the two layers
+01:11:08	Milos | enso.build:	Reacted to "sstore behaves as ..." with 👍
+01:11:11	Kevaundray Wedderburn:	Reacted to "The point is that we should reduce it to the max of the two layers" with 👍
+01:11:14	potuz:	Replying to "I'd not rush reducin..."
+
+On the CL we do not need anything beyond the WSP IMO
+01:12:39	cayman:	Reacted to "The point is that we..." with 👍
+01:12:44	Luis Pinto:	PAY like opcode isn’t covered either
+01:13:00	Toni Wahrstätter:	Reacted to 33k was the worst ca... with "🙏"
+01:13:06	Toni Wahrstätter:	Reacted to The point is that we... with "👍"
+01:13:07	Helkomine:	It can be banned if you want to keep things simple
+01:13:57	Toni Wahrstätter:	Replying to "I'd not rush reducin..." 
+
+ On the EL too. Starting fresh snap snyc is prpbably faster than re-exrcuting weeks of blocks.
+01:14:07	Dragan Rakita:	Gas cost is higher
+01:14:51	Milos | enso.build:	Reacted to "It can be banned i..." with 👍
+01:15:04	Marius Van Der Wijden (M):	We should not spend time on these microdecisions for a few people to save a few wei
+01:15:12	Luis Pinto:	But the question about what you do in the interim between Glam - Heg is still relevant
+01:15:14	CPerezz:	Reacted to "I would probably wan..." with 👍
+01:15:21	Iván | ethrex:	Reacted to "We should not spend ..." with 👍
+01:15:26	Milos | enso.build:	It's not a few wei
+01:15:42	Helkomine:	Reacted to "It's not a few wei" with 👍
+01:15:45	Milos | enso.build:	and it's not a microdecision lol
+01:15:52	Pablo Deymo | Lambda:	Reacted to "We should not spend time on these microdecisions for a few people to save a few wei" with 💰
+01:15:57	CPerezz:	Reacted to "Of course if we had ..." with 😂
+01:16:04	Helkomine:	Reacted to "and it's not a mic..." with 👍
+01:17:14	Toni Wahrstätter:	Both are small changes and require us to be flexible. I'd even CFI them - cleaner
+01:18:55	Ansgar Dietrichs:	my only concern on state diff is that it is the kind of EIP with a lot of nuanced edge cases that only show up during implementation
+01:19:04	lightclient:	🚢
+01:19:11	Ansgar Dietrichs:	Replying to "my only concern on s..."
+
+but seems worth it
+01:19:12	Toni Wahrstätter:	Reacted to 🚢 with "🚀"
+01:19:12	potuz:	+1 assertions will make my heart not pump up when using the chain
+01:19:14	Iván | ethrex:	Reacted to "🚢" with 🚀
+01:19:17	Iván | ethrex:	Reacted to "🚢" with 🚢
+01:19:35	Suyash Shandilya:	Reacted to "🚢" with 🚢
+01:19:39	Toni Wahrstätter:	Replying to "+1 assertions will m..." 
+
+ A bit of pump isn't too bad
+01:19:57	jochem-brouwer:	Heeft gereageerd op "A bit of pump isn'..." met ⛽
+01:20:04	potuz:	Replying to "+1 assertions will m..."
+
+Agreed, my Belly is the worst it’s been in 20 years, need to go back to a healthier life
+01:20:19	Toni Wahrstätter:	Reacted to Agreed, my Belly is ... with "🙏"
+01:20:24	lightclient:	🚢
+01:20:30	Iván | ethrex:	Reacted to "🚢" with 🚢
+01:20:30	soispoke:	A réagi à "🚢" avec 🔥
+01:20:32	felipe:	Reacted to "A bit of pump isn'..." with ⛽
+01:20:32	soispoke:	A réagi à "🚢" avec 🚢
+01:20:36	Marius Van Der Wijden (M):	Replying to "and it's not a micro..." 
+
+ In the great scheme of things this will not make or break ethereum. What will do that are the big features: Frames, Focil, PQ, ... everything else are distractions
+01:21:48	Justin Florentine:	CLEAN YOUR ROOM
+01:21:57	Ben Adams:	Reacted to "CLEAN YOUR ROOM" with 🔥
+01:21:59	Milos | enso.build:	Replying to "We should not spen..."
+
+I'd reccomend to dig a bit deeper
+01:22:11	Helkomine:	Replying to "my only concern on..."
+
+I previously wrote an EIP with a similar idea, but the approach there was for the parent frame to establish the scope of state changes for the child frame upfront
+01:22:20	Kevaundray Wedderburn:	Replying to "I'd not rush reducin..."
+
+One concern that did come up was the fact that folks want to use the large window in periods of non-finality. 
+
+To me, I think we should not prune non-finalised blocks to decouple the two scenarios
+01:22:28	Parithosh Jayanthi:	Reacted to "A bit of pump isn't too bad" with ⛽
+01:22:29	Dragan Rakita:	This is one of those two gas EIPs
+01:22:31	Parithosh Jayanthi:	Reacted to "Agreed, my Belly is the worst it’s been in 20 years, need to go back to a healthier life" with 🙏
+01:22:34	Parithosh Jayanthi:	Reacted to "CLEAN YOUR ROOM" with 🔥
+01:22:50	Lea Na:	Reacted to "🚢" with 🚢
+01:22:51	jochem-brouwer:	this is the eip-7610 replacement
+01:23:31	Justin Florentine:	EAT YOUR VEGETABLES
+01:23:36	cayman:	Reacted to "One concern that did..." with 👍
+01:23:36	jochem-brouwer:	Heeft gereageerd op "CLEAN YOUR ROOM" met ➕
+01:23:38	Ben Adams:	Reacted to "EAT YOUR VEGETABLES" with 😅
+01:23:39	Milos | enso.build:	Replying to "and it's not a mic..."
+
+lol
+01:23:49	Łukasz Rozmej:	KILL REFUNDS!
+01:23:50	Iván | ethrex:	We are ok on doing it
+01:23:52	jochem-brouwer:	Heeft gereageerd op "EAT YOUR VEGETABLES" met 🥦
+01:23:54	Stefan Starflinger:	Reacted to "KILL REFUNDS!" with 👍
+01:23:55	Iván | ethrex:	Reacted to "EAT YOUR VEGETABLES" with 🥦
+01:23:55	jochem-brouwer:	Heeft gereageerd op "KILL REFUNDS!" met ⛽
+01:23:57	Dragan Rakita:	Reacted to "KILL REFUNDS!" with ⛽
+01:24:03	lightclient:	Reacted to "KILL REFUNDS!" with 👍
+01:24:12	Ben Adams:	Reacted to "KILL REFUNDS!" with 👍
+01:24:12	Luis Pinto:	Reacted to "KILL REFUNDS!" with ⚰️
+01:24:13	Ben Adams:	Reacted to "KILL REFUNDS!" with ⛽
+01:24:17	Ben Adams:	Reacted to "KILL REFUNDS!" with ⚰️
+01:24:18	Milos | enso.build:	Replying to "and it's not a mic..."
+
+sorry big brain
+01:24:19	Iván | ethrex:	Reacted to "KILL REFUNDS!" with 🔥
+01:24:19	CPerezz:	Reacted to "KILL REFUNDS!" with 👍
+01:24:33	Ansgar Dietrichs:	lol yes I was really worried when we only started with scoping halfway through the call and now we are just breezing through these
+01:24:39	emma (reth):	Reacted to "KILL REFUNDS!" with ⛽
+01:24:47	Łukasz Rozmej:	Reacted to "lol yes I was really worried when we only started with scoping halfway through the call and now we are just breezing through these" with 👍
+01:24:52	Suyash Shandilya:	Reacted to "lol yes I was really..." with 👍
+01:24:59	jochem-brouwer:	Heeft gereageerd op "lol yes I was real..." met 🌊
+01:25:02	Dragan Rakita:	Reacted to "lol yes I was really worried when we only started with scoping halfway through the call and now we are just breezing through these" with 🌊
+01:25:11	Helkomine:	Replying to "and it's not a mic..."
+
+state left the chat lol
+01:25:25	lightclient:	Reacted to "lol yes I was really worried when we only started with scoping halfway through the call and now we are just breezing through these" with 🌊
+01:25:27	emma (reth):	Reacted to "lol yes I was really worried when we only started with scoping halfway through the call and now we are just breezing through these" with 🌊
+01:25:47	CPerezz:	For SETCODEFROM. Here’s some help digesting it: https://cperezz.github.io/articles/setcodefrom-account-modes/
+01:25:49	Milos | enso.build:	Replying to "and it's not a mic..."
+
+there's actual people building actual product on ethereum, if you don't understand one of the most basic use cases and feature that ethereum offers is a skill issue
+01:26:03	Ansgar Dietrichs:	maybe if we wanted to we could talk about the other Toni data pricing EIP? because we just CFI’d the other
+01:26:04	lightclient:	SETCODEFROM is important
+01:26:11	Ben Adams:	Reacted to "SETCODEFROM is important" with 💯
+01:26:12	Iván | ethrex:	Reacted to "For SETCODEFROM. Her..." with 🙏
+01:26:13	marc | wolovim:	Sense-check this:
+
+CFI
+- EIP-3298: Remove storage-clear refund and refund cap
+- EIP-7668: Remove bloom filters
+- EIP-7906: Transaction Assertions via State Diff Opcode
+- EIP-7979: Call and Return Opcodes for the EVM
+- EIP-8131: Unified Transaction Content Floor
+- EIP-8163: Reserve `EXTENSION (0xae)` opcode
+- EIP-8250: Keyed Nonces for Frame Transactions
+- EIP-8253: Bump nonce of zero-nonce storage accounts
+- EIP-8272: Recent Roots for Frame Transactions
+- EIP-8368: CPSB Recalibration
+- EIP-8372: Normalized state gas limit
+
+Deferred
+- EIP-8360: TCREATE Opcode
+01:26:14	Ansgar Dietrichs:	Replying to "maybe if we wanted t..."
+
+I personally think we should CFI both
+01:26:26	CPerezz:	Reacted to "SETCODEFROM is impor..." with 💯
+01:26:43	Christine Kim:	Replying to "Sense-check this:
+
+CFI
+- EIP-3298: Remove storage-clear refund and refund cap
+- EIP-7668: Remove bloom filters
+- EIP-7906: Transaction Assertions via State Diff Opcode
+- EIP-7979: Call and Return Opcodes for the EVM
+- EIP-8131: Unified Transaction Content Floor
+- EIP-8163: Reserve `EXTENSION (0xae)` opcode
+- EIP-8250: Keyed Nonces for Frame Transactions
+- EIP-8253: Bump nonce of zero-nonce storage accounts
+- EIP-8272: Recent Roots for Frame Transactions
+
+Deferred
+- EIP-8360: TCREATE Opcode"
+
+https://docs.google.com/spreadsheets/d/1UVm9UurwCMWrtLAM7aKvMjdeMtZYSsm7ay8AMwo52AE/edit?usp=sharing
+01:26:50	Toni Wahrstätter:	Yeah the two data repricings should be done in a bundle
+01:27:29	Francesco Risitano (Tau):	Could bloom filters be useful in a zkEVM + BiB + VOPS world to signal to a VOPS node which transactions / bals to fetch to maintain the tx pool. Similar arguments for a light client for a dap.
+01:27:51	Toni Wahrstätter:	The 2nd one is more complex, at least at first glance
+01:28:21	Helkomine:	Replying to "SETCODEFROM is imp..."
+
+no, 8058
+01:28:23	Kevaundray Wedderburn:	If we have time, it would be good to get a temp check on 8298 (SETCODEFROM)
+
+There was an async thread on this last week
+01:28:33	Marius Van Der Wijden (M):	Replying to "and it's not a micro..." 
+
+ Lol no need to start name calling
+01:28:38	CPerezz:	Replying to "SETCODEFROM is impor..."
+
+8058 is superset by SETCODEFROM
+01:28:40	Łukasz Rozmej:	Reacted to "If we have time, it would be good to get a temp check on 8298 (SETCODEFROM)
+
+There was an async thread on this last week" with 👍
+01:28:46	CPerezz:	Replying to "SETCODEFROM is impor..."
+
+And I’m the author lol So I guarantee this is the case
+01:28:53	CPerezz:	Reacted to "If we have time, it ..." with 👍
+01:28:53	Kevaundray Wedderburn:	Replying to "If we have time, it ..."
+
+Ah didn’t see lightclient’s message due to zoom ui
+01:29:09	Ansgar Dietrichs:	Replying to "SETCODEFROM is impor..."
+
+I’d personally appreciate 2 more weeks though, there is some nuance around best approach imo
+01:29:16	Iván | ethrex:	Reacted to "SETCODEFROM is impor..." with 💯
+01:29:25	Nico:	Did we also discuss 8151 already ?
+01:29:27	CPerezz:	https://cperezz.github.io/articles/setcodefrom-account-modes/
+01:29:30	Milos | enso.build:	Replying to "and it's not a mic..."
+
+dind't meant to
+01:29:32	Nico:	Reacted to If we have time, it ... with "👍"
+01:29:54	Helkomine:	Replying to "SETCODEFROM is imp..."
+
+However, Uniswap factory contracts do not qualify for this benefit.
+01:30:26	CPerezz:	Replying to "If we have time, it ..."
+
+Happy to chat with teams about SETCODEFROM. @Dragan Rakita specially since you marked as DFI
+01:30:35	CPerezz:	Replying to "Did we also discuss ..."
+
+It’s discussed in the link I sent too
+01:30:48	Ansgar Dietrichs:	I think SETCODEFROM is important in principle, but there are some use cases it doesn’t ideally support (e.g. deploying copies of existing contracts cheaply). I would appreciate 2 weeks to just explore whether there are any variants of it that would fulfil the same purpose but cover these other use cases more effectively.
+
+also fine to CFI today though and do this after
+01:30:51	CPerezz:	Replying to "Did we also discuss ..."
+
+I think SETCODEFROM can just superset it? But would be nice to get your take
+01:31:13	nixo:	Replying to "Did we also discuss ..."
+
+no, no discussion or decision on 8151 today
+01:31:16	CPerezz:	Replying to "I think SETCODEFROM ..."
+
+It does support the deployment after the latest PR
+01:31:22	CPerezz:	Replying to "I think SETCODEFROM ..."
+
+Since we allowed execution in Initcode
+01:31:30	lightclient:	Reacted to "Since we allowed execution in Initcode" with ❤️
+01:31:30	Iván | ethrex:	We’d like SETCODEFROM CFI’d
+01:31:36	Ansgar Dietrichs:	Replying to "I think SETCODEFROM ..."
+
+ah, right, sorry about that then
+01:32:05	Ansgar Dietrichs:	Replying to "I think SETCODEFROM ..."
+
+I guess point stands for me personally then, time to catch up, but if everyone else is up to date and can make decision today, fine to go ahead imo
+01:32:42	Helkomine:	Replying to "SETCODEFROM is imp..."
+
+What I mean is that it only allows new contracts to receive a discount, whereas existing ones do not.
+01:32:54	Łukasz Rozmej:	Reacted to "SETCODEFROM is important" with 💯
+01:33:41	Helkomine:	Replying to "KILL REFUNDS!"
+
+move to REFILL
+01:33:54	CPerezz:	Replying to "SETCODEFROM is impor..."
+
+Uniswap factory wouldn’t apply neither for 8058 then. AS byte code needs to be identical
+01:33:54	Ansgar Dietrichs:	Replying to "SETCODEFROM is impor..."
+
+we can also CFI to day and still explore whether we should switch to a different variant afterwards
+01:34:10	Ben Adams:	Replying to "SETCODEFROM is important"
+
+Yes is unfortunate doesn't apply to existing ones, would have to be new ones but cannot do it existing ones safely
+01:34:27	Ansgar Dietrichs:	sounds like we are ready to CFI today then
+01:34:32	Iván | ethrex:	Reacted to "sounds like we are r..." with 👍
+01:34:35	Ben Adams:	Reacted to "sounds like we are ready to CFI today then" with 👍
+01:34:37	soispoke:	A réagi à "sounds like we are..." avec 👍
+01:34:39	Nico:	Reacted to sounds like we are r... with "👍"
+01:34:39	CPerezz:	Reacted to "sounds like we are r..." with 👍
+01:34:41	Marc:	Reacted to "sounds like we are ready to CFI today then" with 👍
+01:34:45	CPerezz:	SHIP SETCODEFROM
+01:34:52	Iván | ethrex:	Reacted to "SHIP SETCODEFROM" with 🚢
+01:34:53	jochem-brouwer:	Heeft gereageerd op "SHIP SETCODEFROM" met 🌊
+01:34:53	Ben Adams:	Replying to "SETCODEFROM is important"
+
+but 99% of contracts are dupes
+01:34:54	jochem-brouwer:	Heeft gereageerd op "SHIP SETCODEFROM" met 🚢
+01:35:14	Łukasz Rozmej:	finally some beef on next ACDE with controversial EIPs, those last ones were too easy
+01:35:16	potuz:	What happened to EL devs? It used to be a lot of fighting and everything getting DFId… now you guys CFI like 20 EIPs in 30 minutes… we’ll have to take the lead in the CL side then
+01:35:23	nixo:	Reacted to "finally some beef on next ACDE with controversial EIPs, those last ones were too easy" with 😂
+01:35:26	felipe:	Reacted to "What happened to E..." with 😂
+01:35:27	jochem-brouwer:	Heeft gereageerd op "What happened to E..." met 😜
+01:35:28	CPerezz:	Please, if any team wants to learn more or has questions, ping me!! I’m happy to help
+01:35:35	Suyash Shandilya:	Reacted to "finally some beef on..." with 😂
+01:35:35	nixo:	Reacted to "What happened to EL devs? It used to be a lot of fighting and everything getting DFId… now you guys CFI like 20 EIPs in 30 minutes… we’ll have to take the lead in the CL side then" with 😂
+01:35:38	Łukasz Rozmej:	Replying to "What happened to EL devs? It used to be a lot of fighting and everything getting DFId… now you guys CFI like 20 EIPs in 30 minutes… we’ll have to take the lead in the CL side then"
+
+on next episode of ACDE....
+01:35:39	soispoke:	A réagi à "finally some beef ..." avec 😂
+01:35:41	jochem-brouwer:	Antwoord verzenden naar "What happened to E..."
+
+lets scope I* in 2 calls :P
+01:35:48	Helkomine:	Replying to "SETCODEFROM is imp..."
+
+I mean, the code for the sub-contracts it deploys is identical; EIP-8037 would drive this cost up massively without a discount—at the very least, versions 8058 and 8298 should be able to coexist.
+01:35:48	nixo:	Reacted to "lets scope I* in 2 calls :P" with 😅
+01:35:52	felipe:	Reacted to "Please, if any tea..." with ❤️
+01:35:53	potuz:	Reacted to "lets scope I* in 2 calls :P" with 😅
+01:35:56	Suyash Shandilya:	Reacted to "What happened to EL ..." with 😂
+01:35:58	Nico:	Reacted to Please, if any team ... with "❤️"
+01:36:01	Nico:	Reacted to SETCODEFROM is impor... with "💯"
+01:36:06	jochem-brouwer:	Heeft gereageerd op "Please, if any tea..." met ❤️
+01:36:07	Justin Florentine:	Replying to "What happened to EL ..."
+
+because if we don't fill the fork you will
+01:36:08	jochem-brouwer:	Heeft gereageerd op "What happened to E..." met 😂
+01:36:13	Milos | enso.build:	Reacted to "Please, if any tea..." with ❤️
+01:36:14	Luis Pinto:	Am I right in assuming then that Frames no longer solely control the account after you have done a SETCODEFROM?
+01:36:16	Suyash Shandilya:	Reacted to "because if we don't ..." with 😄
+01:36:17	potuz:	Replying to "What happened to EL ..."
+
+Let’s bring Peter back
+01:36:22	Iván | ethrex:	Reacted to "lets scope I* in 2 c..." with 🚢
+01:36:36	Łukasz Rozmej:	Replying to "What happened to EL devs? It used to be a lot of fighting and everything getting DFId… now you guys CFI like 20 EIPs in 30 minutes… we’ll have to take the lead in the CL side then"
+
+in the end we will still wait for CL's with implementation, so we can take more :P
+01:36:38	CPerezz:	Replying to "Am I right in assumi..."
+
+If you do SETCODEFROM, you have a smart account. At this point, code controls it
+01:36:41	Toni Wahrstätter:	Reacted to What happened to EL ... with "🎅"
+01:36:47	potuz:	Replying to "What happened to EL ..."
+
+touche
+01:36:49	Marius Van Der Wijden (M):	Oh iirc the codehash -  code db is different between geth nodes
+01:36:49	Justin Florentine:	Replying to "What happened to EL ..."
+
+there, i fillibustered, happy?
+01:36:54	Łukasz Rozmej:	Reacted to "Let’s bring Peter back" with 👍
+01:36:56	CPerezz:	Replying to "Am I right in assumi..."
+
+Frames are another thing that just allows you to still have ECDSA access for example
+01:37:15	Marius Van Der Wijden (M):	Replying to "Oh iirc the codehash..." 
+
+ Depending on when they were synced
+01:37:17	CPerezz:	Replying to "Oh iirc the codehash..."
+
+Only the ones that full-sync vs. snapsync
+01:37:18	Ansgar Dietrichs:	anything specific we should discuss regarding how to prepare for the next call?
+01:37:18	Nico:	Replying to "Did we also discuss ..." 
+
+ Ah thanks
+01:37:22	lightclient:	woohoo!
+01:37:23	Lea Na:	Reacted to "because if we don'..." with 😄
+01:37:23	Nico:	Replying to "Did we also discuss ..." 
+
+ Looks interesting
+01:37:25	lightclient:	Nice job nixo
+01:37:26	Iván | ethrex:	Thanks!
+01:37:29	lightclient:	Nix!
