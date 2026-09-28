@@ -1,0 +1,175 @@
+00:11:03	Mario Vega:	gm!
+00:11:09	Ladislaus:	Reacted to "gm!" with 👋
+00:11:12	Justin Traglia:	Reacted to "gm!" with 👋
+00:12:55	Justin Traglia:	Agenda: https://github.com/ethereum/pm/issues/2230
+00:12:58	Toni Wahrstätter:	https://github.com/ethereum/pm/issues/2230
+00:13:03	Justin Traglia:	Reacted to "https://github.com/ethereum/pm/issues/2230" with 😄
+00:15:28	Barnabas:	would any client team NOT be ready by EOD tomorrow?
+00:15:38	Nico Flaig:	lodestar has a release as well
+00:15:47	emma (reth):	Reth released this AM
+00:15:56	Daniel Lehrner:	Besu has a release as well
+00:15:56	Dustin:	Nimbus will be releasing tomorrow
+00:15:58	james:	Ours is in the works should be out soon hopefully tomorrow will check with preston
+00:15:59	Barnabas:	Replying to "lodestar has a relea..."
+
+10 min ago lol
+00:16:06	saulius:	Grandine should be out tomorrow.
+00:16:09	Barnabas:	we are rolling out releases on devnet 8
+00:16:55	Nico Flaig:	Replying to "lodestar has a relea..."
+
+we had rc on friday which is the same commit
+00:18:35	Barnabas:	Replying to "Besu has a release a..."
+
+hyperledger/besu:26.9.0 ?
+
+release comments don’t mention sepolia glamsterdam support.
+00:19:59	Justin Florentine:	did we resimulate without the tracing on?
+00:20:34	Miguel Tenorio:	Reacted to "we are rolling out releases on devnet 8" with 👍
+00:21:06	Łukasz Rozmej:	yes we should
+00:21:52	Łukasz Rozmej:	probably yes, unless there is something off with our assumptions, always re-validate
+00:22:29	Justin Florentine:	and eventually mainnet shadowfork
+00:22:50	Dragan Rakita:	There is probably diff between building and validating block
+00:25:48	Dustin:	justification never made sense
+00:25:58	Barnabas:	any reason the tag is not just  fcr  ?
+00:26:01	Julian Ma:	https://github.com/ethereum/execution-apis/pull/908
+00:26:08	Barnabas:	seems like fast could be used elsewhere too
+00:26:39	Julian Ma:	fcr  tag also works for me but would want to check with @Mikhail Kalinin and @Francesco D'Amato
+00:26:50	Potuz:	It can't go backwards
+00:27:22	Justin Traglia:	Replying to "any reason the tag i..."
+
+I typically suggest not using acronyms; for that reason I slightly prefer  fast
+00:28:01	Potuz:	@Julian Ma I dont understand why a new endpoint instead of just using the same endpoint with different CL behavior, are RPC providers claiming that they need to serve both?
+00:28:16	Jihoon:	Replying to "any reason the tag i..."
+
+Not sure if it has to be 4-letters, but I'd vote for  confirmed . fast block makes me wonder what's slow block then 🤷‍♂️
+00:28:39	Francesco D'Amato:	Replying to "@Julian Ma I dont un..."
+
+Yes, right now at least some of them are planning to serve both, if they want to adopt FCR
+00:28:48	Francesco D'Amato:	Replying to "@Julian Ma I dont un..."
+
+(Or just not adopt FCR)
+00:28:51	Potuz:	Replying to "@Julian Ma I dont un..."
+
+ah ok, that explains it
+00:29:06	Justin Traglia:	Replying to "any reason the tag i..."
+
+Ah yeah something like that would be great too
+00:29:22	Jihoon:	Reacted to "Ah yeah something like that would be great too" with 👍
+00:29:31	Julian Ma:	Replying to "@Julian Ma I dont un..."
+
+Yes that is what they are seeing
+00:29:36	Mikhail Kalinin:	Replying to " fcr  tag also works..."
+
+We can have “confirmed” tag If we want to. Don’t have a strong preferences, “fcr” kind of attached to a specific algo now and we will have fast confirmation in-protocol coming with DC upgrade. So, I am slightly against “fcr”
+00:29:57	Justin Florentine:	confirmed
+00:30:01	Enrico Del Fante:	Not a fan of “fastBlockHash” . So it will be optional or default to safe?
+00:30:01	cayman:	Reacted to "Not sure if it has t..." with 👍
+00:30:07	Justin Florentine:	Reacted to "confirmed" with ➕
+00:30:10	cayman:	Reacted to "confirmed" with 👍
+00:30:13	Enrico Del Fante:	Reacted to "confirmed" with ➕
+00:30:23	Justin Traglia:	Reacted to "confirmed" with ➕
+00:30:26	Kevaundray Wedderburn:	Would we eventually deprecate safe or will safe be served in perpetuity?
+00:31:44	Potuz:	Reacted to "Yes that is what the..." with 👍
+00:32:43	Dustin:	gloas is very, very late
+00:33:02	Barnabas:	this is all optional can be rolled when clients ready no?
+00:33:05	Kevaundray Wedderburn:	Does this require a hardfork?
+00:33:05	Dustin:	~half the client shave releases out
+00:33:14	cayman:	Reacted to "this is all optional..." with 👍
+00:33:46	Potuz:	I am confused, what requires coordination?
+00:33:53	Marius van der Wijden:	Requires an update to FCU
+00:34:02	Jihoon:	Which clients already support FCR? Nimbus, Lighthouse and Nethermind?
+00:34:02	Dustin:	requiring an update to FCU is major at this stage
+00:34:54	Julian Ma:	Replying to "Which clients alread..."
+
+Teku and Prysm as well
+00:35:01	Julian Ma:	Replying to "Which clients alread..."
+
+Lodestar
+00:35:05	Justin Traglia:	Replying to "requiring an update ..."
+
+Yep I agree.
+00:35:09	Julian Ma:	Replying to "Which clients alread..."
+
+From my understanding
+00:35:25	Jihoon:	Replying to "Which clients alread..."
+
+A half of clients!
+00:35:40	Barnabas:	can’t we serve this on beacon api?
+00:36:06	Toni Wahrstätter:	Which json rpc would respond with the confirmed block?
+00:36:44	Toni Wahrstätter:	My understanding is, we need it in the engine api for ELs to expose it to rpc users?
+00:36:48	Mikhail Kalinin:	Replying to "Which json rpc would..."
+
+Any which accept “safe”, “late”, “finalized” block tags. e.g. getBlockByNumber
+00:37:00	Justin Florentine:	Reacted to "My understanding is, we need it in the engine api for ELs to expose it to rpc users?" with 👍
+00:37:08	Mario Vega:	Reacted to "My understanding is, we need it in the engine api for ELs to expose it to rpc users?" with 👍
+00:37:23	Mikhail Kalinin:	Replying to "can’t we serve this ..."
+
+You mean add a new API with the fast confirmed block hash?
+00:38:11	Toni Wahrstätter:	Or put it in as default but fill it with justification slot if fcr not active
+00:38:35	Francesco D'Amato:	For RPC providers I think this should work just fine
+00:38:49	Nico Flaig:	Reacted to "confirmed" with ➕
+00:39:02	Justin Traglia:	CL breakout: https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1
+00:39:06	Potuz:	Replying to "Or put it in as defa..."
+
+that changes every node
+00:39:11	Toni Wahrstätter:	Replying to "For RPC providers I ..." 
+
+ If they run a specific client combo that passes it over the engine api
+00:39:33	Kevaundray Wedderburn:	Replying to "Or put it in as defa..."
+
+I think there would need to be a flag to say that fcr was not active, so one doesn’t confuse fcr with justification
+00:39:35	Barnabas:	“unmuting is responsibility”
+00:39:36	Toni Wahrstätter:	Replying to "Or put it in as defa..." 
+
+ But makes running any client pajr with fcr work
+00:39:40	spencer:	Reacted to "“unmuting is resp..." with 😂
+00:39:41	Mario Vega:	Reacted to "“unmuting is responsibility”" with 😂
+00:39:42	Parithosh Jayanthi:	Reacted to "“unmuting is responsibility”" with 😂
+00:39:44	spencer:	Replying to "“unmuting is resp..."
+
+never unmute
+00:39:45	danceratopz:	Technical issues :)
+00:39:52	Barnabas:	https://github.com/eth-clients/mainnet/pull/18
+00:40:41	Marius van der Wijden:	Can we also quickly make an announcement about the bootnodes?
+00:41:17	Barnabas:	https://github.com/eth-clients/mainnet/pull/16
+00:42:43	Parithosh Jayanthi:	https://dora.glamsterdam-devnet-8.ethpandaops.io/slot/331715#arrival
+00:43:07	Parithosh Jayanthi:	https://discord.com/channels/595666850260713488/892088344438255616/1554135728919806066
+00:43:17	Dragan Rakita:	We can hear you 🙂
+00:43:26	Mario Vega:	I could hear both
+00:43:29	Parithosh Jayanthi:	Ah lol
+00:43:30	Parithosh Jayanthi:	okie
+00:43:35	Marius van der Wijden:	lool
+00:43:37	Barnabas:	micdao
+00:43:42	Marius van der Wijden:	micdao
+00:43:42	Justin Florentine:	speakerdao
+00:43:52	Barnabas:	I’m gonna jump to the cl call
+00:44:01	danceratopz:	Please halp. Sound down.
+00:44:40	Marius van der Wijden:	yep
+00:44:45	Parithosh Jayanthi:	Reacted to "yep" with 👍
+00:44:45	Marius van der Wijden:	much faster
+00:44:52	Łukasz Rozmej:	we should have control group without debug tracing
+00:44:56	spencer:	Reacted to "much faster" with 💙
+00:44:58	Mario Vega:	Reacted to "much faster" with 💙
+00:44:59	Marius van der Wijden:	Reacted to "we should have con..." with 👍
+00:45:04	Mario Vega:	Reacted to "we should have control group without debug tracing" with 👍
+00:45:37	Ben Adams:	Reacted to "we should have control group without debug tracing" with 👍
+00:45:40	Parithosh Jayanthi:	Reacted to "we should have control group without debug tracing" with 👍
+00:48:46	Marius van der Wijden:	The tracing for Pawels attack block should be somewhere in the gigabytes of data, so slowdowns through tracing are expected
+00:49:39	Mario Vega:	I think the qs is whether the combination of loading the contract + jumpdest is the problem in particular
+00:49:55	Mario Vega:	why not loading the contract + other compute operation?
+00:52:13	Łukasz Rozmej:	you can regenerate the bals and then do it again, but that needs custom orchestration
+00:52:30	Daniel Lehrner:	Reacted to "you can regenerate the bals and then do it again, but that needs custom orchestration" with 👍
+00:53:34	Karim Taam:	One node doing full sync without pruning and this one will be a peer for the other nodes
+00:54:02	Łukasz Rozmej:	Reacted to "One node doing full sync without pruning and this one will be a peer for the other nodes" with 👍
+00:54:19	Justin Florentine:	sepolia forks in a week
+00:56:24	Justin Florentine:	this sounds to me like we have a pretty scary attack but its isolated in the lab, and we haven't been able to exercise it in an APPLIED form
+00:56:36	Mario Vega:	Reacted to "this sounds to me like we have a pretty scary attack but its isolated in the lab, and we haven't been able to exercise it in an APPLIED form" with 👍🏼
+00:57:39	Łukasz Rozmej:	Replying to "this sounds to me like we have a pretty scary attack but its isolated in the lab, and we haven't been able to exercise it in an APPLIED form"
+
+hard to say, should be investigated more
+00:57:39	Maria Silva:	Can we also run Jochem’s attack?
+00:57:52	Stefan Starflinger:	sure
+00:58:42	Łukasz Rozmej:	master  branch, we are not  main  hippies ;)
+00:59:01	Ben Adams:	Replying to " master  branch, we are not  main  hippies ;)"
+
+main master branch
