@@ -1,0 +1,85 @@
+{
+  "meeting": "ACDT #98 (CL Breakout) - September 28, 2026",
+  "highlights": {
+    "epbs_builder_payment_edge_case": [
+      {
+        "timestamp": "00:01:27",
+        "highlight": "ePBS bug: builder exit + unconditional proposer withdrawal can mint ETH if 2 epochs of empty payloads occur"
+      },
+      {
+        "timestamp": "00:04:27",
+        "highlight": "Three candidate fixes: don't pay proposer (Potuz PR #5694), reorder state transition (Nico PR), or burn the ETH"
+      },
+      {
+        "timestamp": "00:06:47",
+        "highlight": "Burning is most incentive-aligned but adds consensus-split risk; reordering needs edge-case analysis"
+      },
+      {
+        "timestamp": "00:10:08",
+        "highlight": "Bug not triggerable without ~2 epochs of missed payloads; client circuit breakers should prevent this in practice"
+      }
+    ],
+    "epbs_mevboost_commitboost": [
+      {
+        "timestamp": "00:17:19",
+        "highlight": "MevBoost plans to update for ePBS (GWAS); untested for Sepolia/Hoodi, targeting mainnet readiness"
+      },
+      {
+        "timestamp": "00:21:52",
+        "highlight": "CommitBoost tested by Lodestar team on local Kurtosis only; ahead of MevBoost in readiness"
+      }
+    ],
+    "epoch_retention_reduction": [
+      {
+        "timestamp": "00:24:51",
+        "highlight": "Most CL clients support reducing epoch retention (EIP-8061, ~214K epochs); Paul from Teku objects, Grandine not yet heard"
+      },
+      {
+        "timestamp": "00:27:44",
+        "highlight": "Spec change removes the constant and replaces it with a function; backporting to phase zero is problematic"
+      },
+      {
+        "timestamp": "00:28:08",
+        "highlight": "ELs need the new minimum retention signal now so they know how long to keep blob data"
+      }
+    ],
+    "shorter_slots": [
+      {
+        "timestamp": "00:30:50",
+        "highlight": "Lodestar has a WIP branch for shorter slots but not on latest spec; FOCIL deadlines also need updating"
+      },
+      {
+        "timestamp": "00:31:43",
+        "highlight": "Shorter slots should be tested on top of FOCIL due to timing interactions; EIP-8198 feature spec merged"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:15:58",
+      "action": "Nico to open PR against ethereum/consensus-specs repo for builder payment reordering fix",
+      "owner": "Nico Flaig"
+    },
+    {
+      "timestamp": "00:18:08",
+      "action": "Invite MevBoost/Flashbots maintainer (Fahil) to next ACDT to discuss ePBS update plans",
+      "owner": "Justin Traglia"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:09:25",
+      "decision": "No Sepolia delay for the builder payment bug; fix must land before Hoodi"
+    },
+    {
+      "timestamp": "00:30:37",
+      "decision": "Merge epoch retention PR now; clients may implement pruning at their own pace after the fork"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:09:32",
+      "target": "Builder payment edge-case fix merged before Hoodi launch"
+    }
+  ]
+}

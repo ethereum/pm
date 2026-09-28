@@ -1,0 +1,73 @@
+00:02:37	Justin Traglia:	Potuz PR: https://github.com/ethereum/consensus-specs/pull/5694
+Nico PR: https://github.com/nflaig/consensus-specs/pull/9
+00:05:23	Enrico Del Fante:	Seems potus PR is the simplest. So at this stage I’d prefer the simplest for sure
+00:05:59	Barnabas:	Do we need to delay sepolia over this?
+00:06:29	Justin Traglia:	Replying to "Do we need to delay ..."
+
+Nah
+00:10:16	Dustin:	is there a specific plan of replacing Sepolia, or timeline of deprecation?
+00:10:54	cayman:	I need to dig in deeper. My gut is either handle it properly or burn it
+00:10:55	Barnabas:	Replying to "is there a specific ..."
+
+we haven’t put much thought into this yet
+00:12:57	Nico Flaig:	~7 hours of no payloads seems unlikely to me
+00:18:16	Kevaundray Wedderburn:	@Nico Flaig / @Jihoon Should we discuss the 14K epoch retention thing?
+00:18:40	Nico Flaig:	Replying to "@Nico Flaig / @Jihoo..."
+
+sure
+00:18:57	Justin Traglia:	https://hackmd.io/@faheelsattar/Sklf7GkqMx
+00:19:32	Dustin:	it's the MEV way
+00:19:37	Dustin:	it's always been
+00:20:34	Kevaundray Wedderburn:	It will be deployed onto mainnet untested?
+00:20:46	Kevaundray Wedderburn:	Replying to "It will be deployed ..."
+
+(I might have misheard)
+00:20:46	Justin Traglia:	Replying to "It will be deployed ..."
+
+Depends on when flashbots updates this.
+00:20:58	Kevaundray Wedderburn:	Reacted to "Depends on when flashbots updates this." with 👍
+00:21:13	Kevaundray Wedderburn:	Replying to "It will be deployed ..."
+
+Is this the same for commit boost?
+00:21:31	Justin Traglia:	Replying to "It will be deployed ..."
+
+Unsure, I think commit-boost is better prepared.
+00:21:36	Kevaundray Wedderburn:	Reacted to "Unsure, I think commit-boost is better prepared." with 👍
+00:21:41	Justin Traglia:	Replying to "It will be deployed ..."
+
+Not sure if we’ve tested commit-boost yet though.
+00:22:39	Nico Flaig:	Replying to "@Nico Flaig / @Jihoo..."
+
+@Justin Traglia 
+00:22:56	Justin Traglia:	Replying to "@Nico Flaig / @Jihoo..."
+
+Oh oops. We can discuss this if we have time at the end.
+00:23:03	Nico Flaig:	Reacted to "Oh oops. We can disc..." with 👍
+00:24:18	Ladislaus:	Replying to "It will be deployed onto mainnet untested?"
+
+just fyi: CB folks recently published their plans for Glamsterdam here
+https://hackmd.io/@thUuBZa2ScW2i3kFbsrOFA/S1XTQgR_Ge#Commit-Boost-after-ePBS
+00:24:34	cayman:	Replying to "@Nico Flaig / @Jihoo..."
+
+https://github.com/ethereum/consensus-specs/pull/5680
+
+https://github.com/ethereum/consensus-specs/pull/5681
+00:24:37	Nico Flaig:	we have a custom lodestar api for this
+00:24:41	Nico Flaig:	aside the existing event
+00:26:27	Justin Traglia:	Reacted to "just fyi: CB folks recently published their plans for Glamsterdam here
+https://hackmd.io/@thUuBZa2ScW2i3kFbsrOFA/S1XTQgR_Ge#Commit-Boost-after-ePBS" with 🙏
+00:30:14	Barnabas:	anyone started work on shorter slots ?
+00:30:24	Barnabas:	we have a WIP PR for ethereum package for it
+00:31:38	Kevaundray Wedderburn:	It also needs to change the ptc and focil deadlines?
+00:32:07	Nico Flaig:	im fine also testing on top, but then we are pretty far from testing it
+00:32:12	Kevaundray Wedderburn:	Reacted to "im fine also testing on top, but then we are pretty far from testing it" with 👍
+00:32:46	Barnabas:	Reacted to "im fine also testing on top, but then we are pretty far from testing it" with 👍
+00:33:14	Justin Traglia:	https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8198
+00:33:42	Kevaundray Wedderburn:	How do we compute the deadlines wrt shorter slots?
+00:33:54	Jihoon:	Replying to "How do we compute th..."
+
+Still BPS.
+00:34:01	Justin Traglia:	Reacted to "Still BPS." with 👍
+00:34:18	Justin Traglia:	Replying to "How do we compute th..."
+
+Basis points, a percentage of whatever the slot duration is

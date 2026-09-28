@@ -1,0 +1,101 @@
+{
+  "meeting": "ACDT #98 - September 28, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:13:59",
+        "highlight": "Client release deadline is EOD tomorrow to prepare for Sepolia Shadow Fork"
+      },
+      {
+        "timestamp": "00:15:28",
+        "highlight": "Releases confirmed: Teku (out), Lodestar (out), Reth (out), Besu (out), Nimbus (tomorrow), Prysm (tomorrow), Grandine (tomorrow)"
+      },
+      {
+        "timestamp": "00:16:23",
+        "highlight": "After Sepolia fork, devnet-8 images will revert to latest trunk branches"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:12:54",
+        "highlight": "Devnet-8 stable over weekend under three attack variants; most clients processing blocks within ~6 seconds"
+      },
+      {
+        "timestamp": "00:14:12",
+        "highlight": "Security team found memory-explosion bug in ethrex on devnet-8; already fixed"
+      },
+      {
+        "timestamp": "00:17:41",
+        "highlight": "200M gas limit assessed safe: Pavel's attack peaks at 2.5s execution; Jochem's slow blocks were compounded by debug tracing running simultaneously"
+      },
+      {
+        "timestamp": "00:46:00",
+        "highlight": "Significant gap between Benchmarker (~2.5s worst case) and devnet (~5s) for JUMPDEST analysis on 100M gas block; cloud-attached disks and active debug tracing are suspected causes"
+      },
+      {
+        "timestamp": "00:57:08",
+        "highlight": "Plan: disable debug tracing on devnet-8, then rerun Pavel's and Jochem's attacks; Besu requests trunk branch be used instead of release for this test"
+      }
+    ],
+    "critical_infrastructure": [
+      {
+        "timestamp": "00:41:17",
+        "highlight": "EF bootnodes migrated from EthPandaOps to a new EF team; old nodes remain active until at least mainnet Glamsterdam, then deprecated"
+      },
+      {
+        "timestamp": "00:39:46",
+        "highlight": "ELOC keys missing 0x prefix in JSON genesis file; Nethermind fails without it \u2014 PR open in eth-clients/mainnet for client approval"
+      }
+    ],
+    "fast_confirmation_rule_fcr": [
+      {
+        "timestamp": "00:24:11",
+        "highlight": "Proposal: add a new 'confirmed' block tag (not repurpose 'safe') to enable FCR adoption; backwards-compat concerns from RPCs are blocking uptake"
+      },
+      {
+        "timestamp": "00:25:42",
+        "highlight": "Chainlink went live with FCR today; other bridges and L2s want it; RPC providers blocked by needing to serve both safe and FCR simultaneously"
+      },
+      {
+        "timestamp": "00:33:25",
+        "highlight": "Does not require a hard fork; consensus that FCR should be opt-in via compatible CL+EL pairs without changing default FCU behavior for all nodes"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:57:18",
+      "action": "Disable debug tracing on devnet-8 and rerun JUMPDEST attacks (Pavel's and Jochem's) to isolate tracing overhead; use Besu trunk branch",
+      "owner": "EthPandaOps (Stefan) + Pavel"
+    },
+    {
+      "timestamp": "00:31:23",
+      "action": "Open async thread (EF R&D Discord or EF Magicians) on 'confirmed' block tag PR (execution-apis #908)",
+      "owner": "Julian Ma"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:19:34",
+      "decision": "200M gas limit remains safe pending devnet retest without debug tracing; no repricing decisions until clean measurement obtained"
+    },
+    {
+      "timestamp": "00:33:25",
+      "decision": "FCR new block tag to be opt-in only; no change to default FCU behavior; CL+EL pairs that support it coordinate independently"
+    },
+    {
+      "timestamp": "00:29:57",
+      "decision": "New block tag name preferred: 'confirmed' (over 'fast' or 'fcr')"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:13:59",
+      "target": "EOD tomorrow \u2014 all client releases due for Sepolia Shadow Fork preparation"
+    },
+    {
+      "timestamp": "00:23:40",
+      "target": "~1.5\u20132 weeks \u2014 Sepolia mainnet fork"
+    }
+  ]
+}

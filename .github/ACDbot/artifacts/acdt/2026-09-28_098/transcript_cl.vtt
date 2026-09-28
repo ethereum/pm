@@ -1,0 +1,1282 @@
+WEBVTT
+
+1
+00:00:36.950 --> 00:00:40.870
+Justin Traglia: Hello, hello. I just wanted to make sure that they had a moderator before leaving.
+
+2
+00:00:45.290 --> 00:00:48.909
+Justin Traglia: Alright, we don't have a lot on the CL breakout agenda.
+
+3
+00:00:50.380 --> 00:01:01.620
+Justin Traglia: I would like… To discuss this edge case payment without… sorry, this edge case, Regarding builder payments, without discussing
+
+4
+00:01:01.870 --> 00:01:05.450
+Justin Traglia: How to potentially exploit it in any way.
+
+5
+00:01:07.410 --> 00:01:10.139
+Justin Traglia: Otis and Nico.
+
+6
+00:01:10.520 --> 00:01:11.899
+Justin Traglia: Sorry, is Nico here?
+
+7
+00:01:14.720 --> 00:01:15.690
+Justin Traglia: I don't see him.
+
+8
+00:01:18.120 --> 00:01:18.960
+Justin Traglia: Oh!
+
+9
+00:01:20.700 --> 00:01:25.299
+Justin Traglia: Yeah. Potus, would you like to discuss this? I think you're… you probably understand it best.
+
+10
+00:01:26.360 --> 00:01:27.430
+Potuz: I it's
+
+11
+00:01:27.960 --> 00:01:40.410
+Potuz: So, when we remove this partial state transition on 5094, That happened when we import the payload, then we…
+
+12
+00:01:40.720 --> 00:01:46.370
+Potuz: We… We have… we moved into the system in which the block
+
+13
+00:01:46.870 --> 00:01:54.969
+Potuz: processes the requests at the beginning from the previous payload. So, if a block builds on full.
+
+14
+00:01:54.970 --> 00:02:08.050
+Potuz: It processes the request of the previous payload, and it performs specifically the state transition that would have been… would have happened on the payload, and then it continues processing its own state transition on the consensus side.
+
+15
+00:02:08.259 --> 00:02:15.249
+Potuz: The problem is that, A request could include an exit for a builder.
+
+16
+00:02:15.740 --> 00:02:19.640
+Potuz: And this is processed unconditionally.
+
+17
+00:02:20.600 --> 00:02:28.469
+Potuz: And, Afterwards, we process the payments from the previous, payload.
+
+18
+00:02:29.240 --> 00:02:33.120
+Potuz: So that's part of the state transition, because you just built on top of pool.
+
+19
+00:02:33.260 --> 00:02:46.050
+Potuz: So now, in a normal scenario, the situation is that, you process an exit for a builder, the exit is put there, and then you process, the payments, and…
+
+20
+00:02:46.050 --> 00:03:01.420
+Potuz: the payments are either from the current EPOC or from the previous EPOC, if the block was there, and then you just… if there was a trustless payment, you just add a withdrawal for the… you add a withdrawal for the proposer.
+
+21
+00:03:02.190 --> 00:03:05.670
+Potuz: Now, timings can be set in a very
+
+22
+00:03:05.780 --> 00:03:20.839
+Potuz: specific way, if a lot of things have to happen, but it can be put up in a situation in which the withdrawal for the builder is put in the queue at the beginning of the processing, and then later, after that.
+
+23
+00:03:20.840 --> 00:03:29.060
+Potuz: There's a withdrawal output for the proposer, also on the queue, and both of them are paid unconditionally on the.
+
+24
+00:03:29.060 --> 00:03:36.469
+Potuz: Both of them are paid unconditionally, if certain things happen. In that situation, the builder would be, minting money.
+
+25
+00:03:37.930 --> 00:03:44.800
+Potuz: And there's a bunch of solutions that are possible for this. One of them is to not pay the proposer.
+
+26
+00:03:45.680 --> 00:03:52.580
+Potuz: Another one is to burn, not only not pay the proposer, but actually burning that, that ETH.
+
+27
+00:03:54.640 --> 00:04:14.540
+Potuz: Another one is to be careful with how to, what exit from the builder is, what's the withdrawal that is set for the builder. Be careful in the sense of, like, noticing that there might be in flight some payment for the proposers, and then deducting that from any potential exit from the builder.
+
+28
+00:04:14.540 --> 00:04:24.589
+Potuz: And another one is to change the ordering, so perform first part of the consensus state transition, and then the request from the previous payload.
+
+29
+00:04:27.140 --> 00:04:32.129
+Potuz: I personally prefer the simplest one, which is just not pay the proposer, and that's it.
+
+30
+00:04:33.430 --> 00:04:35.209
+Potuz: And I opened a PR for that.
+
+31
+00:04:36.320 --> 00:04:38.760
+Justin Traglia: Yep, thank you, and thank you so much for the…
+
+32
+00:04:39.300 --> 00:04:43.680
+Justin Traglia: brief overview. James, I see that you're unmuted. Were you gonna say something?
+
+33
+00:04:48.300 --> 00:04:51.910
+james: I'm sorry. Yeah, that was an accident. Sorry.
+
+34
+00:04:51.910 --> 00:04:53.350
+Justin Traglia: Sorry, no worries.
+
+35
+00:04:54.790 --> 00:04:58.210
+Justin Traglia: Okay, Nico, you have an alternative.
+
+36
+00:04:59.540 --> 00:05:07.880
+Justin Traglia: How do you feel about the PR that Potus opened, which I guess is probably the simplest potential solution?
+
+37
+00:05:09.020 --> 00:05:12.179
+Justin Traglia: And others, like, how do you feel, or what do you think?
+
+38
+00:05:12.460 --> 00:05:14.560
+Justin Traglia: I'm very curious to hear opinions.
+
+39
+00:05:17.250 --> 00:05:20.770
+Nico Flaig: Yeah, what was the biggest issue with the ordering?
+
+40
+00:05:21.200 --> 00:05:29.030
+Nico Flaig: I mean, my PR, my change is also really simple, right? I didn't find any problem with changing the ordering.
+
+41
+00:05:34.560 --> 00:05:37.880
+Justin Traglia: I'm unaware of any problems with that, either.
+
+42
+00:05:39.830 --> 00:05:48.820
+Justin Traglia: Yeah, and Otis, maybe a question for you. Like, with your PR, how easy or difficult would it be for a builder to abuse this? Like.
+
+43
+00:05:49.750 --> 00:05:59.830
+Justin Traglia: Could they wait for a very valuable MEV block, make a big bid for it, and then somehow cause the next two epochs of…
+
+44
+00:06:00.220 --> 00:06:05.680
+Justin Traglia: Slots to be empty, and therefore not be required to pay a proposer.
+
+45
+00:06:06.440 --> 00:06:08.120
+Justin Traglia: Like, is that theoretical?
+
+46
+00:06:09.010 --> 00:06:11.480
+Justin Traglia: theoretically possible or practical.
+
+47
+00:06:11.480 --> 00:06:17.170
+Potuz: It is, and that's why burning is the most aligned.
+
+48
+00:06:18.100 --> 00:06:21.990
+Potuz: Yeah, it is, and that's why Berlin is most aligned. But…
+
+49
+00:06:22.300 --> 00:06:33.059
+Potuz: I think still the trade-off of changing the state transition and performing part of the state transition from the consensus side before the state transition from the previous envelope.
+
+50
+00:06:33.190 --> 00:06:35.690
+Potuz: opens for…
+
+51
+00:06:36.190 --> 00:06:54.169
+Potuz: a bunch of subtleties that might happen, that, yeah, I haven't spent time analyzing, it's just the fact that we need to analyze them, and then try to find if there's something that is exploitable on this change. It's scarier than just making sure… I mean, definitely not paying the proposer does not come with minting money.
+
+52
+00:06:57.670 --> 00:06:59.349
+Justin Traglia: Yep, I mean, that is true.
+
+53
+00:06:59.890 --> 00:07:04.240
+Justin Traglia: But it does have other side effects or whatever, like I tried mentioning.
+
+54
+00:07:06.230 --> 00:07:10.000
+Justin Traglia: Should we just evaluate, or, like, spend a day evaluating?
+
+55
+00:07:10.560 --> 00:07:15.089
+Justin Traglia: like Nico's suggestion, and see if we can think of any edge cases, and if we can't.
+
+56
+00:07:16.240 --> 00:07:17.740
+Justin Traglia: Maybe prefer that?
+
+57
+00:07:18.800 --> 00:07:19.600
+Justin Traglia: I definitely…
+
+58
+00:07:19.600 --> 00:07:33.910
+Potuz: prefer not. Like, if I were going to do edge cases, I would rather burn that in. I mean, if you really think that it's exploitable to not… to put up a payload, beat a lot, and then reveal it.
+
+59
+00:07:34.010 --> 00:07:44.189
+Potuz: And make sure that it's full after 64 epochs, after 64 slots. Also notice that the next proposal can always reorder that payload.
+
+60
+00:07:44.880 --> 00:07:46.040
+Potuz: So.
+
+61
+00:07:47.160 --> 00:07:47.770
+Justin Traglia: Yeah.
+
+62
+00:07:48.710 --> 00:07:52.889
+Justin Traglia: I mean, I would also prefer to burn instead of just not pay the proposer.
+
+63
+00:07:52.890 --> 00:08:01.150
+Potuz: But burning comes with also subtleties because then it could be a consensus split by computing incorrectly how much you need to burn.
+
+64
+00:08:02.880 --> 00:08:05.489
+Justin Traglia: I agree, and if there are subtleties.
+
+65
+00:08:06.680 --> 00:08:10.390
+Justin Traglia: I mean, then I feel like Nikos PR might just be fine. We just have to…
+
+66
+00:08:10.830 --> 00:08:14.160
+Justin Traglia: Address the subtleties, and… Whatnot.
+
+67
+00:08:16.620 --> 00:08:17.310
+Justin Traglia: Mmm.
+
+68
+00:08:20.750 --> 00:08:28.590
+Justin Traglia: But, again, to, like, to Potus's simple PR fix, like, this is pretty difficult to trigger, I don't know if it's…
+
+69
+00:08:29.420 --> 00:08:34.460
+Justin Traglia: a realistic issue that we would face, and as long as we're not minting ETH, it's…
+
+70
+00:08:34.600 --> 00:08:37.100
+Justin Traglia: Like, we just need to document it.
+
+71
+00:08:37.380 --> 00:08:38.470
+Justin Traglia: Be aware.
+
+72
+00:08:39.440 --> 00:08:40.549
+Justin Traglia: Potentially.
+
+73
+00:08:41.350 --> 00:08:43.339
+Justin Traglia: I'm not sure what the right thing to do is.
+
+74
+00:08:43.659 --> 00:08:45.340
+Justin Traglia: I'd like to hear from clients more.
+
+75
+00:08:52.280 --> 00:08:55.439
+Justin Traglia: or anyone else. They don't have to be a client. Sorry.
+
+76
+00:09:20.220 --> 00:09:25.340
+Justin Traglia: Is there… I mean, just to agree, I mean, there's no reason to delay Sepolia over this, correct?
+
+77
+00:09:26.980 --> 00:09:27.840
+Justin Traglia: Yeah.
+
+78
+00:09:28.870 --> 00:09:31.920
+Justin Traglia: Poto shook his head. Totally agree.
+
+79
+00:09:32.340 --> 00:09:33.990
+Justin Traglia: Sepolia is going to die.
+
+80
+00:09:34.130 --> 00:09:37.649
+Justin Traglia: Pretty shortly after this upgrade cycle, correct?
+
+81
+00:09:39.850 --> 00:09:41.160
+Barnabas: Yeah, I…
+
+82
+00:09:41.160 --> 00:09:43.149
+Potuz: It doesn't matter, you cannot trigger it anyways.
+
+83
+00:09:43.150 --> 00:09:43.780
+Barnabas: Okay.
+
+84
+00:09:43.780 --> 00:09:46.590
+Justin Traglia: True, but I think if we do.
+
+85
+00:09:46.960 --> 00:09:52.950
+Justin Traglia: Actually, maybe Nico can correct me, but if we do Nico's PR, it's technically… Sure.
+
+86
+00:09:53.100 --> 00:09:57.679
+Justin Traglia: It would be different, like divergent from Hoodie and Mainnet, correct?
+
+87
+00:09:58.440 --> 00:10:00.480
+Justin Traglia: Or does it behave the exact same way?
+
+88
+00:10:01.620 --> 00:10:05.089
+Potuz: It would be the same as long as this is not being triggered.
+
+89
+00:10:06.370 --> 00:10:07.090
+Justin Traglia: Okay.
+
+90
+00:10:08.740 --> 00:10:13.869
+Potuz: You can do mine or Nikos, as long as this situation doesn't get triggered.
+
+91
+00:10:13.990 --> 00:10:16.319
+Potuz: We can do this even after the pork.
+
+92
+00:10:17.100 --> 00:10:19.610
+Potuz: You could just change clients' releases after the 4th.
+
+93
+00:10:21.110 --> 00:10:21.760
+Justin Traglia: See?
+
+94
+00:10:22.710 --> 00:10:28.030
+Justin Traglia: Yeah. And because it's so hard to trigger, I I'm not really worried about Sepolia. It's also just like a testnet.
+
+95
+00:10:29.850 --> 00:10:33.789
+Justin Traglia: I would I think we should aim to have this fixed before Hoodi releases, though.
+
+96
+00:10:34.400 --> 00:10:37.079
+Justin Traglia: Does that sound reasonable to you, Potus?
+
+97
+00:10:38.750 --> 00:10:39.420
+Potuz: Sure.
+
+98
+00:10:47.440 --> 00:10:50.549
+Justin Traglia: Any other thoughts on this? I don't want to, like, waste people's time.
+
+99
+00:10:52.320 --> 00:10:55.830
+Justin Traglia: Do we need more time to think about this async over the next day or two?
+
+100
+00:10:59.070 --> 00:11:14.769
+Nico Flaig: Yeah, but just to be clear, so the two spec changes require 64 slots of Mistblocks, right? And the minting bug itself requires 64 EPOCs, right? Is that the correct understanding?
+
+101
+00:11:14.770 --> 00:11:20.099
+Potuz: Yeah, it depends on how long the churns are, but yeah, so it requires many more.
+
+102
+00:11:20.100 --> 00:11:20.630
+Nico Flaig: Yeah, maybe.
+
+103
+00:11:20.630 --> 00:11:23.669
+Potuz: It actually means it requires many more blocks that are missed.
+
+104
+00:11:28.460 --> 00:11:32.459
+Barnabas: And we need to also miss the CL, or just the EL payload?
+
+105
+00:11:36.860 --> 00:11:41.129
+Justin Traglia: My understanding is for the… there needs to be, I think, like.
+
+106
+00:11:41.410 --> 00:11:50.730
+Justin Traglia: Sorry, 64 empty slots, and then… 60… 3 epochs with non-full payloads.
+
+107
+00:11:51.300 --> 00:11:58.440
+Potuz: No, no, so no, no, no. For to trigger the double the double withdrawal, you just need the the missing payloads.
+
+108
+00:12:01.820 --> 00:12:02.380
+Potuz: Because.
+
+109
+00:12:02.380 --> 00:12:03.800
+Barnabas: So that's quite cheap, right?
+
+110
+00:12:05.550 --> 00:12:06.369
+Potuz: What is it?
+
+111
+00:12:07.060 --> 00:12:09.819
+Barnabas: You could just buy the Blocks and not include a payload.
+
+112
+00:12:10.300 --> 00:12:17.680
+Potuz: Yeah, so that's that that's why I got worried with triggering that thing, because well, I mean, Justin didn't want to talk about this.
+
+113
+00:12:19.590 --> 00:12:24.689
+Justin Traglia: I mean, it's okay, as long as we fix it before, hoodie, I don't really care.
+
+114
+00:12:25.320 --> 00:12:28.599
+Justin Traglia: I mean, if someone else doesn't want to, we can…
+
+115
+00:12:28.600 --> 00:12:35.230
+Potuz: I think it's practically impossible, even in that scenario, that it's free to buy blocks.
+
+116
+00:12:35.370 --> 00:12:45.760
+Potuz: Because, hopefully, circuit breakers from clients are actually going to trigger, and we're going to fall back to self-building before this happens.
+
+117
+00:12:46.560 --> 00:12:47.500
+Potuz: And at least…
+
+118
+00:12:47.500 --> 00:12:48.630
+Barnabas: the solution that we take.
+
+119
+00:12:48.630 --> 00:12:49.340
+Potuz: Good afternoon.
+
+120
+00:12:50.860 --> 00:12:51.870
+Potuz: I'm sorry?
+
+121
+00:12:52.220 --> 00:12:53.869
+Barnabas: Could we test this on dev.8?
+
+122
+00:12:55.680 --> 00:12:56.120
+Barnabas: DeForest.
+
+123
+00:12:56.120 --> 00:12:58.150
+Potuz: Yeah, we can. Yeah, we can.
+
+124
+00:13:02.660 --> 00:13:11.100
+Justin Traglia: Yeah, and like Potus was saying, it only requires a single client circuit breaker, right? Assuming that they have a proposal during that period.
+
+125
+00:13:11.610 --> 00:13:15.809
+Justin Traglia: So… I agree, it'd be very, very difficult.
+
+126
+00:13:19.740 --> 00:13:26.459
+Barnabas: But yeah, but this is the 64 epoch bug. But there's also 64 slot bug right?
+
+127
+00:13:29.560 --> 00:13:31.299
+Justin Traglia: It might be the same one.
+
+128
+00:13:31.520 --> 00:13:35.500
+Justin Traglia: I don't fully understand the requirements for this. I'm sorry. Otis will know.
+
+129
+00:13:36.150 --> 00:13:40.610
+Potuz: Yeah, so the only thing… so there's an EF branch.
+
+130
+00:13:40.970 --> 00:13:44.580
+Potuz: And that EF branch just checks whether or not
+
+131
+00:13:44.770 --> 00:13:48.530
+Potuz: There is a pending payment for the previous payload.
+
+132
+00:13:48.810 --> 00:13:58.830
+Potuz: And that pending payload for previous payload is going to be gone after two. epochs worth of. empty, of empty payloads.
+
+133
+00:13:59.510 --> 00:14:06.400
+Potuz: So, if you just have two epochs of empty payloads, regardless if you have the blocks or not, the consensus blocks or not.
+
+134
+00:14:06.430 --> 00:14:23.390
+Potuz: that payment is gone from the queue. And the branch, the last branch of that function, what it does is just unconditionally pays the proposer that is building… so it pays for the proposer, the proposer block, whose payload is now being included, because you're just building on top of full.
+
+135
+00:14:24.590 --> 00:14:32.479
+Potuz: And, yeah, so we can talk about whether or not the disincentive aligned or not for a builder to try to trigger this.
+
+136
+00:14:32.710 --> 00:14:46.429
+Potuz: to try to get a payload, included, and at the same time miss all the other payloads, I would just say that a builder that can actually make all of the next payloads to be missing can always avoid paying.
+
+137
+00:14:49.340 --> 00:14:59.199
+Barnabas: Right, but, like, anyone could trigger this, right? Like, if I'm… if I register a builder for 1 ETH, and I outbid everyone for 64 consecutive slots.
+
+138
+00:15:00.110 --> 00:15:01.610
+Barnabas: Then I can just trigger this.
+
+139
+00:15:01.610 --> 00:15:09.940
+Potuz: you can always win the auction, and that's why I think every single client will… should fall back to
+
+140
+00:15:10.420 --> 00:15:15.840
+Potuz: banning you first, immediately. Person would bind you just on the first offense.
+
+141
+00:15:15.980 --> 00:15:23.989
+Potuz: But then, after a few offenses from either… from any builder, Prism would just self-build. And I think every client has this already in place.
+
+142
+00:15:25.100 --> 00:15:32.889
+Barnabas: Right, because otherwise, for 64 ETH, you could just have 64 builders registered, and you just… Cycle them through.
+
+143
+00:15:33.070 --> 00:15:39.190
+Potuz: But I think every client has a circuit breaker that falls back to self-building when a lot of payloads are missing.
+
+144
+00:15:40.600 --> 00:15:43.310
+Barnabas: Yeah, we definitely need to test this, I think, before Sepolia.
+
+145
+00:15:45.250 --> 00:15:53.100
+Justin Traglia: You could also just fix the issue. Oh, sorry. Yeah, we can test it before Sepolia if you want, but we can also just fix the issue. So it's not a problem in Hoodi and mainnet.
+
+146
+00:15:54.600 --> 00:15:55.450
+Justin Traglia: But yeah.
+
+147
+00:15:58.780 --> 00:16:03.390
+Justin Traglia: Nico, I have an ask for you. Do you mind making your…
+
+148
+00:16:03.540 --> 00:16:14.530
+Justin Traglia: er like to the ethereum consensus, X repo. So it's a bit easier for others to review, and I can then share. Make sorry. I can then create a thread on Ethrnd discord, or
+
+149
+00:16:15.440 --> 00:16:17.210
+Justin Traglia: Somewhere else to discuss it.
+
+150
+00:16:17.940 --> 00:16:21.219
+Justin Traglia: We could continue discussing it on signal if you prefer.
+
+151
+00:16:22.970 --> 00:16:26.600
+Justin Traglia: But A true PR would be helpful.
+
+152
+00:16:33.720 --> 00:16:39.280
+Justin Traglia: Any other… I mean any other comments on this topic, or
+
+153
+00:16:39.400 --> 00:16:41.960
+Justin Traglia: New topics that you guys would like to discuss.
+
+154
+00:16:53.580 --> 00:16:54.360
+Mikhail Kalinin: I…
+
+155
+00:16:54.570 --> 00:17:04.310
+Mikhail Kalinin: I have a question about this RPC-style discussion that happened, but yeah, happy to move it to the end of the call if we have anything to discuss now.
+
+156
+00:17:09.810 --> 00:17:19.470
+Justin Traglia: I have something to say, but it's not like important. I just learned that Methboost will plan on updating for GWAS.
+
+157
+00:17:20.640 --> 00:17:29.109
+Justin Traglia: I don't think that I don't think those should be any issues regarding that. But just Fyi, I I thought it was going to be deprecated, but it doesn't sound like it will be.
+
+158
+00:17:29.410 --> 00:17:43.739
+Potuz: Can I ask what's the update? I I I want to know I'm just curious. I mean, if it's if it relates as a if it acts via the builder API, we're gonna be able to connect. Otherwise, I don't see how we're gonna be able to connect.
+
+159
+00:17:48.410 --> 00:17:53.889
+Justin Traglia: I actually have no idea, but I can try to share the plan with you. I only saw the…
+
+160
+00:17:54.860 --> 00:17:55.800
+Justin Traglia: a note.
+
+161
+00:17:56.070 --> 00:17:58.139
+Justin Traglia: Or, like, the… a generous.
+
+162
+00:17:58.370 --> 00:17:59.339
+Justin Traglia: Oh my god.
+
+163
+00:17:59.340 --> 00:18:02.939
+Potuz: Do we have someone from FlashBots here or from the maintainers?
+
+164
+00:18:03.570 --> 00:18:04.799
+Justin Traglia: I don't think so.
+
+165
+00:18:05.920 --> 00:18:08.519
+Justin Traglia: But Fahil would be the person working on it.
+
+166
+00:18:10.310 --> 00:18:15.079
+Justin Traglia: I can try to. If I don't make a link while someone else does talks.
+
+167
+00:18:29.160 --> 00:18:34.469
+Justin Traglia: Also, I can't invite them to, like… Discuss this on…
+
+168
+00:18:34.800 --> 00:18:38.599
+Justin Traglia: Ethernet Discord, or at the next ACDT call.
+
+169
+00:18:48.380 --> 00:18:49.040
+Justin Traglia: Okay.
+
+170
+00:18:50.220 --> 00:18:52.540
+Justin Traglia: Well, this is a very high level.
+
+171
+00:18:53.060 --> 00:18:53.870
+Justin Traglia: God!
+
+172
+00:18:57.320 --> 00:19:03.379
+Justin Traglia: This is a very high-level overview of the changes that they plan to make for Mapboost regarding the loss.
+
+173
+00:19:14.280 --> 00:19:15.990
+Justin Traglia: It's a bit worrying to me that
+
+174
+00:19:16.270 --> 00:19:22.010
+Justin Traglia: we're doing this so late in the game, and it won't really be tested for Sepolia or Hoodi.
+
+175
+00:19:23.450 --> 00:19:25.020
+Justin Traglia: And then it sounds like they're…
+
+176
+00:19:25.170 --> 00:19:28.550
+Justin Traglia: intending to have this ready for mainnet and that.
+
+177
+00:19:28.650 --> 00:19:30.539
+Justin Traglia: will essentially be untested.
+
+178
+00:19:32.390 --> 00:19:39.619
+Potuz: So this looks to me like it's… it's going… it looks to me like it's, it's just doing the…
+
+179
+00:19:41.010 --> 00:19:44.499
+Potuz: The multicasting that clients are already doing anyways.
+
+180
+00:19:44.770 --> 00:19:59.020
+Potuz: So, it might be a simple way, perhaps, of adding new builders, if MedBoost itself, like, connects to some centralized server and gets new builders and just sends them.
+
+181
+00:19:59.610 --> 00:20:06.499
+Potuz: But other than that, I suspect that it's just the same that clients already are implementing.
+
+182
+00:20:08.970 --> 00:20:12.530
+Enrico Del Fante: Maybe I'm missing something, but don't we sign the URL?
+
+183
+00:20:13.890 --> 00:20:19.399
+Potuz: Yeah, but it's… I mean, if you're just connecting and you just sign over anything, you can just sign MedBoost.
+
+184
+00:20:19.800 --> 00:20:29.990
+Enrico Del Fante: Yeah, you sign local, but if you are trying to add something that checks the signature, it will fail, so you reduce the option. Sure.
+
+185
+00:20:30.140 --> 00:20:34.259
+Potuz: But I don't think anyone is going to… I mean, I don't think any builder, like.
+
+186
+00:20:34.400 --> 00:20:38.189
+Potuz: working on a relay is going to be like checking signature.
+
+187
+00:20:38.190 --> 00:20:39.480
+Enrico Del Fante: Oh, yeah.
+
+188
+00:20:39.480 --> 00:20:41.999
+Potuz: I mean, they are already in a public auction anyways.
+
+189
+00:20:43.030 --> 00:20:49.390
+Nico Flaig: Yeah, but this can be done, right? You can have the custom auth data if you need to sign over something different than the URL.
+
+190
+00:20:54.090 --> 00:21:01.039
+Nico Flaig: But yeah, I don't see why anyone would use MEV Boost, like, with the basic functionality it has today.
+
+191
+00:21:03.400 --> 00:21:20.980
+Potuz: Well, it could be this, right? Like, if… I mean, that thing can be doing off-protocol whatever it wants. It can connect online to whatever it wants. So it can grab an ever-growing list of builders that your node is not going to do because you're not automating it.
+
+192
+00:21:21.540 --> 00:21:30.360
+Enrico Del Fante: Yeah, it's, it's a deployment, feature, at least externalize the list and managed by something else that would be gonna know.
+
+193
+00:21:30.360 --> 00:21:34.639
+Potuz: And it's something that we want to add anyways on Prism at least wants to add it.
+
+194
+00:21:42.150 --> 00:21:52.119
+Justin Traglia: There's a good question from the chat regarding Commit Boost Barnabas or anyone else. Have we tested this? Do we know if Commit Boost is ready for Blancheton?
+
+195
+00:21:53.440 --> 00:21:54.680
+Barnabas: We have not tested it.
+
+196
+00:21:55.150 --> 00:21:57.909
+Justin Traglia: Do you know if it's ready, theoretically?
+
+197
+00:21:57.910 --> 00:22:07.230
+Nico Flaig: I know it works, but it's Jason here. So I know he tested it with Loadstar, but only on local kurtosis. So.
+
+198
+00:22:07.790 --> 00:22:14.879
+Justin Traglia: Okay. I mean, that's… of… League is ahead of Methboost at the moment, so that's great.
+
+199
+00:22:22.190 --> 00:22:23.110
+Justin Traglia: Okay.
+
+200
+00:22:26.710 --> 00:22:29.049
+Justin Traglia: I don't have anything else to say.
+
+201
+00:22:29.490 --> 00:22:33.409
+Justin Traglia: Mikhail, would you like to discuss the thing you wanted to discuss?
+
+202
+00:22:34.690 --> 00:22:41.179
+Mikhail Kalinin: Yeah, thanks, Justin. Yeah, I just wanted to clarify, Potos, you were suggesting basically to
+
+203
+00:22:41.310 --> 00:22:46.280
+Mikhail Kalinin: For the RPC providers to enable the FOSS confirmation for
+
+204
+00:22:46.770 --> 00:22:52.519
+Mikhail Kalinin: For a subset of the nodes they run in their fleet, and, serve the.
+
+205
+00:22:53.250 --> 00:22:55.349
+Mikhail Kalinin: Last confirmed? Oh, what was that?
+
+206
+00:22:55.350 --> 00:23:14.829
+Potuz: No, no, not really. I mean, sure, that's gonna work, it's just that that really is more work for them. I assume that if they are requesting that there is a tag, or there's a way of, like, having both, it's because they really want that. And that's fine. And we can make it optional, both on the CL and on the L, Without touching any node.
+
+207
+00:23:15.120 --> 00:23:31.929
+Potuz: And without pressuring us to have releases for this, you just have a flag on Geth that says you are allowed… you are going to run with this extra type for FastConfirm, and you have a flag on Prism that says, send this on FCU, and we make it.
+
+208
+00:23:32.090 --> 00:23:38.919
+Potuz: And the node operator for an RPC needs to make sure that it's running that combo that already supports this.
+
+209
+00:23:40.180 --> 00:23:44.280
+Mikhail Kalinin: Yeah, I see. You mean like this will help to avoid any?
+
+210
+00:23:44.550 --> 00:23:47.400
+Mikhail Kalinin: Specific coordination, or any…
+
+211
+00:23:47.650 --> 00:23:53.210
+Mikhail Kalinin: kind of, like, reading capabilities in the CL, right? Yeah, I see, I see. Got it.
+
+212
+00:23:53.550 --> 00:24:01.390
+Potuz: I mean, because it's only, like, the 10 guys that are going to be running this, so okay, fine, those guys are already involved enough that they should know how to deal with this.
+
+213
+00:24:02.230 --> 00:24:04.049
+Mikhail Kalinin: Yeah, yeah, makes sense to me.
+
+214
+00:24:04.250 --> 00:24:11.009
+Mikhail Kalinin: The other, thing that Barnabas was suggesting is basically to have a Beacon API.
+
+215
+00:24:11.220 --> 00:24:14.560
+Mikhail Kalinin: That will… respond with the…
+
+216
+00:24:15.060 --> 00:24:18.230
+Mikhail Kalinin: Plus confirm block hash, I guess. But yeah, that's what.
+
+217
+00:24:18.230 --> 00:24:25.060
+Potuz: Yeah, but that's worse, right? Because they really want to have this as part of the ELSIN.
+
+218
+00:24:25.060 --> 00:24:25.660
+Mikhail Kalinin: Yeah.
+
+219
+00:24:26.320 --> 00:24:27.630
+Mikhail Kalinin: Yeah, I guess so.
+
+220
+00:24:28.950 --> 00:24:32.130
+Mikhail Kalinin: All right, thanks. That's… Cool.
+
+221
+00:24:32.480 --> 00:24:33.400
+Mikhail Kalinin: Thank you.
+
+222
+00:24:36.220 --> 00:24:42.249
+Justin Traglia: Alright, Jihoon, Nico, Kev, would you like to discuss the, lower EPOC retention thing?
+
+223
+00:24:45.410 --> 00:24:51.699
+Kevaundray Wedderburn: Yeah, I can… Discuss it, so we have a Discord friend.
+
+224
+00:24:51.820 --> 00:24:59.979
+Kevaundray Wedderburn: Where we've just tried to ask all the clients, what are their thoughts. Nico's opened, I think, 2 PRs now.
+
+225
+00:25:00.340 --> 00:25:01.920
+Kevaundray Wedderburn: Just…
+
+226
+00:25:02.080 --> 00:25:10.819
+Kevaundray Wedderburn: on the thread, I believe Sproul said he's okay with it. Tersak is also… Dustin's also okay with it, sorry.
+
+227
+00:25:11.040 --> 00:25:18.090
+Kevaundray Wedderburn: Enrico is okay, I believe, but I think Paul from Taku is not.
+
+228
+00:25:18.210 --> 00:25:21.509
+Kevaundray Wedderburn: We haven't heard from Grandin and.
+
+229
+00:25:22.230 --> 00:25:30.799
+Kevaundray Wedderburn: Lodestar is okay with it. POTUS, I believe, is okay with it, as long as it doesn't mess around with the EL's, like, minimum requirements.
+
+230
+00:25:32.340 --> 00:25:40.590
+Kevaundray Wedderburn: And yeah, so I think it seems like folks are okay with this change, apart from Paul from DACU.
+
+231
+00:25:41.200 --> 00:25:53.710
+Enrico Del Fante: I cannot, I did a very quick chat, because he's off these days. So he's… he'd like, and I kind of agree, that if it is possible to… to…
+
+232
+00:25:54.490 --> 00:26:05.400
+Enrico Del Fante: to make this change backward, back to phase zero, so we don't have to deal with the parameter change at the particular fork, it's just something that changes.
+
+233
+00:26:09.160 --> 00:26:17.719
+Kevaundray Wedderburn: As far as I know, it should be okay. Nika, is there any reason we can't do that? I thought that's what we would do, actually.
+
+234
+00:26:19.550 --> 00:26:26.250
+Nico Flaig: I mean, I don't really see how it changes anything, how clients handle this, because, I mean.
+
+235
+00:26:26.420 --> 00:26:38.089
+Nico Flaig: So the only risk I see, at least on LoadStar's side, looking at this, is that if you use the fork EPOC, and then you get into CLOAS, and then suddenly you prune 3 months' worth of data.
+
+236
+00:26:38.410 --> 00:26:39.010
+Nico Flaig: That's…
+
+237
+00:26:39.010 --> 00:26:39.600
+Enrico Del Fante: Awesome.
+
+238
+00:26:39.600 --> 00:26:40.150
+Nico Flaig: That's…
+
+239
+00:26:40.150 --> 00:26:41.820
+Enrico Del Fante: That's, that's another thing.
+
+240
+00:26:42.000 --> 00:26:49.669
+Enrico Del Fante: And in any way, you… it's orthogonal. The way you prune is… Just…
+
+241
+00:26:50.940 --> 00:26:55.400
+Enrico Del Fante: A technical thing that the client needs to deal with anyway.
+
+242
+00:26:55.970 --> 00:27:04.069
+Enrico Del Fante: As soon as you change the parameter, if you can change it at the next restart, because the parameter is set for…
+
+243
+00:27:04.380 --> 00:27:07.330
+Enrico Del Fante: forklass parameter, or…
+
+244
+00:27:07.470 --> 00:27:14.780
+Enrico Del Fante: You just want to have all the machinery that changes that parameter at a particular fork. I believe this is for simplicity.
+
+245
+00:27:15.190 --> 00:27:22.139
+Enrico Del Fante: Could be better to have just one parameter and not being fork-aware, and then the next release, the client
+
+246
+00:27:22.780 --> 00:27:26.040
+Enrico Del Fante: We'll deal with the pruning as as we
+
+247
+00:27:26.250 --> 00:27:33.780
+Enrico Del Fante: as we probably all clients do good pruning, not trying to delete gigabyte of Stuff in one shot.
+
+248
+00:27:36.010 --> 00:27:44.410
+Nico Flaig: Yeah, I mean, one thing from the spec side is there is no constant anymore. It's basically a function that is defined in the spec.
+
+249
+00:27:44.920 --> 00:27:55.819
+Nico Flaig: I guess the only thing is if we backport that to phase zero, there's no real rationale or formula you can use that makes sense with the phase zero spec.
+
+250
+00:28:04.040 --> 00:28:05.230
+Enrico Del Fante: Yeah, that's fair.
+
+251
+00:28:08.040 --> 00:28:25.190
+Nico Flaig: I think, anyway, the safest route is probably to do this one release after the mainnet fork. Like, there's no reason to directly prune this. I think one signal we need now at least is, for ELs, so they know how long they need to retain the data.
+
+252
+00:28:25.900 --> 00:28:27.509
+Nico Flaig: For Baltz.
+
+253
+00:28:28.400 --> 00:28:43.580
+Nico Flaig: Other than that, I'm not sure we need to decide anything before the fork whether or not clients should implement this, because it anyway only defines the minimum period you need to serve data, so you're automatically spec compliant if you don't do anything.
+
+254
+00:28:52.150 --> 00:29:00.680
+Kevaundray Wedderburn: yeah, so I guess it seems like everyone's okay with just modifying it, given 8061.
+
+255
+00:29:00.920 --> 00:29:06.369
+Kevaundray Wedderburn: 214K, and then… If people want to keep more data, then it's, like, fine.
+
+256
+00:29:22.900 --> 00:29:24.719
+Justin Traglia: All right.
+
+257
+00:29:25.470 --> 00:29:26.690
+Justin Traglia: Anything else?
+
+258
+00:29:36.120 --> 00:29:37.109
+Justin Traglia: All right.
+
+259
+00:29:37.360 --> 00:29:38.689
+Justin Traglia: Oh, you go, sorry.
+
+260
+00:29:38.850 --> 00:29:45.030
+Jihoon: Sorry. When it comes to the rollout plan, from my understanding, clients can implement this.
+
+261
+00:29:45.180 --> 00:29:57.240
+Jihoon: At their preferences. What I mean by that is, even if we march this PR, some clients can release it after we ship Coloss, so…
+
+262
+00:29:57.540 --> 00:30:03.759
+Jihoon: I would suggest to merge the PR in, and then let clients to…
+
+263
+00:30:04.270 --> 00:30:07.439
+Jihoon: Implement that changes if they want to.
+
+264
+00:30:09.360 --> 00:30:13.969
+Jihoon: It's just something to make sure we Merge the PR or not.
+
+265
+00:30:15.430 --> 00:30:16.210
+Kevaundray Wedderburn: Right.
+
+266
+00:30:17.400 --> 00:30:27.939
+Kevaundray Wedderburn: Right, yeah, so the PR can go in, and then clients can do, whatever they want, because as Nico said, they'll be automatically spec compliant if they do nothing at all.
+
+267
+00:30:29.910 --> 00:30:31.380
+Jihoon: Yeah, exactly.
+
+268
+00:30:37.370 --> 00:30:39.660
+Justin Traglia: All right, let's merge the PR then.
+
+269
+00:30:41.430 --> 00:30:44.729
+Justin Traglia: Barnabas is asking if anyone started working on shorter slots.
+
+270
+00:30:46.730 --> 00:30:47.750
+Justin Traglia: Quick thoughts.
+
+271
+00:30:50.940 --> 00:31:00.599
+Nico Flaig: So for Lodestar, I have a branch that works, but it's not yet on the latest spec. So there might still be, like, the churn limit updates missing and stuff.
+
+272
+00:31:03.550 --> 00:31:06.820
+Barnabas: Do we need… Hazard to be activated for that.
+
+273
+00:31:07.370 --> 00:31:10.029
+Barnabas: Or what is the current method for it? Or could we just.
+
+274
+00:31:10.030 --> 00:31:10.889
+Justin Traglia: Based on housing.
+
+275
+00:31:12.190 --> 00:31:15.840
+Barnabas: Oh, it is Visa, so we would need to activate it, Hazi, first.
+
+276
+00:31:17.110 --> 00:31:17.810
+Justin Traglia: Correct.
+
+277
+00:31:18.660 --> 00:31:24.009
+Nico Flaig: Oh, but I thought we tested separately, right? With a custom EIP fork.
+
+278
+00:31:24.010 --> 00:31:24.739
+Barnabas: Yeah, we haven't talked.
+
+279
+00:31:24.740 --> 00:31:26.389
+Nico Flaig: fossil stuff in there.
+
+280
+00:31:29.650 --> 00:31:30.230
+Barnabas: Yeah.
+
+281
+00:31:30.660 --> 00:31:32.870
+Barnabas: That's my… Question?
+
+282
+00:31:39.760 --> 00:31:44.799
+Potuz: I would suggest that we test these kind of things on top of Fossil.
+
+283
+00:31:45.300 --> 00:31:51.449
+Potuz: I mean, particularly for the slots, because that's the one that has the most interaction with the timing on Fossil.
+
+284
+00:31:58.570 --> 00:32:07.739
+Barnabas: Right, so we would need to have that set as a prerequisite, basically, to have FOSIL enabled, and then possibly later we fork into the shorter slots.
+
+285
+00:32:12.160 --> 00:32:13.289
+Justin Traglia: Yep, that's right.
+
+286
+00:32:14.490 --> 00:32:15.050
+Justin Traglia: Also.
+
+287
+00:32:15.050 --> 00:32:19.869
+Potuz: Wait, why… oh, so you want to do… you want to do two forks?
+
+288
+00:32:21.160 --> 00:32:21.580
+Barnabas: Yeah.
+
+289
+00:32:21.580 --> 00:32:21.960
+Justin Traglia: Yeah.
+
+290
+00:32:21.960 --> 00:32:25.869
+Barnabas: Right now, right now, it's two separate forks in the config.
+
+291
+00:32:26.370 --> 00:32:26.960
+Barnabas: Correct.
+
+292
+00:32:26.960 --> 00:32:31.440
+Potuz: Oh, I see. So this is the issue that having the fork like an EIP kind of fork. Yeah, that's fine.
+
+293
+00:32:31.440 --> 00:32:31.890
+Barnabas: Yeah.
+
+294
+00:32:31.890 --> 00:32:34.619
+Potuz: Then just make it based on Nezi, right?
+
+295
+00:32:35.610 --> 00:32:40.200
+Justin Traglia: It is, yeah, it's a feature, yeah, a feature spec based on Hazzy.
+
+296
+00:32:43.130 --> 00:32:49.059
+Justin Traglia: Yeah, and FYI, that PR was merged. I'm not sure if everyone's seen it or not, but
+
+297
+00:32:49.950 --> 00:32:53.549
+Justin Traglia: Yeah, if you see issues, please open PRs or issues.
+
+298
+00:32:53.960 --> 00:32:55.779
+Justin Traglia: And we can get that fixed.
+
+299
+00:32:56.550 --> 00:33:02.489
+Barnabas: Yeah, so this just changes quite some stuff on our tooling side. That's why I would like to be
+
+300
+00:33:02.830 --> 00:33:09.600
+Barnabas: Early on this, because, let's say that we're gonna do a future BPO that's after…
+
+301
+00:33:09.980 --> 00:33:14.190
+Barnabas: The shorter slots, then we will have to calculate the time
+
+302
+00:33:15.760 --> 00:33:25.680
+Barnabas: till the previous BPO with 12 seconds, and then I have the adjusted time in going forward. And there's going to be also a bunch of other tooling, of course.
+
+303
+00:33:26.070 --> 00:33:27.809
+Barnabas: But this is just on the protocol level.
+
+304
+00:33:32.740 --> 00:33:33.829
+Justin Traglia: I'll go this.
+
+305
+00:33:36.670 --> 00:33:42.559
+Potuz: I want to go back to the issue of selling the payments.
+
+306
+00:33:42.730 --> 00:33:51.220
+Potuz: There's something I said wrong. I still believe that the easiest is just to remove the last branch, and just not do anything.
+
+307
+00:33:51.580 --> 00:34:01.770
+Potuz: But, but there's something I said wrong, which is that changing the order would change, would add a little bit of the consensus state transition and the payload state transition.
+
+308
+00:34:01.770 --> 00:34:12.419
+Potuz: And in fact, both of those were already part of the payload state transition, both the settling of the payment and the processing of the requests.
+
+309
+00:34:12.620 --> 00:34:20.590
+Potuz: So, in principle, we could have just done in the different… in the separate order, also, on the…
+
+310
+00:34:20.920 --> 00:34:29.869
+Potuz: Also, when we had two different state transitions, so it's not a good argument against Nikos PR. I still prefer the simplest one, which is just not to pay.
+
+311
+00:34:30.280 --> 00:34:39.939
+Potuz: But in principle, if there's no attacks, it should be fine. Also, it keeps the separation of concerns of having, them in the different orders.
+
+312
+00:34:49.219 --> 00:34:49.959
+Justin Traglia: Yep.
+
+313
+00:34:54.289 --> 00:34:59.069
+Justin Traglia: Let's let's discuss this more on discord and signal. Are you fine with that?
+
+314
+00:35:00.459 --> 00:35:01.219
+Justin Traglia: Alright.
+
+315
+00:35:02.019 --> 00:35:07.819
+Justin Traglia: I think we should end the call. We're already 3 minutes over, and I don't want to waste anyone's time.
+
+316
+00:35:08.719 --> 00:35:15.259
+Justin Traglia: Thank you. Thank you all for attending. I'll talk to you guys in a few days at ACDC? Yep.
+
+317
+00:35:15.639 --> 00:35:16.539
+Justin Traglia: So bye everyone.
+
+318
+00:35:16.720 --> 00:35:17.390
+Kevaundray Wedderburn: See you guys.
+
+319
+00:35:17.390 --> 00:35:17.790
+Potuz: event.
+
+320
+00:35:17.790 --> 00:35:19.260
+Kevaundray Wedderburn: See you. Bye.
+
