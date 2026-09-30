@@ -1,0 +1,63 @@
+{
+  "meeting": "Post Quantum Transaction Signature (PQTS) Breakout #16 - September 30, 2025",
+  "highlights": {
+    "testnet_status": [
+      {
+        "timestamp": "00:04:49",
+        "highlight": "Testnet v0.1 (ERC-4337 + Lean SPHINCS variant) and v0.2 (ERC-4337 + native frame tx via EIP-8141) already deployed; v0.3 targeting mempool aggregation"
+      },
+      {
+        "timestamp": "00:06:04",
+        "highlight": "EIP-8288 (signature aggregation) is next target; LeanVM fork by Emil parameterized to match current devnet; 20 signatures/sec wrapping speed on regular hardware (preliminary)"
+      },
+      {
+        "timestamp": "00:16:23",
+        "highlight": "Nethermind (and ethrex) to ship embedded LeanVM for native block verification \u2014 no precompile or Solidity contract; replaces ECDSA verification path"
+      }
+    ],
+    "eip_8288_aggregation_design": [
+      {
+        "timestamp": "00:13:49",
+        "highlight": "Block structure for v0.3: transactions stripped of individual signatures + single constant-size aggregated proof SA produced by LeanVM; size independent of tx count"
+      },
+      {
+        "timestamp": "00:23:36",
+        "highlight": "Targeting EIP-8288 test case 7 (aggregator = block builder, wraps test case 1 with recursive STARK); wrapper object carries dependency reference + actual Lean SPHINCS signature, decoupled from frame"
+      },
+      {
+        "timestamp": "00:51:33",
+        "highlight": "Open problem: how receiving Nethermind/ethrex nodes verify the aggregated LeanVM proof natively without precompile; consensus is native integration required, not yet implemented"
+      }
+    ],
+    "ethrex_prototype": [
+      {
+        "timestamp": "00:21:31",
+        "highlight": "lambdaclass ethrex branch eip-8288 has working in-mempool aggregation prototype with LeanVM; benchmarks committed; covers validation and mempool aggregation"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:55:17",
+      "action": "Stefano De Angelis (Nethermind) to bring concrete test-case-7 solution proposal to next call",
+      "owner": "Nethermind / Stefano De Angelis"
+    },
+    {
+      "timestamp": "00:56:08",
+      "action": "Antonio to invite Vitalik / Tomas (EIP-8288 authors) to a future call for design clarification",
+      "owner": "Antonio Sanso"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:47:59",
+      "decision": "v0.3 testnet will implement aggregation once per block (not every slot) as simplest first end-to-end milestone"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:06:04",
+      "target": "Testnet v0.3 \u2014 first end-to-end EIP-8288 aggregation with Nethermind or ethrex (timeline TBD, targeting next ~2 weeks)"
+    }
+  ]
+}
