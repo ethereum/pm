@@ -18,7 +18,7 @@ Gloas + Amsterdam
 | Geth | | |
 | Grandine | | |
 | Lighthouse | | |
-| Lodestar | | |
+| Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
 | Nimbus | | |
 | Nethermind | | |
 | Prysm | | | 
