@@ -14,7 +14,7 @@ Gloas + Amsterdam
 |-------------|---------------------|--------------------|
 | Besu |  | |
 | Erigon | | |
-| Ethrex | | |
+| Ethrex | [Ivan Litteri](https://github.com/ilitteri) | [Tomás Grüner](https://github.com/MegaRedHand) <br> [Leandro Ferrigno](https://github.com/lferrigno) |
 | Geth | | |
 | Grandine | | |
 | Lighthouse | | |
