@@ -19,7 +19,7 @@ Gloas + Amsterdam
 | Grandine | | |
 | Lighthouse | | |
 | Lodestar | | |
-| Nimbus | | |
+| Nimbus | [@tersec](https://github.com/tersec) | [@0xshum](https://github.com/ahshum) |
 | Nethermind | | |
 | Prysm | | | 
 | Reth | | |
