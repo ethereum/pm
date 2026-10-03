@@ -22,7 +22,7 @@ Gloas + Amsterdam
 | Nimbus | | |
 | Nethermind | | |
 | Prysm | | | 
-| Reth | [Matthias Seitz](https://github.com/mattsse) | [Dragan Rakita](https://github.com/draganrakita) |
+| Reth | [Matthias Seitz](https://github.com/mattsse) | [Dragan Rakita](https://github.com/draganrakita), [Emma Jamieson-Hoare](https://github.com/emmajam) |
 | Teku | | |
 
 ### Coordinators
