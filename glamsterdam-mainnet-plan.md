@@ -21,7 +21,7 @@ Gloas + Amsterdam
 | Lodestar | | |
 | Nimbus | | |
 | Nethermind | | |
-| Prysm | | | 
+| Prysm | Tag the Prysm team on Eth R&D Discord | |
 | Reth | | |
 | Teku | | |
 
