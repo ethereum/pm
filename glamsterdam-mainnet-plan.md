@@ -23,7 +23,7 @@ Gloas + Amsterdam
 | Nethermind | | |
 | Prysm | | | 
 | Reth | | |
-| Teku | | |
+| Teku | [Enrico](https://github.com/tbenr) | [Stefan](https://github.com/StefanBratanov) |
 
 ### Coordinators
 | Role | Primary | Backup |
