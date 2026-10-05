@@ -1,11 +1,13 @@
-# Mainnet Upgrade & Incident Response Team Plan
+# Glamsterdam Upgrade & Incident Response Team Plan
 Gloas + Amsterdam
 
 ## Upgrade Information
 
-| Epoch | Start Slot | Unix | UTC (+00:00) | Moscow (+03:00) | Los Angeles (-07:00) | New York (-04:00) | Brisbane (+10:00) |
-|--------|-----------|-----|----------------|----------------|----------------------|-------------------|-------------------|
-|  |  |  |  |  |  |  |  |
+| Network | Epoch | Start Slot | Unix | UTC (+00:00) | Moscow (+03:00) | Los Angeles (-07:00) | New York (-04:00) | Brisbane (+10:00) |
+|---------|--------|-----------|-----|----------------|----------------|----------------------|-------------------|-------------------|
+| Sepolia | 353024 | 11296768 | 1791294816 | Tue, 06 Oct 2026, 13:53:36 | Tue, 06 Oct 2026, 16:53:36 | Tue, 06 Oct 2026, 06:53:36 | Tue, 06 Oct 2026, 09:53:36 | Tue, 06 Oct 2026, 23:53:36 |
+| Hoodi | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
+| mainnet | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
 
 ## Upgrade / Incident Response team
 
@@ -28,10 +30,10 @@ Gloas + Amsterdam
 ### Coordinators
 | Role | Primary | Backup |
 |------|---------|----------------------------|
-| DevOps Coordinator |  | |
-| Testing Coordinator |  | |
-| Communication Coordinator | |  |
-| Security Coordinator |  |  |
+| DevOps Coordinator | Pari | Barnabas |
+| Testing Coordinator | Mario Vega | Justin Traglia |
+| Communication Coordinator | Will Corcoran |  |
+| Security Coordinator | Nikos |  |
 
 ## Communication Channels
 - **Primary Communication:** `#glamsterdam-upgrade` (Eth R&D Discord)
@@ -45,9 +47,9 @@ Gloas + Amsterdam
 - [ ] Verified stability of the network for 48 hours after upgrade.
 
 ## Disclaimer
-The individuals and organisations named in this document have been listed solely so that other community members know whom to contact for faster coordination and incident-response during the Fusaka network upgrade.
+The individuals and organisations named in this document have been listed solely so that other community members know whom to contact for faster coordination and incident-response during the Glamsterdam network upgrade.
 
 Their inclusion does not:
 - Create any fiduciary, contractual, or other legal duty towards any other party;
-- Constitute any representation, warranty, or guarantee of the performance, security, or outcome of the Fusaka upgrade; or
-- Give rise to any liability, whether in negligence, tort, contract, or otherwise, for any direct, indirect, or consequential damages (including any loss of funds) arising out of or in connection with the Fusaka upgrade or reliance on this document.
+- Constitute any representation, warranty, or guarantee of the performance, security, or outcome of the Glamsterdam upgrade; or
+- Give rise to any liability, whether in negligence, tort, contract, or otherwise, for any direct, indirect, or consequential damages (including any loss of funds) arising out of or in connection with the Glamsterdam upgrade or reliance on this document.
