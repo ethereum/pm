@@ -13,7 +13,7 @@ Gloas + Amsterdam
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
 | Besu | [Daniel Lehrner](https://github.com/daniellehrner) | [Karim Taam](https://github.com/matkt) |
-| Erigon | | |
+| Erigon | [Milen Filatov](https://github.com/taratorio) | [Andrew Ashikhmin](https://github.com/yperbasis) |
 | Ethrex | [Ivan Litteri](https://github.com/ilitteri) | [Tomás Grüner](https://github.com/MegaRedHand) |
 | Geth | | |
 | Grandine | | |
