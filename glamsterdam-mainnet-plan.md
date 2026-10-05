@@ -15,7 +15,7 @@ Gloas + Amsterdam
 | Besu | [Daniel Lehrner](https://github.com/daniellehrner) | [Karim Taam](https://github.com/matkt) |
 | Erigon | [Milen Filatov](https://github.com/taratorio) | [Andrew Ashikhmin](https://github.com/yperbasis) |
 | Ethrex | [Ivan Litteri](https://github.com/ilitteri) | [Tomás Grüner](https://github.com/MegaRedHand) |
-| Geth | | |
+| Geth | @rjl493456442 | @lightclient |
 | Grandine | | |
 | Lighthouse | [Eitan Seri-Levi](https://github.com/eserilev) | [Pawan Dhananjay](https://github.com/pawanjay176) |
 | Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
