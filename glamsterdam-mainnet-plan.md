@@ -32,7 +32,7 @@
 |------|---------|----------------------------|
 | DevOps Coordinator | Pari Jayanthi | Barnabas Busa |
 | Testing Coordinator | Mario Vega | Justin Traglia |
-| Communication Coordinator | Will Corcoran |  |
+| Communication Coordinator | Will Corcoran | Ben Edgington |
 | Security Coordinator | Nikos |  |
 
 ## Communication Channels
