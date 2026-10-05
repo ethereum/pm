@@ -1,0 +1,646 @@
+WEBVTT
+
+1
+00:09:51.820 --> 00:09:52.700
+Boma: Hello?
+
+2
+00:10:55.660 --> 00:10:57.810
+Boma: Hello, good afternoon.
+
+3
+00:10:59.460 --> 00:11:03.740
+Boma: So, we can wait for, like, the next two minutes for Tuesday.
+
+4
+00:13:45.800 --> 00:13:46.510
+Boma: Hello?
+
+5
+00:13:47.340 --> 00:13:48.979
+Boma: I'm not sure if I'm audible.
+
+6
+00:13:53.200 --> 00:13:53.990
+Boma: No.
+
+7
+00:13:54.370 --> 00:13:55.150
+Boma: Okay.
+
+8
+00:13:55.330 --> 00:14:04.209
+Boma: Thank you. So Chase said he would join in a minute, so I think we can wait for him, since most of the issues we have, it's on his meta-tracking issue.
+
+9
+00:14:38.030 --> 00:14:46.339
+Boma: I don't know if we can discuss about, error codes today, if there is any news on that, Sims.
+
+10
+00:14:48.950 --> 00:14:54.239
+Simsonraj Easvarasakthi: Hey, everyone. I tried to reach out to Felix, did not get a response.
+
+11
+00:14:54.790 --> 00:14:57.119
+Simsonraj Easvarasakthi: I was hoping I would join this call.
+
+12
+00:15:01.080 --> 00:15:05.109
+Simsonraj Easvarasakthi: I I Dm'd him, and we also have a thread in the Channel.
+
+13
+00:15:06.410 --> 00:15:10.850
+Simsonraj Easvarasakthi: Yeah, I'm planning to just go ahead and do the implementation.
+
+14
+00:15:11.280 --> 00:15:19.399
+Simsonraj Easvarasakthi: maybe get the PR rolling and have a conversation in the PR, maybe? That would be better? I'm not sure, because, this is taking too long.
+
+15
+00:15:22.440 --> 00:15:27.559
+Simsonraj Easvarasakthi: I don't know if anyone else have anything to discuss.
+
+16
+00:15:28.350 --> 00:15:32.889
+Simsonraj Easvarasakthi: On the error codes… Personal opinions. Okay.
+
+17
+00:15:35.070 --> 00:15:39.970
+Boma: I think like the best way to go about it now is like to open a PR and then.
+
+18
+00:15:40.460 --> 00:15:45.570
+Boma: The PR should kind of, like, force a conversation if necessary.
+
+19
+00:15:46.210 --> 00:15:51.999
+Simsonraj Easvarasakthi: We have a couple… actually, at least two, one done by.
+
+20
+00:15:52.590 --> 00:15:55.290
+Simsonraj Easvarasakthi: Chase, and another one from Sina.
+
+21
+00:15:55.480 --> 00:16:03.239
+Simsonraj Easvarasakthi: There are a con… there are a couple… yeah, there's been a huge conversation in the same PRs, but we haven't come to a conclusion.
+
+22
+00:16:04.100 --> 00:16:07.510
+Simsonraj Easvarasakthi: So I thought we will have… we could hash it out here.
+
+23
+00:16:09.550 --> 00:16:16.279
+Boma: Okay, the main issue is, I'm not sure I fully understand what the blocker is, and then…
+
+24
+00:16:16.570 --> 00:16:17.330
+Boma: I don't think.
+
+25
+00:16:17.330 --> 00:16:17.650
+Simsonraj Easvarasakthi: soon.
+
+26
+00:16:17.650 --> 00:16:18.349
+Boma: I can try and.
+
+27
+00:16:18.350 --> 00:16:19.110
+Simsonraj Easvarasakthi: Rice.
+
+28
+00:16:19.550 --> 00:16:27.139
+Simsonraj Easvarasakthi: So, yeah, the main issue is that, the, spec, or the new error codes propose
+
+29
+00:16:27.320 --> 00:16:31.019
+Simsonraj Easvarasakthi: Newer values, like mostly positive and, groups.
+
+30
+00:16:31.160 --> 00:16:38.469
+Simsonraj Easvarasakthi: That we've all discussed, so many times, but the simulate V1 endpoint.
+
+31
+00:16:38.890 --> 00:16:45.529
+Simsonraj Easvarasakthi: uses a completely different ranges. It doesn't have any grouping, it just uses, I think, from…
+
+32
+00:16:45.820 --> 00:16:54.979
+Simsonraj Easvarasakthi: Let me see… yeah, minus 38010 to minus 38014 in order, in some sort of order.
+
+33
+00:16:55.790 --> 00:17:03.749
+Simsonraj Easvarasakthi: I can post it here. This is the difference between what the spec proposed, plus catalog proposed, plus what Simulator uses.
+
+34
+00:17:04.079 --> 00:17:14.829
+Simsonraj Easvarasakthi: So the main confusion or main blocker here is, how can we unify these two? The concern is every other method will use the newly proposed catalog.
+
+35
+00:17:15.060 --> 00:17:17.549
+Simsonraj Easvarasakthi: except simulate v. 1.
+
+36
+00:17:21.250 --> 00:17:25.539
+Simsonraj Easvarasakthi: Yeah, that's that's the concern from some folks I've heard in the thread.
+
+37
+00:17:26.819 --> 00:17:34.080
+Simsonraj Easvarasakthi: Why, in my opinion… I think we should just go ahead and deal with this and simulate V2.
+
+38
+00:17:36.180 --> 00:17:38.490
+lightclient: I don't think there's gonna be a way to…
+
+39
+00:17:38.940 --> 00:17:42.580
+lightclient: You know, unify those error codes without a new method.
+
+40
+00:17:42.680 --> 00:17:53.269
+lightclient: So I think at the end of the day, like, we just need to educate people who are implementing interfaces to the RPC and say that if the error code is positive, then you need to
+
+41
+00:17:53.470 --> 00:17:56.859
+lightclient: You know, handle it with this new error group.
+
+42
+00:17:57.280 --> 00:18:02.349
+lightclient: Mechanism, or if it's negative, then you have to continue using the legacy errors.
+
+43
+00:18:03.180 --> 00:18:03.660
+Simsonraj Easvarasakthi: I agree.
+
+44
+00:18:03.660 --> 00:18:15.859
+lightclient: I think that's kind of what Felix and I talked about. I mean, this has been two or three months ago now, but that was really the only pathway that we saw. Like, it doesn't make sense to go back on V1 and change what the values mean.
+
+45
+00:18:16.070 --> 00:18:16.680
+Simsonraj Easvarasakthi: Yep.
+
+46
+00:18:16.680 --> 00:18:23.449
+lightclient: It feels weird to… You know, re-specify, add in these extra error codes.
+
+47
+00:18:24.550 --> 00:18:27.430
+lightclient: You know, across the entire interface, like, we should just…
+
+48
+00:18:27.430 --> 00:18:27.860
+Simsonraj Easvarasakthi: Yeah.
+
+49
+00:18:27.860 --> 00:18:29.300
+lightclient: Switch, and…
+
+50
+00:18:29.540 --> 00:18:38.579
+lightclient: I think that that makes… that makes things not that difficult for library implementers. It's a simple check. Is the… Is the ERCO positive?
+
+51
+00:18:39.410 --> 00:18:41.910
+lightclient: Handle the new way, it's negative, handle the old way.
+
+52
+00:18:42.300 --> 00:18:59.350
+Simsonraj Easvarasakthi: Yep, yeah. Okay, great. This is what I was waiting for, some sort of opinion from someone. I think that makes sense, because I'm… I was also saying the same thing. I think it's, it's not that bad of a difference, too, because, not everyone uses Simulate V1.
+
+53
+00:18:59.410 --> 00:19:08.599
+Simsonraj Easvarasakthi: And especially the end users, I don't think, like, wallets or cross-chain clients doesn't rely on SimulateV1 too much, at least not yet.
+
+54
+00:19:09.010 --> 00:19:16.289
+Simsonraj Easvarasakthi: We're trying to simplify the users and end users and cross-chain teams.
+
+55
+00:19:16.690 --> 00:19:21.370
+Simsonraj Easvarasakthi: So grouping definitely matters for them, so I, I agree.
+
+56
+00:19:21.680 --> 00:19:34.280
+Simsonraj Easvarasakthi: In that case, I can proceed. I can create PRs. This is what both Sina and Chase tried to solve in different threads. We've been having this conversation. I… thanks for the comment.
+
+57
+00:19:34.960 --> 00:19:43.429
+Simsonraj Easvarasakthi: Like, client? Yeah, I can… I can go ahead with this. Let's just, create a PR, and then if anyone has opinion, we can deal with that in the PR.
+
+58
+00:19:45.830 --> 00:19:46.680
+lightclient: Sounds good to me.
+
+59
+00:19:47.460 --> 00:19:48.130
+Simsonraj Easvarasakthi: Thank you.
+
+60
+00:19:49.170 --> 00:19:49.930
+Simsonraj Easvarasakthi: Awesome.
+
+61
+00:19:50.050 --> 00:19:51.190
+Simsonraj Easvarasakthi: Finally.
+
+62
+00:19:52.920 --> 00:19:54.099
+Boma: Okay, thank you.
+
+63
+00:19:54.280 --> 00:19:58.040
+Boma: I think, okay, show my screen.
+
+64
+00:20:03.320 --> 00:20:04.560
+Boma: Oh.
+
+65
+00:20:07.420 --> 00:20:13.270
+Boma: So most of the issues we have on this meta tracking release, which
+
+66
+00:20:13.380 --> 00:20:19.839
+Boma: On the last two calls, we had a blocker from Get to Get PRs, and then a Hive one.
+
+67
+00:20:20.150 --> 00:20:23.529
+Boma: So I'm not exactly sure where we are on that. So.
+
+68
+00:20:26.590 --> 00:20:33.659
+Chase Wright: Yeah, I mean, nothing… nothing has changed. The Go Ethereum PRs are still pending, like… I have…
+
+69
+00:20:33.860 --> 00:20:38.479
+Chase Wright: Approval on one or two of them, but they're not merged, and then…
+
+70
+00:20:39.930 --> 00:20:44.750
+Chase Wright: I I brought it up in ACDE for basically the same.
+
+71
+00:20:44.960 --> 00:20:47.540
+Chase Wright: reason was… That.
+
+72
+00:20:48.010 --> 00:20:49.799
+Chase Wright: I need these PRs merged.
+
+73
+00:20:50.360 --> 00:20:52.909
+Chase Wright: So, I don't… I don't have an update there.
+
+74
+00:20:55.460 --> 00:21:00.460
+Boma: So we basically stock on everything on the list.
+
+75
+00:21:09.430 --> 00:21:15.300
+Boma: Then the only new thing should be distress APIs, which.
+
+76
+00:21:20.130 --> 00:21:24.060
+Boma: There's been like a huge and a ton of PRs.
+
+77
+00:21:24.390 --> 00:21:25.120
+Chase Wright: Yeah.
+
+78
+00:21:25.120 --> 00:21:25.590
+Boma: Trump.
+
+79
+00:21:25.590 --> 00:21:29.089
+Chase Wright: I mean, I think this one is too early for us to, like…
+
+80
+00:21:29.560 --> 00:21:37.670
+Chase Wright: make any, like… like, it's not ready to be merged, but it's very close. I mean, Bantag has been…
+
+81
+00:21:37.990 --> 00:21:44.499
+Chase Wright: working on it very hard. All of the client teams have been merging in their fixes.
+
+82
+00:21:45.190 --> 00:21:51.109
+Chase Wright: I don't… I don't know if Geth… Team has done any…
+
+83
+00:21:51.430 --> 00:21:59.889
+Chase Wright: Review on their side, but all of the other clients are… Merging PRs, I think
+
+84
+00:22:00.120 --> 00:22:04.519
+Chase Wright: Besu currently has the most open PRs, but…
+
+85
+00:22:05.110 --> 00:22:08.040
+Chase Wright: You know, that doesn't… that doesn't really mean anything.
+
+86
+00:22:10.180 --> 00:22:10.910
+Chase Wright: Yeah.
+
+87
+00:22:11.020 --> 00:22:12.060
+Chase Wright: I don't know. It's all…
+
+88
+00:22:12.060 --> 00:22:15.890
+Boma: My question is, sorry, Sorry, go on.
+
+89
+00:22:16.190 --> 00:22:24.539
+Chase Wright: Oh, I was just gonna say, there's a Telegram group for this. Bo, I don't know if you're in it, but I could add you to it if you want me to.
+
+90
+00:22:25.710 --> 00:22:33.350
+Boma: Okay, so my question is, since Git doesn't support this yet, how do we, like, do the, testing part? Or that should…
+
+91
+00:22:33.350 --> 00:22:37.139
+Chase Wright: Well, that's gonna be the last piece, right? So.
+
+92
+00:22:37.470 --> 00:22:41.800
+Chase Wright: I know LightClient is in that telegram, and I think there's…
+
+93
+00:22:42.100 --> 00:22:46.779
+Chase Wright: one other person from Geth in there. They basically already said that, like.
+
+94
+00:22:47.250 --> 00:22:50.239
+Chase Wright: Yes, we will support this, but,
+
+95
+00:22:50.620 --> 00:23:06.949
+Chase Wright: the… and Bantag has a PR that's, like, in draft in GoEthereum to implement all this, but until the spec is finalized, and until all the other clients are in agreement, I think that that Geth piece is the last, last piece.
+
+96
+00:23:11.470 --> 00:23:20.429
+Boma: Okay, I have one last question. So, I was thinking… okay, during, Bisu's, last call on Tuesday.
+
+97
+00:23:20.810 --> 00:23:24.689
+Boma: Someone said if this needs, an EIP.
+
+98
+00:23:25.920 --> 00:23:29.009
+Boma: Is this something that needs an EIP before it gets done, or…
+
+99
+00:23:29.160 --> 00:23:34.080
+Chase Wright: I don't think he needs any EIP. I mean… A long, long time ago.
+
+100
+00:23:34.930 --> 00:23:39.660
+Chase Wright: That… that you… that was, like, the argument anytime we tried to make…
+
+101
+00:23:39.990 --> 00:23:47.870
+Chase Wright: changes to some of the APIs, there… there was pushback saying, like, well, it needs an EIP, but I don't…
+
+102
+00:23:48.480 --> 00:23:51.280
+Chase Wright: I don't think it needs an EIP. Like, everyone…
+
+103
+00:23:52.070 --> 00:23:59.350
+Chase Wright: already implemented, so… I don't know. If someone wants to write an EIP, feel free, but, like… I don't…
+
+104
+00:24:00.010 --> 00:24:00.800
+Chase Wright: I don't care.
+
+105
+00:24:04.430 --> 00:24:08.299
+Boma: Okay, I was just trying to get clarification based on the question that was asked, so…
+
+106
+00:24:09.870 --> 00:24:16.419
+Chase Wright: There are lots of APIs that exist that do not have EIPs, so I don't think that's a blocker.
+
+107
+00:24:16.930 --> 00:24:17.570
+Boma: Okay.
+
+108
+00:24:17.910 --> 00:24:18.890
+Boma: Thank you.
+
+109
+00:24:19.790 --> 00:24:28.899
+Boma: So I don't see any other thing on the agenda we can probably discuss on, unless anyone or you have anything else to point out.
+
+110
+00:24:29.470 --> 00:24:31.599
+lightclient: I have a question on the tracing stuff.
+
+111
+00:24:32.380 --> 00:24:36.779
+lightclient: I'm just trying to figure out, like, where… where are we at with the tests?
+
+112
+00:24:38.040 --> 00:24:39.639
+lightclient: Like, that was, to me, a…
+
+113
+00:24:40.720 --> 00:24:44.939
+lightclient: A big part of getting the actual spec merged was that we had
+
+114
+00:24:45.480 --> 00:24:52.150
+lightclient: tests in execution APIs for the tracing, and I think that also depends on this, like, validation.
+
+115
+00:24:52.900 --> 00:24:56.279
+lightclient: Test format that Felix was working on.
+
+116
+00:24:56.570 --> 00:24:58.819
+lightclient: That get merged, or are we still waiting for it?
+
+117
+00:24:58.950 --> 00:25:08.080
+Chase Wright: Okay, so two parts. The first part is there are lots and lots of tests in Bantag's repo. They are not in execution APIs. Yeah, but…
+
+118
+00:25:08.080 --> 00:25:10.770
+lightclient: We don't really care that much about the…
+
+119
+00:25:11.190 --> 00:25:15.549
+lightclient: paths that are in his repo. We just want them in the Execution APIs repo.
+
+120
+00:25:16.420 --> 00:25:25.510
+Chase Wright: Okay, so the only way that they get into execution API repos currently is if the Go Ethereum library can
+
+121
+00:25:25.640 --> 00:25:27.100
+Chase Wright: Generate the tests.
+
+122
+00:25:33.860 --> 00:25:40.030
+Chase Wright: So, I don't know if you want tests before Geth Implements?
+
+123
+00:25:40.850 --> 00:25:42.559
+Chase Wright: But band tragedy.
+
+124
+00:25:42.560 --> 00:25:45.390
+lightclient: This is one of the spec that is tested.
+
+125
+00:25:45.640 --> 00:25:47.370
+lightclient: That the clients agree on.
+
+126
+00:25:48.260 --> 00:25:51.459
+Chase Wright: Yeah, okay. And I'm telling… those tests…
+
+127
+00:25:51.980 --> 00:26:00.030
+Chase Wright: are currently being ran outside of execution APIs. In order for those tests to come into existence.
+
+128
+00:26:00.030 --> 00:26:01.069
+lightclient: of them, right?
+
+129
+00:26:01.070 --> 00:26:06.749
+Chase Wright: Yes. They need to be implemented in Go Ethereum currently.
+
+130
+00:26:06.750 --> 00:26:11.949
+lightclient: I mean, you said it is implemented in Go Ethereum, so why not generate the vector against that?
+
+131
+00:26:12.120 --> 00:26:28.199
+Chase Wright: Yes. He has he has a he has a draft PR in in Geth, but he hasn't done it because not all the clients are in 100% agreement yet. So that is the next step. Once all of those clients are in agreement.
+
+132
+00:26:29.220 --> 00:26:34.800
+Chase Wright: Then he will open, or he will bump the…
+
+133
+00:26:35.430 --> 00:26:44.239
+Chase Wright: Go Ethereum, reference to point to his fork branch slash PR, and he will generate the fixtures.
+
+134
+00:26:45.860 --> 00:26:49.930
+lightclient: But even the fixtures, like, we also need this validation script PR, right?
+
+135
+00:26:50.860 --> 00:26:51.669
+lightclient: Like, as far as I know…
+
+136
+00:26:51.670 --> 00:26:52.940
+Chase Wright: Yeah, yeah, yeah, sorry.
+
+137
+00:26:52.940 --> 00:26:55.449
+lightclient: The reason that we couldn't do these…
+
+138
+00:26:55.940 --> 00:27:01.260
+lightclient: Fixtures before was because we couldn't actually… Consistently test them.
+
+139
+00:27:01.590 --> 00:27:11.770
+Chase Wright: So, that was… I mean, technically, probably yes, but that, the validation script came up because of
+
+140
+00:27:12.080 --> 00:27:15.090
+Chase Wright: the call tracer. And…
+
+141
+00:27:16.180 --> 00:27:31.969
+Chase Wright: there is a PR from Felix for the validation scripts, and I have left him some feedback on it. There's two of them. One is in execution APIs, and one is in Hive. They are both, like, 99% done.
+
+142
+00:27:32.100 --> 00:27:36.000
+Chase Wright: But, there are a couple…
+
+143
+00:27:36.280 --> 00:27:42.890
+Chase Wright: small issues that I asked him to fix. And if he fixes those, then we can probably…
+
+144
+00:27:43.270 --> 00:27:47.299
+Chase Wright: Merge both of those, and… Call it… call it good.
+
+145
+00:27:52.970 --> 00:27:54.010
+lightclient: Okay, cool.
+
+146
+00:27:59.230 --> 00:28:00.820
+Boma: Okay, so.
+
+147
+00:28:01.440 --> 00:28:03.680
+Boma: Do we have any other thing else we want to discuss?
+
+148
+00:28:09.350 --> 00:28:16.180
+Boma: But, okay, I have another question. What about, Nimbus EL.
+
+149
+00:28:18.970 --> 00:28:23.879
+Boma: But most of the PRs doesn't, like, really touch them, or the…
+
+150
+00:28:31.160 --> 00:28:33.189
+Boma: Is this something we should also let them know?
+
+151
+00:28:34.370 --> 00:28:39.900
+Chase Wright: Are you saying that Nimbus EL is not tested in… RPC.
+
+152
+00:28:39.900 --> 00:28:45.299
+Boma: No, I mean, in this whole conversation, like, it seems like they're not part of it or something.
+
+153
+00:28:47.480 --> 00:28:48.180
+Chase Wright: Oh.
+
+154
+00:28:49.260 --> 00:28:55.050
+Chase Wright: Yeah, actually, that's a good question. Are they in… Is Bantag even tracking them?
+
+155
+00:29:00.360 --> 00:29:03.170
+Chase Wright: Yeah, it doesn't look like it. I mean… No.
+
+156
+00:29:04.990 --> 00:29:06.480
+Chase Wright: Yeah, I can bring that up.
+
+157
+00:29:08.140 --> 00:29:15.650
+Chase Wright: I mean Nimbus EL Feels… Like.
+
+158
+00:29:16.050 --> 00:29:19.300
+Chase Wright: 70% of the tests currently, I think.
+
+159
+00:29:32.400 --> 00:29:37.890
+Boma: Okay, so… I think that's the only thing we have on the agenda.
+
+160
+00:29:43.280 --> 00:29:44.829
+Boma: Do you have anything else?
+
+161
+00:29:49.780 --> 00:29:56.010
+Boma: I guess not. Okay, thank you all for joining, have a nice weekend, and see you all next two weeks.
+
