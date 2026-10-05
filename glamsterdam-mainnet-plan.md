@@ -20,7 +20,7 @@ Gloas + Amsterdam
 | Lighthouse | | |
 | Lodestar | | |
 | Nimbus | | |
-| Nethermind | | |
+| Nethermind | @Marchhill | @benaadams |
 | Prysm | | | 
 | Reth | | |
 | Teku | | |
