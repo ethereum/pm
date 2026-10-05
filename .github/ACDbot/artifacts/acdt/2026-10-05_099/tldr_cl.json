@@ -1,0 +1,85 @@
+{
+  "meeting": "ACDT #99 (CL Breakout) - October 5, 2026",
+  "highlights": {
+    "produce_block_v4_bid_beacon_api": [
+      {
+        "timestamp": "00:01:53",
+        "highlight": "Proposal: VC contacts builders directly, supplies bid to connected Beacon nodes via ProduceBlockV4 extension"
+      },
+      {
+        "timestamp": "00:08:37",
+        "highlight": "Concerns: adds complexity to VC, may enable undesirable off-protocol markets; Nico notes payload attributes timing mismatch and late-slot API call issues"
+      },
+      {
+        "timestamp": "00:14:29",
+        "highlight": "If bid rejected by Beacon node, falls back to P2P bid or local build (best-effort inclusion)"
+      },
+      {
+        "timestamp": "00:15:22",
+        "highlight": "No consensus to merge; Jihoon suggests continued async design discussion targeting Hoodi"
+      }
+    ],
+    "epbs_missed_slot_payment_ordering": [
+      {
+        "timestamp": "00:16:07",
+        "highlight": "Two competing PRs (consensus-specs #5694, #5695) address payment when builder wins bid, exits, and slot is missed"
+      },
+      {
+        "timestamp": "00:17:53",
+        "highlight": "Nico's PR #5695 preferred by Michael (Lighthouse) and accepted by Potuz; stricter request ordering deemed safer for future extensions"
+      },
+      {
+        "timestamp": "00:23:13",
+        "highlight": "Merging #5695 constitutes a consensus-breaking change; requires new CL spec release; Potuz to open Prysm PR"
+      }
+    ],
+    "gloas_beacon_api_prs": [
+      {
+        "timestamp": "00:20:22",
+        "highlight": "6 open Gloas-related beacon-API PRs (#638, #641, #655, #657, #659, #615); Nico has approved all and implemented in Lodestar"
+      },
+      {
+        "timestamp": "00:20:44",
+        "highlight": "Goal: merge before Sepolia fork; implementations ready for Hoodi"
+      }
+    ],
+    "focil_client_images": [
+      {
+        "timestamp": "00:23:47",
+        "highlight": "FOCIL images available for Lodestar and Teku; Lighthouse working on it; Prysm status pending"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:15:56",
+      "action": "Luca to open async thread for ProduceBlockV4 bid design discussion",
+      "owner": "Luca (Vero)"
+    },
+    {
+      "timestamp": "00:21:10",
+      "action": "Review and approve/comment on 6 Gloas beacon-API PRs before Sepolia fork",
+      "owner": "All CL teams (Lighthouse, Teku, Prysm)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:19:40",
+      "decision": "Merge consensus-specs PR #5695 (Nico's request reordering) for missed-slot builder payment"
+    },
+    {
+      "timestamp": "00:15:22",
+      "decision": "ProduceBlockV4 bid endpoint not merged now; design discussion continues async targeting Hoodi"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:20:44",
+      "target": "Gloas beacon-API PRs merged before Sepolia fork; implementations ready for Hoodi"
+    },
+    {
+      "timestamp": "00:23:13",
+      "target": "New CL spec release required after merging consensus-specs #5695"
+    }
+  ]
+}
