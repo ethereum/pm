@@ -12,18 +12,18 @@ Gloas + Amsterdam
 ### Client Team Coordinators
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
-| Besu |  | |
+| Besu | [Daniel Lehrner](https://github.com/daniellehrner) | [Karim Taam](https://github.com/matkt) |
 | Erigon | [Milen Filatov](https://github.com/taratorio) | [Andrew Ashikhmin](https://github.com/yperbasis) |
-| Ethrex | | |
+| Ethrex | [Ivan Litteri](https://github.com/ilitteri) | [Tomás Grüner](https://github.com/MegaRedHand) |
 | Geth | | |
 | Grandine | | |
-| Lighthouse | | |
-| Lodestar | | |
-| Nimbus | | |
+| Lighthouse | [Eitan Seri-Levi](https://github.com/eserilev) | [Pawan Dhananjay](https://github.com/pawanjay176) |
+| Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
+| Nimbus | [@tersec](https://github.com/tersec) | [@0xshum](https://github.com/ahshum) |
 | Nethermind | | |
-| Prysm | | | 
-| Reth | | |
-| Teku | | |
+| Prysm | Tag the Prysm team on Eth R&D Discord | |
+| Teku | [Enrico](https://github.com/tbenr) | [Stefan](https://github.com/StefanBratanov) |
+| Reth | [Matthias Seitz](https://github.com/mattsse) | [Dragan Rakita](https://github.com/draganrakita), [Emma Jamieson-Hoare](https://github.com/emmajam) |
 
 ### Coordinators
 | Role | Primary | Backup |
