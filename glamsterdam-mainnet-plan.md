@@ -18,7 +18,7 @@
 | Erigon | [Milen Filatov](https://github.com/taratorio) | [Andrew Ashikhmin](https://github.com/yperbasis) |
 | Ethrex | [Ivan Litteri](https://github.com/ilitteri) | [Tomás Grüner](https://github.com/MegaRedHand) |
 | Geth | @rjl493456442 | @lightclient |
-| Grandine | | |
+| Grandine | [Saulius Grigaitis](https://github.com/sauliusgrigaitis) | [Povilas Liubauskas](https://github.com/povi) |
 | Lighthouse | [Eitan Seri-Levi](https://github.com/eserilev) | [Pawan Dhananjay](https://github.com/pawanjay176) |
 | Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
 | Nethermind | [Marc Harvey Hill](https://github.com/Marchhill) | [Ben Adams](https://github.com/benaadams) |
