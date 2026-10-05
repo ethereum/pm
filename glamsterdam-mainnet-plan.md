@@ -17,7 +17,7 @@ Gloas + Amsterdam
 | Ethrex | | |
 | Geth | | |
 | Grandine | | |
-| Lighthouse | | |
+| Lighthouse | [Eitan Seri-Levi](https://github.com/eserilev) | [Pawan Dhananjay](https://github.com/pawanjay176) |
 | Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
 | Nimbus | | |
 | Nethermind | | |
