@@ -20,7 +20,7 @@ Gloas + Amsterdam
 | Lighthouse | | |
 | Lodestar | | |
 | Nimbus | | |
-| Nethermind | @Marchhill | @benaadams |
+| Nethermind | [Marc Harvey Hill](https://github.com/Marchhill) | [Ben Adams](https://github.com/benaadams) |
 | Prysm | | | 
 | Reth | | |
 | Teku | | |
