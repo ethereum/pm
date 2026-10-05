@@ -19,7 +19,7 @@ Gloas + Amsterdam
 | Grandine | | |
 | Lighthouse | [Eitan Seri-Levi](https://github.com/eserilev) | [Pawan Dhananjay](https://github.com/pawanjay176) |
 | Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
-| Nimbus | | |
+| Nimbus | [@tersec](https://github.com/tersec) | [@0xshum](https://github.com/ahshum) |
 | Nethermind | | |
 | Prysm | | | 
 | Reth | [Matthias Seitz](https://github.com/mattsse) | [Dragan Rakita](https://github.com/draganrakita), [Emma Jamieson-Hoare](https://github.com/emmajam) |
