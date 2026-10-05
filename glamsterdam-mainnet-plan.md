@@ -13,7 +13,7 @@ Gloas + Amsterdam
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
 | Besu |  | |
-| Erigon | | |
+| Erigon | [Milen Filatov](https://github.com/taratorio) | [Andrew Ashikhmin](https://github.com/yperbasis) |
 | Ethrex | | |
 | Geth | | |
 | Grandine | | |
