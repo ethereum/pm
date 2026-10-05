@@ -15,7 +15,7 @@ Gloas + Amsterdam
 | Besu |  | |
 | Erigon | | |
 | Ethrex | | |
-| Geth | | |
+| Geth | @rjl493456442 | @lightclient |
 | Grandine | | |
 | Lighthouse | | |
 | Lodestar | | |
