@@ -1,5 +1,5 @@
 # Glamsterdam Upgrade & Incident Response Team Plan
-Gloas + Amsterdam
+🐻‍❄️ Gloas + Amsterdam
 
 ## Upgrade Information
 
