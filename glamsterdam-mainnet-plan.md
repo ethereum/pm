@@ -30,7 +30,7 @@
 ### Coordinators
 | Role | Primary | Backup |
 |------|---------|----------------------------|
-| DevOps Coordinator | Pari | Barnabas |
+| DevOps Coordinator | Pari Jayanthi | Barnabas Busa |
 | Testing Coordinator | Mario Vega | Justin Traglia |
 | Communication Coordinator | Will Corcoran |  |
 | Security Coordinator | Nikos |  |
