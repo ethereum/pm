@@ -1,0 +1,108 @@
+00:00:49	Jihoon:	https://github.com/ethereum/beacon-APIs/pull/627
+00:03:00	Nico Flaig:	I have this implemented it e2e and luca has even tested, but I would like to mention my concerns so we can make a good decision on this
+00:03:32	Potuz:	can you talk about it Nico?
+00:03:42	Luca | Vero:	https://dora.glamsterdam-devnet-8.ethpandaops.io/slots/filtered?f=&f.graffiti=Vero+BYOB&f.builderblock=0&f.status=0x7&f.pstatus=0x7&c=50&d=0x307ff
+00:04:11	Nico Flaig:	yes I can talk about it but then we are not gonna do the endpoint, I wanna give Luca a chance to first explain the pros of it
+00:04:34	Barnabas:	can’t this be an optional endpoint?
+00:04:55	Nico Flaig:	Replying to "can’t this be an opt..."
+
+no, it's desinged ofr multi beacon node setups, so all client should implement it
+00:05:16	Nico Flaig:	Replying to "can’t this be an opt..."
+
+more generally, optional endpoints are not great spec-wise
+00:05:53	Stefan Bratanov:	I think it is optional from what I see, I mean VCs can choose to call it or not
+00:06:21	Luca | Vero:	Reacted to "I think it is optional from what I see, I mean VCs can choose to call it or not" with 👍
+00:06:38	Nico Flaig:	Replying to "I think it is option..."
+
+optional from vc, not optional as a beacon node
+00:06:55	Luca | Vero:	Reacted to "optional from vc, not optional as a beacon node" with 👍
+00:08:17	Barnabas:	Could we time box this pr? I think we have 6-7 more PRs to discuss
+00:09:23	Jihoon:	Replying to "Could we time box th..."
+
+I do have one more agenda but I don't see other agenda than this on the GitHub issue.
+00:10:04	Barnabas:	Replying to "Could we time box th..."
+
+https://github.com/ethereum/beacon-APIs/pull/638
+https://github.com/ethereum/beacon-APIs/pull/641
+https://github.com/ethereum/beacon-APIs/pull/655
+https://github.com/ethereum/beacon-APIs/pull/657
+https://github.com/ethereum/beacon-APIs/pull/659
+https://github.com/ethereum/beacon-APIs/pull/615
+00:11:14	Potuz:	same for Prysm
+00:14:01	Nico Flaig:	it doesn't fail, if the provided bid is incompatible with our proposer head we reject it and use local or p2p bid instead
+00:14:40	Caleb:	Reacted to "it doesn't fail, i..." with 👍
+00:15:06	Nico Flaig:	I am curious how bad it is for other client to call produceblockv4 later in the slot, at least in lodestar we only start to build the beacon block when the api is called
+00:15:13	Potuz:	doing this on the beacon node does not seem to be too much of a problem to me
+00:15:24	Enrico Del Fante:	How much “late” 🙂
+00:15:25	Potuz:	as long as we don't need to touch the VC I think it's fine
+00:15:35	Nico Flaig:	Replying to "How much “late” 🙂"
+
+depends on the timing games
+00:16:06	Potuz:	Replying to "How much “late” 🙂"
+
+we do the same as Lodestar and not planning on optimizing this
+00:16:12	Jihoon:	- https://github.com/ethereum/consensus-specs/pull/5694
+- https://github.com/ethereum/consensus-specs/pull/5695
+00:16:18	Potuz:	Replying to "How much “late” 🙂"
+
+we already cover node operators that want to play timing games only within Prysm
+00:16:27	Nico Flaig:	Replying to "How much “late” 🙂"
+
+you could cache it at clock tick for slot instead of the call
+00:16:33	Enrico Del Fante:	Replying to "How much “late” 🙂"
+
+Teku anticipates a bit of the work but a big chink is done at VC calling for block produiction
+00:16:34	Nico Flaig:	Replying to "How much “late” 🙂"
+
+but also proposer head we only compute once we call the api
+00:16:36	Miguel Tenorio:	Replying to "as long as we don't ..."
+
+I would change “need” with “must”
+00:16:44	Luca | Vero:	Replying to "How much “late” 🙂"
+
+I’m fine with not having any optimizations beacon-node side, at least it will force node operators not to push things too far
+00:16:49	Enrico Del Fante:	Replying to "How much “late” 🙂"
+
+So we will serve that but will add even more delay
+00:16:52	Nico Flaig:	Replying to "as long as we don't ..."
+
+beacon node need to implement it, but validators are free to not use it
+00:17:03	Miguel Tenorio:	Reacted to "beacon node need to implement it, but validators are free to not use it" with ➕
+00:17:42	Barnabas:	potuz you happy with 5695?
+00:18:37	Barnabas:	would like to hear from LH too
+00:19:47	Barnabas:	do we need a new cl spec release?
+00:19:52	james:	Regarding @Luca | Vero pr, I heard from my teammate Manu that many node operators have the validators running in an isolated network without access to the internet. If we add your change I assume it disrupts that assumption right.
+00:19:53	Nico Flaig:	I spent a lot of time trying to find gaps so I exhausted my abilities on it
+00:19:54	Jihoon:	https://github.com/ethereum/beacon-APIs/pull/638
+https://github.com/ethereum/beacon-APIs/pull/641
+https://github.com/ethereum/beacon-APIs/pull/655
+https://github.com/ethereum/beacon-APIs/pull/657
+https://github.com/ethereum/beacon-APIs/pull/659
+https://github.com/ethereum/beacon-APIs/pull/615
+00:19:59	Potuz:	Replying to "do we need a new cl ..."
+
+yes
+00:20:46	Potuz:	Replying to "Regarding @Luca | Ve..."
+
+I think that's up to them, as far as we are concerned I think it's fine to offer it in the beacon
+00:21:10	Pawan Dhananjay:	Will take a look at these today and approve/comment
+00:21:10	Miguel Tenorio:	Luca’s PR and his proposed flow are intentionally opt-in
+00:21:14	Barnabas:	Reacted to "Will take a look at these today and approve/comment" with 👍
+00:21:17	Jihoon:	Reacted to "Will take a look at these today and approve/comment" with 👍
+00:21:19	Nico Flaig:	Reacted to "Will take a look at ..." with 👍
+00:21:24	Barnabas:	Replying to "Will take a look at ..."
+
+lets aim to have them merged before sepolia fork tomorrow?
+00:21:33	Barnabas:	Replying to "Will take a look at ..."
+
+and ideally impl for hoodi
+00:22:01	Nico Flaig:	Replying to "Will take a look at ..."
+
+yes plan is too have stuff sorted for hoodi so users can rely on it
+00:22:08	Barnabas:	Reacted to "yes plan is too have stuff sorted for hoodi so users can rely on it" with 👍
+00:23:27	Barnabas:	do we have any other cl clients images for focil?
+00:24:00	Pawan Dhananjay:	Replying to "do we have any other..."
+
+Hit us up on the steel channel. Eitan might have something cooked up
+00:25:54	Will Corcoran:	Thanks Jihoon!
+00:26:02	Miguel Tenorio:	glhf
