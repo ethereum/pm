@@ -16,7 +16,7 @@ Gloas + Amsterdam
 | Erigon | | |
 | Ethrex | | |
 | Geth | | |
-| Grandine | | |
+| Grandine | [Saulius Grigaitis](https://github.com/sauliusgrigaitis) | [Povilas Liubauskas](https://github.com/povi) |
 | Lighthouse | | |
 | Lodestar | | |
 | Nimbus | | |
