@@ -21,7 +21,7 @@ Gloas + Amsterdam
 | Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
 | Nimbus | [@tersec](https://github.com/tersec) | [@0xshum](https://github.com/ahshum) |
 | Nethermind | | |
-| Prysm | | | 
+| Prysm | Tag the Prysm team on Eth R&D Discord | |
 | Teku | [Enrico](https://github.com/tbenr) | [Stefan](https://github.com/StefanBratanov) |
 | Reth | [Matthias Seitz](https://github.com/mattsse) | [Dragan Rakita](https://github.com/draganrakita), [Emma Jamieson-Hoare](https://github.com/emmajam) |
 
