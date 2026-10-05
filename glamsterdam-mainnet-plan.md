@@ -12,7 +12,7 @@ Gloas + Amsterdam
 ### Client Team Coordinators
 | Client Team | Primary | Backup |
 |-------------|---------------------|--------------------|
-| Besu |  | |
+| Besu | [Daniel Lehrner](https://github.com/daniellehrner) | [Karim Taam](https://github.com/matkt) |
 | Erigon | | |
 | Ethrex | | |
 | Geth | | |
