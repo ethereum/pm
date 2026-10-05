@@ -19,11 +19,11 @@ Gloas + Amsterdam
 | Grandine | | |
 | Lighthouse | [Eitan Seri-Levi](https://github.com/eserilev) | [Pawan Dhananjay](https://github.com/pawanjay176) |
 | Lodestar | [Nico Flaig](https://github.com/nflaig) | [Cayman Nava](https://github.com/wemeetagain) |
+| Nethermind | [Marc Harvey Hill](https://github.com/Marchhill) | [Ben Adams](https://github.com/benaadams) |
 | Nimbus | [@tersec](https://github.com/tersec) | [@0xshum](https://github.com/ahshum) |
-| Nethermind | | |
 | Prysm | Tag the Prysm team on Eth R&D Discord | |
-| Teku | [Enrico](https://github.com/tbenr) | [Stefan](https://github.com/StefanBratanov) |
 | Reth | [Matthias Seitz](https://github.com/mattsse) | [Dragan Rakita](https://github.com/draganrakita), [Emma Jamieson-Hoare](https://github.com/emmajam) |
+| Teku | [Enrico](https://github.com/tbenr) | [Stefan](https://github.com/StefanBratanov) |
 
 ### Coordinators
 | Role | Primary | Backup |
