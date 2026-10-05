@@ -22,8 +22,8 @@ Gloas + Amsterdam
 | Nimbus | [@tersec](https://github.com/tersec) | [@0xshum](https://github.com/ahshum) |
 | Nethermind | | |
 | Prysm | | | 
+| Teku | [Enrico](https://github.com/tbenr) | [Stefan](https://github.com/StefanBratanov) |
 | Reth | [Matthias Seitz](https://github.com/mattsse) | [Dragan Rakita](https://github.com/draganrakita), [Emma Jamieson-Hoare](https://github.com/emmajam) |
-| Teku | | |
 
 ### Coordinators
 | Role | Primary | Backup |
