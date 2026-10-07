@@ -5,7 +5,7 @@ Proposed activation times for the Glamsterdam (Gloas + Amsterdam) network upgrad
 | Network | Epoch | Start slot | Unix | UTC (+00:00) |
 |---------|-------|------------|------|--------------|
 | Sepolia | 353024 | 11296768 | 1791294816 | Tue, 06 Oct 2026, 13:53:36 |
-| Hoodi | TBD | TBD | TBD | TBD |
+| Hoodi | 132608 | 4243456 | 1793134872 | Tue, 27 Oct 2026, 21:01:12 |
 | Mainnet | TBD | TBD | TBD | TBD |
 
 - Sepolia: [configuration](https://github.com/eth-clients/sepolia)
