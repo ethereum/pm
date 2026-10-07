@@ -1,0 +1,116 @@
+{
+  "meeting": "P2P Networking #9 - October 07, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:18:05",
+        "highlight": "Lighthouse: simplifying networking stack; prototyping EIP-8411 and attestation bundling"
+      },
+      {
+        "timestamp": "00:19:10",
+        "highlight": "Prysm: partial columns merged and enabled by default for Fulu and Gloas; peer scoring/connectivity revamp soaking on mainnet and Hoodi nodes; dashboard demo planned for next call"
+      },
+      {
+        "timestamp": "00:21:01",
+        "highlight": "Lodestar: QUIC 1.3 in progress; partial columns not enabled until after Gloas mainnet"
+      },
+      {
+        "timestamp": "00:22:13",
+        "highlight": "Geth (Csaba): published post on blob pool protections; hardening of sparse blob pools this cycle"
+      }
+    ],
+    "gloas_sepolia_bandwidth_profile": [
+      {
+        "timestamp": "00:24:00",
+        "highlight": "Post-Glamsterdam Sepolia bandwidth profile: execution payloads propagate immediately at slot start, not after attestation threshold"
+      },
+      {
+        "timestamp": "00:28:30",
+        "highlight": "Lodestar (no partial columns): data column sidecar bandwidth ~10x higher than Prysm (e.g., ~1 MB vs ~120 KB per block)"
+      },
+      {
+        "timestamp": "00:30:35",
+        "highlight": "Lodestar receiving up to 77 copies of execution payload per message (~150 KB \u00d7 61+); likely IDONTWANT bug fixed in recent release \u2014 version under investigation"
+      }
+    ],
+    "service_discovery": [
+      {
+        "timestamp": "00:32:18",
+        "highlight": "Felix (Geth): topic-based service discovery now in discv5 spec, replacing old unimplemented messages; allows targeted peer search without ENR encoding"
+      },
+      {
+        "timestamp": "00:35:03",
+        "highlight": "Spec considered final; Geth implementation (with Datahop) in progress but not merged; incremental deployment supported \u2014 not all nodes need to upgrade simultaneously"
+      },
+      {
+        "timestamp": "00:50:46",
+        "highlight": "Per-node index table is bounded (constant storage overhead); scales with network size; post-quantum ENR growth motivates moving away from full-network crawl assumption"
+      }
+    ],
+    "dc_simulations_decoupled_consensus": [
+      {
+        "timestamp": "00:53:43",
+        "highlight": "Sukun: Shadow sims (100 nodes, 20% supernodes) testing decoupled consensus with 8-slot rounds; 2,500 attesters/subnet vs. ~500 today; 500-node Cloud Run sim scheduled for tomorrow"
+      },
+      {
+        "timestamp": "00:56:23",
+        "highlight": "Three strategies under simulation: (1) all FFG votes at slot start, (2) staggered per-second publishing, (3) three committees across slot; goldfish vote latency improves significantly in strategies 2 and 3"
+      },
+      {
+        "timestamp": "00:58:48",
+        "highlight": "Key problem: no cross-topic stream prioritization between goldfish and FFG meshes; QUIC stream priorities only work per-connection"
+      },
+      {
+        "timestamp": "01:00:49",
+        "highlight": "Plan: integrate GossipSub IHAVE/IHAVEv1 tracer; also attempt to make X-ray work with Shadow simulations"
+      }
+    ],
+    "eip_proposals_hegota": [
+      {
+        "timestamp": "01:10:33",
+        "highlight": "EIP-8411 (segmented execution payload broadcast): CFI for Hegota; splits payload into 64 chunks; reduces propagation latency ~3\u00d7; includes consensus change adding chunk root to bid"
+      },
+      {
+        "timestamp": "01:12:28",
+        "highlight": "Lodestar concern: insufficient mainnet data showing propagation problems; risk of scope creep delaying Hegota past June; prefer deferral to I-star if not clearly needed"
+      },
+      {
+        "timestamp": "01:13:51",
+        "highlight": "Counter-arguments: testnets lack realistic builder/home-node/bandwidth conditions; machinery needed regardless for PQ signatures and LeanVM proofs; segmentation is a prerequisite unlock (consensus bid change) for future networking work"
+      },
+      {
+        "timestamp": "01:43:02",
+        "highlight": "Lighthouse committed to implement EIP-8411 regardless of Hegota inclusion, with backward compatibility; Prysm expressed interest (thumbs up from Vlad/Gattaca)"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:31:41",
+      "action": "Lodestar: verify IDONTWANT fix is present in Sepolia-targeted release; investigate 60-77 duplicate execution payload copies observed",
+      "owner": "Lodestar (Matthew Keil / cayman)"
+    },
+    {
+      "timestamp": "01:04:09",
+      "action": "Add X-ray support to Shadow simulator; raise PR",
+      "owner": "Sukun Tarachandani"
+    },
+    {
+      "timestamp": "01:46:33",
+      "action": "Raise EIP-8411 on upcoming ACDC call for broader client alignment",
+      "owner": "Kamil Salakhiev"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:43:20",
+      "decision": "Lighthouse will implement EIP-8411 regardless of Hegota fork inclusion, with network backward compatibility"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:00:49",
+      "target": "Decoupled consensus 500-node Cloud Run simulation \u2014 October 08, 2026 (tomorrow)"
+    }
+  ]
+}

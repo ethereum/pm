@@ -1,0 +1,74 @@
+00:21:47	Daniel Knopik:	silver 👀
+00:22:59	jxs:	yeah Vlad, do you want to introduce yourself and silver?
+00:24:57	Raúl Kripalani:	nice, daniel has a branch integrating the probe into lighthouse btw
+00:25:56	Csaba:	Who is building on Sepolia?
+00:26:22	Daniel Knopik:	sigma prime has a builder which is picked fairly often
+00:26:48	Daniel Knopik:	Reacted to "nice, daniel has a..." with 👍
+00:27:01	Csaba:	Since there is no financial incentive, timings games are not something that gets played I guess
+00:27:02	Daniel Knopik:	Replying to "nice, daniel has a..."
+
+in dire need of a rebase though :D
+00:27:27	cayman:	Replying to "nice, daniel has a b..."
+
+are there docs on what is needed to be added? would love to add to lodestar if possible
+00:27:34	Raúl Kripalani:	Replying to "nice, daniel has a b..."
+
+good news is that the xray protocol should be stable 😄
+00:27:48	Daniel Knopik:	Reacted to "Since there is no ..." with 👍
+00:28:57	Raúl Kripalani:	Replying to "nice, daniel has a b..."
+
+@cayman i'd prompt: "study the wire protocol and how the prysm probe hooks into the client to produce the necessary traces, and propose the cleanest integration path for lodestar"
+00:29:01	Daniel Knopik:	Replying to "nice, daniel has a..."
+
+I'll try to clean it up and mainline it
+00:29:11	cayman:	Reacted to "@cayman i'd prompt: ..." with 👍
+00:30:09	Raúl Kripalani:	what's the rationale for the builder to wait til it sees a few attestations?
+00:30:31	Csaba:	It can get a direct message with the consensus block, isolated, and release
+00:30:32	Raúl Kripalani:	a selective release/withhold attack doesn't make sense
+00:31:10	Raúl Kripalani:	if its a valid consensus block, it will also propagate the block, no?
+00:31:48	Csaba:	If it is propagated. It has to do active work for that (which is possible)
+00:33:17	cayman:	Replying to "nice, daniel has a b..."
+
+@Raúl Kripalani what is the name of that dashboard? querying "ethereum xray network propagation" is not finding anything
+00:34:18	Raúl Kripalani:	@Csaba mind elaborating?
+00:34:27	Raúl Kripalani:	what active work? you mean propagating the block?
+00:42:57	Csaba:	Also, discv5 was deliberately made to be a protocol used by many networks. I’m not saying it how it should be, but worth noting
+00:53:47	Felix (Geth):	Service discovery: https://github.com/ethereum/devp2p/blob/master/discv5/discv5-theory.md#topic-based-service-discovery
+ 
+Implementation: https://github.com/datahop/go-ethereum/blob/topdisc/p2p/discover/topicindex/topictable.go
+00:53:53	Onur:	Reacted to "Service discovery: https://github.com/ethereum/devp2p/blob/master/discv5/discv5-theory.md#topic-based-service-discovery
+ 
+Implementation: https://github.com/datahop/go-ethereum/blob/topdisc/p2p/discover/topicindex/topictable.go" with 👍
+00:53:56	Daniel Knopik:	Reacted to "Service discovery:..." with 👍
+00:53:59	Kamil Salakhiev:	Reacted to "Service discovery: https://github.com/ethereum/devp2p/blob/master/discv5/discv5-theory.md#topic-based-service-discovery
+ 
+Implementation: https://github.com/datahop/go-ethereum/blob/topdisc/p2p/discover/topicindex/topictable.go" with 👍
+00:54:00	cayman:	Reacted to "Service discovery: h..." with 👍
+00:56:30	Csaba:	As I understand (but not my area), some builders don’t want to release the payload until they are quite sure it will get on chain without large reorg risk.
+01:01:29	Raúl Kripalani:	yeah! should be fairly easy to make xray work with shadow
+01:03:36	Sukun Tarachandani:	Reacted to "yeah! should be fairly easy to make xray work with shadow" with 👍
+01:04:31	Sukun Tarachandani:	https://hackmd.io/@sukunrt/rkMKx1Eoze
+01:05:45	Yann Vonlanthen:	Reacted to "https://hackmd.io/@sukunrt/rkMKx1Eoze" with ❤️
+01:09:52	Kamil Salakhiev:	Reacted to "https://hackmd.io/@sukunrt/rkMKx1Eoze" with ❤️
+01:10:28	Raúl Kripalani:	yeah and our propagation tends to be O log
+01:10:44	Raúl Kripalani:	so until the next order of magnitude, things should be "fine"
+01:10:57	Sukun Tarachandani:	Reacted to "so until the next order of magnitude, things should be "fine"" with 👍
+01:11:11	Sukun Tarachandani:	Replying to "so until the next or..."
+
+Yeah that’s our intuition too.
+01:12:30	Csaba:	It’s even O log if every node has just enough bandwidth to send a stream (I had a paper on it in the past).
+Here we are much better, there is more BW. Still O log, but the increment is small
+01:15:04	Daniel Knopik:	xatu data will be very interesting once gloas is live
+01:16:13	Raúl Kripalani:	yeah we should probably update EIP-7870 because Nielsen's Law has rolled over several times since 🙂
+01:16:33	Yann Vonlanthen:	Reacted to "yeah we should probably update EIP-7870 because Nielsen's Law has rolled over several times since 🙂" with 👀
+01:20:11	Daniel Knopik:	I think it is perfectly fine to delay it to I-star if we hit these roadblocks
+01:20:49	Daniel Knopik:	but we should IMO attempt it in H because otherwise will be here again when we discuss the scope for I star
+01:25:07	Yann Vonlanthen:	Also, since we might revamp attestation propagation in I*, it feels wise to tackle payload propagation before that, no?
+01:25:18	Daniel Knopik:	Reacted to "Also, since we mig..." with 💯
+01:29:48	Daniel Knopik:	yeah. I think each client has people interested in networking stuff (i.e. the people in this call). From a pm perspective it makes sense to let these people work on improvements already so that we dont have to improve everything all at once (in the worst case) once the network becomes the bottleneck
+01:37:42	Sukun Tarachandani:	Reacted to "yeah. I think each client has people interested in networking stuff (i.e. the people in this call). From a pm perspective it makes sense to let these people work on improvements already so that we dont have to improve everything all at once (in the worst case) once the network becomes the bottleneck" with ❤️
+01:44:39	Yann Vonlanthen:	Reacted to "yeah. I think each client has people interested in networking stuff (i.e. the people in this call). From a pm perspective it makes sense to let these people work on improvements already so that we dont have to improve everything all at once (in the worst case) once the network becomes the bottleneck" with ❤️
+01:45:56	jxs:	we plan to do it in the most optimal way
+01:46:03	Daniel Knopik:	Reacted to "we plan to do it i..." with 🔥
+01:46:07	Kamil Salakhiev:	Reacted to "we plan to do it in the most optimal way" with 🔥
+01:46:10	Csaba:	Reacted to "we plan to do it in the most optimal way" with 🔥
