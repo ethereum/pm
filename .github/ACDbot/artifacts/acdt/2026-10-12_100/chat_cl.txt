@@ -1,0 +1,65 @@
+00:01:34	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5727
+00:02:57	Barnabé Monnot:	is it assumed that includers must execute the payload before making their IL?
+00:03:45	NC:	Replying to "is it assumed that i..."
+
+currently the spec says try this, if not, can fall back to making IL before newPayload
+00:04:33	Jihoon:	https://gist.github.com/jihoonsong/b8d8bbf862f9fd7cd4dbb89fd0d47ca2
+00:05:58	Barnabé Monnot:	Reacted to "currently the spec says try this, if not, can fall back to making IL before newPayload" with 👍
+00:06:08	Justin Traglia:	yep
+00:06:29	Barnabé Monnot:	Replying to "is it assumed that i..."
+
+i’ll just make the point here 🙂 in the future with transactions carrying PQ signatures that require aggregation, I think we might want to have more asynchrony between what includers include and the blocks that are produced anyways.
+
+so over time I’d expect we’re less likely to want to block on the payload
+00:06:32	Barnabas:	I mean thats a client bug
+00:06:36	Barnabas:	exactly
+00:06:57	Barnabas:	lmao
+00:07:04	Nico Flaig:	wasn't nimbus shipping the stale config :D
+00:07:10	Justin Traglia:	Reacted to "wasn't nimbus shipping the stale config :D" with 😅
+00:07:14	Dustin:	for one release yes
+00:07:17	Barnabas:	Reacted to "wasn't nimbus shipping the stale config :D" with 😅
+00:07:19	Dustin:	then turns out another client was
+00:07:23	Dustin:	we fixed our
+00:07:26	NC:	Would this impact our decisions on whether to adopt 10s slot? That IL committee takes ~1.5s to create IL after newPayload call?
+00:07:27	Dustin:	they didn't
+00:07:37	Dustin:	we regarded it (properly) as a bug
+00:07:41	Barnabas:	Replying to "they didn't"
+
+report a bug report? I’m sure they fix in their next release
+00:07:45	Barnabas:	Replying to "they didn't"
+
+easy to make a mistake
+00:08:21	NC:	PR sounds reasonable to me
+00:09:32	Dustin:	Replying to "they didn't"
+
+they'd fixed it in trunk long before
+00:09:43	Dustin:	Replying to "they didn't"
+
+they didn't seem to regard it as a priority. they knew/chose not to
+00:10:07	Dustin:	Replying to "they didn't"
+
+anyway it was too late, we had to accomodate so don't care about that one anymore, it's done/gone
+00:10:14	Barnabé Monnot:	my strawman would be
+attestation deadline 3s -> 2s
+slot duration moves to 10s
+keep the same duration between IL deadline and end of slot
+00:10:17	Dustin:	Replying to "they didn't"
+
+want to avoid in future, thus comment here
+00:10:35	Barnabé Monnot:	Replying to "my strawman would be..."
+
+need data 🙂
+00:11:29	Luca | Vero:	Vero has a --ignore-spec-mismatch flag for this
+00:12:01	Nico Flaig:	9 seconds is also fine, just merge it and we can tweak later
+00:12:55	Barnabas:	next devnet then targeting beta 5?
+00:13:07	Justin Traglia:	Replying to "next devnet then tar..."
+
+Yep.
+00:15:42	Barnabas:	@james can we get prysm on devnet 1?
+00:15:44	Barnabas:	how is focil going?
+00:15:48	Luca | Vero:	https://github.com/ethereum/beacon-APIs/pull/627
+00:16:58	Justin Traglia:	For reference, this is the PR: https://github.com/ethereum/beacon-APIs/pull/627
+00:17:58	Jun Song:	Replying to "@james can we get pr..."
+
+Prysm: we’re thinking of participating from devnet 2
+00:18:28	Nico Flaig:	@other clients, ptal

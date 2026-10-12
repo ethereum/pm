@@ -1,0 +1,148 @@
+{
+  "meeting": "ACDT #100 - October 12, 2026",
+  "highlights": {
+    "network_status": [
+      {
+        "timestamp": "00:07:01",
+        "highlight": "Glamsterdam devnet: Nimbus, Erigon, Lighthouse, Grandine, and Besu nodes offline; client teams asked to investigate"
+      },
+      {
+        "timestamp": "00:07:33",
+        "highlight": "Sepolia post-fork: stable, all node operators synced, near 100% participation"
+      },
+      {
+        "timestamp": "00:07:54",
+        "highlight": "JochemNet shadow fork v2 launched post-fork with 64KB contracts for benchmarking; Snap 2 sync issues found in multiple clients on v1"
+      }
+    ],
+    "client_releases": [
+      {
+        "timestamp": "00:09:57",
+        "highlight": "Hoodi client releases due by Friday October 16th; Lodestar already published v1.50.0"
+      }
+    ],
+    "proposer_selection_bug": [
+      {
+        "timestamp": "00:10:25",
+        "highlight": "Spec bug reported: proposer can self-slash to manipulate compute shuffle index and influence future epoch proposer selection"
+      },
+      {
+        "timestamp": "00:13:10",
+        "highlight": "Consensus: exploit is difficult, requires self-slash, and not worth fixing in Glamsterdam; defer to Hegota if at all"
+      }
+    ],
+    "hardware_specs_eip7870": [
+      {
+        "timestamp": "00:17:20",
+        "highlight": "EIP-7870 min specs are wrong for Glamsterdam: current 500 MB/s sequential read/write too low; jochem recommends raising to 2000 MB/s"
+      },
+      {
+        "timestamp": "00:19:09",
+        "highlight": "Consensus: keep EIP-7870 as a living document (not fork-per-EIP); update with fork-specific history sections"
+      },
+      {
+        "timestamp": "00:23:33",
+        "highlight": "Lukasz: random 4K IOPS matter more than sequential MB/s for EVM workloads; worst-case block must be handled by spec hardware"
+      }
+    ],
+    "hegota_devnet_planning_cl": [
+      {
+        "timestamp": "00:29:13",
+        "highlight": "Proposed heze-devnet-2 (CL-only): EIP-7805 (FOCIL), EIP-8015 (remove eth1data), EIP-8365 (disallow 0x00 validators), EIP-8198 (quick slots at 12s)"
+      },
+      {
+        "timestamp": "00:30:18",
+        "highlight": "Quick slots (EIP-8198) kept at 12s for devnet; 10s slot duration deferred pending broader client readiness"
+      },
+      {
+        "timestamp": "00:39:17",
+        "highlight": "Teku, Lodestar, Lighthouse have quick slots implemented; Nimbus unlikely to join if 10s slots required"
+      },
+      {
+        "timestamp": "00:34:25",
+        "highlight": "Devnet naming scheme agreed: focil-devnet-* \u2192 heze-devnet-*, frames-devnet-* \u2192 bogota-devnet-*"
+      }
+    ],
+    "el_breakout_bogota_devnet_1": [
+      {
+        "timestamp": "00:49:28",
+        "highlight": "bogota-devnet-1 EIPs: EIP-8141, EIP-8250, EIP-8272, EIP-7906 (frames, keyed nonces, recent roots, transaction assertions)"
+      },
+      {
+        "timestamp": "00:51:21",
+        "highlight": "Spec clarification: keyed nonces are regular state added to BAL; floor gas pricing over full tx envelope changes call data cost when combined with frames"
+      },
+      {
+        "timestamp": "00:53:58",
+        "highlight": "ethrex and Nethermind already passing tests-frames-devnet@v1.0.0; new tag B1.1.0 to include keyed nonce consensus change"
+      }
+    ],
+    "el_breakout_next_devnet_eips": [
+      {
+        "timestamp": "00:57:55",
+        "highlight": "EIP-8253 (nonce bump) should go in next devnet; behavior only triggers at fork transition, needs early testing on all devnets"
+      },
+      {
+        "timestamp": "01:02:26",
+        "highlight": "Strong community support to include SETCODEFROM, data repricing (EIP-8279), nonce bump, and deactivate self-destruct in bogota-devnet-2"
+      },
+      {
+        "timestamp": "01:00:54",
+        "highlight": "jochem: if deactivate self-destruct ships, EIP-8360 (TCREATE) should be prioritized alongside it to avoid economic disruption"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:09:22",
+      "action": "Notify Alex Stokes when Hoodi releases are ready for blog post",
+      "owner": "All client teams"
+    },
+    {
+      "timestamp": "00:57:40",
+      "action": "Open PR to add EIP-8253 test accounts to devnet genesis template",
+      "owner": "jochem"
+    },
+    {
+      "timestamp": "01:04:42",
+      "action": "Confirm bogota-devnet-2 EIP scope (SETCODEFROM, data repricing, nonce bump, deactivate self-destruct) on next call",
+      "owner": "EL teams / spencer"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:16:50",
+      "decision": "Proposer selection bug deferred to Hegota (or later); no fix in Glamsterdam"
+    },
+    {
+      "timestamp": "00:19:09",
+      "decision": "EIP-7870 remains a living document; update in place with fork-specific history rather than creating per-fork EIPs"
+    },
+    {
+      "timestamp": "00:34:25",
+      "decision": "All focil-devnet-* renamed to heze-devnet-*, all frames-devnet-* renamed to bogota-devnet-*"
+    },
+    {
+      "timestamp": "00:38:01",
+      "decision": "heze-devnet-2 slot duration stays at 12 seconds; quick slots (EIP-8198) included but not yet at 10s"
+    },
+    {
+      "timestamp": "00:54:06",
+      "decision": "bogota-devnet-1 test release to tag B1.1.0 including keyed nonce consensus change; launch targeting Thursday"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:09:57",
+      "target": "October 16th \u2014 Hoodi client releases due; blog post publication"
+    },
+    {
+      "timestamp": "00:30:07",
+      "target": "October 28th latest \u2014 heze-devnet-2 launch (3+ CL clients required)"
+    },
+    {
+      "timestamp": "00:48:26",
+      "target": "Thursday October 15th \u2014 bogota-devnet-1 launch"
+    }
+  ]
+}

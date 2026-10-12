@@ -1,0 +1,457 @@
+00:04:00	jochem-brouwer:	https://github.com/ethereum/pm/issues/2264#issuecomment-6125295010
+00:05:41	jochem-brouwer:	gm gm
+00:05:53	Simone:	gm!
+00:06:36	Justin Traglia:	Agenda: https://github.com/ethereum/pm/issues/2264
+00:09:22	Barnabas:	Replying to "https://github.com/e..."
+
+https://github.com/ethereum/EIPs/pull/12490/changes#diff-6027be04e04207b25b212ff4b36e5ce481dcf6d0b802bcf1fedfa21467fba8ffR60  where is this value coming from?
+00:09:55	Nico Flaig:	https://github.com/ChainSafe/lodestar/releases/tag/v1.50.0
+00:10:05	Barnabas:	Reacted to "https://github.com/ChainSafe/lodestar/releases/tag/v1.50.0" with 🥦
+00:10:27	Iván | ethrex:	Reacted to "https://github.com/C..." with 🥦
+00:10:32	Justin Traglia:	Reacted to "https://github.com/ChainSafe/lodestar/releases/tag/v1.50.0" with 🥦
+00:10:33	Barnabas:	https://github.com/ethereum/consensus-specs/pull/5733
+00:12:04	Justin Florentine:	i thought there was consensus over the shuffle, no?
+00:12:18	Pawan Dhananjay:	Will check it out today. Didn’t really get what you said now
+00:12:18	Barnabas:	Replying to "i thought there was ..."
+
+this would change the proposal lookahead
+00:13:38	Dustin:	can it wait for Hegotá?
+00:13:43	Barnabas:	https://discord.com/channels/595666850260713488/1557224783110742098/1559038075869470722
+00:13:51	Barnabas:	Reference of the start of the discussion btw^
+00:13:57	Barnabas:	also attached it in the 5733 PR
+00:13:58	Enrico Del Fante:	agreed to push it to H
+00:14:12	Enrico Del Fante:	Replying to "agreed to push it to..."
+
+Ye if we want to
+00:14:16	Nico Flaig:	can't you do the same manipulating the randao?
+00:15:17	james:	Yes we need to do it today basically
+00:15:20	Dustin:	yeah Thu is absolutely 100% nonstarter
+00:15:35	Pawan Dhananjay:	I agree we should push it
+00:15:43	Toni Wahrstätter:	is the issue summarized somewhere?
+00:16:33	Justin Traglia:	Replying to "is the issue summari..."
+
+The PR describes it pretty well. https://github.com/ethereum/consensus-specs/pull/5733
+00:17:19	Toni Wahrstätter:	one can self-slash to manipulate randoa. how bad is that attack - not worth doing anything
+00:17:23	jochem-brouwer:	https://eips.ethereum.org/EIPS/eip-7870
+00:18:37	jochem-brouwer:	https://discord.com/channels/595666850260713488/1554561056255377418/1559192506824921101
+00:18:37	Justin Traglia:	Replying to "https://eips.ethereu..."
+
+I think it should be a living document. Not a new EIP for each fork.
+00:18:45	jochem-brouwer:	https://github.com/ethereum/EIPs/pull/12490
+00:19:04	Toni Wahrstätter:	Replying to "is the issue summarized somewhere?"
+
+non-problem, imo. Attack is very unattractrive from attacker perspective
+00:19:17	Dustin:	Reacted to "I think it should ..." with 👍
+00:19:24	Justin Traglia:	Replying to "https://eips.ethereu..."
+
+Also, I support bumping the seq read/write values. Those are just way too low; like old 2.5in SSD speeds.
+00:19:31	Barnabas:	random IOPS are a lot more important than raw throughput
+00:19:31	Toni Wahrstätter:	Reacted to "I think it should be a living document. Not a new EIP for each fork." with 👍
+00:19:47	Barnabas:	so we should be focusing on that IOPS value here not the raw sequential MB/s
+00:19:47	Toni Wahrstätter:	Let's update it and keep it living, yeah
+00:19:52	nixo:	+1
+00:20:43	Dustin:	well define realistic
+00:20:44	Barnabas:	the new EIP proposal uses the same IOPS values
+00:20:54	Dustin:	Nimbus has a bunch of people running on 16GB ARM SBCs
+00:20:57	Dustin:	works great
+00:20:59	Barnabas:	Reacted to "Nimbus has a bunch of people running on 16GB ARM SBCs" with 👍
+00:21:42	nixo:	lol
+00:21:48	Justin Florentine:	TB not GB
+00:22:27	jochem-brouwer:	pr to update eip-7870 https://github.com/ethereum/EIPs/pull/12491
+00:23:25	Maria Silva:	Yeah, that is not part of the discussion
+00:23:47	Toni Wahrstätter:	Reacted to "pr to update eip-7870 https://github.com/ethereum/EIPs/pull/12491" with ❤️
+00:23:57	felipe:	Reacted to "pr to update eip-7..." with ❤️
+00:24:22	Justin Traglia:	Technically, that EIP defines the recommended hardware requirements. Not the minimum.
+00:24:23	Barnabas:	Replying to "pr to update eip-787..."
+
+again the sequential speeds only benefit pretty much blobs evm changes are mainly random 4k write IOPS limited
+00:24:24	jochem-brouwer:	Antwoord verzenden naar "pr to update eip-7..."
+
+i personally think each fork should have their own min specs as eip though, this makes the communication more clear. as now min specs is for fusaka, not glamsterdam, but clients might assume the current spec (so without above pr) is sufficient for glamsterdam, which it absolutely is not
+00:24:52	Barnabas:	Replying to "pr to update eip-787..."
+
+what are the rules of changing an EIP thats already final btw?
+00:25:11	jochem-brouwer:	Antwoord verzenden naar "Technically, that ..."
+
+naive question: is recommended >= minimum? 😅
+00:25:12	felipe:	Reacted to "i personally think..." with 💡
+00:25:21	Dustin:	Replying to "Technically, that ..."
+
+was an obvious bait and switch, or if one prefers, motte and bailey
+00:25:52	Dustin:	Replying to "Technically, that ..."
+
+because now it gets used as justification for increasing requirements because "recommended" gets read as "minimal"
+00:26:17	Justin Traglia:	Replying to "Technically, that EI..."
+
+Yeah that’s fair. They’re very often mixed up.
+00:26:20	Dustin:	Replying to "Technically, that ..."
+
+easier to get agreement on a "recommended" spec but then it won't get used that way
+00:26:42	Justin Traglia:	Replying to "Technically, that EI..."
+
+Even I say minimum half the time.
+00:27:49	jochem-brouwer:	ok, fair point
+00:28:35	Barnabas:	https://www.tomshardware.com/reviews/samsung-970-evo-ssd-review,5573-2.html
+00:28:42	Barnabas:	this was the reference hw that we used for the eip btw
+00:29:00	Barnabas:	Samsung says the new 970 EVO can achieve 15,000 IOPS at QD1.
+00:29:06	Łukasz Rozmej:	unless we are LOWERING hardware requirements, then update EIP after hardfork goes live
+00:29:13	Toni Wahrstätter:	feel free to move it from draft to being ready for review
+00:29:25	jochem-brouwer:	Antwoord verzenden naar "feel free to move ..."
+
+done
+00:29:29	Toni Wahrstätter:	Reacted to "done" with ❤️
+00:29:44	jochem-brouwer:	Antwoord verzenden naar "feel free to move ..."
+
+lemme fix the ci
+00:29:47	Nico Flaig:	why not call it heze-devnet-0?
+00:29:56	cayman:	Reacted to "why not call it heze..." with 👍
+00:29:56	Jun Song:	Prysm: will track here (focil-devnet-2 ), aiming Oct 28 
+
+https://github.com/OffchainLabs/prysm/issues/17673
+00:30:06	Maria Silva:	Can you be explicit on the EIPs?
+00:30:13	Justin Florentine:	Reacted to "Can you be explicit on the EIPs?" with ➕
+00:30:13	Jihoon:	Replying to "why not call it heze..."
+
+https://discord.com/channels/595666850260713488/1557442447074787438/1559129011471261699
+00:30:28	spencer:	Replying to "Can you be explici..."
+
+8015 + 8365 and 8198?
+00:30:35	Barnabas:	Reacted to "8015 + 8365 and 8198?" with 👍
+00:30:38	Mario Vega:	For reference, CFI’d EIPs for the CL: https://forkcast.org/eips/?upgrade=Hegota&stage=Considered&layer=CL
+00:30:41	Jun Song:	Replying to "Can you be explicit ..."
+
+EIP-7805 Fork-choice enforced Inclusion Lists (FOCIL)
+EIP-8015 Remove deposit and eth1data fields
+EIP-8365 Disallow new 0x00 validators
+EIP-8198 Quick Slots
+00:30:45	spencer:	Reacted to "EIP-7805 Fork-choi..." with 🔥
+00:30:47	spencer:	Reacted to "For reference, CFI..." with 🔥
+00:31:12	cayman:	Reacted to "EIP-7805 Fork-choice..." with 🔥
+00:31:15	spencer:	i like the progression focil/frames
+-> heze/bogota
+-> hegota
+00:31:23	Justin Florentine:	focil is cross layer, why not hegota instead of heze? frames is already at devnet 1
+00:31:26	felipe:	Reacted to "EIP-7805 Fork-choi..." with 🔥
+00:31:27	Enrico Del Fante:	7805 + 8015 + 8365. quickslot if wanted
+00:31:33	Barnabas:	heze-devnet-2
+00:31:34	Jihoon:	8198 needs some EL support: https://github.com/ethereum/execution-specs/pull/3703
+00:31:36	Maria Silva:	Replying to "Can you be explicit ..."
+
+Which slot time? Keep it at 12s?
+00:31:46	pk910:	heze devnets would be the merged ones,   so with frame txs?
+00:31:46	felipe:	Reacted to "Which slot time? K..." with ➕
+00:31:48	Justin Traglia:	Reacted to "8015 + 8365 and 8198?" with 👍
+00:31:49	Mario Vega:	Reacted to "Which slot time? Keep it at 12s?" with ➕
+00:31:53	spencer:	Replying to "heze-devnet-2"
+
+0 or 2?
+00:31:56	Barnabas:	that would be hegota
+00:32:54	Pawan Dhananjay:	Lighthouse can have it by 28th
+00:34:16	jochem-brouwer:	Antwoord verzenden naar "pr to update eip-7..."
+
+this EIP is living, final eips cannot be changed
+00:34:17	Matthew Keil:	Just a name
+00:34:22	Matthew Keil:	Heze is fine
+00:34:25	Barnabas:	focil-devnet-0 -> heze-devnet-0
+focil-devnet-1 -> heze-devnet-1
+focil-devnet-2 -> heze-devnet-2
+
+frames-devnet-0 -> bogota-devnet-0
+frames-devnet-1 -> bogota-devnet-1
+00:34:25	Matthew Keil:	Whatever is easiest
+00:34:44	Iván | ethrex:	Reacted to "focil-devnet-0 -> he..." with 👍
+00:34:47	Mario Vega:	Reacted to "focil-devnet-0 -> heze-devnet-0
+focil-devnet-1 -> heze-devnet-1
+focil-devnet-2 -> heze-devnet-2
+
+frames-devnet-0 -> bogota-devnet-0
+frames-devnet-1 -> bogota-devnet-1" with 👍
+00:34:50	Jun Song:	Reacted to "focil-devnet-0 -> heze-devnet-0
+focil-devnet-1 -> heze-devnet-1
+focil-devnet-2 -> heze-devnet-2
+
+frames-devnet-0 -> bogota-devnet-0
+frames-devnet-1 -> bogota-devnet-1" with 👍
+00:34:56	Justin Florentine:	thats my thinking, fewer future changes
+00:34:58	Justin Traglia:	Reacted to "focil-devnet-0 -> heze-devnet-0
+focil-devnet-1 -> heze-devnet-1
+focil-devnet-2 -> heze-devnet-2
+
+frames-devnet-0 -> bogota-devnet-0
+frames-devnet-1 -> bogota-devnet-1" with 👍
+00:35:05	Guru:	Reacted to "focil-devnet-0 -> he..." with 👍
+00:35:12	Stefan Starflinger:	Reacted to "focil-devnet-0 -> heze-devnet-0
+focil-devnet-1 -> heze-devnet-1
+focil-devnet-2 -> heze-devnet-2
+
+frames-devnet-0 -> bogota-devnet-0
+frames-devnet-1 -> bogota-devnet-1" with 👍
+00:35:16	felipe:	Reacted to "focil-devnet-0 -> ..." with 👍
+00:35:17	spencer:	Reacted to "focil-devnet-0 -> ..." with 👍
+00:35:20	spencer:	Reacted to "focil-devnet-0 -> ..." with 🏎️
+00:35:31	Nico Flaig:	Reacted to "focil-devnet-0 -> he..." with 👍
+00:35:33	Toni Wahrstätter:	Reacted to "focil-devnet-0 -> heze-devnet-0
+focil-devnet-1 -> heze-devnet-1
+focil-devnet-2 -> heze-devnet-2
+
+frames-devnet-0 -> bogota-devnet-0
+frames-devnet-1 -> bogota-devnet-1" with 🤘
+00:35:41	Iván | ethrex:	Reacted to "focil-devnet-0 -> he..." with 🤘
+00:35:42	felipe:	Reacted to "focil-devnet-0 -> ..." with 🤘
+00:35:42	Iván | ethrex:	Reacted to "focil-devnet-0 -> he..." with 🏎️
+00:35:46	jochem-brouwer:	Antwoord verzenden naar "pr to update eip-7..."
+
+see 
+https://eips.ethereum.org/EIPS/eip-1#eip-process
+ 
+https://eips.ethereum.org/assets/eip-1/EIP-process-update.jpg
+00:36:06	Matthew Keil:	Just should keep slots to 12 sec
+00:36:09	Dustin:	Nimbus might not join, hard to say, but it's fine
+00:36:12	Justin Florentine:	oct 28?
+00:36:33	Barnabas:	Replying to "oct 28?"
+
+I’d prefer oct 21 with 12s slot
+00:36:42	Barnabas:	Replying to "oct 28?"
+
+or oct 28 with 10s
+00:37:17	Nico Flaig:	lodestar has quick slots on trunk branch
+00:37:32	Toni Wahrstätter:	where would the deadlines move (attestation, payload observation, ptc) if 10s?
+00:38:00	Barnabas:	Replying to "where would the dead..."
+
+tbd?
+00:38:01	Toni Wahrstätter:	i guess clients aren't just implementing "naive" linear adjustments?
+00:38:27	NC:	Replying to "i guess clients aren..."
+
+they are “naive” I believe
+00:38:35	Iván | ethrex:	We added support for quick slots in focil-devnet-2. Now that the spec tests are merged I’ll see we are passing them
+00:38:41	Toni Wahrstätter:	Replying to "i guess clients aren't just implementing "naive" linear adjustments?"
+
+or actually, maybe just doing linear adjustments might be the right thing to do
+00:39:22	Jihoon:	Reacted to "We added support for quick slots in focil-devnet-2. Now that the spec tests are merged I’ll see we are passing them" with 👍
+00:39:22	Toni Wahrstätter:	Replying to "i guess clients aren't just implementing "naive" linear adjustments?"
+
+might be less naive but elegantly simple and effective? Not sure. Attestations deadline doesn't care much about slot time and might need to stay constant
+00:39:32	Justin Traglia:	Reacted to "they are “naive” I believe" with 👍
+00:39:33	jochem-brouwer:	eip-8199? which eip is this?
+00:39:47	Toni Wahrstätter:	Replying to "We added support for quick slots in focil-devnet-2. Now that the spec tests are merged I’ll see we are passing them"
+
+which deadlines did move?
+00:39:47	Justin Traglia:	Replying to "eip-8199? which eip ..."
+
+eip8198
+00:39:50	jochem-brouwer:	Heeft gereageerd op "eip8198" met 👍
+00:39:54	Justin Traglia:	Replying to "eip-8199? which eip ..."
+
+Quick slots.
+00:40:01	Justin Traglia:	Replying to "eip-8199? which eip ..."
+
+That’s what I meant to say, if I didn’t 🙂
+00:40:11	Barnabas:	consensooooooooor
+00:40:19	Toni Wahrstätter:	Replying to "We added support for quick slots in focil-devnet-2. Now that the spec tests are merged I’ll see we are passing them"
+
+e.g. attestation deadline kept at 3s and payload + ptc moved linearly?
+00:40:20	jochem-brouwer:	Heeft gereageerd op "That’s what I mea..." met 😄
+00:40:23	jochem-brouwer:	Heeft gereageerd op "Quick slots." met 👍
+00:40:24	CPerezz:	Reacted to "consensooooooooor" with 😂
+00:40:30	Barnabé Monnot:	Replying to "i guess clients aren..."
+
+I would imagine that it is optimal to not do linear adjustments, indeed there are moments in the slot that have fixed overhead rather than variable cost based on e.g., the block size (attestation deadline is one such moment)
+00:41:06	Barnabas:	keep up old man @spencer 😂
+00:41:06	Jihoon:	Replying to "We added support for..."
+
+Currently all BPS are not changed but it's all tentative. I'd leave more detailed answers to Barnabe though.
+00:41:19	Toni Wahrstätter:	Replying to "i guess clients aren't just implementing "naive" linear adjustments?"
+
+yeah but I think it's only the attestation deadline adn payload + blob deadline might be fine adjusting linearly?
+00:41:35	Justin Traglia:	Reacted to "Currently all BPS are not changed but it's all tentative. I'd leave more detailed answers to Barnabe though." with 👍
+00:41:46	Mario Vega:	https://github.com/ethereum/execution-specs/releases/tag/tests-frames-devnet%40v1.0.0
+00:41:54	Guru:	Reacted to "https://github.com/e..." with 👍
+00:42:02	spencer:	Reacted to "keep up old man @s..." with 🧓
+00:42:35	Barnabas:	Replying to "https://github.com/e..."
+
+do we wanna rename the tests too to ` tests-bogota-devnet  ?
+00:42:40	Mario Vega:	Reacted to "do we wanna rename the tests too to ` tests-bogota-devnet  ?" with 👍🏼
+00:42:46	Jihoon:	Replying to "i guess clients aren..."
+
+We can also take Glamsterdam mainnet data into account once we have them to decide this. No need to rush at all IMO.
+00:42:52	Guru:	Reacted to "do we wanna rename t..." with 👍🏼
+00:43:18	jochem-brouwer:	from my side eip-8253 should go in next devnet
+00:43:27	james:	It’s going to be tough regardless there’s lots of overlap with the priority work
+00:44:28	Barnabé Monnot:	Reacted to "We can also take Glamsterdam mainnet data into account once we have them to decide this. No need to rush at all IMO." with 👍
+00:44:29	Justin Florentine:	yeah, agreed with Dustin, planning is overhead
+00:44:42	Toni Wahrstätter:	Replying to "i guess clients aren't just implementing "naive" linear adjustments?"
+
+yeah, and observation deadlines are easy to change.
+
+Everything that doesn't scale the payload linearly might affect execution times though
+00:44:44	Justin Traglia:	Reacted to "We can also take Glamsterdam mainnet data into account once we have them to decide this. No need to rush at all IMO." with 👍
+00:44:59	Jihoon:	Reacted to "yeah, and observation deadlines are easy to change.
+
+Everything that doesn't scale the payload linearly might affect execution times though" with 👍
+00:45:13	Justin Traglia:	Reacted to "yeah, and observation deadlines are easy to change.
+
+Everything that doesn't scale the payload linearly might affect execution times though" with 👍
+00:45:30	Jihoon:	Replying to "i guess clients aren..."
+
+New .pics?
+00:45:59	Toni Wahrstätter:	Replying to "i guess clients aren't just implementing "naive" linear adjustments?"
+
+linearDeadlineChanges.pics
+00:46:09	Jihoon:	Reacted to "linearDeadlineChanges.pics" with 😂
+00:46:14	NC:	moving faster and less burnout are opposite things?
+00:47:02	Toni Wahrstätter:	agree with justin. full focus on headliners at this stage
+00:47:08	CPerezz:	I guess no SETCODEFROM anytime soon… 🙁
+00:47:17	spencer:	Replying to "moving faster and ..."
+
+they dont have to be :)
+00:47:23	spencer:	Reacted to "agree with justin...." with 👍
+00:47:31	Barnabé Monnot:	Replying to "i guess clients aren..."
+
+if we get the attestation deadline from 3 to 2 seconds, and scale down the execution time by a second (10 -> 9 seconds), we get to 10 seconds slot duration, and I believe we scale down execution time by less than the actual slot reduction, proportionally
+00:47:38	Justin Traglia:	https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1
+00:47:39	Łukasz Rozmej:	we should be focusing on whole CFI fork scope soon
+00:47:45	Łukasz Rozmej:	(be faster)
+00:47:48	Iván | ethrex:	Reacted to "we should be focusin..." with 👍
+00:47:53	CPerezz:	Reacted to "we should be focusin..." with 👍
+00:48:21	spencer:	https://github.com/ethereum/EIPs/pull/12457
+00:48:22	Toni Wahrstätter:	Replying to "i guess clients aren't just implementing "naive" linear adjustments?"
+
+but why would the attestation deadline change without any protocol changes? just bc we might have room anyway (which we find out with glam)?
+00:49:10	Toni Wahrstätter:	how far are clients with frames?
+00:49:11	Iván | ethrex:	Yes and yes 😄
+00:49:23	CPerezz:	Reacted to "how far are clients ..." with 👀
+00:49:29	Toni Wahrstätter:	and follow up, with frames + the cfi'd extensions
+00:49:49	Łukasz Rozmej:	frames + friends - devnet ready in Neth
+00:49:56	Mario Vega:	Reacted to "frames + friends - devnet ready in Neth" with ❤️
+00:50:00	spencer:	8141 + 8250 + 8272 + 7906
+00:50:01	Iván | ethrex:	I see ethrex, nethermind, Geth, and Geth in frames-devnet-0
+00:50:01	felipe:	Reacted to "frames + friends -..." with ❤️
+00:50:07	Toni Wahrstätter:	do we have specs + tests in eels for that already? how complete is that?
+00:50:29	Guru:	Replying to "do we have specs + t..."
+
+Yes. We do
+00:50:29	Mario Vega:	Replying to "do we have specs + t..."
+
+https://github.com/ethereum/execution-specs/releases/tag/tests-frames-devnet%40v1.0.0
+00:50:32	Marc:	yeah we’re fine with including the change
+00:50:40	Toni Wahrstätter:	Replying to "do we have specs + tests in eels for that already? how complete is that?"
+
+awesome!
+00:50:49	Toni Wahrstätter:	Replying to "do we have specs + tests in eels for that already? how complete is that?"
+
+moving super fast
+00:51:06	felipe:	Reacted to "moving super fast" with 🔥
+00:51:14	Mario Vega:	Reacted to "moving super fast" with 🔥
+00:51:16	Guru:	Reacted to "yeah we’re fine with..." with 👍
+00:51:47	spencer:	https://github.com/ethereum/EIPs/pull/12457
+00:52:10	Łukasz Rozmej:	Reacted to "yeah we’re fine with including the change" with 👍
+00:52:26	Łukasz Rozmej:	Replying to "do we have specs + tests in eels for that already? how complete is that?"
+
+let's go even faster
+00:52:36	Justin Florentine:	so same as the verifier install
+00:52:42	Łukasz Rozmej:	Replying to "do we have specs + tests in eels for that already? how complete is that?"
+
+ludicrous speed
+00:53:58	Iván | ethrex:	I made a couple PRs adding tests
+00:54:10	spencer:	Reacted to "I made a couple PR..." with 🔥
+00:54:13	Iván | ethrex:	https://github.com/ethereum/execution-specs/pull/3756 for 12457
+00:54:15	Guru:	Reacted to "I made a couple PRs ..." with 🔥
+00:54:17	spencer:	Replying to "I made a couple PR..."
+
+Thx for this!
+00:54:21	Iván | ethrex:	https://github.com/ethereum/execution-specs/pull/3757  for 12458
+00:54:22	felipe:	Reacted to "I made a couple PR..." with 🔥
+00:54:24	spencer:	Reacted to "https://github.com..." with 🔥
+00:54:26	Iván | ethrex:	Reacted to "Thx for this!" with 🙏
+00:54:37	Iván | ethrex:	Already renamed!
+00:54:44	Toni Wahrstätter:	too early to discuss next devnet eips already?
+00:54:56	Łukasz Rozmej:	Replying to "too early to discuss next devnet eips already?"
+
+no
+00:54:58	spencer:	Replying to "too early to discu..."
+
+never too late! iom
+00:55:02	Justin Florentine:	Replying to "too early to discuss..."
+
+setcodefrom?
+00:55:04	spencer:	Replying to "too early to discu..."
+
+*imo
+00:55:07	Iván | ethrex:	Reacted to "setcodefrom?" with 🔥
+00:55:12	Maria Silva:	Reacted to "setcodefrom?" with 🔥
+00:55:25	Marc:	Reacted to "setcodefrom?" with 🔥
+00:55:37	CPerezz:	If we have multiple clients implementing some CFI’d EIP + tests in EEST, when will we start considering adding them? Which devnet-height is the one that opens the door to this?
+00:55:40	Mario Vega:	https://github.com/ethereum/execution-specs/issues/3664
+00:55:46	Justin Florentine:	Replying to "too early to discuss..."
+
+what else is cfi'd that is frames adjacent?
+00:56:06	CPerezz:	Replying to "If we have multiple ..."
+
+Referring to: https://github.com/ethereum/execution-specs/pull/3769
+00:56:43	Marc:	happy to include any of the CFI’d EIPs
+00:57:27	Mario Vega:	Reacted to "setcodefrom?" with 🔥
+00:57:32	Marc:	maybe SETCODEFROM and 8151 would be cool to go along with frames
+00:57:46	Toni Wahrstätter:	It wasn't a bad idea to include 8037 early last time - gave time to understand it better and debug.
+The same might apply to the data repricing, esp 8279 which is the more involved one of the two.
+00:57:50	Iván | ethrex:	Reacted to "maybe SETCODEFROM an..." with ☝️
+00:57:57	jochem-brouwer:	https://eips.ethereum.org/EIPS/eip-8253
+00:58:11	CPerezz:	Reacted to "maybe SETCODEFROM an..." with ☝️
+00:58:12	Marc:	Reacted to "It wasn't a bad idea to include 8037 early last time - gave time to understand it better and debug.
+The same might apply to the data repricing, esp 8279 which is the more involved one of the two." with ➕
+00:58:14	CPerezz:	Reacted to "maybe SETCODEFROM an..." with ❤️
+00:58:22	CPerezz:	Reacted to "It wasn't a bad idea..." with ➕
+00:58:24	CPerezz:	Reacted to "It wasn't a bad idea..." with 👍
+00:58:50	jochem-brouwer:	https://github.com/ethereum/EIPs/pull/12456
+00:58:55	spencer:	Replying to "It wasn't a bad id..."
+
+100%, for me I think adding the more complex EIPs first or hardest to test is the best move
+00:59:08	Pooja Ranjan:	Reacted to "https://eips.ethereum.org/EIPS/eip-8253" with 👍
+00:59:13	Toni Wahrstätter:	Replying to "It wasn't a bad idea to include 8037 early last time - gave time to understand it better and debug.
+The same might apply to the data repricing, esp 8279 which is the more involved one of the two."
+
+yeah, then 8279 would be a candidate
+00:59:34	Stefan Starflinger:	Reacted to "It wasn't a bad idea to include 8037 early last time - gave time to understand it better and debug.
+The same might apply to the data repricing, esp 8279 which is the more involved one of the two." with 👍
+01:01:08	spencer:	should we be focusing on the interactions with focil first?
+
+so this is discussing what we add after we merge the EL and CL devnets?
+01:01:20	spencer:	Reacted to "setcodefrom?" with 🔥
+01:01:48	jochem-brouwer:	Antwoord verzenden naar "https://github.com..."
+
+I will merge this one btw. No spec changes
+01:02:26	Toni Wahrstätter:	my feeling is do setcodefrom + data repricing
+01:02:33	CPerezz:	Reacted to "my feeling is do set..." with ❤️
+01:02:37	CPerezz:	Reacted to "my feeling is do set..." with 👍
+01:02:45	CPerezz:	Replying to "my feeling is do set..."
+
+SHIP IT
+01:02:49	Iván | ethrex:	Reacted to "SHIP IT" with 🚢
+01:02:52	Mario Vega:	Reacted to "my feeling is do setcodefrom + data repricing" with ❤️
+01:02:53	Toni Wahrstätter:	Reacted to "SHIP IT" with 🚢
+01:02:54	Mario Vega:	Reacted to "my feeling is do setcodefrom + data repricing" with 👍
+01:03:06	Marc:	Reacted to "my feeling is do setcodefrom + data repricing" with ❤️
+01:03:59	spencer:	Reacted to "my feeling is do s..." with 👍
+01:04:00	spencer:	Reacted to "SHIP IT" with 🚢
+01:04:42	spencer:	can confirm this next week?
+01:04:53	Łukasz Rozmej:	Reacted to "SHIP IT" with 🚢
+01:04:55	Łukasz Rozmej:	Reacted to "my feeling is do setcodefrom + data repricing" with 👍
+01:05:18	Toni Wahrstätter:	* set code from
+* data repricing
+* bump nonce
+* deactivate selfdestruct
+01:05:32	spencer:	Reacted to "* set code from
+* ..." with 🔥
+01:05:35	Łukasz Rozmej:	Reacted to "* set code from
+* data repricing
+* bump nonce
+* deactivate selfdestruct" with 👍
+01:05:36	Łukasz Rozmej:	Reacted to "* set code from
+* data repricing
+* bump nonce
+* deactivate selfdestruct" with 🔥
+01:05:45	Iván | ethrex:	Replying to "* set code from
+* da..."
+
+8151 no?
+01:05:48	Łukasz Rozmej:	Reacted to "maybe SETCODEFROM and 8151 would be cool to go along with frames" with ☝️
+01:05:49	Łukasz Rozmej:	Reacted to "maybe SETCODEFROM and 8151 would be cool to go along with frames" with ❤️

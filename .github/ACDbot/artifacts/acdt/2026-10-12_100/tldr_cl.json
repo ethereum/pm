@@ -1,0 +1,77 @@
+{
+  "meeting": "ACDT #100 (CL Breakout) - October 12, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:00:27",
+        "highlight": "Beta 4 released; Hoodi releases must comply \u2014 contains a breaking change for an edge case"
+      },
+      {
+        "timestamp": "00:01:02",
+        "highlight": "Lodestar passing Beta 4; spec tests will catch non-compliant clients automatically"
+      }
+    ],
+    "focil_spec_updates": [
+      {
+        "timestamp": "00:01:31",
+        "highlight": "Proposal to raise IL deadline from 8s to 9s into slot; motivated by worst-case payload processing time (~1.4\u20134.8s for 200M gas blocks)"
+      },
+      {
+        "timestamp": "00:07:44",
+        "highlight": "If slot duration reduces to 10s, IL deadline would sit at 7.5s (75%) \u2014 tentative, to be revisited with real data"
+      },
+      {
+        "timestamp": "00:10:40",
+        "highlight": "Clients should only validate fork-specific configs when that fork is actually scheduled, to prevent mainnet interop issues"
+      }
+    ],
+    "quick_slots_eip8198": [
+      {
+        "timestamp": "00:12:14",
+        "highlight": "Quick slots PR (EIP-8198) to be merged after call; Beta 5 release targeting Thursday"
+      },
+      {
+        "timestamp": "00:13:09",
+        "highlight": "Current spec tests do not exercise the slot duration change; clients could pass Beta 5 tests without implementing STF changes \u2014 tests need to be added before release"
+      }
+    ],
+    "beacon_api_gloas": [
+      {
+        "timestamp": "00:15:30",
+        "highlight": "New Beacon API endpoint (beacon-APIs PR #627) lets validator clients supply their own bids, addressing multi-node setup monitoring complexity introduced by Gloas bid selection moving into the CL"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:13:41",
+      "action": "Add spec tests covering quick slots STF changes before Beta 5 release",
+      "owner": "Jihoon"
+    },
+    {
+      "timestamp": "00:18:29",
+      "action": "Review Beacon API PR #627 (validator-supplied bids); thread in CL APIs Discord channel",
+      "owner": "CL teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:12:07",
+      "decision": "IL deadline raised from 8s to 9s (or 75% of slot duration); merge approved with no opposition"
+    },
+    {
+      "timestamp": "00:12:14",
+      "decision": "Quick slots PR (EIP-8198) to be merged; Beta 5 spec release targeting Thursday"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:14:49",
+      "target": "Thursday \u2014 Beta 5 release with quick slots tests included"
+    },
+    {
+      "timestamp": "00:13:05",
+      "target": "Devnet 1 targets Beta 5; quick slots STF changes not required until following devnet"
+    }
+  ]
+}

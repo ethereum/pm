@@ -1,0 +1,786 @@
+WEBVTT
+
+1
+00:00:09.100 --> 00:00:09.960
+Enrico Del Fante: Okay.
+
+2
+00:00:11.320 --> 00:00:12.920
+Justin Traglia: What is that Enrico?
+
+3
+00:00:12.920 --> 00:00:13.490
+Enrico Del Fante: Hey.
+
+4
+00:00:13.880 --> 00:00:20.280
+Enrico Del Fante: I was talking to my daughter, sorry. She started unmuted.
+
+5
+00:00:20.280 --> 00:00:20.950
+Justin Traglia: I'm sorry.
+
+6
+00:00:21.650 --> 00:00:22.940
+Justin Traglia: All good.
+
+7
+00:00:23.180 --> 00:00:27.289
+Justin Traglia: Yeah, I realized that we're running a bit short on time, so I wanted to do this quickly.
+
+8
+00:00:28.610 --> 00:00:40.420
+Justin Traglia: Okay, to get started, there's, I guess there's 15 of us in here. I wanted to remind everyone that we published the Beta 4 release, and that you should ensure
+
+9
+00:00:40.630 --> 00:00:45.950
+Justin Traglia: your Hoodi Hoodi releases are compliant with that version because there is a breaking change.
+
+10
+00:00:46.460 --> 00:00:47.870
+Justin Traglia: for an edge case.
+
+11
+00:00:49.870 --> 00:00:54.539
+Justin Traglia: Nico, could you double… or sorry, could you confirm really quick?
+
+12
+00:00:54.820 --> 00:00:58.339
+Justin Traglia: That PRA is included in your LoadStar release, correct?
+
+13
+00:00:59.210 --> 00:01:02.760
+Nico Flaig: Yeah, yeah, we have all in. So we are passing beta 4.
+
+14
+00:01:03.820 --> 00:01:05.120
+Justin Traglia: Okay, awesome.
+
+15
+00:01:06.390 --> 00:01:16.330
+Nico Flaig: Also, there's a spec test. So if you don't pass it or if you forget to implement it, as long as you pin beta 4, you should fail spec test.
+
+16
+00:01:18.170 --> 00:01:19.080
+Justin Traglia: Yep, indeed.
+
+17
+00:01:21.660 --> 00:01:31.520
+Justin Traglia: Okay, jumping into the next discussion item, Jihoon would like to discuss raising the inclusion list deadline from 8 seconds to 9 seconds.
+
+18
+00:01:32.130 --> 00:01:34.019
+Justin Traglia: Can you talk about this one? Some Jihoon.
+
+19
+00:01:35.180 --> 00:01:41.220
+Jihoon: Yeah, thank you, Justin. So, it's a proposal to set the IL deadline to 9 seconds into the SLOT.
+
+20
+00:01:41.400 --> 00:01:51.169
+Jihoon: We're not talking about Tesla here, so Tesla duration is 12 seconds. The main motivation is to give more time to build and broadcast IELTS.
+
+21
+00:01:52.070 --> 00:02:00.790
+Jihoon: So I look into some data, and Benchmark Core says, the worst case time it takes to process a payload with 200 mil.
+
+22
+00:02:00.910 --> 00:02:04.240
+Jihoon: Was an average of 1.4 seconds.
+
+23
+00:02:04.700 --> 00:02:10.550
+Jihoon: A median of 1.5 seconds, and a maximum of 4.8 seconds, so…
+
+24
+00:02:11.120 --> 00:02:20.079
+Jihoon: When a node receives a payload at 6 seconds, in the worst case, it could be tied to produce a fresh IL.
+
+25
+00:02:20.700 --> 00:02:28.029
+Jihoon: So… but it is still a tentative deadline, but I believe it's better to put it at 9 instead of 8.
+
+26
+00:02:28.580 --> 00:02:29.660
+Jihoon: And…
+
+27
+00:02:30.320 --> 00:02:34.439
+Jihoon: I think this is the right way to do it at the moment, but of course, we can settle in.
+
+28
+00:02:34.780 --> 00:02:40.810
+Jihoon: Once we have main data later, and if we have quick slots, SFI.
+
+29
+00:02:41.050 --> 00:02:47.479
+Jihoon: Then, we can also… I take the factor into account, and then… yeah.
+
+30
+00:02:48.210 --> 00:02:53.539
+Jihoon: find a better number later. But for now, I'll suggest to put it at 9. And…
+
+31
+00:02:53.830 --> 00:02:55.919
+Jihoon: I'd like to get some feedback on this.
+
+32
+00:03:00.230 --> 00:03:02.929
+Jihoon: It is not a must, but…
+
+33
+00:03:04.940 --> 00:03:13.550
+Jihoon: The point is, we want to have IL be more effective. Effective could be defined as it is.
+
+34
+00:03:13.720 --> 00:03:21.250
+Jihoon: We expect IL to have transactions that were not included in payloads before.
+
+35
+00:03:21.440 --> 00:03:27.000
+Jihoon: And… Some ELs might not execute payload.
+
+36
+00:03:27.160 --> 00:03:38.159
+Jihoon: when they produce IL, they might just exclude transactions in a payload, optimistically believing that they will be correct and produce better IL, but yeah.
+
+37
+00:03:38.600 --> 00:03:42.800
+Jihoon: Executing payload before producing ILs could give you a…
+
+38
+00:03:42.960 --> 00:03:47.799
+Jihoon: you know, a good guarantee that your IL will have a fresher status.
+
+39
+00:03:48.400 --> 00:03:49.710
+Jihoon: Nico and Bernabe.
+
+40
+00:03:52.020 --> 00:03:59.289
+Nico Flaig: So my main concern with this is that you give less time to the proposer, right, to prepare the payload.
+
+41
+00:04:00.230 --> 00:04:08.130
+Nico Flaig: So do we already know how, well ELs work by, adjusting their payload, quickly?
+
+42
+00:04:08.850 --> 00:04:19.899
+Jihoon: Yeah, I also look into that data from Sepolia Shadow Fork 1, although this is a bit heuristic, so it is not
+
+43
+00:04:20.110 --> 00:04:23.900
+Jihoon: Affirmative as much as what BenchmarkCore says, but
+
+44
+00:04:24.230 --> 00:04:31.459
+Jihoon: If you look into the PR, I also… let me also share the link to the gist that I summarized the data set.
+
+45
+00:04:32.780 --> 00:04:36.820
+Jihoon: So, the time to produce Payload.
+
+46
+00:04:37.390 --> 00:04:38.500
+Jihoon: was…
+
+47
+00:04:40.050 --> 00:04:57.870
+Jihoon: like, sub-second, basically. Of course, it depends on what kind of appliance you use, so on and so forth, but my understanding is… my reasoning is that it takes less time, much less time, to produce payload than processing a payload. Of course, in the worst case.
+
+48
+00:05:02.850 --> 00:05:06.030
+NC: Looks like it's only up to 150 million gas.
+
+49
+00:05:06.350 --> 00:05:11.479
+NC: And… it looks like it's also not measuring the publication timeline.
+
+50
+00:05:12.360 --> 00:05:13.850
+NC: into these numbers.
+
+51
+00:05:17.720 --> 00:05:20.189
+Jihoon: I couldn't get a data.
+
+52
+00:05:21.290 --> 00:05:25.210
+Jihoon: of 200 mil block building.
+
+53
+00:05:25.710 --> 00:05:26.879
+Jihoon: So, of course.
+
+54
+00:05:27.320 --> 00:05:33.589
+Jihoon: So again, this is not a final deadline, it's a tentative deadline.
+
+55
+00:05:34.310 --> 00:05:35.450
+Jihoon: But yeah.
+
+56
+00:05:45.570 --> 00:05:59.059
+Dustin: a meta point around this, I mean, as far as changing these parameters, and this is not for or against 8 or 9 seconds, or anything in particular, but let's say derived from a certain… experience.
+
+57
+00:05:59.080 --> 00:06:07.469
+Dustin: in Amsterdam with a similar thing where one of the, was a payload to VPS, I believe, was changed from 7 ,500 to 5 ,000.
+
+58
+00:06:07.730 --> 00:06:15.439
+Dustin: There was a certain, certain client which kept shipping an old version of this,
+
+59
+00:06:16.880 --> 00:06:22.890
+Dustin: of this constant in their shipping releases. Nimbus VC compares them, the, like.
+
+60
+00:06:23.030 --> 00:06:40.009
+Dustin: all these constants, which it should, that's not the problem, per se, and I would count as essentially a bug in this other client that they kept shipping an old version of this constant, and this is always the risk of changing. I mean, look, if you want to change the number, change them as soon as possible, sure, but I just want to say that
+
+61
+00:06:40.180 --> 00:06:53.619
+Dustin: my… the angle I'll have here is, can we please, this time, get people to actually, in their shipping branches, I do not care what's in their truck branches, in their shipping branches, ship the current numbers. Thanks.
+
+62
+00:06:55.020 --> 00:07:00.509
+Jihoon: Yeah, thank you. But… Yeah, we should make sure that we have…
+
+63
+00:07:01.310 --> 00:07:05.710
+Jihoon: I mean, we should make sure clients have the right parameter set.
+
+64
+00:07:06.970 --> 00:07:07.930
+Jihoon: And.
+
+65
+00:07:11.420 --> 00:07:12.630
+Jihoon: Yeah, so.
+
+66
+00:07:16.860 --> 00:07:24.519
+Jihoon: Can I get some buy-in to merge this PR? Or if anyone's rejected, opposed to this PR, that's also fine.
+
+67
+00:07:24.720 --> 00:07:30.990
+Jihoon: I think we… Just need to make a decision on what to do with this proposal.
+
+68
+00:07:37.320 --> 00:07:40.710
+Jihoon: Regarding SLOT rep… Yeah, go ahead.
+
+69
+00:07:41.100 --> 00:07:43.469
+Justin Traglia: No, it's fine, Nico. I think you're gonna answer the same thing.
+
+70
+00:07:44.480 --> 00:07:48.800
+Jihoon: Yeah, regarding SLOT reduction to 10 seconds.
+
+71
+00:07:49.020 --> 00:07:52.649
+Jihoon: Currently, we just use all the same BPS, so…
+
+72
+00:07:52.910 --> 00:07:59.870
+Jihoon: It will be set at the same time of 75% of 10 seconds, which is 7.5 seconds into the slot.
+
+73
+00:08:00.290 --> 00:08:06.410
+Jihoon: And this is also just tentative, you know, just like all the other sub-slot deadlines.
+
+74
+00:08:19.680 --> 00:08:24.969
+Justin Traglia: I'm fine with raising it to 9 seconds, or 75% of the slot duration, Jihoon.
+
+75
+00:08:25.830 --> 00:08:26.400
+Jihoon: Okay.
+
+76
+00:08:26.400 --> 00:08:28.579
+Justin Traglia: Is it… is there anyone that's against this?
+
+77
+00:08:31.890 --> 00:08:38.299
+Nico Flaig: I mean, I'm having a hard time to reason about this right now. Seems both fine to me.
+
+78
+00:08:38.429 --> 00:08:43.300
+Nico Flaig: And we can maybe tweak it later if Jun thinks 9 is better, or slightly better.
+
+79
+00:08:43.630 --> 00:08:50.740
+Nico Flaig: I also think 8 is fine. We will see, like, how we build local payloads, whether 9 is an issue.
+
+80
+00:08:52.850 --> 00:09:01.239
+Barnabas: One thing I also is if we do 10 seconds and then that's gonna be 7.5 seconds. So like do we.
+
+81
+00:09:01.390 --> 00:09:04.690
+Barnabas: Want to adjust this once, or do we want to keep adjusting it?
+
+82
+00:09:05.270 --> 00:09:07.140
+Barnabas: As you keep merging in.
+
+83
+00:09:07.250 --> 00:09:09.530
+Barnabas: Different ideas, like…
+
+84
+00:09:10.200 --> 00:09:18.429
+Jihoon: In my mind, we can… Once we start testing SLOT reduction.
+
+85
+00:09:18.990 --> 00:09:23.189
+Jihoon: We were gonna see where we want to put deadlines.
+
+86
+00:09:23.300 --> 00:09:25.679
+Jihoon: In 10 seconds of SLOT duration.
+
+87
+00:09:25.820 --> 00:09:30.099
+Jihoon: And then, we can also decide where to put IL deadline.
+
+88
+00:09:30.350 --> 00:09:36.209
+Jihoon: So, I don't think we're gonna be, like, changing deadlines here and there.
+
+89
+00:09:37.530 --> 00:09:46.149
+Jihoon: So, after we move to 10 seconds SLOT duration, this would stay at 7.5 seconds.
+
+90
+00:09:46.450 --> 00:09:50.659
+Jihoon: But once we figure out what numbers we want to go with.
+
+91
+00:09:51.240 --> 00:09:53.580
+Jihoon: We can adjust that.
+
+92
+00:09:59.040 --> 00:10:07.859
+Jihoon: And another argument that one can make to push this deadline toward the end of the slot a bit is that you can
+
+93
+00:10:08.370 --> 00:10:11.700
+Jihoon: maybe collect more PTC votes, but…
+
+94
+00:10:12.240 --> 00:10:17.960
+Jihoon: This is something that I don't really like, but yeah, it is not super wrong.
+
+95
+00:10:26.290 --> 00:10:29.340
+Justin Traglia: Alright. I think we should move on to another topic.
+
+96
+00:10:29.550 --> 00:10:41.000
+Nico Flaig: Yeah, one comment on what Dustin mentioned. So I think what clients should do with these future configs is only evaluate them if the fork is actually scheduled.
+
+97
+00:10:41.040 --> 00:10:52.439
+Nico Flaig: So in the case that Dustin mentioned for CLOAS, we shouldn't even validate the payload due deadline if CLOAS isn't even scheduled in the client config.
+
+98
+00:10:52.690 --> 00:10:58.670
+Nico Flaig: That's at least what Loadstart does. And that way we also prevent this issue or avoid it where like
+
+99
+00:10:59.100 --> 00:11:03.310
+Nico Flaig: Configs that aren't basically used are not validated.
+
+100
+00:11:06.680 --> 00:11:15.299
+Nico Flaig: Because, yes, this shouldn't affect mainnet users and cause interop issues, and we had at least two users that had this issue.
+
+101
+00:11:16.410 --> 00:11:24.729
+Nico Flaig: Actually, the other way around, though, because Lodestar was too fast, and other clients lagged behind and validated the config strictly, and
+
+102
+00:11:24.860 --> 00:11:27.450
+Nico Flaig: I had to add two workarounds for this.
+
+103
+00:11:27.640 --> 00:11:30.009
+Nico Flaig: Just to patch it on our end.
+
+104
+00:11:30.320 --> 00:11:33.890
+Nico Flaig: But I think it's completely unnecessary to.
+
+105
+00:11:34.180 --> 00:11:38.579
+Nico Flaig: validate configs that are not used. I don't see a reason to do that.
+
+106
+00:11:41.150 --> 00:11:42.270
+Justin Traglia: I totally agree.
+
+107
+00:11:46.260 --> 00:11:52.819
+Jihoon: Yeah, so regarding this PR, if I were to go this quickly, so we had like two to three.
+
+108
+00:11:53.480 --> 00:11:59.590
+Jihoon: Support and no opposition, so… Yeah.
+
+109
+00:12:00.770 --> 00:12:04.720
+Jihoon: Can I say that we can merge this in, and then move on?
+
+110
+00:12:05.670 --> 00:12:07.249
+Justin Traglia: Yeah, let's just do that.
+
+111
+00:12:07.410 --> 00:12:08.420
+Justin Traglia: Yeah, okay.
+
+112
+00:12:08.420 --> 00:12:09.659
+Jihoon: Thank you. Yeah.
+
+113
+00:12:09.990 --> 00:12:10.670
+Justin Traglia: Okay.
+
+114
+00:12:11.140 --> 00:12:19.870
+Justin Traglia: Okay, the next topic is, about quick slots, EIP8198. I think in the previous… Okay.
+
+115
+00:12:21.110 --> 00:12:24.579
+Justin Traglia: call. I don't know what to call it. We decided to just to
+
+116
+00:12:24.760 --> 00:12:29.989
+Justin Traglia: Try to merge this as soon as we can, and make a Beta 5 release June.
+
+117
+00:12:31.280 --> 00:12:33.900
+Jihoon: Yeah, so as we decided in the…
+
+118
+00:12:34.090 --> 00:12:47.559
+Jihoon: previous room. We can merge this PR in, I'm gonna merge this after this call, and then… once we have this… have those two PRs, we can kind of release today, unless we…
+
+119
+00:12:47.880 --> 00:12:49.110
+Justin Traglia: There are testing issues.
+
+120
+00:12:49.110 --> 00:12:49.580
+Jihoon: arts.
+
+121
+00:12:49.580 --> 00:12:51.650
+Justin Traglia: Which I think Nico is about to talk about.
+
+122
+00:12:52.010 --> 00:12:53.700
+Jihoon: Okay, yeah. Beiko?
+
+123
+00:12:54.060 --> 00:13:09.250
+Nico Flaig: Yeah, I have one complaint about the current state of the PR, which is we aren't actually testing the HESI slot duration change. So even if you don't implement all the reward computation in the client, the spec tests pass.
+
+124
+00:13:09.600 --> 00:13:13.249
+Nico Flaig: Because the tests just run with 12 seconds.
+
+125
+00:13:14.180 --> 00:13:16.829
+Nico Flaig: And then we would yeah.
+
+126
+00:13:17.290 --> 00:13:22.360
+Jihoon: We didn't add any tests for…
+
+127
+00:13:22.760 --> 00:13:29.339
+Jihoon: you know, this feature EIPs, like the other one, and then Qlikflots, because we wanted to maintain
+
+128
+00:13:30.050 --> 00:13:38.080
+Jihoon: It's just for the sake of maintenance issue, but one… as we decided to put this in, we should add more tests.
+
+129
+00:13:38.690 --> 00:13:41.559
+Jihoon: And we can have it before we cut a release, if you want.
+
+130
+00:13:42.280 --> 00:13:42.870
+Jihoon: Okay.
+
+131
+00:13:42.870 --> 00:13:43.230
+Nico Flaig: problem.
+
+132
+00:13:43.230 --> 00:13:43.550
+Jihoon: I.
+
+133
+00:13:43.550 --> 00:13:53.250
+Nico Flaig: Right now is, like, clients can pass Beta 5 spec tests, with implementing quick slots, but even if they don't.
+
+134
+00:13:53.360 --> 00:14:04.140
+Nico Flaig: implement any STF changes, and then when you run it actually on Kortosis and you change the slot time, then you have a consensus split if clients didn't implement it correctly.
+
+135
+00:14:04.460 --> 00:14:08.319
+Barnabas: Well, but that's what we said that for the next dmnet, this is acceptable.
+
+136
+00:14:08.730 --> 00:14:14.070
+Barnabas: Because we're just gonna stick to 12 seconds, and then we can have the following devnet.
+
+137
+00:14:14.370 --> 00:14:18.229
+Barnabas: require VSDF changes and the actual shorter stuff.
+
+138
+00:14:19.840 --> 00:14:24.850
+Jihoon: But if clients wanna… Make sure their implementation is correct.
+
+139
+00:14:24.970 --> 00:14:29.539
+Jihoon: I think we should provide some spec tests. I think that's what Beiko is asking for.
+
+140
+00:14:29.780 --> 00:14:30.659
+Barnabas: Yeah, of course.
+
+141
+00:14:31.160 --> 00:14:39.409
+Jihoon: Yeah. So… Yeah, I can add those tests for QuickSlots, and we can include it.
+
+142
+00:14:39.560 --> 00:14:41.659
+Jihoon: Before we make a release.
+
+143
+00:14:42.320 --> 00:14:45.099
+Jihoon: And… How does it sound?
+
+144
+00:14:46.200 --> 00:14:49.309
+Justin Traglia: That sounds fine to me. There's no immediate rush to get this out.
+
+145
+00:14:49.640 --> 00:14:53.070
+Justin Traglia: Maybe target, like, Thursday or something?
+
+146
+00:14:54.380 --> 00:14:55.510
+Justin Traglia: Would that be fine?
+
+147
+00:14:58.250 --> 00:14:59.740
+Jihoon: Yeah, sounds good to me.
+
+148
+00:15:02.400 --> 00:15:07.149
+Justin Traglia: And, we should also take advantage of our champion Barnabe for this as well.
+
+149
+00:15:14.770 --> 00:15:16.840
+Barnabé Monnot: I'm… I'm around, just let me know.
+
+150
+00:15:20.040 --> 00:15:21.010
+Justin Traglia: Cool, thank you.
+
+151
+00:15:21.720 --> 00:15:24.269
+Justin Traglia: Okay, we only have a couple minutes left.
+
+152
+00:15:24.370 --> 00:15:28.739
+Justin Traglia: Luca, would you like to discuss that new Beacon API endpoint?
+
+153
+00:15:30.260 --> 00:15:31.260
+Luca | Vero: Yeah, sure.
+
+154
+00:15:31.650 --> 00:15:38.779
+Luca | Vero: So just a quick recap, it's the Beacon API endpoint that would allow validator clients to supply their own bids.
+
+155
+00:15:40.390 --> 00:15:46.510
+Luca | Vero: I added some motivation since last week to the Pr. Let me just Bunk.
+
+156
+00:15:47.060 --> 00:15:48.050
+Luca | Vero: This one.
+
+157
+00:15:49.620 --> 00:15:58.190
+Luca | Vero: Yeah, I haven't received much feedback. There's one new comment since last week. I would appreciate if some more people could take a look at it.
+
+158
+00:15:58.990 --> 00:16:00.440
+Luca | Vero: Yeah.
+
+159
+00:16:03.150 --> 00:16:04.560
+Luca | Vero: Do you want me to?
+
+160
+00:16:04.680 --> 00:16:08.240
+Luca | Vero: Recap the last comment as well, Justin, or should we just leave it?
+
+161
+00:16:10.760 --> 00:16:12.209
+Justin Traglia: Up to you.
+
+162
+00:16:12.950 --> 00:16:15.780
+Justin Traglia: We have time, we can go over by a minute or two if you want.
+
+163
+00:16:16.400 --> 00:16:17.240
+Luca | Vero: Okay.
+
+164
+00:16:17.420 --> 00:16:24.330
+Luca | Vero: So what I posted, is about multi-node setups and how this API endpoint helps them.
+
+165
+00:16:24.440 --> 00:16:26.570
+Luca | Vero: Basically, today.
+
+166
+00:16:26.830 --> 00:16:33.080
+Luca | Vero: All of the bit selection happens in MEV Boost or Commit Boost, so it's a small piece of the stack.
+
+167
+00:16:33.590 --> 00:16:39.660
+Luca | Vero: which is relatively easy to keep track of and monitor, but with GLOAS,
+
+168
+00:16:39.880 --> 00:16:44.589
+Luca | Vero: This bid selection will probably move into the Beacon out a lot of times.
+
+169
+00:16:45.570 --> 00:16:51.530
+Luca | Vero: And when you use a multi-node setup like we do, that gets a bit complicated.
+
+170
+00:16:51.700 --> 00:17:02.240
+Luca | Vero: Because, well, in our setup, our validator client talks to 5 different CL clients, and if every of those clients handles bid selections a little bit differently.
+
+171
+00:17:03.100 --> 00:17:06.089
+Luca | Vero: It's just a lot harder to…
+
+172
+00:17:06.210 --> 00:17:10.109
+Luca | Vero: Investigate issues and keep track of and monitor, alert on.
+
+173
+00:17:10.540 --> 00:17:15.060
+Luca | Vero: So that's one of the reasons it would be useful for bit selection to
+
+174
+00:17:15.480 --> 00:17:19.960
+Luca | Vero: Move into the validator client if desired, so it's just optional.
+
+175
+00:17:21.589 --> 00:17:32.740
+Luca | Vero: So that's the whole monitoring aspect of it, and the other aspect of it is, when it comes to block production, again, when the validator client talks to 5 different CL clients.
+
+176
+00:17:32.880 --> 00:17:35.290
+Luca | Vero: They each return a block.
+
+177
+00:17:35.550 --> 00:17:40.630
+Luca | Vero: And they may each return a block that contains a different bid.
+
+178
+00:17:41.550 --> 00:17:48.280
+Luca | Vero: So… You're guaranteed that
+
+179
+00:17:48.810 --> 00:17:53.609
+Luca | Vero: 4 out of 5 of those CL clients are not gonna include the optimal bid.
+
+180
+00:17:53.900 --> 00:17:55.929
+Luca | Vero: When they each do their own thing.
+
+181
+00:17:56.430 --> 00:18:04.959
+Luca | Vero: So for that reason, it would be more useful for the validator client to just give them a bid to include, and then they each return a block with the exact same bid.
+
+182
+00:18:09.260 --> 00:18:13.840
+Luca | Vero: Yeah, that's it from my side. Any quick comments before we wrap up?
+
+183
+00:18:26.880 --> 00:18:28.989
+Justin Traglia: Okay, clients.
+
+184
+00:18:29.120 --> 00:18:30.809
+Justin Traglia: Yeah, please take a look.
+
+185
+00:18:32.980 --> 00:18:34.000
+Justin Traglia: Don't.
+
+186
+00:18:34.250 --> 00:18:36.290
+Justin Traglia: Is there a thread on Discord about this?
+
+187
+00:18:37.050 --> 00:18:40.919
+Luca | Vero: There is, yeah, in the CL APIs channel, there's a thread.
+
+188
+00:18:41.460 --> 00:18:46.560
+Luca | Vero: Yeah, and… Yeah, this is the last, Beacon API for GLOS.
+
+189
+00:18:48.090 --> 00:18:48.690
+Justin Traglia: Cool.
+
+190
+00:18:49.380 --> 00:18:54.720
+Justin Traglia: I'll post a reminder in the… Interop channel, or something, in just a minute.
+
+191
+00:18:56.710 --> 00:19:00.930
+Justin Traglia: But okay, thank you so much for the update, and
+
+192
+00:19:01.730 --> 00:19:04.500
+Justin Traglia: Talk to you guys, on Thursday.
+
+193
+00:19:05.040 --> 00:19:05.989
+Justin Traglia: Bye, everyone.
+
+194
+00:19:07.870 --> 00:19:08.520
+Barnabas: Bye-bye.
+
+195
+00:19:08.520 --> 00:19:09.270
+Jihoon: Thank you.
+
+196
+00:19:09.610 --> 00:19:10.200
+Nico Flaig: Yeah.
+
