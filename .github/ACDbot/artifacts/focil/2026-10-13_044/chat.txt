@@ -1,0 +1,85 @@
+00:01:38	Jun Song:	gm
+00:04:37	Jihoon:	https://dora.heze-devnet-1.ethpandaops.io/
+00:07:17	Nico Flaig:	our focil-devnet-1 branch works for heze-devnet-2
+00:07:23	Nico Flaig:	need to sort out branches
+00:09:34	Jihoon:	Reacted to "our focil-devnet-1 branch works for heze-devnet-2" with 👍
+00:10:18	Toni Wahrstätter:	when are clients building / publishing ILs?
+00:10:41	Toni Wahrstätter:	is there a starting time (seconds into the slot), and a deadline
+00:11:01	Jihoon:	@Marc Here is the change you need for 8198 on the EL: https://github.com/ethereum/consensus-specs/pull/5710
+00:11:10	Marc:	Reacted to "@Marc Here is the change you need for 8198 on the EL: https://github.com/ethereum/consensus-specs/pull/5710" with ❤️
+00:11:41	Toni Wahrstätter:	yes, this race condition can be improved massively by having the ELs apply the BAL only, without execution, and then build the IL based on that updated/optimistic state
+00:13:36	NC:	I think we just keep devnet 1 up until devnet 2?
+00:13:43	Jun Song:	Reacted to "I think we just keep devnet 1 up until devnet 2?" with 👍
+00:13:47	Rahul Barman:	Reacted to "I think we just keep devnet 1 up until devnet 2?" with 👍
+00:13:56	Jihoon:	https://github.com/ethereum/EIPs/pull/12470
+00:13:59	Nico Flaig:	we might need to prepare a heze-devnet-1 branch then that doesn't have any other heze changes
+00:14:26	Jihoon:	- https://github.com/ethereum/consensus-specs/pull/5721
+- https://github.com/ethereum/consensus-specs/pull/5724
+- https://github.com/ethereum/consensus-specs/pull/5727
+00:14:27	Iván | ethrex:	Replying to "@Marc Here is the ch..."
+
+Also check https://github.com/ethereum/execution-specs/pull/3703
+00:14:40	Marc:	Reacted to "Also check https://github.com/ethereum/execution-specs/pull/3703" with 👍🏾
+00:14:42	Jihoon:	https://notes.ethereum.org/@ethpandaops/heze-devnet-2
+00:17:15	Nico Flaig:	I can say how my builder does it but I doubt els work that way
+00:17:59	Nico Flaig:	how fast can you reseal a payload?
+00:19:00	Toni Wahrstätter:	why would engine_forkchoiceUpdated be called multiple times?
+00:19:13	Toni Wahrstätter:	would it be called every time a new IL comes in?
+00:19:47	Nico Flaig:	Replying to "would it be called e..."
+
+not for every IL but we call it again at start of the slot to make sure the payload satisfies all ILs
+00:20:57	Toni Wahrstätter:	Replying to "would it be called every time a new IL comes in?"
+
+and when you call it again it will have a different payloadAttributes?
+00:21:28	Nico Flaig:	Replying to "would it be called e..."
+
+yes can be, but mostly for this scenario it's about a new superset of ILs
+00:21:42	Toni Wahrstätter:	Reacted to "yes can be, but mostly for this scenario it's about a new superset of ILs" with ❤️
+00:21:56	Nico Flaig:	Replying to "would it be called e..."
+
+but if head changed, could be completely new payload attributes for a different head if we predicted incorrectly in prev. slot
+00:22:53	Nico Flaig:	how many payload revisions do ELs do today on glamsterdam before CL calls getpayload?
+00:26:06	Toni Wahrstätter:	so 1s less time for local building?
+00:28:03	Toni Wahrstätter:	yeah, hard to tell. there are good reasons to not call it too early or too late
+00:29:00	Toni Wahrstätter:	"just appending" won't work as state root + bal need to be updated too + execution traces
+00:29:07	Toni Wahrstätter:	but it shouldn't take much time
+00:29:10	Jihoon:	Reacted to ""just appending" won't work as state root + bal need to be updated too + execution traces" with 💯
+00:29:37	Nico Flaig:	Replying to ""just appending" won..."
+
+my builder takes ~5ms to reseal a payload so not big of a deal but depends how els do this
+00:30:15	Toni Wahrstätter:	Replying to ""just appending" won't work as state root + bal need to be updated too + execution traces"
+
+ah nice, yeah if it's that fast then this shouldn't be a problem
+00:30:47	Toni Wahrstätter:	Replying to ""just appending" won't work as state root + bal need to be updated too + execution traces"
+
+with reseal you don't consider state root computation though
+00:30:54	Toni Wahrstätter:	Replying to ""just appending" won't work as state root + bal need to be updated too + execution traces"
+
+or you're just crazy fast :D
+00:31:36	Nico Flaig:	Replying to ""just appending" won..."
+
+my builder is optimized for this, os yes it's fast, I doubt ELs are optimized for this though
+00:31:43	Jihoon:	- https://github.com/ethereum/EIPs/pull/12394
+- https://github.com/ethereum/consensus-specs/pull/5698
+- https://github.com/ethereum/execution-apis/pull/911
+00:36:20	Iván | ethrex:	I’ll take a look asap, couldn’t do it last week and very unlikely I could this week, I’ll let you know
+00:37:09	Toni Wahrstätter:	50 regular txs
+00:37:35	Toni Wahrstätter:	A few, probably 2-3 privacy txs
+00:37:41	Toni Wahrstätter:	No meant standard frame txs
+00:37:56	Toni Wahrstätter:	I think 500k gas?
+00:38:16	Toni Wahrstätter:	Privacy txs
+00:38:27	Iván | ethrex:	Wasn’t ~250k?
+00:42:44	Toni Wahrstätter:	Replying to "Wasn’t ~250k?" 
+
+ Yeah very likely you're right
+00:42:51	Toni Wahrstätter:	Replying to "Wasn’t ~250k?" 
+
+ I'm often confusing this
+00:43:07	Toni Wahrstätter:	Replying to "Wasn’t ~250k?" 
+
+ Adding deposit + withdrawal into one
+00:45:43	Iván | ethrex:	Reacted to "Adding deposit + wit..." with 👍
+00:47:02	NC:	Do we need focil breakout if we have a heze devnet 2?
+00:47:12	NC:	I mean all testing stuff will be discussed on acdt
+00:47:12	Iván | ethrex:	So next breakout stays the same, but the one after that is one week earlier?
+00:48:49	Iván | ethrex:	Yeah, better on the next one
