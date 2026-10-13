@@ -1,0 +1,1554 @@
+WEBVTT
+
+1
+00:04:19.690 --> 00:04:21.950
+Jihoon: Reminiscing, let's dive in.
+
+2
+00:04:22.700 --> 00:04:25.439
+Jihoon: Hello everyone, welcome to FOCIL Breakout.
+
+3
+00:04:25.740 --> 00:04:26.920
+Jihoon: 44.
+
+4
+00:04:28.580 --> 00:04:31.040
+Jihoon: Let's start with FOCIL devnet 1.
+
+5
+00:04:31.620 --> 00:04:32.610
+Jihoon: Yes, yes.
+
+6
+00:04:33.100 --> 00:04:41.369
+Jihoon: the link to… The DORA, the network is generally healthy, but some slots are being missed.
+
+7
+00:04:42.040 --> 00:04:49.280
+Jihoon: The same says, because Lighthouse has an implement, it should extend payload. Can anyone from Lighthouse share?
+
+8
+00:04:49.450 --> 00:04:51.269
+Jihoon: What the current status is.
+
+9
+00:04:54.120 --> 00:04:54.750
+Rahul Barman: Yep.
+
+10
+00:04:54.780 --> 00:05:03.410
+Rahul Barman: Thank you, Jihoon. Hey everyone, I'm Rahul, also a protocol fellow working alongside with Cristian here, on FOCIL.
+
+11
+00:05:03.410 --> 00:05:09.099
+Rahul Barman: Sorry I haven't made it to these calls before. I had some timing conflicts, but I should be able to join from now on.
+
+12
+00:05:09.100 --> 00:05:23.909
+Rahul Barman: Anyways, the update from the Lighthouse is, we did participate for devnet 1, but with the assumption that the payloads would satisfy the inclusion list for this Definite, so we intentionally left the fork choice enforcement stopped.
+
+13
+00:05:24.010 --> 00:05:42.389
+Rahul Barman: But, as you can see, as Barnabas started testing censorship, the Lighthouse diverged from the other clients, and we realized we needed that part as well. So I put together a PR for the, the RIP branch to add the enforcement, as well. It's currently under review. And, hopefully it gets merged this week.
+
+14
+00:05:46.160 --> 00:06:00.190
+Jihoon: Great, thank you. I remember I said that this network would be just for happy cases, but yeah, we're also testing censoring cases, and thanks for sharing the updates. Also, there are…
+
+15
+00:06:00.490 --> 00:06:07.699
+Jihoon: Some inactive validators, validator index from 2,200 to 2,206.
+
+16
+00:06:08.120 --> 00:06:10.950
+Jihoon: They're not slashed, but they're just inactive.
+
+17
+00:06:11.800 --> 00:06:13.850
+Jihoon: Does anyone know what happened to them?
+
+18
+00:06:32.770 --> 00:06:33.550
+Jihoon: Yeah.
+
+19
+00:06:34.380 --> 00:06:35.839
+Jihoon: We can take that offline.
+
+20
+00:06:36.660 --> 00:06:38.870
+Jihoon: Do any other clients have any updates?
+
+21
+00:06:43.330 --> 00:06:50.350
+Iván | ethrex: on our side, we are ready for FOCIL devnet 2.
+
+22
+00:06:50.480 --> 00:06:53.810
+Iván | ethrex: We've implemented 8198.
+
+23
+00:06:54.840 --> 00:06:57.509
+Iván | ethrex: One question I had was.
+
+24
+00:06:57.930 --> 00:07:14.790
+Iván | ethrex: I remember that yesterday we talked about using 12 seconds, but our implementation is using the changes in the base fee and the block schedule. I don't know if we need to keep those or not.
+
+25
+00:07:19.050 --> 00:07:27.130
+Jihoon: Yes, so for ACDEVNET2, we were gonna use 12 seconds, so it's basically no op, but It's a…
+
+26
+00:07:27.960 --> 00:07:30.349
+Jihoon: As a side, we also want to test
+
+27
+00:07:30.610 --> 00:07:34.100
+Jihoon: The SLOP reduction to 10 seconds locally.
+
+28
+00:07:34.270 --> 00:07:40.379
+Jihoon: So, not sure how your branch strategy works, but it'd be nice if you could have two versions of that.
+
+29
+00:07:40.510 --> 00:07:42.259
+Jihoon: you know, implementation.
+
+30
+00:07:45.860 --> 00:07:53.710
+Iván | ethrex: Okay, I'll see what we can do. Right now, we have just the version that complies with the spec.
+
+31
+00:07:55.460 --> 00:07:56.729
+Jihoon: Okay, cool. Thank you.
+
+32
+00:07:57.230 --> 00:07:58.050
+Jihoon: Jun?
+
+33
+00:07:59.270 --> 00:08:11.320
+Jun Song: Hi all, I'm Jun from Prysm Team, and this is first time joining FOCIL Breakout, because, Prysm team will participate, the JSA devnet 2.
+
+34
+00:08:11.320 --> 00:08:27.559
+Jun Song: And I'm still working on the FOCIL implementation, although Terrence had, implementation, a long time ago. I should, rebase, his work and make it, running, in
+
+35
+00:08:27.560 --> 00:08:31.750
+Jun Song: the FOCIL-debt-on-world, and it seems pretty good, so.
+
+36
+00:08:31.770 --> 00:08:43.659
+Jun Song: I'm planning to sync, with the current, DevNet, with my Prysm work, and it seems like this… it will be a good.
+
+37
+00:08:44.910 --> 00:08:52.559
+Jun Song: I can be more confident about my FOCIL work after I test with the current devnet.
+
+38
+00:08:52.780 --> 00:08:55.109
+Jun Song: So, that's my update from Prysm.
+
+39
+00:08:58.950 --> 00:09:00.260
+Jihoon: Thanks for the update.
+
+40
+00:09:00.560 --> 00:09:02.139
+Jihoon: Any other clients?
+
+41
+00:09:04.050 --> 00:09:09.350
+NC: For Lodestar, we have merged, EIP…
+
+42
+00:09:09.550 --> 00:09:15.010
+NC: 8365, 8015, and 8198 into our trunk branch.
+
+43
+00:09:15.170 --> 00:09:24.340
+NC: So we still have FOCIL branch, that we aim to get it merged, in the next couple days. Otherwise, we will be…
+
+44
+00:09:24.710 --> 00:09:27.300
+NC: Ready for Hazy devnet 2.
+
+45
+00:09:28.160 --> 00:09:35.350
+NC: And, I just realized that Lodestar also, Create the ILs.
+
+46
+00:09:36.080 --> 00:09:43.470
+NC: When we received execution payload, not after we called a new payload call.
+
+47
+00:09:43.780 --> 00:09:48.129
+NC: So… This is something that we also need to change.
+
+48
+00:09:54.400 --> 00:09:55.230
+Jihoon: Okay, cool.
+
+49
+00:09:59.320 --> 00:10:07.650
+Marc: On Nethermind side, so I've still been working a bit more on the frames and fossil specs and our implementation.
+
+50
+00:10:07.780 --> 00:10:21.540
+Marc: I think we should be ready for the next devnet, but, I just need to look into 8198, actually, because I hadn't, thought about whether that needed EL changes, but, yeah, I'll have a look into that.
+
+51
+00:10:33.830 --> 00:10:39.530
+Nico Flaig: Well, there's something I'm curious about. So what NC just said and what Toni is asking.
+
+52
+00:10:40.200 --> 00:10:49.740
+Nico Flaig: So I think what NCMENT in our case is we use the payload available event, but that is fired without having the payload executed.
+
+53
+00:10:50.500 --> 00:10:58.230
+Nico Flaig: by the EL, right? So, we would build it wrongly on the parent, in some cases, so there's a race condition.
+
+54
+00:10:58.980 --> 00:11:02.179
+Nico Flaig: But I think from a CR side, we should…
+
+55
+00:11:02.370 --> 00:11:14.069
+Nico Flaig: eagerly do it once the payload is executed, I guess. And when there's no payload, we wait for the deadline, I suppose. Curious if anyone has thought about this.
+
+56
+00:11:17.320 --> 00:11:20.759
+NC: I think what you have described is what the spec says, right?
+
+57
+00:11:20.990 --> 00:11:33.660
+NC: like, try to eagerly, run the execution payload first, and then create the IL, but if that fails, we fall back to Just creating an IL without.
+
+58
+00:11:33.890 --> 00:11:35.960
+NC: Executing the execution payload.
+
+59
+00:11:38.680 --> 00:11:46.730
+Nico Flaig: Yeah, I think the problem we had, right, is we did it too early, so we triggered the IL when the payload was available, so…
+
+60
+00:11:47.070 --> 00:11:49.919
+Nico Flaig: It's not a good IL quality in that case.
+
+61
+00:11:52.770 --> 00:11:57.390
+Nico Flaig: Is that the issue you described? Or maybe I'm misunderstanding what the issue was.
+
+62
+00:11:57.590 --> 00:11:58.300
+NC: Yes.
+
+63
+00:12:01.610 --> 00:12:07.929
+NC: So, in other words, like, Lodestar always uses the fallback, as the spec described.
+
+64
+00:12:08.230 --> 00:12:13.480
+NC: not… Trying to… Do the payload first, then the IL.
+
+65
+00:12:25.170 --> 00:12:26.280
+Jihoon: Okay, correct.
+
+66
+00:12:26.550 --> 00:12:29.339
+Jihoon: Do we have any more updates or comments?
+
+67
+00:12:32.630 --> 00:12:47.649
+Nico Flaig: I just want to note, so our FOCIL devnet 1 branch is kind of, I accidentally broke it by merging our trunk branch into it. So it has quick slots and everything else in there. So we run a pinned image right now on the devnet 1.
+
+68
+00:12:48.340 --> 00:13:00.160
+Nico Flaig: But I also tested this morning running quick slots with FOCIL with 10 second slots, like transition on Hazy. And that seems to work well for us at least.
+
+69
+00:13:00.540 --> 00:13:05.279
+Nico Flaig: But do we want to target Hesed-devnet 2 branches?
+
+70
+00:13:05.570 --> 00:13:09.609
+Nico Flaig: What's the plan? How long do we keep the devnet 1 up, essentially?
+
+71
+00:13:12.800 --> 00:13:16.019
+Jihoon: Yeah, I guess that decision is up to pandas.
+
+72
+00:13:17.250 --> 00:13:23.670
+Jihoon: But there are… a few PRs that would be added to FOCIL devnet 2.
+
+73
+00:13:26.400 --> 00:13:27.729
+Jihoon: We will cover it.
+
+74
+00:13:27.880 --> 00:13:31.590
+Jihoon: A moment later, it's all about FOCIL, so…
+
+75
+00:13:33.140 --> 00:13:36.940
+Jihoon: I think, yeah, I think you need to make some changes there.
+
+76
+00:13:39.460 --> 00:13:45.329
+Jihoon: Yeah, regarding keeping up DevNet 1, I think it makes sense to just keep it until we have DevNet 2.
+
+77
+00:13:46.900 --> 00:13:49.509
+Jihoon: Right, let's move on to spec updates.
+
+78
+00:13:51.430 --> 00:13:54.190
+Jihoon: First off, it's not a spec, but…
+
+79
+00:13:55.470 --> 00:13:58.709
+Jihoon: I want to share that the EIP is being updated.
+
+80
+00:13:58.910 --> 00:14:04.389
+Jihoon: I rebased it to Hazy from Fulu, and reflected all the changes made so far.
+
+81
+00:14:05.030 --> 00:14:10.160
+Jihoon: Note that it doesn't include the transaction… interaction mechanism with frames.
+
+82
+00:14:10.880 --> 00:14:14.660
+Jihoon: I can add in once we settle in some design down the road.
+
+83
+00:14:14.920 --> 00:14:23.700
+Jihoon: For spec updates, there have been a few CL-specs updates. Here's the list of the PRs.
+
+84
+00:14:26.300 --> 00:14:35.259
+Jihoon: So the first two are minor bug fixes, and the last one is about IL deadline that we discussed yesterday in ACDC.
+
+85
+00:14:36.280 --> 00:14:44.669
+Jihoon: And I also updated… The spec sheet, so you can find more info there.
+
+86
+00:14:48.970 --> 00:14:50.430
+Jihoon: Yeah.
+
+87
+00:14:50.560 --> 00:14:52.660
+Jihoon: Are there any comments or questions?
+
+88
+00:15:14.210 --> 00:15:17.360
+Jihoon: Nico, do you want to elaborate your comment on Hesi?
+
+89
+00:15:17.360 --> 00:15:17.790
+Nico Flaig: Oh, wait.
+
+90
+00:15:17.790 --> 00:15:18.580
+Jihoon: want.
+
+91
+00:15:18.870 --> 00:15:25.860
+Nico Flaig: Oh no, it's just our branches are messed up because we are too far ahead and already have the HACE EIPs.
+
+92
+00:15:26.170 --> 00:15:35.440
+Nico Flaig: Next, like, so I'm just wondering how… like, if there's a Lodestar bug on HazyDevNet 1, we have no branch to backport this right now.
+
+93
+00:15:36.220 --> 00:15:37.179
+Jihoon: Oh, I see.
+
+94
+00:15:37.180 --> 00:15:39.430
+Nico Flaig: But I'm not sure it's needed, to be honest.
+
+95
+00:15:42.100 --> 00:15:52.980
+Nico Flaig: But I was curious about this 9 seconds into the slot, maybe we can discuss that more. Also, I was reviewing our code, how we, at the start of the slot.
+
+96
+00:15:53.070 --> 00:16:12.090
+Nico Flaig: like, send another FCU to the EL, to re… like, to apply a superset of the observed ILs. And what I'm mostly curious about, how efficient are ELs to apply transactions, like, new transactions on top of a payload they already sealed?
+
+97
+00:16:12.220 --> 00:16:18.379
+Nico Flaig: Because my guess is, like, the EL already calculated the state route, right, of the payload.
+
+98
+00:16:18.650 --> 00:16:24.489
+Nico Flaig: And then they have to apply new transactions on top of that? Like, how fast are ELs doing this?
+
+99
+00:16:26.870 --> 00:16:29.800
+Jihoon: Yeah, how are ELs implemented in this regard?
+
+100
+00:16:34.050 --> 00:16:37.319
+Jihoon: I wonder if we can get some insights from EL devs.
+
+101
+00:16:39.450 --> 00:16:48.439
+Jihoon: Like, do we initiate a new building process, or do we… Add any missing IELTS transactions somehow?
+
+102
+00:16:49.070 --> 00:16:50.989
+Jihoon: Like, I'll plan the only way.
+
+103
+00:16:59.490 --> 00:17:03.509
+Jihoon: I think the main question here is, How long does it take?
+
+104
+00:17:03.720 --> 00:17:09.539
+Jihoon: To update the payload, to make sure SIR compliant, yes, Fabio?
+
+105
+00:17:11.010 --> 00:17:13.939
+Fabio Di Fabio: So I think this is the EVELY.
+
+106
+00:17:14.089 --> 00:17:17.960
+Fabio Di Fabio: implementation-dependent in our case, in Besu case.
+
+107
+00:17:20.069 --> 00:17:25.959
+Fabio Di Fabio: There is already an iteration when the block is built.
+
+108
+00:17:26.819 --> 00:17:31.580
+Fabio Di Fabio: So… Until the CR call get payloads.
+
+109
+00:17:32.730 --> 00:17:38.969
+Fabio Di Fabio: The EL continues to iterate, building always a better block with
+
+110
+00:17:39.350 --> 00:17:44.460
+Fabio Di Fabio: incoming transaction, including new inclusion lists.
+
+111
+00:17:45.890 --> 00:17:50.690
+Fabio Di Fabio: So it's not appended to the existing one, but a new one.
+
+112
+00:17:51.010 --> 00:17:54.940
+Fabio Di Fabio: It started considering the new inclusion list.
+
+113
+00:17:56.830 --> 00:17:57.650
+Jihoon: Yeah.
+
+114
+00:17:58.370 --> 00:18:00.750
+Jihoon: And that's also my understanding.
+
+115
+00:18:00.900 --> 00:18:11.229
+Jihoon: that most of ELs, maybe all ELs, are implemented in that way, you know, keep updating their payload periodically to produce more profitable blocks.
+
+116
+00:18:11.850 --> 00:18:22.249
+Jihoon: I wonder if there is any plan to make some… You know, so, building strategy.
+
+117
+00:18:22.930 --> 00:18:24.960
+Jihoon: optimized for IL.
+
+118
+00:18:26.260 --> 00:18:31.399
+Jihoon: Like, let's say… You'll receive a fork choice update called with
+
+119
+00:18:33.650 --> 00:18:41.650
+Jihoon: some IL that you haven't seen before, then maybe you can adopt You can, you can…
+
+120
+00:18:43.150 --> 00:18:45.200
+Jihoon: kickstart that strategy.
+
+121
+00:18:45.800 --> 00:18:47.360
+Jihoon: very quickly…
+
+122
+00:18:47.650 --> 00:19:04.230
+Jihoon: turn your payload into IL compliant instead of running the whole building process again. Of course, this is also implementation details. I know that some clients have more sophisticated algorithm than just building it from scratch, and then compare which one is more profitable.
+
+123
+00:19:06.390 --> 00:19:06.820
+Fabio Di Fabio: Yeah.
+
+124
+00:19:06.820 --> 00:19:07.230
+Jihoon: answer.
+
+125
+00:19:07.230 --> 00:19:07.960
+Fabio Di Fabio: that's.
+
+126
+00:19:09.000 --> 00:19:09.420
+Jihoon: Because.
+
+127
+00:19:09.420 --> 00:19:14.900
+Fabio Di Fabio: Yeah, I want to complete how it works on Besu.
+
+128
+00:19:15.090 --> 00:19:29.410
+Fabio Di Fabio: So, the first iteration before used to build a block without any transaction in order to be able to respond to something if the get payload was very quick after the fork choice.
+
+129
+00:19:29.850 --> 00:19:38.540
+Fabio Di Fabio: Now, since this empty block will, Not satisfy the inclusion list.
+
+130
+00:19:38.770 --> 00:19:49.000
+Fabio Di Fabio: We… at the For the first iteration, we'll only build the block, including the ELs that we received.
+
+131
+00:19:49.280 --> 00:19:52.569
+Fabio Di Fabio: So this is the… we call this the minimal block.
+
+132
+00:19:53.590 --> 00:20:00.410
+Fabio Di Fabio: So this minimal block should be faster to build than other interactions.
+
+133
+00:20:00.960 --> 00:20:05.470
+Fabio Di Fabio: So we… Could be ready to respond to a get payload.
+
+134
+00:20:05.590 --> 00:20:09.079
+Fabio Di Fabio: If the… if the get payload is very quick.
+
+135
+00:20:10.430 --> 00:20:12.229
+Fabio Di Fabio: And after that.
+
+136
+00:20:12.580 --> 00:20:22.739
+Fabio Di Fabio: We also, when we received the ELs, we also, send them to the public transaction pool.
+
+137
+00:20:23.770 --> 00:20:26.510
+Fabio Di Fabio: So that the bulk building will.
+
+138
+00:20:27.370 --> 00:20:39.740
+Fabio Di Fabio: In an optimistic way, so it's not that we wait for the transaction to be added to the pool, but if they are, they will be sorted according to the…
+
+139
+00:20:40.630 --> 00:20:42.529
+Fabio Di Fabio: Paying fee, actually, no?
+
+140
+00:20:42.980 --> 00:20:45.050
+Fabio Di Fabio: So…
+
+141
+00:20:45.600 --> 00:20:55.380
+Fabio Di Fabio: And at the end, of course, we will append any other EL transaction that has not been selected by the normal organic process.
+
+142
+00:21:00.790 --> 00:21:02.029
+Jihoon: I see. Thank you.
+
+143
+00:21:02.230 --> 00:21:09.300
+Jihoon: Just curious, let's say two transactions are included in a payload in previous building cycles.
+
+144
+00:21:10.040 --> 00:21:15.940
+Jihoon: Is there any case that those two… the order of those two transactions is changed?
+
+145
+00:21:19.650 --> 00:21:27.840
+Fabio Di Fabio: This is very… technical detail. It could have pen.
+
+146
+00:21:28.500 --> 00:21:34.979
+Fabio Di Fabio: If they are not the first for the sender, and the…
+
+147
+00:21:35.250 --> 00:21:48.439
+Fabio Di Fabio: initial for the sender has been replaced to bump the fee, I think this could happen. But I think this is very, implementation-specific.
+
+148
+00:21:49.510 --> 00:21:55.450
+Fabio Di Fabio: So, yes, I think in some cases it could happen, that the order changes.
+
+149
+00:21:56.490 --> 00:21:57.150
+Fabio Di Fabio: Ice again.
+
+150
+00:21:57.150 --> 00:21:57.830
+Jihoon: That makes sense.
+
+151
+00:21:57.830 --> 00:21:59.649
+Fabio Di Fabio: Is that an issue?
+
+152
+00:22:04.360 --> 00:22:13.169
+Jihoon: Probably not, but I need to think more about this, but it might… make some IR transaction.
+
+153
+00:22:13.350 --> 00:22:15.659
+Jihoon: Be omitted validly.
+
+154
+00:22:16.820 --> 00:22:18.520
+Jihoon: But yeah.
+
+155
+00:22:19.530 --> 00:22:25.859
+Jihoon: I don't have a specific scenario on top of my head, but yeah. But it's not a big of a deal, I think.
+
+156
+00:22:26.860 --> 00:22:34.400
+Fabio Di Fabio: Yeah, because every iteration is, HEL Conform.
+
+157
+00:22:34.870 --> 00:22:46.520
+Fabio Di Fabio: So it's checked to be… to satisfy EL, so there should be no issue, at least. I'm not aware at the moment, so if you find something, yeah, let me know.
+
+158
+00:22:47.380 --> 00:22:48.730
+Jihoon: Yep. Cool.
+
+159
+00:23:05.770 --> 00:23:09.510
+Jihoon: Do any EL devs want to answer Tonico's question in the chat?
+
+160
+00:23:13.210 --> 00:23:17.810
+Jihoon: I know that that's also… Very situational.
+
+161
+00:23:18.610 --> 00:23:25.090
+Jihoon: It depends on when you call the fork choice updated and when you call getPayload and how.
+
+162
+00:23:25.500 --> 00:23:29.860
+Jihoon: long the EL sets the building duration.
+
+163
+00:23:35.260 --> 00:23:43.619
+Nico Flaig: To be honest, it's mostly my curiosity how ELs do this today and how easily they can apply IL transactions.
+
+164
+00:23:44.310 --> 00:24:00.160
+Nico Flaig: But… yeah, maybe… I guess the question is, do we need to call, prepare, like, in the previous slot, we prepare the payload, do we need to call this really late to make sure we see the superset of ILs, or have seen everything?
+
+165
+00:24:01.490 --> 00:24:05.660
+Nico Flaig: Or is it fine to call it in the start of the slot again, basically?
+
+166
+00:24:07.230 --> 00:24:14.540
+Jihoon: In my opinion, calling it at, like, 10 seconds, if… You saw some ILs.
+
+167
+00:24:14.700 --> 00:24:19.560
+Jihoon: Around or after 9 seconds would be enough, because other testers
+
+168
+00:24:19.700 --> 00:24:23.230
+Jihoon: We're gonna, if they follow the spec.
+
+169
+00:24:23.590 --> 00:24:29.240
+Jihoon: Honestly, then they were gonna ignore ZIL if they saw it after 9 seconds mark.
+
+170
+00:24:29.970 --> 00:24:33.280
+Jihoon: So, calling it… calling on FCU…
+
+171
+00:24:33.900 --> 00:24:38.940
+Jihoon: At the start of the next lot is… quite conservative.
+
+172
+00:24:41.070 --> 00:24:47.729
+Jihoon: But yeah, do you have any concern in your mind regarding this 9 seconds mark?
+
+173
+00:24:53.360 --> 00:25:00.769
+Nico Flaig: I mean, so today we call it at 8 seconds, right? The prepare payload, at least LoadStar does, and then…
+
+174
+00:25:01.100 --> 00:25:18.289
+Nico Flaig: we actually haven't added it, but if the PTC votes against the payload, and we have to build on empty, then we tell the EL repair on empty instead of full, also in the previous slot. And then the final decision, basically, what payload we pick, is at the start of the slot.
+
+175
+00:25:19.240 --> 00:25:23.780
+Nico Flaig: So what we prepare in the previous slot could even be mispredicted.
+
+176
+00:25:28.290 --> 00:25:31.349
+Jihoon: Right, so what has changed with ILs?
+
+177
+00:25:32.650 --> 00:25:38.850
+Jihoon: like, before… before Hazzy, when do you call FCU, and when do you call GetPayload?
+
+178
+00:25:41.070 --> 00:25:45.870
+Nico Flaig: So FCU we call at eight seconds in the previous slot.
+
+179
+00:25:46.930 --> 00:26:00.399
+Nico Flaig: And, get payload, we call, at the start of the next slot. Like, 100 MS into the slot or something, because we need to, calculate our proposal head and stuff, so there's some work that is done before we call it.
+
+180
+00:26:01.190 --> 00:26:04.019
+Jihoon: I see, and if PTC votes.
+
+181
+00:26:04.760 --> 00:26:10.150
+Jihoon: affect your fork choice decision, then you were gonna call another FCU.
+
+182
+00:26:12.790 --> 00:26:30.559
+Nico Flaig: Yeah, there are several factors, I guess. So there's also the problem if the EL payload takes long to execute, right? That's another problem if it takes longer than 8 seconds. So I think anyway, we need to maybe call the prepare payload later in the previous slot.
+
+183
+00:26:31.160 --> 00:26:32.220
+Nico Flaig: Like maybe.
+
+184
+00:26:32.220 --> 00:26:32.880
+Jihoon: seconds.
+
+185
+00:26:32.880 --> 00:26:37.049
+Nico Flaig: This is maybe the correct timeline.
+
+186
+00:26:38.670 --> 00:26:47.720
+Jihoon: But here, calling on FCU at a second is also implementation details, right? Like, other clients might call it at some different time.
+
+187
+00:26:51.110 --> 00:26:57.839
+Nico Flaig: Yeah, it's basically a trade-off, right? You want to give the EL as much time to produce a good payload.
+
+188
+00:26:58.220 --> 00:27:02.849
+Nico Flaig: But also you don't want to produce it on the wrong head and then later have to.
+
+189
+00:27:03.280 --> 00:27:07.390
+Nico Flaig: caught, say to the EL that they have to prepare on a different hat.
+
+190
+00:27:07.910 --> 00:27:08.250
+Jihoon: Yeah.
+
+191
+00:27:08.250 --> 00:27:13.909
+Nico Flaig: Which can happen in the worst case anyway, if there's, like, deep branches and unstable chain, but…
+
+192
+00:27:14.110 --> 00:27:16.850
+Nico Flaig: And the happy path, at least, usually doesn't happen.
+
+193
+00:27:18.370 --> 00:27:19.020
+Jihoon: Yeah.
+
+194
+00:27:25.240 --> 00:27:27.479
+Jihoon: To answer Toni's question in the chat.
+
+195
+00:27:28.360 --> 00:27:31.410
+Jihoon: It's hard to say yes or no.
+
+196
+00:27:32.020 --> 00:27:35.990
+Jihoon: It could be one second less time for a local building, but…
+
+197
+00:27:36.550 --> 00:27:40.570
+Jihoon: You know, there are multiple factors, so it might not.
+
+198
+00:27:42.940 --> 00:27:49.470
+Jihoon: And it doesn't mean that you cannot start local building with, before 9 seconds, you can, but you…
+
+199
+00:27:50.190 --> 00:27:55.369
+Jihoon: Wanna include more IELTS if you see it before 9 seconds mark.
+
+200
+00:28:02.630 --> 00:28:17.699
+Nico Flaig: Yeah, that's the thing, right? I don't think it reduces the local build time. Like, if ELs can just apply the… Yeah, if Execution Lens can just apply the ILs on top of an existing payload and, like, reseal the payload, then…
+
+201
+00:28:18.150 --> 00:28:21.070
+Nico Flaig: You don't really lose local building time, I think.
+
+202
+00:28:22.520 --> 00:28:23.130
+Jihoon: Yeah.
+
+203
+00:28:25.860 --> 00:28:32.830
+Jihoon: And this is very… Implementation detail stuff, so…
+
+204
+00:28:33.140 --> 00:28:39.079
+Jihoon: You know, I I also I've been also thinking about like whether we were gonna have some EL.
+
+205
+00:28:39.470 --> 00:28:43.759
+Jihoon: have some optimized strategy for IELTS.
+
+206
+00:28:43.900 --> 00:28:46.639
+Jihoon: But maybe it's a bit early to tell.
+
+207
+00:28:49.620 --> 00:28:53.959
+Jihoon: Right, so, do we have more comments or questions?
+
+208
+00:28:54.240 --> 00:28:56.950
+Jihoon: Before we move to fossil and frames.
+
+209
+00:29:03.860 --> 00:29:05.339
+Fabio Di Fabio: I have a question.
+
+210
+00:29:05.920 --> 00:29:10.979
+Fabio Di Fabio: Since this week was… I was working on.
+
+211
+00:29:12.900 --> 00:29:16.250
+Fabio Di Fabio: Persisting the result of the new payload.
+
+212
+00:29:17.730 --> 00:29:19.640
+Fabio Di Fabio: for the fork choice update.
+
+213
+00:29:20.440 --> 00:29:24.290
+Fabio Di Fabio: I was wondering if there are normal cases.
+
+214
+00:29:24.800 --> 00:29:31.530
+Fabio Di Fabio: Where… A new payload is called with a different Inclusion list.
+
+215
+00:29:34.160 --> 00:29:36.210
+Jihoon: There could be. It could be…
+
+216
+00:29:37.620 --> 00:29:47.160
+Jihoon: called with more ILs or less IL. So, when you… when the CL sees more ILs, and if they wanna…
+
+217
+00:29:47.460 --> 00:29:52.930
+Jihoon: Have them included in the payload. They were gonna call… oh, sorry, new payload, you said.
+
+218
+00:29:52.930 --> 00:29:55.539
+Fabio Di Fabio: New payload, not fork choice, yes.
+
+219
+00:29:55.740 --> 00:29:58.269
+Jihoon: I don't think so.
+
+220
+00:29:59.400 --> 00:30:00.250
+Jihoon: Yeah.
+
+221
+00:30:02.470 --> 00:30:05.470
+Fabio Di Fabio: So, let's say, basically changing the…
+
+222
+00:30:06.730 --> 00:30:12.340
+Fabio Di Fabio: The result saying that inclusion list was satisfied.
+
+223
+00:30:12.760 --> 00:30:15.239
+Fabio Di Fabio: to not satisfied or.
+
+224
+00:30:15.240 --> 00:30:23.420
+Jihoon: I see. I think this should not happen, because attesters should have frozen their IL view.
+
+225
+00:30:23.880 --> 00:30:29.580
+Jihoon: Way much before they called new payload, they should have frozen it, like.
+
+226
+00:30:29.690 --> 00:30:35.250
+Jihoon: 9 seconds in the previous slot. So this… this should not happen.
+
+227
+00:30:35.780 --> 00:30:41.659
+Fabio Di Fabio: Okay, so if this zpen is a bug or something.
+
+228
+00:30:41.830 --> 00:30:42.520
+Fabio Di Fabio: Okay.
+
+229
+00:30:43.320 --> 00:30:45.240
+Fabio Di Fabio: Bad happening, so, yeah.
+
+230
+00:30:46.030 --> 00:30:47.930
+Jihoon: Hmm, yeah.
+
+231
+00:30:48.250 --> 00:30:49.000
+Fabio Di Fabio: Thank you.
+
+232
+00:30:49.690 --> 00:30:55.360
+Jihoon: Yeah, this should not happen. The only case that I can think of is… An equivocation.
+
+233
+00:30:55.550 --> 00:30:58.989
+Jihoon: But… this Equivocation…
+
+234
+00:31:00.420 --> 00:31:12.700
+Jihoon: is not a case in this scenario, because you will gonna ignore IELTS from previous slot. So, equivocation you see after
+
+235
+00:31:13.000 --> 00:31:22.370
+Jihoon: Preferred slot doesn't really affect on your, IL view. So, yeah, I don't think this will gonna happen.
+
+236
+00:31:26.120 --> 00:31:27.199
+Fabio Di Fabio: Okay, thanks.
+
+237
+00:31:27.810 --> 00:31:29.240
+Jihoon: Okay, thank you.
+
+238
+00:31:29.570 --> 00:31:33.510
+Jihoon: I think it's a good time to move on to fossil and frames.
+
+239
+00:31:34.770 --> 00:31:40.480
+Jihoon: So… Mark has prepared some material we can discuss over.
+
+240
+00:31:41.980 --> 00:31:43.400
+Jihoon: Here are the links.
+
+241
+00:31:44.090 --> 00:31:46.020
+Jihoon: Mark, do you want to give us some intro?
+
+242
+00:31:48.290 --> 00:32:01.870
+Marc: Yeah, I can just give, like, a brief summary of, what I've worked on. So, I mean, mostly it's just kind of, realizing the details of, Tomas' informational EIP.
+
+243
+00:32:04.080 --> 00:32:10.419
+Marc: So yeah, so mostly it's around the handling of the profile two transactions.
+
+244
+00:32:10.650 --> 00:32:23.799
+Marc: So… Yeah, so with, frame transactions, unlike previously, where we executed everything at the end of the block.
+
+245
+00:32:23.930 --> 00:32:32.559
+Marc: Now the builder has to specify a specific index where they have evaluated the transaction.
+
+246
+00:32:32.830 --> 00:32:39.519
+Marc: So, to actually support that, we… I added, like, a…
+
+247
+00:32:39.550 --> 00:32:48.890
+Marc: A new object like the claims object which maps the transaction hashes.
+
+248
+00:32:48.910 --> 00:33:01.149
+Marc: To where… the index where the builder has evaluated them. So this object, the builder is gonna, include the root in their bid.
+
+249
+00:33:03.360 --> 00:33:08.240
+Marc: So, like, to commit to it, and then it'll be passed along in the,
+
+250
+00:33:08.920 --> 00:33:11.739
+Marc: Execution payload envelope.
+
+251
+00:33:13.630 --> 00:33:16.440
+Marc: So…
+
+252
+00:33:18.890 --> 00:33:33.710
+Marc: Yeah, so as well as that, there's also a new ID which is included, so that binds, the execution payload as long as… as well as the claims, and that's going to be passed,
+
+253
+00:33:35.860 --> 00:33:48.939
+Marc: So it's kind of passed in a similar way to how we handle the payload ID currently, so… The EL's gonna return it on new payload, this ID, and then…
+
+254
+00:33:57.360 --> 00:34:00.759
+Marc: Yeah, sorry, I'm getting a bit, so…
+
+255
+00:34:01.400 --> 00:34:17.309
+Marc: Yeah, sorry, I had to just throw some slides to make this a little bit clearer to explain. So yeah, it's essentially, like, we just need a new object, which is gonna show, like, where the builder is claiming that they want all of the transactions to be checked.
+
+256
+00:34:17.690 --> 00:34:27.040
+Marc: And as well as that, we have this new, limit, so… And.
+
+257
+00:34:27.949 --> 00:34:38.559
+Marc: Essentially, like, each of the individual ILs, we want to bound the amount of computation that needs to be done to verify the validation prefixes.
+
+258
+00:34:38.980 --> 00:34:45.870
+Marc: And we want that to be handled, like, per IL, so we don't want, like, an honest…
+
+259
+00:34:46.219 --> 00:34:54.270
+Marc: IL, proposer to… Kind of have their… All of the,
+
+260
+00:34:54.810 --> 00:34:58.070
+Marc: The validation gas used up by someone else.
+
+261
+00:34:58.180 --> 00:35:02.740
+Marc: So, we need to include… A new object, which…
+
+262
+00:35:03.090 --> 00:35:07.789
+Marc: the EL can use to identify which IL each transaction came from.
+
+263
+00:35:07.930 --> 00:35:17.370
+Marc: So that then they can check this limit individually per inclusion list. So yeah, there's this new, like, membership, bitmap.
+
+264
+00:35:17.680 --> 00:35:26.770
+Marc: Yeah, I mean, that pretty much summarizes it. Yeah, so please,
+
+265
+00:35:27.210 --> 00:35:33.930
+Marc: review the specs, it would be good to kind of, if, especially ethrex could have a look at those, specs.
+
+266
+00:35:34.210 --> 00:35:36.639
+Marc: And give some feedback there.
+
+267
+00:35:38.570 --> 00:35:41.739
+Marc: Yeah, sorry, that wasn't a very clear explanation.
+
+268
+00:35:43.310 --> 00:35:45.500
+Jihoon: That was great. Thanks.
+
+269
+00:35:45.890 --> 00:35:49.970
+Jihoon: I have a couple of questions. So, currently.
+
+270
+00:35:50.360 --> 00:35:59.780
+Jihoon: Max verified gas per IL is set to 1 million gas. I wonder how many frame transactions do we expect with 1 mil?
+
+271
+00:36:07.890 --> 00:36:11.019
+Marc: Yeah, I'm not sure off the top of my head.
+
+272
+00:36:12.620 --> 00:36:13.340
+Jihoon: I see.
+
+273
+00:36:15.810 --> 00:36:18.069
+Jihoon: Does ethrex know by any chance?
+
+274
+00:36:32.700 --> 00:36:34.069
+Iván | ethrex: Sorry, what was the question?
+
+275
+00:36:35.630 --> 00:36:41.290
+Jihoon: Yeah, I wonder… If you know how many frame transactions.
+
+276
+00:36:41.910 --> 00:36:45.440
+Jihoon: We can execute with 1 million gas.
+
+277
+00:36:50.240 --> 00:36:54.719
+Iván | ethrex: No, but it would be interesting to to measure.
+
+278
+00:36:56.990 --> 00:36:57.729
+Jihoon: I see.
+
+279
+00:36:59.710 --> 00:37:02.180
+Jihoon: Yeah, I was just curious, because…
+
+280
+00:37:02.740 --> 00:37:10.860
+Jihoon: you know, now we have two limits per IL. One is size limit, and the other one is gas limit, so I'm just curious, like, how many…
+
+281
+00:37:11.260 --> 00:37:16.409
+Jihoon: What would be the expected size that brain transactions would take?
+
+282
+00:37:16.980 --> 00:37:18.389
+Jihoon: An enclosure list.
+
+283
+00:37:18.540 --> 00:37:21.610
+Jihoon: 50 regular transactions.
+
+284
+00:37:27.110 --> 00:37:27.930
+Jihoon: Amen.
+
+285
+00:37:29.500 --> 00:37:33.510
+Jihoon: Regular legacy transactions, not frame transactions, right?
+
+286
+00:37:36.090 --> 00:37:41.439
+Jihoon: Few… two to three privacy transactions, and… Do we know…
+
+287
+00:37:41.740 --> 00:37:44.850
+Jihoon: How big is those privacy transactions?
+
+288
+00:37:48.260 --> 00:37:51.760
+Jihoon: Oh, yeah, right, alright, it's not a… it's not for standard.
+
+289
+00:37:51.990 --> 00:37:53.580
+Jihoon: brand transactions.
+
+290
+00:38:07.640 --> 00:38:09.819
+Jihoon: Oh, what's the 500k gas mean?
+
+291
+00:38:18.900 --> 00:38:22.550
+Jihoon: Oh, I see, yeah, do you know how big?
+
+292
+00:38:23.180 --> 00:38:25.879
+Jihoon: The… those private transactions are.
+
+293
+00:38:26.930 --> 00:38:28.110
+Jihoon: invites.
+
+294
+00:38:29.550 --> 00:38:35.960
+Toni Wahrstätter: Okay, it might just be myself. I'm not very quick.
+
+295
+00:38:36.100 --> 00:38:48.810
+Toni Wahrstätter: They are not very big. So I think with post-quantum, they might turn bigger because the proof size will increase. But today, Railway and Tornado Cache are not really big from call data perspective.
+
+296
+00:38:50.200 --> 00:38:53.009
+Jihoon: Is it similar to regular transactions?
+
+297
+00:38:55.430 --> 00:39:00.530
+Toni Wahrstätter: Yeah, probably like a complex DFI transaction. They look similar.
+
+298
+00:39:00.990 --> 00:39:01.790
+Jihoon: I see.
+
+299
+00:39:07.080 --> 00:39:17.949
+Jihoon: I've, relevant question to this one. So, the membership is needed to Let the EL know.
+
+300
+00:39:18.780 --> 00:39:26.380
+Jihoon: which IL this transaction was belonged to, so that they can, you know, measure how many guests.
+
+301
+00:39:27.460 --> 00:39:30.990
+Jihoon: HIL has consumed so far.
+
+302
+00:39:32.050 --> 00:39:40.430
+Jihoon: And… I think alternative design here is letting the CL to pass ILs instead of IL transactions.
+
+303
+00:39:40.900 --> 00:39:46.979
+Jihoon: Which means the EL will do the duplication, and omission check, and the return.
+
+304
+00:39:47.240 --> 00:39:58.630
+Jihoon: According to the PR omission claims, and the rest stays the same. So, the downside is that this will gonna consume more engine API bandwidth.
+
+305
+00:39:58.940 --> 00:40:01.840
+Jihoon: But maybe it's a cleaner design.
+
+306
+00:40:02.250 --> 00:40:08.640
+Jihoon: We… Tapped into this… Direction before, when we discussed
+
+307
+00:40:10.250 --> 00:40:16.349
+Jihoon: I think it was Beacon API event or something for builders.
+
+308
+00:40:17.130 --> 00:40:22.840
+Jihoon: And we just decided to stay as is, and revisit this later.
+
+309
+00:40:23.420 --> 00:40:33.259
+Jihoon: And, yeah, going with frames… the interaction with frames, maybe we need to cover this direction once more.
+
+310
+00:40:38.300 --> 00:40:39.310
+Jihoon: Yeah, Tony.
+
+311
+00:40:40.860 --> 00:40:45.960
+Toni Wahrstätter: Yeah, am I right, with my understanding that we have to
+
+312
+00:40:46.160 --> 00:40:51.099
+Toni Wahrstätter: Enforce this 1 million, verify frame
+
+313
+00:40:51.550 --> 00:41:08.780
+Toni Wahrstätter: verify gas limit, we have to enforce it on the EL side, because the CLs cannot look into transactions. So, that's why the EL still needs, like, a mapping from which transaction comes from which IL, because only then you can enforce
+
+314
+00:41:09.020 --> 00:41:14.330
+Toni Wahrstätter: The 1 million verified gas per, Yeah.
+
+315
+00:41:14.330 --> 00:41:14.950
+Jihoon: essentially.
+
+316
+00:41:14.950 --> 00:41:16.210
+Toni Wahrstätter: Royal. Okay. Yeah.
+
+317
+00:41:16.210 --> 00:41:19.370
+Jihoon: Yeah, that's my understanding, too. And to…
+
+318
+00:41:19.610 --> 00:41:26.199
+Jihoon: To that end, the CL has to do some stuff. Like… You know, making that mapping.
+
+319
+00:41:26.470 --> 00:41:29.930
+Jihoon: Basically doing some byte-to-byte comparison.
+
+320
+00:41:30.150 --> 00:41:31.060
+Jihoon: But…
+
+321
+00:41:32.590 --> 00:41:41.500
+Jihoon: is this the best abstraction that we can have? That's my question, like, what if we just let EL to do everything related to transactions? Because they do
+
+322
+00:41:41.710 --> 00:41:44.189
+Jihoon: They, they, they are good at that, so…
+
+323
+00:41:44.370 --> 00:41:49.770
+Jihoon: But the downside is it will consume more engine API bandwidth, so there's a trade-off.
+
+324
+00:41:51.290 --> 00:41:53.490
+Jihoon: But we're gonna make the spec.
+
+325
+00:41:54.080 --> 00:41:57.449
+Jihoon: And maybe client implementation.
+
+326
+00:41:57.570 --> 00:41:58.660
+Jihoon: Simpler.
+
+327
+00:41:59.100 --> 00:42:03.040
+Jihoon: So I think this is worth to explore down the road.
+
+328
+00:42:09.040 --> 00:42:12.869
+Jihoon: Another… I mean, the other question that I have is.
+
+329
+00:42:14.210 --> 00:42:17.300
+Jihoon: this new… ID thing?
+
+330
+00:42:17.550 --> 00:42:22.849
+Jihoon: Engine get… enclosurely status V1, from my understanding.
+
+331
+00:42:23.460 --> 00:42:30.920
+Jihoon: This makes new payload or fork choice updated async, but…
+
+332
+00:42:31.920 --> 00:42:40.120
+Jihoon: CL will have to wait for IL validation result anyway, so I wonder what's the rationale behind this proposal?
+
+333
+00:42:48.140 --> 00:42:54.789
+Marc: Yeah, I mean, it's possible we don't need the ID if we go with that other approach.
+
+334
+00:42:55.150 --> 00:42:56.220
+Marc: On.
+
+335
+00:43:01.340 --> 00:43:09.290
+Jihoon: I see. I guess it was… this is… this was more for… Efficiency and optimization?
+
+336
+00:43:12.110 --> 00:43:12.880
+Jihoon: Yeah.
+
+337
+00:43:12.880 --> 00:43:17.820
+Marc: Yeah, pretty much. But so you think it probably isn't worth doing, maybe?
+
+338
+00:43:20.370 --> 00:43:27.580
+Jihoon: Yeah, it'd be nice if you can have more feedback from CL and EL devs, Yeah.
+
+339
+00:43:28.240 --> 00:43:33.800
+Jihoon: Anyway, that's the question that I got.
+
+340
+00:43:34.090 --> 00:43:37.160
+Jihoon: Thanks for preparing these PRs.
+
+341
+00:43:37.450 --> 00:43:43.169
+Jihoon: Do we have… for comments or questions. We are… we still have some time left, so we can…
+
+342
+00:43:43.850 --> 00:43:45.100
+Jihoon: discuss more.
+
+343
+00:43:54.940 --> 00:44:02.540
+Nico Flaig: I was wondering, do we have a censoring builder now? And if we do, how, like, should it work?
+
+344
+00:44:03.480 --> 00:44:11.090
+Nico Flaig: like, the trivial way to censor, right, is just to do an empty payload. I'm not sure that is what Barnabas did.
+
+345
+00:44:13.840 --> 00:44:14.520
+Jihoon: Yeah.
+
+346
+00:44:15.570 --> 00:44:18.810
+Jihoon: I guess not. We don't have him here, so…
+
+347
+00:44:24.930 --> 00:44:29.230
+Jihoon: Is your builder…
+
+348
+00:44:29.510 --> 00:44:31.310
+Jihoon: Pay a couple of censoring.
+
+349
+00:44:33.380 --> 00:44:37.140
+Nico Flaig: Not right now. I haven't updated it for FOCIL yet.
+
+350
+00:44:39.500 --> 00:44:40.370
+Jihoon: I see.
+
+351
+00:44:42.100 --> 00:44:48.019
+Jihoon: I think we can… We could use some dev net in the future to, you know.
+
+352
+00:44:48.880 --> 00:44:52.600
+Jihoon: make something like… something similar.
+
+353
+00:44:52.910 --> 00:44:54.250
+Jihoon: To that star.
+
+354
+00:44:54.990 --> 00:45:02.190
+Jihoon: Producing some censoring payloads, so on and so forth, like, attesting to wrong payload, and see what happens.
+
+355
+00:45:15.460 --> 00:45:17.440
+Jihoon: Any other comments or questions?
+
+356
+00:45:34.840 --> 00:45:36.949
+Jihoon: Before we wrap up this call.
+
+357
+00:45:38.230 --> 00:45:46.210
+Jihoon: I'd like to discuss… Breakout schedule, so we were gonna… have…
+
+358
+00:45:47.440 --> 00:45:52.450
+Jihoon: Our next DevNet in two weeks, which is one week before DEF CON.
+
+359
+00:45:53.120 --> 00:46:01.560
+Jihoon: I guess not many people will be traveling at that time, so we can… Have that call as scheduled.
+
+360
+00:46:02.200 --> 00:46:04.650
+Jihoon: And I guess then.
+
+361
+00:46:04.930 --> 00:46:12.180
+Jihoon: the next call… is… one week after the DEFCON, so…
+
+362
+00:46:12.560 --> 00:46:16.229
+Jihoon: I guess it's better to push it back by one week.
+
+363
+00:46:23.360 --> 00:46:29.430
+Jihoon: Which is… the 17th November, instead of 10th.
+
+364
+00:46:34.760 --> 00:46:40.710
+Jihoon: Are we good with this schedule, or is it still only to… Settle in.
+
+365
+00:47:10.700 --> 00:47:12.380
+Jihoon: To answer this question…
+
+366
+00:47:28.560 --> 00:47:30.000
+Jihoon: Yeah, to answers.
+
+367
+00:47:30.120 --> 00:47:31.979
+Jihoon: To answer the question,
+
+368
+00:47:32.900 --> 00:47:38.630
+Jihoon: I'm not sure yet. It will be absorbed by ACDC at some point in time, but…
+
+369
+00:47:39.640 --> 00:47:49.810
+Jihoon: Maybe it could be… By the time we have FOCIL devnet 2, Or maybe it could be… Sometime later.
+
+370
+00:47:50.030 --> 00:47:53.310
+Jihoon: But I think we will know once we get there, so…
+
+371
+00:47:54.260 --> 00:48:00.320
+Jihoon: Yeah, I think we can just say that we can just continue FOCIL-specific discussion.
+
+372
+00:48:00.530 --> 00:48:09.400
+Jihoon: And… in this breakout, because we are still discussing some Glamsterdam stuff in ACDC, even in CL breakout.
+
+373
+00:48:10.510 --> 00:48:11.540
+Jihoon: But yeah.
+
+374
+00:48:13.310 --> 00:48:16.969
+Jihoon: that the time is coming that we're gonna just move to ACDC.
+
+375
+00:48:18.090 --> 00:48:24.949
+Jihoon: To Ivan's question, the next breakout, which is 45, will be 2 weeks from now.
+
+376
+00:48:25.090 --> 00:48:28.670
+Jihoon: And the one after would be…
+
+377
+00:48:30.300 --> 00:48:34.620
+Jihoon: On the 17th, if we push it back by one week.
+
+378
+00:48:38.130 --> 00:48:39.779
+Jihoon: Instead of the 10th.
+
+379
+00:48:40.570 --> 00:48:44.899
+Jihoon: Or we can just, you know, decide it in the next breakout.
+
+380
+00:48:45.890 --> 00:48:47.619
+Jihoon: Because we were going to have it anyway.
+
+381
+00:48:50.470 --> 00:49:00.269
+Jihoon: Yeah, let's just… let's just say that we're gonna have the one after on the 17th instead of 10th tentatively, and then just review it later.
+
+382
+00:49:01.000 --> 00:49:05.979
+Jihoon: Yeah, Does anyone have any last comments or questions?
+
+383
+00:49:18.280 --> 00:49:20.439
+Jihoon: All right, thank you, everyone.
+
+384
+00:49:20.550 --> 00:49:22.700
+Jihoon: See you in two weeks. Thank you.
+
+385
+00:49:24.620 --> 00:49:25.480
+Fabio Di Fabio: Thank you, bye.
+
+386
+00:49:25.480 --> 00:49:25.990
+Marc: spa.
+
+387
+00:49:25.990 --> 00:49:26.560
+Nico Flaig: you.
+
+388
+00:49:27.470 --> 00:49:27.870
+Iván | ethrex: But.
+

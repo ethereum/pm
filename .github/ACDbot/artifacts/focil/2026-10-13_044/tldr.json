@@ -1,0 +1,104 @@
+{
+  "meeting": "FOCIL Breakout #44 - October 13, 2026",
+  "highlights": {
+    "devnet_status": [
+      {
+        "timestamp": "00:04:31",
+        "highlight": "FOCIL devnet 1 live but missing slots; Lighthouse fork-choice enforcement missing, PR under review"
+      },
+      {
+        "timestamp": "00:06:43",
+        "highlight": "ethrex ready for FOCIL devnet 2; has EIP-8198 implemented"
+      },
+      {
+        "timestamp": "00:09:04",
+        "highlight": "Lodestar merged EIPs 8365, 8015, 8198 to trunk; FOCIL branch merge expected within days"
+      },
+      {
+        "timestamp": "00:09:45",
+        "highlight": "Lodestar bug: ILs created on payload receipt, not after new-payload call (uses fallback path always); fix needed"
+      }
+    ],
+    "client_updates": [
+      {
+        "timestamp": "00:08:11",
+        "highlight": "Prysm joining FOCIL devnet 2; rebasing Terrence's prior FOCIL implementation"
+      },
+      {
+        "timestamp": "00:09:49",
+        "highlight": "Nethermind needs to assess EIP-8198 EL changes before devnet 2"
+      }
+    ],
+    "spec_updates": [
+      {
+        "timestamp": "00:13:51",
+        "highlight": "FOCIL EIP rebased from Fulu to Gloas; transaction-interaction with frames not yet included"
+      },
+      {
+        "timestamp": "00:14:26",
+        "highlight": "Three CL-spec PRs merged: two minor bug fixes, one IL deadline update (discussed at ACDC)"
+      }
+    ],
+    "focil_frames_design": [
+      {
+        "timestamp": "00:31:48",
+        "highlight": "Marc's frames spec: builder commits to a claims object (tx-hash \u2192 evaluation index); included in execution payload envelope"
+      },
+      {
+        "timestamp": "00:34:38",
+        "highlight": "Per-IL max-verified-gas limit (1M gas) enforced on EL; membership bitmap maps IL transactions to source IL"
+      },
+      {
+        "timestamp": "00:39:18",
+        "highlight": "Alternative design raised: pass full ILs (not IL-txs) to EL via engine API; EL handles deduplication/omission; cleaner but higher bandwidth"
+      },
+      {
+        "timestamp": "00:42:09",
+        "highlight": "engine_getInclusionListStatus async ID mechanism questioned; may be unnecessary if alternative design adopted"
+      }
+    ],
+    "el_payload_building": [
+      {
+        "timestamp": "00:19:14",
+        "highlight": "Besu strategy: first iteration builds minimal IL-only block; subsequent iterations add profitable txs; IL txs also sent to mempool"
+      },
+      {
+        "timestamp": "00:15:42",
+        "highlight": "Open question: how fast can ELs reseal a payload after new ILs arrive at 9s mark? Nico's builder: ~5ms; production ELs likely not optimized"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:45:38",
+        "highlight": "FOCIL Breakout #45 in two weeks as scheduled; Breakout #46 tentatively moved to November 17 (from November 10) due to DEF CON"
+      },
+      {
+        "timestamp": "00:47:28",
+        "highlight": "FOCIL breakout will eventually be absorbed into ACDC; timing TBD, likely around FOCIL devnet 2"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:35:25",
+      "action": "Review frames spec PRs (EIPs/12394, consensus-specs/5698, execution-apis/911) and provide feedback",
+      "owner": "ethrex and all CL/EL teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:13:39",
+      "decision": "Keep FOCIL devnet 1 running until devnet 2 is ready"
+    },
+    {
+      "timestamp": "00:49:00",
+      "decision": "FOCIL Breakout #46 tentatively moved to November 17 instead of November 10; to be confirmed at Breakout #45"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:04:31",
+      "target": "FOCIL devnet 2 \u2014 targeting readiness from ethrex, Lodestar, Nethermind, Prysm; no firm date set"
+    }
+  ]
+}
