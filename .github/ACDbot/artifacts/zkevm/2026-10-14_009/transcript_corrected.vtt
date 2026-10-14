@@ -1,0 +1,2526 @@
+WEBVTT
+
+1
+00:15:23.330 --> 00:15:24.310
+Maxim Menshikov: Hi.
+
+2
+00:15:53.350 --> 00:15:54.720
+ignacio: Hello, everyone.
+
+3
+00:15:57.720 --> 00:15:58.490
+Maxim Menshikov: Hi.
+
+4
+00:16:02.160 --> 00:16:05.850
+ignacio: Let's wait for one or two more minutes for people…
+
+5
+00:16:08.660 --> 00:16:12.789
+ignacio: Let's wait for one or two minutes for people to join. I will…
+
+6
+00:16:13.500 --> 00:16:21.050
+ignacio: I'm coming from another call, so I have to prepare a bit the slides, so… Hold for a second.
+
+7
+00:17:15.970 --> 00:17:23.329
+ignacio: Okay, so I think we can start. Let me share my screen for a second.
+
+8
+00:17:32.480 --> 00:17:34.459
+ignacio: Too many things open here.
+
+9
+00:17:35.720 --> 00:17:36.630
+ignacio: Okay.
+
+10
+00:17:49.390 --> 00:17:51.039
+ignacio: Can you see my screen?
+
+11
+00:17:53.660 --> 00:17:54.510
+Maxim Menshikov: Yeah.
+
+12
+00:17:56.670 --> 00:17:57.340
+ignacio: Cool.
+
+13
+00:17:58.230 --> 00:18:08.880
+ignacio: Okay, welcome everyone, this is L1 CDVM breakup call number 9. We will be sharing some updates.
+
+14
+00:18:09.470 --> 00:18:12.849
+ignacio: From the last, since the last call.
+
+15
+00:18:13.270 --> 00:18:21.699
+ignacio: So the agenda today is, we have some highlights on some topics that are quite important that will happen in the next days.
+
+16
+00:18:22.000 --> 00:18:32.470
+ignacio: We'll have some project updates, a bit partial, because, Cody and Han are out of office, so they might fold their updates in the next call.
+
+17
+00:18:32.850 --> 00:18:36.580
+ignacio: We will have some updates from the Silkworm team.
+
+18
+00:18:37.450 --> 00:18:43.359
+ignacio: And we will have some updates from CL clients, and some plans that we have for Sepolia.
+
+19
+00:18:45.840 --> 00:18:57.420
+ignacio: So, one of the main highlights for you to be aware is, that in the next ACDC call, which is tomorrow, there are, like, high chances that we will
+
+20
+00:18:57.780 --> 00:19:03.139
+ignacio: potentially decide on CFI EIP-EIP-8025 in Glamsterdam.
+
+21
+00:19:04.120 --> 00:19:16.260
+ignacio: So it will be really useful if you have some strong opinions on doing this, to join our call and support our proposal to see if I need.
+
+22
+00:19:16.680 --> 00:19:22.629
+ignacio: We will make some, small presentation, maybe a…
+
+23
+00:19:23.140 --> 00:19:32.519
+ignacio: One, two, or three slides to highlight the main reasons why we want to do this, so that people really understand our argument.
+
+24
+00:19:32.990 --> 00:19:39.659
+ignacio: But at the end of the day it's up to the EL and potential EL clients to speak up and
+
+25
+00:19:40.210 --> 00:19:42.200
+ignacio: And… decide this.
+
+26
+00:19:43.590 --> 00:19:54.130
+ignacio: As another highlight update, I updated the EIP-8025 with the latest progress and arguments.
+
+27
+00:19:54.840 --> 00:20:02.150
+ignacio: I'm not sure how many people are really reading these things, because people are usually too busy on working on stuff, but I think it's…
+
+28
+00:20:02.280 --> 00:20:07.450
+ignacio: Pretty important to have this kind of information in written form, so… There are…
+
+29
+00:20:07.590 --> 00:20:12.259
+ignacio: They have, like, the factual information about progress and…
+
+30
+00:20:12.430 --> 00:20:24.410
+ignacio: And similar, and not thinking that we are simply proposing some EIP that was, like, one-shotted in the last week, or something like that. I think the EIP-8025 effort has been…
+
+31
+00:20:24.870 --> 00:20:32.110
+ignacio: ongoing for, like, a pretty long time already. I'm pretty mature with a lot of releases, a lot of refinements.
+
+32
+00:20:32.590 --> 00:20:37.379
+ignacio: And I think the readiness is, like, probably our strongest argument to
+
+33
+00:20:37.850 --> 00:20:42.690
+ignacio: to highlight in the… in ACDC tomorrow.
+
+34
+00:20:43.640 --> 00:20:51.460
+ignacio: So yeah, if you're interested, or simply are working in EIP-8025, and you just want to have, like, a single document with a lot of links, and
+
+35
+00:20:52.110 --> 00:20:56.990
+ignacio: Things that are going on, probably these are the best,
+
+36
+00:20:57.220 --> 00:21:00.109
+ignacio: Places. The best documents to use.
+
+37
+00:21:02.280 --> 00:21:12.769
+ignacio: As another, thing to highlight is that in the last ACDE call, EIP7709 was CFI.
+
+38
+00:21:13.800 --> 00:21:17.159
+ignacio: This is really nice for…
+
+39
+00:21:17.560 --> 00:21:25.139
+ignacio: Our interests, because it simplifies the stateless inputs for the guest program.
+
+40
+00:21:26.410 --> 00:21:28.470
+ignacio: Hasotldr.
+
+41
+00:21:29.030 --> 00:21:36.640
+ignacio: Today, the execution witness in the execution specs Has these headers filled?
+
+42
+00:21:37.030 --> 00:21:42.639
+ignacio: Which is a chain of… Up to 256 HeaderBlocks
+
+43
+00:21:42.900 --> 00:21:46.360
+ignacio: That we need to prove that
+
+44
+00:21:47.340 --> 00:21:53.769
+ignacio: potential block hash of code executions within the block use the correct data.
+
+45
+00:21:55.180 --> 00:22:05.899
+ignacio: And what EIP-7709 is trying to do is to say, okay, now BlockHash, needs to use, EIP2935 system contract.
+
+46
+00:22:06.260 --> 00:22:12.489
+ignacio: To really access the hashes. So basically, this means that this execution witness
+
+47
+00:22:13.330 --> 00:22:24.600
+ignacio: container can really remove these headers, and this information is indirectly in this state field, right? Because BlueHash will be simply accessing the state tree.
+
+48
+00:22:24.840 --> 00:22:27.680
+ignacio: And this is indirectly captured by state.
+
+49
+00:22:27.800 --> 00:22:33.439
+ignacio: So we can remove this, this simplifies the execution with next generation, this simplifies
+
+50
+00:22:33.700 --> 00:22:38.220
+ignacio: A lot of test cases that we have today, the 2025.
+
+51
+00:22:38.340 --> 00:22:39.860
+ignacio: regarding, like.
+
+52
+00:22:40.050 --> 00:22:48.670
+ignacio: Receiving an invalid list of headers with a gap in the middle, with the chain. the… the… the… Parent.
+
+53
+00:22:49.420 --> 00:22:54.570
+ignacio: Hash, not really matching the…
+
+54
+00:22:54.720 --> 00:22:57.850
+ignacio: Correctly, and a lot of things that can go wrong.
+
+55
+00:22:59.380 --> 00:23:10.789
+ignacio: So yeah, this will simplify this field, and hopefully in the future, whenever PVT comes, and bytecode is chunkified, this code still will also go away.
+
+56
+00:23:10.930 --> 00:23:14.380
+ignacio: Because code will be part of the state.
+
+57
+00:23:15.420 --> 00:23:18.789
+ignacio: And the execution with this would be mainly.
+
+58
+00:23:18.980 --> 00:23:23.630
+ignacio: just… state, like, tree nodes.
+
+59
+00:23:24.080 --> 00:23:29.980
+ignacio: So that's kind of the long-term direction that we are going, and 7709 is just
+
+60
+00:23:30.380 --> 00:23:34.749
+ignacio: a step in that direction, where it's taking care of this Headers field.
+
+61
+00:23:35.020 --> 00:23:42.340
+ignacio: So, CFI doesn't mean SFI, it just means that it's considered, but it's a really nice step forward.
+
+62
+00:23:44.120 --> 00:23:51.990
+ignacio: Okay, I will go through some updates, general updates. As I said, Cody and Han are not really here.
+
+63
+00:23:54.300 --> 00:24:03.969
+ignacio: But yeah, I will try to cover a bit of a lot of things, and for the EL part, I think Tao is in the call, and he will cover that part.
+
+64
+00:24:04.130 --> 00:24:13.750
+ignacio: On the specs and tests, we have these tests, ZKVM release, version 21, which is basically based on
+
+65
+00:24:14.190 --> 00:24:17.820
+ignacio: the Sepolia official tests.
+
+66
+00:24:18.270 --> 00:24:30.399
+ignacio: And on top of that, we already simplified a couple things, like remove public keys field from stateless inputs, because apparently this is not really relevant anymore for
+
+67
+00:24:30.800 --> 00:24:39.369
+ignacio: Performance implications, and this simplifies also, like, execution with stateless input creation and verification.
+
+68
+00:24:39.780 --> 00:24:50.409
+ignacio: And cross-checking that the public case hints is really coherent with the transaction signatures and a lot of stuff, so this was a nice simplification.
+
+69
+00:24:51.120 --> 00:24:57.749
+ignacio: I've been working a lot of refactoring the branch in the execution specs.
+
+70
+00:24:58.340 --> 00:25:07.110
+ignacio: So, upstreaming this work is as easy as possible. This was more like to justify more 8025 in CFI.
+
+71
+00:25:07.290 --> 00:25:14.460
+ignacio: Here on the right, I built a table where I showed that EIP-8025 actually
+
+72
+00:25:14.770 --> 00:25:20.700
+ignacio: might seem a big PR, it's like a 17,000 lines of code in total.
+
+73
+00:25:21.360 --> 00:25:29.099
+ignacio: But I want you to de-aggregate where these lines were coming from, and mostly to highlight that only 56 lines
+
+74
+00:25:29.240 --> 00:25:39.240
+ignacio: are actually in the SDF spec of the branch, which is the most sensitive part that I think our developers care about.
+
+75
+00:25:39.420 --> 00:25:46.530
+ignacio: EIP-8025 is not really changing much of the SDF, as one would expect.
+
+76
+00:25:46.750 --> 00:26:02.780
+ignacio: And a lot of these lines are basically comments and things like that, to be honest. Not really, like, a relevant change. Most of the lines are on the testing framework changes, because we have to add this new safely input bytes field and output fields.
+
+77
+00:26:03.270 --> 00:26:06.429
+ignacio: We have a lot of new tests.
+
+78
+00:26:06.980 --> 00:26:11.710
+ignacio: For EIP-8025, so this is just, like, new tests for the EIP.
+
+79
+00:26:12.060 --> 00:26:23.310
+ignacio: And we have some other, like, yeah, more testing framework changes, like CI workflows, or filling benchmarks for CTEVM and things like that, so…
+
+80
+00:26:23.420 --> 00:26:30.130
+ignacio: Most of these 17K lines are really, like, high-risk changes for execution specs.
+
+81
+00:26:30.340 --> 00:26:35.859
+ignacio: regarding the Stf. Which I think is the the most sensitive part. So that's kind of the
+
+82
+00:26:36.040 --> 00:26:40.500
+ignacio: I think I want you to highlight with this table, that is part of the…
+
+83
+00:26:40.780 --> 00:26:45.010
+ignacio: of the 8025 PR that is a draft in the repo.
+
+84
+00:26:46.150 --> 00:26:51.330
+ignacio: Yeah, we did a couple of other changes, like adding more tests and things like that.
+
+85
+00:26:51.550 --> 00:26:56.830
+ignacio: And now the Hive consumer also supports the REST and SSZ.
+
+86
+00:26:56.950 --> 00:27:00.020
+ignacio: variant of the ancient API,
+
+87
+00:27:01.240 --> 00:27:05.359
+ignacio: So, this is pretty nice, because we can already start testing.
+
+88
+00:27:05.640 --> 00:27:12.229
+ignacio: Engine API running of tests using REST SSZ instead of JSON RPC.
+
+89
+00:27:12.370 --> 00:27:19.150
+ignacio: We made another release for test ZKVM benchmarks, based on the same branch.
+
+90
+00:27:19.490 --> 00:27:34.109
+ignacio: I'm now targeting these gas limits, which is pretty nice, because this is, like, an official release. Some people can run it through benchmark, their guest programs, and… And similar, it will be useful for us, too, whenever we start
+
+91
+00:27:34.350 --> 00:27:39.889
+ignacio: running these things in the EF proofing cluster to make real proofs.
+
+92
+00:27:41.140 --> 00:27:53.490
+ignacio: And I'm coming soon, I will be rebasing, on the latest release of tests, which is… has some extra coverage for
+
+93
+00:27:53.850 --> 00:27:55.700
+ignacio: for Glamsterdam stuff.
+
+94
+00:27:56.020 --> 00:28:01.190
+ignacio: Plus, in the last two days, we have merged, like, 13 PRs.
+
+95
+00:28:01.460 --> 00:28:10.130
+ignacio: With even more test coverage. I want to thank Gabriel and Omer for this. A couple of these PRs were coming from them.
+
+96
+00:28:10.300 --> 00:28:13.459
+ignacio: And this is really nice because, yeah,
+
+97
+00:28:14.340 --> 00:28:21.510
+ignacio: A lot of these PRs are, were created because of real bugs being found in
+
+98
+00:28:21.830 --> 00:28:25.960
+ignacio: In… in real guest programs, so this is looking really nice.
+
+99
+00:28:26.790 --> 00:28:37.890
+ignacio: As usual, we now have a new R2 bucket for, stateless inputs for real chains.
+
+100
+00:28:38.120 --> 00:28:49.449
+ignacio: Up to now, we only run this for, DevNets, but now that Sepolia has switched to… have activated Glamsterdam, we have this R2 bucket for Sepolia.
+
+101
+00:28:49.880 --> 00:28:55.939
+ignacio: It's already quite big. It has more than 50k blocks that you can run.
+
+102
+00:28:56.220 --> 00:29:00.640
+ignacio: To replay guest programs on Sepolia.
+
+103
+00:29:01.080 --> 00:29:07.059
+ignacio: Actually, this was the main source from which, I think, yeah.
+
+104
+00:29:07.690 --> 00:29:12.909
+ignacio: CVM and CESU have found bugs and I think another mine too.
+
+105
+00:29:13.140 --> 00:29:25.489
+ignacio: Which motivated us creating more tests to avoid regressions. So, this is something that is live, and you can plug into your CI as you did before with previous testnets.
+
+106
+00:29:26.280 --> 00:29:29.730
+ignacio: Probably this R2 bucket will be long-lived.
+
+107
+00:29:30.250 --> 00:29:37.170
+ignacio: Right? Because the testnet is, like, a long-lived chain compared to previous devnets, which are shut down after a while.
+
+108
+00:29:37.500 --> 00:29:52.210
+ignacio: So this will continue to run, and eventually when Hoodi activates Glamsterdam, we will have our R2 bucket for Hoodi, and yeah, eventually when Glamsterdam gets activated on Mainnet, we will have the Mainnet R2 bucket.
+
+109
+00:29:53.020 --> 00:29:55.290
+ignacio: And the three of them will be long.
+
+110
+00:29:55.430 --> 00:29:59.539
+ignacio: Living, so we will have more and more and more,
+
+111
+00:30:00.960 --> 00:30:04.559
+ignacio: I like bigger data sets for these problems to run.
+
+112
+00:30:04.970 --> 00:30:09.900
+ignacio: And we have also intentions to potentially backfill mainnets.
+
+113
+00:30:10.340 --> 00:30:20.950
+ignacio: For pre-Glamsterdam forks, this might require some changes in an EL to really be able to generate the execution witness.
+
+114
+00:30:23.930 --> 00:30:33.720
+ignacio: because many of the ELs kind of assume that VALS exists for… for it, so… I know, but this is more like a long-term intention, so we have, like, a…
+
+115
+00:30:34.260 --> 00:30:39.160
+ignacio: growing data set of of logs to to use as tests.
+
+116
+00:30:40.370 --> 00:30:51.479
+ignacio: We have also the updated EAST dashboard, which tests the compliance of stateful ELs on execution witness construction.
+
+117
+00:30:51.730 --> 00:30:56.360
+ignacio: Which is this, group here.
+
+118
+00:30:56.830 --> 00:31:04.359
+ignacio: And the guest programs, combined with supported ZKVMs, here in the bottom group.
+
+119
+00:31:05.490 --> 00:31:15.940
+ignacio: So this is going pretty well. I mean, there are some tests that are failing, but we haven't really dived into them. This is more like keeping up to date the dashboard with the latest release.
+
+120
+00:31:16.330 --> 00:31:19.819
+ignacio: And here's the link if you want to look it for yourself.
+
+121
+00:31:22.090 --> 00:31:33.400
+ignacio: On the execution API side of the spec, there are two main things I wanted to highlight. The first one is the EIP, where
+
+122
+00:31:33.580 --> 00:31:37.500
+ignacio: We define the rest version.
+
+123
+00:31:38.310 --> 00:31:45.130
+ignacio: of, ancient, new payload with Witness.
+
+124
+00:31:45.250 --> 00:32:03.469
+ignacio: Nimbus already implemented this and merged it, has merged it. So this is why, in this dashboard, you see Nimbus here as a box with REST SSZ, and also see it as Nimbus with the usual JSON RPC.
+
+125
+00:32:03.510 --> 00:32:10.630
+ignacio: This is… we can do this, like, both fronts, in both modes, because, yeah.
+
+126
+00:32:10.690 --> 00:32:15.940
+ignacio: As I mentioned here, we… the Hive Consumer now supports running both styles.
+
+127
+00:32:16.540 --> 00:32:17.740
+ignacio: Umm.
+
+128
+00:32:18.170 --> 00:32:28.879
+ignacio: But I know that all our ELs have, yeah, draft PRs to support this, and as soon as they get merged, they will appear in the dashboard automatically.
+
+129
+00:32:29.640 --> 00:32:38.660
+ignacio: So that will be nice, to test that everything is working fine regarding execution with this generation in the new Engine API variant.
+
+130
+00:32:39.890 --> 00:32:45.410
+ignacio: iridum: And I created recently this other EIP on top of this one.
+
+131
+00:32:45.790 --> 00:32:49.309
+ignacio: For the block building side.
+
+132
+00:32:50.330 --> 00:32:59.859
+ignacio: This is, like, the same idea of, get payload, but with witness, such that we can avoid, like, the re-execution of the block to…
+
+133
+00:33:00.060 --> 00:33:09.249
+ignacio: to generate it. This is not, like, strictly needed for EIP-8025. This is more, like, on the long-term arc of mandatory proofs.
+
+134
+00:33:09.450 --> 00:33:18.789
+ignacio: But it's just nice to have it, there, so we have, like, a complete picture of, how block building would work, for proving.
+
+135
+00:33:22.550 --> 00:33:31.020
+ignacio: Yeah, and if you are on EL, and you think at least this, new payload with Windows API
+
+136
+00:33:31.470 --> 00:33:43.459
+ignacio: for REST and SSE makes sense, please, put some thumbs up to the PR. This is quite important for the maintainers of the report to consider it.
+
+137
+00:33:43.560 --> 00:33:55.369
+ignacio: being merged. I'm waiting for some extra ELs to actually implement it, and I think with that, we will be fine to… to get this… this… this one merged.
+
+138
+00:33:57.230 --> 00:34:11.140
+ignacio: On the CKVM standards, I actually created this slide, but yesterday I got a message from Cody that he prepared a video with his updates, so I will, instead of explaining this myself.
+
+139
+00:34:11.580 --> 00:34:16.649
+ignacio: I will, switch to the video.
+
+140
+00:34:16.949 --> 00:34:21.919
+ignacio: Hopefully, you will hear the audio. If that's not the case, please…
+
+141
+00:34:22.610 --> 00:34:26.520
+ignacio: Someone speak, so yeah, I will play it here.
+
+142
+00:34:28.530 --> 00:34:34.079
+Audio shared by ignacio: Okay, so here are my updates given asynchronously.
+
+143
+00:34:34.469 --> 00:34:38.519
+Audio shared by ignacio: Here's a link to the slides. There's a QR for the…
+
+144
+00:34:39.469 --> 00:34:42.330
+Audio shared by ignacio: For the slides, if anyone wants to follow along.
+
+145
+00:34:44.880 --> 00:34:51.899
+Audio shared by ignacio: Here, first we have additional testing, so we've had testing of RISC-V compliance for a while.
+
+146
+00:34:52.540 --> 00:34:55.909
+Audio shared by ignacio: at this link zkEVM test monitor
+
+147
+00:34:56.060 --> 00:34:59.440
+Audio shared by ignacio: That repo, and then a live monitor is at this link.
+
+148
+00:35:01.280 --> 00:35:07.549
+Audio shared by ignacio: So what I've done is to add additional coverage for more of the standards, not just the ISO standard.
+
+149
+00:35:08.240 --> 00:35:18.199
+Audio shared by ignacio: And I've started with the accelerators. We have many accelerators covered by one standard, memory acceleration covered by another, and then an IO standard.
+
+150
+00:35:18.620 --> 00:35:26.199
+Audio shared by ignacio: And so I've added… Testing of those, using the… Act 4, ACT 4…
+
+151
+00:35:26.510 --> 00:35:35.699
+Audio shared by ignacio: framework from the RISC-V community for running these tests. They've recently added support for writing the test with C, so that's how you do it. You, you make a little C program.
+
+152
+00:35:36.300 --> 00:35:40.290
+Audio shared by ignacio: I've also… there are a lot of generated tests, they're not all handwritten with C.
+
+153
+00:35:41.030 --> 00:35:51.970
+Audio shared by ignacio: We've generated tests from Geth and from the execution specs to not just cover the existence of the interface, but also to check whether the accelerators are implemented correctly.
+
+154
+00:35:52.620 --> 00:35:59.200
+Audio shared by ignacio: We propose that this become the norm. So when you propose a new standard you write a set of tests.
+
+155
+00:35:59.670 --> 00:36:04.550
+Audio shared by ignacio: At the very least, as the standard is progressing, Umm.
+
+156
+00:36:05.160 --> 00:36:11.299
+Audio shared by ignacio: And by the time it's accepted, we should have some tests written, and we should be able to check whether it's been…
+
+157
+00:36:11.590 --> 00:36:13.040
+Audio shared by ignacio: Implemented correctly.
+
+158
+00:36:13.290 --> 00:36:23.850
+Audio shared by ignacio: You can see here we have good progress, but definitely a lot of compliance gaps, and we encourage the teams we've tested here to have a look at those and fill them in.
+
+159
+00:36:26.180 --> 00:36:32.740
+Audio shared by ignacio: Next up… We have Lukasz from Nethermind described an attack.
+
+160
+00:36:33.190 --> 00:36:38.760
+Audio shared by ignacio: That could happen now, where… You find…
+
+161
+00:36:39.130 --> 00:36:44.920
+Audio shared by ignacio: A collision in the internal hash map used by a guest program.
+
+162
+00:36:45.750 --> 00:36:47.080
+Audio shared by ignacio: And,
+
+163
+00:36:47.260 --> 00:36:55.649
+Audio shared by ignacio: Because these are not seeded on a per process basis, you could attack all provers for a given ZK EVM.
+
+164
+00:36:55.960 --> 00:36:57.070
+Audio shared by ignacio: At once.
+
+165
+00:36:57.360 --> 00:37:02.150
+Audio shared by ignacio: And so I've… there's a discussion here, if you're interested in a bit in the background.
+
+166
+00:37:02.390 --> 00:37:08.079
+Audio shared by ignacio: There's a standard here that I've put together to make a formal what Lukas proposed.
+
+167
+00:37:08.820 --> 00:37:12.600
+Audio shared by ignacio: To provide a facility on the host to,
+
+168
+00:37:12.920 --> 00:37:18.059
+Audio shared by ignacio: to allow the guest program to sample some randomness with a fresh seed.
+
+169
+00:37:18.400 --> 00:37:20.030
+Audio shared by ignacio: Eddie's execution.
+
+170
+00:37:20.370 --> 00:37:25.200
+Audio shared by ignacio: You don't have to prove anything about this randomness, I just need to start with a random value there.
+
+171
+00:37:25.800 --> 00:37:28.850
+Audio shared by ignacio: And I also have some accompanying tests.
+
+172
+00:37:29.270 --> 00:37:33.850
+Audio shared by ignacio: Here, following what I proposed on the previous slide.
+
+173
+00:37:34.150 --> 00:37:43.710
+Audio shared by ignacio: And I've also put together a demo implementation for OpenVM here, if anyone wants to take a look. It'd be great if somebody could share a link to these slides in the,
+
+174
+00:37:43.990 --> 00:37:46.200
+Audio shared by ignacio: In the chat, since I'm not present.
+
+175
+00:37:46.470 --> 00:37:48.889
+Audio shared by ignacio: So people could easily access this stuff.
+
+176
+00:37:50.630 --> 00:38:04.549
+Audio shared by ignacio: Next up, we have more compliance, verification for ZISC, so I've been working on this for a while, and recently I've been hardening it, so I did some stress testing to see if the lean build would fail
+
+177
+00:38:04.580 --> 00:38:14.540
+Audio shared by ignacio: If you change some constraints, in many cases it does. In some cases, all of which were known, there are GitHub issues, but there were some missing links.
+
+178
+00:38:14.750 --> 00:38:18.450
+Audio shared by ignacio: Which we refer to as welds in the context of this work.
+
+179
+00:38:19.170 --> 00:38:22.570
+Audio shared by ignacio: And, so, yeah, I removed some assumptions.
+
+180
+00:38:22.920 --> 00:38:29.050
+Audio shared by ignacio: that were inputs to the main soundness theorem and also tied together some of these.
+
+181
+00:38:29.550 --> 00:38:30.960
+Audio shared by ignacio: Missing links.
+
+182
+00:38:31.300 --> 00:38:32.910
+Audio shared by ignacio: Provided those missing links.
+
+183
+00:38:33.460 --> 00:38:43.380
+Audio shared by ignacio: And I also had a handoff meeting with ZIST to talk about the long-term future of this work as part of a broader formal verification initiative.
+
+184
+00:38:43.740 --> 00:38:45.160
+Audio shared by ignacio: that they're undertaking.
+
+185
+00:38:45.600 --> 00:38:47.579
+Audio shared by ignacio: So I'm not ready to say that this is…
+
+186
+00:38:48.290 --> 00:38:54.659
+Audio shared by ignacio: Rock solid verification, but I think it's pretty good, and there are many issues.
+
+187
+00:38:54.840 --> 00:39:04.489
+Audio shared by ignacio: recording gaps so we have a clear path to something we could really endorse as being a very reliable guarantee for ZISCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+188
+00:39:05.440 --> 00:39:08.880
+Audio shared by ignacio: For speaking here, not of the… Umm.
+
+189
+00:39:09.600 --> 00:39:13.480
+Audio shared by ignacio: you know, recursion layers and so on, just the RISC-V circuits.
+
+190
+00:39:15.500 --> 00:39:17.889
+Audio shared by ignacio: And finally, SoundCalc…
+
+191
+00:39:18.320 --> 00:39:24.350
+Audio shared by ignacio: Haven't talked about that in a while, but that's something the cryptography team uses to calculate the…
+
+192
+00:39:25.910 --> 00:39:30.479
+Audio shared by ignacio: the number of bits of security that the zkVMs provide
+
+193
+00:39:30.700 --> 00:39:40.989
+Audio shared by ignacio: We had STIR support land since my last update, and we also have progress on the Lean version of this from Symbolic Software for anyone who wants to take a look.
+
+194
+00:39:42.150 --> 00:39:44.509
+Audio shared by ignacio: So that's all for me, and thank you very much.
+
+195
+00:39:48.170 --> 00:40:03.070
+ignacio: Okay, that were the updates from Cody. Thanks, Cody, for this. I know he's not in the call, but anyway. I will share the links to his slides in the chat soon, and also the links to the…
+
+196
+00:40:03.910 --> 00:40:13.859
+ignacio: to my slides, which have some extra links here, so I will skip this slide, but I'm kind of repeating here what he said.
+
+197
+00:40:14.110 --> 00:40:26.309
+ignacio: Moving forward on the brewing infrastructure, this is some, updates, most… mostly from Hans' work, which is out of office. He has been doing a lot of work in area and brewer.
+
+198
+00:40:26.460 --> 00:40:31.580
+ignacio: Prover is, for people that maybe haven't heard before, is.
+
+199
+00:40:32.880 --> 00:40:36.220
+ignacio: Terraform extension to BenchmarkCore, which is a…
+
+200
+00:40:36.570 --> 00:40:47.449
+ignacio: use prove… used, benchmark infrastructure, that we use today for Ethereum. It was mainly used for Glamsterdam.
+
+201
+00:40:47.670 --> 00:40:51.919
+ignacio: Repricing, some benchmarking, the idea here is that
+
+202
+00:40:52.190 --> 00:40:56.230
+ignacio: Extending BenchmarkCore to also allow to generate proofs.
+
+203
+00:40:56.800 --> 00:41:05.509
+ignacio: improving clusters, which are pretty complex, like, say that you have, like, 4 machines, each of them with GPUs.
+
+204
+00:41:05.710 --> 00:41:11.100
+ignacio: That… or the orchestration is much more complex than simply having a single machine.
+
+205
+00:41:11.410 --> 00:41:18.120
+ignacio: So Prover is trying to abstract that, so you can have an easy way to create proofs in proving clusters.
+
+206
+00:41:19.020 --> 00:41:25.880
+ignacio: He has been working also in adding, people of support in EERE.
+
+207
+00:41:26.480 --> 00:41:33.759
+ignacio: And this is really nice, because it would mean that the prover front end, will have
+
+208
+00:41:34.460 --> 00:41:42.359
+ignacio: Also, information about where the cost of proving is going. So, guest programs will have a more clear view of
+
+209
+00:41:42.720 --> 00:41:49.370
+ignacio: Where, maybe… Worth put the effort optimizing their code.
+
+210
+00:41:49.700 --> 00:41:59.599
+ignacio: It will also have peak memory usage for each benchmark case. This will be pretty important to be sure that the guest program is not using
+
+211
+00:41:59.970 --> 00:42:07.240
+ignacio: too much memory, because CDVMs have a limited cap on how much memory can be used before running out of memory and crashing.
+
+212
+00:42:07.540 --> 00:42:22.959
+ignacio: And the main goal here is to have a single dashboard, that would show proving time. Proving costs, and some more detailed de-aggregation of where the proving cost is coming from, from the guest program.
+
+213
+00:42:23.440 --> 00:42:32.459
+ignacio: So we can have in a single place everything to, to, to help, both CGVMs and guest programs on.
+
+214
+00:42:33.080 --> 00:42:35.360
+ignacio: On… on benchmarking stuff.
+
+215
+00:42:35.670 --> 00:42:49.639
+ignacio: We will also be running, so you can run this in emulation mode. I have the proving cost estimation, but we are also planning to run the benchmarks on the real EF proving cluster with 16 GPUs.
+
+216
+00:42:49.690 --> 00:43:00.550
+ignacio: So we get the actual, like, real proof proving time, numbers. Just in case the cost estimation diverges too much from the real proving cost.
+
+217
+00:43:01.500 --> 00:43:12.110
+ignacio: So yeah, all this front end is faking. We have some previews from hand, but I would prefer him to show them in the next call. The UI is…
+
+218
+00:43:12.230 --> 00:43:15.640
+ignacio: Pretty cool and awesome. I'm very excited about this.
+
+219
+00:43:15.900 --> 00:43:19.990
+ignacio: Being like… So, I will stop here,
+
+220
+00:43:20.160 --> 00:43:25.700
+ignacio: I don't know if there's any question, and if not, I think we can continue with Tom.
+
+221
+00:43:31.660 --> 00:43:34.040
+Francesco Risitano (Tau): I'll just share my screen.
+
+222
+00:43:41.580 --> 00:43:54.340
+Francesco Risitano (Tau): Okay, yeah, keep this quite concise, and then, you know, hand over and give an opportunity for, CL teams to give updates if they're here. But there's.
+
+223
+00:43:54.490 --> 00:44:09.230
+Francesco Risitano (Tau): Two main developments and then one future plan. So, in terms of developments on the consensus-spec side of things, we've essentially tried to be as kind of reductionist and minimal as possible.
+
+224
+00:44:09.290 --> 00:44:17.329
+Francesco Risitano (Tau): Which has meant that we've been able to purge a lot of the code in the consensus specs, primarily over to
+
+225
+00:44:17.440 --> 00:44:20.810
+Francesco Risitano (Tau): PRs, the first of which was,
+
+226
+00:44:21.120 --> 00:44:27.400
+Francesco Risitano (Tau): The way in which we kind of structured, the proof data type.
+
+227
+00:44:27.740 --> 00:44:30.949
+Francesco Risitano (Tau): And the gossip validation, so the gossip handler.
+
+228
+00:44:31.010 --> 00:44:48.939
+Francesco Risitano (Tau): There was actually an iteration in the framework for gossip handlers in the consensus specs, which allowed you to define the handler as, code, whereas previously it was just, prose, following some, you know, kind of human language.
+
+229
+00:44:49.140 --> 00:45:03.310
+Francesco Risitano (Tau): standards, let's say. So that was the, the initial refactor, and then the second one, which is arguably more significant in terms of logical complexity, was reducing the.
+
+230
+00:45:03.630 --> 00:45:12.580
+Francesco Risitano (Tau): reducing the scope of the proof engine. So previously, the proof engine was responsible for, obviously verifying proofs, but also requesting
+
+231
+00:45:12.670 --> 00:45:24.200
+Francesco Risitano (Tau): the generation of proofs, and then, fetching those requests. So, now we've reduced the scope of the proof engine to be exclusively, proof verification.
+
+232
+00:45:24.630 --> 00:45:29.460
+Francesco Risitano (Tau): Client teams have, kind of optionality in regards to how
+
+233
+00:45:29.530 --> 00:45:45.840
+Francesco Risitano (Tau): they want to implement this. Ultimately, the proof engine is defined as, like an abstract interface, so, you know, one option is to take the, to take the proof, verifiers and embed those directly into the client.
+
+234
+00:45:45.960 --> 00:46:04.869
+Francesco Risitano (Tau): Alternatively, you can have, like, an external sidecar, which you kind of invoke and engage with over HTTP, so… You know, that's essentially, unspecified in the specs, and, client teams are more than welcome to kind of choose whichever
+
+235
+00:46:05.110 --> 00:46:07.820
+Francesco Risitano (Tau): Pattern they believe is most,
+
+236
+00:46:08.120 --> 00:46:13.439
+Francesco Risitano (Tau): most reasonable for their their architectures and design.
+
+237
+00:46:13.790 --> 00:46:25.829
+Francesco Risitano (Tau): The second EIP that we've created, and this is in, this is a very initial draft, so, it's just surfacing the idea.
+
+238
+00:46:26.300 --> 00:46:45.290
+Francesco Risitano (Tau): I… we need to get review, even internally, from the team. I believe Ignacio's, taking a look at this, but, you know, there's a lot going on, so… and this is more of a future ambition and vision, as opposed to something that we expect to ship, you know, in the near term.
+
+239
+00:46:45.500 --> 00:47:00.290
+Francesco Risitano (Tau): But the core idea, essentially, is to, Extend the scope of a single proof to be able to attest to the validity of some chain subset.
+
+240
+00:47:00.370 --> 00:47:06.519
+Francesco Risitano (Tau): So, just to give some context of why we would want this, when you join a chain.
+
+241
+00:47:06.690 --> 00:47:19.150
+Francesco Risitano (Tau): Essentially, you need to verify that payloads are valid from the weak subjectivity checkpoint until the head, that you're targeting.
+
+242
+00:47:19.400 --> 00:47:27.330
+Francesco Risitano (Tau): Traditionally, you know, using re-execution, this is done by fetching every payload, re-executing, and you just do that sequentially.
+
+243
+00:47:27.690 --> 00:47:32.120
+Francesco Risitano (Tau): the execution proofs it kind of…
+
+244
+00:47:32.530 --> 00:47:39.030
+Francesco Risitano (Tau): analogous construction would be to fetch, proofs for each payload, and then verify the proofs.
+
+245
+00:47:39.270 --> 00:47:55.549
+Francesco Risitano (Tau): But proofs are kind of large, you know, they're on the order of 300 megabyte, kilobytes, let's say, and, you know, we currently have this rule of K of N, so 2 or 3, or there's some, you know, threshold-based, validity condition, so…
+
+246
+00:47:55.800 --> 00:48:10.780
+Francesco Risitano (Tau): Ultimately, this, kind of bloats the, the bandwidth requirements, and, you know, in an ideal construction, we can reduce that. And, you know, with recursive proofs, we can. So the idea is that
+
+247
+00:48:12.420 --> 00:48:21.320
+Francesco Risitano (Tau): The… the… the… each proof will take as input, one new payload which extends the head of the chain.
+
+248
+00:48:21.400 --> 00:48:30.830
+Francesco Risitano (Tau): And in addition to that, the ancestor proof, so the parent proof, which, you know, subsequently proofs the, the parent.
+
+249
+00:48:30.880 --> 00:48:42.890
+Francesco Risitano (Tau): And, you know, it's just a recursive chain all the way back to the origin. So, for this to be, safe, the origin would need to extend, to prior
+
+250
+00:48:43.090 --> 00:48:48.789
+Francesco Risitano (Tau): Or before the… at or before the weak subjectivity checkpoint when you're joining a chain, but…
+
+251
+00:48:49.180 --> 00:48:59.789
+Francesco Risitano (Tau): There are some, you know, some question marks here around, kind of, completeness. What happens if a proof is not… if a proof system is not complete, so a proof cannot be generated?
+
+252
+00:48:59.860 --> 00:49:16.719
+Francesco Risitano (Tau): Et cetera, et cetera. So there's still some, you know, some kind of edge cases that we need to, we need to iron out, but, ultimately, if we are able to build a construction that we're, we're confident in, then.
+
+253
+00:49:17.140 --> 00:49:29.820
+Francesco Risitano (Tau): ultimately, this would result in the ability to sync, from the weak subjectivity checkpoint to the head in, using a single proof or, you know, K of N proofs, so you reduce the.
+
+254
+00:49:30.000 --> 00:49:34.450
+Francesco Risitano (Tau): The bandwidth requirements and the execution requirements, you know, by…
+
+255
+00:49:34.830 --> 00:49:41.479
+Francesco Risitano (Tau): orders of magnitude. So, it's an interesting idea, and I encourage people to, you know, to review
+
+256
+00:49:41.870 --> 00:50:01.030
+Francesco Risitano (Tau): to review the, the EIP and give some feedback. And then, just in terms of our future ambitions, we've had some progress from… on, kind of support and rebasing of, EIP-8025 on the Gloas specs. We're now in a position to.
+
+257
+00:50:01.470 --> 00:50:16.400
+Francesco Risitano (Tau): kind of deploy onto Sepolia and run some test networks. So, at the EF, we're hoping… we're intending to deploy a prover on Sepolia, and we're inviting client teams to join the network and, you know.
+
+258
+00:50:16.640 --> 00:50:20.809
+Francesco Risitano (Tau): Essentially test out this feature on the test network.
+
+259
+00:50:20.940 --> 00:50:38.180
+Francesco Risitano (Tau): And, that's all from me. But I want to hand over. Let me just check the. Okay. Manu is here, so maybe I can hand over to Manu if you're willing to give a status update on the progress of the, of Eddie 25 implementation in Prysm.
+
+260
+00:50:40.700 --> 00:50:42.830
+Manu: Hi. So, yes,
+
+261
+00:50:44.480 --> 00:50:53.579
+Manu: At Prysm, we implemented, so this EIP as a proof of concept. I just passed the link of the request in the chat.
+
+262
+00:50:54.690 --> 00:50:58.499
+Manu: Yeah, basically, so it works well on,
+
+263
+00:50:59.060 --> 00:51:05.430
+Manu: on kurtosis, running only prism, prover none and prism verification node.
+
+264
+00:51:06.230 --> 00:51:19.589
+Manu: As Francesco said, regarding how we do choose to verify the proofs, so here we choose to implement a LIP based on
+
+265
+00:51:19.730 --> 00:51:34.470
+Manu: array, which I called gnark, which is directly imported, included in the PrysmBeaconNode binary. So it's just a function call to verify the proof, so no need to call another sidecar.
+
+266
+00:51:35.650 --> 00:51:42.290
+Manu: Right now, I'm running a node on Sepolia, a verifier node on Sepolia.
+
+267
+00:51:46.140 --> 00:51:54.110
+Manu: We… I'm able to briefly, very briefly, appear with the lighthouse peers, which normally,
+
+268
+00:51:54.150 --> 00:52:08.200
+Manu: send proofs. However, there is an incompatibility issue here. I have to see why with Lighthouse. I just know that Lighthouse sends us proofs of type 0.
+
+269
+00:52:08.200 --> 00:52:16.379
+Manu: And it turns out proofs of type 0 are not defined. And so we check the message and eventually we disconnect the peer.
+
+270
+00:52:17.600 --> 00:52:25.150
+Manu: That's our most… All I had to say. Let's continue to see how does it work.
+
+271
+00:52:25.380 --> 00:52:27.450
+Manu: On, Sepolia.
+
+272
+00:52:27.970 --> 00:52:30.550
+Manu: And yes, let's continue to work on this.
+
+273
+00:52:32.720 --> 00:52:33.260
+Manu: Thank you.
+
+274
+00:52:33.260 --> 00:52:33.950
+Francesco Risitano (Tau): Awesome.
+
+275
+00:52:34.240 --> 00:52:39.810
+Francesco Risitano (Tau): Awesome. Thank you, Manu. I wonder if Lighthouse is here on the call.
+
+276
+00:52:41.190 --> 00:52:42.690
+Francesco Risitano (Tau): Don't believe so.
+
+277
+00:52:43.770 --> 00:52:50.070
+Francesco Risitano (Tau): I'm So, so, so maybe I can just, kind of raise a few. Sorry, is somebody here?
+
+278
+00:52:53.270 --> 00:53:06.030
+Francesco Risitano (Tau): Okay, so maybe I can just raise a few points, on the… on the next, on the next step. So, there's… there's a few open questions that we have to, we have to resolve.
+
+279
+00:53:06.320 --> 00:53:10.779
+Francesco Risitano (Tau): One of which is around the Beacon API, so the integration with Dora.
+
+280
+00:53:10.990 --> 00:53:29.930
+Francesco Risitano (Tau): the DORA Explorer, so DORA has a feature to display execution proofs, and, the PandaOps team have informed me that, they… there's some optimization and… on their side in regards to indexing and query patterns. But…
+
+281
+00:53:30.080 --> 00:53:34.510
+Francesco Risitano (Tau): It's our responsibility to decide on the Beacon API format.
+
+282
+00:53:34.770 --> 00:53:43.430
+Francesco Risitano (Tau): So currently, I believe, most clients have only implemented the method for proofs to be submitted to the Beacon node.
+
+283
+00:53:43.890 --> 00:53:47.069
+Francesco Risitano (Tau): But to support the Explorer use case.
+
+284
+00:53:48.930 --> 00:53:51.579
+Francesco Risitano (Tau): We'll also need a method to fetch.
+
+285
+00:53:52.510 --> 00:53:55.480
+Francesco Risitano (Tau): from the… from the Beacon node. Now, this is somewhat
+
+286
+00:53:56.320 --> 00:54:06.880
+Francesco Risitano (Tau): You know, in contrast to the design that we've made, because we've said that ultimately there's no, there's no storage, requirements.
+
+287
+00:54:07.320 --> 00:54:13.370
+Francesco Risitano (Tau): On the… on the Beacon node in regards to execution proofs in the…
+
+288
+00:54:13.500 --> 00:54:32.940
+Francesco Risitano (Tau): in the fork that I implemented, I was serving, execution proofs from the gossip cache. Whether that's a reasonable design or not, I'm not sure. But that's, you know, ultimately a client detail that needs to be designed. But something that we need to kind of collaborate on is ultimately the.
+
+289
+00:54:33.390 --> 00:54:34.880
+Francesco Risitano (Tau): the the Api.
+
+290
+00:54:35.250 --> 00:54:50.859
+Francesco Risitano (Tau): And secondly is around the, the container types for SSZ. So I, I, did actually bump some of the contain… well, I opened some PRs in the consensus specs to change some of the… well, one of the container types around the new payload request.
+
+291
+00:54:51.180 --> 00:55:00.570
+Francesco Risitano (Tau): And the, maybe we, we, we, we… we basically just need a bit more discussion to determine if that's reasonable or not.
+
+292
+00:55:01.050 --> 00:55:12.360
+Francesco Risitano (Tau): So, so that's one open question. But in any case, I'm in the pro… in the process of, integrating, Prysm.
+
+293
+00:55:12.640 --> 00:55:20.770
+Francesco Risitano (Tau): Lighthouse and our fork of Lighthouse on a local dev net, just to, kind of iron out any.
+
+294
+00:55:20.970 --> 00:55:28.790
+Francesco Risitano (Tau): Incompatibilities, let's say, and then the next stage will obviously be the deployment to, to Sepolia.
+
+295
+00:55:28.880 --> 00:55:51.830
+Francesco Risitano (Tau): And we'll have some proofs there. And when we do that, we'll, you know, we'll be generating some proofs, and at this point in time, we haven't decided which guest programs we'll be using, etc, and which proofs we'll be using, so… Once again, maybe that can be a collaborative effort. I'll, I'll invite everybody to kind of contribute to the discussion on Discord. Maybe we can do some sort of pattern where we
+
+296
+00:55:52.090 --> 00:56:02.829
+Francesco Risitano (Tau): Rotate the proof stack and rotate the guest program so that we get good coverage of you know a number of guests and provers, and that that helps the the proving effort.
+
+297
+00:56:04.370 --> 00:56:07.959
+Francesco Risitano (Tau): So yeah, sorry, I know I spoke a lot, but that's all from me.
+
+298
+00:56:09.630 --> 00:56:13.979
+ignacio: Yeah, amazing. Thanks, Francesco and Manu for the updates. I think…
+
+299
+00:56:14.100 --> 00:56:16.479
+ignacio: I agree with all these steps.
+
+300
+00:56:17.250 --> 00:56:26.029
+ignacio: So, we de-risk, as much as possible, testing things out before we go, kind of, live into proving SepoliaBlocks
+
+301
+00:56:26.460 --> 00:56:34.799
+ignacio: I think it would be awesome to really find, like, the unknown unknowns from our proving stack, and how everything fits together.
+
+302
+00:56:35.080 --> 00:56:39.320
+ignacio: So I think this would be pretty awesome. So yeah, thanks for the effort.
+
+303
+00:56:40.190 --> 00:56:45.910
+ignacio: Maybe Francesco, if you can share your slides.
+
+304
+00:56:46.030 --> 00:56:49.119
+ignacio: Link in the chat later? That would be nice.
+
+305
+00:56:49.380 --> 00:56:49.920
+Francesco Risitano (Tau): Yep.
+
+306
+00:56:51.020 --> 00:57:00.950
+ignacio: Cool. Okay, so the… We go out of order in agenda, but I'm sorry, Sam. We have the…
+
+307
+00:57:01.360 --> 00:57:15.559
+ignacio: Our last point in agenda is on giving us an update on some work that Silkworm has been doing on their guest client, and some experimentations. So, whatever you're ready, Son, feel free to start.
+
+308
+00:57:21.350 --> 00:57:22.070
+ignacio: Okay.
+
+309
+00:57:23.180 --> 00:57:24.430
+ignacio: I can't see…
+
+310
+00:57:24.430 --> 00:57:25.140
+Somnath Banerjee: I hope.
+
+311
+00:57:25.770 --> 00:57:27.010
+Somnath Banerjee: I'm audible.
+
+312
+00:57:28.230 --> 00:57:31.330
+Somnath Banerjee: Right, so I'm going to pass it over to…
+
+313
+00:57:31.800 --> 00:57:35.910
+Somnath Banerjee: Tullio to start talking about the EERE work.
+
+314
+00:57:36.450 --> 00:57:42.289
+Somnath Banerjee: And then, to Pawel, and eventually I'll talk about
+
+315
+00:57:42.410 --> 00:57:46.559
+Somnath Banerjee: Some of the tunings in Silkworm itself, at the end.
+
+316
+00:57:46.770 --> 00:57:48.319
+Somnath Banerjee: So over to you, Tullio.
+
+317
+00:57:48.930 --> 00:57:55.470
+Tullio | Erigon: Thank you. Hi, guys. So, first of all, a quick update on Silkworm in the EERE benchmark.
+
+318
+00:57:55.890 --> 00:58:04.109
+Tullio | Erigon: We first integrated Silkworm into the benchmark in June, using the legacy fixture format.
+
+319
+00:58:04.410 --> 00:58:10.059
+Tullio | Erigon: And our guest was downloaded from our own, release.
+
+320
+00:58:10.340 --> 00:58:13.279
+Tullio | Erigon: And on the Osaka benchmark set.
+
+321
+00:58:13.520 --> 00:58:17.439
+Tullio | Erigon: We needed roughly half, half.
+
+322
+00:58:17.700 --> 00:58:19.140
+Tullio | Erigon: Recycle?
+
+323
+00:58:19.390 --> 00:58:24.620
+Tullio | Erigon: Then in… later in July, the benchmark moved to
+
+324
+00:58:24.880 --> 00:58:28.420
+Tullio | Erigon: The canonical EEST fixture only.
+
+325
+00:58:28.530 --> 00:58:35.760
+Tullio | Erigon: And so our integration was removed, and the way back in was through the EERE guests.
+
+326
+00:58:36.280 --> 00:58:41.349
+Tullio | Erigon: And that's what we've done now. You can go to the next slide, please.
+
+327
+00:58:41.630 --> 00:58:46.939
+Tullio | Erigon: And, Now we have two draft PRs.
+
+328
+00:58:47.060 --> 00:58:50.979
+Tullio | Erigon: one registering our Alpha 4 release.
+
+329
+00:58:51.260 --> 00:58:57.590
+Tullio | Erigon: into ERA guests, and another one re-adding the zircon client to the benchmark.
+
+330
+00:58:57.960 --> 00:59:04.950
+Tullio | Erigon: the relevant difference from the other guests, is that ours
+
+331
+00:59:05.280 --> 00:59:14.889
+Tullio | Erigon: Our guest still reads our own input format, which is called MFBD, and I think some later will
+
+332
+00:59:15.120 --> 00:59:16.710
+Tullio | Erigon: Talk about it.
+
+333
+00:59:16.950 --> 00:59:21.210
+Tullio | Erigon: So, as a temporary… so…
+
+334
+00:59:21.470 --> 00:59:27.289
+Tullio | Erigon: We have a temporary off-size adapter, which translates each fixture.
+
+335
+00:59:27.790 --> 00:59:31.500
+Tullio | Erigon: In terms of result, we passed the whole
+
+336
+00:59:31.830 --> 00:59:36.569
+Tullio | Erigon: Test zkEVM suite, except two fixtures.
+
+337
+00:59:36.940 --> 00:59:42.260
+Tullio | Erigon: In the same family where REF also has a couple of known failures.
+
+338
+00:59:42.740 --> 00:59:46.849
+Tullio | Erigon: And we… we match every Sepolia block.
+
+339
+00:59:49.200 --> 00:59:55.739
+Tullio | Erigon: And in terms of cost, we are about half of REF's estimated proofing cost, and cheaper on every block.
+
+340
+00:59:56.060 --> 01:00:05.990
+Tullio | Erigon: And also, our CI release pipeline, rechecks All this on every release.
+
+341
+01:00:06.150 --> 01:00:09.119
+Tullio | Erigon: So, in terms of future plans.
+
+342
+01:00:11.270 --> 01:00:14.069
+Tullio | Erigon: In… in the next release.
+
+343
+01:00:14.180 --> 01:00:20.360
+Tullio | Erigon: Next slide, please. In the next release, which is going to be Alpha 5.
+
+344
+01:00:20.670 --> 01:00:26.209
+Tullio | Erigon: Our guest will be able to read the canonical stateless input bytes.
+
+345
+01:00:26.390 --> 01:00:28.640
+Tullio | Erigon: format, natively.
+
+346
+01:00:28.850 --> 01:00:38.319
+Tullio | Erigon: And so the… The adapter goes away, the… the two PRs will… Come out of draft, and…
+
+347
+01:00:38.650 --> 01:00:41.100
+Tullio | Erigon: and also Silkworm.
+
+348
+01:00:42.610 --> 01:00:44.850
+Tullio | Erigon: Plugs in like every other guest.
+
+349
+01:00:45.290 --> 01:00:50.200
+Tullio | Erigon: And we also plan to To fix the two failing.
+
+350
+01:00:50.530 --> 01:00:51.380
+Tullio | Erigon: Tests.
+
+351
+01:00:52.320 --> 01:00:59.120
+Tullio | Erigon: And then, yeah, of course, more bug fixing, and… Even more performance improvement.
+
+352
+01:00:59.650 --> 01:01:00.350
+Tullio | Erigon: Yeah.
+
+353
+01:01:00.770 --> 01:01:07.039
+Tullio | Erigon: And… So that's about it for the ERA benchmark. I will hand over to Pawel.
+
+354
+01:01:10.580 --> 01:01:12.379
+Paweł Bylica: Yeah, hello everyone.
+
+355
+01:01:13.090 --> 01:01:22.880
+Paweł Bylica: So, on my side, I wanted to, give some overview of the performance gains we reached with, Zilkworm.
+
+356
+01:01:23.340 --> 01:01:26.059
+Paweł Bylica: Between, last two releases?
+
+357
+01:01:27.080 --> 01:01:29.930
+Paweł Bylica: And there's mostly, like, some…
+
+358
+01:01:30.150 --> 01:01:38.950
+Paweł Bylica: fun example of what this RISC-V target is for, like, for the software we try to run on.
+
+359
+01:01:39.350 --> 01:01:44.550
+Paweł Bylica: But overall, between Alpha 2 and Alpha 4.
+
+360
+01:01:44.740 --> 01:01:51.850
+Paweł Bylica: We got, like, we cut a third of the… of the executed cycles.
+
+361
+01:01:52.580 --> 01:02:05.020
+Paweł Bylica: And this is also with the fact that Alpha 4 is actually doing more work. There's more pre-validation enabled there, because we've been updating the…
+
+362
+01:02:05.930 --> 01:02:09.439
+Paweł Bylica: The implementation to match the current spec even more.
+
+363
+01:02:10.160 --> 01:02:19.290
+Paweł Bylica: And, yeah, so, this is, like, basic overview, and we used…
+
+364
+01:02:19.420 --> 01:02:25.620
+Paweł Bylica: Mostly SP1 Hypercube, as the, VM.
+
+365
+01:02:26.360 --> 01:02:30.490
+Paweł Bylica: It is… It is basically nice, because,
+
+366
+01:02:30.760 --> 01:02:38.889
+Paweł Bylica: It gives you the direct information about estimated proving costs and execution cycles.
+
+367
+01:02:39.550 --> 01:02:46.079
+Paweł Bylica: And that has been enabled on CI, so we use the… collect this information.
+
+368
+01:02:46.630 --> 01:02:48.260
+Paweł Bylica: Okay, next slide, please.
+
+369
+01:02:52.260 --> 01:03:05.919
+Paweł Bylica: So, one of the aspects of the implementation was the realization that, compilers are not really very clever about handling this specific target, and the main issue is that
+
+370
+01:03:06.140 --> 01:03:14.740
+Paweł Bylica: the zkEVM Instruction set doesn't allow unaligned memory access.
+
+371
+01:03:15.210 --> 01:03:18.430
+Paweł Bylica: Compilers will mostly
+
+372
+01:03:19.390 --> 01:03:28.720
+Paweł Bylica: yeah, obey… obey this… this requirement. Not all the cases, sometimes it can happen, you can enable some… some options that will actually
+
+373
+01:03:29.240 --> 01:03:35.239
+Paweł Bylica: Yeah, generate some online taxes, and the execution will fail.
+
+374
+01:03:35.740 --> 01:03:40.280
+Paweł Bylica: But in the end, we ended up with, with…
+
+375
+01:03:40.520 --> 01:03:50.590
+Paweł Bylica: with shipping our own version of Memcopy, the instruction that copies bytes, and also our own copy of Memmove.
+
+376
+01:03:51.170 --> 01:03:55.879
+Paweł Bylica: Which is kind of similar, but has different requirements on the inputs.
+
+377
+01:03:56.140 --> 01:04:03.159
+Paweł Bylica: That gave us a lot of performance from there, and similarly, you can go into.
+
+378
+01:04:04.770 --> 01:04:07.470
+Paweł Bylica: Some specific implementation paths.
+
+379
+01:04:07.630 --> 01:04:11.499
+Paweł Bylica: Like, for example, the Keccak function, which also
+
+380
+01:04:11.710 --> 01:04:16.640
+Paweł Bylica: I don't mean the kernel of the Keccak function, I mean the…
+
+381
+01:04:16.750 --> 01:04:24.770
+Paweł Bylica: The part which loads bytes from somewhere to the… to the internal state, and then… Hushes this.
+
+382
+01:04:27.480 --> 01:04:37.930
+Paweł Bylica: So that's also, like, this is a big improvement that we got here. It's over 10% on overall execution cycles.
+
+383
+01:04:38.270 --> 01:04:39.400
+Paweł Bylica: Next slide.
+
+384
+01:04:41.730 --> 01:04:47.720
+Paweł Bylica: Second interesting part is… is the byte swap.
+
+385
+01:04:48.780 --> 01:04:53.020
+Paweł Bylica: So EVM, as you know, is big endium, and it's heavily…
+
+386
+01:04:53.640 --> 01:04:58.960
+Paweł Bylica: By swapping different, different, different bytes internally.
+
+387
+01:04:59.100 --> 01:05:06.980
+Paweł Bylica: to accommodate… Little Andean architecture, which is common everywhere. Including RISC-V.
+
+388
+01:05:07.560 --> 01:05:08.640
+Paweł Bylica: I am.
+
+389
+01:05:09.250 --> 01:05:19.949
+Paweł Bylica: This is not so much visible on native architectures when there is dedicated byte swap instruction, usually. Or some, better emulations.
+
+390
+01:05:20.260 --> 01:05:25.760
+Paweł Bylica: However, for the instructions that we have, this is quite a big deal.
+
+391
+01:05:26.340 --> 01:05:32.119
+Paweł Bylica: this… and in the toolchain we use, which is GCC for now.
+
+392
+01:05:32.520 --> 01:05:35.340
+Paweł Bylica: This, this is emulated by…
+
+393
+01:05:35.790 --> 01:05:45.600
+Paweł Bylica: A dedicated procedure that compiler will call to on every byte swap-like Code pattern?
+
+394
+01:05:46.370 --> 01:05:56.639
+Paweł Bylica: And the amount of this time spending in this procedure exceeded the actual EVM execution. It was, like, the top hot function, and…
+
+395
+01:05:57.060 --> 01:06:06.229
+Paweł Bylica: So we did some tricks to work around it, but the workaround is not fully complete. I think we're still using a lot of performance on this part.
+
+396
+01:06:06.600 --> 01:06:11.099
+Paweł Bylica: But what we did is we forced the compiler to at least inline.
+
+397
+01:06:11.470 --> 01:06:15.539
+Paweł Bylica: The, the procedure and.
+
+398
+01:06:16.100 --> 01:06:25.689
+Paweł Bylica: honorable mentions, I think ZISC added, the extension to, to instruction set to actually enable the, the byte swap instruction.
+
+399
+01:06:28.070 --> 01:06:29.379
+Paweł Bylica: Next one, please.
+
+400
+01:06:30.520 --> 01:06:40.959
+Paweł Bylica: And, third… third topic I wanted to briefly discuss is JUMPDEST analysis, the famous kind of EVM design flow that we need to
+
+401
+01:06:41.320 --> 01:06:47.510
+Paweł Bylica: Linear procedure, process the code before we can execute it.
+
+402
+01:06:48.880 --> 01:06:56.869
+Paweł Bylica: So we cannot avoid it, and it's pretty bad on the stateless execution.
+
+403
+01:06:57.020 --> 01:07:00.459
+Paweł Bylica: Because caching doesn't work, so you need to prove.
+
+404
+01:07:00.830 --> 01:07:05.810
+Paweł Bylica: That the JUMPDEST analysis has been done, so we basically need to execute it.
+
+405
+01:07:07.440 --> 01:07:08.810
+Paweł Bylica: And
+
+406
+01:07:09.630 --> 01:07:13.920
+Paweł Bylica: We notice it's… that, the JUMPDEST analysis takes…
+
+407
+01:07:14.550 --> 01:07:20.080
+Paweł Bylica: Around 11% of all execution cycles.
+
+408
+01:07:20.360 --> 01:07:24.260
+Paweł Bylica: That includes pre-validation and post-validation.
+
+409
+01:07:24.570 --> 01:07:36.669
+Paweł Bylica: If you consider EVM itself, it's it's up to 30%. So up to 30%, your like bytecode execution is actually wasted of JUMPD analysis.
+
+410
+01:07:36.920 --> 01:07:41.380
+Paweł Bylica: We've been able to fine-tune the implementation, but
+
+411
+01:07:41.550 --> 01:07:43.629
+Paweł Bylica: There's not so much we can do.
+
+412
+01:07:44.090 --> 01:07:50.700
+Paweł Bylica: In this three arms, because there's no any vector instructions available.
+
+413
+01:07:51.210 --> 01:07:55.450
+Paweł Bylica: I think I'm aware, if I'm aware correctly, the zisk…
+
+414
+01:07:55.640 --> 01:08:01.090
+Paweł Bylica: Add some precompile that probably does this outside of the instruction set.
+
+415
+01:08:04.880 --> 01:08:06.950
+Paweł Bylica: Okay, and next slide.
+
+416
+01:08:09.110 --> 01:08:18.609
+Paweł Bylica: And finally, we did some experiments with, compiler options, and… but basically, the learnings from here are that.
+
+417
+01:08:19.630 --> 01:08:25.450
+Paweł Bylica: The code size, at least in SP1, is basically free, so you can…
+
+418
+01:08:25.870 --> 01:08:35.520
+Paweł Bylica: Just create more code, and inline more stuff, unroll more stuff, and you will get better performance out of this.
+
+419
+01:08:36.140 --> 01:08:44.440
+Paweł Bylica: I also mentioned here some, like, dead ends that we tried, but actually were very unbeneficial, and
+
+420
+01:08:44.770 --> 01:08:53.369
+Paweł Bylica: Considering the number of options you can select from, this is pretty good work, probably, for experimentation.
+
+421
+01:08:53.819 --> 01:09:02.819
+Paweł Bylica: Yeah, but you can… you can gain some… some performance by changing the way you build your software.
+
+422
+01:09:03.420 --> 01:09:06.699
+Paweł Bylica: And I wanted to mention that some are kind of.
+
+423
+01:09:07.460 --> 01:09:12.379
+Paweł Bylica: external initiatives here. One is LLVM
+
+424
+01:09:12.640 --> 01:09:18.699
+Paweł Bylica: Like, scheduling and tuning designed for similar use case.
+
+425
+01:09:19.460 --> 01:09:21.620
+Paweł Bylica: Where you specify that.
+
+426
+01:09:22.189 --> 01:09:32.830
+Paweł Bylica: you're going to execute your RISC-V code in interpreter-like VM, so it changes the trade-offs it makes.
+
+427
+01:09:33.240 --> 01:09:36.100
+Paweł Bylica: during, compilation.
+
+428
+01:09:36.510 --> 01:09:38.699
+Paweł Bylica: Yeah, so that's all from my side.
+
+429
+01:09:41.609 --> 01:09:46.750
+Paweł Bylica: I'm not sure we have… we have time for questions now, or we can leave it until the end.
+
+430
+01:09:46.990 --> 01:09:47.969
+Paweł Bylica: But yeah.
+
+431
+01:09:49.729 --> 01:09:57.879
+Somnath Banerjee: Thanks, Paul. I'll take it from here. So, I'm going to go over a few things. Not everything is ready and published, but…
+
+432
+01:09:58.339 --> 01:10:04.749
+Somnath Banerjee: Most of the things are, I'm going to start with, z6m node, which is,
+
+433
+01:10:05.219 --> 01:10:10.429
+Somnath Banerjee: A version of Zilcom execution client which partially executes lock.
+
+434
+01:10:10.959 --> 01:10:14.669
+Somnath Banerjee: And we've been able to achieve, 300 millisecond
+
+435
+01:10:15.089 --> 01:10:20.639
+Somnath Banerjee: Payload to witness timing, that includes all the indexing,
+
+436
+01:10:20.919 --> 01:10:28.569
+Somnath Banerjee: All the disk reads and everything, so it gives us an overall 2.2 seconds block timestamp to
+
+437
+01:10:28.809 --> 01:10:31.789
+Somnath Banerjee: Witness generation, on average.
+
+438
+01:10:31.969 --> 01:10:50.189
+Somnath Banerjee: when this comes out, it'll, probably solve this, problem that we have had, we've been having with EL clients that usually takes, somewhere around 5, 6, even more, maybe 9 seconds to eventually get to the witness before the provers actually start proving the block.
+
+439
+01:10:50.409 --> 01:10:54.889
+Somnath Banerjee: It varies, and also there are cases in which,
+
+440
+01:10:55.129 --> 01:10:59.039
+Somnath Banerjee: you are relying on the VM part of another client.
+
+441
+01:10:59.539 --> 01:11:06.079
+Somnath Banerjee: This one would be re-executing Silkworm in Native, and then passing over
+
+442
+01:11:06.889 --> 01:11:15.139
+Somnath Banerjee: the witness back. So there is just one proving pipeline going smoothly and all you need is your consensus client.
+
+443
+01:11:16.109 --> 01:11:23.149
+Somnath Banerjee: It would also include an Erigon integration for the transaction pool blobs.
+
+444
+01:11:24.289 --> 01:11:32.869
+Somnath Banerjee: There are, like, some architectural things that we have to do, and overall, it's currently grossing at
+
+445
+01:11:33.249 --> 01:11:40.879
+Somnath Banerjee: a terabyte of Storage that includes every possible optimization applied to.
+
+446
+01:11:41.209 --> 01:11:48.299
+Somnath Banerjee: Make it fetch records faster. This in no way is optimized for disk, but only for Witness generation.
+
+447
+01:11:50.579 --> 01:11:55.559
+Somnath Banerjee: And, you know, there are, there's some breakdown of the numbers and, some recent.
+
+448
+01:11:55.769 --> 01:12:01.419
+Somnath Banerjee: Catching up numbers from today morning that I was doing.
+
+449
+01:12:01.629 --> 01:12:19.459
+Somnath Banerjee: More importantly, witness delivery is something to be solved, and it can be argued whether or not you need the full suite of EL if all you need EL is for generating the witnesses as a proofs.
+
+450
+01:12:19.859 --> 01:12:27.139
+Somnath Banerjee: And on the other side, when this zkEVM thing becomes alive.
+
+451
+01:12:27.249 --> 01:12:29.249
+Somnath Banerjee: You only need the proofs for.
+
+452
+01:12:29.999 --> 01:12:31.719
+Somnath Banerjee: the re-execution.
+
+453
+01:12:32.649 --> 01:12:37.809
+Somnath Banerjee: These are some numbers from the latest, releases. These are
+
+454
+01:12:38.289 --> 01:12:43.229
+Somnath Banerjee: Possible to execute, but we're not running proofers right now.
+
+455
+01:12:43.839 --> 01:12:54.149
+Somnath Banerjee: Notable mention, we've been able to get the Airbender V3 after their release of zkSync OS.
+
+456
+01:12:54.469 --> 01:12:59.739
+Somnath Banerjee: We've been able to rebase Silkworm with Airbender V3, which is
+
+457
+01:13:00.479 --> 01:13:06.649
+Somnath Banerjee: Already, quite fast, thanks to their team and coordination.
+
+458
+01:13:06.799 --> 01:13:18.559
+Somnath Banerjee: And, almost around 3.8 seconds with two 25090s. This is, currently live, I… Sort of.
+
+459
+01:13:18.919 --> 01:13:23.009
+Somnath Banerjee: Made a quick and dirty, API registration
+
+460
+01:13:23.109 --> 01:13:34.589
+Somnath Banerjee: today afternoon, just for, you know, people to go check out the numbers, and it's not a fad. It's slightly trailing, probably, behind zkSync OS, maybe 20%-ish.
+
+461
+01:13:34.989 --> 01:13:43.469
+Somnath Banerjee: I'm sure this can be improved. But ZISC integration is another thing that is going to come in soon, and we have seen
+
+462
+01:13:43.879 --> 01:13:48.719
+Somnath Banerjee: Not so good numbers, probably because we have not been able to optimize it.
+
+463
+01:13:49.349 --> 01:13:54.769
+Somnath Banerjee: SP1 Currently also continues to be in the neighborhood of.
+
+464
+01:13:54.909 --> 01:13:58.389
+Somnath Banerjee: 35 seconds with a single GPU.
+
+465
+01:13:58.579 --> 01:14:00.449
+Somnath Banerjee: That is on Alpha 4.
+
+466
+01:14:01.109 --> 01:14:06.049
+Somnath Banerjee: And this unfortunately includes the recent optimizations as well.
+
+467
+01:14:06.769 --> 01:14:09.429
+Somnath Banerjee: To, to Alpha, to Alpha 4.
+
+468
+01:14:11.539 --> 01:14:16.849
+Somnath Banerjee: So that sort of puts us with 2 GPUs at the 3rd place,
+
+469
+01:14:16.989 --> 01:14:25.149
+Somnath Banerjee: On the currently grossing ETH proofs provers, but that is, that is a game that, keeps changing.
+
+470
+01:14:25.919 --> 01:14:33.139
+Somnath Banerjee: One important announcement again, like from source available to fully open SDLC pipeline.
+
+471
+01:14:33.359 --> 01:14:37.339
+Somnath Banerjee: Zilkmum is now fully open source.
+
+472
+01:14:37.439 --> 01:14:41.139
+Somnath Banerjee: Since about 2 weeks or 3 weeks ago.
+
+473
+01:14:41.639 --> 01:14:47.529
+Somnath Banerjee: And, all of the pipelines, CIEs, releases…
+
+474
+01:14:47.889 --> 01:14:54.329
+Somnath Banerjee: Pull requests, reviews, comments are every… are all public now, and it's for everyone to
+
+475
+01:14:55.349 --> 01:15:03.609
+Somnath Banerjee: contribute to, and maybe we can gain more insights from ideas from different places.
+
+476
+01:15:04.069 --> 01:15:12.349
+Somnath Banerjee: have The flat witness MFBD format that was mentioned before. I did publish a blog article,
+
+477
+01:15:12.549 --> 01:15:16.029
+Somnath Banerjee: 2, actually, one about the design thinking.
+
+478
+01:15:16.479 --> 01:15:18.959
+Somnath Banerjee: And the other one about the actual.
+
+479
+01:15:19.509 --> 01:15:20.679
+Somnath Banerjee: format.
+
+480
+01:15:20.899 --> 01:15:25.649
+Somnath Banerjee: So basically, the idea is that you have your witness bytes.
+
+481
+01:15:25.839 --> 01:15:30.819
+Somnath Banerjee: When you try to serialize it in any form, SSZ, ROP, whatever.
+
+482
+01:15:31.489 --> 01:15:45.439
+Somnath Banerjee: The decode actually takes quite a lot and there is also cost for memory allocation. Currently SV1 and most other VMs allow you to write to the memory, even the memory that the input bytes are.
+
+483
+01:15:45.639 --> 01:15:53.389
+Somnath Banerjee: Passed on to from. So what you take is, just your bundle bytes. I'm calling it bundle bytes as
+
+484
+01:15:53.769 --> 01:15:57.909
+Somnath Banerjee: They bundle in, the whole witness in a
+
+485
+01:15:58.089 --> 01:16:14.009
+Somnath Banerjee: slightly indexed mapped format that I'm going to talk about. You just reinterpret, cast them from C++ into pointers to objects. These objects are basically flat objects, and you just directly execute,
+
+486
+01:16:14.789 --> 01:16:17.489
+Somnath Banerjee: With this, data.
+
+487
+01:16:17.799 --> 01:16:25.839
+Somnath Banerjee: without having to, again, allocate, decode all of those. So, most of your memory-related operations coming from
+
+488
+01:16:25.939 --> 01:16:29.219
+Somnath Banerjee: Witness or bundle is, just gone.
+
+489
+01:16:29.949 --> 01:16:37.939
+Somnath Banerjee: small Walk through about what kind of hashing we're doing, so basically it's a simple mixer.
+
+490
+01:16:38.469 --> 01:16:44.139
+Somnath Banerjee: We have got, like, around 25 instructions or so that compiles to. It is
+
+491
+01:16:44.359 --> 01:16:47.659
+Somnath Banerjee: A couple of shifts and XORs and a multiply.
+
+492
+01:16:48.289 --> 01:16:50.119
+Somnath Banerjee: And the basic idea is that
+
+493
+01:16:50.819 --> 01:16:54.539
+Somnath Banerjee: When you have keys, you sort of put them into some buckets.
+
+494
+01:16:54.849 --> 01:16:58.189
+Somnath Banerjee: Over a loop, you calculate some displacement,
+
+495
+01:16:58.649 --> 01:17:01.319
+Somnath Banerjee: Over those buckets and eventually place them.
+
+496
+01:17:01.519 --> 01:17:07.169
+Somnath Banerjee: To certain, slots. This is an idea for a minimally perfect hash function.
+
+497
+01:17:07.499 --> 01:17:10.179
+Somnath Banerjee: You can go check out the blog article about.
+
+498
+01:17:10.339 --> 01:17:14.829
+Somnath Banerjee: What that is, but we're not exactly doing 100% minimal.
+
+499
+01:17:15.729 --> 01:17:20.049
+Somnath Banerjee: We are actually assuming that there is going to be collisions.
+
+500
+01:17:20.649 --> 01:17:30.709
+Somnath Banerjee: After the lookup is done, when you have found everything and your slot matches, what you basically do is, look at a collision sidebar as well.
+
+501
+01:17:31.409 --> 01:17:33.829
+Somnath Banerjee: Which is, like, if your hash function was
+
+502
+01:17:34.469 --> 01:17:40.829
+Somnath Banerjee: To miss some slot or, you know, collide with something else, then you can just consult an array.
+
+503
+01:17:40.949 --> 01:17:45.549
+Somnath Banerjee: Where you would have all of your index indices mentioned as 0.
+
+504
+01:17:46.249 --> 01:17:49.959
+Somnath Banerjee: Basically, when you have a key, where is that?
+
+505
+01:17:50.399 --> 01:17:53.989
+Somnath Banerjee: We're also using a shortened key version, which is
+
+506
+01:17:54.149 --> 01:17:56.879
+Somnath Banerjee: You don't use 32 bytes of hash.
+
+507
+01:17:57.319 --> 01:18:02.439
+Somnath Banerjee: As a key to the map and we're already using a different map.
+
+508
+01:18:02.589 --> 01:18:05.879
+Somnath Banerjee: From anything that is available currently, as I mentioned before, I'd say.
+
+509
+01:18:06.099 --> 01:18:07.459
+Somnath Banerjee: A simple mixer.
+
+510
+01:18:08.169 --> 01:18:16.459
+Somnath Banerjee: The key source, key addresses and hashes are already randomized on an honest block.
+
+511
+01:18:16.699 --> 01:18:24.939
+Somnath Banerjee: So, there is already… You know, collisions are, like, kind of rare, and you're already indexing it before.
+
+512
+01:18:25.239 --> 01:18:28.509
+Somnath Banerjee: So, it is fine to use a shortened key.
+
+513
+01:18:28.639 --> 01:18:32.179
+Somnath Banerjee: And eventually, you derive your slot index.
+
+514
+01:18:32.889 --> 01:18:41.599
+Somnath Banerjee: Basically, you put this entire file in which you have a header and an array of different data slots, and every flat
+
+515
+01:18:42.269 --> 01:18:45.569
+Somnath Banerjee: Object is occupying a certain.
+
+516
+01:18:46.699 --> 01:18:49.939
+Somnath Banerjee: Amount, or certain length of bytes.
+
+517
+01:18:50.349 --> 01:18:52.079
+Somnath Banerjee: And you just kind of.
+
+518
+01:18:52.619 --> 01:18:58.439
+Somnath Banerjee: Cast those bytes, as an individual pointer to your data.
+
+519
+01:19:01.089 --> 01:19:07.019
+Somnath Banerjee: On RV, RV, that is just 26 key dependent and some.
+
+520
+01:19:08.899 --> 01:19:16.079
+Somnath Banerjee: Constant construction… Instructions and, all of this is like, kind of.
+
+521
+01:19:16.689 --> 01:19:22.089
+Somnath Banerjee: Optimized for RISC-V, the mixer is kind of simplistic, again.
+
+522
+01:19:22.209 --> 01:19:26.049
+Somnath Banerjee: Because we have to stop at a position where things just work.
+
+523
+01:19:26.389 --> 01:19:29.739
+Somnath Banerjee: So we divide the state into different kinds of MPHF.
+
+524
+01:19:30.049 --> 01:19:34.159
+Somnath Banerjee: functions, we call it MPHF, MPHF, these are the
+
+525
+01:19:34.869 --> 01:19:41.799
+Somnath Banerjee: prefixes that we'll be using. These are very simple maps address to plain state.
+
+526
+01:19:42.069 --> 01:19:50.029
+Somnath Banerjee: Hash to code, and… Getapp of RLP to the Node RLP for the Node Store itself.
+
+527
+01:19:50.749 --> 01:19:55.719
+Somnath Banerjee: And once you have all of these, you sort of bundle them all together.
+
+528
+01:19:55.979 --> 01:20:04.249
+Somnath Banerjee: Mind you, these are all flat bytes. We'll just create a container around the flat bytes and we just call it direct state.
+
+529
+01:20:04.629 --> 01:20:08.569
+Somnath Banerjee: So this direct state has, No…
+
+530
+01:20:09.229 --> 01:20:15.589
+Somnath Banerjee: Prior allocation required during the decode phase, but for all the accounts created.
+
+531
+01:20:16.039 --> 01:20:25.129
+Somnath Banerjee: After the execution, there is an overlay, and it uses the overlay to eventually execute on new data that comes in.
+
+532
+01:20:26.279 --> 01:20:35.729
+Somnath Banerjee: This is a representation. This information is present in the spec sheet, also present in the code base.
+
+533
+01:20:36.699 --> 01:20:44.159
+Somnath Banerjee: And finally a lot of these things are optimized for our grid MPT loop, which
+
+534
+01:20:44.619 --> 01:20:47.919
+Somnath Banerjee: Kind of combines the pre-state and post-state.
+
+535
+01:20:48.909 --> 01:20:56.469
+Somnath Banerjee: Try validation. Most of the other clients, what they might be doing, or the naive way of doing try validation is to
+
+536
+01:20:56.899 --> 01:21:00.019
+Somnath Banerjee: Look through the note store, or the set of
+
+537
+01:21:00.349 --> 01:21:03.979
+Somnath Banerjee: Nodes that you have and derive, all the state.
+
+538
+01:21:04.309 --> 01:21:08.079
+Somnath Banerjee: Which is kind of repetitive. What we do is we take the state.
+
+539
+01:21:08.579 --> 01:21:12.049
+Somnath Banerjee: And, during the final pass we just remember.
+
+540
+01:21:12.239 --> 01:21:15.539
+Somnath Banerjee: All the read-only keys we have had to deal with.
+
+541
+01:21:15.749 --> 01:21:19.349
+Somnath Banerjee: We put the root on a single stack.
+
+542
+01:21:19.889 --> 01:21:23.079
+Somnath Banerjee: Unfold, the children from that stack.
+
+543
+01:21:23.279 --> 01:21:25.839
+Somnath Banerjee: And for the pre-state.
+
+544
+01:21:26.059 --> 01:21:34.299
+Somnath Banerjee: If it is read-only, we just verify that the state that we have come from the MFBD bundle actually matches the one
+
+545
+01:21:34.459 --> 01:21:39.769
+Somnath Banerjee: That is also there, derived from the ketchup part of the tri.
+
+546
+01:21:40.479 --> 01:21:45.289
+Somnath Banerjee: For this, some additional Elements like,
+
+547
+01:21:45.929 --> 01:21:51.399
+Somnath Banerjee: like a set of address hashes is also mandated in the spec for MFBD.
+
+548
+01:21:51.989 --> 01:22:01.289
+Somnath Banerjee: And at the end of it, this is what it looks like. There's an overall MFBD bundle with some MFBD bundle.
+
+549
+01:22:01.519 --> 01:22:06.559
+Somnath Banerjee: some magic versions and eventually every container has genesis the blocks ancestors
+
+550
+01:22:06.709 --> 01:22:08.909
+Somnath Banerjee: And a whole section for the pre-stake.
+
+551
+01:22:09.129 --> 01:22:17.639
+Somnath Banerjee: That contains the accounts, address hashes, and the code. You also have the node store, of course, and some network selector.
+
+552
+01:22:17.869 --> 01:22:22.939
+Somnath Banerjee: All of this is extensible, we frequently do keep updating the versions.
+
+553
+01:22:23.659 --> 01:22:34.489
+Somnath Banerjee: And all you need to do is just cast a pointer, and for future optimizations, we can swap in or out the sections as required.
+
+554
+01:22:35.609 --> 01:22:50.989
+Somnath Banerjee: We do several rounds of checks. Of course, when you cast bytes, you can't just trust that the source of the bytes is correct, so we have some structural, we have some functional sanitizations that include alignment checks, bound checks.
+
+555
+01:22:51.289 --> 01:22:59.349
+Somnath Banerjee: Matching HEAD-AC checks, and we check various other things that may be
+
+556
+01:22:59.719 --> 01:23:06.079
+Somnath Banerjee: A lot of these checks are missing, for example, there are, there is a known issue of missing,
+
+557
+01:23:06.819 --> 01:23:09.699
+Somnath Banerjee: Absence proofs in witnesses.
+
+558
+01:23:10.099 --> 01:23:13.939
+Somnath Banerjee: And that can easily, make your Node.
+
+559
+01:23:14.079 --> 01:23:17.479
+Somnath Banerjee: I actually think that the read value is 0, but…
+
+560
+01:23:17.889 --> 01:23:21.149
+Somnath Banerjee: We sort of record those, and at the end of the…
+
+561
+01:23:21.719 --> 01:23:23.989
+Somnath Banerjee: Try validation loop, we also checked that.
+
+562
+01:23:24.729 --> 01:23:32.819
+Somnath Banerjee: There were no, unsolicited zero reads, and, like, there are some, you know, ton of other checks, but these checks are actually
+
+563
+01:23:34.029 --> 01:23:35.159
+Somnath Banerjee: kind of…
+
+564
+01:23:36.149 --> 01:23:47.439
+Somnath Banerjee: Weighing this down, we have to also find a balance between how to optimize these checks, because doing them serially sort of beats the point, but why bother about all of this, you know?
+
+565
+01:23:47.829 --> 01:24:02.239
+Somnath Banerjee: I also started on with an alternative implementation with everything that we learned about reduced keys and using a simple mixer as a hasher as opposed to something else.
+
+566
+01:24:02.699 --> 01:24:10.379
+Somnath Banerjee: And a very optimized hash data implementation that would eventually directly consume the stateless input bytes.
+
+567
+01:24:10.859 --> 01:24:25.069
+Somnath Banerjee: And like with our best efforts, we are at 1.11x the cycles of the DirectState. So in a way you can say that given everything else to be the same, DirectState would be running
+
+568
+01:24:25.219 --> 01:24:27.349
+Somnath Banerjee: Around 11% faster.
+
+569
+01:24:27.729 --> 01:24:31.489
+Somnath Banerjee: Compared to a full state reconstruction from.
+
+570
+01:24:31.609 --> 01:24:33.909
+Somnath Banerjee: The stateless input bytes.
+
+571
+01:24:34.539 --> 01:24:39.719
+Somnath Banerjee: But of course, this number can go up or down a little bit with optimizations.
+
+572
+01:24:40.679 --> 01:24:46.989
+Somnath Banerjee: There's also some work being done to improve this mixer with, some
+
+573
+01:24:47.139 --> 01:24:49.889
+Somnath Banerjee: Formal analysis and avalanche data and
+
+574
+01:24:50.599 --> 01:24:53.839
+Somnath Banerjee: A different kind of constant,
+
+575
+01:24:54.189 --> 01:24:59.729
+Somnath Banerjee: Just to give the mixer a better mixing characteristics.
+
+576
+01:25:01.019 --> 01:25:01.989
+Somnath Banerjee: Wow.
+
+577
+01:25:02.309 --> 01:25:08.169
+Somnath Banerjee: There are some structural changes to the hash state, but it is,
+
+578
+01:25:09.569 --> 01:25:12.719
+Somnath Banerjee: Kind of straightforward, just take the blob.
+
+579
+01:25:12.989 --> 01:25:15.659
+Somnath Banerjee: and construct most of these stores.
+
+580
+01:25:16.439 --> 01:25:19.929
+Somnath Banerjee: These stores are going to be referenced with hashes instead of plain.
+
+581
+01:25:20.229 --> 01:25:25.029
+Somnath Banerjee: And you have a similar overlay. Eventually the hash state is,
+
+582
+01:25:25.569 --> 01:25:31.899
+Somnath Banerjee: An alternate code path, so at compile time, you either use the hash state or
+
+583
+01:25:32.619 --> 01:25:35.909
+Somnath Banerjee: The direct state and the direct state would require the
+
+584
+01:25:36.189 --> 01:25:39.329
+Somnath Banerjee: MFBD bundle, which is our custom format.
+
+585
+01:25:39.549 --> 01:25:42.939
+Somnath Banerjee: But with the stateless input bytes as it is.
+
+586
+01:25:43.169 --> 01:25:46.839
+Somnath Banerjee: You can just use the hash state from this construction.
+
+587
+01:25:49.189 --> 01:25:57.319
+Somnath Banerjee: And this is kind of the pipeline. I wouldn't want to be talking about this more unless there is a question.
+
+588
+01:25:57.529 --> 01:26:02.349
+Somnath Banerjee: So I would say that's all from Silkworm, and thank you for
+
+589
+01:26:02.659 --> 01:26:04.669
+Somnath Banerjee: Giving us the opportunity to speak.
+
+590
+01:26:07.790 --> 01:26:13.739
+ignacio: Oh, amazing. Thanks, everyone from the Silkworm team, to sharing this…
+
+591
+01:26:13.920 --> 01:26:21.240
+ignacio: presentation, there's a lot of things to unpack here. And I think we have a lot of time for questions, but…
+
+592
+01:26:21.840 --> 01:26:27.160
+ignacio: There's… yeah, there's a lot of things here, from…
+
+593
+01:26:28.440 --> 01:26:42.949
+ignacio: I think Silkworm supporting the EAST specs is going to be a good start, so we can benchmark all the guest programs using the specs, and then we can maybe start experimenting with many of these
+
+594
+01:26:43.050 --> 01:26:58.760
+ignacio: extra optimizations, and see how much this can justify, probably, a spec change, if we think it is worth the speedup versus complexity. I'm really glad that someone is taking a look at all these details.
+
+595
+01:26:58.990 --> 01:27:00.650
+ignacio: Because,
+
+596
+01:27:00.840 --> 01:27:11.940
+ignacio: someone has to do it to really get… so we can get the numbers and really start thinking about all these things, at least for the mandatory proofs, work direction, right?
+
+597
+01:27:12.570 --> 01:27:17.980
+ignacio: So I think this is great. And thank everyone for sharing all this.
+
+598
+01:27:18.680 --> 01:27:21.849
+ignacio: I don't know if it's any, like, short…
+
+599
+01:27:22.050 --> 01:27:32.850
+ignacio: questions for… for them. If not, we can also schedule another, Q&A, in a future call, too.
+
+600
+01:27:35.790 --> 01:27:36.590
+ignacio: Oh.
+
+601
+01:27:38.510 --> 01:27:49.080
+ignacio: If there isn't, I know we are a bit over time. I know that Lion joined the call from Lighthouse. I don't know if you want to share any quick updates.
+
+602
+01:27:51.030 --> 01:27:52.580
+Lion dapplion: Yeah, I'll give… I'll be very quick.
+
+603
+01:27:53.250 --> 01:28:08.480
+Lion dapplion: So, in Lighthouse, we have merged into Unstable the capacity to run with a proof engine as a sidecar. We will maintain… we have implemented and we will maintain a sidecar, so we don't have to depend
+
+604
+01:28:08.600 --> 01:28:13.119
+Lion dapplion: on Lighthouse development cycle, but the plan would be to eventually
+
+605
+01:28:13.250 --> 01:28:15.960
+Lion dapplion: Integrate the verifiers on the codebase, but…
+
+606
+01:28:16.160 --> 01:28:27.980
+Lion dapplion: later, when everything stabilizes. We can also run now Unstable Lighthouse without an EL. I know this is controversial, but that's what's on the code right now.
+
+607
+01:28:29.300 --> 01:28:37.509
+Lion dapplion: And… and what else? Yeah, I'm also working, helping Tao on the recursive part. There's a PR.
+
+608
+01:28:38.160 --> 01:28:40.069
+Lion dapplion: To pass the block route.
+
+609
+01:28:40.400 --> 01:28:44.610
+Lion dapplion: And ZK Boost consume… the state.
+
+610
+01:28:44.850 --> 01:28:48.230
+Lion dapplion: I also added the new… route.
+
+611
+01:28:48.470 --> 01:28:49.779
+Lion dapplion: to get the leaves.
+
+612
+01:28:50.070 --> 01:28:55.379
+Lion dapplion: So we optimize state hashing on ZK Boost.
+
+613
+01:28:55.890 --> 01:28:58.700
+Lion dapplion: And I think that's it.
+
+614
+01:29:01.520 --> 01:29:02.430
+Lion dapplion: That's it.
+
+615
+01:29:05.240 --> 01:29:09.380
+ignacio: Cool, great. Thanks for the updates.
+
+616
+01:29:12.220 --> 01:29:17.759
+ignacio: Well, I mean, this has been a pretty lengthy call. A lot of really cool stuff is going on.
+
+617
+01:29:18.210 --> 01:29:30.120
+ignacio: As a last reminder, please, everyone that is interested in all this topic, join ACDC tomorrow. I think will be a pretty important milestone for L1Block Brewing.
+
+618
+01:29:30.400 --> 01:29:34.840
+ignacio: In the protocol history, so hopefully we can…
+
+619
+01:29:35.300 --> 01:29:41.889
+ignacio: Settle a lot of the work that we have done in the last… year or more.
+
+620
+01:29:42.190 --> 01:29:56.029
+ignacio: And keep iterating on all this effort for mandatory proofs, which you all know that we have a lot to do regarding recursive proving, optimizations, potential spec changes, EFAR justify, and things like that.
+
+621
+01:29:56.410 --> 01:30:02.019
+ignacio: So hopefully we can figure out what is, like, a good plan and the right steps.
+
+622
+01:30:02.160 --> 01:30:09.420
+ignacio: And which is the right order to… to do the things, and… and yeah, hopefully be ready to…
+
+623
+01:30:09.800 --> 01:30:14.519
+ignacio: have a solid and resilient one-proof brewery.
+
+624
+01:30:15.610 --> 01:30:18.940
+ignacio: So, yeah, with that, I…
+
+625
+01:30:20.310 --> 01:30:30.909
+ignacio: We'll thank you all for this and see you in the next call. We will be discussing maybe if we will skip the next call because it has some overlap with DEF CON.
+
+626
+01:30:31.340 --> 01:30:36.310
+ignacio: But I will share more on this on the Discord channel if we are going to skip it.
+
+627
+01:30:36.720 --> 01:30:39.610
+ignacio: But yeah, thanks everyone, and see you next time.
+
+628
+01:30:40.830 --> 01:30:41.650
+Francesco Risitano (Tau): Thank you.
+
+629
+01:30:43.550 --> 01:30:44.479
+Lion dapplion: Thank you, bye.
+
+630
+01:30:45.090 --> 01:30:46.310
+Tullio | Erigon: Thank you, bye.
+
+631
+01:30:46.450 --> 01:30:47.190
+Somnath Banerjee: you.
+

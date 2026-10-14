@@ -1,0 +1,124 @@
+{
+  "meeting": "L1-zkEVM breakout #09 - October 14, 2026",
+  "highlights": {
+    "eip_proposals_glamsterdam": [
+      {
+        "timestamp": "00:18:57",
+        "highlight": "EIP-8025 (zkEVM stateless inputs) targeting CFI at ACDC tomorrow; attendance encouraged"
+      },
+      {
+        "timestamp": "00:21:37",
+        "highlight": "EIP-7709 (BlockHash via EIP-2935 contract) CFI'd at ACDE; removes 'headers' field from execution witness"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:23:54",
+        "highlight": "zkVM test release v21 based on Sepolia official tests; public keys field removed from stateless inputs"
+      },
+      {
+        "timestamp": "00:28:38",
+        "highlight": "R2 bucket live for Sepolia stateless inputs (50k+ blocks); Hoodi and mainnet buckets planned as forks activate"
+      },
+      {
+        "timestamp": "00:31:22",
+        "highlight": "Hive consumer now supports REST+SSZ variant of Engine API; Nimbus already merged implementation"
+      }
+    ],
+    "zkevm_standards_and_security": [
+      {
+        "timestamp": "00:36:33",
+        "highlight": "Hash-map collision attack described by Lukasz (Nethermind): all provers for a given zkEVM vulnerable simultaneously; new randomness-seeding standard proposed with OpenVM demo"
+      },
+      {
+        "timestamp": "00:37:50",
+        "highlight": "RISC-V compliance gaps identified across tested zkVM teams; proposal to require tests alongside each new standard"
+      }
+    ],
+    "cl_optional_proofs": [
+      {
+        "timestamp": "00:44:09",
+        "highlight": "Consensus-spec refactor: proof engine scope reduced to verification only; client teams free to embed verifier or use HTTP sidecar"
+      },
+      {
+        "timestamp": "00:46:26",
+        "highlight": "New draft EIP for recursive chain proofs: single proof covering weak-subjectivity checkpoint to head, reducing sync bandwidth by orders of magnitude"
+      },
+      {
+        "timestamp": "00:50:07",
+        "highlight": "EF intends to deploy prover on Sepolia; client teams invited to join and test EIP-8025 on testnet"
+      },
+      {
+        "timestamp": "00:50:40",
+        "highlight": "Prysm proof-of-concept EIP-8025 implementation complete (gnark verifier embedded in binary); running verifier node on Sepolia; incompatibility with Lighthouse 'proof type 0' under investigation"
+      },
+      {
+        "timestamp": "01:27:52",
+        "highlight": "Lighthouse merged proof-engine sidecar support into Unstable; can now run Unstable without an EL; verifiers to be integrated into codebase later"
+      }
+    ],
+    "zilkworm_guest_client": [
+      {
+        "timestamp": "00:57:55",
+        "highlight": "Silkworm Alpha 4 registered in EERE benchmark; passes full zkVM test suite (2 known failures matching Reth); ~half the estimated proving cost of Reth on every block"
+      },
+      {
+        "timestamp": "01:00:20",
+        "highlight": "Alpha 5 target: native stateless input bytes support (no adapter); two failing tests to be fixed"
+      },
+      {
+        "timestamp": "01:01:13",
+        "highlight": "Alpha 2\u2192Alpha 4: one-third reduction in executed cycles; SP1 Hypercube used as benchmark VM"
+      },
+      {
+        "timestamp": "01:12:54",
+        "highlight": "Airbender V3 integration live: ~3.8s proof with two 25090 GPUs; JUMPDEST analysis accounts for up to 30% of EVM execution cycles"
+      },
+      {
+        "timestamp": "01:14:33",
+        "highlight": "Zilkworm now fully open source (SDLC pipeline, CI, PRs all public)"
+      },
+      {
+        "timestamp": "01:15:04",
+        "highlight": "MFBD flat witness format: minimally-perfect-hash-based, zero-copy cast from input bytes; DirectState ~11% faster than full reconstruction from stateless input bytes"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:18:57",
+      "action": "Join ACDC tomorrow to support CFI vote for EIP-8025; teams with strong opinions should attend",
+      "owner": "EL/CL client teams and zkEVM stakeholders"
+    },
+    {
+      "timestamp": "00:53:10",
+      "action": "Agree on Beacon API GET method for execution proofs to support Dora explorer",
+      "owner": "CL client teams (Prysm, Lighthouse, Francesco)"
+    },
+    {
+      "timestamp": "01:29:31",
+      "action": "Discuss upstreaming Zilkworm RISC-V optimizations (memcpy, byte-swap, JUMPDEST) to benefit all guest programs",
+      "owner": "Zilkworm + guest program teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:21:37",
+      "decision": "EIP-7709 CFI'd at ACDE; removes 'headers' field from execution witness by routing BlockHash through EIP-2935 contract"
+    },
+    {
+      "timestamp": "01:03:20",
+      "decision": "Proof engine scope in consensus specs narrowed to verification only; proof generation/fetching is unspecified client responsibility"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:50:07",
+      "target": "EF prover deployment on Sepolia \u2014 near term, pending Prysm/Lighthouse interop resolution"
+    },
+    {
+      "timestamp": "01:00:20",
+      "target": "Zilkworm Alpha 5 \u2014 native stateless input bytes support, two test fixes, full EERE integration out of draft"
+    }
+  ]
+}
