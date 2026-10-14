@@ -1,0 +1,65 @@
+{
+  "meeting": "Encrypt The Mempool #11 - October 14, 2026",
+  "highlights": {
+    "option_deterrence_top_of_block": [
+      {
+        "timestamp": "00:04:34",
+        "highlight": "Session focus: top-of-block ordering to prioritize trustworthy key revealers; untrusted publishers relegated to bottom of priority section, still above public mempool"
+      },
+      {
+        "timestamp": "00:05:40",
+        "highlight": "Jannik opened PR to Lucid spec adding a validator-voted priority list for key publishers; voting weighted by effective balance, recomputed per epoch"
+      },
+      {
+        "timestamp": "00:08:42",
+        "highlight": "Key messages now require signatures to prevent impersonation of priority-listed publishers; BLS unsuitable since key publishers are EL addresses \u2014 signing scheme unresolved"
+      },
+      {
+        "timestamp": "00:10:03",
+        "highlight": "max-preceding-commitments removed from Lucid to avoid conflict with new priority-list ordering; authors' feedback requested"
+      },
+      {
+        "timestamp": "00:26:09",
+        "highlight": "Top-of-block fee retained for congestion control within the priority section; ordering inside that section remains fee-based, not key-publisher-trust-based, to avoid collusion effects"
+      }
+    ],
+    "key_publisher_governance": [
+      {
+        "timestamp": "00:19:13",
+        "highlight": "No automatic slashing for invalid key reveals; validators must manually vote publishers out \u2014 external monitoring software proposed to assist"
+      },
+      {
+        "timestamp": "00:20:43",
+        "highlight": "Permissionless entry model: new publishers operate outside priority section, build reputation, then get voted in by validators"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:13:00",
+      "action": "Review Lucid PR (shutter-network/EIPs#1); focus on Engine API changes and priority-list propagation from EL to CL",
+      "owner": "Justin Florentine, Ander, Julian"
+    },
+    {
+      "timestamp": "00:13:44",
+      "action": "Escalate optionality concerns and priority-list PR to Tama for review",
+      "owner": "Justin Florentine"
+    },
+    {
+      "timestamp": "00:30:18",
+      "action": "Review Lucid priority-list PR and provide comments; consult local CL contacts",
+      "owner": "All attendees"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:26:35",
+      "decision": "Top-of-block fee kept; ordering within priority section remains fee-based (not trust-rank-based)"
+    },
+    {
+      "timestamp": "00:26:19",
+      "decision": "Priority section admission is binary (\u226550% validator support = in), not ranked by degree of trust"
+    }
+  ],
+  "targets": []
+}
