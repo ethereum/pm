@@ -1,0 +1,610 @@
+00:02:55	Kalo | Obol:	gm
+00:02:59	Dima Gusakov | Lido:	gm
+00:03:37	jochem-brouwer:	gm gm
+00:04:23	Barnabas:	Dan,the BPO stuff should be discussed together with CLs btw
+00:04:36	danceratopz:	Reacted to "Dan,the BPO stuff sh..." with 💙
+00:04:50	Mario Vega:	Reacted to "Dan,the BPO stuff should be discussed together with CLs btw" with 💙
+00:05:01	danceratopz:	📋 ACDT #101 agenda:
+https://github.com/ethereum/pm/issues/2271
+00:05:27	danceratopz:	🐻‍❄️🌐 Glamsterdam networks:
+Sepolia (forked Oct 6), devnet-8 (benchmarking), devnet-12, mainnet shadow forks
+https://dora.glamsterdam-devnet-8.ethpandaops.io
+https://dora.sepolia.ethpandaops.io
+https://glamsterdash.pk910.de
+00:07:46	Barnabas:	we are currently missing releases for erigon/geth/reth
+00:07:55	danceratopz:	🔀 Rename BPO test forks and base them on Amsterdam
+
+https://github.com/ethereum/execution-specs/pull/3597
+https://github.com/ethereum/hive/pull/1611
+BPO3 raises the blob schedule, BPO4 lowers it. Proposal:
+- Duplicate BPO2ToBPO3 as AmsterdamToBPOIncrease (tests both forks; drop BPO2ToBPO* after mainnet)
+- BPO3ToBPO4 -> BPOIncreaseToBPODecrease
+OK for clients, or keep testing BPO2ToBPO* until mainnet?
+No changes needed: Erigon, ethrex, Nethermind, Reth
+Client changes needed, PRs open:
+- Besu: https://github.com/besu-eth/besu/pull/11646
+- Geth: https://github.com/ethereum/go-ethereum/pull/35975
+- Nimbus-EL: https://github.com/status-im/nimbus-eth1/pull/5012
+00:08:54	Barnabas:	we added automatic BPO values being set on kurtosis based on seconds per slot. So the total blob throughput per second stays consistent with 15/21.
+00:11:01	Barnabas:	ah yes this is for Hegota
+00:11:05	Barnabas:	sorry
+00:11:08	felipe:	Reacted to "ah yes this is for..." with 👍
+00:11:58	danceratopz:	🏗️ Glamsterdam:
+separate builder and validator deposits at the Gloas fork
+https://github.com/ethereum/consensus-specs/pull/5736
+00:12:15	danceratopz:	Reacted to "sorry" with 💙
+00:12:23	Dima Gusakov | Lido:	And other LSTs
+00:12:43	Dima Gusakov | Lido:	And this is less than a complication. But more of an issue
+00:13:24	Nico Flaig:	sgtm
+00:13:26	Dustin:	ok whatever, let's replay the pectra disaster
+00:13:30	Dustin:	have fun
+00:13:40	Nico Flaig:	Reacted to "ok whatever, let's r..." with 😄
+00:14:04	Barnabas:	I would vote if we want this in, we should delay hoodi by a week at least, and have client releases out.
+00:14:08	Nico Flaig:	Replying to "ok whatever, let's r..."
+
+that's why we didnt change it for hoodi last minute
+00:14:15	james:	The holesky incident
+00:14:24	Dustin:	yes the holesky incident
+00:14:26	Mario Vega:	Reacted to "I would vote if we want this in, we should delay hoodi by a week at least, and have client releases out." with 👍🏼
+00:14:33	felipe:	Reacted to "I would vote if we..." with 👍🏼
+00:15:09	Eitan Seri-Levi:	yeah agreed that we have to delay if we’re gunna do this. 
+
+and since it sounds like there’s a workaround I don’t think it’s worth the delay
+00:15:32	Dustin:	I explictly don't care, it's too late
+00:15:35	Dima Gusakov | Lido:	Sepolia was not a sample because there were no pending builders
+00:15:44	Dima Gusakov | Lido:	So it does not matter
+00:15:58	james:	1 week sounds bad, you don’t want hoodi during devcon
+00:15:58	Dustin:	it's too bad, I agree in principle that Lido has pointed out a real problem
+00:16:06	Dustin:	but it's still too late
+00:16:39	Nico Flaig:	it was problem before 8282, but we could have fixed it as part of 8282
+00:16:48	Dustin:	Yeah 8282 didn't really cause it
+00:16:56	Dustin:	it was a missed opportunity though
+00:17:01	Nico Flaig:	Reacted to "it was a missed oppo..." with 👍
+00:17:12	cayman:	Reacted to "it was a missed oppo..." with 👍
+00:17:17	Dustin:	then I am strongly against fixing it
+00:17:57	Barnabas:	Yeah its either this or that. We can’t make the change and keep the schedule. So either we want to fix this bug or keep the schedule.
+00:18:04	Dustin:	"just one thing"
+00:18:07	Dustin:	no no  no
+00:18:08	Dustin:	juts o
+00:18:33	Justin Florentine (Besu):	why is moving the deadline "not great"?
+00:18:41	Barnabas:	Replying to "why is moving the de..."
+
+devcon
+00:18:55	Justin Florentine (Besu):	Replying to "why is moving the de..."
+
+why would shipping in feb be bad?
+00:19:11	Barnabas:	Replying to "why is moving the de..."
+
+ship glammy together with hegota?
+00:19:17	Iván | ethrex:	Replying to "why is moving the de..."
+
+It delays everything
+00:19:25	Iván | ethrex:	Reacted to "ship glammy together with hegota?" with 😅
+00:19:28	Justin Traglia:	Replying to "why is moving the de..."
+
+Then it would delay everything else.
+00:19:33	Justin Traglia:	Reacted to "It delays everything" with 👍
+00:19:33	Iván | ethrex:	Reacted to "Then it would delay everything else." with ☝️
+00:19:36	Justin Florentine (Besu):	Replying to "why is moving the de..."
+
+obviously i know that, why does that matter vs. the risk?
+00:19:44	Kalo | Obol:	Reacted to "ship glammy together..." with 🚀
+00:19:58	felipe:	Reacted to "ship glammy togeth..." with 😅
+00:20:04	Nico Flaig:	Reacted to "ship glammy together..." with 🚀
+00:20:11	Iván | ethrex:	Reacted to "ship glammy together with hegota?" with 🚢
+00:20:18	Potuz:	Lol
+00:20:32	Dima Gusakov | Lido:	Reacted to "Lol" with 😂
+00:20:57	Dmitrii Shmatko:	Reacted to "ship glammy together with hegota?" with 😅
+00:21:40	Dima Gusakov | Lido:	But should holidays be an excuse for keeping bug?
+00:21:52	Eitan Seri-Levi:	Don’t you guys have a workaround
+00:21:53	NC:	It’s better safe than sorry, so can’t really downplay the complexity even if it looks simple
+00:21:54	Justin Traglia:	We definitely 100% should not unscheduled Hoodi. This is ask is not worth that.
+00:22:04	Iván | ethrex:	Reacted to "We definitely 100% should not unscheduled Hoodi. This is ask is not worth that." with 🙏
+00:22:09	Daniel Knopik:	Reacted to "We definitely 100%..." with 🙏
+00:22:13	Marcos A. Maceo:	How hard would be to make the fix before hoodi?
+00:22:14	Will Corcoran:	Replying to "But should holidays ..."
+
+Bah hum bug
+00:22:14	Potuz:	Replying to "But should holidays ..."
+
+I agree with this, I don't mind fixing this, but I don't want to fix this AND keep the aggressive deadlines
+00:22:18	Dustin:	yeah agree, "unscheduling" Hoodi absolutely 100% a nonstarter
+00:22:19	james:	Replying to "But should holidays ..."
+
+Depends on how bad the bug is and if there is a workaround
+00:22:21	Dmitrii Shmatko:	Reacted to "We definitely 100% should not unscheduled Hoodi. This is ask is not worth that." with 🙏
+00:22:24	Dustin:	it's another great way to fork things
+00:22:55	Barnabas:	would we need to retests builder deposit cache?
+00:22:57	Potuz:	Michael from Lighthouse also voiced on this
+00:23:02	Nico Flaig:	I am for it and have it implemented and analyzed but I want it for mainnet, not hoodi
+00:23:10	spencer:	Reacted to "ship glammy togeth..." with 🚀
+00:23:12	spencer:	Reacted to "ship glammy togeth..." with 🚢
+00:23:12	spencer:	Reacted to "ship glammy togeth..." with 😅
+00:23:18	danceratopz:	🐻‍❄️🚀 Hoodi Glamsterdam:
+Mon Oct 26, 17:42:48 UTC, epoch 132352, gas limit 200M at the fork
+https://github.com/eth-clients/hoodi/pull/31
+https://github.com/ethereum/pm/pull/2263
+00:23:35	Stefan Starflinger:	Reacted to "🐻‍❄️🚀 Hoodi Glamsterdam:
+Mon Oct 26, 17:42:48 UTC, epoch 132352, gas limit 200M at the fork
+https://github.com/eth-clients/hoodi/pull/31
+https://github.com/ethereum/pm/pull/2263" with 💪
+00:23:40	danceratopz:	🐻‍❄️🚢 Hoodi releases vs EF blog (checked 13:20 UTC):
+https://blog.ethereum.org/en/2026/10/16/glamsterdam-hoodi-announcement
+EL:
+- Besu 26.10.0: matches blog
+- Erigon: not in blog, v3.7.1 lacks Hoodi Glamsterdam (on main only)
+- ethrex v30.0.0: newer than blog (rc.2); Hoodi config verified
+- Geth: not in blog, Hoodi not scheduled yet (go-ethereum#35974 open)
+- Nethermind 2.2.0: matches blog
+- Nimbus-EL v0.4.3 (Oct 17): not in blog; Hoodi config verified
+- Reth: not in blog, no Hoodi Glamsterdam config on main yet
+CL:
+- Grandine 3.0.0-rc.1 (Oct 19, prerelease): matches blog
+- Lighthouse v8.3.0 (Oct 19): matches blog
+- Lodestar v1.50.0: matches blog
+- Nimbus v26.10.1: matches blog
+- Prysm v7.3.0: matches blog
+- Teku 26.10.1: matches blog
+00:24:03	Nico Flaig:	Replying to "would we need to ret..."
+
+yep would have to retest that similar to what we did on devnet-12
+00:24:09	Kalo | Obol:	We’ll release today or latest tomorrow morning for Charon
+00:24:13	Matthew Keil:	Replying to "would we need to ret..."
+
+Yes, exactly
+00:24:17	Dustin:	"- Nimbus-EL v0.4.3 (Oct 17): not in blog; Hoodi config verified" yeah I mean, we did a release which could be included in the blog if so inclined
+00:24:19	Dustin:	that was the goal
+00:24:26	Barnabas:	Replying to "would we need to ret..."
+
+I think this would be a bit of a PITA ?
+00:24:31	Matthew Keil:	Replying to "would we need to ret..."
+
+So would need some sort of devnet with a fork transition
+00:24:45	Matthew Keil:	Replying to "would we need to ret..."
+
+Yes it would be
+00:26:24	jochem-brouwer (bk):	btw their is the dst stuff in europe (and possibly in other places); acdt is one hour earlier for me than today
+00:26:38	jochem-brouwer (bk):	Replying to "btw their is the d..."
+
+(next week monday)
+00:26:39	Potuz:	Replying to "it was problem befor..."
+
+This is not entirely correct: this was NOT a problem when builders were validators, this only is a problem now because the oracle of a bad validator does not exist on the beacon state
+00:26:40	Barnabas:	Reacted to "btw their is the dst stuff in europe (and possibly in other places); acdt is one hour earlier for me than today" with 🔥
+00:26:59	Mario Vega:	Reacted to "btw their is the dst stuff in europe (and possibly in other places); acdt is one hour earlier for me than today" with 🔥
+00:27:12	danceratopz:	🗄️ BAL retention:
+ELs keep BALs available via getPayloadBodiesBy*V2 for HISTORY_PRUNE_EPOCHS = 14,299 epochs
+https://github.com/ethereum/EIPs/pull/12347
+https://github.com/ethereum/consensus-specs/pull/5680
+https://github.com/ethereum/execution-specs/issues/3667
+00:27:17	Toni Wahrstätter:	BAL retention period increase PR (to be merged):
+https://github.com/ethereum/EIPs/pull/12347
+00:27:28	danceratopz:	BAL retention today (EL), target 14,299 epochs:
+- Besu: 14,299 epochs default and minimum (merged)
+  - https://github.com/besu-eth/besu/pull/11417
+- Erigon: prunes at finality, regenerates on demand (~2 s); full mode ~8,192 epochs
+  - https://github.com/erigontech/erigon/issues/24100
+- ethrex: unknown
+- Geth: keeps BALs forever (none below the snap-sync pivot)
+- Nethermind: 14,299 epochs by default, capped at sync pivot (PR open)
+  - https://github.com/NethermindEth/nethermind/pull/14609
+- Nimbus-EL: 3,533 -> 14,299 epochs (PR open, waits on EIPs#12347)
+  - https://github.com/status-im/nimbus-eth1/pull/4815
+- Reth: in memory, 3,533 epochs, lost on restart
+  - https://github.com/paradigmxyz/reth/issues/27293
+00:27:31	Potuz:	Replying to "I am for it and have..."
+
+what if this is triggered on Hoodi?
+00:27:55	hangleang:	Replying to "would we need to r..."
+
+yes please
+00:28:13	Nico Flaig:	Replying to "it was problem befor..."
+
+ok but that was way before 8282, we changed that in janurary
+00:29:17	Potuz:	Replying to "it was problem befor..."
+
+yes, and absolutely everything that came after was because of that change. The people that had a state of mind with the previous spec did not spend the same amount of time vouching for the changes that this brought.
+00:29:40	Potuz:	Dustin, get out of the Cavern you are right now so that we can hear you better
+00:30:06	Iván | ethrex:	We have no pruning, yet. I have some work in progress in a PR
+00:30:09	Nico Flaig:	all el clients have an issue I opened a while ago as reminder
+00:30:15	Barnabas:	Replying to "Dustin, get out of t..."
+
+Tavern*
+00:30:34	nixo:	uh oh. dan has entered teh cavern
+00:30:38	Iván | ethrex:	Reacted to "uh oh. dan has entered teh cavern" with 😅
+00:30:39	Ameziane Hamlat:	It is done on besu side : https://github.com/besu-eth/besu/pull/11417
+00:30:39	Barnabas:	Reacted to "uh oh. dan has entered teh cavern" with 💀
+00:30:41	Iván | ethrex:	Reacted to "uh oh. dan has entered teh cavern" with 💀
+00:30:42	pk910:	Reacted to "uh oh. dan has enter..." with 💀
+00:30:43	Mario Vega:	Reacted to "uh oh. dan has entered teh cavern" with 💀
+00:30:43	Eitan Seri-Levi:	Reacted to "uh oh. dan has entered teh cavern" with 😅
+00:30:43	felipe:	Reacted to "uh oh. dan has ent..." with 💀
+00:30:43	Kalo | Obol:	Reacted to "uh oh. dan has enter..." with 💀
+00:30:43	Mario Vega:	Reacted to "uh oh. dan has entered teh cavern" with 😅
+00:30:45	Yassine Ferhane:	Reacted to "Tavern*" with 😂
+00:30:48	Nico Flaig:	Reacted to "uh oh. dan has enter..." with 💀
+00:30:49	Mega | ethlambda:	Reacted to "uh oh. dan has entered teh cavern" with 💀
+00:30:51	Mega | ethlambda:	Reacted to "uh oh. dan has entered teh cavern" with 😅
+00:30:52	Kalo | Obol:	Reacted to "Tavern*" with 😂
+00:30:52	Eitan Seri-Levi:	Reacted to "Tavern*" with 😂
+00:30:56	nixo:	Reacted to "Tavern*" with 😂
+00:30:59	spencer:	Reacted to "uh oh. dan has ent..." with 💀
+00:31:00	Justin Traglia:	Replying to "it was problem befor..."
+
+Yeah you’re right Nico. This would have still been a problem pre-8282.
+00:31:00	spencer:	Reacted to "uh oh. dan has ent..." with 😅
+00:31:03	Potuz:	Reacted to "uh oh. dan has enter..." with 😅
+00:31:09	Barnabas:	Replying to "uh oh. dan has enter..."
+
+@danceratopz we can’t hear you
+00:31:11	Łukasz Rozmej:	Nethermind PR: https://github.com/NethermindEth/nethermind/pull/14609
+00:31:25	cayman:	Reacted to "uh oh. dan has enter..." with 💀
+00:31:25	Potuz:	@Justin Traglia You are taking over?
+00:31:26	Trent Van Epps:	Still no, dan
+00:32:03	felipe:	Yes this is an issue perhaps with Heze if it gets lowered
+00:32:06	felipe:	I was curious about this too
+00:32:07	spencer:	Replying to "uh oh. dan has ent..."
+
+it sounds like a signal/bandwidth issue, you sound like a 🤖
+00:32:10	danceratopz:	I'm so back.
+00:32:17	Potuz:	Reacted to "I'm so back." with 🤣
+00:32:19	Mario Vega:	Reacted to "I'm so back." with 🤣
+00:32:20	felipe:	Reacted to "I'm so back." with 🤣
+00:32:21	Eitan Seri-Levi:	We don’t dedup non finalized data as well
+00:32:22	spencer:	Reacted to "I'm so back." with 🤣
+00:32:23	jochem-brouwer (bk):	I am far from CL expert but should this constant not be a relation with validator count / WSP? (so not a constant)
+00:32:23	felipe:	Reacted to "I'm so back." with 🔥
+00:32:25	Barnabas:	Replying to "I'm so back."
+
+joined the tavern’s wifi?
+00:32:26	nixo:	Reacted to "I'm so back." with 🔥
+00:32:28	spencer:	Reacted to "joined the tavern..." with 😅
+00:32:28	Kalo | Obol:	Reacted to "I'm so back." with 🤣
+00:32:30	Mario Vega:	Reacted to "I'm so back." with 🔥
+00:32:30	Nico Flaig:	Reacted to "I'm so back." with 🤣
+00:32:32	nixo:	Reacted to "joined the tavern’s wifi?" with 😅
+00:32:33	Kalo | Obol:	Reacted to "joined the tavern’s ..." with 😅
+00:32:44	danceratopz:	Replying to "I'm so back."
+
+you always need 2 x danceratopz for it to be a meeting
+00:32:52	Justin Florentine (Besu):	confirmed besu has the increase here: https://github.com/besu-eth/besu/pull/11417
+00:32:56	nixo:	Reacted to "you always need 2 x danceratopz for it to be a meeting" with 😂
+00:33:08	Mario Vega:	Reacted to "you always need 2 x danceratopz for it to be a meeting" with 😂
+00:33:32	Barnabas:	btw aren’t BALs a bit redundant? We don’t need to have bals, it could be recalculated on the fly?
+00:33:45	Kevaundray Wedderburn:	Shouldn’t the EL just not prune non-finalised payloads?
+00:33:50	Nico Flaig:	kev's eip in hegota to reduce to 8192?
+00:33:59	cayman:	Reacted to "kev's eip in hegota ..." with 👍
+00:34:04	Nico Flaig:	Reacted to "Tavern*" with 😂
+00:34:07	felipe:	Reacted to "kev's eip in hegot..." with 👆
+00:34:10	Toni Wahrstätter:	Replying to "kev's eip in hegota to reduce to 8192?"
+
+yeah still a lot, no?
+00:34:15	Potuz:	Reacted to "kev's eip in hegota ..." with 👍
+00:34:23	Toni Wahrstätter:	Replying to "kev's eip in hegota to reduce to 8192?"
+
+but I see where it comes from and makes sense
+00:34:26	Potuz:	Replying to "kev's eip in hegota ..."
+
+can happen though
+00:34:27	Nico Flaig:	Replying to "kev's eip in hegota ..."
+
+ehm to be discussed I guess, not sure what's a safe number
+00:34:39	Dmitrii Shmatko:	Reacted to "joined the tavern’s wifi?" with 😅
+00:34:43	Kevaundray Wedderburn:	Reacted to "kev's eip in hegota to reduce to 8192?" with 👍
+00:34:44	Justin Traglia:	Reacted to "ok but that was way before 8282, we changed that in janurary" with 👍
+00:35:15	Dmitrii Shmatko:	Reacted to "kev's eip in hegota to reduce to 8192?" with 👍
+00:35:23	Justin Traglia:	Reacted to "Tavern*" with 😂
+00:36:11	Toni Wahrstätter:	yeah, this might be 8192 epochs from https://eips.ethereum.org/EIPS/eip-8252
+00:37:25	Barnabas:	I think we should increase the penalty during non finality, so we can lower this number too
+00:37:32	Potuz:	Replying to "yeah, this might be ..."
+
+yeah I think this is good
+00:37:34	Nico Flaig:	agree potuz but I don't think the forumla would be deterministic and needs to make some assumptions/ use a heuristic
+00:37:55	Potuz:	Replying to "agree potuz but I do..."
+
+yeah I agree, it's a good heuristic in itself though
+00:37:59	danceratopz:	📜 Heads up: Suggested scoping process change
+Unmerged EIPs stay off call agendas; PFI'd EIPs with no client support default to DFI. Please review before ACDE #248.
+https://github.com/ethereum/pm/pull/2275
+00:38:09	Nico Flaig:	Reacted to "yeah I agree, it's a..." with 👍
+00:38:30	Toni Wahrstätter:	Replying to "yeah, this might be 8192 epochs from https://eips.ethereum.org/EIPS/eip-8252"
+
+it's the time it takes to restore finality if up to ~79% of stake goes offline
+00:38:47	danceratopz:	🧪 Hegota devnets:
+heze-devnet-1 (FOCIL) and bogota-devnet-1 (frames)
+https://dora.heze-devnet-1.ethpandaops.io
+https://dora.bogota-devnet-1.ethpandaops.io
+Frames breakout #7 tomorrow: https://github.com/ethereum/pm/issues/2272
+00:39:56	danceratopz:	⚙️ heze-devnet-2 alignment, to clarify on this call:
+slot duration, EL blob schedule, IL deadline (#5727)
+1. CL slot duration: 12s via SLOT_DURATION_MS_HEZE?
+2. EL blob schedule: 12/18 (EELS tests) or 14/21 (genesis generator)?
+3. IL deadline: #5727 (9s) in via devnet config?
+https://notes.ethereum.org/@ethpandaops/heze-devnet-2
+https://github.com/ethereum/consensus-specs/pull/5743
+https://github.com/ethereum/consensus-specs/pull/5727
+https://github.com/ethereum/execution-specs/releases/tag/tests-heze-devnet@v2.0.0
+00:40:01	felipe:	I have a comment to try to align blob params and it seems like we've changed shorter slots so let's align that too?
+ 
+I used the blob params from here in EL tests: https://github.com/ethereum/execution-specs/pull/3703/changes#diff-113a250e2deeea5cc1c2d1d5ab072d0c126723e3290cffacdd7b001bab3efd41R18-R34 and ethrex has this too.
+00:40:08	Barnabas:	https://github.com/ethereum/consensus-specs/pull/5743
+00:40:37	Barnabas:	https://github.com/ethereum/consensus-specs/pull/5718
+00:42:42	Kevaundray Wedderburn:	This sounds like a call to clarify what CFI really means
+00:42:51	Iván | ethrex:	Reacted to "This sounds like a call to clarify what CFI really means" with 👍
+00:42:52	Justin Traglia:	Sorry, I’m back. My power went out for a minute. Bad timing.
+00:42:54	felipe:	Reacted to "This sounds like a..." with 👍
+00:42:55	danceratopz:	Reacted to "This sounds like a c..." with 👍
+00:43:00	danceratopz:	Reacted to "Sorry, I’m back. My ..." with 💙
+00:43:05	Barnabas:	how would you test 2 different EIPs that interact with each other?
+00:43:09	Łukasz Rozmej:	this is ACD! With T at the end :)
+00:43:24	Barnabas:	Reacted to "this is ACD! With T at the end :)" with 💯
+00:43:41	spencer:	Replying to "This sounds like a..."
+
+in eels we only merge to main branch on sfi, should it be the same for consesus specs?
+00:43:52	spencer:	Reacted to "this is ACD! With ..." with 💯
+00:44:00	felipe:	Reacted to "this is ACD! With ..." with 💯
+00:44:02	Stefan Starflinger:	Reacted to "this is ACD! With T at the end :)" with 💯
+00:44:11	Jihoon:	I agree with the argument in general, but just want to point out that technically it's not true that EIPs are merged only after getting SFI'd. From my undersrtanding, going through dev's review is the point.
+00:44:24	Justin Traglia:	Reacted to "I agree with the argument in general, but just want to point out that technically it's not true that EIPs are merged only after getting SFI'd. From my undersrtanding, going through dev's review is the point." with 👍
+00:44:26	Barnabas:	Reacted to "I agree with the argument in general, but just want to point out that technically it's not true that EIPs are merged only after getting SFI'd. From my undersrtanding, going through dev's review is the point." with 👍
+00:44:46	Kevaundray Wedderburn:	Replying to "This sounds like a c..."
+
+I think so (no strong opinion), though it sounds like it makes testing EIP interactions a bit more difficult?
+00:45:15	Kevaundray Wedderburn:	Reacted to "I agree with the argument in general, but just want to point out that technically it's not true that EIPs are merged only after getting SFI'd. From my undersrtanding, going through dev's review is the point." with 👍
+00:45:26	Barnabas:	Lets do blobs per second adjusted to current values
+00:45:45	Potuz:	Replying to "This sounds like a c..."
+
+Yes I think this is mandatory cause merging in the main branch is more disruptive than what it helps on testing
+00:45:55	NC:	Replying to "I agree with the arg..."
+
+But say EIP-8365 for example, the spec PR is merged only two hours after it’s opened and I doubt everyone had a chance to review.
+00:46:08	danceratopz:	Replying to "Sorry, I’m back. My ..."
+
+i know the feeling man
+00:46:12	spencer:	Reacted to "Sorry, I’m back. ..." with 💙
+00:46:25	felipe:	is this heze-devnet-2?
+00:46:29	felipe:	"next devnet"
+00:46:30	felipe:	ok
+00:46:30	Justin Traglia:	Reacted to "i know the feeling man" with 😂
+00:46:31	felipe:	ty
+00:46:56	Jihoon:	Replying to "I agree with the arg..."
+
+Yeah, that's on me. It should have not done in a rush.
+00:47:09	Dustin:	yeah, I mean, to me the spec-release then devnet is ideal
+00:47:21	Justin Traglia:	Replying to "Sorry, I’m back. My ..."
+
+My neighbor is getting a home battery installed & I guess our power lines are connected somehow.
+00:47:38	spencer:	Reacted to "My neighbor is get..." with 💀
+00:47:38	Kalo | Obol:	Reacted to "i know the feeling m..." with 😂
+00:47:48	Kalo | Obol:	Reacted to "My neighbor is getti..." with 💀
+00:47:49	cayman:	Reacted to "yeah, I mean, to me ..." with 👍
+00:48:18	Potuz:	THANK YOU
+00:48:27	Toni Wahrstätter:	It's a issue downstream of us not having a clear CFI -> devnet process.
+00:48:32	felipe:	it's a slippery slope that ends up sponsoring an EIP based on sunk cost
+00:48:45	Toni Wahrstätter:	For some it's just testing a feature, for others it's a step towards SFI
+00:48:48	Justin Florentine (Besu):	Reacted to "it's a slippery slope that ends up sponsoring an EIP based on sunk cost" with 👏
+00:48:53	spencer:	I don't think its been defined properly in EIP-7723
+We should update it!
+00:48:57	Barnabas:	did we not have a broad consensus its CFI-ed?
+00:49:00	Justin Traglia:	Reacted to "I don't think its been defined properly in EIP-7723
+We should update it!" with 👍
+00:49:03	Kevaundray Wedderburn:	Consensus-specs has a features folder, I think we are talking about merging into heze folder on main?
+00:49:07	Mario Vega:	Reacted to "I don't think its been defined properly in EIP-7723
+We should update it!" with 👍
+00:49:09	spencer:	Replying to "For some it's just..."
+
+For me its testing a feature, but i understand the context
+00:49:10	Justin Traglia:	Replying to "Consensus-specs has ..."
+
+Yes.
+00:49:11	Barnabas:	CFI means that it gets implemented and tested on a devnet. 
+SFI is shipping to mainnet.
+00:49:11	Potuz:	Replying to "did we not have a br..."
+
+that was already a hard call bty Alex
+00:49:16	Francesco D'Amato:	Fwiw Justin Traglia does not even like Quick Slots, can we not be conspiratorial...
+00:49:33	Kevaundray Wedderburn:	Reacted to "Fwiw Justin Traglia does not even like Quick Slots, can we not be conspiratorial..." with 👍
+00:49:34	Justin Traglia:	Reacted to "Fwiw Justin Traglia does not even like Quick Slots, can we not be conspiratorial..." with 👍
+00:49:35	NC:	Replying to "it's a slippery slop..."
+
+definitely. Need to spend non-trivial effort to un-merge some EIPs from the spec if we want to dfi a cfi'ed eip
+00:49:39	Mega | ethlambda:	Reacted to "Fwiw Justin Traglia does not even like Quick Slots, can we not be conspiratorial..." with 👍
+00:49:45	felipe:	Reacted to "Fwiw Justin Tragli..." with 👍
+00:49:49	spencer:	Reacted to "Fwiw Justin Tragli..." with 👍
+00:49:50	Kevaundray Wedderburn:	Replying to "Fwiw Justin Traglia ..."
+
+Right, I think its more that this needs to be clarified
+00:49:51	Potuz:	Replying to "Fwiw Justin Traglia ..."
+
+we're not being conspiratorial, and I don't blame Justin, but the speed at which we are merging things in main branches is crazy
+00:50:11	Potuz:	Replying to "Fwiw Justin Traglia ..."
+
+The whole point of this discussion is to stop this and be more transparent about what goes in the main branches
+00:50:32	Francesco D'Amato:	Replying to "Fwiw Justin Traglia ..."
+
+Not arguing with the broader point, just it can be said without  implying that something improper has happened
+00:50:36	Dustin:	ok, the point though is what whether it's CFI or SFI or .... then devnets need to interop
+00:50:37	Matthew Keil:	Replying to "did we not have a br..."
+
+There was not “broad” consensus
+00:50:46	Justin Traglia:	Replying to "Fwiw Justin Traglia ..."
+
+For previous upgrades, we did merge things into upgrade specs before they were SFI'd.
+00:50:49	Potuz:	Replying to "Fwiw Justin Traglia ..."
+
+but something improper has happened!
+00:50:54	Dustin:	that includes test vectors, kurtosis, etc
+00:51:15	Barnabas:	how do we target a specific commit for consensus spec for a devnet?
+00:51:21	Barnabas:	if we have x many open PRs?
+00:51:30	spencer:	Reacted to "For previous upgra..." with 👍
+00:52:43	Nico Flaig:	quick slots isn't even merged on the spec side
+00:52:48	Justin Traglia:	Reacted to "quick slots isn't even merged on the spec side" with 👍
+00:52:51	Barnabas:	Reacted to "quick slots isn't even merged on the spec side" with 👍
+00:52:52	Mario Vega:	Reacted to "quick slots isn't even merged on the spec side" with 👍
+00:52:56	felipe:	Reacted to "quick slots isn't ..." with 👍
+00:52:57	Dustin:	Reacted to "quick slots isn't ..." with 👍
+00:53:11	Potuz:	Replying to "quick slots isn't ev..."
+
+I think there's parts of it in already, but Barnabas makes some fixes over Jihoon's merge
+00:53:11	danceratopz:	Reacted to "My neighbor is getti..." with 💀
+00:53:11	Justin Traglia:	Replying to "quick slots isn't ev..."
+
+Yeah it doesn’t need to go into the next devnet. I wanted it to be optional.
+00:53:34	Barnabas:	Replying to "quick slots isn't ev..."
+
+Jihoon’s PR is not merged
+00:53:39	Jihoon:	Replying to "quick slots isn't ev..."
+
+Quick Slots is not merged for the record.
+00:53:39	Justin Traglia:	Replying to "quick slots isn't ev..."
+
+Quick slots is not in the Heze specs.
+00:53:55	danceratopz:	Network Upgrade Inclusion stages; https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7723.md
+00:54:00	felipe:	Maria very patiently has her hand up, not sure how long now 😅
+00:54:08	lightclient:	Reacted to "Maria very patiently has her hand up, not sure how long now 😅" with 😅
+00:54:10	Francesco D'Amato:	Replying to "quick slots isn't ev..."
+
+So what were we talking about so far?
+00:54:13	danceratopz:	Reacted to "Maria very patiently..." with 💙
+00:54:21	Trent Van Epps:	Replying to "quick slots isn't ev..."
+
+Same, what’s the contention?
+00:54:21	Potuz:	Replying to "quick slots isn't ev..."
+
+ah if Jihoon's PR is not merged then we should rebase Barnabas' on top of Jihoon's instead o opening it on Heze
+00:54:23	danceratopz:	Reacted to "Maria very patiently..." with 🙏
+00:54:31	Mario Vega:	Reacted to "Maria very patiently has her hand up, not sure how long now 😅" with 💙
+00:54:35	Barnabas:	Replying to "quick slots isn't ev..."
+
+thats what I did
+00:54:42	Jihoon:	Replying to "quick slots isn't ev..."
+
+Partly based on just misunderstanding.
+00:54:44	Matthew Keil:	Replying to "quick slots isn't ev..."
+
+It should ideally not be merged and it feels like its being pushed through
+00:54:51	Stefan Starflinger:	I agree with Maria
+00:54:55	Barnabas:	Replying to "quick slots isn't ev..."
+
+https://github.com/jihoonsong/consensus-specs/pull/3
+00:55:03	Barnabas:	Replying to "quick slots isn't ev..."
+
+but he’s using a fork instead of a branch unfortunately
+00:55:05	Barnabas:	Replying to "quick slots isn't ev..."
+
+so its hard to find
+00:55:10	Jihoon:	Replying to "quick slots isn't ev..."
+
+If I were to push for either of those two PRs, I would ask for an explicit appropval by devs.
+00:55:15	danceratopz:	📦 Hegota devnet plan:
+hegota-devnet-0 before Mumbai? hegota-devnet-1 EL scope: EIP-8298, EIP-8131, EIP-8279, EIP-8253, EIP-4758
+https://github.com/ethereum/pm/issues/2271#issuecomment-6265056113
+https://github.com/ethereum/execution-specs/issues/3664
+00:55:26	Barnabé Monnot:	Replying to "quick slots isn't ev..."
+
+We don’t want to push things through without legitimacy, but also want to make progress ofc. I’m confused what’s the issue in the current situation
+00:55:32	felipe:	I think there were two conversations being had? CFI'd EIPs prob should be tested in a devnet but should not be merged to a trunk branch's main fork implementation in order to not sink cost into the main impl, which would be hard to rip back out.
+00:55:34	Stefan Starflinger:	bogota-devnet-1 is running also spamming frame transactions
+00:55:41	Iván | ethrex:	Reacted to "bogota-devnet-1 is running also spamming frame transactions" with 🔥
+00:55:56	Francesco D'Amato:	Replying to "quick slots isn't ev..."
+
+Who is pushing things through, what are we even talking about 😅
+00:55:57	Potuz:	Replying to "quick slots isn't ev..."
+
+> thats what I did
+
+barnabasbusa
+wants to merge 14 commits into
+ethereum:master
+from
+barnabasbusa:bbusa/eip8198-heze
+
+I saw this right before coming to the meeting
+00:55:59	Barnabas:	do we want shorter slots in heze devnet 2 ?
+00:56:00	Dustin:	Replying to "I think there were..."
+
+the cost is kind of sunk anyway
+00:56:04	Justin Traglia:	Replying to "do we want shorter s..."
+
+No
+00:56:18	Kevaundray Wedderburn:	Replying to "quick slots isn't ev..."
+
+Is it into the features folder?
+00:56:22	Barnabas:	Replying to "do we want shorter s..."
+
+so we just want beta 4 ?
+00:56:31	Justin Traglia:	Yes, just beta.4
+00:57:00	Kevaundray Wedderburn:	Replying to "quick slots isn't ev..."
+
+Don’t have context, but there is a features folder which is possibly where Barnabas was merging that change into on main, and not in the heze folder on main
+00:57:10	Barnabas:	Replying to "do we want shorter s..."
+
+devnet 2 without shorter slot is very slim improvement of devnet 1
+00:57:10	Matthew Keil:	Replying to "quick slots isn't ev..."
+
+No, its merging into heze folder which is the issue
+00:57:18	Kevaundray Wedderburn:	Replying to "quick slots isn't ev..."
+
+Ah
+00:57:18	Justin Traglia:	https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1
+00:57:48	danceratopz:	discv5 defaults per client
+https://discord.com/channels/595666850260713488/1413582163747803247/1557274198349586507
+00:57:59	danceratopz:	📡 discv5 defaults per EL (from --help, Oct 7; please confirm for your Hoodi release):
+- Besu: discv4 only in 26.9.0; discv4+discv5 since besu#11344 (in 26.10.0?)
+  - https://github.com/besu-eth/besu/pull/11344
+- Erigon: discv5 (discv4 behind a switch)
+- ethrex: discv4 + discv5
+- Geth: discv4 + discv5
+- Nethermind: discv4 + discv5
+- Nimbus-EL: discv5 only
+- Reth: discv4 + discv5
+00:58:38	Iván | ethrex:	Reacted to "📡 discv5 defaults per EL (from --help, Oct 7; please confirm for your Hoodi release):
+- Besu: discv4 only in 26.9.0; discv4+discv5 since besu#11344 (in 26.10.0?)
+  - https://github.com/besu-eth/besu/pull/11344
+- Erigon: discv5 (discv4 behind a switch)
+- ethrex: discv4 + discv5
+- Geth: discv4 + discv5
+- Nethermind: discv4 + discv5
+- Nimbus-EL: discv5 only
+- Reth: discv4 + discv5" with ✅
+00:58:51	felipe:	Reacted to "No, its merging in..." with 👍
+00:59:42	Ameziane Hamlat:	Reacted to "📡 discv5 defaults per EL (from --help, Oct 7; please confirm for your Hoodi release):
+- Besu: discv4 only in 26.9.0; discv4+discv5 since besu#11344 (in 26.10.0?)
+  - https://github.com/besu-eth/besu/pull/11344
+- Erigon: discv5 (discv4 behind a switch)
+- ethrex: discv4 + discv5
+- Geth: discv4 + discv5
+- Nethermind: discv4 + discv5
+- Nimbus-EL: discv5 only
+- Reth: discv4 + discv5" with ✅
+01:00:04	Ameziane Hamlat:	Replying to "📡 discv5 defaults p..."
+
+Yes, for besu : discv4+discv5 since besu 26.10.0
+01:00:10	danceratopz:	Reacted to "Yes, for besu : disc..." with 💙
+01:01:01	Łukasz Rozmej:	Reacted to "📡 discv5 defaults per EL (from --help, Oct 7; please confirm for your Hoodi release):
+- Besu: discv4 only in 26.9.0; discv4+discv5 since besu#11344 (in 26.10.0?)
+  - https://github.com/besu-eth/besu/pull/11344
+- Erigon: discv5 (discv4 behind a switch)
+- ethrex: discv4 + discv5
+- Geth: discv4 + discv5
+- Nethermind: discv4 + discv5
+- Nimbus-EL: discv5 only
+- Reth: discv4 + discv5" with ✅
+01:01:21	danceratopz:	🐳 Heads up: EELS hive simulators as prebuilt images (about to merge)
+
+Hive pulls an image per test release instead of building: simulator build 100+ s -> seconds.
+
+Pick a release with --sim.buildarg tag=<tag> (v21.0.1, latest, nightly, <name>-devnet-<n>).
+
+Core: https://github.com/ethereum/execution-specs/pull/3572 then https://github.com/ethereum/hive/pull/1609
+
+Client CI PRs (spencer-tb), please review:
+- Erigon: https://github.com/erigontech/erigon/pull/25061
+- ethrex: https://github.com/lambdaclass/ethrex/pull/7432
+- Nethermind: https://github.com/NethermindEth/nethermind/pull/14898
+- Reth: https://github.com/paradigmxyz/reth/pull/28021
+Besu, Geth, Nimbus-EL: switch hive runs to --sim.buildarg tag=<tag> (works now).
+01:02:50	Csaba:	@emma (reth) , please check https://hive.ethpandaops.io/#/group/generic?suites=discv5 
+
+You seem to have few failed tests still
+01:03:10	Csaba:	To be fair, I was adding new tests a few weeks ago, so maybe it is that

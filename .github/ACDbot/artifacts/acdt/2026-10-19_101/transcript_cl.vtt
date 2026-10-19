@@ -1,0 +1,1406 @@
+WEBVTT
+
+1
+00:00:08.109 --> 00:00:13.169
+Justin Traglia: Hello, everyone. Just to… 30 seconds or so for everyone to join.
+
+2
+00:00:30.080 --> 00:00:37.979
+Justin Traglia: Okay, let's get into it, since we only have, like, 5 minutes left. Luca, are you here to give an update on Reduce Block V4 with bid again?
+
+3
+00:00:38.990 --> 00:00:44.910
+Luca | Vero: Yeah, I'm here. So I posted some additional motivation to the PR about 2 weeks ago.
+
+4
+00:00:45.300 --> 00:00:49.840
+Luca | Vero: There hasn't been any feedback until the start of this ACDT call, so…
+
+5
+00:00:50.400 --> 00:00:54.010
+Luca | Vero: Yeah, I'm looking for feedback. That's the gist of it.
+
+6
+00:00:54.510 --> 00:01:00.400
+Luca | Vero: I would love to make this an experimental endpoint. I've been testing it for over a month on DevNet 8.
+
+7
+00:01:01.560 --> 00:01:07.059
+Luca | Vero: I'm not aware of any real technical issues or technical points against it, so…
+
+8
+00:01:09.080 --> 00:01:14.710
+Luca | Vero: Yeah, I would just like to hear some arguments against it if we don't want to do it.
+
+9
+00:01:15.020 --> 00:01:19.130
+Luca | Vero: Because there are good reasons to do it, which I've described in that comment from two weeks ago.
+
+10
+00:01:23.360 --> 00:01:33.619
+Luca | Vero: But the gist of it is that it's just very useful to have this functionality for, multi-node client-diverse setups. So think 4 different CL clients.
+
+11
+00:01:41.170 --> 00:01:49.470
+Nico Flaig: Yeah, so the biggest issue, I guess, aside the fact that we need client approvals and, like, clients implementing it.
+
+12
+00:01:49.730 --> 00:01:54.389
+Nico Flaig: Which I guess I personally don't like about it is…
+
+13
+00:01:54.980 --> 00:02:07.409
+Nico Flaig: The fact that you basically have to trust the builder to give you a valid bid. So, currently, how the spec works, basically one single builder can grieve all other builders.
+
+14
+00:02:07.540 --> 00:02:12.369
+Nico Flaig: Even if it's a trustless bit, by just sending an absurd high value.
+
+15
+00:02:13.490 --> 00:02:17.390
+Nico Flaig: stairway, did you think about how we can address that? Because it would…
+
+16
+00:02:17.390 --> 00:02:23.399
+heluani: Why does this happen? Isn't the operator that is providing the bid in this endpoint?
+
+17
+00:02:25.410 --> 00:02:36.259
+Luca | Vero: Yeah, the Validator client fetches a bid from some kind of builder, doesn't really matter, but the problem is that the Validator client doesn't have a good way of verifying that the bid is valid, like…
+
+18
+00:02:36.750 --> 00:02:39.150
+Luca | Vero: It's difficult to do on the Validator client side.
+
+19
+00:02:40.860 --> 00:02:41.880
+heluani: But we'll…
+
+20
+00:02:42.070 --> 00:02:51.979
+heluani: What's the pro… I'm not following what's the problem. Like, we have many of endpoints in which the Beacon is trusting that it's getting good info.
+
+21
+00:02:55.900 --> 00:03:12.209
+Nico Flaig: But not from the builder, right? That's the thing. Like, currently a single builder connected via the Beacon node cannot grieve other builders by sending an invalid bit, because the Beacon node has all state and fork choice info to reject that bit and just not select it.
+
+22
+00:03:14.550 --> 00:03:15.159
+Luca | Vero: Yeah, while the.
+
+23
+00:03:15.160 --> 00:03:25.009
+Nico Flaig: Validator client cannot, like, just has to trust what the builder sends, which kinda is not aligned with EPBS in general.
+
+24
+00:03:25.010 --> 00:03:25.510
+heluani: This is…
+
+25
+00:03:25.510 --> 00:03:26.130
+Nico Flaig: notion.
+
+26
+00:03:26.130 --> 00:03:37.580
+heluani: But this is just the usage of this endpoint, right? So if that Validator client does not have a way of trusting whatever it's providing, then it's the problem of that operator. It's not…
+
+27
+00:03:37.840 --> 00:03:49.550
+heluani: It's not the problem of the chain. I fail to see the problem. Like, I already trust that my opera… my operator will just give me good info to produce good blogs.
+
+28
+00:03:52.600 --> 00:04:06.910
+Nico Flaig: Oh, no, the problem really is that those operators cannot connect to builders they do not trust. That's the problem. Whereas if you connect via the Beacon node, this doesn't matter, you can connect to any builder via URL, you don't have to trust them.
+
+29
+00:04:07.890 --> 00:04:12.760
+Luca | Vero: Yeah, I don't think that's a problem with the endpoint, right? It's just a problem with the approach, and
+
+30
+00:04:12.950 --> 00:04:17.360
+Luca | Vero: We… as long as we make it clear to the node operator that this is
+
+31
+00:04:17.779 --> 00:04:21.940
+Luca | Vero: a downside of this approach, I think it… Still okay.
+
+32
+00:04:28.210 --> 00:04:31.279
+Luca | Vero: It's kind of what operators do right now as well, right?
+
+33
+00:04:31.580 --> 00:04:38.109
+Nico Flaig: Yeah, I mean, it just favors relays over other builders that are not trusted, which is my main thing.
+
+34
+00:04:38.900 --> 00:04:44.750
+Nico Flaig: Like, it pushes more on the current status quo, rather than in the trustless status quo.
+
+35
+00:04:51.760 --> 00:05:00.339
+heluani: And so, so your argument is that people that are going to use this system will not be able to contact directly builders.
+
+36
+00:05:00.570 --> 00:05:05.389
+heluani: contact directly builder, and they won't even be able to take the P2P bits.
+
+37
+00:05:05.730 --> 00:05:08.769
+heluani: So they won't allow the Beacon to provide their own bids.
+
+38
+00:05:10.050 --> 00:05:17.379
+Nico Flaig: They can use the P2P bit. So, as a fallback, right, if the Beacon rejects the bit the VC sends, then…
+
+39
+00:05:17.380 --> 00:05:28.840
+heluani: Right, then… but only under rejection. So the Beacon will not get from these operators ever a trustless bid. They would only get bids on the endpoint from trusted builders.
+
+40
+00:05:30.880 --> 00:05:37.939
+Nico Flaig: Yeah, so I think over the endpoint, like the builder API, you can only connect to builders you trust with this approach.
+
+41
+00:05:38.110 --> 00:05:51.229
+Nico Flaig: Which, if it's a small amount of the network running this, that doesn't matter, but if it's, like, more than 20%, I'm not sure what the vouch and Vero shares, but this would be bad for the ecosystem, in my opinion.
+
+42
+00:06:04.470 --> 00:06:07.620
+Justin Traglia: So could we get some approvals on the PR, or…
+
+43
+00:06:07.800 --> 00:06:11.210
+Justin Traglia: I mean, it sounds like there's… Support for this?
+
+44
+00:06:12.470 --> 00:06:15.339
+Luca | Vero: Let me just add the experimental side, I think.
+
+45
+00:06:15.840 --> 00:06:21.859
+Luca | Vero: I completely understand if people don't want this to be a, like, a production endpoint right now, but…
+
+46
+00:06:25.550 --> 00:06:26.690
+Justin Traglia: Yep, thank you.
+
+47
+00:06:29.330 --> 00:06:32.720
+Justin Traglia: Okay. Yep. Clients, please take a look and review when you can.
+
+48
+00:06:33.210 --> 00:06:44.910
+Justin Traglia: On the agenda, there's one more question from Paul, asking if the inclusion list, deadline should be changed for HESI DevNet 2. I think we can just say no, right?
+
+49
+00:06:48.610 --> 00:06:50.640
+Jihoon: Why… why is it known?
+
+50
+00:06:51.410 --> 00:06:54.149
+Justin Traglia: Well, I mean, it's not included in the spec.
+
+51
+00:06:54.270 --> 00:06:55.010
+Justin Traglia: Currently.
+
+52
+00:06:55.010 --> 00:07:00.989
+Jihoon: why it's not included is it's already merged, and we talked about this in ACD Breakout.
+
+53
+00:07:02.030 --> 00:07:08.059
+Justin Traglia: Okay, it's merged into the main branch, but it wasn't included in a release, right? And if we're gonna.
+
+54
+00:07:08.060 --> 00:07:08.540
+Jihoon: That's weird.
+
+55
+00:07:08.540 --> 00:07:10.400
+Justin Traglia: a specific… Please.
+
+56
+00:07:10.400 --> 00:07:13.280
+Jihoon: Yeah, we didn't cut any release, because…
+
+57
+00:07:13.440 --> 00:07:17.709
+Jihoon: There was some contentious discussion, and it seems like
+
+58
+00:07:19.000 --> 00:07:22.750
+Jihoon: We just decided to not include quick philosophy and Hazy DevNet 2.
+
+59
+00:07:23.100 --> 00:07:26.449
+Jihoon: We can't just cut a release with other…
+
+60
+00:07:27.310 --> 00:07:29.980
+Jihoon: PRs, if there are some changes to be made.
+
+61
+00:07:30.630 --> 00:07:32.390
+Jihoon: Of course, an out of bounds.
+
+62
+00:07:33.780 --> 00:07:39.470
+Justin Traglia: Sorry. Other than Quickslots and this PR, is there anything else that we should cut a release for?
+
+63
+00:07:39.690 --> 00:07:41.339
+Justin Traglia: Or, like, any other reasons, too?
+
+64
+00:07:41.770 --> 00:07:47.699
+Jihoon: Not that I'm aware of, unless I… Missed something from last week.
+
+65
+00:07:48.390 --> 00:07:49.050
+Justin Traglia: Okay.
+
+66
+00:07:50.060 --> 00:07:50.970
+Justin Traglia: And it's just this.
+
+67
+00:07:50.970 --> 00:07:51.690
+Jihoon: 50 feet.
+
+68
+00:07:51.920 --> 00:07:59.150
+Jihoon: then… then… Without this change, and no new release.
+
+69
+00:07:59.720 --> 00:08:02.629
+Jihoon: what's the difference between Hazy DevW 1 and 2?
+
+70
+00:08:06.070 --> 00:08:10.339
+Justin Traglia: But does HESI DevNet1 include the two CFID EIPs?
+
+71
+00:08:13.380 --> 00:08:14.590
+Justin Traglia: I don't think it does.
+
+72
+00:08:14.590 --> 00:08:18.630
+Jihoon: Right, so Beta, Beta 4 already included them.
+
+73
+00:08:19.160 --> 00:08:19.610
+Justin Traglia: Yes, I.
+
+74
+00:08:19.610 --> 00:08:20.959
+Jihoon: Yeah, yeah.
+
+75
+00:08:21.350 --> 00:08:22.770
+Jihoon: Yeah.
+
+76
+00:08:27.100 --> 00:08:34.780
+Justin Traglia: I would, argue we don't make another release and use Beta 4 for HESI DevNet 2, which means that this EIP… sorry, this…
+
+77
+00:08:35.000 --> 00:08:38.579
+Justin Traglia: change to the deadline is not included in the next DevNet.
+
+78
+00:08:40.120 --> 00:08:46.089
+Barnabas: Yeah, so… It's just a con… it's just a config value. It's really whatever… It's not important.
+
+79
+00:08:46.090 --> 00:08:46.520
+Jihoon: Yeah, yeah.
+
+80
+00:08:48.080 --> 00:08:49.789
+Jihoon: Yeah, just wanting to be on the same page.
+
+81
+00:08:51.170 --> 00:08:51.880
+Justin Traglia: Yeah.
+
+82
+00:08:53.900 --> 00:08:57.319
+Justin Traglia: Okay, so we're already 3 minutes past,
+
+83
+00:08:58.280 --> 00:09:03.479
+Justin Traglia: Regarding those two topics, does that sound fine, or is there anything else that we need to discuss there?
+
+84
+00:09:05.580 --> 00:09:08.360
+heluani: So what is the scope in the end for DevNet2?
+
+85
+00:09:08.730 --> 00:09:13.140
+heluani: Are we doing quick slots in the definite, or we're not doing the quick slots in the definite?
+
+86
+00:09:15.300 --> 00:09:16.620
+Justin Traglia: I would argue against it.
+
+87
+00:09:16.940 --> 00:09:18.860
+Barnabas: I would argue for it.
+
+88
+00:09:21.220 --> 00:09:22.620
+Matthew Keil: I'm with Justin.
+
+89
+00:09:24.910 --> 00:09:30.140
+Justin Traglia: I mean, I always wanted it to be optional, to where we could just test with kurtosis locally.
+
+90
+00:09:36.140 --> 00:09:39.170
+Justin Traglia: It… Barnabay reasons not to do it.
+
+91
+00:09:39.410 --> 00:09:47.019
+Justin Traglia: we'd have to cut a new release, and figure out some testing issues, and it would make it harder for other clients to join DevNet 2.
+
+92
+00:09:47.370 --> 00:09:50.409
+Justin Traglia: Those that don't have Quickslot support yet.
+
+93
+00:09:50.850 --> 00:09:54.039
+Justin Traglia: If we launch the DevNet with a different SLOAD duration.
+
+94
+00:09:59.610 --> 00:10:02.909
+Barnabas: Didn't we, like, discussed a couple of weeks ago that if…
+
+95
+00:10:03.010 --> 00:10:06.630
+Barnabas: clients would be able to ship it, then we would do it. Otherwise…
+
+96
+00:10:08.360 --> 00:10:11.599
+Justin Traglia: Yeah, I think I did say something about that, like, if 3 clients…
+
+97
+00:10:11.600 --> 00:10:13.450
+Barnabas: We could.
+
+98
+00:10:13.680 --> 00:10:15.490
+Barnabas: Oh, that's fine. I don't know, I mean…
+
+99
+00:10:15.690 --> 00:10:19.309
+Justin Traglia: things have changed, and I feel like there's not as much support for that right now.
+
+100
+00:10:21.740 --> 00:10:28.309
+heluani: I don't mind testing this. I don't know if we can support it, but I don't mind if this is tested in the DevNet.
+
+101
+00:10:29.110 --> 00:10:33.490
+Barnabas: Like, how can we merge in the PR if we don't test it?
+
+102
+00:10:33.990 --> 00:10:44.510
+heluani: Yeah, that's a whole… the whole thing. I don't want this to be… let's not go in circles. I think people don't want this to be… or some people don't want this to be merged into the main HESI branch.
+
+103
+00:10:44.930 --> 00:10:48.839
+heluani: And we can test, and we have test vectors in the feature branches.
+
+104
+00:10:50.830 --> 00:10:53.489
+Jihoon: I mean, I can make another PR that…
+
+105
+00:10:53.690 --> 00:11:06.050
+Jihoon: puts this QuickSloss in a feature branch based on the latest HSI, if that's what people want. I think the first question that we need to answer is whether we want to have QuickSloss in DevNet 2 or not.
+
+106
+00:11:07.510 --> 00:11:08.750
+heluani: Yeah, I agree with this.
+
+107
+00:11:09.610 --> 00:11:11.260
+heluani: And I'm fine either way.
+
+108
+00:11:13.680 --> 00:11:17.749
+Matthew Keil: I think I'm also fine either way, but with the specific, like…
+
+109
+00:11:17.940 --> 00:11:22.609
+Matthew Keil: The nuance that the spec gets merged to a feature
+
+110
+00:11:22.730 --> 00:11:25.839
+Matthew Keil: in the specs, not to the main HESI.
+
+111
+00:11:27.810 --> 00:11:34.780
+Jihoon: Yeah, just to be clear, it is already in the feature branch, so the new PR, we're gonna…
+
+112
+00:11:35.490 --> 00:11:41.900
+Jihoon: be the one that's updating it with some comments in the… those two PRs.
+
+113
+00:11:41.900 --> 00:11:45.600
+heluani: So, so the current spec is based on GLOS, Right?
+
+114
+00:11:47.080 --> 00:11:49.430
+Jihoon: I believe it's based on Hassie…
+
+115
+00:11:49.790 --> 00:11:55.800
+heluani: then… then why are we arguing about merging or not, Barnabas and yours? Barnabas seemed to be moved too ahead.
+
+116
+00:11:55.800 --> 00:12:03.310
+Jihoon: No, no, both are… no, both are targeting to Hazy, and Barnabas PRs contain some more changes on top of mind.
+
+117
+00:12:04.470 --> 00:12:07.540
+heluani: Okay, so then, then they are targeting HESI, okay.
+
+118
+00:12:07.540 --> 00:12:08.180
+Jihoon: Yeah.
+
+119
+00:12:08.310 --> 00:12:09.230
+Justin Traglia: Yeah.
+
+120
+00:12:09.950 --> 00:12:18.040
+Jihoon: Yeah, I can change the target to the feature branch and add some more tests so that clients can test their implementation.
+
+121
+00:12:21.070 --> 00:12:21.600
+heluani: You're thinking?
+
+122
+00:12:21.600 --> 00:12:27.230
+Justin Traglia: We need to keep quick slots as a feature branch for at least, like, another month or so, until, like, after DEF CON.
+
+123
+00:12:28.480 --> 00:12:36.230
+heluani: For us, it's very simple to test that way, because then… then we could just pull in on the branches that were implementing this. We can pull in those test vectors.
+
+124
+00:12:36.510 --> 00:12:45.400
+heluani: Whether if you're merging on the main branch is quite disruptive, because then we need to start skipping stuff that might be important in our production code.
+
+125
+00:12:50.100 --> 00:12:50.720
+Justin Traglia: Yeah.
+
+126
+00:12:54.230 --> 00:13:01.350
+Justin Traglia: Right. And Barnabas, I think we… well, just Barnabas and everyone, I do think we need to change how things are done to be more of that.
+
+127
+00:13:01.500 --> 00:13:05.070
+Justin Traglia: CFI EIPs are just features, and…
+
+128
+00:13:05.380 --> 00:13:15.610
+Justin Traglia: we test them in a DevNet by themselves, and then after we all agree to it, then we merge it. So then we SFI it and merge it into the HESIP specs, or into the upper-grade specs.
+
+129
+00:13:16.130 --> 00:13:18.460
+Justin Traglia: I think something… something needs to change.
+
+130
+00:13:18.660 --> 00:13:19.740
+Justin Traglia: Francesco?
+
+131
+00:13:21.540 --> 00:13:45.790
+Francesco D'Amato: Yeah, I just wanted to say that that's fine, that seems like an okay process, but I think, yeah, we just need to kind of clarify this, probably, maybe, like, in the main ACD on Thursday, or whatever the next ACD is, because it's a bit confusing right now. I think, like, there's an expectation that, you have to get on a DevNet in order to be SFI'd, but now we're saying that you need to be SFI'd in order to get on a DevNet, like, or, like, an actual DevNet on, like, a feature DevNet, so I think if
+
+132
+00:13:45.790 --> 00:13:53.680
+Francesco D'Amato: if we want the process to be featured DevNet first, then we make the call, and then we put it on an official DevNet, that's fine, but we just need to kind of…
+
+133
+00:13:53.810 --> 00:13:55.990
+Francesco D'Amato: Yeah, make it clear that that's the process.
+
+134
+00:13:57.960 --> 00:14:02.810
+Justin Traglia: Yeah, I agree. We'll make this more clear on a better call, not in the last, like, 5 minutes of a breakout.
+
+135
+00:14:03.800 --> 00:14:04.940
+Justin Traglia: Potus?
+
+136
+00:14:05.090 --> 00:14:19.060
+heluani: No, no, I disagree with Francesco. I think that the problem is the last part of the assumption, that I think that comes from Panda. I think we can test on DevNets, and it does not need to be on the main fork branch to be tested on DevNets.
+
+137
+00:14:19.060 --> 00:14:35.410
+heluani: I think the whole procedure should be, we have feature branches, we… for CFI EIPs, we test them on DevNets, from those feature branches, we agree on here, or whatever, what goes into a DevNet, we test this, once we think it's fine, we specify it, and we merge into the main branch.
+
+138
+00:14:35.480 --> 00:14:38.020
+heluani: It doesn't need to be in the main branch to be tested.
+
+139
+00:14:38.840 --> 00:14:43.039
+Barnabas: But this is not what we did till now. That's… that's why I'm just…
+
+140
+00:14:43.040 --> 00:14:56.929
+heluani: We did both. We did merge prematurely also before into the main fork, but now it's getting more… it's getting tricky. Like, EPBS itself never merged into the main fork until it was CFI.
+
+141
+00:14:57.350 --> 00:15:01.250
+heluani: Like, especially for large… for large EIPs, we should be careful.
+
+142
+00:15:01.430 --> 00:15:12.000
+Barnabas: headliners, of course, but small EIPs, they were all merged into the main branch before they got classified. They all, for Amsterdam. Every single one of them.
+
+143
+00:15:14.600 --> 00:15:15.580
+Justin Traglia: That is true.
+
+144
+00:15:17.320 --> 00:15:18.240
+Justin Traglia: June?
+
+145
+00:15:20.290 --> 00:15:24.390
+Jihoon: I just want to touch Barnabas and NC question in the chat.
+
+146
+00:15:24.600 --> 00:15:26.989
+Jihoon: I… I think we…
+
+147
+00:15:27.510 --> 00:15:34.259
+Jihoon: already covered this in the previous room, but I just wanted to be very explicit, like, do we wanna…
+
+148
+00:15:34.530 --> 00:15:37.790
+Jihoon: pull off the other two EIPs from HESI.
+
+149
+00:15:40.950 --> 00:15:44.290
+heluani: Please don't pull anything. It's just more work.
+
+150
+00:15:45.430 --> 00:15:49.060
+heluani: We're already passing test vectors in whatever it is on the main branch.
+
+151
+00:15:55.250 --> 00:16:00.189
+Justin Traglia: I would also say no. I felt like there was really strong support for those, EIPs.
+
+152
+00:16:00.590 --> 00:16:01.370
+Justin Traglia: End.
+
+153
+00:16:02.010 --> 00:16:03.430
+Justin Traglia: They're… yeah.
+
+154
+00:16:04.070 --> 00:16:05.479
+Jihoon: Yeah, yeah, thank you.
+
+155
+00:16:10.260 --> 00:16:17.550
+heluani: But we can probably try to SFI those EIPs, and then XICD, so that they are there and they are already SFI.
+
+156
+00:16:22.810 --> 00:16:24.130
+Justin Traglia: Yeah, I would support that.
+
+157
+00:16:25.120 --> 00:16:26.620
+Justin Traglia: If other clients do.
+
+158
+00:16:34.080 --> 00:16:37.720
+Justin Traglia: Okay, any other topics we'd like to discuss?
+
+159
+00:16:39.310 --> 00:16:47.499
+Barnabas: I don't really wanna… waste anyone's time, but I would like to see a change to the existing
+
+160
+00:16:48.500 --> 00:16:52.629
+Barnabas: EIP that we included to disallow the 000 deposits.
+
+161
+00:16:53.760 --> 00:16:58.970
+Barnabas: Basically, make them inactive instead of burning the… Deep value?
+
+162
+00:16:59.470 --> 00:17:01.530
+heluani: I'm sorry, what, what's, what's the change?
+
+163
+00:17:02.420 --> 00:17:07.400
+Barnabas: So, basically, if you make a 0000 deposit after,
+
+164
+00:17:07.740 --> 00:17:11.599
+Barnabas: D has a fork, then they would become, basically, inactive.
+
+165
+00:17:12.300 --> 00:17:19.109
+Barnabas: And, they would need to do a 0x01 BLS change in order for them to… Erb EF.
+
+166
+00:17:20.520 --> 00:17:31.980
+Barnabas: Instead of burning the ETH, because right now the current EIP basically describes 000 deposits post as a fork to be invalid, and…
+
+167
+00:17:32.100 --> 00:17:34.709
+Barnabas: the 32 ETH would be just burnt.
+
+168
+00:17:48.400 --> 00:17:52.209
+heluani: So what's the… what's the mechanism, you…
+
+169
+00:17:52.390 --> 00:17:59.110
+heluani: You… when you process the deposit, you're gonna set a very large activation epoch, or something like this, or…
+
+170
+00:17:59.110 --> 00:17:59.580
+Barnabas: Yep.
+
+171
+00:17:59.580 --> 00:18:02.750
+heluani: Or you're gonna have, like, different logic to activate those.
+
+172
+00:18:03.160 --> 00:18:06.110
+Barnabas: No, no, no, just recycled, original.
+
+173
+00:18:06.710 --> 00:18:11.850
+Barnabas: Ideas, like, the ease eligible for activation would be just, set high.
+
+174
+00:18:16.220 --> 00:18:22.220
+Barnabas: I mean, we can… They can come up with a… actual good, design…
+
+175
+00:18:22.370 --> 00:18:25.949
+Barnabas: down the line. It's just the idea that burning ETH
+
+176
+00:18:26.290 --> 00:18:29.130
+Barnabas: It's a default for a process that
+
+177
+00:18:30.150 --> 00:18:37.280
+Barnabas: Like, a mechanism that was, valid before is not the… not the way forward, in my opinion.
+
+178
+00:18:47.870 --> 00:18:52.400
+Justin Traglia: I actually like this change, because I think it's just a bit simpler than the other one.
+
+179
+00:18:52.680 --> 00:18:53.420
+Justin Traglia: -Oh.
+
+180
+00:18:54.430 --> 00:18:58.059
+Justin Traglia: I don't really care as much about, like, the burning Ethernet.
+
+181
+00:19:02.010 --> 00:19:05.669
+Barnabas: Also, we still have some tools that do allow 0,
+
+182
+00:19:06.220 --> 00:19:13.029
+Barnabas: Validators to be created and deposited, so it's not like it's officially been deprecated everywhere.
+
+183
+00:19:34.820 --> 00:19:38.080
+Justin Traglia: Okay. If there's nothing else, I think we should end the call.
+
+184
+00:19:43.450 --> 00:19:46.370
+Justin Traglia: Yep, I agree with what Jihoon just said.
+
+185
+00:19:46.830 --> 00:19:50.529
+Justin Traglia: Let's bring this up, at ACDC this week.
+
+186
+00:19:51.560 --> 00:19:53.389
+Justin Traglia: Does that sound fine in front of us?
+
+187
+00:19:53.390 --> 00:20:01.559
+Barnabas: Yeah, just hope that we can finish up the HESA scoping quick, in the beginning of the ACDC, because I… I was hoping to bring up this,
+
+188
+00:20:01.810 --> 00:20:03.849
+Barnabas: They were already in the previous call.
+
+189
+00:20:07.690 --> 00:20:08.270
+Justin Traglia: Yep.
+
+190
+00:20:08.780 --> 00:20:14.009
+Justin Traglia: And POTUS, I agree. I mean, I would actually like to make this call an hour and a half.
+
+191
+00:20:15.620 --> 00:20:18.679
+Justin Traglia: Yeah, if there's more stuff you guys want to talk about, I'm happy to moderate.
+
+192
+00:20:20.540 --> 00:20:21.499
+Justin Traglia: I just thought.
+
+193
+00:20:22.070 --> 00:20:23.860
+Justin Traglia: Afraid of going over too long.
+
+194
+00:20:24.260 --> 00:20:26.560
+Justin Traglia: In case other people have other meetings.
+
+195
+00:20:29.470 --> 00:20:33.449
+Justin Traglia: Would you like to continue talking about Barnabas' proposal now?
+
+196
+00:20:33.570 --> 00:20:36.490
+Justin Traglia: Or… Anything else?
+
+197
+00:20:36.820 --> 00:20:39.269
+Barnabas: I think people would need to read the,
+
+198
+00:20:39.400 --> 00:20:47.970
+Barnabas: the PR change first, and then the Consensus back, Tria So there's the two… Two peers.
+
+199
+00:20:49.820 --> 00:21:00.379
+Nico Flaig: So, but it complicates the spec, right? And I think NC did the analysis of this, and there's, like, two people in the last half a year that did a 0x00.
+
+200
+00:21:00.610 --> 00:21:08.609
+Nico Flaig: So I'm mostly wondering, can we solve this now at the tooling layer, and then maybe revisit if there's still people depositing this, or…
+
+201
+00:21:15.620 --> 00:21:21.410
+heluani: So the EIP as it stands now seems to absolutely trivia. We just dropped the deposit.
+
+202
+00:21:23.260 --> 00:21:24.339
+heluani: And that's it.
+
+203
+00:21:25.040 --> 00:21:29.260
+heluani: It seems to me that Barnabas change is strictly more complicated.
+
+204
+00:21:29.500 --> 00:21:37.090
+Nico Flaig: Yeah, yeah, that's what I'm arguing for. Like, do we need Barnabas' change or not? Because current EIP is really simple, so…
+
+205
+00:21:37.550 --> 00:21:38.549
+Nico Flaig: The current JPM.
+
+206
+00:21:38.550 --> 00:21:44.179
+heluani: It's trivial, it's trivial, and Barnabas change sounds to me that it's going to be slightly more complicated, probably easy too.
+
+207
+00:21:44.290 --> 00:21:48.440
+heluani: I'm not really sure if it's going to save any money at all.
+
+208
+00:21:52.330 --> 00:21:54.970
+Justin Traglia: I think I'd argue that it's about the same complexity.
+
+209
+00:21:58.520 --> 00:22:01.350
+Justin Traglia: There was always a question about where to drop the deposit.
+
+210
+00:22:01.550 --> 00:22:07.619
+Justin Traglia: as well, like… I believe the EIP drops it in the applyPendingDeposit function.
+
+211
+00:22:07.870 --> 00:22:14.329
+Justin Traglia: So it allows the deposit to be in the pending queue, which I always find to be a bit weird, instead of dropping it before.
+
+212
+00:22:14.490 --> 00:22:14.860
+heluani: Yeah.
+
+213
+00:22:14.860 --> 00:22:17.120
+Justin Traglia: in the deposit request, but I know…
+
+214
+00:22:17.120 --> 00:22:23.320
+heluani: I haven't even looked at this. I haven't even looked at this, but yeah, I would just drop it when we process the deposit request.
+
+215
+00:22:24.060 --> 00:22:29.300
+NC: Yeah, so I opened a PR draft on the EIP's repo.
+
+216
+00:22:29.400 --> 00:22:34.120
+NC: That does exactly this, and it's also very simple to do.
+
+217
+00:22:38.310 --> 00:22:43.549
+Justin Traglia: I can't remember, but I thought there was a reason why we couldn't drop it at the deposit request level.
+
+218
+00:22:47.930 --> 00:22:49.980
+Justin Traglia: Maybe that's… maybe I'm wrong.
+
+219
+00:22:54.070 --> 00:22:56.250
+Barnabas: How would you do that? How would you drop it?
+
+220
+00:22:58.200 --> 00:23:02.270
+Justin Traglia: How would I drop it at the deposit request? You would update the request handler.
+
+221
+00:23:02.910 --> 00:23:07.069
+Justin Traglia: And if… Oh, that's right, so for top-ups.
+
+222
+00:23:07.310 --> 00:23:12.609
+Justin Traglia: So currently, we allow any validator Withdraw credential for top-ups, right?
+
+223
+00:23:13.520 --> 00:23:14.230
+NC: Yes.
+
+224
+00:23:14.710 --> 00:23:19.770
+Justin Traglia: And the… Going forward with top-ups, you would have to set it to a non-00.
+
+225
+00:23:19.940 --> 00:23:24.370
+Justin Traglia: value, which is, like, not a big deal. I don't think anyone uses 00 for top-ups.
+
+226
+00:23:24.370 --> 00:23:25.359
+heluani: Wait, wait, wait, you…
+
+227
+00:23:25.360 --> 00:23:26.509
+Barnabas: No, we didn't… when…
+
+228
+00:23:29.030 --> 00:23:30.310
+Justin Traglia: What are you saying, Curtis?
+
+229
+00:23:30.960 --> 00:23:37.310
+heluani: So, so we do, but still, you can just check that it's a top-up at the processing of the request. Still, it's…
+
+230
+00:23:37.420 --> 00:23:38.310
+heluani: Probably.
+
+231
+00:23:38.310 --> 00:23:41.119
+Justin Traglia: No… no, I think that,
+
+232
+00:23:41.220 --> 00:23:43.320
+Justin Traglia: You don't know if it's a top-up in the…
+
+233
+00:23:43.490 --> 00:23:48.919
+Justin Traglia: deposit request handler. You know if it's a top-up in the pending deposit.
+
+234
+00:23:49.280 --> 00:23:50.999
+Justin Traglia: Handler of sorts.
+
+235
+00:23:51.000 --> 00:23:55.470
+heluani: You can check on both, but you have the state anyways on both.
+
+236
+00:23:56.300 --> 00:24:01.440
+heluani: But yeah, so I, I, I did myself a top-up with zero, withdrawal credential.
+
+237
+00:24:04.760 --> 00:24:07.230
+Justin Traglia: I guess, yeah, you could check to see if it's a top-up.
+
+238
+00:24:08.830 --> 00:24:13.660
+Barnabas: And if you make a pop-up on the launch pad, it's gonna be 0, credential 2.
+
+239
+00:24:13.970 --> 00:24:15.709
+Barnabas: That's the default, basically.
+
+240
+00:24:16.600 --> 00:24:22.210
+Justin Traglia: I don't think so. I checked my top-ups recently, and I thought they were all 0x02.
+
+241
+00:24:22.210 --> 00:24:24.359
+Barnabas: I did one last week, and it was 0x0.
+
+242
+00:24:24.360 --> 00:24:29.450
+heluani: Yeah, my top-ups on mainnet were always zero, on the zeroed-out everything.
+
+243
+00:24:31.430 --> 00:24:32.710
+Justin Traglia: I'm misremembering, though.
+
+244
+00:24:33.760 --> 00:24:34.160
+Barnabas: a little bit.
+
+245
+00:24:34.160 --> 00:24:36.159
+heluani: I didn't… I cooked them myself.
+
+246
+00:24:55.280 --> 00:24:58.460
+heluani: Anyways, I don't mind Barnabas' changes. It's just…
+
+247
+00:24:58.460 --> 00:25:01.910
+NC: I think there's also one point, is that because now…
+
+248
+00:25:02.030 --> 00:25:15.939
+NC: we have brought up this issue that, regarding XC00. So, in the field… because Nico's point is to look back, to the past 6 months, maintenance stats, right? But since…
+
+249
+00:25:16.130 --> 00:25:25.550
+NC: We have already brought up this issue, so we can forecast in the future there will be also less, likely there will be 000 deposits.
+
+250
+00:25:25.910 --> 00:25:27.569
+NC: Been the past 6 months.
+
+251
+00:25:28.780 --> 00:25:29.260
+Barnabas: Yeah, I'm not…
+
+252
+00:25:29.260 --> 00:25:29.880
+NC: So…
+
+253
+00:25:29.880 --> 00:25:35.060
+Barnabas: But then, I'm not expecting a huge inflow of 0x00 editors, it's just…
+
+254
+00:25:35.820 --> 00:25:51.789
+Barnabas: technically, when you create a 000 Validator today, and you don't make a deposit, that is a valid operation, and I just don't think that any valid operations should automatically become a burnt-Hit transaction after a fork.
+
+255
+00:25:52.110 --> 00:25:57.529
+Barnabas: Like, if someone doesn't keep up with ACDC, or doesn't read the blog post, or doesn't…
+
+256
+00:25:57.740 --> 00:26:06.210
+Barnabas: you know, something, like, the default behavior should never be that we just burn that ETH, especially if the change to not burn the ETH is…
+
+257
+00:26:06.320 --> 00:26:07.480
+Barnabas: Pretty trivial.
+
+258
+00:26:23.530 --> 00:26:31.429
+Barnabas: Like, we are, yeah, we of course are in the loop that, we deprecated 0x00, people should not make it happen, but…
+
+259
+00:26:31.630 --> 00:26:35.149
+Barnabas: Not everybody is following the process as closely as we do.
+
+260
+00:26:36.190 --> 00:26:41.880
+Barnabas: Like, if you're just a random person, and you just want to make a 000 deposit for whatever reason.
+
+261
+00:26:42.590 --> 00:26:44.290
+Barnabas: You should not be punished for it.
+
+262
+00:26:44.550 --> 00:26:46.180
+Barnabas: Ever, in my opinion.
+
+263
+00:26:52.940 --> 00:26:54.430
+Justin Traglia: I think I agree as well.
+
+264
+00:26:56.440 --> 00:27:02.709
+NC: I mean, what if you submit a 004 or 005 deposit?
+
+265
+00:27:02.920 --> 00:27:03.899
+NC: Those walls of guests.
+
+266
+00:27:03.900 --> 00:27:04.360
+Barnabas: August.
+
+267
+00:27:04.360 --> 00:27:04.910
+NC: Whoa.
+
+268
+00:27:05.350 --> 00:27:12.819
+Barnabas: But, yeah, but… you, you, you wouldn't make that accidentally. Like, 000 is a valid operation today.
+
+269
+00:27:13.290 --> 00:27:23.410
+Barnabas: 0x04 has never been, and never, like, it might never will be a valid operation, but 0x00 is a valid operation today.
+
+270
+00:27:27.700 --> 00:27:35.129
+Barnabas: And just because we make a blog post that, hey, this is deprecated, hey, don't use this, hey, don't use that, it doesn't make it…
+
+271
+00:27:35.700 --> 00:27:39.059
+Barnabas: Less likely that… There will be a single person.
+
+272
+00:27:39.450 --> 00:27:44.010
+Barnabas: That might lose 32 years because of this. And that is a ton of money.
+
+273
+00:28:00.510 --> 00:28:04.399
+Justin Traglia: I'm sorry, what are the current…
+
+274
+00:28:04.770 --> 00:28:08.040
+Justin Traglia: Sorry, doesn't this only apply for newly deposited?
+
+275
+00:28:08.310 --> 00:28:17.430
+Justin Traglia: like, new deposits, not top-ups. Like, with the current spec, wouldn't… pop-ups also… Be deposited like normal?
+
+276
+00:28:23.590 --> 00:28:25.870
+Barnabas: No, this would be just 0.
+
+277
+00:28:26.990 --> 00:28:28.090
+Barnabas: Deposits.
+
+278
+00:28:29.080 --> 00:28:32.819
+Justin Traglia: Yeah, new 00… sorry, new 00 deposits, yeah.
+
+279
+00:28:33.140 --> 00:28:33.780
+Barnabas: Yep.
+
+280
+00:28:34.420 --> 00:28:40.880
+Justin Traglia: So, I mean, I was gonna say, like, if this negatively affects top-ups, I don't think it would.
+
+281
+00:28:41.530 --> 00:28:44.470
+Justin Traglia: Like, it doesn't affect top-ups right now.
+
+282
+00:28:45.520 --> 00:28:46.180
+NC: Right.
+
+283
+00:28:53.670 --> 00:28:54.340
+Justin Traglia: Hmm.
+
+284
+00:29:02.120 --> 00:29:07.599
+Justin Traglia: Yeah, we just need more inputs from clients, I guess. I don't have, like, a super strong opinion on this.
+
+285
+00:29:07.600 --> 00:29:08.100
+heluani: So…
+
+286
+00:29:08.100 --> 00:29:09.780
+Justin Traglia: version seems to work fine.
+
+287
+00:29:09.780 --> 00:29:16.300
+heluani: I'm sorry to interrupt you, Justin. It seems that the easiest, from an implementation perspective, the easiest change
+
+288
+00:29:16.450 --> 00:29:27.449
+heluani: would be not something that Barnabas would like, but the easiest change would be to just change the function that creates a validator, and never create a Validator with a 0, 0.
+
+289
+00:29:27.650 --> 00:29:30.100
+heluani: With our credential.
+
+290
+00:29:32.840 --> 00:29:34.640
+Barnabas: But then how do you get your ETH back?
+
+291
+00:29:35.140 --> 00:29:40.860
+heluani: You don't. That's why you wouldn't like this change. But that seems to me the easiest spec change.
+
+292
+00:29:42.270 --> 00:29:48.260
+Justin Traglia: Barnabas, I mean, even if you made a 0x00 Validator,
+
+293
+00:29:48.430 --> 00:29:51.830
+Justin Traglia: like, in your proposal, I don't think you'd be able to get that ETH back either.
+
+294
+00:29:51.830 --> 00:29:55.220
+Barnabas: Yeah, you can, because Barnabas allows… Barnabas allows you…
+
+295
+00:29:55.220 --> 00:29:56.219
+heluani: And that's changed.
+
+296
+00:29:56.460 --> 00:29:57.030
+Barnabas: Yeah.
+
+297
+00:29:57.630 --> 00:30:00.659
+Justin Traglia: Oh. I guess, yeah, that's right. You could just be a less change.
+
+298
+00:30:04.630 --> 00:30:14.009
+Barnabas: point that if we can… if this would just happen with a single person accidentally, I would already feel bad, because that's a… it's a shit ton of money for a single person.
+
+299
+00:30:19.160 --> 00:30:21.440
+Barnabas: And there's just no good reason to burn the seat.
+
+300
+00:30:21.580 --> 00:30:26.660
+Barnabas: Even though the 000 is deprecated, or killed, or whatever.
+
+301
+00:30:27.380 --> 00:30:34.879
+Barnabas: Like, this is not about, you know, reducing the Validator state size, because obviously we don't have that many 0x00 validators anymore.
+
+302
+00:30:37.240 --> 00:30:39.530
+Barnabas: It's just… Keeping that…
+
+303
+00:30:39.910 --> 00:30:46.149
+Barnabas: One poor guy, that accidentally made a bad deposit still be able to get his money back.
+
+304
+00:30:48.050 --> 00:30:54.759
+NC: I think I mentioned this in your PR, is that essentially creating a path
+
+305
+00:30:54.870 --> 00:31:07.439
+NC: That, you're allowing an inactive 0x00 validators to be in the registry, and the only way to get them unstuck is to use this BLS executing change.
+
+306
+00:31:07.560 --> 00:31:13.779
+NC: So you're essentially creating more entities that rely on this mechanism that,
+
+307
+00:31:14.130 --> 00:31:16.790
+NC: That is destined to be deprecated.
+
+308
+00:31:16.900 --> 00:31:19.030
+NC: So,
+
+309
+00:31:19.400 --> 00:31:21.010
+Barnabas: I didn't tell your office contract.
+
+310
+00:31:21.010 --> 00:31:21.540
+NC: Come.
+
+311
+00:31:22.190 --> 00:31:27.750
+Barnabas: The entire deposit contract is just going to be deprecating, because we're gonna have a post-quantum keys registry.
+
+312
+00:31:28.390 --> 00:31:33.989
+Barnabas: So it's… it's not like we can do anything with the current Validator state size, it's…
+
+313
+00:31:34.650 --> 00:31:36.640
+Barnabas: It's… it's already too big, it's…
+
+314
+00:31:36.790 --> 00:31:39.040
+Barnabas: it's gonna be X anyway, so…
+
+315
+00:31:39.630 --> 00:31:42.599
+Barnabas: So there's no… no reason for us to…
+
+316
+00:31:43.350 --> 00:31:50.350
+Barnabas: us to worry about this one or two extra 000 deposits. We just need to rethink the whole deposit
+
+317
+00:31:50.640 --> 00:31:55.940
+Barnabas: Contract, and basically start from scratch for the post-quantum case.
+
+318
+00:31:56.920 --> 00:32:00.149
+NC: But as you say, like, this really impacts us so little.
+
+319
+00:32:00.940 --> 00:32:02.750
+NC: Like, I don't know, I just…
+
+320
+00:32:03.030 --> 00:32:04.290
+Barnabas: It does, yeah.
+
+321
+00:32:05.230 --> 00:32:08.320
+Barnabas: But it's not zero. That's my point.
+
+322
+00:32:11.350 --> 00:32:18.229
+NC: I don't… my opinion is, like, I don't want to spend too much time thinking about this, because it's quite trivial, and I would…
+
+323
+00:32:18.900 --> 00:32:23.769
+NC: Prefer to have a minimum spec, just get through the definets.
+
+324
+00:32:24.270 --> 00:32:26.950
+NC: Easy attests, stuff like that.
+
+325
+00:32:31.200 --> 00:32:34.340
+Justin Traglia: Yeah. I mean, I can relate to NC's point about
+
+326
+00:32:34.460 --> 00:32:42.290
+Justin Traglia: Not wanting to keep the, BLS execution, or execution, whatever the function is. VTEC.
+
+327
+00:32:42.610 --> 00:32:45.339
+Justin Traglia: handler. It would be nice to remove that.
+
+328
+00:32:47.570 --> 00:32:50.580
+Barnabas: Yeah, but, like, the BNS change…
+
+329
+00:32:51.210 --> 00:32:58.100
+Barnabas: To execution, that's gonna be there, whether we want it or not, till at least one more fork, right?
+
+330
+00:32:58.320 --> 00:33:01.330
+Barnabas: When we basically killed the 000 completely.
+
+331
+00:33:01.430 --> 00:33:04.010
+Barnabas: Like, this is just the first step out of three.
+
+332
+00:33:07.630 --> 00:33:11.410
+Barnabas: Like, I would actually propose in the follow-up work, we're just gonna…
+
+333
+00:33:11.710 --> 00:33:21.289
+Barnabas: straight up exit all the 0x0 validators, that are still online, and then the one after, we disable the PBS change option also.
+
+334
+00:33:21.840 --> 00:33:26.020
+Barnabas: And at that point, we're probably gonna have the new deposit contract anyway.
+
+335
+00:33:28.760 --> 00:33:44.070
+NC: thinking a little too far, just because, like, yeah, like, now the vision is to have, like, a three-step process, but it's not guaranteed that the next two EIPs will be CFI or SFI next fork, so…
+
+336
+00:33:44.500 --> 00:33:49.189
+NC: We need to try our best to do whatever we can, like, in this current fork.
+
+337
+00:33:49.760 --> 00:33:58.910
+NC: Without assuming that, the other EIPs will be getting in, in the next, future forks.
+
+338
+00:34:01.150 --> 00:34:08.989
+Barnabas: I think it would be good to have a vision of what we actually want, and how we want to have the Validator deposit contract look like in the next 5 years.
+
+339
+00:34:11.159 --> 00:34:17.919
+Justin Traglia: it's not clear to me that the deposit contract will be completely replaced by something new. Like, I… if I recall.
+
+340
+00:34:18.059 --> 00:34:22.139
+Justin Traglia: Kev was working on making it work with the existing deposit contract.
+
+341
+00:34:24.330 --> 00:34:31.090
+Barnabas: Yeah, but in that case, we're gonna need to do something about the Validator states, right? And recycling the Validator indexes.
+
+342
+00:34:31.679 --> 00:34:32.510
+Barnabas: Indices.
+
+343
+00:34:35.260 --> 00:34:36.409
+Justin Traglia: Sure.
+
+344
+00:34:36.600 --> 00:34:38.349
+Justin Traglia: Sometime in the future, I guess.
+
+345
+00:34:44.929 --> 00:34:53.289
+heluani: No, not necessarily. The contract… you could reuse the same contract and apply different logic on the CL side to create a new slice.
+
+346
+00:34:54.259 --> 00:35:02.769
+heluani: I mean, nothing prevents us from, like, treating 003… 3004 validators as PQ validators. Just add them to a different slice.
+
+347
+00:35:03.359 --> 00:35:06.539
+heluani: That's… we could have done that with builders as well.
+
+348
+00:35:18.920 --> 00:35:27.210
+Justin Traglia: Okay, let's discuss this more later. We're at… we're at time for the 90-minute… slot.
+
+349
+00:35:34.020 --> 00:35:35.799
+heluani: See you guys in a couple of days.
+
+350
+00:35:36.900 --> 00:35:37.460
+Justin Traglia: Yep.
+
+351
+00:35:37.620 --> 00:35:39.610
+Justin Traglia: Talk to you guys at ACDC. Bye, everyone.
+
