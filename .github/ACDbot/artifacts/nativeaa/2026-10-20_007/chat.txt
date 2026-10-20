@@ -1,0 +1,129 @@
+00:04:28	wolovim:	gm
+00:05:00	Iván | ethrex:	gm
+00:06:11	felipe:	gm
+00:06:54	lightclient:	gm
+00:07:17	marc | wolovim:	agenda: https://github.com/ethereum/pm/issues/2272
+00:07:25	Stefan Starflinger:	gm
+00:08:24	lightclient:	have we run the spec tests on the network?
+00:10:48	lightclient:	i like "nonce"
+00:11:00	Toni Wahrstätter:	Nonce is better yeah
+00:11:37	Daniil Ankushin | Nethermind:	Reacted to "i like "nonce"" with 👍
+00:11:40	Toni Wahrstätter:	Might need an update in 8250, will check
+00:11:46	Iván | ethrex:	Reacted to "i like "nonce"" with 👍
+00:12:01	Stefan Starflinger:	Reacted to "i like "nonce"" with 👍
+00:12:08	Guru:	Reacted to "Might need an update..." with 👍
+00:13:18	felipe:	Reacted to "Might need an upda..." with 👍
+00:13:22	felipe:	Reacted to "i like "nonce"" with 👍
+00:13:37	lightclient:	which tracing api do you use?
+00:13:49	Justin Florentine:	Reacted to "which tracing api do you use?" with 😂
+00:14:00	Stefan Starflinger:	Reacted to "which tracing api do you use?" with 😂
+00:14:09	pk910:	let me check the exact method,  but it'S pretty much a trace block by hash call
+00:16:01	pk910:	debug_traceBlockByHash
+with the call & state change tracer
+
+the state tracer still works,  just the callTracer gives no results
+it'll need a frames array too
+00:16:02	felipe:	It would be good to get benchmarking tests earlier in this dev cycle too
+00:16:06	spencer:	sgtm!!
+00:16:23	Toni Wahrstätter:	Can we iterate faster if not yet combined?
+00:16:36	Daniil Ankushin | Nethermind:	Reacted to "Can we iterate faster if not yet combined?" with 👍
+00:16:37	Iván | ethrex:	Reacted to "Can we iterate faster if not yet combined?" with 👍
+00:16:39	lightclient:	probably
+00:16:40	spencer:	Replying to "Can we iterate fas..."
+
+add EL EIPs?
+00:16:43	spencer:	Replying to "Can we iterate fas..."
+
+:D
+00:16:48	Toni Wahrstätter:	Ofc, focil profits from a combined one
+00:17:03	Toni Wahrstätter:	Replying to "Can we iterate faste..." 
+
+ Exactly
+00:17:06	Stefan Starflinger:	Replying to "Can we iterate faster if not yet combined?"
+
+i would say so
+00:17:55	marc | wolovim:	max_fee: https://github.com/ethereum/EIPs/pull/12414
+00:18:04	Iván | ethrex:	Reacted to "max_fee: https://github.com/ethereum/EIPs/pull/12414" with 👀
+00:19:00	Iván | ethrex:	I haven’t yet
+00:19:10	Stefan Starflinger:	Reacted to "Can we iterate faster if not yet combined?" with 👍
+00:20:06	lightclient:	https://eips.ethereum.org/EIPS/eip-7999
+00:24:27	Justin Florentine:	what do the wallets think?
+00:24:47	Iván | ethrex:	Reacted to "what do the wallets think?" with 👍
+00:25:33	Guru:	Yeah. The gas spill accounting tends to get messy
+00:27:29	Justin Florentine:	agree this is overloading, and we should avoid unless this is an opportunity we can't miss
+00:29:41	Iván | ethrex:	Reacted to "agree this is overloading, and we should avoid unless this is an opportunity we can't miss" with 👍
+00:30:55	spencer:	feels like it simplifies the future (if we do 7999)
+00:31:01	lightclient:	Reacted to "feels like it simplifies the future (if we do 7999)" with 👍
+00:31:07	Toni Wahrstätter:	For which dimensions would we do that?
+00:35:57	Iván | ethrex:	I like the idea of giving it a try implementing it, see how it goes, and decide then if we keep it or postpone it
+00:36:13	Toni Wahrstätter:	Is it only state vs execution gas?
+00:36:19	lightclient:	Replying to "Is it only state vs ..."
+
+and blobs
+00:36:19	Marc:	same would be happy to include it
+00:36:37	Daniil Ankushin | Nethermind:	Reacted to "same would be happy to include it" with 👍
+00:39:19	soispoke:	no
+00:39:24	Guru:	No
+00:39:25	Toni Wahrstätter:	As a headliner 
+Edit, ah no that was enc mempool
+00:40:11	Iván | ethrex:	Reacted to "As a headliner 
+Edit, ah no that was enc mempool" with 😅
+00:43:26	spencer:	Reacted to "As a headliner 
+Ed..." with 😅
+00:43:35	soispoke:	probably more eyes from people like Maria would be really good
+00:43:37	lightclient:	https://github.com/ethereum/EIPs/pull/12502
+00:43:41	Iván | ethrex:	Reacted to "probably more eyes from people like Maria would be really good" with 👍
+00:44:35	soispoke:	how much of Frames <> mempool is in the current devnet? 
+
+thinking specifically about removing the 1 txn per sender limit and testing multiple concurrent private txns with MATCHA
+00:47:33	lightclient:	https://github.com/ethereum/EIPs/pull/12530
+00:54:27	Alex Forshtat:	https://github.com/ethereum/ERCs/pull/1738
+00:54:59	Justin Zen - ocl:	sorry didn't have chance to create pr, we from ocl would like to propose introducing VERIFY_NONSTATE and VERIFY_STATE mode to separate heavy verification like signature verification with state check like recovered address from sig. it'll save L2 sequencer from doing all verification again. Happy to hear thought from everyone, thanks
+00:55:32	spencer:	could we consider adding new eips to bogota-devnet-2 :D
+00:55:38	Iván | ethrex:	Reacted to "could we consider adding new eips to bogota-devnet-2 :D" with 🙏
+00:55:40	lightclient:	Replying to "could we consider ad..."
+
+like what 😆
+00:55:47	Iván | ethrex:	Replying to "could we consider ad..."
+
+I’d do SETCODEFROM + 8151
+00:55:57	lightclient:	Replying to "could we consider ad..."
+
+hmm that would be good
+00:55:58	Iván | ethrex:	Replying to "could we consider ad..."
+
++ others that the sooner we add them the better
+00:56:09	spencer:	Replying to "could we consider ..."
+
+i dont know if we are going against process but...
+00:56:11	Guru:	Replying to "could we consider ad..."
+
++1
+00:56:13	spencer:	Replying to "could we consider ..."
+
+EIP-8131 Unified Transaction Content Floor (test benchmarking earlier)
+EIP-8279 Block Access List Byte Floor (test benchmarking earlier)
+EIP-8253 Bump nonce of zero-nonce storage accounts (critical to test earlier, requires fork transition)
+EIP-8298 SETCODEFROM
+EIP-4758 Deactivate SELFDESTRUCT (reduces test space, add earlier)
+00:56:33	Iván | ethrex:	Replying to "could we consider ad..."
+
+I’d add 8151 to that list and would be ok for me
+00:56:43	lightclient:	Reacted to "I’d add 8151 to that list and would be ok for me" with 👍
+00:56:47	Marc:	Reacted to "I’d add 8151 to that list and would be ok for me" with 👍
+00:56:59	Daniil Ankushin | Nethermind:	Reacted to "I’d add 8151 to that list and would be ok for me" with 👍
+00:58:13	soispoke:	can we add MATCHA :)?
+00:58:17	Iván | ethrex:	Reacted to "can we add MATCHA :)?" with 🔥
+00:58:28	Iván | ethrex:	Replying to "can we add MATCHA :)..."
+
+🤝
+00:58:30	Justin Zen - ocl:	Reacted to "can we add MATCHA ..." with ❤️
+00:58:36	Justin Florentine:	Reacted to "can we add MATCHA :)?" with 🍵
+00:58:40	Iván | ethrex:	Reacted to "can we add MATCHA :)?" with 🍵
+00:58:57	Daniil Ankushin | Nethermind:	Reacted to "can we add MATCHA :)?" with 🔥
+00:58:57	Daniil Ankushin | Nethermind:	Reacted to "can we add MATCHA :)?" with ❤️
+00:59:40	spencer:	lfg! :D
+01:00:56	Justin Zen - ocl:	Sorry for unreliable internet  :(
+01:00:56	felipe:	cannot hear you :(
+01:01:35	spencer:	Reacted to "can we add MATCHA ..." with 🍵
+01:05:00	Justin Zen - ocl:	sure!

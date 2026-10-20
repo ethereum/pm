@@ -1,0 +1,2058 @@
+WEBVTT
+
+1
+00:04:48.540 --> 00:04:49.440
+Mario Vega: Hello.
+
+2
+00:04:53.870 --> 00:04:54.939
+lightclient: Hello, hello?
+
+3
+00:05:41.260 --> 00:05:43.920
+marc | wolovim: Hey everyone, we'll get started in, like, 2 minutes.
+
+4
+00:05:55.330 --> 00:05:58.449
+Justin Florentine: Good morning, Frame Transactors!
+
+5
+00:06:57.590 --> 00:07:05.769
+marc | wolovim: Alright, we've got representation from 3 client teams, Steel and Pandas here, so I think we're good to kick off.
+
+6
+00:07:06.310 --> 00:07:16.770
+marc | wolovim: Welcome, everybody, to Frame Transaction Breakout Number 7. Today is October the 20th, 2026. I'll drop the agenda.
+
+7
+00:07:17.070 --> 00:07:18.300
+marc | wolovim: In the chat.
+
+8
+00:07:19.290 --> 00:07:25.850
+marc | wolovim: And we've got the usual template for an agenda today. Let's jump straight into…
+
+9
+00:07:26.240 --> 00:07:32.679
+marc | wolovim: how DevNets are going, and then we'll take a look forward at, upcoming DevNet planning.
+
+10
+00:07:33.650 --> 00:07:39.270
+marc | wolovim: Then we'll tackle the rest of the agenda. There's not a lot there, so I think we got time to dig into,
+
+11
+00:07:39.370 --> 00:07:45.250
+marc | wolovim: specific PRs that are open, and some other proposals that people want to prioritize.
+
+12
+00:07:45.750 --> 00:07:49.719
+marc | wolovim: So, would one of the pandas like to…
+
+13
+00:07:50.460 --> 00:07:54.979
+marc | wolovim: give us an update on how current DevNets are going, or have gone.
+
+14
+00:07:56.210 --> 00:07:58.449
+Stefan Starflinger: Yeah, I can do the quick update.
+
+15
+00:07:58.610 --> 00:08:07.880
+Stefan Starflinger: So, we launched Bogota DevNet1. It's been running pretty well so far, but we've also not been stressing it too much.
+
+16
+00:08:08.140 --> 00:08:11.389
+Stefan Starflinger: We've been finding a few bugs in our tooling.
+
+17
+00:08:11.610 --> 00:08:22.079
+Stefan Starflinger: As well, or I would say, trying to improve it for, Frame transactions, a little bit, and also noticing that they're…
+
+18
+00:08:22.220 --> 00:08:25.999
+Stefan Starflinger: are still quite a lot of issues with the RPCs.
+
+19
+00:08:26.390 --> 00:08:35.569
+Stefan Starflinger: Of clients, so it's not that easy to interact and get all of the information that we need for frames.
+
+20
+00:08:35.770 --> 00:08:38.210
+Stefan Starflinger: From all of the clients so far.
+
+21
+00:08:38.320 --> 00:08:47.610
+Stefan Starflinger: But otherwise, we've been spamming some basic Frame transactions, on the network, not too many, but, yeah.
+
+22
+00:08:48.120 --> 00:08:51.370
+Stefan Starflinger: That's kind of where we are with BookHata DevNet 1.
+
+23
+00:08:52.850 --> 00:08:55.680
+marc | wolovim: Matt asks, have we run spec tests on the network?
+
+24
+00:08:58.900 --> 00:09:02.500
+Stefan Starflinger: I haven't run any spec tests directly on the network.
+
+25
+00:09:03.730 --> 00:09:06.030
+Stefan Starflinger: But I can, do that.
+
+26
+00:09:10.100 --> 00:09:14.630
+marc | wolovim: We have time if, do you want to describe any of the…
+
+27
+00:09:14.760 --> 00:09:20.569
+marc | wolovim: updates to Panda tooling to support this? Is that… Worth thinking folks aware of?
+
+28
+00:09:23.370 --> 00:09:30.619
+Stefan Starflinger: It's mostly, just right now looking into spammer, so it's been…
+
+29
+00:09:30.910 --> 00:09:35.850
+Stefan Starflinger: Having trouble, keeping a consistent throughput on Frame transactions.
+
+30
+00:09:36.200 --> 00:09:44.609
+Stefan Starflinger: And that's just something, that I've been looking into, and just getting, kind of, the receipts from clients for the Frame transactions.
+
+31
+00:09:45.260 --> 00:09:46.260
+Stefan Starflinger: as well.
+
+32
+00:09:46.550 --> 00:09:52.439
+Stefan Starflinger: they have not been consistent across the clients. I think it's also something where the…
+
+33
+00:09:52.740 --> 00:09:57.980
+Stefan Starflinger: spec for the, APIs are not, quite…
+
+34
+00:09:58.080 --> 00:10:03.540
+Stefan Starflinger: finished and merged yet, so that's something we should, I think, prioritize.
+
+35
+00:10:11.580 --> 00:10:13.809
+marc | wolovim: Would anybody like to react to that?
+
+36
+00:10:22.000 --> 00:10:28.249
+Stefan Starflinger: I mean, I can give, like, an example. For example, for Frame transactions, there was an issue that,
+
+37
+00:10:28.610 --> 00:10:43.339
+Stefan Starflinger: the, spec for the execution, or for the RPCs, it said, nonce instead of non-sequence for Frame Transaction, so we should kind of decide if we want to, for frames, reuse nonce as the field.
+
+38
+00:10:43.340 --> 00:10:55.129
+Stefan Starflinger: or non-sequence, across the board. I saw a lot of clients were using non-s for Frame transactions, but not, non-sequence, and that was kind of an inconsistency.
+
+39
+00:10:59.000 --> 00:11:06.790
+lightclient: Sorry, was that just on, like, regular getters for the Frame Transaction? Like… Get Transaction by hash, or…
+
+40
+00:11:07.490 --> 00:11:09.709
+lightclient: Was that for submitting things? Yeah. Okay.
+
+41
+00:11:13.830 --> 00:11:18.720
+lightclient: Okay, yeah, it's kind of been on my to-do list to work through these RPC…
+
+42
+00:11:19.250 --> 00:11:22.279
+lightclient: PRs, but I have not gotten to them.
+
+43
+00:11:28.840 --> 00:11:34.099
+marc | wolovim: So we have two votes for nonce, as opposed to non-sequences.
+
+44
+00:11:34.270 --> 00:11:39.889
+marc | wolovim: Do we have, enough consensus here to make a good decision on that now?
+
+45
+00:11:40.300 --> 00:11:41.709
+marc | wolovim: Thumbs up from Daniil.
+
+46
+00:11:50.300 --> 00:11:51.529
+marc | wolovim: I'll move on as well.
+
+47
+00:11:56.850 --> 00:12:00.300
+marc | wolovim: So that's the 3… that's at least 3 clients,
+
+48
+00:12:01.660 --> 00:12:05.680
+marc | wolovim: Sorry, Justin Basey was represented here, too. Do you have an opinion?
+
+49
+00:12:06.390 --> 00:12:22.879
+Justin Florentine: I'm still chewing on it. The only reason that I haven't expressed an opinion is that there, you know, there's a new way versus legacy way that might be important to capture in the nomenclature, but I don't have a strong, cogent opinion on it, so we're gonna abstain for the moment.
+
+50
+00:12:28.280 --> 00:12:33.799
+marc | wolovim: Okay, this, I'll suggest, is a good…
+
+51
+00:12:33.910 --> 00:12:38.539
+marc | wolovim: Like, fast follow item, if we can, resolve that.
+
+52
+00:12:39.110 --> 00:12:41.019
+marc | wolovim: Quickly, sometime after the call.
+
+53
+00:12:41.310 --> 00:12:43.520
+marc | wolovim: So whenever you get a chance to form an opinion there.
+
+54
+00:12:47.870 --> 00:13:02.160
+marc | wolovim: Okay, so… JSON RPC headaches described, are there any other… Action items we could…
+
+55
+00:13:02.310 --> 00:13:03.979
+marc | wolovim: Sort of address here and now?
+
+56
+00:13:08.560 --> 00:13:11.029
+Stefan Starflinger: I don't think there's much more from my side.
+
+57
+00:13:11.830 --> 00:13:14.490
+pk910: I might have one thing,
+
+58
+00:13:14.780 --> 00:13:24.659
+pk910: from the RPC side, we have a lot of… or the receipts are pretty much covered, but none of the clients have implemented tracing APIs yet.
+
+59
+00:13:24.770 --> 00:13:36.440
+pk910: And especially the Explorer uses, call traces to analyze what… or to show what the actual frames do later on. So it would be great if we could think about the tracing API.
+
+60
+00:13:42.310 --> 00:13:44.720
+marc | wolovim: Have any clients taken a stab at that yet?
+
+61
+00:14:09.090 --> 00:14:11.519
+marc | wolovim: I'm gonna assume… no.
+
+62
+00:14:13.210 --> 00:14:19.039
+marc | wolovim: Okay, that could be another fast follow, then, if nobody's got anything to add to that conversation here.
+
+63
+00:14:25.290 --> 00:14:26.090
+marc | wolovim: Okay.
+
+64
+00:14:27.700 --> 00:14:36.749
+marc | wolovim: Let's call on any points people would like to raise about, ongoing or past DevNets.
+
+65
+00:14:37.330 --> 00:14:39.619
+marc | wolovim: Otherwise we can switch gears to…
+
+66
+00:14:39.970 --> 00:14:41.480
+marc | wolovim: Looking ahead to the next one.
+
+67
+00:14:55.400 --> 00:14:57.039
+marc | wolovim: Alright, I guess we'll move on.
+
+68
+00:14:59.080 --> 00:15:07.109
+marc | wolovim: I'm… not up to date. What is the latest thinking on,
+
+69
+00:15:07.600 --> 00:15:12.700
+marc | wolovim: this, like, the scoping discussion that needs to be had for the upcoming DevNet.
+
+70
+00:15:15.750 --> 00:15:25.540
+Stefan Starflinger: I think that's, scheduled for next ACDT. I think Spencer raised a point on if we should have, combined,
+
+71
+00:15:26.070 --> 00:15:28.830
+Stefan Starflinger: Network next, for the next one.
+
+72
+00:15:29.200 --> 00:15:36.230
+Stefan Starflinger: I'm not… quite, I think, aligned that we should merge the networks that quickly.
+
+73
+00:15:36.720 --> 00:15:46.169
+Stefan Starflinger: But yeah, I think it's… it's a point to discuss if we want to do another Bogota DevNet, or if we want to do a Higota DevNet.
+
+74
+00:15:48.470 --> 00:16:00.249
+lightclient: I mean, if we're still discussing if we want to do a combined DevNet, maybe we should just have a Bogota DevNet 2 next week, because I think there are some cute things that we could…
+
+75
+00:16:00.880 --> 00:16:01.960
+lightclient: Roll out.
+
+76
+00:16:04.020 --> 00:16:05.439
+marc | wolovim: Yeah, I was gonna suggest…
+
+77
+00:16:05.570 --> 00:16:16.560
+marc | wolovim: Maybe we come back to the discussion about combining DevNets, because we've got some decisions to make for, whatever the next iteration is on the EL side.
+
+78
+00:16:19.760 --> 00:16:27.519
+marc | wolovim: for example, the couple of PRs that Matt's got up, and I'm sure that's not all there is to decide on.
+
+79
+00:16:28.100 --> 00:16:30.619
+marc | wolovim: Does it make sense to pivot to those now?
+
+80
+00:16:36.510 --> 00:16:40.260
+Stefan Starflinger: Yeah, I would agree with having another Bogota definitely, too.
+
+81
+00:16:43.120 --> 00:16:45.359
+marc | wolovim: Okay, so that's our working theory for now.
+
+82
+00:16:45.630 --> 00:16:49.750
+marc | wolovim: And then we'll circle back after we discuss that.
+
+83
+00:16:50.890 --> 00:16:57.429
+marc | wolovim: The… So the rest of the agenda is…
+
+84
+00:16:57.770 --> 00:17:03.159
+marc | wolovim: is just open to discussing these open threads. Which…
+
+85
+00:17:03.810 --> 00:17:12.659
+marc | wolovim: PRs or proposals are most important that we discuss? Like, what needs to get tackled
+
+86
+00:17:13.310 --> 00:17:15.299
+marc | wolovim: In the next release.
+
+87
+00:17:16.030 --> 00:17:22.420
+marc | wolovim: So we've got, Matt, you've got the max fee PR, there's some… there's another signature length…
+
+88
+00:17:22.890 --> 00:17:25.199
+marc | wolovim: PR, what do you want to tackle?
+
+89
+00:17:26.910 --> 00:17:35.520
+lightclient: I think we can start with this Max V PR, but yeah, I think there's 3 main PRs that I want to see.
+
+90
+00:17:35.820 --> 00:17:46.740
+lightclient: In the next DevNet. The third one, I don't think I've posted, because it's, it's not a Frame Transaction PR, but there's a couple of changes to 7906.
+
+91
+00:17:47.520 --> 00:17:50.360
+lightclient: that I've proposed, and it looks like…
+
+92
+00:17:52.120 --> 00:17:56.569
+lightclient: They're both approved, and the second one, I just need to fix some merge conflicts.
+
+93
+00:17:57.800 --> 00:18:00.950
+lightclient: Yeah, anyway, so max fee…
+
+94
+00:18:02.500 --> 00:18:07.680
+lightclient: I kind of forget where we left off on this. I think we started talking about it two weeks ago?
+
+95
+00:18:07.820 --> 00:18:10.049
+lightclient: And there was some conversation.
+
+96
+00:18:11.640 --> 00:18:15.570
+lightclient: And we didn't feel that… It had…
+
+97
+00:18:16.430 --> 00:18:19.390
+lightclient: I kind of settled in everyone's mind enough to…
+
+98
+00:18:19.770 --> 00:18:23.790
+lightclient: to go ahead with in the Bogota DevNet 1.
+
+99
+00:18:24.620 --> 00:18:40.080
+marc | wolovim: Yeah, as of a couple weeks ago, Anders said he got a chance to review and or collaborate on it, and he gave a thumbs up, and then, the rest of the participants hadn't had a chance to look closely at it yet.
+
+100
+00:18:44.760 --> 00:18:52.850
+lightclient: So I guess, has anyone had a chance to look at it more closely, and is there new feedback? I saw Daniil left a
+
+101
+00:18:53.050 --> 00:18:58.709
+lightclient: comment here, which I think is… a good point that I'd… Didn't really consider.
+
+102
+00:18:59.170 --> 00:19:10.660
+lightclient: Regarding the, you know, banning of fee-access opcodes… And the relationship with… Reading the max fee now.
+
+103
+00:19:11.970 --> 00:19:20.169
+lightclient: So, there's definitely that thread, which we can talk about, but I don't know if anybody else has reviewed the PR and has feedback on it.
+
+104
+00:19:21.880 --> 00:19:24.920
+marc | wolovim: If not, I would suggest using this time to…
+
+105
+00:19:25.260 --> 00:19:32.490
+marc | wolovim: Walk through it, at least at a, like, give everybody a head start on the reviewing of it, and then they'll at least have a chance to…
+
+106
+00:19:32.690 --> 00:19:35.259
+marc | wolovim: Ask any immediate questions that form.
+
+107
+00:19:39.010 --> 00:19:39.670
+lightclient: Sure.
+
+108
+00:19:46.580 --> 00:19:49.559
+lightclient: So I guess I could just kind of give a quick summary again of…
+
+109
+00:19:49.830 --> 00:19:53.259
+lightclient: like, what the idea here with Max V is.
+
+110
+00:19:54.340 --> 00:19:59.680
+lightclient: It comes originally from the EIP7999.
+
+111
+00:20:01.610 --> 00:20:06.710
+lightclient: Which is this… Multidimensional fee-market EIP.
+
+112
+00:20:07.600 --> 00:20:08.949
+lightclient: Which I sent in the chat.
+
+113
+00:20:09.100 --> 00:20:16.809
+lightclient: And… essentially, we're trying to simplify the UX around
+
+114
+00:20:17.630 --> 00:20:24.510
+lightclient: You know, constructing transactions, and having users reason about how much a transaction can cost.
+
+115
+00:20:25.360 --> 00:20:30.130
+lightclient: So… We're starting to…
+
+116
+00:20:30.260 --> 00:20:40.830
+lightclient: Find ourselves in this, like, multi-dimensional world, where we've got the blob dimension, we have the normal execution gas dimension, and we have the state gas dimension.
+
+117
+00:20:43.010 --> 00:20:47.780
+lightclient: Obviously, the blobgas dimension is, you know.
+
+118
+00:20:48.530 --> 00:21:02.490
+lightclient: it's framed a little bit differently than state and execution gas. You don't have the priority fee, it's not really, like, one-to-one, with how we handle the fee-market on execution in states, but…
+
+119
+00:21:02.900 --> 00:21:07.530
+lightclient: Like, for all intents and purposes, from a user's perspective, we can consider this just a third dimension.
+
+120
+00:21:07.840 --> 00:21:09.430
+lightclient: So the idea with…
+
+121
+00:21:09.880 --> 00:21:19.480
+lightclient: the update in 8141, where we add max fee, is that we want to take this concept of using max fee as, like, the aggregate cost.
+
+122
+00:21:19.840 --> 00:21:21.180
+lightclient: a fee.
+
+123
+00:21:22.150 --> 00:21:24.300
+lightclient: Over all of the dimensions.
+
+124
+00:21:24.900 --> 00:21:28.160
+lightclient: And charging the user for that amount.
+
+125
+00:21:29.390 --> 00:21:36.159
+lightclient: Obviously, like, that's… You know, pretty different than how we treat
+
+126
+00:21:37.200 --> 00:21:42.850
+lightclient: the gas pavements now, like today, obviously, we… calculates the user's…
+
+127
+00:21:43.430 --> 00:21:49.149
+lightclient: You know, total cost of their transaction based on summing together some, you know.
+
+128
+00:21:49.340 --> 00:21:53.699
+lightclient: Product of the fee they're willing to pay times the gas that
+
+129
+00:21:53.990 --> 00:21:57.080
+lightclient: You know, the gas limits that they've…
+
+130
+00:21:58.120 --> 00:22:00.729
+lightclient: Kind of already included in their transaction.
+
+131
+00:22:05.110 --> 00:22:06.360
+lightclient: So…
+
+132
+00:22:09.880 --> 00:22:14.120
+lightclient: So I'm just trying to read this last part of the EIP to…
+
+133
+00:22:14.840 --> 00:22:17.829
+lightclient: See what else needs to get covered.
+
+134
+00:22:22.990 --> 00:22:26.580
+lightclient: Yeah, so I think, basically, that part probably makes…
+
+135
+00:22:26.770 --> 00:22:30.019
+lightclient: good sense, I think we're all sort of on board with…
+
+136
+00:22:30.560 --> 00:22:41.930
+lightclient: supporting the kind of unification of the costs here, and it boils down to… a bit to, like, Andre's presentation a few weeks ago about how do we actually want to interpret
+
+137
+00:22:42.080 --> 00:22:47.629
+lightclient: The differences between… You know, these dimensions.
+
+138
+00:22:48.110 --> 00:22:56.200
+lightclient: So if we're doing this… this max fee idea, you know, his… he had, like, a few questions about how do we actually…
+
+139
+00:22:57.540 --> 00:23:02.899
+lightclient: You know, kind of implement the… the logic for…
+
+140
+00:23:05.390 --> 00:23:13.009
+lightclient: potentially taking gas from one dimension and applying it to another, because if you're describing how much you want to pay in a single number.
+
+141
+00:23:14.070 --> 00:23:19.649
+lightclient: Hugh… May not be able to,
+
+142
+00:23:20.490 --> 00:23:31.320
+lightclient: you know, describe, like, what the max limit is you want to pay for each individual dimension. So, like, we have the gas limits per dimension, and the question is, do we want to…
+
+143
+00:23:31.520 --> 00:23:33.770
+lightclient: Have those gas limits be rigid?
+
+144
+00:23:35.870 --> 00:23:45.459
+lightclient: In the sense that, you know, if my execution gas limit has been reached, would I still have, like, a lot of max fee left to potentially pay for a transaction?
+
+145
+00:23:46.260 --> 00:23:56.719
+lightclient: do I say the transaction's out of gas, or do I, like, reach into another bucket to continue the transaction? You know, kind of in pursuit of this…
+
+146
+00:23:57.380 --> 00:24:01.820
+lightclient: easier UX, better ability to reason about the transaction.
+
+147
+00:24:02.040 --> 00:24:05.749
+lightclient: And I think that's kind of, like, where we…
+
+148
+00:24:06.510 --> 00:24:09.770
+lightclient: Left off on it with Andre's presentation.
+
+149
+00:24:11.900 --> 00:24:15.990
+lightclient: I looked into it a bit after the presentation, and…
+
+150
+00:24:18.200 --> 00:24:21.450
+lightclient: from… yeah, I think from my perspective, this…
+
+151
+00:24:25.390 --> 00:24:32.400
+lightclient: This idea of taking gas from one bucket and using it in the other bucket, I don't like.
+
+152
+00:24:33.920 --> 00:24:40.229
+lightclient: it's very similar to, like, how we treat the state gas, you know, in Glamsterdam today.
+
+153
+00:24:41.620 --> 00:24:47.950
+lightclient: And I think that it's kind of a messy way of handling the gas accounting, and…
+
+154
+00:24:48.270 --> 00:24:53.730
+lightclient: Generally, I prefer to have, like, strict bounds on how much gas is getting used.
+
+155
+00:24:56.580 --> 00:25:00.360
+lightclient: So, I think, like, my preferred approach is kind of, like, what's…
+
+156
+00:25:01.930 --> 00:25:05.299
+lightclient: I think what's specified in the EIP now…
+
+157
+00:25:05.750 --> 00:25:13.079
+lightclient: Which is that whenever your dimension is consumed, that's kind of the…
+
+158
+00:25:13.960 --> 00:25:18.029
+lightclient: The end of, you know, the consumption for that dimension.
+
+159
+00:25:19.520 --> 00:25:20.310
+lightclient: Tomorrow.
+
+160
+00:25:21.690 --> 00:25:37.399
+soispoke: Yeah, I think maybe zooming out a bit, I'm, yeah, I wasn't there in the last presentation, but, like, it… how much of this does it, like, it feels like 7999 is, like, such a complex sort of, like, EIP.
+
+161
+00:25:37.640 --> 00:25:41.199
+soispoke: And I'm wondering whether it needs to be…
+
+162
+00:25:41.930 --> 00:25:48.149
+soispoke: I don't know, like, just shipping it as a PR, within frames.
+
+163
+00:25:48.460 --> 00:25:54.819
+soispoke: seems a bit dangerous, just because of the… I think it deserves a lot of, like, sort of, like, scrutiny and…
+
+164
+00:25:55.000 --> 00:26:00.839
+soispoke: And there are gonna be, like, a lot of complexities, I think, involved with EIPs like 7999, so I'm wondering
+
+165
+00:26:01.400 --> 00:26:05.330
+soispoke: If you've thought about this, or, like, how do you… how do you think about this?
+
+166
+00:26:11.760 --> 00:26:16.470
+lightclient: Yeah, I mean, this is kind of also my fear, which I've mentioned to Anders.
+
+167
+00:26:16.690 --> 00:26:22.859
+lightclient: Like… On the surface, it's a great idea.
+
+168
+00:26:23.270 --> 00:26:33.270
+lightclient: And I think it is definitely… I mean, basically, when we presented it two weeks ago, I think most people were in favor of the concept, you know, including Chris from BASE.
+
+169
+00:26:34.010 --> 00:26:35.510
+lightclient: I don't see on the call.
+
+170
+00:26:36.090 --> 00:26:39.910
+lightclient: But, you know, from my perspective, the question is, is, like, how can we…
+
+171
+00:26:40.130 --> 00:26:51.420
+lightclient: know that this isn't going to introduce complexities to the protocol? How do we know that this is not going to introduce unexpected behavior on the margins?
+
+172
+00:26:51.940 --> 00:26:57.920
+lightclient: And I don't have a good answer for that. And I think that, really, the only answer that we
+
+173
+00:26:58.720 --> 00:27:03.070
+lightclient: You know, the only way that we can get to an answer is by implementing it, and…
+
+174
+00:27:03.230 --> 00:27:05.120
+lightclient: You know, trying to work with it.
+
+175
+00:27:05.620 --> 00:27:12.529
+lightclient: And so it's part of the reason why I'm, like, fairly pro-supporting this, is that…
+
+176
+00:27:13.040 --> 00:27:17.450
+lightclient: You know, the change to the Frame Transaction isn't that significant.
+
+177
+00:27:17.660 --> 00:27:21.389
+lightclient: You know, we're changing the fields a little bit, and we're changing some of the, like.
+
+178
+00:27:22.350 --> 00:27:25.439
+lightclient: The logic around handling gas.
+
+179
+00:27:26.320 --> 00:27:33.810
+lightclient: you know, handling the fees for gas, but other than that, it's not… it's not something that we can un… that we can't undo in the future.
+
+180
+00:27:34.160 --> 00:27:37.379
+lightclient: You know, if we find a couple DevNets that
+
+181
+00:27:37.490 --> 00:27:46.590
+lightclient: this just isn't really working, or we learned something that wasn't so obvious when we were looking at the PR, then I think it's, like, quite easy to…
+
+182
+00:27:47.050 --> 00:27:50.619
+lightclient: to undo. Whereas, like, not all changes to…
+
+183
+00:27:50.930 --> 00:27:58.860
+lightclient: the transaction, object that I z10 do. So, I think for that reason, I feel, like, more positive on
+
+184
+00:27:59.330 --> 00:28:05.749
+lightclient: try to make this work, because people, like, broadly support this idea and concept, and the details will…
+
+185
+00:28:06.560 --> 00:28:08.259
+lightclient: You know, often only…
+
+186
+00:28:08.370 --> 00:28:15.010
+lightclient: come out, when we actually work with it. And to be fair, like, Anders, you know, I've talked to Anders.
+
+187
+00:28:15.460 --> 00:28:21.069
+lightclient: Is in deep support of these ideas, and he doesn't believe that they're
+
+188
+00:28:21.200 --> 00:28:25.540
+lightclient: That there's, like, complexity that we don't understand or know about.
+
+189
+00:28:25.900 --> 00:28:28.330
+lightclient: So, it's not like we…
+
+190
+00:28:28.660 --> 00:28:31.910
+lightclient: Don't have anyone who's been thinking deeply enough about it.
+
+191
+00:28:34.120 --> 00:28:36.800
+soispoke: Yeah, I mean, that makes sense, it just…
+
+192
+00:28:36.920 --> 00:28:44.129
+soispoke: like, historically, it feels like, sort of, like, multi-dimensional EIPs have been… Hard to ship…
+
+193
+00:28:44.370 --> 00:28:56.589
+soispoke: Specifically because there are, like, a lot of, sort of, like, hidden complexities and extremely, like, multiple ways to do it. And for me, it almost feels like another EIP, you know, like, that should be actually, sort of, like, discussed.
+
+194
+00:28:56.960 --> 00:29:05.139
+soispoke: Like, I'm a bit worried about just, like, going with it, trying to sort of, like, make it work.
+
+195
+00:29:05.790 --> 00:29:13.520
+soispoke: Without, sort of, like, the scrutiny it probably deserves, because it might turn into, like, an absolute, like, sort of, like.
+
+196
+00:29:13.840 --> 00:29:27.319
+soispoke: rabbit hole of complexities and nuances, I don't know. I feel like multi-dimensional free pricing has been there for, like, you know, 5 years or something, and people are still very scared, so yeah, that just makes me a bit worried, but…
+
+197
+00:29:27.940 --> 00:29:29.570
+lightclient: I mean, I think one…
+
+198
+00:29:29.930 --> 00:29:41.319
+lightclient: One other difference, which, you know, a lot of the previous multidimensional proposals had that is different in this PR, is that we aren't introducing more base fees.
+
+199
+00:29:42.370 --> 00:29:44.420
+lightclient: So in that sense, like, we're not…
+
+200
+00:29:44.580 --> 00:29:53.700
+lightclient: Creating that, like, true multi-dimensional market where the base fees can move in different ways, and maybe we have different, you know, long-running
+
+201
+00:29:53.820 --> 00:29:59.309
+lightclient: Goals for what… what, you know, how much that resource should be consuming for the network.
+
+202
+00:29:59.520 --> 00:30:06.230
+lightclient: And this is really just more of an accounting technique about how do we charge users for gas.
+
+203
+00:30:06.230 --> 00:30:27.599
+lightclient: in a, you know, in a way that we already have. Like, we already have execution gas, we already have state creation gas, and so the question is, like, do we account for that individually? Is, like, you know, have them submitting their priority fees per dimension, submitting their, like, max fees per dimension, or do we, like, create this, like, more aggregate
+
+204
+00:30:27.600 --> 00:30:36.700
+lightclient: number. And so, that's kind of, like, why I'm more positive on it, is that, to me, it's much more of an accounting technique that's future compatible
+
+205
+00:30:37.110 --> 00:30:45.659
+lightclient: with other multidimensional schemes, rather than, like, bringing the whole multidimensional gas problem into the EIP.
+
+206
+00:30:45.920 --> 00:30:46.920
+lightclient: Justin?
+
+207
+00:30:48.530 --> 00:30:50.230
+Justin Florentine: So…
+
+208
+00:30:50.270 --> 00:31:03.209
+Justin Florentine: I think, okay, I'm just kind of parting with your last thought there, because I think that actually resonates. I think that, yeah, maybe there's an opportunity here that we're seeing that we can take to improve on this.
+
+209
+00:31:03.240 --> 00:31:18.370
+Justin Florentine: I have always preferred $79.99 over, like, things like 8037, and 8037 was not nearly as simple as we thought it was gonna be, right? So I do think that this could be another case of us
+
+210
+00:31:18.390 --> 00:31:26.759
+Justin Florentine: trying to sort of dip our toe in additional multidimensionality without going full-on into it.
+
+211
+00:31:27.330 --> 00:31:32.310
+Justin Florentine: The idea that this is just an accounting change… I think…
+
+212
+00:31:32.600 --> 00:31:46.260
+Justin Florentine: I think that's a good point, but it's also… it's also a little insufficient, and I can't decide whether or not the fact that we're not introducing new base fees is a feature or a bug, right? Like…
+
+213
+00:31:47.360 --> 00:31:54.850
+Justin Florentine: The partial nature of this is giving me a lot of pause from a design perspective.
+
+214
+00:31:56.470 --> 00:32:14.379
+Justin Florentine: So, I just wanted to air that out there. So, for example, like, bandwidth. There's a resource that we don't actually do any tracking for, right? You know, what happens when we decide, oh, we need a bandwidth dimension for gas? Can we extend this accountability mechanism to include that?
+
+215
+00:32:14.380 --> 00:32:21.329
+Justin Florentine: Maybe. Does it belong in frames? I don't think so. Like, I would rather see this accountability stuff pulled out.
+
+216
+00:32:21.330 --> 00:32:34.810
+Justin Florentine: And, you know, us actually grapple with $79.99. That being said, I don't want to make this sound like I'm against the idea, because I do see this as a good opportunity here as well to improve
+
+217
+00:32:35.580 --> 00:32:48.599
+Justin Florentine: the multi-dimensionality of it. Like, putting a new frame transaction mechanism in here kind of warrants it, at the risk of just, you know, expanding complexity.
+
+218
+00:32:51.520 --> 00:33:07.139
+marc | wolovim: a meta comment here, and just acknowledging we're about halfway through our time here today. How important is it, do you think, that we come to a decision on this, prior to the next DevNet?
+
+219
+00:33:11.130 --> 00:33:12.989
+lightclient: I think it's a good time.
+
+220
+00:33:13.460 --> 00:33:18.449
+lightclient: Like, we're still a little early, it seems, on this, like, integrated fossil frames.
+
+221
+00:33:18.920 --> 00:33:20.090
+lightclient: Dove nuts.
+
+222
+00:33:20.710 --> 00:33:27.330
+lightclient: So, it feels like this next DevNet is, like, a really good opportunity to… Or… start working on it.
+
+223
+00:33:27.520 --> 00:33:32.669
+lightclient: It also gives us an opportunity to sit with it, and then maybe discuss it in…
+
+224
+00:33:32.950 --> 00:33:35.169
+lightclient: Bumbai a bit, in person.
+
+225
+00:33:36.530 --> 00:33:40.490
+lightclient: So, I would… Yeah, I would be pretty positive on…
+
+226
+00:33:41.330 --> 00:33:45.869
+lightclient: on, adding this to DevNet 2.
+
+227
+00:33:46.130 --> 00:33:50.779
+lightclient: if… yeah, I mean, if anyone is still, like, kind of opposed to it.
+
+228
+00:33:51.360 --> 00:33:56.209
+lightclient: like, let me know, we can keep discussing, but I think of people, I, like, generally…
+
+229
+00:33:56.620 --> 00:34:05.559
+lightclient: Supportive, or maybe want to… want to read more on it, then I would say lean towards…
+
+230
+00:34:06.310 --> 00:34:10.170
+lightclient: Us spending the next 2 days or so…
+
+231
+00:34:10.659 --> 00:34:15.399
+lightclient: Yeah, getting the EIP, or getting the PR ready to merge to the EIP.
+
+232
+00:34:15.620 --> 00:34:22.699
+lightclient: And then… maybe on AllCoreDevs, I can just check again and see if anyone is… has opposition.
+
+233
+00:34:23.000 --> 00:34:27.569
+lightclient: And then we can just proactively merge it and see what happens.
+
+234
+00:34:28.710 --> 00:34:31.070
+marc | wolovim: Go ahead, Justin, first.
+
+235
+00:34:31.070 --> 00:34:39.990
+Justin Florentine: Just real quick, I think I do oppose this, but I am looking at the PR change, and this is a net improvement as far as simplification goes, so…
+
+236
+00:34:40.020 --> 00:34:53.220
+Justin Florentine: I don't even know that opposing that would make me… like, opposing the idea underneath this would make me oppose the PR specifically, which might complicate your job on ACDE.
+
+237
+00:34:55.630 --> 00:35:04.089
+lightclient: Yeah, so if you are opposed in one part, and also supportive, does that cancel out?
+
+238
+00:35:10.270 --> 00:35:16.180
+Justin Florentine: I think because… I'm mostly kidding. I know you're mostly kidding, but, like, it's a question of complexity, right? Like…
+
+239
+00:35:16.830 --> 00:35:19.409
+Justin Florentine: And I see this as a net gain for complexity.
+
+240
+00:35:19.990 --> 00:35:22.660
+Justin Florentine: Sorry, a net improvement.
+
+241
+00:35:22.830 --> 00:35:23.440
+lightclient: Red.
+
+242
+00:35:23.700 --> 00:35:30.949
+Justin Florentine: It reduces the complexity, it makes it simpler to reason about, so I think I would be for this PR. But I think the broader discussion is warranted.
+
+243
+00:35:33.440 --> 00:35:44.450
+Justin Florentine: And I think this illustrates why we should keep this stuff into $79.99, like, the conclusion here is, well, none of this should have been in there in the first place, but I don't know that that's realistic.
+
+244
+00:35:48.610 --> 00:35:55.209
+marc | wolovim: I think it might be useful to get a temp check on the rest of the clients as well.
+
+245
+00:35:55.750 --> 00:35:58.529
+marc | wolovim: ethrex for Nethermind, would you also like to…
+
+246
+00:35:58.970 --> 00:36:01.699
+marc | wolovim: Wayne, your current thoughts after today's discussion?
+
+247
+00:36:05.890 --> 00:36:12.940
+marc | wolovim: See, Ivan just made a comment. I like the idea of giving it a try, implementing it, seeing how it goes, and decide then if we keep it or postpone it.
+
+248
+00:36:18.900 --> 00:36:23.830
+marc | wolovim: Tony's asking a clarifying question. Is it only state versus execution gas?
+
+249
+00:36:26.510 --> 00:36:28.500
+marc | wolovim: And blobs does map.
+
+250
+00:36:30.770 --> 00:36:33.860
+marc | wolovim: Mark from Nethermind same would be happy to include it.
+
+251
+00:36:37.150 --> 00:36:37.950
+lightclient: Didn't they?
+
+252
+00:36:37.950 --> 00:36:39.970
+marc | wolovim: Melissa, you unmute if you want to jump in.
+
+253
+00:36:45.710 --> 00:36:53.479
+lightclient: Yeah, I mean, there's still this question by Daniil on the PR, which I need to think about a bit,
+
+254
+00:36:55.720 --> 00:36:59.700
+lightclient: Because, like, we do need access to some of these values.
+
+255
+00:37:02.070 --> 00:37:10.079
+lightclient: We need to decide if this value is something that's going to be accessed in the verify frame, but I need to think through, like, the sponsoring flow to see how that would actually work.
+
+256
+00:37:10.580 --> 00:37:27.750
+lightclient: So, obviously, that's some… that's a prerequisite before we even get to discussing merging. So, I think that… yeah, okay. People sound like they kind of want to give it a try, maybe Baesu is opposed. What I would say is, let's spend the next two days, I'll…
+
+257
+00:37:27.930 --> 00:37:37.099
+lightclient: think through this some more, I'll work on this PR, try to answer this question that Daniil raised, and then on ACDE…
+
+258
+00:37:37.440 --> 00:37:44.919
+lightclient: I will mention it, and we can see. So, Justin, if you have a chance to sit with it a bit longer over the next couple days, that would be great.
+
+259
+00:37:44.920 --> 00:37:45.960
+Justin Florentine: Yeah, I think…
+
+260
+00:37:46.100 --> 00:38:02.589
+Justin Florentine: in doing that, one of the things I would consider, and maybe you can just cut me off right here if this is a fruitless path of thought, but, like, what would 8141 look like if it didn't address gas accounting at all? Like, is that a thing that you could refactor out of the EIP?
+
+261
+00:38:03.240 --> 00:38:06.620
+Justin Florentine: In general, and then punt it to $79.99.
+
+262
+00:38:07.680 --> 00:38:16.110
+lightclient: I mean… I really don't like the 8037 state gas reservoir.
+
+263
+00:38:16.580 --> 00:38:22.990
+lightclient: And I feel like the Frame Transaction is the right… Place to address that?
+
+264
+00:38:24.550 --> 00:38:30.629
+lightclient: Because if we don't… Included in the Frame Transaction object that we won't have the…
+
+265
+00:38:31.610 --> 00:38:38.590
+lightclient: You know, actual lever to let people specify how much day cast they want to… to use.
+
+266
+00:38:39.830 --> 00:38:44.290
+lightclient: So, I… yeah, I think that we have to include some…
+
+267
+00:38:45.160 --> 00:38:53.430
+lightclient: new gas accounting logic, unless people, like, want to just, like, reinforce this 8037 reservoir in the Frame Transaction.
+
+268
+00:38:53.430 --> 00:38:55.610
+Justin Florentine: I want to reinforce $79.99.
+
+269
+00:38:57.340 --> 00:39:05.629
+Justin Florentine: Which… So I want to consider, like, just excising all of the gas accounting from 8141.
+
+270
+00:39:10.030 --> 00:39:12.839
+lightclient: Was $7.99 proposed for Hagota?
+
+271
+00:39:15.880 --> 00:39:18.750
+lightclient: That's one question I'm wondering.
+
+272
+00:39:18.750 --> 00:39:20.229
+Justin Florentine: I think it was…
+
+273
+00:39:22.220 --> 00:39:26.469
+lightclient: I mean, look, like, if you want to make the argument
+
+274
+00:39:26.600 --> 00:39:30.870
+lightclient: For 7999, or have somebody else do it.
+
+275
+00:39:31.770 --> 00:39:35.039
+lightclient: I'm happy to listen, and I'm interested.
+
+276
+00:39:35.330 --> 00:39:45.290
+lightclient: it's not… yeah, it's not really my area that I feel… that comfortable… You know, championing.
+
+277
+00:39:45.680 --> 00:39:51.330
+lightclient: Like, I would much rather that, like, you know, Anders, for instance, is… Working with us to…
+
+278
+00:39:52.100 --> 00:39:58.439
+lightclient: figure out what that integration looks like. And I've worked with them a little bit on this PR for similar reasons.
+
+279
+00:39:59.080 --> 00:40:04.759
+lightclient: So, I think if you want to go all the way here, I would…
+
+280
+00:40:05.570 --> 00:40:12.070
+lightclient: either work with Anders, or just, like, go yourself and, like, try to make a PR to frames.
+
+281
+00:40:12.410 --> 00:40:15.319
+lightclient: And show us what it would look like if…
+
+282
+00:40:15.470 --> 00:40:22.000
+lightclient: You know, 8141, and $79.99 were… basically merged.
+
+283
+00:40:24.380 --> 00:40:30.360
+Justin Florentine: See, that's the thing, is I don't actually want to merge them. I think they are warranted to be separate entities.
+
+284
+00:40:31.020 --> 00:40:31.670
+Justin Florentine: Right?
+
+285
+00:40:31.670 --> 00:40:33.640
+lightclient: I mean, the problem is that…
+
+286
+00:40:34.050 --> 00:40:37.810
+lightclient: I mean, this is the problem with, like, a lot of these, like, frame… you know.
+
+287
+00:40:37.940 --> 00:40:44.750
+lightclient: you know, auxiliary frame EIPs is that if you're changing the actual frame transaction object.
+
+288
+00:40:44.930 --> 00:40:47.540
+lightclient: It's a little bit weird to separate them.
+
+289
+00:40:47.710 --> 00:40:50.859
+lightclient: And, like, we separated them in the beginning because…
+
+290
+00:40:50.970 --> 00:40:54.370
+lightclient: They were separate ideas that we needed to pursue independently.
+
+291
+00:40:54.590 --> 00:40:57.820
+lightclient: And, you know, same with $79.99.
+
+292
+00:40:58.140 --> 00:41:08.429
+lightclient: But at the end of the day, like, we need to integrate it, and, you know, we need to build those EIPs on top of frames, because the Frame's transaction object has to express
+
+293
+00:41:08.540 --> 00:41:27.729
+lightclient: the concepts, whether it's, like, the multiple numbers of, you know, multiple base fees, or if it's the multiple limits, or the single max fee, like, all of this stuff has to exist in the Frame transaction. And because $79.99 wasn't included in Hagota, and I think we need to do something, I would say, like, just make a PR to frames.
+
+294
+00:41:27.760 --> 00:41:29.329
+lightclient: To show what it would look like.
+
+295
+00:41:31.390 --> 00:41:33.550
+Justin Florentine: Okay. Alright, I… I think that's.
+
+296
+00:41:33.550 --> 00:41:44.540
+lightclient: Because at least then we can use a delta between, like, what the max VPR is right now, and what, like, full $79.99 would look like, and we could decide, you know, how much more complicated is it to do the whole thing?
+
+297
+00:41:44.870 --> 00:41:49.309
+lightclient: is the whole… is the max fee PR that we have today…
+
+298
+00:41:49.470 --> 00:41:53.750
+lightclient: Is that going to be compatible with how…
+
+299
+00:41:54.060 --> 00:42:04.349
+lightclient: 7999 actually is gonna look on frames. Like, these are things that I just don't know yet. My hunch is yes, the Max V is compatible, and it's more of, like.
+
+300
+00:42:04.890 --> 00:42:12.130
+lightclient: Layering in more new accounting, layering new base fees, but… I could miss something.
+
+301
+00:42:13.010 --> 00:42:18.370
+Justin Florentine: Alright, let me think about it. I think the way that this might end up looking is that I propose
+
+302
+00:42:18.660 --> 00:42:23.240
+Justin Florentine: a PRN to 8141 that removes this, and instead of
+
+303
+00:42:23.500 --> 00:42:26.900
+Justin Florentine: Depending on $79.99 to pick up the slack.
+
+304
+00:42:27.010 --> 00:42:30.460
+Justin Florentine: We just have status quo, which is 8037.
+
+305
+00:42:32.900 --> 00:42:36.820
+lightclient: I mean, I don't think that we should rely on just 8037 for frames.
+
+306
+00:42:37.240 --> 00:42:37.630
+Justin Florentine: Okay.
+
+307
+00:42:37.630 --> 00:42:44.229
+lightclient: I think that 8037 is a hacked to make state gas in a one-dimensional transaction object.
+
+308
+00:42:45.580 --> 00:42:49.169
+lightclient: And… It's a great technique.
+
+309
+00:42:49.500 --> 00:42:56.970
+lightclient: That was backwards compatible, but there's just, like, really no reason if we're introducing a new transaction object to not expose the state gas.
+
+310
+00:42:57.170 --> 00:42:58.090
+lightclient: field.
+
+311
+00:43:01.390 --> 00:43:05.059
+Justin Florentine: Okay. I feel like I'm hogging up a lot of time here. We'll keep talking.
+
+312
+00:43:06.600 --> 00:43:13.890
+lightclient: Yeah, I think we've probably reached the max amount of discussion on this topic. I feel like I don't have…
+
+313
+00:43:14.120 --> 00:43:26.280
+lightclient: Yeah, I don't feel like I have a lot more additional content to say on. I need to, go back and try and answer this question that Daniil listed and, rebase this PR.
+
+314
+00:43:26.780 --> 00:43:32.399
+lightclient: But let's keep going. So I've got two other PRs we could discuss quickly.
+
+315
+00:43:32.560 --> 00:43:45.349
+lightclient: The second one, also on the agenda, I'll paste here. I think this one's fairly straightforward, so unless someone is gonna raise, objection here, I'll probably go ahead and merge it.
+
+316
+00:43:45.500 --> 00:43:46.670
+lightclient: So…
+
+317
+00:43:46.890 --> 00:43:56.509
+lightclient: Several months ago, a user on ETH Magicians raised this, and it's been in the back of my mind, and I think now is just, you know, the best time to actually solve it.
+
+318
+00:43:57.000 --> 00:44:03.750
+lightclient: It's basically kind of an attack against users who are getting their Frame Transaction relayed onto the chain.
+
+319
+00:44:03.970 --> 00:44:10.949
+lightclient: Basically, the way that… The way that we charge for signature data,
+
+320
+00:44:11.080 --> 00:44:26.799
+lightclient: Most of the signatures, we understand, they're fixed size, we can charge for them, you can't, you know, include more bytes or include less bytes, and so, it's really, like, a non-issue. But when we introduced the arbitrary, signature object.
+
+321
+00:44:26.800 --> 00:44:33.849
+lightclient: in this, the, signature list. That introduced this, you know, concept of having
+
+322
+00:44:34.130 --> 00:44:37.179
+lightclient: A dynamically sized amount of, of…
+
+323
+00:44:37.290 --> 00:44:46.790
+lightclient: signature data-related, you know, signature data that's in the signature list. And when you have the arbitrary amount of signature data, you need to charge
+
+324
+00:44:47.260 --> 00:44:58.299
+lightclient: proportionally for how much of this, like, you know, overall transaction call data you're using. So, we added the formula to charge the user based on that,
+
+325
+00:44:58.490 --> 00:45:01.699
+lightclient: on the arbitrary signature data. The problem is that
+
+326
+00:45:02.800 --> 00:45:09.619
+lightclient: That signature data is not always included in the signature… the canonical signature hash.
+
+327
+00:45:10.430 --> 00:45:22.170
+lightclient: Or, is it… Yeah, so it's not included in the canonical signature hash, so it's malleable.
+
+328
+00:45:23.450 --> 00:45:30.489
+lightclient: And if the signature data is malleable, then that means that, anyone who's relaying that transaction can…
+
+329
+00:45:30.610 --> 00:45:42.210
+lightclient: Strip the signature data off, which is usually not a problem, because if you strip the signature data off, generally, like, the transaction's not going to be valid, or parts of the transaction will fail.
+
+330
+00:45:43.070 --> 00:45:52.979
+lightclient: But if they add information to that signature data, like, imagine they pad the signature data with, like, you know, a kilobyte of call data, then that could get charged for the user.
+
+331
+00:45:53.250 --> 00:46:11.739
+lightclient: And the user obviously is not intending on, you know, having this, like, maliciously padded data. So the idea with this PR is that we're going to bound these arbitrary signature objects by actually hashing into the canonical signature hash the length
+
+332
+00:46:12.610 --> 00:46:15.659
+lightclient: And so this way, we don't need to…
+
+333
+00:46:16.730 --> 00:46:30.780
+lightclient: You know, we don't need to worry about the cost potentially blowing up for a user. It's still possible, just like it is today, where, you know, a relayer can change the signature and cause the validity to change.
+
+334
+00:46:31.690 --> 00:46:48.960
+lightclient: But now, like, if somebody does this, then the worst that can happen is that the validity has changed. And that's kind of, like, the trade-off you have to make whenever you are using the canonical… you know, whenever you're getting alighted from the canonical signature hash.
+
+335
+00:46:49.250 --> 00:46:57.580
+lightclient: you have… you're accepting some… some amount of malleability. But we are bounding it, the… the potential, like, cost ramifications of it.
+
+336
+00:46:58.270 --> 00:47:09.020
+lightclient: So, I think that this is, like, a pretty critical update. Unless somebody is opposed to this change, I'll probably just merge it after the call, and…
+
+337
+00:47:09.530 --> 00:47:12.070
+lightclient: We'll include it on the next DevNet.
+
+338
+00:47:18.490 --> 00:47:21.120
+marc | wolovim: Any questions, or would anybody like to push back?
+
+339
+00:47:30.610 --> 00:47:31.780
+lightclient: Okay.
+
+340
+00:47:32.060 --> 00:47:37.289
+lightclient: One more PR… This one is on, 7906.
+
+341
+00:47:38.110 --> 00:47:45.019
+lightclient: So, I didn't post this to the agenda, but it's probably used for people to know, potentially discuss. So…
+
+342
+00:47:46.220 --> 00:47:50.680
+lightclient: it looks like Alex did approve this, but…
+
+343
+00:47:51.030 --> 00:47:53.609
+lightclient: I'm also open to feedback here.
+
+344
+00:47:53.790 --> 00:48:03.639
+lightclient: One thing I've kind of been looking at on the 7906 EIP for a while is just thinking about how many different fields there are.
+
+345
+00:48:04.460 --> 00:48:06.630
+lightclient: You know, in, in these…
+
+346
+00:48:07.040 --> 00:48:10.030
+lightclient: Three operations that were being introduced.
+
+347
+00:48:10.500 --> 00:48:20.289
+lightclient: So… Yeah, basically, you know, it's only 3 opcodes, TX trace, TXDiff, and the event data copy.
+
+348
+00:48:22.310 --> 00:48:25.880
+lightclient: And the TX Trace, to me, is kind of like the original…
+
+349
+00:48:26.250 --> 00:48:38.790
+lightclient: idea, the original concept of, like, how to do assertions, how to, kind of introspect what happened in the transaction. And so, to me, like, TX Trace was…
+
+350
+00:48:39.480 --> 00:48:45.939
+lightclient: You know, is obviously, like, the critical part of it, and that gives you the ability to iterate through all the changes that happen in the transaction.
+
+351
+00:48:46.760 --> 00:49:00.990
+lightclient: TXDiff was introduced… And basically, the TXDiff kind of gives you the ability to… directly query certain…
+
+352
+00:49:01.130 --> 00:49:06.130
+lightclient: You know, the changes that happen at a certain address or a certain storage slot.
+
+353
+00:49:06.860 --> 00:49:11.690
+lightclient: And in the… in, you know, pursuit of simplicity.
+
+354
+00:49:12.260 --> 00:49:20.610
+lightclient: it felt like, to me, that TXDIF was not absolutely required. There were some parts of it that…
+
+355
+00:49:21.290 --> 00:49:25.810
+lightclient: I think, like, couldn't really be replicated with TXTrace, which in this PR I tried to add back.
+
+356
+00:49:26.380 --> 00:49:32.740
+lightclient: Things like, you know, knowing if the nonce has changed.
+
+357
+00:49:32.860 --> 00:49:35.759
+lightclient: What the ons change values were.
+
+358
+00:49:36.150 --> 00:49:40.369
+lightclient: But in general, like, to me, that… the opcodes seemed like an optimization.
+
+359
+00:49:41.010 --> 00:49:45.659
+lightclient: And I am kind of proposing in this PR that we…
+
+360
+00:49:46.070 --> 00:49:52.000
+lightclient: basically remove the TXDIP opcode, and try to just rely on this TX trace.
+
+361
+00:49:54.300 --> 00:50:00.940
+lightclient: it's possible there are use cases that I'm missing where you would really want TXDiff.
+
+362
+00:50:04.050 --> 00:50:08.330
+lightclient: But overall, I… yeah, it feels like TX Trace…
+
+363
+00:50:08.700 --> 00:50:13.880
+lightclient: Kind of… solves that. Alex, do you wanna… Sure, thoughts.
+
+364
+00:50:14.040 --> 00:50:23.280
+Alex Forshtat: Yeah, so one, like, use case that, like, I had in mind for TXDIF is, like, looking actually at the pre-state of a transaction.
+
+365
+00:50:23.450 --> 00:50:37.769
+Alex Forshtat: So, for example, when it's kind of useful is if you are, for example, doing a clear signing. So, there is a problem there where the intention of a transaction depends on the implementation slot.
+
+366
+00:50:37.960 --> 00:50:41.980
+Alex Forshtat: Of a proxy contract address you're interacting with.
+
+367
+00:50:42.330 --> 00:50:55.269
+Alex Forshtat: So, to kind of prevent, like, being front-run by an upgrade of a proxy or things like that, you could, like, make a requirement that, when you send a transaction, the pre-state
+
+368
+00:50:55.330 --> 00:51:10.320
+Alex Forshtat: implementation slot of this contract was thumped in a given. So, it's kind of this category of use cases where you actually care about the state of the slot before the transaction.
+
+369
+00:51:10.720 --> 00:51:20.040
+Alex Forshtat: where, like, TXB actually shines, and also, in a particular, like, use case, if you want to check, like, one balance change.
+
+370
+00:51:20.400 --> 00:51:34.650
+Alex Forshtat: And in Transaction, it made a lot of state changes, it is an optimization, but, like, we would have to, like, traverse all the, like, DX trays to discover the changes.
+
+371
+00:51:34.760 --> 00:51:42.489
+Alex Forshtat: Which is possible, just maybe not very optimal, depending on the transaction size and the number of changes that happen.
+
+372
+00:51:43.480 --> 00:51:47.380
+Alex Forshtat: Yeah, that was the idea for the txDiff.
+
+373
+00:51:49.170 --> 00:52:00.369
+lightclient: So, the proxy example you gave, can you not use the slot before value on the proxy to determine if.
+
+374
+00:52:02.120 --> 00:52:05.450
+lightclient: What the value of the start of the transaction was?
+
+375
+00:52:05.740 --> 00:52:11.079
+Alex Forshtat: If I remember correctly, I might be thinking, like, if it did not change
+
+376
+00:52:11.520 --> 00:52:16.089
+Alex Forshtat: Would… it… it would not be visible?
+
+377
+00:52:16.250 --> 00:52:23.980
+Alex Forshtat: If I remember correctly, through the TX trace, right? So, like, you would be able to say if…
+
+378
+00:52:24.460 --> 00:52:29.509
+Alex Forshtat: Like, what the implementation slot of a contract you're interacting with.
+
+379
+00:52:29.850 --> 00:52:32.309
+lightclient: It would be fun running a different transaction.
+
+380
+00:52:32.310 --> 00:52:34.740
+Alex Forshtat: Yeah. If it was transformed by a different transaction.
+
+381
+00:52:34.740 --> 00:52:35.330
+lightclient: ZCC.
+
+382
+00:52:35.330 --> 00:52:38.710
+Alex Forshtat: unmodified, so that was one of the modules.
+
+383
+00:52:38.930 --> 00:52:48.369
+Alex Forshtat: motivations for a separate EXDOP code, whether it's, like, Fourthly part of, like, post-transaction assertions, it's…
+
+384
+00:52:49.120 --> 00:52:50.349
+Alex Forshtat: It's an open question.
+
+385
+00:52:50.820 --> 00:52:51.620
+Alex Forshtat: Right.
+
+386
+00:52:51.620 --> 00:52:56.739
+lightclient: Okay, that's a… that's a fair point. I was only thinking inside this transaction.
+
+387
+00:52:58.210 --> 00:53:02.709
+lightclient: Okay, let me think about this some more. I'm not going to…
+
+388
+00:53:03.140 --> 00:53:06.949
+lightclient: I won't rebase this so that it will automatically merge.
+
+389
+00:53:07.090 --> 00:53:11.820
+lightclient: Until we talk about it a little bit more. I think that is one use case that…
+
+390
+00:53:12.050 --> 00:53:13.970
+lightclient: is not represented.
+
+391
+00:53:14.250 --> 00:53:15.820
+lightclient: With just txtrace.
+
+392
+00:53:16.000 --> 00:53:19.919
+lightclient: Because you're trying to determine, like, what the state of the slot is.
+
+393
+00:53:21.430 --> 00:53:26.849
+lightclient: You know, with respect to maybe being front-run on the proxy, so that's a good point.
+
+394
+00:53:29.370 --> 00:53:34.380
+lightclient: Okay, let me think about this some more, and we'll kind of, like, table that one.
+
+395
+00:53:38.030 --> 00:53:39.100
+lightclient: Oh, interesting.
+
+396
+00:53:39.100 --> 00:53:39.660
+Alex Forshtat: on.
+
+397
+00:53:39.660 --> 00:53:40.340
+Justin Florentine: Yeah.
+
+398
+00:53:40.340 --> 00:53:42.330
+Alex Forshtat: Okay, thank you.
+
+399
+00:53:42.510 --> 00:53:44.050
+Alex Forshtat: Waiting for feedback.
+
+400
+00:53:45.330 --> 00:53:47.219
+marc | wolovim: Yeah. Justin, did you want to jump in?
+
+401
+00:53:48.040 --> 00:53:56.129
+Justin Florentine: I was just lamenting that Matt's wishes have been defeated by the ETH Bot that has just, merged this PR.
+
+402
+00:53:58.210 --> 00:54:05.000
+lightclient: Either way, I think I'll think about this some more. I mean, I think this is, like, a very narrow use case that we can…
+
+403
+00:54:05.360 --> 00:54:07.360
+lightclient: Figure out a good solution for.
+
+404
+00:54:08.120 --> 00:54:13.970
+lightclient: I mean, at the end of the day, this is also something that you can… Implement as a frame.
+
+405
+00:54:15.120 --> 00:54:17.900
+lightclient: Like, you can…
+
+406
+00:54:23.800 --> 00:54:31.549
+lightclient: Yeah, let me think about it a bit. Like, you can check what the storage slot of the proxy is that you're calling…
+
+407
+00:54:34.590 --> 00:54:35.149
+Justin Florentine: With a procedure.
+
+408
+00:54:35.150 --> 00:54:36.279
+lightclient: I don't know.
+
+409
+00:54:36.280 --> 00:54:37.280
+Justin Florentine: Yeah.
+
+410
+00:54:37.280 --> 00:54:39.540
+lightclient: I mean, yeah, it's not great, though.
+
+411
+00:54:41.330 --> 00:54:44.570
+Justin Florentine: Because then that shows up in the trace, as…
+
+412
+00:54:44.890 --> 00:54:45.990
+Justin Florentine: You know what I mean? Like…
+
+413
+00:54:46.280 --> 00:54:47.110
+lightclient: Yeah.
+
+414
+00:54:47.610 --> 00:54:50.960
+Justin Florentine: It's not being classified as pre-state.
+
+415
+00:54:51.760 --> 00:54:52.420
+lightclient: Right.
+
+416
+00:55:01.930 --> 00:55:05.829
+marc | wolovim: Okay, we've got 10 minutes to the end of the call,
+
+417
+00:55:06.650 --> 00:55:10.579
+marc | wolovim: Does it make sense to go any deeper on…
+
+418
+00:55:10.900 --> 00:55:19.650
+marc | wolovim: this discussion, or any others. If not, I was gonna recap expectations for the next DevNet.
+
+419
+00:55:21.050 --> 00:55:25.320
+lightclient: I think it would be good to let Justin present his ideas.
+
+420
+00:55:25.690 --> 00:55:30.539
+lightclient: But if you want to quickly just say the definite expectations, we can do that for the last 10 minutes.
+
+421
+00:55:33.030 --> 00:55:36.350
+marc | wolovim: Sure,
+
+422
+00:55:36.470 --> 00:55:45.449
+marc | wolovim: So I just wanted to make sure everybody was clear about the scope of a next DevNet, assuming it, remains EL-focused.
+
+423
+00:55:46.890 --> 00:55:57.269
+marc | wolovim: there, I haven't heard the introduction of any new EIPs. We've just discussed these three, PRs into existing EIPs in the DevNet.
+
+424
+00:55:57.430 --> 00:56:03.550
+marc | wolovim: Is that the case? Is… is… does that match everybody's expectation of what would appear on the next DevNet?
+
+425
+00:56:08.420 --> 00:56:11.670
+lightclient: I think some people are trying to propose…
+
+426
+00:56:11.810 --> 00:56:12.180
+marc | wolovim: So, sorry.
+
+427
+00:56:12.180 --> 00:56:13.180
+lightclient: But from…
+
+428
+00:56:13.540 --> 00:56:17.329
+marc | wolovim: Yeah, Spencer had proposed some, so let's make sure we,
+
+429
+00:56:18.120 --> 00:56:23.310
+marc | wolovim: get on the same page there. Spencer, did you wanna, list those out.
+
+430
+00:56:24.820 --> 00:56:27.709
+spencer: Yeah, I mean, I guess these are the five,
+
+431
+00:56:28.080 --> 00:56:35.959
+spencer: I think we would have liked to have agreed on… on a CDT for a HEGAT to DevNet 1, so that would be the DevNet after merging, but if…
+
+432
+00:56:36.210 --> 00:56:40.870
+spencer: there is time… to, I guess, add the EL-specific EIPs earlier.
+
+433
+00:56:41.050 --> 00:56:43.110
+spencer: To me, it makes sense. I think,
+
+434
+00:56:43.350 --> 00:56:48.150
+spencer: There's 5 here, maybe that's a lot unoptimistic. The deactivate self-destruct.
+
+435
+00:56:48.500 --> 00:56:50.989
+spencer: Reduces the test space for us earlier.
+
+436
+00:56:51.400 --> 00:56:58.430
+spencer: Sitecodefrom has already mentioned the, bump non-sub-zero accounts, in, in our opinion.
+
+437
+00:56:58.850 --> 00:57:08.579
+spencer: It's good for us to add that earlier, because in order to test it properly, it requires fork transitions. The more dev nets, the more fork transitions, and then the two-floor
+
+438
+00:57:08.800 --> 00:57:14.560
+spencer: EIPs lets us test benchmarking earlier in the process. This is a lot, and also.
+
+439
+00:57:14.910 --> 00:57:20.430
+spencer: Yeah, I do like pushing to move things faster, but… I do feel like…
+
+440
+00:57:20.750 --> 00:57:24.119
+spencer: I don't know if we're going against process by doing this,
+
+441
+00:57:24.600 --> 00:57:27.340
+spencer: maybe, maybe it should be agreed on an ACDT
+
+442
+00:57:27.460 --> 00:57:33.269
+spencer: But I guess just touching upon this in the call isn't harmful? I'm not sure.
+
+443
+00:57:33.800 --> 00:57:38.120
+lightclient: Yeah, I think, from my perspective, I…
+
+444
+00:57:38.840 --> 00:57:44.810
+lightclient: Obviously, I think that doing, set code from an 8151 is, like, pretty important.
+
+445
+00:57:46.070 --> 00:57:55.379
+lightclient: you know, the question of the process, like, yeah, we should probably talk about an ACD or ACDT, but I do think those are, like, pretty critical parts of our, like, PQ…
+
+446
+00:57:55.620 --> 00:57:58.700
+lightclient: Transition, proposal.
+
+447
+00:57:59.100 --> 00:58:05.260
+lightclient: But I will also say that we still have quite a bit of outstanding work on
+
+448
+00:58:05.570 --> 00:58:13.520
+lightclient: what we already have, like, we haven't really settled on the RPC formats yet, we still haven't settled on the tracing formats yet.
+
+449
+00:58:13.930 --> 00:58:21.550
+lightclient: And so… If we're adding more EIPs, then it also reduces our ability to settle in on those.
+
+450
+00:58:22.260 --> 00:58:25.999
+lightclient: So, balancing that would be… would be good.
+
+451
+00:58:33.970 --> 00:58:36.950
+spencer: I'm happy to add as many as you guys.
+
+452
+00:58:38.010 --> 00:58:41.210
+spencer: Want to add, to be honest, so… Yeah.
+
+453
+00:58:45.840 --> 00:58:51.600
+marc | wolovim: Okay, so it seems like steel is not the… or the specs team, not the bottleneck here.
+
+454
+00:58:52.180 --> 00:59:01.999
+lightclient: I mean, let's talk about this on ACD this week. Since we've got one and two days, that could give us a couple days to think a little bit about what we want to happen.
+
+455
+00:59:02.110 --> 00:59:09.760
+lightclient: On this next DevNet, and then also give us time to ship this DevNet later next week, before everyone flies to Mumbai.
+
+456
+00:59:14.130 --> 00:59:15.820
+marc | wolovim: Cool. Can we make,
+
+457
+00:59:16.360 --> 00:59:28.169
+marc | wolovim: let's say, like, a reasonable sort of commitment we can make, to client teams want to, bring a… basically a list of what they're comfortable including on the next DevNet?
+
+458
+00:59:28.600 --> 00:59:30.259
+marc | wolovim: to Thursday's call.
+
+459
+00:59:31.730 --> 00:59:32.440
+lightclient: Sure.
+
+460
+00:59:35.040 --> 00:59:35.710
+marc | wolovim: Okay.
+
+461
+00:59:39.480 --> 00:59:41.439
+marc | wolovim: Thumbs up around. Great.
+
+462
+00:59:42.250 --> 00:59:46.149
+marc | wolovim: We've got 5 minutes remaining,
+
+463
+00:59:47.120 --> 00:59:50.489
+marc | wolovim: how do you want to use it? Is there any final items?
+
+464
+00:59:50.920 --> 00:59:52.859
+marc | wolovim: We want to make sure, get introduced.
+
+465
+00:59:53.180 --> 00:59:56.329
+lightclient: Yeah, I think Justin had some things he wanted to mention.
+
+466
+00:59:59.130 --> 01:00:01.929
+marc | wolovim: Got a hand from Tamar as well. Justin, do you want to go first?
+
+467
+01:00:05.410 --> 01:00:08.459
+Justin Florentine: I assume you're talking about Justin Zen, not Justin Florentine?
+
+468
+01:00:08.720 --> 01:00:09.450
+lightclient: Yes.
+
+469
+01:00:19.200 --> 01:00:26.310
+Justin Zen - ocl: Here are the audios.
+
+470
+01:00:26.350 --> 01:00:27.930
+lightclient: Pretty bad.
+
+471
+01:00:28.210 --> 01:00:29.140
+lightclient: Justin?
+
+472
+01:00:55.790 --> 01:00:58.710
+marc | wolovim: No audio from you now, Justin, do you want to try again?
+
+473
+01:00:59.330 --> 01:01:05.450
+marc | wolovim: Oh, sorry for unreliable internet. We can jump to tomorrow and give you a chance to try again.
+
+474
+01:01:07.750 --> 01:01:16.990
+soispoke: Yeah, it's very quick, but I also mentioned this in the chat, I think it would be really cool to be able to test, you know, having sort of, like, multiple
+
+475
+01:01:17.260 --> 01:01:29.609
+soispoke: concurrent transactions, per sender, because there are, like, some… there are some, like, name pool subtleties to get right, so if that could be included, I think it would be actually quite useful to get a view of
+
+476
+01:01:29.950 --> 01:01:37.680
+soispoke: Hey, is that sort of, like, working out? And we can, you know, design attacks and try to break it to see if it holds.
+
+477
+01:01:45.120 --> 01:01:50.570
+marc | wolovim: We can add that to the list of, client considerations for what they want to bring Thursday.
+
+478
+01:01:53.090 --> 01:01:56.450
+marc | wolovim: Justin, did you want to try one more time?
+
+479
+01:02:01.530 --> 01:02:02.660
+Justin Zen - ocl: Yeah, can you hear me?
+
+480
+01:02:03.540 --> 01:02:04.689
+marc | wolovim: That's better, yeah.
+
+481
+01:02:15.710 --> 01:02:16.810
+Justin Zen - ocl: Can you hear me?
+
+482
+01:02:17.670 --> 01:02:19.539
+marc | wolovim: Yes, you're coming through better now.
+
+483
+01:02:20.990 --> 01:02:22.050
+Justin Zen - ocl: Oh yes, thank you.
+
+484
+01:02:22.220 --> 01:02:32.519
+Justin Zen - ocl: So, we like to, like, separate verified Frame into two frames. Like, the first one is the non-stay frame, and the second one is the stateful frame.
+
+485
+01:02:32.850 --> 01:02:40.850
+Justin Zen - ocl: And the purpose for that is, like, we could do heavy computation in the non-safe frame, like, verify the signature.
+
+486
+01:02:41.160 --> 01:02:48.489
+Justin Zen - ocl: Do Stefan to read the state, like, like, to check if the recover address is correct.
+
+487
+01:02:49.070 --> 01:02:54.900
+Justin Zen - ocl: It could save Sequencer from doing the spam verification again.
+
+488
+01:02:55.100 --> 01:02:56.829
+Justin Zen - ocl: If those dates change.
+
+489
+01:03:06.210 --> 01:03:07.850
+marc | wolovim: Oops, we lost… oh, no.
+
+490
+01:03:08.690 --> 01:03:10.439
+marc | wolovim: Matt, are you still with us?
+
+491
+01:03:11.510 --> 01:03:12.090
+lightclient: Yeah.
+
+492
+01:03:12.400 --> 01:03:19.360
+marc | wolovim: Oh, there you go. Was that clear? Did you, have any immediate thoughts?
+
+493
+01:03:20.080 --> 01:03:21.090
+marc | wolovim: Or questions?
+
+494
+01:03:22.700 --> 01:03:28.140
+lightclient: Yeah, I mean, my immediate thought is… I am…
+
+495
+01:03:30.260 --> 01:03:35.779
+lightclient: Trying to understand what the main difference of this is versus the signature list.
+
+496
+01:03:36.440 --> 01:03:37.600
+lightclient: That we have.
+
+497
+01:03:39.430 --> 01:03:47.929
+lightclient: Because basically, like, the signature list, you have a similar concept. I mean, for one, like, any signature that's identified by the protocol is, you know.
+
+498
+01:03:48.770 --> 01:03:53.040
+lightclient: Verified statelessly outside of the execution of frames.
+
+499
+01:03:53.190 --> 01:03:57.880
+lightclient: For the arbitrary… Signature schemes, then…
+
+500
+01:03:58.610 --> 01:04:08.310
+lightclient: You know, it does require some sort of, like, allow list of, like, what signature schemes your sequencer is able to, like, reason about and remember.
+
+501
+01:04:08.990 --> 01:04:13.669
+lightclient: Because you kind of, like, use the frame destination to figure out.
+
+502
+01:04:14.020 --> 01:04:16.999
+lightclient: You know, is that going to be a stateless computation?
+
+503
+01:04:19.330 --> 01:04:28.610
+lightclient: But to me, that, like, solves the same problem that you're doing, and the only cost is that you don't have, like, total permissionless around the stateless
+
+504
+01:04:28.800 --> 01:04:36.460
+lightclient: schemes, which, from a performance perspective, I think is fine, because, you know, 99% of your photography will be…
+
+505
+01:04:36.820 --> 01:04:37.680
+lightclient: problem.
+
+506
+01:04:38.050 --> 01:04:41.950
+lightclient: You know, known, known addresses.
+
+507
+01:04:49.280 --> 01:05:00.299
+marc | wolovim: We're at time here, so I will suggest we wrap this up and continue async. Justin, I'll give you a chance. Did you want to make any quick reply?
+
+508
+01:05:04.180 --> 01:05:06.109
+marc | wolovim: Sure, okay, async is good.
+
+509
+01:05:07.420 --> 01:05:20.089
+marc | wolovim: Okay, let's, wrap here then. Client teams, you have homework for Thursday to bring, basically what you're comfortable including in the next DevNet. And…
+
+510
+01:05:20.620 --> 01:05:30.090
+marc | wolovim: I will follow up with any other, action items there. Thank you, everybody, for joining. Appreciate your participation in the discussion.
+
+511
+01:05:30.280 --> 01:05:31.800
+marc | wolovim: See you on Thursday.
+
+512
+01:05:31.800 --> 01:05:32.570
+lightclient: Thanks.
+
+513
+01:05:33.810 --> 01:05:34.580
+Justin Florentine: Thanks, Al.
+
+514
+01:05:35.220 --> 01:05:35.990
+soispoke: Thanks.
+
