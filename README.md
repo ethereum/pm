@@ -57,6 +57,7 @@ This repo is managed by the Ethereum Foundation's [Protocol Support team](https:
 
 | Date | Type | № | Issue | Summary | Discussion | Recording | Logs |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 19 Oct 2026 | ACDT | 101 | [#2271](https://github.com/ethereum/pm/issues/2271) | [forkcast](https://forkcast.org/calls/acdt/101) | [EthMag](https://ethereum-magicians.org/t/29957) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-101_2026-10-19) |
 | 15 Oct 2026 | ACDC | 189 | [#2247](https://github.com/ethereum/pm/issues/2247) | [forkcast](https://forkcast.org/calls/acdc/189) | [EthMag](https://ethereum-magicians.org/t/29847) | [video](https://youtu.be/6vu9F_j4rNk) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDC/Call-189_2026-10-15) |
 | 12 Oct 2026 | ACDT | 100 | [#2264](https://github.com/ethereum/pm/issues/2264) | [forkcast](https://forkcast.org/calls/acdt/100) | [EthMag](https://ethereum-magicians.org/t/29903) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-100_2026-10-12) |
 | 08 Oct 2026 | ACDE | 247 | [#2234](https://github.com/ethereum/pm/issues/2234) | [forkcast](https://forkcast.org/calls/acde/247) | [EthMag](https://ethereum-magicians.org/t/29777) | [video](https://youtu.be/0ZGRqRYac1k) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDE/Call-247_2026-10-08) |
