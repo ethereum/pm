@@ -1,0 +1,96 @@
+{
+  "meeting": "P2P networking #10 - October 21, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:06:00",
+        "highlight": "Lighthouse enabled partial data columns on mainnet by default in Monday's release"
+      },
+      {
+        "timestamp": "00:07:41",
+        "highlight": "Csaba: implemented message validation in Go-libp2p P2P at multiple levels; slides forthcoming next call"
+      },
+      {
+        "timestamp": "00:12:00",
+        "highlight": "Geth BLSync CL lite client updated to be Glamsterdam-compatible with efficiency improvements"
+      }
+    ],
+    "snap_enr_discussions": [
+      {
+        "timestamp": "00:14:00",
+        "highlight": "Cross-client ENR analysis: Geth alone publishes a 'snap' key (empty array); no other clients set it; no EIP guidance on value or versioning"
+      },
+      {
+        "timestamp": "00:14:40",
+        "highlight": "Three options proposed: omit snap from ENR entirely; include with supported version; or keep as empty array (Geth current behavior)"
+      },
+      {
+        "timestamp": "00:18:00",
+        "highlight": "Edge cases: Reth skips SNAP 1, will support SNAP 2 in Glamsterdam; Nimbus EL can sync but not serve snap data"
+      }
+    ],
+    "decoupled_consensus_simulation": [
+      {
+        "timestamp": "00:20:46",
+        "highlight": "Sukun presented decoupled consensus simulations (Cambridge workshop): decouple LMD-GHOST head vote (Goldfish) from FFG finality vote (Simplex); targets 4x faster finality"
+      },
+      {
+        "timestamp": "00:22:10",
+        "highlight": "Simulation: 500 cloud Prysm-fork nodes, 64 subnets, 2,500 validators/subnet (~25% above mainnet); Scenario 1 (staggered FFG) works but home nodes hit ~440 Mbps peak vs 25 Mbps limit"
+      },
+      {
+        "timestamp": "00:33:00",
+        "highlight": "EIP-8334 (bundle attestations): batching 4 votes reduces 960 bytes \u2192 552 bytes; with partial messages, home node bandwidth drops well below 25 Mbps limit and Goldfish votes are >20% faster at P99"
+      },
+      {
+        "timestamp": "00:37:53",
+        "highlight": "Scenario 3 (3 committees/subnet, fully decoupled finality): works but Goldfish propagation degrades to ~1.2s without topic prioritization; topic priority work (Csaba) could resolve this"
+      },
+      {
+        "timestamp": "00:40:45",
+        "highlight": "Open design question: staggered publishing (Scenario 1) vs. multiple committees per subnet (Scenario 3); need to define desired properties before choosing"
+      }
+    ],
+    "informed_diffusion_zcast": [
+      {
+        "timestamp": "00:52:15",
+        "highlight": "Csaba introduced zcast: fast & lean broadcast protocol built on segmentation, erasure coding, controlled I-have/I-want, and sampling; targets payloads and sampled broadcast (PeerDAS-style)"
+      },
+      {
+        "timestamp": "00:58:30",
+        "highlight": "Benchmark: gossipsub today is far from optimal; zcast achieves sub-700 ms payload propagation with <2x bandwidth overhead even with 50 Mbps home builder uplink"
+      },
+      {
+        "timestamp": "01:04:26",
+        "highlight": "zcast is not designed for attestation aggregation (many-to-one / in-network compute); that remains a separate protocol domain"
+      },
+      {
+        "timestamp": "01:05:43",
+        "highlight": "Implementation: Go on top of go-libp2p/GossipSub + Python executable spec + TLA+ formal verification (in progress); runs on Shadow and native QUIC; post on ethresear.ch with full technique breakdown"
+      },
+      {
+        "timestamp": "01:19:50",
+        "highlight": "Byzantine resilience tested up to 50% withholders and active malicious nodes; formal verification work ongoing to close remaining gaps"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:19:10",
+      "action": "Raise snap ENR behavior with Geth team; gather consensus on whether to include snap key and how to value it",
+      "owner": "Kamil Salakhiev / EL client teams"
+    },
+    {
+      "timestamp": "00:50:30",
+      "action": "Share decoupled consensus simulation slides publicly for broader review",
+      "owner": "Sukun Tarachandani"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:19:35",
+      "decision": "No consensus reached on snap ENR entry; issue to remain open for async comment from EL client teams before any PR is merged"
+    }
+  ],
+  "targets": []
+}
