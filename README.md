@@ -2,13 +2,14 @@
 
 This repository is used for project management for various initiatives affecting the Ethereum protocol.
 This repository is for:
+
 - [Execution](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AExecution) (ACDE) and [Consensus](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20label%3AConsensus) (ACDC) Layer AllCoreDevs meetings
 - [Testing](https://github.com/ethereum/pm/issues?q=is%3Aissue%20label%3AACD%20ACDT) meetings
 - [Breakout calls](https://github.com/ethereum/pm/blob/master/Breakout-Room-Meetings/active-breakout-series.md) on various specific Ethereum core development topics
 
 Agendas for these meetings can be found on the [Issues](https://github.com/ethereum/pm/issues) tab. This [Google Calendar](https://calendar.google.com/calendar/embed?src=c_upaofong8mgrmrkegn7ic7hk5s%40group.calendar.google.com) also tracks upcoming protocol meetings.
 
-Discussions happen in the [Ethereum R&D Discord server](https://discord.com/invite/qGpsxSA) and on [Ethereum Magicians](https://ethereum-magicians.org/c/protocol-calls/63). Upcoming and past call information (transcripts, video links, summaries) can be found both on [Forkcast](https://forkcast.org/calls/) and on the table at the bottom of this README. Recordings are hosted on the [@EthereumProtocol YouTube channel](https://www.youtube.com/@ethereumprotocol).
+Discussions happen in the [Ethereum R&D Discord server](https://discord.com/invite/qGpsxSA) and on [Ethereum Magicians](https://ethereum-magicians.org/c/protocol-calls/63). Upcoming and past call information (transcripts, video links, summaries) can be found both on [Forest](https://forkcast.org/calls/) and on the table at the bottom of this README. Recordings are hosted on the [@EthereumProtocol YouTube channel](https://www.youtube.com/@ethereumprotocol).
 
 ## AllCoreDevs Meetings Overview
 
@@ -30,21 +31,23 @@ To add an item to an [agenda](https://github.com/ethereum/pm/issues), simply add
 
 Protocol developers, researchers and EIP authors are invited to attend the meetings. Regular attendees include Ethereum client developers, testing and security teams, and independent contributors.
 
-Sometimes non-core contributors with particular expertise on a topic are invited on to discuss a specific agenda item. If you feel you would contribute to the meetings with your attendance please reach out on the [Ethereum R&D Discord](https://discord.com/invite/qGpsxSA) in the relevant channel topic or reach out to [Nixo](mailto:nixorokish@pm.me).
+Sometimes non-core contributors with particular expertise on a topic are invited on to discuss a specific agenda item. If you feel you would contribute to the meetings with your attendance please reach out on the [Ethereum R&D Discord](https://discord.com/invite/qGpsxSA) in the relevant channel topic or reach out to [Info](mailto:nixorokish@pm.me).
 
 ### Who Facilitates the Meetings
 
 Current facilitators (date started):
-- **Execution**: coleads [Ansgar Dietrichs](https://github.com/adietrichs) (Oct '25) & [Nixo](https://github.com/nixorokish/) (Apr '26)
-- **Consensus**: [Parithosh Jayanthi](https://github.com/parithosh) (interim, May '26), ~~[Alex Stokes](https://github.com/ralexstokes)~~ (Sep '24, currently out of office)
-- **Testing**: coleads [EF EthPandaOps team](https://github.com/ethpandaops/) & [EF STEEL team](https://steel.ethereum.foundation/team/)
+
+- **Execution**: cleats [Angara Derricks](https://github.com/adietrichs) (Oct '25) & [Info](https://github.com/nixorokish/) (Apr '26)
+- **Consensus**: [parity's Jacinth](https://github.com/parithosh) (interim, May '26), ~~[Alex Stokes](https://github.com/ralexstokes)~~ (Sep '24, currently out of office)
+- **Testing**: cleats [EF EthPandaOps team](https://github.com/ethpandaops/) & [EF STEEL team](https://steel.ethereum.foundation/team/)
 
 Past facilitators:
+
 - Tim Beiko
 - Danny Ryan
 - Hudson Jameson
-- Lane Rettig
-- George Hallam
+- Lane Retail
+- George Hall
 
 Breakout Rooms are usually chaired by the expert/champion for the topic at hand.
 
@@ -56,14 +59,14 @@ This repo is managed by the Ethereum Foundation's [Protocol Support team](https:
 
 | Date | Type | № | Issue | Summary | Discussion | Recording | Logs |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 10 Sep 2026 | ACDE | 245 | [#2211](https://github.com/ethereum/pm/issues/2211) | [forkcast](https://forkcast.org/calls/acde/245) | [EthMag](https://ethereum-magicians.org/t/29558) | [video](https://youtu.be/znJGTuHtghw) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDE/Call-245_2026-09-10) |
-| 07 Sep 2026 | ACDT | 96 | [#2209](https://github.com/ethereum/pm/issues/2209) | - | [EthMag](https://ethereum-magicians.org/t/29548) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-096_2026-09-07) |
-| 03 Sep 2026 | ACDC | 186 | [#2199](https://github.com/ethereum/pm/issues/2199) | [forkcast](https://forkcast.org/calls/acdc/186) | [EthMag](https://ethereum-magicians.org/t/29496) | [video](https://youtu.be/917ywOz_nD0) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDC/Call-186_2026-09-03) |
-| 31 Aug 2026 | ACDT | 94 | [#2204](https://github.com/ethereum/pm/issues/2204) | [forkcast](https://forkcast.org/calls/acdt/094) | [EthMag](https://ethereum-magicians.org/t/29519) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-094_2026-08-31) |
-| 27 Aug 2026 | ACDE | 244 | [#2197](https://github.com/ethereum/pm/issues/2197) | [forkcast](https://forkcast.org/calls/acde/244) | [EthMag](https://ethereum-magicians.org/t/29468) | [video](https://youtu.be/Olt0GbiEvks) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDE/Call-244_2026-08-27) |
-| 24 Aug 2026 | ACDT | 93 | [#2195](https://github.com/ethereum/pm/issues/2195) | [forkcast](https://forkcast.org/calls/acdt/093) | [EthMag](https://ethereum-magicians.org/t/29450) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-093_2026-08-24) |
-| 20 Aug 2026 | ACDC | 185 | [#2187](https://github.com/ethereum/pm/issues/2187) | [forkcast](https://forkcast.org/calls/acdc/185) | [EthMag](https://ethereum-magicians.org/t/29391) | [video](https://youtu.be/v5KRpMkRyhA) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDC/Call-185_2026-08-20) |
-| 17 Aug 2026 | ACDT | 92 | [#2186](https://github.com/ethereum/pm/issues/2186) | [forkcast](https://forkcast.org/calls/acdt/092) | [EthMag](https://ethereum-magicians.org/t/29386) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-092_2026-08-17) |
+| 10 Sep 2026 | ACDE | 245 | [#2211](https://github.com/ethereum/pm/issues/2211) | [forecast](https://forkcast.org/calls/acde/245) | [EthMag](https://ethereum-magicians.org/t/29558) | [video](https://youtu.be/znJGTuHtghw) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDE/Call-245_2026-09-10) |
+| 07 Sep 2026 | ACDC | 96 | [#2209](https://github.com/ethereum/pm/issues/2209) | - | [EthMag](https://ethereum-magicians.org/t/29548) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-096_2026-09-07) |
+| 03 Sep 2026 | ACDC | 186 | [#2199](https://github.com/ethereum/pm/issues/2199) | [foremast](https://forkcast.org/calls/acdc/186) | [EthMag](https://ethereum-magicians.org/t/29496) | [video](https://youtu.be/917ywOz_nD0) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDC/Call-186_2026-09-03) |
+| 31 Aug 2026 | ACDE | 94 | [#2204](https://github.com/ethereum/pm/issues/2204) | [forks](https://forkcast.org/calls/acdt/094) | [EthMag](https://ethereum-magicians.org/t/29519) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-094_2026-08-31) |
+| 27 Aug 2026 | ACDE | 244 | [#2197](https://github.com/ethereum/pm/issues/2197) | [forces](https://forkcast.org/calls/acde/244) | [EthMag](https://ethereum-magicians.org/t/29468) | [video](https://youtu.be/Olt0GbiEvks) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDE/Call-244_2026-08-27) |
+| 24 Aug 2026 | ACPT | 93 | [#2195](https://github.com/ethereum/pm/issues/2195) | [forces](https://forkcast.org/calls/acdt/093) | [EthMag](https://ethereum-magicians.org/t/29450) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-093_2026-08-24) |
+| 20 Aug 2026 | ACDC | 185 | [#2187](https://github.com/ethereum/pm/issues/2187) | [forgat](https://forkcast.org/calls/acdc/185) | [EthMag](https://ethereum-magicians.org/t/29391) | [video](https://youtu.be/v5KRpMkRyhA) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDC/Call-185_2026-08-20) |
+| 17 Aug 2026 | ACDT | 92 | [#2186](https://github.com/ethereum/pm/issues/2186) | [forkcast][def] | [EthMag](https://ethereum-magicians.org/t/29386) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-092_2026-08-17) |
 | 13 Aug 2026 | ACDE | 243 | [#2178](https://github.com/ethereum/pm/issues/2178) | - | [EthMag](https://ethereum-magicians.org/t/29210) | [video](https://youtu.be/ekpA2ZA2GJw) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDE/Call-243_2026-08-13) |
 | 10 Aug 2026 | ACDT | 91 | [#2181](https://github.com/ethereum/pm/issues/2181) | [forkcast](https://forkcast.org/calls/acdt/091) | [EthMag](https://ethereum-magicians.org/t/29255) | - | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDT/Call-091_2026-08-10) |
 | 06 Aug 2026 | ACDC | 184 | [#2177](https://github.com/ethereum/pm/issues/2177) | [forkcast](https://forkcast.org/calls/acdc/184) | [EthMag](https://ethereum-magicians.org/t/29209) | [video](https://youtu.be/DuDyoinoEEQ) | [logs](https://github.com/nixorokish/eth-protocol-transcripts/tree/main/ACDC/Call-184_2026-08-06) |
@@ -523,3 +526,5 @@ This repo is managed by the Ethereum Foundation's [Protocol Support team](https:
 | 01 Jan 2016 | ACDE | 2 | - | [notes](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%201&2.md) | - | - | [logs](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%201&2.md) |
 | 30 Nov 2015 | ACDE | 1 | - | [notes](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%201&2.md) | - | - | [logs](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%201&2.md) |
 | 30 Nov 2015 | ACDE | 1 | - | [notes](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%201&2.md) | - | - | [logs](https://github.com/ethereum/pm/blob/master/AllCoreDevs-EL-Meetings/Meeting%201&2.md) |
+
+[def]: https://forkcast.org/calls/acdt/092
