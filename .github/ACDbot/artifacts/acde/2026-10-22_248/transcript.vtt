@@ -1,0 +1,2638 @@
+WEBVTT
+
+1
+00:08:43.110 --> 00:08:45.260
+Ansgar Dietrichs: Hello, hello, hello, everyone!
+
+2
+00:09:08.640 --> 00:09:11.759
+Ansgar Dietrichs: Can someone say something so that I know my audio works?
+
+3
+00:09:12.530 --> 00:09:14.919
+Justin Florentine: Good morning, Ethereum!
+
+4
+00:09:15.990 --> 00:09:18.280
+Ansgar Dietrichs: Perfect, that's exactly what I was hoping for.
+
+5
+00:09:34.070 --> 00:09:45.640
+Ansgar Dietrichs: Alright, this is real life immediately, no… no actual waiting period. Okay, well, welcome, everyone, then, to… Lukasz…
+
+6
+00:09:46.260 --> 00:09:53.750
+Ansgar Dietrichs: Number 248. I mean, I guess just because we're live, we might still want to wait for a couple seconds just for people to arrive.
+
+7
+00:09:59.650 --> 00:10:02.049
+Ansgar Dietrichs: Just everyone please be at their best behavior.
+
+8
+00:11:21.130 --> 00:11:25.540
+Ansgar Dietrichs: Okay, then I think we can get started,
+
+9
+00:11:25.590 --> 00:11:44.090
+Ansgar Dietrichs: We have a pretty full agenda today, so I'm not sure if we'll quite get through all of it, let's see. First, regarding Glamsterdam, there was one item that came up quite short notice yesterday, regarding the chain security,
+
+10
+00:11:44.140 --> 00:11:46.450
+Ansgar Dietrichs: report, I think the report was actually published
+
+11
+00:11:46.660 --> 00:11:53.850
+Ansgar Dietrichs: already last week, if I'm not mistaken, but… point being, basically, like, the…
+
+12
+00:11:54.290 --> 00:12:00.840
+Ansgar Dietrichs: impact of some of the repricing EIPs, I saw that
+
+13
+00:12:01.090 --> 00:12:13.200
+Ansgar Dietrichs: PC had some, had a comment on the agenda, but I'm not sure if he's on the call, or otherwise, if anyone else with context on this is on the call and could…
+
+14
+00:12:13.560 --> 00:12:15.159
+Ansgar Dietrichs: Speak about this issue.
+
+15
+00:12:21.590 --> 00:12:25.369
+Hubert (ChainSecurity): This is, working, just with me.
+
+16
+00:12:25.860 --> 00:12:30.320
+Ansgar Dietrichs: Unfortunately, I'm at least hearing… having some issue hearing your audio properly.
+
+17
+00:12:30.500 --> 00:12:31.929
+Ansgar Dietrichs: Hubert…
+
+18
+00:12:50.490 --> 00:12:52.460
+Hubert (ChainSecurity): Is it elected store?
+
+19
+00:12:53.310 --> 00:13:03.449
+Ansgar Dietrichs: Still quite hard to understand, I mean, maybe if it's easier for others, but I saw in the comment also some… some… in the chat some comments that there was a bit of a problem.
+
+20
+00:13:04.200 --> 00:13:04.750
+Hubert (ChainSecurity): Sweet.
+
+21
+00:13:07.720 --> 00:13:09.510
+Hubert (ChainSecurity): 31 seconds.
+
+22
+00:13:27.670 --> 00:13:32.860
+Ansgar Dietrichs: I mean, we could also otherwise, I know that some people look… Now it sometimes sounded much more clear.
+
+23
+00:13:32.860 --> 00:13:36.159
+Hubert (ChainSecurity): Sorry, is it better like this? Yes.
+
+24
+00:13:36.160 --> 00:13:38.420
+Ansgar Dietrichs: Much better, much better. We can hear you very clear now.
+
+25
+00:13:40.280 --> 00:13:42.809
+Hubert (ChainSecurity): Can you hear me, Dawn? Okay, thanks.
+
+26
+00:13:43.270 --> 00:13:47.019
+Hubert (ChainSecurity): Yeah, I hope it's better, otherwise, please.
+
+27
+00:13:53.770 --> 00:13:56.450
+Ansgar Dietrichs: We can hear you really well.
+
+28
+00:13:56.450 --> 00:14:11.880
+Hubert (ChainSecurity): Yeah, sorry for the… for the technical issues. Yes, so we were, or I was asked to say a few words here. In order to hopefully make this more understandable, I have prepared a few slides.
+
+29
+00:14:11.880 --> 00:14:23.450
+Hubert (ChainSecurity): I don't want to keep too much time, but I thought it might be more understandable with the slides. Feel free to interrupt me at any time if something is not clear. So…
+
+30
+00:14:23.530 --> 00:14:40.390
+Hubert (ChainSecurity): This is, joint work by the whole chain security team, especially Toni, who unfortunately cannot be here today. So, what we want to talk about is potential security issues with smart contracts that are introduced due to the changes in Amsterdam.
+
+31
+00:14:40.700 --> 00:14:52.180
+Hubert (ChainSecurity): So, we are aware that Ethereum Foundation and others have quite extensively looked for transactions, good, I call them honest transactions, that worked before Amsterdam.
+
+32
+00:14:52.280 --> 00:15:00.789
+Hubert (ChainSecurity): and are no longer working. After Amsterdam, a lot of work has gone into that. That's not what I want to talk about at all. What I want to talk about is
+
+33
+00:15:00.880 --> 00:15:13.089
+Hubert (ChainSecurity): transactions that… evil transactions, that did not work before Amsterdam, but are working now after Amsterdam. So that's what I want to talk about, and that's what we are concerned about.
+
+34
+00:15:14.100 --> 00:15:16.370
+Hubert (ChainSecurity): And to…
+
+35
+00:15:16.760 --> 00:15:33.079
+Hubert (ChainSecurity): to explain, I will present a somewhat contrived example, so you can afterwards all say, okay, but no one writes that type of code. But I didn't want to present an example that is too close to reality, because we're currently going through
+
+36
+00:15:33.080 --> 00:15:38.010
+Hubert (ChainSecurity): a responsible disclosure with multiple DeFi projects, and I kind of didn't want to.
+
+37
+00:15:38.020 --> 00:15:43.319
+Hubert (ChainSecurity): violate the rules of discon… Responsible… responsible disclosure, but…
+
+38
+00:15:43.380 --> 00:15:58.100
+Hubert (ChainSecurity): I hope the example explains what we are concerned about. So, let's imagine we have a smart contract, and that smart contract has a withdraw ETH function, so it lets someone withdraw ETH, and the withdraw ETH function
+
+39
+00:15:58.400 --> 00:16:03.860
+Hubert (ChainSecurity): Receives a signature by the withdrawer, and then has permissionless execution.
+
+40
+00:16:04.150 --> 00:16:06.340
+Hubert (ChainSecurity): So,
+
+41
+00:16:06.500 --> 00:16:20.539
+Hubert (ChainSecurity): then afterwards, the function sends… attempts to send the east to the withdraw, and if that fails, it uses the well-known self-destruct trick to send the east. Why? Because the self-destruct trick always works.
+
+42
+00:16:20.610 --> 00:16:39.460
+Hubert (ChainSecurity): And because that trick always works, it also does not really check the return value, of the self-destruct trick. So you could now say, this is not great coding practice, and, yeah, that can, of course be argued, but that's kind of not what I want to discuss, because,
+
+43
+00:16:39.520 --> 00:16:43.009
+Hubert (ChainSecurity): I want to discuss potential impact of such code.
+
+44
+00:16:43.290 --> 00:16:50.959
+Hubert (ChainSecurity): Afterwards, the WHREASE function adjusts the user balance, so it does like an STOR. So, let's see what that looks like in a chart.
+
+45
+00:16:50.960 --> 00:17:05.349
+Hubert (ChainSecurity): So, here we have the permissionless caller. So the permissionless caller calls the withdraw function, and that's our… on our victim contract. The victim contract, I left out all the other parts to simplify it, it just does this
+
+46
+00:17:05.349 --> 00:17:08.870
+Hubert (ChainSecurity): A self-destruct trick here now, which works with the create.
+
+47
+00:17:08.869 --> 00:17:22.150
+Hubert (ChainSecurity): and the self-destruct, and everything, works fine, the create returns, it does this z-door to update the balance of the withdrawal to zero, and the transaction succeeds. All is good.
+
+48
+00:17:22.910 --> 00:17:38.910
+Hubert (ChainSecurity): So, this is a contract that is safe with Osaka rules. Why is it safe? Because if there's sufficient gas, the safety structures works, and all is fine. If the self-destruct runs out of gas, the victim will only have 1 over 64 gas left.
+
+49
+00:17:39.070 --> 00:17:49.809
+Hubert (ChainSecurity): And, because we didn't do any kind of special cause, and the victim needs at least 2,300 gas for this S-store, and hence, the…
+
+50
+00:17:50.020 --> 00:18:09.230
+Hubert (ChainSecurity): we can do some math and say this is safe, because if this were to be unsafe, the self-destruct would have consumed at least 144,000 gas, but it consumes, at most, 32,000, so turns out it's safe. So this is safe when running out of gas, this is safe when with sufficient gas, so this contract is safe.
+
+51
+00:18:09.740 --> 00:18:27.189
+Hubert (ChainSecurity): Here we have it, just briefly recap. Visually, if the self-destruct runs out of gas, the create, returns, but now the victim only has 520 gas to continue, 520 is nowhere near enough for the S-store, the transaction reverts, all is good.
+
+52
+00:18:28.050 --> 00:18:33.730
+Hubert (ChainSecurity): Now, what can happen with Amsterdam? With Amsterdam, this hash destruct can now cost
+
+53
+00:18:33.970 --> 00:18:49.129
+Hubert (ChainSecurity): 200,000 gas, in case this does create, this does create a new account, because then 180,000, roughly, are spent as the new account state, gas. So…
+
+54
+00:18:49.410 --> 00:18:51.889
+Hubert (ChainSecurity): For the…
+
+55
+00:18:53.070 --> 00:19:05.230
+Hubert (ChainSecurity): What happens now, if the self-destruct only has 200,599 gas available and runs out of gas, then this force send, this intermediate sender we were using, will revert.
+
+56
+00:19:05.230 --> 00:19:15.560
+Hubert (ChainSecurity): But now, due to the New Amsterdam rule, the victim will actually recover this state gas that we spent here, right? It will be recovered immediately, the hundred…
+
+57
+00:19:15.560 --> 00:19:25.340
+Hubert (ChainSecurity): 83,600, and hence the victim can now execute the following STOR and update the balance. So, let's look at this, kind of individual representation.
+
+58
+00:19:25.340 --> 00:19:37.969
+Hubert (ChainSecurity): So, now we're in Amsterdam, hence the gas amounts are bigger. So, here we are forwarding 200,000 gas, roughly. However, even with the 200,000 gas, the…
+
+59
+00:19:37.990 --> 00:19:43.939
+Hubert (ChainSecurity): self-destruct runs just out of gas, right? And here, now, in the revert.
+
+60
+00:19:44.030 --> 00:19:57.660
+Hubert (ChainSecurity): these 180,000 will be refunded, hence the victim is now executed with more than $180,000, hence it can perform the STOR fine, hence the transaction succeeds. So what happened here overall.
+
+61
+00:19:57.760 --> 00:20:13.680
+Hubert (ChainSecurity): the ETH was not transferred, but the balance was updated, right? Like, so, as I said, this is a contrived example, I realize this. However, I chose this example because, of course, I want to take a limited amount of time, and hence want to take something that's as simple as possible.
+
+62
+00:20:15.530 --> 00:20:35.249
+Hubert (ChainSecurity): as a consequence, anyone, because in our example, this has permissionless submission, right, anyone can decrease the user balance without the real receiver receiving the ETH, by just front-running the real transaction with a transaction that has too little gas.
+
+63
+00:20:35.250 --> 00:20:44.660
+Hubert (ChainSecurity): And then, now you might say, okay, but they have no advantage, but in many cases, the attacker might be able to steal the stuck funds afterwards.
+
+64
+00:20:46.840 --> 00:20:58.899
+Hubert (ChainSecurity): Okay, and this is… this was just one example, one tiny example, that I wanted to give to… give you a concrete example, because I personally feel like these concrete examples helped.
+
+65
+00:20:59.070 --> 00:21:12.920
+Hubert (ChainSecurity): But Amsterdam also breaks other developer assumptions, such as they are hard-coding certain gas amounts, either as reserves to keep inside the contracts before they're calling something, or as past amounts.
+
+66
+00:21:12.990 --> 00:21:30.029
+Hubert (ChainSecurity): Of course, we all know hard-coding gas amounts is not great, but unfortunately, that's, that is there in a bunch of contracts. Developers sometimes have the assumption that gas left will only decrease, which is no longer correct.
+
+67
+00:21:30.140 --> 00:21:45.350
+Hubert (ChainSecurity): Within a single frame, the… that certain contracts cannot fail, because they… yeah, in the example that we saw before, where we basically said, okay, kind of this self-destruct contract, it's a simple, it cannot fail,
+
+68
+00:21:45.880 --> 00:21:48.300
+Hubert (ChainSecurity): As we know.
+
+69
+00:21:48.410 --> 00:22:02.360
+Hubert (ChainSecurity): the calling contract retains 1 over 64 gas left, and sometimes the developers argue this 1 over 64 will not be sufficient to continue. But now, as the gas consumption increases.
+
+70
+00:22:02.530 --> 00:22:12.790
+Hubert (ChainSecurity): the 1 over 64 also increases. So, the gas consumption might now be sufficient to continue. And, as we also saw, there's the special refunds.
+
+71
+00:22:13.040 --> 00:22:29.669
+Hubert (ChainSecurity): Lastly, there are a bunch of developers that are aware of all of these problems and did out-of-gas detection in their contracts. However, the existing out-of-gas detection that they developed into their contracts
+
+72
+00:22:29.760 --> 00:22:45.540
+Hubert (ChainSecurity): can now also be bypassed in certain cases, and we have a blog article on how this can be bypassed. Yeah, so we, of course, invite everyone to read this blog article, hence I don't want to go into the details here.
+
+73
+00:22:45.770 --> 00:22:48.359
+Hubert (ChainSecurity): So, what have we done? We have…
+
+74
+00:22:48.800 --> 00:22:55.880
+Hubert (ChainSecurity): kind of looked at a few manual transactions, we have tried to search through source code with Sourceify.
+
+75
+00:22:55.950 --> 00:23:08.229
+Hubert (ChainSecurity): And we have written this blog post, to make people aware, and through these searches, we have, found 13 major DeFi projects that are affected by this.
+
+76
+00:23:08.230 --> 00:23:18.409
+Hubert (ChainSecurity): And these, we have notified the 13 major… I mean, not… to be fair, not all of them are major DeFi projects. I want to say some of them are major DeFi projects.
+
+77
+00:23:18.470 --> 00:23:19.980
+Hubert (ChainSecurity): So…
+
+78
+00:23:20.110 --> 00:23:39.170
+Hubert (ChainSecurity): We have notified them that we are currently in responsible disclosure with them. However, what we have not done, and I want to make this very clear, is this search was in no way exhaustive, so we are not claiming we have seen everything, we are not claiming we're done. And we have… we even know of
+
+79
+00:23:39.170 --> 00:23:51.699
+Hubert (ChainSecurity): kind of very minor impact that we haven't even notified yet. For example, there's a bunch of projects where, you can invalidate signature, nonsense
+
+80
+00:23:51.760 --> 00:24:06.790
+Hubert (ChainSecurity): Which might be annoying to the project, but we can't… it seems like a minor inconvenience, but it's also not fully… we are not fully able to judge, we just didn't have time to notify those yet, and we have not at all looked at off-chain tools or front-ends.
+
+81
+00:24:06.790 --> 00:24:16.559
+Hubert (ChainSecurity): or anything like that, where the simulations might be now incorrect, or they might still hard-code some gas amounts, or something like that. So, we don't know anything there.
+
+82
+00:24:16.560 --> 00:24:17.660
+Hubert (ChainSecurity): So…
+
+83
+00:24:18.380 --> 00:24:31.700
+Hubert (ChainSecurity): in a slightly provocative summary, I want to say, should Amsterdam make contracts with incorrect development assumptions unsafe? And I guess that's what we're trying to
+
+84
+00:24:31.780 --> 00:24:45.170
+Hubert (ChainSecurity): what we're trying to ask, that's the question we're trying to… to get to, because we're realizing that a lot of the contracts that… that are becoming unsafe due to Amsterdam, they have
+
+85
+00:24:45.170 --> 00:25:00.180
+Hubert (ChainSecurity): some, something which maybe some people consider bad coding practices, but they generally have, or they… the developer had a slightly incorrect assumption or something, but I guess still the question is,
+
+86
+00:25:00.550 --> 00:25:19.739
+Hubert (ChainSecurity): how, how this should be dealt with, and, we feel like there's relatively little awareness, of this problem coming up. Yeah, thanks, that's, that's it from my side. Of course, I'm very happy to answer questions, yeah.
+
+87
+00:25:22.260 --> 00:25:26.649
+Ansgar Dietrichs: Sounds good, thank you very much, and I'm sure we have several
+
+88
+00:25:27.340 --> 00:25:30.090
+Ansgar Dietrichs: There are people that would want to speak up on this, so…
+
+89
+00:25:30.090 --> 00:25:38.140
+Hubert (ChainSecurity): Yeah, so the, so Ansgar wrote in the chat that there, Some things are…
+
+90
+00:25:38.380 --> 00:25:47.720
+Hubert (ChainSecurity): there's going to be complications when… when scaling. I… Agree that the,
+
+91
+00:25:48.210 --> 00:26:04.979
+Hubert (ChainSecurity): that, this is the case. So, as some might know, there was a similar previous case with EIP1884, where, like, also in the hard fork, there were some, contract implications.
+
+92
+00:26:05.070 --> 00:26:08.729
+Hubert (ChainSecurity): I just feel like they're… oh. Oh, sorry.
+
+93
+00:26:08.980 --> 00:26:10.849
+Hubert (ChainSecurity): I committed to you, sorry, sorry.
+
+94
+00:26:22.130 --> 00:26:33.670
+Hubert (ChainSecurity): Sorry, the… I quickly finished, sorry, and then I'll try to fix my speaker, sorry for all the problems today. It's, as usual, everything works, and then in the moment, you need it, nothing works. The,
+
+95
+00:26:34.020 --> 00:26:51.349
+Hubert (ChainSecurity): Yeah, so what I wanted to say is that, the, from my perspective, the… back then, there was a relatively good analysis done, I mean, which achieved the coverage that we haven't achieved yet, so that's all I wanted to say, sorry.
+
+96
+00:26:57.430 --> 00:27:03.680
+Ansgar Dietrichs: Sounds good. Well, I don't know exactly if I can speak to you right now, let me actually, one second, let me write in chat.
+
+97
+00:27:08.800 --> 00:27:15.279
+Ansgar Dietrichs: In the meantime, maybe, if anyone else already wants to speak up.
+
+98
+00:27:15.620 --> 00:27:21.050
+Ansgar Dietrichs: I see a lot of activity in chat, so if anyone else… Maybe once, too.
+
+99
+00:27:22.250 --> 00:27:24.750
+Ansgar Dietrichs: Speak up on the question of how to handle.
+
+100
+00:27:26.040 --> 00:27:28.389
+Ansgar Dietrichs: M… the situation?
+
+101
+00:27:36.040 --> 00:27:38.949
+Ansgar Dietrichs: And… Hubert can…
+
+102
+00:27:39.120 --> 00:27:47.950
+Ansgar Dietrichs: can hear us now, so that's… that's a good… that's good as well. So, so any questions, or otherwise? I mean, I also otherwise would have a comment.
+
+103
+00:27:48.220 --> 00:27:52.819
+Ansgar Dietrichs: So then I guess I'll go first, because no one else is raising their hand yet.
+
+104
+00:27:53.380 --> 00:28:02.799
+Ansgar Dietrichs: Yeah, I mean, to me, it seems clear, at least from this… at a minimum, before we go into the specifics of what even should be done here, it seems… it seems like it's
+
+105
+00:28:02.950 --> 00:28:13.339
+Ansgar Dietrichs: clear, assuming not all of these results are false, and I don't think… I've not seen anyone indicating that they will be, so assuming that these results are right…
+
+106
+00:28:13.380 --> 00:28:24.879
+Ansgar Dietrichs: that would indicate that the impact analysis, kind of, like, done so far, has not… has just not been sufficient in its coverage. I think, Hubert, you already, at the beginning of the presentation, did this nice, very simple, like.
+
+107
+00:28:24.900 --> 00:28:37.160
+Ansgar Dietrichs: extensive, extensive work towards just keeping valid transactions valid, basically, but maybe we… there was a blind spot on, keeping invalid transactions invalid, so that seems like…
+
+108
+00:28:37.350 --> 00:28:55.359
+Ansgar Dietrichs: Clearly, kind of in the coming days and presumably weeks, it might not be so quick. One thing that will definitely have to happen is just, like, a very extensive, extensive work on this, making sure that we actually fully understand all the implications, all the affected contracts.
+
+109
+00:28:55.570 --> 00:28:58.070
+Ansgar Dietrichs: And then there's the second question of.
+
+110
+00:28:58.230 --> 00:29:11.020
+Ansgar Dietrichs: actionable, what are the consequences? I think, I also, I think I saw this in chat as well, but basically, I think there's three different tiers of response here from our side. Like, one would be, of course, the most benign one, if
+
+111
+00:29:11.020 --> 00:29:19.249
+Ansgar Dietrichs: If all of this can be addressed and mitigated in time for a on-schedule mainnet rollout, as planned in December.
+
+112
+00:29:19.250 --> 00:29:30.139
+Ansgar Dietrichs: That would, of course, be the ideal outcome. Option two would be a delayed mainnet rollout, but with the same specs as we have done today.
+
+113
+00:29:30.140 --> 00:29:46.210
+Ansgar Dietrichs: So that would mean we would allow for more time for mitigations, for analysis, making sure that we actually have a full understanding of the full list of affected projects and contracts, and then time for mitigation. And then number three, the most severe potential response would be a change to the glam stamp specs.
+
+114
+00:29:46.290 --> 00:29:52.540
+Ansgar Dietrichs: And so then, of course, we could go into, I think you… towards the end of your presentation, you had this question of.
+
+115
+00:29:53.350 --> 00:29:54.310
+Ansgar Dietrichs: should…
+
+116
+00:29:54.730 --> 00:30:10.580
+Ansgar Dietrichs: not having followed best practices result in context breaking, so basically, like, is it worth basically breaking anything at all, or not? I think that is an interesting conversation to be had, but I feel like it's almost like it's the third step, so only if we were to get there. I think the first question would just be, how can we
+
+117
+00:30:10.580 --> 00:30:16.190
+Ansgar Dietrichs: As fast as possible, make progress towards understanding the full scope here, and working with the affected teams.
+
+118
+00:30:16.190 --> 00:30:24.799
+Ansgar Dietrichs: So that we can then even inform the decision of, do we A need a delay of the mainnet rollout, and B potentially even need adjustment to specs?
+
+119
+00:30:25.010 --> 00:30:34.959
+Ansgar Dietrichs: Yeah, I'd be curious if that makes sense. So basically, like, first focus more on, rapid analysis, before we can then make…
+
+120
+00:30:35.130 --> 00:30:40.120
+Ansgar Dietrichs: assessments of consequences. Is that, in general, approach-wise, reasonable for people?
+
+121
+00:30:54.630 --> 00:30:55.530
+Ansgar Dietrichs: Toni?
+
+122
+00:30:57.070 --> 00:31:03.510
+Toni Wahrstätter: Yeah, I think it's reasonable, and my feeling is it's just very difficult to understand the exact impact right now.
+
+123
+00:31:03.810 --> 00:31:14.540
+Toni Wahrstätter: And I wouldn't even want to make, like, timeline decisions based on that. It would be better to first, like, get a clear understanding of the exactly… of those that are affected.
+
+124
+00:31:14.760 --> 00:31:18.769
+Toni Wahrstätter: And based on that, we can still, discuss delaying mainnet.
+
+125
+00:31:18.930 --> 00:31:23.490
+Toni Wahrstätter: If, for example, affected parties need more time or have difficulties upgrading.
+
+126
+00:31:29.260 --> 00:31:36.819
+Ansgar Dietrichs: Yes, this makes sense. And so, like, just because that would already tie in, we're not going there yet, but that would already tie into the later,
+
+127
+00:31:37.180 --> 00:31:51.849
+Ansgar Dietrichs: agenda points, so we were planning to talk about, well, for one, the Hoodi testnet fork, but then also the mainnet rollout candidates, and so, just for clarity here, I think we all agree on this, but just to state it explicitly, of course.
+
+128
+00:31:52.970 --> 00:32:12.020
+Ansgar Dietrichs: no decision on mainnet dates, mainnet rollout, or even potentially the potential for changes to the Amsterdam specs would be made until there's a clear, thorough understanding of the impacts here, the affected teams, so until that… until we have that understanding, basically, like, the mainnet
+
+129
+00:32:12.020 --> 00:32:14.460
+Ansgar Dietrichs: rollout would be on ice, basically.
+
+130
+00:32:17.900 --> 00:32:18.840
+Ansgar Dietrichs: Justin?
+
+131
+00:32:19.490 --> 00:32:33.910
+Justin Florentine: I think we should probably talk about Hoodi, since that's coming real fast. It's potentially gonna be something we're gonna need if we need a control to compare tests of these types of, issues versus what's already been deployed to Sepolia.
+
+132
+00:32:39.520 --> 00:32:44.040
+Ansgar Dietrichs: Can you expand on this? When you say control, do you mean in case we would want to have spec changes?
+
+133
+00:32:44.040 --> 00:32:58.290
+Justin Florentine: How many places do we have test networks that we can, hold on, I'm being attacked by a robot vacuum. How many places do we have test networks that we can actually craft these types of transactions and send them to DeFi projects?
+
+134
+00:32:58.290 --> 00:33:09.720
+Justin Florentine: that have not been updated to Glamsterdam to compare to. That's what I mean by a control. Like, if we have this issue, we're gonna try and reproduce it on Sepolia. Great. Where's the control that's not mainnet?
+
+135
+00:33:14.140 --> 00:33:24.329
+Ansgar Dietrichs: I see, so you're saying, basically, you would… in your mind, that would justify keeping Hoodi on the current specs, so that we basically have one testnet on old specs and one testnet on new specs to compare.
+
+136
+00:33:25.080 --> 00:33:26.100
+Justin Florentine: That's right.
+
+137
+00:33:31.810 --> 00:33:46.700
+Toni Wahrstätter: Of course, this assumes now that we actually changed the specs, right? Because I think it's not so clear that we actually need to change the specs at all. Maybe we can just notify the affected parties and they upgrade their contracts.
+
+138
+00:33:48.340 --> 00:33:59.990
+Ansgar Dietrichs: I think I understood Justin's comment as actually not assuming that spec changes would be necessary, just saying that while we are basically trying to understand the impacts better, it's good to have one testnet on each side of the fork, basically.
+
+139
+00:34:00.300 --> 00:34:07.230
+Justin Florentine: Because the only other alternative would be get, like, heavy DeFi project participation on a synthetic DevNet.
+
+140
+00:34:10.400 --> 00:34:13.120
+Ansgar Dietrichs: Right. Daniil, maybe go to you first?
+
+141
+00:34:13.400 --> 00:34:18.889
+Daniel Lehrner: Yeah, yeah, just, just, I, I just wanted to say, if we have to change the specs.
+
+142
+00:34:19.590 --> 00:34:26.760
+Daniel Lehrner: We have to throw away Sepolia for sure, because it's on specs that are not on mainnet anymore.
+
+143
+00:34:27.110 --> 00:34:35.569
+Daniel Lehrner: And if we do the Hoodi hard fork on Monday as well, we have no testnet, because where would we test the hard fork?
+
+144
+00:34:35.860 --> 00:34:38.540
+Daniel Lehrner: Because both would be incompatible.
+
+145
+00:34:39.120 --> 00:34:40.489
+Daniel Lehrner: So it's not…
+
+146
+00:34:40.850 --> 00:34:51.430
+Daniel Lehrner: Do we need spec changes or not? It's if we need them, where would we even test them? If both of… if both Hoodi and Sepolia are on the wrong specs?
+
+147
+00:34:55.980 --> 00:34:58.920
+Ansgar Dietrichs: Justin, you still have your hand up? Was it again, or…
+
+148
+00:35:00.220 --> 00:35:01.570
+Ansgar Dietrichs: Luca Potuza?
+
+149
+00:35:03.300 --> 00:35:15.469
+Potuz: Yeah, I want to second what Daniel said, and I want to stress that if we… we are going to be able… we're going to be forced to ditch testnets that are on the wrong fork if we actually change the spec.
+
+150
+00:35:15.710 --> 00:35:32.620
+Potuz: And ditching Sepolia is not so bad, but ditching Hoodi is bad. It affects a lot of parties that it's much more decentralized, we have, like, a lot of validators that are going to have to be deployed again, so losing Hoodi would be a problem. Sepolia wouldn't be so much of a problem.
+
+151
+00:35:32.760 --> 00:35:38.509
+Potuz: So I would lean towards delaying Hoodi, just in case that, we might…
+
+152
+00:35:38.930 --> 00:35:42.139
+Potuz: Changes back because of this.
+
+153
+00:35:42.440 --> 00:35:45.560
+Potuz: Otherwise, if we change the spec.
+
+154
+00:35:55.100 --> 00:36:08.429
+lightclient: I mean, sounds like we should delay Hoodi. I don't really hear a good argument to go forward with the fork when there are questions that we need to answer, and losing Hoodi is not good.
+
+155
+00:36:11.120 --> 00:36:27.139
+Parithosh Jayanthi: I… my main counter-argument is that now that releases are out, we would need everyone to have newer releases, and make sure that all of the community has updated the newer releases, which is a non-zero risk of just a failing fork.
+
+156
+00:36:27.400 --> 00:36:34.059
+Parithosh Jayanthi: And if we have a failed fork, then we have to spend a bunch of time actually recovering that, versus,
+
+157
+00:36:34.060 --> 00:36:34.900
+Potuz: We can just say that…
+
+158
+00:36:34.900 --> 00:36:35.790
+Parithosh Jayanthi: Hoodi as you…
+
+159
+00:36:35.790 --> 00:36:40.550
+Potuz: No releases party. We can just say to drop back to the previous… to the previous clients.
+
+160
+00:36:41.860 --> 00:36:43.090
+Parithosh Jayanthi: True. Yeah.
+
+161
+00:36:47.990 --> 00:36:49.030
+Ansgar Dietrichs: Lukasz?
+
+162
+00:36:49.820 --> 00:36:57.720
+Łukasz Rozmej: So I think we can have Glamster done, let's say, V1, that is right now on Sepolia, and if we have to make a change
+
+163
+00:36:57.760 --> 00:37:13.720
+Łukasz Rozmej: to the specs, we have Glamsterdam V2, and then it goes to mainnet, so basically Sepolia has this weird timeline when it's, you know, not all, everything is activated the same way as the mainnet, but I don't think we have to throw away anything by that.
+
+164
+00:37:15.050 --> 00:37:20.839
+Łukasz Rozmej: We just need to support that in the clients, which is a nuisance, but I think a small nuisance.
+
+165
+00:37:25.920 --> 00:37:37.920
+Ansgar Dietrichs: Sounds good. Yeah, it seems to me like this is the main decision that we have to take on this issue in general right now, right? Like, whether to go ahead with Hoodi or to, for now, halt the fork, or try to hold the fork.
+
+166
+00:37:38.140 --> 00:37:49.909
+Ansgar Dietrichs: everything else, then we can take async in terms of next steps and analysis of all of this. So on this issue in particular, it does seem like, so far, there's a few reasons for and a few reasons against.
+
+167
+00:37:51.000 --> 00:38:00.099
+Ansgar Dietrichs: I don't know, I saw also in chat, for example, Barnabas as well, more skeptical of trying to halt the Hoodi fork.
+
+168
+00:38:00.630 --> 00:38:02.710
+Ansgar Dietrichs: And Barnabas, if you want to speak up?
+
+169
+00:38:04.540 --> 00:38:08.599
+Barnabas: Yeah, I'm just, I'm just worried that we might lose Hoodi over this.
+
+170
+00:38:12.380 --> 00:38:25.759
+Ansgar Dietrichs: Right, so it seems like we seem to agree that if it was easy and guaranteed to work to cancel the Hoodi fork for now, we would prefer to do this, or at least maybe for now, prefer to do it, and then we can basically
+
+171
+00:38:26.110 --> 00:38:31.770
+Ansgar Dietrichs: continue… choose to do at a later date. There might just be concerns around how…
+
+172
+00:38:32.190 --> 00:38:35.840
+Ansgar Dietrichs: How likely it is that we can do this without risking the health of the network?
+
+173
+00:38:36.280 --> 00:38:40.989
+Ansgar Dietrichs: Do we have opinions on this? I don't know, Lukasz, you still have your hand up? I'm not sure if… maybe…
+
+174
+00:38:41.990 --> 00:38:43.420
+Ansgar Dietrichs: Otherwise, 21st.
+
+175
+00:38:46.250 --> 00:38:47.959
+Toni Wahrstätter: Yeah, I just wanted to say that
+
+176
+00:38:48.010 --> 00:38:55.300
+Toni Wahrstätter: When we say, we wait for Hoodi, and we want to find out if spec changes are needed, the sounds…
+
+177
+00:38:55.300 --> 00:39:09.059
+Toni Wahrstätter: more trivial than it is, because if we actually want to do any spec changes, it's not like that we can restore those invariants that we are breaking with, Glamsterdam. For example, Cas Left will never
+
+178
+00:39:09.160 --> 00:39:10.080
+Toni Wahrstätter: go up.
+
+179
+00:39:10.520 --> 00:39:18.159
+Toni Wahrstätter: It's not so easy to restore them. So, when we say spec changes here, this is, like, we're talking about quite deep changes, I would say.
+
+180
+00:39:21.430 --> 00:39:38.539
+Ansgar Dietrichs: Right, I guess the argument would be more precautionary. We could always then still say next week, decide to go ahead with Hoodi, like, next ACDC or something, we could decide to go ahead with Hoodi after all. But basically, it's easier to delay a bit and still do it, rather than to do it now and then regret it, so…
+
+181
+00:39:41.980 --> 00:39:49.340
+Toni Wahrstätter: Yeah, I agree with that. It's more like, if we say we won't go ahead with Hoodi, then this could mean, like.
+
+182
+00:39:49.490 --> 00:39:55.610
+Toni Wahrstätter: Hoodi and Sepolia won't happen that far… that soon, because it's not so trivial, but I very much agree.
+
+183
+00:39:57.480 --> 00:39:58.490
+Ansgar Dietrichs: Maria?
+
+184
+00:40:00.360 --> 00:40:09.629
+Maria Silva: Yeah, I think, to me, we really need to figure out this question on the spec changes. Yeah, as Toni was saying, I think in some cases, it's not even…
+
+185
+00:40:09.890 --> 00:40:18.690
+Maria Silva: Like, I don't even know how we would maintain the old, invariant, so I think it's really important for us to just clarify
+
+186
+00:40:19.310 --> 00:40:22.519
+Maria Silva: If we are even in a world where we want to do this.
+
+187
+00:40:22.960 --> 00:40:26.730
+Maria Silva: And for that, I feel like,
+
+188
+00:40:27.530 --> 00:40:34.339
+Maria Silva: To me, it seems like the analysis would be if we find, like, a non-upgradable contract that is large enough
+
+189
+00:40:34.490 --> 00:40:37.429
+Maria Silva: That would warrant, this change.
+
+190
+00:40:37.740 --> 00:40:43.319
+Maria Silva: And so, I don't know, Hubert, if you can talk a bit to that,
+
+191
+00:40:43.900 --> 00:40:53.120
+Maria Silva: Have… you said that your analysis was not comprehensive, but was it comprehensive at least on the… be contracts.
+
+192
+00:40:53.390 --> 00:40:57.160
+Maria Silva: Or… and if not, like, how much time
+
+193
+00:40:57.360 --> 00:41:12.580
+Maria Silva: Would we need to have a more comprehensive analysis, at least on those high-risk ones, so that we know that we won't need to have any spec changes, and it's just a matter of delaying the fork if the Epps need more time?
+
+194
+00:41:14.350 --> 00:41:19.730
+Hubert (ChainSecurity): Yeah, thanks. So the… so we tried to,
+
+195
+00:41:20.930 --> 00:41:30.590
+Hubert (ChainSecurity): I guess, search through… we didn't search specifically through the high-value, contracts. We searched through… we kind of…
+
+196
+00:41:30.770 --> 00:41:40.969
+Hubert (ChainSecurity): used regular expressions through Sourceify, and we sampled random mainnet transactions. The,
+
+197
+00:41:41.760 --> 00:41:52.400
+Hubert (ChainSecurity): we think that, raising awareness will, of course, also help, because these high-value projects can realize by themselves that they are vulnerable. The…
+
+198
+00:41:56.130 --> 00:42:14.979
+Hubert (ChainSecurity): Sorry, just one quick thing before I answer your question, Di. And what I also wrote into chat, we have the problem that we let some of them, or we reached out to some of them, but they are not responding to us because, for example, we are submitting through… we're letting them know through some bug bounty project or some security email list where
+
+199
+00:42:14.980 --> 00:42:23.439
+Hubert (ChainSecurity): simply, they're getting too many, reports, and they have kind of apparently stopped responding. Yeah, so…
+
+200
+00:42:23.450 --> 00:42:32.450
+Hubert (ChainSecurity): for some of them, we have reached out, but we haven't gotten a response, so we… we have a hard time estimating how long this kind of fixing cycle would take.
+
+201
+00:42:32.580 --> 00:42:46.729
+Hubert (ChainSecurity): in terms of, like, how much time do we need to cover, or would someone need to cover the big projects? I think, at least 2-3 weeks. But so far, we have focused on mainnet alone, and I guess the question is,
+
+202
+00:42:46.730 --> 00:42:59.969
+Hubert (ChainSecurity): do we care about, like, big projects deployed on L2s? Do we care about, like, what exactly do we call a big project? And then, that would, of course, change the answer.
+
+203
+00:43:07.720 --> 00:43:14.290
+Maria Silva: Essentially… essentially, this tells me that we are still not sure if there could be…
+
+204
+00:43:14.980 --> 00:43:19.509
+Maria Silva: Issues on large contracts that cannot be upgraded.
+
+205
+00:43:19.870 --> 00:43:25.029
+Maria Silva: So that could mean that, we may still need spec changes.
+
+206
+00:43:26.050 --> 00:43:32.719
+Hubert (ChainSecurity): Yeah, so among the ones that we have found, many of them are upgradable, and the…
+
+207
+00:43:32.870 --> 00:43:37.939
+Hubert (ChainSecurity): Others, they might be able to migrate, but this is…
+
+208
+00:43:38.070 --> 00:43:57.070
+Hubert (ChainSecurity): Honestly, this is a bit hard for us to estimate, because we don't know all of the big DeFi projects in full detail, and we don't know how all their off-chain components tie into it and everything. So, I think, honestly, this will be for the projects themselves to judge how well they can,
+
+209
+00:43:57.070 --> 00:43:59.689
+Hubert (ChainSecurity): How well they can deal with this.
+
+210
+00:44:10.000 --> 00:44:24.750
+Ansgar Dietrichs: Right, so then, I do want to come back for now, because, I mean, I would hope, by the way, like, Hubert, like, I assume you all will be very actively involved in this analysis work then offline, but I don't think… I just think we don't have enough…
+
+211
+00:44:25.050 --> 00:44:27.049
+Ansgar Dietrichs: Of an… of a clear understanding to…
+
+212
+00:44:27.610 --> 00:44:43.160
+Ansgar Dietrichs: today, to really talk right now on the call about also, for example, already, like, specific mitigation steps and everything, so I think all of this will have to wait for a long… for more proper analysis. So I think for now, really, the main question that we can answer today, or need to answer today, is the fate of Hoodi.
+
+213
+00:44:43.260 --> 00:44:46.980
+Ansgar Dietrichs: Everything else, then, is to be decided at a later date.
+
+214
+00:44:47.260 --> 00:44:59.720
+Ansgar Dietrichs: So I really… I'm trying to understand how can we… how can we just… it seems like if we can stop Hoodi safely, without any major impact on the health of the network, we would want to.
+
+215
+00:44:59.960 --> 00:45:18.240
+Ansgar Dietrichs: Do we have any kind of updated opinions on how likely that is, or is there anything we could do to de-risk that? Can we maybe first reach out to node runners, understand whether they would still be able to roll back? Is there anything, basically, we can do to de-risk stopping the Hoodi fog without blowing up the network?
+
+216
+00:45:31.800 --> 00:45:50.720
+Ansgar Dietrichs: Oh, basically, let me ask it this way. Is there any stoppers from making the decision now to… to halt, to basically, to abort the Hoodi fork for now? I would say this is the default decision. It seems like everyone would prefer to do this. So basically, is there any stoppers, anyone that still has major concerns that this would blow up the network?
+
+217
+00:45:51.250 --> 00:45:54.130
+Ansgar Dietrichs: Any reason not to stop the Hoodi fork?
+
+218
+00:46:00.350 --> 00:46:06.740
+Ansgar Dietrichs: Toni, I think, I mean, actually, this is a good question in chat, how long do we want to delay? My default suggestion would have been to just…
+
+219
+00:46:07.050 --> 00:46:10.870
+Ansgar Dietrichs: Stop the fork for now and not set a new date until we understand better.
+
+220
+00:46:11.080 --> 00:46:20.489
+Ansgar Dietrichs: what the considerations here are. But of course, if someone has a reason why we should already set a specific new date, then feel free to propose that.
+
+221
+00:46:50.480 --> 00:47:00.410
+Parithosh Jayanthi: Maybe to Oisin's comment on, on chat, is there, any reason anyone would not be able to revert an update?
+
+222
+00:47:03.970 --> 00:47:06.450
+Oisin Kyne: I say not, I was more wondering if they had…
+
+223
+00:47:07.280 --> 00:47:13.400
+Oisin Kyne: time locks, but, like, I assume no one sets a particularly long time lock on testnets, so they're okay.
+
+224
+00:47:15.180 --> 00:47:17.149
+Oisin Kyne: But I don't have that for confirmed.
+
+225
+00:47:19.900 --> 00:47:20.780
+Parithosh Jayanthi: Okay, perfect.
+
+226
+00:47:34.020 --> 00:47:42.149
+Ansgar Dietrichs: And yes, also just to, because I see, from ethrex in chat, the, the comment.
+
+227
+00:47:42.270 --> 00:47:54.559
+Ansgar Dietrichs: that this will most likely delay the main network date into 2027. I think this is correct, but I think the overall sentiment is, and I think correctly is, that at this point at least, it's not at all clear that this is…
+
+228
+00:47:54.940 --> 00:48:03.540
+Ansgar Dietrichs: That the impact here is small enough or contained enough that it would not be worth delaying, and so the responsible thing to do is to…
+
+229
+00:48:03.750 --> 00:48:11.220
+Ansgar Dietrichs: to take that cost, accept that cost, and so, yes, by… by delaying Hoodi, I think chances… this makes the chance of a…
+
+230
+00:48:11.640 --> 00:48:17.839
+Ansgar Dietrichs: a mainnet fork before the end of the year, very unlikely, but that is a cost that, is necessary in this case.
+
+231
+00:48:24.710 --> 00:48:38.699
+Ansgar Dietrichs: Okay, so then, going once, going twice, if anyone still has any specific blockers, any reason for why we should not make the decision to delay Hoodi speak now, otherwise we would just lock that decision in. Of course, can always reconsider async if something comes up, but…
+
+232
+00:48:43.650 --> 00:48:49.490
+Barnabas: I think it would be wise for us to make a follow-up blog post to your blog post.
+
+233
+00:48:50.430 --> 00:48:55.060
+Barnabas: I should say… Decided to reschedule, basically, the fork.
+
+234
+00:48:55.210 --> 00:48:58.340
+Barnabas: I would actually ask, client teams to…
+
+235
+00:48:58.760 --> 00:49:03.499
+Barnabas: Push out a new release as well, just so if… Someone is running, like, latest.
+
+236
+00:49:04.650 --> 00:49:08.159
+Barnabas: Then they would get the unscheduled Hoodi releases.
+
+237
+00:49:13.180 --> 00:49:15.250
+Dustin: One point there, as far as
+
+238
+00:49:15.580 --> 00:49:21.820
+Dustin: Nimbus, as usual, we vendor Hoodi directly. Must, must, must go into Hoodi.
+
+239
+00:49:30.170 --> 00:49:31.650
+Dustin: The Ethias one.
+
+240
+00:49:34.840 --> 00:49:36.489
+Ansgar Dietrichs: So, can… can you say this again?
+
+241
+00:49:39.040 --> 00:49:44.919
+Dustin: Nimbus, I think, possibly uniquely among clients, I'm not certain, but regardless, if some color pie does it.
+
+242
+00:49:45.210 --> 00:49:56.769
+Dustin: applies to them, too. We do not have a separate configuration thing where we set when Hoodi goes, etc, or any of the other test customers. We directly vendor each client's Hoodi
+
+243
+00:49:57.290 --> 00:49:58.410
+Dustin: Right, so…
+
+244
+00:49:58.640 --> 00:50:04.349
+Dustin: we can do a release, but for that release to happen, must, must, must go into ET Kyne's Hoodi.
+
+245
+00:50:06.200 --> 00:50:07.820
+Barnabas: Yeah, we can get that done today.
+
+246
+00:50:07.820 --> 00:50:10.100
+Parithosh Jayanthi: Yeah, we'll… we'll have the PRID.
+
+247
+00:50:10.950 --> 00:50:12.999
+Dustin: Oh, okay, great, that's all I wanted to.
+
+248
+00:50:33.120 --> 00:50:36.889
+Ansgar Dietrichs: Okay, so then let's… it sounds like let's lock in the decision.
+
+249
+00:50:37.450 --> 00:50:43.570
+Oisin Kyne: Harry, one second, Dima Enco I've got in touch with, and I think would like to hop on and say something.
+
+250
+00:50:45.530 --> 00:51:03.590
+Ansgar Dietrichs: Yep, sounds good. We could also, by the way, if that is valuable, we could also, if anyone else basically is trying to get hold of anyone, we could also check back in on this decision towards the end of the call or something, just in case anyone else joined, but for now, we can also briefly wait.
+
+251
+00:51:09.760 --> 00:51:26.720
+Ansgar Dietrichs: In the meantime, if we… assuming for now at least, assuming for now we do go with the decision, is there anything else logistically? We already said the bug post, the client releases, is there anything else logistically we should discuss right now, in terms of how to then go ahead with it with the board at Hard Fork?
+
+252
+00:51:31.180 --> 00:51:42.049
+saulius: Just one idea, maybe if we set the date, the new date, for the Hoodi right now, and include in those releases, then…
+
+253
+00:51:42.280 --> 00:51:51.889
+saulius: We… We will save some time, because if we just now postpone for an unknown period.
+
+254
+00:51:52.340 --> 00:52:00.990
+saulius: We will have releases now for that, and then we will need another release, for the date, for the new HotForg, date.
+
+255
+00:52:04.640 --> 00:52:07.669
+saulius: I mean, we may just guess that,
+
+256
+00:52:08.420 --> 00:52:15.880
+saulius: Hoodi on, the glass, or on Hoodi… the new date will be, like, in a month or something, and if we can…
+
+257
+00:52:16.000 --> 00:52:21.100
+saulius: Decide on that quickly. We will save some… Sometime.
+
+258
+00:52:30.600 --> 00:52:37.220
+Ansgar Dietrichs: Yeah, I see some skepticism about this in chat from Barnabas, and some thumbs up.
+
+259
+00:52:37.740 --> 00:52:42.250
+Ansgar Dietrichs: Yeah, Dima, yeah, so background is that there's some,
+
+260
+00:52:42.610 --> 00:52:47.700
+Ansgar Dietrichs: security concerns that, that, recently, came up. There is a…
+
+261
+00:52:47.860 --> 00:52:58.780
+Ansgar Dietrichs: a chain security, report about, some impacts of the, of the, of the, mostly the repricings, but, but, but, but the general, the, the repricing EIPs.
+
+262
+00:52:58.780 --> 00:53:12.949
+Ansgar Dietrichs: some contracts that are impacted, and so it seems like the current… the previous analysis, has just not been full coverage enough, so that there… at a minimum now, needs to be a bit more time to understand
+
+263
+00:53:13.130 --> 00:53:26.380
+Ansgar Dietrichs: which projects on the mainnet are impacted, to, to give them time to upgrade, and potentially, if the impacts are very severe, and if there's anything we can do about it, potentially make some small spec adjustments to Glamstadam.
+
+264
+00:53:26.490 --> 00:53:34.970
+Ansgar Dietrichs: In either case, given that, it's not at all even clear whether the Kant PlumSum specs will be the final specs,
+
+265
+00:53:34.990 --> 00:53:50.919
+Ansgar Dietrichs: but also specifically because it could be valuable to have testnets, both with the pre-Glampsadam and the post-Glamsodam specifications. There was the desire to delay the upcoming, the Hoodi hard fork next week. And so then the question was… one question was whether, from the Lido side.
+
+266
+00:53:51.000 --> 00:54:00.819
+Ansgar Dietrichs: there might be concerns around, like, obviously now very short notice, cancelling the Hoodi hard fork, or whether that would be possible for you all. I'm not sure if you can speak up on this.
+
+267
+00:54:01.140 --> 00:54:12.920
+Dima Gusakov | Lido: Yeah, I definitely can. So, it depends on what things you are about to change in the specs. So, first of all, we have already upgraded the protocol, like, 2 hours… not 2 hours ago, but yesterday.
+
+268
+00:54:14.030 --> 00:54:20.110
+Dima Gusakov | Lido: If the expected change is only within repricings.
+
+269
+00:54:20.720 --> 00:54:28.260
+Dima Gusakov | Lido: Except for the fact that you will make prices even higher, and then it will blow up something on our side, we are good.
+
+270
+00:54:28.550 --> 00:54:31.580
+Dima Gusakov | Lido: If we are talking other changes.
+
+271
+00:54:31.820 --> 00:54:47.990
+Dima Gusakov | Lido: Then I need to know what… what changes we're talking about, and then we will need to figure out, like, how to roll back some stuff. In general, the upgrade for Lido was mostly off-chain. Like, I believe most of the on-chain parts can be rolled back if needed.
+
+272
+00:54:48.080 --> 00:54:54.069
+Dima Gusakov | Lido: So, in general, I don't see, like, at the moment, a significant concern
+
+273
+00:54:55.480 --> 00:55:07.320
+Dima Gusakov | Lido: regarding delaying hard fork, other than the fact that we already have the date set within the contracts, like, for all of the contracts that are interacting with Consensus layer, we have this…
+
+274
+00:55:08.890 --> 00:55:20.639
+Dima Gusakov | Lido: Jesus Christ, pivot slot, for the hard work, but again, it's doable, we can roll those contracts back, no big issue. So, it heavily depends on what you guys are planning to change in the spec.
+
+275
+00:55:21.800 --> 00:55:34.840
+Ansgar Dietrichs: Right, so just for clarification, there would be no alternative Glamsadam spec anytime soon, so it's just about basically just staying on the Fusaka spec, for now. Basically, just not doing the Glamstadam art fork on Hoodi at all.
+
+276
+00:55:36.130 --> 00:55:38.750
+Dima Gusakov | Lido: For how long? For an unknown period of time.
+
+277
+00:55:39.080 --> 00:55:41.380
+Ansgar Dietrichs: Yes, unknown period for now.
+
+278
+00:55:43.730 --> 00:55:52.650
+Dima Gusakov | Lido: Okay, well, yeah, I guess we can live with it. We will need to do a rollback of all of the changes we made, but not the end of the world.
+
+279
+00:55:52.810 --> 00:55:54.589
+Dima Gusakov | Lido: Definitely doable tomorrow.
+
+280
+00:55:57.970 --> 00:55:58.840
+Ansgar Dietrichs: Potuz?
+
+281
+00:55:59.130 --> 00:56:12.250
+Potuz: Yeah, the question for Dima, more than how is Lido affected, is how much stake Lido has. Can we count on you to, like, revert to your clients so that we achieve finality?
+
+282
+00:56:12.360 --> 00:56:16.399
+Potuz: In case a bunch of people show up with the clients already forking into…
+
+283
+00:56:18.350 --> 00:56:26.049
+Dima Gusakov | Lido: Yeah, that's a good question. Well, I wish we were a single operator, and I could tell you that, okay, I'll ask DevOps to roll out clients.
+
+284
+00:56:26.520 --> 00:56:37.480
+Dima Gusakov | Lido: The thing is that the setup for Lido is the same as on mainnet, so it's 30-something, big operators and then small operators in CSM that I can only ask not to update.
+
+285
+00:56:37.680 --> 00:56:47.139
+Dima Gusakov | Lido: or to roll back. So, in general, we are open to help and collaborate here, and we will definitely reach out to our operators, asking them to,
+
+286
+00:56:47.270 --> 00:56:50.899
+Dima Gusakov | Lido: Updates to whatever client version, or rollback to whatever.
+
+287
+00:56:51.050 --> 00:57:08.900
+Dima Gusakov | Lido: versions you guys will provide. I cannot guarantee that, like, 100% of Lido Steak will… will be up-to-date by the time you decide… by the time the hard fork should have happened, but we will do our best on our side, definitely, to support the network and not let it fall apart.
+
+288
+00:57:17.400 --> 00:57:18.160
+Ansgar Dietrichs: Kev.
+
+289
+00:57:20.610 --> 00:57:26.370
+Kevaundray Wedderburn: Yeah, just a quick follow-up question to Dima. Do you know what the total amount of stake is?
+
+290
+00:57:27.080 --> 00:57:28.360
+Kevaundray Wedderburn: For, for Leiner?
+
+291
+00:57:28.360 --> 00:57:33.780
+Dima Gusakov | Lido: 2.3 million, as far as I see now. So, not, like, a huge portion.
+
+292
+00:57:36.870 --> 00:57:48.700
+Dima Gusakov | Lido: But again, all of the stake that Lido operators are running outside Lido and Hoodi, I have no idea how much, but again, we have, we can reach out to, like, the majority of
+
+293
+00:57:49.100 --> 00:57:53.150
+Dima Gusakov | Lido: Big professional operators and, home stakers.
+
+294
+00:57:53.750 --> 00:57:59.469
+Dima Gusakov | Lido: But again, we can only reach out and ask them to do that. We cannot guarantee that, unfortunately. This is how protocol works.
+
+295
+00:58:19.420 --> 00:58:30.709
+Ansgar Dietrichs: Sounds good. So, doesn't sound like any specific, blockers, then, from your side either? Like, sounds like, you would be okay with going ahead with aborting the hard fork, then?
+
+296
+00:58:30.820 --> 00:58:32.290
+Ansgar Dietrichs: Mmm…
+
+297
+00:58:32.490 --> 00:58:41.770
+Ansgar Dietrichs: Is there anything else in terms of the logistics, out… around how to… how to basically handle this… this aborted artwork that we should still discuss?
+
+298
+00:58:52.450 --> 00:58:53.260
+Ansgar Dietrichs: Kev?
+
+299
+00:58:55.480 --> 00:59:08.959
+Kevaundray Wedderburn: Yeah, just to confirm, so the two next steps are for a blog post to notify the ecosystem, and for ELs to push a new release that just reverts the Glamsterdam changes.
+
+300
+00:59:09.170 --> 00:59:10.390
+Kevaundray Wedderburn: Is that correct?
+
+301
+00:59:15.200 --> 00:59:16.839
+Ansgar Dietrichs: That would be my understanding.
+
+302
+00:59:17.080 --> 00:59:29.449
+Ansgar Dietrichs: But the blog post should not wait for the releases, right? The blog post should just recommend the… going back to the earlier releases, pre the Glamster Damfork. It's just that for those, just…
+
+303
+00:59:29.860 --> 00:59:33.080
+Ansgar Dietrichs: listening to the latest releases. They also have the latest releases.
+
+304
+00:59:42.160 --> 00:59:55.430
+Ansgar Dietrichs: Okay, sounds good. Then, of course, these things are never great if they happen, but it seems like we then have clear understanding of the next steps here. Is there anything else we should discuss in terms of, over the next days, how the…
+
+305
+00:59:55.580 --> 01:00:06.429
+Ansgar Dietrichs: analysis work should happen, in terms of, obviously, ideally, we get to a place where we can start to make some assessments as early as possible, including, say.
+
+306
+01:00:07.070 --> 01:00:22.530
+Ansgar Dietrichs: should we consider spec changes? And so on. Again, there's no… in the sense of, like, we will take whatever time it needs, but I'm wondering if… is there anything we should discuss now? We should decide now in terms of how to go about the analysis? Fredrik?
+
+307
+01:00:24.050 --> 01:00:34.770
+Fredrik: Yeah, so… there's been a group created where this is being discussed. There's also been an
+
+308
+01:00:35.220 --> 01:00:41.829
+Fredrik: We reached out to a few different parties, some of them were mentioned in the chat already.
+
+309
+01:00:42.100 --> 01:00:53.030
+Fredrik: To see their ability to do the analysis, and in what timeframe they will do it. So hopefully we would have an answer on that.
+
+310
+01:00:53.270 --> 01:01:01.280
+Fredrik: By end of day… And then we have, few people…
+
+311
+01:01:01.710 --> 01:01:07.980
+Fredrik: I guess, who are here, that are also looking into this from various perspectives.
+
+312
+01:01:08.790 --> 01:01:19.560
+Fredrik: I believe, Francesco, Toni and Perry, and others are looking into this, from different types of angles.
+
+313
+01:01:20.080 --> 01:01:24.629
+Fredrik: So I do think in the next couple of days, we will…
+
+314
+01:01:24.770 --> 01:01:29.719
+Fredrik: Have more information on when we can expect the analysis to be done, and…
+
+315
+01:01:30.840 --> 01:01:34.589
+Fredrik: Yeah, that would probably be the next step here, I think.
+
+316
+01:01:35.760 --> 01:01:41.250
+Fredrik: I guess by ACDT, we should be able to present, more details on this.
+
+317
+01:01:44.920 --> 01:01:54.709
+Ansgar Dietrichs: Sounds good. Then my understanding would be that there's no use in basically using any of the standard ACD toolkit tools, like…
+
+318
+01:01:55.160 --> 01:02:00.580
+Ansgar Dietrichs: scheduling a breakout call or something, I feel like it's… that's not really what's called for here, it's more…
+
+319
+01:02:00.790 --> 01:02:10.339
+Ansgar Dietrichs: this, async work that will happen anyway, and then on ACDT, we can see about next steps. Is that right? I mean, seems right to me.
+
+320
+01:02:18.980 --> 01:02:32.689
+Ansgar Dietrichs: Yeah, Matt, so Matt asks in chat, should we discuss a bit what findings would cause us to change the spec? I'm a little skeptical about this, but I'm open to it, though. Maybe, Matt, if you want to speak up as well, maybe just to briefly say my skepticism.
+
+321
+01:02:32.690 --> 01:02:42.259
+Ansgar Dietrichs: I think it's a somewhat nuanced topic, because, say, some of… some of the changes, for example, or some of the problems, they… they…
+
+322
+01:02:42.260 --> 01:02:57.230
+Ansgar Dietrichs: obviously contrived, simple, simplistic example that was given in the presentation. I think that one was a specific instance of something that is just a general consequence of any repricings, or can at least be a consequence of any repricing, so basically.
+
+323
+01:02:57.290 --> 01:03:13.240
+Ansgar Dietrichs: that is very hard to change, but there's also some specific Lamsterdam behavior around… there was, I think, in the blog post, around the refunds, and also around the reservoir construction, the state gas reservoir.
+
+324
+01:03:13.260 --> 01:03:24.349
+Ansgar Dietrichs: it feels like it's a very nuanced question that depends a lot on, like, what we actually see in terms of real world, which types of patterns actually exist. I'm not sure that it's…
+
+325
+01:03:24.880 --> 01:03:32.149
+Ansgar Dietrichs: it's going to be that easy to have a high signal discussion about this right now, but Matt, if you maybe want to briefly at least talk about it?
+
+326
+01:03:32.400 --> 01:03:33.570
+Ansgar Dietrichs: Seems reasonable.
+
+327
+01:03:35.850 --> 01:03:38.000
+lightclient: Well, thanks for the intro to the discussion.
+
+328
+01:03:38.830 --> 01:03:43.990
+lightclient: I mean, I sent a message in the chat a little bit earlier.
+
+329
+01:03:44.160 --> 01:03:46.980
+lightclient: That sort of expresses some of my views, but…
+
+330
+01:03:47.390 --> 01:03:53.139
+lightclient: I feel like I'm getting the sense from the way the conversation's unfolding a bit, is that…
+
+331
+01:03:53.840 --> 01:04:05.620
+lightclient: We are trying to almost prove that some of these, like, you know, initial findings that we're having, we're trying to, like, prove that this is somehow an invariant that we told developers could break.
+
+332
+01:04:05.930 --> 01:04:13.220
+lightclient: And it's now breaking, and so therefore, we're, like, trying to maybe assign fault towards those developers.
+
+333
+01:04:13.660 --> 01:04:22.489
+lightclient: And, to me, that feels a bit of a wrong way to approach this. Like, I think that we have done a fair bit of education around
+
+334
+01:04:22.720 --> 01:04:31.650
+lightclient: you know, gas prices will change, or gas costs will change, don't hard code your gas costs. But I think, like, the examples we're seeing are…
+
+335
+01:04:32.220 --> 01:04:37.159
+lightclient: A lot more complicated than someone who's hard-coded the gas cost into the call-up code.
+
+336
+01:04:37.330 --> 01:04:40.579
+lightclient: And I think that, at the end of the day, if
+
+337
+01:04:40.820 --> 01:04:47.980
+lightclient: a sufficient number of users, or a sufficient amount of funds on mainnet are making use of a functionality.
+
+338
+01:04:48.560 --> 01:04:55.219
+lightclient: That we can't just… Say we have to, you know, Break that functionality.
+
+339
+01:04:55.550 --> 01:04:57.080
+lightclient: Obviously, there's…
+
+340
+01:04:57.300 --> 01:05:05.260
+lightclient: nuance to these arguments always, but if we find that there's a lot of contracts who are using this, and we find there's a lot of funds that are locked into this.
+
+341
+01:05:06.920 --> 01:05:20.659
+lightclient: I mean, I personally don't think we should break the user space, for those reasons. If we do decide to break the user space, you know, some of these things are upgradable, then we have the question of.
+
+342
+01:05:21.020 --> 01:05:25.409
+lightclient: When can we do this main… this upgrade to mainnet?
+
+343
+01:05:26.970 --> 01:05:35.770
+lightclient: Would we give protocols a period of time where they need to go and upgrade their contracts and go and audit those upgraded contracts?
+
+344
+01:05:36.330 --> 01:05:48.459
+lightclient: what's the forcing function there? Would we be willing to do mainnet even if some protocols haven't upgraded because, you know, we've decided they're dragging their feet? Like, I think we start getting into, like, extremely messy situations there.
+
+345
+01:05:50.090 --> 01:05:59.730
+lightclient: So I'm curious if there's arguments against this, what other people are thinking in terms of breaking user contracts.
+
+346
+01:06:03.370 --> 01:06:08.939
+Ansgar Dietrichs: Yeah, do we have anyone else with, thoughts on this?
+
+347
+01:06:09.210 --> 01:06:12.210
+Ansgar Dietrichs: Again, today will only be the start of that conversation, but…
+
+348
+01:06:12.920 --> 01:06:14.949
+Ansgar Dietrichs: Reasonable to have that start now.
+
+349
+01:06:23.380 --> 01:06:34.059
+Hubert (ChainSecurity): Yeah, maybe really quickly. So, as I said, we somewhat had a discussion before with a previous hard fork when I was involved in it, but, like, the…
+
+350
+01:06:34.830 --> 01:06:49.439
+Hubert (ChainSecurity): I think, on the one hand, it's kind of what Matt said, and he said of, you have potentially immutable contracts on a somewhat mutable execution layer, and, how are people supposed to do this?
+
+351
+01:06:49.640 --> 01:06:55.780
+Hubert (ChainSecurity): On the other hand, I also agree that we kind of…
+
+352
+01:06:56.790 --> 01:07:02.350
+Hubert (ChainSecurity): Certain changes will be necessary, and, the…
+
+353
+01:07:02.470 --> 01:07:06.880
+Hubert (ChainSecurity): kind of… they might not be able to wait forever. So, yeah, I think…
+
+354
+01:07:07.060 --> 01:07:09.820
+Hubert (ChainSecurity): Hence, it will be very hard to…
+
+355
+01:07:09.970 --> 01:07:18.180
+Hubert (ChainSecurity): kind of find a balance here, find a balance here up front. I think we will have to see what the cases…
+
+356
+01:07:31.330 --> 01:07:35.679
+Ansgar Dietrichs: I see several contributions on chat, anyone else that wants to speak up on this?
+
+357
+01:07:42.650 --> 01:07:43.520
+Ansgar Dietrichs: Toni?
+
+358
+01:07:43.910 --> 01:07:46.610
+Toni Wahrstätter: Yeah, I said the same in the chat, I think…
+
+359
+01:07:47.360 --> 01:07:59.529
+Toni Wahrstätter: Of course, like, if very fundamental functionalities or, big contracts, big user… big contracts with, big, a lot of users would break or anything similar to that.
+
+360
+01:07:59.830 --> 01:08:05.609
+Toni Wahrstätter: We would, of course, change the spec and avoid that, and delay the hard fork.
+
+361
+01:08:05.880 --> 01:08:13.260
+Toni Wahrstätter: But at this point, it's just too early, because we don't really know what is the actual impact on those users. We already know that
+
+362
+01:08:13.790 --> 01:08:21.550
+Toni Wahrstätter: Some invariants will be broken, and we have to check, like, how fundamental are those invariants, which is something we don't yet understand very well.
+
+363
+01:08:21.880 --> 01:08:22.899
+Toni Wahrstätter: And…
+
+364
+01:08:23.020 --> 01:08:29.760
+Toni Wahrstätter: Then we can discuss, how to… how to approach it in case we actually find out we want to change the specs.
+
+365
+01:08:30.180 --> 01:08:31.930
+Toni Wahrstätter: Because it's not so clear that
+
+366
+01:08:32.040 --> 01:08:40.100
+Toni Wahrstätter: We can even just add those invariants into the protocol again without undoing, like, big parts of
+
+367
+01:08:40.680 --> 01:08:43.020
+Toni Wahrstätter: what made those EIPs worth it?
+
+368
+01:08:43.290 --> 01:08:50.949
+Toni Wahrstätter: So, yeah, I think it's too early to speculate about potential things that we know better next week or in two weeks.
+
+369
+01:09:01.130 --> 01:09:05.110
+Ansgar Dietrichs: Anyone else with, thoughts on this?
+
+370
+01:09:10.359 --> 01:09:19.869
+Ansgar Dietrichs: But yeah, otherwise, I'm… maybe also then, kind of, if there's no clear, other, hands here raised, then maybe good stopping point on this for now.
+
+371
+01:09:20.270 --> 01:09:29.680
+Ansgar Dietrichs: But I think I agree with both Matt and Tony, right? Decision one is, will there be spec changes? I didn't want to steer the conversation towards the answer no, this might very well be a yes.
+
+372
+01:09:29.950 --> 01:09:33.269
+Ansgar Dietrichs: So A, will there be spec changes? And then B,
+
+373
+01:09:33.990 --> 01:09:38.600
+Ansgar Dietrichs: Of course, dependent on the first answer, when will mainnet roll out.
+
+374
+01:09:38.729 --> 01:09:45.250
+Ansgar Dietrichs: One thing that is, I think, good to keep in mind is that, in terms of work on,
+
+375
+01:09:45.270 --> 01:09:51.119
+Ansgar Dietrichs: HeGotta, which will be the next topic here on the call as well, for the remaining part of the call.
+
+376
+01:09:51.140 --> 01:10:03.610
+Ansgar Dietrichs: As long as there are no major spec changes, which, of course, again, they might still come down the road here, but as long as there are no major spec changes, then, work on a quota in principle can happen in parallel.
+
+377
+01:10:03.610 --> 01:10:13.379
+Ansgar Dietrichs: So even if we end up delaying the hard work for quite a bit, it's not obvious that that would necessarily have so much follow-on effects in terms of…
+
+378
+01:10:13.430 --> 01:10:15.260
+Ansgar Dietrichs: Delays of later, HardFox.
+
+379
+01:10:18.020 --> 01:10:37.259
+Ansgar Dietrichs: Okay, do we have any… anyone with any closing comments still on this general topic, the general topic here of, anything really related to Glamsterdam? Both the security situation more specifically, or Hoodi, or anything else really related to Glampsadam?
+
+380
+01:10:48.100 --> 01:10:56.850
+Dima Gusakov | Lido: Like, just to confirm, so the decision is that you guys are canceling Hard Fork on Hoodi, as well as on Maynet for an indefinite period until the further notice?
+
+381
+01:10:57.440 --> 01:11:00.899
+Ansgar Dietrichs: Yes, so mainnet was never scheduled yet, that was supposed to happen next week.
+
+382
+01:11:00.900 --> 01:11:01.530
+Dima Gusakov | Lido: That's true.
+
+383
+01:11:01.890 --> 01:11:08.250
+Ansgar Dietrichs: So for now, mainnet is just implicitly halted, but yes, Hoodi specifically is canceled, hereby. Okay.
+
+384
+01:11:08.630 --> 01:11:11.630
+Dima Gusakov | Lido: Okay, cool. I'll take actions on Ladus side, thank you.
+
+385
+01:11:12.230 --> 01:11:14.970
+Ansgar Dietrichs: Perfect. Yes, sorry, that's… yeah, so…
+
+386
+01:11:15.160 --> 01:11:26.299
+Ansgar Dietrichs: very explicitly, Hoodi, for now, is canceled. And there's no… no new date for Hoodi set yet, this will be decided at a later time. So for now, it's just… Hoodi is canceled, and…
+
+387
+01:11:26.880 --> 01:11:27.580
+Ansgar Dietrichs: Yep.
+
+388
+01:11:29.160 --> 01:11:30.340
+Ansgar Dietrichs: Shabba?
+
+389
+01:11:31.820 --> 01:11:34.110
+Csaba: Yeah, I was joining late, and I heard that the…
+
+390
+01:11:34.270 --> 01:11:38.790
+Csaba: there's supposed to be a recommendation to the clients? Is that really needed?
+
+391
+01:11:42.650 --> 01:11:45.029
+Ansgar Dietrichs: I think the intention… oh, sorry, go ahead.
+
+392
+01:11:45.900 --> 01:11:52.729
+Csaba: Yeah, no, I just wanted to say, to me, it seems, at least for those clients who can just continue, it's much…
+
+393
+01:11:53.060 --> 01:11:56.140
+Csaba: There's confusion if there's no such recommendation going out.
+
+394
+01:12:02.030 --> 01:12:12.339
+Ansgar Dietrichs: Yeah, do we have thoughts on this? I mean, I think we just have to make a decision. I think the original intention was just for timeliness reasons, so we can basically have the blog post out ASAP, instead of having to wait and coordinate.
+
+395
+01:12:14.060 --> 01:12:15.109
+Ansgar Dietrichs: put us?
+
+396
+01:12:15.690 --> 01:12:24.510
+Potuz: We've already triggered the release, we have a bunch of security patches, and I believe other clients also have security patches that they would want to have users, at least on mainnet, using.
+
+397
+01:12:24.710 --> 01:12:38.099
+Potuz: On the other hand, I believe that we can act right now and have the blog post as soon as now, rolling back the Hoodi fork and instructing users that have already updated to either roll back
+
+398
+01:12:38.100 --> 01:12:45.269
+Potuz: or wait for their clients to have a new release, but just to have this in mind. I mean, this… the notice of this should be going out right now.
+
+399
+01:12:55.400 --> 01:13:09.319
+Ansgar Dietrichs: Right, so would it make sense in the blog post to basically have a list of, here is the clients that already have a new release, we keep adding this and adding them as they come, but basically say, if your client does not yet have a new release, basically your recommendation is to roll back.
+
+400
+01:13:09.430 --> 01:13:12.329
+Ansgar Dietrichs: Is that a good pragmatic way of handling this?
+
+401
+01:13:19.150 --> 01:13:28.029
+Ansgar Dietrichs: Okay, sounds good. So then, that's how we will do it. We'll go ahead, blog post, and we will keep the blog post up to date with any of the new client releases.
+
+402
+01:13:33.830 --> 01:13:45.290
+Ansgar Dietrichs: Okay, sounds good. Then, any, I think, ongoing discussion can still happen in chat on this. I do think it still makes sense to use the remaining 25 minutes for the Higota section of the call.
+
+403
+01:13:45.720 --> 01:13:56.069
+Ansgar Dietrichs: I know it's a pretty hard cut now, context-wise, but I think it's still valuable to keep having that work also go on in parallel.
+
+404
+01:13:56.530 --> 01:14:03.080
+Ansgar Dietrichs: So, on that note, just going down the agenda there, the first point that we had,
+
+405
+01:14:03.270 --> 01:14:20.270
+Ansgar Dietrichs: Well, actually, let me briefly pull forward the miscellaneous, the one-point miscellaneous point, because I think, actually, we might need this next week. Barnabas, you wanted to propose extending ACDT time to 90 minutes. I feel like, especially now, it might actually be quite valuable, so let's do that first. Do you want to briefly speak up on this?
+
+406
+01:14:22.610 --> 01:14:25.210
+Barnabas: Yeah, I mean, you described the question.
+
+407
+01:14:25.480 --> 01:14:27.859
+Barnabas: Whether we want 90 minutes or 60 minutes.
+
+408
+01:14:28.110 --> 01:14:36.260
+Barnabas: I think, we've been running out of time in ACDT quite a lot in the 60 minutes, so I think it would be time to officially
+
+409
+01:14:36.820 --> 01:14:40.029
+Barnabas: Preserve 90 minutes for all future ACD calls.
+
+410
+01:14:46.010 --> 01:14:50.519
+Ansgar Dietrichs: Seems reasonable to me. Anyone strongly objecting? Speak now.
+
+411
+01:14:58.000 --> 01:15:00.210
+Ansgar Dietrichs: Okay, so 19 minutes of this.
+
+412
+01:15:01.220 --> 01:15:02.530
+Ansgar Dietrichs: Sounds, sounds good.
+
+413
+01:15:03.770 --> 01:15:16.960
+Ansgar Dietrichs: Thank you on that. And then, Barnabas, you're also up right again. The first item on Hikota was, I think you wanted to just briefly mention the dynamic base fee calculation adjustment for shorter slots,
+
+414
+01:15:17.620 --> 01:15:20.920
+Ansgar Dietrichs: Just for awareness, do you want to briefly say a few words on this?
+
+415
+01:15:22.070 --> 01:15:27.840
+Barnabas: Yeah, most of the clients already took a look at this, PR, so it's basically using,
+
+416
+01:15:28.060 --> 01:15:32.640
+Barnabas: Derived base fee calculations of a hard-coded version.
+
+417
+01:15:32.750 --> 01:15:38.320
+Barnabas: So this way, we can test, different kind of, slot, seconds per slot.
+
+418
+01:15:38.590 --> 01:15:46.599
+Barnabas: values without needing to always change the ER code for, A fixed, fraction.
+
+419
+01:15:47.990 --> 01:15:51.120
+Barnabas: as most of the clients already approved this, I'm gonna…
+
+420
+01:15:51.430 --> 01:15:55.230
+Barnabas: work on trying to get this merged into the EIP.
+
+421
+01:15:57.470 --> 01:16:03.530
+Barnabas: Yeah, that's about it. Just want to raise some more awareness for clients that have not taken a look at it yet.
+
+422
+01:16:06.660 --> 01:16:13.060
+Ansgar Dietrichs: Sounds good. So, anyone who has not yet taken a look, or not enough of a look, yeah, make sure you're up to date.
+
+423
+01:16:15.010 --> 01:16:17.629
+Ansgar Dietrichs: Okay, then, next…
+
+424
+01:16:18.090 --> 01:16:28.340
+Ansgar Dietrichs: Item, that one is specifically… there was… there's always the… there's been a desire, to have…
+
+425
+01:16:29.570 --> 01:16:43.759
+Ansgar Dietrichs: a rough, agreed-upon priority ranking of EIPs for the, kind of, upcoming hard forks, so that the testing team can prioritize which ones to assess in more detail first, and then also that there's…
+
+426
+01:16:43.760 --> 01:16:47.450
+Ansgar Dietrichs: Ahead of time, a rough understanding, a rough shared understanding of
+
+427
+01:16:47.450 --> 01:17:04.009
+Ansgar Dietrichs: in which order they will go into DevNets. The idea is not for this to be literally binding, so that, like, you know, you can never include, say, something a bit further down the list before you include the topmost one, but to at least basically, like, have a shared basis, or expectation basis to operate under.
+
+428
+01:17:04.010 --> 01:17:05.040
+Ansgar Dietrichs: M…
+
+429
+01:17:05.320 --> 01:17:22.980
+Ansgar Dietrichs: Nixo took the time to put together a, kind of, a first proposed version. I wanted to go over this as well, but then the glam sound topic took up a lot of time today in preparation, so just was wondering, whether
+
+430
+01:17:23.490 --> 01:17:24.940
+Ansgar Dietrichs: We want to…
+
+431
+01:17:25.340 --> 01:17:31.620
+Ansgar Dietrichs: Yeah, I mean, A, in general, if people disagree, that having some sort of… again, this can be a living document where we can, over time.
+
+432
+01:17:31.760 --> 01:17:37.820
+Ansgar Dietrichs: roughly reshuffle the ordering a bit, as, for example, some EIPs end up
+
+433
+01:17:37.900 --> 01:17:56.670
+Ansgar Dietrichs: looking a bit heavier than they initially were, or something like this, but, just, just to basically, like, use maybe just this, the linked list as a draft, as a V1, and then basically, like, async, iterate on it, and, and figure out, for example, what is a good format to keep this list in, like, where should it live?
+
+434
+01:17:56.670 --> 01:18:04.310
+Ansgar Dietrichs: all of this, I think, again, given that it's not binding in any direct sense, I don't think it needs super strict governance here, so I just wanted to basically.
+
+435
+01:18:04.340 --> 01:18:12.890
+Ansgar Dietrichs: have some sort of shared agreement that for now, it's also linked in the agenda that we are for now just using this list, and then if we want to adjust the ordering, if people
+
+436
+01:18:13.730 --> 01:18:19.849
+Ansgar Dietrichs: have any… quibbles with it, we can iterate on this, but yeah. So…
+
+437
+01:18:20.310 --> 01:18:27.830
+Ansgar Dietrichs: Just going once, going twice, basically, anyone who wants to protest this approach, or… again, nothing locked in forever, but…
+
+438
+01:18:29.720 --> 01:18:41.440
+Ansgar Dietrichs: And I agree with Spencer's comment as well in chat, that I think this is one of those areas where, like, going into the next, next scoping process for ISTA, I think, ideally, we can make this even more, kind of like.
+
+439
+01:18:41.690 --> 01:18:49.969
+Ansgar Dietrichs: kind of directly, natively part of the scoping process to have EIPs in an ordered way.
+
+440
+01:18:52.150 --> 01:18:57.410
+lightclient: I think it would be good to talk more about how we would want to approach the next scoping.
+
+441
+01:18:57.530 --> 01:19:01.819
+lightclient: Because I feel like a similar related issue with this is that I think
+
+442
+01:19:03.110 --> 01:19:10.329
+lightclient: Right now, when we go… when we have an EIP, which is PFI, the default is kind of to reject.
+
+443
+01:19:11.260 --> 01:19:14.550
+lightclient: But once the EIP is CFI,
+
+444
+01:19:14.790 --> 01:19:20.480
+lightclient: It feels like some people believe the default is to ship it in the fork.
+
+445
+01:19:21.100 --> 01:19:34.439
+lightclient: And I think that if the default is to ship in the fork and that's something that we want to agree on as ACD, then I would say we should be approaching the PFI to CFI discussion a bit differently.
+
+446
+01:19:34.460 --> 01:19:45.499
+lightclient: Because I think sometimes people will make the argument in the PFI discussion when it's contentious and say, well, it's contentious, let's just continue considering it by moving it to CFI.
+
+447
+01:19:45.930 --> 01:19:51.629
+lightclient: But then there's this implicit assumption that CFI is kind of something we're just gonna ship.
+
+448
+01:19:52.670 --> 01:19:56.020
+lightclient: So, we should really, like, discuss, like, what the difference
+
+449
+01:19:56.860 --> 01:20:04.080
+lightclient: between those, you know, two assumptions are. Like, I'm okay with saying that CFI is default ship.
+
+450
+01:20:04.340 --> 01:20:06.090
+lightclient: But if it is, then let's…
+
+451
+01:20:06.670 --> 01:20:13.469
+lightclient: let's, you know, explicitly say it, and then in the discussions for going from PFI to CFI,
+
+452
+01:20:13.660 --> 01:20:26.969
+lightclient: let's discuss it with that assumption that this is something we want Ethereum to do, and we're going to have to prove that it's not really feasible in that fork once we get to CFI, if we're not… if we end up not wanting to do it.
+
+453
+01:20:33.150 --> 01:20:43.749
+Ansgar Dietrichs: Yeah, I mean, given that this directly affects Heikota still, because we obviously still are at the CFI to SFI stage for many, many EIPs, I think it's reasonable to discuss this briefly now. Dustin, do you have thoughts?
+
+454
+01:20:44.860 --> 01:21:01.660
+Justin Florentine: Yeah, so I'm gonna agree with lightclient here, possibly violently, and I don't think that we should actually make any of the changes, to, to default CFI into shipping it, because the whole point of CFI
+
+455
+01:21:01.660 --> 01:21:17.150
+Justin Florentine: is saying that, yes, we are considering it, but moving it from CFI to SFI is where we do our labor assessment. Like, that's where we say, like, yes, we want to ship it, but we can't this fork, sorry. So, like, we can't lose that step in the process.
+
+456
+01:21:17.540 --> 01:21:25.810
+Justin Florentine: So, I disagree with the premise that CFI is a default ship, because we're not doing any actual, like.
+
+457
+01:21:26.000 --> 01:21:34.349
+Justin Florentine: labor assessment, we're just saying that we like it. So, wow, that's a lot of hands. I'm gonna step down. Thank you for, letting me come to your TED Talk.
+
+458
+01:21:35.020 --> 01:21:37.860
+Ansgar Dietrichs: Lukasz?
+
+459
+01:21:39.780 --> 01:21:55.840
+Łukasz Rozmej: Yeah, I agree that CFI is not, cheap, definitely, because we are… we, even during this scoping, had some EIPs that we CFI'd, but a lot of people had some kind of,
+
+460
+01:21:56.160 --> 01:22:15.180
+Łukasz Rozmej: asterisks there that we can consider this shipping if, and there were some, some, conditionals. So, if those conditionals can't be met, for example, because they are impractical, or just can't be done in some way, we default to DFI there.
+
+461
+01:22:15.230 --> 01:22:23.179
+Łukasz Rozmej: So, yeah, CFI, this is definitely that we will put an effort to into exploring this.
+
+462
+01:22:23.450 --> 01:22:28.719
+Łukasz Rozmej: And we'll see where it gets us. I don't think it should be considered the fault ship.
+
+463
+01:22:30.940 --> 01:22:31.920
+Ansgar Dietrichs: Mario?
+
+464
+01:22:32.400 --> 01:22:38.789
+Mario Vega: Yeah, I think it's… it's a little bit naive that to think that CFI in something does not affect our perception of it.
+
+465
+01:22:38.850 --> 01:22:58.640
+Mario Vega: Because, I mean, we are putting work on it. The specs didn't put work on it, the testing, all that involves just putting something into CFI. It's already, like, the… we're getting into the fallacy of, like, we are… we are sinking time into it, we are going to try to ship it, so I think it's naive to think that it doesn't affect our perception.
+
+466
+01:22:58.760 --> 01:23:00.280
+Mario Vega: So, I would… I would…
+
+467
+01:23:00.420 --> 01:23:14.209
+Mario Vega: I'm not suggesting that CFI should be SFI at, like, immediately, but we should be more cautious about CFI for the future. I think CFI is a big decision still.
+
+468
+01:23:14.260 --> 01:23:20.969
+Mario Vega: So we should always consider that, before, before just accepting anything into the fork, in my opinion.
+
+469
+01:23:27.270 --> 01:23:29.170
+Ansgar Dietrichs: Lucas, you still have your hand up?
+
+470
+01:23:29.710 --> 01:23:30.730
+Ansgar Dietrichs: Otherwise…
+
+471
+01:23:31.140 --> 01:23:33.190
+Łukasz Rozmej: No, sorry, I will have it.
+
+472
+01:23:35.770 --> 01:23:40.970
+Potuz: Yeah, so, probably I brought this discussion a little bit before on R&D.
+
+473
+01:23:41.370 --> 01:23:51.229
+Potuz: I agree with everything that, that, Justin and Matt said, but I want to stress something, that even if we were…
+
+474
+01:23:51.230 --> 01:24:13.159
+Potuz: in a world in which CFI meant, by default, SFI, or by default inclusion, which I consider silly. The reason why we had CFI was to be able to test something that we aren't sure if it's going to be there, so it's not by default to include. But anyways, even if we move to such a system, we would be forced to have an extra layer to attend for those CIPs that we want to make a decision, that we want to test.
+
+475
+01:24:13.160 --> 01:24:23.109
+Potuz: We will always be in a situation in which we want to test things before making any kind of decision, not only for inclusion, but even to just have a prototype. So we always will have
+
+476
+01:24:23.130 --> 01:24:40.919
+Potuz: EIPs that we want to be… some clients working, because they want those EIPs in, or because they know someone that is involved with that EIP, but clients are not forced to implement. So there are EIPs that are in that situation, most EIPs are in that situation, in which I am not forced to code it.
+
+477
+01:24:40.920 --> 01:24:46.740
+Potuz: So my complaint is not about the governance process itself, my complaint is really about the spec.
+
+478
+01:24:47.090 --> 01:24:51.010
+Potuz: Which is, we should not be including things that
+
+479
+01:24:51.130 --> 01:24:53.410
+Potuz: Clients are not forced to be
+
+480
+01:24:53.570 --> 01:25:03.020
+Potuz: coding that EIP riders are not forced to be adjusting to in the main specs, either in the consensus or the execution specs.
+
+481
+01:25:13.390 --> 01:25:25.079
+Ansgar Dietrichs: Yeah, I think, to me, this makes a lot of sense, just overall. We should always try to have… I mean, obviously, this is never a black and white situation, but I think the more we have a shared understanding of
+
+482
+01:25:25.660 --> 01:25:32.739
+Ansgar Dietrichs: what these labels in practice imply, and mean, I think that's healthy for the process overall.
+
+483
+01:25:34.830 --> 01:25:43.440
+Ansgar Dietrichs: I'm wondering, is there any… anything concretely actionable, specific to the Heikota scope that anyone would want to propose here, in terms of adjustment to the process?
+
+484
+01:25:43.440 --> 01:26:02.309
+Ansgar Dietrichs: adjustment to how we treat the CFI, I think on the EL side, we have currently 19. Now, one of them is informational only, one of them is, I think, mempool only, so… so it's maybe not quite 19, but it's close to… close to that level. That's a lot. I would assume not all of them end up in the heart fork. Is there any desire to make any adjustments to how we go from…
+
+485
+01:26:02.390 --> 01:26:16.300
+Ansgar Dietrichs: from CFI to SFI, again, we will have this priority list, we can iterate on this over time, so maybe that's a good helper tool, but yeah, anything else in terms of pay quota specifically that someone would want to propose?
+
+486
+01:26:18.780 --> 01:26:19.700
+Ansgar Dietrichs: Met.
+
+487
+01:26:21.480 --> 01:26:30.309
+lightclient: I guess, maybe not specifically Hukota, but again, like, kind of related. I… I feel like if…
+
+488
+01:26:30.690 --> 01:26:39.650
+lightclient: we're not having this default ship assumption with CFI to SFI. I think it's quite difficult to have a…
+
+489
+01:26:39.790 --> 01:26:44.570
+lightclient: real argument on ACD about whether or not we should
+
+490
+01:26:44.750 --> 01:26:47.370
+lightclient: you know, be doing something to Ethereum.
+
+491
+01:26:47.480 --> 01:26:49.999
+lightclient: And I feel like this stems from…
+
+492
+01:26:50.550 --> 01:26:59.390
+lightclient: at least the way that I believe that we should approach changes to Ethereum, which is that we should be doing the absolute minimal changes to the protocol to achieve
+
+493
+01:27:00.040 --> 01:27:03.610
+lightclient: what we want, and to make Ethereum achieve what we want.
+
+494
+01:27:03.730 --> 01:27:22.389
+lightclient: And I think that, in general, you know, if we're gonna, say, default ship the CFI Eaps, then it becomes challenging to have that conversation, because the sunk cost is already there. It's pretty difficult to say, well, we already tested, we already put it in the DevNet, it's already kind of working. Does it hurt to ship it?
+
+495
+01:27:22.540 --> 01:27:28.010
+lightclient: But I think that if we, like, change the way we think about changes to Ethereum, I think every change to Ethereum is risk.
+
+496
+01:27:29.210 --> 01:27:39.849
+lightclient: which is basically what we're seeing with, like, you know, 8037 and 8038, and, like, many other things. Like, anytime we change it, like, we're risking breaking user contracts, we're risking having security incidents.
+
+497
+01:27:41.530 --> 01:27:49.830
+lightclient: And so we should do the absolute minimal number of changes. I don't think that we should just change the protocol to change the protocol. Like, every change we do should…
+
+498
+01:27:50.430 --> 01:27:56.840
+lightclient: be in pursuit of what we believe Ethereum should be doing, or, like, should be providing to its users.
+
+499
+01:27:57.440 --> 01:28:05.189
+lightclient: So that's kind of why I think, you know, for one, it sounds like we need to increase the bar from PFI to CFI, which is something we really can't do for Hagota.
+
+500
+01:28:05.320 --> 01:28:06.970
+lightclient: So I think…
+
+501
+01:28:07.150 --> 01:28:12.720
+lightclient: you know, what can we do now that we're in this situation in the middle of scoping for Hagota? Maybe what we can do is, like.
+
+502
+01:28:13.350 --> 01:28:26.919
+lightclient: think more seriously about the changes that were going to SFI? Are these things that Ethereum should be doing? Not, have we implemented them, have they tested them, are they… can we just ship it? Like, does it affect people? But, like, is this something that's actually good?
+
+503
+01:28:31.800 --> 01:28:35.359
+Ansgar Dietrichs: Yeah, and I guess, again, just to bring it back to Higota, I think…
+
+504
+01:28:35.810 --> 01:28:50.590
+Ansgar Dietrichs: I think, ultimately, any of this works process-wise, because these labels, as long as there's shared understanding, whether we have that discussion, that mindset, that question of what should Ethereum even ship, whether we have this at the CFI stage, or the SFI stage, or both, or anything in between.
+
+505
+01:28:50.590 --> 01:28:59.509
+Ansgar Dietrichs: any of this works, it's just important that we have shared understanding, because otherwise things can just slip through, and we end up shipping something, and we realize we never actually had that discussion, because
+
+506
+01:28:59.640 --> 01:29:18.419
+Ansgar Dietrichs: these labels were ambiguous, and we never knew when the right moment was to have that discussion, so I agree with you there, and so I think given that we are in the middle of a hard work scoping process right now, just something we should keep in mind regarding the already CFI EIPs, if there's any where we feel like, actually, do we even want to ship them? Of course, that's something we should make sure we
+
+507
+01:29:18.680 --> 01:29:21.949
+Ansgar Dietrichs: Discussed before… before it is too late, basically.
+
+508
+01:29:23.380 --> 01:29:24.770
+Ansgar Dietrichs: Mmm…
+
+509
+01:29:25.230 --> 01:29:34.000
+Ansgar Dietrichs: If it's okay with you, Matt, I would move on for now. We won't get through all of the agenda anyway, but still a few items.
+
+510
+01:29:34.240 --> 01:29:51.960
+Ansgar Dietrichs: In particular, I think one decision, at least, that I would like to still do today is, that's next up on the agenda is, and it's related, it's the next DevNet for Heikota, and in particular, how we want to approach this. My understanding is that there's two alternative approaches that have been discussed.
+
+511
+01:29:51.960 --> 01:29:59.040
+Ansgar Dietrichs: One of them would be to keep the CL and EL DevNets separate, for now, and that would mean having a…
+
+512
+01:29:59.040 --> 01:30:07.260
+Ansgar Dietrichs: a Bogota DevNet 2, so an EL site-only DevNet 2, to follow the DevNet 1,
+
+513
+01:30:08.600 --> 01:30:25.829
+Ansgar Dietrichs: and basically, like, have a bit more time for EL side iteration, to add some more EIPs into it, and so on. Or, the other approach would be to immediately now go to HeGotta DevNet0, so the first ELCL cross-layer.
+
+514
+01:30:26.020 --> 01:30:28.110
+Ansgar Dietrichs: DevNet.
+
+515
+01:30:28.130 --> 01:30:34.879
+Ansgar Dietrichs: I saw some comments in both directions, well, there was one comment in both directions on the, in either direction.
+
+516
+01:30:34.880 --> 01:30:48.140
+Ansgar Dietrichs: on the agenda, I also think from the testing team, there was some desire towards, at least reasonably soon, going towards a shared cross-layer DevNet. Do we have anyone from the testing team that could briefly speak on this?
+
+517
+01:30:50.430 --> 01:30:51.510
+Ansgar Dietrichs: Mario?
+
+518
+01:30:51.510 --> 01:31:02.089
+Mario Vega: Yeah, what I can say, I mean, I'm not opposed to, like, merging right now. The only reason why I see merging as valuable is that fossil and frames do have interaction, so that's…
+
+519
+01:31:02.350 --> 01:31:10.650
+Mario Vega: the reason that I would suggest, like, getting them together as soon as possible, and they are both SFI, so I guess it makes sense.
+
+520
+01:31:10.760 --> 01:31:27.520
+Mario Vega: just from a testing perspective. If there's a cost in having them joined from the beginning, maybe that's worth discussing, but the value is real in terms of testing, yeah.
+
+521
+01:31:30.660 --> 01:31:31.710
+Ansgar Dietrichs: Jihoon?
+
+522
+01:31:33.020 --> 01:31:35.170
+Jihoon: Yeah, I just wanna share that.
+
+523
+01:31:35.520 --> 01:31:39.169
+Jihoon: The interaction between fossil and frames are not red yet.
+
+524
+01:31:39.750 --> 01:31:53.259
+Jihoon: So if you want to target Definite Zero sometime in next week, I think it's too early to test fossil and Frames, but if you want to launch it without the interaction between Fossil and Frames, then just fossil
+
+525
+01:31:53.700 --> 01:31:56.140
+Jihoon: I think it's doable.
+
+526
+01:31:56.260 --> 01:31:58.000
+Jihoon: So… Yeah.
+
+527
+01:32:09.160 --> 01:32:11.180
+Ansgar Dietrichs: Right,
+
+528
+01:32:14.020 --> 01:32:27.609
+Ansgar Dietrichs: I think, mark, I think you said, that on the frames breakout, there was some desire to stay… to basically have another EL-only definite first, is that… is that right?
+
+529
+01:32:29.180 --> 01:32:47.230
+marc | wolovim: Yes, but there was some discussion since then. I think there was maybe some more sentiment expressed about a combined EVNet since that conversation took place. There was… during the frames breakout call, there were a few spec changes discussed, and the possibility of adding
+
+530
+01:32:47.400 --> 01:32:52.239
+marc | wolovim: multiple new EIPs to an EL-only DevNet?
+
+531
+01:32:52.860 --> 01:32:56.930
+marc | wolovim: But yeah, that conversation proceeded.
+
+532
+01:32:57.840 --> 01:32:59.290
+marc | wolovim: The, the combined one?
+
+533
+01:33:03.410 --> 01:33:12.839
+Ansgar Dietrichs: Sounds good. Do we have people? I mean, I see in chat also discussion of, like, how realistic it would be to, say, have a combined DevNet next week already.
+
+534
+01:33:17.130 --> 01:33:30.290
+Ansgar Dietrichs: But just so I understand, Matt, maybe from, also from the GetH side, would a separate next EL only, like, if we had just a Blog at DevNet2, would that be ready? Could we launch that next week, basically?
+
+535
+01:33:30.900 --> 01:33:33.980
+lightclient: Yeah, that was kind of my working assumption.
+
+536
+01:33:34.480 --> 01:33:37.860
+lightclient: I feel like the changes… there's…
+
+537
+01:33:38.850 --> 01:33:44.409
+lightclient: There's about 3 main changes I'm imagining for the Bogota DevNet 2.
+
+538
+01:33:44.520 --> 01:33:55.600
+lightclient: One of which we haven't merged yet and are kind of discussing a little, but I would like to merge, and we generally felt on the breakout room that, optimistically, we should merge it unless…
+
+539
+01:33:55.770 --> 01:33:57.630
+lightclient: On this call, people felt it was…
+
+540
+01:33:58.000 --> 01:34:05.149
+lightclient: Not a good idea. But I think, yeah, I feel pretty confident we'll have 2 ready, which we could ship next week.
+
+541
+01:34:05.410 --> 01:34:09.129
+lightclient: And I'm just thinking people will start traveling for DevCon, so…
+
+542
+01:34:09.240 --> 01:34:13.839
+lightclient: If we are not shipping a DevNet this week, it feels like we might slip a couple weeks.
+
+543
+01:34:14.390 --> 01:34:16.480
+lightclient: Due to DevCon-related trouble.
+
+544
+01:34:16.990 --> 01:34:17.870
+lightclient: So…
+
+545
+01:34:17.970 --> 01:34:28.110
+lightclient: But, like, I agree with Mario, like, it would be nice in DevCon to start talking more about the interactions, and so maybe that's a better outcome, even if we don't have the…
+
+546
+01:34:28.970 --> 01:34:32.190
+lightclient: Even if we miss a definite deadline later next week.
+
+547
+01:34:32.350 --> 01:34:38.180
+lightclient: people have spent time thinking about the interaction. Like, honestly, I can see the benefit of both.
+
+548
+01:34:41.070 --> 01:34:44.679
+Barnabas: Would you consider then doing Bogota spec?
+
+549
+01:34:46.220 --> 01:34:47.670
+Barnabas: But with the combined?
+
+550
+01:34:48.600 --> 01:34:52.329
+Barnabas: Or would you then just fall back to the previous EF scope?
+
+551
+01:34:53.520 --> 01:34:57.639
+lightclient: I would rather do the previous DevNets go, personally.
+
+552
+01:34:59.340 --> 01:35:03.199
+lightclient: But… We could do it all, I guess.
+
+553
+01:35:07.690 --> 01:35:13.599
+lightclient: I don't know, I'm pretty ambivalent on this. I think others should weigh in. I can go either way.
+
+554
+01:35:15.570 --> 01:35:28.510
+Ansgar Dietrichs: So, maybe a question would be for teams specifically, like, how much… because I know not everyone, of course, will be at DEF CON, but there will be some kind of core dev prisons at DEF CON as well, some in-person discussions and everything. How much would spending the next week…
+
+555
+01:35:28.510 --> 01:35:44.050
+Ansgar Dietrichs: looking into the interactions specifically help prepare for this. Basically, if… because I feel like otherwise, if we basically couldn't choose between no DevNet at all, or another EL-specific DevNet, I think I would, in principle, pick the EL-specific DevNet, but if the time spent on
+
+556
+01:35:44.280 --> 01:35:46.960
+Ansgar Dietrichs: The interactions, is this valuable in preparation?
+
+557
+01:35:47.290 --> 01:35:54.920
+Ansgar Dietrichs: that… that would override it. So, would anyone… is there any EL team that would be like, hey, yeah, actually, we would… we would prefer to focus on…
+
+558
+01:35:55.280 --> 01:35:59.559
+Ansgar Dietrichs: Working towards a merge DevNet, even if we can't ship it pre-DevNet, pre-Defcon?
+
+559
+01:36:17.960 --> 01:36:19.399
+Ansgar Dietrichs: Sorry, I feel like there was a…
+
+560
+01:36:19.500 --> 01:36:30.090
+Ansgar Dietrichs: too complicated a question. Anyway, yeah, I don't… I don't quite know which way to go here, because, just because, like, it feels like there's significant, like, a lot of people speaking up in either direction.
+
+561
+01:36:30.680 --> 01:36:45.349
+Ansgar Dietrichs: Can we maybe… I would say the simple… the simple thing to do would just be to say, like, if we can ship a merged DevNet before Devcon, we should do it, and if not, we should just go with one more round of separate DevNets, just because…
+
+562
+01:36:45.490 --> 01:36:49.019
+Ansgar Dietrichs: So we have something shipped pre-Devcon.
+
+563
+01:36:49.250 --> 01:36:50.270
+Ansgar Dietrichs: M…
+
+564
+01:36:50.600 --> 01:36:59.859
+Ansgar Dietrichs: Does that make sense? And so if so, like, how realistic is it to ship a merged DevNet next week? Because I think then, to me at least, that would be the decision factor.
+
+565
+01:37:05.840 --> 01:37:10.280
+lightclient: Yeah, I guess maybe, Mario, from your perspective?
+
+566
+01:37:10.600 --> 01:37:13.659
+lightclient: But what would it look like to have them merged?
+
+567
+01:37:14.210 --> 01:37:15.220
+Mario Vega: Yeah, sorry.
+
+568
+01:37:15.220 --> 01:37:15.970
+lightclient: release.
+
+569
+01:37:16.180 --> 01:37:28.649
+Mario Vega: Yeah, so I think if we already have Bogota ready, I think that's… that's test… that's testing in itself, so I think it's valuable. We should… we should go ahead with it. But I think we should start looking into the interaction.
+
+570
+01:37:28.770 --> 01:37:37.090
+Mario Vega: maybe, as you said in Dev… or somebody said in DEPCON, we should, like, start really thinking about these interactions, and then we start then planning the…
+
+571
+01:37:37.220 --> 01:37:39.409
+Mario Vega: the… the join.net.
+
+572
+01:37:40.650 --> 01:38:04.050
+Ansgar Dietrichs: Okay, so I think then that's just also because we are about at time, so I think unless anyone would protest, I would say then that decision would be to say, next week we will launch Bogota DevNet 2, so, like, another separate DevNet. If for some reason this is delayed, until after DevCon as well, we can reconsider whether it's worth even having it, or immediately going to the Merge DevNet, but point being is the understanding would be
+
+573
+01:38:04.050 --> 01:38:11.749
+Ansgar Dietrichs: At DevCon, for anyone in person, we would already discuss interactions, and then the first DevNet after DEFCON will be a merged DevNet.
+
+574
+01:38:12.140 --> 01:38:13.519
+Ansgar Dietrichs: Does that work for everyone.
+
+575
+01:38:15.310 --> 01:38:16.340
+lightclient: Yep.
+
+576
+01:38:17.950 --> 01:38:19.550
+Ansgar Dietrichs: Okay. Sounds good.
+
+577
+01:38:20.240 --> 01:38:23.640
+Ansgar Dietrichs: Sounds good. Then,
+
+578
+01:38:23.890 --> 01:38:31.449
+Ansgar Dietrichs: everything else on the agenda, we will basically postpone until the first ACD after DEF CON,
+
+579
+01:38:31.450 --> 01:38:39.770
+lightclient: One point that's kind of related to the Bogota Devna 2. We talked on the frames breakout, people said they would review this PR a bit more.
+
+580
+01:38:40.060 --> 01:38:44.940
+lightclient: we were kind of optimistically looking at including in Bogota Devna 2.
+
+581
+01:38:45.270 --> 01:38:49.269
+lightclient: I addressed… One of the comments…
+
+582
+01:38:49.980 --> 01:38:57.279
+lightclient: from Daniel regarding an issue we found, but overall, I think that this PR is ready to go.
+
+583
+01:38:57.720 --> 01:39:03.570
+lightclient: Onto the DevNut, so… if anyone who's had a chance to look at it in the past few days.
+
+584
+01:39:04.090 --> 01:39:10.159
+lightclient: wants to push back on including it, I will probably merge it after this call.
+
+585
+01:39:25.210 --> 01:39:26.580
+lightclient: Last chance?
+
+586
+01:39:32.930 --> 01:39:33.690
+lightclient: Okay.
+
+587
+01:39:34.590 --> 01:39:50.519
+Ansgar Dietrichs: And then there is the question chat, I mean, we are at time, but there's the question chat whether we should, at least for those that can stay for a few more minutes, discuss briefly, like, the scope for that DevNet, the EL side, like the Bukota Definite 2. Does that make sense? And if so, does anyone have thoughts on…
+
+588
+01:39:55.800 --> 01:39:56.690
+Ansgar Dietrichs: On this?
+
+589
+01:40:00.030 --> 01:40:04.390
+Ansgar Dietrichs: I'm unfortunately a bit out of the loop, we obviously have this, again, this protein…
+
+590
+01:40:04.870 --> 01:40:08.140
+Ansgar Dietrichs: list, if that is help… if they can be helpful.
+
+591
+01:40:08.300 --> 01:40:09.480
+Ansgar Dietrichs: M…
+
+592
+01:40:14.760 --> 01:40:17.539
+Ansgar Dietrichs: Yeah, anyone with more context, Spencer?
+
+593
+01:40:18.780 --> 01:40:30.820
+spencer: Hey, yeah, I think, at least this is my feeling on kind of what we'd want to add. I think, there was discussion about adding the two floor EIPs as well, so the Unified Transaction Context Floor, the Block Access byte floor.
+
+594
+01:40:30.970 --> 01:40:34.200
+spencer: But then I think adding 6 EIPs is gonna be way too much.
+
+595
+01:40:34.780 --> 01:40:38.159
+spencer: so yeah, the… I guess the…
+
+596
+01:40:38.530 --> 01:40:42.230
+spencer: there are two of the, I guess, PQ-related EIPs
+
+597
+01:40:42.420 --> 01:40:47.770
+spencer: Here, they deactivate self-destruct so that we can remove tests, and then the bump nonce is…
+
+598
+01:40:47.930 --> 01:40:53.560
+spencer: Something at least we'd liken earlier, just so we can, test the transition.
+
+599
+01:40:54.000 --> 01:41:03.739
+spencer: Of the fork for this EIP as many times as possible. But yeah, maybe… maybe there's preference to add… add less or add other… other EIPs here as well.
+
+600
+01:41:08.490 --> 01:41:09.859
+Ben Adams: Hey, how's it going?
+
+601
+01:41:13.220 --> 01:41:14.979
+Ansgar Dietrichs: Hello, Ben, we can hear you.
+
+602
+01:41:15.380 --> 01:41:17.169
+Ansgar Dietrichs: Maybe we should not hear you.
+
+603
+01:41:19.000 --> 01:41:20.350
+Ansgar Dietrichs: Justin?
+
+604
+01:41:20.990 --> 01:41:29.870
+Justin Florentine: I just want to bring up that I think if the intent here is to, you know, study interaction between fossil and frames, we probably shouldn't add 3 more EIPs to it.
+
+605
+01:41:38.100 --> 01:41:44.389
+Ansgar Dietrichs: Right. I mean… Yeah, that's the trade-off, of course, with going with another DevNet.
+
+606
+01:41:45.370 --> 01:41:51.779
+Ansgar Dietrichs: Do we… is this a decision, by the way? Should we… should we finalize the scope today? Like, is this valuable?
+
+607
+01:41:52.780 --> 01:41:53.440
+lightclient: Yeah.
+
+608
+01:41:53.440 --> 01:41:53.969
+Ansgar Dietrichs: What can we take?
+
+609
+01:41:53.970 --> 01:41:54.950
+Barnabas: Yeah. Okay.
+
+610
+01:41:55.530 --> 01:42:00.099
+Barnabas: Because if we don't finalize it today, it's gonna be way too late to launch anything next week.
+
+611
+01:42:00.490 --> 01:42:04.100
+Barnabas: So we need to either, figure out whether we want to…
+
+612
+01:42:04.510 --> 01:42:07.900
+Barnabas: you know, keep increasing the scope of Bogota DevNets.
+
+613
+01:42:08.120 --> 01:42:11.010
+Barnabas: Or we want to focus on the fossil merge.
+
+614
+01:42:12.120 --> 01:42:18.260
+Ansgar Dietrichs: Sounds good. So then, with the list that Spencer put in chat, like, these four EIPs.
+
+615
+01:42:21.140 --> 01:42:28.979
+Ansgar Dietrichs: what is… like, what's people's feeling? Is this too la- too large, or too, like, basically too long, too short, or just right?
+
+616
+01:42:31.770 --> 01:42:40.039
+Justin Florentine: I mean, basically, we'd consider that too much, because we're ahead on fossil and behind on frames, so this makes our job a lot harder.
+
+617
+01:42:40.610 --> 01:42:43.069
+Ansgar Dietrichs: Which one would you kick out, if you could kick out one?
+
+618
+01:42:43.900 --> 01:42:45.749
+Justin Florentine: I'd kick them all out. Thank you.
+
+619
+01:42:47.120 --> 01:42:49.249
+Justin Florentine: I would bring in set code from, though.
+
+620
+01:42:51.220 --> 01:42:53.130
+Ansgar Dietrichs: Okay, so you'd only kick out the other 3.
+
+621
+01:42:56.930 --> 01:43:06.640
+spencer: I guess I'd add that, like, personally, I feel like combining the fossil frames has more value, and it actually feels like it might be easier than adding more EIPs, but if we're not going to combine
+
+622
+01:43:07.400 --> 01:43:12.739
+spencer: then it makes sense to do… to add EIPs to the debit, too.
+
+623
+01:43:12.970 --> 01:43:13.800
+spencer: M.
+
+624
+01:43:15.730 --> 01:43:19.330
+Barnabas: Yeah, otherwise it's just status quo, I guess, which we already have.
+
+625
+01:43:22.760 --> 01:43:28.780
+Ansgar Dietrichs: Right, there's also the small spec iteration on frames, for example, that Matt just now talked about.
+
+626
+01:43:31.520 --> 01:43:41.719
+Ansgar Dietrichs: But yeah, I mean, it seems like setCoreDROM, it was mentioned a lot, so that one seems to be clearly, so then I think maybe let's just briefly discuss the other three from Spencer's list, Lukasz?
+
+627
+01:43:41.960 --> 01:43:42.950
+Ansgar Dietrichs: Do you have a take?
+
+628
+01:43:42.950 --> 01:43:49.569
+Łukasz Rozmej: So, Nethermind is, quite ahead on everything, so, according to my, kind of.
+
+629
+01:43:49.810 --> 01:43:54.030
+Łukasz Rozmej: Call to… to speed up, we would like to include all of them.
+
+630
+01:44:02.390 --> 01:44:11.310
+Ansgar Dietrichs: Right, but it does sound like Beacon might not be able to make that in time for a pre-Defcon, DevNet launch? Is that, is that right?
+
+631
+01:44:12.230 --> 01:44:13.520
+Justin Florentine: Yeah, that's correct, yeah.
+
+632
+01:44:14.770 --> 01:44:17.060
+Barnabas: We just need clients for the launch, though.
+
+633
+01:44:17.210 --> 01:44:21.790
+Barnabas: So if you can get 3 clients, then we should be able to do… network.
+
+634
+01:44:26.110 --> 01:44:37.070
+Ansgar Dietrichs: Yeah, I mean, it works for me. Do we… would we prefer to basically go with the full 4 EIP list, and and basically launch with a smaller set of clients? Is that preferable for people, or…
+
+635
+01:44:43.980 --> 01:44:50.209
+Ansgar Dietrichs: Just in how… what's… from the BeSBO side, would that be okay, or would you strongly prefer
+
+636
+01:44:50.410 --> 01:44:53.939
+Ansgar Dietrichs: To have a smaller scope that, you all would be able to meet?
+
+637
+01:44:54.480 --> 01:45:03.349
+Justin Florentine: I mean, if the low watermark is 3 clients, and you've got 3 clients, then I wouldn't try to make a case that you should wait for us.
+
+638
+01:45:06.350 --> 01:45:13.390
+Ansgar Dietrichs: Yeah, it seems like because you're ahead of time, you said, on fossil, so, like, you basically make that time up there. So then I think…
+
+639
+01:45:13.780 --> 01:45:26.080
+Ansgar Dietrichs: I think it is reasonable. Do we have 3 clients? Like, Nethermind just now said that they would, target this? Like, do we have, I guess, GetH and then maybe one more client that would be willing to commit to this set of 4 EIPs new in the DevNet?
+
+640
+01:45:27.670 --> 01:45:36.300
+Ansgar Dietrichs: I mean, first of all, Geth, Matt, I mean, obviously, I don't know, would you… do you think, from the Get side, these four EIPs are realistic by next week?
+
+641
+01:45:43.150 --> 01:45:54.660
+lightclient: I would prefer just that code from an 8151, but I think the other two are probably simpler than those two, so… we could do it.
+
+642
+01:46:00.200 --> 01:46:01.770
+Ansgar Dietrichs: Right. Yeah.
+
+643
+01:46:01.960 --> 01:46:03.940
+Ansgar Dietrichs: Oh, sorry, Ivan?
+
+644
+01:46:04.270 --> 01:46:10.499
+Iván | ethrex: Sorry, sorry, I didn't raise my hand. We already have them, not pushed yet, but we should be good.
+
+645
+01:46:15.560 --> 01:46:17.839
+Ansgar Dietrichs: Okay, sounds good.
+
+646
+01:46:18.240 --> 01:46:26.300
+Ansgar Dietrichs: In the interest of time, yeah, I mean, I would just go with all four then. I… I don't… I mean, I think either way, of course, if Matt… Matt, if you want to make one, I don't know.
+
+647
+01:46:26.620 --> 01:46:31.509
+Ansgar Dietrichs: Is it okay, would you disagree now, or would you rather ask the others to reduce the scope?
+
+648
+01:46:33.960 --> 01:46:36.820
+lightclient: Ugh… I guess we can do it, guys.
+
+649
+01:46:37.870 --> 01:46:50.480
+Ansgar Dietrichs: Okay, see, that's… that's the spirit. One fork's still half broken, and we're already pushing on the other. Awesome. Okay, then let's lock in the full for EIP, set for…
+
+650
+01:46:50.720 --> 01:46:53.420
+Ansgar Dietrichs: For, for GoToDevna 2?
+
+651
+01:46:54.440 --> 01:47:05.590
+Ansgar Dietrichs: That's it, we had time. Oh, question, do we… have we made a decision? In two weeks, the ACD, obviously, will be right during DEF CON. My kind of implicit assumption was it would just be
+
+652
+01:47:05.760 --> 01:47:06.710
+Ansgar Dietrichs: Canceled.
+
+653
+01:47:07.750 --> 01:47:10.220
+Ansgar Dietrichs: Does this match other people's expectations?
+
+654
+01:47:13.130 --> 01:47:16.060
+Ansgar Dietrichs: I guess that's something I can… principals will just decide, but…
+
+655
+01:47:16.460 --> 01:47:23.149
+Ansgar Dietrichs: Okay, so then let's say, no ACD in 2 weeks, so ACDE will return in 4 weeks.
+
+656
+01:47:24.650 --> 01:47:30.099
+Ansgar Dietrichs: Okay. Thank you everyone, and see some of you all in person in two weeks. Bye.
+
+657
+01:47:30.100 --> 01:47:31.539
+Kevaundray Wedderburn: See ya. Bye.
+
+658
+01:47:32.440 --> 01:47:33.270
+Iván | ethrex: It's funny.
+
+659
+01:47:37.210 --> 01:47:38.660
+Toni Wahrstätter: Thank you, bye-bye.
+
