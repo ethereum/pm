@@ -247,7 +247,7 @@ class TestAutopilotConfig:
         defaults = get_autopilot_defaults("acdt")
 
         assert defaults is not None
-        assert defaults["duration"] == 60
+        assert defaults["duration"] == 90
         assert defaults["occurrence_rate"] == "weekly"
         assert defaults["need_youtube_streams"] is False
 
