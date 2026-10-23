@@ -58,24 +58,6 @@ Stages are defined in [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723).
 
     SFI generally implies the EIP has achieved rough consensus across client teams and is on the implementation/testing path (devnets → testnets → mainnet).
 
-### Assess what analysis is needed
-
-Once in CFI state, decide whether your EIP needs:
-
-- **Protocol impact analysis:** review by protocol-side teams, e.g. Protocol Security. Usually warranted for changes to security assumptions, DoS surface, networking, fork choice, or cryptography.
-- **App layer impact analysis:** checking how the change affects what's built on top of the protocol. Anything that changes behavior visible to the app layer (gas costs, opcodes, precompiles, transaction types, account/state semantics) generally needs this. If deployed contracts or tooling could depend on current behavior, assume some do and check.
-
-Some EIPs need both. Record the reasoning behind the choice, the outcome and any findings in the discussion thread and Forkcast entry so client teams can factor it into their signal.
-
-### Outreach
-
-Make sure anyone your EIP may affect has a chance to hear about it and respond before it reaches testnets.
-
-- Use `stakeholderImpacts` from your Forkcast entry as a starting list of who to reach.
-- Decide whether a general announcement (EF blog post, Discord, social) is enough, or if impacted parties need to be contacted directly (e.g. major contract deployers, wallets, L2s, infra providers).
-- For app-layer impact: reach out to affected parties. There are teams that can help with this, e.g. App Enablement.
-- Leave time for feedback to come back and be addressed. Concerns raised after a testnet date is set are likely to cause a delay on the hardfork as per the [Protocol Upgrade Process](protocol-upgrade.md).
-
 ### Implementations & Tests
 
 It is strongly encouraged to implement the EIP's protocol changes in the relevant Python specifications as early as possible. This allows the community to help collaboratively disambiguate the specifications and generate reference tests for client teams. Note that in order for an EIP to move to the SFI stage, it MUST have executable specifications (see [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723)).
@@ -100,6 +82,26 @@ It is strongly encouraged to implement the EIP's protocol changes in the relevan
 - Reach out for help in the [Eth R&D Discord](https://discord.gg/EVTQ9crVgQ), `#cl-testing` channel.
 
 </details>
+
+## Impact analysis & outreach
+
+### Assess what analysis is needed
+
+Once in CFI state, decide whether your EIP needs:
+
+- **Protocol impact analysis:** review by protocol-side teams, e.g. Protocol Security. Usually warranted for changes to security assumptions, DoS surface, networking, fork choice, or cryptography.
+- **App layer impact analysis:** checking how the change affects what's built on top of the protocol. Anything that changes behavior visible to the app layer (gas costs, opcodes, precompiles, transaction types, account/state semantics) generally needs this. If deployed contracts or tooling could depend on current behavior, assume some do and check.
+
+Some EIPs need both. Record the reasoning behind the choice, the outcome and any findings in the discussion thread and Forkcast entry so client teams can factor it into their signal.
+
+### Outreach
+
+Make sure anyone your EIP may affect has a chance to hear about it and respond before it reaches testnets.
+
+- Use `stakeholderImpacts` from your Forkcast entry as a starting list of who to reach.
+- Decide whether a general announcement (EF blog post, Discord, social) is enough, or if impacted parties need to be contacted directly (e.g. major contract deployers, wallets, L2s, infra providers).
+- For app-layer impact: reach out to affected parties. There are teams that can help with this, e.g. App Enablement.
+- Leave time for feedback to come back and be addressed. Concerns raised after a testnet date is set are likely to cause a delay on the hardfork as per the [Protocol Upgrade Process](protocol-upgrade.md).
 
 ## Where decisions happen
 
