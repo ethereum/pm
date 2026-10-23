@@ -25,9 +25,10 @@ If you champion an EIP, you are the point person who keeps it moving:
     - Execution vs consensus vs cross-layer
     - Which client teams are most impacted (who you’ll need to engage)
     - What other stakeholders need to know about these changes?
-4. **Familiarize yourself with known concerns / tradeoffs:** anything that needs benchmarking, impact analysis, careful reasoning, or is likely contentious
+4. **Familiarize yourself with known concerns / tradeoffs:** anything that needs benchmarking, careful reasoning, or is likely contentious
 5. **Loosely consider an implementation plan:** who’s likely to implement, and what’s the *first* concrete artifact / milestone that will need to happen
 6. **Communications:** plan to be responsive (R&D Discord / GitHub / etc)
+7. **Impact analysis & outreach:** does it need an internal and/or external impact analysis, and who outside ACD needs to hear about it? See [below](#impact-analysis--outreach).
 
 ## Technical details
 
