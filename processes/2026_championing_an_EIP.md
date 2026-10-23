@@ -61,7 +61,7 @@ Stages are defined in [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723).
 
 Once in CFI state, decide whether your EIP needs:
 
-- **Protooxcol impact analysis:** review by protocol-side teams, e.g. Protocol Security. Usually warranted for changes to security assumptions, DoS surface, networking, fork choice, or cryptography.
+- **Protocol impact analysis:** review by protocol-side teams, e.g. Protocol Security. Usually warranted for changes to security assumptions, DoS surface, networking, fork choice, or cryptography.
 - **App layer impact analysis:** checking how the change affects what's built on top of the protocol. Anything that changes behavior visible to the app layer (gas costs, opcodes, precompiles, transaction types, account/state semantics) generally needs this. If deployed contracts or tooling could depend on current behavior, assume some do and check.
 
 Some EIPs need both. Record the reasoning behind the choice, the outcome and any findings in the discussion thread and Forkcast entry so client teams can factor it into their signal.
