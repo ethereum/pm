@@ -1,0 +1,118 @@
+{
+  "meeting": "ACDT #102 - October 26, 2026",
+  "highlights": {
+    "fork_status_and_schedule": [
+      {
+        "timestamp": "00:14:43",
+        "highlight": "Hoodi fork delayed at least 2 weeks pending EIP-8037/8038 blast radius analysis"
+      },
+      {
+        "timestamp": "00:15:02",
+        "highlight": "ChainSecurity + DWB audit ETA ~2 weeks; wait for results before rescheduling"
+      },
+      {
+        "timestamp": "00:17:05",
+        "highlight": "Default path: affected contracts fix themselves; spec changes only as last resort"
+      }
+    ],
+    "glamsterdam_epbs": [
+      {
+        "timestamp": "00:25:33",
+        "highlight": "Builder onboarding fix (PR #5736): only 0x0B-prefixed deposits credited to builders at fork; preserves deposit invariant for staking protocols"
+      },
+      {
+        "timestamp": "00:32:01",
+        "highlight": "GetPayload timeout removed (execution-apis PR #958); EL should respond immediately, not delay for better block"
+      },
+      {
+        "timestamp": "00:49:18",
+        "highlight": "Proposed gossip check: reject payloads where tx count exceeds gas_limit / MIN_TRANSACTION_GAS; needs spec PR"
+      }
+    ],
+    "eip_8037_8038_security": [
+      {
+        "timestamp": "00:13:01",
+        "highlight": "Four breaking patterns identified: hardcoded gas, gas-left increases, refund path unlocks, repricing interactions"
+      },
+      {
+        "timestamp": "00:22:20",
+        "highlight": "Francesco: no meaningful findings after comprehensive analysis including Sourcify contract scan; spec changes very unlikely"
+      },
+      {
+        "timestamp": "00:23:49",
+        "highlight": "\u0141ukasz's spec-change PR being reviewed; Maria decomposing into targeted per-invariant fixes rather than a bundle"
+      }
+    ],
+    "consensus_spec_shorter_slots": [
+      {
+        "timestamp": "00:55:54",
+        "highlight": "No consensus to merge shorter-slots machinery into Glamsterdam main spec; remains a feature branch"
+      },
+      {
+        "timestamp": "01:00:26",
+        "highlight": "Potuzz: spec changes not needed for testing; maintainers should tag a branch off main for devnet targets"
+      },
+      {
+        "timestamp": "01:04:15",
+        "highlight": "Defer decision to ACDC; majority client agreement required before merging into Glamsterdam spec"
+      }
+    ],
+    "epbs_envelope_backfill": [
+      {
+        "timestamp": "00:44:08",
+        "highlight": "Builder signatures in BlobsByRange cannot be verified after builder exits; spec should clarify signature is unverifiable pre-checkpoint"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:38:07",
+        "highlight": "ACDT #103 moved to November 9th; skipping November 2nd due to Devcon"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:47:36",
+      "action": "Open consensus-specs PR clarifying envelope signatures are not verifiable during backfill",
+      "owner": "Sam (Nimbus)"
+    },
+    {
+      "timestamp": "00:54:50",
+      "action": "Open consensus-specs PR for GetPayload transaction count gossip check with MIN_TRANSACTION_GAS constant",
+      "owner": "Nico Flaig (Lodestar)"
+    },
+    {
+      "timestamp": "00:16:25",
+      "action": "Review PM PR #2284 (process improvements to reduce future security surprises)",
+      "owner": "All teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:32:01",
+      "decision": "Hoodi fork scheduling delayed minimum 2 weeks; revisit after audits complete"
+    },
+    {
+      "timestamp": "00:32:09",
+      "decision": "Builder onboarding fix (consensus-specs PR #5736) approved and will be merged this week"
+    },
+    {
+      "timestamp": "00:36:39",
+      "decision": "GetPayload timeout definition removed (execution-apis PR #958 already merged); EL must respond immediately"
+    },
+    {
+      "timestamp": "01:04:15",
+      "decision": "Shorter slots remain a feature branch; not merged into Glamsterdam spec until majority client agreement"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:38:07",
+      "target": "ACDT #103 - November 9th (November 2nd skipped for Devcon)"
+    },
+    {
+      "timestamp": "00:15:47",
+      "target": "EIP-8037/8038 blast radius audit report - ~2 weeks from October 26th"
+    }
+  ]
+}

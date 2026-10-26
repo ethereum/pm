@@ -1,0 +1,1794 @@
+WEBVTT
+
+1
+00:09:35.130 --> 00:09:38.360
+Justin Traglia: Good morning, everyone. One minute, and we'll get started.
+
+2
+00:10:30.020 --> 00:10:36.119
+Justin Traglia: Good morning, everyone. Let's get started. This is All Core Devs Testing 102.
+
+3
+00:10:36.560 --> 00:10:42.470
+Justin Traglia: Is there someone here from, protocol DevOps who can give us updates on networks?
+
+4
+00:10:45.940 --> 00:10:49.840
+Barnabas: Yeah, I can give an update on the Dima 2 and 3.
+
+5
+00:10:49.980 --> 00:10:53.619
+Barnabas: So, we have been spamming the network a little bit here and there.
+
+6
+00:10:54.440 --> 00:11:05.519
+Barnabas: to try to break it, and so far, the only issue that I've seen was the issue that, we've been discussing in the intro regarding the,
+
+7
+00:11:05.670 --> 00:11:07.219
+Barnabas: Get payload, timeout.
+
+8
+00:11:07.620 --> 00:11:08.530
+Barnabas: Issue.
+
+9
+00:11:09.680 --> 00:11:13.290
+Barnabas: Maybe we can come back to that topic in a bit.
+
+10
+00:11:17.110 --> 00:11:21.530
+Barnabas: But other than that, everything seems quite stable on the headset appliance.
+
+11
+00:11:22.550 --> 00:11:27.229
+Justin Traglia: Okay, nice. And how are the Amsterdam DevNets and Sepolia?
+
+12
+00:11:28.720 --> 00:11:33.140
+Barnabas: Sepolia is still stable. I'm sure D'Amut is too stable.
+
+13
+00:11:35.360 --> 00:11:36.990
+Justin Traglia: Okay. Great.
+
+14
+00:11:37.170 --> 00:11:41.470
+Justin Traglia: And remind me, had Hoodi fought today, when would that have happened?
+
+15
+00:11:43.360 --> 00:11:49.179
+Barnabas: And it would have been 4 hours from now, I think? 4 or 5 hours from now, and that will not happen.
+
+16
+00:11:50.130 --> 00:11:50.670
+Justin Traglia: Yep.
+
+17
+00:11:50.770 --> 00:11:53.750
+Justin Traglia: But we still need to keep an eye on it, so… okay.
+
+18
+00:11:56.010 --> 00:11:59.300
+Justin Traglia: Cool, any other updates on networks?
+
+19
+00:12:00.700 --> 00:12:08.270
+Stefan Starflinger: We have, Pooga.devNet1 still running. I'm onboarding Nimbus EL. There were some issues that were fixed.
+
+20
+00:12:08.460 --> 00:12:18.130
+Stefan Starflinger: And it's running pretty well. I haven't run any fuzzing there yet, but I'm thinking of doing that before starting Bogota DevNet 2.
+
+21
+00:12:18.440 --> 00:12:23.980
+Stefan Starflinger: And that the tests will be ready pretty soon for that, I think, today or tomorrow.
+
+22
+00:12:24.190 --> 00:12:26.789
+Stefan Starflinger: From what Spencer wrote,
+
+23
+00:12:26.910 --> 00:12:34.429
+Stefan Starflinger: And that should be ready to launch, but I think we still need some branches from clients for it.
+
+24
+00:12:40.100 --> 00:12:40.860
+Justin Traglia: Okay.
+
+25
+00:12:43.280 --> 00:12:44.730
+Justin Traglia: Anything else?
+
+26
+00:12:50.340 --> 00:12:51.850
+Justin Traglia: Okay, thank you.
+
+27
+00:12:52.020 --> 00:12:54.980
+Justin Traglia: Moving on, Toni, are you here to…
+
+28
+00:12:55.160 --> 00:13:00.830
+Justin Traglia: Give us updates on the 8037 and 8038 issue that came up last week.
+
+29
+00:13:01.540 --> 00:13:11.270
+Toni Wahrstätter: Yeah, I'm happy to do so. So, last week, ChainSecurity provided this, bug report that 8047 and 8038 interact with
+
+30
+00:13:11.630 --> 00:13:18.160
+Toni Wahrstätter: some opcodes in a way that we weren't anticipating or weren't looking into, I guess.
+
+31
+00:13:18.330 --> 00:13:19.520
+Toni Wahrstätter: And…
+
+32
+00:13:20.070 --> 00:13:36.009
+Toni Wahrstätter: So, just to get everyone onto the same page, there are basically four issues. One of them was always known, that if you reprice opcodes, that, if you hard-code gas within contracts, that that can break. And this is not the new part about this one.
+
+33
+00:13:36.010 --> 00:13:49.379
+Toni Wahrstätter: But then there is also an interaction with gas left, which is used in some of the contracts, and based on what Jayani reported, gas left could suddenly increase, and this was something new.
+
+34
+00:13:49.920 --> 00:13:54.029
+Toni Wahrstätter: And similar applies to, gas left,
+
+35
+00:13:54.130 --> 00:14:01.990
+Toni Wahrstätter: Similar applies to refunds that suddenly could fund execution of a path that Before that, couldn't execute.
+
+36
+00:14:02.250 --> 00:14:08.739
+Toni Wahrstätter: So this is just a quick TLDR of the issues, and right now, it felt like over the weekend, people…
+
+37
+00:14:08.880 --> 00:14:18.789
+Toni Wahrstätter: analyzed the situation more carefully. So a bunch of people used AI to dig deep into that issue, and my personal feeling here is
+
+38
+00:14:18.890 --> 00:14:31.809
+Toni Wahrstätter: That we have a quite good overview over the… the blast radius of this… of this bug, of this vulnerability, and now it's about reaching out to the affected parties and make sure
+
+39
+00:14:31.950 --> 00:14:34.789
+Toni Wahrstätter: To discuss next steps with them.
+
+40
+00:14:35.450 --> 00:14:36.530
+Toni Wahrstätter: And…
+
+41
+00:14:37.050 --> 00:14:43.349
+Toni Wahrstätter: People already started discussing spec changes and so on, but right now, it feels like we don't have certainty
+
+42
+00:14:43.550 --> 00:14:46.849
+Toni Wahrstätter: to… to do so, so I don't think we are ready to…
+
+43
+00:14:46.960 --> 00:14:52.140
+Toni Wahrstätter: to schedule Hoodi, so my feeling is we should delay that by at least a week.
+
+44
+00:14:52.540 --> 00:14:56.140
+Toni Wahrstätter: And then, keep discussing the topic.
+
+45
+00:15:00.790 --> 00:15:01.500
+Justin Traglia: Fredrik.
+
+46
+00:15:02.710 --> 00:15:10.490
+Fredrik: Yeah, we also engaged with the chain security and DAO to do a more comprehensive analysis, and they're…
+
+47
+00:15:11.210 --> 00:15:20.629
+Fredrik: ETA is… Two weeks to provide a report. So my recommendation would be to wait.
+
+48
+00:15:21.390 --> 00:15:27.759
+Fredrik: Well, at least until we feel more confident, but that could be at the end of this.
+
+49
+00:15:28.470 --> 00:15:35.419
+Fredrik: review process that's… chain security and DWB is also doing, on top of the internal stuff that's
+
+50
+00:15:36.830 --> 00:15:38.619
+Fredrik: Toni has been discussing now?
+
+51
+00:15:40.410 --> 00:15:44.779
+Justin Traglia: Was that 2 weeks from today, or 2 weeks from, last Thursday?
+
+52
+00:15:45.780 --> 00:15:52.100
+Fredrik: Most likely today. I… I don't…
+
+53
+00:15:52.890 --> 00:15:58.180
+Fredrik: I'm not foolish, or… I mean, we reached out to them, At that point.
+
+54
+00:15:58.950 --> 00:16:02.930
+Fredrik: But kind of came to an agreement on Friday, I guess.
+
+55
+00:16:03.050 --> 00:16:05.740
+Fredrik: So I would probably count it from today.
+
+56
+00:16:15.260 --> 00:16:17.879
+Maria Silva: Yeah, I… I would also add that,
+
+57
+00:16:17.930 --> 00:16:35.580
+Maria Silva: besides the, analysis that we've been doing internally, and that, Fredrik has talked about, the… with the, security researchers, I think there's then the outreach work as well. As Toni was saying, like, the key thing will be
+
+58
+00:16:35.830 --> 00:16:40.749
+Maria Silva: First, we understand the affected contracts, then we reach out
+
+59
+00:16:40.960 --> 00:16:46.850
+Maria Silva: to the teams, and the first… The default will be
+
+60
+00:16:46.960 --> 00:16:52.199
+Maria Silva: To understand if they can fix it. And if they can, then that should be our default.
+
+61
+00:16:52.720 --> 00:16:56.330
+Maria Silva: and only if…
+
+62
+00:16:56.520 --> 00:17:05.339
+Maria Silva: they can't fix it, and the blast radius is big enough, would we then consider spec changes? And the reason for this is mostly because
+
+63
+00:17:05.619 --> 00:17:17.519
+Maria Silva: Spec changes are expensive. In many cases, it's not even possible to fix it without undoing the entire EIP, which would mean not raising the gas limit.
+
+64
+00:17:18.160 --> 00:17:30.909
+Maria Silva: In some cases, and so I think we need to look at, first spec changes should be targeted, so they shouldn't be… just we do everything. We should try to, if we find an issue.
+
+65
+00:17:31.650 --> 00:17:39.590
+Maria Silva: cannot be fixed, has a big plus radius, then we work towards fixing that issue in specific. So, and change it
+
+66
+00:17:39.790 --> 00:17:41.630
+Maria Silva: As least as possible.
+
+67
+00:17:43.930 --> 00:17:51.409
+Maria Silva: And so… so this is to say that we should try as much as possible to not change the specs, and then only change it
+
+68
+00:17:52.010 --> 00:17:55.370
+Maria Silva: Doing, like, the least changes as possible.
+
+69
+00:17:55.770 --> 00:18:04.899
+Maria Silva: And also because this is kind of spaghetti, right? Like, if we change some things, then we might break other contracts that we are not expecting.
+
+70
+00:18:05.140 --> 00:18:09.780
+Maria Silva: So we would need to redo the entire analysis again.
+
+71
+00:18:10.170 --> 00:18:27.499
+Maria Silva: So yeah, so I think this is how we are currently looking at it, so we are rushing to have a good analysis of the blast radios, contacting the teams, making sure that they can fix it, and only if they can, then we'll consider spec changes.
+
+72
+00:18:28.280 --> 00:18:30.279
+Fredrik: Yeah, and also on top of,
+
+73
+00:18:30.970 --> 00:18:34.809
+Fredrik: Analysis on the contracts, like, if there was to be,
+
+74
+00:18:36.280 --> 00:18:44.010
+Fredrik: some type of a major spec change, then we would need to… well, we would, in our case, need to reduce Sepolia…
+
+75
+00:18:44.510 --> 00:18:53.360
+Fredrik: And we would have to… creates new tests, we would have to do another security, review.
+
+76
+00:18:53.960 --> 00:18:58.869
+Fredrik: And this is gonna take… quite a lot of time, so if…
+
+77
+00:19:00.750 --> 00:19:05.970
+Fredrik: Yeah, like Potuz says, in that case, we just probably have to ditch it and just start something new.
+
+78
+00:19:06.430 --> 00:19:09.359
+Fredrik: It's quite an invasive thing, and if…
+
+79
+00:19:11.290 --> 00:19:20.079
+Fredrik: I mean, there will probably be contracts that cannot be upgraded that are found, but then the question is, are there mitigating factors to that?
+
+80
+00:19:20.370 --> 00:19:26.110
+Fredrik: could… Could this contract be,
+
+81
+00:19:27.860 --> 00:19:37.900
+Fredrik: exited within a reasonable timeframe for users and so forth. I think it's gonna have… after this analysis is done, it's gonna have to be some… probably…
+
+82
+00:19:38.910 --> 00:19:44.870
+Fredrik: Discussions around what to do with contracts that cannot be upgraded, and… Is it reasonable?
+
+83
+00:19:45.090 --> 00:19:47.930
+Fredrik: For the users of those contracts to exit, and…
+
+84
+00:19:48.450 --> 00:19:51.900
+Fredrik: Use a new contract which is compatible, etc.
+
+85
+00:19:53.320 --> 00:19:55.319
+Fredrik: That feels like something that we would…
+
+86
+00:19:55.490 --> 00:19:57.809
+Fredrik: We're doing after we've done the outreach, and…
+
+87
+00:19:58.160 --> 00:20:00.339
+Fredrik: Figure out the entire blast radius.
+
+88
+00:20:02.900 --> 00:20:03.720
+Justin Traglia: Lucas?
+
+89
+00:20:04.250 --> 00:20:15.639
+Łukasz Rozmej: So in my opinion, because we don't know what would be the correct path yet, we shouldn't box ourselves into one of those two alternatives, and we should keep exploring
+
+90
+00:20:15.840 --> 00:20:30.589
+Łukasz Rozmej: both alternatives, that is, spec changes and not spec changes in parallel. So, if we get the feedback that we do have to do spec change, then we would be further on that path than not.
+
+91
+00:20:32.860 --> 00:20:33.570
+Justin Traglia: Maria.
+
+92
+00:20:36.220 --> 00:20:52.440
+Maria Silva: I would add, I don't disagree with you, Lucas, and I do feel like it's valuable to do it, and I think we should do it, and I'm also reviewing your PR and working on a doc to summarize it, but I think
+
+93
+00:20:53.340 --> 00:21:07.569
+Maria Silva: the current PR you have does a lot of changes that tackle a lot of invariants, and I think instead, what we should do at this point is, like, go invariant by invariant, and try to think what the targeted fix would be.
+
+94
+00:21:08.050 --> 00:21:20.089
+Maria Silva: So that we can know, like, now this contract is breaking because of X, then I can pull the spec change I need. And this is not, like, a bundle of a lot of changes, it's, like, the change that fixes this.
+
+95
+00:21:20.340 --> 00:21:21.390
+Maria Silva: Also.
+
+96
+00:21:21.390 --> 00:21:29.650
+Łukasz Rozmej: So, this is kind of how I arrived to this, to this solution, so, yeah, sure.
+
+97
+00:21:38.860 --> 00:21:57.760
+Łukasz Rozmej: So this wasn't, like, one-shotted in any way or anything, this was, I don't know, at least 12 hours working with, cross models from, Opus, Fable, Matos, and Astra, and reviewing each other and trying to
+
+98
+00:21:57.980 --> 00:22:01.009
+Łukasz Rozmej: To find holes in this, so that's why it…
+
+99
+00:22:01.600 --> 00:22:11.440
+Łukasz Rozmej: The end result might be too big, I agree, but it might be trimmed, but that was kind of how this was growing, because…
+
+100
+00:22:11.570 --> 00:22:17.560
+Łukasz Rozmej: Each other found holes in the previous work, so to patch all.
+
+101
+00:22:17.560 --> 00:22:18.559
+Maria Silva: Right, right, but…
+
+102
+00:22:18.680 --> 00:22:25.760
+Maria Silva: But if I understand correctly, just make sure I understand, the starting point was the report from ChainSecurity, right?
+
+103
+00:22:25.760 --> 00:22:26.250
+Łukasz Rozmej: Yes.
+
+104
+00:22:26.250 --> 00:22:28.170
+Maria Silva: Which, which reports
+
+105
+00:22:28.360 --> 00:22:40.499
+Maria Silva: a bunch of different invariants, not just one. And so I think your starting point was already a bundle of things that need to change, and we might not need to change everything there.
+
+106
+00:22:40.800 --> 00:22:42.169
+Łukasz Rozmej: Might be true.
+
+107
+00:22:42.570 --> 00:22:46.789
+Maria Silva: So this is the exercise I'm trying to do on my side, and I'm…
+
+108
+00:22:46.900 --> 00:22:58.400
+Maria Silva: And I'm also using your work, like, it's not… I'm piggybacking from you, I'm just trying to break it down further so that we have more targeted changes if we need them.
+
+109
+00:23:02.900 --> 00:23:08.859
+Fredrik: Yeah, I agree with you, Lucas. I mean, I… this should be done in our case.
+
+110
+00:23:09.680 --> 00:23:14.970
+Fredrik: In case… For some reason, something pops up that makes it necessary.
+
+111
+00:23:15.250 --> 00:23:17.010
+Fredrik: I still hope.
+
+112
+00:23:17.340 --> 00:23:22.629
+Fredrik: it won't be needed, but I… yeah, I do agree that it's valuable to do this exercise.
+
+113
+00:23:23.310 --> 00:23:31.679
+Fredrik: Just in case, so we don't end up in 2 weeks, or 3 weeks and see, and we have to start at that point, because that's gonna delay things even further.
+
+114
+00:23:31.950 --> 00:23:37.689
+Fredrik: But… For now… It appears that it won't be necessary?
+
+115
+00:23:38.500 --> 00:23:39.730
+Fredrik: Hopefully, at least.
+
+116
+00:23:40.600 --> 00:23:41.520
+Fredrik: But, yeah.
+
+117
+00:23:43.000 --> 00:23:45.480
+Fredrik: I mean, I am wondrous support.
+
+118
+00:23:46.950 --> 00:23:48.160
+Justin Traglia: Sorry, Toni?
+
+119
+00:23:49.690 --> 00:23:58.890
+Toni Wahrstätter: Yeah, just to add, also the… the potential spec change that we might be doing after all, I don't think we will, but…
+
+120
+00:23:59.110 --> 00:24:03.070
+Toni Wahrstätter: the one that we are discussing. It will also depend a little bit on
+
+121
+00:24:03.220 --> 00:24:11.010
+Toni Wahrstätter: the result from the outreach, because there are different things that are breaking for very different reasons. Like, we have identified four
+
+122
+00:24:11.400 --> 00:24:13.130
+Toni Wahrstätter: different,
+
+123
+00:24:13.800 --> 00:24:24.949
+Toni Wahrstätter: coding patterns that break, and those are very independent from each other. So, of course, there are solutions in the specs, that kind of tackle them all at once, but…
+
+124
+00:24:25.230 --> 00:24:31.820
+Toni Wahrstätter: it might be much simpler to even tackle them individually, like Maria said, like, trying to make it very modular.
+
+125
+00:24:32.010 --> 00:24:42.029
+Toni Wahrstätter: Not sure if that's possible, but right now, just to stress that again, it doesn't look like we will need spec changes. All the findings that,
+
+126
+00:24:42.090 --> 00:24:55.520
+Toni Wahrstätter: were, like, ranked as high severity, seem like they are fixable, and parties are aware of that. So, I would just delay the decision, until next week or two weeks.
+
+127
+00:24:59.700 --> 00:25:02.860
+Toni Wahrstätter: Sorry, not decision, the scheduling for Hoodi.
+
+128
+00:25:06.370 --> 00:25:06.970
+Justin Traglia: Yep.
+
+129
+00:25:09.320 --> 00:25:11.550
+Justin Traglia: Okay, anything else on this topic?
+
+130
+00:25:11.940 --> 00:25:13.669
+Justin Traglia: Otherwise, I think we should move on.
+
+131
+00:25:20.510 --> 00:25:21.400
+Justin Traglia: Okay.
+
+132
+00:25:22.160 --> 00:25:25.390
+Justin Traglia: Dimitri, are you here to give us,
+
+133
+00:25:26.080 --> 00:25:32.149
+Justin Traglia: Alright, to talk about your proposal to change the builder onboarding logic now that Hoodi has postponed.
+
+134
+00:25:33.670 --> 00:25:42.930
+Dima Gusakov | Lido: So, the link is attached to the agenda, and the… The gist is that…
+
+135
+00:25:43.130 --> 00:25:49.740
+Dima Gusakov | Lido: builder onboarding, within Glamsterdam, what happened, like, at the moment of the fork, through the…
+
+136
+00:25:50.160 --> 00:25:56.710
+Dima Gusakov | Lido: Validator deposit queue, and there is an invariant that some of the protocols, including Lido.
+
+137
+00:25:56.850 --> 00:26:03.879
+Dima Gusakov | Lido: heavily or not heavily rely on. The invariant is that whenever you make a deposit to a validator.
+
+138
+00:26:04.470 --> 00:26:17.720
+Dima Gusakov | Lido: What you expect for sure is that after making this deposit, no matter if this deposit has been attacked by your node operator, for example, and has been front-run.
+
+139
+00:26:17.830 --> 00:26:18.949
+Dima Gusakov | Lido: or not.
+
+140
+00:26:19.420 --> 00:26:25.690
+Dima Gusakov | Lido: At the end, like, once you've made a deposit, there will be a validator with this public key.
+
+141
+00:26:25.710 --> 00:26:39.870
+Dima Gusakov | Lido: added to the registry, sooner or later. But this is an inevitable outcome right now. With this builder onboarding process, this invariant breaks, and now, with the current spec, if you
+
+142
+00:26:40.100 --> 00:26:56.939
+Dima Gusakov | Lido: make a deposit to a Validator, pre-Glamsterdam, and then this deposit is front-run by your node operator with the deposit message that contains OXBO, prefixed to the withdrawal credentials.
+
+143
+00:26:57.010 --> 00:27:06.679
+Dima Gusakov | Lido: Then, after you made this deposit, your deposit will never transition into a validator, but it… rather, your deposit would be credited to a builder.
+
+144
+00:27:07.000 --> 00:27:09.380
+Dima Gusakov | Lido: And that creates,
+
+145
+00:27:09.760 --> 00:27:24.079
+Dima Gusakov | Lido: several potential issues, like, including on Lido's side, where the system is built around the assumption that some sort of a validator would appear, and you would either be able to prove that the validator has appeared with the right withdrawal credentials, or with wrong.
+
+146
+00:27:24.350 --> 00:27:34.479
+Dima Gusakov | Lido: Well, in this case, there will be nothing to prove, and a patch is, could be required, or, like, pausing deposits, or whatever workaround on the application layer.
+
+147
+00:27:34.670 --> 00:27:54.320
+Dima Gusakov | Lido: And I think somewhat similar, things apply to the other protocols. I'm not quite sure, like, I never did a detailed analysis on the severity for the other protocols, but I do think that a lot of staking protocols might rely on this assumption and this invariant. So the proposal is to change the way how deposits are processed.
+
+148
+00:27:54.330 --> 00:28:12.209
+Dima Gusakov | Lido: on the Glamsterdam hard fork, and that only deposits that have OXBO prefix in the withdrawal credentials would be credited to builders, while any other deposits, including deposits with the same public key.
+
+149
+00:28:12.210 --> 00:28:17.179
+Dima Gusakov | Lido: For the Validator would indeed be processed normally, so they would not be picked up.
+
+150
+00:28:17.220 --> 00:28:22.409
+Dima Gusakov | Lido: From the deposit queue at the moment of work, and later on will be processed as normal.
+
+151
+00:28:22.430 --> 00:28:39.250
+Dima Gusakov | Lido: This is a minimal change. I think Potos did a research on that, and found no issues other than the fact that builders should be aware on how they should make top-ups if they want to have not just the initial deposit for the builder.
+
+152
+00:28:39.250 --> 00:28:51.840
+Dima Gusakov | Lido: but also top-ups. So, my call here is, provided that we now have a little bit of a leeway to test, to implement and test this… this thing, to fix this thing, and I guess
+
+153
+00:28:51.850 --> 00:29:07.049
+Dima Gusakov | Lido: On the last call, we discussed that. There was a major alignment that the issue is real and it's better to be fixed, though the main concern was that it would break timelines, but now then, when the timelines are already broken.
+
+154
+00:29:07.330 --> 00:29:11.510
+Dima Gusakov | Lido: I highly ask you to consider fixing this thing,
+
+155
+00:29:11.690 --> 00:29:13.469
+Dima Gusakov | Lido: Given that we now have time.
+
+156
+00:29:19.840 --> 00:29:20.960
+Justin Traglia: Oh, thank you.
+
+157
+00:29:21.140 --> 00:29:23.399
+Justin Traglia: Clients, what do you think?
+
+158
+00:29:40.660 --> 00:29:46.499
+Justin Traglia: Okay, I support this PR. I know Nico and Potuzz also support doing this.
+
+159
+00:29:48.630 --> 00:29:53.040
+Justin Traglia: I've chatted with other SL clients, and I believe they're also support doing this now.
+
+160
+00:29:53.460 --> 00:29:57.060
+Justin Traglia: Is there anyone that does not want to do this, or thinks that this is a bad idea?
+
+161
+00:30:05.810 --> 00:30:10.900
+Justin Traglia: Oh, sorry, I didn't actually see the comments. Support from Lighthouse as well.
+
+162
+00:30:14.020 --> 00:30:19.310
+Justin Traglia: Dustin… He says it's okay.
+
+163
+00:30:19.930 --> 00:30:20.510
+Dima Gusakov | Lido: Yeah.
+
+164
+00:30:20.510 --> 00:30:20.900
+Justin Traglia: Understood.
+
+165
+00:30:20.900 --> 00:30:31.489
+Dima Gusakov | Lido: Dustin's concerned, as far as I know, the situation that I've described was not possible on Sepolia, and hasn't occurred on Sepolia.
+
+166
+00:30:31.660 --> 00:30:43.339
+Dima Gusakov | Lido: because of the way how deposit contract is made. So, technically speaking, it would not change anything compared to Sepolia, except for this very moment of forking, which was not affected on Sepolia anyway.
+
+167
+00:30:45.710 --> 00:30:48.340
+Justin Traglia: Yeah, that's right, it shouldn't affect Sepolia.
+
+168
+00:30:50.070 --> 00:30:56.879
+Dustin: Okay, I mean, it obviously won't affect Sepolia in an ongoing way, of course. We're in Goras now.
+
+169
+00:30:56.890 --> 00:31:13.839
+Dustin: I'm also keeping in mind, and I understand that… that there's discussion and, you know, at various timescales of when to, depicate Sepolia, and… but… but without committing, to anyone firmly yet, because we don't know, pending 8037, et cetera, et cetera.
+
+170
+00:31:14.070 --> 00:31:18.410
+Dustin: The question ends up being, if… I mean, I think the most…
+
+171
+00:31:18.570 --> 00:31:38.189
+Dustin: either, sort of, let's say Genesis syncing, yes, yes, I know, like, weak subjectivity period, but let's say you want a Genesis sync, or we sync from before this time period, or backfilling, and those are the scenarios I just want to make sure are… can be done, or would be able to be done, using post-Sepolia Glow As code on Sepolia.
+
+172
+00:31:38.370 --> 00:31:39.420
+Dustin: That's the question.
+
+173
+00:31:41.380 --> 00:31:42.120
+Justin Traglia: Nico?
+
+174
+00:31:43.280 --> 00:31:50.049
+Nico Flaig: Yeah, so we didn't do the builder onboarding on Sepolia, so that's the only case where it could cause a divergence.
+
+175
+00:31:50.460 --> 00:31:54.280
+Nico Flaig: So, for Sepolia, it will not matter in the cases you mentioned.
+
+176
+00:31:55.000 --> 00:31:56.540
+Dustin: Okay, fine, done.
+
+177
+00:32:01.750 --> 00:32:09.339
+Justin Traglia: Okay, great. I think we should just… let's merge this PR and make a release sometime this week.
+
+178
+00:32:16.320 --> 00:32:17.090
+Justin Traglia: Alright.
+
+179
+00:32:17.610 --> 00:32:18.800
+Justin Traglia: Moving on.
+
+180
+00:32:19.410 --> 00:32:28.600
+Justin Traglia: Barnabas, are you here to discuss, raising the Get payload timeout and the inclusion list for choice updated timing?
+
+181
+00:32:31.780 --> 00:32:40.579
+Barnabas: No, because I opened a new PR where we would basically get rid of the definition. We were just discussing this in intro.
+
+182
+00:32:40.950 --> 00:32:43.809
+Barnabas: Just a few minutes ago.
+
+183
+00:32:46.840 --> 00:32:49.000
+Barnabas: So the idea was,
+
+184
+00:32:49.690 --> 00:32:55.309
+Barnabas: that the timeout should just go away, and that the EL should reply as soon as possible.
+
+185
+00:33:00.750 --> 00:33:03.969
+Justin Traglia: Yep, thank you. I mean, that makes sense to me.
+
+186
+00:33:04.200 --> 00:33:06.500
+Justin Traglia: EL… since we have EL clients here.
+
+187
+00:33:06.620 --> 00:33:09.490
+Justin Traglia: I mean, does that make sense? Or is this doable?
+
+188
+00:33:15.290 --> 00:33:23.789
+Daniel Lehrner: Yeah, so it's definitely doable. As I explained on Discord, you know, we were waiting on purpose to build a more valuable block.
+
+189
+00:33:24.160 --> 00:33:34.250
+Daniel Lehrner: But now, through the discussion, it seems like that's actually not what we're supposed to do. So now the spec for me is clear what should happen.
+
+190
+00:33:36.490 --> 00:33:38.289
+Justin Traglia: Got it, thank you. Fabio?
+
+191
+00:33:39.820 --> 00:33:45.019
+Fabio - Besu: Yeah, I want to add a possible interaction with FOCIL.
+
+192
+00:33:45.350 --> 00:33:50.480
+Fabio - Besu: When, we are… Ask it to include?
+
+193
+00:33:50.820 --> 00:33:53.999
+Fabio - Besu: A list of, transaction.
+
+194
+00:33:55.600 --> 00:34:04.800
+Fabio - Besu: It is worthless to create an empty block at the beginning, since it will not satisfy the inclusion list.
+
+195
+00:34:04.980 --> 00:34:09.420
+Fabio - Besu: So, with Fossil, it's possible that the first
+
+196
+00:34:10.389 --> 00:34:14.420
+Fabio - Besu: There will be a bit of delay, because we tried to build
+
+197
+00:34:14.699 --> 00:34:23.740
+Fabio - Besu: the block with at least only the inclusion list transaction. So it's not the empty block like it is now.
+
+198
+00:34:23.909 --> 00:34:26.070
+Fabio - Besu: But it will be a minimal block.
+
+199
+00:34:26.370 --> 00:34:34.269
+Fabio - Besu: with… Only the inclusion list transaction, because otherwise it… it is worthless to return something.
+
+200
+00:34:36.650 --> 00:34:41.389
+Fabio - Besu: Just wanted to… Raise this, because…
+
+201
+00:34:42.880 --> 00:34:47.060
+Fabio - Besu: With FOCIL, there could be some more delays in GetPayload.
+
+202
+00:34:50.250 --> 00:34:50.969
+Justin Traglia: Nico?
+
+203
+00:34:52.590 --> 00:34:58.100
+Nico Flaig: Yeah, I'm mostly, questioning, like, how the L should call GetPayload then.
+
+204
+00:34:58.240 --> 00:35:05.039
+Nico Flaig: Because if we have builders configured, we can do this call when the GetHeader respond is returned, right?
+
+205
+00:35:05.370 --> 00:35:10.039
+Nico Flaig: To give the EL the max time to produce a better local payload.
+
+206
+00:35:10.650 --> 00:35:14.920
+Nico Flaig: But that highly depends on, like, how ELs behave, like…
+
+207
+00:35:18.290 --> 00:35:21.339
+Nico Flaig: And I'm not sure that's clear from the spec, if, like…
+
+208
+00:35:22.080 --> 00:35:28.100
+Nico Flaig: should be an instant response, right? But also, Dustin is saying, like, there are payload timeouts, so…
+
+209
+00:35:42.090 --> 00:35:49.420
+Dustin: Yeah, I actually think this is useful because it clarifies the intent, and,
+
+210
+00:35:49.800 --> 00:36:00.910
+Dustin: Because this is what… when we were seeing this, when Nimbus CL was seeing this, specifically on the DevNets from REF as it happens, we didn't see it from Besu for whatever reason.
+
+211
+00:36:01.280 --> 00:36:09.050
+Dustin: We would see these consistent timeouts on GetPayload, and the problem was, it was like, okay, we actually could say, okay, something was going wrong with timing out, fine.
+
+212
+00:36:09.070 --> 00:36:22.610
+Dustin: But was the fact that it was getting even vaguely within an order of magnitude close to timing out also a problem, or was that just, like, doing a spec thing? And so I think it's kind of useful to clarify… for the spec to clarify that one way or another here.
+
+213
+00:36:36.020 --> 00:36:39.599
+Justin Traglia: I mean, it's already been merged, but do we need to agree to this?
+
+214
+00:36:39.940 --> 00:36:40.760
+Justin Traglia: Today.
+
+215
+00:36:41.820 --> 00:36:43.890
+Justin Traglia: Is there anyone that's against it, or…
+
+216
+00:37:00.160 --> 00:37:04.280
+Justin Traglia: Toni's asking, does payload execution now have a deadline?
+
+217
+00:37:07.160 --> 00:37:08.059
+Justin Traglia: I don't know that.
+
+218
+00:37:35.370 --> 00:37:39.520
+Justin Traglia: Okay. Yeah, I don't wanna say.
+
+219
+00:37:39.660 --> 00:37:46.269
+Justin Traglia: Please review that PR, even though it's already been merged. If necessary, we can unmerge it.
+
+220
+00:37:47.030 --> 00:37:49.559
+Justin Traglia: And let's talk about this more.
+
+221
+00:37:49.720 --> 00:37:53.530
+Justin Traglia: at DEF CON, and… or the next ACDT.
+
+222
+00:37:57.730 --> 00:37:59.140
+Justin Traglia: Alright,
+
+223
+00:38:00.330 --> 00:38:07.889
+Justin Traglia: I would like to bring up that, we'll be at DEF CON this time next week, and that we should skip ACDT on November 2nd.
+
+224
+00:38:08.400 --> 00:38:15.270
+Justin Traglia: If we decide to do this, ACDT103 will be on November 9th, moderated by an EL dev.
+
+225
+00:38:15.470 --> 00:38:17.169
+Justin Traglia: Does that sound fine with everyone?
+
+226
+00:38:23.240 --> 00:38:24.520
+Justin Traglia: Okay, great.
+
+227
+00:38:25.190 --> 00:38:30.230
+Justin Traglia: Any other topics you guys would like to discuss before going into the breakout calls?
+
+228
+00:38:44.270 --> 00:38:47.239
+Justin Traglia: Alright, I just… oh, Mario?
+
+229
+00:38:47.240 --> 00:38:53.299
+Mario Vega: Yes, I just wanted to point out that there's no EL breakout topics. Should we just keep the EL discussion here, or…
+
+230
+00:38:53.620 --> 00:38:55.780
+Mario Vega: What do EL Devs want to do?
+
+231
+00:39:02.490 --> 00:39:06.150
+Justin Traglia: Toni, what does the thumbs up mean, exactly? Keep it here.
+
+232
+00:39:06.150 --> 00:39:08.580
+Toni Wahrstätter: Yeah, leave the room to the Silva.
+
+233
+00:39:10.230 --> 00:39:11.979
+Justin Traglia: Sure, I guess that's fine.
+
+234
+00:39:14.040 --> 00:39:15.700
+Justin Traglia: Okay,
+
+235
+00:39:16.100 --> 00:39:24.129
+Justin Traglia: Ashum, are you here to discuss verifying backfilled envelopes for exited builders? This does sound like a bug we need to fix.
+
+236
+00:39:33.310 --> 00:39:36.539
+Justin Traglia: Or is there anyone here that could speak on his behalf?
+
+237
+00:39:37.880 --> 00:39:42.650
+Justin Traglia: Pretty much there's issues, it's difficult to verify.
+
+238
+00:39:44.190 --> 00:39:48.479
+Justin Traglia: Difficult to verify envelopes for exited builders when syncing.
+
+239
+00:39:53.480 --> 00:39:58.200
+Justin Traglia: In his comments on the agenda, he outlines a few different proposals on how to fix it.
+
+240
+00:40:04.150 --> 00:40:06.000
+Justin Traglia: Spencer?
+
+241
+00:40:06.370 --> 00:40:08.350
+Justin Traglia: What do you mean, it's perfect consensus?
+
+242
+00:40:11.830 --> 00:40:15.459
+spencer: Hey, yeah, sorry, I was making a joke with regards to 837, sorry.
+
+243
+00:40:16.090 --> 00:40:17.120
+Justin Traglia: Oh, sorry.
+
+244
+00:40:17.830 --> 00:40:20.580
+Justin Traglia: Okay, then Potuzz, are you talking about…
+
+245
+00:40:20.960 --> 00:40:22.720
+Justin Traglia: When you say the hash is enough?
+
+246
+00:40:23.290 --> 00:40:25.229
+Justin Traglia: Are you talking about this or something else?
+
+247
+00:40:33.490 --> 00:40:37.099
+Justin Traglia: Okay. Pawan from Lighthouse says that we just recalculate the block route.
+
+248
+00:40:41.970 --> 00:40:42.900
+Justin Traglia: Perhaps tough.
+
+249
+00:40:43.570 --> 00:40:45.349
+Justin Traglia: Potuzz, do you want me to unmute you?
+
+250
+00:40:54.970 --> 00:40:56.010
+Justin Traglia: Gee, I can't.
+
+251
+00:40:59.560 --> 00:41:11.029
+Potuzz: Oh, I found the button. I'm sorry, I'm walking. I'm talking about backfilling. I don't understand why this… is that a problem. If you're… if you're already backfilling and you trust your current checkpoint.
+
+252
+00:41:11.190 --> 00:41:17.690
+Potuzz: and you're only doing backpilling, then the hash… the payload hash is good enough. You don't need to verify any signature.
+
+253
+00:41:21.320 --> 00:41:22.280
+Justin Traglia: Let's see.
+
+254
+00:41:24.410 --> 00:41:29.509
+Dustin: The premise here is that we want to be able to serve the envelopes through BlobsByRange.
+
+255
+00:41:29.870 --> 00:41:34.440
+Dustin: as well, and part of that is a signature.
+
+256
+00:41:42.250 --> 00:41:48.630
+Potuzz: Yeah, if you need to serve… if you need to serve the full envelope, then yes, you… then you… you might be getting,
+
+257
+00:41:49.000 --> 00:41:52.609
+Potuzz: A block whose signature is inval… the signature field is invalid.
+
+258
+00:41:54.060 --> 00:42:13.569
+Dustin: Right, and that's the question, right? So, so, if… if the stated… and that's what we would like to resolve, if the stated, intent, design, I don't know what we are here to do, of the spec, is that, the rec crisp on that, from… that…
+
+259
+00:42:13.940 --> 00:42:31.989
+Dustin: for the backfilling, note is simply unimportant. They are not expected to provide that. Number one, that should be made clearer. Number two, then there should be a way to signal this, and or it should be… there's some condition under which that we say, okay, but the…
+
+260
+00:42:31.990 --> 00:42:51.060
+Dustin: you know, if, let's say, you would usually want, let's say, the 5 months or whatever of the envelopes, or… but no, actually, no, only store… I mean, we were joking about this, you know, internally, but odd, should we only go back not no earlier than finalize? Because that's all that's even vaguely useful, except for BlobsByRange.
+
+261
+00:42:51.340 --> 00:42:57.189
+Dustin: if we can't serve the signatures reliably anyway. But right now, it's just kind of misleading.
+
+262
+00:43:10.420 --> 00:43:13.769
+Justin Traglia: any other thoughts on this from other client Devs?
+
+263
+00:43:15.380 --> 00:43:31.320
+Pawan Dhananjay: So you… you would… in order to make sure that the signature is correct, we would also need to, have the state for the builder who signed it, and the builder might have exited by the time we are backfilling it, so…
+
+264
+00:43:32.010 --> 00:43:43.769
+Pawan Dhananjay: I haven't seen, like, the agenda, if you have already proposed a solution for this, but, like, that was the issue that we ran into when we were trying to…
+
+265
+00:43:44.740 --> 00:43:46.520
+Pawan Dhananjay: Verify signatures as well.
+
+266
+00:43:50.220 --> 00:43:51.440
+Dustin: This is… this is…
+
+267
+00:43:52.010 --> 00:43:57.039
+Dustin: True. Well, this is the same… this is the issue indeed. This is precisely the issue.
+
+268
+00:43:57.480 --> 00:44:00.980
+Dustin: Oh, I see, oh, I see Sam's here, I don't know if he wants to… this is kind of his…
+
+269
+00:44:00.980 --> 00:44:08.149
+Potuzz: I'm s… I'm sorry that I'm interrupting, I think, someone. But there's no need to verify any signature ever.
+
+270
+00:44:08.430 --> 00:44:20.150
+Potuzz: So, we're making the point of verifying a signature that shouldn't be verified. That signature is there only for gossip. It's only to prevent a DOS at the gossip time.
+
+271
+00:44:20.360 --> 00:44:26.149
+Potuzz: So when serving this, the receiver of this should not even care about the signature.
+
+272
+00:44:28.850 --> 00:44:43.660
+Dustin: then the spec should make this clear. The spec should make it clear that this is… and you can argue it actually kind of does, because we looked at this and found that, for example, for block backfill, the spec does absolutely say you verify signatures, as I think we all do.
+
+273
+00:44:43.990 --> 00:44:58.889
+Dustin: and it specifies that all the way back to Phase 0 in the P2P interface document, and there is no similar language for envelopes, and maybe that's fine, because of, as you say. But if that's the case, that should be made clearer, because… yeah.
+
+274
+00:44:59.130 --> 00:45:14.110
+Dustin: And just that… and if that is the case, then it is probably useful to say, and here's if, you know, there was an, you know, a question about, well, did we have proposals, things like this? Maybe we say it's zero.
+
+275
+00:45:14.540 --> 00:45:15.260
+Dustin: Right.
+
+276
+00:45:16.050 --> 00:45:23.360
+Dustin: Like, the signature provided is zero, so we're not providing a potentially invalid signature, we're providing a signature which we're saying we don't…
+
+277
+00:45:23.850 --> 00:45:25.099
+Dustin: Think as trustworthy.
+
+278
+00:45:25.610 --> 00:45:27.349
+Dustin: But either way, it should be specified.
+
+279
+00:45:34.810 --> 00:45:39.709
+Sam | Nimbus: Yeah, and I think the main approach that I would like to propose
+
+280
+00:45:39.880 --> 00:45:50.270
+Sam | Nimbus: Was, if the signature is not verifiable in below checkpoint… In the case that… baffling.
+
+281
+00:45:50.820 --> 00:46:00.879
+Sam | Nimbus: then… Should we remove the signature in the by-range request response endpoint so that… to make it clear, or…
+
+282
+00:46:01.080 --> 00:46:05.809
+Sam | Nimbus: To make it stated clearly in this consensus bet to…
+
+283
+00:46:05.930 --> 00:46:09.489
+Sam | Nimbus: So that, yeah, we do not need to verify that.
+
+284
+00:46:17.660 --> 00:46:24.250
+Sam | Nimbus: Yeah, I mean, we can… Gipping the signature in by range, but…
+
+285
+00:46:24.750 --> 00:46:32.400
+Sam | Nimbus: We should state it clearly in Consensus-pat, where that signature is not helpful.
+
+286
+00:46:32.680 --> 00:46:36.020
+Sam | Nimbus: In that particular period, or respond.
+
+287
+00:46:40.470 --> 00:46:42.819
+Justin Traglia: We could just add a note to the spec.
+
+288
+00:46:42.930 --> 00:46:45.970
+Justin Traglia: Instead of removing the signature from the request.
+
+289
+00:46:46.510 --> 00:46:47.770
+Justin Traglia: Or, response.
+
+290
+00:46:50.950 --> 00:47:05.820
+Sam | Nimbus: No, I mean, we do not need to remove anything if we want to keep the signature in the by-range response, but this is stated at a statement, like, to clarify that that signature is not
+
+291
+00:47:06.920 --> 00:47:12.009
+Sam | Nimbus: very helpful for verifying that envelope. This is what I mean.
+
+292
+00:47:13.240 --> 00:47:19.999
+Sam | Nimbus: So, nothing changed, it's just… clarified… a clarification into this Consensus path.
+
+293
+00:47:20.710 --> 00:47:23.799
+Sam | Nimbus: So that we're, yeah, we all align with that.
+
+294
+00:47:27.430 --> 00:47:29.470
+Justin Traglia: Yeah. I mean, I'm fine with that.
+
+295
+00:47:30.050 --> 00:47:31.790
+Justin Traglia: I have Potuzz thumbs up.
+
+296
+00:47:32.470 --> 00:47:34.109
+Justin Traglia: Assume that means support.
+
+297
+00:47:36.170 --> 00:47:38.499
+Sam | Nimbus: Yeah, sure, I can create a PR.
+
+298
+00:47:39.020 --> 00:47:40.280
+Sam | Nimbus: Regarding that.
+
+299
+00:47:42.520 --> 00:47:46.610
+Justin Traglia: Okay, Pawan, does that also sound fine to you?
+
+300
+00:47:48.800 --> 00:47:53.159
+Pawan Dhananjay: Yeah, but… yeah, that sounds good. I'll… I can review the PR.
+
+301
+00:47:56.260 --> 00:47:59.849
+Justin Traglia: Okay, thank you, Sam. I'll also review whenever that's posted.
+
+302
+00:48:03.430 --> 00:48:04.260
+Justin Traglia: Okay.
+
+303
+00:48:05.150 --> 00:48:08.020
+Justin Traglia: Anything else you guys would like to discuss?
+
+304
+00:48:15.520 --> 00:48:21.669
+Nico Flaig: Should we talk about the gas limit, gossip check, and, like, the transaction maximum?
+
+305
+00:48:22.430 --> 00:48:26.130
+Justin Traglia: Oh, yes, actually, that'd be great. Can you lead that, Nico?
+
+306
+00:48:27.880 --> 00:48:36.819
+Nico Flaig: Yeah, so maybe I can quickly share the check in the chat. So basically, when we receive a payload, so in class.
+
+307
+00:48:37.310 --> 00:48:48.599
+Nico Flaig: And, we already know the bid. We can, like, limit the max amount of transactions by simply checking the gas limit that the bid specified against, like.
+
+308
+00:48:48.840 --> 00:48:52.749
+Nico Flaig: Some minimum transaction gas that we specify.
+
+309
+00:48:53.020 --> 00:49:00.089
+Nico Flaig: Like, that number needs to be well-defined, I guess, but you could add a lot of wiggle room, so we don't underspecify it.
+
+310
+00:49:00.690 --> 00:49:05.000
+Nico Flaig: And we could basically reject payloads based on that limit.
+
+311
+00:49:05.850 --> 00:49:11.569
+Nico Flaig: And, I guess you could, enforce this really early in the gossip check.
+
+312
+00:49:11.920 --> 00:49:18.160
+Nico Flaig: And probably even during deserialization, so…
+
+313
+00:49:18.290 --> 00:49:24.680
+Nico Flaig: It's just a way to harden, like, the P2P gossip, yeah.
+
+314
+00:49:27.070 --> 00:49:30.300
+Justin Traglia: Toni, to answer your question,
+
+315
+00:49:31.460 --> 00:49:46.039
+Justin Traglia: With ePBS, it's a bit easier to broadcast and propagate, invalid payloads, which may be above the gas limit, and or be malicious. This would be just a simple check to limit that.
+
+316
+00:49:48.220 --> 00:49:56.850
+Toni Wahrstätter: Right, I understand, yeah. There are similar things on the EL, but usually it's just not spec, but client optimization.
+
+317
+00:49:57.110 --> 00:50:04.730
+Toni Wahrstätter: Like, it's… it's… having this check could be seen as a client optimization that allows clients to
+
+318
+00:50:04.940 --> 00:50:05.380
+Justin Traglia: Not…
+
+319
+00:50:05.380 --> 00:50:10.679
+Toni Wahrstätter: Recognize to identify invalid Payloads earlier, or invalids.
+
+320
+00:50:11.320 --> 00:50:19.320
+Justin Traglia: I sort of… I mean, I agree with you, it could be a client optimization, but that would limit it to an ignore. If we want it to be in a reject, it has to be in the spec.
+
+321
+00:50:23.530 --> 00:50:35.559
+Nico Flaig: Yeah, just to add to that, right, so it's, on gossip, we don't validate the payload, in that sense. We don't wait for the EL to tell us that it was valid, we just forward it anyway.
+
+322
+00:50:35.910 --> 00:50:53.670
+Nico Flaig: And if one client has this check and another doesn't, it means that one client forwards these payloads, and another would have to ignore them, but as Justin said, like, if we have this in the spec, then we can reject the message and, like, down Scorpios that send us this.
+
+323
+00:50:54.980 --> 00:51:00.809
+Toni Wahrstätter: But you don't forward multiple payloads today, right? Because this would mean you would DOS your EL.
+
+324
+00:51:00.930 --> 00:51:06.970
+Toni Wahrstätter: So there… there is already something that is blocking a builder submitting multiple, right?
+
+325
+00:51:10.330 --> 00:51:13.710
+Nico Flaig: Yeah, like, you have seen, cash, right?
+
+326
+00:51:14.010 --> 00:51:21.530
+Nico Flaig: That prevents it But when you receive that payload, you don't know whether it's valid or not.
+
+327
+00:51:33.980 --> 00:51:38.129
+Justin Traglia: I'm supportive of this check. I mean, it feels so basic.
+
+328
+00:51:38.680 --> 00:51:42.860
+Justin Traglia: I just don't like having to define them in transaction gas in the CL.
+
+329
+00:51:43.400 --> 00:51:44.920
+Justin Traglia: That's my only complaint.
+
+330
+00:52:01.390 --> 00:52:07.299
+Justin Traglia: maybe a dumb question, but what is the minimum transaction gas? I think I heard that it was 12,000? Is that…
+
+331
+00:52:07.790 --> 00:52:09.029
+Justin Traglia: So accurate.
+
+332
+00:52:12.710 --> 00:52:28.190
+Toni Wahrstätter: This is something that changes all the time. For example, it will probably change again with EIP transaction. So to me, just fundamentally, it feels wrong to, like, connect the EL with the CO in a way where the CO suddenly needs to know, like, minimum
+
+333
+00:52:28.940 --> 00:52:30.710
+Toni Wahrstätter: Transaction guess values.
+
+334
+00:52:31.910 --> 00:52:36.280
+Toni Wahrstätter: that sometimes even depend on the gas limit. For example, the state cap.
+
+335
+00:52:39.930 --> 00:52:41.180
+Justin Traglia: Yeah, you're not wrong.
+
+336
+00:52:55.450 --> 00:52:58.379
+Justin Traglia: Sorry, there was a southern house.
+
+337
+00:53:04.290 --> 00:53:06.459
+Justin Traglia: Dustin says he's not really against it.
+
+338
+00:53:07.380 --> 00:53:13.900
+Justin Traglia: And jochem says that the minimum gas limit is 20… 21,000 before Amsterdam and 12,000 after Amsterdam.
+
+339
+00:53:15.780 --> 00:53:25.630
+Justin Traglia: Nico and others, how would he feel about just leaving this as optional for clients and just ignoring the messages? Like, is that sufficient and still useful?
+
+340
+00:53:30.770 --> 00:53:37.310
+Nico Flaig: Yeah, I would say it depends if, like, every client anyway implements it, right, then might as well define it in the spec.
+
+341
+00:53:37.970 --> 00:53:45.780
+Nico Flaig: I do agree with, like, the… I also don't like having this EL-specific constant. I don't like the…
+
+342
+00:53:46.230 --> 00:53:53.770
+Nico Flaig: bit validation, gas, target validation, I don't like that either, but…
+
+343
+00:53:55.650 --> 00:54:00.690
+Nico Flaig: I don't know, I mean, we could, keep it maintained on the spec across forks, right?
+
+344
+00:54:01.250 --> 00:54:04.360
+Nico Flaig: If there's a new constant that we need to use.
+
+345
+00:54:05.460 --> 00:54:06.220
+Justin Traglia: Yeah.
+
+346
+00:54:06.490 --> 00:54:07.450
+Justin Traglia: Potuzz?
+
+347
+00:54:09.220 --> 00:54:23.100
+Potuzz: I think it's fine to have a EL flag, it doesn't need to agree with EL in any way, it should be a lower bound. We can just put a ridiculous value, which is very, very low, and still will save all of the GOS that we see from these realizations.
+
+348
+00:54:23.340 --> 00:54:27.870
+Potuzz: So even if we put, like, something like min gas to be less than 1,000,
+
+349
+00:54:28.220 --> 00:54:32.710
+Potuzz: It'll be absolutely fine, and we can envision a time where it would take
+
+350
+00:54:32.900 --> 00:54:36.720
+Potuzz: several years for the EL to reach such a gas limit.
+
+351
+00:54:50.570 --> 00:54:52.450
+Justin Traglia: Nico, do you have a PR for this?
+
+352
+00:54:55.300 --> 00:54:56.900
+Nico Flaig: No, not yet.
+
+353
+00:54:59.070 --> 00:54:59.830
+Justin Traglia: Okay.
+
+354
+00:55:00.690 --> 00:55:03.389
+Justin Traglia: I'm thinking you should make one,
+
+355
+00:55:03.660 --> 00:55:09.040
+Justin Traglia: Then we can discuss it a bit more, and then maybe merge it today or tomorrow, or sorry, maybe tomorrow.
+
+356
+00:55:10.080 --> 00:55:13.400
+Justin Traglia: Yeah.
+
+357
+00:55:18.780 --> 00:55:23.309
+Justin Traglia: Potuzz's idea also sort of makes sense, though I'd rather just…
+
+358
+00:55:24.100 --> 00:55:26.739
+Justin Traglia: I feel like I'd rather just keep the…
+
+359
+00:55:27.140 --> 00:55:31.369
+Justin Traglia: Or sorry, use the minimum transaction gas for that specific fork.
+
+360
+00:55:32.100 --> 00:55:36.139
+Justin Traglia: Because it would… Just be more effective.
+
+361
+00:55:38.160 --> 00:55:41.480
+Justin Traglia: But, not a strong opinion. I'd have to think about it more.
+
+362
+00:55:47.650 --> 00:55:54.190
+Justin Traglia: Okay, I think we should move on to another topic. Barnabas, somewhere you mentioned…
+
+363
+00:55:54.620 --> 00:55:57.560
+Justin Traglia: Can we discuss the final form of Consensus specs?
+
+364
+00:55:57.720 --> 00:56:01.050
+Justin Traglia: Can we expect shorter slots to be merged in this week?
+
+365
+00:56:02.600 --> 00:56:04.390
+Justin Traglia: It's a great question. I don't know.
+
+366
+00:56:05.770 --> 00:56:07.629
+Justin Traglia: Jaehoon, are you here?
+
+367
+00:56:13.660 --> 00:56:14.769
+Justin Traglia: I guess not.
+
+368
+00:56:17.050 --> 00:56:21.170
+Justin Traglia: client teams, Potuzz, I mean…
+
+369
+00:56:21.570 --> 00:56:22.830
+Justin Traglia: I don't know what to say.
+
+370
+00:56:23.210 --> 00:56:28.950
+Justin Traglia: And we should… we merged, shorter slots into… the Glamsterdam spec.
+
+371
+00:57:01.220 --> 00:57:09.960
+Justin Traglia: Potuzz is saying, fine by me if we S… fine by me if we SFI it at ACD this week. I… I mean, I don't think that that's gonna happen, personally.
+
+372
+00:57:11.210 --> 00:57:13.969
+Justin Traglia: At least… I mean, we may SFI…
+
+373
+00:57:14.110 --> 00:57:17.720
+Justin Traglia: feature in the mechanism, but we might notify
+
+374
+00:57:17.880 --> 00:57:21.319
+Justin Traglia: Or, like, agree to a specific slot duration.
+
+375
+00:57:28.890 --> 00:57:35.119
+Justin Traglia: And NC's asking, didn't we agree not to do quick slots in the next subnet? So, don't merge.
+
+376
+00:57:37.680 --> 00:57:45.370
+Justin Traglia: Yeah, I mean, Barnabas and ETH, sorry, DevOps, I think they launched the DefNet themselves with quick thoughts.
+
+377
+00:57:45.870 --> 00:57:48.340
+Justin Traglia: And a 9-second slot duration.
+
+378
+00:57:49.530 --> 00:57:50.090
+Barnabas: Nope.
+
+379
+00:57:52.680 --> 00:57:54.339
+Barnabas: So the idea was that,
+
+380
+00:57:55.270 --> 00:58:01.319
+Barnabas: By the time we figure out how we want the spec report to look like, we should actually have some testing happening as well.
+
+381
+00:58:02.540 --> 00:58:06.340
+Barnabas: Yeah, I'm still not quite sure how we want the…
+
+382
+00:58:06.650 --> 00:58:12.610
+Barnabas: Consensus-spec report, to look like, but we already have another top for a week.
+
+383
+00:58:12.970 --> 00:58:18.280
+Barnabas: That's perfect, so… I feel like if we just have, like.
+
+384
+00:58:18.610 --> 00:58:28.390
+Barnabas: the specs in some open PR, and at this point, I think we have, like, 3 different PRs for the quick slots implementation, so this is also quite confusing.
+
+385
+00:58:29.260 --> 00:58:33.260
+Barnabas: I would personally much prefer if we, merge in…
+
+386
+00:58:33.890 --> 00:58:39.239
+Barnabas: the spec that we want to target for the following DevNets, instead of having open PRs.
+
+387
+00:58:43.620 --> 00:58:51.660
+Barnabas: And I just don't think it's realistic to have an SFI state before a stable spec version.
+
+388
+00:58:53.630 --> 00:58:58.849
+Barnabas: And the only way we can have a sack version is if we also run it on the iPad.
+
+389
+00:59:04.960 --> 00:59:05.650
+Potuzz: It's…
+
+390
+00:59:05.880 --> 00:59:20.280
+Potuzz: It's going to be circular, but I disagree with that segment. Again, I want to keep things out of the main spec if they are not scheduled for inclusion, and I don't think that we need to have them merged to be able to test them.
+
+391
+00:59:27.480 --> 00:59:35.920
+Barnabas: So you're happy with, basically, 3 separate PRs and unsure which commit hash to target for your test?
+
+392
+00:59:37.630 --> 00:59:51.479
+Potuzz: I… I am not sure what is the best solution to this, and I acknowledge that it is more work for the spec maintainers, and for the feature riders for these features. If they want to have them tested.
+
+393
+00:59:51.530 --> 00:59:59.210
+Potuzz: But I think that it should be on the people that are writing these features and the people that are maintaining these features to
+
+394
+00:59:59.380 --> 01:00:07.170
+Potuzz: have the tag that would give us the test vector so that we can actually test. So I would want to have a tag for the DevNet.
+
+395
+01:00:07.570 --> 01:00:11.170
+Potuzz: And that tag does not need to come from the main branch.
+
+396
+01:00:18.310 --> 01:00:25.519
+Justin Traglia: Until clients… I would say until a majority of clients agree to merge it into the Glamsterdam spec, it should remain a feature.
+
+397
+01:00:27.160 --> 01:00:30.969
+Justin Traglia: But I don't think that we need to wait for it to be SFI, for it to be merged.
+
+398
+01:00:31.670 --> 01:00:39.239
+Justin Traglia: But, yeah, so when a majority of clients want this, I'll merge it, or will merge it.
+
+399
+01:00:40.140 --> 01:00:45.289
+Justin Traglia: I don't want to do, like, some complicated branching strategy, like we discussed on Discord.
+
+400
+01:00:46.240 --> 01:00:51.359
+Matthew Keil: I think the only contention, at least from my side, is merging with 10 seconds.
+
+401
+01:00:51.480 --> 01:00:58.010
+Matthew Keil: like, if we merge the machinery and have the option available so that we can test with it, I think it…
+
+402
+01:00:58.200 --> 01:01:03.069
+Matthew Keil: meets at least a lot of the opposition that I've heard,
+
+403
+01:01:03.270 --> 01:01:10.549
+Matthew Keil: to… to getting it merged. The biggest issue is forcing the issue of shortening the slot times.
+
+404
+01:01:14.470 --> 01:01:19.350
+Barnabas: Can we do 12 seconds for mainnet spec and 5 seconds for minimal spec?
+
+405
+01:01:20.930 --> 01:01:23.480
+Matthew Keil: I mean, that to me feels reasonable.
+
+406
+01:01:25.090 --> 01:01:35.730
+Matthew Keil: as long as the mainnet time doesn't change, so that we don't back ourselves into a corner, and we can still do the testing, which I do think is a really good,
+
+407
+01:01:36.030 --> 01:01:43.859
+Matthew Keil: a really good feature set. I think I'm full-throated, in agreement.
+
+408
+01:01:44.600 --> 01:01:54.120
+Potuzz: That would… that would break our testing. If you change the minimal spec, it would break our testing, so we would not be able… we would be forced to have
+
+409
+01:01:54.230 --> 01:01:57.860
+Potuzz: Shorter slots on the… our trunk branch.
+
+410
+01:01:58.110 --> 01:01:59.960
+Potuzz: Or skip the tests.
+
+411
+01:02:00.250 --> 01:02:01.110
+Matthew Keil: I apologize.
+
+412
+01:02:01.110 --> 01:02:03.630
+Potuzz: Which, again, this is… this is my problem.
+
+413
+01:02:04.190 --> 01:02:13.080
+Matthew Keil: I agree with Potuzz, like, as long as the time stay… because I forgot, it's not 5, it's 6, I believe, on minimal. As long as the times remain the same with what they are today.
+
+414
+01:02:13.790 --> 01:02:16.919
+Matthew Keil: I don't see a big issue.
+
+415
+01:02:20.400 --> 01:02:20.870
+Barnabas: So it'd be.
+
+416
+01:02:20.870 --> 01:02:21.320
+Justin Traglia: There you go.
+
+417
+01:02:22.510 --> 01:02:26.900
+Barnabas: How do you plan to test, shorter subset?
+
+418
+01:02:27.710 --> 01:02:29.760
+Barnabas: If you leave the original numbers.
+
+419
+01:02:57.740 --> 01:02:58.130
+Potuzz: the way.
+
+420
+01:02:58.130 --> 01:02:58.580
+Justin Traglia: Not sure.
+
+421
+01:02:58.580 --> 01:03:02.600
+Potuzz: It shouldn't be complicated branching. It should be just one branch.
+
+422
+01:03:05.910 --> 01:03:06.869
+Justin Traglia: What do you mean?
+
+423
+01:03:07.110 --> 01:03:09.670
+Justin Traglia: Like, we currently just have a singular master brand.
+
+424
+01:03:09.670 --> 01:03:16.049
+Potuzz: You should… we keep… we keep… so we have a master branch that has HESI,
+
+425
+01:03:16.200 --> 01:03:27.470
+Potuzz: has each directory, and we just keep one branch, which is our develop for the Consensus spec, and that branch is targeting whatever we're going to be testing.
+
+426
+01:03:27.470 --> 01:03:27.830
+Justin Traglia: we don'.
+
+427
+01:03:27.830 --> 01:03:30.790
+Potuzz: There's one branch that needs to be happening that is Testing Branch.
+
+428
+01:03:32.420 --> 01:03:34.010
+Justin Traglia: That was a complete idea. And you shouldn't be a…
+
+429
+01:03:34.010 --> 01:03:44.830
+Potuzz: It shouldn't be even a branch. It shouldn't be even a branch. It should be just always the rebase of these pictures on top of HESI, or on top of whatever fork we are now.
+
+430
+01:03:45.590 --> 01:03:47.149
+Potuzz: The whole point is that
+
+431
+01:03:47.340 --> 01:03:57.610
+Potuzz: If I am writing a feature for the spec, I should not be… it should not be on me to be rebasing my work on top of features that are not mandatory.
+
+432
+01:04:13.820 --> 01:04:16.990
+Justin Traglia: I think we have to keep it as a feature for now, for Barnabas.
+
+433
+01:04:17.360 --> 01:04:25.170
+Justin Traglia: And then maybe we can discuss it more at ACDC next week or later, but I don't think there's support for marching it into HESI right now.
+
+434
+01:04:28.370 --> 01:04:31.309
+Barnabas: Could we maybe merge them the same times?
+
+435
+01:04:31.500 --> 01:04:32.820
+Barnabas: 612.
+
+436
+01:04:34.270 --> 01:04:35.120
+Barnabas: Perfect.
+
+437
+01:04:35.500 --> 01:04:37.420
+Barnabas: That would break nothing, basically.
+
+438
+01:04:39.030 --> 01:04:44.339
+Justin Traglia: I don't know. I mean, we could keep the same times, or the same slot durations, and merge it, but…
+
+439
+01:04:44.990 --> 01:04:51.059
+Justin Traglia: I don't think that really… I'm not sure that really… fixes Potuzz's core concern.
+
+440
+01:04:51.300 --> 01:04:52.420
+Justin Traglia: And others.
+
+441
+01:04:53.920 --> 01:04:54.700
+Barnabas: Yep.
+
+442
+01:05:04.750 --> 01:05:12.059
+Justin Traglia: Alright, let's discuss this more on Discord and at ACDC, maybe, or just… Sometime more in the future.
+
+443
+01:05:14.580 --> 01:05:17.730
+Justin Traglia: Are there any other topics, we'd like to discuss?
+
+444
+01:05:32.660 --> 01:05:38.600
+Justin Traglia: Alright, well, thank you everyone for joining. I will see you guys at ACDC on Thursday.
+
+445
+01:05:39.470 --> 01:05:40.400
+Justin Traglia: Bye, everyone.
+
+446
+01:05:41.380 --> 01:05:41.859
+jochem-brouwer: Thanks a lot.
+
+447
+01:05:41.860 --> 01:05:42.240
+Kevaundray Wedderburn: fair.
+
+448
+01:05:42.240 --> 01:05:42.880
+jochem-brouwer: Bye-bye.
+
