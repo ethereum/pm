@@ -1,0 +1,81 @@
+{
+  "meeting": "FOCIL Breakout #45 - October 27, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:04:59",
+        "highlight": "Nethermind: quick slots and FOCIL devnet-3 changes implemented"
+      },
+      {
+        "timestamp": "00:05:18",
+        "highlight": "Besu: quick slot feature not yet implemented; compliant only if slot time stays at 12s"
+      },
+      {
+        "timestamp": "00:06:11",
+        "highlight": "Lodestar: FOCIL devnet-3 changes in trunk branch, merging into unstable"
+      },
+      {
+        "timestamp": "00:07:13",
+        "highlight": "Prysm: FOCIL work landing in trunk, involved in devnet-2 and devnet-3"
+      }
+    ],
+    "spec_updates": [
+      {
+        "timestamp": "00:08:06",
+        "highlight": "PR #5741 preferred over #5740: proposer considers only timely ILs when selecting bids, aligning with attester view and closing late-IL griefing attack"
+      },
+      {
+        "timestamp": "00:09:16",
+        "highlight": "Second attack vector: builder broadcasts high early bid before IL deadline to crowd out compliant bids; fix is P2P gossip rule ignoring bids before IL deadline"
+      },
+      {
+        "timestamp": "00:25:22",
+        "highlight": "PR #5769: Lodestar picks IL-unsatisfied payload as head; spec bug allows non-compliant payload to become head in current and next slot; fix under discussion"
+      },
+      {
+        "timestamp": "00:31:06",
+        "highlight": "New FOCIL-frame engine API approach (Jihoon PRs #5772, execution-apis #960): CL passes raw ILs to EL instead of deduped IL transactions; EL handles deduplication and omission claims; max bandwidth overhead ~4.4% at 20M gas limit"
+      }
+    ],
+    "testing_progress": [
+      {
+        "timestamp": "00:39:00",
+        "highlight": "FOCIL-frame interaction design must be settled before targeting FOCIL devnet-0; timeline not yet set, likely after DEF CON"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:41:16",
+        "highlight": "Next FOCIL breakout pushed two weeks to November 10 due to DEF CON travel"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:25:13",
+      "action": "Review PR #5769 (IL-unsatisfied payload as head bug) and suggest fixes",
+      "owner": "CL client teams"
+    },
+    {
+      "timestamp": "00:31:24",
+      "action": "Review and provide feedback on FOCIL-frame engine API PRs (consensus-specs #5772, execution-apis #960) ahead of L1 days discussion",
+      "owner": "EL and CL client teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:19:22",
+      "decision": "Tentative preference for PR #5741 (only-timely IL bid selection) over #5740; final decision deferred pending bitlist-in-fork-choice discussion"
+    },
+    {
+      "timestamp": "00:41:16",
+      "decision": "Next FOCIL breakout rescheduled to November 10, 2026"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:39:00",
+      "target": "FOCIL devnet-0 (with FOCIL-frame interaction) \u2014 after DEF CON; timeline TBD"
+    }
+  ]
+}

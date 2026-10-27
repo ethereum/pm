@@ -1,0 +1,1314 @@
+WEBVTT
+
+1
+00:00:10.660 --> 00:00:12.870
+Justin Traglia: Hey, Jihoon, how's it going?
+
+2
+00:00:15.460 --> 00:00:17.479
+Jihoon: Justin, doing great.
+
+3
+00:00:24.290 --> 00:00:25.869
+Jihoon: Can you hear me okay?
+
+4
+00:00:26.410 --> 00:00:28.369
+Justin Traglia: Yep, which is fine.
+
+5
+00:00:28.980 --> 00:00:29.580
+Jihoon: Okay.
+
+6
+00:01:20.110 --> 00:01:23.200
+Justin Florentine: What's up, censorship deniers?
+
+7
+00:01:26.130 --> 00:01:27.330
+Justin Traglia: Good morning, Justin.
+
+8
+00:01:55.320 --> 00:01:58.990
+Jihoon: And people are getting late, so let's wait for a few more minutes.
+
+9
+00:04:18.779 --> 00:04:21.480
+Jihoon: Alright, the remnants in, let's get started.
+
+10
+00:04:22.089 --> 00:04:24.530
+Jihoon: Welcome, everyone, to FOCIL Breakout.
+
+11
+00:04:25.270 --> 00:04:32.229
+Jihoon: 35. Today, we can discuss client updates and some spec discussions.
+
+12
+00:04:32.670 --> 00:04:39.350
+Jihoon: So we haven't met… we haven't had much progress after Hazy… DevNet 2.
+
+13
+00:04:40.080 --> 00:04:41.870
+Jihoon: Definitely was about.
+
+14
+00:04:42.340 --> 00:04:46.350
+Jihoon: Book slots, but still, let's start with client updates.
+
+15
+00:04:46.600 --> 00:04:49.770
+Jihoon: Do any clients want to share some updates?
+
+16
+00:04:54.850 --> 00:04:59.319
+Marc: On Nethermind's side, we have implementations of, quick slots.
+
+17
+00:04:59.470 --> 00:05:02.260
+Marc: And also the changes for Haze DevNAT3.
+
+18
+00:05:11.200 --> 00:05:12.080
+Jihoon: That's a great tip.
+
+19
+00:05:13.080 --> 00:05:18.099
+Fabio Di Fabio: Hello, on the vessel's side, We are,
+
+20
+00:05:18.250 --> 00:05:22.480
+Fabio Di Fabio: a bit behind, since I had to…
+
+21
+00:05:23.350 --> 00:05:30.790
+Fabio Di Fabio: Refactor a bit the code in order to… a parcel dive test.
+
+22
+00:05:31.590 --> 00:05:37.830
+Fabio Di Fabio: And so, the quick slot… feature…
+
+23
+00:05:38.780 --> 00:05:41.690
+Fabio Di Fabio: Needs, to be implemented yet.
+
+24
+00:05:43.430 --> 00:05:50.700
+Fabio Di Fabio: I'm, working on it, but it's not yet ready, so… We could be…
+
+25
+00:05:51.050 --> 00:05:57.320
+Fabio Di Fabio: Fine if the slot time doesn't change from 12 seconds, otherwise we need to wait.
+
+26
+00:05:58.000 --> 00:05:59.670
+Fabio Di Fabio: Until this is implemented.
+
+27
+00:06:04.650 --> 00:06:06.009
+Jihoon: Gotcha. Thank you.
+
+28
+00:06:11.300 --> 00:06:25.210
+Rahul Barman: Update from the, Lido side, most of our work is currently present in the, Hzei Definite 3 trunk branch, and we are steadily emerging, those updates into Unstable as well.
+
+29
+00:06:35.860 --> 00:06:39.560
+Jihoon: Okay, Gray, any other clients?
+
+30
+00:07:13.870 --> 00:07:17.150
+Jihoon: GetHerson… Update from Prism.
+
+31
+00:07:17.810 --> 00:07:21.100
+Jihoon: Currently landing FOCIL stuff.
+
+32
+00:07:22.140 --> 00:07:26.690
+Jihoon: and trunk branch, involved in debit 2 and 3. Thanks for the update.
+
+33
+00:07:28.480 --> 00:07:35.069
+Jihoon: And… yeah, let's move on to spec discussions. We have… some PRs.
+
+34
+00:07:35.410 --> 00:07:38.999
+Jihoon: To discuss, and then we can move to Fosline frame discussion.
+
+35
+00:07:39.560 --> 00:07:48.730
+Jihoon: First off, we have some… issue related to receiving bids at or after the IL deadline.
+
+36
+00:07:50.060 --> 00:07:58.520
+Jihoon: Here are… The links to the… Rather than PRs.
+
+37
+00:07:59.710 --> 00:08:05.090
+Jihoon: Yeah, Nico, do you wanna… Give us some intro.
+
+38
+00:08:06.870 --> 00:08:15.280
+Nico Flaig: Alright, yeah, so… the first one is the Validate and select bids on the inclusion list view at the deadline.
+
+39
+00:08:15.740 --> 00:08:23.289
+Nico Flaig: So while reviewing our fossil implementation, I realized you can basically grieve the proposer and build us.
+
+40
+00:08:23.730 --> 00:08:25.559
+Nico Flaig: In the current design.
+
+41
+00:08:26.010 --> 00:08:40.299
+Nico Flaig: Because the, proposal picks bits, that need to satisfy all the inclusion lists, whether they are timely or not, while, like, attesters only have, like, a subset that is timely.
+
+42
+00:08:41.100 --> 00:08:42.289
+Nico Flaig: So…
+
+43
+00:08:42.460 --> 00:08:53.529
+Nico Flaig: Basically, the first attack there is that a single member can grieve by, releasing IL really late, and then
+
+44
+00:08:53.670 --> 00:09:06.280
+Nico Flaig: If the proposal ceases it, you invalidate all the bids that exist during bid selection. And even, like, a builder could use this as an advantage if they control a committee member.
+
+45
+00:09:06.760 --> 00:09:11.070
+Nico Flaig: by, like… because only their bit would be IL compliant.
+
+46
+00:09:11.400 --> 00:09:15.990
+Nico Flaig: And all other builders didn't see the IL, right? If it's late,
+
+47
+00:09:16.900 --> 00:09:20.840
+Nico Flaig: And then the second part of the PR is basically a builder.
+
+48
+00:09:21.000 --> 00:09:27.049
+Nico Flaig: gossiping a very high bid early in the previous slot, basically before the IL deadline.
+
+49
+00:09:27.510 --> 00:09:30.650
+Nico Flaig: And the current spec basically doesn't…
+
+50
+00:09:30.980 --> 00:09:34.639
+Nico Flaig: enforce that you… it needs to be IL compliant.
+
+51
+00:09:34.890 --> 00:09:49.860
+Nico Flaig: to be gossiped, so you can broadcast a very high bid that you know will not be selected by the proposal later, but it outcrowds all the other bits. So it's a way of creeping other bids.
+
+52
+00:09:51.360 --> 00:09:55.059
+Nico Flaig: So basically, yeah, the changes just adding?
+
+53
+00:09:55.460 --> 00:10:02.929
+Nico Flaig: one gossip check, which, says ignore bits before the IL due time in the previous slot.
+
+54
+00:10:03.670 --> 00:10:10.960
+Nico Flaig: And I guess the second part of this is that the proposer should also just consider the IELTs that are timely.
+
+55
+00:10:11.350 --> 00:10:23.079
+Nico Flaig: So you can, like, it enforces the same view as attesters, and also makes sure that builders, have the opportunity to see all the IELTs when they broadcast their bids.
+
+56
+00:10:27.010 --> 00:10:28.330
+Jihoon: Yeah, thanks for the intro.
+
+57
+00:10:33.440 --> 00:10:35.250
+Jihoon: Any questions or comments?
+
+58
+00:10:42.410 --> 00:10:44.340
+Justin Traglia: I was just gonna say…
+
+59
+00:10:44.560 --> 00:10:49.659
+Justin Traglia: If these are, like, two options, I would prefer the second one, 5741.
+
+60
+00:10:50.670 --> 00:10:51.620
+Justin Traglia: I,
+
+61
+00:10:51.800 --> 00:10:55.929
+Justin Traglia: I think this is a more logical way of doing it, or a slightly better way of doing it.
+
+62
+00:10:57.990 --> 00:11:04.850
+Jihoon: Yeah, the way I view this is actually the CPRs handle different Problems?
+
+63
+00:11:05.060 --> 00:11:11.739
+Jihoon: the issue that I have with the second PR, which is 5741,
+
+64
+00:11:11.850 --> 00:11:19.690
+Jihoon: is that it sets only timely to true, but the problem is that when an IL is sent close to the deadline.
+
+65
+00:11:19.850 --> 00:11:29.710
+Jihoon: Some attesters might say EL might say it, while others don't. So, the proposer receives it after the deadline and not consider it
+
+66
+00:11:30.030 --> 00:11:32.030
+Jihoon: It will lose some attesters' vote.
+
+67
+00:11:32.180 --> 00:11:32.930
+Jihoon: Dope.
+
+68
+00:11:33.130 --> 00:11:35.850
+Jihoon: I think… oh, they should be set up.
+
+69
+00:11:35.850 --> 00:11:39.159
+Nico Flaig: Wait, wait, wait. This is not about the proposal, though, right?
+
+70
+00:11:39.540 --> 00:11:46.640
+Nico Flaig: Like, the proposer should always use a superset, like, based on all observed IELTs, right?
+
+71
+00:11:48.150 --> 00:11:51.899
+Nico Flaig: This is how you filter the bids you receive.
+
+72
+00:11:53.760 --> 00:11:55.970
+Jihoon: Is it just about builders?
+
+73
+00:11:58.100 --> 00:11:59.020
+Jihoon: Yes, Bill.
+
+74
+00:11:59.020 --> 00:11:59.560
+Nico Flaig: Basically, with…
+
+75
+00:11:59.560 --> 00:12:00.200
+Jihoon: change.
+
+76
+00:12:00.200 --> 00:12:05.550
+Nico Flaig: Fits a builder, a proposal's supposed to pick during proposal, right?
+
+77
+00:12:09.130 --> 00:12:09.920
+Justin Traglia: Yeah.
+
+78
+00:12:21.160 --> 00:12:26.890
+Jihoon: Right, so builders were not gonna… Consider… untimely, but…
+
+79
+00:12:27.460 --> 00:12:31.990
+Jihoon: not equivocating IL after this PR, is it correct?
+
+80
+00:12:33.910 --> 00:12:46.179
+Nico Flaig: I mean, the builder has the same incentive as a proposal. They want to include as many IELTs as they can, right? Because you cannot be sure that you've seen all at the deadline, if there were, like, late ones.
+
+81
+00:12:51.730 --> 00:12:58.579
+Jihoon: I think I misunderstand something, like, what… what does it change with this only timely change in this VR?
+
+82
+00:13:03.000 --> 00:13:06.170
+Nico Flaig: So in my EPR, right, the current spec…
+
+83
+00:13:06.370 --> 00:13:24.050
+Nico Flaig: says a proposer should not pick bits that, don't satisfy their superset of ILs they've seen, right? So if you receive an IL even in the next slot, you should still consider it when you propose a block. That is, like, the current spec.
+
+84
+00:13:24.570 --> 00:13:29.840
+Jihoon: Well, this basically… You ignore IELTS after the SLOT.
+
+85
+00:13:33.330 --> 00:13:40.479
+Nico Flaig: I mean, it doesn't matter after the slot, or… like, it can be really late in the slot, way later than the timely deadline, right?
+
+86
+00:13:40.640 --> 00:13:45.650
+Jihoon: Yeah, but it cannot pass the slot, technically, because the gossip-s gonna drop it.
+
+87
+00:13:51.890 --> 00:13:57.909
+Justin Traglia: But you still… Yeah, it doesn't really make a difference, versus, like, what Nico was saying.
+
+88
+00:13:59.070 --> 00:13:59.930
+Jihoon: Yeah, yeah, yeah.
+
+89
+00:14:00.540 --> 00:14:06.310
+Nico Flaig: The problem is mainly that there's, like, a race, That can happen.
+
+90
+00:14:22.520 --> 00:14:28.040
+Justin Traglia: For $57.40, I'm not quite a fan of the language, like…
+
+91
+00:14:28.290 --> 00:14:33.650
+Justin Traglia: should do their best to select a bid. Like, to me, it's just a bit ambiguous.
+
+92
+00:14:35.130 --> 00:14:42.730
+Justin Traglia: And I'm not entirely sure how it would work in practice, like… Whereas 5741 is a clear…
+
+93
+00:14:44.000 --> 00:14:46.000
+Justin Traglia: There's clear to me how it would work.
+
+94
+00:14:50.700 --> 00:15:01.479
+Nico Flaig: Yeah, I was talking with NC about this just now, or, like, before the call, a bit, and it's also not clear how the implementation would implement the other PR.
+
+95
+00:15:05.610 --> 00:15:09.410
+Nico Flaig: I think it's an either-or, right? There's no middle ground.
+
+96
+00:15:12.760 --> 00:15:14.150
+Justin Traglia: That's the way I feel as well.
+
+97
+00:15:20.010 --> 00:15:22.060
+Jihoon: Yeah, do we have more comments?
+
+98
+00:15:23.650 --> 00:15:31.650
+Justin Florentine: Yeah, I felt the same on 5740. It really needs an explicit deadline or some sort of timing to make that decision.
+
+99
+00:15:46.730 --> 00:15:47.650
+Jihoon: anymore.
+
+100
+00:15:48.170 --> 00:15:52.970
+Jihoon: Comments? Yeah, maybe preferably from OCL Dev.
+
+101
+00:15:56.600 --> 00:16:01.550
+Jihoon: I just wanna double-check before… We decide to merge this in.
+
+102
+00:16:09.100 --> 00:16:17.539
+Nico Flaig: So is there, like, still the intent, as you noted, on the PR, to punish the proposal if… if a wrong bid is selected, or…
+
+103
+00:16:19.670 --> 00:16:24.809
+Jihoon: I mean, reordering the Beacon blog if it contains that inclusive bitlist.
+
+104
+00:16:28.310 --> 00:16:32.680
+Nico Flaig: Yeah, I mean, then it's a bit difficult, right? How do you pick the bit?
+
+105
+00:16:33.950 --> 00:16:39.070
+Jihoon: Yeah… I think we should have that change order.
+
+106
+00:16:39.200 --> 00:16:41.679
+Jihoon: At least we need to discuss.
+
+107
+00:16:42.160 --> 00:16:47.099
+Jihoon: Whether to have that change in the future, in the past, we…
+
+108
+00:16:47.730 --> 00:16:53.530
+Jihoon: have this bit.lys, I mean, having bitlaze In fork choice, and…
+
+109
+00:16:54.780 --> 00:17:00.810
+Jihoon: It kind of fizzled away, because it was not a super top priority, but… It's kinda…
+
+110
+00:17:01.030 --> 00:17:05.540
+Jihoon: like, TBD, and I think we need to… Pleasure out.
+
+111
+00:17:05.810 --> 00:17:08.209
+Jihoon: Sometime in the future.
+
+112
+00:17:08.550 --> 00:17:15.460
+Jihoon: And… in terms of incentive, I think it is the right way to reorder block, because
+
+113
+00:17:15.849 --> 00:17:20.270
+Jihoon: It aligns proposer's incentive to choose inclusive bit lists.
+
+114
+00:17:20.589 --> 00:17:27.700
+Jihoon: And I think it also aligns builder's incentive more to consider IELTS as many as they can.
+
+115
+00:17:28.030 --> 00:17:35.650
+Jihoon: But currently, we are not using Bitly's anywhere in the spec, just requiring… I mean, asking, kind of.
+
+116
+00:17:36.160 --> 00:17:39.140
+Jihoon: proposer to choose inclusive bit list.
+
+117
+00:17:39.660 --> 00:17:41.440
+Jihoon: But… yeah.
+
+118
+00:17:44.090 --> 00:17:47.950
+Jihoon: And this, incentive.
+
+119
+00:17:48.630 --> 00:17:49.840
+Jihoon: our demand.
+
+120
+00:17:49.980 --> 00:17:54.469
+Jihoon: It's also related to this attack, as he pointed out in the PR.
+
+121
+00:17:55.250 --> 00:17:56.430
+Jihoon: So, yeah.
+
+122
+00:17:56.790 --> 00:17:58.420
+Jihoon: I think we should consider it.
+
+123
+00:18:16.470 --> 00:18:20.410
+Jihoon: I think we don't have to make a decision today. Yeah, Justine?
+
+124
+00:18:21.940 --> 00:18:26.419
+Justin Traglia: I… I don't know what I was gonna say. I was gonna say in 57… sorry, 5740.
+
+125
+00:18:27.340 --> 00:18:31.299
+Justin Traglia: I'm also just opposed to making it non-vandatory.
+
+126
+00:18:31.930 --> 00:18:34.590
+Justin Traglia: Like, it just feels like we're weakening.
+
+127
+00:18:35.050 --> 00:18:36.900
+Justin Traglia: like, the value of IELTs.
+
+128
+00:18:37.060 --> 00:18:38.289
+Justin Traglia: If we do this.
+
+129
+00:18:39.580 --> 00:18:41.910
+Justin Traglia: But maybe I'm misunderstanding something.
+
+130
+00:18:44.310 --> 00:18:45.040
+Jihoon: Perfect.
+
+131
+00:18:45.460 --> 00:18:49.030
+Jihoon: but it's still… I mean,
+
+132
+00:18:49.400 --> 00:18:53.419
+Jihoon: Not defending 5740, but even if he…
+
+133
+00:18:55.490 --> 00:19:08.600
+Jihoon: change it to shoot, protesters. We're gonna vote for the head if it's not IL compliant, so… but I do agree that it is kind of weakening the purpose of IL.
+
+134
+00:19:11.060 --> 00:19:20.269
+Jihoon: And, yeah, as Nico pointed out, I think we also need to consider how BitList will gonna play out in fork choice, so maybe we can
+
+135
+00:19:22.240 --> 00:19:30.319
+Jihoon: Make a tentative decision to prefer $57.41 today, and then see where it lands.
+
+136
+00:19:32.230 --> 00:19:35.879
+Jihoon: Along with the bitlys and fork choice.
+
+137
+00:19:36.850 --> 00:19:38.030
+Jihoon: Hi, this is Alan.
+
+138
+00:19:39.830 --> 00:19:47.070
+Nico Flaig: Yeah, I mean, my main concern, right, is my PR makes, lets more bits slip through, basically.
+
+139
+00:19:47.420 --> 00:19:48.469
+Nico Flaig: So it would
+
+140
+00:19:48.690 --> 00:19:56.539
+Nico Flaig: Like, once we change this, that the proposal also gets punished, then you might use a different strategy, how you select bids.
+
+141
+00:19:57.020 --> 00:20:03.740
+Nico Flaig: But yeah, I'm not sure how you would prevent the grieving attacks that I pointed out while also,
+
+142
+00:20:04.220 --> 00:20:08.209
+Nico Flaig: like, picking a superset of IELTs,
+
+143
+00:20:09.420 --> 00:20:11.890
+Nico Flaig: So yeah, I'm not sure how to solve that right now.
+
+144
+00:20:13.500 --> 00:20:14.220
+Jihoon: I see.
+
+145
+00:20:14.650 --> 00:20:23.739
+Jihoon: Then just putting this… Super, super sad bit list aside, What do we think about…
+
+146
+00:20:25.140 --> 00:20:29.289
+Jihoon: Considering bits only after this.
+
+147
+00:20:30.640 --> 00:20:33.350
+Jihoon: when was it? IR deadline or something?
+
+148
+00:20:33.710 --> 00:20:40.019
+Jihoon: Because the PR has two parts. One is about inclusive, at least, and the other part was about…
+
+149
+00:20:42.010 --> 00:20:43.980
+Jihoon: Yeah, IL deadline.
+
+150
+00:20:44.700 --> 00:20:49.400
+Jihoon: I mean… A secting bits after the IR deadline.
+
+151
+00:20:59.660 --> 00:21:00.550
+Jihoon: Or…
+
+152
+00:21:02.610 --> 00:21:07.620
+Justin Traglia: Sorry, I'm just a bit confused. I thought Nico's PR only did this second part.
+
+153
+00:21:08.760 --> 00:21:10.180
+Justin Traglia: We're in cotton.
+
+154
+00:21:11.130 --> 00:21:12.710
+Justin Traglia: Is that what you're talking about?
+
+155
+00:21:15.470 --> 00:21:28.859
+Jihoon: I'm not following what the second part you're referring to, but what I want to say is that, you know, in the course PR, it changes P2P spec to consider bits only after the IL deadline.
+
+156
+00:21:29.620 --> 00:21:35.819
+Jihoon: And… Yeah, I just want to ask, what do we think about this change? Because if…
+
+157
+00:21:36.870 --> 00:21:45.909
+Jihoon: Spec changes related to this only timely thing is a bit unclear, then maybe we can agree on this.
+
+158
+00:21:46.410 --> 00:21:50.030
+Jihoon: Bid propagation window first.
+
+159
+00:21:55.580 --> 00:22:09.340
+Nico Flaig: Right, so there are two parts, so one is when you… what bits you select when you have to propose, so at, like, at the start of the proposal slot, and the other one is on P2P, what bits do we let slip through on gossip in the previous slot?
+
+160
+00:22:10.610 --> 00:22:17.390
+Nico Flaig: But I think you always have to evaluate the bits, on a frozen IL view, so…
+
+161
+00:22:18.070 --> 00:22:26.190
+Nico Flaig: There's, like, a comment from NC. The other thing is, if you've seen all the 16 IELTs, I guess you could allow bits earlier.
+
+162
+00:22:27.330 --> 00:22:30.320
+Nico Flaig: Because you know there won't be any more, right?
+
+163
+00:22:30.830 --> 00:22:33.740
+Jihoon: Part of this to… Oslovano.
+
+164
+00:22:35.320 --> 00:22:38.559
+Jihoon: Are they related to each other in some way?
+
+165
+00:22:42.750 --> 00:22:55.650
+Nico Flaig: I mean, the thing is, right, like, there's no point letting bits in your op pool and, like, outgrow other bits on P2P if you already know you might not pick it, right?
+
+166
+00:22:56.250 --> 00:23:07.170
+Nico Flaig: Like, at least right now, the bits that are in our pool, we always can consider them during proposal, and you basically pick them by value, or like…
+
+167
+00:23:07.300 --> 00:23:12.190
+Nico Flaig: it might be with, like, Boost or whatever, but…
+
+168
+00:23:12.740 --> 00:23:18.929
+Nico Flaig: with this and FOCIL, right, you could have bits in your opul that you cannot even pick, so…
+
+169
+00:23:22.750 --> 00:23:24.110
+Jihoon: Yeah, what do I want to say?
+
+170
+00:23:24.110 --> 00:23:26.819
+Nico Flaig: the second, like, briefing point.
+
+171
+00:23:27.280 --> 00:23:33.000
+Jihoon: Yeah, maybe we could split your PR into two PRs, like, one about…
+
+172
+00:23:33.230 --> 00:23:43.639
+Jihoon: This bit propagation window, and the other about only timely, and maybe we can merge the, bit propagation window first, if it's…
+
+173
+00:23:44.770 --> 00:23:53.149
+Jihoon: Clear, and if we agree that that's the solution that we want to have for the first type of attack, and that we can
+
+174
+00:23:54.290 --> 00:24:02.580
+Jihoon: Circle back to the only timely thing with… more concrete.
+
+175
+00:24:04.140 --> 00:24:06.800
+Jihoon: Suggestion for bitterly and fork choice.
+
+176
+00:24:07.800 --> 00:24:09.609
+Jihoon: But yeah, it's just…
+
+177
+00:24:09.870 --> 00:24:15.999
+Jihoon: We don't have to make any decision today, we can just discuss offline until we have more information.
+
+178
+00:24:18.350 --> 00:24:26.820
+Nico Flaig: So I think the P2P rule, is, like, the mandatory one from, like, the normal spec. You could even drop the validator node.
+
+179
+00:24:27.390 --> 00:24:34.960
+Nico Flaig: But it's, if you get bits from external sources, right, like builder, API, Small for that case.
+
+180
+00:24:37.130 --> 00:24:43.670
+Nico Flaig: So at least to me, I feel like they belong together, but we, I guess, could split it, if you like.
+
+181
+00:24:44.450 --> 00:24:46.319
+Jihoon: Okay. Yeah.
+
+182
+00:24:49.550 --> 00:24:53.880
+Jihoon: Okay, I think we can just leave it as is, and then…
+
+183
+00:24:54.620 --> 00:24:58.280
+Jihoon: See what's the right solution.
+
+184
+00:24:58.520 --> 00:25:01.069
+Jihoon: Considering the petalism and the fork choice.
+
+185
+00:25:01.970 --> 00:25:05.840
+Jihoon: Maybe we can discuss it in DevCon. So, yeah.
+
+186
+00:25:07.710 --> 00:25:13.110
+Jihoon: the… Next PR that we want to discuss is…
+
+187
+00:25:13.620 --> 00:25:18.860
+Jihoon: This one, which is also by Nico. Do you want to also give us some intro?
+
+188
+00:25:22.170 --> 00:25:33.619
+Nico Flaig: So that one I found during testing, which is that I noticed that Lodestar picks a IL unsatisfied payload as had in our current slot.
+
+189
+00:25:34.690 --> 00:25:42.580
+Nico Flaig: And there was, like, this, anthropic scan that found the bug in the spec that
+
+190
+00:25:42.780 --> 00:25:46.240
+Nico Flaig: I noticed my PR fixes as well.
+
+191
+00:25:48.120 --> 00:25:51.770
+Nico Flaig: I'm just not sure… If it's like…
+
+192
+00:25:52.770 --> 00:25:58.259
+Nico Flaig: Was it intended that we didn't consider the current slot, or… I'm just not…
+
+193
+00:25:59.200 --> 00:26:02.760
+Nico Flaig: sure if my PR, it's, like, the ideal solution.
+
+194
+00:26:03.110 --> 00:26:07.320
+Nico Flaig: But at least I think it is, but yeah, curious what others think.
+
+195
+00:26:10.470 --> 00:26:13.580
+Jihoon: Could you share what was the… Problem?
+
+196
+00:26:16.030 --> 00:26:22.200
+Nico Flaig: So basically, there's two problems. One is on bid selection in P2P.
+
+197
+00:26:22.860 --> 00:26:24.980
+Nico Flaig: So, right, we have this,
+
+198
+00:26:26.280 --> 00:26:32.040
+Nico Flaig: the check, which is, like, is bit compatible with HAT, like this one?
+
+199
+00:26:32.330 --> 00:26:38.339
+Nico Flaig: Which basically only lets bits pass through that are compatible with your head.
+
+200
+00:26:38.910 --> 00:26:41.410
+Nico Flaig: So, in the current spec.
+
+201
+00:26:41.570 --> 00:26:47.320
+Nico Flaig: even if the payload doesn't satisfy the IL, we still pick it as head, and then…
+
+202
+00:26:47.570 --> 00:26:58.429
+Nico Flaig: bids that build on empty, because they, like, the builder was bidding for empty, because it saw, like, okay, it's not IL compliant, the previous head, or the previous payload, right?
+
+203
+00:26:58.770 --> 00:27:01.790
+Nico Flaig: Will not be propagated on P2P?
+
+204
+00:27:02.410 --> 00:27:06.370
+Nico Flaig: And then the other thing is, when you…
+
+205
+00:27:06.720 --> 00:27:09.779
+Nico Flaig: Prepare payload in the previous slot.
+
+206
+00:27:10.490 --> 00:27:15.680
+Nico Flaig: Like the prepare ex… How's it called on the spec site?
+
+207
+00:27:16.150 --> 00:27:24.629
+Nico Flaig: So, at least in Lodestar, we prepare the payload in the previous slot, and if you pick the full, then…
+
+208
+00:27:25.410 --> 00:27:32.190
+Nico Flaig: Should build on full doesn't have any check that's, checks, like, for the EL itself.
+
+209
+00:27:32.780 --> 00:27:37.990
+Nico Flaig: So you basically prepare payload on full, but then at the start of the slot.
+
+210
+00:27:38.420 --> 00:27:48.110
+Nico Flaig: You… this… this previous slot check runs, right? Where we check should extend payload, and that one returns false, because it's not IL satisfied.
+
+211
+00:27:48.380 --> 00:27:56.979
+Nico Flaig: So at the start of the SLOT, you basically pick empty, so you prepare this, the pay… your payload on the wrong head, basically.
+
+212
+00:28:00.770 --> 00:28:01.480
+Jihoon: I see.
+
+213
+00:28:02.950 --> 00:28:11.450
+Jihoon: It sounds like… We're gonna use more time to look over this problem, and… Discuss a solution, but still…
+
+214
+00:28:12.620 --> 00:28:16.099
+Jihoon: Does any devs have any questions or comments?
+
+215
+00:28:45.460 --> 00:28:46.320
+Jihoon: I guess it's…
+
+216
+00:28:46.320 --> 00:28:57.209
+Nico Flaig: Simple question, right, is should we return full as our head in the slot, even if the payload didn't satisfy the IL? I guess.
+
+217
+00:28:58.070 --> 00:28:59.480
+Nico Flaig: The question, right?
+
+218
+00:29:00.160 --> 00:29:00.880
+Jihoon: Yeah.
+
+219
+00:29:01.380 --> 00:29:10.830
+Nico Flaig: It's… it also kind of applies to the EL, because we do, like, a new payload, right? And if the… then the EL says, like, oh, it's not compliant.
+
+220
+00:29:11.070 --> 00:29:18.989
+Nico Flaig: And then the question is, should we still FCU it to the EL and tell it it's the head, or should we not do the FCU call?
+
+221
+00:29:21.480 --> 00:29:28.740
+Jihoon: I think we should not. I think there's some technical issue in the spec, I mean, subtle edge case in the spec that allows this.
+
+222
+00:29:29.440 --> 00:29:34.950
+Jihoon: I'm not sure what's the best solution to this problem, but… Yeah.
+
+223
+00:29:35.590 --> 00:29:36.739
+Jihoon: That's a good point.
+
+224
+00:29:41.190 --> 00:29:47.129
+Nico Flaig: Yeah, I guess with my… with this change, in the current slot and in the next slot.
+
+225
+00:29:47.500 --> 00:29:52.580
+Nico Flaig: payload that doesn't satisfy the IL can never become our head, basically.
+
+226
+00:29:52.840 --> 00:30:05.470
+Nico Flaig: But then, in the slot after that, right, if, like, a test does vote for it still, because your node didn't have the… has had a different IL view, for example, then you would still,
+
+227
+00:30:05.750 --> 00:30:09.329
+Nico Flaig: Pick it as your head, right? Based on the attestation rate.
+
+228
+00:30:10.880 --> 00:30:11.720
+Jihoon: Yeah.
+
+229
+00:30:19.210 --> 00:30:22.729
+Jihoon: Yeah, I would love to think more about this issue, and…
+
+230
+00:30:24.070 --> 00:30:31.239
+Jihoon: Please also have some time to look into this and suggest solutions, or leave a comment, if any.
+
+231
+00:30:36.990 --> 00:30:42.940
+Jihoon: Yeah, before we move to Fossil and frames, does anyone have any PRs, or…
+
+232
+00:30:43.300 --> 00:30:44.770
+Jihoon: Anything to discuss?
+
+233
+00:30:56.420 --> 00:30:58.659
+Jihoon: Otherwise, I think we can move on.
+
+234
+00:30:59.530 --> 00:31:06.139
+Jihoon: So… Previously, Marc proposed PRs to support fossil air frames.
+
+235
+00:31:06.530 --> 00:31:10.089
+Jihoon: Thanks again for pushing this. This would help us move forward.
+
+236
+00:31:11.850 --> 00:31:24.850
+Jihoon: And based on their approach, I've opened to PR, Study Explorer, Another approach, there are…
+
+237
+00:31:25.560 --> 00:31:27.500
+Jihoon: the links and the PRs in the chat.
+
+238
+00:31:27.880 --> 00:31:35.010
+Jihoon: The main difference is that my PRs…
+
+239
+00:31:35.480 --> 00:31:44.810
+Jihoon: has led the EL to pass IELTs instead of ILT transactions. So, previously, the main motivation was that
+
+240
+00:31:44.980 --> 00:31:47.350
+Jihoon: Previously, the EL has to construct
+
+241
+00:31:47.900 --> 00:31:51.010
+Jihoon: Membership, which is a data structure.
+
+242
+00:31:51.250 --> 00:31:55.780
+Jihoon: That represents which IL transaction belongs to which IL.
+
+243
+00:31:57.450 --> 00:32:09.680
+Jihoon: This was necessary because the EL needs to check profile 2 transactions up to some verified guest limits, but in my opinion, this is leakage, so instead.
+
+244
+00:32:09.910 --> 00:32:16.199
+Jihoon: what we could do is passing IELTs for your payload and FCU,
+
+245
+00:32:17.330 --> 00:32:19.560
+Jihoon: This way, the EL will do…
+
+246
+00:32:19.660 --> 00:32:23.549
+Jihoon: The deduplication, and whatever checks and nits.
+
+247
+00:32:24.020 --> 00:32:39.220
+Jihoon: The EL will return omission claims, which is same with Marc's original approach, and these claims will be passed via uPayload along with IELTS, whereas is just the same. So, and passing IELTS also taps…
+
+248
+00:32:39.330 --> 00:32:45.689
+Jihoon: the Beacon event for builders. As far as I remember, there was an issue that
+
+249
+00:32:46.580 --> 00:32:48.679
+Jihoon: Builders should be able to know
+
+250
+00:32:49.330 --> 00:32:54.449
+Jihoon: which IELTs they have to consider for their payloads building.
+
+251
+00:32:54.860 --> 00:33:05.669
+Jihoon: And it was not super straightforward, because the event that builders are listening to emits bidlist, not IELTS, so…
+
+252
+00:33:06.160 --> 00:33:10.970
+Jihoon: This also kinda… Get to things that don't at once.
+
+253
+00:33:11.740 --> 00:33:20.619
+Jihoon: We'll cover this again in L1 days in a week, and once we settle in some decision, I think we can target zero.
+
+254
+00:33:22.250 --> 00:33:25.540
+Jihoon: So, yeah, any questions or comments?
+
+255
+00:33:31.270 --> 00:33:35.359
+Nico Flaig: I'm surprised by the one comment you had, which is, like, the…
+
+256
+00:33:35.500 --> 00:33:39.690
+Nico Flaig: payload attributes, we emit all the IELTs, right?
+
+257
+00:33:40.650 --> 00:33:43.039
+Nico Flaig: Already, that's appearance spec.
+
+258
+00:33:43.340 --> 00:33:47.740
+Jihoon: Not really. Maybe I'm… maybe I'm wrong, but… There we.
+
+259
+00:33:47.740 --> 00:33:52.769
+Nico Flaig: So the previous issue was with the bits, right? The inclusionist bits?
+
+260
+00:33:53.820 --> 00:33:54.600
+Jihoon: Yeah, yeah.
+
+261
+00:33:55.380 --> 00:33:56.100
+Nico Flaig: That we missed.
+
+262
+00:33:56.100 --> 00:33:59.270
+Jihoon: I'm… Do you recall what was said exactly?
+
+263
+00:34:01.130 --> 00:34:15.060
+Nico Flaig: So the problem was, right, like, the CL dedupes transactions, and then only, emits in the event and in the payload attributes also we pass to the local EL. We passed the deduped list.
+
+264
+00:34:15.699 --> 00:34:24.449
+Nico Flaig: So, as a builder, or even, like, the local EL doesn't really know what IELTs it satisfies, right, based on that.
+
+265
+00:34:25.080 --> 00:34:28.769
+Nico Flaig: Because we are not emitting the raw IELTs, like the 16.
+
+266
+00:34:31.260 --> 00:34:31.880
+Jihoon: I see.
+
+267
+00:34:49.489 --> 00:34:58.229
+Nico Flaig: So is the intent of the PR to pass, basically, all the 16 IELTs without deduping on the CL side?
+
+268
+00:34:59.560 --> 00:35:04.370
+Jihoon: Oh, no, without deduplication. So, from a sales perspective.
+
+269
+00:35:04.630 --> 00:35:10.749
+Jihoon: CL doesn't have to do byte-to-byte comparison for deduplication, so CL…
+
+270
+00:35:11.120 --> 00:35:15.730
+Jihoon: Now doesn't have to care anything about transaction, so they just need to…
+
+271
+00:35:16.160 --> 00:35:33.049
+Jihoon: receive IELTS, and, you know, of course, they have to check equipocation, so on and so forth, and deadline stuff, committee stuff, of course, but that's all. So, they care about IELTS, and they just pass it to EL, and then EL… EL we're gonna take care of
+
+272
+00:35:33.210 --> 00:35:35.770
+Jihoon: IL transactions-related stuff.
+
+273
+00:35:38.250 --> 00:35:43.010
+Jihoon: The downside of this is it will gonna cons… I think it was gonna consume
+
+274
+00:35:43.810 --> 00:36:00.800
+Jihoon: more engine EIPI bandwidth on average, because there would be some duplicated IL transactions, but the max size of this bandwidth consumption is still 128 kB.
+
+275
+00:36:01.300 --> 00:36:02.390
+Jihoon: And…
+
+276
+00:36:02.820 --> 00:36:09.040
+Jihoon: based on the assumption that payload size… I mean, the size of payload at 20 mil gas limit would be…
+
+277
+00:36:09.790 --> 00:36:12.060
+Jihoon: 3 megabytes.
+
+278
+00:36:12.250 --> 00:36:20.030
+Jihoon: This max size, at the worst case, is around… 4.4%.
+
+279
+00:36:20.740 --> 00:36:21.980
+Jihoon: of the mix.
+
+280
+00:36:22.220 --> 00:36:25.859
+Jihoon: payload size at 200 mil. But given that
+
+281
+00:36:26.440 --> 00:36:30.599
+Jihoon: Given the fact that we were gonna increase DAS limit over time.
+
+282
+00:36:30.710 --> 00:36:33.629
+Jihoon: I think this trade-off is worth the make.
+
+283
+00:36:33.870 --> 00:36:43.879
+Jihoon: By paying this cost, I think we can have… A better design abstraction, but…
+
+284
+00:36:45.160 --> 00:36:50.049
+Jihoon: I really want to get some feedback, so we can have some robust design.
+
+285
+00:36:53.380 --> 00:36:59.009
+Marc: Yeah, I think, like, separating them makes sense, and it's just, like, A lot cleaner that way.
+
+286
+00:36:59.150 --> 00:37:05.019
+Marc: And yeah, probably worth, like, the bandwidth trade-off as well, but I'll take a look at your PR.
+
+287
+00:37:06.690 --> 00:37:08.300
+Jihoon: Oh yeah, they're really great.
+
+288
+00:37:08.700 --> 00:37:15.589
+Jihoon: I'm just curious, so we have Nethermind and Etherex prototype.
+
+289
+00:37:15.740 --> 00:37:20.500
+Jihoon: for FOCIL-frame interaction, do they implement your PR?
+
+290
+00:37:24.320 --> 00:37:33.839
+Marc: Yeah, influence the PR, except, so I made some similar changes to, like, what you suggested in terms of separating the ILs.
+
+291
+00:37:34.140 --> 00:37:40.929
+Marc: And I haven't updated the implementation yet, but, yeah, so they implement, like, an older version of the spec at the moment.
+
+292
+00:37:44.230 --> 00:37:45.030
+Jihoon: Okay, cool.
+
+293
+00:37:59.380 --> 00:38:01.930
+Jihoon: It seems Mehdi also prefers this.
+
+294
+00:38:03.200 --> 00:38:05.740
+Jihoon: Passing IELTS approach.
+
+295
+00:38:09.340 --> 00:38:14.369
+Mehdi Aouadi: Yeah, I definitely prefer the abstraction of the profile tool validation.
+
+296
+00:38:18.260 --> 00:38:22.350
+Jihoon: Okay, yeah, looking forward to discuss this.
+
+297
+00:38:23.000 --> 00:38:29.589
+Jihoon: And offline, in a week, if anyone attends the EFCON. But, yeah, I'm happy to…
+
+298
+00:38:30.260 --> 00:38:34.199
+Jihoon: Share that more context, or answer any questions.
+
+299
+00:38:55.040 --> 00:39:03.929
+Jihoon: So, regarding the DevNet schedule, once we figure out what kind of design we want to have for this BlockNet frame interaction.
+
+300
+00:39:04.310 --> 00:39:10.870
+Jihoon: I think we can… Have the specs ready, and then… Yeah.
+
+301
+00:39:11.140 --> 00:39:18.969
+Jihoon: carve the reliefs, and then try to launch. I go to Definite Zero, probably… After DEF CON.
+
+302
+00:39:19.210 --> 00:39:22.099
+Jihoon: Don't have a clear timeline, but yeah.
+
+303
+00:39:22.210 --> 00:39:25.190
+Jihoon: I think this has higher priority.
+
+304
+00:39:32.050 --> 00:39:40.040
+Jihoon: Gotcha. Yeah, to answer Mehdi's question in the chat, a FOCLAN frame would be a target defined as 0 from
+
+305
+00:39:40.280 --> 00:39:49.400
+Jihoon: my understanding. I'm not sure what else we want to put in there, but yeah, I guess that should be the one that we want to test.
+
+306
+00:39:50.390 --> 00:39:54.550
+Jihoon: Mainly in Allgrid Definite Zero, but…
+
+307
+00:39:55.120 --> 00:40:00.319
+Jihoon: The timeline and the exact scope of how we're gonna do in a zero is not set yet.
+
+308
+00:40:17.880 --> 00:40:19.340
+Jihoon: to tap quickly.
+
+309
+00:40:19.600 --> 00:40:21.080
+Jihoon: previous agenda.
+
+310
+00:40:21.750 --> 00:40:24.919
+Jihoon: As Nico suggested in the chat,
+
+311
+00:40:25.160 --> 00:40:35.930
+Jihoon: But then we can get rid of inclusionist bits, and… Payload Attributes. Event… Yeah.
+
+312
+00:40:36.370 --> 00:40:38.390
+Jihoon: It'd be… it'd be really nice, it'd be good.
+
+313
+00:40:39.180 --> 00:40:41.559
+Jihoon: Have someone to modify the PR.
+
+314
+00:40:42.590 --> 00:40:46.699
+Jihoon: And… yeah, actually, this is all the agenda we have for today.
+
+315
+00:40:46.860 --> 00:40:50.740
+Jihoon: Before we wrap up, does anyone have any questions or comments?
+
+316
+00:41:01.040 --> 00:41:09.450
+Jihoon: Just a little bit of housekeeping stuff, so, next breakout is… One week after DEFCOT.
+
+317
+00:41:10.340 --> 00:41:17.689
+Jihoon: But… As people will be traveling, and probably not so much to talk about Right after DEFCON.
+
+318
+00:41:18.420 --> 00:41:25.200
+Jihoon: So, I'll suggest to push it back by a week, which is on the 7th, 10th November.
+
+319
+00:41:27.410 --> 00:41:28.919
+Jihoon: How good does it sound, everyone?
+
+320
+00:41:31.880 --> 00:41:33.369
+Jihoon: One thumbs up.
+
+321
+00:41:34.790 --> 00:41:41.849
+Jihoon: 2 or 3. Thanks, everyone. So… Yeah, enjoy your travel, Nico.
+
+322
+00:41:42.770 --> 00:41:46.520
+Jihoon: Alright, any last comments?
+
+323
+00:41:56.100 --> 00:42:01.469
+Jihoon: Alright then, let's get the wrap in a week, if you plan to attend DEF CON. Otherwise.
+
+324
+00:42:01.570 --> 00:42:04.180
+Jihoon: Hope you have a great rest of your day, and…
+
+325
+00:42:04.520 --> 00:42:07.859
+Jihoon: See you on the 7th and 10th. Thank you. Bye-bye.
+
+326
+00:42:09.280 --> 00:42:10.210
+Justin Traglia: Bye, everyone.
+
+327
+00:42:10.210 --> 00:42:11.050
+Mehdi Aouadi: It is nice.
+
+328
+00:42:12.690 --> 00:42:13.480
+Rahul Barman: A goo.
+
