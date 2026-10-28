@@ -1,0 +1,1862 @@
+WEBVTT
+
+1
+00:14:16.590 --> 00:14:17.750
+Gianluca Felli: Hi, everyone.
+
+2
+00:14:29.090 --> 00:14:30.150
+Gianluca Felli: Hi, everyone.
+
+3
+00:14:40.930 --> 00:14:41.890
+Antonio Sanso: Hello, everyone.
+
+4
+00:14:44.150 --> 00:14:45.300
+Antonio Sanso: Can you hear me?
+
+5
+00:14:47.410 --> 00:14:48.740
+Matteo Vena: Hey, Antonio. Yes.
+
+6
+00:14:48.740 --> 00:14:50.010
+Gianluca Felli: Hello, hon.
+
+7
+00:14:51.260 --> 00:14:53.510
+Antonio Sanso: Cesar will wait a couple more minutes,
+
+8
+00:14:54.740 --> 00:14:57.469
+Antonio Sanso: To wait for people starting a bit late.
+
+9
+00:14:59.600 --> 00:15:01.799
+Antonio Sanso: I will test my setup in a second.
+
+10
+00:15:03.080 --> 00:15:07.670
+Antonio Sanso: I'll just have a quick… Slides to show as you're off.
+
+11
+00:15:32.320 --> 00:15:34.510
+Antonio Sanso: Let me share my slide.
+
+12
+00:15:45.050 --> 00:15:46.819
+Antonio Sanso: I assume you've seen my slides, right?
+
+13
+00:15:48.500 --> 00:15:49.080
+Gianluca Felli: Yep.
+
+14
+00:15:49.470 --> 00:15:50.379
+Antonio Sanso: Cool, cool.
+
+15
+00:15:51.340 --> 00:15:54.850
+Antonio Sanso: One more minute, then we start. Let's see if people are here.
+
+16
+00:16:36.630 --> 00:16:38.070
+Antonio Sanso: Right, let's start.
+
+17
+00:16:38.930 --> 00:16:46.160
+Antonio Sanso: Today is 28th of October. Welcome to the post-quantum Transaction Signature Number 17.
+
+18
+00:16:47.440 --> 00:17:02.530
+Antonio Sanso: quick recap of the previous and today topics, as I've been telling the Telegram channel, is we're gonna try to choose some default parameters for lean sphinx. The agenda is basically pretty…
+
+19
+00:17:03.540 --> 00:17:18.880
+Antonio Sanso: these two presenters, Emil, that, is gonna show us, Sphinx art, and Matteo Vena, or someone from, Reval Project 11, that they have their version of, some, Sphinx parameters.
+
+20
+00:17:20.260 --> 00:17:25.359
+Antonio Sanso: Reminder, this is a Telegram channel where we communicate about
+
+21
+00:17:25.579 --> 00:17:33.070
+Antonio Sanso: Stuff related to the post-quantum Transaction signatures. Here is the QR code, or the link, the one you prefer.
+
+22
+00:17:33.750 --> 00:17:36.149
+Antonio Sanso: And before to start, I just want to…
+
+23
+00:17:36.800 --> 00:17:40.850
+Antonio Sanso: to show a quick things that happened between last call and,
+
+24
+00:17:40.980 --> 00:17:58.639
+Antonio Sanso: this call, we launched thanks to, Gianluca and the NetherMind guys. We launched this testnet version 03 on Daisugi. It's pretty primitive, but we start with a, simple version of,
+
+25
+00:17:58.900 --> 00:18:03.830
+Antonio Sanso: EIP8288, so here we just show one transaction where
+
+26
+00:18:04.290 --> 00:18:12.979
+Antonio Sanso: we have a proof of… a stark proof of 20 transaction signatures using a version of Sphinx.
+
+27
+00:18:13.110 --> 00:18:18.569
+Antonio Sanso: Again, more to come, more advanced features, and we're gonna have a
+
+28
+00:18:18.680 --> 00:18:24.770
+Antonio Sanso: faster and more professionalized, testnet after the DevCon
+
+29
+00:18:25.170 --> 00:18:37.379
+Antonio Sanso: At the moment, the main issue with the testnet is that we don't have traffic, so we're gonna have some tool from PandaOrg that will spam transactions, so we will have better benchmarks.
+
+30
+00:18:37.760 --> 00:18:40.350
+Antonio Sanso: And yeah, that's basically it from my side.
+
+31
+00:18:40.510 --> 00:18:46.220
+Antonio Sanso: Really, without further ado, I will give the… stage to a mill.
+
+32
+00:18:47.090 --> 00:18:48.480
+Antonio Sanso: But it's so good.
+
+33
+00:18:48.690 --> 00:18:54.789
+Tom Wambsgans: Thank you. Hello, everyone. I'm going to share my screen.
+
+34
+00:18:56.100 --> 00:18:57.979
+Tom Wambsgans: Can you see my screen?
+
+35
+00:18:58.420 --> 00:18:59.100
+Antonio Sanso: Yep.
+
+36
+00:18:59.950 --> 00:19:04.489
+Tom Wambsgans: Okay, so I'm going to present things.art.
+
+37
+00:19:05.080 --> 00:19:18.480
+Tom Wambsgans: So it's a website that you can go to, and that, is useful to understand the trade-offs for choosing the parameters of lean sphinx. It's…
+
+38
+00:19:18.580 --> 00:19:34.780
+Tom Wambsgans: Kind of opinionated, because you don't have a lot of toggles, you cannot do everything you want, but the idea was still to explore what are, in my opinion, the… currently the biggest questions to answer.
+
+39
+00:19:35.260 --> 00:19:43.650
+Tom Wambsgans: So, I will go one by one on every of the possible choices to explain the implications.
+
+40
+00:19:43.720 --> 00:19:59.290
+Tom Wambsgans: The first choice is the lifetime of the signature, meaning the number of hashes, sorry, of signature that you can safely sign, and staying above 127 bits of security in the ROM, typically.
+
+41
+00:19:59.430 --> 00:20:19.230
+Tom Wambsgans: And, it's quite conservative, like, the default is to the 30, it's quite… it's a billion, in the sense that, from a typical user of Ethereum, you can't forget about it. It's so big that there is no chance you will sign a billion times on the same account in your life.
+
+42
+00:20:19.560 --> 00:20:26.679
+Tom Wambsgans: Mmm… But still, you can play with it a bit more, or a bit less conservative if you want.
+
+43
+00:20:27.770 --> 00:20:36.750
+Tom Wambsgans: And the more conservative you are, the biggest the signature and the slower it is to sell. Like, you have to pay a little bit the price of the lifetime.
+
+44
+00:20:37.200 --> 00:20:42.819
+Tom Wambsgans: The second choice is, the shape of the Sphinx.
+
+45
+00:20:43.340 --> 00:20:45.329
+Tom Wambsgans: The uniform is the…
+
+46
+00:20:45.420 --> 00:21:01.320
+Tom Wambsgans: vanilla one, in the sense that SLHDSA, essentially, except that the tree is imbalanced, but you have a list, like, in this case, 3 small XMSS layers, and,
+
+47
+00:21:01.360 --> 00:21:20.460
+Tom Wambsgans: KeyGen only needs to, to, to, you only need to KeyGen the topics MSS layer, at KeyGen, so it's, it's kind of fast. But it turns out, with some caveat, you can, it's possible to.
+
+48
+00:21:20.590 --> 00:21:24.420
+Tom Wambsgans: go to only one big XMSS layer.
+
+49
+00:21:25.170 --> 00:21:34.010
+Tom Wambsgans: Which is, by the way, what the NIST recently proposed as a new candidate for SHJSA. And essentially.
+
+50
+00:21:34.390 --> 00:21:40.109
+Tom Wambsgans: By doing so, key generation becomes extremely, extremely slow.
+
+51
+00:21:40.220 --> 00:21:50.529
+Tom Wambsgans: But the trick is to use, pruning, which is, pruning has been, like, developed on Sphinx by, by condition.
+
+52
+00:21:58.020 --> 00:22:05.940
+Antonio Sanso: I think that the mill… Okay, we'll wait 30 seconds, let me be pinging.
+
+53
+00:22:12.280 --> 00:22:14.009
+Antonio Sanso: Kamil are you back?
+
+54
+00:22:14.010 --> 00:22:15.329
+Tom Wambsgans: Sorry, sorry, I'm like.
+
+55
+00:22:15.490 --> 00:22:18.140
+Antonio Sanso: No worries. Yeah, yeah, now you're back, yeah, sure.
+
+56
+00:22:18.140 --> 00:22:25.800
+Tom Wambsgans: So, sorry, my connection dropped. So, pruning has been developed by Condition, there's a blog post, I think it's linked
+
+57
+00:22:25.830 --> 00:22:45.579
+Tom Wambsgans: Here, if you click here. And the idea is that, if you are a constrained device, you will not ken all the watts, you will only ken a small subset of them. Typically, if you are ledger, you will ken roughly 4,000 random signatures.
+
+58
+00:22:45.580 --> 00:22:59.660
+Tom Wambsgans: so a small part of the trees, and you will fill the rest of the tree with random surrogate nodes. And this way, you can have key generation, which is most… much faster, but
+
+59
+00:22:59.660 --> 00:23:14.920
+Tom Wambsgans: The main drawback is that you leak privacy, because typically, if you sign a lot, someone can see that all the signatures reuse the same few-time signature, and so that, in some way.
+
+60
+00:23:14.990 --> 00:23:23.320
+Tom Wambsgans: It… if you sign a lot, it leaks the information of the size of your pruning subtree.
+
+61
+00:23:23.700 --> 00:23:26.590
+Tom Wambsgans: So that's the, in my opinion, the biggest drawback.
+
+62
+00:23:27.630 --> 00:23:44.690
+Tom Wambsgans: Then there is the hash, so essentially three hashs available, and then there is the type of the few time signature. The vanilla one is the force, as in SLHDSA, like a forest of random subset.
+
+63
+00:23:44.690 --> 00:23:49.909
+Tom Wambsgans: But it turns out, you can do fancy stuff, and…
+
+64
+00:23:49.910 --> 00:23:57.210
+Tom Wambsgans: If you're fine with doing fancy stuff, you can have a two-layer forest of small woods, and
+
+65
+00:23:57.230 --> 00:24:11.979
+Tom Wambsgans: it gives you, essentially, more, more performance, but, it's kind of novel. And also, it's, like, 2X less MPC friendly, because
+
+66
+00:24:12.150 --> 00:24:31.279
+Tom Wambsgans: In force, roughly 50% of the hashes are secrets, 50% are public, so you only need to run 50% of the hashes in MPC, while in this scheme, in this FTS, close to 100% of the hashes are secrets, and so you have to run MPC on all of them.
+
+67
+00:24:32.050 --> 00:24:43.990
+Tom Wambsgans: Anyway, so the website shows you the… the performance of signing, key gen, blah blah blah, for various types of device.
+
+68
+00:24:43.990 --> 00:25:00.170
+Tom Wambsgans: It also shows you, some threshold performance, assuming… and also I want to say that, assisted pruning and, threshold is based on an idea of, Revolabs, which is essentially the idea that
+
+69
+00:25:00.170 --> 00:25:14.949
+Tom Wambsgans: you can, I think, I assume you already know this, but you can generate in advance, and you can generate some force in advance, and you can delegate computation from the ledger to the host using a stark.
+
+70
+00:25:15.650 --> 00:25:23.130
+Tom Wambsgans: Anyway, I will… I think I will try to focus the rest of my talk on two points.
+
+71
+00:25:23.340 --> 00:25:25.380
+Tom Wambsgans: So…
+
+72
+00:25:26.860 --> 00:25:37.799
+Tom Wambsgans: I will quickly go on the two novelties, I would say, or stuff that are not… that are probably not clear for everyone.
+
+73
+00:25:37.970 --> 00:25:43.020
+Tom Wambsgans: First, the… the Vitale signature, so the forest of watts.
+
+74
+00:25:43.480 --> 00:26:00.640
+Tom Wambsgans: it was, submitted to the competition 6.Golf by Jonas Nick from Blockstream, and the idea is that instead of having some secret pre-match in your force, you will instead use very small force… sorry, very small watts.
+
+75
+00:26:00.640 --> 00:26:17.990
+Tom Wambsgans: like, 6 chains of height, 5, for each watts. And, the encoding will select, some… some, like, one level on every chain of… on every watts.
+
+76
+00:26:17.990 --> 00:26:20.820
+Tom Wambsgans: With target some encoding.
+
+77
+00:26:21.040 --> 00:26:29.590
+Tom Wambsgans: And without grinding, in the sense that you don't have to retry until every target summary expected.
+
+78
+00:26:29.660 --> 00:26:42.349
+Tom Wambsgans: Because, there is a non-injective mapping from one byte to the set of possible encodings, on a watts, meaning some encodings are repeated.
+
+79
+00:26:42.350 --> 00:26:50.309
+Tom Wambsgans: But, it turns out, if you repeat only the, the less likely encoding, I believe, yes.
+
+80
+00:26:50.880 --> 00:27:02.079
+Tom Wambsgans: It's far… it's fine from… sorry, the less forgeable encoding, sorry, it's fine… it gives you very good properties in terms of performance.
+
+81
+00:27:02.770 --> 00:27:09.559
+Tom Wambsgans: And so the performance is roughly, more than 30% better than a comparable force.
+
+82
+00:27:09.710 --> 00:27:10.700
+Tom Wambsgans: But…
+
+83
+00:27:11.150 --> 00:27:19.490
+Tom Wambsgans: As I said before, the drawback is that it's novel, so it would require new security analysis in the standard model.
+
+84
+00:27:19.610 --> 00:27:35.350
+Tom Wambsgans: And, it's less MPC-friendly, and, it has a higher variance, like, meaning, meaning if you sign a lot, and you study the concrete security that you get after signing a lot.
+
+85
+00:27:35.580 --> 00:27:44.900
+Tom Wambsgans: This number is a random variable that has a mean which is above 127 bits, but still it has some variance, and it's a bit worse than force.
+
+86
+00:27:45.240 --> 00:27:51.770
+Tom Wambsgans: At this level, anyway. It still gives quite a lot of additional performance, as you can see.
+
+87
+00:27:52.970 --> 00:28:08.050
+Tom Wambsgans: Then there is pruning. So, I was initially, like, a pruning bull, to be honest, but, recently, some people told me that privacy was kind of an issue, because typically, if you're a ledger.
+
+88
+00:28:08.070 --> 00:28:20.920
+Tom Wambsgans: If you prune, like, typically would… you would… the subtree, is, like, 2,000… is, 4,000, non-pruned, field time signature.
+
+89
+00:28:21.380 --> 00:28:33.710
+Tom Wambsgans: And, if you… it turns out that, when… if you sign a lot, you can, detect that, it's a ledger, because you will repeat
+
+90
+00:28:33.710 --> 00:28:44.730
+Tom Wambsgans: You will end up reusing the same future multiple times, so people can distinguish, and it leaks the… it leaks the size of the subtree that you used.
+
+91
+00:28:45.600 --> 00:28:46.580
+Tom Wambsgans: And…
+
+92
+00:28:46.790 --> 00:29:04.320
+Tom Wambsgans: you can… my point… the point that I want to communicate is that, I agree that it's an issue, but I believe there are some partial solutions. So, first of all, the naive way of,
+
+93
+00:29:04.450 --> 00:29:19.860
+Tom Wambsgans: choosing, as a subtree, a continuous 2 to the B, free time signature is a bad idea for privacy, because all the selected indexes are close to each other, so it obviously leaks a lot of information.
+
+94
+00:29:20.470 --> 00:29:34.980
+Tom Wambsgans: So one would have, to select the… for the set of few time signatures, a much more scattered set. And it turns out, it's possible, to select the…
+
+95
+00:29:35.330 --> 00:29:44.089
+Tom Wambsgans: Kept a few-time signature in a totally random way, and still to have efficient surrogate node algorithms.
+
+96
+00:29:44.470 --> 00:29:46.909
+Tom Wambsgans: So this part is kind of solved.
+
+97
+00:29:47.170 --> 00:30:03.290
+Tom Wambsgans: The issue is that when you sign a lot, you end up reusing the same Vitale signature, which happens with very small probability if you have a full key, meaning you have kenned everything.
+
+98
+00:30:03.870 --> 00:30:10.870
+Tom Wambsgans: And it's, for the parameters displayed on the website.
+
+99
+00:30:11.270 --> 00:30:13.869
+Tom Wambsgans: It's, like…
+
+100
+00:30:14.140 --> 00:30:33.659
+Tom Wambsgans: If you sign roughly, like, 75 times, the adversaria has, like, it's possible to distinguish you with more than 50% advantage. Meaning, if you don't want to be distinguished, if you want to keep privacy, you would have to sign no more than, let's say, 30 times.
+
+101
+00:30:35.090 --> 00:30:41.739
+Tom Wambsgans: But there is, again, another partial solution, which is the following.
+
+102
+00:30:42.350 --> 00:30:57.989
+Tom Wambsgans: If you are fine by having, some semi-trusted, I will come back to it later, state, meaning you… Sphinx is a stateless signature, but if you are fine keeping a bit of state, and in practice it means
+
+103
+00:30:58.340 --> 00:31:03.680
+Tom Wambsgans: Keeping track of the few time signature that you already used in the past.
+
+104
+00:31:04.180 --> 00:31:10.539
+Tom Wambsgans: And if you do not reuse a few times signature as long as
+
+105
+00:31:10.930 --> 00:31:18.870
+Tom Wambsgans: The number of used Vitime signatures is not more than half of all your available full-time signature.
+
+106
+00:31:19.090 --> 00:31:29.720
+Tom Wambsgans: In this case, you can get more than 2,000 fully private, meaning no legal information at all, signatures on a ledger.
+
+107
+00:31:30.500 --> 00:31:32.930
+Tom Wambsgans: So I repeat,
+
+108
+00:31:33.210 --> 00:31:43.390
+Tom Wambsgans: If you have this seminterested state, you can have 2,000 signatures on a ledger that do not leak any information.
+
+109
+00:31:44.040 --> 00:31:51.069
+Tom Wambsgans: The cost is that you will need to grind a little bit more at signing, And that…
+
+110
+00:31:51.230 --> 00:31:59.340
+Tom Wambsgans: If an adversary can control this state, it cannot forge But it can, first.
+
+111
+00:31:59.440 --> 00:32:04.610
+Tom Wambsgans: leak the size of the subtree, meaning you lose the privacy guarantee.
+
+112
+00:32:05.050 --> 00:32:16.110
+Tom Wambsgans: And it can divide, roughly, the lifetime by 2. Meaning, if you lifetime on sphinx.art, it's typically 100,000 signatures for a ledger.
+
+113
+00:32:16.460 --> 00:32:22.559
+Tom Wambsgans: you would have only 50,000 signatures for a ledger.
+
+114
+00:32:23.220 --> 00:32:41.370
+Tom Wambsgans: But if you are fine with… like, it's kind of a compromise, but it still gives 2,000 signatures on the ledger, which is, for most users, probably practical. But still, it's not perfect. Like, it's, again, it's a… it's a compromise, yeah.
+
+115
+00:32:44.170 --> 00:32:45.650
+Tom Wambsgans: That's it for me, thank you.
+
+116
+00:32:46.500 --> 00:32:57.350
+Antonio Sanso: Thanks a lot, Emil. That was a really nice presentation. Thanks a lot for the website as well. I've been playing with the website for the last couple of days, to be fair, looking at all the different, toggles.
+
+117
+00:32:57.480 --> 00:33:03.929
+Antonio Sanso: Do we have any questions? Or we want to wait, Matteo for the presentation, and then we do them together, as you guys want?
+
+118
+00:33:05.410 --> 00:33:08.950
+Antonio Sanso: If there's any question, I will… I will take it now, and then we move.
+
+119
+00:33:10.280 --> 00:33:15.980
+Justin Drake: Can you explain the 2x degradation in lifetime? I didn't quite understand where that comes from.
+
+120
+00:33:16.290 --> 00:33:20.939
+Tom Wambsgans: It's because, if an adversary controls the state.
+
+121
+00:33:21.700 --> 00:33:29.640
+Tom Wambsgans: attack is to typically, like, the adversary will say that the state contains
+
+122
+00:33:29.800 --> 00:33:38.369
+Tom Wambsgans: Few-time signature that you didn't sign, and it claims that you are… that you signed, but actually the state contains a few-time signature.
+
+123
+00:33:38.370 --> 00:33:38.880
+Justin Drake: That's true.
+
+124
+00:33:38.880 --> 00:33:48.599
+Tom Wambsgans: sign, meaning you will use more the signature that you already signed. And so, in some way, it kind of divides by two
+
+125
+00:33:48.600 --> 00:34:02.519
+Tom Wambsgans: The size of the subtree, because you will end up using the other part, and so you end up having an effective subtree of size divided by 2, and the lifetime is roughly proportional to the size of the kept subtree.
+
+126
+00:34:05.140 --> 00:34:09.960
+Justin Drake: I see. And is it an attack where… so let's say the attacker can control this,
+
+127
+00:34:10.239 --> 00:34:17.800
+Justin Drake: the state? Can't it just, put in the state all signatures except one, and kind of force you to open a.
+
+128
+00:34:17.800 --> 00:34:18.230
+Tom Wambsgans: Yeah, but…
+
+129
+00:34:18.230 --> 00:34:19.290
+Justin Drake: specific location?
+
+130
+00:34:19.610 --> 00:34:28.780
+Tom Wambsgans: That, the key point was to say you should always have the state to be less than half of
+
+131
+00:34:28.780 --> 00:34:48.590
+Tom Wambsgans: all the available free-time signature. And this way, you… the advantage of the adversary is bonded by a factor of 2. And you can… it's a trade-off, but, like, 2 is the natural choice. If you don't want to lose more than 25%, you can have a smaller state, but then you only have, I don't know, 1,000 signatures with privacy.
+
+132
+00:34:51.060 --> 00:34:52.510
+Justin Drake: I see, very interesting.
+
+133
+00:34:54.230 --> 00:34:54.929
+Antonio Sanso: Right?
+
+134
+00:34:55.389 --> 00:35:03.190
+Antonio Sanso: Thanks a lot, Emil. So let's try like this. Let's go to the presentation of Matteo, and then we can kind of discuss in the end.
+
+135
+00:35:03.820 --> 00:35:05.020
+Antonio Sanso: Don't allowing.
+
+136
+00:35:06.840 --> 00:35:07.660
+Matteo Vena: Okay.
+
+137
+00:35:09.250 --> 00:35:15.990
+Matteo Vena: Hey, everyone, and thank you, Emil, for the presentation. It was actually very interesting.
+
+138
+00:35:17.610 --> 00:35:31.670
+Matteo Vena: As a quick intro, many of you know it already, since I've been following these calls, or were present at Cambridge, but I'm from formerly Revolabs, then acquired by Project 11. At Project 11, we work a lot on these,
+
+139
+00:35:31.890 --> 00:35:47.700
+Matteo Vena: set of problems, let's say, and we have done a lot of work trying to figure out what kind of parameters could be relevant for the future, ethereum, these things. But most of our work is focused around,
+
+140
+00:35:48.200 --> 00:35:52.489
+Matteo Vena: specific use cases, such as hardware wallets and MPC.
+
+141
+00:35:52.840 --> 00:36:05.649
+Matteo Vena: And obviously, this comes at a time where it seems NPCs are becoming more and more relevant. I don't know for who saw the news today, but it seems Google is entering the…
+
+142
+00:36:06.490 --> 00:36:18.210
+Matteo Vena: crypto market with an offering of an MPC, and actually a security platform for digital assets, so it's never been more relevant, I would say, to keep compatibility with this,
+
+143
+00:36:18.630 --> 00:36:20.869
+Matteo Vena: With threshold teenagers in general.
+
+144
+00:36:21.500 --> 00:36:26.560
+Matteo Vena: So, in terms of… Where we see… so, can you see my screen, first of all?
+
+145
+00:36:27.700 --> 00:36:28.300
+Justin Drake: Yes.
+
+146
+00:36:28.300 --> 00:36:28.800
+Tom Wambsgans: Yes, sir.
+
+147
+00:36:28.860 --> 00:36:30.500
+Matteo Vena: Great. So…
+
+148
+00:36:31.440 --> 00:36:49.559
+Matteo Vena: These are some general guidelines. So, again, we are optimized for constrained Rdoor solutions, and also for old models of Rotaru signers. Given the circumstances, it's also very much to be expected that people are gonna try to extend the lifespan of existing
+
+149
+00:36:49.660 --> 00:37:01.380
+Matteo Vena: devices for a while. We are trying to maintain full compatibility with Sphinx G, and for those of you who don't know it, Sphinx G is a Sphinx Plus variant that we developed.
+
+150
+00:37:01.410 --> 00:37:19.069
+Matteo Vena: And there is a paper coming next month at some point, hopefully, that explains the construct, but it basically allows to… allows constrained devices, such as MPCs and hardware wallets, to sign extremely fast with hash-based signatures and sphinx-style signatures.
+
+151
+00:37:19.070 --> 00:37:22.090
+Matteo Vena: When I, when I, when I say extremely fast.
+
+152
+00:37:22.090 --> 00:37:34.090
+Matteo Vena: although there is some operational machinery in there, I mean 200 to 500 milliseconds to do a signature, with some security to be attached, but in general, in the realm of a couple of seconds.
+
+153
+00:37:34.400 --> 00:37:46.929
+Matteo Vena: We are not considering signature size a strict priority anymore, considering aggregation is coming, and it's part of the roadmap, so it's important, but not the number one priority. And in general.
+
+154
+00:37:47.750 --> 00:38:02.759
+Matteo Vena: when I say signature size, I still refer to stateless schemes, because obviously we could get much smaller signatures, as all of you know, by going stateful, but at this point, we're really, really trying to avoid state in the security sense of the term.
+
+155
+00:38:03.060 --> 00:38:13.909
+Matteo Vena: And then there's aggregation friendliness that is relevant, but our opinion is that since aggregation is not coming tomorrow, there is still going to be a lot
+
+156
+00:38:14.100 --> 00:38:29.879
+Matteo Vena: We are going to see a lot of improvements down the road. So, I don't think we should stretch the signature itself to the point of being impractical to favor aggregation, when aggregation is… and everything at this point really is moving so fast in terms of
+
+157
+00:38:29.880 --> 00:38:40.080
+Matteo Vena: news and developments. We think friendliness is important, but doesn't have to be the number one factor. The theater budget has to be very large, so even
+
+158
+00:38:40.350 --> 00:38:50.439
+Matteo Vena: Even if you don't know how many transactions you are gonna do, you shouldn't worry about it unless you are a very specialized type of user, for example, an exchange running
+
+159
+00:38:50.440 --> 00:39:04.510
+Matteo Vena: a couple of wallets, or a number of wallets for millions of users, or a bridge, or a stablecoin issuer, or something like that. At the moment, we are considering anything greater than 2 to the 20, or equal to 2 to the 20, to be…
+
+160
+00:39:04.570 --> 00:39:09.820
+Matteo Vena: Fine, but the parameters we're going to propose here are all bigger than this.
+
+161
+00:39:10.090 --> 00:39:11.410
+Matteo Vena: And pruning?
+
+162
+00:39:11.820 --> 00:39:25.070
+Matteo Vena: Emil gave a good explanation. We have been thinking about this and sharing details about these privacy implications and other problems of pruning for a while now. In general, we are not against it.
+
+163
+00:39:25.180 --> 00:39:35.509
+Matteo Vena: But we believe, as stated before, that it should be optional. If we design a scheme that can benefit from pruning, and people really, really
+
+164
+00:39:35.910 --> 00:39:48.930
+Matteo Vena: Understand the security of pruning, want to do pruning, think pruning is a good idea, then they should be able to do it, but it doesn't have to be, in our opinion, the backbone of a scheme or a decision factor.
+
+165
+00:39:49.040 --> 00:39:51.530
+Matteo Vena: We have this,
+
+166
+00:39:52.080 --> 00:40:07.400
+Matteo Vena: tool that you can find at research.project11.com, when you can model your own version of Sphinx Plus signatures, and then, once you're done, you can copy the link to the share button, and it's gonna carry all the parameters that you
+
+167
+00:40:07.400 --> 00:40:20.999
+Matteo Vena: put over there, and soon we are going to support, different features that you have seen in Emil's presentation, so we are going to expand the tool to support other variations of Sphinx that could be helpful to model lean sphinx.
+
+168
+00:40:21.610 --> 00:40:31.850
+Matteo Vena: So I'm gonna share… showcase two parameter sets. This is the first one. This is… this was our starting point in the past, and that's what we have used for a lot of our
+
+169
+00:40:31.850 --> 00:40:45.079
+Matteo Vena: tooling and experiments, including MPC signatures with our MPC design. In general, we started from the idea that we should stay closer, at least, close, to Sphinx+, or that was our…
+
+170
+00:40:45.140 --> 00:40:52.410
+Matteo Vena: initial design goal, and we modeled this signature to be balanced. So, as you can see over here.
+
+171
+00:40:52.800 --> 00:41:02.140
+Matteo Vena: We have definitely a bigger needs parameter compared to what you see on sphinx.art, to keep the signature small, basically.
+
+172
+00:41:02.140 --> 00:41:14.059
+Matteo Vena: And we have smaller force. Smaller… smaller force are very helpful in the context of MPC, they are easier and allow us for a better signature size.
+
+173
+00:41:14.160 --> 00:41:18.000
+Matteo Vena: And CAIC is the hash function of choice,
+
+174
+00:41:18.020 --> 00:41:33.980
+Matteo Vena: for a variety of reasons, but in general, one of the strong reasons to favor it over other hash functions so far is that it allows for less NPC rounds, and having less MPC rounds in the MPC context is extremely important when you deal with the
+
+175
+00:41:33.980 --> 00:41:40.130
+Matteo Vena: Custody of a very high amount of assets, and you might have a very sophisticated type of setup.
+
+176
+00:41:40.420 --> 00:41:46.680
+Matteo Vena: This parameter set has a lifetime of 2 to the 24, size is, 5.5,
+
+177
+00:41:46.930 --> 00:41:52.830
+Matteo Vena: Roughly, and this is the number of permutation. Now, when we say permutation, we are actually using
+
+178
+00:41:53.110 --> 00:42:12.679
+Matteo Vena: the average, so it's just like you saw on things.art, it's kind of the same. This was the balance that we had achieved before… before recent proposals. And again, I'm… I'm gonna share this link in the chat later on, where you can just see how this looks like in greater details on the tool.
+
+179
+00:42:15.590 --> 00:42:25.529
+Matteo Vena: Later on, as we kept trying to understand how we can offer maximum compatibility with what everybody else is proposing, we kept
+
+180
+00:42:25.710 --> 00:42:42.030
+Matteo Vena: working around this concept. This is the key concept for us. Our desired approach is that there is one single standard verification and aggregation process when you send a transaction on Ethereum, and if your hardware is good enough, fast enough, new enough.
+
+181
+00:42:42.120 --> 00:42:46.050
+Matteo Vena: or can work with lean sphings the way it is.
+
+182
+00:42:46.050 --> 00:43:03.810
+Matteo Vena: for example, in hot wallet, you just sign, and it goes straight to the network. But if instead you have a constrained device, such as an MPC or a ledger, you keep compatibility with the same verified and aggregation process, so users can enjoy maximum privacy, especially considering that
+
+183
+00:43:03.810 --> 00:43:07.479
+Matteo Vena: The more you go up in the spectrum of custody setups.
+
+184
+00:43:07.480 --> 00:43:11.500
+Matteo Vena: The more you probably want privacy to be there, to be involved.
+
+185
+00:43:11.960 --> 00:43:17.549
+Matteo Vena: And so this is a second parameter set that we are proposing that is kind of…
+
+186
+00:43:19.060 --> 00:43:34.659
+Matteo Vena: along the lines of what is being proposed on sphinx.art, with some changes. Now, Force is now supported on sphinx.art, so it's there, it's an option, and that's what we want to go with, because without Force.
+
+187
+00:43:34.660 --> 00:43:51.020
+Matteo Vena: The MPC is strictly worse. Just replacing… this is, again, one of the principles, using watts in the MPC instead of force is strictly worse, and so we believe force should be kept over there. Now, newer, newer,
+
+188
+00:43:51.050 --> 00:43:52.950
+Matteo Vena: Schemes, such as the one
+
+189
+00:43:53.010 --> 00:44:12.230
+Matteo Vena: that came out of Sea Golf from John and Nick at Blockstream are definitely interesting, and obviously security still has to be proven alongside viability of the scheme, but in general, Force is still a better pick when it comes to MPC. And what you can see here, there is a…
+
+190
+00:44:13.390 --> 00:44:28.730
+Matteo Vena: there's some differences compared to what you see on Sphinx.art, specifically the fourths are smaller, again, to give some advantages on the MPC, but we went down dramatically on the internet's parameters, so it looks…
+
+191
+00:44:29.300 --> 00:44:46.019
+Matteo Vena: I would say at least similar to what is being proposed now on sphinx.art. And in terms of the number, we get a lifetime of 2 to the 24, the size is pretty much similar and comparable, and permutations are basically comparable with the schemes being proposed.
+
+192
+00:44:47.140 --> 00:44:59.199
+Matteo Vena: We believe it's important to make an effort in trying to maintain compatibility with systems that could give us MPC support, hardware devices support, and in general, a good coverage across the ecosystem.
+
+193
+00:44:59.340 --> 00:45:00.210
+Matteo Vena: And…
+
+194
+00:45:00.560 --> 00:45:20.340
+Matteo Vena: although I think there is going still to be a lot of work to do to find the perfect lens things, we believe this is a good… this is a balanced parameter set, that could sort of meet the verification requirement, size requirement, lifetime requirement, at least in the middle, but still allow for pretty decent
+
+195
+00:45:20.340 --> 00:45:23.230
+Matteo Vena: Usage across constrained hardware.
+
+196
+00:45:24.320 --> 00:45:33.010
+Matteo Vena: And yeah, this is, this is it. This is what we wanted to showcase, and again, both parameter sets work for us, but we are trying to
+
+197
+00:45:33.310 --> 00:45:37.050
+Matteo Vena: Come along with something that is more compatible with other proposals.
+
+198
+00:45:38.980 --> 00:45:41.070
+Antonio Sanso: Thanks a lot, Matteo. Any question?
+
+199
+00:45:41.980 --> 00:45:47.290
+Tom Wambsgans: I have a question. Could you please come back to the third slide, please?
+
+200
+00:45:50.230 --> 00:46:02.630
+Tom Wambsgans: I don't… because I understood that the one-time signature that you were previously using was watts, but not watts plus C.
+
+201
+00:46:02.790 --> 00:46:12.219
+Tom Wambsgans: Like, it was once we checksum, and that was the reason that you had the average case and the worst case.
+
+202
+00:46:12.700 --> 00:46:21.050
+Tom Wambsgans: So, if you're using words plus C, what is the reason there is a worse case and an average case?
+
+203
+00:46:22.900 --> 00:46:26.079
+Matteo Vena: When you say previously, you mean the presentation we had in Cambridge?
+
+204
+00:46:27.480 --> 00:46:31.879
+Matteo Vena: Yeah, it was with WatsPlus, if that's what you were referring, you remember correctly.
+
+205
+00:46:32.020 --> 00:46:40.910
+Matteo Vena: We are… Let's say, evaluating using WASPLC, just to save some…
+
+206
+00:46:41.080 --> 00:46:49.019
+Matteo Vena: something on the signature size, but it's not set in stone. Like, this is not a strong requirement. We are okay using what's as well.
+
+207
+00:46:49.530 --> 00:46:50.190
+Tom Wambsgans: Okay.
+
+208
+00:46:51.010 --> 00:46:51.540
+Tom Wambsgans: Okay.
+
+209
+00:46:51.540 --> 00:46:59.270
+Matteo Vena: Then, I don't know, because we just updated the tool, so I don't know, Alessandro, if we wanted to add something, and if you can hear us on this,
+
+210
+00:47:00.370 --> 00:47:02.930
+Matteo Vena: On the way we were showing the parameter before.
+
+211
+00:47:03.720 --> 00:47:06.339
+Alessandro Baiocchi: Yes, sir, can you hear me?
+
+212
+00:47:07.270 --> 00:47:07.990
+Alessandro Baiocchi: Okay.
+
+213
+00:47:08.180 --> 00:47:17.239
+Alessandro Baiocchi: Yeah, so yeah, sorry, I think that's just, the, the, you're right. The, the, the, the, like, the reason we, we see, we show,
+
+214
+00:47:17.440 --> 00:47:24.320
+Alessandro Baiocchi: worst case averages, because we, in the tool, we still have, the WT+, no C.
+
+215
+00:47:24.590 --> 00:47:41.520
+Alessandro Baiocchi: And… but we computed the numbers for the plus C variant, since we, like, we recently, decided that plus C is, like, a small enough change from Sphinx plus that it's, a good addition to the C2 in Sphinx.
+
+216
+00:47:42.280 --> 00:47:42.800
+Matteo Vena: Yep.
+
+217
+00:47:43.680 --> 00:47:45.129
+Tom Wambsgans: Okay, makes sense. Thank you.
+
+218
+00:47:47.770 --> 00:47:52.589
+Antonio Sanso: Okay, let's do a kind of meta comment to start the conversation.
+
+219
+00:47:52.870 --> 00:48:01.480
+Antonio Sanso: if we see, like, the version 2 of Meal, Sphinx Art, and the last slide of Matteo.
+
+220
+00:48:01.680 --> 00:48:07.980
+Antonio Sanso: I think that there is not a huge amount of difference between the two. To me, like, it looks like the
+
+221
+00:48:08.190 --> 00:48:16.730
+Antonio Sanso: These two slides converge towards an approach that is kind of conservative, for now, and
+
+222
+00:48:17.290 --> 00:48:23.719
+Antonio Sanso: I don't know which one of the two, but we can start with for the… For the… for the…
+
+223
+00:48:24.110 --> 00:48:27.229
+Antonio Sanso: Next version on the testnet, but it doesn't look like
+
+224
+00:48:27.490 --> 00:48:33.359
+Antonio Sanso: too much difference to me, between the last slides of Matteo and the version 2 of Emil.
+
+225
+00:48:35.210 --> 00:48:36.950
+Antonio Sanso: Who,
+
+226
+00:48:37.110 --> 00:48:46.099
+Antonio Sanso: What… from my perspective, I would like to choose one today, and so we can include this in the next version of the testnet.
+
+227
+00:48:46.600 --> 00:48:51.850
+Antonio Sanso: And… but I don't know which of the two, because they're so similar, that it doesn't change too much, to be fair.
+
+228
+00:48:53.490 --> 00:48:58.529
+Tom Wambsgans: I think the main difference is the lifetime, I think.
+
+229
+00:48:58.530 --> 00:49:02.359
+Antonio Sanso: Exactly, yes, yes, exactly. That's the only difference. Indeed, like, the…
+
+230
+00:49:02.580 --> 00:49:09.240
+Antonio Sanso: the lifetime is, makes the size smaller on the Matteo's version. Justin, I see you raised the hand.
+
+231
+00:49:10.810 --> 00:49:16.000
+Justin Drake: Yeah, on the lifetime, I'd be curious to hear if Project 11 chatted with the Bitcoiners.
+
+232
+00:49:16.650 --> 00:49:25.500
+Justin Drake: as far as I understand, Shrinks currently has a lifetime of 2 to the 40, and in Cambridge, Mikhail Kridinov was suggesting that
+
+233
+00:49:25.870 --> 00:49:31.060
+Justin Drake: You know, he would potentially be open to different numbers.
+
+234
+00:49:31.400 --> 00:49:40.859
+Justin Drake: but I guess… You know, presumably the Bitcoiners also want MPC friendliness. So,
+
+235
+00:49:41.070 --> 00:49:48.619
+Justin Drake: would it make sense to have a three-way discussion, Ethereum, Bitcoin, and zMPC providers, to come to consensus on a good lifetime?
+
+236
+00:49:49.310 --> 00:49:57.960
+Matteo Vena: Yeah, we had a good conversation on this with him during… during Cambridge. It was very interesting. I just don't think there was enough…
+
+237
+00:50:01.480 --> 00:50:18.879
+Matteo Vena: thinking going into the MPC part. On Bitcoin, actually, my take is that the lifetime, like, 2 to the 24, is perfectly fine, and that having a much bigger lifetime doesn't add much in terms of… in terms of,
+
+238
+00:50:19.010 --> 00:50:24.959
+Matteo Vena: benefits for the network, especially in an environment where there are even less transactions than on Ethereum.
+
+239
+00:50:25.010 --> 00:50:43.150
+Matteo Vena: But in general, I think more… giving more relevance to the MPC is going to be a good advantage in the long run, also considering that the same advantages usually benefit us from hardware signers and other constraints. It's not just those constraints that I've mentioned.
+
+240
+00:50:45.100 --> 00:50:46.979
+Antonio Sanso: Right? Nico?
+
+241
+00:50:50.200 --> 00:50:54.740
+Antonio Sanso: Nico, I think you raised the hand, so I don't know if it was a mistake, or you have some question.
+
+242
+00:50:54.740 --> 00:50:56.550
+Nico: Yeah, I think I was muted.
+
+243
+00:50:56.850 --> 00:51:01.770
+Nico: yeah, I just wanted to say, I think the proposals are quite similar.
+
+244
+00:51:03.390 --> 00:51:08.779
+Nico: But, yeah, if we're willing to be okay with a smaller lifetime, which I think is a good idea.
+
+245
+00:51:09.590 --> 00:51:17.339
+Nico: We should also consider just, doing some… More efficient version?
+
+246
+00:51:17.640 --> 00:51:20.819
+Nico: With the large H and K.
+
+247
+00:51:21.070 --> 00:51:28.150
+Nico: So if the trade-off is, like, NPC friendliness versus speed of the network, I think we should…
+
+248
+00:51:28.600 --> 00:51:32.700
+Nico: We should, care about, speed of the network first.
+
+249
+00:51:33.010 --> 00:51:37.359
+Nico: MPC friendliness is more of a nice-to-have, but it's also…
+
+250
+00:51:37.960 --> 00:51:43.609
+Nico: it can be given by some other techniques, so I think if we bring this to our DAS…
+
+251
+00:51:43.880 --> 00:51:46.830
+Nico: With the trade-off of basically everything we…
+
+252
+00:51:47.400 --> 00:51:57.969
+Nico: sacrifice here is some hardware requirements, decentralization trade-off, and speed of the network. I think we will end up with
+
+253
+00:51:58.420 --> 00:52:06.819
+Nico: proposals that are closer to the last one that Revolabs presented, but with, even more conservative on the…
+
+254
+00:52:07.430 --> 00:52:13.890
+Nico: size of the force. So, this is just my take. I'm okay with starting with a very conservative option.
+
+255
+00:52:14.190 --> 00:52:21.559
+Nico: But if we frame the trade-off as being speed of the network and decentralization capacity, I…
+
+256
+00:52:22.430 --> 00:52:27.499
+Nico: I think we're gonna end up with, more optimized versions.
+
+257
+00:52:27.980 --> 00:52:28.660
+Nico: EF.
+
+258
+00:52:30.590 --> 00:52:38.829
+Antonio Sanso: Thanks, Nico. I was actually wondering if there is anyone, having an opinion, apart the people presented, about the lifetime of the signatures?
+
+259
+00:52:39.690 --> 00:52:46.730
+Antonio Sanso: There's only one… Having an opinion? Like, what would be a number they would feel comfortable with? Any…
+
+260
+00:52:47.260 --> 00:52:49.360
+Antonio Sanso: Is there any sort of…
+
+261
+00:52:49.360 --> 00:52:54.580
+Nico: 2 to the… 2 to the 24 is very fine. It's just,
+
+262
+00:52:54.960 --> 00:53:00.189
+Nico: Like, the number of signatures that it gives you, it's… it's huge, and
+
+263
+00:53:00.270 --> 00:53:15.359
+Nico: any situation where something would sign that much, it's probably an automated system. An automated system can automate the rotation. So, honestly, I think every… anything above 2 to the 23 is fine.
+
+264
+00:53:18.040 --> 00:53:29.050
+Antonio Sanso: I mean, will you be… will you be willing, like, to, in the next days, to add a next toggle with the 224 to your parameters to see how they look like? I will expect the size to go down.
+
+265
+00:53:29.810 --> 00:53:33.599
+Tom Wambsgans: Yeah, sure. Yeah, definitely. I can add to the 24, yes.
+
+266
+00:53:33.760 --> 00:53:35.330
+Antonio Sanso: Just to see how it goes.
+
+267
+00:53:35.660 --> 00:53:36.860
+Tom Wambsgans: Yeah, yeah, I will.
+
+268
+00:53:38.030 --> 00:53:55.539
+Antonio Sanso: What I like as well of your, Sphinx are… I mean, again, I'm telling you, like, this parameters looks… the last slides on Matteo leaned Sphinx, the fold looks pretty similar. What I like of your part is as well that the Trix MSS, they have a different size.
+
+269
+00:53:56.160 --> 00:53:58.939
+Antonio Sanso: And the fact that you are planning to cash
+
+270
+00:53:59.090 --> 00:54:02.130
+Antonio Sanso: the, the, the, the top, XMSS,
+
+271
+00:54:02.520 --> 00:54:08.039
+Antonio Sanso: I think it's a nice idea, but it's… I mean, we are really bike-shedding here. Justin?
+
+272
+00:54:10.050 --> 00:54:17.489
+Justin Drake: Yeah, different topics in a lifetime. I was just curious about the… the forest of watts, and this is a question for Matteo.
+
+273
+00:54:17.660 --> 00:54:32.470
+Justin Drake: If I understand correctly, there's a 2x performance degradation for MPC, and Matteo made the good point that, you know, aggregation performance is going to increase, you know, maybe 10x over the next few months as NOC technology improves.
+
+274
+00:54:32.610 --> 00:54:37.949
+Justin Drake: But presumably, there's going to be a similar effect with MPC, where the technology just keeps on improving.
+
+275
+00:54:38.190 --> 00:54:43.929
+Justin Drake: So, I guess the question to Matteo is, do you see the 2X degradation
+
+276
+00:54:44.200 --> 00:54:47.820
+Justin Drake: kind of a bottleneck for MPC, and if so.
+
+277
+00:54:48.490 --> 00:54:52.009
+Justin Drake: So, if not, like, would you be open to,
+
+278
+00:54:52.390 --> 00:54:54.950
+Justin Drake: To… to a forest of what?
+
+279
+00:54:56.760 --> 00:55:05.819
+Matteo Vena: Well, the main issue is that it's not like a simple, you know, we do not have enough computational power and that's gonna increase type of problem.
+
+280
+00:55:06.020 --> 00:55:13.359
+Matteo Vena: It's a structural thing with watts. You get much less sequential hashes that you can do.
+
+281
+00:55:13.510 --> 00:55:33.469
+Matteo Vena: And so, even if you deploy more expensive machines, you still get less benefits. And with force, it's just much easier, it's better overall on several axes, and we do not see the speedup affecting all axes. So, in general, we still think force are,
+
+282
+00:55:34.020 --> 00:55:37.110
+Matteo Vena: A much better way… a much better option.
+
+283
+00:55:39.500 --> 00:55:56.970
+Matteo Vena: Obviously, we are open to experiment, like, don't get me wrong, like, there's still time, and maybe this new scheme from Jonas is gonna get security proofs and everything done, and maybe there's a world where we can do benchmarks, but from analysis that we have done already.
+
+284
+00:55:57.080 --> 00:56:03.499
+Matteo Vena: by following Seagolf, we just don't see the speedup happening the same way we see the speedup happening at aggregation.
+
+285
+00:56:04.480 --> 00:56:22.740
+Tom Wambsgans: I think, for context, there is already security proof in lean in the room, just what's missing is a standard model security proof, but to have it, we need some ad hoc properties, the same way, force has an ad hoc property to make zync secure in the standard model.
+
+286
+00:56:26.870 --> 00:56:33.610
+Justin Drake: One thing that we're considering doing is, having Sig.gov2, And…
+
+287
+00:56:33.780 --> 00:56:39.419
+Justin Drake: I'm wondering if we can formalize the MPC constraints in Lean 4.
+
+288
+00:56:39.710 --> 00:56:47.100
+Justin Drake: for that next iteration of the… of the competition. Because maybe there's a hybrid, Between falls, and…
+
+289
+00:56:47.360 --> 00:56:50.889
+Justin Drake: tree of what's the kind of… has a…
+
+290
+00:56:51.130 --> 00:56:53.309
+Justin Drake: is a strict improvement over 4's.
+
+291
+00:56:53.950 --> 00:56:56.670
+Justin Drake: But doesn't have the NPC downsides.
+
+292
+00:57:00.680 --> 00:57:14.480
+Antonio Sanso: All right. Actually, I would like, if Daniel doesn't mind, has been bringing a kind of, valid, opinion on the chat, and he's saying that at Circle, they're signing…
+
+293
+00:57:15.180 --> 00:57:19.000
+Antonio Sanso: with the hot wallet, something like 2 to the C17…
+
+294
+00:57:19.480 --> 00:57:24.199
+Antonio Sanso: Transaction per day? Daniel, do you mind speaking, or do you prefer chat?
+
+295
+00:57:25.060 --> 00:57:30.639
+Daniel Cason: Yeah, I guess I'll also speak, yes. We are doing between 30,000 and 70,000.
+
+296
+00:57:30.970 --> 00:57:35.850
+Daniel Cason: Per day. So let's pick, like, 2 to 18, or 2 to the 17.
+
+297
+00:57:36.200 --> 00:57:37.150
+Daniel Cason: the day.
+
+298
+00:57:38.910 --> 00:57:49.430
+Daniel Cason: So, we… yeah, we have three questions, actually. So, the first one regards the state. You mentioned in the chat that there is no stateless solution that works at the moment, so you…
+
+299
+00:57:49.620 --> 00:57:50.210
+Antonio Sanso: Aventus.
+
+300
+00:57:50.210 --> 00:57:50.750
+Daniel Cason: state.
+
+301
+00:57:51.010 --> 00:58:02.689
+Antonio Sanso: the things, like, there's no real… I mean, stateless… real, real stateless doesn't exist. Like, I mean, the Sphinx is 264 that is practically stateless, but it is not. I mean, 264 is a big number, right? But…
+
+302
+00:58:02.690 --> 00:58:11.530
+Antonio Sanso: It is stateless, but not really stateless in terms of, like, a limited… there is a limited 264 that is practically stateless, basically, right?
+
+303
+00:58:12.730 --> 00:58:13.630
+Antonio Sanso: Yes.
+
+304
+00:58:13.630 --> 00:58:31.570
+Daniel Cason: Yeah, the second question is, yeah, it's this number, so how often the rotation, you say that's 2 to 64, so I think we have several years to… before a rotation, so it should not be the problem. But I saw some of the presentations proposing something that is closer, like 2 to 20-something, right? In this case, you have to…
+
+305
+00:58:32.290 --> 00:58:36.990
+Daniel Cason: Probably rotate, I don't know, a couple of times a year.
+
+306
+00:58:39.180 --> 00:58:48.959
+Antonio Sanso: Yes, yes. I mean, that's why we have these kind of calls, actually, to understand what is, like, the situation in the field. Will it be a problem for you to rotate?
+
+307
+00:58:52.450 --> 00:58:56.120
+Matteo Vicari: Can I add something about this? Because also, we…
+
+308
+00:58:56.120 --> 00:59:03.830
+Antonio Sanso: Okay, one second, one second. One second, just… I will give you the word in one second. Just, like, to understand if for circle would be a problem of rotation. This is important.
+
+309
+00:59:04.850 --> 00:59:12.589
+Daniel Cason: Yeah, I have to confirm with them, I can check with you in person, but yeah, probably it's not, but we want to avoid to do that often.
+
+310
+00:59:12.760 --> 00:59:14.260
+Daniel Cason: Let's put it into a way.
+
+311
+00:59:15.160 --> 00:59:19.960
+Antonio Sanso: Right. I think, like, the…
+
+312
+00:59:20.950 --> 00:59:25.979
+Antonio Sanso: Sirotation must, I mean, will be probably in, in, in, in your…
+
+313
+00:59:26.920 --> 00:59:32.290
+Antonio Sanso: in your life in the future, if we… if we go… I mean, even if we go for 2 to 32,
+
+314
+00:59:33.000 --> 00:59:36.229
+Antonio Sanso: you… I mean, if we keep the links as they are.
+
+315
+00:59:36.560 --> 00:59:39.860
+Antonio Sanso: The key rotation must be near a toolchain, somehow.
+
+316
+00:59:40.820 --> 00:59:46.470
+Antonio Sanso: Yeah, if you… is it fun if you investigate internally and…
+
+317
+00:59:46.820 --> 00:59:49.250
+Antonio Sanso: Maybe it says something back next time.
+
+318
+00:59:51.630 --> 00:59:52.730
+Daniel Cason: Sure, sure.
+
+319
+00:59:53.420 --> 00:59:53.870
+Antonio Sanso: Okay.
+
+320
+00:59:54.090 --> 01:00:05.869
+Matteo Vicari: Can I add something about this topic? Because we think, a lot about the mechanism of key rotation or other idea. We go,
+
+321
+01:00:05.870 --> 01:00:21.079
+Matteo Vicari: with this technique and this post-quantum signature to account abstraction, in case of frame or other case. So, if you, for example, you are circle, you are doing a lot of transactions every day, you can just bundle up
+
+322
+01:00:21.210 --> 01:00:26.529
+Matteo Vicari: and so you respond also the gas of all the system. So…
+
+323
+01:00:26.900 --> 01:00:42.160
+Matteo Vicari: I think the idea, the constraints is the number of the transaction you can do at the day is something, shifting, I think, because using frame Transaction can also allow you to bundle up the transaction in,
+
+324
+01:00:42.300 --> 01:00:55.590
+Matteo Vicari: in bundles, so you don't have to send a lot of the transactions together. You can send a lot of transactions together. So, I think, because also, if you say, okay, we do, 30K,
+
+325
+01:00:55.710 --> 01:01:02.679
+Matteo Vicari: A lot of transactions every day. You have also say, okay, but how much faster we can sign, also.
+
+326
+01:01:03.020 --> 01:01:19.799
+Matteo Vicari: This is another, another thing, this important discussion. Because if, for example, we have to sign so much fast with Sphinx, it can be a huge problem. Depends on the hardware, depends on the constraints, also in MPC can be a problem.
+
+327
+01:01:20.150 --> 01:01:30.179
+Matteo Vicari: So, why you don't think the bundle of the transaction can, help to reduce the number of, the transaction you have to sign a day?
+
+328
+01:01:35.470 --> 01:01:40.520
+Antonio Sanso: Right, I think it's a valid comment. I think it's a valid comment, and again, in my opinion, like, rotation…
+
+329
+01:01:41.050 --> 01:01:46.670
+Antonio Sanso: Will… will be… will be used by… by everyone to…
+
+330
+01:01:47.090 --> 01:01:53.949
+Antonio Sanso: people need to understand that this is going to be part of their life. Nico, is this, is the Euro Hands
+
+331
+01:01:54.070 --> 01:01:58.920
+Antonio Sanso: From before, or you are raising the hands again? Okay, from before. Cool.
+
+332
+01:01:58.920 --> 01:02:09.400
+Nico: No, I just wanted to say before doing the lifetime exploration, I reached out to 5 different exchanges that were the biggest announces on Ethereum, like, the biggest active announces.
+
+333
+01:02:09.730 --> 01:02:19.049
+Nico: And all of them unanimously said that this was absolutely not a problem. These are automated scripts, obviously, and it's a Python script.
+
+334
+01:02:19.740 --> 01:02:21.960
+Nico: Rotating the key.
+
+335
+01:02:22.080 --> 01:02:29.009
+Nico: from all this infrai is less than half a second of computational work every day or so.
+
+336
+01:02:29.130 --> 01:02:31.849
+Nico: So nobody mentioned that this was a problem, because
+
+337
+01:02:32.100 --> 01:02:40.750
+Nico: Basically, after a few million transactions, you should do it anyway, even in a ACDSA configuration.
+
+338
+01:02:40.880 --> 01:02:47.310
+Nico: So… yeah, if you look on-chain, you have… you don't have accounts that are billions of…
+
+339
+01:02:47.800 --> 01:02:56.819
+Nico: of signatures, and this was even before this was a requirement. So yeah, I do think if we take the…
+
+340
+01:02:57.160 --> 01:03:06.960
+Nico: user research approach. We don't find use cases where, there is a need to have
+
+341
+01:03:07.690 --> 01:03:11.580
+Nico: Billions of signatures without rotating the key a single time.
+
+342
+01:03:11.800 --> 01:03:20.889
+Nico: We can confirm again with Circle, but I assume that, like everyone else, they just have an automated script that signs.
+
+343
+01:03:21.040 --> 01:03:25.060
+Nico: And that this script can rotate keys every…
+
+344
+01:03:25.260 --> 01:03:30.740
+Nico: Few hours, if need be, but this would be every day with the parameters we are suggesting.
+
+345
+01:03:31.120 --> 01:03:36.020
+Nico: So, to me, this is not really an issue, and we can obviously investigate, but yeah.
+
+346
+01:03:36.210 --> 01:03:42.290
+Nico: I'm pretty confident that anything above 2 to the 22 or 2 to the 23 is more than enough.
+
+347
+01:03:44.430 --> 01:03:50.469
+Antonio Sanso: Daniel, you mentioned about precompile as well. Which precompile are you looking exactly for?
+
+348
+01:03:51.500 --> 01:04:06.240
+Daniel Cason: Yeah, I mentioned there is that we really would love to have an ASP Inc. Plus signature, stateless, and you can use a pure DF and a pure and a precompile. I know this is a lot to ask, but this is…
+
+349
+01:04:06.440 --> 01:04:23.169
+Antonio Sanso: Well, again, like, this has been presented before, but you have to imagine that, basically, for verification, you're not gonna… when you include the transaction in a block, there's not gonna be any more… so, you don't need to verify anymore the single transaction.
+
+350
+01:04:23.280 --> 01:04:30.940
+Antonio Sanso: So, the single signatures, but the signatures actually are going to be aggregated. So, there's not going to be such a thing as, like.
+
+351
+01:04:31.090 --> 01:04:35.740
+Antonio Sanso: verification of Sphinx. You verify the zero-knowledge proof
+
+352
+01:04:35.840 --> 01:04:38.010
+Antonio Sanso: Of the aggregation of the Sphinx.
+
+353
+01:04:38.300 --> 01:04:46.279
+Antonio Sanso: So that's why there's no precompile. There's no precompile, but it's not as well as solidity code for verification. It's just like that we rely heavily on aggregation.
+
+354
+01:04:46.850 --> 01:04:48.169
+Antonio Sanso: That's a real question?
+
+355
+01:04:48.170 --> 01:04:49.890
+Daniel Cason: I see, I see. I see, thank you.
+
+356
+01:04:53.250 --> 01:05:03.790
+Antonio Sanso: Cool. So, we have, like, 10 more minutes, so let me propose this for the next, for the next days, if you guys agree.
+
+357
+01:05:04.080 --> 01:05:10.799
+Antonio Sanso: Since there is no big difference between ML parameters and Matteo.
+
+358
+01:05:11.130 --> 01:05:24.879
+Antonio Sanso: I would propose, like, for next upgrade of the testnet, to include the one we see here, on Sphinx Art, they're pretty much similar to the Matteo one, I don't see much difference, they're basically identical with
+
+359
+01:05:25.290 --> 01:05:27.570
+Antonio Sanso: With the lifetime being different.
+
+360
+01:05:28.030 --> 01:05:32.939
+Antonio Sanso: And, I will… I will start with the high lifetime for now.
+
+361
+01:05:33.220 --> 01:05:37.960
+Antonio Sanso: So, until we figure out the people in the field
+
+362
+01:05:38.210 --> 01:05:42.620
+Antonio Sanso: are doing. So we don't need to worry about the queue rotation too much from the beginning.
+
+363
+01:05:43.530 --> 01:05:48.260
+Antonio Sanso: And, is anyone opposite about this proposal?
+
+364
+01:05:51.610 --> 01:05:52.690
+Antonio Sanso: - alright.
+
+365
+01:05:52.810 --> 01:05:54.470
+Antonio Sanso: So… Anyone?
+
+366
+01:05:54.790 --> 01:06:01.029
+Tom Wambsgans: And high would mean 2 to the… Like, which, lifetime?
+
+367
+01:06:01.030 --> 01:06:05.939
+Antonio Sanso: I will leave it for between 230 and 232 for now. I mean, we can always, you know, like…
+
+368
+01:06:06.110 --> 01:06:15.300
+Antonio Sanso: The difference in your parameter, if you're going to the 26 to the 30, it's really, like, 300 bytes.
+
+369
+01:06:15.420 --> 01:06:20.889
+Antonio Sanso: And even if you go to the 32, it's like, yeah, basically we're talking about foreign bats for the moment.
+
+370
+01:06:21.360 --> 01:06:23.749
+Antonio Sanso: So it's easy to go down, but…
+
+371
+01:06:24.080 --> 01:06:26.289
+Antonio Sanso: to go up will be more complicated. Matteo?
+
+372
+01:06:29.570 --> 01:06:40.739
+Matteo Vena: Yeah, I want… I wanted to clarify that, I don't know if that was maybe unclear from the presentation, but when we said 2 to the 24, it's specifically so we can make
+
+373
+01:06:40.910 --> 01:06:51.890
+Matteo Vena: everything work, even in the testnet. For instance, if we want to continue trying and do sphinx G signatures with a ledger and OS that are fast and everything, we cannot push the…
+
+374
+01:06:52.680 --> 01:06:59.580
+Matteo Vena: 2 to the 32 or anything like that. Preparing a slot in the construction that you know about would be extremely
+
+375
+01:06:59.840 --> 01:07:05.939
+Matteo Vena: painful and long, and 2 to the 24th to 2 to the 32 at the MPC layer is,
+
+376
+01:07:06.380 --> 01:07:12.579
+Matteo Vena: monstrous type of difference, like a make-or-break type of difference. So…
+
+377
+01:07:12.960 --> 01:07:16.380
+Matteo Vena: Yeah, maybe that wasn't clear for the presentation, I don't know.
+
+378
+01:07:17.110 --> 01:07:26.679
+Antonio Sanso: Alright, a quick question. Do you know that, basically, like, with the… with the force that are included in Sphinx art.
+
+379
+01:07:27.130 --> 01:07:30.390
+Antonio Sanso: There is basically, like.
+
+380
+01:07:33.890 --> 01:07:39.309
+Antonio Sanso: H, so it's not, like, tied to the… to actually lifetime…
+
+381
+01:07:39.540 --> 01:07:52.170
+Antonio Sanso: So basically, like, if you see, like, age is 2 to 22, but the minimum lifetime is 2 to 26, because the forwards are pretty big. When you are saying this, like, do you take this into consideration as well?
+
+382
+01:07:58.020 --> 01:07:58.540
+Matteo Vicari: Yeah.
+
+383
+01:07:58.650 --> 01:08:01.570
+Matteo Vicari: We… we definitely take into the consideration.
+
+384
+01:08:01.710 --> 01:08:15.329
+Matteo Vicari: But the idea is always to try to keep the forts, not so much big for any reason, because there is a lot of time to sign and precompute this lot are this part.
+
+385
+01:08:15.750 --> 01:08:30.890
+Matteo Vicari: And also, we can go with, a higher age. I think, going with higher H can be a problem for the grinding, so, we can go,
+
+386
+01:08:30.990 --> 01:08:38.929
+Matteo Vicari: a little up, but, no more than 2.24, I think, on the grinding side.
+
+387
+01:08:39.250 --> 01:08:46.479
+Antonio Sanso: I think year 2.24 is, like, 2028 year, because of this four… Because they're the force. Emil?
+
+388
+01:08:47.240 --> 01:09:02.890
+Tom Wambsgans: Yeah, I'm not sure to follow, because even if, as you said, if you keep the same view time signature, if you increase the 8, typically on sphinx.art, if you take a lifetime of 2 to the 30, the 8 is 26.
+
+389
+01:09:03.069 --> 01:09:19.760
+Tom Wambsgans: And as far as I understand, in MPC, for grinding, like, you… it's in plain text, so… and grinding to 26 on a laptop CPU is fine, like, it's 1 second or something. And then, yeah, there is the grinding for…
+
+390
+01:09:19.760 --> 01:09:20.140
+Matteo Vicari: Yeah.
+
+391
+01:09:21.470 --> 01:09:22.229
+Tom Wambsgans: Guess…
+
+392
+01:09:22.720 --> 01:09:25.140
+Matteo Vicari: Yeah, yeah, the grinding for the ledger can be the problem.
+
+393
+01:09:25.479 --> 01:09:40.859
+Tom Wambsgans: Yeah, and… yeah, and then it's a trade-off between offline preprocessing, where you need to prepare more than one, or, like, you need to, I don't know, you need to reverse 16 or 32-time signature, so offline preprocessing would take, I don't know.
+
+394
+01:09:40.859 --> 01:09:49.109
+Tom Wambsgans: 50 minutes or 30 minutes, but then once you have enough futm signature prepared, You still get fast signing.
+
+395
+01:09:51.550 --> 01:09:55.120
+Antonio Sanso: Look, I think… I think that we go… if we go to 2028,
+
+396
+01:09:55.500 --> 01:09:59.010
+Antonio Sanso: And, it matched your 224, basically.
+
+397
+01:09:59.820 --> 01:10:09.189
+Antonio Sanso: And, you know, if you open Sphinx Art, there's as well a simulation as well of this Sphinx G on the Ledger Nano S.
+
+398
+01:10:09.340 --> 01:10:14.089
+Antonio Sanso: So… It looks like a good compromise to me, like, going for…
+
+399
+01:10:14.320 --> 01:10:18.010
+Antonio Sanso: For 2 to 28, that is matching year 2 to 24.
+
+400
+01:10:18.620 --> 01:10:19.600
+Antonio Sanso: Matteo?
+
+401
+01:10:21.150 --> 01:10:26.099
+Matteo Vena: Yeah, I'm just trying to understand what is the benefit of the higher budget, really.
+
+402
+01:10:26.290 --> 01:10:27.310
+Matteo Vena: Like,
+
+403
+01:10:27.310 --> 01:10:28.749
+Antonio Sanso: Why would we…
+
+404
+01:10:28.750 --> 01:10:34.209
+Matteo Vena: We go with a higher budget in general, not just specifically considering ledger or any.
+
+405
+01:10:34.210 --> 01:10:34.600
+Antonio Sanso: rusty.
+
+406
+01:10:34.600 --> 01:10:35.010
+Matteo Vena: scientific.
+
+407
+01:10:35.010 --> 01:10:40.980
+Antonio Sanso: I mean, for the comment that was done today by Circo, to me, we'll look conservative to go for high budget.
+
+408
+01:10:41.310 --> 01:10:45.000
+Matteo Vena: But it doesn't… it doesn't make any difference. If you have a problem rotating.
+
+409
+01:10:45.330 --> 01:10:52.859
+Matteo Vena: 2 to the 24, 2 to the 28, you still have to rotate eventually, you still have to build the system, you still have to prepare.
+
+410
+01:10:53.050 --> 01:10:59.209
+Matteo Vena: And also, I think it's a very valid point that with fraying transactions, you should have an immense benefit in just
+
+411
+01:11:00.750 --> 01:11:07.830
+Matteo Vena: Operating your transactions better than ever, and so you should save a ton of senior budget just by doing so.
+
+412
+01:11:08.750 --> 01:11:09.350
+Antonio Sanso: Isabelle?
+
+413
+01:11:09.350 --> 01:11:16.960
+Matteo Vena: I mean, does it make any difference? If you have to prepare… so, 22-24, you build the system, but 2-28, you don't?
+
+414
+01:11:17.120 --> 01:11:20.350
+Matteo Vena: It's kind of the same, but then it's worse for everybody else.
+
+415
+01:11:21.990 --> 01:11:24.500
+Antonio Sanso: Nico?
+
+416
+01:11:28.170 --> 01:11:32.860
+Nico: Yeah, I just wanted to say, I think it's important to stay on the…
+
+417
+01:11:33.040 --> 01:11:39.860
+Nico: like, user DAS point of view. I agree that the lifetime at 2 to 28… It's…
+
+418
+01:11:40.240 --> 01:11:46.069
+Nico: or 2 to the 30, to me, it doesn't make sense. Like, we're not buying any user experience here.
+
+419
+01:11:46.230 --> 01:11:52.309
+Nico: So yeah, I would agree to go to the lower lifetime.
+
+420
+01:11:52.430 --> 01:11:55.820
+Nico: But also, I would like to keep in mind that we should
+
+421
+01:11:56.100 --> 01:11:59.230
+Nico: Take a scheme that, works…
+
+422
+01:11:59.470 --> 01:12:02.949
+Nico: Nicely on hardware, even without any technique.
+
+423
+01:12:03.210 --> 01:12:11.530
+Nico: So if we go with uniform and 22 does 30, the signature time is, 40 seconds.
+
+424
+01:12:12.240 --> 01:12:14.419
+Nico: On sphinx.art.
+
+425
+01:12:14.600 --> 01:12:17.850
+Nico: So, I would be more comfortable going with uniform.
+
+426
+01:12:17.960 --> 01:12:21.599
+Nico: To the 26, where the signing time is 24 seconds.
+
+427
+01:12:21.850 --> 01:12:26.879
+Nico: So yeah, again, an argument in favor of reducing the lifetime.
+
+428
+01:12:27.310 --> 01:12:29.290
+Antonio Sanso: Okay, thanks, Nico. Justin?
+
+429
+01:12:31.640 --> 01:12:46.909
+Justin Drake: Yeah, I have several reasons for picking a big number in the short term. One is, as you said, Antonio, it's easier to go from a big number to a small number than the other way around. Another thing that Emil said is that, you know, the cognitive friction of explaining
+
+430
+01:12:47.100 --> 01:12:51.990
+Justin Drake: To users and to devs is lowered if the number is just…
+
+431
+01:12:52.170 --> 01:13:04.259
+Justin Drake: astronomically high. A billion is super easy to communicate and should appease many people. And then the other consideration is that I'm hoping that we can align
+
+432
+01:13:04.460 --> 01:13:21.940
+Justin Drake: with the broader, you know, ecosystem, with Bitcoin, with zcash, with, you know, many other blockchains, and, you know, Bitcoin is at $240 right now, I could see them going to 230. I think 2024 will… might be a hard sell for, you know, the ultra-conservative Bitcoiners.
+
+433
+01:13:23.480 --> 01:13:33.379
+Antonio Sanso: All right, cool. So, let's do it like this, since we are at time, I think we kind of agree almost on anything but the lifetime, so we can already get kind of going ahead.
+
+434
+01:13:33.700 --> 01:13:41.009
+Antonio Sanso: And, with this Sphinx R parameter, and figuring out the lifetime as a next step.
+
+435
+01:13:41.590 --> 01:13:44.069
+Antonio Sanso: Are you fine with this?
+
+436
+01:13:49.340 --> 01:13:51.809
+Antonio Sanso: Right, I think, like, a yes,
+
+437
+01:13:51.810 --> 01:13:52.420
+Tom Wambsgans: Yeah.
+
+438
+01:13:52.420 --> 01:14:07.150
+Antonio Sanso: So we… Daniel will be really helpful, since Nico already did some homework and talked to some exchange, will be actually nice to hear from Circle, how you guys are, thinking to implement the curtation.
+
+439
+01:14:07.660 --> 01:14:09.020
+Antonio Sanso: And, yeah.
+
+440
+01:14:09.230 --> 01:14:09.970
+Antonio Sanso: Right.
+
+441
+01:14:10.150 --> 01:14:17.579
+Antonio Sanso: So, again, that's probably the… we have a plan, so downloading's open is the lifetime, the rest looks good.
+
+442
+01:14:17.900 --> 01:14:23.989
+Antonio Sanso: And I'm gonna… I hope by the next two weeks, we will have something in the testnet.
+
+443
+01:14:24.240 --> 01:14:26.390
+Antonio Sanso: That has the new parameters.
+
+444
+01:14:26.510 --> 01:14:30.879
+Antonio Sanso: And, in the meantime, we will figure out offline the lifetime.
+
+445
+01:14:31.490 --> 01:14:36.409
+Tom Wambsgans: And just to be sure, just one last thing, to be sure to understand with…
+
+446
+01:14:38.620 --> 01:14:52.289
+Tom Wambsgans: the main neck for you, like, if you increase H, you keep the same force, you increase H, you're not afraid of grinding in MPC, you're afraid of grinding with the ledger. Is it correct?
+
+447
+01:14:55.970 --> 01:15:05.599
+Antonio Sanso: I think so. I mean, from what I understood, yes, because the MPC is fast. Matteo confirmed? The problem is the ledger, but not the MPC, right?
+
+448
+01:15:05.600 --> 01:15:20.220
+Matteo Vicari: Yeah, the only problem is the ledger, and also the anti-steering proof on the ledger. So, in MPC, we don't need the old stuff, so we can just go faster, because we don't have allty stuff.
+
+449
+01:15:20.660 --> 01:15:22.259
+Matteo Vicari: To care about.
+
+450
+01:15:22.870 --> 01:15:31.990
+Alessandro Baiocchi: Of course, right? Of course, as long as, like, it is a reasonable number, like the ones we are discussing here, like, if it increases, by…
+
+451
+01:15:32.250 --> 01:15:41.760
+Alessandro Baiocchi: To reach 26, 28 MPC should still be fine, although a bit slower, but the legacy sort of issue should be fine.
+
+452
+01:15:43.810 --> 01:15:44.740
+Antonio Sanso: Justin?
+
+453
+01:15:45.650 --> 01:16:01.759
+Justin Drake: One consideration is that for the proof of grinding for the hardware wallets, that's going to improve over time with snark technology improving. So we… in some sense, we're going to get 10 times more grinding over the next, let's say, 12 months.
+
+454
+01:16:02.020 --> 01:16:04.939
+Justin Drake: Which will help the hardware rockets early.
+
+455
+01:16:06.890 --> 01:16:11.270
+Antonio Sanso: Can you repeat why, Justin? I didn't get this point. Why you will have better grinding?
+
+456
+01:16:12.120 --> 01:16:25.580
+Justin Drake: So, the… there's two ways to do grinding in a hardware wallet. You can either do it internally, but you're very limited because the hardware wallet's very slow, or option B is to have a host, like a traditional laptop, let's say.
+
+457
+01:16:25.580 --> 01:16:37.879
+Justin Drake: that does grinding for you, they need to have a proof of grinding to make sure that you're not keeping in the grinding. So that's a snark that you communicate. The snark will be able to
+
+458
+01:16:38.130 --> 01:16:42.600
+Justin Drake: Do 10 times larger proof of blinding within the next, probably, 12 months.
+
+459
+01:16:44.550 --> 01:16:45.350
+Antonio Sanso: per point.
+
+460
+01:16:45.980 --> 01:16:58.130
+Antonio Sanso: All right, let's figure out the offline, the lifetime. The rest, I think we are all fine with the Sphinx art, because it's pretty similar to the presentation of Matteo. And we figure out the lifetime offline, and I think we're good to go.
+
+461
+01:16:58.420 --> 01:17:07.110
+Antonio Sanso: With this, I will kind of wrap the call of today. Thanks a lot to everyone, it was really productive, and thanks to the presenters, and see you in two weeks.
+
+462
+01:17:09.340 --> 01:17:10.400
+Tom Wambsgans: Thank you, bye-bye.
+
+463
+01:17:10.400 --> 01:17:11.140
+Matteo Vena: Thank you, bye.
+
+464
+01:17:11.140 --> 01:17:12.370
+Alessandro Baiocchi: Thank you, to you.
+
+465
+01:17:13.890 --> 01:17:15.880
+Shaaibu Suleiman: Not surprised.
+

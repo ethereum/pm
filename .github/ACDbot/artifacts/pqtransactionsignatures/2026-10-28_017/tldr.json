@@ -1,0 +1,97 @@
+{
+  "meeting": "Post Quantum Transaction Signature (PQTS) Breakout #17 - October 28, 2024",
+  "highlights": {
+    "testnet_update": [
+      {
+        "timestamp": "00:17:58",
+        "highlight": "Testnet v03 launched on Daisugi (with Nethermind): single tx with STARK proof of 20 SPHINCS signatures under EIP-8288"
+      },
+      {
+        "timestamp": "00:18:28",
+        "highlight": "Post-DevCon testnet planned with EthPandaOps spam tooling for better benchmarks"
+      }
+    ],
+    "sphincs_parameter_proposals": [
+      {
+        "timestamp": "00:19:05",
+        "highlight": "sphincs.art tool presented: explores SPHINCS parameter trade-offs (lifetime, shape, hash, FTS type) for lean SPHINCS"
+      },
+      {
+        "timestamp": "00:20:19",
+        "highlight": "Default lifetime on sphincs.art is 2^30 (~1B signatures); reducing to 2^24 cuts size but raises key-rotation frequency"
+      },
+      {
+        "timestamp": "00:23:44",
+        "highlight": "Pruning improves keygen speed but leaks privacy after ~75 signatures; partial fix requires semi-trusted state, yields ~2,000 private sigs on Ledger"
+      },
+      {
+        "timestamp": "00:25:43",
+        "highlight": "Forest-of-WOTS (Vitale FTS from Sea Golf/Blockstream) gives >30% signing speedup but is novel, less MPC-friendly, and needs standard-model security proof"
+      },
+      {
+        "timestamp": "00:40:52",
+        "highlight": "Project 11 proposes two parameter sets: both use WOTS/WOTS+C, CAIC hash, lifetime 2^24; optimized for hardware wallets and MPC (SPHINCS G variant)"
+      }
+    ],
+    "lifetime_and_key_rotation_debate": [
+      {
+        "timestamp": "00:49:10",
+        "highlight": "Bitcoin SPHINCS (Shrinks) currently at 2^40; Mikhail Kridinov open to lower values; Justin Drake advocates cross-chain alignment"
+      },
+      {
+        "timestamp": "00:57:25",
+        "highlight": "Circle hot wallets sign 30K\u201370K tx/day (~2^16\u20132^17); at 2^24 lifetime that is ~1.5 years before rotation"
+      },
+      {
+        "timestamp": "01:02:09",
+        "highlight": "Nico: surveyed 5 major exchanges \u2014 all said key rotation is trivially automatable; anything above 2^22\u20132^23 is sufficient"
+      },
+      {
+        "timestamp": "01:12:31",
+        "highlight": "Justin Drake argues for higher lifetime (2^30): easier UX communication, alignment with Bitcoin/Zcash, and room to reduce later"
+      },
+      {
+        "timestamp": "01:15:38",
+        "highlight": "Chat note: Bitcoin 2^40 accounts for off-chain protocols (e.g., high-volume Lightning nodes), not just on-chain use"
+      }
+    ],
+    "mpc_and_hardware_wallet_constraints": [
+      {
+        "timestamp": "00:55:13",
+        "highlight": "WOTS forest is structurally worse for MPC (nearly 100% secret hashes vs ~50% for FORS); not just a compute-power problem"
+      },
+      {
+        "timestamp": "01:06:40",
+        "highlight": "Project 11: 2^24\u21922^32 lifetime difference is make-or-break for SPHINCS G on Ledger; MPC is unaffected up to ~2^28"
+      },
+      {
+        "timestamp": "01:15:50",
+        "highlight": "Justin Drake: proof-of-grinding via SNARK (host offloads grinding to laptop, proves correctness) expected to improve ~10x in ~12 months"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:53:29",
+      "action": "Circle (Daniel) to report internally on key-rotation feasibility and return with findings next call",
+      "owner": "Daniel Cason / Circle"
+    },
+    {
+      "timestamp": "01:05:33",
+      "action": "Emil to add 2^24 lifetime toggle to sphincs.art so parameter sets can be compared directly",
+      "owner": "Tom Wambsgans (Emil)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:05:03",
+      "decision": "Adopt sphincs.art parameter set (broadly equivalent to Project 11 proposal) for next testnet upgrade; lifetime left open pending offline discussion \u2014 starting conservatively high (2^30\u20132^32) until field data clarifies rotation needs"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:13:41",
+      "target": "Updated lean SPHINCS parameters deployed to testnet \u2014 within two weeks"
+    }
+  ]
+}
