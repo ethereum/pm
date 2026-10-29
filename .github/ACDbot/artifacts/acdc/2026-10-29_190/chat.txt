@@ -1,0 +1,613 @@
+00:02:33	Dima Gusakov | Lido:	gm
+00:02:39	Justin Traglia:	Gm
+00:03:05	Barnabas:	I expect quiet some ppl to miss today’s call due to devcon. So maybe we can ship things fast today? 😂
+00:03:46	NC:	Replying to "I expect quiet some ..."
+
+We need devcon every week then
+00:04:24	Dima Gusakov | Lido:	Reacted to "We need devcon every week then" with 😂
+00:04:52	Barnabas:	Reacted to "We need devcon every week then" with 😂
+00:05:47	stokes:	https://github.com/ethereum/pm/issues/2276
+00:06:35	stokes:	https://github.com/ethereum/consensus-specs/pull/5774
+00:06:43	stokes:	https://github.com/ethereum/consensus-specs/pull/5776
+00:07:43	Barnabas:	Replying to "https://github.com/e..."
+
+where is 3% coming from?
+00:07:50	Barnabas:	Replying to "https://github.com/e..."
+
+finger in the air number?
+00:08:38	Barnabas:	Replying to "https://github.com/e..."
+
+this change feels pretty late :/
+00:09:05	stokes:	Replying to "https://github.com/e..."
+
+Its more or less an “off chain” change
+00:09:13	stokes:	Replying to "https://github.com/e..."
+
+AIUI just hardens the networking
+00:09:19	NC:	Replying to "https://github.com/e..."
+
+not consensus breaking fwiw
+00:09:26	Barnabas:	Replying to "https://github.com/e..."
+
+well what kind of bids we sending via p2p is not really off chain
+00:09:30	Barnabas:	Replying to "https://github.com/e..."
+
+but yeah not consensus breaking
+00:09:34	Nico Flaig:	Replying to "https://github.com/e..."
+
+we can tweak the numbers but you can roll this out even with gloas on mainnet
+00:09:59	kingy:	I like nico's but we haven't looked at it in detail yet at lighthouse
+00:10:34	Enrico Del Fante:	Not yet but 5776 seems the gwei
+00:11:52	Nico Flaig:	but nodes only forward bids that are compatible with their head view
+00:12:04	Justin Traglia:	Reacted to "but nodes only forward bids that are compatible with their head view" with 👍
+00:14:38	Barnabas:	maybe discuss on sunday?
+00:15:17	Potuz:	FWIW we will be most likely also be dropping bids from long forks
+00:15:31	Potuz:	Regardless what the spec says, we’ve already seen exploitable bugs because of this
+00:15:55	Nico Flaig:	Replying to "FWIW we will be most..."
+
+that's already in the spec, ie. you only forwards head compatible bids?
+00:16:29	stokes:	https://github.com/ethereum/consensus-specs/pull/5770
+00:16:32	Potuz:	Replying to "FWIW we will be most..."
+
+Yeah, we had a way of verifying bids not compatible with head, but dropped it in the end
+00:17:21	Nico Flaig:	lgtm
+00:17:30	Potuz:	We’re happy with it, I think Prysm was the last holdout on one of the checks
+00:17:40	Toni Wahrstätter:	it prevents invalid payloads from being broadcasted?
+00:17:47	Toni Wahrstätter:	how does the CL tell it's invalid?
+00:17:54	Enrico Del Fante:	We already implemented a PR the block hash check independently, seems like it is more complete
+00:18:15	Potuz:	It doesn’t Toni, it prevents some kind of invalid payloads, not all
+00:18:31	Justin Traglia:	Err it prevents execution payload envelopes that would fail on_execution_payload_envelope in fork choice from being gossiped.
+00:18:32	Toni Wahrstätter:	Replying to "It doesn’t Toni, it prevents some kind of invalid payloads, not all"
+
+I see yeah makes sense, thanks!
+00:18:52	Toni Wahrstätter:	Replying to "it prevents invalid payloads from being broadcasted?"
+
+I see, thanks!
+00:19:57	Potuz:	@Barnabas the Lido thing can be tested in Kurtosis
+00:20:07	Potuz:	Probably better
+00:20:11	Potuz:	KT than a devnet
+00:20:18	Barnabas:	kt first then a devnet
+00:20:26	Iván | ethrex:	Which implementations do you mean @Barnabas?
+00:20:42	Potuz:	Replying to "Which implementation..."
+
+It’s about deposit onboarding at the fork
+00:20:47	Potuz:	Replying to "Which implementation..."
+
+It’s just our changes
+00:20:53	Iván | ethrex:	Ah, okok, thanks
+00:21:23	Barnabas:	heze devnets
+00:21:28	Barnabas:	we haven’t started hegota devnets yet
+00:22:36	NC:	When can we make a decision to SFI the two smaller EIPs?
+00:22:40	Iván | ethrex:	Reacted to "we haven’t started hegota devnets yet" with 🚢
+00:23:19	Potuz:	I claim it should be a requirement 🙂
+00:23:27	Potuz:	And I am fine SFIing some of the small ones
+00:23:31	Barnabas:	https://eips.ethereum.org/EIPS/eip-8015  - SFI now
+00:23:47	Potuz:	Yeah that one should be SFId IMO
+00:23:51	Manu:	Reacted to "Yeah that one should be SFId IMO" with 👍
+00:23:53	Iván | ethrex:	Reacted to "Yeah that one should be SFId IMO" with 👍
+00:23:53	Justin Traglia:	Reacted to "Yeah that one should be SFId IMO" with 👍
+00:23:54	Jun Song:	Reacted to "https://eips.ethereum.org/EIPS/eip-8015  - SFI now" with 👍
+00:23:55	Jun Song:	Reacted to "Yeah that one should be SFId IMO" with 👍
+00:23:57	Manu:	Reacted to "https://eips.ethereum.org/EIPS/eip-8015  - SFI now" with 👍
+00:23:58	Toni Wahrstätter:	are those on devnets already?
+00:24:02	Nico Flaig:	Reacted to "Yeah that one should..." with 👍
+00:24:02	Oisin Kyne:	Reacted to "Yeah that one should..." with 👍
+00:24:05	Enrico Del Fante:	Reacted to "Yeah that one should be SFId IMO" with 👍
+00:24:18	kingy:	sfi 8015
+00:24:28	Justin Traglia:	Reacted to "sfi 8015" with 🚢
+00:24:33	Nico Flaig:	Reacted to "sfi 8015" with 🚢
+00:24:36	Iván | ethrex:	Reacted to "sfi 8015" with 🚢
+00:24:51	kingy:	Reacted to "Yeah that one shou..." with 👍
+00:24:51	Barnabas:	EIP-8365
+00:24:52	Jun Song:	Reacted to "sfi 8015" with 🚢
+00:24:58	stokes:	https://github.com/ethereum/pm/issues/2276#issuecomment-6497042865
+00:25:11	Barnabas:	https://github.com/ethereum/EIPs/pull/12513
+00:25:12	Kevaundray Wedderburn:	Replying to "EIP-8365"
+
+https://eips.ethereum.org/EIPS/eip-8365
+00:25:26	Iván | ethrex:	Reacted to "EIP-8365" with 🚢
+00:25:31	Iván | ethrex:	Reacted to "https://eips.ethereum.org/EIPS/eip-8365" with 🙏
+00:25:36	Justin Traglia:	& this one in consensus-specs: https://github.com/ethereum/consensus-specs/pull/5744
+00:25:40	Barnabas:	https://github.com/ethereum/EIPs/pull/12533
+00:26:12	marc | wolovim:	Current hegota CL scope: https://forkcast.org/upgrade/hegota/client-priority/?quick=cl
+00:28:28	Justin Traglia:	I’m slightly in favor of barnabas’ proposal. I agree that burning ETH here isn’t ideal.
+00:29:05	Barnabas:	Replying to "I’m slightly in favo..."
+
+esp for an operation that is currently a valid operation, and tools like ethdo still supports it
+00:31:39	Luca Donno | L2BEAT:	Reacted to "EIP-8365" with 🚢
+00:31:51	Nico Flaig:	just create an exited 0x00 validator?
+00:34:19	Potuz:	Replying to "just create an exite..."
+
+There may be an issue with sync committees and some edge case like this
+00:34:31	NC:	This has been brought up last ACDC and last ACDT and now, so I would love this to be settled next time we discuss
+00:34:37	Justin Traglia:	Reacted to "This has been brought up last ACDC and last ACDT and now, so I would love this to be settled next time we discuss" with 👍
+00:34:38	Potuz:	Replying to "just create an exite..."
+
+Need to make sure that it can’t be assigned  duties
+00:34:40	Barnabas:	Reacted to "This has been brought up last ACDC and last ACDT and now, so I would love this to be settled next time we discuss" with 👍
+00:34:49	Potuz:	Replying to "just create an exite..."
+
+Regular Vals can be in sync committees even after exited
+00:35:57	Potuz:	I also lean towards simplicity of the spec here, we have at least 1 year to stress this
+00:36:12	Nico Flaig:	Replying to "just create an exite..."
+
+hmm no I don't think this can happen, the validator will never be active
+00:36:36	NC:	Reacted to "I also lean towards simplicity of the spec here, we have at least 1 year to stress this" with 👍
+00:36:51	Kevaundray Wedderburn:	Reacted to "I also lean towards simplicity of the spec here, we have at least 1 year to stress this" with 👍
+00:37:42	Barnabas:	Reacted to "sfi 8015" with 🚢
+00:39:31	Nico Flaig:	needs to be brought up to EL devs? from CL pov it's obvious it should work that way
+00:39:33	Toni Wahrstätter:	From the EL side, reopening the final payload and adding more transactions isn't super trivial as there are post-execution system calls (e.g. withdrawals) and those txs that we want to "append" would need to be appended against the state before processing withdrawals.
+00:40:16	Toni Wahrstätter:	EL clients will need to checkpoint the state before withdrawals - probably easily doable but it's not just "append them"
+00:44:26	Tuyen Nguyen:	Reacted to "I also lean towards simplicity of the spec here, we have at least 1 year to stress this" with 👍
+00:45:03	Barnabas:	name inspired from avg acd dev’s spirit animal?
+[Full message cannot be displayed on this version]
+00:45:30	Dima Gusakov | Lido:	Reacted to "name inspired from a..." with 😂
+00:45:32	Mega | ethlambda:	Reacted to "name inspired from a..." with 😂
+00:45:36	Daniel Knopik:	Reacted to "name inspired from..." with 😂
+00:45:52	NC:	Reacted to "name inspired from a..." with 🐟
+00:46:00	Toni Wahrstätter:	Replying to "name inspired from a..."
+
+I* mascot incoming
+00:46:49	Iván | ethrex:	Reacted to "I* mascot incoming" with 🚢
+00:46:52	Mega | ethlambda:	Reacted to "I* mascot incoming" with 🚢
+00:46:58	Dima Gusakov | Lido:	Reacted to "I* mascot incoming" with 🚢
+00:47:04	NC:	If we accept this EIP for heze, do we need a major update to the mechanism when DC comes?
+00:47:17	Enrico Del Fante:	Reacted to "name inspired from a..." with 🐟
+00:47:40	jxs:	the name is inspired from bee's waggle dance: https://en.wikipedia.org/wiki/Waggle_dance
+00:47:56	Justin Traglia:	Reacted to "name inspired from a..." with 😂
+00:47:58	Oisin Kyne:	Reacted to "I* mascot incoming" with 🚢
+00:47:59	Pablo Deymo | Lambda:	Reacted to "I* mascot incoming" with 🚢
+00:48:00	Justin Traglia:	Reacted to "I* mascot incoming" with 🚢
+00:48:12	Daniel Knopik:	Reacted to "I* mascot incoming" with 🚢
+00:48:25	Iván | ethrex:	Reacted to "name inspired from a..." with 🐟
+00:48:57	kingy:	LH is in favour
+00:49:05	Daniel Knopik:	Reacted to "LH is in favour" with 👍
+00:49:11	Enrico Del Fante:	Worth moving forward
+00:49:15	Barnabas:	Reacted to "Worth moving forward" with 👍
+00:49:16	Iván | ethrex:	Reacted to "LH is in favour" with 👍
+00:49:18	Iván | ethrex:	Reacted to "Worth moving forward" with 👍
+00:49:22	jxs:	Reacted to "Worth moving forwa..." with 👍
+00:49:23	jxs:	Reacted to "Worth moving forwa..." with ❤️
+00:49:27	Daniel Knopik:	Reacted to "Worth moving forwa..." with 👍
+00:49:28	Daniel Knopik:	Reacted to "Worth moving forwa..." with ❤️
+00:49:32	kingy:	our main objection was gossipsub
+00:49:32	Oisin Kyne:	Reacted to "Worth moving forward" with 👍
+00:49:50	Kalo | Obol:	Reacted to "I* mascot incoming" with 🚢
+00:50:12	NC:	In general I prefer a simplier/smaller fork (personally)
+00:50:17	Yann Vonlanthen:	Reacted to "Worth moving forward" with 👍
+00:50:20	Barnabas:	thats not how scoping for a fork works tho
+00:50:21	Barnabas:	lol
+00:50:25	Nico Flaig:	doubtful it's a small change, how many loc is that in prysm?
+00:50:27	Barnabas:	we doing the scoping now and execute later
+00:50:44	Ben Adams:	Check later is CFI?DFI isn't revisted?
+00:50:48	Potuz:	I am also doubtful this is small, haven’t seen the code in Prysm
+00:50:49	Sukun Tarachandani:	Replying to "doubtful it's a smal..."
+
+About 700 in a single file. It doesn’t affect other parts of the codebase
+00:52:43	Daniel Knopik:	i think this would reasonably small in lighthouse fwiw
+00:52:48	jxs:	Reacted to "i think this would..." with 👍
+00:52:51	Justin Traglia:	Here’s the cl-specs PR btw: https://github.com/ethereum/consensus-specs/pull/5464
+00:53:09	Daniel Knopik:	Replying to "i think this would..."
+
+like ~500 loc, and as sukun said, networking only
+00:54:25	Nico Flaig:	Reacted to "like ~500 loc, and a..." with 👍
+00:54:33	Nico Flaig:	Reacted to "About 700 in a singl..." with 👍
+00:55:02	Barnabas:	CFI it
+00:55:08	Iván | ethrex:	Reacted to "CFI it" with 🚢
+00:55:10	Kamil Salakhiev:	Reacted to "CFI it" with 🚢
+00:55:10	Daniel Knopik:	Reacted to "CFI it" with 🚢
+00:55:11	kingy:	Reacted to "CFI it" with 🚢
+00:55:28	Potuz:	I think attestation bandwidth is probably the most important topic to tackle in the next few years to it’s good to start doing things about this
+00:55:39	Sukun Tarachandani:	Reacted to "I think attestation bandwidth is probably the most important topic to tackle in the next few years to it’s good to start doing things about this" with 👍
+00:55:41	Yann Vonlanthen:	Reacted to "I think attestation bandwidth is probably the most important topic to tackle in the next few years to it’s good to start doing things about this" with 👍
+00:55:43	Daniel Knopik:	Reacted to "I think attestatio..." with 👍
+00:55:44	kingy:	Reacted to "I think attestatio..." with 👍
+00:56:24	Kevaundray Wedderburn:	https://github.com/ethereum/execution-specs/issues/3667
+00:57:18	Barnabas:	its a single value change?
+00:58:05	kingy:	CFI imo
+00:58:06	Nico Flaig:	in favor, but we should revisit what exact value to pick
+00:58:14	Justin Traglia:	Reacted to "I think attestation bandwidth is probably the most important topic to tackle in the next few years to it’s good to start doing things about this" with 👍
+00:58:22	Daniel Knopik:	Reacted to "CFI imo" with 👍
+00:58:24	Enrico Del Fante:	Reacted to "CFI imo" with 👍
+00:58:25	Povilas Liubauskas:	Reacted to "CFI imo" with 👍
+00:58:29	Justin Traglia:	Reacted to "CFI imo" with 👍
+00:58:43	Barnabas:	Replying to "in favor, but we sho..."
+
+retention window must match eip number 😂
+00:58:52	Nico Flaig:	Reacted to "CFI imo" with 👍
+00:58:55	Toni Wahrstätter:	state-diff retention
+00:59:06	Nico Flaig:	Reacted to "retention window mus..." with 😂
+00:59:28	Kevaundray Wedderburn:	Replying to "state-diff retention"
+
+https://eips.ethereum.org/EIPS/eip-8252
+01:00:10	Potuz:	We are the last!
+01:00:13	Potuz:	Not Lido
+01:01:59	Tomer Ganor:	If that is true you should keep this
+01:02:03	Oisin Kyne:	is there a public thread/research/git on a PQ deposit contract design ongoing?
+01:02:06	Kevaundray Wedderburn:	I think its either the two step workflow or what we have today
+01:03:01	Dima Gusakov | Lido:	Reacted to "I think its either the two step workflow or what we have today" with 👍
+01:04:02	Kevaundray Wedderburn:	Replying to "I think its either t..."
+
+8413
+01:04:14	Dima Gusakov | Lido:	So let’s have 8205 then
+01:04:20	Enrico Del Fante:	So maybe it worth detaching the front-running issue from PQ?
+01:04:20	Pavel | MixBytes:	This EIP definitely solves a long living problem, many protocols suffer from maintaining workarounds
+01:04:24	Tomer Ganor:	Reacted to "So let’s have 8205 then" with 👍
+01:04:36	Enrico Del Fante:	Reacted to "So let’s have 8205 then" with 👍
+01:04:41	Tomer Ganor:	Why not have this as well?
+01:04:47	Kevaundray Wedderburn:	Replying to "So maybe it worth de..."
+
+Yeah I think so
+01:04:54	Pavel | MixBytes:	Reacted to "So let’s have 8205 then" with 👍
+01:04:58	Dima Gusakov | Lido:	Reacted to "Yeah I think so" with 👍
+01:05:17	Enrico Del Fante:	We confirm the support
+01:05:28	Tomer Ganor:	If you ask who is against this and if no one is against just approve...
+01:05:35	Dima Gusakov | Lido:	Reacted to "If you ask who is against this and if no one is against just approve..." with ❤️
+01:05:40	Barnabas:	I’m against it
+01:05:45	Barnabas:	but I’m tired fighting it lol
+01:05:50	Dima Gusakov | Lido:	Replying to "I’m against it"
+
+You are not a client dev
+01:05:50	Tomer Ganor:	Reacted to "but I’m tired fighting it lol" with 😂
+01:05:52	Dima Gusakov | Lido:	Replying to "I’m against it"
+
+lol
+01:05:53	Justin Traglia:	Reacted to "but I’m tired fighting it lol" with 😂
+01:05:55	Kamil Salakhiev:	Reacted to "but I’m tired fighting it lol" with 😂
+01:05:56	Nico Flaig:	Reacted to "but I’m tired fighti..." with 😂
+01:05:56	Dima Gusakov | Lido:	Replying to "I’m against it"
+
+Sorry
+01:06:03	Potuz:	Replying to "I’m against it"
+
+That’s kinda irrelevant though
+01:06:07	Justin Traglia:	Replying to "I’m against it"
+
+His opinion still matters
+01:06:10	Potuz:	Replying to "I’m against it"
+
+Testing is a huge part of the process
+01:06:12	Dima Gusakov | Lido:	Replying to "I’m against it"
+
+I know
+01:06:16	Dima Gusakov | Lido:	Replying to "I’m against it"
+
+I’m kidding here
+01:06:21	Potuz:	Reacted to "I’m kidding here" with 👍
+01:06:42	Justin Traglia:	Can client teams speak up?
+01:06:43	Ben Edgington:	Replying to "I’m against it"
+
+Insert "Ameen you're not a coredev" clip
+01:06:47	Nico Flaig:	we should not solve problems that can be handled off chain in the protocol, that's just my 2ct
+01:06:53	kingy:	prysm teku support? we can cfi and see if complexity is worth it
+01:06:54	Barnabas:	Replying to "Can client teams spe..."
+
+I can start unmuting people at random otherwise
+01:07:01	Luca Donno | L2BEAT:	Reacted to "That’s kinda irrelevant though" with 👍
+01:07:04	Justin Traglia:	Reacted to "I can start unmuting people at random otherwise" with 😂
+01:07:05	Dima Gusakov | Lido:	Reacted to "prysm teku support? we can cfi and see if complexity is worth it" with 👍
+01:07:09	Oisin Kyne:	Reacted to "I can start unmuting..." with 😱
+01:07:11	Luca Donno | L2BEAT:	Reacted to "Insert "Ameen you're not a coredev" clip" with 😂
+01:07:17	Enrico Del Fante:	Replying to "we should not solve ..."
+
+But I believe this is a flaw in the protocol
+01:07:23	Greg K:	Reacted to "prysm teku support? we can cfi and see if complexity is worth it" with 👍
+01:07:23	Dima Gusakov | Lido:	Reacted to "But I believe this is a flaw in the protocol" with 💯
+01:07:25	Daniel Knopik:	Reacted to "we should not solv..." with 👍
+01:07:27	Greg K:	Reacted to "But I believe this is a flaw in the protocol" with 💯
+01:07:28	kingy:	yep based on complexity and app layer solutions existing but community support has been strong so we can look at it
+01:07:35	Pavel | MixBytes:	Reacted to "But I believe this is a flaw in the protocol" with 💯
+01:07:39	Tomer Ganor:	What we have to lose? I really dont understand
+01:07:50	kingy:	it's 2am and my kids are asleep man dont make me jump on
+01:07:59	Justin Traglia:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:07:59	Ladislaus:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:00	Potuz:	lol
+01:08:00	Barnabas:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:02	Kamil Salakhiev:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:02	Kevaundray Wedderburn:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:05	Pablo Deymo | Lambda:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:06	Nico Flaig:	Reacted to "it's 2am and my kids..." with 😂
+01:08:10	Tuyen:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:21	Toni Wahrstätter:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:27	Dima Gusakov | Lido:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:32	Barnabas:	Replying to "it's 2am and my kids..."
+
+what’s your kid’s take on this proposal?
+01:08:34	Kalo | Obol:	Reacted to "it's 2am and my kids..." with 😂
+01:08:37	Luca Donno | L2BEAT:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:39	Ben Edgington:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:39	Kalo | Obol:	Reacted to "what’s your kid’s ta..." with 😂
+01:08:41	Sukun Tarachandani:	Reacted to "what’s your kid’s take on this proposal?" with 😂
+01:08:44	kingy:	Replying to "it's 2am and my ki..."
+
+she thinks solve it at pq
+01:08:45	Yann Vonlanthen:	Reacted to "it's 2am and my kids are asleep man dont make me jump on" with 😂
+01:08:46	Mega | ethlambda:	Reacted to "what’s your kid’s take on this proposal?" with 😂
+01:08:52	Iván | ethrex:	Reacted to "what’s your kid’s take on this proposal?" with 🚢
+01:09:12	Iván | ethrex:	Reacted to "she thinks solve it at pq" with 🚢
+01:09:32	Iván | ethrex:	Reacted to "she thinks solve it at pq" with ⚛️
+01:09:56	Barnabas:	Reacted to "she thinks solve it at pq" with 🚢
+01:09:58	Kevaundray Wedderburn:	We can solve it with the PQ change if people think its a requirement, I was mainly saying that the current PQ proposals don’t solve it
+01:10:13	Iván | ethrex:	+1 to Potuz
+01:10:21	Pablo Deymo | Lambda:	Reacted to "+1 to Potuz" with 👍
+01:10:24	Daniel Knopik:	Reacted to "+1 to Potuz" with 👍
+01:10:26	Barnabas:	Replying to "We can solve it with..."
+
+maybe Lido can go propose the changes for the PQ deposit flow?
+01:10:29	Barnabas:	Reacted to "+1 to Potuz" with 👍
+01:10:32	Tomer Ganor:	feels like pq will not solve this
+01:10:36	Potuz:	I think this is @Kevaundray Wedderburn just cause you guys are trying to reuse most of the current design
+01:10:38	Dima Gusakov | Lido:	Replying to "We can solve it with..."
+
+They are the same
+01:10:44	Potuz:	But anyway we can and SHOULD fix this with PQ
+01:10:52	Greg K:	Reacted to "But anyway we can and SHOULD fix this with PQ" with 👍
+01:10:54	kingy:	Reacted to "But anyway we can ..." with 👍
+01:11:13	Tomer Ganor:	Why not having this and then merge to pq
+01:11:29	Nico Flaig:	Reacted to "But anyway we can an..." with 👍
+01:11:44	Potuz:	Replying to "Why not having this ..."
+
+Because this will constrain the PQ design unnecessarily
+01:11:56	Potuz:	Replying to "Why not having this ..."
+
+You are saying “this is the way to fix this now and in the future"
+01:12:11	Potuz:	Replying to "Why not having this ..."
+
+And I think the solution should come with the PQ design so that it’s not constrained by this method of solving it
+01:12:13	Tomer Ganor:	Replying to "Why not having this ..."
+
+As a proposal?
+01:12:22	Potuz:	Replying to "Why not having this ..."
+
+no: as a mechanism
+01:12:34	Tomer Ganor:	Replying to "Why not having this ..."
+
+If pq solve this in a different way throw this
+01:12:53	Tomer Ganor:	Replying to "Why not having this ..."
+
+But lets have a base
+01:12:57	Potuz:	Replying to "Why not having this ..."
+
+That’s the point: this is not how forks work: we never throw away old code, or at least it’s a lot of work
+01:13:10	Barnabas:	Reacted to "Insert "Ameen you're not a coredev" clip" with 😂
+01:13:13	Potuz:	Replying to "Why not having this ..."
+
+This is why we don’t want to introduce something early if we are going to be forced to solve it anyway
+01:13:31	Tomer Ganor:	Replying to "Why not having this ..."
+
+This should have been solved 4 years ago
+01:13:50	Tomer Ganor:	Replying to "Why not having this ..."
+
+It is long over due
+01:14:24	Barnabas:	I agree that it should be solved PQ.
+01:14:45	Barnabas:	Its not urgent right now tho.
+01:15:20	Greg K:	Reacted to "I agree that it should be solved PQ." with 👍
+01:15:23	Potuz:	I’ve already said almost exactly what Greg is saying so no need to repeat 🙂
+01:15:52	Iván | ethrex:	Reacted to "I’ve already said almost exactly what Greg is saying so no need to repeat 🙂" with 👍
+01:15:52	Greg K:	Replying to "I’ve already said almost exactly what Greg is saying so no need to repeat 🙂"
+
+joined the call 1hr late due to time change :-)
+01:16:03	Dima Gusakov | Lido:	Reacted to "I’ve already said almost exactly what Greg is saying so no need to repeat 🙂" with ❤️
+01:16:14	Greg K:	Reacted to "I’ve already said almost exactly what Greg is saying so no need to repeat 🙂" with 👍
+01:16:16	Potuz:	More broadly: PQ designers should not be bound to the current design at all, if we can fix this, or any other issue, we should be happy to change the deposit flow anyway since the community will have to change at that time anyway
+01:16:24	Justin Traglia:	Reacted to "More broadly: PQ designers should not be bound to the current design at all, if we can fix this, or any other issue, we should be happy to change the deposit flow anyway since the community will have to change at that time anyway" with 👍
+01:16:31	Iván | ethrex:	Reacted to "More broadly: PQ designers should not be bound to the current design at all, if we can fix this, or any other issue, we should be happy to change the deposit flow anyway since the community will have to change at that time anyway" with 👍
+01:16:50	Barnabas:	we don’t need it 😂
+01:16:53	Mega | ethlambda:	Reacted to "More broadly: PQ designers should not be bound to the current design at all, if we can fix this, or any other issue, we should be happy to change the deposit flow anyway since the community will have to change at that time anyway" with 👍
+01:17:25	Nico Flaig:	Reacted to "More broadly: PQ des..." with 👍
+01:17:26	Justin Traglia:	Please be mindful of time, so devs have enough time to discuss it.
+01:17:38	Kevaundray Wedderburn:	Replying to "More broadly: PQ des..."
+
+I agree; one of the current designs look very different from today. 
+
+It just wasn’t clear to me that this was something we wanted to solve vs just allowing the 1ETH pre deposit flow today
+01:17:42	Kamil Salakhiev:	Replying to "Please be mindful of..."
+
+and ideally get to some other EIPs
+01:17:56	Daniel Knopik:	is discussion for EIP-8411 delayed to next call? 😅
+01:17:57	jxs:	Reacted to "and ideally get to..." with 💯
+01:17:59	Justin Traglia:	Reacted to "and ideally get to some other EIPs" with 💯
+01:18:04	Potuz:	I’ll trust @Manu on this one that tells me he implemented it safely and easily… Seems that it doesn’t make the loop much worse (would like to see benches on this).
+01:18:11	stokes:	Replying to "is discussion for EI..."
+
+It will be after this
+01:18:13	Potuz:	Replying to "is discussion for EI..."
+
+It always is
+01:18:24	Daniel Knopik:	Reacted to "It will be after t..." with 🙏
+01:18:29	Kamil Salakhiev:	Reacted to "It will be after this" with 🙏
+01:18:40	Oisin Kyne:	Reacted to "More broadly: PQ des..." with 👍
+01:18:53	Justin Traglia:	Reacted to "It will be after this" with 🙏
+01:21:50	Barnabas:	I think everyone is familiar with the concepts, can we skip to the discussion pls
+01:21:53	Barnabas:	we only have 10 mins left
+01:22:14	kingy:	Reacted to "I think everyone i..." with 👍
+01:22:29	Daniel Knopik:	Reacted to "I think everyone i..." with 👍
+01:22:44	Justin Traglia:	Replying to "we only have 10 mins..."
+
+Yeah devs should already be familiar with the EIP too…
+01:22:47	jxs:	Reacted to "I think everyone i..." with 👍
+01:22:51	jxs:	Reacted to "I think everyone i..." with 💯
+01:22:53	Jun Song:	Reacted to "I think everyone is familiar with the concepts, can we skip to the discussion pls" with 👍
+01:23:38	Justin Traglia:	Reacted to "we only have 10 mins left" with ➕
+01:24:42	Manu:	https://github.com/OffchainLabs/prysm/pull/17338
+01:24:42	saulius:	Replying to "we doing the scoping..."
+
+we doing the scoping now and execute later
+Right, so you say scoping should be done without thinking about the scope of EIPs? I want at least one hardfork per year. This year we will have none.
+01:24:50	Pavel | MixBytes:	We have reviewed that EIP from security perspective and totally support it
+01:25:02	Dima Gusakov | Lido:	Reacted to "We have reviewed that EIP from security perspective and totally support it" with ❤️
+01:25:05	Eugene Mamin:	Reacted to "We have reviewed that EIP from security perspective and totally support it" with ❤️
+01:25:06	Greg K:	Reacted to "We have reviewed that EIP from security perspective and totally support it" with ❤️
+01:25:16	Justin Traglia:	Specs: https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8148
+01:25:30	Tomer Ganor:	Im in favor of this
+01:26:38	Potuz:	Oh cmon people come up with crazy shit to not discuss 8411
+01:26:46	Ben Edgington:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:47	Enrico Del Fante:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:48	Sukun Tarachandani:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:49	Dima Gusakov | Lido:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:50	Kamil Salakhiev:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:50	Jun Song:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:52	Justin Traglia:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:55	kingy:	we said dfi but would not block inclusion if the other clients are strongly in favour
+01:26:55	Barnabas:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:26:57	Daniel Knopik:	Reacted to "Oh cmon people com..." with 😂
+01:26:57	Mega | ethlambda:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:27:04	Eugene Mamin:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:27:04	Daniel Knopik:	Reacted to "we said dfi but wo..." with 👍
+01:27:06	Barnabas:	Reacted to "we said dfi but would not block inclusion if the other clients are strongly in favour" with 👍
+01:27:08	Dima Gusakov | Lido:	Reacted to "we said dfi but would not block inclusion if the other clients are strongly in favour" with 👍
+01:27:09	Pablo Deymo | Lambda:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:27:12	Satyajit:	Reacted to "Oh cmon people com..." with 😂
+01:27:16	Enrico Del Fante:	Reacted to "we said dfi but would not block inclusion if the other clients are strongly in favour" with 👍
+01:27:40	Povilas Liubauskas:	Reacted to "we said dfi but wo..." with 👍
+01:27:45	jxs:	Reacted to "we said dfi but wo..." with 👍
+01:27:56	Barnabas:	Replying to "Oh cmon people come ..."
+
+lets talk about vops before 8411
+01:27:57	Barnabas:	Replying to "Oh cmon people come ..."
+
+😂
+01:28:07	Luca Donno | L2BEAT:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:28:18	Kalo | Obol:	Reacted to "Oh cmon people come ..." with 😂
+01:30:12	Greg K:	Reacted to "we said dfi but would not block inclusion if the other clients are strongly in favour" with 👍
+01:30:16	Daniel Knopik:	cfi
+01:30:20	Potuz:	SFI
+01:30:23	Barnabas:	lol
+01:30:26	jxs:	Reacted to "SFI" with 💯
+01:30:27	Daniel Knopik:	Reacted to "SFI" with 💯
+01:30:27	Iván | ethrex:	Reacted to "SFI" with 🚢
+01:30:29	Daniel Knopik:	Reacted to "SFI" with 🚢
+01:30:29	Enrico Del Fante:	Reacted to "SFI" with 😂
+01:30:35	Satyajit:	Reacted to "SFI" with 🚢
+01:30:35	Luca Donno | L2BEAT:	Reacted to "SFI" with 😂
+01:30:42	Csaba:	Reacted to "Oh cmon people come up with crazy shit to not discuss 8411" with 😂
+01:30:46	Barnabas:	Replying to "SFI"
+
+Giphy [ID:brWyCLQQiKd3yiizg4]
+[Full message cannot be displayed on this version]
+01:30:48	Mega | ethlambda:	Reacted to "SFI" with 🚢
+01:30:54	Yann Vonlanthen:	Reacted to "Giphy [ID:brWyCLQQiKd3yiizg4]" with 😂
+01:30:56	Csaba:	Reacted to "Giphy [ID:brWyCLQQiKd3yiizg4]" with 😂
+01:31:00	Csaba:	Reacted to "SFI" with 🚢
+01:31:01	Csaba:	Reacted to "SFI" with 💯
+01:31:08	Iván | ethrex:	Reacted to "SFI" with 💯
+01:31:12	Csaba:	SFI it
+01:31:12	Satyajit:	Reacted to "SFI" with 💯
+01:31:28	Yann Vonlanthen:	Reacted to "SFI" with 🚢
+01:31:31	Daniel Knopik:	Reacted to "Replying to "SFI"
+..." with 😂
+01:31:32	Iván | ethrex:	Reacted to "SFI it" with ➕
+01:31:38	Potuz:	Reacted to "SFI it" with 💯
+01:31:38	Barnabas:	that was quick
+01:31:42	Barnabas:	lets go
+01:31:54	kingy:	it's in kamil chill
+01:31:55	Csaba:	And we made it before 16:30 ?
+01:32:22	marc | wolovim:	tl;dr:
+
+CFI
+- EIP-8148: Custom sweep threshold for validators
+- EIP-8334: Bundled Attestation Propagation
+- EIP-8383: Reduce CL Block Retention Window
+- EIP-8411: Fast Execution Payload Broadcast
+
+DFI
+- EIP-8205: Withdrawal credentials preregistration
+01:32:31	Iván | ethrex:	Reacted to "tl;dr:
+
+CFI
+- EIP-8148: Custom sweep threshold for validators
+- EIP-8334: Bundled Attestation Propagation
+- EIP-8383: Reduce CL Block Retention Window
+- EIP-8411: Fast Execution Payload Broadcast
+
+DFI
+- EIP-8205: Withdrawal credentials preregistration" with 🚢
+01:32:37	Enrico Del Fante:	Reacted to "tl;dr:
+
+CFI
+- EIP-8148: Custom sweep threshold for validators
+- EIP-8334: Bundled Attestation Propagation
+- EIP-8383: Reduce CL Block Retention Window
+- EIP-8411: Fast Execution Payload Broadcast
+
+DFI
+- EIP-8205: Withdrawal credentials preregistration" with 🚢
+01:32:39	Csaba:	Reacted to "tl;dr:
+
+CFI
+- EIP-8148: Custom sweep threshold for validators
+- EIP-8334: Bundled Attestation Propagation
+- EIP-8383: Reduce CL Block Retention Window
+- EIP-8411: Fast Execution Payload Broadcast
+
+DFI
+- EIP-8205: Withdrawal credentials preregistration" with 🚢
+01:32:40	Iván | ethrex:	Reacted to "tl;dr:
+
+CFI
+- EIP-8148: Custom sweep threshold for validators
+- EIP-8334: Bundled Attestation Propagation
+- EIP-8383: Reduce CL Block Retention Window
+- EIP-8411: Fast Execution Payload Broadcast
+
+DFI
+- EIP-8205: Withdrawal credentials preregistration" with 🐐
+01:32:40	Jun Song:	Reacted to "tl;dr:
+
+CFI
+- EIP-8148: Custom sweep threshold for validators
+- EIP-8334: Bundled Attestation Propagation
+- EIP-8383: Reduce CL Block Retention Window
+- EIP-8411: Fast Execution Payload Broadcast
+
+DFI
+- EIP-8205: Withdrawal credentials preregistration" with 🚢
+01:33:03	Barnabas:	Thanks Stokes for everything ❤️
+01:33:09	Justin Traglia:	Reacted to "Thanks Stokes for everything ❤️" with ➕
+01:33:10	Trent Van Epps:	Thanks stokes 🐐
+01:33:16	Potuz:	Thanks Alex
+01:33:17	Trent Van Epps:	Welcome sir ben
+01:33:21	Justin Traglia:	Thanks stokes!
+01:33:29	Yann Vonlanthen:	Reacted to "Thanks Stokes for everything ❤️" with ➕
+01:33:30	Justin Traglia:	Reacted to "Welcome sir ben" with 😄
+01:33:32	kingy:	thanks stokes gl ben
+01:33:33	Daniel Knopik:	Reacted to "Thanks Stokes for ..." with ➕
+01:33:34	Manu:	Thanks Alex, Welcome Ben!!
+01:33:38	Csaba:	Thanks stokes!
+01:33:38	Enrico Del Fante:	Thanks Alex! Good to hear again from Ben :-)
+01:33:39	Kevaundray Wedderburn:	Thank you for your service Stokes
+01:33:41	Kamil Salakhiev:	Thanks Alex!
+01:33:43	Oisin Kyne:	Thanks Stokes!
+01:33:44	Toni Wahrstätter:	Thanks stokes, and let's go, ben! <3
+01:33:46	saulius:	Thanks Alex!
+01:33:51	Satyajit:	Thanks Alex!
+01:33:52	Barnabas:	Ben, whats in the next devnet?
+01:33:59	Mehdi Aouadi:	Thanks stokes! Welcome Ben!
+01:33:59	Luca Donno | L2BEAT:	Reacted to "Ben, whats in the next devnet?" with 😂
+01:34:01	Csaba:	Reacted to "Ben, whats in the next devnet?" with 😂
+01:34:02	Barnabé Monnot:	ben edgington mentioned
+01:34:04	Povilas Liubauskas:	Reacted to "Ben, whats in the ..." with 😂
+01:34:08	Yann Vonlanthen:	Reacted to "ben edgington mentioned" with 😂
+01:34:10	Manu:	Reacted to "ben edgington mentioned" with 😂
+01:34:10	Oisin Kyne:	Reacted to "ben edgington mentio..." with 🎉
+01:34:10	Jun Song:	Reacted to "ben edgington mentioned" with 😂
+01:34:10	kingy:	Reacted to "202610290931345466..." with 😂
+01:34:12	Luca Donno | L2BEAT:	Reacted to "ben edgington mentioned" with 😂
+01:34:12	Potuz:	Reacted to "Ben, whats in the next devnet?" with 😂
+01:34:12	Enrico Del Fante:	Reacted to "20261029093134546616.jpg" with 😂
+01:34:12	Luca Donno | L2BEAT:	Reacted to "ben edgington mentioned" with 🎉
+01:34:14	Barnabé Monnot:	Reacted to "20261029093134546616.jpg" with 😂
+01:34:14	Ben Edgington:	Reacted to "ben edgington mentioned" with 😂
+01:34:14	Oisin Kyne:	Reacted to "Ben, whats in the ne..." with 😂
+01:34:15	marc | wolovim:	Reacted to "20261029093134546616.jpg" with 😂
+01:34:17	Justin Traglia:	Reacted to "ben edgington mentioned" with 😂
+01:34:18	Justin Traglia:	Reacted to "ben edgington mentioned" with 🎉
+01:34:18	Mehdi Aouadi:	Reacted to "Ben, whats in the next devnet?" with 😂
+01:34:22	Mehdi Aouadi:	Reacted to "ben edgington mentioned" with 😂
+01:34:28	Potuz:	Reacted to "ben edgington mentioned" with 😂
+01:34:30	Enrico Del Fante:	Reacted to "ben edgington mentioned" with 😂
+01:34:30	Enrico Del Fante:	Reacted to "ben edgington mentioned" with 🎉
+01:34:40	Trent Van Epps:	Reacted to "ben edgington mentioned" with 😂
+01:34:40	Trent Van Epps:	Reacted to "ben edgington mentioned" with 🎉
+01:34:44	marc | wolovim:	Reacted to "Ben, whats in the next devnet?" with 😂
+01:34:53	Barnabas:	Reacted to "ben edgington mentioned" with 😂
