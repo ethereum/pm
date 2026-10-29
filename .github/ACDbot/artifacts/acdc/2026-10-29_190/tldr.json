@@ -1,0 +1,122 @@
+{
+  "meeting": "ACDC #190 - October 29, 2026",
+  "highlights": {
+    "glamsterdam_bid_gossip": [
+      {
+        "timestamp": "00:06:15",
+        "highlight": "Two competing PRs for execution payload bid gossip: PR5774 (Potuz/Justin, proposer accepts any bid) vs PR5776 (Nico, 3% minimum increment with DOS protection)"
+      },
+      {
+        "timestamp": "00:11:07",
+        "highlight": "Potuz opposes PR5776: prefers leaving gossip filtering to client implementations to avoid over-specifying; Prysm likely won't enforce it"
+      },
+      {
+        "timestamp": "00:16:14",
+        "highlight": "PR5770: adds missing fork-choice checks to Gloas execution payload gossip validation; LGTM from Prysm/Teku; needs a few more client sign-offs before merge"
+      }
+    ],
+    "glamsterdam_rollout": [
+      {
+        "timestamp": "00:18:38",
+        "highlight": "Consensus-specs release planned tomorrow (Oct 30); Lido PR is consensus-breaking and requires explicit devnet testing; devnet launch estimated Nov 16\u201320 at earliest"
+      }
+    ],
+    "hegota_scoping": [
+      {
+        "timestamp": "00:21:10",
+        "highlight": "Proposed Hegota sequencing: launch with FOCIL + PeerDAS first, add smaller EIPs next, merge quick slots later in parallel"
+      },
+      {
+        "timestamp": "00:37:35",
+        "highlight": "EIP-8015 (beacon state cleanup) SFI'd unanimously; already merged into Hegota spec and tested on devnet"
+      },
+      {
+        "timestamp": "00:55:06",
+        "highlight": "CFI: EIP-8334 (Bundled Attestation Propagation) \u2014 simulation shows ~50% bandwidth reduction for home nodes under decoupled consensus load; purely networking change"
+      },
+      {
+        "timestamp": "00:59:31",
+        "highlight": "CFI: EIP-8383 (Reduce CL Block Retention Window) \u2014 single config value change aligning blob/history retention windows; Lighthouse and Lodestar in favor"
+      },
+      {
+        "timestamp": "01:15:09",
+        "highlight": "DFI: EIP-8205 (Withdrawal credentials preregistration / deposit front-running fix) \u2014 consensus to solve definitively with PQ deposit contract redesign instead"
+      },
+      {
+        "timestamp": "01:16:15",
+        "highlight": "CFI: EIP-8148 (Custom sweep threshold for validators) \u2014 enables 32\u20132048 ETH range with configurable threshold; proof of concept in Prysm + DORA; Lido funding audit"
+      },
+      {
+        "timestamp": "01:27:56",
+        "highlight": "CFI: EIP-8411 (Fast Execution Payload Broadcast) \u2014 chunked payload propagation via gossip-sub; simulation shows 3\u00d7 propagation improvement; Potuz suggested SFI immediately"
+      }
+    ],
+    "eip_8365_hegota": [
+      {
+        "timestamp": "00:24:40",
+        "highlight": "EIP-8365 (remove 0x00 validator deposits): split between burning ETH (simpler) vs. Barnabas' proposal to re-queue balance as 0x01 deposit to avoid burn; deferred two weeks"
+      }
+    ],
+    "focil_el_clarification": [
+      {
+        "timestamp": "00:38:24",
+        "highlight": "FOCIL Engine API ambiguity: some ELs rebuild payload entirely on inclusion list update at 6s, causing missed blocks; CL expects append-only; needs EL input \u2014 to be raised at next ACDE"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "01:32:43",
+        "highlight": "Alex Stokes stepping down as ACDC moderator; Ben Edgington takes over as lead moderator, Will Kokorin as deputy, starting in two weeks"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:14:37",
+      "action": "Client teams review PR5774 vs PR5776 and weigh in on bid gossip approach within a few days",
+      "owner": "CL client teams"
+    },
+    {
+      "timestamp": "00:39:56",
+      "action": "Bring FOCIL payload rebuild ambiguity to next ACDE for EL team input",
+      "owner": "Barnabas / CL teams"
+    },
+    {
+      "timestamp": "01:10:03",
+      "action": "PQ deposit contract designers must explicitly address deposit front-running; core devs confirm this is a requirement",
+      "owner": "PQ research / EF"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:37:48",
+      "decision": "SFI for Hegota: EIP-8015 (beacon state cleanup)"
+    },
+    {
+      "timestamp": "00:34:21",
+      "decision": "EIP-8365 decision deferred two weeks; to be discussed at DevCon and resolved next call"
+    },
+    {
+      "timestamp": "00:55:06",
+      "decision": "CFI for Hegota: EIP-8334 (Bundled Attestation Propagation), EIP-8383 (Reduce CL Block Retention Window), EIP-8148 (Custom sweep threshold), EIP-8411 (Fast Execution Payload Broadcast)"
+    },
+    {
+      "timestamp": "01:15:09",
+      "decision": "DFI: EIP-8205 (deposit front-running fix); problem acknowledged, fix committed to PQ deposit contract redesign"
+    },
+    {
+      "timestamp": "01:32:43",
+      "decision": "Ben Edgington named lead ACDC moderator, Will Kokorin as deputy, effective next call (two weeks)"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:19:45",
+      "target": "Consensus-specs release \u2014 October 30, 2026"
+    },
+    {
+      "timestamp": "00:19:17",
+      "target": "Glamsterdam devnet with Lido PR \u2014 estimated November 16\u201320, 2026"
+    }
+  ]
+}
