@@ -19,15 +19,16 @@ If you champion an EIP, you are the point person who keeps it moving:
 
 ## Checklist
 
-1. **Time commitment:** are you actually available in the next few months to do coordination + follow-ups?
-2. **Draft a Forkcast entry:** template at the bottom of this doc.
-3. **Know who needs to understand the feature**
+1. **Get the EIP merged:** an EIP that is still an open PR in [ethereum/EIPs](https://github.com/ethereum/EIPs) can be PFI'd, but it will not be discussed on any call until it is merged (at least `Draft` status).
+2. **Time commitment:** are you actually available in the next few months to do coordination + follow-ups?
+3. **Draft a Forkcast entry:** template at the bottom of this doc.
+4. **Know who needs to understand the feature**
     - Execution vs consensus vs cross-layer
     - Which client teams are most impacted (who you’ll need to engage)
     - What other stakeholders need to know about these changes?
-4. **Familiarize yourself with known concerns / tradeoffs:** anything that needs benchmarking, careful reasoning, or is likely contentious
-5. **Loosely consider an implementation plan:** who’s likely to implement, and what’s the *first* concrete artifact / milestone that will need to happen
-6. **Communications:** plan to be responsive (R&D Discord / GitHub / etc)
+5. **Familiarize yourself with known concerns / tradeoffs:** anything that needs benchmarking, careful reasoning, or is likely contentious
+6. **Loosely consider an implementation plan:** who’s likely to implement, and what’s the *first* concrete artifact / milestone that will need to happen
+7. **Communications:** plan to be responsive (R&D Discord / GitHub / etc)
 
 ## Technical details
 
@@ -42,7 +43,7 @@ Stages are defined in [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723).
 
 - **Proposed for Inclusion (PFI)**
 
-    An EIP becomes PFI when someone opens a PR to add it to the fork’s Meta EIP PFI list during the designated PFI window. Champion actions after PFI:
+    An EIP becomes PFI when someone opens a PR to add it to the fork’s Meta EIP PFI list during the designated PFI window. EIPs that are still open PRs in [ethereum/EIPs](https://github.com/ethereum/EIPs) can be PFI'd, but are not discussed on any call until merged. Champion actions after PFI:
 
     1. Ensure implementations are being created (you or by engaging client teams).
     2. Surface concerns early and address them (often via spec iteration).
@@ -52,6 +53,10 @@ Stages are defined in [EIP-7723](https://eips.ethereum.org/EIPS/eip-7723).
 - **Considered for Inclusion (CFI)**
 
     Moving PFI → CFI happens after the EIP is discussed on an ACD call during the designated discussion window and rough consensus is achieved. The ACD facilitator then updates its status on the Fork Meta EIP.
+
+- **Declined for Inclusion (DFI)**
+
+    DFI is the default outcome for every PFI'd EIP. At the end of the discussion window, any PFI'd EIP that does not have at least one client team actively supporting its inclusion is moved to DFI. Community or author support alone is not enough to keep an EIP out of DFI. Since unmerged EIPs are not discussed on calls, a PFI'd EIP that is still unmerged at the end of the discussion window is moved to DFI unless a client team has signaled support for it asynchronously. A DFI'd EIP can be proposed again for a future fork.
 
 - **Scheduled for Inclusion (SFI)**
 
@@ -87,7 +92,7 @@ It is strongly encouraged to implement the EIP's protocol changes in the relevan
 - **ACD**
   - **ACDE / ACDC:** higher-level planning + “what goes in the fork” decisions
   - **ACDT:** implementation/testing. Usually for current forks once something is already CFI’d.
-  - **Agendas:** organized in [**ethereum/pm** repo issues](github.com/ethereum/pm/issues). ACD agendas are typically updated the day before the call. Anyone is free to leave a comment on the call issue, requesting for their topic to be added to the agenda.
+  - **Agendas:** organized in [**ethereum/pm** repo issues](github.com/ethereum/pm/issues). ACD agendas are typically updated the day before the call. Anyone is free to leave a comment on the call issue, requesting for their topic to be added to the agenda. EIP topics are only added once the EIP is merged into [ethereum/EIPs](https://github.com/ethereum/EIPs); unmerged EIP PRs should be iterated on with the EIP editors and in Eth R&D Discord first.
 - **Async:** Eth R&D Discord is the primary async venue.
 
 ## Forkcast
