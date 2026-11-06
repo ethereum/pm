@@ -6,7 +6,7 @@ Provides clean, focused parsing for the new form-based workflow.
 """
 
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Optional, List, Tuple
 
 from .datetime_utils import parse_datetime_string, extract_datetime_from_markdown_link
@@ -384,6 +384,8 @@ class FormParser:
             parsed_datetime = parse_datetime_string(date_time_str)
 
             if parsed_datetime:
+                if parsed_datetime.tzinfo is not None:
+                    parsed_datetime = parsed_datetime.astimezone(timezone.utc).replace(tzinfo=None)
                 start_time = parsed_datetime.isoformat() + "Z"
                 print(f"[DEBUG] Successfully parsed datetime: {start_time}")
                 return start_time, duration_minutes
