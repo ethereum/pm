@@ -35,11 +35,12 @@ Sometimes non-core contributors with particular expertise on a topic are invited
 ### Who Facilitates the Meetings
 
 Current facilitators (date started):
-- **Execution**: coleads [Ansgar Dietrichs](https://github.com/adietrichs) (Oct '25) & [Nixo](https://github.com/nixorokish/) (Apr '26)
+- **Execution**: [Ansgar Dietrichs](https://github.com/adietrichs) (Oct '25)
 - **Consensus**: [Alex Stokes](https://github.com/ralexstokes) (Sep '24)
 - **Testing**: coleads [EF EthPandaOps team](https://github.com/ethpandaops/) & [EF STEEL team](https://steel.ethereum.foundation/team/)
 
 Past facilitators:
+- Nixo (ACDE)
 - Parithosh Jayanthi (interim ACDC)
 - Tim Beiko (ACDE)
 - Danny Ryan (ACDC)
