@@ -422,10 +422,16 @@ class ProtocolCallHandler:
             self._update_mapping_with_resources(call_data, resource_results)
             if critical_failures:
                 self.logger.error(f"Critical failures occurred: {', '.join(critical_failures)}")
-                self.logger.info("Saved any successful resource IDs to mapping; failed resources can be retried later")
 
             # 8. Save mapping
-            self.mapping_manager.save_mapping()
+            if not self.mapping_manager.save_mapping():
+                self.logger.error(
+                    f"Failed to save mapping for issue #{issue_number}; "
+                    "resources may already exist. Recover their IDs before retrying."
+                )
+                return False
+            if critical_failures:
+                self.logger.info("Saved any successful resource IDs to mapping; failed resources can be retried later")
 
             # 9. Send Telegram notification
             self._send_telegram_notification(call_data, issue, resource_results, is_update)
