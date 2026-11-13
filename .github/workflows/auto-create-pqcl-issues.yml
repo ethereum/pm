@@ -1,0 +1,167 @@
+name: Auto-Create PQ-CL Issues
+
+on:
+  schedule:
+    # 19:00 UTC releases the next issue: calls run 14:00-16:00 UTC, so by then
+    # the day's call has finished and settled, and the next one (a day or two
+    # out) gets its issue with ~19 hours to spare. 07:00 UTC is a backstop in
+    # case the evening run failed; it still leaves seven hours before a 14:00
+    # call. The hours avoid close-stale-meetings.yml
+    # (06:00/18:00) and auto-create-acd-issues.yml (Sat 09:00).
+    #
+    # Minute 23 only staggers the START. This job pushes
+    # meeting_topic_mapping.json several minutes later, after checkout, uv sync
+    # and the Zoom/GCal/Discourse round-trips, so it cannot be scheduled clear
+    # of discord-notify.yml (every 5 minutes) or meeting-asset-pipeline.yml
+    # (hourly at :00). Contention on that push is handled where it happens, in
+    # the commit step below -- not here.
+    #
+    # Nothing here waits on a human. See the script's header for why the next
+    # issue is gated on the previous CALL finishing rather than on the previous
+    # ISSUE being closed.
+    - cron: '23 7,19 * * *'
+
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Don't schedule anything before this date (YYYY-MM-DD)"
+        required: false
+        type: string
+      dry_run:
+        description: 'Dry run (print what would be created without creating)'
+        required: false
+        type: boolean
+        default: false
+
+# Issues are created with GITHUB_TOKEN, so they are authored by
+# github-actions[bot] and no issues.opened event is emitted. This workflow
+# therefore invokes ACDbot's handler directly instead of relying on
+# protocol-call-workflow.yml being triggered by the event. That also means the
+# trustedContributors / org-membership gate in that workflow does not apply here.
+permissions:
+  contents: write
+  issues: write
+
+# Only one run may evaluate the "is anything still pending?" gate at a time; two
+# in parallel could both see a clear series and open the same call twice.
+concurrency:
+  group: auto-create-pqcl-issues
+  cancel-in-progress: false
+
+jobs:
+  auto-create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Set up ACDbot
+        uses: ./.github/actions/setup-acdbot
+
+      - name: Create the next call's issue
+        id: create
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          START_DATE: ${{ inputs.start_date }}
+        run: |
+          ARGS=()
+          if [ "$DRY_RUN" = "true" ]; then
+            ARGS+=(--dry-run)
+          fi
+          if [ -n "$START_DATE" ]; then
+            ARGS+=(--start-date "$START_DATE")
+          fi
+          python3 .github/scripts/auto-create-pqcl-issue.py "${ARGS[@]}"
+
+      # At most one issue is ever created per run, but the loop and the
+      # comma-separated output are kept so this step stays identical to the
+      # equivalent step in auto-create-acd-issues.yml.
+      #
+      # !cancelled() is load-bearing, not boilerplate: the previous step writes
+      # created_issues from a finally block, so it reports an issue it created
+      # even when it then failed. An issue that exists but never reaches the
+      # handler has no Zoom occurrence, calendar instance, Discourse topic or
+      # mapping entry, and nothing retries it.
+      - name: Handle protocol calls
+        if: ${{ !cancelled() && steps.create.outputs.created_issues != '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZOOM_CLIENT_ID: ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+          ZOOM_ACCOUNT_ID: ${{ secrets.ZOOM_ACCOUNT_ID }}
+          ZOOM_ALTERNATIVE_HOSTS: ${{ secrets.ZOOM_ALTERNATIVE_HOSTS }}
+          ZOOM_REFRESH_TOKEN: ${{ secrets.ZOOM_REFRESH_TOKEN }}
+          DISCOURSE_API_KEY: ${{ secrets.DISCOURSE_API_KEY }}
+          DISCOURSE_API_USERNAME: ${{ secrets.DISCOURSE_API_USERNAME }}
+          DISCOURSE_BASE_URL: ${{ vars.DISCOURSE_BASE_URL }}
+          GCAL_ID: ${{ vars.GCAL_ID }}
+          GCAL_SERVICE_ACCOUNT_KEY: ${{ secrets.GCAL_SERVICE_ACCOUNT_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+          MATTERMOST_BOT_WEBHOOK_URL: ${{ secrets.MATTERMOST_BOT_WEBHOOK_URL }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_EMAIL_PASSWORD: ${{ secrets.SENDER_EMAIL_PASSWORD }}
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          CREATED_ISSUES: ${{ steps.create.outputs.created_issues }}
+        run: |
+          IFS=',' read -ra ISSUES <<< "$CREATED_ISSUES"
+          for issue in "${ISSUES[@]}"; do
+            echo "::group::Handling protocol call issue #${issue}"
+            uv run --project "${GITHUB_WORKSPACE}/.github/ACDbot" --locked \
+              "${GITHUB_WORKSPACE}/.github/ACDbot/scripts/handle_protocol_call.py" \
+              --issue_number "${issue}" \
+              --repo "${{ github.repository }}"
+            echo "::endgroup::"
+          done
+
+      - name: Commit mapping file
+        if: always() && steps.create.outputs.created_issues != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CREATED_ISSUES: ${{ steps.create.outputs.created_issues }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          if git diff --quiet .github/ACDbot/meeting_topic_mapping.json; then
+            echo "No changes to mapping file"
+            exit 0
+          fi
+
+          git add .github/ACDbot/meeting_topic_mapping.json
+          git commit -m "Update mapping for issue(s) $CREATED_ISSUES"
+
+          # Several other workflows push this same file, two of them on short
+          # schedules, so losing a race here is routine. Losing the commit is
+          # not acceptable: nothing re-runs the handler for an issue that
+          # already exists, so a dropped mapping entry means this call's
+          # recording is never picked up by the asset pipeline.
+          #
+          # The two failure modes need different handling. A rejected push
+          # (remote moved on between our pull and our push) is worth retrying. A
+          # rebase CONFLICT is not: `git rebase --abort` restores exactly the
+          # state we started from, so every retry reproduces it. Fail fast and
+          # say what to do instead of sleeping through five identical attempts.
+          for attempt in 1 2 3 4 5; do
+            if ! git pull --rebase; then
+              git rebase --abort 2>/dev/null || true
+              echo "::error::Mapping update for issue(s) $CREATED_ISSUES conflicts with origin. Retrying cannot resolve a conflict. Merge .github/ACDbot/meeting_topic_mapping.json by hand, keeping both sides' occurrences."
+              exit 1
+            fi
+            if git push; then
+              echo "Committed mapping file changes"
+              exit 0
+            fi
+            echo "Push attempt ${attempt} rejected; another workflow pushed first. Retrying."
+            sleep $((attempt * 10))
+          done
+
+          echo "::error::Could not push the mapping update for issue(s) $CREATED_ISSUES after 5 attempts."
+          exit 1
