@@ -29,6 +29,7 @@ ACDBOT_DIR = os.path.dirname(SCRIPT_DIR)
 sys.path.insert(0, ACDBOT_DIR)
 
 from modules.call_series_config import get_call_series_config
+from modules.datetime_utils import next_weekly_day, parse_multi_day_weekly
 
 
 def email_to_first_name(email):
@@ -207,7 +208,25 @@ def find_expected_missing_calls(mapping, days_ahead=7):
             continue
         # Only predictable rates
         occurrence_rate = series_data.get("occurrence_rate")
-        if occurrence_rate not in RATE_TO_DAYS:
+        multi_day_weekdays = parse_multi_day_weekly(occurrence_rate)
+        if multi_day_weekdays:
+            # A multi-day weekly series (e.g. "weekly:tu,we,fr") has no single
+            # interval -- Tue->Wed is one day, Fri->Tue is four -- so project by
+            # stepping through the weekday set. The tolerance has to shrink to
+            # match: at +/-2 days a Tuesday call would satisfy the Wednesday slot.
+            step = lambda t: next_weekly_day(t, multi_day_weekdays)
+            # Slots can be one day apart, so a +/-2 day tolerance would let Tuesday's
+            # call satisfy Wednesday's slot. Match on the calendar date instead of a
+            # time delta: that stays exact between adjacent days while still accepting
+            # a weekday held at a different hour than the one we projected from.
+            matches = lambda actual, expected: actual.date() == expected.date()
+            stale_after = timedelta(weeks=3)
+        elif occurrence_rate in RATE_TO_DAYS:
+            interval = timedelta(days=RATE_TO_DAYS[occurrence_rate])
+            step = lambda t, _i=interval: t + _i
+            matches = lambda actual, expected: abs(actual - expected) <= timedelta(days=2)
+            stale_after = 3 * interval
+        else:
             continue
         # Must still be in call_series_config
         series_config = get_call_series_config(series_key)
@@ -230,8 +249,6 @@ def find_expected_missing_calls(mapping, days_ahead=7):
         if not parsed_times:
             continue
 
-        interval = timedelta(days=RATE_TO_DAYS[occurrence_rate])
-        tolerance = timedelta(days=2)
         display_name = series_config.get("display_name", series_key)
 
         # Find the latest PAST occurrence (not future ones) to project from
@@ -242,15 +259,15 @@ def find_expected_missing_calls(mapping, days_ahead=7):
         latest = max(past_times)
 
         # Skip series that appear retired/paused (no meeting in 3+ intervals)
-        if now - latest > 3 * interval:
+        if now - latest > stale_after:
             continue
 
         # Project forward from latest PAST occurrence and check for gaps
-        expected = latest + interval
+        expected = step(latest)
         while expected <= cutoff:
             # Check if this expected time is missing
             if expected >= now:
-                has_match = any(abs(t - expected) <= tolerance for t in parsed_times)
+                has_match = any(matches(t, expected) for t in parsed_times)
                 if not has_match:
                     missing.append({
                         "series_key": series_key,
@@ -258,7 +275,7 @@ def find_expected_missing_calls(mapping, days_ahead=7):
                         "expected_time": expected,
                         "occurrence_rate": occurrence_rate,
                     })
-            expected += interval
+            expected = step(expected)
 
     missing.sort(key=lambda x: x["expected_time"])
     return missing

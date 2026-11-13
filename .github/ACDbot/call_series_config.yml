@@ -12,7 +12,13 @@
 #   discord_webhook_env: Environment variable name for Discord webhook (null if none)
 #   autopilot_defaults: Default settings when autopilot mode is enabled
 #     duration: Meeting duration in minutes (30, 60, 90, 120, 180)
-#     occurrence_rate: Recurrence pattern (weekly, bi-weekly, monthly)
+#     occurrence_rate: Recurrence pattern (weekly, bi-weekly, monthly, or a
+#       multi-day weekly rate for a series that meets on several weekdays of the
+#       same week, written "weekly:<days>" with two-letter days in any order,
+#       e.g. "weekly:tu,we,fr". Zoom and Google Calendar both express this as a
+#       single recurring meeting/event, so the series keeps one stable join URL.
+#       Any rate used here must also exist as an option in the issue template's
+#       "Occurrence Rate" dropdown.)
 #     need_youtube_streams: Whether to create YouTube livestreams
 #     display_zoom_link_in_invite: Whether to show Zoom link in calendar invite
 #     external_meeting_link: Whether to use an external meeting link (skip Zoom creation)
@@ -261,6 +267,17 @@ call_series:
     display_name: "PQ Transaction Signatures"
     youtube_playlist_id: "PLJqWcTqh_zKEOum3uR0odkH59fmGUYuZB"
     discord_webhook_env: null
+
+  pqcl:
+    display_name: "PQ-CL Breakout"
+    youtube_playlist_id: null
+    discord_webhook_env: null
+    autopilot_defaults:
+      duration: 120
+      occurrence_rate: "weekly:tu,we,fr"
+      need_youtube_streams: false
+      display_zoom_link_in_invite: true
+      external_meeting_link: false
 
   zkevm:
     display_name: "L1-zkEVM Breakout"

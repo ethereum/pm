@@ -10,7 +10,12 @@ import pytz
 import sys
 import calendar
 
-from .datetime_utils import parse_iso_datetime
+from .datetime_utils import (
+    next_weekly_day,
+    parse_iso_datetime,
+    parse_multi_day_weekly,
+    weekly_days_to_byday,
+)
 
 PROTOCOL_CALENDAR_ID = "c_upaofong8mgrmrkegn7ic7hk5s@group.calendar.google.com"
 
@@ -337,7 +342,13 @@ def _build_recurrence_rules(occurrence_rate: str, start_dt: datetime):
 
     Monthly recurrence keeps the same weekday-of-month as start_dt (e.g. the second
     Wednesday), using -1 when start_dt is the last such weekday of its month.
+
+    A multi-day weekly rate such as "weekly:tu,we,fr" becomes a single weekly rule
+    with a BYDAY list, so the series holds every weekday it meets on.
     """
+    multi_day_weekdays = parse_multi_day_weekly(occurrence_rate)
+    if multi_day_weekdays:
+        return [f'RRULE:FREQ=WEEKLY;BYDAY={weekly_days_to_byday(multi_day_weekdays)}']
     if occurrence_rate == "weekly":
         return ['RRULE:FREQ=WEEKLY']
     if occurrence_rate == "bi-weekly":
@@ -352,17 +363,47 @@ def _build_recurrence_rules(occurrence_rate: str, start_dt: datetime):
     return None
 
 
+def _rrule_parts(rule: str) -> dict:
+    """Split an RRULE line into its key=value parts."""
+    return dict(p.split('=', 1) for p in rule.split(':', 1)[-1].split(';') if '=' in p)
+
+
 def _rrule_cadence(rule: str):
     """Extract (FREQ, INTERVAL) from an RRULE line. A missing INTERVAL means 1."""
-    parts = dict(p.split('=', 1) for p in rule.split(':', 1)[-1].split(';') if '=' in p)
+    parts = _rrule_parts(rule)
     return parts.get('FREQ'), int(parts.get('INTERVAL', 1))
 
 
-def _recurrence_cadence_matches(recurrence_rules, occurrence_rate: str, start_dt: datetime) -> bool:
-    """Whether a series' RRULE frequency/interval already matches occurrence_rate.
+def _rrule_weekdays(rule: str):
+    """The BYDAY set of a weekly rule, or () for any other rule or no BYDAY."""
+    parts = _rrule_parts(rule)
+    if parts.get('FREQ') != 'WEEKLY' or not parts.get('BYDAY'):
+        return ()
+    return tuple(sorted(d.strip() for d in parts['BYDAY'].split(',')))
 
-    BYDAY is deliberately ignored: a monthly call landing on a different week of the
-    month is a schedule shift, not a cadence change.
+
+def _weekly_days_match(existing: str, desired: str) -> bool:
+    """Whether two weekly RRULEs cover the same set of weekdays.
+
+    BYDAY is compared as a set, not a string, so day order doesn't matter. A weekly
+    rule with no BYDAY falls back to the weekday of DTSTART, which Google writes out
+    explicitly whenever the series is touched in its UI -- so a lone BYDAY day is
+    treated as equivalent to no BYDAY at all. Without that, every bot-managed weekly
+    series a human has ever edited would read as a cadence change and get rebased
+    onto a brand-new event.
+    """
+    existing_days, desired_days = _rrule_weekdays(existing), _rrule_weekdays(desired)
+    if len(existing_days) <= 1 and len(desired_days) <= 1:
+        return True
+    return existing_days == desired_days
+
+
+def _recurrence_cadence_matches(recurrence_rules, occurrence_rate: str, start_dt: datetime) -> bool:
+    """Whether a series' RRULE cadence already matches occurrence_rate.
+
+    Monthly BYDAY is deliberately ignored: a monthly call landing on a different week
+    of the month is a schedule shift, not a cadence change. Weekly BYDAY is compared,
+    but only to tell single-day from multi-day series -- see _weekly_days_match.
     """
     desired = _build_recurrence_rules(occurrence_rate, start_dt)
     if not desired:
@@ -373,7 +414,9 @@ def _recurrence_cadence_matches(recurrence_rules, occurrence_rate: str, start_dt
     if not existing:
         return True
 
-    return _rrule_cadence(existing) == _rrule_cadence(desired[0])
+    if _rrule_cadence(existing) != _rrule_cadence(desired[0]):
+        return False
+    return _weekly_days_match(existing, desired[0])
 
 
 def _apply_new_cadence(service, existing_event, event_id: str, summary: str, start_dt, duration_minutes: int,
@@ -753,7 +796,19 @@ def update_recurring_event(event_id: str, summary: str, start_dt, duration_minut
 
                     # Check if the future instance aligns with the occurrence rate
                     is_aligned = False
-                    if occurrence_rate == "weekly":
+                    multi_day_weekdays = parse_multi_day_weekly(occurrence_rate)
+                    if multi_day_weekdays:
+                        # The next slot of a multi-day series is the next weekday in
+                        # the set, so the gap varies (Tue->Wed is 1 day, Fri->Tue is 4)
+                        # and a fixed days_diff can't express it. Falling through to
+                        # the series shift below would move DTSTART onto this date and
+                        # drop the same-week siblings that already have their own
+                        # issues -- so this branch has to recognise the aligned case.
+                        is_aligned = next_weekly_day(start_dt, multi_day_weekdays).date() == closest_future_date
+                        if not is_aligned:
+                            print(f"[WARN] Multi-day weekly series: next expected slot after {start_dt.date()} "
+                                  f"is not {closest_future_date}")
+                    elif occurrence_rate == "weekly":
                         is_aligned = days_diff == 7
                     elif occurrence_rate == "bi-weekly":
                         is_aligned = days_diff == 14

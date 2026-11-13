@@ -93,7 +93,9 @@ class FormParser:
 
     def _extract_old_occurrence_rate(self, issue_body: str) -> str:
         """Extract occurrence rate from old format."""
-        occurrence_pattern = r"Occurrence rate\s*:\s*(none|weekly|bi-weekly|monthly)"
+        # "weekly:tu,we,fr" must precede the bare "weekly" alternative, or the
+        # alternation would match "weekly" and silently drop the day list.
+        occurrence_pattern = r"Occurrence rate\s*:\s*(none|weekly:[a-z,]+|weekly|bi-weekly|monthly)"
         occurrence_match = re.search(occurrence_pattern, issue_body, re.IGNORECASE)
         occurrence_rate = occurrence_match.group(1).lower() if occurrence_match else 'none'
         print(f"[DEBUG] Parsed old format occurrence rate: {occurrence_rate}")

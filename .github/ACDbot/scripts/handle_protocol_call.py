@@ -17,7 +17,7 @@ from modules.form_parser import FormParser
 from modules.mapping_manager import MappingManager
 from modules.mapping_utils import iter_breakout_meetings
 from modules.breakout_utils import derive_breakout_topic
-from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display
+from modules.datetime_utils import generate_savvytime_link, format_datetime_for_discourse, format_datetime_for_stream_display, parse_multi_day_weekly
 from modules.logging_config import get_logger, log_success, log_resource_status, log_api_call, should_log_debug
 from modules.call_series_config import get_autopilot_defaults, has_autopilot_support, get_default_autopilot_settings, get_one_off_autopilot_settings
 
@@ -916,10 +916,24 @@ The bot will automatically process your issue once you've selected a valid call 
                         # We use call_data (form input) rather than
                         # meeting_details (Zoom API) to avoid timezone
                         # reinterpretation when correcting to UTC.
+                        #
+                        # A multi-day series (e.g. Tue/Wed/Fri) is the exception: its
+                        # three issues share one Zoom series and are usually filed in
+                        # advance, so moving the series anchor to each issue's date in
+                        # turn would march it past that week's earlier occurrences and
+                        # strand the occurrence ids already recorded for them. The
+                        # weekday set, not the anchor, defines the schedule here, and
+                        # the occurrence-level update above has already fixed the time
+                        # for this specific date.
+                        series_start_time = call_data["start_time"]
+                        if parse_multi_day_weekly(call_data.get("occurrence_rate")):
+                            series_start_time = None
+                            print("[DEBUG] Multi-day weekly series: updating title/duration "
+                                  "only, leaving the series start anchor in place")
                         update_result = zoom.update_meeting(
                             existing_meeting_id,
                             topic,
-                            call_data["start_time"],
+                            series_start_time,
                             call_data["duration"],
                         )
                         if meeting_details.get("timezone") != "UTC":
@@ -1693,7 +1707,7 @@ The bot will automatically process your issue once you've selected a valid call 
             # Occurrence Rate: Update to actual value
             occurrence_rate = call_data.get("occurrence_rate")
             if occurrence_rate:
-                occurrence_pattern = r"(### Occurrence Rate\n\n)(weekly|bi-weekly|monthly|other)"
+                occurrence_pattern = r"(### Occurrence Rate\n\n)(weekly:[a-z,]+|weekly|bi-weekly|monthly|other)"
                 updated_body = re.sub(occurrence_pattern, f"\\g<1>{occurrence_rate}", updated_body)
                 print(f"[DEBUG] Updated displayed occurrence rate to {occurrence_rate}")
 

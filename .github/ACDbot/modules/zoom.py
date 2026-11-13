@@ -5,6 +5,13 @@ import json
 import urllib.parse
 import calendar
 
+# The asset pipeline puts modules/ on sys.path and imports this file standalone
+# ("import zoom"), where a relative import has no parent package to resolve.
+try:
+    from .datetime_utils import MULTI_DAY_WEEKLY_PREFIX, parse_multi_day_weekly, weekly_days_to_zoom
+except ImportError:  # pragma: no cover - exercised by the standalone asset pipeline
+    from datetime_utils import MULTI_DAY_WEEKLY_PREFIX, parse_multi_day_weekly, weekly_days_to_zoom
+
 client_id=os.environ["ZOOM_CLIENT_ID"]
 client_secret=os.environ["ZOOM_CLIENT_SECRET"]
 
@@ -630,11 +637,23 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
         topic: Meeting title
         start_time: Start time in ISO format
         duration: Duration in minutes
-        occurrence_rate: weekly, bi-weekly, or monthly
+        occurrence_rate: weekly, bi-weekly, monthly, or a multi-day weekly rate
+            such as "weekly:tu,we,fr"
     Returns:
         Tuple of (join_url, meeting_id)
     """
     start_time = ensure_utc(start_time)
+
+    # Validate a multi-day rate before anything else: the recurrence block below is
+    # wrapped in a bare `except Exception` that falls back to a DAILY meeting, so a
+    # raise from inside it would be swallowed into something far worse than the typo.
+    multi_day_weekdays = parse_multi_day_weekly(occurrence_rate)
+    if not multi_day_weekdays and str(occurrence_rate).strip().lower().startswith(MULTI_DAY_WEEKLY_PREFIX):
+        # The rate was meant to be multi-day but didn't parse (typo in the day list).
+        # Fail loudly: carrying on would silently create a plain weekly meeting here
+        # while gcal rejects the same string, leaving a Zoom series with no event.
+        raise ValueError(f"Unsupported occurrence rate: {occurrence_rate!r}")
+
     access_token = get_access_token()
 
     headers = {
@@ -667,7 +686,20 @@ def create_recurring_meeting(topic, start_time, duration, occurrence_rate):
             "end_times": 12 # Default end time
         }
 
-        if occurrence_rate == "weekly":
+        if multi_day_weekdays:
+            # e.g. "weekly:tu,we,fr" -> every week on Tue, Wed and Fri. Zoom takes
+            # the whole set in one weekly_days list, so this is still a single
+            # recurring meeting with one join URL.
+            recurrence["type"] = 2
+            recurrence["repeat_interval"] = 1
+            recurrence["weekly_days"] = weekly_days_to_zoom(multi_day_weekdays)
+            # end_times counts occurrences, not weeks, so a 3-day-a-week series would
+            # burn the default 12 in four weeks. Scale it to keep the same ~12-week
+            # horizon a single-day weekly series gets (Zoom caps end_times at 60).
+            recurrence["end_times"] = min(12 * len(multi_day_weekdays), 60)
+            print(f"[DEBUG] Setting up multi-day weekly recurrence on days {recurrence['weekly_days']} "
+                  f"(Sun=1..Sat=7), end_times={recurrence['end_times']}")
+        elif occurrence_rate == "weekly":
             recurrence["type"] = 2
             recurrence["repeat_interval"] = 1
             recurrence["weekly_days"] = str(zoom_api_weekly_day) # Use Zoom API format

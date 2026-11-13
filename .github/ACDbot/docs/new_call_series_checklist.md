@@ -125,7 +125,7 @@ To configure autopilot defaults for your call series, add an `autopilot_defaults
     discord_webhook_env: null
     autopilot_defaults:
       duration: 60                      # Meeting length in minutes (30, 60, 90, 120, 180)
-      occurrence_rate: "bi-weekly"      # Recurrence: weekly, bi-weekly, monthly, or other
+      occurrence_rate: "bi-weekly"      # Recurrence: weekly, bi-weekly, monthly, weekly:<days>, or other
       need_youtube_streams: false       # Create YouTube livestreams?
       display_zoom_link_in_invite: true # Show Zoom link in calendar invite?
       external_meeting_link: false      # Use external link instead of creating Zoom meeting?
@@ -135,10 +135,47 @@ To configure autopilot defaults for your call series, add an `autopilot_defaults
 | Field | Values | Description |
 |-------|--------|-------------|
 | `duration` | `30`, `60`, `90`, `120`, `180` | Meeting length in minutes |
-| `occurrence_rate` | `weekly`, `bi-weekly`, `monthly`, `other` | Calendar recurrence pattern |
+| `occurrence_rate` | `weekly`, `bi-weekly`, `monthly`, `weekly:<days>`, `other` | Calendar recurrence pattern (see below) |
 | `need_youtube_streams` | `true`, `false` | Whether to create YouTube livestreams |
 | `display_zoom_link_in_invite` | `true`, `false` | Show Zoom link in calendar event description |
 | `external_meeting_link` | `true`, `false` | Skip Zoom creation (use external meeting link) |
+
+### Calls that meet several times a week
+
+`weekly`, `bi-weekly` and `monthly` all assume one meeting per cycle, on the weekday
+of the first occurrence. A series that meets on several weekdays of every week uses a
+multi-day weekly rate instead — `weekly:` followed by a comma-separated day list:
+
+```yaml
+  pqcl:
+    display_name: "PQ-CL Breakout"
+    autopilot_defaults:
+      duration: 120
+      occurrence_rate: "weekly:tu,we,fr"   # every Tue, Wed and Fri
+```
+
+Days accept two-letter, three-letter or full names (`tu`, `tue`, `tuesday`) in any
+order. An unrecognised day invalidates the whole rate rather than silently dropping
+that day, and both backends then raise `Unsupported occurrence rate` — the run fails
+instead of quietly creating a plain weekly meeting on the wrong schedule.
+
+This stays a **single** recurring Zoom meeting and a **single** calendar series, so the
+join URL is stable across all three days — Zoom expresses the day set as
+`recurrence.weekly_days` and Google Calendar as `RRULE:FREQ=WEEKLY;BYDAY=TU,WE,FR`.
+
+**Two things to know when using a multi-day rate:**
+
+1. Any rate you put in the config must also exist as an option in the **Occurrence
+   Rate** dropdown in `.github/ISSUE_TEMPLATE/protocol-call-form.yml` (the literal
+   string, e.g. `"weekly:tu,we,fr"`). Without it, an issue filed with autopilot *off*
+   would fall back to plain `weekly` and rebase the calendar series onto one day.
+2. There is no bi-weekly equivalent — `weekly:` always means every week. A series
+   meeting on multiple days every *other* week isn't supported yet.
+3. The Zoom series anchor is deliberately **not** moved to each issue's date for a
+   multi-day series (ordinary series still do move it). The three weekday issues
+   share one Zoom series and are usually filed in advance, so marching the anchor
+   forward would push it past that week's earlier occurrences and strand the
+   occurrence ids already recorded against their issues.
 
 **Notes:**
 - If `autopilot_defaults` is omitted, system defaults are used (60 min, bi-weekly, no streams)

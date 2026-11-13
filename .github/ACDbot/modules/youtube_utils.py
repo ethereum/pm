@@ -11,6 +11,7 @@ import calendar
 from googleapiclient.http import MediaFileUpload
 
 from .call_series_config import get_youtube_playlist_mapping
+from .datetime_utils import next_weekly_day, parse_multi_day_weekly
 
 # Thumbnail for livestreams
 THUMBNAIL_PATH = str(Path(__file__).resolve().parent.parent / "thumbnails" / "livestream_thumbnail.jpg")
@@ -311,7 +312,8 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
         title: Base title for streams
         description: Stream description
         start_time: Initial start time in ISO format
-        occurrence_rate: weekly, bi-weekly, or monthly
+        occurrence_rate: weekly, bi-weekly, monthly, or a multi-day weekly rate
+            such as "weekly:tu,we,fr"
         num_events: Number of future events to create
     Returns:
         List of dictionaries containing stream details
@@ -333,7 +335,12 @@ def create_recurring_streams(title, description, start_time, occurrence_rate, nu
         for i in range(num_events):
             # Calculate next event time based on occurrence rate
             if i > 0:
-                if occurrence_rate == 'weekly':
+                multi_day_weekdays = parse_multi_day_weekly(occurrence_rate)
+                if multi_day_weekdays:
+                    # e.g. "weekly:tu,we,fr" -- the gap between slots varies, so step
+                    # to the next scheduled weekday rather than adding a fixed offset.
+                    current_time = next_weekly_day(current_time, multi_day_weekdays)
+                elif occurrence_rate == 'weekly':
                     current_time += timedelta(days=7)
                 elif occurrence_rate == 'bi-weekly':
                     current_time += timedelta(days=14)

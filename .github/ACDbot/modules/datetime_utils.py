@@ -1,6 +1,6 @@
 import re
 import calendar
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 
@@ -330,3 +330,82 @@ def format_datetime_for_stream_display(iso_datetime_str: str) -> str:
         print(f"[DEBUG] Error formatting stream date: {e}")
 
     return ""
+
+
+# ---------------------------------------------------------------------------
+# Multi-day weekly occurrence rates
+#
+# Most series repeat on a single weekday, which the "weekly" / "bi-weekly" /
+# "monthly" rates cover. A series that meets on several weekdays of the same
+# week (e.g. the PQ-CL breakout on Tue/Wed/Fri) is expressed as a rate of the
+# form "weekly:tu,we,fr". Both backends support this natively -- Zoom via
+# recurrence.weekly_days, Google Calendar via RRULE BYDAY -- so the day set only
+# has to survive the trip from config to API call.
+# ---------------------------------------------------------------------------
+
+MULTI_DAY_WEEKLY_PREFIX = "weekly:"
+
+# token -> python weekday (Mon=0 .. Sun=6)
+_WEEKDAY_TOKENS = {
+    "mo": 0, "mon": 0, "monday": 0,
+    "tu": 1, "tue": 1, "tues": 1, "tuesday": 1,
+    "we": 2, "wed": 2, "weds": 2, "wednesday": 2,
+    "th": 3, "thu": 3, "thur": 3, "thurs": 3, "thursday": 3,
+    "fr": 4, "fri": 4, "friday": 4,
+    "sa": 5, "sat": 5, "saturday": 5,
+    "su": 6, "sun": 6, "sunday": 6,
+}
+
+# python weekday (Mon=0 .. Sun=6) -> iCalendar BYDAY token
+_BYDAY_BY_WEEKDAY = {0: "MO", 1: "TU", 2: "WE", 3: "TH", 4: "FR", 5: "SA", 6: "SU"}
+
+
+def parse_multi_day_weekly(occurrence_rate) -> Optional[list]:
+    """Parse a rate like "weekly:tu,we,fr" into python weekdays (Mon=0..Sun=6).
+
+    Returns the weekdays sorted into week order, or None when occurrence_rate is
+    not a multi-day weekly rate. An unrecognised day token invalidates the whole
+    rate (None) rather than silently dropping a day from the schedule, so a typo
+    surfaces as "unsupported rate" instead of a meeting that never happens.
+    """
+    if not isinstance(occurrence_rate, str):
+        return None
+
+    rate = occurrence_rate.strip().lower()
+    if not rate.startswith(MULTI_DAY_WEEKLY_PREFIX):
+        return None
+
+    weekdays = set()
+    for token in rate[len(MULTI_DAY_WEEKLY_PREFIX):].split(","):
+        token = token.strip()
+        if token not in _WEEKDAY_TOKENS:
+            print(f"[WARN] Unrecognised weekday '{token}' in occurrence rate '{occurrence_rate}'")
+            return None
+        weekdays.add(_WEEKDAY_TOKENS[token])
+
+    return sorted(weekdays) or None
+
+
+def weekly_days_to_byday(weekdays) -> str:
+    """Render python weekdays as an iCalendar BYDAY list, e.g. "TU,WE,FR"."""
+    return ",".join(_BYDAY_BY_WEEKDAY[day] for day in sorted(weekdays))
+
+
+def weekly_days_to_zoom(weekdays) -> str:
+    """Render python weekdays as Zoom's weekly_days list (Sun=1..Sat=7), e.g. "3,4,6"."""
+    return ",".join(str((day + 1) % 7 + 1) for day in sorted(weekdays))
+
+
+def next_weekly_day(start_dt: datetime, weekdays) -> datetime:
+    """The next datetime strictly after start_dt landing on one of weekdays.
+
+    Time of day is preserved. Used to walk a multi-day weekly schedule forward
+    one slot at a time, where the gap between slots varies (Tue->Wed is 1 day,
+    Fri->Tue is 4).
+    """
+    for offset in range(1, 8):
+        candidate = start_dt + timedelta(days=offset)
+        if candidate.weekday() in weekdays:
+            return candidate
+    # Unreachable for a non-empty weekday set; fall back to a plain week.
+    return start_dt + timedelta(days=7)
