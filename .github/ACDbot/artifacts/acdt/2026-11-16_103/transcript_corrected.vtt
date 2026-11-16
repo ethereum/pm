@@ -1,0 +1,2954 @@
+WEBVTT
+
+1
+00:10:47.280 --> 00:10:50.069
+Ben Adams: Please. I like it.
+
+2
+00:11:10.300 --> 00:11:11.330
+Barnabas: Hello?
+
+3
+00:11:16.980 --> 00:11:17.840
+Fredrik: Hello.
+
+4
+00:11:19.270 --> 00:11:20.450
+jtraglia: Good morning.
+
+5
+00:11:21.630 --> 00:11:22.310
+Jordan: Hello.
+
+6
+00:13:52.360 --> 00:13:53.250
+saulius: Hello.
+
+7
+00:15:06.770 --> 00:15:11.339
+danceratopz: Good morning, everyone. We'll just wait a bit to allow more people to join the call.
+
+8
+00:15:20.080 --> 00:15:22.420
+danceratopz: Can you let me know if you can hear me alright?
+
+9
+00:15:24.130 --> 00:15:24.880
+Marius Van Der Wijden (M): Yes.
+
+10
+00:15:27.340 --> 00:15:28.780
+danceratopz: Perfect, thank you very much.
+
+11
+00:17:13.589 --> 00:17:15.069
+danceratopz: Alright, nice.
+
+12
+00:17:18.800 --> 00:17:19.780
+danceratopz: How's that?
+
+13
+00:17:21.240 --> 00:17:24.030
+danceratopz: Hang on a minute, let me just check signs again.
+
+14
+00:17:27.099 --> 00:17:29.020
+danceratopz: Okay, I think we're good to go.
+
+15
+00:17:30.210 --> 00:17:32.880
+danceratopz: Alright.
+
+16
+00:17:34.590 --> 00:17:42.050
+danceratopz: So, welcome everyone to ACDT number 103. Today is the 16th of November.
+
+17
+00:17:42.250 --> 00:17:49.069
+danceratopz: 2026. I've just dropped, the agenda, or the issue for the call in the chat.
+
+18
+00:17:49.430 --> 00:17:58.630
+danceratopz: And today we've got quite an important topic to discuss, which is basically the proposed EIP 8037 and EIP-8038 changes for Glamsterdam.
+
+19
+00:17:58.840 --> 00:18:06.699
+danceratopz: As you all know, Glamsterdam brings a lot of important changes to Ethereum, including ePBS and Block Level Access Lists.
+
+20
+00:18:07.240 --> 00:18:17.069
+danceratopz: But not only that, we snuck in another secret headliner called Scaling, which is another very large set of changes,
+
+21
+00:18:17.410 --> 00:18:23.599
+danceratopz: But allows, or will allow Ethereum to scale from 60 million gas to 200 million per gas per block.
+
+22
+00:18:23.990 --> 00:18:38.170
+danceratopz: And allow us to keep state growth under control. Unfortunately, rather late in our fork development process, we found out that the proposed changes in 8037 can break some smart contract invariance.
+
+23
+00:18:38.630 --> 00:18:45.100
+danceratopz: And this affects contract behavior. So…
+
+24
+00:18:45.220 --> 00:18:54.959
+danceratopz: We've invited, smart contract developers and app Devs today to come and talk to us about this, and give their inputs for these changes.
+
+25
+00:18:55.220 --> 00:19:09.039
+danceratopz: It's important that we keep improving Ethereum and keeping it sustainable, but scaling isn't worth doing at any cost, obviously. I'm super excited to see so many people here,
+
+26
+00:19:09.310 --> 00:19:26.799
+danceratopz: when I first got to Ethereum, I basically dabbled with smart contract development and was just super excited by just the ability to, like, deploy permissionlessly to the chain. That was really remarkable to me, and one of the reasons why I stuck around and became a protocol tester.
+
+27
+00:19:26.970 --> 00:19:35.529
+danceratopz: At the EF, which is where I work now. So yeah, these changes were quite large, and
+
+28
+00:19:36.410 --> 00:19:38.349
+danceratopz: Required quite a few trade-offs.
+
+29
+00:19:38.460 --> 00:19:50.200
+danceratopz: So we've got a few people who are going to talk about this today. First off, Marius is going to give an overview of the current situation, and maybe the extent of these changes, and then we're going to hear from…
+
+30
+00:19:50.340 --> 00:20:00.080
+danceratopz: Two smart contract audit teams, Chain Security and Dedaub, that have been investigating any contracts that have been affected by these changes.
+
+31
+00:20:02.330 --> 00:20:21.379
+danceratopz: And then we're gonna hear, about the internal EF investigations, and follow that, we're gonna have, let me just check the agenda myself. We're gonna have an open Q&A, and then we're gonna see how Ethereum can better align the app layer and the protocol layer moving forward. So,
+
+32
+00:20:21.590 --> 00:20:28.209
+danceratopz: Many thanks for coming today. I think Ivan recognized some names in the call, which is really nice.
+
+33
+00:20:29.140 --> 00:20:34.680
+danceratopz: I'd like to hand over to Marius to give us an overview of the current situation and where we are at today.
+
+34
+00:20:35.000 --> 00:20:35.780
+Marius Van Der Wijden (M): Yes.
+
+35
+00:20:36.000 --> 00:20:37.770
+Marius Van Der Wijden (M): Thank you very much, Dan.
+
+36
+00:20:37.890 --> 00:20:51.609
+Marius Van Der Wijden (M): Yeah, as Ben already said, multiple contracts were relying on invariants in the protocol that are modified by 8037 and 8038. So why did it come to this?
+
+37
+00:20:51.980 --> 00:21:06.739
+Marius Van Der Wijden (M): We proposed 8037 and 8038 in 2025. It enables us to significantly scale Ethereum and Amsterdam by 3.5x, 3.3x, and even further in future hard forks.
+
+38
+00:21:07.660 --> 00:21:09.920
+Marius Van Der Wijden (M): this 3.3x…
+
+39
+00:21:10.150 --> 00:21:19.629
+Marius Van Der Wijden (M): Improvement will significantly reduce the cost for most users, so even though your cost in gas might go up.
+
+40
+00:21:19.910 --> 00:21:25.190
+Marius Van Der Wijden (M): For most use cases, the actual cost to the user will significantly go down.
+
+41
+00:21:25.590 --> 00:21:33.529
+Marius Van Der Wijden (M): And not only will this reduce costs for most users, it will also enable new use cases for Ethereum.
+
+42
+00:21:35.870 --> 00:21:44.130
+Marius Van Der Wijden (M): The EIPs break a few invariants that we didn't think people would still rely on, so, kind of the work went on.
+
+43
+00:21:45.140 --> 00:21:55.699
+Marius Van Der Wijden (M): We wanted to do significant public outreach, but due to multiple reorogs at the EF and budget cuts, the timelines for audits and outreach slipped.
+
+44
+00:21:56.290 --> 00:22:04.749
+Marius Van Der Wijden (M): I personally share a lot of blame for these failures, as the last remaining X scaling track lead that's still at the EF.
+
+45
+00:22:05.330 --> 00:22:11.060
+Marius Van Der Wijden (M): Fortunately, Chain Security made us aware of these contracts, and…
+
+46
+00:22:11.670 --> 00:22:16.370
+Marius Van Der Wijden (M): Following the report from, chain security, we started investigating our thoughts.
+
+47
+00:22:16.580 --> 00:22:25.400
+Marius Van Der Wijden (M): We will hear from Dedaub and Chain Security on their findings, as well… as from Tony on the EF internal investigation.
+
+48
+00:22:25.460 --> 00:22:44.060
+Marius Van Der Wijden (M): And the EF has mobilized significant resources to make sure that core Devs and the community will receive an accurate picture of how many things are broken, what are broken, how much value is at stake, are there potential mitigations, and what the cost of these mitigations would be.
+
+49
+00:22:44.910 --> 00:22:50.299
+Marius Van Der Wijden (M): Before we go there, I would like to remind, everyone of a few things.
+
+50
+00:22:50.550 --> 00:23:02.980
+Marius Van Der Wijden (M): Application developers are crucial for Ethereum to thrive. Ethereum is a platform primarily built for trustless and unstoppable applications.
+
+51
+00:23:03.160 --> 00:23:07.429
+Marius Van Der Wijden (M): And providing a stable API for app developers is crucial.
+
+52
+00:23:08.110 --> 00:23:18.659
+Marius Van Der Wijden (M): The API that we are providing right now is unfortunately underspecified, and there are a lot of things that we know that we have to change about the API very soon.
+
+53
+00:23:18.830 --> 00:23:31.080
+Marius Van Der Wijden (M): Vitalik wrote a… or published a blog post today, I think, that lists a few of those changes, like, just to call out one example, or, like, the most
+
+54
+00:23:31.250 --> 00:23:32.930
+Marius Van Der Wijden (M): Important example.
+
+55
+00:23:33.280 --> 00:23:39.189
+Marius Van Der Wijden (M): All contracts that rely on EC Recover, are going to be broken by the PQ transition.
+
+56
+00:23:39.420 --> 00:23:45.059
+Marius Van Der Wijden (M): So… Yeah.
+
+57
+00:23:45.620 --> 00:23:58.859
+Marius Van Der Wijden (M): we need to trans… or we need to, transition Ethereum to PQ at some point, in order for everyone to be… to be secure. And,
+
+58
+00:23:58.930 --> 00:24:08.639
+Marius Van Der Wijden (M): there will be a large fallout from this. So there are these changes to the protocol that are coming up, that will break, certain contracts.
+
+59
+00:24:08.910 --> 00:24:27.880
+Marius Van Der Wijden (M): What we have to be much better at is communicating these potential changes, and engaging with the community as well as security researchers before these changes hit testnets, so we will never be in this situation, again. We will later also talk a bit about
+
+60
+00:24:28.100 --> 00:24:33.470
+Marius Van Der Wijden (M): Potential things that we can do in order to improve the situation there.
+
+61
+00:24:33.980 --> 00:24:41.469
+Marius Van Der Wijden (M): But I would also, like, quickly like to comment on some of the proposed alternatives to 1837 and 1838.
+
+62
+00:24:43.290 --> 00:24:49.009
+Marius Van Der Wijden (M): I've seen a few, and, like, AI makes it very easy to propose alternatives.
+
+63
+00:24:49.250 --> 00:25:09.069
+Marius Van Der Wijden (M): That fix all the issues, but they do come with, significant drawbacks in… in UX for users, or for block producers, or increase the maintenance burden of the codebases, or… or are not, like, just not compatible with future changes.
+
+64
+00:25:09.710 --> 00:25:13.229
+Marius Van Der Wijden (M): So, most of the proposed solution ended up something
+
+65
+00:25:13.580 --> 00:25:18.120
+Marius Van Der Wijden (M): it's something that resembles kind of, like, a worse EOF spec.
+
+66
+00:25:18.280 --> 00:25:33.369
+Marius Van Der Wijden (M): If we want to go into that direction of versioning the EVM, we should just do the full EF spec, but that is definitely not something that we can bolt onto Amsterdam or even Hegota in any realistic time.
+
+67
+00:25:34.880 --> 00:25:42.670
+Marius Van Der Wijden (M): Most of the proposed alternatives, also break other invariants in the protocol, which would require new rounds of investigation.
+
+68
+00:25:42.860 --> 00:25:53.009
+Marius Van Der Wijden (M): And a lot of the proposals also primarily target invariants that aren't actually the ones that, where we saw most of the contracts breaking.
+
+69
+00:25:55.080 --> 00:26:12.320
+Marius Van Der Wijden (M): To close this, this section out, the Ethereum community and the core devs have to make very hard decisions about the future of the protocol, basically all the time, but especially, around, around, like, these last years.
+
+70
+00:26:12.500 --> 00:26:25.280
+Marius Van Der Wijden (M): Our job is to weigh the needs of all participants in the network. It's a $220 billion ecosystem, so there's a lot of value at stake, as well as a very diverse set of stakeholders.
+
+71
+00:26:25.830 --> 00:26:31.509
+Marius Van Der Wijden (M): That's why this is such a hard decision, 8037 and 8038.
+
+72
+00:26:31.870 --> 00:26:39.409
+Marius Van Der Wijden (M): 8038 enabled significantly higher gas limits, thus significantly lower cost for most users.
+
+73
+00:26:40.520 --> 00:26:55.000
+Marius Van Der Wijden (M): But we also have to take into consideration, that potentially modifying Lambert will create additional delays in the order of 4 to 6 months, for Hegota and the PQ transition and the whole roadmap afterwards.
+
+74
+00:26:55.600 --> 00:27:12.830
+Marius Van Der Wijden (M): Ethereum is an unfinished project that will have to evolve significantly in the next years to face the challenges of PQ and AI, which means the amount of potentially broken invariants will increase before hopefully settling at some point in the future.
+
+75
+00:27:13.100 --> 00:27:23.699
+Marius Van Der Wijden (M): And I would like to explicitly thank everyone who's coming on the call today, and also spent a lot of time in the last few weeks on this topic. Many people went
+
+76
+00:27:23.830 --> 00:27:43.320
+Marius Van Der Wijden (M): well above and beyond to collect data in order to provide an accurate picture for an honest and fair debate today, and we will hear from, yeah, many different people, that have engaged in this, both in their work time and in their free time. So, thank you everyone for coming on here.
+
+77
+00:27:48.200 --> 00:27:55.000
+danceratopz: Amazing. Thanks so much, Marius, for the… overview and undertakes that.
+
+78
+00:27:56.050 --> 00:28:07.269
+danceratopz: Before we go to the Q&A, we're gonna, hear about the current findings that we've had, or that people have made from external auditors, and I think first up, chain security is going to
+
+79
+00:28:07.510 --> 00:28:09.070
+danceratopz: Present their findings.
+
+80
+00:28:09.510 --> 00:28:14.959
+danceratopz: I saw Hubert in the call, or is it Tanguy that's gonna present today?
+
+81
+00:28:15.320 --> 00:28:17.950
+Tanguy (ChainSecurity): I really am.
+
+82
+00:28:17.950 --> 00:28:19.609
+danceratopz: Would you like to share your screen?
+
+83
+00:28:19.760 --> 00:28:25.830
+Tanguy (ChainSecurity): Yes, I made some slides, Jack, can you see the slide?
+
+84
+00:28:26.350 --> 00:28:28.340
+danceratopz: Yeah, perfect. Yeah, thanks a lot.
+
+85
+00:28:28.930 --> 00:28:45.279
+Tanguy (ChainSecurity): Amazing, thanks a lot. Yeah, so, hi everyone. We've been tasked by the EF to do mostly two things. On one side, find more protocol affected by 8037 and 803.8 changes.
+
+86
+00:28:45.530 --> 00:28:52.680
+Tanguy (ChainSecurity): And on the other side, to find more invariant or things breaking with Glamsterdam overall.
+
+87
+00:28:54.360 --> 00:29:10.999
+Tanguy (ChainSecurity): So we combined two approaches. First, we had, Agent Swarm approach, which was searching protocol categories, starting from deployment list, verified source code, and public software.
+
+88
+00:29:11.000 --> 00:29:16.399
+Tanguy (ChainSecurity): And we expanded then through on-chain activity and related implementation.
+
+89
+00:29:18.320 --> 00:29:31.069
+Tanguy (ChainSecurity): A second search that we did was trace-based, so we took approximately one year of mainnet transaction, and this helped us find effective path across interacting contracts.
+
+90
+00:29:31.320 --> 00:29:40.020
+Tanguy (ChainSecurity): We then investigated candidates by comparing Osaka and Amsterdam behavior through replays and constructed scenarios.
+
+91
+00:29:40.550 --> 00:29:46.140
+Tanguy (ChainSecurity): And, yeah, then we could check the impact, and who controls the mitigation, if any.
+
+92
+00:29:46.540 --> 00:29:52.350
+Tanguy (ChainSecurity): And, yeah, then some adversarial review of this.
+
+93
+00:29:52.600 --> 00:30:03.770
+Tanguy (ChainSecurity): So, we do not think that the coverage is complete here for multiple reasons. For example, dormant path, unverified code, or private off-chain systems.
+
+94
+00:30:04.370 --> 00:30:08.470
+Tanguy (ChainSecurity): Also, I'll come to this a bit later, but comparing with
+
+95
+00:30:08.770 --> 00:30:20.829
+Tanguy (ChainSecurity): The EF investigation results, we found that our search missed findings that the EF identified, so we would expect there are also further affected systems to be found.
+
+96
+00:30:21.160 --> 00:30:29.860
+Tanguy (ChainSecurity): And also one point is that we did not have assessed at all L2s here, so this is only Ethereum mainnet.
+
+97
+00:30:31.380 --> 00:30:49.319
+Tanguy (ChainSecurity): So yeah, we found 152 findings, of which 76 were also found by the EF own internal search. I think this will be presented just a bit later in this call, which brought this overall search to a total of 200 findings.
+
+98
+00:30:49.490 --> 00:31:03.500
+Tanguy (ChainSecurity): And here, it's important to note that one finding is not one contract, but one class of affected contracts, so if it's deployed multiple times, then this will not count in these numbers.
+
+99
+00:31:04.930 --> 00:31:24.679
+Tanguy (ChainSecurity): On the invariant breakdown, so I will not go much into details of each invariant, but what we found is that most findings are coming from Invariant 4 and 7, which are from gas cost increases. So, when hard-coded gas budget and reserve are no longer sufficient under Glamsterdam.
+
+100
+00:31:25.080 --> 00:31:34.929
+Tanguy (ChainSecurity): So those failures are not triggered by the new reservoir or refill mechanism, but really by the increased gas costs. So…
+
+101
+00:31:35.130 --> 00:31:41.730
+Tanguy (ChainSecurity): From what we found, the reservoir and the refill are kind of a minority of finding here.
+
+102
+00:31:43.480 --> 00:31:51.959
+Tanguy (ChainSecurity): On the mitigation analysis, so we found that the majority of the finding can be mitigated rather easily.
+
+103
+00:31:52.610 --> 00:32:05.900
+Tanguy (ChainSecurity): However, there is still a few that requires either a contract upgrade, or in the case of a really immutable protocol, that will be a full redeployment of the system, because
+
+104
+00:32:06.030 --> 00:32:08.100
+Tanguy (ChainSecurity): One cannot upgrade those.
+
+105
+00:32:09.020 --> 00:32:23.360
+Tanguy (ChainSecurity): We also found some compatibility risks beyond this main finding set. On one side for, Gloas, so the consensus part of Glamsterdam.
+
+106
+00:32:23.700 --> 00:32:32.190
+Tanguy (ChainSecurity): We identified, it'll have an issue across staking protocol and supporting service, where changes to…
+
+107
+00:32:32.320 --> 00:32:45.169
+Tanguy (ChainSecurity): Proof layout can block staking operation, and also moving execution data can break some indexer and Oracle, for example. So for this, we will also coordinate with the EF to report those.
+
+108
+00:32:45.490 --> 00:32:50.199
+Tanguy (ChainSecurity): And, the second one is,
+
+109
+00:32:50.860 --> 00:32:58.659
+Tanguy (ChainSecurity): fixed gas limit for east transfer, so we found that some systems were assuming that,
+
+110
+00:32:58.810 --> 00:33:04.210
+Tanguy (ChainSecurity): sending ETH to a new account, or generally to an account without coding code.
+
+111
+00:33:04.440 --> 00:33:13.790
+Tanguy (ChainSecurity): They will assume that it should always succeed with 21,000 DAS, and this is no longer the case for a new account, because…
+
+112
+00:33:14.110 --> 00:33:18.079
+Tanguy (ChainSecurity): Now some account creation cost is being charged.
+
+113
+00:33:20.500 --> 00:33:32.579
+Tanguy (ChainSecurity): And yeah, so summary and next step, so, yeah, with some AI-based search, we managed to find 150 findings, both on-chain and off-chain.
+
+114
+00:33:33.100 --> 00:33:36.390
+Tanguy (ChainSecurity): Grass is also, breaking stuff.
+
+115
+00:33:37.840 --> 00:33:46.159
+Tanguy (ChainSecurity): We took some time to write a draft guide on how to fix all of this try-catch pattern, which,
+
+116
+00:33:46.290 --> 00:33:49.160
+Tanguy (ChainSecurity): Which are the issue here.
+
+117
+00:33:49.280 --> 00:33:58.459
+Tanguy (ChainSecurity): And we're happy to get feedback on this, because we feel, gas repricing will happen in the future, and people should,
+
+118
+00:33:58.760 --> 00:34:07.829
+Tanguy (ChainSecurity): Make those try-catch robust in the future, otherwise we are gonna have this whole conversation once again in a few months or few years.
+
+119
+00:34:08.100 --> 00:34:17.209
+Tanguy (ChainSecurity): And, yeah, we would also recommend thinking about the other EIPs, especially for app Devs, to look into the whole,
+
+120
+00:34:17.719 --> 00:34:22.520
+Tanguy (ChainSecurity): Glance to them, and check if something else might break.
+
+121
+00:34:22.650 --> 00:34:24.639
+Tanguy (ChainSecurity): In the application layer.
+
+122
+00:34:25.210 --> 00:34:28.980
+Tanguy (ChainSecurity): And, yeah, thank you, that's… from outside.
+
+123
+00:34:34.710 --> 00:34:38.909
+danceratopz: Amazing. Thanks a lot, Tanguy, for the report and sharing your findings.
+
+124
+00:34:42.130 --> 00:34:49.199
+danceratopz: Dima from Lido asked if they could get a link to a report. I think Hubert responded,
+
+125
+00:34:49.389 --> 00:34:53.630
+danceratopz: I guess you guys will share a public report in due course.
+
+126
+00:34:54.469 --> 00:34:55.859
+Tanguy (ChainSecurity): Yeah, we really are.
+
+127
+00:34:56.179 --> 00:34:57.229
+danceratopz: To some extent.
+
+128
+00:34:57.359 --> 00:34:59.539
+danceratopz: Okay, perfect.
+
+129
+00:35:00.529 --> 00:35:08.769
+danceratopz: Before we move on to Dedaub, did anyone want to, ask Tanguy some questions about their investigations and what they found?
+
+130
+00:35:18.149 --> 00:35:19.939
+danceratopz: Feel free to raise now.
+
+131
+00:35:30.079 --> 00:35:43.159
+danceratopz: All right, perfect. Then, I think we can leave it there, and any questions, if you think of them, we'll have time later for… in the Q&A. Is someone from Dedaub on the call to present their findings?
+
+132
+00:35:44.530 --> 00:35:46.829
+Ilias | Dedaub: Hey, here. Ilias?
+
+133
+00:35:47.330 --> 00:35:48.530
+danceratopz: Hi, Alyssip.
+
+134
+00:35:49.240 --> 00:35:51.620
+danceratopz: Perfect. Please feel free.
+
+135
+00:35:51.900 --> 00:35:53.489
+Ilias | Dedaub: She goes insights, does she not?
+
+136
+00:35:58.390 --> 00:36:01.650
+Ilias | Dedaub: You can see that… you can see my presentation, right?
+
+137
+00:36:02.530 --> 00:36:04.159
+danceratopz: Not quite yet.
+
+138
+00:36:04.750 --> 00:36:06.589
+Ilias | Dedaub: Hmm. Okay? Oh.
+
+139
+00:36:35.940 --> 00:36:42.509
+danceratopz: No worries, take your time. I believe, Dima requested if, chain security could maybe,
+
+140
+00:36:42.640 --> 00:36:45.309
+danceratopz: Share the report with them privately in the chat.
+
+141
+00:36:47.860 --> 00:36:50.660
+danceratopz: And, Marius has also confirmed that
+
+142
+00:36:51.220 --> 00:36:57.630
+danceratopz: on the EF side, we've made a big outreach campaign to Privately contact protocols.
+
+143
+00:37:00.930 --> 00:37:02.130
+Ilias | Dedaub: Sorry, mine.
+
+144
+00:37:02.580 --> 00:37:05.340
+Ilias | Dedaub: browser crashed. They didn't like,
+
+145
+00:37:07.530 --> 00:37:09.199
+danceratopz: No worries, take your time.
+
+146
+00:37:09.200 --> 00:37:11.100
+Ilias | Dedaub: I need to share my whole screen, because…
+
+147
+00:37:11.320 --> 00:37:15.589
+danceratopz: We got… we got 90 minutes for the call now. It was only 60 minutes 2 weeks ago.
+
+148
+00:37:18.080 --> 00:37:19.679
+Ilias | Dedaub: Okay, now you can see it.
+
+149
+00:37:20.500 --> 00:37:22.849
+danceratopz: Perfect, yeah, that's great, thank you very much.
+
+150
+00:37:23.870 --> 00:37:29.910
+Ilias | Dedaub: Okay, so… Hi, I'm Ilias Sadreis from, Dedauba, and…
+
+151
+00:37:30.150 --> 00:37:39.050
+Ilias | Dedaub: Today, I'm gonna be presenting you our findings from the EIP 8037 and 8038 impact study we conducted.
+
+152
+00:37:40.040 --> 00:37:46.419
+Ilias | Dedaub: So, brief introduction, just to set the tone. We were conducted by the Ethereum Foundation.
+
+153
+00:37:46.530 --> 00:37:49.530
+Ilias | Dedaub: to do an impact study on the EIP.
+
+154
+00:37:49.760 --> 00:37:50.739
+Ilias | Dedaub: So I'm saying?
+
+155
+00:37:52.200 --> 00:37:55.080
+Ilias | Dedaub: 8, 878, sorry.
+
+156
+00:37:55.210 --> 00:38:01.119
+Ilias | Dedaub: Many changes to CAS accounting, and the info mechanisms were introduced here.
+
+157
+00:38:01.700 --> 00:38:07.280
+Ilias | Dedaub: So this means that, unfortunately, a lot of contracts that rely on gas semantics
+
+158
+00:38:07.630 --> 00:38:11.540
+Ilias | Dedaub: may stop working properly after the Amsterdam Arpic.
+
+159
+00:38:13.370 --> 00:38:19.829
+Ilias | Dedaub: Moving forward to what we looked at, so… We follow the two-pronged approach.
+
+160
+00:38:20.760 --> 00:38:24.369
+Ilias | Dedaub: So, I don't know, one part of the study focused on
+
+161
+00:38:25.270 --> 00:38:34.990
+Ilias | Dedaub: Contacts with non-trivial gas up-code patterns. I'll specify… I'll define it later, what I mean with this, non-trivial gas upcode patterns phrase.
+
+162
+00:38:35.210 --> 00:38:42.190
+Ilias | Dedaub: And the other phrase… the other part of the study, focused on, identifying products that was
+
+163
+00:38:42.330 --> 00:38:43.820
+Ilias | Dedaub: Not default gas.
+
+164
+00:38:44.000 --> 00:38:51.600
+Ilias | Dedaub: So, this can be typically constant gas, but not necessarily to external codes, which may also be affected by the
+
+165
+00:38:52.160 --> 00:38:53.719
+Ilias | Dedaub: Amsterdam changes.
+
+166
+00:38:54.770 --> 00:38:57.849
+Ilias | Dedaub: Both universes of these contexts were then classified using
+
+167
+00:38:58.100 --> 00:39:06.210
+Ilias | Dedaub: various analysis techniques, static analysis, symbolic execution, and then, of course, triage with AI and My node inspection.
+
+168
+00:39:07.390 --> 00:39:12.949
+Ilias | Dedaub: So… At… looking a bit closer to the first part of the study.
+
+169
+00:39:13.840 --> 00:39:20.810
+Ilias | Dedaub: We looked at contracts, as I said, that have non-trivial gas patterns.
+
+170
+00:39:21.110 --> 00:39:24.719
+Ilias | Dedaub: And that have received transactions in the last 6 months.
+
+171
+00:39:24.940 --> 00:39:27.509
+Ilias | Dedaub: So what I mean by non-trivial gas patterns?
+
+172
+00:39:27.910 --> 00:39:35.420
+Ilias | Dedaub: is a… Basically, any use of the G-SOP code that is not intended
+
+173
+00:39:36.260 --> 00:39:38.910
+Ilias | Dedaub: To be used as a parameter to…
+
+174
+00:39:39.390 --> 00:39:41.999
+Ilias | Dedaub: To forward all the remaining gas to an external call.
+
+175
+00:39:42.410 --> 00:39:47.659
+Ilias | Dedaub: Which is basically the default for solidity and…
+
+176
+00:39:47.930 --> 00:39:49.650
+Ilias | Dedaub: how they're not gonna align it?
+
+177
+00:39:50.320 --> 00:39:57.460
+Ilias | Dedaub: So, by filtering this, we basically capture all interesting uses of the gas up-code interaction.
+
+178
+00:39:57.700 --> 00:40:01.759
+Ilias | Dedaub: And in order to do this, we used our decompiled contracts database.
+
+179
+00:40:02.600 --> 00:40:06.529
+Ilias | Dedaub: And the reason we use this database oversource is because
+
+180
+00:40:07.340 --> 00:40:14.850
+Ilias | Dedaub: This is a highly normalized representation, so this type of expressions get in line, and it's very easy to write a…
+
+181
+00:40:15.240 --> 00:40:20.779
+Ilias | Dedaub: I rejects to… Index through the compiled code and get the contracts you're interested in.
+
+182
+00:40:22.200 --> 00:40:26.060
+Ilias | Dedaub: This search resulted in around 25,000 contracts.
+
+183
+00:40:26.840 --> 00:40:35.880
+Ilias | Dedaub: For the verified subset of these contracts, we fed it to an agent workflow we have designed.
+
+184
+00:40:36.390 --> 00:40:40.759
+Ilias | Dedaub: Which, and we ended up with,
+
+185
+00:40:41.610 --> 00:40:44.969
+Ilias | Dedaub: A couple of address… a couple of, verified findings.
+
+186
+00:40:45.260 --> 00:40:54.529
+Ilias | Dedaub: More specifically, we have 12 and 70 addresses… 12 high findings and 70 medium-high… 70… 70 medium findings.
+
+187
+00:40:54.800 --> 00:41:03.619
+Ilias | Dedaub: Which are all confirmed, by the agent with, It's… ELS, replace.
+
+188
+00:41:04.970 --> 00:41:07.420
+Ilias | Dedaub: And, interestingly,
+
+189
+00:41:07.710 --> 00:41:15.339
+Ilias | Dedaub: It's… it appears that there are only 22 contacts in the dataset that we didn't identify, but the rest of the…
+
+190
+00:41:16.090 --> 00:41:22.270
+Ilias | Dedaub: internal Ethereum foundations that they managed to find, so… This gives us a…
+
+191
+00:41:22.940 --> 00:41:28.770
+Ilias | Dedaub: A bit of confidence that our exploration in this type of direction was complete.
+
+192
+00:41:29.910 --> 00:41:35.710
+Ilias | Dedaub: There is still a bit of work to do, but this is pending work, I mean, we will keep updating the report.
+
+193
+00:41:36.260 --> 00:41:38.550
+Ilias | Dedaub: With the latest numbers.
+
+194
+00:41:39.320 --> 00:41:42.900
+Ilias | Dedaub: But this should give a high-level picture of our findings.
+
+195
+00:41:43.770 --> 00:41:48.360
+Ilias | Dedaub: So, moving forward to the second part of the study,
+
+196
+00:41:49.420 --> 00:41:57.059
+Ilias | Dedaub: So, unfortunately, Glamsterdam also breaks contracts that do not necessarily use gas, but maybe they pass,
+
+197
+00:41:58.280 --> 00:42:05.959
+Ilias | Dedaub: explicit, non-construct gas to… non-default gas to cycles, so…
+
+198
+00:42:06.150 --> 00:42:13.220
+Ilias | Dedaub: This may break their behavior due to increased gas costs, the refund mechanism changing, etc.
+
+199
+00:42:13.570 --> 00:42:18.530
+Ilias | Dedaub: So, we did an extra study on this, and unfortunately.
+
+200
+00:42:19.680 --> 00:42:23.940
+Ilias | Dedaub: Just to keep this dataset of, manageably, we had to…
+
+201
+00:42:24.320 --> 00:42:32.929
+Ilias | Dedaub: to filter further based on dynamic features. So, we looked at contracts that have more than 100 transactions within a tight time… tight time frame.
+
+202
+00:42:33.050 --> 00:42:43.039
+Ilias | Dedaub: Or had a high-value transaction within two weeks. And this resulted, again, in a 25K… Approximate, data set.
+
+203
+00:42:43.800 --> 00:42:47.690
+Ilias | Dedaub: Similar to the study, before.
+
+204
+00:42:48.480 --> 00:42:53.970
+Ilias | Dedaub: So This is the breakdown of the findings from this part of the study.
+
+205
+00:42:55.070 --> 00:43:01.120
+Ilias | Dedaub: Unfortunately, I don't… I didn't have the space in the slides or the time to go deep into each of these patterns.
+
+206
+00:43:01.430 --> 00:43:05.190
+Ilias | Dedaub: These are exactly the patterns that are source analysis.
+
+207
+00:43:06.260 --> 00:43:08.990
+Ilias | Dedaub: Ehr… Try to detect.
+
+208
+00:43:09.460 --> 00:43:12.900
+Ilias | Dedaub: And, for example, you know.
+
+209
+00:43:13.900 --> 00:43:21.160
+Ilias | Dedaub: Conditionals on brands… on gas left, fixed reserves,
+
+210
+00:43:21.390 --> 00:43:25.140
+Ilias | Dedaub: Fixed comb… combat gas. All these analysis we wrote,
+
+211
+00:43:25.270 --> 00:43:30.100
+Ilias | Dedaub: On our analysis engine, to try and find affected contracts.
+
+212
+00:43:31.120 --> 00:43:34.610
+Ilias | Dedaub: And we ended up with quite a few verified repositives.
+
+213
+00:43:34.950 --> 00:43:37.879
+Ilias | Dedaub: These are with transaction replays again.
+
+214
+00:43:39.400 --> 00:43:47.220
+Ilias | Dedaub: So… This was our findings, and currently we are in the process of fading out the affected particles.
+
+215
+00:43:47.760 --> 00:43:51.760
+Ilias | Dedaub: This is a list of the protocols we're reaching out.
+
+216
+00:43:51.970 --> 00:43:56.200
+Ilias | Dedaub: Of course, this is… Done in a best-effort way, just to not bombard.
+
+217
+00:43:56.580 --> 00:44:02.059
+Ilias | Dedaub: This protocols with, warnings that other teams or colleagues
+
+218
+00:44:02.190 --> 00:44:10.999
+Ilias | Dedaub: Have already flagged to the security teams of this project, so… we're doing our best.
+
+219
+00:44:11.710 --> 00:44:14.710
+Ilias | Dedaub: Yeah, thank you very much, this is it on our end.
+
+220
+00:44:15.040 --> 00:44:15.779
+Ilias | Dedaub: Thank you.
+
+221
+00:44:22.160 --> 00:44:24.529
+danceratopz: Thanks very much, Ilias, for sharing your findings.
+
+222
+00:44:25.750 --> 00:44:33.850
+danceratopz: Does anyone have any questions for Ilias or Dedaub regarding their findings on the EIP-8037 invariance?
+
+223
+00:44:52.550 --> 00:44:53.770
+danceratopz: Okay.
+
+224
+00:45:00.520 --> 00:45:07.719
+danceratopz: Yeah. I would just echo Jocham's sentiment in the chat that, very grateful to these security researchers.
+
+225
+00:45:07.940 --> 00:45:09.539
+danceratopz: For spending the time on this.
+
+226
+00:45:10.690 --> 00:45:15.700
+danceratopz: And, also respecting protocol time, or app protocol time.
+
+227
+00:45:15.930 --> 00:45:16.810
+danceratopz: Alright.
+
+228
+00:45:19.030 --> 00:45:20.220
+danceratopz: Okay.
+
+229
+00:45:21.040 --> 00:45:31.220
+danceratopz: Moving forward, now we would have, Rahul, who's, from the access layer cluster.
+
+230
+00:45:31.560 --> 00:45:41.589
+danceratopz: at the EF, who's, working on dev tooling, who would, come and share a little bit about his outreach to application teams.
+
+231
+00:45:42.030 --> 00:45:44.640
+danceratopz: Regarding the AC37 findings.
+
+232
+00:45:45.480 --> 00:45:47.330
+danceratopz: Rahul, are you in the call?
+
+233
+00:45:47.950 --> 00:45:49.029
+Rahul (EF): Yes,
+
+234
+00:45:53.880 --> 00:45:59.229
+danceratopz: Let me see if I can share your… Give me 20 seconds.
+
+235
+00:46:00.300 --> 00:46:01.099
+Rahul (EF): I will…
+
+236
+00:46:01.100 --> 00:46:01.940
+danceratopz: Sheep.
+
+237
+00:46:01.940 --> 00:46:08.089
+Rahul (EF): excuse the background noise. I am actually on the commute.
+
+238
+00:46:08.430 --> 00:46:24.549
+Rahul (EF): Yeah, as Marius and some of the audit companies mentioned, we… the EF has been doing their own analysis of which teams are affected. At a super high level, we've done this by replaying millions of transactions over the last years on L1.
+
+239
+00:46:24.710 --> 00:46:32.510
+Rahul (EF): and also using Sourceify, to figure which invariants are broken, thanks to the effort of chain security.
+
+240
+00:46:32.780 --> 00:46:36.279
+Rahul (EF): Actually, Dan, could you move to the other
+
+241
+00:46:36.580 --> 00:46:38.990
+Rahul (EF): slide that I sent first.
+
+242
+00:46:39.480 --> 00:46:42.420
+danceratopz: Jason, too. You're gonna have to give me a second, sorry.
+
+243
+00:46:42.700 --> 00:46:43.700
+danceratopz: I thought.
+
+244
+00:46:43.700 --> 00:46:44.070
+Rahul (EF): Oh, yeah.
+
+245
+00:46:44.070 --> 00:46:44.790
+danceratopz: That's fine.
+
+246
+00:46:45.750 --> 00:46:52.370
+Rahul (EF): I can speak about it. Basically, we have found 3 highs, and…
+
+247
+00:46:53.300 --> 00:46:56.740
+Rahul (EF): Happily, all the three highs have already
+
+248
+00:46:57.140 --> 00:47:01.229
+Rahul (EF): Not just been contacted, but one of them has already fixed
+
+249
+00:47:01.350 --> 00:47:05.870
+Rahul (EF): The invariant breaking, and two of them plan to fix it over the course of the next month.
+
+250
+00:47:06.550 --> 00:47:07.490
+Rahul (EF): And…
+
+251
+00:47:07.680 --> 00:47:24.840
+Rahul (EF): There are a significantly large number of mediums and lows, as is obvious with chain security and Dedaub reports as well. I've hidden the actual number just because there's a really high amount of false positives, but we have confirmed that there are at least 25 mediums.
+
+252
+00:47:25.070 --> 00:47:31.850
+Rahul (EF): That are impacted. A lot of those are actually on the call, so I'm happy to see you guys here. Thank you for taking the time.
+
+253
+00:47:32.290 --> 00:47:37.049
+Rahul (EF): Yeah, Dan, can you move to the mediums?
+
+254
+00:47:37.920 --> 00:47:38.590
+danceratopz: Yep.
+
+255
+00:47:40.550 --> 00:47:46.359
+Rahul (EF): Yeah, so out of the 25 that are confirmed as not to be false positives,
+
+256
+00:47:46.620 --> 00:47:57.660
+Rahul (EF): At least 16 have not just acknowledged, but are actively triaging, or figuring out a fix, or are on this call, to figure out what we can do, and how we can help.
+
+257
+00:47:57.980 --> 00:48:06.690
+Rahul (EF): Out of those 16, 3 have already fixed, the other 8 plan to fix by the next month, or before the end of the year.
+
+258
+00:48:07.030 --> 00:48:12.380
+Rahul (EF): Which is very nice if you want to… ship Lambert pretty soon.
+
+259
+00:48:12.990 --> 00:48:25.599
+Rahul (EF): There are still a few teams that we have contacted that haven't yet triaged. We're still working with them. Off note, there are a bunch of L2s that have independently forked
+
+260
+00:48:26.600 --> 00:48:29.820
+Rahul (EF): OP's codebase or OP stack chains.
+
+261
+00:48:30.720 --> 00:48:32.830
+Rahul (EF): There are,
+
+262
+00:48:33.820 --> 00:48:50.910
+Rahul (EF): a good bunch of them still need to be… the OP has actually already fixed their invariance, and it's live with OP Sepolia. We just need to coordinate with a bunch of these teams on replaying on their chain's testnets.
+
+263
+00:48:53.080 --> 00:48:59.790
+Rahul (EF): Yeah, this… yeah, more I can share later on how we're doing on comms, but…
+
+264
+00:49:00.250 --> 00:49:07.049
+Rahul (EF): A huge shout out to all of the Apple teams that have spoken to us so quickly and coordinating with us.
+
+265
+00:49:07.360 --> 00:49:09.000
+Rahul (EF): Giving me feedback.
+
+266
+00:49:09.250 --> 00:49:16.669
+Rahul (EF): every art that helps us improve this process. Thank you. I'll stop here, and then we can talk later in the next section.
+
+267
+00:49:23.790 --> 00:49:28.730
+danceratopz: Awesome. Thanks very much, Rahul, for sharing those.
+
+268
+00:49:35.730 --> 00:49:45.230
+danceratopz: Did, on this… sorry, in this section, we… is Jango in the call from Juicebox? And did he want to speak up and…
+
+269
+00:49:45.900 --> 00:49:47.449
+danceratopz: ask his questions.
+
+270
+00:49:49.820 --> 00:49:51.510
+Jango: Hello, yes, I'm on the call.
+
+271
+00:49:52.150 --> 00:49:54.189
+danceratopz: Thanks for joining, it's good to see you.
+
+272
+00:49:54.620 --> 00:49:59.099
+Jango: My pleasure, thank you for hosting, and… Giving the opportunity.
+
+273
+00:49:59.440 --> 00:50:03.349
+Jango: Just to clarify some, poignant…
+
+274
+00:50:03.540 --> 00:50:07.520
+Jango: Things in the juicebox protocol to make things explicit.
+
+275
+00:50:07.540 --> 00:50:14.249
+Jango: And how it affects, our apps. The biggest one are try-catch blocks. We…
+
+276
+00:50:14.250 --> 00:50:29.589
+Jango: As an extensible protocol, we try to just be the generalized pay and cash out functions of the open internet, and so folks should be able to bring extensions on what happens when you pay, what happens when you cash out, including payouts, splits.
+
+277
+00:50:30.040 --> 00:50:30.980
+Jango: Etc.
+
+278
+00:50:31.550 --> 00:50:33.199
+Jango: And there are…
+
+279
+00:50:33.730 --> 00:50:50.320
+Jango: many moments with, with Glam that the user can choose and tune the gas limit such that the, composability aspect fails, and then triggers the catch block, and then, the rest of the code runs.
+
+280
+00:50:51.100 --> 00:51:04.740
+Jango: Which, you know, the try-catch is there such that if someone brings a composable element that is truly broken for whatever reason, the rest of the execution does, does not continue. Or rather, continues.
+
+281
+00:51:07.050 --> 00:51:26.999
+Jango: which, you know, prevents someone from changing a composable element and then breaking the rest of the protocol. But this, change would basically allow users to tune, do they want to go into the composable element or not? And I feel like composability is a large, value prop of Ethereum. So,
+
+282
+00:51:27.480 --> 00:51:32.630
+Jango: Certainly of the Juicebox protocol, but I imagine of Ethereum at large.
+
+283
+00:51:33.610 --> 00:51:47.710
+Jango: A second point I think, is more philosophical here, and the one word that comes to mind when I think about this change, and a lot of the time I spend building protocols over the past years, is confidence. I think
+
+284
+00:51:47.950 --> 00:51:56.569
+Jango: In thinking about breaking invariance, in my mind, I would be at peace with the trade-offs if…
+
+285
+00:51:56.570 --> 00:52:16.120
+Jango: the main purpose of breaking them was to increase confidence. In the case of quantum, of AI hardening, all those make sense to me as an app developer of, like, damn, I may have really severe trade-offs to communicate to users, in extreme cases redeployment, since everything we try to build is immutable.
+
+286
+00:52:16.450 --> 00:52:19.099
+Jango: Everything we do build is immutable.
+
+287
+00:52:19.390 --> 00:52:27.139
+Jango: But if it makes a ton of sense with regard to confidence going forward, then I feel like I could justify it to myself.
+
+288
+00:52:27.360 --> 00:52:29.970
+Jango: And therefore to users.
+
+289
+00:52:30.660 --> 00:52:45.600
+Jango: And, I question if that confidence is really at play here. I think there is confidence in sustainability, which I think is very important, so I agree with the general essence of why these changes in GLAM are being proposed.
+
+290
+00:52:45.970 --> 00:52:56.800
+Jango: But the trade-off in developer confidence in building immutable protocols seems at risk here. And I think the question I would just leave us with is.
+
+291
+00:52:58.940 --> 00:53:18.249
+Jango: do we find it now foolish to build immutable protocols on Ethereum? Is that where we're headed towards until we reach a point of bedrock stability? And if so, I think it's just good to pronounce that very clearly and obviously, so that we don't end up in this miscommunication.
+
+292
+00:53:18.730 --> 00:53:19.540
+Jango: Thank you.
+
+293
+00:53:24.440 --> 00:53:26.640
+danceratopz: Thanks a lot, Jango, for,
+
+294
+00:53:26.750 --> 00:53:32.480
+danceratopz: sharing your comment on the issue, and for coming and articulating that so clearly here today.
+
+295
+00:53:33.300 --> 00:53:41.460
+danceratopz: I think it's… it's very valuable input for us all here. Would someone like to…
+
+296
+00:53:41.970 --> 00:53:46.540
+danceratopz: step up and talk directly to Jango's Question and concerns?
+
+297
+00:53:51.590 --> 00:53:55.459
+danceratopz: I'm wondering if, potentially Marius would like to talk to
+
+298
+00:53:55.680 --> 00:53:59.440
+danceratopz: the state that Ethereum is at with regards to ossification.
+
+299
+00:54:00.100 --> 00:54:01.270
+danceratopz: Or anyone else?
+
+300
+00:54:01.900 --> 00:54:06.120
+Marius Van Der Wijden (M): Yeah, I… I can… I can… I can respond. I… I…
+
+301
+00:54:07.010 --> 00:54:15.260
+Marius Van Der Wijden (M): I do empathize a lot with what you're saying,
+
+302
+00:54:16.680 --> 00:54:18.999
+Marius Van Der Wijden (M): I think what we… what we kind of…
+
+303
+00:54:19.350 --> 00:54:27.050
+Marius Van Der Wijden (M): have seen with the analysis is that it's not the majority of contracts that we are… we are… we are breaking.
+
+304
+00:54:27.170 --> 00:54:32.469
+Marius Van Der Wijden (M): Or that I might need to upgrade. I think it's around…
+
+305
+00:54:32.910 --> 00:54:41.419
+Marius Van Der Wijden (M): In the, in the highest estimates, it's around, 10, 15,000 contracts?
+
+306
+00:54:43.220 --> 00:54:51.370
+Marius Van Der Wijden (M): the amount of contracts on Ethereum, in comparison, is around 90 million, so…
+
+307
+00:54:51.480 --> 00:54:55.460
+Marius Van Der Wijden (M): Like, this is… this is a… I would say 8…
+
+308
+00:54:56.180 --> 00:55:06.080
+Marius Van Der Wijden (M): I don't want to, yeah, make this sound less than, but it's, like, a fringe subset of the contracts that are impacted by this change.
+
+309
+00:55:06.300 --> 00:55:10.219
+Marius Van Der Wijden (M): I do think that we need to be extremely
+
+310
+00:55:10.360 --> 00:55:21.849
+Marius Van Der Wijden (M): Extremely careful when we are breaking user space, that the out… that the benefits outweigh, the risks and the drawbacks.
+
+311
+00:55:26.040 --> 00:55:33.200
+Marius Van Der Wijden (M): I, for myself, feel like the… they do in this case,
+
+312
+00:55:33.650 --> 00:55:40.460
+Marius Van Der Wijden (M): And, also in the other cases that are…
+
+313
+00:55:41.000 --> 00:55:43.779
+Marius Van Der Wijden (M): That, that are being proposed.
+
+314
+00:55:43.970 --> 00:55:47.060
+Marius Van Der Wijden (M): Or that, that are on the…
+
+315
+00:55:47.210 --> 00:55:53.140
+Marius Van Der Wijden (M): timeline, or in… or coming in the future. If you…
+
+316
+00:55:54.150 --> 00:56:02.100
+Marius Van Der Wijden (M): I see there's… there's, like, a… there's, like, a question about… About the amount of value?
+
+317
+00:56:02.770 --> 00:56:05.159
+Marius Van Der Wijden (M): In these contracts.
+
+318
+00:56:05.360 --> 00:56:14.629
+Marius Van Der Wijden (M): I think the total amount of value is… I don't have any reliable numbers on this, but it is on the order of
+
+319
+00:56:15.010 --> 00:56:21.170
+Marius Van Der Wijden (M): A few hundred thousand, And… wire…
+
+320
+00:56:21.640 --> 00:56:26.200
+Marius Van Der Wijden (M): At least the… sorry, the contracts that have not yet
+
+321
+00:56:26.380 --> 00:56:33.429
+Marius Van Der Wijden (M): Said that they're going to upgrade, and, and, so these, yeah.
+
+322
+00:56:33.560 --> 00:56:42.760
+Marius Van Der Wijden (M): more immutable contracts. And so it's very hard for me to justify
+
+323
+00:56:43.110 --> 00:56:49.309
+Marius Van Der Wijden (M): Holding back this, this, like, $300 billion ecosystem, for, like.
+
+324
+00:56:49.490 --> 00:56:58.699
+Marius Van Der Wijden (M): a few 300, 400, 500K worth of, Worth of value.
+
+325
+00:56:59.480 --> 00:57:01.669
+Marius Van Der Wijden (M): I don't think that it's… it's…
+
+326
+00:57:01.860 --> 00:57:05.930
+Marius Van Der Wijden (M): it's a great argument to make, to be honest.
+
+327
+00:57:06.460 --> 00:57:12.010
+Marius Van Der Wijden (M): I don't like it either, because I feel like… no matter…
+
+328
+00:57:12.280 --> 00:57:21.499
+Marius Van Der Wijden (M): how much money actually is locked in the contract. You should have a right to not be broken by,
+
+329
+00:57:21.910 --> 00:57:30.980
+Marius Van Der Wijden (M): by protocol changes in an ideal world. but yeah, I think… Most of the…
+
+330
+00:57:32.190 --> 00:57:36.059
+Marius Van Der Wijden (M): failures that I've seen are coming also from
+
+331
+00:57:36.370 --> 00:57:40.160
+Marius Van Der Wijden (M): Their root causes, kind of.
+
+332
+00:57:40.360 --> 00:57:48.109
+Marius Van Der Wijden (M): Stuff that we have… Made very explicitly in the past…
+
+333
+00:57:48.380 --> 00:58:04.579
+Marius Van Der Wijden (M): that, like, make pretty explicit statements in the past that these things are going to change. Like, you shouldn't be hard-coding gas values in your, in your contracts. I think that is, that is,
+
+334
+00:58:05.230 --> 00:58:12.299
+Marius Van Der Wijden (M): Most of the failures, actually, is, like, people, still hard-coding,
+
+335
+00:58:12.870 --> 00:58:21.290
+Marius Van Der Wijden (M): Gas values and still relying on the current gas schedule. And, that is something that we have
+
+336
+00:58:21.970 --> 00:58:33.029
+Marius Van Der Wijden (M): said, for a long time that we have to change the gas schedule, and we will have to update it, and it has to be updated again with ZK EVMs, and
+
+337
+00:58:33.620 --> 00:58:40.599
+Marius Van Der Wijden (M): And maybe in the future with RISC-V, and so on, so… Yeah.
+
+338
+00:58:50.980 --> 00:58:53.800
+danceratopz: Thanks, Marius, for chiming in.
+
+339
+00:58:54.120 --> 00:58:56.080
+danceratopz: Toni, you have your hand raised?
+
+340
+00:58:56.860 --> 00:59:12.900
+Toni Wahrstaetter: Yeah, just as a response to Jango, because I think, what he said is very valid, and should be taken seriously. It feels like we must differentiate the discussion a bit between breaking, things because of hard-coded gas versus
+
+341
+00:59:14.340 --> 00:59:24.120
+Toni Wahrstaetter: The more complex, breakage, which is, like, invariance breaking and gas left, for example, being able to increase,
+
+342
+00:59:24.510 --> 00:59:43.549
+Toni Wahrstaetter: it's a very different, breakage than just hardcoding gas. And one thing I've been hearing a lot in the past weeks since we… since chain security brought, brought the topic up, and people have started looking more deeply into the topic, is that it's just very unclear right now for app Devs
+
+343
+00:59:44.000 --> 01:00:01.809
+Toni Wahrstaetter: what things Card Devs think about potentially breaking in the future versus what are actually the hard guarantees that won't be broken. And it's easy to just say everything around gas, but probably there's a lot of assumptions taken around gas that are also,
+
+344
+01:00:02.170 --> 01:00:05.300
+Toni Wahrstaetter: Very set in stone versus others that are, like.
+
+345
+01:00:05.730 --> 01:00:10.790
+Toni Wahrstaetter: about to break with every potential repricing we have to do. So, one…
+
+346
+01:00:10.890 --> 01:00:27.269
+Toni Wahrstaetter: action item, I think that many people, have already, voiced, and also I saw it on the ACD agenda, would be to just be more clear in what are the things that might be breaking in the future. Vitalik already started,
+
+347
+01:00:27.700 --> 01:00:33.740
+Toni Wahrstaetter: listing some of those in his blog post, and I think we should just make it a more formal process.
+
+348
+01:00:34.210 --> 01:00:37.639
+Toni Wahrstaetter: and define those a little bit better. And this might…
+
+349
+01:00:37.930 --> 01:00:41.250
+Toni Wahrstaetter: It might not help with the current situation, but at least we can…
+
+350
+01:00:41.420 --> 01:00:43.719
+Toni Wahrstaetter: Do better in the future on that one.
+
+351
+01:00:52.430 --> 01:00:53.270
+danceratopz: Thanks, Toni.
+
+352
+01:01:05.740 --> 01:01:08.990
+danceratopz: Jango, you had, a question in the chat.
+
+353
+01:01:09.310 --> 01:01:13.539
+danceratopz: Regarding the change, and Milos wanted to ask.
+
+354
+01:01:14.090 --> 01:01:17.389
+danceratopz: whether this is similar to LZ Compose from Layer 0.
+
+355
+01:01:17.710 --> 01:01:20.129
+danceratopz: Which, in that case, should be affected as well.
+
+356
+01:01:23.420 --> 01:01:28.100
+Jango: I'm not sure about the Layer Zero, aspect,
+
+357
+01:01:28.100 --> 01:01:28.590
+danceratopz: Okay.
+
+358
+01:01:29.020 --> 01:01:38.070
+Jango: But, yeah, I think, like, in general, when I think about the fringe con… contract, Sentiment.
+
+359
+01:01:38.800 --> 01:01:43.019
+Jango: I think we know that the majority of contracts published on Ethereum are
+
+360
+01:01:43.170 --> 01:01:53.779
+Jango: copy-paste forks of standards, and those are standards for a reason. They give us confidence over things like ERC20s and the basics.
+
+361
+01:01:53.850 --> 01:02:11.240
+Jango: But looking at that as the… as what Ethereum is, and the fringe net new, trying to create new types of… of things, creative things that actually touch business, that touch the real world, that haven't been done a thousand times before, and maybe don't have the full…
+
+362
+01:02:11.490 --> 01:02:24.930
+Jango: capital at stake volume yet, but are working towards it, or maybe previous versions do, in the case of Juicebox, like Constitution DAO, Assange DAO, Tornado Cash Legal Defense, like, all of those projects have tens of millions of dollars in them, though the protocol has evolved
+
+363
+01:02:25.310 --> 01:02:34.769
+Jango: Due to security reasons. Those projects being safe, but, you know, trying to expand to accommodate general business onto Ethereum.
+
+364
+01:02:36.630 --> 01:02:49.639
+Jango: we are doing net new things. It's not just off-the-shelf OZ stuff. And it's… it's a… it's a delicate thing to shake the confidence of doing net new things on Ethereum.
+
+365
+01:02:55.080 --> 01:03:00.260
+danceratopz: Yeah, thanks, Jango, I appreciate it. I would just… I just wanted to ask you if…
+
+366
+01:03:02.150 --> 01:03:05.719
+danceratopz: from Marius's and Toni's answer, if…
+
+367
+01:03:06.560 --> 01:03:12.420
+danceratopz: We can do better as an ecosystem to bridge this gap between protocol developers and app developers.
+
+368
+01:03:12.950 --> 01:03:22.680
+danceratopz: And… From the protocol developer side, we can improve our processes and communicate more clearly, and certainly earlier.
+
+369
+01:03:23.100 --> 01:03:28.370
+danceratopz: Would… would that maintain your confidence in deploying on-chain? And…
+
+370
+01:03:29.440 --> 01:03:29.930
+Jango: Yeah.
+
+371
+01:03:29.930 --> 01:03:30.610
+danceratopz: work.
+
+372
+01:03:30.830 --> 01:03:50.720
+Jango: Yeah, I mean, like, to be honest, I think we're all very similar as people, as engineers, you know, we're very focused on our thing, you know, our part of the puzzle. And we all, you know, have edges of our puzzle that talk to each other, but we're so focused on what's right in front of us, and we take kind of the rest as assumptions.
+
+373
+01:03:50.910 --> 01:04:03.659
+Jango: That, you know, we lose sight of a lot of the communication puzzle, we delegate, we kind of… there's information lost at the edges. So it feels normal to me, you know, I empathize with that, a lot.
+
+374
+01:04:03.900 --> 01:04:09.200
+Jango: And it's tough to… to kind of end up in a settled state, like, tending towards
+
+375
+01:04:09.200 --> 01:04:33.510
+Jango: zero instead of trying to do more and accommodate more, more voices. You know, I think about this from our protocol perspective, it's like, there's users here, and there's a world of users, like, addressable market to come, and making decisions that go after, the addressable market, but, you know, don't fully attend to what's right, kind of already here and committed and fully, like, on board with all the trade-offs,
+
+376
+01:04:33.580 --> 01:04:39.729
+Jango: As stated… as stated, is a tough thing to negotiate, especially at scale.
+
+377
+01:04:39.940 --> 01:04:57.219
+Jango: So… I… I just want to say that we're on the same team, we're on the same page. There's obviously communication stuff that we can do better, there's assumptions that can be made clearer so that we can move forward with that confidence. but,
+
+378
+01:04:57.450 --> 01:05:10.750
+Jango: it's hard to put yourself in the kind of shoes of the puzzle piece next door, and I honestly want y'all to focus on your side of the puzzle piece as much as possible, because that's, like, dope, and I love being able to focus on mine, too.
+
+379
+01:05:10.870 --> 01:05:25.260
+Jango: It's just when we're then selling to users, not in the name of a sales process, necessarily, but in the name of actually having beliefs that we care about, that we're trying to, kind of…
+
+380
+01:05:25.490 --> 01:05:27.290
+Jango: reverberate.
+
+381
+01:05:27.540 --> 01:05:40.190
+Jango: so that others understand it, too, and reach that aha moment. And then when, you know, you've done all that work to get to that aha moment, and then certain bits feel fragile after the fact, it's… it's really hard to then
+
+382
+01:05:40.240 --> 01:05:52.840
+Jango: kind of retro-justify things. And I'm sure, like, what I'm saying here is not anything new, but it's the sentiment that I think is important to internalize.
+
+383
+01:05:56.080 --> 01:06:02.920
+danceratopz: Yeah, absolutely. I'm very glad you came here to share that today, and it's been taken on board.
+
+384
+01:06:03.800 --> 01:06:18.169
+danceratopz: We're definitely going to have a section a bit later in the call, about how we can better align our protocol work with the app layer. I think Toni already alluded to it before.
+
+385
+01:06:18.490 --> 01:06:22.299
+danceratopz: We can definitely do things better in the future, and we will strive to do that.
+
+386
+01:06:24.640 --> 01:06:25.560
+danceratopz: Marius?
+
+387
+01:06:26.930 --> 01:06:39.650
+Marius Van Der Wijden (M): Yeah, I think… Maybe part of the disconnect also comes from that like, the core deaf community has…
+
+388
+01:06:39.810 --> 01:06:45.230
+Marius Van Der Wijden (M): Made some of these decisions in the past already. That…
+
+389
+01:06:46.450 --> 01:06:52.890
+Marius Van Der Wijden (M): where… I don't know, with… 29, 30,
+
+390
+01:06:53.200 --> 01:06:57.440
+Marius Van Der Wijden (M): With the increase in state excess costs.
+
+391
+01:06:57.580 --> 01:07:09.170
+Marius Van Der Wijden (M): Where we knew, like, there would be some contracts, breaking, so… For us, that…
+
+392
+01:07:09.640 --> 01:07:21.759
+Marius Van Der Wijden (M): like, that assumption that everything is, like, every single contract on Ethereum, 100%, yeah… is immutable, isn't… is…
+
+393
+01:07:22.420 --> 01:07:27.830
+Marius Van Der Wijden (M): It's not… yeah, it's just, like, this, this,
+
+394
+01:07:28.000 --> 01:07:31.230
+Marius Van Der Wijden (M): This kind of assumption has been broken.
+
+395
+01:07:31.830 --> 01:07:39.500
+Marius Van Der Wijden (M): much earlier already, and we have kind of learned to live with it. Now…
+
+396
+01:07:39.700 --> 01:07:44.110
+Marius Van Der Wijden (M): We have to br-, like… I think we have to break it in a…
+
+397
+01:07:44.550 --> 01:07:56.259
+Marius Van Der Wijden (M): slightly bigger way than back then. But, yeah, I still think, like, we should be extremely, extremely cautious when we do this.
+
+398
+01:07:56.870 --> 01:08:02.829
+Marius Van Der Wijden (M): And, only ever do it in, like, the most important things, and…
+
+399
+01:08:09.450 --> 01:08:10.250
+Marius Van Der Wijden (M): Yep.
+
+400
+01:08:10.730 --> 01:08:18.309
+Marius Van Der Wijden (M): I'm… I… I don't… I'm not good app dev enough to…
+
+401
+01:08:18.850 --> 01:08:24.210
+Marius Van Der Wijden (M): To say whether there is, whether this means… like…
+
+402
+01:08:26.120 --> 01:08:29.800
+Marius Van Der Wijden (M): You cannot create any save, try, catch.
+
+403
+01:08:31.990 --> 01:08:33.279
+Marius Van Der Wijden (M): Anymore?
+
+404
+01:08:33.920 --> 01:08:41.590
+Marius Van Der Wijden (M): I'm pretty sure you still can create something, but yeah, it's,
+
+405
+01:08:46.149 --> 01:08:57.710
+Marius Van Der Wijden (M): I think part of the disconnect… what I'm trying to say is part of the disconnect happened much earlier, where the Core Devs community is, we're already, like.
+
+406
+01:08:57.920 --> 01:09:02.970
+Marius Van Der Wijden (M): two, three, parks ahead, and we… we see…
+
+407
+01:09:03.120 --> 01:09:09.040
+Marius Van Der Wijden (M): All of the things that will break, and we have come to terms with it, because we… we think
+
+408
+01:09:09.160 --> 01:09:16.470
+Marius Van Der Wijden (M): The, the… And justify the means, to some extent.
+
+409
+01:09:16.689 --> 01:09:24.340
+Marius Van Der Wijden (M): And… and… and that's where we're heading. So, and we… we cannot…
+
+410
+01:09:24.520 --> 01:09:28.699
+Marius Van Der Wijden (M): just ossify the state of Ethereum that is right now.
+
+411
+01:09:33.920 --> 01:09:35.240
+Stefan Bratanov: And can do if…
+
+412
+01:09:45.620 --> 01:09:49.400
+danceratopz: Thanks, Marius. Marius. Did anyone want to speak up?
+
+413
+01:09:49.660 --> 01:09:52.100
+danceratopz: On those points further.
+
+414
+01:09:56.670 --> 01:10:05.860
+Rahul (EF): On a… I had a question for Jango, I guess, on a more… Timely note, where…
+
+415
+01:10:06.400 --> 01:10:09.270
+Rahul (EF): What are your next steps on the Glamsterdam?
+
+416
+01:10:09.390 --> 01:10:11.520
+Rahul (EF): Breakages of your contract.
+
+417
+01:10:12.110 --> 01:10:16.320
+Rahul (EF): Is it, something that can be fixed, or…
+
+418
+01:10:22.260 --> 01:10:27.940
+Jango: So, yeah, it can be fixed in the current version of the protocol, and everything we do,
+
+419
+01:10:28.370 --> 01:10:38.260
+Jango: tries to be the last version of the protocol. Every version that has, preceded has been a security, you know, like, the recent
+
+420
+01:10:38.650 --> 01:10:47.029
+Jango: The year has been AI hardening of the protocol, as basically everyone's been doing, making sure we're the good guys to the punchline before bad guys can get there.
+
+421
+01:10:49.060 --> 01:10:56.730
+Jango: And feeling really, really good about how everything was deployed in June, ready to scale, ready to pour gas onto growth.
+
+422
+01:10:57.110 --> 01:11:05.210
+Jango: And now, having no confidence to, to even kind of,
+
+423
+01:11:05.580 --> 01:11:21.170
+Jango: assure current users that they should continue running their business on the protocol. And they obviously want to run immutable… they want to run their business on immutable protocols because… for obvious reasons. If…
+
+424
+01:11:21.170 --> 01:11:40.580
+Jango: there's, you know, there's bedrock underneath. They wouldn't want to do so if there wasn't, but, you know, Ethereum is the one beacon of potential hope that we may have bedrock to run business on top of. And I guess not just business, but campaigns, fundraising, legal defense funds, etc.
+
+425
+01:11:41.380 --> 01:11:51.179
+Jango: If we were to redeploy, the funds at risk right now on the latest version are, you know, in the fringe category, about $200K.
+
+426
+01:11:51.350 --> 01:12:10.299
+Jango: Not to mention, you know, developer costs, audit costs, deployment costs, etc, but still very, very meaningless compared to the great scope of Ethereum. The biggest thing is going to continue to be the confidence thing, which I think is really the value prop. It is the wealth that is
+
+427
+01:12:10.300 --> 01:12:16.470
+Jango: Ethereum. And if I were to deploy another contract with, you know, adjustments that make
+
+428
+01:12:16.610 --> 01:12:21.609
+Jango: try-catch composability work under glam,
+
+429
+01:12:23.480 --> 01:12:41.769
+Jango: I'm then hesitant to still sell the same immutable hope and value prop that I think we can be, and I think we should strive to be, because of the same reasons, you know? So it's kind of this ongoing, doubt that then we're gonna then gonna
+
+430
+01:12:41.990 --> 01:12:50.870
+Jango: cause, and I think there are certain precedents that have already been set, on breaking invariance that
+
+431
+01:12:50.990 --> 01:12:54.779
+Jango: Were trade-offs nonetheless, but may have…
+
+432
+01:12:56.060 --> 01:13:14.509
+Jango: not been as, as consequential to the theory that is Ethereum. I think composability is theoretically one of the most important things for app developers to build on the open internet, to try to make the open internet compete with private alternatives, which is, like, my mission. And…
+
+433
+01:13:14.690 --> 01:13:25.220
+Jango: It's, you know, there's maybe, like, a check that can come through the door that can make the system whole and allow us to spend the next few months on redeploying on a next version.
+
+434
+01:13:25.220 --> 01:13:42.310
+Jango: But does that then entail, finding ways to do so, and adding back governance, let's say, for, for, evolution? And the thing that I most despise is governance. Like, I think it is the fragile bit of… that I've learned doing Dow stuff for the past 5 years, is
+
+435
+01:13:42.400 --> 01:13:43.780
+Jango: governance is…
+
+436
+01:13:43.900 --> 01:13:58.290
+Jango: a huge, huge suck of energy and intellect, oftentimes. And what we really want is immutable revenue systems and, kind of tokens backed by revenue that just kind of work
+
+437
+01:13:58.400 --> 01:14:00.010
+Jango: And…
+
+438
+01:14:00.340 --> 01:14:08.950
+Jango: Yeah, it's tough to say, like, where I will sit from how I want to spend my life force, depending on how the decisions,
+
+439
+01:14:09.530 --> 01:14:23.090
+Jango: on how the cards fall with regard to GLAM, but I can, like, definitively say, like, there's not a ton of money at stake relative to the billion, like, you know, hundreds of billions of dollars of ecosystem value.
+
+440
+01:14:29.630 --> 01:14:31.730
+Rahul (EF): Okay, yeah, makes sense.
+
+441
+01:14:38.890 --> 01:14:42.590
+danceratopz: I think we're really… I mean…
+
+442
+01:14:43.660 --> 01:14:50.640
+danceratopz: I really appreciate your perspective, Jango, and I think the…
+
+443
+01:14:50.840 --> 01:14:58.160
+danceratopz: I think I can speak for protocol developers when I say that, essentially, Ethereum is nothing without the applications that run on it, and…
+
+444
+01:14:58.650 --> 01:15:04.180
+danceratopz: It's… without saying… Well, you don't even need to say it, but basically,
+
+445
+01:15:04.420 --> 01:15:10.620
+danceratopz: It's of the utmost important that we can maintain your confidence, right? And this is why we've opened up this call today.
+
+446
+01:15:10.740 --> 01:15:12.990
+danceratopz: And…
+
+447
+01:15:13.460 --> 01:15:22.160
+danceratopz: I think we can move now to basically saying how we would plan to help and better align, like, the app layer and the protocol layer going forward.
+
+448
+01:15:22.450 --> 01:15:29.420
+danceratopz: And then we can still keep time for Q&A afterwards. We can do it spontaneously, intermittently.
+
+449
+01:15:30.090 --> 01:15:37.110
+danceratopz: But essentially, we… We hear you, and we feel your pain, and
+
+450
+01:15:38.110 --> 01:15:44.359
+danceratopz: we can… we can definitely improve and do things better going forward, and we will strive to do this.
+
+451
+01:15:45.200 --> 01:15:53.890
+danceratopz: perhaps Rahul, who's already spoken to Nicole today, would just like to speak up to his role at the EF and maybe explain what
+
+452
+01:15:54.530 --> 01:15:57.309
+danceratopz: What work he's doing in order to guarantee this.
+
+453
+01:15:59.970 --> 01:16:10.559
+Rahul (EF): Yeah, thanks, Ann. Hello. Just to be clear, after this, would be very keen to hear from Epps about any questions you have around repricing or how to flex.
+
+454
+01:16:10.740 --> 01:16:18.649
+Rahul (EF): But now, so, in the last year, the Ethereum Foundation created a new cluster called the Access Layer.
+
+455
+01:16:18.930 --> 01:16:24.479
+Rahul (EF): And the access layer pretty much has one goal of better aligning
+
+456
+01:16:24.800 --> 01:16:27.999
+Rahul (EF): The app layer with the protocol layer,
+
+457
+01:16:28.530 --> 01:16:39.199
+Rahul (EF): That could be making it… making the app layer more crops, making it easier for apps to trust, or do trustless things on Ethereum, in the same way the protocol guarantees
+
+458
+01:16:39.310 --> 01:16:41.540
+Rahul (EF): Censorship resistance and other things.
+
+459
+01:16:41.770 --> 01:16:49.640
+Rahul (EF): Within Access Layer, there are two teams, the app enablement team and the builder enablement team, of which I'm a part of.
+
+460
+01:16:50.080 --> 01:16:54.169
+Rahul (EF): Who pretty much work with external apps.
+
+461
+01:16:54.330 --> 01:17:00.579
+Rahul (EF): Building on Ethereum, in certain cases L2s, and figuring out what's missing and what we can do.
+
+462
+01:17:01.080 --> 01:17:06.620
+Rahul (EF): The builder enablement team actually just completed a survey with over 50 teams.
+
+463
+01:17:06.770 --> 01:17:09.470
+Rahul (EF): that the EF usually doesn't…
+
+464
+01:17:09.830 --> 01:17:15.259
+Rahul (EF): have close coordination with to understand more about the pain points of building on the EVM.
+
+465
+01:17:16.300 --> 01:17:23.939
+Rahul (EF): this… the… the Glamsterdam Repricing outreach was actually a very good… Example, and, like,
+
+466
+01:17:24.820 --> 01:17:28.000
+Rahul (EF): The use case of our resources in figuring out
+
+467
+01:17:28.430 --> 01:17:35.439
+Rahul (EF): How we can reach out, not just to apps, but the direct engineering contacts, or the security contacts and apps.
+
+468
+01:17:35.840 --> 01:17:39.869
+Rahul (EF): Together with SEAL and these teams, we…
+
+469
+01:17:40.620 --> 01:17:48.980
+Rahul (EF): We feel quite confident that we have either good group chats with the right people, or have access to around 3,000 plus developers.
+
+470
+01:17:49.210 --> 01:17:51.370
+Rahul (EF): Building on L1 itself.
+
+471
+01:17:51.940 --> 01:18:04.929
+Rahul (EF): And as we found with chain security and Dedaub's help, like, more and more teams are getting affected, we could reach out to them and know that within one day, we'd get a lot of really good response from the right people.
+
+472
+01:18:05.400 --> 01:18:10.190
+Rahul (EF): Also, I'll reiterate, like, the whole reason…
+
+473
+01:18:10.870 --> 01:18:14.730
+Rahul (EF): we have decided to delay Glamsterdam was to put apps first.
+
+474
+01:18:15.030 --> 01:18:19.210
+Rahul (EF): Something that at least was really nice for me was
+
+475
+01:18:19.430 --> 01:18:30.200
+Rahul (EF): seeing that for Hegota and future Hoodi folks, how much work is going on in replaying a bunch of transactions and doing a lot of analysis on how EIPs will affect
+
+476
+01:18:31.410 --> 01:18:39.710
+Rahul (EF): And I think, like, for future conferences, we'll try to do more talks on what invariants may break, or what do app developers need to be aware of.
+
+477
+01:18:39.820 --> 01:18:47.140
+Rahul (EF): multiple months before the hard fork, as opposed to delaying it to whenever the next DEF CON is.
+
+478
+01:18:47.500 --> 01:18:53.540
+Rahul (EF): Also, like, There are certain things that…
+
+479
+01:18:53.830 --> 01:18:57.730
+Rahul (EF): So, Glamsterdam, in my opinion, is one of the most profound
+
+480
+01:18:58.230 --> 01:19:02.639
+Rahul (EF): Hard folks for app developers, in the sense of…
+
+481
+01:19:04.030 --> 01:19:13.570
+Rahul (EF): stacked too deep, and code sizes being increased were, like, two of the biggest pain points of building on Ethereum for a really, really long time, like, over 10 years.
+
+482
+01:19:13.900 --> 01:19:18.530
+Rahul (EF): And both of those do get fixed. There are a bunch of other quality of life improvements.
+
+483
+01:19:18.750 --> 01:19:25.419
+Rahul (EF): Obviously, repricing was one of those things that we tried to do for scaling and reducing transaction costs.
+
+484
+01:19:25.620 --> 01:19:34.309
+Rahul (EF): But we found out there were some security incidents about it, but we are hoping to make it such that every hotfolk, we improve more and more of the quality of life improvements.
+
+485
+01:19:34.430 --> 01:19:40.219
+Rahul (EF): All of that said, all I want app teams to know is
+
+486
+01:19:40.390 --> 01:19:46.890
+Rahul (EF): feel free to either hop on ACD Calls or… Reach out to… Any one of us?
+
+487
+01:19:47.180 --> 01:20:02.810
+Rahul (EF): If you have any feedback and stuff, and unrelated to this call, if you have more pointed feedback on how we can improve the communication for repricing, feel free to schedule a call with me. You can reach me out at glamstdammit at ethereum.org.
+
+488
+01:20:03.070 --> 01:20:05.829
+Rahul (EF): I actively monitor that email.
+
+489
+01:20:06.590 --> 01:20:11.420
+Rahul (EF): But yeah, if anyone else has anything else, feel free to jump in as well.
+
+490
+01:20:16.620 --> 01:20:20.930
+danceratopz: Thanks, Rahul. Did anyone… Sorry?
+
+491
+01:20:21.150 --> 01:20:26.290
+Marius Van Der Wijden (M): Yeah, there was, there was, a proposal…
+
+492
+01:20:26.430 --> 01:20:39.730
+Marius Van Der Wijden (M): from, from Dono, to create an EIP with all of the invariants, and, I… I don't know if the… if, like, creating an EIP is the right
+
+493
+01:20:40.070 --> 01:20:47.520
+Marius Van Der Wijden (M): way of… of specifying the invariance, but I do feel like there…
+
+494
+01:20:47.770 --> 01:20:52.899
+Marius Van Der Wijden (M): There needs to be some sort of documentation about
+
+495
+01:20:53.510 --> 01:21:04.549
+Marius Van Der Wijden (M): The invariance that we… that we are sure will never change, or as sure as we can be, that they will never change,
+
+496
+01:21:04.930 --> 01:21:15.519
+Marius Van Der Wijden (M): And the invariance that we are… that we are very sure that will change, in the future, and also links to
+
+497
+01:21:15.850 --> 01:21:25.280
+Marius Van Der Wijden (M): Why they will change, and, and then, like, yeah, just… giving a…
+
+498
+01:21:25.490 --> 01:21:35.930
+Marius Van Der Wijden (M): Giving a better sense, or a better look into the current thinking of core developers, around,
+
+499
+01:21:36.530 --> 01:21:42.509
+Marius Van Der Wijden (M): What is necessary to be changed, what is un… like, what is… what… what is…
+
+500
+01:21:43.900 --> 01:21:47.970
+Marius Van Der Wijden (M): Likely not going to change, and,
+
+501
+01:21:48.290 --> 01:21:53.030
+Marius Van Der Wijden (M): Why we think certain things have to change in the future.
+
+502
+01:22:00.750 --> 01:22:05.580
+danceratopz: Yeah, thanks, Marius. Mario, are you still in the call?
+
+503
+01:22:07.140 --> 01:22:07.640
+Mario Vega: I am here.
+
+504
+01:22:07.640 --> 01:22:10.750
+danceratopz: I just wondered if you wanted to speak up to some of the efforts
+
+505
+01:22:11.310 --> 01:22:15.020
+danceratopz: that we've just started doing, as part of the specs team.
+
+506
+01:22:15.020 --> 01:22:15.460
+Mario Vega: Yes.
+
+507
+01:22:15.460 --> 01:22:16.190
+danceratopz: Awesome.
+
+508
+01:22:16.190 --> 01:22:18.079
+Mario Vega: Definitely. Yeah, thanks.
+
+509
+01:22:18.370 --> 01:22:19.619
+Mario Vega: Thanks, Han, can you hear me?
+
+510
+01:22:20.240 --> 01:22:21.459
+danceratopz: Yep, I can hear you. Thanks, Frank.
+
+511
+01:22:21.460 --> 01:22:24.520
+Mario Vega: Nice, nice. Yeah, so, my name is Mario, I'm…
+
+512
+01:22:24.540 --> 01:22:41.490
+Mario Vega: Part of the specifications team, for the execution layer, we play a role in testing all the protocol changes that go into the fork, namely every change in Amsterdam, and basically also every single change in Kedota.
+
+513
+01:22:41.500 --> 01:22:53.580
+Mario Vega: And, yeah, I would like to start off with saying that EIP87 has definitely left a mark on everyone that is testing, and that is, like, working on the specifications.
+
+514
+01:22:53.650 --> 01:23:02.830
+Mario Vega: I feel like now, more than ever, we cannot simply just eat up any specification change that comes our way, and just basically
+
+515
+01:23:02.930 --> 01:23:12.899
+Mario Vega: not see it through the lens of the application layer, because it's, it's been, like, we've, we, our work is basically just,
+
+516
+01:23:13.000 --> 01:23:24.279
+Mario Vega: to test the protocol invariants and make sure that they don't break, they don't… we don't have consensus changes, but also, like, I feel like it's also on our side to…
+
+517
+01:23:24.280 --> 01:23:42.010
+Mario Vega: foresee any of these issues that might come up, and for that, we have a couple of ideas of how we can do a better job in the future, with the specification changes, and one of them is trying to see that the invariants that we tell the users are definitely not gonna break.
+
+518
+01:23:42.010 --> 01:23:54.719
+Mario Vega: So this would be on top of, like, us, testing for protocol changes, also, like, paying attention on these things. We're definitely gonna,
+
+519
+01:23:55.000 --> 01:24:00.239
+Mario Vega: have a more focused mindset on the user, and I would definitely, like.
+
+520
+01:24:00.450 --> 01:24:19.030
+Mario Vega: for, like, us to see, specifically the CFI and the, well, the consider for inclusion EIPs for the next forks, I think we have to rethink and really clear… clearly think through if there is any changes that we are not foreseeing. Of course, we're not always going to be able to
+
+521
+01:24:19.030 --> 01:24:23.040
+Mario Vega: Like, predict every single way every user,
+
+522
+01:24:23.040 --> 01:24:36.570
+Mario Vega: does things in Ethereum. That's basically a very, very difficult thing to do, but at least we… we can, say that we are gonna try to, put a…
+
+523
+01:24:36.800 --> 01:24:45.350
+Mario Vega: A better effort on trying to just basically pull tools in our disposal to better foresee these things in the spec changing.
+
+524
+01:24:45.420 --> 01:24:57.109
+Mario Vega: Other thing is that, I would like to, for us to not… I mean, it's very easy for the specs to change, right? It's, like, one… a simple line of code sometimes.
+
+525
+01:24:57.160 --> 01:25:09.550
+Mario Vega: But I would say that now, more than ever, we really have to stop and think, stop… if a test breaks, we have to stop and think why it breaks, and not simply let the AI just go
+
+526
+01:25:09.550 --> 01:25:22.800
+Mario Vega: go nuts and fix it and make no mistakes. I think we should… it is part of our job to stop and think about every single test that breaks with every single specification change.
+
+527
+01:25:23.030 --> 01:25:24.520
+Mario Vega: Yeah.
+
+528
+01:25:24.750 --> 01:25:27.330
+Mario Vega: in the, in the ACDT…
+
+529
+01:25:27.510 --> 01:25:44.640
+Mario Vega: Agenda, we linked two examples. I think those are not final, I would say, so we have, it's just ideas, but I think we're gonna keep working on iterating on those to make sure that we have something different in the specs, and some new tools to help us out with this in the future, yeah.
+
+530
+01:25:49.390 --> 01:25:50.280
+danceratopz: Awesome.
+
+531
+01:25:50.410 --> 01:25:51.820
+danceratopz: Thanks a lot.
+
+532
+01:25:52.870 --> 01:26:06.029
+danceratopz: Mario, for sharing that. I can just drop, so I did… thanks a lot, Ryan, for the question in the chat, and there's definitely action items, and there's definitely work ongoing to communicate better and investigate these things earlier.
+
+533
+01:26:06.280 --> 01:26:08.430
+danceratopz: In future work, and…
+
+534
+01:26:08.790 --> 01:26:17.789
+danceratopz: basically, as part of the specs team, we're obviously… we write the… well, just so you know, we write the, basically the canonical sort of reference specification in Python.
+
+535
+01:26:17.930 --> 01:26:31.440
+danceratopz: Which should be easy to read. And then we use, this specification to generate test vectors, that are used to, verify client implementations. That's basically our work. So we're… we're obviously very close,
+
+536
+01:26:31.750 --> 01:26:48.680
+danceratopz: to the specs, without… needless to say. I just copy and pasted this comment in the chat. Basically, there's a couple of PRs here, they're open at the moment. One's from Toni, who's, works on architecture in the call, and another one is from Felipe A. on the specs team.
+
+537
+01:26:48.970 --> 01:26:52.789
+danceratopz: Mario has another PR open that can be used
+
+538
+01:26:53.250 --> 01:27:02.170
+danceratopz: To verify correct behavior against our canonical specs. So we're directly taking measures right now to… to try and improve the situation.
+
+539
+01:27:02.840 --> 01:27:05.570
+danceratopz: And…
+
+540
+01:27:05.740 --> 01:27:13.199
+danceratopz: Anders in the chat actually said that defining… so Anders is a protocol researcher, so he's at the other end, so if you have
+
+541
+01:27:13.640 --> 01:27:21.350
+danceratopz: The users, the app layer, the client Devs, and you have the specs, which is our team, and behind that, you have,
+
+542
+01:27:21.480 --> 01:27:36.159
+danceratopz: the researchers that are basically coming up with the best way to try and improve Ethereum. They also are grateful to have these specs implemented in Python and concrete, and Anders all just said that basically specifying these invariences also helps their work. So…
+
+543
+01:27:36.260 --> 01:27:38.760
+danceratopz: This is something that really helps,
+
+544
+01:27:39.240 --> 01:27:48.040
+danceratopz: researchers and programmers across the ecosystem to do their job better. So it's in all of our interests, and obviously, without saying, Ethereum's
+
+545
+01:27:48.290 --> 01:27:51.479
+danceratopz: I would also just add,
+
+546
+01:27:51.650 --> 01:28:03.329
+danceratopz: Oh, sorry, I just copy-pasted the wrong thing. Let me… let me grab the other thing I wanted to paste. So, P. Chavazzio… sorry, P. Chervatio, who's, like.
+
+547
+01:28:04.130 --> 01:28:16.010
+danceratopz: An EF board member from earlier this year, basically has written up his own take on this on Twitter, and also dropped it on the… on today's call issue. I shared the link in the chat.
+
+548
+01:28:16.430 --> 01:28:19.220
+danceratopz: He outlines, basically,
+
+549
+01:28:20.370 --> 01:28:32.319
+danceratopz: a whole list of things that we can do to improve the situation, and I think we've spoken to most of them already in the call today, but he calls for us to formalize invariance
+
+550
+01:28:32.650 --> 01:28:36.810
+danceratopz: To incorporate them into the specifications, test them continuously.
+
+551
+01:28:37.150 --> 01:28:41.529
+danceratopz: Test deployed applications and make compatibility explicit.
+
+552
+01:28:41.790 --> 01:28:44.999
+danceratopz: And, certainly the…
+
+553
+01:28:45.510 --> 01:28:53.740
+danceratopz: first three points, are being actively worked on in our repository, which is, Ethereum execution specs. So,
+
+554
+01:28:54.270 --> 01:28:57.680
+danceratopz: We've… we've heard the call, and we're working towards it.
+
+555
+01:29:13.330 --> 01:29:18.680
+danceratopz: Okay, does anyone have anything else to add on that point?
+
+556
+01:29:19.440 --> 01:29:21.650
+danceratopz: Or any other open questions?
+
+557
+01:29:29.880 --> 01:29:38.300
+danceratopz: There's an awful lot of chatter in the chat, and it's a bit hard to keep up with, but if your question's really important, then please raise it. Very happy to have it.
+
+558
+01:29:39.250 --> 01:29:43.610
+danceratopz: Floated in the… In the chat.
+
+559
+01:29:44.840 --> 01:29:45.780
+danceratopz: Nicole?
+
+560
+01:29:46.630 --> 01:29:49.110
+danceratopz: Trying to keep up right now.
+
+561
+01:29:49.900 --> 01:29:57.569
+danceratopz: So the last question is from Justin, who's a protocol dev at Besu. Are we still shipping 8037?
+
+562
+01:29:58.520 --> 01:30:00.470
+danceratopz: I think…
+
+563
+01:30:01.080 --> 01:30:14.180
+danceratopz: That's… that's not a decision that I would like to make in this call today. I think we need to disseminate the information a little bit more, and I think chain security and Dedaub will share their reports.
+
+564
+01:30:14.540 --> 01:30:19.830
+danceratopz: And we'll heal back and be in touch with protocol, with DAP protocols.
+
+565
+01:30:20.570 --> 01:30:23.580
+danceratopz: And I think we can…
+
+566
+01:30:23.890 --> 01:30:29.580
+danceratopz: But from what I can take from the call, I think… that…
+
+567
+01:30:31.320 --> 01:30:38.070
+danceratopz: This is not a great situation to be in, clearly, and we can do better, and we're striving to do better in the future.
+
+568
+01:30:38.940 --> 01:30:41.570
+danceratopz: But I think…
+
+569
+01:30:42.460 --> 01:30:52.339
+danceratopz: that it's quite difficult to… to remove 8037 without a serious delay to Glamsterdam, and I'm talking, sort of, of the order of potentially half a year.
+
+570
+01:30:53.080 --> 01:30:56.389
+danceratopz: It's also a very important,
+
+571
+01:30:56.740 --> 01:31:01.400
+danceratopz: change to make in order to keep state growth sustainable on Ethereum.
+
+572
+01:31:02.630 --> 01:31:08.190
+danceratopz: So… I…
+
+573
+01:31:08.350 --> 01:31:15.720
+danceratopz: I really appreciate the app developers to come here today and express their opinion, and in particular Jango for speaking up on behalf of them.
+
+574
+01:31:15.900 --> 01:31:17.310
+danceratopz: But we will…
+
+575
+01:31:18.110 --> 01:31:25.350
+danceratopz: We'll move forward, and I think Ansgar's got his hand up. Ansgar's ACDE moderator, the execution layer, core Devs call.
+
+576
+01:31:25.510 --> 01:31:30.770
+danceratopz: I think that's something that they'll discuss on Thursday. Ansgar, would you like to chime in?
+
+577
+01:31:31.250 --> 01:31:32.539
+Ansgar Dietrichs: Yeah, can you hear me?
+
+578
+01:31:33.090 --> 01:31:34.060
+danceratopz: Yep, I can hear you.
+
+579
+01:31:34.060 --> 01:31:40.689
+Ansgar Dietrichs: Perfect. Yeah, I mean, I just wanted to basically, like, plus one what you said just now. I think it is clearly, like, a…
+
+580
+01:31:41.060 --> 01:31:49.990
+Ansgar Dietrichs: not ideal situation that we find ourselves in, and I do think this has kind of, like, been iterated a few times today already. I think, A.
+
+581
+01:31:50.100 --> 01:31:55.270
+Ansgar Dietrichs: things definitely didn't go ideally to even get to this place, but I think more importantly, also, like.
+
+582
+01:31:55.480 --> 01:32:09.880
+Ansgar Dietrichs: this is not going to be the last hard fork that, whether it now goes ahead or not, that will make changes to the execution system. Some of these will just be inevitable with quantum and everything coming up.
+
+583
+01:32:09.990 --> 01:32:20.880
+Ansgar Dietrichs: And we just need to get to basically now take on that challenge of just being much more proactive, much more actively communicating, working with the ecosystem, like…
+
+584
+01:32:21.170 --> 01:32:34.559
+Ansgar Dietrichs: making sure that for future hard folks, everyone is on the same page. Early on, we understand, kind of, like, the potential things that will be impacted, how we can minimize that while there's still room to change EIPs, all these kind of things, so I think
+
+585
+01:32:34.560 --> 01:32:47.790
+Ansgar Dietrichs: all of this, we are all coming out of this situation with this kind of shared conviction on doing this, and I think today's call is also a great step in that direction with so much participation, and I think we all agree that that needs to improve.
+
+586
+01:32:48.470 --> 01:32:53.179
+Ansgar Dietrichs: In… in terms of Glamsterdam itself, I also just wanted to…
+
+587
+01:32:53.340 --> 01:33:02.920
+Ansgar Dietrichs: to say that today was not meant to be about decisions. We have the ACDE call on Thursday,
+
+588
+01:33:04.710 --> 01:33:09.139
+Ansgar Dietrichs: I just also wanted to stress that there is still a strong…
+
+589
+01:33:10.110 --> 01:33:26.440
+Ansgar Dietrichs: desire, at least, to try to move ahead with the fork as it stands today. And that is not coming out of an ignorance of the cost, both in terms of direct affected projects, but also, like, the costs of, say, weakening the trust in the invariance of Ethereum.
+
+590
+01:33:26.440 --> 01:33:31.970
+Ansgar Dietrichs: But it's coming just from a place of, like, just the trade-off, and the very real cost, like…
+
+591
+01:33:32.060 --> 01:33:39.869
+Ansgar Dietrichs: especially given that I think Ethereum is really trying to now move fast with the post-quantum transition, and the execution layer side of this is the most
+
+592
+01:33:39.870 --> 01:34:04.520
+Ansgar Dietrichs: urgent, because obviously, on the Consensus layer, once you transition, you transition, but on the execution layer, once you allow users to transition their wallets and their accounts, it will take a very long time for all users to do that, because you also don't want to rush users, right? Like, you want the entire toolchain, the wallets, everyone to be fully ready for this transition, so basically, like, having the starting point of this, of this process as soon as possible, with basically the protocol supporting full post-quantum accounts.
+
+593
+01:34:04.750 --> 01:34:19.930
+Ansgar Dietrichs: I think it's really, really important in this moment in time. And so, because of that, just the cost of making changes to Glamsterdam is just so, so, so high, because of that specific kind of context that it's in. Doesn't mean that
+
+594
+01:34:20.110 --> 01:34:35.709
+Ansgar Dietrichs: it's a locked-in decision that we won't, 100%, but I'm just saying, my plea, basically, would be for everyone affected here, directly or indirectly, to at least… to basically, like, I think we should try very hard to see, can we still go ahead with Amsterdam as is?
+
+595
+01:34:36.240 --> 01:34:56.219
+Ansgar Dietrichs: the call on Thursday will be focused on that question. If at all possible, I really think it would be incredibly valuable for Ethereum at this moment in time, but then again, only combined with us learning the right lessons out of this going forward. So, that's all I wanted to say. But yeah, on Thursday, obviously, we will have the full room to go into this, and there's no
+
+596
+01:34:56.220 --> 01:34:58.820
+Ansgar Dietrichs: Pre-made decision here in any way.
+
+597
+01:35:04.200 --> 01:35:06.290
+danceratopz: Thanks a lot, Anskar, for clarifying that.
+
+598
+01:35:06.410 --> 01:35:13.320
+danceratopz: Hubert from ChainSecurity would like to ask your questions? Are you… are you ready for now?
+
+599
+01:35:13.490 --> 01:35:21.669
+Hubert (ChainSecurity): Yeah, so, the… my question is, what prevents the Ethereum Foundation? I mean, we now have seen
+
+600
+01:35:21.790 --> 01:35:26.260
+Hubert (ChainSecurity): Two different teams, kind of doing this kind of impact analysis.
+
+601
+01:35:26.430 --> 01:35:33.320
+Hubert (ChainSecurity): with different tools, we've, previously seen Eat Labs do a great job with this, impact analysis.
+
+602
+01:35:33.680 --> 01:35:37.250
+Hubert (ChainSecurity): What prevents the Ethereum Foundation from maintaining this
+
+603
+01:35:37.650 --> 01:35:46.299
+Hubert (ChainSecurity): capability to do this impact analysis. Whenever they do any kind of protocol change, because.
+
+604
+01:35:46.300 --> 01:35:48.690
+Trent Van Epps: It's really, it's really hard to hear you, you.
+
+605
+01:35:48.920 --> 01:35:51.120
+Trent Van Epps: If you can move closer to your mic or something.
+
+606
+01:35:51.750 --> 01:35:52.540
+Hubert (ChainSecurity): Sorry.
+
+607
+01:35:52.540 --> 01:35:58.870
+Marius Van Der Wijden (M): I think I get what you're trying to say. You are asking why we don't have this capability in-house.
+
+608
+01:35:59.050 --> 01:36:14.629
+Marius Van Der Wijden (M): And the answer to this is we started building up this capability in-house, but unfortunately, due to budget restrictions and reorganization, we had to let people that were working on this go.
+
+609
+01:36:19.030 --> 01:36:21.660
+Hubert (ChainSecurity): Thanks, sorry for my audio troubles.
+
+610
+01:36:22.460 --> 01:36:26.710
+danceratopz: No problem. I think we heard it. Thanks, Marius. Toni?
+
+611
+01:36:27.810 --> 01:36:39.140
+Toni Wahrstaetter: Yeah, just to add to that, so this was something that was, I mean, originally initiated by EthPandaOps, by Francesco, and led us to discovering, like, all the…
+
+612
+01:36:39.270 --> 01:36:46.710
+Toni Wahrstaetter: invariants and all the protocols that were, affected initially. So we did this for the first time, and we never had, like.
+
+613
+01:36:46.870 --> 01:36:49.040
+Toni Wahrstaetter: Issues that were that deep.
+
+614
+01:36:49.790 --> 01:37:04.360
+Toni Wahrstaetter: Of course, AI also involved a lot in the recent years, making such broad analysis even possible, and I think in the future, or I'm very certain, that we will just keep doing exactly that, like, letting agents,
+
+615
+01:37:04.860 --> 01:37:11.610
+Toni Wahrstaetter: Manually parse through all the contacts and find issues. And at the same time, we should probably also engage
+
+616
+01:37:12.080 --> 01:37:18.889
+Toni Wahrstaetter: Security auditing companies earlier on, because they have also a lot of insights into coding patterns.
+
+617
+01:37:19.120 --> 01:37:23.729
+Toni Wahrstaetter: Yeah, I think this is… will already be a great first step to avoid.
+
+618
+01:37:23.830 --> 01:37:26.149
+Toni Wahrstaetter: Such issues in the future.
+
+619
+01:37:30.990 --> 01:37:40.100
+danceratopz: Thanks, Toni. Tanguy echoed the question in the chat, by the way, from Hubert. So what prevents us from maintaining this? And yeah, I think that's been answered, that we can… we can move forward to…
+
+620
+01:37:40.870 --> 01:37:44.160
+danceratopz: maintaining this infrastructure in the EF as well.
+
+621
+01:37:44.690 --> 01:37:46.160
+danceratopz: Daniel?
+
+622
+01:37:47.120 --> 01:37:58.770
+Daniel Gretzke: Hi, Daniel from Uniswap here. I understand that there is a strong desire to just keep going, because already a lot of work has gone in, it causes a lot of delays.
+
+623
+01:37:59.040 --> 01:38:11.559
+Daniel Gretzke: But I really want to emphasize that 8037 should definitely be reconsidered, especially the handling of the gas reservoir, because this just fundamentally breaks
+
+624
+01:38:11.720 --> 01:38:17.439
+Daniel Gretzke: Some assumptions that we have basically fundamentally catch… Where breaks try catching.
+
+625
+01:38:17.640 --> 01:38:29.379
+Daniel Gretzke: And also introduces a bunch of second-order effects that create a very difficult UX for the end users of the applications on Ethereum.
+
+626
+01:38:29.570 --> 01:38:37.130
+Daniel Gretzke: I do… for me, you know, it's totally fine that gas assumptions
+
+627
+01:38:37.340 --> 01:38:45.539
+Daniel Gretzke: are allowed to break. And we should not, you know, be using very conservative, hard-coated gas.
+
+628
+01:38:45.660 --> 01:38:48.229
+Daniel Gretzke: I think everyone's aware of this,
+
+629
+01:38:48.400 --> 01:38:50.840
+Daniel Gretzke: I do think that the main issue is that
+
+630
+01:38:51.160 --> 01:39:04.479
+Daniel Gretzke: when we add implicit branching based on the transaction gas that a user sets, or these kinds of things, I would… I would argue that this would fundamentally break how we
+
+631
+01:39:05.530 --> 01:39:08.229
+Daniel Gretzke: Build contracts, and…
+
+632
+01:39:08.510 --> 01:39:15.579
+Daniel Gretzke: Yeah, so I just wanted to emphasize that this really needs to be rethought, and all kind of also edge cases handled.
+
+633
+01:39:16.030 --> 01:39:18.899
+Daniel Gretzke: Before actually considering moving forward with it.
+
+634
+01:39:23.260 --> 01:39:25.529
+Jango: Needless to say, big plus one.
+
+635
+01:39:27.470 --> 01:39:29.359
+danceratopz: Thanks, Tanya, for speaking up.
+
+636
+01:39:29.550 --> 01:39:31.830
+danceratopz: Tony, you've got your hands up.
+
+637
+01:39:32.010 --> 01:39:32.500
+Toni Wahrstaetter: Yeah.
+
+638
+01:39:32.500 --> 01:39:33.640
+danceratopz: Would you want to take Simon?
+
+639
+01:39:34.080 --> 01:39:39.340
+Toni Wahrstaetter: Yeah, what I can add to this discussion is that from the spec side, we have been looking into
+
+640
+01:39:39.370 --> 01:39:54.979
+Toni Wahrstaetter: ways how to resolve the situation, and the problem there is basically that there isn't really a nice solution that fits everyone. So, doing small tweaks to the specs would introduce, like, other broken variants.
+
+641
+01:39:55.170 --> 01:40:12.670
+Toni Wahrstaetter: And the underlying… just to provide some background here, one of the issues why A37 was even needed was because, for security reasons, we had, for example, the transaction limit cap EIP7A25 in the last port.
+
+642
+01:40:12.900 --> 01:40:20.839
+Toni Wahrstaetter: And in order to even be able to deploy Max Di's contract, which app developers were chasing us for years.
+
+643
+01:40:20.870 --> 01:40:40.779
+Toni Wahrstaetter: To ship, and in order to deploy those, we didn't even have enough gas per transaction available anymore to deploy those. So, for example, changes like just removing 8037 would also mean we will not be able to deploy those big contracts anymore, and other downsides that will appear downstream.
+
+644
+01:40:40.920 --> 01:40:49.659
+Toni Wahrstaetter: So, I think we should be very hesitant in changing the specs, just because it comes with huge cost, especially when it comes to security right now.
+
+645
+01:40:49.820 --> 01:40:52.990
+Toni Wahrstaetter: And I would prefer, like, while…
+
+646
+01:40:54.320 --> 01:40:59.499
+Toni Wahrstaetter: like, not closing the topic right now and moving on with scheduling Hoodi, we should still…
+
+647
+01:40:59.710 --> 01:41:04.979
+Toni Wahrstaetter: Be aware that any changes we do to the specs right now come with a very big cost.
+
+648
+01:41:10.190 --> 01:41:17.859
+Daniel Gretzke: I mean, generally, I'd be… I'd prefer to wait for an increased smart contract size limit, if that means
+
+649
+01:41:18.270 --> 01:41:27.339
+Daniel Gretzke: you know, we can fix all the other issues. Like, all the other issues are way more important to me than the small contract size limit, which is nice, but…
+
+650
+01:41:27.860 --> 01:41:32.139
+Daniel Gretzke: I think the other part would be worse, just speaking as an app dev.
+
+651
+01:41:32.940 --> 01:41:40.699
+Toni Wahrstaetter: Yeah, no, I totally agree with you. This was just one of the examples that is, like, obviously interacting with this topic.
+
+652
+01:41:40.810 --> 01:41:51.720
+Toni Wahrstaetter: But there are many, like, things where you can do small tweaks to the specs right now, for example, refunding into the reservoir itself instead of execution gas, or moving the refund.
+
+653
+01:41:51.880 --> 01:42:03.389
+Toni Wahrstaetter: after that transaction. But in the end, you would just… like, at least that's what we have found so far. You would just introduce different invariants, and most of the things that are breaking
+
+654
+01:42:03.550 --> 01:42:10.029
+Toni Wahrstaetter: like, I think 90% of them are just because of state becoming more expensive, and
+
+655
+01:42:10.530 --> 01:42:18.690
+Toni Wahrstaetter: There's basically nothing we can do about that, because in the end, it's just a trade-off between keeping hardware requirements low, and at the same time.
+
+656
+01:42:18.930 --> 01:42:20.939
+Toni Wahrstaetter: Limiting state growth.
+
+657
+01:42:21.740 --> 01:42:29.099
+Toni Wahrstaetter: So it's just a very difficult issue to resolve, and for those hard-coded gas, problems.
+
+658
+01:42:29.360 --> 01:42:38.579
+Toni Wahrstaetter: There might just not be a good solution, except us finding an actual sustainable solution, how we are handling state, but we don't have that, unfortunately.
+
+659
+01:42:51.060 --> 01:42:57.569
+danceratopz: Thanks for the, question, Daniel, and thanks for answering, Toni. I think, Daniel, I think the problem is it…
+
+660
+01:42:57.720 --> 01:43:03.639
+danceratopz: What we're doing is a trade-off, and it's a hard problem to solve.
+
+661
+01:43:07.950 --> 01:43:13.929
+danceratopz: and in general, as Dragan wrote in the chat, there's basically no silver bullet to solving this problem, and that…
+
+662
+01:43:14.220 --> 01:43:21.200
+danceratopz: In order to… to mitigate Ethereum state growth, like, any kind of 2D gas version is likely to break something.
+
+663
+01:43:27.700 --> 01:43:34.069
+danceratopz: So it's… it's… it's a… it's a difficult problem to solve, basically, is the main message, and
+
+664
+01:43:34.250 --> 01:43:37.630
+danceratopz: Unfortunately, there's… there's some trade-off to be… to be made there.
+
+665
+01:43:37.980 --> 01:43:39.549
+danceratopz: Neville?
+
+666
+01:43:41.650 --> 01:43:51.440
+neville (Dedaub): Hey, so after looking at a bunch of contracts, and also, like, speaking to affected developers, one thing we realized is,
+
+667
+01:43:51.800 --> 01:43:54.729
+neville (Dedaub): There's no reliable way for,
+
+668
+01:43:55.220 --> 01:44:01.710
+neville (Dedaub): For callers to distinguish whether a collie has reverted due to natural causes.
+
+669
+01:44:01.960 --> 01:44:04.640
+neville (Dedaub): Or whether it was out of gas.
+
+670
+01:44:04.930 --> 01:44:07.739
+neville (Dedaub): Invalid upCode or something like that. So…
+
+671
+01:44:08.040 --> 01:44:12.350
+neville (Dedaub): This is something for the core devs to contemplate about, but
+
+672
+01:44:12.530 --> 01:44:19.209
+neville (Dedaub): You know, consider including, like, an opcode by which you can introspect the last call status.
+
+673
+01:44:19.770 --> 01:44:24.240
+neville (Dedaub): And there's… A lot more to discuss about that.
+
+674
+01:44:24.830 --> 01:44:28.090
+neville (Dedaub): But this is something that changes with Glamsterdam.
+
+675
+01:44:32.350 --> 01:44:35.659
+Marius Van Der Wijden (M): Yeah, someone already put in chat that,
+
+676
+01:44:35.990 --> 01:44:47.979
+Marius Van Der Wijden (M): like, it's… it's a common theme that whenever I think of something, I see a post from… from Martin Holste from, like, 5 years ago, who discussed the same thing.
+
+677
+01:44:47.980 --> 01:44:56.820
+Marius Van Der Wijden (M): And one of his posts was about how it would be really nice for a call to give the revert reason.
+
+678
+01:44:57.760 --> 01:45:11.379
+Marius Van Der Wijden (M): Unfortunately, what we have right now is that, zero means good, sorry, 0 means bad, and 1 means good, and so you cannot really introduce other
+
+679
+01:45:11.720 --> 01:45:15.960
+Marius Van Der Wijden (M): Types, because there's a bunch of contracts that, like, hack
+
+680
+01:45:16.600 --> 01:45:23.210
+Marius Van Der Wijden (M): Whether… whether it's non-zero, whether the return value is non-zero, and… and brand on that.
+
+681
+01:45:25.390 --> 01:45:37.300
+Marius Van Der Wijden (M): I think there's… there might be a way of introducing some new operation to get… similar to… to, return data, to get the…
+
+682
+01:45:37.870 --> 01:45:43.269
+Marius Van Der Wijden (M): To get a revert reason for the previous subcall.
+
+683
+01:45:43.470 --> 01:45:48.610
+Marius Van Der Wijden (M): It's something that we can…
+
+684
+01:45:49.950 --> 01:45:55.920
+Marius Van Der Wijden (M): discuss and talk about, but adding that to a Glamsterdam hard fork again would
+
+685
+01:45:56.290 --> 01:46:04.019
+Marius Van Der Wijden (M): increase the time to ship it by, like, 3 to 4 months, I would say. So, yeah.
+
+686
+01:46:14.260 --> 01:46:15.210
+danceratopz: Thanks, Grace.
+
+687
+01:46:21.200 --> 01:46:30.769
+danceratopz: So, Milos just asked in the chat, I saw… Milos have to apologize, I only saw your comment on the issue, like, halfway through the call.
+
+688
+01:46:31.120 --> 01:46:36.740
+danceratopz: So if you wanted to step up and make your point, you're very welcome to do that now.
+
+689
+01:46:38.160 --> 01:46:43.869
+Milos | enso.build: Oh, yeah, no problem. No, here I was just asking,
+
+690
+01:46:44.120 --> 01:46:49.109
+Milos | enso.build: Because, like, there seems there are a lot of comments on, like, even possible solution.
+
+691
+01:46:49.500 --> 01:46:53.240
+Milos | enso.build: But the response is, that…
+
+692
+01:46:53.680 --> 01:46:59.079
+Milos | enso.build: it can't be done in a reasonable time frame, which, I mean, is understandable, it takes time.
+
+693
+01:46:59.250 --> 01:47:07.620
+Milos | enso.build: But what will be the issue, of postponing by a couple of months and address everything the best that we can?
+
+694
+01:47:12.490 --> 01:47:21.870
+Marius Van Der Wijden (M): Well, to be honest, like, even the… this opcode to get the revert reason will not address anything, because it is…
+
+695
+01:47:21.940 --> 01:47:35.910
+Marius Van Der Wijden (M): a new opcode, and it will not fix any contracts that are broken with this right now, and people would need to redeploy anyway, and so it's kind of pointless to debate this. But in general, I think there's…
+
+696
+01:47:36.560 --> 01:47:37.860
+Marius Van Der Wijden (M): that is…
+
+697
+01:47:38.150 --> 01:47:56.630
+Marius Van Der Wijden (M): A general feeling around the Core Devs is that we have to move very deliberately and very quickly in the next coming years, because of advanced, advancements in, quantum, computers and…
+
+698
+01:47:56.680 --> 01:48:01.819
+Marius Van Der Wijden (M): In AI in order to keep Ethereum secure. So I think we don't…
+
+699
+01:48:02.050 --> 01:48:04.579
+Marius Van Der Wijden (M): Really don't have any time to waste.
+
+700
+01:48:11.030 --> 01:48:23.269
+danceratopz: Yeah, thanks, Marius. Ansgar also answered Milos in the chat. So yeah, that… to Jango, I think, you also received a… received a response. And yeah, basically, clam is a precondition, so…
+
+701
+01:48:23.510 --> 01:48:27.080
+danceratopz: To answer that question, Hagota?
+
+702
+01:48:27.460 --> 01:48:33.010
+danceratopz: Which is the next fork after Glamsterdam, which is already in active development, and there's been…
+
+703
+01:48:33.420 --> 01:48:38.279
+danceratopz: several DevNets already is actually built on top of Glamsterdam, so if we…
+
+704
+01:48:38.800 --> 01:48:41.609
+danceratopz: to undo Glamsterdam's work with not only
+
+705
+01:48:42.150 --> 01:48:46.199
+danceratopz: I mean, we can't undo Glamsterdam, we need some parts of Glamsterdam.
+
+706
+01:48:46.390 --> 01:48:54.249
+danceratopz: But if we decided to take parts of it out, we'd have to redo the work for Hegota as well. It's… it's an expensive change at this point in time.
+
+707
+01:48:54.700 --> 01:49:04.190
+danceratopz: And just to echo the fact that, We're… we're basically putting, Quantum and AI,
+
+708
+01:49:04.780 --> 01:49:12.869
+danceratopz: acceleration, basically at the core of our, you know, like, our security upgrades, and we want to keep Ethereum secure and make sure that,
+
+709
+01:49:13.110 --> 01:49:20.579
+danceratopz: with the acceleration of mathematics, thanks to AI, that Ethereum can stay safe going forward. And I think that's…
+
+710
+01:49:21.020 --> 01:49:23.650
+danceratopz: One part that definitely,
+
+711
+01:49:24.100 --> 01:49:27.879
+danceratopz: influences this decision. It's… there's a lot of moving parts.
+
+712
+01:49:38.450 --> 01:49:49.470
+danceratopz: All right, we are actually already over time. Given the importance of a discussion, I did not want to rush it to a conclusion. Thanks a lot to everyone who could stay around.
+
+713
+01:49:51.110 --> 01:49:58.730
+danceratopz: Before we chime off, is there any other questions, or is there anything else that someone wanted to share on the call today?
+
+714
+01:49:59.380 --> 01:50:00.939
+danceratopz: Before we move forward?
+
+715
+01:50:13.490 --> 01:50:18.269
+danceratopz: We did have two other agenda topics. Justin.
+
+716
+01:50:18.430 --> 01:50:21.070
+danceratopz: Is it too late to discuss your question?
+
+717
+01:50:21.870 --> 01:50:25.479
+jtraglia: Yeah, I believe it's too late. We'll need more time to discuss this later.
+
+718
+01:50:26.780 --> 01:50:28.660
+danceratopz: Okay, I'm very sorry about that.
+
+719
+01:50:30.440 --> 01:50:36.220
+danceratopz: for Jocham, Joachim's got a short announcement to make that I think
+
+720
+01:50:36.620 --> 01:50:41.990
+danceratopz: We can still squeeze in to the last minute, I think that's worth doing. Joachim, did you want to speak up, or…
+
+721
+01:50:42.570 --> 01:50:54.689
+jochem-brouwer: Yes, let me quickly do that. So, as you all might have seen, we are seeing a large influx of new EIPs and ERCs being created on the EIPs on ERC side.
+
+722
+01:50:54.810 --> 01:50:58.390
+jochem-brouwer: likely due to all the, well, the AI boom, I would say.
+
+723
+01:50:58.490 --> 01:51:17.139
+jochem-brouwer: We are thinking about integrating the AI into the review process, but the question is, how do we do this without decreasing the quality and the twist in EIPs? This is a topic on the EIPIP, which is the EIP Improvement Proposals call on Wednesday. I will link that here.
+
+724
+01:51:17.280 --> 01:51:23.610
+jochem-brouwer: And I would invite anyone who has ideas on, integrating AI to the scope.
+
+725
+01:51:23.830 --> 01:51:24.880
+jochem-brouwer: Yeah, thank you.
+
+726
+01:51:29.570 --> 01:51:30.360
+danceratopz: Awesome.
+
+727
+01:51:30.480 --> 01:51:37.129
+danceratopz: Thanks for sharing that, Jocham. Please show up to the call on Wednesday if you want to talk about the EIP process and AI tooling.
+
+728
+01:51:37.550 --> 01:51:46.930
+danceratopz: Alright, then in that case, I see there's still chatty going on in the chat, but,
+
+729
+01:51:48.240 --> 01:51:57.610
+danceratopz: I believe it's time to call… draw this call to a close, and I would like to thank everyone for showing up and sharing their perspectives.
+
+730
+01:51:58.180 --> 01:51:58.950
+danceratopz: It's…
+
+731
+01:51:59.150 --> 01:52:04.449
+danceratopz: It's been a very valuable call, for me, and hopefully for many other people here. Thanks a lot for coming.
+
+732
+01:52:06.230 --> 01:52:07.849
+Marius Van Der Wijden (M): Thank you. Bye-bye.
+
+733
+01:52:08.140 --> 01:52:09.370
+jochem-brouwer: Thanks, Dan. Thanks, all.
+
+734
+01:52:09.370 --> 01:52:09.810
+jtraglia: Bye, everyone.
+
+735
+01:52:09.810 --> 01:52:10.450
+jochem-brouwer: Right.
+
+736
+01:52:10.450 --> 01:52:11.800
+Toni Wahrstaetter: Thanks, everyone.
+
+737
+01:52:12.520 --> 01:52:13.270
+Ilias | Dedaub: I do.
+
+738
+01:52:14.310 --> 01:52:15.410
+danceratopz: Goodbye, everyone.
+

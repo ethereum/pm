@@ -1,0 +1,146 @@
+{
+  "meeting": "ACDT #103 - November 16, 2026",
+  "highlights": {
+    "glamsterdam_eip8037_impact": [
+      {
+        "timestamp": "00:17:49",
+        "highlight": "EIP-8037 and EIP-8038 break smart contract invariants; central topic of call"
+      },
+      {
+        "timestamp": "00:21:37",
+        "highlight": "EIPs enable 3.3x gas scaling (60M \u2192 200M gas/block) but break hard-coded gas patterns"
+      },
+      {
+        "timestamp": "00:21:43",
+        "highlight": "Delays in audits and outreach caused by EF reorgs and budget cuts; Marius accepts responsibility"
+      },
+      {
+        "timestamp": "00:30:31",
+        "highlight": "Combined search: 200 total findings (152 ChainSecurity + EF internal); coverage not complete"
+      },
+      {
+        "timestamp": "00:31:04",
+        "highlight": "Majority of findings from Invariants 4 and 7: hard-coded gas budgets insufficient post-Glamsterdam"
+      }
+    ],
+    "audit_findings": [
+      {
+        "timestamp": "00:28:45",
+        "highlight": "ChainSecurity: 152 findings across mainnet; reservoir/refill mechanism is minority of breakage"
+      },
+      {
+        "timestamp": "00:37:30",
+        "highlight": "Dedaub: 12 high + 70 medium confirmed findings from ~25K contracts with non-trivial gas patterns"
+      },
+      {
+        "timestamp": "00:46:52",
+        "highlight": "EF internal: 3 highs (1 fixed, 2 fixing within a month); at least 25 confirmed mediums; 16 actively triaging"
+      },
+      {
+        "timestamp": "00:48:25",
+        "highlight": "OP Stack chains independently affected; OP has fixed invariants, live on OP Sepolia"
+      }
+    ],
+    "app_developer_concerns": [
+      {
+        "timestamp": "00:50:07",
+        "highlight": "Jango (Juicebox): EIP-8037 allows users to tune gas and trigger catch blocks, breaking composability"
+      },
+      {
+        "timestamp": "01:01:38",
+        "highlight": "Daniel (Uniswap): reservoir mechanism introduces implicit user-controlled branching; fundamentally breaks try-catch"
+      },
+      {
+        "timestamp": "00:59:00",
+        "highlight": "Neville (Dedaub): no reliable way for callers to distinguish OOG revert from logical revert"
+      },
+      {
+        "timestamp": "01:14:14",
+        "highlight": "Barnabas: Ethereum cannot honestly promise true immutability given known upcoming PQ/state changes"
+      }
+    ],
+    "protocol_rationale_and_tradeoffs": [
+      {
+        "timestamp": "00:54:33",
+        "highlight": "~10\u201315K contracts affected out of ~90M on Ethereum; immutable broken contracts hold ~$300\u2013500K"
+      },
+      {
+        "timestamp": "01:39:54",
+        "highlight": "No silver bullet: any 2D gas version breaks something; removing 8037 also blocks large contract deployment"
+      },
+      {
+        "timestamp": "01:33:29",
+        "highlight": "Affected protocols signaling willingness to fix indicate a January Glamsterdam date is acceptable"
+      },
+      {
+        "timestamp": "01:32:09",
+        "highlight": "Glamsterdam is a precondition for Hegota (PQ); removing it delays post-quantum accounts by ~4 months"
+      }
+    ],
+    "process_improvements": [
+      {
+        "timestamp": "00:59:00",
+        "highlight": "Toni: core devs must clearly define which invariants are guaranteed vs. likely to change"
+      },
+      {
+        "timestamp": "01:20:21",
+        "highlight": "Marius: proposal to publish EIP documenting stable vs. expected-to-change protocol invariants"
+      },
+      {
+        "timestamp": "01:22:57",
+        "highlight": "Specs team (Mario/danceratopz): two open PRs adding deployed-idiom invariant corpus and chain invariant checks"
+      },
+      {
+        "timestamp": "01:39:25",
+        "highlight": "EF/Ethlabs agent-swarm analysis was largely automatable; will be run systematically for future EIPs"
+      },
+      {
+        "timestamp": "01:16:18",
+        "highlight": "EF Access Layer (Rahul): builder enablement team surveyed 50+ teams; direct contacts for 3,000+ L1 devs"
+      }
+    ],
+    "eip_process": [
+      {
+        "timestamp": "01:50:21",
+        "highlight": "jochem-brouwer: large influx of AI-generated EIPs; EIPIP call Wednesday Nov 18 16:00 UTC to discuss AI integration into review process"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "01:22:57",
+      "action": "Review and merge specs PRs #3948 and #3982 (deployed-idiom invariant corpus and chain invariant checks)",
+      "owner": "EF specs team"
+    },
+    {
+      "timestamp": "01:30:00",
+      "action": "Decide on Glamsterdam path forward (ship 8037 as-is vs. changes) and agree on Hoodi date",
+      "owner": "All core devs (ACDE Thursday)"
+    },
+    {
+      "timestamp": "01:17:50",
+      "action": "Coordinate outreach to remaining affected L2/app teams not yet triaging; use direct security contacts",
+      "owner": "Rahul (EF Access Layer)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "01:30:30",
+      "decision": "No decision on EIP-8037 today; formal path-forward decision deferred to ACDE on Thursday"
+    },
+    {
+      "timestamp": "01:17:50",
+      "decision": "Glamsterdam delay was justified to prioritize app-layer mitigation time before mainnet"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:33:29",
+      "target": "Glamsterdam mainnet targeting January 2026 (per protocol signals from affected teams)"
+    },
+    {
+      "timestamp": "01:51:19",
+      "target": "EIPIP call: Wednesday November 18, 16:00 UTC \u2014 AI integration into EIP review process"
+    }
+  ]
+}
