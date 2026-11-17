@@ -1,0 +1,176 @@
+00:00:27	marc | wolovim:	gm
+00:02:46	Iván | ethrex:	gm
+00:03:19	Mario Vega:	gm
+00:03:34	Vansh:	gm
+00:06:09	marc | wolovim:	agenda: https://github.com/ethereum/pm/issues/2295
+00:09:26	marc | wolovim:	Vitalik’s 8288 + leanPCS post: https://x.com/VitalikButerin/status/2122233780371083553
+00:11:54	Toni Wahrstätter:	I prefer the flag over it not working
+00:15:14	Toni Wahrstätter:	What is thr exact change needed for 8288 alignment? Removing the sig list, and what else?
+00:15:27	Iván | ethrex:	I like 8288 ideas, but the problem is that the EIP is too big for us to do it now. Also not all of the ideas from it are for PQ safety.
+
+But as 8288 is the goal, and we need native PQ signatures support now, splitting it makes a lot of sense.
+
+I think that the solution we should look into is one that is compatible with 8288
+00:16:08	Iván | ethrex:	Replying to "I like 8288 ideas, b..."
+
+So we could add-up more 8288 stuff on top of it in future forks
+00:16:15	lightclient:	Replying to "I like 8288 ideas, b..."
+
+yeah we aren’t going to implement 8288 now
+00:16:21	Mario Vega:	Reacted to "yeah we aren’t going to implement 8288 now" with 👍
+00:16:30	lightclient:	Replying to "I like 8288 ideas, b..."
+
+but we should have a frame mode the represents signatures today that is forward compat with 8288
+00:16:53	Iván | ethrex:	Replying to "I like 8288 ideas, b..."
+
+I’ve been working on something, I’ll be opening a draft proposal soon to start discussion
+00:16:58	Iván | ethrex:	Replying to "I like 8288 ideas, b..."
+
+And continue working on the spec
+00:17:29	Guru:	Reacted to "but we should have a..." with ➕
+00:17:34	Vansh:	Reacted to "but we should have..." with ➕
+00:18:05	lightclient:	Replying to "What is thr exact ch..."
+
+my original idea was adding a new frame mode “PROOF” where the data can be interpretted by the protocol in the 8288 way
+00:18:58	Toni Wahrstätter:	Replying to "What is thr exact ch..." 
+
+ And initially it would just be a regular signature inside PROOF?
+00:19:31	lightclient:	Replying to "What is thr exact ch..."
+
+yes
+00:20:33	Iván | ethrex:	Exactly
+00:20:38	lightclient:	yeah we don’t need aggregation
+00:20:51	lightclient:	i don’t think we need to separate the signatures either though
+00:22:08	Vansh:	Replying to "yeah we don’t nee..."
+
+wouldnt the size of the signatures be a problem without aggregation?
+00:22:36	Iván | ethrex:	We need to measure
+00:23:59	Toni Wahrstätter:	Aggregation is for efficiency, not for safety/security
+00:24:10	Iván | ethrex:	Reacted to "Aggregation is for efficiency, not for safety/security" with ➕
+00:24:12	Mario Vega:	Reacted to "Aggregation is for efficiency, not for safety/security" with 👍
+00:24:15	Mario Vega:	Reacted to "Aggregation is for efficiency, not for safety/security" with ➕
+00:24:17	Justin Florentine:	aggregation is a boon for mempool validation, mainly
+00:24:17	Vansh:	makes sense, thx
+00:24:40	Nico:	Agreed. We have a deadline of jan 2027 for leanSPHINCS finalzed but we will get it earlier
+00:25:54	Nico:	Prob me
+00:25:56	marc | wolovim:	johba’s comment: https://github.com/ethereum/pm/issues/2295#issuecomment-6948390788
+00:25:57	Nico:	yes
+00:26:00	spencer:	Reacted to "Prob me" with 😂
+00:28:34	Toni Wahrstätter:	@lightclient we discussed not counting the data cost against verify. Did we do this?
+00:30:08	lightclient:	Replying to "@lightclient we disc..."
+
+i thought we discussed not doing that?
+00:30:14	lightclient:	Replying to "@lightclient we disc..."
+
+is that what you meant?
+00:30:46	Justin Florentine:	i thought Sanso wanted it running on the EVM?
+00:32:14	Mario Vega:	Will people start putting random data here?
+00:32:26	lightclient:	Replying to "Will people start pu..."
+
+they better not
+00:32:45	Ryan McPeck:	I think the ideal flow is something like 7702 converting EOAs to smart accounts, removing the ecrecover ability, and permanently converting over to frame tx with new signer
+00:33:10	Guru:	Replying to "Will people start pu..."
+
+this is only for mempool verification I guess. But we might need some check to make sure people are not spamming
+00:33:52	lightclient:	this is the current plan @Ryan McPeck !
+00:33:57	Nico:	Reacted to "this is the curren..." with 👍
+00:34:05	Mario Vega:	Reacted to "this is the current plan @Ryan McPeck !" with 👍
+00:35:08	Mario Vega:	If you add it to the signature list, you still have to verify in zkevm anyway right?
+00:35:21	Daniil Ankushin | Nethermind:	Replying to "I think the ideal fl..."
+
+https://github.com/ethereum/EIPs/pull/12506
+00:35:56	Mario Vega:	Replying to "If you add it to the..."
+
+Adding leanSPHINCS to the signature list I mean
+00:36:53	Didier Le Floch:	Reacted to "this is the current plan @Ryan McPeck !" with 👍
+00:36:58	Nico:	@lightclient would enshrining allow us to make the data cheap enough to stack signatures for multisig ?
+00:37:14	Ryan McPeck:	Reacted to "this is the current plan @Ryan McPeck !" with 👍
+00:39:24	spencer:	i think we should align on a spec asap re pq readiness
+focusing on the spec seems the prio imo
+00:42:25	Toni Wahrstätter:	Is it worth already discussing a slimmed down devnet without focil?
+00:42:41	Iván | ethrex:	Replying to "Is it worth already ..."
+
++1
+00:42:46	Iván | ethrex:	Replying to "Is it worth already ..."
+
+For me it makes a lot of sense
+00:42:55	Ryan McPeck:	Replying to "I think the ideal fl..."
+
+We would need 8151 as well right? Since old permits would still be active
+00:42:55	Juan Bono:	Replying to "Is it worth already ..."
+
++1
+00:42:59	Daniil Ankushin | Nethermind:	https://github.com/ethereum/EIPs/pull/12506 
+https://github.com/ethereum/EIPs/pull/12644
+00:44:16	Iván | ethrex:	Didn’t hear
+00:44:28	spencer:	strong plus to guru, lock down the specs and check what contracts they break
+00:44:32	Justin Florentine:	Reacted to "https://github.com/ethereum/EIPs/pull/12506 
+https://github.com/ethereum/EIPs/pull/12644" with ➕
+00:44:38	Daniil Ankushin | Nethermind:	Replying to "I think the ideal fl..."
+
+yes, 8151 too. note 8151 exempts 7702 delegation indicators, so with plain 7702 old permits stay live even with 8151. #12506 installs real code, so 3607 kills k1 txs and 8151 kills k1 permits. 12506 + 8151 is the full retire
+00:45:26	Iván | ethrex:	Replying to "strong plus to guru,..."
+
++1
+00:45:32	Iván | ethrex:	Replying to "strong plus to guru,..."
+
+All PQ readiness features are already in
+00:46:08	Nico:	Reacted to "https://github.com..." with ➕
+00:46:18	Iván | ethrex:	Replying to "strong plus to guru,..."
+
+It’d also make sense to give a chance for a couple of the already CFI’d EIPs to get in
+00:46:27	marc | wolovim:	Replying to "https://github.com/e..."
+
+Update EIP-8141: set code from the default code in SENDER mode
+Update EIP-8141: raise MAX_VERIFY_GAS to 300_000
+00:46:54	Guru:	Replying to "strong plus to guru,..."
+
+Yes. But we are yet to work on fully hardening EIP-8151 (restricted Ecrecover and EIP-8298 SETCODEFROM). So I think we should focus there rather than adding more EIPs
+00:47:26	Iván | ethrex:	Replying to "strong plus to guru,..."
+
+I’m happy with both 😄
+00:48:18	spencer:	Replying to "strong plus to gur..."
+
+i guess its less the specs but the contracts that will break etc, so we have a good plan re pq
+00:48:26	Iván | ethrex:	Reacted to "i guess its less the specs but the contracts that will break etc, so we have a good plan re pq" with 👍
+00:49:10	Vansh:	had a concern for MAX_VERIFY_GAS that i added here https://github.com/ethereum/go-ethereum/pull/36095#discussion_r4600264115
+00:49:25	Nico:	Yeah both changes are good and important (would even advocate to try to push higher if performance allows). Soispoke didn't seem to worry about the verify gas limit and FOCIL interaction
+00:50:05	Mario Vega:	I’d like to get a temperature check on whether clients would like mempool validation reference tests
+00:50:10	Iván | ethrex:	@Toni Wahrstätter you mean ship 8141 with 100k, or just wait more?
+00:52:49	Iván | ethrex:	So if we do not do FOCIL, then it's a yes? (If client benchmarks go well ofc)
+00:53:27	Daniil Ankushin | Nethermind:	Sounds good
+00:53:35	Toni Wahrstätter:	Replying to "@Toni Wahrstätter yo..." 
+
+ I think we would always set it as high as the mempool supports and focil.would have to deal with that
+00:53:41	Iván | ethrex:	Yes
+00:54:30	Nico:	Very valuable thing to raise this limit it would enable ton of usecases
+00:54:40	marc | wolovim:	Justin’s agenda comment:
+
+Topic: removing the claimed index from AA-VOPS by splitting verification into NON_STATE / STATE
+
+Problem: 8369 judges an omitted frame tx at an index the builder picks, so a frame tx is only protected if it's valid at every index. Nonce chains and shared payers can get excused this way. The index exists because end-of-block would make builders re-check after every append, and each Profile 2 re-check replays the whole VERIFY prefix, crypto included.
+
+Idea: check the NON_STATE part (signature/proof) once when the IL arrives and cache it. After each append, only re-check STATE (key binding, nonces, roots, payer). Re-checks get about as cheap as Profile 1's, so frame txs can use the same end-of-block check
+00:55:12	Daniil Ankushin | Nethermind:	Reacted to "had a concern for MAX_VERIFY_GAS that i added here https://github.com/ethereum/go-ethereum/pull/36095#discussion_r4600264115" with 👀
+00:55:38	Daniil Ankushin | Nethermind:	Reacted to "Yeah both changes are good and important (would even advocate to try to push higher if performance allows). Soispoke didn't seem to worry about the verify gas limit and FOCIL interaction" with ❤️
+00:55:52	Daniil Ankushin | Nethermind:	Reacted to "Justin’s agenda comment:
+
+Topic: removing the claimed index from AA-VOPS by splitting verification into NON_STATE / STATE
+
+Problem: 8369 judges an omitted frame tx at an index the builder picks, so a frame tx is only protected if it's valid at every index. Nonce chains and shared payers can get excused this way. The index exists because end-of-block would make builders re-check after every append, and each Profile 2 re-check replays the whole VERIFY prefix, crypto included.
+
+Idea: check the NON_STATE part (signature/proof) once when the IL arrives and cache it. After each append, only re-check STATE (key binding, nonces, roots, payer). Re-checks get about as cheap as Profile 1's, so frame txs can use the same end-of-block check" with 👀
+00:55:54	Iván | ethrex:	Need some time to take a look at
+00:56:01	Daniil Ankushin | Nethermind:	Reacted to "Need some time to take a look at" with 👍
+00:56:22	Justin Zen:	Reacted to "Need some time to take a look at" with 👍
+00:57:05	Nico:	Yep will do
+00:57:11	marc | wolovim:	Reacted to "Yep will do" with 👍
+00:57:14	Iván | ethrex:	Reacted to "Yep will do" with 👍
+00:57:15	Vansh:	Reacted to "Yep will do" with 👍
+00:57:28	Guru:	Reacted to "Yep will do" with 👍
+00:57:37	Guru:	Reacted to "Yep will do" with 🙏
+00:58:22	Iván | ethrex:	It’s the big question 😄
+00:59:00	Vansh:	just a sidenote for leanSPHINCS implementations to switch to the new pq bindings since this PR was a breaking change
+
+https://github.com/ethereum/lean-pq-bindings/pull/45
+00:59:59	lightclient:	thank you!

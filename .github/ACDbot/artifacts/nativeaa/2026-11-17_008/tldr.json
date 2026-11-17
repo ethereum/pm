@@ -1,0 +1,110 @@
+{
+  "meeting": "Frame Transaction Breakout #8 - Nov 17, 2026",
+  "highlights": {
+    "eip8288_forward_compatibility": [
+      {
+        "timestamp": "00:06:13",
+        "highlight": "EIP-8288 (leanPCS): frames must be forward-compatible; primary change is removing the signature list in favor of a PROOF frame mode"
+      },
+      {
+        "timestamp": "00:09:15",
+        "highlight": "Goal: users should not need to change wallets again when aggregation (EIP-8288) ships; forward-compat design is the priority over incremental devnet updates"
+      },
+      {
+        "timestamp": "00:18:05",
+        "highlight": "lightclient's sketch: new PROOF frame mode where initial content is a regular signature; protocol interprets it per 8288 shape in future forks"
+      }
+    ],
+    "pq_signatures_and_sphincs": [
+      {
+        "timestamp": "00:23:03",
+        "highlight": "PQ sigs without aggregation: even several hundred SPHINCS sigs/block is only a few MB; aggregation is for efficiency, not security \u2014 don't block shipping"
+      },
+      {
+        "timestamp": "00:30:51",
+        "highlight": "Proposal: exclude calldata cost from the 100K verify gas mempool limit; large SPHINCS sigs would otherwise consume most of the budget"
+      },
+      {
+        "timestamp": "00:34:03",
+        "highlight": "SPHINCS precompile debated; Nico/Sanso prefer EVM execution if leanPCS makes it cheap enough \u2014 avoid precompile if possible"
+      }
+    ],
+    "max_verify_gas": [
+      {
+        "timestamp": "00:46:09",
+        "highlight": "EIP-8141 PR #12644 proposes raising MAX_VERIFY_GAS from 100K to 300K; Nethermind benchmarked this as balanced for PQ + DoS safety (initial target was 500K)"
+      },
+      {
+        "timestamp": "00:47:32",
+        "highlight": "Toni cautions: MAX_VERIFY_GAS also sets builder critical-path work for FOCIL inclusion-list checks \u2014 final number depends on whether FOCIL is in Hegota"
+      }
+    ],
+    "spec_priorities": [
+      {
+        "timestamp": "00:43:38",
+        "highlight": "Guru: immediate focus should be frames spec + EIP-8151 (restricted ecrecover) + EIP-8298 (SETCODEFROM); harden PQ readiness before adding more EIPs"
+      },
+      {
+        "timestamp": "00:45:47",
+        "highlight": "EIP-8141 PR #12506 (set code from as default in SENDER mode) + EIP-8151 together form the full K1 retirement path alongside 7702"
+      },
+      {
+        "timestamp": "00:14:04",
+        "highlight": "SSZ serialization/hashing for frame transactions raised at DevCon; lightclient considers it better in isolation but acknowledges large scope; no decision yet"
+      }
+    ],
+    "testing": [
+      {
+        "timestamp": "00:50:10",
+        "highlight": "Mario proposes a new mempool-validation reference test format for clients to regression-test MAX_VERIFY_GAS rules; lukewarm yes from Nethermind, ethrex, Besu"
+      }
+    ],
+    "focil_interaction": [
+      {
+        "timestamp": "00:57:33",
+        "highlight": "Daniil raises FOCIL + frames interaction as a risk; spencer and others deferring until ACDE/ACDC clarify whether FOCIL stays in Hegota"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:38:41",
+      "action": "Post LeanPCS resources/writeup to ETH R&D so teams can evaluate fit with frames PROOF mode",
+      "owner": "Nico"
+    },
+    {
+      "timestamp": "00:53:35",
+      "action": "Open draft PR with 8288-forward-compatible dependency frame proposal for async discussion",
+      "owner": "Iv\u00e1n | ethrex"
+    },
+    {
+      "timestamp": "00:59:00",
+      "action": "Switch leanSPHINCS implementations to new PQ bindings (breaking change in lean-pq-bindings PR #45)",
+      "owner": "All teams using leanSPHINCS"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:09:15",
+      "decision": "Signature list will be removed from frames; replaced with a PROOF frame mode forward-compatible with EIP-8288"
+    },
+    {
+      "timestamp": "00:37:23",
+      "decision": "SPHINCS-to-signature-list PR (lightclient's DevCon sketch) is not the target path; 8288-compatible PROOF frame mode is preferred"
+    },
+    {
+      "timestamp": "00:14:42",
+      "decision": "Two large spec changes (remove sig list / 8288 compat, and SSZ hashing decision) targeted for resolution within ~one month before end-of-year freeze"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:14:42",
+      "target": "Major frame spec changes (8288 compat + SSZ decision) \u2014 finalize before end-of-year holidays (~mid December 2026)"
+    },
+    {
+      "timestamp": "00:27:40",
+      "target": "leanSPHINCS parameter set finalized \u2014 January 2027 deadline (likely earlier per Nico)"
+    }
+  ]
+}
