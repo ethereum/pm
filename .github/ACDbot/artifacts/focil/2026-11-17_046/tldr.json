@@ -1,0 +1,89 @@
+{
+  "meeting": "FOCIL Breakout #46 - November 17, 2026",
+  "highlights": {
+    "execution_engine_api": [
+      {
+        "timestamp": "00:07:42",
+        "highlight": "PR#956: relax IL transaction field requirement to tolerate arbitrary bytes (EL teams to verify compliance)"
+      },
+      {
+        "timestamp": "00:08:39",
+        "highlight": "PR#957: 'must not' \u2192 'should not' for blocked transactions; EIP-7805 doesn't support block transactions"
+      },
+      {
+        "timestamp": "00:09:21",
+        "highlight": "PR#964: open question \u2014 new engine API vs. FCU reuse for updating payload with IL transactions; Besu (Fabio) has no strong preference; decision deferred to Discord"
+      }
+    ],
+    "consensus_spec_prs": [
+      {
+        "timestamp": "00:17:48",
+        "highlight": "PR#5792: clarifies honest validator broadcasts IL after executing payload (not at slot start); also fixes Lighthouse/Lodestar marking early ILs untimely \u2014 tentatively good to merge pending broader sign-off"
+      },
+      {
+        "timestamp": "00:20:44",
+        "highlight": "PR#5785: IL retention window extended from 2 \u2192 3 slots; ILs broadcast in slot N must survive until slot N+2 enforcement"
+      },
+      {
+        "timestamp": "00:23:06",
+        "highlight": "PR#5769: modify GetHead tiebreaker to not return slot N when payload is not IL-compliant; Teku already deployed this on devnet \u2014 green-lit, targeting merge next breakout"
+      },
+      {
+        "timestamp": "00:28:47",
+        "highlight": "PR#5741: (1) P2P bid propagation only after IL deadline; (2) proposer picks bid only with timely ILs; potential attack if late IL reaches proposer after most attesters \u2014 second explicit proposer deadline under discussion"
+      }
+    ],
+    "il_equivocation_proofs": [
+      {
+        "timestamp": "00:39:00",
+        "highlight": "Proposal: include IL equivocation proofs (two signed IL headers) in envelope \u2014 352 bytes pre-PQ, ~5 KB post-PQ per equivocation; mixed reception, soispoke strongly against"
+      },
+      {
+        "timestamp": "00:49:08",
+        "highlight": "Related: new gossip topic for equivocation proofs to save ~616 KB bandwidth vs. propagating full ILs; complexity vs. rarity trade-off unresolved"
+      },
+      {
+        "timestamp": "00:57:43",
+        "highlight": "Proposal: replace IL bit list with signed IL headers/roots in bid (~3 KB pre-PQ, ~38 KB with XMSS) for builder accountability on unseen ILs"
+      }
+    ],
+    "pq_focil": [
+      {
+        "timestamp": "00:59:24",
+        "highlight": "soispoke: high-level PQ FOCIL design needs discussion before sizing XMSS overhead; write-up publishing today/tomorrow; FOCIL may be low PQ priority (attacker must break 16 sigs in 12s)"
+      },
+      {
+        "timestamp": "01:01:46",
+        "highlight": "Dedicated PQ FOCIL breakout scheduled for next week (one week, not two)"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:16:17",
+      "action": "EL devs review PR#964 (FCU vs. new engine API for IL payload update) and share opinions in Discord",
+      "owner": "EL client teams"
+    },
+    {
+      "timestamp": "01:02:38",
+      "action": "Open GitHub issue for PQ FOCIL breakout; share articles/concerns on PQ FOCIL ahead of next week's call",
+      "owner": "Jihoon / all attendees"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:28:26",
+      "decision": "PR#5769 (GetHead tiebreaker IL compliance check) green-lit; targeting merge at next breakout after detailed review"
+    },
+    {
+      "timestamp": "01:01:46",
+      "decision": "Next FOCIL Breakout in one week, focused exclusively on PQ FOCIL"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:01:46",
+      "target": "PQ FOCIL dedicated breakout \u2014 one week from November 17, 2026"
+    }
+  ]
+}
