@@ -1,0 +1,717 @@
+00:04:41	Potuz:	Can we keep it very technical instead of governance talk?
+00:04:52	soispoke:	A réagi à "Can we keep it ver..." avec ➕
+00:04:55	cayman:	Reacted to "Can we keep it very ..." with ➕
+00:04:57	Justin Traglia:	Reacted to "Can we keep it ver..." with ➕
+00:04:59	Enrico Del Fante:	Reacted to "Can we keep it very technical instead of governance talk?" with ➕
+00:05:08	Kevaundray Wedderburn:	gm
+00:05:11	Barnabas:	would you like to make a poll on this topic lol /s
+00:05:49	Potuz:	Yeah that's Lido's stuff
+00:06:46	Kevaundray Wedderburn:	I think we want a staker to be able to register a deposit without needing to pay 1 ETH
+00:06:53	Greg K | Lido:	Reacted to "I think we want a staker to be able to register a deposit without needing to pay 1 ETH" with 👍
+00:07:16	grapebaba:	Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+00:07:20	Greg K | Lido:	Replying to "I think we want a staker to be able to register a deposit without needing to pay 1 ETH"
+
+Yep, first do some registering action with no deposit and then the second action is the depositing ETH
+00:08:12	Barnabas:	In order for this to be free of charge, this would need to be time bound. Otherwise the pre-registration could blow up state. 
+
+How long do you expect to wait at most between pre-registration and actual sending the eth?
+00:08:27	Justin Traglia:	Replying to "In order for this ..."
+
+They do expire.
+00:08:35	Dima Gusakov | Lido:	Replying to "In order for this to..."
+
+8205 already deal with it
+00:08:53	Barnabas:	Reacted to "They do expire." with 👍
+00:08:56	Barnabas:	Reacted to "8205 already deal with it" with 👍
+00:10:21	Kevaundray Wedderburn:	I would like to reduce the committee and subnet size
+00:11:34	Kevaundray Wedderburn:	Could we keep max committees per slot the same?
+00:14:44	Justin Traglia:	Ah sorry, I was the one that misunderstood. Yeah I think it was just a mistake too.
+00:16:36	Kevaundray Wedderburn:	Yes
+00:17:06	Ignacio:	Some numbers about this proof of possesion verif cost on EL side here: https://github.com/ethereum/pq-staking-contracts/tree/main/contracts#gas-of-the-proof-of-possession
+00:17:39	cayman:	Reacted to "Some numbers about t..." with 👍
+00:18:28	Mikhail Kalinin:	Reacted to "Some numbers about this proof of possesion verif cost on EL side here: https://github.com/ethereum/pq-staking-contracts/tree/main/contracts#gas-of-the-proof-of-possession" with 👍
+00:19:06	Potuz:	Lido crowd is here, do we have by any chance another pool? They’ll have something to say about proof of possession on the EL. What was the extra cost as a proportion of the full tx cost @Justin Traglia
+00:20:03	terence:	Ya don’t even pass it to the CL
+00:20:07	Kevaundray Wedderburn:	Reacted to "Ya don’t even pass it to the CL" with 👍
+00:20:07	Justin Traglia:	Reacted to "Ya don’t even pas..." with 👍
+00:20:13	Ignacio:	Reacted to "Ya don’t even pas..." with 👍
+00:20:51	Ignacio:	Please see my link above
+00:20:59	Barnabas:	do we want the contract to verify?
+00:21:13	Justin Traglia:	Reacted to "Please see my link..." with ❤️
+00:21:15	Francesco D'Amato:	Can consolidate before doing this 🤝
+00:21:15	Thomas Coratger:	A réagi à "Please see my link..." avec ❤️
+00:21:25	Potuz:	Reacted to "Can consolidate before doing this 🤝" with 👍
+00:21:53	Kevaundray Wedderburn:	Reacted to "Can consolidate before doing this 🤝" with 👍
+00:22:33	Francesco D'Amato:	Isn’t it 2400 * 64 ~ 150k gas just in calldata?
+00:24:04	cayman:	Should the operator be authorizing this? Somehow seems to be a more priveliged operation? ie for withdrawal credentials.
+00:24:05	Ignacio:	Replying to "Isn’t it 2400 * 6..."
+
+I don't think so since the registratoin dominates on execution cost not calldata, so the floor isn't that.
+
+https://github.com/ethereum/pq-staking-contracts/tree/main/contracts#gas-of-the-proof-of-possession
+00:24:11	Kevaundray Wedderburn:	I initially was pushing for the operator
+00:24:16	Ladislaus:	Reacted to "I initially was pushing for the operator" with 👍
+00:25:08	Francesco D'Amato:	Reacted to "I don't think so since the registratoin dominates on execution cost not calldata, so the floor isn't that.
+
+https://github.com/ethereum/pq-staking-contracts/tree/main/contracts#gas-of-the-proof-of-possession" with 👍
+00:25:13	Ladislaus:	based on our experience with consolidations, and the corresponding slow adoption by custodians, we *should* assume operator-triggered registrations to accelerate migration timelines
+00:25:19	Potuz:	I was pushing for withdrawal credentials but there’s some pushback on the EIP and I can see advantages to both
+00:27:18	Barnabas:	Agree with DIma
+00:27:25	Potuz:	Yeah this was my main argument against doing operator signing, because at the very least we would need clients to implement the signing and that sucks
+00:27:40	Barnabas:	We shouldn’t use the validator private key for anything imo. 0x00 is going away either way.
+00:27:45	Pawan Dhananjay:	Yeah this makes sense,  I don’t understand why we want to do operator signing
+00:27:50	cayman:	Reacted to "Yeah this makes sens..." with 👍
+00:27:53	Barnabas:	Reacted to "Yeah this makes sense,  I don’t understand why we want to do operator signing" with 👍
+00:28:12	Mikhail Kalinin:	Replying to "Yeah this makes sens..."
+
+complaint about contracts that aren’t updatable
+00:28:22	Potuz:	Can we go over the off boarding part @Justin Traglia ? At the Q fork? That was one of the trickiest parts as far as I can see
+00:28:23	Barnabas:	we should keep is as simple as possible, so lets stick to one
+00:28:32	Justin Traglia:	Reacted to "Can we go over the..." with 👍
+00:28:35	Dima Gusakov | Lido:	Reacted to "we should keep is as simple as possible" with 👍
+00:28:38	Potuz:	And then withdrawal processing after the Q fork
+00:28:50	Pawan Dhananjay:	Replying to "Yeah this makes sens..."
+
+Withdrawal addresses that are contract addresses you mean?
+00:28:57	Mikhail Kalinin:	yeah, that’s from the EIP comment
+00:29:02	Kevaundray Wedderburn:	Replying to "Yeah this makes sens..."
+
+To me it made sense because the operator is the one who owns the bls public key that is being rotated, but wont die on the hill if it introduces new attack vectors
+00:29:03	Pawan Dhananjay:	Reacted to "yeah" with 👍
+00:29:26	Potuz:	Lets not slash
+00:29:34	Potuz:	And agree we need community involvement in the fork
+00:29:43	Pawan Dhananjay:	Not slash across forks you mean?
+00:30:15	Potuz:	Yeah, just update the slashing structure and take only PQ signatures
+00:30:21	Pawan Dhananjay:	Reacted to "Yeah, just update the slashing structure and take only PQ signatures" with 👍
+00:30:24	Kevaundray Wedderburn:	I think we would need to ensure that 66%+ is registered
+00:31:10	Barnabas:	we should raise the queues speed
+00:31:39	Francesco D'Amato:	We could just exit them at once but keep the withdrawal period to a few weeks or something, if we are worried about it
+00:31:43	Dima Gusakov | Lido:	Reacted to "we should raise the queues speed" with 👍
+00:31:53	ethDreamer (Mark):	Why is 2/3 the threshold for pq activation? At beacon chain launch we just had a minimum stake
+00:31:54	terence:	Replying to "We could just exit t..."
+
+Ya this is the Gwei
+00:32:05	Barnabas:	Replying to "I think we would nee..."
+
+isn’t it going to be a hard switchover at the pq fork? Why does it matter how many validators have registered? Everyone that hasn’t won’t have duties
+00:32:11	Potuz:	At launch we had 100%
+00:32:25	NC:	Reacted to "We could just exit them at once but keep the withdrawal period to a few weeks or something, if we are worried about it" with 👍
+00:32:27	Mikhail Kalinin:	Reacted to "We could just exit them at once but keep the withdrawal period to a few weeks or something, if we are worried about it" with 👍
+00:33:11	terence:	I also prefer that. Keep it simple is best
+00:33:11	Pawan Dhananjay:	Reacted to "We could just exit them at once but keep the withdrawal period to a few weeks or something, if we are worried about it" with 👍
+00:33:18	Mikhail Kalinin:	Replying to "We could just exit t..."
+
+actually, a good idea, to keep them for a week or similar to the WS period we have
+00:33:22	cayman:	Replying to "Yeah this makes sens..."
+
+My mental model is that the operator is granted temporary authorization to sign by the withdrawal credentials -- akin to an admin creating an API token. The PQ upgrade is a token rotation. So having the lower-credentialed user create the new token instead of the admin creating the new token is counterintuitive.
+00:33:29	ethDreamer (Mark):	100% of what was staked in the beacon chain. Not 100% of all capital dedicated to ETH security (we were proof of work).
+00:33:35	Potuz:	Reacted to "My mental model is that the operator is granted temporary authorization to sign by the withdrawal credentials -- akin to an admin creating an API token. The PQ upgrade is a token rotation. So having the lower-credentialed user create the new token instead of the admin creating the new token is counterintuitive." with 👍
+00:33:37	Francesco D'Amato:	+1, no reason to go crazy
+00:33:41	Pawan Dhananjay:	Reacted to "My mental model is that the operator is granted temporary authorization to sign by the withdrawal credentials -- akin to an admin creating an API token. The PQ upgrade is a token rotation. So having the lower-credentialed user create the new token instead of the admin creating the new token is counterintuitive." with 👍
+00:33:47	Pawan Dhananjay:	agree
+00:33:48	Francesco D'Amato:	Replying to "+1, no reason to go ..."
+
+(+1 to potuz I mean)
+00:34:39	Trent Van Epps:	lol
+00:34:42	Fredrik:	It’s not been done
+00:34:58	Potuz:	It’s a simple fork on the CL side, the hard part is the social coordination, but let’s not argue over this now 🙂
+00:35:10	terence:	Another break out room
+00:35:14	Potuz:	lol
+00:35:49	ethDreamer (Mark):	I don’t see why we couple a fraction (2/3) of the stake before the transition to PQ activation. People dragging their feet on PQ migration could prevent the transition from launching in time if we do that. What we really need is a minimum security threshold
+00:35:52	terence:	Na you still need gossip messages
+00:36:48	Kevaundray Wedderburn:	Not sure we should spend a lot of time on this, given the threshold for switching to PQ will be very high
+00:36:59	Francesco D'Amato:	This is somewhat of a theoretical concern. The attack needs a huge amount to stake deciding to make itself slashable even if not automatically...
+00:37:04	Justin Traglia:	Replying to "Not sure we should..."
+
+Okay I'll move on
+00:37:15	Potuz:	Reacted to "This is somewhat of a theoretical concern. The attack needs a huge amount to stake deciding to make itself slashable even if not automatically..." with 👍
+00:37:24	Justin Traglia:	Reacted to "This is somewhat o..." with 👍
+00:37:24	Barnabas:	Replying to "I don’t see why we c..."
+
+also don’t see why we care?
+00:37:30	Mega | ethlambda:	What’s the reason for not withdrawing validators through the queue?
+00:37:31	Barnabas:	Replying to "I don’t see why we c..."
+
+we should just do the migration when we are ready.
+00:37:41	Barnabas:	Replying to "I don’t see why we c..."
+
+And just assume that everyone that wanna keep participating have participated
+00:37:51	Potuz:	We are withdrawing them, the question is what happens if we should slash them
+00:38:09	Mega | ethlambda:	Reacted to "We are withdrawing them, the question is what happens if we should slash them" with 👍
+00:38:09	ethDreamer (Mark):	Replying to "I don’t see why we c..."
+
+True. There is a minimum stake and above that threshold, the transition can happen
+00:38:30	Francesco D'Amato:	They could have still finalized something else before the fork, which now stops being punishable after the fork
+00:38:37	Francesco D'Amato:	Replying to "They could have stil..."
+
+(What kev said)
+00:38:38	Potuz:	Reacted to "They could have still finalized something else before the fork, which now stops being punishable after the fork" with 👍
+00:38:48	Mikhail Kalinin:	Reacted to "They could have still finalized something else before the fork, which now stops being punishable after the fork" with 👍
+00:38:57	terence:	Ya lets move on lol
+00:39:03	Francesco D'Amato:	+1 I think it’s a waste of time for this call especially
+00:39:27	Potuz:	Yes the deliverable I want is a spec that I can code, doesn’t matter if it has bad designs on some bad edge cases
+00:39:38	Potuz:	We want to check if gossipsub and gasper will do it or not
+00:41:07	Mikhail Kalinin:	Replying to "What’s the reason fo..."
+
+those validators won’t be able to attest anymore, keeping them in the exit queue is wasteful
+00:41:07	Kevaundray Wedderburn:	@barnabas what was your question?
+00:41:08	NC:	Is this activation be automatic or we eyeball and then set a launch date socially?
+00:41:18	Potuz:	The activation is a fork
+00:41:22	Potuz:	That’s the actual fork
+00:41:29	Potuz:	The consumption is just a trivial small fork
+00:41:57	Kevaundray Wedderburn:	Replying to "@barnabas what was y..."
+
+I think we would only switch over if a certain amount of stake has registered, were you saying something different?
+00:41:59	Francesco Risitano (Tau):	Enr kv?
+00:42:33	Kevaundray Wedderburn:	Its on the beacon state?
+00:42:40	Barnabas:	no, node’s p2p
+00:43:20	Luca | Vero:	validator clients don’t have ENRs though… I am also ok with the assumption that node operators are will be ready for the fork if they’ve registered PQ keys
+00:44:15	Francesco Risitano (Tau):	Reacted to "validator clients don’t have ENRs though… I am also ok with the assumption that node operators are ready for the fork if they’ve registered PQ keys" with 👍
+00:45:07	Barnabas:	can we just not do consolidations in PQ?
+00:45:09	terence:	Ya that’s easier
+00:45:18	terence:	Replying to "can we just not do c..."
+
+You can
+00:45:43	Kevaundray Wedderburn:	Replying to "can we just not do c..."
+
+How would we do this?
+00:46:33	Kevaundray Wedderburn:	Replying to "can we just not do c..."
+
+Also wouldn’t we need to potentially increase MAX_EB?
+00:46:45	Potuz:	Sorry went to grab my glasses
+00:46:52	Trent Van Epps:	Reacted to "Sorry went to grab my glasses" with 👍
+00:46:54	Pablo | Lambda:	Reacted to "Sorry went to grab my glasses" with 😂
+00:46:57	Potuz:	That was for Trent
+00:47:00	Ladislaus:	Reacted to "Sorry went to grab my glasses" with 😂
+00:47:07	Trent Van Epps:	Reacted to "That was for Trent" with 😃
+00:47:15	Francesco D'Amato:	Replying to "can we just not do c..."
+
+We can’t really do that
+00:47:19	Francesco D'Amato:	Replying to "can we just not do c..."
+
+Why would we need to?
+00:47:21	Barnabas:	Replying to "can we just not do c..."
+
+we do EIP-8148 and only allow 0x02 style validators.
+00:47:33	Barnabas:	Replying to "can we just not do c..."
+
+0x01 should be dropped too imo
+00:47:56	Barnabas:	Replying to "can we just not do c..."
+
+and I’d make the protocol simpler by just straight up remove consolidations as an option.
+00:48:16	Potuz:	That is my personal intention at least
+00:48:34	Kevaundray Wedderburn:	Replying to "can we just not do c..."
+
+Hmm how would PQ consolidations work @Francesco D'Amato ?
+00:48:53	Francesco D'Amato:	Replying to "can we just not do c..."
+
+Why would they work any different?
+00:49:09	Francesco D'Amato:	Replying to "can we just not do c..."
+
+Anyway, it’s fine if we don’t have consolidations anymore, but first we need to make sure the validator set is actually consolidated…
+00:49:33	Barnabas:	Replying to "can we just not do c..."
+
+we could limit PQ key registration to 0x02 validator types lol
+00:49:41	Kevaundray Wedderburn:	Replying to "can we just not do c..."
+
+I thought the PQ part was related to it being done automatically, potentially based on validators having the same WC
+00:49:42	Kevaundray Wedderburn:	Replying to "can we just not do c..."
+
+oh
+00:51:05	Dima Gusakov | Lido:	Potuz is just obsessed with withdrawals after ePBS
+00:51:25	Kevaundray Wedderburn:	After I would like to discuss:
+
+How many clients have tested leanVM bindings?
+How far are clients wrt implementing/understanding the spec?
+Planning the first devnet
+00:51:35	Dima Gusakov | Lido:	We can also look at 8148. Some say it is great
+00:51:37	Mikhail Kalinin:	ask claude if anything could be broken in that function
+00:52:46	Kevaundray Wedderburn:	Replying to "After I would like t..."
+
+A sub point of the last question is when do we think the spec will be frozen and what are the current open questions. Apart from the aggregation topology
+00:53:27	Potuz:	Yeah seems that the expected withdrawals work as-is, they only depend on withdrawal credentials and never on pubkeys
+00:53:40	Mikhail Kalinin:	Replying to "Yeah seems that the ..."
+
+exactly, and balances
+00:53:52	Kevaundray Wedderburn:	Reacted to "exactly, and balances" with 👍
+00:54:22	Potuz:	Reacted to "Potuz is just obsessed with withdrawals after ePBS" with 😂
+00:54:27	cayman:	Replying to "After I would like t..."
+
+Lodestar has tested leanvm bindings and has some disposable code for this half-spec.
+00:54:37	Kevaundray Wedderburn:	Reacted to "Lodestar has tested leanvm bindings and has some disposable code for this half-spec." with 🙏
+00:55:38	Kevaundray Wedderburn:	Why are we dropping them?
+00:56:13	Mikhail Kalinin:	Replying to "Why are we dropping ..."
+
+cause BLS keys in it
+00:56:58	Francesco D'Amato:	Do we even need to drop anything if we exit all BLS validators? We don’t process withdrawal requests from inactive validators
+00:57:36	Potuz:	Replying to "After I would like t..."
+
+How many clients have tested leanVM bindings?
+We haven’t but will start soon, I plan on at least writing the XMSS signing paths on hand rolled assembly. The STARK part is a blackbox, will eventually see if I want to learn it or not, but the XMSS part at least I’ll write it
+00:57:59	Dima Gusakov | Lido:	Gtg. In case any Lido input needed, dm me in TG or Discord
+00:58:02	Kevaundray Wedderburn:	Replying to "Why are we dropping ..."
+
+Why is this an issue?
+00:58:17	Potuz:	Replying to "Do we even need to d..."
+
+The problem is keeping a BLS pub key in the pipeline
+00:58:34	Kevaundray Wedderburn:	Replying to "Do we even need to d..."
+
+Why does it matter for withdrawals?
+00:58:37	Barnabas:	I’d just go with whatever we have now and do a devnet before we adjust anything else tbh
+00:58:48	Potuz:	Replying to "Do we even need to d..."
+
+We may force clients to keep paths for different types of validators or have to have hacks to deal with both types at the same time
+00:58:52	Barnabas:	feels like we wanna think of every edge case before we get our hands dirty
+00:59:43	terence:	Yes. Contract should check it
+00:59:53	Mega | ethlambda:	Replying to "After I would like t..."
+
+ethlambda has tested leanVM bindings and EIP 8483 implemented on top of Heze. We’ll rebase this later on top of Glamsterdam and start with the rest of the spec
+01:00:51	Francesco D'Amato:	Doesn’t seem completely orthogonal to PQ, the EL has a fee market, the CL has to build ad-hoc DoS protection for anything
+01:01:10	Kevaundray Wedderburn:	Replying to "Doesn’t seem complet..."
+
+Right, but this is the current state today
+01:01:16	Francesco D'Amato:	Replying to "Doesn’t seem complet..."
+
+Today these are tiny messages
+01:01:28	Mikhail Kalinin:	Replying to "Doesn’t seem complet..."
+
+it already has that protection, it’s an increase of the message size that is PQ related
+01:01:35	Yann Vonlanthen:	Reacted to "Doesn’t seem completely orthogonal to PQ, the EL has a fee market, the CL has to build ad-hoc DoS protection for anything" with 👍
+01:01:47	terence:	Replying to "Doesn’t seem complet..."
+
+It also hurts the proposer block
+01:02:21	Francesco D'Amato:	+1
+01:02:45	Justin Traglia:	38kb
+01:02:54	Francesco D'Amato:	What is the benefit of not doing it the EL way though? Execution requests are quite standard
+01:03:25	Barnabas:	Replying to "What is the benefit ..."
+
+sounds like everyone wants execution requests, not even sure who is fighting with whom at this point
+01:03:30	terence:	Replying to "What is the benefit ..."
+
+I see no reason not to do it
+01:03:43	Potuz:	Replying to "What is the benefit ..."
+
+Yeah the question is not CL vs EL, I think the question is EL vs none at all
+01:03:56	Kevaundray Wedderburn:	Replying to "What is the benefit ..."
+
+Yeah I think it makes sense, just was saying I dont see it being a PQ thing
+01:04:12	Kevaundray Wedderburn:	Replying to "What is the benefit ..."
+
+It is a good architectural cleanup
+01:04:28	Kevaundray Wedderburn:	Reacted to "How many clients have tested leanVM bindings?
+We haven’t but will start soon, I plan on at least writing the XMSS signing paths on hand rolled assembly. The STARK part is a blackbox, will eventually see if I want to learn it or not, but the XMSS part at least I’ll write it" with 🙏
+01:04:31	Kevaundray Wedderburn:	Reacted to "ethlambda has tested leanVM bindings and EIP 8483 implemented on top of Heze. We’ll rebase this later on top of Glamsterdam and start with the rest of the spec" with 🙏
+01:04:46	Mikhail Kalinin:	Replying to "What is the benefit ..."
+
+yeah, the reason would be to keep the scope simpler, not deploying yet another contract on EL. but I see the trade off on the CL p2p side
+01:04:57	Kevaundray Wedderburn:	Reacted to "yeah, the reason would be to keep the scope simpler, not deploying yet another contract on EL. but I see the trade off on the CL p2p side" with 👍
+01:04:58	cayman:	dropping off 👋 Lodestar standup now
+01:06:21	Tom Wambsgans:	https://leanvm.org/
+01:06:32	Francesco D'Amato:	Has anyone written down a model for this? Or how are these numbers being decided?
+01:06:34	Barnabas:	is aggregation done by the block builder?
+01:06:49	Mega | ethlambda:	Reacted to "https://leanvm.org/" with 🔥
+01:07:53	Mikhail Kalinin:	Replying to "What is the benefit ..."
+
+EL provides economic guarantees; CL can introduce an LRU cache. But the bandwidth and computation consumption will still be more or less the same whether it is CL or EL
+01:07:56	Kevaundray Wedderburn:	Replying to "Has anyone written d..."
+
+Which numbers?
+01:07:59	Mega | ethlambda:	Sounds good
+01:08:12	Francesco D'Amato:	Replying to "Has anyone written d..."
+
+Number of subnets, committees, aggregators etc...
+01:08:30	Potuz:	You guys moved ahead, but regarding the Lido fix,  my first impression is that we do not want to fix it, or at least not without an audit. The reason this check is there is because we do not process withdrawal requests from exited validators. If we remove the check then the withdrawal request will be kinda burnt. This in itself may not be a problem though, then the validator will be completely withdrawn on its turn
+01:09:03	Potuz:	Replying to "Has anyone written d..."
+
+Yes, Kamil and Csaba have been running a bunch of simulations, my problem is that they lack context on actual consensus
+01:09:18	Potuz:	Replying to "Has anyone written d..."
+
+So under long forks I suspect we can be easily split if we reduce the number of aggregators
+01:09:39	Potuz:	Replying to "Has anyone written d..."
+
+Or with the current selection algorithm we may find subnets without any aggregator, etc.
+01:10:06	Yann Vonlanthen:	Reacted to "Has anyone written down a model for this? Or how are these numbers being decided?" with 👍
+01:10:49	Francesco D'Amato:	It’s not an onchain role
+01:11:05	Toni Wahrstätter:	Their incentive is to get their own attestations on chain
+01:11:09	Yann Vonlanthen:	Reacted to "Their incentive is to get their own attestations on chain" with 👍
+01:11:11	Luca | Vero:	How confident are we in PQ + gasper “making it”? At which point do we start looking more into DC? Aggregation basically becomes a non-issue with DC right?
+Apologies if this is not the meeting for this question.
+01:11:35	Yann Vonlanthen:	Replying to "Their incentive is t..."
+
+It’s a privilege, not a duty
+01:11:36	Potuz:	Aggregation also happens in DC, it is less of a problem but it can’t be abstracted away
+01:11:41	Potuz:	Reacted to "It’s a privilege, not a duty" with 😂
+01:11:44	Mega | ethlambda:	Reacted to "It’s a privilege, not a duty" with 😂
+01:11:45	Kevaundray Wedderburn:	Replying to "Has anyone written d..."
+
+I have a local model that I was using to sketch out the gloas pq fork
+01:12:04	Luca | Vero:	Yeah, I meant it in the way that aggregation time is not much of an issue with DC
+01:12:07	Barnabas:	how many aggregators do we have?
+01:12:11	Potuz:	16
+01:12:24	terence:	Replying to "Aggregation also hap..."
+
+It has its own problem though, like aggregating goldfish votes without an aggregator is hard
+01:12:34	Barnabas:	Replying to "16"
+
+don’t we wanna have some redundancy?
+01:12:36	Kevaundray Wedderburn:	Reacted to "It has its own problem though, like aggregating goldfish votes without an aggregator is hard" with 👍
+01:13:12	Kevaundray Wedderburn:	Replying to "16"
+
+The 16 is the redundancy, its per committee
+01:13:24	Iván | ethrex:	Replying to "How confident are we..."
+
+We need to benchmark
+01:13:40	Luca | Vero:	Reacted to "We need to benchmark" with 👍
+01:14:07	Iván | ethrex:	Replying to "How confident are we..."
+
+Don’t know if any team has started something, but from ethlambda we’ll do it
+01:14:19	Toni Wahrstätter:	Reacted to "It’s a privilege, not a duty" with 🚀
+01:14:21	Francesco D'Amato:	Balance weighted selection it’s actually proportional, it’s doing it uniformly that creates distortions (small validators are selected more often than they should)
+01:14:31	Barnabas:	https://pectrified.com/mainnet
+01:14:36	Kevaundray Wedderburn:	Reacted to "Balance weighted selection it’s actually proportional, it’s doing it uniformly that creates distortions (small validators are selected more often than they should)" with 👍
+01:15:13	Luca | Vero:	Replying to "How confident are we..."
+
+Even from the ballpark figures I’ve seen and are unlikely to change substantially, DC seems like a much better fit when it comes to solving the PQ aggregation + bandwidth issues
+01:15:54	Francesco D'Amato:	It’s not more often, it’s just “as often as they should"
+01:16:44	Mikhail Kalinin:	are we discussing RANDAO based selection?
+01:16:49	Francesco D'Amato:	Reacted to "are we discussing RANDAO based selection?" with 👍
+01:16:53	Justin Traglia:	Reacted to "are we discussing ..." with 👍
+01:17:02	Francesco D'Amato:	This would look like the PTC selection, since we’re talking about RANDAO based selection
+01:17:57	Barnabas:	is the sync committee randao or balance based?
+01:18:09	Kevaundray Wedderburn:	I would prefer randao based if we decrease the number of aggregators
+01:18:17	Francesco D'Amato:	Replying to "is the sync committe..."
+
+It’s RANDAO and balance based 😄
+01:18:32	Kevaundray Wedderburn:	Though Potuz’ point is about it also being balance based
+01:18:34	Barnabas:	Replying to "is the sync committe..."
+
+lets use that committee then for aggregation too?
+01:18:53	Barnabas:	Replying to "is the sync committe..."
+
+if you are doing sync committee then you can be picked as an aggregator
+01:19:02	terence:	PTC is in the beacon state though, it’s easy
+01:19:03	Iván | ethrex:	Replying to "How confident are we..."
+
+I agree that it’ll help solving potential bandwidth issues
+01:19:12	terence:	Replying to "PTC is in the beacon..."
+
+For aggregators, you can’t do this
+01:19:15	Barnabas:	Replying to "is the sync committe..."
+
+I’d actually get all 512 of them to aggregate, and pick the ones that are fastest first
+01:19:24	Francesco D'Amato:	Replying to "PTC is in the beacon..."
+
+Why can you not?
+01:19:33	Francesco D'Amato:	Replying to "PTC is in the beacon..."
+
+(If we’re talking about using RANDAO and not VRF)
+01:19:52	terence:	Replying to "PTC is in the beacon..."
+
+Oh im just talking about putting the aggregators in the beacon state,, which may be expensive? (Not sure)
+01:20:19	Francesco D'Amato:	Replying to "PTC is in the beacon..."
+
+It’s only 64 per slot or something, no?
+01:21:35	Yann Vonlanthen:	If you make it the PTC, then you induce a lot more churn on the subnets, no?
+01:21:58	terence:	Replying to "PTC is in the beacon..."
+
+Today is 1024, not sure what is the PQ aggregator number here. If its 64, it may be worth it to put it in the beacon state
+01:22:29	Enrico Del Fante:	I think it makes sense to me
+01:23:36	Potuz:	Yeah +1 Mikhail
+01:24:07	Potuz:	Replying to "If you make it the P..."
+
+What do you mean Yann?
+01:24:20	Potuz:	Replying to "If you make it the P..."
+
+Oh I get it
+01:25:27	Mikhail Kalinin:	Have we decided to use RANDAO?
+01:26:08	Enrico Del Fante:	I have to drop off. have to grab my daughter
+01:26:23	Justin Traglia:	Reacted to "I have to drop off..." with 👍
+01:27:00	Toni Wahrstätter:	Replying to "Have we decided to u..." 
+
+ Randao based + weighted?
+01:27:21	Potuz:	Reacted to "I have to drop off. have to grab my daughter" with 👍
+01:27:35	Potuz:	Is there any reason why not doing this with the 2 epochs lookahead?
+01:28:03	Barnabas:	Replying to "Is there any reason ..."
+
+we could
+01:28:10	Toni Wahrstätter:	Replying to "Is there any reason ..." 
+
+ DoS against aggregators?
+01:28:13	Mikhail Kalinin:	Replying to "Have we decided to u..."
+
+yeah, if RANDAO I think it should be weighted, we don’t do weighted now cause it hard to achieve with VRF
+01:28:19	Potuz:	Replying to "Is there any reason ..."
+
+It’s 32KB in the beacon state
+01:29:09	Mikhail Kalinin:	Replying to "Have we decided to u..."
+
+I have a more general question. Why do we want to reduce a number of aggregators instead of reducing a number of committees and subnets and keeping aggregators at the expectation of 16 VRF-selected as they are today?
+01:30:53	Francesco D'Amato:	I think it’s just so that they are less DoSsable, and it happened to be cheap for aggregators but not for anything else
+01:30:58	Toni Wahrstätter:	Focil doesn't matter but yeah, proposer lookahead defeats the anti-dos argument already
+01:31:31	Toni Wahrstätter:	Like, why dos'ing the aggregators if you can go for the proposer
+01:32:23	Justin Traglia:	Yeah it's 32 KiB
+01:32:24	terence:	I think the current summary
+16 subnets, 16 committees, 4 aggregators / subnet
+put it in the beacon state
+Use balance to select?
+Is this right?
+01:32:36	Kevaundray Wedderburn:	Replying to "I think the current ..."
+
+16 committees too
+01:32:42	terence:	Reacted to "16 committees too" with 👍
+01:33:15	Francesco D'Amato:	Do we get 16 * 4 proofs in the global topic?
+01:33:16	Kevaundray Wedderburn:	randao fixes it
+01:33:22	Justin Traglia:	Reacted to "randao fixes it" with ➕
+01:33:27	Francesco D'Amato:	Reacted to "randao fixes it" with 👍
+01:33:37	Kevaundray Wedderburn:	Replying to "Do we get 16 * 4 pro..."
+
+Currently yes, unless we do a 4 -> 1 on the subnet
+01:33:42	Toni Wahrstätter:	Reacted to "randao fixes it" with 🚢
+01:33:42	Thomas Coratger:	how many layers of aggregation do we have in total?
+01:33:50	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+That’s a lot of proofs
+01:33:55	Barnabas:	this all sounds way too complex lol
+01:33:56	Justin Traglia:	Stopping my screen share, not that useful right now
+01:33:59	Potuz:	Replying to "Do we get 16 * 4 pro..."
+
+Yeah this was the mistake of the P2P crowd that seemed to assume that each subnet would have a single head
+01:34:08	Kevaundray Wedderburn:	Replying to "Do we get 16 * 4 pro..."
+
+Or have some way to pick the best aggregate amongst the 4 aggregators for a committee
+01:34:27	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+Picking best isn’t great because it’s manipulable
+01:34:38	Kevaundray Wedderburn:	Reacted to "Picking best isn’t great because it’s manipulable" with 👍
+01:34:42	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+Merging them 4 -> 1 is fine, but who does it?
+01:35:08	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+I mean, how do we avoid getting a single merged proof instead of a bunch more? (With different combinations)
+01:35:13	Potuz:	Replying to "Do we get 16 * 4 pro..."
+
+Also merging 4->1 seems unfeasible though, without this extra recursion we were already counting 13 seconds per slot
+01:36:26	Justin Traglia:	Reacted to "Picking best isn’..." with 👍
+01:36:36	Kevaundray Wedderburn:	Replying to "Do we get 16 * 4 pro..."
+
+I dont see anyway except choosing the best (proposer could do this on the global topic) or one of the aggregators does a 4->1 before pushing to the global topic
+01:37:28	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+Who even chooses best?
+01:37:45	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+What would prevent different nodes choosing different ones and ending up with 4 anyway?
+01:38:34	terence:	Proposer only has time to do 1 recursion
+01:38:54	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+Ah you can locally just drop anything that doesn’t beat what you already have, so the problem is “only” manipulation
+01:39:08	Kevaundray Wedderburn:	Reacted to "Ah you can locally just drop anything that doesn’t beat what you already have, so the problem is “only” manipulation" with 👍
+01:39:18	Barnabas:	loooonger slot time 😂
+01:39:39	Yann Vonlanthen:	Replying to "Focil doesn't matter..."
+
+Playing devils advocate, perhaps there is an argument to be made that for proposer duties it’s easier to do it from a smaller backup machine, while for aggregation this would be costlier, given you need higher bandwidth and compute? 
+
+And thus perhaps still some value in protecting aggregators? Not clear to me
+01:40:19	Tom Wambsgans:	latest benchmarks are here: https://leanvm.org/
+01:40:20	Kevaundray Wedderburn:	4 ->1 will be cheaper than 16 -> 1
+01:40:37	Mikhail Kalinin:	Replying to "Do we get 16 * 4 pro..."
+
+we discussed the strategy of picking the best only for proposers that isn’t capable of doing the final aggregation
+01:40:48	Toni Wahrstätter:	Replying to "Focil doesn't matter..." 
+
+ Yeah i def agree, also, aggregators are open and happy to receive those msgs whereas poposers don't
+01:40:59	Justin Traglia:	Well my validator is an ARM system, but no need to discuss that lol
+01:41:07	Yann Vonlanthen:	Reacted to "Yeah i def agree, also, aggregators are open and happy to receive those msgs whereas poposers don't" with 👍
+01:41:09	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+Even with a proposer that aggregates everything, what about the traffic in the global topic?
+01:41:22	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+Before the final aggregation happens, there’s still 64 proofs going around
+01:41:32	Thomas Coratger:	A réagi à "Well my validator ..." avec 😂
+01:41:40	Barnabas:	what happens if all aggregators are failing to aggregate? we get an empty beacon block?
+01:41:52	Potuz:	Replying to "Well my validator is..."
+
+Lol, mine was ARM for 5 years too 🙂
+01:42:05	Potuz:	Replying to "Well my validator is..."
+
+But it was an ARM without SHA dedicated opcodes
+01:42:24	Potuz:	AVX512 does not exist guys
+01:42:58	Toni Wahrstätter:	It will be interesting to benchmark this on a machine that is also trying to use all cores on the EL at the same time
+01:43:45	Mikhail Kalinin:	Replying to "Do we get 16 * 4 pro..."
+
+yes, 64 proofs, 6.25MiB. that’s a lot if those aggregates are disjoint
+01:44:04	Kevaundray Wedderburn:	I think benchmarking with EL scenarios is hard to reproduce
+01:44:15	Potuz:	Yeah AVX2  can be safely assumed
+01:44:50	Potuz:	For tomorrow I’ll have benchmarks on my current validating node which is 64GB memory
+01:44:52	Mikhail Kalinin:	Replying to "Do we get 16 * 4 pro..."
+
+if they are not disjoint then “# [IGNORE] A valid aggregate with a superset of aggregation bits has not already been seen” can help to reduce the traffic
+01:45:54	Barnabas:	even zkvm proofs are not planning to be incentivized
+01:46:19	Potuz:	Problem with incentivizing is that you need to allow anyone to send them and then you open the p2p stack for a DOS
+01:46:30	Barnabas:	anyone could send 1
+01:46:45	Kevaundray Wedderburn:	I would want to reach for issuance as a last resort
+01:46:53	Justin Traglia:	Replying to "I would want to re..."
+
+Same
+01:46:56	Barnabas:	p2p bid could include the aggregate?
+01:47:10	terence:	Replying to "p2p bid could includ..."
+
+That’s a DOS though
+01:47:23	Barnabas:	Replying to "p2p bid could includ..."
+
+how big is the aggregate?
+01:47:30	Mikhail Kalinin:	Replying to "Do we get 16 * 4 pro..."
+
+6.25MiB/s — this is huge, even 16 aggregates would be too much
+01:47:34	Kevaundray Wedderburn:	Replying to "p2p bid could includ..."
+
+~300KB
+01:49:04	soispoke:	relying on the builder sounds pretty brittle
+01:49:18	Justin Traglia:	Reacted to "relying on the bui..." with 💯
+01:49:21	Toni Wahrstätter:	Reacted to "relying on the builder sounds pretty brittle" with 👍
+01:49:23	Luca | Vero:	Reacted to "relying on the builder sounds pretty brittle" with 👍
+01:49:39	Pawan Dhananjay:	Reacted to "relying on the builder sounds pretty brittle" with 💯
+01:49:47	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+Relying on superset is quite brittle
+01:49:55	Mikhail Kalinin:	Replying to "Do we get 16 * 4 pro..."
+
+yes
+01:49:59	Toni Wahrstätter:	Builders could still be done in addition?
+01:50:02	Yann Vonlanthen:	Replying to "p2p bid could includ..."
+
+I think it’s also DOS if you don’t get a payload right? 
+
+Happy to be proven wrong, but it seems quite a similar assumption to me:  in both cases if you don’t get it from the builder you need to add a worse version yourself
+
+(Not saying it’s desirable, in either case :))
+01:50:05	Kevaundray Wedderburn:	I’m okay with allowing builders to somehow send aggregates
+01:50:13	terence:	Replying to "relying on the build..."
+
+Its just a fall back right
+01:50:16	Satyajit:	Reacted to "I’m okay with all..." with 👍
+01:51:24	Yann Vonlanthen:	Reacted to "I’m okay with allowing builders to somehow send aggregates" with 👍
+01:51:28	Mikhail Kalinin:	Replying to "Do we get 16 * 4 pro..."
+
+with these numbers even 4 aggregators seem to much. we have 6s seconds to propagate aggregates though. but that’s already a lot
+01:51:35	Satyajit:	chunking?
+01:51:49	soispoke:	how do you know it's just a fallback and validators don't end up using it as their main ways to get aggregates
+01:52:08	Yann Vonlanthen:	Replying to "relying on the build..."
+
+But then it’s the same as for payloads today, right?
+01:52:24	Barnabas:	attestation should go out sooner
+01:52:33	Barnabas:	why are we waiting 3s
+01:52:35	terence:	Replying to "relying on the build..."
+
+We don’t but they will have to fork clients to do that. If they want to fork clients, they can do a lot more worse things already
+01:53:04	soispoke:	right I'm saying we ideally don't want to give validators more reasons to fork clients
+01:53:05	Barnabas:	beacon block is now pretty much empty, didn’t we agree that we could push out attestations at around 1s post epbs?
+01:53:16	Potuz:	Should we SFI quick slots then, and change to 20 seconds per slot 🙂?
+01:53:44	Barnabas:	Replying to "Should we SFI quick ..."
+
+I don’t think we should rule this out as an option.
+01:53:50	terence:	Replying to "relying on the build..."
+
+Ya that’s fair. The trade off is we lose a fallback path. It’s not super clear to me which is better
+01:54:01	Potuz:	Replying to "Should we SFI quick ..."
+
+If we do this I’d rather just wait and do DC
+01:54:13	Francesco D'Amato:	Replying to "Should we SFI quick ..."
+
+Yes we really should just do a minimal version of DC instead of this
+01:54:17	Luca | Vero:	Reacted to "If we do this I’d rather just wait and do DC" with 👍
+01:54:19	Luca | Vero:	Reacted to "Yes we really should just do a minimal version of DC instead of this" with 👍
+01:54:21	Mikhail Kalinin:	Reacted to "Yes we really should just do a minimal version of DC instead of this" with 👍
+01:54:22	Yann Vonlanthen:	Reacted to "Yes we really should just do a minimal version of DC instead of this" with 👍
+01:54:24	Barnabas:	Reacted to "Yes we really should just do a minimal version of DC instead of this" with 👍
+01:54:30	soispoke:	A réagi à "Ya that’s fair. T..." avec 👍
+01:54:33	Yann Vonlanthen:	Reacted to "If we do this I’d rather just wait and do DC" with 👍
+01:54:49	soispoke:	A réagi à "If we do this I’d..." avec 👍
+01:54:53	Francesco D'Amato:	Replying to "Do we get 16 * 4 pro..."
+
+It does seem a lot… and not clear how to make it worst case robust
+01:55:15	Mikhail Kalinin:	Reacted to "It does seem a lot… and not clear how to make it worst case robust" with 👍
+01:55:32	Justin Traglia:	Spec: https://github.com/ethereum/consensus-specs/tree/pq
+01:55:42	Yann Vonlanthen:	Replying to "relying on the build..."
+
+Also this would only be for a single fork (until DC ships), and would raise fairness for entities running on nodes with low bandwidth until then
+01:55:42	Toni Wahrstätter:	Replying to "Should we SFI quick ..." 
+
+ Today we assume the EL owns 6/12s of most resources of a machine. Sounds like CLs will need to do much more compute.
+01:56:10	Barnabas:	Replying to "Should we SFI quick ..."
+
+yeah this is my main worry about the blackbox benchmarks
+01:56:25	Barnabas:	Replying to "Should we SFI quick ..."
+
+we haven’t even considered block execution of a block that has 200M+ gas
+01:56:45	soispoke:	Répondre à "Should we SFI quic..."
+
+EL will need to do much more compute as well though
+01:56:47	Barnabas:	Replying to "Should we SFI quick ..."
+
+so would really wanna see a benchmark of a node that’s running a mainnet with a flag to build every single block
+01:56:54	Mikhail Kalinin:	Reacted to "EL will need to do much more compute as well though" with 👍
+01:57:08	Tom Wambsgans:	Replying to "Should we SFI quick ..."
+
+we will do benchmarks with EL running side by side
+01:57:29	Barnabas:	Replying to "Should we SFI quick ..."
+
+make sure you also build the blocks not just verify
+01:57:30	Yann Vonlanthen:	Reacted to "It does seem a lot… and not clear how to make it worst case robust" with 👍
+01:58:07	soispoke:	Répondre à "Should we SFI quic..."
+
+one thing is that until leanVM is not frozen benchmarks are going to keep moving (maybe we could do a sort of soft leanVM freeze saying: this is the worst case, things can only improve from now on)
+01:58:30	Tom Wambsgans:	Reacted to "make sure you also build the blocks not just verify" with 👍
+01:58:44	Toni Wahrstätter:	Replying to "Should we SFI quick ..." 
+
+ I think we won't need EL running aside but just assume the worst-csse happening on the EL
+01:58:59	Toni Wahrstätter:	Replying to "Should we SFI quick ..." 
+
+ This wouls be 4 cores taking 6s
+01:59:17	Kevaundray Wedderburn:	@ethDreamer (Mark) currently it is this which wraps leanVM: https://github.com/ethereum/lean-pq-bindings but since you are using Rust, you may not need the bindings
+01:59:28	ethDreamer (Mark):	Reacted to "@ethDreamer (Mark) currently it is this which wraps leanVM: https://github.com/ethereum/lean-pq-bindings but since you are using Rust, you may not need the bindings" with 🙏
+02:00:11	Kevaundray Wedderburn:	This is just including late votes?
+02:00:28	Francesco D'Amato:	It’s important to have current slot attestations in a timely way because the fork-choice depends on that
+02:00:36	Toni Wahrstätter:	Replying to "This is just includi..." 
+
+ Or votes for missed slots
+02:00:56	Kevaundray Wedderburn:	Its only the votes
+02:00:58	Francesco D'Amato:	Replying to "It’s important to ha..."
+
+We don’t want to assume validators are listening to all subnets
+02:02:22	Francesco D'Amato:	Separate point: having a spec is nice, but seems clear that the main thing we need to figure out is the aggregation stuff, which the spec is not really that important for. What is the plan to get more confidence on that? Ideally not just simulations?
+02:02:30	Justin Traglia:	Reacted to "Separate point: ha..." with ➕
+02:02:36	Yann Vonlanthen:	Reacted to "Separate point: having a spec is nice, but seems clear that the main thing we need to figure out is the aggregation stuff, which the spec is not really that important for. What is the plan to get more confidence on that? Ideally not just simulations?" with ➕
+02:02:46	Barnabas:	Replying to "Separate point: havi..."
+
+we need a devnet with aggregations on it
+02:02:49	Kevaundray Wedderburn:	Replying to "Separate point: havi..."
+
+Yeah, this seems like the main blocker
+02:03:04	ethDreamer (Mark):	Replying to "Separate point: havi..."
+
+always has been
+02:03:06	Satyajit:	Reacted to "Separate point: ha..." with ➕
+02:03:13	soispoke:	A réagi à "Separate point: ha..." avec ➕
+02:03:20	Potuz:	Replying to "Separate point: havi..."
+
+Yeah the main point is to have a spec so that we code the minimum POC so that we see if this is even viable on Gasper
+02:03:22	Francesco D'Amato:	Replying to "Separate point: havi..."
+
+We need a large globally distributed devnet ideally
+02:03:28	Kevaundray Wedderburn:	Reacted to "We need a large globally distributed devnet ideally" with 👍
+02:03:31	Potuz:	Replying to "Separate point: havi..."
+
+If we are 10 seconds away then we should just switch to DC
+02:03:35	Toni Wahrstätter:	Let's do this every day
+02:03:35	Justin Traglia:	Replying to "Separate point: ha..."
+
+I think we just need to design something that might work & test it.
+02:03:35	terence:	See you all tomorrow!
+02:03:41	Mikhail Kalinin:	Replying to "Separate point: havi..."
+
+can we do devnet for aggreagtes only? without advanced spec
