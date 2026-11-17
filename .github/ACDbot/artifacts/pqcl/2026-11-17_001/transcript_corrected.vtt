@@ -1,0 +1,3578 @@
+WEBVTT
+
+00:00:02.000 --> 00:00:04.000
+Yep
+
+00:00:04.000 --> 00:00:07.000
+Oh, there's more people here than I expected.
+
+00:00:07.000 --> 00:00:08.000
+Terrence.
+
+00:00:08.000 --> 00:00:26.000
+Yeah, I have no question. What's the proper format for this breakout? It's like, should we just get the topics up front that we want to discuss, or you want to go through spec line by line, or… I see you have, like, a VIM open with all the questions and stuff like that, so what do you think is the best format?
+
+00:00:26.000 --> 00:00:31.000
+I think a loose format would be good, whatever is the most important each day. Yeah, we can talk about
+
+00:00:31.000 --> 00:00:44.000
+Like, we can have, like, maybe a 10-minute discussion on what we want to talk about each day, maybe.
+
+00:00:44.000 --> 00:00:45.000
+Okay.
+
+00:00:45.000 --> 00:00:48.000
+Okay, because if we do that, I propose we talk about pre-registration. I have some questions on that, but yeah, it's up to you.
+
+00:00:48.000 --> 00:00:50.000
+Let me stop sharing my screen so I can actually
+
+00:00:50.000 --> 00:00:57.000
+Interact.
+
+00:00:57.000 --> 00:01:03.000
+Yeah, from Potuz. I would also like for this to be somewhat technical and
+
+00:01:03.000 --> 00:01:08.000
+Yeah.
+
+00:01:08.000 --> 00:01:10.000
+All right.
+
+00:01:10.000 --> 00:01:19.000
+So, Terrence, you would like to discuss pre-registrations. And when you say pre-read registrations, you mean like the Lido proposal and not the PQ registrations, correct?
+
+00:01:19.000 --> 00:01:26.000
+No, I want to talk about the pre-registration that is in the PQ fork that is the one that
+
+00:01:26.000 --> 00:01:42.000
+I don't know how to describe it, like, concisely, but it's the one that you have an option to send the message before you send the deposit, and then the deposit later will check whether there is a pre-registration in the beacon state.
+
+00:01:42.000 --> 00:01:47.000
+And then if it's there, then it has to match.
+
+00:01:47.000 --> 00:01:49.000
+Yeah, okay.
+
+00:01:49.000 --> 00:01:50.000
+It's my understanding as well.
+
+00:01:50.000 --> 00:01:54.000
+Isn't it EIP-EIP-8205?
+
+00:01:54.000 --> 00:01:56.000
+KV2…
+
+00:01:56.000 --> 00:01:57.000
+I don't know.
+
+00:01:57.000 --> 00:02:02.000
+Yeah, it's very similar to that. I just modified it to fit with PQ.
+
+00:02:02.000 --> 00:02:05.000
+Okay, do we want to discuss that?
+
+00:02:05.000 --> 00:02:06.000
+Sure. Yeah.
+
+00:02:06.000 --> 00:02:25.000
+Okay, my first question is, can we define what property we want with the pre-registration? I think that's the first thing, and then we can design around there, because I suppose the current design may not have a tag given the property we want. So I think the first fundamental question is,
+
+00:02:25.000 --> 00:02:31.000
+It's what probability we want. And then ICB already raised his hand.
+
+00:02:31.000 --> 00:02:42.000
+Yeah, okay. So the answer is simple. What we want is we want to transition from the situation where the race condition is possible.
+
+00:02:42.000 --> 00:02:50.000
+And when, with, with the money at stake to a situation where race condition is still possible, but without money at stake.
+
+00:02:50.000 --> 00:02:53.000
+That is pretty much the idea.
+
+00:02:53.000 --> 00:03:03.000
+So that you can preoccupy, you can make a pre-agreement, let's call it this way, before making actual transfer.
+
+00:03:03.000 --> 00:03:27.000
+This is the ability that we lack right now. You have to at least put one ETH at stake and then win the race should anyone else participate.
+
+00:03:27.000 --> 00:03:39.000
+Sorry, I guess the one way that I view it is that if you assume that two people have access to the operator key.
+
+00:03:39.000 --> 00:03:40.000
+And one of them could potentially front run the other, then you sort of get into this LIDAR situation.
+
+00:03:40.000 --> 00:03:49.000
+And the property we want is we want a free of charge, free agreement that will later on guarantee that your stake will land where it should land according to pre-agreement.
+
+00:03:49.000 --> 00:03:52.000
+Where?
+
+00:03:52.000 --> 00:03:55.000
+Right, right, right, right, exactly.
+
+00:03:55.000 --> 00:04:11.000
+So the solution is to have this one of them pre-register, or at least the solution without 82.05 is to have one person pay one ETH. They see that they've registered and then they can sort of top up this one ETH position.
+
+00:04:11.000 --> 00:04:23.000
+But what the EIP-8205 solution does is it says instead of paying one ETH to do this top-up, to do this sort of initial registration, we have another contract that just allows you to pre-register.
+
+00:04:23.000 --> 00:04:27.000
+So just remove the one ETH and pretend that it's 0 ETH, which is
+
+00:04:27.000 --> 00:04:31.000
+of these other contract does.
+
+00:04:31.000 --> 00:04:45.000
+So is it fair to say this is not like a PQ specific feature. This is more for a delegated staking and they just happen to be in the PQ spec?
+
+00:04:45.000 --> 00:04:46.000
+Father.
+
+00:04:46.000 --> 00:04:59.000
+Yeah, I'd say that I think we I don't remember which ACD it was, but we agreed to sort of tackle this problem as we DFI'd EIP-8205 for Hegota.
+
+00:04:59.000 --> 00:05:10.000
+Okay, thanks. That was my confusion. Thank you.
+
+00:05:10.000 --> 00:05:13.000
+Okay. Were there any other questions about that, Terrence or all good.
+
+00:05:13.000 --> 00:05:28.000
+I mean, there are still questions about that, but maybe we can just look at the spec. I mean, maybe look at a function. There's questions about the expiry. There's question, and there also has a limit as well. And then, I mean, I do feel like it's.
+
+00:05:28.000 --> 00:05:42.000
+little bit ugly, but understand why it's necessary, but it may be just good to deep dive the function or the or the mechanics around it preregistration.
+
+00:05:42.000 --> 00:05:45.000
+Okay, yeah, we can go over that later, I think.
+
+00:05:45.000 --> 00:05:49.000
+What else do people want to discuss?
+
+00:05:49.000 --> 00:05:51.000
+Like
+
+00:05:51.000 --> 00:05:55.000
+I would like to discuss like how to handle aggregations.
+
+00:05:55.000 --> 00:05:58.000
+Like, we currently
+
+00:05:58.000 --> 00:06:05.000
+Reduce the number of subnets from 64 to 16, but we left the number of committees the same.
+
+00:06:05.000 --> 00:06:08.000
+I'm wondering if we should
+
+00:06:08.000 --> 00:06:13.000
+Reduce the number of committees, or if we should perform another level of aggregation over
+
+00:06:13.000 --> 00:06:17.000
+The… the stark proof
+
+00:06:17.000 --> 00:06:18.000
+per subnet
+
+00:06:18.000 --> 00:06:22.000
+Or, like, how we should handle that, Mikhail
+
+00:06:22.000 --> 00:06:33.000
+Yeah, that's one of the questions that I'm also interested in. So specifically more on looking into reducing the number of committees.
+
+00:06:33.000 --> 00:06:38.000
+And in order to reduce the number of committees, we will have to change some…
+
+00:06:38.000 --> 00:06:44.000
+Some of the things that we haven't changed before, like the max
+
+00:06:44.000 --> 00:06:53.000
+their spirit committee and all these kind of things. Yeah, they're basically the max committee and the max committee is per slot.
+
+00:06:53.000 --> 00:06:54.000
+Yeah.
+
+00:06:54.000 --> 00:06:55.000
+committee and the MAX committees per slot
+
+00:06:55.000 --> 00:06:56.000
+Yeah, that's
+
+00:06:56.000 --> 00:06:57.000
+Also, attestations
+
+00:06:57.000 --> 00:07:07.000
+Oh, that, yeah, that's a fact attestation is right. But it does not change the structure of attestations. It just rather changes the limits in the container
+
+00:07:07.000 --> 00:07:10.000
+Correct. Yeah.
+
+00:07:10.000 --> 00:07:11.000
+Yeah, the committee
+
+00:07:11.000 --> 00:07:18.000
+Yeah, I understand this correctly. Yeah, I was just going to ask. Yeah, it would be great to have some feedback from CL client developers on the
+
+00:07:18.000 --> 00:07:20.000
+I'm changing those
+
+00:07:20.000 --> 00:07:26.000
+Parameters, how… how big of a problem it can be.
+
+00:07:26.000 --> 00:07:29.000
+I mean, the max
+
+00:07:29.000 --> 00:07:33.000
+Validators per committee and yeah, the max committees per
+
+00:07:33.000 --> 00:07:34.000
+Ms.
+
+00:07:34.000 --> 00:07:37.000
+Yeah.
+
+00:07:37.000 --> 00:07:47.000
+I agree. I think just reducing both the committee and the sentence sounds so much simpler from my perspective, but
+
+00:07:47.000 --> 00:07:51.000
+It may not actually be simpler.
+
+00:07:51.000 --> 00:08:01.000
+I have a question. What was the reasoning to decouple them, like leaving the same number of committees, but reducing the subnets
+
+00:08:01.000 --> 00:08:07.000
+I was assuming I was not paying attention to the detail. I was assuming them to be
+
+00:08:07.000 --> 00:08:14.000
+the same. So it was just a way of trying to reduce the complexity, potential complexity in changing
+
+00:08:14.000 --> 00:08:26.000
+The number of committees or there were another reason behind that.
+
+00:08:26.000 --> 00:08:32.000
+I might not be the best person to answer that. I wasn't around for phase zero respects.
+
+00:08:32.000 --> 00:08:36.000
+But we did do the same thing for, like, blobs
+
+00:08:36.000 --> 00:08:40.000
+Maybe someone else can answer.
+
+00:08:40.000 --> 00:08:53.000
+From my understanding is that we would like to increase a number of validators in a subnet for more optimal aggregation of PQ signatures
+
+00:08:53.000 --> 00:09:00.000
+But it seems to me that if we keep the committee number the same
+
+00:09:00.000 --> 00:09:03.000
+This will not
+
+00:09:03.000 --> 00:09:09.000
+We will not reach that goal with the aggregation
+
+00:09:09.000 --> 00:09:15.000
+Because then we have, say we have 16 subnets, we have 64 committees
+
+00:09:15.000 --> 00:09:19.000
+It means that we have four committees per, like, that
+
+00:09:19.000 --> 00:09:28.000
+propagate their attestation in one subnet. Each of those committee will have a own set of aggregators.
+
+00:09:28.000 --> 00:09:32.000
+Each subnet will produce four aggregates at least
+
+00:09:32.000 --> 00:09:36.000
+Which actually requires
+
+00:09:36.000 --> 00:09:40.000
+than to have
+
+00:09:40.000 --> 00:09:50.000
+One more round of aggregation or just, you know, do 64 to one or instead of doing 16 to one
+
+00:09:50.000 --> 00:09:51.000
+I think
+
+00:09:51.000 --> 00:09:56.000
+So I'm not sure if it makes sense to actually change the number of subnets in this case
+
+00:09:56.000 --> 00:10:03.000
+Like with 64 subnets, we can just reduce the number of aggregators in each subnet like
+
+00:10:03.000 --> 00:10:09.000
+Yeah, and we'll have similar situation
+
+00:10:09.000 --> 00:10:16.000
+I think Enrico is asking why was it originally designed this way where there's a different number of committees or
+
+00:10:16.000 --> 00:10:17.000
+A config for the number of committees, and a config for the number of subnets
+
+00:10:17.000 --> 00:10:24.000
+Yeah, essentially, the question is why it's been reduced only the subnets and not the committees
+
+00:10:24.000 --> 00:10:29.000
+In the PQ, in the PQ
+
+00:10:29.000 --> 00:10:32.000
+Spec
+
+00:10:32.000 --> 00:10:46.000
+I think it was a mistake because the number of proofs scales of the number of committees and not the subnets. So I believe we should have reduced the number of committees
+
+00:10:46.000 --> 00:11:05.000
+As well, but you can also do it with the number of subnets, right? Like, you can have 16 subnets, 64 committees, 4 committees per subnet, and then do a mini aggregation within a subnet. This is like another topology that you can do
+
+00:11:05.000 --> 00:11:07.000
+Potuz
+
+00:11:07.000 --> 00:11:25.000
+Talking with the P2P crowd in Mumbai, I got the impression that they were under the mistaken assumption that either subnets or committees or anything would mean that that aggregator would be aggregating a single head vote
+
+00:11:25.000 --> 00:11:36.000
+And that, I think, was a mistake.
+
+00:11:36.000 --> 00:11:41.000
+Yeah.
+
+00:11:41.000 --> 00:11:43.000
+Okay.
+
+00:11:43.000 --> 00:11:47.000
+Anything else on aggregations before moving on?
+
+00:11:47.000 --> 00:11:50.000
+Just to get a loose agenda for what we want to discuss today.
+
+00:11:50.000 --> 00:11:57.000
+I'm sorry that it's for like 5 minutes, it's going to be complicated for me to raise my hand. Now, just a quick comment. We
+
+00:11:57.000 --> 00:12:06.000
+We want to make sure that it is in the spec that the proposer or that it is compliance at least
+
+00:12:06.000 --> 00:12:29.000
+that the proposer needs to limit the last recursion. Like, if you do have more than the number of heads that we are allowing in the block to only pick the recursions that cover that number maximum, or just pick any of the starks that you already have from the aggregator and just include that one, include the top one and that's it
+
+00:12:29.000 --> 00:12:33.000
+Got it, noted.
+
+00:12:33.000 --> 00:12:34.000
+Terrence
+
+00:12:34.000 --> 00:12:45.000
+More of a general question. When we look at the spec later, like, do we assume there's a proof of possession already on the EL side, or no?
+
+00:12:45.000 --> 00:12:49.000
+I would like to assume yes, there is a proof of possession on the Yale side that the
+
+00:12:49.000 --> 00:12:58.000
+And that verified guests to be reasonable, okay, to do stuff, right?
+
+00:12:58.000 --> 00:12:59.000
+Okay.
+
+00:12:59.000 --> 00:13:00.000
+Yeah, I
+
+00:13:00.000 --> 00:13:06.000
+I think so.
+
+00:13:06.000 --> 00:13:16.000
+Regarding this, what is the plan to update the CL spec PR and the EIP
+
+00:13:16.000 --> 00:13:26.000
+I mean, in which ordering are we supposed to do that? Because I think that the EIP is outdated
+
+00:13:26.000 --> 00:13:33.000
+Yeah, the EIP is outdated.
+
+00:13:33.000 --> 00:13:37.000
+That's a good question.
+
+00:13:37.000 --> 00:13:49.000
+I think maybe at just the end of this week, we can update the EIP accordingly and just try to get it merged as quickly as possible. I really just want the EIP to be like
+
+00:13:49.000 --> 00:13:57.000
+Brief overview of the changes that will need to be made. No details like open-ended enough that we can make
+
+00:13:57.000 --> 00:14:00.000
+Whatever spec changes we need to
+
+00:14:00.000 --> 00:14:06.000
+But it would be good to have an EIP number and to actually merge this stuff into master.
+
+00:14:06.000 --> 00:14:08.000
+So
+
+00:14:08.000 --> 00:14:24.000
+And do we agree that on the spec side of things, we have two things, right? We have your PR where you do the pre-registration stuff as per the EIP. And also you have a separated branch that is called PQ Gasper where you do the
+
+00:14:24.000 --> 00:14:30.000
+full integration of XMSS, and you replace BLS by XMSS, right?
+
+00:14:30.000 --> 00:14:33.000
+That is correct. Yeah
+
+00:14:33.000 --> 00:14:41.000
+And the PR I have is built on top of Pectra
+
+00:14:41.000 --> 00:14:47.000
+But the stuff that we're going to be talking here today is actually built on top of Glamsterdam.
+
+00:14:47.000 --> 00:14:53.000
+Because that's just what we decided to do at DEFCON. It was more of an emergency for preparedness.
+
+00:14:53.000 --> 00:14:58.000
+Think then
+
+00:14:58.000 --> 00:15:04.000
+Yeah, I mean, I can rebase accordingly, like however we decide to do this later.
+
+00:15:04.000 --> 00:15:12.000
+I do think that working on top of Glamsterdam is easier to just process at the moment
+
+00:15:12.000 --> 00:15:16.000
+And regarding the proof of position
+
+00:15:16.000 --> 00:15:23.000
+We discussed that a lot on the Discord and we ended up with various conclusions such as
+
+00:15:23.000 --> 00:15:28.000
+without proof of possession, we have a lot of edge cases
+
+00:15:28.000 --> 00:15:34.000
+But we don't really know how to cover and stuff like this, but with proof of possession
+
+00:15:34.000 --> 00:15:42.000
+We have like this additional proof that should be handled on the execution side, apparently, with additional bytes
+
+00:15:42.000 --> 00:15:47.000
+And that is quite big. Do we know how to handle that?
+
+00:15:47.000 --> 00:15:53.000
+No, wait, wait, wait. Why aggregating these things? These things shouldn't go on chain anywhere.
+
+00:15:53.000 --> 00:16:06.000
+You just provide the proof of possession on the access to the contract for the preregistration, the contract verifies the signature and just drops it completely. No data is stored on chain.
+
+00:16:06.000 --> 00:16:17.000
+Yeah, yeah, yeah, yeah, yeah, yeah, yeah, yeah, that was… yeah, yeah, you're right.
+
+00:16:17.000 --> 00:16:18.000
+Yeah.
+
+00:16:18.000 --> 00:16:25.000
+So there's no aggregation of these signatures at all, and it's just like what the CL receives is exactly as today. It's just that you add this extra compute on the EL side. And the question is whether or not the trade-off is worth it for people that are going to be paying for this compute
+
+00:16:25.000 --> 00:16:32.000
+Yeah, yeah. What about the gas? Yeah
+
+00:16:32.000 --> 00:16:36.000
+Yeah, as Paris was saying, that's how it's gonna work.
+
+00:16:36.000 --> 00:16:46.000
+I think Kev, correct me if I'm wrong, but the estimates on the verification, sorry, the DAS for signature verification was like 20k to like 45 K or something
+
+00:16:46.000 --> 00:16:48.000
+Like, it seemed fairly small.
+
+00:16:48.000 --> 00:16:53.000
+Well, it depends. How much is the transaction cost without
+
+00:16:53.000 --> 00:16:59.000
+Without the verification
+
+00:16:59.000 --> 00:17:00.000
+I don't know.
+
+00:17:00.000 --> 00:17:02.000
+Why does that matter? Like if it's an extra
+
+00:17:02.000 --> 00:17:16.000
+Well, because if you're a pool that has like 10% of the stake, you're gonna be paying for that many transactions. And the question is, if you're paying from if it goes from zero to one, it's different than if it goes from 0.9 to
+
+00:17:16.000 --> 00:17:18.000
+Yeah, but
+
+00:17:18.000 --> 00:17:28.000
+Like, we are talking, I don't know, if we assume that we also speed up consolidations, we are talking like tens of thousands of transactions, which
+
+00:17:28.000 --> 00:17:37.000
+Usually, I mean, from the lighter side, I can say that we are verifying CL proofs which take like 300, 400,000 gas
+
+00:17:37.000 --> 00:17:39.000
+I don't know.
+
+00:17:39.000 --> 00:17:43.000
+Approximately 50 times a day
+
+00:17:43.000 --> 00:17:46.000
+And we haven't spent more than two weeks in total on that.
+
+00:17:46.000 --> 00:18:05.000
+So, given the low gas, I don't say… I don't low gas price. I don't see a major concern here, honestly, unless it's something incredibly expensive.
+
+00:18:05.000 --> 00:18:12.000
+Can we then discuss who signs this yet? Because if we didn't have proof of possession, then it would be
+
+00:18:12.000 --> 00:18:27.000
+It's sort of like clear who has it, but if we're going to be verifying signatures, we could also verify the BLS signature. And there were some people complaining on the EIP that they wanted to have the operator sending these messages
+
+00:18:27.000 --> 00:18:43.000
+If we verify BLS on the EL we can also do this. We can also allow the operator to send the pre-registration instead of the withdrawal credentials.
+
+00:18:43.000 --> 00:18:50.000
+I'm not sure I follow how verifying BLS on-chain helps with operators signing it
+
+00:18:50.000 --> 00:19:00.000
+So today, the pre-registration contracts contract gets called. It gets the pubkey as call data.
+
+00:19:00.000 --> 00:19:07.000
+We're saying that we are going to verify the XMSS ownership of that key
+
+00:19:07.000 --> 00:19:18.000
+And then the CL side receives who paid that transaction. It verifies that it is the withdrawal credential of the corresponding pub key. The BLS pub key that is part of the call data.
+
+00:19:18.000 --> 00:19:21.000
+That's all
+
+00:19:21.000 --> 00:19:22.000
+Okay
+
+00:19:22.000 --> 00:19:25.000
+So these forces, the withdrawal credential to send the pre-registration.
+
+00:19:25.000 --> 00:19:41.000
+If we also verify BLS, then we could also take a scold data this message, I own this pubkey. So since the PLS pub key already comes, the EL can verify that
+
+00:19:41.000 --> 00:19:56.000
+The sender owns the BLS validating key, and then it doesn't matter who is sending that transaction, then the CL doesn't need to care that the sender of the transaction was a withdrawal credential. It knows that whomever sends the transaction owns
+
+00:19:56.000 --> 00:20:09.000
+The validator, the validating keys for that Validator, and therefore you can just change the… add the PQ data. So we could allow for both either the operator or the withdrawal credentials to send this message
+
+00:20:09.000 --> 00:20:19.000
+It would require two signature verifications instead of one on the EL
+
+00:20:19.000 --> 00:20:20.000
+I see.
+
+00:20:20.000 --> 00:20:28.000
+Why would we have both signatures? I mean, BLS and proof of XMSS at the same time
+
+00:20:28.000 --> 00:20:31.000
+What was the question, Michelle?
+
+00:20:31.000 --> 00:20:32.000
+Why?
+
+00:20:32.000 --> 00:20:41.000
+The question is, like, yeah, can't we just basically validate the BLS proof of possession and rely on that
+
+00:20:41.000 --> 00:20:51.000
+No, no, because many of the edge cases came from this validator could lie, for example, on this XMSS
+
+00:20:51.000 --> 00:20:53.000
+Signature.
+
+00:20:53.000 --> 00:21:01.000
+In principle, we're good. We will have some edge cases. We would solve others.
+
+00:21:01.000 --> 00:21:18.000
+Yeah, I think they're just two different sort of things or workflows. The first one is who actually validates a changing of the operator public key. So it can either be the BLS public key for the operator/validator
+
+00:21:18.000 --> 00:21:33.000
+Or it can be the withdrawal credentials. Like, you have this either way. If it's the withdrawal credentials, it's a bit easier, because you can just check message.sender, but if it's the BLS key, then you need to verify the BLS signature
+
+00:21:33.000 --> 00:21:38.000
+So this is always there. Like someone needs to authorize the change on the CL
+
+00:21:38.000 --> 00:21:44.000
+And then the second part is the XMSS public key that is going to be put into the Cl.
+
+00:21:44.000 --> 00:21:53.000
+And that needs a proof of possession as well, or else I can just register your XMSS public key and just grief you.
+
+00:21:53.000 --> 00:22:10.000
+So something that worries me is that the operator is not the owner of the stake. And if the operator lags into upgrading, like Ladislau is saying that the operators would be faster, but if the operator is the one that is the only one that can actually send the upgrade
+
+00:22:10.000 --> 00:22:15.000
+And it doesn't, then you can probably greet the owner of the
+
+00:22:15.000 --> 00:22:22.000
+of the of the stake. Anyways, you can do it now, because you can just slash yourself, so it's probably not that much of a difference.
+
+00:22:22.000 --> 00:22:32.000
+There is another problem here as I see it. Usually, you never sign anything with validator duties with validator private key.
+
+00:22:32.000 --> 00:22:37.000
+And usually, this private key is hidden as deep as it's possible.
+
+00:22:37.000 --> 00:22:43.000
+So pulling it off to sign this PQ message
+
+00:22:43.000 --> 00:22:58.000
+Might, on its own, introduce a risk, so you might have an assigning infrastructure set in a way that you… maybe you can't even extract the key. Maybe you generated it within, I don't know, trusted execution environment, and you
+
+00:22:58.000 --> 00:23:15.000
+We're not even able to extract the key, and the tooling that you have around this key does not allow to sign whatever message you would need to sign with it. So I would say that since rotation from OX00 to 0x01,
+
+00:23:15.000 --> 00:23:27.000
+Since then, we always used withdrawal credentials for 0x01 to OX02 rotation and to other operations. I personally think that we should continue this way and keep using withdrawal credentials here.
+
+00:23:27.000 --> 00:23:37.000
+Rather than trying to introduce an operation that had never been introduced again, signing something with the validator private key that
+
+00:23:37.000 --> 00:23:49.000
+Is not a Validator
+
+00:23:49.000 --> 00:24:19.000
+Yeah, it's… I guess it's pretty strong, given that, I guess LIDA, you have, like, a lot of signing to do, so that's maybe a pretty strong signal
+
+00:24:21.000 --> 00:24:34.000
+I mean, for whatever reason, you might have both, but I would definitely say that having just one option where the rotation is done via validated private key is a bad approach.
+
+00:24:34.000 --> 00:24:47.000
+Having both, okay, having only withdrawal credentials also good
+
+00:24:47.000 --> 00:24:49.000
+All right
+
+00:24:49.000 --> 00:24:53.000
+Can we move on to another topic or there's more here?
+
+00:24:53.000 --> 00:24:55.000
+Yeah, I'd like to move on.
+
+00:24:55.000 --> 00:24:56.000
+I think that's
+
+00:24:56.000 --> 00:24:57.000
+Yeah, so I think… Go ahead.
+
+00:24:57.000 --> 00:24:59.000
+Oh, here you go, sorry.
+
+00:24:59.000 --> 00:25:06.000
+Yeah, so I was going to say the one thing that I found tricky is that when we go from the
+
+00:25:06.000 --> 00:25:10.000
+We go from the… when we go to the PQ fork,
+
+00:25:10.000 --> 00:25:26.000
+for the 0 at 0 validators that I think there are 2 points here. The 1st point is that today they withdraw epoch is immediately set without some sort of shown consideration. The second point
+
+00:25:26.000 --> 00:25:36.000
+For, like, what do we do with slashing across the fork just today the block only carries one type of slashing. And then
+
+00:25:36.000 --> 00:25:48.000
+I can see pros and cons for also adding legacy slashing as well. That's yeah, so I think we might want to deep dive into this topic.
+
+00:25:48.000 --> 00:25:58.000
+Yep, that's a good one. And I have updated the specs to not exit immediately into instead
+
+00:25:58.000 --> 00:26:02.000
+just initiate the Validator exits for unregistered validators
+
+00:26:02.000 --> 00:26:05.000
+So
+
+00:26:05.000 --> 00:26:10.000
+Yeah, I mean, I was chatting with Kat about that. Does that sound reasonable?
+
+00:26:10.000 --> 00:26:12.000
+Mikhail.
+
+00:26:12.000 --> 00:26:22.000
+I could comment on that. So I… I'm not sure if we want to actually do the regular exit in this case, because
+
+00:26:22.000 --> 00:26:37.000
+If we don't see… yeah, I know how likely it is, but if we see less than two-thirds pre-registered violators, then we will lose finality if we do this gradual exit, yeah
+
+00:26:37.000 --> 00:26:38.000
+Yeah.
+
+00:26:38.000 --> 00:26:39.000
+Yeah.
+
+00:26:39.000 --> 00:26:46.000
+Wait, wait, wait, we can decide when we fork. We will not even schedule the fork if there's not two thirds of validators already registered
+
+00:26:46.000 --> 00:26:50.000
+All right. Yeah, maybe this this is the
+
+00:26:50.000 --> 00:26:55.000
+the way to do it. The other the other downside of like exiting
+
+00:26:55.000 --> 00:27:03.000
+Like, it is, like, why initiate ValidatorX is basically that the queue will be clogged for
+
+00:27:03.000 --> 00:27:05.000
+Or
+
+00:27:05.000 --> 00:27:08.000
+As I can see, like, for a very
+
+00:27:08.000 --> 00:27:17.000
+Kind of not that important reason around that work. We could basically set the withdraw ability delay as we usually do.
+
+00:27:17.000 --> 00:27:24.000
+It will mean that there will be 256 epochs for which these values will still be slashable if we want to slash them
+
+00:27:24.000 --> 00:27:28.000
+And if we want, even if we want to process the
+
+00:27:28.000 --> 00:27:39.000
+BLS slashings after in the fork so it actually means that there will be 256 epochs of weak subjectivity at some point in time, so it will just reduce
+
+00:27:39.000 --> 00:27:51.000
+To that, so I don't know if we really want to end with some community awareness around the fork and without like with announcement that Checkpoint Sync might be insecure
+
+00:27:51.000 --> 00:27:57.000
+If you rely on the checkpoint that is more than 256 epochs older.
+
+00:27:57.000 --> 00:28:03.000
+Be careful, be careful around that. So probably that could be a mitigation of, you know,
+
+00:28:03.000 --> 00:28:13.000
+doing that, but yeah, I don't see any strong reason for not to withdraw, not exiting them at the fork and
+
+00:28:13.000 --> 00:28:18.000
+Yeah, and doing it with the queue as it currently in the EIP
+
+00:28:18.000 --> 00:28:21.000
+Maybe, yeah, prove me if I'm wrong on that
+
+00:28:21.000 --> 00:28:25.000
+Notice
+
+00:28:25.000 --> 00:28:35.000
+Yeah, so I believe the easiest thing we can do which it's probably not the safest, but still seems quite reasonable to me is just to exit everybody there immediately
+
+00:28:35.000 --> 00:28:48.000
+Keep them in the queue, like, not withdrawn immediately, keep them a month, two months, whatever you decide to keep the BLS validators not withdrawn. So the money is locked
+
+00:28:48.000 --> 00:29:07.000
+Forget completely about processing slashings from BLS on chain, and we just agree that if there is a massive slashing that could happen, accountability is not lost. We have the objects, and we could prove that we have the objects and just rely on community to slash in that BLS take
+
+00:29:07.000 --> 00:29:28.000
+So that's the simplest way you don't affect the churn because you can just have a separate queue for the PQ Validators, separate everything for the PQ validators and the BLS validators are just blocked for a long time so that we can slash them if we need to
+
+00:29:28.000 --> 00:29:32.000
+Yeah, that's an option. I would want it to be quite a long time
+
+00:29:32.000 --> 00:29:39.000
+like, almost a month, or something. Like, 8,000 epochs or so.
+
+00:29:39.000 --> 00:29:46.000
+Just something like that sound reasonable?
+
+00:29:46.000 --> 00:30:02.000
+Or is that too long
+
+00:30:02.000 --> 00:30:03.000
+Okay.
+
+00:30:03.000 --> 00:30:12.000
+And just to clarify, so we would exit the BLS validators immediately who have not registered their credentials
+
+00:30:12.000 --> 00:30:22.000
+We would essentially wait some amount of time to see if they do equivocate, and then just socially slash them
+
+00:30:22.000 --> 00:30:28.000
+As in, we just manually come back and then if we see any equivocations, we just do it.
+
+00:30:28.000 --> 00:30:35.000
+Do it manually, is that correct?
+
+00:30:35.000 --> 00:30:38.000
+Okay, yeah, makes sense
+
+00:30:38.000 --> 00:30:44.000
+Maybe a dumb question for my part is, have we ever socially slashed anyone or
+
+00:30:44.000 --> 00:30:47.000
+Do we do we know how to do this quickly
+
+00:30:47.000 --> 00:30:51.000
+Barnabas
+
+00:30:51.000 --> 00:30:58.000
+Yeah, not regarding the slashing just a different question related to this topic, though.
+
+00:30:58.000 --> 00:31:01.000
+Well, I can also, I mean, it's not been
+
+00:31:01.000 --> 00:31:05.000
+Done. It requires a lot of
+
+00:31:05.000 --> 00:31:11.000
+Coronation to do this basically, I mean
+
+00:31:11.000 --> 00:31:17.000
+You have to do a fork in order to do it, basically. Yeah
+
+00:31:17.000 --> 00:31:26.000
+I mean, I think it's sort of worth discussing now. Like if we say that's what we want to do, it doesn't sound very simple.
+
+00:31:26.000 --> 00:31:35.000
+Oh, the fork is absolutely trivial. What's hard is the social part of deciding, yeah, we need to slash these people for this amount of time, this amount of money.
+
+00:31:35.000 --> 00:31:43.000
+Okay.
+
+00:31:43.000 --> 00:31:51.000
+Can we include this session on chain and just process it at the folk choice? Something like that, like not
+
+00:31:51.000 --> 00:31:59.000
+Not actually doing the hard fork but kind of a soft work in a sense that this block will be accepted.
+
+00:31:59.000 --> 00:32:01.000
+No, no, wait. So
+
+00:32:01.000 --> 00:32:11.000
+How are you going to include the slashing on chain? I mean, this is irregular on the CL side. It's going to be an irregular state transition on the CL side.
+
+00:32:11.000 --> 00:32:18.000
+Because you're going to burn money that it is on a queue on the Beacon state
+
+00:32:18.000 --> 00:32:22.000
+Right, so what I probably meant is that basically not
+
+00:32:22.000 --> 00:32:30.000
+Verify the BLS signature is part of the state transition, but rather as I don't know the fork choice. Yeah, that's that's a very
+
+00:32:30.000 --> 00:32:31.000
+rough idea.
+
+00:32:31.000 --> 00:32:36.000
+I don't see how to do this without a hard work. It's a very trivial hard fork, though.
+
+00:32:36.000 --> 00:32:39.000
+Could we just keep legacy
+
+00:32:39.000 --> 00:32:50.000
+A list of legacy slashings somewhere in the state along with legacy pub keys, and then just delete those at the fork after PQ
+
+00:32:50.000 --> 00:32:57.000
+Or is that too complicated?
+
+00:32:57.000 --> 00:33:10.000
+I think analyzing every possible slash condition is going to be quite complicated because you can have like mixed slashings where you're just getting surrounded by votes that you're doing. The one leg is pre-BLS and the other leg is post BLS
+
+00:33:10.000 --> 00:33:20.000
+both big you dealing with this is just so complicated that I see no reason why not to go with the social consensus over this.
+
+00:33:20.000 --> 00:33:22.000
+Okay.
+
+00:33:22.000 --> 00:33:23.000
+But is the
+
+00:33:23.000 --> 00:33:24.000
+I'll update this.
+
+00:33:24.000 --> 00:33:25.000
+You go.
+
+00:33:25.000 --> 00:33:31.000
+Sorry, just the complication of the social thing would be
+
+00:33:31.000 --> 00:33:44.000
+to be discovered, I mean, we're just thinking any client should provide 2 different build of of the client. So the the final user will be just
+
+00:33:44.000 --> 00:33:55.000
+choosing the one that can install or the client needs to kind of decide for its own users. So there are several things to
+
+00:33:55.000 --> 00:33:58.000
+That can open up on the social
+
+00:33:58.000 --> 00:34:09.000
+Slashing argument
+
+00:34:09.000 --> 00:34:12.000
+Yeah
+
+00:34:12.000 --> 00:34:13.000
+Okay, let's move on.
+
+00:34:13.000 --> 00:34:26.000
+Can I have a quick question? I might be missing some context here, but why can't we eddy fork just basically not schedule any duties to those validators that have not done the pre-registration?
+
+00:34:26.000 --> 00:34:31.000
+And if you don't have any duties scheduled, then you couldn't be doing anything that is
+
+00:34:31.000 --> 00:34:34.000
+slashable.
+
+00:34:34.000 --> 00:34:46.000
+No, you can still write because just before the fork, you can just choose to equivocate, but don't send the second vote out
+
+00:34:46.000 --> 00:34:47.000
+So like a block
+
+00:34:47.000 --> 00:34:50.000
+So are we talking about
+
+00:34:50.000 --> 00:34:52.000
+One specific slot
+
+00:34:52.000 --> 00:34:59.000
+No, no, there's a synchrony attacks in which you can just reveal a whole branch
+
+00:34:59.000 --> 00:35:09.000
+I believe that we're analyzing these situations, it's just a waste of time.
+
+00:35:09.000 --> 00:35:10.000
+Yep.
+
+00:35:10.000 --> 00:35:11.000
+I agree. I mean, there were really weird
+
+00:35:11.000 --> 00:35:16.000
+issues right at the merge transition, too, and
+
+00:35:16.000 --> 00:35:25.000
+Unless you have a really motivated, really well capitalized attacker that wants to take place, take like an obscure bug, honestly, there's
+
+00:35:25.000 --> 00:35:29.000
+million easier ways to to attack ethereum
+
+00:35:29.000 --> 00:35:31.000
+Yeah, okay, let's move on.
+
+00:35:31.000 --> 00:35:35.000
+Barnabas, did you have a new topic that you'd like to discuss or
+
+00:35:35.000 --> 00:35:36.000
+No, that…
+
+00:35:36.000 --> 00:35:37.000
+Was it the same thing?
+
+00:35:37.000 --> 00:35:42.000
+So like there there was the topic regarding that we want two-thirds of evaluators
+
+00:35:42.000 --> 00:35:51.000
+To have said or yeah, to have set the XMSS key. And I just don't understand why is that relevant here.
+
+00:35:51.000 --> 00:35:53.000
+I agree. That was also confusing. Like, I don
+
+00:35:53.000 --> 00:35:58.000
+We should just go ahead with the fork when we are ready and then
+
+00:35:58.000 --> 00:36:05.000
+Let everyone yeah
+
+00:36:05.000 --> 00:36:06.000
+Yeah, yeah, no, let's just do the same
+
+00:36:06.000 --> 00:36:11.000
+And I think ready involves a minimum stake because obviously you can't have like, we have one PQ key, let's launch the fork, but there's minimum stake, but beyond that minimum, I don't see why we would tie those two together.
+
+00:36:11.000 --> 00:36:18.000
+I would just do the same as what we did for Minat back in
+
+00:36:18.000 --> 00:36:19.000
+Yeah, exactly. Yeah.
+
+00:36:19.000 --> 00:36:20.000
+From when we launched the Beacon chain, there was, like, a minimum take to launch the Beacon chain, and if
+
+00:36:20.000 --> 00:36:25.000
+And if we hadn't have hit that by the activation of the
+
+00:36:25.000 --> 00:36:29.000
+The activation time, then we would have waited until we hit it. And if we hit it ahead of time
+
+00:36:29.000 --> 00:36:31.000
+Yep.
+
+00:36:31.000 --> 00:36:36.000
+We wait until activation.
+
+00:36:36.000 --> 00:36:44.000
+And I also don't expect that we would not hit that low value
+
+00:36:44.000 --> 00:36:49.000
+I have a question or topic on this, like semi-related to this.
+
+00:36:49.000 --> 00:36:55.000
+If a Validator registers a PQ like key material
+
+00:36:55.000 --> 00:36:59.000
+Does that mean that their validator is ready
+
+00:36:59.000 --> 00:37:08.000
+To like use the XMSS pub key or do we need another way of signaling that like every validator on the network is somewhat ready?
+
+00:37:08.000 --> 00:37:17.000
+We're going to assume they're ready, but they are gonna have to have, like, their node software upgraded, their validators continue to be ready to sign with those messages and that kind of stuff. It's a standard fork.
+
+00:37:17.000 --> 00:37:20.000
+Yeah.
+
+00:37:20.000 --> 00:37:23.000
+Would there be value in a
+
+00:37:23.000 --> 00:37:26.000
+A new global topic where
+
+00:37:26.000 --> 00:37:36.000
+Pretty much every Validator signs a message once every 4,000 epochs or so
+
+00:37:36.000 --> 00:37:40.000
+Signaling that they have their XMSS pub keys
+
+00:37:40.000 --> 00:37:42.000
+You know, bloated, and they're ready to
+
+00:37:42.000 --> 00:37:46.000
+You know, for the transition, the migration
+
+00:37:46.000 --> 00:37:55.000
+I mean, I did the math yesterday, and it would take, I mean, 64 messages or signatures over like three years
+
+00:37:55.000 --> 00:37:59.000
+So the number of leaves used for this would be fairly small.
+
+00:37:59.000 --> 00:38:16.000
+I'm just wondering if it's actually useful.
+
+00:38:16.000 --> 00:38:18.000
+Okay.
+
+00:38:18.000 --> 00:38:21.000
+I'll bring this up again later.
+
+00:38:21.000 --> 00:38:24.000
+Francesca, what were you saying?
+
+00:38:24.000 --> 00:38:26.000
+Or what is this?
+
+00:38:26.000 --> 00:38:37.000
+I was just proposing that, alternatively, you could use a key-value pair in the, ENR to signal that you're PQ ready, as opposed to
+
+00:38:37.000 --> 00:38:41.000
+introducing topics and messages
+
+00:38:41.000 --> 00:38:44.000
+Yeah, it's a good idea.
+
+00:38:44.000 --> 00:38:51.000
+I would just avoid all of this and just assume that the validator that pre-register already will know that we are going to fork
+
+00:38:51.000 --> 00:38:55.000
+It's a fork. Validators are used to forking
+
+00:38:55.000 --> 00:38:59.000
+Yeah
+
+00:38:59.000 --> 00:39:00.000
+Okay.
+
+00:39:00.000 --> 00:39:08.000
+Like, how is it different than anything else? Like if you run a node, you and we're going to communicate that you need a different key to keep running after the fork
+
+00:39:08.000 --> 00:39:14.000
+Then we assume that everybody that wants to keep participating will have that key registered and ready to go.
+
+00:39:14.000 --> 00:39:15.000
+I don't think we need to
+
+00:39:15.000 --> 00:39:17.000
+I mean, I think there's
+
+00:39:17.000 --> 00:39:22.000
+There's a good chance Validators will register PQ keys
+
+00:39:22.000 --> 00:39:27.000
+Before clients are ready to, like, actually use them so they may forget
+
+00:39:27.000 --> 00:39:30.000
+To, like, import them.
+
+00:39:30.000 --> 00:39:31.000
+Okay.
+
+00:39:31.000 --> 00:39:32.000
+That's their responsibility.
+
+00:39:32.000 --> 00:39:44.000
+We will provide a way of generating those keys within the client. So the client itself can, at the point of generating those keys, already import them
+
+00:39:44.000 --> 00:39:46.000
+Okay.
+
+00:39:46.000 --> 00:39:49.000
+That sounds fine.
+
+00:39:49.000 --> 00:39:50.000
+All right, let's move on.
+
+00:39:50.000 --> 00:40:00.000
+This is gonna be execution layer initiated like like
+
+00:40:00.000 --> 00:40:01.000
+I'm just… I'm just…
+
+00:40:01.000 --> 00:40:02.000
+That's kind of irrelevant, right? The key can the key and the signature needs to be outside of the ELG. So it's just like what a deposit is now.
+
+00:40:02.000 --> 00:40:18.000
+I'm just pointing out that, like, there's a two-stage process. There's a key generation, there's a JSON to, you know, a file to take and make your transaction, but MetaMask, and then there's getting the key into your CL client, which we
+
+00:40:18.000 --> 00:40:19.000
+Yes.
+
+00:40:19.000 --> 00:40:20.000
+It's exactly what a deposit is today. You generate your key
+
+00:40:20.000 --> 00:40:21.000
+Yes, I know.
+
+00:40:21.000 --> 00:40:22.000
+Yeah.
+
+00:40:22.000 --> 00:40:29.000
+It's just that is like people can generate and register without importing.
+
+00:40:29.000 --> 00:40:37.000
+I mean, that's their issue, but
+
+00:40:37.000 --> 00:40:44.000
+Can we can we certify them what we discussed about these exits? The Q fork
+
+00:40:44.000 --> 00:40:54.000
+We are going to use a separate queue to put the BLS validators and keep them for some time. But this queue is separate from the usual churn
+
+00:40:54.000 --> 00:41:02.000
+And then we're not going to affect the churn of PQ Validators that start exiting or depositing or consolidating or whatever it is.
+
+00:41:02.000 --> 00:41:08.000
+I wasn't planning to introduce a new queue. I thought we were just going to set the withdrawal
+
+00:41:08.000 --> 00:41:09.000
+So you just just
+
+00:41:09.000 --> 00:41:10.000
+Delayed to, like, 8,000 epochs
+
+00:41:10.000 --> 00:41:16.000
+Okay, so we keep the same queue, but then just make them withdrawal much later.
+
+00:41:16.000 --> 00:41:18.000
+That's what I had in mind.
+
+00:41:18.000 --> 00:41:19.000
+Does that match
+
+00:41:19.000 --> 00:41:22.000
+That's fine by me. I think it's fine to like accept that people
+
+00:41:22.000 --> 00:41:27.000
+are going to be locked for longer. It's fine by me
+
+00:41:27.000 --> 00:41:31.000
+Okay. I'll make that spec change later.
+
+00:41:31.000 --> 00:41:36.000
+I think there's value in just starting to go over the spec now
+
+00:41:36.000 --> 00:41:40.000
+If everyone's okay with that
+
+00:41:40.000 --> 00:41:47.000
+Or are there any other topics we'd like to discuss beforehand?
+
+00:41:47.000 --> 00:41:49.000
+I'm sorry, what was the question?
+
+00:41:49.000 --> 00:41:54.000
+Are you guys ready to go over the spec now, or are there other topics you'd like to discuss before going over the spec
+
+00:41:54.000 --> 00:41:58.000
+I thought we were already going over the spec now.
+
+00:41:58.000 --> 00:41:59.000
+Yeah
+
+00:41:59.000 --> 00:42:02.000
+Well, I was going to share my screen and, like, Ashley go over it
+
+00:42:02.000 --> 00:42:03.000
+Okay.
+
+00:42:03.000 --> 00:42:04.000
+Sure
+
+00:42:04.000 --> 00:42:08.000
+My next question would be like, what parts do you want to see first?
+
+00:42:08.000 --> 00:42:17.000
+I have a preferred one, which is withdrawal. How we're going to handle withdrawals, because that's actually quite tricky.
+
+00:42:17.000 --> 00:42:18.000
+Okay.
+
+00:42:18.000 --> 00:42:19.000
+I need my glasses
+
+00:42:19.000 --> 00:42:20.000
+Withdrawals in the PQ fork
+
+00:42:20.000 --> 00:42:21.000
+Age sucks, I need my glass
+
+00:42:21.000 --> 00:42:25.000
+I can make it bigger
+
+00:42:25.000 --> 00:42:29.000
+One second, how do I do this?
+
+00:42:29.000 --> 00:42:32.000
+Let me
+
+00:42:32.000 --> 00:42:33.000
+Oh, goodness.
+
+00:42:33.000 --> 00:42:35.000
+Let's see
+
+00:42:35.000 --> 00:42:45.000
+Is there withdrawal requests on block level, or pending withdrawal on the process epoch level? Because there are two.
+
+00:42:45.000 --> 00:42:49.000
+Sorry, say the question again.
+
+00:42:49.000 --> 00:43:02.000
+There are two places for withdrawal. One is on the epoch level where you process the pending withdrawals is in the state, or there is the one that withdrawal request
+
+00:43:02.000 --> 00:43:05.000
+So which withdraw
+
+00:43:05.000 --> 00:43:09.000
+Yeah, wish withdrawal. Does POTUS want to see exactly? Is that your question?
+
+00:43:09.000 --> 00:43:12.000
+Yeah.
+
+00:43:12.000 --> 00:43:28.000
+Or just how we send withdrawals. So we typically like prepare the withdrawals and it's quite tricky to prepare the withdrawals when we are proposing. So what are the withdrawals that we're going to send the builder and what are the withdrawals that we expect to get when we process them
+
+00:43:28.000 --> 00:43:30.000
+So those are the hard ones.
+
+00:43:30.000 --> 00:43:35.000
+Okay, so that's the process withdrawal request.
+
+00:43:35.000 --> 00:43:36.000
+Yeah.
+
+00:43:36.000 --> 00:43:39.000
+This one
+
+00:43:39.000 --> 00:43:47.000
+Yeah, so all of these get expected withdrawals are kind of, like, tricky
+
+00:43:47.000 --> 00:43:49.000
+So
+
+00:43:49.000 --> 00:43:54.000
+Oh, this consolidation request. Sorry.
+
+00:43:54.000 --> 00:43:57.000
+One second.
+
+00:43:57.000 --> 00:44:00.000
+This process withdrawal request.
+
+00:44:00.000 --> 00:44:11.000
+Sorry, I have a question, like, about the spec itself. So, like, the intention of the spec is to basically code it out and see the viability of this
+
+00:44:11.000 --> 00:44:22.000
+anti-spec working with gossip-sub with, like, all the increased signature sizes within the time limits we have right now. Is that what we are working on?
+
+00:44:22.000 --> 00:44:24.000
+Yeah, pretty much.
+
+00:44:24.000 --> 00:44:26.000
+Okay
+
+00:44:26.000 --> 00:44:36.000
+But also pretty much everything that we're going to figure out in PQ Gasper will also apply to PQDC. Like they're going to have to figure out how to handle withdrawals and
+
+00:44:36.000 --> 00:44:47.000
+Pre-registrations and exiting validators that don't register, etc.
+
+00:44:47.000 --> 00:44:51.000
+I don't think we need to worry about that at this point.
+
+00:44:51.000 --> 00:44:53.000
+What do you mean?
+
+00:44:53.000 --> 00:45:01.000
+Like, we don't need to worry about how we're going to like people will still be able to exit their registers
+
+00:45:01.000 --> 00:45:12.000
+We just PRS keys, no
+
+00:45:12.000 --> 00:45:13.000
+Correct.
+
+00:45:13.000 --> 00:45:19.000
+No, no, Justin is referring to the fact that if we are going to decouple consensus instead of Gasper, still this part will need to be handled in the spec.
+
+00:45:19.000 --> 00:45:26.000
+Okay, Potuz, so looking at process withdrawal request
+
+00:45:26.000 --> 00:45:30.000
+We check to see if it's a legacy pubkey, and if it is, we ignore it.
+
+00:45:30.000 --> 00:45:32.000
+So that's pretty much
+
+00:45:32.000 --> 00:45:35.000
+any Validator that didn't register.
+
+00:45:35.000 --> 00:45:37.000
+Or sorry, how should I say it?
+
+00:45:37.000 --> 00:45:39.000
+If
+
+00:45:39.000 --> 00:45:44.000
+If the withdrawal request was in the queue before the fork and the
+
+00:45:44.000 --> 00:45:49.000
+The, like, pubkey field is for a BLS Validator instead of an XMS.
+
+00:45:49.000 --> 00:45:57.000
+pubkey, we would just completely ignore the request. Does that sound reasonable?
+
+00:45:57.000 --> 00:45:59.000
+And
+
+00:45:59.000 --> 00:46:01.000
+That's really the only
+
+00:46:01.000 --> 00:46:06.000
+Change that. I mean, we look up the Validator with an XMS pub key instead
+
+00:46:06.000 --> 00:46:11.000
+That would be a lot spark key.
+
+00:46:11.000 --> 00:46:12.000
+But I said
+
+00:46:12.000 --> 00:46:22.000
+Yeah, I know, so my biggest worry is not on this path, it's on the get expected withdrawals call
+
+00:46:22.000 --> 00:46:25.000
+We didn't even change that.
+
+00:46:25.000 --> 00:46:28.000
+So we're not changing the sweep at all
+
+00:46:28.000 --> 00:46:34.000
+We're sure this works.
+
+00:46:34.000 --> 00:46:35.000
+It should
+
+00:46:35.000 --> 00:46:37.000
+I forget the name of the function for this.
+
+00:46:37.000 --> 00:46:38.000
+It should work, actually.
+
+00:46:38.000 --> 00:46:39.000
+My account or change.
+
+00:46:39.000 --> 00:46:48.000
+Why does the suite matter here
+
+00:46:48.000 --> 00:46:52.000
+It's a question for POTUS.
+
+00:46:52.000 --> 00:47:00.000
+I don't really know. It is one of the trickiest thing when we need to prepare the withdrawals, and I want to make sure that
+
+00:47:00.000 --> 00:47:06.000
+Not changing is fine
+
+00:47:06.000 --> 00:47:17.000
+Yeah, it seems like right now we don't change it.
+
+00:47:17.000 --> 00:47:18.000
+Why is the sweep tricky
+
+00:47:18.000 --> 00:47:24.000
+Terrence.
+
+00:47:24.000 --> 00:47:27.000
+I don't know, maybe we can pull up the sweep function
+
+00:47:27.000 --> 00:47:31.000
+As is currently defined and take a look at it.
+
+00:47:31.000 --> 00:47:33.000
+See if it needs changing.
+
+00:47:33.000 --> 00:47:36.000
+Yeah, I'm doing that right
+
+00:47:36.000 --> 00:47:40.000
+Sure.
+
+00:47:40.000 --> 00:47:47.000
+I would normally use the website that I made
+
+00:47:47.000 --> 00:47:50.000
+What's the name of the function?
+
+00:47:50.000 --> 00:47:51.000
+Get expected withdrawals
+
+00:47:51.000 --> 00:47:52.000
+That's where I am now
+
+00:47:52.000 --> 00:47:53.000
+I was just kidding.
+
+00:47:53.000 --> 00:48:02.000
+get a smart activity
+
+00:48:02.000 --> 00:48:11.000
+So that's a whole
+
+00:48:11.000 --> 00:48:31.000
+I mean, I don't see why this would need to change.
+
+00:48:31.000 --> 00:48:33.000
+Well, are there
+
+00:48:33.000 --> 00:48:35.000
+New PQ
+
+00:48:35.000 --> 00:48:38.000
+There's new PQ builders
+
+00:48:38.000 --> 00:48:41.000
+But perhaps it would use the same array machinery.
+
+00:48:41.000 --> 00:48:46.000
+Like the same withdrawals array and that kind of stuff
+
+00:48:46.000 --> 00:48:49.000
+Yeah.
+
+00:48:49.000 --> 00:48:53.000
+I'm going to move to the fork spikes for PQ.
+
+00:48:53.000 --> 00:48:58.000
+I believe we… let me make this work done
+
+00:48:58.000 --> 00:49:06.000
+I believe we convert everything that — or sorry, convert BLS fields to PQ fields
+
+00:49:06.000 --> 00:49:10.000
+Pretty much at the fork
+
+00:49:10.000 --> 00:49:16.000
+So like the list of validators, the list of builders, the pending deposits
+
+00:49:16.000 --> 00:49:20.000
+And the builder pending withdrawals.
+
+00:49:20.000 --> 00:49:21.000
+And builder pending payments
+
+00:49:21.000 --> 00:49:23.000
+I guess that's it
+
+00:49:23.000 --> 00:49:27.000
+But it doesn't look like we changed
+
+00:49:27.000 --> 00:49:32.000
+Anything in withdrawals, so pretty much every withdrawal would just be ignored.
+
+00:49:32.000 --> 00:49:36.000
+Or sorry, every withdrawal request would be ignored
+
+00:49:36.000 --> 00:49:47.000
+What's wrong with that
+
+00:49:47.000 --> 00:49:53.000
+This is partial withdrawal execution request, right?
+
+00:49:53.000 --> 00:49:56.000
+Yeah, we were talking about partial withdrawals
+
+00:49:56.000 --> 00:49:59.000
+Or get expected withdrawals.
+
+00:49:59.000 --> 00:50:02.000
+Is it a big deal if they get dropped at the fork
+
+00:50:02.000 --> 00:50:04.000
+and we just
+
+00:50:04.000 --> 00:50:05.000
+Basically
+
+00:50:05.000 --> 00:50:10.000
+need them to submit it if they
+
+00:50:10.000 --> 00:50:17.000
+We're not processed
+
+00:50:17.000 --> 00:50:22.000
+That's like a failed transaction or whatever. They can just resubmit it post
+
+00:50:22.000 --> 00:50:24.000
+Post-work
+
+00:50:24.000 --> 00:50:27.000
+For withdrawal requests, yes.
+
+00:50:27.000 --> 00:50:33.000
+I don't think anything that's, like, currently in
+
+00:50:33.000 --> 00:50:36.000
+If the balance has already been changed
+
+00:50:36.000 --> 00:50:38.000
+Those need to be processed
+
+00:50:38.000 --> 00:50:47.000
+But we can drop it before the request that's been processed.
+
+00:50:47.000 --> 00:50:48.000
+All right.
+
+00:50:48.000 --> 00:50:49.000
+If the balance has already been changed, then
+
+00:50:49.000 --> 00:50:50.000
+That would
+
+00:50:50.000 --> 00:50:57.000
+Yeah, then… then what are we talking about? And it was done pre-fort
+
+00:50:57.000 --> 00:51:05.000
+Yeah, I think it's going to be fine as is right now.
+
+00:51:05.000 --> 00:51:09.000
+Potuz, any words on this?
+
+00:51:09.000 --> 00:51:19.000
+I'm sorry, I was reading the withdrawals. I didn't follow what Barnabas asked about, like, dropping a transaction.
+
+00:51:19.000 --> 00:51:27.000
+Yeah, my main question is like if we drop at the fork, like if there's any partial withdrawal request
+
+00:51:27.000 --> 00:51:39.000
+that have not been processed, then we just drop it, and we just ask operators to submit it again, post-work.
+
+00:51:39.000 --> 00:51:44.000
+Yep.
+
+00:51:44.000 --> 00:51:49.000
+So what's the problem with keeping them if we're processing them in the same way?
+
+00:51:49.000 --> 00:51:52.000
+It's just the dish of
+
+00:51:52.000 --> 00:52:02.000
+Yeah, actually, I don't know. These requests come signed by the execution address. So what's the problem?
+
+00:52:02.000 --> 00:52:03.000
+Are you talking
+
+00:52:03.000 --> 00:52:06.000
+Well, you said that there is a problem. You mentioned that
+
+00:52:06.000 --> 00:52:09.000
+Individuals will have some issues
+
+00:52:09.000 --> 00:52:22.000
+Well, withdrawals are tricky. That's why I wanted to see them. As far as I can see now and get expected withdrawals, there's no change that is needed. It seems to be fine.
+
+00:52:22.000 --> 00:52:28.000
+Kevin, are you asking why are withdrawal requests dropped?
+
+00:52:28.000 --> 00:52:37.000
+It was the same question as Potuz. I was just not sure why we was dropping the partial withdrawal requests
+
+00:52:37.000 --> 00:52:38.000
+All the request
+
+00:52:38.000 --> 00:52:48.000
+I guess the bar I'm just saying is, yeah, basically about if it's the old withdrawal request with a BLS pop key, yeah, it's going to be just dropped.
+
+00:52:48.000 --> 00:52:49.000
+Otherwise, if it's like within you.
+
+00:52:49.000 --> 00:52:53.000
+Yeah, that's already in the spec, right? That's what Justin just explained.
+
+00:52:53.000 --> 00:52:56.000
+It is, yeah.
+
+00:52:56.000 --> 00:52:57.000
+Yeah, this is fine
+
+00:52:57.000 --> 00:53:04.000
+I think Keva was just asking why are we dropping them? And the answer is because the request structure contains the ValidatorPub key
+
+00:53:04.000 --> 00:53:09.000
+It doesn't name an index
+
+00:53:09.000 --> 00:53:24.000
+And we would have dropped the BLS pub keys after the work.
+
+00:53:24.000 --> 00:53:32.000
+Francesca is asking, do we even need to drop anything if we exit all VLS validators? We don't process withdrawal requests from inactive validators
+
+00:53:32.000 --> 00:53:39.000
+I think part of the problem is that there may still be queued with file requests on the EL
+
+00:53:39.000 --> 00:53:45.000
+Which would go into it, like, which would be processed after the fork
+
+00:53:45.000 --> 00:54:04.000
+Yeah, I guess that, if there is the, exit, if the buyer has exited the withdrawal request will be skipped down the line
+
+00:54:04.000 --> 00:54:21.000
+Yeah.
+
+00:54:21.000 --> 00:54:25.000
+Okay.
+
+00:54:25.000 --> 00:54:37.000
+I would probably just keep this, and maybe revisit this check on the legacy pubkey later, maybe just mark it as revisiting, but I don't
+
+00:54:37.000 --> 00:54:40.000
+Okay.
+
+00:54:40.000 --> 00:54:45.000
+What are some pressing items that we should discuss now? Like
+
+00:54:45.000 --> 00:54:49.000
+aggregation or slashing
+
+00:54:49.000 --> 00:54:56.000
+Anything that would like move us forward
+
+00:54:56.000 --> 00:55:01.000
+Did we decide to get rid of the voluntary exit
+
+00:55:01.000 --> 00:55:03.000
+I've read some on Discord
+
+00:55:03.000 --> 00:55:15.000
+No, we changed it. So we got rid of the gossiped voluntary exits and we replaced it with a new voluntary exit request.
+
+00:55:15.000 --> 00:55:24.000
+Yeah, yeah, yeah, right. I mean, like the CL trigger, it voluntary exit has gone, right?
+
+00:55:24.000 --> 00:55:25.000
+But how does
+
+00:55:25.000 --> 00:55:26.000
+The seal triggered. Correct.
+
+00:55:26.000 --> 00:55:36.000
+How does that work now? So we're going to have to have the are we going to allow the operator to send it and then sign by the XMSS key?
+
+00:55:36.000 --> 00:55:37.000
+Yep.
+
+00:55:37.000 --> 00:55:38.000
+No, the operator shouldn't. No
+
+00:55:38.000 --> 00:55:39.000
+Sorry, it
+
+00:55:39.000 --> 00:55:49.000
+Well, the operator does it today.
+
+00:55:49.000 --> 00:55:50.000
+Okay.
+
+00:55:50.000 --> 00:55:51.000
+Yes. I mean, you'll sign over your pub key with your XMSS key. So the exit request is just a pub key
+
+00:55:51.000 --> 00:56:12.000
+That's fine. It's fine. I mean, this is a feature that I wanted. So we would have clients like producing then as output whatever is consumed
+
+00:56:12.000 --> 00:56:13.000
+Yep.
+
+00:56:13.000 --> 00:56:14.000
+by the wallet to send these transactions, right? So we need to have sort of, like, an ether or whatever launchpad, whatever this staker provides for these kind of things.
+
+00:56:14.000 --> 00:56:19.000
+I know it's quite nice to have, but are we doing it because of
+
+00:56:19.000 --> 00:56:22.000
+Switching to post-quantum signatures
+
+00:56:22.000 --> 00:56:27.000
+How does it relate to this
+
+00:56:27.000 --> 00:56:39.000
+Is it because like the otherwise the voluntary exits on the CL will increase in size and this is something that we don't want to deal with on the CL
+
+00:56:39.000 --> 00:56:46.000
+I think it's completely orthogonal to PQ.
+
+00:56:46.000 --> 00:56:50.000
+Yeah, there's nothing that's PQ related.
+
+00:56:50.000 --> 00:56:58.000
+Like we can do it as a CL triggered thing, or we can do it as an EL triggered thing, or we can remove it
+
+00:56:58.000 --> 00:57:05.000
+Well, one of the big reasons why we moved it to an execution request was so that we didn't have to store the signatures in
+
+00:57:05.000 --> 00:57:07.000
+Like
+
+00:57:07.000 --> 00:57:11.000
+Block body, or in the state, or whatever.
+
+00:57:11.000 --> 00:57:25.000
+Yeah, it's not unrelated to PQ. So the problems we have with BLS changes, which is why we want to get rid of them quickly and why we didn't want to have pre-registration as a BLS change
+
+00:57:25.000 --> 00:57:29.000
+is that it's very hard for us to protect the P2P stack on the CL side.
+
+00:57:29.000 --> 00:57:40.000
+And now we're telling, well, we already have this voluntary exit that it is already a problem that we might be dosed by them. And now we're going to move into having each one of these messages much larger.
+
+00:57:40.000 --> 00:57:50.000
+So it is much safer to just use the EL for this, the execution requests work very well for this.
+
+00:57:50.000 --> 00:58:02.000
+Right, that's my ask, like, basically, if it's the increase of the size that's of the messages that are going to be propagating in P2P is the concern
+
+00:58:02.000 --> 00:58:05.000
+Because we changed the size significantly. If it is that, yes.
+
+00:58:05.000 --> 00:58:20.000
+Yeah, and we're gonna have to touch… we're gonna have to touch that code anyways, right? Because we're gonna have to change the SZ object that comes. We're going to have to change the validation of that SZ object. So all of those paths for execution for withdraw, for exits
+
+00:58:20.000 --> 00:58:29.000
+are going to have to be changed anyways, so we're going to have to, like, change the topic and so forth. So if we aren't changing those things, then we might as well just, like, get rid of it.
+
+00:58:29.000 --> 00:58:40.000
+If we want to keep the functionality, then we can just add the execution request because it's simple. But even getting rid of this is better than just keeping as it is.
+
+00:58:40.000 --> 00:58:43.000
+Yeah, I mean, I'm not convinced it's a massive
+
+00:58:43.000 --> 00:58:52.000
+Is she right? Because it's, what is how many voluntary exits in a block like 16? So it's 32 kilobytes versus the 300 kilobyte proof
+
+00:58:52.000 --> 00:58:54.000
+I mean, I still think we should do the proper thing.
+
+00:58:54.000 --> 00:59:00.000
+The DOS is on the P2P stack, not on the block.
+
+00:59:00.000 --> 00:59:05.000
+You mean just because of redundancy of sending around the two kilobytes
+
+00:59:05.000 --> 00:59:16.000
+Yeah, or attackers being able to like send this many messages like we need to start validating, and now we validate them after downloading a bunch of stuff.
+
+00:59:16.000 --> 00:59:19.000
+Right, I see. Yeah, I'm
+
+00:59:19.000 --> 00:59:23.000
+But we have like a 300 kilobyte proofs that are being sent around. I mean, yeah, there's just my shutting.
+
+00:59:23.000 --> 00:59:28.000
+Yeah, which is also a nightmare. Yeah. Aggregations are also a nightmare
+
+00:59:28.000 --> 00:59:30.000
+Right.
+
+00:59:30.000 --> 00:59:44.000
+Yeah, if we're going to change it, I think we should just go forward with execution requests.
+
+00:59:44.000 --> 00:59:50.000
+I think, I think it was Lido that
+
+00:59:50.000 --> 00:59:53.000
+They said there was an issue with this
+
+00:59:53.000 --> 00:59:56.000
+Check that
+
+00:59:56.000 --> 01:00:03.000
+Someone could use it to pretty much prevent voluntary exits from going through. And that's an issue today.
+
+01:00:03.000 --> 01:00:18.000
+I'm not sure if we should solve that in PQ, but we could think about it. I don't know the implications of removing the pending balance check
+
+01:00:18.000 --> 01:00:22.000
+Sorry.
+
+01:00:22.000 --> 01:00:23.000
+What was the actual issue there?
+
+01:00:23.000 --> 01:00:34.000
+Someone could spam withdrawal requests with like one Gui or whatever. And as long as the pending balance to withdrawal is never zero, the operators couldn't exit
+
+01:00:34.000 --> 01:00:39.000
+Do you see
+
+01:00:39.000 --> 01:00:40.000
+I mean, this is true right now, no?
+
+01:00:40.000 --> 01:00:41.000
+It is true right now
+
+01:00:41.000 --> 01:00:44.000
+Yeah
+
+01:00:44.000 --> 01:00:48.000
+And nobody's really doing it.
+
+01:00:48.000 --> 01:00:49.000
+Do we want to change it
+
+01:00:49.000 --> 01:00:50.000
+It doesn't really matter to me too much. I mean
+
+01:00:50.000 --> 01:00:59.000
+I agree. It's an issue, but it's not like a PQ issue.
+
+01:00:59.000 --> 01:01:05.000
+Maybe we can update the balance requirement to a bit higher in a
+
+01:01:05.000 --> 01:01:09.000
+down the line fork if it's if it becomes an issue, but I wouldn't worry about it now.
+
+01:01:09.000 --> 01:01:15.000
+Okay, it doesn't really matter. I can talk about that later.
+
+01:01:15.000 --> 01:01:21.000
+Are we good with voluntary exit requests? Or
+
+01:01:21.000 --> 01:01:27.000
+Okay, Kev thumbs up
+
+01:01:27.000 --> 01:01:31.000
+Like, I feel like at this point we should basically have a
+
+01:01:31.000 --> 01:01:35.000
+As basic changeet as possible.
+
+01:01:35.000 --> 01:01:37.000
+Everything working the same way as we have it today. We shouldn't, like, try to optimize… over-optimize.
+
+01:01:37.000 --> 01:01:38.000
+Yep.
+
+01:01:38.000 --> 01:01:44.000
+Keep it simple.
+
+01:01:44.000 --> 01:01:49.000
+On this. Otherwise, yeah, otherwise we're gonna spend, you know, two or three months extra on
+
+01:01:49.000 --> 01:01:51.000
+or new features that are not really needed.
+
+01:01:51.000 --> 01:01:55.000
+Yeah.
+
+01:01:55.000 --> 01:01:57.000
+Okay.
+
+01:01:57.000 --> 01:02:03.000
+I guess moving on, should we talk about aggregate aggregation
+
+01:02:03.000 --> 01:02:05.000
+Like signature aggregation or
+
+01:02:05.000 --> 01:02:13.000
+Are we good with just reducing the number of committees to 16
+
+01:02:13.000 --> 01:02:22.000
+Is that the first thing we should try?
+
+01:02:22.000 --> 01:02:35.000
+I think so. And then I guess the numbers that we're dealing with is around 2 to 2.5 seconds to do a 16 to 1. I mean, it could be faster than this, but this is like a good
+
+01:02:35.000 --> 01:02:36.000
+Ballpark number to keep in mind when doing slot scheduling.
+
+01:02:36.000 --> 01:02:40.000
+Okay, won't it make it more expensive for
+
+01:02:40.000 --> 01:02:45.000
+Well, aggregators per committee to aggregate to aggregate
+
+01:02:45.000 --> 01:02:49.000
+And wouldn't there be more like
+
+01:02:49.000 --> 01:02:54.000
+Like, network bandwidth per committee or per subnet.
+
+01:02:54.000 --> 01:02:56.000
+Still?
+
+01:02:56.000 --> 01:03:05.000
+Or what are the trade-offs? I guess is my question.
+
+01:03:05.000 --> 01:03:21.000
+Yeah, so the trade-offs is that you have less committees, but each committee is now four times bigger, which is, I think, okay, as long as we're okay with also it being 2 to 2.5 seconds to aggregate
+
+01:03:21.000 --> 01:03:24.000
+all the signatures in the committee.
+
+01:03:24.000 --> 01:03:25.000
+We
+
+01:03:25.000 --> 01:03:36.000
+did decrease. Sorry, we did decrease the number
+
+01:03:36.000 --> 01:03:48.000
+Sorry, we did decrease the number of aggregators, which has a different trade-off that I don't know if we want to do, but roughly speaking, we, yeah
+
+01:03:48.000 --> 01:03:49.000
+We just do a 16 to one
+
+01:03:49.000 --> 01:03:55.000
+And just make the committee bigger
+
+01:03:55.000 --> 01:04:11.000
+Okay. Is there anyone that's against this idea?
+
+01:04:11.000 --> 01:04:14.000
+Let me share a different window.
+
+01:04:14.000 --> 01:04:22.000
+I don't know how to do that.
+
+01:04:22.000 --> 01:04:26.000
+Can I have a quick question regarding the aggregators
+
+01:04:26.000 --> 01:04:27.000
+Is it baked randomly
+
+01:04:27.000 --> 01:04:29.000
+Oh, that's a great question. No, we
+
+01:04:29.000 --> 01:04:31.000
+I should say it
+
+01:04:31.000 --> 01:04:37.000
+Maybe Kev can explain it better than me. We should use RANDAO to pick the aggregators.
+
+01:04:37.000 --> 01:04:44.000
+Correct.
+
+01:04:44.000 --> 01:04:59.000
+I think Ben also had that point where if it's the expected value is equal to four, then you could have some committees having zero aggregators. So it seems better to be a bit deterministic and use Randau
+
+01:04:59.000 --> 01:05:02.000
+So that it's exactly equal to 4.
+
+01:05:02.000 --> 01:05:06.000
+So we just don't use the VRF at all in that case.
+
+01:05:06.000 --> 01:05:16.000
+Only for RANDAO reveal, sorry.
+
+01:05:16.000 --> 01:05:18.000
+Can we not just repurpose
+
+01:05:18.000 --> 01:05:24.000
+some other committee to do this
+
+01:05:24.000 --> 01:05:25.000
+To do what
+
+01:05:25.000 --> 01:05:30.000
+Like a sync committee or something to do the aggregations.
+
+01:05:30.000 --> 01:05:35.000
+Or we don't want to do that
+
+01:05:35.000 --> 01:05:39.000
+I mean, the think committee also has aggregators
+
+01:05:39.000 --> 01:05:53.000
+I think there's probably nothing wrong with just choosing a fresh set of aggregators
+
+01:05:53.000 --> 01:06:01.000
+Yeah, I just feel like we're like overcomplicating this like we will have so many committees at that point.
+
+01:06:01.000 --> 01:06:05.000
+We can have an IO committee, we're gonna have a sync committee, we're going to
+
+01:06:05.000 --> 01:06:09.000
+Now, a new committee, like
+
+01:06:09.000 --> 01:06:15.000
+Wait, there's no new committee here. We're just changing
+
+01:06:15.000 --> 01:06:21.000
+the number of, like, from 64 to 16
+
+01:06:21.000 --> 01:06:24.000
+So we don't add any new committees here, we're just sort of
+
+01:06:24.000 --> 01:06:30.000
+Decreasing the number of committees and increasing the committee size.
+
+01:06:30.000 --> 01:06:33.000
+But I do agree that we have a lot of committees
+
+01:06:33.000 --> 01:06:35.000
+Yeah.
+
+01:06:35.000 --> 01:06:39.000
+I forget where aggregator, like
+
+01:06:39.000 --> 01:06:46.000
+I forget where the function that determines who an aggregator is. I think this is
+
+01:06:46.000 --> 01:06:49.000
+Yeah
+
+01:06:49.000 --> 01:06:52.000
+Do we pay extra for this?
+
+01:06:52.000 --> 01:06:56.000
+No. Aggregators don't get paid anything extra, right? It's
+
+01:06:56.000 --> 01:07:00.000
+And if they skip or miss, do they get penalized?
+
+01:07:00.000 --> 01:07:01.000
+Nope.
+
+01:07:01.000 --> 01:07:06.000
+No, there's no rewards nor penalties for aggregation
+
+01:07:06.000 --> 01:07:12.000
+So it's my turn, I could just not do it.
+
+01:07:12.000 --> 01:07:13.000
+Correct.
+
+01:07:13.000 --> 01:07:14.000
+Correct
+
+01:07:14.000 --> 01:07:15.000
+No one even knows that it's necessarily your turn.
+
+01:07:15.000 --> 01:07:26.000
+Like you can't even prove that it is your turn.
+
+01:07:26.000 --> 01:07:36.000
+Right, but, like, this is a very heavy operation. If I run a bunch of validators, my machine will be significantly more expensive to run, basically.
+
+01:07:36.000 --> 01:07:40.000
+So I would be incentivized to just fork a client and
+
+01:07:40.000 --> 01:07:43.000
+Never aggregate
+
+01:07:43.000 --> 01:07:49.000
+I mean, it's not that expensive.
+
+01:07:49.000 --> 01:07:51.000
+Well
+
+01:07:51.000 --> 01:07:53.000
+I disagree, I mean
+
+01:07:53.000 --> 01:07:58.000
+Talking about seconds and gigabytes of memory. So small
+
+01:07:58.000 --> 01:08:07.000
+Boxes probably won't do that in time anyway. I was actually thinking about is there any way of
+
+01:08:07.000 --> 01:08:10.000
+Some point detecting if the
+
+01:08:10.000 --> 01:08:13.000
+Client doesn't have enough
+
+01:08:13.000 --> 01:08:22.000
+power to do that actually don't even try to do that.
+
+01:08:22.000 --> 01:08:24.000
+Similarly to
+
+01:08:24.000 --> 01:08:27.000
+To the recursion when you are
+
+01:08:27.000 --> 01:08:29.000
+BlockBuilder
+
+01:08:29.000 --> 01:08:37.000
+Maybe you can't do the recursion and just try to keep the best aggregate that you get and put it in the block
+
+01:08:37.000 --> 01:08:38.000
+Yeah.
+
+01:08:38.000 --> 01:08:43.000
+Not necessarily a solution, but a mitigation might be to
+
+01:08:43.000 --> 01:08:46.000
+Compute the
+
+01:08:46.000 --> 01:08:50.000
+Like, who will be aggregators based on their balance
+
+01:08:50.000 --> 01:08:56.000
+Like I forget the name of the function for it, but a balance weighted selection
+
+01:08:56.000 --> 01:09:06.000
+So that, like, validators with more stake are more likely to be chosen as aggregators and they're expected to have like better hardware
+
+01:09:06.000 --> 01:09:08.000
+And could produce
+
+01:09:08.000 --> 01:09:10.000
+More aggregates
+
+01:09:10.000 --> 01:09:15.000
+Like, right now, it's a uniform selection.
+
+01:09:15.000 --> 01:09:16.000
+Do you see
+
+01:09:16.000 --> 01:09:17.000
+Yeah.
+
+01:09:17.000 --> 01:09:23.000
+I kind of suspect that this is not going to do anything. And if it does, it also like incentives are just
+
+01:09:23.000 --> 01:09:34.000
+wrong with this like I might be incentivized to keep like what Kraken has now thousands of 32 ETH Validators and then none of them are going to be selected to aggregate.
+
+01:09:34.000 --> 01:09:46.000
+But also, if we see enough consolidations, then this is not really an issue. Like most validators will be 20 to 20 to 48 and then we're just going to add this complexity for no reason.
+
+01:09:46.000 --> 01:09:53.000
+Today, large operators will have validators that are 32 ETH anyways.
+
+01:09:53.000 --> 01:10:02.000
+So this becomes invisible for this procedure. I feel that this is complexity that is not going to pay off
+
+01:10:02.000 --> 01:10:07.000
+I mean, you could do something like CGC where the beacon node registers how much
+
+01:10:07.000 --> 01:10:08.000
+It is
+
+01:10:08.000 --> 01:10:09.000
+No, that cannot be part of consensus.
+
+01:10:09.000 --> 01:10:11.000
+Yeah
+
+01:10:11.000 --> 01:10:15.000
+The selection is part of consensus.
+
+01:10:15.000 --> 01:10:22.000
+So, Potuz, if I recall correctly, there were like approximately 10,000 validators with a balance over
+
+01:10:22.000 --> 01:10:29.000
+Yeah, I forget if it was 512 or 1,000, like, but either way, there are 10,000 validators
+
+01:10:29.000 --> 01:10:36.000
+With a high balance, from my perspective.
+
+01:10:36.000 --> 01:10:49.000
+Francesca was saying balance weighted selection is actually proportional. It's doing it uniformly that creates distortions. Small validators are selected more often than they should
+
+01:10:49.000 --> 01:11:04.000
+Yeah, so just to like elaborate on that, basically, it's you know, when we do uniform selection for committees. Normally, the thing is, then we weigh them through their their stake like to in today's committees, for example, and so the 2 things compensate
+
+01:11:04.000 --> 01:11:19.000
+But for aggregation, there's nothing like for being an aggregator, there's nothing like that. There's no, like, it's not that you're voting and then your vote gets weighted, right? So it doesn't… if you do the selection uniformly, there's nothing to compensate for that afterwards. So you just end up
+
+01:11:19.000 --> 01:11:39.000
+Basically overrepresenting the small body daters. Like, if you have… if you're a small Validator, you're now 64 times more likely to be selected than a max Validator, which is exactly not what we want. So I really think we should do it balance-weighted. And, like, balance-weighted does not mean over-representing the big Validators, it just means representing everyone the right way
+
+01:11:39.000 --> 01:11:41.000
+Actually
+
+01:11:41.000 --> 01:11:54.000
+Yeah, yeah, so I understand that this is what's going to make it so that it actually going to be uniform with respect to balance instead of with respect to number of validators. But my point is that if the argument is to have large operators
+
+01:11:54.000 --> 01:12:05.000
+be selected more often. Then I suspect that this is not going to really change much because the large operators anyways, if they don't consolidate, they keep like this 32 eth Validators.
+
+01:12:05.000 --> 01:12:09.000
+And they're going to be selected just as today.
+
+01:12:09.000 --> 01:12:11.000
+Yeah, like Francesco said
+
+01:12:11.000 --> 01:12:19.000
+It's not more often, it's just as often as they should. Like right now, 32 ETH Validators should be overrepresented
+
+01:12:19.000 --> 01:12:21.000
+As aggregators
+
+01:12:21.000 --> 01:12:30.000
+Which is sort of a problem because they might not have as good of hardware, in my opinion.
+
+01:12:30.000 --> 01:12:34.000
+Does that make sense?
+
+01:12:34.000 --> 01:12:35.000
+Yeah.
+
+01:12:35.000 --> 01:12:38.000
+Yeah, it's essentially a risk.
+
+01:12:38.000 --> 01:12:47.000
+I mean, it's just the like very much non opinionated choice is to do a bounce with it because then just everyone is represented exactly by their weight
+
+01:12:47.000 --> 01:12:52.000
+Yeah
+
+01:12:52.000 --> 01:12:57.000
+Okay, so if we go with balance, can you show me where we're going to make this change? Because
+
+01:12:57.000 --> 01:13:06.000
+Having access to the balances is always also a problem. And if this is going to become part of consensus, then I want to see if we're going to need to be cashing this or not
+
+01:13:06.000 --> 01:13:08.000
+I wouldn't be able to show it to you, but
+
+01:13:08.000 --> 01:13:17.000
+I feel this is one of these things that is just adding complexity for no reason. Can we see where we're changing this?
+
+01:13:17.000 --> 01:13:18.000
+Are we
+
+01:13:18.000 --> 01:13:19.000
+Like Mikhail just said
+
+01:13:19.000 --> 01:13:23.000
+Oh, PTC, this is not like PTC Francesco, because PTC, we just like make the selection
+
+01:13:23.000 --> 01:13:39.000
+At an epoch transition, and we already have in a natural cache, which is the Beacon state. So we know that we can grab any Beacon state compatible with the dependent route, and it's going to have this PTC that we can use to validate things. But now we're going to validate that you are an aggregator
+
+01:13:39.000 --> 01:13:46.000
+We need to have some balances to even make this validation. And I want to see where are those balances are going to be coming from
+
+01:13:46.000 --> 01:13:54.000
+So, I mean, I thought people were just saying that we want to make this RANDAO based anyway. That is what I was
+
+01:13:54.000 --> 01:14:03.000
+talking about, I don't know, but the… I don't know if, like, I mean, is there still a question of should it be RANDO base, or should it be VRF-based?
+
+01:14:03.000 --> 01:14:04.000
+Oh, so
+
+01:14:04.000 --> 01:14:06.000
+I believe it should be ramped up based
+
+01:14:06.000 --> 01:14:09.000
+My question is just as simple as
+
+01:14:09.000 --> 01:14:24.000
+I am getting an aggregate over gossip. I need to validate it. And it's always the problem. Like, what do I need to validate it? If I actually need a Beacon state, then let's make that Beacon state to be as stable as my finalized state. And even finalize might be a problem.
+
+01:14:24.000 --> 01:14:37.000
+So what is what I need to validate that you were supposed to send me an aggregator over P2P
+
+01:14:37.000 --> 01:14:46.000
+Aren't you already checking that this aggregator is actually in the committee
+
+01:14:46.000 --> 01:14:57.000
+Yeah, so we do have a cache for committees. So if we're going to be, if we are cache, if we can put this data in the same kind of cache, then I'm happy because that we can override.
+
+01:14:57.000 --> 01:15:10.000
+How do you do the PTC part, though?
+
+01:15:10.000 --> 01:15:11.000
+Okay.
+
+01:15:11.000 --> 01:15:15.000
+So BTC is actually fine. If we are going to put the aggregators on the Beacon states at epoch transition, that works. So PTC works because it's just like the look ahead. We put them on the Beacon state as soon as we just do the epoch transition
+
+01:15:15.000 --> 01:15:30.000
+And then we know that as long as we don't have very long forks, any state from that branch would have the right PTC. So we can always use the head state that is always in memory
+
+01:15:30.000 --> 01:15:43.000
+All right, so in the worst case, what could happen is that somebody is kind of assigned as the aggregator, but then its balance goes down, right? And you use the balance from the head
+
+01:15:43.000 --> 01:15:50.000
+For that validator, and you actually just discard or ignore.
+
+01:15:50.000 --> 01:15:51.000
+Well, we downscore if you
+
+01:15:51.000 --> 01:15:54.000
+I don't know, it's like, or would you reject? Okay, yeah, I see
+
+01:15:54.000 --> 01:16:01.000
+Right. If you're sending me a message and you shouldn't be about an aggregator, then we want to reject
+
+01:16:01.000 --> 01:16:18.000
+So, I mean, if there's a way of, I don't mind any sort of complexity that you guys want to add here, as long as it's good enough that it doesn't add complexity doesn't leak into me having to recreate a state to be able to validate a gossip message. I think this should be the motto of the CLP2P
+
+01:16:18.000 --> 01:16:27.000
+We do not want to recreate states to validate objects over gossip
+
+01:16:27.000 --> 01:16:34.000
+This is where I raised the point that maybe we can just reuse this synch committee that is using balance and RANDAO based.
+
+01:16:34.000 --> 01:16:39.000
+And if we have 512 committee members each
+
+01:16:39.000 --> 01:16:42.000
+Period, and those
+
+01:16:42.000 --> 01:16:46.000
+Those Validators would be the aggregators also for that time period.
+
+01:16:46.000 --> 01:16:47.000
+I'm just going to the
+
+01:16:47.000 --> 01:16:56.000
+My preferred version would be just make them a subset of PTC or just put them on the beacon state as we do with the PTC.
+
+01:16:56.000 --> 01:17:01.000
+If we're making a subset of BTC, a strict subset, that's even better
+
+01:17:01.000 --> 01:17:10.000
+I'm not sure if it can be a subset of the PTC. They may not be subscribed to that attestation committee, right?
+
+01:17:10.000 --> 01:17:11.000
+-Oh.
+
+01:17:11.000 --> 01:17:14.000
+What do you mean? You force them. When you are in the PTC, then you have to subscribe to that committee.
+
+01:17:14.000 --> 01:17:16.000
+Why don't you just make the aggregators like the first four Validators in the committee
+
+01:17:16.000 --> 01:17:21.000
+Yeah, that works too of the community. Yeah, that works too
+
+01:17:21.000 --> 01:17:22.000
+Of the attestation committee
+
+01:17:22.000 --> 01:17:23.000
+Yeah, that will work.
+
+01:17:23.000 --> 01:17:31.000
+But then that cannot be weighted by the way you want.
+
+01:17:31.000 --> 01:17:32.000
+Likewise.
+
+01:17:32.000 --> 01:17:33.000
+Yeah, it's not going to be balanced, right?
+
+01:17:33.000 --> 01:17:36.000
+Yeah, yeah, so if we use the PTC, then it's going to be balanced with it. But if we use the regular committee, then it's not going to be balanced with it.
+
+01:17:36.000 --> 01:17:45.000
+Yeah. If we use the PTC, it works for me. If we do a selection which is balance weighted and we add them on the Beacon state, that also works
+
+01:17:45.000 --> 01:17:51.000
+I see.
+
+01:17:51.000 --> 01:17:54.000
+I don't have a strong opinion on this.
+
+01:17:54.000 --> 01:18:07.000
+I do have as long as, I mean, my strong opinion is we do not, we definitely do not want to introduce changes that will force me to recreate a particular Beiko state to validate objects over gossip
+
+01:18:07.000 --> 01:18:14.000
+This is really an important point
+
+01:18:14.000 --> 01:18:20.000
+Yeah, I agree.
+
+01:18:20.000 --> 01:18:28.000
+So how strongly do we feel about the balance weighted point?
+
+01:18:28.000 --> 01:18:35.000
+I personally feel like we should force large valuators to do more aggregation
+
+01:18:35.000 --> 01:18:39.000
+Not more, but their share
+
+01:18:39.000 --> 01:18:41.000
+Yeah, okay, yeah, that
+
+01:18:41.000 --> 01:18:45.000
+Balance space is more fair
+
+01:18:45.000 --> 01:18:51.000
+But maybe not if it comes with complexity elsewhere.
+
+01:18:51.000 --> 01:18:52.000
+Yeah, I mean.
+
+01:18:52.000 --> 01:18:53.000
+Yeah, sure. Okay.
+
+01:18:53.000 --> 01:18:59.000
+I think the main… sorry
+
+01:18:59.000 --> 01:19:02.000
+You go, Mikhail
+
+01:19:02.000 --> 01:19:16.000
+Yeah, sorry for interrupting. I was just like, I think that the balance weight stuff is not the main problem to solve. I think that the main concern is that we will not have this look ahead
+
+01:19:16.000 --> 01:19:20.000
+And we will not have this capability of
+
+01:19:20.000 --> 01:19:28.000
+Validating that the aggregate is actually from from the selected Validator with the head state
+
+01:19:28.000 --> 01:19:44.000
+That's what Potuz is saying and they are kind of doing weight selection, weighted selection is kind of a secondary thing
+
+01:19:44.000 --> 01:19:55.000
+I think that the PDC for the PTC, as Jan mentioned, if we use PTC, then those variables will likely
+
+01:19:55.000 --> 01:20:01.000
+Have to subscribe to subnet they are not supposed to
+
+01:20:01.000 --> 01:20:04.000
+Like, yeah
+
+01:20:04.000 --> 01:20:18.000
+So like the being these aggregator is a part of the committee and subscribe to the subnet that they have to subscribe anyway. It's kind of like more natural. But that would mean that we need to introduce another
+
+01:20:18.000 --> 01:20:23.000
+Look ahead into the state
+
+01:20:23.000 --> 01:20:42.000
+Couldn't we just basically say that if you're a supernode, then and you're subscribed to every subnet, that's the only time you can become an aggregator
+
+01:20:42.000 --> 01:20:46.000
+I don't think so.
+
+01:20:46.000 --> 01:20:55.000
+Yeah, I guess in terms of choosing a default here, it seems between the PTC, which is balance weighted
+
+01:20:55.000 --> 01:21:06.000
+And potentially using RANDAO plus a balance based for the committee. Is that correct?
+
+01:21:06.000 --> 01:21:22.000
+So the aggregators are chosen based on RANDAO, which is deterministic, but also balance based
+
+01:21:22.000 --> 01:21:23.000
+Could it be
+
+01:21:23.000 --> 01:21:30.000
+I think… yeah, I think if we can use RANDAO, I mean, if the user in DAO, we can do this balanced way. So it's
+
+01:21:30.000 --> 01:21:32.000
+Kind of
+
+01:21:32.000 --> 01:21:35.000
+Not hard
+
+01:21:35.000 --> 01:21:40.000
+I think it's fine to do balance weight for the current slot as well
+
+01:21:40.000 --> 01:21:43.000
+If the computation is fast
+
+01:21:43.000 --> 01:21:50.000
+I mean, currently we are validating that you're an aggregator with the current state for the head state anyways.
+
+01:21:50.000 --> 01:21:56.000
+Right? So and it is you're given a proof that you are a validator for the current slot.
+
+01:21:56.000 --> 01:22:06.000
+So an aggregator for the current slot. So the the the guy that is evaluating this over gossip is already taking the head state
+
+01:22:06.000 --> 01:22:12.000
+So if we keep that invariant, that also would work
+
+01:22:12.000 --> 01:22:14.000
+Oh, yes.
+
+01:22:14.000 --> 01:22:25.000
+I was wondering, was there any designs that try to use the fact that
+
+01:22:25.000 --> 01:22:42.000
+Our testers are actually should be… they should be motivated to include their attestations in aggregates. So, I mean, because if a tester that who is a testing at that particular slot
+
+01:22:42.000 --> 01:22:50.000
+doesn't get his attestation included in the aggregate, then he's, you know, he gets a penalty for that.
+
+01:22:50.000 --> 01:23:05.000
+So, was there any designs that tries to exploit this motivation of attesters? Because then, you know, essentially testers could aggregate. At testers that are tests in that slot could
+
+01:23:05.000 --> 01:23:10.000
+do the most of the aggregation work
+
+01:23:10.000 --> 01:23:13.000
+Isn't this the current design
+
+01:23:13.000 --> 01:23:22.000
+But I also don't see how it helps us, because I'm incentivized to have my aggregate in, right?
+
+01:23:22.000 --> 01:23:26.000
+But not necessarily everyone else's right
+
+01:23:26.000 --> 01:23:42.000
+Yeah, but for example, if the largest aggregate wins, I mean, I'm just talking here generally. Let's say if the largest aggregate wins, then every tester is motivated to
+
+01:23:42.000 --> 01:23:53.000
+You know, to get his vote into that particular, let's say, largest or whatever it is, whatever the criteria is
+
+01:23:53.000 --> 01:24:00.000
+I mean, this is just a general question
+
+01:24:00.000 --> 01:24:04.000
+Right. Yeah, I don't think we have
+
+01:24:04.000 --> 01:24:10.000
+Sort of exploded, but I can't see why it would be super
+
+01:24:10.000 --> 01:24:15.000
+where it would change any of the design decisions. I could be missing something.
+
+01:24:15.000 --> 01:24:27.000
+I mean, if there is a way to motivate the current testers, I mean, if we can design such algorithm, then it would help.
+
+01:24:27.000 --> 01:24:42.000
+But okay, it seems that there wasn't much research into this direction
+
+01:24:42.000 --> 01:24:48.000
+I have a dumb question. Could we compute the aggregator
+
+01:24:48.000 --> 01:24:57.000
+using a balanced weight of selection from within that committee. So, like, from that… from the set of 2,000 validators
+
+01:24:57.000 --> 01:25:01.000
+The likelihood of being selected as an aggregator is higher for
+
+01:25:01.000 --> 01:25:04.000
+Validators with higher balances
+
+01:25:04.000 --> 01:25:09.000
+I'm not sure if it's worth the complexity, or if that's just, like, another
+
+01:25:09.000 --> 01:25:10.000
+Really?
+
+01:25:10.000 --> 01:25:14.000
+Yeah, is this a bad idea?
+
+01:25:14.000 --> 01:25:17.000
+I thought this was the default idea
+
+01:25:17.000 --> 01:25:18.000
+Oh, I thought the idea was just
+
+01:25:18.000 --> 01:25:22.000
+Of the people that wanted to do it by balance.
+
+01:25:22.000 --> 01:25:25.000
+Is that the idea?
+
+01:25:25.000 --> 01:25:27.000
+Maybe I'm confused.
+
+01:25:27.000 --> 01:25:34.000
+This, I assumed, was the idea, which is something that I am hesitant, because we would need to grab the balances
+
+01:25:34.000 --> 01:25:38.000
+and do a computation every slot
+
+01:25:38.000 --> 01:25:44.000
+With a state that is changing balances
+
+01:25:44.000 --> 01:25:55.000
+I mean, as you wrote, I think it's also okay to have this look ahead property as well. Like just take the last finalized RANDAO instead
+
+01:25:55.000 --> 01:26:10.000
+So if we do it that way, then we can just do it two epochs in advance when we select the committees. The committees are already fixed by the RANDAO to epochs ahead. And then at that point that we already have fixed the seed
+
+01:26:10.000 --> 01:26:17.000
+We can just do the selection for the aggregators and just put them on chain.
+
+01:26:17.000 --> 01:26:26.000
+I assume that there was a security reason of why keeping them hidden up to the last moment
+
+01:26:26.000 --> 01:26:37.000
+Yeah, I mean, I'm not I guess the security reason doesn't make too much sense to me given everything else is public
+
+01:26:37.000 --> 01:26:47.000
+Like the proposer also has look ahead, the proposers also have a look ahead
+
+01:26:47.000 --> 01:27:00.000
+Look ahead is something that really makes clients much easier to reason about
+
+01:27:00.000 --> 01:27:05.000
+Could you tell me very briefly what would be in the look ahead exactly just the aggregators
+
+01:27:05.000 --> 01:27:08.000
+Choose the aggregated indices per slot
+
+01:27:08.000 --> 01:27:14.000
+Was the 32 kilobytes number assuming 16 aggregators per
+
+01:27:14.000 --> 01:27:15.000
+committee
+
+01:27:15.000 --> 01:27:18.000
+Oh, I was counting 64 aggregators per slot
+
+01:27:18.000 --> 01:27:21.000
+For two epochs
+
+01:27:21.000 --> 01:27:28.000
+It would need to be more than that, it'd be 4 times that, right? Because currently there's four aggregators per committee and there's 64 committees.
+
+01:27:28.000 --> 01:27:34.000
+Oh, but we were going to go with 16, I thought
+
+01:27:34.000 --> 01:27:38.000
+16. Oh, oh, you're right. I'm sorry.
+
+01:27:38.000 --> 01:27:40.000
+Ignore me
+
+01:27:40.000 --> 01:27:43.000
+You're right.
+
+01:27:43.000 --> 01:27:47.000
+Wait, so do we like
+
+01:27:47.000 --> 01:27:53.000
+Sorry, I missed that part, probably. So are we talking about keeping the
+
+01:27:53.000 --> 01:27:55.000
+Number of subnets
+
+01:27:55.000 --> 01:28:06.000
+at, say, 16, and number of committees at 16 and still switch from VRF selection of aggregators to the RANDAO selection
+
+01:28:06.000 --> 01:28:13.000
+Correct, and reducing the number of aggregators per committee from 16 to 4.
+
+01:28:13.000 --> 01:28:22.000
+I am not vouching for this either, right? So, I'm just saying, with the numbers that I was given, I think this is 32 kilobytes, if it's 4 times that, it's not that much of a problem either.
+
+01:28:22.000 --> 01:28:28.000
+I mean, we're talking like the Beacon state is already 300 and something megabytes. So adding this is not an issue.
+
+01:28:28.000 --> 01:28:35.000
+And it makes my code matches easier to reason about. So I'm happy with such change.
+
+01:28:35.000 --> 01:28:45.000
+Wait, so we will have 4, 16 committees, 16 subnets, and 4 aggregators per committee, right?
+
+01:28:45.000 --> 01:28:56.000
+And why do we reduce the number of aggregators? Is this because the aggregate is going to be much bigger than that and we want to reduce the bandwidth consumption
+
+01:28:56.000 --> 01:29:07.000
+Yeah, so what Camille was saying is that by having very large number of aggregators, then you get a lot of repetitions. And then that's wasted bandwidth
+
+01:29:07.000 --> 01:29:27.000
+There's a problem, though, that if we have only four aggregators and we might not even find an aggregator in a subnet if we keep the selection as now. If we don't, then I'm worried about situations in which we're forced. And then you might not see
+
+01:29:27.000 --> 01:29:28.000
+Wait, so…
+
+01:29:28.000 --> 01:29:31.000
+An aggregator within your kind of branch. So yeah, I feel like these numbers should be analyzed more carefully.
+
+01:29:31.000 --> 01:29:35.000
+Right, but we also have these
+
+01:29:35.000 --> 01:29:40.000
+rule in the aggregator in the aggregate propagation, where you are
+
+01:29:40.000 --> 01:29:42.000
+free to discard
+
+01:29:42.000 --> 01:29:46.000
+The aggregate that is a subset
+
+01:29:46.000 --> 01:29:54.000
+of the beats, of the comedy bits that you have already seen. I mean like won't it addressed this bandwidth consumption problem
+
+01:29:54.000 --> 01:29:56.000
+Anyway.
+
+01:29:56.000 --> 01:30:14.000
+No, so I'm just trying to understand why do we, like, actually move to RANDAO and changing this at all?
+
+01:30:14.000 --> 01:30:22.000
+Sorry, might have missed part of that. You're asking why I switched to RANDAOl.
+
+01:30:22.000 --> 01:30:23.000
+We
+
+01:30:23.000 --> 01:30:32.000
+Yeah, I'm trying to justify switching to RANDAO basically because if we just keep the 16 aggregators, just reduce the number of the committees, that's yeah, it's basically
+
+01:30:32.000 --> 01:30:43.000
+Are we achieving something? What will they achieve also to switch to RANDAO in this case and reducing, like, the number of aggregators?
+
+01:30:43.000 --> 01:30:51.000
+That's a good question. I mean, I saw switching to RANDAO as a prerequisite to reducing the number of aggregators.
+
+01:30:51.000 --> 01:30:52.000
+per committee.
+
+01:30:52.000 --> 01:30:53.000
+Right
+
+01:30:53.000 --> 01:31:02.000
+But if we don't need to reduce the number of activators per committee, we could just keep it how it is now.
+
+01:31:02.000 --> 01:31:03.000
+Yeah.
+
+01:31:03.000 --> 01:31:05.000
+Yeah, that was my line of thoughts
+
+01:31:05.000 --> 01:31:15.000
+I have a question. How many layers of aggregation do we have in total to go to all of the signatures to one proof at the end
+
+01:31:15.000 --> 01:31:18.000
+Two
+
+01:31:18.000 --> 01:31:19.000
+Is that
+
+01:31:19.000 --> 01:31:25.000
+So just the subnets, and after the subnet, we have one more and that's all.
+
+01:31:25.000 --> 01:31:26.000
+Yeah, yeah
+
+01:31:26.000 --> 01:31:27.000
+Well, let's say committees. There'll be one, sorry
+
+01:31:27.000 --> 01:31:34.000
+A number of aggregates per committee. One could be chosen by each
+
+01:31:34.000 --> 01:31:37.000
+Or one would be chosen by the proposer per committee
+
+01:31:37.000 --> 01:31:38.000
+And
+
+01:31:38.000 --> 01:31:39.000
+From the… yeah, by the proposer
+
+01:31:39.000 --> 01:31:42.000
+And at the end the proposer does the final aggregate
+
+01:31:42.000 --> 01:31:52.000
+Yep, 16 to 1.
+
+01:31:52.000 --> 01:31:57.000
+So, kind of, are we still planning on using a VRF for aggregations, or are we
+
+01:31:57.000 --> 01:32:01.000
+It depends on if we need to reduce the number of aggregators.
+
+01:32:01.000 --> 01:32:02.000
+Because
+
+01:32:02.000 --> 01:32:03.000
+I think we
+
+01:32:03.000 --> 01:32:04.000
+Here you go.
+
+01:32:04.000 --> 01:32:09.000
+Well, it's worth noting that
+
+01:32:09.000 --> 01:32:13.000
+In order to make it like actually random
+
+01:32:13.000 --> 01:32:15.000
+I mean, unless
+
+01:32:15.000 --> 01:32:19.000
+I guess unless people pick signatures at random, but like
+
+01:32:19.000 --> 01:32:24.000
+You'd have to fix the lean XMSS Merkle path
+
+01:32:24.000 --> 01:32:29.000
+for being an aggregator because like it involves a slot signature.
+
+01:32:29.000 --> 01:32:34.000
+And, like, in BLS, that's like a deterministic thing. But
+
+01:32:34.000 --> 01:32:38.000
+And laying next to my son says it depends on the Merkle path. So like
+
+01:32:38.000 --> 01:32:46.000
+This… this is the same… I mean, I thought about this actually in the context of decoupled consensus because we're going to use a VRF for
+
+01:32:46.000 --> 01:32:47.000
+Being
+
+01:32:47.000 --> 01:32:52.000
+proposer, basically, or being… not the proposer, but the top committee
+
+01:32:52.000 --> 01:32:59.000
+And if you just let the auditors choose any Merkle path, they can essentially farm paths to be in the set.
+
+01:32:59.000 --> 01:33:03.000
+I'm just saying that, like, we may have to come up with something.
+
+01:33:03.000 --> 01:33:05.000
+Where the path is.
+
+01:33:05.000 --> 01:33:15.000
+So for the VRF, they don't choose any path, they choose like if it's slot I, they would choose the path I.
+
+01:33:15.000 --> 01:33:18.000
+So there is not
+
+01:33:18.000 --> 01:33:21.000
+Sure, yeah, that's… yeah, I didn't
+
+01:33:21.000 --> 01:33:25.000
+I didn't know how it worked and it hasn't been specced, so I was just saying that
+
+01:33:25.000 --> 01:33:34.000
+It'd have to be fixed somehow.
+
+01:33:34.000 --> 01:33:43.000
+Can we talk about the issue of getting from whatever number of aggregators to one aggregate that we put on the block
+
+01:33:43.000 --> 01:33:45.000
+How does it work?
+
+01:33:45.000 --> 01:33:54.000
+On Mumbai, we were told the proposal would get 16 of these objects and it would need to make a recursion 16 to 1. That would take about three seconds
+
+01:33:54.000 --> 01:34:05.000
+Now people are talking about like going from 16 to it's not really clear, like from 64 to 16. And then the proposal from 16 to one. How does this work?
+
+01:34:05.000 --> 01:34:08.000
+The numbers I'm seeing on the chat are not feasible.
+
+01:34:08.000 --> 01:34:13.000
+So I think the 16 to one might have been a mistake because you need
+
+01:34:13.000 --> 01:34:28.000
+I can see the rationale in that if you have 16 committees, 16 proofs you do a 16 to one, and then you put that in the next block. But you don't have 16 proofs because each committee has, let's say, 4 aggregators. So you have
+
+01:34:28.000 --> 01:34:32.000
+4 times 16 proofs
+
+01:34:32.000 --> 01:34:37.000
+And four of them per commit… oh, yeah, I mean, it's redundancy, right? Like
+
+01:34:37.000 --> 01:34:41.000
+So you need to have some way to go from
+
+01:34:41.000 --> 01:34:45.000
+4 proofs per committee to one proof per committee.
+
+01:34:45.000 --> 01:34:51.000
+or you send all 64 to the global topic, and then you have somebody
+
+01:34:51.000 --> 01:35:00.000
+aggregate those, or just choose the best ones per committee.
+
+01:35:00.000 --> 01:35:08.000
+If you do the 4 to 1, this adds one more layer of recursion, right?
+
+01:35:08.000 --> 01:35:09.000
+Yeah, so the yeah
+
+01:35:09.000 --> 01:35:14.000
+Which we currently, as far as I can see, we don't have
+
+01:35:14.000 --> 01:35:18.000
+any extra time. I mean, we're already
+
+01:35:18.000 --> 01:35:27.000
+We already need an extra second from somewhere
+
+01:35:27.000 --> 01:35:37.000
+Wait, why don't we have extra time? Like, isn't on the global topic right now, then we have like six seconds
+
+01:35:37.000 --> 01:35:55.000
+Yeah, so the numbers I was told would be that just the single attestation broadcast would take between two and three seconds to reach the aggregator. Aggregating would take also between two and three seconds, and the recursion would take also between that was at least 3 seconds
+
+01:35:55.000 --> 01:35:57.000
+So
+
+01:35:57.000 --> 01:36:06.000
+How do we make this fit with an extra recursion, which I assume the 4 to 1 would also be like 2 seconds or 3 seconds? How do we make them fit in this slot? It's just
+
+01:36:06.000 --> 01:36:12.000
+Why… why the recursion is so long? Why are you saying two to three seconds?
+
+01:36:12.000 --> 01:36:15.000
+Well, those are numbers that you guys gave us.
+
+01:36:15.000 --> 01:36:17.000
+Like
+
+01:36:17.000 --> 01:36:25.000
+A benchmark that was between two seconds and 3 seconds. I mean, of course, there were benchmarks that were much faster on a powerful Mac
+
+01:36:25.000 --> 01:36:33.000
+Yeah, okay, this is a machine. Because on the M4, this is around 0.2 seconds
+
+01:36:33.000 --> 01:36:36.000
+Yeah, yeah. So
+
+01:36:36.000 --> 01:36:45.000
+We should benchmark actual validators, like M4 ARM boards are not on validators now
+
+01:36:45.000 --> 01:36:56.000
+What I wrote in the chat is that the four to one should be faster than the 16 to 1, so the two to three seconds was based on the 16 to one
+
+01:36:56.000 --> 01:37:03.000
+We can definitely benchmark what the four to one is. It should be roughly linear, but we should get numbers to confirm
+
+01:37:03.000 --> 01:37:06.000
+Yeah, I confirm it would be linear
+
+01:37:06.000 --> 01:37:08.000
+Can we then
+
+01:37:08.000 --> 01:37:18.000
+Can we then not play games with aggregators and then have the aggregators themselves try to do a 4 to 1?
+
+01:37:18.000 --> 01:37:19.000
+Yeah
+
+01:37:19.000 --> 01:37:23.000
+like, staggered the way that the time at which you send… you broadcast your aggregate
+
+01:37:23.000 --> 01:37:29.000
+In the happy case, the last aggregate contains all of the previous ones and then can be chosen
+
+01:37:29.000 --> 01:37:34.000
+And in the unhappy case, the proposer just picks one from the four aggregates that he gets
+
+01:37:34.000 --> 01:37:47.000
+Yeah, that'll be my preference. Somehow you choose, yeah, somehow you choose the aggregates from each committee to pick the best one or just to aggregate the best, aggregate them all together.
+
+01:37:47.000 --> 01:37:55.000
+Before sending it to the global topic
+
+01:37:55.000 --> 01:38:08.000
+Emil, do you confirm this number of 2 to 3 seconds to do the recursion on this type of hardware?
+
+01:38:08.000 --> 01:38:09.000
+Yeah.
+
+01:38:09.000 --> 01:38:14.000
+I mean, in the website, hrlinvm.org, it's below 2 seconds on 8 threads, and even below 2 seconds on 4 threads, actually.
+
+01:38:14.000 --> 01:38:21.000
+Depends on the AVX to AVX700, but I would say it's clearly below three seconds.
+
+01:38:21.000 --> 01:38:22.000
+The reason
+
+01:38:22.000 --> 01:38:23.000
+Again.
+
+01:38:23.000 --> 01:38:33.000
+Yeah, sorry, the reason I said to… I think 2 to 3 is like a good number is because the node is probably going to be doing other things as well. So it might be good to
+
+01:38:33.000 --> 01:38:39.000
+Be overly conservative here.
+
+01:38:39.000 --> 01:38:46.000
+Are these benchmarks run on a node that is running mainnet as well? Or is it just a benchmark that does nothing, just segregation?
+
+01:38:46.000 --> 01:39:05.000
+On the website, you can switch between portraits and A threads. So you can have the numbers like you can assume you have, I don't know, 16 threads, eight cores, and you pin four cores for aggregation, four cores for the rest, and you get the numbers on the website.
+
+01:39:05.000 --> 01:39:07.000
+Right, but like this
+
+01:39:07.000 --> 01:39:17.000
+doesn't assume that you're, you know, doing any blob propagation or column reconstruction or whatever other Validator duties that you might have
+
+01:39:17.000 --> 01:39:22.000
+Yeah, I agree, having the numbers with real workload would be valuable. We'll try to make it soon. I agree.
+
+01:39:22.000 --> 01:39:32.000
+Yeah, that would be good, I think.
+
+01:39:32.000 --> 01:39:39.000
+Benchmarks in isolations are fine, guys. We also benchmark everything in isolation. The only thing that I would
+
+01:39:39.000 --> 01:39:54.000
+avoid is this thing of like trying to benchmark with CPUs that already have specific instructions for SHA or CPUs that have these vectorized instructions like Avx 512 that essentially no Validator runs
+
+01:39:54.000 --> 01:39:55.000
+On the website
+
+01:39:55.000 --> 01:40:12.000
+Like my own AVX 512, I have my own code that is AVX 512 assembly, which I could not even validate and I could not check that we would be crashing because I couldn't find any of the validators on Prism's Discord to run such a machine
+
+01:40:12.000 --> 01:40:33.000
+So on the website, there is this EX63, which is AVX2, and with eight threads, regression 16 to 1 is 1.3 seconds
+
+01:40:33.000 --> 01:40:38.000
+But EX63 is a very new CPU
+
+01:40:38.000 --> 01:40:46.000
+Right.
+
+01:40:46.000 --> 01:41:00.000
+Actually, what matters is not only the CPU is also the memory because stacks are highly memory bottlenecked
+
+01:41:00.000 --> 01:41:11.000
+Yeah, I do think that two to three seconds does seem pretty reasonable. And if we can get something cheaper, well, it obviously is cheaper, then that's okay, but
+
+01:41:11.000 --> 01:41:21.000
+Sort of being overly conservative hair just seems like the better approach
+
+01:41:21.000 --> 01:41:24.000
+Saulius
+
+01:41:24.000 --> 01:41:28.000
+Yeah, I was thinking that maybe we can
+
+01:41:28.000 --> 01:41:32.000
+incentivize aggregators that
+
+01:41:32.000 --> 01:41:43.000
+You know, maybe it's even something similar to those Pooger networks where essentially those who generate proofs
+
+01:41:43.000 --> 01:41:48.000
+They get reward, you know, so… so there would be
+
+01:41:48.000 --> 01:41:52.000
+Something like
+
+01:41:52.000 --> 01:41:57.000
+Like, a good aggregate that is included in the block
+
+01:41:57.000 --> 01:42:04.000
+Assigned by some aggregator, which gets a reward for the good work.
+
+01:42:04.000 --> 01:42:06.000
+Because I think
+
+01:42:06.000 --> 01:42:18.000
+It's something that, I mean, it's computationally intensive and we already kind of have this at some degree, this problem with BLS aggregates now
+
+01:42:18.000 --> 01:42:28.000
+Because, well, obviously, aggregators are not incentivized to make the best aggregates, but if we could gamify and reward
+
+01:42:28.000 --> 01:42:40.000
+The aggregator work, maybe this could solve this problem.
+
+01:42:40.000 --> 01:42:45.000
+I believe one way of solving this is if we allow
+
+01:42:45.000 --> 01:42:46.000
+The
+
+01:42:46.000 --> 01:42:55.000
+just builders, we can count on builders to provide the best aggregates on the bid. Most validators are connected to a builder
+
+01:42:55.000 --> 01:43:02.000
+So if you fail to get the 16 to 1 recursion or whatever, probably 64 now.
+
+01:43:02.000 --> 01:43:11.000
+To one recursion being a proposer, you can count with some aggregate that the builder is going to give you over the bid
+
+01:43:11.000 --> 01:43:18.000
+I talked to only Titan and they seem to be okay with this. They are going to run already this large
+
+01:43:18.000 --> 01:43:22.000
+Notes anyways.
+
+01:43:22.000 --> 01:43:27.000
+So that's probably one place that we can think about.
+
+01:43:27.000 --> 01:43:43.000
+Anyways, being an aggregator is not checked on the block. It's only checked over gossip.
+
+01:43:43.000 --> 01:43:50.000
+Can you explain how builders would be able to include the aggregates in the bid? I don't really understand how that's even possible.
+
+01:43:50.000 --> 01:44:00.000
+No, it's just like you give it as a sidecar. I request a bit. So these are direct connection builders. I'm not proposing that every bid comes with an aggregate.
+
+01:44:00.000 --> 01:44:01.000
+Oh, okay.
+
+01:44:01.000 --> 01:44:12.000
+Which is that the direct connection builders provide you with an aggregate when you request the bid
+
+01:44:12.000 --> 01:44:16.000
+And what if you're not connected to
+
+01:44:16.000 --> 01:44:23.000
+Then you're not likely to include a very powerful aggregate.
+
+01:44:23.000 --> 01:44:36.000
+And if you're not incentivized to include it, then it doesn't really matter.
+
+01:44:36.000 --> 01:44:47.000
+Not sure how I feel about this, but yeah, it is an option.
+
+01:44:47.000 --> 01:45:06.000
+Okay, so in terms of defaults as to what we're moving towards, is it 16 committees with 16 subnets using RANDAO to choose the aggregators, plus making it balance weighted
+
+01:45:06.000 --> 01:45:15.000
+And I don't know if we're going with this builder approach. I guess we could think about it after.
+
+01:45:15.000 --> 01:45:16.000
+I'd say not
+
+01:45:16.000 --> 01:45:20.000
+I think we just… we should have a first iteration of
+
+01:45:20.000 --> 01:45:31.000
+That what you just listed without the builder. And then we can evaluate it later on.
+
+01:45:31.000 --> 01:45:36.000
+Yeah, pretty much the same thing. The first parts sound correct.
+
+01:45:36.000 --> 01:45:41.000
+I do think that we need to use RANDAO for the aggregator selection
+
+01:45:41.000 --> 01:45:45.000
+So that we can reduce the number of aggravators.
+
+01:45:45.000 --> 01:45:48.000
+I'm… I don't really like the idea of using builders
+
+01:45:48.000 --> 01:45:52.000
+Ticket, aggregates
+
+01:45:52.000 --> 01:45:59.000
+Personally
+
+01:45:59.000 --> 01:46:06.000
+If we would have a single bid or just a few bits, I would want to have it in the P2P bit. But
+
+01:46:06.000 --> 01:46:09.000
+I can see that it would be a bit problematic
+
+01:46:09.000 --> 01:46:13.000
+Why are people talking about relying on the builder?
+
+01:46:13.000 --> 01:46:15.000
+This was just one extra
+
+01:46:15.000 --> 01:46:24.000
+aggregation. This doesn't mean that we will rely on the builder
+
+01:46:24.000 --> 01:46:27.000
+It sort of becomes a crutch, right?
+
+01:46:27.000 --> 01:46:30.000
+Like, it might work until builder stops and or stop
+
+01:46:30.000 --> 01:46:32.000
+Giving you that data.
+
+01:46:32.000 --> 01:46:38.000
+The aggregate
+
+01:46:38.000 --> 01:46:41.000
+What happens if we don't have the aggregate?
+
+01:46:41.000 --> 01:46:44.000
+We just miss the block
+
+01:46:44.000 --> 01:46:51.000
+The aggregate's not needed, so I guess you just have a very poorly… poor block with
+
+01:46:51.000 --> 01:46:54.000
+low participation
+
+01:46:54.000 --> 01:47:00.000
+You always have at least the best. You can always pick the best proof
+
+01:47:00.000 --> 01:47:05.000
+of the best topic
+
+01:47:05.000 --> 01:47:07.000
+Right? But this is a
+
+01:47:07.000 --> 01:47:09.000
+This is from one committee, right?
+
+01:47:09.000 --> 01:47:24.000
+Yeah, yeah. Yeah. So I think the biggest problem we have is not even like on the recursion itself now. The biggest problem we have is that we already, even reducing the number of aggregators, we already have a lot of data going around in the P2P stack
+
+01:47:24.000 --> 01:47:28.000
+So how are we going to deal with that? Already that.
+
+01:47:28.000 --> 01:47:39.000
+Forget about the proposer, like making one proof
+
+01:47:39.000 --> 01:47:42.000
+Sounds like a good topic for tomorrow.
+
+01:47:42.000 --> 01:47:44.000
+Given that we only have like
+
+01:47:44.000 --> 01:47:45.000
+Yeah
+
+01:47:45.000 --> 01:47:51.000
+8 minutes left today
+
+01:47:51.000 --> 01:47:59.000
+Yeah, like, even with the 16 aggregators in the global topic, it's already a lot of traffic
+
+01:47:59.000 --> 01:48:01.000
+And this kind of
+
+01:48:01.000 --> 01:48:13.000
+Well, food to note at the capacity, even like if we have 6 seconds to propagate them all, which I am not sure about because the proposer will need to have time to do the final aggregation.
+
+01:48:13.000 --> 01:48:19.000
+If we do three seconds, it's going to be like, yeah
+
+01:48:19.000 --> 01:48:20.000
+With the gossip amplification. Yeah.
+
+01:48:20.000 --> 01:48:25.000
+Wait, the aggregates will never have three seconds. The aggregates will never have six seconds
+
+01:48:25.000 --> 01:48:29.000
+If we're talking about the attestation going out at three
+
+01:48:29.000 --> 01:48:30.000
+Yes.
+
+01:48:30.000 --> 01:48:42.000
+Then, so are we counting when the aggregation taking less than one second?
+
+01:48:42.000 --> 01:48:46.000
+Yeah, probably not six, maybe five seconds. I don't know. That's the worst case. Yeah
+
+01:48:46.000 --> 01:48:48.000
+Yeah, that's what I was counting on
+
+01:48:48.000 --> 01:49:02.000
+Yeah, yeah, yeah. But anyway, like, if… if we have… if we have 5 seconds, it's just a lot still with the 16 aggregates. But we are discussing more right? So because there will be duplicates
+
+01:49:02.000 --> 01:49:08.000
+I mean, like, there will be more than like one aggregator or subnet
+
+01:49:08.000 --> 01:49:13.000
+or per committee.
+
+01:49:13.000 --> 01:49:25.000
+That's something like the node should stop doing any other P2P work at this moment in time where these aggregates will be floating in the
+
+01:49:25.000 --> 01:49:40.000
+In the network because it's already puts a node at capacity, I guess
+
+01:49:40.000 --> 01:49:43.000
+Yeah, I guess it would be good to just benchmark
+
+01:49:43.000 --> 01:49:48.000
+this to see exactly how much bandwidth we need
+
+01:49:48.000 --> 01:50:04.000
+Because it's not super clear to me what the solution would even be. Like if we upgrade the bandwidth requirements, or if we need to do more slot rescheduling. And that's kind of hard to know until you sort of benchmark to see what the numbers are
+
+01:50:04.000 --> 01:50:17.000
+Or at least have simulations to show what the numbers are.
+
+01:50:17.000 --> 01:50:23.000
+Can I quickly hijack this to go back to something previous about
+
+01:50:23.000 --> 01:50:28.000
+The DevNets and bindings or
+
+01:50:28.000 --> 01:50:29.000
+Go for it.
+
+01:50:29.000 --> 01:50:47.000
+Yeah, I wanted to quickly ask clients sort of how far have you gone with testing LeanVM bindings, sort of the signature schemes. Then how far are you of implementing slash maybe understanding the spec that Justin just showed
+
+01:50:47.000 --> 01:50:56.000
+I don't know how far. Juan, do you know? I certainly haven't done any work with
+
+01:50:56.000 --> 01:51:10.000
+Also, maybe we can speak about this idea of having LeanVM as a dedicated sidecar process to make it easier to integrate because since it's performance critical, having a dedicated process
+
+01:51:10.000 --> 01:51:18.000
+Lets us manage memory and, like, allocation maybe in a more optimal way, I don't know
+
+01:51:18.000 --> 01:51:23.000
+Can you link that… can you link that spec, please?
+
+01:51:23.000 --> 01:51:26.000
+Yeah, I will
+
+01:51:26.000 --> 01:51:27.000
+I'll do it
+
+01:51:27.000 --> 01:51:29.000
+Is it the PQ Gasper one? Oh, sorry
+
+01:51:29.000 --> 01:51:34.000
+Oh, wait, you're asking how far we are in implementing
+
+01:51:34.000 --> 01:51:39.000
+PQ Gasper? No, I thought you were saying something about lien signing.
+
+01:51:39.000 --> 01:51:53.000
+Yeah, so I said two things. So the first one was how far are you guys in sort of testing out LeanVM bindings and also how far you are in implementing slash understanding the specs
+
+01:51:53.000 --> 01:52:04.000
+And if you're doing the signature scheme, how far are you there as well? So there's the cryptography specs and then there's the consensus specs for PQ Gasper.
+
+01:52:04.000 --> 01:52:08.000
+Yeah, I don't believe that we've…
+
+01:52:08.000 --> 01:52:12.000
+Gotten to implementation with the
+
+01:52:12.000 --> 01:52:14.000
+the,
+
+01:52:14.000 --> 01:52:23.000
+the… either, basically. I can't be sure about the cryptography side.
+
+01:52:23.000 --> 01:52:33.000
+But I was asking for a link to that, those cryptography specs if you could. And then we can look at that and we can certainly assign people to like
+
+01:52:33.000 --> 01:52:37.000
+Get further across that. I'm fairly across lean
+
+01:52:37.000 --> 01:52:41.000
+As far as the
+
+01:52:41.000 --> 01:52:42.000
+As far as the
+
+01:52:42.000 --> 01:52:47.000
+That presentation that we had at DevCon, and then I went back through it and kind of
+
+01:52:47.000 --> 01:52:52.000
+cropped it, but I haven't read any code.
+
+01:52:52.000 --> 01:52:56.000
+Okay, makes sense. And protest. Oh, sorry.
+
+01:52:56.000 --> 01:53:03.000
+As you know, in lambdaclass, we were implementing the LeanVM with the bindings in LeanVMV
+
+01:53:03.000 --> 01:53:16.000
+And we were not working much with flashing on that, but when the LeanVM, we were building that
+
+01:53:16.000 --> 01:53:19.000
+Potuz
+
+01:53:19.000 --> 01:53:22.000
+I have a comment about aggregation, not about this, so I'll just keep my hand
+
+01:53:22.000 --> 01:53:31.000
+Yeah, I mean, how far are you, Podus? It seems that you're going to be implementing the signature scheme by yourself.
+
+01:53:31.000 --> 01:53:38.000
+I haven't even started. I said that I was going to write some assembly for that, but only for the signature part, not the LeanVM, the Stark business. I do not know yet.
+
+01:53:38.000 --> 01:53:48.000
+Okay, I see. And what about the specs like PQ Gasper? Have you folks started looking into that?
+
+01:53:48.000 --> 01:53:53.000
+Well, we're here. I'm hoping that the deliverable this week will be a spec that we can actually start coding.
+
+01:53:53.000 --> 01:53:58.000
+Okay. Makes sense.
+
+01:53:58.000 --> 01:54:00.000
+Yeah, that's my goal for this week as well.
+
+01:54:00.000 --> 01:54:03.000
+And, yeah, in the meantime, I've been working on that.
+
+01:54:03.000 --> 01:54:05.000
+That potential
+
+01:54:05.000 --> 01:54:12.000
+Change Glamsterdam
+
+01:54:12.000 --> 01:54:19.000
+But again, still, do we have the link to the cryptography specs, please?
+
+01:54:19.000 --> 01:54:26.000
+I can link it in the chat
+
+01:54:26.000 --> 01:54:41.000
+Dressing when you mean cryptography like the suspect, do you mean the spec for the pre-registration or the spec for the switch or both?
+
+01:54:41.000 --> 01:54:51.000
+I'm talking about for PQ Gasper, so it'd be for both
+
+01:54:51.000 --> 01:55:09.000
+To be clear, it's not going to be like perfect, but just something that we can start working on.
+
+01:55:09.000 --> 01:55:11.000
+Potuz
+
+01:55:11.000 --> 01:55:19.000
+I wanted to say something good and bad at the same time about aggregation, which I haven't seen here being discussed.
+
+01:55:19.000 --> 01:55:35.000
+This last recursion that we are kind of assuming it's 16 to 1, or whatever number of aggregators we have to 1 on the proposer side, that's only in the happy case. Most of the time, proposers are also including attestations and aggregates that weren't included in previous slots
+
+01:55:35.000 --> 01:55:46.000
+So even in the usual working scenario, we would be aggregating many more than whatever the number of aggregators for the current slot is into the next proof
+
+01:55:46.000 --> 01:56:02.000
+However, I think this is actually good news because I think we can always make aggregators for slot N to aggregate everything that they had even from before and the proposer will also have much more time than just the 3 seconds for the current slot committee
+
+01:56:02.000 --> 01:56:06.000
+But also to include aggregates from before
+
+01:56:06.000 --> 01:56:18.000
+So I think we should include this into whatever simulations we have. And we should make aggregators from previous slots. Yeah, so
+
+01:56:18.000 --> 01:56:20.000
+Have in mind this for the proposer as
+
+01:56:20.000 --> 01:56:24.000
+And then nothing for the current slot?
+
+01:56:24.000 --> 01:56:39.000
+No, you want to do for the current slot, that you always want to do, but the point is that we have a lot of slack on our blocks to include attestations. We have a lot. We can finalize the chain with only 12% of the blocks coming in. We've seen this already.
+
+01:56:39.000 --> 01:56:48.000
+So I think in principle, we should be much more robust, even if that recursion fails.
+
+01:56:48.000 --> 01:56:52.000
+Orange, we're gonna have issues, with too much data, though?
+
+01:56:52.000 --> 01:56:55.000
+If we keep including that
+
+01:56:55.000 --> 01:56:57.000
+Like
+
+01:56:57.000 --> 01:57:01.000
+The aggregates are quite heavy
+
+01:57:01.000 --> 01:57:15.000
+No, the aggregate still is like 300 kilobytes, and then the attestation data itself would increase linearly, but that's just nothing compared to the block size. And so, Francesco, can you explain this thing? I understand that
+
+01:57:15.000 --> 01:57:42.000
+Oh, okay. So this is really about four choice, on-chain for choice versus like scene subnet. But that's not the case, right? So we will have validators for choice importing attestations from the aggregated topic, which is global
+
+01:57:42.000 --> 01:57:43.000
+Yeah
+
+01:57:43.000 --> 01:57:48.000
+Yeah, so this goes for the proposer aggregation, then it's fine if this is delayed, it's just about inclusion, but the aggregator aggregation, like the the first pass that gets stuff into a global topic that needs to actually happen on time
+
+01:57:48.000 --> 01:58:02.000
+Oh, yeah, yeah. The aggregator aggregation needs to be their own aggregate and plus whatever they can just chug in that they can start doing earlier. That's the point.
+
+01:58:02.000 --> 01:58:11.000
+But as you're proposing to aggregate the previous slot attestations with the current slot attestations into one aggregate
+
+01:58:11.000 --> 01:58:12.000
+Yeah, so
+
+01:58:12.000 --> 01:58:13.000
+Did I get it correct?
+
+01:58:13.000 --> 01:58:27.000
+Yes, the proposal will have to do this anyways. The proposal will have to do a recursion. So whenever you tell me it's 16 to 1, well, it's not really 16 to 1, because I may have still 8 from the previous slot, or even up to 5 slots ago.
+
+01:58:27.000 --> 01:58:28.000
+Right.
+
+01:58:28.000 --> 01:58:38.000
+So the proposal will be doing this work anyways, and I think that it should be fine for both the aggregators and the proposers to start doing this early.
+
+01:58:38.000 --> 01:58:49.000
+Like, as early as the beginning of the slot, they know that they are proposing next slot. They can start aggregating whatever hasn't been included in the current CL block.
+
+01:58:49.000 --> 01:59:06.000
+Yeah, I just wanted to make a point that if you want to aggregate two slots into one aggregate, then you will have to keep the PID field from the previous slot as well, assign it to the current slot bit field. Yeah, but that's probably doable or I don't know
+
+01:59:06.000 --> 01:59:11.000
+needs communication. I mean calculations
+
+01:59:11.000 --> 01:59:24.000
+Could we continue this async? I think it might require quite a bit of talking.
+
+01:59:24.000 --> 01:59:29.000
+Yeah, let's follow up async and then we'll continue this time tomorrow
+
+01:59:29.000 --> 01:59:32.000
+For the next breakout.
+
+01:59:32.000 --> 01:59:36.000
+T minus 2 hours actually.
+
+01:59:36.000 --> 01:59:43.000
+Because we're already like a few minutes past the end of this call.
+
+01:59:43.000 --> 01:59:45.000
+Yeah.
+
+01:59:45.000 --> 01:59:51.000
+Okay, well, that's fine. I was just going to say that if we did have a spec and we're asking, what is our plan like
+
+01:59:51.000 --> 02:00:02.000
+To even get some idea of more information like we all vibe code prototype clients and run it, run the spec like I don't know
+
+02:00:02.000 --> 02:00:04.000
+I don't know how you can
+
+02:00:04.000 --> 02:00:05.000
+That's exactly what we need to do. Yeah.
+
+02:00:05.000 --> 02:00:09.000
+Do any better than that. Yeah.
+
+02:00:09.000 --> 02:00:12.000
+Okay, let's talk more about this tomorrow.
+
+02:00:12.000 --> 02:00:14.000
+Bye, everyone
+
+02:00:14.000 --> 02:00:16.000
+Hello guys
+
+02:00:16.000 --> 02:00:17.000
+Amber?
+
+02:00:17.000 --> 02:00:18.000
+All right
+
+02:00:18.000 --> 02:00:20.000
+Thanks, everyone. Bye.
+
+02:00:20.000 --> 02:00:20.000
+Thank you.
+

@@ -1,0 +1,93 @@
+{
+  "meeting": "PQ-CL Breakout #1 - November 17, 2026",
+  "highlights": {
+    "pq_fork_design": [
+      {
+        "timestamp": "00:01:49",
+        "highlight": "Pre-registration (EIP-8205-derived): free-of-charge validator key reservation before deposit; prevents race condition without requiring 1 ETH upfront"
+      },
+      {
+        "timestamp": "00:14:33",
+        "highlight": "PQ spec PR built on Pectra; group agreed to rebase on Glamsterdam (decided at DEFCON)"
+      },
+      {
+        "timestamp": "00:26:38",
+        "highlight": "BLS validators unregistered at fork: immediately exited but withdrawal delayed ~8,000 epochs; slashing handled via social consensus only"
+      },
+      {
+        "timestamp": "00:56:57",
+        "highlight": "CL-triggered voluntary exits replaced with EL execution requests to avoid large XMSS signatures on P2P gossip stack"
+      }
+    ],
+    "pq_aggregation": [
+      {
+        "timestamp": "00:06:22",
+        "highlight": "Proposal: reduce committees 64\u219216 (matching subnets); each committee ~4\u00d7 larger; aggregation cost estimated 2\u20133s on typical validator hardware"
+      },
+      {
+        "timestamp": "01:02:13",
+        "highlight": "Consensus toward 16 subnets / 16 committees / 4 aggregators per committee selected via RANDAO + balance-weighted look-ahead stored in beacon state"
+      },
+      {
+        "timestamp": "01:34:05",
+        "highlight": "64 proofs on global topic (~6.25 MiB/slot) identified as primary bandwidth concern; no clean solution reached; flagged as main open blocker"
+      },
+      {
+        "timestamp": "01:54:13",
+        "highlight": "If aggregation timing proves infeasible, preference is to skip long-slot workaround and move directly to Decoupled Consensus (DC)"
+      }
+    ],
+    "proof_of_possession": [
+      {
+        "timestamp": "00:15:52",
+        "highlight": "XMSS proof of possession verified on EL side only (not stored on-chain); estimated gas cost small (~20\u201345k); no CL changes needed"
+      },
+      {
+        "timestamp": "00:23:14",
+        "highlight": "Decision: pre-registration authorized by withdrawal credentials only; operator/validator private key signing explicitly rejected"
+      }
+    ],
+    "client_implementation_status": [
+      {
+        "timestamp": "01:50:29",
+        "highlight": "Lodestar: LeanVM bindings tested; disposable prototype code exists. ethlambda: LeanVM bindings tested + EIP-8483 on Heze; will rebase on Glamsterdam. Prysm: XMSS signing assembly planned; STARK side TBD"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "01:49:43",
+      "action": "Benchmark aggregation with EL running full block-building workload on representative validator hardware (not isolated)",
+      "owner": "lambdaclass (Tom Wambsgans confirmed); other teams encouraged"
+    },
+    {
+      "timestamp": "02:02:22",
+      "action": "Stand up globally-distributed devnet to validate aggregation viability on real network topology",
+      "owner": "All PQ client teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:23:14",
+      "decision": "Pre-registration signed by withdrawal credentials only; validator private key signing rejected"
+    },
+    {
+      "timestamp": "00:40:44",
+      "decision": "Unregistered BLS validators exited immediately at PQ fork; withdrawal delayed ~8,000 epochs; no on-chain legacy slashing; social consensus only"
+    },
+    {
+      "timestamp": "00:56:57",
+      "decision": "CL-gossipped voluntary exits removed; replaced with EL execution requests"
+    },
+    {
+      "timestamp": "01:02:13",
+      "decision": "Target aggregation topology: 16 subnets, 16 committees, 4 aggregators/committee, RANDAO+balance-weighted selection stored in beacon state"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:53:31",
+      "target": "Goal for breakout week: produce a codeable PQ Gasper spec draft; daily breakouts continuing"
+    }
+  ]
+}
