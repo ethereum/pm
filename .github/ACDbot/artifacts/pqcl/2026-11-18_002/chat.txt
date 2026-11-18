@@ -1,0 +1,525 @@
+00:05:08	terence:	here's an attempt of DC on top of PQ: https://github.com/ethereum/consensus-specs/compare/pq...pq-dc a few open questions:
+head vote proofs / aggregation. If head vote aggregation takes time, view merge becomes pointless. Combine head vote proof with finality vote proof into one STARK proof?
+FG vote aggregation scheme. Round vs epoch, target vs timeout, what's supported / not supported?
+FG attestation uses 1 leaf per round. Voting target -> timeout in the same round reuses the leaf and exposes the key. Fix attestation field to use slot/epoch?
+builder payments across slots via old head votes. This can get very expensive. Can we get rid of it and lose trustless payment protection?
+00:05:56	Justin Traglia:	Gm
+00:06:50	Justin Traglia:	Instead of initiating exits of unregistered validators, we immediately exit them but set a very long withdrawal delay of 16,384 epochs (~72 days). Unregistered validators will not be able to perform duties after the fork; therefore there shouldn't be missed proposals nor a large drop in attestation participation.
+00:10:08	Barnabas:	I would prefer if we don’t calculate with “social slashing”
+00:10:25	Barnabas:	its a very tricky topic and we should solve these issues in protocol.
+00:11:46	grapebaba:	Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+00:12:42	Barnabas:	Validators will migrate tho.
+00:12:47	Barnabas:	Why are we pretending that people won’t migrate?
+00:13:10	Barnabas:	its like any other hard fork, it requires a bit more work from the validators, but everyone will migrate
+00:13:35	Barnabas:	we should just yeet everyone that hasn’t migrated and call it a day.
+00:14:29	Kevaundray Wedderburn:	We assume that if two chains finalise, that there is at least a 1/3 intersection essentially.
+
+If two chains can finalise with completely different quorums, then we have no safety because noone equivocated
+00:14:53	Yann Vonlanthen:	Reacted to "We assume that if two chains finalise, that there is at least a 1/3 intersection essentially.
+
+If two chains can finalise with completely different quorums, then we have no safety because noone equivocated" with 👍
+00:16:25	Barnabas:	is very large churn a problem when we have tens of thousands of validators?
+00:17:00	Francesco D'Amato:	Replying to "is very large churn ..."
+
+That’s why I am saying that we can just wait to fork until we have e.g. > 80% of validators having a PQ key
+00:17:12	Kevaundray Wedderburn:	Reacted to "That’s why I am saying that we can just wait to fork until we have e.g. > 80% of validators having a PQ key" with 👍
+00:17:22	CPerezz:	Reacted to "That’s why I am sayi..." with 👍
+00:17:35	Francesco D'Amato:	we should just yeet everyone that hasn’t migrated and call it a day.
+
+We can do that, but doing that when everyone that hasn’t migrated is a large set isn’t good
+00:18:18	Justin Traglia:	The reduction of MAX_COMMITTEES_PER_SLOT from 64 committees to 16 committees. This mirrors the earlier reduction of ATTESTATION_SUBNET_COUNT from 64 subnets to 16 subnets. So now there's one committee per subnet again. These changes increase the amount of data propagated on per subnet, but will result in fewer aggregations (300 KiB proofs) in the beacon_aggregate_and_proof topic which is a necessary tradeoff.
+00:19:23	Justin Traglia:	Aggregators no longer select themselves with VRF selection proofs. Instead, each beacon committee has an aggregation committee, sampled by effective balance. The committee is stored in a new aggregation_committee_window field within the state, like the proposer lookahead and PTC window. This means that every committee now has exactly four aggregators, rather than a random number that is sometimes zero.
+00:22:25	Justin Traglia:	To reduce traffic on the beacon_aggregate_and_proof topic, only the "best" aggregates are propagated. The best aggregate is defined as the aggregate which contains attestations with the most effective balance; an aggregate with an attestation from a single 65 ETH validator is better than an aggregate with attestations from two 32 ETH validators. Late aggregates are judged the same as today though, which may include some late attestations.
+00:22:29	Barnabas:	Replying to "Aggregators no longe..."
+
+how do aggregators’ selection is for DC?
+00:23:18	terence:	Replying to "Aggregators no longe..."
+
+Underspecified but I see no reason not to follow this
+00:23:42	Barnabas:	Replying to "Aggregators no longe..."
+
+would we still need 16 aggregations for goldfish ?
+00:23:54	Barnabas:	Replying to "Aggregators no longe..."
+
+512 -> 16 -> 1 ?
+00:23:57	Francesco D'Amato:	Just we should be aware that this is not a robust rule, and in the past we have never wanted to do this
+00:24:13	Yann Vonlanthen:	Replying to "Aggregators no longe..."
+
+For goldfish we don’t need aggregators I think
+00:24:29	Barnabas:	Replying to "Aggregators no longe..."
+
+oh in the beginning of the call terence said we would
+00:24:55	Barnabas:	Replying to "Aggregators no longe..."
+
+I think it would be wise to discuss DCPQ plans together with gosper PQ ideas
+00:25:04	Barnabas:	Replying to "Aggregators no longe..."
+
+so that we are aware if there is any diff between the two
+00:27:11	Kevaundray Wedderburn:	In the BLS world, if those two aggregates had intersections, then one of them wouldn’t make it onchain anyways?
+00:27:16	Yann Vonlanthen:	Makes sense, though one could also argue that if we discuss the emergency case here with PQ Gasper, anything we do here we could take over, and PQ DC just gives more slack
+00:27:48	Kevaundray Wedderburn:	15 seconds?
+00:27:49	Mikhail Kalinin:	Replying to "In the BLS world, if..."
+
+there is a non-strict superset rule
+00:28:06	Barnabas:	Reacted to "15 seconds?" with 💀
+00:28:19	Kamil Salakhiev:	my VPS performs 16 to 1 in 5 seconds. Also slow
+00:28:20	soispoke:	A réagi à "15 seconds?" avec 😨
+00:28:38	Toni Wahrstaetter:	Reacted to "15 seconds?" with 😨
+00:29:16	Barnabas:	doesn’t really matter if its 5 or 15 no? Both are fucked?
+00:29:34	Mikhail Kalinin:	Replying to "In the BLS world, if..."
+
+if a non-strict superset of bits were observed then the aggregate can be discarded. non-strict superset i guess is a superset in which a few bits might be missed; and that a few is up to implementations
+00:29:42	Kevaundray Wedderburn:	Reacted to "if a non-strict superset of bits were observed then the aggregate can be discarded. non-strict superset i guess is a superset in which a few bits might be missed; and that a few is up to implementations" with 👍
+00:29:52	Kamil Salakhiev:	we really need global proofs
+00:29:56	CPerezz:	Reacted to "15 seconds?" with 👀
+00:30:23	soispoke:	Répondre à "doesn’t really ma..."
+
+it matters just because there is an expectation that optimizations will make the numbers look better, but not clear by how much
+00:30:36	Satyajit:	Replying to "we really need glo..."
+
+What's global proof in this context?
+00:31:13	Kamil Salakhiev:	Replying to "we really need globa..."
+
+proof for all committees from the slot
+00:31:41	Mega | ethlambda:	Replying to "we really need globa..."
+
+You mean, a second 16 -> 1 round of aggregation?
+00:32:28	Kamil Salakhiev:	Replying to "we really need globa..."
+
+I mean 16 to 1 aggregation performed and sent by some node which is not proposer, so proposer can just pick it
+00:32:32	Justin Traglia:	I think we could/should increase bandwidth requirements btw
+00:32:45	Mega | ethlambda:	Reacted to "I mean 16 to 1 aggregation performed and sent by some node which is not proposer, so proposer can just pick it" with 👍
+00:32:46	Kamil Salakhiev:	Reacted to "I think we could/should increase bandwidth requirements btw" with 👍
+00:32:48	Satyajit:	Reacted to "I mean 16 to 1 agg..." with 👍
+00:34:44	Barnabas:	wasn’t this whole attestation packing issue solved by the zeam team already? https://x.com/zeamETH/status/2060344683319177565
+00:35:07	Francesco D'Amato:	One nice thing if we were to do DC is that we can quite freely remove the duplication factor by using pull only, because we don’t really care about a bit of extra latency at that point
+00:35:15	Satyajit:	Replying to "we really need glo..."
+
+I feel like something similar was discussed before but don't remember the case against it.
+00:35:34	Mikhail Kalinin:	Reacted to "One nice thing if we were to do DC is that we can quite freely remove the duplication factor by using pull only, because we don’t really care about a bit of extra latency at that point" with 👍
+00:36:51	Yann Vonlanthen:	Replying to "One nice thing if we..."
+
+Yes, similarly with aggregator selection, we could afford less, and have later aggregators pick up missed aggregations
+00:37:32	Kevaundray Wedderburn:	How can we do this delayed mechanism with gasper if it also includes the headvotes?
+00:37:44	Potuz:	No need
+00:38:05	Yann Vonlanthen:	@Potuz But with DC we can pipeline and do both aggregation and dissemination at the same time
+00:38:40	Yann Vonlanthen:	Replying to "@Potuz But with DC w..."
+
++ we get to disseminate votes from t=0s, instead of t=3s
+00:38:48	Kevaundray Wedderburn:	Okay I see, yeah I agree
+00:39:27	Mikhail Kalinin:	let's discuss shipping PQ-DC :-D
+00:39:28	Potuz:	Replying to "@Potuz But with DC w..."
+
+Yes I am assuming this is better in DC because of a streamlined aggregation, but it’s not clear that this problem is substantially solved either there
+00:39:29	soispoke:	how are people thinking about not doing aggregation at all (as a first ugly minimal PQ consensus fork)?
+00:39:46	Trent Van Epps:	Reacted to "let's discuss shipping PQ-DC :-D" with 👁️
+00:39:58	Potuz:	Replying to "@Potuz But with DC w..."
+
+Specially given that the propagation is the problem and if we want to keep the finality time then we need to propagate at the same average speed
+00:40:20	Francesco D'Amato:	Replying to "how are people think..."
+
+Fwiw I think this should be basically fine, if we are willing to restrict to 0x02 validators and actually set a cap, even a generous one like 100k
+00:40:21	Yann Vonlanthen:	Reacted to "Specially given that the propagation is the problem and if we want to keep the finality time then we need to propagate at the same average speed" with 👍
+00:40:40	soispoke:	A réagi à "Fwiw I think this ..." avec 👀
+00:40:50	Francesco D'Amato:	Replying to "how are people think..."
+
+Ah I think you mean no aggregation at all
+00:41:00	Potuz:	Replying to "how are people think..."
+
+In the happy case as we are today, no recursion at all will continue finalizing
+00:41:02	Francesco D'Amato:	Replying to "how are people think..."
+
+I mean no aggregation in the critical path of broadcast
+00:41:03	Yann Vonlanthen:	Replying to "@Potuz But with DC w..."
+
+I see!
+00:41:09	Potuz:	Replying to "how are people think..."
+
+Most blocks have 1 or 2 good attestations max
+00:41:11	soispoke:	Répondre à "how are people thi..."
+
+yeah no aggregation at all
+00:41:24	soispoke:	A réagi à "I mean no aggregat..." avec 👍
+00:41:48	Mikhail Kalinin:	Replying to "how are people think..."
+
+this will make the bandwidth requirement higher, at least for 16 subnets
+00:42:24	Mikhail Kalinin:	Replying to "how are people think..."
+
+I am not sure if we want to get rid of subnets entirely
+00:42:50	Justin Traglia:	Replying to "let's discuss ship..."
+
+Added as a topic.
+00:42:50	Potuz:	Replying to "how are people think..."
+
+Oh perhaps I understood differently. My understanding was removing the last recursion, but keeping aggregators
+00:42:51	Francesco D'Amato:	Replying to "how are people think..."
+
+Well with 64k validators we’d have 2k validators per slot
+00:42:58	Francesco D'Amato:	Replying to "how are people think..."
+
+Which is the number we’ve been throwing around for subnets
+00:43:11	Mikhail Kalinin:	Replying to "how are people think..."
+
+can we rely on it?
+00:43:23	Mikhail Kalinin:	Replying to "how are people think..."
+
+I mean rely on 0x02 and good consolidation level?
+00:43:23	Francesco D'Amato:	Replying to "how are people think..."
+
+We can set a cap if we need to rely on it
+00:43:55	Francesco D'Amato:	Replying to "how are people think..."
+
+(To be clear I am not saying this is what we have to do but I think at this point all possibilities are worth considering)
+00:44:04	Potuz:	Replying to "how are people think..."
+
+A validator cap would be a huge other level of discussion and contentious arguments everywhere in the community
+00:44:06	Mikhail Kalinin:	Reacted to "(To be clear I am not saying this is what we have to do but I think at this point all possibilities are worth considering)" with 👍
+00:44:14	soispoke:	Répondre à "how are people thi..."
+
+right to be more clear my q was: how are people thinking about not having any aggregation at all and making other tradeoffs (validator cap, increase hw/bandwidth requirements, longer slots)
+00:44:14	Kamil Salakhiev:	can we have 2 best aggregates?)
+00:44:41	Mikhail Kalinin:	Replying to "how are people think..."
+
+if we have a cap then aggregation part also become easier
+00:45:14	soispoke:	also not saying it's what we should do
+ 
+but aggregation in itself (relying on leanVM) has complexities we would get rid off but also why i called it "ugly"
+00:45:14	Potuz:	@emile
+00:45:15	Kevaundray Wedderburn:	Not advocating for it, just saying this is another potential solution
+00:45:22	Justin Traglia:	Reacted to "Not advocating for..." with 👍
+00:45:42	Potuz:	@emile I didn’t bench this but can I assume that 4:1 will be about 1.5 seconds in a machine that does 16:1 in 5?
+00:45:42	Mikhail Kalinin:	Replying to "how are people think..."
+
+We have to produce aggregates for onchain inclusion anyway
+00:45:43	Francesco D'Amato:	Replying to "how are people think..."
+
+Without any aggregation at all, even if we had 64k validators we’d still have ~5 MB of votes per slot. It’s not completely infeasible but now it requires a fairly aggressive cap and very large beacon blocks
+00:45:58	Tom Wambsgans:	yes it's linear
+00:46:27	Kevaundray Wedderburn:	Oh no gpu
+00:46:32	Mikhail Kalinin:	Reacted to "Oh no gpu" with 😂
+00:46:33	Kamil Salakhiev:	Replying to "Oh no gpu"
+
+sorry sir
+00:46:36	Jun Song:	Reacted to "Oh no gpu" with 😂
+00:46:41	Agnish Ghosh:	Reacted to "Oh no gpu" with 😂
+00:46:45	Kevaundray Wedderburn:	Reacted to "sorry sir" with 🤣
+00:46:48	Mikhail Kalinin:	Reacted to "sorry sir" with 🤣
+00:47:17	Tom Wambsgans:	btw I will benchmark precisely + optimize the perfornance when aggregation is running alongside EL block execution @Potuz, should be ready tomorrow
+00:47:18	soispoke:	A réagi à "Without any aggreg..." avec 👍
+00:48:11	soispoke:	A réagi à "Oh no gpu" avec 😂
+00:48:42	Francesco D'Amato:	If it’s permissionless it’s not such a big deal to rely on someone to show up and do it, especially if anyone with a Mac can do it in < 1s
+00:48:49	Kevaundray Wedderburn:	Reacted to "If it’s permissionless it’s not such a big deal to rely on someone to show up and do it, especially if anyone with a Mac can do it in < 1s" with 👍
+00:48:58	Jun Song:	Reacted to "If it’s permissionless it’s not such a big deal to rely on someone to show up and do it, especially if anyone with a Mac can do it in < 1s" with 👍
+00:49:13	Kevaundray Wedderburn:	Replying to "If it’s permissionle..."
+
+Yeah, would prefer we do not introduce issuance for this
+00:49:45	Francesco D'Amato:	If the rule is to forward only the best, you could make it permissionless potentially? Though again, the “only the best” rule has drawbacks (allows for some censorship)
+00:50:18	Barnabas:	Replying to "If it’s permissionle..."
+
+we could just take a cut from validators
+00:50:23	Barnabas:	Replying to "If it’s permissionle..."
+
+no extra issuance
+00:51:02	Francesco D'Amato:	Yeah it’s not clear how to make it robust, and tbh people have been talking about some versions of this for years and it never went anywhere
+00:51:13	Potuz:	Reacted to "Yeah it’s not clear how to make it robust, and tbh people have been talking about some versions of this for years and it never went anywhere" with 👍
+00:51:15	Pawan Dhananjay:	They can just keep producing new sybils
+00:51:16	soispoke:	A réagi à "Yeah it’s not cle..." avec 👍
+00:51:23	Francesco D'Amato:	So would maybe bias towards not exploring this further
+00:51:28	Francesco D'Amato:	Replying to "So would maybe bias ..."
+
+(In the call at least)
+00:51:57	Kevaundray Wedderburn:	We can say that to be an aggregator, the staked entity needs to have > 32 ETH, so builders can be added
+00:52:03	Kevaundray Wedderburn:	Reacted to "(In the call at least)" with 👍
+00:53:52	Potuz:	5 seconds at 4 threadss
+00:56:12	Potuz:	Can we agree that we will keep a delayed inclusion version and then we move to only solving the p2p propagation of aggregates and we remove the recursion from the equation?
+00:56:24	Potuz:	It seems to me a simpler problem to scope
+00:57:02	Mikhail Kalinin:	Replying to "Can we agree that we..."
+
+i think we should solve this first
+00:57:46	Francesco D'Amato:	We also need to change incentives, no one would get paid for head votes
+00:57:56	Barnabas:	Replying to "We also need to chan..."
+
+is that a big deal?
+00:58:23	terence:	Replying to "We also need to chan..."
+
+I don’t think so
+00:58:55	Barnabas:	do we have to keep all aggregates of all forks if we have non finality?
+01:00:22	Ben Edgington:	Pipelining
+01:00:26	Justin Traglia:	Reacted to "Pipelining" with 👍
+01:00:32	Potuz:	Pipelining doesn’t seem to solve this
+01:01:19	Francesco D'Amato:	There’s a few things:
+It doesn’t start at 3s, so you have 12/12 seconds instead of 9s
+Aggregation (the computation) can be pipelined with broadcasting
+Latency doesn’t matter so can completely remove duplication factor with no consequences
+01:01:39	Anton Nashatyrev:	Reacted to "There’s a few things:
+It doesn’t start at 3s, so you have 12/12 seconds instead of 9s
+Aggregation (the computation) can be pipelined with broadcasting
+Latency doesn’t matter so can completely remove duplication factor with no consequences" with 👍
+01:01:42	Francesco D'Amato:	Replying to "There’s a few things..."
+
+Generally it’s quite different to have a 9s deadline versus not?
+01:02:23	Potuz:	Replying to "There’s a few things..."
+
+Yes this would make a big difference
+01:03:27	Francesco D'Amato:	Also assuming bandwidth isn’t the problem, can pipeline broadcasting of aggregates and broadcasting of new attestations as well
+01:03:30	terence:	Sorry have to drop off for another call
+01:04:45	Ben Edgington:	Gotta go - just when it's getting interesting :)
+01:04:50	Mikhail Kalinin:	Reacted to "Gotta go - just when it's getting interesting :)" with 😃
+01:05:16	Francesco D'Amato:	What needs to be done concretely? When we say “solve this problem” what do we mean exactly?
+01:05:39	Mikhail Kalinin:	Replying to "What needs to be don..."
+
+find a way to propagate ~30k attestations in 9 seconds
+01:05:40	Yann Vonlanthen:	Yes I think anything we do to figure out what’s possible for PQ Gasper, we can do better with PQ DC, so I don’t think “solving” PQ Gasper is lost time
+01:06:08	Francesco D'Amato:	Replying to "What needs to be don..."
+
+Yes but how do we plan to make progress on this?
+01:06:33	Mikhail Kalinin:	Replying to "What needs to be don..."
+
+understand what bandwidth and computational requirement does it have
+01:06:49	Justin Traglia:	Reacted to "Yes I think anythi..." with 👍
+01:07:11	Potuz:	Reacted to "Yes I think anything we do to figure out what’s possible for PQ Gasper, we can do better with PQ DC, so I don’t think “solving” PQ Gasper is lost time" with 👍
+01:07:19	Luca | Vero:	DC has the advantage that we could keep current slot times while independently prolonging time to finality, therefore avoiding having to propagate 30k attestations in 9 seconds.
+
+So I don’t think we necessarily have to solve the same problem in DC if we’re fine with prolonging time to finality.
+01:07:44	Potuz:	Replying to "DC has the advantage..."
+
+You can do the exact same thing with Gasper by adding slots per epoch
+01:08:10	Barnabas:	isn’t it obvious that PQ DC is a better arch for any of this?
+01:08:11	Luca | Vero:	Replying to "DC has the advantage..."
+
+Yes but at that point we’re making such big changes to Gasper we might as well go DC
+01:08:14	Barnabas:	I don’t think that was anyone’s argument lol
+01:08:34	Mikhail Kalinin:	Replying to "What needs to be don..."
+
+confirm time required for signature aggregation, try to find the best topology, prove it with simulations and then potentially try on devnets. This could be a rough plan
+01:09:57	ethDreamer (Mark):	Kinda thought the whole point was to bang out a gasper spec and vibe code some clients to see if it was even possible to run gasper PQ.. the aggregation times have always been the central question..
+01:10:02	Kevaundray Wedderburn:	Replying to "isn’t it obvious tha..."
+
+I don’t think it was obvious that we would be doing changes such that the slot schedule started to look more amenable to PQ DC.
+
+For example, I was not expecting us to be delaying vote inclusion
+01:10:21	Justin Traglia:	Replying to "Kinda thought the ..."
+
+Yeah I think that is the goal
+01:10:26	Justin Traglia:	Replying to "Kinda thought the ..."
+
+Specs by the end of the week
+01:10:47	terence:	Nvm im back, my call got cancelled
+01:10:51	Justin Traglia:	Reacted to "Nvm im back, my ca..." with ❤️
+01:11:07	Mega | ethlambda:	Sounds good
+01:11:21	Potuz:	Reacted to "Nvm im back, my call got cancelled" with 😂
+01:11:26	Barnabas:	Replying to "Nvm im back, my call..."
+
+your welcome
+01:12:01	Francesco D'Amato:	What is the largest devnet that’s been done?
+01:12:14	Potuz:	We’ve ran 1000 nodes for RLNC
+01:12:17	Potuz:	They are very expensive
+01:12:33	Luca | Vero:	Does delayed inclusion = including attestations in slot N+2 instead of N+1 as today?
+01:12:34	Barnabas:	Reacted to "They are very expensive" with 💯
+01:12:39	Csaba:	They are expensive, and not more telling then simulation
+01:12:46	Potuz:	Reacted to "Does delayed inclusion = including attestations in slot N+2 instead of N+1 as today?" with 👍
+01:12:50	Mikhail Kalinin:	Reacted to "Does delayed inclusion = including attestations in slot N+2 instead of N+1 as today?" with 👍
+01:12:51	Csaba:	Both are needed, just not for the same scope
+01:13:11	Csaba:	I couldn’t join before
+01:13:30	Francesco D'Amato:	Yeah what is the goal of the spec -> devnet -> testing work if what we want to test is p2p but we are not going to be doing a large devnet?
+01:13:44	Potuz:	Lol yeah I think we need a large devnet
+01:15:21	Justin Traglia:	I'd prefer to not depend on simulations, but rather with realish devnets/testnets.
+01:15:22	Mikhail Kalinin:	when I am thinking about a devnet in this context, I have at least 1000 nodes in mind
+01:15:33	Yann Vonlanthen:	Replying to "They are very expens..."
+
+For networking they could be quite short lived though (1-2 hours per experiment), so perhaps it would be fine still?
+01:15:41	Yann Vonlanthen:	Reacted to "when I am thinking about a devnet in this context, I have at least 1000 nodes in mind" with 👍
+01:15:45	Potuz:	Replying to "when I am thinking a..."
+
+We’ve done this a few times before
+01:15:54	Potuz:	Replying to "when I am thinking a..."
+
+I remember Pari not being happy with the RLNC ones
+01:17:14	Potuz:	Replying to "They are very expens..."
+
+The RLNC ran only for a few hours, they are quite expensive, doable I assume by the EF 🙂
+01:19:31	Kevaundray Wedderburn:	Could we codify this somewhere? And in terms of running these simulations and potentially devnets who would be doing it?
+01:22:27	hangleang:	regarding the aggregation bandwidth, should we announce and pull, rather than push to gossipsub?
+01:22:31	Kamil Salakhiev:	Replying to "Could we codify this..."
+
+I do run these kind of simulations https://kamilsa.github.io/leansim/
+01:24:02	Kamil Salakhiev:	I agree we should do everything with gossipsub if possible as long as everyone is happy that we know already this will be deprecated in one of the future forks
+01:26:35	Kevaundray Wedderburn:	How does historical data help us here?
+01:27:55	Potuz:	Is there any part of the spec that needs to be reviewed Justin? I doubt we’ll do any more advances on aggregation other than agreeing on delayed inclusion
+01:28:12	Barnabas:	Reacted to "Is there any part of the spec that needs to be reviewed Justin? I doubt we’ll do any more advances on aggregation other than agreeing on delayed inclusion" with 👍
+01:28:20	Mega | ethlambda:	Reacted to "Is there any part of the spec that needs to be reviewed Justin? I doubt we’ll do any more advances on aggregation other than agreeing on delayed inclusion" with 👍
+01:28:37	Barnabas:	we should do small devnet, controled environment, and validate if that even can handle it
+01:28:55	Barnabas:	there is no point discussing this if we can’t even get it to work on a small controled devnet
+01:29:04	Pawan Dhananjay:	Replying to "we should do small d..."
+
+I think a negative result would also be useful.
+01:29:11	Potuz:	Reacted to "I think a negative result would also be useful." with 👍
+01:29:19	ethDreamer (Mark):	Reacted to "there is no point discussing this if we can’t even get it to work on a small controled devnet" with 👍
+01:29:26	ethDreamer (Mark):	Reacted to "I think a negative result would also be useful." with 👍
+01:31:18	Agnish Ghosh:	Reacted to "I think a negative result would also be useful." with 👍
+01:31:26	Yann Vonlanthen:	Reacted to "I think a negative result would also be useful." with 👍
+01:33:23	terence:	Ship it
+01:33:40	Kamil Salakhiev:	going to p2p call now. Thanks everyone
+01:33:42	Agnish Ghosh:	Reacted to "Ship it" with 🔥
+01:33:46	Pawan Dhananjay:	Genesis at pq seems way easier
+01:33:53	Agnish Ghosh:	Reacted to "Genesis at pq seems way easier" with 👍
+01:33:56	Luca | Vero:	Reacted to "Genesis at pq seems way easier" with 👍
+01:33:57	Justin Traglia:	Reacted to "Genesis at pq seem..." with 👍
+01:33:58	hangleang:	Reacted to "Genesis at pq seem..." with 👍
+01:34:01	Kevaundray Wedderburn:	I dont think we want to test the transition yet
+01:34:03	Mikhail Kalinin:	Reacted to "Ship it" with 🛳️
+01:34:45	Barnabas:	how many validators we want at genesis?
+01:34:54	Barnabas:	holly shit
+01:34:56	terence:	naaaa
+01:34:58	terence:	Don’t believe you
+01:35:32	Barnabas:	nah
+01:35:34	Barnabas:	just go with whatever
+01:35:40	Barnabas:	and bikeshed later
+01:35:40	Kevaundray Wedderburn:	I think we can go with your defaults
+01:35:43	Pawan Dhananjay:	Reacted to "just go with whatever" with 👍
+01:35:49	Potuz:	Emile it was 1 minute and a half for 32 keys in my faster node
+01:35:56	Pawan Dhananjay:	Whatever claude comes up with is good lol
+01:35:58	Barnabas:	so we want kt by friday
+01:36:01	Barnabas:	and devnet by monday?
+01:36:18	Barnabas:	so we doing pq genesis, with no bls keys at all?
+01:36:38	Justin Traglia:	No BLS keys at all
+01:36:50	Pawan Dhananjay:	I think kurtosis tooling for pq genesis would be useful @Barnabas
+01:37:19	Agnish Ghosh:	Reacted to "I think kurtosis tooling for pq genesis would be useful @Barnabas" with 👍
+01:37:59	Barnabas:	I’ll get on it, can people use pq-devnet-0 branch for branches?
+01:38:10	Francesco D'Amato:	There’s still aggregation though, which uses LeanVM?
+01:38:29	Mehdi Aouadi:	Reacted to "I’ll get on it, can people use pq-devnet-0 branch for branches?" with 👍
+01:39:05	Csaba:	I also have to jump to the p2p call, sorry
+01:39:10	Barnabas:	do we need to pre-generate all the signatures on the hosts ? (the one that takes a long time)
+01:39:17	Potuz:	Yes but aggregation is faster
+01:39:52	Pawan Dhananjay:	Reacted to "I’ll get on it, can people use pq-devnet-0 branch for branches?" with 👍
+01:39:57	terence:	I don’t think so
+01:40:40	Potuz:	I confused two different readings apologies
+01:41:39	Potuz:	If you pay me the downtime I’ll stop my node
+01:41:42	Mikhail Kalinin:	Reacted to "There’s still aggregation though, which uses LeanVM?" with 👍
+01:41:46	Mikhail Kalinin:	Reacted to "If you pay me the downtime I’ll stop my node" with 😂
+01:41:58	Kevaundray Wedderburn:	Reacted to "If you pay me the downtime I’ll stop my node" with 😂
+01:42:00	Luca | Vero:	Reacted to "If you pay me the downtime I’ll stop my node" with 😂
+01:42:09	Mehdi Aouadi:	Reacted to "If you pay me the downtime I’ll stop my node" with 😂
+01:43:11	Mikhail Kalinin:	i am taking your 4 threads bench
+01:43:24	Barnabas:	lets do this on the devnet?
+01:43:48	Mikhail Kalinin:	from what i understand we won't have 8 threads as even though there are 8 cores, 4 cores will do something else at this same time
+01:44:02	Kevaundray Wedderburn:	Reacted to "from what i understand we won't have 8 threads as even though there are 8 cores, 4 cores will do something else at this same time" with 👍
+01:44:05	terence:	Just do it on one of the holeskey client node using panda tool
+01:45:00	Barnabas:	yeah agreed , lets do delayed and go from there
+01:46:06	Barnabas:	we doing this on top of glammy or fusaka?
+01:46:52	Kevaundray Wedderburn:	This is the same as the best aggregate method?
+01:49:41	terence:	Same.. and I also have the 2 and 5 numbers
+01:52:36	Francesco D'Amato:	It was actually Barnabas’ idea
+01:52:43	terence:	Reacted to "It was actually Barnabas’ idea" with 😂
+01:52:45	Barnabas:	Reacted to "It was actually Barnabas’ idea" with 😂
+01:52:47	Mikhail Kalinin:	Reacted to "It was actually Barnabas’ idea" with 😂
+01:52:55	Potuz:	Reacted to "It was actually Barnabas’ idea" with 😂
+01:53:01	Barnabas:	sorry I have some vacuum going in the background, so gonna stick to chat
+01:53:10	terence:	Looks good to me
+01:53:19	Potuz:	Replying to "It was actually Barn..."
+
+So did it make it more likely or less likely to be accepted that you proposed it 🙂
+01:53:26	terence:	I think it simplifies the spec too?
+01:53:32	Barnabas:	Replying to "It was actually Barn..."
+
+yes
+01:53:41	Potuz:	Another complain was slashing, which we already kinda removed
+01:53:46	Mikhail Kalinin:	Replying to "It was actually Barn..."
+
+lol
+01:55:33	Francesco D'Amato:	0x02 is already ~20M now
+01:55:43	Mikhail Kalinin:	is there a risk that large entities gate keep Q fork by delaying their PQ keys registration?
+01:55:51	Francesco D'Amato:	And soon will be ~25M because Lido will finish consolidating
+01:56:02	Luca | Vero:	Reacted to "And soon will be ~25M because Lido will finish consolidating" with 👍
+01:56:06	Francesco D'Amato:	Replying to "is there a risk that..."
+
+We can just exit them at the fork instead
+01:56:07	Mikhail Kalinin:	Replying to "is there a risk that..."
+
+because they don't want switching to 0x02
+01:56:10	terence:	There’s plenty of time tbf
+01:56:41	Yann Vonlanthen:	Reacted to "And soon will be ~25M because Lido will finish consolidating" with 👍
+01:57:19	Mikhail Kalinin:	Replying to "is there a risk that..."
+
+if it's announced that we do a fork with 90% registrations and then we have to do it with 40% it's gonna be quite controversial
+01:58:11	Barnabas:	MORE
+01:58:14	terence:	Can we see how Friday goes?
+01:58:18	Potuz:	I don’t think we need more calls though
+01:58:21	Mikhail Kalinin:	Replying to "is there a risk that..."
+
+though, i don't see it as a big risk. just want to keep all the things like that in mind to understand that they are addressed or needs attention
+01:58:23	Barnabas:	Reacted to "I don’t think we need more calls though" with 😂
+01:58:26	Potuz:	We are deadlocked on aggregation
+01:58:32	Potuz:	We have enough to code now
+01:58:42	Francesco D'Amato:	It’s probably good to have at least one call a week just to make sure to keep things moving, but 3 seems really unnecessary
+01:58:50	Potuz:	Reacted to "It’s probably good to have at least one call a week just to make sure to keep things moving, but 3 seems really unnecessary" with 👍
+01:58:53	Francesco D'Amato:	Replying to "It’s probably good t..."
+
+Especially 3 two hour calls
+01:58:55	Luca | Vero:	Reacted to "It’s probably good to have at least one call a week just to make sure to keep things moving, but 3 seems really unnecessary" with 👍
+01:59:05	terence:	Replying to "It’s probably good t..."
+
+Ya I’ve aged like 10 years this week waking up at 5am every day
+01:59:10	Mikhail Kalinin:	Replying to "And soon will be ~25..."
+
+what's the reduction in the validator count?
+01:59:13	Potuz:	Replying to "It’s probably good t..."
+
+Is the latex final? (Rather ask here in public since you don’t reply to my messages 😛)
+01:59:21	Potuz:	Reacted to "Ya I’ve aged like 10 years this week waking up at 5am every day" with 😂
+01:59:26	Mehdi Aouadi:	Reacted to "Ya I’ve aged like 10 years this week waking up at 5am every day" with 😂
+01:59:40	Justin Traglia:	Reacted to "Ya I’ve aged like..." with 😂
+01:59:43	Yann Vonlanthen:	Reacted to "Ya I’ve aged like 10 years this week waking up at 5am every day" with 🥲
+01:59:44	Kevaundray Wedderburn:	Just writing down the action items:
+
+Finish the specs with delayed aggregator inclusion
+Clients will vibe code an implementation
+Networking will run simulations to get more confidence
+Networking folks write down the methodology for answering networking questions with rationale, ie why do we not need large devnets, simulations etc
+01:59:44	Francesco D'Amato:	Replying to "It’s probably good t..."
+
+https://github.com/ethlabs-org/eth-consensus-lean/tree/main/specs/goldilocks/tex
+01:59:46	Francesco D'Amato:	Replying to "It’s probably good t..."
+
+yes!
+01:59:56	Francesco D'Amato:	Replying to "It’s probably good t..."
+
+I was waiting for the agent to update something
+02:00:07	ethDreamer (Mark):	When is the spec ready for implementation?
+02:00:17	Caspar Schwarz-Schilling:	Reacted to "Is the latex final? (Rather ask here in public since you don’t reply to my messages 😛)" with 😂
+02:00:18	Mikhail Kalinin:	Replying to "And soon will be ~25..."
+
+is this something on the order of 100-150k vals?
+02:00:24	Barnabas:	Reacted to "When is the spec ready for implementation?" with 💯
+02:00:30	Barnabas:	we do live launch on friday’s call?
+02:00:56	Mega | ethlambda:	Reacted to "we do live launch on friday’s call?" with 👍
+02:00:58	Justin Traglia:	Reacted to "we do live launch ..." with 👍
+02:01:27	Yann Vonlanthen:	Replying to "And soon will be ~25..."
+
+Perhaps we have time during registration to see with how many we will end up?
+02:01:33	Francesco D'Amato:	Replying to "It’s probably good t..."
+
+https://github.com/ethlabs-org/eth-consensus-lean/blob/main/specs/goldilocks/tex/goldilocks-spec.tex 
+Or more precisely this
+02:01:34	Kevaundray Wedderburn:	yes
+02:01:42	Caspar Schwarz-Schilling:	Reacted to "Just writing down the action items:
+
+Finish the specs with delayed aggregator inclusion
+Clients will vibe code an implementation
+Networking will run simulations to get more confidence
+Networking folks write down the methodology for answering networking questions with rationale, ie why do we not need large devnets, simulations etc" with 👍
+02:01:44	Mikhail Kalinin:	Reacted to "Perhaps we have time during registration to see with how many we will end up?" with 👍
+02:02:08	Barnabas:	Reacted to "Ya I’ve aged like 10 years this week waking up at 5am every day" with 😂
+02:02:28	Potuz:	Replying to "It’s probably good t..."
+
+Ah thanks! Ok, if it’s final you just gave me a next week reading
+02:02:28	Francesco D'Amato:	Replying to "And soon will be ~25..."
+
+Yeah should be another 150k down, getting closer to 600k
+02:02:34	Francesco D'Amato:	Replying to "And soon will be ~25..."
+
+Still a lot to go unfortunately
+02:02:37	Mikhail Kalinin:	Reacted to "Yeah should be another 150k down, getting closer to 600k" with 👏
+02:02:45	Mikhail Kalinin:	Replying to "And soon will be ~25..."
+
+but much better

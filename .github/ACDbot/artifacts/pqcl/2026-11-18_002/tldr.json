@@ -1,0 +1,116 @@
+{
+  "meeting": "PQ-CL Breakout #2 - November 18, 2026",
+  "highlights": {
+    "pq_gasper_aggregation_bottleneck": [
+      {
+        "timestamp": "00:27:35",
+        "highlight": "16-to-1 recursion takes 5s on $1,200 NUC hardware; 15s on cloud VPS \u2014 makes same-slot inclusion infeasible"
+      },
+      {
+        "timestamp": "00:34:38",
+        "highlight": "Delayed inclusion agreed as path forward: proposer includes attestations from 2 slots prior, removing recursion from hot path"
+      },
+      {
+        "timestamp": "01:07:40",
+        "highlight": "Best-aggregate propagation rule reverted; Potuz proposed staggered aggregator send times with self-censorship if not substantially better"
+      }
+    ],
+    "pq_gasper_vs_pqdc": [
+      {
+        "timestamp": "01:03:07",
+        "highlight": "PQDC advantage: head votes from ~500-validator committee need no aggregation; attestations move off critical path entirely"
+      },
+      {
+        "timestamp": "01:10:22",
+        "highlight": "Goal: finish PQ Gasper spec + vibe-code clients to validate feasibility; if aggregation proves untenable, move fully to PQDC"
+      }
+    ],
+    "pq_fork_transition": [
+      {
+        "timestamp": "00:06:47",
+        "highlight": "Unregistered validators immediately exited at PQ fork with 16,384-epoch (~72 day) withdrawal delay for social-slash window"
+      },
+      {
+        "timestamp": "00:18:16",
+        "highlight": "MAX_COMMITTEES_PER_SLOT reduced 64\u219216 to match ATTESTATION_SUBNET_COUNT; max validators per committee to be 4\u00d7'd"
+      },
+      {
+        "timestamp": "01:52:22",
+        "highlight": "Restricting PQ key registration to 0x02 validators supported; encourages consolidation; EIP-8148 (CFI) likely needed for Hegota"
+      }
+    ],
+    "devnet_planning": [
+      {
+        "timestamp": "01:10:41",
+        "highlight": "First devnet: PQ Genesis only (no fork transition), no BLS validators; Barnabas to build Kurtosis tooling + pre-generate XMSS keys to S3"
+      },
+      {
+        "timestamp": "01:32:50",
+        "highlight": "Spec targeting ~3 hours post-call; devnet target by Monday; live launch demo planned for Friday's PQCL Breakout call"
+      }
+    ],
+    "networking_methodology": [
+      {
+        "timestamp": "01:13:41",
+        "highlight": "Csaba/Kamil to write methodology doc: simulations for parameter-space exploration; small devnets for implementation realism; large-scale not needed"
+      },
+      {
+        "timestamp": "01:19:48",
+        "highlight": "Kamil running daily simulations; next task: measure bandwidth gain from large-message broadcast optimizations for 200 KB subnet proofs"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "01:28:52",
+      "action": "Finish PQ Gasper spec with delayed attestation inclusion; share commit on PQCL channel",
+      "owner": "Justin Traglia"
+    },
+    {
+      "timestamp": "01:29:13",
+      "action": "Write networking methodology doc: rationale for simulation vs. devnet approach",
+      "owner": "Csaba + Kamil Salakhiev"
+    },
+    {
+      "timestamp": "01:37:09",
+      "action": "Benchmark LeanVM: 4 cores aggregation alongside 4 cores EL block execution; publish results",
+      "owner": "Tom Wambsgans"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:06:47",
+      "decision": "Unregistered validators exited immediately at PQ fork with 16,384-epoch withdrawal delay"
+    },
+    {
+      "timestamp": "00:34:38",
+      "decision": "Delayed attestation inclusion adopted: attestations included in slot N+2 instead of N+1"
+    },
+    {
+      "timestamp": "01:45:41",
+      "decision": "Best-aggregate propagation rule reverted from spec; to be reconsidered after delayed inclusion is implemented"
+    },
+    {
+      "timestamp": "01:52:22",
+      "decision": "PQ key registration restricted to 0x02 validators; fork threshold calculated against 0x02 set only"
+    },
+    {
+      "timestamp": "02:01:37",
+      "decision": "BLS deposit/withdrawal execution requests removed for initial PQ devnet; PQ Genesis with static validator set"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "02:00:20",
+      "target": "PQ Gasper spec ready for implementation \u2014 ~3 hours post-call (November 18, 2026)"
+    },
+    {
+      "timestamp": "01:36:01",
+      "target": "pq-devnet-0 Kurtosis tooling + XMSS key pre-generation \u2014 ready by Monday"
+    },
+    {
+      "timestamp": "01:30:56",
+      "target": "Live devnet launch demo \u2014 Friday PQCL Breakout call"
+    }
+  ]
+}
