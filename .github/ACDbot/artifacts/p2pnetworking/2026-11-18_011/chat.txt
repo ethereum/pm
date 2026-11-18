@@ -1,0 +1,73 @@
+00:12:56	FLCL (Nethermind):	yep please
+00:13:45	vlad:	https://github.com/gattaca-com/seacast-rs
+very much work in progress
+00:15:35	vlad:	(also spec is not finalised so everything liable to change)
+00:15:36	cayman:	I won't be able to make it 5 hours earlier
+00:15:51	Matthew Keil:	I can’t either for another 2 months
+00:20:16	Csaba:	Speaking of the eth specs: it would be good if people would stop imagining eth/version for their EIPs.
+00:20:38	Derek Chiang | Ethlabs:	Reacted to "Speaking of the eth specs: it would be good if people would stop imagining eth/version for their EIPs." with 🤣
+00:20:49	Csaba:	Replying to "Speaking of the eth ..."
+
+We already have like 3 eth/73 EIPs
+00:21:54	jxs:	in CL we have introduced protocol changes, i.e for gossipsub, like IDONTWANT/Partial Messages, we have done it by being retrocompatible
+00:22:06	Csaba:	Replying to "Speaking of the eth ..."
+
+Same for writeups. Please try to avoid taking names that we would reserve for protocols we agree on. It just makes talking about these things 100x more difficult.
+00:26:40	FLCL (Nethermind):	Reacted to "https://github.com..." with ❤️
+00:30:15	cayman:	I think you'll want to get more buyin on the CL side. Moving from fork-based to versioning will be a big change. Same with diff vs full-reified specs. If this is going to be the canonical spec -- even more so getting buyin before pushing thins.
+00:31:56	cayman:	I mean, there are are a cohort of CL devs that are very active on the CL specs, we need to get those people on board especially. Otherwise its just asking for some backlash.
+00:32:08	jxs:	Reacted to "I mean, there are ..." with 👍
+00:32:53	FLCL (Nethermind):	can be eth/next instead of eth/N that gets a version when work is finished
+00:34:32	cayman:	CL specs currently has _features directory for these sorts of things
+00:35:52	cayman:	how do you remove DoS protection from consensus specs? the gossip validation functions seem intrinsically linked to consensus logic
+00:37:17	cayman:	The CL specs will just need to reference network version.
+00:42:48	FLCL (Nethermind):	same port btw?
+00:44:33	FLCL (Nethermind):	qmux vs yamux?
+00:46:19	jxs:	waggle builds on top of libp2p
+00:46:33	jxs:	the curent working versions are built on top of multistream-select
+00:50:08	cayman:	I like the QUIC-only vision. Having a generic p2p library substrate sucks and is limiting long-term. I hinted at this, and the silver guys seemed to also. But libp2p-compatible does not necessarily mean "generic libp2p library substrate".
+00:50:55	cayman:	I think the networking monorepo is nice :)
+00:51:01	vlad:	Reacted to "I like the QUIC-on..." with 👍
+00:51:23	vlad:	Replying to "I like the QUIC-on..."
+
+Silver is QUIC only
+00:53:42	Bosul Mun:	https://github.com/ethereum/devp2p/pull/276
+00:54:56	cayman:	Only hiccup re networking-specs I see is exactly where the boundary is between CL specs and this repo. Looks like gossip validation rules are already in CL specs. Maybe also the DoS prose regarding the topics should be in the CL specs, maybe worth analysing how often these sentences get edited over time and "old versions" get updated in place.
+00:56:40	cayman:	Reacted to "Silver is QUIC only" with 👍
+00:57:54	cayman:	Replying to "I like the QUIC-only..."
+
+same for lodestar's new networking stack
+01:01:55	FLCL (Nethermind):	This is really cool! Make possible kinda in-browser light clients. Does it kinda move discovery to eth side when such web peers are involved? We can re-think les protocol considering such update. Maybe something around quic tickets? Is it on any devnet?
+01:03:42	Csaba:	I unfortunately have to drop from the call soon. In case 8411 is discussed, FYI I’m preparing a PR to clarify the chunking descriptor and a Reed-Solomon scheme. It will be up soon.
+01:07:27	Mikel Cortes (ProbeLab):	is there any link to the spec @bosul ?
+01:10:05	FLCL (Nethermind):	Do you guys plan to test it on some devnet?
+01:10:14	Bosul Mun:	Replying to "is there any link to..."
+
+https://github.com/ethereum/devp2p/pull/276
+01:10:21	Mikel Cortes (ProbeLab):	Reacted to "https://github.com..." with ❤️
+01:22:20	FLCL (Nethermind):	Something like ordering by peerid hash is good for reconnections also
+01:25:31	FLCL (Nethermind):	Wondering if dynamic regulation of such parameters might work
+01:26:42	andrei:	What is wagle?
+01:27:31	jxs:	via metadata Mikel
+01:27:47	jxs:	Replying to "What is wagle?"
+
+https://github.com/libp2p/specs/pull/732
+01:29:11	jxs:	you can always increase the publish and the gossip factor on waggle
+01:29:54	cayman:	I know you're trying to get the shiniest numbers possible, but its probably worth running simulations with eip-7870 numbers as well -- or at least including some eip-7870-bound nodes in the simulation. Getting worse numbers can be a good thing -- it means we can justify smarter networking or updating our bandwidth requirement assumption.
+01:32:58	vlad:	lo l- apparently they run ancient cpus and stake 32 eth ...
+01:33:17	cayman:	If so, we should update the EIP? or delete it. But ignoring it is just bad
+01:34:16	Yann Vonlanthen:	Reacted to "If so, we should update the EIP? or delete it. But ignoring it is just bad" with 👍
+01:34:56	Kamil Salakhiev:	https://github.com/ethereum/EIPs/pull/12671
+01:34:58	Yann Vonlanthen:	Replying to "If so, we should upd..."
+
+IMHO we would first need to show its not possible to do what we want to do with current numbers
+01:35:03	Kamil Salakhiev:	https://github.com/sigp/lighthouse/pull/10604
+01:35:32	Yann Vonlanthen:	Replying to "If so, we should upd..."
+
+But agree, then might be good to push for a change, but could be difficult to get through governance?
+01:35:35	vlad:	what is the status of the eip currently?
+01:36:09	cayman:	Replying to "If so, we should upd..."
+
+Yea that was my point wrt running sim with those numbers. Bad numbers are an objective-ish justification to change.
+01:36:22	FLCL (Nethermind):	ty cu!
+01:36:37	Yann Vonlanthen:	Reacted to "Yea that was my point wrt running sim with those numbers. Bad numbers are an objective-ish justification to change." with 👍

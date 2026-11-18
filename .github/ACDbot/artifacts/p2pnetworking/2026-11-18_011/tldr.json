@@ -1,0 +1,144 @@
+{
+  "meeting": "P2P Networking #11 - November 18, 2026",
+  "highlights": {
+    "client_updates": [
+      {
+        "timestamp": "00:06:29",
+        "highlight": "Lodestar (jxs): researching EIP-8411 integration, exploring Waggle app/network interface boundary"
+      },
+      {
+        "timestamp": "00:07:37",
+        "highlight": "Prysm: beginning EIP-8411 prototype; reviewing Daniel's PR for 1-1 Waggle integration"
+      },
+      {
+        "timestamp": "00:08:38",
+        "highlight": "Nethermind: P2P improvements in .NET; interested in PQ-related protocols; will review EIP-8411 this week"
+      },
+      {
+        "timestamp": "00:09:43",
+        "highlight": "Geth (Felix): mempool improvements; working on post-quantum ENR and Discovery v5 transition plan; to post in Discord"
+      },
+      {
+        "timestamp": "00:11:05",
+        "highlight": "Lodestar (cayman): building new Ethereum-tailored networking stack in Zig; js-libp2p moving to maintenance mode"
+      },
+      {
+        "timestamp": "00:12:00",
+        "highlight": "Silver (vlad): libp2p-compatible but not libp2p; producing production-ready Rust zkast library"
+      },
+      {
+        "timestamp": "00:12:54",
+        "highlight": "Ethlambda: beacon client launched, presented in Cambridge; experimenting with PQ signature sizes vs BLS"
+      }
+    ],
+    "networking_specs": [
+      {
+        "timestamp": "00:17:36",
+        "highlight": "Felix demoed unified P2P networking spec repo merging devp2p (EL) and consensus-specs (CL) networking into one place"
+      },
+      {
+        "timestamp": "00:18:32",
+        "highlight": "Repo introduces legacy/current/experimental versioning; full reified specs per version; EIP-named draft files for in-progress proposals"
+      },
+      {
+        "timestamp": "00:23:55",
+        "highlight": "CL networking spec compiled to single up-to-date document (v6 at Gloas); fork-based versioning retained; gossip validation functions stay in consensus-specs"
+      },
+      {
+        "timestamp": "00:25:55",
+        "highlight": "Planned additions: Waggle and zkast under new 'broadcast' directory; QUIC transport spec; libp2p adapter spec"
+      },
+      {
+        "timestamp": "00:43:51",
+        "highlight": "jxs: Lodestar drove QUIC adoption but has no plans to deprecate TCP; cayman: QUIC-only vision appealing long-term; Silver is QUIC-only"
+      }
+    ],
+    "webtx_protocol": [
+      {
+        "timestamp": "00:53:10",
+        "highlight": "Geth (Bosul): WebTX \u2014 new sub-protocol allowing browsers to submit transactions directly to EL P2P network via WebTransport/QUIC, bypassing RPC"
+      },
+      {
+        "timestamp": "00:55:14",
+        "highlight": "ENR extended with certificate hash field (QH); two-week rotation with advance announcement; identity proof via signed challenge on session open"
+      },
+      {
+        "timestamp": "00:58:20",
+        "highlight": "Browser connections limited: 10s lifetime, disconnect after first message, IP-based rate limiting on invalid transactions"
+      },
+      {
+        "timestamp": "01:01:32",
+        "highlight": "Protocol is write-only (transaction submit + result response); peer exchange planned; onion routing considered long-term"
+      },
+      {
+        "timestamp": "01:11:12",
+        "highlight": "WebTX merged in Geth; browser\u2192node connections testable on mainnet today; spec PR: ethereum/devp2p#276"
+      }
+    ],
+    "xmss_signature_broadcast_simulations": [
+      {
+        "timestamp": "01:13:05",
+        "highlight": "Kamil ran gossip-sub simulations (~3,700 nodes, 32K validators) for XMSS/large-signature attestation propagation"
+      },
+      {
+        "timestamp": "01:20:22",
+        "highlight": "Reducing gossip-sub mesh degree from 8\u21924 cuts average duplicates from 4\u21922.5 with no latency regression"
+      },
+      {
+        "timestamp": "01:21:03",
+        "highlight": "Staggered push approach (hash peer IDs + message to assign pusher/waiter role) reduces duplicates to ~1.6; propagation latency unchanged or improved"
+      },
+      {
+        "timestamp": "01:28:21",
+        "highlight": "ProbeLab (Mikel): simulations reflect happy path only; adversarial/churn scenarios (eclipse, delayed forwarding) should be included in roadmap"
+      },
+      {
+        "timestamp": "01:29:54",
+        "highlight": "cayman: simulations should include EIP-7870 bandwidth-bound nodes; bad numbers justify updating bandwidth assumptions"
+      }
+    ],
+    "eip_8411_waggle": [
+      {
+        "timestamp": "01:34:41",
+        "highlight": "EIP-8411 is CFI for Hegota; scope may be reconsidered pending upcoming ACDC discussions"
+      },
+      {
+        "timestamp": "01:34:58",
+        "highlight": "Daniel's PR (EIPs#12671) updates EIP-8411 to use Waggle; Lighthouse implementation PR#10604 available for CL teams to assess complexity"
+      },
+      {
+        "timestamp": "01:35:28",
+        "highlight": "Csaba: preparing PR to clarify EIP-8411 chunking descriptor and Reed-Solomon scheme"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "00:14:08",
+        "highlight": "Call time moving ~5h 30m earlier to accommodate Europe/Southeast Asia/Australia attendees; invite to be updated"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:51:30",
+      "action": "Review unified networking specs repo; provide feedback before Felix presents more broadly",
+      "owner": "CL client teams (especially active consensus-specs contributors)"
+    },
+    {
+      "timestamp": "01:34:58",
+      "action": "Review Lighthouse EIP-8411 Waggle implementation (PR#10604) to assess integration complexity",
+      "owner": "CL client teams"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:51:30",
+      "decision": "Felix to share unified networking specs repo in Discord rather than bringing to ACD first; CL team buy-in required before any canonical transition"
+    },
+    {
+      "timestamp": "01:16:42",
+      "decision": "P2P call time moved 5h 30m earlier; Kamil to update protocol calendar invite"
+    }
+  ],
+  "targets": []
+}
