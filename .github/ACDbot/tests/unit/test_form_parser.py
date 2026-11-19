@@ -2,6 +2,8 @@
 Unit tests for form_parser.py module.
 """
 
+from datetime import datetime, timezone
+
 import pytest
 from modules.form_parser import FormParser
 from .test_data import (
@@ -361,6 +363,34 @@ All Core Devs - Execution
         start_time, duration = parser.parse_date_time_with_duration("April 24, 2025, 14:00 UTC", 90)
         assert start_time == "2025-04-24T14:00:00Z"
         assert duration == 90
+
+    @pytest.mark.parametrize("text, expected", [
+        ("2099-01-01T13:00:00Z", "2099-01-01T13:00:00Z"),
+        ("2099-01-01T13:00:00.000Z", "2099-01-01T13:00:00Z"),
+        ("2099-01-01T13:00:00.125Z", "2099-01-01T13:00:00.125000Z"),
+        ("2099-01-01T13:00:00.123456Z", "2099-01-01T13:00:00.123456Z"),
+        ("January 1, 2099, 13:30 UTC", "2099-01-01T13:30:00Z"),
+        ("[January 1, 2099, 13:30 UTC](https://example.com)", "2099-01-01T13:30:00Z"),
+    ])
+    def test_parse_date_time_serializes_utc_once(self, text, expected):
+        start_time, duration = FormParser().parse_date_time_with_duration(text, 90)
+
+        assert start_time == expected
+        assert datetime.fromisoformat(start_time.replace("Z", "+00:00")).tzinfo == timezone.utc
+        assert duration == 90
+
+    @pytest.mark.parametrize("text, expected_past", [
+        ("2000-01-01T13:00:00Z", True),
+        ("January 1, 2000, 13:00 UTC", True),
+        ("2099-01-01T13:00:00Z", False),
+        ("January 1, 2099, 13:00 UTC", False),
+    ])
+    def test_parsed_date_remains_usable_by_past_date_guard(self, text, expected_past):
+        from scripts.handle_protocol_call import ProtocolCallHandler
+
+        start_time, _ = FormParser().parse_date_time_with_duration(text, 60)
+
+        assert ProtocolCallHandler()._is_date_in_past(start_time) is expected_past
 
     def test_agenda_extraction_with_user_headers(self):
         """Test agenda extraction when users add their own headers within the agenda section."""
