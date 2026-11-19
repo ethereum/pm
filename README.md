@@ -36,7 +36,7 @@ Sometimes non-core contributors with particular expertise on a topic are invited
 
 Current facilitators (date started):
 - **Execution**: [Ansgar Dietrichs](https://github.com/adietrichs) (Oct '25)
-- **Consensus**: [Alex Stokes](https://github.com/ralexstokes) (Sep '24) & [Ben Edgington](https://github.com/benjaminion) (Nov '26)
+- **Consensus**: [Ben Edgington](https://github.com/benjaminion) (Nov '26)
 - **Testing**: coleads [EF EthPandaOps team](https://github.com/ethpandaops/) & [EF STEEL team](https://steel.ethereum.foundation/team/)
 
 Past facilitators:
