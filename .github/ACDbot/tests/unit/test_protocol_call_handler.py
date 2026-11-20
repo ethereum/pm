@@ -9,8 +9,13 @@ import unittest
 import unittest.mock
 import os
 import re
+import sys
 from urllib.parse import urlparse, parse_qs
 
+import pytest
+
+from modules.mapping_manager import MappingManager
+from scripts import handle_protocol_call as handler_module
 from scripts.handle_protocol_call import ProtocolCallHandler
 
 
@@ -1146,6 +1151,104 @@ weekly
 
             # Verify _update_displayed_autopilot_values was NOT called
             mock_update.assert_not_called()
+
+
+@pytest.fixture
+def persistence_handler(tmp_path, monkeypatch):
+    mapping_path = tmp_path / "mapping.json"
+    mapping_path.write_text("{}")
+    manager = MappingManager(mapping_path)
+    monkeypatch.setattr(handler_module, "MappingManager", lambda: manager)
+    handler = ProtocolCallHandler()
+    issue = unittest.mock.Mock(number=123, title="Test call")
+    call_data = {
+        "issue_number": 123,
+        "issue_title": "Test call",
+        "call_series": "one-off-123",
+        "start_time": "2099-01-01T13:00:00Z",
+        "duration": 60,
+        "occurrence_rate": "one-time",
+        "skip_zoom_creation": True,
+        "need_youtube_streams": False,
+    }
+    handler._get_github_issue = unittest.mock.Mock(return_value=issue)
+    handler._parse_form_data = unittest.mock.Mock(return_value=call_data)
+    handler._validate_and_transform = unittest.mock.Mock(return_value=call_data)
+    handler._handle_zoom_resource = unittest.mock.Mock(return_value={"zoom_created": False})
+    handler._handle_calendar_resource = unittest.mock.Mock(return_value={
+        "calendar_created": True, "calendar_event_id": "test-calendar",
+    })
+    handler._handle_discourse_resource = unittest.mock.Mock(return_value={
+        "discourse_created": True, "discourse_topic_id": 456,
+    })
+    handler._handle_youtube_resource = unittest.mock.Mock(return_value={"youtube_streams_created": False})
+    handler._send_telegram_notification = unittest.mock.Mock()
+    handler._post_results = unittest.mock.Mock()
+    handler._clean_issue_body_if_needed = unittest.mock.Mock()
+    return handler, manager, mapping_path, call_data
+
+
+@pytest.mark.parametrize("is_update", [False, True])
+@pytest.mark.parametrize("save_succeeds", [False, True])
+def test_handler_propagates_mapping_save_result(persistence_handler, tmp_path, is_update, save_succeeds):
+    handler, manager, mapping_path, call_data = persistence_handler
+    if is_update:
+        assert manager.add_occurrence("one-off-123", call_data.copy())
+        assert manager.save_mapping()
+    previous_mapping = mapping_path.read_text()
+    if not save_succeeds:
+        # A real write failure, independent of the user's filesystem permissions.
+        manager.mapping_file_path = str(tmp_path)
+
+    assert handler.handle_protocol_call(123, "test/repo") is save_succeeds
+    handler._handle_calendar_resource.assert_called_once()
+    handler._handle_discourse_resource.assert_called_once()
+
+    if save_succeeds:
+        stored = MappingManager(mapping_path)
+        assert stored.find_occurrence(123)["occurrence"]["discourse_topic_id"] == 456
+        assert stored.mapping["one-off-123"]["calendar_event_id"] == "test-calendar"
+        handler._post_results.assert_called_once()
+        handler._send_telegram_notification.assert_called_once()
+    else:
+        assert mapping_path.read_text() == previous_mapping
+        handler._post_results.assert_not_called()
+        handler._send_telegram_notification.assert_not_called()
+        handler._clean_issue_body_if_needed.assert_not_called()
+
+
+@pytest.mark.parametrize("save_succeeds, expected_exit", [(True, 0), (False, 1)])
+def test_cli_exit_reflects_mapping_save_result(persistence_handler, tmp_path, monkeypatch, save_succeeds, expected_exit):
+    handler, manager, _, _ = persistence_handler
+    if not save_succeeds:
+        manager.mapping_file_path = str(tmp_path)
+    monkeypatch.setattr(handler_module, "ProtocolCallHandler", lambda: handler)
+    monkeypatch.setattr(sys, "argv", [
+        "handle_protocol_call.py", "--issue_number", "123", "--repo", "test/repo",
+    ])
+
+    with pytest.raises(SystemExit) as result:
+        handler_module.main()
+
+    assert result.value.code == expected_exit
+
+
+@pytest.mark.parametrize("save_succeeds", [False, True])
+def test_partial_resource_failure_preserves_successful_ids(persistence_handler, tmp_path, save_succeeds):
+    handler, manager, mapping_path, _ = persistence_handler
+    handler._handle_calendar_resource.return_value = {"calendar_created": False}
+    if not save_succeeds:
+        manager.mapping_file_path = str(tmp_path)
+
+    assert handler.handle_protocol_call(123, "test/repo") is save_succeeds
+
+    if save_succeeds:
+        stored = MappingManager(mapping_path)
+        assert stored.find_occurrence(123)["occurrence"]["discourse_topic_id"] == 456
+        handler._post_results.assert_called_once()
+    else:
+        assert mapping_path.read_text() == "{}"
+        handler._post_results.assert_not_called()
 
 
 if __name__ == '__main__':
