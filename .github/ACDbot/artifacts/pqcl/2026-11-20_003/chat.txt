@@ -1,0 +1,496 @@
+00:03:45	Mega | ethlambda:	hello
+00:03:55	Justin Traglia:	Gm
+00:04:21	Yann Vonlanthen:	Gm gm
+00:04:49	terence:	lol
+00:05:50	terence:	What’s a compact key loading? Is there a writeup for this?
+00:06:39	Ignacio:	Emile
+00:07:05	Barnabas:	https://github.com/leanEthereum/leanVM/pull/802
+00:07:15	Justin Traglia:	Replying to "Emile"
+
+aka T Wambsgans 🙂
+00:07:20	Barnabas:	vs 
+https://github.com/leanEthereum/leanVM/pull/794
+00:08:08	Barnabas:	Replying to "Emile"
+
+oh Tom == Emile ?
+00:08:17	Ignacio:	Reacted to "oh Tom == Emile ?" with 👍
+00:08:21	Justin Traglia:	Reacted to "oh Tom == Emile ?" with 👍
+00:08:34	terence:	I don’t have a strong preference
+00:10:05	Barnabas:	can someone ping Emile maybe, if he could make it to the call?
+00:12:59	Luca | Vero:	I don’t think Beacon API changes are worth it before we find out if/how gasper is feasible (even without a separate VC)
+00:13:28	Justin Traglia:	Replying to "I don’t think Bea..."
+
+Oh okay, good feedback!
+00:13:34	Barnabas:	Replying to "I don’t think Beacon..."
+
+how would beacon api changes be different if we do DC?
+00:13:55	Kamil Salakhiev:	can we get TLDR for staggered aggregations?
+00:14:12	Luca | Vero:	Replying to "I don’t think Beacon..."
+
+I expect the Beacon API to have relatively big changes with DC, whereas with PQ Gasper the changes may not be that big
+00:14:17	Kamil Salakhiev:	Replying to "can we get TLDR for ..."
+
+thanks
+00:14:19	Dustin:	smoothes out bandwidth usage I guess
+00:14:45	Barnabas:	Replying to "I don’t think Beacon..."
+
+I’d think its quite limited for the changes between VC and BN
+00:14:46	Kevaundray Wedderburn:	Reacted to "smoothes out bandwidth usage I guess" with 👍
+00:15:17	Justin Traglia:	https://github.com/ethereum/consensus-specs/blob/pq/specs/_features/pq/validator.md#construct-aggregate
+00:15:43	Csaba:	Replying to "smoothes out bandwid..."
+
+That was the idea behind it. I did propose using message priorities instead, but that’s a different layer handling the problem.
+00:15:44	Luca | Vero:	Replying to "I don’t think Beacon..."
+
+for PQ Gasper the changes would probably be pretty small. 
+
+But why bother speccing anything there if we find out next week that even without a separate VC, PQ Gasper is too difficult to pull off?
+00:16:03	Luca | Vero:	Replying to "I don’t think Beacon..."
+
+That’s the #1 thing we want to find out right now right?
+00:18:30	Barnabas:	Can we have some values for whats “worst” means?
+00:21:16	Dustin:	well, more broadly, this kind of per-core tuning on slower machines is going to effectiely start ruling out their use
+00:21:17	Mega | ethlambda:	Reacted to "I don’t think Beacon API changes are worth it before we find out if/how gasper is feasible (even without a separate VC)" with ➕
+00:21:18	Kamil Salakhiev:	Replying to "Can we have some val..."
+
+in my sims gossipsub is 15% slower and consumes 7 times more bandwidth than just naive announce and pull for proofs broacast
+00:21:28	Csaba:	Why are we discussing these HW core allocation details? How is that robust?
+00:21:50	Dustin:	Replying to "Why are we discuss..."
+
+yeah the valence of this framing is just off
+00:22:07	Dustin:	Replying to "Why are we discuss..."
+
+it's hyper-tuning to a specific CPU's P/E core setup
+00:22:26	Barnabas:	I think we should lean into trying to trim validator count as much as possible.
+00:22:34	Yann Vonlanthen:	Reacted to "I think we should lean into trying to trim validator count as much as possible." with 👍
+00:22:39	Toni Wahrstätter:	This will be interesting in the future as the EL with mempool aggregation will also ask for more resources. We must handle worst-cases on both layers at the same time.
+00:22:49	nina | silver:	sorry, I may have missed something - are you saing you plan to allocate 4 cores for leanvm? how many do expect to be need for the CL and the EL?
+00:22:49	Barnabas:	Replying to "I think we should le..."
+
+we should aim to go under 100k imo
+00:23:40	nina | silver:	4 seems too few for leanvm from our simulations
+00:23:58	Anders Elowsson:	Replying to "I think we should le..."
+
+Here is an EIP for incentivising consolidation: https://ethereum-magicians.org/t/eip-8502-dynamic-individual-consolidation-incentive/30436
+00:24:02	nina | silver:	for the devnet we planned to cut cores for the CL instead
+00:24:23	Anders Elowsson:	Replying to "I think we should le..."
+
+I have also prepared a capping EIP, not yet uploaded. But the idea is that they will interact
+00:24:31	Anders Elowsson:	Reacted to "I think we should lean into trying to trim validator count as much as possible." with 👍
+00:25:29	Barnabas:	can we timebox this hw discussion?
+00:25:38	Barnabas:	i feel like we should just run the network
+00:25:39	Francesco Risitano (Tau):	With some async runtimes such as tokio you can have dedicated execution threads / cores that are isolated from the asynchronous tasks.
+00:25:44	Kevaundray Wedderburn:	Reacted to "i feel like we should just run the network" with 👍
+00:25:50	Barnabas:	what kind of validator count do we want the devnet running?
+00:25:58	Justin Traglia:	Replying to "i feel like we sho..."
+
+Yep moving on after Tom finishes.
+00:26:15	Kevaundray Wedderburn:	Replying to "what kind of validat..."
+
+Can we get to 800K ?
+00:26:21	Barnabas:	Replying to "what kind of validat..."
+
+no 😂
+00:26:27	Kevaundray Wedderburn:	Replying to "what kind of validat..."
+
+799K?
+00:26:30	Ignacio:	Reacted to "799K?" with 😂
+00:26:38	Barnabas:	Replying to "what kind of validat..."
+
+yeah should be easy no problem
+00:26:50	Kevaundray Wedderburn:	Reacted to "yeah should be easy no problem" with 🙏
+00:26:56	Owen Doyle:	Can we do some kind of best efforts approach? Like aggregators do as many as they can in 2 seconds and we rely on other nodes to pick up the slack?
+00:27:29	Barnabas:	Replying to "what kind of validat..."
+
+I don’t think we are in a place where we should be doing such a big networks yet
+00:27:33	Barnabas:	Replying to "what kind of validat..."
+
+clients can’t even sync yet
+00:27:42	Justin Traglia:	Do we need to talk about networking methodology? Sorry I sort of skipped that.
+00:28:07	Kevaundray Wedderburn:	Replying to "what kind of validat..."
+
+Makes sense, maybe 1K validators? (Its just that the committee size will be pretty small)
+00:28:13	Barnabas:	Could we just do A/B testing with waggle and gossipsub on the same network?
+00:28:21	Kamil Salakhiev:	Replying to "Could we just do A/B..."
+
+thats what I do
+00:28:27	Kevaundray Wedderburn:	Replying to "what kind of validat..."
+
+Or even 100 if the goal is just to test that clients work
+00:28:31	Barnabas:	Replying to "Could we just do A/B..."
+
+not a simulation but do it on the devnet
+00:28:47	Justin Traglia:	Reacted to "799K?" with 😂
+00:28:49	Parithosh Jayanthi:	Replying to "what kind of validat..."
+
+I guess the main question is if we need more nodes or more validators or both
+00:28:54	Barnabas:	Replying to "Could we just do A/B..."
+
+implement both stacks and send everything on both stacks
+00:29:07	Parithosh Jayanthi:	Replying to "what kind of validat..."
+
+Cause we can do 1 validator per host or we can do 1000 validators per host, it’s configurable. I doubt the perf will be there at 1000 validators anymore
+00:29:07	Kevaundray Wedderburn:	Replying to "what kind of validat..."
+
+I was assuming more validators would be easy, but more nodes would be hard
+00:29:29	Parithosh Jayanthi:	Replying to "what kind of validat..."
+
+It used to be, I’d assuming PQ needs more resources so we cant shove like 1k-10k validators per host anymore
+00:29:30	Barnabas:	Replying to "what kind of validat..."
+
+We need at least 512
+00:29:59	Anders Elowsson:	Can we discuss the options for reducing the validator count here in the chat? This is a new EIP with a dynamic incentive: https://ethereum-magicians.org/t/eip-8502-dynamic-individual-consolidation-incentive/30436 Have also prepared a capping EIP.
+00:30:04	Barnabas:	Replying to "what kind of validat..."
+
+Yeah I haven’t confirmed attestation duties becoming a porblem yet
+00:30:10	Barnabas:	Replying to "what kind of validat..."
+
+but would def wanna see how it scales
+00:30:29	Owen Doyle:	Reacted to "Can we discuss the options for reducing the validator count here in the chat? This is a new EIP with a dynamic incentive: https://ethereum-magicians.org/t/eip-8502-dynamic-individual-consolidation-incentive/30436 Have also prepared a capping EIP." with 👍
+00:30:30	Barnabas:	I think we should just disallow new 0x00 and 0x01 at heze.
+00:30:36	Parithosh Jayanthi:	Replying to "what kind of validat..."
+
+Yeah
+00:30:40	Kamil Salakhiev:	Replying to "Could we just do A/B..."
+
+lets do that as soon as we finish sims
+00:30:47	Parithosh Jayanthi:	Replying to "what kind of validat..."
+
+Our old intuitions probably dont apply
+00:30:52	Barnabas:	Replying to "what kind of validat..."
+
+yeah likely not
+00:31:18	Parithosh Jayanthi:	Replying to "what kind of validat..."
+
+https://www.youtube.com/watch?v=hZ1Rb9hC4JY
+00:33:09	Anders Elowsson:	Replying to "Can we discuss the o..."
+
+Yes we can, but should we also have a cap on the number of validators?
+00:35:42	Greg K | Lido:	Reacted to "I think we should just disallow new 0x00 and 0x01 at heze." with 👍
+00:36:03	Barnabas:	I kind of hate how we keep going back and forth between gossipsub and waggle. 
+
+Can the networking team please make a decision here and just tell us whether or not we need to migrate to waggle? Then we can stop going back and forth discussing this.
+00:36:24	terence:	@Csaba we should coordinate
+00:39:25	cayman:	The sublety that Csaba mentioned is that "move to waggle" is incomplete framing in the way that "this code is formally verified" is incomplete (which properties are formally verified?).
+Every single "topic" needs some independent thought and additional speccing to be concrete and implementable. Waggle by itself is just some squishy substrate..
+00:39:45	Kevaundray Wedderburn:	Yeah its waggle + seacast
+00:41:34	terence:	Can someone link the thread, I can’t find it, discord search is trash
+00:41:58	Mega | ethlambda:	Replying to "Can someone link the..."
+
+https://discord.com/channels/595666850260713488/1572297783359180801
+00:42:03	terence:	Reacted to "https://discord.com/channels/595666850260713488/1572297783359180801" with ❤️
+00:44:13	Csaba:	Are there slides I’m not seeing?
+00:44:20	Justin Traglia:	Replying to "Are there slides I..."
+
+No slides
+00:44:26	Csaba:	Reacted to "No slides" with 👍
+00:44:27	Barnabas:	Replying to "Are there slides I’m..."
+
+gotta imagine the slides
+00:44:51	Csaba:	Replying to "Are there slides I’m..."
+
+@Barnabas  I have Claude drawing them real time, no worries
+00:45:01	Barnabas:	how many sigs we could aggregate without recursion ?
+00:45:17	Kevaundray Wedderburn:	Reacted to "@Barnabas  I have Claude drawing them real time, no worries" with 😁
+00:45:23	Kamil Salakhiev:	Replying to "how many sigs we cou..."
+
+~1000 sigs / second more or less
+00:46:48	Barnabas:	Should we consider increasing slots per epochs?  Could lead to less aggregation load
+00:47:44	Ben Edgington:	Replying to "Should we consider increasing slots per epochs?  Could lead to less aggregation load"
+
+Maybe we could decouple consensus... just an idea
+00:48:04	Csaba:	Reacted to "Maybe we could decouple consensus... just an idea" with 😂
+00:48:14	Francesco D'Amato:	This will complicate things a lot, at that point we should really either do decoupled consensus or cap the validator set
+00:48:22	terence:	Replying to "Should we consider i..."
+
+Huge + 1
+00:48:33	Barnabas:	Reacted to "This will complicate things a lot, at that point we should really either do decoupled consensus or cap the validator set" with 👍
+00:48:51	Yann Vonlanthen:	I had collected these items that Mikhail is mentioning in a list: https://notes.ethereum.org/_rGnW7YuRWurwyA8zFhsog?view
+00:48:53	Enrico Del Fante:	Reacted to "Maybe we could decouple consensus... just an idea" with 😂
+00:49:01	Yann Vonlanthen:	Reacted to "Maybe we could decouple consensus... just an idea" with 😂
+00:49:17	Csaba:	Reacted to "I had collected these items that Mikhail is mentioning in a list: https://notes.ethereum.org/_rGnW7YuRWurwyA8zFhsog?view" with 👍
+00:51:54	Justin Traglia:	Replying to "Should we consider..."
+
+Terence, what are you +1'ing exactly? 😅
+00:52:29	Luca | Vero:	Reacted to "This will complicate things a lot, at that point we should really either do decoupled consensus or cap the validator set" with 👍
+00:52:52	Ben Edgington:	Reacted to "I had collected these items that Mikhail is mentioning in a list: https://notes.ethereum.org/_rGnW7YuRWurwyA8zFhsog?view" with ❤️
+00:53:07	Enrico Del Fante:	Seems to me a nice knob in the extreme case we can't jump into DC and we really need to go PQ in casper
+00:53:13	Barnabas:	Reacted to "Maybe we could decouple consensus... just an idea" with 😂
+00:54:12	Mikhail & Anton:	Reacted to "I had collected these items that Mikhail is mentioning in a list: https://notes.ethereum.org/_rGnW7YuRWurwyA8zFhsog?view" with ❤️
+00:54:18	Justin Traglia:	Reacted to "Seems to me a nice..." with ➕
+00:57:16	ethDreamer (Mark):	Does the upcoming devnet include the “Commit to VRF secrets instead of revealing leaves” change to the spec?
+00:58:29	Barnabas:	btw this issue also present on EL side right ?
+00:58:44	Mikhail & Anton:	we are limited in time in this case
+00:58:45	vlad:	could we add a p2p RPC for attestation aggregtes with availability advertised in ENR? would allow capable nodes to do work on behalf of peers
+00:58:48	Barnabas:	pq txs also bigger on p2p?
+00:59:14	Justin Traglia:	Replying to "Does the upcoming ..."
+
+Not yet. We can post a new commit for clients to implement next week. I'd like to see progress on the current devnet first.
+00:59:36	ethDreamer (Mark):	Reacted to "Not yet. We can post a new commit for clients to implement next week. I'd like to see progress on the current devnet first." with 👍
+00:59:41	Csaba:	Replying to "pq txs also bigger o..."
+
+absolutely
+00:59:56	Csaba:	Replying to "pq txs also bigger o..."
+
+Much bigger, but the overall volume is still easy to see
+01:00:23	Csaba:	Replying to "pq txs also bigger o..."
+
+20txs/sec , that gives you the number of pq sigs per sec
+01:00:36	Justin Traglia:	Reacted to "could we add a p2p..." with 👍
+01:01:07	Barnabas:	Replying to "pq txs also bigger o..."
+
+should we not try to reuse he ntworking stack for mempool too?
+01:02:10	Justin Traglia:	Replying to "could we add a p2p..."
+
+I'm not sure we could advertise this in ENRs, but req/resp for aggregates is an interesting idea.
+01:02:31	Csaba:	Replying to "pq txs also bigger o..."
+
+This is a CL call
+01:02:39	Csaba:	Replying to "pq txs also bigger o..."
+
+Of. Course we are working on that
+01:02:46	Csaba:	Replying to "pq txs also bigger o..."
+
+Just sayin
+01:02:57	Barnabas:	Reacted to "Of. Course we are working on that" with 👍
+01:03:22	Csaba:	Replying to "pq txs also bigger o..."
+
+EIP-8077 is improving on the networking for the traditional mempool
+01:03:35	Barnabas:	do we have a working sys contract?
+01:04:04	Csaba:	Replying to "pq txs also bigger o..."
+
+For the recursive aggregation, see https://ethresear.ch/t/eip-8288-the-networking-side-of-recursive-aggregation/26263
+01:04:05	Ignacio:	https://github.com/ethereum/pq-staking-contracts
+01:04:11	Kevaundray Wedderburn:	@Mikhail & Anton  or maybe @Csaba  / @Kamil Salakhiev   do you know when we would be able to test with seacast + waggle?
+01:04:26	Kevaundray Wedderburn:	This is for existing bls validators
+01:04:31	terence:	We can do another parallel track for this.. different devnet
+01:04:32	Ignacio:	Replying to "https://github.com..."
+
+A bit more info in https://discord.com/channels/595666850260713488/1573283928842960917/1573311098659020821
+01:04:39	terence:	Replying to "We can do another pa..."
+
+Or better just wait imo
+01:04:43	Kevaundray Wedderburn:	Reacted to "Or better just wait imo" with 👍
+01:05:03	Kevaundray Wedderburn:	Pq registration is the pq migration contract for bls validators
+01:05:17	Barnabas:	Reacted to "Or better just wait imo" with 👍
+01:05:22	Barnabas:	Replying to "We can do another pa..."
+
+yeah this can wait
+01:05:57	Kevaundray Wedderburn:	And the 2333/2334/2335 analogues?
+01:06:57	Kamil (afk):	Replying to "@Mikhail & Anton  or..."
+
+I think we should be able to have LH with segmented proofs broadcast somewhere next week. And maybe run the devnet the week after?
+
+But would be great to first have some devnet with gossipsub as a baseline
+01:07:09	Kevaundray Wedderburn:	Reacted to "I think we should be able to have LH with segmented proofs broadcast somewhere next week. And maybe run the devnet the week after?
+
+But would be great to first have some devnet with gossipsub as a baseline" with 🙏
+01:07:44	Kevaundray Wedderburn:	Replying to "@Mikhail & Anton  or..."
+
+Makes sense, I think the clients are already doing gossipsub for the first devnet
+01:08:08	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+I already have a seacast-on-waggle implementation running
+01:09:01	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+Other seacast implementations are also in preparation
+01:09:16	Kevaundray Wedderburn:	Reacted to "I already have a seacast-on-waggle implementation running" with 🙏
+01:09:25	Kevaundray Wedderburn:	Replying to "@Mikhail & Anton  or..."
+
+Is this on Prysm?
+01:09:50	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+Mine is for prysm. I do have to check it with prysm, to be fair
+01:10:04	Kevaundray Wedderburn:	Replying to "@Mikhail & Anton  or..."
+
+I’m guessing you can run a devnet with prysm?
+01:10:06	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+@vlad
+01:10:28	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+@Kevaundray Wedderburn that’s a very good guess :-)
+01:10:36	Luca | Vero:	possibly Rocket Pool may not be ready to migrate to 0x02-only, but I’m not sure
+01:10:50	Luca | Vero:	StakeWise supports 0x02 and has for a long time
+01:10:55	Barnabas:	Replying to "possibly Rocket Pool..."
+
+do you know what’s their blocker?
+01:11:09	Luca | Vero:	Replying to "possibly Rocket Pool..."
+
+I don’t know, just wanted to mention them
+01:11:16	Yann Vonlanthen:	Reacted to "StakeWise supports 0x02 and has for a long time" with 👍
+01:11:35	Kevaundray Wedderburn:	Replying to "@Mikhail & Anton  or..."
+
+Or maybe differently, have you run a devnet with it? 😄
+01:11:49	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+No, otherwise I would say it ;-)
+01:12:00	NC:	I think post-pq we want every validator to be 0x02 only. I have no strong opinion on whether to reject 0x01 registration pre-pq
+01:12:09	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+It wasn’t the highest priority until like 3 minutes ago
+01:12:57	Yann Vonlanthen:	Quick analysis of consolidation potential: https://github.com/ethereum/dc-networking/tree/main/research/consolidation#after-full-consolidation
+01:14:11	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+I was actually focusing a bit more on a clean spec and the lean proofs
+01:14:13	Dustin:	this can be worthwhile separately from consolidation projections
+01:14:34	Dustin:	which yeah, seem speculative
+01:14:38	Dustin:	8148 I think?
+01:15:03	vlad:	Replying to "@Mikhail & Anton  ..."
+
+i am working on seacast for rust and runing in a fork of silver CL
+01:15:36	Mega | ethlambda:	For 0x01, can’t we translate deposits to 0x02 validators?
+01:15:40	Anton Nashatyrev:	Replying to "@Mikhail & Anton  or..."
+
+TBH I’ve tried to vibecode SeaCast today, and even got the ladder equivalent to Csaba’s implementation, but simlation results with aggregates appeared to be worse than Gossip (D=4). I don’t thinkl these are reliable results, and I suppose I need to check the implementation
+01:15:50	Barnabas:	Replying to "For 0x01, can’t we t..."
+
+I don’t think we should
+01:16:17	Csaba:	@anton is also integrating several techniques I’ve developed for seacast in his simulations, I’m just not sure how much he is actually doing seacast atm
+01:16:26	NC:	I think 0x01’s case is different than 0x00 though. 0x00 has no execution address whereas force exiting 0x01 doesn’t burn any ETH
+01:16:27	Mega | ethlambda:	Replying to "For 0x01, can’t we t..."
+
+If we do 8148, setting those to 32 ETH cap would be the same as a 0x01
+01:16:59	Dustin:	the question is, do people think the 0x02-only approach if people don't do the consolidation also
+01:17:04	Dustin:	that'd be my basis for decision
+01:17:10	Dustin:	not hoping for consolidation also
+01:17:22	Kevaundray Wedderburn:	Reacted to "not hoping for consolidation also" with 👍
+01:18:38	Csaba:	Replying to "@Mikhail & Anton  or..."
+
+@Anton Nashatyrev I’m cleaning up the specs in these days, did find some under defined parts. Lets look into it
+01:18:51	vlad:	Replying to "@Mikhail & Anton  ..."
+
+https://github.com/gattaca-com/seacast-rs
+01:19:35	Mikhail & Anton:	Reacted to "@Anton Nashatyrev I’m cleaning up the specs in these days, did find some under defined parts. Lets look into it" with 👍
+01:20:04	NC:	no rescue
+01:20:32	Yann Vonlanthen:	I think even with DC we could have a much more hardened protocol if we had consolidated before
+01:20:37	Dustin:	Reacted to "no rescue" with 👍
+01:20:40	vlad:	Replying to "@Mikhail & Anton  ..."
+
+work-in-progress 👆
+01:20:42	Justin Traglia:	Reacted to "I think even with ..." with 👍
+01:21:28	Dustin:	Replying to "I think even with ..."
+
+the question isn't how desireable the consolidation would be, it's how much this 0x02-only approach empirically would act as a forcing function which could be relied on
+01:21:42	Mikhail & Anton:	Reacted to "I think even with DC we could have a much more hardened protocol if we had consolidated before" with 👍
+01:22:01	Justin Traglia:	I support it unless it's super complex
+01:22:15	Yann Vonlanthen:	Reacted to "the question isn't how desireable the consolidation would be, it's how much this 0x02-only approach empirically would act as a forcing function which could be relied on" with 👍
+01:22:23	Barnabas:	Reacted to "I support it unless it's super complex" with 👍
+01:22:27	Barnabas:	Replying to "I support it unless ..."
+
+agreed.
+01:23:07	Barnabas:	Replying to "I support it unless ..."
+
+I think the custom signature from the validator’s key + deposit address could be pretty good verification point for this
+01:23:23	Csaba:	Reacted to "https://github.com/gattaca-com/seacast-rs" with 🎉
+01:23:32	Ben Edgington:	https://hackmd.io/jW1q4xIDT5S2PJewFeatzA
+01:25:29	Barnabas:	yeah this is a non blocking issue
+01:25:34	Justin Traglia:	Yep
+01:26:24	Kevaundray Wedderburn:	Oh sorry
+01:26:42	cayman:	Afaik, lodestar is interoping with lighthouse
+01:26:54	terence:	Slowly making progress lol
+01:27:07	Barnabas:	Replying to "Slowly making progre..."
+
+ready by EOD?
+01:27:19	Barnabas:	we can’t onboard anyone afterwards if we don’t have sync working
+01:27:28	Barnabas:	so might hold off till prysm ready?
+01:28:24	Mega | ethlambda:	ethlambda already has a working pq-devnet-0 branch. We’re doing some final test runs, and should be ready later today
+01:28:35	Mega | ethlambda:	Gtg, sorry. Will come back in a bit
+01:28:43	Barnabas:	Reacted to "ethlambda already has a working pq-devnet-0 branch. We’re doing some final test runs, and should be ready later today" with 👍
+01:28:45	Enrico Del Fante:	For Teku, Paul is working on pq-devnet-0. Not yet interoping
+01:29:42	Enrico Del Fante:	Not considering separated VC-BN for the moment
+01:30:58	Luca | Vero:	why not just run validators inside the CL for these early experiments?
+01:31:28	Barnabas:	Replying to "why not just run val..."
+
+not all clients have this functionality
+01:31:49	Luca | Vero:	Replying to "why not just run val..."
+
+but roughly 5/6 do right?
+01:32:08	Barnabas:	Replying to "why not just run val..."
+
+prysm can’t 
+lh can’t 
+lodestar can’t
+01:32:21	Barnabas:	Replying to "why not just run val..."
+
+thoes that would interop on this first devnet
+01:32:39	cayman:	Replying to "why not just run val..."
+
+afaik thats what we're doing (picking an implementation and having vc interop w bn). I think its more of a question of "how should the change look" in the case that we did do vc interop
+01:32:45	terence:	Ya single client is fine
+01:33:28	Luca | Vero:	Replying to "why not just run val..."
+
+oh I thought it was just one client that couldn’t run keys inside. If there’s multiple clients that need the Beacon API then I guess we can spec something out
+01:34:02	cayman:	Replying to "why not just run val..."
+
+yea its forward-looking to a future devnet requirement
+01:34:24	vlad:	then recursion is not 16 -> 1 but N -> 1?
+01:35:23	Csaba:	Replying to "then recursion is no..."
+
+Yeah, scaling down is not that trivial with these schemes. Still I hope all these are parametrised in codebases
+01:35:31	Manu:	I have to go. Thanks!
+01:35:40	Yann Vonlanthen:	The one thing I think one would have to be careful of is that aggregation traffic would be much lower, but other than that I think it’s a good methodology
+01:35:53	Csaba:	Replying to "then recursion is no..."
+
+I mean, scaling down is easy. Interpreting the results is the hard part
+01:36:44	Barnabas:	https://github.com/leanEthereum/leanVM/pull/802
+01:37:00	Yann Vonlanthen:	Reacted to "I mean, scaling down is easy. Interpreting the results is the hard part" with 👍
+01:37:10	Csaba:	Replying to "The one thing I thin..."
+
+In fact this is one of the key differentiators between simulations and testnets. Scaling down works, gut interpreting results becomes challenging.
+01:37:46	Yann Vonlanthen:	Reacted to "In fact this is one of the key differentiators between simulations and testnets. Scaling down works, gut interpreting results becomes challenging." with 👍
+01:37:46	Csaba:	Replying to "The one thing I thin..."
+
+Again, this is not to say one is better than other.
+01:38:40	Csaba:	Have to drop, sorry
+01:40:11	terence:	Not there yet
+01:41:23	cayman:	I think its implemented in lodestar too
+01:41:47	vlad:	how do you run leanVM with local kurtosis?
+01:42:00	Barnabas:	Replying to "how do you run leanV..."
+
+two process in one docker container
+01:42:45	vlad:	Replying to "how do you run lea..."
+
+don't you need 8x nodes cores on your machine?
+01:43:13	Barnabas:	Replying to "how do you run leanV..."
+
+why?
+01:43:34	vlad:	Replying to "how do you run lea..."
+
+b/c leanVM need at least 4 physical cores to aggregate in any meaningful time
+01:43:41	vlad:	Replying to "how do you run lea..."
+
+prefereably 8
+01:43:56	Barnabas:	Replying to "how do you run leanV..."
+
+well thats with thousands of signatures
+01:44:04	Barnabas:	Replying to "how do you run leanV..."
+
+we aren’t running mainnet sized number of validators locally 😄
+01:44:57	vlad:	Reacted to "we aren’t running..." with 👍
+01:45:21	Barnabas:	I think its fine to have 3 calls, so we can discuss devnet progress
+01:45:26	Barnabas:	and if there is nothing to discuss we can all leave
+01:45:32	Barnabas:	but don’t expect 40+ ppl there
+01:45:45	Enrico Del Fante:	Seems like Paul is working on it, having something on APAC TZ
+01:45:51	Kevaundray Wedderburn:	Two calls would be good
+01:46:05	Kevaundray Wedderburn:	Replying to "Two calls would be g..."
+
+Maybe they can be one hour 😄
+01:46:12	Mikhail & Anton:	Reacted to "Two calls would be good" with 👍
+01:46:39	ethDreamer (Mark):	In the trenches 🫡
+01:46:49	Kevaundray Wedderburn:	Reacted to "In the trenches 🫡" with 🫡
+01:46:49	Ladislaus:	Reacted to "Two calls would be good" with 👍
+01:46:52	Enrico Del Fante:	Reacted to "In the trenches 🫡" with 🫡
+01:48:46	Barnabas:	its friday evening lol
+01:48:49	Barnabas:	nobody is motivated
+01:48:51	soispoke:	agree that tuesday call > friday call
+01:49:00	Greg K:	Reacted to "nobody is motivated" with 💯
+01:49:05	Greg K:	Reacted to "its friday evening lol" with 🫠
+01:49:07	Barnabas:	even my claude is lazy
+01:49:12	Greg K:	Reacted to "even my claude is lazy" with 🤣
+01:49:15	Anton Nashatyrev:	Reacted to "@Anton Nashatyrev I’m cleaning up the specs in these days, did find some under defined parts. Lets look into it" with 👍
+01:49:18	soispoke:	A réagi à "even my claude is ..." avec 🤣
+01:49:31	Justin Traglia:	Reacted to "even my claude is ..." with 🤣
+01:49:49	Barnabas:	happy turkey day
+01:50:15	Luca | Vero:	Reacted to "happy turkey day" with 🦃
+01:50:17	Justin Traglia:	Reacted to "happy turkey day" with 🦃
