@@ -1,0 +1,126 @@
+{
+  "meeting": "PQ-CL Breakout #3 - November 20, 2026",
+  "highlights": {
+    "testing_progress": [
+      {
+        "timestamp": "00:05:26",
+        "highlight": "DevNet blocked by slow key loading; compact key loading (PR #802) needed before scaling past ~64 validators"
+      },
+      {
+        "timestamp": "00:10:13",
+        "highlight": "Nimbus still on old spec (2^20 leaves); Lighthouse and Lodestar working; Prysm in progress; Teku (Paul) not yet interoping; Ethlambda targeting pq-devnet-0 by end of day"
+      },
+      {
+        "timestamp": "01:39:24",
+        "highlight": "Single-client local runs confirmed: Lighthouse+Lodestar interop working with few validators; no aggregation observed yet at 1,000 validators"
+      }
+    ],
+    "networking_p2p": [
+      {
+        "timestamp": "00:31:27",
+        "highlight": "gossip-sub insufficient for PQ aggregates: simulations show 200\u2013300 Mbps bandwidth spikes, 7\u00d7 more bandwidth than announce-and-pull"
+      },
+      {
+        "timestamp": "00:43:16",
+        "highlight": "Anton's simulation (800K validators, 16 subnets, 2 aggregators/subnet, D=4 gossip-sub): tester nodes at capacity, P99 aggregates arrive at 11.7s; local block builder P99 at 8s"
+      },
+      {
+        "timestamp": "00:34:28",
+        "highlight": "Path forward: Waggle + seacast (segmented broadcast); Lighthouse has 8411 Waggle implementation; Prysm seacast-on-Waggle in progress; seacast-rs (Rust) also WIP"
+      },
+      {
+        "timestamp": "00:55:57",
+        "highlight": "Cross-checking simulations requested before drawing conclusions; Csaba's single-message zcast results show factor 2\u20133 bandwidth reduction vs gossip-sub"
+      }
+    ],
+    "aggregation_benchmarks": [
+      {
+        "timestamp": "00:19:40",
+        "highlight": "LeanVM aggregation on NUC 14 Pro: 3.5s baseline; ~2s achievable with 6 performance cores allocated to LeanVM (EL running alongside)"
+      },
+      {
+        "timestamp": "00:21:31",
+        "highlight": "Expected ~1,500 XMSS signatures/subnet at 800K validators / 16 committees; staggered aggregation (500ms apart) proposed and tentatively accepted"
+      }
+    ],
+    "pq_migration_and_credentials": [
+      {
+        "timestamp": "01:03:06",
+        "highlight": "XMSS signature verification added to PQ registration system contract (EIP updated by Justin + Ignacio); contract live at pq-staking-contracts repo"
+      },
+      {
+        "timestamp": "01:07:04",
+        "highlight": "Proposal: disallow new 0x00 and 0x01 validator deposits at H-star fork; requires EIP-8148 (effective balance cap) as dependency; no ETH burning \u2014 inactive state instead"
+      },
+      {
+        "timestamp": "01:11:33",
+        "highlight": "Best-case consolidation from 0x02-only: validator set could drop from 800K to ~54K (or under 100K), potentially eliminating recursive aggregation"
+      },
+      {
+        "timestamp": "01:19:46",
+        "highlight": "0x00 validators who forgot to migrate: proposal to move funds to EL contract recoverable by original depositor address; no consensus reached, deferred async"
+      }
+    ],
+    "spec_open_questions": [
+      {
+        "timestamp": "00:11:26",
+        "highlight": "Syncing: assume genesis-only start for current DevNet phase; checkpoint sync deferred"
+      },
+      {
+        "timestamp": "00:12:00",
+        "highlight": "Beacon API PQ branch needed; Manu volunteered to own ERCs for VRF tree spec and ERC-2333/2334/2335 analogues"
+      }
+    ],
+    "organizational": [
+      {
+        "timestamp": "01:44:57",
+        "highlight": "Tuesday call preferred over Friday; 3 weekly calls to continue while aggregation and P2P questions remain open; Justin OOO all next week (Thanksgiving), Kev moderating"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:09:44",
+      "action": "All CL client teams: implement compact key loading (PR #802) to unblock local DevNet runs",
+      "owner": "CL client teams (Lighthouse, Prysm, Lodestar, Teku, Ethlambda)"
+    },
+    {
+      "timestamp": "01:05:36",
+      "action": "Manu: open ERCs for VRF tree generation/storage and ERC-2333/2334/2335 PQ analogues",
+      "owner": "Manu"
+    },
+    {
+      "timestamp": "01:44:19",
+      "action": "Add configurable subnet count to config.yaml spec so DevNets can simulate mainnet-sized committees with fewer validators",
+      "owner": "Justin Traglia (or next week if not completed)"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:09:44",
+      "decision": "Adopt PR #802 (Emil's compact key loading) as the approach for XMSS key loading optimization; clients to implement"
+    },
+    {
+      "timestamp": "00:11:26",
+      "decision": "DevNet nodes will start from genesis only; syncing support deferred to a later phase"
+    },
+    {
+      "timestamp": "00:36:20",
+      "decision": "First DevNet will use gossip-sub as baseline; Waggle + seacast devnet to follow once at least one client has segmented broadcast ready (targeting ~next week for Lighthouse)"
+    },
+    {
+      "timestamp": "01:14:04",
+      "decision": "Disallowing new 0x01 deposits at H-star depends on EIP-8148 being included; discussion on mechanism (inactive state vs burn) deferred async"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "01:28:24",
+      "target": "pq-devnet-0 launch \u2014 Ethlambda targeting end of day November 20, 2026; Lighthouse+Lodestar ready; Prysm and Teku still in progress"
+    },
+    {
+      "timestamp": "01:07:00",
+      "target": "Lighthouse segmented proofs broadcast (Waggle) \u2014 targeting approximately next week; Waggle+seacast devnet the week after"
+    }
+  ]
+}
