@@ -1,0 +1,132 @@
+{
+  "meeting": "ACDT #104 - November 23, 2026",
+  "highlights": {
+    "glamsterdam_eip8037_feedback": [
+      {
+        "timestamp": "00:15:30",
+        "highlight": "Rahul: all highs and most mediums on track to fix by mid-January; feedback is spec-only, not security"
+      },
+      {
+        "timestamp": "00:16:13",
+        "highlight": "Uniswap objects to two-branch gas behavior; Cowswap/Safe stressed by gas-left-can-go-up invariant break"
+      },
+      {
+        "timestamp": "00:22:33",
+        "highlight": "Recommendation: push app teams to monitor Forkcast; teams already on Forkcast were prepared ahead of outreach"
+      },
+      {
+        "timestamp": "00:25:32",
+        "highlight": "Andrew: consider trimming reservoir/controversial bits from EIP-8037 to reduce invariant breaks"
+      },
+      {
+        "timestamp": "00:27:08",
+        "highlight": "Maria: removing reservoir kills parallelization benefit of BAL; scaling requires it"
+      }
+    ],
+    "glamsterdam_spec_change_decision_tree": [
+      {
+        "timestamp": "00:31:19",
+        "highlight": "Toni: explored 7 spec variants; none fixes all invariants without introducing new ones"
+      },
+      {
+        "timestamp": "00:35:02",
+        "highlight": "Toni and Maria both conclude: no spec change is the best path; rehashing risks delays and new unknowns"
+      },
+      {
+        "timestamp": "00:43:38",
+        "highlight": "Hoodi timing cannot be locked until ACDC this week; no-spec-change default holds until then"
+      }
+    ],
+    "hegota_devnet_status": [
+      {
+        "timestamp": "00:46:43",
+        "highlight": "Hegota devnet-2: 5 ELs live, Erigon missing, finalizing; PeerDAS devnet-3 torn down (quick slots removed)"
+      },
+      {
+        "timestamp": "00:47:07",
+        "highlight": "Daisugi devnet-0 launched by PK: Nethermind + Lighthouse, 4000 validators, frames + stark aggregation, finalizing"
+      }
+    ],
+    "hegota_devnet3_scope_discussion": [
+      {
+        "timestamp": "00:50:22",
+        "highlight": "ethrex (Ivan): keep devnet-2 scope; harden frames, mempool, app compat; add minimal Lean Sphinx EIP (EIP-12672)"
+      },
+      {
+        "timestamp": "00:52:32",
+        "highlight": "Nethermind (Lukasz): add EIP-8279, EIP-8131, EIP-7907 for scaling; Erigon: add EIP-5920, EIP-7668 + PQ direction"
+      },
+      {
+        "timestamp": "01:03:06",
+        "highlight": "jochem: no new non-PQ EIPs; if devnet-3 happens, must resolve EIP-4758 (deactivate self-destruct) paired with TCREATE (EIP-8360)"
+      },
+      {
+        "timestamp": "01:07:11",
+        "highlight": "lightclient (Geth): no on devnet-3 until frames spec (8288 forward-compat, Lean Sphinx params) is ready; wasting effort otherwise"
+      },
+      {
+        "timestamp": "01:08:51",
+        "highlight": "Overall client poll: only Nethermind and Erigon lean yes; Geth, ethrex no; Besu/Reth/Nimbus-EL unsure \u2014 no-go this week"
+      }
+    ],
+    "el_breakout_frames_8288_design": [
+      {
+        "timestamp": "01:14:44",
+        "highlight": "lightclient: core open question \u2014 use proof/dependency frame or signature list to make frames forward-compatible with EIP-8288/LeanPCS"
+      },
+      {
+        "timestamp": "01:15:30",
+        "highlight": "With LeanPCS (pairing-based PCS), user constructs proof locally; original 8288 had protocol aggregate over on-chain RISC-V code"
+      },
+      {
+        "timestamp": "01:33:43",
+        "highlight": "L2 feedback: extending signature list harder than adding a precompile; pushing lightclient toward proof frame approach"
+      },
+      {
+        "timestamp": "01:36:04",
+        "highlight": "Unresolved: malleable vs committed signature data in proof frames; needs flag or length-commitment mechanism"
+      },
+      {
+        "timestamp": "01:44:03",
+        "highlight": "lightclient leaning toward modifying EIP-8141 to add proof frame machinery; continue async in pq-el channel"
+      }
+    ]
+  },
+  "action_items": [
+    {
+      "timestamp": "00:24:03",
+      "action": "Update EIP-8037 rationale section with design decisions and trade-offs not yet publicly documented",
+      "owner": "Maria Silva / Toni Wahrstaetter"
+    },
+    {
+      "timestamp": "00:25:06",
+      "action": "Add per-EIP invariant-break summaries to Forkcast for broader app-dev awareness",
+      "owner": "EF / wolovim"
+    },
+    {
+      "timestamp": "01:12:05",
+      "action": "Continue frames/8288 proof-frame vs sig-list design discussion async in pq-el Discord channel",
+      "owner": "All EL teams / lightclient"
+    }
+  ],
+  "decisions": [
+    {
+      "timestamp": "00:35:02",
+      "decision": "Default position: no spec change to EIP-8037; to be formally locked at ACDC"
+    },
+    {
+      "timestamp": "01:08:51",
+      "decision": "Hegota devnet-3 scope: no-go this week; revisit next ACDT pending frames spec progress"
+    },
+    {
+      "timestamp": "00:58:49",
+      "decision": "Frames breakout calls cancelled; frames spec discussions move to ACDT and async channels"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:43:38",
+      "target": "Hoodi testnet date to be decided at ACDC (this week)"
+    }
+  ]
+}

@@ -1,0 +1,387 @@
+00:13:17	jochem-brouwer:	gm
+00:13:57	Mario Vega:	https://github.com/ethereum/pm/issues/2306
+00:19:14	Dustin:	General question: why was all of this done in private/etc repos? None of it was deployed to anything but Sepolia
+00:19:29	Mario Vega:	ChainSecurity opinion post: https://gist.github.com/HubertRitzdorf-ChainSecurity/8689b3f0e7c0c33e3142c050928ad7a6
+00:21:10	Francesco D'Amato:	Replying to "General question: wh..."
+
+A reason (not saying it’s “the” reason) is that the fork might have eventually ended up on mainnet even with some contracts affected in some way but not fixed, or not able to be completely fixed
+00:21:51	Maria Silva:	Most of those are answered in the EIP, I think
+00:21:52	Dustin:	Replying to "General question: ..."
+
+It's not sustainable to assume these will never come out
+00:23:45	Rahul (EF):	https://gist.github.com/rahul-kothari/d940da02ad818397741a182185d03882
+00:24:55	Trent Van Epps:	“most teams get news from twitter” 
+
+Wish it wasn’t the case, but all the more reason for the EF to use its 4mm follower account to surface important changes/features and have a structured protocol comms strategy which uses the main account thoughtfully. It is incredibly underutilized
+
+(I have given this feedback privately to them many times as well)
+00:25:22	Dragan Rakita:	Reacted to "“most teams get news from twitter” 
+
+Wish it wasn’t the case, but all the more reason for the EF to use its 4mm follower account to surface important changes/features and have a structured protocol comms strategy which uses the main account thoughtfully
+
+(I have given this feedback privately to them many times as well)" with ➕
+00:25:49	CPerezz:	Reacted to "“most teams get news..." with ➕
+00:25:50	danceratopz:	Reacted to "“most teams get news..." with ➕
+00:25:51	CPerezz:	Reacted to "“most teams get news..." with 👏
+00:26:11	danceratopz:	Reacted to "https://gist.github...." with ❤️
+00:26:35	M:	Reacted to "“most teams get n..." with 👏
+00:27:18	Łukasz Rozmej:	Reacted to "“most teams get news from twitter” 
+
+Wish it wasn’t the case, but all the more reason for the EF to use its 4mm follower account to surface important changes/features and have a structured protocol comms strategy which uses the main account thoughtfully. It is incredibly underutilized
+
+(I have given this feedback privately to them many times as well)" with ➕
+00:28:13	Rahul (EF):	Replying to "“most teams get n..."
+
+I have found that they prefer talking about node changes updaye rather app changes interestingly
+
+Example for me - code size increases, helping stack too deep and repricing are the most impactful things but they were barely mentioned in the posts. When asked, the answer was it seems too niche and they prioritize node updates :(
+00:29:13	Iván | ethrex:	Any change would require months of testing (pls correct me if I’m wrong)
+00:29:18	Toni Wahrstaetter:	tbf, we wouldn't raise the tx limit. We would just not have big contracts anymore
+00:29:23	Francesco Risitano (Tau):	Can you prefund the reservoir explicitly instead of having it consume from execution gas?
+00:29:57	Trent Van Epps:	Replying to "“most teams get news..."
+
+Yes, this is misguided IMO
+00:29:58	wolovim:	Of course happy to support this type of outreach via forkcast, but i think a targeted blog post that includes context beyond what’s in the eip rationale(s) is also great for reaching the target audience more directly. Can highlight that sort of post in forkcast too.
+00:30:07	Mario Vega:	Reacted to "Of course happy to support this type of outreach via forkcast, but i think a targeted blog post that includes context beyond what’s in the eip rationale(s) is also great for reaching the target audience more directly. Can highlight that sort of post in forkcast too." with 👍
+00:30:10	Dragan Rakita:	Reacted to "Of course happy to support this type of outreach via forkcast, but i think a targeted blog post that includes context beyond what’s in the eip rationale(s) is also great for reaching the target audience more directly. Can highlight that sort of post in forkcast too." with 👍
+00:30:16	Marius van der Wijden:	Replying to "Can you prefund th..."
+
+You can, but that needs a new transaction type (something that will take MUCH more time and something we have planned for the future as well)
+00:30:27	Francesco Risitano (Tau):	Reacted to "You can, but that needs a new transaction type (something that will take MUCH more time and something we have planned for the future as well)" with 👍
+00:30:30	Łukasz Rozmej:	Let's move to next section to have a more knowledgable diiscussion please!
+00:30:32	Guru:	Reacted to "You can, but that ne..." with 👍
+00:30:32	Marius van der Wijden:	We have broken invariants multiple times
+00:30:37	Iván | ethrex:	Reacted to "Let's move to next section to have a more knowledgable diiscussion please!" with ➕
+00:30:51	Luis Pinto:	Reacted to "Let's move to next section to have a more knowledgable diiscussion please!" with ➕
+00:30:57	Ansgar Dietrichs:	right I think discussing the specifics of a change is misguided.
+
+any change now will follow the same process basically: give up on testnets this year, reassess, converge on the best EIP version over the next few weeks, impact analysis & testing, then testnet rollouts in Feb - March, mainnet Apr.
+
+cost: ~2 months delay, much of that needing core dev attention
+extra risk: we might not find a better shape and still end up shipping the current version
+00:31:09	Iván | ethrex:	Reacted to "right I think discussing the specifics of a change is misguided.
+
+any change now will follow the same process basically: give up on testnets this year, reassess, converge on the best EIP version over the next few weeks, impact analysis & testing, then testnet rollouts in Feb - March, mainnet Apr.
+
+cost: ~2 months delay, much of that needing core dev attention
+extra risk: we might not find a better shape and still end up shipping the current version" with 👍
+00:32:08	Miguel Tenorio:	Replying to "“most teams get news..."
+
+https://forkcast.org/calls/* represent ACD{E/T/C} very well and make it easier for AI assisted reports or summaries. 
+
+Is never late to calibrate and today should be as simple as ever to reduce friction doing those communications.
+00:32:20	Iván | ethrex:	Reacted to "We have broken invariants multiple times" with 👍
+00:32:20	Guru:	Replying to "Can you prefund the ..."
+
+Plus, even with a new tx type (and unless we somehow deprecate the legacy types), the EVM will have to support 2D gas as well as single gas (for legacy tx types)
+00:33:13	Dragan Rakita:	Replying to "right I think discus..."
+
+I mean we already had two months from initial report to find “ideal” solution, but we dont have any. Calling for change without offering one is not helpful
+00:33:40	Rahul (EF):	Replying to "right I think disc..."
+
+probably more than 2 yrs since we need to do another outreach and teams who had fixed will need to change AGAIN
+00:33:58	Francesco Risitano (Tau):	Replying to "Can you prefund the ..."
+
+Is there any concern around deprecating legacy tx types?
+00:33:58	Rahul (EF):	Replying to "right I think disc..."
+
+2 months* oops
+00:34:09	Iván | ethrex:	Reacted to "2 months* oops" with 😅
+00:34:20	Dragan Rakita:	Reacted to "2 months* oops" with 😅
+00:35:57	Marius van der Wijden:	Replying to "Can you prefund th..."
+
+There is lot of concern about that, we would need to provide something like a precompile to still support them somehow. Or if we see its pq time, then we would need to invalidate all of the presigned legacy txs
+00:37:21	Francesco Risitano (Tau):	Replying to "Can you prefund the ..."
+
+I see so the issue is that some users pre-sign transactions?
+00:38:13	Marius van der Wijden:	Replying to "Can you prefund th..."
+
+yes
+00:38:34	Marius van der Wijden:	Replying to "Can you prefund th..."
+
+And that people don't want to update their hardware wallets
+00:38:48	Łukasz Rozmej:	One comment that I like about potential delays: "Late is just for a little while. Suck is forever."
+00:39:46	Francesco Risitano (Tau):	Replying to "Can you prefund the ..."
+
+Right I see, yes seems quite inconvenient
+00:39:58	gary(geth):	已使用👍回应"I mean we already ..."
+00:40:00	Marius van der Wijden:	Replying to "One comment that I..."
+
+But its not clear to me that these changes are a better spec in itself
+00:40:09	Dragan Rakita:	Reacted to "But its not clear to me that these changes are a better spec in itself" with 💯
+00:40:12	Maria Silva:	Reacted to "But its not clear to me that these changes are a better spec in itself" with 💯
+00:40:24	gary(geth):	已使用💯回应"But its not clear ..."
+00:40:33	Łukasz Rozmej:	Replying to "One comment that I like about potential delays: "Late is just for a little while. Suck is forever.""
+
+yeah me too, can I nerdsnipe your gigachad brain to help us figure this out? :)
+00:40:40	Justin Florentine:	Replying to "One comment that I l..."
+
+will that clarity arive with more time?
+00:40:58	Barnabas:	so no spec change ? hoodi wen?
+00:41:06	Dragan Rakita:	Reacted to "so no spec change ? hoodi wen?" with ♥️
+00:41:10	Toni Wahrstaetter:	Reacted to "so no spec change ? hoodi wen?" with ♥️
+00:41:22	Dustin:	Replying to "so no spec change ..."
+
+can't know before ACDC
+00:41:33	Mario Vega:	Reacted to "can't know before ACDC" with 👍
+00:41:38	Łukasz Rozmej:	Reacted to "can't know before ACDC" with 👍
+00:41:55	Luis Pinto:	I dunno, feel stuck between a rock and a hard place. Just feel breaking this invariant is pretty nasty, also pointed out by multiple teams that they don’t like it
+00:42:06	Iván | ethrex:	Reacted to "so no spec change ? hoodi wen?" with ♥️
+00:42:11	Dragan Rakita:	Replying to "so no spec change ? ..."
+
+@Barnabas propose some dates and we can ACK them on call? 😄
+00:42:52	Trent Van Epps:	Replying to "so no spec change ? ..."
+
+“can't know before ACDC” we need to make a decision at some point, what more discussion needs to be had?
+00:42:59	Iván | ethrex:	Replying to "so no spec change ? ..."
+
+I’d go for no spec change. Based on last ACDE’s Rahul’s analysis, if most of the affected parties will have this fixed this by mid/late Jan, then it should be good
+00:43:12	Luis Pinto:	Reacted to "One comment that I like about potential delays: "Late is just for a little while. Suck is forever."" with 💯
+00:43:25	Iván | ethrex:	Replying to "so no spec change ? ..."
+
+Correct me if I’m wrong, but the “can’t know before ACDC” is the Hoodi date, right?
+00:43:26	Dustin:	Replying to "so no spec change ..."
+
+Trent: there's a particular maybe-spec-change on the CL side which needs to be decided on
+00:43:37	Trent Van Epps:	Reacted to "Trent: there's a particular maybe-spec-change on the CL side which needs to be decided on" with 👍
+00:43:39	Dragan Rakita:	Reacted to "Trent: there's a particular maybe-spec-change on the CL side which needs to be decided on" with 👍
+00:43:44	Dustin:	Replying to "so no spec change ..."
+
+It was true in ACDE and it's true still today
+00:43:48	Trent Van Epps:	Replying to "so no spec change ? ..."
+
+Right, forgot about that
+00:43:51	Iván | ethrex:	Reacted to "It was true in ACDE and it's true still today" with 👍
+00:43:55	Dustin:	Replying to "so no spec change ..."
+
+Please stop trying to bulldoze this
+00:43:56	Andrew Ashikhmin:	Reacted to "I dunno, feel stuck ..." with 👍
+00:44:01	Dustin:	Replying to "so no spec change ..."
+
+another call in a row
+00:44:22	Rahul (EF):	Replying to "“most teams get n..."
+
+problem there is making people aware of forkcast
+00:44:53	Mario Vega:	https://gist.github.com/HubertRitzdorf-ChainSecurity/8689b3f0e7c0c33e3142c050928ad7a6
+00:45:09	Maria Silva:	Sorry, I got lost. What was the outcome? No spec change?
+00:45:22	Iván | ethrex:	Let’s do better for 8151 💪
+00:45:34	Mario Vega:	Reacted to "Let’s prepare better for 8151 💪" with 👍
+00:46:09	Maria Silva:	Reacted to "Let’s do better for 8151 💪" with 👍
+00:46:41	Potuz:	I can't even barely
+00:46:41	Barnabas:	micdao
+00:47:09	Dragan Rakita:	Replying to "“most teams get news..."
+
+Ethereum media accounts should in future make a post for “call for change”  when changes for protocol are close to publishing to devnets.
+00:47:59	Enter Meeting Info:	Please drop the link to 8037 decision tree
+00:48:09	Stefan Starflinger:	https://dora.daisugi-devnet-0.ethpandaops.io/
+00:48:27	Stefan Starflinger:	https://notes.ethereum.org/@ethpandaops/daisugi-devnet-0
+00:48:28	Iván | ethrex:	Pk’s message on Daisugi https://discord.com/channels/595666850260713488/1569690395095470130/1572742161932484798
+00:48:47	Trent Van Epps:	Replying to "“most teams get news..."
+
+Yes, seconding dragan. It shouldn’t matter that it’s “niche” - changes like 8037 or features like contract size increases should be broadly communicated
+00:50:23	wolovim:	daisugi coming to forkcast soon™️
+00:51:20	wolovim:	Reacted to "Ethereum media accounts should in future make a post for “call for change”  when changes for protocol are close to publishing to devnets." with 👀
+00:51:28	Iván | ethrex:	https://github.com/ethereum/EIPs/pull/12672
+00:51:50	Łukasz Rozmej:	Shouldn't we deliver: EIP-8279 , EIP-8131 and potentially EIP-7907 (still PFI, for more safe scaling) at least in Hegota?
+00:53:51	Stefan Starflinger:	Replying to "Shouldn't we deliver: EIP-8279 , EIP-8131 and potentially EIP-7907 (still PFI, for more safe scaling) at least in Hegota?"
+
+Those are bigger EIPs to include in bogota-devnet-3 would be a lot of work in addition to PQ changes
+00:54:04	Iván | ethrex:	Reacted to "Those are bigger EIPs to include in bogota-devnet-3 would be a lot of work in addition to PQ changes" with 👍
+00:55:27	Łukasz Rozmej:	Replying to "Shouldn't we deliver: EIP-8279 , EIP-8131 and potentially EIP-7907 (still PFI, for more safe scaling) at least in Hegota?"
+
+big in terms of testing?
+00:55:37	Iván | ethrex:	We can see how https://github.com/ethereum/EIPs/pull/12672 could be brought as an addition to frames, but I’d keep it separate because of complexity. For us this is the minimal we can do on top of frames to be forward compatible with 8288
+00:55:48	Łukasz Rozmej:	Replying to "Shouldn't we deliver: EIP-8279 , EIP-8131 and potentially EIP-7907 (still PFI, for more safe scaling) at least in Hegota?"
+
+https://github.com/NethermindEth/nethermind/pull/13942 https://github.com/NethermindEth/nethermind/pull/13929 https://github.com/NethermindEth/nethermind/pull/8845
+00:56:00	Stefan Starflinger:	Reacted to "We can see how https://github.com/ethereum/EIPs/pull/12672 could be brought as an addition to frames, but I’d keep it separate because of complexity. For us this is the minimal we can do on top of frames to be forward compatible with 8288" with 💪
+00:56:42	Mislav | Ethlabs:	We can do all validation against a Merkle Tree root of all the user keys. The wallet constructs the proof and provide it to the tx. That makes it VOPS/FOCIL compatible.
+00:56:45	Mislav | Ethlabs:	One suggestion
+00:57:05	Iván | ethrex:	I think our first PQ EL devnet should not have aggregation, to fully understand how needed it is
+00:57:27	Iván | ethrex:	We could have aggregation in the builder in a second PQ EL devnet. It requires the recursive verifier in the EL
+00:58:12	Toni Wahrstätter:	Segregation and aggregation can be added on top after and frames wouldn't need to change
+00:58:15	Iván | ethrex:	And leave mempool aggregation for a third devnet, once Csaba’s work is more prepared
+00:58:22	Barnabas:	can the details of this be discussed in the EL breakout maybe?
+00:58:30	Iván | ethrex:	Reacted to "can the details of this be discussed in the EL breakout maybe?" with 👍
+00:58:34	Barnabas:	lets just make a decision on whether bogota-devnet-3 happens or not?
+00:59:01	Iván | ethrex:	Replying to "Segregation and aggr..."
+
+Yes, but I’d add segregation now so we don’t do it later
+00:59:03	Trent Van Epps:	I think they cancelled the calls
+00:59:31	wolovim:	Replying to "I think they cancelled the calls"
+
+Correct, EL breakout here is appropriate
+00:59:43	Iván | ethrex:	Replying to "lets just make a dec..."
+
+I’d do a bogota-3 devnet with the existing scope plus agreed fixes
+00:59:46	Toni Wahrstaetter:	Replying to "Segregation and aggregation can be added on top after and frames wouldn't need to change"
+
+adds scope
+01:00:36	Toni Wahrstaetter:	Replying to "lets just make a decision on whether bogota-devnet-3 happens or not?"
+
+but agreed fixes can just be deployed to devnet-2? Or are those fixes consensus-breaking?
+01:01:08	Iván | ethrex:	Replying to "lets just make a dec..."
+
+You’re right, only if agreed fixes include consensus breaking changes
+01:03:42	Stefan Starflinger:	reactivate self destruct :D
+01:03:53	Iván | ethrex:	Reacted to "reactivate self destruct :D" with ➕
+01:04:15	Iván | ethrex:	I agree with jochem. At this point I think reactivating self destruct is the easiest
+01:05:00	Mario Vega:	https://notes.ethereum.org/@ethpandaops/bogota-devnet-3
+01:05:18	jochem-brouwer:	Antwoord verzenden naar "I agree with joche..."
+
+What do you agree with here, you mean to remove EIP-4758 from the next devnet?
+Or provide the alternative by keeping EIP-4758 and adding TCREATE for the native CREATE+SELFDESTRUCT pattern?
+01:05:19	Toni Wahrstaetter:	Replying to "I agree with jochem. At this point I think reactivating self destruct is the easiest"
+
+this is pulling the eip?
+01:05:58	Iván | ethrex:	Replying to "I agree with jochem...."
+
+I think there are two options, whether we remove the EIP that deactivates SELFDESTRUCT, or we add the EIP that introduces TCREATE
+01:06:12	Iván | ethrex:	I lean more towards removing the EIP that deactivates SELFDESTRUCT. So a bogota-devnet-3 without it
+01:06:39	jochem-brouwer:	Heeft gereageerd op "I lean more toward..." met 👍
+01:07:27	Justin Florentine:	does minimal changes mean more than TCREATE?
+01:08:00	Iván | ethrex:	Replying to "Screenshot2026_11_23_155448.jpg"
+
+We’ll be working on PQ on top of the EL
+01:08:02	jochem-brouwer:	Antwoord verzenden naar "I agree with joche..."
+
+I think there are two options, whether we remove the EIP that deactivates SELFDESTRUCT, or we add the EIP that introduces TCREATE
+Yup exactly this is our position also
+01:08:16	Iván | ethrex:	Replying to "Screenshot2026_11_23_155448.jpg"
+
+I have a couple of devnet ideas for you
+
+• pq-el-devnet-0 -> dependency frames + leanSPHINCS claims (no aggregation, requires a transport)
+• pq-el-devnet-1 -> pq-el-devnet-0 + builder as the aggregators (no changes to the EL mostly, only the recursive verifier)
+• pq-el-devnet-2 -> pq-el-devnet-1 + mempool aggregation
+01:08:22	Toni Wahrstaetter:	I'd lean towards not adding things, rather pulling. Complexity compounds
+01:08:25	Marius van der Wijden:	The spec is the implementation
+01:08:29	Iván | ethrex:	Reacted to "I think there are two options, whether we remove the EIP that deactivates SELFDESTRUCT, or we add the EIP that introduces TCREATE
+Yup exactly this is our position also" with 👍
+01:08:35	Guru:	Replying to "I'd lean towards not..."
+
++1
+01:08:52	Justin Florentine:	there is nothing PQ in devnet3 yet. reminder, pq is te priority
+01:09:09	wolovim:	What’s left to specify and who owns it?
+01:09:38	Marius van der Wijden:	I think doing a devnet for the purpose of a devnet isn't good. We should be deliberate about why we want a new devnet
+01:09:53	Parithosh Jayanthi:	Reacted to "I think doing a devnet for the purpose of a devnet isn't good. We should be deliberate about why we want a new devnet" with 🫡
+01:09:57	Iván | ethrex:	This is an idea, would appreciate feedback on it https://github.com/ethereum/EIPs/pull/12672
+01:09:59	Toni Wahrstaetter:	frames+, figuring out 8288, mempool, SPHINCS, leanPCS.. there's quite a lot already
+01:10:12	Justin Florentine:	Reacted to "frames+, figuring out 8288, mempool, SPHINCS, leanPCS.. there's quite a lot already" with ➕
+01:10:14	Rimeeeeee:	Reacted to "frames+, figuring ..." with ➕
+01:10:32	Dragan Rakita:	Reacted to "Screenshot2026_11_23_155448.jpg" with 😂
+01:10:51	Justin Florentine:	AND increase resulting complexity over which we eventually test PQ
+01:11:02	Mislav | Ethlabs:	idk if default account is a new eip or not, but that would be something i'd like to consider once more.
+01:11:24	Fabio Di Fabio:	Reacted to "there is nothing PQ in devnet3 yet. reminder, pq is te priority" with 👍
+01:11:54	Kevaundray Wedderburn:	Also posted this in pq-el https://discord.com/channels/595666850260713488/1569690395095470130/1574437074537545869
+01:12:05	Mario Vega:	My read is no-go, at least for this week, to scope devnet-3
+01:12:29	Stefan Starflinger:	Replying to "My read is no-go, at least for this week, to scope devnet-3"
+
+yeah lets revisit next week
+01:13:18	Iván | ethrex:	Reacted to "My read is no-go, at least for this week, to scope devnet-3" with 👍
+01:13:40	danceratopz:	https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1
+01:13:52	wolovim:	Replying to "https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1"
+
+CL breakout ^
+01:13:57	danceratopz:	Reacted to "CL breakout ^" with ❤️
+01:14:04	Mario Vega:	Reacted to "CL breakout ^" with ❤️
+01:14:09	wolovim:	Reacted to "https://ethereumfoundation.zoom.us/j/89441658268?pwd=yjqf4TheEb1R7ZSuesCdOAy5tdyVk7.1" with 🙏
+01:14:16	Iván | ethrex:	Replying to "Also posted this in ..."
+
+👏
+01:14:44	Stefan Starflinger:	Reacted to "My read is no-go, at least for this week, to scope devnet-3" with 👍
+01:15:23	Toni Wahrstaetter:	why would that change the frame design? To me it feels like we can make frames ready for it and decide later
+01:16:49	Iván | ethrex:	8288 has 3 parts:
+leanSPHINCS
+leanPCS
+Mempool aggregation
+
+For hegota we should aim for doing leanSPHINCS while keeping forward-compatibility for leanPCS.
+
+Mempool aggregation can be done later since it doesn’t require a hard fork + it’s a big one
+01:17:13	Iván | ethrex:	Replying to "8288 has 3 parts:
+le..."
+
+Our proposal is for having leanSPHINCS in Hegota with this requirements
+01:18:11	Maria Silva:	Replying to "8288 has 3 parts:
+le..."
+
+Can you explain what does it mean for frames to be forward-compatibility with leanPCS?
+01:18:59	Iván | ethrex:	We add this dependency frame that carries claims. 8288 aims for having 2 types of claims “this signature is valid” (leanSPHINCS) and “this proof is valid” (leanPCS)
+01:19:15	Mislav | Ethlabs:	Replying to "8288 has 3 parts:
+..."
+
+What would be the benefit of having leanSPHICS and leanPCS coexist
+01:19:21	Mislav | Ethlabs:	Replying to "8288 has 3 parts:
+..."
+
+is it not just tech debt once leanPCS launches
+01:23:53	Mislav | Ethlabs:	hmm i think even leanSTARK was constructing the first proof locally
+01:24:17	Mislav | Ethlabs:	Replying to "hmm i think even l..."
+
+leanSPHICS assumed that the protocol would do all aggregation
+01:24:29	Mislav | Ethlabs:	Replying to "hmm i think even l..."
+
+all proving actually
+01:25:48	Toni Wahrstaetter:	There are two discussions:
+1) how to make frames 8288 compatible (proof frame vs sig list)
+2) which scheme to enshrine (leanSTARK, leanSPINCS, leanPCS, etc)
+01:26:02	Mario Vega:	Reacted to "There are two discussions:
+1) how to make frames 8288 compatible (proof frame vs sig list)
+2) which scheme to enshrine (leanSTARK, leanSPINCS, leanPCS, etc)" with 👍
+01:26:07	Iván | ethrex:	Reacted to "There are two discussions:
+1) how to make frames 8288 compatible (proof frame vs sig list)
+2) which scheme to enshrine (leanSTARK, leanSPINCS, leanPCS, etc)" with 👍
+01:26:19	Mislav | Ethlabs:	Reacted to "There are two disc..." with 👍
+01:26:47	Guru:	Reacted to "There are two discus..." with 👍
+01:31:53	Toni Wahrstaetter:	We need something like [scheme, signer, msg, signature], e.g. in the sig list (or remove scheme and use the frame.target instead). Bot those 4 fields are enough to support declaring a dependency for all the lean* stuff.
+01:31:57	Mario Vega:	Is this a question of the interface then? How will the contract reference the PCS?
+01:33:13	jochem-brouwer:	Typed Frame Transactions 😉🤓
+01:33:28	Iván | ethrex:	Aggregation takes the signature out of the transaction sooner or later
+01:34:58	Toni Wahrstaetter:	under the hood, how we treat a scheme vs a precompile being used in the VERIFY frame, is basically the same but I can see that point. Might be strong enough to go with a proof frame
+01:35:12	Mario Vega:	Are they leaning towards this because it’s what they know or because it’s a better solution?
+01:35:21	Mario Vega:	Replying to "Are they leaning tow..."
+
+precompile vs siglist?
+01:35:42	Kevaundray Wedderburn:	Where are the specs for proof frame again?
+01:35:57	Iván | ethrex:	Replying to "Where are the specs ..."
+
+You mean ours or other ones?
+01:36:09	Kevaundray Wedderburn:	Replying to "Where are the specs ..."
+
+The one lightclient is referencing
+01:36:27	Iván | ethrex:	Replying to "Where are the specs ..."
+
+Ah, idk
+01:36:49	Kevaundray Wedderburn:	Why do we need that?
+01:38:58	Mario Vega:	I feel like most of us, including myself, are out of the loop on what we need to know to properly contribute. Is there any write up on these ideas or is it all contained in EIP-8288?
+01:41:21	Iván | ethrex:	Replying to "I feel like most of ..."
+
+I think it’s time to bring this discussions into pq-el
+01:42:02	Mario Vega:	Reacted to "I think it’s time to bring this discussions into pq-el" with 👍
+01:42:06	Iván | ethrex:	Replying to "I feel like most of ..."
+
+To answer, not that I’m aware of. I have multiple links if it’s useful
+01:42:27	Toni Wahrstätter:	Proof frame == dependency frame, afaict
+01:43:38	Kevaundray Wedderburn:	@lightclient were you thinking of modifying 8141 to add in the proof frame machinery?
+01:43:41	Iván | ethrex:	Replying to "Proof frame == depen..."
+
+Is there any source to the proof frame spec that we can take a look at?
+01:44:03	lightclient:	that’s where i’m leaning
+01:44:11	Kevaundray Wedderburn:	pq-el ?
+01:44:11	Dragan Rakita:	Reacted to "that’s where i’m leaning" with 👍
+01:44:18	Iván | ethrex:	Reacted to "pq-el ?" with 👍
+01:44:18	Lean F | ethrex:	Reacted to "pq-el ?" with 👍
+01:44:22	Iván | ethrex:	Reacted to "pq-el ?" with 🙏
+01:44:28	Toni Wahrstaetter:	Reacted to "pq-el ?" with 🥹
+01:44:48	Dragan Rakita:	Replying to "that’s where i’m lea..."
+
+Additionally there is point on reusing pq sigs from ecRecover, and this would require pq sigs being in (frame) tx
+01:45:08	Iván | ethrex:	Maybe from this point async feels good
+01:45:13	jochem-brouwer:	Heeft gereageerd op "pq-el ?" met 👍
+01:45:15	Iván | ethrex:	Maybe async we can agree on a sync meeting if needed
+01:45:24	Kevaundray Wedderburn:	Reacted to "Maybe from this point async feels good" with 👍
+01:45:24	lightclient:	Reacted to "Maybe async we can agree on a sync meeting if needed" with 👍
+01:45:28	Kevaundray Wedderburn:	Reacted to "Maybe async we can agree on a sync meeting if needed" with 👍
+01:45:32	wolovim:	Reacted to "Maybe async we can agree on a sync meeting if needed" with 👍
+01:45:48	Iván | ethrex:	Who could gather all the sources for this discussions?

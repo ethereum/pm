@@ -1,0 +1,122 @@
+00:00:46	Jihoon:	- RLP encoding PR: https://github.com/ethereum/consensus-specs/pull/5770
+- payload_root PR: https://github.com/ethereum/consensus-specs/pull/5820
+- EthR&D discussion thread: https://discord.com/channels/595666850260713488/1570462426657202188
+00:01:01	Jihoon:	payload_root-related PRs for beacon APIs and builder-specs
+
+- https://github.com/ethereum/beacon-APIs/pull/677
+- https://github.com/ethereum/builder-specs/pull/176
+00:01:19	Barnabas:	Lets do 5820 in Heze, lets do 5770 for glammy.
+00:01:28	Ben Edgington:	Reacted to "Lets do 5820 in Heze, lets do 5770 for glammy." with 👍
+00:01:32	Potuz:	Reacted to "Lets do 5820 in Heze..." with 👍
+00:01:57	Barnabas:	I think we should make a decision on this today.
+00:02:02	Barnabas:	so we can merge the spec changes in
+00:02:11	Nico Flaig:	Replying to "Lets do 5820 in Heze..."
+
+that's a lot more work than doing 5820 now
+00:02:24	Dustin:	Agree with Cayman, do 5820 now
+00:02:36	Sam:	Reacted to "Agree with Cayman,..." with 👍
+00:02:42	ethDreamer (Mark):	I’m also supportive of 5820 now
+00:03:05	Dustin:	Kill sepolia, if it matters
+00:03:18	raxhvl:	Reacted to "Kill sepolia, if i..." with 👍
+00:03:23	Jihoon:	https://ethereum-magicians.org/t/sepolia-testnet-replacement-sunsetting/28647 
+
+Is this still planned?
+00:03:26	ethDreamer (Mark):	Murder it with prejudice
+00:03:27	NC:	Sepolia is end of life soon right?
+00:03:28	Enrico Del Fante:	Replying to "Lets do 5820 in Heze..."
+
+Not sure we will do 5820 in Haze
+00:03:38	cayman:	Reacted to "Murder it with preju..." with 😆
+00:03:49	Eitan Seri-Levi:	Sepolia must die
+00:04:29	Barnabas:	killing testnets in a bear market is always a hard one tbh, lots of teams complain about this, that they just don’t have bandwidth to properly migrate.
+00:04:32	Nico Flaig:	we can run old releases, it's not like app devs care?
+00:04:46	Barnabas:	Reacted to "we can run old releases, it's not like app devs care?" with 👍
+00:04:50	cayman:	Reacted to "we can run old relea..." with 👍
+00:05:06	Barnabas:	Replying to "we can run old relea..."
+
+maybe we can run sepolia then as long as we want to fork heze? And then we will have something else setup for heze?
+00:05:19	Sam:	Reacted to "we can run old rel..." with 👍
+00:05:24	raxhvl:	Write up on how 5820 and how it impacts security: https://notes.raxhvl.com/epbs-payload-pairing
+00:06:41	Potuz:	When I DOS the devnet for the first time will you guys reconsider?
+00:06:43	cayman:	Reacted to "Write up on how 5820..." with 👍
+00:07:07	cayman:	Replying to "When I DOS the devne..."
+
+go for it? It should be attempted in testing, no?
+00:07:17	Potuz:	Replying to "When I DOS the devne..."
+
+yep
+00:07:18	Nico Flaig:	Replying to "When I DOS the devne..."
+
+signature doesn't prevent any dos
+00:07:24	ethDreamer (Mark):	Replying to "When I DOS the devne..."
+
+If you can dos lighthouse 👿
+00:07:27	Potuz:	Replying to "When I DOS the devne..."
+
+it changes the attacker though
+00:08:17	Dustin:	FOCIL might not be in Heze anyway
+00:08:24	Dustin:	re a FOCIL cache
+00:08:33	Potuz:	what FOCIL?
+00:08:39	Barnabas:	Reacted to "what FOCIL?" with 💀
+00:08:42	Eitan Seri-Levi:	Reacted to "what FOCIL?" with 💀
+00:08:48	Potuz:	who talked about FOCIL? I'm lost
+00:08:56	Dustin:	Oh, I thought you did, I misheard
+00:09:04	Potuz:	the cache is about payloads before blocks
+00:09:35	cayman:	Reacted to "the cache is about p..." with 👍
+00:09:49	Nico Flaig:	Replying to "When I DOS the devne..."
+
+we don't verify signatures, we have other mitigations to prevent dosing our queues
+00:11:00	Jihoon:	Replying to "Oh, I thought you di..."
+
+I think it was possible cache 😅 But I might be wrong though
+00:16:20	Potuz:	I think every client but Prysm as far as I can read
+00:16:49	Nico Flaig:	when is hoodi? we can have a devnet this week if pandaops is up for it
+00:16:59	Dustin:	Hoodi isn't scheduled yet
+00:17:04	Dustin:	there's no date
+00:17:24	cayman:	Reacted to "when is hoodi? we ca..." with 👍
+00:17:25	Ben Edgington:	ACDE pencilled Hoodi in for w/b 14 Dec.
+00:17:34	Dustin:	there was no "penciling"
+00:17:46	Dustin:	one or two people suggested it
+00:17:54	Potuz:	december is impossible
+00:17:58	Barnabas:	We need a devnet anyways
+00:18:28	Dustin:	"several weeks" has never happened for Hoodi
+00:18:44	Dustin:	we've gone with 2 or 3 weeks max
+00:18:56	Barnabas:	yeah hoodi won’t happen this year if we do 5820
+00:19:09	Ben Edgington:	Replying to "there was no "penciling""
+
+Forkcast disagrees, but 🤷 we get the veto anyway.
+00:20:03	Ben Edgington:	Yay!
+00:20:38	Nico Flaig:	send it tomorrow
+00:20:45	cayman:	Reacted to "send it tomorrow" with 😆
+00:20:56	Enrico Del Fante:	Teku still have not  🙂
+00:21:00	Potuz:	Claude: ship the next Ethereum fork, make no mistakes
+00:21:06	Enrico Del Fante:	Reacted to "Claude: ship the next Ethereum fork, make no mistakes" with 😂
+00:21:07	ethDreamer (Mark):	Reacted to "Claude: ship the next Ethereum fork, make no mistakes" with 😂
+00:21:08	Nico Flaig:	Reacted to "Claude: ship the nex..." with 😂
+00:21:08	raxhvl:	Reacted to "Claude: ship the n..." with 😂
+00:21:11	Povilas:	Reacted to "Claude: ship the n..." with 😂
+00:21:16	Eitan Seri-Levi:	Reacted to "Claude: ship the next Ethereum fork, make no mistakes" with 😂
+00:21:20	cayman:	Reacted to "Claude: ship the nex..." with 😂
+00:21:23	Barnabas:	wait i thought everyone has this implemented already
+00:21:29	Potuz:	we do not
+00:21:33	ethDreamer (Mark):	We do
+00:21:33	Potuz:	and will not so soon
+00:21:36	Barnabas:	Replying to "we do not"
+
+yeah everyone but prysm
+00:21:48	Nico Flaig:	https://github.com/ethereum/consensus-specs/pull/5802
+00:22:19	cayman:	Replying to "we do not"
+
+teku mentioned they had done thinking on it, but haven't implemented it
+00:22:23	Potuz:	Yeah this PR is a must have IMO
+00:22:25	Jihoon:	https://github.com/ethereum/consensus-specs/pull/5803
+00:22:26	Nico Flaig:	https://github.com/ethereum/consensus-specs/pull/5803
+00:23:11	cayman:	Reacted to "https://github.com/e..." with 👍
+00:24:14	Sameer Agarwal:	Reacted to "Claude: ship the next Ethereum fork, make no mistakes" with 😂
+00:24:25	Barnabas:	we should make some decisions today at least
+00:24:29	Barnabas:	lets not refer everything to acdc pls
+00:24:42	Ben Edgington:	Reacted to "lets not refer everything to acdc pls" with 🙌
+00:24:59	Enrico Del Fante:	I believe both PRs make sense
+00:25:04	cayman:	Reacted to "I believe both PRs m..." with 👍
+00:26:01	Enrico Del Fante:	We have GL in FC too, so should be ok
+00:26:23	Dustin:	Both PRs seem reasonable
