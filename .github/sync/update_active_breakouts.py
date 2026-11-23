@@ -75,7 +75,7 @@ def fetch_github_issues(repo='ethereum/pm', days=90):
                     
         except Exception as e:
             print(f"Error fetching page {page}: {e}")
-            break
+            raise
     
     return all_issues
 
